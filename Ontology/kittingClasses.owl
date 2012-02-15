@@ -1,0 +1,1161 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses2012Jan30.owl#>)
+
+Ontology(<http://www.nist.gov/el/ontologies/kittingClasses2012Jan30.owl>
+Annotation(rdfs:comment "A kitting ontology")
+
+Annotation(rdfs:comment "This does not include plans or individuals.")
+
+Annotation(rdfs:comment "The name of an identifier that is used by a
+member of a class to identify itself always ends with 'Id'.  The name
+of an identifier that identifies a member of some class other than the
+one it is in always ends with 'Ref'.  Where a DataThing may be used by
+several other things, it is given an xxxId and the other things use it
+via an xxxRef.")
+
+Annotation(rdfs:comment "Since properties are global, most properties
+have long names. In all cases, the first part of the name or a
+property is 'has', 'is', or 'lists'. If a name can be divided
+into three parts, the second part indicates the sort of thing that
+has the property. The last part of the name describes the meaning of
+the value of the property. If a name has three parts there is an
+underscore between the second and third parts.")
+
+Annotation(rdfs:comment "If there may be more than one value of a
+property for a single member of the domain, then the property is
+replaced by a functional property whose value is a list. The name of
+the list ends in 'List'. A membership property is defined on the
+list. A cardinality constraint may be applied to the membership
+property. For example, an EndEffectorChangingStation may have many
+EndEffectorHolders.  In this case, (1) EndEffectorHolderList is
+defined, (2) the name of the functional property whose domain is
+EndEffectorChangingStation is hasChangingStation_Holders, and that property
+has an EndEffectorHolderList as its range, and (3) the name of the
+(non-functional) membership property of the list is
+listsEndEffectorHolder. It may be useful to add information to the lists
+such as the sequence number of a value (in case the values need to be
+ordered) and the size of the list. That information is not provided,
+currently.")
+
+DataPropertyDomain(:hasBin_PartQuantity :PartsBin)
+DataPropertyDomain(:hasBin_PartSkuRef :PartsBin)
+DataPropertyDomain(:hasBox_Height :BoxyObject)
+DataPropertyDomain(:hasBox_Length :BoxyObject)
+DataPropertyDomain(:hasBox_Width :BoxyObject)
+DataPropertyDomain(:hasDesign_KitTraySkuRef :KitDesign)
+DataPropertyDomain(:hasEffector_MaximumLoadWeight :EndEffector)
+DataPropertyDomain(:hasEndEffector_Description :EndEffector)
+DataPropertyDomain(:hasEndEffector_Id :EndEffector)
+DataPropertyDomain(:hasEndEffector_Weight :EndEffector)
+DataPropertyDomain(:hasKitDesign_Id :KitDesign)
+DataPropertyDomain(:hasKitInstance_DesignRef :KitInstance)
+DataPropertyDomain(:hasKitTray_SerialNumber :KitTray)
+DataPropertyDomain(:hasKitTray_SkuRef :KitTray)
+DataPropertyDomain(:hasLargeContainer_SerialNumber :LargeContainer)
+DataPropertyDomain(:hasLargeContainer_SkuRef :LargeContainer)
+DataPropertyDomain(:hasMultiCup_ArrayNumber :VacuumEffectorMultiCup)
+DataPropertyDomain(:hasMultiCup_ArrayRadius :VacuumEffectorMultiCup)
+DataPropertyDomain(:hasPartRefAndPose_Ref :PartRefAndPose)
+DataPropertyDomain(:hasPart_SerialNumber :Part)
+DataPropertyDomain(:hasPart_SkuRef :Part)
+DataPropertyDomain(:hasPoint_X :Point)
+DataPropertyDomain(:hasPoint_Y :Point)
+DataPropertyDomain(:hasPoint_Z :Point)
+DataPropertyDomain(:hasRelativeLocationIn_Description :RelativeLocationIn)
+DataPropertyDomain(:hasRelativeLocationOn_Description :RelativeLocationOn)
+DataPropertyDomain(:hasRobot_Description :Robot)
+DataPropertyDomain(:hasRobot_Id :Robot)
+DataPropertyDomain(:hasRobot_MaximumLoadWeight :Robot)
+DataPropertyDomain(:hasRpy_Pitch :RollPitchYaw)
+DataPropertyDomain(:hasRpy_Roll :RollPitchYaw)
+DataPropertyDomain(:hasRpy_Yaw :RollPitchYaw)
+DataPropertyDomain(:hasShapeDesign_Description :ShapeDesign)
+DataPropertyDomain(:hasSku_Description :StockKeepingUnit)
+DataPropertyDomain(:hasSku_Id :StockKeepingUnit)
+DataPropertyDomain(:hasSku_Weight :StockKeepingUnit)
+DataPropertyDomain(:hasVacuumEffector_CupDiameter :VacuumEffector)
+DataPropertyDomain(:hasVacuumEffector_Length :VacuumEffector)
+DataPropertyDomain(:hasVector_I :Vector)
+DataPropertyDomain(:hasVector_J :Vector)
+DataPropertyDomain(:hasVector_K :Vector)
+DataPropertyDomain(:hasWorkstation_AngleUnit :KittingWorkstation)
+DataPropertyDomain(:hasWorkstation_LengthUnit :KittingWorkstation)
+DataPropertyDomain(:hasWorkstation_WeightUnit :KittingWorkstation)
+DataPropertyDomain(:isKitInstance_Finished :KitInstance)
+DataPropertyDomain(:listsEndEffectorRef :EndEffectorRefList)
+
+DataPropertyRange(:hasBin_PartQuantity xsd:nonNegativeInteger)
+DataPropertyRange(:hasBin_PartSkuRef xsd:NMTOKEN)
+DataPropertyRange(:hasBox_Height :positiveDecimal)
+DataPropertyRange(:hasBox_Length :positiveDecimal)
+DataPropertyRange(:hasBox_Width :positiveDecimal)
+DataPropertyRange(:hasDesign_KitTraySkuRef xsd:NMTOKEN)
+DataPropertyRange(:hasEffector_MaximumLoadWeight :positiveDecimal)
+DataPropertyRange(:hasEndEffector_Description xsd:string)
+DataPropertyRange(:hasEndEffector_Id xsd:NMTOKEN)
+DataPropertyRange(:hasEndEffector_Weight :positiveDecimal)
+DataPropertyRange(:hasKitDesign_Id xsd:NMTOKEN)
+DataPropertyRange(:hasKitInstance_DesignRef xsd:NMTOKEN)
+DataPropertyRange(:hasKitTray_SerialNumber xsd:NMTOKEN)
+DataPropertyRange(:hasKitTray_SkuRef xsd:NMTOKEN)
+DataPropertyRange(:hasLargeContainer_SerialNumber xsd:NMTOKEN)
+DataPropertyRange(:hasLargeContainer_SkuRef xsd:NMTOKEN)
+DataPropertyRange(:hasMultiCup_ArrayNumber xsd:positiveInteger)
+DataPropertyRange(:hasMultiCup_ArrayRadius :positiveDecimal)
+DataPropertyRange(:hasPartRefAndPose_Ref xsd:NMTOKEN)
+DataPropertyRange(:hasPart_SerialNumber xsd:NMTOKEN)
+DataPropertyRange(:hasPart_SkuRef xsd:NMTOKEN)
+DataPropertyRange(:hasPoint_X xsd:decimal)
+DataPropertyRange(:hasPoint_Y xsd:decimal)
+DataPropertyRange(:hasPoint_Z xsd:decimal)
+DataPropertyRange(:hasRelativeLocationIn_Description xsd:string)
+DataPropertyRange(:hasRelativeLocationOn_Description xsd:string)
+DataPropertyRange(:hasRobot_Description xsd:string)
+DataPropertyRange(:hasRobot_Id xsd:NMTOKEN)
+DataPropertyRange(:hasRobot_MaximumLoadWeight :positiveDecimal)
+DataPropertyRange(:hasRpy_Pitch xsd:decimal)
+DataPropertyRange(:hasRpy_Roll xsd:decimal)
+DataPropertyRange(:hasRpy_Yaw xsd:decimal)
+DataPropertyRange(:hasShapeDesign_Description xsd:string)
+DataPropertyRange(:hasSku_Description xsd:string)
+DataPropertyRange(:hasSku_Id xsd:NMTOKEN)
+DataPropertyRange(:hasSku_Weight :positiveDecimal)
+DataPropertyRange(:hasVacuumEffector_CupDiameter :positiveDecimal)
+DataPropertyRange(:hasVacuumEffector_Length :positiveDecimal)
+DataPropertyRange(:hasVector_I xsd:decimal)
+DataPropertyRange(:hasVector_J xsd:decimal)
+DataPropertyRange(:hasVector_K xsd:decimal)
+DataPropertyRange(:hasWorkstation_AngleUnit :angleUnit)
+DataPropertyRange(:hasWorkstation_LengthUnit :lengthUnit)
+DataPropertyRange(:hasWorkstation_WeightUnit :weightUnit)
+DataPropertyRange(:isKitInstance_Finished xsd:boolean)
+DataPropertyRange(:listsEndEffectorRef xsd:NMTOKEN)
+
+DatatypeDefinition(:angleUnit DataOneOf("degree" "radian"))
+DatatypeDefinition(:lengthUnit DataOneOf("meter" "millimeter" "inch"))
+DatatypeDefinition(:positiveDecimal
+                   DatatypeRestriction(xsd:decimal xsd:minExclusive
+                                       "0"^^xsd:decimal))
+DatatypeDefinition(:weightUnit DataOneOf("kilogram" "gram" "milligram"
+                                         "ounce" "pound"))
+
+Declaration(Class(:BoxVolume))
+AnnotationAssertion(rdfs:comment :BoxVolume
+  "A BoxVolume is a DataThing. A BoxVolume has a maximum
+   point (hasBoxVolume_MaximumPoint) and a minimum point
+   (hasBoxVolume_MinimumPoint). These are diagonally opposite
+   corner points of a box shaped volume whose edges are aligned with
+   the coordinate system in which the BoxVolume is located. The
+   minimum point has the minimum values of X, Y, and Z. The maximum
+   point has the maximum values of X, Y, and Z.")
+
+Declaration(Class(:BoxVolumeList))
+AnnotationAssertion(rdfs:comment :BoxVolumeList
+  "A BoxVolumeList is a DataThing. It is a list of BoxVolume
+   (listsBoxVolume). The volume described by a BoxVolumeList is the
+   union of the boxes described by the BoxVolumes in the list. The
+   coordinate system of the BoxVolumes in a BoxVolumeList is the
+   coordinate system of the thing that has the BoxVolumeList.
+   Currently (1) a Robot has a work volume (hasRobot_WorkVolume) that
+   is a BoxVolumeList representing empty space, and (2) a
+   KittingWorkstation has other obstacles (hasWorkstation_OtherObstacles)
+   that is a BoxVolumeList representing occupied space.")
+
+Declaration(Class(:BoxyObject))
+AnnotationAssertion(rdfs:comment :BoxyObject
+  "A BoxyObject is a SolidObject. A BoxyObject is box shaped. It has a
+   length, width, and height (hasBox_Length, hasBox_Width, hasBox_Height).
+   It has a preferred partial orientation in which the edges along
+   which the height is measured are vertical (parallel to the force of
+   gravity).  The length is larger of the two dimensions that are not
+   the height.  The width is smaller of the two dimensions that are
+   not the height.  The coordinate system of a BoxyObject (i.e. the
+   thing that is located and oriented by a pose) has its origin in the
+   middle of the bottom, its Z-axis parallel to the height sides, and
+   its X-axis parallel to to the length sides. Since this still allows
+   two choices for orientation (four if the length and width are
+   equal) which may or may not be distinguishable, some subtypes of
+   BoxyObject will need one more piece of orientation information.")
+
+Declaration(Class(:DataThing))
+AnnotationAssertion(rdfs:comment :DataThing
+  "A Data Thing is a Thing. A DataThing includes all complex data types
+   such as Vector, PhysicalLocation, etc. Currently, it has no properties.")
+
+Declaration(Class(:EndEffector))
+AnnotationAssertion(rdfs:comment :EndEffector
+  "An EndEffector is a SolidObject. It is an end effector for a robot.
+   An EndEffector has a description (hasEndEffector_Description),
+   a weight (hasEndEffector_Weight), an identifier (hasEndEffector_Id),
+   and a maximum weight it can lift (hasEffectorMaximimLoadWeight).
+   Every EndEffector is either a GripperEffector or a VacuumEffector.
+   Every EndEffector in a KittingWorkstation is either attached to the
+   end of a robot arm or sitting in an EndEffectorHolder at an
+   EndEffectorChangingStation.")
+AnnotationAssertion(rdfs:comment :EndEffector
+  "It might be better if each EndEffector has an associated data set
+   that holds data for a type of EndEffector. Currently, the data is
+   is for a specific object, not for a type. The data set would
+   be analogous to the SKU data for a Part (it might even be a SKU).")
+
+Declaration(Class(:EndEffectorChangingStation))
+AnnotationAssertion(rdfs:comment :EndEffectorChangingStation
+  "An EndEffectorChangingStation is a SolidObject. It is a place where
+   end effectors are stored and where the robot can change end effectors.
+   It has a EndEffectorHolderList (hasChangingStation_Holders).")
+
+Declaration(Class(:EndEffectorHolder))
+AnnotationAssertion(rdfs:comment :EndEffectorHolder
+  "An EndEffectorHolder is a SolidObject. An EndEffectorHolder holds
+   zero or one EndEffector (hasEndEffectorHolder_EndEffector). An
+   EndEffectorHolder is part of an EndEffectorChangingStation.")
+
+Declaration(Class(:EndEffectorHolderList))
+AnnotationAssertion(rdfs:comment :EndEffectorHolderList
+  "An EndEffectorHolderList is a DataThing. It is a list of EndEffectorHolder
+   (listsEndEffectorHolder).")
+
+Declaration(Class(:EndEffectorRefList))
+AnnotationAssertion(rdfs:comment :EndEffectorRefList
+  "An EndEffectorRefList is a DataThing. It is a list of references to the
+   ids of EndEffectors (listsEndEffectorRef).")
+
+Declaration(Class(:GripperEffector))
+AnnotationAssertion(rdfs:comment :GripperEffector
+  "A GripperEffector is an EndEffector. A GripperEffector holds an
+   object by gripping it with fingers or claws.")
+
+Declaration(Class(:KitDesign))
+AnnotationAssertion(rdfs:comment :KitDesign
+  "A KitDesign is a DataThing. A KitDesign identifies a type of tray
+   (hasDesign_KitTraySkuRef), a PartRefAndPoseList (hasDesign_PartPoses),
+   and an identifier (hasKitDesign_Id) that is unique among KitDesigns.
+   The Pose in a PartAndPose is the location of the part relative to
+   the coordinate system of the ShapeDesign of the tray.")
+
+Declaration(Class(:KitInstance))
+AnnotationAssertion(rdfs:comment :KitInstance
+  "A KitInstance is a SolidObject. A KitInstance has an identifier for
+   a KitDesign (hasKitInstance_DesignRef), a KitTray
+   (hasKitInstance_Tray), a set of Parts (hasKitInstance_Parts), and a
+   boolean indicator of whether the KitInstance is finished
+   (isKitInstance_Finished). The coordinate system of a KitInstance is
+   the same as the coordinate system of its KitTray. The
+   PhysicalLocation of a Part in a KitInstance should be given by a
+   Pose that is relative to the KitTray.")
+
+Declaration(Class(:KittingWorkstation))
+AnnotationAssertion(rdfs:comment :KittingWorkstation
+  "A KittingWorkstation is a SolidObject. A KittingWorkstation
+   contains a work table (hasWorkstation_Table), a robot
+   (hasWorkstation_Robot), an EndEffectorChangingStation
+   (hasWorkstation_ChangingStation), and other fixed obstacles
+   (hasWorkstation_OtherObstacles) such as a computer. A
+   KittingWorkstation has an angle unit (hasWorkstation_AngleUnit), a
+   length unit (hasWorkstation_LengthUnit) and a weight unit
+   (hasWorkstation_WeightUnit). All angle, length, and weight values
+   related to the workstation must use those units. A
+   KittingWorkstation has a list of StockKeepingUnits it knows about
+   (hasWorkstation_SkuLibrary). In addition, containers of various
+   sorts enter and leave the workstation.  The robot builds kits of
+   parts by executing kitting plans as directed by a kitting plan
+   execution system. The location of each instance of
+   KittingWorkstation should be given relative to itself in order to
+   end the chain of relative locations.")
+
+Declaration(Class(:KitTray))
+AnnotationAssertion(rdfs:comment :KitTray
+  "A KitTray is a BoxyObject. A KitTray is designed to hold Parts with
+   various SKU ids in known positions. A KitTray has an identifier for
+   its SKU (hasKitTray_SkuRef) and a serial number
+   (hasKitTray_SerialNumber).")
+
+Declaration(Class(:LargeContainer))
+AnnotationAssertion(rdfs:comment :LargeContainer
+  "A LargeContainer is a BoxyObject. A LargeContainer can hold one or more
+   instances of a single type of tray or bin. The single type may be 
+   (1) KitTray
+   (2) PartsBin
+   (3) PartsTray
+   (4) KitInstance
+   A LargeContainer has an identifier for its SKU (hasLargeContainer_SkuRef)
+   and a serial number (hasLargeContainer_SerialNumber).")
+
+Declaration(Class(:Part))
+AnnotationAssertion(rdfs:comment :Part
+  "A Part is a SolidObject. It has a reference to the identifier of a
+   StockKeepingUnit (hasPart_SkuRef) and a SerialNumber
+   (hasPart_SerialNumber).")
+
+Declaration(Class(:PartRefAndPose))
+AnnotationAssertion(rdfs:comment :PartRefAndPose
+  "A PartRefAndPose is a DataThing. A KitDesign has a list of PartRefAndPose.
+   A PartRefAndPose identifies a type of part by giving its SKU id
+   (hasPartRefAndPose_Ref), it specifies the location of the part 
+   (hasPartRefAndPose_Point), and the orientation of the Part
+   (hasPartRefAndPose_Rpy). The Pose is relative to the coordinate system
+   of the KitTray identified in the KitDesign.")
+
+Declaration(Class(:PartRefAndPoseList))
+AnnotationAssertion(rdfs:comment :PartRefAndPoseList
+  "A PartRefAndPoseList is a DataThing. It is a list of PartRefAndPose
+   (listsPartRefAndPose).")
+
+Declaration(Class(:PartsBin))
+AnnotationAssertion(rdfs:comment :PartsBin
+  "A PartsBin is a BoxyObject. A PartsBin holds a number of Parts
+   (hasBin_PartQuantity) with the same SKU id (hasBin_PartSkuRef) in unknown
+   random positions.")
+
+Declaration(Class(:PartsTray))
+AnnotationAssertion(rdfs:comment :PartsTray
+  "A PartsTray is a BoxyObject used to hold Parts.")
+
+Declaration(Class(:PartsTrayWithParts))
+AnnotationAssertion(rdfs:comment :PartsTrayWithParts
+  "A PartsTrayWithParts is a SolidObject. A PartsTrayWithParts has a
+   PartsTray (hasPartsTrayWithParts_Tray) and a set of Parts
+   (hasPartsTrayWithParts_Parts). The coordinate system of a
+   PartsTrayWithParts is the same as the coordinate system of its
+   PartsTray. The PhysicalLocation of a Part in a PartsTrayWithParts
+   should be given by a Pose that is relative to the PartsTray. The
+   Parts in a PartsTrayWithParts are intended to all be of the same
+   SKU, although there is currently no formal requirement for that.")
+
+Declaration(Class(:PhysicalLocation))
+AnnotationAssertion(rdfs:comment :PhysicalLocation
+  "A PhysicalLocation is a DataThing. A PhysicalLocation says where a
+   SolidObject is. A PhysicalLocation has a reference object
+   (hasPhysicalLocation_RefObject). A PhysicalLocation is either a
+   RelativeLocation or a Pose.")
+
+Declaration(Class(:Point))
+AnnotationAssertion(rdfs:comment :Point
+  "A Point is a DataThing. A Point has X (hasPoint_X), Y (hasPoint_Y),
+   and Z (hasPoint_Z) Cartesian coordinates.")
+
+Declaration(Class(:Pose))
+AnnotationAssertion(rdfs:comment :Pose
+  "A Pose is a PhysicalLocation. A Pose consists of a Point
+   (hasPose_Point), a RollPitchYaw (hasPose_Rpy), and a reference
+   object inherited from the PhysicalLocation class
+   (hasPhysicalLocation_RefObject). The data for the Point and the
+   RollPitchYaw are expressed relative to the coordinate system of the
+   reference object.")  AnnotationAssertion(rdfs:comment :Pose "It
+   might be useful to allow an axis placement (origin point, X-axis
+   direction, and Z-axis direction) as an alternative to a Pose.")
+
+Declaration(Class(:RelativeLocation))
+AnnotationAssertion(rdfs:comment :RelativeLocation
+  "A RelativeLocation is a PhysicalLocation. A RelativeLocation
+   indicates that one solid object is on or in another solid object.
+   A RelativeLocation is a RelativeLocationIn or a RelativeLocationOn.")
+
+Declaration(Class(:RelativeLocationIn))
+AnnotationAssertion(rdfs:comment :RelativeLocationIn
+  "A RelativeLocationIn is a RelativeLocation. A RelativeLocationIn
+   indicates that the SolidObject in the domain of a
+   hasSolidObject_PhysicalLocation property is inside the SolidObject
+   in the range. A RelativeLocationIn has a description
+   (hasRelativeLocationIn_Description) that is a string. The notion of
+   'in' is vague and might be made more precise.")
+
+Declaration(Class(:RelativeLocationOn))
+AnnotationAssertion(rdfs:comment :RelativeLocationOn
+  "A RelativeLocationOn is a RelativeLocation. A RelativeLocationOn
+   indicates that one solid object is on top of another solid object.
+   A RelativeLocationOn has a description
+   (hasRelativeLocationOn_Description) that is a string. The notion of
+   'on top of' is vague and might be made more precise.")
+
+Declaration(Class(:Robot))
+AnnotationAssertion(rdfs:comment :Robot
+  "A Robot is a SolidObject. A Robot currently has a description
+   (hasRobot_Description), a robot id (hasRobot_Id), a work volume
+   (hasRobot_WorkVolume), an end effector (hasRobot_EndEffector), and
+   a maximum load weight (hasRobot_MaximumLoadWeight).")
+   AnnotationAssertion(rdfs:comment :Robot "The Robot ontology given
+   here might be expanded greatly to include, for example, its
+   kinematic description, the values of joint angles, arm lengths of
+   variable length arms, gripper actuation (open, closed, etc.),
+   ranges, velocities, and accelerations of each joint, etc.")
+
+Declaration(Class(:RollPitchYaw))
+AnnotationAssertion(rdfs:comment :RollPitchYaw
+  "A RollPitchYaw is a DataThing. A RollPitchYaw has Roll
+   (hasRpy_Roll), Pitch (hasRpy_Pitch), and Yaw (hasRpy_Yaw) values in
+   degrees. They are measured in the usual way relative to a right
+   handed coordinate system whose position is the usual X-north,
+   Y-east, Z-down.")
+
+Declaration(Class(:ShapeDesign))
+AnnotationAssertion(rdfs:comment :ShapeDesign
+  "A ShapeDesign is a DataThing. This is currently a stub that has
+   only a description (hasShapeDesign_Description) that is an xsd:string.")
+
+Declaration(Class(:SolidObject))
+AnnotationAssertion(rdfs:comment :SolidObject
+  "A SolidObject is a Thing. A SolidObject has a location
+   (hasSolidObject_PhysicalLocation) that relates the location of the
+   object to the location of some other object.")
+
+Declaration(Class(:StockKeepingUnit))
+AnnotationAssertion(rdfs:comment :StockKeepingUnit
+  "A StockKeepingUnit is a DataThing. A StockKeepingUnit is a
+   description of a type of object. Every StockKeepingUnit has a
+   description (hasSku_Description), a shape (hasSku_Shape), that is a
+   ShapeDesign, a weight (hasSku_Weight), a list of references to the
+   ids of EndEffectors that can handle it (hasSku_EndEffectorRefs),
+   and a unique identifier (hasSku_Id).")
+
+Declaration(Class(:StockKeepingUnitList))
+AnnotationAssertion(rdfs:comment :StockKeepingUnitList
+  "A StockKeepingUnitList is a DataThing. It is a list of StockKeepingUnit
+   (listsStockKeepingUnit).")
+
+Declaration(Class(:VacuumEffector))
+AnnotationAssertion(rdfs:comment :VacuumEffector
+  "A VacuumEffector is an EndEffector. A VacuumEffector holds an
+   object by putting a cup against the object and applying a vacuum.
+   A VacuumEffector is either a VacuumEffectorSingleCup or a
+   VacuumEffectorMultiCup.  A VacuumEffector has a cup diameter
+   (hasVacuumEffector_CupDiameter) and a length (hasVacuumEffector_Length).")
+
+Declaration(Class(:VacuumEffectorMultiCup))
+AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
+  "A VacuumEffectorMultiCup is a VacuumEffector with two or more
+   identical cups (hasMultiCup_ArrayNumber).  A VacuumEffectorMultiCup
+   has an array radius (hasMultiCup_ArrayRadius).  The cups are
+   arranged in a circular array spaced evenly apart. The center of the
+   wide end of one cup is on the X-axis of the coordinate system of
+   the VacuumEffectorMultiCup. The center of the circular array is at
+   the origin of the coordinate system. The axis of the array circle
+   is the Z axis of the coordinate system, and the length of the
+   VacuumEffector is measured along that axis. The wide ends of the
+   cups lie on the XY plane of the coordinate system.")
+AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
+  "Note that a square array can be represented easily as circular array.")
+
+Declaration(Class(:VacuumEffectorSingleCup))
+AnnotationAssertion(rdfs:comment :VacuumEffectorSingleCup
+  "A VacuumEffectorSingleCup is a VacuumEffector with one cup.
+   The center of the wide end of the cup (which is a circle) is at
+   the origin of the coordinate system of the VacuumEffectorSingleCup.
+   The Z axis of the coordinate system is the axis of that circle,
+   and the length of the VacuumEffector is measured along that axis.")
+
+Declaration(Class(:Vector))
+AnnotationAssertion(rdfs:comment :Vector
+  "A Vector is a DataThing. It has I (hasVector_I), J (hasVector_J),
+   and K (hasVector_K) components.")
+
+Declaration(Class(:WorkTable))
+AnnotationAssertion(rdfs:comment :WorkTable
+  "A WorkTable is a BoxyObject. The top of a WorkTable is a flat,
+   rectangular, horizontal surface. The length and width of the top are
+   those of the BoxyObject.")
+
+// In the following DataProperty Declarations, there is may be a more
+// formal method of representing the AnnotationAssertions. There would be
+// (probably) if the properties were ObjectProperty rather than DataProperty.
+
+Declaration(DataProperty(:hasBin_PartQuantity))
+Declaration(DataProperty(:hasBin_PartSkuRef))
+Declaration(DataProperty(:hasBox_Height))
+Declaration(DataProperty(:hasBox_Length))
+Declaration(DataProperty(:hasBox_Width))
+Declaration(DataProperty(:hasDesign_KitTraySkuRef))
+AnnotationAssertion(rdfs:comment :hasDesign_KitTraySkuRef
+  "Each KitDesign has a NMTOKEN as the value of hasDesign_KitTraySkuRef.
+   That NMTOKEN must be the value of hasSku_Id of some StockKeepingUnit.")
+Declaration(DataProperty(:hasEndEffector_Description))
+Declaration(DataProperty(:hasEndEffector_Id))
+Declaration(DataProperty(:hasEndEffector_Weight))
+Declaration(DataProperty(:hasEffector_MaximumLoadWeight))
+Declaration(DataProperty(:hasKitDesign_Id))
+Declaration(DataProperty(:hasKitInstance_DesignRef))
+Declaration(DataProperty(:hasKitTray_SerialNumber))
+Declaration(DataProperty(:hasKitTray_SkuRef))
+AnnotationAssertion(rdfs:comment :hasKitTray_SkuRef
+  "Each KitTray has a NMTOKEN as the value of hasKitTray_SkuRef. That NMTOKEN
+   must be the value of hasSku_Id of some StockKeepingUnit.")
+Declaration(DataProperty(:hasLargeContainer_SerialNumber))
+Declaration(DataProperty(:hasLargeContainer_SkuRef))
+AnnotationAssertion(rdfs:comment :hasLargeContainer_SkuRef
+  "Each LargeContainer has a NMTOKEN as the value of hasLargeContainer_SkuRef.
+   That NMTOKEN must be the value of hasSku_Id of some StockKeepingUnit.")
+Declaration(DataProperty(:hasMultiCup_ArrayNumber))
+Declaration(DataProperty(:hasMultiCup_ArrayRadius))
+Declaration(DataProperty(:hasPartRefAndPose_Ref))
+AnnotationAssertion(rdfs:comment :hasPartRefAndPose_Ref
+  "A PartRefAndPose has a reference to the id of SKU that is the
+   SKU of a Part.")
+Declaration(DataProperty(:hasPart_SerialNumber))
+Declaration(DataProperty(:hasPart_SkuRef))
+AnnotationAssertion(rdfs:comment :hasPart_SkuRef
+  "Each Part has a NMTOKEN as the value of hasPart_SkuRef. That NMTOKEN
+   must be the value of hasSku_Id of some StockKeepingUnit.")
+Declaration(DataProperty(:hasPoint_X))
+Declaration(DataProperty(:hasPoint_Y))
+Declaration(DataProperty(:hasPoint_Z))
+Declaration(DataProperty(:hasRelativeLocationIn_Description))
+Declaration(DataProperty(:hasRelativeLocationOn_Description))
+Declaration(DataProperty(:hasRobot_Description))
+Declaration(DataProperty(:hasRobot_Id))
+Declaration(DataProperty(:hasRobot_MaximumLoadWeight))
+AnnotationAssertion(rdfs:comment :hasRobot_MaximumLoadWeight
+  "The maximum load weight includes the weight of the end effector.")
+Declaration(DataProperty(:hasRpy_Pitch))
+Declaration(DataProperty(:hasRpy_Roll))
+Declaration(DataProperty(:hasRpy_Yaw))
+Declaration(DataProperty(:hasShapeDesign_Description))
+Declaration(DataProperty(:hasSku_Description))
+Declaration(DataProperty(:hasSku_Id))
+Declaration(DataProperty(:hasSku_Weight))
+Declaration(DataProperty(:hasVacuumEffector_CupDiameter))
+Declaration(DataProperty(:hasVacuumEffector_Length))
+Declaration(DataProperty(:hasVector_I))
+Declaration(DataProperty(:hasVector_J))
+Declaration(DataProperty(:hasVector_K))
+Declaration(DataProperty(:hasWorkstation_AngleUnit))
+Declaration(DataProperty(:hasWorkstation_LengthUnit))
+Declaration(DataProperty(:hasWorkstation_WeightUnit))
+Declaration(DataProperty(:isKitInstance_Finished))
+Declaration(DataProperty(:listsEndEffectorRef))
+
+Declaration(ObjectProperty(:hasBoxVolume_MaximumPoint))
+AnnotationAssertion(rdfs:comment :hasBoxVolume_MaximumPoint
+  "A BoxVolume has a maximum Point.")
+
+Declaration(ObjectProperty(:hasBoxVolume_MinimumPoint))
+AnnotationAssertion(rdfs:comment :hasBoxVolume_MinimumPoint
+  "A BoxVolume has a minimum Point.")
+
+Declaration(ObjectProperty(:hasChangingStation_Holders))
+AnnotationAssertion(rdfs:comment :hasChangingStation_Holders
+  "An EndEffectorChangingStation has an EndEffectorHolderList.")
+
+Declaration(ObjectProperty(:hasDesign_PartPoses))
+AnnotationAssertion(rdfs:comment :hasDesign_PartPoses
+  "A KitDesign has a list of PartRefAndPoses.")
+
+Declaration(ObjectProperty(:hasEndEffectorHolder_EndEffector))
+AnnotationAssertion(rdfs:comment :hasEndEffectorHolder_EndEffector
+  "An EndEffectorHolder holds zero or one EndEffector.")
+
+Declaration(ObjectProperty(:hasKitInstance_Parts))
+AnnotationAssertion(rdfs:comment :hasKitInstance_Parts
+  "A KitInstance has zero to many Parts.")
+
+Declaration(ObjectProperty(:hasKitInstance_Tray))
+AnnotationAssertion(rdfs:comment :hasKitInstance_Tray
+  "A KitInstance has a KitTray.")
+
+Declaration(ObjectProperty(:hasPartRefAndPose_Point))
+AnnotationAssertion(rdfs:comment :hasPartRefAndPose_Point
+  "A PartRefAndPose has a Point.")
+
+Declaration(ObjectProperty(:hasPartRefAndPose_Rpy))
+AnnotationAssertion(rdfs:comment :hasPartRefAndPose_Rpy
+  "A PartRefAndPose has a RollPitchYaw.")
+
+Declaration(ObjectProperty(:hasPartsTrayWithParts_Parts))
+AnnotationAssertion(rdfs:comment :hasPartsTrayWithParts_Parts
+  "A PartsTrayWithParts has zero to many Parts.")
+
+Declaration(ObjectProperty(:hasPartsTrayWithParts_Tray))
+AnnotationAssertion(rdfs:comment :hasPartsTrayWithParts_Tray
+  "A PartsTrayWithParts has a PartsTray.")
+
+Declaration(ObjectProperty(:hasPhysicalLocation_RefObject))
+AnnotationAssertion(rdfs:comment :hasPhysicalLocation_RefObject
+  "The hasPhysicalLocation_RefObject property is used for a
+   PhysicalLocation and only a PhysicalLocation. The referencing
+   object (the one in the domain) and the referenced object (the one
+   in the range) are both SolidObjects.  If the PhysicalLocation is a
+   Pose, the coordinate system of the referenced object is the
+   reference coordinate system for the Pose, and the Pose locates the
+   referencing object. If the PhysicalLocation is a RelativeLocation,
+   the referenced object is the SolidObject that the referring
+   SolidObject is inside of or on.")
+
+Declaration(ObjectProperty(:hasPose_Point))
+AnnotationAssertion(rdfs:comment :hasPose_Point
+  "A Pose has a pose point that is a Point. The origin of the coordinate
+   system of the SolidObject that is located by the Pose is placed
+   at the pose point.")
+
+Declaration(ObjectProperty(:hasPose_Rpy))
+AnnotationAssertion(rdfs:comment :hasPose_Rpy
+  "A Pose has a RollPitchYaw.")
+
+Declaration(ObjectProperty(:hasRobot_EndEffector))
+AnnotationAssertion(rdfs:comment :hasRobot_EndEffector
+  "A Robot has zero or one EndEffector.")
+
+Declaration(ObjectProperty(:hasRobot_WorkVolume))
+AnnotationAssertion(rdfs:comment :hasRobot_WorkVolume
+  "A Robot has a work volume that is a BoxVolumeList.")
+
+Declaration(ObjectProperty(:hasSku_EndEffectorRefs))
+AnnotationAssertion(rdfs:comment :hasSku_EndEffectorRefs
+  "A StockKeepingUnit has a list of references to the ids of EndEffectors
+   that can handle the StockKeepingUnit.")
+
+Declaration(ObjectProperty(:hasSku_Shape))
+AnnotationAssertion(rdfs:comment :hasSku_Shape
+  "A StockKeepingUnit has a ShapeDesign.")
+
+Declaration(ObjectProperty(:hasSolidObject_PhysicalLocation))
+AnnotationAssertion(rdfs:comment :hasSolidObject_PhysicalLocation
+  "All SolidObjects have a PhysicalLocation, and (in this ontology, which
+   does not deal with liquid or gas objects) only SolidObjects have one.")
+AnnotationAssertion(rdfs:comment :hasSolidObject_PhysicalLocation
+  "Currently, a SolidObject cannot have both a RelativeLocation and a
+   Pose. It might be useful to allow both.")
+
+Declaration(ObjectProperty(:hasWorkstation_ChangingStation))
+AnnotationAssertion(rdfs:comment :hasWorkstation_ChangingStation
+  "A KittingWorkstation has an EndEffectorChangingStation.")
+
+Declaration(ObjectProperty(:hasWorkstation_OtherObstacles))
+AnnotationAssertion(rdfs:comment :hasWorkstation_OtherObstacles
+  "A KittingWorkstation has other obstacles that are described by
+   a BoxVolumeList.")
+
+Declaration(ObjectProperty(:hasWorkstation_Robot))
+AnnotationAssertion(rdfs:comment :hasWorkstation_Robot
+  "A KittingWorkstation has a Robot.")
+
+Declaration(ObjectProperty(:hasWorkstation_SkuLibrary))
+AnnotationAssertion(rdfs:comment :hasWorkstation_SkuLibrary
+  "A KittingWorkstation has a SkuLibrary, which is a StockKeepingUnitList.")
+
+Declaration(ObjectProperty(:hasWorkstation_Table))
+AnnotationAssertion(rdfs:comment :hasWorkstation_Table
+  "A KittingWorkstation has a WorkTable.")
+
+Declaration(ObjectProperty(:listsBoxVolume))
+AnnotationAssertion(rdfs:comment :listsBoxVolume
+  "A BoxVolumeList lists zero to many BoxVolumes.")
+
+Declaration(ObjectProperty(:listsEndEffectorHolder))
+AnnotationAssertion(rdfs:comment :listsEndEffectorHolder
+  "An EndEffectorHolderList lists one or more EndEffectorHolders.")
+
+Declaration(ObjectProperty(:listsPartRefAndPose))
+AnnotationAssertion(rdfs:comment :listsPartRefAndPose
+  "A PartRefAndPoseList lists one or more PartRefAndPose.")
+
+Declaration(ObjectProperty(:listsStockKeepingUnit))
+AnnotationAssertion(rdfs:comment :listsStockKeepingUnit
+  "A StockKeepingUnitList lists one or more StockKeepingUnit.")
+
+// Protege apparently does not recognize the built-in class Thing if
+// a direct reference is made to it. For example, the statement
+// DisjointUnion(:Thing :DataThing :SolidObject) causes a new class
+// called Thing to come into existence as a subclass of built-in Thing.
+// Hence, only the following DisjointClasses statement is made for
+// :DataThing and :SolidObject, which are the two top-level subclasses
+// of Thing.
+
+DisjointClasses(:DataThing
+                :SolidObject)
+
+DisjointUnion(:BoxyObject
+              :KitTray
+              :LargeContainer
+              :PartsBin
+              :PartsTray
+              :WorkTable)
+
+DisjointUnion(:DataThing
+              :BoxVolume
+              :BoxVolumeList
+              :EndEffectorRefList
+              :EndEffectorHolderList
+              :KitDesign
+              :PartRefAndPose
+              :PartRefAndPoseList
+              :PhysicalLocation
+              :Point
+              :RollPitchYaw
+              :ShapeDesign
+              :StockKeepingUnitList
+              :StockKeepingUnit
+              :Vector)
+
+DisjointUnion(:EndEffector
+              :GripperEffector
+              :VacuumEffector)
+
+DisjointUnion(:PhysicalLocation
+              :Pose
+              :RelativeLocation)
+
+DisjointUnion(:RelativeLocation
+              :RelativeLocationIn
+              :RelativeLocationOn)
+
+DisjointUnion(:SolidObject
+              :BoxyObject
+              :EndEffector
+              :EndEffectorChangingStation
+              :EndEffectorHolder
+              :KitInstance
+              :KittingWorkstation
+              :Part
+              :PartsTrayWithParts
+              :Robot)
+
+DisjointUnion(:VacuumEffector
+              :VacuumEffectorSingleCup
+              :VacuumEffectorMultiCup)
+
+// It is probably feasible to write several more EquivalentClass statements.
+
+EquivalentClasses(:BoxVolume
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasBoxVolume_MaximumPoint
+                                              :Point)
+                         ObjectAllValuesFrom(:hasBoxVolume_MaximumPoint
+                                             :Point)))
+
+EquivalentClasses(:BoxVolume
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasBoxVolume_MinimumPoint
+                                              :Point)
+                         ObjectAllValuesFrom(:hasBoxVolume_MinimumPoint
+                                             :Point)))
+
+EquivalentClasses(:BoxyObject
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasBox_Length :positiveDecimal)
+                         DataSomeValuesFrom(:hasBox_Width :positiveDecimal)
+                         DataSomeValuesFrom(:hasBox_Height :positiveDecimal)
+                         DataAllValuesFrom(:hasBox_Length :positiveDecimal)
+                         DataAllValuesFrom(:hasBox_Width :positiveDecimal)
+                         DataAllValuesFrom(:hasBox_Height :positiveDecimal)))
+
+EquivalentClasses(:EndEffector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasEffector_MaximumLoadWeight
+                                            :positiveDecimal)
+                         DataAllValuesFrom(:hasEffector_MaximumLoadWeight
+                                            :positiveDecimal)))
+
+EquivalentClasses(:EndEffector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasEndEffector_Description
+                                            xsd:string)
+                         DataAllValuesFrom(:hasEndEffector_Description
+                                            xsd:string)))
+
+EquivalentClasses(:EndEffector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasEndEffector_Id xsd:NMTOKEN)
+                         DataAllValuesFrom(:hasEndEffector_Id xsd:NMTOKEN)))
+
+EquivalentClasses(:EndEffector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasEndEffector_Weight
+                                            :positiveDecimal)
+                         DataAllValuesFrom(:hasEndEffector_Weight
+                                            :positiveDecimal)))
+
+EquivalentClasses(:EndEffectorChangingStation
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasChangingStation_Holders
+                                              :EndEffectorHolderList)
+                         ObjectAllValuesFrom(:hasChangingStation_Holders
+                                             :EndEffectorHolderList)))
+
+EquivalentClasses(:KitDesign
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasKitDesign_Id xsd:NMTOKEN)
+                         DataAllValuesFrom(:hasKitDesign_Id xsd:NMTOKEN)))
+
+EquivalentClasses(:KitInstance
+    ObjectIntersectionOf(DataSomeValuesFrom(:isKitInstance_Finished
+                                            xsd:boolean)
+                         DataAllValuesFrom(:isKitInstance_Finished
+                                           xsd:boolean)))
+
+EquivalentClasses(:KitInstance
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasKitInstance_Tray :KitTray)
+                         ObjectAllValuesFrom(:hasKitInstance_Tray :KitTray)))
+
+EquivalentClasses(:KittingWorkstation
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasWorkstation_AngleUnit
+                         :angleUnit)
+                         DataAllValuesFrom(:hasWorkstation_AngleUnit
+                         :angleUnit)))
+
+EquivalentClasses(:KittingWorkstation
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasWorkstation_LengthUnit
+                         :lengthUnit)
+                         DataAllValuesFrom(:hasWorkstation_LengthUnit
+                         :lengthUnit)))
+
+EquivalentClasses(:KittingWorkstation
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasWorkstation_WeightUnit
+                         :weightUnit)
+                         DataAllValuesFrom(:hasWorkstation_WeightUnit
+                         :weightUnit)))
+
+EquivalentClasses(:KittingWorkstation
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasWorkstation_ChangingStation
+                                              :EndEffectorChangingStation)
+                         ObjectAllValuesFrom(:hasWorkstation_ChangingStation
+                                             :EndEffectorChangingStation)))
+
+EquivalentClasses(:KittingWorkstation
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasWorkstation_Robot :Robot)
+                         ObjectAllValuesFrom(:hasWorkstation_Robot :Robot)))
+
+EquivalentClasses(:KittingWorkstation
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasWorkstation_Table
+                                              :WorkTable)
+                         ObjectAllValuesFrom(:hasWorkstation_Table
+                                             :WorkTable)))
+
+EquivalentClasses(:PartRefAndPose
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasPartRefAndPose_Ref
+                                            xsd:NMTOKEN)
+                         DataAllValuesFrom(:hasPartRefAndPose_Ref
+                                            xsd:NMTOKEN)))
+
+EquivalentClasses(:PartsBin
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasBin_PartQuantity
+                                            xsd:nonNegativeInteger)
+                         DataAllValuesFrom(:hasBin_PartQuantity
+                                            xsd:nonNegativeInteger)))
+
+EquivalentClasses(:PartsBin
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasBin_PartSkuRef
+                                            xsd:NMTOKEN)
+                         DataAllValuesFrom(:hasBin_PartSkuRef
+                                            xsd:NMTOKEN)))
+
+EquivalentClasses(:PartsTrayWithParts
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasPartsTrayWithParts_Tray
+                                              :PartsTray)
+                         ObjectAllValuesFrom(:hasPartsTrayWithParts_Tray
+                                             :PartsTray)))
+
+EquivalentClasses(:PhysicalLocation
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasPhysicalLocation_RefObject
+                                              :SolidObject)
+                         ObjectAllValuesFrom(:hasPhysicalLocation_RefObject
+                                             :SolidObject)))
+
+EquivalentClasses(:Point
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasPoint_X xsd:decimal)
+                         DataSomeValuesFrom(:hasPoint_Y xsd:decimal)
+                         DataSomeValuesFrom(:hasPoint_Z xsd:decimal)
+                         DataAllValuesFrom(:hasPoint_X xsd:decimal)
+                         DataAllValuesFrom(:hasPoint_Y xsd:decimal)
+                         DataAllValuesFrom(:hasPoint_Z xsd:decimal)))
+
+EquivalentClasses(:Pose
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasPose_Rpy :RollPitchYaw)
+                         ObjectAllValuesFrom(:hasPose_Rpy :RollPitchYaw)
+                         ObjectSomeValuesFrom(:hasPose_Point :Point)
+                         ObjectAllValuesFrom(:hasPose_Point :Point)))
+
+EquivalentClasses(:RelativeLocationIn
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasRelativeLocationIn_Description
+                                            xsd:string)
+                         DataAllValuesFrom(:hasRelativeLocationIn_Description
+                                           xsd:string)))
+
+EquivalentClasses(:RelativeLocationOn
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasRelativeLocationOn_Description
+                                            xsd:string)
+                         DataAllValuesFrom(:hasRelativeLocationOn_Description
+                                           xsd:string)))
+
+EquivalentClasses(:Robot
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasRobot_Description xsd:string)
+                         DataAllValuesFrom(:hasRobot_Description xsd:string)))
+
+EquivalentClasses(:Robot
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasRobot_Id xsd:NMTOKEN)
+                         DataAllValuesFrom(:hasRobot_Id xsd:NMTOKEN)))
+
+EquivalentClasses(:Robot
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasRobot_MaximumLoadWeight
+                                            :positiveDecimal)
+                         DataAllValuesFrom(:hasRobot_MaximumLoadWeight
+                                            :positiveDecimal)))
+
+EquivalentClasses(:Robot
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasRobot_WorkVolume
+                                              :BoxVolumeList)
+                         ObjectAllValuesFrom(:hasRobot_WorkVolume
+                                             :BoxVolumeList)))
+
+EquivalentClasses(:RollPitchYaw
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasRpy_Roll xsd:decimal)
+                         DataSomeValuesFrom(:hasRpy_Pitch xsd:decimal)
+                         DataSomeValuesFrom(:hasRpy_Yaw xsd:decimal)
+                         DataAllValuesFrom(:hasRpy_Roll xsd:decimal)
+                         DataAllValuesFrom(:hasRpy_Pitch xsd:decimal)
+                         DataAllValuesFrom(:hasRpy_Yaw xsd:decimal)))
+
+EquivalentClasses(:ShapeDesign
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasShapeDesign_Description
+                                            xsd:string)
+                         DataAllValuesFrom(:hasShapeDesign_Description
+                                           xsd:string)))
+
+EquivalentClasses(:SolidObject
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasSolidObject_PhysicalLocation
+                                              :PhysicalLocation)
+                         ObjectAllValuesFrom(:hasSolidObject_PhysicalLocation
+                                             :PhysicalLocation)))
+
+EquivalentClasses(:StockKeepingUnit
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasSku_Description xsd:string)
+                         DataAllValuesFrom(:hasSku_Description xsd:string)))
+
+EquivalentClasses(:StockKeepingUnit
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasSku_Id xsd:NMTOKEN)
+                         DataAllValuesFrom(:hasSku_Id xsd:NMTOKEN)))
+
+EquivalentClasses(:StockKeepingUnit
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasSku_Shape
+                                              :ShapeDesign)
+                         ObjectAllValuesFrom(:hasSku_Shape
+                                             :ShapeDesign)))
+
+EquivalentClasses(:StockKeepingUnit
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasSku_Weight :positiveDecimal)
+                         DataAllValuesFrom(:hasSku_Weight :positiveDecimal)))
+
+
+EquivalentClasses(:VacuumEffector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasVacuumEffector_CupDiameter
+                         :positiveDecimal)
+                         DataAllValuesFrom(:hasVacuumEffector_CupDiameter
+                         :positiveDecimal)))
+
+EquivalentClasses(:VacuumEffector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasVacuumEffector_Length
+                         :positiveDecimal)
+                         DataAllValuesFrom(:hasVacuumEffector_Length
+                         :positiveDecimal)))
+
+EquivalentClasses(:VacuumEffectorMultiCup
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasMultiCup_ArrayNumber
+                         xsd:positiveInteger)
+                         DataAllValuesFrom(:hasMultiCup_ArrayNumber
+                         xsd:positiveInteger)))
+
+EquivalentClasses(:VacuumEffectorMultiCup
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasMultiCup_ArrayRadius
+                         :positiveDecimal)
+                         DataAllValuesFrom(:hasMultiCup_ArrayRadius
+                         :positiveDecimal)))
+
+EquivalentClasses(:Vector
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasVector_I xsd:decimal)
+                         DataSomeValuesFrom(:hasVector_J xsd:decimal)
+                         DataSomeValuesFrom(:hasVector_K xsd:decimal)
+                         DataAllValuesFrom(:hasVector_I xsd:decimal)
+                         DataAllValuesFrom(:hasVector_J xsd:decimal)
+                         DataAllValuesFrom(:hasVector_K xsd:decimal)))
+
+FunctionalDataProperty(:hasBin_PartQuantity)
+FunctionalDataProperty(:hasBin_PartSkuRef)
+FunctionalDataProperty(:hasBox_Height)
+FunctionalDataProperty(:hasBox_Length)
+FunctionalDataProperty(:hasBox_Width)
+FunctionalDataProperty(:hasDesign_KitTraySkuRef)
+FunctionalDataProperty(:hasEffector_MaximumLoadWeight)
+FunctionalDataProperty(:hasEndEffector_Description)
+FunctionalDataProperty(:hasEndEffector_Id)
+FunctionalDataProperty(:hasEndEffector_Weight)
+FunctionalDataProperty(:hasKitDesign_Id)
+FunctionalDataProperty(:hasKitInstance_DesignRef)
+FunctionalDataProperty(:hasKitTray_SerialNumber)
+FunctionalDataProperty(:hasKitTray_SkuRef)
+FunctionalDataProperty(:hasLargeContainer_SerialNumber)
+FunctionalDataProperty(:hasLargeContainer_SkuRef)
+FunctionalDataProperty(:hasMultiCup_ArrayNumber)
+FunctionalDataProperty(:hasMultiCup_ArrayRadius)
+FunctionalDataProperty(:hasPartRefAndPose_Ref)
+FunctionalDataProperty(:hasPart_SerialNumber)
+FunctionalDataProperty(:hasPart_SkuRef)
+FunctionalDataProperty(:hasPoint_X)
+FunctionalDataProperty(:hasPoint_Y)
+FunctionalDataProperty(:hasPoint_Z)
+FunctionalDataProperty(:hasRelativeLocationIn_Description)
+FunctionalDataProperty(:hasRelativeLocationOn_Description)
+FunctionalDataProperty(:hasRobot_Description)
+FunctionalDataProperty(:hasRobot_Id)
+FunctionalDataProperty(:hasRobot_MaximumLoadWeight)
+FunctionalDataProperty(:hasRpy_Pitch)
+FunctionalDataProperty(:hasRpy_Roll)
+FunctionalDataProperty(:hasRpy_Yaw)
+FunctionalDataProperty(:hasShapeDesign_Description)
+FunctionalDataProperty(:hasSku_Description)
+FunctionalDataProperty(:hasSku_Id)
+FunctionalDataProperty(:hasSku_Weight)
+FunctionalDataProperty(:hasVacuumEffector_CupDiameter)
+FunctionalDataProperty(:hasVacuumEffector_Length)
+FunctionalDataProperty(:hasVector_I)
+FunctionalDataProperty(:hasVector_J)
+FunctionalDataProperty(:hasVector_K)
+FunctionalDataProperty(:hasWorkstation_AngleUnit)
+FunctionalDataProperty(:hasWorkstation_LengthUnit)
+FunctionalDataProperty(:hasWorkstation_WeightUnit)
+FunctionalDataProperty(:isKitInstance_Finished)
+
+FunctionalObjectProperty(:hasBoxVolume_MaximumPoint)
+FunctionalObjectProperty(:hasBoxVolume_MinimumPoint)
+FunctionalObjectProperty(:hasChangingStation_Holders)
+FunctionalObjectProperty(:hasDesign_PartPoses)
+FunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
+FunctionalObjectProperty(:hasKitInstance_Tray)
+FunctionalObjectProperty(:hasPartRefAndPose_Point)
+FunctionalObjectProperty(:hasPartRefAndPose_Rpy)
+FunctionalObjectProperty(:hasPartsTrayWithParts_Tray)
+FunctionalObjectProperty(:hasPhysicalLocation_RefObject)
+FunctionalObjectProperty(:hasPose_Point)
+FunctionalObjectProperty(:hasPose_Rpy)
+FunctionalObjectProperty(:hasRobot_EndEffector)
+FunctionalObjectProperty(:hasRobot_WorkVolume)
+FunctionalObjectProperty(:hasSku_EndEffectorRefs)
+FunctionalObjectProperty(:hasSku_Shape)
+FunctionalObjectProperty(:hasSolidObject_PhysicalLocation)
+FunctionalObjectProperty(:hasWorkstation_ChangingStation)
+FunctionalObjectProperty(:hasWorkstation_OtherObstacles)
+FunctionalObjectProperty(:hasWorkstation_Robot)
+FunctionalObjectProperty(:hasWorkstation_SkuLibrary)
+FunctionalObjectProperty(:hasWorkstation_Table)
+
+HasKey(:EndEffector () (:hasEndEffector_Id))
+HasKey(:KitDesign () (:hasKitDesign_Id))
+HasKey(:KitTray () (:hasKitTray_SerialNumber :hasKitTray_SkuRef))
+HasKey(:LargeContainer () (:hasLargeContainer_SerialNumber
+                           :hasLargeContainer_SkuRef))
+HasKey(:Part () (:hasPart_SerialNumber :hasPart_SkuRef))
+HasKey(:Robot () (:hasRobot_Id))
+HasKey(:StockKeepingUnit () (:hasSku_Id))
+
+InverseFunctionalObjectProperty(:hasChangingStation_Holders)
+InverseFunctionalObjectProperty(:hasDesign_PartPoses)
+InverseFunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
+InverseFunctionalObjectProperty(:hasKitInstance_Parts)
+InverseFunctionalObjectProperty(:hasKitInstance_Tray)
+InverseFunctionalObjectProperty(:hasPartsTrayWithParts_Parts)
+InverseFunctionalObjectProperty(:hasPartsTrayWithParts_Tray)
+InverseFunctionalObjectProperty(:hasRobot_EndEffector)
+InverseFunctionalObjectProperty(:hasSku_EndEffectorRefs)
+InverseFunctionalObjectProperty(:hasWorkstation_ChangingStation)
+InverseFunctionalObjectProperty(:hasWorkstation_Robot)
+InverseFunctionalObjectProperty(:hasWorkstation_SkuLibrary)
+InverseFunctionalObjectProperty(:hasWorkstation_Table)
+InverseFunctionalObjectProperty(:listsBoxVolume)
+InverseFunctionalObjectProperty(:listsEndEffectorHolder)
+InverseFunctionalObjectProperty(:listsPartRefAndPose)
+InverseFunctionalObjectProperty(:listsStockKeepingUnit)
+
+ObjectPropertyDomain(:hasBoxVolume_MaximumPoint :BoxVolume)
+ObjectPropertyDomain(:hasBoxVolume_MinimumPoint :BoxVolume)
+ObjectPropertyDomain(:hasChangingStation_Holders :EndEffectorChangingStation)
+ObjectPropertyDomain(:hasDesign_PartPoses :KitDesign)
+ObjectPropertyDomain(:hasEndEffectorHolder_EndEffector :EndEffectorHolder)
+ObjectPropertyDomain(:hasKitInstance_Parts :KitInstance)
+ObjectPropertyDomain(:hasKitInstance_Tray :KitInstance)
+ObjectPropertyDomain(:hasPartRefAndPose_Point :PartRefAndPose)
+ObjectPropertyDomain(:hasPartRefAndPose_Rpy :PartRefAndPose)
+ObjectPropertyDomain(:hasPartsTrayWithParts_Parts :PartsTrayWithParts)
+ObjectPropertyDomain(:hasPartsTrayWithParts_Tray :PartsTrayWithParts)
+ObjectPropertyDomain(:hasPhysicalLocation_RefObject :PhysicalLocation)
+ObjectPropertyDomain(:hasPose_Point :Pose)
+ObjectPropertyDomain(:hasPose_Rpy :Pose)
+ObjectPropertyDomain(:hasRobot_EndEffector :Robot)
+ObjectPropertyDomain(:hasRobot_WorkVolume :Robot)
+ObjectPropertyDomain(:hasSku_EndEffectorRefs :StockKeepingUnit)
+ObjectPropertyDomain(:hasSku_Shape :StockKeepingUnit)
+ObjectPropertyDomain(:hasSolidObject_PhysicalLocation :SolidObject)
+ObjectPropertyDomain(:hasWorkstation_ChangingStation :KittingWorkstation)
+ObjectPropertyDomain(:hasWorkstation_OtherObstacles :KittingWorkstation)
+ObjectPropertyDomain(:hasWorkstation_Robot :KittingWorkstation)
+ObjectPropertyDomain(:hasWorkstation_SkuLibrary :KittingWorkstation)
+ObjectPropertyDomain(:hasWorkstation_Table :KittingWorkstation)
+ObjectPropertyDomain(:listsBoxVolume :BoxVolumeList)
+ObjectPropertyDomain(:listsEndEffectorHolder :EndEffectorHolderList)
+ObjectPropertyDomain(:listsPartRefAndPose :PartRefAndPoseList)
+ObjectPropertyDomain(:listsStockKeepingUnit :StockKeepingUnitList)
+
+ObjectPropertyRange(:hasBoxVolume_MaximumPoint :Point)
+ObjectPropertyRange(:hasBoxVolume_MinimumPoint :Point)
+ObjectPropertyRange(:hasChangingStation_Holders :EndEffectorHolderList)
+ObjectPropertyRange(:hasDesign_PartPoses :PartRefAndPoseList)
+ObjectPropertyRange(:hasEndEffectorHolder_EndEffector :EndEffector)
+ObjectPropertyRange(:hasKitInstance_Parts :Part)
+ObjectPropertyRange(:hasKitInstance_Tray :KitTray)
+ObjectPropertyRange(:hasPartRefAndPose_Point :Point)
+ObjectPropertyRange(:hasPartRefAndPose_Rpy :RollPitchYaw)
+ObjectPropertyRange(:hasPartsTrayWithParts_Parts :Part)
+ObjectPropertyRange(:hasPartsTrayWithParts_Tray :PartsTray)
+ObjectPropertyRange(:hasPhysicalLocation_RefObject :SolidObject)
+ObjectPropertyRange(:hasPose_Point :Point)
+ObjectPropertyRange(:hasPose_Rpy :RollPitchYaw)
+ObjectPropertyRange(:hasRobot_EndEffector :EndEffector)
+ObjectPropertyRange(:hasRobot_WorkVolume :BoxVolumeList)
+ObjectPropertyRange(:hasSolidObject_PhysicalLocation :PhysicalLocation)
+ObjectPropertyRange(:hasSku_EndEffectorRefs :EndEffectorRefList)
+ObjectPropertyRange(:hasSku_Shape :ShapeDesign)
+ObjectPropertyRange(:hasWorkstation_ChangingStation :EndEffectorChangingStation)
+ObjectPropertyRange(:hasWorkstation_OtherObstacles :BoxVolumeList)
+ObjectPropertyRange(:hasWorkstation_Robot :Robot)
+ObjectPropertyRange(:hasWorkstation_SkuLibrary :StockKeepingUnitList)
+ObjectPropertyRange(:hasWorkstation_Table :WorkTable)
+ObjectPropertyRange(:listsBoxVolume :BoxVolume)
+ObjectPropertyRange(:listsEndEffectorHolder :EndEffectorHolder)
+ObjectPropertyRange(:listsPartRefAndPose :PartRefAndPose)
+ObjectPropertyRange(:listsStockKeepingUnit :StockKeepingUnit)
+
+// The following SubClassOf statements are not essential because the
+// DisjointUnion statements imply them. However, if they are omitted,
+// the Protege asserted class hierarchy does not come out right in either
+// the Classes view or the OWLViz view. The inferred hierarchy is
+// correct if the SubClassOf statements are omitted, however.
+
+SubClassOf(:BoxyObject :SolidObject)
+SubClassOf(:BoxVolume :DataThing)
+SubClassOf(:BoxVolumeList :DataThing)
+SubClassOf(:EndEffector :SolidObject)
+SubClassOf(:EndEffectorChangingStation :SolidObject)
+SubClassOf(:EndEffectorHolder :SolidObject)
+SubClassOf(:EndEffectorHolderList :DataThing)
+SubClassOf(:EndEffectorRefList :DataThing)
+SubClassOf(:GripperEffector :EndEffector)
+SubClassOf(:KitDesign :DataThing)
+SubClassOf(:KitInstance :SolidObject)
+SubClassOf(:KittingWorkstation :SolidObject)
+SubClassOf(:KitTray :BoxyObject)
+SubClassOf(:LargeContainer :BoxyObject)
+SubClassOf(:Part :SolidObject)
+SubClassOf(:PartRefAndPose :DataThing)
+SubClassOf(:PartRefAndPoseList :DataThing)
+SubClassOf(:PartsBin :BoxyObject)
+SubClassOf(:PartsTray :BoxyObject)
+SubClassOf(:PartsTrayWithParts :SolidObject)
+SubClassOf(:PhysicalLocation :DataThing)
+SubClassOf(:Point :DataThing)
+SubClassOf(:Pose :PhysicalLocation)
+SubClassOf(:RelativeLocation :PhysicalLocation)
+SubClassOf(:RelativeLocationIn :RelativeLocation)
+SubClassOf(:RelativeLocationOn :RelativeLocation)
+SubClassOf(:Robot :SolidObject)
+SubClassOf(:RollPitchYaw :DataThing)
+SubClassOf(:ShapeDesign :DataThing)
+SubClassOf(:StockKeepingUnit :DataThing)
+SubClassOf(:StockKeepingUnitList :DataThing)
+SubClassOf(:VacuumEffector :EndEffector)
+SubClassOf(:VacuumEffectorMultiCup :VacuumEffector)
+SubClassOf(:VacuumEffectorSingleCup :VacuumEffector)
+SubClassOf(:Vector :DataThing)
+SubClassOf(:WorkTable :BoxyObject)
+
+)

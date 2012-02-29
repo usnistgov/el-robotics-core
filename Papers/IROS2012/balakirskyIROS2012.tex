@@ -25,7 +25,8 @@
 %\usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
-An OWL Ontology and Supporting SQL Database for Industrial Robotic Knowledge Representation
+An  Industrial Robotic Knowledge Representation for Kit Building Applications\\
+Title was: An OWL Ontology and Supporting SQL Database for Industrial Robotic Knowledge Represenatation
 }
 
 %\author{ \parbox{3 in}{\centering Huibert Kwakernaak*
@@ -43,7 +44,7 @@ An OWL Ontology and Supporting SQL Database for Industrial Robotic Knowledge Rep
 %         {\tt\small pmisra@cs.wright.edu}}
 %}
 
-\author{Huibert Kwakernaak and Pradeep Misra% <-this % stops a space
+\author{Author1 and Author2% <-this % stops a space
 \thanks{This work was not supported by any organization}% <-this % stops a space
 \thanks{H. Kwakernaak is with Faculty of Electrical Engineering, Mathematics and Computer Science,
         University of Twente, 7500 AE Enschede, The Netherlands
@@ -66,17 +67,73 @@ An OWL Ontology and Supporting SQL Database for Industrial Robotic Knowledge Rep
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is in the area of kit building or kitting where is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our real-time implementation of the knowledge representation along with a discussion of the trade-offs involved in its design.
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is in the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our real-time implementation of the knowledge representation along with a discussion of the trade-offs involved in its design.
 
 \end{abstract}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
+Kitting is the process in which several different, but related items are placed into a container and supplied together as a single unit.
+In industrial assembly of manufactured products, kitting is often performed prior to final assembly. Manufactures utilize kitting
+due to its ability to provide cost savings \cite{Carlsson_2008} including saving manufacturing or assembly space \cite{Medbo2003}, reducing assembly workers walking and searching times \cite{Schwind1992}, and increasing line flexibility \cite{Bozer1992} and balance \cite{Jiao2000}.
 
+There are several different techniques that are used to create kits. A kitting operation where a kit box is stationay until filled at a single
+kitting workstation is refered to as {\it batch kitting}. In {\it zone kitting}, the kit moves while being filled and will pass through one or
+more zones before it is completed. This paper focuses on batch kitting processes.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In batch kitting, the kit's component parts may be staged in containers positioned in the workstation or may arrive on a conveyor.
+Component parts may be fixtured, for example placed in compartments on trays, or may be in random orientations, for example
+placed in a large bin. In addition to the kit's component parts, the workstation usually contains a storage area for empty kit boxes as
+well as completed kits. For our automated kitting workstation, we assume that a robot performs a series of pick-and-place operations
+in order to construct the kit. These operations include:
+\begin{enumerate}
+\item Pick empty kit and place on work table.
+\item Pick multiple component parts and place in kit.
+\item Pick completed kit and place in full kit storage area.
+\end{enumerate}
+It should be noted that multiple kits may be built simultaneously. Finished kits are moved to the assembly foor where components
+are picked 
+from the kit for use in the assembly proceedure. The kits are normally designed to facilitate component picking in the correct
+sequence for assembly. Component orientation may be constrained by the kit design in order to ease the pick-to-assembly process.
+%The final kit does not normally contain small fasteners which are usually stored in the assembly area. 
+Empy kits are returned to the kit building area for reuse.
+
+ Kitting, the process of building kits, has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation along with a simulated kitting workstation for model validation. These models
+include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, grippers, etc., models of execuatble information such as actions, preconditions, and effects, and models of the  process plan
+necessary for kit construction. A discussion of the functional requirements for the process plan may be found in \cite{Balakirsky2012_1}. 
+
+In keeping with the phlosphy of producing standards in conjunction with the IEEE RAS Ontologies for Robotics and Automation Working
+Group, we wish the models being developed by this effort to be as widly applicable as possible. To support this desire,we have
+created a hierarchy of models where users may adopt as many or few of the levels of the hierarchy as make sense for their specific
+applicaiton. Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. The bottom of the hierarchy is based on 
+the Web Ontology Language (OWL) \cite{OWL} and is discussed further in Section \ref{sect:OWL_Layer}. The next level of the 
+hierarchy is
+modeled in the Planning Domain Definition Language (PDDL) \cite{PDDL}. More information on this level may be found in Section
+\ref{sect:PDDL_Layer}. In order to validate our models, we intend to utilize simulation in conjunction with  domain independent planning
+systems and the Robot
+Operating System (ROS) control environment \cite{ROS}. More information on this may be found in Section \ref{sect:Simulation}. Finally,
+conclustions and future work may be found in Section \ref{sect:Conclusions}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Architecture Description}
+\label{sect:Architecture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{OWL Model of Manufacturing Process}
+\label{sect:OWL_Layer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{PDDL Model of Manufacturing Process}
+\label{sect:PDDL_Layer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{OWL Model of Manufacturing Process}
+\label{sect:Simulation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}
+\label{sect:Conclusions}
 
 \subsection{Conclusions}
 
@@ -85,5 +142,6 @@ The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated t
 
 \subsection{Future Works}
 
-
+\bibliographystyle{plain}
+\bibliography{./iros}
 \end{document}

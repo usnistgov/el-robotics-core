@@ -1,0 +1,109 @@
+%\ifx\pdfoutput\@undefined\usepackage[usenames,dvips]{color}
+%\else\usepackage[usenames,dvipsnames]{color}
+%% and fix pdf colour problems
+%\IfFileExists{pdfcolmk.sty}{\usepackage{pdfcolmk}}{}
+%\fi
+
+%Packages
+\usepackage{mdwlist}
+
+%\usepackage[sc]{mathpazo}
+%\linespread{1.05}         % Palatino needs more leading (space between lines)
+%\usepackage[T1]{fontenc}
+
+\usepackage{a4wide}
+%\usepackage{calligra}
+\usepackage{utopia}
+%\usepackage{charter}
+\usepackage{epstopdf}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{url}
+\usepackage{alltt}
+\usepackage{mdwlist}
+\usepackage{verbatim}
+\usepackage{moreverb}                    % for boxedboxedverbatim
+\usepackage{fancyvrb}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage[withbib]{authorindex} \let\cite=\aicite \def\theaipage{\string\hyperpage{\thepage}}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+%\usepackage{graphics,graphicx}
+\usepackage{graphicx}
+\usepackage{pstricks,pst-node,pst-tree}
+
+
+\setlength{\textwidth}{16cm}
+\setlength{\oddsidemargin}{0.46cm}
+\setlength{\evensidemargin}{0.46cm}
+\setlength{\textheight}{22.3cm}
+\setlength{\topmargin}{-0.54cm}
+\setlength{\headsep}{1.5cm}
+\setlength{\footnotesep}{0.6cm}
+\setlength{\parindent}{0in}
+
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+%\newcommand{\constant}[1] {{\fontencoding{OT1}\fontfamily{ppl}#1}}
+\newcommand{\constant}[1]{{\fontfamily{phv}\selectfont #1}}
+\newcommand{\fkt}{{\fontfamily{phv}\selectfont fkt}}
+\newcommand{\ekt}{{\fontfamily{phv}\selectfont ekt}}
+\newcommand{\boxfkt}{{\fontfamily{phv}\selectfont boxfkt}}
+\newcommand{\boxekt}{{\fontfamily{phv}\selectfont boxekt}}
+\newcommand{\nil}{{\fontfamily{phv}\selectfont nil}}
+\newcommand{\robot}{{\fontfamily{phv}\selectfont r}}
+\newcommand{\wtable}{{\fontfamily{phv}\selectfont wtable}}
+\newcommand{\chstation}{{\fontfamily{phv}\selectfont chstation}}
+\newcommand{\kt}{{\fontfamily{phv}\selectfont kt}}
+\newcommand{\pfkt}{{\fontfamily{phv}\selectfont pkt}}
+\newcommand{\grip}{{\fontfamily{phv}\selectfont g}}
+\newcommand{\parts}{{\fontfamily{phv}\selectfont p}}
+\newcommand{\partsup}{{\fontfamily{phv}\selectfont ps}}
+\newcommand{\State}[1]{$s_{#1}$} %\State0 \State1
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+%Environment
+\newenvironment{mylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small}
+{\end{list}}
+
+\renewcommand{\labelitemi}{$\blacksquare$}
+\renewcommand{\labelitemii}{$\square$}
+
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{3pt} 

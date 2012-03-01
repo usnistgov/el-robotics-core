@@ -1,0 +1,163 @@
+\section{Operators and Actions}
+\label{S:operators_and_actions}
+
+Let us define planning operators and actions for the state-variable representation~\cite{NAU.2004}.
+
+\begin{defn}A planning operator is a triple \textit{o=(name(o), precond(o), effects(o))}
+where:
+\begin{itemize}
+\item \textit{name(o)} is a syntactic expression of the form $n(u_1,\dots,u_k)$, where $n$ is a symbol
+called an operator symbol, $u_1,\dots,u_k$ are all of the object variable symbols that
+appear anywhere in \textit{o}, and $n$ is unique (i.e., no two operators can have the
+same operator symbol).
+\item \textit{precond(o)} is a set of expressions on state variables and relations.
+\item \textit{effects(o)} is a set of assignments of values to state variables of the form
+$x(t_1,\dots,t_k)\leftarrow t_{k+1}$, where each $t_i$ is a term in the appropriate range.
+\end{itemize}
+\end{defn}
+
+The kitting domain has eight operators.
+
+
+
+
+\begin{itemize}
+
+\item \textit{takeEkt} (\robot, \ekt, \boxekt, \grip)
+\begin{itemize}
+\item ;; robot \robot\ is equipped with gripper \grip\ to pick up the empty kit tray \ekt\ which is at the top of the box of empty kit trays \boxekt.
+\item \textit{precond}: \textit{ektloc}(\ekt)=\boxekt, \textit{topbox}(\boxekt)=\ekt, \textit{rhold}(\robot)=$\lbrace nil\rbrace$, \textit{rgrip}(\robot)=\grip, \textit{boxempty}(\boxekt)=0
+\item \textit{effects}: \textit{ektloc}(\ekt)$\leftarrow nil$, \textit{rhold}(\robot)$\leftarrow$\ekt
+\end{itemize}
+
+\item \textit{putEkt} (\robot, \ekt, \wtable)
+\begin{itemize}
+\item ;; robot \robot\ puts down the empty kit tray \ekt\ on the work table \wtable.
+\item \textit{precond}: \textit{ektloc}(\ekt)=$nil$, \textit{rhold}(\robot)=\ekt, \textit{topworktable}(\wtable)=\nil
+\item \textit{effects}: \textit{ektloc}(\ekt)$\leftarrow$\wtable, \textit{rhold}(\robot)$\leftarrow$ $\lbrace nil\rbrace$, \textit{topworktable}(\wtable)$\leftarrow$\ekt
+\end{itemize}
+
+\item \textit{takeFkt} (\robot, \fkt, \wtable, \grip)
+\begin{itemize}
+\item ;; robot \robot\ picks up the finished kit tray \fkt\ from the work table \wtable.
+\item \textit{precond}: \textit{fktloc}(\fkt)=\wtable, \textit{rhold}(\robot)=$\lbrace nil\rbrace$, \textit{topworktable}(\wtable)=\fkt, \textit{rgrip}(\robot)=\grip
+\item \textit{effects}: \textit{fktloc}(\fkt)$\leftarrow$ $\lbrace nil\rbrace$, \textit{rhold}(\robot)$\leftarrow$\fkt, \textit{topworktable}(\wtable)$\leftarrow$ $\lbrace nil\rbrace$
+\end{itemize}
+
+\item \textit{putFkt} (\robot, \fkt, \boxfkt)
+\begin{itemize}
+\item ;; robot \robot\ puts down the finished kit tray \fkt\ in the box of finished kit trays \boxfkt.
+\item \textit{precond}: \textit{fktloc}(\fkt)=$\lbrace nil\rbrace$, \textit{rhold}(\robot)=\fkt, \textit{boxfull}(\boxfkt)=0
+\item \textit{effects}: \textit{fktloc}(\fkt)$\leftarrow$\boxfkt, \textit{rhold}(\robot)$\leftarrow$ $\lbrace nil\rbrace$
+\end{itemize}
+
+\item \textit{takeP} (\robot, \parts, \partsup, \grip)
+\begin{itemize}
+\item ;; robot \robot\ uses gripper \grip\ to pick up the part \parts\ from the part supply \partsup.
+\item \textit{precond}: \textit{ploc}(\parts)=\partsup, \textit{rhold}(\robot)=$\lbrace nil\rbrace$, \textit{rgrip}(\robot)=\grip
+\item \textit{effects}: \textit{ploc}(\parts)$\leftarrow$ $\lbrace nil\rbrace$, \textit{rhold}(\robot)$\leftarrow$\parts
+\end{itemize}
+
+\item \textit{putP} (\robot, \parts, \kt)
+\begin{itemize}
+\item ;; robot \robot\ puts down the part \parts\ in the kit tray \kt. Here, \kt\ designates an empty kit tray or a partially full kit tray.
+\item \textit{precond}: \textit{ploc}(\parts)=$\lbrace nil\rbrace$, \textit{rhold}(\robot)=\parts
+\item \textit{effects}: \textit{ploc}(\parts)$\leftarrow$\kt, \textit{rhold}(\robot)$\leftarrow$ $\lbrace nil\rbrace$
+\end{itemize}
+
+\begin{comment}
+\item \textit{moveAboveP} (\robot=robot, \parts=part, {\constant{pos1}}, {\constant{pos2}})
+\begin{itemize}
+\item ;; robot \robot\ moves above the part \parts\ which is in the part supply. The previous position of the robot is \constant{pos1} and the new position is \constant{pos2}.
+\item \textit{precond}: \textit{rpos}(\robot)={\constant{pos1}}
+\item \textit{effects}: \textit{rpos}(\robot)$\leftarrow${\constant{pos2}}, \textit{rabove}(\robot)$\leftarrow$\parts
+\end{itemize}
+
+\item \textit{moveAboveK} (\robot, \kt, {\constant{pos1}}, {\constant{pos2}})
+\begin{itemize}
+\item ;; robot \robot\ moves above the kit tray \kt, i.e., from position \constant{pos1} to position \constant{pos2}. Here, the kit tray \kt\ can be an empty kit tray \ekt, a partially full kit tray \pfkt, or a finished kit tray \fkt.
+\item \textit{precond}: \textit{rpos}(\robot)={\constant{pos1}}
+\item \textit{effects}: \textit{rpos}(\robot)$\leftarrow${\constant{pos2}}, \textit{rabove}(\robot)$\leftarrow$\kt
+\end{itemize}
+
+\item \textit{moveAboveBox} (\robot, \constant{box}, {\constant{pos1}}, {\constant{pos2}})
+\begin{itemize}kit trays
+\item ;; robot \robot\ moves above the box \constant{box}, i.e., from position \constant{pos1} to position \constant{pos2}. Here, \constant{box} designates a box of empty kit trays or a box of finished kit trays.
+\item \textit{precond}: \textit{rpos}(\robot)={\constant{pos1}}
+\item \textit{effects}: \textit{rpos}(\robot)$\leftarrow${\constant{pos2}}, \textit{rabove}(\robot)$\leftarrow$\constant{box}
+\end{itemize}
+\begin{comment}
+\item \textit{moveAboveBFK} (\boxfkt, {\constant{pos1}}, {\constant{pos2}})
+\begin{itemize}
+\item ;;\robot\ moves above the box of full kit trays \boxfkt\ at the position {\constant{pos2}}. The previous position of the robot is {\constant{pos1}}, the final position is {\constant{pos2}}.
+\item \textit{precond}: \textit{rpos}(\robot)={\constant{pos1}}
+\item \textit{effects}: \textit{rpos}(\robot)$\leftarrow${\constant{pos2}}
+\end{itemize}
+\end{comment}
+
+\item \textit{attach} (\robot, \grip, \chstation)
+\begin{itemize}
+\item ;; robot \robot\ attaches gripper \grip which is originally in the changing station \chstation.
+\item \textit{precond}: \textit{gloc}(\grip)=\chstation, \textit{rgrip}(\robot)=$\lbrace nil\rbrace$
+\item \textit{effects}: \textit{gloc}(\grip)$\leftarrow$ $\lbrace nil\rbrace$, \textit{rgrip}(\robot)$\leftarrow$\grip,
+\end{itemize}
+
+\item \textit{remove} (\robot, \grip, \chstation)
+\begin{itemize}
+\item ;; robot \robot\ removes gripper \grip\ and puts it down in the changing station \chstation.
+\item \textit{precond}: \textit{gloc}(\grip)=\robot, \textit{rgrip}(\robot)=\grip
+\item \textit{effects}: \textit{gloc}(\grip)$\leftarrow$\chstation, \textit{rgrip}(\robot)=$\lbrace nil\rbrace$
+\end{itemize}
+\end{itemize} 
+
+\begin{comment}
+The actions for the kitting domain are defined below.
+\begin{itemize}
+\renewcommand{\labelitemi}{$\blacksquare$}
+\renewcommand{\labelitemii}{$\square$}
+\item Empty kit trays are picked up and put down by the robot. The robot can pick up only one empty kit tray at a time. The robot picks up the empty kit tray at the top in the box of empty kit trays. The robot can put down empty kit trays on the work table.
+\begin{itemize}
+\item {\textit{takeEkt}}: pick up an empty kit tray from the box of empty kit trays.
+\item {\textit{putEkt}}: put down an empty kit tray on the work table.
+\end{itemize}
+\item Finished kit trays are picked up and put down by the robot. The robot can pick up only one finished kit tray at a time. The robot picks up a finished kit tray from the work table and put it down in the box of finished kit trays.
+\begin{itemize}
+\item {\textit{takeFkt}}: pick up a finished kit tray from the work table.
+\item {\textit{putFkt}}: put down a finished kit tray in the box of finished kit trays.
+\end{itemize}
+\item Parts are picked up and put down by the robot. The robot can pick up only one part at a time from a part supply tray. The robot can put down parts in the empty or partially full kit tray.
+\begin{itemize}
+\item {\textit{takeP}}: pick up a part from the part supply tray.
+\item {\textit{putP}}: put down a part in the empty or partial full kit tray.
+\end{itemize}
+\item The robot can move above empty or finished or partial full kit trays, parts, and boxes of empty or finished kit trays.
+\begin{itemize}
+\item {\textit{moveAboveP}}: move above a part.
+\item {\textit{moveAboveK}}: move above a kit tray. The kit tray can be an empty kit tray, a partially full kit tray, or a finished kit tray.
+\item {\textit{moveAboveBEK}}: move robot above box of empty kit trays.
+\item {\textit{moveAboveBFK}}: move robot above box of finished kit trays.
+\end{itemize}
+\item The robot can attach and remove grippers to manipulate kit trays or parts. The robot can be equipped with at most one gripper. Grippers not in use are placed in the changing station.
+\begin{itemize}
+\item {\textit{attach}}: attach gripper to robot.
+\item {\textit{remove}}: remove gripper from robot.
+\end{itemize}
+\end{itemize}
+
+
+
+Given a state transition system $\Sigma$, the purpose of planning is to find which actions to apply to which states in order to achieve some objective when starting from some given situation. A \textit{plan} is a structure that gives the appropriate actions. The simplest specification consists of a \textit{goal state $s_g$} or a set of goal states $S_g$. The objective in Figure~\ref{fig:state_transition} is to have the finished kit tray in the box of finished kit trays. The finished kit tray should contain 2 parts A, 1 part B, and one part C. The goal state for the kitting domain is $s_g=s_{16}$, as depicted in Figure~\ref{fig:state16}.
+
+\begin{figure}[h!]
+\centering
+\resizebox{\columnwidth}{!}{\includegraphics[width=8cm]{s16.eps}}
+\caption{\label{fig:state16}Goal state.}
+\end{figure}
+
+
+\subsection{Planning Operators}\label{SS:planning_operator}
+
+
+
+Considering the domain for a kitting station, the operators on this domain are defined as follows:
+\end{comment}

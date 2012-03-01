@@ -1,0 +1,25 @@
+\section{The Kitting Domain}\label{kitting_domain}
+
+The domain for kitting contains some fixed equipment: a robot, a work table, a part gripper, a kit tray gripper, and a changing station. Items that enter the workstation include empty kit trays, boxes in which to put finished kit trays, boxes that contain empty kit trays, and part supplies. Items that leave the workstation may be boxes with finished kits inside, empty part trays, empty boxes. An external agent is responsible of moving the items that leave the workstation. We assume that the workstation has only one work table, one changing station, and one robot.\\ \\
+
+
+The goal of the kitting process is to build a kit that contains two parts of type A, one part of type B, and one part of type C. 
+
+\begin{comment}
+\subsection{Terminology}
+This section describes the terms that will be used in the rest of this document.
+\begin{itemize}
+\item[-] \textit{robot}: A robotic arm that can move objects in the workstation in order to build kits.
+\item[-] \textit{work table}: Table where the kitting process is performed.
+\item[-] \textit{gripper}: Device at the end of the robotic arm used to grasp objects in the workstation. Two types of gripper exist in the kitting workstation: A gripper for kit trays and a gripper for parts.
+\item[-] \textit{changing station}: Location where grippers are placed when not in use. The changing station can be a table placed at a location reachable by the robot.
+
+\item[-] \textit{part}: A component that is part of a kit.
+\item[-] \textit{part supply tray}: A tray that contains parts. The purpose of a part supply tray is to only provide the necessary parts to the robot. Multiple part supply trays can be available at the same time in the workstation, and each part supply tray contains a specific type of parts.
+\item[-] \textit{empty kit tray}: An empty kit tray is a kit tray that does not contain any parts.
+\item[-] \textit{partial kit tray}: A partial kit tray contains some parts but not all the parts that are necessary to build a kit.
+\item[-] \textit{finished kit tray}: A finished kit tray contains all the parts that constitute a kit. The sequence of building a finished kit is \textit{empty kit tray}$\rightarrow$\textit{partial kit tray}$\rightarrow$\textit{finished kit tray}.
+\item[-] \textit{Box of empty kit trays}: A box that contains only empty kit trays.
+\item[-] \textit{Box of finished kit trays}: A box that contains only finished kit trays.
+\end{itemize}
+\end{comment}

@@ -23,6 +23,7 @@
 %\usepackage{times} % assumes new font selection scheme installed
 %\usepackage{amsmath} % assumes amsmath package installed
 %\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{graphicx}
 
 \title{\LARGE \bf
 An  Industrial Robotic Knowledge Representation for Kit Building Applications\\
@@ -78,20 +79,28 @@ Kitting is the process in which several different, but related items are placed 
 In industrial assembly of manufactured products, kitting is often performed prior to final assembly. Manufactures utilize kitting
 due to its ability to provide cost savings \cite{Carlsson_2008} including saving manufacturing or assembly space \cite{Medbo2003}, reducing assembly workers walking and searching times \cite{Schwind1992}, and increasing line flexibility \cite{Bozer1992} and balance \cite{Jiao2000}.
 
-There are several different techniques that are used to create kits. A kitting operation where a kit box is stationary until filled at a single
+Several different techniques are used to create kits. A kitting operation where a kit box is stationary until filled at a single
 kitting workstation is refereed to as {\it batch kitting}. In {\it zone kitting}, the kit moves while being filled and will pass through one or
 more zones before it is completed. This paper focuses on batch kitting processes.
 
 In batch kitting, the kit's component parts may be staged in containers positioned in the workstation or may arrive on a conveyor.
 Component parts may be fixtured, for example placed in compartments on trays, or may be in random orientations, for example
 placed in a large bin. In addition to the kit's component parts, the workstation usually contains a storage area for empty kit boxes as
-well as completed kits. For our automated kitting workstation, we assume that a robot performs a series of pick-and-place operations
+well as completed kits.
+
+Kitting, has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation. We also plan to develop a simulated kitting workstation for model validation. Our models
+include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, grippers, etc., models of executable information such as actions, preconditions, and effects, and models of the  process plan
+necessary for kit construction. A discussion of the functional requirements for the process plan may be found in \cite{Balakirsky2012_1}.
+For our automated kitting workstation, we assume that a robot performs a series of pick-and-place operations
 in order to construct the kit. These operations include:
 \begin{enumerate}
 \item Pick empty kit and place on work table.
 \item Pick multiple component parts and place in kit.
 \item Pick completed kit and place in full kit storage area.
 \end{enumerate}
+Each of these actions may be a compound action that includes other actions such as end-of-arm tool changes, path planning,
+and obstacle avoidance. 
+
 It should be noted that multiple kits may be built simultaneously. Finished kits are moved to the assembly floor where components
 are picked 
 from the kit for use in the assembly procedure. The kits are normally designed to facilitate component picking in the correct
@@ -99,36 +108,83 @@ sequence for assembly. Component orientation may be constrained by the kit desig
 %The final kit does not normally contain small fasteners which are usually stored in the assembly area. 
 Empty kits are returned to the kit building area for reuse.
 
- Kitting, the process of building kits, has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation along with a simulated kitting workstation for model validation. These models
-include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, grippers, etc., models of executable information such as actions, preconditions, and effects, and models of the  process plan
-necessary for kit construction. A discussion of the functional requirements for the process plan may be found in \cite{Balakirsky2012_1}. 
+Although the knowledge requirements described in the previous paragraph have been identified for the kitting domain, they are clearly applicable to many types of industrial robot applications (and likely to robot applications in other fields). As such, we expect that these knowledge requirements will serve as the basis for the industrial robot ontology being developed in the IEEE  RAS Ontologies for Robotics and Automation Working Group \cite{Madhavan2011} (hence forth referred to as the IEEE WG). Throughout the process of developing the kitting ontology, the group will constantly look at the applicability of the requirements outside of kitting and move the pertinent knowledge ``up'' the ontology (whether in the portion that models the kitting sub-domain, the industrials robot domain, or the upper ontology), as appropriate.
 
-In keeping with the philosophy of producing standards in conjunction with the IEEE RAS Ontologies for Robotics and Automation Working
-Group, we wish the models being developed by this effort to be as widely applicable as possible. To support this desire,we have
-created a hierarchy of models where users may adopt as many or few of the levels of the hierarchy as make sense for their specific
-application. Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. The bottom of the hierarchy is based on 
-the Web Ontology Language (OWL) \cite{OWL} and is discussed further in Section \ref{sect:OWL_Layer}. The next level of the 
-hierarchy is
-modeled in the Planning Domain Definition Language (PDDL) \cite{PDDL}. More information on this level may be found in Section
+In keeping with our philosophy of producing standards in conjunction with the IEEE WG, we wish the models being developed by this effort to be as widely applicable as possible. To support this desire,we have
+created a layered model abstraction where users may adopt as many or few of the layers of the abstraction as make sense for their
+specific application.  The architecture shown in Figure \ref{fig:ProcessDataFlow}, though developed for the implementation of the kitting ontology, can be equally applicable to the implementation of any type of formal manufacturing knowledge representation. Said in a different way, the implementor can plug in a knowledge representation for a different domain and the architecture would still be valid. In a similar manner, different planning language abstractions could be utilized in the middle-layer of the 
+abstraction and different planning/execution systems could be utilized in the top-layer of the abstraction. 
+
+Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. The lowest layer of the abstraction
+is based on 
+the Web Ontology Language (OWL) \cite{OWL} and is discussed further in Section \ref{sect:OWL_Layer}. The next layer of the 
+abstraction is
+modeled in the Planning Domain Definition Language (PDDL) \cite{PDDL}. More information on this layer may be found in Section
 \ref{sect:PDDL_Layer}. In order to validate our models, we intend to utilize simulation in conjunction with  domain independent planning
 systems and the Robot
 Operating System (ROS) control environment \cite{ROS}. More information on this may be found in Section \ref{sect:Simulation}. Finally,
 conclusions and future work may be found in Section \ref{sect:Conclusions}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htb]
+\includegraphics[width=7.6cm]{images/ProcessDataFlowV2.jpg}
+\caption{Pallet Viewer Metrics}
+\label{fig:ProcessDataFlow}
+\end{figure}
+
 \section{Architecture Description}
 \label{sect:Architecture}
+Our architecture is designed to represent the required knowledge base in several different abstractions that are likely to be
+required by various robotic systems as the knowledge flows from process specification, to plan generation, to plan execution. 
+As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into three
+distinct layers of {\it OWL Conformance}, {\it PDDL Conformance}, and {\it Robot Plan Conformance} that correspond to these
+knowledge requirements. Implementors of the abstraction are free to utilize as many of the knowledge layers as make sense for
+their particular application. For our simulated kitting work station, we intend to utilize the OWL Conformance Layer with open
+source tools that will automatically generate the remaining layers.
+
+\subsection{OWL Conformance}
+``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
+
+The information on our ontology is divided into three files and consists of a representation of the process plan (the actions and
+sequences necessary to construct a kit), the kitting ontology (the concepts related to the specific problem of kitting), and the
+instance file (specific information on {\it this} particular kitting problem and configuration.
+
+\subsection{PDDL Conformance}
+
+\subsection{Robot Plan Conformance}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{OWL Model of Manufacturing Process}
 \label{sect:OWL_Layer}
+For the development of the kitting knowledge representation, the industrial robots sub-group has decided to use OWL (Web Ontology Language) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and RDF/XML-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected at the representation language that will be used in the overall IEEE WG efforts.
+
+In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
+for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to describing robot actions. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification. 
+
+To build the ontology, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting ontology. The concepts were then modeling in OWL, building off of the definitions and relationships that were identified in the scenario. 
+
+As more detailed scenarios are determined and a richer set of concepts are uncovered, the ontology will be partitioned based upon the generality of the concept, with the most generally applicable concepts being “higher” in the ontology so they are available to other domains and the more detailed concepts being “lower” in the ontology because they will likely be very specific to the kitting area. An example of a general concept may be a “robot” while a specific concept may be a “kit box.”
+
+Some of the concepts that are represented in the ontology include:
+\begin{itemize}
+\item	Gripper Effector - A GripperEffector is an EndEffector. A GripperEffector holds an object by gripping it with fingers or claws.
+\item	KitTrays - A KitTray is designed to hold Parts with various SKU ids in known positions.
+\item	KittingWorkStation - A KittingWorkstation contains a work table, a robot, an EndEffectorChangingStation (where various end-of-arm tooling is stored and attached/removed from the robot), and other fixed obstacles such as a computer. A KittingWorkstation has an angle unit, a length unit and a weight unit. All angle, length, and weight values related to the workstation must use those units. A KittingWorkstation has a list of Stock Keeping Units (SKUs) it knows about. In addition, containers of various sorts enter and leave the workstation.  The robot builds kits of parts by executing kitting plans as directed by a kitting plan execution system.
+\item	Part - A Part has a reference to the identifier of a SKU and a Serial Number.
+\item	PartsBin - A PartsBin holds a number of Parts with the same SKU id in unknown random positions, or fixtured known positions.
+\item	Robot - A Robot has a description, a robot id, a work volume, an end effector, and a maximum load weight.
+\item	VacuumEffector - A VacuumEffector holds an object by putting a cup against the object and applying a vacuum. It contains the maximum lifting force and the vacuum cup configuration.
+\item	 WorkTable - The top of a WorkTable is a flat, rectangular, horizontal surface.
+\end{itemize}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{PDDL Model of Manufacturing Process}
 \label{sect:PDDL_Layer}
+%\include{PDDLModel.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{OWL Model of Manufacturing Process}
+\section{Kitting Workstation Simulation}
 \label{sect:Simulation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

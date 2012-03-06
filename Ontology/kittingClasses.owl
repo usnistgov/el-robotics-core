@@ -46,12 +46,12 @@ DataPropertyDomain(:hasBin_PartSkuRef :PartsBin)
 DataPropertyDomain(:hasBox_Height :BoxyObject)
 DataPropertyDomain(:hasBox_Length :BoxyObject)
 DataPropertyDomain(:hasBox_Width :BoxyObject)
-DataPropertyDomain(:hasDesign_KitTraySkuRef :KitDesign)
 DataPropertyDomain(:hasEffector_MaximumLoadWeight :EndEffector)
 DataPropertyDomain(:hasEndEffector_Description :EndEffector)
 DataPropertyDomain(:hasEndEffector_Id :EndEffector)
 DataPropertyDomain(:hasEndEffector_Weight :EndEffector)
 DataPropertyDomain(:hasKitDesign_Id :KitDesign)
+DataPropertyDomain(:hasKitDesign_KitTraySkuRef :KitDesign)
 DataPropertyDomain(:hasKitInstance_DesignRef :KitInstance)
 DataPropertyDomain(:hasKitTray_SerialNumber :KitTray)
 DataPropertyDomain(:hasKitTray_SkuRef :KitTray)
@@ -60,6 +60,8 @@ DataPropertyDomain(:hasLargeContainer_SkuRef :LargeContainer)
 DataPropertyDomain(:hasMultiCup_ArrayNumber :VacuumEffectorMultiCup)
 DataPropertyDomain(:hasMultiCup_ArrayRadius :VacuumEffectorMultiCup)
 DataPropertyDomain(:hasPartRefAndPose_Ref :PartRefAndPose)
+DataPropertyDomain(:hasPartsTray_SerialNumber :PartsTray)
+DataPropertyDomain(:hasPartsTray_SkuRef :PartsTray)
 DataPropertyDomain(:hasPart_SerialNumber :Part)
 DataPropertyDomain(:hasPart_SkuRef :Part)
 DataPropertyDomain(:hasPoint_X :Point)
@@ -93,12 +95,12 @@ DataPropertyRange(:hasBin_PartSkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasBox_Height :positiveDecimal)
 DataPropertyRange(:hasBox_Length :positiveDecimal)
 DataPropertyRange(:hasBox_Width :positiveDecimal)
-DataPropertyRange(:hasDesign_KitTraySkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasEffector_MaximumLoadWeight :positiveDecimal)
 DataPropertyRange(:hasEndEffector_Description xsd:string)
 DataPropertyRange(:hasEndEffector_Id xsd:NMTOKEN)
 DataPropertyRange(:hasEndEffector_Weight :positiveDecimal)
 DataPropertyRange(:hasKitDesign_Id xsd:NMTOKEN)
+DataPropertyRange(:hasKitDesign_KitTraySkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasKitInstance_DesignRef xsd:NMTOKEN)
 DataPropertyRange(:hasKitTray_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasKitTray_SkuRef xsd:NMTOKEN)
@@ -107,6 +109,8 @@ DataPropertyRange(:hasLargeContainer_SkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasMultiCup_ArrayNumber xsd:positiveInteger)
 DataPropertyRange(:hasMultiCup_ArrayRadius :positiveDecimal)
 DataPropertyRange(:hasPartRefAndPose_Ref xsd:NMTOKEN)
+DataPropertyRange(:hasPartsTray_SerialNumber xsd:NMTOKEN)
+DataPropertyRange(:hasPartsTray_SkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasPart_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasPart_SkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasPoint_X xsd:decimal)
@@ -232,10 +236,15 @@ AnnotationAssertion(rdfs:comment :GripperEffector
 Declaration(Class(:KitDesign))
 AnnotationAssertion(rdfs:comment :KitDesign
   "A KitDesign is a DataThing. A KitDesign identifies a type of tray
-   (hasDesign_KitTraySkuRef), a PartRefAndPoseList (hasDesign_PartPoses),
+   (hasKitDesign_KitTraySkuRef), a PartRefAndPoseList (hasKitDesign_PartPoses),
    and an identifier (hasKitDesign_Id) that is unique among KitDesigns.
    The Pose in a PartAndPose is the location of the part relative to
    the coordinate system of the ShapeDesign of the tray.")
+
+Declaration(Class(:KitDesignList))
+AnnotationAssertion(rdfs:comment :KitDesignList
+  "A KitDesignList is a DataThing. It is a list of KitDesign
+   (listsKitDesign).")
 
 Declaration(Class(:KitInstance))
 AnnotationAssertion(rdfs:comment :KitInstance
@@ -260,10 +269,11 @@ AnnotationAssertion(rdfs:comment :KittingWorkstation
    (hasWorkstation_WeightUnit). All angle, length, and weight values
    related to the workstation must use those units. A
    KittingWorkstation has a list of StockKeepingUnits it knows about
-   (hasWorkstation_SkuLibrary). In addition, containers of various
-   sorts enter and leave the workstation.  The robot builds kits of
-   parts by executing kitting plans as directed by a kitting plan
-   execution system. The location of each instance of
+   (hasWorkstation_SkuLibrary).  A KittingWorkstation has a list of
+   KitDesigns it knows about (hasWorkstation_KitDesignLibrary). In
+   addition, containers of various sorts enter and leave the workstation.
+   The robot builds kits of parts by executing kitting plans as directed
+   by a kitting plan execution system. The location of each instance of
    KittingWorkstation should be given relative to itself in order to
    end the chain of relative locations.")
 
@@ -273,6 +283,29 @@ AnnotationAssertion(rdfs:comment :KitTray
    various SKU ids in known positions. A KitTray has an identifier for
    its SKU (hasKitTray_SkuRef) and a serial number
    (hasKitTray_SerialNumber).")
+
+Declaration(Class(:LargeBoxWithEmptyKitTrays))
+AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
+  "A LargeBoxWithEmptyKitTrays is a SolidObject. A LargeBoxWithEmptyKitTrays
+   has a LargeContainer (hasLargeBoxWithEmptyKitTrays_Box) and a set of
+   KitTrays which should be empty (hasLargeBoxWithEmptyKitTrays_Trays).
+   The coordinate system of a LargeBoxWithEmptyKitTrays is the same as the
+   coordinate system of its LargeContainer. The PhysicalLocation of a
+   KitTray in a LargeBoxWithEmptyKitTrays should be given by a Pose that
+   is relative to the LargeContainer. The KitTrays in a
+   LargeBoxWithEmptyKitTrays are intended to all be of the same
+   SKU, although there is currently no formal requirement for that.")
+
+Declaration(Class(:LargeBoxWithKits))
+AnnotationAssertion(rdfs:comment :LargeBoxWithKits
+  "A LargeBoxWithKits is a SolidObject. A LargeBoxWithKits has a
+   LargeContainer (hasLargeBoxWithKits_Box) and a set of KitInstances
+   (hasLargeBoxWithKits_Kits). The coordinate system of a
+   LargeBoxWithKits is the same as the coordinate system of its
+   LargeContainer. The PhysicalLocation of a Kit in a LargeBoxWithKits
+   should be given by a Pose that is relative to the LargeContainer. The
+   Kits in a LargeBoxWithKits are intended to all be of the same
+   SKU, although there is currently no formal requirement for that.")
 
 Declaration(Class(:LargeContainer))
 AnnotationAssertion(rdfs:comment :LargeContainer
@@ -313,7 +346,9 @@ AnnotationAssertion(rdfs:comment :PartsBin
 
 Declaration(Class(:PartsTray))
 AnnotationAssertion(rdfs:comment :PartsTray
-  "A PartsTray is a BoxyObject used to hold Parts.")
+  "A PartsTray is a BoxyObject used to hold Parts. A PartsTray has an
+   identifier for its SKU (hasPartsTray_SkuRef) and a serial number
+   (hasPartsTray_SerialNumber).")
 
 Declaration(Class(:PartsTrayWithParts))
 AnnotationAssertion(rdfs:comment :PartsTrayWithParts
@@ -345,7 +380,8 @@ AnnotationAssertion(rdfs:comment :Pose
    object inherited from the PhysicalLocation class
    (hasPhysicalLocation_RefObject). The data for the Point and the
    RollPitchYaw are expressed relative to the coordinate system of the
-   reference object.")  AnnotationAssertion(rdfs:comment :Pose "It
+   reference object.")
+AnnotationAssertion(rdfs:comment :Pose "It
    might be useful to allow an axis placement (origin point, X-axis
    direction, and Z-axis direction) as an alternative to a Pose.")
 
@@ -378,7 +414,7 @@ AnnotationAssertion(rdfs:comment :Robot
    (hasRobot_Description), a robot id (hasRobot_Id), a work volume
    (hasRobot_WorkVolume), an end effector (hasRobot_EndEffector), and
    a maximum load weight (hasRobot_MaximumLoadWeight).")
-   AnnotationAssertion(rdfs:comment :Robot "The Robot ontology given
+AnnotationAssertion(rdfs:comment :Robot "The Robot ontology given
    here might be expanded greatly to include, for example, its
    kinematic description, the values of joint angles, arm lengths of
    variable length arms, gripper actuation (open, closed, etc.),
@@ -468,15 +504,15 @@ Declaration(DataProperty(:hasBin_PartSkuRef))
 Declaration(DataProperty(:hasBox_Height))
 Declaration(DataProperty(:hasBox_Length))
 Declaration(DataProperty(:hasBox_Width))
-Declaration(DataProperty(:hasDesign_KitTraySkuRef))
-AnnotationAssertion(rdfs:comment :hasDesign_KitTraySkuRef
-  "Each KitDesign has a NMTOKEN as the value of hasDesign_KitTraySkuRef.
-   That NMTOKEN must be the value of hasSku_Id of some StockKeepingUnit.")
 Declaration(DataProperty(:hasEndEffector_Description))
 Declaration(DataProperty(:hasEndEffector_Id))
 Declaration(DataProperty(:hasEndEffector_Weight))
 Declaration(DataProperty(:hasEffector_MaximumLoadWeight))
 Declaration(DataProperty(:hasKitDesign_Id))
+Declaration(DataProperty(:hasKitDesign_KitTraySkuRef))
+AnnotationAssertion(rdfs:comment :hasKitDesign_KitTraySkuRef
+  "Each KitDesign has a NMTOKEN as the value of hasKitDesign_KitTraySkuRef.
+   That NMTOKEN must be the value of hasSku_Id of some StockKeepingUnit.")
 Declaration(DataProperty(:hasKitInstance_DesignRef))
 Declaration(DataProperty(:hasKitTray_SerialNumber))
 Declaration(DataProperty(:hasKitTray_SkuRef))
@@ -494,6 +530,11 @@ Declaration(DataProperty(:hasPartRefAndPose_Ref))
 AnnotationAssertion(rdfs:comment :hasPartRefAndPose_Ref
   "A PartRefAndPose has a reference to the id of SKU that is the
    SKU of a Part.")
+Declaration(DataProperty(:hasPartsTray_SerialNumber))
+Declaration(DataProperty(:hasPartsTray_SkuRef))
+AnnotationAssertion(rdfs:comment :hasPartsTray_SkuRef
+  "Each PartsTray has a NMTOKEN as the value of hasPartsTray_SkuRef.
+   That NMTOKEN must be the value of hasSku_Id of some StockKeepingUnit.")
 Declaration(DataProperty(:hasPart_SerialNumber))
 Declaration(DataProperty(:hasPart_SkuRef))
 AnnotationAssertion(rdfs:comment :hasPart_SkuRef
@@ -539,13 +580,13 @@ Declaration(ObjectProperty(:hasChangingStation_Holders))
 AnnotationAssertion(rdfs:comment :hasChangingStation_Holders
   "An EndEffectorChangingStation has an EndEffectorHolderList.")
 
-Declaration(ObjectProperty(:hasDesign_PartPoses))
-AnnotationAssertion(rdfs:comment :hasDesign_PartPoses
-  "A KitDesign has a list of PartRefAndPoses.")
-
 Declaration(ObjectProperty(:hasEndEffectorHolder_EndEffector))
 AnnotationAssertion(rdfs:comment :hasEndEffectorHolder_EndEffector
   "An EndEffectorHolder holds zero or one EndEffector.")
+
+Declaration(ObjectProperty(:hasKitDesign_PartPoses))
+AnnotationAssertion(rdfs:comment :hasKitDesign_PartPoses
+  "A KitDesign has a list of PartRefAndPoses.")
 
 Declaration(ObjectProperty(:hasKitInstance_Parts))
 AnnotationAssertion(rdfs:comment :hasKitInstance_Parts
@@ -554,6 +595,22 @@ AnnotationAssertion(rdfs:comment :hasKitInstance_Parts
 Declaration(ObjectProperty(:hasKitInstance_Tray))
 AnnotationAssertion(rdfs:comment :hasKitInstance_Tray
   "A KitInstance has a KitTray.")
+
+Declaration(ObjectProperty(:hasLargeBoxWithEmptyKitTrays_Box))
+AnnotationAssertion(rdfs:comment :hasLargeBoxWithEmptyKitTrays_Box
+  "A LargeBoxWithEmptyKitTrays has a LargeContainer.")
+
+Declaration(ObjectProperty(:hasLargeBoxWithEmptyKitTrays_KitTrays))
+AnnotationAssertion(rdfs:comment :hasLargeBoxWithEmptyKitTrays_KitTrays
+  "A LargeBoxWithEmptyKitTrays has zero to many KitTrays.")
+
+Declaration(ObjectProperty(:hasLargeBoxWithKits_Box))
+AnnotationAssertion(rdfs:comment :hasLargeBoxWithKits_Box
+  "A LargeBoxWithKits has a LargeContainer.")
+
+Declaration(ObjectProperty(:hasLargeBoxWithKits_Kits))
+AnnotationAssertion(rdfs:comment :hasLargeBoxWithKits_Kits
+  "A LargeBoxWithKits has zero to many KitInstances.")
 
 Declaration(ObjectProperty(:hasPartRefAndPose_Point))
 AnnotationAssertion(rdfs:comment :hasPartRefAndPose_Point
@@ -622,6 +679,11 @@ Declaration(ObjectProperty(:hasWorkstation_ChangingStation))
 AnnotationAssertion(rdfs:comment :hasWorkstation_ChangingStation
   "A KittingWorkstation has an EndEffectorChangingStation.")
 
+Declaration(ObjectProperty(:hasWorkstation_KitDesignLibrary))
+AnnotationAssertion(rdfs:comment :hasWorkstation_KitDesignLibrary
+  "A KittingWorkstation has a KitDesignLibrary, which is a
+   KitDesignList.")
+
 Declaration(ObjectProperty(:hasWorkstation_OtherObstacles))
 AnnotationAssertion(rdfs:comment :hasWorkstation_OtherObstacles
   "A KittingWorkstation has other obstacles that are described by
@@ -646,6 +708,10 @@ AnnotationAssertion(rdfs:comment :listsBoxVolume
 Declaration(ObjectProperty(:listsEndEffectorHolder))
 AnnotationAssertion(rdfs:comment :listsEndEffectorHolder
   "An EndEffectorHolderList lists one or more EndEffectorHolders.")
+
+Declaration(ObjectProperty(:listsKitDesign))
+AnnotationAssertion(rdfs:comment :listsKitDesign
+  "A KitDesignList lists one or more KitDesign.")
 
 Declaration(ObjectProperty(:listsPartRefAndPose))
 AnnotationAssertion(rdfs:comment :listsPartRefAndPose
@@ -679,6 +745,7 @@ DisjointUnion(:DataThing
               :EndEffectorRefList
               :EndEffectorHolderList
               :KitDesign
+              :KitDesignList
               :PartRefAndPose
               :PartRefAndPoseList
               :PhysicalLocation
@@ -708,6 +775,8 @@ DisjointUnion(:SolidObject
               :EndEffectorHolder
               :KitInstance
               :KittingWorkstation
+              :LargeBoxWithEmptyKitTrays
+              :LargeBoxWithKits
               :Part
               :PartsTrayWithParts
               :Robot)
@@ -813,6 +882,18 @@ EquivalentClasses(:KittingWorkstation
                                               :WorkTable)
                          ObjectAllValuesFrom(:hasWorkstation_Table
                                              :WorkTable)))
+
+EquivalentClasses(:LargeBoxWithEmptyKitTrays
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasLargeBoxWithEmptyKitTrays_Box
+                                              :LargeContainer)
+                         ObjectAllValuesFrom(:hasLargeBoxWithEmptyKitTrays_Box
+                                             :LargeContainer)))
+
+EquivalentClasses(:LargeBoxWithKits
+    ObjectIntersectionOf(ObjectSomeValuesFrom(:hasLargeBoxWithKits_Box
+                                              :LargeContainer)
+                         ObjectAllValuesFrom(:hasLargeBoxWithKits_Box
+                                             :LargeContainer)))
 
 EquivalentClasses(:PartRefAndPose
     ObjectIntersectionOf(DataSomeValuesFrom(:hasPartRefAndPose_Ref
@@ -966,12 +1047,12 @@ FunctionalDataProperty(:hasBin_PartSkuRef)
 FunctionalDataProperty(:hasBox_Height)
 FunctionalDataProperty(:hasBox_Length)
 FunctionalDataProperty(:hasBox_Width)
-FunctionalDataProperty(:hasDesign_KitTraySkuRef)
 FunctionalDataProperty(:hasEffector_MaximumLoadWeight)
 FunctionalDataProperty(:hasEndEffector_Description)
 FunctionalDataProperty(:hasEndEffector_Id)
 FunctionalDataProperty(:hasEndEffector_Weight)
 FunctionalDataProperty(:hasKitDesign_Id)
+FunctionalDataProperty(:hasKitDesign_KitTraySkuRef)
 FunctionalDataProperty(:hasKitInstance_DesignRef)
 FunctionalDataProperty(:hasKitTray_SerialNumber)
 FunctionalDataProperty(:hasKitTray_SkuRef)
@@ -980,6 +1061,8 @@ FunctionalDataProperty(:hasLargeContainer_SkuRef)
 FunctionalDataProperty(:hasMultiCup_ArrayNumber)
 FunctionalDataProperty(:hasMultiCup_ArrayRadius)
 FunctionalDataProperty(:hasPartRefAndPose_Ref)
+FunctionalDataProperty(:hasPartsTray_SerialNumber)
+FunctionalDataProperty(:hasPartsTray_SkuRef)
 FunctionalDataProperty(:hasPart_SerialNumber)
 FunctionalDataProperty(:hasPart_SkuRef)
 FunctionalDataProperty(:hasPoint_X)
@@ -1010,9 +1093,11 @@ FunctionalDataProperty(:isKitInstance_Finished)
 FunctionalObjectProperty(:hasBoxVolume_MaximumPoint)
 FunctionalObjectProperty(:hasBoxVolume_MinimumPoint)
 FunctionalObjectProperty(:hasChangingStation_Holders)
-FunctionalObjectProperty(:hasDesign_PartPoses)
 FunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
+FunctionalObjectProperty(:hasKitDesign_PartPoses)
 FunctionalObjectProperty(:hasKitInstance_Tray)
+FunctionalObjectProperty(:hasLargeBoxWithEmptyKitTrays_Box)
+FunctionalObjectProperty(:hasLargeBoxWithKits_Box)
 FunctionalObjectProperty(:hasPartRefAndPose_Point)
 FunctionalObjectProperty(:hasPartRefAndPose_Rpy)
 FunctionalObjectProperty(:hasPartsTrayWithParts_Tray)
@@ -1025,6 +1110,7 @@ FunctionalObjectProperty(:hasSku_EndEffectorRefs)
 FunctionalObjectProperty(:hasSku_Shape)
 FunctionalObjectProperty(:hasSolidObject_PhysicalLocation)
 FunctionalObjectProperty(:hasWorkstation_ChangingStation)
+FunctionalObjectProperty(:hasWorkstation_KitDesignLibrary)
 FunctionalObjectProperty(:hasWorkstation_OtherObstacles)
 FunctionalObjectProperty(:hasWorkstation_Robot)
 FunctionalObjectProperty(:hasWorkstation_SkuLibrary)
@@ -1036,34 +1122,46 @@ HasKey(:KitTray () (:hasKitTray_SerialNumber :hasKitTray_SkuRef))
 HasKey(:LargeContainer () (:hasLargeContainer_SerialNumber
                            :hasLargeContainer_SkuRef))
 HasKey(:Part () (:hasPart_SerialNumber :hasPart_SkuRef))
+HasKey(:PartsTray () (:hasPartsTray_SerialNumber :hasPartsTray_SkuRef))
 HasKey(:Robot () (:hasRobot_Id))
 HasKey(:StockKeepingUnit () (:hasSku_Id))
 
 InverseFunctionalObjectProperty(:hasChangingStation_Holders)
-InverseFunctionalObjectProperty(:hasDesign_PartPoses)
 InverseFunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
+InverseFunctionalObjectProperty(:hasKitDesign_PartPoses)
 InverseFunctionalObjectProperty(:hasKitInstance_Parts)
 InverseFunctionalObjectProperty(:hasKitInstance_Tray)
+InverseFunctionalObjectProperty(:hasLargeBoxWithEmptyKitTrays_Box)
+InverseFunctionalObjectProperty(:hasLargeBoxWithEmptyKitTrays_KitTrays)
+InverseFunctionalObjectProperty(:hasLargeBoxWithKits_Box)
+InverseFunctionalObjectProperty(:hasLargeBoxWithKits_Kits)
 InverseFunctionalObjectProperty(:hasPartsTrayWithParts_Parts)
 InverseFunctionalObjectProperty(:hasPartsTrayWithParts_Tray)
 InverseFunctionalObjectProperty(:hasRobot_EndEffector)
-InverseFunctionalObjectProperty(:hasSku_EndEffectorRefs)
 InverseFunctionalObjectProperty(:hasWorkstation_ChangingStation)
+InverseFunctionalObjectProperty(:hasWorkstation_KitDesignLibrary)
 InverseFunctionalObjectProperty(:hasWorkstation_Robot)
 InverseFunctionalObjectProperty(:hasWorkstation_SkuLibrary)
 InverseFunctionalObjectProperty(:hasWorkstation_Table)
 InverseFunctionalObjectProperty(:listsBoxVolume)
 InverseFunctionalObjectProperty(:listsEndEffectorHolder)
+InverseFunctionalObjectProperty(:listsKitDesign)
 InverseFunctionalObjectProperty(:listsPartRefAndPose)
 InverseFunctionalObjectProperty(:listsStockKeepingUnit)
 
 ObjectPropertyDomain(:hasBoxVolume_MaximumPoint :BoxVolume)
 ObjectPropertyDomain(:hasBoxVolume_MinimumPoint :BoxVolume)
 ObjectPropertyDomain(:hasChangingStation_Holders :EndEffectorChangingStation)
-ObjectPropertyDomain(:hasDesign_PartPoses :KitDesign)
 ObjectPropertyDomain(:hasEndEffectorHolder_EndEffector :EndEffectorHolder)
+ObjectPropertyDomain(:hasKitDesign_PartPoses :KitDesign)
 ObjectPropertyDomain(:hasKitInstance_Parts :KitInstance)
 ObjectPropertyDomain(:hasKitInstance_Tray :KitInstance)
+ObjectPropertyDomain(:hasLargeBoxWithEmptyKitTrays_Box
+                     :LargeBoxWithEmptyKitTrays)
+ObjectPropertyDomain(:hasLargeBoxWithEmptyKitTrays_KitTrays
+                     :LargeBoxWithEmptyKitTrays)
+ObjectPropertyDomain(:hasLargeBoxWithKits_Box :LargeBoxWithKits)
+ObjectPropertyDomain(:hasLargeBoxWithKits_Kits :LargeBoxWithKits)
 ObjectPropertyDomain(:hasPartRefAndPose_Point :PartRefAndPose)
 ObjectPropertyDomain(:hasPartRefAndPose_Rpy :PartRefAndPose)
 ObjectPropertyDomain(:hasPartsTrayWithParts_Parts :PartsTrayWithParts)
@@ -1077,22 +1175,28 @@ ObjectPropertyDomain(:hasSku_EndEffectorRefs :StockKeepingUnit)
 ObjectPropertyDomain(:hasSku_Shape :StockKeepingUnit)
 ObjectPropertyDomain(:hasSolidObject_PhysicalLocation :SolidObject)
 ObjectPropertyDomain(:hasWorkstation_ChangingStation :KittingWorkstation)
+ObjectPropertyDomain(:hasWorkstation_KitDesignLibrary :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_OtherObstacles :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_Robot :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_SkuLibrary :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_Table :KittingWorkstation)
 ObjectPropertyDomain(:listsBoxVolume :BoxVolumeList)
 ObjectPropertyDomain(:listsEndEffectorHolder :EndEffectorHolderList)
+ObjectPropertyDomain(:listsKitDesign :KitDesignList)
 ObjectPropertyDomain(:listsPartRefAndPose :PartRefAndPoseList)
 ObjectPropertyDomain(:listsStockKeepingUnit :StockKeepingUnitList)
 
 ObjectPropertyRange(:hasBoxVolume_MaximumPoint :Point)
 ObjectPropertyRange(:hasBoxVolume_MinimumPoint :Point)
 ObjectPropertyRange(:hasChangingStation_Holders :EndEffectorHolderList)
-ObjectPropertyRange(:hasDesign_PartPoses :PartRefAndPoseList)
 ObjectPropertyRange(:hasEndEffectorHolder_EndEffector :EndEffector)
+ObjectPropertyRange(:hasKitDesign_PartPoses :PartRefAndPoseList)
 ObjectPropertyRange(:hasKitInstance_Parts :Part)
 ObjectPropertyRange(:hasKitInstance_Tray :KitTray)
+ObjectPropertyRange(:hasLargeBoxWithEmptyKitTrays_Box :LargeContainer)
+ObjectPropertyRange(:hasLargeBoxWithEmptyKitTrays_KitTrays :KitTray)
+ObjectPropertyRange(:hasLargeBoxWithKits_Box :LargeContainer)
+ObjectPropertyRange(:hasLargeBoxWithKits_Kits :KitInstance)
 ObjectPropertyRange(:hasPartRefAndPose_Point :Point)
 ObjectPropertyRange(:hasPartRefAndPose_Rpy :RollPitchYaw)
 ObjectPropertyRange(:hasPartsTrayWithParts_Parts :Part)
@@ -1106,12 +1210,14 @@ ObjectPropertyRange(:hasSolidObject_PhysicalLocation :PhysicalLocation)
 ObjectPropertyRange(:hasSku_EndEffectorRefs :EndEffectorRefList)
 ObjectPropertyRange(:hasSku_Shape :ShapeDesign)
 ObjectPropertyRange(:hasWorkstation_ChangingStation :EndEffectorChangingStation)
+ObjectPropertyRange(:hasWorkstation_KitDesignLibrary :KitDesignList)
 ObjectPropertyRange(:hasWorkstation_OtherObstacles :BoxVolumeList)
 ObjectPropertyRange(:hasWorkstation_Robot :Robot)
 ObjectPropertyRange(:hasWorkstation_SkuLibrary :StockKeepingUnitList)
 ObjectPropertyRange(:hasWorkstation_Table :WorkTable)
 ObjectPropertyRange(:listsBoxVolume :BoxVolume)
 ObjectPropertyRange(:listsEndEffectorHolder :EndEffectorHolder)
+ObjectPropertyRange(:listsKitDesign :KitDesign)
 ObjectPropertyRange(:listsPartRefAndPose :PartRefAndPose)
 ObjectPropertyRange(:listsStockKeepingUnit :StockKeepingUnit)
 
@@ -1131,10 +1237,13 @@ SubClassOf(:EndEffectorHolderList :DataThing)
 SubClassOf(:EndEffectorRefList :DataThing)
 SubClassOf(:GripperEffector :EndEffector)
 SubClassOf(:KitDesign :DataThing)
+SubClassOf(:KitDesignList :DataThing)
 SubClassOf(:KitInstance :SolidObject)
 SubClassOf(:KittingWorkstation :SolidObject)
 SubClassOf(:KitTray :BoxyObject)
 SubClassOf(:LargeContainer :BoxyObject)
+SubClassOf(:LargeBoxWithEmptyKitTrays :SolidObject)
+SubClassOf(:LargeBoxWithKits :SolidObject)
 SubClassOf(:Part :SolidObject)
 SubClassOf(:PartRefAndPose :DataThing)
 SubClassOf(:PartRefAndPoseList :DataThing)

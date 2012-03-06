@@ -88,7 +88,8 @@ Component parts may be fixtured, for example placed in compartments on trays, or
 placed in a large bin. In addition to the kit's component parts, the workstation usually contains a storage area for empty kit boxes as
 well as completed kits.
 
-Kitting, has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation. We also plan to develop a simulated kitting workstation for model validation. Our models
+Kitting, has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation in an agile manufacturing environment. This workstation must be able to cope with
+variations in kit contents, kit layout, and component supply. We also plan to develop a simulated kitting workstation for model validation. Our models
 include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, grippers, etc., models of executable information such as actions, preconditions, and effects, and models of the  process plan
 necessary for kit construction. A discussion of the functional requirements for the process plan may be found in \cite{Balakirsky2012_1}.
 For our automated kitting workstation, we assume that a robot performs a series of pick-and-place operations
@@ -122,41 +123,69 @@ abstraction is
 modeled in the Planning Domain Definition Language (PDDL) \cite{PDDL}. More information on this layer may be found in Section
 \ref{sect:PDDL_Layer}. In order to validate our models, we intend to utilize simulation in conjunction with  domain independent planning
 systems and the Robot
-Operating System (ROS) control environment \cite{ROS}. More information on this may be found in Section \ref{sect:Simulation}. Finally,
+Operating System (ROS) control environment \cite{ROS}. More information on this may be found in Section \ref{sect:ROS}. An example of the
+various knowledge representations and the flow from one to the next is presented in Section \ref{sect:Example}. Finally,
 conclusions and future work may be found in Section \ref{sect:Conclusions}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[htb]
 \includegraphics[width=7.6cm]{images/ProcessDataFlowV2.jpg}
-\caption{Pallet Viewer Metrics}
+\caption{Kitting data flow abstraction.}
 \label{fig:ProcessDataFlow}
 \end{figure}
 
 \section{Architecture Description}
 \label{sect:Architecture}
-Our architecture is designed to represent the required knowledge base in several different abstractions that are likely to be
-required by various robotic systems as the knowledge flows from process specification, to plan generation, to plan execution. 
+The main focus of this work is in the development of knowledge models that allow a kitting workstation to construct kits
+in an agile manufacturing environment. However, in order to validate these knowledge models, we felt that it was
+important to be able to utilize the models to construct kit building plans, and then to execute these plans in dynamic
+virtual and real environments. Due to the advent of open source robotic operating systems such as ROS \cite{ROS} and simulation
+packages such as USARSim \cite{Balakirsky2007} we do not need to design these systems ourselves. However, our architecture must
+be designed to represent the required knowledge base in several different abstractions that are likely to be
+required by these systems as the knowledge flows from process specification, to plan generation, to plan execution. 
 As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into three
 distinct layers of {\it OWL Conformance}, {\it PDDL Conformance}, and {\it Robot Plan Conformance} that correspond to these
 knowledge requirements. Implementors of the abstraction are free to utilize as many of the knowledge layers as make sense for
-their particular application. For our simulated kitting work station, we intend to utilize the OWL Conformance Layer with open
-source tools that will automatically generate the remaining layers.
+their particular application. For our simulated kitting workstation, we intend to fully design the OWL Conformance Layer and
+then utilize open
+source tools that will automatically generate the remaining layers and provide a workstation simulation.
 
 \subsection{OWL Conformance}
 ``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
 
-The information on our ontology is divided into three files and consists of a representation of the process plan (the actions and
-sequences necessary to construct a kit), the kitting ontology (the concepts related to the specific problem of kitting), and the
-instance file (specific information on {\it this} particular kitting problem and configuration.
+Knowledge models may take many forms ranging from informal natural language, to XML schema, to ontologies. 
+Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  knowledge representation be
+encoded in an ontology at the lowest layer of our abstraction. The knowledge contained in this layer is sufficient for a planning system to understand the domain and construct
+a plan for creating the desired kit from the given resources.
+
+As shown in Figure \ref{fig:ProcessDataFlow} the information on our ontology is divided into three files and consists of a representation of the process specification,
+the kitting ontology, and the instance file. The process specification file contains descriptions of
+the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file contains the concepts related to the specific items 
+that compose the kitting domain, e.g. a full description of each component including items such as the component's weight, dimensions, and grip points. The instance file
+contains specific information on {\it this} particular kitting problem and configuration, e.g. component tray 1 contains 4 components of type `A'.
+
+While this file set provides a complete description of the problem domain and environment, most planning systems cannot directly ingest information from an ontology.
+Therefore, the second layer of the data abstraction known as the PDDL Conformance layer was created.
 
 \subsection{PDDL Conformance}
+By placing our knowledge in a domain independent representation, we enable the use of an entire family of open source planning systems. 
+In particular, we have chosen to transform the information stored in the lower layer of our abstraction into the Planning Domain Definition Language (PDDL) \cite{PDDL}.
+This provides our second layer of standardized output that other system may connect to. As shown in Figure \ref{fig:ProcessDataFlow}, this information consists of two files. The first
+is a PDDL domain file that specifies all of the planning axioms and instances and is a summary of the process specification and ontology files. The second is a PDDL problem file that 
+specifies the system's initial state and goal state. 
 
 \subsection{Robot Plan Conformance}
+The PDDL output may then be fed into a number of open source planning systems that will produce a plan instance file that is based on our original vocabulary. This file
+contains a time sequenced series of actions that must be carried out in order to create a transition from our initial system state to the goal system state. Up to this point,
+the entire architecture is independent of the kitting domain or any specific hardware configurations and is able to solve problems for many types of industrial robot applications. 
+The top layer of our architecture ties the specific commands to the kitting workstation and is dependent on the workstation's resident hardware.  In order to maintain as
+much hardware independence as possible, we have chosen to use the ROS environment for communicating with our simulation. Therefore, the PDDL commands will
+be translated into appropriate commands that will be sent into various ROS processes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{OWL Model of Manufacturing Process}
 \label{sect:OWL_Layer}
-For the development of the kitting knowledge representation, the industrial robots sub-group has decided to use OWL (Web Ontology Language) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and RDF/XML-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected at the representation language that will be used in the overall IEEE WG efforts.
+For the development of the  knowledge representation, the industrial robots sub-group has decided to use OWL (Web Ontology Language) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and RDF/XML-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected at the representation language that will be used in the overall IEEE WG efforts.
 
 In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
 for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to describing robot actions. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification. 
@@ -184,8 +213,16 @@ Some of the concepts that are represented in the ontology include:
 %\include{PDDLModel.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Kitting Workstation Simulation}
-\label{sect:Simulation}
+\section{ROS Model of Manufacturing Process}
+\label{sect:ROS}
+When developing a knowledge representation, it is very difficult to determine if the representation is sufficient for actual use in a dynamic, unstructured environment.
+One technique that may be utilized that provides repeatable experiments with deterministic amounts of noise and world variance is simulation. As part of our kitting work
+station implementation, we are developing an open source application that will translate our PDDL command syntax into standard ROS topics for the ROS Arm Navigation 
+Stack known as arm\_navigation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Example of Operation}
+\label{sect:Example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}

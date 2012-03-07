@@ -1,0 +1,30 @@
+PDDL is a recent attempt to standardize planning domain and problem description languages where the planning domain includes predicates and actions, and the planning problem includes objects, the initial state and the goal specification. A state-variable representation (SVR)~\cite{NAU.2004} is used to represent the planning domain and problem for classical planning. This section discusses the planning domain (predicates and actions) for a state-variable representation.
+
+\subsection{Definition of the Objects for the Kitting Domain}
+In the state-variable representation, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. For the kitting domain, these classes are derived from the concepts represented in the ontology (see Section~\ref{sect:OWL_Layer}). The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
+
+\begin{itemize}
+\item A set of \emph{robots}: a robot in the kitting workstation is a robotic arm that can move objects in order to build kits.
+
+\item A set of \emph{kit trays}: kit trays are compartments that can hold parts. A kit is built when a kit tray contains all the parts necessary to produce a kit. A kit tray is empty when it does not contain any part and finished when it contains all the parts that constitute a kit. When a kit tray is neither empty nor finished, it is partially full.
+
+\item A set of \emph{part bins}: parts are placed in part bins and each part bin contains one type of parts.
+
+\item A set of \emph{parts}: parts are delivered to the workstation in part bins and are placed in kit trays.
+
+\item A set of \emph{gripper effectors}: a gripper effector holds an object by gripping it with
+fingers or claws.
+
+\item A set of \emph{gripper effector holders}: a gripper effector holder holds one type of gripper effectors.
+
+\item A symbol \emph{changing station}: a changing station is made up of gripper effector holders.
+
+\item A set of \emph{boxes of finished kit trays}: a box that contains only finished kits.
+
+\item A set of \emph{boxes of empty kit trays}: a box that contains only empty kit trays.
+
+\item A symbol \emph{work table}: A work table is an area in the kitting workstation where kit trays are placed to build kits.
+\end{itemize} 
+
+\subsection{Definition of the State Variable Symbols for the Kitting Domain}
+State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables. In SVR, state variable symbols correspond to the predicates in the PDDL planning domain. The following state variable symbols are used in the kitting domain: 

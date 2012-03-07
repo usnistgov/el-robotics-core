@@ -55,6 +55,8 @@ DataPropertyDomain(:hasKitDesign_KitTraySkuRef :KitDesign)
 DataPropertyDomain(:hasKitInstance_DesignRef :KitInstance)
 DataPropertyDomain(:hasKitTray_SerialNumber :KitTray)
 DataPropertyDomain(:hasKitTray_SkuRef :KitTray)
+DataPropertyDomain(:hasLargeBoxWithKits_Capacity :LargeBoxWithKits)
+DataPropertyDomain(:hasLargeBoxWithKits_KitDesignRef :LargeBoxWithKits)
 DataPropertyDomain(:hasLargeContainer_SerialNumber :LargeContainer)
 DataPropertyDomain(:hasLargeContainer_SkuRef :LargeContainer)
 DataPropertyDomain(:hasMultiCup_ArrayNumber :VacuumEffectorMultiCup)
@@ -104,6 +106,8 @@ DataPropertyRange(:hasKitDesign_KitTraySkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasKitInstance_DesignRef xsd:NMTOKEN)
 DataPropertyRange(:hasKitTray_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasKitTray_SkuRef xsd:NMTOKEN)
+DataPropertyRange(:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
+DataPropertyRange(:hasLargeBoxWithKits_KitDesignRef xsd:NMTOKEN)
 DataPropertyRange(:hasLargeContainer_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasLargeContainer_SkuRef xsd:NMTOKEN)
 DataPropertyRange(:hasMultiCup_ArrayNumber xsd:positiveInteger)
@@ -298,14 +302,18 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
 
 Declaration(Class(:LargeBoxWithKits))
 AnnotationAssertion(rdfs:comment :LargeBoxWithKits
-  "A LargeBoxWithKits is a SolidObject. A LargeBoxWithKits has a
-   LargeContainer (hasLargeBoxWithKits_Box) and a set of KitInstances
-   (hasLargeBoxWithKits_Kits). The coordinate system of a
-   LargeBoxWithKits is the same as the coordinate system of its
-   LargeContainer. The PhysicalLocation of a Kit in a LargeBoxWithKits
-   should be given by a Pose that is relative to the LargeContainer. The
-   Kits in a LargeBoxWithKits are intended to all be of the same
-   SKU, although there is currently no formal requirement for that.")
+  "A LargeBoxWithKits is a SolidObject. A LargeBoxWithKits has
+   - a LargeContainer (hasLargeBoxWithKits_Box)
+   - a set of KitInstances (hasLargeBoxWithKits_Kits)
+   - an identifier for a KitDesign (hasLargeBoxWithKits_KitDesignRef)
+   - a positiveInteger giving the maximum number of kits of the given
+     design that can be held in the box (hasLargeBoxWithKits_Capacity).
+   The coordinate system of a LargeBoxWithKits is the same as the coordinate
+   system of its LargeContainer. The PhysicalLocation of a KitInstance in
+   a LargeBoxWithKits should be given by a Pose that is relative to the
+   LargeContainer. The KitInstances in a LargeBoxWithKits are intended to
+   all be of the given design, but there is currently no formal constraint
+   requiring that.")
 
 Declaration(Class(:LargeContainer))
 AnnotationAssertion(rdfs:comment :LargeContainer
@@ -439,6 +447,11 @@ AnnotationAssertion(rdfs:comment :SolidObject
    (hasSolidObject_PhysicalLocation) that relates the location of the
    object to the location of some other object.")
 
+Declaration(Class(:SolidObjectList))
+AnnotationAssertion(rdfs:comment :SolidObjectList
+  "A SolidObjectList is a DataThing. It is a list of SolidObject
+   (listsSolidObject).")
+
 Declaration(Class(:StockKeepingUnit))
 AnnotationAssertion(rdfs:comment :StockKeepingUnit
   "A StockKeepingUnit is a DataThing. A StockKeepingUnit is a
@@ -492,8 +505,15 @@ AnnotationAssertion(rdfs:comment :Vector
 Declaration(Class(:WorkTable))
 AnnotationAssertion(rdfs:comment :WorkTable
   "A WorkTable is a BoxyObject. The top of a WorkTable is a flat,
-   rectangular, horizontal surface. The length and width of the top are
-   those of the BoxyObject.")
+   rectangular, horizontal surface. The length and width of the top
+   are those of the BoxyObject. A WorkTable has a list of the solid
+   objects that are located with respect to the WorkTable, i.e. the
+   reference object of each of those solid objects is the WorkTable
+   (hasWorkTable_SolidObjects). Typically, those objects will be on
+   top of the WorkTable. This property may be deduced by finding all
+   the objects located with respect to the WorkTable, so care will be
+   required to keep the values of the hasWorkTable_SolidObjects and
+   hasPhysicalLocation_RefObject properties consistent.")
 
 // In the following DataProperty Declarations, there is may be a more
 // formal method of representing the AnnotationAssertions. There would be
@@ -519,6 +539,8 @@ Declaration(DataProperty(:hasKitTray_SkuRef))
 AnnotationAssertion(rdfs:comment :hasKitTray_SkuRef
   "Each KitTray has a NMTOKEN as the value of hasKitTray_SkuRef. That NMTOKEN
    must be the value of hasSku_Id of some StockKeepingUnit.")
+Declaration(DataProperty(:hasLargeBoxWithKits_Capacity))
+Declaration(DataProperty(:hasLargeBoxWithKits_KitDesignRef))
 Declaration(DataProperty(:hasLargeContainer_SerialNumber))
 Declaration(DataProperty(:hasLargeContainer_SkuRef))
 AnnotationAssertion(rdfs:comment :hasLargeContainer_SkuRef
@@ -701,6 +723,11 @@ Declaration(ObjectProperty(:hasWorkstation_Table))
 AnnotationAssertion(rdfs:comment :hasWorkstation_Table
   "A KittingWorkstation has a WorkTable.")
 
+Declaration(ObjectProperty(:hasWorkTable_SolidObjects))
+AnnotationAssertion(rdfs:comment :hasWorkTable_SolidObjects
+  "A WorkTable has SolidObjects located with respect to itself, which
+   is a SolidObjectList.")
+
 Declaration(ObjectProperty(:listsBoxVolume))
 AnnotationAssertion(rdfs:comment :listsBoxVolume
   "A BoxVolumeList lists zero to many BoxVolumes.")
@@ -717,9 +744,21 @@ Declaration(ObjectProperty(:listsPartRefAndPose))
 AnnotationAssertion(rdfs:comment :listsPartRefAndPose
   "A PartRefAndPoseList lists one or more PartRefAndPose.")
 
+Declaration(ObjectProperty(:listsSolidObject))
+AnnotationAssertion(rdfs:comment :listsSolidObject
+  "A SolidObjectList lists one or more SolidObject.
+   Currently, this is an inverse functional property, implying that
+   any given SolidObject can be on only one list of SolidObjects
+   (the list of things on top of the WorkTable); it may be useful
+   to drop that restriction.")
+
 Declaration(ObjectProperty(:listsStockKeepingUnit))
 AnnotationAssertion(rdfs:comment :listsStockKeepingUnit
-  "A StockKeepingUnitList lists one or more StockKeepingUnit.")
+  "A StockKeepingUnitList lists one or more StockKeepingUnit.
+   Currently, this is an inverse functional property, implying that
+   any given StockKeepingUnit can be on only one list of SolidObjects
+   (the workstation's SKU library); it may be useful to drop that
+   restriction.")
 
 // Protege apparently does not recognize the built-in class Thing if
 // a direct reference is made to it. For example, the statement
@@ -752,6 +791,7 @@ DisjointUnion(:DataThing
               :Point
               :RollPitchYaw
               :ShapeDesign
+              :SolidObjectList
               :StockKeepingUnitList
               :StockKeepingUnit
               :Vector)
@@ -1056,6 +1096,8 @@ FunctionalDataProperty(:hasKitDesign_KitTraySkuRef)
 FunctionalDataProperty(:hasKitInstance_DesignRef)
 FunctionalDataProperty(:hasKitTray_SerialNumber)
 FunctionalDataProperty(:hasKitTray_SkuRef)
+FunctionalDataProperty(:hasLargeBoxWithKits_Capacity)
+FunctionalDataProperty(:hasLargeBoxWithKits_KitDesignRef)
 FunctionalDataProperty(:hasLargeContainer_SerialNumber)
 FunctionalDataProperty(:hasLargeContainer_SkuRef)
 FunctionalDataProperty(:hasMultiCup_ArrayNumber)
@@ -1115,6 +1157,7 @@ FunctionalObjectProperty(:hasWorkstation_OtherObstacles)
 FunctionalObjectProperty(:hasWorkstation_Robot)
 FunctionalObjectProperty(:hasWorkstation_SkuLibrary)
 FunctionalObjectProperty(:hasWorkstation_Table)
+FunctionalObjectProperty(:hasWorkTable_SolidObjects)
 
 HasKey(:EndEffector () (:hasEndEffector_Id))
 HasKey(:KitDesign () (:hasKitDesign_Id))
@@ -1143,10 +1186,12 @@ InverseFunctionalObjectProperty(:hasWorkstation_KitDesignLibrary)
 InverseFunctionalObjectProperty(:hasWorkstation_Robot)
 InverseFunctionalObjectProperty(:hasWorkstation_SkuLibrary)
 InverseFunctionalObjectProperty(:hasWorkstation_Table)
+InverseFunctionalObjectProperty(:hasWorkTable_SolidObjects)
 InverseFunctionalObjectProperty(:listsBoxVolume)
 InverseFunctionalObjectProperty(:listsEndEffectorHolder)
 InverseFunctionalObjectProperty(:listsKitDesign)
 InverseFunctionalObjectProperty(:listsPartRefAndPose)
+InverseFunctionalObjectProperty(:listsSolidObject)
 InverseFunctionalObjectProperty(:listsStockKeepingUnit)
 
 ObjectPropertyDomain(:hasBoxVolume_MaximumPoint :BoxVolume)
@@ -1180,10 +1225,12 @@ ObjectPropertyDomain(:hasWorkstation_OtherObstacles :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_Robot :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_SkuLibrary :KittingWorkstation)
 ObjectPropertyDomain(:hasWorkstation_Table :KittingWorkstation)
+ObjectPropertyDomain(:hasWorkTable_SolidObjects :WorkTable)
 ObjectPropertyDomain(:listsBoxVolume :BoxVolumeList)
 ObjectPropertyDomain(:listsEndEffectorHolder :EndEffectorHolderList)
 ObjectPropertyDomain(:listsKitDesign :KitDesignList)
 ObjectPropertyDomain(:listsPartRefAndPose :PartRefAndPoseList)
+ObjectPropertyDomain(:listsSolidObject :SolidObjectList)
 ObjectPropertyDomain(:listsStockKeepingUnit :StockKeepingUnitList)
 
 ObjectPropertyRange(:hasBoxVolume_MaximumPoint :Point)
@@ -1215,10 +1262,12 @@ ObjectPropertyRange(:hasWorkstation_OtherObstacles :BoxVolumeList)
 ObjectPropertyRange(:hasWorkstation_Robot :Robot)
 ObjectPropertyRange(:hasWorkstation_SkuLibrary :StockKeepingUnitList)
 ObjectPropertyRange(:hasWorkstation_Table :WorkTable)
+ObjectPropertyRange(:hasWorkTable_SolidObjects :SolidObjectList)
 ObjectPropertyRange(:listsBoxVolume :BoxVolume)
 ObjectPropertyRange(:listsEndEffectorHolder :EndEffectorHolder)
 ObjectPropertyRange(:listsKitDesign :KitDesign)
 ObjectPropertyRange(:listsPartRefAndPose :PartRefAndPose)
+ObjectPropertyRange(:listsSolidObject :SolidObject)
 ObjectPropertyRange(:listsStockKeepingUnit :StockKeepingUnit)
 
 // The following SubClassOf statements are not essential because the
@@ -1259,6 +1308,7 @@ SubClassOf(:RelativeLocationOn :RelativeLocation)
 SubClassOf(:Robot :SolidObject)
 SubClassOf(:RollPitchYaw :DataThing)
 SubClassOf(:ShapeDesign :DataThing)
+SubClassOf(:SolidObjectList :DataThing)
 SubClassOf(:StockKeepingUnit :DataThing)
 SubClassOf(:StockKeepingUnitList :DataThing)
 SubClassOf(:VacuumEffector :EndEffector)

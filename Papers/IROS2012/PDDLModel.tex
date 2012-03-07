@@ -1,6 +1,7 @@
-PDDL is a recent attempt to standardize planning domain and problem description languages where the planning domain includes predicates and actions, and the planning problem includes objects, the initial state and the goal specification. A state-variable representation (SVR)~\cite{NAU.2004} is used to represent the planning domain and problem for classical planning. This section discusses the planning domain (predicates and actions) for a state-variable representation.
+PDDL is a recent attempt to standardize planning domain and problem description languages where the planning domain includes predicates and actions, and the planning problem includes objects, the initial state and the goal specification. A state-variable representation (SVR)~\cite{NAU.2004} is used to represent the planning domain and problem for classical planning.  
+\subsection{Planning Domain for Kitting}
 
-\subsection{Definition of the Objects for the Kitting Domain}
+\subsubsection{Constant Symbols for the Kitting Domain}
 In the state-variable representation, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. For the kitting domain, these classes are derived from the concepts represented in the ontology (see Section~\ref{sect:OWL_Layer}). The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
 
 \begin{itemize}
@@ -24,7 +25,37 @@ fingers or claws.
 \item A set of \emph{boxes of empty kit trays}: a box that contains only empty kit trays.
 
 \item A symbol \emph{work table}: A work table is an area in the kitting workstation where kit trays are placed to build kits.
+\end{itemize}
+
+\subsubsection{State Variable Symbols for the Kitting Domain}
+State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces possibilities for inconsistent states and generates a smaller state space. A state variable symbol is an expression of the form ...The following state variable symbols are used in the kitting domain:
+\begin{itemize}
+\item \texttt{geffloc}: \emph{gripper effectors} $\times S \rightarrow$ \emph{robots} $\cup$ \emph{gripper effector holders}: designates the location of a gripper effector in the workstation. The gripper can be in a gripper effector holder or attached to the robot.
+
+
+\item \texttt{rgrip}: \emph{robots} $\times S \rightarrow$ \emph{gripper effectors} $\cup$ $\lbrace nil\rbrace$: designates the gripper effector that is attached to a robot or $nil$ if no gripper effector is attached.
+
+\item \texttt{onworktable}: \emph{work table} $\times S \rightarrow$ \emph{kit trays} $\cup$ $\lbrace nil\rbrace$: designates the object placed on the work table: a kit tray or nothing ($nil$).
+
+\item \texttt{ktloc}: \emph{kit trays} $\times S \rightarrow$ \emph{boxes of empty kit trays} $\cup$ \emph{boxes of finished kit trays} $\cup$ \emph{work table} $\cup$ \emph{robots}: designates the different possible locations of a kit tray in the workstation. The kit tray can be in the box of empty kit trays, in the box of finished kit trays, on the work table, or in the robot's gripper effector.
+
+\item \texttt{ploc}: \emph{parts} $\times S \rightarrow$ \emph{part bins} $\cup$ \emph{kit trays} $\cup$ \emph{robots}: designates the different possible locations of a part in the workstation. The part can be in a part bin, in a kit tray, or in the robot's gripper effector.
+
+\item \texttt{rhold}: \textit{robots} $\times S \rightarrow$ \textit{kit trays} $\cup$ \textit{parts} $\cup$ $\lbrace nil\rbrace$: designates the object being held by the robot. It can be a kit tray, a part, or nothing ($nil$). It is assumed that the robot is already equipped with the appropriate gripper effector.
+
+\item \texttt{isboxfktfull}: \textit{boxes of finished kit trays} $\times$ $S \rightarrow$ $\lbrace 0\rbrace$ $\cup$ $\lbrace 1\rbrace$: designates if a box of finished kit trays is full (1) or not (0).
+    
+\item \texttt{isboxektempty}: \textit{boxes of empty kit trays} $\times$ $S \rightarrow$ $\lbrace 0\rbrace$ $\cup$ $\lbrace 1\rbrace$: designates if a box of empty kit trays is empty (1) or not (0).
+
+\item \texttt{ispartbinempty}: \textit{part bins} $\times$ $S \rightarrow$ $\lbrace 0\rbrace$ $\cup$ $\lbrace 1\rbrace$: designates if a part bin is empty (1) or not (0).
+
+\item \texttt{gefftype}: \textit{gripper effectors} $\times$ $S \rightarrow$ \textit{kit trays} $\cup$ \textit{parts}: designates the type of object the gripper effector can hold. For the kitting domain used in this paper, a gripper effector can hold two types of object: kit trays and parts.
 \end{itemize} 
 
-\subsection{Definition of the State Variable Symbols for the Kitting Domain}
-State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables. In SVR, state variable symbols correspond to the predicates in the PDDL planning domain. The following state variable symbols are used in the kitting domain: 
+\subsection{Planning Problem for Kitting}
+
+\subsubsection{Operators for Kitting}
+
+\subsubsection{Definition of the Initial State}
+
+\subsubsection{Definition of the Goal State}

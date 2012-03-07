@@ -119,7 +119,11 @@ ClassAssertion(:LargeBoxWithKits :FinishedKitReceiver)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :FinishedKitReceiver
                         :FinishedKitReceiverPose)
 ObjectPropertyAssertion(:hasLargeBoxWithKits_Box :FinishedKitReceiver
-                        :FinishedKitKitBox)
+                        :FinishedKitBox)
+DataPropertyAssertion(:hasLargeBoxWithKits_Capacity :FinishedKitReceiver
+                     "12"^^xsd:positiveInteger)
+DataPropertyAssertion(:hasLargeBoxWithKits_KitDesignRef :FinishedKitReceiver
+                     "KitDesignA2B1C1"^^xsd:NMTOKEN)
 
 
 // KitDesignA2B1C1 *****************************************************
@@ -468,6 +472,11 @@ DataPropertyAssertion(:hasShapeDesign_Description :ShapePartsTray
                       "Shape of PartsTrays"^^xsd:string)
 
 
+// SolidObjectList1 (an empty list) **************************************
+Declaration(NamedIndividual(:SolidObjectList1))
+ClassAssertion(:SolidObjectList :SolidObjectList1)
+
+
 // StockKeepingUnitKitBox ************************************************
 Declaration(NamedIndividual(:StockKeepingUnitKitBox))
 ClassAssertion(:StockKeepingUnit :StockKeepingUnitKitBox)
@@ -481,7 +490,7 @@ ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitKitBox
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitKitBox :ShapeKitBox)
 
 
-// StockKeepingUnitKitTray ************************************************
+// StockKeepingUnitKitTray ***********************************************
 Declaration(NamedIndividual(:StockKeepingUnitKitTray))
 ClassAssertion(:StockKeepingUnit :StockKeepingUnitKitTray)
 DataPropertyAssertion(:hasSku_Description :StockKeepingUnitKitTray
@@ -616,6 +625,8 @@ ObjectPropertyAssertion(:hasWorkstation_KitDesignLibrary :KittingWorkstation1
 Declaration(NamedIndividual(:WorkTable1))
 ClassAssertion(:WorkTable :WorkTable1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :WorkTable1 :WorkTablePose)
+ObjectPropertyAssertion(:hasWorkTable_SolidObjects :WorkTable1
+                        :SolidObjectList1)
 DataPropertyAssertion(:hasBox_Height :WorkTable1 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :WorkTable1 "1.6"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :WorkTable1 "0.8"^^:positiveDecimal)

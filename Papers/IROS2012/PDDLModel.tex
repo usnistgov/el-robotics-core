@@ -5,26 +5,24 @@ PDDL is an attempt to standardize planning domain and problem description langua
 In the SVR, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. For the kitting domain, these classes are derived from the concepts represented in the ontology (see Section~\ref{sect:OWL_Layer}). The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
 \begin{small}
 \begin{itemize}
-\item A set of \emph{robots}: a robot in the kitting workstation is a robotic arm that can move objects in order to build kits.
+\item A set of $\mathrm{robots\ \lbrace r_1, r_2,\dots \rbrace}$: robotic arms that can move objects in order to build kits.
 
-\item A set of \emph{kit trays}: kit trays are compartments that can hold parts. A kit is built when a kit tray contains all the parts necessary to produce a kit. A kit tray is empty when it does not contain any part and finished when it contains all the parts that constitute a kit. When a kit tray is neither empty nor finished, it is partially full.
+\item A set of $\mathrm{kit\ trays\ \lbrace kt_1, kt_2,\dots \rbrace}$: trays that can contain parts. A kit is built when a kit tray contains all the parts necessary to produce a kit. A kit tray is empty when it does not contain any part and finished when it contains all the parts that constitute a kit. When a kit tray is neither empty nor finished, it is a partially full kit tray.
 
-\item A set of \emph{part bins}: parts are placed in part bins and each part bin contains one type of parts.
+\item A set of $\mathrm{part\ bins\ \lbrace pb_1, pb_2,\dots \rbrace}$: part bins contain parts of the same type.
 
-\item A set of \emph{parts}: parts are delivered to the workstation in part bins and are placed in kit trays.
+\item A set of $\mathrm{parts\ \lbrace p_1, p_2,\dots \rbrace}$: parts are placed in kit trays until the appropriate kits are built. 
+\item A set of $\mathrm{gripper\ effectors\ \lbrace geff_1, geff_2,\dots \rbrace}$: gripper effectors hold objects by gripping them with fingers or claws.
 
-\item A set of \emph{gripper effectors}: a gripper effector holds an object by gripping it with
-fingers or claws.
+\item A set of $\mathrm{gripper\ effector\ holders\ \lbrace geffholder_1, geffholder_2,\dots \rbrace}$: gripper effector holders hold gripper effectors.
 
-\item A set of \emph{gripper effector holders}: a gripper effector holder holds one type of gripper effectors.
+\item A symbol $\mathrm{changing\ station}$ -- $\mathrm{chstation}$: a changing station is made up of gripper effector holders.
 
-\item A symbol \emph{changing station}: a changing station is made up of gripper effector holders.
+\item A set of $\mathrm{boxes\ finished\ kit\ trays\ \lbrace bfkt_1, bfkt_2,\dots \rbrace}$: boxes that only contain finished kits.
 
-\item A set of \emph{boxes of finished kit trays}: a box that contains only finished kits.
+\item A set of $\mathrm{boxes\ empty\ kit\ trays\ \lbrace bekt_1, bekt_2,\dots \rbrace}$: boxes that only contain empty kit trays.
 
-\item A set of \emph{boxes of empty kit trays}: a box that contains only empty kit trays.
-
-\item A symbol \emph{work table}: A work table is an area in the kitting workstation where kit trays are placed to build kits.
+\item A symbol $\mathrm{work\ table}$ -- $\mathrm{wtable}$: a work table is an area in the kitting workstation where kit trays are placed to build kits.
 \end{itemize}
 \end {small}
 \subsection{State Variable Symbols for the Kitting Domain}

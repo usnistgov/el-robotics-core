@@ -5,24 +5,27 @@ PDDL is an attempt to standardize planning domain and problem description langua
 In the SVR, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. For the kitting domain, these classes are derived from the concepts represented in the ontology (see Section~\ref{sect:OWL_Layer}). The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
 \begin{small}
 \begin{itemize}
-\item A set of $\mathrm{robots\ \lbrace r_1, r_2,\dots \rbrace}$: robotic arms that can move objects in order to build kits.
+\item A set of $\mathrm{Robots\ \lbrace r_1, r_2,\dots \rbrace}$: A $\mathrm{Robot}$ in the kitting workstation is a robotic arm that can move objects in order to build $\mathrm{KitInstances}$.
 
-\item A set of $\mathrm{kit\ trays\ \lbrace kt_1, kt_2,\dots \rbrace}$: trays that can contain parts. A kit is built when a kit tray contains all the parts necessary to produce a kit. A kit tray is empty when it does not contain any part and finished when it contains all the parts that constitute a kit. When a kit tray is neither empty nor finished, it is a partially full kit tray.
+\item A set of $\mathrm{KitTrays\ \lbrace kt_1, kt_2,\dots \rbrace}$: A $\mathrm{KitTray}$ is a tray with which a $\mathrm{KitInstance}$ may be built. A $\mathrm{KitTray}$ can hold parts in known positions.
+    
+\item A set of $\mathrm{KitInstances\ \lbrace kins_1, kins_2,\dots \rbrace}$: A $\mathrm{KitInstance}$ is built when $\mathrm{Parts}$ are placed in a $\mathrm{KitTray}$. A $\mathrm{KitInstance}$ consists of a $\mathrm{KitTray}$ and, possibly, some $\mathrm{Parts}$. A $\mathrm{KitInstance}$ is empty when it does not contain any $\mathrm{Part}$ and finished when it contains all the $\mathrm{Parts}$ that constitute a kit.
 
-\item A set of $\mathrm{part\ bins\ \lbrace pb_1, pb_2,\dots \rbrace}$: part bins contain parts of the same type.
+\item A set of $\mathrm{PartTrays\ \lbrace pt_1, pt_2,\dots \rbrace}$: $\mathrm{Parts}$ arrive at the workstation in $\mathrm{PartTrays}$. Each part is at a known position in the $\mathrm{PartTray}$. Each $\mathrm{PartTray}$ contains one type of $\mathrm{Part}$.
 
-\item A set of $\mathrm{parts\ \lbrace p_1, p_2,\dots \rbrace}$: parts are placed in kit trays until the appropriate kits are built. 
-\item A set of $\mathrm{gripper\ effectors\ \lbrace geff_1, geff_2,\dots \rbrace}$: gripper effectors hold objects by gripping them with fingers or claws.
+\item A set of $\mathrm{Parts\ \lbrace p_1, p_2,\dots \rbrace}$: $\mathrm{Parts}$ are delivered to the workstation in $\mathrm{PartTrays}$ and are placed in $\mathrm{KitTrays}$ to make $\mathrm{KitInstances}$.
+    
+\item A set of $\mathrm{EndEffectors\ \lbrace eeff_1, eeff_2,\dots \rbrace}$: $\mathrm{EndEffectors}$ are used in a kitting workstation to manipulate $\mathrm{Parts}$, $\mathrm{PartTrays}$, $\mathrm{KitTrays}$, and $\mathrm{KitInstances}$.
 
-\item A set of $\mathrm{gripper\ effector\ holders\ \lbrace geffholder_1, geffholder_2,\dots \rbrace}$: gripper effector holders hold gripper effectors.
+\item A set of $\mathrm{EndEffectorHolders\ \lbrace eeffholder_1, eeffholder_2,\dots \rbrace}$: An $\mathrm{EndEffectorHolder}$ holds one type of $\mathrm{EndEffector}$.
 
-\item A symbol $\mathrm{changing\ station}$ -- $\mathrm{chstation}$: a changing station is made up of gripper effector holders.
+\item A symbol $\mathrm{EndEffectorChangingStation}$ -- $\mathrm{chstation}$: An $\mathrm{EndEffectorChangingStation}$ is made up of $\mathrm{EndEffectorHolders}$.
 
-\item A set of $\mathrm{boxes\ finished\ kit\ trays\ \lbrace bfkt_1, bfkt_2,\dots \rbrace}$: boxes that only contain finished kits.
+\item A set of $\mathrm{LargeBoxWithKits\ \lbrace lbwk_1, lbwk_2,\dots \rbrace}$: A $\mathrm{LargeBoxWithKits}$ contains only finished $\mathrm{KitInstances}$.
 
-\item A set of $\mathrm{boxes\ empty\ kit\ trays\ \lbrace bekt_1, bekt_2,\dots \rbrace}$: boxes that only contain empty kit trays.
+\item A set of $\mathrm{LargeBoxWithEmptyKitTrays\ \lbrace lbwekt_1, lbwekt_2,\dots \rbrace}$: A $\mathrm{LargeBoxWithEmptyKitTrays}$ is a box that contains only empty $\mathrm{KitTrays}$.
 
-\item A symbol $\mathrm{work\ table}$ -- $\mathrm{wtable}$: a work table is an area in the kitting workstation where kit trays are placed to build kits.
+\item A symbol $\mathrm{WorkTable}$ -- $\mathrm{wtable}$: A $\mathrm{WorkTable}$ is an area in the kitting workstation where $\mathrm{KitTrays}$ are placed to build $\mathrm{KitInstances}$.
 \end{itemize}
 \end {small}
 \subsection{State Variable Symbols for the Kitting Domain}
@@ -32,31 +35,33 @@ State variable symbols are functions from the set of states and zero or more set
 
 \begin{small}
 \begin{itemize}
-\item \emph{geffloc}: $\mathrm{gripper\ effectors}\times S\rightarrow\mathrm{robots} \cup \mathrm{gripper\ effector\ holders}$: designates the location of a gripper effector in the workstation. The gripper can be in a gripper effector holder or attached to the robot.
+\item \emph{geffloc}: $\mathrm{EndEffectors}\times S\rightarrow\mathrm{Robots}$ $\cup$ $\mathrm{EndEffectorHolders}$: designates the location of an $\mathrm{EndEffector}$ in the workstation. The $\mathrm{EndEffector}$ can be placed in a $\mathrm{EndEffectorHolder}$ or attached to the $\mathrm{Robots}$.
 
-\item \emph{rgrip}: $\mathrm{robots}\times S\rightarrow\mathrm{gripper\ effectors} \cup \lbrace nil\rbrace$: designates the gripper effector that is attached to a robot or $nil$ if no gripper effector is attached.
+\item \emph{rgrip}: $\mathrm{Robots}\times S\rightarrow\mathrm{EndEffectors}$ $\cup$ $\lbrace nil\rbrace$: designates the $\mathrm{EndEffector}$ that is attached to a $\mathrm{Robots}$ or $nil$ if no $\mathrm{EndEffector}$ is attached.
 
-\item \emph{topworktable}: $\mathrm{work\ table}\times S\rightarrow\mathrm{kit\ trays} \cup \lbrace nil\rbrace$: designates the object placed on the work table: a kit tray or nothing ($nil$).
+\item \emph{topworktable}: $\mathrm{WorkTable}\times S\rightarrow\mathrm{KitInstancess}$ $\cup$ $\lbrace nil\rbrace$: designates the object placed on the $\mathrm{WorkTable}$, it can be either a $\mathrm{KitInstnce}$ or nothing ($nil$).
 
-\item \emph{ktloc}: $\mathrm{kit\ trays}\times S\rightarrow\mathrm{boxes\ of\ empty\ kit\ trays} \cup \mathrm{boxes\ of\ finished\ kit\ trays} \cup \mathrm{work\ table} \cup \mathrm{robots}$: designates the different possible locations of a kit tray in the workstation. The kit tray can be in the box of empty kit trays, in the box of finished kit trays, on the work table, or in the robot's gripper effector.
+\item \emph{kinsloc}: $\mathrm{KitInstances}\times S\rightarrow\mathrm{LargeBoxWithKits}$ $\cup$ $\mathrm{WorkTable}$ $\cup$ $\mathrm{Robots}$: designates the different possible locations of a $\mathrm{KitInstance}$ in the workstation. The $\mathrm{KitInstance}$ can be in a $\mathrm{LargeBoxWithKits}$, on the $\mathrm{WorkTable}$, or being held by the $\mathrm{Robot}$.
+    
+\item \emph{ktloc}: $\mathrm{KitTrays}\times S\rightarrow\mathrm{LargeBoxWithEmptyKitTrays}$ $\cup$ $\mathrm{Robots}$: designates the different possible locations of a $\mathrm{KitTray}$ in the workstation. The $\mathrm{KitTray}$ can either be in a $\mathrm{LargeBoxWithEmptyKitTrays}$ or being held by the $\mathrm{Robot}$.
 
-\item \emph{ploc}: $\mathrm{parts}\times S\rightarrow\mathrm{part\ bins} \cup \mathrm{kit\ trays} \cup \mathrm{robots}$: designates the different possible locations of a part in the workstation. The part can be in a part bin, in a kit tray, or in the robot's gripper effector.
+\item \emph{ploc}: $\mathrm{Parts}\times S\rightarrow\mathrm{PartTrays}$ $\cup$ $\mathrm{KitInstances}$ $\cup$ $\mathrm{Robots}$: designates the different possible locations of a $\mathrm{Part}$ in the workstation. The $\mathrm{Part}$ can be in a $\mathrm{PartTray}$, in a $\mathrm{KitInstance}$, or being held by the $\mathrm{Robot}$.
 
-\item \emph{rhold}: $\mathrm{robots}\times S\rightarrow \mathrm{kit\ trays} \cup \mathrm{parts} \cup \lbrace nil\rbrace$: designates the object being held by the robot. It can be a kit tray, a part, or nothing ($nil$). It is assumed that the robot is already equipped with the appropriate gripper effector.
+\item \emph{rhold}: $\mathrm{Robots}\times S\rightarrow\mathrm{KitTrays}$ $\cup$ $\mathrm{KitInstances}$ $\cup$ $\mathrm{Parts}$ $\cup \lbrace nil\rbrace$: designates the object being held by the $\mathrm{Robots}$. It can be a $\mathrm{KitTray}$, a $\mathrm{KitInstance}$, $\mathrm{Part}$, or nothing ($nil$). It is assumed that the robot is already equipped with the appropriate $\mathrm{EndEffector}$.
 
-\item \emph{isboxfktfull}: $\mathrm{boxes\ of\ finished\ kit\ trays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a box of finished kit trays is full (1) or not (0).
+\item \emph{islbwkfull}: $\mathrm{LargeBoxWithKits}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a $\mathrm{LargeBoxWithKits}$ is full (1) or not (0).
 
-\item \emph{isboxektempty}: $\mathrm{boxes\ of\ empty\ kit\ trays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a box of empty kit trays is empty (1) or not (0).
+\item \emph{isblbwektempty}: $\mathrm{LargeBoxWithEmptyKitTrays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a $\mathrm{LargeBoxWithEmptyKitTrays}$ is empty (1) or not (0).
 
-\item \emph{ispartbinempty}: $\mathrm{part\ bins}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a part bin is empty (1) or not (0).
+\item \emph{isparttrayempty}: $\mathrm{PartTrays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a $\mathrm{PartTray}$ is empty (1) or not (0).
 
-\item \emph{gefftype}: $ \mathrm{gripper\ effectors}\times S \rightarrow \mathrm{kit\ trays} \cup \mathrm{parts}$: designates the type of object the gripper effector can hold. For the kitting domain used in this paper, a gripper effector can hold two types of object: kit trays and parts.
+\item \emph{eefftype}: $\mathrm{EndEffectors}\times S \rightarrow\mathrm{KitTrays}$ $\cup$ $\mathrm{Parts}$: designates the type of object the $\mathrm{EndEffector}$ can hold. For the kitting domain used in this paper, an $\mathrm{EndEffector}$ can hold two types of object: $\mathrm{KitTrays}$ and $\mathrm{Parts}$.
 \end{itemize}
 \end{small}
 
 %\subsection{Planning Problem for Kitting}
 
-\subsection{Planning Operators for Kitting}
+\subsection{Planning Operators for the Kitting Domain}
 A planning operator~\cite{NAU.2004} is a triple \textit{o=(name(o), precond(o), effects(o))}
 where:
 \begin{itemize}
@@ -72,16 +77,16 @@ $x(t_1,\dots,t_k)\leftarrow t_{k+1}$, where each $t_i$ is a term in the appropri
 The kitting domain is constituted of the eight following operators:
 \begin{small}
 \begin{enumerate}
-\item \textsl{take-kt-bekt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{boxekt}$, $\mathrm{geff}$)
+\item \textsl{take-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{lbwekt}$, $\mathrm{eeff}$)
 \begin{itemize}
-\item ;;The robot $\mathrm{r}$ is equipped with the gripper effector $\mathrm{geff}$ to pick up the kit tray $\mathrm{kt}$ from the box of empty kit trays $\mathrm{boxekt}$.
+\item ;;The robot $\mathrm{r}$ is equipped with the end effector $\mathrm{eeff}$ to pick up the kit tray $\mathrm{kt}$ from the large box with empty kit trays $\mathrm{lbwekt}$.
 \item precond:
 \begin{itemize}
-\item[]\emph{ktloc}$\mathrm{(kt)=boxekt}$
+\item[]\emph{ktloc}$\mathrm{(kt)=lbwekt}$
 \item[]\emph{rhold}$\mathrm{(r)=nil}$
-\item[]\emph{rgrip}$\mathrm{(r)=geff}$
-\item[]\emph{isboxektempty}$\mathrm{(kt)=0}$
-\item[]\emph{geffloc}$\mathrm{(geff)=r}$
+\item[]\emph{rgrip}$\mathrm{(r)=eeff}$
+\item[]\emph{isblbwektempty}$\mathrm{(kt)=0}$
+\item[]\emph{geffloc}$\mathrm{(eeff)=r}$
 \end{itemize}
 \item effects:
 \begin{itemize}
@@ -90,7 +95,7 @@ The kitting domain is constituted of the eight following operators:
 \end{itemize}
 \end{itemize}
 
-\item \textsl{put-kt-wtable} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$)
+\item \textsl{put-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$)
 \begin{itemize}
 \item ;;The robot $\mathrm{r}$ puts down the kit tray $\mathrm{kt}$ on the work table $\mathrm{wtable}$.
 \item precond:
@@ -107,51 +112,51 @@ The kitting domain is constituted of the eight following operators:
 \end{itemize}
 \end{itemize}
 
-\item \textsl{take-kt-wtable} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$, $\mathrm{geff}$)
+\item \textsl{take-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{wtable}$, $\mathrm{eeff}$)
 \begin{itemize}
-\item ;;The robot $\mathrm{r}$ picks up the kit tray $\mathrm{kt}$ from the work table $\mathrm{wtable}$.
+\item ;;The robot $\mathrm{r}$ picks up the kit instance $\mathrm{kins}$ from the work table $\mathrm{wtable}$.
 \item precond:
 \begin{itemize}
-\item[]\emph{ktloc}$\mathrm{(kt)=wtable}$
+\item[]\emph{kinsloc}$\mathrm{(kins)=wtable}$
 \item[]\emph{rhold}$\mathrm{(r)=nil}$
-\item[]\emph{topworktable}$\mathrm{(wtable)=kt}$
-\item[]\emph{rgrip}$\mathrm{(r)=geff}$
-\item[]\emph{geffloc}$\mathrm{(geff)=r}$
+\item[]\emph{topworktable}$\mathrm{(wtable)=kins}$
+\item[]\emph{rgrip}$\mathrm{(r)=eeff}$
+\item[]\emph{eeffloc}$\mathrm{(eeff)=r}$
 \end{itemize}
 \item effects:
 \begin{itemize}
-\item[]\emph{ktloc}$\mathrm{(kt)\leftarrow nil}$
-\item[]\emph{rhold}$\mathrm{(r)\leftarrow kt}$
+\item[]\emph{kinsloc}$\mathrm{(kins)\leftarrow nil}$
+\item[]\emph{rhold}$\mathrm{(r)\leftarrow kins}$
 \item[]\emph{topworktable}$\mathrm{(r)\leftarrow nil}$
 \end{itemize}
 \end{itemize}
 
-\item \textsl{put-kt-bfkt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{boxfkt}$)
+\item \textsl{put-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{lbwk}$)
 \begin{itemize}
-\item ;;The robot $\mathrm{r}$ puts down the kit tray $\mathrm{kt}$ in the box of finished kit trays $\mathrm{boxfkt}$.
+\item ;;The robot $\mathrm{r}$ puts down the kit instance $\mathrm{kins}$ in the large box with kits $\mathrm{lbwk}$.
 \item precond:
 \begin{itemize}
-\item[]\emph{ktloc}$\mathrm{(kt)=nil}$
-\item[]\emph{rhold}$\mathrm{(r)=kt}$
-\item[]\emph{isboxfktfull}$\mathrm{(boxfkt)=0}$
+\item[]\emph{ktloc}$\mathrm{(kins}$
+\item[]\emph{rhold}$\mathrm{(r)=kins}$
+\item[]\emph{islbwkfull}$\mathrm{(lbwk)=0}$
 \end{itemize}
 \item effects:
 \begin{itemize}
-\item[]\emph{ktloc}$\mathrm{(kt)\leftarrow boxfkt}$
+\item[]\emph{ktloc}$\mathrm{(kins)\leftarrow lbwk}$
 \item[]\emph{rhold}$\mathrm{(r)\leftarrow nil}$
 \end{itemize}
 \end{itemize}
 
-\item \textsl{take-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{pb}$, $\mathrm{geff}$)
+\item \textsl{take-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{pt}$, $\mathrm{eeff}$)
 \begin{itemize}
-\item ;;Robot $\mathrm{r}$ uses gripper effector $\mathrm{geff}$ to pick up part $\mathrm{p}$ from part bin $\mathrm{pb}$.
+\item ;;Robot $\mathrm{r}$ uses end effector $\mathrm{eeff}$ to pick up part $\mathrm{p}$ from part tray $\mathrm{pt}$.
 \item precond:
 \begin{itemize}
-\item[]\emph{ploc}$\mathrm{(p)=pb}$
+\item[]\emph{ploc}$\mathrm{(p)=pt}$
 \item[]\emph{rhold}$\mathrm{(r)=nil}$
-\item[]\emph{rgrip}$\mathrm{(r)=geff}$
-\item[]\emph{ispartbinempty}$\mathrm{(pb)=0}$
-\item[]\emph{geffloc}$\mathrm{(geff)=r}$
+\item[]\emph{rgrip}$\mathrm{(r)=eeff}$
+\item[]\emph{isparttrayempty}$\mathrm{(pt)=0}$
+\item[]\emph{eeffloc}$\mathrm{(eeff)=r}$
 
 \end{itemize}
 \item effects:
@@ -161,9 +166,9 @@ The kitting domain is constituted of the eight following operators:
 \end{itemize}
 \end{itemize}
 
-\item \textsl{put-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{kt}$)
+\item \textsl{put-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{kins}$)
 \begin{itemize}
-\item ;;Robot $\mathrm{r}$ puts down part $\mathrm{p}$ in kit tray $\mathrm{kt}$.
+\item ;;Robot $\mathrm{r}$ puts down part $\mathrm{p}$ in kit instance $\mathrm{kins}$.
 \item precond:
 \begin{itemize}
 \item[]\emph{ploc}$\mathrm{(p)=r}$
@@ -171,37 +176,37 @@ The kitting domain is constituted of the eight following operators:
 \end{itemize}
 \item effects:
 \begin{itemize}
-\item[]\emph{ploc}$\mathrm{(p)=kt}$
+\item[]\emph{ploc}$\mathrm{(p)=kins}$
 \item[]\emph{rhold}$\mathrm{(r)=nil}$
 \end{itemize}
 \end{itemize}
 
-\item \textsl{attach-geff} ($\mathrm{r}$, $\mathrm{geff}$, $\mathrm{geffholder}$)
+\item \textsl{attach-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$)
 \begin{itemize}
-\item ;;Robot $\mathrm{r}$ attaches gripper effector $\mathrm{geff}$ from gripper effector holder $\mathrm{geffholder}$.
+\item ;;Robot $\mathrm{r}$ attaches end effector $\mathrm{eeff}$ from end effector holder $\mathrm{eeffholder}$.
 \item precond:
 \begin{itemize}
-\item[]\emph{geffloc}$\mathrm{(geff)=geffholder}$
+\item[]\emph{eeffloc}$\mathrm{(eeff)=eeffholder}$
 \item[]\emph{rgrip}$\mathrm{(r)=nil}$
 \end{itemize}
 \item effects:
 \begin{itemize}
-\item[]\emph{geffloc}$\mathrm{(geff)=r}$
-\item[]\emph{rgrip}$\mathrm{(r)=geff}$
+\item[]\emph{eeffloc}$\mathrm{(eeff)=r}$
+\item[]\emph{rgrip}$\mathrm{(r)=eeff}$
 \end{itemize}
 \end{itemize}
 
-\item \textsl{remove-geff} ($\mathrm{r}$, $\mathrm{geff}$, $\mathrm{geffholder}$)
+\item \textsl{remove-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$)
 \begin{itemize}
-\item ;;Robot $\mathrm{r}$ removes gripper effector $\mathrm{geff}$ and put it in gripper effector holder $\mathrm{geffholder}$.
+\item ;;Robot $\mathrm{r}$ removes gripper effector $\mathrm{eeff}$ and put it in end effector holder $\mathrm{eeffholder}$.
 \item precond:
 \begin{itemize}
-\item[]\emph{geffloc}$\mathrm{(geff)=r}$
-\item[]\emph{rgrip}$\mathrm{(r)=geff}$
+\item[]\emph{eeffloc}$\mathrm{(eeff)=r}$
+\item[]\emph{rgrip}$\mathrm{(r)=eeff}$
 \end{itemize}
 \item effects:
 \begin{itemize}
-\item[]\emph{geffloc}$\mathrm{(geff)=geffholder}$
+\item[]\emph{eeffloc}$\mathrm{(eeff)=eeffholder}$
 \item[]\emph{rgrip}$\mathrm{(r)=nil}$
 \end{itemize}
 \end{itemize}
@@ -322,6 +327,6 @@ The operators on the kitting domain are defined as follows:
 \end{itemize}
 \end{comment}
 
-\subsubsection{Definition of the Initial State}
+%\subsubsection{Definition of the Initial State}
 
-\subsubsection{Definition of the Goal State}
+%\subsubsection{Definition of the Goal State}

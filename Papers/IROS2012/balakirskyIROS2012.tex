@@ -75,7 +75,7 @@ Title was: An OWL Ontology and Supporting SQL Database for Industrial Robotic Kn
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is in the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our real-time implementation of the knowledge representation along with a discussion of the trade-offs involved in its design.
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our real-time implementation of the knowledge representation along with a discussion of the trade-offs involved in its design.
 
 \end{abstract}
 
@@ -83,7 +83,7 @@ The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
 Kitting is the process in which several different, but related items are placed into a container and supplied together as a single unit.
-In industrial assembly of manufactured products, kitting is often performed prior to final assembly. Manufactures utilize kitting
+In industrial assembly of manufactured products, kitting is often performed prior to final assembly. Manufacturers utilize kitting
 due to its ability to provide cost savings \cite{Carlsson_2008} including saving manufacturing or assembly space \cite{Medbo2003}, reducing assembly workers walking and searching times \cite{Schwind1992}, and increasing line flexibility \cite{Bozer1992} and balance \cite{Jiao2000}.
 
 Several different techniques are used to create kits. A kitting operation where a kit box is stationary until filled at a single
@@ -116,7 +116,7 @@ sequence for assembly. Component orientation may be constrained by the kit desig
 %The final kit does not normally contain small fasteners which are usually stored in the assembly area.
 Empty kits are returned to the kit building area for reuse.
 
-Although the knowledge requirements described in the previous paragraph have been identified for the kitting domain, they are clearly applicable to many types of industrial robot applications (and likely to robot applications in other fields). As such, we expect that these knowledge requirements will serve as the basis for the industrial robot ontology being developed in the IEEE  RAS Ontologies for Robotics and Automation Working Group \cite{Madhavan2011} (hence forth referred to as the IEEE WG). Throughout the process of developing the kitting ontology, the group will constantly look at the applicability of the requirements outside of kitting and move the pertinent knowledge ``up'' the ontology (whether in the portion that models the kitting sub-domain, the industrials robot domain, or the upper ontology), as appropriate.
+Although the knowledge requirements described in the previous paragraph have been identified for the kitting domain, they are clearly applicable to many types of industrial robot applications (and likely to robot applications in other fields). As such, we expect that these knowledge requirements will serve as the basis for the industrial robot ontology being developed in the IEEE  RAS Ontologies for Robotics and Automation Working Group \cite{Madhavan2011} (henceforth referred to as the IEEE WG). Throughout the process of developing the kitting ontology, the group will constantly look at the applicability of the requirements outside of kitting and move the pertinent knowledge ``up'' the ontology (whether in the portion that models the kitting sub-domain, the industrial robot domain, or the upper ontology), as appropriate.
 
 In keeping with our philosophy of producing standards in conjunction with the IEEE WG, we wish the models being developed by this effort to be as widely applicable as possible. To support this desire,we have
 created a layered model abstraction where users may adopt as many or few of the layers of the abstraction as make sense for their
@@ -136,14 +136,14 @@ conclusions and future work may be found in Section \ref{sect:Conclusions}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[htb]
-\includegraphics[width=7.6cm]{images/ProcessDataFlowV2.jpg}
+\includegraphics[width=8cm]{images/ProcessDataFlowV2.jpg}
 \caption{Kitting data flow abstraction.}
 \label{fig:ProcessDataFlow}
 \end{figure}
 
 \section{Architecture Description}
 \label{sect:Architecture}
-The main focus of this work is in the development of knowledge models that allow a kitting workstation to construct kits
+The main focus of this work is on the development of knowledge models that allow a kitting workstation to construct kits
 in an agile manufacturing environment. However, in order to validate these knowledge models, we felt that it was
 important to be able to utilize the models to construct kit building plans, and then to execute these plans in dynamic
 virtual and real environments. Due to the advent of open source robotic operating systems such as ROS \cite{ROS} and simulation
@@ -160,7 +160,7 @@ source tools that will automatically generate the remaining layers and provide a
 \subsection{OWL Conformance}
 ``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
 
-Knowledge models may take many forms ranging from informal natural language, to XML schema, to ontologies.
+Knowledge models may take many forms ranging from informal natural language, to XML schemas, to ontologies.
 Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  knowledge representation be
 encoded in an ontology at the lowest layer of our abstraction. The knowledge contained in this layer is sufficient for a planning system to understand the domain and construct
 a plan for creating the desired kit from the given resources.
@@ -177,8 +177,8 @@ Therefore, the second layer of the data abstraction known as the PDDL Conformanc
 \subsection{PDDL Conformance}
 By placing our knowledge in a domain independent representation, we enable the use of an entire family of open source planning systems.
 In particular, we have chosen to transform the information stored in the lower layer of our abstraction into the Planning Domain Definition Language (PDDL) \cite{PDDL}.
-This provides our second layer of standardized output that other system may connect to. As shown in Figure \ref{fig:ProcessDataFlow}, this information consists of two files. The first
-is a PDDL domain file that specifies all of the planning axioms and instances and is a summary of the process specification and ontology files. The second is a PDDL problem file that
+This provides our second layer of standardized output that other systems may connect to. As shown in Figure \ref{fig:ProcessDataFlow}, this information consists of two files. The first
+is a PDDL domain file that specifies all of the planning axioms and object classes and is a summary of the process specification and ontology files. The second is a PDDL problem file that
 specifies the system's initial state and goal state.
 
 \subsection{Robot Plan Conformance}
@@ -192,7 +192,7 @@ be translated into appropriate commands that will be sent into various ROS proce
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{OWL Model of Manufacturing Process}
 \label{sect:OWL_Layer}
-For the development of the  knowledge representation, the industrial robots sub-group has decided to use OWL (Web Ontology Language) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and RDF/XML-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected at the representation language that will be used in the overall IEEE WG efforts.
+For the development of the  knowledge representation, the industrial robots sub-group has decided to use OWL \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and RDF/XML-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
 
 In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
 for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to describing robot actions. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
@@ -203,14 +203,14 @@ As more detailed scenarios are determined and a richer set of concepts are uncov
 
 Some of the concepts that are represented in the ontology include:
 \begin{itemize}
-\item	Gripper Effector - A GripperEffector is an EndEffector. A GripperEffector holds an object by gripping it with fingers or claws.
-\item	KitTrays - A KitTray is designed to hold Parts with various SKU ids in known positions.
-\item	KittingWorkStation - A KittingWorkstation contains a work table, a robot, an EndEffectorChangingStation (where various end-of-arm tooling is stored and attached/removed from the robot), and other fixed obstacles such as a computer. A KittingWorkstation has an angle unit, a length unit and a weight unit. All angle, length, and weight values related to the workstation must use those units. A KittingWorkstation has a list of Stock Keeping Units (SKUs) it knows about. In addition, containers of various sorts enter and leave the workstation.  The robot builds kits of parts by executing kitting plans as directed by a kitting plan execution system.
-\item	Part - A Part has a reference to the identifier of a SKU and a Serial Number.
-\item	PartsBin - A PartsBin holds a number of Parts with the same SKU id in unknown random positions, or fixtured known positions.
-\item	Robot - A Robot has a description, a robot id, a work volume, an end effector, and a maximum load weight.
-\item	VacuumEffector - A VacuumEffector holds an object by putting a cup against the object and applying a vacuum. It contains the maximum lifting force and the vacuum cup configuration.
-\item	 WorkTable - The top of a WorkTable is a flat, rectangular, horizontal surface.
+\item	{\it GripperEffector} - A {\it GripperEffector} is an {\it EndEffector}. A {\it GripperEffector} holds an object by gripping it with fingers or claws.
+\item	{\it KitTrays} - A {\it KitTray} is designed to hold {\it Parts} with various {\it StockKeepingUnits} ids ({\it SKU}) in known positions.
+\item	{\it KittingWorkStation} - A {\it KittingWorkstation} contains a {\it WorkTable}, a {\it Robot}, an {\it EndEffectorChangingStation} (where various end-of-arm tooling is stored and attached/removed from the robot), and other fixed obstacles such as a computer. A {\it KittingWorkstation} has properties that include an {\it angle unit}, a {\it length unit}, and a {\it weight unit}. All angle, length, and weight values related to the workstation must use those units. A {\it KittingWorkstation} has a list of {\it SKUs} it knows about. In addition, containers of various sorts enter and leave the workstation.  The robot builds kits of parts by executing kitting plans as directed by a kitting plan execution system.
+\item	{\it Part} - A {\it Part} has a reference to the identifier of a {\it SKU} and a {\it SerialNumber}.
+\item	{\it PartsBin} - A {\it PartsBin} holds a number of {\it Parts} with the same {\it SKU} in unknown random positions, or fixtured known positions.
+\item	{\it Robot} - A {\it Robot} has properties of a {\it description}, a {\it robot id}, a {\it work volume}, an {\it end effector}, and a {\it maximum load weight}.
+\item	{\it VacuumEffector} - A {\it VacuumEffector} holds an object by putting a cup against the object and applying a vacuum. It contains properties of {\it maximum lifting force} and the {\it vacuum cup configuration}.
+\item	 {\it WorkTable} - The top of a {\it WorkTable} is a flat, rectangular, horizontal surface.
 \end{itemize}
 
 
@@ -231,7 +231,7 @@ Stack known as arm\_navigation.
 \section{Example of Operation}
 \label{sect:Example}
 \begin{figure}[htb]
-\includegraphics[width=7.6cm]{images/OWL-S.jpg}
+\includegraphics[width=8cm]{images/OWL-S.jpg}
 \caption{Selected classes and properties of the profile \cite{OWL-S}.}
 \label{fig:OWL-S}
 \end{figure}

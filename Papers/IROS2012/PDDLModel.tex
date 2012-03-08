@@ -28,31 +28,31 @@ In the SVR, constant symbols are partitioned into disjoint classes corresponding
 \subsection{State Variable Symbols for the Kitting Domain}
 {\it the next sentence is confusing...}
 
-State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. A state variable symbol is an expression of the form ...The following state variable symbols are used in the kitting domain:
+State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
 
-{\it not all of your item names are the same font...}
+\begin{small}
 \begin{itemize}
-\item geffloc: \emph{gripper effectors}$\times S\rightarrow$ \emph{robots} $\cup$ \emph{gripper effector holders}: designates the location of a gripper effector in the workstation. The gripper can be in a gripper effector holder or attached to the robot.
+\item \emph{geffloc}: $\mathrm{gripper\ effectors}\times S\rightarrow\mathrm{robots} \cup \mathrm{gripper\ effector\ holders}$: designates the location of a gripper effector in the workstation. The gripper can be in a gripper effector holder or attached to the robot.
 
+\item \emph{rgrip}: $\mathrm{robots}\times S\rightarrow\mathrm{gripper\ effectors} \cup \lbrace nil\rbrace$: designates the gripper effector that is attached to a robot or $nil$ if no gripper effector is attached.
 
-\item rgrip: \emph{robots}$\times S\rightarrow$\emph{gripper effectors} $\cup$ $\lbrace nil\rbrace$: designates the gripper effector that is attached to a robot or $nil$ if no gripper effector is attached.
+\item \emph{topworktable}: $\mathrm{work\ table}\times S\rightarrow\mathrm{kit\ trays} \cup \lbrace nil\rbrace$: designates the object placed on the work table: a kit tray or nothing ($nil$).
 
-\item topworktable: \emph{work table} $\times S \rightarrow$ \emph{kit trays} $\cup$ $\lbrace nil\rbrace$: designates the object placed on the work table: a kit tray or nothing ($nil$).
+\item \emph{ktloc}: $\mathrm{kit\ trays}\times S\rightarrow\mathrm{boxes\ of\ empty\ kit\ trays} \cup \mathrm{boxes\ of\ finished\ kit\ trays} \cup \mathrm{work\ table} \cup \mathrm{robots}$: designates the different possible locations of a kit tray in the workstation. The kit tray can be in the box of empty kit trays, in the box of finished kit trays, on the work table, or in the robot's gripper effector.
 
-\item \texttt{ktloc}: \emph{kit trays} $\times S \rightarrow$ \emph{boxes of empty kit trays} $\cup$ \emph{boxes of finished kit trays} $\cup$ \emph{work table} $\cup$ \emph{robots}: designates the different possible locations of a kit tray in the workstation. The kit tray can be in the box of empty kit trays, in the box of finished kit trays, on the work table, or in the robot's gripper effector.
+\item \emph{ploc}: $\mathrm{parts}\times S\rightarrow\mathrm{part\ bins} \cup \mathrm{kit\ trays} \cup \mathrm{robots}$: designates the different possible locations of a part in the workstation. The part can be in a part bin, in a kit tray, or in the robot's gripper effector.
 
-\item \texttt{ploc}: \emph{parts} $\times S \rightarrow$ \emph{part bins} $\cup$ \emph{kit trays} $\cup$ \emph{robots}: designates the different possible locations of a part in the workstation. The part can be in a part bin, in a kit tray, or in the robot's gripper effector.
+\item \emph{rhold}: $\mathrm{robots}\times S\rightarrow \mathrm{kit\ trays} \cup \mathrm{parts} \cup \lbrace nil\rbrace$: designates the object being held by the robot. It can be a kit tray, a part, or nothing ($nil$). It is assumed that the robot is already equipped with the appropriate gripper effector.
 
-\item \texttt{rhold}: \textit{robots} $\times S \rightarrow$ \textit{kit trays} $\cup$ \textit{parts} $\cup$ $\lbrace nil\rbrace$: designates the object being held by the robot. It can be a kit tray, a part, or nothing ($nil$). It is assumed that the robot is already equipped with the appropriate gripper effector.
+\item \emph{isboxfktfull}: $\mathrm{boxes\ of\ finished\ kit\ trays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a box of finished kit trays is full (1) or not (0).
 
-\item \texttt{isboxfktfull}: \textit{boxes of finished kit trays} $\times$ $S \rightarrow$ $\lbrace 0\rbrace$ $\cup$ $\lbrace 1\rbrace$: designates if a box of finished kit trays is full (1) or not (0).
+\item \emph{isboxektempty}: $\mathrm{boxes\ of\ empty\ kit\ trays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a box of empty kit trays is empty (1) or not (0).
 
-\item \texttt{isboxektempty}: \textit{boxes of empty kit trays} $\times$ $S \rightarrow$ $\lbrace 0\rbrace$ $\cup$ $\lbrace 1\rbrace$: designates if a box of empty kit trays is empty (1) or not (0).
+\item \emph{ispartbinempty}: $\mathrm{part\ bins}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a part bin is empty (1) or not (0).
 
-\item \texttt{ispartbinempty}: \textit{part bins} $\times$ $S \rightarrow$ $\lbrace 0\rbrace$ $\cup$ $\lbrace 1\rbrace$: designates if a part bin is empty (1) or not (0).
-
-\item \texttt{gefftype}: \textit{gripper effectors} $\times$ $S \rightarrow$ \textit{kit trays} $\cup$ \textit{parts}: designates the type of object the gripper effector can hold. For the kitting domain used in this paper, a gripper effector can hold two types of object: kit trays and parts.
+\item \emph{gefftype}: $ \mathrm{gripper\ effectors}\times S \rightarrow \mathrm{kit\ trays} \cup \mathrm{parts}$: designates the type of object the gripper effector can hold. For the kitting domain used in this paper, a gripper effector can hold two types of object: kit trays and parts.
 \end{itemize}
+\end{small}
 
 %\subsection{Planning Problem for Kitting}
 

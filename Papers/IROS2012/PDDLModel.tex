@@ -44,7 +44,7 @@ Object variable symbols are typed variables which range over a class or the unio
 State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
 
 \begin{itemize}
-\item \emph{geffloc}: $\mathrm{EndEffectors}\times S\rightarrow\mathrm{Robots}$ $\cup$ $\mathrm{EndEffectorHolders}$: designates the location of an $\mathrm{EndEffector}$ in the workstation. The $\mathrm{EndEffector}$ can be placed in a $\mathrm{EndEffectorHolder}$ or attached to the $\mathrm{Robots}$.
+\item \emph{eeffloc}: $\mathrm{EndEffectors}\times S\rightarrow\mathrm{Robots}$ $\cup$ $\mathrm{EndEffectorHolders}$: designates the location of an $\mathrm{EndEffector}$ in the workstation. The $\mathrm{EndEffector}$ can be placed in a $\mathrm{EndEffectorHolder}$ or attached to the $\mathrm{Robots}$.
 
 \item \emph{rgrip}: $\mathrm{Robots}\times S\rightarrow\mathrm{EndEffectors}$ $\cup$ $\lbrace nil\rbrace$: designates the $\mathrm{EndEffector}$ that is attached to a $\mathrm{Robots}$ or $nil$ if no $\mathrm{EndEffector}$ is attached.
 
@@ -88,19 +88,19 @@ The kitting domain is composed of eight operators. Only the name of the operator
 
 \begin{enumerate}
 \item \textsl{take-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{lbwekt}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ is equipped with the $\mathrm{EndEffector}$ $\mathrm{eeff}$ to pick up the $\mathrm{KitTray}$ $\mathrm{kt}$ from the $\mathrm{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt}$.
-    
+
 \item \textsl{put-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitTray}$ $\mathrm{kt}$ on the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
-    
+
 \item \textsl{take-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{wtable}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ picks up the $\mathrm{KitInstance}$ $\mathrm{kins}$ from the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
-    
+
 \item \textsl{put-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{lbwk}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitInstance}$ $\mathrm{kins}$ in the $\mathrm{LargeBoxWithKits}$ $\mathrm{lbwk}$.
-    
+
 \item \textsl{take-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{pt}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ uses the $\mathrm{EndEffector}$ $\mathrm{eeff}$ to pick up the $\mathrm{Part}$ $\mathrm{p}$ from the $\mathrm{PartTray}$ $\mathrm{pt}$.
-    
+
 \item \textsl{put-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{kins}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{Part}$ $\mathrm{p}$ in the $\mathrm{KitInstance}$ $\mathrm{kins}$.
-    
+
 \item \textsl{attach-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$): The $\mathrm{Robot}$ $\mathrm{r}$ attaches the $\mathrm{EndEffector}$ $\mathrm{eeff}$ from the $\mathrm{EndEffectorHolder}$ $\mathrm{eeffholder}$.
-    
+
 \item \textsl{remove-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$): The $\mathrm{Robot}$ $\mathrm{r}$ removes the $\mathrm{EndEffector}$ $\mathrm{eeff}$ and puts it in the $\mathrm{EndEffectorHolder}$ $\mathrm{eeffholder}$.
 \end{enumerate}
 

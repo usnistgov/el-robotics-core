@@ -1,4 +1,4 @@
-PDDL is a recent attempt to standardize planning domain and problem description languages. A state-variable representation (SVR)~\cite{NAU.2004} is used to define the planning domain and problem that will be translated in PDDL format. In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables.
+PDDL is an attempt to standardize planning domain and problem description languages. A state-variable representation (SVR)~\cite{NAU.2004} is used to define the planning domain and problem that will be translated into PDDL format. In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables.
 %\subsection{Planning Domain for Kitting}
 
 \subsection{Constant Symbols for the Kitting Domain}
@@ -28,7 +28,11 @@ fingers or claws.
 \end{itemize}
 \end {small}
 \subsection{State Variable Symbols for the Kitting Domain}
-State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces possibilities for inconsistent states and generates a smaller state space. A state variable symbol is an expression of the form ...The following state variable symbols are used in the kitting domain:
+{\it the next sentence is confusing...}
+
+State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. A state variable symbol is an expression of the form ...The following state variable symbols are used in the kitting domain:
+
+{\it not all of your item names are the same font...}
 \begin{itemize}
 \item geffloc: \emph{gripper effectors}$\times S\rightarrow$ \emph{robots} $\cup$ \emph{gripper effector holders}: designates the location of a gripper effector in the workstation. The gripper can be in a gripper effector holder or attached to the robot.
 

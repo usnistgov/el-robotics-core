@@ -169,8 +169,8 @@ required by these systems as the knowledge flows from domain and process specifi
 As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into four
 distinct layers of {\it Domain Specific Information}, {\it Ontology}, {\it Planning Language}, and {\it Robot Language} that correspond to these
 knowledge requirements. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
-their particular application. For our simulated kitting workstation, we intend to fully design the Domain Specific Information and the Ontology and
-then utilize open
+their particular application. For our simulated kitting workstation, we have fully designed the Domain Specific Information and the Ontology and intend to
+ utilize open
 source tools that will automatically generate the remaining layers and provide a workstation simulation.
 
 \subsection{Domain Specific Information}
@@ -185,7 +185,7 @@ For the kitting domain, there is a finite set of constant symbols that must be r
 In the SVR, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
 %\begin{small}
 \begin{itemize}
-\item A set of $Robots$ \{$ r_1$,$ r_2$,$\dots$\}: A $Robot$ in the kitting workstation is a robotic arm that can move objects in order to build $KitInstances$.
+\item A set of {\it Robots \{r$_1$},{\it r$_2$},$\dots$\}: A {\it Robot} in the kitting workstation is a robotic arm that can move objects in order to build \it{KitInstances}.
 
 \item A set of $KitTrays$ \{$ kt_1$, $kt_2$,$\dots$\}: A $KitTray$ is a tray with which a $KitInstance$ may be built. A $KitTray$ can hold parts in known positions.
     
@@ -195,7 +195,7 @@ In the SVR, constant symbols are partitioned into disjoint classes corresponding
 
 \item A set of $Parts$ \{$p_1$, $p_2$,$\dots$\}: $Parts$ are delivered to the workstation in $PartTrays$ and are placed in $KitTrays$ to make $KitInstances$.
     
-\item A set of $EndEffectors$ \{$eeff_1$, $eeff_2$,$\dots$\}: $EndEffectors$ are used in a kitting workstation to manipulate $Parts$, $PartTrays$, $KitTrays$, and $KitInstances$.
+\item A set of {\it EndEffectors} \{$eeff_1$, $eeff_2$,$\dots$\}: $EndEffectors$ are used in a kitting workstation to manipulate $Parts$, $PartTrays$, $KitTrays$, and $KitInstances$.
 
 \item A set of $EndEffectorHolders$  \{$eeffholder_1$, $eeffholder_2$,$\dots$\}: An $EndEffectorHolder$ holds one type of $EndEffector$.
 

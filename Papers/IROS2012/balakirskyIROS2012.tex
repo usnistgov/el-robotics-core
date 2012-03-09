@@ -89,7 +89,7 @@ An  Industrial Robotic Knowledge Representation for Kit Building Applications
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our real-time implementation of the knowledge representation along with a discussion of the trade-offs involved in its design.
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our implementation of the knowledge representation.
 
 \end{abstract}
 
@@ -162,7 +162,7 @@ be designed to represent the required knowledge base in several different abstra
 required by these systems as the knowledge flows from domain and process specification, to plan generation, to plan execution.
 As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into four
 distinct layers of {\it Domain Specific Information}, {\it Ontology}, {\it Planning Language}, and {\it Robot Language} that correspond to these
-knowledge requirements. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
+knowledge requirements. For the purposes of this paper, we will discuss the Domain Specific Information through Planning Language layers. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
 their particular application. For our simulated kitting workstation, we intend to fully design the Domain Specific Information and the Ontology and
 then utilize open
 source tools that will automatically generate the remaining layers and provide a workstation simulation.
@@ -318,15 +318,15 @@ Predicates specify relationships between instances. For example, an instance of 
 
 The second file of the PDDL file-set is a  problem file. The problem file specifies information about the specific instance of the given problem. This file contains the initial conditions and definition of the world (in the init section) and the final state that the world must be brought to (in the goal section). A specific example of the ontology to planning language conversion is provided in Section \ref{sect:Example}.
 
-\subsection{Robot Plan Conformance}
-\label{subsect:RobotPlan}
-Any one of a number of open source planning systems may now be run on the Planning Language layer's knowledge representation. The output of these planners will be
-a PDDL action sequence file that is based on our original vocabulary. This file
-contains a time sequenced series of actions that must be carried out in order to create a transition from our initial system state to the goal system state. It should be noted that
-the sequence of knowledge transformations that takes place from the ontology through the planning language, to the action sequence is independent of the kitting domain or any specific hardware configurations and is able to solve problems for many types of industrial robot applications.
-The top layer of our abstraction ties the specific commands to the kitting workstation and is dependent on the workstation's resident hardware.  In order to maintain as
-much hardware independence as possible, we have chosen to use the ROS environment for communicating with our simulation. Therefore, the PDDL commands will
-be translated into appropriate commands that will be sent into various ROS processes. These ROS stacks will then control all aspects of our USARSim virtual workstation.
+%\subsection{Robot Plan Conformance}
+%\label{subsect:RobotPlan}
+%Any one of a number of open source planning systems may now be run on the Planning Language layer's knowledge representation. The output of these planners will be
+%a PDDL action sequence file that is based on our original vocabulary. This file
+%contains a time sequenced series of actions that must be carried out in order to create a transition from our initial system state to the goal system state. It should be noted that
+%the sequence of knowledge transformations that takes place from the ontology through the planning language, to the action sequence is independent of the kitting domain or any specific %hardware configurations and is able to solve problems for many types of industrial robot applications.
+%The top layer of our abstraction ties the specific commands to the kitting workstation and is dependent on the workstation's resident hardware.  In order to maintain as
+%much hardware independence as possible, we have chosen to use the ROS environment for communicating with our simulation. Therefore, the PDDL commands will
+%be translated into appropriate commands that will be sent into various ROS processes. These ROS stacks will then control all aspects of our USARSim virtual workstation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Example of Operation}

@@ -1,16 +1,61 @@
-The purpose of this section is to illustrate the various knowledge representations, depicted in Figure~\ref{fig:ProcessDataFlow}, and the flow from one knowledge representation to the next through a specific example. The description of the flow at each level of the architecture is given in the next subsections.
-The example employed in this section uses the operator \textsl{take-kt}, previously mentioned in section~\ref{subsect:Planning_Operators}. \textbf{Description in English coming up...}
+The purpose of this section is to illustrate the various knowledge representations, depicted in Figure~\ref{fig:ProcessDataFlow}, and the flow from one knowledge representation to the next through a specific example.
 
-\subsection{State Variable Representation}
+\subsubsection{State Variable Representation}
+
+In the example, the robot has to build a kit that contains two \textsf{Parts} of type A, one \textsf{Part} of type B and one \textsf{Part} of type C. The kitting process is completed once the kit is placed in the \textsf{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that builds the PDDL domain file while section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file. 
+
+\paragraph{Constant Variables}
+The constant variables available for the example are $\mathrm{r_1}$, $\mathrm{kt_1}$, $\mathrm{lbwekt_1}$, $\mathrm{lbwk_1}$, a symbol $\mathrm{wtable}$, $\mathrm{pt_A}$, $\mathrm{pt_B}$, $\mathrm{pt_C}$, $\mathrm{p_{A-1}}$, $\mathrm{p_{A-2}}$, $\mathrm{p_{B-1}}$, $\mathrm{p_{C-1}}$, $\mathrm{eeff_1}$, $\mathrm{eeff_2}$, $\mathrm{chstation}$, $\mathrm{eeffholder_1}$, and $\mathrm{eeffholder_2}$.
 
 
-\subsection{OWL-S Representation}
+\paragraph{Rigid Relation}
+In the example presented, $\mathrm{eeff_1}$ handles \textsf{KitTrays} whereas $\mathrm{eeff_2}$ handles \textsf{Parts}. These statements can be represented by the rigid state variable symbol \emph{eEffType}:
+\begin{itemize}
+\item \emph{eEffType}($\mathrm{eeff_1}$)=$\mathrm{kt_1}$
+\item \emph{eEffType}($\mathrm{eeff_2}$)=$\lbrace \mathrm{p_{A-1}}, \mathrm{p_{A-2}}, \mathrm{p_{B-1}}, \mathrm{p_{C-1}}\rbrace$
+\end{itemize}
+
+\paragraph{Initial State}
+In the initial state $s_0$, the $\mathsf{Robot}$ $\mathrm{r_1}$ is not equipped with any $\mathsf{EndEffector}$ and is not holding anything. The $\mathsf{EndEffectors}$ $\mathrm{eeff_1}$ and $\mathrm{eeff_2}$ are placed in the $\mathsf{EndEffectorHolders}$ $\mathrm{eeffholder_1}$ and $\mathrm{eeffholder_2}$, respectively. The $\mathsf{LargeBoxWithKits}$ $\mathrm{lbwk_1}$ is not full. The $\mathsf{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt_1}$ is not empty. The $\mathsf{PartTrays}$ $\mathrm{pt_A}$, $\mathrm{pt_B}$, and $\mathrm{pt_C}$ are not empty. The $\mathsf{WorkTable}$ $\mathrm{wtable}$ is free of any object.
+
+The initial state $s_0$ can be formulated with the following set of state variable symbols:
+$s_0$=\{\emph{rHold}($\mathrm{r_1}$)=$nil$, \emph{eEffLoc}($\mathrm{eeff_1}$)=$\mathrm{eeffholder_1}$, \emph{eEffLoc}($\mathrm{eeff_2}$)=$\mathrm{eeffholder_2}$,\emph{isLBWKFull}($\mathrm{lbwk_1}$)=0, \emph{isLBWEKTEmpty}($\mathrm{lbwekt_1}$)=0, \emph{isPartTrayEmpty}($\mathrm{pt_A}$)=0, \emph{isPartTrayEmpty}($\mathrm{pt_B}$)=0, \emph{isPartTrayEmpty}($\mathrm{pt_C}$)=0, \emph{topWorkTable}($\mathrm{wtable}$)=$nil$\}.
+
+\paragraph{Goal State}
+In the goal state $s_g$, the $\mathsf{KitInstance}$ $\mathrm{kins_1}$ contains $\mathsf{Parts}$ $\mathrm{p_{A-1}}$, $\mathrm{p_{A-2}}$, $\mathrm{p_{B-1}}$, and $\mathrm{p_{C-1}}$. The $\mathsf{KitInstance}$ $\mathrm{kins_1}$ is placed in the $\mathsf{LargeBoxWithKits}$ $\mathrm{lbwk_1}$.
+
+can be formulated with the following set of state variable symbols:
+$s_g$ =\{\emph{pLoc}($\mathrm{p_{A-1}}$)=$\mathrm{kins_1}$, \emph{pLoc}($\mathrm{p_{A-2}}$)=$\mathrm{kins_1}$, , \emph{pLoc}($\mathrm{p_{B-1}}$)=$\mathrm{kins_1}$, \emph{pLoc}($\mathrm{p_{C-1}}$)=$\mathrm{kins_1}$, \emph{kInsLoc}($\mathrm{kins_1}$)=$\mathrm{lbwk_1}$\}.
+
+\paragraph{Action}
+Eight different operators were introduced in section \ref{subsect:Planning_Operators}. However, for the sake of this example, the operator \textsl{take-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{lbwekt}$, $\mathrm{eeff}$) will be used. The preconditions
+
+Substituting the object variable symbols described in the definition of the operator \textsl{take-kt} with the constant variables defined in this example, the following action is produced:
+
+\begin{itemize}
+\item \textsl{take-kt} ($\mathrm{r_1}$, $\mathrm{kt_1}$, $\mathrm{lbwekt_1}$, $\mathrm{eeff_1}$)
+\begin{itemize}
+\item The $\mathrm{Robot}$ $\mathrm{r_1}$ equipped with the $\mathrm{EndEffector}$ $\mathrm{eeff_1}$ picks up the $\mathrm{KitTray}$ $\mathrm{kt_1}$ from the $\mathrm{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt_1}$.
+\item precond: \emph{kTLoc}$\mathrm{(kt_1)=lbwekt_1}$, \emph{rHold}$\mathrm{(r_1)=nil}$, \emph{rGrip}$\mathrm{(r_1)=eeff_1}$, \emph{isLBWEKTEmpty}$\mathrm{(kt_1)=0}$, \emph{eEffLoc}$\mathrm{(eeff_1)=r_1}$
+\item effects: \emph{kTLoc}$\mathrm{(kt_1)\leftarrow r_1}$, \emph{rHold}$\mathrm{(r_1)\leftarrow kt_1}$
+\end{itemize}
+\end{itemize}
+
+
+
+
+\subsection{Process for the PDDL Domain File}
+\label{subsect:PDDL_Domain_File}
+
+\subsubsection{OWL-S Representation}
 Once the action is specified in the SVR, we can use that information to create an OWL-S process. We are modeling the action as a process and including information about its data inputs and outputs, the preconditions that have to be true for it to be performed, and the result that will be true after the process is executed. In our example, the process is an atomic process because it only involves a single interaction and consists of only one step. If it were a more complex process that involved multiple sub-actions, it would be modeled by an OWL-S composite process.
 
 In the SVR, the preconditions clearly map to the OWL-S precondition. These can be represented in languages such as KIF \cite{KIF} (Knowledge Interchange Format), SPARQL \cite{SPARQL} (SPARQL Protocol and RDF Query Language), or SWRL \cite{SWRL-W3C} (Semantic Web Rule Language). The rules point to classes and instances in the ontology that model the concepts of kit tray ($\mathrm{kt}$), a set of large boxes with empty kit trays ($\mathrm{lbwekt}$), a robot ($\mathrm{r}$), and a robot gripper effector ($\mathrm{eeff}$). The SVR effects map to the OWL-S results and are also represented in one of the rules languages above. In the case of the \textsl{take-kt} action, the result would specify that the location of the kit tray is no longer in a fixed location and is now in the robot gripper effector.
 
-Though not explicitly represented in the SVR, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the SVR. Specifically, it needs to know which robot is performing the action ($\mathrm{r}$), which kit tray needs to be picked up ($\mathrm{kt}$), which gripper effector is on the robot ($\mathrm{eeff}$), and from which box the robot needs to pick up the kit tray ($\mathrm{lbwekt}$). The output of this action would be a Boolean stating whether the action was completed successfully or not. 
+Though not explicitly represented in the SVR, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the SVR. Specifically, it needs to know which robot is performing the action ($\mathrm{r}$), which kit tray needs to be picked up ($\mathrm{kt}$), which gripper effector is on the robot ($\mathrm{eeff}$), and from which box the robot needs to pick up the kit tray ($\mathrm{lbwekt}$). The output of this action would be a Boolean stating whether the action was completed successfully or not.
 
-\subsection{PDDL Representation}
+\subsection{Process for the PDDL Problem File}
+\label{subsect:PDDL_Problem_File}
 
-\subsection{ROS Representation}
+
+\subsection{ROS Representation} 

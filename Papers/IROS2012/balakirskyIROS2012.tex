@@ -178,9 +178,15 @@ The foundation for the knowledge representation is domain specific information t
 information on items ranging from what actions and attributes are relevant, to what are the necessary conditions for an action to occur and what are the
 likely results of that action. We have chosen to encode this basic information in a formalism know as a state-variable representation (SVR) \cite{NAU.2004}.
 This information will then flow up the abstraction and be transformed into the ontology, planning language, and robot language.
-In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables.
+In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables. A SVR relies on the following elements which are defined in the rest of this section:
+\begin{itemize}
+  \item Constant symbols
+  \item Object variables
+  \item State variable symbols
+  \item Planning operators
+\end{itemize}
 
-\subsection{Constant Symbols for the Kitting Domain}
+\subsubsection{Constant Symbols for the Kitting Domain}
 For the kitting domain, there is a finite set of constant symbols that must be represented in the system.
 In the SVR, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
 %\begin{small}
@@ -208,7 +214,11 @@ In the SVR, constant symbols are partitioned into disjoint classes corresponding
 \item A symbol $WorkTable$ -- $wtable$: A $WorkTable$ is an area in the kitting workstation where $KitTrays$ are placed to build $KitInstances$.
 \end{itemize}
 %\end {small}
-\subsection{State Variable Symbols for the Kitting Domain}
+
+\subsubsection{Object Variable Symbols for the Kitting Domain}
+Object variable symbols are typed variables which range over a class or the union of classes of constants. Examples of object variable symbols are $\mathrm{r}$ $\in$ $\mathrm{Robots}$, $\mathrm{kt}$ $\in$ $\mathrm{KitTrays}$,\ldots.
+
+\subsubsection{State Variable Symbols for the Kitting Domain}
 {\it the next sentence is confusing...}
 
 State variable symbols are functions from the set of states and zero or more sets of constant variables into a set of constant variables~\cite{NAU.2004}. Using state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
@@ -239,7 +249,7 @@ State variable symbols are functions from the set of states and zero or more set
 \end{itemize}
 %\end{small}
 
-\subsection{Planning Operators and Actions for the Kitting Domain}
+\subsubsection{Planning Operators and Actions for the Kitting Domain}
 
 A planning operator~\cite{NAU.2004} is a triple \textit{o=(name(o), precond(o), effects(o))}
 where:

@@ -137,16 +137,7 @@ created a layered model abstraction where users may adopt as many or few of the 
 specific application.  The architecture shown in Figure \ref{fig:ProcessDataFlow}, though developed for the implementation of the kitting ontology, can be equally applicable to the implementation of any type of formal manufacturing knowledge representation. Said in a different way, the implementor can plug in a knowledge representation for a different domain and the architecture would still be valid. In a similar manner, different planning language abstractions could be utilized in the middle-layer of the
 abstraction and different planning/execution systems could be utilized in the top-layer of the abstraction.
 
-Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. The lowest layer of the abstraction
-is based on
-the Web Ontology Language (OWL) \cite{OWL} and is discussed further in Section \ref{sect:OWL_Layer}. The next layer of the
-abstraction is
-modeled in the Planning Domain Definition Language (PDDL) \cite{PDDL}. More information on this layer may be found in Section
-\ref{sect:PDDL_Layer}. In order to validate our models, we intend to utilize simulation in conjunction with  domain independent planning
-systems and the Robot
-Operating System (ROS) \footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply
-recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}
- control environment \cite{ROS}. More information on this may be found in Section \ref{sect:ROS}. An example of the
+Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. An example of the
 various knowledge representations and the flow from one to the next is presented in Section \ref{sect:Example}. Finally,
 conclusions and future work may be found in Section \ref{sect:Conclusions}.
 
@@ -162,7 +153,10 @@ conclusions and future work may be found in Section \ref{sect:Conclusions}.
 The main focus of this work is on the development of knowledge models that allow a kitting workstation to construct kits
 in an agile manufacturing environment. However, in order to validate these knowledge models, we felt that it was
 important to be able to utilize the models to construct kit building plans, and then to execute these plans in dynamic
-virtual and real environments. Due to the advent of open source robotic operating systems such as ROS \cite{ROS} and simulation
+virtual and real environments. Due to the advent of open source robotic operating systems such as ROS \cite{ROS}
+ \footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply
+recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}
+ and simulation
 packages such as USARSim \cite{Balakirsky2007} we do not need to design these systems ourselves. However, our architecture must
 be designed to represent the required knowledge base in several different abstractions that are likely to be
 required by these systems as the knowledge flows from domain and process specification, to plan generation, to plan execution.
@@ -174,6 +168,7 @@ then utilize open
 source tools that will automatically generate the remaining layers and provide a workstation simulation.
 
 \subsection{Domain Specific Information}
+\label{subsect:DomainSpecific}
 The foundation for the knowledge representation is domain specific information that is produced by an expert in the particular field of study. This includes
 information on items ranging from what actions and attributes are relevant, to what are the necessary conditions for an action to occur and what are the
 likely results of that action. We have chosen to encode this basic information in a formalism know as a state variable representation (SVR) \cite{NAU.2004}.
@@ -285,7 +280,7 @@ appear anywhere in \textit{o} with constant symbols. For instance, the operator 
 ``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
 
 Knowledge models may take many forms ranging from informal natural language, to XML schemas, to ontologies.
-For the development of the  knowledge representation, the industrial robots sub-group has decided to use OWL as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and Resource Description Framework/eXtensible Markup Language (RDF/XML)-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
+For the development of the  knowledge representation, the industrial robots sub-group has decided to use the  Web Ontology Language (OWL) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and Resource Description Framework/eXtensible Markup Language (RDF/XML)-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
 
 In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
 for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to encoding our SVR. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
@@ -306,45 +301,32 @@ all $\mathrm{Parts}$ contain properties such as the part's weight, dimensions, a
 contains specific information on {\it this} particular kitting problem and configuration, e.g. $\mathrm{KitTray kt_1}$ contains 4 $\mathrm{Parts}$ of type $\mathrm{Part_a}$.
 
 While this file set provides a complete description of the problem domain and environment, most planning systems cannot directly ingest information from an ontology.
-Therefore, the second layer of the data abstraction known as the Planning Language layer was created.
+Therefore, the next layer of the data abstraction known as the Planning Language layer was created.
 
 \subsection{Planning Language}
-By placing our knowledge in a domain independent representation, we enable the use of an entire family of open source planning systems.
-In particular, we have chosen to transform the information stored in the lower layer of our abstraction into the Planning Domain Definition Language (PDDL) \cite{PDDL}.
-This provides our second layer of standardized output that other systems may connect to. As shown in Figure \ref{fig:ProcessDataFlow}, this information consists of two files. The first
-is a PDDL domain file that specifies all of the planning axioms and object classes and is a summary of the process specification and ontology files. The second is a PDDL problem file that
-specifies the system's initial state and goal state.
+The Planning Domain Definition Language (PDDL) \cite{PDDL} is an attempt by the domain independent planning community to formulate a standard language for planning. A community
+of planning researchers has been producing planning systems that comply with this formalism since the first International Planning Competition held in 1998. This competition series
+continues today, with the seventh competition being held in 2011. PDDL is constantly adding extensions to the base language in order to represent more expressive problem domains. Our
+work is based on PDDL Version  3.
+
+By placing our knowledge in a PDDL representation, we enable the use of an entire family of open source planning systems.
+As shown in Figure \ref{fig:ProcessDataFlow}, each PDDL file-set consists of two files that specify the domain and the problem. The PDDL domain file is composed of four sections that include
+requirements, types and constants, predicates, and actions. This file may be automatically generated from a combination of information that is contained in the OWL-S process specification file and the OWL Kitting Ontology file. 
+
+The requirements section specifies which extensions this problem domain relies on. The planning system can examine this statement to determine if it is capable of solving problems in this domain. In PDDL, all variables that are used in the domain must be typed. Types are defined in the $\mathrm{types}$ section. It is also possible to have constants that specify that all problems will share this single value. For example, in the simplest kitting workstation we will have a single $\mathrm{Robot}$ $\mathrm{r_1}$.
+Predicates specify relationships between instances. For example, an instance of a $\mathrm{KitTray}$, $\mathrm{kt_1}$, can have a physical location and contains instances of $\mathrm{Parts}$, $\mathrm{Part_a}$, $\mathrm{Part_b}$, and $\mathrm{Part_c}$. The final section of the PDDL domain file is concerned with actions. An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. The preconditions dictate items that must be initially true for the action to be legal. The effect equation dictates the changes in the world that will occur due to the execution of the action.
+
+The second file of the PDDL file-set is a  problem file. The problem file specifies information about the specific instance of the given problem. This file contains the initial conditions and definition of the world (in the init section) and the final state that the world must be brought to (in the goal section). A specific example of the ontology to planning language conversion is provided in Section \ref{sect:Example}.
 
 \subsection{Robot Plan Conformance}
-The PDDL output may then be fed into a number of open source planning systems that will produce a plan instance file that is based on our original vocabulary. This file
-contains a time sequenced series of actions that must be carried out in order to create a transition from our initial system state to the goal system state. Up to this point,
-the entire architecture is independent of the kitting domain or any specific hardware configurations and is able to solve problems for many types of industrial robot applications.
-The top layer of our architecture ties the specific commands to the kitting workstation and is dependent on the workstation's resident hardware.  In order to maintain as
+\label{subsect:RobotPlan}
+Any one of a number of open source planning systems may now be run on the Planning Language layer's knowledge representation. The output of these planners will be
+a PDDL action sequence file that is based on our original vocabulary. This file
+contains a time sequenced series of actions that must be carried out in order to create a transition from our initial system state to the goal system state. It should be noted that
+the sequence of knowledge transformations that takes place from the ontology through the planning language, to the action sequence is independent of the kitting domain or any specific hardware configurations and is able to solve problems for many types of industrial robot applications.
+The top layer of our abstraction ties the specific commands to the kitting workstation and is dependent on the workstation's resident hardware.  In order to maintain as
 much hardware independence as possible, we have chosen to use the ROS environment for communicating with our simulation. Therefore, the PDDL commands will
-be translated into appropriate commands that will be sent into various ROS processes.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{OWL Model of Manufacturing Process}
-\label{sect:OWL_Layer}
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{PDDL Model of Manufacturing Process}
-\label{sect:PDDL_Layer}
-\input{PDDLModel}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ROS Model of Manufacturing Process}
-\label{sect:ROS}
-When developing a knowledge representation, it is very difficult to determine if the representation is sufficient for actual use in a dynamic, unstructured environment.
-One technique that may be utilized that provides repeatable experiments with deterministic amounts of noise and world variance is simulation. As part of our kitting work
-station implementation, we are developing an open source application that will translate our PDDL command syntax into standard ROS topics for the ROS Arm Navigation
-Stack known as arm\_navigation.
+be translated into appropriate commands that will be sent into various ROS processes. These ROS stacks will then control all aspects of our USARSim virtual workstation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Example of Operation}
@@ -354,7 +336,7 @@ Stack known as arm\_navigation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{CONCLUSIONS AND FUTURE WORKS}
+\section{CONCLUSIONS AND FUTURE WORK}
 \label{sect:Conclusions}
 
 \subsection{Conclusions}

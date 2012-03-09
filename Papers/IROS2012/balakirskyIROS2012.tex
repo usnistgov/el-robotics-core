@@ -338,13 +338,16 @@ be translated into appropriate commands that will be sent into various ROS proce
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORK}
 \label{sect:Conclusions}
+In this paper we have presented the first knowledge model that is part of the IEEE RAS Ontologies for Robotics and Automation, Industrial Robotics subgroup on kitting.
+This abstraction begins with data that has been created by an expert user as a state variable representation and encoded into an OWL ontology. The knowledge
+is the automatically transitioned into a Planning Domain Definition Language that may be used by a class of planners to find a solution that will provide for actions that will
+transition the system for its initial state to a prescribed goal state.
 
-\subsection{Conclusions}
-
-
-
-
-\subsection{Future Works}
+This workstation is still very much a work in progress. The IEEE working group has an active mailing list and meets in person at both the IEEE ICRA and IROS conferences.
+At present, we are working on connecting the planned action sequence through the ROS control stack to our USARSim virtual world. As the knowledge representation is
+exercised, it is expected that short comings and missing data will be detected. Our representation will be updated as necessary to cope with these developments. In addition,
+the representation will be expanded to include metrics that allow us to represent not only the the information necessary for the construction of a kit, but also for the representation
+of the quality of the finished kit and the kit building process.
 
 \bibliographystyle{plain}
 \bibliography{./iros}

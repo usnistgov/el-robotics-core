@@ -178,7 +178,11 @@ The foundation for the knowledge representation is domain specific information t
 information on items ranging from what actions and attributes are relevant, to what are the necessary conditions for an action to occur and what are the
 likely results of that action. We have chosen to encode this basic information in a formalism know as a state variable representation (SVR) \cite{NAU.2004}.
 This information will then flow up the abstraction and be transformed into the ontology, planning language, and robot language.
-In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables. A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, and planning operators. These are defined for the kitting domain in the rest of this section.
+In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables. 
+
+To build the SVR, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting SVR. The concepts were then modeling in our SVR, building off of the definitions and relationships that were identified in the scenario.
+
+A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, and planning operators. These are defined for the kitting domain in the rest of this section.
 
 \subsubsection{Constant Symbols}
 For the kitting domain, there is a finite set of constant symbols that must be represented in the system.
@@ -281,23 +285,30 @@ appear anywhere in \textit{o} with constant symbols. For instance, the operator 
 ``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
 
 Knowledge models may take many forms ranging from informal natural language, to XML schemas, to ontologies.
+For the development of the  knowledge representation, the industrial robots sub-group has decided to use OWL as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and Resource Description Framework/eXtensible Markup Language (RDF/XML)-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
+
+In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
+for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to encoding our SVR. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
+
 Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  domain specific knowledge  be
-encoded in an ontology at the first domain independent  layer of our abstraction. The knowledge contained in this layer is derived from our SVR and may also contain
+encoded in an OWL ontology at the first domain independent  layer of our abstraction. The knowledge contained in this layer is derived from our SVR and may also contain
 information that has been collected over other domains. The knowledge is sufficient for a planning system to understand the specific problem domain and construct
 a plan for creating the desired kit from the given resources.
+
+As more detailed scenarios are determined and a richer set of concepts are uncovered, the ontology will be partitioned based upon the generality of the concept, with the most generally applicable concepts being ``higher'' in the ontology so they are available to other domains and the more detailed concepts being ``lower'' in the ontology because they will likely be very specific to the kitting area. An example of a general concept may be a $\mathrm{Robot}$ while a specific concept may be a $\mathrm{KitTray}$.
 
 As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is divided into three files and consists of a representation of the process specification,
 the kitting ontology, and the instance file. The process specification file is based off of the planning operators from the SVR and contains descriptions of
 the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file is based off of the constant symbols and
 state variable symbols and contains the concepts related to the specific items
 that compose the kitting domain, e.g. the hierarchy of what it means to be a $\mathrm{Part_a}$. That a $\mathrm{Part_a}$ is a type of $\mathrm{Part}$, and that
-all $\mathrm{Parts}$ contain properties such as the part's weight, dimensions, and grip points. The instance file
-contains specific information on {\it this} particular kitting problem and configuration, e.g. component tray 1 contains 4 components of type `A'.
+all $\mathrm{Parts}$ contain properties such as the part's weight, dimensions, and grip points. The instance file is based off of the SVR object variable symbols and
+contains specific information on {\it this} particular kitting problem and configuration, e.g. $\mathrm{KitTray kt_1}$ contains 4 $\mathrm{Parts}$ of type $\mathrm{Part_a}$.
 
 While this file set provides a complete description of the problem domain and environment, most planning systems cannot directly ingest information from an ontology.
-Therefore, the second layer of the data abstraction known as the PDDL Conformance layer was created.
+Therefore, the second layer of the data abstraction known as the Planning Language layer was created.
 
-\subsection{PDDL Conformance}
+\subsection{Planning Language}
 By placing our knowledge in a domain independent representation, we enable the use of an entire family of open source planning systems.
 In particular, we have chosen to transform the information stored in the lower layer of our abstraction into the Planning Domain Definition Language (PDDL) \cite{PDDL}.
 This provides our second layer of standardized output that other systems may connect to. As shown in Figure \ref{fig:ProcessDataFlow}, this information consists of two files. The first
@@ -315,26 +326,11 @@ be translated into appropriate commands that will be sent into various ROS proce
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{OWL Model of Manufacturing Process}
 \label{sect:OWL_Layer}
-For the development of the  knowledge representation, the industrial robots sub-group has decided to use OWL \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and RDF/XML-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
 
-In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
-for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to describing robot actions. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
 
-To build the ontology, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting ontology. The concepts were then modeling in OWL, building off of the definitions and relationships that were identified in the scenario.
 
-As more detailed scenarios are determined and a richer set of concepts are uncovered, the ontology will be partitioned based upon the generality of the concept, with the most generally applicable concepts being ``higher'' in the ontology so they are available to other domains and the more detailed concepts being ``lower'' in the ontology because they will likely be very specific to the kitting area. An example of a general concept may be a ``robot'' while a specific concept may be a ``kit box.''
 
-Some of the concepts that are represented in the ontology include:
-\begin{itemize}
-\item	{\it GripperEffector} - A {\it GripperEffector} is an {\it EndEffector}. A {\it GripperEffector} holds an object by gripping it with fingers or claws.
-\item	{\it KitTrays} - A {\it KitTray} is designed to hold {\it Parts} with various {\it StockKeepingUnits} ids ({\it SKU}) in known positions.
-\item	{\it KittingWorkStation} - A {\it KittingWorkstation} contains a {\it WorkTable}, a {\it Robot}, an {\it EndEffectorChangingStation} (where various end-of-arm tooling is stored and attached/removed from the robot), and other fixed obstacles such as a computer. A {\it KittingWorkstation} has properties that include an {\it angle unit}, a {\it length unit}, and a {\it weight unit}. All angle, length, and weight values related to the workstation must use those units. A {\it KittingWorkstation} has a list of {\it SKUs} it knows about. In addition, containers of various sorts enter and leave the workstation.  The robot builds kits of parts by executing kitting plans as directed by a kitting plan execution system.
-\item	{\it Part} - A {\it Part} has a reference to the identifier of a {\it SKU} and a {\it SerialNumber}.
-\item	{\it PartsBin} - A {\it PartsBin} holds a number of {\it Parts} with the same {\it SKU} in unknown random positions, or fixtured known positions.
-\item	{\it Robot} - A {\it Robot} has properties of a {\it description}, a {\it robot id}, a {\it work volume}, an {\it end effector}, and a {\it maximum load weight}.
-\item	{\it VacuumEffector} - A {\it VacuumEffector} holds an object by putting a cup against the object and applying a vacuum. It contains properties of {\it maximum lifting force} and the {\it vacuum cup configuration}.
-\item	 {\it WorkTable} - The top of a {\it WorkTable} is a flat, rectangular, horizontal surface.
-\end{itemize}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

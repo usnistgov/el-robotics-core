@@ -185,27 +185,27 @@ For the kitting domain, there is a finite set of constant symbols that must be r
 In the SVR, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
 %\begin{small}
 \begin{itemize}
-\item A set of $\mathsf{Robots}$ $\lbrace\mathrm{r_1, r_2,\dots\rbrace}$: A $\mathsf{Robot}$ in the kitting workstation is a robotic arm that can move objects in order to build $\mathsf{KitInstances}$.
-
-\item A set of $\mathsf{Parts}$ $\lbrace\mathrm{p_1,p_2,\dots\rbrace}$: $\mathsf{Parts}$ are delivered to the workstation in $\mathsf{PartTrays}$ and are placed in $\mathsf{KitTrays}$ to make $\mathsf{KitInstances}$.
-
-\item A set of $\mathsf{KitTrays}$ $\lbrace\mathrm{kt_1, kt_2,\dots\rbrace}$: A $\mathsf{KitTray}$ is a tray with which a $\mathsf{KitInstance}$ may be built. A $\mathsf{KitTray}$ can hold parts in known positions.
-
-\item A set of $\mathsf{KitInstances}$ $\lbrace\mathrm{kins_1,kins_2,\dots\rbrace}$: A $\mathsf{KitInstance}$ is built when $\mathsf{Parts}$ are placed in a $\mathsf{KitTray}$. A $\mathsf{KitInstance}$ consists of a $\mathsf{KitTray}$ and, possibly, some $\mathsf{Parts}$. A $\mathsf{KitInstance}$ is empty when it does not contain any $\mathsf{Part}$ and finished when it contains all the $\mathsf{Parts}$ that constitute a kit.
+\item A set of $\mathsf{Parts}$ $\lbrace\mathrm{p_1,p_2,\dots\rbrace}$: $\mathsf{Parts}$ are are the basic items that will be used to fill a kit.
 
 \item A set of $\mathsf{PartTrays}$ $\lbrace\mathrm{pt_1,pt_2,\dots\rbrace}$: $\mathsf{Parts}$ arrive at the workstation in $\mathsf{PartTrays}$. Each part is at a known position in the $\mathsf{PartTray}$. Each $\mathsf{PartTray}$ contains one type of $\mathsf{Part}$.
 
-\item A set of $\mathsf{EndEffectors}$ $\lbrace\mathrm{eeff_1,eeff_2,\dots\rbrace}$: $\mathsf{EndEffectors}$ are used in a kitting workstation to manipulate $\mathsf{Parts}$, $\mathsf{PartTrays}$, $\mathsf{KitTrays}$, and $\mathsf{KitInstances}$.
+\item A set of $\mathsf{KitTrays}$ $\lbrace\mathrm{kt_1, kt_2,\dots\rbrace}$:  A $\mathsf{KitTray}$ can hold $\mathsf{Parts}$ in known positions.
 
-\item A set of $\mathsf{EndEffectorHolders}$  $\lbrace\mathrm{eeffholder_1,eeffholder_2,\dots\rbrace}$: An $\mathsf{EndEffectorHolder}$ holds one type of $\mathsf{EndEffector}$.
+\item A set of $\mathsf{KitInstances}$ $\lbrace\mathrm{kins_1,kins_2,\dots\rbrace}$: A $\mathsf{KitInstance}$ is built when $\mathsf{Parts}$ are placed in a $\mathsf{KitTray}$. A $\mathsf{KitInstance}$ consists of a $\mathsf{KitTray}$ and, possibly, some $\mathsf{Parts}$. A $\mathsf{KitInstance}$ is empty when it does not contain any $\mathsf{Part}$ and finished when it contains all the $\mathsf{Parts}$ that constitute a kit.
 
-\item A symbol $\mathsf{EndEffectorChangingStation}$ -- $\mathrm{chstation}$: An $\mathsf{EndEffectorChangingStation}$ is made up of $\mathsf{EndEffectorHolders}$.
+\item A symbol $\mathsf{WorkTable}$ -- $\mathrm{wtable}$: A $\mathsf{WorkTable}$ is an area in the kitting workstation where $\mathsf{KitTrays}$ are placed to build $\mathsf{KitInstances}$.
 
 \item A set of $\mathsf{LargeBoxWithKits}$ $\lbrace\mathrm{lbwk_1,lbwk_2,\dots\rbrace}$: A $\mathsf{LargeBoxWithKits}$ contains only finished $\mathsf{KitInstances}$.
 
 \item A set of $\mathsf{LargeBoxWithEmptyKitTrays}$ $\lbrace\mathrm{lbwekt_1,lbwekt_2,\dots\rbrace}$: A $\mathsf{LargeBoxWithEmptyKitTrays}$ is a box that contains only empty $\mathsf{KitTrays}$.
 
-\item A symbol $\mathsf{WorkTable}$ -- $\mathrm{wtable}$: A $\mathsf{WorkTable}$ is an area in the kitting workstation where $\mathsf{KitTrays}$ are placed to build $\mathsf{KitInstances}$.
+\item A set of $\mathsf{Robots}$ $\lbrace\mathrm{r_1, r_2,\dots\rbrace}$: A $\mathsf{Robot}$ in the kitting workstation is a robotic arm that can move objects in order to build $\mathsf{KitInstances}$.
+
+\item A set of $\mathsf{EndEffectors}$ $\lbrace\mathrm{eeff_1,eeff_2,\dots\rbrace}$: $\mathsf{EndEffectors}$ are used in a kitting workstation to manipulate $\mathsf{Parts}$, $\mathsf{PartTrays}$, $\mathsf{KitTrays}$, and $\mathsf{KitInstances}$. An $\mathsf{EndEffector}$ is attached to a $\mathsf{Robot}$.
+
+\item A set of $\mathsf{EndEffectorHolders}$  $\lbrace\mathrm{eeffholder_1,eeffholder_2,\dots\rbrace}$: An $\mathsf{EndEffectorHolder}$ is a storage unit that holds one type of $\mathsf{EndEffector}$.
+
+\item A symbol $\mathsf{EndEffectorChangingStation}$ -- $\mathrm{chstation}$: An $\mathsf{EndEffectorChangingStation}$ is made up of $\mathsf{EndEffectorHolders}$.
 \end{itemize}
 %\end {small}
 
@@ -262,7 +262,7 @@ The kitting domain is composed of eight operators. Only the operators' names and
 
 \item \textsl{put-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitTray}$ $\mathrm{kt}$ on the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
 
-\item \textsl{take-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{wtable}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ picks up the $\mathrm{KitInstance}$ $\mathrm{kins}$ from the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
+\item \textsl{take-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{wtable}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ equipped with the $\mathrm{EndEffector}$ $\mathrm{eeff}$ picks up the $\mathrm{KitInstance}$ $\mathrm{kins}$ from the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
 
 \item \textsl{put-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{lbwk}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitInstance}$ $\mathrm{kins}$ in the $\mathrm{LargeBoxWithKits}$ $\mathrm{lbwk}$.
 
@@ -281,14 +281,17 @@ appear anywhere in \textit{o} with constant symbols. For instance, the operator 
 ``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
 
 Knowledge models may take many forms ranging from informal natural language, to XML schemas, to ontologies.
-Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  knowledge representation be
-encoded in an ontology at the lowest layer of our abstraction. The knowledge contained in this layer is sufficient for a planning system to understand the domain and construct
+Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  domain specific knowledge  be
+encoded in an ontology at the first domain independent  layer of our abstraction. The knowledge contained in this layer is derived from our SVR and may also contain
+information that has been collected over other domains. The knowledge is sufficient for a planning system to understand the specific problem domain and construct
 a plan for creating the desired kit from the given resources.
 
-As shown in Figure \ref{fig:ProcessDataFlow} the information on our ontology is divided into three files and consists of a representation of the process specification,
-the kitting ontology, and the instance file. The process specification file contains descriptions of
-the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file contains the concepts related to the specific items
-that compose the kitting domain, e.g. a full description of each component including items such as the component's weight, dimensions, and grip points. The instance file
+As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is divided into three files and consists of a representation of the process specification,
+the kitting ontology, and the instance file. The process specification file is based off of the planning operators from the SVR and contains descriptions of
+the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file is based off of the constant symbols and
+state variable symbols and contains the concepts related to the specific items
+that compose the kitting domain, e.g. the hierarchy of what it means to be a $\mathrm{Part_a}$. That a $\mathrm{Part_a}$ is a type of $\mathrm{Part}$, and that
+all $\mathrm{Parts}$ contain properties such as the part's weight, dimensions, and grip points. The instance file
 contains specific information on {\it this} particular kitting problem and configuration, e.g. component tray 1 contains 4 components of type `A'.
 
 While this file set provides a complete description of the problem domain and environment, most planning systems cannot directly ingest information from an ontology.

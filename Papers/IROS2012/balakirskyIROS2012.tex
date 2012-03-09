@@ -144,7 +144,7 @@ abstraction is
 modeled in the Planning Domain Definition Language (PDDL) \cite{PDDL}. More information on this layer may be found in Section
 \ref{sect:PDDL_Layer}. In order to validate our models, we intend to utilize simulation in conjunction with  domain independent planning
 systems and the Robot
-Operating System (ROS) \footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply 
+Operating System (ROS) \footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply
 recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}
  control environment \cite{ROS}. More information on this may be found in Section \ref{sect:ROS}. An example of the
 various knowledge representations and the flow from one to the next is presented in Section \ref{sect:Example}. Finally,
@@ -188,13 +188,13 @@ In the SVR, constant symbols are partitioned into disjoint classes corresponding
 \item A set of $Robots$ \{$ r_1$,$ r_2$,$\dots$\}: A $Robot$ in the kitting workstation is a robotic arm that can move objects in order to build $KitInstances$.
 
 \item A set of $KitTrays$ \{$ kt_1$, $kt_2$,$\dots$\}: A $KitTray$ is a tray with which a $KitInstance$ may be built. A $KitTray$ can hold parts in known positions.
-    
+
 \item A set of $KitInstances$ \{$kins_1$, $kins_2$,$\dots$\}: A $KitInstance$ is built when $Parts$ are placed in a $KitTray$. A $KitInstance$ consists of a $KitTray$ and, possibly, some $Parts$. A $KitInstance$ is empty when it does not contain any $Part$ and finished when it contains all the $Parts$ that constitute a kit.
 
 \item A set of $PartTrays$ \{$pt_1$, $pt_2$,$\dots$\}: $Parts$ arrive at the workstation in $PartTrays$. Each part is at a known position in the $PartTray$. Each $PartTray$ contains one type of $Part$.
 
 \item A set of $Parts$ \{$p_1$, $p_2$,$\dots$\}: $Parts$ are delivered to the workstation in $PartTrays$ and are placed in $KitTrays$ to make $KitInstances$.
-    
+
 \item A set of $EndEffectors$ \{$eeff_1$, $eeff_2$,$\dots$\}: $EndEffectors$ are used in a kitting workstation to manipulate $Parts$, $PartTrays$, $KitTrays$, and $KitInstances$.
 
 \item A set of $EndEffectorHolders$  \{$eeffholder_1$, $eeffholder_2$,$\dots$\}: An $EndEffectorHolder$ holds one type of $EndEffector$.
@@ -222,7 +222,7 @@ State variable symbols are functions from the set of states and zero or more set
 \item \emph{topworktable}: $\mathrm{WorkTable}\times S\rightarrow\mathrm{KitInstancess}$ $\cup$ $\lbrace nil\rbrace$: designates the object placed on the $\mathrm{WorkTable}$, it can be either a $\mathrm{KitInstnce}$ or nothing ($nil$).
 
 \item \emph{kinsloc}: $\mathrm{KitInstances}\times S\rightarrow\mathrm{LargeBoxWithKits}$ $\cup$ $\mathrm{WorkTable}$ $\cup$ $\mathrm{Robots}$: designates the different possible locations of a $\mathrm{KitInstance}$ in the workstation. The $\mathrm{KitInstance}$ can be in a $\mathrm{LargeBoxWithKits}$, on the $\mathrm{WorkTable}$, or being held by the $\mathrm{Robot}$.
-    
+
 \item \emph{ktloc}: $\mathrm{KitTrays}\times S\rightarrow\mathrm{LargeBoxWithEmptyKitTrays}$ $\cup$ $\mathrm{Robots}$: designates the different possible locations of a $\mathrm{KitTray}$ in the workstation. The $\mathrm{KitTray}$ can either be in a $\mathrm{LargeBoxWithEmptyKitTrays}$ or being held by the $\mathrm{Robot}$.
 
 \item \emph{ploc}: $\mathrm{Parts}\times S\rightarrow\mathrm{PartTrays}$ $\cup$ $\mathrm{KitInstances}$ $\cup$ $\mathrm{Robots}$: designates the different possible locations of a $\mathrm{Part}$ in the workstation. The $\mathrm{Part}$ can be in a $\mathrm{PartTray}$, in a $\mathrm{KitInstance}$, or being held by the $\mathrm{Robot}$.
@@ -257,19 +257,19 @@ The kitting domain is composed of eight operators. Only the name of the operator
 
 \begin{enumerate}
 \item \textsl{take-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{lbwekt}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ is equipped with the $\mathrm{EndEffector}$ $\mathrm{eeff}$ to pick up the $\mathrm{KitTray}$ $\mathrm{kt}$ from the $\mathrm{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt}$.
-    
+
 \item \textsl{put-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitTray}$ $\mathrm{kt}$ on the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
-    
+
 \item \textsl{take-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{wtable}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ picks up the $\mathrm{KitInstance}$ $\mathrm{kins}$ from the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
-    
+
 \item \textsl{put-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{lbwk}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitInstance}$ $\mathrm{kins}$ in the $\mathrm{LargeBoxWithKits}$ $\mathrm{lbwk}$.
-    
+
 \item \textsl{take-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{pt}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ uses the $\mathrm{EndEffector}$ $\mathrm{eeff}$ to pick up the $\mathrm{Part}$ $\mathrm{p}$ from the $\mathrm{PartTray}$ $\mathrm{pt}$.
-    
+
 \item \textsl{put-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{kins}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{Part}$ $\mathrm{p}$ in the $\mathrm{KitInstance}$ $\mathrm{kins}$.
-    
+
 \item \textsl{attach-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$): The $\mathrm{Robot}$ $\mathrm{r}$ attaches the $\mathrm{EndEffector}$ $\mathrm{eeff}$ from the $\mathrm{EndEffectorHolder}$ $\mathrm{eeffholder}$.
-    
+
 \item \textsl{remove-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$): The $\mathrm{Robot}$ $\mathrm{r}$ removes the $\mathrm{EndEffector}$ $\mathrm{eeff}$ and puts it in the $\mathrm{EndEffectorHolder}$ $\mathrm{eeffholder}$.
 \end{enumerate}
 
@@ -347,17 +347,8 @@ Stack known as arm\_navigation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Example of Operation}
 \label{sect:Example}
-\begin{figure}[htb]
-\includegraphics[width=8cm]{images/OWL-S.jpg}
-\caption{Selected classes and properties of the profile \cite{OWL-S}.}
-\label{fig:OWL-S}
-\end{figure}
-\subsection{OWL-S Representation}
-Once the action is specified in state-variable (S-V) representation, we can use that information to create an OWL-S process. Figure \ref{fig:OWL-S} shows a schematic of the OWL-S structure. It is outside of the scope of this paper to describe this figure in detail, but for the sake our example, we are modeling the action as a process and including information about its data inputs and outputs, the preconditions that have to be true for it to be performed, and the result that will be true after the process is executed. In our example, the process is an atomic process because it only involves a single interaction and consists of only one step.
+\input{ExampleOfOperation}
 
-In the S-V representation, the preconditions clearly map to the OWL-S precondition bubble. These can be represented in languages such as KIF (Knowledge Interchange Format), SPARQL (SPARQL Protocol and RDF Query Language), or SWRL (Semantic Web Rule Language). The rules point to classes and instances in the ontology that model the concepts of kit tray ($\mathrm{kt}$), a set of large boxes with empty kit trays ($\mathrm{lbwekt}$), a robot ($\mathrm{r}$), and a robot gripper effector ($\mathrm{eeff}$). The S-V effects map to the OWL-S results and are also represented in one of the rules languages above. In the case of the \textsl{take-kt} action, the result would specify that the location of the kit tray is no longer in a fixed location and is now in the robot gripper effector.
-
-Though not explicitly represented in the S-V representation, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the S-V representation. Specifically, it needs to know which robot is performing the action ($\mathrm{r}$), which kit tray needs to be picked up ($\mathrm{kt}$), which gripper effector is on the robot ($\mathrm{eeff}$), and from which box the robot needs to pick up the kit tray ($\mathrm{lbwekt}$). The output of this action would be a Boolean stating whether the action was completed successfully or not.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

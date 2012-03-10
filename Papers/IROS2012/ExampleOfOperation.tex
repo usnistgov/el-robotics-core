@@ -1,8 +1,8 @@
 The purpose of this section is to illustrate the various knowledge representations, depicted in Figure~\ref{fig:ProcessDataFlow}, and the flow from one knowledge representation to the next through a specific example.
 
-\subsubsection{State Variable Representation}
+\subsection{State Variable Representation}
 
-In the example, the \class{Robots} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that builds the PDDL domain file while section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
+In the example, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that builds the PDDL domain file while section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
 
 The state variable representation defines the necessary parameters for the PDDL domain and problem files. The PDDL domain file contains predicates, characterized by state variable symbols, and actions. The PDDL problem file contains the objects present in the problem instance, characterized by constant variables, the initial state $s_0$ description and the goal $s_G$.
 
@@ -102,6 +102,3 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 
 \subsection{Process for the PDDL Problem File}
 \label{subsect:PDDL_Problem_File}
-
-
-\subsection{ROS Representation} 

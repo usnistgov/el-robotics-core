@@ -22,7 +22,7 @@ As stated in section \ref{subsubsect:Rigid_Relation}, the kitting domain has two
 
 \paragraph{Initial State}
 The initial state $s_0$ can be represented by the following set of state variable symbols:\\
-$s_0$=\{\stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{effloc}(\const{eff_1})=\const{effh_1}, \stvar{effloc}(\const{eff_2})=\const{effh_2}, \stvar{isptempty}(\const{pt_A})=0, \stvar{isptempty}(\const{pt_B})=0, \stvar{isptempty}(\const{pt_C})=0, \stvar{onworktable}(\const{wtable})=\textit{nil}, \stvar{islbwektempty}(\const{lbwekt_1})=0, \stvar{islbwkfull}(\const{lbwk_1})=0, \stvar{partloc}(\const{part_{A-1}})=\const{pt_A}, \stvar{partloc}(\const{part_{A-2}})=\const{pt_A}, \stvar{partloc}(\const{part_{B}})=\const{pt_B}, \stvar{partloc}(\const{part_{C}})=\const{pt_C}\}.
+$s_0$=\{\stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{effloc}(\const{eff_1})=\const{effh_1}, \stvar{effloc}(\const{eff_2})=\const{effh_2}, \stvar{isptempty}(\const{pt_A})=0, \stvar{isptempty}(\const{pt_B})=0, \stvar{isptempty}(\const{pt_C})=0, \stvar{onworktable}(\const{wtable})=\textit{nil}, \stvar{islbwektempty}(\const{lbwekt_1})=0, \stvar{islbwkfull}(\const{lbwk_1})=0, \stvar{partloc}(\const{part_{A-1}})=\const{pt_A}, \stvar{partloc}(\const{part_{A-2}})=\const{pt_A}, \stvar{partloc}(\const{part_{B}})=\const{pt_B}, \stvar{partloc}(\const{part_{C}})=\const{pt_C}, \stvar{ktloc}(\const{kt_1})=\const{lbwekt_1}\}.
 
 \begin{comment}
 In the initial state $s_0$, the $\mathsf{Robot}$ $\mathrm{r_1}$ is not equipped with any $\mathsf{EndEffector}$ and is not holding anything. The $\mathsf{EndEffectors}$ $\mathrm{eeff_1}$ and $\mathrm{eeff_2}$ are placed in the $\mathsf{EndEffectorHolders}$ $\mathrm{eeffholder_1}$ and $\mathrm{eeffholder_2}$, respectively. The $\mathsf{LargeBoxWithKits}$ $\mathrm{lbwk_1}$ is not full. The $\mathsf{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt_1}$ is not empty. The $\mathsf{PartTrays}$ $\mathrm{pt_A}$, $\mathrm{pt_B}$, and $\mathrm{pt_C}$ are not empty. The $\mathsf{WorkTable}$ $\mathrm{wtable}$ is free of any object.
@@ -70,7 +70,7 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 \begin{minipage}{.5\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
-(define (domain kitting)
+(define (domain kitting-domain)
  (:requirements :strips :typing)
  (:types part parttray kittray kitinstance worktable 
   largeboxwithkits largeboxwithemptykittrays robot 
@@ -103,5 +103,34 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 \subsection{Process for the PDDL Problem File}
 \label{subsect:PDDL_Problem_File}
 
+\subsubsection{PDDL Problem File}
+
+\begin{figure}[h!]
+\begin{center}
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
+(define (problem kitting-problem)
+ (:requirements :strips :typing)
+ (:domain kitting-domain)
+ (:objects r1 kt1 lbwekt1 lbwk1 wtable ptA ptB ptC 
+  partA-1 partA-2 partB partC eff1 eff2 effh1 
+  effh2 kins1)
+ (:init  (rhold r1 nil) (effloc eff1 effh1) 
+  (effloc eff2 effh2) (not (isptempty ptA)) 
+  (not (isptempty ptB)) (not (isptempty ptC))
+  (onwrktable wtable nil) (not (islbwektempty lbwekt1))
+  (not (islbwkfull lbwk1)), (partloc partA-1 ptA)
+  (partloc partA-2 ptA) (partloc partB ptB)
+  (partloc partC ptC) (ktloc kt1 lbwekt1))
+  (:goal (and (partloc partA-1 kins1) 
+  (partloc partA-2 kins1) (partloc partB kins1) 
+  (partloc partC kins1) (kinsloc kins1 lbwk1)))
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\caption{Excerpt of the PDDL problem file for kitting.\label{fig:problemfile}}
+\end{center}
+\end{figure}
 
 \subsection{ROS Representation} 

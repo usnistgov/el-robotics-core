@@ -1,8 +1,8 @@
 The purpose of this section is to illustrate the various knowledge representations, depicted in Figure~\ref{fig:ProcessDataFlow}, and the flow from one knowledge representation to the next through a specific example.
 
-\subsubsection{State Variable Representation}
+\subsection{State Variable Representation}
 
-In the example, the \class{Robots} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that builds the PDDL domain file while section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
+In the example, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that builds the PDDL domain file while section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
 
 The state variable representation defines the necessary parameters for the PDDL domain and problem files. The PDDL domain file contains predicates, characterized by state variable symbols, and actions. The PDDL problem file contains the objects present in the problem instance, characterized by constant variables, the initial state $s_0$ description and the goal $s_G$.
 
@@ -53,7 +53,7 @@ Eight different operators were introduced in section \ref{subsect:Planning_Opera
 
 \subsection{Process for the PDDL Domain File}
 \label{subsect:PDDL_Domain_File}
-Once the state variable representation is defined, an OWL-S representation is then built. 
+Once the state variable representation is defined, an OWL-S representation is then built.
 
 \subsubsection{OWL-S Representation}
 Once the action is specified in the SVR, we can use that information to create an OWL-S process. We are modeling the action as a process and including information about its data inputs and outputs, the preconditions that have to be true for it to be performed, and the result that will be true after the process is executed. In our example, the process is an atomic process because it only involves a single interaction and consists of only one step. If it were a more complex process that involved multiple sub-actions, it would be modeled by an OWL-S composite process.
@@ -72,11 +72,11 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
 (define (domain kitting-domain)
  (:requirements :strips :typing)
- (:types part parttray kittray kitinstance worktable 
-  largeboxwithkits largeboxwithemptykittrays robot 
+ (:types part parttray kittray kitinstance worktable
+  largeboxwithkits largeboxwithemptykittrays robot
   endeffector ...)
  (:predicates
-  (effloc ?eff - endeffector ?r - robot 
+  (effloc ?eff - endeffector ?r - robot
    ?effh - endeffectorholder)
   (efftype ?effh - endeffectorholder ?eff - endeffector)
    ...
@@ -103,6 +103,7 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 \subsection{Process for the PDDL Problem File}
 \label{subsect:PDDL_Problem_File}
 
+
 \subsubsection{PDDL Problem File}
 
 \begin{figure}[h!]
@@ -113,18 +114,18 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 (define (problem kitting-problem)
  (:requirements :strips :typing)
  (:domain kitting-domain)
- (:objects r1 kt1 lbwekt1 lbwk1 wtable ptA ptB ptC 
-  partA-1 partA-2 partB partC eff1 eff2 effh1 
+ (:objects r1 kt1 lbwekt1 lbwk1 wtable ptA ptB ptC
+  partA-1 partA-2 partB partC eff1 eff2 effh1
   effh2 kins1)
- (:init  (rhold r1 nil) (effloc eff1 effh1) 
-  (effloc eff2 effh2) (not (isptempty ptA)) 
+ (:init  (rhold r1 nil) (effloc eff1 effh1)
+  (effloc eff2 effh2) (not (isptempty ptA))
   (not (isptempty ptB)) (not (isptempty ptC))
   (onwrktable wtable nil) (not (islbwektempty lbwekt1))
   (not (islbwkfull lbwk1)), (partloc partA-1 ptA)
   (partloc partA-2 ptA) (partloc partB ptB)
   (partloc partC ptC) (ktloc kt1 lbwekt1))
-  (:goal (and (partloc partA-1 kins1) 
-  (partloc partA-2 kins1) (partloc partB kins1) 
+  (:goal (and (partloc partA-1 kins1)
+  (partloc partA-2 kins1) (partloc partB kins1)
   (partloc partC kins1) (kinsloc kins1 lbwk1)))
 \end{Verbatim}
 \end{mylisting}
@@ -133,4 +134,5 @@ An external tool is used to generate the PDDL Domain File from the OML-S represe
 \end{center}
 \end{figure}
 
-\subsection{ROS Representation} 
+\subsection{ROS Representation}
+

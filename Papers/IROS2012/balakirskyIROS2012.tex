@@ -1,80 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%2345678901234567890123456789012345678901234567890123456789012345678901234567890
-%        1         2         3         4         5         6         7         8
-
-%\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
-                                                          % if you need a4paper
-\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
-                                                          % paper
-
-\IEEEoverridecommandlockouts                              % This command is only
-                                                          % needed if you want to
-                                                          % use the \thanks command
-\overrideIEEEmargins
-% See the \addtolength command later in the file to balance the column lengths
-% on the last page of the document
-
-
-
-% The following packages can be found on http:\\www.ctan.org
-%\usepackage{graphics} % for pdf, bitmapped graphics files
-%\usepackage{epsfig} % for postscript graphics files
-%\usepackage{mathptmx} % assumes new font selection scheme installed
-%\usepackage{times} % assumes new font selection scheme installed
-%\usepackage{amsmath} % assumes amsmath package installed
-%\usepackage{amssymb}  % assumes amsmath package installed
-\usepackage{graphicx}
-\usepackage{verbatim}
-\usepackage{multirow}
-\usepackage{rotating}
-\usepackage{array}
-
-\newcommand\T{\rule{0pt}{2.6ex}}
-\newcommand\B{\rule[-1.2ex]{0pt}{0pt}}
-
-\title{\LARGE \bf
-An  Industrial Robotic Knowledge Representation for Kit Building Applications
-}
-
-\author{ \parbox{3 in}{\centering Stephen Balakirsky\\
-         Intelligent Systems Division\\
-         National Institute of Standards and Technology\\
-        Gaithersburg, MD 20899, USA\\
-         {\tt\small stephen.balakirsky@nist.gov}}
-         \hspace*{ 0.5 in}
-         \parbox{3 in}{ \centering Zeid Kootbally\\
-          Department of Mechanical Engineering \\
-         University of Maryland\\
-         College Park, MD 20742, USA\\
-         {\tt\small zeid.kootbally@nist.gov}}\\ \\
-	\parbox{2.25 in}{\centering Craig Schlonoff\\
-         Intelligent Systems Division\\
-         National Institute of Standards and Technology\\
-        Gaithersburg, MD 20899, USA\\
-         {\tt\small craig.schlenoff@nist.gov}}
-        \hspace*{0.05in}
-         \parbox{2.25 in}{ \centering Thomas Kramer\\
-          Department of Mechanical Engineering \\
-         Catholic University of America\\
-         Washington, DC 20064, USA\\
-         {\tt\small thomas.kramer@nist.gov}}
-        \hspace*{0.05in}
-         \parbox{2.25 in}{ \centering Satyandra K. Gupta\\
-          Maryland Robotics Center\\
-         University of Maryland\\
-         College Park, MD 20742, USA\\
-         {\tt\small skgupta@umd.edu}}\\
-}
-
-%\author{Author1 and Author2% <-this % stops a space
-%\thanks{This work was not supported by any organization}% <-this % stops a space
-%\thanks{H. Kwakernaak is with Faculty of Electrical Engineering, Mathematics and Computer Science,
-%        University of Twente, 7500 AE Enschede, The Netherlands
-%        {\tt\small h.kwakernaak@autsubmit.com}}%
-%\thanks{P. Misra is with the Department of Electrical Engineering, Wright State University,
-%        Dayton, OH 45435, USA
-%        {\tt\small pmisra@cs.wright.edu}}%
-%}
+\input{header}
 
 
 \begin{document}
@@ -173,75 +97,86 @@ The foundation for the knowledge representation is domain specific information t
 information on items ranging from what actions and attributes are relevant, to what are the necessary conditions for an action to occur and what are the
 likely results of that action. We have chosen to encode this basic information in a formalism know as a state variable representation (SVR) \cite{NAU.2004}.
 This information will then flow up the abstraction and be transformed into the ontology, planning language, and robot language.
-In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables. 
+In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables.
 
 To build the SVR, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting SVR. The concepts were then modeling in our SVR, building off of the definitions and relationships that were identified in the scenario.
 
-A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, and planning operators. These are defined for the kitting domain in the rest of this section.
+A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, rigid relations and planning operators. These are defined for the kitting domain in the rest of this section.
 
-\subsubsection{Constant Symbols}
-For the kitting domain, there is a finite set of constant symbols that must be represented in the system.
-In the SVR, constant symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant symbols in the kitting domain is partitioned into the following sets of constant symbols:
+\subsubsection{Constant Variable Symbols}
+For the kitting domain, there is a finite set of constant variable symbols that must be represented in the system. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
 %\begin{small}
 \begin{itemize}
-\item A set of $\mathsf{Parts}$ $\lbrace\mathrm{p_1,p_2,\dots\rbrace}$: $\mathsf{Parts}$ are are the basic items that will be used to fill a kit.
+\item A set of \class{Parts} this is \{\const{part_1},\const{part_2},\ldots\}: \class{Parts} are the basic items that will be used to fill a kit.
 
-\item A set of $\mathsf{PartTrays}$ $\lbrace\mathrm{pt_1,pt_2,\dots\rbrace}$: $\mathsf{Parts}$ arrive at the workstation in $\mathsf{PartTrays}$. Each part is at a known position in the $\mathsf{PartTray}$. Each $\mathsf{PartTray}$ contains one type of $\mathsf{Part}$.
+\item A set of \class{PartTrays} \{\const{pt_1},\const{pt_2},\ldots\}: \class{Parts} arrive at the workstation in \class{PartTrays}. Each part is at a known position in the \class{PartTray}. Each \class{PartTray} contains one type of \class{Part}.
 
-\item A set of $\mathsf{KitTrays}$ $\lbrace\mathrm{kt_1, kt_2,\dots\rbrace}$:  A $\mathsf{KitTray}$ can hold $\mathsf{Parts}$ in known positions.
+\item A set of \class{KitTrays} \{\const{kt_1},\const{kt_2},\ldots\}:  A \class{KitTray} can hold \class{Parts} in known positions.
 
-\item A set of $\mathsf{KitInstances}$ $\lbrace\mathrm{kins_1,kins_2,\dots\rbrace}$: A $\mathsf{KitInstance}$ is built when $\mathsf{Parts}$ are placed in a $\mathsf{KitTray}$. A $\mathsf{KitInstance}$ consists of a $\mathsf{KitTray}$ and, possibly, some $\mathsf{Parts}$. A $\mathsf{KitInstance}$ is empty when it does not contain any $\mathsf{Part}$ and finished when it contains all the $\mathsf{Parts}$ that constitute a kit.
+\item A set of \class{KitInstances} \{\const{kins_1},\const{kins_2},\ldots\}: A \class{KitInstance} is built when \class{Parts} are placed in a \class{KitTray}. A \class{KitInstance} consists of a \class{KitTray} and, possibly, some \class{Parts}. A \class{KitInstance} is empty when it does not contain any \class{Part} and finished when it contains all the \class{Parts} that constitute a kit.
 
-\item A symbol $\mathsf{WorkTable}$ -- $\mathrm{wtable}$: A $\mathsf{WorkTable}$ is an area in the kitting workstation where $\mathsf{KitTrays}$ are placed to build $\mathsf{KitInstances}$.
+\item A symbol \class{WorkTable} -- \const{wtable}: A \class{WorkTable} is an area in the kitting workstation where \class{KitTrays} are placed to build \class{KitInstances}.
 
-\item A set of $\mathsf{LargeBoxWithKits}$ $\lbrace\mathrm{lbwk_1,lbwk_2,\dots\rbrace}$: A $\mathsf{LargeBoxWithKits}$ contains only finished $\mathsf{KitInstances}$.
+\item A set of \class{LargeBoxWithKits} \{\const{lbwk_1},\const{lbwk_2},\ldots\}: A \class{LargeBoxWithKits} contains only finished \class{KitInstances}.
 
-\item A set of $\mathsf{LargeBoxWithEmptyKitTrays}$ $\lbrace\mathrm{lbwekt_1,lbwekt_2,\dots\rbrace}$: A $\mathsf{LargeBoxWithEmptyKitTrays}$ is a box that contains only empty $\mathsf{KitTrays}$.
+\item A set of \class{LargeBoxWithEmptyKitTrays} \{\const{lbwekt_1}, \const{lbwekt_2},\ldots\}: A \class{LargeBoxWithEmptyKitTrays} is a box that contains only empty \class{KitTrays}.
 
-\item A set of $\mathsf{Robots}$ $\lbrace\mathrm{r_1, r_2,\dots\rbrace}$: A $\mathsf{Robot}$ in the kitting workstation is a robotic arm that can move objects in order to build $\mathsf{KitInstances}$.
+\item A set of \class{Robots} \{\const{r_1},\const{r_2},\ldots\}: A \class{Robot} in the kitting workstation is a robotic arm that can move objects in order to build \class{KitInstances}.
 
-\item A set of $\mathsf{EndEffectors}$ $\lbrace\mathrm{eeff_1,eeff_2,\dots\rbrace}$: $\mathsf{EndEffectors}$ are used in a kitting workstation to manipulate $\mathsf{Parts}$, $\mathsf{PartTrays}$, $\mathsf{KitTrays}$, and $\mathsf{KitInstances}$. An $\mathsf{EndEffector}$ is attached to a $\mathsf{Robot}$.
+\item A set of \class{EndEffectors} \{\const{eff_1},\const{eff_2},\ldots\}: \class{EndEffectors} are used in a kitting workstation to manipulate \class{Parts}, \class{PartTrays}, \class{KitTrays}, and \class{KitInstances}. An \class{EndEffector} is attached to a \class{Robot}.
 
-\item A set of $\mathsf{EndEffectorHolders}$  $\lbrace\mathrm{eeffholder_1,eeffholder_2,\dots\rbrace}$: An $\mathsf{EndEffectorHolder}$ is a storage unit that holds one type of $\mathsf{EndEffector}$.
+\item A set of \class{EndEffectorHolders}  \{\const{effh_1},\const{effh_2}, \ldots\}: An \class{EndEffectorHolder} is a storage unit that holds one type of \class{EndEffector}.
 
-\item A symbol $\mathsf{EndEffectorChangingStation}$ -- $\mathrm{chstation}$: An $\mathsf{EndEffectorChangingStation}$ is made up of $\mathsf{EndEffectorHolders}$.
+\item A symbol \class{EndEffectorChangingStation} -- \const{chstation}: An \class{EndEffectorChangingStation} is made up of \class{EndEffectorHolders}.
 \end{itemize}
 %\end {small}
 
 \subsubsection{Object Variable Symbols}
-Object variable symbols are typed variables which range over a class or the union of classes of constants. Examples of object variable symbols are $\mathrm{r}$ $\in$ $\mathrm{Robots}$, $\mathrm{kt}$ $\in$ $\mathrm{KitTrays}$, etc.
+Object variable symbols are typed variables which range over a class or the union of classes of constants. Examples of object variable symbols are \const{r} $\in$ \class{Robots}, \const{kt} $\in$ \class{KitTrays}, etc.
 
 \subsubsection{State Variable Symbols}
-A state variable symbol \emph{x}: $\mathrm{A_1\times \dots\times A_i}\times S\rightarrow\mathrm{B_1}$ $\cup$ $\dots$ $\cup$ $\mathrm{B_j}$ ($i, j\geq 1$) is a function from the set of states ($S$) and at least one set of constant variable symbols ($\mathrm{A_1\times \dots\times A_i}$) into a set of constant variable symbols ($\mathrm{B_1}$ $\cup$ $\dots$ $\cup$ $\mathrm{B_j}$). Using state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
+\label{subsubsect:State_Variable_Symbols}
+A state variable symbol is defined as follows:
+\begin{defn}
+$\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$) is a function from the set of states ($\mathrm{S}$) and at least one set of constant variable symbols $\mathrm{A_1\times \dots\times A_i}$ into a set of constant variable symbols $\mathrm{B_1\cup\dots\cup B_j}$.
+ \end{defn}
 
-%\begin{small}
+The use of state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
+
 \begin{itemize}
-\item \emph{eEffLoc}: $\mathsf{EndEffectors}\times S\rightarrow\mathsf{Robots}$ $\cup$ $\mathsf{EndEffectorHolders}$: designates the location of an $\mathsf{EndEffector}$ in the workstation. The $\mathsf{EndEffector}$ can be placed in a $\mathsf{EndEffectorHolder}$ or attached to the $\mathsf{Robots}$.
+\item \stvar{effloc}: \class{EndEffectors}$\mathrm{\times S\rightarrow}$\class{Robots} $\cup$ \class{EndEffectorHolders}: designates the location of an \class{EndEffector} in the workstation, i.e., in a \class{EndEffectorHolder} or attached to a \class{Robot}.
 
-\item \emph{rGrip}: $\mathsf{Robots}\times S\rightarrow\mathsf{EndEffectors}$ $\cup$ $\lbrace nil\rbrace$: designates the $\mathsf{EndEffector}$ that is attached to a $\mathsf{Robots}$ or $nil$ if no $\mathsf{EndEffector}$ is attached.
+\item \stvar{reff}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{EndEffectors} $\cup$ \{\textit{nil}\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise \textit{nil}.
 
-\item \emph{topWorkTable}: $\mathsf{WorkTable}\times S\rightarrow\mathsf{KitInstances}$ $\cup$ $\lbrace nil\rbrace$: designates the object placed on the $\mathsf{WorkTable}$, it can be either a $\mathsf{KitInstnce}$ or nothing ($nil$).
+\item \stvar{onworktable}: \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{KitInstances} $\cup$ \{\textit{nil}\}: designates the object placed on the \class{WorkTable}, i.e., a \class{KitInstance} or nothing (\textit{nil}).
 
-\item \emph{kInsLoc}: $\mathsf{KitInstances}\times S\rightarrow\mathsf{LargeBoxWithKits}$ $\cup$ $\mathsf{WorkTable}$ $\cup$ $\mathsf{Robots}$: designates the different possible locations of a $\mathsf{KitInstance}$ in the workstation. The $\mathsf{KitInstance}$ can be in a $\mathsf{LargeBoxWithKits}$, on the $\mathsf{WorkTable}$, or being held by the $\mathsf{Robot}$.
+\item \stvar{kinsloc}: \class{KitInstances}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithKits} $\cup$ \class{WorkTable} $\cup$ \class{Robots}: designates the different possible locations of a \class{KitInstance} in the workstation, i.e., in a \class{LargeBoxWithKits}, on the \class{WorkTable}, or being held by a \class{Robot}.
 
-\item \emph{kTLoc}: $\mathsf{KitTrays}\times S\rightarrow\mathsf{LargeBoxWithEmptyKitTrays}$ $\cup$ $\mathsf{Robots}$: designates the different possible locations of a $\mathsf{KitTray}$ in the workstation. The $\mathsf{KitTray}$ can either be in a $\mathsf{LargeBoxWithEmptyKitTrays}$ or being held by the $\mathsf{Robot}$.
+\item \stvar{ktloc}: \class{KitTrays}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithEmptyKitTrays} $\cup$ \class{Robots}: designates the different possible locations of a \class{KitTray} in the workstation, i.e., in a \class{LargeBoxWithEmptyKitTrays} or being held by a \class{Robot}.
 
-\item \emph{pLoc}: $\mathsf{Parts}\times S\rightarrow\mathsf{PartTrays}$ $\cup$ $\mathsf{KitInstances}$ $\cup$ $\mathsf{Robots}$: designates the different possible locations of a $\mathsf{Part}$ in the workstation. The $\mathsf{Part}$ can be in a $\mathsf{PartTray}$, in a $\mathsf{KitInstance}$, or being held by the $\mathsf{Robot}$.
+\item \stvar{partloc}: \class{Parts}$\mathrm{\times S\rightarrow}$\class{PartTrays} $\cup$ \class{KitInstances} $\cup$ \class{Robots}: designates the different possible locations of a \class{Part} in the workstation, i.e., in a \class{PartTray}, in a \class{KitInstance}, or being held by a \class{Robot}.
 
-\item \emph{rHold}: $\mathsf{Robots}\times S\rightarrow\mathsf{KitTrays}$ $\cup$ $\mathsf{KitInstances}$ $\cup$ $\mathsf{Parts}$ $\cup \lbrace nil\rbrace$: designates the object being held by the $\mathsf{Robots}$. It can be a $\mathsf{KitTray}$, a $\mathsf{KitInstance}$, $\mathsf{Part}$, or nothing ($nil$). It is assumed that the robot is already equipped with the appropriate $\mathsf{EndEffector}$.
+\item \stvar{rhold}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{KitTrays} $\cup$ \class{KitInstances} $\cup$ \class{Parts} $\cup$ \{\textit{nil}\}: designates the object being held by a \class{Robot}, i.e., a \class{KitTray}, a \class{KitInstance}, \class{Part}, or nothing (\textit{nil}). It is assumed that the \class{Robot} is already equipped with the appropriate \class{EndEffector}.
 
-\item \emph{isLBWKFull}: $\mathsf{LargeBoxWithKits}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a $\mathsf{LargeBoxWithKits}$ is full (1) or not (0).
+\item \stvar{islbwkfull}: \class{LargeBoxWithKits}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{LargeBoxWithKits} is full (1) or not (0).
 
-\item \emph{isLBWEKTEmpty}: $\mathsf{LargeBoxWithEmptyKitTrays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a $\mathsf{LargeBoxWithEmptyKitTrays}$ is empty (1) or not (0).
+\item \stvar{islbwektempty}: \class{LargeBoxWithEmptyKitTrays}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{LargeBoxWithEmptyKitTrays} is empty (1) or not (0).
 
-\item \emph{isPartTrayEmpty}: $\mathsf{PartTrays}\times S\rightarrow \lbrace 0\rbrace \cup \lbrace 1\rbrace$: designates if a $\mathsf{PartTray}$ is empty (1) or not (0).
+\item \stvar{isptempty}: \class{PartTrays}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{PartTray} is empty (1) or not (0).
 
-\item \emph{eEffType}: $\mathsf{EndEffectors}\times S \rightarrow\mathsf{KitTrays}$ $\cup$ $\mathsf{Parts}$: designates the type of object the $\mathsf{EndEffector}$ can hold. For the kitting domain used in this paper, an $\mathsf{EndEffector}$ can hold two types of object: $\mathsf{KitTrays}$ and $\mathsf{Parts}$.
+\item \stvar{efftype}: \class{EndEffectors}$\mathrm{\times S \rightarrow}$\class{KitTrays} $\cup$ \class{KitInstancess} $\cup$ \class{Parts}: designates the type of object an \class{EndEffector} can hold, i.e., \class{KitTrays}, \class{KitInstancess}, or \class{Parts}.
+
+\item \stvar{effhtype}: \class{EndEffectorHolders}$\mathrm{\times S \rightarrow}$\class{EndEffectors}: designates the \class{EndEffector} an \class{EndEffectorHolder} can hold.
 \end{itemize}
-%\end{small}
+
+
+\subsubsection{Rigid Relations}
+\label{subsubsect:Rigid_Relation}
+\stvar{efftype} and \stvar{effhtype} are rigid relations since their values do not vary from one state to another. In each state, an \class{EndEffector} will always hold the same type of object and an \class{EndEffectorHolder} will always hold the same \class{EndEffectors}.
 
 \subsubsection{Planning Operators and Actions}
 \label{subsect:Planning_Operators}
+\begin{comment}
 A planning operator~\cite{NAU.2004} is a triple \textit{o=(name(o), precond(o), effects(o))}
 where:
 \begin{itemize}
@@ -253,29 +188,29 @@ same operator symbol).
 \item effects(o) is a set of assignments of values to state variables of the form
 $x(t_1,\dots,t_k)\leftarrow t_{k+1}$, where each $t_i$ is a term in the appropriate range.
 \end{itemize}
-
-The kitting domain is composed of eight operators. Only the operators' names and descriptions are mentioned in the rest of this section. Section~\ref{sect:Example} describes a more detailed operator through an example.
+\end{comment}
+The kitting domain is composed of eight operators. Only the operators' names and descriptions are mentioned in this section. Section~\ref{sect:Example} describes a more detailed operator through an example.
 
 \begin{enumerate}
-\item \textsl{take-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{lbwekt}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ equipped with the $\mathrm{EndEffector}$ $\mathrm{eeff}$ picks up the $\mathrm{KitTray}$ $\mathrm{kt}$ from the $\mathrm{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt}$.
+\item \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eeff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
 
-\item \textsl{put-kt} ($\mathrm{r}$, $\mathrm{kt}$, $\mathrm{wtable}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitTray}$ $\mathrm{kt}$ on the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
+\item \op{put-kt}(\const{r},\const{kt},\const{wtable}): The \class{Robot} \const{r} puts down the \class{KitTray} \const{kt} on the \class{WorkTable} \const{wtable}.
 
-\item \textsl{take-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{wtable}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ equipped with the $\mathrm{EndEffector}$ $\mathrm{eeff}$ picks up the $\mathrm{KitInstance}$ $\mathrm{kins}$ from the $\mathrm{WorkTable}$ $\mathrm{wtable}$.
+\item \op{take-kins}(\const{r},\const{kins},\const{wtable},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eff} picks up the \class{KitInstance} \const{kins} from the \class{WorkTable} \const{wtable}.
 
-\item \textsl{put-kins} ($\mathrm{r}$, $\mathrm{kins}$, $\mathrm{lbwk}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{KitInstance}$ $\mathrm{kins}$ in the $\mathrm{LargeBoxWithKits}$ $\mathrm{lbwk}$.
+\item \op{put-kins}(\const{r},\const{kins},\const{lbwk}): The \class{Robot} \const{r} puts down the \class{KitInstance} \const{kins} in the \class{LargeBoxWithKits} \const{lbwk}.
 
-\item \textsl{take-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{pt}$, $\mathrm{eeff}$): The $\mathrm{Robot}$ $\mathrm{r}$ uses the $\mathrm{EndEffector}$ $\mathrm{eeff}$ to pick up the $\mathrm{Part}$ $\mathrm{p}$ from the $\mathrm{PartTray}$ $\mathrm{pt}$.
+\item \op{take-p}(\const{r},\const{part},\const{pt},\const{eff}): The \class{Robot} \const{r} uses the \class{EndEffector} \const{eff} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{pt}.
 
-\item \textsl{put-p} ($\mathrm{r}$, $\mathrm{p}$, $\mathrm{kins}$): The $\mathrm{Robot}$ $\mathrm{r}$ puts down the $\mathrm{Part}$ $\mathrm{p}$ in the $\mathrm{KitInstance}$ $\mathrm{kins}$.
+\item \op{put-p}(\const{r},\const{part},\const{kins}): The \class{Robot} \const{r} puts down the \class{Part} \const{part} in the \class{KitInstance} \const{kins}.
 
-\item \textsl{attach-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$): The $\mathrm{Robot}$ $\mathrm{r}$ attaches the $\mathrm{EndEffector}$ $\mathrm{eeff}$ from the $\mathrm{EndEffectorHolder}$ $\mathrm{eeffholder}$.
+\item \op{attach-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} attaches the \class{EndEffector} \const{eff}, situated in the \class{EndEffectorHolder} \const{effh}.
 
-\item \textsl{remove-eeff} ($\mathrm{r}$, $\mathrm{eeff}$, $\mathrm{eeffholder}$): The $\mathsf{Robot}$ $\mathrm{r}$ removes the $\mathrm{EndEffector}$ $\mathrm{eeff}$ and puts it in the $\mathrm{EndEffectorHolder}$ $\mathrm{eeffholder}$.
+\item \op{remove-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} removes the \class{EndEffector} \const{eff} and puts it in the \class{EndEffectorHolder} \const{effh}.
 \end{enumerate}
 
 An action \textit{a} can be obtained by substituting the object variable symbols that
-appear anywhere in \textit{o} with constant symbols. For instance, the operator \textsl{take-p}($\mathrm{r}$, $\mathrm{p}$, $\mathrm{pt}$, $\mathrm{eeff}$) in the kitting domain can be translated into the action \textsl{take-p}($\mathrm{r_1}$, $\mathrm{p_1}$, $\mathrm{pt_1}$, $\mathrm{eeff_2}$) where $\mathrm{r_1}$, $\mathrm{p_1}$, $\mathrm{pt_1}$, and $\mathrm{eeff_2}$ are constant symbols in the classes $\mathsf{Robots}$, $\mathsf{Parts}$, $\mathsf{PartTrays}$, and $\mathsf{EndEffectors}$, respectively.
+appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-p}(\const{r},\const{part},\const{pt},\const{eff}) in the kitting domain can be translated into the action \op{take-p}(\const{r_1},\const{part_1},\const{pt_1},\const{eff_2}) where \const{r_1}, \const{part_1}, \const{pt_1}, and \const{eff_2} are constant variable symbols in the classes \class{Robots}, \class{Parts}, \class{PartTrays}, and \class{EndEffectors}, respectively.
 \subsection{Ontology}
 ``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
 
@@ -296,9 +231,9 @@ As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is
 the kitting ontology, and the instance file. The process specification file is based off of the planning operators from the SVR and contains descriptions of
 the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file is based off of the constant symbols and
 state variable symbols and contains the concepts related to the specific items
-that compose the kitting domain, e.g. the hierarchy of what it means to be a $\mathrm{Part_a}$. That a $\mathrm{Part_a}$ is a type of $\mathrm{Part}$, and that
-all $\mathrm{Parts}$ contain properties such as the part's weight, dimensions, and grip points. The instance file is based off of the SVR object variable symbols and
-contains specific information on {\it this} particular kitting problem and configuration, e.g. $\mathrm{KitTray kt_1}$ contains 4 $\mathrm{Parts}$ of type $\mathrm{Part_a}$.
+that compose the kitting domain, e.g. the hierarchy of what it means to be a $\mathrm{Part_a}$. That a $\mathrm{Part_a}$ is a type of \class{Part}, and that
+all \class{Parts} contain properties such as the part's weight, dimensions, and grip points. The instance file is based off of the SVR object variable symbols and
+contains specific information on {\it this} particular kitting problem and configuration, e.g. \class{KitTray} \const{kt_1} contains 4 \class{Parts} of type \const{Part_a}.
 
 While this file set provides a complete description of the problem domain and environment, most planning systems cannot directly ingest information from an ontology.
 Therefore, the next layer of the data abstraction known as the Planning Language layer was created.
@@ -311,10 +246,10 @@ work is based on PDDL Version  3.
 
 By placing our knowledge in a PDDL representation, we enable the use of an entire family of open source planning systems.
 As shown in Figure \ref{fig:ProcessDataFlow}, each PDDL file-set consists of two files that specify the domain and the problem. The PDDL domain file is composed of four sections that include
-requirements, types and constants, predicates, and actions. This file may be automatically generated from a combination of information that is contained in the OWL-S process specification file and the OWL Kitting Ontology file. 
+requirements, types and constants, predicates, and actions. This file may be automatically generated from a combination of information that is contained in the OWL-S process specification file and the OWL Kitting Ontology file.
 
 The requirements section specifies which extensions this problem domain relies on. The planning system can examine this statement to determine if it is capable of solving problems in this domain. In PDDL, all variables that are used in the domain must be typed. Types are defined in the $\mathrm{types}$ section. It is also possible to have constants that specify that all problems will share this single value. For example, in the simplest kitting workstation we will have a single $\mathrm{Robot}$ $\mathrm{r_1}$.
-Predicates specify relationships between instances. For example, an instance of a $\mathrm{KitTray}$, $\mathrm{kt_1}$, can have a physical location and contains instances of $\mathrm{Parts}$, $\mathrm{Part_a}$, $\mathrm{Part_b}$, and $\mathrm{Part_c}$. The final section of the PDDL domain file is concerned with actions. An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. The preconditions dictate items that must be initially true for the action to be legal. The effect equation dictates the changes in the world that will occur due to the execution of the action.
+Predicates specify relationships between instances. For example, an instance of a \class{KitTray}, \const{kt_1}, can have a physical location and contains instances of \class{Parts}, \const{part_A}, \const{part_B}, and \const{part_C}. The final section of the PDDL domain file is concerned with actions. An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. The preconditions dictate items that must be initially true for the action to be legal. The effect equation dictates the changes in the world that will occur due to the execution of the action.
 
 The second file of the PDDL file-set is a  problem file. The problem file specifies information about the specific instance of the given problem. This file contains the initial conditions and definition of the world (in the init section) and the final state that the world must be brought to (in the goal section). A specific example of the ontology to planning language conversion is provided in Section \ref{sect:Example}.
 

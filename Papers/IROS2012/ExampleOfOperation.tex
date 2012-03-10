@@ -2,19 +2,19 @@ The purpose of this section is to illustrate the various knowledge representatio
 
 \subsection{State Variable Representation}
 
-In the example, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that build the PDDL domain file while section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
+In the example, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that build the PDDL domain file while Section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
 
-The state variable representation defines the necessary parameters for the PDDL domain and problem files. The PDDL domain file contains predicates, characterized by state variable symbols, and actions. The PDDL problem file contains the objects present in the problem instance, characterized by constant variables, the initial state $s_0$ description and the goal $s_G$.
+The state variable representation defines the necessary parameters for the PDDL domain and problem files. The PDDL domain file contains predicates, characterized by state variable symbols, and actions. The PDDL problem file contains the objects present in the problem instance, characterized by constant variable symbols, the initial state $s_0$ description and the goal $s_G$.
 
 
 
 \paragraph{Constant Variable Symbols}
-The kitting domain proposed for the example contains a \class{Robot} \const{r_1}, a \class{KitTray} \const{kt_1}, a \class{LargeBoxWithEmptyKitTrays} \const{lbwekt_1}, a \class{LargeBoxWithKits} \const{lbwk_1}, a \class{WorkTable} \const{wtable}, three \class{PartTrays} \const{pt_{A}}, \const{pt_{B}}, and \const{pt_{C}}, \class{Parts} \const{part_{A-1}}, \const{part_{A-2}}, \const{part_{B}}, and \const{part_{C}}, two \class{EndEffectors} \const{eff_1} and \const{eff_2}, and two  \class{EndEffectorHolders} \const{effh_1} and \const{effh_2}. Since a \class{KitInstance} is by definition a \class{KitTray}, the kitting domain also contains a \class{KitInstance} \const{kins_1}.
+The kitting domain proposed for the example contains a \class{Robot} \const{r_1}, a \class{KitTray} \const{kt_1}, a \class{LargeBoxWithEmptyKitTrays} \const{lbwekt_1}, a \class{LargeBoxWithKits} \const{lbwk_1}, a \class{WorkTable} \const{wtable}, three \class{PartTrays} \const{pt_{A}}, \const{pt_{B}}, and \const{pt_{C}}, \class{Parts} \const{part_{A-1}}, \const{part_{A-2}}, \const{part_{B}}, and \const{part_{C}}, two \class{EndEffectors} \const{eff_1} and \const{eff_2}, and two  \class{EndEffectorHolders} \const{effh_1} and \const{effh_2}. Since a \class{KitInstance} is by definition a \class{KitTray} that contains \class{Parts}, the kitting domain also contains a constant variable symbol \const{kins_1} from \class{KitInstance}.
 
 \paragraph{State Variable Symbols}
 The state variable symbols for the kitting domains are the ones defined in section \ref{subsubsect:State_Variable_Symbols}.
 
-\paragraph{Rigid Relation}
+\paragraph{Rigid Relations}
 \begin{comment}
 As stated in section \ref{subsubsect:Rigid_Relation}, the kitting domain has two rigid relations: \stvar{efftype} and \stvar{effhtype}. In the proposed example, the \class{EndEffector} \const{eff_1} can hold \class{KitTrays} and \class{KitInstances}, while the \class{EndEffector} \const{eff_1} can hold \class{Parts}. \stvar{efftype} can be stated as follows: \stvar{efftype}(\const{eff_1})=\{\const{kt_1},\const{kins_1}\} and \stvar{efftype}(\const{eff_1})=\{\const{part_{A-1}},\const{part_{A-2}},\const{part_{B}},\const{part_{C}}\}. In the same way, the \class{EndEffectorHolder} \const{effh_1} can hold the \class{EndEffector} \const{eff_1}, while the \class{EndEffectorHolder} \const{effh_2} can hold the \class{EndEffector} \const{eff_2}. \stvar{effhtype} can be stated as follows: \stvar{effhtype}(\const{effh_1})=\{\const{eff_1}\} and \stvar{effhtype}(\const{effh_2})=\{\const{eff_2}\}.
 \end{comment}
@@ -35,15 +35,15 @@ In the initial state $s_0$, the $\mathsf{Robot}$ $\mathrm{r_1}$ is not equipped 
 The goal state $s_g$, the $\mathsf{KitInstance}$ $\mathrm{kins_1}$ contains $\mathsf{Parts}$ $\mathrm{p_{A-1}}$, $\mathrm{p_{A-2}}$, $\mathrm{p_{B-1}}$, and $\mathrm{p_{C-1}}$. The $\mathsf{KitInstance}$ $\mathrm{kins_1}$ is placed in the $\mathsf{LargeBoxWithKits}$ $\mathrm{lbwk_1}$.
 \end{comment}
 The goal state $s_G$ can be represented by the following set of state variable symbols:\\
-$s_g$ =\{\stvar{partloc}(\const{part_{C}})=\const{kins_1}, \stvar{partloc}(\const{part_{B}})=\const{kins_1}, \stvar{partloc}(\const{part_{A-1}})=\const{kins_1}, \stvar{partloc}(\const{part_{A-2}})=\const{kins_1},   \stvar{kinsloc}(\const{kins_1})=\const{lbwk_1}\}.
+$s_g$ =\{\stvar{partloc}(\const{part_{C}})=\const{kins_1}, \stvar{partloc}(\const{part_{B}})=\const{kins_1}, \stvar{partloc}(\const{part_{A-2}})=\const{kins_1}, \stvar{partloc}(\const{part_{A-1}})=\const{kins_1},   \stvar{kinsloc}(\const{kins_1})=\const{lbwk_1}\}.
 
 \paragraph{Action}
-Eight different operators were introduced in section \ref{subsect:Planning_Operators}. However, for the sake of this example, the operator \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff}) will be used. Substituting the object variable symbols described in the definition of the operator \op{take-kt} with the constant variables defined in this example, the following action is produced:
+Among the eight planning operators introduced in Section \ref{subsect:Planning_Operators}, only the planning operator \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff}) will be discussed in this example. By substituting the object variable symbols described in the definition of the planning operator \op{take-kt} with the constant variable symbols defined in this example, the following action is produced:
 
 \begin{itemize}
 \item \op{take-kt}(\const{r_1},\const{kt_1},\const{lbwekt_1},\const{eff_2}): The \class{Robot} \const{r_1} equipped with the \class{EndEffector} \const{eff_2} picks up the \class{KitTray} \const{kt_1} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt_1}.
 \begin{itemize}
-\item precond: \stvar{ktloc}(\const{kt_1})=\const{lbwekt_1}, \stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{reff}(\const{r_1})=\const{eff_2}, \stvar{effloc}(\const{eeff_1})=\const{r_1}, \stvar{islbwektempty}(\const{lbwekt_1})=0
+\item precond: \stvar{ktloc}(\const{kt_1})=\const{lbwekt_1}, \stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{reff}(\const{r_1})=\const{eff_2}, \stvar{effloc}(\const{eff_1})=\const{r_1}, \stvar{islbwektempty}(\const{lbwekt_1})=0
 \item effects: \stvar{ktloc}(\const{kt_1})$\leftarrow$\const{r_1}, \stvar{rhold}(\const{r_1})$\leftarrow$\const{kt_1}
 \end{itemize}
 \end{itemize}
@@ -53,12 +53,12 @@ Eight different operators were introduced in section \ref{subsect:Planning_Opera
 
 \subsection{Process for the PDDL Domain File}
 \label{subsect:PDDL_Domain_File}
-Once the state variable representation is defined, an OWL-S process specification and OWL ontology is built. This must be constructed by hand from the information in the SVR as described in Section \ref{subsect:Ontology}. For this example, the specific action  \op{take-kt}'s encoding into OWL-S will be discussed. 
+Once the state variable representation is defined, an OWL-S process specification and OWL ontology is built. This must be constructed by hand from the information in the SVR as described in Section \ref{subsect:Ontology}. For this example, the specific action  \op{take-kt}'s encoding into OWL-S will be discussed.
 
 \subsubsection{OWL-S Representation}
 Once the action is specified in the SVR, we can use that information to create an OWL-S process. We are modeling the action as a process and including information about its data inputs and outputs, the preconditions that have to be true for it to be performed, and the result that will be true after the process is executed. In our example, the process is an atomic process because it only involves a single interaction and consists of only one step. If it were a more complex process that involved multiple sub-actions, it would be modeled by an OWL-S composite process.
 
-In the SVR, the preconditions clearly map to the OWL-S precondition. These can be represented in languages such as KIF \cite{KIF} (Knowledge Interchange Format), SPARQL \cite{SPARQL} (SPARQL Protocol and RDF Query Language), or SWRL \cite{SWRL-W3C} (Semantic Web Rule Language). The rules point to classes and instances in the ontology that model the concepts of kit tray (\const{kt}), a set of large box with empty kit trays (\const{lbwekt}), a robot (\const{r}), and a robot end effector (\const{eff}). The SVR effects map to the OWL-S results and are also represented in one of the rules languages above. In the case of the \op{take-kt} action, the result would specify that the location of the kit tray is no longer in a fixed location and is now in the robot gripper effector.
+In the SVR, the preconditions clearly map to the OWL-S precondition. These can be represented in languages such as KIF \cite{KIF} (Knowledge Interchange Format), SPARQL \cite{SPARQL} (SPARQL Protocol and RDF Query Language), or SWRL \cite{SWRL-W3C} (Semantic Web Rule Language). The rules point to classes and instances in the ontology that model the concepts of kit tray (\const{kt}), a set of large box with empty kit trays (\const{lbwekt}), a robot (\const{r}), and a robot end effector (\const{eff}). The SVR effects map to the OWL-S results and are also represented in one of the rules languages above. In the case of the \op{take-kt} action, the result would specify that the location of the kit tray is no longer in a fixed location and is now in the robot end effector.
 
 Though not explicitly represented in the SVR, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the SVR. Specifically, it needs to know which robot is performing the action (\const{r_1}), which kit tray needs to be picked up (\const{kt_1}), which end effector is on the robot (\const{eff_2}), and from which box the robot needs to pick up the kit tray (\const{lbwekt_1}). The output of this action would be a Boolean stating whether the action was completed successfully or not.
 
@@ -127,11 +127,11 @@ contains the required sections of requirements, initial conditions, and goal con
  (:init  (rhold r1 nil) (effloc eff1 effh1)
   (effloc eff2 effh2) (not (isptempty ptA))
   (not (isptempty ptB)) (not (isptempty ptC))
-  (onwrktable wtable nil) (not (islbwektempty lbwekt1))
+  (onworktable wtable nil) (not (islbwektempty lbwekt1))
   (not (islbwkfull lbwk1)), (partloc partA-1 ptA)
   (partloc partA-2 ptA) (partloc partB ptB)
   (partloc partC ptC) (ktloc kt1 lbwekt1))
-  (:goal (and (partloc partA-1 kins1)
+ (:goal (and (partloc partA-1 kins1)
   (partloc partA-2 kins1) (partloc partB kins1)
   (partloc partC kins1) (kinsloc kins1 lbwk1)))
 \end{Verbatim}

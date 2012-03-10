@@ -33,9 +33,9 @@ Component parts may be fixtured, for example placed in compartments on trays, or
 placed in a large bin. In addition to the kit's component parts, the workstation usually contains a storage area for empty kit boxes as
 well as completed kits.
 
-Kitting, has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation in an agile manufacturing environment. This workstation must be able to cope with
+Kitting has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation in an agile manufacturing environment. This workstation must be able to cope with
 variations in kit contents, kit layout, and component supply. We also plan to develop a simulated kitting workstation for model validation. Our models
-include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, grippers, etc., models of executable information such as actions, preconditions, and effects, and models of the  process plan
+include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, end effectors, etc., models of executable information such as actions, preconditions, and effects, and models of the  process plan
 necessary for kit construction. A discussion of the functional requirements for the process plan may be found in \cite{Balakirsky2012_1}.
 For our automated kitting workstation, we assume that a robot performs a series of pick-and-place operations
 in order to construct the kit. These operations include:
@@ -58,8 +58,8 @@ Although the knowledge requirements described in the previous paragraph have bee
 
 In keeping with our philosophy of producing standards in conjunction with the IEEE WG, we wish the models being developed by this effort to be as widely applicable as possible. To support this desire,we have
 created a layered model abstraction where users may adopt as many or few of the layers of the abstraction as make sense for their
-specific application.  The architecture shown in Figure \ref{fig:ProcessDataFlow}, though developed for the implementation of the kitting ontology, can be equally applicable to the implementation of any type of formal manufacturing knowledge representation. Said in a different way, the implementor can plug in a knowledge representation for a different domain and the architecture would still be valid. In a similar manner, different planning language abstractions could be utilized in the middle-layer of the
-abstraction and different planning/execution systems could be utilized in the top-layer of the abstraction.
+specific application.  The architecture shown in Figure \ref{fig:ProcessDataFlow}, though developed for the implementation of the kitting ontology, can be equally applicable to the implementation of any type of formal manufacturing knowledge representation. Said in a different way, the implementor can plug in a knowledge representation for a different domain and the architecture would still be valid. In a similar manner, different planning language abstractions could be utilized in the planning language layer of the
+abstraction and different planning/execution systems could be utilized in the robot language layer of the abstraction.
 
 Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. An example of the
 various knowledge representations and the flow from one to the next is presented in Section \ref{sect:Example}. Finally,
@@ -106,7 +106,7 @@ A SVR relies on the elements of constant symbols, object variable symbols, state
 For the kitting domain, there is a finite set of constant variable symbols that must be represented in the system. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
 %\begin{small}
 \begin{itemize}
-\item A set of \class{Parts} this is \{\const{part_1},\const{part_2},\ldots\}: \class{Parts} are the basic items that will be used to fill a kit.
+\item A set of \class{Parts} \{\const{part_1},\const{part_2},\ldots\}: \class{Parts} are the basic items that will be used to fill a kit.
 
 \item A set of \class{PartTrays} \{\const{pt_1},\const{pt_2},\ldots\}: \class{Parts} arrive at the workstation in \class{PartTrays}. Each part is at a known position in the \class{PartTray}. Each \class{PartTray} contains one type of \class{Part}.
 
@@ -131,7 +131,7 @@ For the kitting domain, there is a finite set of constant variable symbols that 
 %\end {small}
 
 \subsubsection{Object Variable Symbols}
-Object variable symbols are typed variables which range over a class or the union of classes of constants. Examples of object variable symbols are \const{r} $\in$ \class{Robots}, \const{kt} $\in$ \class{KitTrays}, etc.
+Object variable symbols are typed variables which range over a class or the union of classes of constant variable symbols. Examples of object variable symbols are \const{r} $\in$ \class{Robots}, \const{kt} $\in$ \class{KitTrays}, etc.
 
 \subsubsection{State Variable Symbols}
 \label{subsubsect:State_Variable_Symbols}
@@ -147,11 +147,11 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{reff}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{EndEffectors} $\cup$ \{\textit{nil}\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise \textit{nil}.
 
-\item \stvar{onworktable}: \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{KitInstances} $\cup$ \{\textit{nil}\}: designates the object placed on the \class{WorkTable}, i.e., a \class{KitInstance} or nothing (\textit{nil}).
+\item \stvar{onworktable}: \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{KitInstances} $\cup$ \class{KitTrays} $\cup$ \{\textit{nil}\}: designates the object placed on the \class{WorkTable}, i.e., a \class{KitInstance}, a \class{KitTray}, or nothing (\textit{nil}).
 
 \item \stvar{kinsloc}: \class{KitInstances}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithKits} $\cup$ \class{WorkTable} $\cup$ \class{Robots}: designates the different possible locations of a \class{KitInstance} in the workstation, i.e., in a \class{LargeBoxWithKits}, on the \class{WorkTable}, or being held by a \class{Robot}.
 
-\item \stvar{ktloc}: \class{KitTrays}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithEmptyKitTrays} $\cup$ \class{Robots}: designates the different possible locations of a \class{KitTray} in the workstation, i.e., in a \class{LargeBoxWithEmptyKitTrays} or being held by a \class{Robot}.
+\item \stvar{ktloc}: \class{KitTrays}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithEmptyKitTrays} $\cup$ \class{Robots} $\cup$ \class{WorkTable}: designates the different possible locations of a \class{KitTray} in the workstation, i.e., in a \class{LargeBoxWithEmptyKitTrays}, on a \class{WorkTable} or being held by a \class{Robot}.
 
 \item \stvar{partloc}: \class{Parts}$\mathrm{\times S\rightarrow}$\class{PartTrays} $\cup$ \class{KitInstances} $\cup$ \class{Robots}: designates the different possible locations of a \class{Part} in the workstation, i.e., in a \class{PartTray}, in a \class{KitInstance}, or being held by a \class{Robot}.
 
@@ -163,15 +163,15 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{isptempty}: \class{PartTrays}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{PartTray} is empty (1) or not (0).
 
-\item \stvar{efftype}: \class{EndEffectors}$\mathrm{\times S \rightarrow}$\class{KitTrays} $\cup$ \class{KitInstancess} $\cup$ \class{Parts}: designates the type of object an \class{EndEffector} can hold, i.e., \class{KitTrays}, \class{KitInstancess}, or \class{Parts}.
+\item \stvar{efftype}: \class{EndEffectors}$\mathrm{\times S \rightarrow}$\class{KitTrays} $\cup$ \class{KitInstancess} $\cup$ \class{Parts}: designates the type of object an \class{EndEffector} can hold, i.e., \class{KitTrays}, \class{KitInstances}, or \class{Parts}.
 
-\item \stvar{effhtype}: \class{EndEffectorHolders}$\mathrm{\times S \rightarrow}$\class{EndEffectors}: designates the \class{EndEffector} an \class{EndEffectorHolder} can hold.
+\item \stvar{effhtype}: \class{EndEffectorHolders}$\mathrm{\times S \rightarrow}$\class{EndEffectors}: designates the \class{EndEffector} that an \class{EndEffectorHolder} can hold.
 \end{itemize}
 
 
 \subsubsection{Rigid Relations}
 \label{subsubsect:Rigid_Relation}
-\stvar{efftype} and \stvar{effhtype} are rigid relations since their values do not vary from one state to another. In each state, an \class{EndEffector} will always hold the same type of object and an \class{EndEffectorHolder} will always hold the same \class{EndEffectors}.
+\stvar{efftype} and \stvar{effhtype} are rigid relations since their values do not vary from one state to another. In each state, a given \class{EndEffector} will always hold the same type of object and a given \class{EndEffectorHolder} will always hold the same \class{EndEffectors}.
 
 \subsubsection{Planning Operators and Actions}
 \label{subsect:Planning_Operators}
@@ -188,7 +188,7 @@ same operator symbol).
 $x(t_1,\dots,t_k)\leftarrow t_{k+1}$, where each $t_i$ is a term in the appropriate range.
 \end{itemize}
 \end{comment}
-The kitting domain is composed of eight operators. Only the operators' names and descriptions are mentioned in this section. Section~\ref{sect:Example} describes a more detailed operator through an example.
+A planning operator is used to describe one of the procedures that can be used to move from one state to another. Our kitting domain is composed of eight operators. Only the operators' names and descriptions are mentioned in this section. Section~\ref{sect:Example} details a planning operator through an example.
 
 \begin{enumerate}
 \item \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eeff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
@@ -229,11 +229,11 @@ As more detailed scenarios are determined and a richer set of concepts are uncov
 
 As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is divided into three sets of files and consists of a representation of the process specification,
 the kitting ontology, and the instance file. The process specification file is based off of the planning operators from the SVR and contains descriptions of
-the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file is based off of the constant symbols and
+the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file is based off of the constant variable symbols and
 state variable symbols and contains the concepts related to the specific items
-that compose the kitting domain, e.g. the hierarchy of what it means to be a $\mathrm{Part_a}$. That a $\mathrm{Part_a}$ is a type of \class{Part}, and that
+that compose the kitting domain, e.g. the hierarchy of what it means to be a \const{part_A}. That a \const{part_A} is a type of \class{Part}, and that
 all \class{Parts} contain properties such as the part's weight, dimensions, and grip points. The instance file is based off of the SVR object variable symbols and
-contains specific information on {\it this} particular kitting problem and configuration, e.g. \class{KitTray} \const{kt_1} contains 4 \class{Parts} of type \const{Part_a}.
+contains specific information on {\it this} particular kitting problem and configuration, e.g. \class{KitTray} \const{kt_1} contains four \class{Parts} of type \const{part_A}.
 
 While this file set provides a complete description of the problem domain and environment, most planning systems cannot directly ingest information from an ontology.
 Therefore, the next layer of the data abstraction known as the Planning Language layer was created.
@@ -269,7 +269,7 @@ The second file of the PDDL file-set is a  problem file. The problem file specif
 \input{ExampleOfOperation}
 
 
-\addtolength{\textheight}{-16.5cm}   % This command serves to balance the column lengths
+\addtolength{\textheight}{-15cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
                                   % the textheight of the last page by a suitable amount.
                                   % This command does not take effect until the next page

@@ -77,16 +77,15 @@ conclusions and future work may be found in Section \ref{sect:Conclusions}.
 The main focus of this work is on the development of knowledge models that allow a kitting workstation to construct kits
 in an agile manufacturing environment. However, in order to validate these knowledge models, we felt that it was
 important to be able to utilize the models to construct kit building plans, and then to execute these plans in dynamic
-virtual and real environments. Due to the advent of open source robotic operating systems such as ROS \cite{ROS}
- \footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply
-recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}
+virtual and real environments. Due to the advent of open source robotic operating systems such as ROS\footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply
+recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}\cite{ROS}
  and simulation
 packages such as USARSim \cite{Balakirsky2007} we do not need to design these systems ourselves. However, our architecture must
 be designed to represent the required knowledge base in several different abstractions that are likely to be
 required by these systems as the knowledge flows from domain and process specification, to plan generation, to plan execution.
 As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into four
 distinct layers of {\it Domain Specific Information}, {\it Ontology}, {\it Planning Language}, and {\it Robot Language} that correspond to these
-knowledge requirements. In this paper, we will discuss the layers ofthe Domain Specific Information through Planning Language. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
+knowledge requirements. In this paper, we will discuss the layers of the Domain Specific Information through Planning Language. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
 their particular application. For our simulated kitting workstation, we intend to fully design the Domain Specific Information and the Ontology and
 then utilize open
 source tools that will automatically generate the remaining layers and provide a workstation simulation.
@@ -101,7 +100,7 @@ In a SVR, each state is represented by a tuple of values of $n$ state variables 
 
 To build the SVR, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting SVR. The concepts were then modeling in our SVR, building off of the definitions and relationships that were identified in the scenario.
 
-A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, rigid relations and planning operators. These are defined for the kitting domain in the rest of this section.
+A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, rigid relations, and planning operators. These are defined for the kitting domain in the rest of this section.
 
 \subsubsection{Constant Variable Symbols}
 For the kitting domain, there is a finite set of constant variable symbols that must be represented in the system. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
@@ -219,7 +218,7 @@ Knowledge models may take many forms ranging from informal natural language, to 
 For the development of the  knowledge representation, the industrial robots sub-group has decided to use the  Web Ontology Language (OWL) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and Resource Description Framework/eXtensible Markup Language (RDF/XML)-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
 
 In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
-for describing Semantic Web Services. However, many of the constructs that are used to describe services are equally applicable to encoding our SVR. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
+for describing Semantic Web Services. Many of the constructs that are used to describe services are equally applicable to encoding our SVR. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
 
 Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  domain specific knowledge  be
 encoded in an OWL ontology at the first domain independent  layer of our abstraction. The knowledge contained in this layer is derived from our SVR and may also contain

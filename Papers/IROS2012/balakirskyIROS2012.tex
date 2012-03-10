@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representation that has been developed for the kitting problem and presents our implementation of the knowledge representation.
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representations that have been developed for the kitting problem and presents our implementation of the knowledge representations.
 
 \end{abstract}
 
@@ -25,7 +25,7 @@ In industrial assembly of manufactured products, kitting is often performed prio
 due to its ability to provide cost savings \cite{Carlsson_2008} including saving manufacturing or assembly space \cite{Medbo2003}, reducing assembly workers walking and searching times \cite{Schwind1992}, and increasing line flexibility \cite{Bozer1992} and balance \cite{Jiao2000}.
 
 Several different techniques are used to create kits. A kitting operation where a kit box is stationary until filled at a single
-kitting workstation is refereed to as {\it batch kitting}. In {\it zone kitting}, the kit moves while being filled and will pass through one or
+kitting workstation is referred to as {\it batch kitting}. In {\it zone kitting}, the kit moves while being filled and will pass through one or
 more zones before it is completed. This paper focuses on batch kitting processes.
 
 In batch kitting, the kit's component parts may be staged in containers positioned in the workstation or may arrive on a conveyor.
@@ -86,7 +86,7 @@ be designed to represent the required knowledge base in several different abstra
 required by these systems as the knowledge flows from domain and process specification, to plan generation, to plan execution.
 As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into four
 distinct layers of {\it Domain Specific Information}, {\it Ontology}, {\it Planning Language}, and {\it Robot Language} that correspond to these
-knowledge requirements. For the purposes of this paper, we will discuss the Domain Specific Information through Planning Language layers. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
+knowledge requirements. In this paper, we will discuss the layers ofthe Domain Specific Information through Planning Language. Implementors of the abstraction are free to connect to the knowledge interface at the layer that makes sense for
 their particular application. For our simulated kitting workstation, we intend to fully design the Domain Specific Information and the Ontology and
 then utilize open
 source tools that will automatically generate the remaining layers and provide a workstation simulation.
@@ -228,7 +228,7 @@ a plan for creating the desired kit from the given resources.
 
 As more detailed scenarios are determined and a richer set of concepts are uncovered, the ontology will be partitioned based upon the generality of the concept, with the most generally applicable concepts being ``higher'' in the ontology so they are available to other domains and the more detailed concepts being ``lower'' in the ontology because they will likely be very specific to the kitting area. An example of a general concept may be a $\mathrm{Robot}$ while a specific concept may be a $\mathrm{KitTray}$.
 
-As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is divided into three files and consists of a representation of the process specification,
+As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is divided into three sets of files and consists of a representation of the process specification,
 the kitting ontology, and the instance file. The process specification file is based off of the planning operators from the SVR and contains descriptions of
 the individual actions and sequences necessary to construct a kit, e.g. gripping a component from a tray. The kitting ontology file is based off of the constant symbols and
 state variable symbols and contains the concepts related to the specific items
@@ -284,12 +284,12 @@ The second file of the PDDL file-set is a  problem file. The problem file specif
 \label{sect:Conclusions}
 In this paper we have presented the first knowledge model that is part of the IEEE RAS Ontologies for Robotics and Automation, Industrial Robotics subgroup on kitting.
 This abstraction begins with data that has been created by an expert user as a state variable representation and encoded into an OWL ontology. The knowledge
-is the automatically transitioned into a Planning Domain Definition Language that may be used by a class of planners to find a solution that will provide for actions that will
+is then automatically transitioned into a Planning Domain Definition Language that may be used by a class of planners to find a solution that will provide for actions that will
 transition the system for its initial state to a prescribed goal state.
 
 This workstation is still very much a work in progress. The IEEE working group has an active mailing list and meets in person at both the IEEE ICRA and IROS conferences.
 At present, we are working on connecting the planned action sequence through the ROS control stack to our USARSim virtual world. As the knowledge representation is
-exercised, it is expected that short comings and missing data will be detected. Our representation will be updated as necessary to cope with these developments. In addition,
+exercised, it is expected that shortcomings and missing data will be detected. Our representation will be updated as necessary to cope with these developments. In addition,
 the representation will be expanded to include metrics that allow us to represent not only the the information necessary for the construction of a kit, but also for the representation
 of the quality of the finished kit and the kit building process.
 

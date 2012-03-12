@@ -100,7 +100,7 @@ In a SVR, each state is represented by a tuple of values of $n$ state variables 
 
 To build the SVR, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting SVR. The concepts were then modeling in our SVR, building off of the definitions and relationships that were identified in the scenario.
 
-A SVR relies on the elements of constant symbols, object variable symbols, state variable symbols, rigid relations, and planning operators. These are defined for the kitting domain in the rest of this section.
+A SVR relies on the elements of constant variable symbols, object variable symbols, state variable symbols, rigid relations, and planning operators. These are defined for the kitting domain in the rest of this section.
 
 \subsubsection{Constant Variable Symbols}
 For the kitting domain, there is a finite set of constant variable symbols that must be represented in the system. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
@@ -136,9 +136,7 @@ Object variable symbols are typed variables which range over a class or the unio
 \subsubsection{State Variable Symbols}
 \label{subsubsect:State_Variable_Symbols}
 A state variable symbol is defined as follows:
-\begin{defn}
 $\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$) is a function from the set of states ($\mathrm{S}$) and at least one set of constant variable symbols $\mathrm{A_1\times \dots\times A_i}$ into a set of constant variable symbols $\mathrm{B_1\cup\dots\cup B_j}$.
- \end{defn}
 
 The use of state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
 
@@ -188,7 +186,7 @@ same operator symbol).
 $x(t_1,\dots,t_k)\leftarrow t_{k+1}$, where each $t_i$ is a term in the appropriate range.
 \end{itemize}
 \end{comment}
-A planning operator is used to describe one of the procedures that can be used to move from one state to another. Our kitting domain is composed of eight operators. Only the operators' names and descriptions are mentioned in this section. Section~\ref{sect:Example} details a planning operator through an example.
+A planning operator is used to describe one of the procedures that can be used to move from one state to another. Our kitting domain is composed of eight operators. Only the operators' names and descriptions are mentioned in this section. Section~\ref{sect:Example} provides a complete description of a planning operator through an example.
 
 \begin{enumerate}
 \item \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eeff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.

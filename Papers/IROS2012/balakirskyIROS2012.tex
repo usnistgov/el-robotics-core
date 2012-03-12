@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. Kitting itself may be viewed as a specialization of the general bin-picking problem. This paper examines the knowledge representations that have been developed for the kitting problem and presents our implementation of the knowledge representations.
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. This paper examines the knowledge representations that have been developed and implemented for the kitting problem.
 
 \end{abstract}
 
@@ -21,6 +21,7 @@ The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
 Kitting is the process in which several different, but related items are placed into a container and supplied together as a single unit.
+Kitting itself may be viewed as a specialization of the general bin-picking problem.
 In industrial assembly of manufactured products, kitting is often performed prior to final assembly. Manufacturers utilize kitting
 due to its ability to provide cost savings \cite{Carlsson_2008} including saving manufacturing or assembly space \cite{Medbo2003}, reducing assembly workers walking and searching times \cite{Schwind1992}, and increasing line flexibility \cite{Bozer1992} and balance \cite{Jiao2000}.
 
@@ -34,8 +35,8 @@ placed in a large bin. In addition to the kit's component parts, the workstation
 well as completed kits.
 
 Kitting has not yet been automated in many industries where automation may be feasible. Consequently, the cost of building kits is higher than it could be. We are addressing this problem by building models of the knowledge that will be required to operate an automated kitting workstation in an agile manufacturing environment. This workstation must be able to cope with
-variations in kit contents, kit layout, and component supply. We also plan to develop a simulated kitting workstation for model validation. Our models
-include representations for non-executable information about the workstation such as information about a robot, parts, kit designs, end effectors, etc., models of executable information such as actions, preconditions, and effects, and models of the  process plan
+variations in kit contents, kit layout, and component supply. Our models
+include representations for non-executable information about the workstation such as information about parts and kit designs, models of executable information such as actions, preconditions, and effects, and models of the  process plan
 necessary for kit construction. A discussion of the functional requirements for the process plan may be found in \cite{Balakirsky2012_1}.
 For our automated kitting workstation, we assume that a robot performs a series of pick-and-place operations
 in order to construct the kit. These operations include:
@@ -54,15 +55,15 @@ sequence for assembly. Component orientation may be constrained by the kit desig
 %The final kit does not normally contain small fasteners which are usually stored in the assembly area.
 Empty kits are returned to the kit building area for reuse.
 
-Although the knowledge requirements described in the previous paragraph have been identified for the kitting domain, they are clearly applicable to many types of industrial robot applications (and likely to robot applications in other fields). As such, we expect that these knowledge requirements will serve as the basis for the industrial robot ontology being developed in the IEEE  RAS Ontologies for Robotics and Automation Working Group \cite{Madhavan2011} (henceforth referred to as the IEEE WG). Throughout the process of developing the kitting ontology, the group will constantly look at the applicability of the requirements outside of kitting and move the pertinent knowledge ``up'' the ontology (whether in the portion that models the kitting sub-domain, the industrial robot domain, or the upper ontology), as appropriate.
+Although the knowledge requirements described in the previous paragraph have been identified for the kitting domain, they are clearly applicable to many types of industrial robot applications. As such, we expect that these knowledge requirements will serve as the basis for the industrial robot ontology being developed in the IEEE  RAS Ontologies for Robotics and Automation Working Group \cite{Madhavan2011} (henceforth referred to as the IEEE WG). Throughout the process of developing the kitting ontology, the group will constantly look at the applicability of the requirements outside of kitting and move the pertinent knowledge ``up'' the ontology (whether in the portion that models the kitting sub-domain, the industrial robot domain, or the upper ontology), as appropriate.
 
-In keeping with our philosophy of producing standards in conjunction with the IEEE WG, we wish the models being developed by this effort to be as widely applicable as possible. To support this desire,we have
-created a layered model abstraction where users may adopt as many or few of the layers of the abstraction as make sense for their
-specific application.  The architecture shown in Figure \ref{fig:ProcessDataFlow}, though developed for the implementation of the kitting ontology, can be equally applicable to the implementation of any type of formal manufacturing knowledge representation. Said in a different way, the implementor can plug in a knowledge representation for a different domain and the architecture would still be valid. In a similar manner, different planning language abstractions could be utilized in the planning language layer of the
+In keeping with the standards philosophy of the IEEE WG, we require the models being developed to be as widely applicable as possible. Therefore, we have
+created a layered model abstraction where users may adopt as many of the layers of the abstraction as make sense for their
+specific application.  The architecture shown in Figure \ref{fig:ProcessDataFlow}, though developed for the kitting ontology, can be equally applicable to the implementation of any type of formal manufacturing knowledge representation. Said in a different way, the implementor can plug in a knowledge representation for a different domain and the architecture would still be valid. In a similar manner, different planning language abstractions could be utilized in the planning language layer of the
 abstraction and different planning/execution systems could be utilized in the robot language layer of the abstraction.
 
-Specifics on the overall architecture may be found in Section \ref{sect:Architecture}. An example of the
-various knowledge representations and the flow from one to the next is presented in Section \ref{sect:Example}. Finally,
+Specifics on the architecture may be found in Section \ref{sect:Architecture}. An example of the
+knowledge representations and the flow from one to the next is presented in Section \ref{sect:Example}. Finally,
 conclusions and future work may be found in Section \ref{sect:Conclusions}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,7 +81,7 @@ important to be able to utilize the models to construct kit building plans, and 
 virtual and real environments. Due to the advent of open source robotic operating systems such as ROS\footnote{Certain commercial software and tools are identified in this paper in order ot explain our research. Such identification does not imply
 recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}\cite{ROS}
  and simulation
-packages such as USARSim \cite{Balakirsky2007} we do not need to design these systems ourselves. However, our architecture must
+packages such as USARSim \cite{Balakirsky2007}, we do not need to design these systems ourselves. However, our architecture must
 be designed to represent the required knowledge base in several different abstractions that are likely to be
 required by these systems as the knowledge flows from domain and process specification, to plan generation, to plan execution.
 As shown in Figure \ref{fig:ProcessDataFlow}, the abstraction is decomposed into four
@@ -93,8 +94,8 @@ source tools that will automatically generate the remaining layers and provide a
 \subsection{Domain Specific Information}
 \label{subsect:DomainSpecific}
 The foundation for the knowledge representation is domain specific information that is produced by an expert in the particular field of study. This includes
-information on items ranging from what actions and attributes are relevant, to what are the necessary conditions for an action to occur and what are the
-likely results of that action. We have chosen to encode this basic information in a formalism know as a state variable representation (SVR) \cite{NAU.2004}.
+information on items ranging from what actions and attributes are relevant, to what the necessary conditions are for an action to occur and what the
+likely results of the action are. We have chosen to encode this basic information in a formalism know as a state variable representation (SVR) \cite{NAU.2004}.
 This information will then flow up the abstraction and be transformed into the ontology, planning language, and robot language.
 In a SVR, each state is represented by a tuple of values of $n$ state variables $\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function that maps this tuple into some other tuple of values of the $n$ state variables.
 
@@ -103,7 +104,7 @@ To build the SVR, the group has taken a very systematic approach of identifying 
 A SVR relies on the elements of constant variable symbols, object variable symbols, state variable symbols, rigid relations, and planning operators. These are defined for the kitting domain in the rest of this section.
 
 \subsubsection{Constant Variable Symbols}
-For the kitting domain, there is a finite set of constant variable symbols that must be represented in the system. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
+For the kitting domain, there is a finite set of constant variable symbols that must be represented. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
 %\begin{small}
 \begin{itemize}
 \item A set of \class{Parts} \{\const{part_1},\const{part_2},\ldots\}: \class{Parts} are the basic items that will be used to fill a kit.
@@ -210,20 +211,21 @@ An action \textit{a} can be obtained by substituting the object variable symbols
 appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-p}(\const{r},\const{part},\const{pt},\const{eff}) in the kitting domain can be translated into the action \op{take-p}(\const{r_1},\const{part_1},\const{pt_1},\const{eff_2}) where \const{r_1}, \const{part_1}, \const{pt_1}, and \const{eff_2} are constant variable symbols in the classes \class{Robots}, \class{Parts}, \class{PartTrays}, and \class{EndEffectors}, respectively.
 \subsection{Ontology}
 \label{subsect:Ontology}
-``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to similarities and differences'' \cite{ontologyDef}.
+%``Ontology deals with questions concerning what entities exist or can be said to exist, and how such entities can be grouped, related within a hierarchy, and subdivided according to %similarities and differences'' \cite{ontologyDef}.
 
 Knowledge models may take many forms ranging from informal natural language, to XML schemas, to ontologies.
-For the development of the  knowledge representation, the industrial robots sub-group has decided to use the  Web Ontology Language (OWL) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). It is characterized by formal semantics and Resource Description Framework/eXtensible Markup Language (RDF/XML)-based serialization for the Semantic Web. OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
+For the development of the  knowledge representation, the industrial robots sub-group has decided to use the  Web Ontology Language (OWL) \cite{OWL} as the knowledge representation language. OWL is a family of knowledge representation languages for authoring ontologies and is endorsed by the World Wide Web Consortium (W3C). 
+%It is characterized by formal semantics and Resource Description Framework/eXtensible Markup Language (RDF/XML)-based serialization for the Semantic Web.
+ OWL was chosen by the group because of its popularity among the ontology development community, its endorsement by the W3C, as well as the number of tools and reasoning engines that are available. OWL was also selected as the representation language that will be used in the overall IEEE WG efforts.
 
 In addition to OWL, the industrial robots subgroup will also be using OWL-S \cite{Martin2012} to represent the processes and actions that the robot will perform. OWL-S is an ontology built on top of OWL by the DARPA Agent Markup Language (DAML) program \cite{damlWeb}
 for describing Semantic Web Services. Many of the constructs that are used to describe services are equally applicable to encoding our SVR. For example, concepts such as preconditions, results, inputs, outputs, effects, and participants are generic enough to be applied to just about any type of process specification.
 
 Since this work is being directed at the IEEE RAS Ontologies for Robotics and Automation Working Group, it is appropriate that our  domain specific knowledge  be
 encoded in an OWL ontology at the first domain independent  layer of our abstraction. The knowledge contained in this layer is derived from our SVR and may also contain
-information that has been collected over other domains. The knowledge is sufficient for a planning system to understand the specific problem domain and construct
-a plan for creating the desired kit from the given resources.
+information that has been collected over other domains. 
 
-As more detailed scenarios are determined and a richer set of concepts are uncovered, the ontology will be partitioned based upon the generality of the concept, with the most generally applicable concepts being ``higher'' in the ontology so they are available to other domains and the more detailed concepts being ``lower'' in the ontology because they will likely be very specific to the kitting area. An example of a general concept may be a $\mathrm{Robot}$ while a specific concept may be a $\mathrm{KitTray}$.
+As more detailed scenarios are determined and a richer set of concepts are uncovered, the ontology will be partitioned based upon the generality of the concept, with the most generally applicable concepts being ``higher'' in the ontology so they are available to other domains and the more detailed concepts being ``lower'' because they will likely be very specific to the kitting area. An example of a general concept may be a $\mathrm{Robot}$ while a specific concept may be a $\mathrm{KitTray}$.
 
 As shown in Figure \ref{fig:ProcessDataFlow}, the information in our ontology is divided into three sets of files and consists of a representation of the process specification,
 the kitting ontology, and the instance file. The process specification file is based off of the planning operators from the SVR and contains descriptions of

@@ -40,67 +40,13 @@
 \usepackage{graphicx}
 \usepackage{pstricks,pst-node,pst-tree}
 
+\newcommand{\class}[1] {\textit{#1}}
+\newcommand{\const}[1] {$\mathit{#1}$}
+\newcommand{\objvar}[1] {$\mathsf{#1}$}
+\newcommand{\stvar}[1] {\textsf{#1}}
+\newcommand{\op}[1] {\textsl{#1}}
+\newcommand{\nil} {\textit{nil}\ }
 
-\setlength{\textwidth}{16cm}
-\setlength{\oddsidemargin}{0.46cm}
-\setlength{\evensidemargin}{0.46cm}
-\setlength{\textheight}{22.3cm}
-\setlength{\topmargin}{-0.54cm}
-\setlength{\headsep}{1.5cm}
-\setlength{\footnotesep}{0.6cm}
-\setlength{\parindent}{0in}
-
-%theoremstyle{plain} --- default
-\newtheorem{thm}{Theorem}[section]
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{prop}[thm]{Proposition}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{conj}[thm]{Conjecture}
-\newtheorem{quest}[thm]{Question}
-
-\theoremstyle{definition}
-\newtheorem{defn}[thm]{Definition}
-\newtheorem{defns}[thm]{Definitions}
-\newtheorem{con}[thm]{Construction}
-\newtheorem{exmp}[thm]{Example}
-\newtheorem{exmps}[thm]{Examples}
-\newtheorem{notn}[thm]{Notation}
-\newtheorem{notns}[thm]{Notations}
-\newtheorem{addm}[thm]{Addendum}
-\newtheorem{exer}[thm]{Exercise}
-
-\theoremstyle{remark}
-\newtheorem{rem}[thm]{Remark}
-\newtheorem{rems}[thm]{Remarks}
-\newtheorem{warn}[thm]{Warning}
-\newtheorem{sch}[thm]{Scholium}
-
-%\newcommand{\constant}[1] {{\fontencoding{OT1}\fontfamily{ppl}#1}}
-\newcommand{\constant}[1]{{\fontfamily{phv}\selectfont #1}}
-\newcommand{\fkt}{{\fontfamily{phv}\selectfont fkt}}
-\newcommand{\ekt}{{\fontfamily{phv}\selectfont ekt}}
-\newcommand{\boxfkt}{{\fontfamily{phv}\selectfont boxfkt}}
-\newcommand{\boxekt}{{\fontfamily{phv}\selectfont boxekt}}
-\newcommand{\nil}{{\fontfamily{phv}\selectfont nil}}
-\newcommand{\robot}{{\fontfamily{phv}\selectfont r}}
-\newcommand{\wtable}{{\fontfamily{phv}\selectfont wtable}}
-\newcommand{\chstation}{{\fontfamily{phv}\selectfont chstation}}
-\newcommand{\kt}{{\fontfamily{phv}\selectfont kt}}
-\newcommand{\pfkt}{{\fontfamily{phv}\selectfont pkt}}
-\newcommand{\grip}{{\fontfamily{phv}\selectfont g}}
-\newcommand{\parts}{{\fontfamily{phv}\selectfont p}}
-\newcommand{\partsup}{{\fontfamily{phv}\selectfont ps}}
-\newcommand{\State}[1]{$s_{#1}$} %\State0 \State1
-
-\makeatletter
-\let\c@equation\c@thm
-\makeatother
-\numberwithin{equation}{section}
-
-%Environment
-\newenvironment{mylisting}
-{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small}
-{\end{list}}
 
 \renewcommand{\labelitemi}{$\blacksquare$}
 \renewcommand{\labelitemii}{$\square$}

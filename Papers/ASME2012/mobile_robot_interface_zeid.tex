@@ -20,14 +20,14 @@ Although different models of mobile robot are developed in USARSim, the Pioneer 
 \subsubsection*{Low-level Navigation}
 The ROS/USARSim interface allows the start-up and the control of the default P3AT base controllers by directly sending velocity commands to the base. This task was performed using the following commands:
 \begin{enumerate}
-\item\footnotesize{Bring up an environment in USARSim.        }
-\item\footnotesize{\$roscore}
-\item\footnotesize{\$roslaunch usarsim usarsim.launch}
-\item\footnotesize{\$rosrun teleop\_twist\_keyboard teleop\_twist\_keyboard.py}
-\item\footnotesize{\$rosrun gmapping slam\_gmapping scan:=lms200 \_odom\_frame:=odom}
+\item Bring up an environment in USARSim.
+\item \$roscore
+\item \$roslaunch usarsim usarsim.launch
+\item \$rosrun teleop\_twist\_keyboard teleop\_twist\_keyboard.py
+\item \$rosrun gmapping slam\_gmapping scan:=lms200 \_odom\_frame:=odom
 \end{enumerate}
 
-In step 1. an environment is started on the server side (USARSim). If an environment is not up and running, passing messages between ROS and USARSim will fail. Step 2. starts {\it roscore}, a collection of nodes and programs that are a pre-requisites of a ROS-based system for ROS nodes to communicate. Step 3. launches the {\it usarsim.launch} file. This launch file contains the parameters specified in Table~\ref{Table:USARSimNode} and starts the {\it RosSim} node that provides a connection between ROS and USARSim. Step 4. starts the {\it teleop\_twist\_keyboard} node which sends velocity commands to the {\it RosSim} node through the computer keyboard. At this point, the P3AT can be controlled by keyboard teleop in the USARSim environment. Step 5. starts the node {\it slam\_gmapping} which transforms each incoming scan from the laser into the odometry tf frame to build a map. Here, the topic {\it scan} is used to create the map with the parameter {\it \_odom\_frame}, the frame attached to the odometry system.
+In step 1, an environment is started on the server side (USARSim). If an environment is not up and running, passing messages between ROS and USARSim will fail. Step 2 starts {\it roscore}, a collection of nodes and programs that are a pre-requisites of a ROS-based system for ROS nodes to communicate. Step 3 launches the {\it usarsim.launch} file. This launch file contains the parameters specified in Table~\ref{Table:USARSimNode} and starts the {\it RosSim} node that provides a connection between ROS and USARSim. Step 4 starts the {\it teleop\_twist\_keyboard} node which sends velocity commands to the {\it RosSim} node through the computer keyboard. At this point, the P3AT can be controlled by keyboard teleop in the USARSim environment. Step 5 starts the node {\it slam\_gmapping} which transforms each incoming scan from the laser into the odometry tf frame to build a map. Here, the topic {\it scan} is used to create the map with the parameter {\it \_odom\_frame}, the frame attached to the odometry system.
 
 %\begin{figure}[t!]
 %\centering

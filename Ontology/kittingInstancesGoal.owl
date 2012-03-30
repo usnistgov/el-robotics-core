@@ -9,13 +9,14 @@ Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
 Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>
 Import(<file:kittingClasses.owl>)
 Annotation(rdfs:comment
-  "This is an OWL data file describing a specific kitting workstation.
-   The workstation is as described in Zeit Kootbally's description
-   discussed in the IPMAS meeting on February 28.
+  "This is an OWL data file describing a goal state for a specific
+   kitting workstation. The workstation is as described in Zeit Kootbally's
+   description discussed in the IPMAS meeting on February 28.
    This file uses the kittingClasses.owl ontology in the file
    kittingClasses.owl")
 Annotation(rdfs:comment
-  "The kitting workstation (KittingWorkstation1) has the following items
+  "The kitting workstation (KittingWorkstation1) goal state has the
+   following items
    - a robot (Robot1), which has:
      a vacuum effector for gripping trays (TrayGripper)
      a work volume (RobotWorkVolume) with one BoxVolume (BoxVolume1)
@@ -28,11 +29,11 @@ Annotation(rdfs:comment
    - a list of StockKeepingUnits (StockKeepingList1) with
      six StockKeepingUnits
    - a list of KitDesigns with one KitDesign
-   - a PartsTray with four PartAs
-   - a PartsTray with two PartBs
-   - a PartsTray with two PartCs
-   - a box of KitTrays with three KitTrays in it
-   - an empty box for finished KitInstances
+   - a PartsTray with no parts (that formerly held two PartAs)
+   - a PartsTray with no parts (that formerly held one PartB)
+   - a PartsTray with no parts (that formerly held one PartC)
+   - a box for KitTrays with no KitTrays in it (that formerly held one KitTray)
+   - a box of finished KitInstances with KitInstance1 in it
    The data is complete for these items, including many individuals not
    listed above (mostly Poses, Points, and RollPitchYaws.")
 
@@ -124,6 +125,8 @@ DataPropertyAssertion(:hasLargeBoxWithKits_Capacity :FinishedKitReceiver
                      "12"^^xsd:positiveInteger)
 DataPropertyAssertion(:hasLargeBoxWithKits_KitDesignRef :FinishedKitReceiver
                      "KitDesignA2B1C1"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(:hasLargeBoxWithKits_Kits :FinishedKitReceiver
+                        :KitInstance1)
 
 
 // KitDesignA2B1C1 *****************************************************
@@ -144,40 +147,37 @@ ObjectPropertyAssertion(:listsKitDesign :KitDesignList1
                         :KitDesignA2B1C1)
 
 
+// KitInstance1 ********************************************************
+Declaration(NamedIndividual(:KitInstance1))
+ClassAssertion(:KitInstance :KitInstance1)
+ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitInstance1
+                        :KitInstance1Pose)
+DataPropertyAssertion(:hasKitInstance_DesignRef :KitInstance1
+                      "KitDesignA2B1C1"^^xsd:NMTOKEN)
+DataPropertyAssertion(:isKitInstance_Finished :KitInstance1
+                      "true"^^xsd:boolean)
+ObjectPropertyAssertion(:hasKitInstance_Tray :KitInstance1
+                        :KitTray1)
+ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
+                        :PartA1)
+ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
+                        :PartA2)
+ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
+                        :PartB1)
+ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
+                        :PartC1)
+
+
 // KitTray1 ************************************************************
 Declaration(NamedIndividual(:KitTray1))
 ClassAssertion(:KitTray :KitTray1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray1
-                        :KitTray1Pose)
+                        :KitTray1NewPose)
 DataPropertyAssertion(:hasBox_Height :KitTray1 "0.15"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :KitTray1 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :KitTray1 "0.3"^^:positiveDecimal)
 DataPropertyAssertion(:hasKitTray_SkuRef :KitTray1 "SkuIdKitTray"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasKitTray_SerialNumber :KitTray1 "1"^^xsd:NMTOKEN)
-
-
-// KitTray2 ************************************************************
-Declaration(NamedIndividual(:KitTray2))
-ClassAssertion(:KitTray :KitTray2)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray2
-                        :KitTray2Pose)
-DataPropertyAssertion(:hasBox_Height :KitTray2 "0.15"^^:positiveDecimal)
-DataPropertyAssertion(:hasBox_Length :KitTray2 "0.5"^^:positiveDecimal)
-DataPropertyAssertion(:hasBox_Width :KitTray2 "0.3"^^:positiveDecimal)
-DataPropertyAssertion(:hasKitTray_SkuRef :KitTray2 "SkuIdKitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasKitTray_SerialNumber :KitTray2 "2"^^xsd:NMTOKEN)
-
-
-// KitTray3 ***********************************************************
-Declaration(NamedIndividual(:KitTray3))
-ClassAssertion(:KitTray :KitTray3)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray3
-                        :KitTray3Pose)
-DataPropertyAssertion(:hasBox_Height :KitTray3 "0.15"^^:positiveDecimal)
-DataPropertyAssertion(:hasBox_Length :KitTray3 "0.5"^^:positiveDecimal)
-DataPropertyAssertion(:hasBox_Width :KitTray3 "0.3"^^:positiveDecimal)
-DataPropertyAssertion(:hasKitTray_SkuRef :KitTray3 "SkuIdKitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasKitTray_SerialNumber :KitTray3 "3"^^xsd:NMTOKEN)
 
 
 // PartASupply ********************************************************
@@ -187,14 +187,6 @@ ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartASupply
                         :PartASupplyPose)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartASupply
                         :PartATray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartASupply
-                        :PartA1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartASupply
-                        :PartA2)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartASupply
-                        :PartA3)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartASupply
-                        :PartA4)
 
 
 // PartATray ********************************************************
@@ -214,7 +206,7 @@ DataPropertyAssertion(:hasPartsTray_SerialNumber :PartATray "6"^^xsd:NMTOKEN)
 Declaration(NamedIndividual(:PartA1))
 ClassAssertion(:Part :PartA1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA1
-                        :PartA1Location)
+                        :PartA1NewPose)
 DataPropertyAssertion(:hasPart_SkuRef :PartA1 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA1 "9"^^xsd:NMTOKEN)
 
@@ -223,27 +215,9 @@ DataPropertyAssertion(:hasPart_SerialNumber :PartA1 "9"^^xsd:NMTOKEN)
 Declaration(NamedIndividual(:PartA2))
 ClassAssertion(:Part :PartA2)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA2
-                        :PartA2Location)
+                        :PartA2NewPose)
 DataPropertyAssertion(:hasPart_SkuRef :PartA2 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA2 "10"^^xsd:NMTOKEN)
-
-
-// PartA3 ***********************************************************
-Declaration(NamedIndividual(:PartA3))
-ClassAssertion(:Part :PartA3)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA3
-                        :PartA3Location)
-DataPropertyAssertion(:hasPart_SkuRef :PartA3 "SkuIdPartA"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasPart_SerialNumber :PartA3 "11"^^xsd:NMTOKEN)
-
-
-// PartA4 *************************************************************
-Declaration(NamedIndividual(:PartA4))
-ClassAssertion(:Part :PartA4)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA4
-                        :PartA4Location)
-DataPropertyAssertion(:hasPart_SkuRef :PartA4 "SkuIdPartA"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasPart_SerialNumber :PartA4 "12"^^xsd:NMTOKEN)
 
 
 // PartBSupply ********************************************************
@@ -253,10 +227,6 @@ ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartBSupply
                         :PartBSupplyPose)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartBSupply
                         :PartBTray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartBSupply
-                        :PartB1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartBSupply
-                        :PartB2)
 
 
 // PartBTray **********************************************************
@@ -276,18 +246,9 @@ DataPropertyAssertion(:hasPartsTray_SerialNumber :PartBTray "7"^^xsd:NMTOKEN)
 Declaration(NamedIndividual(:PartB1))
 ClassAssertion(:Part :PartB1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartB1
-                        :PartB1Location)
+                        :PartB1NewPose)
 DataPropertyAssertion(:hasPart_SkuRef :PartB1 "SkuIdPartB"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartB1 "13"^^xsd:NMTOKEN)
-
-
-// PartB2 ************************************************************
-Declaration(NamedIndividual(:PartB2))
-ClassAssertion(:Part :PartB2)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartB2
-                        :PartB2Location)
-DataPropertyAssertion(:hasPart_SkuRef :PartB2 "SkuIdPartB"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasPart_SerialNumber :PartB2 "14"^^xsd:NMTOKEN)
 
 
 // PartCSupply *********************************************************
@@ -297,10 +258,6 @@ ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartCSupply
                         :PartCSupplyPose)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartCSupply
                         :PartCTray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartCSupply
-                        :PartC1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartCSupply
-                        :PartC2)
 
 
 // PartCTray **********************************************************
@@ -320,18 +277,9 @@ DataPropertyAssertion(:hasPartsTray_SerialNumber :PartCTray "8"^^xsd:NMTOKEN)
 Declaration(NamedIndividual(:PartC1))
 ClassAssertion(:Part :PartC1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartC1
-                        :PartC1Location)
+                        :PartC1NewPose)
 DataPropertyAssertion(:hasPart_SkuRef :PartC1 "SkuIdPartC"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartC1 "15"^^xsd:NMTOKEN)
-
-
-// PartC2 *************************************************************
-Declaration(NamedIndividual(:PartC2))
-ClassAssertion(:Part :PartC2)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartC2
-                        :PartC2Location)
-DataPropertyAssertion(:hasPart_SkuRef :PartC2 "SkuIdPartC"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasPart_SerialNumber :PartC2 "16"^^xsd:NMTOKEN)
 
 
 // PartGripper ********************************************************
@@ -360,7 +308,7 @@ ObjectPropertyAssertion(:hasEndEffectorHolder_EndEffector :PartGripperHolder
                         :PartGripper)
 
 
-// PartRefAndPoseA1 *****************************************************
+// PartRefAndPoseA1 **************************************************
 Declaration(NamedIndividual(:PartRefAndPoseA1))
 ClassAssertion(:PartRefAndPose :PartRefAndPoseA1)
 DataPropertyAssertion(:hasPartRefAndPose_Ref :PartRefAndPoseA1
@@ -662,18 +610,13 @@ DifferentIndividuals(
  :EndEffectorRefList1
  :EndEffectorRefList2
  :EndEffectorRefList3)
-DifferentIndividuals(:KitTray1 :KitTray2 :KitTray3)
 DifferentIndividuals(:OtherObstacles :RobotWorkVolume)
 DifferentIndividuals(:PartGripperHolder :TrayGripperHolder)
 DifferentIndividuals(
  :PartA1
  :PartA2
- :PartA3
- :PartA4
  :PartB1
- :PartB2
- :PartC1
- :PartC2)
+ :PartC1)
 DifferentIndividuals(:PartGripper :TrayGripper)
 DifferentIndividuals(:PartASupply :PartBSupply :PartCSupply)
 DifferentIndividuals(:PartATray :PartBTray :PartCTray)
@@ -812,73 +755,96 @@ DataPropertyAssertion(:hasRpy_Pitch :FinishedKitReceiverRPY "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasRpy_Yaw :FinishedKitReceiverRPY "0.0"^^xsd:decimal)
 
 
-// KitTray1Pose ******************************************************
-Declaration(NamedIndividual(:KitTray1Pose))
-ClassAssertion(:Pose :KitTray1Pose)
-ObjectPropertyAssertion(:hasPose_Point :KitTray1Pose
-                        :KitTray1Point)
-ObjectPropertyAssertion(:hasPose_Rpy :KitTray1Pose
-                        :KitTray1RPY)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitTray1Pose
-  :EmptyKitTrayBox)
+// KitInstance1Pose ***************************************************
+Declaration(NamedIndividual(:KitInstance1Pose))
+ClassAssertion(:Pose :KitInstance1Pose)
+ObjectPropertyAssertion(:hasPose_Point :KitInstance1Pose
+                        :KitInstance1Point)
+ObjectPropertyAssertion(:hasPose_Rpy :KitInstance1Pose
+                        :KitInstance1RPY)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitInstance1Pose
+                        :FinishedKitReceiver)
 
-Declaration(NamedIndividual(:KitTray1Point))
-ClassAssertion(:Point :KitTray1Point)
-DataPropertyAssertion(:hasPoint_X :KitTray1Point "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :KitTray1Point "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :KitTray1Point "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:KitInstance1Point))
+ClassAssertion(:Point :KitInstance1Point)
+DataPropertyAssertion(:hasPoint_X :KitInstance1Point "0.3"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :KitInstance1Point "0.2"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :KitInstance1Point "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:KitTray1RPY))
-ClassAssertion(:RollPitchYaw :KitTray1RPY)
-DataPropertyAssertion(:hasRpy_Roll :KitTray1RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :KitTray1RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :KitTray1RPY "0.0"^^xsd:decimal)
-
-
-// KitTray2Pose ******************************************************
-Declaration(NamedIndividual(:KitTray2Pose))
-ClassAssertion(:Pose :KitTray2Pose)
-ObjectPropertyAssertion(:hasPose_Point :KitTray2Pose
-                        :KitTray2Point)
-ObjectPropertyAssertion(:hasPose_Rpy :KitTray2Pose
-                        :KitTray2RPY)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitTray2Pose
-  :EmptyKitTrayBox)
-
-Declaration(NamedIndividual(:KitTray2Point))
-ClassAssertion(:Point :KitTray2Point)
-DataPropertyAssertion(:hasPoint_X :KitTray2Point "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :KitTray2Point "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :KitTray2Point "0.15"^^xsd:decimal)
-
-Declaration(NamedIndividual(:KitTray2RPY))
-ClassAssertion(:RollPitchYaw :KitTray2RPY)
-DataPropertyAssertion(:hasRpy_Roll :KitTray2RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :KitTray2RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :KitTray2RPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:KitInstance1RPY))
+ClassAssertion(:RollPitchYaw :KitInstance1RPY)
+DataPropertyAssertion(:hasRpy_Roll :KitInstance1RPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :KitInstance1RPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :KitInstance1RPY "0.0"^^xsd:decimal)
 
 
-// KitTray3Pose ******************************************************
-Declaration(NamedIndividual(:KitTray3Pose))
-ClassAssertion(:Pose :KitTray3Pose)
-ObjectPropertyAssertion(:hasPose_Point :KitTray3Pose
-                        :KitTray3Point)
-ObjectPropertyAssertion(:hasPose_Rpy :KitTray3Pose
-                        :KitTray3RPY)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitTray3Pose
-  :EmptyKitTrayBox)
+// KitTray1NewPose ***************************************************
+Declaration(NamedIndividual(:KitTray1NewPose))
+ClassAssertion(:Pose :KitTray1NewPose)
+ObjectPropertyAssertion(:hasPose_Point :KitTray1NewPose
+                        :KitTray1NewPoint)
+ObjectPropertyAssertion(:hasPose_Rpy :KitTray1NewPose
+                        :KitTray1NewRPY)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitTray1NewPose
+                        :KitInstance1)
 
-Declaration(NamedIndividual(:KitTray3Point))
-ClassAssertion(:Point :KitTray3Point)
-DataPropertyAssertion(:hasPoint_X :KitTray3Point "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :KitTray3Point "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :KitTray3Point "0.3"^^xsd:decimal)
+Declaration(NamedIndividual(:KitTray1NewPoint))
+ClassAssertion(:Point :KitTray1NewPoint)
+DataPropertyAssertion(:hasPoint_X :KitTray1NewPoint "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :KitTray1NewPoint "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :KitTray1NewPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:KitTray3RPY))
-ClassAssertion(:RollPitchYaw :KitTray3RPY)
-DataPropertyAssertion(:hasRpy_Roll :KitTray3RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :KitTray3RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :KitTray3RPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:KitTray1NewRPY))
+ClassAssertion(:RollPitchYaw :KitTray1NewRPY)
+DataPropertyAssertion(:hasRpy_Roll :KitTray1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :KitTray1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :KitTray1NewRPY "0.0"^^xsd:decimal)
+
+
+// PartA1NewPose **************************************************
+Declaration(NamedIndividual(:PartA1NewPose))
+ClassAssertion(:Pose :PartA1NewPose)
+ObjectPropertyAssertion(:hasPose_Point :PartA1NewPose
+                        :PartA1NewPoint)
+ObjectPropertyAssertion(:hasPose_Rpy :PartA1NewPose
+                        :PartA1NewRPY)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA1NewPose
+                        :KitTray1)
+
+Declaration(NamedIndividual(:PartA1NewPoint))
+ClassAssertion(:Point :PartA1NewPoint)
+DataPropertyAssertion(:hasPoint_X :PartA1NewPoint "-0.2"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :PartA1NewPoint "-0.1"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :PartA1NewPoint "0.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartA1NewRPY))
+ClassAssertion(:RollPitchYaw :PartA1NewRPY)
+DataPropertyAssertion(:hasRpy_Roll :PartA1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :PartA1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :PartA1NewRPY "0.0"^^xsd:decimal)
+
+
+// PartA2NewPose **************************************************
+Declaration(NamedIndividual(:PartA2NewPose))
+ClassAssertion(:Pose :PartA2NewPose)
+ObjectPropertyAssertion(:hasPose_Point :PartA2NewPose
+                        :PartA2NewPoint)
+ObjectPropertyAssertion(:hasPose_Rpy :PartA2NewPose
+                        :PartA2NewRPY)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA2NewPose
+                        :KitTray1)
+
+Declaration(NamedIndividual(:PartA2NewPoint))
+ClassAssertion(:Point :PartA2NewPoint)
+DataPropertyAssertion(:hasPoint_X :PartA2NewPoint "-0.2"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :PartA2NewPoint "0.05"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :PartA2NewPoint "0.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartA2NewRPY))
+ClassAssertion(:RollPitchYaw :PartA2NewRPY)
+DataPropertyAssertion(:hasRpy_Roll :PartA2NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :PartA2NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :PartA2NewRPY "0.0"^^xsd:decimal)
 
 
 // PartASupplyPose **************************************************
@@ -904,6 +870,29 @@ DataPropertyAssertion(:hasRpy_Pitch :PartASupplyRPY "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasRpy_Yaw :PartASupplyRPY "0.0"^^xsd:decimal)
 
 
+// PartB1NewPose **************************************************
+Declaration(NamedIndividual(:PartB1NewPose))
+ClassAssertion(:Pose :PartB1NewPose)
+ObjectPropertyAssertion(:hasPose_Point :PartB1NewPose
+                        :PartB1NewPoint)
+ObjectPropertyAssertion(:hasPose_Rpy :PartB1NewPose
+                        :PartB1NewRPY)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartB1NewPose
+                        :KitTray1)
+
+Declaration(NamedIndividual(:PartB1NewPoint))
+ClassAssertion(:Point :PartB1NewPoint)
+DataPropertyAssertion(:hasPoint_X :PartB1NewPoint "0.05"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :PartB1NewPoint "-0.1"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :PartB1NewPoint "0.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartB1NewRPY))
+ClassAssertion(:RollPitchYaw :PartB1NewRPY)
+DataPropertyAssertion(:hasRpy_Roll :PartB1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :PartB1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :PartB1NewRPY "0.0"^^xsd:decimal)
+
+
 // PartBSupplyPose **************************************************
 Declaration(NamedIndividual(:PartBSupplyPose))
 ClassAssertion(:Pose :PartBSupplyPose)
@@ -925,6 +914,29 @@ ClassAssertion(:RollPitchYaw :PartBSupplyRPY)
 DataPropertyAssertion(:hasRpy_Roll :PartBSupplyRPY "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasRpy_Pitch :PartBSupplyRPY "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasRpy_Yaw :PartBSupplyRPY "0.0"^^xsd:decimal)
+
+
+// PartC1NewPose **************************************************
+Declaration(NamedIndividual(:PartC1NewPose))
+ClassAssertion(:Pose :PartC1NewPose)
+ObjectPropertyAssertion(:hasPose_Point :PartC1NewPose
+                        :PartC1NewPoint)
+ObjectPropertyAssertion(:hasPose_Rpy :PartC1NewPose
+                        :PartC1NewRPY)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartC1NewPose
+                        :KitTray1)
+
+Declaration(NamedIndividual(:PartC1NewPoint))
+ClassAssertion(:Point :PartC1NewPoint)
+DataPropertyAssertion(:hasPoint_X :PartC1NewPoint "0.05"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :PartC1NewPoint "0.05"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :PartC1NewPoint "0.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartC1NewRPY))
+ClassAssertion(:RollPitchYaw :PartC1NewRPY)
+DataPropertyAssertion(:hasRpy_Roll :PartC1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :PartC1NewRPY "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :PartC1NewRPY "0.0"^^xsd:decimal)
 
 
 // PartCSupplyPose **************************************************
@@ -1186,13 +1198,16 @@ DifferentIndividuals(
  :EmptyKitTraySupplyPose
  :FinishedKitBoxPose
  :FinishedKitReceiverPose
- :KitTray1Pose
- :KitTray2Pose
- :KitTray3Pose
+ :KitInstance1Pose
+ :KitTray1NewPose
+ :PartA1NewPose
+ :PartA2NewPose
  :PartASupplyPose
  :PartATrayPose
+ :PartB1NewPose
  :PartBSupplyPose
  :PartBTrayPose
+ :PartC1NewPose
  :PartCSupplyPose
  :PartCTrayPose
  :PartGripperPose
@@ -1208,13 +1223,16 @@ DifferentIndividuals(
  :EmptyKitTraySupplyPoint
  :FinishedKitBoxPoint
  :FinishedKitReceiverPoint
+ :KitInstance1Point
  :KitTray1Point
- :KitTray2Point
- :KitTray3Point
+ :PartA2NewPoint
+ :PartA1NewPoint
  :PartASupplyPoint
  :PartATrayPoint
+ :PartB1NewPoint
  :PartBSupplyPoint
  :PartBTrayPoint
+ :PartC1NewPoint
  :PartCSupplyPoint
  :PartCTrayPoint
  :PartGripperPoint
@@ -1236,13 +1254,16 @@ DifferentIndividuals(
  :EmptyKitTraySupplyRPY
  :FinishedKitBoxRPY
  :FinishedKitReceiverRPY
+ :KitInstance1RPY
  :KitTray1RPY
- :KitTray2RPY
- :KitTray3RPY
+ :PartA1NewRPY
+ :PartA2NewRPY
  :PartASupplyRPY
  :PartATrayRPY
+ :PartB1NewRPY
  :PartBSupplyRPY
  :PartBTrayRPY
+ :PartC1NewRPY
  :PartCSupplyRPY
  :PartCTrayRPY
  :PartGripperRPY
@@ -1258,61 +1279,6 @@ DifferentIndividuals(
 
 // Start RelativeLocations ******************************************
 
-Declaration(NamedIndividual(:PartA1Location))
-ClassAssertion(:RelativeLocationIn :PartA1Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA1Location
-                        :PartATray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartA1Location "PartA1 is in PartATray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartA2Location))
-ClassAssertion(:RelativeLocationIn :PartA2Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA2Location
-                        :PartATray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartA2Location "PartA2 is in PartATray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartA3Location))
-ClassAssertion(:RelativeLocationIn :PartA3Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA3Location
-                        :PartATray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartA3Location "PartA3 is in PartATray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartA4Location))
-ClassAssertion(:RelativeLocationIn :PartA4Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA4Location
-                        :PartATray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartA4Location "PartA4 is in PartATray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartB1Location))
-ClassAssertion(:RelativeLocationIn :PartB1Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartB1Location
-                        :PartBTray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartB1Location "PartB1 is in PartBTray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartB2Location))
-ClassAssertion(:RelativeLocationIn :PartB2Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartB2Location
-                        :PartBTray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartB2Location "PartB2 is in PartBTray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartC1Location))
-ClassAssertion(:RelativeLocationIn :PartC1Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartC1Location
-                        :PartCTray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartC1Location "PartC1 is in PartCTray"^^xsd:string)
-
-Declaration(NamedIndividual(:PartC2Location))
-ClassAssertion(:RelativeLocationIn :PartC2Location)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartC2Location
-                        :PartCTray)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
-  :PartC2Location "PartC2 is in PartCTray"^^xsd:string)
 
 Declaration(NamedIndividual(:RelativeLocationIn1))
 ClassAssertion(:RelativeLocationIn :RelativeLocationIn1)
@@ -1329,17 +1295,6 @@ ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :RelativeLocationOn1
 DataPropertyAssertion(:hasRelativeLocationOn_Description
   :RelativeLocationOn1
   "The TrayGripper is on Robot1"^^xsd:string)
-
-DifferentIndividuals(
- :PartA1Location
- :PartA2Location
- :PartA3Location
- :PartA4Location
- :PartB1Location
- :PartB2Location
- :PartC1Location
- :PartC2Location
- :RelativeLocationIn1)
 
 // End RelativeLocations
 

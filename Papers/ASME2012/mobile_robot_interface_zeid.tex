@@ -1,5 +1,5 @@
 \subsection*{Mobile Robot Control with the ROS Navigation Stack}
-Control of mobile robots through the ROS/USARSim interface is performed with the ROS navigation stack~\cite{RosNavWeb}. The navigation stack provides for 2D navigation and takes in information from odometry, sensor streams, and a goal pose while outputting safe velocity commands that are sent to a mobile base. The velocity commands are sent in the form of: x velocity, y velocity, theta velocity. Better performance of the navigation stack can be achieved by meeting the following requirements:
+Control of mobile robots through the USARSim/ROS interface is performed with the ROS navigation stack~\cite{RosNavWeb}. The navigation stack provides for 2D navigation and takes in information from odometry, sensor streams, and a goal pose while outputting safe velocity commands that are sent to a mobile base. The velocity commands are sent in the form of: x velocity, y velocity, and theta velocity. Better performance of the navigation stack can be achieved by meeting the following requirements:
 \begin{itemize}
 \item[-] The robot has to use either differential drive or holonomic drive.
 \item[-] A planar laser has to be mounted on the mobile base. This laser is used for map building and localization.
@@ -18,7 +18,7 @@ Although different models of mobile robot are developed in USARSim, the Pioneer 
 
 
 \subsubsection*{Low-level Navigation}
-The ROS/USARSim interface allows the start-up and the control of the default P3AT base controllers by directly sending velocity commands to the base. This task was performed using the following commands:
+The USARSim/ROS interface allows the start-up and the control of the default P3AT base controllers by directly sending velocity commands to the base. This task was performed using the following commands:
 \begin{enumerate}
 \item Bring up an environment in USARSim.
 \item \$roscore
@@ -63,7 +63,7 @@ The generated map is stored in pair of files: a YAML file (YAML is recursively d
 
 
 \subsubsection*{High-level Navigation}
-The ROS/USARSim interface also provides high-level navigation through the navigation stack. At this level, goals are sent to the P3AT to move to a particular location in the environment. Navigation at a high level is possible with the action specification for {\it move\_base}. This package provides an implementation of an action ({\it actionlib}) that, given a goal in the world, will attempt to reach it with a mobile base. The {\it move\_base} node provides a ROS interface for configuring, running, and interacting with the navigation stack on a robot. The {\it move\_base} node links together a global and local planner to accomplish its global navigation task.
+The USARSim/ROS interface also provides high-level navigation through the navigation stack. At this level, goals are sent to the P3AT to move to a particular location in the environment. High-level navigation is possible with the action specification for {\it move\_base}. This package provides an implementation of an action ({\it actionlib}) that, given a goal in the world, will attempt to reach it with a mobile base. The {\it move\_base} node provides a ROS interface for configuring, running, and interacting with the navigation stack on a robot. The {\it move\_base} node links together a global and local planner to accomplish its global navigation task.
 
 %\begin{figure}[t!]
 %\centering

@@ -5,7 +5,7 @@ Under USARSim, a robotic arm is composed of individual static meshes that are at
 
 When a new robotic arm is used for the first time, the {\it usar\_urdf} node of the {\it USARSim} ROS package must be run. This node accepts the same parameters shown in Table~\ref{Table:USARSimNode} in order to determine the robot to be created and then performs the following actions:
 \begin{enumerate}
-\item The node spawns the robot model inside the simulated world in order to be able to read the USARSim  {\it Conf} and {\it Geo} messages.
+\item The node creates the robot model inside the simulated world in order to be able to read the USARSim  {\it Conf} and {\it Geo} messages.
 \item From these messages, the node composes the transform tree with a transform for each joint in the robotic arm. Information on maximum and minimum rotations of joints and maximum joint velocities and torques is also maintained.
 \item The node auto-generates an URDF file that contains all of the joint and link information that defines the robot arm. Rather than exact depictions of the robot's visual form, the URDF file contains simple cylinders to represent each link.
 \end{enumerate}

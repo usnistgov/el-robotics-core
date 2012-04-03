@@ -3,10 +3,10 @@ Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
 Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstances.owl#>)
+Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstancesGoal.owl#>)
 Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
 
-Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>
+Ontology(<http://www.nist.gov/el/ontologies/kittingInstancesGoal.owl>
 Import(<file:kittingClasses.owl>)
 Annotation(rdfs:comment
   "This is an OWL data file describing a goal state for a specific
@@ -19,16 +19,14 @@ Annotation(rdfs:comment
    following items
    - a robot (Robot1), which has:
      a vacuum effector for gripping trays (TrayGripper)
-     a work volume (RobotWorkVolume) with one BoxVolume (BoxVolume1)
+     a work volume consisting of one BoxVolume (BoxVolume1)
    - a work table (WorkTable1)
    - an end effector changing station (ChangingStation1) with two
      end effector holders (PartGripperHolder and TrayGripperHolder)
    - another vacuum effector (PartGripper), which is being
      held by the PartGripperHolder on the changing station.
-   - an empty list of other obstacles (OtherObstacles)
-   - a list of StockKeepingUnits (StockKeepingList1) with
-     six StockKeepingUnits
-   - a list of KitDesigns with one KitDesign
+   - a StockKeepingUnitLibrary with six StockKeepingUnits
+   - one KitDesign
    - a PartsTray with no parts (that formerly held two PartAs)
    - a PartsTray with no parts (that formerly held one PartB)
    - a PartsTray with no parts (that formerly held one PartC)
@@ -43,7 +41,9 @@ ClassAssertion(:EndEffectorChangingStation :ChangingStation1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :ChangingStation1
                         :ChangingStationPose)
 ObjectPropertyAssertion(:hasChangingStation_Holders :ChangingStation1
-                        :EndEffectorHolderList1)
+                        :PartGripperHolder)
+ObjectPropertyAssertion(:hasChangingStation_Holders :ChangingStation1
+                        :TrayGripperHolder)
 
 
 // EmptyKitTrayBox *****************************************************
@@ -67,37 +67,6 @@ ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :EmptyKitTraySupply
                         :EmptyKitTraySupplyPose)
 ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Box :EmptyKitTraySupply
                         :EmptyKitTrayBox)
-
-
-// EndEffectorHolderList1 **********************************************
-Declaration(NamedIndividual(:EndEffectorHolderList1))
-ClassAssertion(:EndEffectorHolderList :EndEffectorHolderList1)
-ObjectPropertyAssertion(:listsEndEffectorHolder :EndEffectorHolderList1
-                        :PartGripperHolder)
-ObjectPropertyAssertion(:listsEndEffectorHolder :EndEffectorHolderList1
-                        :TrayGripperHolder)
-
-
-// EndEffectorRefList1 *************************************************
-Declaration(NamedIndividual(:EndEffectorRefList1))
-ClassAssertion(:EndEffectorRefList :EndEffectorRefList1)
-DataPropertyAssertion(:listsEndEffectorRef :EndEffectorRefList1
-                      "ThePartGripper"^^xsd:NMTOKEN)
-
-
-// EndEffectorRefList2 *************************************************
-Declaration(NamedIndividual(:EndEffectorRefList2))
-ClassAssertion(:EndEffectorRefList :EndEffectorRefList2)
-DataPropertyAssertion(:listsEndEffectorRef :EndEffectorRefList2
-                      "TheTrayGripper"^^xsd:NMTOKEN)
-
-
-// EndEffectorRefList3 *************************************************
-AnnotationAssertion(rdfs:comment :EndEffectorRefList3
-  "This is to be associated with SKUs for the LargeContainers. It is
-   empty since no gripper can lift a LargeContainer.")
-Declaration(NamedIndividual(:EndEffectorRefList3))
-ClassAssertion(:EndEffectorRefList :EndEffectorRefList3)
 
 
 // FinishedKitBox ******************************************************
@@ -137,14 +106,13 @@ DataPropertyAssertion(:hasKitDesign_Id :KitDesignA2B1C1
 DataPropertyAssertion(:hasKitDesign_KitTraySkuRef :KitDesignA2B1C1
                       "SkuIdKitTray"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
-                        :PartRefAndPoseList1)
-
-
-// KitDesignList1 ******************************************************
-Declaration(NamedIndividual(:KitDesignList1))
-ClassAssertion(:KitDesignList :KitDesignList1)
-ObjectPropertyAssertion(:listsKitDesign :KitDesignList1
-                        :KitDesignA2B1C1)
+                        :PartRefAndPoseA1)
+ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+                        :PartRefAndPoseA2)
+ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+                        :PartRefAndPoseB1)
+ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+                        :PartRefAndPoseC1)
 
 
 // KitInstance1 ********************************************************
@@ -352,19 +320,6 @@ ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseC1
                         :RpyC1)
 
 
-// PartRefAndPoseList1 **************************************************
-Declaration(NamedIndividual(:PartRefAndPoseList1))
-ClassAssertion(:PartRefAndPoseList :PartRefAndPoseList1)
-ObjectPropertyAssertion(:listsPartRefAndPose :PartRefAndPoseList1
-                        :PartRefAndPoseA1)
-ObjectPropertyAssertion(:listsPartRefAndPose :PartRefAndPoseList1
-                        :PartRefAndPoseA2)
-ObjectPropertyAssertion(:listsPartRefAndPose :PartRefAndPoseList1
-                        :PartRefAndPoseB1)
-ObjectPropertyAssertion(:listsPartRefAndPose :PartRefAndPoseList1
-                        :PartRefAndPoseC1)
-
-
 // Robot1 ***************************************************************
 Declaration(NamedIndividual(:Robot1))
 ClassAssertion(:Robot :Robot1)
@@ -375,7 +330,7 @@ DataPropertyAssertion(:hasRobot_Description :Robot1
 DataPropertyAssertion(:hasRobot_Id :Robot1 "Robot1"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasRobot_MaximumLoadWeight :Robot1 "7.0"^^xsd:decimal)
 ObjectPropertyAssertion(:hasRobot_EndEffector :Robot1 :TrayGripper)
-ObjectPropertyAssertion(:hasRobot_WorkVolume :Robot1 :RobotWorkVolume)
+ObjectPropertyAssertion(:hasRobot_WorkVolume :Robot1 :BoxVolume1)
 
 
 // ShapeKitBox **********************************************************
@@ -420,11 +375,6 @@ DataPropertyAssertion(:hasShapeDesign_Description :ShapePartsTray
                       "Shape of PartsTrays"^^xsd:string)
 
 
-// SolidObjectList1 (an empty list) **************************************
-Declaration(NamedIndividual(:SolidObjectList1))
-ClassAssertion(:SolidObjectList :SolidObjectList1)
-
-
 // StockKeepingUnitKitBox ************************************************
 Declaration(NamedIndividual(:StockKeepingUnitKitBox))
 ClassAssertion(:StockKeepingUnit :StockKeepingUnitKitBox)
@@ -433,8 +383,6 @@ DataPropertyAssertion(:hasSku_Description :StockKeepingUnitKitBox
 DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitKitBox "1.2"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitKitBox
                       "SkuIdKitBox"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitKitBox
-                        :EndEffectorRefList3)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitKitBox :ShapeKitBox)
 
 
@@ -447,26 +395,9 @@ DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitKitTray
                       "0.2"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitKitTray
                       "SkuIdKitTray"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitKitTray
-                        :EndEffectorRefList2)
+DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitKitTray
+                      "TheTrayGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitKitTray :ShapeKitTray)
-
-
-// StockKeepingUnitList1 **********************************************
-Declaration(NamedIndividual(:StockKeepingUnitList1))
-ClassAssertion(:StockKeepingUnitList :StockKeepingUnitList1)
-ObjectPropertyAssertion(:listsStockKeepingUnit :StockKeepingUnitList1
-                        :StockKeepingUnitKitBox)
-ObjectPropertyAssertion(:listsStockKeepingUnit :StockKeepingUnitList1
-                        :StockKeepingUnitKitTray)
-ObjectPropertyAssertion(:listsStockKeepingUnit :StockKeepingUnitList1
-                        :StockKeepingUnitPartA)
-ObjectPropertyAssertion(:listsStockKeepingUnit :StockKeepingUnitList1
-                        :StockKeepingUnitPartB)
-ObjectPropertyAssertion(:listsStockKeepingUnit :StockKeepingUnitList1
-                        :StockKeepingUnitPartC)
-ObjectPropertyAssertion(:listsStockKeepingUnit :StockKeepingUnitList1
-                        :StockKeepingUnitPartsTray)
 
 
 // StockKeepingUnitPartA ************************************************
@@ -477,8 +408,8 @@ DataPropertyAssertion(:hasSku_Description :StockKeepingUnitPartA
 DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitPartA "0.18"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartA
                       "SkuIdPartA"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartA
-                        :EndEffectorRefList1)
+DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartA
+                      "ThePartGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartA :ShapePartA)
 
 
@@ -490,8 +421,8 @@ DataPropertyAssertion(:hasSku_Description :StockKeepingUnitPartB
 DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitPartB "0.18"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartB
                       "SkuIdPartB"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartB
-                        :EndEffectorRefList1)
+DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartB
+                      "ThePartGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartB :ShapePartB)
 
 
@@ -503,8 +434,8 @@ DataPropertyAssertion(:hasSku_Description :StockKeepingUnitPartC
 DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitPartC "0.18"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartC
                       "SkuIdPartC"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartC
-                        :EndEffectorRefList1)
+DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartC
+                      "ThePartGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartC :ShapePartC)
 
 
@@ -517,8 +448,8 @@ DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitPartsTray
                       "0.2"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartsTray
                       "SkuIdPartsTray"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartsTray
-                        :EndEffectorRefList2)
+DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartsTray
+                      "TheTrayGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartsTray
                         :ShapePartsTray)
 
@@ -561,26 +492,33 @@ ObjectPropertyAssertion(:hasWorkstation_Robot :KittingWorkstation1 :Robot1)
 ObjectPropertyAssertion(:hasWorkstation_ChangingStation :KittingWorkstation1
                         :ChangingStation1)
 ObjectPropertyAssertion(:hasWorkstation_Table :KittingWorkstation1 :WorkTable1)
-ObjectPropertyAssertion(:hasWorkstation_OtherObstacles :KittingWorkstation1
-                        :OtherObstacles)
 ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
-                        :StockKeepingUnitList1)
+                        :StockKeepingUnitKitBox)
+ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+                        :StockKeepingUnitKitTray)
+ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+                        :StockKeepingUnitPartA)
+ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+                        :StockKeepingUnitPartB)
+ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+                        :StockKeepingUnitPartC)
+ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+                        :StockKeepingUnitPartsTray)
+
 ObjectPropertyAssertion(:hasWorkstation_KitDesignLibrary :KittingWorkstation1
-                        :KitDesignList1)
+                        :KitDesignA2B1C1)
 
 
 // WorkTable1  *********************************************************
 Declaration(NamedIndividual(:WorkTable1))
 ClassAssertion(:WorkTable :WorkTable1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :WorkTable1 :WorkTablePose)
-ObjectPropertyAssertion(:hasWorkTable_SolidObjects :WorkTable1
-                        :SolidObjectList1)
 DataPropertyAssertion(:hasBox_Height :WorkTable1 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :WorkTable1 "1.6"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :WorkTable1 "0.8"^^:positiveDecimal)
 
 
-// RobotWorkVolume and OtherObstacles *********************************
+// BoxVolume1 **********************************************************
 Declaration(NamedIndividual(:BoxVolume1))
 ClassAssertion(:BoxVolume :BoxVolume1)
 Declaration(NamedIndividual(:PointMax))
@@ -596,21 +534,9 @@ DataPropertyAssertion(:hasPoint_Z :PointMin "0.0"^^xsd:decimal)
 ObjectPropertyAssertion(:hasBoxVolume_MaximumPoint :BoxVolume1 :PointMax)
 ObjectPropertyAssertion(:hasBoxVolume_MinimumPoint :BoxVolume1 :PointMin)
 
-Declaration(NamedIndividual(:OtherObstacles))
-ClassAssertion(:BoxVolumeList :OtherObstacles)
-
-Declaration(NamedIndividual(:RobotWorkVolume))
-ClassAssertion(:BoxVolumeList :RobotWorkVolume)
-ObjectPropertyAssertion(:listsBoxVolume :RobotWorkVolume :BoxVolume1)
-
 
 // Different Individuals **********************************************
 DifferentIndividuals(:EmptyKitTrayBox :FinishedKitBox)
-DifferentIndividuals(
- :EndEffectorRefList1
- :EndEffectorRefList2
- :EndEffectorRefList3)
-DifferentIndividuals(:OtherObstacles :RobotWorkVolume)
 DifferentIndividuals(:PartGripperHolder :TrayGripperHolder)
 DifferentIndividuals(
  :PartA1
@@ -1278,7 +1204,6 @@ DifferentIndividuals(
 // End Poses
 
 // Start RelativeLocations ******************************************
-
 
 Declaration(NamedIndividual(:RelativeLocationIn1))
 ClassAssertion(:RelativeLocationIn :RelativeLocationIn1)

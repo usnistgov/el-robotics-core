@@ -1,0 +1,25 @@
+
+\section{Planning Language}\label{S:PDDL}
+The Planning Domain Definition Language (PDDL) \cite{PDDL} is an attempt by the domain independent planning community to formulate a standard language for planning. A community
+of planning researchers has been producing planning systems that comply with this formalism since the first International Planning Competition held in 1998. This competition series
+continues today, with the seventh competition being held in 2011. PDDL is constantly adding extensions to the base language in order to represent more expressive problem domains. Our work is based on PDDL Version 3.\\
+
+\noindent
+By placing our knowledge in a PDDL representation, we enable the use of an entire family of open source planning systems.
+Each PDDL file-set consists of two files that specify the domain and the problem.
+
+\subsection{The PDDL Domain File}\label{S:PDDL-domain}
+The PDDL domain file is composed of four sections that include
+requirements, types and constants, predicates, and actions. This file may be automatically generated from a combination of information that is contained in the OWL-S process specification file and the OWL Kitting Ontology file.\\
+
+\noindent
+The requirements section specifies which extensions this problem domain relies on. The planning system can examine this statement to determine if it is capable of solving problems in this domain. In PDDL, all variables that are used in the domain must be typed. Types are defined in the $\mathrm{types}$ section. It is also possible to have constants that specify that all problems will share this single value. For example, in the simplest kitting workstation we will have a single \class{Robot} \const{r_1}.
+Predicates specify relationships between instances. For example, an instance of a \class{KitTray}, \const{kt_1}, can have a physical location and contains instances of \class{Parts}, \const{part_A}, \const{part_B}, and \const{part_C}. The final section of the PDDL domain file is concerned with actions. An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. The preconditions dictate items that must be initially true for the action to be legal. The effect equation dictates the changes in the world that will occur due to the execution of the action. The components of the PDDL domain file have their source in the State Variable Representation. The PDDL domain file for kitting can be found in Appendix~\ref{appendix:A}.
+
+
+
+\subsection{PDDL Problem File}\label{S:PDDL-problem}
+The second file of the PDDL file-set is a  problem file. The problem file specifies information about the specific instance of the given problem. This file contains the initial conditions and definition of the world (in the init section) and the final state that the world must be brought to (in the goal section). The PDDL problem file for kitting can be found in Appendix~\ref{appendix:B}.
+
+
+

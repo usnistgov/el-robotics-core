@@ -3,7 +3,7 @@ In a SVR, each state is represented by a tuple of values of $n$ state variables 
 To build the SVR, the group has taken a very systematic approach of identifying and modeling the concepts. Because the industrial robot field is so broad, the group decided to limit its efforts to a single type of operation, namely kitting. A scenario was developed that described, in detail, the types of operations that would be performed in kitting, the sequencing of steps, the parts and machines that were needed, constraints on the process such as pre- and post-conditions, etc. For this scenario, a set of concepts were extracted and defined. These concepts served as the initial requirements for the kitting SVR. The concepts were then modeling in our SVR, building off of the definitions and relationships that were identified in the scenario. A SVR relies on the elements of constant variable symbols, object variable symbols, state variable symbols, rigid relations, and planning operators. These are defined for the kitting domain in the rest of this section.
 
 
-\subsubsection{Constant Variable Symbols}
+\subsection{Constant Variable Symbols}
 For the kitting domain, there is a finite set of constant variable symbols that must be represented. In the SVR, constant variable symbols are partitioned into disjoint classes corresponding to the objects of the domain. The finite set of all constant variable symbols in the kitting domain is partitioned into the following sets:
 %\begin{small}
 \begin{itemize}
@@ -13,7 +13,7 @@ For the kitting domain, there is a finite set of constant variable symbols that 
 
 \item A set of \class{KitTrays} \{\const{kt_1},\const{kt_2},\ldots\}:  A \class{KitTray} can hold \class{Parts} in known positions.
 
-\item A set of \class{KitInstances} \{\const{kins_1},\const{kins_2},\ldots\}: A \class{KitInstance} is built when \class{Parts} are placed in a \class{KitTray}. A \class{KitInstance} consists of a \class{KitTray} and, possibly, some \class{Parts}. A \class{KitInstance} is empty when it does not contain any \class{Part} and finished when it contains all the \class{Parts} that constitute a kit.
+\item A set of \class{KitInstances} \{\const{kins_1},\const{kins_2},\ldots\}: A \class{KitInstance} consists of a \class{KitTray} and, possibly, some \class{Parts}. A \class{KitInstance} is empty when it does not contain any \class{Part} and finished when it contains all the \class{Parts} that constitute a kit.
 
 \item A symbol \class{WorkTable} -- \const{wtable}: A \class{WorkTable} is an area in the kitting workstation where \class{KitTrays} are placed to build \class{KitInstances}.
 
@@ -37,22 +37,23 @@ Object variable symbols are typed variables which range over a class or the unio
 \subsection{State Variable Symbols}
 \label{subsubsect:State_Variable_Symbols}
 A state variable symbol is defined as follows:
-$\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$) is a function from the set of states ($\mathrm{S}$) and at least one set of constant variable symbols $\mathrm{A_1\times \dots\times A_i}$ into a set of constant variable symbols $\mathrm{B_1\cup\dots\cup B_j}$.
+$\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$) is a function from the set of states ($\mathrm{S}$) and at least one set of constant variable symbols $\mathrm{A_1\times \dots\times A_i}$ into a set of constant variable symbols $\mathrm{B_1\cup\dots\cup B_j}$.\\
 
+\noindent
 The use of state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
 
 \begin{itemize}
-\item \stvar{effloc}: \class{EndEffectors}$\mathrm{\times S\rightarrow}$\class{Robots} $\cup$ \class{EndEffectorHolders}: designates the location of an \class{EndEffector} in the workstation, i.e., in a \class{EndEffectorHolder} or attached to a \class{Robot}.
+\item \stvar{efflocation}: \class{EndEffectors}$\mathrm{\times S\rightarrow}$\class{Robots} $\cup$ \class{EndEffectorHolders}: designates the location of an \class{EndEffector} in the workstation, i.e., in a \class{EndEffectorHolder} or attached to a \class{Robot}.
 
-\item \stvar{reff}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{EndEffectors} $\cup$ \{\textit{nil}\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise \textit{nil}.
+\item \stvar{r-eff}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{EndEffectors} $\cup$ \{\textit{nil}\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise \textit{nil}.
 
-\item \stvar{onworktable}: \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{KitInstances} $\cup$ \class{KitTrays} $\cup$ \{\textit{nil}\}: designates the object placed on the \class{WorkTable}, i.e., a \class{KitInstance}, a \class{KitTray}, or nothing (\textit{nil}).
+\item \stvar{on-worktable}: \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{KitInstances} $\cup$ \class{KitTrays} $\cup$ \{\textit{nil}\}: designates the object placed on the \class{WorkTable}, i.e., a \class{KitInstance}, a \class{KitTray}, or nothing (\textit{nil}).
 
-\item \stvar{kinsloc}: \class{KitInstances}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithKits} $\cup$ \class{WorkTable} $\cup$ \class{Robots}: designates the different possible locations of a \class{KitInstance} in the workstation, i.e., in a \class{LargeBoxWithKits}, on the \class{WorkTable}, or being held by a \class{Robot}.
+\item \stvar{kinslocation}: \class{KitInstances}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithKits} $\cup$ \class{WorkTable} $\cup$ \class{Robots}: designates the different possible locations of a \class{KitInstance} in the workstation, i.e., in a \class{LargeBoxWithKits}, on the \class{WorkTable}, or being held by a \class{Robot}.
 
-\item \stvar{ktloc}: \class{KitTrays}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithEmptyKitTrays} $\cup$ \class{Robots} $\cup$ \class{WorkTable}: designates the different possible locations of a \class{KitTray} in the workstation, i.e., in a \class{LargeBoxWithEmptyKitTrays}, on a \class{WorkTable} or being held by a \class{Robot}.
+\item \stvar{ktlocation}: \class{KitTrays}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithEmptyKitTrays} $\cup$ \class{Robots} $\cup$ \class{WorkTable}: designates the different possible locations of a \class{KitTray} in the workstation, i.e., in a \class{LargeBoxWithEmptyKitTrays}, on a \class{WorkTable} or being held by a \class{Robot}.
 
-\item \stvar{partloc}: \class{Parts}$\mathrm{\times S\rightarrow}$\class{PartTrays} $\cup$ \class{KitInstances} $\cup$ \class{Robots}: designates the different possible locations of a \class{Part} in the workstation, i.e., in a \class{PartTray}, in a \class{KitInstance}, or being held by a \class{Robot}.
+\item \stvar{partlocation}: \class{Parts}$\mathrm{\times S\rightarrow}$\class{PartTrays} $\cup$ \class{KitInstances} $\cup$ \class{Robots}: designates the different possible locations of a \class{Part} in the workstation, i.e., in a \class{PartTray}, in a \class{KitInstance}, or being held by a \class{Robot}.
 
 \item \stvar{rhold}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{KitTrays} $\cup$ \class{KitInstances} $\cup$ \class{Parts} $\cup$ \{\textit{nil}\}: designates the object being held by a \class{Robot}, i.e., a \class{KitTray}, a \class{KitInstance}, \class{Part}, or nothing (\textit{nil}). It is assumed that the \class{Robot} is already equipped with the appropriate \class{EndEffector}.
 
@@ -62,92 +63,256 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{isptempty}: \class{PartTrays}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{PartTray} is empty (1) or not (0).
 
-\item \stvar{efftype}: \class{EndEffectors}$\mathrm{\times S \rightarrow}$\class{KitTrays} $\cup$ \class{KitInstancess} $\cup$ \class{Parts}: designates the type of object an \class{EndEffector} can hold, i.e., \class{KitTrays}, \class{KitInstances}, or \class{Parts}.
+\item \stvar{efftype}: \class{EndEffectors}$\mathrm{\times S \rightarrow}$\class{KitTrays} $\cup$ \class{KitInstances} $\cup$ \class{Parts}: designates the type of object an \class{EndEffector} can hold, i.e., \class{KitTrays}, \class{KitInstances}, or \class{Parts}.
 
-\item \stvar{effhtype}: \class{EndEffectorHolders}$\mathrm{\times S \rightarrow}$\class{EndEffectors}: designates the \class{EndEffector} that an \class{EndEffectorHolder} can hold.
+\item \stvar{effhold-eff}: \class{EndEffectorHolders}$\mathrm{\times S \rightarrow}$\class{EndEffectors}: designates the \class{EndEffector} that an \class{EndEffectorHolder} can hold.
 \end{itemize}
 
 
 \subsection{Rigid Relations}
 \label{subsubsect:Rigid_Relation}
-\stvar{efftype} and \stvar{effhtype} are rigid relations since their values do not vary from one state to another. In each state, a given \class{EndEffector} will always hold the same type of object and a given \class{EndEffectorHolder} will always hold the same \class{EndEffectors}.
+\stvar{efftype} and \stvar{effhold-eff} are rigid relations since their values do not vary from one state to another. In each state, a given \class{EndEffector} will always hold the same type of object and a given \class{EndEffectorHolder} will always hold the same \class{EndEffectors}.
 
 \subsection{Planning Operators and Actions}
 \label{subsect:Planning_Operators}
+The planning operators presented in this section will be expressed in classical representation instead of state variable representation. In classical representation, states are represented as sets of logical atoms that are true or false within some interpretation. Actions are represented by planning operators that change the truth values of these atoms. Predicates and actions in the domain and problem PDDL files (see Section~\ref{S:PDDL}) need to be expressed with logical atoms, hence the use of classical representation.
 
-\subsubsection{Planning Operators}
-A planning operator is used to describe one of the procedures that can be used to move from one state to another. A planning operator~\cite{NAU.2004} is a triple \textit{o=(name(o), precond(o), effects(o))}
-where:
+\subsubsection{Convert State Variable Symbols to Atoms}
+In order to use sets of logical atoms, the state variable symbols presented in Section~\ref{subsubsect:State_Variable_Symbols} are converted into predicates (PRED).
+
+In the rest of this section, the state variable symbols (SVSs) and their corresponding predicates (PREDs) are presented as follows:
 \begin{itemize}
-\item name(o) is a syntactic expression of the form $n(u_1,\dots,u_k)$, where $n$ is a symbol
-called an operator symbol, $u_1,\dots,u_k$ are all of the object variable symbols that
-appear anywhere in \textit{o}, and $n$ is unique (i.e., no two operators can have the
-same operator symbol).
-\item precond(o) is a set of expressions on state variables and relations.
-\item effects(o) is a set of assignments of values to state variables of the form
-$x(t_1,\dots,t_k)\leftarrow t_{k+1}$, where each $t_i$ is a term in the appropriate range.
+ \item \stvar{SVS}
+  \begin{itemize}
+  \item \stvar{PRED1} (\class{param1},\class{param2}, \ldots)
+  \item \stvar{PRED2} (\class{param1},\class{param2}, \ldots)
+  \end{itemize}
 \end{itemize}
 
-Our kitting domain is composed of eight operators which are defined below.
+
+The SVSs and PREDs for kitting are presented below:
+\begin{itemize}
+ \item \stvar{efflocation}
+  \begin{itemize}
+  \item \stvar{efflocation}(\class{EndEffector},\class{Robot}) ;TRUE iff EndEffector is attached to Robot
+  \item \stvar{efflocation}(\class{EndEffector},\class{EndEffectorHolder}) ;TRUE iff EndEffector is in EndEffectorHolder
+  \end{itemize}
+
+ \item \stvar{r-eff}
+  \begin{itemize}
+  \item \stvar{r-with-eff}(\class{Robot},\class{EndEffector}) ;TRUE iff \class{Robot} is equipped with \class{EndEffector}
+  \item \stvar{r-no-eff}(\class{Robot}) ;TRUE iff \class{Robot} is not equipped with any \class{EndEffector}	
+  \end{itemize}
+
+ \item \stvar{on-worktable}
+  \begin{itemize}
+  \item \stvar{onworktable}(\class{WorkTable},\class{KitInstance}) ;TRUE iff \class{KitInstance} is on \class{WorkTable}
+  \item \stvar{onworktable}(\class{WorkTable},\class{KitTray}) ;TRUE iff \class{KitTray} is on \class{WorkTable}
+  \item \stvar{worktable-empty}(\class{WorkTable}) ;TRUE iff there is nothing on \class{WorkTable}
+  \end{itemize}
+
+ \item \stvar{kinslocation}
+  \begin{itemize}
+  \item \stvar{kinslocation}(\class{KitInstance},\class{LargeBoxWithKit}) ;TRUE iff \class{KitInstance} is in \class{LargeBoxWithKit}
+  \item \stvar{kinslocation}(\class{KitInstance},\class{WorkTable}) ;TRUE iff \class{KitInstance} is on \class{WorkTable}
+  \item \stvar{kinslocation}(\class{KitInstance},\class{Robot}) ;TRUE iff \class{KitInstance} is being held by \class{Robot}	
+  \end{itemize}
+
+ \item \stvar{ktlocation}
+  \begin{itemize}
+  \item \stvar{ktlocation}(\class{KitTray},\class{LargeBoxWithEmptyKitTray}) ;TRUE iff \class{KitTray} is in \class{LargeBoxWithEmptyKitTray}	
+  \item \stvar{ktlocation}(\class{KitTray},\class{Robot}) ;TRUE iff \class{KitTray} is being held by \class{Robot}
+  \item \stvar{ktlocation}(\class{KitTray},\class{WorkTable}) ;TRUE iff \class{KitTray} is on \class{WorkTable}
+  \end{itemize}
+
+ \item \stvar{partlocation}
+  \begin{itemize}
+    \item \stvar{partlocation}(\class{Part},\class{PartTray}) ;TRUE iff \class{Part} is in \class{PartTray}	
+    \item \stvar{partlocation}(\class{Part},\class{KitInstance}) ;TRUE iff \class{Part} is in \class{KitInstance}
+    \item \stvar{partlocation}(\class{Part},\class{Robot}) ;TRUE iff \class{Part} is being held by \class{Robot}
+  \end{itemize}
+
+ \item \stvar{rhold}
+  \begin{itemize}
+    \item \stvar{rhold}(\class{Robot},\class{KitTray}) ;TRUE iff \class{Robot} is holding \class{KitTray}	
+    \item \stvar{rhold}(\class{Robot},\class{KitInstance}) ;TRUE iff \class{Robot} is holding \class{KitInstance}
+    \item \stvar{rhold}(\class{Robot},\class{Part}) ;TRUE iff \class{Robot} is holding \class{Part}
+    \item \stvar{rhold-empty}(\class{Robot}) ;TRUE iff \class{Robot} is not holding anything
+  \end{itemize}
+
+ \item \stvar{islbwkfull}
+  \begin{itemize}
+    \item \stvar{lbwk-non-full}(\class{LargeBoxWithKit}) ;TRUE iff \class{LargeBoxWithKit} is not full	 
+  \end{itemize}
+
+ \item \stvar{islbwektempty}
+  \begin{itemize}
+    \item \stvar{lbwekt-non-empty}(\class{LargeBoxWithEmptyKitTray}) ;TRUE iff \class{LargeBoxWithEmptyKitTray} is not empty
+  \end{itemize}
+
+ \item \stvar{isptempty}
+  \begin{itemize}
+    \item \stvar{part-tray-non-empty}(\class{PartTray}) ;TRUE iff \class{PartTray} is not empty
+  \end{itemize}
+
+ \item \stvar{efftype}
+  \begin{itemize}
+    \item \stvar{efftype}(\class{EndEffector},\class{KitTray}) ;TRUE iff \class{EndEffector} is designed to handle \class{KitTray}	
+    \item \stvar{efftype}(\class{EndEffector},\class{KitInstance}) ;TRUE iff \class{EndEffector} is designed to handle \class{KitInstance}
+    \item \stvar{efftype}(\class{EndEffector},\class{Part}) ;TRUE iff \class{EndEffector} is designed to handle \class{Part}
+  \end{itemize}
+
+ \item \stvar{effhold-eff}
+  \begin{itemize}
+    \item \stvar{effhold-eff}(\class{EndEffectorHolder},\class{EndEffector}) ;TRUE iff \class{EndEffectorHolder} is holding \class{EndEffector}
+  \end{itemize}
+\end{itemize}
+
+
+\subsubsection{Planning Operators}
+ In classical planning, a planning operator~\cite{NAU.2004} is a triple \textit{o=(name(o), precond(o), effects(o))} whose elements are as follows:
+\begin{itemize}
+\item name(o) is a syntactic expression of the form $n(x_1,\dots,x_k)$, where $n$ is a symbol
+called an operator symbol, $x_1,\dots,x_k$ are all of the object variable symbols that
+appear anywhere in \textit{o}, and $n$ is unique (i.e., no two operators can have the
+same operator symbol).
+\item precond(o) and effects(o) are sets of literals (i.e., atoms and negations of atoms). Literals that are true in precond(o) but false in effects(o) are removed by using negations of the appropriate atoms.
+\end{itemize}
+
+Our kitting domain is composed of nine operators which are defined below.
 
 
 \begin{enumerate}
-\item \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eeff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
-    \begin{itemize}
-\item precond: \stvar{ktloc}(\const{kt})=\const{lbwekt}, \stvar{rhold}(\const{r})=\textit{nil}, \stvar{reff}(\const{r})=\const{eff}, \stvar{effloc}(\const{eff})=\const{r}, \stvar{islbwektempty}(\const{lbwekt})=0
-\item effects: \stvar{ktloc}(\const{kt})$\leftarrow$\const{r}, \stvar{rhold}(\const{r})$\leftarrow$\const{kt}
-\end{itemize}
+\item \op{take-kt}(\const{r},\const{kt},\const{lbwekt},\const{eff},\const{wtable}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eeff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
 
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{rhold-empty}(\const{r}),&$\neg$\stvar{rhold-empty}(\const{r}),\\
+  \stvar{lbwekt-non-empty}(\const{lbwekt}),&\stvar{ktlocation}(\const{kt},\const{r}),\\
+  \stvar{r-with-eff}(\const{r},\const{eff}),&\stvar{rhold}(\const{r},\const{kt}), \\
+  \stvar{ktlocation}(\const{kt},\const{lbwekt}),&$\neg$\stvar{ktlocation}(\const{kt},\const{lbwekt}) \\
+  \stvar{efflocation}(\const{eff},\const{r}),&\\
+  \stvar{worktable-empty}(\const{wtable}),& \\
+  \stvar{efftype}(\const{eff},\const{kt})&
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \item \op{put-kt}(\const{r},\const{kt},\const{wtable}): The \class{Robot} \const{r} puts down the \class{KitTray} \const{kt} on the \class{WorkTable} \const{wtable}.
-    \begin{itemize}
-        \item precond: \stvar{ktloc}(\const{kt})=\const{r}, \stvar{rhold}(\const{r})=\const{kt}, \stvar{onworktable}(\const{wtable})=\textit{nil}
-        \item effects: \stvar{ktloc}(\const{kt})$\leftarrow$\const{wtable}, \stvar{rhold}(\const{r})$\leftarrow$\textit{nil}, \stvar{onworktable}(\const{wtable})$\leftarrow$\const{kt}
-    \end{itemize}
-    
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{ktlocation}(\const{kt},\const{r}),&$\neg$\stvar{ktlocation}(\const{kt},\const{r}),\\
+  \stvar{rhold}(\const{r},\const{kt}),&$\neg$\stvar{rhold}(\const{r},\const{kt}),\\
+  \stvar{worktable-empty}(\const{wtable})&$\neg$\stvar{worktable-empty}(\const{wtable}),\\
+  &\stvar{ktlocation}(\const{kt},\const{wtable}),\\
+  &\stvar{rhold-empty}(\const{r}),\\
+  &\stvar{onworktable}(\const{wtable},\const{kt})\\
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \item \op{take-kins}(\const{r},\const{kins},\const{wtable},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eff} picks up the \class{KitInstance} \const{kins} from the \class{WorkTable} \const{wtable}.
-    \begin{itemize}
-        \item precond: \stvar{kinsloc}(\const{kins})=\const{wtable}, \stvar{rhold}(\const{r})=\textit{nil}, \stvar{onworktable}(\const{wtable})=\const{kins}, \stvar{reff}(\const{r})=\const{eff}
-        \item effects: \stvar{kinsloc}(\const{kins})$\leftarrow$\const{r}, \stvar{rhold}(\const{r})$\leftarrow$\const{kins}, \stvar{onworktable}(\const{wtable})$\leftarrow$\textit{nil}
-    \end{itemize}
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{kinslocation}(\const{kins},\const{wtable}),&$\neg$\stvar{kinslocation}(\const{kins},\const{wtable}),\\
+  \stvar{rhold-empty}(\const{r}),&$\neg$\stvar{rhold-empty}(\const{r}),\\
+  \stvar{onworktable}(\const{wtable},\const{kins}),&$\neg$\stvar{onworktable}(\const{wtable},\const{kins}),\\
+  \stvar{r-with-eff}(\const{r},\const{eff}),&\stvar{kinslocation}(\const{kins},\const{r}),\\
+  \stvar{efftype}(\const{eff},\const{kins})&\stvar{rhold}(\const{r},\const{kins}),\\
+  &\stvar{worktable-empty}(\const{wtable})
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \item \op{put-kins}(\const{r},\const{kins},\const{lbwk}): The \class{Robot} \const{r} puts down the \class{KitInstance} \const{kins} in the \class{LargeBoxWithKits} \const{lbwk}.
-    \begin{itemize}
-        \item precond: \stvar{kinsloc}(\const{kins})=\const{r}, \stvar{rhold}(\const{r})=\const{kins}, \stvar{islbwkfull}(\const{lbwk})=0
-        \item effects: \stvar{kinsloc}(\const{kins})$\leftarrow$\const{lbwk}, \stvar{rhold}(\const{r})$\leftarrow$\textit{nil}
-    \end{itemize}    
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{kinslocation}(\const{kins},\const{r}),&$\neg$\stvar{kinslocation}(\const{kins},\const{r}),\\
+  \stvar{rhold}(\const{r},\const{kins}),&$\neg$\stvar{rhold}(\const{r},\const{kins}),\\
+  \stvar{lbwk-non-full}(\const{lbwk})&\stvar{kinslocation}(\const{kins},\const{lbwk}),\\
+  &\stvar{rhold-empty}(\const{r})
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{take-p}(\const{r},\const{part},\const{pt},\const{eff}): The \class{Robot} \const{r} uses the \class{EndEffector} \const{eff} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{pt}.
-    \begin{itemize}
-        \item precond: \stvar{partloc}(\const{part})=\const{pt}, \stvar{rhold}(\const{r})=\textit{nil}, \stvar{reff}(\const{r})=\const{eff}
-        \item effects: \stvar{partloc}(\const{part})$\leftarrow$\const{r}, \stvar{rhold}(\const{r})$\leftarrow$\const{part}
-    \end{itemize}   
+\item \op{take-p}(\const{r},\const{part},\const{pt},\const{eff},\const{wtable},\const{kins}): The \class{Robot} \const{r} uses the \class{EndEffector} \const{eff} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{pt}.
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{partlocation}(\const{part},\const{pt}),&$\neg$\stvar{partlocation}(\const{part},\const{pt}),\\
+  \stvar{efflocation}(\const{eff},\const{r}),&\stvar{rhold}(\const{r},\const{part}),\\
+  \stvar{rhold-empty}(\const{r}),&$\neg$\stvar{rhold-empty}(\const{r}),\\
+  \stvar{r-with-eff}(\const{r},\const{eff}),&\stvar{partlocation}(\const{part},\const{r})\\
+  \stvar{onworktable}(\const{wtable},\const{kins}),&\\
+  \stvar{kinslocation}(\const{kins},\const{wtable}),&\\
+  \stvar{efftype}(\const{eff},\const{part}),&\\
+  \stvar{part-tray-non-empty}(\const{pt})&
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{put-p}(\const{r},\const{part},\const{kins}): The \class{Robot} \const{r} puts down the \class{Part} \const{part} in the \class{KitInstance} \const{kins}.
-    \begin{itemize}
-        \item precond: \stvar{partloc}(\const{part})=\const{r}, \stvar{rhold}(\const{r})=\const{part}
-        \item effects: \stvar{partloc}(\const{part})$\leftarrow$\const{kins}, \stvar{rhold}(\const{r})$\leftarrow$\textit{nil}
-    \end{itemize}   
+\item \op{put-p}(\const{r},\const{part},\const{kins},\const{wtable}): The \class{Robot} \const{r} puts down the \class{Part} \const{part} in the \class{KitInstance} \const{kins}.
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{partlocation}(\const{part},\const{r}),&$\neg$\stvar{partlocation}(\const{part},\const{r}),\\
+  \stvar{rhold}(\const{r},\const{part}),&$\neg$\stvar{rhold}(\const{r},\const{part}),\\
+  \stvar{onworktable}(\const{wtable},\const{kins}),&\stvar{partlocation}(\const{part},\const{kins}),\\
+  \stvar{kinslocation}(\const{kins},\const{wtable})&\stvar{rhold-empty}(\const{r})
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \item \op{attach-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} attaches the \class{EndEffector} \const{eff}, situated in the \class{EndEffectorHolder} \const{effh}.
-    \begin{itemize}
-        \item precond: \stvar{effloc}(\const{eff})=\const{effh}, \stvar{reff}(\const{r})=\textit{nil}
-        \item effects: \stvar{effloc}(\const{eff})$\leftarrow$\const{r}, \stvar{reff}(\const{r})$\leftarrow$\const{eff}
-    \end{itemize}    
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{efflocation}(\const{eff},\const{effh}),&$\neg$\stvar{efflocation}(\const{eff},\const{effh}),\\
+  \stvar{r-no-eff}(\const{r}),&$\neg$\stvar{r-no-eff}(\const{r}),\\
+  \stvar{effhhold-eff}(\const{effh},\const{eff})&$\neg$\stvar{effhhold-eff}(\const{effh},\const{eff}),\\
+  &\stvar{rhold-empty}(\const{r}),\\
+  &\stvar{efflocation}(\const{eff},\const{r}),\\
+  &\stvar{r-with-eff}(\const{r},\const{eff})
+\end{tabular}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \item \op{remove-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} removes the \class{EndEffector} \const{eff} and puts it in the \class{EndEffectorHolder} \const{effh}.
-    \begin{itemize}
-        \item precond: \stvar{effloc}(\const{eff})=\const{r}, \stvar{reff}(\const{r})=\const{eff}, \stvar{rhold}(\const{r})=\textit{nil}
-        \item effects: \stvar{effloc}(\const{eff})$\leftarrow$\const{effh}, \stvar{reff}(\const{r})=\textit{nil}
-    \end{itemize}
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{efflocation}(\const{eff},\const{r}),&$\neg$\stvar{efflocation}(\const{eff},\const{r}),\\
+  \stvar{r-with-eff}(\const{r},\const{eff}),&$\neg$\stvar{r-with-eff}(\const{r},\const{eff}),\\
+  \stvar{rhold-empty}(\const{r})&efflocation(\const{eff},\const{effh}),\\
+  &\stvar{effhhold-eff}(\const{effh},\const{eff}),\\
+  &\stvar{r-no-eff}(\const{r})
+\end{tabular}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item \op{create-kins}(\const{kins},\const{kt},\const{wtable}): The \class{KitTray} \const{kt} is converted to the \class{KitInstance} \const{kins} once the \class{KitTray} \const{kt} is on the \class{WorkTable} \const{wtable}.
+\begin{center}
+\begin{tabular}{ l|l }
+  \textit{precond} & \textit{effects} \\
+  \hline
+  \stvar{onworktable}(\const{wtable}\const{kt})&$\neg$\stvar{onworktable}(\const{wtable},\const{kt}),\\
+&\stvar{kinslocation}(\const{kins},\const{wtable}),\\
+&\stvar{onworktable}(\const{wtable},\const{kins})\\
+\end{tabular}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{enumerate}
 
 \subsubsection{Actions}

@@ -6,6 +6,7 @@
 
 %Packages
 \usepackage{mdwlist}
+\usepackage[toc,page]{appendix}
 
 %\usepackage[sc]{mathpazo}
 %\linespread{1.05}         % Palatino needs more leading (space between lines)
@@ -23,7 +24,6 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{url}
 \usepackage{alltt}
-\usepackage{mdwlist}
 \usepackage{verbatim}
 \usepackage{moreverb}                    % for boxedboxedverbatim
 \usepackage{fancyvrb}
@@ -39,6 +39,28 @@
 %\usepackage{graphics,graphicx}
 \usepackage{graphicx}
 %\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Planning for a Kitting Workstation},    % title
+    pdfauthor={Zeid Kootbally},     % author
+    pdfsubject={IPMAS},   % subject of the document
+    pdfcreator={Zeid Kootbally},   % creator of the document
+    pdfproducer={Zeid Kootbally}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=black           % color of external links
+}
+
 
 \newcommand{\class}[1] {\textit{#1}}
 \newcommand{\const}[1] {$\mathit{#1}$}
@@ -52,4 +74,12 @@
 \renewcommand{\labelitemii}{$\square$}
 
 \setlength{\abovecaptionskip}{0pt}
-\setlength{\belowcaptionskip}{3pt} 
+\setlength{\belowcaptionskip}{3pt}
+
+\newenvironment{mylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small}
+{\end{list}}
+
+\newenvironment{mytinylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
+{\end{list}} 

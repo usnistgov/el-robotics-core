@@ -1,0 +1,7 @@
+0.000: (jump pos-2-2 pos-3-1 pos-4-0) [1.000]
+1.457: (jump pos-3-4 pos-2-4 pos-1-4) [2.600]
+4.174: (jump pos-1-4 pos-1-3 pos-1-2) [7.000]
+4.850: (jump pos-1-2 pos-1-2 pos-1-2) [3.400]
+5.873: (jump pos-1-4 pos-2-1 pos-3-6) [2.000]
+12.065: (jump pos-1-2 pos-2-2 pos-3-2) [1.000]
+13.746: (jump pos-3-1 pos-3-2 pos-3-3) [5.000]

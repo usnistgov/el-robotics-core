@@ -41,11 +41,12 @@ Declaration(NamedIndividual(:ChangingStation1))
 ClassAssertion(:EndEffectorChangingStation :ChangingStation1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :ChangingStation1
                         :ChangingStationPose)
-ObjectPropertyAssertion(:hasChangingStation_Holders :ChangingStation1
+ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolders :ChangingStation1
                         :PartGripperHolder)
-ObjectPropertyAssertion(:hasChangingStation_Holders :ChangingStation1
+ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolders :ChangingStation1
                         :TrayGripperHolder)
-
+ObjectPropertyAssertion(:hadByChangingStation_Workstation :ChangingStation1
+                        :KittingWorkstation1)
 
 // EmptyKitTrayBox *****************************************************
 Declaration(NamedIndividual(:EmptyKitTrayBox))
@@ -56,6 +57,8 @@ DataPropertyAssertion(:hasLargeContainer_SerialNumber :EmptyKitTrayBox
                       "4"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :EmptyKitTrayBox
                         :EmptyKitTrayBoxPose)
+ObjectPropertyAssertion(:hadByLargeContainer_LargeBoxWithEmptyKitTrays
+                        :EmptyKitTrayBox :EmptyKitTraySupply)
 DataPropertyAssertion(:hasBox_Height :EmptyKitTrayBox "0.8"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :EmptyKitTrayBox "0.9"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :EmptyKitTrayBox "0.7"^^:positiveDecimal)
@@ -64,10 +67,10 @@ DataPropertyAssertion(:hasBox_Width :EmptyKitTrayBox "0.7"^^:positiveDecimal)
 // EmptyKitTraySupply **************************************************
 Declaration(NamedIndividual(:EmptyKitTraySupply))
 ClassAssertion(:LargeBoxWithEmptyKitTrays :EmptyKitTraySupply)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :EmptyKitTraySupply
-                        :EmptyKitTraySupplyPose)
-ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Box :EmptyKitTraySupply
-                        :EmptyKitTrayBox)
+ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation
+                        :EmptyKitTraySupply :EmptyKitTraySupplyPose)
+ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_LargeContainer
+                        :EmptyKitTraySupply :EmptyKitTrayBox)
 
 
 // FinishedKitBox ******************************************************
@@ -79,6 +82,8 @@ DataPropertyAssertion(:hasLargeContainer_SerialNumber :FinishedKitBox
                       "5"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :FinishedKitBox
                         :FinishedKitBoxPose)
+ObjectPropertyAssertion(:hadByLargeContainer_LargeBoxWithKits :FinishedKitBox
+                        :FinishedKitReceiver)
 DataPropertyAssertion(:hasBox_Height :FinishedKitBox "0.8"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :FinishedKitBox "0.9"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :FinishedKitBox "0.7"^^:positiveDecimal)
@@ -89,7 +94,7 @@ Declaration(NamedIndividual(:FinishedKitReceiver))
 ClassAssertion(:LargeBoxWithKits :FinishedKitReceiver)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :FinishedKitReceiver
                         :FinishedKitReceiverPose)
-ObjectPropertyAssertion(:hasLargeBoxWithKits_Box :FinishedKitReceiver
+ObjectPropertyAssertion(:hasLargeBoxWithKits_LargeContainer :FinishedKitReceiver
                         :FinishedKitBox)
 DataPropertyAssertion(:hasLargeBoxWithKits_Capacity :FinishedKitReceiver
                      "12"^^xsd:positiveInteger)
@@ -104,14 +109,16 @@ DataPropertyAssertion(:hasKitDesign_Id :KitDesignA2B1C1
                       "KitDesignA2B1C1"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasKitDesign_KitTraySkuRef :KitDesignA2B1C1
                       "SkuIdKitTray"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+ObjectPropertyAssertion(:hasKitDesign_PartRefAndPoses :KitDesignA2B1C1
                         :PartRefAndPoseA1)
-ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+ObjectPropertyAssertion(:hasKitDesign_PartRefAndPoses :KitDesignA2B1C1
                         :PartRefAndPoseA2)
-ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+ObjectPropertyAssertion(:hasKitDesign_PartRefAndPoses :KitDesignA2B1C1
                         :PartRefAndPoseB1)
-ObjectPropertyAssertion(:hasKitDesign_PartPoses :KitDesignA2B1C1
+ObjectPropertyAssertion(:hasKitDesign_PartRefAndPoses :KitDesignA2B1C1
                         :PartRefAndPoseC1)
+ObjectPropertyAssertion(:hadByKitDesign_Workstation :KitDesignA2B1C1
+                        :Workstation1)
 
 
 // KitTray1 ************************************************************
@@ -119,6 +126,8 @@ Declaration(NamedIndividual(:KitTray1))
 ClassAssertion(:KitTray :KitTray1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray1
                         :KitTray1Pose)
+ObjectPropertyAssertion(:hadByKitTray_LargeBoxWithEmptyKitTrays :KitTray1
+                        :EmptyKitTraySupply)
 DataPropertyAssertion(:hasBox_Height :KitTray1 "0.15"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :KitTray1 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :KitTray1 "0.3"^^:positiveDecimal)
@@ -131,6 +140,8 @@ Declaration(NamedIndividual(:KitTray2))
 ClassAssertion(:KitTray :KitTray2)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray2
                         :KitTray2Pose)
+ObjectPropertyAssertion(:hadByKitTray_LargeBoxWithEmptyKitTrays :KitTray2
+                        :EmptyKitTraySupply)
 DataPropertyAssertion(:hasBox_Height :KitTray2 "0.15"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :KitTray2 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :KitTray2 "0.3"^^:positiveDecimal)
@@ -143,6 +154,8 @@ Declaration(NamedIndividual(:KitTray3))
 ClassAssertion(:KitTray :KitTray3)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray3
                         :KitTray3Pose)
+ObjectPropertyAssertion(:hadByKitTray_LargeBoxWithEmptyKitTrays :KitTray3
+                        :EmptyKitTraySupply)
 DataPropertyAssertion(:hasBox_Height :KitTray3 "0.15"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :KitTray3 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :KitTray3 "0.3"^^:positiveDecimal)
@@ -155,7 +168,7 @@ Declaration(NamedIndividual(:PartASupply))
 ClassAssertion(:PartsTrayWithParts :PartASupply)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartASupply
                         :PartASupplyPose)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartASupply
+ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :PartASupply
                         :PartATray)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartASupply
                         :PartA1)
@@ -172,6 +185,8 @@ Declaration(NamedIndividual(:PartATray))
 ClassAssertion(:PartsTray :PartATray)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartATray
                         :PartATrayPose)
+ObjectPropertyAssertion(:hadByPartsTray_PartsTrayWithParts :PartATray
+                        :PartASupply)
 DataPropertyAssertion(:hasBox_Height :PartATray "0.2"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :PartATray "0.6"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :PartATray "0.3"^^:positiveDecimal)
@@ -185,6 +200,7 @@ Declaration(NamedIndividual(:PartA1))
 ClassAssertion(:Part :PartA1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA1
                         :PartA1Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartA1 :PartASupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartA1 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA1 "9"^^xsd:NMTOKEN)
 
@@ -194,6 +210,7 @@ Declaration(NamedIndividual(:PartA2))
 ClassAssertion(:Part :PartA2)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA2
                         :PartA2Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartA2 :PartASupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartA2 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA2 "10"^^xsd:NMTOKEN)
 
@@ -203,6 +220,7 @@ Declaration(NamedIndividual(:PartA3))
 ClassAssertion(:Part :PartA3)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA3
                         :PartA3Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartA3 :PartASupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartA3 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA3 "11"^^xsd:NMTOKEN)
 
@@ -212,6 +230,7 @@ Declaration(NamedIndividual(:PartA4))
 ClassAssertion(:Part :PartA4)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA4
                         :PartA4Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartA4 :PartASupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartA4 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA4 "12"^^xsd:NMTOKEN)
 
@@ -221,7 +240,7 @@ Declaration(NamedIndividual(:PartBSupply))
 ClassAssertion(:PartsTrayWithParts :PartBSupply)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartBSupply
                         :PartBSupplyPose)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartBSupply
+ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :PartBSupply
                         :PartBTray)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartBSupply
                         :PartB1)
@@ -234,6 +253,8 @@ Declaration(NamedIndividual(:PartBTray))
 ClassAssertion(:PartsTray :PartBTray)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartBTray
                         :PartBTrayPose)
+ObjectPropertyAssertion(:hadByPartsTray_PartsTrayWithParts :PartBTray
+                        :PartBSupply)
 DataPropertyAssertion(:hasBox_Height :PartBTray "0.2"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :PartBTray "0.6"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :PartBTray "0.3"^^:positiveDecimal)
@@ -247,6 +268,7 @@ Declaration(NamedIndividual(:PartB1))
 ClassAssertion(:Part :PartB1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartB1
                         :PartB1Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartB1 :PartBSupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartB1 "SkuIdPartB"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartB1 "13"^^xsd:NMTOKEN)
 
@@ -256,6 +278,7 @@ Declaration(NamedIndividual(:PartB2))
 ClassAssertion(:Part :PartB2)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartB2
                         :PartB2Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartB2 :PartBSupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartB2 "SkuIdPartB"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartB2 "14"^^xsd:NMTOKEN)
 
@@ -265,7 +288,7 @@ Declaration(NamedIndividual(:PartCSupply))
 ClassAssertion(:PartsTrayWithParts :PartCSupply)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartCSupply
                         :PartCSupplyPose)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartCSupply
+ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :PartCSupply
                         :PartCTray)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :PartCSupply
                         :PartC1)
@@ -278,6 +301,8 @@ Declaration(NamedIndividual(:PartCTray))
 ClassAssertion(:PartsTray :PartCTray)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartCTray
                         :PartCTrayPose)
+ObjectPropertyAssertion(:hadByPartsTray_PartsTrayWithParts :PartCTray
+                        :PartCSupply)
 DataPropertyAssertion(:hasBox_Height :PartCTray "0.2"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :PartCTray "0.6"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :PartCTray "0.3"^^:positiveDecimal)
@@ -291,6 +316,7 @@ Declaration(NamedIndividual(:PartC1))
 ClassAssertion(:Part :PartC1)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartC1
                         :PartC1Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartC1 :PartCSupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartC1 "SkuIdPartC"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartC1 "15"^^xsd:NMTOKEN)
 
@@ -300,6 +326,7 @@ Declaration(NamedIndividual(:PartC2))
 ClassAssertion(:Part :PartC2)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartC2
                         :PartC2Location)
+ObjectPropertyAssertion(:hadByPart_PartsTrayWithParts :PartC2 :PartCSupply)
 DataPropertyAssertion(:hasPart_SkuRef :PartC2 "SkuIdPartC"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartC2 "16"^^xsd:NMTOKEN)
 
@@ -309,6 +336,8 @@ Declaration(NamedIndividual(:PartGripper))
 ClassAssertion(:VacuumEffectorSingleCup :PartGripper)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation
   :PartGripper :PartGripperPose)
+ObjectPropertyAssertion(:hadByEndEffector_EndEffectorHolder
+                        :PartGripper :PartGripperHolder)
 DataPropertyAssertion(:hasEndEffector_Description :PartGripper
   "small single cup vacuum effector"^^xsd:string)
 DataPropertyAssertion(:hasEndEffector_Weight :PartGripper
@@ -328,6 +357,8 @@ ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartGripperHolder
                         :PartGripperHolderPose)
 ObjectPropertyAssertion(:hasEndEffectorHolder_EndEffector :PartGripperHolder
                         :PartGripper)
+ObjectPropertyAssertion(:hadByEndEffectorHolder_ChangingStation
+                        :PartGripperHolder :ChangingStation1)
 
 
 // PartRefAndPoseA1 *****************************************************
@@ -339,6 +370,8 @@ ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseA1
                         :PointA1)
 ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseA1
                         :RpyA1)
+ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseA1
+                        :KitDesignA2B1C1)
 
 
 // PartRefAndPoseA2 *****************************************************
@@ -350,6 +383,8 @@ ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseA2
                         :PointA2)
 ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseA2
                         :RpyA2)
+ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseA2
+                        :KitDesignA2B1C1)
 
 
 // PartRefAndPoseB1 *****************************************************
@@ -361,6 +396,8 @@ ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseB1
                         :PointB1)
 ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseB1
                         :RpyB1)
+ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseB1
+                        :KitDesignA2B1C1)
 
 
 // PartRefAndPoseC1 *****************************************************
@@ -372,6 +409,8 @@ ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseC1
                         :PointC1)
 ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseC1
                         :RpyC1)
+ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseC1
+                        :KitDesignA2B1C1)
 
 
 // Robot1 ***************************************************************
@@ -385,6 +424,7 @@ DataPropertyAssertion(:hasRobot_Id :Robot1 "Robot1"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasRobot_MaximumLoadWeight :Robot1 "7.0"^^xsd:decimal)
 ObjectPropertyAssertion(:hasRobot_EndEffector :Robot1 :TrayGripper)
 ObjectPropertyAssertion(:hasRobot_WorkVolume :Robot1 :BoxVolume1)
+ObjectPropertyAssertion(:hadByRobot_Workstation :Robot1 :Workstation1)
 
 
 // ShapeKitBox **********************************************************
@@ -438,6 +478,8 @@ DataPropertyAssertion(:hasSku_Weight :StockKeepingUnitKitBox "1.2"^^xsd:decimal)
 DataPropertyAssertion(:hasSku_Id :StockKeepingUnitKitBox
                       "SkuIdKitBox"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitKitBox :ShapeKitBox)
+ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitKitBox
+                        :Workstation1)
 
 
 // StockKeepingUnitKitTray ***********************************************
@@ -452,6 +494,8 @@ DataPropertyAssertion(:hasSku_Id :StockKeepingUnitKitTray
 DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitKitTray
                       "TheTrayGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitKitTray :ShapeKitTray)
+ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitKitTray
+                        :Workstation1)
 
 
 // StockKeepingUnitPartA ************************************************
@@ -465,6 +509,8 @@ DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartA
 DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartA
                       "ThePartGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartA :ShapePartA)
+ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitPartA
+                        :Workstation1)
 
 
 // StockKeepingUnitPartB ************************************************
@@ -478,6 +524,8 @@ DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartB
 DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartB
                       "ThePartGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartB :ShapePartB)
+ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitPartB
+                        :Workstation1)
 
 
 // StockKeepingUnitPartC ************************************************
@@ -491,6 +539,8 @@ DataPropertyAssertion(:hasSku_Id :StockKeepingUnitPartC
 DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartC
                       "ThePartGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartC :ShapePartC)
+ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitPartC
+                        :Workstation1)
 
 
 // StockKeepingUnitPartsTray ********************************************
@@ -506,6 +556,8 @@ DataPropertyAssertion(:hasSku_EndEffectorRefs :StockKeepingUnitPartsTray
                       "TheTrayGripper"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasSku_Shape :StockKeepingUnitPartsTray
                         :ShapePartsTray)
+ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitPartsTray
+                        :Workstation1)
 
 
 // TrayGripper ********************************************************
@@ -513,6 +565,7 @@ Declaration(NamedIndividual(:TrayGripper))
 ClassAssertion(:VacuumEffectorSingleCup :TrayGripper)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation
   :TrayGripper :RelativeLocationOn1)
+ObjectPropertyAssertion(:hadByEndEffector_Robot :TrayGripper :Robot1)
 DataPropertyAssertion(:hasEndEffector_Description :TrayGripper
   "large single cup vacuum effector"^^xsd:string)
 DataPropertyAssertion(:hasEndEffector_Weight :TrayGripper
@@ -530,6 +583,8 @@ Declaration(NamedIndividual(:TrayGripperHolder))
 ClassAssertion(:EndEffectorHolder :TrayGripperHolder)
 ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :TrayGripperHolder
                         :TrayGripperHolderPose)
+ObjectPropertyAssertion(:hadByEndEffectorHolder_ChangingStation
+                        :TrayGripperHolder :ChangingStation1)
 
 // Workstation ********************************************************
 Declaration(NamedIndividual(:KittingWorkstation1))
@@ -545,28 +600,32 @@ DataPropertyAssertion(:hasWorkstation_WeightUnit :KittingWorkstation1
 ObjectPropertyAssertion(:hasWorkstation_Robot :KittingWorkstation1 :Robot1)
 ObjectPropertyAssertion(:hasWorkstation_ChangingStation :KittingWorkstation1
                         :ChangingStation1)
-ObjectPropertyAssertion(:hasWorkstation_Table :KittingWorkstation1 :WorkTable1)
-ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_WorkTable :KittingWorkstation1
+                        :WorkTable1)
+ObjectPropertyAssertion(:hasWorkstation_Skus :KittingWorkstation1
                         :StockKeepingUnitKitBox)
-ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_Skus :KittingWorkstation1
                         :StockKeepingUnitKitTray)
-ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_Skus :KittingWorkstation1
                         :StockKeepingUnitPartA)
-ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_Skus :KittingWorkstation1
                         :StockKeepingUnitPartB)
-ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_Skus :KittingWorkstation1
                         :StockKeepingUnitPartC)
-ObjectPropertyAssertion(:hasWorkstation_SkuLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_Skus :KittingWorkstation1
                         :StockKeepingUnitPartsTray)
 
-ObjectPropertyAssertion(:hasWorkstation_KitDesignLibrary :KittingWorkstation1
+ObjectPropertyAssertion(:hasWorkstation_KitDesigns :KittingWorkstation1
                         :KitDesignA2B1C1)
 
 
 // WorkTable1  *********************************************************
 Declaration(NamedIndividual(:WorkTable1))
 ClassAssertion(:WorkTable :WorkTable1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :WorkTable1 :WorkTablePose)
+ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :WorkTable1
+                        :WorkTablePose)
+ObjectPropertyAssertion(:hadByWorkTable_Workstation :WorkTable1
+                        :Workstation1)
 DataPropertyAssertion(:hasBox_Height :WorkTable1 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :WorkTable1 "1.6"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :WorkTable1 "0.8"^^:positiveDecimal)
@@ -1084,27 +1143,27 @@ DataPropertyAssertion(:hasPoint_Z :PointC1 "0.0"^^xsd:decimal)
 // Rpys for kit design
 Declaration(NamedIndividual(:RpyA1))
 ClassAssertion(:RollPitchYaw :RpyA1)
-DataPropertyAssertion(:hasPoint_Roll :RpyA1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Pitch :RpyA1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Yaw :RpyA1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Roll :RpyA1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :RpyA1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :RpyA1 "0.0"^^xsd:decimal)
 
 Declaration(NamedIndividual(:RpyA2))
 ClassAssertion(:RollPitchYaw :RpyA2)
-DataPropertyAssertion(:hasPoint_Roll :RpyA2 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Pitch :RpyA2 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Yaw :RpyA2 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Roll :RpyA2 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :RpyA2 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :RpyA2 "0.0"^^xsd:decimal)
 
 Declaration(NamedIndividual(:RpyB1))
 ClassAssertion(:RollPitchYaw :RpyB1)
-DataPropertyAssertion(:hasPoint_Roll :RpyB1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Pitch :RpyB1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Yaw :RpyB1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Roll :RpyB1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :RpyB1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :RpyB1 "0.0"^^xsd:decimal)
 
 Declaration(NamedIndividual(:RpyC1))
 ClassAssertion(:RollPitchYaw :RpyC1)
-DataPropertyAssertion(:hasPoint_Roll :RpyC1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Pitch :RpyC1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Yaw :RpyC1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Roll :RpyC1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Pitch :RpyC1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasRpy_Yaw :RpyC1 "0.0"^^xsd:decimal)
 
 
 // Pose individuals *************************************************

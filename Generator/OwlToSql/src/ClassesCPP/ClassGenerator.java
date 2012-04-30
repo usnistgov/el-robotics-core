@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 public abstract class ClassGenerator {
 
-	String className="";
-	private HashMap<String, String> unit = new HashMap<String, String>();
-		
+	String className = "";
+	protected HashMap<String, String> unit = new HashMap<String, String>();
+
 	public String getUnit(String s) {
 		if (unit.containsKey(s))
 			return unit.get(s);
@@ -41,12 +41,14 @@ public abstract class ClassGenerator {
 		unit.put("TIME", "posix_time::time_duration");
 	}
 
-	public String generateHeader(String className, ArrayList<String> classParentName,
-			ArrayList<String> attributes, ArrayList<String> unit) {
+	public String generateHeader(String className,
+			ArrayList<String> classParentName, ArrayList<String> attributes,
+			ArrayList<String> unit) {
 		return null;
 	}
 
-	public String generateCpp(String className, ArrayList<String> attributes,
+	public String generateCpp(String className,
+			ArrayList<String> classParentName, ArrayList<String> attributes,
 			ArrayList<String> unit) {
 		return null;
 	}

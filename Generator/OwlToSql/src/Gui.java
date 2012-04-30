@@ -143,56 +143,9 @@ public class Gui extends JFrame {
 							&& pathSaveCpp.getText().length() > 0) {
 						Ontology o = new Ontology(pathCpp.getText(),
 								pathSaveCpp.getText());
-						for (int i = 0; i < o.getClassesClean().size(); i++) {
-							Types typesGen = new Types(o.getClassesClean().get(
-									i));
-							ArrayList<String> attributes = new ArrayList<String>();
-							ArrayList<String> unit = new ArrayList<String>();
-							for (int j = 0; j < o.getDp()
-									.getDataPropertiesClean().size(); j++) {
-								if (o.getDp().getDataPropertiesClean().get(j)
-										.get(0)
-										.equals(o.getClassesClean().get(i))) {
-									attributes = (ArrayList<String>) o.getDp()
-											.getDataPropertiesClean().get(j)
-											.clone();
-									attributes.remove(0);
-									break;
-								}
-							}
-							for (int k = 0; k < attributes.size(); k++) {
-								for (int j = 0; j < o.getDp()
-										.getDataPropertyRanges().size(); j++) {
-									if (o.getDp().getDataPropertyRanges()
-											.get(j).get(0)
-											.equals(attributes.get(k))) {
-										if (o.getDp().getDataRequired()
-												.containsKey(attributes.get(k)))
-											if (o.getDp().getDataSingleValued()
-													.get(attributes.get(k))
-													.equals("false"))
-												attributes.set(k,
-														attributes.get(k)
-																+ "[]");
-										unit.add(typesGen
-												.getUnit(o
-														.getTables()
-														.getUnit(
-																o.getDp()
-																		.getDataPropertyRanges()
-																		.get(j)
-																		.get(1))));
-									}
-								}
-							}
+						generateClasses(o);
+						generateDao(o);
 
-							typesGen.writeHeader(typesGen.generateHeader(
-									o.getClassesClean().get(i),
-									o.getSuperClassesClean().get(
-											o.getClassesClean().get(i)),
-									attributes, unit), pathSaveCpp.getText()
-									+ File.separator);
-						}
 						JOptionPane.showMessageDialog(getParent(),
 								"Success\n\n" + "See your files in the folder "
 										+ pathSaveCpp.getText());
@@ -201,14 +154,17 @@ public class Gui extends JFrame {
 								"You must specify the paths");
 
 					}
+				}
 
-				} catch (Exception e) {
+				catch (Exception e) {
 					e.printStackTrace();
 					JOptionPane
 							.showMessageDialog(getParent(),
 									"Error : Submit your ontology to a validator (on the W3C web site)");
 				}
+
 			}
+
 		});
 
 		setVisible(true);
@@ -256,6 +212,120 @@ public class Gui extends JFrame {
 			}
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public void generateClasses(Ontology o) {
+		for (int i = 0; i < o.getClassesClean().size(); i++) {
+			Types typesGen = new Types(o.getClassesClean().get(i));
+			ArrayList<String> attributes = new ArrayList<String>();
+			ArrayList<String> unit = new ArrayList<String>();
+			for (int j = 0; j < o.getDp().getDataPropertiesClean().size(); j++) {
+				if (o.getDp().getDataPropertiesClean().get(j).get(0)
+						.equals(o.getClassesClean().get(i))) {
+					attributes = (ArrayList<String>) o.getDp()
+							.getDataPropertiesClean().get(j).clone();
+					attributes.remove(0);
+					break;
+				}
+			}
+			// Add the data Properties
+			for (int k = 0; k < attributes.size(); k++) {
+				for (int j = 0; j < o.getDp().getDataPropertyRanges().size(); j++) {
+					if (o.getDp().getDataPropertyRanges().get(j).get(0)
+							.equals(attributes.get(k))) {
+						if (o.getDp().getDataRequired()
+								.containsKey(attributes.get(k)))
+							if (o.getDp().getDataSingleValued()
+									.get(attributes.get(k)).equals("false"))
+								attributes.set(k, attributes.get(k) + "[]");
+						unit.add(typesGen.getUnit(o.getTables()
+								.getUnit(
+										o.getDp().getDataPropertyRanges()
+												.get(j).get(1))));
+					}
+				}
+			}
+			attributes.add("name");
+			unit.add("std::string");
+			attributes.add("id");
+			unit.add("int");
+			attributes.add("dao");
+			unit.add("DAO*");
+
+			// Add the Object Properties
+			ArrayList<String> properties = o.getTables().getTables()
+					.get(o.getClassesClean().get(i));
+			String prop;
+			for (int p = 0; p < properties.size(); p++) {
+				if (properties.get(p).contains("/")) {
+					prop = properties.get(p).substring(0,
+							properties.get(p).indexOf("/"));
+
+				} else {
+					prop = properties.get(p);
+				}
+				boolean contains = false;
+				for (ArrayList<String> oproperties : o.getOp()
+						.getObjectPropertiesClean()) {
+					if (oproperties.contains(prop)
+							&& oproperties.indexOf(prop) > 0) {
+						contains = true;
+						for (int s = 0; s < o.getOp().getObjectPropertyRanges()
+								.get(prop).size(); s++) {
+							if (!attributes.contains(prop)) {
+								attributes.add(prop);
+								unit.add(o.getOp().getObjectPropertyRanges()
+										.get(prop).get(s)
+										+ "*");
+							}
+						}
+					}
+
+				}
+				if (properties.get(p).contains("/")
+						&& !contains
+						&& !properties.get(p).contains("Value/")
+						&& !attributes.contains(properties.get(p).substring(
+								properties.get(p).indexOf("/") + 1,
+								properties.get(p).length()))) {
+					attributes.add(properties.get(p).substring(
+							properties.get(p).indexOf("/") + 1,
+							properties.get(p).length()));
+					unit.add(properties.get(p).substring(0,
+							properties.get(p).indexOf("/"))
+							+ "*");
+				}
+
+			}
+
+			// Write the header and class files
+			typesGen.writeHeader(typesGen.generateHeader(o.getClassesClean()
+					.get(i),
+					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
+					attributes, unit), pathSaveCpp.getText() + File.separator);
+			typesGen.writeClass(typesGen.generateCpp(
+					o.getClassesClean().get(i),
+					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
+					attributes, unit), pathSaveCpp.getText() + File.separator);
+
+		}
+	}
+
+	private void generateDao(Ontology o) {
+		daoGenerator dao = new daoGenerator();
+		ArrayList<String> className = new ArrayList<String>();
+
+		className.add("Connect");
+
+		ArrayList<String> attributes = new ArrayList<String>();
+		attributes.add("className");
+		ArrayList<String> unit = new ArrayList<String>();
+		unit.add("std::string");
+		dao.writeHeader(dao.generateHeader(className, attributes, unit),
+				pathSaveCpp.getText() + File.separator);
+		dao.writeClass(dao.generateCpp(className, attributes, unit),
+				pathSaveCpp.getText() + File.separator);
 	}
 
 	public static void main(String[] args) {

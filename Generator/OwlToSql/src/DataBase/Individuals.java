@@ -734,6 +734,7 @@ public class Individuals {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String insertSuper(int i, String table, String[] attributesLocalTab,
 			String attributesLocal, boolean name) {
 		Object[] resultTab = new Object[2];
@@ -790,7 +791,7 @@ public class Individuals {
 		ArrayList<String> attributes = new ArrayList<String>();
 		ArrayList<String> dataKeys = new ArrayList<String>();
 		ArrayList<String> objectKeys = new ArrayList<String>();
-		attributes = tables.get(table);
+		attributes = (ArrayList<String>) tables.get(table).clone();
 
 		ArrayList<OWLDataPropertyExpression> valuesDataKeys = new ArrayList<OWLDataPropertyExpression>(
 				valuesData.keySet());

@@ -6,7 +6,9 @@
 
 #include "SolidObject.h"
  #include "DAO.h"
-class Part: public SolidObject {private:
+ class DAO;
+ #include <string>
+class Part: public SolidObject{private:
 std::string hasPart_SerialNumber;
 std::string hasPart_SkuRef;
 std::string name;
@@ -28,6 +30,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(Part const& object);
+void copy(const Part &object);
 }; 
 #endif /* PART_H_ */

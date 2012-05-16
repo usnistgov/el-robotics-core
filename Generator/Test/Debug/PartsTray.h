@@ -6,8 +6,11 @@
 
 #include "BoxyObject.h"
  #include "PartsTrayWithParts.h"
+ class PartsTrayWithParts;
  #include "DAO.h"
-class PartsTray: public BoxyObject {private:
+ class DAO;
+ #include <string>
+class PartsTray: public BoxyObject{private:
 std::string hasPartsTray_SkuRef;
 std::string hasPartsTray_SerialNumber;
 std::string name;
@@ -32,6 +35,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 PartsTrayWithParts* gethadByPartsTray_PartsTrayWithParts();
 void sethadByPartsTray_PartsTrayWithParts(PartsTrayWithParts* _hadByPartsTray_PartsTrayWithParts);
-void copy(PartsTray const& object);
+void copy(const PartsTray &object);
 }; 
 #endif /* PARTSTRAY_H_ */

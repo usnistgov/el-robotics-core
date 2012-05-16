@@ -5,7 +5,9 @@
 #include <iostream>
 
  #include "DAO.h"
-class DataThing {private:
+ class DAO;
+ #include <string>
+class DataThing: public IObject {private:
 std::string name;
 int id;
 DAO* dao;
@@ -21,6 +23,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(DataThing const& object);
+void copy(const DataThing &object);
 }; 
 #endif /* DATATHING_H_ */

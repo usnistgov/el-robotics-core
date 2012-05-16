@@ -6,9 +6,13 @@
 
 #include "DataThing.h"
  #include "DAO.h"
+ class DAO;
+ #include <string>
  #include "Point.h"
+ class Point;
  #include "RollPitchYaw.h"
-class PartRefAndPose: public DataThing {private:
+ class RollPitchYaw;
+class PartRefAndPose: public DataThing{private:
 std::string hasPartRefAndPose_Ref;
 std::string name;
 int id;
@@ -33,6 +37,6 @@ RollPitchYaw* gethasPartRefAndPose_Rpy();
 void sethasPartRefAndPose_Rpy(RollPitchYaw* _hasPartRefAndPose_Rpy);
 Point* gethasPartRefAndPose_Point();
 void sethasPartRefAndPose_Point(Point* _hasPartRefAndPose_Point);
-void copy(PartRefAndPose const& object);
+void copy(const PartRefAndPose &object);
 }; 
 #endif /* PARTREFANDPOSE_H_ */

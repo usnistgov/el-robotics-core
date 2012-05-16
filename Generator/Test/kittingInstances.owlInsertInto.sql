@@ -678,6 +678,10 @@ INSERT INTO StockKeepingUnit
 (StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
 VALUES(56, 'StockKeepingUnitKitTray', 'SKU for KitTrays', 'SkuIdKitTray', 0.2, 'ShapeKitTray');
 
+INSERT INTO hasSku_EndEffectorRefsValue
+(StockKeepingUnitID, hasSku_EndEffectorRefs)
+VALUES(56, 'TheTrayGripper');
+
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
 VALUES('TrayGripper', 'RelativeLocationOn1');
@@ -958,6 +962,10 @@ INSERT INTO StockKeepingUnit
 (StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
 VALUES(78, 'StockKeepingUnitPartC', 'SKU for PartC', 'SkuIdPartC', 0.18, 'ShapePartC');
 
+INSERT INTO hasSku_EndEffectorRefsValue
+(StockKeepingUnitID, hasSku_EndEffectorRefs)
+VALUES(78, 'ThePartGripper');
+
 INSERT INTO DataThing
 (_NAME)
 VALUES('StockKeepingUnitPartB');
@@ -966,6 +974,10 @@ INSERT INTO StockKeepingUnit
 (StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
 VALUES(79, 'StockKeepingUnitPartB', 'SKU for PartB', 'SkuIdPartB', 0.18, 'ShapePartB');
 
+INSERT INTO hasSku_EndEffectorRefsValue
+(StockKeepingUnitID, hasSku_EndEffectorRefs)
+VALUES(79, 'ThePartGripper');
+
 INSERT INTO DataThing
 (_NAME)
 VALUES('StockKeepingUnitPartA');
@@ -973,6 +985,10 @@ VALUES('StockKeepingUnitPartA');
 INSERT INTO StockKeepingUnit
 (StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
 VALUES(80, 'StockKeepingUnitPartA', 'SKU for Part A', 'SkuIdPartA', 0.18, 'ShapePartA');
+
+INSERT INTO hasSku_EndEffectorRefsValue
+(StockKeepingUnitID, hasSku_EndEffectorRefs)
+VALUES(80, 'ThePartGripper');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
@@ -1056,7 +1072,7 @@ VALUES('Robot1', 'RobotPose');
 
 INSERT INTO Robot
 (RobotID, _NAME, hasRobot_Id, hasRobot_MaximumLoadWeight, hasRobot_Description, hadByRobot_Workstation)
-VALUES(26, 'Robot1', 'Robot1', 7.0, 'this is the robot', 'Workstation1');
+VALUES(26, 'Robot1', 'Robot1', 7.0, 'this is the robot', 'KittingWorkstation1');
 
 INSERT INTO hasRobot_WorkVolume
 (RobotID, BoxVolumeID)
@@ -1069,6 +1085,10 @@ VALUES('StockKeepingUnitPartsTray');
 INSERT INTO StockKeepingUnit
 (StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
 VALUES(85, 'StockKeepingUnitPartsTray', 'SKU for PartsTrays', 'SkuIdPartsTray', 0.2, 'ShapePartsTray');
+
+INSERT INTO hasSku_EndEffectorRefsValue
+(StockKeepingUnitID, hasSku_EndEffectorRefs)
+VALUES(85, 'TheTrayGripper');
 
 INSERT INTO DataThing
 (_NAME)

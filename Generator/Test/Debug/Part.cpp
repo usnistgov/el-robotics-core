@@ -35,13 +35,13 @@ this->dao= _dao;
 }
 void Part::get(std::string name){
  *dao  = DAO("Part");
- const Part temp = dao->get(name);
- copy(temp);
+ const Part* temp =(const Part*) dao->get(name);
+ copy(* temp);
 } void Part::set(std::string name, Part* obj){
- *dao  = DAO(Part);
- dao->set(name, obj);
+ *dao  = DAO("Part");
+ dao->set(name, (IObject) *obj);
 }
-void Part::copy(Part const& object){
+void Part::copy(const Part &object){
  if(this != &object){
 hasPart_SerialNumber = object.hasPart_SerialNumber;
 hasPart_SkuRef = object.hasPart_SkuRef;

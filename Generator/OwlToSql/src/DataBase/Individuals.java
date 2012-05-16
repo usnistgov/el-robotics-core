@@ -628,7 +628,7 @@ public class Individuals {
 				}
 			}
 
-			// Association tables
+			// Association tables + xValue Tables
 			attributesRemoteTab = attributesRemote.split(",");
 
 			ArrayList<Integer> temp;
@@ -688,7 +688,7 @@ public class Individuals {
 										valuesObjectKeys.get(a).toString()
 												.length() - 1));
 					String table = currentEntry.getKey();
-					if (objectKeys.contains(table) || dataKeys.contains(table)) {
+					if (objectKeys.contains(table) || dataKeys.contains(table.substring(0, table.length()-"Value".length()))) {
 
 						ArrayList<Integer> value = currentEntry.getValue();
 						result = result + "INSERT INTO " + table + "\n(";

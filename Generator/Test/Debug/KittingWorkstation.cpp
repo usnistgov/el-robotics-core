@@ -24,10 +24,7 @@ return this->dao;
 EndEffectorChangingStation* KittingWorkstation::gethadByChangingStation_Workstation(){
 return this->hadByChangingStation_Workstation;
 }
-BoxVolume* KittingWorkstation::gethasWorkstation_OtherObstacles(){
-return this->hasWorkstation_OtherObstacles;
-}
-BoxVolume* KittingWorkstation::gethasWorkstation_OtherObstacles(){
+std::vector<BoxVolume*> KittingWorkstation::gethasWorkstation_OtherObstacles(){
 return this->hasWorkstation_OtherObstacles;
 }
 WorkTable* KittingWorkstation::gethadByWorkTable_Workstation(){
@@ -57,10 +54,7 @@ this->dao= _dao;
 void KittingWorkstation::sethadByChangingStation_Workstation(EndEffectorChangingStation* _hadByChangingStation_Workstation){
 this->hadByChangingStation_Workstation= _hadByChangingStation_Workstation;
 }
-void KittingWorkstation::sethasWorkstation_OtherObstacles(BoxVolume* _hasWorkstation_OtherObstacles){
-this->hasWorkstation_OtherObstacles= _hasWorkstation_OtherObstacles;
-}
-void KittingWorkstation::sethasWorkstation_OtherObstacles(BoxVolume* _hasWorkstation_OtherObstacles){
+void KittingWorkstation::sethasWorkstation_OtherObstacles(std::vector<BoxVolume*> _hasWorkstation_OtherObstacles){
 this->hasWorkstation_OtherObstacles= _hasWorkstation_OtherObstacles;
 }
 void KittingWorkstation::sethadByWorkTable_Workstation(WorkTable* _hadByWorkTable_Workstation){
@@ -71,13 +65,13 @@ this->hadByRobot_Workstation= _hadByRobot_Workstation;
 }
 void KittingWorkstation::get(std::string name){
  *dao  = DAO("KittingWorkstation");
- const KittingWorkstation temp = dao->get(name);
- copy(temp);
+ const KittingWorkstation* temp =(const KittingWorkstation*) dao->get(name);
+ copy(* temp);
 } void KittingWorkstation::set(std::string name, KittingWorkstation* obj){
- *dao  = DAO(KittingWorkstation);
- dao->set(name, obj);
+ *dao  = DAO("KittingWorkstation");
+ dao->set(name, (IObject) *obj);
 }
-void KittingWorkstation::copy(KittingWorkstation const& object){
+void KittingWorkstation::copy(const KittingWorkstation &object){
  if(this != &object){
 hasWorkstation_LengthUnit = object.hasWorkstation_LengthUnit;
 hasWorkstation_WeightUnit = object.hasWorkstation_WeightUnit;
@@ -86,7 +80,6 @@ name = object.name;
 id = object.id;
 dao = object.dao;
 hadByChangingStation_Workstation = object.hadByChangingStation_Workstation;
-hasWorkstation_OtherObstacles = object.hasWorkstation_OtherObstacles;
 hasWorkstation_OtherObstacles = object.hasWorkstation_OtherObstacles;
 hadByWorkTable_Workstation = object.hadByWorkTable_Workstation;
 hadByRobot_Workstation = object.hadByRobot_Workstation;

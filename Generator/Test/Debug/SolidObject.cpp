@@ -29,13 +29,13 @@ this->hasSolidObject_PhysicalLocation= _hasSolidObject_PhysicalLocation;
 }
 void SolidObject::get(std::string name){
  *dao  = DAO("SolidObject");
- const SolidObject temp = dao->get(name);
- copy(temp);
+ const SolidObject* temp =(const SolidObject*) dao->get(name);
+ copy(* temp);
 } void SolidObject::set(std::string name, SolidObject* obj){
- *dao  = DAO(SolidObject);
- dao->set(name, obj);
+ *dao  = DAO("SolidObject");
+ dao->set(name, (IObject) *obj);
 }
-void SolidObject::copy(SolidObject const& object){
+void SolidObject::copy(const SolidObject &object){
  if(this != &object){
 name = object.name;
 id = object.id;

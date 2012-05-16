@@ -5,8 +5,11 @@
 #include <iostream>
 
  #include "PhysicalLocation.h"
+ class PhysicalLocation;
  #include "DAO.h"
-class SolidObject {private:
+ class DAO;
+ #include <string>
+class SolidObject: public IObject {private:
 std::string name;
 int id;
 DAO* dao;
@@ -25,6 +28,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 PhysicalLocation* gethasSolidObject_PhysicalLocation();
 void sethasSolidObject_PhysicalLocation(PhysicalLocation* _hasSolidObject_PhysicalLocation);
-void copy(SolidObject const& object);
+void copy(const SolidObject &object);
 }; 
 #endif /* SOLIDOBJECT_H_ */

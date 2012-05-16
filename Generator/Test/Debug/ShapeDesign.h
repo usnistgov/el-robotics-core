@@ -6,7 +6,9 @@
 
 #include "DataThing.h"
  #include "DAO.h"
-class ShapeDesign: public DataThing {private:
+ class DAO;
+ #include <string>
+class ShapeDesign: public DataThing{private:
 std::string hasShapeDesign_Description;
 std::string name;
 int id;
@@ -25,6 +27,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(ShapeDesign const& object);
+void copy(const ShapeDesign &object);
 }; 
 #endif /* SHAPEDESIGN_H_ */

@@ -29,13 +29,13 @@ this->dao= _dao;
 }
 void ShapeDesign::get(std::string name){
  *dao  = DAO("ShapeDesign");
- const ShapeDesign temp = dao->get(name);
- copy(temp);
+ const ShapeDesign* temp =(const ShapeDesign*) dao->get(name);
+ copy(* temp);
 } void ShapeDesign::set(std::string name, ShapeDesign* obj){
- *dao  = DAO(ShapeDesign);
- dao->set(name, obj);
+ *dao  = DAO("ShapeDesign");
+ dao->set(name, (IObject) *obj);
 }
-void ShapeDesign::copy(ShapeDesign const& object){
+void ShapeDesign::copy(const ShapeDesign &object){
  if(this != &object){
 hasShapeDesign_Description = object.hasShapeDesign_Description;
 name = object.name;

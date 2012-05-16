@@ -23,13 +23,13 @@ this->dao= _dao;
 }
 void DataThing::get(std::string name){
  *dao  = DAO("DataThing");
- const DataThing temp = dao->get(name);
- copy(temp);
+ const DataThing* temp =(const DataThing*) dao->get(name);
+ copy(* temp);
 } void DataThing::set(std::string name, DataThing* obj){
- *dao  = DAO(DataThing);
- dao->set(name, obj);
+ *dao  = DAO("DataThing");
+ dao->set(name, (IObject) *obj);
 }
-void DataThing::copy(DataThing const& object){
+void DataThing::copy(const DataThing &object){
  if(this != &object){
 name = object.name;
 id = object.id;

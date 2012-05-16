@@ -35,13 +35,13 @@ this->hasPose_Rpy= _hasPose_Rpy;
 }
 void Pose::get(std::string name){
  *dao  = DAO("Pose");
- const Pose temp = dao->get(name);
- copy(temp);
+ const Pose* temp =(const Pose*) dao->get(name);
+ copy(* temp);
 } void Pose::set(std::string name, Pose* obj){
- *dao  = DAO(Pose);
- dao->set(name, obj);
+ *dao  = DAO("Pose");
+ dao->set(name, (IObject) *obj);
 }
-void Pose::copy(Pose const& object){
+void Pose::copy(const Pose &object){
  if(this != &object){
 name = object.name;
 id = object.id;

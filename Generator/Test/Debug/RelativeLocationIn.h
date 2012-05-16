@@ -6,7 +6,9 @@
 
 #include "RelativeLocation.h"
  #include "DAO.h"
-class RelativeLocationIn: public RelativeLocation {private:
+ class DAO;
+ #include <string>
+class RelativeLocationIn: public RelativeLocation{private:
 std::string hasRelativeLocationIn_Description;
 std::string name;
 int id;
@@ -25,6 +27,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(RelativeLocationIn const& object);
+void copy(const RelativeLocationIn &object);
 }; 
 #endif /* RELATIVELOCATIONIN_H_ */

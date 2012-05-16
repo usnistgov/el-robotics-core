@@ -2,8 +2,10 @@
 
 KitDesign::KitDesign(std::string name) : DataThing(name){
 this->name=name;
-this->get(this->name);
-}std::string KitDesign::gethasKitDesign_Id(){
+}KitDesign::~KitDesign(){
+delete(dao);
+}
+std::string KitDesign::gethasKitDesign_Id(){
 return this->hasKitDesign_Id;
 }
 std::string KitDesign::gethasKitDesign_KitTraySkuRef(){
@@ -12,8 +14,8 @@ return this->hasKitDesign_KitTraySkuRef;
 std::string KitDesign::getname(){
 return this->name;
 }
-int KitDesign::getid(){
-return this->id;
+int KitDesign::getKitDesignID(){
+return this->KitDesignID;
 }
 DAO* KitDesign::getdao(){
 return this->dao;
@@ -27,26 +29,54 @@ this->hasKitDesign_KitTraySkuRef= _hasKitDesign_KitTraySkuRef;
 void KitDesign::setname(std::string _name){
 this->name= _name;
 }
-void KitDesign::setid(int _id){
-this->id= _id;
+void KitDesign::setKitDesignID(int _KitDesignID){
+this->KitDesignID= _KitDesignID;
 }
 void KitDesign::setdao(DAO* _dao){
 this->dao= _dao;
 }
 void KitDesign::get(std::string name){
- *dao  = DAO("KitDesign");
- const KitDesign temp = dao->get(name);
+std::map<std::string,std::string> temp;
+dao  = new DAO("DataThing");
+ temp = dao->get(name);
+ DataThing::copy(temp);
+delete (dao);
+dao  = new DAO("KitDesign");
+ temp = dao->get(name);
  copy(temp);
-} void KitDesign::set(std::string name, KitDesign* obj){
- *dao  = DAO("KitDesign");
- dao->set(name, obj);
+delete (dao);
 }
-void KitDesign::copy(KitDesign const& object){
- if(this != &object){
-hasKitDesign_Id = object.hasKitDesign_Id;
-hasKitDesign_KitTraySkuRef = object.hasKitDesign_KitTraySkuRef;
-name = object.name;
-id = object.id;
-dao = object.dao;
+ void KitDesign::set(std::string name){
+ dao  = new DAO("KitDesign");
+ dao->set(name);
+delete (dao);
 }
+
+void KitDesign::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+std::map<std::string,std::string> mapTemp;
+std::map<std::string,std::string> mapTempBis;
+int nbVal=0;
+int nbValCurrent=0;
+this->hasKitDesign_Id = object["KitDesign.hasKitDesign_Id"];
+this->hasKitDesign_KitTraySkuRef = object["KitDesign.hasKitDesign_KitTraySkuRef"];
+this->name = object["KitDesign._NAME"];
+this->KitDesignID = std::atof(object["KitDesign.KitDesignID"].c_str());
+
+}std::vector<std::string> KitDesign::Explode(const std::string & str, char separator )
+{
+   std::vector< std::string > result;
+   size_t pos1 = 0;
+   size_t pos2 = 0;
+   while ( pos2 != str.npos )
+   {
+      pos2 = str.find(separator, pos1);
+      if ( pos2 != str.npos )
+      {
+         if ( pos2 > pos1 )
+            result.push_back( str.substr(pos1, pos2-pos1) );
+         pos1 = pos2+1;
+      }
+   }
+   result.push_back( str.substr(pos1, str.size()-pos1) );
+   return result;
 }

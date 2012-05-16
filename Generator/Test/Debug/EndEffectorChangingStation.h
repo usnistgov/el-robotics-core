@@ -6,8 +6,11 @@
 
 #include "SolidObject.h"
  #include "KittingWorkstation.h"
+ class KittingWorkstation;
  #include "DAO.h"
-class EndEffectorChangingStation: public SolidObject {private:
+ class DAO;
+ #include <string>
+class EndEffectorChangingStation: public SolidObject{private:
 std::string name;
 int id;
 DAO* dao;
@@ -26,6 +29,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KittingWorkstation* gethadByChangingStation_Workstation();
 void sethadByChangingStation_Workstation(KittingWorkstation* _hadByChangingStation_Workstation);
-void copy(EndEffectorChangingStation const& object);
+void copy(const EndEffectorChangingStation &object);
 }; 
 #endif /* ENDEFFECTORCHANGINGSTATION_H_ */

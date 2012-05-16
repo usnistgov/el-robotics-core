@@ -41,13 +41,13 @@ this->dao= _dao;
 }
 void RollPitchYaw::get(std::string name){
  *dao  = DAO("RollPitchYaw");
- const RollPitchYaw temp = dao->get(name);
- copy(temp);
+ const RollPitchYaw* temp =(const RollPitchYaw*) dao->get(name);
+ copy(* temp);
 } void RollPitchYaw::set(std::string name, RollPitchYaw* obj){
- *dao  = DAO(RollPitchYaw);
- dao->set(name, obj);
+ *dao  = DAO("RollPitchYaw");
+ dao->set(name, (IObject) *obj);
 }
-void RollPitchYaw::copy(RollPitchYaw const& object){
+void RollPitchYaw::copy(const RollPitchYaw &object){
  if(this != &object){
 hasRpy_Roll = object.hasRpy_Roll;
 hasRpy_Pitch = object.hasRpy_Pitch;

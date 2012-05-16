@@ -41,13 +41,13 @@ this->hadByLargeContainer_LargeBoxWithKits= _hadByLargeContainer_LargeBoxWithKit
 }
 void LargeBoxWithKits::get(std::string name){
  *dao  = DAO("LargeBoxWithKits");
- const LargeBoxWithKits temp = dao->get(name);
- copy(temp);
+ const LargeBoxWithKits* temp =(const LargeBoxWithKits*) dao->get(name);
+ copy(* temp);
 } void LargeBoxWithKits::set(std::string name, LargeBoxWithKits* obj){
- *dao  = DAO(LargeBoxWithKits);
- dao->set(name, obj);
+ *dao  = DAO("LargeBoxWithKits");
+ dao->set(name, (IObject) *obj);
 }
-void LargeBoxWithKits::copy(LargeBoxWithKits const& object){
+void LargeBoxWithKits::copy(const LargeBoxWithKits &object){
  if(this != &object){
 hasLargeBoxWithKits_Capacity = object.hasLargeBoxWithKits_Capacity;
 hasLargeBoxWithKits_KitDesignRef = object.hasLargeBoxWithKits_KitDesignRef;

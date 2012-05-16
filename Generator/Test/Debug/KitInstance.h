@@ -6,8 +6,11 @@
 
 #include "SolidObject.h"
  #include "KitTray.h"
+ class KitTray;
  #include "DAO.h"
-class KitInstance: public SolidObject {private:
+ class DAO;
+ #include <string>
+class KitInstance: public SolidObject{private:
 bool isKitInstance_Finished;
 std::string hasKitInstance_DesignRef;
 std::string name;
@@ -32,6 +35,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KitTray* gethadByKitTray_KitInstance();
 void sethadByKitTray_KitInstance(KitTray* _hadByKitTray_KitInstance);
-void copy(KitInstance const& object);
+void copy(const KitInstance &object);
 }; 
 #endif /* KITINSTANCE_H_ */

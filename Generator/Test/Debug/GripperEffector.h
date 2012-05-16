@@ -6,7 +6,9 @@
 
 #include "EndEffector.h"
  #include "DAO.h"
-class GripperEffector: public EndEffector {private:
+ class DAO;
+ #include <string>
+class GripperEffector: public EndEffector{private:
 std::string name;
 int id;
 DAO* dao;
@@ -22,6 +24,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(GripperEffector const& object);
+void copy(const GripperEffector &object);
 }; 
 #endif /* GRIPPEREFFECTOR_H_ */

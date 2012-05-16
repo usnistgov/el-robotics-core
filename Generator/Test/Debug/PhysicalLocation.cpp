@@ -29,13 +29,13 @@ this->hasPhysicalLocation_RefObject= _hasPhysicalLocation_RefObject;
 }
 void PhysicalLocation::get(std::string name){
  *dao  = DAO("PhysicalLocation");
- const PhysicalLocation temp = dao->get(name);
- copy(temp);
+ const PhysicalLocation* temp =(const PhysicalLocation*) dao->get(name);
+ copy(* temp);
 } void PhysicalLocation::set(std::string name, PhysicalLocation* obj){
- *dao  = DAO(PhysicalLocation);
- dao->set(name, obj);
+ *dao  = DAO("PhysicalLocation");
+ dao->set(name, (IObject) *obj);
 }
-void PhysicalLocation::copy(PhysicalLocation const& object){
+void PhysicalLocation::copy(const PhysicalLocation &object){
  if(this != &object){
 name = object.name;
 id = object.id;

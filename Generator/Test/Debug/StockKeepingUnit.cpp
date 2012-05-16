@@ -3,8 +3,8 @@
 StockKeepingUnit::StockKeepingUnit(std::string name) : DataThing(name){
 this->name=name;
 this->get(this->name);
-}std::string StockKeepingUnit::gethasSku_EndEffectorRefs[](){
-return this->hasSku_EndEffectorRefs[];
+}std::vector<std::string> StockKeepingUnit::gethasSku_EndEffectorRefs(){
+return this->hasSku_EndEffectorRefs;
 }
 std::string StockKeepingUnit::gethasSku_Description(){
 return this->hasSku_Description;
@@ -27,8 +27,8 @@ return this->dao;
 ShapeDesign* StockKeepingUnit::gethasSku_Shape(){
 return this->hasSku_Shape;
 }
-void StockKeepingUnit::sethasSku_EndEffectorRefs(std::string _hasSku_EndEffectorRefs[]){
-this->hasSku_EndEffectorRefs[]= _hasSku_EndEffectorRefs[];
+void StockKeepingUnit::sethasSku_EndEffectorRefs(std::vector<std::string> _hasSku_EndEffectorRefs){
+this->hasSku_EndEffectorRefs= _hasSku_EndEffectorRefs;
 }
 void StockKeepingUnit::sethasSku_Description(std::string _hasSku_Description){
 this->hasSku_Description= _hasSku_Description;
@@ -53,15 +53,15 @@ this->hasSku_Shape= _hasSku_Shape;
 }
 void StockKeepingUnit::get(std::string name){
  *dao  = DAO("StockKeepingUnit");
- const StockKeepingUnit temp = dao->get(name);
- copy(temp);
+ const StockKeepingUnit* temp =(const StockKeepingUnit*) dao->get(name);
+ copy(* temp);
 } void StockKeepingUnit::set(std::string name, StockKeepingUnit* obj){
- *dao  = DAO(StockKeepingUnit);
- dao->set(name, obj);
+ *dao  = DAO("StockKeepingUnit");
+ dao->set(name, (IObject) *obj);
 }
-void StockKeepingUnit::copy(StockKeepingUnit const& object){
+void StockKeepingUnit::copy(const StockKeepingUnit &object){
  if(this != &object){
-hasSku_EndEffectorRefs[] = object.hasSku_EndEffectorRefs[];
+hasSku_EndEffectorRefs = object.hasSku_EndEffectorRefs;
 hasSku_Description = object.hasSku_Description;
 hasSku_Id = object.hasSku_Id;
 hasSku_Weight = object.hasSku_Weight;

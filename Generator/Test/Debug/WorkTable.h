@@ -6,8 +6,11 @@
 
 #include "BoxyObject.h"
  #include "KittingWorkstation.h"
+ class KittingWorkstation;
  #include "DAO.h"
-class WorkTable: public BoxyObject {private:
+ class DAO;
+ #include <string>
+class WorkTable: public BoxyObject{private:
 std::string name;
 int id;
 DAO* dao;
@@ -26,6 +29,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KittingWorkstation* gethadByWorkTable_Workstation();
 void sethadByWorkTable_Workstation(KittingWorkstation* _hadByWorkTable_Workstation);
-void copy(WorkTable const& object);
+void copy(const WorkTable &object);
 }; 
 #endif /* WORKTABLE_H_ */

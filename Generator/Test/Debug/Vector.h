@@ -6,7 +6,9 @@
 
 #include "DataThing.h"
  #include "DAO.h"
-class Vector: public DataThing {private:
+ class DAO;
+ #include <string>
+class Vector: public DataThing{private:
 float hasVector_K;
 float hasVector_J;
 float hasVector_I;
@@ -31,6 +33,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(Vector const& object);
+void copy(const Vector &object);
 }; 
 #endif /* VECTOR_H_ */

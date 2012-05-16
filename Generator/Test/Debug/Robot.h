@@ -5,10 +5,14 @@
 #include <iostream>
 
 #include "SolidObject.h"
- #include "KittingWorkstation.h"
  #include "BoxVolume.h"
+ #include <vector>
+ #include "KittingWorkstation.h"
+ class KittingWorkstation;
  #include "DAO.h"
-class Robot: public SolidObject {private:
+ class DAO;
+ #include <string>
+class Robot: public SolidObject{private:
 std::string hasRobot_Id;
 float hasRobot_MaximumLoadWeight;
 std::string hasRobot_Description;
@@ -16,8 +20,7 @@ std::string name;
 int id;
 DAO* dao;
 KittingWorkstation* hadByRobot_Workstation;
-BoxVolume* hasRobot_WorkVolume;
-BoxVolume* hasRobot_WorkVolume;
+std::vector<BoxVolume*> hasRobot_WorkVolume;
 public:
 Robot(std::string name);
  void get(int id);
@@ -38,10 +41,8 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KittingWorkstation* gethadByRobot_Workstation();
 void sethadByRobot_Workstation(KittingWorkstation* _hadByRobot_Workstation);
-BoxVolume* gethasRobot_WorkVolume();
-void sethasRobot_WorkVolume(BoxVolume* _hasRobot_WorkVolume);
-BoxVolume* gethasRobot_WorkVolume();
-void sethasRobot_WorkVolume(BoxVolume* _hasRobot_WorkVolume);
-void copy(Robot const& object);
+std::vector<BoxVolume*> gethasRobot_WorkVolume();
+void sethasRobot_WorkVolume(std::vector<BoxVolume*> _hasRobot_WorkVolume);
+void copy(const Robot &object);
 }; 
 #endif /* ROBOT_H_ */

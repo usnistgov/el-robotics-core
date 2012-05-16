@@ -6,7 +6,9 @@
 
 #include "SolidObject.h"
  #include "DAO.h"
-class BoxyObject: public SolidObject {private:
+ class DAO;
+ #include <string>
+class BoxyObject: public SolidObject{private:
 float hasBox_Width;
 float hasBox_Height;
 float hasBox_Length;
@@ -31,6 +33,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(BoxyObject const& object);
+void copy(const BoxyObject &object);
 }; 
 #endif /* BOXYOBJECT_H_ */

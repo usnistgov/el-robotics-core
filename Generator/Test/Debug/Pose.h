@@ -6,9 +6,13 @@
 
 #include "PhysicalLocation.h"
  #include "DAO.h"
+ class DAO;
+ #include <string>
  #include "Point.h"
+ class Point;
  #include "RollPitchYaw.h"
-class Pose: public PhysicalLocation {private:
+ class RollPitchYaw;
+class Pose: public PhysicalLocation{private:
 std::string name;
 int id;
 DAO* dao;
@@ -30,6 +34,6 @@ Point* gethasPose_Point();
 void sethasPose_Point(Point* _hasPose_Point);
 RollPitchYaw* gethasPose_Rpy();
 void sethasPose_Rpy(RollPitchYaw* _hasPose_Rpy);
-void copy(Pose const& object);
+void copy(const Pose &object);
 }; 
 #endif /* POSE_H_ */

@@ -6,8 +6,11 @@
 
 #include "SolidObject.h"
  #include "LargeContainer.h"
+ class LargeContainer;
  #include "DAO.h"
-class LargeBoxWithEmptyKitTrays: public SolidObject {private:
+ class DAO;
+ #include <string>
+class LargeBoxWithEmptyKitTrays: public SolidObject{private:
 std::string name;
 int id;
 DAO* dao;
@@ -26,6 +29,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 LargeContainer* gethadByLargeContainer_LargeBoxWithEmptyKitTrays();
 void sethadByLargeContainer_LargeBoxWithEmptyKitTrays(LargeContainer* _hadByLargeContainer_LargeBoxWithEmptyKitTrays);
-void copy(LargeBoxWithEmptyKitTrays const& object);
+void copy(const LargeBoxWithEmptyKitTrays &object);
 }; 
 #endif /* LARGEBOXWITHEMPTYKITTRAYS_H_ */

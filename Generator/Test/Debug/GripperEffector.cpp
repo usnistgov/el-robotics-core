@@ -23,13 +23,13 @@ this->dao= _dao;
 }
 void GripperEffector::get(std::string name){
  *dao  = DAO("GripperEffector");
- const GripperEffector temp = dao->get(name);
- copy(temp);
+ const GripperEffector* temp =(const GripperEffector*) dao->get(name);
+ copy(* temp);
 } void GripperEffector::set(std::string name, GripperEffector* obj){
- *dao  = DAO(GripperEffector);
- dao->set(name, obj);
+ *dao  = DAO("GripperEffector");
+ dao->set(name, (IObject) *obj);
 }
-void GripperEffector::copy(GripperEffector const& object){
+void GripperEffector::copy(const GripperEffector &object){
  if(this != &object){
 name = object.name;
 id = object.id;

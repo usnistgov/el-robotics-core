@@ -6,7 +6,7 @@
 CPP_SRCS += \
 ../BoxVolume.cpp \
 ../BoxyObject.cpp \
-../Connect.cpp \
+../Connection.cpp \
 ../DAO.cpp \
 ../DataThing.cpp \
 ../EndEffector.cpp \
@@ -45,7 +45,7 @@ CPP_SRCS += \
 OBJS += \
 ./BoxVolume.o \
 ./BoxyObject.o \
-./Connect.o \
+./Connection.o \
 ./DAO.o \
 ./DataThing.o \
 ./EndEffector.o \
@@ -84,7 +84,7 @@ OBJS += \
 CPP_DEPS += \
 ./BoxVolume.d \
 ./BoxyObject.d \
-./Connect.d \
+./Connection.d \
 ./DAO.d \
 ./DataThing.d \
 ./EndEffector.d \

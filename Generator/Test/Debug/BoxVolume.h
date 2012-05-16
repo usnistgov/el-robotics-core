@@ -6,8 +6,11 @@
 
 #include "DataThing.h"
  #include "DAO.h"
+ class DAO;
+ #include <string>
  #include "Point.h"
-class BoxVolume: public DataThing {private:
+ class Point;
+class BoxVolume: public DataThing{private:
 std::string name;
 int id;
 DAO* dao;
@@ -29,6 +32,6 @@ Point* gethasBoxVolume_MaximumPoint();
 void sethasBoxVolume_MaximumPoint(Point* _hasBoxVolume_MaximumPoint);
 Point* gethasBoxVolume_MinimumPoint();
 void sethasBoxVolume_MinimumPoint(Point* _hasBoxVolume_MinimumPoint);
-void copy(BoxVolume const& object);
+void copy(const BoxVolume &object);
 }; 
 #endif /* BOXVOLUME_H_ */

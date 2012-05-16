@@ -41,13 +41,13 @@ this->dao= _dao;
 }
 void Point::get(std::string name){
  *dao  = DAO("Point");
- const Point temp = dao->get(name);
- copy(temp);
+ const Point* temp =(const Point*) dao->get(name);
+ copy(* temp);
 } void Point::set(std::string name, Point* obj){
- *dao  = DAO(Point);
- dao->set(name, obj);
+ *dao  = DAO("Point");
+ dao->set(name, (IObject) *obj);
 }
-void Point::copy(Point const& object){
+void Point::copy(const Point &object){
  if(this != &object){
 hasPoint_X = object.hasPoint_X;
 hasPoint_Y = object.hasPoint_Y;

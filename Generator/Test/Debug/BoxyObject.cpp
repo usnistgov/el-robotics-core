@@ -41,13 +41,13 @@ this->dao= _dao;
 }
 void BoxyObject::get(std::string name){
  *dao  = DAO("BoxyObject");
- const BoxyObject temp = dao->get(name);
- copy(temp);
+ const BoxyObject* temp =(const BoxyObject*) dao->get(name);
+ copy(* temp);
 } void BoxyObject::set(std::string name, BoxyObject* obj){
- *dao  = DAO(BoxyObject);
- dao->set(name, obj);
+ *dao  = DAO("BoxyObject");
+ dao->set(name, (IObject) *obj);
 }
-void BoxyObject::copy(BoxyObject const& object){
+void BoxyObject::copy(const BoxyObject &object){
  if(this != &object){
 hasBox_Width = object.hasBox_Width;
 hasBox_Height = object.hasBox_Height;

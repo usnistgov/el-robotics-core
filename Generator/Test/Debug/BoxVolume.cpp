@@ -35,13 +35,13 @@ this->hasBoxVolume_MinimumPoint= _hasBoxVolume_MinimumPoint;
 }
 void BoxVolume::get(std::string name){
  *dao  = DAO("BoxVolume");
- const BoxVolume temp = dao->get(name);
- copy(temp);
+ const BoxVolume* temp =(const BoxVolume*) dao->get(name);
+ copy(* temp);
 } void BoxVolume::set(std::string name, BoxVolume* obj){
- *dao  = DAO(BoxVolume);
- dao->set(name, obj);
+ *dao  = DAO("BoxVolume");
+ dao->set(name, (IObject) *obj);
 }
-void BoxVolume::copy(BoxVolume const& object){
+void BoxVolume::copy(const BoxVolume &object){
  if(this != &object){
 name = object.name;
 id = object.id;

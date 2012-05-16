@@ -47,13 +47,13 @@ this->dao= _dao;
 }
 void EndEffector::get(std::string name){
  *dao  = DAO("EndEffector");
- const EndEffector temp = dao->get(name);
- copy(temp);
+ const EndEffector* temp =(const EndEffector*) dao->get(name);
+ copy(* temp);
 } void EndEffector::set(std::string name, EndEffector* obj){
- *dao  = DAO(EndEffector);
- dao->set(name, obj);
+ *dao  = DAO("EndEffector");
+ dao->set(name, (IObject) *obj);
 }
-void EndEffector::copy(EndEffector const& object){
+void EndEffector::copy(const EndEffector &object){
  if(this != &object){
 hasEndEffector_Weight = object.hasEndEffector_Weight;
 hasEffector_MaximumLoadWeight = object.hasEffector_MaximumLoadWeight;

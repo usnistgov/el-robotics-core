@@ -35,13 +35,13 @@ this->dao= _dao;
 }
 void KitDesign::get(std::string name){
  *dao  = DAO("KitDesign");
- const KitDesign temp = dao->get(name);
- copy(temp);
+ const KitDesign* temp =(const KitDesign*) dao->get(name);
+ copy(* temp);
 } void KitDesign::set(std::string name, KitDesign* obj){
- *dao  = DAO(KitDesign);
- dao->set(name, obj);
+ *dao  = DAO("KitDesign");
+ dao->set(name, (IObject) *obj);
 }
-void KitDesign::copy(KitDesign const& object){
+void KitDesign::copy(const KitDesign &object){
  if(this != &object){
 hasKitDesign_Id = object.hasKitDesign_Id;
 hasKitDesign_KitTraySkuRef = object.hasKitDesign_KitTraySkuRef;

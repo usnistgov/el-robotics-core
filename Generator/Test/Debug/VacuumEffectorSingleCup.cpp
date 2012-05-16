@@ -23,13 +23,13 @@ this->dao= _dao;
 }
 void VacuumEffectorSingleCup::get(std::string name){
  *dao  = DAO("VacuumEffectorSingleCup");
- const VacuumEffectorSingleCup temp = dao->get(name);
- copy(temp);
+ const VacuumEffectorSingleCup* temp =(const VacuumEffectorSingleCup*) dao->get(name);
+ copy(* temp);
 } void VacuumEffectorSingleCup::set(std::string name, VacuumEffectorSingleCup* obj){
- *dao  = DAO(VacuumEffectorSingleCup);
- dao->set(name, obj);
+ *dao  = DAO("VacuumEffectorSingleCup");
+ dao->set(name, (IObject) *obj);
 }
-void VacuumEffectorSingleCup::copy(VacuumEffectorSingleCup const& object){
+void VacuumEffectorSingleCup::copy(const VacuumEffectorSingleCup &object){
  if(this != &object){
 name = object.name;
 id = object.id;

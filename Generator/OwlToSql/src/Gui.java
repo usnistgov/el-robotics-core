@@ -1,6 +1,7 @@
 import Ontology.*;
 import ClassesCPP.*;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -10,8 +11,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -28,6 +31,19 @@ public class Gui extends JFrame {
 	private JPanel panOtoCpp;
 	private JPanel panCreateCpp;
 	private JPanel panGenerateCpp;
+	private JPanel panDb;
+	private JPanel panDbUrl;
+	private JPanel panDbUser;
+	private JPanel panDbPass;
+	private JPanel panDbName;
+	private JLabel jlUser;
+	private JLabel jlUrl;
+	private JLabel jlPass;
+	private JLabel jlName;
+	private JTextField url;
+	private JTextField user;
+	private JPasswordField pass;
+	private JTextField nameDb;
 	private JPanel panSaveCpp;
 	private JTextField path;
 	private JTextField pathSave;
@@ -43,7 +59,7 @@ public class Gui extends JFrame {
 	public Gui() {
 		setResizable(false);
 		setTitle("OWL to SQL");
-		setSize(400, 300);
+		setSize(400, 350);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		tabbedPane = new JTabbedPane();
@@ -54,12 +70,29 @@ public class Gui extends JFrame {
 		panCreateCpp = new JPanel();
 		panGenerate = new JPanel();
 		panGenerateCpp = new JPanel();
+		panDb = new JPanel();
+		panDbUrl = new JPanel();
+		panDbUser = new JPanel();
+		panDbPass = new JPanel();
+		panDbName = new JPanel();
 		panSave = new JPanel();
 		panSaveCpp = new JPanel();
 		path = new JTextField();
 		pathSave = new JTextField();
 		pathCpp = new JTextField();
 		pathSaveCpp = new JTextField();
+		user = new JTextField();
+		jlUrl = new JLabel("             Url :");
+		url = new JTextField();
+		jlUser = new JLabel("User name :");
+		pass = new JPasswordField();
+		jlPass = new JLabel(" Password :");
+		nameDb = new JTextField();
+		jlName = new JLabel("     Schema :");
+		url.setColumns(25);
+		user.setColumns(25);
+		pass.setColumns(25);
+		nameDb.setColumns(25);
 		browseCreate = new JButton("Browse");
 		browseSave = new JButton("Browse");
 		browseCreateCpp = new JButton("Browse");
@@ -71,8 +104,8 @@ public class Gui extends JFrame {
 		panOtS.add(panSave);
 		panOtS.add(panGenerate);
 		panOtoCpp.add(panCreateCpp);
-		panOtoCpp.add(panCreateCpp);
 		panOtoCpp.add(panSaveCpp);
+		panOtoCpp.add(panDb);
 		panOtoCpp.add(panGenerateCpp);
 		pathSaveCpp.setColumns(25);
 		panSaveCpp.add(pathSaveCpp);
@@ -84,15 +117,30 @@ public class Gui extends JFrame {
 		panSaveCpp.add(browseSaveCpp);
 		panGenerate.add(generateSql);
 		panGenerateCpp.add(generateCpp);
+		panDb.setLayout(new GridLayout(4, 1));
+		panDb.add(panDbUrl);
+		panDb.add(panDbUser);
+		panDb.add(panDbPass);
+		panDb.add(panDbName);
+		panDbUrl.add(jlUrl);
+		panDbUrl.add(url);
+		panDbUser.add(jlUser);
+		panDbUser.add(user);
+		panDbPass.add(jlPass);
+		panDbPass.add(pass);
+		panDbName.add(jlName);
+		panDbName.add(nameDb);
 		Border borderCreate = BorderFactory.createTitledBorder("Ontology Path");
 		Border borderSave = BorderFactory.createTitledBorder("Saves Path");
 		Border borderCreateCpp = BorderFactory
 				.createTitledBorder("Ontology Path");
 		Border borderSaveCpp = BorderFactory.createTitledBorder("Saves Path");
+		Border borderDb = BorderFactory.createTitledBorder("Info DataBase");
 		panCreate.setBorder(borderCreate);
 		panSave.setBorder(borderSave);
 		panCreateCpp.setBorder(borderCreateCpp);
 		panSaveCpp.setBorder(borderSaveCpp);
+		panDb.setBorder(borderDb);
 		path.setColumns(25);
 		panCreate.add(path);
 		panCreate.add(browseCreate);
@@ -144,7 +192,9 @@ public class Gui extends JFrame {
 						Ontology o = new Ontology(pathCpp.getText(),
 								pathSaveCpp.getText());
 						generateClasses(o);
-						generateDao(o);
+						generateDao(o, url.getText(), user.getText(),
+								new String(pass.getPassword()), nameDb.getText());
+						generateConnection();
 
 						JOptionPane.showMessageDialog(getParent(),
 								"Success\n\n" + "See your files in the folder "
@@ -234,21 +284,34 @@ public class Gui extends JFrame {
 				for (int j = 0; j < o.getDp().getDataPropertyRanges().size(); j++) {
 					if (o.getDp().getDataPropertyRanges().get(j).get(0)
 							.equals(attributes.get(k))) {
-						if (o.getDp().getDataRequired()
+						if (o.getDp().getDataSingleValued()
 								.containsKey(attributes.get(k)))
 							if (o.getDp().getDataSingleValued()
 									.get(attributes.get(k)).equals("false"))
-								attributes.set(k, attributes.get(k) + "[]");
-						unit.add(typesGen.getUnit(o.getTables()
-								.getUnit(
-										o.getDp().getDataPropertyRanges()
-												.get(j).get(1))));
+								unit.add("std::vector<"
+										+ typesGen
+												.getUnit(o
+														.getTables()
+														.getUnit(
+																o.getDp()
+																		.getDataPropertyRanges()
+																		.get(j)
+																		.get(1)))
+										+ ">");
+							else
+								unit.add(typesGen
+										.getUnit(o
+												.getTables()
+												.getUnit(
+														o.getDp()
+																.getDataPropertyRanges()
+																.get(j).get(1))));
 					}
 				}
 			}
 			attributes.add("name");
 			unit.add("std::string");
-			attributes.add("id");
+			attributes.add(o.getClassesClean().get(i) + "ID");
 			unit.add("int");
 			attributes.add("dao");
 			unit.add("DAO*");
@@ -275,14 +338,26 @@ public class Gui extends JFrame {
 								.get(prop).size(); s++) {
 							if (!attributes.contains(prop)) {
 								attributes.add(prop);
-								unit.add(o.getOp().getObjectPropertyRanges()
-										.get(prop).get(s)
-										+ "*");
+								if (o.getOp().getObjectSingleValued().get(prop)
+										.equals("false"))
+									unit.add("std::vector<"
+											+ o.getOp()
+													.getObjectPropertyRanges()
+													.get(prop).get(s) + "*>");
+								else
+
+									unit.add(o.getOp()
+											.getObjectPropertyRanges()
+											.get(prop).get(s)
+											+ "*");
 							}
 						}
 					}
 
 				}
+
+				// Add the remote Object Properties (to have the property for
+				// both objects : range and domain)
 				if (properties.get(p).contains("/")
 						&& !contains
 						&& !properties.get(p).contains("Value/")
@@ -299,6 +374,49 @@ public class Gui extends JFrame {
 
 			}
 
+			// Add the Object Properties (to have the property for both
+			// objects : range and domain)
+			for (int ind = 0; ind < o.getClassesClean().size(); ind++) {
+				ArrayList<String> localProperties = (ArrayList<String>) o
+						.getTables().getTables()
+						.get(o.getClassesClean().get(ind)).clone();
+				for (int indLp = 0; indLp < localProperties.size(); indLp++) {
+					if (localProperties.get(indLp).contains("/")) {
+						localProperties.set(
+								indLp,
+								localProperties.get(indLp)
+										.substring(
+												0,
+												localProperties.get(indLp)
+														.indexOf("/")));
+
+					}
+					if (o.getOp().getObjectPropertyRanges()
+							.containsKey(localProperties.get(indLp))) {
+						for (int a = 0; a < o.getOp().getObjectPropertyRanges()
+								.get(localProperties.get(indLp)).size(); a++) {
+							if (o.getOp().getObjectPropertyRanges()
+									.get(localProperties.get(indLp)).get(a)
+									.equals(o.getClassesClean().get(i))
+									&& !attributes.contains(localProperties
+											.get(indLp))) {
+								attributes.add(localProperties.get(indLp));
+								if (o.getOp().getObjectSingleValued()
+										.get(localProperties.get(indLp))
+										.equals("false"))
+									unit.add("std::vector<"
+											+ o.getClassesClean().get(ind)
+											+ "*>");
+								else
+
+									unit.add(o.getClassesClean().get(ind) + "*");
+
+							}
+						}
+					}
+				}
+			}
+
 			// Write the header and class files
 			typesGen.writeHeader(typesGen.generateHeader(o.getClassesClean()
 					.get(i),
@@ -312,20 +430,29 @@ public class Gui extends JFrame {
 		}
 	}
 
-	private void generateDao(Ontology o) {
-		daoGenerator dao = new daoGenerator();
-		ArrayList<String> className = new ArrayList<String>();
-
-		className.add("Connect");
-
+	private void generateDao(Ontology o, String url, String user, String pass, String nameDb) {
+		daoGenerator dao = new daoGenerator(o.getTables().getTables(),
+				o.getSuperClassesClean(), o.getClassesClean(), o.getOp()
+						.getObjectPropertyInverse(), o.getOp()
+						.getObjectSingleValued(), o.getOp()
+						.getObjectPropertyRanges(), o.getDp()
+						.getDataSingleValued());
 		ArrayList<String> attributes = new ArrayList<String>();
 		attributes.add("className");
+		attributes.add("connection");
 		ArrayList<String> unit = new ArrayList<String>();
-		unit.add("std::string");
-		dao.writeHeader(dao.generateHeader(className, attributes, unit),
+		unit.add("std::vector<std::string>");
+		unit.add("Connection*");
+		dao.writeHeader(
+				dao.generateHeader(attributes, unit, url, user, pass, nameDb),
 				pathSaveCpp.getText() + File.separator);
-		dao.writeClass(dao.generateCpp(className, attributes, unit),
+		dao.writeClass(
+				dao.generateCpp(attributes, unit, url, user, pass, nameDb),
 				pathSaveCpp.getText() + File.separator);
+	}
+
+	private void generateConnection() {
+		new Connection(pathSaveCpp.getText() + File.separator);
 	}
 
 	public static void main(String[] args) {

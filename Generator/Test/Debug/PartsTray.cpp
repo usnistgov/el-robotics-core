@@ -41,13 +41,13 @@ this->hadByPartsTray_PartsTrayWithParts= _hadByPartsTray_PartsTrayWithParts;
 }
 void PartsTray::get(std::string name){
  *dao  = DAO("PartsTray");
- const PartsTray temp = dao->get(name);
- copy(temp);
+ const PartsTray* temp =(const PartsTray*) dao->get(name);
+ copy(* temp);
 } void PartsTray::set(std::string name, PartsTray* obj){
- *dao  = DAO(PartsTray);
- dao->set(name, obj);
+ *dao  = DAO("PartsTray");
+ dao->set(name, (IObject) *obj);
 }
-void PartsTray::copy(PartsTray const& object){
+void PartsTray::copy(const PartsTray &object){
  if(this != &object){
 hasPartsTray_SkuRef = object.hasPartsTray_SkuRef;
 hasPartsTray_SerialNumber = object.hasPartsTray_SerialNumber;

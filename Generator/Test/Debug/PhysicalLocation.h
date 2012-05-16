@@ -6,8 +6,11 @@
 
 #include "DataThing.h"
  #include "DAO.h"
+ class DAO;
+ #include <string>
  #include "SolidObject.h"
-class PhysicalLocation: public DataThing {private:
+ class SolidObject;
+class PhysicalLocation: public DataThing{private:
 std::string name;
 int id;
 DAO* dao;
@@ -26,6 +29,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 SolidObject* gethasPhysicalLocation_RefObject();
 void sethasPhysicalLocation_RefObject(SolidObject* _hasPhysicalLocation_RefObject);
-void copy(PhysicalLocation const& object);
+void copy(const PhysicalLocation &object);
 }; 
 #endif /* PHYSICALLOCATION_H_ */

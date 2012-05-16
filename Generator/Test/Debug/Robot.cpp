@@ -24,10 +24,7 @@ return this->dao;
 KittingWorkstation* Robot::gethadByRobot_Workstation(){
 return this->hadByRobot_Workstation;
 }
-BoxVolume* Robot::gethasRobot_WorkVolume(){
-return this->hasRobot_WorkVolume;
-}
-BoxVolume* Robot::gethasRobot_WorkVolume(){
+std::vector<BoxVolume*> Robot::gethasRobot_WorkVolume(){
 return this->hasRobot_WorkVolume;
 }
 void Robot::sethasRobot_Id(std::string _hasRobot_Id){
@@ -51,21 +48,18 @@ this->dao= _dao;
 void Robot::sethadByRobot_Workstation(KittingWorkstation* _hadByRobot_Workstation){
 this->hadByRobot_Workstation= _hadByRobot_Workstation;
 }
-void Robot::sethasRobot_WorkVolume(BoxVolume* _hasRobot_WorkVolume){
-this->hasRobot_WorkVolume= _hasRobot_WorkVolume;
-}
-void Robot::sethasRobot_WorkVolume(BoxVolume* _hasRobot_WorkVolume){
+void Robot::sethasRobot_WorkVolume(std::vector<BoxVolume*> _hasRobot_WorkVolume){
 this->hasRobot_WorkVolume= _hasRobot_WorkVolume;
 }
 void Robot::get(std::string name){
  *dao  = DAO("Robot");
- const Robot temp = dao->get(name);
- copy(temp);
+ const Robot* temp =(const Robot*) dao->get(name);
+ copy(* temp);
 } void Robot::set(std::string name, Robot* obj){
- *dao  = DAO(Robot);
- dao->set(name, obj);
+ *dao  = DAO("Robot");
+ dao->set(name, (IObject) *obj);
 }
-void Robot::copy(Robot const& object){
+void Robot::copy(const Robot &object){
  if(this != &object){
 hasRobot_Id = object.hasRobot_Id;
 hasRobot_MaximumLoadWeight = object.hasRobot_MaximumLoadWeight;
@@ -74,7 +68,6 @@ name = object.name;
 id = object.id;
 dao = object.dao;
 hadByRobot_Workstation = object.hadByRobot_Workstation;
-hasRobot_WorkVolume = object.hasRobot_WorkVolume;
 hasRobot_WorkVolume = object.hasRobot_WorkVolume;
 }
 }

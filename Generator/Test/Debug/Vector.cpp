@@ -41,13 +41,13 @@ this->dao= _dao;
 }
 void Vector::get(std::string name){
  *dao  = DAO("Vector");
- const Vector temp = dao->get(name);
- copy(temp);
+ const Vector* temp =(const Vector*) dao->get(name);
+ copy(* temp);
 } void Vector::set(std::string name, Vector* obj){
- *dao  = DAO(Vector);
- dao->set(name, obj);
+ *dao  = DAO("Vector");
+ dao->set(name, (IObject) *obj);
 }
-void Vector::copy(Vector const& object){
+void Vector::copy(const Vector &object){
  if(this != &object){
 hasVector_K = object.hasVector_K;
 hasVector_J = object.hasVector_J;

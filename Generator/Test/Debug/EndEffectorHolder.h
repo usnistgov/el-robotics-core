@@ -6,7 +6,9 @@
 
 #include "SolidObject.h"
  #include "DAO.h"
-class EndEffectorHolder: public SolidObject {private:
+ class DAO;
+ #include <string>
+class EndEffectorHolder: public SolidObject{private:
 std::string name;
 int id;
 DAO* dao;
@@ -22,6 +24,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(EndEffectorHolder const& object);
+void copy(const EndEffectorHolder &object);
 }; 
 #endif /* ENDEFFECTORHOLDER_H_ */

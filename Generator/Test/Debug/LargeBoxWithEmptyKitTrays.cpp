@@ -29,13 +29,13 @@ this->hadByLargeContainer_LargeBoxWithEmptyKitTrays= _hadByLargeContainer_LargeB
 }
 void LargeBoxWithEmptyKitTrays::get(std::string name){
  *dao  = DAO("LargeBoxWithEmptyKitTrays");
- const LargeBoxWithEmptyKitTrays temp = dao->get(name);
- copy(temp);
+ const LargeBoxWithEmptyKitTrays* temp =(const LargeBoxWithEmptyKitTrays*) dao->get(name);
+ copy(* temp);
 } void LargeBoxWithEmptyKitTrays::set(std::string name, LargeBoxWithEmptyKitTrays* obj){
- *dao  = DAO(LargeBoxWithEmptyKitTrays);
- dao->set(name, obj);
+ *dao  = DAO("LargeBoxWithEmptyKitTrays");
+ dao->set(name, (IObject) *obj);
 }
-void LargeBoxWithEmptyKitTrays::copy(LargeBoxWithEmptyKitTrays const& object){
+void LargeBoxWithEmptyKitTrays::copy(const LargeBoxWithEmptyKitTrays &object){
  if(this != &object){
 name = object.name;
 id = object.id;

@@ -6,7 +6,9 @@
 
 #include "DataThing.h"
  #include "DAO.h"
-class Point: public DataThing {private:
+ class DAO;
+ #include <string>
+class Point: public DataThing{private:
 float hasPoint_X;
 float hasPoint_Y;
 float hasPoint_Z;
@@ -31,6 +33,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(Point const& object);
+void copy(const Point &object);
 }; 
 #endif /* POINT_H_ */

@@ -6,7 +6,9 @@
 
 #include "VacuumEffector.h"
  #include "DAO.h"
-class VacuumEffectorSingleCup: public VacuumEffector {private:
+ class DAO;
+ #include <string>
+class VacuumEffectorSingleCup: public VacuumEffector{private:
 std::string name;
 int id;
 DAO* dao;
@@ -22,6 +24,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(VacuumEffectorSingleCup const& object);
+void copy(const VacuumEffectorSingleCup &object);
 }; 
 #endif /* VACUUMEFFECTORSINGLECUP_H_ */

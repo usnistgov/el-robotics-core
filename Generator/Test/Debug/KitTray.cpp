@@ -41,13 +41,13 @@ this->hadByKitTray_KitInstance= _hadByKitTray_KitInstance;
 }
 void KitTray::get(std::string name){
  *dao  = DAO("KitTray");
- const KitTray temp = dao->get(name);
- copy(temp);
+ const KitTray* temp =(const KitTray*) dao->get(name);
+ copy(* temp);
 } void KitTray::set(std::string name, KitTray* obj){
- *dao  = DAO(KitTray);
- dao->set(name, obj);
+ *dao  = DAO("KitTray");
+ dao->set(name, (IObject) *obj);
 }
-void KitTray::copy(KitTray const& object){
+void KitTray::copy(const KitTray &object){
  if(this != &object){
 hasKitTray_SerialNumber = object.hasKitTray_SerialNumber;
 hasKitTray_SkuRef = object.hasKitTray_SkuRef;

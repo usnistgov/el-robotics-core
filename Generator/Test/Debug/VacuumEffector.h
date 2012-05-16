@@ -6,7 +6,9 @@
 
 #include "EndEffector.h"
  #include "DAO.h"
-class VacuumEffector: public EndEffector {private:
+ class DAO;
+ #include <string>
+class VacuumEffector: public EndEffector{private:
 float hasVacuumEffector_CupDiameter;
 float hasVacuumEffector_Length;
 std::string name;
@@ -28,6 +30,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(VacuumEffector const& object);
+void copy(const VacuumEffector &object);
 }; 
 #endif /* VACUUMEFFECTOR_H_ */

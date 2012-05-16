@@ -6,7 +6,9 @@
 
 #include "DataThing.h"
  #include "DAO.h"
-class KitDesign: public DataThing {private:
+ class DAO;
+ #include <string>
+class KitDesign: public DataThing{private:
 std::string hasKitDesign_Id;
 std::string hasKitDesign_KitTraySkuRef;
 std::string name;
@@ -28,6 +30,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(KitDesign const& object);
+void copy(const KitDesign &object);
 }; 
 #endif /* KITDESIGN_H_ */

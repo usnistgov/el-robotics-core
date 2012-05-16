@@ -6,9 +6,13 @@
 
 #include "BoxyObject.h"
  #include "LargeBoxWithKits.h"
+ class LargeBoxWithKits;
  #include "LargeBoxWithEmptyKitTrays.h"
+ class LargeBoxWithEmptyKitTrays;
  #include "DAO.h"
-class LargeContainer: public BoxyObject {private:
+ class DAO;
+ #include <string>
+class LargeContainer: public BoxyObject{private:
 std::string hasLargeContainer_SkuRef;
 std::string hasLargeContainer_SerialNumber;
 std::string name;
@@ -36,6 +40,6 @@ LargeBoxWithKits* gethadByLargeContainer_LargeBoxWithKits();
 void sethadByLargeContainer_LargeBoxWithKits(LargeBoxWithKits* _hadByLargeContainer_LargeBoxWithKits);
 LargeBoxWithEmptyKitTrays* gethadByLargeContainer_LargeBoxWithEmptyKitTrays();
 void sethadByLargeContainer_LargeBoxWithEmptyKitTrays(LargeBoxWithEmptyKitTrays* _hadByLargeContainer_LargeBoxWithEmptyKitTrays);
-void copy(LargeContainer const& object);
+void copy(const LargeContainer &object);
 }; 
 #endif /* LARGECONTAINER_H_ */

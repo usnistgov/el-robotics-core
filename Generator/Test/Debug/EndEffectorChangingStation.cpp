@@ -29,13 +29,13 @@ this->hadByChangingStation_Workstation= _hadByChangingStation_Workstation;
 }
 void EndEffectorChangingStation::get(std::string name){
  *dao  = DAO("EndEffectorChangingStation");
- const EndEffectorChangingStation temp = dao->get(name);
- copy(temp);
+ const EndEffectorChangingStation* temp =(const EndEffectorChangingStation*) dao->get(name);
+ copy(* temp);
 } void EndEffectorChangingStation::set(std::string name, EndEffectorChangingStation* obj){
- *dao  = DAO(EndEffectorChangingStation);
- dao->set(name, obj);
+ *dao  = DAO("EndEffectorChangingStation");
+ dao->set(name, (IObject) *obj);
 }
-void EndEffectorChangingStation::copy(EndEffectorChangingStation const& object){
+void EndEffectorChangingStation::copy(const EndEffectorChangingStation &object){
  if(this != &object){
 name = object.name;
 id = object.id;

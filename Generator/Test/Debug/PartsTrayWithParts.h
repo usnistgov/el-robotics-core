@@ -6,8 +6,11 @@
 
 #include "SolidObject.h"
  #include "DAO.h"
+ class DAO;
+ #include <string>
  #include "PartsTray.h"
-class PartsTrayWithParts: public SolidObject {private:
+ class PartsTray;
+class PartsTrayWithParts: public SolidObject{private:
 std::string name;
 int id;
 DAO* dao;
@@ -26,6 +29,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 PartsTray* gethadByPartsTray_PartsTrayWithParts();
 void sethadByPartsTray_PartsTrayWithParts(PartsTray* _hadByPartsTray_PartsTrayWithParts);
-void copy(PartsTrayWithParts const& object);
+void copy(const PartsTrayWithParts &object);
 }; 
 #endif /* PARTSTRAYWITHPARTS_H_ */

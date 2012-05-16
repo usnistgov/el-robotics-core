@@ -6,7 +6,9 @@
 
 #include "SolidObject.h"
  #include "DAO.h"
-class EndEffector: public SolidObject {private:
+ class DAO;
+ #include <string>
+class EndEffector: public SolidObject{private:
 float hasEndEffector_Weight;
 float hasEffector_MaximumLoadWeight;
 std::string hasEndEffector_Description;
@@ -34,6 +36,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(EndEffector const& object);
+void copy(const EndEffector &object);
 }; 
 #endif /* ENDEFFECTOR_H_ */

@@ -1,4 +1,5 @@
 package DataBase;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -106,7 +107,7 @@ public class Tables {
 				tables.put(classesClean.get(i), temp);
 
 				s = s + attributes(classesClean.get(i)) + "PRIMARY KEY ("
-						+ classesClean.get(i) + "ID" + ")\n);\n\n";
+						+ classesClean.get(i) + "ID, _NAME" + ")\n);\n\n";
 				// }
 			}
 		}
@@ -209,7 +210,7 @@ public class Tables {
 											+ objectPropertyInverse
 													.get(objectPropertiesClean
 															.get(i).get(j))
-											+ " INT,"
+											+ " VARCHAR(255),"
 											+ "\nADD CONSTRAINT fk"
 											+ objectPropertyInverse
 													.get(objectPropertiesClean
@@ -220,10 +221,7 @@ public class Tables {
 															.get(i).get(j))
 											+ ") REFERENCES "
 											+ objectPropertiesClean.get(i).get(
-													0)
-											+ "("
-											+ objectPropertiesClean.get(i).get(
-													0) + "ID);";
+													0) + "(NAME);";
 
 									if (tables.containsKey(value.get(p))) {
 										temp = tables.get(value.get(p));
@@ -290,7 +288,7 @@ public class Tables {
 											+ "\nADD "
 											+ objectPropertiesClean.get(i).get(
 													j)
-											+ " INT,"
+											+ " VARCHAR(255),"
 											+ "\nADD CONSTRAINT fk"
 
 											+ objectPropertiesClean.get(i).get(
@@ -298,8 +296,7 @@ public class Tables {
 											+ "\nFOREIGN KEY("
 											+ objectPropertiesClean.get(i).get(
 													j) + ") REFERENCES "
-											+ value.get(p) + "(" + value.get(p)
-											+ "ID);";
+											+ value.get(p) + "(_NAME);";
 									if (tables
 											.containsKey(objectPropertiesClean
 													.get(i).get(0))) {
@@ -354,7 +351,7 @@ public class Tables {
 											+ objectPropertyInverse
 													.get(objectPropertiesClean
 															.get(i).get(j))
-											+ " INT NOT NULL,"
+											+ " VARCHAR(255),"
 											+ "\nADD CONSTRAINT fk"
 
 											+ objectPropertiesClean.get(i).get(
@@ -365,10 +362,7 @@ public class Tables {
 															.get(i).get(j))
 											+ ") REFERENCES "
 											+ objectPropertiesClean.get(i).get(
-													0)
-											+ "("
-											+ objectPropertiesClean.get(i).get(
-													0) + "ID);";
+													0) + "(_NAME);";
 									if (tables.containsKey(value.get(p))) {
 										temp = tables.get(value.get(p));
 									} else {
@@ -537,7 +531,7 @@ public class Tables {
 									} else {
 										// case if the association exist for
 										// multiple ranges or domain
-										// we must make severals association 
+										// we must make severals association
 										// and distinct tables
 										if (!value.get(p).equals(
 												objectPropertiesClean.get(i)
@@ -625,9 +619,10 @@ public class Tables {
 										} else {
 											// case if the association exist for
 											// multiple ranges or domain
-											// we must make severals association 
-											// and distinct tables 
-											// and the 2 id have the same range or domain
+											// we must make severals association
+											// and distinct tables
+											// and the 2 id have the same range
+											// or domain
 											result = result
 													+ "\n\nCREATE TABLE "
 													+ objectPropertiesClean
@@ -847,7 +842,7 @@ public class Tables {
 		unit.put("unsignedInt", "INTEGER");
 		unit.put("long", "INTEGER");
 		unit.put("unsignedLong", "INTEGER");
-		unit.put("decimal", "DECIMAL");
+		unit.put("decimal", "DOUBLE");
 		unit.put("float", "FLOAT");
 		unit.put("double", "DOUBLE PRECISION");
 		unit.put("string", "varchar(255)");
@@ -871,7 +866,7 @@ public class Tables {
 		unit.put("angleUnit", "varchar(20)");
 		unit.put("lengthUnit", "varchar(20)");
 		unit.put("weightUnit", "varchar(20)");
-		unit.put("positiveDecimal", "DECIMAL");
+		unit.put("positiveDecimal", "DOUBLE");
 	}
 
 	// Getter and Setter

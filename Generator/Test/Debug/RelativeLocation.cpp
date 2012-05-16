@@ -23,13 +23,13 @@ this->dao= _dao;
 }
 void RelativeLocation::get(std::string name){
  *dao  = DAO("RelativeLocation");
- const RelativeLocation temp = dao->get(name);
- copy(temp);
+ const RelativeLocation* temp =(const RelativeLocation*) dao->get(name);
+ copy(* temp);
 } void RelativeLocation::set(std::string name, RelativeLocation* obj){
- *dao  = DAO(RelativeLocation);
- dao->set(name, obj);
+ *dao  = DAO("RelativeLocation");
+ dao->set(name, (IObject) *obj);
 }
-void RelativeLocation::copy(RelativeLocation const& object){
+void RelativeLocation::copy(const RelativeLocation &object){
  if(this != &object){
 name = object.name;
 id = object.id;

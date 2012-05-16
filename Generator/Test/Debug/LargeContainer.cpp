@@ -47,13 +47,13 @@ this->hadByLargeContainer_LargeBoxWithEmptyKitTrays= _hadByLargeContainer_LargeB
 }
 void LargeContainer::get(std::string name){
  *dao  = DAO("LargeContainer");
- const LargeContainer temp = dao->get(name);
- copy(temp);
+ const LargeContainer* temp =(const LargeContainer*) dao->get(name);
+ copy(* temp);
 } void LargeContainer::set(std::string name, LargeContainer* obj){
- *dao  = DAO(LargeContainer);
- dao->set(name, obj);
+ *dao  = DAO("LargeContainer");
+ dao->set(name, (IObject) *obj);
 }
-void LargeContainer::copy(LargeContainer const& object){
+void LargeContainer::copy(const LargeContainer &object){
  if(this != &object){
 hasLargeContainer_SkuRef = object.hasLargeContainer_SkuRef;
 hasLargeContainer_SerialNumber = object.hasLargeContainer_SerialNumber;

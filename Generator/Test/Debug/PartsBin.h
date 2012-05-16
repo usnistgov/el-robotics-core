@@ -6,7 +6,9 @@
 
 #include "BoxyObject.h"
  #include "DAO.h"
-class PartsBin: public BoxyObject {private:
+ class DAO;
+ #include <string>
+class PartsBin: public BoxyObject{private:
 std::string hasBin_PartQuantity;
 std::string hasBin_PartSkuRef;
 std::string name;
@@ -28,6 +30,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(PartsBin const& object);
+void copy(const PartsBin &object);
 }; 
 #endif /* PARTSBIN_H_ */

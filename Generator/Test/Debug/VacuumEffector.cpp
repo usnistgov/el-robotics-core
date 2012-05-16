@@ -35,13 +35,13 @@ this->dao= _dao;
 }
 void VacuumEffector::get(std::string name){
  *dao  = DAO("VacuumEffector");
- const VacuumEffector temp = dao->get(name);
- copy(temp);
+ const VacuumEffector* temp =(const VacuumEffector*) dao->get(name);
+ copy(* temp);
 } void VacuumEffector::set(std::string name, VacuumEffector* obj){
- *dao  = DAO(VacuumEffector);
- dao->set(name, obj);
+ *dao  = DAO("VacuumEffector");
+ dao->set(name, (IObject) *obj);
 }
-void VacuumEffector::copy(VacuumEffector const& object){
+void VacuumEffector::copy(const VacuumEffector &object){
  if(this != &object){
 hasVacuumEffector_CupDiameter = object.hasVacuumEffector_CupDiameter;
 hasVacuumEffector_Length = object.hasVacuumEffector_Length;

@@ -35,13 +35,13 @@ this->dao= _dao;
 }
 void PartsBin::get(std::string name){
  *dao  = DAO("PartsBin");
- const PartsBin temp = dao->get(name);
- copy(temp);
+ const PartsBin* temp =(const PartsBin*) dao->get(name);
+ copy(* temp);
 } void PartsBin::set(std::string name, PartsBin* obj){
- *dao  = DAO(PartsBin);
- dao->set(name, obj);
+ *dao  = DAO("PartsBin");
+ dao->set(name, (IObject) *obj);
 }
-void PartsBin::copy(PartsBin const& object){
+void PartsBin::copy(const PartsBin &object){
  if(this != &object){
 hasBin_PartQuantity = object.hasBin_PartQuantity;
 hasBin_PartSkuRef = object.hasBin_PartSkuRef;

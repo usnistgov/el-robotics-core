@@ -29,13 +29,13 @@ this->hadByPartsTray_PartsTrayWithParts= _hadByPartsTray_PartsTrayWithParts;
 }
 void PartsTrayWithParts::get(std::string name){
  *dao  = DAO("PartsTrayWithParts");
- const PartsTrayWithParts temp = dao->get(name);
- copy(temp);
+ const PartsTrayWithParts* temp =(const PartsTrayWithParts*) dao->get(name);
+ copy(* temp);
 } void PartsTrayWithParts::set(std::string name, PartsTrayWithParts* obj){
- *dao  = DAO(PartsTrayWithParts);
- dao->set(name, obj);
+ *dao  = DAO("PartsTrayWithParts");
+ dao->set(name, (IObject) *obj);
 }
-void PartsTrayWithParts::copy(PartsTrayWithParts const& object){
+void PartsTrayWithParts::copy(const PartsTrayWithParts &object){
  if(this != &object){
 name = object.name;
 id = object.id;

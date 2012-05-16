@@ -23,13 +23,13 @@ this->dao= _dao;
 }
 void EndEffectorHolder::get(std::string name){
  *dao  = DAO("EndEffectorHolder");
- const EndEffectorHolder temp = dao->get(name);
- copy(temp);
+ const EndEffectorHolder* temp =(const EndEffectorHolder*) dao->get(name);
+ copy(* temp);
 } void EndEffectorHolder::set(std::string name, EndEffectorHolder* obj){
- *dao  = DAO(EndEffectorHolder);
- dao->set(name, obj);
+ *dao  = DAO("EndEffectorHolder");
+ dao->set(name, (IObject) *obj);
 }
-void EndEffectorHolder::copy(EndEffectorHolder const& object){
+void EndEffectorHolder::copy(const EndEffectorHolder &object){
  if(this != &object){
 name = object.name;
 id = object.id;

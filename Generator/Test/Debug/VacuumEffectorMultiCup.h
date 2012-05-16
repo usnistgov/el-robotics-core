@@ -6,7 +6,9 @@
 
 #include "VacuumEffector.h"
  #include "DAO.h"
-class VacuumEffectorMultiCup: public VacuumEffector {private:
+ class DAO;
+ #include <string>
+class VacuumEffectorMultiCup: public VacuumEffector{private:
 std::string hasMultiCup_ArrayNumber;
 float hasMultiCup_ArrayRadius;
 std::string name;
@@ -28,6 +30,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(VacuumEffectorMultiCup const& object);
+void copy(const VacuumEffectorMultiCup &object);
 }; 
 #endif /* VACUUMEFFECTORMULTICUP_H_ */

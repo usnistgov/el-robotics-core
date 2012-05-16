@@ -41,13 +41,13 @@ this->hasPartRefAndPose_Point= _hasPartRefAndPose_Point;
 }
 void PartRefAndPose::get(std::string name){
  *dao  = DAO("PartRefAndPose");
- const PartRefAndPose temp = dao->get(name);
- copy(temp);
+ const PartRefAndPose* temp =(const PartRefAndPose*) dao->get(name);
+ copy(* temp);
 } void PartRefAndPose::set(std::string name, PartRefAndPose* obj){
- *dao  = DAO(PartRefAndPose);
- dao->set(name, obj);
+ *dao  = DAO("PartRefAndPose");
+ dao->set(name, (IObject) *obj);
 }
-void PartRefAndPose::copy(PartRefAndPose const& object){
+void PartRefAndPose::copy(const PartRefAndPose &object){
  if(this != &object){
 hasPartRefAndPose_Ref = object.hasPartRefAndPose_Ref;
 name = object.name;

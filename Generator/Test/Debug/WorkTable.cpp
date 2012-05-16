@@ -29,13 +29,13 @@ this->hadByWorkTable_Workstation= _hadByWorkTable_Workstation;
 }
 void WorkTable::get(std::string name){
  *dao  = DAO("WorkTable");
- const WorkTable temp = dao->get(name);
- copy(temp);
+ const WorkTable* temp =(const WorkTable*) dao->get(name);
+ copy(* temp);
 } void WorkTable::set(std::string name, WorkTable* obj){
- *dao  = DAO(WorkTable);
- dao->set(name, obj);
+ *dao  = DAO("WorkTable");
+ dao->set(name, (IObject) *obj);
 }
-void WorkTable::copy(WorkTable const& object){
+void WorkTable::copy(const WorkTable &object){
  if(this != &object){
 name = object.name;
 id = object.id;

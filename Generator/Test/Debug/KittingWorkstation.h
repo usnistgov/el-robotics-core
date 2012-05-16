@@ -6,11 +6,17 @@
 
 #include "SolidObject.h"
  #include "Robot.h"
+ class Robot;
  #include "BoxVolume.h"
+ #include <vector>
  #include "EndEffectorChangingStation.h"
+ class EndEffectorChangingStation;
  #include "DAO.h"
+ class DAO;
+ #include <string>
  #include "WorkTable.h"
-class KittingWorkstation: public SolidObject {private:
+ class WorkTable;
+class KittingWorkstation: public SolidObject{private:
 std::string hasWorkstation_LengthUnit;
 std::string hasWorkstation_WeightUnit;
 std::string hasWorkstation_AngleUnit;
@@ -18,8 +24,7 @@ std::string name;
 int id;
 DAO* dao;
 EndEffectorChangingStation* hadByChangingStation_Workstation;
-BoxVolume* hasWorkstation_OtherObstacles;
-BoxVolume* hasWorkstation_OtherObstacles;
+std::vector<BoxVolume*> hasWorkstation_OtherObstacles;
 WorkTable* hadByWorkTable_Workstation;
 Robot* hadByRobot_Workstation;
 public:
@@ -42,14 +47,12 @@ DAO* getdao();
 void setdao(DAO* _dao);
 EndEffectorChangingStation* gethadByChangingStation_Workstation();
 void sethadByChangingStation_Workstation(EndEffectorChangingStation* _hadByChangingStation_Workstation);
-BoxVolume* gethasWorkstation_OtherObstacles();
-void sethasWorkstation_OtherObstacles(BoxVolume* _hasWorkstation_OtherObstacles);
-BoxVolume* gethasWorkstation_OtherObstacles();
-void sethasWorkstation_OtherObstacles(BoxVolume* _hasWorkstation_OtherObstacles);
+std::vector<BoxVolume*> gethasWorkstation_OtherObstacles();
+void sethasWorkstation_OtherObstacles(std::vector<BoxVolume*> _hasWorkstation_OtherObstacles);
 WorkTable* gethadByWorkTable_Workstation();
 void sethadByWorkTable_Workstation(WorkTable* _hadByWorkTable_Workstation);
 Robot* gethadByRobot_Workstation();
 void sethadByRobot_Workstation(Robot* _hadByRobot_Workstation);
-void copy(KittingWorkstation const& object);
+void copy(const KittingWorkstation &object);
 }; 
 #endif /* KITTINGWORKSTATION_H_ */

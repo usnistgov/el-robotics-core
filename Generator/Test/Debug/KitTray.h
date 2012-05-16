@@ -6,8 +6,11 @@
 
 #include "BoxyObject.h"
  #include "KitInstance.h"
+ class KitInstance;
  #include "DAO.h"
-class KitTray: public BoxyObject {private:
+ class DAO;
+ #include <string>
+class KitTray: public BoxyObject{private:
 std::string hasKitTray_SerialNumber;
 std::string hasKitTray_SkuRef;
 std::string name;
@@ -32,6 +35,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KitInstance* gethadByKitTray_KitInstance();
 void sethadByKitTray_KitInstance(KitInstance* _hadByKitTray_KitInstance);
-void copy(KitTray const& object);
+void copy(const KitTray &object);
 }; 
 #endif /* KITTRAY_H_ */

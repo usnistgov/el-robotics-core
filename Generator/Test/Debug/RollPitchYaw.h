@@ -6,7 +6,9 @@
 
 #include "DataThing.h"
  #include "DAO.h"
-class RollPitchYaw: public DataThing {private:
+ class DAO;
+ #include <string>
+class RollPitchYaw: public DataThing{private:
 float hasRpy_Roll;
 float hasRpy_Pitch;
 float hasRpy_Yaw;
@@ -31,6 +33,6 @@ int getid();
 void setid(int _id);
 DAO* getdao();
 void setdao(DAO* _dao);
-void copy(RollPitchYaw const& object);
+void copy(const RollPitchYaw &object);
 }; 
 #endif /* ROLLPITCHYAW_H_ */

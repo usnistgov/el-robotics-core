@@ -7,9 +7,12 @@ int main() {
 	std::cout << r->gethadByRobot_Workstation()->getKittingWorkstationID()
 			<< std::endl;
 	std::cout
-			<< r->gethasRobot_WorkVolume().back()->gethasBoxVolume_MaximumPoint()->getname()
-			<< std::endl;
-	;
+				<< r->gethasRobot_WorkVolume().back()->gethasBoxVolume_MaximumPoint()->getname()
+				<< std::endl;
+	std::cout
+				<< r->gethasSolidObject_PhysicalLocation()->getname()
+				<< std::endl;
+
 	return 0;
 }
 

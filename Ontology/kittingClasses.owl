@@ -168,7 +168,9 @@ AnnotationAssertion(rdfs:comment :EndEffector
    Every EndEffector in a KittingWorkstation is either attached to the
    end of a robot arm (hadByEndEffector_Robot) or sitting in an
    EndEffectorHolder (hadByEndEffector_EndEffectorHolder) at an
-   EndEffectorChangingStation.")
+   EndEffectorChangingStation. An EndEffector must not be holding anything
+   when it is placed in an EndEffectorHolder or when it is sitting in an
+   EndEffectorHolder.")
 AnnotationAssertion(rdfs:comment :EndEffector
   "It might be better if each EndEffector has an associated data set
    that holds data for a type of EndEffector. Currently, the data is
@@ -213,7 +215,7 @@ AnnotationAssertion(rdfs:comment :KitDesign
    (hasKitDesign_KitTraySkuRef), intended poses of parts in finished
    kits of this design (hasKitDesign_PartRefAndPoses), and an
    identifier (hasKitDesign_Id) that is unique among KitDesigns.  The
-   pose (Point, zAxis, and xAxis) in a PartRefAndPose specify the
+   pose (Point, zAxis, and xAxis) in a PartRefAndPose specifies the
    location of the part relative to the coordinate system of the
    ShapeDesign of the tray.  Each KitDesign belongs to a
    KittingWorkstation (hadByKitDesign_Workstation).")
@@ -1256,10 +1258,42 @@ InverseFunctionalObjectProperty(:hasWorkstation_Skus)
 InverseFunctionalObjectProperty(:hasWorkstation_WorkTable)
 InverseFunctionalObjectProperty(:hasWorkTable_SolidObjects)
 
+InverseObjectProperties(:hasChangingStation_EndEffectorHolders
+                        :hadByEndEffectorHolder_ChangingStation)
+InverseObjectProperties(:hasEndEffectorHolder_EndEffector
+                        :hadByEndEffector_EndEffectorHolder)
+InverseObjectProperties(:hasKit_Parts
+                        :hadByPart_Kit)
+InverseObjectProperties(:hasKit_Tray
+                        :hadByKitTray_Kit)
+InverseObjectProperties(:hasKitDesign_PartRefAndPoses
+                        :hadByPartRefAndPose_KitDesign)
+InverseObjectProperties(:hasLargeBoxWithEmptyKitTrays_KitTrays
+                        :hadByKitTray_LargeBoxWithEmptyKitTrays)
+InverseObjectProperties(:hasLargeBoxWithEmptyKitTrays_LargeContainer
+                        :hadByLargeContainer_LargeBoxWithEmptyKitTrays)
+InverseObjectProperties(:hasLargeBoxWithKits_Kits
+                        :hadByKit_LargeBoxWithKits)
+InverseObjectProperties(:hasLargeBoxWithKits_LargeContainer
+                        :hadByLargeContainer_LargeBoxWithKits)
+InverseObjectProperties(:hasPartsTrayWithParts_Parts
+                        :hadByPart_PartsTrayWithParts)
+InverseObjectProperties(:hasPartsTrayWithParts_Tray
+                        :hadByPartsTray_PartsTrayWithParts)
+InverseObjectProperties(:hasRobot_EndEffector
+                        :hadByEndEffector_Robot)
+InverseObjectProperties(:hasWorkTable_SolidObjects
+                        :hadBySolidObject_WorkTable)
 InverseObjectProperties(:hasWorkstation_ChangingStation
                         :hadByChangingStation_Workstation)
-InverseObjectProperties(:hasWorkstation_Robot :hadByRobot_Workstation)
-InverseObjectProperties(:hasWorkstation_WorkTable :hadByWorkTable_Workstation)
+InverseObjectProperties(:hasWorkstation_KitDesigns
+                        :hadByKitDesign_Workstation)
+InverseObjectProperties(:hasWorkstation_Robot
+                        :hadByRobot_Workstation)
+InverseObjectProperties(:hasWorkstation_Skus
+                        :hadBySku_Workstation)
+InverseObjectProperties(:hasWorkstation_WorkTable
+                        :hadByWorkTable_Workstation)
 
 ObjectPropertyDomain(:hadByChangingStation_Workstation
                      :EndEffectorChangingStation)

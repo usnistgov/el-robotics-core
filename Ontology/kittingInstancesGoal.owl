@@ -31,14 +31,14 @@ Annotation(rdfs:comment
    - a PartsTray with no parts (that formerly held one PartB)
    - a PartsTray with no parts (that formerly held one PartC)
    - a box for KitTrays with no KitTrays in it (that formerly held one KitTray)
-   - a box of finished KitInstances with KitInstance1 in it
+   - a box of finished Kits with Kit1 in it
    The data is complete for these items, including many individuals not
    listed above (mostly Poses, Points, and RollPitchYaws.")
 
 // ChangingStation1 ****************************************************
 Declaration(NamedIndividual(:ChangingStation1))
 ClassAssertion(:EndEffectorChangingStation :ChangingStation1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :ChangingStation1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :ChangingStation1
                         :ChangingStationPose)
 ObjectPropertyAssertion(:hasChangingStation_Holders :ChangingStation1
                         :PartGripperHolder)
@@ -55,7 +55,7 @@ DataPropertyAssertion(:hasLargeContainer_SkuRef :EmptyKitTrayBox
                       "SkuIdKitBox"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasLargeContainer_SerialNumber :EmptyKitTrayBox
                       "4"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :EmptyKitTrayBox
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :EmptyKitTrayBox
                         :EmptyKitTrayBoxPose)
 ObjectPropertyAssertion(:hadByLargeContainer_LargeBoxWithEmptyKitTrays
                         :EmptyKitTrayBox :EmptyKitTraySupply)
@@ -67,7 +67,7 @@ DataPropertyAssertion(:hasBox_Width :EmptyKitTrayBox "0.7"^^:positiveDecimal)
 // EmptyKitTraySupply **************************************************
 Declaration(NamedIndividual(:EmptyKitTraySupply))
 ClassAssertion(:LargeBoxWithEmptyKitTrays :EmptyKitTraySupply)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :EmptyKitTraySupply
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :EmptyKitTraySupply
                         :EmptyKitTraySupplyPose)
 ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Box :EmptyKitTraySupply
                         :EmptyKitTrayBox)
@@ -80,7 +80,7 @@ DataPropertyAssertion(:hasLargeContainer_SkuRef :FinishedKitBox
                       "SkuIdKitBox"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasLargeContainer_SerialNumber :FinishedKitBox
                       "5"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :FinishedKitBox
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :FinishedKitBox
                         :FinishedKitBoxPose)
 ObjectPropertyAssertion(:hadByLargeContainer_LargeBoxWithKits :FinishedKitBox
                         :FinishedKitReceiver)
@@ -92,7 +92,7 @@ DataPropertyAssertion(:hasBox_Width :FinishedKitBox "0.7"^^:positiveDecimal)
 // FinishedKitReceiver *************************************************
 Declaration(NamedIndividual(:FinishedKitReceiver))
 ClassAssertion(:LargeBoxWithKits :FinishedKitReceiver)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :FinishedKitReceiver
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :FinishedKitReceiver
                         :FinishedKitReceiverPose)
 ObjectPropertyAssertion(:hasLargeBoxWithKits_Box :FinishedKitReceiver
                         :FinishedKitBox)
@@ -101,7 +101,20 @@ DataPropertyAssertion(:hasLargeBoxWithKits_Capacity :FinishedKitReceiver
 DataPropertyAssertion(:hasLargeBoxWithKits_KitDesignRef :FinishedKitReceiver
                      "KitDesignA2B1C1"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasLargeBoxWithKits_Kits :FinishedKitReceiver
-                        :KitInstance1)
+                        :Kit1)
+
+
+// Kit1 ****************************************************************
+Declaration(NamedIndividual(:Kit1))
+ClassAssertion(:Kit :Kit1)
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :Kit1 :Kit1Pose)
+DataPropertyAssertion(:hasKit_DesignRef :Kit1 "KitDesignA2B1C1"^^xsd:NMTOKEN)
+DataPropertyAssertion(:isKit_Finished :Kit1 "true"^^xsd:boolean)
+ObjectPropertyAssertion(:hasKit_Tray :Kit1 :KitTray1)
+ObjectPropertyAssertion(:hasKit_Parts :Kit1 :PartA1)
+ObjectPropertyAssertion(:hasKit_Parts :Kit1 :PartA2)
+ObjectPropertyAssertion(:hasKit_Parts :Kit1 :PartB1)
+ObjectPropertyAssertion(:hasKit_Parts :Kit1 :PartC1)
 
 
 // KitDesignA2B1C1 *****************************************************
@@ -123,33 +136,12 @@ ObjectPropertyAssertion(:hadByKitDesign_Workstation :KitDesignA2B1C1
                         :Workstation1)
 
 
-// KitInstance1 ********************************************************
-Declaration(NamedIndividual(:KitInstance1))
-ClassAssertion(:KitInstance :KitInstance1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitInstance1
-                        :KitInstance1Pose)
-DataPropertyAssertion(:hasKitInstance_DesignRef :KitInstance1
-                      "KitDesignA2B1C1"^^xsd:NMTOKEN)
-DataPropertyAssertion(:isKitInstance_Finished :KitInstance1
-                      "true"^^xsd:boolean)
-ObjectPropertyAssertion(:hasKitInstance_Tray :KitInstance1
-                        :KitTray1)
-ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
-                        :PartA1)
-ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
-                        :PartA2)
-ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
-                        :PartB1)
-ObjectPropertyAssertion(:hasKitInstance_Parts :KitInstance1
-                        :PartC1)
-
-
 // KitTray1 ************************************************************
 Declaration(NamedIndividual(:KitTray1))
 ClassAssertion(:KitTray :KitTray1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KitTray1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :KitTray1
                         :KitTray1NewPose)
-ObjectPropertyAssertion(:hadByKitTray_KitInstance :KitTray1 :KitInstance1)
+ObjectPropertyAssertion(:hadByKitTray_Kit :KitTray1 :Kit1)
 DataPropertyAssertion(:hasBox_Height :KitTray1 "0.15"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Length :KitTray1 "0.5"^^:positiveDecimal)
 DataPropertyAssertion(:hasBox_Width :KitTray1 "0.3"^^:positiveDecimal)
@@ -160,7 +152,7 @@ DataPropertyAssertion(:hasKitTray_SerialNumber :KitTray1 "1"^^xsd:NMTOKEN)
 // PartASupply ********************************************************
 Declaration(NamedIndividual(:PartASupply))
 ClassAssertion(:PartsTrayWithParts :PartASupply)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartASupply
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartASupply
                         :PartASupplyPose)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartASupply
                         :PartATray)
@@ -169,7 +161,7 @@ ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartASupply
 // PartATray ********************************************************
 Declaration(NamedIndividual(:PartATray))
 ClassAssertion(:PartsTray :PartATray)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartATray
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartATray
                         :PartATrayPose)
 ObjectPropertyAssertion(:hadByPartsTray_PartsTrayWithParts :PartATray
                         :PartASupply)
@@ -184,9 +176,9 @@ DataPropertyAssertion(:hasPartsTray_SerialNumber :PartATray "6"^^xsd:NMTOKEN)
 // PartA1 ***********************************************************
 Declaration(NamedIndividual(:PartA1))
 ClassAssertion(:Part :PartA1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartA1
                         :PartA1NewPose)
-ObjectPropertyAssertion(:hadByPart_KitInstance :PartA1 :KitInstance1)
+ObjectPropertyAssertion(:hadByPart_Kit :PartA1 :Kit1)
 DataPropertyAssertion(:hasPart_SkuRef :PartA1 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA1 "9"^^xsd:NMTOKEN)
 
@@ -194,9 +186,9 @@ DataPropertyAssertion(:hasPart_SerialNumber :PartA1 "9"^^xsd:NMTOKEN)
 // PartA2 ***********************************************************
 Declaration(NamedIndividual(:PartA2))
 ClassAssertion(:Part :PartA2)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartA2
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartA2
                         :PartA2NewPose)
-ObjectPropertyAssertion(:hadByPart_KitInstance :PartA2 :KitInstance1)
+ObjectPropertyAssertion(:hadByPart_Kit :PartA2 :Kit1)
 DataPropertyAssertion(:hasPart_SkuRef :PartA2 "SkuIdPartA"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartA2 "10"^^xsd:NMTOKEN)
 
@@ -204,7 +196,7 @@ DataPropertyAssertion(:hasPart_SerialNumber :PartA2 "10"^^xsd:NMTOKEN)
 // PartBSupply ********************************************************
 Declaration(NamedIndividual(:PartBSupply))
 ClassAssertion(:PartsTrayWithParts :PartBSupply)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartBSupply
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartBSupply
                         :PartBSupplyPose)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartBSupply
                         :PartBTray)
@@ -213,7 +205,7 @@ ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartBSupply
 // PartBTray **********************************************************
 Declaration(NamedIndividual(:PartBTray))
 ClassAssertion(:PartsTray :PartBTray)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartBTray
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartBTray
                         :PartBTrayPose)
 ObjectPropertyAssertion(:hadByPartsTray_PartsTrayWithParts :PartBTray
                         :PartBSupply)
@@ -228,9 +220,9 @@ DataPropertyAssertion(:hasPartsTray_SerialNumber :PartBTray "7"^^xsd:NMTOKEN)
 // PartB1 ************************************************************
 Declaration(NamedIndividual(:PartB1))
 ClassAssertion(:Part :PartB1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartB1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartB1
                         :PartB1NewPose)
-ObjectPropertyAssertion(:hadByPart_KitInstance :PartB1 :KitInstance1)
+ObjectPropertyAssertion(:hadByPart_Kit :PartB1 :Kit1)
 DataPropertyAssertion(:hasPart_SkuRef :PartB1 "SkuIdPartB"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartB1 "13"^^xsd:NMTOKEN)
 
@@ -238,7 +230,7 @@ DataPropertyAssertion(:hasPart_SerialNumber :PartB1 "13"^^xsd:NMTOKEN)
 // PartCSupply *********************************************************
 Declaration(NamedIndividual(:PartCSupply))
 ClassAssertion(:PartsTrayWithParts :PartCSupply)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartCSupply
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartCSupply
                         :PartCSupplyPose)
 ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartCSupply
                         :PartCTray)
@@ -247,7 +239,7 @@ ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :PartCSupply
 // PartCTray **********************************************************
 Declaration(NamedIndividual(:PartCTray))
 ClassAssertion(:PartsTray :PartCTray)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartCTray
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartCTray
                         :PartCTrayPose)
 ObjectPropertyAssertion(:hadByPartsTray_PartsTrayWithParts :PartCTray
                         :PartCSupply)
@@ -262,9 +254,9 @@ DataPropertyAssertion(:hasPartsTray_SerialNumber :PartCTray "8"^^xsd:NMTOKEN)
 // PartC1 *************************************************************
 Declaration(NamedIndividual(:PartC1))
 ClassAssertion(:Part :PartC1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartC1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartC1
                         :PartC1NewPose)
-ObjectPropertyAssertion(:hadByPart_KitInstance :PartC1 :KitInstance1)
+ObjectPropertyAssertion(:hadByPart_Kit :PartC1 :Kit1)
 DataPropertyAssertion(:hasPart_SkuRef :PartC1 "SkuIdPartC"^^xsd:NMTOKEN)
 DataPropertyAssertion(:hasPart_SerialNumber :PartC1 "15"^^xsd:NMTOKEN)
 
@@ -272,7 +264,7 @@ DataPropertyAssertion(:hasPart_SerialNumber :PartC1 "15"^^xsd:NMTOKEN)
 // PartGripper ********************************************************
 Declaration(NamedIndividual(:PartGripper))
 ClassAssertion(:VacuumEffectorSingleCup :PartGripper)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation
   :PartGripper :PartGripperPose)
 ObjectPropertyAssertion(:hadByEndEffector_EndEffectorHolder
                         :PartGripper :PartGripperHolder)
@@ -291,7 +283,7 @@ DataPropertyAssertion(:hasVacuumEffector_Length :PartGripper
 // PartGripperHolder ****************************************************
 Declaration(NamedIndividual(:PartGripperHolder))
 ClassAssertion(:EndEffectorHolder :PartGripperHolder)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :PartGripperHolder
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :PartGripperHolder
                         :PartGripperHolderPose)
 ObjectPropertyAssertion(:hasEndEffectorHolder_EndEffector :PartGripperHolder
                         :PartGripper)
@@ -304,10 +296,9 @@ Declaration(NamedIndividual(:PartRefAndPoseA1))
 ClassAssertion(:PartRefAndPose :PartRefAndPoseA1)
 DataPropertyAssertion(:hasPartRefAndPose_Ref :PartRefAndPoseA1
                       "SkuIdPartA"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseA1
-                        :PointA1)
-ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseA1
-                        :RpyA1)
+ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseA1 :PointA1)
+ObjectPropertyAssertion(:hasPartRefAndPose_ZAxis :PartRefAndPoseA1 :ZAxisA1)
+ObjectPropertyAssertion(:hasPartRefAndPose_XAxis :PartRefAndPoseA1 :XAxisA1)
 ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseA1
                         :KitDesignA2B1C1)
 
@@ -317,10 +308,9 @@ Declaration(NamedIndividual(:PartRefAndPoseA2))
 ClassAssertion(:PartRefAndPose :PartRefAndPoseA2)
 DataPropertyAssertion(:hasPartRefAndPose_Ref :PartRefAndPoseA2
                       "SkuIdPartA"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseA2
-                        :PointA2)
-ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseA2
-                        :RpyA2)
+ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseA2 :PointA2)
+ObjectPropertyAssertion(:hasPartRefAndPose_ZAxis :PartRefAndPoseA2 :ZAxisA2)
+ObjectPropertyAssertion(:hasPartRefAndPose_XAxis :PartRefAndPoseA2 :XAxisA2)
 ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseA2
                         :KitDesignA2B1C1)
 
@@ -332,8 +322,10 @@ DataPropertyAssertion(:hasPartRefAndPose_Ref :PartRefAndPoseB1
                       "SkuIdPartB"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseB1
                         :PointB1)
-ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseB1
-                        :RpyB1)
+ObjectPropertyAssertion(:hasPartRefAndPose_ZAxis :PartRefAndPoseB1
+                        :ZAxisB1)
+ObjectPropertyAssertion(:hasPartRefAndPose_XAxis :PartRefAndPoseB1
+                        :XAxisB1)
 ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseB1
                         :KitDesignA2B1C1)
 
@@ -345,8 +337,10 @@ DataPropertyAssertion(:hasPartRefAndPose_Ref :PartRefAndPoseC1
                       "SkuIdPartC"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasPartRefAndPose_Point :PartRefAndPoseC1
                         :PointC1)
-ObjectPropertyAssertion(:hasPartRefAndPose_Rpy :PartRefAndPoseC1
-                        :RpyC1)
+ObjectPropertyAssertion(:hasPartRefAndPose_ZAxis :PartRefAndPoseC1
+                        :ZAxisC1)
+ObjectPropertyAssertion(:hasPartRefAndPose_XAxis :PartRefAndPoseC1
+                        :XAxisC1)
 ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseC1
                         :KitDesignA2B1C1)
 
@@ -354,7 +348,7 @@ ObjectPropertyAssertion(:hadByPartRefAndPose_KitDesign :PartRefAndPoseC1
 // Robot1 ***************************************************************
 Declaration(NamedIndividual(:Robot1))
 ClassAssertion(:Robot :Robot1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :Robot1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :Robot1
                         :RobotPose)
 DataPropertyAssertion(:hasRobot_Description :Robot1
                       "this is the robot"^^xsd:string)
@@ -501,7 +495,7 @@ ObjectPropertyAssertion(:hadBySku_Workstation :StockKeepingUnitPartsTray
 // TrayGripper ********************************************************
 Declaration(NamedIndividual(:TrayGripper))
 ClassAssertion(:VacuumEffectorSingleCup :TrayGripper)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation
   :TrayGripper :RelativeLocationOn1)
 ObjectPropertyAssertion(:hadByEndEffector_Robot :TrayGripper :Robot1)
 DataPropertyAssertion(:hasEndEffector_Description :TrayGripper
@@ -519,7 +513,7 @@ DataPropertyAssertion(:hasVacuumEffector_Length :TrayGripper
 // TrayGripperHolder **************************************************
 Declaration(NamedIndividual(:TrayGripperHolder))
 ClassAssertion(:EndEffectorHolder :TrayGripperHolder)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :TrayGripperHolder
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :TrayGripperHolder
                         :TrayGripperHolderPose)
 ObjectPropertyAssertion(:hadByEndEffectorHolder_ChangingStation
                         :TrayGripperHolder :ChangingStation1)
@@ -527,7 +521,7 @@ ObjectPropertyAssertion(:hadByEndEffectorHolder_ChangingStation
 // Workstation ********************************************************
 Declaration(NamedIndividual(:KittingWorkstation1))
 ClassAssertion(:KittingWorkstation :KittingWorkstation1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :KittingWorkstation1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :KittingWorkstation1
                         :RelativeLocationIn1)
 DataPropertyAssertion(:hasWorkstation_AngleUnit :KittingWorkstation1
                       "degree")
@@ -559,7 +553,7 @@ ObjectPropertyAssertion(:hasWorkstation_KitDesignLibrary :KittingWorkstation1
 // WorkTable1  *********************************************************
 Declaration(NamedIndividual(:WorkTable1))
 ClassAssertion(:WorkTable :WorkTable1)
-ObjectPropertyAssertion(:hasSolidObject_PhysicalLocation :WorkTable1
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :WorkTable1
                         :WorkTablePose)
 ObjectPropertyAssertion(:hadByWorkTable_Workstation :WorkTable1
                         :Workstation1)
@@ -619,10 +613,13 @@ DifferentIndividuals(
 // Start Poses
 // ChangingStationPose ************************************************
 Declaration(NamedIndividual(:ChangingStationPose))
-ClassAssertion(:Pose :ChangingStationPose)
+ClassAssertion(:PoseOnlyLocation :ChangingStationPose)
 ObjectPropertyAssertion(:hasPose_Point :ChangingStationPose
                         :ChangingStationPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :ChangingStationPose :ChangingStationRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :ChangingStationPose
+                        :ChangingStationZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :ChangingStationPose
+                        :ChangingStationXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :ChangingStationPose
   :KittingWorkstation1)
 
@@ -632,20 +629,28 @@ DataPropertyAssertion(:hasPoint_X :ChangingStationPoint "7.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :ChangingStationPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :ChangingStationPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:ChangingStationRPY))
-ClassAssertion(:RollPitchYaw :ChangingStationRPY)
-DataPropertyAssertion(:hasRpy_Roll :ChangingStationRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :ChangingStationRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :ChangingStationRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:ChangingStationZAxis))
+ClassAssertion(:Vector :ChangingStationZAxis)
+DataPropertyAssertion(:hasVector_I :ChangingStationZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :ChangingStationZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :ChangingStationZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:ChangingStationXAxis))
+ClassAssertion(:Vector :ChangingStationXAxis)
+DataPropertyAssertion(:hasVector_I :ChangingStationXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :ChangingStationXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :ChangingStationXAxis "0.0"^^xsd:decimal)
 
 
 // EmptyKitTrayBoxPose *************************************************
 Declaration(NamedIndividual(:EmptyKitTrayBoxPose))
-ClassAssertion(:Pose :EmptyKitTrayBoxPose)
+ClassAssertion(:PoseOnlyLocation :EmptyKitTrayBoxPose)
 ObjectPropertyAssertion(:hasPose_Point :EmptyKitTrayBoxPose
                         :EmptyKitTrayBoxPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :EmptyKitTrayBoxPose
-                        :EmptyKitTrayBoxRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :EmptyKitTrayBoxPose
+                        :EmptyKitTrayBoxZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :EmptyKitTrayBoxPose
+                        :EmptyKitTrayBoxXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :EmptyKitTrayBoxPose
   :EmptyKitTraySupply)
 
@@ -655,20 +660,28 @@ DataPropertyAssertion(:hasPoint_X :EmptyKitTrayBoxPoint "0.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :EmptyKitTrayBoxPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :EmptyKitTrayBoxPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:EmptyKitTrayBoxRPY))
-ClassAssertion(:RollPitchYaw :EmptyKitTrayBoxRPY)
-DataPropertyAssertion(:hasRpy_Roll :EmptyKitTrayBoxRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :EmptyKitTrayBoxRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :EmptyKitTrayBoxRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:EmptyKitTrayBoxZAxis))
+ClassAssertion(:Vector :EmptyKitTrayBoxZAxis)
+DataPropertyAssertion(:hasVector_I :EmptyKitTrayBoxZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :EmptyKitTrayBoxZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :EmptyKitTrayBoxZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:EmptyKitTrayBoxXAxis))
+ClassAssertion(:Vector :EmptyKitTrayBoxXAxis)
+DataPropertyAssertion(:hasVector_I :EmptyKitTrayBoxXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :EmptyKitTrayBoxXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :EmptyKitTrayBoxXAxis "0.0"^^xsd:decimal)
 
 
 // EmptyKitTraySupplyPose *************************************************
 Declaration(NamedIndividual(:EmptyKitTraySupplyPose))
-ClassAssertion(:Pose :EmptyKitTraySupplyPose)
+ClassAssertion(:PoseOnlyLocation :EmptyKitTraySupplyPose)
 ObjectPropertyAssertion(:hasPose_Point :EmptyKitTraySupplyPose
                         :EmptyKitTraySupplyPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :EmptyKitTraySupplyPose
-                        :EmptyKitTraySupplyRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :EmptyKitTraySupplyPose
+                        :EmptyKitTraySupplyZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :EmptyKitTraySupplyPose
+                        :EmptyKitTraySupplyXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :EmptyKitTraySupplyPose
   :KittingWorkstation1)
 
@@ -678,20 +691,28 @@ DataPropertyAssertion(:hasPoint_X :EmptyKitTraySupplyPoint "0.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :EmptyKitTraySupplyPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :EmptyKitTraySupplyPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:EmptyKitTraySupplyRPY))
-ClassAssertion(:RollPitchYaw :EmptyKitTraySupplyRPY)
-DataPropertyAssertion(:hasRpy_Roll :EmptyKitTraySupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :EmptyKitTraySupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :EmptyKitTraySupplyRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:EmptyKitTraySupplyZAxis))
+ClassAssertion(:Vector :EmptyKitTraySupplyZAxis)
+DataPropertyAssertion(:hasVector_I :EmptyKitTraySupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :EmptyKitTraySupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :EmptyKitTraySupplyZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:EmptyKitTraySupplyXAxis))
+ClassAssertion(:Vector :EmptyKitTraySupplyXAxis)
+DataPropertyAssertion(:hasVector_I :EmptyKitTraySupplyXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :EmptyKitTraySupplyXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :EmptyKitTraySupplyXAxis "0.0"^^xsd:decimal)
 
 
 // FinishedKitBoxPose *************************************************
 Declaration(NamedIndividual(:FinishedKitBoxPose))
-ClassAssertion(:Pose :FinishedKitBoxPose)
+ClassAssertion(:PoseOnlyLocation :FinishedKitBoxPose)
 ObjectPropertyAssertion(:hasPose_Point :FinishedKitBoxPose
                         :FinishedKitBoxPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :FinishedKitBoxPose
-                        :FinishedKitBoxRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :FinishedKitBoxPose
+                        :FinishedKitBoxZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :FinishedKitBoxPose
+                        :FinishedKitBoxXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :FinishedKitBoxPose
   :FinishedKitReceiver)
 
@@ -701,20 +722,28 @@ DataPropertyAssertion(:hasPoint_X :FinishedKitBoxPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :FinishedKitBoxPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :FinishedKitBoxPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:FinishedKitBoxRPY))
-ClassAssertion(:RollPitchYaw :FinishedKitBoxRPY)
-DataPropertyAssertion(:hasRpy_Roll :FinishedKitBoxRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :FinishedKitBoxRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :FinishedKitBoxRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:FinishedKitBoxZAxis))
+ClassAssertion(:Vector :FinishedKitBoxZAxis)
+DataPropertyAssertion(:hasVector_I :FinishedKitBoxZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :FinishedKitBoxZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :FinishedKitBoxZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:FinishedKitBoxXAxis))
+ClassAssertion(:Vector :FinishedKitBoxXAxis)
+DataPropertyAssertion(:hasVector_I :FinishedKitBoxXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :FinishedKitBoxXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :FinishedKitBoxXAxis "0.0"^^xsd:decimal)
 
 
 // FinishedKitReceiverPose ********************************************
 Declaration(NamedIndividual(:FinishedKitReceiverPose))
-ClassAssertion(:Pose :FinishedKitReceiverPose)
+ClassAssertion(:PoseOnlyLocation :FinishedKitReceiverPose)
 ObjectPropertyAssertion(:hasPose_Point :FinishedKitReceiverPose
                         :FinishedKitReceiverPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :FinishedKitReceiverPose
-                        :FinishedKitReceiverRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :FinishedKitReceiverPose
+                        :FinishedKitReceiverZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :FinishedKitReceiverPose
+                        :FinishedKitReceiverXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :FinishedKitReceiverPose
   :KittingWorkstation1)
 
@@ -724,45 +753,56 @@ DataPropertyAssertion(:hasPoint_X :FinishedKitReceiverPoint "1.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :FinishedKitReceiverPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :FinishedKitReceiverPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:FinishedKitReceiverRPY))
-ClassAssertion(:RollPitchYaw :FinishedKitReceiverRPY)
-DataPropertyAssertion(:hasRpy_Roll :FinishedKitReceiverRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :FinishedKitReceiverRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :FinishedKitReceiverRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:FinishedKitReceiverZAxis))
+ClassAssertion(:Vector :FinishedKitReceiverZAxis)
+DataPropertyAssertion(:hasVector_I :FinishedKitReceiverZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :FinishedKitReceiverZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :FinishedKitReceiverZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:FinishedKitReceiverXAxis))
+ClassAssertion(:Vector :FinishedKitReceiverXAxis)
+DataPropertyAssertion(:hasVector_I :FinishedKitReceiverXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :FinishedKitReceiverXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :FinishedKitReceiverXAxis "0.0"^^xsd:decimal)
 
 
-// KitInstance1Pose ***************************************************
-Declaration(NamedIndividual(:KitInstance1Pose))
-ClassAssertion(:Pose :KitInstance1Pose)
-ObjectPropertyAssertion(:hasPose_Point :KitInstance1Pose
-                        :KitInstance1Point)
-ObjectPropertyAssertion(:hasPose_Rpy :KitInstance1Pose
-                        :KitInstance1RPY)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitInstance1Pose
+// Kit1Pose ***********************************************************
+Declaration(NamedIndividual(:Kit1Pose))
+ClassAssertion(:PoseOnlyLocation :Kit1Pose)
+ObjectPropertyAssertion(:hasPose_Point :Kit1Pose :Kit1Point)
+ObjectPropertyAssertion(:hasPose_ZAxis :Kit1Pose :Kit1ZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :Kit1Pose :Kit1XAxis)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :Kit1Pose
                         :FinishedKitReceiver)
 
-Declaration(NamedIndividual(:KitInstance1Point))
-ClassAssertion(:Point :KitInstance1Point)
-DataPropertyAssertion(:hasPoint_X :KitInstance1Point "0.3"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :KitInstance1Point "0.2"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :KitInstance1Point "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:Kit1Point))
+ClassAssertion(:Point :Kit1Point)
+DataPropertyAssertion(:hasPoint_X :Kit1Point "0.3"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :Kit1Point "0.2"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :Kit1Point "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:KitInstance1RPY))
-ClassAssertion(:RollPitchYaw :KitInstance1RPY)
-DataPropertyAssertion(:hasRpy_Roll :KitInstance1RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :KitInstance1RPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :KitInstance1RPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:Kit1ZAxis))
+ClassAssertion(:Vector :Kit1ZAxis)
+DataPropertyAssertion(:hasVector_I :Kit1ZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :Kit1ZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :Kit1ZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:Kit1XAxis))
+ClassAssertion(:Vector :Kit1XAxis)
+DataPropertyAssertion(:hasVector_I :Kit1XAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :Kit1XAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :Kit1XAxis "0.0"^^xsd:decimal)
 
 
 // KitTray1NewPose ***************************************************
 Declaration(NamedIndividual(:KitTray1NewPose))
-ClassAssertion(:Pose :KitTray1NewPose)
+ClassAssertion(:PoseOnlyLocation :KitTray1NewPose)
 ObjectPropertyAssertion(:hasPose_Point :KitTray1NewPose
                         :KitTray1NewPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :KitTray1NewPose
-                        :KitTray1NewRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :KitTray1NewPose :KitTray1NewZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :KitTray1NewPose :KitTray1NewXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :KitTray1NewPose
-                        :KitInstance1)
+                        :Kit1)
 
 Declaration(NamedIndividual(:KitTray1NewPoint))
 ClassAssertion(:Point :KitTray1NewPoint)
@@ -770,20 +810,25 @@ DataPropertyAssertion(:hasPoint_X :KitTray1NewPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :KitTray1NewPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :KitTray1NewPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:KitTray1NewRPY))
-ClassAssertion(:RollPitchYaw :KitTray1NewRPY)
-DataPropertyAssertion(:hasRpy_Roll :KitTray1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :KitTray1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :KitTray1NewRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:KitTray1NewZAxis))
+ClassAssertion(:Vector :KitTray1NewZAxis)
+DataPropertyAssertion(:hasVector_I :KitTray1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :KitTray1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :KitTray1NewZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:KitTray1NewXAxis))
+ClassAssertion(:Vector :KitTray1NewXAxis)
+DataPropertyAssertion(:hasVector_I :KitTray1NewXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :KitTray1NewXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :KitTray1NewXAxis "0.0"^^xsd:decimal)
 
 
 // PartA1NewPose **************************************************
 Declaration(NamedIndividual(:PartA1NewPose))
-ClassAssertion(:Pose :PartA1NewPose)
-ObjectPropertyAssertion(:hasPose_Point :PartA1NewPose
-                        :PartA1NewPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartA1NewPose
-                        :PartA1NewRPY)
+ClassAssertion(:PoseOnlyLocation :PartA1NewPose)
+ObjectPropertyAssertion(:hasPose_Point :PartA1NewPose :PartA1NewPoint)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartA1NewPose :PartA1NewZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartA1NewPose :PartA1NewXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA1NewPose
                         :KitTray1)
 
@@ -793,20 +838,26 @@ DataPropertyAssertion(:hasPoint_X :PartA1NewPoint "-0.2"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartA1NewPoint "-0.1"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartA1NewPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartA1NewRPY))
-ClassAssertion(:RollPitchYaw :PartA1NewRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartA1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartA1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartA1NewRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartA1NewZAxis))
+ClassAssertion(:Vector :PartA1NewZAxis)
+DataPropertyAssertion(:hasVector_I :PartA1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartA1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartA1NewZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartA1NewXAxis))
+ClassAssertion(:Vector :PartA1NewXAxis)
+DataPropertyAssertion(:hasVector_I :PartA1NewXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartA1NewXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartA1NewXAxis "0.0"^^xsd:decimal)
 
 
 // PartA2NewPose **************************************************
 Declaration(NamedIndividual(:PartA2NewPose))
-ClassAssertion(:Pose :PartA2NewPose)
+ClassAssertion(:PoseOnlyLocation :PartA2NewPose)
 ObjectPropertyAssertion(:hasPose_Point :PartA2NewPose
                         :PartA2NewPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartA2NewPose
-                        :PartA2NewRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartA2NewPose :PartA2NewZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartA2NewPose :PartA2NewXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartA2NewPose
                         :KitTray1)
 
@@ -816,20 +867,25 @@ DataPropertyAssertion(:hasPoint_X :PartA2NewPoint "-0.2"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartA2NewPoint "0.05"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartA2NewPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartA2NewRPY))
-ClassAssertion(:RollPitchYaw :PartA2NewRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartA2NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartA2NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartA2NewRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartA2NewZAxis))
+ClassAssertion(:Vector :PartA2NewZAxis)
+DataPropertyAssertion(:hasVector_I :PartA2NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartA2NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartA2NewZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartA2NewXAxis))
+ClassAssertion(:Vector :PartA2NewXAxis)
+DataPropertyAssertion(:hasVector_I :PartA2NewXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartA2NewXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartA2NewXAxis "0.0"^^xsd:decimal)
 
 
 // PartASupplyPose **************************************************
 Declaration(NamedIndividual(:PartASupplyPose))
-ClassAssertion(:Pose :PartASupplyPose)
-ObjectPropertyAssertion(:hasPose_Point :PartASupplyPose
-                        :PartASupplyPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartASupplyPose
-                        :PartASupplyRPY)
+ClassAssertion(:PoseOnlyLocation :PartASupplyPose)
+ObjectPropertyAssertion(:hasPose_Point :PartASupplyPose :PartASupplyPoint)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartASupplyPose :PartASupplyZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartASupplyPose :PartASupplyXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartASupplyPose
   :KittingWorkstation1)
 
@@ -839,20 +895,26 @@ DataPropertyAssertion(:hasPoint_X :PartASupplyPoint "4.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartASupplyPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartASupplyPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartASupplyRPY))
-ClassAssertion(:RollPitchYaw :PartASupplyRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartASupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartASupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartASupplyRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartASupplyZAxis))
+ClassAssertion(:Vector :PartASupplyZAxis)
+DataPropertyAssertion(:hasVector_I :PartASupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartASupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartASupplyZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartASupplyXAxis))
+ClassAssertion(:Vector :PartASupplyXAxis)
+DataPropertyAssertion(:hasVector_I :PartASupplyXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartASupplyXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartASupplyXAxis "0.0"^^xsd:decimal)
 
 
 // PartB1NewPose **************************************************
 Declaration(NamedIndividual(:PartB1NewPose))
-ClassAssertion(:Pose :PartB1NewPose)
+ClassAssertion(:PoseOnlyLocation :PartB1NewPose)
 ObjectPropertyAssertion(:hasPose_Point :PartB1NewPose
                         :PartB1NewPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartB1NewPose
-                        :PartB1NewRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartB1NewPose :PartB1NewZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartB1NewPose :PartB1NewXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartB1NewPose
                         :KitTray1)
 
@@ -862,20 +924,26 @@ DataPropertyAssertion(:hasPoint_X :PartB1NewPoint "0.05"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartB1NewPoint "-0.1"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartB1NewPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartB1NewRPY))
-ClassAssertion(:RollPitchYaw :PartB1NewRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartB1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartB1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartB1NewRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartB1NewZAxis))
+ClassAssertion(:Vector :PartB1NewZAxis)
+DataPropertyAssertion(:hasVector_I :PartB1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartB1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartB1NewZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartB1NewXAxis))
+ClassAssertion(:Vector :PartB1NewXAxis)
+DataPropertyAssertion(:hasVector_I :PartB1NewXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartB1NewXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartB1NewXAxis "0.0"^^xsd:decimal)
 
 
 // PartBSupplyPose **************************************************
 Declaration(NamedIndividual(:PartBSupplyPose))
-ClassAssertion(:Pose :PartBSupplyPose)
+ClassAssertion(:PoseOnlyLocation :PartBSupplyPose)
 ObjectPropertyAssertion(:hasPose_Point :PartBSupplyPose
                         :PartBSupplyPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartBSupplyPose
-                        :PartBSupplyRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartBSupplyPose :PartBSupplyZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartBSupplyPose :PartBSupplyXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartBSupplyPose
   :KittingWorkstation1)
 
@@ -885,20 +953,26 @@ DataPropertyAssertion(:hasPoint_X :PartBSupplyPoint "5.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartBSupplyPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartBSupplyPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartBSupplyRPY))
-ClassAssertion(:RollPitchYaw :PartBSupplyRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartBSupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartBSupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartBSupplyRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartBSupplyZAxis))
+ClassAssertion(:Vector :PartBSupplyZAxis)
+DataPropertyAssertion(:hasVector_I :PartBSupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartBSupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartBSupplyZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartBSupplyXAxis))
+ClassAssertion(:Vector :PartBSupplyXAxis)
+DataPropertyAssertion(:hasVector_I :PartBSupplyXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartBSupplyXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartBSupplyXAxis "0.0"^^xsd:decimal)
 
 
 // PartC1NewPose **************************************************
 Declaration(NamedIndividual(:PartC1NewPose))
-ClassAssertion(:Pose :PartC1NewPose)
+ClassAssertion(:PoseOnlyLocation :PartC1NewPose)
 ObjectPropertyAssertion(:hasPose_Point :PartC1NewPose
                         :PartC1NewPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartC1NewPose
-                        :PartC1NewRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartC1NewPose :PartC1NewZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartC1NewPose :PartC1NewXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartC1NewPose
                         :KitTray1)
 
@@ -908,20 +982,25 @@ DataPropertyAssertion(:hasPoint_X :PartC1NewPoint "0.05"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartC1NewPoint "0.05"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartC1NewPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartC1NewRPY))
-ClassAssertion(:RollPitchYaw :PartC1NewRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartC1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartC1NewRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartC1NewRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartC1NewZAxis))
+ClassAssertion(:Vector :PartC1NewZAxis)
+DataPropertyAssertion(:hasVector_I :PartC1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartC1NewZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartC1NewZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartC1NewXAxis))
+ClassAssertion(:Vector :PartC1NewXAxis)
+DataPropertyAssertion(:hasVector_I :PartC1NewXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartC1NewXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartC1NewXAxis "0.0"^^xsd:decimal)
 
 
 // PartCSupplyPose **************************************************
 Declaration(NamedIndividual(:PartCSupplyPose))
-ClassAssertion(:Pose :PartCSupplyPose)
-ObjectPropertyAssertion(:hasPose_Point :PartCSupplyPose
-                        :PartCSupplyPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartCSupplyPose
-                        :PartCSupplyRPY)
+ClassAssertion(:PoseOnlyLocation :PartCSupplyPose)
+ObjectPropertyAssertion(:hasPose_Point :PartCSupplyPose :PartCSupplyPoint)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartCSupplyPose :PartCSupplyZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartCSupplyPose :PartCSupplyXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartCSupplyPose
   :KittingWorkstation1)
 
@@ -931,20 +1010,25 @@ DataPropertyAssertion(:hasPoint_X :PartCSupplyPoint "6.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartCSupplyPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartCSupplyPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartCSupplyRPY))
-ClassAssertion(:RollPitchYaw :PartCSupplyRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartCSupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartCSupplyRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartCSupplyRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartCSupplyZAxis))
+ClassAssertion(:Vector :PartCSupplyZAxis)
+DataPropertyAssertion(:hasVector_I :PartCSupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartCSupplyZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartCSupplyZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartCSupplyXAxis))
+ClassAssertion(:Vector :PartCSupplyXAxis)
+DataPropertyAssertion(:hasVector_I :PartCSupplyXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartCSupplyXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartCSupplyXAxis "0.0"^^xsd:decimal)
 
 
 // PartATrayPose **************************************************
 Declaration(NamedIndividual(:PartATrayPose))
-ClassAssertion(:Pose :PartATrayPose)
-ObjectPropertyAssertion(:hasPose_Point :PartATrayPose
-                        :PartATrayPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartATrayPose
-                        :PartATrayRPY)
+ClassAssertion(:PoseOnlyLocation :PartATrayPose)
+ObjectPropertyAssertion(:hasPose_Point :PartATrayPose :PartATrayPoint)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartATrayPose :PartATrayZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartATrayPose :PartATrayXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartATrayPose
   :PartASupply)
 
@@ -954,20 +1038,26 @@ DataPropertyAssertion(:hasPoint_X :PartATrayPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartATrayPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartATrayPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartATrayRPY))
-ClassAssertion(:RollPitchYaw :PartATrayRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartATrayRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartATrayRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartATrayRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartATrayZAxis))
+ClassAssertion(:Vector :PartATrayZAxis)
+DataPropertyAssertion(:hasVector_I :PartATrayZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartATrayZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartATrayZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartATrayXAxis))
+ClassAssertion(:Vector :PartATrayXAxis)
+DataPropertyAssertion(:hasVector_I :PartATrayXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartATrayXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartATrayXAxis "0.0"^^xsd:decimal)
+
 
 
 // PartBTrayPose **************************************************
 Declaration(NamedIndividual(:PartBTrayPose))
-ClassAssertion(:Pose :PartBTrayPose)
-ObjectPropertyAssertion(:hasPose_Point :PartBTrayPose
-                        :PartBTrayPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartBTrayPose
-                        :PartBTrayRPY)
+ClassAssertion(:PoseOnlyLocation :PartBTrayPose)
+ObjectPropertyAssertion(:hasPose_Point :PartBTrayPose :PartBTrayPoint)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartBTrayPose :PartBTrayZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartBTrayPose :PartBTrayXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartBTrayPose
   :PartBSupply)
 
@@ -977,20 +1067,25 @@ DataPropertyAssertion(:hasPoint_X :PartBTrayPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartBTrayPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartBTrayPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartBTrayRPY))
-ClassAssertion(:RollPitchYaw :PartBTrayRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartBTrayRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartBTrayRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartBTrayRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartBTrayZAxis))
+ClassAssertion(:Vector :PartBTrayZAxis)
+DataPropertyAssertion(:hasVector_I :PartBTrayZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartBTrayZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartBTrayZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartBTrayXAxis))
+ClassAssertion(:Vector :PartBTrayXAxis)
+DataPropertyAssertion(:hasVector_I :PartBTrayXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartBTrayXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartBTrayXAxis "0.0"^^xsd:decimal)
 
 
 // PartCTrayPose **************************************************
 Declaration(NamedIndividual(:PartCTrayPose))
-ClassAssertion(:Pose :PartCTrayPose)
-ObjectPropertyAssertion(:hasPose_Point :PartCTrayPose
-                        :PartCTrayPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartCTrayPose
-                        :PartCTrayRPY)
+ClassAssertion(:PoseOnlyLocation :PartCTrayPose)
+ObjectPropertyAssertion(:hasPose_Point :PartCTrayPose :PartCTrayPoint)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartCTrayPose :PartCTrayZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartCTrayPose :PartCTrayXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartCTrayPose
   :PartCSupply)
 
@@ -1000,22 +1095,30 @@ DataPropertyAssertion(:hasPoint_X :PartCTrayPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartCTrayPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartCTrayPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartCTrayRPY))
-ClassAssertion(:RollPitchYaw :PartCTrayRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartCTrayRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartCTrayRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartCTrayRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartCTrayZAxis))
+ClassAssertion(:Vector :PartCTrayZAxis)
+DataPropertyAssertion(:hasVector_I :PartCTrayZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartCTrayZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartCTrayZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartCTrayXAxis))
+ClassAssertion(:Vector :PartCTrayXAxis)
+DataPropertyAssertion(:hasVector_I :PartCTrayXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartCTrayXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartCTrayXAxis "0.0"^^xsd:decimal)
 
 
 // PartGripperHolderPose *********************************************
 Declaration(NamedIndividual(:PartGripperHolderPose))
-ClassAssertion(:Pose :PartGripperHolderPose)
+ClassAssertion(:PoseOnlyLocation :PartGripperHolderPose)
 ObjectPropertyAssertion(:hasPose_Point :PartGripperHolderPose
                         :PartGripperHolderPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartGripperHolderPose
-                        :PartGripperHolderRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartGripperHolderPose
+                        :PartGripperHolderZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartGripperHolderPose
+                        :PartGripperHolderXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartGripperHolderPose
-  :ChangingStation1)
+                        :ChangingStation1)
 
 Declaration(NamedIndividual(:PartGripperHolderPoint))
 ClassAssertion(:Point :PartGripperHolderPoint)
@@ -1023,20 +1126,27 @@ DataPropertyAssertion(:hasPoint_X :PartGripperHolderPoint "0.25"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartGripperHolderPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartGripperHolderPoint "0.5"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartGripperHolderRPY))
-ClassAssertion(:RollPitchYaw :PartGripperHolderRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartGripperHolderRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartGripperHolderRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartGripperHolderRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartGripperHolderZAxis))
+ClassAssertion(:Vector :PartGripperHolderZAxis)
+DataPropertyAssertion(:hasVector_I :PartGripperHolderZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartGripperHolderZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartGripperHolderZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartGripperHolderXAxis))
+ClassAssertion(:Vector :PartGripperHolderXAxis)
+DataPropertyAssertion(:hasVector_I :PartGripperHolderXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartGripperHolderXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartGripperHolderXAxis "0.0"^^xsd:decimal)
 
 
 // PartGripperPose ****************************************************
 Declaration(NamedIndividual(:PartGripperPose))
-ClassAssertion(:Pose :PartGripperPose)
+ClassAssertion(:PoseOnlyLocation :PartGripperPose)
 ObjectPropertyAssertion(:hasPose_Point :PartGripperPose :PartGripperPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :PartGipperPose :PartGripperRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :PartGripperPose :PartGripperZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :PartGripperPose :PartGripperXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :PartGripperPose
-  :PartGripperHolder)
+                        :PartGripperHolder)
 
 Declaration(NamedIndividual(:PartGripperPoint))
 ClassAssertion(:Point :PartGripperPoint)
@@ -1044,18 +1154,25 @@ DataPropertyAssertion(:hasPoint_X :PartGripperPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PartGripperPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PartGripperPoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:PartGripperRPY))
-ClassAssertion(:RollPitchYaw :PartGripperRPY)
-DataPropertyAssertion(:hasRpy_Roll :PartGripperRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :PartGripperRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :PartGripperRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:PartGripperZAxis))
+ClassAssertion(:Vector :PartGripperZAxis)
+DataPropertyAssertion(:hasVector_I :PartGripperZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartGripperZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartGripperZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:PartGripperXAxis))
+ClassAssertion(:Vector :PartGripperXAxis)
+DataPropertyAssertion(:hasVector_I :PartGripperXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :PartGripperXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :PartGripperXAxis "0.0"^^xsd:decimal)
 
 
 // RobotPose *********************************************************
 Declaration(NamedIndividual(:RobotPose))
-ClassAssertion(:Pose :RobotPose)
+ClassAssertion(:PoseOnlyLocation :RobotPose)
 ObjectPropertyAssertion(:hasPose_Point :RobotPose :RobotPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :RobotPose :RobotRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :RobotPose :RobotZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :RobotPose :RobotXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :RobotPose
   :KittingWorkstation1)
 
@@ -1065,20 +1182,28 @@ DataPropertyAssertion(:hasPoint_X :RobotPoint "3.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :RobotPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :RobotPoint "2.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:RobotRPY))
-ClassAssertion(:RollPitchYaw :RobotRPY)
-DataPropertyAssertion(:hasRpy_Roll :RobotRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :RobotRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :RobotRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:RobotZAxis))
+ClassAssertion(:Vector :RobotZAxis)
+DataPropertyAssertion(:hasVector_I :RobotZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :RobotZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :RobotZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:RobotXAxis))
+ClassAssertion(:Vector :RobotXAxis)
+DataPropertyAssertion(:hasVector_I :RobotXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :RobotXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :RobotXAxis "0.0"^^xsd:decimal)
 
 
 // TrayGripperHolderPose *********************************************
 Declaration(NamedIndividual(:TrayGripperHolderPose))
-ClassAssertion(:Pose :TrayGripperHolderPose)
+ClassAssertion(:PoseOnlyLocation :TrayGripperHolderPose)
 ObjectPropertyAssertion(:hasPose_Point :TrayGripperHolderPose
                         :TrayGripperHolderPoint)
-ObjectPropertyAssertion(:hasPose_Rpy :TrayGripperHolderPose
-                        :TrayGripperHolderRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :TrayGripperHolderPose
+                        :TrayGripperHolderZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :TrayGripperHolderPose
+                        :TrayGripperHolderXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :TrayGripperHolderPose
                         :ChangingStation1)
 
@@ -1088,18 +1213,25 @@ DataPropertyAssertion(:hasPoint_X :TrayGripperHolderPoint "-0.25"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :TrayGripperHolderPoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :TrayGripperHolderPoint "0.5"^^xsd:decimal)
 
-Declaration(NamedIndividual(:TrayGripperHolderRPY))
-ClassAssertion(:RollPitchYaw :TrayGripperHolderRPY)
-DataPropertyAssertion(:hasRpy_Roll :TrayGripperHolderRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :TrayGripperHolderRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :TrayGripperHolderRPY "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:TrayGripperHolderZAxis))
+ClassAssertion(:Vector :TrayGripperHolderZAxis)
+DataPropertyAssertion(:hasVector_I :TrayGripperHolderZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :TrayGripperHolderZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :TrayGripperHolderZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:TrayGripperHolderXAxis))
+ClassAssertion(:Vector :TrayGripperHolderXAxis)
+DataPropertyAssertion(:hasVector_I :TrayGripperHolderXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :TrayGripperHolderXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :TrayGripperHolderXAxis "0.0"^^xsd:decimal)
 
 
 // WorkTablePose ******************************************************
 Declaration(NamedIndividual(:WorkTablePose))
-ClassAssertion(:Pose :WorkTablePose)
+ClassAssertion(:PoseOnlyLocation :WorkTablePose)
 ObjectPropertyAssertion(:hasPose_Point :WorkTablePose :WorkTablePoint)
-ObjectPropertyAssertion(:hasPose_Rpy :WorkTablePose :WorkTableRPY)
+ObjectPropertyAssertion(:hasPose_ZAxis :WorkTablePose :WorkTableZAxis)
+ObjectPropertyAssertion(:hasPose_XAxis :WorkTablePose :WorkTableXAxis)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :WorkTablePose
   :KittingWorkstation1)
 
@@ -1109,14 +1241,20 @@ DataPropertyAssertion(:hasPoint_X :WorkTablePoint "3.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :WorkTablePoint "0.0"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :WorkTablePoint "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:WorkTableRPY))
-ClassAssertion(:RollPitchYaw :WorkTableRPY)
-DataPropertyAssertion(:hasRpy_Roll :WorkTableRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :WorkTableRPY "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :WorkTableRPY "90.0"^^xsd:decimal)
+Declaration(NamedIndividual(:WorkTableZAxis))
+ClassAssertion(:Vector :WorkTableZAxis)
+DataPropertyAssertion(:hasVector_I :WorkTableZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :WorkTableZAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :WorkTableZAxis "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:WorkTableXAxis))
+ClassAssertion(:Vector :WorkTableXAxis)
+DataPropertyAssertion(:hasVector_I :WorkTableXAxis "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :WorkTableXAxis "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :WorkTableXAxis "0.0"^^xsd:decimal)
 
 
-// Points for kit design
+// Points for kit design *********************************************
 Declaration(NamedIndividual(:PointA1))
 ClassAssertion(:Point :PointA1)
 DataPropertyAssertion(:hasPoint_X :PointA1 "0.2"^^xsd:decimal)
@@ -1141,30 +1279,55 @@ DataPropertyAssertion(:hasPoint_X :PointC1 "0.4"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :PointC1 "0.5"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :PointC1 "0.0"^^xsd:decimal)
 
-// Rpys for kit design
-Declaration(NamedIndividual(:RpyA1))
-ClassAssertion(:RollPitchYaw :RpyA1)
-DataPropertyAssertion(:hasRpy_Roll :RpyA1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :RpyA1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :RpyA1 "0.0"^^xsd:decimal)
+// Axes for kit design *********************************************
 
-Declaration(NamedIndividual(:RpyA2))
-ClassAssertion(:RollPitchYaw :RpyA2)
-DataPropertyAssertion(:hasRpy_Roll :RpyA2 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :RpyA2 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :RpyA2 "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:ZAxisA1))
+ClassAssertion(:Vector :ZAxisA1)
+DataPropertyAssertion(:hasVector_I :ZAxisA1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :ZAxisA1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :ZAxisA1 "1.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:RpyB1))
-ClassAssertion(:RollPitchYaw :RpyB1)
-DataPropertyAssertion(:hasRpy_Roll :RpyB1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :RpyB1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :RpyB1 "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:XAxisA1))
+ClassAssertion(:Vector :XAxisA1)
+DataPropertyAssertion(:hasVector_I :XAxisA1 "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :XAxisA1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :XAxisA1 "0.0"^^xsd:decimal)
 
-Declaration(NamedIndividual(:RpyC1))
-ClassAssertion(:RollPitchYaw :RpyC1)
-DataPropertyAssertion(:hasRpy_Roll :RpyC1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Pitch :RpyC1 "0.0"^^xsd:decimal)
-DataPropertyAssertion(:hasRpy_Yaw :RpyC1 "0.0"^^xsd:decimal)
+Declaration(NamedIndividual(:ZAxisA2))
+ClassAssertion(:Vector :ZAxisA2)
+DataPropertyAssertion(:hasVector_I :ZAxisA2 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :ZAxisA2 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :ZAxisA2 "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:XAxisA2))
+ClassAssertion(:Vector :XAxisA2)
+DataPropertyAssertion(:hasVector_I :XAxisA2 "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :XAxisA2 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :XAxisA2 "0.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:ZAxisB1))
+ClassAssertion(:Vector :ZAxisB1)
+DataPropertyAssertion(:hasVector_I :ZAxisB1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :ZAxisB1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :ZAxisB1 "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:XAxisB1))
+ClassAssertion(:Vector :XAxisB1)
+DataPropertyAssertion(:hasVector_I :XAxisB1 "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :XAxisB1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :XAxisB1 "0.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:ZAxisC1))
+ClassAssertion(:Vector :ZAxisC1)
+DataPropertyAssertion(:hasVector_I :ZAxisC1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :ZAxisC1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :ZAxisC1 "1.0"^^xsd:decimal)
+
+Declaration(NamedIndividual(:XAxisC1))
+ClassAssertion(:Vector :XAxisC1)
+DataPropertyAssertion(:hasVector_I :XAxisC1 "1.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :XAxisC1 "0.0"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :XAxisC1 "0.0"^^xsd:decimal)
 
 
 // Pose individuals *************************************************
@@ -1174,7 +1337,7 @@ DifferentIndividuals(
  :EmptyKitTraySupplyPose
  :FinishedKitBoxPose
  :FinishedKitReceiverPose
- :KitInstance1Pose
+ :Kit1Pose
  :KitTray1NewPose
  :PartA1NewPose
  :PartA2NewPose
@@ -1199,7 +1362,7 @@ DifferentIndividuals(
  :EmptyKitTraySupplyPoint
  :FinishedKitBoxPoint
  :FinishedKitReceiverPoint
- :KitInstance1Point
+ :Kit1Point
  :KitTray1Point
  :PartA2NewPoint
  :PartA1NewPoint
@@ -1223,34 +1386,61 @@ DifferentIndividuals(
  :TrayGripperHolderPoint
  :WorkTablePoint)
 
-// RPY individuals *************************************************
+// Axis individuals *************************************************
 DifferentIndividuals(
- :ChangingStationRPY
- :EmptyKitTrayBoxRPY
- :EmptyKitTraySupplyRPY
- :FinishedKitBoxRPY
- :FinishedKitReceiverRPY
- :KitInstance1RPY
- :KitTray1RPY
- :PartA1NewRPY
- :PartA2NewRPY
- :PartASupplyRPY
- :PartATrayRPY
- :PartB1NewRPY
- :PartBSupplyRPY
- :PartBTrayRPY
- :PartC1NewRPY
- :PartCSupplyRPY
- :PartCTrayRPY
- :PartGripperRPY
- :PartGripperHolderRPY
- :RobotRPY
- :RpyA1
- :RpyA2
- :RpyB1
- :RpyC1
- :TrayGripperHolderRPY
- :WorkTableRPY)
+ :ChangingStationXAxis
+ :EmptyKitTrayBoxXAxis
+ :EmptyKitTraySupplyXAxis
+ :FinishedKitBoxXAxis
+ :FinishedKitReceiverXAxis
+ :Kit1XAxis
+ :KitTray1XAxis
+ :PartA1NewXAxis
+ :PartA2NewXAxis
+ :PartASupplyXAxis
+ :PartATrayXAxis
+ :PartB1NewXAxis
+ :PartBSupplyXAxis
+ :PartBTrayXAxis
+ :PartC1NewXAxis
+ :PartCSupplyXAxis
+ :PartCTrayXAxis
+ :PartGripperXAxis
+ :PartGripperHolderXAxis
+ :RobotXAxis
+ :XAxisA1
+ :XAxisA2
+ :XAxisB1
+ :XAxisC1
+ :TrayGripperHolderXAxis
+ :WorkTableXAxis
+
+ :ChangingStationZAxis
+ :EmptyKitTrayBoxZAxis
+ :EmptyKitTraySupplyZAxis
+ :FinishedKitBoxZAxis
+ :FinishedKitReceiverZAxis
+ :Kit1ZAxis
+ :KitTray1ZAxis
+ :PartA1NewZAxis
+ :PartA2NewZAxis
+ :PartASupplyZAxis
+ :PartATrayZAxis
+ :PartB1NewZAxis
+ :PartBSupplyZAxis
+ :PartBTrayZAxis
+ :PartC1NewZAxis
+ :PartCSupplyZAxis
+ :PartCTrayZAxis
+ :PartGripperZAxis
+ :PartGripperHolderZAxis
+ :RobotZAxis
+ :ZAxisA1
+ :ZAxisA2
+ :ZAxisB1
+ :ZAxisC1
+ :TrayGripperHolderZAxis
+ :WorkTableZAxis)
 // End Poses
 
 // Start RelativeLocations ******************************************

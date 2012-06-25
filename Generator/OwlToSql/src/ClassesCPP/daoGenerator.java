@@ -45,7 +45,8 @@ public class daoGenerator {
 	}
 
 	public String generateHeader(ArrayList<String> attributes,
-			ArrayList<String> unit, String url, String user, String pass, String nameDb) {
+			ArrayList<String> unit, String url, String user, String pass,
+			String nameDb) {
 		generateGetSQL(attributes, unit);
 		String result = "";
 		String include = "";
@@ -96,8 +97,8 @@ public class daoGenerator {
 		}
 
 		pub = pub
-				+ "\nstd::map<std::string,std::string> get(std::string name);";
-		pub = pub + "\nvoid set(std::string name);";
+				+ "\n	std::map<std::string, std::string> get(std::string name);";
+		pub = pub + "\nvoid set(std::map<std::string,std::string> data);";
 		pub = pub + "\n}; \n#endif /* DAO_H_ */";
 
 		result = include + priv + pub;
@@ -455,7 +456,8 @@ public class daoGenerator {
 	}
 
 	public String generateCpp(ArrayList<String> attributes,
-			ArrayList<String> unit, String url, String user, String pass, String nameDb) {
+			ArrayList<String> unit, String url, String user, String pass,
+			String nameDb) {
 		String result = "";
 		String include = "#include \"DAO.h\"\n\n";
 
@@ -464,7 +466,8 @@ public class daoGenerator {
 
 		paramConstruct = paramConstruct
 				+ "{\nthis->className.push_back(name);\n"
-				+ "connection = new Connection(\""+url+"\", \""+user+"\", \""+pass+"\", \""+nameDb+"\");"
+				+ "connection = new Connection(\"" + url + "\", \"" + user
+				+ "\", \"" + pass + "\", \"" + nameDb + "\");"
 				+ "this->fillGetSqlQueries();\n}\n";
 
 		String fillGetSqlQueries = "std::map<std::string, std::string> "
@@ -537,586 +540,471 @@ public class daoGenerator {
 		result = result + include + constructor + paramConstruct
 				+ fillGetSqlQueries + get + set;
 
-		String getGlobal = "std::map<std::string, std::string> DAO::get(std::string name) {\n";
-		getGlobal = getGlobal
-				+ "	nameDone.push_back(className.back() + \"+\" + name);\n";
-		getGlobal = getGlobal + "	try {\n";
-		getGlobal = getGlobal + "		sql::PreparedStatement *prep_stmt;\n";
-		getGlobal = getGlobal
-				+ "		sql::ResultSet *res;// get the ID with the name\n";
-		getGlobal = getGlobal
-				+ "		prep_stmt = connection->getCon()->prepareStatement(\"SELECT \"\n";
-		getGlobal = getGlobal
-				+ "				+ className.back() + \"ID FROM \" + className.back()\n";
-		getGlobal = getGlobal + "				+ \" WHERE _Name = ?\");\n";
-		getGlobal = getGlobal + "		prep_stmt->setString(1, name);\n";
-		getGlobal = getGlobal + "		res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "		res->next();\n";
-		getGlobal = getGlobal + "		int id = res->getInt(1);\n";
-		getGlobal = getGlobal + "		delete (res);\n";
-		getGlobal = getGlobal + "		delete (prep_stmt);\n";
-		getGlobal = getGlobal + "		// get the data Single\n";
-		getGlobal = getGlobal + "		sql::ResultSetMetaData *res_meta;\n";
-		getGlobal = getGlobal
-				+ "		prep_stmt = connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "				DAO::getSqlQueriesDataSingle[className.back()]);\n";
-		getGlobal = getGlobal + "		prep_stmt->setInt(1, id);\n";
-		getGlobal = getGlobal + "		res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "		res->next();\n";
-		getGlobal = getGlobal + "		res_meta = res -> getMetaData();\n";
-		getGlobal = getGlobal
-				+ "		for (int i = 0; i < (int) res_meta -> getColumnCount(); ++i) {\n";
-		getGlobal = getGlobal
-				+ "			map[res_meta -> getColumnLabel(i + 1)] = res->getString(i + 1);\n";
-		getGlobal = getGlobal + "		}\n";
-		getGlobal = getGlobal + "		delete (res);\n";
-		getGlobal = getGlobal + "		delete (prep_stmt);\n";
-		getGlobal = getGlobal + "		// get the data multi\n";
-		getGlobal = getGlobal + "		std::string temp = \"\";\n";
-		getGlobal = getGlobal + "		for (int unsigned i = 0; i\n";
-		getGlobal = getGlobal
-				+ "				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {\n";
-		getGlobal = getGlobal
-				+ "			prep_stmt = connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "					DAO::getSqlQueriesDataMulti[className.back()][i]);\n";
-		getGlobal = getGlobal + "			prep_stmt->setInt(1, id);\n";
-		getGlobal = getGlobal + "			res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "			while (res->next()) {\n";
-		getGlobal = getGlobal + "				if (!res->last())\n";
-		getGlobal = getGlobal
-				+ "					temp = temp + res->getString(1) + \" \";\n";
-		getGlobal = getGlobal + "				else\n";
-		getGlobal = getGlobal + "					temp = temp + res->getString(1);\n";
-		getGlobal = getGlobal + "			}\n";
-		getGlobal = getGlobal + "			res_meta = res -> getMetaData();\n";
-		getGlobal = getGlobal
-				+ "			map[res_meta -> getColumnLabel(1)] = temp;\n";
-		getGlobal = getGlobal + "			delete (res);\n";
-		getGlobal = getGlobal + "			delete (prep_stmt);\n";
-		getGlobal = getGlobal + "		}\n";
-		getGlobal = getGlobal + "		// get the Object Single\n";
-		getGlobal = getGlobal + "		temp = \"\";\n";
-		getGlobal = getGlobal + "		sql::ResultSet *restemp;\n";
-		getGlobal = getGlobal + "		sql::Statement *stmt;\n";
-		getGlobal = getGlobal + "		std::string newName = \"\";\n";
-		getGlobal = getGlobal + "		std::string newTable = \"\";\n";
-		getGlobal = getGlobal + "		for (int unsigned i = 0; i\n";
-		getGlobal = getGlobal
-				+ "				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {\n";
-		getGlobal = getGlobal
-				+ "			stmt = connection->getCon()->createStatement();\n";
-		getGlobal = getGlobal
-				+ "			if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)\n";
-		getGlobal = getGlobal + "					!= \"-\") {\n";
-		getGlobal = getGlobal + "				restemp\n";
-		getGlobal = getGlobal + "						= stmt->executeQuery(\n";
-		getGlobal = getGlobal + "								\"SELECT \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "												0,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\")) + \"ID FROM \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "												0,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\")) + \", \"\n";
-		getGlobal = getGlobal + "										+ className.back() + \" WHERE \"\n";
-		getGlobal = getGlobal
-				+ "										+ className.back() + \"._Name = '\"\n";
-		getGlobal = getGlobal + "										+ name + \"' AND \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\") + 1) + \" = \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "												0,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\")) + \"._Name\");\n";
-		getGlobal = getGlobal + "				prep_stmt\n";
-		getGlobal = getGlobal
-				+ "						= connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "								DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "										0,\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "												\"/\"))]);\n";
-		getGlobal = getGlobal + "			} else {\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal + "				restemp\n";
-		getGlobal = getGlobal + "						= stmt->executeQuery(\n";
-		getGlobal = getGlobal + "								\"SELECT \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "												1,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\") - 1) + \"ID FROM \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "												1,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\") - 1) + \", \"\n";
-		getGlobal = getGlobal + "										+ className.back() + \" WHERE \"\n";
-		getGlobal = getGlobal
-				+ "										+ className.back() + \"._Name = '\"\n";
-		getGlobal = getGlobal + "										+ name + \"' AND \"\n";
-		getGlobal = getGlobal
-				+ "										+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "														\"/\") + 1) + \" = \"\n";
-		getGlobal = getGlobal + "										+ className.back() + \"._Name\");\n";
-		getGlobal = getGlobal + "				prep_stmt\n";
-		getGlobal = getGlobal
-				+ "						= connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "								DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "										1,\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "												\"/\") - 1)]);\n";
-		getGlobal = getGlobal + "			}\n";
-		getGlobal = getGlobal + "			restemp->next();\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal
-				+ "			prep_stmt->setInt(1, restemp->getInt(1));\n";
-		getGlobal = getGlobal + "			res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "			res->next();\n";
-		getGlobal = getGlobal + "			res_meta = res -> getMetaData();\n";
-		getGlobal = getGlobal
-				+ "			for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {\n";
-		getGlobal = getGlobal + "				map[path\n";
-		getGlobal = getGlobal
-				+ "						+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "										\"/\") + 1) + \"/\"\n";
-		getGlobal = getGlobal
-				+ "						+ res_meta -> getColumnLabel(j + 1)] = res->getString(j\n";
-		getGlobal = getGlobal + "						+ 1);\n";
-		getGlobal = getGlobal + "			}\n";
-		getGlobal = getGlobal
-				+ "			if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)\n";
-		getGlobal = getGlobal + "					!= \"-\")\n";
-		getGlobal = getGlobal + "				newName\n";
-		getGlobal = getGlobal + "						= res->getString(\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "										0,\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "												\"/\")) + \"._NAME\");\n";
-		getGlobal = getGlobal + "			else\n";
-		getGlobal = getGlobal + "				newName\n";
-		getGlobal = getGlobal + "						= res->getString(\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "										1,\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "												\"/\") - 1) + \"._NAME\");\n";
-		getGlobal = getGlobal + "			path\n";
-		getGlobal = getGlobal + "					= path\n";
-		getGlobal = getGlobal
-				+ "							+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal
-				+ "									getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "											\"/\") + 1) + \"/\";\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal
-				+ "			if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)\n";
-		getGlobal = getGlobal + "					!= \"-\")\n";
-		getGlobal = getGlobal + "				newTable\n";
-		getGlobal = getGlobal
-				+ "						= getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "								0,\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "										\"/\"));\n";
-		getGlobal = getGlobal + "			else\n";
-		getGlobal = getGlobal + "				newTable\n";
-		getGlobal = getGlobal
-				+ "						= getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal + "								1,\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal + "										\"/\") - 1);\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal + "			delete (res);\n";
-		getGlobal = getGlobal + "			delete (restemp);\n";
-		getGlobal = getGlobal + "			delete (prep_stmt);\n";
-		getGlobal = getGlobal + "			delete (stmt);\n";
-		getGlobal = getGlobal
-				+ "			if (getSqlQueriesObjectSingle.find(newName)\n";
-		getGlobal = getGlobal + "					== getSqlQueriesObjectSingle.end()) {\n";
-		getGlobal = getGlobal
-				+ "				if (std::find(nameDone.begin(), nameDone.end(), newTable + \"+\"\n";
-		getGlobal = getGlobal + "						+ newName) == nameDone.end()) {\n";
-		getGlobal = getGlobal + "					className.push_back(newTable);\n";
-		getGlobal = getGlobal + "					DAO::get(newName);\n";
-		getGlobal = getGlobal + "				} else {\n";
-		getGlobal = getGlobal + "					path\n";
-		getGlobal = getGlobal + "							= path.substr(\n";
-		getGlobal = getGlobal + "									0,\n";
-		getGlobal = getGlobal + "									path.length()\n";
-		getGlobal = getGlobal
-				+ "											- (getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		getGlobal = getGlobal
-				+ "													getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		getGlobal = getGlobal
-				+ "															\"/\") + 1) + \"/\").length());\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal + "				}\n";
-		getGlobal = getGlobal + "			}\n";
-		getGlobal = getGlobal + "		}\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal + "		//get the Object multi\n";
-		getGlobal = getGlobal + "		sql::ResultSet *restempmulti;\n";
-		getGlobal = getGlobal + "		sql::Statement *stmtmulti;\n";
-		getGlobal = getGlobal + "		for (int unsigned m = 0; m\n";
-		getGlobal = getGlobal
-				+ "				< DAO::getSqlQueriesObjectMulti[className.back()].size(); m++) {\n";
-		getGlobal = getGlobal + "			//convert id to string\n";
-		getGlobal = getGlobal + "			std::string sid;\n";
-		getGlobal = getGlobal + "			std::stringstream out;\n";
-		getGlobal = getGlobal + "			out << id;\n";
-		getGlobal = getGlobal + "			sid = out.str();\n";
-		getGlobal = getGlobal + "			//end convert id\n";
-		getGlobal = getGlobal
-				+ "			stmtmulti = connection->getCon()->createStatement();\n";
-		getGlobal = getGlobal
-				+ "			restempmulti = stmtmulti->executeQuery(\"SELECT \"\n";
-		getGlobal = getGlobal
-				+ "					+ getSqlQueriesObjectMulti[className.back()][m].substr(0,\n";
-		getGlobal = getGlobal
-				+ "							getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "									\"/\")) + \"ID FROM \"\n";
-		getGlobal = getGlobal
-				+ "					+ getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal
-				+ "							getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal
-				+ "									\"/\") + 1) + \" WHERE \" + className.back()\n";
-		getGlobal = getGlobal + "					+ \"ID = \" + sid);\n";
-		getGlobal = getGlobal + "			while (restempmulti->next()) {\n";
-		getGlobal = getGlobal + "				std::string\n";
-		getGlobal = getGlobal + "						table =\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal + "										0,\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "												\"/\"));\n";
-		getGlobal = getGlobal + "				if (m > 0)\n";
-		getGlobal = getGlobal + "					pathmulti\n";
-		getGlobal = getGlobal + "							= pathmulti.substr(\n";
-		getGlobal = getGlobal + "									0,\n";
-		getGlobal = getGlobal + "									pathmulti.length()\n";
-		getGlobal = getGlobal
-				+ "											- (getSqlQueriesObjectMulti[className.back()][m\n";
-		getGlobal = getGlobal + "													- 1].substr(\n";
-		getGlobal = getGlobal
-				+ "													getSqlQueriesObjectMulti[className.back()][m\n";
-		getGlobal = getGlobal + "															- 1].find(\"/\") + 1)\n";
-		getGlobal = getGlobal + "													+ \"/\").length())\n";
-		getGlobal = getGlobal
-				+ "									+ getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal
-				+ "											getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "													\"/\") + 1) + \"/\";\n";
-		getGlobal = getGlobal + "				else\n";
-		getGlobal = getGlobal + "					pathmulti\n";
-		getGlobal = getGlobal + "							= pathmulti\n";
-		getGlobal = getGlobal
-				+ "									+ getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal
-				+ "											getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "													\"/\") + 1) + \"/\";\n";
-		getGlobal = getGlobal + "				//Add the data\n";
-		getGlobal = getGlobal + "				prep_stmt\n";
-		getGlobal = getGlobal
-				+ "						= connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "								DAO::getSqlQueriesDataSingle[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal + "										0,\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "												\"/\"))]);\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal
-				+ "				prep_stmt->setInt(1, restempmulti->getInt(1));\n";
-		getGlobal = getGlobal + "				res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "				res->next();\n";
-		getGlobal = getGlobal + "				res_meta = res -> getMetaData();\n";
-		getGlobal = getGlobal
-				+ "				for (int i = 0; i < (int) res_meta -> getColumnCount(); ++i) {\n";
-		getGlobal = getGlobal
-				+ "					map[pathmulti + res_meta -> getColumnLabel(i + 1)]\n";
-		getGlobal = getGlobal + "							= res->getString(i + 1);\n";
-		getGlobal = getGlobal + "				}\n";
-		getGlobal = getGlobal + "				delete (prep_stmt);\n";
-		getGlobal = getGlobal + "				delete (res);\n";
-		getGlobal = getGlobal + "				//End Add the Data\n";
-		getGlobal = getGlobal + "				//Add the Data multi\n";
-		getGlobal = getGlobal + "				std::string temp = \"\";\n";
-		getGlobal = getGlobal + "				for (int unsigned i = 0; i\n";
-		getGlobal = getGlobal
-				+ "						< DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal + "								0,\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "										\"/\"))].size(); i++) {\n";
-		getGlobal = getGlobal + "					prep_stmt\n";
-		getGlobal = getGlobal
-				+ "							= connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "									DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal + "											0,\n";
-		getGlobal = getGlobal
-				+ "											getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "													\"/\"))][i]);\n";
-		getGlobal = getGlobal
-				+ "					prep_stmt->setInt(1, restempmulti->getInt(1));\n";
-		getGlobal = getGlobal + "					res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "					while (res->next()) {\n";
-		getGlobal = getGlobal + "						if (!res->last())\n";
-		getGlobal = getGlobal
-				+ "							temp = temp + res->getString(1) + \" \";\n";
-		getGlobal = getGlobal + "						else\n";
-		getGlobal = getGlobal + "							temp = temp + res->getString(1);\n";
-		getGlobal = getGlobal + "					}\n";
-		getGlobal = getGlobal + "					res_meta = res -> getMetaData();\n";
-		getGlobal = getGlobal
-				+ "					map[pathmulti + res_meta -> getColumnLabel(1)] = temp;\n";
-		getGlobal = getGlobal + "					delete (res);\n";
-		getGlobal = getGlobal + "					delete (prep_stmt);\n";
-		getGlobal = getGlobal + "				}\n";
-		getGlobal = getGlobal + "				//End Add Data Multi\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal + "				for (int unsigned i = 0; i\n";
-		getGlobal = getGlobal
-				+ "						< DAO::getSqlQueriesObjectSingle[table].size(); i++) {\n";
-		getGlobal = getGlobal
-				+ "					stmt = connection->getCon()->createStatement();\n";
-		getGlobal = getGlobal
-				+ "					if (getSqlQueriesObjectSingle[table][i].substr(0, 1) != \"-\") {\n";
-		getGlobal = getGlobal + "						restemp\n";
-		getGlobal = getGlobal + "								= stmt->executeQuery(\n";
-		getGlobal = getGlobal + "										\"SELECT \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "														0,\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\"))\n";
-		getGlobal = getGlobal + "												+ \"ID FROM \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "														0,\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\")) + \", \"\n";
-		getGlobal = getGlobal + "												+ table + \" WHERE \" + table\n";
-		getGlobal = getGlobal + "												+ \"ID = \"\n";
-		getGlobal = getGlobal + "												+ restempmulti->getString(1)\n";
-		getGlobal = getGlobal + "												+ \" AND \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\") + 1)\n";
-		getGlobal = getGlobal + "												+ \" = \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "														0,\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\"))\n";
-		getGlobal = getGlobal + "												+ \"._Name\");\n";
-		getGlobal = getGlobal + "						prep_stmt\n";
-		getGlobal = getGlobal
-				+ "								= connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "										DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "												0,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "														\"/\"))]);\n";
-		getGlobal = getGlobal + "					} else {\n";
-		getGlobal = getGlobal + "						restemp\n";
-		getGlobal = getGlobal + "								= stmt->executeQuery(\n";
-		getGlobal = getGlobal + "										\"SELECT \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "														1,\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\") - 1)\n";
-		getGlobal = getGlobal + "												+ \"ID FROM \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "														1,\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\") - 1)\n";
-		getGlobal = getGlobal + "												+ \", \" + table + \" WHERE \"\n";
-		getGlobal = getGlobal + "												+ table + \"ID = \"\n";
-		getGlobal = getGlobal + "												+ restempmulti->getString(1)\n";
-		getGlobal = getGlobal + "												+ \" AND \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\") + 1)\n";
-		getGlobal = getGlobal + "												+ \" = \"\n";
-		getGlobal = getGlobal
-				+ "												+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "														1,\n";
-		getGlobal = getGlobal
-				+ "														getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "																\"/\") - 1)\n";
-		getGlobal = getGlobal + "												+ \"._Name\");\n";
-		getGlobal = getGlobal + "						prep_stmt\n";
-		getGlobal = getGlobal
-				+ "								= connection->getCon()->prepareStatement(\n";
-		getGlobal = getGlobal
-				+ "										DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "												1,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "														\"/\") - 1)]);\n";
-		getGlobal = getGlobal + "					}\n";
-		getGlobal = getGlobal + "					restemp->next();\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal
-				+ "					prep_stmt->setInt(1, restemp->getInt(1));\n";
-		getGlobal = getGlobal + "					res = prep_stmt->executeQuery();\n";
-		getGlobal = getGlobal + "					res->next();\n";
-		getGlobal = getGlobal + "					res_meta = res -> getMetaData();\n";
-		getGlobal = getGlobal
-				+ "					for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {\n";
-		getGlobal = getGlobal + "						if (res->last())\n";
-		getGlobal = getGlobal + "							map[pathmulti\n";
-		getGlobal = getGlobal
-				+ "									+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal
-				+ "											getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "													\"/\") + 1) + \"/\"\n";
-		getGlobal = getGlobal
-				+ "									+ res_meta -> getColumnLabel(j + 1)]\n";
-		getGlobal = getGlobal + "									= res->getString(j + 1);\n";
-		getGlobal = getGlobal + "						else\n";
-		getGlobal = getGlobal + "							map[pathmulti\n";
-		getGlobal = getGlobal
-				+ "									+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal
-				+ "											getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "													\"/\") + 1) + \"/\"\n";
-		getGlobal = getGlobal
-				+ "									+ res_meta -> getColumnLabel(j + 1)]\n";
-		getGlobal = getGlobal + "									= map[pathmulti\n";
-		getGlobal = getGlobal
-				+ "											+ getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal
-				+ "													getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "															\"/\") + 1) + \"/\"\n";
-		getGlobal = getGlobal
-				+ "											+ res_meta -> getColumnLabel(j + 1)]\n";
-		getGlobal = getGlobal + "											+ \" \" + res->getString(j + 1);\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal + "					}\n";
-		getGlobal = getGlobal
-				+ "					if (getSqlQueriesObjectSingle[table][i].substr(0, 1) != \"-\") {\n";
-		getGlobal = getGlobal + "						newName\n";
-		getGlobal = getGlobal + "								= res->getString(\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "												0,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "														\"/\")) + \"._NAME\");\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal
-				+ "						newTable = getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "								0,\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[table][i].find(\"/\"));\n";
-		getGlobal = getGlobal + "					} else {\n";
-		getGlobal = getGlobal + "						newName\n";
-		getGlobal = getGlobal + "								= res->getString(\n";
-		getGlobal = getGlobal
-				+ "										getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "												1,\n";
-		getGlobal = getGlobal
-				+ "												getSqlQueriesObjectSingle[table][i].find(\n";
-		getGlobal = getGlobal + "														\"/\") - 1) + \"._NAME\");\n";
-		getGlobal = getGlobal + "\n";
-		getGlobal = getGlobal
-				+ "						newTable = getSqlQueriesObjectSingle[table][i].substr(\n";
-		getGlobal = getGlobal + "								1,\n";
-		getGlobal = getGlobal
-				+ "								getSqlQueriesObjectSingle[table][i].find(\"/\")\n";
-		getGlobal = getGlobal + "										- 1);\n";
-		getGlobal = getGlobal + "					}\n";
-		getGlobal = getGlobal + "					delete (res);\n";
-		getGlobal = getGlobal + "					delete (restemp);\n";
-		getGlobal = getGlobal + "					delete (prep_stmt);\n";
-		getGlobal = getGlobal + "					delete (stmt);\n";
-		getGlobal = getGlobal
-				+ "					if (getSqlQueriesObjectSingle.find(newName)\n";
-		getGlobal = getGlobal
-				+ "							== getSqlQueriesObjectSingle.end()) {\n";
-		getGlobal = getGlobal
-				+ "						if (std::find(nameDone.begin(), nameDone.end(),\n";
-		getGlobal = getGlobal
-				+ "								newTable + \"+\" + newName) == nameDone.end()) {\n";
-		getGlobal = getGlobal + "							className.push_back(newTable);\n";
-		getGlobal = getGlobal + "							DAO::get(newName);\n";
-		getGlobal = getGlobal + "						} else {\n";
-		getGlobal = getGlobal + "							//pathmulti = \"\";\n";
-		getGlobal = getGlobal + "							pathmulti\n";
-		getGlobal = getGlobal + "									= pathmulti.substr(\n";
-		getGlobal = getGlobal + "											0,\n";
-		getGlobal = getGlobal + "											pathmulti.length()\n";
-		getGlobal = getGlobal
-				+ "													- (getSqlQueriesObjectMulti[className.back()][m].substr(\n";
-		getGlobal = getGlobal
-				+ "															getSqlQueriesObjectMulti[className.back()][m].find(\n";
-		getGlobal = getGlobal + "																	\"/\") + 1)\n";
-		getGlobal = getGlobal + "															+ \"/\").length());\n";
-		getGlobal = getGlobal + "						}\n";
-		getGlobal = getGlobal + "					}\n";
-		getGlobal = getGlobal + "				}\n";
-		getGlobal = getGlobal + "			}\n";
-		getGlobal = getGlobal + "		}\n";
-		getGlobal = getGlobal + "	} catch (sql::SQLException &e) {\n";
-		getGlobal = getGlobal
-				+ "		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
-		getGlobal = getGlobal
-				+ "		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
-		getGlobal = getGlobal + "				<< std::endl;\n";
-		getGlobal = getGlobal + "		std::cout << \"# ERR: \" << e.what();\n";
-		getGlobal = getGlobal
-				+ "		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
-		getGlobal = getGlobal
-				+ "		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
-		getGlobal = getGlobal + "	}\n";
-		getGlobal = getGlobal + "	className.pop_back();\n";
-		getGlobal = getGlobal + "	return map;\n";
+		String getGlobal = "	std::map<std::string, std::string> DAO::get(std::string name) {\n";
+		getGlobal=getGlobal+"	nameDone.push_back(className.back() + \"+\" + name);\n";
+		getGlobal=getGlobal+"	try {\n";
+		getGlobal=getGlobal+"		sql::PreparedStatement *prep_stmt;\n";
+		getGlobal=getGlobal+"		sql::ResultSet *res;// get the ID with the name\n";
+		getGlobal=getGlobal+"		prep_stmt = connection->getCon()->prepareStatement(\"SELECT \"\n";
+		getGlobal=getGlobal+"				+ className.back() + \"ID FROM \" + className.back()\n";
+		getGlobal=getGlobal+"				+ \" WHERE _Name = ?\");\n";
+		getGlobal=getGlobal+"		prep_stmt->setString(1, name);\n";
+		getGlobal=getGlobal+"		res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"		res->next();\n";
+		getGlobal=getGlobal+"		int id = res->getInt(1);\n";
+		getGlobal=getGlobal+"		delete (res);\n";
+		getGlobal=getGlobal+"		delete (prep_stmt);\n";
+		getGlobal=getGlobal+"		// get the data Single\n";
+		getGlobal=getGlobal+"		sql::ResultSetMetaData *res_meta;\n";
+		getGlobal=getGlobal+"		prep_stmt = connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"				DAO::getSqlQueriesDataSingle[className.back()]);\n";
+		getGlobal=getGlobal+"		prep_stmt->setInt(1, id);\n";
+		getGlobal=getGlobal+"		res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"		res->next();\n";
+		getGlobal=getGlobal+"		res_meta = res -> getMetaData();\n";
+		getGlobal=getGlobal+"		for (int i = 0; i < (int) res_meta -> getColumnCount(); ++i) {\n";
+		getGlobal=getGlobal+"			map[res_meta -> getColumnLabel(i + 1)] = res->getString(i + 1);\n";
+		getGlobal=getGlobal+"		}\n";
+		getGlobal=getGlobal+"		delete (res);\n";
+		getGlobal=getGlobal+"		delete (prep_stmt);\n";
+		getGlobal=getGlobal+"		// get the data multi\n";
+		getGlobal=getGlobal+"		std::string temp = \"\";\n";
+		getGlobal=getGlobal+"		for (int unsigned i = 0; i\n";
+		getGlobal=getGlobal+"				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {\n";
+		getGlobal=getGlobal+"			prep_stmt = connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"					DAO::getSqlQueriesDataMulti[className.back()][i]);\n";
+		getGlobal=getGlobal+"			prep_stmt->setInt(1, id);\n";
+		getGlobal=getGlobal+"			res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"			while (res->next()) {\n";
+		getGlobal=getGlobal+"				if (!res->last())\n";
+		getGlobal=getGlobal+"					temp = temp + res->getString(1) + \" \";\n";
+		getGlobal=getGlobal+"				else\n";
+		getGlobal=getGlobal+"					temp = temp + res->getString(1);\n";
+		getGlobal=getGlobal+"			}\n";
+		getGlobal=getGlobal+"			res_meta = res -> getMetaData();\n";
+		getGlobal=getGlobal+"			map[res_meta -> getColumnLabel(1)] = temp;\n";
+		getGlobal=getGlobal+"			delete (res);\n";
+		getGlobal=getGlobal+"			delete (prep_stmt);\n";
+		getGlobal=getGlobal+"		}\n";
+		getGlobal=getGlobal+"		// get the Object Single\n";
+		getGlobal=getGlobal+"		temp = \"\";\n";
+		getGlobal=getGlobal+"		sql::ResultSet *restemp;\n";
+		getGlobal=getGlobal+"		sql::Statement *stmt;\n";
+		getGlobal=getGlobal+"		std::string newName = \"\";\n";
+		getGlobal=getGlobal+"		std::string newTable = \"\";\n";
+		getGlobal=getGlobal+"		for (int unsigned i = 0; i\n";
+		getGlobal=getGlobal+"				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {\n";
+		getGlobal=getGlobal+"			try {\n";
+		getGlobal=getGlobal+"				stmt = connection->getCon()->createStatement();\n";
+		getGlobal=getGlobal+"				if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)\n";
+		getGlobal=getGlobal+"						!= \"-\") {\n";
+		getGlobal=getGlobal+"					restemp\n";
+		getGlobal=getGlobal+"							= stmt->executeQuery(\n";
+		getGlobal=getGlobal+"									\"SELECT \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													0,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\")) + \"ID FROM \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													0,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\")) + \", \"\n";
+		getGlobal=getGlobal+"											+ className.back() + \" WHERE \"\n";
+		getGlobal=getGlobal+"											+ className.back() + \"._Name = '\"\n";
+		getGlobal=getGlobal+"											+ name + \"' AND \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") + 1) + \" = \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													0,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\")) + \"._Name\");\n";
+		getGlobal=getGlobal+"					prep_stmt\n";
+		getGlobal=getGlobal+"							= connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"									DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"											0,\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"													\"/\"))]);\n";
+		getGlobal=getGlobal+"				} else {\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"					restemp\n";
+		getGlobal=getGlobal+"							= stmt->executeQuery(\n";
+		getGlobal=getGlobal+"									\"SELECT \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													1,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") - 1)\n";
+		getGlobal=getGlobal+"											+ \"ID FROM \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													1,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") - 1) + \", \"\n";
+		getGlobal=getGlobal+"											+ className.back() + \" WHERE \"\n";
+		getGlobal=getGlobal+"											+ className.back() + \"._Name = '\"\n";
+		getGlobal=getGlobal+"											+ name + \"' AND \"\n";
+		getGlobal=getGlobal+"											+ getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") + 1) + \" = \"\n";
+		getGlobal=getGlobal+"											+ className.back() + \"._Name\");\n";
+		getGlobal=getGlobal+"					prep_stmt\n";
+		getGlobal=getGlobal+"							= connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"									DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"											1,\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"													\"/\") - 1)]);\n";
+		getGlobal=getGlobal+"				}\n";
+		getGlobal=getGlobal+"				do {\n";
+		getGlobal=getGlobal+"					restemp->next();\n";
+		getGlobal=getGlobal+"					prep_stmt->setInt(1, restemp->getInt(1));\n";
+		getGlobal=getGlobal+"					res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"					do {\n";
+		getGlobal=getGlobal+"						res->next();\n";
+		getGlobal=getGlobal+"						res_meta = res -> getMetaData();\n";
+		getGlobal=getGlobal+"						for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {\n";
+		getGlobal=getGlobal+"							if (res->isFirst())\n";
+		getGlobal=getGlobal+"								map[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"										getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"												\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"										+ res_meta -> getColumnLabel(j + 1)]\n";
+		getGlobal=getGlobal+"										= res->getString(j + 1);\n";
+		getGlobal=getGlobal+"							else\n";
+		getGlobal=getGlobal+"								map[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"										getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"												\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"										+ res_meta -> getColumnLabel(j + 1)]\n";
+		getGlobal=getGlobal+"										= map[getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"												getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"														\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"												+ res_meta -> getColumnLabel(j\n";
+		getGlobal=getGlobal+"														+ 1)] + \" \"\n";
+		getGlobal=getGlobal+"												+ res->getString(j + 1);\n";
+		getGlobal=getGlobal+"						}\n";
+		getGlobal=getGlobal+"						if (getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"								0, 1) != \"-\") {\n";
+		getGlobal=getGlobal+"							newName\n";
+		getGlobal=getGlobal+"									= res->getString(\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													0,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\")) + \"._NAME\");\n";
+		getGlobal=getGlobal+"						} else {\n";
+		getGlobal=getGlobal+"							newName\n";
+		getGlobal=getGlobal+"									= res->getString(\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"													1,\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") - 1)\n";
+		getGlobal=getGlobal+"													+ \"._NAME\");\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"						}\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"						if (getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"								0, 1) != \"-\") {\n";
+		getGlobal=getGlobal+"							newTable\n";
+		getGlobal=getGlobal+"									= getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"											0,\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"													\"/\"));\n";
+		getGlobal=getGlobal+"						} else {\n";
+		getGlobal=getGlobal+"							newTable\n";
+		getGlobal=getGlobal+"									= getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		getGlobal=getGlobal+"											1,\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		getGlobal=getGlobal+"													\"/\") - 1);\n";
+		getGlobal=getGlobal+"						}\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"					} while (res->isLast());\n";
+		getGlobal=getGlobal+"					delete (res);\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"				} while (restemp->isLast());\n";
+		getGlobal=getGlobal+"				delete (restemp);\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"				delete (prep_stmt);\n";
+		getGlobal=getGlobal+"				delete (stmt);\n";
+		getGlobal=getGlobal+"			} catch (sql::SQLException &e) {\n";
+		getGlobal=getGlobal+"				std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		getGlobal=getGlobal+"				std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		getGlobal=getGlobal+"						<< std::endl;\n";
+		getGlobal=getGlobal+"				std::cout << \"# ERR: \" << e.what();\n";
+		getGlobal=getGlobal+"				std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		getGlobal=getGlobal+"				std::cout << \", SQLState: \" << e.getSQLState() << \" )\"\n";
+		getGlobal=getGlobal+"						<< std::endl;\n";
+		getGlobal=getGlobal+"			}\n";
+		getGlobal=getGlobal+"		}\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"		//get the Object multi\n";
+		getGlobal=getGlobal+"		sql::ResultSet *restempmulti;\n";
+		getGlobal=getGlobal+"		sql::Statement *stmtmulti;\n";
+		getGlobal=getGlobal+"		for (int unsigned m = 0; m\n";
+		getGlobal=getGlobal+"				< DAO::getSqlQueriesObjectMulti[className.back()].size(); m++) {\n";
+		getGlobal=getGlobal+"			try {\n";
+		getGlobal=getGlobal+"				//convert id to string\n";
+		getGlobal=getGlobal+"				std::string sid;\n";
+		getGlobal=getGlobal+"				std::stringstream out;\n";
+		getGlobal=getGlobal+"				out << id;\n";
+		getGlobal=getGlobal+"				sid = out.str();\n";
+		getGlobal=getGlobal+"				//end convert id\n";
+		getGlobal=getGlobal+"				stmtmulti = connection->getCon()->createStatement();\n";
+		getGlobal=getGlobal+"				restempmulti\n";
+		getGlobal=getGlobal+"						= stmtmulti->executeQuery(\n";
+		getGlobal=getGlobal+"								\"SELECT \"\n";
+		getGlobal=getGlobal+"										+ getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"												0,\n";
+		getGlobal=getGlobal+"												getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"														\"/\")) + \"ID FROM \"\n";
+		getGlobal=getGlobal+"										+ getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"												getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"														\"/\") + 1) + \" WHERE \"\n";
+		getGlobal=getGlobal+"										+ className.back() + \"ID = \" + sid);\n";
+		getGlobal=getGlobal+"				do {\n";
+		getGlobal=getGlobal+"					restempmulti->next();\n";
+		getGlobal=getGlobal+"					std::string\n";
+		getGlobal=getGlobal+"							table =\n";
+		getGlobal=getGlobal+"									getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"											0,\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"													\"/\"));\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"					//Add the data\n";
+		getGlobal=getGlobal+"					prep_stmt\n";
+		getGlobal=getGlobal+"							= connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"									DAO::getSqlQueriesDataSingle[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"											0,\n";
+		getGlobal=getGlobal+"											getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"													\"/\"))]);\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"					prep_stmt->setInt(1, restempmulti->getInt(1));\n";
+		getGlobal=getGlobal+"					res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"					res->next();\n";
+		getGlobal=getGlobal+"					res_meta = res -> getMetaData();\n";
+		getGlobal=getGlobal+"					for (int i = 0; i < (int) res_meta -> getColumnCount(); ++i) {\n";
+		getGlobal=getGlobal+"						map[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"								getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"										\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"								+ res_meta -> getColumnLabel(i + 1)]\n";
+		getGlobal=getGlobal+"								= res->getString(i + 1);\n";
+		getGlobal=getGlobal+"					}\n";
+		getGlobal=getGlobal+"					delete (prep_stmt);\n";
+		getGlobal=getGlobal+"					delete (res);\n";
+		getGlobal=getGlobal+"					//End Add the Data\n";
+		getGlobal=getGlobal+"					//Add the Data multi\n";
+		getGlobal=getGlobal+"					std::string temp = \"\";\n";
+		getGlobal=getGlobal+"					for (int unsigned i = 0; i\n";
+		getGlobal=getGlobal+"							< DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"									0,\n";
+		getGlobal=getGlobal+"									getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"											\"/\"))].size(); i++) {\n";
+		getGlobal=getGlobal+"						prep_stmt\n";
+		getGlobal=getGlobal+"								= connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"										DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"												0,\n";
+		getGlobal=getGlobal+"												getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"														\"/\"))][i]);\n";
+		getGlobal=getGlobal+"						prep_stmt->setInt(1, restempmulti->getInt(1));\n";
+		getGlobal=getGlobal+"						res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"						while (res->next()) {\n";
+		getGlobal=getGlobal+"							if (!res->last())\n";
+		getGlobal=getGlobal+"								temp = temp + res->getString(1) + \" \";\n";
+		getGlobal=getGlobal+"							else\n";
+		getGlobal=getGlobal+"								temp = temp + res->getString(1);\n";
+		getGlobal=getGlobal+"						}\n";
+		getGlobal=getGlobal+"						res_meta = res -> getMetaData();\n";
+		getGlobal=getGlobal+"						map[getSqlQueriesObjectMulti[className.back()][m].substr(\n";
+		getGlobal=getGlobal+"								getSqlQueriesObjectMulti[className.back()][m].find(\n";
+		getGlobal=getGlobal+"										\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"								+ res_meta -> getColumnLabel(1)] = temp;\n";
+		getGlobal=getGlobal+"						delete (res);\n";
+		getGlobal=getGlobal+"						delete (prep_stmt);\n";
+		getGlobal=getGlobal+"					}\n";
+		getGlobal=getGlobal+"					//End Add Data Multi\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"					// Add Object Single\n";
+		getGlobal=getGlobal+"					for (int unsigned i = 0; i\n";
+		getGlobal=getGlobal+"							< DAO::getSqlQueriesObjectSingle[table].size(); i++) {\n";
+		getGlobal=getGlobal+"						try {\n";
+		getGlobal=getGlobal+"							stmt = connection->getCon()->createStatement();\n";
+		getGlobal=getGlobal+"							if (getSqlQueriesObjectSingle[table][i].substr(0, 1)\n";
+		getGlobal=getGlobal+"									!= \"-\") {\n";
+		getGlobal=getGlobal+"								restemp\n";
+		getGlobal=getGlobal+"										= stmt->executeQuery(\n";
+		getGlobal=getGlobal+"												\"SELECT \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																0,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\"))\n";
+		getGlobal=getGlobal+"														+ \"ID FROM \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																0,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\"))\n";
+		getGlobal=getGlobal+"														+ \", \" + table\n";
+		getGlobal=getGlobal+"														+ \" WHERE \" + table\n";
+		getGlobal=getGlobal+"														+ \"._Name = '\" + name\n";
+		getGlobal=getGlobal+"														+ \"' AND \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\")\n";
+		getGlobal=getGlobal+"																		+ 1)\n";
+		getGlobal=getGlobal+"														+ \" = \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																0,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\"))\n";
+		getGlobal=getGlobal+"														+ \"._Name\");\n";
+		getGlobal=getGlobal+"								prep_stmt\n";
+		getGlobal=getGlobal+"										= connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"												DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"														0,\n";
+		getGlobal=getGlobal+"														getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																\"/\"))]);\n";
+		getGlobal=getGlobal+"							} else {\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"								restemp\n";
+		getGlobal=getGlobal+"										= stmt->executeQuery(\n";
+		getGlobal=getGlobal+"												\"SELECT \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																1,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\")\n";
+		getGlobal=getGlobal+"																		- 1)\n";
+		getGlobal=getGlobal+"														+ \"ID FROM \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																1,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\")\n";
+		getGlobal=getGlobal+"																		- 1)\n";
+		getGlobal=getGlobal+"														+ \", \" + table\n";
+		getGlobal=getGlobal+"														+ \" WHERE \" + table\n";
+		getGlobal=getGlobal+"														+ \"._Name = '\" + name\n";
+		getGlobal=getGlobal+"														+ \"' AND \"\n";
+		getGlobal=getGlobal+"														+ getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\")\n";
+		getGlobal=getGlobal+"																		+ 1)\n";
+		getGlobal=getGlobal+"														+ \" = \" + table\n";
+		getGlobal=getGlobal+"														+ \"._Name\");\n";
+		getGlobal=getGlobal+"								prep_stmt\n";
+		getGlobal=getGlobal+"										= connection->getCon()->prepareStatement(\n";
+		getGlobal=getGlobal+"												DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"														1,\n";
+		getGlobal=getGlobal+"														getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																\"/\") - 1)]);\n";
+		getGlobal=getGlobal+"							}\n";
+		getGlobal=getGlobal+"							do {\n";
+		getGlobal=getGlobal+"								restemp->next();\n";
+		getGlobal=getGlobal+"								prep_stmt->setInt(1, restemp->getInt(1));\n";
+		getGlobal=getGlobal+"								res = prep_stmt->executeQuery();\n";
+		getGlobal=getGlobal+"								do {\n";
+		getGlobal=getGlobal+"									res->next();\n";
+		getGlobal=getGlobal+"									res_meta = res -> getMetaData();\n";
+		getGlobal=getGlobal+"									for (int j = 0; j\n";
+		getGlobal=getGlobal+"											< (int) res_meta -> getColumnCount(); ++j) {\n";
+		getGlobal=getGlobal+"										if (res->isFirst())\n";
+		getGlobal=getGlobal+"											map[getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"													+ res_meta -> getColumnLabel(\n";
+		getGlobal=getGlobal+"															j + 1)]\n";
+		getGlobal=getGlobal+"													= res->getString(j + 1);\n";
+		getGlobal=getGlobal+"										else\n";
+		getGlobal=getGlobal+"											map[getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"													getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"															\"/\") + 1) + \"/\"\n";
+		getGlobal=getGlobal+"													+ res_meta -> getColumnLabel(\n";
+		getGlobal=getGlobal+"															j + 1)]\n";
+		getGlobal=getGlobal+"													= map[getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"															getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																	\"/\") + 1)\n";
+		getGlobal=getGlobal+"															+ \"/\"\n";
+		getGlobal=getGlobal+"															+ res_meta -> getColumnLabel(\n";
+		getGlobal=getGlobal+"																	j + 1)]\n";
+		getGlobal=getGlobal+"															+ \" \"\n";
+		getGlobal=getGlobal+"															+ res->getString(j\n";
+		getGlobal=getGlobal+"																	+ 1);\n";
+		getGlobal=getGlobal+"									}\n";
+		getGlobal=getGlobal+"									if (getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"											0, 1) != \"-\") {\n";
+		getGlobal=getGlobal+"										newName\n";
+		getGlobal=getGlobal+"												= res->getString(\n";
+		getGlobal=getGlobal+"														getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																0,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\"))\n";
+		getGlobal=getGlobal+"																+ \"._NAME\");\n";
+		getGlobal=getGlobal+"									} else {\n";
+		getGlobal=getGlobal+"										newName\n";
+		getGlobal=getGlobal+"												= res->getString(\n";
+		getGlobal=getGlobal+"														getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"																1,\n";
+		getGlobal=getGlobal+"																getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																		\"/\")\n";
+		getGlobal=getGlobal+"																		- 1)\n";
+		getGlobal=getGlobal+"																+ \"._NAME\");\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"									}\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"									if (getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"											0, 1) != \"-\") {\n";
+		getGlobal=getGlobal+"										newTable\n";
+		getGlobal=getGlobal+"												= getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"														0,\n";
+		getGlobal=getGlobal+"														getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																\"/\"));\n";
+		getGlobal=getGlobal+"									} else {\n";
+		getGlobal=getGlobal+"										newTable\n";
+		getGlobal=getGlobal+"												= getSqlQueriesObjectSingle[table][i].substr(\n";
+		getGlobal=getGlobal+"														1,\n";
+		getGlobal=getGlobal+"														getSqlQueriesObjectSingle[table][i].find(\n";
+		getGlobal=getGlobal+"																\"/\") - 1);\n";
+		getGlobal=getGlobal+"									}\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"								} while (res->isLast());\n";
+		getGlobal=getGlobal+"								delete (res);\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"							} while (restemp->isLast());\n";
+		getGlobal=getGlobal+"							delete (restemp);\n";
+		getGlobal=getGlobal+"\n";
+		getGlobal=getGlobal+"							delete (prep_stmt);\n";
+		getGlobal=getGlobal+"							delete (stmt);\n";
+		getGlobal=getGlobal+"						} catch (sql::SQLException &e) {\n";
+		getGlobal=getGlobal+"							std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		getGlobal=getGlobal+"							std::cout << \"(\" << __FUNCTION__ << \") on line \"\n";
+		getGlobal=getGlobal+"									<< __LINE__ << std::endl;\n";
+		getGlobal=getGlobal+"							std::cout << \"# ERR: \" << e.what();\n";
+		getGlobal=getGlobal+"							std::cout << \" (MySQL error code: \"\n";
+		getGlobal=getGlobal+"									<< e.getErrorCode();\n";
+		getGlobal=getGlobal+"							std::cout << \", SQLState: \" << e.getSQLState()\n";
+		getGlobal=getGlobal+"									<< \" )\" << std::endl;\n";
+		getGlobal=getGlobal+"						}\n";
+		getGlobal=getGlobal+"					}\n";
+		getGlobal=getGlobal+"				} while (restempmulti->isLast());\n";
+		getGlobal=getGlobal+"				delete (restempmulti);\n";
+		getGlobal=getGlobal+"			} catch (sql::SQLException &e) {\n";
+		getGlobal=getGlobal+"				std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		getGlobal=getGlobal+"				std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		getGlobal=getGlobal+"						<< std::endl;\n";
+		getGlobal=getGlobal+"				std::cout << \"# ERR: \" << e.what();\n";
+		getGlobal=getGlobal+"				std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		getGlobal=getGlobal+"				std::cout << \", SQLState: \" << e.getSQLState() << \" )\"\n";
+		getGlobal=getGlobal+"						<< std::endl;\n";
+		getGlobal=getGlobal+"			}\n";
+		getGlobal=getGlobal+"		}\n";
+		getGlobal=getGlobal+"	} catch (sql::SQLException &e) {\n";
+		getGlobal=getGlobal+"		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		getGlobal=getGlobal+"		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		getGlobal=getGlobal+"				<< std::endl;\n";
+		getGlobal=getGlobal+"		std::cout << \"# ERR: \" << e.what();\n";
+		getGlobal=getGlobal+"		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		getGlobal=getGlobal+"		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
+		getGlobal=getGlobal+"	}\n";
+		getGlobal=getGlobal+"	className.pop_back();\n";
+		getGlobal=getGlobal+"	return map;\n";
 		getGlobal = getGlobal + "}\n";
 		getGlobal = getGlobal + "\n";
 
-		return result + getGlobal + generateSetSQL(attributes, unit);
+		String setGlobal = "void DAO::set(std::map<std::string,std::string> data){\n};";
+
+		return result + getGlobal + setGlobal;
 	}
 
 	public void generateGetSQL(ArrayList<String> attributes,
@@ -1124,10 +1012,8 @@ public class daoGenerator {
 		fillGetSqlQueries();
 	}
 
-	public String generateSetSQL(ArrayList<String> attributes,
+	public void generateSetSQL(ArrayList<String> attributes,
 			ArrayList<String> unit) {
-
-		return "void DAO::set(std::string name){\n};";
 
 	}
 

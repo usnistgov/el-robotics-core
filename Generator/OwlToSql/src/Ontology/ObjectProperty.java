@@ -214,7 +214,7 @@ public class ObjectProperty {
 				.entrySet()) {
 			ArrayList<OWLObjectProperty> value = currentEntry.getValue();
 			for (OWLObjectProperty d : value) {
-				if (d.isFunctional(ontology) || d.isInverseFunctional(ontology))
+				if (d.isFunctional(ontology) /*|| d.isInverseFunctional(ontology)*/)
 					objectSingleValued.put(
 							d.toString().substring(
 									d.toString().indexOf(SEPARATOR) + 1,

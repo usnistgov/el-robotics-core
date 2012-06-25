@@ -4,23 +4,23 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "BoxyObject.h"
- #include "LargeBoxWithKits.h"
  class LargeBoxWithKits;
- #include "LargeBoxWithEmptyKitTrays.h"
  class LargeBoxWithEmptyKitTrays;
- #include "DAO.h"
  class DAO;
- #include <string>
 class LargeContainer: public BoxyObject{private:
 std::string hasLargeContainer_SkuRef;
 std::string hasLargeContainer_SerialNumber;
 std::string name;
 int LargeContainerID;
 DAO* dao;
-LargeBoxWithKits* hadByLargeContainer_LargeBoxWithKits;
-LargeBoxWithEmptyKitTrays* hadByLargeContainer_LargeBoxWithEmptyKitTrays;
+LargeBoxWithKits* hasLargeBoxWithKits_LargeContainer;
+LargeBoxWithEmptyKitTrays* hasLargeBoxWithEmptyKitTrays_LargeContainer;
 public:
 LargeContainer(std::string name);
 ~LargeContainer();
@@ -33,15 +33,13 @@ void sethasLargeContainer_SkuRef(std::string _hasLargeContainer_SkuRef);
 std::string gethasLargeContainer_SerialNumber();
 void sethasLargeContainer_SerialNumber(std::string _hasLargeContainer_SerialNumber);
 std::string getname();
-void setname(std::string _name);
 int getLargeContainerID();
-void setLargeContainerID(int _LargeContainerID);
 DAO* getdao();
 void setdao(DAO* _dao);
-LargeBoxWithKits* gethadByLargeContainer_LargeBoxWithKits();
-void sethadByLargeContainer_LargeBoxWithKits(LargeBoxWithKits* _hadByLargeContainer_LargeBoxWithKits);
-LargeBoxWithEmptyKitTrays* gethadByLargeContainer_LargeBoxWithEmptyKitTrays();
-void sethadByLargeContainer_LargeBoxWithEmptyKitTrays(LargeBoxWithEmptyKitTrays* _hadByLargeContainer_LargeBoxWithEmptyKitTrays);
+LargeBoxWithKits* gethasLargeBoxWithKits_LargeContainer();
+void sethasLargeBoxWithKits_LargeContainer(LargeBoxWithKits* _hasLargeBoxWithKits_LargeContainer);
+LargeBoxWithEmptyKitTrays* gethasLargeBoxWithEmptyKitTrays_LargeContainer();
+void sethasLargeBoxWithEmptyKitTrays_LargeContainer(LargeBoxWithEmptyKitTrays* _hasLargeBoxWithEmptyKitTrays_LargeContainer);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* LARGECONTAINER_H_ */

@@ -1,28 +1,40 @@
 #include "KitTray.h"
 
+
+ #include "KitInstance.h"
+ #include "LargeBoxWithEmptyKitTrays.h"
+ #include "DAO.h"
+
 KitTray::KitTray(std::string name) : BoxyObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hadByKitTray_LargeBoxWithEmptyKitTrays = NULL;
+hasKitInstance_Tray = NULL;
+
 }KitTray::~KitTray(){
 delete(dao);
-delete(hadByKitTray_KitInstance);
+delete(hadByKitTray_LargeBoxWithEmptyKitTrays);
+delete(hasKitInstance_Tray);
 }
 std::string KitTray::gethasKitTray_SerialNumber(){
-return this->hasKitTray_SerialNumber;
+return hasKitTray_SerialNumber;
 }
 std::string KitTray::gethasKitTray_SkuRef(){
-return this->hasKitTray_SkuRef;
+return hasKitTray_SkuRef;
 }
 std::string KitTray::getname(){
-return this->name;
+return name;
 }
 int KitTray::getKitTrayID(){
-return this->KitTrayID;
+return KitTrayID;
 }
 DAO* KitTray::getdao(){
-return this->dao;
+return dao;
 }
-KitInstance* KitTray::gethadByKitTray_KitInstance(){
-return this->hadByKitTray_KitInstance;
+LargeBoxWithEmptyKitTrays* KitTray::gethadByKitTray_LargeBoxWithEmptyKitTrays(){
+return hadByKitTray_LargeBoxWithEmptyKitTrays;
+}
+KitInstance* KitTray::gethasKitInstance_Tray(){
+return hasKitInstance_Tray;
 }
 void KitTray::sethasKitTray_SerialNumber(std::string _hasKitTray_SerialNumber){
 this->hasKitTray_SerialNumber= _hasKitTray_SerialNumber;
@@ -30,32 +42,36 @@ this->hasKitTray_SerialNumber= _hasKitTray_SerialNumber;
 void KitTray::sethasKitTray_SkuRef(std::string _hasKitTray_SkuRef){
 this->hasKitTray_SkuRef= _hasKitTray_SkuRef;
 }
-void KitTray::setname(std::string _name){
-this->name= _name;
-}
-void KitTray::setKitTrayID(int _KitTrayID){
-this->KitTrayID= _KitTrayID;
-}
 void KitTray::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void KitTray::sethadByKitTray_KitInstance(KitInstance* _hadByKitTray_KitInstance){
-this->hadByKitTray_KitInstance= _hadByKitTray_KitInstance;
+void KitTray::sethadByKitTray_LargeBoxWithEmptyKitTrays(LargeBoxWithEmptyKitTrays* _hadByKitTray_LargeBoxWithEmptyKitTrays){
+this->hadByKitTray_LargeBoxWithEmptyKitTrays= _hadByKitTray_LargeBoxWithEmptyKitTrays;
+}
+void KitTray::sethasKitInstance_Tray(KitInstance* _hasKitInstance_Tray){
+this->hasKitInstance_Tray= _hasKitInstance_Tray;
 }
 void KitTray::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("BoxyObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  BoxyObject::copy(temp);
-delete (dao);
 dao  = new DAO("KitTray");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void KitTray::set(std::string name){
- dao  = new DAO("KitTray");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasKitTray_SerialNumber"]=hasKitTray_SerialNumber;
+data["hasKitTray_SkuRef"]=hasKitTray_SkuRef;
+data["name"]=name;
+data["KitTrayID"]=KitTrayID;
+data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=hadByKitTray_LargeBoxWithEmptyKitTrays->getname();
+data["hasKitInstance_Tray"]=hasKitInstance_Tray->getname();
+dao  = new DAO("KitTray");
+dao->set(data);
 delete (dao);
 }
 
@@ -64,26 +80,23 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<KitTray*> tmp;
 this->hasKitTray_SerialNumber = object["KitTray.hasKitTray_SerialNumber"];
 this->hasKitTray_SkuRef = object["KitTray.hasKitTray_SkuRef"];
 this->name = object["KitTray._NAME"];
 this->KitTrayID = std::atof(object["KitTray.KitTrayID"].c_str());
-this->hadByKitTray_KitInstance = new KitInstance(" ");
-this->hadByKitTray_KitInstance->sethadByKitTray_KitInstance(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,25) == "hadByKitTray_KitInstance/"){
-mapTemp[it->first.substr(25,it->first.length())] = it->second;
+if(this->hadByKitTray_LargeBoxWithEmptyKitTrays== NULL && object["hadByKitTray_LargeBoxWithEmptyKitTrays/LargeBoxWithEmptyKitTrays._NAME"]!=""){
+this->hadByKitTray_LargeBoxWithEmptyKitTrays = new LargeBoxWithEmptyKitTrays(object["hadByKitTray_LargeBoxWithEmptyKitTrays/LargeBoxWithEmptyKitTrays._NAME"]);
 }
+if(this->hasKitInstance_Tray== NULL && object["hasKitInstance_Tray/KitInstance._NAME"]!=""){
+this->hasKitInstance_Tray = new KitInstance(object["hasKitInstance_Tray/KitInstance._NAME"]);
 }
-if(!mapTemp.empty())this->hadByKitTray_KitInstance->copy(mapTemp);
 
 }std::vector<std::string> KitTray::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

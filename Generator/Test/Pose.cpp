@@ -1,32 +1,34 @@
 #include "Pose.h"
 
+
+ #include "DAO.h"
+ #include "Point.h"
+ #include "RollPitchYaw.h"
+
 Pose::Pose(std::string name) : PhysicalLocation(name){
-this->name=name;
+this->name=name;dao = NULL;
+hasPose_Point = NULL;
+hasPose_Rpy = NULL;
+
 }Pose::~Pose(){
 delete(dao);
 delete(hasPose_Point);
 delete(hasPose_Rpy);
 }
 std::string Pose::getname(){
-return this->name;
+return name;
 }
 int Pose::getPoseID(){
-return this->PoseID;
+return PoseID;
 }
 DAO* Pose::getdao(){
-return this->dao;
+return dao;
 }
 Point* Pose::gethasPose_Point(){
-return this->hasPose_Point;
+return hasPose_Point;
 }
 RollPitchYaw* Pose::gethasPose_Rpy(){
-return this->hasPose_Rpy;
-}
-void Pose::setname(std::string _name){
-this->name= _name;
-}
-void Pose::setPoseID(int _PoseID){
-this->PoseID= _PoseID;
+return hasPose_Rpy;
 }
 void Pose::setdao(DAO* _dao){
 this->dao= _dao;
@@ -40,17 +42,22 @@ this->hasPose_Rpy= _hasPose_Rpy;
 void Pose::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("PhysicalLocation");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  PhysicalLocation::copy(temp);
-delete (dao);
 dao  = new DAO("Pose");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void Pose::set(std::string name){
- dao  = new DAO("Pose");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["name"]=name;
+data["PoseID"]=PoseID;
+data["hasPose_Point"]=hasPose_Point->getname();
+data["hasPose_Rpy"]=hasPose_Rpy->getname();
+dao  = new DAO("Pose");
+dao->set(data);
 delete (dao);
 }
 
@@ -59,34 +66,21 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<Pose*> tmp;
 this->name = object["Pose._NAME"];
 this->PoseID = std::atof(object["Pose.PoseID"].c_str());
-this->hasPose_Point = new Point(" ");
-this->hasPose_Point->sethasPose_Point(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,14) == "hasPose_Point/"){
-mapTemp[it->first.substr(14,it->first.length())] = it->second;
+if(this->hasPose_Point== NULL && object["hasPose_Point/Point._NAME"]!=""){
+this->hasPose_Point = new Point(object["hasPose_Point/Point._NAME"]);
 }
+if(this->hasPose_Rpy== NULL && object["hasPose_Rpy/RollPitchYaw._NAME"]!=""){
+this->hasPose_Rpy = new RollPitchYaw(object["hasPose_Rpy/RollPitchYaw._NAME"]);
 }
-if(!mapTemp.empty())this->hasPose_Point->copy(mapTemp);
-this->hasPose_Rpy = new RollPitchYaw(" ");
-this->hasPose_Rpy->sethasPose_Rpy(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,12) == "hasPose_Rpy/"){
-mapTemp[it->first.substr(12,it->first.length())] = it->second;
-}
-}
-if(!mapTemp.empty())this->hasPose_Rpy->copy(mapTemp);
 
 }std::vector<std::string> Pose::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

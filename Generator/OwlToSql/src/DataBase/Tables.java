@@ -44,6 +44,7 @@ public class Tables {
 	// <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>,Table2
 	// => <Attribute1,Attribute2,...> >
 
+	@SuppressWarnings("unchecked")
 	public Tables(String path, ArrayList<String> cc,
 			ArrayList<ArrayList<String>> dataPropertiesClean,
 			HashMap<String, String> dataSingleValued,
@@ -168,60 +169,76 @@ public class Tables {
 	}
 
 	// generate the SQL foreign keys in the SQL script
+	@SuppressWarnings("unchecked")
 	private String foreignKey() {
+		ArrayList<ArrayList<String>> opClean = new ArrayList<ArrayList<String>>();
+
+		for (int i = 0; i < objectPropertiesClean.size(); i++) {
+			opClean.add((ArrayList<String>) objectPropertiesClean.get(i)
+					.clone());
+
+		}
+
 		String result = "";
 		ArrayList<String> temp;
-		for (int i = 0; i < objectPropertiesClean.size(); i++) {
-			if (objectPropertiesClean.get(i).size() > 1) {
-				for (int j = 1; j < objectPropertiesClean.get(i).size(); j++) {
-					if (objectSingleValued.get(
-							objectPropertiesClean.get(i).get(j)).equals("true")) {
-						// rule 4 in the OWL to SQL Paper => one to zero or one
-						if (objectPropertyInverse
-								.containsKey(objectPropertiesClean.get(i)
-										.get(j))
+		for (int i = 0; i < opClean.size(); i++) {
+			if (opClean.get(i).size() > 1) {
+				for (int j = 1; j < opClean.get(i).size(); j++) {
+					// deleting the inverse to not add useless properties
+					for (int d = 0; d < objectPropertyRanges.get(
+							opClean.get(i).get(j)).size(); d++) {
+						for (int s = 0; s < opClean.size(); s++) {
+							if (opClean
+									.get(s)
+									.get(0)
+									.equals(objectPropertyRanges.get(
+											opClean.get(i).get(j)).get(d))) {
+								opClean.get(s).remove(
+										objectPropertyInverse.get(opClean
+												.get(i).get(j)));
+								break;
+							}
+						}
+					}
+
+					if (objectSingleValued.get(opClean.get(i).get(j)).equals(
+							"true")) {
+						// rule 4 in the OWL to SQL Paper => one to zero or
+						// one
+						if (objectPropertyInverse.containsKey(opClean.get(i)
+								.get(j))
 								&& objectSingleValued
 										.containsKey(objectPropertyInverse
-												.get(objectPropertiesClean.get(
-														i).get(j)))
+												.get(opClean.get(i).get(j)))
 								&& objectSingleValued.get(
-										objectPropertyInverse
-												.get(objectPropertiesClean.get(
-														i).get(j))).equals(
-										"true")
-								&& objectRequired
-										.containsKey(objectPropertiesClean.get(
-												i).get(j))
-								&& objectRequired.get(
-										objectPropertiesClean.get(i).get(j))
-										.equals("true")) {
+										objectPropertyInverse.get(opClean
+												.get(i).get(j))).equals("true")
+								&& objectRequired.containsKey(opClean.get(i)
+										.get(j))
+								&& objectRequired.get(opClean.get(i).get(j))
+										.equals("false")) {
 
-							if (objectPropertyRanges
-									.containsKey(objectPropertiesClean.get(i)
-											.get(j))) {
+							if (objectPropertyRanges.containsKey(opClean.get(i)
+									.get(j))) {
 								ArrayList<String> value = objectPropertyRanges
-										.get(objectPropertiesClean.get(i)
-												.get(j));
+										.get(opClean.get(i).get(j));
 								for (int p = 0; p < value.size(); p++) {
 									result = result
 											+ "\n\nALTER TABLE "
 											+ value.get(p)
 											+ "\nADD "
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j))
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))
 											+ " VARCHAR(255),"
 											+ "\nADD CONSTRAINT fk"
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j))
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))
 											+ "\nFOREIGN KEY("
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j))
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))
 											+ ") REFERENCES "
-											+ objectPropertiesClean.get(i).get(
-													0) + "(NAME);";
+											+ opClean.get(i).get(0)
+											+ "(_NAME);";
 
 									if (tables.containsKey(value.get(p))) {
 										temp = tables.get(value.get(p));
@@ -230,166 +247,129 @@ public class Tables {
 									}
 
 									if (!temp.contains(objectPropertyInverse
-											.get(objectPropertiesClean.get(i)
-													.get(j))))
+											.get(opClean.get(i).get(j))))
 										temp.add(objectPropertyInverse
-												.get(objectPropertiesClean.get(
-														i).get(j)));
+												.get(opClean.get(i).get(j)));
 
 									tables.put(value.get(p), temp);
 
-									if (tables
-											.containsKey(objectPropertiesClean
-													.get(i).get(0))) {
-										temp = tables.get(objectPropertiesClean
-												.get(i).get(0));
+									if (tables.containsKey(opClean.get(i)
+											.get(0))) {
+										temp = tables
+												.get(opClean.get(i).get(0));
 									} else {
 										temp = new ArrayList<String>();
 									}
 
 									if (!temp.contains(value.get(p)
 											+ "/"
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j))))
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))))
 										temp.add(value.get(p)
 												+ "/"
 												+ objectPropertyInverse
-														.get(objectPropertiesClean
-																.get(i).get(j)));
+														.get(opClean.get(i)
+																.get(j)));
 
-									tables.put(objectPropertiesClean.get(i)
-											.get(0), temp);
+									tables.put(opClean.get(i).get(0), temp);
 
 								}
 
 							}
 						}
 						// End rule 4
-						else if (objectSingleValued.get(
-								objectPropertiesClean.get(i).get(j)).equals(
-								"true")) {
-							// rule 5 in the OWL to SQL Paper => zero or one to
-							// one
-							if (!objectPropertyInverse
-									.containsValue(objectPropertiesClean.get(i)
-											.get(j))
-									&& objectPropertyRanges
-											.containsKey(objectPropertiesClean
-													.get(i).get(j))) {
-								ArrayList<String> value = objectPropertyRanges
-										.get(objectPropertiesClean.get(i)
-												.get(j));
-								for (int p = 0; p < value.size(); p++) {
-									result = result
-											+ "\n\nALTER TABLE "
-											+ objectPropertiesClean.get(i).get(
-													0)
-											+ "\nADD "
-											+ objectPropertiesClean.get(i).get(
-													j)
-											+ " VARCHAR(255),"
-											+ "\nADD CONSTRAINT fk"
+						else {
+							// rule 5 in the OWL to SQL Paper => zero or one
+							// to
+							// one - many to one
 
-											+ objectPropertiesClean.get(i).get(
-													j)
-											+ "\nFOREIGN KEY("
-											+ objectPropertiesClean.get(i).get(
-													j) + ") REFERENCES "
-											+ value.get(p) + "(_NAME);";
-									if (tables
-											.containsKey(objectPropertiesClean
-													.get(i).get(0))) {
-										temp = tables.get(objectPropertiesClean
-												.get(i).get(0));
-									} else {
-										temp = new ArrayList<String>();
-									}
-									if (!temp.contains(objectPropertiesClean
-											.get(i).get(j)))
-										temp.add(objectPropertiesClean.get(i)
-												.get(j));
-									tables.put(objectPropertiesClean.get(i)
-											.get(0), temp);
+							ArrayList<String> value = objectPropertyRanges
+									.get(opClean.get(i).get(j));
+							for (int p = 0; p < value.size(); p++) {
+								result = result + "\n\nALTER TABLE "
+										+ opClean.get(i).get(0) + "\nADD "
+										+ opClean.get(i).get(j)
+										+ " VARCHAR(255),"
+										+ "\nADD CONSTRAINT fk"
 
+										+ opClean.get(i).get(j)
+										+ "\nFOREIGN KEY("
+										+ opClean.get(i).get(j)
+										+ ") REFERENCES " + value.get(p)
+										+ "(_NAME);";
+								if (tables.containsKey(opClean.get(i).get(0))) {
+									temp = tables.get(opClean.get(i).get(0));
+								} else {
+									temp = new ArrayList<String>();
 								}
+								if (!temp.contains(opClean.get(i).get(j)))
+									temp.add(opClean.get(i).get(j));
+								tables.put(opClean.get(i).get(0), temp);
+
 							}
 						}
 
 					}
 					// End rule 5
-					else if (objectSingleValued.get(
-							objectPropertiesClean.get(i).get(j))
+					else if (objectSingleValued.get(opClean.get(i).get(j))
 							.equals("false")) {
 						// rule 6 in the OWL to SQL Paper => one to many
-						if (objectPropertyInverse
-								.containsKey(objectPropertiesClean.get(i)
-										.get(j))
+						if (objectPropertyInverse.containsKey(opClean.get(i)
+								.get(j))
 								&& objectSingleValued
 										.containsKey(objectPropertyInverse
-												.get(objectPropertiesClean.get(
-														i).get(j)))
+												.get(opClean.get(i).get(j)))
 								&& objectSingleValued.get(
-										objectPropertyInverse
-												.get(objectPropertiesClean.get(
-														i).get(j))).equals(
-										"true")) {
+										objectPropertyInverse.get(opClean
+												.get(i).get(j))).equals("true")) {
 
-							if (objectPropertyRanges
-									.containsKey(objectPropertiesClean.get(i)
-											.get(j))) {
+							if (objectPropertyRanges.containsKey(opClean.get(i)
+									.get(j))) {
 
 								ArrayList<String> value = objectPropertyRanges
-										.get(objectPropertiesClean.get(i)
-												.get(j));
+										.get(opClean.get(i).get(j));
 								for (int p = 0; p < value.size(); p++) {
 
 									result = result
 											+ "\n\nALTER TABLE "
 											+ value.get(p)
 											+ "\nADD "
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j))
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))
 											+ " VARCHAR(255),"
 											+ "\nADD CONSTRAINT fk"
 
-											+ objectPropertiesClean.get(i).get(
-													j)
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))
 											+ "\nFOREIGN KEY("
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j))
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j))
 											+ ") REFERENCES "
-											+ objectPropertiesClean.get(i).get(
-													0) + "(_NAME);";
+											+ opClean.get(i).get(0)
+											+ "(_NAME);";
 									if (tables.containsKey(value.get(p))) {
 										temp = tables.get(value.get(p));
 									} else {
 										temp = new ArrayList<String>();
 									}
 
-									temp.add(objectPropertyInverse
-											.get(objectPropertiesClean.get(i)
-													.get(j)));
+									temp.add(objectPropertyInverse.get(opClean
+											.get(i).get(j)));
 									tables.put(value.get(p), temp);
 
-									if (tables
-											.containsKey(objectPropertiesClean
-													.get(i).get(0))) {
-										temp = tables.get(objectPropertiesClean
-												.get(i).get(0));
+									if (tables.containsKey(opClean.get(i)
+											.get(0))) {
+										temp = tables
+												.get(opClean.get(i).get(0));
 									} else {
 										temp = new ArrayList<String>();
 									}
 
 									temp.add(value.get(p)
 											+ "/"
-											+ objectPropertyInverse
-													.get(objectPropertiesClean
-															.get(i).get(j)));
-									tables.put(objectPropertiesClean.get(i)
-											.get(0), temp);
+											+ objectPropertyInverse.get(opClean
+													.get(i).get(j)));
+									tables.put(opClean.get(i).get(0), temp);
 								}
 
 							}
@@ -397,135 +377,110 @@ public class Tables {
 						// End rule 6
 						else {
 							// rule 7 => many to many => assoctiation table
-							if (objectPropertyRanges
-									.containsKey(objectPropertiesClean.get(i)
-											.get(j))) {
+							if (objectPropertyRanges.containsKey(opClean.get(i)
+									.get(j))) {
 								ArrayList<String> value = objectPropertyRanges
-										.get(objectPropertiesClean.get(i)
-												.get(j));
+										.get(opClean.get(i).get(j));
 								for (int p = 0; p < value.size(); p++) {
 									if (p == 0) {
 										if (!value.get(p).equals(
-												objectPropertiesClean.get(i)
-														.get(0))) {
+												opClean.get(i).get(0))) {
 											result = result
 													+ "\n\nCREATE TABLE "
-													+ objectPropertiesClean
-															.get(i).get(j)
+													+ opClean.get(i).get(j)
 													+ "(\n"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID INT NOT NULL,\n"
 													+ value.get(p)
 													+ "ID INT NOT NULL,"
 
 													+ "\nPRIMARY KEY ("
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID," + value.get(p)
 													+ "ID)\n);";
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(j))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(j));
+											if (tables.containsKey(opClean.get(
+													i).get(j))) {
+												temp = tables.get(opClean
+														.get(i).get(j));
 											} else {
 												temp = new ArrayList<String>();
 											}
 
-											temp.add(objectPropertiesClean.get(
-													i).get(0)
+											temp.add(opClean.get(i).get(0)
 													+ "ID");
 											temp.add(value.get(p) + "ID");
-											tables.put(objectPropertiesClean
-													.get(i).get(j), temp);
+											tables.put(opClean.get(i).get(j),
+													temp);
 
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(0))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(0));
+											if (tables.containsKey(opClean.get(
+													i).get(0))) {
+												temp = tables.get(opClean
+														.get(i).get(0));
 											} else {
 												temp = new ArrayList<String>();
 											}
 
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
+											temp.add(opClean.get(i).get(j)
 													+ "/"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID");
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
+											temp.add(opClean.get(i).get(j)
 													+ "/" + value.get(p) + "ID");
-											tables.put(objectPropertiesClean
-													.get(i).get(0), temp);
+											tables.put(opClean.get(i).get(0),
+													temp);
 
 										} else {
 											// case if the ids of the
-											// association table have the same
+											// association table have the
+											// same
 											// type
 											result = result
 													+ "\n\nCREATE TABLE "
-													+ objectPropertiesClean
-															.get(i).get(j)
+													+ opClean.get(i).get(j)
 													+ "(\n"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID INT NOT NULL,\n"
 													+ value.get(p)
 													+ "2ID INT NOT NULL,"
 
 													+ "\nPRIMARY KEY ("
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID," + value.get(p)
 													+ "2ID)\n);";
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(j))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(j));
+											if (tables.containsKey(opClean.get(
+													i).get(j))) {
+												temp = tables.get(opClean
+														.get(i).get(j));
 											} else {
 												temp = new ArrayList<String>();
 											}
 
-											temp.add(objectPropertiesClean.get(
-													i).get(0)
+											temp.add(opClean.get(i).get(0)
 													+ "ID");
 
 											temp.add(value.get(p) + "2ID");
 
-											tables.put(objectPropertiesClean
-													.get(i).get(j), temp);
+											tables.put(opClean.get(i).get(j),
+													temp);
 
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(0))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(0));
+											if (tables.containsKey(opClean.get(
+													i).get(0))) {
+												temp = tables.get(opClean
+														.get(i).get(0));
 											} else {
 												temp = new ArrayList<String>();
 											}
 
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
+											temp.add(opClean.get(i).get(j)
 													+ "/"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID");
 
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
-													+ "/"
-													+ value.get(p)
+											temp.add(opClean.get(i).get(j)
+													+ "/" + value.get(p)
 													+ "2ID");
-											tables.put(objectPropertiesClean
-													.get(i).get(0), temp);
+											tables.put(opClean.get(i).get(0),
+													temp);
 
 										}
 									} else {
@@ -534,181 +489,145 @@ public class Tables {
 										// we must make severals association
 										// and distinct tables
 										if (!value.get(p).equals(
-												objectPropertiesClean.get(i)
-														.get(0))) {
+												opClean.get(i).get(0))) {
 											result = result
 													+ "\n\nCREATE TABLE "
-													+ objectPropertiesClean
-															.get(i).get(j)
+													+ opClean.get(i).get(j)
 													+ String.valueOf(i)
 													+ String.valueOf(j)
-													+ String.valueOf(p)
-													+ "(\n"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ String.valueOf(p) + "(\n"
+													+ opClean.get(i).get(0)
 													+ "ID INT NOT NULL,\n"
 													+ value.get(p)
 													+ "ID INT NOT NULL,"
 
 													+ "\nPRIMARY KEY ("
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID," + value.get(p)
 													+ "ID)\n);";
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(j)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(j)
-																+ String.valueOf(i)
-																+ String.valueOf(j)
-																+ String.valueOf(p));
+											if (tables.containsKey(opClean.get(
+													i).get(j)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p))) {
+												temp = tables.get(opClean
+														.get(i).get(j)
+														+ String.valueOf(i)
+														+ String.valueOf(j)
+														+ String.valueOf(p));
 											} else {
 												temp = new ArrayList<String>();
 											}
 
-											temp.add(objectPropertiesClean.get(
-													i).get(0)
+											temp.add(opClean.get(i).get(0)
 													+ "ID");
 
 											temp.add(value.get(p) + "ID");
-											tables.put(
-													objectPropertiesClean
-															.get(i).get(j)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p),
-													temp);
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(0)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(0)
-																+ String.valueOf(i)
-																+ String.valueOf(j)
-																+ String.valueOf(p));
+											tables.put(opClean.get(i).get(j)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p), temp);
+											if (tables.containsKey(opClean.get(
+													i).get(0)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p))) {
+												temp = tables.get(opClean
+														.get(i).get(0)
+														+ String.valueOf(i)
+														+ String.valueOf(j)
+														+ String.valueOf(p));
 											} else {
 												temp = new ArrayList<String>();
 											}
 
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
+											temp.add(opClean.get(i).get(j)
 													+ "/"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID");
 
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
+											temp.add(opClean.get(i).get(j)
 													+ "/" + value.get(p) + "ID");
-											tables.put(
-													objectPropertiesClean
-															.get(i).get(0)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p),
-													temp);
+											tables.put(opClean.get(i).get(0)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p), temp);
 										} else {
-											// case if the association exist for
+											// case if the association exist
+											// for
 											// multiple ranges or domain
-											// we must make severals association
+											// we must make severals
+											// association
 											// and distinct tables
-											// and the 2 id have the same range
+											// and the 2 id have the same
+											// range
 											// or domain
 											result = result
 													+ "\n\nCREATE TABLE "
-													+ objectPropertiesClean
-															.get(i).get(j)
+													+ opClean.get(i).get(j)
 													+ String.valueOf(i)
 													+ String.valueOf(j)
-													+ String.valueOf(p)
-													+ "(\n"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ String.valueOf(p) + "(\n"
+													+ opClean.get(i).get(0)
 													+ "ID INT NOT NULL,\n"
 													+ value.get(p)
 													+ "2ID INT NOT NULL,"
 
 													+ "\nPRIMARY KEY ("
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ opClean.get(i).get(0)
 													+ "ID," + value.get(p)
 													+ "2ID)\n);";
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(j)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(j)
-																+ String.valueOf(i)
-																+ String.valueOf(j)
-																+ String.valueOf(p));
-											} else {
-												temp = new ArrayList<String>();
-											}
-
-											temp.add(objectPropertiesClean.get(
-													i).get(0)
-													+ "ID");
-
-											temp.add(value.get(p) + "2ID");
-											tables.put(
-													objectPropertiesClean
-															.get(i).get(j)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p),
-													temp);
-
-											if (tables
-													.containsKey(objectPropertiesClean
-															.get(i).get(0)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p))) {
-												temp = tables
-														.get(objectPropertiesClean
-																.get(i).get(0)
-																+ String.valueOf(i)
-																+ String.valueOf(j)
-																+ String.valueOf(p));
-											} else {
-												temp = new ArrayList<String>();
-											}
-
-											temp.add(objectPropertiesClean.get(
+											if (tables.containsKey(opClean.get(
 													i).get(j)
 													+ String.valueOf(i)
 													+ String.valueOf(j)
-													+ String.valueOf(p)
-													+ "/"
-													+ objectPropertiesClean
-															.get(i).get(0)
+													+ String.valueOf(p))) {
+												temp = tables.get(opClean
+														.get(i).get(j)
+														+ String.valueOf(i)
+														+ String.valueOf(j)
+														+ String.valueOf(p));
+											} else {
+												temp = new ArrayList<String>();
+											}
+
+											temp.add(opClean.get(i).get(0)
 													+ "ID");
 
-											temp.add(objectPropertiesClean.get(
-													i).get(j)
-													+ "/"
-													+ value.get(p)
+											temp.add(value.get(p) + "2ID");
+											tables.put(opClean.get(i).get(j)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p), temp);
+
+											if (tables.containsKey(opClean.get(
+													i).get(0)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p))) {
+												temp = tables.get(opClean
+														.get(i).get(0)
+														+ String.valueOf(i)
+														+ String.valueOf(j)
+														+ String.valueOf(p));
+											} else {
+												temp = new ArrayList<String>();
+											}
+
+											temp.add(opClean.get(i).get(j)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p) + "/"
+													+ opClean.get(i).get(0)
+													+ "ID");
+
+											temp.add(opClean.get(i).get(j)
+													+ "/" + value.get(p)
 													+ "2ID");
-											tables.put(
-													objectPropertiesClean
-															.get(i).get(0)
-															+ String.valueOf(i)
-															+ String.valueOf(j)
-															+ String.valueOf(p),
-													temp);
+											tables.put(opClean.get(i).get(0)
+													+ String.valueOf(i)
+													+ String.valueOf(j)
+													+ String.valueOf(p), temp);
 										}
 									}
 								}
@@ -735,7 +654,7 @@ public class Tables {
 	public String attributes(String c) {
 		ArrayList<String> temp;
 		String s = "\n";
-		s = s + "_NAME varchar(100),\n";
+		s = s + "_NAME varchar(255), INDEX (_NAME),\n";
 		ArrayList<String[]> checkUnit = new ArrayList<String[]>();
 		for (int i = 0; i < dataPropertiesClean.size(); i++) {
 			if (dataPropertiesClean.get(i).get(0).equals(c)) {

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -111,6 +113,9 @@ public class Ontology {
 
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					e.getStackTrace());
+
 		}
 	}
 
@@ -128,6 +133,10 @@ public class Ontology {
 
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					e.getStackTrace());
+
+
 		}
 	}
 

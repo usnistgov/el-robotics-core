@@ -59,7 +59,7 @@ public class Gui extends JFrame {
 	public Gui() {
 		setResizable(false);
 		setTitle("OWL to SQL");
-		setSize(400, 350);
+		setSize(450, 400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		tabbedPane = new JTabbedPane();
@@ -178,9 +178,8 @@ public class Gui extends JFrame {
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					JOptionPane
-							.showMessageDialog(getParent(),
-									"Error : Submit your ontology to a validator (on the W3C web site)");
+					JOptionPane.showMessageDialog(getParent(),
+							e.getStackTrace());
 				}
 			}
 		});
@@ -193,7 +192,8 @@ public class Gui extends JFrame {
 								pathSaveCpp.getText());
 						generateClasses(o);
 						generateDao(o, url.getText(), user.getText(),
-								new String(pass.getPassword()), nameDb.getText());
+								new String(pass.getPassword()),
+								nameDb.getText());
 						generateConnection();
 
 						JOptionPane.showMessageDialog(getParent(),
@@ -208,9 +208,9 @@ public class Gui extends JFrame {
 
 				catch (Exception e) {
 					e.printStackTrace();
-					JOptionPane
-							.showMessageDialog(getParent(),
-									"Error : Submit your ontology to a validator (on the W3C web site)");
+					JOptionPane.showMessageDialog(getParent(),
+							e.getStackTrace());
+
 				}
 
 			}
@@ -367,9 +367,35 @@ public class Gui extends JFrame {
 					attributes.add(properties.get(p).substring(
 							properties.get(p).indexOf("/") + 1,
 							properties.get(p).length()));
-					unit.add(properties.get(p).substring(0,
-							properties.get(p).indexOf("/"))
-							+ "*");
+					if (!o.getOp()
+							.getObjectPropertyInverse()
+							.containsKey(
+									properties.get(p).substring(
+											properties.get(p).indexOf("/") + 1,
+											properties.get(p).length())))
+						unit.add("std::vector<"
+								+ properties.get(p).substring(0,
+										properties.get(p).indexOf("/")) + "*>");
+
+					else if (o
+							.getOp()
+							.getObjectSingleValued()
+							.get(o.getOp()
+									.getObjectPropertyInverse()
+									.get(properties.get(p).substring(
+											properties.get(p).indexOf("/") + 1,
+											properties.get(p).length())))
+							.equals("false")) {
+						unit.add("std::vector<"
+								+ properties.get(p).substring(0,
+										properties.get(p).indexOf("/")) + "*>");
+					}
+
+					else {
+						unit.add(properties.get(p).substring(0,
+								properties.get(p).indexOf("/"))
+								+ "*");
+					}
 				}
 
 			}
@@ -401,8 +427,19 @@ public class Gui extends JFrame {
 									&& !attributes.contains(localProperties
 											.get(indLp))) {
 								attributes.add(localProperties.get(indLp));
-								if (o.getOp().getObjectSingleValued()
-										.get(localProperties.get(indLp))
+								if (!o.getOp()
+										.getObjectPropertyInverse()
+										.containsKey(localProperties.get(indLp)))
+									unit.add("std::vector<"
+											+ o.getClassesClean().get(ind)
+											+ "*>");
+
+								else if (o
+										.getOp()
+										.getObjectSingleValued()
+										.get(o.getOp()
+												.getObjectPropertyInverse()
+												.get(localProperties.get(indLp)))
 										.equals("false"))
 									unit.add("std::vector<"
 											+ o.getClassesClean().get(ind)
@@ -422,15 +459,17 @@ public class Gui extends JFrame {
 					.get(i),
 					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
-			typesGen.writeClass(typesGen.generateCpp(
-					o.getClassesClean().get(i),
-					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
+			typesGen.writeClass(typesGen.generateCpp(o.getOp().getObjectPropertyRanges(),o.getOp()
+					.getObjectPropertyInverse(), o.getOp()
+					.getObjectSingleValued(), o.getClassesClean().get(i), o
+					.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
 
 		}
 	}
 
-	private void generateDao(Ontology o, String url, String user, String pass, String nameDb) {
+	private void generateDao(Ontology o, String url, String user, String pass,
+			String nameDb) {
 		daoGenerator dao = new daoGenerator(o.getTables().getTables(),
 				o.getSuperClassesClean(), o.getClassesClean(), o.getOp()
 						.getObjectPropertyInverse(), o.getOp()

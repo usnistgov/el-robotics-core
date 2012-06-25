@@ -1,4 +1,5 @@
 package DataBase;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -688,7 +689,12 @@ public class Individuals {
 										valuesObjectKeys.get(a).toString()
 												.length() - 1));
 					String table = currentEntry.getKey();
-					if (objectKeys.contains(table) || dataKeys.contains(table.substring(0, table.length()-"Value".length()))) {
+					String tablebis = "";
+					if (table.length() > "Value".length())
+						tablebis = table.substring(0,
+								table.length() - "Value".length());
+					if (objectKeys.contains(table)
+							|| dataKeys.contains(tablebis)) {
 
 						ArrayList<Integer> value = currentEntry.getValue();
 						result = result + "INSERT INTO " + table + "\n(";
@@ -769,7 +775,7 @@ public class Individuals {
 										attributesLocal, name);
 				}
 		}
-		int indice_max=0;
+		int indice_max = 0;
 		if (parent.size() == 0) {
 			if (nbInsert.get(table) != null)
 				nbInsert.put(table, nbInsert.get(table) + 1);
@@ -843,7 +849,7 @@ public class Individuals {
 		String[] attributesLocalTabBis = attributesLocalBis.split(",");
 		result = result + "INSERT INTO " + table + "\n("
 				+ attributesLocalBis.substring(2) + ")\nVALUES(";
-		
+
 		if (superClassesClean.containsKey(table))
 			result = result + nbInsert.get(parent.get(indice_max)) + ", ";
 		// Adding data properties

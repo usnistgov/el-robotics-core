@@ -4,15 +4,21 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "SolidObject.h"
- #include "DAO.h"
+ class EndEffector;
+ class EndEffectorChangingStation;
  class DAO;
- #include <string>
 class EndEffectorHolder: public SolidObject{private:
 std::string name;
 int EndEffectorHolderID;
 DAO* dao;
+EndEffectorChangingStation* hadByEndEffectorHolder_ChangingStation;
+EndEffector* hasEndEffectorHolder_EndEffector;
 public:
 EndEffectorHolder(std::string name);
 ~EndEffectorHolder();
@@ -21,11 +27,13 @@ EndEffectorHolder(std::string name);
 void set(int id, EndEffectorHolder* obj);
 void set(std::string name);
 std::string getname();
-void setname(std::string _name);
 int getEndEffectorHolderID();
-void setEndEffectorHolderID(int _EndEffectorHolderID);
 DAO* getdao();
 void setdao(DAO* _dao);
+EndEffectorChangingStation* gethadByEndEffectorHolder_ChangingStation();
+void sethadByEndEffectorHolder_ChangingStation(EndEffectorChangingStation* _hadByEndEffectorHolder_ChangingStation);
+EndEffector* gethasEndEffectorHolder_EndEffector();
+void sethasEndEffectorHolder_EndEffector(EndEffector* _hasEndEffectorHolder_EndEffector);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* ENDEFFECTORHOLDER_H_ */

@@ -4,10 +4,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
 
- #include "DAO.h"
+
  class DAO;
- #include <string>
 class DataThing{private:
 std::string name;
 int DataThingID;
@@ -20,9 +22,7 @@ DataThing(std::string name);
 void set(int id, DataThing* obj);
 void set(std::string name);
 std::string getname();
-void setname(std::string _name);
 int getDataThingID();
-void setDataThingID(int _DataThingID);
 DAO* getdao();
 void setdao(DAO* _dao);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

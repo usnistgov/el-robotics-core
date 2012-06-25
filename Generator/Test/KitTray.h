@@ -4,20 +4,23 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "BoxyObject.h"
- #include "KitInstance.h"
  class KitInstance;
- #include "DAO.h"
+ class LargeBoxWithEmptyKitTrays;
  class DAO;
- #include <string>
 class KitTray: public BoxyObject{private:
 std::string hasKitTray_SerialNumber;
 std::string hasKitTray_SkuRef;
 std::string name;
 int KitTrayID;
 DAO* dao;
-KitInstance* hadByKitTray_KitInstance;
+LargeBoxWithEmptyKitTrays* hadByKitTray_LargeBoxWithEmptyKitTrays;
+KitInstance* hasKitInstance_Tray;
 public:
 KitTray(std::string name);
 ~KitTray();
@@ -30,13 +33,13 @@ void sethasKitTray_SerialNumber(std::string _hasKitTray_SerialNumber);
 std::string gethasKitTray_SkuRef();
 void sethasKitTray_SkuRef(std::string _hasKitTray_SkuRef);
 std::string getname();
-void setname(std::string _name);
 int getKitTrayID();
-void setKitTrayID(int _KitTrayID);
 DAO* getdao();
 void setdao(DAO* _dao);
-KitInstance* gethadByKitTray_KitInstance();
-void sethadByKitTray_KitInstance(KitInstance* _hadByKitTray_KitInstance);
+LargeBoxWithEmptyKitTrays* gethadByKitTray_LargeBoxWithEmptyKitTrays();
+void sethadByKitTray_LargeBoxWithEmptyKitTrays(LargeBoxWithEmptyKitTrays* _hadByKitTray_LargeBoxWithEmptyKitTrays);
+KitInstance* gethasKitInstance_Tray();
+void sethasKitInstance_Tray(KitInstance* _hasKitInstance_Tray);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* KITTRAY_H_ */

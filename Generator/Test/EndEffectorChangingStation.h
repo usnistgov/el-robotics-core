@@ -4,18 +4,21 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "SolidObject.h"
- #include "KittingWorkstation.h"
  class KittingWorkstation;
- #include "DAO.h"
  class DAO;
- #include <string>
+ class EndEffectorHolder;
 class EndEffectorChangingStation: public SolidObject{private:
 std::string name;
 int EndEffectorChangingStationID;
 DAO* dao;
-KittingWorkstation* hadByChangingStation_Workstation;
+std::vector<EndEffectorHolder*> hadByEndEffectorHolder_ChangingStation;
+KittingWorkstation* hasWorkstation_ChangingStation;
 public:
 EndEffectorChangingStation(std::string name);
 ~EndEffectorChangingStation();
@@ -24,13 +27,13 @@ EndEffectorChangingStation(std::string name);
 void set(int id, EndEffectorChangingStation* obj);
 void set(std::string name);
 std::string getname();
-void setname(std::string _name);
 int getEndEffectorChangingStationID();
-void setEndEffectorChangingStationID(int _EndEffectorChangingStationID);
 DAO* getdao();
 void setdao(DAO* _dao);
-KittingWorkstation* gethadByChangingStation_Workstation();
-void sethadByChangingStation_Workstation(KittingWorkstation* _hadByChangingStation_Workstation);
+std::vector<EndEffectorHolder*>* gethadByEndEffectorHolder_ChangingStation();
+void sethadByEndEffectorHolder_ChangingStation(std::vector<EndEffectorHolder*> _hadByEndEffectorHolder_ChangingStation);
+KittingWorkstation* gethasWorkstation_ChangingStation();
+void sethasWorkstation_ChangingStation(KittingWorkstation* _hasWorkstation_ChangingStation);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* ENDEFFECTORCHANGINGSTATION_H_ */

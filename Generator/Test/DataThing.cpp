@@ -1,24 +1,22 @@
 #include "DataThing.h"
 
+
+ #include "DAO.h"
+
 DataThing::DataThing(std::string name){
-this->name=name;
+this->name=name;dao = NULL;
+
 }DataThing::~DataThing(){
 delete(dao);
 }
 std::string DataThing::getname(){
-return this->name;
+return name;
 }
 int DataThing::getDataThingID(){
-return this->DataThingID;
+return DataThingID;
 }
 DAO* DataThing::getdao(){
-return this->dao;
-}
-void DataThing::setname(std::string _name){
-this->name= _name;
-}
-void DataThing::setDataThingID(int _DataThingID){
-this->DataThingID= _DataThingID;
+return dao;
 }
 void DataThing::setdao(DAO* _dao){
 this->dao= _dao;
@@ -27,12 +25,16 @@ void DataThing::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("DataThing");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void DataThing::set(std::string name){
- dao  = new DAO("DataThing");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["name"]=name;
+data["DataThingID"]=DataThingID;
+dao  = new DAO("DataThing");
+dao->set(data);
 delete (dao);
 }
 
@@ -41,14 +43,15 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<DataThing*> tmp;
 this->name = object["DataThing._NAME"];
 this->DataThingID = std::atof(object["DataThing.DataThingID"].c_str());
 
 }std::vector<std::string> DataThing::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

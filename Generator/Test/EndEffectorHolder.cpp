@@ -1,42 +1,63 @@
 #include "EndEffectorHolder.h"
 
+
+ #include "EndEffector.h"
+ #include "EndEffectorChangingStation.h"
+ #include "DAO.h"
+
 EndEffectorHolder::EndEffectorHolder(std::string name) : SolidObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hadByEndEffectorHolder_ChangingStation = NULL;
+hasEndEffectorHolder_EndEffector = NULL;
+
 }EndEffectorHolder::~EndEffectorHolder(){
 delete(dao);
+delete(hadByEndEffectorHolder_ChangingStation);
+delete(hasEndEffectorHolder_EndEffector);
 }
 std::string EndEffectorHolder::getname(){
-return this->name;
+return name;
 }
 int EndEffectorHolder::getEndEffectorHolderID(){
-return this->EndEffectorHolderID;
+return EndEffectorHolderID;
 }
 DAO* EndEffectorHolder::getdao(){
-return this->dao;
+return dao;
 }
-void EndEffectorHolder::setname(std::string _name){
-this->name= _name;
+EndEffectorChangingStation* EndEffectorHolder::gethadByEndEffectorHolder_ChangingStation(){
+return hadByEndEffectorHolder_ChangingStation;
 }
-void EndEffectorHolder::setEndEffectorHolderID(int _EndEffectorHolderID){
-this->EndEffectorHolderID= _EndEffectorHolderID;
+EndEffector* EndEffectorHolder::gethasEndEffectorHolder_EndEffector(){
+return hasEndEffectorHolder_EndEffector;
 }
 void EndEffectorHolder::setdao(DAO* _dao){
 this->dao= _dao;
 }
+void EndEffectorHolder::sethadByEndEffectorHolder_ChangingStation(EndEffectorChangingStation* _hadByEndEffectorHolder_ChangingStation){
+this->hadByEndEffectorHolder_ChangingStation= _hadByEndEffectorHolder_ChangingStation;
+}
+void EndEffectorHolder::sethasEndEffectorHolder_EndEffector(EndEffector* _hasEndEffectorHolder_EndEffector){
+this->hasEndEffectorHolder_EndEffector= _hasEndEffectorHolder_EndEffector;
+}
 void EndEffectorHolder::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("SolidObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
-delete (dao);
 dao  = new DAO("EndEffectorHolder");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void EndEffectorHolder::set(std::string name){
- dao  = new DAO("EndEffectorHolder");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["name"]=name;
+data["EndEffectorHolderID"]=EndEffectorHolderID;
+data["hadByEndEffectorHolder_ChangingStation"]=hadByEndEffectorHolder_ChangingStation->getname();
+data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+dao  = new DAO("EndEffectorHolder");
+dao->set(data);
 delete (dao);
 }
 
@@ -45,14 +66,21 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<EndEffectorHolder*> tmp;
 this->name = object["EndEffectorHolder._NAME"];
 this->EndEffectorHolderID = std::atof(object["EndEffectorHolder.EndEffectorHolderID"].c_str());
+if(this->hadByEndEffectorHolder_ChangingStation== NULL && object["hadByEndEffectorHolder_ChangingStation/EndEffectorChangingStation._NAME"]!=""){
+this->hadByEndEffectorHolder_ChangingStation = new EndEffectorChangingStation(object["hadByEndEffectorHolder_ChangingStation/EndEffectorChangingStation._NAME"]);
+}
+if(this->hasEndEffectorHolder_EndEffector== NULL && object["hasEndEffectorHolder_EndEffector/EndEffector._NAME"]!=""){
+this->hasEndEffectorHolder_EndEffector = new EndEffector(object["hasEndEffectorHolder_EndEffector/EndEffector._NAME"]);
+}
 
 }std::vector<std::string> EndEffectorHolder::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

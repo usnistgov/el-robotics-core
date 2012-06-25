@@ -1,49 +1,67 @@
 #include "LargeBoxWithEmptyKitTrays.h"
 
+
+ #include "KitTray.h"
+ #include "LargeContainer.h"
+ #include "DAO.h"
+
 LargeBoxWithEmptyKitTrays::LargeBoxWithEmptyKitTrays(std::string name) : SolidObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hasLargeBoxWithEmptyKitTrays_LargeContainer = NULL;
+
 }LargeBoxWithEmptyKitTrays::~LargeBoxWithEmptyKitTrays(){
 delete(dao);
-delete(hadByLargeContainer_LargeBoxWithEmptyKitTrays);
+delete(hasLargeBoxWithEmptyKitTrays_LargeContainer);
+for(std::size_t i = 0; i < hadByKitTray_LargeBoxWithEmptyKitTrays.size(); i++)
+delete(hadByKitTray_LargeBoxWithEmptyKitTrays[i]);
 }
 std::string LargeBoxWithEmptyKitTrays::getname(){
-return this->name;
+return name;
 }
 int LargeBoxWithEmptyKitTrays::getLargeBoxWithEmptyKitTraysID(){
-return this->LargeBoxWithEmptyKitTraysID;
+return LargeBoxWithEmptyKitTraysID;
 }
 DAO* LargeBoxWithEmptyKitTrays::getdao(){
-return this->dao;
+return dao;
 }
-LargeContainer* LargeBoxWithEmptyKitTrays::gethadByLargeContainer_LargeBoxWithEmptyKitTrays(){
-return this->hadByLargeContainer_LargeBoxWithEmptyKitTrays;
+LargeContainer* LargeBoxWithEmptyKitTrays::gethasLargeBoxWithEmptyKitTrays_LargeContainer(){
+return hasLargeBoxWithEmptyKitTrays_LargeContainer;
 }
-void LargeBoxWithEmptyKitTrays::setname(std::string _name){
-this->name= _name;
-}
-void LargeBoxWithEmptyKitTrays::setLargeBoxWithEmptyKitTraysID(int _LargeBoxWithEmptyKitTraysID){
-this->LargeBoxWithEmptyKitTraysID= _LargeBoxWithEmptyKitTraysID;
+std::vector<KitTray*>* LargeBoxWithEmptyKitTrays::gethadByKitTray_LargeBoxWithEmptyKitTrays(){
+return &hadByKitTray_LargeBoxWithEmptyKitTrays;
 }
 void LargeBoxWithEmptyKitTrays::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void LargeBoxWithEmptyKitTrays::sethadByLargeContainer_LargeBoxWithEmptyKitTrays(LargeContainer* _hadByLargeContainer_LargeBoxWithEmptyKitTrays){
-this->hadByLargeContainer_LargeBoxWithEmptyKitTrays= _hadByLargeContainer_LargeBoxWithEmptyKitTrays;
+void LargeBoxWithEmptyKitTrays::sethasLargeBoxWithEmptyKitTrays_LargeContainer(LargeContainer* _hasLargeBoxWithEmptyKitTrays_LargeContainer){
+this->hasLargeBoxWithEmptyKitTrays_LargeContainer= _hasLargeBoxWithEmptyKitTrays_LargeContainer;
+}
+void LargeBoxWithEmptyKitTrays::sethadByKitTray_LargeBoxWithEmptyKitTrays(std::vector<KitTray*> _hadByKitTray_LargeBoxWithEmptyKitTrays){
+this->hadByKitTray_LargeBoxWithEmptyKitTrays= _hadByKitTray_LargeBoxWithEmptyKitTrays;
 }
 void LargeBoxWithEmptyKitTrays::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("SolidObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
-delete (dao);
 dao  = new DAO("LargeBoxWithEmptyKitTrays");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void LargeBoxWithEmptyKitTrays::set(std::string name){
- dao  = new DAO("LargeBoxWithEmptyKitTrays");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["name"]=name;
+data["LargeBoxWithEmptyKitTraysID"]=LargeBoxWithEmptyKitTraysID;
+data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
+for(unsigned int i=0;i<hadByKitTray_LargeBoxWithEmptyKitTrays.size();++i){
+ss.flush();
+ss << hadByKitTray_LargeBoxWithEmptyKitTrays[i]->getKitTrayID();
+data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=data["hadByKitTray_LargeBoxWithEmptyKitTrays"]+" "+ss.str();
+}
+dao  = new DAO("LargeBoxWithEmptyKitTrays");
+dao->set(data);
 delete (dao);
 }
 
@@ -52,24 +70,24 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<LargeBoxWithEmptyKitTrays*> tmp;
 this->name = object["LargeBoxWithEmptyKitTrays._NAME"];
 this->LargeBoxWithEmptyKitTraysID = std::atof(object["LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID"].c_str());
-this->hadByLargeContainer_LargeBoxWithEmptyKitTrays = new LargeContainer(" ");
-this->hadByLargeContainer_LargeBoxWithEmptyKitTrays->sethadByLargeContainer_LargeBoxWithEmptyKitTrays(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,46) == "hadByLargeContainer_LargeBoxWithEmptyKitTrays/"){
-mapTemp[it->first.substr(46,it->first.length())] = it->second;
+if(this->hasLargeBoxWithEmptyKitTrays_LargeContainer== NULL && object["hasLargeBoxWithEmptyKitTrays_LargeContainer/LargeContainer._NAME"]!=""){
+this->hasLargeBoxWithEmptyKitTrays_LargeContainer = new LargeContainer(object["hasLargeBoxWithEmptyKitTrays_LargeContainer/LargeContainer._NAME"]);
+}
+if(this->hadByKitTray_LargeBoxWithEmptyKitTrays.empty() && object["hadByKitTray_LargeBoxWithEmptyKitTrays/KitTray._NAME"]!=""){
+temp = Explode(object["hadByKitTray_LargeBoxWithEmptyKitTrays/KitTray._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hadByKitTray_LargeBoxWithEmptyKitTrays.push_back(new KitTray(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hadByLargeContainer_LargeBoxWithEmptyKitTrays->copy(mapTemp);
 
 }std::vector<std::string> LargeBoxWithEmptyKitTrays::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

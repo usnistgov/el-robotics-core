@@ -1,28 +1,34 @@
 #include "PartsTray.h"
 
+
+ #include "PartsTrayWithParts.h"
+ #include "DAO.h"
+
 PartsTray::PartsTray(std::string name) : BoxyObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hasPartsTrayWithParts_PartsTray = NULL;
+
 }PartsTray::~PartsTray(){
 delete(dao);
-delete(hadByPartsTray_PartsTrayWithParts);
+delete(hasPartsTrayWithParts_PartsTray);
 }
 std::string PartsTray::gethasPartsTray_SkuRef(){
-return this->hasPartsTray_SkuRef;
+return hasPartsTray_SkuRef;
 }
 std::string PartsTray::gethasPartsTray_SerialNumber(){
-return this->hasPartsTray_SerialNumber;
+return hasPartsTray_SerialNumber;
 }
 std::string PartsTray::getname(){
-return this->name;
+return name;
 }
 int PartsTray::getPartsTrayID(){
-return this->PartsTrayID;
+return PartsTrayID;
 }
 DAO* PartsTray::getdao(){
-return this->dao;
+return dao;
 }
-PartsTrayWithParts* PartsTray::gethadByPartsTray_PartsTrayWithParts(){
-return this->hadByPartsTray_PartsTrayWithParts;
+PartsTrayWithParts* PartsTray::gethasPartsTrayWithParts_PartsTray(){
+return hasPartsTrayWithParts_PartsTray;
 }
 void PartsTray::sethasPartsTray_SkuRef(std::string _hasPartsTray_SkuRef){
 this->hasPartsTray_SkuRef= _hasPartsTray_SkuRef;
@@ -30,32 +36,32 @@ this->hasPartsTray_SkuRef= _hasPartsTray_SkuRef;
 void PartsTray::sethasPartsTray_SerialNumber(std::string _hasPartsTray_SerialNumber){
 this->hasPartsTray_SerialNumber= _hasPartsTray_SerialNumber;
 }
-void PartsTray::setname(std::string _name){
-this->name= _name;
-}
-void PartsTray::setPartsTrayID(int _PartsTrayID){
-this->PartsTrayID= _PartsTrayID;
-}
 void PartsTray::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void PartsTray::sethadByPartsTray_PartsTrayWithParts(PartsTrayWithParts* _hadByPartsTray_PartsTrayWithParts){
-this->hadByPartsTray_PartsTrayWithParts= _hadByPartsTray_PartsTrayWithParts;
+void PartsTray::sethasPartsTrayWithParts_PartsTray(PartsTrayWithParts* _hasPartsTrayWithParts_PartsTray){
+this->hasPartsTrayWithParts_PartsTray= _hasPartsTrayWithParts_PartsTray;
 }
 void PartsTray::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("BoxyObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  BoxyObject::copy(temp);
-delete (dao);
 dao  = new DAO("PartsTray");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void PartsTray::set(std::string name){
- dao  = new DAO("PartsTray");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasPartsTray_SkuRef"]=hasPartsTray_SkuRef;
+data["hasPartsTray_SerialNumber"]=hasPartsTray_SerialNumber;
+data["name"]=name;
+data["PartsTrayID"]=PartsTrayID;
+data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname();
+dao  = new DAO("PartsTray");
+dao->set(data);
 delete (dao);
 }
 
@@ -64,26 +70,20 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<PartsTray*> tmp;
 this->hasPartsTray_SkuRef = object["PartsTray.hasPartsTray_SkuRef"];
 this->hasPartsTray_SerialNumber = object["PartsTray.hasPartsTray_SerialNumber"];
 this->name = object["PartsTray._NAME"];
 this->PartsTrayID = std::atof(object["PartsTray.PartsTrayID"].c_str());
-this->hadByPartsTray_PartsTrayWithParts = new PartsTrayWithParts(" ");
-this->hadByPartsTray_PartsTrayWithParts->sethadByPartsTray_PartsTrayWithParts(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,34) == "hadByPartsTray_PartsTrayWithParts/"){
-mapTemp[it->first.substr(34,it->first.length())] = it->second;
+if(this->hasPartsTrayWithParts_PartsTray== NULL && object["hasPartsTrayWithParts_PartsTray/PartsTrayWithParts._NAME"]!=""){
+this->hasPartsTrayWithParts_PartsTray = new PartsTrayWithParts(object["hasPartsTrayWithParts_PartsTray/PartsTrayWithParts._NAME"]);
 }
-}
-if(!mapTemp.empty())this->hadByPartsTray_PartsTrayWithParts->copy(mapTemp);
 
 }std::vector<std::string> PartsTray::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

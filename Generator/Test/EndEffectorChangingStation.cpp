@@ -1,49 +1,67 @@
 #include "EndEffectorChangingStation.h"
 
+
+ #include "KittingWorkstation.h"
+ #include "DAO.h"
+ #include "EndEffectorHolder.h"
+
 EndEffectorChangingStation::EndEffectorChangingStation(std::string name) : SolidObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hasWorkstation_ChangingStation = NULL;
+
 }EndEffectorChangingStation::~EndEffectorChangingStation(){
 delete(dao);
-delete(hadByChangingStation_Workstation);
+delete(hasWorkstation_ChangingStation);
+for(std::size_t i = 0; i < hadByEndEffectorHolder_ChangingStation.size(); i++)
+delete(hadByEndEffectorHolder_ChangingStation[i]);
 }
 std::string EndEffectorChangingStation::getname(){
-return this->name;
+return name;
 }
 int EndEffectorChangingStation::getEndEffectorChangingStationID(){
-return this->EndEffectorChangingStationID;
+return EndEffectorChangingStationID;
 }
 DAO* EndEffectorChangingStation::getdao(){
-return this->dao;
+return dao;
 }
-KittingWorkstation* EndEffectorChangingStation::gethadByChangingStation_Workstation(){
-return this->hadByChangingStation_Workstation;
+std::vector<EndEffectorHolder*>* EndEffectorChangingStation::gethadByEndEffectorHolder_ChangingStation(){
+return &hadByEndEffectorHolder_ChangingStation;
 }
-void EndEffectorChangingStation::setname(std::string _name){
-this->name= _name;
-}
-void EndEffectorChangingStation::setEndEffectorChangingStationID(int _EndEffectorChangingStationID){
-this->EndEffectorChangingStationID= _EndEffectorChangingStationID;
+KittingWorkstation* EndEffectorChangingStation::gethasWorkstation_ChangingStation(){
+return hasWorkstation_ChangingStation;
 }
 void EndEffectorChangingStation::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void EndEffectorChangingStation::sethadByChangingStation_Workstation(KittingWorkstation* _hadByChangingStation_Workstation){
-this->hadByChangingStation_Workstation= _hadByChangingStation_Workstation;
+void EndEffectorChangingStation::sethadByEndEffectorHolder_ChangingStation(std::vector<EndEffectorHolder*> _hadByEndEffectorHolder_ChangingStation){
+this->hadByEndEffectorHolder_ChangingStation= _hadByEndEffectorHolder_ChangingStation;
+}
+void EndEffectorChangingStation::sethasWorkstation_ChangingStation(KittingWorkstation* _hasWorkstation_ChangingStation){
+this->hasWorkstation_ChangingStation= _hasWorkstation_ChangingStation;
 }
 void EndEffectorChangingStation::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("SolidObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
-delete (dao);
 dao  = new DAO("EndEffectorChangingStation");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void EndEffectorChangingStation::set(std::string name){
- dao  = new DAO("EndEffectorChangingStation");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["name"]=name;
+data["EndEffectorChangingStationID"]=EndEffectorChangingStationID;
+for(unsigned int i=0;i<hadByEndEffectorHolder_ChangingStation.size();++i){
+ss.flush();
+ss << hadByEndEffectorHolder_ChangingStation[i]->getEndEffectorHolderID();
+data["hadByEndEffectorHolder_ChangingStation"]=data["hadByEndEffectorHolder_ChangingStation"]+" "+ss.str();
+}
+data["hasWorkstation_ChangingStation"]=hasWorkstation_ChangingStation->getname();
+dao  = new DAO("EndEffectorChangingStation");
+dao->set(data);
 delete (dao);
 }
 
@@ -52,24 +70,24 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<EndEffectorChangingStation*> tmp;
 this->name = object["EndEffectorChangingStation._NAME"];
 this->EndEffectorChangingStationID = std::atof(object["EndEffectorChangingStation.EndEffectorChangingStationID"].c_str());
-this->hadByChangingStation_Workstation = new KittingWorkstation(" ");
-this->hadByChangingStation_Workstation->sethadByChangingStation_Workstation(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,33) == "hadByChangingStation_Workstation/"){
-mapTemp[it->first.substr(33,it->first.length())] = it->second;
+if(this->hadByEndEffectorHolder_ChangingStation.empty() && object["hadByEndEffectorHolder_ChangingStation/EndEffectorHolder._NAME"]!=""){
+temp = Explode(object["hadByEndEffectorHolder_ChangingStation/EndEffectorHolder._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hadByEndEffectorHolder_ChangingStation.push_back(new EndEffectorHolder(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hadByChangingStation_Workstation->copy(mapTemp);
+if(this->hasWorkstation_ChangingStation== NULL && object["hasWorkstation_ChangingStation/KittingWorkstation._NAME"]!=""){
+this->hasWorkstation_ChangingStation = new KittingWorkstation(object["hasWorkstation_ChangingStation/KittingWorkstation._NAME"]);
+}
 
 }std::vector<std::string> EndEffectorChangingStation::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

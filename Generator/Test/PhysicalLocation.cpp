@@ -1,102 +1,117 @@
 #include "PhysicalLocation.h"
 
-PhysicalLocation::PhysicalLocation(std::string name) : DataThing(name){
-this->name=name;
-}PhysicalLocation::~PhysicalLocation(){
-delete(dao);
-delete(hasPhysicalLocation_RefObject);
-delete(hasSolidObject_PhysicalLocation);
+#include "SolidObject.h"
+#include "DAO.h"
+
+PhysicalLocation::PhysicalLocation(std::string name) :
+	DataThing(name) {
+	this->name = name;
+	dao = NULL;
+	hasPhysicalLocation_RefObject = NULL;
+
 }
-std::string PhysicalLocation::getname(){
-return this->name;
+PhysicalLocation::~PhysicalLocation() {
+	delete (dao);
+	delete (hasPhysicalLocation_RefObject);
+	for (std::size_t i = 0; i < hasSolidObject_PhysicalLocation.size(); i++)
+		delete (hasSolidObject_PhysicalLocation[i]);
 }
-int PhysicalLocation::getPhysicalLocationID(){
-return this->PhysicalLocationID;
+std::string PhysicalLocation::getname() {
+	return name;
 }
-DAO* PhysicalLocation::getdao(){
-return this->dao;
+int PhysicalLocation::getPhysicalLocationID() {
+	return PhysicalLocationID;
 }
-SolidObject* PhysicalLocation::gethasPhysicalLocation_RefObject(){
-return this->hasPhysicalLocation_RefObject;
+DAO* PhysicalLocation::getdao() {
+	return dao;
 }
-SolidObject* PhysicalLocation::gethasSolidObject_PhysicalLocation(){
-return this->hasSolidObject_PhysicalLocation;
+SolidObject* PhysicalLocation::gethasPhysicalLocation_RefObject() {
+	return hasPhysicalLocation_RefObject;
 }
-void PhysicalLocation::setname(std::string _name){
-this->name= _name;
+std::vector<SolidObject*>* PhysicalLocation::gethasSolidObject_PhysicalLocation() {
+	return &hasSolidObject_PhysicalLocation;
 }
-void PhysicalLocation::setPhysicalLocationID(int _PhysicalLocationID){
-this->PhysicalLocationID= _PhysicalLocationID;
+void PhysicalLocation::setdao(DAO* _dao) {
+	this->dao = _dao;
 }
-void PhysicalLocation::setdao(DAO* _dao){
-this->dao= _dao;
+void PhysicalLocation::sethasPhysicalLocation_RefObject(
+		SolidObject* _hasPhysicalLocation_RefObject) {
+	this->hasPhysicalLocation_RefObject = _hasPhysicalLocation_RefObject;
 }
-void PhysicalLocation::sethasPhysicalLocation_RefObject(SolidObject* _hasPhysicalLocation_RefObject){
-this->hasPhysicalLocation_RefObject= _hasPhysicalLocation_RefObject;
+void PhysicalLocation::sethasSolidObject_PhysicalLocation(std::vector<
+		SolidObject*> _hasSolidObject_PhysicalLocation) {
+	this->hasSolidObject_PhysicalLocation = _hasSolidObject_PhysicalLocation;
 }
-void PhysicalLocation::sethasSolidObject_PhysicalLocation(SolidObject* _hasSolidObject_PhysicalLocation){
-this->hasSolidObject_PhysicalLocation= _hasSolidObject_PhysicalLocation;
+void PhysicalLocation::get(std::string name) {
+	std::map<std::string, std::string> temp;
+	dao = new DAO("DataThing");
+	temp = dao->get(name);
+	delete (dao);
+	DataThing::copy(temp);
+	dao = new DAO("PhysicalLocation");
+	temp = dao->get(name);
+	delete (dao);
+	copy(temp);
 }
-void PhysicalLocation::get(std::string name){
-std::map<std::string,std::string> temp;
-dao  = new DAO("DataThing");
- temp = dao->get(name);
- DataThing::copy(temp);
-delete (dao);
-dao  = new DAO("PhysicalLocation");
- temp = dao->get(name);
- copy(temp);
-delete (dao);
-}
- void PhysicalLocation::set(std::string name){
- dao  = new DAO("PhysicalLocation");
- dao->set(name);
-delete (dao);
+void PhysicalLocation::set(std::string name) {
+	std::map<std::string, std::string> data;
+	std::stringstream ss;
+	data["name"] = name;
+	data["PhysicalLocationID"] = PhysicalLocationID;
+	data["hasPhysicalLocation_RefObject"]
+			= hasPhysicalLocation_RefObject->getname();
+	for (unsigned int i = 0; i < hasSolidObject_PhysicalLocation.size(); ++i) {
+		ss.flush();
+		ss << hasSolidObject_PhysicalLocation[i]->getSolidObjectID();
+		data["hasSolidObject_PhysicalLocation"]
+				= data["hasSolidObject_PhysicalLocation"] + " " + ss.str();
+	}
+	dao = new DAO("PhysicalLocation");
+	dao->set(data);
+	delete (dao);
 }
 
-void PhysicalLocation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
-std::map<std::string,std::string> mapTemp;
-std::map<std::string,std::string> mapTempBis;
-int nbVal=0;
-int nbValCurrent=0;
-this->name = object["PhysicalLocation._NAME"];
-this->PhysicalLocationID = std::atof(object["PhysicalLocation.PhysicalLocationID"].c_str());
-this->hasPhysicalLocation_RefObject = new SolidObject(" ");
-this->hasPhysicalLocation_RefObject->sethasPhysicalLocation_RefObject(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,30) == "hasPhysicalLocation_RefObject/"){
-mapTemp[it->first.substr(30,it->first.length())] = it->second;
-}
-}
-if(!mapTemp.empty())this->hasPhysicalLocation_RefObject->copy(mapTemp);
-this->hasSolidObject_PhysicalLocation = new SolidObject(" ");
-this->hasSolidObject_PhysicalLocation->sethasSolidObject_PhysicalLocation(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,32) == "hasSolidObject_PhysicalLocation/"){
-mapTemp[it->first.substr(32,it->first.length())] = it->second;
-}
-}
-if(!mapTemp.empty())this->hasSolidObject_PhysicalLocation->copy(mapTemp);
+void PhysicalLocation::copy(std::map<std::string, std::string> object) {
+	std::vector<std::string> temp;
+	std::map<std::string, std::string> mapTemp;
+	std::map<std::string, std::string> mapTempBis;
+	int nbVal = 0;
+	int nbValCurrent = 0;
+	std::vector<PhysicalLocation*> tmp;
+	this->name = object["PhysicalLocation._NAME"];
+	this->PhysicalLocationID = std::atof(
+			object["PhysicalLocation.PhysicalLocationID"].c_str());
+	if (this->hasPhysicalLocation_RefObject == NULL
+			&& object["hasPhysicalLocation_RefObject/SolidObject._NAME"] != "") {
+		this->hasPhysicalLocation_RefObject = new SolidObject(
+				object["hasPhysicalLocation_RefObject/SolidObject._NAME"]);
+	}
+	if (this->hasSolidObject_PhysicalLocation.empty()
+			&& object["hasSolidObject_PhysicalLocation/SolidObject._NAME"]
+					!= "") {
+		temp = Explode(
+				object["hasSolidObject_PhysicalLocation/SolidObject._NAME"],
+				' ');
+		for (unsigned int i = 0; i < temp.size(); i++) {
+			this->hasSolidObject_PhysicalLocation.push_back(new SolidObject(
+					temp[i]));
+		}
+	}
 
-}std::vector<std::string> PhysicalLocation::Explode(const std::string & str, char separator )
-{
-   std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
-   while ( pos2 != str.npos )
-   {
-      pos2 = str.find(separator, pos1);
-      if ( pos2 != str.npos )
-      {
-         if ( pos2 > pos1 )
-            result.push_back( str.substr(pos1, pos2-pos1) );
-         pos1 = pos2+1;
-      }
-   }
-   result.push_back( str.substr(pos1, str.size()-pos1) );
-   return result;
+}
+std::vector<std::string> PhysicalLocation::Explode(const std::string & str,
+		char separator) {
+	std::vector<std::string> result;
+	std::size_t pos1 = 0;
+	std::size_t pos2 = 0;
+	while (pos2 != str.npos) {
+		pos2 = str.find(separator, pos1);
+		if (pos2 != str.npos) {
+			if (pos2 > pos1)
+				result.push_back(str.substr(pos1, pos2 - pos1));
+			pos1 = pos2 + 1;
+		}
+	}
+	result.push_back(str.substr(pos1, str.size() - pos1));
+	return result;
 }

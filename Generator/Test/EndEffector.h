@@ -4,11 +4,15 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "SolidObject.h"
- #include "DAO.h"
+ class Robot;
  class DAO;
- #include <string>
+ class EndEffectorHolder;
 class EndEffector: public SolidObject{private:
 double hasEndEffector_Weight;
 double hasEffector_MaximumLoadWeight;
@@ -17,6 +21,8 @@ std::string hasEndEffector_Id;
 std::string name;
 int EndEffectorID;
 DAO* dao;
+Robot* hadByEndEffector_Robot;
+EndEffectorHolder* hasEndEffectorHolder_EndEffector;
 public:
 EndEffector(std::string name);
 ~EndEffector();
@@ -33,11 +39,13 @@ void sethasEndEffector_Description(std::string _hasEndEffector_Description);
 std::string gethasEndEffector_Id();
 void sethasEndEffector_Id(std::string _hasEndEffector_Id);
 std::string getname();
-void setname(std::string _name);
 int getEndEffectorID();
-void setEndEffectorID(int _EndEffectorID);
 DAO* getdao();
 void setdao(DAO* _dao);
+Robot* gethadByEndEffector_Robot();
+void sethadByEndEffector_Robot(Robot* _hadByEndEffector_Robot);
+EndEffectorHolder* gethasEndEffectorHolder_EndEffector();
+void sethasEndEffectorHolder_EndEffector(EndEffectorHolder* _hasEndEffectorHolder_EndEffector);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* ENDEFFECTOR_H_ */

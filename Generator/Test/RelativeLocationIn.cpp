@@ -1,30 +1,28 @@
 #include "RelativeLocationIn.h"
 
+
+ #include "DAO.h"
+
 RelativeLocationIn::RelativeLocationIn(std::string name) : RelativeLocation(name){
-this->name=name;
+this->name=name;dao = NULL;
+
 }RelativeLocationIn::~RelativeLocationIn(){
 delete(dao);
 }
 std::string RelativeLocationIn::gethasRelativeLocationIn_Description(){
-return this->hasRelativeLocationIn_Description;
+return hasRelativeLocationIn_Description;
 }
 std::string RelativeLocationIn::getname(){
-return this->name;
+return name;
 }
 int RelativeLocationIn::getRelativeLocationInID(){
-return this->RelativeLocationInID;
+return RelativeLocationInID;
 }
 DAO* RelativeLocationIn::getdao(){
-return this->dao;
+return dao;
 }
 void RelativeLocationIn::sethasRelativeLocationIn_Description(std::string _hasRelativeLocationIn_Description){
 this->hasRelativeLocationIn_Description= _hasRelativeLocationIn_Description;
-}
-void RelativeLocationIn::setname(std::string _name){
-this->name= _name;
-}
-void RelativeLocationIn::setRelativeLocationInID(int _RelativeLocationInID){
-this->RelativeLocationInID= _RelativeLocationInID;
 }
 void RelativeLocationIn::setdao(DAO* _dao){
 this->dao= _dao;
@@ -32,17 +30,21 @@ this->dao= _dao;
 void RelativeLocationIn::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("RelativeLocation");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  RelativeLocation::copy(temp);
-delete (dao);
 dao  = new DAO("RelativeLocationIn");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void RelativeLocationIn::set(std::string name){
- dao  = new DAO("RelativeLocationIn");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasRelativeLocationIn_Description"]=hasRelativeLocationIn_Description;
+data["name"]=name;
+data["RelativeLocationInID"]=RelativeLocationInID;
+dao  = new DAO("RelativeLocationIn");
+dao->set(data);
 delete (dao);
 }
 
@@ -51,6 +53,7 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<RelativeLocationIn*> tmp;
 this->hasRelativeLocationIn_Description = object["RelativeLocationIn.hasRelativeLocationIn_Description"];
 this->name = object["RelativeLocationIn._NAME"];
 this->RelativeLocationInID = std::atof(object["RelativeLocationIn.RelativeLocationInID"].c_str());
@@ -58,8 +61,8 @@ this->RelativeLocationInID = std::atof(object["RelativeLocationIn.RelativeLocati
 }std::vector<std::string> RelativeLocationIn::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

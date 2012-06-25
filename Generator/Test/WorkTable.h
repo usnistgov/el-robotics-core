@@ -4,18 +4,21 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "BoxyObject.h"
- #include "KittingWorkstation.h"
  class KittingWorkstation;
- #include "DAO.h"
+ class SolidObject;
  class DAO;
- #include <string>
 class WorkTable: public BoxyObject{private:
 std::string name;
 int WorkTableID;
 DAO* dao;
-KittingWorkstation* hadByWorkTable_Workstation;
+std::vector<SolidObject*> hadBySolidObject_WorkTable;
+KittingWorkstation* hasWorkstation_WorkTable;
 public:
 WorkTable(std::string name);
 ~WorkTable();
@@ -24,13 +27,13 @@ WorkTable(std::string name);
 void set(int id, WorkTable* obj);
 void set(std::string name);
 std::string getname();
-void setname(std::string _name);
 int getWorkTableID();
-void setWorkTableID(int _WorkTableID);
 DAO* getdao();
 void setdao(DAO* _dao);
-KittingWorkstation* gethadByWorkTable_Workstation();
-void sethadByWorkTable_Workstation(KittingWorkstation* _hadByWorkTable_Workstation);
+std::vector<SolidObject*>* gethadBySolidObject_WorkTable();
+void sethadBySolidObject_WorkTable(std::vector<SolidObject*> _hadBySolidObject_WorkTable);
+KittingWorkstation* gethasWorkstation_WorkTable();
+void sethasWorkstation_WorkTable(KittingWorkstation* _hasWorkstation_WorkTable);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* WORKTABLE_H_ */

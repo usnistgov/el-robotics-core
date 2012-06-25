@@ -4,14 +4,14 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "PhysicalLocation.h"
- #include "DAO.h"
  class DAO;
- #include <string>
- #include "Point.h"
  class Point;
- #include "RollPitchYaw.h"
  class RollPitchYaw;
 class Pose: public PhysicalLocation{private:
 std::string name;
@@ -27,9 +27,7 @@ Pose(std::string name);
 void set(int id, Pose* obj);
 void set(std::string name);
 std::string getname();
-void setname(std::string _name);
 int getPoseID();
-void setPoseID(int _PoseID);
 DAO* getdao();
 void setdao(DAO* _dao);
 Point* gethasPose_Point();

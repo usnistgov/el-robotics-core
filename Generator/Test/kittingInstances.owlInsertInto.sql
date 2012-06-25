@@ -43,16 +43,16 @@ INSERT INTO SolidObject
 VALUES('PartC2', 'PartC2Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(1, 'PartC2', 16, 'SkuIdPartC');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(1, 'PartC2', 16, 'SkuIdPartC', 'PartCSupply');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
 VALUES('PartC1', 'PartC1Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(2, 'PartC1', 15, 'SkuIdPartC');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(2, 'PartC1', 15, 'SkuIdPartC', 'PartCSupply');
 
 INSERT INTO DataThing
 (_NAME)
@@ -71,8 +71,8 @@ INSERT INTO DataThing
 VALUES('PartRefAndPoseC1');
 
 INSERT INTO PartRefAndPose
-(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
-VALUES(6, 'PartRefAndPoseC1', 'SkuIdPartC', 'RpyC1', 'PointC1');
+(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
+VALUES(6, 'PartRefAndPoseC1', 'SkuIdPartC', 'KitDesignA2B1C1', 'RpyC1', 'PointC1');
 
 INSERT INTO DataThing
 (_NAME)
@@ -251,8 +251,8 @@ INSERT INTO BoxyObject
 VALUES(4, 'PartATray', 0.3, 0.2, 0.6);
 
 INSERT INTO PartsTray
-(PartsTrayID, _NAME, hasPartsTray_SkuRef, hasPartsTray_SerialNumber, hadByPartsTray_PartsTrayWithParts)
-VALUES(4, 'PartATray', 'SkuIdPartsTray', 6, 'PartASupply');
+(PartsTrayID, _NAME, hasPartsTray_SkuRef, hasPartsTray_SerialNumber)
+VALUES(4, 'PartATray', 'SkuIdPartsTray', 6);
 
 INSERT INTO DataThing
 (_NAME)
@@ -267,8 +267,8 @@ INSERT INTO DataThing
 VALUES('PartRefAndPoseB1');
 
 INSERT INTO PartRefAndPose
-(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
-VALUES(22, 'PartRefAndPoseB1', 'SkuIdPartB', 'RpyB1', 'PointB1');
+(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
+VALUES(22, 'PartRefAndPoseB1', 'SkuIdPartB', 'KitDesignA2B1C1', 'RpyB1', 'PointB1');
 
 INSERT INTO DataThing
 (_NAME)
@@ -291,8 +291,8 @@ INSERT INTO SolidObject
 VALUES('ChangingStation1', 'ChangingStationPose');
 
 INSERT INTO EndEffectorChangingStation
-(EndEffectorChangingStationID, _NAME, hadByChangingStation_Workstation)
-VALUES(5, 'ChangingStation1', 'KittingWorkstation1');
+(EndEffectorChangingStationID, _NAME)
+VALUES(5, 'ChangingStation1');
 
 INSERT INTO DataThing
 (_NAME)
@@ -355,8 +355,8 @@ INSERT INTO SolidObject
 VALUES('PartA3', 'PartA3Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(6, 'PartA3', 11, 'SkuIdPartA');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(6, 'PartA3', 11, 'SkuIdPartA', 'PartASupply');
 
 INSERT INTO DataThing
 (_NAME)
@@ -375,40 +375,40 @@ INSERT INTO SolidObject
 VALUES('KittingWorkstation1', 'RelativeLocationIn1');
 
 INSERT INTO KittingWorkstation
-(KittingWorkstationID, _NAME, hasWorkstation_LengthUnit, hasWorkstation_WeightUnit, hasWorkstation_AngleUnit)
-VALUES(7, 'KittingWorkstation1', 'meter', 'kilogram', 'degree');
+(KittingWorkstationID, _NAME, hasWorkstation_LengthUnit, hasWorkstation_WeightUnit, hasWorkstation_AngleUnit, hasWorkstation_ChangingStation, hasWorkstation_WorkTable, hasWorkstation_Robot)
+VALUES(7, 'KittingWorkstation1', 'meter', 'kilogram', 'degree', 'ChangingStation1', 'WorkTable1', 'Robot1');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
 VALUES('PartA2', 'PartA2Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(8, 'PartA2', 10, 'SkuIdPartA');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(8, 'PartA2', 10, 'SkuIdPartA', 'PartASupply');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
 VALUES('PartA1', 'PartA1Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(9, 'PartA1', 9, 'SkuIdPartA');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(9, 'PartA1', 9, 'SkuIdPartA', 'PartASupply');
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('PartRefAndPoseA1');
 
 INSERT INTO PartRefAndPose
-(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
-VALUES(32, 'PartRefAndPoseA1', 'SkuIdPartA', 'RpyA1', 'PointA1');
+(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
+VALUES(32, 'PartRefAndPoseA1', 'SkuIdPartA', 'KitDesignA2B1C1', 'RpyA1', 'PointA1');
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('PartRefAndPoseA2');
 
 INSERT INTO PartRefAndPose
-(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
-VALUES(33, 'PartRefAndPoseA2', 'SkuIdPartA', 'RpyA2', 'PointA2');
+(PartRefAndPoseID, _NAME, hasPartRefAndPose_Ref, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Rpy, hasPartRefAndPose_Point)
+VALUES(33, 'PartRefAndPoseA2', 'SkuIdPartA', 'KitDesignA2B1C1', 'RpyA2', 'PointA2');
 
 INSERT INTO DataThing
 (_NAME)
@@ -487,8 +487,8 @@ INSERT INTO SolidObject
 VALUES('PartCSupply', 'PartCSupplyPose');
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME)
-VALUES(10, 'PartCSupply');
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
+VALUES(10, 'PartCSupply', 'PartCTray');
 
 INSERT INTO DataThing
 (_NAME)
@@ -511,16 +511,16 @@ INSERT INTO SolidObject
 VALUES('PartB2', 'PartB2Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(11, 'PartB2', 14, 'SkuIdPartB');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(11, 'PartB2', 14, 'SkuIdPartB', 'PartBSupply');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
 VALUES('PartB1', 'PartB1Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(12, 'PartB1', 13, 'SkuIdPartB');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(12, 'PartB1', 13, 'SkuIdPartB', 'PartBSupply');
 
 INSERT INTO DataThing
 (_NAME)
@@ -535,16 +535,16 @@ INSERT INTO SolidObject
 VALUES('PartA4', 'PartA4Location');
 
 INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef)
-VALUES(13, 'PartA4', 12, 'SkuIdPartA');
+(PartID, _NAME, hasPart_SerialNumber, hasPart_SkuRef, hadByPart_PartsTrayWithParts)
+VALUES(13, 'PartA4', 12, 'SkuIdPartA', 'PartASupply');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
 VALUES('PartBSupply', 'PartBSupplyPose');
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME)
-VALUES(14, 'PartBSupply');
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
+VALUES(14, 'PartBSupply', 'PartBTray');
 
 INSERT INTO DataThing
 (_NAME)
@@ -559,8 +559,8 @@ INSERT INTO DataThing
 VALUES('StockKeepingUnitKitBox');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
-VALUES(45, 'StockKeepingUnitKitBox', 'SKU for Boxes for Kits and KitTrays', 'SkuIdKitBox', 1.2, 'ShapeKitBox');
+(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+VALUES(45, 'StockKeepingUnitKitBox', 'SKU for Boxes for Kits and KitTrays', 'SkuIdKitBox', 1.2, 'Workstation1', 'ShapeKitBox');
 
 INSERT INTO DataThing
 (_NAME)
@@ -583,8 +583,8 @@ INSERT INTO SolidObject
 VALUES('FinishedKitReceiver', 'FinishedKitReceiverPose');
 
 INSERT INTO LargeBoxWithKits
-(LargeBoxWithKitsID, _NAME, hasLargeBoxWithKits_Capacity, hasLargeBoxWithKits_KitDesignRef)
-VALUES(15, 'FinishedKitReceiver', 12, 'KitDesignA2B1C1');
+(LargeBoxWithKitsID, _NAME, hasLargeBoxWithKits_Capacity, hasLargeBoxWithKits_KitDesignRef, hasLargeBoxWithKits_LargeContainer)
+VALUES(15, 'FinishedKitReceiver', 12, 'KitDesignA2B1C1', 'FinishedKitBox');
 
 INSERT INTO DataThing
 (_NAME)
@@ -667,16 +667,16 @@ INSERT INTO SolidObject
 VALUES('PartASupply', 'PartASupplyPose');
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME)
-VALUES(16, 'PartASupply');
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
+VALUES(16, 'PartASupply', 'PartATray');
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('StockKeepingUnitKitTray');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
-VALUES(56, 'StockKeepingUnitKitTray', 'SKU for KitTrays', 'SkuIdKitTray', 0.2, 'ShapeKitTray');
+(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+VALUES(56, 'StockKeepingUnitKitTray', 'SKU for KitTrays', 'SkuIdKitTray', 0.2, 'Workstation1', 'ShapeKitTray');
 
 INSERT INTO hasSku_EndEffectorRefsValue
 (StockKeepingUnitID, hasSku_EndEffectorRefs)
@@ -687,8 +687,8 @@ INSERT INTO SolidObject
 VALUES('TrayGripper', 'RelativeLocationOn1');
 
 INSERT INTO EndEffector
-(EndEffectorID, _NAME, hasEndEffector_Weight, hasEndEffector_Description, hasEndEffector_Id)
-VALUES(17, 'TrayGripper', 0.04, 'large single cup vacuum effector', 'TheTrayGripper');
+(EndEffectorID, _NAME, hasEndEffector_Weight, hasEndEffector_Description, hasEndEffector_Id, hadByEndEffector_Robot)
+VALUES(17, 'TrayGripper', 0.04, 'large single cup vacuum effector', 'TheTrayGripper', 'Robot1');
 
 INSERT INTO VacuumEffector
 (VacuumEffectorID, _NAME, hasVacuumEffector_CupDiameter, hasVacuumEffector_Length)
@@ -727,8 +727,8 @@ INSERT INTO SolidObject
 VALUES('PartGripperHolder', 'PartGripperHolderPose');
 
 INSERT INTO EndEffectorHolder
-(EndEffectorHolderID, _NAME)
-VALUES(18, 'PartGripperHolder');
+(EndEffectorHolderID, _NAME, hadByEndEffectorHolder_ChangingStation, hasEndEffectorHolder_EndEffector)
+VALUES(18, 'PartGripperHolder', 'ChangingStation1', 'PartGripper');
 
 INSERT INTO DataThing
 (_NAME)
@@ -799,8 +799,8 @@ INSERT INTO BoxyObject
 VALUES(19, 'KitTray1', 0.3, 0.15, 0.5);
 
 INSERT INTO KitTray
-(KitTrayID, _NAME, hasKitTray_SerialNumber, hasKitTray_SkuRef)
-VALUES(19, 'KitTray1', 1, 'SkuIdKitTray');
+(KitTrayID, _NAME, hasKitTray_SerialNumber, hasKitTray_SkuRef, hadByKitTray_LargeBoxWithEmptyKitTrays)
+VALUES(19, 'KitTray1', 1, 'SkuIdKitTray', 'EmptyKitTraySupply');
 
 INSERT INTO DataThing
 (_NAME)
@@ -827,8 +827,8 @@ INSERT INTO BoxyObject
 VALUES(20, 'EmptyKitTrayBox', 0.7, 0.8, 0.9);
 
 INSERT INTO LargeContainer
-(LargeContainerID, _NAME, hasLargeContainer_SkuRef, hasLargeContainer_SerialNumber, hadByLargeContainer_LargeBoxWithEmptyKitTrays)
-VALUES(20, 'EmptyKitTrayBox', 'SkuIdKitBox', 4, 'EmptyKitTraySupply');
+(LargeContainerID, _NAME, hasLargeContainer_SkuRef, hasLargeContainer_SerialNumber)
+VALUES(20, 'EmptyKitTrayBox', 'SkuIdKitBox', 4);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
@@ -839,8 +839,8 @@ INSERT INTO BoxyObject
 VALUES(21, 'KitTray3', 0.3, 0.15, 0.5);
 
 INSERT INTO KitTray
-(KitTrayID, _NAME, hasKitTray_SerialNumber, hasKitTray_SkuRef)
-VALUES(21, 'KitTray3', 3, 'SkuIdKitTray');
+(KitTrayID, _NAME, hasKitTray_SerialNumber, hasKitTray_SkuRef, hadByKitTray_LargeBoxWithEmptyKitTrays)
+VALUES(21, 'KitTray3', 3, 'SkuIdKitTray', 'EmptyKitTraySupply');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PhysicalLocation)
@@ -851,8 +851,8 @@ INSERT INTO BoxyObject
 VALUES(22, 'KitTray2', 0.3, 0.15, 0.5);
 
 INSERT INTO KitTray
-(KitTrayID, _NAME, hasKitTray_SerialNumber, hasKitTray_SkuRef)
-VALUES(22, 'KitTray2', 2, 'SkuIdKitTray');
+(KitTrayID, _NAME, hasKitTray_SerialNumber, hasKitTray_SkuRef, hadByKitTray_LargeBoxWithEmptyKitTrays)
+VALUES(22, 'KitTray2', 2, 'SkuIdKitTray', 'EmptyKitTraySupply');
 
 INSERT INTO DataThing
 (_NAME)
@@ -879,8 +879,8 @@ INSERT INTO DataThing
 VALUES('KitDesignA2B1C1');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hasKitDesign_Id, hasKitDesign_KitTraySkuRef)
-VALUES(70, 'KitDesignA2B1C1', 'KitDesignA2B1C1', 'SkuIdKitTray');
+(KitDesignID, _NAME, hasKitDesign_Id, hasKitDesign_KitTraySkuRef, hadByKitDesign_Workstation)
+VALUES(70, 'KitDesignA2B1C1', 'KitDesignA2B1C1', 'SkuIdKitTray', 'Workstation1');
 
 INSERT INTO DataThing
 (_NAME)
@@ -959,8 +959,8 @@ INSERT INTO DataThing
 VALUES('StockKeepingUnitPartC');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
-VALUES(78, 'StockKeepingUnitPartC', 'SKU for PartC', 'SkuIdPartC', 0.18, 'ShapePartC');
+(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+VALUES(78, 'StockKeepingUnitPartC', 'SKU for PartC', 'SkuIdPartC', 0.18, 'Workstation1', 'ShapePartC');
 
 INSERT INTO hasSku_EndEffectorRefsValue
 (StockKeepingUnitID, hasSku_EndEffectorRefs)
@@ -971,8 +971,8 @@ INSERT INTO DataThing
 VALUES('StockKeepingUnitPartB');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
-VALUES(79, 'StockKeepingUnitPartB', 'SKU for PartB', 'SkuIdPartB', 0.18, 'ShapePartB');
+(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+VALUES(79, 'StockKeepingUnitPartB', 'SKU for PartB', 'SkuIdPartB', 0.18, 'Workstation1', 'ShapePartB');
 
 INSERT INTO hasSku_EndEffectorRefsValue
 (StockKeepingUnitID, hasSku_EndEffectorRefs)
@@ -983,8 +983,8 @@ INSERT INTO DataThing
 VALUES('StockKeepingUnitPartA');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
-VALUES(80, 'StockKeepingUnitPartA', 'SKU for Part A', 'SkuIdPartA', 0.18, 'ShapePartA');
+(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+VALUES(80, 'StockKeepingUnitPartA', 'SKU for Part A', 'SkuIdPartA', 0.18, 'Workstation1', 'ShapePartA');
 
 INSERT INTO hasSku_EndEffectorRefsValue
 (StockKeepingUnitID, hasSku_EndEffectorRefs)
@@ -995,8 +995,8 @@ INSERT INTO SolidObject
 VALUES('TrayGripperHolder', 'TrayGripperHolderPose');
 
 INSERT INTO EndEffectorHolder
-(EndEffectorHolderID, _NAME)
-VALUES(23, 'TrayGripperHolder');
+(EndEffectorHolderID, _NAME, hadByEndEffectorHolder_ChangingStation)
+VALUES(23, 'TrayGripperHolder', 'ChangingStation1');
 
 INSERT INTO DataThing
 (_NAME)
@@ -1035,8 +1035,8 @@ INSERT INTO BoxyObject
 VALUES(24, 'WorkTable1', 0.8, 0.5, 1.6);
 
 INSERT INTO WorkTable
-(WorkTableID, _NAME, hadByWorkTable_Workstation)
-VALUES(24, 'WorkTable1', 'Workstation1');
+(WorkTableID, _NAME)
+VALUES(24, 'WorkTable1');
 
 INSERT INTO DataThing
 (_NAME)
@@ -1055,8 +1055,8 @@ INSERT INTO BoxyObject
 VALUES(25, 'PartCTray', 0.3, 0.2, 0.6);
 
 INSERT INTO PartsTray
-(PartsTrayID, _NAME, hasPartsTray_SkuRef, hasPartsTray_SerialNumber, hadByPartsTray_PartsTrayWithParts)
-VALUES(25, 'PartCTray', 'SkuIdPartsTray', 8, 'PartCSupply');
+(PartsTrayID, _NAME, hasPartsTray_SkuRef, hasPartsTray_SerialNumber)
+VALUES(25, 'PartCTray', 'SkuIdPartsTray', 8);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1071,8 +1071,8 @@ INSERT INTO SolidObject
 VALUES('Robot1', 'RobotPose');
 
 INSERT INTO Robot
-(RobotID, _NAME, hasRobot_Id, hasRobot_MaximumLoadWeight, hasRobot_Description, hadByRobot_Workstation)
-VALUES(26, 'Robot1', 'Robot1', 7.0, 'this is the robot', 'KittingWorkstation1');
+(RobotID, _NAME, hasRobot_Id, hasRobot_MaximumLoadWeight, hasRobot_Description)
+VALUES(26, 'Robot1', 'Robot1', 7.0, 'this is the robot');
 
 INSERT INTO hasRobot_WorkVolume
 (RobotID, BoxVolumeID)
@@ -1083,8 +1083,8 @@ INSERT INTO DataThing
 VALUES('StockKeepingUnitPartsTray');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hasSku_Shape)
-VALUES(85, 'StockKeepingUnitPartsTray', 'SKU for PartsTrays', 'SkuIdPartsTray', 0.2, 'ShapePartsTray');
+(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Id, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+VALUES(85, 'StockKeepingUnitPartsTray', 'SKU for PartsTrays', 'SkuIdPartsTray', 0.2, 'Workstation1', 'ShapePartsTray');
 
 INSERT INTO hasSku_EndEffectorRefsValue
 (StockKeepingUnitID, hasSku_EndEffectorRefs)
@@ -1123,8 +1123,8 @@ INSERT INTO SolidObject
 VALUES('EmptyKitTraySupply', 'EmptyKitTraySupplyPose');
 
 INSERT INTO LargeBoxWithEmptyKitTrays
-(LargeBoxWithEmptyKitTraysID, _NAME)
-VALUES(27, 'EmptyKitTraySupply');
+(LargeBoxWithEmptyKitTraysID, _NAME, hasLargeBoxWithEmptyKitTrays_LargeContainer)
+VALUES(27, 'EmptyKitTraySupply', 'EmptyKitTrayBox');
 
 INSERT INTO DataThing
 (_NAME)
@@ -1163,8 +1163,8 @@ INSERT INTO BoxyObject
 VALUES(28, 'FinishedKitBox', 0.7, 0.8, 0.9);
 
 INSERT INTO LargeContainer
-(LargeContainerID, _NAME, hasLargeContainer_SkuRef, hasLargeContainer_SerialNumber, hadByLargeContainer_LargeBoxWithKits)
-VALUES(28, 'FinishedKitBox', 'SkuIdKitBox', 5, 'FinishedKitReceiver');
+(LargeContainerID, _NAME, hasLargeContainer_SkuRef, hasLargeContainer_SerialNumber)
+VALUES(28, 'FinishedKitBox', 'SkuIdKitBox', 5);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1191,6 +1191,6 @@ INSERT INTO BoxyObject
 VALUES(29, 'PartBTray', 0.3, 0.2, 0.6);
 
 INSERT INTO PartsTray
-(PartsTrayID, _NAME, hasPartsTray_SkuRef, hasPartsTray_SerialNumber, hadByPartsTray_PartsTrayWithParts)
-VALUES(29, 'PartBTray', 'SkuIdPartsTray', 7, 'PartBSupply');
+(PartsTrayID, _NAME, hasPartsTray_SkuRef, hasPartsTray_SerialNumber)
+VALUES(29, 'PartBTray', 'SkuIdPartsTray', 7);
 

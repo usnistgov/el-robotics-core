@@ -4,20 +4,23 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "SolidObject.h"
- #include "LargeContainer.h"
  class LargeContainer;
- #include "DAO.h"
+ class KitInstance;
  class DAO;
- #include <string>
 class LargeBoxWithKits: public SolidObject{private:
 std::string hasLargeBoxWithKits_Capacity;
 std::string hasLargeBoxWithKits_KitDesignRef;
 std::string name;
 int LargeBoxWithKitsID;
 DAO* dao;
-LargeContainer* hadByLargeContainer_LargeBoxWithKits;
+LargeContainer* hasLargeBoxWithKits_LargeContainer;
+std::vector<KitInstance*> hadByKitInstance_LargeBoxWithKits;
 public:
 LargeBoxWithKits(std::string name);
 ~LargeBoxWithKits();
@@ -30,13 +33,13 @@ void sethasLargeBoxWithKits_Capacity(std::string _hasLargeBoxWithKits_Capacity);
 std::string gethasLargeBoxWithKits_KitDesignRef();
 void sethasLargeBoxWithKits_KitDesignRef(std::string _hasLargeBoxWithKits_KitDesignRef);
 std::string getname();
-void setname(std::string _name);
 int getLargeBoxWithKitsID();
-void setLargeBoxWithKitsID(int _LargeBoxWithKitsID);
 DAO* getdao();
 void setdao(DAO* _dao);
-LargeContainer* gethadByLargeContainer_LargeBoxWithKits();
-void sethadByLargeContainer_LargeBoxWithKits(LargeContainer* _hadByLargeContainer_LargeBoxWithKits);
+LargeContainer* gethasLargeBoxWithKits_LargeContainer();
+void sethasLargeBoxWithKits_LargeContainer(LargeContainer* _hasLargeBoxWithKits_LargeContainer);
+std::vector<KitInstance*>* gethadByKitInstance_LargeBoxWithKits();
+void sethadByKitInstance_LargeBoxWithKits(std::vector<KitInstance*> _hadByKitInstance_LargeBoxWithKits);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* LARGEBOXWITHKITS_H_ */

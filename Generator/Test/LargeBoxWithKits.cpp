@@ -1,28 +1,40 @@
 #include "LargeBoxWithKits.h"
 
+
+ #include "LargeContainer.h"
+ #include "KitInstance.h"
+ #include "DAO.h"
+
 LargeBoxWithKits::LargeBoxWithKits(std::string name) : SolidObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hasLargeBoxWithKits_LargeContainer = NULL;
+
 }LargeBoxWithKits::~LargeBoxWithKits(){
 delete(dao);
-delete(hadByLargeContainer_LargeBoxWithKits);
+delete(hasLargeBoxWithKits_LargeContainer);
+for(std::size_t i = 0; i < hadByKitInstance_LargeBoxWithKits.size(); i++)
+delete(hadByKitInstance_LargeBoxWithKits[i]);
 }
 std::string LargeBoxWithKits::gethasLargeBoxWithKits_Capacity(){
-return this->hasLargeBoxWithKits_Capacity;
+return hasLargeBoxWithKits_Capacity;
 }
 std::string LargeBoxWithKits::gethasLargeBoxWithKits_KitDesignRef(){
-return this->hasLargeBoxWithKits_KitDesignRef;
+return hasLargeBoxWithKits_KitDesignRef;
 }
 std::string LargeBoxWithKits::getname(){
-return this->name;
+return name;
 }
 int LargeBoxWithKits::getLargeBoxWithKitsID(){
-return this->LargeBoxWithKitsID;
+return LargeBoxWithKitsID;
 }
 DAO* LargeBoxWithKits::getdao(){
-return this->dao;
+return dao;
 }
-LargeContainer* LargeBoxWithKits::gethadByLargeContainer_LargeBoxWithKits(){
-return this->hadByLargeContainer_LargeBoxWithKits;
+LargeContainer* LargeBoxWithKits::gethasLargeBoxWithKits_LargeContainer(){
+return hasLargeBoxWithKits_LargeContainer;
+}
+std::vector<KitInstance*>* LargeBoxWithKits::gethadByKitInstance_LargeBoxWithKits(){
+return &hadByKitInstance_LargeBoxWithKits;
 }
 void LargeBoxWithKits::sethasLargeBoxWithKits_Capacity(std::string _hasLargeBoxWithKits_Capacity){
 this->hasLargeBoxWithKits_Capacity= _hasLargeBoxWithKits_Capacity;
@@ -30,32 +42,40 @@ this->hasLargeBoxWithKits_Capacity= _hasLargeBoxWithKits_Capacity;
 void LargeBoxWithKits::sethasLargeBoxWithKits_KitDesignRef(std::string _hasLargeBoxWithKits_KitDesignRef){
 this->hasLargeBoxWithKits_KitDesignRef= _hasLargeBoxWithKits_KitDesignRef;
 }
-void LargeBoxWithKits::setname(std::string _name){
-this->name= _name;
-}
-void LargeBoxWithKits::setLargeBoxWithKitsID(int _LargeBoxWithKitsID){
-this->LargeBoxWithKitsID= _LargeBoxWithKitsID;
-}
 void LargeBoxWithKits::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void LargeBoxWithKits::sethadByLargeContainer_LargeBoxWithKits(LargeContainer* _hadByLargeContainer_LargeBoxWithKits){
-this->hadByLargeContainer_LargeBoxWithKits= _hadByLargeContainer_LargeBoxWithKits;
+void LargeBoxWithKits::sethasLargeBoxWithKits_LargeContainer(LargeContainer* _hasLargeBoxWithKits_LargeContainer){
+this->hasLargeBoxWithKits_LargeContainer= _hasLargeBoxWithKits_LargeContainer;
+}
+void LargeBoxWithKits::sethadByKitInstance_LargeBoxWithKits(std::vector<KitInstance*> _hadByKitInstance_LargeBoxWithKits){
+this->hadByKitInstance_LargeBoxWithKits= _hadByKitInstance_LargeBoxWithKits;
 }
 void LargeBoxWithKits::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("SolidObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
-delete (dao);
 dao  = new DAO("LargeBoxWithKits");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void LargeBoxWithKits::set(std::string name){
- dao  = new DAO("LargeBoxWithKits");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasLargeBoxWithKits_Capacity"]=hasLargeBoxWithKits_Capacity;
+data["hasLargeBoxWithKits_KitDesignRef"]=hasLargeBoxWithKits_KitDesignRef;
+data["name"]=name;
+data["LargeBoxWithKitsID"]=LargeBoxWithKitsID;
+data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
+for(unsigned int i=0;i<hadByKitInstance_LargeBoxWithKits.size();++i){
+ss.flush();
+ss << hadByKitInstance_LargeBoxWithKits[i]->getKitInstanceID();
+data["hadByKitInstance_LargeBoxWithKits"]=data["hadByKitInstance_LargeBoxWithKits"]+" "+ss.str();
+}
+dao  = new DAO("LargeBoxWithKits");
+dao->set(data);
 delete (dao);
 }
 
@@ -64,26 +84,26 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<LargeBoxWithKits*> tmp;
 this->hasLargeBoxWithKits_Capacity = object["LargeBoxWithKits.hasLargeBoxWithKits_Capacity"];
 this->hasLargeBoxWithKits_KitDesignRef = object["LargeBoxWithKits.hasLargeBoxWithKits_KitDesignRef"];
 this->name = object["LargeBoxWithKits._NAME"];
 this->LargeBoxWithKitsID = std::atof(object["LargeBoxWithKits.LargeBoxWithKitsID"].c_str());
-this->hadByLargeContainer_LargeBoxWithKits = new LargeContainer(" ");
-this->hadByLargeContainer_LargeBoxWithKits->sethadByLargeContainer_LargeBoxWithKits(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,37) == "hadByLargeContainer_LargeBoxWithKits/"){
-mapTemp[it->first.substr(37,it->first.length())] = it->second;
+if(this->hasLargeBoxWithKits_LargeContainer== NULL && object["hasLargeBoxWithKits_LargeContainer/LargeContainer._NAME"]!=""){
+this->hasLargeBoxWithKits_LargeContainer = new LargeContainer(object["hasLargeBoxWithKits_LargeContainer/LargeContainer._NAME"]);
+}
+if(this->hadByKitInstance_LargeBoxWithKits.empty() && object["hadByKitInstance_LargeBoxWithKits/KitInstance._NAME"]!=""){
+temp = Explode(object["hadByKitInstance_LargeBoxWithKits/KitInstance._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hadByKitInstance_LargeBoxWithKits.push_back(new KitInstance(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hadByLargeContainer_LargeBoxWithKits->copy(mapTemp);
 
 }std::vector<std::string> LargeBoxWithKits::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

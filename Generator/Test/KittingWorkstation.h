@@ -4,19 +4,18 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "SolidObject.h"
- #include "Robot.h"
  class Robot;
- #include "BoxVolume.h"
  class BoxVolume;
- #include <vector>
- #include "EndEffectorChangingStation.h"
+ class KitDesign;
+ class StockKeepingUnit;
  class EndEffectorChangingStation;
- #include "DAO.h"
  class DAO;
- #include <string>
- #include "WorkTable.h"
  class WorkTable;
 class KittingWorkstation: public SolidObject{private:
 std::string hasWorkstation_LengthUnit;
@@ -25,10 +24,12 @@ std::string hasWorkstation_AngleUnit;
 std::string name;
 int KittingWorkstationID;
 DAO* dao;
-EndEffectorChangingStation* hadByChangingStation_Workstation;
+std::vector<KitDesign*> hadByKitDesign_Workstation;
+EndEffectorChangingStation* hasWorkstation_ChangingStation;
 std::vector<BoxVolume*> hasWorkstation_OtherObstacles;
-WorkTable* hadByWorkTable_Workstation;
-Robot* hadByRobot_Workstation;
+WorkTable* hasWorkstation_WorkTable;
+std::vector<StockKeepingUnit*> hadBySku_Workstation;
+Robot* hasWorkstation_Robot;
 public:
 KittingWorkstation(std::string name);
 ~KittingWorkstation();
@@ -43,19 +44,21 @@ void sethasWorkstation_WeightUnit(std::string _hasWorkstation_WeightUnit);
 std::string gethasWorkstation_AngleUnit();
 void sethasWorkstation_AngleUnit(std::string _hasWorkstation_AngleUnit);
 std::string getname();
-void setname(std::string _name);
 int getKittingWorkstationID();
-void setKittingWorkstationID(int _KittingWorkstationID);
 DAO* getdao();
 void setdao(DAO* _dao);
-EndEffectorChangingStation* gethadByChangingStation_Workstation();
-void sethadByChangingStation_Workstation(EndEffectorChangingStation* _hadByChangingStation_Workstation);
-std::vector<BoxVolume*> gethasWorkstation_OtherObstacles();
+std::vector<KitDesign*>* gethadByKitDesign_Workstation();
+void sethadByKitDesign_Workstation(std::vector<KitDesign*> _hadByKitDesign_Workstation);
+EndEffectorChangingStation* gethasWorkstation_ChangingStation();
+void sethasWorkstation_ChangingStation(EndEffectorChangingStation* _hasWorkstation_ChangingStation);
+std::vector<BoxVolume*>* gethasWorkstation_OtherObstacles();
 void sethasWorkstation_OtherObstacles(std::vector<BoxVolume*> _hasWorkstation_OtherObstacles);
-WorkTable* gethadByWorkTable_Workstation();
-void sethadByWorkTable_Workstation(WorkTable* _hadByWorkTable_Workstation);
-Robot* gethadByRobot_Workstation();
-void sethadByRobot_Workstation(Robot* _hadByRobot_Workstation);
+WorkTable* gethasWorkstation_WorkTable();
+void sethasWorkstation_WorkTable(WorkTable* _hasWorkstation_WorkTable);
+std::vector<StockKeepingUnit*>* gethadBySku_Workstation();
+void sethadBySku_Workstation(std::vector<StockKeepingUnit*> _hadBySku_Workstation);
+Robot* gethasWorkstation_Robot();
+void sethasWorkstation_Robot(Robot* _hasWorkstation_Robot);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* KITTINGWORKSTATION_H_ */

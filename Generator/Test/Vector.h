@@ -4,11 +4,13 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "DataThing.h"
- #include "DAO.h"
  class DAO;
- #include <string>
 class Vector: public DataThing{private:
 double hasVector_K;
 double hasVector_J;
@@ -30,9 +32,7 @@ void sethasVector_J(double _hasVector_J);
 double gethasVector_I();
 void sethasVector_I(double _hasVector_I);
 std::string getname();
-void setname(std::string _name);
 int getVectorID();
-void setVectorID(int _VectorID);
 DAO* getdao();
 void setdao(DAO* _dao);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

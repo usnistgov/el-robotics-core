@@ -1,24 +1,28 @@
 #include "VacuumEffectorMultiCup.h"
 
+
+ #include "DAO.h"
+
 VacuumEffectorMultiCup::VacuumEffectorMultiCup(std::string name) : VacuumEffector(name){
-this->name=name;
+this->name=name;dao = NULL;
+
 }VacuumEffectorMultiCup::~VacuumEffectorMultiCup(){
 delete(dao);
 }
 std::string VacuumEffectorMultiCup::gethasMultiCup_ArrayNumber(){
-return this->hasMultiCup_ArrayNumber;
+return hasMultiCup_ArrayNumber;
 }
 double VacuumEffectorMultiCup::gethasMultiCup_ArrayRadius(){
-return this->hasMultiCup_ArrayRadius;
+return hasMultiCup_ArrayRadius;
 }
 std::string VacuumEffectorMultiCup::getname(){
-return this->name;
+return name;
 }
 int VacuumEffectorMultiCup::getVacuumEffectorMultiCupID(){
-return this->VacuumEffectorMultiCupID;
+return VacuumEffectorMultiCupID;
 }
 DAO* VacuumEffectorMultiCup::getdao(){
-return this->dao;
+return dao;
 }
 void VacuumEffectorMultiCup::sethasMultiCup_ArrayNumber(std::string _hasMultiCup_ArrayNumber){
 this->hasMultiCup_ArrayNumber= _hasMultiCup_ArrayNumber;
@@ -26,29 +30,28 @@ this->hasMultiCup_ArrayNumber= _hasMultiCup_ArrayNumber;
 void VacuumEffectorMultiCup::sethasMultiCup_ArrayRadius(double _hasMultiCup_ArrayRadius){
 this->hasMultiCup_ArrayRadius= _hasMultiCup_ArrayRadius;
 }
-void VacuumEffectorMultiCup::setname(std::string _name){
-this->name= _name;
-}
-void VacuumEffectorMultiCup::setVacuumEffectorMultiCupID(int _VacuumEffectorMultiCupID){
-this->VacuumEffectorMultiCupID= _VacuumEffectorMultiCupID;
-}
 void VacuumEffectorMultiCup::setdao(DAO* _dao){
 this->dao= _dao;
 }
 void VacuumEffectorMultiCup::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("VacuumEffector");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  VacuumEffector::copy(temp);
-delete (dao);
 dao  = new DAO("VacuumEffectorMultiCup");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void VacuumEffectorMultiCup::set(std::string name){
- dao  = new DAO("VacuumEffectorMultiCup");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasMultiCup_ArrayNumber"]=hasMultiCup_ArrayNumber;
+data["hasMultiCup_ArrayRadius"]=hasMultiCup_ArrayRadius;
+data["name"]=name;
+data["VacuumEffectorMultiCupID"]=VacuumEffectorMultiCupID;
+dao  = new DAO("VacuumEffectorMultiCup");
+dao->set(data);
 delete (dao);
 }
 
@@ -57,6 +60,7 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<VacuumEffectorMultiCup*> tmp;
 this->hasMultiCup_ArrayNumber = object["VacuumEffectorMultiCup.hasMultiCup_ArrayNumber"];
 this->hasMultiCup_ArrayRadius = std::atof(object["VacuumEffectorMultiCup.hasMultiCup_ArrayRadius"].c_str());
 this->name = object["VacuumEffectorMultiCup._NAME"];
@@ -65,8 +69,8 @@ this->VacuumEffectorMultiCupID = std::atof(object["VacuumEffectorMultiCup.Vacuum
 }std::vector<std::string> VacuumEffectorMultiCup::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

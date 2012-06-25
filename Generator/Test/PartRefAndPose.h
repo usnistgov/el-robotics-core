@@ -4,20 +4,22 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "DataThing.h"
- #include "DAO.h"
  class DAO;
- #include <string>
- #include "Point.h"
+ class KitDesign;
  class Point;
- #include "RollPitchYaw.h"
  class RollPitchYaw;
 class PartRefAndPose: public DataThing{private:
 std::string hasPartRefAndPose_Ref;
 std::string name;
 int PartRefAndPoseID;
 DAO* dao;
+KitDesign* hadByPartRefAndPose_KitDesign;
 RollPitchYaw* hasPartRefAndPose_Rpy;
 Point* hasPartRefAndPose_Point;
 public:
@@ -30,11 +32,11 @@ void set(std::string name);
 std::string gethasPartRefAndPose_Ref();
 void sethasPartRefAndPose_Ref(std::string _hasPartRefAndPose_Ref);
 std::string getname();
-void setname(std::string _name);
 int getPartRefAndPoseID();
-void setPartRefAndPoseID(int _PartRefAndPoseID);
 DAO* getdao();
 void setdao(DAO* _dao);
+KitDesign* gethadByPartRefAndPose_KitDesign();
+void sethadByPartRefAndPose_KitDesign(KitDesign* _hadByPartRefAndPose_KitDesign);
 RollPitchYaw* gethasPartRefAndPose_Rpy();
 void sethasPartRefAndPose_Rpy(RollPitchYaw* _hasPartRefAndPose_Rpy);
 Point* gethasPartRefAndPose_Point();

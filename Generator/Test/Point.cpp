@@ -1,43 +1,54 @@
 #include "Point.h"
 
+
+ #include "BoxVolume.h"
+ #include "Pose.h"
+ #include "DAO.h"
+ #include "PartRefAndPose.h"
+
 Point::Point(std::string name) : DataThing(name){
-this->name=name;
+this->name=name;dao = NULL;
+
 }Point::~Point(){
 delete(dao);
-delete(hasPose_Point);
-delete(hasPartRefAndPose_Point);
-delete(hasBoxVolume_MaximumPoint);
-delete(hasBoxVolume_MinimumPoint);
+for(std::size_t i = 0; i < hasPose_Point.size(); i++)
+delete(hasPose_Point[i]);
+for(std::size_t i = 0; i < hasPartRefAndPose_Point.size(); i++)
+delete(hasPartRefAndPose_Point[i]);
+for(std::size_t i = 0; i < hasBoxVolume_MaximumPoint.size(); i++)
+delete(hasBoxVolume_MaximumPoint[i]);
+for(std::size_t i = 0; i < hasBoxVolume_MinimumPoint.size(); i++)
+delete(hasBoxVolume_MinimumPoint[i]);
 }
 double Point::gethasPoint_X(){
-return this->hasPoint_X;
+return hasPoint_X;
 }
 double Point::gethasPoint_Y(){
-return this->hasPoint_Y;
+return hasPoint_Y;
 }
 double Point::gethasPoint_Z(){
-return this->hasPoint_Z;
+return hasPoint_Z;
 }
 std::string Point::getname(){
-return this->name;
+return name;
 }
 int Point::getPointID(){
-return this->PointID;
+return PointID;
 }
 DAO* Point::getdao(){
-return this->dao;
+return dao;
 }
-Pose* Point::gethasPose_Point(){
-return this->hasPose_Point;
+std::vector<Pose*>* Point::gethasPose_Point(){
+return &hasPose_Point;
 }
-PartRefAndPose* Point::gethasPartRefAndPose_Point(){
-return this->hasPartRefAndPose_Point;
+std::vector<PartRefAndPose*>* Point::gethasPartRefAndPose_Point(){
+return &hasPartRefAndPose_Point;
 }
-BoxVolume* Point::gethasBoxVolume_MaximumPoint(){
-return this->hasBoxVolume_MaximumPoint;
+std::vector<BoxVolume*>* Point::gethasBoxVolume_MaximumPoint(){
+return &hasBoxVolume_MaximumPoint;
 }
-BoxVolume* Point::gethasBoxVolume_MinimumPoint(){
-return this->hasBoxVolume_MinimumPoint;
+std::vector<BoxVolume*>* Point::gethasBoxVolume_MinimumPoint(){
+return &hasBoxVolume_MinimumPoint;
 }
 void Point::sethasPoint_X(double _hasPoint_X){
 this->hasPoint_X= _hasPoint_X;
@@ -48,41 +59,61 @@ this->hasPoint_Y= _hasPoint_Y;
 void Point::sethasPoint_Z(double _hasPoint_Z){
 this->hasPoint_Z= _hasPoint_Z;
 }
-void Point::setname(std::string _name){
-this->name= _name;
-}
-void Point::setPointID(int _PointID){
-this->PointID= _PointID;
-}
 void Point::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void Point::sethasPose_Point(Pose* _hasPose_Point){
+void Point::sethasPose_Point(std::vector<Pose*> _hasPose_Point){
 this->hasPose_Point= _hasPose_Point;
 }
-void Point::sethasPartRefAndPose_Point(PartRefAndPose* _hasPartRefAndPose_Point){
+void Point::sethasPartRefAndPose_Point(std::vector<PartRefAndPose*> _hasPartRefAndPose_Point){
 this->hasPartRefAndPose_Point= _hasPartRefAndPose_Point;
 }
-void Point::sethasBoxVolume_MaximumPoint(BoxVolume* _hasBoxVolume_MaximumPoint){
+void Point::sethasBoxVolume_MaximumPoint(std::vector<BoxVolume*> _hasBoxVolume_MaximumPoint){
 this->hasBoxVolume_MaximumPoint= _hasBoxVolume_MaximumPoint;
 }
-void Point::sethasBoxVolume_MinimumPoint(BoxVolume* _hasBoxVolume_MinimumPoint){
+void Point::sethasBoxVolume_MinimumPoint(std::vector<BoxVolume*> _hasBoxVolume_MinimumPoint){
 this->hasBoxVolume_MinimumPoint= _hasBoxVolume_MinimumPoint;
 }
 void Point::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("DataThing");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  DataThing::copy(temp);
-delete (dao);
 dao  = new DAO("Point");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void Point::set(std::string name){
- dao  = new DAO("Point");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasPoint_X"]=hasPoint_X;
+data["hasPoint_Y"]=hasPoint_Y;
+data["hasPoint_Z"]=hasPoint_Z;
+data["name"]=name;
+data["PointID"]=PointID;
+for(unsigned int i=0;i<hasPose_Point.size();++i){
+ss.flush();
+ss << hasPose_Point[i]->getPoseID();
+data["hasPose_Point"]=data["hasPose_Point"]+" "+ss.str();
+}
+for(unsigned int i=0;i<hasPartRefAndPose_Point.size();++i){
+ss.flush();
+ss << hasPartRefAndPose_Point[i]->getPartRefAndPoseID();
+data["hasPartRefAndPose_Point"]=data["hasPartRefAndPose_Point"]+" "+ss.str();
+}
+for(unsigned int i=0;i<hasBoxVolume_MaximumPoint.size();++i){
+ss.flush();
+ss << hasBoxVolume_MaximumPoint[i]->getBoxVolumeID();
+data["hasBoxVolume_MaximumPoint"]=data["hasBoxVolume_MaximumPoint"]+" "+ss.str();
+}
+for(unsigned int i=0;i<hasBoxVolume_MinimumPoint.size();++i){
+ss.flush();
+ss << hasBoxVolume_MinimumPoint[i]->getBoxVolumeID();
+data["hasBoxVolume_MinimumPoint"]=data["hasBoxVolume_MinimumPoint"]+" "+ss.str();
+}
+dao  = new DAO("Point");
+dao->set(data);
 delete (dao);
 }
 
@@ -91,57 +122,42 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<Point*> tmp;
 this->hasPoint_X = std::atof(object["Point.hasPoint_X"].c_str());
 this->hasPoint_Y = std::atof(object["Point.hasPoint_Y"].c_str());
 this->hasPoint_Z = std::atof(object["Point.hasPoint_Z"].c_str());
 this->name = object["Point._NAME"];
 this->PointID = std::atof(object["Point.PointID"].c_str());
-this->hasPose_Point = new Pose(" ");
-this->hasPose_Point->sethasPose_Point(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,14) == "hasPose_Point/"){
-mapTemp[it->first.substr(14,it->first.length())] = it->second;
+if(this->hasPose_Point.empty() && object["hasPose_Point/Pose._NAME"]!=""){
+temp = Explode(object["hasPose_Point/Pose._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasPose_Point.push_back(new Pose(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hasPose_Point->copy(mapTemp);
-this->hasPartRefAndPose_Point = new PartRefAndPose(" ");
-this->hasPartRefAndPose_Point->sethasPartRefAndPose_Point(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,24) == "hasPartRefAndPose_Point/"){
-mapTemp[it->first.substr(24,it->first.length())] = it->second;
+if(this->hasPartRefAndPose_Point.empty() && object["hasPartRefAndPose_Point/PartRefAndPose._NAME"]!=""){
+temp = Explode(object["hasPartRefAndPose_Point/PartRefAndPose._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasPartRefAndPose_Point.push_back(new PartRefAndPose(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hasPartRefAndPose_Point->copy(mapTemp);
-this->hasBoxVolume_MaximumPoint = new BoxVolume(" ");
-this->hasBoxVolume_MaximumPoint->sethasBoxVolume_MaximumPoint(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,26) == "hasBoxVolume_MaximumPoint/"){
-mapTemp[it->first.substr(26,it->first.length())] = it->second;
+if(this->hasBoxVolume_MaximumPoint.empty() && object["hasBoxVolume_MaximumPoint/BoxVolume._NAME"]!=""){
+temp = Explode(object["hasBoxVolume_MaximumPoint/BoxVolume._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasBoxVolume_MaximumPoint.push_back(new BoxVolume(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hasBoxVolume_MaximumPoint->copy(mapTemp);
-this->hasBoxVolume_MinimumPoint = new BoxVolume(" ");
-this->hasBoxVolume_MinimumPoint->sethasBoxVolume_MinimumPoint(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,26) == "hasBoxVolume_MinimumPoint/"){
-mapTemp[it->first.substr(26,it->first.length())] = it->second;
+if(this->hasBoxVolume_MinimumPoint.empty() && object["hasBoxVolume_MinimumPoint/BoxVolume._NAME"]!=""){
+temp = Explode(object["hasBoxVolume_MinimumPoint/BoxVolume._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasBoxVolume_MinimumPoint.push_back(new BoxVolume(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hasBoxVolume_MinimumPoint->copy(mapTemp);
 
 }std::vector<std::string> Point::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

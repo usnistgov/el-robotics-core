@@ -4,20 +4,21 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "BoxyObject.h"
- #include "PartsTrayWithParts.h"
  class PartsTrayWithParts;
- #include "DAO.h"
  class DAO;
- #include <string>
 class PartsTray: public BoxyObject{private:
 std::string hasPartsTray_SkuRef;
 std::string hasPartsTray_SerialNumber;
 std::string name;
 int PartsTrayID;
 DAO* dao;
-PartsTrayWithParts* hadByPartsTray_PartsTrayWithParts;
+PartsTrayWithParts* hasPartsTrayWithParts_PartsTray;
 public:
 PartsTray(std::string name);
 ~PartsTray();
@@ -30,13 +31,11 @@ void sethasPartsTray_SkuRef(std::string _hasPartsTray_SkuRef);
 std::string gethasPartsTray_SerialNumber();
 void sethasPartsTray_SerialNumber(std::string _hasPartsTray_SerialNumber);
 std::string getname();
-void setname(std::string _name);
 int getPartsTrayID();
-void setPartsTrayID(int _PartsTrayID);
 DAO* getdao();
 void setdao(DAO* _dao);
-PartsTrayWithParts* gethadByPartsTray_PartsTrayWithParts();
-void sethadByPartsTray_PartsTrayWithParts(PartsTrayWithParts* _hadByPartsTray_PartsTrayWithParts);
+PartsTrayWithParts* gethasPartsTrayWithParts_PartsTray();
+void sethasPartsTrayWithParts_PartsTray(PartsTrayWithParts* _hasPartsTrayWithParts_PartsTray);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* PARTSTRAY_H_ */

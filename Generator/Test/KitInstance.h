@@ -4,20 +4,25 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "SolidObject.h"
- #include "KitTray.h"
+ class LargeBoxWithKits;
  class KitTray;
- #include "DAO.h"
  class DAO;
- #include <string>
+ class Part;
 class KitInstance: public SolidObject{private:
 bool isKitInstance_Finished;
 std::string hasKitInstance_DesignRef;
 std::string name;
 int KitInstanceID;
 DAO* dao;
-KitTray* hadByKitTray_KitInstance;
+std::vector<Part*> hadByPart_KitInstance;
+KitTray* hasKitInstance_Tray;
+LargeBoxWithKits* hadByKitInstance_LargeBoxWithKits;
 public:
 KitInstance(std::string name);
 ~KitInstance();
@@ -30,13 +35,15 @@ void setisKitInstance_Finished(bool _isKitInstance_Finished);
 std::string gethasKitInstance_DesignRef();
 void sethasKitInstance_DesignRef(std::string _hasKitInstance_DesignRef);
 std::string getname();
-void setname(std::string _name);
 int getKitInstanceID();
-void setKitInstanceID(int _KitInstanceID);
 DAO* getdao();
 void setdao(DAO* _dao);
-KitTray* gethadByKitTray_KitInstance();
-void sethadByKitTray_KitInstance(KitTray* _hadByKitTray_KitInstance);
+std::vector<Part*>* gethadByPart_KitInstance();
+void sethadByPart_KitInstance(std::vector<Part*> _hadByPart_KitInstance);
+KitTray* gethasKitInstance_Tray();
+void sethasKitInstance_Tray(KitTray* _hasKitInstance_Tray);
+LargeBoxWithKits* gethadByKitInstance_LargeBoxWithKits();
+void sethadByKitInstance_LargeBoxWithKits(LargeBoxWithKits* _hadByKitInstance_LargeBoxWithKits);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* KITINSTANCE_H_ */

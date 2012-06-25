@@ -1,36 +1,49 @@
 #include "Robot.h"
 
+
+ #include "BoxVolume.h"
+ #include "EndEffector.h"
+ #include "KittingWorkstation.h"
+ #include "DAO.h"
+
 Robot::Robot(std::string name) : SolidObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hadByEndEffector_Robot = NULL;
+hasWorkstation_Robot = NULL;
+
 }Robot::~Robot(){
 delete(dao);
-delete(hadByRobot_Workstation);
-for(size_t i = 0; i < hasRobot_WorkVolume.size(); i++)
+delete(hadByEndEffector_Robot);
+delete(hasWorkstation_Robot);
+for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++)
 delete(hasRobot_WorkVolume[i]);
 }
 std::string Robot::gethasRobot_Id(){
-return this->hasRobot_Id;
+return hasRobot_Id;
 }
 double Robot::gethasRobot_MaximumLoadWeight(){
-return this->hasRobot_MaximumLoadWeight;
+return hasRobot_MaximumLoadWeight;
 }
 std::string Robot::gethasRobot_Description(){
-return this->hasRobot_Description;
+return hasRobot_Description;
 }
 std::string Robot::getname(){
-return this->name;
+return name;
 }
 int Robot::getRobotID(){
-return this->RobotID;
+return RobotID;
 }
 DAO* Robot::getdao(){
-return this->dao;
+return dao;
 }
-KittingWorkstation* Robot::gethadByRobot_Workstation(){
-return this->hadByRobot_Workstation;
+EndEffector* Robot::gethadByEndEffector_Robot(){
+return hadByEndEffector_Robot;
 }
-std::vector<BoxVolume*> Robot::gethasRobot_WorkVolume(){
-return this->hasRobot_WorkVolume;
+std::vector<BoxVolume*>* Robot::gethasRobot_WorkVolume(){
+return &hasRobot_WorkVolume;
+}
+KittingWorkstation* Robot::gethasWorkstation_Robot(){
+return hasWorkstation_Robot;
 }
 void Robot::sethasRobot_Id(std::string _hasRobot_Id){
 this->hasRobot_Id= _hasRobot_Id;
@@ -41,35 +54,45 @@ this->hasRobot_MaximumLoadWeight= _hasRobot_MaximumLoadWeight;
 void Robot::sethasRobot_Description(std::string _hasRobot_Description){
 this->hasRobot_Description= _hasRobot_Description;
 }
-void Robot::setname(std::string _name){
-this->name= _name;
-}
-void Robot::setRobotID(int _RobotID){
-this->RobotID= _RobotID;
-}
 void Robot::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void Robot::sethadByRobot_Workstation(KittingWorkstation* _hadByRobot_Workstation){
-this->hadByRobot_Workstation= _hadByRobot_Workstation;
+void Robot::sethadByEndEffector_Robot(EndEffector* _hadByEndEffector_Robot){
+this->hadByEndEffector_Robot= _hadByEndEffector_Robot;
 }
 void Robot::sethasRobot_WorkVolume(std::vector<BoxVolume*> _hasRobot_WorkVolume){
 this->hasRobot_WorkVolume= _hasRobot_WorkVolume;
 }
+void Robot::sethasWorkstation_Robot(KittingWorkstation* _hasWorkstation_Robot){
+this->hasWorkstation_Robot= _hasWorkstation_Robot;
+}
 void Robot::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("SolidObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
-delete (dao);
 dao  = new DAO("Robot");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void Robot::set(std::string name){
- dao  = new DAO("Robot");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasRobot_Id"]=hasRobot_Id;
+data["hasRobot_MaximumLoadWeight"]=hasRobot_MaximumLoadWeight;
+data["hasRobot_Description"]=hasRobot_Description;
+data["name"]=name;
+data["RobotID"]=RobotID;
+data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+for(unsigned int i=0;i<hasRobot_WorkVolume.size();++i){
+ss.flush();
+ss << hasRobot_WorkVolume[i]->getBoxVolumeID();
+data["hasRobot_WorkVolume"]=data["hasRobot_WorkVolume"]+" "+ss.str();
+}
+data["hasWorkstation_Robot"]=hasWorkstation_Robot->getname();
+dao  = new DAO("Robot");
+dao->set(data);
 delete (dao);
 }
 
@@ -78,49 +101,30 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<Robot*> tmp;
 this->hasRobot_Id = object["Robot.hasRobot_Id"];
 this->hasRobot_MaximumLoadWeight = std::atof(object["Robot.hasRobot_MaximumLoadWeight"].c_str());
 this->hasRobot_Description = object["Robot.hasRobot_Description"];
 this->name = object["Robot._NAME"];
 this->RobotID = std::atof(object["Robot.RobotID"].c_str());
-this->hadByRobot_Workstation = new KittingWorkstation(" ");
-this->hadByRobot_Workstation->sethadByRobot_Workstation(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,23) == "hadByRobot_Workstation/"){
-mapTemp[it->first.substr(23,it->first.length())] = it->second;
+if(this->hadByEndEffector_Robot== NULL && object["hadByEndEffector_Robot/EndEffector._NAME"]!=""){
+this->hadByEndEffector_Robot = new EndEffector(object["hadByEndEffector_Robot/EndEffector._NAME"]);
+}
+if(this->hasRobot_WorkVolume.empty() && object["hasRobot_WorkVolume/BoxVolume._NAME"]!=""){
+temp = Explode(object["hasRobot_WorkVolume/BoxVolume._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasRobot_WorkVolume.push_back(new BoxVolume(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hadByRobot_Workstation->copy(mapTemp);
-mapTemp.clear();
-mapTempBis.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,20) == "hasRobot_WorkVolume/"){
-mapTemp[it->first.substr(20,it->first.length())] = it->second;
-nbVal=Explode(it->second,' ').size();
-}
-}
-nbValCurrent=0;
-if(nbValCurrent<=nbVal){
-for (std::map<std::string, std::string>::iterator it = mapTemp.begin(); it
-!= mapTemp.end(); it++) {
-mapTempBis[it->first]=Explode(it->second,' ')[nbValCurrent];
-if(!mapTempBis.empty()){
-this->hasRobot_WorkVolume.push_back(new BoxVolume(" "));
-this->hasRobot_WorkVolume.back()->gethasRobot_WorkVolume().push_back(this);
-this->hasRobot_WorkVolume.back()->copy(mapTempBis);
-}
-}
-nbValCurrent++;
+if(this->hasWorkstation_Robot== NULL && object["hasWorkstation_Robot/KittingWorkstation._NAME"]!=""){
+this->hasWorkstation_Robot = new KittingWorkstation(object["hasWorkstation_Robot/KittingWorkstation._NAME"]);
 }
 
 }std::vector<std::string> Robot::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

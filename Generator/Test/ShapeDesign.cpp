@@ -1,55 +1,64 @@
 #include "ShapeDesign.h"
 
+
+ #include "StockKeepingUnit.h"
+ #include "DAO.h"
+
 ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
-this->name=name;
+this->name=name;dao = NULL;
+
 }ShapeDesign::~ShapeDesign(){
 delete(dao);
-delete(hasSku_Shape);
+for(std::size_t i = 0; i < hasSku_Shape.size(); i++)
+delete(hasSku_Shape[i]);
 }
 std::string ShapeDesign::gethasShapeDesign_Description(){
-return this->hasShapeDesign_Description;
+return hasShapeDesign_Description;
 }
 std::string ShapeDesign::getname(){
-return this->name;
+return name;
 }
 int ShapeDesign::getShapeDesignID(){
-return this->ShapeDesignID;
+return ShapeDesignID;
 }
 DAO* ShapeDesign::getdao(){
-return this->dao;
+return dao;
 }
-StockKeepingUnit* ShapeDesign::gethasSku_Shape(){
-return this->hasSku_Shape;
+std::vector<StockKeepingUnit*>* ShapeDesign::gethasSku_Shape(){
+return &hasSku_Shape;
 }
 void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
 this->hasShapeDesign_Description= _hasShapeDesign_Description;
 }
-void ShapeDesign::setname(std::string _name){
-this->name= _name;
-}
-void ShapeDesign::setShapeDesignID(int _ShapeDesignID){
-this->ShapeDesignID= _ShapeDesignID;
-}
 void ShapeDesign::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void ShapeDesign::sethasSku_Shape(StockKeepingUnit* _hasSku_Shape){
+void ShapeDesign::sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape){
 this->hasSku_Shape= _hasSku_Shape;
 }
 void ShapeDesign::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("DataThing");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  DataThing::copy(temp);
-delete (dao);
 dao  = new DAO("ShapeDesign");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void ShapeDesign::set(std::string name){
- dao  = new DAO("ShapeDesign");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasShapeDesign_Description"]=hasShapeDesign_Description;
+data["name"]=name;
+data["ShapeDesignID"]=ShapeDesignID;
+for(unsigned int i=0;i<hasSku_Shape.size();++i){
+ss.flush();
+ss << hasSku_Shape[i]->getStockKeepingUnitID();
+data["hasSku_Shape"]=data["hasSku_Shape"]+" "+ss.str();
+}
+dao  = new DAO("ShapeDesign");
+dao->set(data);
 delete (dao);
 }
 
@@ -58,25 +67,22 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<ShapeDesign*> tmp;
 this->hasShapeDesign_Description = object["ShapeDesign.hasShapeDesign_Description"];
 this->name = object["ShapeDesign._NAME"];
 this->ShapeDesignID = std::atof(object["ShapeDesign.ShapeDesignID"].c_str());
-this->hasSku_Shape = new StockKeepingUnit(" ");
-this->hasSku_Shape->sethasSku_Shape(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,13) == "hasSku_Shape/"){
-mapTemp[it->first.substr(13,it->first.length())] = it->second;
+if(this->hasSku_Shape.empty() && object["hasSku_Shape/StockKeepingUnit._NAME"]!=""){
+temp = Explode(object["hasSku_Shape/StockKeepingUnit._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasSku_Shape.push_back(new StockKeepingUnit(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hasSku_Shape->copy(mapTemp);
 
 }std::vector<std::string> ShapeDesign::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

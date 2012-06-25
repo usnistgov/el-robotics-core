@@ -4,15 +4,15 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "DataThing.h"
- #include <string>
- #include <vector>
- #include "ShapeDesign.h"
+ class KittingWorkstation;
  class ShapeDesign;
- #include "DAO.h"
  class DAO;
- #include <string>
 class StockKeepingUnit: public DataThing{private:
 std::vector<std::string> hasSku_EndEffectorRefs;
 std::string hasSku_Description;
@@ -21,6 +21,7 @@ double hasSku_Weight;
 std::string name;
 int StockKeepingUnitID;
 DAO* dao;
+KittingWorkstation* hadBySku_Workstation;
 ShapeDesign* hasSku_Shape;
 public:
 StockKeepingUnit(std::string name);
@@ -29,7 +30,7 @@ StockKeepingUnit(std::string name);
  void get(std::string name);
 void set(int id, StockKeepingUnit* obj);
 void set(std::string name);
-std::vector<std::string> gethasSku_EndEffectorRefs();
+std::vector<std::string>* gethasSku_EndEffectorRefs();
 void sethasSku_EndEffectorRefs(std::vector<std::string> _hasSku_EndEffectorRefs);
 std::string gethasSku_Description();
 void sethasSku_Description(std::string _hasSku_Description);
@@ -38,11 +39,11 @@ void sethasSku_Id(std::string _hasSku_Id);
 double gethasSku_Weight();
 void sethasSku_Weight(double _hasSku_Weight);
 std::string getname();
-void setname(std::string _name);
 int getStockKeepingUnitID();
-void setStockKeepingUnitID(int _StockKeepingUnitID);
 DAO* getdao();
 void setdao(DAO* _dao);
+KittingWorkstation* gethadBySku_Workstation();
+void sethadBySku_Workstation(KittingWorkstation* _hadBySku_Workstation);
 ShapeDesign* gethasSku_Shape();
 void sethasSku_Shape(ShapeDesign* _hasSku_Shape);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

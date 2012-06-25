@@ -4,15 +4,15 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
+#include <sstream>
+
 
 #include "DataThing.h"
- #include "DAO.h"
- class DAO;
- #include <string>
- #include "PartRefAndPose.h"
- class PartRefAndPose;
- #include "Pose.h"
  class Pose;
+ class DAO;
+ class PartRefAndPose;
 class RollPitchYaw: public DataThing{private:
 double hasRpy_Roll;
 double hasRpy_Pitch;
@@ -20,8 +20,8 @@ double hasRpy_Yaw;
 std::string name;
 int RollPitchYawID;
 DAO* dao;
-Pose* hasPose_Rpy;
-PartRefAndPose* hasPartRefAndPose_Rpy;
+std::vector<Pose*> hasPose_Rpy;
+std::vector<PartRefAndPose*> hasPartRefAndPose_Rpy;
 public:
 RollPitchYaw(std::string name);
 ~RollPitchYaw();
@@ -36,15 +36,13 @@ void sethasRpy_Pitch(double _hasRpy_Pitch);
 double gethasRpy_Yaw();
 void sethasRpy_Yaw(double _hasRpy_Yaw);
 std::string getname();
-void setname(std::string _name);
 int getRollPitchYawID();
-void setRollPitchYawID(int _RollPitchYawID);
 DAO* getdao();
 void setdao(DAO* _dao);
-Pose* gethasPose_Rpy();
-void sethasPose_Rpy(Pose* _hasPose_Rpy);
-PartRefAndPose* gethasPartRefAndPose_Rpy();
-void sethasPartRefAndPose_Rpy(PartRefAndPose* _hasPartRefAndPose_Rpy);
+std::vector<Pose*>* gethasPose_Rpy();
+void sethasPose_Rpy(std::vector<Pose*> _hasPose_Rpy);
+std::vector<PartRefAndPose*>* gethasPartRefAndPose_Rpy();
+void sethasPartRefAndPose_Rpy(std::vector<PartRefAndPose*> _hasPartRefAndPose_Rpy);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* ROLLPITCHYAW_H_ */

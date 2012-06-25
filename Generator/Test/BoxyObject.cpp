@@ -1,27 +1,31 @@
 #include "BoxyObject.h"
 
+
+ #include "DAO.h"
+
 BoxyObject::BoxyObject(std::string name) : SolidObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+
 }BoxyObject::~BoxyObject(){
 delete(dao);
 }
 double BoxyObject::gethasBox_Width(){
-return this->hasBox_Width;
+return hasBox_Width;
 }
 double BoxyObject::gethasBox_Height(){
-return this->hasBox_Height;
+return hasBox_Height;
 }
 double BoxyObject::gethasBox_Length(){
-return this->hasBox_Length;
+return hasBox_Length;
 }
 std::string BoxyObject::getname(){
-return this->name;
+return name;
 }
 int BoxyObject::getBoxyObjectID(){
-return this->BoxyObjectID;
+return BoxyObjectID;
 }
 DAO* BoxyObject::getdao(){
-return this->dao;
+return dao;
 }
 void BoxyObject::sethasBox_Width(double _hasBox_Width){
 this->hasBox_Width= _hasBox_Width;
@@ -32,29 +36,29 @@ this->hasBox_Height= _hasBox_Height;
 void BoxyObject::sethasBox_Length(double _hasBox_Length){
 this->hasBox_Length= _hasBox_Length;
 }
-void BoxyObject::setname(std::string _name){
-this->name= _name;
-}
-void BoxyObject::setBoxyObjectID(int _BoxyObjectID){
-this->BoxyObjectID= _BoxyObjectID;
-}
 void BoxyObject::setdao(DAO* _dao){
 this->dao= _dao;
 }
 void BoxyObject::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("SolidObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
-delete (dao);
 dao  = new DAO("BoxyObject");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void BoxyObject::set(std::string name){
- dao  = new DAO("BoxyObject");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["hasBox_Width"]=hasBox_Width;
+data["hasBox_Height"]=hasBox_Height;
+data["hasBox_Length"]=hasBox_Length;
+data["name"]=name;
+data["BoxyObjectID"]=BoxyObjectID;
+dao  = new DAO("BoxyObject");
+dao->set(data);
 delete (dao);
 }
 
@@ -63,6 +67,7 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<BoxyObject*> tmp;
 this->hasBox_Width = std::atof(object["BoxyObject.hasBox_Width"].c_str());
 this->hasBox_Height = std::atof(object["BoxyObject.hasBox_Height"].c_str());
 this->hasBox_Length = std::atof(object["BoxyObject.hasBox_Length"].c_str());
@@ -72,8 +77,8 @@ this->BoxyObjectID = std::atof(object["BoxyObject.BoxyObjectID"].c_str());
 }std::vector<std::string> BoxyObject::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

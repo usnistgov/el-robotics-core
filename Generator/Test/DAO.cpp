@@ -1,24 +1,41 @@
 #include "DAO.h"
 #include "Robot.h"
+#include "KittingWorkstation.h"
+#include "BoxVolume.h"
+#include "Point.h"
+#include "EndEffectorChangingStation.h"
 
 int main() {
 	Robot * r = new Robot("Robot1");
 	r->get("Robot1");
-	std::cout << r->gethadByRobot_Workstation()->getKittingWorkstationID()
+
+	r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
+	std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
 			<< std::endl;
+
+	r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->get(
+			r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getname());
 	std::cout
-				<< r->gethasRobot_WorkVolume().back()->gethasBoxVolume_MaximumPoint()->getname()
-				<< std::endl;
+			<< r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getEndEffectorChangingStationID()
+			<< std::endl;
+	std::cout << r->getname() << std::endl;
+
+	r->gethasRobot_WorkVolume()->back()->get(
+			r->gethasRobot_WorkVolume()->back()->getname());
+	std::cout << r->gethasRobot_WorkVolume()->back()->getBoxVolumeID()
+			<< std::endl;
+
+	r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->get(
+			r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getname());
 	std::cout
-				<< r->gethasSolidObject_PhysicalLocation()->getname()
-				<< std::endl;
+			<< r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getRobotID()
+			<< std::endl;
 
 	return 0;
 }
-
 DAO::DAO(std::string name) {
 	this->className.push_back(name);
-	connection = new Connection("127.0.0.1", "root", "mypassword", "owl");
+	connection = new Connection("localhost", "root", "mypassword", "owl");
 	this->fillGetSqlQueries();
 }
 std::map<std::string, std::string> DAO::getSqlQueriesDataSingle;
@@ -103,27 +120,36 @@ void DAO::fillGetSqlQueries() {
 			"SELECT hasSku_EndEffectorRefs FROM hasSku_EndEffectorRefsValue WHERE StockKeepingUnitID = ?");
 	DAO::getSqlQueriesDataMulti["StockKeepingUnit"] = temp;
 	temp.clear();
+	temp.push_back(
+			"EndEffectorChangingStation/hadByEndEffectorHolder_ChangingStation");
+	temp.push_back("EndEffector/hasEndEffectorHolder_EndEffector");
+	DAO::getSqlQueriesObjectSingle["EndEffectorHolder"] = temp;
+	temp.clear();
 	temp.push_back("-PartRefAndPose/hasPartRefAndPose_Rpy");
 	temp.push_back("-Pose/hasPose_Rpy");
 	DAO::getSqlQueriesObjectSingle["RollPitchYaw"] = temp;
-	temp.clear();
-	temp.push_back("KittingWorkstation/hadByRobot_Workstation");
-	DAO::getSqlQueriesObjectSingle["Robot"] = temp;
 	temp.clear();
 	temp.push_back("Point/hasPose_Point");
 	temp.push_back("RollPitchYaw/hasPose_Rpy");
 	DAO::getSqlQueriesObjectSingle["Pose"] = temp;
 	temp.clear();
+	temp.push_back("-EndEffector/hadByEndEffector_Robot");
+	temp.push_back("-KittingWorkstation/hasWorkstation_Robot");
+	DAO::getSqlQueriesObjectSingle["Robot"] = temp;
+	temp.clear();
 	temp.push_back("-SolidObject/hasSolidObject_PhysicalLocation");
 	temp.push_back("SolidObject/hasPhysicalLocation_RefObject");
 	DAO::getSqlQueriesObjectSingle["PhysicalLocation"] = temp;
 	temp.clear();
-	temp.push_back("-LargeContainer/hadByLargeContainer_LargeBoxWithKits");
+	temp.push_back("LargeContainer/hasLargeBoxWithKits_LargeContainer");
+	temp.push_back("-KitInstance/hadByKitInstance_LargeBoxWithKits");
 	DAO::getSqlQueriesObjectSingle["LargeBoxWithKits"] = temp;
 	temp.clear();
+	temp.push_back("KittingWorkstation/hadBySku_Workstation");
 	temp.push_back("ShapeDesign/hasSku_Shape");
 	DAO::getSqlQueriesObjectSingle["StockKeepingUnit"] = temp;
 	temp.clear();
+	temp.push_back("WorkTable/hadBySolidObject_WorkTable");
 	temp.push_back("PhysicalLocation/hasSolidObject_PhysicalLocation");
 	temp.push_back("-PhysicalLocation/hasPhysicalLocation_RefObject");
 	DAO::getSqlQueriesObjectSingle["SolidObject"] = temp;
@@ -131,34 +157,57 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("-StockKeepingUnit/hasSku_Shape");
 	DAO::getSqlQueriesObjectSingle["ShapeDesign"] = temp;
 	temp.clear();
-	temp.push_back("KittingWorkstation/hadByWorkTable_Workstation");
+	temp.push_back("-EndEffectorHolder/hasEndEffectorHolder_EndEffector");
+	temp.push_back("Robot/hadByEndEffector_Robot");
+	DAO::getSqlQueriesObjectSingle["EndEffector"] = temp;
+	temp.clear();
+	temp.push_back("-SolidObject/hadBySolidObject_WorkTable");
+	temp.push_back("-KittingWorkstation/hasWorkstation_WorkTable");
 	DAO::getSqlQueriesObjectSingle["WorkTable"] = temp;
 	temp.clear();
-	temp.push_back("KittingWorkstation/hadByChangingStation_Workstation");
-	DAO::getSqlQueriesObjectSingle["EndEffectorChangingStation"] = temp;
-	temp.clear();
-	temp.push_back(
-			"-LargeContainer/hadByLargeContainer_LargeBoxWithEmptyKitTrays");
+	temp.push_back("LargeContainer/hasLargeBoxWithEmptyKitTrays_LargeContainer");
+	temp.push_back("-KitTray/hadByKitTray_LargeBoxWithEmptyKitTrays");
 	DAO::getSqlQueriesObjectSingle["LargeBoxWithEmptyKitTrays"] = temp;
 	temp.clear();
+	temp.push_back("-EndEffectorHolder/hadByEndEffectorHolder_ChangingStation");
+	temp.push_back("-KittingWorkstation/hasWorkstation_ChangingStation");
+	DAO::getSqlQueriesObjectSingle["EndEffectorChangingStation"] = temp;
+	temp.clear();
+	temp.push_back("KitDesign/hadByPartRefAndPose_KitDesign");
 	temp.push_back("RollPitchYaw/hasPartRefAndPose_Rpy");
 	temp.push_back("Point/hasPartRefAndPose_Point");
 	DAO::getSqlQueriesObjectSingle["PartRefAndPose"] = temp;
 	temp.clear();
-	temp.push_back("PartsTrayWithParts/hadByPartsTray_PartsTrayWithParts");
+	temp.push_back("-PartsTrayWithParts/hasPartsTrayWithParts_PartsTray");
 	DAO::getSqlQueriesObjectSingle["PartsTray"] = temp;
 	temp.clear();
-	temp.push_back("-Robot/hadByRobot_Workstation");
-	temp.push_back("-WorkTable/hadByWorkTable_Workstation");
-	temp.push_back(
-			"-EndEffectorChangingStation/hadByChangingStation_Workstation");
+	temp.push_back("-StockKeepingUnit/hadBySku_Workstation");
+	temp.push_back("-KitDesign/hadByKitDesign_Workstation");
+	temp.push_back("EndEffectorChangingStation/hasWorkstation_ChangingStation");
+	temp.push_back("WorkTable/hasWorkstation_WorkTable");
+	temp.push_back("Robot/hasWorkstation_Robot");
 	DAO::getSqlQueriesObjectSingle["KittingWorkstation"] = temp;
 	temp.clear();
-	temp.push_back("KitInstance/hadByKitTray_KitInstance");
+	temp.push_back("-KitInstance/hasKitInstance_Tray");
+	temp.push_back(
+			"LargeBoxWithEmptyKitTrays/hadByKitTray_LargeBoxWithEmptyKitTrays");
 	DAO::getSqlQueriesObjectSingle["KitTray"] = temp;
 	temp.clear();
-	temp.push_back("-PartsTray/hadByPartsTray_PartsTrayWithParts");
+	temp.push_back("-PartRefAndPose/hadByPartRefAndPose_KitDesign");
+	temp.push_back("KittingWorkstation/hadByKitDesign_Workstation");
+	DAO::getSqlQueriesObjectSingle["KitDesign"] = temp;
+	temp.clear();
+	temp.push_back("-Part/hadByPart_PartsTrayWithParts");
+	temp.push_back("PartsTray/hasPartsTrayWithParts_PartsTray");
 	DAO::getSqlQueriesObjectSingle["PartsTrayWithParts"] = temp;
+	temp.clear();
+	temp.push_back("KitInstance/hadByPart_KitInstance");
+	temp.push_back("PartsTrayWithParts/hadByPart_PartsTrayWithParts");
+	DAO::getSqlQueriesObjectSingle["Part"] = temp;
+	temp.clear();
+	temp.push_back("Point/hasBoxVolume_MaximumPoint");
+	temp.push_back("Point/hasBoxVolume_MinimumPoint");
+	DAO::getSqlQueriesObjectSingle["BoxVolume"] = temp;
 	temp.clear();
 	temp.push_back("-PartRefAndPose/hasPartRefAndPose_Point");
 	temp.push_back("-BoxVolume/hasBoxVolume_MaximumPoint");
@@ -166,16 +215,14 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("-Pose/hasPose_Point");
 	DAO::getSqlQueriesObjectSingle["Point"] = temp;
 	temp.clear();
-	temp.push_back("Point/hasBoxVolume_MaximumPoint");
-	temp.push_back("Point/hasBoxVolume_MinimumPoint");
-	DAO::getSqlQueriesObjectSingle["BoxVolume"] = temp;
-	temp.clear();
-	temp.push_back("-KitTray/hadByKitTray_KitInstance");
+	temp.push_back("-Part/hadByPart_KitInstance");
+	temp.push_back("KitTray/hasKitInstance_Tray");
+	temp.push_back("LargeBoxWithKits/hadByKitInstance_LargeBoxWithKits");
 	DAO::getSqlQueriesObjectSingle["KitInstance"] = temp;
 	temp.clear();
-	temp.push_back("LargeBoxWithKits/hadByLargeContainer_LargeBoxWithKits");
+	temp.push_back("-LargeBoxWithKits/hasLargeBoxWithKits_LargeContainer");
 	temp.push_back(
-			"LargeBoxWithEmptyKitTrays/hadByLargeContainer_LargeBoxWithEmptyKitTrays");
+			"-LargeBoxWithEmptyKitTrays/hasLargeBoxWithEmptyKitTrays_LargeContainer");
 	DAO::getSqlQueriesObjectSingle["LargeContainer"] = temp;
 	temp.clear();
 	temp.push_back("BoxVolume/hasRobot_WorkVolume");
@@ -255,133 +302,142 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 		std::string newTable = "";
 		for (int unsigned i = 0; i
 				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {
-			stmt = connection->getCon()->createStatement();
-			if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
-					!= "-") {
-				restemp
-						= stmt->executeQuery(
-								"SELECT "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												0,
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/")) + "ID FROM "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												0,
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/")) + ", "
-										+ className.back() + " WHERE "
-										+ className.back() + "._Name = '"
-										+ name + "' AND "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/") + 1) + " = "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												0,
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/")) + "._Name");
-				prep_stmt
-						= connection->getCon()->prepareStatement(
-								DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(
-										0,
-										getSqlQueriesObjectSingle[className.back()][i].find(
-												"/"))]);
-			} else {
-
-				restemp
-						= stmt->executeQuery(
-								"SELECT "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												1,
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/") - 1) + "ID FROM "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												1,
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/") - 1) + ", "
-										+ className.back() + " WHERE "
-										+ className.back() + "._Name = '"
-										+ name + "' AND "
-										+ getSqlQueriesObjectSingle[className.back()][i].substr(
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/") + 1) + " = "
-										+ className.back() + "._Name");
-				prep_stmt
-						= connection->getCon()->prepareStatement(
-								DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(
-										1,
-										getSqlQueriesObjectSingle[className.back()][i].find(
-												"/") - 1)]);
-			}
-			restemp->next();
-
-			prep_stmt->setInt(1, restemp->getInt(1));
-			res = prep_stmt->executeQuery();
-			res->next();
-			res_meta = res -> getMetaData();
-			for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {
-				map[path
-						+ getSqlQueriesObjectSingle[className.back()][i].substr(
-								getSqlQueriesObjectSingle[className.back()][i].find(
-										"/") + 1) + "/"
-						+ res_meta -> getColumnLabel(j + 1)] = res->getString(j
-						+ 1);
-			}
-			if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
-					!= "-")
-				newName
-						= res->getString(
-								getSqlQueriesObjectSingle[className.back()][i].substr(
-										0,
-										getSqlQueriesObjectSingle[className.back()][i].find(
-												"/")) + "._NAME");
-			else
-				newName
-						= res->getString(
-								getSqlQueriesObjectSingle[className.back()][i].substr(
-										1,
-										getSqlQueriesObjectSingle[className.back()][i].find(
-												"/") - 1) + "._NAME");
-			path
-					= path
-							+ getSqlQueriesObjectSingle[className.back()][i].substr(
-									getSqlQueriesObjectSingle[className.back()][i].find(
-											"/") + 1) + "/";
-
-			if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
-					!= "-")
-				newTable
-						= getSqlQueriesObjectSingle[className.back()][i].substr(
-								0,
-								getSqlQueriesObjectSingle[className.back()][i].find(
-										"/"));
-			else
-				newTable
-						= getSqlQueriesObjectSingle[className.back()][i].substr(
-								1,
-								getSqlQueriesObjectSingle[className.back()][i].find(
-										"/") - 1);
-
-			delete (res);
-			delete (restemp);
-			delete (prep_stmt);
-			delete (stmt);
-			if (getSqlQueriesObjectSingle.find(newName)
-					== getSqlQueriesObjectSingle.end()) {
-				if (std::find(nameDone.begin(), nameDone.end(), newTable + "+"
-						+ newName) == nameDone.end()) {
-					className.push_back(newTable);
-					DAO::get(newName);
-				} else {
-					path
-							= path.substr(
-									0,
-									path.length()
-											- (getSqlQueriesObjectSingle[className.back()][i].substr(
+			try {
+				stmt = connection->getCon()->createStatement();
+				if (getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
+						!= "-") {
+					restemp
+							= stmt->executeQuery(
+									"SELECT "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													0,
 													getSqlQueriesObjectSingle[className.back()][i].find(
-															"/") + 1) + "/").length());
+															"/")) + "ID FROM "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													0,
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/")) + ", "
+											+ className.back() + " WHERE "
+											+ className.back() + "._Name = '"
+											+ name + "' AND "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/") + 1) + " = "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													0,
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/")) + "._Name");
+					prep_stmt
+							= connection->getCon()->prepareStatement(
+									DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(
+											0,
+											getSqlQueriesObjectSingle[className.back()][i].find(
+													"/"))]);
+				} else {
 
+					restemp
+							= stmt->executeQuery(
+									"SELECT "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													1,
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/") - 1)
+											+ "ID FROM "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													1,
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/") - 1) + ", "
+											+ className.back() + " WHERE "
+											+ className.back() + "._Name = '"
+											+ name + "' AND "
+											+ getSqlQueriesObjectSingle[className.back()][i].substr(
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/") + 1) + " = "
+											+ className.back() + "._Name");
+					prep_stmt
+							= connection->getCon()->prepareStatement(
+									DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[className.back()][i].substr(
+											1,
+											getSqlQueriesObjectSingle[className.back()][i].find(
+													"/") - 1)]);
 				}
-			}
+				do {
+					restemp->next();
+					prep_stmt->setInt(1, restemp->getInt(1));
+					res = prep_stmt->executeQuery();
+					do {
+						res->next();
+						res_meta = res -> getMetaData();
+						for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {
+							if (res->isFirst())
+								map[getSqlQueriesObjectSingle[className.back()][i].substr(
+										getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") + 1) + "/"
+										+ res_meta -> getColumnLabel(j + 1)]
+										= res->getString(j + 1);
+							else
+								map[getSqlQueriesObjectSingle[className.back()][i].substr(
+										getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") + 1) + "/"
+										+ res_meta -> getColumnLabel(j + 1)]
+										= map[getSqlQueriesObjectSingle[className.back()][i].substr(
+												getSqlQueriesObjectSingle[className.back()][i].find(
+														"/") + 1) + "/"
+												+ res_meta -> getColumnLabel(j
+														+ 1)] + " "
+												+ res->getString(j + 1);
+						}
+						if (getSqlQueriesObjectSingle[className.back()][i].substr(
+								0, 1) != "-") {
+							newName
+									= res->getString(
+											getSqlQueriesObjectSingle[className.back()][i].substr(
+													0,
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/")) + "._NAME");
+						} else {
+							newName
+									= res->getString(
+											getSqlQueriesObjectSingle[className.back()][i].substr(
+													1,
+													getSqlQueriesObjectSingle[className.back()][i].find(
+															"/") - 1)
+													+ "._NAME");
+
+						}
+
+						if (getSqlQueriesObjectSingle[className.back()][i].substr(
+								0, 1) != "-") {
+							newTable
+									= getSqlQueriesObjectSingle[className.back()][i].substr(
+											0,
+											getSqlQueriesObjectSingle[className.back()][i].find(
+													"/"));
+						} else {
+							newTable
+									= getSqlQueriesObjectSingle[className.back()][i].substr(
+											1,
+											getSqlQueriesObjectSingle[className.back()][i].find(
+													"/") - 1);
+						}
+
+					} while (res->isLast());
+					delete (res);
+
+				} while (restemp->isLast());
+				delete (restemp);
+
+				delete (prep_stmt);
+				delete (stmt);
+			} catch (sql::SQLException &e) {
+				/*		std::cout << "# ERR: SQLException in " << __FILE__;
+				 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				 << std::endl;
+				 std::cout << "# ERR: " << e.what();
+				 std::cout << " (MySQL error code: " << e.getErrorCode();
+				 std::cout << ", SQLState: " << e.getSQLState() << " )"
+				 << std::endl;
+				 */}
 		}
 
 		//get the Object multi
@@ -389,251 +445,408 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 		sql::Statement *stmtmulti;
 		for (int unsigned m = 0; m
 				< DAO::getSqlQueriesObjectMulti[className.back()].size(); m++) {
-			//convert id to string
-			std::string sid;
-			std::stringstream out;
-			out << id;
-			sid = out.str();
-			//end convert id
-			stmtmulti = connection->getCon()->createStatement();
-			restempmulti = stmtmulti->executeQuery("SELECT "
-					+ getSqlQueriesObjectMulti[className.back()][m].substr(0,
-							getSqlQueriesObjectMulti[className.back()][m].find(
-									"/")) + "ID FROM "
-					+ getSqlQueriesObjectMulti[className.back()][m].substr(
-							getSqlQueriesObjectMulti[className.back()][m].find(
-									"/") + 1) + " WHERE " + className.back()
-					+ "ID = " + sid);
-			while (restempmulti->next()) {
-				std::string
-						table =
-								getSqlQueriesObjectMulti[className.back()][m].substr(
-										0,
-										getSqlQueriesObjectMulti[className.back()][m].find(
-												"/"));
-				if (m > 0)
-					pathmulti
-							= pathmulti.substr(
-									0,
-									pathmulti.length()
-											- (getSqlQueriesObjectMulti[className.back()][m
-													- 1].substr(
-													getSqlQueriesObjectMulti[className.back()][m
-															- 1].find("/") + 1)
-													+ "/").length())
-									+ getSqlQueriesObjectMulti[className.back()][m].substr(
-											getSqlQueriesObjectMulti[className.back()][m].find(
-													"/") + 1) + "/";
-				else
-					pathmulti
-							= pathmulti
-									+ getSqlQueriesObjectMulti[className.back()][m].substr(
-											getSqlQueriesObjectMulti[className.back()][m].find(
-													"/") + 1) + "/";
-				//Add the data
-				prep_stmt
-						= connection->getCon()->prepareStatement(
-								DAO::getSqlQueriesDataSingle[getSqlQueriesObjectMulti[className.back()][m].substr(
-										0,
-										getSqlQueriesObjectMulti[className.back()][m].find(
-												"/"))]);
-
-				prep_stmt->setInt(1, restempmulti->getInt(1));
-				res = prep_stmt->executeQuery();
-				res->next();
-				res_meta = res -> getMetaData();
-				for (int i = 0; i < (int) res_meta -> getColumnCount(); ++i) {
-					map[pathmulti + res_meta -> getColumnLabel(i + 1)]
-							= res->getString(i + 1);
-				}
-				delete (prep_stmt);
-				delete (res);
-				//End Add the Data
-				//Add the Data multi
-				std::string temp = "";
-				for (int unsigned i = 0; i
-						< DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(
-								0,
-								getSqlQueriesObjectMulti[className.back()][m].find(
-										"/"))].size(); i++) {
-					prep_stmt
-							= connection->getCon()->prepareStatement(
-									DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(
+			try {
+				//convert id to string
+				std::string sid;
+				std::stringstream out;
+				out << id;
+				sid = out.str();
+				//end convert id
+				stmtmulti = connection->getCon()->createStatement();
+				restempmulti
+						= stmtmulti->executeQuery(
+								"SELECT "
+										+ getSqlQueriesObjectMulti[className.back()][m].substr(
+												0,
+												getSqlQueriesObjectMulti[className.back()][m].find(
+														"/")) + "ID FROM "
+										+ getSqlQueriesObjectMulti[className.back()][m].substr(
+												getSqlQueriesObjectMulti[className.back()][m].find(
+														"/") + 1) + " WHERE "
+										+ className.back() + "ID = " + sid);
+				do {
+					restempmulti->next();
+					std::string
+							table =
+									getSqlQueriesObjectMulti[className.back()][m].substr(
 											0,
 											getSqlQueriesObjectMulti[className.back()][m].find(
-													"/"))][i]);
+													"/"));
+
+					//Add the data
+					prep_stmt
+							= connection->getCon()->prepareStatement(
+									DAO::getSqlQueriesDataSingle[getSqlQueriesObjectMulti[className.back()][m].substr(
+											0,
+											getSqlQueriesObjectMulti[className.back()][m].find(
+													"/"))]);
+
 					prep_stmt->setInt(1, restempmulti->getInt(1));
-					res = prep_stmt->executeQuery();
-					while (res->next()) {
-						if (!res->last())
-							temp = temp + res->getString(1) + " ";
-						else
-							temp = temp + res->getString(1);
-					}
-					res_meta = res -> getMetaData();
-					map[pathmulti + res_meta -> getColumnLabel(1)] = temp;
-					delete (res);
-					delete (prep_stmt);
-				}
-				//End Add Data Multi
-
-				for (int unsigned i = 0; i
-						< DAO::getSqlQueriesObjectSingle[table].size(); i++) {
-					stmt = connection->getCon()->createStatement();
-					if (getSqlQueriesObjectSingle[table][i].substr(0, 1) != "-") {
-						restemp
-								= stmt->executeQuery(
-										"SELECT "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														0,
-														getSqlQueriesObjectSingle[table][i].find(
-																"/"))
-												+ "ID FROM "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														0,
-														getSqlQueriesObjectSingle[table][i].find(
-																"/")) + ", "
-												+ table + " WHERE " + table
-												+ "ID = "
-												+ restempmulti->getString(1)
-												+ " AND "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														getSqlQueriesObjectSingle[table][i].find(
-																"/") + 1)
-												+ " = "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														0,
-														getSqlQueriesObjectSingle[table][i].find(
-																"/"))
-												+ "._Name");
-						prep_stmt
-								= connection->getCon()->prepareStatement(
-										DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(
-												0,
-												getSqlQueriesObjectSingle[table][i].find(
-														"/"))]);
-					} else {
-						restemp
-								= stmt->executeQuery(
-										"SELECT "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														1,
-														getSqlQueriesObjectSingle[table][i].find(
-																"/") - 1)
-												+ "ID FROM "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														1,
-														getSqlQueriesObjectSingle[table][i].find(
-																"/") - 1)
-												+ ", " + table + " WHERE "
-												+ table + "ID = "
-												+ restempmulti->getString(1)
-												+ " AND "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														getSqlQueriesObjectSingle[table][i].find(
-																"/") + 1)
-												+ " = "
-												+ getSqlQueriesObjectSingle[table][i].substr(
-														1,
-														getSqlQueriesObjectSingle[table][i].find(
-																"/") - 1)
-												+ "._Name");
-						prep_stmt
-								= connection->getCon()->prepareStatement(
-										DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(
-												1,
-												getSqlQueriesObjectSingle[table][i].find(
-														"/") - 1)]);
-					}
-					restemp->next();
-
-					prep_stmt->setInt(1, restemp->getInt(1));
 					res = prep_stmt->executeQuery();
 					res->next();
 					res_meta = res -> getMetaData();
-					for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {
-						if (res->last())
-							map[pathmulti
-									+ getSqlQueriesObjectSingle[table][i].substr(
-											getSqlQueriesObjectSingle[table][i].find(
-													"/") + 1) + "/"
-									+ res_meta -> getColumnLabel(j + 1)]
-									= res->getString(j + 1);
-						else
-							map[pathmulti
-									+ getSqlQueriesObjectSingle[table][i].substr(
-											getSqlQueriesObjectSingle[table][i].find(
-													"/") + 1) + "/"
-									+ res_meta -> getColumnLabel(j + 1)]
-									= map[pathmulti
-											+ getSqlQueriesObjectSingle[table][i].substr(
+					for (int i = 0; i < (int) res_meta -> getColumnCount(); ++i) {
+						map[getSqlQueriesObjectMulti[className.back()][m].substr(
+								getSqlQueriesObjectMulti[className.back()][m].find(
+										"/") + 1) + "/"
+								+ res_meta -> getColumnLabel(i + 1)]
+								= res->getString(i + 1);
+					}
+					delete (prep_stmt);
+					delete (res);
+					//End Add the Data
+					//Add the Data multi
+					std::string temp = "";
+					for (int unsigned i = 0; i
+							< DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(
+									0,
+									getSqlQueriesObjectMulti[className.back()][m].find(
+											"/"))].size(); i++) {
+						prep_stmt
+								= connection->getCon()->prepareStatement(
+										DAO::getSqlQueriesDataMulti[getSqlQueriesObjectMulti[className.back()][m].substr(
+												0,
+												getSqlQueriesObjectMulti[className.back()][m].find(
+														"/"))][i]);
+						prep_stmt->setInt(1, restempmulti->getInt(1));
+						res = prep_stmt->executeQuery();
+						while (res->next()) {
+							if (!res->last())
+								temp = temp + res->getString(1) + " ";
+							else
+								temp = temp + res->getString(1);
+						}
+						res_meta = res -> getMetaData();
+						map[getSqlQueriesObjectMulti[className.back()][m].substr(
+								getSqlQueriesObjectMulti[className.back()][m].find(
+										"/") + 1) + "/"
+								+ res_meta -> getColumnLabel(1)] = temp;
+						delete (res);
+						delete (prep_stmt);
+					}
+					//End Add Data Multi
+
+					// Add Object Single
+					for (int unsigned i = 0; i
+							< DAO::getSqlQueriesObjectSingle[table].size(); i++) {
+						try {
+							stmt = connection->getCon()->createStatement();
+							if (getSqlQueriesObjectSingle[table][i].substr(0, 1)
+									!= "-") {
+								restemp
+										= stmt->executeQuery(
+												"SELECT "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																0,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/"))
+														+ "ID FROM "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																0,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/"))
+														+ ", " + table
+														+ " WHERE " + table
+														+ "._Name = '" + name
+														+ "' AND "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/")
+																		+ 1)
+														+ " = "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																0,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/"))
+														+ "._Name");
+								prep_stmt
+										= connection->getCon()->prepareStatement(
+												DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(
+														0,
+														getSqlQueriesObjectSingle[table][i].find(
+																"/"))]);
+							} else {
+
+								restemp
+										= stmt->executeQuery(
+												"SELECT "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																1,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/")
+																		- 1)
+														+ "ID FROM "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																1,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/")
+																		- 1)
+														+ ", " + table
+														+ " WHERE " + table
+														+ "._Name = '" + name
+														+ "' AND "
+														+ getSqlQueriesObjectSingle[table][i].substr(
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/")
+																		+ 1)
+														+ " = " + table
+														+ "._Name");
+								prep_stmt
+										= connection->getCon()->prepareStatement(
+												DAO::getSqlQueriesDataSingle[getSqlQueriesObjectSingle[table][i].substr(
+														1,
+														getSqlQueriesObjectSingle[table][i].find(
+																"/") - 1)]);
+							}
+							do {
+								restemp->next();
+								prep_stmt->setInt(1, restemp->getInt(1));
+								res = prep_stmt->executeQuery();
+								do {
+									res->next();
+									res_meta = res -> getMetaData();
+									for (int j = 0; j
+											< (int) res_meta -> getColumnCount(); ++j) {
+										if (res->isFirst())
+											map[getSqlQueriesObjectSingle[table][i].substr(
 													getSqlQueriesObjectSingle[table][i].find(
 															"/") + 1) + "/"
-											+ res_meta -> getColumnLabel(j + 1)]
-											+ " " + res->getString(j + 1);
-
-					}
-					if (getSqlQueriesObjectSingle[table][i].substr(0, 1) != "-") {
-						newName
-								= res->getString(
-										getSqlQueriesObjectSingle[table][i].substr(
-												0,
-												getSqlQueriesObjectSingle[table][i].find(
-														"/")) + "._NAME");
-
-						newTable = getSqlQueriesObjectSingle[table][i].substr(
-								0,
-								getSqlQueriesObjectSingle[table][i].find("/"));
-					} else {
-						newName
-								= res->getString(
-										getSqlQueriesObjectSingle[table][i].substr(
-												1,
-												getSqlQueriesObjectSingle[table][i].find(
-														"/") - 1) + "._NAME");
-
-						newTable = getSqlQueriesObjectSingle[table][i].substr(
-								1,
-								getSqlQueriesObjectSingle[table][i].find("/")
-										- 1);
-					}
-					delete (res);
-					delete (restemp);
-					delete (prep_stmt);
-					delete (stmt);
-					if (getSqlQueriesObjectSingle.find(newName)
-							== getSqlQueriesObjectSingle.end()) {
-						if (std::find(nameDone.begin(), nameDone.end(),
-								newTable + "+" + newName) == nameDone.end()) {
-							className.push_back(newTable);
-							DAO::get(newName);
-						} else {
-							//pathmulti = "";
-							pathmulti
-									= pathmulti.substr(
-											0,
-											pathmulti.length()
-													- (getSqlQueriesObjectMulti[className.back()][m].substr(
-															getSqlQueriesObjectMulti[className.back()][m].find(
+													+ res_meta -> getColumnLabel(
+															j + 1)]
+													= res->getString(j + 1);
+										else
+											map[getSqlQueriesObjectSingle[table][i].substr(
+													getSqlQueriesObjectSingle[table][i].find(
+															"/") + 1) + "/"
+													+ res_meta -> getColumnLabel(
+															j + 1)]
+													= map[getSqlQueriesObjectSingle[table][i].substr(
+															getSqlQueriesObjectSingle[table][i].find(
 																	"/") + 1)
-															+ "/").length());
-						}
+															+ "/"
+															+ res_meta -> getColumnLabel(
+																	j + 1)]
+															+ " "
+															+ res->getString(j
+																	+ 1);
+									}
+									if (getSqlQueriesObjectSingle[table][i].substr(
+											0, 1) != "-") {
+										newName
+												= res->getString(
+														getSqlQueriesObjectSingle[table][i].substr(
+																0,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/"))
+																+ "._NAME");
+									} else {
+										newName
+												= res->getString(
+														getSqlQueriesObjectSingle[table][i].substr(
+																1,
+																getSqlQueriesObjectSingle[table][i].find(
+																		"/")
+																		- 1)
+																+ "._NAME");
+
+									}
+
+									if (getSqlQueriesObjectSingle[table][i].substr(
+											0, 1) != "-") {
+										newTable
+												= getSqlQueriesObjectSingle[table][i].substr(
+														0,
+														getSqlQueriesObjectSingle[table][i].find(
+																"/"));
+									} else {
+										newTable
+												= getSqlQueriesObjectSingle[table][i].substr(
+														1,
+														getSqlQueriesObjectSingle[table][i].find(
+																"/") - 1);
+									}
+
+								} while (res->isLast());
+								delete (res);
+
+							} while (restemp->isLast());
+							delete (restemp);
+
+							delete (prep_stmt);
+							delete (stmt);
+						} catch (sql::SQLException &e) {
+							/*	std::cout << "# ERR: SQLException in " << __FILE__;
+							 std::cout << "(" << __FUNCTION__ << ") on line "
+							 << __LINE__ << std::endl;
+							 std::cout << "# ERR: " << e.what();
+							 std::cout << " (MySQL error code: "
+							 << e.getErrorCode();
+							 std::cout << ", SQLState: " << e.getSQLState()
+							 << " )" << std::endl;
+							 */}
 					}
-				}
-			}
+				} while (restempmulti->isLast());
+				delete (restempmulti);
+			} catch (sql::SQLException &e) {
+				/*	std::cout << "# ERR: SQLException in " << __FILE__;
+				 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				 << std::endl;
+				 std::cout << "# ERR: " << e.what();
+				 std::cout << " (MySQL error code: " << e.getErrorCode();
+				 std::cout << ", SQLState: " << e.getSQLState() << " )"
+				 << std::endl;
+				 */}
 		}
 	} catch (sql::SQLException &e) {
-		std::cout << "# ERR: SQLException in " << __FILE__;
-		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
-				<< std::endl;
-		std::cout << "# ERR: " << e.what();
-		std::cout << " (MySQL error code: " << e.getErrorCode();
-		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-	}
+		/*	std::cout << "# ERR: SQLException in " << __FILE__;
+		 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+		 << std::endl;
+		 std::cout << "# ERR: " << e.what();
+		 std::cout << " (MySQL error code: " << e.getErrorCode();
+		 std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		 */}
 	className.pop_back();
 	return map;
 }
 
-void DAO::set(std::string name) {
+void DAO::set(std::map<std::string, std::string> data) {
+	try {
+		// DATA SINGLE
+		sql::Statement *stmt;
+		stmt = connection->getCon()->createStatement();
+		std::string query = "UPDATE " + this->className.back() + " ";
+		for (std::map<std::string, std::string>::iterator it = data.begin(); it
+				!= data.end(); it++) {
+			if (DAO::getSqlQueriesDataSingle[this->className.back()].find(
+					this->className.back() + "." + it->first)
+					!= std::string::npos) {
+				int val;
+				std::stringstream stream(it->second);
+				stream >> val;
+				if (stream.fail()) {
+					query = query + "SET " + it->first + "='" + it->second
+							+ "',";
+				} else {
+					query = query + "SET " + it->first + "=" + it->second + ",";
+				}
+				query = query + "SET " + it->first + "=" + it->second;
+			}
+		}
+		query = query.substr(0, query.length() - 1);//to delete the last ,
+		query = query + "WHERE _NAME='" + data[name] + "' ";
+		query = query + "AND " + this->className.back() + "ID="
+				+ data[this->className.back() + "ID"];
+		stmt->executeUpdate(query);
+
+		// DATA MULTI
+		for (int unsigned i = 0; i
+				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {
+			query = "DELETE FROM";
+			query = query
+					+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(
+							find("FROM") + 5, find("WHERE") - 1);
+			query = query + "WHERE " + this->className.back() + "ID="
+					+ data[this->className.back() + "ID"];
+			stmt->execute(query);
+			std::vector<std::string>
+					multi =
+							Explode(
+									data[DAO::getSqlQueriesDataMulti[className.back()][i].substr(
+											find("SElECT") + 7, find("FROM")
+													- 1)]);
+			for (int unsigned i = 0; i < multi.size(); i++) {
+				query
+						= "INSERT INTO "
+								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(
+										find("FROM") + 5, find("WHERE") - 1);
+				query
+						= query + " (" + this->className.back() + "ID" + ","
+								+ data[DAO::getSqlQueriesDataMulti[className.back()][i].substr(
+										find("SElECT") + 7, find("FROM") - 1)]
+								+ ")";
+				query = query + " VALUES("
+						+ data[this->className.back() + "ID"] + ", " + multi[i]
+						+ ")";
+			}
+		}
+
+		// OBJECT SINGLE
+		for (int unsigned i = 0; i
+				< DAO::getSqlQueriesObject[className.back()].size(); i++) {
+			if (DAO::getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
+					!= "-") {
+				query = "UPDATE " + className.back() + " ";
+				query
+						= query + "SET "
+								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
+										find("/") + 1) + "="
+								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
+										find("/") + 1)];
+				query = query + "WHERE " + this->className.back() + "ID="
+						+ data[this->className.back() + "ID"];
+				stmt->execute(query);
+
+			}
+		}
+
+		// OBJECT MULTI
+		for (int unsigned i = 0; i
+				< DAO::getSqlQueriesObjectMulti[className.back()].size(); i++) {
+			query = "DELETE FROM";
+			query
+					= query
+							+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
+									0, find("/") - 1);
+			query = query + "WHERE " + this->className.back() + "ID="
+					+ data[this->className.back() + "ID"];
+			stmt->execute(query);
+			std::vector<std::string>
+					multi =
+							Explode(
+									data[DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
+											find("/") + 1)]);
+			for (int unsigned i = 0; i < multi.size(); i++) {
+				query
+						= "INSERT INTO "
+								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
+										0, find("/") - 1);
+				query
+						= query + " (" + this->className.back() + "ID" + ","
+								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
+										0, find("/") - 1) + ")";
+
+				query = query + " VALUES("
+						+ data[this->className.back() + "ID"] + ", " + multi[i]
+						+ ")";
+				stmt->execute(query);
+
+			}
+		}
+
+	}
+
+	catch (sql::SQLException &e) {
+		/*	std::cout << "# ERR: SQLException in " << __FILE__;
+		 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+		 << std::endl;
+		 std::cout << "# ERR: " << e.what();
+		 std::cout << " (MySQL error code: " << e.getErrorCode();
+		 std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		 */}
 }
-;
+
+std::vector<std::string> DAO::Explode(const std::string & str, char separator) {
+	std::vector<std::string> result;
+	std::size_t pos1 = 0;
+	std::size_t pos2 = 0;
+	while (pos2 != str.npos) {
+		pos2 = str.find(separator, pos1);
+		if (pos2 != str.npos) {
+			if (pos2 > pos1)
+				result.push_back(str.substr(pos1, pos2 - pos1));
+			pos1 = pos2 + 1;
+		}
+	}
+	result.push_back(str.substr(pos1, str.size() - pos1));
+	return result;
+}

@@ -1,49 +1,67 @@
 #include "WorkTable.h"
 
+
+ #include "KittingWorkstation.h"
+ #include "SolidObject.h"
+ #include "DAO.h"
+
 WorkTable::WorkTable(std::string name) : BoxyObject(name){
-this->name=name;
+this->name=name;dao = NULL;
+hasWorkstation_WorkTable = NULL;
+
 }WorkTable::~WorkTable(){
 delete(dao);
-delete(hadByWorkTable_Workstation);
+delete(hasWorkstation_WorkTable);
+for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++)
+delete(hadBySolidObject_WorkTable[i]);
 }
 std::string WorkTable::getname(){
-return this->name;
+return name;
 }
 int WorkTable::getWorkTableID(){
-return this->WorkTableID;
+return WorkTableID;
 }
 DAO* WorkTable::getdao(){
-return this->dao;
+return dao;
 }
-KittingWorkstation* WorkTable::gethadByWorkTable_Workstation(){
-return this->hadByWorkTable_Workstation;
+std::vector<SolidObject*>* WorkTable::gethadBySolidObject_WorkTable(){
+return &hadBySolidObject_WorkTable;
 }
-void WorkTable::setname(std::string _name){
-this->name= _name;
-}
-void WorkTable::setWorkTableID(int _WorkTableID){
-this->WorkTableID= _WorkTableID;
+KittingWorkstation* WorkTable::gethasWorkstation_WorkTable(){
+return hasWorkstation_WorkTable;
 }
 void WorkTable::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void WorkTable::sethadByWorkTable_Workstation(KittingWorkstation* _hadByWorkTable_Workstation){
-this->hadByWorkTable_Workstation= _hadByWorkTable_Workstation;
+void WorkTable::sethadBySolidObject_WorkTable(std::vector<SolidObject*> _hadBySolidObject_WorkTable){
+this->hadBySolidObject_WorkTable= _hadBySolidObject_WorkTable;
+}
+void WorkTable::sethasWorkstation_WorkTable(KittingWorkstation* _hasWorkstation_WorkTable){
+this->hasWorkstation_WorkTable= _hasWorkstation_WorkTable;
 }
 void WorkTable::get(std::string name){
 std::map<std::string,std::string> temp;
 dao  = new DAO("BoxyObject");
- temp = dao->get(name);
+ temp = dao->get(name);delete (dao);
  BoxyObject::copy(temp);
-delete (dao);
 dao  = new DAO("WorkTable");
  temp = dao->get(name);
- copy(temp);
-delete (dao);
+delete (dao); 
+copy(temp);
 }
  void WorkTable::set(std::string name){
- dao  = new DAO("WorkTable");
- dao->set(name);
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["name"]=name;
+data["WorkTableID"]=WorkTableID;
+for(unsigned int i=0;i<hadBySolidObject_WorkTable.size();++i){
+ss.flush();
+ss << hadBySolidObject_WorkTable[i]->getSolidObjectID();
+data["hadBySolidObject_WorkTable"]=data["hadBySolidObject_WorkTable"]+" "+ss.str();
+}
+data["hasWorkstation_WorkTable"]=hasWorkstation_WorkTable->getname();
+dao  = new DAO("WorkTable");
+dao->set(data);
 delete (dao);
 }
 
@@ -52,24 +70,24 @@ std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
+std::vector<WorkTable*> tmp;
 this->name = object["WorkTable._NAME"];
 this->WorkTableID = std::atof(object["WorkTable.WorkTableID"].c_str());
-this->hadByWorkTable_Workstation = new KittingWorkstation(" ");
-this->hadByWorkTable_Workstation->sethadByWorkTable_Workstation(this);
-mapTemp.clear();
-for (std::map<std::string, std::string>::iterator it = object.begin(); it
-!= object.end(); it++) {
-if (it->first.substr(0,27) == "hadByWorkTable_Workstation/"){
-mapTemp[it->first.substr(27,it->first.length())] = it->second;
+if(this->hadBySolidObject_WorkTable.empty() && object["hadBySolidObject_WorkTable/SolidObject._NAME"]!=""){
+temp = Explode(object["hadBySolidObject_WorkTable/SolidObject._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hadBySolidObject_WorkTable.push_back(new SolidObject(temp[i]));
 }
 }
-if(!mapTemp.empty())this->hadByWorkTable_Workstation->copy(mapTemp);
+if(this->hasWorkstation_WorkTable== NULL && object["hasWorkstation_WorkTable/KittingWorkstation._NAME"]!=""){
+this->hasWorkstation_WorkTable = new KittingWorkstation(object["hasWorkstation_WorkTable/KittingWorkstation._NAME"]);
+}
 
 }std::vector<std::string> WorkTable::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
-   size_t pos1 = 0;
-   size_t pos2 = 0;
+   std::size_t pos1 = 0;
+   std::size_t pos2 = 0;
    while ( pos2 != str.npos )
    {
       pos2 = str.find(separator, pos1);

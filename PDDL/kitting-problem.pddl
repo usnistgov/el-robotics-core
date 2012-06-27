@@ -48,7 +48,7 @@
 	    (part-location part_a_2 kit_1) 
 	    (part-location part_b_1 kit_1) 
 	    (part-location part_c_1 kit_1) 
-	    (kit-location kit_1 finished_kit_receive)
+	    (kit-location kit_1 finished_kit_receiver)
 	   )
 	)
 )

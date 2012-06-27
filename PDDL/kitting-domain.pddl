@@ -2,7 +2,6 @@
 	(:requirements :strips :typing)
 	(:types 
 		VacuumEffectorSingleCup
-		EndEffectorChangingStation
 		EndEffectorHolder 
 		kitinstance 
 		KitTray
@@ -185,26 +184,26 @@
 	(:action take-part
 		:parameters(
 			?r - Robot 
-			?p - Part 
+			?part - Part 
 			?pt - PartsTray 
 			?eff - VacuumEffectorSingleCup 
 			?wtable - WorkTable 
 			?kins - kitinstance)
 		:precondition 
 			(and  
-			(partlocation ?p ?pt) 
+			(partlocation ?part ?pt) 
 			(eff-location ?eff ?r) 
 			(rhold-empty ?r) 
 			(r-with-eff ?r ?eff) 
 			(onworktable ?wtable ?kins) 
 			(kinslocation ?kins ?wtable)
-			(efftype ?eff ?p)
+			(efftype ?eff ?part)
 			(part-tray-non-empty ?pt))
 		:effect 
 			(and  
-			(partlocation ?p ?r) 
-			(rhold ?r ?p)
-			(not (partlocation ?p ?pt))
+			(partlocation ?part ?r) 
+			(rhold ?r ?part)
+			(not (partlocation ?part ?pt))
 			(not (rhold-empty ?r)))
 	)
 			

@@ -3,7 +3,7 @@
 	(:types 
 		VacuumEffectorSingleCup
 		EndEffectorHolder 
-		kitinstance 
+		Kit 
 		KitTray
 		LargeBoxWithEmptyKitTrays 
 		LargeBoxWithKits
@@ -27,7 +27,7 @@
 	(r-no-eff ?r - Robot)						
 		
 	;TRUE iff kins is on wtable		
-	(onworktable ?wtable - WorkTable ?kins - kitinstance)
+	(onworktable ?wtable - WorkTable ?kit - Kit)
 		
 	;TRUE iff kt is on wtable
 	(onworktable ?wtable - WorkTable ?kt - KitTray)	
@@ -36,37 +36,37 @@
 	(worktable-empty ?wtable - WorkTable)
 	
 	;TRUE iff kins is in lbwk
-	(kinslocation ?kins - kitinstance ?lbwk - LargeBoxWithKits)		
+	(kit-location ?kit - Kit ?lbwk - LargeBoxWithKits)		
 	
 	;TRUE iff kins is on wtable
-	(kinslocation ?kins - kitinstance ?wtable - WorkTable)	
+	(kit-location ?kit - Kit ?wtable - WorkTable)	
 	
 	;TRUE iff kins is being held by r
-	(kinslocation ?kins - kitinstance ?r - Robot)				
+	(kit-location ?kit - Kit ?r - Robot)				
 	
 	;TRUE iff kt is in lbwekt				
-	(ktlocation ?kt - KitTray ?lbwekt - LargeBoxWithEmptyKitTrays)	
+	(kit-tray-location ?kt - KitTray ?lbwekt - LargeBoxWithEmptyKitTrays)	
 
 	;TRUE iff kt is being held by r
-	(ktlocation ?kt - KitTray ?r - Robot)					
+	(kit-tray-location ?kt - KitTray ?r - Robot)					
 		
 	;TRUE iff kt is on wtable
-	(ktlocation ?kt - KitTray ?wtable - WorkTable)
+	(kit-tray-location ?kt - KitTray ?wtable - WorkTable)
 	
 	;TRUE iff p is in pt
-	(partlocation ?p - Part ?pt - PartsTray)					
+	(part-location ?p - Part ?pt - PartsTray)					
 	
 	;TRUE iff p is in kins
-	(partlocation ?p - Part ?kins - kitinstance)			
+	(part-location ?p - Part ?kit - Kit)			
 		
 	;TRUE iff p is being held by r
-	(partlocation ?p - Part ?r - Robot)	
+	(part-location ?p - Part ?r - Robot)	
 
 	;TRUE iff r is holding kt						
 	(rhold ?r - Robot ?kt - KitTray)	
 
 	;TRUE iff r is holding kins					
-	(rhold ?r - Robot ?kins - kitinstance)				
+	(rhold ?r - Robot ?kit - Kit)				
 		
 	;TRUE iff r is holding p
 	(rhold ?r - Robot ?p - Part)					
@@ -75,19 +75,19 @@
 	(rhold-empty ?r - Robot)							
 			
 	;TRUE iff lbwk is not full
-	(lbwk-non-full ?lbwk - LargeBoxWithKits)
+	(lbwk-not-full ?lbwk - LargeBoxWithKits)
 		
 	;TRUE iff lbwekt is not empty
-	(lbwekt-non-empty ?lbwekt - LargeBoxWithEmptyKitTrays)	
+	(lbwekt-not-empty ?lbwekt - LargeBoxWithEmptyKitTrays)	
 	
 	;TRUE iff ?pt is empty		
-	(part-tray-non-empty ?pt - PartsTray)
+	(part-tray-not-empty ?pt - PartsTray)
 	
 	;TRUE iff eff is capable of holding ?kt						
 	(efftype ?eff - VacuumEffectorSingleCup ?kt - KitTray)
 	
-	;TRUE iff eff is capable of holding ?kins
-	(efftype ?eff - VacuumEffectorSingleCup ?kins - kitinstance)	
+	;TRUE iff eff is capable of holding ?kit
+	(efftype ?eff - VacuumEffectorSingleCup ?kit - Kit)	
 	
 	;TRUE iff eff is capable of holding ?p
 	(efftype ?eff - VacuumEffectorSingleCup ?p - Part)
@@ -99,7 +99,7 @@
 	(effh-empty ?effholder - EndEffectorHolder)	
     )
    
-	(:action take-kt
+	(:action take-kit-tray
 		:parameters(
 			?r - Robot 
 			?kt - KitTray 
@@ -108,77 +108,77 @@
 			?wtable - WorkTable)
 		:precondition(and 
 			(rhold-empty ?r) 
-			(lbwekt-non-empty ?lbwekt)
+			(lbwekt-not-empty ?lbwekt)
 			(r-with-eff ?r ?eff) 
-			(ktlocation ?kt ?lbwekt) 
+			(kit-tray-location ?kt ?lbwekt) 
 			(eff-location ?eff ?r)
 			(worktable-empty ?wtable)
 			(efftype ?eff ?kt))
 		:effect(and 
 			(rhold ?r ?kt) 
-			(ktlocation ?kt ?r) 
+			(kit-tray-location ?kt ?r) 
 			(not (rhold-empty ?r)) 
-			(not (ktlocation ?kt ?lbwekt))))
+			(not (kit-tray-location ?kt ?lbwekt))))
 			
-	(:action put-kt
+	(:action put-kit-tray
 		:parameters(
 			?r - Robot 
 			?kt - KitTray 
 			?wtable - WorkTable)
 		:precondition 
 			(and  
-			(ktlocation ?kt ?r) 
+			(kit-tray-location ?kt ?r) 
 			(rhold ?r ?kt) 
 			(worktable-empty ?wtable))
 		:effect(and 
-			(not(ktlocation ?kt ?r)) 
+			(not(kit-tray-location ?kt ?r)) 
 			(not(rhold ?r ?kt)) 
 			(not(worktable-empty ?wtable)) 
-			(ktlocation ?kt ?wtable) 
+			(kit-tray-location ?kt ?wtable) 
 			(rhold-empty ?r) 
 			(onworktable ?wtable ?kt))
 	)
 
-	(:action take-kins
+	(:action take-kit
 		:parameters(
 			?r - Robot 
-			?kins - kitinstance 
+			?kit - Kit 
 			?wtable - WorkTable 
 			?eff - VacuumEffectorSingleCup)
 		:precondition 
 			(and  
-			(kinslocation ?kins ?wtable) 
+			(kit-location ?kit ?wtable) 
 			(rhold-empty ?r) 
-			(onworktable ?wtable ?kins) 
+			(onworktable ?wtable ?kit) 
 			(r-with-eff ?r ?eff)
-			(efftype ?eff ?kins))
+			(efftype ?eff ?kit))
 		:effect 
 			(and 
-			(kinslocation ?kins ?r) 
-			(rhold ?r ?kins) 
+			(kit-location ?kit ?r) 
+			(rhold ?r ?kit) 
 			(worktable-empty ?wtable) 
-			(not (kinslocation ?kins ?wtable)) 
+			(not (kit-location ?kit ?wtable)) 
 			(not (rhold-empty ?r))
-			(not(onworktable ?wtable ?kins)))
+			(not(onworktable ?wtable ?kit)))
 	)
 			
-	(:action put-kins
+	(:action put-kit
 		:parameters(
 			?r - Robot 
-			?kins - kitinstance 
+			?kit - Kit 
 			?lbwk - LargeBoxWithKits)
 		
 		:precondition 
 			(and  
-			(kinslocation ?kins ?r) 
-			(rhold ?r ?kins) 
-			(lbwk-non-full ?lbwk))
+			(kit-location ?kit ?r) 
+			(rhold ?r ?kit) 
+			(lbwk-not-full ?lbwk))
 		:effect 
 			(and  
-			(kinslocation ?kins ?lbwk) 
+			(kit-location ?kit ?lbwk) 
 			(rhold-empty ?r)
-			(not (kinslocation ?kins ?r))
-			(not (rhold ?r ?kins)))
+			(not (kit-location ?kit ?r))
+			(not (rhold ?r ?kit)))
 	)
 			
 	(:action take-part
@@ -188,22 +188,22 @@
 			?pt - PartsTray 
 			?eff - VacuumEffectorSingleCup 
 			?wtable - WorkTable 
-			?kins - kitinstance)
+			?kit - Kit)
 		:precondition 
 			(and  
-			(partlocation ?part ?pt) 
+			(part-location ?part ?pt) 
 			(eff-location ?eff ?r) 
 			(rhold-empty ?r) 
 			(r-with-eff ?r ?eff) 
-			(onworktable ?wtable ?kins) 
-			(kinslocation ?kins ?wtable)
+			(onworktable ?wtable ?kit) 
+			(kit-location ?kit ?wtable)
 			(efftype ?eff ?part)
-			(part-tray-non-empty ?pt))
+			(part-tray-not-empty ?pt))
 		:effect 
 			(and  
-			(partlocation ?part ?r) 
+			(part-location ?part ?r) 
 			(rhold ?r ?part)
-			(not (partlocation ?part ?pt))
+			(not (part-location ?part ?pt))
 			(not (rhold-empty ?r)))
 	)
 			
@@ -211,19 +211,19 @@
 		:parameters(
 			?r - Robot 
 			?p - Part 
-			?kins - kitinstance  
+			?kit - Kit  
 			?wtable - WorkTable)
 		:precondition 
 			(and  
-			(partlocation ?p ?r) 
+			(part-location ?p ?r) 
 			(rhold ?r ?p) 
-			(onworktable ?wtable ?kins)
-			(kinslocation ?kins ?wtable))
+			(onworktable ?wtable ?kit)
+			(kit-location ?kit ?wtable))
 		:effect 
 			(and  
-			(not (partlocation ?p ?r))
+			(not (part-location ?p ?r))
 			(not (rhold ?r ?p))
-			(partlocation ?p ?kins) 
+			(part-location ?p ?kit) 
 			(rhold-empty ?r))
 	)
 			
@@ -270,9 +270,9 @@
 			(not(effh-empty ?effholder)))
 	)
 			
-	(:action create-kins
+	(:action create-kit
 		:parameters(
-			?kins - kitinstance 
+			?kit - Kit 
 			?kt - KitTray 
 			?wtable - WorkTable)
 		:precondition 
@@ -280,7 +280,7 @@
 		:effect 
 			(and 
 			(not(onworktable ?wtable ?kt)) 
-			(onworktable ?wtable ?kins) 
-			(kinslocation ?kins ?wtable))
+			(onworktable ?wtable ?kit) 
+			(kit-location ?kit ?wtable))
 	)
 )

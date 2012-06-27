@@ -18,6 +18,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 public class Individuals {
+	private String result2 = "";
 	static final char SEPARATOR = '#';
 	private ArrayList<String> parent = new ArrayList<String>();
 	private OWLOntology ontology;
@@ -67,7 +68,7 @@ public class Individuals {
 	}
 
 	public void insert() {
-		write(insertInto());
+		write(insertInto() + result2);
 	}
 
 	private void addTypes() {
@@ -88,8 +89,8 @@ public class Individuals {
 								type.toString().indexOf(SEPARATOR) + 1,
 								type.toString().length() - 1));
 				}
-				individualsType.put(individualsClean.get(i), temp);
 			}
+			individualsType.put(individualsClean.get(i), temp);
 		}
 	}
 
@@ -104,6 +105,7 @@ public class Individuals {
 											.indexOf(SEPARATOR) + 1,
 									individuals.get(i).toString().length() - 1));
 		}
+		System.out.println();
 	}
 
 	// Extract the individuals of the ontology - Fill up the Individuals list
@@ -698,6 +700,7 @@ public class Individuals {
 
 						ArrayList<Integer> value = currentEntry.getValue();
 						result = result + "INSERT INTO " + table + "\n(";
+
 						for (int v = 0; v < value.size(); v++) {
 							result = result
 									+ attributesRemoteTab[value.get(v)]
@@ -709,10 +712,14 @@ public class Individuals {
 													attributesRemoteTab[value
 															.get(v)].toString()
 															.length());
+
 							if (v != value.size() - 1) {
 								result = result + ", ";
+
 							}
+
 						}
+
 						result = result + ")\nVALUES(";
 						for (int v = 0; v < value.size(); v++) {
 							resultTab = insertIntoDataForeign(i, value.get(v),
@@ -729,6 +736,11 @@ public class Individuals {
 									value.get(v), attributesRemoteTab, name);
 							result = result + resultTab[0];
 							name = (Boolean) resultTab[1];
+
+							if (((String) resultTab[0]).length() > 0
+									&& v != value.size() - 1) {
+								result = result + ", ";
+							}
 
 						}
 						result = result + ");\n\n";
@@ -849,6 +861,18 @@ public class Individuals {
 		String[] attributesLocalTabBis = attributesLocalBis.split(",");
 		result = result + "INSERT INTO " + table + "\n("
 				+ attributesLocalBis.substring(2) + ")\nVALUES(";
+		String att = "";
+		for (int lll = 0; lll < attributesLocalBis.substring(2).split(",").length; lll++) {
+			if (objectKeys
+					.contains(attributesLocalBis.substring(2).split(",")[lll]
+							.replace(" ", ""))) {
+				att = att + attributesLocalBis.substring(2).split(",")[lll]
+						+ "=,";
+			}
+		}
+		if (!att.equals("")) {
+			result2 = result2 + "\n\nUPDATE " + table + "\n SET ";
+		}
 
 		if (superClassesClean.containsKey(table))
 			result = result + nbInsert.get(parent.get(indice_max)) + ", ";
@@ -857,13 +881,60 @@ public class Individuals {
 				attributesLocalBis, name);
 		result = result + resultTab[0];
 		name = (Boolean) resultTab[1];
+		String where = "";
+		if (!resultTab[0].toString().contains(","))
+			where = resultTab[0].toString();
+		else {
+			resultTab[0].toString().substring(
+					resultTab[0].toString().indexOf(",") + 1);
+			if (!resultTab[0].toString().contains(","))
+				where = resultTab[0].toString();
+			else
+				where = resultTab[0].toString().substring(0,
+						resultTab[0].toString().indexOf(","));
+
+		}
 		// Object properties
 		resultTab = insertIntoObject(i, attributesLocalTabBis,
 				attributesLocalBis, name);
 		if (((String) resultTab[0]).length() > 0 && !result.endsWith(", "))
 			result = result + ", ";
-		result = result + resultTab[0];
+		if (!resultTab[0].equals("") && !att.equals("")) {
+
+			for (int lll = 0; lll < resultTab[0].toString().split(",").length; lll++) {
+				if (lll > 0)
+					att = att.substring(att.indexOf("=,") + 2);
+
+				if (lll < resultTab[0].toString().split(",").length - 1) {
+
+					result = result + "NULL, ";// resultTab[0];
+					result2 = result2
+							+ att.substring(0, att.indexOf("=,") + 2)
+									.replaceFirst(
+											"=,",
+											"="
+													+ resultTab[0].toString()
+															.split(",")[lll])
+							+ ",";
+				} else {
+					result = result + "NULL";// resultTab[0];
+					result2 = result2
+							+ att.substring(0, att.indexOf("=,") + 2)
+									.replaceFirst(
+											"=,",
+											"="
+													+ resultTab[0].toString()
+															.split(",")[lll]);
+				}
+			}
+			resultTab = insertIntoData(i, attributesLocalTabBis,
+					attributesLocalBis, name);
+
+			result2 = result2 + " WHERE _NAME = " + where;
+			result2 = result2 + ";";
+		}
 		result = result + ");\n\n";
+
 		return result;
 	}
 

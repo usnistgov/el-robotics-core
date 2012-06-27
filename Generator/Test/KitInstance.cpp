@@ -73,12 +73,17 @@ copy(temp);
  void KitInstance::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["isKitInstance_Finished"]=isKitInstance_Finished;
+ss.str("");
+ss << isKitInstance_Finished;
+data["isKitInstance_Finished"]=ss.str();
 data["hasKitInstance_DesignRef"]=hasKitInstance_DesignRef;
 data["name"]=name;
-data["KitInstanceID"]=KitInstanceID;
+ss.str("");
+ss << KitInstanceID;
+data["KitInstanceID"]=ss.str();
 for(unsigned int i=0;i<hadByPart_KitInstance.size();++i){
-ss.flush();
+ss.str("");
+hadByPart_KitInstance[i]->get(hadByPart_KitInstance[i]->getname());
 ss << hadByPart_KitInstance[i]->getPartID();
 data["hadByPart_KitInstance"]=data["hadByPart_KitInstance"]+" "+ss.str();
 }

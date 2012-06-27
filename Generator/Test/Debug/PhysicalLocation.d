@@ -1,12 +1,12 @@
 PhysicalLocation.d: ../PhysicalLocation.cpp ../PhysicalLocation.h \
- ../DataThing.h ../DAO.h ../Connection.h ../SolidObject.h
+ ../DataThing.h ../SolidObject.h ../DAO.h ../Connection.h
 
 ../PhysicalLocation.h:
 
 ../DataThing.h:
 
+../SolidObject.h:
+
 ../DAO.h:
 
 ../Connection.h:
-
-../SolidObject.h:

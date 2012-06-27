@@ -53,9 +53,12 @@ copy(temp);
 std::map<std::string, std::string> data;
 std::stringstream ss;
 data["name"]=name;
-data["WorkTableID"]=WorkTableID;
+ss.str("");
+ss << WorkTableID;
+data["WorkTableID"]=ss.str();
 for(unsigned int i=0;i<hadBySolidObject_WorkTable.size();++i){
-ss.flush();
+ss.str("");
+hadBySolidObject_WorkTable[i]->get(hadBySolidObject_WorkTable[i]->getname());
 ss << hadBySolidObject_WorkTable[i]->getSolidObjectID();
 data["hadBySolidObject_WorkTable"]=data["hadBySolidObject_WorkTable"]+" "+ss.str();
 }

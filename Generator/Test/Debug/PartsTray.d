@@ -1,6 +1,5 @@
 PartsTray.d: ../PartsTray.cpp ../PartsTray.h ../BoxyObject.h \
- ../SolidObject.h ../PhysicalLocation.h ../DataThing.h ../DAO.h \
- ../Connection.h ../PartsTrayWithParts.h
+ ../SolidObject.h ../PartsTrayWithParts.h ../DAO.h ../Connection.h
 
 ../PartsTray.h:
 
@@ -8,12 +7,8 @@ PartsTray.d: ../PartsTray.cpp ../PartsTray.h ../BoxyObject.h \
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
-
-../DataThing.h:
+../PartsTrayWithParts.h:
 
 ../DAO.h:
 
 ../Connection.h:
-
-../PartsTrayWithParts.h:

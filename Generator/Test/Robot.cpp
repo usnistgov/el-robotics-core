@@ -80,13 +80,18 @@ copy(temp);
 std::map<std::string, std::string> data;
 std::stringstream ss;
 data["hasRobot_Id"]=hasRobot_Id;
-data["hasRobot_MaximumLoadWeight"]=hasRobot_MaximumLoadWeight;
+ss.str("");
+ss << hasRobot_MaximumLoadWeight;
+data["hasRobot_MaximumLoadWeight"]=ss.str();
 data["hasRobot_Description"]=hasRobot_Description;
 data["name"]=name;
-data["RobotID"]=RobotID;
+ss.str("");
+ss << RobotID;
+data["RobotID"]=ss.str();
 data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
 for(unsigned int i=0;i<hasRobot_WorkVolume.size();++i){
-ss.flush();
+ss.str("");
+hasRobot_WorkVolume[i]->get(hasRobot_WorkVolume[i]->getname());
 ss << hasRobot_WorkVolume[i]->getBoxVolumeID();
 data["hasRobot_WorkVolume"]=data["hasRobot_WorkVolume"]+" "+ss.str();
 }

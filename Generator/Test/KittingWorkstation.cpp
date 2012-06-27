@@ -110,21 +110,26 @@ data["hasWorkstation_LengthUnit"]=hasWorkstation_LengthUnit;
 data["hasWorkstation_WeightUnit"]=hasWorkstation_WeightUnit;
 data["hasWorkstation_AngleUnit"]=hasWorkstation_AngleUnit;
 data["name"]=name;
-data["KittingWorkstationID"]=KittingWorkstationID;
+ss.str("");
+ss << KittingWorkstationID;
+data["KittingWorkstationID"]=ss.str();
 for(unsigned int i=0;i<hadByKitDesign_Workstation.size();++i){
-ss.flush();
+ss.str("");
+hadByKitDesign_Workstation[i]->get(hadByKitDesign_Workstation[i]->getname());
 ss << hadByKitDesign_Workstation[i]->getKitDesignID();
 data["hadByKitDesign_Workstation"]=data["hadByKitDesign_Workstation"]+" "+ss.str();
 }
 data["hasWorkstation_ChangingStation"]=hasWorkstation_ChangingStation->getname();
 for(unsigned int i=0;i<hasWorkstation_OtherObstacles.size();++i){
-ss.flush();
+ss.str("");
+hasWorkstation_OtherObstacles[i]->get(hasWorkstation_OtherObstacles[i]->getname());
 ss << hasWorkstation_OtherObstacles[i]->getBoxVolumeID();
 data["hasWorkstation_OtherObstacles"]=data["hasWorkstation_OtherObstacles"]+" "+ss.str();
 }
 data["hasWorkstation_WorkTable"]=hasWorkstation_WorkTable->getname();
 for(unsigned int i=0;i<hadBySku_Workstation.size();++i){
-ss.flush();
+ss.str("");
+hadBySku_Workstation[i]->get(hadBySku_Workstation[i]->getname());
 ss << hadBySku_Workstation[i]->getStockKeepingUnitID();
 data["hadBySku_Workstation"]=data["hadBySku_Workstation"]+" "+ss.str();
 }

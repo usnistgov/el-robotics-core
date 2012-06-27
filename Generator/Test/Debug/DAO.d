@@ -1,8 +1,6 @@
 DAO.d: ../DAO.cpp ../DAO.h ../Connection.h ../Robot.h ../SolidObject.h \
- ../PhysicalLocation.h ../DataThing.h ../BoxVolume.h \
- ../KittingWorkstation.h ../EndEffectorChangingStation.h ../WorkTable.h \
- ../BoxyObject.h ../Point.h ../PartRefAndPose.h ../RollPitchYaw.h \
- ../Pose.h
+ ../KittingWorkstation.h ../BoxVolume.h ../DataThing.h ../Point.h \
+ ../EndEffectorChangingStation.h ../StockKeepingUnit.h
 
 ../DAO.h:
 
@@ -12,24 +10,14 @@ DAO.d: ../DAO.cpp ../DAO.h ../Connection.h ../Robot.h ../SolidObject.h \
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
-
-../DataThing.h:
+../KittingWorkstation.h:
 
 ../BoxVolume.h:
 
-../KittingWorkstation.h:
-
-../EndEffectorChangingStation.h:
-
-../WorkTable.h:
-
-../BoxyObject.h:
+../DataThing.h:
 
 ../Point.h:
 
-../PartRefAndPose.h:
+../EndEffectorChangingStation.h:
 
-../RollPitchYaw.h:
-
-../Pose.h:
+../StockKeepingUnit.h:

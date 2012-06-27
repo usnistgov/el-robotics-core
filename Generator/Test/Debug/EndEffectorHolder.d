@@ -1,14 +1,14 @@
 EndEffectorHolder.d: ../EndEffectorHolder.cpp ../EndEffectorHolder.h \
- ../SolidObject.h ../PhysicalLocation.h ../DataThing.h ../DAO.h \
- ../Connection.h
+ ../SolidObject.h ../EndEffector.h ../EndEffectorChangingStation.h \
+ ../DAO.h ../Connection.h
 
 ../EndEffectorHolder.h:
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
+../EndEffector.h:
 
-../DataThing.h:
+../EndEffectorChangingStation.h:
 
 ../DAO.h:
 

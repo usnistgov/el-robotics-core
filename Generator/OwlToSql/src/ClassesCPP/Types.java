@@ -233,21 +233,46 @@ public class Types extends ClassGenerator {
 		String globalSet = " void " + className + "::set(std::string name){\n";
 		globalSet = globalSet + "std::map<std::string, std::string> data;\n";
 		globalSet = globalSet + "std::stringstream ss;\n";
+		/*
+		 * if (classParentName != null) { for (int i = 0; i <
+		 * classParentName.size(); i++) { globalSet = globalSet + "\n " +
+		 * classParentName.get(i) + "::set(name);\n"; } }
+		 */
+
 		for (int i = 0; i < attributes.size(); i++) {
 			// data property single
 			if (!unit.get(i).contains("*")
 					&& !unit.get(i).contains("std::vector"))
-				globalSet = globalSet + "data[\"" + attributes.get(i) + "\"]="
-						+ attributes.get(i) + ";\n";
+				if (unit.get(i).equals("std::string"))
+					globalSet = globalSet + "data[\"" + attributes.get(i)
+							+ "\"]=" + attributes.get(i) + ";\n";
+				else {
+					globalSet = globalSet + "ss.str(\"\");\n";
+					globalSet = globalSet + "ss << " + attributes.get(i)
+							+ ";\n";
+					globalSet = globalSet + "data[\"" + attributes.get(i)
+							+ "\"]=ss.str();\n";
+
+				}
 
 			// data property multi
 			if (!unit.get(i).contains("*")
 					&& unit.get(i).contains("std::vector")) {
 				globalSet = globalSet + "for(unsigned int i=0;i<"
 						+ attributes.get(i) + ".size();++i){\n";
-				globalSet = globalSet + "data[\"" + attributes.get(i)
-						+ "\"]=data[\"" + attributes.get(i) + "\"]+\" \"+"
-						+ attributes.get(i) + "[i];\n}\n";
+				if (unit.get(i).contains("std::string"))
+					globalSet = globalSet + "data[\"" + attributes.get(i)
+							+ "\"]=data[\"" + attributes.get(i) + "\"]+\" \"+"
+							+ attributes.get(i) + "[i];\n}\n";
+				else {
+					globalSet = globalSet + "ss.str(\"\");\n";
+					globalSet = globalSet + "ss << " + attributes.get(i)
+							+ "[i];\n";
+					globalSet = globalSet + "data[\"" + attributes.get(i)
+							+ "\"]=data[\"" + attributes.get(i)
+							+ "\"]+\" \"+ ss.str();\n}\n";
+
+				}
 
 			}
 			// object property single
@@ -261,7 +286,9 @@ public class Types extends ClassGenerator {
 					&& unit.get(i).contains("std::vector")) {
 				globalSet = globalSet + "for(unsigned int i=0;i<"
 						+ attributes.get(i) + ".size();++i){\n";
-				globalSet = globalSet + "ss.flush();\n";
+				globalSet = globalSet + "ss.str(\"\");\n";
+				globalSet = globalSet + attributes.get(i) + "[i]->get("
+						+ attributes.get(i) + "[i]->getname());\n";
 				globalSet = globalSet
 						+ "ss << "
 						+ attributes.get(i)
@@ -273,14 +300,13 @@ public class Types extends ClassGenerator {
 						+ "\"]+\" \"+ss.str();\n}\n";
 			}
 		}
-		/*if (classParentName != null) {
-			for (int i = 0; i < classParentName.size(); i++) {
-				globalSet = globalSet + "dao  = new DAO(\""
-						+ classParentName.get(i) + "\");\n";
-				globalSet = globalSet + "dao->set(data);\n";
-				globalSet = globalSet + "delete (dao);\n";
-			}
-		}*/
+		/*
+		 * if (classParentName != null) { for (int i = 0; i <
+		 * classParentName.size(); i++) { globalSet = globalSet +
+		 * "dao  = new DAO(\"" + classParentName.get(i) + "\");\n"; globalSet =
+		 * globalSet + "dao->set(data);\n"; globalSet = globalSet +
+		 * "delete (dao);\n"; } }
+		 */
 		globalSet = globalSet + "dao  = new DAO(\"" + className + "\");\n";
 		globalSet = globalSet + "dao->set(data);\n";
 		globalSet = globalSet + "delete (dao);\n}\n";
@@ -321,8 +347,13 @@ public class Types extends ClassGenerator {
 				copy = copy + "temp = Explode(object[\"" + attributes.get(i)
 						+ "\"], ' ' );\n";
 				copy = copy + "for(unsigned int i=0; i<temp.size();i++){\n";
-				copy = copy + "this->" + attributes.get(i)
-						+ ".push_back(temp[i]);\n";
+				if (unit.get(i).contains("std::string"))
+					copy = copy + "this->" + attributes.get(i)
+							+ ".push_back(temp[i]);\n";
+				else {
+					copy = copy + "this->" + attributes.get(i)
+							+ ".push_back(std::atof(temp[i].c_str()));\n";
+				}
 				copy = copy + "}\n";
 			}
 
@@ -338,40 +369,36 @@ public class Types extends ClassGenerator {
 						+ "(object[\"" + attributes.get(i) + "/"
 						+ unit.get(i).substring(0, unit.get(i).length() - 1)
 						+ "." + "_NAME" + "\"]);\n";
-				/*if (range.get(attributes.get(i)).contains(className)) {
-					if (single.get(attributes.get(i)).equals("false")) {
-						copy = copy + "this->" + attributes.get(i) + "->get"
-								+ attributes.get(i) + "()->push_back(this);\n";
+				/*
+				 * if (range.get(attributes.get(i)).contains(className)) { if
+				 * (single.get(attributes.get(i)).equals("false")) { copy = copy
+				 * + "this->" + attributes.get(i) + "->get" + attributes.get(i)
+				 * + "()->push_back(this);\n";
+				 * 
+				 * } else { copy = copy + "this->" + attributes.get(i) + "->set"
+				 * + attributes.get(i) + "(this);\n"; }
+				 * 
+				 * } else { if (!inverse.containsKey(attributes.get(i)) ||
+				 * single.get(inverse.get(attributes.get(i))) .equals("false"))
+				 * { copy = copy + "this->" + attributes.get(i) + "->get" +
+				 * attributes.get(i) + "()->push_back(this);\n";
+				 * 
+				 * } else { copy = copy + "this->" + attributes.get(i) + "->set"
+				 * + attributes.get(i) + "(this);\n"; } }
+				 * 
+				 * copy = copy + "this->" + attributes.get(i) +
+				 * "->get(object[\"" + attributes.get(i) + "/" +
+				 * unit.get(i).substring(0, unit.get(i).length() - 1) + "." +
+				 * "_NAME" + "\"]);\n";
+				 */
 
-					} else {
-						copy = copy + "this->" + attributes.get(i) + "->set"
-								+ attributes.get(i) + "(this);\n";
-					}
+				copy = copy + "}\n";
 
-				} else {
-					if (!inverse.containsKey(attributes.get(i))
-							|| single.get(inverse.get(attributes.get(i)))
-									.equals("false")) {
-						copy = copy + "this->" + attributes.get(i) + "->get"
-								+ attributes.get(i) + "()->push_back(this);\n";
-
-					} else {
-						copy = copy + "this->" + attributes.get(i) + "->set"
-								+ attributes.get(i) + "(this);\n";
-					}
-				}
-				
-				  copy = copy + "this->" + attributes.get(i) +
-				  "->get(object[\"" + attributes.get(i) + "/" +
-				  unit.get(i).substring(0, unit.get(i).length() - 1) + "." +
-				  "_NAME" + "\"]);\n";*/
-				 
-					copy = copy + "}\n";
-
-				
-			/*	copy = copy + "else {object[\"" + attributes.get(i) + "/"
-						+ unit.get(i).substring(0, unit.get(i).length() - 1)
-						+ "." + "_NAME" + "\"]=\"videOuNullError\";}\n";*/
+				/*
+				 * copy = copy + "else {object[\"" + attributes.get(i) + "/" +
+				 * unit.get(i).substring(0, unit.get(i).length() - 1) + "." +
+				 * "_NAME" + "\"]=\"videOuNullError\";}\n";
+				 */
 			}
 
 			// Fill the collections of objects
@@ -402,91 +429,69 @@ public class Types extends ClassGenerator {
 						+ ".push_back(new "
 						+ unit.get(i).substring("std::vector<".length(),
 								unit.get(i).length() - 2) + "(temp[i]));\n";
-			/*	if (range.get(attributes.get(i)).contains(className)) {
-					if (single.get(attributes.get(i)).equals("false")) {
-						copy = copy + "this->" + attributes.get(i)
-								+ ".back()->get" + attributes.get(i)
-								+ "()->push_back(this);\n";
-
-					} else {
-						copy = copy + "this->" + attributes.get(i)
-								+ ".back()->set" + attributes.get(i)
-								+ "(this);\n";
-					}
-
-				} else {
-					if (!inverse.containsKey(attributes.get(i))
-							|| single.get(inverse.get(attributes.get(i)))
-									.equals("false")) {
-						copy = copy + "this->" + attributes.get(i)
-								+ ".back()->get" + attributes.get(i)
-								+ "()->push_back(this);\n";
-
-					} else {
-						copy = copy + "this->" + attributes.get(i)
-								+ ".back()->set" + attributes.get(i)
-								+ "(this);\n";
-					}
-				}
-
-				copy = copy + "this->" + attributes.get(i)
-						+ ".back()->get(temp[i]);\n";*/
+				/*
+				 * if (range.get(attributes.get(i)).contains(className)) { if
+				 * (single.get(attributes.get(i)).equals("false")) { copy = copy
+				 * + "this->" + attributes.get(i) + ".back()->get" +
+				 * attributes.get(i) + "()->push_back(this);\n";
+				 * 
+				 * } else { copy = copy + "this->" + attributes.get(i) +
+				 * ".back()->set" + attributes.get(i) + "(this);\n"; }
+				 * 
+				 * } else { if (!inverse.containsKey(attributes.get(i)) ||
+				 * single.get(inverse.get(attributes.get(i))) .equals("false"))
+				 * { copy = copy + "this->" + attributes.get(i) + ".back()->get"
+				 * + attributes.get(i) + "()->push_back(this);\n";
+				 * 
+				 * } else { copy = copy + "this->" + attributes.get(i) +
+				 * ".back()->set" + attributes.get(i) + "(this);\n"; } }
+				 * 
+				 * copy = copy + "this->" + attributes.get(i) +
+				 * ".back()->get(temp[i]);\n";
+				 */
 
 				copy = copy + "}\n";
 
 				copy = copy + "}\n";
-				
 
-			/*	copy = copy
-						+ "else {object[\""
-						+ attributes.get(i)
-						+ "/"
-						+ unit.get(i).substring("std::vector<".length(),
-								unit.get(i).length() - 2) + "." + "_NAME"
-						+ "\"]=\"videOuNullError\";}\n";*/
+				/*
+				 * copy = copy + "else {object[\"" + attributes.get(i) + "/" +
+				 * unit.get(i).substring("std::vector<".length(),
+				 * unit.get(i).length() - 2) + "." + "_NAME" +
+				 * "\"]=\"videOuNullError\";}\n";
+				 */
 
 			}
 
 		}
-	/*	for (int i = 0; i < unit.size(); i++) {
-			// get unique objet
-			if (unit.get(i).contains("*") && !unit.get(i).contains("std::")
-					&& !unit.get(i).equals("DAO*")) {
-				copy = copy + "if(object[\"" + attributes.get(i) + "/"
-						+ unit.get(i).substring(0, unit.get(i).length() - 1)
-						+ "." + "_NAME" + "\"]!=\"videOuNullError\" )\n";
-				copy = copy + "this->" + attributes.get(i) + "->get(object[\""
-						+ attributes.get(i) + "/"
-						+ unit.get(i).substring(0, unit.get(i).length() - 1)
-						+ "." + "_NAME" + "\"]);\n";
-
-			}
-			// get collections of objects
-			if (unit.get(i).contains("*") && unit.get(i).contains("std::")) {
-				copy = copy
-						+ "if(object[\""
-						+ attributes.get(i)
-						+ "/"
-						+ unit.get(i).substring("std::vector<".length(),
-								unit.get(i).length() - 2) + "." + "_NAME"
-						+ "\"]!=\"videOuNullError\"){\n";
-
-				copy = copy
-						+ "temp = Explode(object[\""
-						+ attributes.get(i)
-						+ "/"
-						+ unit.get(i).substring("std::vector<".length(),
-								unit.get(i).length() - 2) + "." + "_NAME"
-						+ "\"], ' ' );\n";
-				copy = copy + "for(unsigned int i=0; i<temp.size();i++){\n";
-				copy = copy + "this->" + attributes.get(i) + "["
-						+ attributes.get(i)
-						+ ".size()-temp.size()+i]->get(temp[i]);\n}\n";
-
-				copy = copy + "}\n";
-
-			}
-		}*/
+		/*
+		 * for (int i = 0; i < unit.size(); i++) { // get unique objet if
+		 * (unit.get(i).contains("*") && !unit.get(i).contains("std::") &&
+		 * !unit.get(i).equals("DAO*")) { copy = copy + "if(object[\"" +
+		 * attributes.get(i) + "/" + unit.get(i).substring(0,
+		 * unit.get(i).length() - 1) + "." + "_NAME" +
+		 * "\"]!=\"videOuNullError\" )\n"; copy = copy + "this->" +
+		 * attributes.get(i) + "->get(object[\"" + attributes.get(i) + "/" +
+		 * unit.get(i).substring(0, unit.get(i).length() - 1) + "." + "_NAME" +
+		 * "\"]);\n";
+		 * 
+		 * } // get collections of objects if (unit.get(i).contains("*") &&
+		 * unit.get(i).contains("std::")) { copy = copy + "if(object[\"" +
+		 * attributes.get(i) + "/" +
+		 * unit.get(i).substring("std::vector<".length(), unit.get(i).length() -
+		 * 2) + "." + "_NAME" + "\"]!=\"videOuNullError\"){\n";
+		 * 
+		 * copy = copy + "temp = Explode(object[\"" + attributes.get(i) + "/" +
+		 * unit.get(i).substring("std::vector<".length(), unit.get(i).length() -
+		 * 2) + "." + "_NAME" + "\"], ' ' );\n"; copy = copy +
+		 * "for(unsigned int i=0; i<temp.size();i++){\n"; copy = copy + "this->"
+		 * + attributes.get(i) + "[" + attributes.get(i) +
+		 * ".size()-temp.size()+i]->get(temp[i]);\n}\n";
+		 * 
+		 * copy = copy + "}\n";
+		 * 
+		 * } }
+		 */
 		// copy = copy + "}\n";
 
 		copy = copy + "\n}";

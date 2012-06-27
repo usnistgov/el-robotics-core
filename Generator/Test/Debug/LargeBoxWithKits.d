@@ -1,22 +1,17 @@
 LargeBoxWithKits.d: ../LargeBoxWithKits.cpp ../LargeBoxWithKits.h \
- ../SolidObject.h ../PhysicalLocation.h ../DataThing.h ../DAO.h \
- ../Connection.h ../LargeContainer.h ../BoxyObject.h \
- ../LargeBoxWithEmptyKitTrays.h
+ ../SolidObject.h ../LargeContainer.h ../BoxyObject.h ../KitInstance.h \
+ ../DAO.h ../Connection.h
 
 ../LargeBoxWithKits.h:
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
-
-../DataThing.h:
-
-../DAO.h:
-
-../Connection.h:
-
 ../LargeContainer.h:
 
 ../BoxyObject.h:
 
-../LargeBoxWithEmptyKitTrays.h:
+../KitInstance.h:
+
+../DAO.h:
+
+../Connection.h:

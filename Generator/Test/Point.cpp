@@ -87,28 +87,40 @@ copy(temp);
  void Point::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["hasPoint_X"]=hasPoint_X;
-data["hasPoint_Y"]=hasPoint_Y;
-data["hasPoint_Z"]=hasPoint_Z;
+ss.str("");
+ss << hasPoint_X;
+data["hasPoint_X"]=ss.str();
+ss.str("");
+ss << hasPoint_Y;
+data["hasPoint_Y"]=ss.str();
+ss.str("");
+ss << hasPoint_Z;
+data["hasPoint_Z"]=ss.str();
 data["name"]=name;
-data["PointID"]=PointID;
+ss.str("");
+ss << PointID;
+data["PointID"]=ss.str();
 for(unsigned int i=0;i<hasPose_Point.size();++i){
-ss.flush();
+ss.str("");
+hasPose_Point[i]->get(hasPose_Point[i]->getname());
 ss << hasPose_Point[i]->getPoseID();
 data["hasPose_Point"]=data["hasPose_Point"]+" "+ss.str();
 }
 for(unsigned int i=0;i<hasPartRefAndPose_Point.size();++i){
-ss.flush();
+ss.str("");
+hasPartRefAndPose_Point[i]->get(hasPartRefAndPose_Point[i]->getname());
 ss << hasPartRefAndPose_Point[i]->getPartRefAndPoseID();
 data["hasPartRefAndPose_Point"]=data["hasPartRefAndPose_Point"]+" "+ss.str();
 }
 for(unsigned int i=0;i<hasBoxVolume_MaximumPoint.size();++i){
-ss.flush();
+ss.str("");
+hasBoxVolume_MaximumPoint[i]->get(hasBoxVolume_MaximumPoint[i]->getname());
 ss << hasBoxVolume_MaximumPoint[i]->getBoxVolumeID();
 data["hasBoxVolume_MaximumPoint"]=data["hasBoxVolume_MaximumPoint"]+" "+ss.str();
 }
 for(unsigned int i=0;i<hasBoxVolume_MinimumPoint.size();++i){
-ss.flush();
+ss.str("");
+hasBoxVolume_MinimumPoint[i]->get(hasBoxVolume_MinimumPoint[i]->getname());
 ss << hasBoxVolume_MinimumPoint[i]->getBoxVolumeID();
 data["hasBoxVolume_MinimumPoint"]=data["hasBoxVolume_MinimumPoint"]+" "+ss.str();
 }

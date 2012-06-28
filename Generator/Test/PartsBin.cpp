@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "PartsBin.h"
 
 
@@ -46,6 +59,8 @@ copy(temp);
  void PartsBin::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+BoxyObject* temp = (BoxyObject*) this;
+temp->set(name);
 data["hasBin_PartQuantity"]=hasBin_PartQuantity;
 data["hasBin_PartSkuRef"]=hasBin_PartSkuRef;
 data["name"]=name;

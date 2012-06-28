@@ -1,3 +1,16 @@
+/*****************************************************************************
+ DISCLAIMER:
+ This software was produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by
+ statute is
+ not subject to copyright in the United States.  Recipients of this
+ software
+ assume all responsibility associated with its operation, modification,
+ maintenance, and subsequent redistribution.
+
+ See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "DAO.h"
 #include "Robot.h"
 #include "KittingWorkstation.h"
@@ -7,8 +20,9 @@
 #include "StockKeepingUnit.h"
 
 int main() {
-	Robot * r = new Robot("Robot1");
-	r->get("Robot1");
+	Robot * r = new Robot("robot_1");
+	r->get("robot_1");
+	r->sethasRobot_Description("robot_1");
 	r->set(r->getname());
 	/*r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
 	 std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
@@ -34,9 +48,10 @@ int main() {
 	 */
 	return 0;
 }
+
 DAO::DAO(std::string name) {
 	this->className.push_back(name);
-	connection = new Connection("localhost", "root", "mypassword", "owl");
+	connection = new Connection("localhost", "root", "mypassword", "owl2");
 	this->fillGetSqlQueries();
 }
 std::map<std::string, std::string> DAO::getSqlQueriesDataSingle;
@@ -47,75 +62,79 @@ std::map<std::string, std::vector<std::string> > DAO::getSqlQueriesObjectMulti;
 void DAO::fillGetSqlQueries() {
 	std::vector<std::string> temp;
 	DAO::getSqlQueriesDataSingle["Robot"]
-			= "SELECT Robot.RobotID AS 'Robot.RobotID', Robot._NAME AS 'Robot._NAME', Robot.hasRobot_Id AS 'Robot.hasRobot_Id', Robot.hasRobot_MaximumLoadWeight AS 'Robot.hasRobot_MaximumLoadWeight', Robot.hasRobot_Description AS 'Robot.hasRobot_Description' FROM Robot, SolidObject WHERE  Robot.RobotID = ? AND SolidObject.SolidObjectID = Robot.RobotID";
+			= "SELECT Robot.RobotID AS 'Robot.RobotID', Robot._NAME AS 'Robot._NAME', Robot.hasRobot_Description AS 'Robot.hasRobot_Description', Robot.hasRobot_Id AS 'Robot.hasRobot_Id', Robot.hasRobot_MaximumLoadWeight AS 'Robot.hasRobot_MaximumLoadWeight' FROM Robot, SolidObject WHERE  Robot.RobotID = ? AND SolidObject.SolidObjectID = Robot.RobotID";
+	DAO::getSqlQueriesDataSingle["Kit"]
+			= "SELECT Kit.KitID AS 'Kit.KitID', Kit._NAME AS 'Kit._NAME', Kit.hasKit_DesignRef AS 'Kit.hasKit_DesignRef', Kit.isKit_Finished AS 'Kit.isKit_Finished' FROM Kit, SolidObject WHERE  Kit.KitID = ? AND SolidObject.SolidObjectID = Kit.KitID";
 	DAO::getSqlQueriesDataSingle["PhysicalLocation"]
 			= "SELECT PhysicalLocation.PhysicalLocationID AS 'PhysicalLocation.PhysicalLocationID', PhysicalLocation._NAME AS 'PhysicalLocation._NAME' FROM PhysicalLocation, DataThing WHERE  PhysicalLocation.PhysicalLocationID = ? AND DataThing.DataThingID = PhysicalLocation.PhysicalLocationID";
 	DAO::getSqlQueriesDataSingle["LargeBoxWithKits"]
 			= "SELECT LargeBoxWithKits.LargeBoxWithKitsID AS 'LargeBoxWithKits.LargeBoxWithKitsID', LargeBoxWithKits._NAME AS 'LargeBoxWithKits._NAME', LargeBoxWithKits.hasLargeBoxWithKits_Capacity AS 'LargeBoxWithKits.hasLargeBoxWithKits_Capacity', LargeBoxWithKits.hasLargeBoxWithKits_KitDesignRef AS 'LargeBoxWithKits.hasLargeBoxWithKits_KitDesignRef' FROM LargeBoxWithKits, SolidObject WHERE  LargeBoxWithKits.LargeBoxWithKitsID = ? AND SolidObject.SolidObjectID = LargeBoxWithKits.LargeBoxWithKitsID";
 	DAO::getSqlQueriesDataSingle["RelativeLocation"]
-			= "SELECT RelativeLocation.RelativeLocationID AS 'RelativeLocation.RelativeLocationID', RelativeLocation._NAME AS 'RelativeLocation._NAME' FROM RelativeLocation, PhysicalLocation, DataThing WHERE  RelativeLocation.RelativeLocationID = ? AND PhysicalLocation.PhysicalLocationID = RelativeLocation.RelativeLocationID AND DataThing.DataThingID = RelativeLocation.RelativeLocationID";
+			= "SELECT RelativeLocation.RelativeLocationID AS 'RelativeLocation.RelativeLocationID', RelativeLocation._NAME AS 'RelativeLocation._NAME', RelativeLocation.hasRelativeLocation_Description AS 'RelativeLocation.hasRelativeLocation_Description' FROM RelativeLocation, PhysicalLocation, DataThing WHERE  RelativeLocation.RelativeLocationID = ? AND PhysicalLocation.PhysicalLocationID = RelativeLocation.RelativeLocationID AND DataThing.DataThingID = RelativeLocation.RelativeLocationID";
 	DAO::getSqlQueriesDataSingle["SolidObject"]
 			= "SELECT SolidObject.SolidObjectID AS 'SolidObject.SolidObjectID', SolidObject._NAME AS 'SolidObject._NAME' FROM SolidObject WHERE  SolidObject.SolidObjectID = ?";
 	DAO::getSqlQueriesDataSingle["RelativeLocationIn"]
-			= "SELECT RelativeLocationIn.RelativeLocationInID AS 'RelativeLocationIn.RelativeLocationInID', RelativeLocationIn._NAME AS 'RelativeLocationIn._NAME', RelativeLocationIn.hasRelativeLocationIn_Description AS 'RelativeLocationIn.hasRelativeLocationIn_Description' FROM RelativeLocationIn, RelativeLocation, PhysicalLocation, DataThing WHERE  RelativeLocationIn.RelativeLocationInID = ? AND RelativeLocation.RelativeLocationID = RelativeLocationIn.RelativeLocationInID AND PhysicalLocation.PhysicalLocationID = RelativeLocationIn.RelativeLocationInID AND DataThing.DataThingID = RelativeLocationIn.RelativeLocationInID";
+			= "SELECT RelativeLocationIn.RelativeLocationInID AS 'RelativeLocationIn.RelativeLocationInID', RelativeLocationIn._NAME AS 'RelativeLocationIn._NAME', RelativeLocation.hasRelativeLocation_Description AS 'RelativeLocation.hasRelativeLocation_Description' FROM RelativeLocationIn, RelativeLocation, PhysicalLocation, DataThing WHERE  RelativeLocationIn.RelativeLocationInID = ? AND RelativeLocation.RelativeLocationID = RelativeLocationIn.RelativeLocationInID AND PhysicalLocation.PhysicalLocationID = RelativeLocationIn.RelativeLocationInID AND DataThing.DataThingID = RelativeLocationIn.RelativeLocationInID";
 	DAO::getSqlQueriesDataSingle["ShapeDesign"]
 			= "SELECT ShapeDesign.ShapeDesignID AS 'ShapeDesign.ShapeDesignID', ShapeDesign._NAME AS 'ShapeDesign._NAME', ShapeDesign.hasShapeDesign_Description AS 'ShapeDesign.hasShapeDesign_Description' FROM ShapeDesign, DataThing WHERE  ShapeDesign.ShapeDesignID = ? AND DataThing.DataThingID = ShapeDesign.ShapeDesignID";
+	DAO::getSqlQueriesDataSingle["PoseLocation"]
+			= "SELECT PoseLocation.PoseLocationID AS 'PoseLocation.PoseLocationID', PoseLocation._NAME AS 'PoseLocation._NAME' FROM PoseLocation, PhysicalLocation, DataThing WHERE  PoseLocation.PoseLocationID = ? AND PhysicalLocation.PhysicalLocationID = PoseLocation.PoseLocationID AND DataThing.DataThingID = PoseLocation.PoseLocationID";
 	DAO::getSqlQueriesDataSingle["PartRefAndPose"]
 			= "SELECT PartRefAndPose.PartRefAndPoseID AS 'PartRefAndPose.PartRefAndPoseID', PartRefAndPose._NAME AS 'PartRefAndPose._NAME', PartRefAndPose.hasPartRefAndPose_Ref AS 'PartRefAndPose.hasPartRefAndPose_Ref' FROM PartRefAndPose, DataThing WHERE  PartRefAndPose.PartRefAndPoseID = ? AND DataThing.DataThingID = PartRefAndPose.PartRefAndPoseID";
 	DAO::getSqlQueriesDataSingle["Part"]
-			= "SELECT Part.PartID AS 'Part.PartID', Part._NAME AS 'Part._NAME', Part.hasPart_SerialNumber AS 'Part.hasPart_SerialNumber', Part.hasPart_SkuRef AS 'Part.hasPart_SkuRef' FROM Part, SolidObject WHERE  Part.PartID = ? AND SolidObject.SolidObjectID = Part.PartID";
+			= "SELECT Part.PartID AS 'Part.PartID', Part._NAME AS 'Part._NAME', Part.hasPart_SkuRef AS 'Part.hasPart_SkuRef', Part.hasPart_SerialNumber AS 'Part.hasPart_SerialNumber' FROM Part, SolidObject WHERE  Part.PartID = ? AND SolidObject.SolidObjectID = Part.PartID";
 	DAO::getSqlQueriesDataSingle["Point"]
 			= "SELECT Point.PointID AS 'Point.PointID', Point._NAME AS 'Point._NAME', Point.hasPoint_X AS 'Point.hasPoint_X', Point.hasPoint_Y AS 'Point.hasPoint_Y', Point.hasPoint_Z AS 'Point.hasPoint_Z' FROM Point, DataThing WHERE  Point.PointID = ? AND DataThing.DataThingID = Point.PointID";
-	DAO::getSqlQueriesDataSingle["KitInstance"]
-			= "SELECT KitInstance.KitInstanceID AS 'KitInstance.KitInstanceID', KitInstance._NAME AS 'KitInstance._NAME', KitInstance.isKitInstance_Finished AS 'KitInstance.isKitInstance_Finished', KitInstance.hasKitInstance_DesignRef AS 'KitInstance.hasKitInstance_DesignRef' FROM KitInstance, SolidObject WHERE  KitInstance.KitInstanceID = ? AND SolidObject.SolidObjectID = KitInstance.KitInstanceID";
 	DAO::getSqlQueriesDataSingle["BoxVolume"]
 			= "SELECT BoxVolume.BoxVolumeID AS 'BoxVolume.BoxVolumeID', BoxVolume._NAME AS 'BoxVolume._NAME' FROM BoxVolume, DataThing WHERE  BoxVolume.BoxVolumeID = ? AND DataThing.DataThingID = BoxVolume.BoxVolumeID";
 	DAO::getSqlQueriesDataSingle["EndEffectorHolder"]
 			= "SELECT EndEffectorHolder.EndEffectorHolderID AS 'EndEffectorHolder.EndEffectorHolderID', EndEffectorHolder._NAME AS 'EndEffectorHolder._NAME' FROM EndEffectorHolder, SolidObject WHERE  EndEffectorHolder.EndEffectorHolderID = ? AND SolidObject.SolidObjectID = EndEffectorHolder.EndEffectorHolderID";
-	DAO::getSqlQueriesDataSingle["RollPitchYaw"]
-			= "SELECT RollPitchYaw.RollPitchYawID AS 'RollPitchYaw.RollPitchYawID', RollPitchYaw._NAME AS 'RollPitchYaw._NAME', RollPitchYaw.hasRpy_Roll AS 'RollPitchYaw.hasRpy_Roll', RollPitchYaw.hasRpy_Pitch AS 'RollPitchYaw.hasRpy_Pitch', RollPitchYaw.hasRpy_Yaw AS 'RollPitchYaw.hasRpy_Yaw' FROM RollPitchYaw, DataThing WHERE  RollPitchYaw.RollPitchYawID = ? AND DataThing.DataThingID = RollPitchYaw.RollPitchYawID";
-	DAO::getSqlQueriesDataSingle["Pose"]
-			= "SELECT Pose.PoseID AS 'Pose.PoseID', Pose._NAME AS 'Pose._NAME' FROM Pose, PhysicalLocation, DataThing WHERE  Pose.PoseID = ? AND PhysicalLocation.PhysicalLocationID = Pose.PoseID AND DataThing.DataThingID = Pose.PoseID";
 	DAO::getSqlQueriesDataSingle["VacuumEffectorSingleCup"]
-			= "SELECT VacuumEffectorSingleCup.VacuumEffectorSingleCupID AS 'VacuumEffectorSingleCup.VacuumEffectorSingleCupID', VacuumEffectorSingleCup._NAME AS 'VacuumEffectorSingleCup._NAME', VacuumEffector.hasVacuumEffector_CupDiameter AS 'VacuumEffector.hasVacuumEffector_CupDiameter', VacuumEffector.hasVacuumEffector_Length AS 'VacuumEffector.hasVacuumEffector_Length', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM VacuumEffectorSingleCup, VacuumEffector, EndEffector, SolidObject WHERE  VacuumEffectorSingleCup.VacuumEffectorSingleCupID = ? AND VacuumEffector.VacuumEffectorID = VacuumEffectorSingleCup.VacuumEffectorSingleCupID AND EndEffector.EndEffectorID = VacuumEffectorSingleCup.VacuumEffectorSingleCupID AND SolidObject.SolidObjectID = VacuumEffectorSingleCup.VacuumEffectorSingleCupID";
+			= "SELECT VacuumEffectorSingleCup.VacuumEffectorSingleCupID AS 'VacuumEffectorSingleCup.VacuumEffectorSingleCupID', VacuumEffectorSingleCup._NAME AS 'VacuumEffectorSingleCup._NAME', VacuumEffector.hasVacuumEffector_CupDiameter AS 'VacuumEffector.hasVacuumEffector_CupDiameter', VacuumEffector.hasVacuumEffector_Length AS 'VacuumEffector.hasVacuumEffector_Length', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM VacuumEffectorSingleCup, VacuumEffector, EndEffector, SolidObject WHERE  VacuumEffectorSingleCup.VacuumEffectorSingleCupID = ? AND VacuumEffector.VacuumEffectorID = VacuumEffectorSingleCup.VacuumEffectorSingleCupID AND EndEffector.EndEffectorID = VacuumEffectorSingleCup.VacuumEffectorSingleCupID AND SolidObject.SolidObjectID = VacuumEffectorSingleCup.VacuumEffectorSingleCupID";
 	DAO::getSqlQueriesDataSingle["VacuumEffectorMultiCup"]
-			= "SELECT VacuumEffectorMultiCup.VacuumEffectorMultiCupID AS 'VacuumEffectorMultiCup.VacuumEffectorMultiCupID', VacuumEffectorMultiCup._NAME AS 'VacuumEffectorMultiCup._NAME', VacuumEffectorMultiCup.hasMultiCup_ArrayNumber AS 'VacuumEffectorMultiCup.hasMultiCup_ArrayNumber', VacuumEffectorMultiCup.hasMultiCup_ArrayRadius AS 'VacuumEffectorMultiCup.hasMultiCup_ArrayRadius', VacuumEffector.hasVacuumEffector_CupDiameter AS 'VacuumEffector.hasVacuumEffector_CupDiameter', VacuumEffector.hasVacuumEffector_Length AS 'VacuumEffector.hasVacuumEffector_Length', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM VacuumEffectorMultiCup, VacuumEffector, EndEffector, SolidObject WHERE  VacuumEffectorMultiCup.VacuumEffectorMultiCupID = ? AND VacuumEffector.VacuumEffectorID = VacuumEffectorMultiCup.VacuumEffectorMultiCupID AND EndEffector.EndEffectorID = VacuumEffectorMultiCup.VacuumEffectorMultiCupID AND SolidObject.SolidObjectID = VacuumEffectorMultiCup.VacuumEffectorMultiCupID";
+			= "SELECT VacuumEffectorMultiCup.VacuumEffectorMultiCupID AS 'VacuumEffectorMultiCup.VacuumEffectorMultiCupID', VacuumEffectorMultiCup._NAME AS 'VacuumEffectorMultiCup._NAME', VacuumEffectorMultiCup.hasMultiCup_ArrayNumber AS 'VacuumEffectorMultiCup.hasMultiCup_ArrayNumber', VacuumEffectorMultiCup.hasMultiCup_ArrayRadius AS 'VacuumEffectorMultiCup.hasMultiCup_ArrayRadius', VacuumEffector.hasVacuumEffector_CupDiameter AS 'VacuumEffector.hasVacuumEffector_CupDiameter', VacuumEffector.hasVacuumEffector_Length AS 'VacuumEffector.hasVacuumEffector_Length', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM VacuumEffectorMultiCup, VacuumEffector, EndEffector, SolidObject WHERE  VacuumEffectorMultiCup.VacuumEffectorMultiCupID = ? AND VacuumEffector.VacuumEffectorID = VacuumEffectorMultiCup.VacuumEffectorMultiCupID AND EndEffector.EndEffectorID = VacuumEffectorMultiCup.VacuumEffectorMultiCupID AND SolidObject.SolidObjectID = VacuumEffectorMultiCup.VacuumEffectorMultiCupID";
+	DAO::getSqlQueriesDataSingle["PoseLocationOn"]
+			= "SELECT PoseLocationOn.PoseLocationOnID AS 'PoseLocationOn.PoseLocationOnID', PoseLocationOn._NAME AS 'PoseLocationOn._NAME' FROM PoseLocationOn, PoseLocation, PhysicalLocation, DataThing WHERE  PoseLocationOn.PoseLocationOnID = ? AND PoseLocation.PoseLocationID = PoseLocationOn.PoseLocationOnID AND PhysicalLocation.PhysicalLocationID = PoseLocationOn.PoseLocationOnID AND DataThing.DataThingID = PoseLocationOn.PoseLocationOnID";
 	DAO::getSqlQueriesDataSingle["PartsBin"]
-			= "SELECT PartsBin.PartsBinID AS 'PartsBin.PartsBinID', PartsBin._NAME AS 'PartsBin._NAME', PartsBin.hasBin_PartQuantity AS 'PartsBin.hasBin_PartQuantity', PartsBin.hasBin_PartSkuRef AS 'PartsBin.hasBin_PartSkuRef', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM PartsBin, BoxyObject, SolidObject WHERE  PartsBin.PartsBinID = ? AND BoxyObject.BoxyObjectID = PartsBin.PartsBinID AND SolidObject.SolidObjectID = PartsBin.PartsBinID";
+			= "SELECT PartsBin.PartsBinID AS 'PartsBin.PartsBinID', PartsBin._NAME AS 'PartsBin._NAME', PartsBin.hasBin_PartQuantity AS 'PartsBin.hasBin_PartQuantity', PartsBin.hasBin_PartSkuRef AS 'PartsBin.hasBin_PartSkuRef', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM PartsBin, BoxyObject, SolidObject WHERE  PartsBin.PartsBinID = ? AND BoxyObject.BoxyObjectID = PartsBin.PartsBinID AND SolidObject.SolidObjectID = PartsBin.PartsBinID";
 	DAO::getSqlQueriesDataSingle["StockKeepingUnit"]
 			= "SELECT StockKeepingUnit.StockKeepingUnitID AS 'StockKeepingUnit.StockKeepingUnitID', StockKeepingUnit._NAME AS 'StockKeepingUnit._NAME', StockKeepingUnit.hasSku_Description AS 'StockKeepingUnit.hasSku_Description', StockKeepingUnit.hasSku_Id AS 'StockKeepingUnit.hasSku_Id', StockKeepingUnit.hasSku_Weight AS 'StockKeepingUnit.hasSku_Weight' FROM StockKeepingUnit, DataThing WHERE  StockKeepingUnit.StockKeepingUnitID = ? AND DataThing.DataThingID = StockKeepingUnit.StockKeepingUnitID";
 	DAO::getSqlQueriesDataSingle["GripperEffector"]
-			= "SELECT GripperEffector.GripperEffectorID AS 'GripperEffector.GripperEffectorID', GripperEffector._NAME AS 'GripperEffector._NAME', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM GripperEffector, EndEffector, SolidObject WHERE  GripperEffector.GripperEffectorID = ? AND EndEffector.EndEffectorID = GripperEffector.GripperEffectorID AND SolidObject.SolidObjectID = GripperEffector.GripperEffectorID";
+			= "SELECT GripperEffector.GripperEffectorID AS 'GripperEffector.GripperEffectorID', GripperEffector._NAME AS 'GripperEffector._NAME', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM GripperEffector, EndEffector, SolidObject WHERE  GripperEffector.GripperEffectorID = ? AND EndEffector.EndEffectorID = GripperEffector.GripperEffectorID AND SolidObject.SolidObjectID = GripperEffector.GripperEffectorID";
+	DAO::getSqlQueriesDataSingle["PoseOnlyLocation"]
+			= "SELECT PoseOnlyLocation.PoseOnlyLocationID AS 'PoseOnlyLocation.PoseOnlyLocationID', PoseOnlyLocation._NAME AS 'PoseOnlyLocation._NAME' FROM PoseOnlyLocation, PoseLocation, PhysicalLocation, DataThing WHERE  PoseOnlyLocation.PoseOnlyLocationID = ? AND PoseLocation.PoseLocationID = PoseOnlyLocation.PoseOnlyLocationID AND PhysicalLocation.PhysicalLocationID = PoseOnlyLocation.PoseOnlyLocationID AND DataThing.DataThingID = PoseOnlyLocation.PoseOnlyLocationID";
 	DAO::getSqlQueriesDataSingle["EndEffector"]
-			= "SELECT EndEffector.EndEffectorID AS 'EndEffector.EndEffectorID', EndEffector._NAME AS 'EndEffector._NAME', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM EndEffector, SolidObject WHERE  EndEffector.EndEffectorID = ? AND SolidObject.SolidObjectID = EndEffector.EndEffectorID";
+			= "SELECT EndEffector.EndEffectorID AS 'EndEffector.EndEffectorID', EndEffector._NAME AS 'EndEffector._NAME', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM EndEffector, SolidObject WHERE  EndEffector.EndEffectorID = ? AND SolidObject.SolidObjectID = EndEffector.EndEffectorID";
+	DAO::getSqlQueriesDataSingle["PoseLocationIn"]
+			= "SELECT PoseLocationIn.PoseLocationInID AS 'PoseLocationIn.PoseLocationInID', PoseLocationIn._NAME AS 'PoseLocationIn._NAME' FROM PoseLocationIn, PoseLocation, PhysicalLocation, DataThing WHERE  PoseLocationIn.PoseLocationInID = ? AND PoseLocation.PoseLocationID = PoseLocationIn.PoseLocationInID AND PhysicalLocation.PhysicalLocationID = PoseLocationIn.PoseLocationInID AND DataThing.DataThingID = PoseLocationIn.PoseLocationInID";
 	DAO::getSqlQueriesDataSingle["WorkTable"]
-			= "SELECT WorkTable.WorkTableID AS 'WorkTable.WorkTableID', WorkTable._NAME AS 'WorkTable._NAME', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM WorkTable, BoxyObject, SolidObject WHERE  WorkTable.WorkTableID = ? AND BoxyObject.BoxyObjectID = WorkTable.WorkTableID AND SolidObject.SolidObjectID = WorkTable.WorkTableID";
+			= "SELECT WorkTable.WorkTableID AS 'WorkTable.WorkTableID', WorkTable._NAME AS 'WorkTable._NAME', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM WorkTable, BoxyObject, SolidObject WHERE  WorkTable.WorkTableID = ? AND BoxyObject.BoxyObjectID = WorkTable.WorkTableID AND SolidObject.SolidObjectID = WorkTable.WorkTableID";
 	DAO::getSqlQueriesDataSingle["LargeBoxWithEmptyKitTrays"]
 			= "SELECT LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID AS 'LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID', LargeBoxWithEmptyKitTrays._NAME AS 'LargeBoxWithEmptyKitTrays._NAME' FROM LargeBoxWithEmptyKitTrays, SolidObject WHERE  LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID = ? AND SolidObject.SolidObjectID = LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID";
 	DAO::getSqlQueriesDataSingle["EndEffectorChangingStation"]
 			= "SELECT EndEffectorChangingStation.EndEffectorChangingStationID AS 'EndEffectorChangingStation.EndEffectorChangingStationID', EndEffectorChangingStation._NAME AS 'EndEffectorChangingStation._NAME' FROM EndEffectorChangingStation, SolidObject WHERE  EndEffectorChangingStation.EndEffectorChangingStationID = ? AND SolidObject.SolidObjectID = EndEffectorChangingStation.EndEffectorChangingStationID";
 	DAO::getSqlQueriesDataSingle["PartsTray"]
-			= "SELECT PartsTray.PartsTrayID AS 'PartsTray.PartsTrayID', PartsTray._NAME AS 'PartsTray._NAME', PartsTray.hasPartsTray_SkuRef AS 'PartsTray.hasPartsTray_SkuRef', PartsTray.hasPartsTray_SerialNumber AS 'PartsTray.hasPartsTray_SerialNumber', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM PartsTray, BoxyObject, SolidObject WHERE  PartsTray.PartsTrayID = ? AND BoxyObject.BoxyObjectID = PartsTray.PartsTrayID AND SolidObject.SolidObjectID = PartsTray.PartsTrayID";
+			= "SELECT PartsTray.PartsTrayID AS 'PartsTray.PartsTrayID', PartsTray._NAME AS 'PartsTray._NAME', PartsTray.hasPartsTray_SkuRef AS 'PartsTray.hasPartsTray_SkuRef', PartsTray.hasPartsTray_SerialNumber AS 'PartsTray.hasPartsTray_SerialNumber', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM PartsTray, BoxyObject, SolidObject WHERE  PartsTray.PartsTrayID = ? AND BoxyObject.BoxyObjectID = PartsTray.PartsTrayID AND SolidObject.SolidObjectID = PartsTray.PartsTrayID";
 	DAO::getSqlQueriesDataSingle["DataThing"]
 			= "SELECT DataThing.DataThingID AS 'DataThing.DataThingID', DataThing._NAME AS 'DataThing._NAME' FROM DataThing WHERE  DataThing.DataThingID = ?";
 	DAO::getSqlQueriesDataSingle["KittingWorkstation"]
 			= "SELECT KittingWorkstation.KittingWorkstationID AS 'KittingWorkstation.KittingWorkstationID', KittingWorkstation._NAME AS 'KittingWorkstation._NAME', KittingWorkstation.hasWorkstation_LengthUnit AS 'KittingWorkstation.hasWorkstation_LengthUnit', KittingWorkstation.hasWorkstation_WeightUnit AS 'KittingWorkstation.hasWorkstation_WeightUnit', KittingWorkstation.hasWorkstation_AngleUnit AS 'KittingWorkstation.hasWorkstation_AngleUnit' FROM KittingWorkstation, SolidObject WHERE  KittingWorkstation.KittingWorkstationID = ? AND SolidObject.SolidObjectID = KittingWorkstation.KittingWorkstationID";
 	DAO::getSqlQueriesDataSingle["KitTray"]
-			= "SELECT KitTray.KitTrayID AS 'KitTray.KitTrayID', KitTray._NAME AS 'KitTray._NAME', KitTray.hasKitTray_SerialNumber AS 'KitTray.hasKitTray_SerialNumber', KitTray.hasKitTray_SkuRef AS 'KitTray.hasKitTray_SkuRef', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM KitTray, BoxyObject, SolidObject WHERE  KitTray.KitTrayID = ? AND BoxyObject.BoxyObjectID = KitTray.KitTrayID AND SolidObject.SolidObjectID = KitTray.KitTrayID";
+			= "SELECT KitTray.KitTrayID AS 'KitTray.KitTrayID', KitTray._NAME AS 'KitTray._NAME', KitTray.hasKitTray_SkuRef AS 'KitTray.hasKitTray_SkuRef', KitTray.hasKitTray_SerialNumber AS 'KitTray.hasKitTray_SerialNumber', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM KitTray, BoxyObject, SolidObject WHERE  KitTray.KitTrayID = ? AND BoxyObject.BoxyObjectID = KitTray.KitTrayID AND SolidObject.SolidObjectID = KitTray.KitTrayID";
 	DAO::getSqlQueriesDataSingle["RelativeLocationOn"]
-			= "SELECT RelativeLocationOn.RelativeLocationOnID AS 'RelativeLocationOn.RelativeLocationOnID', RelativeLocationOn._NAME AS 'RelativeLocationOn._NAME', RelativeLocationOn.hasRelativeLocationOn_Description AS 'RelativeLocationOn.hasRelativeLocationOn_Description' FROM RelativeLocationOn, RelativeLocation, PhysicalLocation, DataThing WHERE  RelativeLocationOn.RelativeLocationOnID = ? AND RelativeLocation.RelativeLocationID = RelativeLocationOn.RelativeLocationOnID AND PhysicalLocation.PhysicalLocationID = RelativeLocationOn.RelativeLocationOnID AND DataThing.DataThingID = RelativeLocationOn.RelativeLocationOnID";
+			= "SELECT RelativeLocationOn.RelativeLocationOnID AS 'RelativeLocationOn.RelativeLocationOnID', RelativeLocationOn._NAME AS 'RelativeLocationOn._NAME', RelativeLocation.hasRelativeLocation_Description AS 'RelativeLocation.hasRelativeLocation_Description' FROM RelativeLocationOn, RelativeLocation, PhysicalLocation, DataThing WHERE  RelativeLocationOn.RelativeLocationOnID = ? AND RelativeLocation.RelativeLocationID = RelativeLocationOn.RelativeLocationOnID AND PhysicalLocation.PhysicalLocationID = RelativeLocationOn.RelativeLocationOnID AND DataThing.DataThingID = RelativeLocationOn.RelativeLocationOnID";
 	DAO::getSqlQueriesDataSingle["PartsTrayWithParts"]
 			= "SELECT PartsTrayWithParts.PartsTrayWithPartsID AS 'PartsTrayWithParts.PartsTrayWithPartsID', PartsTrayWithParts._NAME AS 'PartsTrayWithParts._NAME' FROM PartsTrayWithParts, SolidObject WHERE  PartsTrayWithParts.PartsTrayWithPartsID = ? AND SolidObject.SolidObjectID = PartsTrayWithParts.PartsTrayWithPartsID";
 	DAO::getSqlQueriesDataSingle["KitDesign"]
 			= "SELECT KitDesign.KitDesignID AS 'KitDesign.KitDesignID', KitDesign._NAME AS 'KitDesign._NAME', KitDesign.hasKitDesign_Id AS 'KitDesign.hasKitDesign_Id', KitDesign.hasKitDesign_KitTraySkuRef AS 'KitDesign.hasKitDesign_KitTraySkuRef' FROM KitDesign, DataThing WHERE  KitDesign.KitDesignID = ? AND DataThing.DataThingID = KitDesign.KitDesignID";
 	DAO::getSqlQueriesDataSingle["BoxyObject"]
-			= "SELECT BoxyObject.BoxyObjectID AS 'BoxyObject.BoxyObjectID', BoxyObject._NAME AS 'BoxyObject._NAME', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM BoxyObject, SolidObject WHERE  BoxyObject.BoxyObjectID = ? AND SolidObject.SolidObjectID = BoxyObject.BoxyObjectID";
+			= "SELECT BoxyObject.BoxyObjectID AS 'BoxyObject.BoxyObjectID', BoxyObject._NAME AS 'BoxyObject._NAME', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM BoxyObject, SolidObject WHERE  BoxyObject.BoxyObjectID = ? AND SolidObject.SolidObjectID = BoxyObject.BoxyObjectID";
 	DAO::getSqlQueriesDataSingle["VacuumEffector"]
-			= "SELECT VacuumEffector.VacuumEffectorID AS 'VacuumEffector.VacuumEffectorID', VacuumEffector._NAME AS 'VacuumEffector._NAME', VacuumEffector.hasVacuumEffector_CupDiameter AS 'VacuumEffector.hasVacuumEffector_CupDiameter', VacuumEffector.hasVacuumEffector_Length AS 'VacuumEffector.hasVacuumEffector_Length', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM VacuumEffector, EndEffector, SolidObject WHERE  VacuumEffector.VacuumEffectorID = ? AND EndEffector.EndEffectorID = VacuumEffector.VacuumEffectorID AND SolidObject.SolidObjectID = VacuumEffector.VacuumEffectorID";
+			= "SELECT VacuumEffector.VacuumEffectorID AS 'VacuumEffector.VacuumEffectorID', VacuumEffector._NAME AS 'VacuumEffector._NAME', VacuumEffector.hasVacuumEffector_CupDiameter AS 'VacuumEffector.hasVacuumEffector_CupDiameter', VacuumEffector.hasVacuumEffector_Length AS 'VacuumEffector.hasVacuumEffector_Length', EndEffector.hasEndEffector_Description AS 'EndEffector.hasEndEffector_Description', EndEffector.hasEndEffector_Weight AS 'EndEffector.hasEndEffector_Weight', EndEffector.hasEffector_MaximumLoadWeight AS 'EndEffector.hasEffector_MaximumLoadWeight', EndEffector.hasEndEffector_Id AS 'EndEffector.hasEndEffector_Id' FROM VacuumEffector, EndEffector, SolidObject WHERE  VacuumEffector.VacuumEffectorID = ? AND EndEffector.EndEffectorID = VacuumEffector.VacuumEffectorID AND SolidObject.SolidObjectID = VacuumEffector.VacuumEffectorID";
 	DAO::getSqlQueriesDataSingle["Vector"]
 			= "SELECT Vector.VectorID AS 'Vector.VectorID', Vector._NAME AS 'Vector._NAME', Vector.hasVector_K AS 'Vector.hasVector_K', Vector.hasVector_J AS 'Vector.hasVector_J', Vector.hasVector_I AS 'Vector.hasVector_I' FROM Vector, DataThing WHERE  Vector.VectorID = ? AND DataThing.DataThingID = Vector.VectorID";
 	DAO::getSqlQueriesDataSingle["LargeContainer"]
-			= "SELECT LargeContainer.LargeContainerID AS 'LargeContainer.LargeContainerID', LargeContainer._NAME AS 'LargeContainer._NAME', LargeContainer.hasLargeContainer_SkuRef AS 'LargeContainer.hasLargeContainer_SkuRef', LargeContainer.hasLargeContainer_SerialNumber AS 'LargeContainer.hasLargeContainer_SerialNumber', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM LargeContainer, BoxyObject, SolidObject WHERE  LargeContainer.LargeContainerID = ? AND BoxyObject.BoxyObjectID = LargeContainer.LargeContainerID AND SolidObject.SolidObjectID = LargeContainer.LargeContainerID";
+			= "SELECT LargeContainer.LargeContainerID AS 'LargeContainer.LargeContainerID', LargeContainer._NAME AS 'LargeContainer._NAME', LargeContainer.hasLargeContainer_SkuRef AS 'LargeContainer.hasLargeContainer_SkuRef', LargeContainer.hasLargeContainer_SerialNumber AS 'LargeContainer.hasLargeContainer_SerialNumber', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM LargeContainer, BoxyObject, SolidObject WHERE  LargeContainer.LargeContainerID = ? AND BoxyObject.BoxyObjectID = LargeContainer.LargeContainerID AND SolidObject.SolidObjectID = LargeContainer.LargeContainerID";
 	temp.clear();
 	temp.push_back(
 			"SELECT hasSku_EndEffectorRefs FROM hasSku_EndEffectorRefsValue WHERE StockKeepingUnitID = ?");
@@ -126,32 +145,29 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("EndEffector/hasEndEffectorHolder_EndEffector");
 	DAO::getSqlQueriesObjectSingle["EndEffectorHolder"] = temp;
 	temp.clear();
-	temp.push_back("-PartRefAndPose/hasPartRefAndPose_Rpy");
-	temp.push_back("-Pose/hasPose_Rpy");
-	DAO::getSqlQueriesObjectSingle["RollPitchYaw"] = temp;
-	temp.clear();
-	temp.push_back("Point/hasPose_Point");
-	temp.push_back("RollPitchYaw/hasPose_Rpy");
-	DAO::getSqlQueriesObjectSingle["Pose"] = temp;
+	temp.push_back("LargeBoxWithKits/hadByKit_LargeBoxWithKits");
+	temp.push_back("KitTray/hasKit_Tray");
+	temp.push_back("-Part/hadByPart_Kit");
+	DAO::getSqlQueriesObjectSingle["Kit"] = temp;
 	temp.clear();
 	temp.push_back("-EndEffector/hadByEndEffector_Robot");
 	temp.push_back("-KittingWorkstation/hasWorkstation_Robot");
 	DAO::getSqlQueriesObjectSingle["Robot"] = temp;
 	temp.clear();
-	temp.push_back("-SolidObject/hasSolidObject_PhysicalLocation");
+	temp.push_back("-SolidObject/hasSolidObject_PrimaryLocation");
 	temp.push_back("SolidObject/hasPhysicalLocation_RefObject");
 	DAO::getSqlQueriesObjectSingle["PhysicalLocation"] = temp;
 	temp.clear();
+	temp.push_back("-Kit/hadByKit_LargeBoxWithKits");
 	temp.push_back("LargeContainer/hasLargeBoxWithKits_LargeContainer");
-	temp.push_back("-KitInstance/hadByKitInstance_LargeBoxWithKits");
 	DAO::getSqlQueriesObjectSingle["LargeBoxWithKits"] = temp;
 	temp.clear();
 	temp.push_back("KittingWorkstation/hadBySku_Workstation");
 	temp.push_back("ShapeDesign/hasSku_Shape");
 	DAO::getSqlQueriesObjectSingle["StockKeepingUnit"] = temp;
 	temp.clear();
+	temp.push_back("PhysicalLocation/hasSolidObject_PrimaryLocation");
 	temp.push_back("WorkTable/hadBySolidObject_WorkTable");
-	temp.push_back("PhysicalLocation/hasSolidObject_PhysicalLocation");
 	temp.push_back("-PhysicalLocation/hasPhysicalLocation_RefObject");
 	DAO::getSqlQueriesObjectSingle["SolidObject"] = temp;
 	temp.clear();
@@ -161,6 +177,11 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("-EndEffectorHolder/hasEndEffectorHolder_EndEffector");
 	temp.push_back("Robot/hadByEndEffector_Robot");
 	DAO::getSqlQueriesObjectSingle["EndEffector"] = temp;
+	temp.clear();
+	temp.push_back("Point/hasPoseLocation_Point");
+	temp.push_back("Vector/hasPoseLocation_ZAxis");
+	temp.push_back("Vector/hasPoseLocation_XAxis");
+	DAO::getSqlQueriesObjectSingle["PoseLocation"] = temp;
 	temp.clear();
 	temp.push_back("-SolidObject/hadBySolidObject_WorkTable");
 	temp.push_back("-KittingWorkstation/hasWorkstation_WorkTable");
@@ -174,12 +195,13 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("-KittingWorkstation/hasWorkstation_ChangingStation");
 	DAO::getSqlQueriesObjectSingle["EndEffectorChangingStation"] = temp;
 	temp.clear();
+	temp.push_back("Vector/hasPartRefAndPose_ZAxis");
 	temp.push_back("KitDesign/hadByPartRefAndPose_KitDesign");
-	temp.push_back("RollPitchYaw/hasPartRefAndPose_Rpy");
 	temp.push_back("Point/hasPartRefAndPose_Point");
+	temp.push_back("Vector/hasPartRefAndPose_XAxis");
 	DAO::getSqlQueriesObjectSingle["PartRefAndPose"] = temp;
 	temp.clear();
-	temp.push_back("-PartsTrayWithParts/hasPartsTrayWithParts_PartsTray");
+	temp.push_back("-PartsTrayWithParts/hasPartsTrayWithParts_Tray");
 	DAO::getSqlQueriesObjectSingle["PartsTray"] = temp;
 	temp.clear();
 	temp.push_back("-StockKeepingUnit/hadBySku_Workstation");
@@ -189,20 +211,20 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("Robot/hasWorkstation_Robot");
 	DAO::getSqlQueriesObjectSingle["KittingWorkstation"] = temp;
 	temp.clear();
-	temp.push_back("-KitInstance/hasKitInstance_Tray");
+	temp.push_back("-Kit/hasKit_Tray");
 	temp.push_back(
 			"LargeBoxWithEmptyKitTrays/hadByKitTray_LargeBoxWithEmptyKitTrays");
 	DAO::getSqlQueriesObjectSingle["KitTray"] = temp;
+	temp.clear();
+	temp.push_back("-Part/hadByPart_PartsTrayWithParts");
+	temp.push_back("PartsTray/hasPartsTrayWithParts_Tray");
+	DAO::getSqlQueriesObjectSingle["PartsTrayWithParts"] = temp;
 	temp.clear();
 	temp.push_back("-PartRefAndPose/hadByPartRefAndPose_KitDesign");
 	temp.push_back("KittingWorkstation/hadByKitDesign_Workstation");
 	DAO::getSqlQueriesObjectSingle["KitDesign"] = temp;
 	temp.clear();
-	temp.push_back("-Part/hadByPart_PartsTrayWithParts");
-	temp.push_back("PartsTray/hasPartsTrayWithParts_PartsTray");
-	DAO::getSqlQueriesObjectSingle["PartsTrayWithParts"] = temp;
-	temp.clear();
-	temp.push_back("KitInstance/hadByPart_KitInstance");
+	temp.push_back("Kit/hadByPart_Kit");
 	temp.push_back("PartsTrayWithParts/hadByPart_PartsTrayWithParts");
 	DAO::getSqlQueriesObjectSingle["Part"] = temp;
 	temp.clear();
@@ -210,16 +232,17 @@ void DAO::fillGetSqlQueries() {
 	temp.push_back("Point/hasBoxVolume_MinimumPoint");
 	DAO::getSqlQueriesObjectSingle["BoxVolume"] = temp;
 	temp.clear();
+	temp.push_back("-PoseLocation/hasPoseLocation_Point");
 	temp.push_back("-PartRefAndPose/hasPartRefAndPose_Point");
 	temp.push_back("-BoxVolume/hasBoxVolume_MaximumPoint");
 	temp.push_back("-BoxVolume/hasBoxVolume_MinimumPoint");
-	temp.push_back("-Pose/hasPose_Point");
 	DAO::getSqlQueriesObjectSingle["Point"] = temp;
 	temp.clear();
-	temp.push_back("-Part/hadByPart_KitInstance");
-	temp.push_back("KitTray/hasKitInstance_Tray");
-	temp.push_back("LargeBoxWithKits/hadByKitInstance_LargeBoxWithKits");
-	DAO::getSqlQueriesObjectSingle["KitInstance"] = temp;
+	temp.push_back("-PoseLocation/hasPoseLocation_ZAxis");
+	temp.push_back("-PoseLocation/hasPoseLocation_XAxis");
+	temp.push_back("-PartRefAndPose/hasPartRefAndPose_ZAxis");
+	temp.push_back("-PartRefAndPose/hasPartRefAndPose_XAxis");
+	DAO::getSqlQueriesObjectSingle["Vector"] = temp;
 	temp.clear();
 	temp.push_back("-LargeBoxWithKits/hasLargeBoxWithKits_LargeContainer");
 	temp.push_back(
@@ -231,6 +254,12 @@ void DAO::fillGetSqlQueries() {
 	temp.clear();
 	temp.push_back("BoxVolume/hasWorkstation_OtherObstacles");
 	DAO::getSqlQueriesObjectMulti["KittingWorkstation"] = temp;
+	temp.clear();
+	temp.push_back("SolidObject/hasSolidObject_SecondaryLocation");
+	DAO::getSqlQueriesObjectMulti["PhysicalLocation"] = temp;
+	temp.clear();
+	temp.push_back("PhysicalLocation/hasSolidObject_SecondaryLocation");
+	DAO::getSqlQueriesObjectMulti["SolidObject"] = temp;
 	temp.clear();
 	temp.push_back("Robot/hasRobot_WorkVolume");
 	temp.push_back("KittingWorkstation/hasWorkstation_OtherObstacles");
@@ -736,8 +765,22 @@ void DAO::set(std::map<std::string, std::string> data) {
 		query = query + "AND " + this->className.back() + "ID="
 				+ data[this->className.back() + "ID"];
 		stmt->executeUpdate(query);
+		delete (stmt);
+	}
 
-		// DATA MULTI
+	catch (sql::SQLException &e) {
+		std::cout << "# ERR: SQLException in " << __FILE__;
+		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				<< std::endl;
+		std::cout << "# ERR: " << e.what();
+		std::cout << " (MySQL error code: " << e.getErrorCode();
+		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+	}
+	// DATA MULTI
+	try {
+		sql::Statement *stmt;
+		stmt = connection->getCon()->createStatement();
+		std::string query;
 		for (int unsigned i = 0; i
 				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {
 			query = "DELETE FROM ";
@@ -793,8 +836,22 @@ void DAO::set(std::map<std::string, std::string> data) {
 
 			}
 		}
+		delete (stmt);
+	}
 
-		// OBJECT SINGLE
+	catch (sql::SQLException &e) {
+		std::cout << "# ERR: SQLException in " << __FILE__;
+		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				<< std::endl;
+		std::cout << "# ERR: " << e.what();
+		std::cout << " (MySQL error code: " << e.getErrorCode();
+		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+	}
+	// OBJECT SINGLE
+	try {
+		sql::Statement *stmt;
+		stmt = connection->getCon()->createStatement();
+		std::string query;
 		for (int unsigned i = 0; i
 				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {
 			if (DAO::getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
@@ -832,8 +889,22 @@ void DAO::set(std::map<std::string, std::string> data) {
 				stmt->execute(query);
 			}
 		}
+		delete (stmt);
+	}
 
-		// OBJECT MULTI
+	catch (sql::SQLException &e) {
+		std::cout << "# ERR: SQLException in " << __FILE__;
+		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				<< std::endl;
+		std::cout << "# ERR: " << e.what();
+		std::cout << " (MySQL error code: " << e.getErrorCode();
+		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+	}
+	// OBJECT MULTI
+	try {
+		sql::Statement *stmt;
+		stmt = connection->getCon()->createStatement();
+		std::string query;
 		for (int unsigned i = 0; i
 				< DAO::getSqlQueriesObjectMulti[className.back()].size(); i++) {
 			query = "DELETE FROM ";
@@ -844,7 +915,6 @@ void DAO::set(std::map<std::string, std::string> data) {
 											"/") + 1);
 			query = query + " WHERE " + this->className.back() + "ID="
 					+ data[this->className.back() + "ID"];
-
 			stmt->execute(query);
 			std::vector<std::string>
 					multi =
@@ -869,10 +939,9 @@ void DAO::set(std::map<std::string, std::string> data) {
 						+ data[this->className.back() + "ID"] + ", " + multi[i]
 						+ ")";
 				stmt->execute(query);
-
 			}
 		}
-
+		delete (stmt);
 	}
 
 	catch (sql::SQLException &e) {

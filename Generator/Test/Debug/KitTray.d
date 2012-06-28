@@ -1,5 +1,5 @@
 KitTray.d: ../KitTray.cpp ../KitTray.h ../BoxyObject.h ../SolidObject.h \
- ../KitInstance.h ../LargeBoxWithEmptyKitTrays.h ../DAO.h ../Connection.h
+ ../LargeBoxWithEmptyKitTrays.h ../Kit.h ../DAO.h ../Connection.h
 
 ../KitTray.h:
 
@@ -7,9 +7,9 @@ KitTray.d: ../KitTray.cpp ../KitTray.h ../BoxyObject.h ../SolidObject.h \
 
 ../SolidObject.h:
 
-../KitInstance.h:
-
 ../LargeBoxWithEmptyKitTrays.h:
+
+../Kit.h:
 
 ../DAO.h:
 

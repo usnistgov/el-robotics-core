@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "ShapeDesign.h"
 
 
@@ -49,6 +62,8 @@ copy(temp);
  void ShapeDesign::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+DataThing* temp = (DataThing*) this;
+temp->set(name);
 data["hasShapeDesign_Description"]=hasShapeDesign_Description;
 data["name"]=name;
 ss.str("");

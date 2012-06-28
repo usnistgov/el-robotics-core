@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "RelativeLocationIn.h"
 
 
@@ -9,9 +22,6 @@ this->name=name;dao = NULL;
 }RelativeLocationIn::~RelativeLocationIn(){
 delete(dao);
 }
-std::string RelativeLocationIn::gethasRelativeLocationIn_Description(){
-return hasRelativeLocationIn_Description;
-}
 std::string RelativeLocationIn::getname(){
 return name;
 }
@@ -20,9 +30,6 @@ return RelativeLocationInID;
 }
 DAO* RelativeLocationIn::getdao(){
 return dao;
-}
-void RelativeLocationIn::sethasRelativeLocationIn_Description(std::string _hasRelativeLocationIn_Description){
-this->hasRelativeLocationIn_Description= _hasRelativeLocationIn_Description;
 }
 void RelativeLocationIn::setdao(DAO* _dao){
 this->dao= _dao;
@@ -40,7 +47,8 @@ copy(temp);
  void RelativeLocationIn::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["hasRelativeLocationIn_Description"]=hasRelativeLocationIn_Description;
+RelativeLocation* temp = (RelativeLocation*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << RelativeLocationInID;
@@ -56,7 +64,6 @@ std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<RelativeLocationIn*> tmp;
-this->hasRelativeLocationIn_Description = object["RelativeLocationIn.hasRelativeLocationIn_Description"];
 this->name = object["RelativeLocationIn._NAME"];
 this->RelativeLocationInID = std::atof(object["RelativeLocationIn.RelativeLocationInID"].c_str());
 

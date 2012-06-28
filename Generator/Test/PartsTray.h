@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 
 #ifndef PARTSTRAY_H_
 #define PARTSTRAY_H_
@@ -18,7 +31,7 @@ std::string hasPartsTray_SerialNumber;
 std::string name;
 int PartsTrayID;
 DAO* dao;
-PartsTrayWithParts* hasPartsTrayWithParts_PartsTray;
+PartsTrayWithParts* hasPartsTrayWithParts_Tray;
 public:
 PartsTray(std::string name);
 ~PartsTray();
@@ -34,8 +47,8 @@ std::string getname();
 int getPartsTrayID();
 DAO* getdao();
 void setdao(DAO* _dao);
-PartsTrayWithParts* gethasPartsTrayWithParts_PartsTray();
-void sethasPartsTrayWithParts_PartsTray(PartsTrayWithParts* _hasPartsTrayWithParts_PartsTray);
+PartsTrayWithParts* gethasPartsTrayWithParts_Tray();
+void sethasPartsTrayWithParts_Tray(PartsTrayWithParts* _hasPartsTrayWithParts_Tray);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* PARTSTRAY_H_ */

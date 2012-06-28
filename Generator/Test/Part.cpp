@@ -1,25 +1,38 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "Part.h"
 
 
  #include "PartsTrayWithParts.h"
- #include "KitInstance.h"
+ #include "Kit.h"
  #include "DAO.h"
 
 Part::Part(std::string name) : SolidObject(name){
 this->name=name;dao = NULL;
-hadByPart_KitInstance = NULL;
+hadByPart_Kit = NULL;
 hadByPart_PartsTrayWithParts = NULL;
 
 }Part::~Part(){
 delete(dao);
-delete(hadByPart_KitInstance);
+delete(hadByPart_Kit);
 delete(hadByPart_PartsTrayWithParts);
-}
-std::string Part::gethasPart_SerialNumber(){
-return hasPart_SerialNumber;
 }
 std::string Part::gethasPart_SkuRef(){
 return hasPart_SkuRef;
+}
+std::string Part::gethasPart_SerialNumber(){
+return hasPart_SerialNumber;
 }
 std::string Part::getname(){
 return name;
@@ -30,23 +43,23 @@ return PartID;
 DAO* Part::getdao(){
 return dao;
 }
-KitInstance* Part::gethadByPart_KitInstance(){
-return hadByPart_KitInstance;
+Kit* Part::gethadByPart_Kit(){
+return hadByPart_Kit;
 }
 PartsTrayWithParts* Part::gethadByPart_PartsTrayWithParts(){
 return hadByPart_PartsTrayWithParts;
 }
-void Part::sethasPart_SerialNumber(std::string _hasPart_SerialNumber){
-this->hasPart_SerialNumber= _hasPart_SerialNumber;
-}
 void Part::sethasPart_SkuRef(std::string _hasPart_SkuRef){
 this->hasPart_SkuRef= _hasPart_SkuRef;
+}
+void Part::sethasPart_SerialNumber(std::string _hasPart_SerialNumber){
+this->hasPart_SerialNumber= _hasPart_SerialNumber;
 }
 void Part::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void Part::sethadByPart_KitInstance(KitInstance* _hadByPart_KitInstance){
-this->hadByPart_KitInstance= _hadByPart_KitInstance;
+void Part::sethadByPart_Kit(Kit* _hadByPart_Kit){
+this->hadByPart_Kit= _hadByPart_Kit;
 }
 void Part::sethadByPart_PartsTrayWithParts(PartsTrayWithParts* _hadByPart_PartsTrayWithParts){
 this->hadByPart_PartsTrayWithParts= _hadByPart_PartsTrayWithParts;
@@ -64,13 +77,17 @@ copy(temp);
  void Part::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["hasPart_SerialNumber"]=hasPart_SerialNumber;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 data["hasPart_SkuRef"]=hasPart_SkuRef;
+data["hasPart_SerialNumber"]=hasPart_SerialNumber;
 data["name"]=name;
 ss.str("");
 ss << PartID;
 data["PartID"]=ss.str();
-data["hadByPart_KitInstance"]=hadByPart_KitInstance->getname();
+if(hadByPart_Kit!=NULL)
+data["hadByPart_Kit"]=hadByPart_Kit->getname();
+if(hadByPart_PartsTrayWithParts!=NULL)
 data["hadByPart_PartsTrayWithParts"]=hadByPart_PartsTrayWithParts->getname();
 dao  = new DAO("Part");
 dao->set(data);
@@ -83,12 +100,12 @@ std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<Part*> tmp;
-this->hasPart_SerialNumber = object["Part.hasPart_SerialNumber"];
 this->hasPart_SkuRef = object["Part.hasPart_SkuRef"];
+this->hasPart_SerialNumber = object["Part.hasPart_SerialNumber"];
 this->name = object["Part._NAME"];
 this->PartID = std::atof(object["Part.PartID"].c_str());
-if(this->hadByPart_KitInstance== NULL && object["hadByPart_KitInstance/KitInstance._NAME"]!=""){
-this->hadByPart_KitInstance = new KitInstance(object["hadByPart_KitInstance/KitInstance._NAME"]);
+if(this->hadByPart_Kit== NULL && object["hadByPart_Kit/Kit._NAME"]!=""){
+this->hadByPart_Kit = new Kit(object["hadByPart_Kit/Kit._NAME"]);
 }
 if(this->hadByPart_PartsTrayWithParts== NULL && object["hadByPart_PartsTrayWithParts/PartsTrayWithParts._NAME"]!=""){
 this->hadByPart_PartsTrayWithParts = new PartsTrayWithParts(object["hadByPart_PartsTrayWithParts/PartsTrayWithParts._NAME"]);

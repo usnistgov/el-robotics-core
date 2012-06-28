@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 
 #ifndef ENDEFFECTOR_H_
 #define ENDEFFECTOR_H_
@@ -14,9 +27,9 @@
  class DAO;
  class EndEffectorHolder;
 class EndEffector: public SolidObject{private:
+std::string hasEndEffector_Description;
 double hasEndEffector_Weight;
 double hasEffector_MaximumLoadWeight;
-std::string hasEndEffector_Description;
 std::string hasEndEffector_Id;
 std::string name;
 int EndEffectorID;
@@ -30,12 +43,12 @@ EndEffector(std::string name);
  void get(std::string name);
 void set(int id, EndEffector* obj);
 void set(std::string name);
+std::string gethasEndEffector_Description();
+void sethasEndEffector_Description(std::string _hasEndEffector_Description);
 double gethasEndEffector_Weight();
 void sethasEndEffector_Weight(double _hasEndEffector_Weight);
 double gethasEffector_MaximumLoadWeight();
 void sethasEffector_MaximumLoadWeight(double _hasEffector_MaximumLoadWeight);
-std::string gethasEndEffector_Description();
-void sethasEndEffector_Description(std::string _hasEndEffector_Description);
 std::string gethasEndEffector_Id();
 void sethasEndEffector_Id(std::string _hasEndEffector_Id);
 std::string getname();

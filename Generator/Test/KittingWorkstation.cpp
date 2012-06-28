@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "KittingWorkstation.h"
 
 
@@ -51,11 +64,11 @@ return &hadByKitDesign_Workstation;
 EndEffectorChangingStation* KittingWorkstation::gethasWorkstation_ChangingStation(){
 return hasWorkstation_ChangingStation;
 }
-std::vector<BoxVolume*>* KittingWorkstation::gethasWorkstation_OtherObstacles(){
-return &hasWorkstation_OtherObstacles;
-}
 WorkTable* KittingWorkstation::gethasWorkstation_WorkTable(){
 return hasWorkstation_WorkTable;
+}
+std::vector<BoxVolume*>* KittingWorkstation::gethasWorkstation_OtherObstacles(){
+return &hasWorkstation_OtherObstacles;
 }
 std::vector<StockKeepingUnit*>* KittingWorkstation::gethadBySku_Workstation(){
 return &hadBySku_Workstation;
@@ -81,11 +94,11 @@ this->hadByKitDesign_Workstation= _hadByKitDesign_Workstation;
 void KittingWorkstation::sethasWorkstation_ChangingStation(EndEffectorChangingStation* _hasWorkstation_ChangingStation){
 this->hasWorkstation_ChangingStation= _hasWorkstation_ChangingStation;
 }
-void KittingWorkstation::sethasWorkstation_OtherObstacles(std::vector<BoxVolume*> _hasWorkstation_OtherObstacles){
-this->hasWorkstation_OtherObstacles= _hasWorkstation_OtherObstacles;
-}
 void KittingWorkstation::sethasWorkstation_WorkTable(WorkTable* _hasWorkstation_WorkTable){
 this->hasWorkstation_WorkTable= _hasWorkstation_WorkTable;
+}
+void KittingWorkstation::sethasWorkstation_OtherObstacles(std::vector<BoxVolume*> _hasWorkstation_OtherObstacles){
+this->hasWorkstation_OtherObstacles= _hasWorkstation_OtherObstacles;
 }
 void KittingWorkstation::sethadBySku_Workstation(std::vector<StockKeepingUnit*> _hadBySku_Workstation){
 this->hadBySku_Workstation= _hadBySku_Workstation;
@@ -106,6 +119,8 @@ copy(temp);
  void KittingWorkstation::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 data["hasWorkstation_LengthUnit"]=hasWorkstation_LengthUnit;
 data["hasWorkstation_WeightUnit"]=hasWorkstation_WeightUnit;
 data["hasWorkstation_AngleUnit"]=hasWorkstation_AngleUnit;
@@ -119,20 +134,23 @@ hadByKitDesign_Workstation[i]->get(hadByKitDesign_Workstation[i]->getname());
 ss << hadByKitDesign_Workstation[i]->getKitDesignID();
 data["hadByKitDesign_Workstation"]=data["hadByKitDesign_Workstation"]+" "+ss.str();
 }
+if(hasWorkstation_ChangingStation!=NULL)
 data["hasWorkstation_ChangingStation"]=hasWorkstation_ChangingStation->getname();
+if(hasWorkstation_WorkTable!=NULL)
+data["hasWorkstation_WorkTable"]=hasWorkstation_WorkTable->getname();
 for(unsigned int i=0;i<hasWorkstation_OtherObstacles.size();++i){
 ss.str("");
 hasWorkstation_OtherObstacles[i]->get(hasWorkstation_OtherObstacles[i]->getname());
 ss << hasWorkstation_OtherObstacles[i]->getBoxVolumeID();
 data["hasWorkstation_OtherObstacles"]=data["hasWorkstation_OtherObstacles"]+" "+ss.str();
 }
-data["hasWorkstation_WorkTable"]=hasWorkstation_WorkTable->getname();
 for(unsigned int i=0;i<hadBySku_Workstation.size();++i){
 ss.str("");
 hadBySku_Workstation[i]->get(hadBySku_Workstation[i]->getname());
 ss << hadBySku_Workstation[i]->getStockKeepingUnitID();
 data["hadBySku_Workstation"]=data["hadBySku_Workstation"]+" "+ss.str();
 }
+if(hasWorkstation_Robot!=NULL)
 data["hasWorkstation_Robot"]=hasWorkstation_Robot->getname();
 dao  = new DAO("KittingWorkstation");
 dao->set(data);
@@ -159,14 +177,14 @@ this->hadByKitDesign_Workstation.push_back(new KitDesign(temp[i]));
 if(this->hasWorkstation_ChangingStation== NULL && object["hasWorkstation_ChangingStation/EndEffectorChangingStation._NAME"]!=""){
 this->hasWorkstation_ChangingStation = new EndEffectorChangingStation(object["hasWorkstation_ChangingStation/EndEffectorChangingStation._NAME"]);
 }
+if(this->hasWorkstation_WorkTable== NULL && object["hasWorkstation_WorkTable/WorkTable._NAME"]!=""){
+this->hasWorkstation_WorkTable = new WorkTable(object["hasWorkstation_WorkTable/WorkTable._NAME"]);
+}
 if(this->hasWorkstation_OtherObstacles.empty() && object["hasWorkstation_OtherObstacles/BoxVolume._NAME"]!=""){
 temp = Explode(object["hasWorkstation_OtherObstacles/BoxVolume._NAME"], ' ' );
 for(unsigned int i=0; i<temp.size();i++){
 this->hasWorkstation_OtherObstacles.push_back(new BoxVolume(temp[i]));
 }
-}
-if(this->hasWorkstation_WorkTable== NULL && object["hasWorkstation_WorkTable/WorkTable._NAME"]!=""){
-this->hasWorkstation_WorkTable = new WorkTable(object["hasWorkstation_WorkTable/WorkTable._NAME"]);
 }
 if(this->hadBySku_Workstation.empty() && object["hadBySku_Workstation/StockKeepingUnit._NAME"]!=""){
 temp = Explode(object["hadBySku_Workstation/StockKeepingUnit._NAME"], ' ' );

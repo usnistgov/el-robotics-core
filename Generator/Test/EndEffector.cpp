@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "EndEffector.h"
 
 
@@ -15,14 +28,14 @@ delete(dao);
 delete(hadByEndEffector_Robot);
 delete(hasEndEffectorHolder_EndEffector);
 }
+std::string EndEffector::gethasEndEffector_Description(){
+return hasEndEffector_Description;
+}
 double EndEffector::gethasEndEffector_Weight(){
 return hasEndEffector_Weight;
 }
 double EndEffector::gethasEffector_MaximumLoadWeight(){
 return hasEffector_MaximumLoadWeight;
-}
-std::string EndEffector::gethasEndEffector_Description(){
-return hasEndEffector_Description;
 }
 std::string EndEffector::gethasEndEffector_Id(){
 return hasEndEffector_Id;
@@ -42,14 +55,14 @@ return hadByEndEffector_Robot;
 EndEffectorHolder* EndEffector::gethasEndEffectorHolder_EndEffector(){
 return hasEndEffectorHolder_EndEffector;
 }
+void EndEffector::sethasEndEffector_Description(std::string _hasEndEffector_Description){
+this->hasEndEffector_Description= _hasEndEffector_Description;
+}
 void EndEffector::sethasEndEffector_Weight(double _hasEndEffector_Weight){
 this->hasEndEffector_Weight= _hasEndEffector_Weight;
 }
 void EndEffector::sethasEffector_MaximumLoadWeight(double _hasEffector_MaximumLoadWeight){
 this->hasEffector_MaximumLoadWeight= _hasEffector_MaximumLoadWeight;
-}
-void EndEffector::sethasEndEffector_Description(std::string _hasEndEffector_Description){
-this->hasEndEffector_Description= _hasEndEffector_Description;
 }
 void EndEffector::sethasEndEffector_Id(std::string _hasEndEffector_Id){
 this->hasEndEffector_Id= _hasEndEffector_Id;
@@ -76,19 +89,23 @@ copy(temp);
  void EndEffector::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
+data["hasEndEffector_Description"]=hasEndEffector_Description;
 ss.str("");
 ss << hasEndEffector_Weight;
 data["hasEndEffector_Weight"]=ss.str();
 ss.str("");
 ss << hasEffector_MaximumLoadWeight;
 data["hasEffector_MaximumLoadWeight"]=ss.str();
-data["hasEndEffector_Description"]=hasEndEffector_Description;
 data["hasEndEffector_Id"]=hasEndEffector_Id;
 data["name"]=name;
 ss.str("");
 ss << EndEffectorID;
 data["EndEffectorID"]=ss.str();
+if(hadByEndEffector_Robot!=NULL)
 data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+if(hasEndEffectorHolder_EndEffector!=NULL)
 data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
 dao  = new DAO("EndEffector");
 dao->set(data);
@@ -101,9 +118,9 @@ std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<EndEffector*> tmp;
+this->hasEndEffector_Description = object["EndEffector.hasEndEffector_Description"];
 this->hasEndEffector_Weight = std::atof(object["EndEffector.hasEndEffector_Weight"].c_str());
 this->hasEffector_MaximumLoadWeight = std::atof(object["EndEffector.hasEffector_MaximumLoadWeight"].c_str());
-this->hasEndEffector_Description = object["EndEffector.hasEndEffector_Description"];
 this->hasEndEffector_Id = object["EndEffector.hasEndEffector_Id"];
 this->name = object["EndEffector._NAME"];
 this->EndEffectorID = std::atof(object["EndEffector.EndEffectorID"].c_str());

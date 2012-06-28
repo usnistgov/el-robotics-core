@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "BoxVolume.h"
 
 
@@ -69,11 +82,15 @@ copy(temp);
  void BoxVolume::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+DataThing* temp = (DataThing*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << BoxVolumeID;
 data["BoxVolumeID"]=ss.str();
+if(hasBoxVolume_MaximumPoint!=NULL)
 data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+if(hasBoxVolume_MinimumPoint!=NULL)
 data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
 for(unsigned int i=0;i<hasWorkstation_OtherObstacles.size();++i){
 ss.str("");

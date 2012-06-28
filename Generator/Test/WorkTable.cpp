@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "WorkTable.h"
 
 
@@ -52,6 +65,8 @@ copy(temp);
  void WorkTable::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+BoxyObject* temp = (BoxyObject*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << WorkTableID;
@@ -62,6 +77,7 @@ hadBySolidObject_WorkTable[i]->get(hadBySolidObject_WorkTable[i]->getname());
 ss << hadBySolidObject_WorkTable[i]->getSolidObjectID();
 data["hadBySolidObject_WorkTable"]=data["hadBySolidObject_WorkTable"]+" "+ss.str();
 }
+if(hasWorkstation_WorkTable!=NULL)
 data["hasWorkstation_WorkTable"]=hasWorkstation_WorkTable->getname();
 dao  = new DAO("WorkTable");
 dao->set(data);

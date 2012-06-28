@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "EndEffectorHolder.h"
 
 
@@ -52,11 +65,15 @@ copy(temp);
  void EndEffectorHolder::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << EndEffectorHolderID;
 data["EndEffectorHolderID"]=ss.str();
+if(hadByEndEffectorHolder_ChangingStation!=NULL)
 data["hadByEndEffectorHolder_ChangingStation"]=hadByEndEffectorHolder_ChangingStation->getname();
+if(hasEndEffectorHolder_EndEffector!=NULL)
 data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
 dao  = new DAO("EndEffectorHolder");
 dao->set(data);

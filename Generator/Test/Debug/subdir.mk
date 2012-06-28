@@ -13,6 +13,7 @@ CPP_SRCS += \
 ../EndEffectorChangingStation.cpp \
 ../EndEffectorHolder.cpp \
 ../GripperEffector.cpp \
+../Kit.cpp \
 ../KitDesign.cpp \
 ../KitInstance.cpp \
 ../KitTray.cpp \
@@ -28,6 +29,10 @@ CPP_SRCS += \
 ../PhysicalLocation.cpp \
 ../Point.cpp \
 ../Pose.cpp \
+../PoseLocation.cpp \
+../PoseLocationIn.cpp \
+../PoseLocationOn.cpp \
+../PoseOnlyLocation.cpp \
 ../RelativeLocation.cpp \
 ../RelativeLocationIn.cpp \
 ../RelativeLocationOn.cpp \
@@ -52,6 +57,7 @@ OBJS += \
 ./EndEffectorChangingStation.o \
 ./EndEffectorHolder.o \
 ./GripperEffector.o \
+./Kit.o \
 ./KitDesign.o \
 ./KitInstance.o \
 ./KitTray.o \
@@ -67,6 +73,10 @@ OBJS += \
 ./PhysicalLocation.o \
 ./Point.o \
 ./Pose.o \
+./PoseLocation.o \
+./PoseLocationIn.o \
+./PoseLocationOn.o \
+./PoseOnlyLocation.o \
 ./RelativeLocation.o \
 ./RelativeLocationIn.o \
 ./RelativeLocationOn.o \
@@ -91,6 +101,7 @@ CPP_DEPS += \
 ./EndEffectorChangingStation.d \
 ./EndEffectorHolder.d \
 ./GripperEffector.d \
+./Kit.d \
 ./KitDesign.d \
 ./KitInstance.d \
 ./KitTray.d \
@@ -106,6 +117,10 @@ CPP_DEPS += \
 ./PhysicalLocation.d \
 ./Point.d \
 ./Pose.d \
+./PoseLocation.d \
+./PoseLocationIn.d \
+./PoseLocationOn.d \
+./PoseOnlyLocation.d \
 ./RelativeLocation.d \
 ./RelativeLocationIn.d \
 ./RelativeLocationOn.d \

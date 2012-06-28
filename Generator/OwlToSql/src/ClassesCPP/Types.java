@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 package ClassesCPP;
 
 import java.util.ArrayList;
@@ -18,6 +31,28 @@ public class Types extends ClassGenerator {
 
 		String result = "";
 		String include = "";
+
+		include = include
+				+ "/*****************************************************************************\n";
+		include = include + "   DISCLAIMER:\n";
+		include = include
+				+ "   This software was produced by the National Institute of Standards\n";
+		include = include
+				+ "   and Technology (NIST), an agency of the U.S. government, and by \n";
+		include = include + "statute is\n";
+		include = include
+				+ "   not subject to copyright in the United States.  Recipients of this \n";
+		include = include + "software\n";
+		include = include
+				+ "   assume all responsibility associated with its operation, modification,\n";
+		include = include
+				+ "   maintenance, and subsequent redistribution.\n";
+		include = include + "\n";
+		include = include
+				+ "   See NIST Administration Manual 4.09.07 b and Appendix I.\n";
+		include = include
+				+ " *****************************************************************************/\n\n";
+
 		include = include + "\n#ifndef " + className.toUpperCase()
 				+ "_H_\n#define " + className.toUpperCase() + "_H_\n";
 		include = include + "#include <cstdlib>\n#include <iostream>\n";
@@ -118,6 +153,26 @@ public class Types extends ClassGenerator {
 			String className, ArrayList<String> classParentName,
 			ArrayList<String> attributes, ArrayList<String> unit) {
 		String result = "";
+		result = result
+				+ "/*****************************************************************************\n";
+		result = result + "   DISCLAIMER:\n";
+		result = result
+				+ "   This software was produced by the National Institute of Standards\n";
+		result = result
+				+ "   and Technology (NIST), an agency of the U.S. government, and by \n";
+		result = result + "statute is\n";
+		result = result
+				+ "   not subject to copyright in the United States.  Recipients of this \n";
+		result = result + "software\n";
+		result = result
+				+ "   assume all responsibility associated with its operation, modification,\n";
+		result = result + "   maintenance, and subsequent redistribution.\n";
+		result = result + "\n";
+		result = result
+				+ "   See NIST Administration Manual 4.09.07 b and Appendix I.\n";
+		result = result
+				+ " *****************************************************************************/\n\n";
+
 		String include = "#include \"" + className + ".h\"\n\n";
 		ArrayList<String> units = (ArrayList<String>) new ArrayList<String>(
 				super.unit.values());
@@ -233,11 +288,14 @@ public class Types extends ClassGenerator {
 		String globalSet = " void " + className + "::set(std::string name){\n";
 		globalSet = globalSet + "std::map<std::string, std::string> data;\n";
 		globalSet = globalSet + "std::stringstream ss;\n";
-		/*
-		 * if (classParentName != null) { for (int i = 0; i <
-		 * classParentName.size(); i++) { globalSet = globalSet + "\n " +
-		 * classParentName.get(i) + "::set(name);\n"; } }
-		 */
+
+		if (classParentName != null) {
+			for (int i = 0; i < classParentName.size(); i++) {
+				globalSet = globalSet + classParentName.get(i) + "* temp = ("
+						+ classParentName.get(i) + "*) this;\n";
+				globalSet = globalSet + "temp->set(name);\n";
+			}
+		}
 
 		for (int i = 0; i < attributes.size(); i++) {
 			// data property single
@@ -278,9 +336,11 @@ public class Types extends ClassGenerator {
 			// object property single
 			if (unit.get(i).contains("*")
 					&& !unit.get(i).contains("std::vector")
-					&& !unit.get(i).equals("DAO*"))
+					&& !unit.get(i).equals("DAO*")) {
+				globalSet = globalSet + "if(" + attributes.get(i) + "!=NULL)\n";
 				globalSet = globalSet + "data[\"" + attributes.get(i) + "\"]="
 						+ attributes.get(i) + "->getname();\n";
+			}
 			// object property multi
 			if (unit.get(i).contains("*")
 					&& unit.get(i).contains("std::vector")) {

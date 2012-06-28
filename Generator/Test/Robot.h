@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 
 #ifndef ROBOT_H_
 #define ROBOT_H_
@@ -15,9 +28,9 @@
  class KittingWorkstation;
  class DAO;
 class Robot: public SolidObject{private:
+std::string hasRobot_Description;
 std::string hasRobot_Id;
 double hasRobot_MaximumLoadWeight;
-std::string hasRobot_Description;
 std::string name;
 int RobotID;
 DAO* dao;
@@ -31,12 +44,12 @@ Robot(std::string name);
  void get(std::string name);
 void set(int id, Robot* obj);
 void set(std::string name);
+std::string gethasRobot_Description();
+void sethasRobot_Description(std::string _hasRobot_Description);
 std::string gethasRobot_Id();
 void sethasRobot_Id(std::string _hasRobot_Id);
 double gethasRobot_MaximumLoadWeight();
 void sethasRobot_MaximumLoadWeight(double _hasRobot_MaximumLoadWeight);
-std::string gethasRobot_Description();
-void sethasRobot_Description(std::string _hasRobot_Description);
 std::string getname();
 int getRobotID();
 DAO* getdao();

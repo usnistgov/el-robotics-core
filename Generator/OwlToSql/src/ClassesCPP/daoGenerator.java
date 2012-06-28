@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 package ClassesCPP;
 
 import java.io.BufferedWriter;
@@ -50,6 +63,25 @@ public class daoGenerator {
 		generateGetSQL(attributes, unit);
 		String result = "";
 		String include = "";
+		include = include
+				+ "/*****************************************************************************\n";
+		include = include + "   DISCLAIMER:\n";
+		include = include
+				+ "   This software was produced by the National Institute of Standards\n";
+		include = include
+				+ "   and Technology (NIST), an agency of the U.S. government, and by \n\n";
+		include = include + "statute is\n";
+		include = include
+				+ "   not subject to copyright in the United States.  Recipients of this \n\n";
+		include = include + "software\n";
+		include = include
+				+ "   assume all responsibility associated with its operation, modification,\n";
+		include = include + "   maintenance, and subsequent redistribution.\n";
+		include = include + "\n";
+		include = include
+				+ "   See NIST Administration Manual 4.09.07 b and Appendix I.\n";
+		include = include
+				+ " *****************************************************************************/\n\n";
 		include = include + "\n#ifndef DAO_H_\n#define DAO_H_\n";
 		include = include + "#include <cstdlib>\n#include <iostream>\n";
 		include = include + "\n#include <map>";
@@ -462,6 +494,19 @@ public class daoGenerator {
 			ArrayList<String> unit, String url, String user, String pass,
 			String nameDb) {
 		String result = "";
+		result=result+"/*****************************************************************************\n";
+		result=result+"   DISCLAIMER:\n";
+		result=result+"   This software was produced by the National Institute of Standards\n";
+		result=result+"   and Technology (NIST), an agency of the U.S. government, and by \n";
+		result=result+"statute is\n";
+		result=result+"   not subject to copyright in the United States.  Recipients of this \n";
+		result=result+"software\n";
+		result=result+"   assume all responsibility associated with its operation, modification,\n";
+		result=result+"   maintenance, and subsequent redistribution.\n";
+		result=result+"\n";
+		result=result+"   See NIST Administration Manual 4.09.07 b and Appendix I.\n";
+		result=result+" *****************************************************************************/\n\n";
+		
 		String include = "#include \"DAO.h\"\n\n";
 
 		String constructor = "DAO::DAO";
@@ -1151,178 +1196,302 @@ public class daoGenerator {
 		getGlobal = getGlobal + "\n";
 
 		String setGlobal = "void DAO::set(std::map<std::string,std::string> data){";
-		setGlobal=setGlobal+"	try {\n";
-		setGlobal=setGlobal+"		// DATA SINGLE\n";
-		setGlobal=setGlobal+"		sql::Statement *stmt;\n";
-		setGlobal=setGlobal+"		stmt = connection->getCon()->createStatement();\n";
-		setGlobal=setGlobal+"		std::string query = \"UPDATE \" + this->className.back();\n";
-		setGlobal=setGlobal+"		query = query + \" SET \";\n";
-		setGlobal=setGlobal+"		for (std::map<std::string, std::string>::iterator it = data.begin(); it\n";
-		setGlobal=setGlobal+"				!= data.end(); it++) {\n";
-		setGlobal=setGlobal+"			if (DAO::getSqlQueriesDataSingle[this->className.back()].find(\n";
-		setGlobal=setGlobal+"					this->className.back() + \".\" + it->first)\n";
-		setGlobal=setGlobal+"					!= std::string::npos) {\n";
-		setGlobal=setGlobal+"				int val;\n";
-		setGlobal=setGlobal+"				std::stringstream stream(it->second);\n";
-		setGlobal=setGlobal+"				if (!(stream >> val)) {\n";
-		setGlobal=setGlobal+"					query = query + it->first + \"='\" + it->second + \"', \";\n";
-		setGlobal=setGlobal+"				} else {\n";
-		setGlobal=setGlobal+"					query = query + it->first + \"=\" + it->second + \", \";\n";
-		setGlobal=setGlobal+"				}\n";
-		setGlobal=setGlobal+"			}\n";
-		setGlobal=setGlobal+"		}\n";
-		setGlobal=setGlobal+"		query = query.substr(0, query.length() - 2) + \" \";//to delete the last ,\n";
-		setGlobal=setGlobal+"		query = query + \"WHERE _NAME='\" + data[\"name\"] + \"' \";\n";
-		setGlobal=setGlobal+"		query = query + \"AND \" + this->className.back() + \"ID=\"\n";
-		setGlobal=setGlobal+"				+ data[this->className.back() + \"ID\"];\n";
-		setGlobal=setGlobal+"		stmt->executeUpdate(query);\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"		// DATA MULTI\n";
-		setGlobal=setGlobal+"		for (int unsigned i = 0; i\n";
-		setGlobal=setGlobal+"				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {\n";
-		setGlobal=setGlobal+"			query = \"DELETE FROM \";\n";
-		setGlobal=setGlobal+"			query\n";
-		setGlobal=setGlobal+"					= query\n";
-		setGlobal=setGlobal+"							+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"									DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"											\"FROM\") + 5);\n";
-		setGlobal=setGlobal+"			query = query.substr(0, query.length() - 2) + \" \";//to delete the last ?\n";
-		setGlobal=setGlobal+"			query = query + data[this->className.back() + \"ID\"];\n";
-		setGlobal=setGlobal+"			stmt->execute(query);\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"			std::vector<std::string>\n";
-		setGlobal=setGlobal+"					multi =\n";
-		setGlobal=setGlobal+"							Explode(\n";
-		setGlobal=setGlobal+"									data[DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"											DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"													\"SELECT\") + 7,\n";
-		setGlobal=setGlobal+"											DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"													\"FROM\")\n";
-		setGlobal=setGlobal+"													- (DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"															\"SELECT\") + 8))],\n";
-		setGlobal=setGlobal+"									' ');\n";
-		setGlobal=setGlobal+"			for (int unsigned i = 0; i < multi.size(); i++) {\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= \"INSERT INTO \"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"FROM\") + 5,\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"WHERE\")\n";
-		setGlobal=setGlobal+"												- (DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"														\"FROM\") + 5));\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= query + \"(\" + this->className.back() + \"ID\" + \", \"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"SELECT\") + 7,\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"FROM\")\n";
-		setGlobal=setGlobal+"												- (DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"														\"SELECT\") + 8)) + \")\";\n";
-		setGlobal=setGlobal+"				int val;\n";
-		setGlobal=setGlobal+"				std::stringstream stream(multi[i]);\n";
-		setGlobal=setGlobal+"				if (!(stream >> val)) {\n";
-		setGlobal=setGlobal+"					query = query + \" VALUES(\" + data[this->className.back()\n";
-		setGlobal=setGlobal+"							+ \"ID\"] + \", '\" + multi[i] + \"')\";\n";
-		setGlobal=setGlobal+"				} else {\n";
-		setGlobal=setGlobal+"					query = query + \" VALUES(\" + data[this->className.back()\n";
-		setGlobal=setGlobal+"							+ \"ID\"] + \", \" + multi[i] + \")\";\n";
-		setGlobal=setGlobal+"				}\n";
-		setGlobal=setGlobal+"				stmt->execute(query);\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"			}\n";
-		setGlobal=setGlobal+"		}\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"		// OBJECT SINGLE\n";
-		setGlobal=setGlobal+"		for (int unsigned i = 0; i\n";
-		setGlobal=setGlobal+"				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {\n";
-		setGlobal=setGlobal+"			if (DAO::getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)\n";
-		setGlobal=setGlobal+"					!= \"-\") {\n";
-		setGlobal=setGlobal+"				query = \"UPDATE \" + className.back() + \" \";\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= query + \"SET \"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\") + 1) + \"='\"\n";
-		setGlobal=setGlobal+"								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\") + 1)];\n";
-		setGlobal=setGlobal+"				query = query + \"' WHERE \" + this->className.back() + \"ID=\"\n";
-		setGlobal=setGlobal+"						+ data[this->className.back() + \"ID\"];\n";
-		setGlobal=setGlobal+"				stmt->execute(query);\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"			} else {\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= \"UPDATE \"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										1,\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\") - 1);\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= query + \" SET \"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\") + 1) + \"='\" + data[\"name\"];\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= query + \"' WHERE _NAME='\"\n";
-		setGlobal=setGlobal+"								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\") + 1)] + \"'\";\n";
-		setGlobal=setGlobal+"				stmt->execute(query);\n";
-		setGlobal=setGlobal+"			}\n";
-		setGlobal=setGlobal+"		}\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"		// OBJECT MULTI\n";
-		setGlobal=setGlobal+"		for (int unsigned i = 0; i\n";
-		setGlobal=setGlobal+"				< DAO::getSqlQueriesObjectMulti[className.back()].size(); i++) {\n";
-		setGlobal=setGlobal+"			query = \"DELETE FROM \";\n";
-		setGlobal=setGlobal+"			query\n";
-		setGlobal=setGlobal+"					= query\n";
-		setGlobal=setGlobal+"							+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"									DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"											\"/\") + 1);\n";
-		setGlobal=setGlobal+"			query = query + \" WHERE \" + this->className.back() + \"ID=\"\n";
-		setGlobal=setGlobal+"					+ data[this->className.back() + \"ID\"];\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"			stmt->execute(query);\n";
-		setGlobal=setGlobal+"			std::vector<std::string>\n";
-		setGlobal=setGlobal+"					multi =\n";
-		setGlobal=setGlobal+"							Explode(\n";
-		setGlobal=setGlobal+"									data[DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"											DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"													\"/\") + 1)], ' ');\n";
-		setGlobal=setGlobal+"			for (int unsigned i = 0; i < multi.size(); i++) {\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= \"INSERT INTO \"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\") + 1);\n";
-		setGlobal=setGlobal+"				query\n";
-		setGlobal=setGlobal+"						= query + \" (\" + this->className.back() + \"ID\" + \",\"\n";
-		setGlobal=setGlobal+"								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
-		setGlobal=setGlobal+"										0,\n";
-		setGlobal=setGlobal+"										DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
-		setGlobal=setGlobal+"												\"/\")) + \"ID)\";\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"				query = query + \" VALUES(\"\n";
-		setGlobal=setGlobal+"						+ data[this->className.back() + \"ID\"] + \", \" + multi[i]\n";
-		setGlobal=setGlobal+"						+ \")\";\n";
-		setGlobal=setGlobal+"				stmt->execute(query);\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"			}\n";
-		setGlobal=setGlobal+"		}\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"	}\n";
-		setGlobal=setGlobal+"\n";
-		setGlobal=setGlobal+"	catch (sql::SQLException &e) {\n";
-		setGlobal=setGlobal+"		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
-		setGlobal=setGlobal+"		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
-		setGlobal=setGlobal+"				<< std::endl;\n";
-		setGlobal=setGlobal+"		std::cout << \"# ERR: \" << e.what();\n";
-		setGlobal=setGlobal+"		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
-		setGlobal=setGlobal+"		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
-		setGlobal=setGlobal+"	}\n";		setGlobal = setGlobal + "		}\n";
+		setGlobal = setGlobal + "try {\n";
+		setGlobal = setGlobal + "		// DATA SINGLE\n";
+		setGlobal = setGlobal + "		sql::Statement *stmt;\n";
+		setGlobal = setGlobal
+				+ "		stmt = connection->getCon()->createStatement();\n";
+		setGlobal = setGlobal
+				+ "		std::string query = \"UPDATE \" + this->className.back();\n";
+		setGlobal = setGlobal + "		query = query + \" SET \";\n";
+		setGlobal = setGlobal
+				+ "		for (std::map<std::string, std::string>::iterator it = data.begin(); it\n";
+		setGlobal = setGlobal + "				!= data.end(); it++) {\n";
+		setGlobal = setGlobal
+				+ "			if (DAO::getSqlQueriesDataSingle[this->className.back()].find(\n";
+		setGlobal = setGlobal
+				+ "					this->className.back() + \".\" + it->first)\n";
+		setGlobal = setGlobal + "					!= std::string::npos) {\n";
+		setGlobal = setGlobal + "				int val;\n";
+		setGlobal = setGlobal + "				std::stringstream stream(it->second);\n";
+		setGlobal = setGlobal + "				if (!(stream >> val)) {\n";
+		setGlobal = setGlobal
+				+ "					query = query + it->first + \"='\" + it->second + \"', \";\n";
+		setGlobal = setGlobal + "				} else {\n";
+		setGlobal = setGlobal
+				+ "					query = query + it->first + \"=\" + it->second + \", \";\n";
+		setGlobal = setGlobal + "				}\n";
+		setGlobal = setGlobal + "			}\n";
+		setGlobal = setGlobal + "		}\n";
+		setGlobal = setGlobal
+				+ "		query = query.substr(0, query.length() - 2) + \" \";//to delete the last ,\n";
+		setGlobal = setGlobal
+				+ "		query = query + \"WHERE _NAME='\" + data[\"name\"] + \"' \";\n";
+		setGlobal = setGlobal
+				+ "		query = query + \"AND \" + this->className.back() + \"ID=\"\n";
+		setGlobal = setGlobal
+				+ "				+ data[this->className.back() + \"ID\"];\n";
+		setGlobal = setGlobal + "		stmt->executeUpdate(query);\n";
+		setGlobal = setGlobal + "		delete (stmt);\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "	catch (sql::SQLException &e) {\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		setGlobal = setGlobal + "				<< std::endl;\n";
+		setGlobal = setGlobal + "		std::cout << \"# ERR: \" << e.what();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "	// DATA MULTI\n";
+		setGlobal = setGlobal + "	try {\n";
+		setGlobal = setGlobal + "		sql::Statement *stmt;\n";
+		setGlobal = setGlobal
+				+ "		stmt = connection->getCon()->createStatement();\n";
+		setGlobal = setGlobal + "		std::string query;\n";
+		setGlobal = setGlobal + "		for (int unsigned i = 0; i\n";
+		setGlobal = setGlobal
+				+ "				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {\n";
+		setGlobal = setGlobal + "			query = \"DELETE FROM \";\n";
+		setGlobal = setGlobal + "			query\n";
+		setGlobal = setGlobal + "					= query\n";
+		setGlobal = setGlobal
+				+ "							+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "									DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "											\"FROM\") + 5);\n";
+		setGlobal = setGlobal
+				+ "			query = query.substr(0, query.length() - 2) + \" \";//to delete the last ?\n";
+		setGlobal = setGlobal
+				+ "			query = query + data[this->className.back() + \"ID\"];\n";
+		setGlobal = setGlobal + "			stmt->execute(query);\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "			std::vector<std::string>\n";
+		setGlobal = setGlobal + "					multi =\n";
+		setGlobal = setGlobal + "							Explode(\n";
+		setGlobal = setGlobal
+				+ "									data[DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "											DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "													\"SELECT\") + 7,\n";
+		setGlobal = setGlobal
+				+ "											DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "													\"FROM\")\n";
+		setGlobal = setGlobal
+				+ "													- (DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "															\"SELECT\") + 8))],\n";
+		setGlobal = setGlobal + "									' ');\n";
+		setGlobal = setGlobal
+				+ "			for (int unsigned i = 0; i < multi.size(); i++) {\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal + "						= \"INSERT INTO \"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"FROM\") + 5,\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"WHERE\")\n";
+		setGlobal = setGlobal
+				+ "												- (DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "														\"FROM\") + 5));\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal
+				+ "						= query + \"(\" + this->className.back() + \"ID\" + \", \"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"SELECT\") + 7,\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"FROM\")\n";
+		setGlobal = setGlobal
+				+ "												- (DAO::getSqlQueriesDataMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "														\"SELECT\") + 8)) + \")\";\n";
+		setGlobal = setGlobal + "				int val;\n";
+		setGlobal = setGlobal + "				std::stringstream stream(multi[i]);\n";
+		setGlobal = setGlobal + "				if (!(stream >> val)) {\n";
+		setGlobal = setGlobal
+				+ "					query = query + \" VALUES(\" + data[this->className.back()\n";
+		setGlobal = setGlobal
+				+ "							+ \"ID\"] + \", '\" + multi[i] + \"')\";\n";
+		setGlobal = setGlobal + "				} else {\n";
+		setGlobal = setGlobal
+				+ "					query = query + \" VALUES(\" + data[this->className.back()\n";
+		setGlobal = setGlobal
+				+ "							+ \"ID\"] + \", \" + multi[i] + \")\";\n";
+		setGlobal = setGlobal + "				}\n";
+		setGlobal = setGlobal + "				stmt->execute(query);\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "			}\n";
+		setGlobal = setGlobal + "		}\n";
+		setGlobal = setGlobal + "		delete (stmt);\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "	catch (sql::SQLException &e) {\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		setGlobal = setGlobal + "				<< std::endl;\n";
+		setGlobal = setGlobal + "		std::cout << \"# ERR: \" << e.what();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "	// OBJECT SINGLE\n";
+		setGlobal = setGlobal + "	try {\n";
+		setGlobal = setGlobal + "		sql::Statement *stmt;\n";
+		setGlobal = setGlobal
+				+ "		stmt = connection->getCon()->createStatement();\n";
+		setGlobal = setGlobal + "		std::string query;\n";
+		setGlobal = setGlobal + "		for (int unsigned i = 0; i\n";
+		setGlobal = setGlobal
+				+ "				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {\n";
+		setGlobal = setGlobal
+				+ "			if (DAO::getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)\n";
+		setGlobal = setGlobal + "					!= \"-\") {\n";
+		setGlobal = setGlobal
+				+ "				query = \"UPDATE \" + className.back() + \" \";\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal + "						= query + \"SET \"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"/\") + 1) + \"='\"\n";
+		setGlobal = setGlobal
+				+ "								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"/\") + 1)];\n";
+		setGlobal = setGlobal
+				+ "				query = query + \"' WHERE \" + this->className.back() + \"ID=\"\n";
+		setGlobal = setGlobal
+				+ "						+ data[this->className.back() + \"ID\"];\n";
+		setGlobal = setGlobal + "				stmt->execute(query);\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "			} else {\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal + "						= \"UPDATE \"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		setGlobal = setGlobal + "										1,\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"/\") - 1);\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal + "						= query + \" SET \"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		setGlobal = setGlobal
+				+ "												\"/\") + 1) + \"='\" + data[\"name\"];\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal + "						= query + \"' WHERE _NAME='\"\n";
+		setGlobal = setGlobal
+				+ "								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"/\") + 1)] + \"'\";\n";
+		setGlobal = setGlobal + "				stmt->execute(query);\n";
+		setGlobal = setGlobal + "			}\n";
+		setGlobal = setGlobal + "		}\n";
+		setGlobal = setGlobal + "		delete (stmt);\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "	catch (sql::SQLException &e) {\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		setGlobal = setGlobal + "				<< std::endl;\n";
+		setGlobal = setGlobal + "		std::cout << \"# ERR: \" << e.what();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "	// OBJECT MULTI\n";
+		setGlobal = setGlobal + "	try {\n";
+		setGlobal = setGlobal + "		sql::Statement *stmt;\n";
+		setGlobal = setGlobal
+				+ "		stmt = connection->getCon()->createStatement();\n";
+		setGlobal = setGlobal + "		std::string query;\n";
+		setGlobal = setGlobal + "		for (int unsigned i = 0; i\n";
+		setGlobal = setGlobal
+				+ "				< DAO::getSqlQueriesObjectMulti[className.back()].size(); i++) {\n";
+		setGlobal = setGlobal + "			query = \"DELETE FROM \";\n";
+		setGlobal = setGlobal + "			query\n";
+		setGlobal = setGlobal + "					= query\n";
+		setGlobal = setGlobal
+				+ "							+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "									DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "											\"/\") + 1);\n";
+		setGlobal = setGlobal
+				+ "			query = query + \" WHERE \" + this->className.back() + \"ID=\"\n";
+		setGlobal = setGlobal
+				+ "					+ data[this->className.back() + \"ID\"];\n";
+		setGlobal = setGlobal + "			stmt->execute(query);\n";
+		setGlobal = setGlobal + "			std::vector<std::string>\n";
+		setGlobal = setGlobal + "					multi =\n";
+		setGlobal = setGlobal + "							Explode(\n";
+		setGlobal = setGlobal
+				+ "									data[DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "											DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "													\"/\") + 1)], ' ');\n";
+		setGlobal = setGlobal
+				+ "			for (int unsigned i = 0; i < multi.size(); i++) {\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal + "						= \"INSERT INTO \"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"/\") + 1);\n";
+		setGlobal = setGlobal + "				query\n";
+		setGlobal = setGlobal
+				+ "						= query + \" (\" + this->className.back() + \"ID\" + \",\"\n";
+		setGlobal = setGlobal
+				+ "								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(\n";
+		setGlobal = setGlobal + "										0,\n";
+		setGlobal = setGlobal
+				+ "										DAO::getSqlQueriesObjectMulti[className.back()][i].find(\n";
+		setGlobal = setGlobal + "												\"/\")) + \"ID)\";\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "				query = query + \" VALUES(\"\n";
+		setGlobal = setGlobal
+				+ "						+ data[this->className.back() + \"ID\"] + \", \" + multi[i]\n";
+		setGlobal = setGlobal + "						+ \")\";\n";
+		setGlobal = setGlobal + "				stmt->execute(query);\n";
+		setGlobal = setGlobal + "			}\n";
+		setGlobal = setGlobal + "		}\n";
+		setGlobal = setGlobal + "		delete (stmt);\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "\n";
+		setGlobal = setGlobal + "	catch (sql::SQLException &e) {\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"# ERR: SQLException in \" << __FILE__;\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \"(\" << __FUNCTION__ << \") on line \" << __LINE__\n";
+		setGlobal = setGlobal + "				<< std::endl;\n";
+		setGlobal = setGlobal + "		std::cout << \"# ERR: \" << e.what();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \" (MySQL error code: \" << e.getErrorCode();\n";
+		setGlobal = setGlobal
+				+ "		std::cout << \", SQLState: \" << e.getSQLState() << \" )\" << std::endl;\n";
+		setGlobal = setGlobal + "	}\n";
+		setGlobal = setGlobal + "		}\n";
 
 		String explode = "";
 		explode = explode + "std::vector<std::string> DAO"

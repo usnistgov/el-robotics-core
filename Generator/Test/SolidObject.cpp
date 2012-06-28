@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "SolidObject.h"
 
 
@@ -7,13 +20,15 @@
 
 SolidObject::SolidObject(std::string name){
 this->name=name;dao = NULL;
+hasSolidObject_PrimaryLocation = NULL;
 hadBySolidObject_WorkTable = NULL;
-hasSolidObject_PhysicalLocation = NULL;
 
 }SolidObject::~SolidObject(){
 delete(dao);
+delete(hasSolidObject_PrimaryLocation);
 delete(hadBySolidObject_WorkTable);
-delete(hasSolidObject_PhysicalLocation);
+for(std::size_t i = 0; i < hasSolidObject_SecondaryLocation.size(); i++)
+delete(hasSolidObject_SecondaryLocation[i]);
 for(std::size_t i = 0; i < hasPhysicalLocation_RefObject.size(); i++)
 delete(hasPhysicalLocation_RefObject[i]);
 }
@@ -26,11 +41,14 @@ return SolidObjectID;
 DAO* SolidObject::getdao(){
 return dao;
 }
+std::vector<PhysicalLocation*>* SolidObject::gethasSolidObject_SecondaryLocation(){
+return &hasSolidObject_SecondaryLocation;
+}
+PhysicalLocation* SolidObject::gethasSolidObject_PrimaryLocation(){
+return hasSolidObject_PrimaryLocation;
+}
 WorkTable* SolidObject::gethadBySolidObject_WorkTable(){
 return hadBySolidObject_WorkTable;
-}
-PhysicalLocation* SolidObject::gethasSolidObject_PhysicalLocation(){
-return hasSolidObject_PhysicalLocation;
 }
 std::vector<PhysicalLocation*>* SolidObject::gethasPhysicalLocation_RefObject(){
 return &hasPhysicalLocation_RefObject;
@@ -38,11 +56,14 @@ return &hasPhysicalLocation_RefObject;
 void SolidObject::setdao(DAO* _dao){
 this->dao= _dao;
 }
+void SolidObject::sethasSolidObject_SecondaryLocation(std::vector<PhysicalLocation*> _hasSolidObject_SecondaryLocation){
+this->hasSolidObject_SecondaryLocation= _hasSolidObject_SecondaryLocation;
+}
+void SolidObject::sethasSolidObject_PrimaryLocation(PhysicalLocation* _hasSolidObject_PrimaryLocation){
+this->hasSolidObject_PrimaryLocation= _hasSolidObject_PrimaryLocation;
+}
 void SolidObject::sethadBySolidObject_WorkTable(WorkTable* _hadBySolidObject_WorkTable){
 this->hadBySolidObject_WorkTable= _hadBySolidObject_WorkTable;
-}
-void SolidObject::sethasSolidObject_PhysicalLocation(PhysicalLocation* _hasSolidObject_PhysicalLocation){
-this->hasSolidObject_PhysicalLocation= _hasSolidObject_PhysicalLocation;
 }
 void SolidObject::sethasPhysicalLocation_RefObject(std::vector<PhysicalLocation*> _hasPhysicalLocation_RefObject){
 this->hasPhysicalLocation_RefObject= _hasPhysicalLocation_RefObject;
@@ -61,8 +82,16 @@ data["name"]=name;
 ss.str("");
 ss << SolidObjectID;
 data["SolidObjectID"]=ss.str();
+for(unsigned int i=0;i<hasSolidObject_SecondaryLocation.size();++i){
+ss.str("");
+hasSolidObject_SecondaryLocation[i]->get(hasSolidObject_SecondaryLocation[i]->getname());
+ss << hasSolidObject_SecondaryLocation[i]->getPhysicalLocationID();
+data["hasSolidObject_SecondaryLocation"]=data["hasSolidObject_SecondaryLocation"]+" "+ss.str();
+}
+if(hasSolidObject_PrimaryLocation!=NULL)
+data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+if(hadBySolidObject_WorkTable!=NULL)
 data["hadBySolidObject_WorkTable"]=hadBySolidObject_WorkTable->getname();
-data["hasSolidObject_PhysicalLocation"]=hasSolidObject_PhysicalLocation->getname();
 for(unsigned int i=0;i<hasPhysicalLocation_RefObject.size();++i){
 ss.str("");
 hasPhysicalLocation_RefObject[i]->get(hasPhysicalLocation_RefObject[i]->getname());
@@ -82,11 +111,17 @@ int nbValCurrent=0;
 std::vector<SolidObject*> tmp;
 this->name = object["SolidObject._NAME"];
 this->SolidObjectID = std::atof(object["SolidObject.SolidObjectID"].c_str());
+if(this->hasSolidObject_SecondaryLocation.empty() && object["hasSolidObject_SecondaryLocation/PhysicalLocation._NAME"]!=""){
+temp = Explode(object["hasSolidObject_SecondaryLocation/PhysicalLocation._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasSolidObject_SecondaryLocation.push_back(new PhysicalLocation(temp[i]));
+}
+}
+if(this->hasSolidObject_PrimaryLocation== NULL && object["hasSolidObject_PrimaryLocation/PhysicalLocation._NAME"]!=""){
+this->hasSolidObject_PrimaryLocation = new PhysicalLocation(object["hasSolidObject_PrimaryLocation/PhysicalLocation._NAME"]);
+}
 if(this->hadBySolidObject_WorkTable== NULL && object["hadBySolidObject_WorkTable/WorkTable._NAME"]!=""){
 this->hadBySolidObject_WorkTable = new WorkTable(object["hadBySolidObject_WorkTable/WorkTable._NAME"]);
-}
-if(this->hasSolidObject_PhysicalLocation== NULL && object["hasSolidObject_PhysicalLocation/PhysicalLocation._NAME"]!=""){
-this->hasSolidObject_PhysicalLocation = new PhysicalLocation(object["hasSolidObject_PhysicalLocation/PhysicalLocation._NAME"]);
 }
 if(this->hasPhysicalLocation_RefObject.empty() && object["hasPhysicalLocation_RefObject/PhysicalLocation._NAME"]!=""){
 temp = Explode(object["hasPhysicalLocation_RefObject/PhysicalLocation._NAME"], ' ' );

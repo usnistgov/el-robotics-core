@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "EndEffectorChangingStation.h"
 
 
@@ -52,6 +65,8 @@ copy(temp);
  void EndEffectorChangingStation::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << EndEffectorChangingStationID;
@@ -62,6 +77,7 @@ hadByEndEffectorHolder_ChangingStation[i]->get(hadByEndEffectorHolder_ChangingSt
 ss << hadByEndEffectorHolder_ChangingStation[i]->getEndEffectorHolderID();
 data["hadByEndEffectorHolder_ChangingStation"]=data["hadByEndEffectorHolder_ChangingStation"]+" "+ss.str();
 }
+if(hasWorkstation_ChangingStation!=NULL)
 data["hasWorkstation_ChangingStation"]=hasWorkstation_ChangingStation->getname();
 dao  = new DAO("EndEffectorChangingStation");
 dao->set(data);

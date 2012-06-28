@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "PartsTrayWithParts.h"
 
 
@@ -7,11 +20,11 @@
 
 PartsTrayWithParts::PartsTrayWithParts(std::string name) : SolidObject(name){
 this->name=name;dao = NULL;
-hasPartsTrayWithParts_PartsTray = NULL;
+hasPartsTrayWithParts_Tray = NULL;
 
 }PartsTrayWithParts::~PartsTrayWithParts(){
 delete(dao);
-delete(hasPartsTrayWithParts_PartsTray);
+delete(hasPartsTrayWithParts_Tray);
 for(std::size_t i = 0; i < hadByPart_PartsTrayWithParts.size(); i++)
 delete(hadByPart_PartsTrayWithParts[i]);
 }
@@ -24,8 +37,8 @@ return PartsTrayWithPartsID;
 DAO* PartsTrayWithParts::getdao(){
 return dao;
 }
-PartsTray* PartsTrayWithParts::gethasPartsTrayWithParts_PartsTray(){
-return hasPartsTrayWithParts_PartsTray;
+PartsTray* PartsTrayWithParts::gethasPartsTrayWithParts_Tray(){
+return hasPartsTrayWithParts_Tray;
 }
 std::vector<Part*>* PartsTrayWithParts::gethadByPart_PartsTrayWithParts(){
 return &hadByPart_PartsTrayWithParts;
@@ -33,8 +46,8 @@ return &hadByPart_PartsTrayWithParts;
 void PartsTrayWithParts::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void PartsTrayWithParts::sethasPartsTrayWithParts_PartsTray(PartsTray* _hasPartsTrayWithParts_PartsTray){
-this->hasPartsTrayWithParts_PartsTray= _hasPartsTrayWithParts_PartsTray;
+void PartsTrayWithParts::sethasPartsTrayWithParts_Tray(PartsTray* _hasPartsTrayWithParts_Tray){
+this->hasPartsTrayWithParts_Tray= _hasPartsTrayWithParts_Tray;
 }
 void PartsTrayWithParts::sethadByPart_PartsTrayWithParts(std::vector<Part*> _hadByPart_PartsTrayWithParts){
 this->hadByPart_PartsTrayWithParts= _hadByPart_PartsTrayWithParts;
@@ -52,11 +65,14 @@ copy(temp);
  void PartsTrayWithParts::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << PartsTrayWithPartsID;
 data["PartsTrayWithPartsID"]=ss.str();
-data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname();
+if(hasPartsTrayWithParts_Tray!=NULL)
+data["hasPartsTrayWithParts_Tray"]=hasPartsTrayWithParts_Tray->getname();
 for(unsigned int i=0;i<hadByPart_PartsTrayWithParts.size();++i){
 ss.str("");
 hadByPart_PartsTrayWithParts[i]->get(hadByPart_PartsTrayWithParts[i]->getname());
@@ -76,8 +92,8 @@ int nbValCurrent=0;
 std::vector<PartsTrayWithParts*> tmp;
 this->name = object["PartsTrayWithParts._NAME"];
 this->PartsTrayWithPartsID = std::atof(object["PartsTrayWithParts.PartsTrayWithPartsID"].c_str());
-if(this->hasPartsTrayWithParts_PartsTray== NULL && object["hasPartsTrayWithParts_PartsTray/PartsTray._NAME"]!=""){
-this->hasPartsTrayWithParts_PartsTray = new PartsTray(object["hasPartsTrayWithParts_PartsTray/PartsTray._NAME"]);
+if(this->hasPartsTrayWithParts_Tray== NULL && object["hasPartsTrayWithParts_Tray/PartsTray._NAME"]!=""){
+this->hasPartsTrayWithParts_Tray = new PartsTray(object["hasPartsTrayWithParts_Tray/PartsTray._NAME"]);
 }
 if(this->hadByPart_PartsTrayWithParts.empty() && object["hadByPart_PartsTrayWithParts/Part._NAME"]!=""){
 temp = Explode(object["hadByPart_PartsTrayWithParts/Part._NAME"], ' ' );

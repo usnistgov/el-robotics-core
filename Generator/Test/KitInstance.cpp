@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "KitInstance.h"
 
 
@@ -73,6 +86,8 @@ copy(temp);
  void KitInstance::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 ss.str("");
 ss << isKitInstance_Finished;
 data["isKitInstance_Finished"]=ss.str();
@@ -87,7 +102,9 @@ hadByPart_KitInstance[i]->get(hadByPart_KitInstance[i]->getname());
 ss << hadByPart_KitInstance[i]->getPartID();
 data["hadByPart_KitInstance"]=data["hadByPart_KitInstance"]+" "+ss.str();
 }
+if(hasKitInstance_Tray!=NULL)
 data["hasKitInstance_Tray"]=hasKitInstance_Tray->getname();
+if(hadByKitInstance_LargeBoxWithKits!=NULL)
 data["hadByKitInstance_LargeBoxWithKits"]=hadByKitInstance_LargeBoxWithKits->getname();
 dao  = new DAO("KitInstance");
 dao->set(data);

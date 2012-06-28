@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 import Ontology.*;
 import ClassesCPP.*;
 
@@ -459,7 +472,8 @@ public class Gui extends JFrame {
 					.get(i),
 					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
-			typesGen.writeClass(typesGen.generateCpp(o.getOp().getObjectPropertyRanges(),o.getOp()
+			typesGen.writeClass(typesGen.generateCpp(o.getOp()
+					.getObjectPropertyRanges(), o.getOp()
 					.getObjectPropertyInverse(), o.getOp()
 					.getObjectSingleValued(), o.getClassesClean().get(i), o
 					.getSuperClassesClean().get(o.getClassesClean().get(i)),

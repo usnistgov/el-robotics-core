@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "Robot.h"
 
 
@@ -18,14 +31,14 @@ delete(hasWorkstation_Robot);
 for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++)
 delete(hasRobot_WorkVolume[i]);
 }
+std::string Robot::gethasRobot_Description(){
+return hasRobot_Description;
+}
 std::string Robot::gethasRobot_Id(){
 return hasRobot_Id;
 }
 double Robot::gethasRobot_MaximumLoadWeight(){
 return hasRobot_MaximumLoadWeight;
-}
-std::string Robot::gethasRobot_Description(){
-return hasRobot_Description;
 }
 std::string Robot::getname(){
 return name;
@@ -45,14 +58,14 @@ return &hasRobot_WorkVolume;
 KittingWorkstation* Robot::gethasWorkstation_Robot(){
 return hasWorkstation_Robot;
 }
+void Robot::sethasRobot_Description(std::string _hasRobot_Description){
+this->hasRobot_Description= _hasRobot_Description;
+}
 void Robot::sethasRobot_Id(std::string _hasRobot_Id){
 this->hasRobot_Id= _hasRobot_Id;
 }
 void Robot::sethasRobot_MaximumLoadWeight(double _hasRobot_MaximumLoadWeight){
 this->hasRobot_MaximumLoadWeight= _hasRobot_MaximumLoadWeight;
-}
-void Robot::sethasRobot_Description(std::string _hasRobot_Description){
-this->hasRobot_Description= _hasRobot_Description;
 }
 void Robot::setdao(DAO* _dao){
 this->dao= _dao;
@@ -79,15 +92,18 @@ copy(temp);
  void Robot::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
+data["hasRobot_Description"]=hasRobot_Description;
 data["hasRobot_Id"]=hasRobot_Id;
 ss.str("");
 ss << hasRobot_MaximumLoadWeight;
 data["hasRobot_MaximumLoadWeight"]=ss.str();
-data["hasRobot_Description"]=hasRobot_Description;
 data["name"]=name;
 ss.str("");
 ss << RobotID;
 data["RobotID"]=ss.str();
+if(hadByEndEffector_Robot!=NULL)
 data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
 for(unsigned int i=0;i<hasRobot_WorkVolume.size();++i){
 ss.str("");
@@ -95,6 +111,7 @@ hasRobot_WorkVolume[i]->get(hasRobot_WorkVolume[i]->getname());
 ss << hasRobot_WorkVolume[i]->getBoxVolumeID();
 data["hasRobot_WorkVolume"]=data["hasRobot_WorkVolume"]+" "+ss.str();
 }
+if(hasWorkstation_Robot!=NULL)
 data["hasWorkstation_Robot"]=hasWorkstation_Robot->getname();
 dao  = new DAO("Robot");
 dao->set(data);
@@ -107,9 +124,9 @@ std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<Robot*> tmp;
+this->hasRobot_Description = object["Robot.hasRobot_Description"];
 this->hasRobot_Id = object["Robot.hasRobot_Id"];
 this->hasRobot_MaximumLoadWeight = std::atof(object["Robot.hasRobot_MaximumLoadWeight"].c_str());
-this->hasRobot_Description = object["Robot.hasRobot_Description"];
 this->name = object["Robot._NAME"];
 this->RobotID = std::atof(object["Robot.RobotID"].c_str());
 if(this->hadByEndEffector_Robot== NULL && object["hadByEndEffector_Robot/EndEffector._NAME"]!=""){

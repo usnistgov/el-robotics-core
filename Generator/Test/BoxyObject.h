@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 
 #ifndef BOXYOBJECT_H_
 #define BOXYOBJECT_H_
@@ -12,8 +25,8 @@
 #include "SolidObject.h"
  class DAO;
 class BoxyObject: public SolidObject{private:
-double hasBox_Width;
 double hasBox_Height;
+double hasBox_Width;
 double hasBox_Length;
 std::string name;
 int BoxyObjectID;
@@ -25,10 +38,10 @@ BoxyObject(std::string name);
  void get(std::string name);
 void set(int id, BoxyObject* obj);
 void set(std::string name);
-double gethasBox_Width();
-void sethasBox_Width(double _hasBox_Width);
 double gethasBox_Height();
 void sethasBox_Height(double _hasBox_Height);
+double gethasBox_Width();
+void sethasBox_Width(double _hasBox_Width);
 double gethasBox_Length();
 void sethasBox_Length(double _hasBox_Length);
 std::string getname();

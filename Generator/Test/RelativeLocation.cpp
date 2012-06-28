@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "RelativeLocation.h"
 
 
@@ -9,6 +22,9 @@ this->name=name;dao = NULL;
 }RelativeLocation::~RelativeLocation(){
 delete(dao);
 }
+std::string RelativeLocation::gethasRelativeLocation_Description(){
+return hasRelativeLocation_Description;
+}
 std::string RelativeLocation::getname(){
 return name;
 }
@@ -17,6 +33,9 @@ return RelativeLocationID;
 }
 DAO* RelativeLocation::getdao(){
 return dao;
+}
+void RelativeLocation::sethasRelativeLocation_Description(std::string _hasRelativeLocation_Description){
+this->hasRelativeLocation_Description= _hasRelativeLocation_Description;
 }
 void RelativeLocation::setdao(DAO* _dao){
 this->dao= _dao;
@@ -34,6 +53,9 @@ copy(temp);
  void RelativeLocation::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+PhysicalLocation* temp = (PhysicalLocation*) this;
+temp->set(name);
+data["hasRelativeLocation_Description"]=hasRelativeLocation_Description;
 data["name"]=name;
 ss.str("");
 ss << RelativeLocationID;
@@ -49,6 +71,7 @@ std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<RelativeLocation*> tmp;
+this->hasRelativeLocation_Description = object["RelativeLocation.hasRelativeLocation_Description"];
 this->name = object["RelativeLocation._NAME"];
 this->RelativeLocationID = std::atof(object["RelativeLocation.RelativeLocationID"].c_str());
 

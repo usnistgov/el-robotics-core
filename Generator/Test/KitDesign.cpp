@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "KitDesign.h"
 
 
@@ -64,12 +77,15 @@ copy(temp);
  void KitDesign::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+DataThing* temp = (DataThing*) this;
+temp->set(name);
 data["hasKitDesign_Id"]=hasKitDesign_Id;
 data["hasKitDesign_KitTraySkuRef"]=hasKitDesign_KitTraySkuRef;
 data["name"]=name;
 ss.str("");
 ss << KitDesignID;
 data["KitDesignID"]=ss.str();
+if(hadByKitDesign_Workstation!=NULL)
 data["hadByKitDesign_Workstation"]=hadByKitDesign_Workstation->getname();
 for(unsigned int i=0;i<hadByPartRefAndPose_KitDesign.size();++i){
 ss.str("");

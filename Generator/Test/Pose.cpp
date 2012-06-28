@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "Pose.h"
 
 
@@ -52,11 +65,15 @@ copy(temp);
  void Pose::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+PhysicalLocation* temp = (PhysicalLocation*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << PoseID;
 data["PoseID"]=ss.str();
+if(hasPose_Point!=NULL)
 data["hasPose_Point"]=hasPose_Point->getname();
+if(hasPose_Rpy!=NULL)
 data["hasPose_Rpy"]=hasPose_Rpy->getname();
 dao  = new DAO("Pose");
 dao->set(data);

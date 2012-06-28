@@ -1,3 +1,16 @@
+/*****************************************************************************
+   DISCLAIMER:
+   This software was produced by the National Institute of Standards
+   and Technology (NIST), an agency of the U.S. government, and by 
+statute is
+   not subject to copyright in the United States.  Recipients of this 
+software
+   assume all responsibility associated with its operation, modification,
+   maintenance, and subsequent redistribution.
+
+   See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "LargeBoxWithEmptyKitTrays.h"
 
 
@@ -52,10 +65,13 @@ copy(temp);
  void LargeBoxWithEmptyKitTrays::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
+SolidObject* temp = (SolidObject*) this;
+temp->set(name);
 data["name"]=name;
 ss.str("");
 ss << LargeBoxWithEmptyKitTraysID;
 data["LargeBoxWithEmptyKitTraysID"]=ss.str();
+if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
 data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
 for(unsigned int i=0;i<hadByKitTray_LargeBoxWithEmptyKitTrays.size();++i){
 ss.str("");

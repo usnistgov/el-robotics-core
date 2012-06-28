@@ -33,11 +33,11 @@ PRIMARY KEY (KittingWorkstationID, _NAME)
 CREATE TABLE BoxyObject(
 BoxyObjectID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasBox_Width DOUBLE NOT NULL,
 hasBox_Height DOUBLE NOT NULL,
+hasBox_Width DOUBLE NOT NULL,
 hasBox_Length DOUBLE NOT NULL,
-CHECK(hasBox_Width >= 0),
 CHECK(hasBox_Height >= 0),
+CHECK(hasBox_Width >= 0),
 CHECK(hasBox_Length >= 0),
 PRIMARY KEY (BoxyObjectID, _NAME)
 );
@@ -46,6 +46,12 @@ CREATE TABLE GripperEffector(
 GripperEffectorID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (GripperEffectorID, _NAME)
+);
+
+CREATE TABLE PoseLocationIn(
+PoseLocationInID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (PoseLocationInID, _NAME)
 );
 
 CREATE TABLE PhysicalLocation(
@@ -64,23 +70,14 @@ PRIMARY KEY (ShapeDesignID, _NAME)
 CREATE TABLE RelativeLocationIn(
 RelativeLocationInID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasRelativeLocationIn_Description varchar(255) NOT NULL,
 PRIMARY KEY (RelativeLocationInID, _NAME)
-);
-
-CREATE TABLE KitInstance(
-KitInstanceID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-isKitInstance_Finished boolean NOT NULL,
-hasKitInstance_DesignRef varchar(100),
-PRIMARY KEY (KitInstanceID, _NAME)
 );
 
 CREATE TABLE Part(
 PartID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasPart_SerialNumber varchar(100),
 hasPart_SkuRef varchar(100),
+hasPart_SerialNumber varchar(100),
 PRIMARY KEY (PartID, _NAME)
 );
 
@@ -98,18 +95,12 @@ hasPartsTray_SerialNumber varchar(100),
 PRIMARY KEY (PartsTrayID, _NAME)
 );
 
-CREATE TABLE Pose(
-PoseID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (PoseID, _NAME)
-);
-
 CREATE TABLE Robot(
 RobotID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
+hasRobot_Description varchar(255) NOT NULL,
 hasRobot_Id varchar(100) NOT NULL,
 hasRobot_MaximumLoadWeight DOUBLE NOT NULL,
-hasRobot_Description varchar(255) NOT NULL,
 CHECK(hasRobot_MaximumLoadWeight >= 0),
 PRIMARY KEY (RobotID, _NAME)
 );
@@ -149,6 +140,7 @@ PRIMARY KEY (EndEffectorChangingStationID, _NAME)
 CREATE TABLE RelativeLocation(
 RelativeLocationID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
+hasRelativeLocation_Description varchar(255) NOT NULL,
 PRIMARY KEY (RelativeLocationID, _NAME)
 );
 
@@ -164,8 +156,8 @@ PRIMARY KEY (VectorID, _NAME)
 CREATE TABLE KitTray(
 KitTrayID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasKitTray_SerialNumber varchar(100),
 hasKitTray_SkuRef varchar(100),
+hasKitTray_SerialNumber varchar(100),
 PRIMARY KEY (KitTrayID, _NAME)
 );
 
@@ -179,6 +171,12 @@ CHECK(hasSku_Weight >= 0),
 PRIMARY KEY (StockKeepingUnitID, _NAME)
 );
 
+CREATE TABLE WorkTable(
+WorkTableID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (WorkTableID, _NAME)
+);
+
 CREATE TABLE Point(
 PointID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
@@ -186,12 +184,6 @@ hasPoint_X DOUBLE NOT NULL,
 hasPoint_Y DOUBLE NOT NULL,
 hasPoint_Z DOUBLE NOT NULL,
 PRIMARY KEY (PointID, _NAME)
-);
-
-CREATE TABLE WorkTable(
-WorkTableID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (WorkTableID, _NAME)
 );
 
 CREATE TABLE LargeBoxWithEmptyKitTrays(
@@ -221,9 +213,9 @@ PRIMARY KEY (DataThingID, _NAME)
 CREATE TABLE EndEffector(
 EndEffectorID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
+hasEndEffector_Description varchar(255) NOT NULL,
 hasEndEffector_Weight DOUBLE NOT NULL,
 hasEffector_MaximumLoadWeight DOUBLE NOT NULL,
-hasEndEffector_Description varchar(255) NOT NULL,
 hasEndEffector_Id varchar(100) NOT NULL,
 CHECK(hasEndEffector_Weight >= 0),
 CHECK(hasEffector_MaximumLoadWeight >= 0),
@@ -236,6 +228,20 @@ _NAME varchar(255), INDEX (_NAME),
 hasKitDesign_Id varchar(100) NOT NULL,
 hasKitDesign_KitTraySkuRef varchar(100),
 PRIMARY KEY (KitDesignID, _NAME)
+);
+
+CREATE TABLE PoseLocation(
+PoseLocationID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (PoseLocationID, _NAME)
+);
+
+CREATE TABLE Kit(
+KitID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+hasKit_DesignRef varchar(100),
+isKit_Finished boolean NOT NULL,
+PRIMARY KEY (KitID, _NAME)
 );
 
 CREATE TABLE VacuumEffector(
@@ -257,17 +263,19 @@ PRIMARY KEY (EndEffectorHolderID, _NAME)
 CREATE TABLE RelativeLocationOn(
 RelativeLocationOnID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasRelativeLocationOn_Description varchar(255) NOT NULL,
 PRIMARY KEY (RelativeLocationOnID, _NAME)
 );
 
-CREATE TABLE RollPitchYaw(
-RollPitchYawID INT NOT NULL,
+CREATE TABLE PoseOnlyLocation(
+PoseOnlyLocationID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasRpy_Roll DOUBLE NOT NULL,
-hasRpy_Pitch DOUBLE NOT NULL,
-hasRpy_Yaw DOUBLE NOT NULL,
-PRIMARY KEY (RollPitchYawID, _NAME)
+PRIMARY KEY (PoseOnlyLocationID, _NAME)
+);
+
+CREATE TABLE PoseLocationOn(
+PoseLocationOnID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (PoseLocationOnID, _NAME)
 );
 
 CREATE TABLE hasSku_EndEffectorRefsValue(
@@ -288,15 +296,21 @@ ADD hasLargeBoxWithEmptyKitTrays_LargeContainer VARCHAR(255),
 ADD CONSTRAINT fkhasLargeBoxWithEmptyKitTrays_LargeContainer
 FOREIGN KEY(hasLargeBoxWithEmptyKitTrays_LargeContainer) REFERENCES LargeContainer(_NAME);
 
+CREATE TABLE hasSolidObject_SecondaryLocation(
+SolidObjectID INT NOT NULL,
+PhysicalLocationID INT NOT NULL,
+PRIMARY KEY (SolidObjectID,PhysicalLocationID)
+);
+
+ALTER TABLE SolidObject
+ADD hasSolidObject_PrimaryLocation VARCHAR(255),
+ADD CONSTRAINT fkhasSolidObject_PrimaryLocation
+FOREIGN KEY(hasSolidObject_PrimaryLocation) REFERENCES PhysicalLocation(_NAME);
+
 ALTER TABLE SolidObject
 ADD hadBySolidObject_WorkTable VARCHAR(255),
 ADD CONSTRAINT fkhadBySolidObject_WorkTable
 FOREIGN KEY(hadBySolidObject_WorkTable) REFERENCES WorkTable(_NAME);
-
-ALTER TABLE SolidObject
-ADD hasSolidObject_PhysicalLocation VARCHAR(255),
-ADD CONSTRAINT fkhasSolidObject_PhysicalLocation
-FOREIGN KEY(hasSolidObject_PhysicalLocation) REFERENCES PhysicalLocation(_NAME);
 
 ALTER TABLE KitDesign
 ADD hadByKitDesign_Workstation VARCHAR(255),
@@ -308,16 +322,16 @@ ADD hasWorkstation_ChangingStation VARCHAR(255),
 ADD CONSTRAINT fkhasWorkstation_ChangingStation
 FOREIGN KEY(hasWorkstation_ChangingStation) REFERENCES EndEffectorChangingStation(_NAME);
 
+ALTER TABLE KittingWorkstation
+ADD hasWorkstation_WorkTable VARCHAR(255),
+ADD CONSTRAINT fkhasWorkstation_WorkTable
+FOREIGN KEY(hasWorkstation_WorkTable) REFERENCES WorkTable(_NAME);
+
 CREATE TABLE hasWorkstation_OtherObstacles(
 KittingWorkstationID INT NOT NULL,
 BoxVolumeID INT NOT NULL,
 PRIMARY KEY (KittingWorkstationID,BoxVolumeID)
 );
-
-ALTER TABLE KittingWorkstation
-ADD hasWorkstation_WorkTable VARCHAR(255),
-ADD CONSTRAINT fkhasWorkstation_WorkTable
-FOREIGN KEY(hasWorkstation_WorkTable) REFERENCES WorkTable(_NAME);
 
 ALTER TABLE StockKeepingUnit
 ADD hadBySku_Workstation VARCHAR(255),
@@ -335,19 +349,9 @@ ADD CONSTRAINT fkhasPhysicalLocation_RefObject
 FOREIGN KEY(hasPhysicalLocation_RefObject) REFERENCES SolidObject(_NAME);
 
 ALTER TABLE Part
-ADD hadByPart_KitInstance VARCHAR(255),
-ADD CONSTRAINT fkhadByPart_KitInstance
-FOREIGN KEY(hadByPart_KitInstance) REFERENCES KitInstance(_NAME);
-
-ALTER TABLE KitInstance
-ADD hasKitInstance_Tray VARCHAR(255),
-ADD CONSTRAINT fkhasKitInstance_Tray
-FOREIGN KEY(hasKitInstance_Tray) REFERENCES KitTray(_NAME);
-
-ALTER TABLE KitInstance
-ADD hadByKitInstance_LargeBoxWithKits VARCHAR(255),
-ADD CONSTRAINT fkhadByKitInstance_LargeBoxWithKits
-FOREIGN KEY(hadByKitInstance_LargeBoxWithKits) REFERENCES LargeBoxWithKits(_NAME);
+ADD hadByPart_Kit VARCHAR(255),
+ADD CONSTRAINT fkhadByPart_Kit
+FOREIGN KEY(hadByPart_Kit) REFERENCES Kit(_NAME);
 
 ALTER TABLE Part
 ADD hadByPart_PartsTrayWithParts VARCHAR(255),
@@ -355,19 +359,9 @@ ADD CONSTRAINT fkhadByPart_PartsTrayWithParts
 FOREIGN KEY(hadByPart_PartsTrayWithParts) REFERENCES PartsTrayWithParts(_NAME);
 
 ALTER TABLE PartsTrayWithParts
-ADD hasPartsTrayWithParts_PartsTray VARCHAR(255),
-ADD CONSTRAINT fkhasPartsTrayWithParts_PartsTray
-FOREIGN KEY(hasPartsTrayWithParts_PartsTray) REFERENCES PartsTray(_NAME);
-
-ALTER TABLE Pose
-ADD hasPose_Point VARCHAR(255),
-ADD CONSTRAINT fkhasPose_Point
-FOREIGN KEY(hasPose_Point) REFERENCES Point(_NAME);
-
-ALTER TABLE Pose
-ADD hasPose_Rpy VARCHAR(255),
-ADD CONSTRAINT fkhasPose_Rpy
-FOREIGN KEY(hasPose_Rpy) REFERENCES RollPitchYaw(_NAME);
+ADD hasPartsTrayWithParts_Tray VARCHAR(255),
+ADD CONSTRAINT fkhasPartsTrayWithParts_Tray
+FOREIGN KEY(hasPartsTrayWithParts_Tray) REFERENCES PartsTray(_NAME);
 
 ALTER TABLE EndEffector
 ADD hadByEndEffector_Robot VARCHAR(255),
@@ -380,25 +374,40 @@ BoxVolumeID INT NOT NULL,
 PRIMARY KEY (RobotID,BoxVolumeID)
 );
 
+ALTER TABLE Kit
+ADD hadByKit_LargeBoxWithKits VARCHAR(255),
+ADD CONSTRAINT fkhadByKit_LargeBoxWithKits
+FOREIGN KEY(hadByKit_LargeBoxWithKits) REFERENCES LargeBoxWithKits(_NAME);
+
+ALTER TABLE PartRefAndPose
+ADD hasPartRefAndPose_ZAxis VARCHAR(255),
+ADD CONSTRAINT fkhasPartRefAndPose_ZAxis
+FOREIGN KEY(hasPartRefAndPose_ZAxis) REFERENCES Vector(_NAME);
+
 ALTER TABLE PartRefAndPose
 ADD hadByPartRefAndPose_KitDesign VARCHAR(255),
 ADD CONSTRAINT fkhadByPartRefAndPose_KitDesign
 FOREIGN KEY(hadByPartRefAndPose_KitDesign) REFERENCES KitDesign(_NAME);
 
 ALTER TABLE PartRefAndPose
-ADD hasPartRefAndPose_Rpy VARCHAR(255),
-ADD CONSTRAINT fkhasPartRefAndPose_Rpy
-FOREIGN KEY(hasPartRefAndPose_Rpy) REFERENCES RollPitchYaw(_NAME);
-
-ALTER TABLE PartRefAndPose
 ADD hasPartRefAndPose_Point VARCHAR(255),
 ADD CONSTRAINT fkhasPartRefAndPose_Point
 FOREIGN KEY(hasPartRefAndPose_Point) REFERENCES Point(_NAME);
+
+ALTER TABLE PartRefAndPose
+ADD hasPartRefAndPose_XAxis VARCHAR(255),
+ADD CONSTRAINT fkhasPartRefAndPose_XAxis
+FOREIGN KEY(hasPartRefAndPose_XAxis) REFERENCES Vector(_NAME);
 
 ALTER TABLE EndEffectorHolder
 ADD hadByEndEffectorHolder_ChangingStation VARCHAR(255),
 ADD CONSTRAINT fkhadByEndEffectorHolder_ChangingStation
 FOREIGN KEY(hadByEndEffectorHolder_ChangingStation) REFERENCES EndEffectorChangingStation(_NAME);
+
+ALTER TABLE Kit
+ADD hasKit_Tray VARCHAR(255),
+ADD CONSTRAINT fkhasKit_Tray
+FOREIGN KEY(hasKit_Tray) REFERENCES KitTray(_NAME);
 
 ALTER TABLE KitTray
 ADD hadByKitTray_LargeBoxWithEmptyKitTrays VARCHAR(255),
@@ -424,3 +433,18 @@ ALTER TABLE EndEffectorHolder
 ADD hasEndEffectorHolder_EndEffector VARCHAR(255),
 ADD CONSTRAINT fkhasEndEffectorHolder_EndEffector
 FOREIGN KEY(hasEndEffectorHolder_EndEffector) REFERENCES EndEffector(_NAME);
+
+ALTER TABLE PoseLocation
+ADD hasPoseLocation_Point VARCHAR(255),
+ADD CONSTRAINT fkhasPoseLocation_Point
+FOREIGN KEY(hasPoseLocation_Point) REFERENCES Point(_NAME);
+
+ALTER TABLE PoseLocation
+ADD hasPoseLocation_ZAxis VARCHAR(255),
+ADD CONSTRAINT fkhasPoseLocation_ZAxis
+FOREIGN KEY(hasPoseLocation_ZAxis) REFERENCES Vector(_NAME);
+
+ALTER TABLE PoseLocation
+ADD hasPoseLocation_XAxis VARCHAR(255),
+ADD CONSTRAINT fkhasPoseLocation_XAxis
+FOREIGN KEY(hasPoseLocation_XAxis) REFERENCES Vector(_NAME);

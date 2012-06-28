@@ -1,5 +1,5 @@
 Part.d: ../Part.cpp ../Part.h ../SolidObject.h ../PartsTrayWithParts.h \
- ../KitInstance.h ../DAO.h ../Connection.h
+ ../Kit.h ../DAO.h ../Connection.h
 
 ../Part.h:
 
@@ -7,7 +7,7 @@ Part.d: ../Part.cpp ../Part.h ../SolidObject.h ../PartsTrayWithParts.h \
 
 ../PartsTrayWithParts.h:
 
-../KitInstance.h:
+../Kit.h:
 
 ../DAO.h:
 

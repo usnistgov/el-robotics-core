@@ -80,7 +80,7 @@
 	;TRUE iff lbwekt is not empty
 	(lbwekt-not-empty ?lbwekt - LargeBoxWithEmptyKitTrays)	
 	
-	;TRUE iff ?pt is empty		
+	;TRUE iff ?pt is not empty		
 	(part-tray-not-empty ?pt - PartsTray)
 	
 	;TRUE iff eff is capable of holding ?kt						
@@ -234,19 +234,19 @@
 			?effholder - EndEffectorHolder)
 		:precondition 
 			(and  
-			(eff-location ?eff ?effholder) 		; ?eff is in ?effholder
-			(r-no-eff ?r)				; ?r is not equipped with an end-effector
-			(effhhold-eff  ?effholder ?eff)		; ?effholder is holding ?eff
-			(not (effh-empty ?effholder)))		; ?effholder is not empty
+			(eff-location ?eff ?effholder) 		
+			(r-no-eff ?r)				
+			(effhhold-eff  ?effholder ?eff)	
+			(not (effh-empty ?effholder)))		
 		:effect 
 			(and  
-			(rhold-empty ?r)			; ?r not holding anything
-			(eff-location ?eff ?r) 			; ?eff is attached to ?r
-			(r-with-eff ?r ?eff)			; ?r is holding ?eff
-			(not (eff-location ?eff ?effholder)) 	; ?eff is not in ?effholder
-			(not (effhhold-eff ?effholder ?eff)) 	; ?effholder is not holding ?eff 
-			(not (r-no-eff ?r))			; ?r is equipped with an end-effector
-			(effh-empty ?effholder))		; ?effholder is empty
+			(rhold-empty ?r)			
+			(eff-location ?eff ?r) 			
+			(r-with-eff ?r ?eff)			
+			(not (eff-location ?eff ?effholder)) 	
+			(not (effhhold-eff ?effholder ?eff)) 	
+			(not (r-no-eff ?r))			
+			(effh-empty ?effholder))		
 	)
 	
 	(:action remove-eff

@@ -1542,7 +1542,7 @@ Declaration(NamedIndividual(:relative_location_in_1))
 ClassAssertion(:RelativeLocationIn :relative_location_in_1)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :relative_location_in_1
                         :kitting_workstation_1)
-DataPropertyAssertion(:hasRelativeLocationIn_Description
+DataPropertyAssertion(:hasRelativeLocation_Description
   :relative_location_in_1
   "The  KittingWorkstation is in kitting_workstation_1"^^xsd:string)
 
@@ -1550,7 +1550,7 @@ Declaration(NamedIndividual(:relative_location_on_1))
 ClassAssertion(:RelativeLocationOn :relative_location_on_1)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :relative_location_on_1
                         :robot_1)
-DataPropertyAssertion(:hasRelativeLocationOn_Description
+DataPropertyAssertion(:hasRelativeLocation_Description
   :relative_location_on_1
   "The tray_gripper is on robot_1"^^xsd:string)
 

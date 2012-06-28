@@ -153,9 +153,10 @@ the plan interpreter opens a plan to be executed.
 Message (string message)
 Display the given message on the operator console.
 
-MoveSmoothlyTo (Pose ** poses)
+MoveSmoothlyTo (Pose ** poses, int numPoses)
 Move the controlled point along a smooth trajectory passing near all but
 the last of the given poses, and stop at the last of the given poses.
+The numPoses gives the number of poses.
 
 MoveStraightTo (Pose * pose)
 Move the controlled point in a straight line from the current pose to

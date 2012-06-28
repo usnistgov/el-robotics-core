@@ -191,7 +191,7 @@ is no gripper there) or of the gripper (whenever a gripper is on the end of
 the arm) to the given value in current angle units.
 
 SetEndPointTolerance (double tolerance)
-Set the tolerance for the orientation of the end of the arm (whenever there
+Set the tolerance for the position of the end of the arm (whenever there
 is no gripper there) or of the tool centre point (whenever a gripper is on
 the end of the arm) to the given value in current length units.
 

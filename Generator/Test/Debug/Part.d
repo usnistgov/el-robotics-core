@@ -1,13 +1,13 @@
-Part.d: ../Part.cpp ../Part.h ../SolidObject.h ../PhysicalLocation.h \
- ../DataThing.h ../DAO.h ../Connection.h
+Part.d: ../Part.cpp ../Part.h ../SolidObject.h ../PartsTrayWithParts.h \
+ ../KitInstance.h ../DAO.h ../Connection.h
 
 ../Part.h:
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
+../PartsTrayWithParts.h:
 
-../DataThing.h:
+../KitInstance.h:
 
 ../DAO.h:
 

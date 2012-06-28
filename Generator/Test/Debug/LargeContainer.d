@@ -1,7 +1,6 @@
 LargeContainer.d: ../LargeContainer.cpp ../LargeContainer.h \
- ../BoxyObject.h ../SolidObject.h ../PhysicalLocation.h ../DataThing.h \
- ../DAO.h ../Connection.h ../LargeBoxWithKits.h \
- ../LargeBoxWithEmptyKitTrays.h
+ ../BoxyObject.h ../SolidObject.h ../LargeBoxWithKits.h \
+ ../LargeBoxWithEmptyKitTrays.h ../DAO.h ../Connection.h
 
 ../LargeContainer.h:
 
@@ -9,14 +8,10 @@ LargeContainer.d: ../LargeContainer.cpp ../LargeContainer.h \
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
+../LargeBoxWithKits.h:
 
-../DataThing.h:
+../LargeBoxWithEmptyKitTrays.h:
 
 ../DAO.h:
 
 ../Connection.h:
-
-../LargeBoxWithKits.h:
-
-../LargeBoxWithEmptyKitTrays.h:

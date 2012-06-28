@@ -53,10 +53,13 @@ copy(temp);
 std::map<std::string, std::string> data;
 std::stringstream ss;
 data["name"]=name;
-data["LargeBoxWithEmptyKitTraysID"]=LargeBoxWithEmptyKitTraysID;
+ss.str("");
+ss << LargeBoxWithEmptyKitTraysID;
+data["LargeBoxWithEmptyKitTraysID"]=ss.str();
 data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
 for(unsigned int i=0;i<hadByKitTray_LargeBoxWithEmptyKitTrays.size();++i){
-ss.flush();
+ss.str("");
+hadByKitTray_LargeBoxWithEmptyKitTrays[i]->get(hadByKitTray_LargeBoxWithEmptyKitTrays[i]->getname());
 ss << hadByKitTray_LargeBoxWithEmptyKitTrays[i]->getKitTrayID();
 data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=data["hadByKitTray_LargeBoxWithEmptyKitTrays"]+" "+ss.str();
 }

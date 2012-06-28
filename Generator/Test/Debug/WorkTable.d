@@ -1,8 +1,5 @@
 WorkTable.d: ../WorkTable.cpp ../WorkTable.h ../BoxyObject.h \
- ../SolidObject.h ../PhysicalLocation.h ../DataThing.h ../DAO.h \
- ../Connection.h ../KittingWorkstation.h ../Robot.h ../BoxVolume.h \
- ../Point.h ../PartRefAndPose.h ../RollPitchYaw.h ../Pose.h \
- ../EndEffectorChangingStation.h
+ ../SolidObject.h ../KittingWorkstation.h ../DAO.h ../Connection.h
 
 ../WorkTable.h:
 
@@ -10,26 +7,8 @@ WorkTable.d: ../WorkTable.cpp ../WorkTable.h ../BoxyObject.h \
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
-
-../DataThing.h:
+../KittingWorkstation.h:
 
 ../DAO.h:
 
 ../Connection.h:
-
-../KittingWorkstation.h:
-
-../Robot.h:
-
-../BoxVolume.h:
-
-../Point.h:
-
-../PartRefAndPose.h:
-
-../RollPitchYaw.h:
-
-../Pose.h:
-
-../EndEffectorChangingStation.h:

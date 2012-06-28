@@ -51,9 +51,12 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["hasShapeDesign_Description"]=hasShapeDesign_Description;
 data["name"]=name;
-data["ShapeDesignID"]=ShapeDesignID;
+ss.str("");
+ss << ShapeDesignID;
+data["ShapeDesignID"]=ss.str();
 for(unsigned int i=0;i<hasSku_Shape.size();++i){
-ss.flush();
+ss.str("");
+hasSku_Shape[i]->get(hasSku_Shape[i]->getname());
 ss << hasSku_Shape[i]->getStockKeepingUnitID();
 data["hasSku_Shape"]=data["hasSku_Shape"]+" "+ss.str();
 }

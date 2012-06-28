@@ -70,18 +70,28 @@ copy(temp);
  void RollPitchYaw::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["hasRpy_Roll"]=hasRpy_Roll;
-data["hasRpy_Pitch"]=hasRpy_Pitch;
-data["hasRpy_Yaw"]=hasRpy_Yaw;
+ss.str("");
+ss << hasRpy_Roll;
+data["hasRpy_Roll"]=ss.str();
+ss.str("");
+ss << hasRpy_Pitch;
+data["hasRpy_Pitch"]=ss.str();
+ss.str("");
+ss << hasRpy_Yaw;
+data["hasRpy_Yaw"]=ss.str();
 data["name"]=name;
-data["RollPitchYawID"]=RollPitchYawID;
+ss.str("");
+ss << RollPitchYawID;
+data["RollPitchYawID"]=ss.str();
 for(unsigned int i=0;i<hasPose_Rpy.size();++i){
-ss.flush();
+ss.str("");
+hasPose_Rpy[i]->get(hasPose_Rpy[i]->getname());
 ss << hasPose_Rpy[i]->getPoseID();
 data["hasPose_Rpy"]=data["hasPose_Rpy"]+" "+ss.str();
 }
 for(unsigned int i=0;i<hasPartRefAndPose_Rpy.size();++i){
-ss.flush();
+ss.str("");
+hasPartRefAndPose_Rpy[i]->get(hasPartRefAndPose_Rpy[i]->getname());
 ss << hasPartRefAndPose_Rpy[i]->getPartRefAndPoseID();
 data["hasPartRefAndPose_Rpy"]=data["hasPartRefAndPose_Rpy"]+" "+ss.str();
 }

@@ -81,9 +81,13 @@ data["hasSku_EndEffectorRefs"]=data["hasSku_EndEffectorRefs"]+" "+hasSku_EndEffe
 }
 data["hasSku_Description"]=hasSku_Description;
 data["hasSku_Id"]=hasSku_Id;
-data["hasSku_Weight"]=hasSku_Weight;
+ss.str("");
+ss << hasSku_Weight;
+data["hasSku_Weight"]=ss.str();
 data["name"]=name;
-data["StockKeepingUnitID"]=StockKeepingUnitID;
+ss.str("");
+ss << StockKeepingUnitID;
+data["StockKeepingUnitID"]=ss.str();
 data["hadBySku_Workstation"]=hadBySku_Workstation->getname();
 data["hasSku_Shape"]=hasSku_Shape->getname();
 dao  = new DAO("StockKeepingUnit");

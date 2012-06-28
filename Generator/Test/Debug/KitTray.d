@@ -1,6 +1,5 @@
 KitTray.d: ../KitTray.cpp ../KitTray.h ../BoxyObject.h ../SolidObject.h \
- ../PhysicalLocation.h ../DataThing.h ../DAO.h ../Connection.h \
- ../KitInstance.h
+ ../KitInstance.h ../LargeBoxWithEmptyKitTrays.h ../DAO.h ../Connection.h
 
 ../KitTray.h:
 
@@ -8,12 +7,10 @@ KitTray.d: ../KitTray.cpp ../KitTray.h ../BoxyObject.h ../SolidObject.h \
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
+../KitInstance.h:
 
-../DataThing.h:
+../LargeBoxWithEmptyKitTrays.h:
 
 ../DAO.h:
 
 ../Connection.h:
-
-../KitInstance.h:

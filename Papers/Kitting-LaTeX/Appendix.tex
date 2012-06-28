@@ -7,43 +7,42 @@
 (define (domain kitting-domain)
 	(:requirements :strips :typing)
 	(:types
-		endeffector
-		endeffectorchangingstation
-		endeffectorholder
-		kitinstance
-		kittray
-		largeboxwithemptykittray
-		largeboxwithkit
-		part
-		parttray
-		robot
-		worktable)
+		VacuumEffectorSingleCup
+		EndEffectorHolder
+		Kit
+		KitTray
+		LargeBoxWithEmptyKitTrays
+		LargeBoxWithKits
+		Part
+		PartsTray
+		Robot
+		WorkTable)
 
-(:predicates
+	(:predicates
 	
 	;TRUE iff eff is attached to r
-	(efflocation ?eff - endeffector ?r - robot)	
+	(eff-location ?eff - VacuumEffectorSingleCup ?r - Robot)	
 		
 	;TRUE iff eff is in effh		
-	(efflocation ?eff - endeffector ?effh - endeffectorholder)
+	(eff-location ?eff - VacuumEffectorSingleCup ?effholder - EndEffectorHolder)
 
 	;TRUE iff r is equipped with eff
-	(r-with-eff ?r - robot ?eff - endeffector)				
+	(r-with-eff ?r - Robot ?eff - VacuumEffectorSingleCup)				
 		
 	;TRUE iff r is not equipped with any end effector
-	(r-no-eff ?r - robot)						
+	(r-no-eff ?r - Robot)						
 		
 	;TRUE iff kins is on wtable		
-	(onworktable ?wtable - worktable ?kins - kitinstance)
+	(onworktable ?wtable - WorkTable ?kit - Kit)
 		
 	;TRUE iff kt is on wtable
-	(onworktable ?wtable - worktable ?kt - kittray)	
+	(onworktable ?wtable - WorkTable ?kt - KitTray)	
 	
 	;TRUE iff there is nothing on wtable
-	(worktable-empty ?wtable - worktable)
+	(worktable-empty ?wtable - WorkTable)
 	
 	;TRUE iff kins is in lbwk
-	(kinslocation ?kins - kitinstance ?lbwk - largeboxwithkit)		
+	(kit-location ?kit - Kit ?lbwk - LargeBoxWithKits)		
 
 \end{Verbatim}
 \end{mylisting}
@@ -53,49 +52,49 @@
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
 	;TRUE iff kins is on wtable
-	(kinslocation ?kins - kitinstance ?wtable - worktable)	
-
+	(kit-location ?kit - Kit ?wtable - WorkTable)	
+	
 	;TRUE iff kins is being held by r
-	(kinslocation ?kins - kitinstance ?r - robot)				
+	(kit-location ?kit - Kit ?r - Robot)				
 	
 	;TRUE iff kt is in lbwekt				
-	(ktlocation ?kt - kittray ?lbwekt - largeboxwithemptykittray)	
+	(kit-tray-location ?kt - KitTray ?lbwekt - LargeBoxWithEmptyKitTrays)	
 
 	;TRUE iff kt is being held by r
-	(ktlocation ?kt - kittray ?r - robot)					
+	(kit-tray-location ?kt - KitTray ?r - Robot)					
 		
 	;TRUE iff kt is on wtable
-	(ktlocation ?kt - kittray ?wtable - worktable)
+	(kit-tray-location ?kt - KitTray ?wtable - WorkTable)
 	
 	;TRUE iff p is in pt
-	(partlocation ?p - part ?pt - parttray)					
+	(part-location ?p - Part ?pt - PartsTray)					
 	
 	;TRUE iff p is in kins
-	(partlocation ?p - part ?kins - kitinstance)			
+	(part-location ?p - Part ?kit - Kit)			
 		
 	;TRUE iff p is being held by r
-	(partlocation ?p - part ?r - robot)	
+	(part-location ?p - Part ?r - Robot)	
 
 	;TRUE iff r is holding kt						
-	(rhold ?r - robot ?kt - kittray)	
+	(rhold ?r - Robot ?kt - KitTray)	
 
 	;TRUE iff r is holding kins					
-	(rhold ?r - robot ?kins - kitinstance)				
+	(rhold ?r - Robot ?kit - Kit)				
 		
 	;TRUE iff r is holding p
-	(rhold ?r - robot ?p - part)					
+	(rhold ?r - Robot ?p - Part)					
 			
 	;TRUE iff r is not holding anything
-	(rhold-empty ?r - robot)							
+	(rhold-empty ?r - Robot)							
 			
 	;TRUE iff lbwk is not full
-	(lbwk-non-full ?lbwk - largeboxwithkit)
+	(lbwk-not-full ?lbwk - LargeBoxWithKits)
 		
 	;TRUE iff lbwekt is not empty
-	(lbwekt-non-empty ?lbwekt - largeboxwithemptykittray)	
+	(lbwekt-not-empty ?lbwekt - LargeBoxWithEmptyKitTrays)	
 	
-	;TRUE iff pt is not empty		
-	(part-tray-non-empty ?pt - parttray)
+	;TRUE iff ?pt is not empty		
+	(part-tray-not-empty ?pt - PartsTray)
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
@@ -103,49 +102,54 @@
 \begin{minipage}{.5\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
-	;TRUE iff eff is for kt						
-	(efftype - endeffector ?kt - kittray)
-
-	;TRUE iff eff is holding kins			
-	(efftype ?eff - endeffector ?kins - kitinstance)	
+	;TRUE iff eff is capable of holding ?kt						
+	(efftype ?eff - VacuumEffectorSingleCup ?kt - KitTray)
 	
-	;TRUE iff eff is holding p
-	(efftype ?eff - endeffector ?p - part)
+	;TRUE iff eff is capable of holding ?kit
+	(efftype ?eff - VacuumEffectorSingleCup ?kit - Kit)	
+	
+	;TRUE iff eff is capable of holding ?p
+	(efftype ?eff - VacuumEffectorSingleCup ?p - Part)
 
-	;TRUE iff effh is holding eff				
-	(effhhold-eff ?effh - endeffectorholder ?eff - endeffector)			
+	;TRUE iff ?effholder is holding eff				
+	(effhhold-eff ?effholder - EndEffectorHolder ?eff - VacuumEffectorSingleCup)	
+
+	;TRUE iff ?effholder is empty (?effholder holds no end-effector)		
+	(effh-empty ?effholder - EndEffectorHolder)	
     )
-	(:action take-kt
+
+	(:action take-kit-tray
 		:parameters(
-			?r - robot
-			?kt - kittray
-			?lbwekt - largeboxwithemptykittray
-			?eff - endeffector
-			?wtable - worktable)
+			?r - Robot
+			?kt - KitTray
+			?lbwekt - LargeBoxWithEmptyKitTrays
+			?eff - VacuumEffectorSingleCup
+			?wtable - WorkTable)
 		:precondition(and
 			(rhold-empty ?r)
-			(lbwekt-non-empty ?lbwekt)
+			(lbwekt-not-empty ?lbwekt)
 			(r-with-eff ?r ?eff)
-			(ktlocation ?kt ?lbwekt)
-			(efflocation ?eff ?r)
+			(kit-tray-location ?kt ?lbwekt)
+			(eff-location ?eff ?r)
 			(worktable-empty ?wtable)
 			(efftype ?eff ?kt))
 		:effect(and
 			(rhold ?r ?kt)
-			(ktlocation ?kt ?r)
+			(kit-tray-location ?kt ?r)
 			(not (rhold-empty ?r))
-			(not (ktlocation ?kt ?lbwekt))))
+			(not (kit-tray-location ?kt ?lbwekt))))
 			
-	(:action put-kt
+	(:action put-kit-tray
 		:parameters(
-			?r - robot
-			?kt - kittray
-			?wtable - worktable)
+			?r - Robot
+			?kt - KitTray
+			?wtable - WorkTable)
 		:precondition
 			(and
-			(ktlocation ?kt ?r)
+			(kit-tray-location ?kt ?r)
 			(rhold ?r ?kt)
 			(worktable-empty ?wtable))
+		
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
@@ -154,46 +158,45 @@
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
 		:effect(and
-			(not(ktlocation ?kt ?r))
+			(not(kit-tray-location ?kt ?r))
 			(not(rhold ?r ?kt))
 			(not(worktable-empty ?wtable))
-			(ktlocation ?kt ?wtable)
+			(kit-tray-location ?kt ?wtable)
 			(rhold-empty ?r)
 			(onworktable ?wtable ?kt)))
 
-	(:action take-kins
+	(:action take-kit
 		:parameters(
-			?r - robot
-			?kins - kitinstance
-			?wtable - worktable
-			?eff - endeffector)
+			?r - Robot
+			?kit - Kit
+			?wtable - WorkTable
+			?eff - VacuumEffectorSingleCup)
 		:precondition
 			(and
-			(kinslocation ?kins ?wtable)
+			(kit-location ?kit ?wtable)
 			(rhold-empty ?r)
-			(onworktable ?wtable ?kins)
+			(onworktable ?wtable ?kit)
 			(r-with-eff ?r ?eff)
-			(efftype ?eff ?kins))
+			(efftype ?eff ?kit))
 		:effect
 			(and
-			(kinslocation ?kins ?r)
-			(rhold ?r ?kins)
+			(kit-location ?kit ?r)
+			(rhold ?r ?kit)
 			(worktable-empty ?wtable)
-			(not (kinslocation ?kins ?wtable))
+			(not (kit-location ?kit ?wtable))
 			(not (rhold-empty ?r))
-			(not(onworktable ?wtable ?kins))))
+			(not(onworktable ?wtable ?kit))))
 			
-	(:action put-kins
-		:parameters(
-			?r - robot
-			?kins - kitinstance
-			?lbwk - largeboxwithkit)
-		
+    (:action put-kit
+        :parameters(
+			?r - Robot
+			?kit - Kit
+			?lbwk - LargeBoxWithKits)
 		:precondition
 			(and
-			(kinslocation ?kins ?r)
-			(rhold ?r ?kins)
-			(lbwk-non-full ?lbwk))
+			(kit-location ?kit ?r)
+			(rhold ?r ?kit)
+			(lbwk-not-full ?lbwk))
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
@@ -203,48 +206,48 @@
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
 		:effect
 			(and
-			(kinslocation ?kins ?lbwk)
+			(kit-location ?kit ?lbwk)
 			(rhold-empty ?r)
-			(not (kinslocation ?kins ?r))
-			(not (rhold ?r ?kins))))
+			(not (kit-location ?kit ?r))
+			(not (rhold ?r ?kit))))
 			
 	(:action take-part
 		:parameters(
-			?r - robot
-			?part - part
-			?pt - parttray
-			?eff - endeffector
-			?wtable - worktable
-			?kins - kitinstance)
+			?r - Robot
+			?part - Part
+			?pt - PartsTray
+			?eff - VacuumEffectorSingleCup
+			?wtable - WorkTable
+			?kit - Kit)
 		:precondition
 			(and
-			(partlocation ?part ?pt)
-			(efflocation ?eff ?r)
+			(part-location ?part ?pt)
+			(eff-location ?eff ?r)
 			(rhold-empty ?r)
 			(r-with-eff ?r ?eff)
-			(onworktable ?wtable ?kins)
-			(kinslocation ?kins ?wtable)
+			(onworktable ?wtable ?kit)
+			(kit-location ?kit ?wtable)
 			(efftype ?eff ?part)
-			(part-tray-non-empty ?pt))
+			(part-tray-not-empty ?pt))
 		:effect
 			(and
-			(partlocation ?part ?r)
+			(part-location ?part ?r)
 			(rhold ?r ?part)
-			(not (partlocation ?part ?pt))
+			(not (part-location ?part ?pt))
 			(not (rhold-empty ?r))))
 			
 	(:action put-part
 		:parameters(
-			?r - robot
-			?p - part
-			?kins - kitinstance
-			?wtable - worktable)
+			?r - Robot
+			?p - Part
+			?kit - Kit
+			?wtable - WorkTable)
 		:precondition
 			(and
-			(partlocation ?p ?r)
+			(part-location ?p ?r)
 			(rhold ?r ?p)
-			(onworktable ?wtable ?kins)
-			(kinslocation ?kins ?wtable))
+			(onworktable ?wtable ?kit)
+			(kit-location ?kit ?wtable))
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
@@ -254,48 +257,51 @@
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
 		:effect
 			(and
-			(not (partlocation ?p ?r))
+			(not (part-location ?p ?r))
 			(not (rhold ?r ?p))
-			(partlocation ?p ?kins)
+			(part-location ?p ?kit)
 			(rhold-empty ?r)))
 			
 	(:action attach-eff
 		:parameters(
-			?r - robot
-			?eff - endeffector
-			?effh - endeffectorholder)
+			?r - Robot
+			?eff - VacuumEffectorSingleCup
+			?effholder - EndEffectorHolder)
 		:precondition
 			(and
-			(efflocation ?eff ?effh)
-			(r-no-eff ?r)
-			(effhhold-eff  ?effh ?eff)
-			)
+			(eff-location ?eff ?effholder) 		
+			(r-no-eff ?r)				
+			(effhhold-eff  ?effholder ?eff)		
+			(not (effh-empty ?effholder)))		
 		:effect
 			(and
-			(rhold-empty ?r)
-			(efflocation ?eff ?r)
-			(r-with-eff ?r ?eff)
-			(not (efflocation ?eff ?effh))
-			(not (effhhold-eff  ?effh ?eff))
-			(not (r-no-eff ?r))))
+			(rhold-empty ?r)		
+			(eff-location ?eff ?r) 		
+			(r-with-eff ?r ?eff)			
+			(not (eff-location ?eff ?effholder)) 	
+			(not (effhhold-eff ?effholder ?eff)) 	
+			(not (r-no-eff ?r))		
+			(effh-empty ?effholder)))
 	
 	(:action remove-eff
 		:parameters(
-			?r - robot
-			?eff - endeffector
-			?effh - endeffectorholder)
+			?r - Robot
+			?eff - VacuumEffectorSingleCup
+			?effholder - EndEffectorHolder)
 		:precondition
 			(and
-			(efflocation ?eff ?r)
+			(eff-location ?eff ?r)
 			(r-with-eff ?r ?eff)
-			(rhold-empty ?r))
+			(rhold-empty ?r)
+			(effh-empty ?effholder))
 		:effect
 			(and
-			(not(efflocation ?eff ?r))
+			(not(eff-location ?eff ?r))
 			(not(r-with-eff ?r ?eff))
-			(efflocation ?eff ?effh)
-			(effhhold-eff  ?effh ?eff)
-			(r-no-eff ?r)))
+			(eff-location ?eff ?effholder)
+			(effhhold-eff  ?effholder ?eff)
+			(r-no-eff ?r)
+			(not(effh-empty ?effholder))))
 
 \end{Verbatim}
 \end{mylisting}
@@ -304,18 +310,18 @@
 \begin{minipage}{.5\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]		
-	(:action create-kins
+	(:action create-kit
 		:parameters(
-			?kins - kitinstance
-			?kt - kittray
-			?wtable - worktable)
+			?kit - Kit
+			?kt - KitTray
+			?wtable - WorkTable)
 		:precondition
 			(onworktable ?wtable ?kt)
 		:effect
 			(and
 			(not(onworktable ?wtable ?kt))
-			(onworktable ?wtable ?kins)
-			(kinslocation ?kins ?wtable)))
+			(onworktable ?wtable ?kit)
+			(kit-location ?kit ?wtable)))
 )
 \end{Verbatim}
 \end{mylisting}
@@ -330,40 +336,41 @@
 (define (problem kitting-problem)
 	(:domain kitting-domain)
 	(:objects
-		r1 - robot
-		kt1 - kittray
-		kins1 - kitinstance
-		lbwekt1 - largeboxwithemptykittray
-		lbwk1 - largeboxwithkit
-		wtable - worktable
-		ptA ptB ptC - parttray
-		partA1 partA2 partB partC - part
-		eff1 eff2 - endeffector
-		effh1 effh2 - endeffectorholder)
+		robot_1 - Robot
+		kit_tray_1 - KitTray
+		kit_1 - Kit
+		empty_kit_tray_supply - LargeBoxWithEmptyKitTrays
+		finished_kit_receiver - LargeBoxWithKits
+		work_table_1 - WorkTable
+		part_a_tray part_b_tray part_c_tray - PartsTray
+		part_a_1 part_a_2 part_b_1 part_c_1 - Part
+		part_gripper tray_gripper - VacuumEffectorSingleCup
+		part_gripper_holder tray_gripper_holder - EndEffectorHolder
+	)
 
 	(:init
-		(r-no-eff r1)
-		(lbwekt-non-empty lbwekt1)
-		(lbwk-non-full lbwk1)
-		(part-tray-non-empty ptA)
-		(part-tray-non-empty ptB)
-		(part-tray-non-empty ptC)
-		(efflocation eff1 effh1)
-		(efflocation eff2 effh2)
-		(effhhold-eff effh1 eff1)
-		(effhhold-eff effh2 eff2)
-		(worktable-empty wtable)
-		(partlocation partA1 ptA)
-		(partlocation partA2 ptA)
-		(partlocation partB ptB)
-		(partlocation partC ptC)
-		(ktlocation kt1 lbwekt1)
-		(efftype eff1 partA1)
-		(efftype eff1 partA2)
-		(efftype eff1 partB)
-		(efftype eff1 partC)
-		(efftype eff2 kt1)
-		(efftype eff2 kins1))
+		(r-no-eff robot_1)			
+		(lbwekt-not-empty empty_kit_tray_supply)	
+		(lbwk-not-full finished_kit_receiver)		
+		(part-tray-not-empty part_a_tray)
+		(part-tray-not-empty part_b_tray)
+		(part-tray-not-empty part_c_tray)
+		(eff-location part_gripper part_gripper_holder)
+		(eff-location tray_gripper tray_gripper_holder)
+		(effhhold-eff part_gripper_holder part_gripper)
+		(effhhold-eff tray_gripper_holder tray_gripper)
+		(worktable-empty work_table_1)
+		(part-location part_a_1 part_a_tray)
+		(part-location part_a_2 part_a_tray)
+		(part-location part_b_1 part_b_tray)
+		(part-location part_c_1 part_c_tray)
+		(kit-tray-location kit_tray_1 empty_kit_tray_supply)
+		(efftype part_gripper part_a_1)
+		(efftype part_gripper part_a_2)
+		(efftype part_gripper part_b_1)
+		(efftype part_gripper part_c_1)
+		(efftype tray_gripper kit_tray_1)
+		(efftype tray_gripper kit_1))
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
@@ -374,14 +381,39 @@
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]			
 	(:goal
 	  (and
-	    (partlocation partA1 kins1)
-	    (partlocation partA2 kins1)
-	    (partlocation partB kins1)
-	    (partlocation partC kins1)
-	    (kinslocation kins1 lbwk1)))
+	    (part-location part_a_1 kit_1)
+	    (part-location part_a_2 kit_1)
+	    (part-location part_b_1 kit_1)
+	    (part-location part_c_1 kit_1)
+	    (kit-location kit_1 finished_kit_receiver)))
 )
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
 
+\section{The Plan}\label{appendix:C}
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]			
+(attach-eff robot_1 tray_gripper tray_gripper_holder)
+(take-kit-tray robot_1 kit_tray_1 empty_kit_tray_supply tray_gripper work_table_1)
+(put-kit-tray robot_1 kit_tray_1 work_table_1)
+(create-kit kit_1 kit_tray_1 work_table_1)
+(remove-eff robot_1 tray_gripper tray_gripper_holder)
+(attach-eff robot_1 part_gripper part_gripper_holder)
+(take-part robot_1 part_a_1 part_a_tray part_gripper work_table_1 kit_1)
+(put-part robot_1 part_a_1 kit_1 work_table_1)
+(take-part robot_1 part_a_2 part_a_tray part_gripper work_table_1 kit_1)
+(put-part robot_1 part_a_2 kit_1 work_table_1)
+(take-part robot_1 part_b_1 part_b_tray part_gripper work_table_1 kit_1)
+(put-part robot_1 part_b_1 kit_1 work_table_1)
+(take-part robot_1 part_c_1 part_c_tray part_gripper work_table_1 kit_1)
+(put-part robot_1 part_c_1 kit_1 work_table_1)
+(remove-eff robot_1 part_gripper part_gripper_holder)
+(attach-eff robot_1 tray_gripper tray_gripper_holder)
+(take-kit robot_1 kit_1 work_table_1 tray_gripper)
+(put-kit robot_1 kit_1 finished_kit_receiver)
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
 \end{appendices} 

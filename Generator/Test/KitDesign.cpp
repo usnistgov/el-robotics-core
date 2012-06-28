@@ -67,10 +67,13 @@ std::stringstream ss;
 data["hasKitDesign_Id"]=hasKitDesign_Id;
 data["hasKitDesign_KitTraySkuRef"]=hasKitDesign_KitTraySkuRef;
 data["name"]=name;
-data["KitDesignID"]=KitDesignID;
+ss.str("");
+ss << KitDesignID;
+data["KitDesignID"]=ss.str();
 data["hadByKitDesign_Workstation"]=hadByKitDesign_Workstation->getname();
 for(unsigned int i=0;i<hadByPartRefAndPose_KitDesign.size();++i){
-ss.flush();
+ss.str("");
+hadByPartRefAndPose_KitDesign[i]->get(hadByPartRefAndPose_KitDesign[i]->getname());
 ss << hadByPartRefAndPose_KitDesign[i]->getPartRefAndPoseID();
 data["hadByPartRefAndPose_KitDesign"]=data["hadByPartRefAndPose_KitDesign"]+" "+ss.str();
 }

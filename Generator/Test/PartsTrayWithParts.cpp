@@ -53,10 +53,13 @@ copy(temp);
 std::map<std::string, std::string> data;
 std::stringstream ss;
 data["name"]=name;
-data["PartsTrayWithPartsID"]=PartsTrayWithPartsID;
+ss.str("");
+ss << PartsTrayWithPartsID;
+data["PartsTrayWithPartsID"]=ss.str();
 data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname();
 for(unsigned int i=0;i<hadByPart_PartsTrayWithParts.size();++i){
-ss.flush();
+ss.str("");
+hadByPart_PartsTrayWithParts[i]->get(hadByPart_PartsTrayWithParts[i]->getname());
 ss << hadByPart_PartsTrayWithParts[i]->getPartID();
 data["hadByPart_PartsTrayWithParts"]=data["hadByPart_PartsTrayWithParts"]+" "+ss.str();
 }

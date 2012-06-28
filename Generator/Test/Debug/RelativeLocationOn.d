@@ -1,6 +1,6 @@
 RelativeLocationOn.d: ../RelativeLocationOn.cpp ../RelativeLocationOn.h \
  ../RelativeLocation.h ../PhysicalLocation.h ../DataThing.h ../DAO.h \
- ../Connection.h ../SolidObject.h
+ ../Connection.h
 
 ../RelativeLocationOn.h:
 
@@ -13,5 +13,3 @@ RelativeLocationOn.d: ../RelativeLocationOn.cpp ../RelativeLocationOn.h \
 ../DAO.h:
 
 ../Connection.h:
-
-../SolidObject.h:

@@ -53,9 +53,12 @@ copy(temp);
 std::map<std::string, std::string> data;
 std::stringstream ss;
 data["name"]=name;
-data["EndEffectorChangingStationID"]=EndEffectorChangingStationID;
+ss.str("");
+ss << EndEffectorChangingStationID;
+data["EndEffectorChangingStationID"]=ss.str();
 for(unsigned int i=0;i<hadByEndEffectorHolder_ChangingStation.size();++i){
-ss.flush();
+ss.str("");
+hadByEndEffectorHolder_ChangingStation[i]->get(hadByEndEffectorHolder_ChangingStation[i]->getname());
 ss << hadByEndEffectorHolder_ChangingStation[i]->getEndEffectorHolderID();
 data["hadByEndEffectorHolder_ChangingStation"]=data["hadByEndEffectorHolder_ChangingStation"]+" "+ss.str();
 }

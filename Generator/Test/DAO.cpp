@@ -4,33 +4,34 @@
 #include "BoxVolume.h"
 #include "Point.h"
 #include "EndEffectorChangingStation.h"
+#include "StockKeepingUnit.h"
 
 int main() {
 	Robot * r = new Robot("Robot1");
 	r->get("Robot1");
+	r->set(r->getname());
+	/*r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
+	 std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
+	 << std::endl;
 
-	r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
-	std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
-			<< std::endl;
+	 r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->get(
+	 r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getname());
+	 std::cout
+	 << r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getEndEffectorChangingStationID()
+	 << std::endl;
+	 std::cout << r->getname() << std::endl;
 
-	r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->get(
-			r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getname());
-	std::cout
-			<< r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getEndEffectorChangingStationID()
-			<< std::endl;
-	std::cout << r->getname() << std::endl;
+	 r->gethasRobot_WorkVolume()->back()->get(
+	 r->gethasRobot_WorkVolume()->back()->getname());
+	 std::cout << r->gethasRobot_WorkVolume()->back()->getBoxVolumeID()
+	 << std::endl;
 
-	r->gethasRobot_WorkVolume()->back()->get(
-			r->gethasRobot_WorkVolume()->back()->getname());
-	std::cout << r->gethasRobot_WorkVolume()->back()->getBoxVolumeID()
-			<< std::endl;
-
-	r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->get(
-			r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getname());
-	std::cout
-			<< r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getRobotID()
-			<< std::endl;
-
+	 r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->get(
+	 r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getname());
+	 std::cout
+	 << r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getRobotID()
+	 << std::endl;
+	 */
 	return 0;
 }
 DAO::DAO(std::string name) {
@@ -430,14 +431,14 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 				delete (prep_stmt);
 				delete (stmt);
 			} catch (sql::SQLException &e) {
-				/*		std::cout << "# ERR: SQLException in " << __FILE__;
-				 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
-				 << std::endl;
-				 std::cout << "# ERR: " << e.what();
-				 std::cout << " (MySQL error code: " << e.getErrorCode();
-				 std::cout << ", SQLState: " << e.getSQLState() << " )"
-				 << std::endl;
-				 */}
+				std::cout << "# ERR: SQLException in " << __FILE__;
+				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+						<< std::endl;
+				std::cout << "# ERR: " << e.what();
+				std::cout << " (MySQL error code: " << e.getErrorCode();
+				std::cout << ", SQLState: " << e.getSQLState() << " )"
+						<< std::endl;
+			}
 		}
 
 		//get the Object multi
@@ -675,36 +676,36 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 							delete (prep_stmt);
 							delete (stmt);
 						} catch (sql::SQLException &e) {
-							/*	std::cout << "# ERR: SQLException in " << __FILE__;
-							 std::cout << "(" << __FUNCTION__ << ") on line "
-							 << __LINE__ << std::endl;
-							 std::cout << "# ERR: " << e.what();
-							 std::cout << " (MySQL error code: "
-							 << e.getErrorCode();
-							 std::cout << ", SQLState: " << e.getSQLState()
-							 << " )" << std::endl;
-							 */}
+							std::cout << "# ERR: SQLException in " << __FILE__;
+							std::cout << "(" << __FUNCTION__ << ") on line "
+									<< __LINE__ << std::endl;
+							std::cout << "# ERR: " << e.what();
+							std::cout << " (MySQL error code: "
+									<< e.getErrorCode();
+							std::cout << ", SQLState: " << e.getSQLState()
+									<< " )" << std::endl;
+						}
 					}
 				} while (restempmulti->isLast());
 				delete (restempmulti);
 			} catch (sql::SQLException &e) {
-				/*	std::cout << "# ERR: SQLException in " << __FILE__;
-				 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
-				 << std::endl;
-				 std::cout << "# ERR: " << e.what();
-				 std::cout << " (MySQL error code: " << e.getErrorCode();
-				 std::cout << ", SQLState: " << e.getSQLState() << " )"
-				 << std::endl;
-				 */}
+				std::cout << "# ERR: SQLException in " << __FILE__;
+				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+						<< std::endl;
+				std::cout << "# ERR: " << e.what();
+				std::cout << " (MySQL error code: " << e.getErrorCode();
+				std::cout << ", SQLState: " << e.getSQLState() << " )"
+						<< std::endl;
+			}
 		}
 	} catch (sql::SQLException &e) {
-		/*	std::cout << "# ERR: SQLException in " << __FILE__;
-		 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
-		 << std::endl;
-		 std::cout << "# ERR: " << e.what();
-		 std::cout << " (MySQL error code: " << e.getErrorCode();
-		 std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		 */}
+		std::cout << "# ERR: SQLException in " << __FILE__;
+		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				<< std::endl;
+		std::cout << "# ERR: " << e.what();
+		std::cout << " (MySQL error code: " << e.getErrorCode();
+		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+	}
 	className.pop_back();
 	return map;
 }
@@ -714,7 +715,8 @@ void DAO::set(std::map<std::string, std::string> data) {
 		// DATA SINGLE
 		sql::Statement *stmt;
 		stmt = connection->getCon()->createStatement();
-		std::string query = "UPDATE " + this->className.back() + " ";
+		std::string query = "UPDATE " + this->className.back();
+		query = query + " SET ";
 		for (std::map<std::string, std::string>::iterator it = data.begin(); it
 				!= data.end(); it++) {
 			if (DAO::getSqlQueriesDataSingle[this->className.back()].find(
@@ -722,18 +724,15 @@ void DAO::set(std::map<std::string, std::string> data) {
 					!= std::string::npos) {
 				int val;
 				std::stringstream stream(it->second);
-				stream >> val;
-				if (stream.fail()) {
-					query = query + "SET " + it->first + "='" + it->second
-							+ "',";
+				if (!(stream >> val)) {
+					query = query + it->first + "='" + it->second + "', ";
 				} else {
-					query = query + "SET " + it->first + "=" + it->second + ",";
+					query = query + it->first + "=" + it->second + ", ";
 				}
-				query = query + "SET " + it->first + "=" + it->second;
 			}
 		}
-		query = query.substr(0, query.length() - 1);//to delete the last ,
-		query = query + "WHERE _NAME='" + data[name] + "' ";
+		query = query.substr(0, query.length() - 2) + " ";//to delete the last ,
+		query = query + "WHERE _NAME='" + data["name"] + "' ";
 		query = query + "AND " + this->className.back() + "ID="
 				+ data[this->className.back() + "ID"];
 		stmt->executeUpdate(query);
@@ -741,79 +740,130 @@ void DAO::set(std::map<std::string, std::string> data) {
 		// DATA MULTI
 		for (int unsigned i = 0; i
 				< DAO::getSqlQueriesDataMulti[className.back()].size(); i++) {
-			query = "DELETE FROM";
-			query = query
-					+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(
-							find("FROM") + 5, find("WHERE") - 1);
-			query = query + "WHERE " + this->className.back() + "ID="
-					+ data[this->className.back() + "ID"];
+			query = "DELETE FROM ";
+			query
+					= query
+							+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(
+									DAO::getSqlQueriesDataMulti[className.back()][i].find(
+											"FROM") + 5);
+			query = query.substr(0, query.length() - 2) + " ";//to delete the last ?
+			query = query + data[this->className.back() + "ID"];
 			stmt->execute(query);
+
 			std::vector<std::string>
 					multi =
 							Explode(
 									data[DAO::getSqlQueriesDataMulti[className.back()][i].substr(
-											find("SElECT") + 7, find("FROM")
-													- 1)]);
+											DAO::getSqlQueriesDataMulti[className.back()][i].find(
+													"SELECT") + 7,
+											DAO::getSqlQueriesDataMulti[className.back()][i].find(
+													"FROM")
+													- (DAO::getSqlQueriesDataMulti[className.back()][i].find(
+															"SELECT") + 8))],
+									' ');
 			for (int unsigned i = 0; i < multi.size(); i++) {
 				query
 						= "INSERT INTO "
 								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(
-										find("FROM") + 5, find("WHERE") - 1);
+										DAO::getSqlQueriesDataMulti[className.back()][i].find(
+												"FROM") + 5,
+										DAO::getSqlQueriesDataMulti[className.back()][i].find(
+												"WHERE")
+												- (DAO::getSqlQueriesDataMulti[className.back()][i].find(
+														"FROM") + 5));
 				query
-						= query + " (" + this->className.back() + "ID" + ","
-								+ data[DAO::getSqlQueriesDataMulti[className.back()][i].substr(
-										find("SElECT") + 7, find("FROM") - 1)]
-								+ ")";
-				query = query + " VALUES("
-						+ data[this->className.back() + "ID"] + ", " + multi[i]
-						+ ")";
+						= query + "(" + this->className.back() + "ID" + ", "
+								+ DAO::getSqlQueriesDataMulti[className.back()][i].substr(
+										DAO::getSqlQueriesDataMulti[className.back()][i].find(
+												"SELECT") + 7,
+										DAO::getSqlQueriesDataMulti[className.back()][i].find(
+												"FROM")
+												- (DAO::getSqlQueriesDataMulti[className.back()][i].find(
+														"SELECT") + 8)) + ")";
+				int val;
+				std::stringstream stream(multi[i]);
+				if (!(stream >> val)) {
+					query = query + " VALUES(" + data[this->className.back()
+							+ "ID"] + ", '" + multi[i] + "')";
+				} else {
+					query = query + " VALUES(" + data[this->className.back()
+							+ "ID"] + ", " + multi[i] + ")";
+				}
+				stmt->execute(query);
+
 			}
 		}
 
 		// OBJECT SINGLE
 		for (int unsigned i = 0; i
-				< DAO::getSqlQueriesObject[className.back()].size(); i++) {
+				< DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {
 			if (DAO::getSqlQueriesObjectSingle[className.back()][i].substr(0, 1)
 					!= "-") {
 				query = "UPDATE " + className.back() + " ";
 				query
 						= query + "SET "
 								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
-										find("/") + 1) + "="
+										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") + 1) + "='"
 								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
-										find("/") + 1)];
-				query = query + "WHERE " + this->className.back() + "ID="
+										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") + 1)];
+				query = query + "' WHERE " + this->className.back() + "ID="
 						+ data[this->className.back() + "ID"];
 				stmt->execute(query);
 
+			} else {
+				query
+						= "UPDATE "
+								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
+										1,
+										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") - 1);
+				query
+						= query + " SET "
+								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
+										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") + 1) + "='" + data["name"];
+				query
+						= query + "' WHERE _NAME='"
+								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
+										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
+												"/") + 1)] + "'";
+				stmt->execute(query);
 			}
 		}
 
 		// OBJECT MULTI
 		for (int unsigned i = 0; i
 				< DAO::getSqlQueriesObjectMulti[className.back()].size(); i++) {
-			query = "DELETE FROM";
+			query = "DELETE FROM ";
 			query
 					= query
 							+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
-									0, find("/") - 1);
-			query = query + "WHERE " + this->className.back() + "ID="
+									DAO::getSqlQueriesObjectMulti[className.back()][i].find(
+											"/") + 1);
+			query = query + " WHERE " + this->className.back() + "ID="
 					+ data[this->className.back() + "ID"];
+
 			stmt->execute(query);
 			std::vector<std::string>
 					multi =
 							Explode(
 									data[DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
-											find("/") + 1)]);
+											DAO::getSqlQueriesObjectMulti[className.back()][i].find(
+													"/") + 1)], ' ');
 			for (int unsigned i = 0; i < multi.size(); i++) {
 				query
 						= "INSERT INTO "
 								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
-										0, find("/") - 1);
+										DAO::getSqlQueriesObjectMulti[className.back()][i].find(
+												"/") + 1);
 				query
 						= query + " (" + this->className.back() + "ID" + ","
 								+ DAO::getSqlQueriesObjectMulti[className.back()][i].substr(
-										0, find("/") - 1) + ")";
+										0,
+										DAO::getSqlQueriesObjectMulti[className.back()][i].find(
+												"/")) + "ID)";
 
 				query = query + " VALUES("
 						+ data[this->className.back() + "ID"] + ", " + multi[i]
@@ -826,15 +876,14 @@ void DAO::set(std::map<std::string, std::string> data) {
 	}
 
 	catch (sql::SQLException &e) {
-		/*	std::cout << "# ERR: SQLException in " << __FILE__;
-		 std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
-		 << std::endl;
-		 std::cout << "# ERR: " << e.what();
-		 std::cout << " (MySQL error code: " << e.getErrorCode();
-		 std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		 */}
+		std::cout << "# ERR: SQLException in " << __FILE__;
+		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
+				<< std::endl;
+		std::cout << "# ERR: " << e.what();
+		std::cout << " (MySQL error code: " << e.getErrorCode();
+		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+	}
 }
-
 std::vector<std::string> DAO::Explode(const std::string & str, char separator) {
 	std::vector<std::string> result;
 	std::size_t pos1 = 0;

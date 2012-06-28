@@ -67,10 +67,13 @@ std::stringstream ss;
 data["hasLargeBoxWithKits_Capacity"]=hasLargeBoxWithKits_Capacity;
 data["hasLargeBoxWithKits_KitDesignRef"]=hasLargeBoxWithKits_KitDesignRef;
 data["name"]=name;
-data["LargeBoxWithKitsID"]=LargeBoxWithKitsID;
+ss.str("");
+ss << LargeBoxWithKitsID;
+data["LargeBoxWithKitsID"]=ss.str();
 data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
 for(unsigned int i=0;i<hadByKitInstance_LargeBoxWithKits.size();++i){
-ss.flush();
+ss.str("");
+hadByKitInstance_LargeBoxWithKits[i]->get(hadByKitInstance_LargeBoxWithKits[i]->getname());
 ss << hadByKitInstance_LargeBoxWithKits[i]->getKitInstanceID();
 data["hadByKitInstance_LargeBoxWithKits"]=data["hadByKitInstance_LargeBoxWithKits"]+" "+ss.str();
 }

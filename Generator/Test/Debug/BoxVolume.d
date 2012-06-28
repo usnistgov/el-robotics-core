@@ -1,35 +1,19 @@
-BoxVolume.d: ../BoxVolume.cpp ../BoxVolume.h ../DataThing.h ../DAO.h \
- ../Connection.h ../KittingWorkstation.h ../SolidObject.h \
- ../PhysicalLocation.h ../Robot.h ../EndEffectorChangingStation.h \
- ../WorkTable.h ../BoxyObject.h ../Point.h ../PartRefAndPose.h \
- ../RollPitchYaw.h ../Pose.h
+BoxVolume.d: ../BoxVolume.cpp ../BoxVolume.h ../DataThing.h \
+ ../KittingWorkstation.h ../SolidObject.h ../Robot.h ../DAO.h \
+ ../Connection.h ../Point.h
 
 ../BoxVolume.h:
 
 ../DataThing.h:
 
-../DAO.h:
-
-../Connection.h:
-
 ../KittingWorkstation.h:
 
 ../SolidObject.h:
 
-../PhysicalLocation.h:
-
 ../Robot.h:
 
-../EndEffectorChangingStation.h:
+../DAO.h:
 
-../WorkTable.h:
-
-../BoxyObject.h:
+../Connection.h:
 
 ../Point.h:
-
-../PartRefAndPose.h:
-
-../RollPitchYaw.h:
-
-../Pose.h:

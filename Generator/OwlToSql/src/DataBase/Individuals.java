@@ -9,7 +9,7 @@ software
    maintenance, and subsequent redistribution.
 
    See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 
 package DataBase;
 
@@ -898,13 +898,8 @@ public class Individuals {
 		if (!resultTab[0].toString().contains(","))
 			where = resultTab[0].toString();
 		else {
-			resultTab[0].toString().substring(
-					resultTab[0].toString().indexOf(",") + 1);
-			if (!resultTab[0].toString().contains(","))
-				where = resultTab[0].toString();
-			else
-				where = resultTab[0].toString().substring(0,
-						resultTab[0].toString().indexOf(","));
+			where = resultTab[0].toString().substring(0,
+					resultTab[0].toString().indexOf(","));
 
 		}
 		// Object properties

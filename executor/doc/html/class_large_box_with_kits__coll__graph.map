@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node48" href="$class_large_container.html" title="LargeContainer" alt="" coords="229,389,336,419"/>
+<area shape="rect" id="node2" href="$class_solid_object.html" title="SolidObject" alt="" coords="909,197,995,227"/>
+<area shape="rect" id="node4" href="$class_physical_location.html" title="PhysicalLocation" alt="" coords="1137,293,1252,323"/>
+<area shape="rect" id="node16" href="$class_boxy_object.html" title="BoxyObject" alt="" coords="615,293,697,323"/>
+<area shape="rect" id="node20" href="$class_kitting_workstation.html" title="KittingWorkstation" alt="" coords="680,485,800,515"/>
+<area shape="rect" id="node23" href="$class_robot.html" title="Robot" alt="" coords="1265,869,1319,899"/>
+<area shape="rect" id="node26" href="$class_end_effector.html" title="EndEffector" alt="" coords="1259,773,1344,803"/>
+<area shape="rect" id="node29" href="$class_end_effector_holder.html" title="EndEffectorHolder" alt="" coords="1032,677,1155,707"/>
+<area shape="rect" id="node33" href="$class_end_effector_changing_station.html" title="EndEffectorChangingStation" alt="" coords="1005,581,1181,611"/>
+<area shape="rect" id="node52" href="$class_large_box_with_empty_kit_trays.html" title="LargeBoxWithEmptyKitTrays" alt="" coords="232,485,408,515"/>
+<area shape="rect" id="node6" href="$class_data_thing.html" title="DataThing" alt="" coords="1193,197,1271,227"/>
+<area shape="rect" id="node8" href="$class_d_a_o.html" title="DAO" alt="" coords="711,101,759,131"/>
+<area shape="rect" id="node14" href="$class_work_table.html" title="WorkTable" alt="" coords="748,389,828,419"/>
+<area shape="rect" id="node10" href="$class_connection.html" title="Connection" alt="" coords="692,5,777,35"/>
+</map>

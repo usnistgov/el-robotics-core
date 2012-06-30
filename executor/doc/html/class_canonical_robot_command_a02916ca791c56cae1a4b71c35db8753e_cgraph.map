@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_end_effector_changing_station.html#a6e81c29409f7fd3d37d170c949541b8b" title="EndEffectorChangingStation::get" alt="" coords="369,5,569,35"/>
+<area shape="rect" id="node5" href="$class_end_effector_holder.html#ad0dbbd16bec954034fd2abb79fb73d0e" title="EndEffectorHolder::get" alt="" coords="397,59,541,88"/>
+<area shape="rect" id="node7" href="$class_vacuum_effector_single_cup.html#a9f70755bcbc4befc7ec7d4bf4bed77d2" title="VacuumEffectorSingleCup::get" alt="" coords="375,112,564,141"/>
+<area shape="rect" id="node9" href="$class_robot.html#a75eff0f204a90f564d474b357a02d723" title="Robot::get" alt="" coords="431,165,508,195"/>
+<area shape="rect" id="node11" href="$class_end_effector_changing_station.html#aeb2a6f68d6d42e15216db9fc88864da1" title="EndEffectorChangingStation::getEndEffectorChangingStationID" alt="" coords="287,219,652,248"/>
+<area shape="rect" id="node13" href="$class_end_effector_holder.html#a378b5e9935b69bc6775f8902fda0d15c" title="EndEffectorHolder::gethadByEndEffectorHolder_ChangingStation" alt="" coords="280,272,659,301"/>
+<area shape="rect" id="node15" href="$class_robot.html#ac75e41520ffc4a4e87320ed40031eda1" title="Robot::gethasRobot_Description" alt="" coords="369,325,569,355"/>
+<area shape="rect" id="node17" href="$class_robot.html#a90300f528b69a6aea61a4172831317c0" title="Robot::gethasRobot_Id" alt="" coords="396,379,543,408"/>
+<area shape="rect" id="node19" href="$class_end_effector_changing_station.html#a84a3564d9a1ce4edb2920e5656aa8ee5" title="EndEffectorChangingStation::getname" alt="" coords="355,432,584,461"/>
+<area shape="rect" id="node21" href="$class_vacuum_effector_single_cup.html#a9bd480c4446099c6bd256ca804c4de67" title="VacuumEffectorSingleCup::getVacuumEffectorSingleCupID" alt="" coords="297,485,641,515"/>
+<area shape="rect" id="node23" href="$class_kitting_plan.html#a380ec5b3dad877c52e274db17e346cda" title="Given a parameter param, look for the type of this parameter in #KittingPlan::m_ParamTypeList." alt="" coords="379,539,560,568"/>
+<area shape="rect" id="node25" href="$class_file_operator.html#ab15fea72899b46ef473997f5735c7b7a" title="FileOperator::stripSpace" alt="" coords="392,592,547,621"/>
+</map>

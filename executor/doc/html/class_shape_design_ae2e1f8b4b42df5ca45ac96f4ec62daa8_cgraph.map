@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_shape_design.html#a9da3d7320739c6798719f1bfe56b158d" title="ShapeDesign::copy" alt="" coords="175,5,303,35"/>
+<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="204,59,273,88"/>
+<area shape="rect" id="node5" href="$class_shape_design.html#a490d6ba1e2e22dbe6f88da126ab54a49" title="ShapeDesign::Explode" alt="" coords="353,5,500,35"/>
+<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="361,59,492,88"/>
+</map>

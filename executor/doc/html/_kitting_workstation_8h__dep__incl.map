@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_box_volume_8cpp.html" title="/home/zeid/workspace/executor/src/database/BoxVolume.cpp" alt="" coords="5,83,360,112"/>
+<area shape="rect" id="node5" href="$_end_effector_changing_station_8cpp.html" title="/home/zeid/workspace/executor/src/database/EndEffectorChangingStation.cpp" alt="" coords="384,83,832,112"/>
+<area shape="rect" id="node7" href="$_kit_design_8cpp.html" title="/home/zeid/workspace/executor/src/database/KitDesign.cpp" alt="" coords="856,83,1203,112"/>
+<area shape="rect" id="node9" href="$_kitting_workstation_8cpp.html" title="/home/zeid/workspace/executor/src/database/KittingWorkstation.cpp" alt="" coords="1227,83,1616,112"/>
+<area shape="rect" id="node11" href="$_robot_8cpp.html" title="/home/zeid/workspace/executor/src/database/Robot.cpp" alt="" coords="1640,83,1965,112"/>
+<area shape="rect" id="node13" href="$_stock_keeping_unit_8cpp.html" title="/home/zeid/workspace/executor/src/database/StockKeepingUnit.cpp" alt="" coords="1989,83,2379,112"/>
+<area shape="rect" id="node15" href="$_work_table_8cpp.html" title="/home/zeid/workspace/executor/src/database/WorkTable.cpp" alt="" coords="2403,83,2755,112"/>
+</map>

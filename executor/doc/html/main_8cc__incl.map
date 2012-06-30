@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_file_operator_8h.html" title="interpreter/FileOperator.h" alt="" coords="505,160,663,189"/>
+<area shape="rect" id="node5" href="$_config_8h.html" title="Config.h" alt="" coords="355,237,421,267"/>
+<area shape="rect" id="node7" href="$_tools_8h.html" title="Tools.h" alt="" coords="499,392,560,421"/>
+<area shape="rect" id="node27" href="$_kitting_p_d_d_l_problem_8h.html" title="KittingPDDLProblem.h" alt="" coords="696,237,840,267"/>
+<area shape="rect" id="node35" href="$_kitting_plan_8h.html" title="KittingPlan.h" alt="" coords="480,315,571,344"/>
+<area shape="rect" id="node49" href="$database_8h.html" title="interpreter/database.h" alt="" coords="1125,83,1267,112"/>
+<area shape="rect" id="node111" href="$_canonical_robot_command_8h.html" title="interpreter/CanonicalRobotCommand.h" alt="" coords="43,237,280,267"/>
+<area shape="rect" id="node51" href="$_robot_8h.html" title="../database/Robot.h" alt="" coords="1779,315,1907,344"/>
+<area shape="rect" id="node68" href="$_vacuum_effector_single_cup_8h.html" title="../database/VacuumEffectorSingleCup.h" alt="" coords="1577,160,1815,189"/>
+<area shape="rect" id="node93" href="$_end_effector_holder_8h.html" title="../database/EndEffectorHolder.h" alt="" coords="2048,315,2243,344"/>
+<area shape="rect" id="node102" href="$_end_effector_changing_station_8h.html" title="../database/EndEffectorChangingStation.h" alt="" coords="1504,315,1755,344"/>
+<area shape="rect" id="node60" href="$_solid_object_8h.html" title="SolidObject.h" alt="" coords="1757,392,1851,421"/>
+<area shape="rect" id="node76" href="$_vacuum_effector_8h.html" title="VacuumEffector.h" alt="" coords="1779,237,1896,267"/>
+<area shape="rect" id="node84" href="$_end_effector_8h.html" title="EndEffector.h" alt="" coords="1931,315,2024,344"/>
+</map>

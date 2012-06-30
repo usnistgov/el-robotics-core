@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_box_volume_8cpp.html" title="/home/zeid/workspace/executor/src/database/BoxVolume.cpp" alt="" coords="5,83,360,112"/>
+<area shape="rect" id="node5" href="$_part_ref_and_pose_8cpp.html" title="/home/zeid/workspace/executor/src/database/PartRefAndPose.cpp" alt="" coords="384,83,768,112"/>
+<area shape="rect" id="node7" href="$_point_8cpp.html" title="/home/zeid/workspace/executor/src/database/Point.cpp" alt="" coords="792,83,1112,112"/>
+<area shape="rect" id="node9" href="$_pose_location_8cpp.html" title="/home/zeid/workspace/executor/src/database/PoseLocation.cpp" alt="" coords="1136,83,1504,112"/>
+</map>

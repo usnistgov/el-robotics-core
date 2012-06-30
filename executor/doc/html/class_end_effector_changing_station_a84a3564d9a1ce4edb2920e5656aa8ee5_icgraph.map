@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_canonical_robot_command.html#a02916ca791c56cae1a4b71c35db8753e" title="CanonicalRobotCommand::attach_eff" alt="" coords="285,5,512,35"/>
+<area shape="rect" id="node11" href="$class_kitting_workstation.html#ad4c1ef528b4000e6fea71dda5e30045a" title="KittingWorkstation::set" alt="" coords="328,59,469,88"/>
+<area shape="rect" id="node13" href="$class_end_effector_holder.html#ae9b1cf29924a228c717a80c9c7d52ad1" title="EndEffectorHolder::set" alt="" coords="327,112,471,141"/>
+<area shape="rect" id="node5" href="$class_canonical_robot_command.html#a10f1fb20f4c17d0a37b747356378f29c" title="Reads a line of the plan and interprets it into one or more canonical robot commands." alt="" coords="561,5,823,35"/>
+<area shape="rect" id="node7" href="$class_canonical_robot_command.html#a8b54b12dc029042eedfa15598f671ac6" title="Read the plan stored in KittingPlan::m_actionParamList and interpret each action." alt="" coords="873,5,1116,35"/>
+<area shape="rect" id="node9" href="$main_8cc.html#ac0f2228420376f4db7e1274f2b41667c" title="main" alt="" coords="1167,5,1215,35"/>
+</map>

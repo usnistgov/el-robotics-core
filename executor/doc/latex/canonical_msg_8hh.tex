@@ -1,0 +1,185 @@
+\hypertarget{canonical_msg_8hh}{
+\section{/home/zeid/workspace/executor/src/controller/canonicalMsg.hh File Reference}
+\label{canonical_msg_8hh}\index{/home/zeid/workspace/executor/src/controller/canonicalMsg.hh@{/home/zeid/workspace/executor/src/controller/canonicalMsg.hh}}
+}
+
+
+Provide a generic class to base command processing routines for the canonical robot command language. This class will provide virtual routines that may be specialized for individual robot controllers.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include \char`\"{}ulapi.hh\char`\"{}}\par
+{\ttfamily \#include $<$string$>$}\par
+Include dependency graph for canonicalMsg.hh:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=352pt]{canonical_msg_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{canonical_msg_8hh__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_canonical_hdr}{CanonicalHdr}
+\item 
+class \hyperlink{class_canonical_msg}{CanonicalMsg}
+\item 
+class \hyperlink{class_close_gripper_msg}{CloseGripperMsg}
+\item 
+class \hyperlink{class_dwell_msg}{DwellMsg}
+\item 
+class \hyperlink{class_end_canon_msg}{EndCanonMsg}
+\item 
+class \hyperlink{class_init_canon_msg}{InitCanonMsg}
+\item 
+class \hyperlink{class_message_msg}{MessageMsg}
+\item 
+class \hyperlink{class_move_smoothly_to_msg}{MoveSmoothlyToMsg}
+\item 
+class \hyperlink{class_move_straight_to_msg}{MoveStraightToMsg}
+\item 
+class \hyperlink{class_move_to_msg}{MoveToMsg}
+\item 
+class \hyperlink{class_open_gripper_msg}{OpenGripperMsg}
+\item 
+class \hyperlink{class_set_absolute_acceleration_msg}{SetAbsoluteAccelerationMsg}
+\item 
+class \hyperlink{class_set_angle_units_msg}{SetAngleUnitsMsg}
+\item 
+class \hyperlink{class_set_end_angle_tolerance_msg}{SetEndAngleToleranceMsg}
+\item 
+class \hyperlink{class_set_end_point_tolerance_msg}{SetEndPointToleranceMsg}
+\item 
+class \hyperlink{class_set_intermediate_point_tolerance_msg}{SetIntermediatePointToleranceMsg}
+\item 
+class \hyperlink{class_set_length_units_msg}{SetLengthUnitsMsg}
+\item 
+class \hyperlink{class_set_relative_acceleration_msg}{SetRelativeAccelerationMsg}
+\item 
+class \hyperlink{class_set_relative_speed_msg}{SetRelativeSpeedMsg}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeb}{CanonicalType} \{ \par
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba7dd16522dbd7b60b5e67d30a26baa259}{CloseGripper}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffebaa2faf61aa0b7d9cae131827bc2cb0871}{Dwell}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba1b2f852d21439cf980720d04ff8c3bea}{EndCanon}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba6529a95f7900aa0e5863ef750309f9fa}{InitCanon}, 
+\par
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba2dfbf31ed014852927c31c352feac51f}{Message}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba54dec55208aba20b440f6358bf7b254b}{MoveSmoothlyTo}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba732fb4fe20c6b4965753f21a758655b1}{MoveStraightTo}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba820e17d26e153463c30b3f1c1c78fbcf}{MoveTo}, 
+\par
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba3547fd221d790f71cf8d86f575ca8199}{OpenGripper}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba37b3cf4d50de212f6613d640c1405ce7}{SetAbsoluteAcceleration}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba1099edc61864df22dbb0503ddfbd4a02}{SetAngleUnits}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba78d9daec5adb8ae2600d5c01c06b5d1c}{SetEndAngleTolerance}, 
+\par
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba56519e94f19ad1424030900883afe72a}{SetEndPointTolerance}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba3e4d85f3733c885e47d5514698d1bb23}{SetIntermediatePointTolerance}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba26aa6c3c639a57f2539a9574de7b9dfb}{SetLengthUnits}, 
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba722361e3e0436abb2fa75543a59f7e15}{SetRelativeAcceleration}, 
+\par
+\hyperlink{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffebacb60317e00ebfefa4cb41462afd6ae5f}{SetRelativeSpeed}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provide a generic class to base command processing routines for the canonical robot command language. This class will provide virtual routines that may be specialized for individual robot controllers. \begin{DoxyAuthor}{Author}
+Stephen Balakirsky 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/31/2012 
+\end{DoxyDate}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeb}{
+\index{canonicalMsg.hh@{canonicalMsg.hh}!CanonicalType@{CanonicalType}}
+\index{CanonicalType@{CanonicalType}!canonicalMsg.hh@{canonicalMsg.hh}}
+\subsubsection[{CanonicalType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf CanonicalType}}}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeb}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{CloseGripper@{CloseGripper}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!CloseGripper@{CloseGripper}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba7dd16522dbd7b60b5e67d30a26baa259}{
+CloseGripper}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba7dd16522dbd7b60b5e67d30a26baa259}
+}]\index{Dwell@{Dwell}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!Dwell@{Dwell}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffebaa2faf61aa0b7d9cae131827bc2cb0871}{
+Dwell}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffebaa2faf61aa0b7d9cae131827bc2cb0871}
+}]\index{EndCanon@{EndCanon}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!EndCanon@{EndCanon}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba1b2f852d21439cf980720d04ff8c3bea}{
+EndCanon}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba1b2f852d21439cf980720d04ff8c3bea}
+}]\index{InitCanon@{InitCanon}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!InitCanon@{InitCanon}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba6529a95f7900aa0e5863ef750309f9fa}{
+InitCanon}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba6529a95f7900aa0e5863ef750309f9fa}
+}]\index{Message@{Message}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!Message@{Message}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba2dfbf31ed014852927c31c352feac51f}{
+Message}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba2dfbf31ed014852927c31c352feac51f}
+}]\index{MoveSmoothlyTo@{MoveSmoothlyTo}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!MoveSmoothlyTo@{MoveSmoothlyTo}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba54dec55208aba20b440f6358bf7b254b}{
+MoveSmoothlyTo}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba54dec55208aba20b440f6358bf7b254b}
+}]\index{MoveStraightTo@{MoveStraightTo}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!MoveStraightTo@{MoveStraightTo}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba732fb4fe20c6b4965753f21a758655b1}{
+MoveStraightTo}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba732fb4fe20c6b4965753f21a758655b1}
+}]\index{MoveTo@{MoveTo}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!MoveTo@{MoveTo}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba820e17d26e153463c30b3f1c1c78fbcf}{
+MoveTo}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba820e17d26e153463c30b3f1c1c78fbcf}
+}]\index{OpenGripper@{OpenGripper}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!OpenGripper@{OpenGripper}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba3547fd221d790f71cf8d86f575ca8199}{
+OpenGripper}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba3547fd221d790f71cf8d86f575ca8199}
+}]\index{SetAbsoluteAcceleration@{SetAbsoluteAcceleration}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetAbsoluteAcceleration@{SetAbsoluteAcceleration}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba37b3cf4d50de212f6613d640c1405ce7}{
+SetAbsoluteAcceleration}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba37b3cf4d50de212f6613d640c1405ce7}
+}]\index{SetAngleUnits@{SetAngleUnits}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetAngleUnits@{SetAngleUnits}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba1099edc61864df22dbb0503ddfbd4a02}{
+SetAngleUnits}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba1099edc61864df22dbb0503ddfbd4a02}
+}]\index{SetEndAngleTolerance@{SetEndAngleTolerance}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetEndAngleTolerance@{SetEndAngleTolerance}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba78d9daec5adb8ae2600d5c01c06b5d1c}{
+SetEndAngleTolerance}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba78d9daec5adb8ae2600d5c01c06b5d1c}
+}]\index{SetEndPointTolerance@{SetEndPointTolerance}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetEndPointTolerance@{SetEndPointTolerance}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba56519e94f19ad1424030900883afe72a}{
+SetEndPointTolerance}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba56519e94f19ad1424030900883afe72a}
+}]\index{SetIntermediatePointTolerance@{SetIntermediatePointTolerance}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetIntermediatePointTolerance@{SetIntermediatePointTolerance}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba3e4d85f3733c885e47d5514698d1bb23}{
+SetIntermediatePointTolerance}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba3e4d85f3733c885e47d5514698d1bb23}
+}]\index{SetLengthUnits@{SetLengthUnits}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetLengthUnits@{SetLengthUnits}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba26aa6c3c639a57f2539a9574de7b9dfb}{
+SetLengthUnits}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba26aa6c3c639a57f2539a9574de7b9dfb}
+}]\index{SetRelativeAcceleration@{SetRelativeAcceleration}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetRelativeAcceleration@{SetRelativeAcceleration}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba722361e3e0436abb2fa75543a59f7e15}{
+SetRelativeAcceleration}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffeba722361e3e0436abb2fa75543a59f7e15}
+}]\index{SetRelativeSpeed@{SetRelativeSpeed}!canonicalMsg.hh@{canonicalMsg.hh}}\index{canonicalMsg.hh@{canonicalMsg.hh}!SetRelativeSpeed@{SetRelativeSpeed}}\item[{\em 
+\hypertarget{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffebacb60317e00ebfefa4cb41462afd6ae5f}{
+SetRelativeSpeed}
+\label{canonical_msg_8hh_a82f10f8fe974cf1c4a8c7459b963ffebacb60317e00ebfefa4cb41462afd6ae5f}
+}]\end{description}
+\end{Desc}
+

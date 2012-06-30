@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_robot.html#ac68a539590d0fe227c07da18077e4085" title="Robot::getname" alt="" coords="259,5,368,35"/>
+<area shape="rect" id="node5" href="$class_work_table.html#ad00c3838d6e330f3f939fbbe48183eef" title="WorkTable::getname" alt="" coords="247,59,380,88"/>
+<area shape="rect" id="node7" href="$class_end_effector_changing_station.html#a84a3564d9a1ce4edb2920e5656aa8ee5" title="EndEffectorChangingStation::getname" alt="" coords="199,112,428,141"/>
+<area shape="rect" id="node9" href="$class_d_a_o.html#ab47618d63ada8199f67339e57e9319e7" title="DAO::set" alt="" coords="279,165,348,195"/>
+</map>

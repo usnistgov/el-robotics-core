@@ -1,0 +1,377 @@
+\hypertarget{class_canonical_robot_command}{
+\section{CanonicalRobotCommand Class Reference}
+\label{class_canonical_robot_command}\index{CanonicalRobotCommand@{CanonicalRobotCommand}}
+}
+
+
+{\ttfamily \#include $<$CanonicalRobotCommand.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_canonical_robot_command_a26b956d2026a0733c136bfdf57d74477}{CanonicalRobotCommand} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/generated constructor stub. \item\end{DoxyCompactList}\item 
+virtual \hyperlink{class_canonical_robot_command_a7ab8d0a17a3554878ff5aba8c9170936}{$\sim$CanonicalRobotCommand} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/generated destructor stub. \item\end{DoxyCompactList}\item 
+void \hyperlink{class_canonical_robot_command_a10f1fb20f4c17d0a37b747356378f29c}{actionInterpreter} (string action, vector$<$ string $>$ paramName, \hyperlink{class_kitting_plan}{KittingPlan} $\ast$kittingplan)
+\begin{DoxyCompactList}\small\item\em Reads a line of the plan and interprets it into one or more canonical robot commands. \item\end{DoxyCompactList}\item 
+void \hyperlink{class_canonical_robot_command_a8b54b12dc029042eedfa15598f671ac6}{interpretPlan} (\hyperlink{class_kitting_plan}{KittingPlan} $\ast$kittingplan)
+\begin{DoxyCompactList}\small\item\em Read the plan stored in \hyperlink{class_kitting_plan_a8293312cf9137906c868994b4ade4587}{KittingPlan::m\_\-actionParamList} and interpret each action. \item\end{DoxyCompactList}\item 
+string \hyperlink{class_canonical_robot_command_a618b3d744e3397aa81d2b95e276fefcd}{getActionName} (string myList)
+\item 
+void \hyperlink{class_canonical_robot_command_abc17012640ae9203f090bcdb828c9c0d}{take\_\-kit\_\-tray} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_a5b86751ba4697428c741709d0ac80528}{put\_\-kit\_\-tray} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_a33abd5938bb8c1d94bc3616609e418c5}{take\_\-kit} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_afa48a098e02e9fa34706b251601ca287}{put\_\-kit} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_afb89d61a62c1dea47f5abef6b5ec1b4e}{take\_\-part} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_af366c12a510324c0cd9a5d1ee17476a7}{put\_\-part} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_a02916ca791c56cae1a4b71c35db8753e}{attach\_\-eff} (vector$<$ string $>$ paramList, \hyperlink{class_kitting_plan}{KittingPlan} $\ast$kittingplan)
+\item 
+void \hyperlink{class_canonical_robot_command_a6e00f038ab69fb6a6d2f9b3c5882e789}{remove\_\-eff} (vector$<$ string $>$ paramList)
+\item 
+void \hyperlink{class_canonical_robot_command_a98cf18620e86ce0fce18bc7d30b9a188}{create\_\-kit} (vector$<$ string $>$ paramList)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_canonical_robot_command_a26b956d2026a0733c136bfdf57d74477}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{CanonicalRobotCommand}]{\setlength{\rightskip}{0pt plus 5cm}CanonicalRobotCommand::CanonicalRobotCommand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a26b956d2026a0733c136bfdf57d74477}
+
+
+Auto-\/generated constructor stub. 
+
+\hypertarget{class_canonical_robot_command_a7ab8d0a17a3554878ff5aba8c9170936}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!$\sim$CanonicalRobotCommand@{$\sim$CanonicalRobotCommand}}
+\index{$\sim$CanonicalRobotCommand@{$\sim$CanonicalRobotCommand}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{$\sim$CanonicalRobotCommand}]{\setlength{\rightskip}{0pt plus 5cm}CanonicalRobotCommand::$\sim$CanonicalRobotCommand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_canonical_robot_command_a7ab8d0a17a3554878ff5aba8c9170936}
+
+
+Auto-\/generated destructor stub. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_canonical_robot_command_a10f1fb20f4c17d0a37b747356378f29c}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!actionInterpreter@{actionInterpreter}}
+\index{actionInterpreter@{actionInterpreter}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{actionInterpreter}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::actionInterpreter (
+\begin{DoxyParamCaption}
+\item[{string}]{actionName, }
+\item[{vector$<$ string $>$}]{paramList, }
+\item[{{\bf KittingPlan} $\ast$}]{kittingplan}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a10f1fb20f4c17d0a37b747356378f29c}
+
+
+Reads a line of the plan and interprets it into one or more canonical robot commands. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & Action to be interpreted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of commands associated to the action {\itshape action\/} 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a10f1fb20f4c17d0a37b747356378f29c_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a10f1fb20f4c17d0a37b747356378f29c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_a02916ca791c56cae1a4b71c35db8753e}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!attach\_\-eff@{attach\_\-eff}}
+\index{attach\_\-eff@{attach\_\-eff}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{attach\_\-eff}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::attach\_\-eff (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList, }
+\item[{{\bf KittingPlan} $\ast$}]{kittingplan}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a02916ca791c56cae1a4b71c35db8753e}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a02916ca791c56cae1a4b71c35db8753e_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a02916ca791c56cae1a4b71c35db8753e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_a98cf18620e86ce0fce18bc7d30b9a188}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!create\_\-kit@{create\_\-kit}}
+\index{create\_\-kit@{create\_\-kit}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{create\_\-kit}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::create\_\-kit (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a98cf18620e86ce0fce18bc7d30b9a188}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a98cf18620e86ce0fce18bc7d30b9a188_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_a618b3d744e3397aa81d2b95e276fefcd}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!getActionName@{getActionName}}
+\index{getActionName@{getActionName}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{getActionName}]{\setlength{\rightskip}{0pt plus 5cm}string CanonicalRobotCommand::getActionName (
+\begin{DoxyParamCaption}
+\item[{string}]{myList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a618b3d744e3397aa81d2b95e276fefcd}
+\hypertarget{class_canonical_robot_command_a8b54b12dc029042eedfa15598f671ac6}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!interpretPlan@{interpretPlan}}
+\index{interpretPlan@{interpretPlan}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{interpretPlan}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::interpretPlan (
+\begin{DoxyParamCaption}
+\item[{{\bf KittingPlan} $\ast$}]{kittingplan}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a8b54b12dc029042eedfa15598f671ac6}
+
+
+Read the plan stored in \hyperlink{class_kitting_plan_a8293312cf9137906c868994b4ade4587}{KittingPlan::m\_\-actionParamList} and interpret each action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kittingplan} & Instance of \hyperlink{class_kitting_plan}{KittingPlan} \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a8b54b12dc029042eedfa15598f671ac6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{class_canonical_robot_command_a8b54b12dc029042eedfa15598f671ac6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_afa48a098e02e9fa34706b251601ca287}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!put\_\-kit@{put\_\-kit}}
+\index{put\_\-kit@{put\_\-kit}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{put\_\-kit}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::put\_\-kit (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_afa48a098e02e9fa34706b251601ca287}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_afa48a098e02e9fa34706b251601ca287_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_a5b86751ba4697428c741709d0ac80528}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!put\_\-kit\_\-tray@{put\_\-kit\_\-tray}}
+\index{put\_\-kit\_\-tray@{put\_\-kit\_\-tray}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{put\_\-kit\_\-tray}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::put\_\-kit\_\-tray (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a5b86751ba4697428c741709d0ac80528}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a5b86751ba4697428c741709d0ac80528_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_af366c12a510324c0cd9a5d1ee17476a7}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!put\_\-part@{put\_\-part}}
+\index{put\_\-part@{put\_\-part}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{put\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::put\_\-part (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_af366c12a510324c0cd9a5d1ee17476a7}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_af366c12a510324c0cd9a5d1ee17476a7_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_a6e00f038ab69fb6a6d2f9b3c5882e789}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!remove\_\-eff@{remove\_\-eff}}
+\index{remove\_\-eff@{remove\_\-eff}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{remove\_\-eff}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::remove\_\-eff (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a6e00f038ab69fb6a6d2f9b3c5882e789}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a6e00f038ab69fb6a6d2f9b3c5882e789_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_a33abd5938bb8c1d94bc3616609e418c5}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!take\_\-kit@{take\_\-kit}}
+\index{take\_\-kit@{take\_\-kit}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{take\_\-kit}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::take\_\-kit (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_a33abd5938bb8c1d94bc3616609e418c5}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_a33abd5938bb8c1d94bc3616609e418c5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_abc17012640ae9203f090bcdb828c9c0d}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!take\_\-kit\_\-tray@{take\_\-kit\_\-tray}}
+\index{take\_\-kit\_\-tray@{take\_\-kit\_\-tray}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{take\_\-kit\_\-tray}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::take\_\-kit\_\-tray (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_abc17012640ae9203f090bcdb828c9c0d}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_abc17012640ae9203f090bcdb828c9c0d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_canonical_robot_command_afb89d61a62c1dea47f5abef6b5ec1b4e}{
+\index{CanonicalRobotCommand@{CanonicalRobotCommand}!take\_\-part@{take\_\-part}}
+\index{take\_\-part@{take\_\-part}!CanonicalRobotCommand@{CanonicalRobotCommand}}
+\subsubsection[{take\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}void CanonicalRobotCommand::take\_\-part (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{paramList}
+\end{DoxyParamCaption}
+)}}
+\label{class_canonical_robot_command_afb89d61a62c1dea47f5abef6b5ec1b4e}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_canonical_robot_command_afb89d61a62c1dea47f5abef6b5ec1b4e_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+/home/zeid/workspace/executor/src/interpreter/\hyperlink{_canonical_robot_command_8h}{CanonicalRobotCommand.h}\item 
+/home/zeid/workspace/executor/src/interpreter/\hyperlink{_canonical_robot_command_8cc}{CanonicalRobotCommand.cc}\end{DoxyCompactItemize}

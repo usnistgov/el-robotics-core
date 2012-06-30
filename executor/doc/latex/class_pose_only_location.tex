@@ -1,0 +1,240 @@
+\hypertarget{class_pose_only_location}{
+\section{PoseOnlyLocation Class Reference}
+\label{class_pose_only_location}\index{PoseOnlyLocation@{PoseOnlyLocation}}
+}
+
+
+{\ttfamily \#include $<$PoseOnlyLocation.h$>$}
+
+
+
+Inheritance diagram for PoseOnlyLocation:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{class_pose_only_location__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for PoseOnlyLocation:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_pose_only_location__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_pose_only_location_a8f3ae3cc646d5e28e3d91038615c41ef}{PoseOnlyLocation} (std::string name)
+\item 
+\hyperlink{class_pose_only_location_afaacdd4bc8f1daf3bd04bf42542f4c4d}{$\sim$PoseOnlyLocation} ()
+\item 
+void \hyperlink{class_pose_only_location_afbdc6742455d0030005d84eb29875c71}{get} (int id)
+\item 
+void \hyperlink{class_pose_only_location_a6cf43cbfcfa2673e114007d7f0b76f21}{get} (std::string name)
+\item 
+void \hyperlink{class_pose_only_location_a95bd88213f16e5187afbca432249bb40}{set} (int id, \hyperlink{class_pose_only_location}{PoseOnlyLocation} $\ast$obj)
+\item 
+void \hyperlink{class_pose_only_location_aa9b42c8410326f74ca5f11110e6b3d76}{set} (std::string name)
+\item 
+std::string \hyperlink{class_pose_only_location_aa0c28cd150879da0d59275678e618569}{getname} ()
+\item 
+int \hyperlink{class_pose_only_location_a8d634d6652ec620b51002a0578f6c820}{getPoseOnlyLocationID} ()
+\item 
+\hyperlink{class_d_a_o}{DAO} $\ast$ \hyperlink{class_pose_only_location_ab701be60dda6cf1be3bb3fd6098c557c}{getdao} ()
+\item 
+void \hyperlink{class_pose_only_location_aa51f136b549fd9ddc9a89246fa94c5bc}{setdao} (\hyperlink{class_d_a_o}{DAO} $\ast$\_\-dao)
+\item 
+void \hyperlink{class_pose_only_location_a6c9a967c1e1cb3b7402bbb9a4f9ee215}{copy} (std::map$<$ std::string, std::string $>$ object)
+\item 
+std::vector$<$ std::string $>$ \hyperlink{class_pose_only_location_abc85e3e3f6bb4acbec59b8eefd50f8f8}{Explode} (const std::string \&str, char separator)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_pose_only_location_a8f3ae3cc646d5e28e3d91038615c41ef}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!PoseOnlyLocation@{PoseOnlyLocation}}
+\index{PoseOnlyLocation@{PoseOnlyLocation}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{PoseOnlyLocation}]{\setlength{\rightskip}{0pt plus 5cm}PoseOnlyLocation::PoseOnlyLocation (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_a8f3ae3cc646d5e28e3d91038615c41ef}
+\hypertarget{class_pose_only_location_afaacdd4bc8f1daf3bd04bf42542f4c4d}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!$\sim$PoseOnlyLocation@{$\sim$PoseOnlyLocation}}
+\index{$\sim$PoseOnlyLocation@{$\sim$PoseOnlyLocation}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{$\sim$PoseOnlyLocation}]{\setlength{\rightskip}{0pt plus 5cm}PoseOnlyLocation::$\sim$PoseOnlyLocation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_afaacdd4bc8f1daf3bd04bf42542f4c4d}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_pose_only_location_a6c9a967c1e1cb3b7402bbb9a4f9ee215}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!copy@{copy}}
+\index{copy@{copy}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}void PoseOnlyLocation::copy (
+\begin{DoxyParamCaption}
+\item[{std::map$<$ std::string, std::string $>$}]{object}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_a6c9a967c1e1cb3b7402bbb9a4f9ee215}
+
+
+Reimplemented from \hyperlink{class_pose_location_a112b81b15a607f7dbe7102971caaa34f}{PoseLocation}.
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{class_pose_only_location_a6c9a967c1e1cb3b7402bbb9a4f9ee215_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_pose_only_location_abc85e3e3f6bb4acbec59b8eefd50f8f8}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!Explode@{Explode}}
+\index{Explode@{Explode}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{Explode}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ std::string $>$ PoseOnlyLocation::Explode (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{str, }
+\item[{char}]{separator}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_abc85e3e3f6bb4acbec59b8eefd50f8f8}
+
+
+Reimplemented from \hyperlink{class_pose_location_a573ee6b74464a909cfab93cda10b7c9d}{PoseLocation}.
+
+\hypertarget{class_pose_only_location_a6cf43cbfcfa2673e114007d7f0b76f21}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!get@{get}}
+\index{get@{get}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void PoseOnlyLocation::get (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_a6cf43cbfcfa2673e114007d7f0b76f21}
+
+
+Reimplemented from \hyperlink{class_pose_location_ac80d95846f773d86e3d6cfc97bed779c}{PoseLocation}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_pose_only_location_a6cf43cbfcfa2673e114007d7f0b76f21_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_pose_only_location_afbdc6742455d0030005d84eb29875c71}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!get@{get}}
+\index{get@{get}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void PoseOnlyLocation::get (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_afbdc6742455d0030005d84eb29875c71}
+
+
+Reimplemented from \hyperlink{class_pose_location_a8b05ffe2202af40a22e7dcd4a7a0bec3}{PoseLocation}.
+
+\hypertarget{class_pose_only_location_ab701be60dda6cf1be3bb3fd6098c557c}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!getdao@{getdao}}
+\index{getdao@{getdao}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{getdao}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DAO} $\ast$ PoseOnlyLocation::getdao (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_ab701be60dda6cf1be3bb3fd6098c557c}
+
+
+Reimplemented from \hyperlink{class_pose_location_a53b620b3918557714158a297bc90b257}{PoseLocation}.
+
+\hypertarget{class_pose_only_location_aa0c28cd150879da0d59275678e618569}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!getname@{getname}}
+\index{getname@{getname}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{getname}]{\setlength{\rightskip}{0pt plus 5cm}std::string PoseOnlyLocation::getname (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_aa0c28cd150879da0d59275678e618569}
+
+
+Reimplemented from \hyperlink{class_pose_location_aaa31295a8214a697e4daa577f687f2f4}{PoseLocation}.
+
+\hypertarget{class_pose_only_location_a8d634d6652ec620b51002a0578f6c820}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!getPoseOnlyLocationID@{getPoseOnlyLocationID}}
+\index{getPoseOnlyLocationID@{getPoseOnlyLocationID}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{getPoseOnlyLocationID}]{\setlength{\rightskip}{0pt plus 5cm}int PoseOnlyLocation::getPoseOnlyLocationID (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_a8d634d6652ec620b51002a0578f6c820}
+\hypertarget{class_pose_only_location_a95bd88213f16e5187afbca432249bb40}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!set@{set}}
+\index{set@{set}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void PoseOnlyLocation::set (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{{\bf PoseOnlyLocation} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_a95bd88213f16e5187afbca432249bb40}
+\hypertarget{class_pose_only_location_aa9b42c8410326f74ca5f11110e6b3d76}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!set@{set}}
+\index{set@{set}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void PoseOnlyLocation::set (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_aa9b42c8410326f74ca5f11110e6b3d76}
+
+
+Reimplemented from \hyperlink{class_pose_location_abf15870fff773935c4ab02f01cd47eac}{PoseLocation}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=278pt]{class_pose_only_location_aa9b42c8410326f74ca5f11110e6b3d76_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_pose_only_location_aa51f136b549fd9ddc9a89246fa94c5bc}{
+\index{PoseOnlyLocation@{PoseOnlyLocation}!setdao@{setdao}}
+\index{setdao@{setdao}!PoseOnlyLocation@{PoseOnlyLocation}}
+\subsubsection[{setdao}]{\setlength{\rightskip}{0pt plus 5cm}void PoseOnlyLocation::setdao (
+\begin{DoxyParamCaption}
+\item[{{\bf DAO} $\ast$}]{\_\-dao}
+\end{DoxyParamCaption}
+)}}
+\label{class_pose_only_location_aa51f136b549fd9ddc9a89246fa94c5bc}
+
+
+Reimplemented from \hyperlink{class_pose_location_a86c7f6e2a4610954bc530864d6d8ec52}{PoseLocation}.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_pose_only_location_8h}{PoseOnlyLocation.h}\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_pose_only_location_8cpp}{PoseOnlyLocation.cpp}\end{DoxyCompactItemize}

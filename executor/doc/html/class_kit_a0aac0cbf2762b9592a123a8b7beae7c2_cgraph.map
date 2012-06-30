@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_kit.html#a89458dd359627ea4089bb69d36db3a9c" title="Kit::copy" alt="" coords="115,5,181,35"/>
+<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="113,59,183,88"/>
+<area shape="rect" id="node5" href="$class_kit.html#aa9176ba9ca47b3454c9f91f4adecbb21" title="Kit::Explode" alt="" coords="255,5,340,35"/>
+<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="232,59,363,88"/>
+</map>

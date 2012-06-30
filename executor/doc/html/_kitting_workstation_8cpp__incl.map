@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_kitting_workstation_8h.html" title="KittingWorkstation.h" alt="" coords="1179,160,1309,189"/>
+<area shape="rect" id="node25" href="$_robot_8h.html" title="Robot.h" alt="" coords="1995,160,2059,189"/>
+<area shape="rect" id="node34" href="$_box_volume_8h.html" title="BoxVolume.h" alt="" coords="993,160,1087,189"/>
+<area shape="rect" id="node50" href="$_kit_design_8h.html" title="KitDesign.h" alt="" coords="729,160,815,189"/>
+<area shape="rect" id="node59" href="$_stock_keeping_unit_8h.html" title="StockKeepingUnit.h" alt="" coords="839,160,969,189"/>
+<area shape="rect" id="node68" href="$_end_effector_changing_station_8h.html" title="EndEffectorChangingStation.h" alt="" coords="1561,160,1748,189"/>
+<area shape="rect" id="node77" href="$_d_a_o_8h.html" title="DAO.h" alt="" coords="2689,160,2748,189"/>
+<area shape="rect" id="node103" href="$_work_table_8h.html" title="WorkTable.h" alt="" coords="1321,83,1412,112"/>
+<area shape="rect" id="node17" href="$_solid_object_8h.html" title="SolidObject.h" alt="" coords="1516,237,1609,267"/>
+<area shape="rect" id="node42" href="$_data_thing_8h.html" title="DataThing.h" alt="" coords="796,237,884,267"/>
+<area shape="rect" id="node84" href="$_connection_8h.html" title="Connection.h" alt="" coords="2849,237,2943,267"/>
+<area shape="rect" id="node111" href="$_boxy_object_8h.html" title="BoxyObject.h" alt="" coords="1333,160,1427,189"/>
+</map>

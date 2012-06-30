@@ -1,0 +1,240 @@
+\hypertarget{class_gripper_effector}{
+\section{GripperEffector Class Reference}
+\label{class_gripper_effector}\index{GripperEffector@{GripperEffector}}
+}
+
+
+{\ttfamily \#include $<$GripperEffector.h$>$}
+
+
+
+Inheritance diagram for GripperEffector:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=158pt]{class_gripper_effector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for GripperEffector:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_gripper_effector__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_gripper_effector_ae88e52bb911c09a8022bf715507403d8}{GripperEffector} (std::string name)
+\item 
+\hyperlink{class_gripper_effector_a1a3bdd868b44a204e87721160d94e760}{$\sim$GripperEffector} ()
+\item 
+void \hyperlink{class_gripper_effector_a0e8f17336a915c587ce5338db0cee9bc}{get} (int id)
+\item 
+void \hyperlink{class_gripper_effector_ade0d2f1e5e0a61d1550ffcc305eae11e}{get} (std::string name)
+\item 
+void \hyperlink{class_gripper_effector_a4a09b63049fe00adbf5105140b076987}{set} (int id, \hyperlink{class_gripper_effector}{GripperEffector} $\ast$obj)
+\item 
+void \hyperlink{class_gripper_effector_a03b4942326d5124b1cbad110cd54db24}{set} (std::string name)
+\item 
+std::string \hyperlink{class_gripper_effector_af5309596cd435c504c8ffad6d9367a2d}{getname} ()
+\item 
+int \hyperlink{class_gripper_effector_a51b794adb5bfdf76434316bbf70a45e7}{getGripperEffectorID} ()
+\item 
+\hyperlink{class_d_a_o}{DAO} $\ast$ \hyperlink{class_gripper_effector_a184c5ca2103576a291ee4bafe0c0d5a3}{getdao} ()
+\item 
+void \hyperlink{class_gripper_effector_acd4178b0f26deb68f18a2a22674e554f}{setdao} (\hyperlink{class_d_a_o}{DAO} $\ast$\_\-dao)
+\item 
+void \hyperlink{class_gripper_effector_a446ce56a6195c2b0dcccc6a6fcdd1961}{copy} (std::map$<$ std::string, std::string $>$ object)
+\item 
+std::vector$<$ std::string $>$ \hyperlink{class_gripper_effector_a93cffef39860f2c94a09e52531cfabc2}{Explode} (const std::string \&str, char separator)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_gripper_effector_ae88e52bb911c09a8022bf715507403d8}{
+\index{GripperEffector@{GripperEffector}!GripperEffector@{GripperEffector}}
+\index{GripperEffector@{GripperEffector}!GripperEffector@{GripperEffector}}
+\subsubsection[{GripperEffector}]{\setlength{\rightskip}{0pt plus 5cm}GripperEffector::GripperEffector (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_ae88e52bb911c09a8022bf715507403d8}
+\hypertarget{class_gripper_effector_a1a3bdd868b44a204e87721160d94e760}{
+\index{GripperEffector@{GripperEffector}!$\sim$GripperEffector@{$\sim$GripperEffector}}
+\index{$\sim$GripperEffector@{$\sim$GripperEffector}!GripperEffector@{GripperEffector}}
+\subsubsection[{$\sim$GripperEffector}]{\setlength{\rightskip}{0pt plus 5cm}GripperEffector::$\sim$GripperEffector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a1a3bdd868b44a204e87721160d94e760}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_gripper_effector_a446ce56a6195c2b0dcccc6a6fcdd1961}{
+\index{GripperEffector@{GripperEffector}!copy@{copy}}
+\index{copy@{copy}!GripperEffector@{GripperEffector}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}void GripperEffector::copy (
+\begin{DoxyParamCaption}
+\item[{std::map$<$ std::string, std::string $>$}]{object}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a446ce56a6195c2b0dcccc6a6fcdd1961}
+
+
+Reimplemented from \hyperlink{class_end_effector_a60c32047ac0826ef80a10b8477132d7c}{EndEffector}.
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{class_gripper_effector_a446ce56a6195c2b0dcccc6a6fcdd1961_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_gripper_effector_a93cffef39860f2c94a09e52531cfabc2}{
+\index{GripperEffector@{GripperEffector}!Explode@{Explode}}
+\index{Explode@{Explode}!GripperEffector@{GripperEffector}}
+\subsubsection[{Explode}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ std::string $>$ GripperEffector::Explode (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{str, }
+\item[{char}]{separator}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a93cffef39860f2c94a09e52531cfabc2}
+
+
+Reimplemented from \hyperlink{class_end_effector_a29555a56acdff435557ac14e5d3dcd47}{EndEffector}.
+
+\hypertarget{class_gripper_effector_ade0d2f1e5e0a61d1550ffcc305eae11e}{
+\index{GripperEffector@{GripperEffector}!get@{get}}
+\index{get@{get}!GripperEffector@{GripperEffector}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void GripperEffector::get (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_ade0d2f1e5e0a61d1550ffcc305eae11e}
+
+
+Reimplemented from \hyperlink{class_end_effector_ad46cf6320eb6ee331316a14b1095e8d8}{EndEffector}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_gripper_effector_ade0d2f1e5e0a61d1550ffcc305eae11e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_gripper_effector_a0e8f17336a915c587ce5338db0cee9bc}{
+\index{GripperEffector@{GripperEffector}!get@{get}}
+\index{get@{get}!GripperEffector@{GripperEffector}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void GripperEffector::get (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a0e8f17336a915c587ce5338db0cee9bc}
+
+
+Reimplemented from \hyperlink{class_end_effector_a7edd1d305e1316dffda82a9d66a9564b}{EndEffector}.
+
+\hypertarget{class_gripper_effector_a184c5ca2103576a291ee4bafe0c0d5a3}{
+\index{GripperEffector@{GripperEffector}!getdao@{getdao}}
+\index{getdao@{getdao}!GripperEffector@{GripperEffector}}
+\subsubsection[{getdao}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DAO} $\ast$ GripperEffector::getdao (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a184c5ca2103576a291ee4bafe0c0d5a3}
+
+
+Reimplemented from \hyperlink{class_end_effector_ab4e27c958cdd62573d064acde55d6304}{EndEffector}.
+
+\hypertarget{class_gripper_effector_a51b794adb5bfdf76434316bbf70a45e7}{
+\index{GripperEffector@{GripperEffector}!getGripperEffectorID@{getGripperEffectorID}}
+\index{getGripperEffectorID@{getGripperEffectorID}!GripperEffector@{GripperEffector}}
+\subsubsection[{getGripperEffectorID}]{\setlength{\rightskip}{0pt plus 5cm}int GripperEffector::getGripperEffectorID (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a51b794adb5bfdf76434316bbf70a45e7}
+\hypertarget{class_gripper_effector_af5309596cd435c504c8ffad6d9367a2d}{
+\index{GripperEffector@{GripperEffector}!getname@{getname}}
+\index{getname@{getname}!GripperEffector@{GripperEffector}}
+\subsubsection[{getname}]{\setlength{\rightskip}{0pt plus 5cm}std::string GripperEffector::getname (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_af5309596cd435c504c8ffad6d9367a2d}
+
+
+Reimplemented from \hyperlink{class_end_effector_a36e103bed34f4354487211af69eaea93}{EndEffector}.
+
+\hypertarget{class_gripper_effector_a03b4942326d5124b1cbad110cd54db24}{
+\index{GripperEffector@{GripperEffector}!set@{set}}
+\index{set@{set}!GripperEffector@{GripperEffector}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void GripperEffector::set (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a03b4942326d5124b1cbad110cd54db24}
+
+
+Reimplemented from \hyperlink{class_end_effector_a6361b8a7cb17a441de501387a1006993}{EndEffector}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{class_gripper_effector_a03b4942326d5124b1cbad110cd54db24_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_gripper_effector_a4a09b63049fe00adbf5105140b076987}{
+\index{GripperEffector@{GripperEffector}!set@{set}}
+\index{set@{set}!GripperEffector@{GripperEffector}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void GripperEffector::set (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{{\bf GripperEffector} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_a4a09b63049fe00adbf5105140b076987}
+\hypertarget{class_gripper_effector_acd4178b0f26deb68f18a2a22674e554f}{
+\index{GripperEffector@{GripperEffector}!setdao@{setdao}}
+\index{setdao@{setdao}!GripperEffector@{GripperEffector}}
+\subsubsection[{setdao}]{\setlength{\rightskip}{0pt plus 5cm}void GripperEffector::setdao (
+\begin{DoxyParamCaption}
+\item[{{\bf DAO} $\ast$}]{\_\-dao}
+\end{DoxyParamCaption}
+)}}
+\label{class_gripper_effector_acd4178b0f26deb68f18a2a22674e554f}
+
+
+Reimplemented from \hyperlink{class_end_effector_a68f208f457189aa356951442d5692b08}{EndEffector}.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_gripper_effector_8h}{GripperEffector.h}\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_gripper_effector_8cpp}{GripperEffector.cpp}\end{DoxyCompactItemize}

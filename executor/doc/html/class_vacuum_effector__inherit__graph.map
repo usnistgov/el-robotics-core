@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node7" href="$class_vacuum_effector_multi_cup.html" title="VacuumEffectorMultiCup" alt="" coords="5,237,163,267"/>
+<area shape="rect" id="node9" href="$class_vacuum_effector_single_cup.html" title="VacuumEffectorSingleCup" alt="" coords="187,237,352,267"/>
+<area shape="rect" id="node2" href="$class_end_effector.html" title="EndEffector" alt="" coords="133,83,219,112"/>
+<area shape="rect" id="node4" href="$class_solid_object.html" title="SolidObject" alt="" coords="133,5,219,35"/>
+</map>

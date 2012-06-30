@@ -1,0 +1,441 @@
+\hypertarget{class_robot}{
+\section{Robot Class Reference}
+\label{class_robot}\index{Robot@{Robot}}
+}
+
+
+{\ttfamily \#include $<$Robot.h$>$}
+
+
+
+Inheritance diagram for Robot:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{class_robot__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Robot:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_robot__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_robot_a76bf162c87054d8f1b3c6e1656caf46b}{Robot} (std::string name)
+\item 
+\hyperlink{class_robot_a924320124b09c2f2ac1621aa210d5f38}{$\sim$Robot} ()
+\item 
+void \hyperlink{class_robot_a75eff0f204a90f564d474b357a02d723}{get} (int id)
+\item 
+void \hyperlink{class_robot_a79bf7a499a3860c351abf981b8e19fbf}{get} (std::string name)
+\item 
+void \hyperlink{class_robot_a33cea343a42a928248d9fd6a9ea14190}{set} (int id, \hyperlink{class_robot}{Robot} $\ast$obj)
+\item 
+void \hyperlink{class_robot_a9ca310b2961355e152a5503961538ed5}{set} (std::string name)
+\item 
+std::string \hyperlink{class_robot_ac75e41520ffc4a4e87320ed40031eda1}{gethasRobot\_\-Description} ()
+\item 
+void \hyperlink{class_robot_af717a24cf6a287927a0ae443c41cc0ef}{sethasRobot\_\-Description} (std::string \_\-hasRobot\_\-Description)
+\item 
+std::string \hyperlink{class_robot_a90300f528b69a6aea61a4172831317c0}{gethasRobot\_\-Id} ()
+\item 
+void \hyperlink{class_robot_a179136af9c62b96b5015d74e09c1830e}{sethasRobot\_\-Id} (std::string \_\-hasRobot\_\-Id)
+\item 
+double \hyperlink{class_robot_a741aa9eb355882ad44f03b7d32818e24}{gethasRobot\_\-MaximumLoadWeight} ()
+\item 
+void \hyperlink{class_robot_ac919aa098f4421feb4a70912863a2a94}{sethasRobot\_\-MaximumLoadWeight} (double \_\-hasRobot\_\-MaximumLoadWeight)
+\item 
+std::string \hyperlink{class_robot_ac68a539590d0fe227c07da18077e4085}{getname} ()
+\item 
+int \hyperlink{class_robot_aec8db41d0995aca0c76095ad0e01f400}{getRobotID} ()
+\item 
+\hyperlink{class_d_a_o}{DAO} $\ast$ \hyperlink{class_robot_aeffa0adbec7c1c9ff0a628a69cb799fc}{getdao} ()
+\item 
+void \hyperlink{class_robot_a76c8a66cbeb73f9fa9c0960105c2f355}{setdao} (\hyperlink{class_d_a_o}{DAO} $\ast$\_\-dao)
+\item 
+\hyperlink{class_end_effector}{EndEffector} $\ast$ \hyperlink{class_robot_aac5f4754ff63146130a593de46462318}{gethadByEndEffector\_\-Robot} ()
+\item 
+void \hyperlink{class_robot_a046b84e019ffb85b6b48d51794b7b9f7}{sethadByEndEffector\_\-Robot} (\hyperlink{class_end_effector}{EndEffector} $\ast$\_\-hadByEndEffector\_\-Robot)
+\item 
+std::vector$<$ \hyperlink{class_box_volume}{BoxVolume} $\ast$ $>$ $\ast$ \hyperlink{class_robot_a24167a0ae365e90d7d3dec3f7dee163f}{gethasRobot\_\-WorkVolume} ()
+\item 
+void \hyperlink{class_robot_ad70e72d5deb10a7ec8fdf625c582f0e4}{sethasRobot\_\-WorkVolume} (std::vector$<$ \hyperlink{class_box_volume}{BoxVolume} $\ast$ $>$ \_\-hasRobot\_\-WorkVolume)
+\item 
+\hyperlink{class_kitting_workstation}{KittingWorkstation} $\ast$ \hyperlink{class_robot_ad18799356caea9c6b73843183a5b3654}{gethasWorkstation\_\-Robot} ()
+\item 
+void \hyperlink{class_robot_a2cf161ac52f8272132f50d5207843ed1}{sethasWorkstation\_\-Robot} (\hyperlink{class_kitting_workstation}{KittingWorkstation} $\ast$\_\-hasWorkstation\_\-Robot)
+\item 
+void \hyperlink{class_robot_a18293b5f0d4b14e8bfc361e9b45183cf}{copy} (std::map$<$ std::string, std::string $>$ object)
+\item 
+std::vector$<$ std::string $>$ \hyperlink{class_robot_a4cbeeec3580bb350a08aac1457a6a03c}{Explode} (const std::string \&str, char separator)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_robot_a76bf162c87054d8f1b3c6e1656caf46b}{
+\index{Robot@{Robot}!Robot@{Robot}}
+\index{Robot@{Robot}!Robot@{Robot}}
+\subsubsection[{Robot}]{\setlength{\rightskip}{0pt plus 5cm}Robot::Robot (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a76bf162c87054d8f1b3c6e1656caf46b}
+\hypertarget{class_robot_a924320124b09c2f2ac1621aa210d5f38}{
+\index{Robot@{Robot}!$\sim$Robot@{$\sim$Robot}}
+\index{$\sim$Robot@{$\sim$Robot}!Robot@{Robot}}
+\subsubsection[{$\sim$Robot}]{\setlength{\rightskip}{0pt plus 5cm}Robot::$\sim$Robot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a924320124b09c2f2ac1621aa210d5f38}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_robot_a18293b5f0d4b14e8bfc361e9b45183cf}{
+\index{Robot@{Robot}!copy@{copy}}
+\index{copy@{copy}!Robot@{Robot}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::copy (
+\begin{DoxyParamCaption}
+\item[{std::map$<$ std::string, std::string $>$}]{object}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a18293b5f0d4b14e8bfc361e9b45183cf}
+
+
+Reimplemented from \hyperlink{class_solid_object_ac3c576278aad2366890e96889d7e24cf}{SolidObject}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{class_robot_a18293b5f0d4b14e8bfc361e9b45183cf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=242pt]{class_robot_a18293b5f0d4b14e8bfc361e9b45183cf_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_a4cbeeec3580bb350a08aac1457a6a03c}{
+\index{Robot@{Robot}!Explode@{Explode}}
+\index{Explode@{Explode}!Robot@{Robot}}
+\subsubsection[{Explode}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ std::string $>$ Robot::Explode (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{str, }
+\item[{char}]{separator}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a4cbeeec3580bb350a08aac1457a6a03c}
+
+
+Reimplemented from \hyperlink{class_solid_object_a9c68e5f4e7a8bf41ab5d99736063f07c}{SolidObject}.
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=358pt]{class_robot_a4cbeeec3580bb350a08aac1457a6a03c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_a75eff0f204a90f564d474b357a02d723}{
+\index{Robot@{Robot}!get@{get}}
+\index{get@{get}!Robot@{Robot}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::get (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a75eff0f204a90f564d474b357a02d723}
+
+
+Reimplemented from \hyperlink{class_solid_object_a76502cdc5f302d769508f196a0358d04}{SolidObject}.
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_robot_a75eff0f204a90f564d474b357a02d723_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_a79bf7a499a3860c351abf981b8e19fbf}{
+\index{Robot@{Robot}!get@{get}}
+\index{get@{get}!Robot@{Robot}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::get (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a79bf7a499a3860c351abf981b8e19fbf}
+
+
+Reimplemented from \hyperlink{class_solid_object_afb027c9baf0d811d6f376abc10501ac9}{SolidObject}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=376pt]{class_robot_a79bf7a499a3860c351abf981b8e19fbf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_aeffa0adbec7c1c9ff0a628a69cb799fc}{
+\index{Robot@{Robot}!getdao@{getdao}}
+\index{getdao@{getdao}!Robot@{Robot}}
+\subsubsection[{getdao}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DAO} $\ast$ Robot::getdao (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_aeffa0adbec7c1c9ff0a628a69cb799fc}
+
+
+Reimplemented from \hyperlink{class_solid_object_a82697845082b48fb3b2b90606e68259a}{SolidObject}.
+
+\hypertarget{class_robot_aac5f4754ff63146130a593de46462318}{
+\index{Robot@{Robot}!gethadByEndEffector\_\-Robot@{gethadByEndEffector\_\-Robot}}
+\index{gethadByEndEffector\_\-Robot@{gethadByEndEffector\_\-Robot}!Robot@{Robot}}
+\subsubsection[{gethadByEndEffector\_\-Robot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf EndEffector} $\ast$ Robot::gethadByEndEffector\_\-Robot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_aac5f4754ff63146130a593de46462318}
+\hypertarget{class_robot_ac75e41520ffc4a4e87320ed40031eda1}{
+\index{Robot@{Robot}!gethasRobot\_\-Description@{gethasRobot\_\-Description}}
+\index{gethasRobot\_\-Description@{gethasRobot\_\-Description}!Robot@{Robot}}
+\subsubsection[{gethasRobot\_\-Description}]{\setlength{\rightskip}{0pt plus 5cm}std::string Robot::gethasRobot\_\-Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_ac75e41520ffc4a4e87320ed40031eda1}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_robot_ac75e41520ffc4a4e87320ed40031eda1_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_a90300f528b69a6aea61a4172831317c0}{
+\index{Robot@{Robot}!gethasRobot\_\-Id@{gethasRobot\_\-Id}}
+\index{gethasRobot\_\-Id@{gethasRobot\_\-Id}!Robot@{Robot}}
+\subsubsection[{gethasRobot\_\-Id}]{\setlength{\rightskip}{0pt plus 5cm}std::string Robot::gethasRobot\_\-Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a90300f528b69a6aea61a4172831317c0}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_robot_a90300f528b69a6aea61a4172831317c0_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_a741aa9eb355882ad44f03b7d32818e24}{
+\index{Robot@{Robot}!gethasRobot\_\-MaximumLoadWeight@{gethasRobot\_\-MaximumLoadWeight}}
+\index{gethasRobot\_\-MaximumLoadWeight@{gethasRobot\_\-MaximumLoadWeight}!Robot@{Robot}}
+\subsubsection[{gethasRobot\_\-MaximumLoadWeight}]{\setlength{\rightskip}{0pt plus 5cm}double Robot::gethasRobot\_\-MaximumLoadWeight (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a741aa9eb355882ad44f03b7d32818e24}
+\hypertarget{class_robot_a24167a0ae365e90d7d3dec3f7dee163f}{
+\index{Robot@{Robot}!gethasRobot\_\-WorkVolume@{gethasRobot\_\-WorkVolume}}
+\index{gethasRobot\_\-WorkVolume@{gethasRobot\_\-WorkVolume}!Robot@{Robot}}
+\subsubsection[{gethasRobot\_\-WorkVolume}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ {\bf BoxVolume} $\ast$ $>$ $\ast$ Robot::gethasRobot\_\-WorkVolume (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a24167a0ae365e90d7d3dec3f7dee163f}
+\hypertarget{class_robot_ad18799356caea9c6b73843183a5b3654}{
+\index{Robot@{Robot}!gethasWorkstation\_\-Robot@{gethasWorkstation\_\-Robot}}
+\index{gethasWorkstation\_\-Robot@{gethasWorkstation\_\-Robot}!Robot@{Robot}}
+\subsubsection[{gethasWorkstation\_\-Robot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KittingWorkstation} $\ast$ Robot::gethasWorkstation\_\-Robot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_ad18799356caea9c6b73843183a5b3654}
+\hypertarget{class_robot_ac68a539590d0fe227c07da18077e4085}{
+\index{Robot@{Robot}!getname@{getname}}
+\index{getname@{getname}!Robot@{Robot}}
+\subsubsection[{getname}]{\setlength{\rightskip}{0pt plus 5cm}std::string Robot::getname (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_ac68a539590d0fe227c07da18077e4085}
+
+
+Reimplemented from \hyperlink{class_solid_object_ae7b8a41f898f9463c0e298d3477fd95f}{SolidObject}.
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{class_robot_ac68a539590d0fe227c07da18077e4085_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_aec8db41d0995aca0c76095ad0e01f400}{
+\index{Robot@{Robot}!getRobotID@{getRobotID}}
+\index{getRobotID@{getRobotID}!Robot@{Robot}}
+\subsubsection[{getRobotID}]{\setlength{\rightskip}{0pt plus 5cm}int Robot::getRobotID (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_aec8db41d0995aca0c76095ad0e01f400}
+\hypertarget{class_robot_a33cea343a42a928248d9fd6a9ea14190}{
+\index{Robot@{Robot}!set@{set}}
+\index{set@{set}!Robot@{Robot}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::set (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{{\bf Robot} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a33cea343a42a928248d9fd6a9ea14190}
+\hypertarget{class_robot_a9ca310b2961355e152a5503961538ed5}{
+\index{Robot@{Robot}!set@{set}}
+\index{set@{set}!Robot@{Robot}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::set (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a9ca310b2961355e152a5503961538ed5}
+
+
+Reimplemented from \hyperlink{class_solid_object_aaa81c29478f33c17cf15ad1409fc06b2}{SolidObject}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{class_robot_a9ca310b2961355e152a5503961538ed5_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_robot_a76c8a66cbeb73f9fa9c0960105c2f355}{
+\index{Robot@{Robot}!setdao@{setdao}}
+\index{setdao@{setdao}!Robot@{Robot}}
+\subsubsection[{setdao}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::setdao (
+\begin{DoxyParamCaption}
+\item[{{\bf DAO} $\ast$}]{\_\-dao}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a76c8a66cbeb73f9fa9c0960105c2f355}
+
+
+Reimplemented from \hyperlink{class_solid_object_aebdfc641ee348624ac5027e0a570dcd8}{SolidObject}.
+
+\hypertarget{class_robot_a046b84e019ffb85b6b48d51794b7b9f7}{
+\index{Robot@{Robot}!sethadByEndEffector\_\-Robot@{sethadByEndEffector\_\-Robot}}
+\index{sethadByEndEffector\_\-Robot@{sethadByEndEffector\_\-Robot}!Robot@{Robot}}
+\subsubsection[{sethadByEndEffector\_\-Robot}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::sethadByEndEffector\_\-Robot (
+\begin{DoxyParamCaption}
+\item[{{\bf EndEffector} $\ast$}]{\_\-hadByEndEffector\_\-Robot}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a046b84e019ffb85b6b48d51794b7b9f7}
+\hypertarget{class_robot_af717a24cf6a287927a0ae443c41cc0ef}{
+\index{Robot@{Robot}!sethasRobot\_\-Description@{sethasRobot\_\-Description}}
+\index{sethasRobot\_\-Description@{sethasRobot\_\-Description}!Robot@{Robot}}
+\subsubsection[{sethasRobot\_\-Description}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::sethasRobot\_\-Description (
+\begin{DoxyParamCaption}
+\item[{std::string}]{\_\-hasRobot\_\-Description}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_af717a24cf6a287927a0ae443c41cc0ef}
+\hypertarget{class_robot_a179136af9c62b96b5015d74e09c1830e}{
+\index{Robot@{Robot}!sethasRobot\_\-Id@{sethasRobot\_\-Id}}
+\index{sethasRobot\_\-Id@{sethasRobot\_\-Id}!Robot@{Robot}}
+\subsubsection[{sethasRobot\_\-Id}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::sethasRobot\_\-Id (
+\begin{DoxyParamCaption}
+\item[{std::string}]{\_\-hasRobot\_\-Id}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a179136af9c62b96b5015d74e09c1830e}
+\hypertarget{class_robot_ac919aa098f4421feb4a70912863a2a94}{
+\index{Robot@{Robot}!sethasRobot\_\-MaximumLoadWeight@{sethasRobot\_\-MaximumLoadWeight}}
+\index{sethasRobot\_\-MaximumLoadWeight@{sethasRobot\_\-MaximumLoadWeight}!Robot@{Robot}}
+\subsubsection[{sethasRobot\_\-MaximumLoadWeight}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::sethasRobot\_\-MaximumLoadWeight (
+\begin{DoxyParamCaption}
+\item[{double}]{\_\-hasRobot\_\-MaximumLoadWeight}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_ac919aa098f4421feb4a70912863a2a94}
+\hypertarget{class_robot_ad70e72d5deb10a7ec8fdf625c582f0e4}{
+\index{Robot@{Robot}!sethasRobot\_\-WorkVolume@{sethasRobot\_\-WorkVolume}}
+\index{sethasRobot\_\-WorkVolume@{sethasRobot\_\-WorkVolume}!Robot@{Robot}}
+\subsubsection[{sethasRobot\_\-WorkVolume}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::sethasRobot\_\-WorkVolume (
+\begin{DoxyParamCaption}
+\item[{std::vector$<$ {\bf BoxVolume} $\ast$ $>$}]{\_\-hasRobot\_\-WorkVolume}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_ad70e72d5deb10a7ec8fdf625c582f0e4}
+\hypertarget{class_robot_a2cf161ac52f8272132f50d5207843ed1}{
+\index{Robot@{Robot}!sethasWorkstation\_\-Robot@{sethasWorkstation\_\-Robot}}
+\index{sethasWorkstation\_\-Robot@{sethasWorkstation\_\-Robot}!Robot@{Robot}}
+\subsubsection[{sethasWorkstation\_\-Robot}]{\setlength{\rightskip}{0pt plus 5cm}void Robot::sethasWorkstation\_\-Robot (
+\begin{DoxyParamCaption}
+\item[{{\bf KittingWorkstation} $\ast$}]{\_\-hasWorkstation\_\-Robot}
+\end{DoxyParamCaption}
+)}}
+\label{class_robot_a2cf161ac52f8272132f50d5207843ed1}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_robot_8h}{Robot.h}\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_robot_8cpp}{Robot.cpp}\end{DoxyCompactItemize}

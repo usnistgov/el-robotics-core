@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node48" href="$class_large_container.html" title="LargeContainer" alt="" coords="288,389,395,419"/>
+<area shape="rect" id="node2" href="$class_solid_object.html" title="SolidObject" alt="" coords="971,197,1056,227"/>
+<area shape="rect" id="node4" href="$class_physical_location.html" title="PhysicalLocation" alt="" coords="1199,293,1313,323"/>
+<area shape="rect" id="node16" href="$class_boxy_object.html" title="BoxyObject" alt="" coords="676,293,759,323"/>
+<area shape="rect" id="node20" href="$class_kitting_workstation.html" title="KittingWorkstation" alt="" coords="741,485,861,515"/>
+<area shape="rect" id="node23" href="$class_robot.html" title="Robot" alt="" coords="1327,869,1380,899"/>
+<area shape="rect" id="node26" href="$class_end_effector.html" title="EndEffector" alt="" coords="1320,773,1405,803"/>
+<area shape="rect" id="node29" href="$class_end_effector_holder.html" title="EndEffectorHolder" alt="" coords="1099,677,1221,707"/>
+<area shape="rect" id="node33" href="$class_end_effector_changing_station.html" title="EndEffectorChangingStation" alt="" coords="1072,581,1248,611"/>
+<area shape="rect" id="node51" href="$class_large_box_with_kits.html" title="LargeBoxWithKits" alt="" coords="293,485,411,515"/>
+<area shape="rect" id="node6" href="$class_data_thing.html" title="DataThing" alt="" coords="1255,197,1332,227"/>
+<area shape="rect" id="node8" href="$class_d_a_o.html" title="DAO" alt="" coords="772,101,820,131"/>
+<area shape="rect" id="node14" href="$class_work_table.html" title="WorkTable" alt="" coords="833,389,913,419"/>
+<area shape="rect" id="node10" href="$class_connection.html" title="Connection" alt="" coords="753,5,839,35"/>
+</map>

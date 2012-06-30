@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_pose_location.html" title="PoseLocation" alt="" coords="15,160,111,189"/>
+<area shape="rect" id="node4" href="$class_physical_location.html" title="PhysicalLocation" alt="" coords="5,83,120,112"/>
+<area shape="rect" id="node6" href="$class_data_thing.html" title="DataThing" alt="" coords="24,5,101,35"/>
+</map>

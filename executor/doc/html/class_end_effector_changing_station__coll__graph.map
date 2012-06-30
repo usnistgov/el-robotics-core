@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node20" href="$class_kitting_workstation.html" title="KittingWorkstation" alt="" coords="649,304,769,333"/>
+<area shape="rect" id="node29" href="$class_end_effector_holder.html" title="EndEffectorHolder" alt="" coords="555,784,677,813"/>
+<area shape="rect" id="node2" href="$class_solid_object.html" title="SolidObject" alt="" coords="472,496,557,525"/>
+<area shape="rect" id="node4" href="$class_physical_location.html" title="PhysicalLocation" alt="" coords="127,592,241,621"/>
+<area shape="rect" id="node16" href="$class_boxy_object.html" title="BoxyObject" alt="" coords="681,592,764,621"/>
+<area shape="rect" id="node23" href="$class_robot.html" title="Robot" alt="" coords="799,592,852,621"/>
+<area shape="rect" id="node26" href="$class_end_effector.html" title="EndEffector" alt="" coords="617,688,703,717"/>
+<area shape="rect" id="node6" href="$class_data_thing.html" title="DataThing" alt="" coords="209,251,287,280"/>
+<area shape="rect" id="node8" href="$class_d_a_o.html" title="DAO" alt="" coords="377,101,425,131"/>
+<area shape="rect" id="node14" href="$class_work_table.html" title="WorkTable" alt="" coords="531,400,611,429"/>
+<area shape="rect" id="node10" href="$class_connection.html" title="Connection" alt="" coords="359,5,444,35"/>
+</map>

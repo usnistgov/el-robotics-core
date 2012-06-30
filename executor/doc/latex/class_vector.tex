@@ -1,0 +1,427 @@
+\hypertarget{class_vector}{
+\section{Vector Class Reference}
+\label{class_vector}\index{Vector@{Vector}}
+}
+
+
+{\ttfamily \#include $<$Vector.h$>$}
+
+
+
+Inheritance diagram for Vector:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=138pt]{class_vector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Vector:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{class_vector__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_vector_a9999305db06d6630ef4ea6d05c4992e2}{Vector} (std::string name)
+\item 
+\hyperlink{class_vector_a2eb3c49587a4f12cade7895ccb73f6a0}{$\sim$Vector} ()
+\item 
+void \hyperlink{class_vector_ad325eaf33ebd1ca02ba082f172601a4f}{get} (int id)
+\item 
+void \hyperlink{class_vector_a7ee6ab6d31fbcdb8bd48dd030e30a1af}{get} (std::string name)
+\item 
+void \hyperlink{class_vector_a3e7152cb4671094433d529aea23897d0}{set} (int id, \hyperlink{class_vector}{Vector} $\ast$obj)
+\item 
+void \hyperlink{class_vector_a41a1d931298f149ca5433331da53a765}{set} (std::string name)
+\item 
+double \hyperlink{class_vector_a1023139e44d22a40f183491d2647a2db}{gethasVector\_\-K} ()
+\item 
+void \hyperlink{class_vector_ada646c7621c5f50b18be452ba21b44f3}{sethasVector\_\-K} (double \_\-hasVector\_\-K)
+\item 
+double \hyperlink{class_vector_aa5dcf1105a3c7be3fdc518a17885abc4}{gethasVector\_\-J} ()
+\item 
+void \hyperlink{class_vector_af25139fca3f587d49b4c554df12081a0}{sethasVector\_\-J} (double \_\-hasVector\_\-J)
+\item 
+double \hyperlink{class_vector_abab0fbba3254e2dc15eeb6736b8321ae}{gethasVector\_\-I} ()
+\item 
+void \hyperlink{class_vector_a887d65f00601e863e2788c4f09a7e294}{sethasVector\_\-I} (double \_\-hasVector\_\-I)
+\item 
+std::string \hyperlink{class_vector_abf0dfbf85e6c8431b15fe58885ab33fc}{getname} ()
+\item 
+int \hyperlink{class_vector_a429e3cef2e5c1babc17c34226928c1d2}{getVectorID} ()
+\item 
+\hyperlink{class_d_a_o}{DAO} $\ast$ \hyperlink{class_vector_ab6ce67669fa54699473f2754227a224c}{getdao} ()
+\item 
+void \hyperlink{class_vector_a164215fcc47e016d863562eb5ff93524}{setdao} (\hyperlink{class_d_a_o}{DAO} $\ast$\_\-dao)
+\item 
+std::vector$<$ \hyperlink{class_part_ref_and_pose}{PartRefAndPose} $\ast$ $>$ $\ast$ \hyperlink{class_vector_aaca603b4096b9aeb3693cc5e58056a51}{gethasPartRefAndPose\_\-ZAxis} ()
+\item 
+void \hyperlink{class_vector_a5aa52131cbf729fa4ffea4fcd01cbd30}{sethasPartRefAndPose\_\-ZAxis} (std::vector$<$ \hyperlink{class_part_ref_and_pose}{PartRefAndPose} $\ast$ $>$ \_\-hasPartRefAndPose\_\-ZAxis)
+\item 
+std::vector$<$ \hyperlink{class_part_ref_and_pose}{PartRefAndPose} $\ast$ $>$ $\ast$ \hyperlink{class_vector_abff0c8b95ea4a9d6d56a66a6d27761b9}{gethasPartRefAndPose\_\-XAxis} ()
+\item 
+void \hyperlink{class_vector_a87d502c82ea0bc7fe74537787c475936}{sethasPartRefAndPose\_\-XAxis} (std::vector$<$ \hyperlink{class_part_ref_and_pose}{PartRefAndPose} $\ast$ $>$ \_\-hasPartRefAndPose\_\-XAxis)
+\item 
+std::vector$<$ \hyperlink{class_pose_location}{PoseLocation} $\ast$ $>$ $\ast$ \hyperlink{class_vector_aa10dcdf665e5fc6f85a71a4157c228f5}{gethasPoseLocation\_\-ZAxis} ()
+\item 
+void \hyperlink{class_vector_aa5851b8d355dd8da0cba59409e15900f}{sethasPoseLocation\_\-ZAxis} (std::vector$<$ \hyperlink{class_pose_location}{PoseLocation} $\ast$ $>$ \_\-hasPoseLocation\_\-ZAxis)
+\item 
+std::vector$<$ \hyperlink{class_pose_location}{PoseLocation} $\ast$ $>$ $\ast$ \hyperlink{class_vector_a3cc100bdfd4afa077b75ea5a7dd21541}{gethasPoseLocation\_\-XAxis} ()
+\item 
+void \hyperlink{class_vector_ade75a6e9a786cf9f1921dc36ee1e38ce}{sethasPoseLocation\_\-XAxis} (std::vector$<$ \hyperlink{class_pose_location}{PoseLocation} $\ast$ $>$ \_\-hasPoseLocation\_\-XAxis)
+\item 
+void \hyperlink{class_vector_ac052b5dd3cd960245f52733d724916f6}{copy} (std::map$<$ std::string, std::string $>$ object)
+\item 
+std::vector$<$ std::string $>$ \hyperlink{class_vector_a4be54f9589fd877120fbf0c9b799eb44}{Explode} (const std::string \&str, char separator)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_vector_a9999305db06d6630ef4ea6d05c4992e2}{
+\index{Vector@{Vector}!Vector@{Vector}}
+\index{Vector@{Vector}!Vector@{Vector}}
+\subsubsection[{Vector}]{\setlength{\rightskip}{0pt plus 5cm}Vector::Vector (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a9999305db06d6630ef4ea6d05c4992e2}
+\hypertarget{class_vector_a2eb3c49587a4f12cade7895ccb73f6a0}{
+\index{Vector@{Vector}!$\sim$Vector@{$\sim$Vector}}
+\index{$\sim$Vector@{$\sim$Vector}!Vector@{Vector}}
+\subsubsection[{$\sim$Vector}]{\setlength{\rightskip}{0pt plus 5cm}Vector::$\sim$Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a2eb3c49587a4f12cade7895ccb73f6a0}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_vector_ac052b5dd3cd960245f52733d724916f6}{
+\index{Vector@{Vector}!copy@{copy}}
+\index{copy@{copy}!Vector@{Vector}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::copy (
+\begin{DoxyParamCaption}
+\item[{std::map$<$ std::string, std::string $>$}]{object}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_ac052b5dd3cd960245f52733d724916f6}
+
+
+Reimplemented from \hyperlink{class_data_thing_a6d3f72340c760ce2d464fdca61a85633}{DataThing}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{class_vector_ac052b5dd3cd960245f52733d724916f6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{class_vector_ac052b5dd3cd960245f52733d724916f6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_vector_a4be54f9589fd877120fbf0c9b799eb44}{
+\index{Vector@{Vector}!Explode@{Explode}}
+\index{Explode@{Explode}!Vector@{Vector}}
+\subsubsection[{Explode}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ std::string $>$ Vector::Explode (
+\begin{DoxyParamCaption}
+\item[{const std::string \&}]{str, }
+\item[{char}]{separator}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a4be54f9589fd877120fbf0c9b799eb44}
+
+
+Reimplemented from \hyperlink{class_data_thing_ad0bf28e66a55089ee19dd2a92b71244f}{DataThing}.
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=362pt]{class_vector_a4be54f9589fd877120fbf0c9b799eb44_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_vector_ad325eaf33ebd1ca02ba082f172601a4f}{
+\index{Vector@{Vector}!get@{get}}
+\index{get@{get}!Vector@{Vector}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::get (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_ad325eaf33ebd1ca02ba082f172601a4f}
+
+
+Reimplemented from \hyperlink{class_data_thing_a8d294fdb8263e02e911e429aa79e8ec0}{DataThing}.
+
+\hypertarget{class_vector_a7ee6ab6d31fbcdb8bd48dd030e30a1af}{
+\index{Vector@{Vector}!get@{get}}
+\index{get@{get}!Vector@{Vector}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::get (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a7ee6ab6d31fbcdb8bd48dd030e30a1af}
+
+
+Reimplemented from \hyperlink{class_data_thing_ac2eac975c5f135baa984906b073920e8}{DataThing}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=378pt]{class_vector_a7ee6ab6d31fbcdb8bd48dd030e30a1af_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_vector_ab6ce67669fa54699473f2754227a224c}{
+\index{Vector@{Vector}!getdao@{getdao}}
+\index{getdao@{getdao}!Vector@{Vector}}
+\subsubsection[{getdao}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DAO} $\ast$ Vector::getdao (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_ab6ce67669fa54699473f2754227a224c}
+
+
+Reimplemented from \hyperlink{class_data_thing_ae405347375d1a67fc132f200e74637d3}{DataThing}.
+
+\hypertarget{class_vector_abff0c8b95ea4a9d6d56a66a6d27761b9}{
+\index{Vector@{Vector}!gethasPartRefAndPose\_\-XAxis@{gethasPartRefAndPose\_\-XAxis}}
+\index{gethasPartRefAndPose\_\-XAxis@{gethasPartRefAndPose\_\-XAxis}!Vector@{Vector}}
+\subsubsection[{gethasPartRefAndPose\_\-XAxis}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ {\bf PartRefAndPose} $\ast$ $>$ $\ast$ Vector::gethasPartRefAndPose\_\-XAxis (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_abff0c8b95ea4a9d6d56a66a6d27761b9}
+\hypertarget{class_vector_aaca603b4096b9aeb3693cc5e58056a51}{
+\index{Vector@{Vector}!gethasPartRefAndPose\_\-ZAxis@{gethasPartRefAndPose\_\-ZAxis}}
+\index{gethasPartRefAndPose\_\-ZAxis@{gethasPartRefAndPose\_\-ZAxis}!Vector@{Vector}}
+\subsubsection[{gethasPartRefAndPose\_\-ZAxis}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ {\bf PartRefAndPose} $\ast$ $>$ $\ast$ Vector::gethasPartRefAndPose\_\-ZAxis (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_aaca603b4096b9aeb3693cc5e58056a51}
+\hypertarget{class_vector_a3cc100bdfd4afa077b75ea5a7dd21541}{
+\index{Vector@{Vector}!gethasPoseLocation\_\-XAxis@{gethasPoseLocation\_\-XAxis}}
+\index{gethasPoseLocation\_\-XAxis@{gethasPoseLocation\_\-XAxis}!Vector@{Vector}}
+\subsubsection[{gethasPoseLocation\_\-XAxis}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ {\bf PoseLocation} $\ast$ $>$ $\ast$ Vector::gethasPoseLocation\_\-XAxis (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a3cc100bdfd4afa077b75ea5a7dd21541}
+\hypertarget{class_vector_aa10dcdf665e5fc6f85a71a4157c228f5}{
+\index{Vector@{Vector}!gethasPoseLocation\_\-ZAxis@{gethasPoseLocation\_\-ZAxis}}
+\index{gethasPoseLocation\_\-ZAxis@{gethasPoseLocation\_\-ZAxis}!Vector@{Vector}}
+\subsubsection[{gethasPoseLocation\_\-ZAxis}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ {\bf PoseLocation} $\ast$ $>$ $\ast$ Vector::gethasPoseLocation\_\-ZAxis (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_aa10dcdf665e5fc6f85a71a4157c228f5}
+\hypertarget{class_vector_abab0fbba3254e2dc15eeb6736b8321ae}{
+\index{Vector@{Vector}!gethasVector\_\-I@{gethasVector\_\-I}}
+\index{gethasVector\_\-I@{gethasVector\_\-I}!Vector@{Vector}}
+\subsubsection[{gethasVector\_\-I}]{\setlength{\rightskip}{0pt plus 5cm}double Vector::gethasVector\_\-I (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_abab0fbba3254e2dc15eeb6736b8321ae}
+\hypertarget{class_vector_aa5dcf1105a3c7be3fdc518a17885abc4}{
+\index{Vector@{Vector}!gethasVector\_\-J@{gethasVector\_\-J}}
+\index{gethasVector\_\-J@{gethasVector\_\-J}!Vector@{Vector}}
+\subsubsection[{gethasVector\_\-J}]{\setlength{\rightskip}{0pt plus 5cm}double Vector::gethasVector\_\-J (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_aa5dcf1105a3c7be3fdc518a17885abc4}
+\hypertarget{class_vector_a1023139e44d22a40f183491d2647a2db}{
+\index{Vector@{Vector}!gethasVector\_\-K@{gethasVector\_\-K}}
+\index{gethasVector\_\-K@{gethasVector\_\-K}!Vector@{Vector}}
+\subsubsection[{gethasVector\_\-K}]{\setlength{\rightskip}{0pt plus 5cm}double Vector::gethasVector\_\-K (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a1023139e44d22a40f183491d2647a2db}
+\hypertarget{class_vector_abf0dfbf85e6c8431b15fe58885ab33fc}{
+\index{Vector@{Vector}!getname@{getname}}
+\index{getname@{getname}!Vector@{Vector}}
+\subsubsection[{getname}]{\setlength{\rightskip}{0pt plus 5cm}std::string Vector::getname (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_abf0dfbf85e6c8431b15fe58885ab33fc}
+
+
+Reimplemented from \hyperlink{class_data_thing_af283145e771ef8a47c853ceed4a9f963}{DataThing}.
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{class_vector_abf0dfbf85e6c8431b15fe58885ab33fc_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_vector_a429e3cef2e5c1babc17c34226928c1d2}{
+\index{Vector@{Vector}!getVectorID@{getVectorID}}
+\index{getVectorID@{getVectorID}!Vector@{Vector}}
+\subsubsection[{getVectorID}]{\setlength{\rightskip}{0pt plus 5cm}int Vector::getVectorID (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a429e3cef2e5c1babc17c34226928c1d2}
+\hypertarget{class_vector_a41a1d931298f149ca5433331da53a765}{
+\index{Vector@{Vector}!set@{set}}
+\index{set@{set}!Vector@{Vector}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::set (
+\begin{DoxyParamCaption}
+\item[{std::string}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a41a1d931298f149ca5433331da53a765}
+
+
+Reimplemented from \hyperlink{class_data_thing_a2e3a079dcb519fa810f2d6412ba90cd3}{DataThing}.
+
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{class_vector_a41a1d931298f149ca5433331da53a765_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_vector_a3e7152cb4671094433d529aea23897d0}{
+\index{Vector@{Vector}!set@{set}}
+\index{set@{set}!Vector@{Vector}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::set (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{{\bf Vector} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a3e7152cb4671094433d529aea23897d0}
+\hypertarget{class_vector_a164215fcc47e016d863562eb5ff93524}{
+\index{Vector@{Vector}!setdao@{setdao}}
+\index{setdao@{setdao}!Vector@{Vector}}
+\subsubsection[{setdao}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::setdao (
+\begin{DoxyParamCaption}
+\item[{{\bf DAO} $\ast$}]{\_\-dao}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a164215fcc47e016d863562eb5ff93524}
+
+
+Reimplemented from \hyperlink{class_data_thing_af13c3ba6fa5e679aaa245e22b8d16e13}{DataThing}.
+
+\hypertarget{class_vector_a87d502c82ea0bc7fe74537787c475936}{
+\index{Vector@{Vector}!sethasPartRefAndPose\_\-XAxis@{sethasPartRefAndPose\_\-XAxis}}
+\index{sethasPartRefAndPose\_\-XAxis@{sethasPartRefAndPose\_\-XAxis}!Vector@{Vector}}
+\subsubsection[{sethasPartRefAndPose\_\-XAxis}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasPartRefAndPose\_\-XAxis (
+\begin{DoxyParamCaption}
+\item[{std::vector$<$ {\bf PartRefAndPose} $\ast$ $>$}]{\_\-hasPartRefAndPose\_\-XAxis}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a87d502c82ea0bc7fe74537787c475936}
+\hypertarget{class_vector_a5aa52131cbf729fa4ffea4fcd01cbd30}{
+\index{Vector@{Vector}!sethasPartRefAndPose\_\-ZAxis@{sethasPartRefAndPose\_\-ZAxis}}
+\index{sethasPartRefAndPose\_\-ZAxis@{sethasPartRefAndPose\_\-ZAxis}!Vector@{Vector}}
+\subsubsection[{sethasPartRefAndPose\_\-ZAxis}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasPartRefAndPose\_\-ZAxis (
+\begin{DoxyParamCaption}
+\item[{std::vector$<$ {\bf PartRefAndPose} $\ast$ $>$}]{\_\-hasPartRefAndPose\_\-ZAxis}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a5aa52131cbf729fa4ffea4fcd01cbd30}
+\hypertarget{class_vector_ade75a6e9a786cf9f1921dc36ee1e38ce}{
+\index{Vector@{Vector}!sethasPoseLocation\_\-XAxis@{sethasPoseLocation\_\-XAxis}}
+\index{sethasPoseLocation\_\-XAxis@{sethasPoseLocation\_\-XAxis}!Vector@{Vector}}
+\subsubsection[{sethasPoseLocation\_\-XAxis}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasPoseLocation\_\-XAxis (
+\begin{DoxyParamCaption}
+\item[{std::vector$<$ {\bf PoseLocation} $\ast$ $>$}]{\_\-hasPoseLocation\_\-XAxis}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_ade75a6e9a786cf9f1921dc36ee1e38ce}
+\hypertarget{class_vector_aa5851b8d355dd8da0cba59409e15900f}{
+\index{Vector@{Vector}!sethasPoseLocation\_\-ZAxis@{sethasPoseLocation\_\-ZAxis}}
+\index{sethasPoseLocation\_\-ZAxis@{sethasPoseLocation\_\-ZAxis}!Vector@{Vector}}
+\subsubsection[{sethasPoseLocation\_\-ZAxis}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasPoseLocation\_\-ZAxis (
+\begin{DoxyParamCaption}
+\item[{std::vector$<$ {\bf PoseLocation} $\ast$ $>$}]{\_\-hasPoseLocation\_\-ZAxis}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_aa5851b8d355dd8da0cba59409e15900f}
+\hypertarget{class_vector_a887d65f00601e863e2788c4f09a7e294}{
+\index{Vector@{Vector}!sethasVector\_\-I@{sethasVector\_\-I}}
+\index{sethasVector\_\-I@{sethasVector\_\-I}!Vector@{Vector}}
+\subsubsection[{sethasVector\_\-I}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasVector\_\-I (
+\begin{DoxyParamCaption}
+\item[{double}]{\_\-hasVector\_\-I}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_a887d65f00601e863e2788c4f09a7e294}
+\hypertarget{class_vector_af25139fca3f587d49b4c554df12081a0}{
+\index{Vector@{Vector}!sethasVector\_\-J@{sethasVector\_\-J}}
+\index{sethasVector\_\-J@{sethasVector\_\-J}!Vector@{Vector}}
+\subsubsection[{sethasVector\_\-J}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasVector\_\-J (
+\begin{DoxyParamCaption}
+\item[{double}]{\_\-hasVector\_\-J}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_af25139fca3f587d49b4c554df12081a0}
+\hypertarget{class_vector_ada646c7621c5f50b18be452ba21b44f3}{
+\index{Vector@{Vector}!sethasVector\_\-K@{sethasVector\_\-K}}
+\index{sethasVector\_\-K@{sethasVector\_\-K}!Vector@{Vector}}
+\subsubsection[{sethasVector\_\-K}]{\setlength{\rightskip}{0pt plus 5cm}void Vector::sethasVector\_\-K (
+\begin{DoxyParamCaption}
+\item[{double}]{\_\-hasVector\_\-K}
+\end{DoxyParamCaption}
+)}}
+\label{class_vector_ada646c7621c5f50b18be452ba21b44f3}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_vector_8h}{Vector.h}\item 
+/home/zeid/workspace/executor/src/database/\hyperlink{_vector_8cpp}{Vector.cpp}\end{DoxyCompactItemize}

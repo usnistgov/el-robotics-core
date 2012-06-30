@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_end_effector_8cpp.html" title="/home/zeid/workspace/executor/src/database/EndEffector.cpp" alt="" coords="5,83,360,112"/>
+<area shape="rect" id="node5" href="$_end_effector_holder_8cpp.html" title="/home/zeid/workspace/executor/src/database/EndEffectorHolder.cpp" alt="" coords="384,83,776,112"/>
+<area shape="rect" id="node7" href="$_gripper_effector_8h.html" title="/home/zeid/workspace/executor/src/database/GripperEffector.h" alt="" coords="800,83,1163,112"/>
+<area shape="rect" id="node11" href="$_robot_8cpp.html" title="/home/zeid/workspace/executor/src/database/Robot.cpp" alt="" coords="1187,83,1512,112"/>
+<area shape="rect" id="node13" href="$_vacuum_effector_8h.html" title="/home/zeid/workspace/executor/src/database/VacuumEffector.h" alt="" coords="1556,83,1921,112"/>
+<area shape="rect" id="node9" href="$_gripper_effector_8cpp.html" title="/home/zeid/workspace/executor/src/database/GripperEffector.cpp" alt="" coords="773,160,1147,189"/>
+<area shape="rect" id="node15" href="$_vacuum_effector_8cpp.html" title="/home/zeid/workspace/executor/src/database/VacuumEffector.cpp" alt="" coords="1171,160,1549,189"/>
+<area shape="rect" id="node17" href="$_vacuum_effector_multi_cup_8h.html" title="/home/zeid/workspace/executor/src/database/VacuumEffectorMultiCup.h" alt="" coords="1573,160,1987,189"/>
+<area shape="rect" id="node21" href="$_vacuum_effector_single_cup_8h.html" title="/home/zeid/workspace/executor/src/database/VacuumEffectorSingleCup.h" alt="" coords="2017,160,2441,189"/>
+<area shape="rect" id="node19" href="$_vacuum_effector_multi_cup_8cpp.html" title="/home/zeid/workspace/executor/src/database/VacuumEffectorMultiCup.cpp" alt="" coords="1560,237,1987,267"/>
+<area shape="rect" id="node23" href="$_vacuum_effector_single_cup_8cpp.html" title="/home/zeid/workspace/executor/src/database/VacuumEffectorSingleCup.cpp" alt="" coords="2011,237,2448,267"/>
+<area shape="rect" id="node25" href="$database_8h.html" title="/home/zeid/workspace/executor/src/interpreter/database.h" alt="" coords="2472,237,2808,267"/>
+<area shape="rect" id="node27" href="$_canonical_robot_command_8cc.html" title="/home/zeid/workspace/executor/src/interpreter/CanonicalRobotCommand.cc" alt="" coords="2237,315,2672,344"/>
+<area shape="rect" id="node29" href="$main_8cc.html" title="/home/zeid/workspace/executor/src/main.cc" alt="" coords="2696,315,2955,344"/>
+</map>

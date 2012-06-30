@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$class_pose_location.html" title="PoseLocation" alt="" coords="215,160,311,189"/>
+<area shape="rect" id="node13" href="$class_relative_location.html" title="RelativeLocation" alt="" coords="423,160,537,189"/>
+<area shape="rect" id="node2" href="$class_data_thing.html" title="DataThing" alt="" coords="368,5,445,35"/>
+<area shape="rect" id="node7" href="$class_pose_location_in.html" title="PoseLocationIn" alt="" coords="5,237,112,267"/>
+<area shape="rect" id="node9" href="$class_pose_location_on.html" title="PoseLocationOn" alt="" coords="136,237,248,267"/>
+<area shape="rect" id="node11" href="$class_pose_only_location.html" title="PoseOnlyLocation" alt="" coords="272,237,395,267"/>
+<area shape="rect" id="node15" href="$class_relative_location_in.html" title="RelativeLocationIn" alt="" coords="419,237,541,267"/>
+<area shape="rect" id="node17" href="$class_relative_location_on.html" title="RelativeLocationOn" alt="" coords="565,237,696,267"/>
+</map>

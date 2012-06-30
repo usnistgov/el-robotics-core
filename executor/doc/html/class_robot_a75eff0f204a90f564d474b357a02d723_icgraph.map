@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_canonical_robot_command.html#a02916ca791c56cae1a4b71c35db8753e" title="CanonicalRobotCommand::attach_eff" alt="" coords="133,5,360,35"/>
+<area shape="rect" id="node5" href="$class_canonical_robot_command.html#a10f1fb20f4c17d0a37b747356378f29c" title="Reads a line of the plan and interprets it into one or more canonical robot commands." alt="" coords="409,5,671,35"/>
+<area shape="rect" id="node7" href="$class_canonical_robot_command.html#a8b54b12dc029042eedfa15598f671ac6" title="Read the plan stored in KittingPlan::m_actionParamList and interpret each action." alt="" coords="721,5,964,35"/>
+<area shape="rect" id="node9" href="$main_8cc.html#ac0f2228420376f4db7e1274f2b41667c" title="main" alt="" coords="1015,5,1063,35"/>
+</map>

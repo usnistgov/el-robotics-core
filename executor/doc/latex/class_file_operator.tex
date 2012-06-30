@@ -1,0 +1,305 @@
+\hypertarget{class_file_operator}{
+\section{FileOperator Class Reference}
+\label{class_file_operator}\index{FileOperator@{FileOperator}}
+}
+
+
+Class for operations on files.  
+
+
+
+
+{\ttfamily \#include $<$FileOperator.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_file_operator_a90debcb07f4cc2e41cc015fcd86578ac}{FileOperator} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/generated constructor stub. \item\end{DoxyCompactList}\item 
+virtual \hyperlink{class_file_operator_a3888b5cd6f72e95272f8970a8c63b541}{$\sim$FileOperator} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/generated destructor stub. \item\end{DoxyCompactList}\item 
+ifstream \hyperlink{class_file_operator_aec684250a862d62ca3a992a3c369cd1d}{openFile} (const char $\ast$filename)
+\item 
+string \hyperlink{class_file_operator_a27d2367cf2f88076ac77a07753975209}{removeParentheses} (std::string s)
+\begin{DoxyCompactList}\small\item\em Remove parentheses in a string. \item\end{DoxyCompactList}\item 
+vector$<$ string $>$ \hyperlink{class_file_operator_ad1cb90c06e32a7959c58bb481318ace6}{splitString} (string s)
+\begin{DoxyCompactList}\small\item\em Split string {\itshape s\/} and store each element in a vector$<$string$>$ \item\end{DoxyCompactList}\item 
+void \hyperlink{class_file_operator_aa1c1f1211cbea8bebb6c0e7b2c7eecc1}{readVector} (vector$<$ string $>$ myVector)
+\begin{DoxyCompactList}\small\item\em Read and display elements of a vector. \item\end{DoxyCompactList}\item 
+void \hyperlink{class_file_operator_aa7ba22f616102b6c5c8cafb0cc4674a4}{readMapOfVector} (map$<$ string, vector$<$ string $>$ $>$ myMap)
+\begin{DoxyCompactList}\small\item\em Read the elements of a map that contains a vector as the second parameter. \item\end{DoxyCompactList}\item 
+void \hyperlink{class_file_operator_a3d4d4a2be9ad211ef162d40344004534}{readMap} (map$<$ string, string $>$ myMap)
+\begin{DoxyCompactList}\small\item\em Read the elements of a map. \item\end{DoxyCompactList}\item 
+void \hyperlink{class_file_operator_ae996ae02d43ee6a8bdccb17ab2554af5}{readVectorOfVector} (vector$<$ vector$<$ string $>$ $>$ myVector)
+\begin{DoxyCompactList}\small\item\em Read the elements of a vector that contains a vector of string. \item\end{DoxyCompactList}\item 
+void \hyperlink{class_file_operator_a734020c4a1a391ea037d2360bf0d56ca}{removeDuplicates} (vector$<$ string $>$ \&myVector)
+\begin{DoxyCompactList}\small\item\em Remove duplicate values in a vector. \item\end{DoxyCompactList}\item 
+vector$<$ string $>$ \hyperlink{class_file_operator_acbde2414b81392915439e2a03e6882d3}{copyVector} (vector$<$ string $>$ myVector)
+\item 
+void \hyperlink{class_file_operator_ab15fea72899b46ef473997f5735c7b7a}{stripSpace} (string \&str)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for operations on files. This class is used to manipulate files (open, substract, concat, etc). \begin{DoxyAuthor}{Author}
+\href{http://www.nist.gov/el/isd/ks/kootbally.cfm}{\tt Zeid Kootbally} {\itshape zeid.kootbally@nist.gov\/} 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 17, 2012 
+\end{DoxyDate}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_file_operator_a90debcb07f4cc2e41cc015fcd86578ac}{
+\index{FileOperator@{FileOperator}!FileOperator@{FileOperator}}
+\index{FileOperator@{FileOperator}!FileOperator@{FileOperator}}
+\subsubsection[{FileOperator}]{\setlength{\rightskip}{0pt plus 5cm}FileOperator::FileOperator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_a90debcb07f4cc2e41cc015fcd86578ac}
+
+
+Auto-\/generated constructor stub. 
+
+\hypertarget{class_file_operator_a3888b5cd6f72e95272f8970a8c63b541}{
+\index{FileOperator@{FileOperator}!$\sim$FileOperator@{$\sim$FileOperator}}
+\index{$\sim$FileOperator@{$\sim$FileOperator}!FileOperator@{FileOperator}}
+\subsubsection[{$\sim$FileOperator}]{\setlength{\rightskip}{0pt plus 5cm}FileOperator::$\sim$FileOperator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_file_operator_a3888b5cd6f72e95272f8970a8c63b541}
+
+
+Auto-\/generated destructor stub. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_file_operator_acbde2414b81392915439e2a03e6882d3}{
+\index{FileOperator@{FileOperator}!copyVector@{copyVector}}
+\index{copyVector@{copyVector}!FileOperator@{FileOperator}}
+\subsubsection[{copyVector}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$string$>$ FileOperator::copyVector (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{myVector}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_acbde2414b81392915439e2a03e6882d3}
+\hypertarget{class_file_operator_aec684250a862d62ca3a992a3c369cd1d}{
+\index{FileOperator@{FileOperator}!openFile@{openFile}}
+\index{openFile@{openFile}!FileOperator@{FileOperator}}
+\subsubsection[{openFile}]{\setlength{\rightskip}{0pt plus 5cm}ifstream FileOperator::openFile (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_aec684250a862d62ca3a992a3c369cd1d}
+\hypertarget{class_file_operator_a3d4d4a2be9ad211ef162d40344004534}{
+\index{FileOperator@{FileOperator}!readMap@{readMap}}
+\index{readMap@{readMap}!FileOperator@{FileOperator}}
+\subsubsection[{readMap}]{\setlength{\rightskip}{0pt plus 5cm}void FileOperator::readMap (
+\begin{DoxyParamCaption}
+\item[{map$<$ string, string $>$}]{myMap}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_a3d4d4a2be9ad211ef162d40344004534}
+
+
+Read the elements of a map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em myMap} & The map to read \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_file_operator_aa7ba22f616102b6c5c8cafb0cc4674a4}{
+\index{FileOperator@{FileOperator}!readMapOfVector@{readMapOfVector}}
+\index{readMapOfVector@{readMapOfVector}!FileOperator@{FileOperator}}
+\subsubsection[{readMapOfVector}]{\setlength{\rightskip}{0pt plus 5cm}void FileOperator::readMapOfVector (
+\begin{DoxyParamCaption}
+\item[{map$<$ string, vector$<$ string $>$ $>$}]{myMap}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_aa7ba22f616102b6c5c8cafb0cc4674a4}
+
+
+Read the elements of a map that contains a vector as the second parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em myMap} & The map to read \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_file_operator_aa1c1f1211cbea8bebb6c0e7b2c7eecc1}{
+\index{FileOperator@{FileOperator}!readVector@{readVector}}
+\index{readVector@{readVector}!FileOperator@{FileOperator}}
+\subsubsection[{readVector}]{\setlength{\rightskip}{0pt plus 5cm}void FileOperator::readVector (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{myVector}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_aa1c1f1211cbea8bebb6c0e7b2c7eecc1}
+
+
+Read and display elements of a vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em myVector} & The vector to read \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_file_operator_ae996ae02d43ee6a8bdccb17ab2554af5}{
+\index{FileOperator@{FileOperator}!readVectorOfVector@{readVectorOfVector}}
+\index{readVectorOfVector@{readVectorOfVector}!FileOperator@{FileOperator}}
+\subsubsection[{readVectorOfVector}]{\setlength{\rightskip}{0pt plus 5cm}void FileOperator::readVectorOfVector (
+\begin{DoxyParamCaption}
+\item[{vector$<$ vector$<$ string $>$ $>$}]{myVector}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_ae996ae02d43ee6a8bdccb17ab2554af5}
+
+
+Read the elements of a vector that contains a vector of string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em myVector} & The vector to read \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_file_operator_a734020c4a1a391ea037d2360bf0d56ca}{
+\index{FileOperator@{FileOperator}!removeDuplicates@{removeDuplicates}}
+\index{removeDuplicates@{removeDuplicates}!FileOperator@{FileOperator}}
+\subsubsection[{removeDuplicates}]{\setlength{\rightskip}{0pt plus 5cm}void FileOperator::removeDuplicates (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$ \&}]{myVector}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_a734020c4a1a391ea037d2360bf0d56ca}
+
+
+Remove duplicate values in a vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em myVector} & The vector to read \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_file_operator_a734020c4a1a391ea037d2360bf0d56ca_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_file_operator_a27d2367cf2f88076ac77a07753975209}{
+\index{FileOperator@{FileOperator}!removeParentheses@{removeParentheses}}
+\index{removeParentheses@{removeParentheses}!FileOperator@{FileOperator}}
+\subsubsection[{removeParentheses}]{\setlength{\rightskip}{0pt plus 5cm}string FileOperator::removeParentheses (
+\begin{DoxyParamCaption}
+\item[{std::string}]{s}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_a27d2367cf2f88076ac77a07753975209}
+
+
+Remove parentheses in a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & String that contains parentheses \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The string {\itshape s\/} without parentheses
+\end{DoxyReturn}
+The different steps are: 
+\begin{DoxyItemize}
+\item Find the position {\itshape pos2\/} of the closing parenthesis \char`\"{})\char`\"{} 
+\begin{DoxyItemize}
+\item Use {\itshape pos2\/} and remove the closing parenthesis from {\itshape s:\/} use the string::erase function 
+\end{DoxyItemize}
+\item Find the position {\itshape pos2\/} of the opening parenthesis \char`\"{}(\char`\"{} 
+\begin{DoxyItemize}
+\item Keep the string that starts after {\itshape pos2:\/} use the string::substr function 
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_file_operator_a27d2367cf2f88076ac77a07753975209_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_file_operator_ad1cb90c06e32a7959c58bb481318ace6}{
+\index{FileOperator@{FileOperator}!splitString@{splitString}}
+\index{splitString@{splitString}!FileOperator@{FileOperator}}
+\subsubsection[{splitString}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ FileOperator::splitString (
+\begin{DoxyParamCaption}
+\item[{string}]{s}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_ad1cb90c06e32a7959c58bb481318ace6}
+
+
+Split string {\itshape s\/} and store each element in a vector$<$string$>$ 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The string that needs to be split \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector A vector that contains all elements from the string {\itshape s\/} 
+\end{DoxyReturn}
+{\bfseries Example}: Read the string \char`\"{}word1 word2 word3\char`\"{} and generates a vector vector$<$word1,word2,word3$>$ 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_file_operator_ad1cb90c06e32a7959c58bb481318ace6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_file_operator_ab15fea72899b46ef473997f5735c7b7a}{
+\index{FileOperator@{FileOperator}!stripSpace@{stripSpace}}
+\index{stripSpace@{stripSpace}!FileOperator@{FileOperator}}
+\subsubsection[{stripSpace}]{\setlength{\rightskip}{0pt plus 5cm}void FileOperator::stripSpace (
+\begin{DoxyParamCaption}
+\item[{string \&}]{str}
+\end{DoxyParamCaption}
+)}}
+\label{class_file_operator_ab15fea72899b46ef473997f5735c7b7a}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_file_operator_ab15fea72899b46ef473997f5735c7b7a_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+/home/zeid/workspace/executor/src/interpreter/\hyperlink{_file_operator_8h}{FileOperator.h}\item 
+/home/zeid/workspace/executor/src/interpreter/\hyperlink{_file_operator_8cc}{FileOperator.cc}\end{DoxyCompactItemize}

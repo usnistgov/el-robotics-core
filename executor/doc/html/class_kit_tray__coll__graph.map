@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node48" href="$class_kit.html" title="Kit" alt="" coords="1073,677,1111,707"/>
+<area shape="rect" id="node2" href="$class_boxy_object.html" title="BoxyObject" alt="" coords="1328,293,1411,323"/>
+<area shape="rect" id="node16" href="$class_work_table.html" title="WorkTable" alt="" coords="1648,389,1728,419"/>
+<area shape="rect" id="node54" href="$class_large_container.html" title="LargeContainer" alt="" coords="756,389,863,419"/>
+<area shape="rect" id="node4" href="$class_solid_object.html" title="SolidObject" alt="" coords="1489,197,1575,227"/>
+<area shape="rect" id="node6" href="$class_physical_location.html" title="PhysicalLocation" alt="" coords="2029,293,2144,323"/>
+<area shape="rect" id="node19" href="$class_kitting_workstation.html" title="KittingWorkstation" alt="" coords="1596,485,1716,515"/>
+<area shape="rect" id="node22" href="$class_robot.html" title="Robot" alt="" coords="1585,869,1639,899"/>
+<area shape="rect" id="node25" href="$class_end_effector.html" title="EndEffector" alt="" coords="1869,773,1955,803"/>
+<area shape="rect" id="node28" href="$class_end_effector_holder.html" title="EndEffectorHolder" alt="" coords="2071,677,2193,707"/>
+<area shape="rect" id="node32" href="$class_end_effector_changing_station.html" title="EndEffectorChangingStation" alt="" coords="1816,581,1992,611"/>
+<area shape="rect" id="node51" href="$class_large_box_with_kits.html" title="LargeBoxWithKits" alt="" coords="119,485,236,515"/>
+<area shape="rect" id="node58" href="$class_large_box_with_empty_kit_trays.html" title="LargeBoxWithEmptyKitTrays" alt="" coords="972,485,1148,515"/>
+<area shape="rect" id="node8" href="$class_data_thing.html" title="DataThing" alt="" coords="2068,197,2145,227"/>
+<area shape="rect" id="node10" href="$class_d_a_o.html" title="DAO" alt="" coords="1408,101,1456,131"/>
+<area shape="rect" id="node12" href="$class_connection.html" title="Connection" alt="" coords="1389,5,1475,35"/>
+</map>

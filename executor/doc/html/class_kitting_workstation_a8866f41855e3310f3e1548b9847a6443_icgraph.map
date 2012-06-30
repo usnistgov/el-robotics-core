@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_work_table.html#a66d9882cfeab54526a9c0d8ec9308e7c" title="WorkTable::set" alt="" coords="279,5,380,35"/>
-<area shape="rect" id="node5" href="$class_stock_keeping_unit.html#ad7241fe76fce2b27704a1c68e9c78edd" title="StockKeepingUnit::set" alt="" coords="259,59,400,88"/>
-<area shape="rect" id="node7" href="$class_robot.html#a9ca310b2961355e152a5503961538ed5" title="Robot::set" alt="" coords="291,112,368,141"/>
-<area shape="rect" id="node9" href="$class_kit_design.html#abf2d5f0803a8002ede4a777a6fa53cbf" title="KitDesign::set" alt="" coords="281,165,377,195"/>
-<area shape="rect" id="node11" href="$class_end_effector_changing_station.html#a98fbf0908d853314f7486ccedcc62f16" title="EndEffectorChangingStation::set" alt="" coords="231,219,428,248"/>
-</map>

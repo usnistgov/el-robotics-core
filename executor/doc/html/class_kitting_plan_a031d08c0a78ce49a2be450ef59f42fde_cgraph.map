@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_kitting_plan.html#ac11362f185f0a72e6ccc443674fa1ac0" title="Parse an action and separate the action name to its parameters The action name and parameters are put..." alt="" coords="243,32,456,61"/>
-<area shape="rect" id="node5" href="$class_file_operator.html#a27d2367cf2f88076ac77a07753975209" title="Remove parentheses in a string." alt="" coords="505,5,711,35"/>
-<area shape="rect" id="node7" href="$class_file_operator.html#ad1cb90c06e32a7959c58bb481318ace6" title="Split string s and store each element in a vector&lt;string&gt;" alt="" coords="533,59,683,88"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$_robot_8h.html" title="../database/Robot.h" alt="" coords="645,237,773,267"/>
-<area shape="rect" id="node25" href="$_vacuum_effector_single_cup_8h.html" title="../database/VacuumEffectorSingleCup.h" alt="" coords="744,83,981,112"/>
-<area shape="rect" id="node50" href="$_end_effector_holder_8h.html" title="../database/EndEffectorHolder.h" alt="" coords="1137,237,1332,267"/>
-<area shape="rect" id="node59" href="$_end_effector_changing_station_8h.html" title="../database/EndEffectorChangingStation.h" alt="" coords="371,237,621,267"/>
-<area shape="rect" id="node17" href="$_solid_object_8h.html" title="SolidObject.h" alt="" coords="648,315,741,344"/>
-<area shape="rect" id="node33" href="$_vacuum_effector_8h.html" title="VacuumEffector.h" alt="" coords="793,160,911,189"/>
-<area shape="rect" id="node41" href="$_end_effector_8h.html" title="EndEffector.h" alt="" coords="800,237,893,267"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_physical_location.html#a99642e6f09015649f20b98b111bb7daa" title="PhysicalLocation::copy" alt="" coords="192,5,339,35"/>
-<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="231,59,300,88"/>
-<area shape="rect" id="node5" href="$class_physical_location.html#a2ab3b8277f69fe061c819039c2349f38" title="PhysicalLocation::Explode" alt="" coords="388,5,553,35"/>
-<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="405,59,536,88"/>
-</map>

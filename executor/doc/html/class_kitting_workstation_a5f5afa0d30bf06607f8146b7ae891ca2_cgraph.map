@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_kitting_workstation.html#a4d435a3c5af3a1447d18b46ed3fdba76" title="KittingWorkstation::copy" alt="" coords="197,5,349,35"/>
-<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="239,59,308,88"/>
-<area shape="rect" id="node5" href="$class_kitting_workstation.html#aed077a7b70b0c68ad46c00c867237d44" title="KittingWorkstation::Explode" alt="" coords="397,5,568,35"/>
-<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="417,59,548,88"/>
-</map>

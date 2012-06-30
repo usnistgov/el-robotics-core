@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node5" href="$class_kit_tray.html" title="KitTray" alt="" coords="5,160,64,189"/>
-<area shape="rect" id="node7" href="$class_large_container.html" title="LargeContainer" alt="" coords="88,160,195,189"/>
-<area shape="rect" id="node9" href="$class_parts_bin.html" title="PartsBin" alt="" coords="219,160,285,189"/>
-<area shape="rect" id="node11" href="$class_parts_tray.html" title="PartsTray" alt="" coords="309,160,384,189"/>
-<area shape="rect" id="node13" href="$class_work_table.html" title="WorkTable" alt="" coords="408,160,488,189"/>
-<area shape="rect" id="node2" href="$class_solid_object.html" title="SolidObject" alt="" coords="209,5,295,35"/>
-</map>

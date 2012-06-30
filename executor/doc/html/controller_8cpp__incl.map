@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node5" href="$controller_8hh.html" title="Provide a generic class to base executor controller modules off of. This class will provide routines ..." alt="" coords="173,83,264,112"/>
-<area shape="rect" id="node9" href="$canonical_msg_8hh.html" title="Provide a generic class to base command processing routines for the canonical robot command language..." alt="" coords="253,160,368,189"/>
-<area shape="rect" id="node12" href="$ulapi_8hh.html" title="ulapi.hh" alt="" coords="257,237,324,267"/>
-</map>

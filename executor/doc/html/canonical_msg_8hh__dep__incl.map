@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$controller_8hh.html" title="Provide a generic class to base executor controller modules off of. This class will provide routines ..." alt="" coords="195,83,533,112"/>
-<area shape="rect" id="node5" href="$controller_8cpp.html" title="/home/zeid/workspace/executor/src/controller/controller.cpp" alt="" coords="5,160,349,189"/>
-<area shape="rect" id="node7" href="$my_controller_8hh.html" title="Include file for myController class." alt="" coords="373,160,731,189"/>
-<area shape="rect" id="node9" href="$my_controller_8cpp.html" title="/home/zeid/workspace/executor/src/controller/myController.cpp" alt="" coords="371,237,733,267"/>
-</map>

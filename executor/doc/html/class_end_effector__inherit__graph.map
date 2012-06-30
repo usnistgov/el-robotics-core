@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node5" href="$class_gripper_effector.html" title="GripperEffector" alt="" coords="5,160,109,189"/>
-<area shape="rect" id="node7" href="$class_vacuum_effector.html" title="VacuumEffector" alt="" coords="133,160,240,189"/>
-<area shape="rect" id="node2" href="$class_solid_object.html" title="SolidObject" alt="" coords="79,5,164,35"/>
-<area shape="rect" id="node9" href="$class_vacuum_effector_multi_cup.html" title="VacuumEffectorMultiCup" alt="" coords="15,237,172,267"/>
-<area shape="rect" id="node11" href="$class_vacuum_effector_single_cup.html" title="VacuumEffectorSingleCup" alt="" coords="196,237,361,267"/>
-</map>

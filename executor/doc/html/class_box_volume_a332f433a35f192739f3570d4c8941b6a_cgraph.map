@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_box_volume.html#a409bebf982f9e26fc5d4256b418589b2" title="BoxVolume::copy" alt="" coords="163,5,280,35"/>
-<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="187,59,256,88"/>
-<area shape="rect" id="node5" href="$class_box_volume.html#ab463d1b1327dae19a7da471a97b3f242" title="BoxVolume::Explode" alt="" coords="328,5,464,35"/>
-<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="331,59,461,88"/>
-</map>

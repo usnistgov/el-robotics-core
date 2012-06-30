@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$_box_volume_8cpp.html" title="/home/zeid/workspace/executor/src/database/BoxVolume.cpp" alt="" coords="5,83,360,112"/>
-<area shape="rect" id="node5" href="$_end_effector_8cpp.html" title="/home/zeid/workspace/executor/src/database/EndEffector.cpp" alt="" coords="384,83,739,112"/>
-<area shape="rect" id="node7" href="$_kitting_workstation_8cpp.html" title="/home/zeid/workspace/executor/src/database/KittingWorkstation.cpp" alt="" coords="763,83,1152,112"/>
-<area shape="rect" id="node9" href="$_robot_8cpp.html" title="/home/zeid/workspace/executor/src/database/Robot.cpp" alt="" coords="1176,83,1501,112"/>
-<area shape="rect" id="node11" href="$database_8h.html" title="/home/zeid/workspace/executor/src/interpreter/database.h" alt="" coords="1525,83,1861,112"/>
-<area shape="rect" id="node13" href="$_canonical_robot_command_8cc.html" title="/home/zeid/workspace/executor/src/interpreter/CanonicalRobotCommand.cc" alt="" coords="1291,160,1725,189"/>
-<area shape="rect" id="node15" href="$main_8cc.html" title="/home/zeid/workspace/executor/src/main.cc" alt="" coords="1749,160,2008,189"/>
-</map>

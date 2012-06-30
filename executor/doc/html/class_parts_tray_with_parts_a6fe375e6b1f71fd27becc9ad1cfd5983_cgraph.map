@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_parts_tray_with_parts.html#ac79b4dc47be8add4b40639cff36823ff" title="PartsTrayWithParts::copy" alt="" coords="204,5,361,35"/>
-<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="248,59,317,88"/>
-<area shape="rect" id="node5" href="$class_parts_tray_with_parts.html#a2f029e4d41a8a26e95bed0a3f51e6f2f" title="PartsTrayWithParts::Explode" alt="" coords="412,5,588,35"/>
-<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="435,59,565,88"/>
-</map>

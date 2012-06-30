@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_robot.html#a18293b5f0d4b14e8bfc361e9b45183cf" title="Robot::copy" alt="" coords="135,5,220,35"/>
-<area shape="rect" id="node7" href="$class_d_a_o.html#afa5faef8daa6b6216ab26ef8b9897db2" title="DAO::get" alt="" coords="143,59,212,88"/>
-<area shape="rect" id="node5" href="$class_robot.html#a4cbeeec3580bb350a08aac1457a6a03c" title="Robot::Explode" alt="" coords="281,5,388,35"/>
-<area shape="rect" id="node9" href="$class_connection.html#a1a452e7d0205cbf773855fe7721a52dd" title="Connection::getCon" alt="" coords="269,59,400,88"/>
-</map>

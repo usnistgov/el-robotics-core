@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_data_base_1_1_individuals.html#a134db05d0e63a4f2d74e14664065602b" title="Extract the individuals of the ontology and fill up the Individuals list." alt="" coords="272,5,504,35"/>
+<area shape="rect" id="node5" href="$class_data_base_1_1_individuals.html#ac64452335dc7967bc2d536a690c669f6" title="Fill a map whith the different classes in the ontology, and their indivuals." alt="" coords="285,59,491,88"/>
+<area shape="rect" id="node7" href="$class_data_base_1_1_individuals.html#acd4c28d7442e453d614890c8c31b23da" title="Fill a list whith the name of the individuals from the ontology." alt="" coords="267,112,509,141"/>
+<area shape="rect" id="node9" href="$class_data_base_1_1_individuals.html#a193e0796d43c441f2496923e0d30effe" title="Make all the call to generate the SQL script used for the insertions." alt="" coords="297,165,479,195"/>
+<area shape="rect" id="node11" href="$class_data_base_1_1_individuals.html#a7410f8761de398b55a1fc29e3db00e9f" title="Manage the call to the insertSuper method to generate the script and populate the tables issued from ..." alt="" coords="559,139,761,168"/>
+<area shape="rect" id="node27" href="$class_data_base_1_1_individuals.html#ac2bdba826ce8df48d9a01ba5fe0f4291" title="Write the script on the disk." alt="" coords="571,192,749,221"/>
+<area shape="rect" id="node13" href="$class_data_base_1_1_individuals.html#a26f7937c9f5299eae44f22255d348351" title="Add the data properties from other tables in the SQL script for a given individual." alt="" coords="1144,87,1419,116"/>
+<area shape="rect" id="node17" href="$class_data_base_1_1_individuals.html#adb00317cfabdd880f85949801da1e3b6" title="Add the object properties from other tables in the SQL script for a given individual." alt="" coords="811,139,1096,168"/>
+<area shape="rect" id="node19" href="$class_data_base_1_1_individuals.html#a0699518228103b4a15b5216cf1b6fc1c" title="Generate the sql script used to populate the tables (INSERT and UPDATE). *." alt="" coords="845,192,1061,221"/>
+<area shape="rect" id="node15" href="$class_data_base_1_1_individuals.html#a283c1394e44fac1eac535caf70c91ae8" title="Test if a String is a number." alt="" coords="1468,140,1673,169"/>
+<area shape="rect" id="node21" href="$class_data_base_1_1_individuals.html#a761be644890ab4df91f25737b14c47e1" title="Add the local data properties in the SQL script for a given individual." alt="" coords="1165,140,1397,169"/>
+<area shape="rect" id="node24" href="$class_data_base_1_1_individuals.html#a62c20642b5ec5388807c8764db939ca2" title="Add the local object properties in the SQL script for a given individual." alt="" coords="1160,193,1403,223"/>
+</map>

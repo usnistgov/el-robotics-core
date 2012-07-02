@@ -1,0 +1,205 @@
+\hypertarget{class_classes_c_p_p_1_1_class_generator}{
+\section{ClassesCPP.ClassGenerator Class Reference}
+\label{class_classes_c_p_p_1_1_class_generator}\index{ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}}
+}
+
+
+Abstract Class implemented for generating the C++ files.  
+
+
+
+
+Inheritance diagram for ClassesCPP.ClassGenerator:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_classes_c_p_p_1_1_class_generator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ClassesCPP.ClassGenerator:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_classes_c_p_p_1_1_class_generator__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \hyperlink{class_classes_c_p_p_1_1_class_generator_a555b780302fd8d99eae0e7683acf05ca}{getUnit} (String s)
+\begin{DoxyCompactList}\small\item\em Give the unit in C++ corresponding to a type from the DB. \end{DoxyCompactList}\item 
+void \hyperlink{class_classes_c_p_p_1_1_class_generator_ae123072c95ebe28228b6084c747786a5}{writeHeader} (String data, String path)
+\begin{DoxyCompactList}\small\item\em Write the header file on the Disk. \end{DoxyCompactList}\item 
+void \hyperlink{class_classes_c_p_p_1_1_class_generator_ac1526541be988afd7a209d600b15449a}{writeClass} (String data, String path)
+\begin{DoxyCompactList}\small\item\em Write the C++ file on the Disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_classes_c_p_p_1_1_class_generator_a655b5c5524af7fde5afe146dcad327fd}{
+void \hyperlink{class_classes_c_p_p_1_1_class_generator_a655b5c5524af7fde5afe146dcad327fd}{fillUnit} ()}
+\label{class_classes_c_p_p_1_1_class_generator_a655b5c5524af7fde5afe146dcad327fd}
+
+\begin{DoxyCompactList}\small\item\em Initialize the map with the correspondances between DB unit and C++ ones. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_class_generator_a7536fe332f0ad4b4a2c2e88afcb481c9}{generateHeader} (String \hyperlink{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{className}, ArrayList$<$ String $>$ classParentName, ArrayList$<$ String $>$ attributes, ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}{unit})
+\begin{DoxyCompactList}\small\item\em Skeleton of the C++ method to generate the header file for a given type. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_class_generator_a2b803f00feba61f46791357d5f255502}{generateCpp} (String \hyperlink{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{className}, ArrayList$<$ String $>$ classParentName, ArrayList$<$ String $>$ attributes, ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}{unit})
+\begin{DoxyCompactList}\small\item\em Skeleton of the C++ method to generate the C++ file for a given type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{
+String \hyperlink{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{className} = \char`\"{}\char`\"{}}
+\label{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}
+
+\begin{DoxyCompactList}\small\item\em name of the generated class. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}{
+HashMap$<$ String, String $>$ \hyperlink{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}{unit} = new HashMap$<$String, String$>$()}
+\label{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}
+
+\begin{DoxyCompactList}\small\item\em Mapping between SQL units and C++ units. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract Class implemented for generating the C++ files. 
+
+This class contain the methods to write the files on the disk and make the correspondence between the units from the DB and the C++ ones 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_classes_c_p_p_1_1_class_generator_a2b803f00feba61f46791357d5f255502}{
+\index{ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}!generateCpp@{generateCpp}}
+\index{generateCpp@{generateCpp}!ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}}
+\subsubsection[{generateCpp}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.ClassGenerator.generateCpp (
+\begin{DoxyParamCaption}
+\item[{String}]{className, }
+\item[{ArrayList$<$ String $>$}]{classParentName, }
+\item[{ArrayList$<$ String $>$}]{attributes, }
+\item[{ArrayList$<$ String $>$}]{unit}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_classes_c_p_p_1_1_class_generator_a2b803f00feba61f46791357d5f255502}
+
+
+Skeleton of the C++ method to generate the C++ file for a given type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em className} & Name of the class. \\
+\hline
+{\em classParentName} & List of the super classes. \\
+\hline
+{\em attributes} & List of the attributes. \\
+\hline
+{\em unit} & List of the units of the attributes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+null because not implemented 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{class_classes_c_p_p_1_1_types_a6f5cdda584a6edcb4b573d693b8bb5fc}{ClassesCPP.Types}.
+
+\hypertarget{class_classes_c_p_p_1_1_class_generator_a7536fe332f0ad4b4a2c2e88afcb481c9}{
+\index{ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}!generateHeader@{generateHeader}}
+\index{generateHeader@{generateHeader}!ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}}
+\subsubsection[{generateHeader}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.ClassGenerator.generateHeader (
+\begin{DoxyParamCaption}
+\item[{String}]{className, }
+\item[{ArrayList$<$ String $>$}]{classParentName, }
+\item[{ArrayList$<$ String $>$}]{attributes, }
+\item[{ArrayList$<$ String $>$}]{unit}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_classes_c_p_p_1_1_class_generator_a7536fe332f0ad4b4a2c2e88afcb481c9}
+
+
+Skeleton of the C++ method to generate the header file for a given type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em className} & Name of the class. \\
+\hline
+{\em classParentName} & List of the super classes. \\
+\hline
+{\em attributes} & List of the attributes. \\
+\hline
+{\em unit} & List of the units of the attributes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+null because not implemented 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{class_classes_c_p_p_1_1_types_abfdc4a64038a42567aab3a5d97a12ae4}{ClassesCPP.Types}.
+
+\hypertarget{class_classes_c_p_p_1_1_class_generator_a555b780302fd8d99eae0e7683acf05ca}{
+\index{ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}!getUnit@{getUnit}}
+\index{getUnit@{getUnit}!ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}}
+\subsubsection[{getUnit}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.ClassGenerator.getUnit (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_class_generator_a555b780302fd8d99eae0e7683acf05ca}
+
+
+Give the unit in C++ corresponding to a type from the DB. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Name of the DB unit. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with C++ type corresponding 
+\end{DoxyReturn}
+\hypertarget{class_classes_c_p_p_1_1_class_generator_ac1526541be988afd7a209d600b15449a}{
+\index{ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}!writeClass@{writeClass}}
+\index{writeClass@{writeClass}!ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}}
+\subsubsection[{writeClass}]{\setlength{\rightskip}{0pt plus 5cm}void ClassesCPP.ClassGenerator.writeClass (
+\begin{DoxyParamCaption}
+\item[{String}]{data, }
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_class_generator_ac1526541be988afd7a209d600b15449a}
+
+
+Write the C++ file on the Disk. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Data you want to write. \\
+\hline
+{\em path} & Path of your file \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_classes_c_p_p_1_1_class_generator_ae123072c95ebe28228b6084c747786a5}{
+\index{ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}!writeHeader@{writeHeader}}
+\index{writeHeader@{writeHeader}!ClassesCPP::ClassGenerator@{ClassesCPP::ClassGenerator}}
+\subsubsection[{writeHeader}]{\setlength{\rightskip}{0pt plus 5cm}void ClassesCPP.ClassGenerator.writeHeader (
+\begin{DoxyParamCaption}
+\item[{String}]{data, }
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_class_generator_ae123072c95ebe28228b6084c747786a5}
+
+
+Write the header file on the Disk. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Data you want to write. \\
+\hline
+{\em path} & Path of your file \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/ClassesCPP/\hyperlink{_class_generator_8java}{ClassGenerator.java}\end{DoxyCompactItemize}

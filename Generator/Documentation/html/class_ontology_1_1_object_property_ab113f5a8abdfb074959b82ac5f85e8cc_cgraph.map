@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_ontology_1_1_object_property.html#a85c5c789eed6571f9e425accc67520a9" title="List all the inverse properties for each object properties." alt="" coords="367,5,599,35"/>
+<area shape="rect" id="node5" href="$class_ontology_1_1_object_property.html#a80ef920f9be2281be7739ca58b5c56ce" title="List all the object properties for each class." alt="" coords="340,59,625,88"/>
+<area shape="rect" id="node7" href="$class_ontology_1_1_object_property.html#a350adfd0db702a93b9bd34f8a1fb7191" title="List all the ranges for each object properties." alt="" coords="369,112,596,141"/>
+<area shape="rect" id="node9" href="$class_ontology_1_1_object_property.html#a3ae4855b888f0c57e9e2b671077a6f81" title="Delete the url before the name of the property." alt="" coords="335,165,631,195"/>
+<area shape="rect" id="node11" href="$class_ontology_1_1_object_property.html#af41f2735c1ae3439a2b376a5f15dc2bb" title="Precise which properties are required." alt="" coords="311,219,655,248"/>
+<area shape="rect" id="node13" href="$class_ontology_1_1_object_property.html#a3702e401dd6bda37cbdc5b47ec920d97" title="Precise which properties are single valued." alt="" coords="313,272,652,301"/>
+</map>

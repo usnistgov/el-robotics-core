@@ -11,12 +11,24 @@ software
    See NIST Administration Manual 4.09.07 b and Appendix I.
  *****************************************************************************/
 
+/**
+ * \file      Gui.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the GUI.
+ */
+
+/**
+ * \class Gui
+ * \brief The GUI class.
+ * \details Build the frame and handle the events on it.
+ */
 import Ontology.*;
 import ClassesCPP.*;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -69,6 +81,10 @@ public class Gui extends JFrame {
 	private JButton generateSql;
 	private JButton generateCpp;
 
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the Gui class. Build the Frame.
+     */
 	public Gui() {
 		setResizable(false);
 		setTitle("OWL to SQL");
@@ -95,7 +111,7 @@ public class Gui extends JFrame {
 		pathCpp = new JTextField();
 		pathSaveCpp = new JTextField();
 		user = new JTextField();
-		jlUrl = new JLabel("             Url :");
+		jlUrl = new JLabel("            Host :");
 		url = new JTextField();
 		jlUser = new JLabel("User name :");
 		pass = new JPasswordField();
@@ -170,10 +186,82 @@ public class Gui extends JFrame {
 		tabbedPane.addTab("Owl to C++", null, panOtoCpp,
 				"Generate your C++ Classes");
 		setContentPane(tabbedPane);
-		browseSave.addActionListener(new browseListener());
-		browseCreate.addActionListener(new browseListener());
-		browseSaveCpp.addActionListener(new browseListenerCpp());
-		browseCreateCpp.addActionListener(new browseListenerCpp());
+		//2 browse
+		browseSave.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (arg0.getSource() != browseSave) {
+					JFileChooser jfc = new JFileChooser();
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						path.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSave.setText(path.getText().substring(0,
+								path.getText().lastIndexOf(File.separatorChar)));
+					}
+				} else {
+					JFileChooser jfc = new JFileChooser();
+					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						pathSave.setText(jfc.getSelectedFile().getAbsolutePath());
+					}
+				}
+			}
+		});
+		browseCreate.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (arg0.getSource() != browseSave) {
+					JFileChooser jfc = new JFileChooser();
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						path.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSave.setText(path.getText().substring(0,
+								path.getText().lastIndexOf(File.separatorChar)));
+					}
+				} else {
+					JFileChooser jfc = new JFileChooser();
+					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						pathSave.setText(jfc.getSelectedFile().getAbsolutePath());
+					}
+				}
+			}
+		});
+		//2 cpp
+		browseSaveCpp.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (arg0.getSource() != browseSaveCpp) {
+					JFileChooser jfc = new JFileChooser();
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						pathCpp.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSaveCpp.setText(pathCpp.getText().substring(0,
+								pathCpp.getText().lastIndexOf(File.separatorChar)));
+					}
+				} else {
+					JFileChooser jfc = new JFileChooser();
+					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						pathSaveCpp
+								.setText(jfc.getSelectedFile().getAbsolutePath());
+					}
+				}
+			}
+		});
+		browseCreateCpp.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (arg0.getSource() != browseSaveCpp) {
+					JFileChooser jfc = new JFileChooser();
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						pathCpp.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSaveCpp.setText(pathCpp.getText().substring(0,
+								pathCpp.getText().lastIndexOf(File.separatorChar)));
+					}
+				} else {
+					JFileChooser jfc = new JFileChooser();
+					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						pathSaveCpp
+								.setText(jfc.getSelectedFile().getAbsolutePath());
+					}
+				}
+			}
+		});
 		generateSql.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(final java.awt.event.ActionEvent evt) {
 				try {
@@ -229,54 +317,14 @@ public class Gui extends JFrame {
 			}
 
 		});
-
 		setVisible(true);
-
 	}
 
-	public class browseListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent arg0) {
-			if (arg0.getSource() != browseSave) {
-				JFileChooser jfc = new JFileChooser();
-				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					path.setText(jfc.getSelectedFile().getAbsolutePath());
-					pathSave.setText(path.getText().substring(0,
-							path.getText().lastIndexOf(File.separatorChar)));
-				}
-			} else {
-				JFileChooser jfc = new JFileChooser();
-				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					pathSave.setText(jfc.getSelectedFile().getAbsolutePath());
-				}
-			}
-		}
-
-	}
-
-	public class browseListenerCpp implements ActionListener {
-
-		public void actionPerformed(ActionEvent arg0) {
-			if (arg0.getSource() != browseSaveCpp) {
-				JFileChooser jfc = new JFileChooser();
-				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					pathCpp.setText(jfc.getSelectedFile().getAbsolutePath());
-					pathSaveCpp.setText(pathCpp.getText().substring(0,
-							pathCpp.getText().lastIndexOf(File.separatorChar)));
-				}
-			} else {
-				JFileChooser jfc = new JFileChooser();
-				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					pathSaveCpp
-							.setText(jfc.getSelectedFile().getAbsolutePath());
-				}
-			}
-		}
-
-	}
-
+	/**
+     *  \brief Generate the C++ classes
+     *  \details Fill the attributes and unit collections based on the info from our ontology.
+     *  \param o 	Our ontology.
+     */
 	@SuppressWarnings("unchecked")
 	public void generateClasses(Ontology o) {
 		for (int i = 0; i < o.getClassesClean().size(); i++) {
@@ -305,7 +353,7 @@ public class Gui extends JFrame {
 										+ typesGen
 												.getUnit(o
 														.getTables()
-														.getUnit(
+														.unit(
 																o.getDp()
 																		.getDataPropertyRanges()
 																		.get(j)
@@ -315,7 +363,7 @@ public class Gui extends JFrame {
 								unit.add(typesGen
 										.getUnit(o
 												.getTables()
-												.getUnit(
+												.unit(
 														o.getDp()
 																.getDataPropertyRanges()
 																.get(j).get(1))));
@@ -472,19 +520,24 @@ public class Gui extends JFrame {
 					.get(i),
 					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
-			typesGen.writeClass(typesGen.generateCpp(o.getOp()
-					.getObjectPropertyRanges(), o.getOp()
-					.getObjectPropertyInverse(), o.getOp()
-					.getObjectSingleValued(), o.getClassesClean().get(i), o
+			typesGen.writeClass(typesGen.generateCpp(o.getClassesClean().get(i), o
 					.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
 
 		}
 	}
 
+	/**
+     *  \brief Generate the DAO files
+     *  \param o 	Our ontology.
+	 *  \param    url 	Host of your DB.
+	 *  \param    user 	User name in the DB.
+	 *  \param    pass 	Password of the user in the DB.
+	 *  \param    nameDb 	DB Schema.
+     */
 	private void generateDao(Ontology o, String url, String user, String pass,
 			String nameDb) {
-		daoGenerator dao = new daoGenerator(o.getTables().getTables(),
+		DaoGenerator dao = new DaoGenerator(o.getTables().getTables(),
 				o.getSuperClassesClean(), o.getClassesClean(), o.getOp()
 						.getObjectPropertyInverse(), o.getOp()
 						.getObjectSingleValued(), o.getOp()
@@ -504,6 +557,9 @@ public class Gui extends JFrame {
 				pathSaveCpp.getText() + File.separator);
 	}
 
+	/**
+     *  \brief Generate the C++ Connection files 
+     */
 	private void generateConnection() {
 		new Connection(pathSaveCpp.getText() + File.separator);
 	}

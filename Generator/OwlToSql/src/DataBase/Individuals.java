@@ -11,6 +11,21 @@ software
    See NIST Administration Manual 4.09.07 b and Appendix I.
  *****************************************************************************/
 
+/**
+ * \file      Individuals.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the individuals.
+ *
+ */
+
+/**
+ * \class 	DataBase.Individuals
+ * \brief     Class for the individuals.
+ * \details   This class is used to manipulate the individuals from the ontology 
+ * 				and generate the SQL script to insert them into the MySQL DB. 
+ */
 package DataBase;
 
 import java.io.BufferedWriter;
@@ -31,28 +46,64 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 public class Individuals {
-	private String result2 = "";
-	static final char SEPARATOR = '#';
-	private ArrayList<String> parent = new ArrayList<String>();
+	/**
+	 * \brief     Update queries.
+	 */
+	private String resultUpdate = "";
+	/**
+	 * \brief     Separator between URL and the individuals' name in the ontology.
+	 */
+	private static final char SEPARATOR = '#';
+	/**
+	 * \brief      List of super classes.
+	 * \detail Used to know where insert data when there is a hierarchy.
+	 */
+	private ArrayList<String> parent;
+	/**
+	 * \brief      Our ontology
+	 */
 	private OWLOntology ontology;
+	/**
+	 * \brief      Where we are going to save the script.
+	 */
 	private String path;
-	private HashMap<String, Integer> nbInsert;
-	// Map : Type => # of insertion
-	private HashMap<String, ArrayList<String>> tables; // Map : TableName =>
-	// Attributes names
-	// <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>,Table2
-	// => <Attribute1,Attribute2,...> >
-
+	/**
+	 * \brief      Number of insertion for a given table.
+	 * \Map - Key: Type => Value : # of insertion.
+	 */
+	private HashMap<String, Integer> nbInsert; 
+	/**
+	 * \brief      Attributes for a given table.
+	 * \detail <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
+	 */
+	private HashMap<String, ArrayList<String>> tables; 
+	/**
+	 * \brief      List of the individuals in the ontology.
+	 */
 	private ArrayList<OWLIndividual> individuals;
-	private ArrayList<String> individualsClean; // list of individuals
-	private HashMap<String, ArrayList<String>> individualsType; // Map : Type =>
-	// Individuals
-	// Type1 => <Individual1, Individual2>, Type2 => <Individual3, Individual4>
-
+	/**
+	 * \brief      List of the individuals without the URL before their name.
+	 */
+	private ArrayList<String> individualsClean;
+	/**
+	 * \brief      Collection of the types and individuals associated.
+	 * \detail Type1 => <Individual1, Individual2>, Type2 => <Individual3, Individual4>
+	 */
+	private HashMap<String, ArrayList<String>> individualsType; 
+	/**
+	 * \brief      List of the super classes without the URL before their name in the ontology.
+	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
 
-	// Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
-
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the Individuals class.
+     *  \param tables 	Collections of the tables and attributes.
+     *  \param ontology 	Our ontology.
+     *  \param path 	Where we are going to save the script.
+     *  \param superClassesClean 	List of the super classes.
+     */
 	public Individuals(HashMap<String, ArrayList<String>> tables,
 			OWLOntology ontology, String path,
 			HashMap<String, ArrayList<String>> superClassesClean) {
@@ -60,8 +111,9 @@ public class Individuals {
 		this.ontology = ontology;
 		this.path = path;
 		this.superClassesClean = superClassesClean;
+		parent = new ArrayList<String>();
 		individuals = null;
-		setNbInsert(new HashMap<String, Integer>());
+		nbInsert =new HashMap<String, Integer>();
 		individualsType = new HashMap<String, ArrayList<String>>();
 		addIndividuals(); // Extract the individuals of the ontology - Fill up
 		// the Individuals list
@@ -71,6 +123,11 @@ public class Individuals {
 		insert();
 	}
 
+	/**
+	 * \brief      Test if a String is a number.
+	 * \param    s			   String we want to test.
+	 * \return   A boolean : true if the String can be cast in a number, false if it can't.
+	 */
 	public boolean isNumber(String s) {
 		try {
 			Double.valueOf(s);
@@ -80,10 +137,17 @@ public class Individuals {
 		}
 	}
 
+	/**
+	 * \brief      Make all the call to generate the SQL script used for the insertions.
+	 */
 	public void insert() {
-		write(insertInto() + result2);
+		write(insertInto() + resultUpdate);
 	}
 
+	/**
+	 * \brief      Fill a map whith the different classes in the ontology, and their indivuals.
+	 * \details   The key is the name of the class in the ontology, and the value a list which contains the names of the individuals of this class
+	 */
 	private void addTypes() {
 		for (int i = 0; i < individualsClean.size(); i++) {
 			ArrayList<String> temp = new ArrayList<String>();
@@ -107,7 +171,11 @@ public class Individuals {
 		}
 	}
 
-	private void cleanIndividuals() {
+	/**
+	 * \brief      Fill a list whith the name of the individuals from the ontology
+	 * \details   It cleans the name by removing the URI from it.
+	 */
+	public void cleanIndividuals() {
 		for (int i = 0; i < individuals.size(); i++) {
 			individualsClean
 					.add(individuals
@@ -118,16 +186,24 @@ public class Individuals {
 											.indexOf(SEPARATOR) + 1,
 									individuals.get(i).toString().length() - 1));
 		}
-		System.out.println();
 	}
 
-	// Extract the individuals of the ontology - Fill up the Individuals list
+	/**
+	 * \brief   Extract the individuals of the ontology and fill up the Individuals list
+	 */	
 	public void addIndividuals() {
 		individuals = new ArrayList<OWLIndividual>(
 				ontology.getIndividualsInSignature());
 	}
 
-	// Add the local data properties in the SQL script
+	/**
+	 * \brief      Add the local data properties in the SQL script for a given individual.
+	 * \param    i		Position of the individual in the list.
+	 * \param    attributesTab		Tab with all the attributes.
+	 * \param    attributes		Conversion of the tab in a single string.
+	 * \param    name		To know if the name is added in order to do it only once.
+	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 */
 	public Object[] insertIntoData(int i, String[] attributesTab,
 			String attributes, boolean name) {
 		String result = "";
@@ -255,7 +331,14 @@ public class Individuals {
 		return resultTab;
 	}
 
-	// Add the local Object properties in the SQL script
+	/**
+	 * \brief      Add the local object properties in the SQL script for a given individual.
+	 * \param    i		Position of the individual in the list.
+	 * \param    attributesTab		Tab with all the attributes.
+	 * \param    attributes		Conversion of the tab in a single string.
+	 * \param    name		To know if the name is added in order to do it only once.
+	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 */
 	public Object[] insertIntoObject(int i, String[] attributesTab,
 			String attributes, boolean name) {
 		String result = "";
@@ -382,7 +465,14 @@ public class Individuals {
 		return resultTab;
 	}
 
-	// Add the remote data properties in the SQL script
+	/**
+	 * \brief      Add the data properties from other tables in the SQL script for a given individual.
+	 * \param    i		Position of the individual in the list.
+	 * \param    i		Position of the attribute in the tab.
+	 * \param    attributesTab		Tab with all the attributes.
+	 * \param    name		To know if the name is added in order to do it only once.
+	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 */
 	public Object[] insertIntoDataForeign(int i, int l, String[] attributesTab,
 			boolean name) {
 		String result = "";
@@ -527,6 +617,15 @@ public class Individuals {
 	}
 
 	// Add the remote object properties in the SQL script
+	/**
+	 * \brief      Add the object properties from other tables in the SQL script for a given individual.
+	 * \param    i		Position of the individual in the list.
+	 * \param    i		Position of the attribute in the tab.
+	 * \param    attributesTab		Tab with all the attributes.
+	 * \param    name		To know if the name is added in order to do it only once.
+	 * \param    name		To know if the name is added in order to do it only once.
+	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 */
 	public Object[] insertIntoObjectForeign(int i, int l,
 			String[] attributesTab, boolean name) {
 		String result = "";
@@ -593,7 +692,10 @@ public class Individuals {
 		return resultTab;
 	}
 
-	// Generate the whole insert into script
+	/**
+	 * \brief      Manage the call to the insertSuper method to generate the script and populate the tables issued from multi valued properties.
+	 * \return    A String with the insert into queries.
+	 */
 	public String insertInto() {
 		Object[] resultTab = new Object[2];
 		boolean name;
@@ -765,6 +867,10 @@ public class Individuals {
 		return result;
 	}
 
+	/**
+	 * \brief      Generate the sql script used to populate the tables (INSERT and UPDATE).
+	 * * \return    A String with the insert into queries.
+	 */
 	@SuppressWarnings("unchecked")
 	public String insertSuper(int i, String table, String[] attributesLocalTab,
 			String attributesLocal, boolean name) {
@@ -884,7 +990,7 @@ public class Individuals {
 			}
 		}
 		if (!att.equals("")) {
-			result2 = result2 + "\n\nUPDATE " + table + "\n SET ";
+			resultUpdate = resultUpdate + "\n\nUPDATE " + table + "\n SET ";
 		}
 
 		if (superClassesClean.containsKey(table))
@@ -916,7 +1022,7 @@ public class Individuals {
 				if (lll < resultTab[0].toString().split(",").length - 1) {
 
 					result = result + "NULL, ";// resultTab[0];
-					result2 = result2
+					resultUpdate = resultUpdate
 							+ att.substring(0, att.indexOf("=,") + 2)
 									.replaceFirst(
 											"=,",
@@ -926,7 +1032,7 @@ public class Individuals {
 							+ ",";
 				} else {
 					result = result + "NULL";// resultTab[0];
-					result2 = result2
+					resultUpdate = resultUpdate
 							+ att.substring(0, att.indexOf("=,") + 2)
 									.replaceFirst(
 											"=,",
@@ -938,15 +1044,18 @@ public class Individuals {
 			resultTab = insertIntoData(i, attributesLocalTabBis,
 					attributesLocalBis, name);
 
-			result2 = result2 + " WHERE _NAME = " + where;
-			result2 = result2 + ";";
+			resultUpdate = resultUpdate + " WHERE _NAME = " + where;
+			resultUpdate = resultUpdate + ";";
 		}
 		result = result + ");\n\n";
 
 		return result;
 	}
 
-	// Save the SQL script
+	/**
+	 * \brief      Write the script on the disk.
+	 * \param    s	Data to write.
+	 */
 	public void write(String s) {
 		Writer fstream;
 		try {
@@ -960,6 +1069,7 @@ public class Individuals {
 		}
 	}
 
+	// Getter and Setter
 	// Getter and setter
 	public HashMap<String, ArrayList<String>> getTables() {
 		return tables;

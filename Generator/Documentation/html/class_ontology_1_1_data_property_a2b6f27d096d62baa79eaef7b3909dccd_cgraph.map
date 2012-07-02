@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_ontology_1_1_data_property.html#ab585a75a37b556425a74d5861e761046" title="List all the data properties for each class." alt="" coords="320,5,587,35"/>
+<area shape="rect" id="node5" href="$class_ontology_1_1_data_property.html#a5773fd26f41397dbc83d8f3fcd0ea311" title="List all the ranges for each data properties." alt="" coords="345,59,561,88"/>
+<area shape="rect" id="node7" href="$class_ontology_1_1_data_property.html#a51849b588f7a80bb59fba215a06c54df" title="Delete the url before the name of the property." alt="" coords="315,112,592,141"/>
+<area shape="rect" id="node9" href="$class_ontology_1_1_data_property.html#a04c8a57a7b625f5075d407540980946e" title="Precise which properties are required." alt="" coords="291,165,616,195"/>
+<area shape="rect" id="node11" href="$class_ontology_1_1_data_property.html#a5b082464ba431055164a63d976006916" title="Precise which properties are single valued." alt="" coords="293,219,613,248"/>
+</map>

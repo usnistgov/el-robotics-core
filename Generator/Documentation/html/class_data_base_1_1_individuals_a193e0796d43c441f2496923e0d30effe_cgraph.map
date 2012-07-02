@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_data_base_1_1_individuals.html#a7410f8761de398b55a1fc29e3db00e9f" title="Manage the call to the insertSuper method to generate the script and populate the tables issued from ..." alt="" coords="239,57,441,87"/>
+<area shape="rect" id="node19" href="$class_data_base_1_1_individuals.html#ac2bdba826ce8df48d9a01ba5fe0f4291" title="Write the script on the disk." alt="" coords="251,111,429,140"/>
+<area shape="rect" id="node5" href="$class_data_base_1_1_individuals.html#a26f7937c9f5299eae44f22255d348351" title="Add the data properties from other tables in the SQL script for a given individual." alt="" coords="824,5,1099,35"/>
+<area shape="rect" id="node9" href="$class_data_base_1_1_individuals.html#adb00317cfabdd880f85949801da1e3b6" title="Add the object properties from other tables in the SQL script for a given individual." alt="" coords="491,57,776,87"/>
+<area shape="rect" id="node11" href="$class_data_base_1_1_individuals.html#a0699518228103b4a15b5216cf1b6fc1c" title="Generate the sql script used to populate the tables (INSERT and UPDATE). *." alt="" coords="525,111,741,140"/>
+<area shape="rect" id="node7" href="$class_data_base_1_1_individuals.html#a283c1394e44fac1eac535caf70c91ae8" title="Test if a String is a number." alt="" coords="1148,59,1353,88"/>
+<area shape="rect" id="node13" href="$class_data_base_1_1_individuals.html#a761be644890ab4df91f25737b14c47e1" title="Add the local data properties in the SQL script for a given individual." alt="" coords="845,59,1077,88"/>
+<area shape="rect" id="node16" href="$class_data_base_1_1_individuals.html#a62c20642b5ec5388807c8764db939ca2" title="Add the local object properties in the SQL script for a given individual." alt="" coords="840,112,1083,141"/>
+</map>

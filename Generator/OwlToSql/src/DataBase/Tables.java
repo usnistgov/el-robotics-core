@@ -9,8 +9,23 @@ software
    maintenance, and subsequent redistribution.
 
    See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 
+/**
+ * \file      Tables.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the tables.
+ *
+ */
+
+/**
+ * \class 	DataBase.Tables
+ * \brief     Class for the tables.
+ * \details   This class is used to manipulate the classes from the ontology 
+ * 			  and generate the SQL script to create the tables associated to this classes in the MySQL DB. 
+ */
 package DataBase;
 
 import java.io.BufferedWriter;
@@ -24,40 +39,89 @@ import java.util.Map.Entry;
 public class Tables {
 
 	private HashMap<String, String> unit = new HashMap<String, String>(); // OWLUnit=>SQLUnit
-	static final char SEPARATOR = '#';
+	/**
+	 * \brief     Separator between URL and the class' name in the ontology.
+	 */
+	private static final char SEPARATOR = '#';
+	/**
+	 * \brief      Where we are going to save the script.
+	 */
 	private String path;
-	private ArrayList<String> classesClean; // list of classes
+	/**
+	 * \brief      List of classes in the ontology.
+	 */
+	private ArrayList<String> classesClean;
+	/**
+	 * \brief      List of the super classes without the URL before their name in the ontology.
+	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
-	// Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	/**
+	 * \brief      List of the data properties without the URL before their name in the ontology.
+	 * \detail <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
+	 */
 	private ArrayList<ArrayList<String>> dataPropertiesClean;
-	// <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,
-	// DataPropertyName1,DataPropertyName2>>
-	private HashMap<String, String> dataSingleValued; // dataPropertyName =>
-														// true or false
-	private HashMap<String, String> dataRequired; // dataPropertyName => true or
-													// false
+	/**
+	 * \brief      Map - Used to know if a data property is single or multi valued
+	 * \detail dataPropertyName => true or false
+	 */
+	private HashMap<String, String> dataSingleValued; 
+	/**
+	 * \brief      Map - Used to know if a data property is required or optional valued
+	 * \detail dataPropertyName => true or false
+	 */
+	private HashMap<String, String> dataRequired; 
+	/**
+	 * \brief      List of the ranges for a given data property
+	 * \detail 	 <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
+	 */
 	private ArrayList<ArrayList<String>> dataPropertyRanges;
-	// <<ObjectPropertyName1,Range1,Range2...,<ObjectPropertyName2,Range1,Range2...>>
+	/**
+	 * \brief      List of the object properties without the URL before their name in the ontology.
+	 * \detail <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 */
 	private ArrayList<ArrayList<String>> objectPropertiesClean;
-	// <<Classe1, ObjectPropertyName1,ObjectPropertyName2>,<Classe2,
-	// ObjectPropertyName1,ObjectPropertyName2>>
-	private HashMap<String, String> objectSingleValued; // ObjectPropertyName =>
-														// true or false
-	private HashMap<String, String> objectRequired; // ObjectPropertyName =>true
-													// or false
-	private HashMap<String, ArrayList<String>> objectPropertyRanges; // ObjectPropertyName
-																		// =>
-																		// Range(s)
-	private HashMap<String, String> classesId; // Class => Id
-	private HashMap<String, String> objectPropertyInverse; // property =>
-															// inverse
-	private HashMap<String, ArrayList<String>> tables;// Map : TableName =>
-														// Attributes names
+	/**
+	 * \brief      Map - Used to know if a object property is single or multi valued
+	 * \detail ObjectPropertyName => true or false
+	 */
+	private HashMap<String, String> objectSingleValued; 
+	/**
+	 * \brief      Map - Used to know if an object property is required or optional valued
+	 * \detail ObjectPropertyName => true or false
+	 */
+	private HashMap<String, String> objectRequired; 
+	/**
+	 * \brief      List of the ranges for a given object property
+	 * \detail 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
+	 */
+	private HashMap<String, ArrayList<String>> objectPropertyRanges;
+	/**
+	 * \brief      List of the inverse properties for a given one.
+	 * \detail 	 property => inverse
+	 */	
+	private HashMap<String, String> objectPropertyInverse; 
+	/**
+	 * \brief      Attributes for a given table.
+	 * \detail <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
+	 */
+	private HashMap<String, ArrayList<String>> tables;
 
-	// <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>,Table2
-	// => <Attribute1,Attribute2,...> >
-
-	@SuppressWarnings("unchecked")
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the Individuals class.
+     *  \param cc 	List of the classes.
+     *  \param dataPropertiesClean 	List of the data properties.
+     *  \param dataSingleValued 	List of the data properties single valued or not.
+     *  \param dataRequired 	List of the data properties required or not.
+     *  \param dataPropertyRanges 	Ranges of the data properties.
+     *  \param objectPropertiesClean 	List of the object properties.
+     *  \param objectSingleValued 	List of the object properties single valued or not.
+     *  \param objectRequired 	List of the object properties required or not.
+     *  \param objectPropertyRanges 	Ranges of the object properties.
+     *  \param superClassesClean 	List of the super classes.
+     *  \param objectPropertyInverse 	List of the object inverse properties.
+     */
 	public Tables(String path, ArrayList<String> cc,
 			ArrayList<ArrayList<String>> dataPropertiesClean,
 			HashMap<String, String> dataSingleValued,
@@ -68,7 +132,6 @@ public class Tables {
 			HashMap<String, String> objectRequired,
 			HashMap<String, ArrayList<String>> objectPropertyRanges,
 			HashMap<String, ArrayList<String>> superClassesClean,
-			HashMap<String, String> classesId,
 			HashMap<String, String> objectPropertyInverse) {
 		fillUnit(); // fill the unit map - link the owl unit with the SQL ones
 		classesClean = cc;
@@ -83,25 +146,18 @@ public class Tables {
 		this.objectPropertyRanges = objectPropertyRanges;
 		this.superClassesClean = superClassesClean;
 		this.path = path;
-		this.setClassesId(classesId);
 		this.objectPropertyInverse = objectPropertyInverse;
 		create(); // generate the SQL script used to create the tables
 	}
 
-	// generate the SQL script used to create the tables
-
+	/**
+	 * \brief Generate the SQL script used to create the tables.
+	 */
 	public void create() {
 		ArrayList<String> temp;
 		String s = "";
 		for (int i = 0; i < classesClean.size(); i++) {
 			if (!classesClean.get(i).equals("owl:Thing")) {
-				// if (classesId.containsKey(classesClean.get(i))) {
-				// s = s + "CREATE TABLE " + classesClean.get(i) + "("
-				// + attributes(classesClean.get(i)) + "PRIMARY KEY ("
-				// + classesId.get(classesClean.get(i))
-				// + ")\n);\n\n";
-
-				// } else {
 				if (superClassesClean.containsKey(classesClean.get(i))) {
 					s = s + "CREATE TABLE " + classesClean.get(i) + "(\n"
 							+ classesClean.get(i) + "ID INT NOT NULL,";
@@ -121,7 +177,7 @@ public class Tables {
 				tables.put(classesClean.get(i), temp);
 
 				s = s + attributes(classesClean.get(i)) + "PRIMARY KEY ("
-						+ classesClean.get(i) + "ID, _NAME" + ")\n);\n\n";
+						+ classesClean.get(i) + "ID, _NAME" + ")\n)ENGINE=InnoDB;\n\n";
 				// }
 			}
 		}
@@ -181,9 +237,12 @@ public class Tables {
 		}
 	}
 
-	// generate the SQL foreign keys in the SQL script
+	/**
+	 * \brief Generate the foreign keys constraints. 
+	 * \return A String with the alter tables corresponding to these constraints.
+	 */
 	@SuppressWarnings("unchecked")
-	private String foreignKey() {
+	public String foreignKey() {
 		ArrayList<ArrayList<String>> opClean = new ArrayList<ArrayList<String>>();
 
 		for (int i = 0; i < objectPropertiesClean.size(); i++) {
@@ -655,7 +714,10 @@ public class Tables {
 		return result;
 	}
 
-	// Save the SQL script
+	/**
+	 * \brief Save the sql script on the disk. 
+	 * \param s Data to write.
+	 */
 	public void write(String s) throws IOException {
 		Writer fstream = new FileWriter(path + "CreateTable.sql");
 		BufferedWriter out = new BufferedWriter(fstream);
@@ -663,7 +725,11 @@ public class Tables {
 		out.close();
 	}
 
-	// generate the attributes for a given class in the SQL script
+	/**
+	 * \brief Give the attributes for a given table
+	 *  \param c Class we want the attributes. 
+	 * \return A String with these attributes.
+	 */
 	public String attributes(String c) {
 		ArrayList<String> temp;
 		String s = "\n";
@@ -744,16 +810,10 @@ public class Tables {
 		return s;
 	}
 
-	public HashMap<String, String> getObjectPropertyInverse() {
-		return objectPropertyInverse;
-	}
-
-	public void setObjectPropertyInverse(
-			HashMap<String, String> objectPropertyInverse) {
-		this.objectPropertyInverse = objectPropertyInverse;
-	}
-
 	// give the corresponding SQL unit of an OWL one
+	/**
+	 * \brief Give the corresponding SQL unit of an OWL one.
+	 */
 	public String unit(String a) {
 		if (!unit.containsKey(a))
 			return "varchar(255)";
@@ -761,7 +821,9 @@ public class Tables {
 		return unit.get(a);
 	}
 
-	// fill the unit map - link the owl unit with the SQL ones
+	/**
+	 * \brief Fill the map used to link the owl unit and the SQL ones
+	 */
 	public void fillUnit() {
 		unit.put("Short", "SMALLINT");
 		unit.put("unsignedShort", "SMALLINT");
@@ -802,11 +864,14 @@ public class Tables {
 	}
 
 	// Getter and Setter
-	public String getUnit(String s) {
-		if (unit.containsKey(s))
-			return unit.get(s);
-		else
-			return "varchar(255)";
+
+	public HashMap<String, String> getObjectPropertyInverse() {
+		return objectPropertyInverse;
+	}
+
+	public void setObjectPropertyInverse(
+			HashMap<String, String> objectPropertyInverse) {
+		this.objectPropertyInverse = objectPropertyInverse;
 	}
 
 	public void setUnit(HashMap<String, String> unit) {
@@ -908,14 +973,6 @@ public class Tables {
 
 	public static char getSeparator() {
 		return SEPARATOR;
-	}
-
-	public HashMap<String, String> getClassesId() {
-		return classesId;
-	}
-
-	public void setClassesId(HashMap<String, String> classesId) {
-		this.classesId = classesId;
 	}
 
 	public HashMap<String, ArrayList<String>> getTables() {

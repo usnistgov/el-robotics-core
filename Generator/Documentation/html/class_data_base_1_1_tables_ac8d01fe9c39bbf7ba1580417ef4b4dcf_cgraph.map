@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_data_base_1_1_tables.html#ab7a2f1ec2301fb5399c67950c3939482" title="Generate the SQL script used to create the tables." alt="" coords="223,59,385,88"/>
+<area shape="rect" id="node11" href="$class_data_base_1_1_tables.html#a19aec04e79a4a0696a86a86ea5853856" title="Fill the map used to link the owl unit and the SQL ones." alt="" coords="223,112,385,141"/>
+<area shape="rect" id="node5" href="$class_data_base_1_1_tables.html#a0cc659b39257e547f1c5857fe2ba9b0a" title="Give the attributes for a given table." alt="" coords="439,5,620,35"/>
+<area shape="rect" id="node7" href="$class_data_base_1_1_tables.html#ac35eb49002e26a8066cee9d139512562" title="Generate the foreign keys constraints." alt="" coords="435,59,624,88"/>
+<area shape="rect" id="node9" href="$class_data_base_1_1_tables.html#ac3402b9a61ee3f4d40cb9eb4680213e0" title="Save the sql script on the disk." alt="" coords="452,112,607,141"/>
+</map>

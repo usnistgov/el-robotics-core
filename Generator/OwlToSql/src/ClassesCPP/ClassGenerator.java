@@ -9,7 +9,22 @@ software
    maintenance, and subsequent redistribution.
 
    See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
+
+/**
+ * \file      ClassGenerator.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Abstract Class implemented for generating the C++ files.
+ */
+
+/**
+ * \class ClassesCPP.ClassGenerator
+ * \brief Abstract Class implemented for generating the C++ files.
+ * \details   This class contain the methods to write the files on the disk 
+ * 			and make the correspondence between the units from the DB and the C++ ones  
+ */
 
 package ClassesCPP;
 
@@ -22,9 +37,19 @@ import java.util.HashMap;
 
 public abstract class ClassGenerator {
 
-	String className = "";
+	/**
+	 * \brief name of the generated class.
+	 */
+	protected String className = "";
+	/**
+	 * \brief Mapping between SQL units and C++ units.
+	 */
 	protected HashMap<String, String> unit = new HashMap<String, String>();
 
+	/**
+	 * \brief Give the unit in C++ corresponding to a type from the DB \param s
+	 * Name of the DB unit. \return A String with C++ type corresponding
+	 */
 	public String getUnit(String s) {
 		if (unit.containsKey(s))
 			return unit.get(s);
@@ -32,7 +57,11 @@ public abstract class ClassGenerator {
 			return "std::string";
 	}
 
-	public void fillUnit() {
+	/**
+	 * \brief Initialize the map with the correspondances between DB unit and
+	 * C++ ones
+	 */
+	protected void fillUnit() {
 		unit.put("TINYINT(1)", "bool");
 		unit.put("boolean", "bool");
 		unit.put("TINYINT", "char");
@@ -54,18 +83,34 @@ public abstract class ClassGenerator {
 		unit.put("TIME", "posix_time::time_duration");
 	}
 
-	public String generateHeader(String className,
+	/**
+	 * \brief Skeleton of the C++ method to generate the header file for a given
+	 * type \param className Name of the class. \param classParentName List of
+	 * the super classes. \param attributes List of the attributes. \param unit
+	 * List of the units of the attributes. \return null because not implemented
+	 */
+	protected String generateHeader(String className,
 			ArrayList<String> classParentName, ArrayList<String> attributes,
 			ArrayList<String> unit) {
 		return null;
 	}
 
-	public String generateCpp(String className,
+	/**
+	 * \brief Skeleton of the C++ method to generate the C++ file for a given
+	 * type \param className Name of the class. \param classParentName List of
+	 * the super classes. \param attributes List of the attributes. \param unit
+	 * List of the units of the attributes. \return null because not implemented
+	 */
+	protected String generateCpp(String className,
 			ArrayList<String> classParentName, ArrayList<String> attributes,
 			ArrayList<String> unit) {
 		return null;
 	}
 
+	/**
+	 * \brief Write the header file on the Disk. \param data Data you want to
+	 * write. \param path Path of your file
+	 */
 	public void writeHeader(String data, String path) {
 		Writer fstream;
 		try {
@@ -79,6 +124,10 @@ public abstract class ClassGenerator {
 
 	}
 
+	/**
+	 * \brief Write the C++ file on the Disk. \param data Data you want to
+	 * write. \param path Path of your file
+	 */
 	public void writeClass(String data, String path) {
 		Writer fstream;
 		try {

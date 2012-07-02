@@ -1,0 +1,619 @@
+\hypertarget{class_data_base_1_1_individuals}{
+\section{DataBase.Individuals Class Reference}
+\label{class_data_base_1_1_individuals}\index{DataBase::Individuals@{DataBase::Individuals}}
+}
+
+
+Class for the individuals.  
+
+
+
+
+Collaboration diagram for DataBase.Individuals:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_data_base_1_1_individuals_a5ffc589f1ba2d54144a67e9cfcedde22}{Individuals} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_individuals_ae6a515b85461d50ad21ac1051c5133b1}{tables}, OWLOntology \hyperlink{class_data_base_1_1_individuals_a9c58b63ea5106f271a3b522c6fdc30d7}{ontology}, String \hyperlink{class_data_base_1_1_individuals_a9d3ee042e0b9f2f2889ed6258a9b4e62}{path}, HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_individuals_ab96b206dfc1f13a8b96512de40215643}{superClassesClean})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+boolean \hyperlink{class_data_base_1_1_individuals_a283c1394e44fac1eac535caf70c91ae8}{isNumber} (String s)
+\begin{DoxyCompactList}\small\item\em Test if a String is a number. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a193e0796d43c441f2496923e0d30effe}{
+void \hyperlink{class_data_base_1_1_individuals_a193e0796d43c441f2496923e0d30effe}{insert} ()}
+\label{class_data_base_1_1_individuals_a193e0796d43c441f2496923e0d30effe}
+
+\begin{DoxyCompactList}\small\item\em Make all the call to generate the SQL script used for the insertions. \end{DoxyCompactList}\item 
+void \hyperlink{class_data_base_1_1_individuals_acd4c28d7442e453d614890c8c31b23da}{cleanIndividuals} ()
+\begin{DoxyCompactList}\small\item\em Fill a list whith the name of the individuals from the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a134db05d0e63a4f2d74e14664065602b}{
+void \hyperlink{class_data_base_1_1_individuals_a134db05d0e63a4f2d74e14664065602b}{addIndividuals} ()}
+\label{class_data_base_1_1_individuals_a134db05d0e63a4f2d74e14664065602b}
+
+\begin{DoxyCompactList}\small\item\em Extract the individuals of the ontology and fill up the \hyperlink{class_data_base_1_1_individuals}{Individuals} list. \end{DoxyCompactList}\item 
+Object\mbox{[}$\,$\mbox{]} \hyperlink{class_data_base_1_1_individuals_a761be644890ab4df91f25737b14c47e1}{insertIntoData} (int i, String\mbox{[}$\,$\mbox{]} attributesTab, String attributes, boolean name)
+\begin{DoxyCompactList}\small\item\em Add the local data properties in the SQL script for a given individual. \end{DoxyCompactList}\item 
+Object\mbox{[}$\,$\mbox{]} \hyperlink{class_data_base_1_1_individuals_a62c20642b5ec5388807c8764db939ca2}{insertIntoObject} (int i, String\mbox{[}$\,$\mbox{]} attributesTab, String attributes, boolean name)
+\begin{DoxyCompactList}\small\item\em Add the local object properties in the SQL script for a given individual. \end{DoxyCompactList}\item 
+Object\mbox{[}$\,$\mbox{]} \hyperlink{class_data_base_1_1_individuals_a26f7937c9f5299eae44f22255d348351}{insertIntoDataForeign} (int i, int l, String\mbox{[}$\,$\mbox{]} attributesTab, boolean name)
+\begin{DoxyCompactList}\small\item\em Add the data properties from other tables in the SQL script for a given individual. \end{DoxyCompactList}\item 
+Object\mbox{[}$\,$\mbox{]} \hyperlink{class_data_base_1_1_individuals_adb00317cfabdd880f85949801da1e3b6}{insertIntoObjectForeign} (int i, int l, String\mbox{[}$\,$\mbox{]} attributesTab, boolean name)
+\begin{DoxyCompactList}\small\item\em Add the object properties from other tables in the SQL script for a given individual. \end{DoxyCompactList}\item 
+String \hyperlink{class_data_base_1_1_individuals_a7410f8761de398b55a1fc29e3db00e9f}{insertInto} ()
+\begin{DoxyCompactList}\small\item\em Manage the call to the insertSuper method to generate the script and populate the tables issued from multi valued properties. \end{DoxyCompactList}\item 
+String \hyperlink{class_data_base_1_1_individuals_a0699518228103b4a15b5216cf1b6fc1c}{insertSuper} (int i, String table, String\mbox{[}$\,$\mbox{]} attributesLocalTab, String attributesLocal, boolean name)
+\begin{DoxyCompactList}\small\item\em Generate the sql script used to populate the tables (INSERT and UPDATE).\end{DoxyCompactList}\item 
+void \hyperlink{class_data_base_1_1_individuals_ac2bdba826ce8df48d9a01ba5fe0f4291}{write} (String s)
+\begin{DoxyCompactList}\small\item\em Write the script on the disk. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a2774244bf7f4184092f16df48f881d8b}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ {\bfseries getTables} ()}
+\label{class_data_base_1_1_individuals_a2774244bf7f4184092f16df48f881d8b}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a02ef08587b5dc8a30069efeb3d716e87}{
+void {\bfseries setTables} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_individuals_ae6a515b85461d50ad21ac1051c5133b1}{tables})}
+\label{class_data_base_1_1_individuals_a02ef08587b5dc8a30069efeb3d716e87}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_ad1f009e87c04b913a721481baa9ae6d4}{
+ArrayList$<$ OWLIndividual $>$ {\bfseries getIndividuals} ()}
+\label{class_data_base_1_1_individuals_ad1f009e87c04b913a721481baa9ae6d4}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a49267b47171258c37405a0e6dfa98e61}{
+void {\bfseries setIndividuals} (ArrayList$<$ OWLIndividual $>$ \hyperlink{class_data_base_1_1_individuals_a08ea25eeecb245fe06a36c95be656b3f}{individuals})}
+\label{class_data_base_1_1_individuals_a49267b47171258c37405a0e6dfa98e61}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a7130376df06f7d960915d20d45cf2393}{
+ArrayList$<$ String $>$ {\bfseries getIndividualsClean} ()}
+\label{class_data_base_1_1_individuals_a7130376df06f7d960915d20d45cf2393}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a4f6e0a7d92c028c407543a5e4cacc029}{
+void {\bfseries setIndividualsClean} (ArrayList$<$ String $>$ \hyperlink{class_data_base_1_1_individuals_ae24686ef4531cd049c7a673911388cab}{individualsClean})}
+\label{class_data_base_1_1_individuals_a4f6e0a7d92c028c407543a5e4cacc029}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a895ca7042d491b215df19a5b98353c33}{
+String {\bfseries getPath} ()}
+\label{class_data_base_1_1_individuals_a895ca7042d491b215df19a5b98353c33}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a4c73984d8c9ff63b83cb96d4f9c39899}{
+void {\bfseries setPath} (String \hyperlink{class_data_base_1_1_individuals_a9d3ee042e0b9f2f2889ed6258a9b4e62}{path})}
+\label{class_data_base_1_1_individuals_a4c73984d8c9ff63b83cb96d4f9c39899}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a3c28044db81a3ee2666888b0cfb235c1}{
+HashMap$<$ String, Integer $>$ {\bfseries getNbInsert} ()}
+\label{class_data_base_1_1_individuals_a3c28044db81a3ee2666888b0cfb235c1}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a14ecd591a539ebb92a0b530d39c922d7}{
+void {\bfseries setNbInsert} (HashMap$<$ String, Integer $>$ \hyperlink{class_data_base_1_1_individuals_af8121a67fea7d2d61877cdcc3f5143aa}{nbInsert})}
+\label{class_data_base_1_1_individuals_a14ecd591a539ebb92a0b530d39c922d7}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a9b49e15d7575f9223e3fa14b6f3fc453}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ {\bfseries getSuperClassesClean} ()}
+\label{class_data_base_1_1_individuals_a9b49e15d7575f9223e3fa14b6f3fc453}
+
+\item 
+\hypertarget{class_data_base_1_1_individuals_a8032bc7e0ce40baa9842a31d89f90449}{
+void {\bfseries setSuperClassesClean} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_individuals_ab96b206dfc1f13a8b96512de40215643}{superClassesClean})}
+\label{class_data_base_1_1_individuals_a8032bc7e0ce40baa9842a31d89f90449}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_data_base_1_1_individuals_ac64452335dc7967bc2d536a690c669f6}{addTypes} ()
+\begin{DoxyCompactList}\small\item\em Fill a map whith the different classes in the ontology, and their indivuals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_data_base_1_1_individuals_a63431168f0f3597b37b963db4674f90b}{
+String \hyperlink{class_data_base_1_1_individuals_a63431168f0f3597b37b963db4674f90b}{resultUpdate} = \char`\"{}\char`\"{}}
+\label{class_data_base_1_1_individuals_a63431168f0f3597b37b963db4674f90b}
+
+\begin{DoxyCompactList}\small\item\em Update queries. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a67489fb359e36b64fc5621616c87c6f7}{
+ArrayList$<$ String $>$ \hyperlink{class_data_base_1_1_individuals_a67489fb359e36b64fc5621616c87c6f7}{parent}}
+\label{class_data_base_1_1_individuals_a67489fb359e36b64fc5621616c87c6f7}
+
+\begin{DoxyCompactList}\small\item\em List of super classes.  Used to know where insert data when there is a hierarchy. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a9c58b63ea5106f271a3b522c6fdc30d7}{
+OWLOntology \hyperlink{class_data_base_1_1_individuals_a9c58b63ea5106f271a3b522c6fdc30d7}{ontology}}
+\label{class_data_base_1_1_individuals_a9c58b63ea5106f271a3b522c6fdc30d7}
+
+\begin{DoxyCompactList}\small\item\em Our ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a9d3ee042e0b9f2f2889ed6258a9b4e62}{
+String \hyperlink{class_data_base_1_1_individuals_a9d3ee042e0b9f2f2889ed6258a9b4e62}{path}}
+\label{class_data_base_1_1_individuals_a9d3ee042e0b9f2f2889ed6258a9b4e62}
+
+\begin{DoxyCompactList}\small\item\em Where we are going to save the script. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_af8121a67fea7d2d61877cdcc3f5143aa}{
+HashMap$<$ String, Integer $>$ \hyperlink{class_data_base_1_1_individuals_af8121a67fea7d2d61877cdcc3f5143aa}{nbInsert}}
+\label{class_data_base_1_1_individuals_af8121a67fea7d2d61877cdcc3f5143aa}
+
+\begin{DoxyCompactList}\small\item\em Number of insertion for a given table.  -\/ Key: Type =$>$ Value : \# of insertion. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_ae6a515b85461d50ad21ac1051c5133b1}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_individuals_ae6a515b85461d50ad21ac1051c5133b1}{tables}}
+\label{class_data_base_1_1_individuals_ae6a515b85461d50ad21ac1051c5133b1}
+
+\begin{DoxyCompactList}\small\item\em Attributes for a given table.  $<$Table1 =$>$ $<$Attribute1,Attribute2,TableForeignKey/ForeignKey...$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_a08ea25eeecb245fe06a36c95be656b3f}{
+ArrayList$<$ OWLIndividual $>$ \hyperlink{class_data_base_1_1_individuals_a08ea25eeecb245fe06a36c95be656b3f}{individuals}}
+\label{class_data_base_1_1_individuals_a08ea25eeecb245fe06a36c95be656b3f}
+
+\begin{DoxyCompactList}\small\item\em List of the individuals in the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_ae24686ef4531cd049c7a673911388cab}{
+ArrayList$<$ String $>$ \hyperlink{class_data_base_1_1_individuals_ae24686ef4531cd049c7a673911388cab}{individualsClean}}
+\label{class_data_base_1_1_individuals_ae24686ef4531cd049c7a673911388cab}
+
+\begin{DoxyCompactList}\small\item\em List of the individuals without the URL before their name. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_aca4c53086ef19d23f9d76616f5b67d63}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_individuals_aca4c53086ef19d23f9d76616f5b67d63}{individualsType}}
+\label{class_data_base_1_1_individuals_aca4c53086ef19d23f9d76616f5b67d63}
+
+\begin{DoxyCompactList}\small\item\em Collection of the types and individuals associated.  Type1 =$>$ $<$Individual1, Individual2$>$, Type2 =$>$ $<$Individual3, Individual4$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_individuals_ab96b206dfc1f13a8b96512de40215643}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_individuals_ab96b206dfc1f13a8b96512de40215643}{superClassesClean}}
+\label{class_data_base_1_1_individuals_ab96b206dfc1f13a8b96512de40215643}
+
+\begin{DoxyCompactList}\small\item\em List of the super classes without the URL before their name in the ontology.  Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_data_base_1_1_individuals_a5ad843efa547a710493798b9e8edcfa4}{
+static final char \hyperlink{class_data_base_1_1_individuals_a5ad843efa547a710493798b9e8edcfa4}{SEPARATOR} = '\#'}
+\label{class_data_base_1_1_individuals_a5ad843efa547a710493798b9e8edcfa4}
+
+\begin{DoxyCompactList}\small\item\em Separator between URL and the individuals' name in the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the individuals. 
+
+This class is used to manipulate the individuals from the ontology and generate the SQL script to insert them into the MySQL DB. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_data_base_1_1_individuals_a5ffc589f1ba2d54144a67e9cfcedde22}{
+\index{DataBase::Individuals@{DataBase::Individuals}!Individuals@{Individuals}}
+\index{Individuals@{Individuals}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{Individuals}]{\setlength{\rightskip}{0pt plus 5cm}DataBase.Individuals.Individuals (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{tables, }
+\item[{OWLOntology}]{ontology, }
+\item[{String}]{path, }
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{superClassesClean}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a5ffc589f1ba2d54144a67e9cfcedde22}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_data_base_1_1_individuals}{Individuals} class. 
+\begin{DoxyParams}{Parameters}
+{\em tables} & Collections of the tables and attributes. \\
+\hline
+{\em ontology} & Our ontology. \\
+\hline
+{\em path} & Where we are going to save the script. \\
+\hline
+{\em superClassesClean} & List of the super classes. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a5ffc589f1ba2d54144a67e9cfcedde22_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_data_base_1_1_individuals_ac64452335dc7967bc2d536a690c669f6}{
+\index{DataBase::Individuals@{DataBase::Individuals}!addTypes@{addTypes}}
+\index{addTypes@{addTypes}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{addTypes}]{\setlength{\rightskip}{0pt plus 5cm}void DataBase.Individuals.addTypes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_data_base_1_1_individuals_ac64452335dc7967bc2d536a690c669f6}
+
+
+Fill a map whith the different classes in the ontology, and their indivuals. 
+
+The key is the name of the class in the ontology, and the value a list which contains the names of the individuals of this class 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_ac64452335dc7967bc2d536a690c669f6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_acd4c28d7442e453d614890c8c31b23da}{
+\index{DataBase::Individuals@{DataBase::Individuals}!cleanIndividuals@{cleanIndividuals}}
+\index{cleanIndividuals@{cleanIndividuals}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{cleanIndividuals}]{\setlength{\rightskip}{0pt plus 5cm}void DataBase.Individuals.cleanIndividuals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_acd4c28d7442e453d614890c8c31b23da}
+
+
+Fill a list whith the name of the individuals from the ontology. 
+
+It cleans the name by removing the URI from it. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_acd4c28d7442e453d614890c8c31b23da_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_a7410f8761de398b55a1fc29e3db00e9f}{
+\index{DataBase::Individuals@{DataBase::Individuals}!insertInto@{insertInto}}
+\index{insertInto@{insertInto}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{insertInto}]{\setlength{\rightskip}{0pt plus 5cm}String DataBase.Individuals.insertInto (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a7410f8761de398b55a1fc29e3db00e9f}
+
+
+Manage the call to the insertSuper method to generate the script and populate the tables issued from multi valued properties. 
+
+\begin{DoxyReturn}{Returns}
+A String with the insert into queries. 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a7410f8761de398b55a1fc29e3db00e9f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a7410f8761de398b55a1fc29e3db00e9f_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_a761be644890ab4df91f25737b14c47e1}{
+\index{DataBase::Individuals@{DataBase::Individuals}!insertIntoData@{insertIntoData}}
+\index{insertIntoData@{insertIntoData}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{insertIntoData}]{\setlength{\rightskip}{0pt plus 5cm}Object \mbox{[}$\,$\mbox{]} DataBase.Individuals.insertIntoData (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{String\mbox{[}$\,$\mbox{]}}]{attributesTab, }
+\item[{String}]{attributes, }
+\item[{boolean}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a761be644890ab4df91f25737b14c47e1}
+
+
+Add the local data properties in the SQL script for a given individual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Position of the individual in the list. \\
+\hline
+{\em attributesTab} & Tab with all the attributes. \\
+\hline
+{\em attributes} & Conversion of the tab in a single string. \\
+\hline
+{\em name} & To know if the name is added in order to do it only once. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added. 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a761be644890ab4df91f25737b14c47e1_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a761be644890ab4df91f25737b14c47e1_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_a26f7937c9f5299eae44f22255d348351}{
+\index{DataBase::Individuals@{DataBase::Individuals}!insertIntoDataForeign@{insertIntoDataForeign}}
+\index{insertIntoDataForeign@{insertIntoDataForeign}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{insertIntoDataForeign}]{\setlength{\rightskip}{0pt plus 5cm}Object \mbox{[}$\,$\mbox{]} DataBase.Individuals.insertIntoDataForeign (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{l, }
+\item[{String\mbox{[}$\,$\mbox{]}}]{attributesTab, }
+\item[{boolean}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a26f7937c9f5299eae44f22255d348351}
+
+
+Add the data properties from other tables in the SQL script for a given individual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Position of the individual in the list. \\
+\hline
+{\em i} & Position of the attribute in the tab. \\
+\hline
+{\em attributesTab} & Tab with all the attributes. \\
+\hline
+{\em name} & To know if the name is added in order to do it only once. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added. 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a26f7937c9f5299eae44f22255d348351_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a26f7937c9f5299eae44f22255d348351_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_a62c20642b5ec5388807c8764db939ca2}{
+\index{DataBase::Individuals@{DataBase::Individuals}!insertIntoObject@{insertIntoObject}}
+\index{insertIntoObject@{insertIntoObject}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{insertIntoObject}]{\setlength{\rightskip}{0pt plus 5cm}Object \mbox{[}$\,$\mbox{]} DataBase.Individuals.insertIntoObject (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{String\mbox{[}$\,$\mbox{]}}]{attributesTab, }
+\item[{String}]{attributes, }
+\item[{boolean}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a62c20642b5ec5388807c8764db939ca2}
+
+
+Add the local object properties in the SQL script for a given individual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Position of the individual in the list. \\
+\hline
+{\em attributesTab} & Tab with all the attributes. \\
+\hline
+{\em attributes} & Conversion of the tab in a single string. \\
+\hline
+{\em name} & To know if the name is added in order to do it only once. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added. 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a62c20642b5ec5388807c8764db939ca2_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a62c20642b5ec5388807c8764db939ca2_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_adb00317cfabdd880f85949801da1e3b6}{
+\index{DataBase::Individuals@{DataBase::Individuals}!insertIntoObjectForeign@{insertIntoObjectForeign}}
+\index{insertIntoObjectForeign@{insertIntoObjectForeign}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{insertIntoObjectForeign}]{\setlength{\rightskip}{0pt plus 5cm}Object \mbox{[}$\,$\mbox{]} DataBase.Individuals.insertIntoObjectForeign (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{l, }
+\item[{String\mbox{[}$\,$\mbox{]}}]{attributesTab, }
+\item[{boolean}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_adb00317cfabdd880f85949801da1e3b6}
+
+
+Add the object properties from other tables in the SQL script for a given individual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Position of the individual in the list. \\
+\hline
+{\em i} & Position of the attribute in the tab. \\
+\hline
+{\em attributesTab} & Tab with all the attributes. \\
+\hline
+{\em name} & To know if the name is added in order to do it only once. \\
+\hline
+{\em name} & To know if the name is added in order to do it only once. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added. 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_adb00317cfabdd880f85949801da1e3b6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_a0699518228103b4a15b5216cf1b6fc1c}{
+\index{DataBase::Individuals@{DataBase::Individuals}!insertSuper@{insertSuper}}
+\index{insertSuper@{insertSuper}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{insertSuper}]{\setlength{\rightskip}{0pt plus 5cm}String DataBase.Individuals.insertSuper (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{String}]{table, }
+\item[{String\mbox{[}$\,$\mbox{]}}]{attributesLocalTab, }
+\item[{String}]{attributesLocal, }
+\item[{boolean}]{name}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a0699518228103b4a15b5216cf1b6fc1c}
+
+
+Generate the sql script used to populate the tables (INSERT and UPDATE).
+
+\begin{DoxyReturn}{Returns}
+A String with the insert into queries. 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a0699518228103b4a15b5216cf1b6fc1c_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a0699518228103b4a15b5216cf1b6fc1c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_a283c1394e44fac1eac535caf70c91ae8}{
+\index{DataBase::Individuals@{DataBase::Individuals}!isNumber@{isNumber}}
+\index{isNumber@{isNumber}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{isNumber}]{\setlength{\rightskip}{0pt plus 5cm}boolean DataBase.Individuals.isNumber (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_a283c1394e44fac1eac535caf70c91ae8}
+
+
+Test if a String is a number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & String we want to test. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean : true if the String can be cast in a number, false if it can't. 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_a283c1394e44fac1eac535caf70c91ae8_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_individuals_ac2bdba826ce8df48d9a01ba5fe0f4291}{
+\index{DataBase::Individuals@{DataBase::Individuals}!write@{write}}
+\index{write@{write}!DataBase::Individuals@{DataBase::Individuals}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}void DataBase.Individuals.write (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_individuals_ac2bdba826ce8df48d9a01ba5fe0f4291}
+
+
+Write the script on the disk. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Data to write. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_individuals_ac2bdba826ce8df48d9a01ba5fe0f4291_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/DataBase/\hyperlink{_individuals_8java}{Individuals.java}\end{DoxyCompactItemize}

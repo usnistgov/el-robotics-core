@@ -1,0 +1,322 @@
+\hypertarget{class_ontology_1_1_data_property}{
+\section{Ontology.DataProperty Class Reference}
+\label{class_ontology_1_1_data_property}\index{Ontology::DataProperty@{Ontology::DataProperty}}
+}
+
+
+Class for the data properties.  
+
+
+
+
+Collaboration diagram for Ontology.DataProperty:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_data_property__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ontology_1_1_data_property_a2b6f27d096d62baa79eaef7b3909dccd}{DataProperty} (ArrayList$<$ OWLClass $>$ c, ArrayList$<$ String $>$ cc, OWLOntology ont)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_a51849b588f7a80bb59fba215a06c54df}{
+void \hyperlink{class_ontology_1_1_data_property_a51849b588f7a80bb59fba215a06c54df}{cleanDataProperties} ()}
+\label{class_ontology_1_1_data_property_a51849b588f7a80bb59fba215a06c54df}
+
+\begin{DoxyCompactList}\small\item\em Delete the url before the name of the property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_data_property_a5b082464ba431055164a63d976006916}{singleValuedDataProperties} ()
+\begin{DoxyCompactList}\small\item\em Precise which properties are single valued. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_data_property_a04c8a57a7b625f5075d407540980946e}{requiredValueDataProperties} ()
+\begin{DoxyCompactList}\small\item\em Precise which properties are required. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_data_property_ab585a75a37b556425a74d5861e761046}{addDataProperties} ()
+\begin{DoxyCompactList}\small\item\em List all the data properties for each class. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_data_property_a5773fd26f41397dbc83d8f3fcd0ea311}{addTypes} ()
+\begin{DoxyCompactList}\small\item\em List all the ranges for each data properties. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_a5466224f71a03956a98911e60d8318d2}{
+HashMap$<$ OWLClassExpression, ArrayList$<$ OWLDataProperty $>$ $>$ {\bfseries getDataProperties} ()}
+\label{class_ontology_1_1_data_property_a5466224f71a03956a98911e60d8318d2}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a69d287f17078104f18872dcd54aee52b}{
+void {\bfseries setDataProperties} (HashMap$<$ OWLClassExpression, ArrayList$<$ OWLDataProperty $>$$>$ \hyperlink{class_ontology_1_1_data_property_af2428254ca584e305288b51f6645e250}{dataProperties})}
+\label{class_ontology_1_1_data_property_a69d287f17078104f18872dcd54aee52b}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a500aa972067c093a97fce9809fe9fefb}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ {\bfseries getDataPropertiesClean} ()}
+\label{class_ontology_1_1_data_property_a500aa972067c093a97fce9809fe9fefb}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_aba80c3c2b7a61f5a664a211f26503add}{
+void {\bfseries setDataPropertiesClean} (ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_ontology_1_1_data_property_a016e25b09967876b7191033daab24d2c}{dataPropertiesClean})}
+\label{class_ontology_1_1_data_property_aba80c3c2b7a61f5a664a211f26503add}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_ab9f0476f4fabba984e9f0517b569a534}{
+HashMap$<$ String, String $>$ {\bfseries getDataSingleValued} ()}
+\label{class_ontology_1_1_data_property_ab9f0476f4fabba984e9f0517b569a534}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_ab192a6fa2584d58cbbffcadbcf9785cc}{
+void {\bfseries setDataSingleValued} (HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_data_property_a2de9cc72a21e027da8208f9a2df0bd56}{dataSingleValued})}
+\label{class_ontology_1_1_data_property_ab192a6fa2584d58cbbffcadbcf9785cc}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_ac53aaf738e90f05d28ac40945f1c8d45}{
+HashMap$<$ String, String $>$ {\bfseries getDataRequired} ()}
+\label{class_ontology_1_1_data_property_ac53aaf738e90f05d28ac40945f1c8d45}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a8e13a7f7817f88727bf6297f4113a21b}{
+void {\bfseries setDataRequired} (HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_data_property_aa8750eab83c0207b3acc8b87581e84c7}{dataRequired})}
+\label{class_ontology_1_1_data_property_a8e13a7f7817f88727bf6297f4113a21b}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_aea2d36c4e8f81fc138c48a46f1ec61f9}{
+ArrayList$<$ OWLClass $>$ {\bfseries getClasses} ()}
+\label{class_ontology_1_1_data_property_aea2d36c4e8f81fc138c48a46f1ec61f9}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a0c2910f2ec8dafd7a9ca203ab3475bf8}{
+void {\bfseries setClasses} (ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_data_property_ad6a04d3cfaaaa1b82b085761e298b1d9}{classes})}
+\label{class_ontology_1_1_data_property_a0c2910f2ec8dafd7a9ca203ab3475bf8}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a3777a294b72063a555b05c3f4340cfaa}{
+ArrayList$<$ String $>$ {\bfseries getClassesClean} ()}
+\label{class_ontology_1_1_data_property_a3777a294b72063a555b05c3f4340cfaa}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a0e06a8d6276cf00012241d15d69fecfc}{
+void {\bfseries setClassesClean} (ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_data_property_a425c129759217bc744f9c57d0f2d0c0f}{classesClean})}
+\label{class_ontology_1_1_data_property_a0e06a8d6276cf00012241d15d69fecfc}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a42feee637109118abb6bd0199d6313a7}{
+OWLOntology {\bfseries getOntology} ()}
+\label{class_ontology_1_1_data_property_a42feee637109118abb6bd0199d6313a7}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_ad26f093fd1421ede84e7c2a6f3d7ff5a}{
+void {\bfseries setOntology} (OWLOntology \hyperlink{class_ontology_1_1_data_property_aa05bcaca9a48cd30101617e86f4dda41}{ontology})}
+\label{class_ontology_1_1_data_property_ad26f093fd1421ede84e7c2a6f3d7ff5a}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_ae681eb33f0135b022bb3ecd3c3a6ca4f}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ {\bfseries getDataPropertyRanges} ()}
+\label{class_ontology_1_1_data_property_ae681eb33f0135b022bb3ecd3c3a6ca4f}
+
+\item 
+\hypertarget{class_ontology_1_1_data_property_a5d87ce1a23c51a55e500acffbac08c85}{
+void {\bfseries setDataPropertyRanges} (ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_ontology_1_1_data_property_a9ffdd8ee11bc8c9a2651e512da2485b7}{dataPropertyRanges})}
+\label{class_ontology_1_1_data_property_a5d87ce1a23c51a55e500acffbac08c85}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_data_property_adf0cae9ddf1db737f1ddeebd803e9c95}{
+static char {\bfseries getSeparator} ()}
+\label{class_ontology_1_1_data_property_adf0cae9ddf1db737f1ddeebd803e9c95}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_data_property_ad6a04d3cfaaaa1b82b085761e298b1d9}{
+ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_data_property_ad6a04d3cfaaaa1b82b085761e298b1d9}{classes}}
+\label{class_ontology_1_1_data_property_ad6a04d3cfaaaa1b82b085761e298b1d9}
+
+\begin{DoxyCompactList}\small\item\em List of classes in the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_a425c129759217bc744f9c57d0f2d0c0f}{
+ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_data_property_a425c129759217bc744f9c57d0f2d0c0f}{classesClean}}
+\label{class_ontology_1_1_data_property_a425c129759217bc744f9c57d0f2d0c0f}
+
+\begin{DoxyCompactList}\small\item\em List of classes without the URL before their name. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_aa05bcaca9a48cd30101617e86f4dda41}{
+OWLOntology \hyperlink{class_ontology_1_1_data_property_aa05bcaca9a48cd30101617e86f4dda41}{ontology}}
+\label{class_ontology_1_1_data_property_aa05bcaca9a48cd30101617e86f4dda41}
+
+\begin{DoxyCompactList}\small\item\em Our ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_af2428254ca584e305288b51f6645e250}{
+HashMap$<$ OWLClassExpression, ArrayList$<$ OWLDataProperty $>$ $>$ \hyperlink{class_ontology_1_1_data_property_af2428254ca584e305288b51f6645e250}{dataProperties}}
+\label{class_ontology_1_1_data_property_af2428254ca584e305288b51f6645e250}
+
+\begin{DoxyCompactList}\small\item\em List of the data properties associated to a given class.  $<$$<$Classe1, DataPropertyName1,DataPropertyName2$>$,$<$Classe2,DataPropertyName1,DataPropertyName2$>$$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_a016e25b09967876b7191033daab24d2c}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_data_property_a016e25b09967876b7191033daab24d2c}{dataPropertiesClean}}
+\label{class_ontology_1_1_data_property_a016e25b09967876b7191033daab24d2c}
+
+\begin{DoxyCompactList}\small\item\em List of the data properties associated to a given class without the URL before their names.  Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_a2de9cc72a21e027da8208f9a2df0bd56}{
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_data_property_a2de9cc72a21e027da8208f9a2df0bd56}{dataSingleValued}}
+\label{class_ontology_1_1_data_property_a2de9cc72a21e027da8208f9a2df0bd56}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if a data property is single or multi valued.  dataPropertyName =$>$ true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_aa8750eab83c0207b3acc8b87581e84c7}{
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_data_property_aa8750eab83c0207b3acc8b87581e84c7}{dataRequired}}
+\label{class_ontology_1_1_data_property_aa8750eab83c0207b3acc8b87581e84c7}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if a data property is required or optional.  dataPropertyName =$>$ true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_data_property_a9ffdd8ee11bc8c9a2651e512da2485b7}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_data_property_a9ffdd8ee11bc8c9a2651e512da2485b7}{dataPropertyRanges}}
+\label{class_ontology_1_1_data_property_a9ffdd8ee11bc8c9a2651e512da2485b7}
+
+\begin{DoxyCompactList}\small\item\em List of the ranges for a given data property  $<$$<$DataPropertyName1,Range1,Range2...,$<$DataPropertyName2,Range1,Range2...$>$$>$ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_data_property_a61b982e1bd53e0794eaf9b5058d60a78}{
+static final char \hyperlink{class_ontology_1_1_data_property_a61b982e1bd53e0794eaf9b5058d60a78}{SEPARATOR} = '\#'}
+\label{class_ontology_1_1_data_property_a61b982e1bd53e0794eaf9b5058d60a78}
+
+\begin{DoxyCompactList}\small\item\em Separator between URL and the class' name in the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the data properties. 
+
+This class is used to manipulate the data properties contained in the ontology 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ontology_1_1_data_property_a2b6f27d096d62baa79eaef7b3909dccd}{
+\index{Ontology::DataProperty@{Ontology::DataProperty}!DataProperty@{DataProperty}}
+\index{DataProperty@{DataProperty}!Ontology::DataProperty@{Ontology::DataProperty}}
+\subsubsection[{DataProperty}]{\setlength{\rightskip}{0pt plus 5cm}Ontology.DataProperty.DataProperty (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ OWLClass $>$}]{c, }
+\item[{ArrayList$<$ String $>$}]{cc, }
+\item[{OWLOntology}]{ont}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_data_property_a2b6f27d096d62baa79eaef7b3909dccd}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_ontology_1_1_data_property}{DataProperty} class. 
+\begin{DoxyParams}{Parameters}
+{\em c} & List of the classes. \\
+\hline
+{\em cc} & List of the classes cleaned. \\
+\hline
+{\em ont} & Our ontology. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_data_property_a2b6f27d096d62baa79eaef7b3909dccd_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ontology_1_1_data_property_ab585a75a37b556425a74d5861e761046}{
+\index{Ontology::DataProperty@{Ontology::DataProperty}!addDataProperties@{addDataProperties}}
+\index{addDataProperties@{addDataProperties}!Ontology::DataProperty@{Ontology::DataProperty}}
+\subsubsection[{addDataProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.DataProperty.addDataProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_data_property_ab585a75a37b556425a74d5861e761046}
+
+
+List all the data properties for each class. 
+
+Fill the dataProperties map 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_data_property_ab585a75a37b556425a74d5861e761046_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_data_property_a5773fd26f41397dbc83d8f3fcd0ea311}{
+\index{Ontology::DataProperty@{Ontology::DataProperty}!addTypes@{addTypes}}
+\index{addTypes@{addTypes}!Ontology::DataProperty@{Ontology::DataProperty}}
+\subsubsection[{addTypes}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.DataProperty.addTypes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_data_property_a5773fd26f41397dbc83d8f3fcd0ea311}
+
+
+List all the ranges for each data properties. 
+
+Fill the dataPropertyRanges list 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_data_property_a5773fd26f41397dbc83d8f3fcd0ea311_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_data_property_a04c8a57a7b625f5075d407540980946e}{
+\index{Ontology::DataProperty@{Ontology::DataProperty}!requiredValueDataProperties@{requiredValueDataProperties}}
+\index{requiredValueDataProperties@{requiredValueDataProperties}!Ontology::DataProperty@{Ontology::DataProperty}}
+\subsubsection[{requiredValueDataProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.DataProperty.requiredValueDataProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_data_property_a04c8a57a7b625f5075d407540980946e}
+
+
+Precise which properties are required. 
+
+Fill the dataRequired map. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_data_property_a04c8a57a7b625f5075d407540980946e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_data_property_a5b082464ba431055164a63d976006916}{
+\index{Ontology::DataProperty@{Ontology::DataProperty}!singleValuedDataProperties@{singleValuedDataProperties}}
+\index{singleValuedDataProperties@{singleValuedDataProperties}!Ontology::DataProperty@{Ontology::DataProperty}}
+\subsubsection[{singleValuedDataProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.DataProperty.singleValuedDataProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_data_property_a5b082464ba431055164a63d976006916}
+
+
+Precise which properties are single valued. 
+
+Fill the dataSingleValued map. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_data_property_a5b082464ba431055164a63d976006916_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/Ontology/\hyperlink{_data_property_8java}{DataProperty.java}\end{DoxyCompactItemize}

@@ -1,0 +1,354 @@
+\hypertarget{class_classes_c_p_p_1_1_dao_generator}{
+\section{ClassesCPP.DaoGenerator Class Reference}
+\label{class_classes_c_p_p_1_1_dao_generator}\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+}
+
+
+Class for the C++ Data Access Object.  
+
+
+
+
+Collaboration diagram for ClassesCPP.DaoGenerator:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_dao_generator__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_classes_c_p_p_1_1_dao_generator_af3eca263b77e9d6621dc7fa18cc997d1}{DaoGenerator} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{tables}, HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{superClasses}, ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}{classes}, HashMap$<$ String, String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_abe833faf455358b4acfbb6094a79aac2}{objectPropertiesInverse}, HashMap$<$ String, String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a3173466faa066f9caea2e5dcaba3b330}{objectPropertiesSingleValued}, HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_af8c39fd61441c9eaa88b350a7890c347}{objectPropertyRanges}, HashMap$<$ String, String $>$ dataPropertiesSingleValued)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_dao_generator_a44f55de6d8745c30025b78d9b17db0bc}{generateHeader} (ArrayList$<$ String $>$ attributes, ArrayList$<$ String $>$ unit, String url, String user, String pass, String nameDb)
+\begin{DoxyCompactList}\small\item\em Generate the header file for the data access object. \end{DoxyCompactList}\item 
+void \hyperlink{class_classes_c_p_p_1_1_dao_generator_a8cf53076ae7d1c6032e3c8a85747dddf}{fillGetSqlQueries} ()
+\begin{DoxyCompactList}\small\item\em Generate the queries used to interact with the DB. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_dao_generator_aef6508498c44300406cd431b8a1c934d}{getParent} (String table)
+\begin{DoxyCompactList}\small\item\em Retrieve the super classes for a given one. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_dao_generator_ab8adb218ba2eb114406246198d83d60d}{generateCpp} (ArrayList$<$ String $>$ attributes, ArrayList$<$ String $>$ unit, String url, String user, String pass, String nameDb)
+\begin{DoxyCompactList}\small\item\em Generate the C++ file for the data access object. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_afecf1a252b2260a52d872afdbd7cffdc}{
+void \hyperlink{class_classes_c_p_p_1_1_dao_generator_afecf1a252b2260a52d872afdbd7cffdc}{generateGetSQL} ()}
+\label{class_classes_c_p_p_1_1_dao_generator_afecf1a252b2260a52d872afdbd7cffdc}
+
+\begin{DoxyCompactList}\small\item\em Method used to generate the Select queries. \end{DoxyCompactList}\item 
+void \hyperlink{class_classes_c_p_p_1_1_dao_generator_a8ca96cfa5a7e91b4cf173ce1aaa7901c}{writeHeader} (String data, String path)
+\begin{DoxyCompactList}\small\item\em Write the header file on the Disk. \end{DoxyCompactList}\item 
+void \hyperlink{class_classes_c_p_p_1_1_dao_generator_adf5cf7ea8f00ced87746d782e96c45b9}{writeClass} (String data, String path)
+\begin{DoxyCompactList}\small\item\em Write the C++ file on the Disk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{tables}}
+\label{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : table name =$>$ Value : attributes names.  $<$Table1 =$>$ $<$Attribute1,Attribute2,TableForeignKey/ForeignKey...$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{superClasses}}
+\label{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : class name =$>$ Value : super classes names.  Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}{
+ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}{classes}}
+\label{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}
+
+\begin{DoxyCompactList}\small\item\em List of classes. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_abe833faf455358b4acfbb6094a79aac2}{
+HashMap$<$ String, String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_abe833faf455358b4acfbb6094a79aac2}{objectPropertiesInverse}}
+\label{class_classes_c_p_p_1_1_dao_generator_abe833faf455358b4acfbb6094a79aac2}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : property name =$>$ Value : inverse property name. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a3173466faa066f9caea2e5dcaba3b330}{
+HashMap$<$ String, String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a3173466faa066f9caea2e5dcaba3b330}{objectPropertiesSingleValued}}
+\label{class_classes_c_p_p_1_1_dao_generator_a3173466faa066f9caea2e5dcaba3b330}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : object property name =$>$ Value : true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_af8c39fd61441c9eaa88b350a7890c347}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_af8c39fd61441c9eaa88b350a7890c347}{objectPropertyRanges}}
+\label{class_classes_c_p_p_1_1_dao_generator_af8c39fd61441c9eaa88b350a7890c347}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : object property name =$>$ Value : Range(s). \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a6be3dbb95bc9ecb7cc20e19ec207f002}{
+HashMap$<$ String, String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a6be3dbb95bc9ecb7cc20e19ec207f002}{getDataSingleSql}}
+\label{class_classes_c_p_p_1_1_dao_generator_a6be3dbb95bc9ecb7cc20e19ec207f002}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : Type =$>$ Value : query. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a76d97a7ffeeaa76262df17e7f24e4fab}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a76d97a7ffeeaa76262df17e7f24e4fab}{getObjectSingleSql}}
+\label{class_classes_c_p_p_1_1_dao_generator_a76d97a7ffeeaa76262df17e7f24e4fab}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : Type =$>$ Value : (-\/)name of table / attribute : if in relation in (not) the DB. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_ada1138c2e61e4981aafd2876a852887a}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_ada1138c2e61e4981aafd2876a852887a}{getDataMultiSql}}
+\label{class_classes_c_p_p_1_1_dao_generator_ada1138c2e61e4981aafd2876a852887a}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : Type =$>$ Value : query. \end{DoxyCompactList}\item 
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a95f95dd4acf39921a18501d22c3130c3}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a95f95dd4acf39921a18501d22c3130c3}{getObjectMultiSql}}
+\label{class_classes_c_p_p_1_1_dao_generator_a95f95dd4acf39921a18501d22c3130c3}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : Type =$>$ Value : name of table / attribute. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the C++ Data Access Object. 
+
+This class is used to generate the C++ specific file used to interact with the DB. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_af3eca263b77e9d6621dc7fa18cc997d1}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!DaoGenerator@{DaoGenerator}}
+\index{DaoGenerator@{DaoGenerator}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{DaoGenerator}]{\setlength{\rightskip}{0pt plus 5cm}ClassesCPP.DaoGenerator.DaoGenerator (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{tables, }
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{superClasses, }
+\item[{ArrayList$<$ String $>$}]{classes, }
+\item[{HashMap$<$ String, String $>$}]{objectPropertiesInverse, }
+\item[{HashMap$<$ String, String $>$}]{objectPropertiesSingleValued, }
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{objectPropertyRanges, }
+\item[{HashMap$<$ String, String $>$}]{dataPropertiesSingleValued}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_af3eca263b77e9d6621dc7fa18cc997d1}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_classes_c_p_p_1_1_dao_generator}{DaoGenerator} class. 
+\begin{DoxyParams}{Parameters}
+{\em tables} & Collections of the tables and attributes. \\
+\hline
+{\em superClasses} & Collections of the superclasses. \\
+\hline
+{\em classes} & List of the classes. \\
+\hline
+{\em objectPropertiesInverse} & List of the object inverse properties. \\
+\hline
+{\em objectPropertiesSingleValued} & List of the object properties single valued or not. \\
+\hline
+{\em objectPropertyRanges} & Ranges of the object properties. \\
+\hline
+{\em dataPropertiesSingleValued} & List of the data properties single valued or not. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a8cf53076ae7d1c6032e3c8a85747dddf}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!fillGetSqlQueries@{fillGetSqlQueries}}
+\index{fillGetSqlQueries@{fillGetSqlQueries}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{fillGetSqlQueries}]{\setlength{\rightskip}{0pt plus 5cm}void ClassesCPP.DaoGenerator.fillGetSqlQueries (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_a8cf53076ae7d1c6032e3c8a85747dddf}
+
+
+Generate the queries used to interact with the DB. 
+
+Fill out 4 differents std vectors : 
+\begin{DoxyItemize}
+\item One for the data single valued 
+\item One for the data multi valued 
+\item One for the object single valued : foreign keys 
+\item One for the object multi valued : association tables 
+\end{DoxyItemize}
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_dao_generator_a8cf53076ae7d1c6032e3c8a85747dddf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_dao_generator_a8cf53076ae7d1c6032e3c8a85747dddf_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_ab8adb218ba2eb114406246198d83d60d}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!generateCpp@{generateCpp}}
+\index{generateCpp@{generateCpp}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{generateCpp}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.DaoGenerator.generateCpp (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ String $>$}]{attributes, }
+\item[{ArrayList$<$ String $>$}]{unit, }
+\item[{String}]{url, }
+\item[{String}]{user, }
+\item[{String}]{pass, }
+\item[{String}]{nameDb}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_ab8adb218ba2eb114406246198d83d60d}
+
+
+Generate the C++ file for the data access object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attributes} & List of the attributes. \\
+\hline
+{\em unit} & List of the units of the attributes. \\
+\hline
+{\em url} & Host of your DB. \\
+\hline
+{\em user} & User name in the DB. \\
+\hline
+{\em pass} & Password of the user in the DB. \\
+\hline
+{\em nameDB} & DB Schema. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with the whole C++ file 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_dao_generator_ab8adb218ba2eb114406246198d83d60d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a44f55de6d8745c30025b78d9b17db0bc}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!generateHeader@{generateHeader}}
+\index{generateHeader@{generateHeader}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{generateHeader}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.DaoGenerator.generateHeader (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ String $>$}]{attributes, }
+\item[{ArrayList$<$ String $>$}]{unit, }
+\item[{String}]{url, }
+\item[{String}]{user, }
+\item[{String}]{pass, }
+\item[{String}]{nameDb}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_a44f55de6d8745c30025b78d9b17db0bc}
+
+
+Generate the header file for the data access object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attributes} & List of the attributes. \\
+\hline
+{\em unit} & List of the units of the attributes. \\
+\hline
+{\em url} & Host of your DB. \\
+\hline
+{\em user} & User name in the DB. \\
+\hline
+{\em pass} & Password of the user in the DB. \\
+\hline
+{\em nameDB} & DB Schema. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with the whole header file 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_dao_generator_a44f55de6d8745c30025b78d9b17db0bc_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_aef6508498c44300406cd431b8a1c934d}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!getParent@{getParent}}
+\index{getParent@{getParent}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{getParent}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.DaoGenerator.getParent (
+\begin{DoxyParamCaption}
+\item[{String}]{table}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_aef6508498c44300406cd431b8a1c934d}
+
+
+Retrieve the super classes for a given one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & The type we want to get his super classes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with all the super classes seperated by a space 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_dao_generator_aef6508498c44300406cd431b8a1c934d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_adf5cf7ea8f00ced87746d782e96c45b9}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!writeClass@{writeClass}}
+\index{writeClass@{writeClass}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{writeClass}]{\setlength{\rightskip}{0pt plus 5cm}void ClassesCPP.DaoGenerator.writeClass (
+\begin{DoxyParamCaption}
+\item[{String}]{data, }
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_adf5cf7ea8f00ced87746d782e96c45b9}
+
+
+Write the C++ file on the Disk. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Data you want to write. \\
+\hline
+{\em path} & Path of your file \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a8ca96cfa5a7e91b4cf173ce1aaa7901c}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!writeHeader@{writeHeader}}
+\index{writeHeader@{writeHeader}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{writeHeader}]{\setlength{\rightskip}{0pt plus 5cm}void ClassesCPP.DaoGenerator.writeHeader (
+\begin{DoxyParamCaption}
+\item[{String}]{data, }
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_dao_generator_a8ca96cfa5a7e91b4cf173ce1aaa7901c}
+
+
+Write the header file on the Disk. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Data you want to write. \\
+\hline
+{\em path} & Path of your file \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/ClassesCPP/\hyperlink{_dao_generator_8java}{DaoGenerator.java}\end{DoxyCompactItemize}

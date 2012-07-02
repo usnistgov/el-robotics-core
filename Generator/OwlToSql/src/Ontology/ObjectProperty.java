@@ -11,6 +11,21 @@ software
    See NIST Administration Manual 4.09.07 b and Appendix I.
 *****************************************************************************/
 
+/**
+ * \file      ObjectProperty.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the object properties.
+ *
+ */
+
+/**
+ * \class 	Ontology.ObjectProperty
+ * \brief     Class for the object properties.
+ * \details   This class is used to manipulate the object properties contained in the ontology  
+ */
+
 package Ontology;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,25 +45,60 @@ import org.semanticweb.owlapi.util.OWLOntologyWalker;
 import org.semanticweb.owlapi.util.OWLOntologyWalkerVisitor;
 
 public class ObjectProperty {
-
-	static final char SEPARATOR = '#';
+	/**
+	 * \brief     Separator between URL and the class' name in the ontology.
+	 */
+	private static final char SEPARATOR = '#';
+	/**
+	 * \brief      List of classes in the ontology.
+	 */
 	private ArrayList<OWLClass> classes;
-	private ArrayList<String> classesClean; // list of classes
+	/**
+	 * \brief      List of classes without the url before their name.
+	 */
+	private ArrayList<String> classesClean; 
+	/**
+	 * \brief      Our ontology.
+	 */
 	private OWLOntology ontology;
+	/**
+	 * \brief      List of the object properties in the ontology.
+	 * \detail <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 */
 	private HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> objectProperties;
+	/**
+	 * \brief      List of the object properties without the URL before their name in the ontology.
+	 * \detail <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 */
 	private ArrayList<ArrayList<String>> objectPropertiesClean;
-	// <<Classe1, ObjectPropertyName1,ObjectPropertyName2>,<Classe2,
-	// ObjectPropertyName1,ObjectPropertyName2>>
-	private HashMap<String, String> objectSingleValued; // ObjectPropertyName =>
-														// true or false
-	private HashMap<String, String> objectRequired; // ObjectPropertyName =>true
-													// or false
-	private HashMap<String, ArrayList<String>> objectPropertyRanges; // ObjectPropertyName
-																		// =>
-																		// Range(s)
-	private HashMap<String, String> objectPropertyInverse; // property =>
-															// inverse
+	/**
+	 * \brief      Map - Used to know if a object property is single or multi valued
+	 * \detail ObjectPropertyName => true or false
+	 */
+	private HashMap<String, String> objectSingleValued; 
+	/**
+	 * \brief      Map - Used to know if an object property is required or optional valued
+	 * \detail ObjectPropertyName => true or false
+	 */
+	private HashMap<String, String> objectRequired; 
+	/**
+	 * \brief      List of the ranges for a given object property
+	 * \detail 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
+	 */
+	private HashMap<String, ArrayList<String>> objectPropertyRanges;
+	/**
+	 * \brief      List of the inverse properties for a given one.
+	 * \detail 	 property => inverse
+	 */	
+	private HashMap<String, String> objectPropertyInverse; 
 
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the ObjectProperty class.
+     *  \param c 	List of the classes.
+     *  \param cc 	List of the classes cleaned.
+     *  \param ont 	Our ontology.
+     */
 	public ObjectProperty(ArrayList<OWLClass> c, ArrayList<String> cc,
 			OWLOntology ont) {
 		objectPropertiesClean = new ArrayList<ArrayList<String>>();
@@ -75,8 +125,11 @@ public class ObjectProperty {
 		System.out.println();
 	}
 
-	// fill up the objectPropertyInverse list
-	private void addInverse() {
+	/**
+	 * \brief List all the inverse properties for each object properties.
+	 * \details Fill the objectPropertyInverse map
+	 */	
+	public void addInverse() {
 		for (int i = 0; i < classes.size(); i++) {
 			if (objectProperties.containsKey(classes.get(i))) {
 				for (int j = 0; j < objectProperties.get(classes.get(i)).size(); j++) {
@@ -162,7 +215,10 @@ public class ObjectProperty {
 		}
 	}
 
-	// add the object properties in the corresponding list
+	/**
+	 * \brief List all the object properties for each class.
+	 * \details Fill the objectProperties map
+	 */	
 	public void addObjectProperties() {
 		ArrayList<OWLObjectProperty> l = new ArrayList<OWLObjectProperty>(
 				ontology.getObjectPropertiesInSignature(true));
@@ -197,7 +253,9 @@ public class ObjectProperty {
 		}
 	}
 
-	// delete the url before the name of the property
+	/**
+	 * \brief Delete the url before the name of the property.
+	 */
 	public void cleanObjectProperties() {
 		for (int i = 0; i < classes.size(); i++) {
 			ArrayList<String> temp = new ArrayList<String>();
@@ -220,8 +278,10 @@ public class ObjectProperty {
 		System.out.println();
 	}
 
-	// precise which properties are singleValued - fill the objectSingleValued
-	// Map
+	/**
+	 * \brief Precise which properties are single valued.
+	 * \details Fill the objectSingleValued map.
+	 */
 	public void singleValuedObjectProperties() {
 		for (Entry<OWLClassExpression, ArrayList<OWLObjectProperty>> currentEntry : objectProperties
 				.entrySet()) {
@@ -284,8 +344,10 @@ public class ObjectProperty {
 		walker.walkStructure(visitor2);
 	}
 
-	// precise which properties are requiredValued - fill the
-	// objectRequiredValued Map
+	/**
+	 * \brief Precise which properties are required.
+	 * \details Fill the objectRequired map.
+	 */	
 	public void requiredValueObjectProperties() {
 		for (Entry<OWLClassExpression, ArrayList<OWLObjectProperty>> currentEntry : objectProperties
 				.entrySet()) {
@@ -382,7 +444,10 @@ public class ObjectProperty {
 		walker.walkStructure(visitor4);
 	}
 
-	// fill up the objectPropertyRanges list - add the ranges
+	/**
+	 * \brief List all the ranges for each object properties.
+	 * \details Fill the objectPropertyRanges list	 
+	 */	
 	public void addTypes() {
 		for (Entry<OWLClassExpression, ArrayList<OWLObjectProperty>> currentEntry : objectProperties
 				.entrySet()) {

@@ -11,6 +11,20 @@ software
    See NIST Administration Manual 4.09.07 b and Appendix I.
  *****************************************************************************/
 
+/**
+ * \file      Connection.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the connection to the DB.
+ */
+
+/**
+ * \class ClassesCPP.Connection
+ * \brief Class for the connection to the DB.
+ * \details   This class is used to generate the C++ specific file used to create the connection with the DB.
+ */
+
 package ClassesCPP;
 
 import java.io.BufferedWriter;
@@ -20,16 +34,27 @@ import java.io.Writer;
 
 public class Connection {
 
-	String path;
+	/**
+	 * \brief      Where we are going to save the file.
+	 */
+	private String path;
 
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the Connection class.
+     *  \param path 	path of the file.
+     */
 	public Connection(String path) {
 
-		this.path = path;
+		this.setPath(path);
 
 		writeHeader(generateHeader(), path);
 		writeClass(generateCpp(), path);
 	}
 
+	/**
+	 * \brief      Generate the header file for the connection with the DB.
+	 */
 	public String generateHeader() {
 		String header = "";
 		header = header
@@ -77,6 +102,9 @@ public class Connection {
 		return header;
 	}
 
+	/**
+	 * \brief      Generate the C++ file for the connection with the DB.
+	 */
 	public String generateCpp() {
 		String generatedClass = "";
 		generatedClass = generatedClass
@@ -133,6 +161,11 @@ public class Connection {
 		return generatedClass;
 	}
 
+	/**
+	 * \brief      Write the header file on the Disk.
+	 * \param    data		   	Data you want to write.
+	 * \param    path			Path of your file
+	 */
 	public void writeHeader(String data, String path) {
 		Writer fstream;
 		try {
@@ -147,6 +180,11 @@ public class Connection {
 
 	}
 
+	/**
+	 * \brief      Write the C++ file on the Disk.
+	 * \param    data		   	Data you want to write.
+	 * \param    path			Path of your file
+	 */
 	public void writeClass(String data, String path) {
 		Writer fstream;
 		try {
@@ -159,6 +197,14 @@ public class Connection {
 			e.printStackTrace();
 		}
 
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

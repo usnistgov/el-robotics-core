@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_ontology_1_1_ontology.html#a0b354cebd902e4cde66d5407e8e353ca" title="List all the classes." alt="" coords="263,5,465,35"/>
+<area shape="rect" id="node5" href="$class_ontology_1_1_ontology.html#a7028d98e45511b5dbab527e311dd24a6" title="List all the super classes." alt="" coords="245,59,483,88"/>
+<area shape="rect" id="node7" href="$class_ontology_1_1_ontology.html#a8290f5c9dd5e48694ab41c029edb8e47" title="Delete the url before the name of the classes." alt="" coords="257,112,471,141"/>
+<area shape="rect" id="node9" href="$class_ontology_1_1_ontology.html#adfbd3af5b4506c74edbed5416e588ee6" title="Delete the url before the name of the super classes." alt="" coords="241,165,487,195"/>
+<area shape="rect" id="node11" href="$class_ontology_1_1_ontology.html#acfa7d8a40bd1dc8e06abfa55b19ac993" title="Load the ontology from a file." alt="" coords="260,219,468,248"/>
+</map>

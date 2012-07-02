@@ -11,20 +11,49 @@ software
    See NIST Administration Manual 4.09.07 b and Appendix I.
  *****************************************************************************/
 
+/**
+ * \file      Types.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the C++ types.
+ *
+ * \details   This class is used to generate the C++ files based on the info in the ontology
+ */
+
+/**
+ * \class 	ClassesCPP.Types
+ * \brief     Class for the C++ types.
+ * \details   This class is used to generate the C++ files based on the info in the ontology
+ */
+
 package ClassesCPP;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Types extends ClassGenerator {
 
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the Types class.
+     *  \param className 	Name of the class.
+     */
 	public Types(String className) {
 		this.className = className;
 		fillUnit();
 	}
 
+	
+	/**
+	 * \brief      Generate the header file for a given type
+	 * \param    className         Name of the class.
+	 * \param    classParentName   List of the super classes.
+	 * \param    attributes		   List of the attributes.
+	 * \param    attributes		   List of the units of the attributes.
+	 * \return   A String with the whole header
+	 */
 	public String generateHeader(String className,
 			ArrayList<String> classParentName, ArrayList<String> attributes,
 			ArrayList<String> unit) {
@@ -45,8 +74,7 @@ public class Types extends ClassGenerator {
 		include = include + "software\n";
 		include = include
 				+ "   assume all responsibility associated with its operation, modification,\n";
-		include = include
-				+ "   maintenance, and subsequent redistribution.\n";
+		include = include + "   maintenance, and subsequent redistribution.\n";
 		include = include + "\n";
 		include = include
 				+ "   See NIST Administration Manual 4.09.07 b and Appendix I.\n";
@@ -148,9 +176,15 @@ public class Types extends ClassGenerator {
 		return result;
 	}
 
-	public String generateCpp(HashMap<String, ArrayList<String>> range,
-			HashMap<String, String> inverse, HashMap<String, String> single,
-			String className, ArrayList<String> classParentName,
+	/**
+	 * \brief      Generate the C++ file for a given type
+	 * \param    className         Name of the class.
+	 * \param    classParentName   List of the super classes.
+	 * \param    attributes		   List of the attributes.
+	 * \param    unit			   List of the units of the attributes.
+	 * \return   A String with the whole C++ file
+	 */
+	public String generateCpp(String className, ArrayList<String> classParentName,
 			ArrayList<String> attributes, ArrayList<String> unit) {
 		String result = "";
 		result = result

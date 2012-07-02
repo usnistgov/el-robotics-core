@@ -11,6 +11,19 @@ software
    See NIST Administration Manual 4.09.07 b and Appendix I.
  *****************************************************************************/
 
+/**
+ * \file      DataProperty.java
+ * \author    Anthony Pietromartire \a pietromartire.anthony\@nist.gov
+ * \version   1.0
+ * \date      29 June 2012
+ * \brief     Class for the data properties.
+ */
+
+/**
+ * \class 	Ontology.DataProperty
+ * \brief     Class for the data properties.
+ * \details   This class is used to manipulate the data properties contained in the ontology  
+ */
 package Ontology;
 
 import java.util.ArrayList;
@@ -32,22 +45,53 @@ import org.semanticweb.owlapi.util.OWLOntologyWalker;
 import org.semanticweb.owlapi.util.OWLOntologyWalkerVisitor;
 
 public class DataProperty {
-	static final char SEPARATOR = '#';
+	/**
+	 * \brief     Separator between URL and the class' name in the ontology.
+	 */
+	private static final char SEPARATOR = '#';
+	/**
+	 * \brief      List of classes in the ontology.
+	 */
 	private ArrayList<OWLClass> classes;
-	private ArrayList<String> classesClean; // list of classes
+	/**
+	 * \brief      List of classes without the URL before their name.
+	 */
+	private ArrayList<String> classesClean;
+	/**
+	 * \brief      Our ontology.
+	 */
 	private OWLOntology ontology;
+	/**
+	 * \brief      List of the data properties associated to a given class.
+	 * \detail <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
+	 */
 	private HashMap<OWLClassExpression, ArrayList<OWLDataProperty>> dataProperties;
+	/**
+	 * \brief      List of the data properties associated to a given class without the URL before their names.
+	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 */
 	private ArrayList<ArrayList<String>> dataPropertiesClean;
-	// <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,
-	// DataPropertyName1,DataPropertyName2>>
-	private HashMap<String, String> dataSingleValued; // dataPropertyName =>
-														// true or false
-	private HashMap<String, String> dataRequired; // dataPropertyName => true or
-													// false
-	private ArrayList<ArrayList<String>> dataPropertyRanges;
+	/**
+	 * \brief      Map - Used to know if a data property is single or multi valued.
+	 * \detail dataPropertyName => true or false
+	 */
+	private HashMap<String, String> dataSingleValued; 
+	/**
+	 * \brief      Map - Used to know if a data property is required or optional.
+	 * \detail dataPropertyName => true or false
+	 */	private HashMap<String, String> dataRequired; 
+	/**
+	 * \brief      List of the ranges for a given data property
+	 * \detail 	 <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
+	 */	private ArrayList<ArrayList<String>> dataPropertyRanges;
 
-	// <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
-
+	/**
+     *  \brief Constructor
+     *  \details Constructor of the DataProperty class.
+     *  \param c 	List of the classes.
+     *  \param cc 	List of the classes cleaned.
+     *  \param ont 	Our ontology.
+     */
 	public DataProperty(ArrayList<OWLClass> c, ArrayList<String> cc,
 			OWLOntology ont) {
 		dataPropertiesClean = new ArrayList<ArrayList<String>>();
@@ -69,7 +113,9 @@ public class DataProperty {
 		addTypes(); // fill up the dataPropertyRanges list - add the ranges
 	}
 
-	// delete the url before the name of the property
+	/**
+	 * \brief Delete the url before the name of the property.
+	 */
 	public void cleanDataProperties() {
 		for (int i = 0; i < classes.size(); i++) {
 			ArrayList<String> temp = new ArrayList<String>();
@@ -92,7 +138,10 @@ public class DataProperty {
 		}
 	}
 
-	// precise which properties are singleValued - fill the dataSingleValued Map
+	/**
+	 * \brief Precise which properties are single valued.
+	 * \details Fill the dataSingleValued map.
+	 */
 	public void singleValuedDataProperties() {
 		for (Entry<OWLClassExpression, ArrayList<OWLDataProperty>> currentEntry : dataProperties
 				.entrySet()) {
@@ -155,7 +204,10 @@ public class DataProperty {
 		walker.walkStructure(visitor2);
 	}
 
-	// precise which properties are required - fill the dataRequired Map
+	/**
+	 * \brief Precise which properties are required.
+	 * \details Fill the dataRequired map.
+	 */	
 	public void requiredValueDataProperties() {
 		for (Entry<OWLClassExpression, ArrayList<OWLDataProperty>> currentEntry : dataProperties
 				.entrySet()) {
@@ -255,7 +307,10 @@ public class DataProperty {
 		walker.walkStructure(visitor4);
 	}
 
-	// add the data properties in the corresponding list
+	/**
+	 * \brief List all the data properties for each class.
+	 * \details Fill the dataProperties map
+	 */	
 	public void addDataProperties() {
 		ArrayList<OWLDataProperty> l = new ArrayList<OWLDataProperty>(
 				ontology.getDataPropertiesInSignature());
@@ -289,7 +344,10 @@ public class DataProperty {
 		}
 	}
 
-	// fill up the dataPropertyRanges list - add the ranges
+	/**
+	 * \brief List all the ranges for each data properties.
+	 * \details Fill the dataPropertyRanges list	 
+	 */	
 	public void addTypes() {
 		for (Entry<OWLClassExpression, ArrayList<OWLDataProperty>> currentEntry : dataProperties
 				.entrySet()) {

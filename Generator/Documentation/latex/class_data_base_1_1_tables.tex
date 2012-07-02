@@ -1,0 +1,432 @@
+\hypertarget{class_data_base_1_1_tables}{
+\section{DataBase.Tables Class Reference}
+\label{class_data_base_1_1_tables}\index{DataBase::Tables@{DataBase::Tables}}
+}
+
+
+Class for the tables.  
+
+
+
+
+Collaboration diagram for DataBase.Tables:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_tables__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_data_base_1_1_tables_ac8d01fe9c39bbf7ba1580417ef4b4dcf}{Tables} (String \hyperlink{class_data_base_1_1_tables_ae80958e71da9b7fc4bf4e138f377b59f}{path}, ArrayList$<$ String $>$ cc, ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_af9e966f29b9024df669c77cc0d767c78}{dataPropertiesClean}, HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a40e2a6f8f60048f0a393e9d03e8fcfd8}{dataSingleValued}, HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_af968a71b80946ad236d287dad7a68774}{dataRequired}, ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_ac4fac81e62e9331f412a2ede3ddcc502}{dataPropertyRanges}, ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_aefcb4c8a578671a32a64c3196281f479}{objectPropertiesClean}, HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_ae379376430f85d3c7cef16bf1a962ff1}{objectSingleValued}, HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a11874c966b0f22fc88b7fb46cb3331ed}{objectRequired}, HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_af580afd6f42aac3503cecab2e615ef73}{objectPropertyRanges}, HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_a5ec0af78ac892df612bf3ea7a91e37c5}{superClassesClean}, HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a0465d81797980577fb423e6140df7110}{objectPropertyInverse})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_ab7a2f1ec2301fb5399c67950c3939482}{
+void \hyperlink{class_data_base_1_1_tables_ab7a2f1ec2301fb5399c67950c3939482}{create} ()}
+\label{class_data_base_1_1_tables_ab7a2f1ec2301fb5399c67950c3939482}
+
+\begin{DoxyCompactList}\small\item\em Generate the SQL script used to create the tables. \end{DoxyCompactList}\item 
+String \hyperlink{class_data_base_1_1_tables_ac35eb49002e26a8066cee9d139512562}{foreignKey} ()
+\begin{DoxyCompactList}\small\item\em Generate the foreign keys constraints. \end{DoxyCompactList}\item 
+void \hyperlink{class_data_base_1_1_tables_ac3402b9a61ee3f4d40cb9eb4680213e0}{write} (String s)  throws IOException 
+\begin{DoxyCompactList}\small\item\em Save the sql script on the disk. \end{DoxyCompactList}\item 
+String \hyperlink{class_data_base_1_1_tables_a0cc659b39257e547f1c5857fe2ba9b0a}{attributes} (String c)
+\begin{DoxyCompactList}\small\item\em Give the attributes for a given table. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a15e4b8e12eb734a6b9397d6876672e44}{
+String \hyperlink{class_data_base_1_1_tables_a15e4b8e12eb734a6b9397d6876672e44}{unit} (String a)}
+\label{class_data_base_1_1_tables_a15e4b8e12eb734a6b9397d6876672e44}
+
+\begin{DoxyCompactList}\small\item\em Give the corresponding SQL unit of an OWL one. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a19aec04e79a4a0696a86a86ea5853856}{
+void \hyperlink{class_data_base_1_1_tables_a19aec04e79a4a0696a86a86ea5853856}{fillUnit} ()}
+\label{class_data_base_1_1_tables_a19aec04e79a4a0696a86a86ea5853856}
+
+\begin{DoxyCompactList}\small\item\em Fill the map used to link the owl unit and the SQL ones. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_ae022cd96f6b78408704dcdfeb77c1ce4}{
+HashMap$<$ String, String $>$ {\bfseries getObjectPropertyInverse} ()}
+\label{class_data_base_1_1_tables_ae022cd96f6b78408704dcdfeb77c1ce4}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_ab7b2b1a4677f45c667d96dc78d90f75c}{
+void {\bfseries setObjectPropertyInverse} (HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a0465d81797980577fb423e6140df7110}{objectPropertyInverse})}
+\label{class_data_base_1_1_tables_ab7b2b1a4677f45c667d96dc78d90f75c}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_aac3363f33a78dfb20c0b35d62f235466}{
+void {\bfseries setUnit} (HashMap$<$ String, String $>$ unit)}
+\label{class_data_base_1_1_tables_aac3363f33a78dfb20c0b35d62f235466}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a8a61618eb515452b8733444e53b81df0}{
+String {\bfseries getPath} ()}
+\label{class_data_base_1_1_tables_a8a61618eb515452b8733444e53b81df0}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a6aea1cbfa10e74a6685cff1f3d385ac2}{
+void {\bfseries setPath} (String \hyperlink{class_data_base_1_1_tables_ae80958e71da9b7fc4bf4e138f377b59f}{path})}
+\label{class_data_base_1_1_tables_a6aea1cbfa10e74a6685cff1f3d385ac2}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a5702f3e8af3ff4bc84fc1ef41fa0e0a7}{
+ArrayList$<$ String $>$ {\bfseries getClassesClean} ()}
+\label{class_data_base_1_1_tables_a5702f3e8af3ff4bc84fc1ef41fa0e0a7}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_abe8fc506b7962781ddf7cddef5a6d585}{
+void {\bfseries setClassesClean} (ArrayList$<$ String $>$ \hyperlink{class_data_base_1_1_tables_a780c97151dcb24984456109f95ebc22d}{classesClean})}
+\label{class_data_base_1_1_tables_abe8fc506b7962781ddf7cddef5a6d585}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a035577fea0b42cd1c7206ba4a6f993d2}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ {\bfseries getSuperClassesClean} ()}
+\label{class_data_base_1_1_tables_a035577fea0b42cd1c7206ba4a6f993d2}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a071416b903aa78a5ad3c2e97673e660e}{
+void {\bfseries setSuperClassesClean} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_a5ec0af78ac892df612bf3ea7a91e37c5}{superClassesClean})}
+\label{class_data_base_1_1_tables_a071416b903aa78a5ad3c2e97673e660e}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_aa9ea262b8d7d65909acdd07699d743b0}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ {\bfseries getDataPropertiesClean} ()}
+\label{class_data_base_1_1_tables_aa9ea262b8d7d65909acdd07699d743b0}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_ae3c5c0926fd770b2b0282ade507fc51e}{
+void {\bfseries setDataPropertiesClean} (ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_af9e966f29b9024df669c77cc0d767c78}{dataPropertiesClean})}
+\label{class_data_base_1_1_tables_ae3c5c0926fd770b2b0282ade507fc51e}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_ad6dba497a4d71b713fe5c09ea7fffb29}{
+HashMap$<$ String, String $>$ {\bfseries getDataSingleValued} ()}
+\label{class_data_base_1_1_tables_ad6dba497a4d71b713fe5c09ea7fffb29}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a8a821de16bc3106812b561748f2d0e7e}{
+void {\bfseries setDataSingleValued} (HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a40e2a6f8f60048f0a393e9d03e8fcfd8}{dataSingleValued})}
+\label{class_data_base_1_1_tables_a8a821de16bc3106812b561748f2d0e7e}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a4d7111a9066de5419b44d10619e5fc65}{
+HashMap$<$ String, String $>$ {\bfseries getDataRequired} ()}
+\label{class_data_base_1_1_tables_a4d7111a9066de5419b44d10619e5fc65}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_acc961989faf4e25f8391d92b5ea8d620}{
+void {\bfseries setDataRequired} (HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_af968a71b80946ad236d287dad7a68774}{dataRequired})}
+\label{class_data_base_1_1_tables_acc961989faf4e25f8391d92b5ea8d620}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a6fd83e3450cb0ec3a16db078b1c3f5a3}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ {\bfseries getDataPropertyRanges} ()}
+\label{class_data_base_1_1_tables_a6fd83e3450cb0ec3a16db078b1c3f5a3}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a2966ba30db9ec5fa6be2d84a25a6d150}{
+void {\bfseries setDataPropertyRanges} (ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_ac4fac81e62e9331f412a2ede3ddcc502}{dataPropertyRanges})}
+\label{class_data_base_1_1_tables_a2966ba30db9ec5fa6be2d84a25a6d150}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a8672a5216105a348c0719724ec56fdba}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ {\bfseries getObjectPropertiesClean} ()}
+\label{class_data_base_1_1_tables_a8672a5216105a348c0719724ec56fdba}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_adcdf3af4edd0f1edae29d53baf10cd67}{
+void {\bfseries setObjectPropertiesClean} (ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_aefcb4c8a578671a32a64c3196281f479}{objectPropertiesClean})}
+\label{class_data_base_1_1_tables_adcdf3af4edd0f1edae29d53baf10cd67}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a5c052fa560c9cf209239d22bd277dfaa}{
+HashMap$<$ String, String $>$ {\bfseries getObjectSingleValued} ()}
+\label{class_data_base_1_1_tables_a5c052fa560c9cf209239d22bd277dfaa}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a8e525dceed00c8db3710913f02dfc98e}{
+void {\bfseries setObjectSingleValued} (HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_ae379376430f85d3c7cef16bf1a962ff1}{objectSingleValued})}
+\label{class_data_base_1_1_tables_a8e525dceed00c8db3710913f02dfc98e}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a1e14c688b73c58acdd00e37fa03e9a65}{
+HashMap$<$ String, String $>$ {\bfseries getObjectRequired} ()}
+\label{class_data_base_1_1_tables_a1e14c688b73c58acdd00e37fa03e9a65}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_ab25f6ae6e35aff6a3318da5128376036}{
+void {\bfseries setObjectRequired} (HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a11874c966b0f22fc88b7fb46cb3331ed}{objectRequired})}
+\label{class_data_base_1_1_tables_ab25f6ae6e35aff6a3318da5128376036}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_aba5a86d237192b92c71f05fd9cb70573}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ {\bfseries getObjectPropertyRanges} ()}
+\label{class_data_base_1_1_tables_aba5a86d237192b92c71f05fd9cb70573}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_abc4efc7ae4a231d68dcde9d9b5ab22f0}{
+void {\bfseries setObjectPropertyRanges} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_af580afd6f42aac3503cecab2e615ef73}{objectPropertyRanges})}
+\label{class_data_base_1_1_tables_abc4efc7ae4a231d68dcde9d9b5ab22f0}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_abbcc329ed2c56e281f2ea3583c9978f2}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ {\bfseries getTables} ()}
+\label{class_data_base_1_1_tables_abbcc329ed2c56e281f2ea3583c9978f2}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_a85dff87c6a962b1e487723fe2e1fed1b}{
+void {\bfseries setTables} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_data_base_1_1_tables_ae6cd882f76e6474bd85b97b5013437ca}{tables})}
+\label{class_data_base_1_1_tables_a85dff87c6a962b1e487723fe2e1fed1b}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_data_base_1_1_tables_a6684d2d0eea49d73e40c7beb8d2c5c8d}{
+static char {\bfseries getSeparator} ()}
+\label{class_data_base_1_1_tables_a6684d2d0eea49d73e40c7beb8d2c5c8d}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_data_base_1_1_tables_a5f222e493ed4508b40f5fd8e50becaae}{
+HashMap$<$ String, String $>$ {\bfseries unit} = new HashMap$<$String, String$>$()}
+\label{class_data_base_1_1_tables_a5f222e493ed4508b40f5fd8e50becaae}
+
+\item 
+\hypertarget{class_data_base_1_1_tables_ae80958e71da9b7fc4bf4e138f377b59f}{
+String \hyperlink{class_data_base_1_1_tables_ae80958e71da9b7fc4bf4e138f377b59f}{path}}
+\label{class_data_base_1_1_tables_ae80958e71da9b7fc4bf4e138f377b59f}
+
+\begin{DoxyCompactList}\small\item\em Where we are going to save the script. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a780c97151dcb24984456109f95ebc22d}{
+ArrayList$<$ String $>$ \hyperlink{class_data_base_1_1_tables_a780c97151dcb24984456109f95ebc22d}{classesClean}}
+\label{class_data_base_1_1_tables_a780c97151dcb24984456109f95ebc22d}
+
+\begin{DoxyCompactList}\small\item\em List of classes in the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a5ec0af78ac892df612bf3ea7a91e37c5}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_tables_a5ec0af78ac892df612bf3ea7a91e37c5}{superClassesClean}}
+\label{class_data_base_1_1_tables_a5ec0af78ac892df612bf3ea7a91e37c5}
+
+\begin{DoxyCompactList}\small\item\em List of the super classes without the URL before their name in the ontology.  Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_af9e966f29b9024df669c77cc0d767c78}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_tables_af9e966f29b9024df669c77cc0d767c78}{dataPropertiesClean}}
+\label{class_data_base_1_1_tables_af9e966f29b9024df669c77cc0d767c78}
+
+\begin{DoxyCompactList}\small\item\em List of the data properties without the URL before their name in the ontology.  $<$$<$Classe1, DataPropertyName1,DataPropertyName2$>$,$<$Classe2,DataPropertyName1,DataPropertyName2$>$$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a40e2a6f8f60048f0a393e9d03e8fcfd8}{
+HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a40e2a6f8f60048f0a393e9d03e8fcfd8}{dataSingleValued}}
+\label{class_data_base_1_1_tables_a40e2a6f8f60048f0a393e9d03e8fcfd8}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if a data property is single or multi valued  dataPropertyName =$>$ true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_af968a71b80946ad236d287dad7a68774}{
+HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_af968a71b80946ad236d287dad7a68774}{dataRequired}}
+\label{class_data_base_1_1_tables_af968a71b80946ad236d287dad7a68774}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if a data property is required or optional valued  dataPropertyName =$>$ true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_ac4fac81e62e9331f412a2ede3ddcc502}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_tables_ac4fac81e62e9331f412a2ede3ddcc502}{dataPropertyRanges}}
+\label{class_data_base_1_1_tables_ac4fac81e62e9331f412a2ede3ddcc502}
+
+\begin{DoxyCompactList}\small\item\em List of the ranges for a given data property  $<$$<$DataPropertyName1,Range1,Range2...,$<$DataPropertyName2,Range1,Range2...$>$$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_aefcb4c8a578671a32a64c3196281f479}{
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_tables_aefcb4c8a578671a32a64c3196281f479}{objectPropertiesClean}}
+\label{class_data_base_1_1_tables_aefcb4c8a578671a32a64c3196281f479}
+
+\begin{DoxyCompactList}\small\item\em List of the object properties without the URL before their name in the ontology.  $<$$<$Classe1, ObjectPropertyName1,ObjectPropertyName2$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_ae379376430f85d3c7cef16bf1a962ff1}{
+HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_ae379376430f85d3c7cef16bf1a962ff1}{objectSingleValued}}
+\label{class_data_base_1_1_tables_ae379376430f85d3c7cef16bf1a962ff1}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if a object property is single or multi valued  ObjectPropertyName =$>$ true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a11874c966b0f22fc88b7fb46cb3331ed}{
+HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a11874c966b0f22fc88b7fb46cb3331ed}{objectRequired}}
+\label{class_data_base_1_1_tables_a11874c966b0f22fc88b7fb46cb3331ed}
+
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if an object property is required or optional valued  ObjectPropertyName =$>$ true or false. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_af580afd6f42aac3503cecab2e615ef73}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_tables_af580afd6f42aac3503cecab2e615ef73}{objectPropertyRanges}}
+\label{class_data_base_1_1_tables_af580afd6f42aac3503cecab2e615ef73}
+
+\begin{DoxyCompactList}\small\item\em List of the ranges for a given object property  $<$$<$ObjectPropertyName1,Range1,Range2...,$<$ObjectName2,Range1,Range2...$>$$>$ \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_a0465d81797980577fb423e6140df7110}{
+HashMap$<$ String, String $>$ \hyperlink{class_data_base_1_1_tables_a0465d81797980577fb423e6140df7110}{objectPropertyInverse}}
+\label{class_data_base_1_1_tables_a0465d81797980577fb423e6140df7110}
+
+\begin{DoxyCompactList}\small\item\em List of the inverse properties for a given one.  property =$>$ inverse. \end{DoxyCompactList}\item 
+\hypertarget{class_data_base_1_1_tables_ae6cd882f76e6474bd85b97b5013437ca}{
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_data_base_1_1_tables_ae6cd882f76e6474bd85b97b5013437ca}{tables}}
+\label{class_data_base_1_1_tables_ae6cd882f76e6474bd85b97b5013437ca}
+
+\begin{DoxyCompactList}\small\item\em Attributes for a given table.  $<$Table1 =$>$ $<$Attribute1,Attribute2,TableForeignKey/ForeignKey...$>$ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_data_base_1_1_tables_a7105339ab124b92dd2a47f67a497a556}{
+static final char \hyperlink{class_data_base_1_1_tables_a7105339ab124b92dd2a47f67a497a556}{SEPARATOR} = '\#'}
+\label{class_data_base_1_1_tables_a7105339ab124b92dd2a47f67a497a556}
+
+\begin{DoxyCompactList}\small\item\em Separator between URL and the class' name in the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the tables. 
+
+This class is used to manipulate the classes from the ontology and generate the SQL script to create the tables associated to this classes in the MySQL DB. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_data_base_1_1_tables_ac8d01fe9c39bbf7ba1580417ef4b4dcf}{
+\index{DataBase::Tables@{DataBase::Tables}!Tables@{Tables}}
+\index{Tables@{Tables}!DataBase::Tables@{DataBase::Tables}}
+\subsubsection[{Tables}]{\setlength{\rightskip}{0pt plus 5cm}DataBase.Tables.Tables (
+\begin{DoxyParamCaption}
+\item[{String}]{path, }
+\item[{ArrayList$<$ String $>$}]{cc, }
+\item[{ArrayList$<$ ArrayList$<$ String $>$$>$}]{dataPropertiesClean, }
+\item[{HashMap$<$ String, String $>$}]{dataSingleValued, }
+\item[{HashMap$<$ String, String $>$}]{dataRequired, }
+\item[{ArrayList$<$ ArrayList$<$ String $>$$>$}]{dataPropertyRanges, }
+\item[{ArrayList$<$ ArrayList$<$ String $>$$>$}]{objectPropertiesClean, }
+\item[{HashMap$<$ String, String $>$}]{objectSingleValued, }
+\item[{HashMap$<$ String, String $>$}]{objectRequired, }
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{objectPropertyRanges, }
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{superClassesClean, }
+\item[{HashMap$<$ String, String $>$}]{objectPropertyInverse}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_tables_ac8d01fe9c39bbf7ba1580417ef4b4dcf}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_data_base_1_1_individuals}{Individuals} class. 
+\begin{DoxyParams}{Parameters}
+{\em cc} & List of the classes. \\
+\hline
+{\em dataPropertiesClean} & List of the data properties. \\
+\hline
+{\em dataSingleValued} & List of the data properties single valued or not. \\
+\hline
+{\em dataRequired} & List of the data properties required or not. \\
+\hline
+{\em dataPropertyRanges} & Ranges of the data properties. \\
+\hline
+{\em objectPropertiesClean} & List of the object properties. \\
+\hline
+{\em objectSingleValued} & List of the object properties single valued or not. \\
+\hline
+{\em objectRequired} & List of the object properties required or not. \\
+\hline
+{\em objectPropertyRanges} & Ranges of the object properties. \\
+\hline
+{\em superClassesClean} & List of the super classes. \\
+\hline
+{\em objectPropertyInverse} & List of the object inverse properties. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_tables_ac8d01fe9c39bbf7ba1580417ef4b4dcf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_data_base_1_1_tables_a0cc659b39257e547f1c5857fe2ba9b0a}{
+\index{DataBase::Tables@{DataBase::Tables}!attributes@{attributes}}
+\index{attributes@{attributes}!DataBase::Tables@{DataBase::Tables}}
+\subsubsection[{attributes}]{\setlength{\rightskip}{0pt plus 5cm}String DataBase.Tables.attributes (
+\begin{DoxyParamCaption}
+\item[{String}]{c}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_tables_a0cc659b39257e547f1c5857fe2ba9b0a}
+
+
+Give the attributes for a given table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & Class we want the attributes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with these attributes. 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_tables_a0cc659b39257e547f1c5857fe2ba9b0a_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_tables_ac35eb49002e26a8066cee9d139512562}{
+\index{DataBase::Tables@{DataBase::Tables}!foreignKey@{foreignKey}}
+\index{foreignKey@{foreignKey}!DataBase::Tables@{DataBase::Tables}}
+\subsubsection[{foreignKey}]{\setlength{\rightskip}{0pt plus 5cm}String DataBase.Tables.foreignKey (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_data_base_1_1_tables_ac35eb49002e26a8066cee9d139512562}
+
+
+Generate the foreign keys constraints. 
+
+\begin{DoxyReturn}{Returns}
+A String with the alter tables corresponding to these constraints. 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_tables_ac35eb49002e26a8066cee9d139512562_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_data_base_1_1_tables_ac3402b9a61ee3f4d40cb9eb4680213e0}{
+\index{DataBase::Tables@{DataBase::Tables}!write@{write}}
+\index{write@{write}!DataBase::Tables@{DataBase::Tables}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}void DataBase.Tables.write (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)  throws IOException }}
+\label{class_data_base_1_1_tables_ac3402b9a61ee3f4d40cb9eb4680213e0}
+
+
+Save the sql script on the disk. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Data to write. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_data_base_1_1_tables_ac3402b9a61ee3f4d40cb9eb4680213e0_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/DataBase/\hyperlink{_tables_8java}{Tables.java}\end{DoxyCompactItemize}

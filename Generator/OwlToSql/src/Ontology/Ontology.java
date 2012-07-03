@@ -92,12 +92,12 @@ public class Ontology {
 	private ArrayList<String> classesClean;
 	/**
 	 * \brief      List of the super classes in the ontology.
-	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<OWLClass, ArrayList<OWLClassExpression>> superclasses;
 	/**
 	 * \brief      List of the super classes without the URL before their name in the ontology.
-	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
 	
@@ -106,7 +106,6 @@ public class Ontology {
      *  \details Constructor of the Ontology class.
      *  \param p 	Path of the ontology.
      *  \param p2 	Path where we are going to save the sql files.
-     *  \param ont 	Our ontology.
      */
 	public Ontology(String p, String p2) {
 		path = p;
@@ -245,97 +244,166 @@ public class Ontology {
 		}
 	}
 
-	// Getter and Setter
+	/**
+	 * \brief Simple getter.
+	 * \return SEPARATOR
+	 */
 	public static char getSeparator() {
 		return SEPARATOR;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return path
+	 */
 	public String getPath() {
 		return path;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ontology
+	 */
 	public OWLOntology getOntology() {
 		return ontology;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param ontology
+	 */
 	public void setOntology(OWLOntology ontology) {
 		this.ontology = ontology;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return manager
+	 */
 	public OWLOntologyManager getManager() {
 		return manager;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param manager
+	 */
 	public void setManager(OWLOntologyManager manager) {
 		this.manager = manager;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return classes
+	 */
 	public ArrayList<OWLClass> getClasses() {
 		return classes;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classes
+	 */
 	public void setClasses(ArrayList<OWLClass> classes) {
 		this.classes = classes;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return classesClean
+	 */
 	public ArrayList<String> getClassesClean() {
 		return classesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classesClean
+	 */
 	public void setClassesClean(ArrayList<String> classesClean) {
 		this.classesClean = classesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return superclasses
+	 */
 	public HashMap<OWLClass, ArrayList<OWLClassExpression>> getSuperclasses() {
 		return superclasses;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param superclasses
+	 */
 	public void setSuperclasses(
 			HashMap<OWLClass, ArrayList<OWLClassExpression>> superclasses) {
 		this.superclasses = superclasses;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return superClassesClean
+	 */
 	public HashMap<String, ArrayList<String>> getSuperClassesClean() {
 		return superClassesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param superClassesClean
+	 */
 	public void setSuperClassesClean(
 			HashMap<String, ArrayList<String>> superClassesClean) {
 		this.superClassesClean = superClassesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return dp
+	 */
 	public DataProperty getDp() {
 		return dp;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dp
+	 */
 	public void setDp(DataProperty dp) {
 		this.dp = dp;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return op
+	 */
 	public ObjectProperty getOp() {
 		return op;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param op
+	 */
 	public void setOp(ObjectProperty op) {
 		this.op = op;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return tables
+	 */
 	public Tables getTables() {
 		return tables;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param tables
+	 */
 	public void setTables(Tables tables) {
 		this.tables = tables;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ind
+	 */
 	public Individuals getInd() {
 		return ind;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param ind
+	 */
 	public void setInd(Individuals ind) {
 		this.ind = ind;
 	}

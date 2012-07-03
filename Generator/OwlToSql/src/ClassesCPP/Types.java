@@ -51,7 +51,7 @@ public class Types extends ClassGenerator {
 	 * \param    className         Name of the class.
 	 * \param    classParentName   List of the super classes.
 	 * \param    attributes		   List of the attributes.
-	 * \param    attributes		   List of the units of the attributes.
+	 * \param    unit		   List of the units of the attributes.
 	 * \return   A String with the whole header
 	 */
 	public String generateHeader(String className,

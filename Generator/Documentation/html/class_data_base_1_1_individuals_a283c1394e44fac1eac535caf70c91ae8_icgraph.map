@@ -2,7 +2,7 @@
 <area shape="rect" id="node3" href="$class_data_base_1_1_individuals.html#a761be644890ab4df91f25737b14c47e1" title="Add the local data properties in the SQL script for a given individual." alt="" coords="267,5,499,35"/>
 <area shape="rect" id="node13" href="$class_data_base_1_1_individuals.html#a26f7937c9f5299eae44f22255d348351" title="Add the data properties from other tables in the SQL script for a given individual." alt="" coords="552,111,827,140"/>
 <area shape="rect" id="node16" href="$class_data_base_1_1_individuals.html#a62c20642b5ec5388807c8764db939ca2" title="Add the local object properties in the SQL script for a given individual." alt="" coords="261,59,504,88"/>
-<area shape="rect" id="node5" href="$class_data_base_1_1_individuals.html#a0699518228103b4a15b5216cf1b6fc1c" title="Generate the sql script used to populate the tables (INSERT and UPDATE). *." alt="" coords="581,57,797,87"/>
+<area shape="rect" id="node5" href="$class_data_base_1_1_individuals.html#a0699518228103b4a15b5216cf1b6fc1c" title="Generate the sql script used to populate the tables (INSERT and UPDATE)." alt="" coords="581,57,797,87"/>
 <area shape="rect" id="node7" href="$class_data_base_1_1_individuals.html#a7410f8761de398b55a1fc29e3db00e9f" title="Manage the call to the insertSuper method to generate the script and populate the tables issued from ..." alt="" coords="876,84,1079,113"/>
 <area shape="rect" id="node9" href="$class_data_base_1_1_individuals.html#a193e0796d43c441f2496923e0d30effe" title="Make all the call to generate the SQL script used for the insertions." alt="" coords="1129,84,1311,113"/>
 <area shape="rect" id="node11" href="$class_data_base_1_1_individuals.html#a5ffc589f1ba2d54144a67e9cfcedde22" title="Constructor." alt="" coords="1361,84,1572,113"/>

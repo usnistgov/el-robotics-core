@@ -1,7 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$class_ontology_1_1_ontology.html#a0b354cebd902e4cde66d5407e8e353ca" title="List all the classes." alt="" coords="263,5,465,35"/>
-<area shape="rect" id="node5" href="$class_ontology_1_1_ontology.html#a7028d98e45511b5dbab527e311dd24a6" title="List all the super classes." alt="" coords="245,59,483,88"/>
-<area shape="rect" id="node7" href="$class_ontology_1_1_ontology.html#a8290f5c9dd5e48694ab41c029edb8e47" title="Delete the url before the name of the classes." alt="" coords="257,112,471,141"/>
-<area shape="rect" id="node9" href="$class_ontology_1_1_ontology.html#adfbd3af5b4506c74edbed5416e588ee6" title="Delete the url before the name of the super classes." alt="" coords="241,165,487,195"/>
-<area shape="rect" id="node11" href="$class_ontology_1_1_ontology.html#acfa7d8a40bd1dc8e06abfa55b19ac993" title="Load the ontology from a file." alt="" coords="260,219,468,248"/>
+<area shape="rect" id="node3" href="$class_ontology_1_1_ontology.html#a0b354cebd902e4cde66d5407e8e353ca" title="List all the classes." alt="" coords="299,5,501,35"/>
+<area shape="rect" id="node5" href="$class_ontology_1_1_ontology.html#a7028d98e45511b5dbab527e311dd24a6" title="List all the super classes." alt="" coords="281,59,519,88"/>
+<area shape="rect" id="node7" href="$class_ontology_1_1_ontology.html#a8290f5c9dd5e48694ab41c029edb8e47" title="Delete the url before the name of the classes." alt="" coords="293,112,507,141"/>
+<area shape="rect" id="node9" href="$class_ontology_1_1_ontology.html#adfbd3af5b4506c74edbed5416e588ee6" title="Delete the url before the name of the super classes." alt="" coords="277,165,523,195"/>
+<area shape="rect" id="node11" href="$class_ontology_1_1_data_property.html#a500aa972067c093a97fce9809fe9fefb" title="Simple getter." alt="" coords="251,219,549,248"/>
+<area shape="rect" id="node13" href="$class_ontology_1_1_data_property.html#ae681eb33f0135b022bb3ecd3c3a6ca4f" title="Simple getter." alt="" coords="251,272,549,301"/>
+<area shape="rect" id="node15" href="$class_ontology_1_1_data_property.html#ac53aaf738e90f05d28ac40945f1c8d45" title="Simple getter." alt="" coords="272,325,528,355"/>
+<area shape="rect" id="node17" href="$class_ontology_1_1_data_property.html#ab9f0476f4fabba984e9f0517b569a534" title="Simple getter." alt="" coords="260,379,540,408"/>
+<area shape="rect" id="node19" href="$class_ontology_1_1_object_property.html#a13b3fc665acd7a791d690f5c0e54ba42" title="Simple getter." alt="" coords="241,432,559,461"/>
+<area shape="rect" id="node21" href="$class_ontology_1_1_object_property.html#ae457b9895d2c5cdc31951e9c560ff8b1" title="Simple getter." alt="" coords="241,485,559,515"/>
+<area shape="rect" id="node23" href="$class_ontology_1_1_object_property.html#a837c1581c09bfb4d570299c4efd18274" title="Simple getter." alt="" coords="241,539,559,568"/>
+<area shape="rect" id="node25" href="$class_ontology_1_1_object_property.html#a48e78e0e75309e9761299fd5c30ad194" title="Simple getter." alt="" coords="261,592,539,621"/>
+<area shape="rect" id="node27" href="$class_ontology_1_1_object_property.html#af141c1f8e25d7f61b025d79873da48a8" title="Simple getter." alt="" coords="249,645,551,675"/>
+<area shape="rect" id="node29" href="$class_ontology_1_1_ontology.html#acfa7d8a40bd1dc8e06abfa55b19ac993" title="Load the ontology from a file." alt="" coords="296,699,504,728"/>
 </map>

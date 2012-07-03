@@ -56,7 +56,7 @@ public class Individuals {
 	private static final char SEPARATOR = '#';
 	/**
 	 * \brief      List of super classes.
-	 * \detail Used to know where insert data when there is a hierarchy.
+	 * \details Used to know where insert data when there is a hierarchy.
 	 */
 	private ArrayList<String> parent;
 	/**
@@ -69,12 +69,12 @@ public class Individuals {
 	private String path;
 	/**
 	 * \brief      Number of insertion for a given table.
-	 * \Map - Key: Type => Value : # of insertion.
+	 * Map - Key: Type => Value : # of insertion.
 	 */
 	private HashMap<String, Integer> nbInsert; 
 	/**
 	 * \brief      Attributes for a given table.
-	 * \detail <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
+	 * \details <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
 	 */
 	private HashMap<String, ArrayList<String>> tables; 
 	/**
@@ -87,12 +87,12 @@ public class Individuals {
 	private ArrayList<String> individualsClean;
 	/**
 	 * \brief      Collection of the types and individuals associated.
-	 * \detail Type1 => <Individual1, Individual2>, Type2 => <Individual3, Individual4>
+	 * \details Type1 => <Individual1, Individual2>, Type2 => <Individual3, Individual4>
 	 */
 	private HashMap<String, ArrayList<String>> individualsType; 
 	/**
 	 * \brief      List of the super classes without the URL before their name in the ontology.
-	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
 
@@ -468,7 +468,7 @@ public class Individuals {
 	/**
 	 * \brief      Add the data properties from other tables in the SQL script for a given individual.
 	 * \param    i		Position of the individual in the list.
-	 * \param    i		Position of the attribute in the tab.
+	 * \param    l		Position of the attribute in the tab.
 	 * \param    attributesTab		Tab with all the attributes.
 	 * \param    name		To know if the name is added in order to do it only once.
 	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
@@ -616,13 +616,11 @@ public class Individuals {
 		return resultTab;
 	}
 
-	// Add the remote object properties in the SQL script
 	/**
 	 * \brief      Add the object properties from other tables in the SQL script for a given individual.
 	 * \param    i		Position of the individual in the list.
-	 * \param    i		Position of the attribute in the tab.
+	 * \param    l		Position of the attribute in the tab.
 	 * \param    attributesTab		Tab with all the attributes.
-	 * \param    name		To know if the name is added in order to do it only once.
 	 * \param    name		To know if the name is added in order to do it only once.
 	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
 	 */
@@ -869,7 +867,7 @@ public class Individuals {
 
 	/**
 	 * \brief      Generate the sql script used to populate the tables (INSERT and UPDATE).
-	 * * \return    A String with the insert into queries.
+	 * \return    A String with the insert into queries.
 	 */
 	@SuppressWarnings("unchecked")
 	public String insertSuper(int i, String table, String[] attributesLocalTab,
@@ -1069,52 +1067,87 @@ public class Individuals {
 		}
 	}
 
-	// Getter and Setter
-	// Getter and setter
+	/**
+	 * \brief Simple getter.
+	 * \return tables
+	 */
 	public HashMap<String, ArrayList<String>> getTables() {
 		return tables;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param tables
+	 */
 	public void setTables(HashMap<String, ArrayList<String>> tables) {
 		this.tables = tables;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return individuals
+	 */
 	public ArrayList<OWLIndividual> getIndividuals() {
 		return individuals;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param individuals
+	 */
 	public void setIndividuals(ArrayList<OWLIndividual> individuals) {
 		this.individuals = individuals;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return individualsClean
+	 */
 	public ArrayList<String> getIndividualsClean() {
 		return individualsClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param individualsClean
+	 */
 	public void setIndividualsClean(ArrayList<String> individualsClean) {
 		this.individualsClean = individualsClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return path
+	 */
 	public String getPath() {
 		return path;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return nbInsert
+	 */
 	public HashMap<String, Integer> getNbInsert() {
 		return nbInsert;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param nbInsert
+	 */
 	public void setNbInsert(HashMap<String, Integer> nbInsert) {
 		this.nbInsert = nbInsert;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return superClassesClean
+	 */
 	public HashMap<String, ArrayList<String>> getSuperClassesClean() {
 		return superClassesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param superClassesClean
+	 */
 	public void setSuperClassesClean(
 			HashMap<String, ArrayList<String>> superClassesClean) {
 		this.superClassesClean = superClassesClean;

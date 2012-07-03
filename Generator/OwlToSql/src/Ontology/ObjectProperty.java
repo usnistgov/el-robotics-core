@@ -63,32 +63,32 @@ public class ObjectProperty {
 	private OWLOntology ontology;
 	/**
 	 * \brief      List of the object properties in the ontology.
-	 * \detail <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 * \details <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
 	 */
 	private HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> objectProperties;
 	/**
 	 * \brief      List of the object properties without the URL before their name in the ontology.
-	 * \detail <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 * \details <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
 	 */
 	private ArrayList<ArrayList<String>> objectPropertiesClean;
 	/**
 	 * \brief      Map - Used to know if a object property is single or multi valued
-	 * \detail ObjectPropertyName => true or false
+	 * \details ObjectPropertyName => true or false
 	 */
 	private HashMap<String, String> objectSingleValued; 
 	/**
 	 * \brief      Map - Used to know if an object property is required or optional valued
-	 * \detail ObjectPropertyName => true or false
+	 * \details ObjectPropertyName => true or false
 	 */
 	private HashMap<String, String> objectRequired; 
 	/**
 	 * \brief      List of the ranges for a given object property
-	 * \detail 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
+	 * \details 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
 	 */
 	private HashMap<String, ArrayList<String>> objectPropertyRanges;
 	/**
 	 * \brief      List of the inverse properties for a given one.
-	 * \detail 	 property => inverse
+	 * \details 	 property => inverse
 	 */	
 	private HashMap<String, String> objectPropertyInverse; 
 
@@ -517,83 +517,139 @@ public class ObjectProperty {
 			}
 		}
 	}
-
-	// Getter and Setter
+	/**
+	 * \brief Simple getter.
+	 * \return objectProperties
+	 */
 	public HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> getObjectProperties() {
 		return objectProperties;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectProperties
+	 */
 	public void setObjectProperties(
 			HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> objectProperties) {
 		this.objectProperties = objectProperties;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return objectPropertiesClean
+	 */
 	public ArrayList<ArrayList<String>> getObjectPropertiesClean() {
 		return objectPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectPropertiesClean
+	 */
 	public void setObjectPropertiesClean(
 			ArrayList<ArrayList<String>> objectPropertiesClean) {
 		this.objectPropertiesClean = objectPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return objectSingleValued
+	 */
 	public HashMap<String, String> getObjectSingleValued() {
 		return objectSingleValued;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectSingleValued
+	 */
 	public void setObjectSingleValued(HashMap<String, String> objectSingleValued) {
 		this.objectSingleValued = objectSingleValued;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return objectRequired
+	 */
 	public HashMap<String, String> getObjectRequired() {
 		return objectRequired;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectRequired
+	 */
 	public void setObjectRequired(HashMap<String, String> objectRequired) {
 		this.objectRequired = objectRequired;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return classes
+	 */
 	public ArrayList<OWLClass> getClasses() {
 		return classes;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classes
+	 */
 	public void setClasses(ArrayList<OWLClass> classes) {
 		this.classes = classes;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return classesClean
+	 */
 	public ArrayList<String> getClassesClean() {
 		return classesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classesClean
+	 */
 	public void setClassesClean(ArrayList<String> classesClean) {
 		this.classesClean = classesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ontology
+	 */
 	public OWLOntology getOntology() {
 		return ontology;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param ontology
+	 */
 	public void setOntology(OWLOntology ontology) {
 		this.ontology = ontology;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return SEPARATOR
+	 */
 	public static char getSeparator() {
 		return SEPARATOR;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return objectPropertyRanges
+	 */
 	public HashMap<String, ArrayList<String>> getObjectPropertyRanges() {
 		return objectPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectPropertyRanges
+	 */
 	public void setObjectPropertyRanges(
 			HashMap<String, ArrayList<String>> objectPropertyRanges) {
 		this.objectPropertyRanges = objectPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return objectPropertyInverse
+	 */
 	public HashMap<String, String> getObjectPropertyInverse() {
 		return objectPropertyInverse;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectPropertyInverse
+	 */
 	public void setObjectPropertyInverse(
 			HashMap<String, String> objectPropertyInverse) {
 		this.objectPropertyInverse = objectPropertyInverse;

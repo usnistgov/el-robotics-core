@@ -1,6 +1,7 @@
 <map id="G" name="G">
 <area shape="rect" id="node3" href="$class_classes_c_p_p_1_1_connection.html#a704943978dcc979ea5318665fea5a3e1" title="Generate the C++ file for the connection with the DB." alt="" coords="303,5,548,35"/>
 <area shape="rect" id="node5" href="$class_classes_c_p_p_1_1_connection.html#a754da55517dad3b6fffc7f595721778d" title="Generate the header file for the connection with the DB." alt="" coords="293,59,557,88"/>
-<area shape="rect" id="node7" href="$class_classes_c_p_p_1_1_connection.html#ad919fad2418beb85653bd1936b299e29" title="Write the C++ file on the Disk." alt="" coords="308,112,543,141"/>
-<area shape="rect" id="node9" href="$class_classes_c_p_p_1_1_connection.html#a09fb77eb74ce9dab17b70f1f2f0b778d" title="Write the header file on the Disk." alt="" coords="304,165,547,195"/>
+<area shape="rect" id="node7" href="$class_classes_c_p_p_1_1_connection.html#a8d3c08fea3f44d3c4fdebe36d61f6c26" title="Simple setter." alt="" coords="317,112,533,141"/>
+<area shape="rect" id="node9" href="$class_classes_c_p_p_1_1_connection.html#ad919fad2418beb85653bd1936b299e29" title="Write the C++ file on the Disk." alt="" coords="308,165,543,195"/>
+<area shape="rect" id="node11" href="$class_classes_c_p_p_1_1_connection.html#a09fb77eb74ce9dab17b70f1f2f0b778d" title="Write the header file on the Disk." alt="" coords="304,219,547,248"/>
 </map>

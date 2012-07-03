@@ -41,16 +41,10 @@ void \hyperlink{class_classes_c_p_p_1_1_dao_generator_adf5cf7ea8f00ced87746d782e
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{
-HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{tables}}
-\label{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}
-
-\begin{DoxyCompactList}\small\item\em Map -\/ Key : table name =$>$ Value : attributes names.  $<$Table1 =$>$ $<$Attribute1,Attribute2,TableForeignKey/ForeignKey...$>$ \end{DoxyCompactList}\item 
-\hypertarget{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{
-HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{superClasses}}
-\label{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}
-
-\begin{DoxyCompactList}\small\item\em Map -\/ Key : class name =$>$ Value : super classes names.  Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \end{DoxyCompactList}\item 
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{tables}
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : table name =$>$ Value : attributes names. \end{DoxyCompactList}\item 
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{superClasses}
+\begin{DoxyCompactList}\small\item\em Map -\/ Key : class name =$>$ Value : super classes names. \end{DoxyCompactList}\item 
 \hypertarget{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}{
 ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}{classes}}
 \label{class_classes_c_p_p_1_1_dao_generator_a1d8a1ed16c117296a86cf50de991f6c3}
@@ -209,7 +203,7 @@ Generate the C++ file for the data access object.
 \hline
 {\em pass} & Password of the user in the DB. \\
 \hline
-{\em nameDB} & DB Schema. \\
+{\em nameDb} & DB Schema. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -256,7 +250,7 @@ Generate the header file for the data access object.
 \hline
 {\em pass} & Password of the user in the DB. \\
 \hline
-{\em nameDB} & DB Schema. \\
+{\em nameDb} & DB Schema. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -348,6 +342,27 @@ Write the header file on the Disk.
 \hline
 \end{DoxyParams}
 
+
+\subsection{Member Data Documentation}
+\hypertarget{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!superClasses@{superClasses}}
+\index{superClasses@{superClasses}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{superClasses}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, ArrayList$<$String$>$ $>$ {\bf ClassesCPP.DaoGenerator.superClasses}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_classes_c_p_p_1_1_dao_generator_a82c17c8ceb0920fdb5550acd119418e3}
+
+
+Map -\/ Key : class name =$>$ Value : super classes names. 
+
+Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \hypertarget{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}{
+\index{ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}!tables@{tables}}
+\index{tables@{tables}!ClassesCPP::DaoGenerator@{ClassesCPP::DaoGenerator}}
+\subsubsection[{tables}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, ArrayList$<$String$>$ $>$ {\bf ClassesCPP.DaoGenerator.tables}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_classes_c_p_p_1_1_dao_generator_aac7347b462abcc6c13537cb2742db47a}
+
+
+Map -\/ Key : table name =$>$ Value : attributes names. 
+
+$<$Table1 =$>$ $<$Attribute1,Attribute2,TableForeignKey/ForeignKey...$>$ 
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 

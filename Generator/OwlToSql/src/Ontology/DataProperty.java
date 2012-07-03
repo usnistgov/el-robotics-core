@@ -63,26 +63,26 @@ public class DataProperty {
 	private OWLOntology ontology;
 	/**
 	 * \brief      List of the data properties associated to a given class.
-	 * \detail <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
+	 * \details <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
 	 */
 	private HashMap<OWLClassExpression, ArrayList<OWLDataProperty>> dataProperties;
 	/**
 	 * \brief      List of the data properties associated to a given class without the URL before their names.
-	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private ArrayList<ArrayList<String>> dataPropertiesClean;
 	/**
 	 * \brief      Map - Used to know if a data property is single or multi valued.
-	 * \detail dataPropertyName => true or false
+	 * \details dataPropertyName => true or false
 	 */
 	private HashMap<String, String> dataSingleValued; 
 	/**
 	 * \brief      Map - Used to know if a data property is required or optional.
-	 * \detail dataPropertyName => true or false
+	 * \details dataPropertyName => true or false
 	 */	private HashMap<String, String> dataRequired; 
 	/**
 	 * \brief      List of the ranges for a given data property
-	 * \detail 	 <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
+	 * \details 	 <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
 	 */	private ArrayList<ArrayList<String>> dataPropertyRanges;
 
 	/**
@@ -393,74 +393,124 @@ public class DataProperty {
 			}
 		}
 	}
-
-	// Getter and Setter
+	/**
+	 * \brief Simple getter.
+	 * \return dataProperties
+	 */
 	public HashMap<OWLClassExpression, ArrayList<OWLDataProperty>> getDataProperties() {
 		return dataProperties;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataProperties
+	 */
 	public void setDataProperties(
 			HashMap<OWLClassExpression, ArrayList<OWLDataProperty>> dataProperties) {
 		this.dataProperties = dataProperties;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return dataPropertiesClean
+	 */
 	public ArrayList<ArrayList<String>> getDataPropertiesClean() {
 		return dataPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataPropertiesClean
+	 */
 	public void setDataPropertiesClean(
 			ArrayList<ArrayList<String>> dataPropertiesClean) {
 		this.dataPropertiesClean = dataPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return dataSingleValued
+	 */
 	public HashMap<String, String> getDataSingleValued() {
 		return dataSingleValued;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataSingleValued
+	 */
 	public void setDataSingleValued(HashMap<String, String> dataSingleValued) {
 		this.dataSingleValued = dataSingleValued;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return dataRequired
+	 */
 	public HashMap<String, String> getDataRequired() {
 		return dataRequired;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataRequired
+	 */
 	public void setDataRequired(HashMap<String, String> dataRequired) {
 		this.dataRequired = dataRequired;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return classes
+	 */
 	public ArrayList<OWLClass> getClasses() {
 		return classes;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classes
+	 */
 	public void setClasses(ArrayList<OWLClass> classes) {
 		this.classes = classes;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return classesClean
+	 */
 	public ArrayList<String> getClassesClean() {
 		return classesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classesClean
+	 */
 	public void setClassesClean(ArrayList<String> classesClean) {
 		this.classesClean = classesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ontology
+	 */
 	public OWLOntology getOntology() {
 		return ontology;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param ontology
+	 */
 	public void setOntology(OWLOntology ontology) {
 		this.ontology = ontology;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return SEPARATOR
+	 */
 	public static char getSeparator() {
 		return SEPARATOR;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return dataPropertyRanges
+	 */
 	public ArrayList<ArrayList<String>> getDataPropertyRanges() {
 		return dataPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataPropertyRanges
+	 */
 	public void setDataPropertyRanges(
 			ArrayList<ArrayList<String>> dataPropertyRanges) {
 		this.dataPropertyRanges = dataPropertyRanges;

@@ -563,7 +563,9 @@ public class Gui extends JFrame {
 	private void generateConnection() {
 		new Connection(pathSaveCpp.getText() + File.separator);
 	}
-
+	/**
+     *  \brief Launcher 
+     */
 	public static void main(String[] args) {
 		new Gui();
 	}

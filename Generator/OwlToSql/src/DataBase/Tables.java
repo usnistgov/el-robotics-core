@@ -38,7 +38,11 @@ import java.util.Map.Entry;
 
 public class Tables {
 
-	private HashMap<String, String> unit = new HashMap<String, String>(); // OWLUnit=>SQLUnit
+	/**
+	 * \brief      Map - Link between owl and sql unit
+	 * \details OWLUnit=>SQLUnit
+	 */
+	private HashMap<String, String> unit = new HashMap<String, String>();
 	/**
 	 * \brief     Separator between URL and the class' name in the ontology.
 	 */
@@ -53,63 +57,64 @@ public class Tables {
 	private ArrayList<String> classesClean;
 	/**
 	 * \brief      List of the super classes without the URL before their name in the ontology.
-	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
 	/**
 	 * \brief      List of the data properties without the URL before their name in the ontology.
-	 * \detail <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
+	 * \details <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
 	 */
 	private ArrayList<ArrayList<String>> dataPropertiesClean;
 	/**
 	 * \brief      Map - Used to know if a data property is single or multi valued
-	 * \detail dataPropertyName => true or false
+	 * \details dataPropertyName => true or false
 	 */
 	private HashMap<String, String> dataSingleValued; 
 	/**
 	 * \brief      Map - Used to know if a data property is required or optional valued
-	 * \detail dataPropertyName => true or false
+	 * \details dataPropertyName => true or false
 	 */
 	private HashMap<String, String> dataRequired; 
 	/**
 	 * \brief      List of the ranges for a given data property
-	 * \detail 	 <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
+	 * \details 	 <<DataPropertyName1,Range1,Range2...,<DataPropertyName2,Range1,Range2...>>
 	 */
 	private ArrayList<ArrayList<String>> dataPropertyRanges;
 	/**
 	 * \brief      List of the object properties without the URL before their name in the ontology.
-	 * \detail <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 * \details <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
 	 */
 	private ArrayList<ArrayList<String>> objectPropertiesClean;
 	/**
 	 * \brief      Map - Used to know if a object property is single or multi valued
-	 * \detail ObjectPropertyName => true or false
+	 * \details ObjectPropertyName => true or false
 	 */
 	private HashMap<String, String> objectSingleValued; 
 	/**
 	 * \brief      Map - Used to know if an object property is required or optional valued
-	 * \detail ObjectPropertyName => true or false
+	 * \details ObjectPropertyName => true or false
 	 */
 	private HashMap<String, String> objectRequired; 
 	/**
 	 * \brief      List of the ranges for a given object property
-	 * \detail 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
+	 * \details 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
 	 */
 	private HashMap<String, ArrayList<String>> objectPropertyRanges;
 	/**
 	 * \brief      List of the inverse properties for a given one.
-	 * \detail 	 property => inverse
+	 * \details 	 property => inverse
 	 */	
 	private HashMap<String, String> objectPropertyInverse; 
 	/**
 	 * \brief      Attributes for a given table.
-	 * \detail <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
+	 * \details <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
 	 */
 	private HashMap<String, ArrayList<String>> tables;
 
 	/**
      *  \brief Constructor
      *  \details Constructor of the Individuals class.
+     *  \param path 	Where we will save the create tables script file.
      *  \param cc 	List of the classes.
      *  \param dataPropertiesClean 	List of the data properties.
      *  \param dataSingleValued 	List of the data properties single valued or not.
@@ -810,7 +815,6 @@ public class Tables {
 		return s;
 	}
 
-	// give the corresponding SQL unit of an OWL one
 	/**
 	 * \brief Give the corresponding SQL unit of an OWL one.
 	 */
@@ -863,122 +867,205 @@ public class Tables {
 		unit.put("positiveDecimal", "DOUBLE");
 	}
 
-	// Getter and Setter
-
+	/**
+	 * \brief Simple getter.
+	 * \return ObjectPropertyInverse
+	 */
 	public HashMap<String, String> getObjectPropertyInverse() {
 		return objectPropertyInverse;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectPropertyInverse
+	 */
 	public void setObjectPropertyInverse(
 			HashMap<String, String> objectPropertyInverse) {
 		this.objectPropertyInverse = objectPropertyInverse;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param unit
+	 */
 	public void setUnit(HashMap<String, String> unit) {
 		this.unit = unit;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return Path
+	 */
 	public String getPath() {
 		return path;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ClassesClean
+	 */
 	public ArrayList<String> getClassesClean() {
 		return classesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param classesClean
+	 */
 	public void setClassesClean(ArrayList<String> classesClean) {
 		this.classesClean = classesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return SuperClassesClean
+	 */
 	public HashMap<String, ArrayList<String>> getSuperClassesClean() {
 		return superClassesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param superClassesClean
+	 */
 	public void setSuperClassesClean(
 			HashMap<String, ArrayList<String>> superClassesClean) {
 		this.superClassesClean = superClassesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return DataPropertiesClean
+	 */
 	public ArrayList<ArrayList<String>> getDataPropertiesClean() {
 		return dataPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataPropertiesClean
+	 */
 	public void setDataPropertiesClean(
 			ArrayList<ArrayList<String>> dataPropertiesClean) {
 		this.dataPropertiesClean = dataPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return DataSingleValued
+	 */
 	public HashMap<String, String> getDataSingleValued() {
 		return dataSingleValued;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataSingleValued
+	 */
 	public void setDataSingleValued(HashMap<String, String> dataSingleValued) {
 		this.dataSingleValued = dataSingleValued;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return DataRequired
+	 */
 	public HashMap<String, String> getDataRequired() {
 		return dataRequired;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataRequired
+	 */
 	public void setDataRequired(HashMap<String, String> dataRequired) {
 		this.dataRequired = dataRequired;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return DataPropertyRanges
+	 */
 	public ArrayList<ArrayList<String>> getDataPropertyRanges() {
 		return dataPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param dataPropertyRanges
+	 */
 	public void setDataPropertyRanges(
 			ArrayList<ArrayList<String>> dataPropertyRanges) {
 		this.dataPropertyRanges = dataPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ObjectPropertiesClean
+	 */
 	public ArrayList<ArrayList<String>> getObjectPropertiesClean() {
 		return objectPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectPropertiesClean
+	 */
 	public void setObjectPropertiesClean(
 			ArrayList<ArrayList<String>> objectPropertiesClean) {
 		this.objectPropertiesClean = objectPropertiesClean;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ObjectSingleValued
+	 */
 	public HashMap<String, String> getObjectSingleValued() {
 		return objectSingleValued;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectSingleValued
+	 */
 	public void setObjectSingleValued(HashMap<String, String> objectSingleValued) {
 		this.objectSingleValued = objectSingleValued;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ObjectRequired
+	 */
 	public HashMap<String, String> getObjectRequired() {
 		return objectRequired;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectRequired
+	 */
 	public void setObjectRequired(HashMap<String, String> objectRequired) {
 		this.objectRequired = objectRequired;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return ObjectPropertyRanges
+	 */
 	public HashMap<String, ArrayList<String>> getObjectPropertyRanges() {
 		return objectPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param objectPropertyRanges
+	 */
 	public void setObjectPropertyRanges(
 			HashMap<String, ArrayList<String>> objectPropertyRanges) {
 		this.objectPropertyRanges = objectPropertyRanges;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return Separator
+	 */
 	public static char getSeparator() {
 		return SEPARATOR;
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return Tables
+	 */
 	public HashMap<String, ArrayList<String>> getTables() {
 		return tables;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param tables
+	 */
 	public void setTables(HashMap<String, ArrayList<String>> tables) {
 		this.tables = tables;
 	}

@@ -38,12 +38,12 @@ import java.util.Map.Entry;
 public class DaoGenerator {
 	/**
 	 * \brief      Map - Key : table name => Value : attributes names.
-	 * \detail <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
+	 * \details <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
 	 */
 	private HashMap<String, ArrayList<String>> tables;
 	/**
 	 * \brief      Map - Key : class name => Value : super classes names.
-	 * \detail Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClasses;
 	/**
@@ -117,7 +117,7 @@ public class DaoGenerator {
 	 * \param    url			   Host of your DB.
 	 * \param    user			   User name in the DB.
 	 * \param    pass			   Password of the user in the DB.
-	 * \param    nameDB			   DB Schema.
+	 * \param    nameDb			   DB Schema.
 	 * \return   A String with the whole header file
 	 */
 	public String generateHeader(ArrayList<String> attributes,
@@ -572,7 +572,7 @@ public class DaoGenerator {
 	 * \param    url			   Host of your DB.
 	 * \param    user			   User name in the DB.
 	 * \param    pass			   Password of the user in the DB.
-	 * \param    nameDB			   DB Schema.
+	 * \param    nameDb			   DB Schema.
 	 * \return   A String with the whole C++ file
 	 */
 	public String generateCpp(ArrayList<String> attributes,

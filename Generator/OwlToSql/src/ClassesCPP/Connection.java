@@ -198,11 +198,17 @@ public class Connection {
 		}
 
 	}
-
+	/**
+	 * \brief Simple getter.
+	 * \return path
+	 */
 	public String getPath() {
 		return path;
 	}
-
+	/**
+	 * \brief Simple setter.
+	 * \param path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}

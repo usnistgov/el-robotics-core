@@ -19,7 +19,7 @@
 #ifndef __cannonicalMsg
 #define __cannonicalMsg
 #include <stdio.h>
-#include <Pose.h>
+#include <PoseLocation.h>
 #include "ulapi.hh"
 
 enum CanonicalType {
@@ -100,26 +100,26 @@ public:
 class MoveSmoothlyToMsg:public CanonicalMsg{
 public:
   MoveSmoothlyToMsg():CanonicalMsg(MoveSmoothlyTo){ };
-  MoveSmoothlyToMsg(Pose **posesIn, int numIn):CanonicalMsg(MoveSmoothlyTo){ poses = posesIn; num = numIn; };
+  MoveSmoothlyToMsg(PoseLocation **poseLocationsIn, int numIn):CanonicalMsg(MoveSmoothlyTo){ poseLocations = poseLocationsIn; num = numIn; };
   ~MoveSmoothlyToMsg(){};
-  Pose **poses;
+  PoseLocation **poseLocations;
   int num;
 };
 
 class MoveStraightToMsg:public CanonicalMsg{
 public:
   MoveStraightToMsg():CanonicalMsg(MoveStraightTo){};
-  MoveStraightToMsg(Pose *poseIn):CanonicalMsg(MoveStraightTo){  pose = poseIn; };
+  MoveStraightToMsg(PoseLocation *poseLocationIn):CanonicalMsg(MoveStraightTo){  poseLocation = poseLocationIn; };
   ~MoveStraightToMsg(){};
-  Pose *pose;
+  PoseLocation *poseLocation;
 };
 
 class MoveToMsg:public CanonicalMsg{
 public:
   MoveToMsg():CanonicalMsg(MoveTo){};
-  MoveToMsg(Pose *poseIn):CanonicalMsg(MoveTo){ pose = poseIn; };
+  MoveToMsg(PoseLocation *poseLocationIn):CanonicalMsg(MoveTo){ poseLocation = poseLocationIn; };
   ~MoveToMsg(){};
-  Pose *pose;
+  PoseLocation *poseLocation;
 };
 
 class OpenGripperMsg:public CanonicalMsg{

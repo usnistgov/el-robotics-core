@@ -14,103 +14,148 @@ software
 #include "ShapeDesign.h"
 
 
- #include "StockKeepingUnit.h"
- #include "DAO.h"
+#include "StockKeepingUnit.h"
+#include "DAO.h"
 
-ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
-
-}ShapeDesign::~ShapeDesign(){
-delete(dao);
-for(std::size_t i = 0; i < hasSku_Shape.size(); i++)
-delete(hasSku_Shape[i]);
-}
-std::string ShapeDesign::gethasShapeDesign_Description(){
-return hasShapeDesign_Description;
-}
-std::string ShapeDesign::getname(){
-return name;
-}
-int ShapeDesign::getShapeDesignID(){
-return ShapeDesignID;
-}
-DAO* ShapeDesign::getdao(){
-return dao;
-}
-std::vector<StockKeepingUnit*>* ShapeDesign::gethasSku_Shape(){
-return &hasSku_Shape;
-}
-void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
-this->hasShapeDesign_Description= _hasShapeDesign_Description;
-}
-void ShapeDesign::setdao(DAO* _dao){
-this->dao= _dao;
-}
-void ShapeDesign::sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape){
-this->hasSku_Shape= _hasSku_Shape;
-}
-void ShapeDesign::get(std::string name){
-std::map<std::string,std::string> temp;
-dao  = new DAO("DataThing");
- temp = dao->get(name);delete (dao);
- DataThing::copy(temp);
-dao  = new DAO("ShapeDesign");
- temp = dao->get(name);
-delete (dao); 
-copy(temp);
-}
- void ShapeDesign::set(std::string name){
-std::map<std::string, std::string> data;
-std::stringstream ss;
-DataThing* temp = (DataThing*) this;
-temp->set(name);
-data["hasShapeDesign_Description"]=hasShapeDesign_Description;
-data["name"]=name;
-ss.str("");
-ss << ShapeDesignID;
-data["ShapeDesignID"]=ss.str();
-for(unsigned int i=0;i<hasSku_Shape.size();++i){
-ss.str("");
-hasSku_Shape[i]->get(hasSku_Shape[i]->getname());
-ss << hasSku_Shape[i]->getStockKeepingUnitID();
-data["hasSku_Shape"]=data["hasSku_Shape"]+" "+ss.str();
-}
-dao  = new DAO("ShapeDesign");
-dao->set(data);
-delete (dao);
-}
-
-void ShapeDesign::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
-std::map<std::string,std::string> mapTemp;
-std::map<std::string,std::string> mapTempBis;
-int nbVal=0;
-int nbValCurrent=0;
-std::vector<ShapeDesign*> tmp;
-this->hasShapeDesign_Description = object["ShapeDesign.hasShapeDesign_Description"];
-this->name = object["ShapeDesign._NAME"];
-this->ShapeDesignID = std::atof(object["ShapeDesign.ShapeDesignID"].c_str());
-if(this->hasSku_Shape.empty() && object["hasSku_Shape/StockKeepingUnit._NAME"]!=""){
-temp = Explode(object["hasSku_Shape/StockKeepingUnit._NAME"], ' ' );
-for(unsigned int i=0; i<temp.size();i++){
-this->hasSku_Shape.push_back(new StockKeepingUnit(temp[i]));
-}
-}
-
-}std::vector<std::string> ShapeDesign::Explode(const std::string & str, char separator )
+ShapeDesign::ShapeDesign (std::string name):DataThing (name)
 {
-   std::vector< std::string > result;
-   std::size_t pos1 = 0;
-   std::size_t pos2 = 0;
-   while ( pos2 != str.npos )
-   {
-      pos2 = str.find(separator, pos1);
-      if ( pos2 != str.npos )
-      {
-         if ( pos2 > pos1 )
-            result.push_back( str.substr(pos1, pos2-pos1) );
-         pos1 = pos2+1;
-      }
-   }
-   result.push_back( str.substr(pos1, str.size()-pos1) );
-   return result;
+  this->name = name;
+  dao = NULL;
+
+}
+
+ShapeDesign::~ShapeDesign ()
+{
+  delete (dao);
+  for (std::size_t i = 0; i < hasSku_Shape.size (); i++)
+    delete (hasSku_Shape[i]);
+}
+
+std::string ShapeDesign::gethasShapeDesign_Description ()
+{
+  return hasShapeDesign_Description;
+}
+
+std::string ShapeDesign::getname ()
+{
+  return name;
+}
+
+int
+ShapeDesign::getShapeDesignID ()
+{
+  return ShapeDesignID;
+}
+
+DAO *
+ShapeDesign::getdao ()
+{
+  return dao;
+}
+
+std::vector < StockKeepingUnit * >*ShapeDesign::gethasSku_Shape ()
+{
+  return &hasSku_Shape;
+}
+
+void
+ShapeDesign::sethasShapeDesign_Description (std::
+					    string
+					    _hasShapeDesign_Description)
+{
+  this->hasShapeDesign_Description = _hasShapeDesign_Description;
+}
+
+void
+ShapeDesign::setdao (DAO * _dao)
+{
+  this->dao = _dao;
+}
+
+void
+ShapeDesign::sethasSku_Shape (std::vector < StockKeepingUnit * >_hasSku_Shape)
+{
+  this->hasSku_Shape = _hasSku_Shape;
+}
+
+void
+ShapeDesign::get (std::string name)
+{
+  std::map < std::string, std::string > temp;
+  dao = new DAO ("DataThing");
+  temp = dao->get (name);
+  delete (dao);
+  DataThing::copy (temp);
+  dao = new DAO ("ShapeDesign");
+  temp = dao->get (name);
+  delete (dao);
+  copy (temp);
+}
+
+void
+ShapeDesign::set (std::string name)
+{
+  std::map < std::string, std::string > data;
+  std::stringstream ss;
+  DataThing *temp = (DataThing *) this;
+  temp->set (name);
+  data["hasShapeDesign_Description"] = hasShapeDesign_Description;
+  data["name"] = name;
+  ss.str ("");
+  ss << ShapeDesignID;
+  data["ShapeDesignID"] = ss.str ();
+  for (unsigned int i = 0; i < hasSku_Shape.size (); ++i)
+    {
+      ss.str ("");
+      hasSku_Shape[i]->get (hasSku_Shape[i]->getname ());
+      ss << hasSku_Shape[i]->getStockKeepingUnitID ();
+      data["hasSku_Shape"] = data["hasSku_Shape"] + " " + ss.str ();
+    }
+  dao = new DAO ("ShapeDesign");
+  dao->set (data);
+  delete (dao);
+}
+
+void
+ShapeDesign::copy (std::map < std::string, std::string > object)
+{
+  std::vector < std::string > temp;
+  std::map < std::string, std::string > mapTemp;
+  std::map < std::string, std::string > mapTempBis;
+  int nbVal = 0;
+  int nbValCurrent = 0;
+  std::vector < ShapeDesign * >tmp;
+  this->hasShapeDesign_Description =
+    object["ShapeDesign.hasShapeDesign_Description"];
+  this->name = object["ShapeDesign._NAME"];
+  this->ShapeDesignID =
+    std::atof (object["ShapeDesign.ShapeDesignID"].c_str ());
+  if (this->hasSku_Shape.empty ()
+      && object["hasSku_Shape/StockKeepingUnit._NAME"] != "")
+    {
+      temp = Explode (object["hasSku_Shape/StockKeepingUnit._NAME"], ' ');
+      for (unsigned int i = 0; i < temp.size (); i++)
+	{
+	  this->hasSku_Shape.push_back (new StockKeepingUnit (temp[i]));
+	}
+    }
+
+} std::vector < std::string > ShapeDesign::Explode (const std::string & str,
+						    char separator)
+{
+  std::vector < std::string > result;
+  std::size_t pos1 = 0;
+  std::size_t pos2 = 0;
+  while (pos2 != str.npos)
+    {
+      pos2 = str.find (separator, pos1);
+      if (pos2 != str.npos)
+	{
+	  if (pos2 > pos1)
+	    result.push_back (str.substr (pos1, pos2 - pos1));
+	  pos1 = pos2 + 1;
+	}
+    }
+  result.push_back (str.substr (pos1, str.size () - pos1));
+  return result;
 }

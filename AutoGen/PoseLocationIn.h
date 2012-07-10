@@ -23,22 +23,26 @@ software
 
 
 #include "PoseLocation.h"
- class DAO;
-class PoseLocationIn: public PoseLocation{private:
-std::string name;
-int PoseLocationInID;
-DAO* dao;
+class DAO;
+class PoseLocationIn:public PoseLocation
+{
+private:
+  std::string name;
+  int PoseLocationInID;
+  DAO *dao;
 public:
-PoseLocationIn(std::string name);
-~PoseLocationIn();
- void get(int id);
- void get(std::string name);
-void set(int id, PoseLocationIn* obj);
-void set(std::string name);
-std::string getname();
-int getPoseLocationInID();
-DAO* getdao();
-void setdao(DAO* _dao);
-void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
-}; 
+    PoseLocationIn (std::string name);
+   ~PoseLocationIn ();
+  void get (int id);
+  void get (std::string name);
+  void set (int id, PoseLocationIn * obj);
+  void set (std::string name);
+    std::string getname ();
+  int getPoseLocationInID ();
+  DAO *getdao ();
+  void setdao (DAO * _dao);
+  void copy (std::map < std::string, std::string > object);
+    std::vector < std::string > Explode (const std::string & str,
+					 char separator);
+};
 #endif /* POSELOCATIONIN_H_ */

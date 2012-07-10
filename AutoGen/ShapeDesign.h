@@ -23,29 +23,34 @@ software
 
 
 #include "DataThing.h"
- class StockKeepingUnit;
- class DAO;
-class ShapeDesign: public DataThing{private:
-std::string hasShapeDesign_Description;
-std::string name;
-int ShapeDesignID;
-DAO* dao;
-std::vector<StockKeepingUnit*> hasSku_Shape;
+class StockKeepingUnit;
+class DAO;
+class ShapeDesign:public DataThing
+{
+private:
+  std::string hasShapeDesign_Description;
+  std::string name;
+  int ShapeDesignID;
+  DAO *dao;
+    std::vector < StockKeepingUnit * >hasSku_Shape;
 public:
-ShapeDesign(std::string name);
-~ShapeDesign();
- void get(int id);
- void get(std::string name);
-void set(int id, ShapeDesign* obj);
-void set(std::string name);
-std::string gethasShapeDesign_Description();
-void sethasShapeDesign_Description(std::string _hasShapeDesign_Description);
-std::string getname();
-int getShapeDesignID();
-DAO* getdao();
-void setdao(DAO* _dao);
-std::vector<StockKeepingUnit*>* gethasSku_Shape();
-void sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape);
-void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
-}; 
+    ShapeDesign (std::string name);
+   ~ShapeDesign ();
+  void get (int id);
+  void get (std::string name);
+  void set (int id, ShapeDesign * obj);
+  void set (std::string name);
+    std::string gethasShapeDesign_Description ();
+  void sethasShapeDesign_Description (std::
+				      string _hasShapeDesign_Description);
+    std::string getname ();
+  int getShapeDesignID ();
+  DAO *getdao ();
+  void setdao (DAO * _dao);
+    std::vector < StockKeepingUnit * >*gethasSku_Shape ();
+  void sethasSku_Shape (std::vector < StockKeepingUnit * >_hasSku_Shape);
+  void copy (std::map < std::string, std::string > object);
+    std::vector < std::string > Explode (const std::string & str,
+					 char separator);
+};
 #endif /* SHAPEDESIGN_H_ */

@@ -16,12 +16,14 @@
   \date   05/31/2012
 */
 #include <stdio.h>
-#include "myController.hh"
 #include "ulapi.hh"
+#include "controller.hh"
+#include "canonicalMsg.hh"
+
 void
 dequeueThread (void *arg)
 {
-  MyController *ctrl = reinterpret_cast < MyController *>(arg);
+  Controller *ctrl = reinterpret_cast < Controller *>(arg);
 
   for(;;)
     {
@@ -33,15 +35,16 @@ dequeueThread (void *arg)
 int
 main ()
 {
-  MyController *ctrl;
+  Controller *ctrl;
   CloseGripperMsg closeGripper;
   DwellMsg dwell(987.654);
   EndCanonMsg endCanon(18);
   InitCanonMsg initCanon;
   OpenGripperMsg openGripper;
+  MessageMsg messageMsg("This is a test message");
   void *dequeueTask = NULL;
 
-  ctrl = new MyController();
+  ctrl = new Controller();
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures
   if (ULAPI_OK != ulapi_init (UL_USE_DEFAULT))
@@ -56,16 +59,18 @@ main ()
 
   printf( "Queue InitCanon\n" );
   ctrl->queueMsg(&initCanon);
-  sleep(1);
+  //  sleep(1);
   printf( "Queue dwell\n" );
   ctrl->queueMsg(&dwell);
-  sleep(2);
+  //  sleep(2);
   printf( "Queue openGripper\n" );
   ctrl->queueMsg(&openGripper);
-  sleep(2);
+  //  sleep(2);
   printf( "Queue closeGripper\n" );
   ctrl->queueMsg(&closeGripper);
-  sleep(2);
+  printf( "Queue messageMsg\n" );
+  ctrl->queueMsg(&messageMsg);
+  sleep(10);
   printf( "Queue endCanon\n" );
   ctrl->queueMsg(&endCanon);
   sleep(10);

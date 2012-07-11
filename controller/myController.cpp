@@ -18,78 +18,89 @@
   \date   05/31/2012
 */
 #include <stdio.h>
-#include "myController.hh"
+#include "canonicalMsg.hh"
 
-int MyController::processCloseGripper(CloseGripperMsg *closeGripperMsg)
+void CloseGripperMsg::process()
 {
   printf( "Received close gripper msg\n" );
 }
 
-int MyController::processDwell(DwellMsg *dwellMsg)
+void DwellMsg::process()
 {
-  printf( "Received dwell message of time: %lf\n", dwellMsg->time );
+  printf( "Received dwell message of time: %lf\n", time );
 }
 
-int MyController::processEndCanon(EndCanonMsg *endCanonMsg)
+void EndCanonMsg::process()
 {
-  printf( "Received endCanon message reason: %d\n", endCanonMsg->reason );
+  printf( "Received endCanon message reason: %d\n", reason );
 }
 
-int MyController::processInitCanon(InitCanonMsg *initCanonMsg)
+void InitCanonMsg::process()
 {
   printf( "Received initCanon message\n" );
 }
 
-int MyController::processMessage(MessageMsg *messageMsg)
+void MessageMsg::process()
 {
-  printf( "Received Message msg\n" );
+  printf( "Received Message msg: %s\n", message.c_str() );
 }
-int MyController::processMoveSmoothlyTo(MoveSmoothlyToMsg *moveSmoothlyToMsg)
+
+void MoveSmoothlyToMsg::process()
 {
   printf( "Received MoveSmoothlyTo msg\n" );
 }
-int MyController::processMoveStraightTo(MoveStraightToMsg *moveStraightToMsg)
+
+void MoveStraightToMsg::process()
 {
   printf( "Received MoveStraightTo msg\n" );
 }
-int MyController::processMoveTo(MoveToMsg *moveToMsg)
+
+void MoveToMsg::process()
 {
   printf( "Received MoveTo msg\n" );
 }
-int MyController::processOpenGripper(OpenGripperMsg *openGripperMsg)
+
+void OpenGripperMsg::process()
 {
   printf( "Received open gripper msg\n" );
 }
 
-int MyController::processSetAbsoluteAcceleration(SetAbsoluteAccelerationMsg *setAbsoluteAccelerationMsg)
+void SetAbsoluteAccelerationMsg::process()
 {
   printf( "Received SetAbsoluteAcceleration msg\n" );
 }
-int MyController::processSetAngleUnits(SetAngleUnitsMsg *setAngleUnitsMsg)
+
+void SetAngleUnitsMsg::process()
 {
   printf( "Received SetAngleUnits msg\n" );
 }
-int MyController::processSetEndAngleTolerance(SetEndAngleToleranceMsg *setEndAngleToleranceMsg)
+
+void SetEndAngleToleranceMsg::process()
 {
   printf( "Received SetEndAngleTolerance msg\n" );
 }
-int MyController::processSetEndPointTolerance(SetEndPointToleranceMsg *setEndPointToleranceMsg)
+
+void SetEndPointToleranceMsg::process()
 {
   printf( "Received SetEndPointTolerance msg\n" );
 }
-int MyController::processSetIntermediatePointTolerance(SetIntermediatePointToleranceMsg *setIntermediatePointToleranceMsg)
+
+void SetIntermediatePointToleranceMsg::process()
 {
   printf( "Received SetIntermediatePointTolerance msg\n" );
 }
-int MyController::processSetLengthUnits(SetLengthUnitsMsg *setLengthUnitsMsg)
+
+void SetLengthUnitsMsg::process()
 {
   printf( "Received SetLengthUnits msg\n" );
 }
-int MyController::processSetRelativeAcceleration(SetRelativeAccelerationMsg *setRelativeAccelerationMsg)
+
+void SetRelativeAccelerationMsg::process()
 {
   printf( "Received SetRelativeAcceleration msg\n" );
 }
-int MyController::processSetRelativeSpeed(SetRelativeSpeedMsg *setRelativeSpeedMsg)
+
+void SetRelativeSpeedMsg::process()
 {
   printf( "Received SetRelativeSpeed msg\n" );
 }

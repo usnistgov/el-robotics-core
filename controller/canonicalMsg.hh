@@ -20,42 +20,21 @@
 #define __cannonicalMsg
 #include <stdio.h>
 #include <PoseLocation.h>
+#include <string>
 #include "ulapi.hh"
-
-enum CanonicalType {
-  CloseGripper,
-  Dwell,
-  EndCanon,
-  InitCanon,
-  Message,
-  MoveSmoothlyTo,
-  MoveStraightTo,
-  MoveTo,
-  OpenGripper,
-  SetAbsoluteAcceleration,
-  SetAngleUnits,
-  SetEndAngleTolerance,
-  SetEndPointTolerance,
-  SetIntermediatePointTolerance,
-  SetLengthUnits,
-  SetRelativeAcceleration,
-  SetRelativeSpeed
-};
 
 typedef struct
 {
-  CanonicalType msgType; // type of this message
   unsigned int msgID; // sequential message number
   double time;        // time message was sent
 }CanonicalHdr;
 
 class CanonicalMsg{
 public:
-  CanonicalMsg(CanonicalType msgType){ hdr.msgType = msgType; };
   void setHeader(){ hdr.time = ulapi_time(); hdr.msgID = nextID++; printf( "setting time: %lf id:%d\n", hdr.time, hdr.msgID);};
   int getMsgID(){ return hdr.msgID; };
   double getTime(){ return hdr.time; };
-  CanonicalType getType(){ return hdr.msgType; };
+  virtual void process() = 0;
 protected:
   static int nextID;
   CanonicalHdr hdr;
@@ -63,132 +42,149 @@ protected:
 
 class CloseGripperMsg:public CanonicalMsg{
 public:
-  CloseGripperMsg():CanonicalMsg(CloseGripper){ hdr.msgType = CloseGripper; };
+  CloseGripperMsg(){};
   ~CloseGripperMsg(){};
+  virtual void process();
 };
 
 class DwellMsg:public CanonicalMsg{
  public:
-  DwellMsg():CanonicalMsg(Dwell){};
-  DwellMsg(double timeIn):CanonicalMsg(Dwell){ time = timeIn;};
+  DwellMsg(){};
+  DwellMsg(double timeIn){ time = timeIn;};
   ~DwellMsg(){};
+  virtual void process();
   double time;
 };
 
 class EndCanonMsg:public CanonicalMsg{
 public:
-  EndCanonMsg():CanonicalMsg(EndCanon){ };
-  EndCanonMsg(int reasonIn):CanonicalMsg(EndCanon){ reason = reasonIn; };
+  EndCanonMsg(){};
+  EndCanonMsg(int reasonIn){ reason = reasonIn; };
   ~EndCanonMsg(){};
+  virtual void process();
   int reason;
 };
 
 class InitCanonMsg:public CanonicalMsg{
 public:
-  InitCanonMsg():CanonicalMsg(InitCanon){};
+  InitCanonMsg(){};
   ~InitCanonMsg(){};
+  virtual void process();
 };
 
 class MessageMsg:public CanonicalMsg{
 public:
-  MessageMsg():CanonicalMsg(Message){ };
-  MessageMsg(std::string messageIn):CanonicalMsg(Message){ message = messageIn; };
+  MessageMsg(){};
+  MessageMsg(std::string messageIn){ message = messageIn; };
   ~MessageMsg(){};
+  virtual void process();
   std::string message;
 };
 
 class MoveSmoothlyToMsg:public CanonicalMsg{
 public:
-  MoveSmoothlyToMsg():CanonicalMsg(MoveSmoothlyTo){ };
-  MoveSmoothlyToMsg(PoseLocation **poseLocationsIn, int numIn):CanonicalMsg(MoveSmoothlyTo){ poseLocations = poseLocationsIn; num = numIn; };
+  MoveSmoothlyToMsg(){};
+  MoveSmoothlyToMsg(PoseLocation **poseLocationsIn, int numIn){ poseLocations = poseLocationsIn; num = numIn; };
   ~MoveSmoothlyToMsg(){};
+  virtual void process();
   PoseLocation **poseLocations;
   int num;
 };
 
 class MoveStraightToMsg:public CanonicalMsg{
 public:
-  MoveStraightToMsg():CanonicalMsg(MoveStraightTo){};
-  MoveStraightToMsg(PoseLocation *poseLocationIn):CanonicalMsg(MoveStraightTo){  poseLocation = poseLocationIn; };
+  MoveStraightToMsg(){};
+  MoveStraightToMsg(PoseLocation *poseLocationIn){  poseLocation = poseLocationIn; };
   ~MoveStraightToMsg(){};
+  virtual void process();
   PoseLocation *poseLocation;
 };
 
 class MoveToMsg:public CanonicalMsg{
 public:
-  MoveToMsg():CanonicalMsg(MoveTo){};
-  MoveToMsg(PoseLocation *poseLocationIn):CanonicalMsg(MoveTo){ poseLocation = poseLocationIn; };
+  MoveToMsg(){};
+  MoveToMsg(PoseLocation *poseLocationIn){ poseLocation = poseLocationIn; };
   ~MoveToMsg(){};
+  virtual void process();
   PoseLocation *poseLocation;
 };
 
 class OpenGripperMsg:public CanonicalMsg{
 public:
-  OpenGripperMsg():CanonicalMsg(OpenGripper){ };
+  OpenGripperMsg(){};
   ~OpenGripperMsg(){};
+  virtual void process();
 };
 
 class SetAbsoluteAccelerationMsg:public CanonicalMsg{
 public:
-  SetAbsoluteAccelerationMsg():CanonicalMsg(SetAbsoluteAcceleration){ };
-  SetAbsoluteAccelerationMsg(double accelerationIn):CanonicalMsg(SetAbsoluteAcceleration){ acceleration = accelerationIn; };
+  SetAbsoluteAccelerationMsg(){};
+  SetAbsoluteAccelerationMsg(double accelerationIn){ acceleration = accelerationIn; };
   ~SetAbsoluteAccelerationMsg(){};
+  virtual void process();
   double acceleration;
 };
 
 class SetAngleUnitsMsg:public CanonicalMsg{
 public:
-  SetAngleUnitsMsg():CanonicalMsg(SetAngleUnits){ hdr.msgType = SetAngleUnits; };
-  SetAngleUnitsMsg(std::string unitNameIn):CanonicalMsg(SetAngleUnits){ unitName = unitNameIn; };
+  SetAngleUnitsMsg(){};
+  SetAngleUnitsMsg(std::string unitNameIn){ unitName = unitNameIn; };
   ~SetAngleUnitsMsg(){};
+  virtual void process();
   std::string unitName;
 };
 
 class SetEndAngleToleranceMsg:public CanonicalMsg{
 public:
-  SetEndAngleToleranceMsg():CanonicalMsg(SetEndAngleTolerance){ };
-  SetEndAngleToleranceMsg(double toleranceIn):CanonicalMsg(SetEndAngleTolerance){ tolerance = toleranceIn; };
+  SetEndAngleToleranceMsg(){};
+  SetEndAngleToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetEndAngleToleranceMsg(){};
+  virtual void process();
   double tolerance;
 };
 
 class SetEndPointToleranceMsg:public CanonicalMsg{
 public:
-  SetEndPointToleranceMsg():CanonicalMsg(SetEndPointTolerance){ };
-  SetEndPointToleranceMsg(double toleranceIn):CanonicalMsg(SetEndPointTolerance){ tolerance = toleranceIn; };
+  SetEndPointToleranceMsg(){};
+  SetEndPointToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetEndPointToleranceMsg(){};
+  virtual void process();
   double tolerance;
 };
 
 class SetIntermediatePointToleranceMsg:public CanonicalMsg{
 public:
-  SetIntermediatePointToleranceMsg():CanonicalMsg(SetIntermediatePointTolerance){};
-  SetIntermediatePointToleranceMsg(double toleranceIn):CanonicalMsg(SetIntermediatePointTolerance){ tolerance = toleranceIn; };
+  SetIntermediatePointToleranceMsg(){};
+  SetIntermediatePointToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetIntermediatePointToleranceMsg(){};
+  virtual void process();
   double tolerance;
 };
 
 class SetLengthUnitsMsg:public CanonicalMsg{
 public:
-  SetLengthUnitsMsg():CanonicalMsg(SetLengthUnits){ };
-  SetLengthUnitsMsg(std::string unitNameIn):CanonicalMsg(SetLengthUnits){ unitName = unitNameIn; };
+  SetLengthUnitsMsg(){};
+  SetLengthUnitsMsg(std::string unitNameIn){ unitName = unitNameIn; };
   ~SetLengthUnitsMsg(){};
+  virtual void process();
   std::string unitName;
 };
 
 class SetRelativeAccelerationMsg:public CanonicalMsg{
 public:
-  SetRelativeAccelerationMsg():CanonicalMsg(SetRelativeAcceleration){ };
-  SetRelativeAccelerationMsg(double percentIn):CanonicalMsg(SetRelativeAcceleration){ percent = percentIn; };
+  SetRelativeAccelerationMsg(){};
+  SetRelativeAccelerationMsg(double percentIn){ percent = percentIn; };
   ~SetRelativeAccelerationMsg(){};
+  virtual void process();
   double percent;
 };
 
 class SetRelativeSpeedMsg:public CanonicalMsg{
 public:
-  SetRelativeSpeedMsg():CanonicalMsg(SetRelativeSpeed){ };
-  SetRelativeSpeedMsg(double percentIn):CanonicalMsg(SetRelativeSpeed){ percent = percentIn; };
+  SetRelativeSpeedMsg(){};
+  SetRelativeSpeedMsg(double percentIn){ percent = percentIn; };
   ~SetRelativeSpeedMsg(){};
+  virtual void process();
   double percent;
 };
 #endif

@@ -28,7 +28,7 @@ public:
   Controller();
   ~Controller();
   int queueMsg( CanonicalMsg *msgIn );
-  int dequeueMsg();
+  int dequeueMsg(void *sendTo);
 private:
   std::deque<CanonicalMsg *> cmdQueue;
   int queue_length;

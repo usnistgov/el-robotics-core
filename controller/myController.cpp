@@ -20,87 +20,102 @@
 #include <stdio.h>
 #include "canonicalMsg.hh"
 
-void CloseGripperMsg::process()
+void CloseGripperMsg::process(void *sendTo)
 {
   printf( "Received close gripper msg\n" );
 }
 
-void DwellMsg::process()
+void CloseToolChangerMsg::process(void *sendTo)
+{
+  printf( "Received close tool changer msg\n" );
+}
+
+void DwellMsg::process(void *sendTo)
 {
   printf( "Received dwell message of time: %lf\n", time );
 }
 
-void EndCanonMsg::process()
+void EndCanonMsg::process(void *sendTo)
 {
   printf( "Received endCanon message reason: %d\n", reason );
 }
 
-void InitCanonMsg::process()
+void InitCanonMsg::process(void *sendTo)
 {
   printf( "Received initCanon message\n" );
 }
 
-void MessageMsg::process()
+void MessageMsg::process(void *sendTo)
 {
   printf( "Received Message msg: %s\n", message.c_str() );
 }
 
-void MoveSmoothlyToMsg::process()
-{
-  printf( "Received MoveSmoothlyTo msg\n" );
-}
-
-void MoveStraightToMsg::process()
+void MoveStraightToMsg::process(void *sendTo)
 {
   printf( "Received MoveStraightTo msg\n" );
 }
 
-void MoveToMsg::process()
+void MoveThroughToMsg::process(void *sendTo)
+{
+  printf( "Received MoveThroughTo msg\n" );
+}
+
+void MoveToMsg::process(void *sendTo)
 {
   printf( "Received MoveTo msg\n" );
 }
 
-void OpenGripperMsg::process()
+void OpenGripperMsg::process(void *sendTo)
 {
   printf( "Received open gripper msg\n" );
 }
 
-void SetAbsoluteAccelerationMsg::process()
+void OpenToolChangerMsg::process(void *sendTo)
+{
+  printf( "Received open tool changer msg\n" );
+}
+
+void SetAbsoluteAccelerationMsg::process(void *sendTo)
 {
   printf( "Received SetAbsoluteAcceleration msg\n" );
 }
 
-void SetAngleUnitsMsg::process()
+void SetAbsoluteSpeedMsg::process(void *sendTo)
+{
+  printf( "Received SetAbsoluteSpeed msg\n" );
+}
+
+void SetAngleUnitsMsg::process(void *sendTo)
 {
   printf( "Received SetAngleUnits msg\n" );
 }
 
-void SetEndAngleToleranceMsg::process()
+void SetEndAngleToleranceMsg::process(void *sendTo)
 {
   printf( "Received SetEndAngleTolerance msg\n" );
 }
 
-void SetEndPointToleranceMsg::process()
+void SetEndPointToleranceMsg::process(void *sendTo)
 {
   printf( "Received SetEndPointTolerance msg\n" );
 }
 
-void SetIntermediatePointToleranceMsg::process()
+void SetIntermediatePointToleranceMsg::process(void *sendTo)
 {
   printf( "Received SetIntermediatePointTolerance msg\n" );
 }
 
-void SetLengthUnitsMsg::process()
+void SetLengthUnitsMsg::process(void *sendTo)
 {
   printf( "Received SetLengthUnits msg\n" );
 }
 
-void SetRelativeAccelerationMsg::process()
+void SetRelativeAccelerationMsg::process(void *sendTo)
 {
   printf( "Received SetRelativeAcceleration msg\n" );
 }
 
-void SetRelativeSpeedMsg::process()
+void SetRelativeSpeedMsg::process(void *sendTo)
 {
   printf( "Received SetRelativeSpeed msg\n" );
 }

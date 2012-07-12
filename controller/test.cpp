@@ -23,11 +23,12 @@
 void
 dequeueThread (void *arg)
 {
-  Controller *ctrl = reinterpret_cast < Controller *>(arg);
+  Controller *ctrl = reinterpret_cast < Controller *>(arg);	
+  void *myVoid;
 
   for(;;)
     {
-      if( ctrl->dequeueMsg() == 0)
+      if( ctrl->dequeueMsg(myVoid) == 0)
 	sleep(1);
     }
 }
@@ -37,11 +38,13 @@ main ()
 {
   Controller *ctrl;
   CloseGripperMsg closeGripper;
+  CloseToolChangerMsg closeToolChanger;
   DwellMsg dwell(987.654);
   EndCanonMsg endCanon(18);
   InitCanonMsg initCanon;
   OpenGripperMsg openGripper;
-  MessageMsg messageMsg("This is a test message");
+  OpenToolChangerMsg openToolChanger;
+  MessageMsg message("This is a test message");
   void *dequeueTask = NULL;
 
   ctrl = new Controller();
@@ -69,7 +72,11 @@ main ()
   printf( "Queue closeGripper\n" );
   ctrl->queueMsg(&closeGripper);
   printf( "Queue messageMsg\n" );
-  ctrl->queueMsg(&messageMsg);
+  ctrl->queueMsg(&message);
+  printf( "Queue openToolChanger\n" );
+  ctrl->queueMsg(&openToolChanger);
+  printf( "Queue closeToolChanger\n" );
+  ctrl->queueMsg(&closeToolChanger);
   sleep(10);
   printf( "Queue endCanon\n" );
   ctrl->queueMsg(&endCanon);

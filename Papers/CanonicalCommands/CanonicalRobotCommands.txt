@@ -57,6 +57,13 @@ The speed and acceleration of the end of the arm may be controlled.
 A robot can attach one end effector at a time to the end of the arm
 from an end effector changing station and can detach the end effector
 at the changing station. The changing station itself is passive.
+Attaching an end effector is done by (1) moving the robot arm
+(with no end effector attached) to an attachment position with respect
+to an end effector and (2) giving a CloseToolChanger command. Detaching
+an end effector is done by (1) moving the robot arm (with an end effector
+attached) to a detachment position and (2) giving an OpenToolChanger
+command. The attachment and detachment positions are normally at an end
+effector changer in the end effector changing station.
 
 All end effectors available to the robot are stored in the end effector
 changing station.
@@ -131,6 +138,11 @@ VI. Commands From the Plan Interpreter to the Robot Controller
 CloseGripper ()
 Close the gripper
 
+CloseToolChanger ()
+Close the tool changer on the robot so that it attaches to a tool. The
+robot must be in an appropriate position with respect to the tool for
+the changer mechanism on the robot to attach to the tool. 
+
 Dwell (double time)
 Stay motionless for the given amount of time in seconds.
 
@@ -153,14 +165,14 @@ the plan interpreter opens a plan to be executed.
 Message (string message)
 Display the given message on the operator console.
 
-MoveSmoothlyTo (Pose ** poses, int numPoses)
-Move the controlled point along a smooth trajectory passing near all but
-the last of the given poses, and stop at the last of the given poses.
-The numPoses gives the number of poses.
-
 MoveStraightTo (Pose * pose)
 Move the controlled point in a straight line from the current pose to
 the given pose, and stop there.
+
+MoveThroughTo (Pose ** poses, int numPoses)
+Move the controlled point along a trajectory passing near all but
+the last of the given poses, and stop at the last of the given poses.
+The numPoses gives the number of poses.
 
 MoveTo (Pose * pose)
 Move the controlled point along any convenient trajectory from the
@@ -169,11 +181,16 @@ current pose to the given pose, and stop there.
 OpenGripper ()
 Open the gripper.
 
-SetAbsoluteAcceleration (acceleration)
+OpenToolChanger ()
+Open the tool changer on the robot so that it releases the end effector.
+This is normally done after the end effector attached to the robot has
+been moved into an end effector changer.
+
+SetAbsoluteAcceleration (double acceleration)
 Set the acceleration for the controlled point to the given value in
 length units per second per second.
 
-SetAbsoluteSpeed
+SetAbsoluteSpeed (double speed)
 Set the speed for the controlled point to the given value in length units
 per second.
 

@@ -35,15 +35,18 @@ Controller::~Controller()
 int Controller::queueMsg( CanonicalMsg *msgIn )
 {
   CloseGripperMsg *closeGripperMsgPt;
+  CloseToolChangerMsg *closeToolChangerMsgPt;
   DwellMsg *dwellMsgPt;
   EndCanonMsg *endCanonMsgPt;
   InitCanonMsg *initCanonMsgPt;
   MessageMsg *messageMsgPt;
-  MoveSmoothlyToMsg *moveSmoothlyToMsgPt;
   MoveStraightToMsg *moveStraightToMsgPt;
+  MoveThroughToMsg *moveThroughToMsgPt;
   MoveToMsg *moveToMsgPt;
   OpenGripperMsg *openGripperMsgPt;
+  OpenToolChangerMsg *openToolChangerMsgPt;
   SetAbsoluteAccelerationMsg *setAbsoluteAccelerationMsgPt;
+  SetAbsoluteSpeedMsg *setAbsoluteSpeedMsgPt;
   SetAngleUnitsMsg *setAngleUnitsMsgPt;
   SetEndAngleToleranceMsg *setEndAngleToleranceMsgPt;
   SetEndPointToleranceMsg *setEndPointToleranceMsgPt;
@@ -58,6 +61,12 @@ int Controller::queueMsg( CanonicalMsg *msgIn )
       closeGripperMsgPt = new CloseGripperMsg();
       *closeGripperMsgPt = *dynamic_cast<CloseGripperMsg *>(msgIn); 
       cmdQueue.push_back(closeGripperMsgPt);
+    }
+  else if (dynamic_cast<CloseToolChangerMsg *>(msgIn))
+    {
+      closeToolChangerMsgPt = new CloseToolChangerMsg();
+      *closeToolChangerMsgPt = *dynamic_cast<CloseToolChangerMsg *>(msgIn); 
+      cmdQueue.push_back(closeToolChangerMsgPt);
     }
   else if (dynamic_cast<DwellMsg *>(msgIn))
     {
@@ -83,17 +92,17 @@ int Controller::queueMsg( CanonicalMsg *msgIn )
       *messageMsgPt = *dynamic_cast<MessageMsg *>(msgIn);
       cmdQueue.push_back(messageMsgPt);
     }
-  else if (dynamic_cast<MoveSmoothlyToMsg *>(msgIn))
-    {
-      moveSmoothlyToMsgPt = new MoveSmoothlyToMsg();
-      *moveSmoothlyToMsgPt = *dynamic_cast<MoveSmoothlyToMsg *>(msgIn);
-      cmdQueue.push_back(moveSmoothlyToMsgPt);
-    }
   else if (dynamic_cast<MoveStraightToMsg*>(msgIn))
     {
       moveStraightToMsgPt = new MoveStraightToMsg();
       *moveStraightToMsgPt = *dynamic_cast<MoveStraightToMsg*>(msgIn);
       cmdQueue.push_back(moveStraightToMsgPt);
+    }
+  else if (dynamic_cast<MoveThroughToMsg *>(msgIn))
+    {
+      moveThroughToMsgPt = new MoveThroughToMsg();
+      *moveThroughToMsgPt = *dynamic_cast<MoveThroughToMsg *>(msgIn);
+      cmdQueue.push_back(moveThroughToMsgPt);
     }
   else if (dynamic_cast<MoveToMsg*>(msgIn))
     {
@@ -107,11 +116,23 @@ int Controller::queueMsg( CanonicalMsg *msgIn )
        *openGripperMsgPt = *dynamic_cast<OpenGripperMsg*>(msgIn);
        cmdQueue.push_back(openGripperMsgPt);
     }
+  else if (dynamic_cast<OpenToolChangerMsg*>(msgIn))
+    {
+       openToolChangerMsgPt = new OpenToolChangerMsg();
+       *openToolChangerMsgPt = *dynamic_cast<OpenToolChangerMsg*>(msgIn);
+       cmdQueue.push_back(openToolChangerMsgPt);
+    }
   else if (dynamic_cast<SetAbsoluteAccelerationMsg*>(msgIn))
     {
        setAbsoluteAccelerationMsgPt = new SetAbsoluteAccelerationMsg();
        *setAbsoluteAccelerationMsgPt = *dynamic_cast<SetAbsoluteAccelerationMsg*>(msgIn);
        cmdQueue.push_back(setAbsoluteAccelerationMsgPt);
+    }
+  else if (dynamic_cast<SetAbsoluteSpeedMsg*>(msgIn))
+    {
+       setAbsoluteSpeedMsgPt = new SetAbsoluteSpeedMsg();
+       *setAbsoluteSpeedMsgPt = *dynamic_cast<SetAbsoluteSpeedMsg*>(msgIn);
+       cmdQueue.push_back(setAbsoluteSpeedMsgPt);
     }
   else if (dynamic_cast<SetAngleUnitsMsg*>(msgIn))
     {
@@ -160,7 +181,7 @@ int Controller::queueMsg( CanonicalMsg *msgIn )
   return 1;
 }
 
-int Controller::dequeueMsg()
+int Controller::dequeueMsg(void *sendTo)
 {
   int errReturn = 1;
   CanonicalMsg *canonicalPt;
@@ -178,87 +199,102 @@ int Controller::dequeueMsg()
 
   if (dynamic_cast<CloseGripperMsg *>(canonicalPt))
     {
-      dynamic_cast<CloseGripperMsg *>(canonicalPt)->process();
+      dynamic_cast<CloseGripperMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<CloseGripperMsg *>(canonicalPt);
+    }
+  else if (dynamic_cast<CloseToolChangerMsg *>(canonicalPt))
+    {
+      dynamic_cast<CloseToolChangerMsg *>(canonicalPt)->process(sendTo);
+      delete dynamic_cast<CloseToolChangerMsg *>(canonicalPt);
     }
   else if (dynamic_cast<DwellMsg *>(canonicalPt))
     {
-      dynamic_cast<DwellMsg *>(canonicalPt)->process();
+      dynamic_cast<DwellMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<DwellMsg *>(canonicalPt);
     }
   else if (dynamic_cast<EndCanonMsg *>(canonicalPt))
     {
-      dynamic_cast<EndCanonMsg *>(canonicalPt)->process();
+      dynamic_cast<EndCanonMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<EndCanonMsg *>(canonicalPt);
     }
   else if (dynamic_cast<InitCanonMsg *>(canonicalPt))
     {
-      dynamic_cast<InitCanonMsg *>(canonicalPt)->process();
+      dynamic_cast<InitCanonMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<InitCanonMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MessageMsg *>(canonicalPt))
     {
-      dynamic_cast<MessageMsg *>(canonicalPt)->process();
+      dynamic_cast<MessageMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MessageMsg *>(canonicalPt);
-    }
-  else if (dynamic_cast<MoveSmoothlyToMsg *>(canonicalPt))
-    {
-      dynamic_cast<MoveSmoothlyToMsg *>(canonicalPt)->process();
-      delete dynamic_cast<MoveSmoothlyToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveStraightToMsg *>(canonicalPt))
     {
-      dynamic_cast<MoveStraightToMsg *>(canonicalPt)->process();
+      dynamic_cast<MoveStraightToMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MoveStraightToMsg *>(canonicalPt);
+    }
+  else if (dynamic_cast<MoveThroughToMsg *>(canonicalPt))
+    {
+      dynamic_cast<MoveThroughToMsg *>(canonicalPt)->process(sendTo);
+      delete dynamic_cast<MoveThroughToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveToMsg *>(canonicalPt))
     {
-      dynamic_cast<MoveToMsg *>(canonicalPt)->process();
+      dynamic_cast<MoveToMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MoveToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<OpenGripperMsg *>(canonicalPt))
     {
-      dynamic_cast<OpenGripperMsg *>(canonicalPt)->process();
+      dynamic_cast<OpenGripperMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<OpenGripperMsg *>(canonicalPt);
+    }
+  else if (dynamic_cast<OpenToolChangerMsg *>(canonicalPt))
+    {
+      dynamic_cast<OpenToolChangerMsg *>(canonicalPt)->process(sendTo);
+      delete dynamic_cast<OpenToolChangerMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt))
     {
-      dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt)->process();
+      dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt);
+    }
+  else if (dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt))
+    {
+      dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt)->process(sendTo);
+      delete dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAngleUnitsMsg *>(canonicalPt))
     {
-      dynamic_cast<SetAngleUnitsMsg *>(canonicalPt)->process();
+      dynamic_cast<SetAngleUnitsMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetAngleUnitsMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt))
     {
-      dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt)->process();
+      dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt))
     {
-      dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt)->process();
+      dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt))
     {
-      dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt)->process();
+      dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetLengthUnitsMsg *>(canonicalPt))
     {
-      dynamic_cast<SetLengthUnitsMsg *>(canonicalPt)->process();
+      dynamic_cast<SetLengthUnitsMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetLengthUnitsMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt))
     {
-      dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt)->process();
+      dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt))
     {
-      dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->process();
+      dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt);
     }
 

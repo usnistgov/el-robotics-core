@@ -6,8 +6,6 @@ In the example, the \class{Robot} has to build a kit that contains two \class{Pa
 
 The state variable representation defines the necessary parameters for the PDDL domain and problem files. The PDDL domain file contains predicates, characterized by state variable symbols, and actions. The PDDL problem file contains the objects present in the problem instance, characterized by constant variable symbols, the initial state $s_0$ description and the goal $s_G$.
 
-
-
 \paragraph{Constant Variable Symbols}
 The kitting domain proposed for the example contains a \class{Robot} \const{r_1}, a \class{KitTray} \const{kt_1}, a \class{LargeBoxWithEmptyKitTrays} \const{lbwekt_1}, a \class{LargeBoxWithKits} \const{lbwk_1}, a \class{WorkTable} \const{wtable}, three \class{PartTrays} \const{pt_{A}}, \const{pt_{B}}, and \const{pt_{C}}, \class{Parts} \const{part_{A-1}}, \const{part_{A-2}}, \const{part_{B}}, and \const{part_{C}}, two \class{EndEffectors} \const{eff_1} and \const{eff_2}, and two  \class{EndEffectorHolders} \const{effh_1} and \const{effh_2}. Since a \class{KitInstance} is by definition a \class{KitTray} that contains \class{Parts}, the kitting domain also contains a constant variable symbol \const{kins_1} from \class{KitInstance}.
 
@@ -28,8 +26,6 @@ $s_0$=\{\stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{effloc}(\const{eff_1})=\
 In the initial state $s_0$, the $\mathsf{Robot}$ $\mathrm{r_1}$ is not equipped with any $\mathsf{EndEffector}$ and is not holding anything. The $\mathsf{EndEffectors}$ $\mathrm{eeff_1}$ and $\mathrm{eeff_2}$ are placed in the $\mathsf{EndEffectorHolders}$ $\mathrm{eeffholder_1}$ and $\mathrm{eeffholder_2}$, respectively. The $\mathsf{LargeBoxWithKits}$ $\mathrm{lbwk_1}$ is not full. The $\mathsf{LargeBoxWithEmptyKitTrays}$ $\mathrm{lbwekt_1}$ is not empty. The $\mathsf{PartTrays}$ $\mathrm{pt_A}$, $\mathrm{pt_B}$, and $\mathrm{pt_C}$ are not empty. The $\mathsf{WorkTable}$ $\mathrm{wtable}$ is free of any object.
 \end{comment}
 
-
-
 \paragraph{Goal State}
 \begin{comment}
 The goal state $s_g$, the $\mathsf{KitInstance}$ $\mathrm{kins_1}$ contains $\mathsf{Parts}$ $\mathrm{p_{A-1}}$, $\mathrm{p_{A-2}}$, $\mathrm{p_{B-1}}$, and $\mathrm{p_{C-1}}$. The $\mathsf{KitInstance}$ $\mathrm{kins_1}$ is placed in the $\mathsf{LargeBoxWithKits}$ $\mathrm{lbwk_1}$.
@@ -48,9 +44,6 @@ Among the eight planning operators introduced in Section \ref{subsect:Planning_O
 \end{itemize}
 \end{itemize}
 
-
-
-
 \subsection{Process for the PDDL Domain File}
 \label{subsect:PDDL_Domain_File}
 Once the state variable representation is defined, an OWL-S process specification and OWL ontology is built. This must be constructed by hand from the information in the SVR as described in Section \ref{subsect:Ontology}. For this example, the specific action  \op{take-kt}'s encoding into OWL-S will be discussed.
@@ -63,7 +56,6 @@ In the SVR, the preconditions clearly map to the OWL-S preconditions.
 The rules point to classes and instances in the ontology that model the concepts of kit tray (\const{kt}), a set of large box with empty kit trays (\const{lbwekt}), a robot (\const{r}), and a robot end effector (\const{eff}). The SVR effects map to the OWL-S results and are also represented in one of the rules languages above. In the case of the \op{take-kt} action, the result would specify that the location of the kit tray is no longer in a fixed location and is now in the robot end effector.
 
 Though not explicitly represented in the SVR, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the SVR. Specifically, it needs to know which robot is performing the action (\const{r_1}), which kit tray needs to be picked up (\const{kt_1}), which end effector is on the robot (\const{eff_2}), and from which box the robot needs to pick up the kit tray (\const{lbwekt_1}). The output of this action would be a Boolean stating whether the action was completed successfully or not.
-
 
 \begin{figure}[h!]
 \begin{center}
@@ -144,6 +136,9 @@ of the domain.
 \subsubsection{PDDL Problem File}
 The PDDL file is once again automatically generated. An excerpt of the PDDL problem file is shown in Figure \ref{fig:problemfile}. This file
 contains the required sections of requirements, initial conditions, and goal conditions.
+
+\subsubsection{PDDL File Processing}
+Once the PDDL files have been generated, a wide variety of planners exist that could be used to generate a PDDL solution file. In our particular implementation, we are utilizing a varient of the classical GraphPlan system by Blum and Furst \cite{Blum97}.
 
 
 

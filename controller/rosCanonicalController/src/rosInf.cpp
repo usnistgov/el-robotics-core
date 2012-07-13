@@ -49,9 +49,29 @@ void RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand &command, Effect
 }
 int RosInf::initArmNavigation()
 {
-	//Only works with the KR60 arm! This should read the actuator name from either the robot_description parameter, an external
-	//parameter, or a ROS topic. 
-	std::string actuatorName = "KR60Arm";	
+	ros::NodeHandle nh;
+	XmlRpc::XmlRpcValue planningGroups;
+	std::string actuatorName;
+	if(nh.getParam("robot_description_planning/groups", planningGroups))
+	{
+		ROS_ASSERT(planningGroups.getType() == XmlRpc::XmlRpcValue::TypeArray);
+		//just control the first planning group found
+		if(planningGroups.size() > 0)
+		{
+			ROS_ASSERT(planningGroups[0]["name"].getType() == XmlRpc::XmlRpcValue::TypeString);
+			actuatorName = static_cast<std::string>(planningGroups[0]["name"]);
+		}
+		else
+		{
+			printf("Could not find a planning group to control! Make sure your robot is active and arm navigation is running.\n");
+			return 0;
+		}
+		
+	}else
+	{
+		printf("Could not find a planning group to control! Make sure your robot is active and arm navigation is running.\n");
+		return 0;
+	}
 	moveArmClient = new actionlib::SimpleActionClient<arm_navigation_msgs::MoveArmAction>("move_"+actuatorName, true);
 	
 	if(moveArmClient->waitForServer(ros::Duration(10.0)))

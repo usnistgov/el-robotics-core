@@ -1,0 +1,19 @@
+<package>
+  <description brief="canonicalController">
+
+     canonicalController
+
+  </description>
+  <author>Teddy Weisman</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/canonicalController</url>
+  <depend package="roscpp"/>
+  <depend package="arm_navigation_msgs"/>
+  <depend package="actionlib"/>
+  <depend package="tf"/>
+  <depend package="usarsim_inf"/>
+
+</package>
+
+

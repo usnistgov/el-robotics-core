@@ -35,12 +35,12 @@ Connection::~Connection ()
   delete con;
 }
 
-sql::Connection * Connection::getCon () constconst
+sql::Connection * Connection::getCon () const
 {
   return con;
 }
 
-sql::mysql::MySQL_Driver * Connection::getDriver () constconst
+sql::mysql::MySQL_Driver * Connection::getDriver () const
 {
   return driver;
 }

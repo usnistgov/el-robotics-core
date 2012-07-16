@@ -1,0 +1,28 @@
+  
+
+ InitCanon (	)	
+CloseGripper()
+CloseToolChanger	()
+Dwell(1.7)
+	Message ("This message is false") 
+
+MoveThroughTo({ { { 5, 0.7,0}, {0,0,1.00}, {1,0, 0} } ,
+ {{6 , 8.2,0},{0,0,1},{1,0,0}},
+               {{7 , 8.2,0},{0,0,1},{1,0,0}}}, 3)
+
+
+  MoveStraightTo( {{4,8.76, 1} , {0.0,0,1}, { 1, 0,0}})
+ 	MoveTo({{9,8,2.555 },{0,0,1},{1,0,0}})
+ OpenGripper ()
+OpenToolChanger( )
+SetAbsoluteAcceleration(0.95)
+SetAbsoluteSpeed (3.8)
+ SetAngleUnits( "degree")
+
+SetEndAngleTolerance(1.3)
+SetEndPointTolerance(0.4)
+  SetIntermediatePointTolerance(10.734)
+SetLengthUnits( "mm" ) 
+  SetRelativeAcceleration(0.8	)
+SetRelativeSpeed( 0.75)
+  EndCanon ( 2	)

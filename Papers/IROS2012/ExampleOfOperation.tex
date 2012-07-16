@@ -58,7 +58,8 @@ The rules point to classes and instances in the ontology that model the concepts
 Though not explicitly represented in the SVR, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the SVR. Specifically, it needs to know which robot is performing the action (\const{r_1}), which kit tray needs to be picked up (\const{kt_1}), which end effector is on the robot (\const{eff_2}), and from which box the robot needs to pick up the kit tray (\const{lbwekt_1}). The output of this action would be a Boolean stating whether the action was completed successfully or not.
 
 \begin{figure}[h!]
-\begin{center}
+%\begin{center}
+\centering
 \begin{minipage}{.5\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
@@ -71,8 +72,7 @@ Though not explicitly represented in the SVR, data inputs and outputs are an imp
   (effloc ?eff - endeffector ?r - robot
    ?effh - endeffectorholder)
   (efftype ?effh - endeffectorholder ?eff - endeffector)
-   ...
- )
+   ...  )
  (:action take-kt
   :parameters (?r - robot ?kt - kittray
    ?lbwekt - largeboxwithemptykittrays
@@ -83,13 +83,13 @@ Though not explicitly represented in the SVR, data inputs and outputs are an imp
      (effloc ?kittray ?robot)
      (not (islbwektempty (?largeboxwithemptykittrays))))
   :effect (and (ktloc ?kittray ?robot)
-          (rhold ?robot ?kittray))
-  )
+          (rhold ?robot ?kittray))  )
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
 \caption{Excerpt of the PDDL domain file for kitting.\label{fig:domainfile}}
-\end{center}
+%\end{center}
+\vspace{-.15in}
 \end{figure}
 
 \subsubsection{PDDL Domain File}
@@ -106,7 +106,8 @@ classes represent the initial state of the domain, and in the \const{GoalFile} t
 of the domain.
 
 \begin{figure}[h!]
-\begin{center}
+%\begin{center}
+\centering
 \begin{minipage}{.5\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
@@ -130,7 +131,7 @@ of the domain.
 \end{mylisting}
 \end{minipage}
 \caption{Excerpt of the PDDL problem file for kitting.\label{fig:problemfile}}
-\end{center}
+%\end{center}
 \end{figure}
 
 \subsubsection{PDDL Problem File}
@@ -138,7 +139,7 @@ The PDDL file is once again automatically generated. An excerpt of the PDDL prob
 contains the required sections of requirements, initial conditions, and goal conditions.
 
 \subsubsection{PDDL File Processing}
-Once the PDDL files have been generated, a wide variety of planners exist that could be used to generate a PDDL solution file. In our particular implementation, we are utilizing a varient of the classical GraphPlan system by Blum and Furst \cite{Blum97}.
+Once the PDDL files have been generated, a wide variety of planners exist that could be used to generate a PDDL solution file. In our particular implementation, we are utilizing a variant of the classical FF system by Hoffmann and Nebel \cite{Hoffmann2001}.
 
 
 

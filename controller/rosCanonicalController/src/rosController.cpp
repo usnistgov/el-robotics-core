@@ -23,7 +23,7 @@ void DwellMsg::process(void* sendTo)
 	  printf( "Received dwell message of time: %lf\n", time );
 	  usleep((int)(time*1000000));
   }
-  printf("dwell");
+  printf("dwell\n");
 }
 
 void EndCanonMsg::process(void* sendTo)
@@ -51,7 +51,21 @@ void MessageMsg::process(void* sendTo)
 }
 void MoveThroughToMsg::process(void* sendTo)
 {
-  printf( "Received MoveSmoothlyTo msg\n" );
+  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
+  {
+  	for(int i = 0;i<num;i++)
+  	{
+  		((RosInf*)sendTo)->waitForArmGoal(poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_X(),
+							poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Y(),
+							poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Z(),
+							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_I(),
+							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_J(),
+							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_K(),
+							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_I(), 
+							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_J(),
+							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_K());
+	}	
+  }
 }
 void MoveStraightToMsg::process(void* sendTo)
 {
@@ -61,36 +75,16 @@ void MoveToMsg::process(void* sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
-  	printf( "Received MoveTo msg\n" );
-	
-	tf::Vector3 xAxis(poseLocation->gethasPoseLocation_XAxis()->gethasVector_I(), 
-	  				poseLocation->gethasPoseLocation_XAxis()->gethasVector_J(),
-	  				poseLocation->gethasPoseLocation_XAxis()->gethasVector_K());
-	tf::Vector3 zAxis(poseLocation->gethasPoseLocation_ZAxis()->gethasVector_I(), 
-					poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
-					poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
-	//find equivalent quaternion for x/z vectors
-	tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
-	float xAngle = acos(xAxis.x());
-	if(xRotationAxis.length() == 0) //if target point x axis is parallel to world x
-	{
-		xRotationAxis = tf::Vector3(0,1,0); //rotate either pi or 0 about y axis
-	}
-	tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
-	tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
-	float zAngle = acos(transformedZ.dot(zAxis));
-	tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
-	tf::Transform axisTransform = xTransform*zTransform;
-	
-	((RosInf*)sendTo)->waitForArmGoal(poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
+  	((RosInf*)sendTo)->waitForArmGoal(poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
 							poseLocation->gethasPoseLocation_Point()->gethasPoint_Y(),
 							poseLocation->gethasPoseLocation_Point()->gethasPoint_Z(),
-							axisTransform.getRotation().x(),
-							axisTransform.getRotation().y(),
-							axisTransform.getRotation().z(),
-							axisTransform.getRotation().w());
+							poseLocation->gethasPoseLocation_XAxis()->gethasVector_I(),
+							poseLocation->gethasPoseLocation_XAxis()->gethasVector_J(),
+							poseLocation->gethasPoseLocation_XAxis()->gethasVector_K(),
+							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_I(), 
+							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
+							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
   }
-
 }
 void OpenGripperMsg::process(void* sendTo)
 {

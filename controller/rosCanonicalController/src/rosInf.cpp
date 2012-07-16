@@ -163,6 +163,28 @@ void RosInf::waitForArmGoal(double x, double y, double z, double xRot, double yR
 		}			
 	}
 }
+void RosInf::waitForArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
+  	double zAxisY, double zAxisZ)
+{
+	tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
+	tf::Vector3 zAxis(zAxisZ, zAxisY, zAxisZ);
+	//find equivalent quaternion for x/z vectors
+	tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
+	float xAngle = acos(xAxis.x());
+	if(xRotationAxis.length() == 0) //if target point x axis is parallel to world x
+	{
+		xRotationAxis = tf::Vector3(0,1,0); //rotate either pi or 0 about y axis
+	}
+	tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
+	tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
+	float zAngle = acos(transformedZ.dot(zAxis));
+	tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
+	tf::Transform axisTransform = xTransform*zTransform;
+	waitForArmGoal(x,y,z, axisTransform.getRotation().x(),
+						  axisTransform.getRotation().y(),
+						  axisTransform.getRotation().z(),
+						  axisTransform.getRotation().w());
+}
 void RosInf::setLengthUnits(std::string units)
 {
 	if(units == "inch")

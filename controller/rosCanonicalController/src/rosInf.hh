@@ -48,6 +48,8 @@ public:
   void setEndPointTolerance(double tolerance);
   void setLengthUnits(std::string units);
   void waitForArmGoal(double x,  double y, double z, double xRot, double yRot, double zRot, double wRot);
+  void waitForArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
+  	double zAxisY, double zAxisZ);
 private:
   std::string lengthUnits; //either "inch," "mm," or "meter"
   bool ready;

@@ -92,6 +92,17 @@ main ()
   boxDrop->sethasPoseLocation_XAxis(xAxis);
   boxDrop->sethasPoseLocation_ZAxis(zAxis);
   
+  PoseLocation *array[2];
+  array[0] = new PoseLocation("prep_pose");
+  array[0]->sethasPoseLocation_Point(startPoint);
+  array[0]->sethasPoseLocation_XAxis(xAxis);
+  array[0]->sethasPoseLocation_ZAxis(zAxis);
+  array[1] = new PoseLocation("box_lift");
+  array[1]->sethasPoseLocation_Point(boxLiftPoint);
+  array[1]->sethasPoseLocation_XAxis(xAxis);
+  array[1]->sethasPoseLocation_ZAxis(zAxis); 
+  
+  MoveThroughToMsg descendMsg(array, 2);
   MoveToMsg pickupMove(boxPose);
   MoveToMsg liftMove(boxLift);
   MoveToMsg firstMove(graspPose);
@@ -124,14 +135,13 @@ main ()
   ctrl->queueMsg(&initCanon);
   printf( "Queue dwell\n" );
   ctrl->queueMsg(&dwell);
-  //MoveToMsg *moveMsgs[8];// = new MoveToMsg[8];
-  //Point *points[8];// = new Point[8];
-  //PoseLocation *poses[8];// = new PoseLocation[8];
   ctrl->queueMsg(&firstMove);
-  ctrl->queueMsg(&pickupMove);
-  ctrl->queueMsg(&closeTool);
-  ctrl->queueMsg(&firstMove);
-  /*for(int x = 0;x<2;x++)
+  ctrl->queueMsg(&descendMsg);
+  
+  
+  /*MoveToMsg *moveMsgs[8];// = new MoveToMsg[8];
+  
+  for(int x = 0;x<2;x++)
   {
   	for(int y = 0;y<4;y++)
   	{
@@ -157,9 +167,9 @@ main ()
 		ctrl->queueMsg(&openGripper);
 		ctrl->queueMsg(&dwell);
   	}
-  }*/
+  }
   
-  /*for(int x = 0;x<2;x++)
+  for(int x = 0;x<2;x++)
   {
   	for(int y = 0;y<4;y++)
   	{

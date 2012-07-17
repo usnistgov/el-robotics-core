@@ -1,9 +1,9 @@
-commandParser: source/Pose.h           \
-               source/canonicalMsg.hh  \
-               source/canonicalMsg.cc  \
-               source/commandParser.hh \
-               source/commandParser.cc \
-               source/commandParserMain.cc
-	/usr/bin/g++ -v -g -Wall -o $@ source/commandParserMain.cc \
-                                       source/commandParser.cc     \
-                                       source/canonicalMsg.cc
+commandParser: src/Pose.h           \
+               src/canonicalMsg.hh  \
+               src/canonicalMsg.cc  \
+               src/commandParser.hh \
+               src/commandParser.cc \
+               src/commandParserMain.cc
+	/usr/bin/g++ -v -g -Wall -o $@ src/commandParserMain.cc \
+                                       src/commandParser.cc     \
+                                       src/canonicalMsg.cc

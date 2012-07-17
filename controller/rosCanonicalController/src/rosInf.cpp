@@ -125,7 +125,11 @@ void RosInf::waitForEffectors()
   		effectorsSet = true;
 	  	for(unsigned int i = 0;i<effectorControllers.size();i++)
 	  	{
-	  		if(effectorControllers[i].currentState.state != effectorControllers[i].goalState.state)
+	  		if(!effectorControllers[i].isPublished())
+	  		{
+	  			effectorsSet = false;
+	  		}
+	  		else if(effectorControllers[i].currentState.state != effectorControllers[i].goalState.state)
 	  		{
 	  			effectorControllers[i].goalState.header.stamp = ros::Time::now();
 	  			effectorControllers[i].publisher.publish(effectorControllers[i].goalState);
@@ -252,4 +256,8 @@ void EffectorController::toolchangerCallback(const usarsim_inf::ToolchangerStatu
 		goalState.state = msg->effector_status.state;
 	}
 	currentState.state = msg->effector_status.state;
+}
+bool EffectorController::isPublished()
+{
+	return published;
 }

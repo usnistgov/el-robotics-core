@@ -34,7 +34,7 @@ public:
   void setHeader(){ hdr.time = ulapi_time(); hdr.msgID = nextID++; printf( "setting time: %lf id:%d\n", hdr.time, hdr.msgID);};
   int getMsgID(){ return hdr.msgID; };
   double getTime(){ return hdr.time; };
-  virtual void process(void *sendTo) = 0;
+  virtual int process(void *sendTo) = 0;
 protected:
   static int nextID;
   CanonicalHdr hdr;
@@ -44,14 +44,14 @@ class CloseGripperMsg:public CanonicalMsg{
 public:
   CloseGripperMsg(){};
   ~CloseGripperMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
 };
 
 class CloseToolChangerMsg:public CanonicalMsg{
 public:
   CloseToolChangerMsg(){};
   ~CloseToolChangerMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
 };
 
 class DwellMsg:public CanonicalMsg{
@@ -59,7 +59,7 @@ class DwellMsg:public CanonicalMsg{
   DwellMsg(){};
   DwellMsg(double timeIn){ time = timeIn;};
   ~DwellMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double time;
 };
 
@@ -68,7 +68,7 @@ public:
   EndCanonMsg(){};
   EndCanonMsg(int reasonIn){ reason = reasonIn; };
   ~EndCanonMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   int reason;
 };
 
@@ -76,7 +76,7 @@ class InitCanonMsg:public CanonicalMsg{
 public:
   InitCanonMsg(){};
   ~InitCanonMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
 };
 
 class MessageMsg:public CanonicalMsg{
@@ -84,7 +84,7 @@ public:
   MessageMsg(){};
   MessageMsg(std::string messageIn){ message = messageIn; };
   ~MessageMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   std::string message;
 };
 
@@ -93,7 +93,7 @@ public:
   MoveStraightToMsg(){};
   MoveStraightToMsg(PoseLocation *poseLocationIn){  poseLocation = poseLocationIn; };
   ~MoveStraightToMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   PoseLocation *poseLocation;
 };
 
@@ -102,7 +102,7 @@ public:
   MoveThroughToMsg(){};
   MoveThroughToMsg(PoseLocation **poseLocationsIn, int numIn){ poseLocations = poseLocationsIn; num = numIn; };
   ~MoveThroughToMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   PoseLocation **poseLocations;
   int num;
 };
@@ -112,7 +112,7 @@ public:
   MoveToMsg(){};
   MoveToMsg(PoseLocation *poseLocationIn){ poseLocation = poseLocationIn; };
   ~MoveToMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   PoseLocation *poseLocation;
 };
 
@@ -120,14 +120,14 @@ class OpenGripperMsg:public CanonicalMsg{
 public:
   OpenGripperMsg(){};
   ~OpenGripperMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
 };
 
 class OpenToolChangerMsg:public CanonicalMsg{
 public:
   OpenToolChangerMsg(){};
   ~OpenToolChangerMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
 };
 
 class SetAbsoluteAccelerationMsg:public CanonicalMsg{
@@ -135,7 +135,7 @@ public:
   SetAbsoluteAccelerationMsg(){};
   SetAbsoluteAccelerationMsg(double accelerationIn){ acceleration = accelerationIn; };
   ~SetAbsoluteAccelerationMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double acceleration;
 };
 
@@ -144,7 +144,7 @@ public:
   SetAbsoluteSpeedMsg(){};
   SetAbsoluteSpeedMsg(double speedIn){ speed = speedIn; };
   ~SetAbsoluteSpeedMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double speed;
 };
 
@@ -153,7 +153,7 @@ public:
   SetAngleUnitsMsg(){};
   SetAngleUnitsMsg(std::string unitNameIn){ unitName = unitNameIn; };
   ~SetAngleUnitsMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   std::string unitName;
 };
 
@@ -162,7 +162,7 @@ public:
   SetEndAngleToleranceMsg(){};
   SetEndAngleToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetEndAngleToleranceMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double tolerance;
 };
 
@@ -171,7 +171,7 @@ public:
   SetEndPointToleranceMsg(){};
   SetEndPointToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetEndPointToleranceMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double tolerance;
 };
 
@@ -180,7 +180,7 @@ public:
   SetIntermediatePointToleranceMsg(){};
   SetIntermediatePointToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetIntermediatePointToleranceMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double tolerance;
 };
 
@@ -189,7 +189,7 @@ public:
   SetLengthUnitsMsg(){};
   SetLengthUnitsMsg(std::string unitNameIn){ unitName = unitNameIn; };
   ~SetLengthUnitsMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   std::string unitName;
 };
 
@@ -198,7 +198,7 @@ public:
   SetRelativeAccelerationMsg(){};
   SetRelativeAccelerationMsg(double percentIn){ percent = percentIn; };
   ~SetRelativeAccelerationMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double percent;
 };
 
@@ -207,7 +207,17 @@ public:
   SetRelativeSpeedMsg(){};
   SetRelativeSpeedMsg(double percentIn){ percent = percentIn; };
   ~SetRelativeSpeedMsg(){};
-  virtual void process(void *sendTo);
+  virtual int process(void *sendTo);
   double percent;
 };
+
+class StopMotionMsg:public CanonicalMsg{
+public:
+  StopMotionMsg(){};
+  StopMotionMsg(int isEmergencyIn){ isEmergency = isEmergencyIn; };
+  ~StopMotionMsg(){};
+  virtual int process(void *sendTo);
+  int isEmergency;
+};
+
 #endif

@@ -148,6 +148,10 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	{
 	  ctrl->queueMsg(new SetRelativeSpeedMsg(doubleVal));
 	}
+      else if (readIntArgCommand("StopMotion", length, readHere, &intVal))
+	{
+	  ctrl->queueMsg(new StopMotionMsg(intVal));
+	}
       else
 	{
 	  fprintf(stderr, "unknown command (shown below) "

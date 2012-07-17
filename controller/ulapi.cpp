@@ -42,6 +42,8 @@
 
 #include "ulapi.hh"
 
+static ulapi_integer _ulapi_wait_offset_nsec = 1;
+
 ulapi_result
 ulapi_init (ulapi_integer sel)
 {
@@ -352,6 +354,41 @@ ulapi_task_init (void)
     return ULAPI_ERROR;
 
   return ULAPI_OK;
+}
+
+ulapi_result ulapi_self_set_period(ulapi_integer period_nsec)
+{
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_wait(ulapi_integer period_nsec)
+{
+  struct timespec ts;
+
+  if (period_nsec < _ulapi_wait_offset_nsec + 1) period_nsec = 1;
+  else period_nsec -= _ulapi_wait_offset_nsec;
+
+  ts.tv_sec = 0;
+  ts.tv_nsec = period_nsec;
+
+  (void) nanosleep(&ts, NULL);
+
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_task_exit(void)
+{
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_task_join(void * task)
+{
+  return (pthread_join(*((pthread_t *) task), NULL) == 0 ? ULAPI_OK : ULAPI_ERROR);
+}
+
+ulapi_integer ulapi_task_id(void)
+{
+  return (ulapi_integer) pthread_self();
 }
 
 /*

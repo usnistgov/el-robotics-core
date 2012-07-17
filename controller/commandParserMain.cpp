@@ -9,11 +9,23 @@ dequeueThread (void *arg)
 {
   Controller *ctrl = reinterpret_cast < Controller *>(arg);	
   void *myVoid;
+  int errReturn;
 
   for(;;)
     {
-      if( ctrl->dequeueMsg(myVoid) == 0)
+      errReturn = ctrl->dequeueMsg(myVoid);
+      if( errReturn == 0)
 	sleep(1);
+      else if( errReturn == 2 )
+	{
+	  printf( "End of canon and thread\n" );
+	  return;
+	}
+      else
+	{
+	  printf( "Error from parser\n" );
+	  return;
+	}
     }
 }
 
@@ -50,5 +62,6 @@ int main(
     exit(1);
   fclose(inFile);
   
-  sleep(30);
+  //  sleep(30);
+  ulapi_task_join(dequeueTask);
 }

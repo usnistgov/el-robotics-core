@@ -232,6 +232,10 @@ SetRelativeSpeed (double percent)
 Set the speed for the controlled point to the given percentage of the
 robot's maximum speed.
 
+StopMotion (integer isEmergency)
+Stop the robot motion. If 'isEmergency' is not 0, then stop as soon
+as possible regardless of damage to the system. If 'isEmergency' is 0
+then come to a graceful stop.
 
 VII. Commands to the plan interpreter
 

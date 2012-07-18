@@ -4,7 +4,7 @@
 #include <Point.h>
 #include <tf/transform_datatypes.h>
 
-void CloseGripperMsg::process(void* sendTo)
+int CloseGripperMsg::process(void* sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -13,10 +13,12 @@ void CloseGripperMsg::process(void* sendTo)
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
   	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	return 0;
   }
+  return 1;
 }
 
-void DwellMsg::process(void* sendTo)
+int DwellMsg::process(void* sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -24,9 +26,10 @@ void DwellMsg::process(void* sendTo)
 	  usleep((int)(time*1000000));
   }
   printf("dwell\n");
+  return 0;
 }
 
-void EndCanonMsg::process(void* sendTo)
+int EndCanonMsg::process(void* sendTo)
 {
   if(sendTo != NULL)
   {
@@ -34,22 +37,27 @@ void EndCanonMsg::process(void* sendTo)
   }
   ros::shutdown();
   printf( "Received endCanon message reason: %d\n", reason );
+  return 2;
 }
 
-void InitCanonMsg::process(void* sendTo)
+int InitCanonMsg::process(void* sendTo)
 {
 	if(sendTo != NULL)
 	{
 		((RosInf*)sendTo)->init();
+		printf("initcanon\n");
+		return 0;
 	}
-	printf("initcanon\n");
+	printf("Could not initialize canon because controller is null\n");
+	return 1;
 }
 
-void MessageMsg::process(void* sendTo)
+int MessageMsg::process(void* sendTo)
 {
   printf( "Received Message msg\n" );
+  return 0;
 }
-void MoveThroughToMsg::process(void* sendTo)
+int MoveThroughToMsg::process(void* sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -64,14 +72,17 @@ void MoveThroughToMsg::process(void* sendTo)
 							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_I(), 
 							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_J(),
 							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_K());
-	}	
+	}
+	return 0;	
   }
+  return 1;
 }
-void MoveStraightToMsg::process(void* sendTo)
+int MoveStraightToMsg::process(void* sendTo)
 {
   printf( "Received MoveStraightTo msg\n" );
+  return 0;
 }
-void MoveToMsg::process(void* sendTo)
+int MoveToMsg::process(void* sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -85,8 +96,9 @@ void MoveToMsg::process(void* sendTo)
 							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
 							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
   }
+  return 0;
 }
-void OpenGripperMsg::process(void* sendTo)
+int OpenGripperMsg::process(void* sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -95,55 +107,66 @@ void OpenGripperMsg::process(void* sendTo)
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
   	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	return 0;
   }
+  return 1;
 }
 
-void SetAbsoluteAccelerationMsg::process(void* sendTo)
+int SetAbsoluteAccelerationMsg::process(void* sendTo)
 {
   printf( "Received SetAbsoluteAcceleration msg\n" );
+  return 0;
 }
 
-void SetAngleUnitsMsg::process(void* sendTo)
+int SetAngleUnitsMsg::process(void* sendTo)
 {
   printf( "Received SetAngleUnits msg\n" );
+  return 0;
 }
 
-void SetEndAngleToleranceMsg::process(void* sendTo)
+int SetEndAngleToleranceMsg::process(void* sendTo)
 {
   printf( "Received SetEndAngleTolerance msg\n" );
+  return 0;
 }
 
-void SetEndPointToleranceMsg::process(void* sendTo)
+int SetEndPointToleranceMsg::process(void* sendTo)
 {
   ((RosInf*)sendTo)->setEndPointTolerance(tolerance);
+  return 0;
 }
 
-void SetIntermediatePointToleranceMsg::process(void* sendTo)
+int SetIntermediatePointToleranceMsg::process(void* sendTo)
 {
   printf( "Received SetIntermediatePointTolerance msg\n" );
+  return 0;
 }
 
-void SetLengthUnitsMsg::process(void* sendTo)
+int SetLengthUnitsMsg::process(void* sendTo)
 {
   ((RosInf*)sendTo)->setLengthUnits(unitName);
+  return 0;
 }
 
-void SetRelativeAccelerationMsg::process(void* sendTo)
+int SetRelativeAccelerationMsg::process(void* sendTo)
 {
   printf( "Received SetRelativeAcceleration msg\n" );
+  return 0;
 }
 
-void SetRelativeSpeedMsg::process(void* sendTo)
+int SetRelativeSpeedMsg::process(void* sendTo)
 {
   printf( "Received SetRelativeSpeed msg\n" );
+  return 0;
 }
 
-void SetAbsoluteSpeedMsg::process(void *sendTo)
+int SetAbsoluteSpeedMsg::process(void *sendTo)
 {
   printf( "Received SetAbsoluteSpeed msg\n" );
+  return 0;
 }
 
-void OpenToolChangerMsg::process(void *sendTo)
+int OpenToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -152,10 +175,12 @@ void OpenToolChangerMsg::process(void *sendTo)
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
   	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	return 0;
   }
+  return 1;
 }
 
-void CloseToolChangerMsg::process(void *sendTo)
+int CloseToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
   {
@@ -164,6 +189,13 @@ void CloseToolChangerMsg::process(void *sendTo)
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
   	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	return 0;
   }
+  return 1;
+}
+int StopMotionMsg::process(void *sendTo)
+{
+	printf("Received StopMotion msg\n");
+	return 0;
 }
 

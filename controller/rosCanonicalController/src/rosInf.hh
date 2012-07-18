@@ -26,6 +26,7 @@ public:
 	void initGripperSubscriber(const std::string &topicName);
 	void initToolchangerSubscriber(const std::string &topicName);
 	bool isType(EffectorType type);
+	bool isPublished();
 private:
 	void gripperCallback(const usarsim_inf::EffectorStatusConstPtr &msg);
 	void toolchangerCallback(const usarsim_inf::ToolchangerStatusConstPtr &msg);

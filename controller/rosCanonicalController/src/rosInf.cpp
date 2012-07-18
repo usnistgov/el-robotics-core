@@ -112,6 +112,7 @@ int RosInf::initEffectors()
 			effectorControllers.back().initToolchangerSubscriber(topics[i].name);
 		}
 	}
+	waitForEffectors();
 	return 1;
 }
 /*

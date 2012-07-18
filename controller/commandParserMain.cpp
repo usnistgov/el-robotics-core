@@ -19,12 +19,12 @@ dequeueThread (void *arg)
       else if( errReturn == 2 )
 	{
 	  printf( "End of canon and thread\n" );
-	  return;
+	  ulapi_task_exit(0);
 	}
       else
 	{
 	  printf( "Error from parser\n" );
-	  return;
+	  ulapi_task_exit(1);
 	}
     }
 }
@@ -38,6 +38,7 @@ int main(
   std::list<CanonicalMsg *> commands; //commands read from file
   Controller *ctrl;
   void *dequeueTask = NULL;
+  ulapi_integer result;
 
   ctrl = new Controller();
   // this code uses the ULAPI library to provide portability
@@ -63,5 +64,9 @@ int main(
   fclose(inFile);
   
   //  sleep(30);
-  ulapi_task_join(dequeueTask);
+  ulapi_task_join(dequeueTask, &result);
+  if( result == 0 )
+    printf( "Sucessful completion\n" );
+  else
+    printf( "Error from commandParserMain thread\n" );
 }

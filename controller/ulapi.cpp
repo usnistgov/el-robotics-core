@@ -376,14 +376,26 @@ ulapi_result ulapi_wait(ulapi_integer period_nsec)
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_exit(void)
+void ulapi_task_exit(ulapi_integer retval)
 {
-  return ULAPI_OK;
+  pthread_exit((void *) retval);
 }
 
-ulapi_result ulapi_task_join(void * task)
+ulapi_result ulapi_task_join(void *task, ulapi_integer *retptr)
 {
-  return (pthread_join(*((pthread_t *) task), NULL) == 0 ? ULAPI_OK : ULAPI_ERROR);
+  ulapi_integer retval;
+  int ret;
+
+  ret = pthread_join(*((pthread_t *) task), (void **) &retval);
+
+  if (0 == ret) {
+    if (NULL != retptr) {
+      *retptr = retval;
+    }
+    return ULAPI_OK;
+  }
+
+  return ULAPI_ERROR;
 }
 
 ulapi_integer ulapi_task_id(void)

@@ -163,8 +163,8 @@ extern ulapi_result ulapi_task_set_period (void *task,
 extern ulapi_result ulapi_task_init (void);
 extern ulapi_result ulapi_self_set_period (ulapi_integer period_nsec);
 extern ulapi_result ulapi_wait (ulapi_integer period_nsec);
-extern ulapi_result ulapi_task_exit (void);
-extern ulapi_result ulapi_task_join (void *task);
+extern void ulapi_task_exit (ulapi_integer retval);
+extern ulapi_result ulapi_task_join (void *task, ulapi_integer *retptr);
 extern ulapi_integer ulapi_task_id (void);
 
 /*!

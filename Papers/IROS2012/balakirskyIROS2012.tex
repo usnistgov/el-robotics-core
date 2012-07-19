@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting which is a process that brings parts that will be used in assembly operations together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. This paper examines the knowledge representations that have been developed and implemented for the kitting problem.
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to developing a methodology for knowledge representation and reasoning in robotics and automation. As part of this working group, the Industrial Robots sub-group is tasked with studying industrial applications of the ontology. One of the first areas of interest for this subgroup is the area of kit building or kitting. This is a process that brings parts that will be used in assembly operations together in a kit and then moves the kit to the assembly area where the parts are used in the final assembly. This paper examines the knowledge representations that have been developed and implemented for the kitting problem.
 
 \end{abstract}
 
@@ -165,7 +165,7 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{efftype}: \class{VacuumEffectorSingleCup}$\mathrm{\times S \rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part} designates the type of object a \class{VacuumEffectorSingleCup} can hold: A \class{KitTray}, a \class{Kit}, or a \class{Part}.
 
-\item \stvar{eeffhtype}: \class{EndEffectorHolder}$\mathrm{\times S \rightarrow}$\class{VacuumEffectorSingleCup} $\cup$ \{\textit{nil}\} designates the object an \class{EndEffectorHolder} is holding: A \class{VacuumEffectorSingleCup} or nothing.
+\item \stvar{eeffhtype}: \class{EndEffectorHolder}$\mathrm{\times S \rightarrow}$ \{\textit{nil}\} $\cup$ \class{VacuumEffectorSingleCup} designates the object an \class{EndEffectorHolder} is holding.
 \end{itemize}
 
 

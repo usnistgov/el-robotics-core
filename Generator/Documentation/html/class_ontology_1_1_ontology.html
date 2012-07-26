@@ -93,6 +93,22 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acfa7d8a40bd1dc8e06abfa55b19ac993"></a><!-- doxytag: member="Ontology::Ontology::loadFromFile" ref="acfa7d8a40bd1dc8e06abfa55b19ac993" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#acfa7d8a40bd1dc8e06abfa55b19ac993">loadFromFile</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the ontology from a file. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">OWLDatatype&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#af49e735496a324a580a621944b522d28">getDataPropertyType</a> (String unit)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Give the owl IRI for the value of a data property.  <a href="#af49e735496a324a580a621944b522d28"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a0b4bb6f4edb76d65953fed6f32d2df58">updateObjectPropertyValue</a> (String instance, String oldValue, String newValue, String oProp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Update value of an object property.  <a href="#a0b4bb6f4edb76d65953fed6f32d2df58"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a701a9c979927464fc11ad0fa16a547ed">addObjectPropertyValue</a> (String instance, String value, String oProp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a value of an object property.  <a href="#a701a9c979927464fc11ad0fa16a547ed"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a7e646f95cb6d1f369c37f642d27dbc6c">delObjectPropertyValue</a> (String instance, String value, String oProp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete value of an object property.  <a href="#a7e646f95cb6d1f369c37f642d27dbc6c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a05b30edf0ceb3ffae3e28dc9f53c4e8c">updateDataPropertyValue</a> (String instance, String oldValue, String newValue, String dProp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Update value of a data property.  <a href="#a05b30edf0ceb3ffae3e28dc9f53c4e8c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a63a9f169a40e2e134e9d1b6ae0c9623e">addDataPropertyValue</a> (String instance, String value, String dProp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a value of a data property.  <a href="#a63a9f169a40e2e134e9d1b6ae0c9623e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a27eb6537f5520169dbcf6a8fd2360b5d">delDataPropertyValue</a> (String instance, String value, String dProp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete value of a data property.  <a href="#a27eb6537f5520169dbcf6a8fd2360b5d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a814db63a721741ed45084cbba0a322ba">addIndividual</a> (String name, String type)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an individual into the ontology.  <a href="#a814db63a721741ed45084cbba0a322ba"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f61430c49fe037a18b5267c02d1923a"></a><!-- doxytag: member="Ontology::Ontology::loadFromURL" ref="a6f61430c49fe037a18b5267c02d1923a" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ontology_1_1_ontology.html#a6f61430c49fe037a18b5267c02d1923a">loadFromURL</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the ontology from an URL. <br/></td></tr>
@@ -279,6 +295,155 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a63a9f169a40e2e134e9d1b6ae0c9623e"></a><!-- doxytag: member="Ontology::Ontology::addDataPropertyValue" ref="a63a9f169a40e2e134e9d1b6ae0c9623e" args="(String instance, String value, String dProp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.addDataPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>dProp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Add a value of a data property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>name of the entity concerned. </td></tr>
+    <tr><td class="paramname">value</td><td>new value </td></tr>
+    <tr><td class="paramname">dProp</td><td>name of the data property </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_cgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_cgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_cgraph" id="class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_cgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_data_property.html#ae681eb33f0135b022bb3ecd3c3a6ca4f" title="Simple getter." alt="" coords="320,5,619,35"/><area shape="rect" id="node5" href="class_ontology_1_1_ontology.html#af49e735496a324a580a621944b522d28" title="Give the owl IRI for the value of a data property." alt="" coords="340,59,599,88"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_icgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_icgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_icgraph" id="class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_icgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a05b30edf0ceb3ffae3e28dc9f53c4e8c" title="Update value of a data property." alt="" coords="320,5,603,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a814db63a721741ed45084cbba0a322ba"></a><!-- doxytag: member="Ontology::Ontology::addIndividual" ref="a814db63a721741ed45084cbba0a322ba" args="(String name, String type)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.addIndividual </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Add an individual into the ontology. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>name of the indivudual. </td></tr>
+    <tr><td class="paramname">type</td><td>class of the individual </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a701a9c979927464fc11ad0fa16a547ed"></a><!-- doxytag: member="Ontology::Ontology::addObjectPropertyValue" ref="a701a9c979927464fc11ad0fa16a547ed" args="(String instance, String value, String oProp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.addObjectPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>oProp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Add a value of an object property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>name of the entity concerned. </td></tr>
+    <tr><td class="paramname">value</td><td>new value </td></tr>
+    <tr><td class="paramname">oProp</td><td>name of the object property </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed_icgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed_icgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed_icgraph" id="class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed_icgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a0b4bb6f4edb76d65953fed6f32d2df58" title="Update value of an object property." alt="" coords="328,5,621,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
 <a class="anchor" id="a7028d98e45511b5dbab527e311dd24a6"></a><!-- doxytag: member="Ontology::Ontology::addSuperClasses" ref="a7028d98e45511b5dbab527e311dd24a6" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -302,6 +467,119 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6_icgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6_icgraph" alt=""/></div>
 <map name="class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6_icgraph" id="class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6_icgraph">
 <area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a4b295f699ded2490f28a7ef27e7d10a8" title="Constructor." alt="" coords="291,5,477,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a27eb6537f5520169dbcf6a8fd2360b5d"></a><!-- doxytag: member="Ontology::Ontology::delDataPropertyValue" ref="a27eb6537f5520169dbcf6a8fd2360b5d" args="(String instance, String value, String dProp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.delDataPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>dProp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Delete value of a data property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>name of the entity concerned. </td></tr>
+    <tr><td class="paramname">value</td><td>new value </td></tr>
+    <tr><td class="paramname">dProp</td><td>name of the data property </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_cgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_cgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_cgraph" id="class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_cgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_data_property.html#ae681eb33f0135b022bb3ecd3c3a6ca4f" title="Simple getter." alt="" coords="315,5,613,35"/><area shape="rect" id="node5" href="class_ontology_1_1_ontology.html#af49e735496a324a580a621944b522d28" title="Give the owl IRI for the value of a data property." alt="" coords="335,59,593,88"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_icgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_icgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_icgraph" id="class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_icgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a05b30edf0ceb3ffae3e28dc9f53c4e8c" title="Update value of a data property." alt="" coords="315,5,597,35"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a7e646f95cb6d1f369c37f642d27dbc6c"></a><!-- doxytag: member="Ontology::Ontology::delObjectPropertyValue" ref="a7e646f95cb6d1f369c37f642d27dbc6c" args="(String instance, String value, String oProp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.delObjectPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>oProp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Delete value of an object property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>name of the entity concerned. </td></tr>
+    <tr><td class="paramname">value</td><td>new value </td></tr>
+    <tr><td class="paramname">oProp</td><td>name of the object property </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c_icgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c_icgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c_icgraph" id="class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c_icgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a0b4bb6f4edb76d65953fed6f32d2df58" title="Update value of an object property." alt="" coords="325,5,619,35"/></map>
 </div>
 </p>
 
@@ -342,6 +620,41 @@ Here is the caller graph for this function:</div>
 
 <p>Simple getter. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>classesClean </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af49e735496a324a580a621944b522d28"></a><!-- doxytag: member="Ontology::Ontology::getDataPropertyType" ref="af49e735496a324a580a621944b522d28" args="(String unit)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">OWLDatatype Ontology.Ontology.getDataPropertyType </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>unit</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Give the owl IRI for the value of a data property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unit</td><td>unit of the value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>IRI of the unit. </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28_icgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28_icgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28_icgraph" id="class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28_icgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a63a9f169a40e2e134e9d1b6ae0c9623e" title="Add a value of a data property." alt="" coords="313,5,577,35"/><area shape="rect" id="node7" href="class_ontology_1_1_ontology.html#a27eb6537f5520169dbcf6a8fd2360b5d" title="Delete value of a data property." alt="" coords="315,59,576,88"/><area shape="rect" id="node5" href="class_ontology_1_1_ontology.html#a05b30edf0ceb3ffae3e28dc9f53c4e8c" title="Update value of a data property." alt="" coords="627,32,909,61"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -810,6 +1123,124 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a05b30edf0ceb3ffae3e28dc9f53c4e8c"></a><!-- doxytag: member="Ontology::Ontology::updateDataPropertyValue" ref="a05b30edf0ceb3ffae3e28dc9f53c4e8c" args="(String instance, String oldValue, String newValue, String dProp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.updateDataPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>oldValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>newValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>dProp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Update value of a data property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>name of the entity concerned.</td></tr>
+    <tr><td class="paramname">oldValue</td><td>old value </td></tr>
+    <tr><td class="paramname">newValue</td><td>new value </td></tr>
+    <tr><td class="paramname">dProp</td><td>name of the data property </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c_cgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c_cgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c_cgraph" id="class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c_cgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a63a9f169a40e2e134e9d1b6ae0c9623e" title="Add a value of a data property." alt="" coords="337,5,601,35"/><area shape="rect" id="node9" href="class_ontology_1_1_ontology.html#a27eb6537f5520169dbcf6a8fd2360b5d" title="Delete value of a data property." alt="" coords="339,59,600,88"/><area shape="rect" id="node5" href="class_ontology_1_1_data_property.html#ae681eb33f0135b022bb3ecd3c3a6ca4f" title="Simple getter." alt="" coords="651,5,949,35"/><area shape="rect" id="node7" href="class_ontology_1_1_ontology.html#af49e735496a324a580a621944b522d28" title="Give the owl IRI for the value of a data property." alt="" coords="671,59,929,88"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a0b4bb6f4edb76d65953fed6f32d2df58"></a><!-- doxytag: member="Ontology::Ontology::updateObjectPropertyValue" ref="a0b4bb6f4edb76d65953fed6f32d2df58" args="(String instance, String oldValue, String newValue, String oProp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ontology.Ontology.updateObjectPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>oldValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>newValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>oProp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Update value of an object property. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>name of the entity concerned.</td></tr>
+    <tr><td class="paramname">oldValue</td><td>old value </td></tr>
+    <tr><td class="paramname">newValue</td><td>new value </td></tr>
+    <tr><td class="paramname">oProp</td><td>name of the object property </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58_cgraph.gif" border="0" usemap="#class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58_cgraph" alt=""/></div>
+<map name="class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58_cgraph" id="class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58_cgraph">
+<area shape="rect" id="node3" href="class_ontology_1_1_ontology.html#a701a9c979927464fc11ad0fa16a547ed" title="Add a value of an object property." alt="" coords="347,5,621,35"/><area shape="rect" id="node5" href="class_ontology_1_1_ontology.html#a7e646f95cb6d1f369c37f642d27dbc6c" title="Delete value of an object property." alt="" coords="349,59,619,88"/></map>
+</div>
+</p>
+
+</div>
+</div>
 <hr/><h2>Member Data Documentation</h2>
 <a class="anchor" id="a0a5224da294ff4af352081031305f799"></a><!-- doxytag: member="Ontology::Ontology::superclasses" ref="a0a5224da294ff4af352081031305f799" args="" -->
 <div class="memitem">
@@ -861,7 +1292,7 @@ Here is the caller graph for this function:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Jul 3 2012 13:52:50 for OWL Generator by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 26 2012 11:46:49 for OWL Generator by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

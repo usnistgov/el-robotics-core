@@ -17,7 +17,7 @@ software
  #include "DAO.h"
 
 PartsBin::PartsBin(std::string name) : BoxyObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }PartsBin::~PartsBin(){
 delete(dao);
@@ -27,9 +27,6 @@ return hasBin_PartQuantity;
 }
 std::string PartsBin::gethasBin_PartSkuRef(){
 return hasBin_PartSkuRef;
-}
-std::string PartsBin::getname(){
-return name;
 }
 int PartsBin::getPartsBinID(){
 return PartsBinID;

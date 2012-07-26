@@ -27,7 +27,6 @@ software
  class LargeContainer;
  class DAO;
 class LargeBoxWithEmptyKitTrays: public SolidObject{private:
-std::string name;
 int LargeBoxWithEmptyKitTraysID;
 DAO* dao;
 LargeContainer* hasLargeBoxWithEmptyKitTrays_LargeContainer;
@@ -39,7 +38,6 @@ LargeBoxWithEmptyKitTrays(std::string name);
  void get(std::string name);
 void set(int id, LargeBoxWithEmptyKitTrays* obj);
 void set(std::string name);
-std::string getname();
 int getLargeBoxWithEmptyKitTraysID();
 DAO* getdao();
 void setdao(DAO* _dao);

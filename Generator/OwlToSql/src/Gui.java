@@ -26,6 +26,7 @@ software
  */
 import Ontology.*;
 import ClassesCPP.*;
+import ExcelImport.*;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -43,6 +44,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Gui extends JFrame {
 
@@ -50,6 +52,7 @@ public class Gui extends JFrame {
 	private JTabbedPane tabbedPane;
 	private JPanel panOtS;
 	private JPanel panStO;
+	private JPanel panXtO;
 	private JPanel panCreate;
 	private JPanel panGenerate;
 	private JPanel panSave;
@@ -61,6 +64,10 @@ public class Gui extends JFrame {
 	private JPanel panDbUser;
 	private JPanel panDbPass;
 	private JPanel panDbName;
+	private JPanel panXOpenOnto;
+	private JPanel panImport;
+	private JPanel panSaveCpp;
+	private JPanel panXOpenXls;
 	private JLabel jlUser;
 	private JLabel jlUrl;
 	private JLabel jlPass;
@@ -69,22 +76,26 @@ public class Gui extends JFrame {
 	private JTextField user;
 	private JPasswordField pass;
 	private JTextField nameDb;
-	private JPanel panSaveCpp;
 	private JTextField path;
 	private JTextField pathSave;
-	private JButton browseCreate;
-	private JButton browseSave;
+	private JTextField pathXls;
+	private JTextField pathXlsOnto;
 	private JTextField pathCpp;
 	private JTextField pathSaveCpp;
+	private JButton browseCreate;
+	private JButton browseSave;
 	private JButton browseCreateCpp;
 	private JButton browseSaveCpp;
 	private JButton generateSql;
 	private JButton generateCpp;
+	private JButton browseXls;
+	private JButton browseXlsOnto;
+	private JButton importTerms;
 
 	/**
-     *  \brief Constructor
-     *  \details Constructor of the Gui class. Build the Frame.
-     */
+	 * \brief Constructor \details Constructor of the Gui class. Build the
+	 * Frame.
+	 */
 	public Gui() {
 		setResizable(false);
 		setTitle("OWL to SQL");
@@ -94,8 +105,12 @@ public class Gui extends JFrame {
 		tabbedPane = new JTabbedPane();
 		panOtS = new JPanel();
 		panStO = new JPanel();
+		panXtO = new JPanel();
 		panOtoCpp = new JPanel();
 		panCreate = new JPanel();
+		panXOpenOnto = new JPanel();
+		panXOpenXls = new JPanel();
+		panImport = new JPanel();
 		panCreateCpp = new JPanel();
 		panGenerate = new JPanel();
 		panGenerateCpp = new JPanel();
@@ -110,6 +125,8 @@ public class Gui extends JFrame {
 		pathSave = new JTextField();
 		pathCpp = new JTextField();
 		pathSaveCpp = new JTextField();
+		pathXls = new JTextField();
+		pathXlsOnto = new JTextField();
 		user = new JTextField();
 		jlUrl = new JLabel("            Host :");
 		url = new JTextField();
@@ -128,7 +145,18 @@ public class Gui extends JFrame {
 		browseSaveCpp = new JButton("Browse");
 		generateSql = new JButton("Generate SQL");
 		generateCpp = new JButton("Generate C++ Classes");
+		importTerms = new JButton("Import terms");
+		browseXls = new JButton("Browse");
+		browseXlsOnto = new JButton("Browse");
 		tabbedPane = new JTabbedPane();
+		panXtO.add(panXOpenOnto);
+		panXtO.add(panXOpenXls);
+		panXtO.add(panImport);
+		panXOpenOnto.add(pathXlsOnto);
+		panXOpenOnto.add(browseXlsOnto);
+		panXOpenXls.add(pathXls);
+		panXOpenXls.add(browseXls);
+		panImport.add(importTerms);
 		panOtS.add(panCreate);
 		panOtS.add(panSave);
 		panOtS.add(panGenerate);
@@ -139,6 +167,8 @@ public class Gui extends JFrame {
 		pathSaveCpp.setColumns(25);
 		panSaveCpp.add(pathSaveCpp);
 		pathCpp.setColumns(25);
+		pathXls.setColumns(25);
+		pathXlsOnto.setColumns(25);
 		panCreateCpp.add(pathCpp);
 		pathSave.setColumns(25);
 		panSave.add(pathSave);
@@ -160,24 +190,31 @@ public class Gui extends JFrame {
 		panDbName.add(jlName);
 		panDbName.add(nameDb);
 		Border borderCreate = BorderFactory.createTitledBorder("Ontology Path");
+		Border borderXls = BorderFactory.createTitledBorder("Excel file Path");
 		Border borderSave = BorderFactory.createTitledBorder("Saves Path");
 		Border borderCreateCpp = BorderFactory
 				.createTitledBorder("Ontology Path");
 		Border borderSaveCpp = BorderFactory.createTitledBorder("Saves Path");
 		Border borderDb = BorderFactory.createTitledBorder("Info DataBase");
+		panXOpenXls.setBorder(borderXls);
 		panCreate.setBorder(borderCreate);
 		panSave.setBorder(borderSave);
 		panCreateCpp.setBorder(borderCreateCpp);
 		panSaveCpp.setBorder(borderSaveCpp);
 		panDb.setBorder(borderDb);
+		panXOpenOnto.setBorder(borderCreate);
 		path.setColumns(25);
 		panCreate.add(path);
 		panCreate.add(browseCreate);
 		panCreateCpp.add(browseCreateCpp);
+
 		path.setEditable(false);
 		pathCpp.setEditable(false);
 		pathSave.setEditable(false);
 		pathSaveCpp.setEditable(false);
+		pathXls.setEditable(false);
+		pathXlsOnto.setEditable(false);
+
 		// Add tab to the main pane
 		tabbedPane.addTab("Owl to SQL", null, panOtS,
 				"Generate your SQL database");
@@ -185,8 +222,11 @@ public class Gui extends JFrame {
 				"Generate your Owl individuals");
 		tabbedPane.addTab("Owl to C++", null, panOtoCpp,
 				"Generate your C++ Classes");
+		tabbedPane.addTab("XLS(X) to OWL", null, panXtO,
+				"Import terms from spreadsheet into your ontology");
+
 		setContentPane(tabbedPane);
-		//2 browse
+		// browse
 		browseSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (arg0.getSource() != browseSave) {
@@ -200,7 +240,8 @@ public class Gui extends JFrame {
 					JFileChooser jfc = new JFileChooser();
 					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						pathSave.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSave.setText(jfc.getSelectedFile()
+								.getAbsolutePath());
 					}
 				}
 			}
@@ -218,27 +259,53 @@ public class Gui extends JFrame {
 					JFileChooser jfc = new JFileChooser();
 					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						pathSave.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSave.setText(jfc.getSelectedFile()
+								.getAbsolutePath());
 					}
 				}
 			}
 		});
-		//2 cpp
+		browseXls.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jfc = new JFileChooser();
+				FileNameExtensionFilter xls = new FileNameExtensionFilter(
+						"Excel file (.xls)", "xls");
+				jfc.addChoosableFileFilter(xls);
+				FileNameExtensionFilter xlsx = new FileNameExtensionFilter(
+						"Excel file (.xlsx)", "xlsx");
+				jfc.addChoosableFileFilter(xlsx);
+				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					pathXls.setText(jfc.getSelectedFile().getAbsolutePath());
+				}
+			}
+		});
+		browseXlsOnto.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jfc = new JFileChooser();
+				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					pathXlsOnto
+							.setText(jfc.getSelectedFile().getAbsolutePath());
+				}
+			}
+		});
+		// 2 cpp
 		browseSaveCpp.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (arg0.getSource() != browseSaveCpp) {
 					JFileChooser jfc = new JFileChooser();
 					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 						pathCpp.setText(jfc.getSelectedFile().getAbsolutePath());
-						pathSaveCpp.setText(pathCpp.getText().substring(0,
-								pathCpp.getText().lastIndexOf(File.separatorChar)));
+						pathSaveCpp.setText(pathCpp.getText().substring(
+								0,
+								pathCpp.getText().lastIndexOf(
+										File.separatorChar)));
 					}
 				} else {
 					JFileChooser jfc = new JFileChooser();
 					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						pathSaveCpp
-								.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSaveCpp.setText(jfc.getSelectedFile()
+								.getAbsolutePath());
 					}
 				}
 			}
@@ -249,15 +316,17 @@ public class Gui extends JFrame {
 					JFileChooser jfc = new JFileChooser();
 					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 						pathCpp.setText(jfc.getSelectedFile().getAbsolutePath());
-						pathSaveCpp.setText(pathCpp.getText().substring(0,
-								pathCpp.getText().lastIndexOf(File.separatorChar)));
+						pathSaveCpp.setText(pathCpp.getText().substring(
+								0,
+								pathCpp.getText().lastIndexOf(
+										File.separatorChar)));
 					}
 				} else {
 					JFileChooser jfc = new JFileChooser();
 					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						pathSaveCpp
-								.setText(jfc.getSelectedFile().getAbsolutePath());
+						pathSaveCpp.setText(jfc.getSelectedFile()
+								.getAbsolutePath());
 					}
 				}
 			}
@@ -317,14 +386,30 @@ public class Gui extends JFrame {
 			}
 
 		});
+		importTerms.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(final java.awt.event.ActionEvent evt) {
+				if (pathXls.getText().endsWith(".xls"))
+					new ReadFileXLS(new File(pathXls.getText()), new Ontology(
+							pathXlsOnto.getText(), pathXls.getText().substring(
+									0,
+									pathXls.getText().lastIndexOf(
+											File.separatorChar))));
+				else if (pathXls.getText().endsWith(".xlsx"))
+					new ReadFileXLSX(new File(pathXls.getText()), new Ontology(
+							pathXlsOnto.getText(), pathXls.getText().substring(
+									0,
+									pathXls.getText().lastIndexOf(
+											File.separatorChar))));
+
+			}
+		});
 		setVisible(true);
 	}
 
 	/**
-     *  \brief Generate the C++ classes
-     *  \details Fill the attributes and unit collections based on the info from our ontology.
-     *  \param o 	Our ontology.
-     */
+	 * \brief Generate the C++ classes \details Fill the attributes and unit
+	 * collections based on the info from our ontology. \param o Our ontology.
+	 */
 	@SuppressWarnings("unchecked")
 	public void generateClasses(Ontology o) {
 		for (int i = 0; i < o.getClassesClean().size(); i++) {
@@ -353,20 +438,14 @@ public class Gui extends JFrame {
 										+ typesGen
 												.getUnit(o
 														.getTables()
-														.unit(
-																o.getDp()
-																		.getDataPropertyRanges()
-																		.get(j)
-																		.get(1)))
+														.unit(o.getDp()
+																.getDataPropertyRanges()
+																.get(j).get(1)))
 										+ ">");
 							else
-								unit.add(typesGen
-										.getUnit(o
-												.getTables()
-												.unit(
-														o.getDp()
-																.getDataPropertyRanges()
-																.get(j).get(1))));
+								unit.add(typesGen.getUnit(o.getTables().unit(
+										o.getDp().getDataPropertyRanges()
+												.get(j).get(1))));
 					}
 				}
 			}
@@ -520,21 +599,19 @@ public class Gui extends JFrame {
 					.get(i),
 					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
-			typesGen.writeClass(typesGen.generateCpp(o.getClassesClean().get(i), o
-					.getSuperClassesClean().get(o.getClassesClean().get(i)),
+			typesGen.writeClass(typesGen.generateCpp(
+					o.getClassesClean().get(i),
+					o.getSuperClassesClean().get(o.getClassesClean().get(i)),
 					attributes, unit), pathSaveCpp.getText() + File.separator);
 
 		}
 	}
 
 	/**
-     *  \brief Generate the DAO files
-     *  \param o 	Our ontology.
-	 *  \param    url 	Host of your DB.
-	 *  \param    user 	User name in the DB.
-	 *  \param    pass 	Password of the user in the DB.
-	 *  \param    nameDb 	DB Schema.
-     */
+	 * \brief Generate the DAO files \param o Our ontology. \param url Host of
+	 * your DB. \param user User name in the DB. \param pass Password of the
+	 * user in the DB. \param nameDb DB Schema.
+	 */
 	private void generateDao(Ontology o, String url, String user, String pass,
 			String nameDb) {
 		DaoGenerator dao = new DaoGenerator(o.getTables().getTables(),
@@ -558,14 +635,15 @@ public class Gui extends JFrame {
 	}
 
 	/**
-     *  \brief Generate the C++ Connection files 
-     */
+	 * \brief Generate the C++ Connection files
+	 */
 	private void generateConnection() {
 		new Connection(pathSaveCpp.getText() + File.separator);
 	}
+
 	/**
-     *  \brief Launcher 
-     */
+	 * \brief Launcher
+	 */
 	public static void main(String[] args) {
 		new Gui();
 	}

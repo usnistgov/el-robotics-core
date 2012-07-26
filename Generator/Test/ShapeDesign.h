@@ -27,7 +27,6 @@ software
  class DAO;
 class ShapeDesign: public DataThing{private:
 std::string hasShapeDesign_Description;
-std::string name;
 int ShapeDesignID;
 DAO* dao;
 std::vector<StockKeepingUnit*> hasSku_Shape;
@@ -40,7 +39,6 @@ void set(int id, ShapeDesign* obj);
 void set(std::string name);
 std::string gethasShapeDesign_Description();
 void sethasShapeDesign_Description(std::string _hasShapeDesign_Description);
-std::string getname();
 int getShapeDesignID();
 DAO* getdao();
 void setdao(DAO* _dao);

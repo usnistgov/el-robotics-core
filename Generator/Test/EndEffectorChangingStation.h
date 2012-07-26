@@ -27,7 +27,6 @@ software
  class DAO;
  class EndEffectorHolder;
 class EndEffectorChangingStation: public SolidObject{private:
-std::string name;
 int EndEffectorChangingStationID;
 DAO* dao;
 std::vector<EndEffectorHolder*> hadByEndEffectorHolder_ChangingStation;
@@ -39,7 +38,6 @@ EndEffectorChangingStation(std::string name);
  void get(std::string name);
 void set(int id, EndEffectorChangingStation* obj);
 void set(std::string name);
-std::string getname();
 int getEndEffectorChangingStationID();
 DAO* getdao();
 void setdao(DAO* _dao);

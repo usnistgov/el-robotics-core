@@ -19,7 +19,7 @@ software
  #include "EndEffectorHolder.h"
 
 EndEffectorChangingStation::EndEffectorChangingStation(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasWorkstation_ChangingStation = NULL;
 
 }EndEffectorChangingStation::~EndEffectorChangingStation(){
@@ -27,9 +27,6 @@ delete(dao);
 delete(hasWorkstation_ChangingStation);
 for(std::size_t i = 0; i < hadByEndEffectorHolder_ChangingStation.size(); i++)
 delete(hadByEndEffectorHolder_ChangingStation[i]);
-}
-std::string EndEffectorChangingStation::getname(){
-return name;
 }
 int EndEffectorChangingStation::getEndEffectorChangingStationID(){
 return EndEffectorChangingStationID;

@@ -20,7 +20,7 @@ software
  #include "Part.h"
 
 Kit::Kit(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadByKit_LargeBoxWithKits = NULL;
 hasKit_Tray = NULL;
 
@@ -36,9 +36,6 @@ return hasKit_DesignRef;
 }
 bool Kit::getisKit_Finished(){
 return isKit_Finished;
-}
-std::string Kit::getname(){
-return name;
 }
 int Kit::getKitID(){
 return KitID;

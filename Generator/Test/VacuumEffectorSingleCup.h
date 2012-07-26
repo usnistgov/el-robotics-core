@@ -25,7 +25,6 @@ software
 #include "VacuumEffector.h"
  class DAO;
 class VacuumEffectorSingleCup: public VacuumEffector{private:
-std::string name;
 int VacuumEffectorSingleCupID;
 DAO* dao;
 public:
@@ -35,7 +34,6 @@ VacuumEffectorSingleCup(std::string name);
  void get(std::string name);
 void set(int id, VacuumEffectorSingleCup* obj);
 void set(std::string name);
-std::string getname();
 int getVacuumEffectorSingleCupID();
 DAO* getdao();
 void setdao(DAO* _dao);

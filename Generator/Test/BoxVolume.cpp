@@ -20,7 +20,7 @@ software
  #include "Point.h"
 
 BoxVolume::BoxVolume(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasBoxVolume_MaximumPoint = NULL;
 hasBoxVolume_MinimumPoint = NULL;
 
@@ -32,9 +32,6 @@ for(std::size_t i = 0; i < hasWorkstation_OtherObstacles.size(); i++)
 delete(hasWorkstation_OtherObstacles[i]);
 for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++)
 delete(hasRobot_WorkVolume[i]);
-}
-std::string BoxVolume::getname(){
-return name;
 }
 int BoxVolume::getBoxVolumeID(){
 return BoxVolumeID;

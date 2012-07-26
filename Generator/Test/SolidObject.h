@@ -26,13 +26,14 @@ software
  class DAO;
  class WorkTable;
 class SolidObject{private:
-std::string name;
 int SolidObjectID;
 DAO* dao;
 std::vector<PhysicalLocation*> hasSolidObject_SecondaryLocation;
 PhysicalLocation* hasSolidObject_PrimaryLocation;
 WorkTable* hadBySolidObject_WorkTable;
 std::vector<PhysicalLocation*> hasPhysicalLocation_RefObject;
+protected :
+ std::string name;
 public:
 SolidObject(std::string name);
 ~SolidObject();

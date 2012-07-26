@@ -18,7 +18,7 @@ software
  #include "DAO.h"
 
 PhysicalLocation::PhysicalLocation(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasPhysicalLocation_RefObject = NULL;
 
 }PhysicalLocation::~PhysicalLocation(){
@@ -28,9 +28,6 @@ for(std::size_t i = 0; i < hasSolidObject_SecondaryLocation.size(); i++)
 delete(hasSolidObject_SecondaryLocation[i]);
 for(std::size_t i = 0; i < hasSolidObject_PrimaryLocation.size(); i++)
 delete(hasSolidObject_PrimaryLocation[i]);
-}
-std::string PhysicalLocation::getname(){
-return name;
 }
 int PhysicalLocation::getPhysicalLocationID(){
 return PhysicalLocationID;

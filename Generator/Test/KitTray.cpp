@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 KitTray::KitTray(std::string name) : BoxyObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasKit_Tray = NULL;
 hadByKitTray_LargeBoxWithEmptyKitTrays = NULL;
 
@@ -33,9 +33,6 @@ return hasKitTray_SkuRef;
 }
 std::string KitTray::gethasKitTray_SerialNumber(){
 return hasKitTray_SerialNumber;
-}
-std::string KitTray::getname(){
-return name;
 }
 int KitTray::getKitTrayID(){
 return KitTrayID;

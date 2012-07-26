@@ -17,13 +17,10 @@ software
  #include "DAO.h"
 
 PoseLocationOn::PoseLocationOn(std::string name) : PoseLocation(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }PoseLocationOn::~PoseLocationOn(){
 delete(dao);
-}
-std::string PoseLocationOn::getname(){
-return name;
 }
 int PoseLocationOn::getPoseLocationOnID(){
 return PoseLocationOnID;

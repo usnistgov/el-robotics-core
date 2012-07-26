@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 LargeContainer::LargeContainer(std::string name) : BoxyObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasLargeBoxWithKits_LargeContainer = NULL;
 hasLargeBoxWithEmptyKitTrays_LargeContainer = NULL;
 
@@ -33,9 +33,6 @@ return hasLargeContainer_SkuRef;
 }
 std::string LargeContainer::gethasLargeContainer_SerialNumber(){
 return hasLargeContainer_SerialNumber;
-}
-std::string LargeContainer::getname(){
-return name;
 }
 int LargeContainer::getLargeContainerID(){
 return LargeContainerID;

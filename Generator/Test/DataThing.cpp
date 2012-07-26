@@ -22,14 +22,14 @@ this->name=name;dao = NULL;
 }DataThing::~DataThing(){
 delete(dao);
 }
-std::string DataThing::getname(){
-return name;
-}
 int DataThing::getDataThingID(){
 return DataThingID;
 }
 DAO* DataThing::getdao(){
 return dao;
+}
+std::string DataThing::getname(){
+return name;
 }
 void DataThing::setdao(DAO* _dao){
 this->dao= _dao;

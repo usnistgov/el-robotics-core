@@ -26,7 +26,6 @@ software
  class SolidObject;
  class DAO;
 class PhysicalLocation: public DataThing{private:
-std::string name;
 int PhysicalLocationID;
 DAO* dao;
 SolidObject* hasPhysicalLocation_RefObject;
@@ -39,7 +38,6 @@ PhysicalLocation(std::string name);
  void get(std::string name);
 void set(int id, PhysicalLocation* obj);
 void set(std::string name);
-std::string getname();
 int getPhysicalLocationID();
 DAO* getdao();
 void setdao(DAO* _dao);

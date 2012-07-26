@@ -18,7 +18,7 @@ software
  #include "DAO.h"
 
 PartsTray::PartsTray(std::string name) : BoxyObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasPartsTrayWithParts_Tray = NULL;
 
 }PartsTray::~PartsTray(){
@@ -30,9 +30,6 @@ return hasPartsTray_SkuRef;
 }
 std::string PartsTray::gethasPartsTray_SerialNumber(){
 return hasPartsTray_SerialNumber;
-}
-std::string PartsTray::getname(){
-return name;
 }
 int PartsTray::getPartsTrayID(){
 return PartsTrayID;

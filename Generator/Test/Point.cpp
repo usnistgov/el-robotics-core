@@ -20,7 +20,7 @@ software
  #include "PoseLocation.h"
 
 Point::Point(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }Point::~Point(){
 delete(dao);
@@ -41,9 +41,6 @@ return hasPoint_Y;
 }
 double Point::gethasPoint_Z(){
 return hasPoint_Z;
-}
-std::string Point::getname(){
-return name;
 }
 int Point::getPointID(){
 return PointID;

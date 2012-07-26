@@ -19,7 +19,7 @@ software
  #include "PartRefAndPose.h"
 
 KitDesign::KitDesign(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadByKitDesign_Workstation = NULL;
 
 }KitDesign::~KitDesign(){
@@ -33,9 +33,6 @@ return hasKitDesign_Id;
 }
 std::string KitDesign::gethasKitDesign_KitTraySkuRef(){
 return hasKitDesign_KitTraySkuRef;
-}
-std::string KitDesign::getname(){
-return name;
 }
 int KitDesign::getKitDesignID(){
 return KitDesignID;

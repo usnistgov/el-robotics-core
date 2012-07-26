@@ -17,13 +17,10 @@ software
  #include "DAO.h"
 
 RelativeLocationIn::RelativeLocationIn(std::string name) : RelativeLocation(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }RelativeLocationIn::~RelativeLocationIn(){
 delete(dao);
-}
-std::string RelativeLocationIn::getname(){
-return name;
 }
 int RelativeLocationIn::getRelativeLocationInID(){
 return RelativeLocationInID;

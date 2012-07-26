@@ -30,7 +30,6 @@ software
 class Kit: public SolidObject{private:
 std::string hasKit_DesignRef;
 bool isKit_Finished;
-std::string name;
 int KitID;
 DAO* dao;
 LargeBoxWithKits* hadByKit_LargeBoxWithKits;
@@ -47,7 +46,6 @@ std::string gethasKit_DesignRef();
 void sethasKit_DesignRef(std::string _hasKit_DesignRef);
 bool getisKit_Finished();
 void setisKit_Finished(bool _isKit_Finished);
-std::string getname();
 int getKitID();
 DAO* getdao();
 void setdao(DAO* _dao);

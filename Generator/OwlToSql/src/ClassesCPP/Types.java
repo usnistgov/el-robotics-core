@@ -36,23 +36,19 @@ import java.util.Set;
 public class Types extends ClassGenerator {
 
 	/**
-     *  \brief Constructor
-     *  \details Constructor of the Types class.
-     *  \param className 	Name of the class.
-     */
+	 * \brief Constructor \details Constructor of the Types class. \param
+	 * className Name of the class.
+	 */
 	public Types(String className) {
 		this.className = className;
 		fillUnit();
 	}
 
-	
 	/**
-	 * \brief      Generate the header file for a given type
-	 * \param    className         Name of the class.
-	 * \param    classParentName   List of the super classes.
-	 * \param    attributes		   List of the attributes.
-	 * \param    unit		   List of the units of the attributes.
-	 * \return   A String with the whole header
+	 * \brief Generate the header file for a given type \param className Name of
+	 * the class. \param classParentName List of the super classes. \param
+	 * attributes List of the attributes. \param unit List of the units of the
+	 * attributes. \return A String with the whole header
 	 */
 	public String generateHeader(String className,
 			ArrayList<String> classParentName, ArrayList<String> attributes,
@@ -130,14 +126,18 @@ public class Types extends ClassGenerator {
 		String priv = "private:\n";
 		String paramConstruct = "";
 		for (int i = 0; i < attributes.size(); i++) {
-			priv = priv + unit.get(i) + " " + attributes.get(i) + ";\n";
-			if (i < attributes.size() - 1)
-				paramConstruct = paramConstruct + unit.get(i) + " "
-						+ attributes.get(i) + ",";
-			else
-				paramConstruct = paramConstruct + unit.get(i) + " "
-						+ attributes.get(i);
+			if (!attributes.get(i).equals("name")) {
+				priv = priv + unit.get(i) + " " + attributes.get(i) + ";\n";
+				if (i < attributes.size() - 1)
+					paramConstruct = paramConstruct + unit.get(i) + " "
+							+ attributes.get(i) + ",";
+				else
+					paramConstruct = paramConstruct + unit.get(i) + " "
+							+ attributes.get(i);
+			}
 		}
+		if (classParentName == null)
+			priv = priv + "protected :\n std::string name;\n";
 		String pub = "public:";
 		pub = pub + "\n" + className + "(std::string name);";
 		pub = pub + "\n~" + className + "();";
@@ -145,17 +145,23 @@ public class Types extends ClassGenerator {
 		pub = pub + "\n void get(std::string name);";
 		pub = pub + "\nvoid set(int id, " + className + "* obj);";
 		pub = pub + "\nvoid set(std::string name);";
+
+		if (classParentName == null)
+			pub = pub + "\nstd::string getname();";
+
 		for (int i = 0; i < attributes.size(); i++) {
-			if (unit.get(i).contains("vector"))
-				pub = pub + "\n" + unit.get(i) + "* get" + attributes.get(i)
-						+ "();";
-			else
-				pub = pub + "\n" + unit.get(i) + " get" + attributes.get(i)
-						+ "();";
-			if (!attributes.get(i).equals(className + "ID")
-					&& !attributes.get(i).equals("name"))
-				pub = pub + "\nvoid set" + attributes.get(i) + "("
-						+ unit.get(i) + " _" + attributes.get(i) + ");";
+			if (!attributes.get(i).equals("name")) {
+				if (unit.get(i).contains("vector"))
+					pub = pub + "\n" + unit.get(i) + "* get"
+							+ attributes.get(i) + "();";
+				else
+					pub = pub + "\n" + unit.get(i) + " get" + attributes.get(i)
+							+ "();";
+				if (!attributes.get(i).equals(className + "ID")
+						&& !attributes.get(i).equals("name"))
+					pub = pub + "\nvoid set" + attributes.get(i) + "("
+							+ unit.get(i) + " _" + attributes.get(i) + ");";
+			}
 		}
 		pub = pub + "\nvoid copy(std::map<std::string,std::string> object);";
 		pub = pub
@@ -177,15 +183,14 @@ public class Types extends ClassGenerator {
 	}
 
 	/**
-	 * \brief      Generate the C++ file for a given type
-	 * \param    className         Name of the class.
-	 * \param    classParentName   List of the super classes.
-	 * \param    attributes		   List of the attributes.
-	 * \param    unit			   List of the units of the attributes.
-	 * \return   A String with the whole C++ file
+	 * \brief Generate the C++ file for a given type \param className Name of
+	 * the class. \param classParentName List of the super classes. \param
+	 * attributes List of the attributes. \param unit List of the units of the
+	 * attributes. \return A String with the whole C++ file
 	 */
-	public String generateCpp(String className, ArrayList<String> classParentName,
-			ArrayList<String> attributes, ArrayList<String> unit) {
+	public String generateCpp(String className,
+			ArrayList<String> classParentName, ArrayList<String> attributes,
+			ArrayList<String> unit) {
 		String result = "";
 		result = result
 				+ "/*****************************************************************************\n";
@@ -251,7 +256,11 @@ public class Types extends ClassGenerator {
 
 			}
 
-		paramConstruct = paramConstruct + "{\nthis->name=name;";
+		if (classParentName == null)
+			paramConstruct = paramConstruct + "{\nthis->name=name;";
+		else
+			paramConstruct = paramConstruct + "{\n";
+
 		String destructor = className + "::~" + className + "(){\n";
 		for (int i = 0; i < unit.size(); i++) {
 			if (unit.get(i).contains("*") && !unit.get(i).contains("std::")) {
@@ -282,23 +291,29 @@ public class Types extends ClassGenerator {
 		String set = "";
 
 		for (int i = 0; i < attributes.size(); i++) {
-			if (unit.get(i).contains("vector")) {
-				get = get + unit.get(i) + "* " + className + "::get"
-						+ attributes.get(i) + "(){\n";
-				get = get + "return &" + attributes.get(i) + ";\n}\n";
-			} else {
-				get = get + unit.get(i) + " " + className + "::get"
-						+ attributes.get(i) + "(){\n";
-				get = get + "return " + attributes.get(i) + ";\n}\n";
-			}
-			if (!attributes.get(i).equals(className + "ID")
-					&& !attributes.get(i).equals("name")) {
-				set = set + "void " + className + "::set" + attributes.get(i)
-						+ "(" + unit.get(i) + " _" + attributes.get(i) + "){\n";
+			if (!attributes.get(i).equals("name")) {
+				if (unit.get(i).contains("vector")) {
+					get = get + unit.get(i) + "* " + className + "::get"
+							+ attributes.get(i) + "(){\n";
+					get = get + "return &" + attributes.get(i) + ";\n}\n";
+				} else {
+					get = get + unit.get(i) + " " + className + "::get"
+							+ attributes.get(i) + "(){\n";
+					get = get + "return " + attributes.get(i) + ";\n}\n";
+				}
+				if (!attributes.get(i).equals(className + "ID")) {
+					set = set + "void " + className + "::set"
+							+ attributes.get(i) + "(" + unit.get(i) + " _"
+							+ attributes.get(i) + "){\n";
 
-				set = set + "this->" + attributes.get(i) + "= _"
-						+ attributes.get(i) + ";\n}\n";
+					set = set + "this->" + attributes.get(i) + "= _"
+							+ attributes.get(i) + ";\n}\n";
+				}
 			}
+		}
+		if (classParentName == null){
+			get = get + "std::string " + className + "::getname" + "(){\n";
+			get = get + "return name;\n}\n";
 		}
 		String globalGet = "void " + className + "::get(std::string name){\n";
 		globalGet = globalGet + "std::map<std::string,std::string> temp;\n";

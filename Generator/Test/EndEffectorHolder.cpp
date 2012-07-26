@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 EndEffectorHolder::EndEffectorHolder(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadByEndEffectorHolder_ChangingStation = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
 
@@ -27,9 +27,6 @@ hasEndEffectorHolder_EndEffector = NULL;
 delete(dao);
 delete(hadByEndEffectorHolder_ChangingStation);
 delete(hasEndEffectorHolder_EndEffector);
-}
-std::string EndEffectorHolder::getname(){
-return name;
 }
 int EndEffectorHolder::getEndEffectorHolderID(){
 return EndEffectorHolderID;

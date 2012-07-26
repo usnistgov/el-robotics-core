@@ -27,7 +27,6 @@ software
 class VacuumEffectorMultiCup: public VacuumEffector{private:
 std::string hasMultiCup_ArrayNumber;
 double hasMultiCup_ArrayRadius;
-std::string name;
 int VacuumEffectorMultiCupID;
 DAO* dao;
 public:
@@ -41,7 +40,6 @@ std::string gethasMultiCup_ArrayNumber();
 void sethasMultiCup_ArrayNumber(std::string _hasMultiCup_ArrayNumber);
 double gethasMultiCup_ArrayRadius();
 void sethasMultiCup_ArrayRadius(double _hasMultiCup_ArrayRadius);
-std::string getname();
 int getVacuumEffectorMultiCupID();
 DAO* getdao();
 void setdao(DAO* _dao);

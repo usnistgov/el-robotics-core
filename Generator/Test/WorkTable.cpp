@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 WorkTable::WorkTable(std::string name) : BoxyObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasWorkstation_WorkTable = NULL;
 
 }WorkTable::~WorkTable(){
@@ -27,9 +27,6 @@ delete(dao);
 delete(hasWorkstation_WorkTable);
 for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++)
 delete(hadBySolidObject_WorkTable[i]);
-}
-std::string WorkTable::getname(){
-return name;
 }
 int WorkTable::getWorkTableID(){
 return WorkTableID;

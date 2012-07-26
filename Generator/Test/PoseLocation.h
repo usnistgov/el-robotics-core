@@ -27,7 +27,6 @@ software
  class Vector;
  class Point;
 class PoseLocation: public PhysicalLocation{private:
-std::string name;
 int PoseLocationID;
 DAO* dao;
 Point* hasPoseLocation_Point;
@@ -40,7 +39,6 @@ PoseLocation(std::string name);
  void get(std::string name);
 void set(int id, PoseLocation* obj);
 void set(std::string name);
-std::string getname();
 int getPoseLocationID();
 DAO* getdao();
 void setdao(DAO* _dao);

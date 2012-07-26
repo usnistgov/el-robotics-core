@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 LargeBoxWithEmptyKitTrays::LargeBoxWithEmptyKitTrays(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasLargeBoxWithEmptyKitTrays_LargeContainer = NULL;
 
 }LargeBoxWithEmptyKitTrays::~LargeBoxWithEmptyKitTrays(){
@@ -27,9 +27,6 @@ delete(dao);
 delete(hasLargeBoxWithEmptyKitTrays_LargeContainer);
 for(std::size_t i = 0; i < hadByKitTray_LargeBoxWithEmptyKitTrays.size(); i++)
 delete(hadByKitTray_LargeBoxWithEmptyKitTrays[i]);
-}
-std::string LargeBoxWithEmptyKitTrays::getname(){
-return name;
 }
 int LargeBoxWithEmptyKitTrays::getLargeBoxWithEmptyKitTraysID(){
 return LargeBoxWithEmptyKitTraysID;

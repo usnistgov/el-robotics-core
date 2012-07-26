@@ -17,17 +17,15 @@
 #include "BoxVolume.h"
 #include "Point.h"
 #include "EndEffectorChangingStation.h"
-#include "EndEffector.h"
 #include "StockKeepingUnit.h"
 
 int main() {
-	Robot * r = new Robot("robot_1");
-	r->get("robot_1");
-	r->set(r->getname());
-	/*r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
-	 std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
-	 << std::endl;
-
+	Robot * r = new Robot("Robot1");
+	r->get("Robot1");
+	r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
+	std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
+			<< std::endl;
+	/*
 	 r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->get(
 	 r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getname());
 	 std::cout
@@ -50,7 +48,7 @@ int main() {
 }
 DAO::DAO(std::string name) {
 	this->className.push_back(name);
-	connection = new Connection("localhost", "root", "mypassword", "owl2");
+	connection = new Connection("localhost", "root", "mypassword", "owl");
 	this->fillGetSqlQueries();
 }
 std::map<std::string, std::string> DAO::getSqlQueriesDataSingle;
@@ -82,10 +80,10 @@ void DAO::fillGetSqlQueries() {
 			= "SELECT PartRefAndPose.PartRefAndPoseID AS 'PartRefAndPose.PartRefAndPoseID', PartRefAndPose._NAME AS 'PartRefAndPose._NAME', PartRefAndPose.hasPartRefAndPose_Ref AS 'PartRefAndPose.hasPartRefAndPose_Ref' FROM PartRefAndPose, DataThing WHERE  PartRefAndPose.PartRefAndPoseID = ? AND DataThing.DataThingID = PartRefAndPose.PartRefAndPoseID";
 	DAO::getSqlQueriesDataSingle["Part"]
 			= "SELECT Part.PartID AS 'Part.PartID', Part._NAME AS 'Part._NAME', Part.hasPart_SkuRef AS 'Part.hasPart_SkuRef', Part.hasPart_SerialNumber AS 'Part.hasPart_SerialNumber' FROM Part, SolidObject WHERE  Part.PartID = ? AND SolidObject.SolidObjectID = Part.PartID";
-	DAO::getSqlQueriesDataSingle["Point"]
-			= "SELECT Point.PointID AS 'Point.PointID', Point._NAME AS 'Point._NAME', Point.hasPoint_X AS 'Point.hasPoint_X', Point.hasPoint_Y AS 'Point.hasPoint_Y', Point.hasPoint_Z AS 'Point.hasPoint_Z' FROM Point, DataThing WHERE  Point.PointID = ? AND DataThing.DataThingID = Point.PointID";
 	DAO::getSqlQueriesDataSingle["BoxVolume"]
 			= "SELECT BoxVolume.BoxVolumeID AS 'BoxVolume.BoxVolumeID', BoxVolume._NAME AS 'BoxVolume._NAME' FROM BoxVolume, DataThing WHERE  BoxVolume.BoxVolumeID = ? AND DataThing.DataThingID = BoxVolume.BoxVolumeID";
+	DAO::getSqlQueriesDataSingle["Point"]
+			= "SELECT Point.PointID AS 'Point.PointID', Point._NAME AS 'Point._NAME', Point.hasPoint_X AS 'Point.hasPoint_X', Point.hasPoint_Y AS 'Point.hasPoint_Y', Point.hasPoint_Z AS 'Point.hasPoint_Z' FROM Point, DataThing WHERE  Point.PointID = ? AND DataThing.DataThingID = Point.PointID";
 	DAO::getSqlQueriesDataSingle["EndEffectorHolder"]
 			= "SELECT EndEffectorHolder.EndEffectorHolderID AS 'EndEffectorHolder.EndEffectorHolderID', EndEffectorHolder._NAME AS 'EndEffectorHolder._NAME' FROM EndEffectorHolder, SolidObject WHERE  EndEffectorHolder.EndEffectorHolderID = ? AND SolidObject.SolidObjectID = EndEffectorHolder.EndEffectorHolderID";
 	DAO::getSqlQueriesDataSingle["VacuumEffectorSingleCup"]
@@ -108,16 +106,16 @@ void DAO::fillGetSqlQueries() {
 			= "SELECT PoseLocationIn.PoseLocationInID AS 'PoseLocationIn.PoseLocationInID', PoseLocationIn._NAME AS 'PoseLocationIn._NAME' FROM PoseLocationIn, PoseLocation, PhysicalLocation, DataThing WHERE  PoseLocationIn.PoseLocationInID = ? AND PoseLocation.PoseLocationID = PoseLocationIn.PoseLocationInID AND PhysicalLocation.PhysicalLocationID = PoseLocationIn.PoseLocationInID AND DataThing.DataThingID = PoseLocationIn.PoseLocationInID";
 	DAO::getSqlQueriesDataSingle["WorkTable"]
 			= "SELECT WorkTable.WorkTableID AS 'WorkTable.WorkTableID', WorkTable._NAME AS 'WorkTable._NAME', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM WorkTable, BoxyObject, SolidObject WHERE  WorkTable.WorkTableID = ? AND BoxyObject.BoxyObjectID = WorkTable.WorkTableID AND SolidObject.SolidObjectID = WorkTable.WorkTableID";
-	DAO::getSqlQueriesDataSingle["LargeBoxWithEmptyKitTrays"]
-			= "SELECT LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID AS 'LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID', LargeBoxWithEmptyKitTrays._NAME AS 'LargeBoxWithEmptyKitTrays._NAME' FROM LargeBoxWithEmptyKitTrays, SolidObject WHERE  LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID = ? AND SolidObject.SolidObjectID = LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID";
 	DAO::getSqlQueriesDataSingle["EndEffectorChangingStation"]
 			= "SELECT EndEffectorChangingStation.EndEffectorChangingStationID AS 'EndEffectorChangingStation.EndEffectorChangingStationID', EndEffectorChangingStation._NAME AS 'EndEffectorChangingStation._NAME' FROM EndEffectorChangingStation, SolidObject WHERE  EndEffectorChangingStation.EndEffectorChangingStationID = ? AND SolidObject.SolidObjectID = EndEffectorChangingStation.EndEffectorChangingStationID";
+	DAO::getSqlQueriesDataSingle["LargeBoxWithEmptyKitTrays"]
+			= "SELECT LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID AS 'LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID', LargeBoxWithEmptyKitTrays._NAME AS 'LargeBoxWithEmptyKitTrays._NAME' FROM LargeBoxWithEmptyKitTrays, SolidObject WHERE  LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID = ? AND SolidObject.SolidObjectID = LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID";
 	DAO::getSqlQueriesDataSingle["PartsTray"]
 			= "SELECT PartsTray.PartsTrayID AS 'PartsTray.PartsTrayID', PartsTray._NAME AS 'PartsTray._NAME', PartsTray.hasPartsTray_SkuRef AS 'PartsTray.hasPartsTray_SkuRef', PartsTray.hasPartsTray_SerialNumber AS 'PartsTray.hasPartsTray_SerialNumber', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM PartsTray, BoxyObject, SolidObject WHERE  PartsTray.PartsTrayID = ? AND BoxyObject.BoxyObjectID = PartsTray.PartsTrayID AND SolidObject.SolidObjectID = PartsTray.PartsTrayID";
 	DAO::getSqlQueriesDataSingle["DataThing"]
 			= "SELECT DataThing.DataThingID AS 'DataThing.DataThingID', DataThing._NAME AS 'DataThing._NAME' FROM DataThing WHERE  DataThing.DataThingID = ?";
 	DAO::getSqlQueriesDataSingle["KittingWorkstation"]
-			= "SELECT KittingWorkstation.KittingWorkstationID AS 'KittingWorkstation.KittingWorkstationID', KittingWorkstation._NAME AS 'KittingWorkstation._NAME', KittingWorkstation.hasWorkstation_LengthUnit AS 'KittingWorkstation.hasWorkstation_LengthUnit', KittingWorkstation.hasWorkstation_WeightUnit AS 'KittingWorkstation.hasWorkstation_WeightUnit', KittingWorkstation.hasWorkstation_AngleUnit AS 'KittingWorkstation.hasWorkstation_AngleUnit' FROM KittingWorkstation, SolidObject WHERE  KittingWorkstation.KittingWorkstationID = ? AND SolidObject.SolidObjectID = KittingWorkstation.KittingWorkstationID";
+			= "SELECT KittingWorkstation.KittingWorkstationID AS 'KittingWorkstation.KittingWorkstationID', KittingWorkstation._NAME AS 'KittingWorkstation._NAME', KittingWorkstation.hasWorkstation_LengthUnit AS 'KittingWorkstation.hasWorkstation_LengthUnit', KittingWorkstation.hasWorkstation_AngleUnit AS 'KittingWorkstation.hasWorkstation_AngleUnit', KittingWorkstation.hasWorkstation_WeightUnit AS 'KittingWorkstation.hasWorkstation_WeightUnit' FROM KittingWorkstation, SolidObject WHERE  KittingWorkstation.KittingWorkstationID = ? AND SolidObject.SolidObjectID = KittingWorkstation.KittingWorkstationID";
 	DAO::getSqlQueriesDataSingle["KitTray"]
 			= "SELECT KitTray.KitTrayID AS 'KitTray.KitTrayID', KitTray._NAME AS 'KitTray._NAME', KitTray.hasKitTray_SkuRef AS 'KitTray.hasKitTray_SkuRef', KitTray.hasKitTray_SerialNumber AS 'KitTray.hasKitTray_SerialNumber', BoxyObject.hasBox_Height AS 'BoxyObject.hasBox_Height', BoxyObject.hasBox_Width AS 'BoxyObject.hasBox_Width', BoxyObject.hasBox_Length AS 'BoxyObject.hasBox_Length' FROM KitTray, BoxyObject, SolidObject WHERE  KitTray.KitTrayID = ? AND BoxyObject.BoxyObjectID = KitTray.KitTrayID AND SolidObject.SolidObjectID = KitTray.KitTrayID";
 	DAO::getSqlQueriesDataSingle["RelativeLocationOn"]

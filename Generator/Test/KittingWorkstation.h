@@ -32,9 +32,8 @@ software
  class WorkTable;
 class KittingWorkstation: public SolidObject{private:
 std::string hasWorkstation_LengthUnit;
-std::string hasWorkstation_WeightUnit;
 std::string hasWorkstation_AngleUnit;
-std::string name;
+std::string hasWorkstation_WeightUnit;
 int KittingWorkstationID;
 DAO* dao;
 std::vector<KitDesign*> hadByKitDesign_Workstation;
@@ -52,11 +51,10 @@ void set(int id, KittingWorkstation* obj);
 void set(std::string name);
 std::string gethasWorkstation_LengthUnit();
 void sethasWorkstation_LengthUnit(std::string _hasWorkstation_LengthUnit);
-std::string gethasWorkstation_WeightUnit();
-void sethasWorkstation_WeightUnit(std::string _hasWorkstation_WeightUnit);
 std::string gethasWorkstation_AngleUnit();
 void sethasWorkstation_AngleUnit(std::string _hasWorkstation_AngleUnit);
-std::string getname();
+std::string gethasWorkstation_WeightUnit();
+void sethasWorkstation_WeightUnit(std::string _hasWorkstation_WeightUnit);
 int getKittingWorkstationID();
 DAO* getdao();
 void setdao(DAO* _dao);

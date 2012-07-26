@@ -28,7 +28,6 @@ software
 class PartsTray: public BoxyObject{private:
 std::string hasPartsTray_SkuRef;
 std::string hasPartsTray_SerialNumber;
-std::string name;
 int PartsTrayID;
 DAO* dao;
 PartsTrayWithParts* hasPartsTrayWithParts_Tray;
@@ -43,7 +42,6 @@ std::string gethasPartsTray_SkuRef();
 void sethasPartsTray_SkuRef(std::string _hasPartsTray_SkuRef);
 std::string gethasPartsTray_SerialNumber();
 void sethasPartsTray_SerialNumber(std::string _hasPartsTray_SerialNumber);
-std::string getname();
 int getPartsTrayID();
 DAO* getdao();
 void setdao(DAO* _dao);

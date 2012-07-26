@@ -29,7 +29,6 @@ software
 class LargeBoxWithKits: public SolidObject{private:
 std::string hasLargeBoxWithKits_Capacity;
 std::string hasLargeBoxWithKits_KitDesignRef;
-std::string name;
 int LargeBoxWithKitsID;
 DAO* dao;
 LargeContainer* hasLargeBoxWithKits_LargeContainer;
@@ -45,7 +44,6 @@ std::string gethasLargeBoxWithKits_Capacity();
 void sethasLargeBoxWithKits_Capacity(std::string _hasLargeBoxWithKits_Capacity);
 std::string gethasLargeBoxWithKits_KitDesignRef();
 void sethasLargeBoxWithKits_KitDesignRef(std::string _hasLargeBoxWithKits_KitDesignRef);
-std::string getname();
 int getLargeBoxWithKitsID();
 DAO* getdao();
 void setdao(DAO* _dao);

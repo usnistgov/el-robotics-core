@@ -1139,8 +1139,8 @@ INSERT INTO SolidObject
 VALUES('kitting_workstation_1', NULL);
 
 INSERT INTO KittingWorkstation
-(KittingWorkstationID, _NAME, hasWorkstation_LengthUnit, hasWorkstation_WeightUnit, hasWorkstation_AngleUnit, hasWorkstation_ChangingStation, hasWorkstation_WorkTable, hasWorkstation_Robot)
-VALUES(17, 'kitting_workstation_1', 'meter', 'kilogram', 'degree', NULL, NULL, NULL);
+(KittingWorkstationID, _NAME, hasWorkstation_LengthUnit, hasWorkstation_AngleUnit, hasWorkstation_WeightUnit, hasWorkstation_ChangingStation, hasWorkstation_WorkTable, hasWorkstation_Robot)
+VALUES(17, 'kitting_workstation_1', 'meter', 'degree', 'kilogram', NULL, NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)

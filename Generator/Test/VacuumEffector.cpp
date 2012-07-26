@@ -17,7 +17,7 @@ software
  #include "DAO.h"
 
 VacuumEffector::VacuumEffector(std::string name) : EndEffector(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }VacuumEffector::~VacuumEffector(){
 delete(dao);
@@ -27,9 +27,6 @@ return hasVacuumEffector_CupDiameter;
 }
 double VacuumEffector::gethasVacuumEffector_Length(){
 return hasVacuumEffector_Length;
-}
-std::string VacuumEffector::getname(){
-return name;
 }
 int VacuumEffector::getVacuumEffectorID(){
 return VacuumEffectorID;

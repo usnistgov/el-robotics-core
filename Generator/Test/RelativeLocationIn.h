@@ -25,7 +25,6 @@ software
 #include "RelativeLocation.h"
  class DAO;
 class RelativeLocationIn: public RelativeLocation{private:
-std::string name;
 int RelativeLocationInID;
 DAO* dao;
 public:
@@ -35,7 +34,6 @@ RelativeLocationIn(std::string name);
  void get(std::string name);
 void set(int id, RelativeLocationIn* obj);
 void set(std::string name);
-std::string getname();
 int getRelativeLocationInID();
 DAO* getdao();
 void setdao(DAO* _dao);

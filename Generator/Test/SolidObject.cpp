@@ -32,9 +32,6 @@ delete(hasSolidObject_SecondaryLocation[i]);
 for(std::size_t i = 0; i < hasPhysicalLocation_RefObject.size(); i++)
 delete(hasPhysicalLocation_RefObject[i]);
 }
-std::string SolidObject::getname(){
-return name;
-}
 int SolidObject::getSolidObjectID(){
 return SolidObjectID;
 }
@@ -52,6 +49,9 @@ return hadBySolidObject_WorkTable;
 }
 std::vector<PhysicalLocation*>* SolidObject::gethasPhysicalLocation_RefObject(){
 return &hasPhysicalLocation_RefObject;
+}
+std::string SolidObject::getname(){
+return name;
 }
 void SolidObject::setdao(DAO* _dao){
 this->dao= _dao;

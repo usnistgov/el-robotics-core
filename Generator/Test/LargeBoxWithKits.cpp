@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 LargeBoxWithKits::LargeBoxWithKits(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasLargeBoxWithKits_LargeContainer = NULL;
 
 }LargeBoxWithKits::~LargeBoxWithKits(){
@@ -33,9 +33,6 @@ return hasLargeBoxWithKits_Capacity;
 }
 std::string LargeBoxWithKits::gethasLargeBoxWithKits_KitDesignRef(){
 return hasLargeBoxWithKits_KitDesignRef;
-}
-std::string LargeBoxWithKits::getname(){
-return name;
 }
 int LargeBoxWithKits::getLargeBoxWithKitsID(){
 return LargeBoxWithKitsID;

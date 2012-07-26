@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 StockKeepingUnit::StockKeepingUnit(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadBySku_Workstation = NULL;
 hasSku_Shape = NULL;
 
@@ -39,9 +39,6 @@ return hasSku_Id;
 }
 double StockKeepingUnit::gethasSku_Weight(){
 return hasSku_Weight;
-}
-std::string StockKeepingUnit::getname(){
-return name;
 }
 int StockKeepingUnit::getStockKeepingUnitID(){
 return StockKeepingUnitID;

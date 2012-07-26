@@ -17,7 +17,7 @@ software
  #include "DAO.h"
 
 VacuumEffectorMultiCup::VacuumEffectorMultiCup(std::string name) : VacuumEffector(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }VacuumEffectorMultiCup::~VacuumEffectorMultiCup(){
 delete(dao);
@@ -27,9 +27,6 @@ return hasMultiCup_ArrayNumber;
 }
 double VacuumEffectorMultiCup::gethasMultiCup_ArrayRadius(){
 return hasMultiCup_ArrayRadius;
-}
-std::string VacuumEffectorMultiCup::getname(){
-return name;
 }
 int VacuumEffectorMultiCup::getVacuumEffectorMultiCupID(){
 return VacuumEffectorMultiCupID;

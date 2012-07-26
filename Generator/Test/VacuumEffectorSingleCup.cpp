@@ -17,13 +17,10 @@ software
  #include "DAO.h"
 
 VacuumEffectorSingleCup::VacuumEffectorSingleCup(std::string name) : VacuumEffector(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }VacuumEffectorSingleCup::~VacuumEffectorSingleCup(){
 delete(dao);
-}
-std::string VacuumEffectorSingleCup::getname(){
-return name;
 }
 int VacuumEffectorSingleCup::getVacuumEffectorSingleCupID(){
 return VacuumEffectorSingleCupID;

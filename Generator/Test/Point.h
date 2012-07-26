@@ -31,7 +31,6 @@ class Point: public DataThing{private:
 double hasPoint_X;
 double hasPoint_Y;
 double hasPoint_Z;
-std::string name;
 int PointID;
 DAO* dao;
 std::vector<PartRefAndPose*> hasPartRefAndPose_Point;
@@ -51,7 +50,6 @@ double gethasPoint_Y();
 void sethasPoint_Y(double _hasPoint_Y);
 double gethasPoint_Z();
 void sethasPoint_Z(double _hasPoint_Z);
-std::string getname();
 int getPointID();
 DAO* getdao();
 void setdao(DAO* _dao);

@@ -26,6 +26,22 @@ void \hyperlink{class_ontology_1_1_ontology_acfa7d8a40bd1dc8e06abfa55b19ac993}{l
 \label{class_ontology_1_1_ontology_acfa7d8a40bd1dc8e06abfa55b19ac993}
 
 \begin{DoxyCompactList}\small\item\em Load the ontology from a file. \end{DoxyCompactList}\item 
+OWLDatatype \hyperlink{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28}{getDataPropertyType} (String unit)
+\begin{DoxyCompactList}\small\item\em Give the owl IRI for the value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58}{updateObjectPropertyValue} (String instance, String oldValue, String newValue, String oProp)
+\begin{DoxyCompactList}\small\item\em Update value of an object property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed}{addObjectPropertyValue} (String instance, String value, String oProp)
+\begin{DoxyCompactList}\small\item\em Add a value of an object property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c}{delObjectPropertyValue} (String instance, String value, String oProp)
+\begin{DoxyCompactList}\small\item\em Delete value of an object property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c}{updateDataPropertyValue} (String instance, String oldValue, String newValue, String dProp)
+\begin{DoxyCompactList}\small\item\em Update value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e}{addDataPropertyValue} (String instance, String value, String dProp)
+\begin{DoxyCompactList}\small\item\em Add a value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d}{delDataPropertyValue} (String instance, String value, String dProp)
+\begin{DoxyCompactList}\small\item\em Delete value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a814db63a721741ed45084cbba0a322ba}{addIndividual} (String name, String type)
+\begin{DoxyCompactList}\small\item\em Add an individual into the ontology. \end{DoxyCompactList}\item 
 \hypertarget{class_ontology_1_1_ontology_a6f61430c49fe037a18b5267c02d1923a}{
 void \hyperlink{class_ontology_1_1_ontology_a6f61430c49fe037a18b5267c02d1923a}{loadFromURL} ()}
 \label{class_ontology_1_1_ontology_a6f61430c49fe037a18b5267c02d1923a}
@@ -226,6 +242,111 @@ Here is the caller graph for this function:\nopagebreak
 \end{figure}
 
 
+\hypertarget{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addDataPropertyValue@{addDataPropertyValue}}
+\index{addDataPropertyValue@{addDataPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addDataPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addDataPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{dProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e}
+
+
+Add a value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em dProp} & name of the data property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a814db63a721741ed45084cbba0a322ba}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addIndividual@{addIndividual}}
+\index{addIndividual@{addIndividual}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addIndividual}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addIndividual (
+\begin{DoxyParamCaption}
+\item[{String}]{name, }
+\item[{String}]{type}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a814db63a721741ed45084cbba0a322ba}
+
+
+Add an individual into the ontology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of the indivudual. \\
+\hline
+{\em type} & class of the individual \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addObjectPropertyValue@{addObjectPropertyValue}}
+\index{addObjectPropertyValue@{addObjectPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addObjectPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addObjectPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{oProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed}
+
+
+Add a value of an object property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em oProp} & name of the object property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6}{
 \index{Ontology::Ontology@{Ontology::Ontology}!addSuperClasses@{addSuperClasses}}
 \index{addSuperClasses@{addSuperClasses}!Ontology::Ontology@{Ontology::Ontology}}
@@ -246,6 +367,90 @@ Here is the caller graph for this function:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=400pt]{class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d}{
+\index{Ontology::Ontology@{Ontology::Ontology}!delDataPropertyValue@{delDataPropertyValue}}
+\index{delDataPropertyValue@{delDataPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{delDataPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.delDataPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{dProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d}
+
+
+Delete value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em dProp} & name of the data property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c}{
+\index{Ontology::Ontology@{Ontology::Ontology}!delObjectPropertyValue@{delObjectPropertyValue}}
+\index{delObjectPropertyValue@{delObjectPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{delObjectPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.delObjectPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{oProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c}
+
+
+Delete value of an object property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em oProp} & name of the object property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c_icgraph}
 \end{center}
 \end{figure}
 
@@ -282,6 +487,39 @@ Simple getter.
 \begin{DoxyReturn}{Returns}
 classesClean 
 \end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getDataPropertyType@{getDataPropertyType}}
+\index{getDataPropertyType@{getDataPropertyType}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getDataPropertyType}]{\setlength{\rightskip}{0pt plus 5cm}OWLDatatype Ontology.Ontology.getDataPropertyType (
+\begin{DoxyParamCaption}
+\item[{String}]{unit}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28}
+
+
+Give the owl IRI for the value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit} & unit of the value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+IRI of the unit. 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_ontology_1_1_ontology_a6c1ca29036227388e2fc511ac99912ab}{
 \index{Ontology::Ontology@{Ontology::Ontology}!getDp@{getDp}}
 \index{getDp@{getDp}!Ontology::Ontology@{Ontology::Ontology}}
@@ -640,6 +878,84 @@ Simple setter.
 {\em tables} & \\
 \hline
 \end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c}{
+\index{Ontology::Ontology@{Ontology::Ontology}!updateDataPropertyValue@{updateDataPropertyValue}}
+\index{updateDataPropertyValue@{updateDataPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{updateDataPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.updateDataPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{oldValue, }
+\item[{String}]{newValue, }
+\item[{String}]{dProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c}
+
+
+Update value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned.\\
+\hline
+{\em oldValue} & old value \\
+\hline
+{\em newValue} & new value \\
+\hline
+{\em dProp} & name of the data property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58}{
+\index{Ontology::Ontology@{Ontology::Ontology}!updateObjectPropertyValue@{updateObjectPropertyValue}}
+\index{updateObjectPropertyValue@{updateObjectPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{updateObjectPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.updateObjectPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{oldValue, }
+\item[{String}]{newValue, }
+\item[{String}]{oProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58}
+
+
+Update value of an object property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned.\\
+\hline
+{\em oldValue} & old value \\
+\hline
+{\em newValue} & new value \\
+\hline
+{\em oProp} & name of the object property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58_cgraph}
+\end{center}
+\end{figure}
+
+
 
 
 \subsection{Member Data Documentation}

@@ -19,7 +19,7 @@ software
  #include "EndEffectorHolder.h"
 
 EndEffector::EndEffector(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadByEndEffector_Robot = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
 
@@ -39,9 +39,6 @@ return hasEffector_MaximumLoadWeight;
 }
 std::string EndEffector::gethasEndEffector_Id(){
 return hasEndEffector_Id;
-}
-std::string EndEffector::getname(){
-return name;
 }
 int EndEffector::getEndEffectorID(){
 return EndEffectorID;

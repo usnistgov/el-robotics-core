@@ -25,7 +25,6 @@ software
 #include "PoseLocation.h"
  class DAO;
 class PoseLocationIn: public PoseLocation{private:
-std::string name;
 int PoseLocationInID;
 DAO* dao;
 public:
@@ -35,7 +34,6 @@ PoseLocationIn(std::string name);
  void get(std::string name);
 void set(int id, PoseLocationIn* obj);
 void set(std::string name);
-std::string getname();
 int getPoseLocationInID();
 DAO* getdao();
 void setdao(DAO* _dao);

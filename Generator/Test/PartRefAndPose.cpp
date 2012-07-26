@@ -20,7 +20,7 @@ software
  #include "Point.h"
 
 PartRefAndPose::PartRefAndPose(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasPartRefAndPose_ZAxis = NULL;
 hadByPartRefAndPose_KitDesign = NULL;
 hasPartRefAndPose_Point = NULL;
@@ -35,9 +35,6 @@ delete(hasPartRefAndPose_XAxis);
 }
 std::string PartRefAndPose::gethasPartRefAndPose_Ref(){
 return hasPartRefAndPose_Ref;
-}
-std::string PartRefAndPose::getname(){
-return name;
 }
 int PartRefAndPose::getPartRefAndPoseID(){
 return PartRefAndPoseID;

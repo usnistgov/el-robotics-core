@@ -1,3 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$class_ontology_1_1_ontology.html#a4b295f699ded2490f28a7ef27e7d10a8" title="Constructor." alt="" coords="352,5,539,35"/>
+<area shape="rect" id="node3" href="$class_ontology_1_1_ontology.html#a63a9f169a40e2e134e9d1b6ae0c9623e" title="Add a value of a data property." alt="" coords="353,5,617,35"/>
+<area shape="rect" id="node7" href="$class_ontology_1_1_ontology.html#a27eb6537f5520169dbcf6a8fd2360b5d" title="Delete value of a data property." alt="" coords="355,59,616,88"/>
+<area shape="rect" id="node10" href="$class_ontology_1_1_ontology.html#a4b295f699ded2490f28a7ef27e7d10a8" title="Constructor." alt="" coords="392,112,579,141"/>
+<area shape="rect" id="node5" href="$class_ontology_1_1_ontology.html#a05b30edf0ceb3ffae3e28dc9f53c4e8c" title="Update value of a data property." alt="" coords="667,32,949,61"/>
 </map>

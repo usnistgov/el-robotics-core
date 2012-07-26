@@ -27,7 +27,6 @@ software
  class SolidObject;
  class DAO;
 class WorkTable: public BoxyObject{private:
-std::string name;
 int WorkTableID;
 DAO* dao;
 std::vector<SolidObject*> hadBySolidObject_WorkTable;
@@ -39,7 +38,6 @@ WorkTable(std::string name);
  void get(std::string name);
 void set(int id, WorkTable* obj);
 void set(std::string name);
-std::string getname();
 int getWorkTableID();
 DAO* getdao();
 void setdao(DAO* _dao);

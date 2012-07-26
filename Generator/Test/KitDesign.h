@@ -29,7 +29,6 @@ software
 class KitDesign: public DataThing{private:
 std::string hasKitDesign_Id;
 std::string hasKitDesign_KitTraySkuRef;
-std::string name;
 int KitDesignID;
 DAO* dao;
 KittingWorkstation* hadByKitDesign_Workstation;
@@ -45,7 +44,6 @@ std::string gethasKitDesign_Id();
 void sethasKitDesign_Id(std::string _hasKitDesign_Id);
 std::string gethasKitDesign_KitTraySkuRef();
 void sethasKitDesign_KitTraySkuRef(std::string _hasKitDesign_KitTraySkuRef);
-std::string getname();
 int getKitDesignID();
 DAO* getdao();
 void setdao(DAO* _dao);

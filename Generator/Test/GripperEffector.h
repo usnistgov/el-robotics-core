@@ -25,7 +25,6 @@ software
 #include "EndEffector.h"
  class DAO;
 class GripperEffector: public EndEffector{private:
-std::string name;
 int GripperEffectorID;
 DAO* dao;
 public:
@@ -35,7 +34,6 @@ GripperEffector(std::string name);
  void get(std::string name);
 void set(int id, GripperEffector* obj);
 void set(std::string name);
-std::string getname();
 int getGripperEffectorID();
 DAO* getdao();
 void setdao(DAO* _dao);

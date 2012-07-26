@@ -18,7 +18,7 @@ software
  #include "DAO.h"
 
 ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }ShapeDesign::~ShapeDesign(){
 delete(dao);
@@ -27,9 +27,6 @@ delete(hasSku_Shape[i]);
 }
 std::string ShapeDesign::gethasShapeDesign_Description(){
 return hasShapeDesign_Description;
-}
-std::string ShapeDesign::getname(){
-return name;
 }
 int ShapeDesign::getShapeDesignID(){
 return ShapeDesignID;

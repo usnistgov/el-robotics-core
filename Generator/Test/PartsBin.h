@@ -27,7 +27,6 @@ software
 class PartsBin: public BoxyObject{private:
 std::string hasBin_PartQuantity;
 std::string hasBin_PartSkuRef;
-std::string name;
 int PartsBinID;
 DAO* dao;
 public:
@@ -41,7 +40,6 @@ std::string gethasBin_PartQuantity();
 void sethasBin_PartQuantity(std::string _hasBin_PartQuantity);
 std::string gethasBin_PartSkuRef();
 void sethasBin_PartSkuRef(std::string _hasBin_PartSkuRef);
-std::string getname();
 int getPartsBinID();
 DAO* getdao();
 void setdao(DAO* _dao);

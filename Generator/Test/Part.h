@@ -29,7 +29,6 @@ software
 class Part: public SolidObject{private:
 std::string hasPart_SkuRef;
 std::string hasPart_SerialNumber;
-std::string name;
 int PartID;
 DAO* dao;
 Kit* hadByPart_Kit;
@@ -45,7 +44,6 @@ std::string gethasPart_SkuRef();
 void sethasPart_SkuRef(std::string _hasPart_SkuRef);
 std::string gethasPart_SerialNumber();
 void sethasPart_SerialNumber(std::string _hasPart_SerialNumber);
-std::string getname();
 int getPartID();
 DAO* getdao();
 void setdao(DAO* _dao);

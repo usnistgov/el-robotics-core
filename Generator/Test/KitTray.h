@@ -29,7 +29,6 @@ software
 class KitTray: public BoxyObject{private:
 std::string hasKitTray_SkuRef;
 std::string hasKitTray_SerialNumber;
-std::string name;
 int KitTrayID;
 DAO* dao;
 Kit* hasKit_Tray;
@@ -45,7 +44,6 @@ std::string gethasKitTray_SkuRef();
 void sethasKitTray_SkuRef(std::string _hasKitTray_SkuRef);
 std::string gethasKitTray_SerialNumber();
 void sethasKitTray_SerialNumber(std::string _hasKitTray_SerialNumber);
-std::string getname();
 int getKitTrayID();
 DAO* getdao();
 void setdao(DAO* _dao);

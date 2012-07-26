@@ -37,76 +37,89 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
+import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 public class Ontology {
 	/**
-	 * \brief     Separator between URL and the class' name in the ontology.
+	 * \brief Separator between URL and the class' name in the ontology.
 	 */
 	private static final char SEPARATOR = '#';
 	/**
-	 * \brief      Path of the ontology.
+	 * \brief Path of the ontology.
 	 */
 	private String path;
 	/**
-	 * \brief      Where we are going to save the file.
+	 * \brief Where we are going to save the file.
 	 */
 	private String pathSave;
 	/**
-	 * \brief      Our ontology.
+	 * \brief Our ontology.
 	 */
 	private OWLOntology ontology;
 	/**
-	 * \brief      Instance of DataProperty.
+	 * \brief Instance of DataProperty.
 	 */
 	private DataProperty dp;
 	/**
-	 * \brief      Instance of ObjectProperty.
+	 * \brief Instance of ObjectProperty.
 	 */
 	private ObjectProperty op;
 	/**
-	 * \brief      Instance of Individuals.
+	 * \brief Instance of Individuals.
 	 */
 	private Individuals ind;
 	/**
-	 * \brief      Instance of Tables.
+	 * \brief Instance of Tables.
 	 */
 	private Tables tables;
 	/**
-	 * \brief      Ontology Manager - Used to load the ontology.
+	 * \brief Ontology Manager - Used to load the ontology.
 	 */
 	private OWLOntologyManager manager;
 	/**
-	 * \brief      List of classes in the ontology.
+	 * \brief List of classes in the ontology.
 	 */
 	private ArrayList<OWLClass> classes;
 	/**
-	 * \brief      List of classes without the URL before their name.
+	 * \brief List of classes without the URL before their name.
 	 */
 	private ArrayList<String> classesClean;
 	/**
-	 * \brief      List of the super classes in the ontology.
-	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \brief List of the super classes in the ontology. \details
+	 * Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<OWLClass, ArrayList<OWLClassExpression>> superclasses;
 	/**
-	 * \brief      List of the super classes without the URL before their name in the ontology.
-	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \brief List of the super classes without the URL before their name in the
+	 * ontology. \details
+	 * Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
-	
+
 	/**
-     *  \brief Constructor
-     *  \details Constructor of the Ontology class.
-     *  \param p 	Path of the ontology.
-     *  \param p2 	Path where we are going to save the sql files.
-     */
+	 * \brief Constructor \details Constructor of the Ontology class. \param p
+	 * Path of the ontology. \param p2 Path where we are going to save the sql
+	 * files.
+	 */
 	public Ontology(String p, String p2) {
 		path = p;
 		pathSave = p2
@@ -134,12 +147,11 @@ public class Ontology {
 				superClassesClean, op.getObjectPropertyInverse());
 		ind = new Individuals(tables.getTables(), ontology, pathSave,
 				superClassesClean);
-
 	}
 
 	/**
 	 * \brief Load the ontology from a file.
-	 */	
+	 */
 	public void loadFromFile() {
 		File file = new File(this.path);
 		try {
@@ -159,8 +171,339 @@ public class Ontology {
 	}
 
 	/**
+	 * \brief Give the owl IRI for the value of a data property. \param unit
+	 * unit of the value. \return IRI of the unit.
+	 */
+	public OWLDatatype getDataPropertyType(String unit) {
+		OWLDataFactory df = manager.getOWLDataFactory();
+		unit = unit.toLowerCase();
+		if (unit.equals("short"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_SHORT.getIRI());
+		if (unit.equals("unsignedshort"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_SHORT.getIRI());
+		if (unit.equals("integer"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
+		if (unit.equals("positiveinteger"))
+			return df
+					.getOWLDatatype(OWL2Datatype.XSD_POSITIVE_INTEGER.getIRI());
+		if (unit.equals("negativeinteger"))
+			return df
+					.getOWLDatatype(OWL2Datatype.XSD_NEGATIVE_INTEGER.getIRI());
+		if (unit.equals("nonpositiveinteger"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_NON_POSITIVE_INTEGER
+					.getIRI());
+		if (unit.equals("nonnegativeinteger"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_NON_NEGATIVE_INTEGER
+					.getIRI());
+		if (unit.equals("int"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
+		if (unit.equals("unsignedint"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_INT.getIRI());
+		if (unit.equals("long"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_LONG.getIRI());
+		if (unit.equals("unsignedlong"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_UNSIGNED_LONG.getIRI());
+		if (unit.equals("decimal"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_DECIMAL.getIRI());
+		if (unit.equals("float"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_FLOAT.getIRI());
+		if (unit.equals("double"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_DOUBLE.getIRI());
+		if (unit.equals("string"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_STRING.getIRI());
+		if (unit.equals("normalizedstring"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_NORMALIZED_STRING
+					.getIRI());
+		if (unit.equals("nmtoken"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_NMTOKEN.getIRI());
+		if (unit.equals("token"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_TOKEN.getIRI());
+		if (unit.equals("language"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_LANGUAGE.getIRI());
+		if (unit.equals("name"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_NAME.getIRI());
+		if (unit.equals("ncname"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_NCNAME.getIRI());
+		if (unit.equals("datetime"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_DATE_TIME.getIRI());
+		if (unit.equals("boolean"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_BOOLEAN.getIRI());
+		if (unit.equals("hexbinary"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_HEX_BINARY.getIRI());
+		if (unit.equals("anyuri"))
+			return df.getOWLDatatype(OWL2Datatype.XSD_ANY_URI.getIRI());
+		else
+			return df.getOWLDatatype(OWL2Datatype.XSD_STRING.getIRI());
+	}
+
+	/**
+	 * \brief Update value of an object property. \param instance name of the
+	 * entity concerned.\param oldValue old value \param newValue new value
+	 * \param oProp name of the object property
+	 */
+	public void updateObjectPropertyValue(String instance, String oldValue,
+			String newValue, String oProp) {
+		delObjectPropertyValue(instance, oldValue, oProp);
+		addObjectPropertyValue(instance, newValue, oProp);
+	}
+
+	/**
+	 * \brief Add a value of an object property. \param instance name of the
+	 * entity concerned. \param value new value \param oProp name of the object
+	 * property
+	 */
+	public void addObjectPropertyValue(String instance, String value,
+			String oProp) {
+		String url = "";
+		if (!ind.getIndividuals().isEmpty())
+			if (ind.getIndividuals().get(0) != null)
+				url = ind
+						.getIndividuals()
+						.get(0)
+						.toString()
+						.substring(
+								1,
+								ind.getIndividuals().get(0).toString()
+										.indexOf(SEPARATOR));
+		IRI iri = null;
+		if (url.isEmpty())
+			iri = IRI
+					.create("http://www.nist.gov/el/ontologies/kittingClasses.owl");
+		else
+			iri = IRI.create(url);
+
+		File file = new File(this.path);
+		OWLDataFactory df = manager.getOWLDataFactory();
+		OWLIndividual ins = df.getOWLNamedIndividual(IRI.create(iri + "#"
+				+ instance));
+		OWLIndividual val = df.getOWLNamedIndividual(IRI.create(iri + "#"
+				+ value));
+		OWLObjectProperty oprop = df.getOWLObjectProperty(IRI.create(iri + "#"
+				+ oProp));
+		OWLAxiom assertion = df.getOWLObjectPropertyAssertionAxiom(oprop, ins,
+				val);
+		AddAxiom addAxiomChange = new AddAxiom(ontology, assertion);
+		manager.applyChange(addAxiomChange);
+		try {
+			manager.saveOntology(ontology,
+					new OWLFunctionalSyntaxOntologyFormat(),
+					IRI.create(file.toURI()));
+		} catch (OWLOntologyStorageException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * \brief Delete value of an object property. \param instance name of the
+	 * entity concerned. \param value new value \param oProp name of the object
+	 * property
+	 */
+	public void delObjectPropertyValue(String instance, String value,
+			String oProp) {
+		String url = "";
+		if (!ind.getIndividuals().isEmpty())
+			if (ind.getIndividuals().get(0) != null)
+				url = ind
+						.getIndividuals()
+						.get(0)
+						.toString()
+						.substring(
+								1,
+								ind.getIndividuals().get(0).toString()
+										.indexOf(SEPARATOR));
+		IRI iri = null;
+		if (url.isEmpty())
+			iri = IRI
+					.create("http://www.nist.gov/el/ontologies/kittingClasses.owl");
+		else
+			iri = IRI.create(url);
+
+		File file = new File(this.path);
+		OWLDataFactory df = manager.getOWLDataFactory();
+		OWLIndividual ins = df.getOWLNamedIndividual(IRI.create(iri + "#"
+				+ instance));
+		OWLIndividual val = df.getOWLNamedIndividual(IRI.create(iri + "#"
+				+ value));
+		OWLObjectProperty oprop = df.getOWLObjectProperty(IRI.create(iri + "#"
+				+ oProp));
+		OWLAxiom assertion = df.getOWLObjectPropertyAssertionAxiom(oprop, ins,
+				val);
+		RemoveAxiom removeAxiom = new RemoveAxiom(ontology, assertion);
+		manager.applyChange(removeAxiom);
+		try {
+			manager.saveOntology(ontology,
+					new OWLFunctionalSyntaxOntologyFormat(),
+					IRI.create(file.toURI()));
+		} catch (OWLOntologyStorageException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * \brief Update value of a data property. \param instance name of the
+	 * entity concerned.\param oldValue old value \param newValue new value
+	 * \param dProp name of the data property
+	 */
+	public void updateDataPropertyValue(String instance, String oldValue,
+			String newValue, String dProp) {
+		delDataPropertyValue(instance, oldValue, dProp);
+		addDataPropertyValue(instance, newValue, dProp);
+	}
+
+	/**
+	 * \brief Add a value of a data property. \param instance name of the entity
+	 * concerned. \param value new value \param dProp name of the data property
+	 */
+	public void addDataPropertyValue(String instance, String value, String dProp) {
+		String url = "";
+		if (!ind.getIndividuals().isEmpty())
+			if (ind.getIndividuals().get(0) != null)
+				url = ind
+						.getIndividuals()
+						.get(0)
+						.toString()
+						.substring(
+								1,
+								ind.getIndividuals().get(0).toString()
+										.indexOf(SEPARATOR));
+		IRI iri = null;
+		if (url.isEmpty())
+			iri = IRI
+					.create("http://www.nist.gov/el/ontologies/kittingClasses.owl");
+		else
+			iri = IRI.create(url);
+
+		File file = new File(this.path);
+		OWLDataFactory df = manager.getOWLDataFactory();
+		OWLIndividual ins = df.getOWLNamedIndividual(IRI.create(iri + "#"
+				+ instance));
+		int index = -1;
+		for (int i = 0; i < dp.getDataPropertyRanges().size(); i++) {
+			if (dp.getDataPropertyRanges().get(i).get(0).equals(dProp))
+				index = i;
+		}
+		OWLLiteral val;
+		if (index != -1 && !dp.getDataPropertyRanges().get(index).isEmpty())
+			val = df.getOWLLiteral(value, getDataPropertyType(dp
+					.getDataPropertyRanges().get(index).get(1)));
+		else
+			val = df.getOWLLiteral(value);
+
+		OWLDataProperty dprop = df.getOWLDataProperty(IRI.create(iri + "#"
+				+ dProp));
+		OWLAxiom assertion = df.getOWLDataPropertyAssertionAxiom(dprop, ins,
+				val);
+		AddAxiom addAxiomChange = new AddAxiom(ontology, assertion);
+		manager.applyChange(addAxiomChange);
+		try {
+			manager.saveOntology(ontology,
+					new OWLFunctionalSyntaxOntologyFormat(),
+					IRI.create(file.toURI()));
+		} catch (OWLOntologyStorageException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * \brief Delete value of a data property. \param instance name of the
+	 * entity concerned. \param value new value \param dProp name of the data
+	 * property
+	 */
+	public void delDataPropertyValue(String instance, String value, String dProp) {
+		String url = "";
+		if (!ind.getIndividuals().isEmpty())
+			if (ind.getIndividuals().get(0) != null)
+				url = ind
+						.getIndividuals()
+						.get(0)
+						.toString()
+						.substring(
+								1,
+								ind.getIndividuals().get(0).toString()
+										.indexOf(SEPARATOR));
+		IRI iri = null;
+		if (url.isEmpty())
+			iri = IRI
+					.create("http://www.nist.gov/el/ontologies/kittingClasses.owl");
+		else
+			iri = IRI.create(url);
+
+		File file = new File(this.path);
+		OWLDataFactory df = manager.getOWLDataFactory();
+		OWLIndividual ins = df.getOWLNamedIndividual(IRI.create(iri + "#"
+				+ instance));
+		int index = -1;
+		for (int i = 0; i < dp.getDataPropertyRanges().size(); i++) {
+			if (dp.getDataPropertyRanges().get(i).get(0).equals(dProp))
+				index = i;
+		}
+		OWLLiteral val;
+		if (index != -1 && !dp.getDataPropertyRanges().get(index).isEmpty())
+			val = df.getOWLLiteral(value, getDataPropertyType(dp
+					.getDataPropertyRanges().get(index).get(1)));
+		else
+			val = df.getOWLLiteral(value);
+		OWLDataProperty dprop = df.getOWLDataProperty(IRI.create(iri + "#"
+				+ dProp));
+		OWLAxiom assertion = df.getOWLDataPropertyAssertionAxiom(dprop, ins,
+				val);
+		RemoveAxiom removeAxiom = new RemoveAxiom(ontology, assertion);
+		manager.applyChange(removeAxiom);
+		try {
+			manager.saveOntology(ontology,
+					new OWLFunctionalSyntaxOntologyFormat(),
+					IRI.create(file.toURI()));
+		} catch (OWLOntologyStorageException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * \brief Add an individual into the ontology. \param name name of the
+	 * indivudual. \param type class of the individual
+	 */
+	public void addIndividual(String name, String type) {
+		if (!ind.getIndividualsClean().contains(name)) {
+			String url = "";
+			if (!classes.isEmpty())
+				url = classes
+						.get(0)
+						.toString()
+						.substring(1,
+								classes.get(0).toString().indexOf(SEPARATOR));
+			IRI iri = null;
+			if (url.isEmpty())
+				iri = IRI
+						.create("http://www.nist.gov/el/ontologies/kittingClasses.owl");
+			else
+				iri = IRI.create(url);
+
+			OWLClass owlClass = manager.getOWLDataFactory().getOWLClass(
+					IRI.create(iri + "#" + type));
+
+			OWLNamedIndividual namedIndividual = manager.getOWLDataFactory()
+					.getOWLNamedIndividual(IRI.create(iri + "#" + name));
+			OWLAxiom axiom = manager.getOWLDataFactory()
+					.getOWLClassAssertionAxiom(owlClass, namedIndividual);
+			AddAxiom addAxiomChange = new AddAxiom(ontology, axiom);
+			manager.applyChange(addAxiomChange);
+			File file = new File(this.path);
+			try {
+				manager.saveOntology(ontology,
+						new OWLFunctionalSyntaxOntologyFormat(),
+						IRI.create(file.toURI()));
+			} catch (OWLOntologyStorageException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * \brief Load the ontology from an URL.
-	 */	
+	 */
 	public void loadFromURL() {
 		IRI iri = IRI.create(this.path);
 		try {
@@ -180,9 +523,8 @@ public class Ontology {
 	}
 
 	/**
-	 * \brief List all the classes.
-	 * \details Fill the classes list.
-	 */	
+	 * \brief List all the classes. \details Fill the classes list.
+	 */
 	public void addClasses() {
 		classes = new ArrayList<OWLClass>(ontology.getClassesInSignature());
 		for (int i = 0; i < classes.size(); i++) {
@@ -194,9 +536,8 @@ public class Ontology {
 	}
 
 	/**
-	 * \brief List all the super classes.
-	 * \details Fill the superclasses list.
-	 */	
+	 * \brief List all the super classes. \details Fill the superclasses list.
+	 */
 	public void addSuperClasses() {
 		superclasses = new HashMap<OWLClass, ArrayList<OWLClassExpression>>();
 		for (int i = 0; i < classes.size(); i++) {
@@ -207,7 +548,7 @@ public class Ontology {
 
 	/**
 	 * \brief Delete the url before the name of the classes.
-	 */	
+	 */
 	public void cleanClasses() {
 		for (int i = 0; i < classes.size(); i++) {
 			classesClean.add(classes
@@ -222,7 +563,7 @@ public class Ontology {
 
 	/**
 	 * \brief Delete the url before the name of the super classes.
-	 */	
+	 */
 	public void cleanSuperClasses() {
 		for (int i = 0; i < classes.size(); i++) {
 			ArrayList<String> temp = new ArrayList<String>();
@@ -245,164 +586,163 @@ public class Ontology {
 	}
 
 	/**
-	 * \brief Simple getter.
-	 * \return SEPARATOR
+	 * \brief Simple getter. \return SEPARATOR
 	 */
 	public static char getSeparator() {
 		return SEPARATOR;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return path
+	 * \brief Simple getter. \return path
 	 */
 	public String getPath() {
 		return path;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param path
+	 * \brief Simple setter. \param path
 	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return ontology
+	 * \brief Simple getter. \return ontology
 	 */
 	public OWLOntology getOntology() {
 		return ontology;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param ontology
+	 * \brief Simple setter. \param ontology
 	 */
 	public void setOntology(OWLOntology ontology) {
 		this.ontology = ontology;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return manager
+	 * \brief Simple getter. \return manager
 	 */
 	public OWLOntologyManager getManager() {
 		return manager;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param manager
+	 * \brief Simple setter. \param manager
 	 */
 	public void setManager(OWLOntologyManager manager) {
 		this.manager = manager;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return classes
+	 * \brief Simple getter. \return classes
 	 */
 	public ArrayList<OWLClass> getClasses() {
 		return classes;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param classes
+	 * \brief Simple setter. \param classes
 	 */
 	public void setClasses(ArrayList<OWLClass> classes) {
 		this.classes = classes;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return classesClean
+	 * \brief Simple getter. \return classesClean
 	 */
 	public ArrayList<String> getClassesClean() {
 		return classesClean;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param classesClean
+	 * \brief Simple setter. \param classesClean
 	 */
 	public void setClassesClean(ArrayList<String> classesClean) {
 		this.classesClean = classesClean;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return superclasses
+	 * \brief Simple getter. \return superclasses
 	 */
 	public HashMap<OWLClass, ArrayList<OWLClassExpression>> getSuperclasses() {
 		return superclasses;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param superclasses
+	 * \brief Simple setter. \param superclasses
 	 */
 	public void setSuperclasses(
 			HashMap<OWLClass, ArrayList<OWLClassExpression>> superclasses) {
 		this.superclasses = superclasses;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return superClassesClean
+	 * \brief Simple getter. \return superClassesClean
 	 */
 	public HashMap<String, ArrayList<String>> getSuperClassesClean() {
 		return superClassesClean;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param superClassesClean
+	 * \brief Simple setter. \param superClassesClean
 	 */
 	public void setSuperClassesClean(
 			HashMap<String, ArrayList<String>> superClassesClean) {
 		this.superClassesClean = superClassesClean;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return dp
+	 * \brief Simple getter. \return dp
 	 */
 	public DataProperty getDp() {
 		return dp;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param dp
+	 * \brief Simple setter. \param dp
 	 */
 	public void setDp(DataProperty dp) {
 		this.dp = dp;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return op
+	 * \brief Simple getter. \return op
 	 */
 	public ObjectProperty getOp() {
 		return op;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param op
+	 * \brief Simple setter. \param op
 	 */
 	public void setOp(ObjectProperty op) {
 		this.op = op;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return tables
+	 * \brief Simple getter. \return tables
 	 */
 	public Tables getTables() {
 		return tables;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param tables
+	 * \brief Simple setter. \param tables
 	 */
 	public void setTables(Tables tables) {
 		this.tables = tables;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return ind
+	 * \brief Simple getter. \return ind
 	 */
 	public Individuals getInd() {
 		return ind;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param ind
+	 * \brief Simple setter. \param ind
 	 */
 	public void setInd(Individuals ind) {
 		this.ind = ind;

@@ -27,7 +27,6 @@ software
  class Part;
  class PartsTray;
 class PartsTrayWithParts: public SolidObject{private:
-std::string name;
 int PartsTrayWithPartsID;
 DAO* dao;
 PartsTray* hasPartsTrayWithParts_Tray;
@@ -39,7 +38,6 @@ PartsTrayWithParts(std::string name);
  void get(std::string name);
 void set(int id, PartsTrayWithParts* obj);
 void set(std::string name);
-std::string getname();
 int getPartsTrayWithPartsID();
 DAO* getdao();
 void setdao(DAO* _dao);

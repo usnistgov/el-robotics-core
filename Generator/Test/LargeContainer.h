@@ -29,7 +29,6 @@ software
 class LargeContainer: public BoxyObject{private:
 std::string hasLargeContainer_SkuRef;
 std::string hasLargeContainer_SerialNumber;
-std::string name;
 int LargeContainerID;
 DAO* dao;
 LargeBoxWithKits* hasLargeBoxWithKits_LargeContainer;
@@ -45,7 +44,6 @@ std::string gethasLargeContainer_SkuRef();
 void sethasLargeContainer_SkuRef(std::string _hasLargeContainer_SkuRef);
 std::string gethasLargeContainer_SerialNumber();
 void sethasLargeContainer_SerialNumber(std::string _hasLargeContainer_SerialNumber);
-std::string getname();
 int getLargeContainerID();
 DAO* getdao();
 void setdao(DAO* _dao);

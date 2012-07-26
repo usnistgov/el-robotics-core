@@ -19,7 +19,7 @@ software
  #include "Point.h"
 
 PoseLocation::PoseLocation(std::string name) : PhysicalLocation(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasPoseLocation_Point = NULL;
 hasPoseLocation_ZAxis = NULL;
 hasPoseLocation_XAxis = NULL;
@@ -29,9 +29,6 @@ delete(dao);
 delete(hasPoseLocation_Point);
 delete(hasPoseLocation_ZAxis);
 delete(hasPoseLocation_XAxis);
-}
-std::string PoseLocation::getname(){
-return name;
 }
 int PoseLocation::getPoseLocationID(){
 return PoseLocationID;

@@ -17,13 +17,10 @@ software
  #include "DAO.h"
 
 GripperEffector::GripperEffector(std::string name) : EndEffector(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }GripperEffector::~GripperEffector(){
 delete(dao);
-}
-std::string GripperEffector::getname(){
-return name;
 }
 int GripperEffector::getGripperEffectorID(){
 return GripperEffectorID;

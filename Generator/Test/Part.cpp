@@ -19,7 +19,7 @@ software
  #include "DAO.h"
 
 Part::Part(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadByPart_Kit = NULL;
 hadByPart_PartsTrayWithParts = NULL;
 
@@ -33,9 +33,6 @@ return hasPart_SkuRef;
 }
 std::string Part::gethasPart_SerialNumber(){
 return hasPart_SerialNumber;
-}
-std::string Part::getname(){
-return name;
 }
 int Part::getPartID(){
 return PartID;

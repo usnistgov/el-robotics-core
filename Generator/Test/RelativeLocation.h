@@ -26,7 +26,6 @@ software
  class DAO;
 class RelativeLocation: public PhysicalLocation{private:
 std::string hasRelativeLocation_Description;
-std::string name;
 int RelativeLocationID;
 DAO* dao;
 public:
@@ -38,7 +37,6 @@ void set(int id, RelativeLocation* obj);
 void set(std::string name);
 std::string gethasRelativeLocation_Description();
 void sethasRelativeLocation_Description(std::string _hasRelativeLocation_Description);
-std::string getname();
 int getRelativeLocationID();
 DAO* getdao();
 void setdao(DAO* _dao);

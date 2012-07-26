@@ -20,7 +20,7 @@ software
  #include "DAO.h"
 
 Robot::Robot(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hadByEndEffector_Robot = NULL;
 hasWorkstation_Robot = NULL;
 
@@ -39,9 +39,6 @@ return hasRobot_Id;
 }
 double Robot::gethasRobot_MaximumLoadWeight(){
 return hasRobot_MaximumLoadWeight;
-}
-std::string Robot::getname(){
-return name;
 }
 int Robot::getRobotID(){
 return RobotID;

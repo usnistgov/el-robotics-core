@@ -17,16 +17,13 @@ software
  #include "DAO.h"
 
 RelativeLocation::RelativeLocation(std::string name) : PhysicalLocation(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }RelativeLocation::~RelativeLocation(){
 delete(dao);
 }
 std::string RelativeLocation::gethasRelativeLocation_Description(){
 return hasRelativeLocation_Description;
-}
-std::string RelativeLocation::getname(){
-return name;
 }
 int RelativeLocation::getRelativeLocationID(){
 return RelativeLocationID;

@@ -29,7 +29,6 @@ software
  class Point;
 class PartRefAndPose: public DataThing{private:
 std::string hasPartRefAndPose_Ref;
-std::string name;
 int PartRefAndPoseID;
 DAO* dao;
 Vector* hasPartRefAndPose_ZAxis;
@@ -45,7 +44,6 @@ void set(int id, PartRefAndPose* obj);
 void set(std::string name);
 std::string gethasPartRefAndPose_Ref();
 void sethasPartRefAndPose_Ref(std::string _hasPartRefAndPose_Ref);
-std::string getname();
 int getPartRefAndPoseID();
 DAO* getdao();
 void setdao(DAO* _dao);

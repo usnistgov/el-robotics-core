@@ -19,7 +19,7 @@ software
  #include "PartsTray.h"
 
 PartsTrayWithParts::PartsTrayWithParts(std::string name) : SolidObject(name){
-this->name=name;dao = NULL;
+dao = NULL;
 hasPartsTrayWithParts_Tray = NULL;
 
 }PartsTrayWithParts::~PartsTrayWithParts(){
@@ -27,9 +27,6 @@ delete(dao);
 delete(hasPartsTrayWithParts_Tray);
 for(std::size_t i = 0; i < hadByPart_PartsTrayWithParts.size(); i++)
 delete(hadByPart_PartsTrayWithParts[i]);
-}
-std::string PartsTrayWithParts::getname(){
-return name;
 }
 int PartsTrayWithParts::getPartsTrayWithPartsID(){
 return PartsTrayWithPartsID;

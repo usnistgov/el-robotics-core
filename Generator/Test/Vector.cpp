@@ -19,7 +19,7 @@ software
  #include "PoseLocation.h"
 
 Vector::Vector(std::string name) : DataThing(name){
-this->name=name;dao = NULL;
+dao = NULL;
 
 }Vector::~Vector(){
 delete(dao);
@@ -40,9 +40,6 @@ return hasVector_J;
 }
 double Vector::gethasVector_I(){
 return hasVector_I;
-}
-std::string Vector::getname(){
-return name;
 }
 int Vector::getVectorID(){
 return VectorID;

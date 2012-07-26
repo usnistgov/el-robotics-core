@@ -44,9 +44,9 @@ Please replace the following occurrences of \textit{'mypassword'} with your actu
  \item \textit{sudo mysqladmin -u root -h myhostname password 'mypassword'}
 \end{itemize}
 
-Finally, we need the plugin \texttt{libmysqlcppcon5} which allows C++ to connect to MySQL databases. It can be installed as follows:
+Finally, we need the plugin \texttt{libmysqlcppconn-dev} which allows C++ to connect to MySQL databases. It can be installed as follows:
 \begin{itemize}
- \item \textit{sudo apt-get install libmysqlcppcon5}
+ \item \textit{sudo apt-get install libmysqlcppconn-dev}
 \end{itemize}
 
 \section{How to Run the Generator Tool}\label{s:run}
@@ -83,6 +83,8 @@ The next step is to create a database and to populate it.
 
 \begin{itemize}
 \item Connect to mysql using \textit{mysql -u root -p}, then enter your password. You should be in the mysql shell if this succeeded (\textit{mysql>}). 
+\item Delete a previous database (if you already used this tool and you want to replace the existing database with this new one) : 
+\texttt{mysql>} \textit{DROP DATABASE OWL;} (\textit{OWL} is the name of the old database).
 \item Create a database: 
 \begin{itemize}
 \item \texttt{mysql>} \textit{CREATE DATABASE OWL;}. Here, \textit{OWL} is the name of the database (you can use a name of your choice).

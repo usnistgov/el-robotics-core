@@ -13,7 +13,7 @@ dequeueThread (void *arg)
 
   for(;;)
     {
-      errReturn = ctrl->dequeueMsg(myVoid);
+      errReturn = ctrl->dequeueMsgLow(myVoid);
       if( errReturn == 0)
 	sleep(1);
       else if( errReturn == 2 )

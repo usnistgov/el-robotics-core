@@ -25,14 +25,30 @@ int CanonicalMsg::nextID = 1;
 
 Controller::Controller()
 {
-  cmdQueue.clear();
+  cmdQueueHigh.clear();
+  cmdQueueLow.clear();
 }
 
 Controller::~Controller()
 {
 }
-
-int Controller::queueMsg( CanonicalMsg *msgIn )
+int Controller::queueMsgLow(CanonicalMsg *msgIn)
+{
+	CanonicalMsg* msgPtr = getMsg(msgIn);
+	if(msgPtr == NULL)
+		return 0;
+	cmdQueueLow.push_back(msgPtr);
+	return 1;
+}
+int Controller::queueMsgHigh(CanonicalMsg *msgIn)
+{
+	CanonicalMsg* msgPtr = getMsg(msgIn);
+	if(msgPtr == NULL)
+		return 0;
+	cmdQueueHigh.push_back(msgPtr);
+	return 1;
+}
+CanonicalMsg* Controller::getMsg( CanonicalMsg *msgIn )
 {
   CloseGripperMsg *closeGripperMsgPt;
   CloseToolChangerMsg *closeToolChangerMsgPt;
@@ -54,6 +70,7 @@ int Controller::queueMsg( CanonicalMsg *msgIn )
   SetLengthUnitsMsg *setLengthUnitsMsgPt;
   SetRelativeAccelerationMsg *setRelativeAccelerationMsgPt;
   SetRelativeSpeedMsg *setRelativeSpeedMsgPt;
+  StartObjectScanMsg *startObjectScanMsgPt;
   StopMotionMsg *stopMotionMsgPt;
 
   msgIn->setHeader();
@@ -61,148 +78,173 @@ int Controller::queueMsg( CanonicalMsg *msgIn )
     {
       closeGripperMsgPt = new CloseGripperMsg();
       *closeGripperMsgPt = *dynamic_cast<CloseGripperMsg *>(msgIn); 
-      cmdQueue.push_back(closeGripperMsgPt);
+      return closeGripperMsgPt;
     }
   else if (dynamic_cast<CloseToolChangerMsg *>(msgIn))
     {
       closeToolChangerMsgPt = new CloseToolChangerMsg();
       *closeToolChangerMsgPt = *dynamic_cast<CloseToolChangerMsg *>(msgIn); 
-      cmdQueue.push_back(closeToolChangerMsgPt);
+      return closeToolChangerMsgPt;
     }
   else if (dynamic_cast<DwellMsg *>(msgIn))
     {
       dwellMsgPt = new DwellMsg();
       *dwellMsgPt = *dynamic_cast<DwellMsg *>(msgIn);
-      cmdQueue.push_back(dwellMsgPt);
+      return dwellMsgPt;
     }
   else if (dynamic_cast<EndCanonMsg *>(msgIn))
     {
       endCanonMsgPt = new EndCanonMsg();
       *endCanonMsgPt = *dynamic_cast<EndCanonMsg *>(msgIn);
-      cmdQueue.push_back(endCanonMsgPt);
+      return endCanonMsgPt;
     }
   else if (dynamic_cast<InitCanonMsg *>(msgIn))
     {
       initCanonMsgPt = new InitCanonMsg();
       *initCanonMsgPt = *dynamic_cast<InitCanonMsg *>(msgIn);
-      cmdQueue.push_back(initCanonMsgPt);
+      return initCanonMsgPt;
     }
   else if (dynamic_cast<MessageMsg *>(msgIn))
     {
       messageMsgPt = new MessageMsg();
       *messageMsgPt = *dynamic_cast<MessageMsg *>(msgIn);
-      cmdQueue.push_back(messageMsgPt);
+      return messageMsgPt;
     }
   else if (dynamic_cast<MoveStraightToMsg*>(msgIn))
     {
       moveStraightToMsgPt = new MoveStraightToMsg();
       *moveStraightToMsgPt = *dynamic_cast<MoveStraightToMsg*>(msgIn);
-      cmdQueue.push_back(moveStraightToMsgPt);
+      return moveStraightToMsgPt;
     }
   else if (dynamic_cast<MoveThroughToMsg *>(msgIn))
     {
       moveThroughToMsgPt = new MoveThroughToMsg();
       *moveThroughToMsgPt = *dynamic_cast<MoveThroughToMsg *>(msgIn);
-      cmdQueue.push_back(moveThroughToMsgPt);
+      return moveThroughToMsgPt;
     }
   else if (dynamic_cast<MoveToMsg*>(msgIn))
     {
        moveToMsgPt = new MoveToMsg();
        *moveToMsgPt = *dynamic_cast<MoveToMsg*>(msgIn);
-       cmdQueue.push_back(moveToMsgPt);
+       return moveToMsgPt;
     }
   else if (dynamic_cast<OpenGripperMsg*>(msgIn))
     {
        openGripperMsgPt = new OpenGripperMsg();
        *openGripperMsgPt = *dynamic_cast<OpenGripperMsg*>(msgIn);
-       cmdQueue.push_back(openGripperMsgPt);
+       return openGripperMsgPt;
     }
   else if (dynamic_cast<OpenToolChangerMsg*>(msgIn))
     {
        openToolChangerMsgPt = new OpenToolChangerMsg();
        *openToolChangerMsgPt = *dynamic_cast<OpenToolChangerMsg*>(msgIn);
-       cmdQueue.push_back(openToolChangerMsgPt);
+       return openToolChangerMsgPt;
     }
   else if (dynamic_cast<SetAbsoluteAccelerationMsg*>(msgIn))
     {
        setAbsoluteAccelerationMsgPt = new SetAbsoluteAccelerationMsg();
        *setAbsoluteAccelerationMsgPt = *dynamic_cast<SetAbsoluteAccelerationMsg*>(msgIn);
-       cmdQueue.push_back(setAbsoluteAccelerationMsgPt);
+       return setAbsoluteAccelerationMsgPt;
     }
   else if (dynamic_cast<SetAbsoluteSpeedMsg*>(msgIn))
     {
        setAbsoluteSpeedMsgPt = new SetAbsoluteSpeedMsg();
        *setAbsoluteSpeedMsgPt = *dynamic_cast<SetAbsoluteSpeedMsg*>(msgIn);
-       cmdQueue.push_back(setAbsoluteSpeedMsgPt);
+       return setAbsoluteSpeedMsgPt;
     }
   else if (dynamic_cast<SetAngleUnitsMsg*>(msgIn))
     {
       setAngleUnitsMsgPt = new SetAngleUnitsMsg();
       *setAngleUnitsMsgPt = *dynamic_cast<SetAngleUnitsMsg*>(msgIn);
-      cmdQueue.push_back(setAngleUnitsMsgPt);
+      return setAngleUnitsMsgPt;
     }
   else if (dynamic_cast<SetEndAngleToleranceMsg*>(msgIn))
     {
        setEndAngleToleranceMsgPt = new SetEndAngleToleranceMsg();
        *setEndAngleToleranceMsgPt = *dynamic_cast<SetEndAngleToleranceMsg*>(msgIn);
-       cmdQueue.push_back(setEndAngleToleranceMsgPt);
+       return setEndAngleToleranceMsgPt;
     }
   else if (dynamic_cast<SetEndPointToleranceMsg*>(msgIn))
     {
        setEndPointToleranceMsgPt = new SetEndPointToleranceMsg();
        *setEndPointToleranceMsgPt = *dynamic_cast<SetEndPointToleranceMsg*>(msgIn);
-       cmdQueue.push_back(setEndPointToleranceMsgPt);
+       return setEndPointToleranceMsgPt;
     }
   else if (dynamic_cast<SetIntermediatePointToleranceMsg*>(msgIn))
     {
       setIntermediatePointToleranceMsgPt = new SetIntermediatePointToleranceMsg();
       *setIntermediatePointToleranceMsgPt = *dynamic_cast<SetIntermediatePointToleranceMsg*>(msgIn);
-      cmdQueue.push_back(setIntermediatePointToleranceMsgPt);
+      return setIntermediatePointToleranceMsgPt;
     }
   else if (dynamic_cast<SetLengthUnitsMsg*>(msgIn))
   {
        setLengthUnitsMsgPt = new SetLengthUnitsMsg();
        *setLengthUnitsMsgPt = *dynamic_cast<SetLengthUnitsMsg*>(msgIn);
-       cmdQueue.push_back(setLengthUnitsMsgPt);
+       return setLengthUnitsMsgPt;
   }
   else if (dynamic_cast<SetRelativeAccelerationMsg*>(msgIn))
     {
        setRelativeAccelerationMsgPt = new SetRelativeAccelerationMsg();
        *setRelativeAccelerationMsgPt = *dynamic_cast<SetRelativeAccelerationMsg*>(msgIn);
-       cmdQueue.push_back(setRelativeAccelerationMsgPt);
+       return setRelativeAccelerationMsgPt;
     }
   else if (dynamic_cast<SetRelativeSpeedMsg*>(msgIn))
     {
       setRelativeSpeedMsgPt = new SetRelativeSpeedMsg();
       *setRelativeSpeedMsgPt = *dynamic_cast<SetRelativeSpeedMsg*>(msgIn);
-      cmdQueue.push_back(setRelativeSpeedMsgPt);
+      return setRelativeSpeedMsgPt;
+    }
+  else if (dynamic_cast<StartObjectScanMsg*>(msgIn))
+    {
+      startObjectScanMsgPt = new StartObjectScanMsg();
+      *startObjectScanMsgPt = *dynamic_cast<StartObjectScanMsg*>(msgIn);
+      return startObjectScanMsgPt;
     }
   else if (dynamic_cast<StopMotionMsg*>(msgIn))
     {
       stopMotionMsgPt = new StopMotionMsg();
       *stopMotionMsgPt = *dynamic_cast<StopMotionMsg*>(msgIn);
-      cmdQueue.push_back(stopMotionMsgPt);
+      return stopMotionMsgPt;
     }
   else
-    return 0;
-  return 1;
+    return NULL;
 }
-
+/* returns 1 on error, -1 on empty queue, 0 no error */
+int Controller::dequeueMsgHigh(void* sendTo)
+{
+	int isError = -1;
+	CanonicalMsg *canonicalPt;
+	if(!cmdQueueHigh.empty())
+	{
+		canonicalPt = cmdQueueHigh.front();
+		if(canonicalPt != NULL)
+			isError = processMsg(canonicalPt, sendTo);
+		cmdQueueHigh.pop_front();
+	}
+	//high priority queue is empty
+	return isError;
+}
+/* returns 1 on error, -1 on empty queue, 0 no error */
+int Controller::dequeueMsgLow(void* sendTo)
+{
+    int isError = -1;
+	CanonicalMsg *canonicalPt;
+	if(!cmdQueueLow.empty())
+	{
+		canonicalPt = cmdQueueLow.front();
+		if(canonicalPt != NULL)
+			isError = processMsg(canonicalPt, sendTo);
+		cmdQueueLow.pop_front();
+	}
+	//low priority queue is empty
+	return isError;
+}
 /* returns 1 on error, 0 no error */
-int Controller::dequeueMsg(void *sendTo)
+int Controller::processMsg(CanonicalMsg *canonicalPt, void *sendTo)
 {
   int isError = 0;
-  CanonicalMsg *canonicalPt;
-
-  //  printf( "In controller dequeue\n" );
-  canonicalPt = cmdQueue.front();
-  if( canonicalPt == NULL )
-    {
-      //      printf("Error from dequeueMsg, no more elements\n");
-      return 0;
-    }
   
-  printf( "Dequeuing msg number: %d from time: %lf\n",
+  printf( "Processing msg number: %d from time: %lf\n",
 	  canonicalPt->getMsgID(), canonicalPt->getTime() );
 
   if (dynamic_cast<CloseGripperMsg *>(canonicalPt))
@@ -305,6 +347,11 @@ int Controller::dequeueMsg(void *sendTo)
       isError = dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt);
     }
+  else if (dynamic_cast<StartObjectScanMsg *>(canonicalPt))
+    {
+      isError = dynamic_cast<StartObjectScanMsg *>(canonicalPt)->process(sendTo);
+      delete dynamic_cast<StartObjectScanMsg *>(canonicalPt);
+    }
   else if (dynamic_cast<StopMotionMsg *>(canonicalPt))
     {
       isError = dynamic_cast<StopMotionMsg *>(canonicalPt)->process(sendTo);
@@ -315,7 +362,6 @@ int Controller::dequeueMsg(void *sendTo)
       printf( "Error: unknown message\n" );
       isError = 1;
     }
-  cmdQueue.pop_front();
   return isError;
 }
 

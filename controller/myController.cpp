@@ -143,6 +143,11 @@ int SetRelativeSpeedMsg::process(void *sendTo)
   return 0;
 }
 
+int StartObjectScanMsg::process(void *sendTo)
+{
+	printf( "Received StartObjectScan msg for part %s\n", objectName.c_str() );
+}
+
 int StopMotionMsg::process(void *sendTo)
 {
   if( isEmergency )

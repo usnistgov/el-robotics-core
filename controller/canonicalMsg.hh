@@ -211,6 +211,15 @@ public:
   double percent;
 };
 
+class StartObjectScanMsg:public CanonicalMsg{
+public:
+  StartObjectScanMsg(){};
+  StartObjectScanMsg(std::string objectNameIn){objectName = objectNameIn; };
+  ~StartObjectScanMsg(){};
+  virtual int process(void* sendTo);
+  std::string objectName;
+};
+
 class StopMotionMsg:public CanonicalMsg{
 public:
   StopMotionMsg(){};
@@ -219,5 +228,13 @@ public:
   virtual int process(void *sendTo);
   int isEmergency;
 };
+
+class StopObjectScanMsg:public CanonicalMsg{
+public:
+  StopObjectScanMsg(){};
+  ~StopObjectScanMsg(){};
+  virtual int process(void* sendTo);
+};
+
 
 #endif

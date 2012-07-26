@@ -6,7 +6,7 @@
 
 int CloseGripperMsg::process(void* sendTo)
 {
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
     printf("Received CloseGripper msg, setting all effector goal states to CLOSE\n");
     usarsim_inf::EffectorCommand command;
@@ -18,9 +18,23 @@ int CloseGripperMsg::process(void* sendTo)
   return 1;
 }
 
+int CloseToolChangerMsg::process(void *sendTo)
+{
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+  {
+    printf("Received CloseGripper msg, setting all effector goal states to CLOSE\n");
+    usarsim_inf::EffectorCommand command;
+    command.state = usarsim_inf::EffectorCommand::CLOSE;
+  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
+  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	return 0;
+  }
+  return 1;
+}
+
 int DwellMsg::process(void* sendTo)
 {
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
 	  printf( "Received dwell message of time: %lf\n", time );
 	  usleep((int)(time*1000000));
@@ -59,11 +73,11 @@ int MessageMsg::process(void* sendTo)
 }
 int MoveThroughToMsg::process(void* sendTo)
 {
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
   	for(int i = 0;i<num;i++)
   	{
-  		((RosInf*)sendTo)->waitForArmGoal(poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_X(),
+  		((RosInf*)sendTo)->addArmGoal(poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_X(),
 							poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Y(),
 							poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Z(),
 							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_I(),
@@ -84,9 +98,9 @@ int MoveStraightToMsg::process(void* sendTo)
 }
 int MoveToMsg::process(void* sendTo)
 {
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-  	((RosInf*)sendTo)->waitForArmGoal(poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
+  	((RosInf*)sendTo)->addArmGoal(poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
 							poseLocation->gethasPoseLocation_Point()->gethasPoint_Y(),
 							poseLocation->gethasPoseLocation_Point()->gethasPoint_Z(),
 							poseLocation->gethasPoseLocation_XAxis()->gethasVector_I(),
@@ -100,7 +114,7 @@ int MoveToMsg::process(void* sendTo)
 }
 int OpenGripperMsg::process(void* sendTo)
 {
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
     printf("Received OpenGripper msg, setting all effector goal states to OPEN\n");
     usarsim_inf::EffectorCommand command;
@@ -112,11 +126,32 @@ int OpenGripperMsg::process(void* sendTo)
   return 1;
 }
 
+int OpenToolChangerMsg::process(void *sendTo)
+{
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+  {
+    printf("Received OpenGripper msg, setting all effector goal states to OPEN\n");
+    usarsim_inf::EffectorCommand command;
+    command.state = usarsim_inf::EffectorCommand::OPEN;
+  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
+  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	return 0;
+  }
+  return 1;
+}
+
 int SetAbsoluteAccelerationMsg::process(void* sendTo)
 {
   printf( "Received SetAbsoluteAcceleration msg\n" );
   return 0;
 }
+
+int SetAbsoluteSpeedMsg::process(void *sendTo)
+{
+  printf( "Received SetAbsoluteSpeed msg\n" );
+  return 0;
+}
+
 
 int SetAngleUnitsMsg::process(void* sendTo)
 {
@@ -160,42 +195,21 @@ int SetRelativeSpeedMsg::process(void* sendTo)
   return 0;
 }
 
-int SetAbsoluteSpeedMsg::process(void *sendTo)
+int StartObjectScanMsg::process(void* sendTo)
 {
-  printf( "Received SetAbsoluteSpeed msg\n" );
+  ((RosInf*)sendTo)->searchPart(objectName);
   return 0;
 }
 
-int OpenToolChangerMsg::process(void *sendTo)
-{
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
-  {
-    printf("Received OpenGripper msg, setting all effector goal states to OPEN\n");
-    usarsim_inf::EffectorCommand command;
-    command.state = usarsim_inf::EffectorCommand::OPEN;
-  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
-  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
-  	return 0;
-  }
-  return 1;
-}
-
-int CloseToolChangerMsg::process(void *sendTo)
-{
-  if(sendTo != NULL && ((RosInf*)sendTo)->isReady())
-  {
-    printf("Received CloseGripper msg, setting all effector goal states to CLOSE\n");
-    usarsim_inf::EffectorCommand command;
-    command.state = usarsim_inf::EffectorCommand::CLOSE;
-  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
-  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
-  	return 0;
-  }
-  return 1;
-}
 int StopMotionMsg::process(void *sendTo)
 {
 	printf("Received StopMotion msg\n");
+	return 0;
+}
+
+int StopObjectScanMsg::process(void* sendTo)
+{
+	((RosInf*)sendTo)->stopSearch();
 	return 0;
 }
 

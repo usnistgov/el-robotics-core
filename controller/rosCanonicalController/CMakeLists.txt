@@ -32,7 +32,8 @@ rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp
 											src/ulapi.cpp
 											src/rosInf.cpp
 											src/rosController.cpp
-											src/navigationGoal.cpp)
+											src/navigationGoal.cpp
+											src/scanPattern.cpp)
 target_link_libraries(rosCanonicalController Controller)
 target_link_libraries(rosCanonicalController pthread)
 target_link_libraries(rosCanonicalController mysqlcppconn)

@@ -41,58 +41,58 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
       for (length = 0; isalpha(readHere[length]); length++);
       if (readNoArgCommand("CloseGripper", length, readHere))
 	{
-	  ctrl->queueMsg(new CloseGripperMsg);
+	  ctrl->queueMsgLow(new CloseGripperMsg);
 	}
       else if (readNoArgCommand("CloseToolChanger", length, readHere))
 	{
-	  ctrl->queueMsg(new CloseToolChangerMsg);
+	  ctrl->queueMsgLow(new CloseToolChangerMsg);
 	}
       else if (readDoubleArgCommand("Dwell", length, readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new DwellMsg(doubleVal));
+	  ctrl->queueMsgLow(new DwellMsg(doubleVal));
 	}
       else if (readIntArgCommand("EndCanon", length, readHere, &intVal))
 	{
-	  ctrl->queueMsg(new EndCanonMsg(intVal));
+	  ctrl->queueMsgLow(new EndCanonMsg(intVal));
 	}
       else if (readNoArgCommand("InitCanon", length, readHere))
 	{
-	  ctrl->queueMsg(new InitCanonMsg);
+	  ctrl->queueMsgLow(new InitCanonMsg);
 	}
       else if (readStringArgCommand("Message", length, readHere, buffer))
 	{
 	  text = buffer;
-	  ctrl->queueMsg(new MessageMsg(text));
+	  ctrl->queueMsgLow(new MessageMsg(text));
 	}
       else if (readPoseLocationArgCommand("MoveStraightTo", length, readHere, &poseLocation))
 	{
-	  ctrl->queueMsg(new MoveStraightToMsg(poseLocation));
+	  ctrl->queueMsgLow(new MoveStraightToMsg(poseLocation));
 	}
       else if (readMoveThroughTo(lineIn, &poseLocations, &intVal, inFile))
 	{
-	  ctrl->queueMsg(new MoveThroughToMsg(poseLocations, intVal));
+	  ctrl->queueMsgLow(new MoveThroughToMsg(poseLocations, intVal));
 	}
       else if (readPoseLocationArgCommand("MoveTo", length, readHere, &poseLocation))
 	{
-	  ctrl->queueMsg(new MoveToMsg(poseLocation));
+	  ctrl->queueMsgLow(new MoveToMsg(poseLocation));
 	}
       else if (readNoArgCommand("OpenGripper", length, readHere))
 	{
-	  ctrl->queueMsg(new OpenGripperMsg);
+	  ctrl->queueMsgLow(new OpenGripperMsg);
 	}
       else if (readNoArgCommand("OpenToolChanger", length, readHere))
 	{
-	  ctrl->queueMsg(new OpenToolChangerMsg);
+	  ctrl->queueMsgLow(new OpenToolChangerMsg);
 	}
       else if (readDoubleArgCommand("SetAbsoluteAcceleration", length, 
 				    readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new SetAbsoluteAccelerationMsg(doubleVal));
+	  ctrl->queueMsgLow(new SetAbsoluteAccelerationMsg(doubleVal));
 	}
       else if (readDoubleArgCommand("SetAbsoluteSpeed", length,
 				    readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new SetAbsoluteSpeedMsg(doubleVal));
+	  ctrl->queueMsgLow(new SetAbsoluteSpeedMsg(doubleVal));
 	}
       else if (readStringArgCommand("SetAngleUnits", length, readHere, buffer))
 	{
@@ -105,23 +105,23 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	  else
 	    {
 	      text = buffer;
-	      ctrl->queueMsg(new SetAngleUnitsMsg(text));
+	      ctrl->queueMsgLow(new SetAngleUnitsMsg(text));
 	    }
 	}
       else if (readDoubleArgCommand("SetEndAngleTolerance", length, 
 			       readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new SetEndAngleToleranceMsg(doubleVal));
+	  ctrl->queueMsgLow(new SetEndAngleToleranceMsg(doubleVal));
 	}
       else if (readDoubleArgCommand("SetEndPointTolerance", length, 
 				    readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new SetEndPointToleranceMsg(doubleVal));
+	  ctrl->queueMsgLow(new SetEndPointToleranceMsg(doubleVal));
 	}
       else if (readDoubleArgCommand("SetIntermediatePointTolerance", length, 
 				    readHere, &doubleVal))
 	{
-	  ctrl->queueMsg (new SetIntermediatePointToleranceMsg(doubleVal));
+	  ctrl->queueMsgLow (new SetIntermediatePointToleranceMsg(doubleVal));
 	}
       else if (readStringArgCommand("SetLengthUnits", length, readHere, buffer))
 	{
@@ -135,22 +135,27 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	  else
 	    {
 	      text = buffer;
-	      ctrl->queueMsg(new SetLengthUnitsMsg(text));
+	      ctrl->queueMsgLow(new SetLengthUnitsMsg(text));
 	    }	  
 	}
       else if (readDoubleArgCommand("SetRelativeAcceleration", length, 
 				    readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new SetRelativeAccelerationMsg(doubleVal));
+	  ctrl->queueMsgLow(new SetRelativeAccelerationMsg(doubleVal));
 	}
       else if (readDoubleArgCommand("SetRelativeSpeed", length, 
 				    readHere, &doubleVal))
 	{
-	  ctrl->queueMsg(new SetRelativeSpeedMsg(doubleVal));
+	  ctrl->queueMsgLow(new SetRelativeSpeedMsg(doubleVal));
+	}
+	  else if (readStringArgCommand("StartObjectScan", length, readHere, buffer))
+	{
+	  text = buffer;
+	  ctrl->queueMsgLow(new StartObjectScanMsg(text));
 	}
       else if (readIntArgCommand("StopMotion", length, readHere, &intVal))
 	{
-	  ctrl->queueMsg(new StopMotionMsg(intVal));
+	  ctrl->queueMsgLow(new StopMotionMsg(intVal));
 	}
       else
 	{

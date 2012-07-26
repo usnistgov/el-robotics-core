@@ -27,10 +27,15 @@ class Controller
 public:
   Controller();
   ~Controller();
-  int queueMsg( CanonicalMsg *msgIn );
-  int dequeueMsg(void *sendTo);
+  int queueMsgLow( CanonicalMsg *msgIn );
+  int queueMsgHigh( CanonicalMsg *msgIn );
+  int dequeueMsgHigh(void *sendTo);
+  int dequeueMsgLow(void* sendTo);
 private:
-  std::deque<CanonicalMsg *> cmdQueue;
+  std::deque<CanonicalMsg *> cmdQueueLow;
+  std::deque<CanonicalMsg *> cmdQueueHigh;
   int queue_length;
+  int processMsg(CanonicalMsg *canonicalPt, void* sendTo);
+  CanonicalMsg* getMsg(CanonicalMsg *msgIn);
 };
 #endif

@@ -10,34 +10,36 @@
 #include "commandParser.hh"
 #include "canonicalMsg.hh"
 
+RosInf *rosControl;
+
 void
 dequeueThread (void *arg)
 {
-  int errReturn;
+  int errReturn = 0;
   Controller *ctrl = reinterpret_cast < Controller *>(arg);
-  ros::init(ros::VP_string(), "canonicalController");
-  RosInf rosControl;
-  ros::start();
   while(ros::ok())
   {
-  	  errReturn = ctrl->dequeueMsg(&rosControl);
-      if( errReturn == 0)
-      	  sleep(1);
-	  else if( errReturn == 2 )
-	  {
-		  printf( "End of canon and thread\n" );
-		  ros::shutdown();
-	  	  return;
-	  }
-      else
-	  {
-		  printf( "Error from parser\n" );
-		  ros::shutdown();
-		  return;
-	  }
+  	  while(errReturn == 0)
+  	  	errReturn = ctrl->dequeueMsgHigh(rosControl);
+  	  errReturn = ctrl->dequeueMsgLow(rosControl);
+  	  while(!rosControl->checkCommandDone())
+  	  {
+  	    errReturn = ctrl->dequeueMsgHigh(rosControl);
+  	    sleep(.1);
+  	  	ros::spinOnce();
+  	  }
+  	  if(errReturn == 0 || errReturn == -1)
+  	  {
+  	  	//either no command to process or command was processed successfully
+  	  }
+  	  else if(errReturn == 1)
+  	  {
+  	  	printf("Error in command queue.\n");
+  	  	ros::shutdown();
+  	  	return;
+  	  }
 	  ros::spinOnce();
   }
-  ros::shutdown();
 }
 int
 main (int argc, char* argv[])
@@ -47,10 +49,13 @@ main (int argc, char* argv[])
   void *dequeueTask = NULL;
 
   ctrl = new Controller();
-  
+  ros::init(ros::VP_string(), "canonicalController");
+  ros::start();
+  rosControl = new RosInf();
   FILE * inFile;
   CommandParser parser;
-  
+  CloseGripperMsg closeGripper;
+  EndCanonMsg endCanon;
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures
   if (ULAPI_OK != ulapi_init (UL_USE_DEFAULT))
@@ -74,6 +79,12 @@ main (int argc, char* argv[])
     exit(1);
   fclose(inFile);
   
+  /*Point *startPoint = new Point("start_scan");
+  startPoint->sethasPoint_X(-.163);
+  startPoint->sethasPoint_Y(0.6205);
+  startPoint->sethasPoint_Z(0.3);*/
+  
   sleep(300);
+  ros::shutdown();
   return 1;
 }

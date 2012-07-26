@@ -6,6 +6,7 @@
 #include <usarsim_inf/EffectorStatus.h>
 #include <usarsim_inf/ToolchangerStatus.h>
 #include <usarsim_inf/EffectorCommand.h>
+#include <usarsim_inf/SenseObject.h>
 #include <actionlib/client/simple_action_client.h>
 #include <controller.hh>
 #include <Point.h>
@@ -39,26 +40,50 @@ class RosInf
 public:
   RosInf();
   ~RosInf();
-  int initArmNavigation();
-  int initEffectors();
   void waitForEffectors();
-  bool isReady();
+  bool checkCommandDone();
+  bool isInitialized();
   void setEffectorGoal(const usarsim_inf::EffectorCommand &command, EffectorType type);
   void shutDown();
   bool init();
+  void searchPart(std::string partName);
+  void stopSearch();
   void setEndPointTolerance(double tolerance);
   void setLengthUnits(std::string units);
-  void waitForArmGoal(double x,  double y, double z, double xRot, double yRot, double zRot, double wRot);
-  void waitForArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
+  void addArmGoal(double x,  double y, double z, double xRot, double yRot, double zRot, double wRot);
+  void addArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
   	double zAxisY, double zAxisZ);
+  double getSensorFOV();
 private:
-  std::string lengthUnits; //either "inch," "mm," or "meter"
-  bool ready;
+  std::string actuatorName;
+  std::string lengthUnits;
+  
+  std::string activeEffectorName;
+  bool effectorAttached;
+  
+  tf::TransformListener listener;
+  double positionTolerance;
+  
+  int initArmNavigation();
+  int initEffectors();
+  int initSensors();
+  bool initialized;
   //arm navigation 
-  NavigationGoal armGoal;
+  std::deque<NavigationGoal> armGoals;
   actionlib::SimpleActionClient<arm_navigation_msgs::MoveArmAction> *moveArmClient;
+  void navigationDoneCallback(const actionlib::SimpleClientGoalState &state, const arm_navigation_msgs::MoveArmResultConstPtr &result);
+  
   //ROS status and command topic subscribers and publishers 
   std::vector<EffectorController> effectorControllers;
+  
+  //object sensor
+  bool hasObjectSensor;
+  bool objectSensorInitialized;
+  double objectSensorFOV;
+  ros::Subscriber objectSensorSub;
+  void waitForObjectSensor();
+  std::vector<std::string> findPartNames;
+  void objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg);
 };
 
 #endif

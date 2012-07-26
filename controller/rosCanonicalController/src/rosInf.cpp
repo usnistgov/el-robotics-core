@@ -2,24 +2,31 @@
 #define INCH_TO_METER 0.0254
 RosInf::RosInf()
 {
-	ready = false;
+	initialized = false;
+	effectorAttached = false;
+	armGoals.clear();
 	moveArmClient = NULL;
-	lengthUnits = "meter";
+	lengthUnits = "mm";
+	positionTolerance = 0.01;//(meters)
 }
 RosInf::~RosInf()
 {
 	if(moveArmClient != NULL)
 		delete moveArmClient;
 }
-bool RosInf::isReady()
+bool RosInf::checkCommandDone()
+{	
+	return armGoals.empty();
+}
+bool RosInf::isInitialized()
 {
-	return ready;
+	return initialized;
 }
 void RosInf::shutDown()
 {
-  if(ready)
+  if(initialized)
   {
-	  ready = false;
+	  initialized = false;
 	  if(moveArmClient != NULL)
 	  {
 		  delete moveArmClient;
@@ -27,13 +34,27 @@ void RosInf::shutDown()
 	  }
   }
 }
+double RosInf::getSensorFOV()
+{
+	if(hasObjectSensor)
+	{
+		waitForObjectSensor();
+		return objectSensorFOV;
+	}
+	else
+	{
+		ROS_WARN("Called getSensorFOV on a robot without an object sensor, returning 0");
+		return 0;
+	}
+}
 bool RosInf::init()
 {
-	ready = false;
+	initialized = false;
 	if(initArmNavigation() &&
-		initEffectors())
+		initEffectors() &&
+		initSensors())
 	{
-		ready = true;
+		initialized = true;
 		printf("ROS canonical controller initialized.\n");
 		return true;
 	}
@@ -49,72 +70,127 @@ void RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand &command, Effect
 }
 int RosInf::initArmNavigation()
 {
-	ros::NodeHandle nh;
-	XmlRpc::XmlRpcValue planningGroups;
-	std::string actuatorName;
-	if(nh.getParam("robot_description_planning/groups", planningGroups))
-	{
-		ROS_ASSERT(planningGroups.getType() == XmlRpc::XmlRpcValue::TypeArray);
-		//just control the first planning group found
-		if(planningGroups.size() > 0)
-		{
-			ROS_ASSERT(planningGroups[0]["name"].getType() == XmlRpc::XmlRpcValue::TypeString);
-			actuatorName = static_cast<std::string>(planningGroups[0]["name"]);
-		}
-		else
-		{
-			printf("Could not find a planning group to control! Make sure your robot is active and arm navigation is running.\n");
-			return 0;
-		}
-		
-	}else
-	{
-		printf("Could not find a planning group to control! Make sure your robot is active and arm navigation is running.\n");
-		return 0;
-	}
-	moveArmClient = new actionlib::SimpleActionClient<arm_navigation_msgs::MoveArmAction>("move_"+actuatorName, true);
-	
+	NavigationGoal armGoal;
+	armGoal.setupActuator();
+	moveArmClient = new actionlib::SimpleActionClient<arm_navigation_msgs::MoveArmAction>("move_"+armGoal.getActName(), true);
 	if(moveArmClient->waitForServer(ros::Duration(10.0)))
 	{
-		printf("Connected to navigation server.\n");
-		armGoal.setActuatorName(actuatorName);
-		armGoal.setPositionFrameType("global");
-		armGoal.setOrientationFrameType("global");
-		armGoal.setPositionTolerance(0.01);
-		armGoal.setOrientationTolerance(0.04);
+		ROS_INFO("Connected to navigation server.");
 		return 1;
 	}
 	else
 	{
-		printf("InitCanon failed: could not connect to arm navigation server\n");
+		ROS_ERROR("InitCanon failed: could not connect to arm navigation server");
 		return 0;
 	}
 }
 int RosInf::initEffectors()
 {
 	ros::master::V_TopicInfo topics;
-	
+	bool foundEffector = false;
 	effectorControllers.clear();
 	
-	printf("Searching for effector topics...\n");
+	ROS_DEBUG("Searching for effector topics...");
 	ros::master::getTopics(topics);	
 	for(unsigned int i = 0;i<topics.size();++i)
 	{
 		if(topics[i].datatype == "usarsim_inf/EffectorStatus")
 		{
-			printf("Found status topic %s, subscribing.\n",topics[i].name.c_str());
+			ROS_DEBUG("Found status topic %s, subscribing.",topics[i].name.c_str());
 			effectorControllers.push_back(EffectorController());
 			effectorControllers.back().initGripperSubscriber(topics[i].name);
+			foundEffector = true;
 		}else if(topics[i].datatype == "usarsim_inf/ToolchangerStatus")
 		{
-			printf("Found status topic %s, subscribing.\n",topics[i].name.c_str());
+			ROS_DEBUG("Found status topic %s, subscribing.",topics[i].name.c_str());
 			effectorControllers.push_back(EffectorController());
 			effectorControllers.back().initToolchangerSubscriber(topics[i].name);
+			foundEffector = true;
 		}
 	}
-	waitForEffectors();
+	if(foundEffector)
+		waitForEffectors();
 	return 1;
 }
+int RosInf::initSensors()
+{
+	ros::master::V_TopicInfo topics;
+	ros::NodeHandle nh;
+	hasObjectSensor = false;
+	ROS_INFO("Searching for object sensor topic...");
+	ros::master::getTopics(topics);	
+	for(unsigned int i = 0;i<topics.size();++i)
+	{
+		if(topics[i].datatype == "usarsim_inf/SenseObject")
+		{
+			ROS_DEBUG("Found status topic %s, subscribing.",topics[i].name.c_str());
+			objectSensorSub = nh.subscribe(topics[i].name, 10, &RosInf::objectSensorCallback, this);
+			hasObjectSensor = true;
+		}
+	}
+	if(hasObjectSensor)
+		waitForObjectSensor();
+	return 1;
+}
+
+void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
+{
+	objectSensorInitialized = true;
+	objectSensorFOV = msg->fov;
+	if(!findPartNames.empty() && !msg->object_names.empty())
+	{
+		for(unsigned int i = 0;i<msg->object_names.size();i++)
+		{
+			std::vector<std::string>::iterator position = std::find(findPartNames.begin(), findPartNames.end(), msg->object_names[i]);
+			if(position != findPartNames.end())
+			{
+				printf("FOUND PART: %s  xyz %f, %f, %f rot %f, %f, %f, %f\n",(*position).c_str(), 
+				msg->object_poses[i].position.x,
+				msg->object_poses[i].position.y,
+				msg->object_poses[i].position.z,
+				msg->object_poses[i].orientation.x,
+				msg->object_poses[i].orientation.y,
+				msg->object_poses[i].orientation.z,
+				msg->object_poses[i].orientation.w);
+				findPartNames.erase(position);
+				
+				//TODO: cancel arm navigation
+				//update the SQL database
+			}
+		}
+		if(findPartNames.empty())
+		{
+			armGoals.erase(armGoals.begin() + 1, armGoals.end());//clear everything except for the current goal
+			printf("Cleared findpartnames\n");
+		}
+	}
+}
+
+void RosInf::searchPart(std::string partName)
+{
+	//if the part name isn't already in the list of parts being looked for, add it
+	if(findPartNames.empty() || std::find(findPartNames.begin(), findPartNames.end(), partName) == findPartNames.end())
+	{
+		findPartNames.push_back(partName);
+	}
+}
+
+void RosInf::stopSearch()
+{
+	findPartNames.clear();
+}
+
+void RosInf::setEndPointTolerance(double tolerance)
+{
+	//always use meters internally
+	if(lengthUnits == "meter")
+		positionTolerance = tolerance;
+	else if(lengthUnits == "mm")
+		positionTolerance = tolerance * .001;
+	else if(lengthUnits == "inch")
+		positionTolerance = tolerance * INCH_TO_METER;
+}
+
 /*
 	block until all effectors have reached their goal state.
 */
@@ -130,45 +206,60 @@ void RosInf::waitForEffectors()
 	  		{
 	  			effectorsSet = false;
 	  		}
-	  		else if(effectorControllers[i].currentState.state != effectorControllers[i].goalState.state)
+	  		else 
 	  		{
-	  			effectorControllers[i].goalState.header.stamp = ros::Time::now();
-	  			effectorControllers[i].publisher.publish(effectorControllers[i].goalState);
-	  			effectorsSet = false;
+	  			//active effector is always the last one discovered
+	  			effectorAttached = true;
+	  			activeEffectorName = effectorControllers[i].goalState.header.frame_id;
+	  			if(effectorControllers[i].currentState.state != effectorControllers[i].goalState.state)
+	  			{
+		  			effectorControllers[i].goalState.header.stamp = ros::Time::now();
+		  			effectorControllers[i].publisher.publish(effectorControllers[i].goalState);
+		  			effectorsSet = false;
+	  			}
 	  		}
 		}
 		ros::spinOnce(); //need to spin so that callbacks are called even though this blocks
 	}while(!effectorsSet);
-	printf("All effectors are in their goal state.\n");
+	ROS_DEBUG("All effectors are in their goal state.");
 }
-void RosInf::waitForArmGoal(double x, double y, double z, double xRot, double yRot, double zRot, double wRot)
+
+void RosInf::navigationDoneCallback(const actionlib::SimpleClientGoalState &state, const arm_navigation_msgs::MoveArmResultConstPtr &result)
 {
-	bool finishOnTime = false;
-	armGoal.movePosition(x,y,z);
-	armGoal.moveOrientation(xRot, yRot, zRot, wRot);
-	
-	moveArmClient->sendGoal(armGoal.getGoal());
-	finishOnTime = moveArmClient->waitForResult(ros::Duration(15.0));
-	if(!finishOnTime)
+	ROS_DEBUG("Arm navigation goal complete: %s",state.toString().c_str());
+	armGoals.pop_front();
+	if(!armGoals.empty())
 	{
-		moveArmClient->cancelGoal();
-		printf("Arm navigation goal timed out.");
-	}
-	else
-	{
-		//response from server
-		actionlib::SimpleClientGoalState state = moveArmClient->getState();
-		if(state == actionlib::SimpleClientGoalState::SUCCEEDED)
-		{
-			printf("Move arm action finished: %s\n",state.toString().c_str());
-		}
-		else
-		{
-			printf("Move arm action failed: %s\n",state.toString().c_str());
-		}			
+		moveArmClient->sendGoal(armGoals.front().getGoal(), boost::bind(&RosInf::navigationDoneCallback, this, _1, _2));
 	}
 }
-void RosInf::waitForArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
+
+void RosInf::addArmGoal(double x, double y, double z, double xRot, double yRot, double zRot, double wRot)
+{
+	NavigationGoal nextGoal;
+	
+	nextGoal.setupActuator();
+	nextGoal.setTransformListener(&listener);
+	
+	nextGoal.setPositionFrameType("global");
+	nextGoal.setOrientationFrameType("global");
+	nextGoal.setPositionTolerance(positionTolerance);
+	nextGoal.setOrientationTolerance(0.04);
+	
+	if(effectorAttached)
+		nextGoal.setTargetPointFrame(activeEffectorName);
+	
+	nextGoal.movePosition(x,y,z);
+	nextGoal.moveOrientation(xRot, yRot, zRot, wRot);
+	
+	
+	armGoals.push_back(nextGoal);
+	if(armGoals.size() == 1) // if there were no goals in the queue already, send this one immediately
+	{
+		moveArmClient->sendGoal(nextGoal.getGoal(), boost::bind(&RosInf::navigationDoneCallback, this, _1, _2));
+	}
+}
+void RosInf::addArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
   	double zAxisY, double zAxisZ)
 {
 	tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
@@ -185,11 +276,22 @@ void RosInf::waitForArmGoal(double x,  double y, double z, double xAxisX, double
 	float zAngle = acos(transformedZ.dot(zAxis));
 	tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
 	tf::Transform axisTransform = xTransform*zTransform;
-	waitForArmGoal(x,y,z, axisTransform.getRotation().x(),
-						  axisTransform.getRotation().y(),
-						  axisTransform.getRotation().z(),
-						  axisTransform.getRotation().w());
+	addArmGoal(x,y,z, axisTransform.getRotation().x(),
+					   axisTransform.getRotation().y(),
+					   axisTransform.getRotation().z(),
+					   axisTransform.getRotation().w());
+	
 }
+
+void RosInf::waitForObjectSensor()
+{
+	while(!objectSensorInitialized)
+	{
+		ros::spinOnce();
+		ros::Duration(0.1).sleep();
+	}
+}
+
 void RosInf::setLengthUnits(std::string units)
 {
 	if(units == "inch")
@@ -200,15 +302,6 @@ void RosInf::setLengthUnits(std::string units)
 		lengthUnits = "meter";
 	else
 		printf("Warning: unrecognized length unit \"%s,\" using \"%s\" instead\n", units.c_str(), lengthUnits.c_str());
-}
-void RosInf::setEndPointTolerance(double tolerance)
-{
-	if(lengthUnits == "meter")
-		armGoal.setPositionTolerance(tolerance);
-	else if(lengthUnits == "mm")
-		armGoal.setPositionTolerance(tolerance * .001);
-	else if(lengthUnits == "inch")
-		armGoal.setPositionTolerance(tolerance * INCH_TO_METER);
 }
 EffectorController::EffectorController()
 {	

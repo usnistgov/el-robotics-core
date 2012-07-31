@@ -28,7 +28,7 @@ dequeueThread (void *arg)
 
   for(;;)
     {
-      if( ctrl->dequeueMsg(myVoid) == 0)
+      if( ctrl->dequeueMsgLow(myVoid) == 0)
 	sleep(1);
     }
 }
@@ -61,25 +61,25 @@ main ()
 		    1);
 
   printf( "Queue InitCanon\n" );
-  ctrl->queueMsg(&initCanon);
+  ctrl->queueMsgLow(&initCanon);
   //  sleep(1);
   printf( "Queue dwell\n" );
-  ctrl->queueMsg(&dwell);
+  ctrl->queueMsgLow(&dwell);
   //  sleep(2);
   printf( "Queue openGripper\n" );
-  ctrl->queueMsg(&openGripper);
+  ctrl->queueMsgLow(&openGripper);
   //  sleep(2);
   printf( "Queue closeGripper\n" );
-  ctrl->queueMsg(&closeGripper);
+  ctrl->queueMsgLow(&closeGripper);
   printf( "Queue messageMsg\n" );
-  ctrl->queueMsg(&message);
+  ctrl->queueMsgLow(&message);
   printf( "Queue openToolChanger\n" );
-  ctrl->queueMsg(&openToolChanger);
+  ctrl->queueMsgLow(&openToolChanger);
   printf( "Queue closeToolChanger\n" );
-  ctrl->queueMsg(&closeToolChanger);
+  ctrl->queueMsgLow(&closeToolChanger);
   sleep(10);
   printf( "Queue endCanon\n" );
-  ctrl->queueMsg(&endCanon);
+  ctrl->queueMsgLow(&endCanon);
   sleep(10);
   return 1;
 }

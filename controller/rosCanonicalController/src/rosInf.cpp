@@ -50,8 +50,8 @@ double RosInf::getSensorFOV()
 bool RosInf::init()
 {
 	initialized = false;
-	if(initArmNavigation() &&
-		initEffectors() &&
+	if(initEffectors() &&
+		 initArmNavigation() &&
 		initSensors())
 	{
 		initialized = true;
@@ -263,7 +263,7 @@ void RosInf::addArmGoal(double x,  double y, double z, double xAxisX, double xAx
   	double zAxisY, double zAxisZ)
 {
 	tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
-	tf::Vector3 zAxis(zAxisZ, zAxisY, zAxisZ);
+	tf::Vector3 zAxis(zAxisX, zAxisY, zAxisZ);
 	//find equivalent quaternion for x/z vectors
 	tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
 	float xAngle = acos(xAxis.x());
@@ -273,7 +273,7 @@ void RosInf::addArmGoal(double x,  double y, double z, double xAxisX, double xAx
 	}
 	tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
 	tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
-	float zAngle = acos(transformedZ.dot(zAxis));
+	float zAngle = acos(transformedZ.dot(zAxis)/zAxis.length());
 	tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
 	tf::Transform axisTransform = xTransform*zTransform;
 	addArmGoal(x,y,z, axisTransform.getRotation().x(),

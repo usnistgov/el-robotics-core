@@ -378,7 +378,9 @@ ulapi_result ulapi_wait(ulapi_integer period_nsec)
 
 void ulapi_task_exit(ulapi_integer retval)
 {
-  pthread_exit((void *) retval);
+  ptrdiff_t p = retval; /* ptrdiff_t is an integer the same size as a pointer*/
+
+  pthread_exit((void *) p);
 }
 
 ulapi_result ulapi_task_join(void *task, ulapi_integer *retptr)

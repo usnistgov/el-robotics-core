@@ -29,7 +29,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 link_directories(~/ipmas/controller) #change this line to point to the ipmas directory
 rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp
-											src/ulapi.cpp
 											src/rosInf.cpp
 											src/rosController.cpp
 											src/navigationGoal.cpp

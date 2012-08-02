@@ -6,7 +6,7 @@
 void generateScanPattern(MoveThroughToMsg *scanPattern, RosInf* rosInf, Point *initPoint, double length, double width)
 {
 	Vector *xAxis = new Vector("x_axis");
-	xAxis->sethasVector_I(-1.0);
+	xAxis->sethasVector_I(1.0);
 	xAxis->sethasVector_J(0.0);
 	xAxis->sethasVector_K(0.0);
 	Vector *zAxis = new Vector("z_axis");

@@ -152,8 +152,10 @@ void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 				msg->object_poses[i].orientation.y,
 				msg->object_poses[i].orientation.z,
 				msg->object_poses[i].orientation.w);
-				findPartNames.erase(position);
+				printf("%s hit location: %f %f %f\n", (*position).c_str(), msg->object_hit_locations[i].position.x,
+				msg->object_hit_locations[i].position.y, msg->object_hit_locations[i].position.z);
 				
+				findPartNames.erase(position);				
 				//TODO: cancel arm navigation
 				//update the SQL database
 			}

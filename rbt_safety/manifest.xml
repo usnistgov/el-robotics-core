@@ -1,0 +1,16 @@
+<package>
+  <description brief="obst_det_b">
+
+     obst_det_b
+
+  </description>
+  <author>Evan Keston</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/obst_det_b</url>
+  <depend package="sensor_msgs"/>
+  <depend package="std_msgs"/>
+
+</package>
+
+

@@ -12,7 +12,7 @@ int CloseGripperMsg::process(void* sendTo)
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
-  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
   	return 0;
   }
   return 1;
@@ -26,7 +26,7 @@ int CloseToolChangerMsg::process(void *sendTo)
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
-  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
   	return 0;
   }
   return 1;
@@ -120,7 +120,7 @@ int OpenGripperMsg::process(void* sendTo)
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
-  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
   	return 0;
   }
   return 1;
@@ -134,7 +134,7 @@ int OpenToolChangerMsg::process(void *sendTo)
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
-  	((RosInf*)sendTo)->waitForEffectors(); // could set a timeout here
+  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
   	return 0;
   }
   return 1;

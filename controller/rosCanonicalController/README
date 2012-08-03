@@ -2,16 +2,18 @@
 canonicalController.cpp:
 main cpp file. Creates the controller object and queues messages onto it (either individually or through the command parser, which is started in this file). It also creates and starts the dequeueing thread. The call to ros::init is at the beginning of the dequeue thread, and ros::shutdown is at the end.
 
+scanPickup.cpp:
+Same as canonicalController.cpp, but it also generates a pattern to scan the bin for parts and runs the commands that the object sensor outputs. 
+
 scanPattern.cpp:
 consists of a single function to generate a MoveThroughTo message used for scanning. The function takes a start point, a length, a width, and a pointer to the ROS interface (to get the FOV of the sensor doing the scanning). It generates a rectangular scan pattern with the initial point in one corner and extending [length] along the x axis and [width] along the y. The function assumes the sensor points downwards and that its field of view goes along the y-axis. Currently, the height of the arm during the scan pattern is fixed at an arbitrary amount above the start point (0.5 m).
-There is no header file for this function so the prototype is at the top of canonicalController.cpp.
+There is no header file for this function so the prototype is at the top of scanPickup.cpp.
 
 navigationGoal.hh, navigationGoal.cpp:
-Definition of NavigationGoal class. This class consists of an arm_navigation_msgs::MoveArmGoal message, and functions for initializing and manipulating it. The constructor checks the ROS parameter server (robot_description_planning/groups) for the name of the arm to control. When the getGoal() function is called, before returning the MoveArmGoal message, the object checks the current state of the arm to convert the goal pose to the correct coordinate system (since poses may be provided to the object either globally or locally). 
-
-rosController.cpp:
-Implementation of each of the different CanonicalMsg::process() functions, for handling a message. The sendTo pointer is cast to RosInf* . 
+Definition of NavigationGoal class. This class consists of an arm_navigation_msgs::MoveArmGoal message, and functions for initializing and manipulating it. The constructor checks the ROS parameter server (robot_description_planning/groups) for the name of the arm to control. When the getGoal() function is called, before returning the MoveArmGoal message, the object checks the current state of the arm to convert the goal pose to the correct coordinate system (since poses may be given to the arm either globally or locally). 
 
 rosInf.hh, rosInf.cpp:
 definitions for RosInf and EffectorController classes. RosInf is the direct interface to ROS and contains publishers, subscribers, action servers, and state data, as well as public methods for robot control (addArmGoal, stopMotion, setEffectorGoal, etc.) and a function to check if a command is currently operating (checkCommandDone). EffectorController contains the publisher, subscriber, and state data for a single effector (gripper or toolchanger). RosInf contains a vector of EffectorControllers, and a deque of NavigationGoals (used to handle a MoveThroughTo message).
-  
+
+rosController.cpp:
+Implementation of each of the different CanonicalMsg::process() functions, for handling a message. The sendTo pointer is cast to RosInf* .  

@@ -1,4 +1,5 @@
 #include "rosInf.hh"
+#include <stdio.h>
 #define INCH_TO_METER 0.0254
 RosInf::RosInf()
 {
@@ -43,7 +44,7 @@ double RosInf::getSensorFOV()
 	}
 	else
 	{
-		ROS_WARN("Called getSensorFOV on a robot without an object sensor, returning 0");
+		ROS_WARN("Called getSensorFOV on a robot without an initialized object sensor, returning 0");
 		return 0;
 	}
 }
@@ -109,7 +110,7 @@ int RosInf::initEffectors()
 		}
 	}
 	if(foundEffector)
-		waitForEffectors();
+		waitForEffectors(); //wait for effectors to publish their current state before returning
 	return 1;
 }
 int RosInf::initSensors()
@@ -135,6 +136,7 @@ int RosInf::initSensors()
 
 void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 {
+    FILE *fp = NULL;
 	objectSensorInitialized = true;
 	objectSensorFOV = msg->fov;
 	if(!findPartNames.empty() && !msg->object_names.empty())
@@ -144,20 +146,65 @@ void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 			std::vector<std::string>::iterator position = std::find(findPartNames.begin(), findPartNames.end(), msg->object_names[i]);
 			if(position != findPartNames.end())
 			{
+			    
 				printf("FOUND PART: %s  xyz %f, %f, %f rot %f, %f, %f, %f\n",(*position).c_str(), 
-				msg->object_poses[i].position.x,
-				msg->object_poses[i].position.y,
-				msg->object_poses[i].position.z,
-				msg->object_poses[i].orientation.x,
-				msg->object_poses[i].orientation.y,
-				msg->object_poses[i].orientation.z,
-				msg->object_poses[i].orientation.w);
+					msg->object_poses[i].position.x,
+					msg->object_poses[i].position.y,
+					msg->object_poses[i].position.z,
+					msg->object_poses[i].orientation.x,
+					msg->object_poses[i].orientation.y,
+					msg->object_poses[i].orientation.z,
+					msg->object_poses[i].orientation.w);
 				printf("%s hit location: %f %f %f\n", (*position).c_str(), msg->object_hit_locations[i].position.x,
 				msg->object_hit_locations[i].position.y, msg->object_hit_locations[i].position.z);
 				
+				//TODO: cancel arm navigation and update the mySQL database
+				//for now, write pick up commands to a file.
+				if(fp == NULL)
+			    	fp = fopen("output_commands.txt", "w");
+				if(fp != NULL)
+				{
+					//convert quaternion to x/z axes 
+					tf::Transform partRotation(tf::Quaternion(msg->object_poses[i].orientation.x, msg->object_poses[i].orientation.y,
+					msg->object_poses[i].orientation.z, msg->object_poses[i].orientation.w));
+					tf::Vector3 xAxis = partRotation * tf::Vector3(1,0,0);
+					tf::Vector3 zAxis = partRotation * tf::Vector3(0,0,1);
+					
+					float dropX, dropY;
+					if(msg->object_names[i] == "PartA")
+					{
+						dropX = -0.1;
+						dropY = .35;
+					}
+					else if(msg->object_names[i] == "PartB")
+					{
+						dropX = 0.15;
+						dropY = 0.35;
+					}	
+					else
+					{
+						dropX = -0.1;
+						dropY = 2.2;
+					}
+					fprintf(fp, "Dwell(1)\nMoveTo({{%f, %f, %f},{%f, %f, %f},{%f, %f, %f}})\n\
+					Dwell(.5)\n\
+					CloseGripper()\n\
+					MoveThroughTo({{{.12,1.2,-.5}, {0, 0, 1}, {1, 0, 0}},\n\
+								   {{%f, %f,-.5}, {0, 0, 1}, {1, 0, 0}},\n\
+								   {{%f, %f, 0.1}, {0, 0, 1}, {1, 0, 0}}}, 3)\n\
+					Dwell(.5)\n\
+					OpenGripper()\n\
+					Dwell(.5)\n\
+					MoveTo({{.12,1.2,-.6}, {0, 0, 1}, {1, 0, 0}})\n", msg->object_poses[i].position.x,
+						msg->object_poses[i].position.y, msg->object_poses[i].position.z,
+						zAxis.x(), zAxis.y(), zAxis.z(), xAxis.x(), xAxis.y(), xAxis.z(), dropX, dropY, dropX, dropY);
+					fclose(fp);
+				}
+				
+				
 				findPartNames.erase(position);				
-				//TODO: cancel arm navigation
-				//update the SQL database
+				
+				
 			}
 		}
 		if(findPartNames.empty())
@@ -225,7 +272,7 @@ void RosInf::waitForEffectors()
 	}while(!effectorsSet);
 	ROS_DEBUG("All effectors are in their goal state.");
 }
-
+//called whenever an arm navigation goal is completed
 void RosInf::navigationDoneCallback(const actionlib::SimpleClientGoalState &state, const arm_navigation_msgs::MoveArmResultConstPtr &result)
 {
 	ROS_DEBUG("Arm navigation goal complete: %s",state.toString().c_str());

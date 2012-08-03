@@ -59,6 +59,7 @@ main (int argc, char* argv[])
   CommandParser outputParser;
   CloseGripperMsg closeGripper;
   EndCanonMsg endCanon;
+  StopObjectScanMsg stopScan;
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures
   if (ULAPI_OK != ulapi_init (UL_USE_DEFAULT))
@@ -95,10 +96,8 @@ main (int argc, char* argv[])
   startPoint->sethasPoint_Z(0.3);
   generateScanPattern(&scanPattern, rosControl, startPoint, .62, .9);
   
-  
-  //COMMENT THIS LINE OUT TO REMOVE THE SCAN PATTERN
   ctrl->queueMsgLow(&scanPattern);
-  
+  ctrl->queueMsgLow(&stopScan);
   //spin on output file
   while(ros::ok())
   {

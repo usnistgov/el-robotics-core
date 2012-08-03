@@ -118,6 +118,7 @@ int RosInf::initSensors()
 	ros::master::V_TopicInfo topics;
 	ros::NodeHandle nh;
 	hasObjectSensor = false;
+	scanActive = false;
 	ROS_INFO("Searching for object sensor topic...");
 	ros::master::getTopics(topics);	
 	for(unsigned int i = 0;i<topics.size();++i)
@@ -217,6 +218,7 @@ void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 
 void RosInf::searchPart(std::string partName)
 {
+	scanActive = true;
 	//if the part name isn't already in the list of parts being looked for, add it
 	if(findPartNames.empty() || std::find(findPartNames.begin(), findPartNames.end(), partName) == findPartNames.end())
 	{
@@ -224,9 +226,15 @@ void RosInf::searchPart(std::string partName)
 	}
 }
 
+void RosInf::stopMotion()
+{
+	armGoals.erase(armGoals.begin() + 1, armGoals.end());//clear everything except for the current goal
+}
+
 void RosInf::stopSearch()
 {
 	findPartNames.clear();
+	scanActive = false;
 }
 
 void RosInf::setEndPointTolerance(double tolerance)
@@ -287,49 +295,58 @@ void RosInf::addArmGoal(double x, double y, double z, double xRot, double yRot, 
 {
 	NavigationGoal nextGoal;
 	
-	nextGoal.setupActuator();
-	nextGoal.setTransformListener(&listener);
-	
-	nextGoal.setPositionFrameType("global");
-	nextGoal.setOrientationFrameType("global");
-	nextGoal.setPositionTolerance(positionTolerance);
-	nextGoal.setOrientationTolerance(0.04);
-	
-	if(effectorAttached)
-		nextGoal.setTargetPointFrame(activeEffectorName);
-	
-	nextGoal.movePosition(x,y,z);
-	nextGoal.moveOrientation(xRot, yRot, zRot, wRot);
-	
-	
-	armGoals.push_back(nextGoal);
-	if(armGoals.size() == 1) // if there were no goals in the queue already, send this one immediately
+	if(scanActive && findPartNames.empty())
+		printf("Scan complete, ignoring movement command until scan is stopped\n");
+	else
 	{
-		moveArmClient->sendGoal(nextGoal.getGoal(), boost::bind(&RosInf::navigationDoneCallback, this, _1, _2));
+		nextGoal.setupActuator();
+		nextGoal.setTransformListener(&listener);
+	
+		nextGoal.setPositionFrameType("global");
+		nextGoal.setOrientationFrameType("global");
+		nextGoal.setPositionTolerance(positionTolerance);
+		nextGoal.setOrientationTolerance(0.04);
+	
+		if(effectorAttached)
+			nextGoal.setTargetPointFrame(activeEffectorName);
+	
+		nextGoal.movePosition(x,y,z);
+		nextGoal.moveOrientation(xRot, yRot, zRot, wRot);
+	
+	
+		armGoals.push_back(nextGoal);
+		if(armGoals.size() == 1) // if there were no goals in the queue already, send this one immediately
+		{
+			moveArmClient->sendGoal(nextGoal.getGoal(), boost::bind(&RosInf::navigationDoneCallback, this, _1, _2));
+		}
 	}
 }
 void RosInf::addArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
   	double zAxisY, double zAxisZ)
 {
-	tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
-	tf::Vector3 zAxis(zAxisX, zAxisY, zAxisZ);
-	//find equivalent quaternion for x/z vectors
-	tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
-	float xAngle = acos(xAxis.x());
-	if(xRotationAxis.length() == 0) //if target point x axis is parallel to world x
+	if(scanActive && findPartNames.empty())
+		printf("Scan complete, ignoring movement command until scan is stopped\n");
+	else
 	{
-		xRotationAxis = tf::Vector3(0,1,0); //rotate either pi or 0 about y axis
+		tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
+		tf::Vector3 zAxis(zAxisX, zAxisY, zAxisZ);
+		//find equivalent quaternion for x/z vectors
+		tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
+		float xAngle = acos(xAxis.x());
+		if(xRotationAxis.length() == 0) //if target point x axis is parallel to world x
+		{
+			xRotationAxis = tf::Vector3(0,1,0); //rotate either pi or 0 about y axis
+		}
+		tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
+		tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
+		float zAngle = acos(transformedZ.dot(zAxis)/zAxis.length());
+		tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
+		tf::Transform axisTransform = xTransform*zTransform;
+		addArmGoal(x,y,z, axisTransform.getRotation().x(),
+						   axisTransform.getRotation().y(),
+						   axisTransform.getRotation().z(),
+						   axisTransform.getRotation().w());
 	}
-	tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
-	tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
-	float zAngle = acos(transformedZ.dot(zAxis)/zAxis.length());
-	tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
-	tf::Transform axisTransform = xTransform*zTransform;
-	addArmGoal(x,y,z, axisTransform.getRotation().x(),
-					   axisTransform.getRotation().y(),
-					   axisTransform.getRotation().z(),
-					   axisTransform.getRotation().w());
-	
 }
 
 void RosInf::waitForObjectSensor()

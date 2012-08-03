@@ -203,12 +203,13 @@ int StartObjectScanMsg::process(void* sendTo)
 
 int StopMotionMsg::process(void *sendTo)
 {
-	printf("Received StopMotion msg\n");
+	((RosInf*)sendTo)->stopMotion();
 	return 0;
 }
 
 int StopObjectScanMsg::process(void* sendTo)
 {
+	ROS_ERROR("STOP SCAN!");
 	((RosInf*)sendTo)->stopSearch();
 	return 0;
 }

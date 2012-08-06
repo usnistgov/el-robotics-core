@@ -32,8 +32,16 @@ rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp
 											src/rosInf.cpp
 											src/rosController.cpp
 											src/navigationGoal.cpp
-											src/scanPattern.cpp)
+											src/scanPattern.cpp)	
+rosbuild_add_executable(binPickup src/scanPickup.cpp
+											src/rosInf.cpp
+											src/rosController.cpp
+											src/navigationGoal.cpp
+											src/scanPattern.cpp)									
 target_link_libraries(rosCanonicalController Controller)
 target_link_libraries(rosCanonicalController pthread)
 target_link_libraries(rosCanonicalController mysqlcppconn)
+target_link_libraries(binPickup Controller)
+target_link_libraries(binPickup pthread)
+target_link_libraries(binPickup mysqlcppconn)
 include_directories(../ ../../AutoGen/)

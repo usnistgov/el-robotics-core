@@ -72,6 +72,7 @@ CanonicalMsg* Controller::getMsg( CanonicalMsg *msgIn )
   SetRelativeSpeedMsg *setRelativeSpeedMsgPt;
   StartObjectScanMsg *startObjectScanMsgPt;
   StopMotionMsg *stopMotionMsgPt;
+  StopObjectScanMsg *stopObjectScanMsgPt;
 
   msgIn->setHeader();
   if (dynamic_cast<CloseGripperMsg *>(msgIn))
@@ -205,6 +206,12 @@ CanonicalMsg* Controller::getMsg( CanonicalMsg *msgIn )
       stopMotionMsgPt = new StopMotionMsg();
       *stopMotionMsgPt = *dynamic_cast<StopMotionMsg*>(msgIn);
       return stopMotionMsgPt;
+    }
+  else if (dynamic_cast<StopObjectScanMsg*>(msgIn))
+    {
+      stopObjectScanMsgPt = new StopObjectScanMsg();
+      *stopObjectScanMsgPt = *dynamic_cast<StopObjectScanMsg*>(msgIn);
+      return stopObjectScanMsgPt;
     }
   else
     return NULL;
@@ -356,6 +363,11 @@ int Controller::processMsg(CanonicalMsg *canonicalPt, void *sendTo)
     {
       isError = dynamic_cast<StopMotionMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<StopMotionMsg *>(canonicalPt);
+    }
+  else if (dynamic_cast<StopObjectScanMsg *>(canonicalPt))
+    {
+      isError = dynamic_cast<StopObjectScanMsg *>(canonicalPt)->process(sendTo);
+      delete dynamic_cast<StopObjectScanMsg *>(canonicalPt);
     }
   else
     {

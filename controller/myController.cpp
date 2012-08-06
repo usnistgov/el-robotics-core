@@ -156,3 +156,8 @@ int StopMotionMsg::process(void *sendTo)
     printf( "Received non-emergency stop motion msg\n" );
   return 0;
 }
+
+int StopObjectScanMsg::process(void *sendTo)
+{
+	printf( "Received StopObjectScanMsg.\n");
+}

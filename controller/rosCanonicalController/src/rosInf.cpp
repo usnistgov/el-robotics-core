@@ -1,4 +1,5 @@
 #include "rosInf.hh"
+#include <stdio.h>
 #define INCH_TO_METER 0.0254
 RosInf::RosInf()
 {
@@ -43,7 +44,7 @@ double RosInf::getSensorFOV()
 	}
 	else
 	{
-		ROS_WARN("Called getSensorFOV on a robot without an object sensor, returning 0");
+		ROS_WARN("Called getSensorFOV on a robot without an initialized object sensor, returning 0");
 		return 0;
 	}
 }
@@ -109,7 +110,7 @@ int RosInf::initEffectors()
 		}
 	}
 	if(foundEffector)
-		waitForEffectors();
+		waitForEffectors(); //wait for effectors to publish their current state before returning
 	return 1;
 }
 int RosInf::initSensors()
@@ -117,6 +118,7 @@ int RosInf::initSensors()
 	ros::master::V_TopicInfo topics;
 	ros::NodeHandle nh;
 	hasObjectSensor = false;
+	scanActive = false;
 	ROS_INFO("Searching for object sensor topic...");
 	ros::master::getTopics(topics);	
 	for(unsigned int i = 0;i<topics.size();++i)
@@ -135,6 +137,7 @@ int RosInf::initSensors()
 
 void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 {
+    FILE *fp = NULL;
 	objectSensorInitialized = true;
 	objectSensorFOV = msg->fov;
 	if(!findPartNames.empty() && !msg->object_names.empty())
@@ -144,20 +147,65 @@ void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 			std::vector<std::string>::iterator position = std::find(findPartNames.begin(), findPartNames.end(), msg->object_names[i]);
 			if(position != findPartNames.end())
 			{
+			    
 				printf("FOUND PART: %s  xyz %f, %f, %f rot %f, %f, %f, %f\n",(*position).c_str(), 
-				msg->object_poses[i].position.x,
-				msg->object_poses[i].position.y,
-				msg->object_poses[i].position.z,
-				msg->object_poses[i].orientation.x,
-				msg->object_poses[i].orientation.y,
-				msg->object_poses[i].orientation.z,
-				msg->object_poses[i].orientation.w);
+					msg->object_poses[i].position.x,
+					msg->object_poses[i].position.y,
+					msg->object_poses[i].position.z,
+					msg->object_poses[i].orientation.x,
+					msg->object_poses[i].orientation.y,
+					msg->object_poses[i].orientation.z,
+					msg->object_poses[i].orientation.w);
 				printf("%s hit location: %f %f %f\n", (*position).c_str(), msg->object_hit_locations[i].position.x,
 				msg->object_hit_locations[i].position.y, msg->object_hit_locations[i].position.z);
 				
+				//TODO: cancel arm navigation and update the mySQL database
+				//for now, write pick up commands to a file.
+				if(fp == NULL)
+			    	fp = fopen("output_commands.txt", "w");
+				if(fp != NULL)
+				{
+					//convert quaternion to x/z axes 
+					tf::Transform partRotation(tf::Quaternion(msg->object_poses[i].orientation.x, msg->object_poses[i].orientation.y,
+					msg->object_poses[i].orientation.z, msg->object_poses[i].orientation.w));
+					tf::Vector3 xAxis = partRotation * tf::Vector3(1,0,0);
+					tf::Vector3 zAxis = partRotation * tf::Vector3(0,0,1);
+					
+					float dropX, dropY;
+					if(msg->object_names[i] == "PartA")
+					{
+						dropX = -0.1;
+						dropY = .35;
+					}
+					else if(msg->object_names[i] == "PartB")
+					{
+						dropX = 0.15;
+						dropY = 0.35;
+					}	
+					else
+					{
+						dropX = -0.1;
+						dropY = 2.2;
+					}
+					fprintf(fp, "Dwell(1)\nMoveTo({{%f, %f, %f},{%f, %f, %f},{%f, %f, %f}})\n\
+					Dwell(.5)\n\
+					CloseGripper()\n\
+					MoveThroughTo({{{.12,1.2,-.5}, {0, 0, 1}, {1, 0, 0}},\n\
+								   {{%f, %f,-.5}, {0, 0, 1}, {1, 0, 0}},\n\
+								   {{%f, %f, 0.1}, {0, 0, 1}, {1, 0, 0}}}, 3)\n\
+					Dwell(.5)\n\
+					OpenGripper()\n\
+					Dwell(.5)\n\
+					MoveTo({{.12,1.2,-.6}, {0, 0, 1}, {1, 0, 0}})\n", msg->object_poses[i].position.x,
+						msg->object_poses[i].position.y, msg->object_poses[i].position.z,
+						zAxis.x(), zAxis.y(), zAxis.z(), xAxis.x(), xAxis.y(), xAxis.z(), dropX, dropY, dropX, dropY);
+					fclose(fp);
+				}
+				
+				
 				findPartNames.erase(position);				
-				//TODO: cancel arm navigation
-				//update the SQL database
+				
+				
 			}
 		}
 		if(findPartNames.empty())
@@ -170,6 +218,7 @@ void RosInf::objectSensorCallback(const usarsim_inf::SenseObjectConstPtr &msg)
 
 void RosInf::searchPart(std::string partName)
 {
+	scanActive = true;
 	//if the part name isn't already in the list of parts being looked for, add it
 	if(findPartNames.empty() || std::find(findPartNames.begin(), findPartNames.end(), partName) == findPartNames.end())
 	{
@@ -177,9 +226,15 @@ void RosInf::searchPart(std::string partName)
 	}
 }
 
+void RosInf::stopMotion()
+{
+	armGoals.erase(armGoals.begin() + 1, armGoals.end());//clear everything except for the current goal
+}
+
 void RosInf::stopSearch()
 {
 	findPartNames.clear();
+	scanActive = false;
 }
 
 void RosInf::setEndPointTolerance(double tolerance)
@@ -225,7 +280,7 @@ void RosInf::waitForEffectors()
 	}while(!effectorsSet);
 	ROS_DEBUG("All effectors are in their goal state.");
 }
-
+//called whenever an arm navigation goal is completed
 void RosInf::navigationDoneCallback(const actionlib::SimpleClientGoalState &state, const arm_navigation_msgs::MoveArmResultConstPtr &result)
 {
 	ROS_DEBUG("Arm navigation goal complete: %s",state.toString().c_str());
@@ -240,49 +295,58 @@ void RosInf::addArmGoal(double x, double y, double z, double xRot, double yRot, 
 {
 	NavigationGoal nextGoal;
 	
-	nextGoal.setupActuator();
-	nextGoal.setTransformListener(&listener);
-	
-	nextGoal.setPositionFrameType("global");
-	nextGoal.setOrientationFrameType("global");
-	nextGoal.setPositionTolerance(positionTolerance);
-	nextGoal.setOrientationTolerance(0.04);
-	
-	if(effectorAttached)
-		nextGoal.setTargetPointFrame(activeEffectorName);
-	
-	nextGoal.movePosition(x,y,z);
-	nextGoal.moveOrientation(xRot, yRot, zRot, wRot);
-	
-	
-	armGoals.push_back(nextGoal);
-	if(armGoals.size() == 1) // if there were no goals in the queue already, send this one immediately
+	if(scanActive && findPartNames.empty())
+		printf("Scan complete, ignoring movement command until scan is stopped\n");
+	else
 	{
-		moveArmClient->sendGoal(nextGoal.getGoal(), boost::bind(&RosInf::navigationDoneCallback, this, _1, _2));
+		nextGoal.setupActuator();
+		nextGoal.setTransformListener(&listener);
+	
+		nextGoal.setPositionFrameType("global");
+		nextGoal.setOrientationFrameType("global");
+		nextGoal.setPositionTolerance(positionTolerance);
+		nextGoal.setOrientationTolerance(0.04);
+	
+		if(effectorAttached)
+			nextGoal.setTargetPointFrame(activeEffectorName);
+	
+		nextGoal.movePosition(x,y,z);
+		nextGoal.moveOrientation(xRot, yRot, zRot, wRot);
+	
+	
+		armGoals.push_back(nextGoal);
+		if(armGoals.size() == 1) // if there were no goals in the queue already, send this one immediately
+		{
+			moveArmClient->sendGoal(nextGoal.getGoal(), boost::bind(&RosInf::navigationDoneCallback, this, _1, _2));
+		}
 	}
 }
 void RosInf::addArmGoal(double x,  double y, double z, double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
   	double zAxisY, double zAxisZ)
 {
-	tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
-	tf::Vector3 zAxis(zAxisX, zAxisY, zAxisZ);
-	//find equivalent quaternion for x/z vectors
-	tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
-	float xAngle = acos(xAxis.x());
-	if(xRotationAxis.length() == 0) //if target point x axis is parallel to world x
+	if(scanActive && findPartNames.empty())
+		printf("Scan complete, ignoring movement command until scan is stopped\n");
+	else
 	{
-		xRotationAxis = tf::Vector3(0,1,0); //rotate either pi or 0 about y axis
+		tf::Vector3 xAxis(xAxisX, xAxisY, xAxisZ);
+		tf::Vector3 zAxis(zAxisX, zAxisY, zAxisZ);
+		//find equivalent quaternion for x/z vectors
+		tf::Vector3 xRotationAxis(0, -1*xAxis.z(),xAxis.y()); //cross product of target point x axis and (1,0,0)
+		float xAngle = acos(xAxis.x());
+		if(xRotationAxis.length() == 0) //if target point x axis is parallel to world x
+		{
+			xRotationAxis = tf::Vector3(0,1,0); //rotate either pi or 0 about y axis
+		}
+		tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
+		tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
+		float zAngle = acos(transformedZ.dot(zAxis)/zAxis.length());
+		tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
+		tf::Transform axisTransform = xTransform*zTransform;
+		addArmGoal(x,y,z, axisTransform.getRotation().x(),
+						   axisTransform.getRotation().y(),
+						   axisTransform.getRotation().z(),
+						   axisTransform.getRotation().w());
 	}
-	tf::Transform xTransform(tf::Quaternion(xRotationAxis, xAngle));
-	tf::Vector3 transformedZ = xTransform*tf::Vector3(0,0,1);
-	float zAngle = acos(transformedZ.dot(zAxis)/zAxis.length());
-	tf::Transform zTransform(tf::Quaternion(tf::Vector3(1.0,0.0,0.0), zAngle));
-	tf::Transform axisTransform = xTransform*zTransform;
-	addArmGoal(x,y,z, axisTransform.getRotation().x(),
-					   axisTransform.getRotation().y(),
-					   axisTransform.getRotation().z(),
-					   axisTransform.getRotation().w());
-	
 }
 
 void RosInf::waitForObjectSensor()

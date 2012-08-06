@@ -47,6 +47,7 @@ public:
   void shutDown();
   bool init();
   void searchPart(std::string partName);
+  void stopMotion();
   void stopSearch();
   void setEndPointTolerance(double tolerance);
   void setLengthUnits(std::string units);
@@ -79,6 +80,7 @@ private:
   //object sensor
   bool hasObjectSensor;
   bool objectSensorInitialized;
+  bool scanActive;
   double objectSensorFOV;
   ros::Subscriber objectSensorSub;
   void waitForObjectSensor();

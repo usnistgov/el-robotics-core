@@ -157,6 +157,10 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	{
 	  ctrl->queueMsgLow(new StopMotionMsg(intVal));
 	}
+	  else if (readNoArgCommand("StopObjectScan", length, readHere))
+	{
+	  ctrl->queueMsgLow(new StopObjectScanMsg);
+	}
       else
 	{
 	  fprintf(stderr, "unknown command (shown below) "

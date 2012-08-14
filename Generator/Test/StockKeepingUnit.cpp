@@ -28,8 +28,8 @@ delete(dao);
 delete(hadBySku_Workstation);
 delete(hasSku_Shape);
 }
-std::vector<std::string>* StockKeepingUnit::gethasSku_EndEffectorRefs(){
-return &hasSku_EndEffectorRefs;
+std::vector<std::string> StockKeepingUnit::gethasSku_EndEffectorRefs(){
+return hasSku_EndEffectorRefs;
 }
 std::string StockKeepingUnit::gethasSku_Description(){
 return hasSku_Description;

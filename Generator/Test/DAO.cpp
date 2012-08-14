@@ -18,14 +18,16 @@
 #include "Point.h"
 #include "EndEffectorChangingStation.h"
 #include "StockKeepingUnit.h"
+#include "KitDesign.h"
+#include "PartRefAndPose.h"
 
 int main() {
-	Robot * r = new Robot("Robot1");
-	r->get("Robot1");
-	r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
-	std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
-			<< std::endl;
-	/*
+	/*Robot * r = new Robot("Robot1");
+	 r->get("Robot1");
+	 r->gethasWorkstation_Robot()->get(r->gethasWorkstation_Robot()->getname());
+	 std::cout << r->gethasWorkstation_Robot()->getKittingWorkstationID()
+	 << std::endl;
+	 /*
 	 r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->get(
 	 r->gethasWorkstation_Robot()->gethasWorkstation_ChangingStation()->getname());
 	 std::cout
@@ -44,11 +46,18 @@ int main() {
 	 << r->gethasRobot_WorkVolume()->back()->gethasRobot_WorkVolume()->back()->getRobotID()
 	 << std::endl;
 	 */
+	KitDesign * kd = new KitDesign("kit_design_a2b1c1");
+	kd->get("kit_design_a2b1c1");
+	std::vector<PartRefAndPose *> vect = kd->gethadByPartRefAndPose_KitDesign();
+	std::cout << vect[0]->getname() << std::endl;
+	std::cout << vect[1]->getname() << std::endl;
+	std::cout << vect[2]->getname() << std::endl;
+	std::cout << vect[3]->getname() << std::endl;
 	return 0;
 }
 DAO::DAO(std::string name) {
 	this->className.push_back(name);
-	connection = new Connection("localhost", "root", "mypassword", "owl");
+	connection = new Connection("localhost", "root", "mypassword", "owlLast");
 	this->fillGetSqlQueries();
 }
 std::map<std::string, std::string> DAO::getSqlQueriesDataSingle;
@@ -406,24 +415,27 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 						res->next();
 						res_meta = res -> getMetaData();
 						for (int j = 0; j < (int) res_meta -> getColumnCount(); ++j) {
-							if (res->isFirst())
+							if (map[getSqlQueriesObjectSingle[className.back()][i].substr(
+									getSqlQueriesObjectSingle[className.back()][i].find(
+											"/") + 1) + "/"
+									+ res_meta -> getColumnLabel(j + 1)]
+									==""){
 								map[getSqlQueriesObjectSingle[className.back()][i].substr(
 										getSqlQueriesObjectSingle[className.back()][i].find(
 												"/") + 1) + "/"
 										+ res_meta -> getColumnLabel(j + 1)]
 										= res->getString(j + 1);
-							else
+							}
+							else{
 								map[getSqlQueriesObjectSingle[className.back()][i].substr(
 										getSqlQueriesObjectSingle[className.back()][i].find(
 												"/") + 1) + "/"
 										+ res_meta -> getColumnLabel(j + 1)]
-										= map[getSqlQueriesObjectSingle[className.back()][i].substr(
-												getSqlQueriesObjectSingle[className.back()][i].find(
-														"/") + 1) + "/"
-												+ res_meta -> getColumnLabel(j
-														+ 1)] + " "
+										+= " "
 												+ res->getString(j + 1);
+
 						}
+					}
 						if (getSqlQueriesObjectSingle[className.back()][i].substr(
 								0, 1) != "-") {
 							newName
@@ -458,10 +470,10 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 													"/") - 1);
 						}
 
-					} while (res->isLast());
+					} while (!res->isLast());
 					delete (res);
 
-				} while (restemp->isLast());
+				} while (!restemp->isLast());
 				delete (restemp);
 
 				delete (prep_stmt);
@@ -655,7 +667,11 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 									res_meta = res -> getMetaData();
 									for (int j = 0; j
 											< (int) res_meta -> getColumnCount(); ++j) {
-										if (res->isFirst())
+										if (map[getSqlQueriesObjectSingle[table][i].substr(
+												getSqlQueriesObjectSingle[table][i].find(
+														"/") + 1) + "/"
+												+ res_meta -> getColumnLabel(
+														j + 1)]=="")
 											map[getSqlQueriesObjectSingle[table][i].substr(
 													getSqlQueriesObjectSingle[table][i].find(
 															"/") + 1) + "/"
@@ -667,16 +683,8 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 													getSqlQueriesObjectSingle[table][i].find(
 															"/") + 1) + "/"
 													+ res_meta -> getColumnLabel(
-															j + 1)]
-													= map[getSqlQueriesObjectSingle[table][i].substr(
-															getSqlQueriesObjectSingle[table][i].find(
-																	"/") + 1)
-															+ "/"
-															+ res_meta -> getColumnLabel(
-																	j + 1)]
-															+ " "
-															+ res->getString(j
-																	+ 1);
+															j + 1)] += " "
+													+ res->getString(j + 1);
 									}
 									if (getSqlQueriesObjectSingle[table][i].substr(
 											0, 1) != "-") {
@@ -733,7 +741,7 @@ std::map<std::string, std::string> DAO::get(std::string name) {
 									<< " )" << std::endl;
 						}
 					}
-				} while (restempmulti->isLast());
+				} while (!restempmulti->isLast());
 				delete (restempmulti);
 			} catch (sql::SQLException &e) {
 				std::cout << "# ERR: SQLException in " << __FILE__;

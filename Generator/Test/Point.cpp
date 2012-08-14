@@ -48,17 +48,17 @@ return PointID;
 DAO* Point::getdao(){
 return dao;
 }
-std::vector<PartRefAndPose*>* Point::gethasPartRefAndPose_Point(){
-return &hasPartRefAndPose_Point;
+std::vector<PartRefAndPose*> Point::gethasPartRefAndPose_Point(){
+return hasPartRefAndPose_Point;
 }
-std::vector<BoxVolume*>* Point::gethasBoxVolume_MaximumPoint(){
-return &hasBoxVolume_MaximumPoint;
+std::vector<BoxVolume*> Point::gethasBoxVolume_MaximumPoint(){
+return hasBoxVolume_MaximumPoint;
 }
-std::vector<BoxVolume*>* Point::gethasBoxVolume_MinimumPoint(){
-return &hasBoxVolume_MinimumPoint;
+std::vector<BoxVolume*> Point::gethasBoxVolume_MinimumPoint(){
+return hasBoxVolume_MinimumPoint;
 }
-std::vector<PoseLocation*>* Point::gethasPoseLocation_Point(){
-return &hasPoseLocation_Point;
+std::vector<PoseLocation*> Point::gethasPoseLocation_Point(){
+return hasPoseLocation_Point;
 }
 void Point::sethasPoint_X(double _hasPoint_X){
 this->hasPoint_X= _hasPoint_X;

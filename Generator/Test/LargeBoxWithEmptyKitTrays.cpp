@@ -37,8 +37,8 @@ return dao;
 LargeContainer* LargeBoxWithEmptyKitTrays::gethasLargeBoxWithEmptyKitTrays_LargeContainer(){
 return hasLargeBoxWithEmptyKitTrays_LargeContainer;
 }
-std::vector<KitTray*>* LargeBoxWithEmptyKitTrays::gethadByKitTray_LargeBoxWithEmptyKitTrays(){
-return &hadByKitTray_LargeBoxWithEmptyKitTrays;
+std::vector<KitTray*> LargeBoxWithEmptyKitTrays::gethadByKitTray_LargeBoxWithEmptyKitTrays(){
+return hadByKitTray_LargeBoxWithEmptyKitTrays;
 }
 void LargeBoxWithEmptyKitTrays::setdao(DAO* _dao){
 this->dao= _dao;

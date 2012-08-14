@@ -37,8 +37,8 @@ return dao;
 PartsTray* PartsTrayWithParts::gethasPartsTrayWithParts_Tray(){
 return hasPartsTrayWithParts_Tray;
 }
-std::vector<Part*>* PartsTrayWithParts::gethadByPart_PartsTrayWithParts(){
-return &hadByPart_PartsTrayWithParts;
+std::vector<Part*> PartsTrayWithParts::gethadByPart_PartsTrayWithParts(){
+return hadByPart_PartsTrayWithParts;
 }
 void PartsTrayWithParts::setdao(DAO* _dao){
 this->dao= _dao;

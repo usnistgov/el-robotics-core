@@ -34,8 +34,8 @@ return ShapeDesignID;
 DAO* ShapeDesign::getdao(){
 return dao;
 }
-std::vector<StockKeepingUnit*>* ShapeDesign::gethasSku_Shape(){
-return &hasSku_Shape;
+std::vector<StockKeepingUnit*> ShapeDesign::gethasSku_Shape(){
+return hasSku_Shape;
 }
 void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
 this->hasShapeDesign_Description= _hasShapeDesign_Description;

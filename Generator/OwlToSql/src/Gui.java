@@ -26,7 +26,6 @@ software
  */
 import Ontology.*;
 import ClassesCPP.*;
-import ExcelImport.*;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -222,8 +221,8 @@ public class Gui extends JFrame {
 				"Generate your Owl individuals");
 		tabbedPane.addTab("Owl to C++", null, panOtoCpp,
 				"Generate your C++ Classes");
-		tabbedPane.addTab("XLS(X) to OWL", null, panXtO,
-				"Import terms from spreadsheet into your ontology");
+		//tabbedPane.addTab("XLS(X) to OWL", null, panXtO,
+			//	"Import terms from spreadsheet into your ontology");
 
 		setContentPane(tabbedPane);
 		// browse
@@ -386,7 +385,7 @@ public class Gui extends JFrame {
 			}
 
 		});
-		importTerms.addActionListener(new java.awt.event.ActionListener() {
+		/*importTerms.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(final java.awt.event.ActionEvent evt) {
 				if (pathXls.getText().endsWith(".xls"))
 					new ReadFileXLS(new File(pathXls.getText()), new Ontology(
@@ -402,7 +401,7 @@ public class Gui extends JFrame {
 											File.separatorChar))));
 
 			}
-		});
+		});*/
 		setVisible(true);
 	}
 

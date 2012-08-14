@@ -151,10 +151,10 @@ public class Types extends ClassGenerator {
 
 		for (int i = 0; i < attributes.size(); i++) {
 			if (!attributes.get(i).equals("name")) {
-				if (unit.get(i).contains("vector"))
+			/*	if (unit.get(i).contains("vector"))
 					pub = pub + "\n" + unit.get(i) + "* get"
 							+ attributes.get(i) + "();";
-				else
+				else*/
 					pub = pub + "\n" + unit.get(i) + " get" + attributes.get(i)
 							+ "();";
 				if (!attributes.get(i).equals(className + "ID")
@@ -292,15 +292,15 @@ public class Types extends ClassGenerator {
 
 		for (int i = 0; i < attributes.size(); i++) {
 			if (!attributes.get(i).equals("name")) {
-				if (unit.get(i).contains("vector")) {
+			/*	if (unit.get(i).contains("vector")) {
 					get = get + unit.get(i) + "* " + className + "::get"
 							+ attributes.get(i) + "(){\n";
 					get = get + "return &" + attributes.get(i) + ";\n}\n";
-				} else {
+				} else {*/
 					get = get + unit.get(i) + " " + className + "::get"
 							+ attributes.get(i) + "(){\n";
 					get = get + "return " + attributes.get(i) + ";\n}\n";
-				}
+				//}
 				if (!attributes.get(i).equals(className + "ID")) {
 					set = set + "void " + className + "::set"
 							+ attributes.get(i) + "(" + unit.get(i) + " _"

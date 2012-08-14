@@ -43,7 +43,7 @@ DAO* getdao();
 void setdao(DAO* _dao);
 PartsTray* gethasPartsTrayWithParts_Tray();
 void sethasPartsTrayWithParts_Tray(PartsTray* _hasPartsTrayWithParts_Tray);
-std::vector<Part*>* gethadByPart_PartsTrayWithParts();
+std::vector<Part*> gethadByPart_PartsTrayWithParts();
 void sethadByPart_PartsTrayWithParts(std::vector<Part*> _hadByPart_PartsTrayWithParts);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 

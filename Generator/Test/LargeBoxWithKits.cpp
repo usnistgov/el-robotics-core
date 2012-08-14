@@ -43,8 +43,8 @@ return dao;
 LargeContainer* LargeBoxWithKits::gethasLargeBoxWithKits_LargeContainer(){
 return hasLargeBoxWithKits_LargeContainer;
 }
-std::vector<Kit*>* LargeBoxWithKits::gethadByKit_LargeBoxWithKits(){
-return &hadByKit_LargeBoxWithKits;
+std::vector<Kit*> LargeBoxWithKits::gethadByKit_LargeBoxWithKits(){
+return hadByKit_LargeBoxWithKits;
 }
 void LargeBoxWithKits::sethasLargeBoxWithKits_Capacity(std::string _hasLargeBoxWithKits_Capacity){
 this->hasLargeBoxWithKits_Capacity= _hasLargeBoxWithKits_Capacity;

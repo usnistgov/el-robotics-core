@@ -34,8 +34,8 @@ return WorkTableID;
 DAO* WorkTable::getdao(){
 return dao;
 }
-std::vector<SolidObject*>* WorkTable::gethadBySolidObject_WorkTable(){
-return &hadBySolidObject_WorkTable;
+std::vector<SolidObject*> WorkTable::gethadBySolidObject_WorkTable(){
+return hadBySolidObject_WorkTable;
 }
 KittingWorkstation* WorkTable::gethasWorkstation_WorkTable(){
 return hasWorkstation_WorkTable;

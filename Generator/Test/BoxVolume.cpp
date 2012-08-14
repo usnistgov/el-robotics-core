@@ -45,11 +45,11 @@ return hasBoxVolume_MaximumPoint;
 Point* BoxVolume::gethasBoxVolume_MinimumPoint(){
 return hasBoxVolume_MinimumPoint;
 }
-std::vector<KittingWorkstation*>* BoxVolume::gethasWorkstation_OtherObstacles(){
-return &hasWorkstation_OtherObstacles;
+std::vector<KittingWorkstation*> BoxVolume::gethasWorkstation_OtherObstacles(){
+return hasWorkstation_OtherObstacles;
 }
-std::vector<Robot*>* BoxVolume::gethasRobot_WorkVolume(){
-return &hasRobot_WorkVolume;
+std::vector<Robot*> BoxVolume::gethasRobot_WorkVolume(){
+return hasRobot_WorkVolume;
 }
 void BoxVolume::setdao(DAO* _dao){
 this->dao= _dao;

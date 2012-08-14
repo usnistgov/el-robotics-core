@@ -49,8 +49,8 @@ return dao;
 EndEffector* Robot::gethadByEndEffector_Robot(){
 return hadByEndEffector_Robot;
 }
-std::vector<BoxVolume*>* Robot::gethasRobot_WorkVolume(){
-return &hasRobot_WorkVolume;
+std::vector<BoxVolume*> Robot::gethasRobot_WorkVolume(){
+return hasRobot_WorkVolume;
 }
 KittingWorkstation* Robot::gethasWorkstation_Robot(){
 return hasWorkstation_Robot;

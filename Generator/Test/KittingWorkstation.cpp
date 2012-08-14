@@ -55,8 +55,8 @@ return KittingWorkstationID;
 DAO* KittingWorkstation::getdao(){
 return dao;
 }
-std::vector<KitDesign*>* KittingWorkstation::gethadByKitDesign_Workstation(){
-return &hadByKitDesign_Workstation;
+std::vector<KitDesign*> KittingWorkstation::gethadByKitDesign_Workstation(){
+return hadByKitDesign_Workstation;
 }
 EndEffectorChangingStation* KittingWorkstation::gethasWorkstation_ChangingStation(){
 return hasWorkstation_ChangingStation;
@@ -64,11 +64,11 @@ return hasWorkstation_ChangingStation;
 WorkTable* KittingWorkstation::gethasWorkstation_WorkTable(){
 return hasWorkstation_WorkTable;
 }
-std::vector<BoxVolume*>* KittingWorkstation::gethasWorkstation_OtherObstacles(){
-return &hasWorkstation_OtherObstacles;
+std::vector<BoxVolume*> KittingWorkstation::gethasWorkstation_OtherObstacles(){
+return hasWorkstation_OtherObstacles;
 }
-std::vector<StockKeepingUnit*>* KittingWorkstation::gethadBySku_Workstation(){
-return &hadBySku_Workstation;
+std::vector<StockKeepingUnit*> KittingWorkstation::gethadBySku_Workstation(){
+return hadBySku_Workstation;
 }
 Robot* KittingWorkstation::gethasWorkstation_Robot(){
 return hasWorkstation_Robot;

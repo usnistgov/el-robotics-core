@@ -74,6 +74,7 @@ public class ReadFileXLSX {
 			XSSFWorkbook workbook = new XSSFWorkbook(inp);
 			addAllTerms(workbook);
 			addPropertyForTerm(workbook);
+			inp.close();
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		}

@@ -41,7 +41,7 @@ void set(std::string name);
 int getEndEffectorChangingStationID();
 DAO* getdao();
 void setdao(DAO* _dao);
-std::vector<EndEffectorHolder*>* gethadByEndEffectorHolder_ChangingStation();
+std::vector<EndEffectorHolder*> gethadByEndEffectorHolder_ChangingStation();
 void sethadByEndEffectorHolder_ChangingStation(std::vector<EndEffectorHolder*> _hadByEndEffectorHolder_ChangingStation);
 KittingWorkstation* gethasWorkstation_ChangingStation();
 void sethasWorkstation_ChangingStation(KittingWorkstation* _hasWorkstation_ChangingStation);

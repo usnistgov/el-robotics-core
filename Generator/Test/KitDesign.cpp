@@ -43,8 +43,8 @@ return dao;
 KittingWorkstation* KitDesign::gethadByKitDesign_Workstation(){
 return hadByKitDesign_Workstation;
 }
-std::vector<PartRefAndPose*>* KitDesign::gethadByPartRefAndPose_KitDesign(){
-return &hadByPartRefAndPose_KitDesign;
+std::vector<PartRefAndPose*> KitDesign::gethadByPartRefAndPose_KitDesign(){
+return hadByPartRefAndPose_KitDesign;
 }
 void KitDesign::sethasKitDesign_Id(std::string _hasKitDesign_Id){
 this->hasKitDesign_Id= _hasKitDesign_Id;

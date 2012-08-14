@@ -63,13 +63,15 @@ public class DataProperty {
 	private OWLOntology ontology;
 	/**
 	 * \brief      List of the data properties associated to a given class.
-	 * \details <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
-	 */
-	private HashMap<OWLClassExpression, ArrayList<OWLDataProperty>> dataProperties;
-	/**
-	 * \brief      List of the data properties associated to a given class without the URL before their names.
 	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
+	private HashMap<OWLClassExpression, ArrayList<OWLDataProperty>> dataProperties;
+
+	/**
+	 * \brief      List of the data properties associated to a given class without the URL before their names.
+	 * \details <<Classe1, DataPropertyName1,DataPropertyName2>,<Classe2,DataPropertyName1,DataPropertyName2>>
+	 */
+
 	private ArrayList<ArrayList<String>> dataPropertiesClean;
 	/**
 	 * \brief      Map - Used to know if a data property is single or multi valued.

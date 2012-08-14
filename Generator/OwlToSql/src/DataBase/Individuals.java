@@ -227,7 +227,6 @@ public class Individuals {
 						.contains(attributesTab[l].substring(1))) {
 					// The attribute type = a xsd type
 					if (value.getValue().toString().contains("^")) {
-
 						if (isNumber(value
 								.getValue()
 								.toString()

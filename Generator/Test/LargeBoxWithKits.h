@@ -49,7 +49,7 @@ DAO* getdao();
 void setdao(DAO* _dao);
 LargeContainer* gethasLargeBoxWithKits_LargeContainer();
 void sethasLargeBoxWithKits_LargeContainer(LargeContainer* _hasLargeBoxWithKits_LargeContainer);
-std::vector<Kit*>* gethadByKit_LargeBoxWithKits();
+std::vector<Kit*> gethadByKit_LargeBoxWithKits();
 void sethadByKit_LargeBoxWithKits(std::vector<Kit*> _hadByKit_LargeBoxWithKits);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 

@@ -38,8 +38,8 @@ return SolidObjectID;
 DAO* SolidObject::getdao(){
 return dao;
 }
-std::vector<PhysicalLocation*>* SolidObject::gethasSolidObject_SecondaryLocation(){
-return &hasSolidObject_SecondaryLocation;
+std::vector<PhysicalLocation*> SolidObject::gethasSolidObject_SecondaryLocation(){
+return hasSolidObject_SecondaryLocation;
 }
 PhysicalLocation* SolidObject::gethasSolidObject_PrimaryLocation(){
 return hasSolidObject_PrimaryLocation;
@@ -47,8 +47,8 @@ return hasSolidObject_PrimaryLocation;
 WorkTable* SolidObject::gethadBySolidObject_WorkTable(){
 return hadBySolidObject_WorkTable;
 }
-std::vector<PhysicalLocation*>* SolidObject::gethasPhysicalLocation_RefObject(){
-return &hasPhysicalLocation_RefObject;
+std::vector<PhysicalLocation*> SolidObject::gethasPhysicalLocation_RefObject(){
+return hasPhysicalLocation_RefObject;
 }
 std::string SolidObject::getname(){
 return name;

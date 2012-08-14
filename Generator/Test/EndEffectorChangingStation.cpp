@@ -34,8 +34,8 @@ return EndEffectorChangingStationID;
 DAO* EndEffectorChangingStation::getdao(){
 return dao;
 }
-std::vector<EndEffectorHolder*>* EndEffectorChangingStation::gethadByEndEffectorHolder_ChangingStation(){
-return &hadByEndEffectorHolder_ChangingStation;
+std::vector<EndEffectorHolder*> EndEffectorChangingStation::gethadByEndEffectorHolder_ChangingStation(){
+return hadByEndEffectorHolder_ChangingStation;
 }
 KittingWorkstation* EndEffectorChangingStation::gethasWorkstation_ChangingStation(){
 return hasWorkstation_ChangingStation;

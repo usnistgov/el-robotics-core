@@ -30,6 +30,8 @@ software
 package Ontology;
 
 import DataBase.*;
+import ExcelExport.WriteFileXLSX;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -147,6 +149,7 @@ public class Ontology {
 				superClassesClean, op.getObjectPropertyInverse());
 		ind = new Individuals(tables.getTables(), ontology, pathSave,
 				superClassesClean);
+		new WriteFileXLSX("/home/pna1/XL/", this);
 	}
 
 	/**

@@ -74,6 +74,7 @@ public class ReadFileXLS {
 			HSSFWorkbook workbook = new HSSFWorkbook(inp);
 			addAllTerms(workbook);
 			addPropertyForTerm(workbook);
+			inp.close();
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		}

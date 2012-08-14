@@ -42,7 +42,7 @@ StockKeepingUnit(std::string name);
  void get(std::string name);
 void set(int id, StockKeepingUnit* obj);
 void set(std::string name);
-std::vector<std::string>* gethasSku_EndEffectorRefs();
+std::vector<std::string> gethasSku_EndEffectorRefs();
 void sethasSku_EndEffectorRefs(std::vector<std::string> _hasSku_EndEffectorRefs);
 std::string gethasSku_Description();
 void sethasSku_Description(std::string _hasSku_Description);

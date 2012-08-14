@@ -49,8 +49,8 @@ return hadByKit_LargeBoxWithKits;
 KitTray* Kit::gethasKit_Tray(){
 return hasKit_Tray;
 }
-std::vector<Part*>* Kit::gethadByPart_Kit(){
-return &hadByPart_Kit;
+std::vector<Part*> Kit::gethadByPart_Kit(){
+return hadByPart_Kit;
 }
 void Kit::sethasKit_DesignRef(std::string _hasKit_DesignRef){
 this->hasKit_DesignRef= _hasKit_DesignRef;

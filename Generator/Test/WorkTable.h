@@ -41,7 +41,7 @@ void set(std::string name);
 int getWorkTableID();
 DAO* getdao();
 void setdao(DAO* _dao);
-std::vector<SolidObject*>* gethadBySolidObject_WorkTable();
+std::vector<SolidObject*> gethadBySolidObject_WorkTable();
 void sethadBySolidObject_WorkTable(std::vector<SolidObject*> _hadBySolidObject_WorkTable);
 KittingWorkstation* gethasWorkstation_WorkTable();
 void sethasWorkstation_WorkTable(KittingWorkstation* _hasWorkstation_WorkTable);

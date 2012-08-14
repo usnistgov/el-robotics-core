@@ -38,11 +38,11 @@ return dao;
 SolidObject* PhysicalLocation::gethasPhysicalLocation_RefObject(){
 return hasPhysicalLocation_RefObject;
 }
-std::vector<SolidObject*>* PhysicalLocation::gethasSolidObject_SecondaryLocation(){
-return &hasSolidObject_SecondaryLocation;
+std::vector<SolidObject*> PhysicalLocation::gethasSolidObject_SecondaryLocation(){
+return hasSolidObject_SecondaryLocation;
 }
-std::vector<SolidObject*>* PhysicalLocation::gethasSolidObject_PrimaryLocation(){
-return &hasSolidObject_PrimaryLocation;
+std::vector<SolidObject*> PhysicalLocation::gethasSolidObject_PrimaryLocation(){
+return hasSolidObject_PrimaryLocation;
 }
 void PhysicalLocation::setdao(DAO* _dao){
 this->dao= _dao;

@@ -49,7 +49,7 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KittingWorkstation* gethadByKitDesign_Workstation();
 void sethadByKitDesign_Workstation(KittingWorkstation* _hadByKitDesign_Workstation);
-std::vector<PartRefAndPose*>* gethadByPartRefAndPose_KitDesign();
+std::vector<PartRefAndPose*> gethadByPartRefAndPose_KitDesign();
 void sethadByPartRefAndPose_KitDesign(std::vector<PartRefAndPose*> _hadByPartRefAndPose_KitDesign);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 

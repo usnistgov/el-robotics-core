@@ -53,7 +53,7 @@ LargeBoxWithKits* gethadByKit_LargeBoxWithKits();
 void sethadByKit_LargeBoxWithKits(LargeBoxWithKits* _hadByKit_LargeBoxWithKits);
 KitTray* gethasKit_Tray();
 void sethasKit_Tray(KitTray* _hasKit_Tray);
-std::vector<Part*>* gethadByPart_Kit();
+std::vector<Part*> gethadByPart_Kit();
 void sethadByPart_Kit(std::vector<Part*> _hadByPart_Kit);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 

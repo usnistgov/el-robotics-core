@@ -42,7 +42,7 @@ void sethasShapeDesign_Description(std::string _hasShapeDesign_Description);
 int getShapeDesignID();
 DAO* getdao();
 void setdao(DAO* _dao);
-std::vector<StockKeepingUnit*>* gethasSku_Shape();
+std::vector<StockKeepingUnit*> gethasSku_Shape();
 void sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 

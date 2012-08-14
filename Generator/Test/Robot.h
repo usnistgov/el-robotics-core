@@ -54,7 +54,7 @@ DAO* getdao();
 void setdao(DAO* _dao);
 EndEffector* gethadByEndEffector_Robot();
 void sethadByEndEffector_Robot(EndEffector* _hadByEndEffector_Robot);
-std::vector<BoxVolume*>* gethasRobot_WorkVolume();
+std::vector<BoxVolume*> gethasRobot_WorkVolume();
 void sethasRobot_WorkVolume(std::vector<BoxVolume*> _hasRobot_WorkVolume);
 KittingWorkstation* gethasWorkstation_Robot();
 void sethasWorkstation_Robot(KittingWorkstation* _hasWorkstation_Robot);

@@ -47,17 +47,17 @@ return VectorID;
 DAO* Vector::getdao(){
 return dao;
 }
-std::vector<PartRefAndPose*>* Vector::gethasPartRefAndPose_ZAxis(){
-return &hasPartRefAndPose_ZAxis;
+std::vector<PartRefAndPose*> Vector::gethasPartRefAndPose_ZAxis(){
+return hasPartRefAndPose_ZAxis;
 }
-std::vector<PartRefAndPose*>* Vector::gethasPartRefAndPose_XAxis(){
-return &hasPartRefAndPose_XAxis;
+std::vector<PartRefAndPose*> Vector::gethasPartRefAndPose_XAxis(){
+return hasPartRefAndPose_XAxis;
 }
-std::vector<PoseLocation*>* Vector::gethasPoseLocation_ZAxis(){
-return &hasPoseLocation_ZAxis;
+std::vector<PoseLocation*> Vector::gethasPoseLocation_ZAxis(){
+return hasPoseLocation_ZAxis;
 }
-std::vector<PoseLocation*>* Vector::gethasPoseLocation_XAxis(){
-return &hasPoseLocation_XAxis;
+std::vector<PoseLocation*> Vector::gethasPoseLocation_XAxis(){
+return hasPoseLocation_XAxis;
 }
 void Vector::sethasVector_K(double _hasVector_K){
 this->hasVector_K= _hasVector_K;

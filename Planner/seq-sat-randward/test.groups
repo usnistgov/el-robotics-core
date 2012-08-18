@@ -1,0 +1,111 @@
+var0:
+  0: Atom eff-location(tray_gripper, part_gripper_holder)
+  1: Atom eff-location(part_gripper, part_gripper_holder)
+  2: Atom effh-empty(part_gripper_holder)
+var1:
+  0: Atom eff-location(part_gripper, tray_gripper_holder)
+  1: Atom eff-location(tray_gripper, tray_gripper_holder)
+  2: Atom effh-empty(tray_gripper_holder)
+var2:
+  0: Atom eff-location(tray_gripper, robot_1)
+  1: Atom eff-location(part_gripper, robot_1)
+  2: Atom r-no-eff(robot_1)
+var3:
+  0: Atom effhhold-eff(tray_gripper_holder, part_gripper)
+  1: Atom effhhold-eff(part_gripper_holder, part_gripper)
+  2: Atom r-with-eff(robot_1, part_gripper)
+var4:
+  0: Atom effhhold-eff(part_gripper_holder, tray_gripper)
+  1: Atom effhhold-eff(tray_gripper_holder, tray_gripper)
+  2: Atom r-with-eff(robot_1, tray_gripper)
+var5:
+  0: Atom worktable-empty(work_table_1)
+  1: Atom onworktable(work_table_1, kit_a2b2c1)
+  2: Atom onworktable(work_table_1, kit_tray_1)
+var6:
+  0: Atom part-location(part_a_1, part_a_tray)
+  1: <none of those>
+var7:
+  0: Atom part-location(part_c_1, robot_1)
+  1: <none of those>
+var8:
+  0: Atom rhold(robot_1, kit_a2b2c1)
+  1: <none of those>
+var9:
+  0: Atom part-location(part_c_1, kit_a2b2c1)
+  1: <none of those>
+var10:
+  0: Atom rhold(robot_1, kit_tray_1)
+  1: <none of those>
+var11:
+  0: Atom part-location(part_a_1, robot_1)
+  1: <none of those>
+var12:
+  0: Atom kit-location(kit_a2b2c1, work_table_1)
+  1: <none of those>
+var13:
+  0: Atom kit-tray-location(kit_tray_1, work_table_1)
+  1: <none of those>
+var14:
+  0: Atom part-location(part_b_2, kit_a2b2c1)
+  1: <none of those>
+var15:
+  0: Atom part-location(part_b_2, robot_1)
+  1: <none of those>
+var16:
+  0: Atom rhold-empty(robot_1)
+  1: <none of those>
+var17:
+  0: Atom kit-tray-location(kit_tray_1, robot_1)
+  1: <none of those>
+var18:
+  0: Atom part-location(part_a_2, robot_1)
+  1: <none of those>
+var19:
+  0: Atom kit-location(kit_a2b2c1, finished_kit_receiver)
+  1: <none of those>
+var20:
+  0: Atom part-location(part_c_1, part_c_tray)
+  1: <none of those>
+var21:
+  0: Atom part-location(part_a_2, kit_a2b2c1)
+  1: <none of those>
+var22:
+  0: Atom part-location(part_a_2, part_a_tray)
+  1: <none of those>
+var23:
+  0: Atom rhold(robot_1, part_a_1)
+  1: <none of those>
+var24:
+  0: Atom rhold(robot_1, part_a_2)
+  1: <none of those>
+var25:
+  0: Atom rhold(robot_1, part_b_2)
+  1: <none of those>
+var26:
+  0: Atom rhold(robot_1, part_c_1)
+  1: <none of those>
+var27:
+  0: Atom kit-location(kit_a2b2c1, robot_1)
+  1: <none of those>
+var28:
+  0: Atom part-location(part_b_1, part_b_tray)
+  1: <none of those>
+var29:
+  0: Atom kit-tray-location(kit_tray_1, empty_kit_tray_supply)
+  1: <none of those>
+var30:
+  0: Atom part-location(part_b_1, robot_1)
+  1: <none of those>
+var31:
+  0: Atom rhold(robot_1, part_b_1)
+  1: <none of those>
+var32:
+  0: Atom part-location(part_a_1, kit_a2b2c1)
+  1: <none of those>
+var33:
+  0: Atom part-location(part_b_1, kit_a2b2c1)
+  1: <none of those>
+var34:
+  0: Atom part-location(part_b_2, part_b_tray)
+  1: <none of those>

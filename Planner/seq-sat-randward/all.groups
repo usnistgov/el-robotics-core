@@ -1,0 +1,140 @@
+begin_groups
+39
+group
+3
+5 0 worktable-empty 1 work_table_1 
+5 2 onworktable 2 work_table_1 kit_tray_1 
+5 1 onworktable 2 work_table_1 kit_a2b2c1 
+group
+3
+2 2 r-no-eff 1 robot_1 
+2 1 eff-location 2 part_gripper robot_1 
+2 0 eff-location 2 tray_gripper robot_1 
+group
+3
+4 2 r-with-eff 2 robot_1 tray_gripper 
+4 0 effhhold-eff 2 part_gripper_holder tray_gripper 
+4 1 effhhold-eff 2 tray_gripper_holder tray_gripper 
+group
+3
+3 2 r-with-eff 2 robot_1 part_gripper 
+3 1 effhhold-eff 2 part_gripper_holder part_gripper 
+3 0 effhhold-eff 2 tray_gripper_holder part_gripper 
+group
+3
+2 2 r-no-eff 1 robot_1 
+0 2 effh-empty 1 part_gripper_holder 
+1 2 effh-empty 1 tray_gripper_holder 
+group
+3
+0 2 effh-empty 1 part_gripper_holder 
+3 1 effhhold-eff 2 part_gripper_holder part_gripper 
+4 0 effhhold-eff 2 part_gripper_holder tray_gripper 
+group
+3
+1 2 effh-empty 1 tray_gripper_holder 
+3 0 effhhold-eff 2 tray_gripper_holder part_gripper 
+4 1 effhhold-eff 2 tray_gripper_holder tray_gripper 
+group
+3
+1 2 effh-empty 1 tray_gripper_holder 
+1 0 eff-location 2 part_gripper tray_gripper_holder 
+1 1 eff-location 2 tray_gripper tray_gripper_holder 
+group
+3
+0 2 effh-empty 1 part_gripper_holder 
+0 1 eff-location 2 part_gripper part_gripper_holder 
+0 0 eff-location 2 tray_gripper part_gripper_holder 
+group
+3
+3 2 r-with-eff 2 robot_1 part_gripper 
+4 2 r-with-eff 2 robot_1 tray_gripper 
+2 2 r-no-eff 1 robot_1 
+group
+1
+6 0 part-location 2 part_a_1 part_a_tray 
+group
+1
+7 0 part-location 2 part_c_1 robot_1 
+group
+1
+8 0 rhold 2 robot_1 kit_a2b2c1 
+group
+1
+9 0 part-location 2 part_c_1 kit_a2b2c1 
+group
+1
+10 0 rhold 2 robot_1 kit_tray_1 
+group
+1
+11 0 part-location 2 part_a_1 robot_1 
+group
+1
+12 0 kit-location 2 kit_a2b2c1 work_table_1 
+group
+1
+13 0 kit-tray-location 2 kit_tray_1 work_table_1 
+group
+1
+14 0 part-location 2 part_b_2 kit_a2b2c1 
+group
+1
+15 0 part-location 2 part_b_2 robot_1 
+group
+1
+16 0 rhold-empty 1 robot_1 
+group
+1
+17 0 kit-tray-location 2 kit_tray_1 robot_1 
+group
+1
+18 0 part-location 2 part_a_2 robot_1 
+group
+1
+19 0 kit-location 2 kit_a2b2c1 finished_kit_receiver 
+group
+1
+20 0 part-location 2 part_c_1 part_c_tray 
+group
+1
+21 0 part-location 2 part_a_2 kit_a2b2c1 
+group
+1
+22 0 part-location 2 part_a_2 part_a_tray 
+group
+1
+23 0 rhold 2 robot_1 part_a_1 
+group
+1
+24 0 rhold 2 robot_1 part_a_2 
+group
+1
+25 0 rhold 2 robot_1 part_b_2 
+group
+1
+26 0 rhold 2 robot_1 part_c_1 
+group
+1
+27 0 kit-location 2 kit_a2b2c1 robot_1 
+group
+1
+28 0 part-location 2 part_b_1 part_b_tray 
+group
+1
+29 0 kit-tray-location 2 kit_tray_1 empty_kit_tray_supply 
+group
+1
+30 0 part-location 2 part_b_1 robot_1 
+group
+1
+31 0 rhold 2 robot_1 part_b_1 
+group
+1
+32 0 part-location 2 part_a_1 kit_a2b2c1 
+group
+1
+33 0 part-location 2 part_b_1 kit_a2b2c1 
+group
+1
+34 0 part-location 2 part_b_2 part_b_tray 
+end_groups

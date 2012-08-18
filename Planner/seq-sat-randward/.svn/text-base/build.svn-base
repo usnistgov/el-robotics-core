@@ -1,0 +1,8 @@
+#! /bin/sh
+
+cd randward/preprocess && \
+(make || exit 1)
+cd ../.. && \
+cd randward/search && \
+(make release || exit 1)
+cd ../..

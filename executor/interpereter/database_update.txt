@@ -1,0 +1,17 @@
+mysql> INSERT INTO DataThing (_NAME) VALUES('kit_a2b2c1');
+
+mysql> INSERT INTO DataThing (_NAME) VALUES('kit_a2b2c1_pose');
+
+mysql> INSERT INTO PhysicalLocation (PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject) VALUES(210, 'kit_a2b2c1_pose', NULL);
+
+mysql> INSERT INTO SolidObject (_NAME, hasSolidObject_PrimaryLocation) VALUES('kit_a2b2c1', NULL);
+
+mysql> UPDATE PhysicalLocation  SET  hasPhysicalLocation_RefObject='kit_a2b2c1' WHERE _NAME = 'kit_a2b2c1_pose';
+
+mysql> UPDATE SolidObject SET  hasSolidObject_PrimaryLocation='kit_a2b2c1_pose' WHERE _NAME = 'kit_a2b2c1';
+
+mysql> UPDATE SolidObject  SET  hadBySolidObject_WorkTable='work_table_1' WHERE _NAME = 'kit_a2b2c1';
+
+mysql> UPDATE Kit  SET  KitID=44 WHERE _NAME = 'kit_a2b2c1';
+
+

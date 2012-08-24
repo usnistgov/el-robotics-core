@@ -86,8 +86,8 @@ copy(temp);
  void EndEffector::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp = (SolidObject*) this;
-temp->set(name);
+SolidObject* temp0 = (SolidObject*) this;
+temp0->set(name);
 data["hasEndEffector_Description"]=hasEndEffector_Description;
 ss.str("");
 ss << hasEndEffector_Weight;

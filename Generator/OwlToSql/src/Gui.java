@@ -412,7 +412,7 @@ public class Gui extends JFrame {
 	@SuppressWarnings("unchecked")
 	public void generateClasses(Ontology o) {
 		for (int i = 0; i < o.getClassesClean().size(); i++) {
-			Types typesGen = new Types(o.getClassesClean().get(i));
+			Types typesGen = new Types(o.getClassesClean().get(i),o.getSuperClassesClean());
 			ArrayList<String> attributes = new ArrayList<String>();
 			ArrayList<String> unit = new ArrayList<String>();
 			for (int j = 0; j < o.getDp().getDataPropertiesClean().size(); j++) {

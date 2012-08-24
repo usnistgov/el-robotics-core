@@ -96,8 +96,8 @@ copy(temp);
  void Vector::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-DataThing* temp = (DataThing*) this;
-temp->set(name);
+DataThing* temp0 = (DataThing*) this;
+temp0->set(name);
 ss.str("");
 ss << hasVector_K;
 data["hasVector_K"]=ss.str();

@@ -89,8 +89,8 @@ copy(temp);
  void Robot::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp = (SolidObject*) this;
-temp->set(name);
+SolidObject* temp0 = (SolidObject*) this;
+temp0->set(name);
 data["hasRobot_Description"]=hasRobot_Description;
 data["hasRobot_Id"]=hasRobot_Id;
 ss.str("");

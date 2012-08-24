@@ -40,6 +40,7 @@ static std::map<std::string,std::vector<std::string> > setSqlQueries;
 static std::map<std::string,std::vector<std::string> > updateSqlQueries;
 void fillGetSqlQueries();public:
  DAO(std::string name);
+ ~DAO();
 std::vector<std::string> getclassName();
 void setclassName(std::vector<std::string> _className);
 Connection* getconnection();

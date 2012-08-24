@@ -83,8 +83,8 @@ copy(temp);
  void Kit::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp = (SolidObject*) this;
-temp->set(name);
+SolidObject* temp0 = (SolidObject*) this;
+temp0->set(name);
 data["hasKit_DesignRef"]=hasKit_DesignRef;
 ss.str("");
 ss << isKit_Finished;

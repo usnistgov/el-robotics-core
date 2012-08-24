@@ -97,8 +97,8 @@ copy(temp);
  void Point::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-DataThing* temp = (DataThing*) this;
-temp->set(name);
+DataThing* temp0 = (DataThing*) this;
+temp0->set(name);
 ss.str("");
 ss << hasPoint_X;
 data["hasPoint_X"]=ss.str();

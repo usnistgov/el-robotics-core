@@ -116,8 +116,8 @@ copy(temp);
  void KittingWorkstation::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp = (SolidObject*) this;
-temp->set(name);
+SolidObject* temp0 = (SolidObject*) this;
+temp0->set(name);
 data["hasWorkstation_LengthUnit"]=hasWorkstation_LengthUnit;
 data["hasWorkstation_AngleUnit"]=hasWorkstation_AngleUnit;
 data["hasWorkstation_WeightUnit"]=hasWorkstation_WeightUnit;

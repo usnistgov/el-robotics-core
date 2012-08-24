@@ -62,8 +62,8 @@ copy(temp);
  void LargeBoxWithEmptyKitTrays::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp = (SolidObject*) this;
-temp->set(name);
+SolidObject* temp0 = (SolidObject*) this;
+temp0->set(name);
 data["name"]=name;
 ss.str("");
 ss << LargeBoxWithEmptyKitTraysID;

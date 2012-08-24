@@ -74,8 +74,8 @@ copy(temp);
  void KitDesign::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-DataThing* temp = (DataThing*) this;
-temp->set(name);
+DataThing* temp0 = (DataThing*) this;
+temp0->set(name);
 data["hasKitDesign_Id"]=hasKitDesign_Id;
 data["hasKitDesign_KitTraySkuRef"]=hasKitDesign_KitTraySkuRef;
 data["name"]=name;

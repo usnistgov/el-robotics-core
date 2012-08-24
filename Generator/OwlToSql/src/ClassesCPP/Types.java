@@ -30,20 +30,44 @@ software
 package ClassesCPP;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Types extends ClassGenerator {
 
 	/**
+	 * \brief      Map - Key : class name => Value : super classes names.
+	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 */
+	private HashMap<String, ArrayList<String>> superClasses;
+
+	
+	/**
 	 * \brief Constructor \details Constructor of the Types class. \param
 	 * className Name of the class.
 	 */
-	public Types(String className) {
+	public Types(String className,HashMap<String, ArrayList<String>> superClasses) {
 		this.className = className;
+		this.superClasses=superClasses;
 		fillUnit();
 	}
 
+	/**
+	 * \brief      Retrieve the super classes for a given one.
+	 * \param     table				The type we want to get his super classes.
+	 * \return    A String with all the super classes seperated by a space
+	 */
+	public String getParent(String table) {
+		if (superClasses.get(table) != null) {
+			for (String parents : superClasses.get(table)) {
+				return parents + " " + getParent(parents);
+			}
+		}
+		return "";
+
+	}
+	
 	/**
 	 * \brief Generate the header file for a given type \param className Name of
 	 * the class. \param classParentName List of the super classes. \param
@@ -319,12 +343,13 @@ public class Types extends ClassGenerator {
 		globalGet = globalGet + "std::map<std::string,std::string> temp;\n";
 
 		if (classParentName != null) {
-			for (int i = 0; i < classParentName.size(); i++) {
+			String[] parents = getParent(className).split(" ");
+			for (int i = 0; i < parents.length; i++) {
 				globalGet = globalGet + "dao  = new DAO(\""
-						+ classParentName.get(i) + "\");";
+						+ parents[i] + "\");";
 				globalGet = globalGet + "\n temp = dao->get(name);";
 				globalGet = globalGet + "delete (dao);";
-				globalGet = globalGet + "\n " + classParentName.get(i)
+				globalGet = globalGet + "\n " + parents[i]
 						+ "::copy(temp);\n";
 			}
 		}
@@ -339,10 +364,11 @@ public class Types extends ClassGenerator {
 		globalSet = globalSet + "std::stringstream ss;\n";
 
 		if (classParentName != null) {
-			for (int i = 0; i < classParentName.size(); i++) {
-				globalSet = globalSet + classParentName.get(i) + "* temp = ("
-						+ classParentName.get(i) + "*) this;\n";
-				globalSet = globalSet + "temp->set(name);\n";
+			String[] parents = getParent(className).split(" ");
+			for (int i = 0; i < parents.length; i++) {
+				globalSet = globalSet + parents[i] + "* temp"+i+" = ("
+						+ parents[i] + "*) this;\n";
+				globalSet = globalSet + "temp"+i+"->set(name);\n";
 			}
 		}
 

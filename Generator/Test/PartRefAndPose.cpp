@@ -85,8 +85,8 @@ copy(temp);
  void PartRefAndPose::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-DataThing* temp = (DataThing*) this;
-temp->set(name);
+DataThing* temp0 = (DataThing*) this;
+temp0->set(name);
 data["hasPartRefAndPose_Ref"]=hasPartRefAndPose_Ref;
 data["name"]=name;
 ss.str("");

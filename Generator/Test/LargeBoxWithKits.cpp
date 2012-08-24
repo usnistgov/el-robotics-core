@@ -74,8 +74,8 @@ copy(temp);
  void LargeBoxWithKits::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp = (SolidObject*) this;
-temp->set(name);
+SolidObject* temp0 = (SolidObject*) this;
+temp0->set(name);
 data["hasLargeBoxWithKits_Capacity"]=hasLargeBoxWithKits_Capacity;
 data["hasLargeBoxWithKits_KitDesignRef"]=hasLargeBoxWithKits_KitDesignRef;
 data["name"]=name;

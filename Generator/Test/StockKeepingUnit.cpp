@@ -86,8 +86,8 @@ copy(temp);
  void StockKeepingUnit::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-DataThing* temp = (DataThing*) this;
-temp->set(name);
+DataThing* temp0 = (DataThing*) this;
+temp0->set(name);
 for(unsigned int i=0;i<hasSku_EndEffectorRefs.size();++i){
 data["hasSku_EndEffectorRefs"]=data["hasSku_EndEffectorRefs"]+" "+hasSku_EndEffectorRefs[i];
 }

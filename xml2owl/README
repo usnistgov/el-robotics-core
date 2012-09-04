@@ -1,0 +1,210 @@
+xml2owl README - last updated 2012Sep1
+
+This directory contains four executable utilities with the source code
+and other related code. All of the executables are fast.
+
+  owlPrinter
+  kittingParser
+  compactOwl
+  compareOwl
+
+owlPrinter
+----------
+
+The principal utility in this directory is the owlPrinter. It reads an XML
+kitting data file corresponding to an XML schema for kitting (kitting.xsd)
+and writes an OWL instance file corresponding to the OWL class file
+kittingClasses.owl. The kitting.xsd file contains the same conceptual model
+as the kittingClasses.owl file, but in a different language.
+
+The owlPrinter is useful because there is no OWL tool that will help
+generate an OWL instance file and check the file adequately against an OWL
+class file. That is because OWL uses an open world model in which anything
+not explicitly or implicitly illegal is allowed. Hence many things that are
+errors to the writer of the instance file are not OWL errors. For example,
+if the name of an instance is misspelled, OWL will assume that there is a
+new instance that has not been explicitly declared as such, which is OK in
+OWL. If a reference to an instance name is misspelled in an XML data file
+corresponding to the kitting.xsd schema, that will be caught automatically
+by the owlPrinter (and other readily available XML tools).  Several other
+types of error will not be caught by OWL tools but will not be made or will
+be detected if the OWL printer is used.
+
+Another OWL problem that disappears in XML is that in OWL, there is no
+distinction between an instance file and a class file. An instance file can
+modify classes, intentionally, or accidentally. In XML there is no way a
+data file can modify a model.
+
+To use the owlPrinter, use a text editor such as emacs or an XML tool such
+as XMLSpy to write an XML data file corresponding to the kitting.xsd schema
+and then run it through the owlPrinter with a command of the form:
+
+ bin/owlPrinter [XML kitting data file in] [OWL kitting instance file out]
+
+For example, the command
+
+    bin/owlPrinter data/kittingInstance2.xml junk
+
+will print the file junk, which will be identical to the
+kittingInstance2.owl file in the owl directory.
+
+kittingParser
+-------------
+
+The kittingParser may be used to check an XML data file against the
+kitting.xsd schema. The schema is hard-coded into the kittingParser.
+If there is any error in the XML data file, the kittingParser prints
+a message and quits. If there is no error, the input file is echoed by
+printing an output file whose name is the same as that of the input file
+with "echo" appended. To run the kittingParser, give a command of the
+form:
+
+   bin/kittingParser [XML kitting data file in]
+
+For example, the command
+
+   bin/kittingParser data/kittingInstance2.xml
+
+will read kittingInstance2.xml and write kittingInstance2.xmlecho. The
+two files will be identical. If the format of an input file differs from
+the format used for printing the output file, the two files will differ,
+but only in format.
+
+The owlPrinter makes the same checks as the kittingParser, so there is
+no need to use the kittingParser.
+
+All of the source code for the kittingParser was generated automatically
+by the GenXMiller generator.
+
+compactOwl and compareOwl
+-------------------------
+
+There is no need to read this section unless you are interested in how the
+owlPrinter was debugged.
+
+The compactOwl and compareOwl utilities are used for checking that two
+different OWL instance files have the same statements. They have been
+used as follows to debug the owlPrinter (and the kitting.xsd file
+and the kittingInstance2.xml file and the kittingInstances.owl file).
+
+1. Write kitting.xsd to model the same information as kittingClasses.owl.
+
+2. Write kittingInstance2.xml to correspond to kitting.xsd and contain the
+same information as kittingInstances.owl.
+
+3. Build the owlPrinter.
+
+4. Run kittingInstance2.xml through the owlPrinter to produce
+kittingInstance2.owl.
+
+5. Run kittingInstance2.owl through compactOwl to produce
+kittingInstance2Compact.owl.
+
+6. Run kittingInstances.owl through compactOwl to produce
+kittingInstancesCompact.owl.
+
+7. Run kittingInstance2Compact.owl and kittingInstancesCompact.owl through
+compareOwl. If compareOwl reports that the two files have the same
+statements, that means that steps 1, 2, and 3 have been done correctly, so
+debugging is finished. If compareOwl reports a pair of statements that
+differ, figure out why, go back to step 1, 2, or 3 (or edit
+kittingInstances.owl), fix the problem, and repeat the subsequent steps.
+
+These utilities assume that the format of the input files is the same
+as either the format used by the owlPrinter or the format followed by
+the kittingInstances.owl file. If the format used by an input file is
+different from both of those, the utilities may fail.
+
+The compactOwl utility compacts an OWL instance file by:
+1. removing all occurrences of one or two blank lines. The blank lines
+   must not contain spaces or tabs.
+2. removing comments. The comments must have // as the first two
+   characters on the line.
+3. combining each OWL statement written on two or more lines so it is
+   all on one line. The first non-space character on the second line
+   must be a colon (:) or a double quote (").
+4. rewriting numbers with decimal points so there are exactly six decimal
+   places. Such numbers must have at least one digit on each side of the
+   decimal point in the input file.
+5. putting the DifferentIndividuals inside DifferentIndividuals statements
+   into alphabetical order.
+
+To run compactOwl use a command of the form:
+
+    bin/compactOwl < [owl file in] > [owl file out]
+
+where [owl file in] and [owl file out] are replaced by file names.
+
+The compareOwl utility compares two files that are expected to have the
+same lines, but in a different order, such as an automatically generated
+OWL file and a hand-written OWL file. It reads the two files and saves the
+lines of each one in two sets in alphabetical order (set::insert puts
+strings in alphabetical order by default). Then it compares the lines of
+the two sets in order. If it finds two lines that do not match, it prints
+the line from the first file followed by the line from the second file.  If
+all lines match, that is reported.
+
+To run compareOwl, use a command of the form:
+
+bin/compareOwl [first owl file in] [second owl file in]
+
+where [first owl file in] and [second owl file in] are replaced by the
+names of compacted OWL files.
+
+contents
+--------
+
+The contents of this directory are listed below.
+
+Makefile
+README
+
+./bin:
+compactOwl
+compareOwl
+kittingParser
+owlPrinter
+
+./data:
+kittingInstance2.xml
+
+./ofiles:
+kittingClasses.o
+kittingClassesOwl.o
+kittingLex.o
+kittingParser.o
+kittingYACC.o
+owlPrinter.o
+xmlSchemaInstance.o
+
+./owl:
+kittingClasses.owl
+kittingInstance2Compact.owl
+kittingInstance2.owl
+kittingInstancesCompact.owl
+kittingInstances.owl
+
+./schema:
+kitting.xsd
+
+./source:
+compactOwl.cc
+compactOwl.lex
+compareOwl.cc
+kittingClasses.cc
+kittingClasses.hh
+kittingClassesOwl.cc
+kittingClassesOwl.hh
+kitting.lex
+kittingLex.cc
+kittingParser.cc
+kitting.y
+kittingYACC.cc
+kittingYACC.hh
+owlPrinter.cc
+xmlSchemaInstance.cc
+xmlSchemaInstance.hh
+
+./zips:
+kitting2012Aug24.zip
+kitting2012Aug26.zip

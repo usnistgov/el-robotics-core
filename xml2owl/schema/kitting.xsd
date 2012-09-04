@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Things to change
+1. Make the end effector on a robot optional.
+2. Allow objects to be in end effectors.
+3. Get rid of all ids, and change references to ids to the names of
+   instances.
+-->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:kitting"
+  targetNamespace="urn:kitting"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="KittingWorkStation"
+    type="KittingWorkstationType">
+    <xs:annotation>
+      <xs:documentation>Root element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:annotation>
+    <xs:documentation>
+      This is an XML schema for kitting classes. It has the same
+      semantic content as the August 7 version of the file
+      kittingClasses.owl. In files conforming to an XML schema, all
+      class instances must occur in a hierarchy descending from a root
+      object. In OWL, all objects are declared at the top level; there
+      is no hierarchy. To put SolidObjects into a hierarchy, the
+      KittingWorkstationType in this schema has an "Object" element
+      with unbounded maxOccurs that provides a list of all Solid
+      Objects in the Workstation.
+    </xs:documentation>
+    <xs:documentation>
+      There are two complexTypes, DataThingTypes and SolidObjectTypes,
+      from which all other complexTypes are derived.
+    </xs:documentation>
+    <xs:documentation>
+      One of the purposes of this schema is to support an application
+      that writes kitting instance files. Hence, the things defined
+      here have been designed with the intention of enabling that
+      support.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="AngleUnitType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="degree"/>
+      <xs:enumeration value="radian"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="BoxVolumeType">
+    <xs:annotation>
+      <xs:documentation>
+        A BoxVolume has a Name inherited from DataThingType. It also
+        has MaximumPoint and a MinimumPoint as defined here. These are
+        diagonally opposite corner points of a box shaped volume whose
+        edges are aligned with the coordinate system in which the
+        BoxVolume is located. The minimum point has the minimum values
+        of X, Y, and Z. The maximum point has the maximum values of X,
+        Y, and Z.
+       </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="MaximumPoint"
+            type="PointType"/>
+          <xs:element name="MinimumPoint"
+            type="PointType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BoxyObjectType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A BoxyObject is a SolidObject. A BoxyObject is box shaped. It has
+        Length, Width, and Height). It has a preferred partial orientation
+        in which the edges along which the height is measured are vertical
+        (parallel to the force of gravity).  The length is larger of the
+        two dimensions that are not the height.  The width is smaller of
+        the two dimensions that are not the height.  The coordinate system
+        of a BoxyObject (i.e. the thing that is located and oriented by a
+        pose) has its origin in the middle of the bottom, its Z-axis
+        parallel to the height sides, and its X-axis parallel to to the
+        length sides. Since this still allows two choices for orientation
+        (four if the length and width are equal) which may or may not be
+        distinguishable, some subtypes of BoxyObject will need one more
+        piece of orientation information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="Length"
+            type="PositiveDecimalType"/>
+          <xs:element name="Width"
+            type="PositiveDecimalType"/>
+          <xs:element name="Height"
+            type="PositiveDecimalType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DataThingType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A DataThing includes all complex data types such as Vector,
+        PhysicalLocation, etc. A DataThing has a Name to make it easy
+        to reference when generating OWL. Names are of type xs:ID so that
+        all names must be unique. Names also must not be the same as Ids.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Name"
+        type="xs:ID"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EndEffectorType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An EndEffector is a SolidObject. It is an end effector for a robot.
+        An EndEffector has a Description, a Weight, an Id, and a
+        MaximimLoadWeight.  Every EndEffector is either a GripperEffector
+        or a VacuumEffector.  Every EndEffector in a KittingWorkstation is
+        either attached to the end of a robot arm or sitting in an
+        EndEffectorHolder at an EndEffectorChangingStation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="Weight"
+            type="PositiveDecimalType"/>
+          <xs:element name="MaximumLoadWeight"
+            type="PositiveDecimalType"/>
+          <xs:element name="Id"
+            type="xs:ID"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EndEffectorChangingStationType">
+    <xs:annotation>
+      <xs:documentation>
+        An EndEffectorChangingStationType is a SolidObjectType. It is
+        a place where end effectors are stored and where the robot can
+        change end effectors. The objects located by an
+        EndEffectorChangingStation should include one to many
+        instances of EndEffectorHolderType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="EndEffectorHolders"
+            type="EndEffectorHolderType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EndEffectorHolderType">
+    <xs:annotation>
+      <xs:documentation>
+        An EndEffectorHolder is a SolidObject. The objects located by
+        anEndEffectorHolder should include zero or one EndEffector. An
+        EndEffectorHolder is part of an EndEffectorChangingStation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="EndEffector"
+            type="EndEffectorType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GripperEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        A GripperEffector is an EndEffector. A GripperEffector holds an
+        object by gripping it with fingers or claws.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EndEffectorType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitType">
+    <xs:annotation>
+      <xs:documentation>
+        A KitType is a SolidObjectType. A KitType inherits Name
+        element and a RefObject element from SolidObjectType. KitType
+        also has an identifier for a KitDesignType (DesignRef), and a
+        boolean indicator of whether the Kit is finished
+        (Finished). There should be a KitTrayType among the objects
+        located relative to the KitType, its locating point should be
+        (0,0,0), and its X and Z axes should be (1,0,0) and (0,0,1),
+        respectively. Other objects located relative to the KitType
+        may be PartTypes that are in it.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="DesignRef"
+            type="xs:IDREF"/>
+          <xs:element name="Tray"
+            type="KitTrayType"/>
+          <xs:element name="Part"
+            type="PartType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="Finished"
+            type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitDesignType">
+    <xs:annotation>
+      <xs:documentation>
+        A KitDesignType is a DataThingType. A KitDesignType has a Name
+        inherited from DataThingType. A KitDesignType identifies a
+        type of tray (KitTraySkuRef), one to many PartRefAndPoseType
+        (PartRefAndPose), and an Id that is unique among KitDesigns.
+        The Pose in a PartAndPose is the location of the part relative
+        to the coordinate system of the ShapeDesign of the tray.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="KitTraySkuRef"
+            type="xs:IDREF"/>
+          <xs:element name="PartRefAndPose"
+            type="PartRefAndPoseType"
+            maxOccurs="unbounded"/>
+          <xs:element name="Id"
+            type="xs:ID"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KittingWorkstationType">
+    <xs:annotation>
+      <xs:documentation>
+        A KittingWorkstationType is a SolidObjectType. A
+        KittingWorkstationType inherits a Name element and a RefObject
+        element from SolidObjectType. A KittingWorkstationType has an
+        unbounded number of Object elements of SolidObjectType. A
+        KittingWorkstationType also has other fixed obstacles that are
+        BoxVolumeType (OtherObstacle), an AngleUnit, a LengthUnit and
+        a WeightUnit. All angle, length, and weight values related to
+        the workstation use those units implicitly. A
+        KittingWorkstationType has one to many Sku it knows about. A
+        KittingWorkstationType has one to many KitDesign it knows
+        about.
+      </xs:documentation>
+      <xs:documentation>
+        Containers of various sorts enter and leave the workstation.
+        The robot builds kits of parts by executing kitting plans as
+        directed by a kitting plan execution system.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="AngleUnit"
+            type="AngleUnitType"/>
+          <xs:element name="ChangingStation"
+            type="EndEffectorChangingStationType"/>
+          <xs:element name="KitDesign"
+            type="KitDesignType"
+            maxOccurs="unbounded"/>
+          <xs:element name="LengthUnit"
+            type="LengthUnitType"/>
+          <xs:element name="Object"
+            type="SolidObjectType"
+            maxOccurs="unbounded"/>
+          <xs:element name="OtherObstacle"
+            type="BoxVolumeType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="Robot"
+            type="RobotType"/>
+          <xs:element name="Sku"
+            type="StockKeepingUnitType"
+            maxOccurs="unbounded"/>
+          <xs:element name="WeightUnit"
+            type="WeightUnitType"/>
+          <xs:element name="WorkTable"
+            type="WorkTableType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        A KitTrayType is a BoxyObjectType. A KitTrayType is designed
+        to hold PartTypes with various SKU ids in known positions. A
+        KitTrayType has an identifier for its SKU (SkuRef) and a
+        SerialNumber.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BoxyObjectType">
+        <xs:sequence>
+          <xs:element name="SkuRef"
+            type="xs:IDREF"/>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LargeBoxWithEmptyKitTraysType">
+    <xs:annotation>
+      <xs:documentation>
+	A LargeBoxWithEmptyKitTraysType is a BoxyObjectType. It
+	inherits Name, RefObject, Length, Width, and Height elements
+	from BoxyObjectType. A LargeContainer should have the
+	LargeBoxWithEmptyKitTraysType as its location-parent. The
+	location point of the LargeContainer should be (0,0,0), its Z
+	axis should be (0,0,1), and its X axis should be (1,0,0). The
+	KitTrays in a LargeBoxWithEmptyKitTraysType are intended to
+	all be of the same SKU, although there is currently no formal
+	requirement for that.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="LargeContainer"
+            type="LargeContainerType"/>
+          <xs:element name="Trays"
+            type="KitTrayType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LargeBoxWithKitsType">
+    <xs:annotation>
+      <xs:documentation>
+	A LargeBoxWithKitsType is a BoxyObjectType.  It inherits Name,
+	RefObject, Length, Width, and Height elements from
+	BoxyObjectType.  A LargeBoxWithKitsType also has
+	LargeContainer and Kit elements. The location point of the
+	LargeContainer should be (0,0,0), its Z axis should be
+	(0,0,1), and its X axis should be (1,0,0). A
+	LargeBoxWithKitsType also has an identifier for a
+	KitDesignType (KitDesignRef), a PositiveIntegerType giving the
+	maximum number of kits of the given design that can be held in
+	the box (Capacity). The KitTypes in a LargeBoxWithKitsType are
+	intended to all be of the given design, but there is currently
+	no formal constraint requiring that.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="LargeContainer"
+            type="LargeContainerType"/>
+          <xs:element name="Kit"
+            type="KitType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="KitDesignRef"
+            type="xs:IDREF"/>
+          <xs:element name="Capacity"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LargeContainerType">
+    <xs:annotation>
+      <xs:documentation>
+        A LargeContainerType is a BoxyObjectType. A LargeContainerType
+        can hold one or more instances of a single type of tray or
+        bin. The single type may be
+        (1) KitTrayType
+        (2) PartsBinType
+        (3) PartsTrayType
+        (4) KitInstanceType
+        A LargeContainerType has an identifier for its SKU (SkuRef)
+        and a SerialNumber.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BoxyObjectType">
+        <xs:sequence>
+          <xs:element name="SkuRef"
+            type="xs:IDREF"/>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="LengthUnitType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="meter"/>
+      <xs:enumeration value="millimeter"/>
+      <xs:enumeration value="inch"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="PartType">
+    <xs:annotation>
+      <xs:documentation>
+        A PartType is a SolidObject. It has a SerialNumber and a SkuRef,
+        which is a reference to the identifier of a StockKeepingUnit.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="SkuRef"
+            type="xs:IDREF"/>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartRefAndPoseType">
+    <xs:annotation>
+      <xs:documentation>
+        A PartRefAndPoseType identifies a type of part by giving its
+        SKU id (Ref), it specifies the location of the part (Point), a
+        Z axis for the orientation of the Part (ZAxis), and an X axis
+        for the orientation of the Part (XAxis). A PartRefAndPose has
+        a Name inherited from DataThingType.The Pose is relative to
+        the coordinate system of the KitTrayType identified in the
+        KitDesign.  A KitDesignType has one to many PartRefAndPose.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Ref"
+            type="xs:IDREF"/>
+          <xs:element name="Point"
+            type="PointType"/>
+          <xs:element name="XAxis"
+            type="VectorType"/>
+          <xs:element name="ZAxis"
+            type="VectorType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsBinType">
+    <xs:annotation>
+      <xs:documentation>
+        A PartsBinType is a BoxyObjectType. A PartsBinType holds a
+        number of PartTypes (PartQuantity) with the same SKU id
+        (PartSkuRef) in unknown random positions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BoxyObjectType">
+        <xs:sequence>
+          <xs:element name="PartSkuRef"
+            type="xs:IDREF"/>
+          <xs:element name="PartQuantity"
+            type="xs:nonNegativeInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        A PartsTrayType is a BoxyObjectType used to hold Parts. A
+        PartsTray has an identifier for its SKU (SkuRef)
+        and a SerialNumber.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BoxyObjectType">
+        <xs:sequence>
+          <xs:element name="SkuRef"
+            type="xs:IDREF"/>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsTrayWithPartsType">
+    <xs:annotation>
+      <xs:documentation>
+        A PartsTrayWithPartsType is a SolidObjectType. It inherits
+        Name and RefObject elements from SolidObjectType. A
+        PartsTrayWithPartsType also has a PartsTray and zero to many Part.
+        ThePartsTray should have the PartsTrayWithPartsType as its
+        location-parent. The location point of the PartsTray should be
+        (0,0,0), its Z axis should be (0,0,1), and its X axis should
+        be (1,0,0). The PartTypes in a PartsTrayWithPartsType are
+        intended to all be of the same SKU, although there is
+        currently no formal requirement for that.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="PartsTray"
+            type="PartsTrayType"/>
+          <xs:element name="Part"
+            type="PartType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PhysicalLocationType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A PhysicalLocationType is a DataThingType. A
+        PhysicalLocationType says where a SolidObjectType
+        is. A PhysicalLocationType has a Name inherited from
+        DataThingType. A PhysicalLocationType has a reference object
+        (RefObject) that is a SolidObjectType. A PhysicalLocationType
+        is either a RelativeLocationType or a PoseLocationType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="RefObject"
+            type="xs:IDREF"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PointType">
+    <xs:annotation>
+      <xs:documentation>
+        A PointType is a DataThingType. A PointType has a Name
+        inherited from DataThingType. A PointType has X, Y, and Z
+        Cartesian coordinates.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="X"
+            type="xs:decimal"/>
+          <xs:element name="Y"
+            type="xs:decimal"/>
+          <xs:element name="Z"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseLocationType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A PoseLocationType is a PhysicalLocationType. A
+        PoseLocationType inherits Name and RefObject elements from
+        PhysicalLocationType. A PoseLocationType also also has a
+        PointType (Point) that locates the origin, a VectorType for
+        the Z axis (ZAxis), and a VectorType for the X axis
+        (XAxis). The data for the Point, the ZAxis and the XAxis are
+        expressed relative to the location-parent. A PoseLocationType
+        must be a PoseOnlyLocationType, a PoseLocationInType, or a
+        PoseLocationOnType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PhysicalLocationType">
+        <xs:sequence>
+          <xs:element name="Point"
+            type="PointType"/>
+          <xs:element name="XAxis"
+            type="VectorType"/>
+          <xs:element name="ZAxis"
+            type="VectorType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseLocationInType">
+    <xs:annotation>
+      <xs:documentation>
+        A PoseLocationInType indicates that the Object is
+        inside the location-parent.  The notion of 'inside' is vague
+        and might be made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PoseLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseLocationOnType">
+    <xs:annotation>
+      <xs:documentation>
+        A PoseLocationOnType indicates that the Object is
+        on top of the location-parent.  The notion of 'on top of' is
+        vague and might be made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PoseLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseOnlyLocationType">
+    <xs:annotation>
+      <xs:documentation>
+        An object located by a PoseOnlyLocationType may or may not be
+	inside or on top of its location-parent.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PoseLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="PositiveDecimalType">
+    <xs:restriction base="xs:decimal">
+      <xs:minExclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="RelativeLocationType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A RelativeLocationType is a PhysicalLocationType. A
+        RelativeLocationType indicates that the Object is
+        on or in the location-parent.  A RelativeLocationType is a
+        RelativeLocationInType or a RelativeLocationOnType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PhysicalLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RelativeLocationInType">
+    <xs:annotation>
+      <xs:documentation>
+        A RelativeLocationInType is a RelativeLocationType.
+        A RelativeLocationInType indicates that the Object
+        is inside the location-parent. A  RelativeLocationInType
+        has a Description that is a string. The notion of 'in' is
+        vague and might be made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RelativeLocationType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RelativeLocationOnType">
+    <xs:annotation>
+      <xs:documentation>
+        A RelativeLocationOnType is a RelativeLocationType.
+        A RelativeLocationOnType indicates that the Object
+        is on top of the location-parent.  A RelativeLocationOnType
+        has a Description that is a string. The notion of 'on top of' is
+        vague and might be made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RelativeLocationType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotType">
+    <xs:annotation>
+      <xs:documentation>
+        A RobotType is a SolidObjectType. A RobotType currently has a
+        Description, an Id, a WorkVolume, an EndEffector, and a
+        MaximumLoadWeight.
+      </xs:documentation>
+      <xs:documentation>
+        The Robot ontology given here might be expanded greatly to include,
+        for example, its kinematic description, the values of joint angles,
+        arm lengths of variable length arms, gripper actuation (open,
+        closed, etc.), ranges, velocities, and accelerations of each joint,
+        etc.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="EndEffector"
+            type="EndEffectorType"/>
+          <xs:element name="MaximumLoadWeight"
+            type="PositiveDecimalType"/>
+          <xs:element name="WorkVolume"
+            type="BoxVolumeType"
+            maxOccurs="unbounded"/>
+          <xs:element name="Id"
+            type="xs:ID"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ShapeDesignType">
+    <xs:annotation>
+      <xs:documentation>
+        A ShapeDesignType is a DataThingType. A ShapeDesignType has a
+        Name inherited from DataThingType. This is currently a stub
+        that has only a Description that is a string.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SolidObjectType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A SolidObjectType has a PrimaryLocation that is a PhysicalLocationType,
+        zero to many SecondaryLocations, also PhysicalLocationType,
+        and a Name to make it possible to reference the SolidObject when
+        generating OWL. Names are of type xs:ID so that all names must
+        be unique. Names also must not be the same as Ids.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Name"
+        type="xs:ID"/>
+      <xs:element name="PrimaryLocation"
+        type="PhysicalLocationType"/>
+      <xs:element name="SecondaryLocation"
+        type="PhysicalLocationType"
+        minOccurs="0"
+        maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StockKeepingUnitType">
+    <xs:annotation>
+      <xs:documentation>
+        A StockKeepingUnitType is a DataThingType. A
+        StockKeepingUnitType is a description of a type of object. A
+        StockKeepinUnitType has a Name inherited from DataThingType. A
+        StockKeepingUnitType has a Description, a Shape that is a
+        ShapeDesignType, a Weight, one or more reference to the id of
+        an EndEffectorType that can handle it (EndEffectorRef), and a
+        unique Id.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="Shape"
+            type="ShapeDesignType"/>
+          <xs:element name="Weight"
+            type="PositiveDecimalType"/>
+          <xs:element name="EndEffectorRef"
+            type="xs:IDREF"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="Id"
+            type="xs:ID"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VacuumEffectorType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A VacuumEffectorType is an EndEffectorType. A
+        VacuumEffectorType holds an object by putting a cup against
+        the object and applying a vacuum.  A VacuumEffectorType is
+        either a VacuumEffectorSingleCupType or a
+        VacuumEffectorMultiCupType.  A VacuumEffectorType has a
+        CupDiameter and a Length.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EndEffectorType">
+        <xs:sequence>
+          <xs:element name="CupDiameter"
+            type="PositiveDecimalType"/>
+          <xs:element name="Length"
+            type="PositiveDecimalType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VacuumEffectorMultiCupType">
+    <xs:annotation>
+      <xs:documentation>
+        A VacuumEffectorMultiCupType is a VacuumEffectorType with two
+        or more identical cups (ArrayNumber).  A
+        VacuumEffectorMultiCupType has an ArrayRadius.  The cups are
+        arranged in a circular array spaced evenly apart. The center
+        of the wide end of one cup is on the X-axis of the coordinate
+        system of the VacuumEffectorMultiCupType. The center of the
+        circular array is at the origin of the coordinate system. The
+        axis of the array circle is the Z axis of the coordinate
+        system, and the length of the VacuumEffectorType is measured
+        along that axis. The wide ends of the cups lie on the XY plane
+        of the coordinate system.
+      </xs:documentation>
+      <xs:documentation>
+        Note that a square array can be represented easily as circular array.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="VacuumEffectorType">
+        <xs:sequence>
+          <xs:element name="ArrayNumber"
+            type="xs:positiveInteger"/>
+          <xs:element name="ArrayRadius"
+            type="PositiveDecimalType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VacuumEffectorSingleCupType">
+    <xs:annotation>
+      <xs:documentation>
+        A VacuumEffectorSingleCupType is a VacuumEffectorType with one
+        cup.  The center of the wide end of the cup (which is a
+        circle) is at the origin of the coordinate system of the
+        VacuumEffectorSingleCupType.  The Z axis of the coordinate
+        system is the axis of that circle, and the length of the
+        VacuumEffectorType is measured along that axis.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="VacuumEffectorType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VectorType">
+    <xs:annotation>
+      <xs:documentation>
+        A VectorType is a DataThingType. A Vector has a Name inherited
+        from DataThingType. It also has I, J, and K components.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="I"
+            type="xs:decimal"/>
+          <xs:element name="J"
+            type="xs:decimal"/>
+          <xs:element name="K"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="WeightUnitType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="kilogram"/>
+      <xs:enumeration value="gram"/>
+      <xs:enumeration value="milligram"/>
+      <xs:enumeration value="ounce"/>
+      <xs:enumeration value="pound"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="WorkTableType">
+    <xs:annotation>
+      <xs:documentation>
+        A WorkTableType is a BoxyObjectType. The top of a
+        WorkTableType is a flat, rectangular, horizontal surface. The
+        length and width of the top are those of the BoxyObjectType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BoxyObjectType">
+        <xs:sequence>
+          <xs:element name="SolidObject"
+            type="SolidObjectType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

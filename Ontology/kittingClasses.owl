@@ -163,7 +163,7 @@ AnnotationAssertion(rdfs:comment :EndEffector
   "An EndEffector is a SolidObject. It is an end effector for a robot.
    An EndEffector has a description (hasEndEffector_Description),
    a weight (hasEndEffector_Weight), an identifier (hasEndEffector_Id),
-   and a maximum weight it can lift (hasEffectorMaximimLoadWeight).
+   and a maximum weight it can lift (hasEffector_MaximumLoadWeight).
    Every EndEffector is either a GripperEffector or a VacuumEffector.
    Every EndEffector in a KittingWorkstation is either attached to the
    end of a robot arm (hadByEndEffector_Robot) or sitting in an

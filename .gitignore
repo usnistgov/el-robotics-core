@@ -1,0 +1,11 @@
+*.DS_Store
+*.backup
+*~
+*.bak
+*.log
+*.dvi
+*.toc
+*.out
+*.aux
+*.blg
+*.bbl

@@ -1,0 +1,221 @@
+
+This section describes the process for the interpreter. The interpreter reads the plan file and generates the canonical robot commands. The description of this process and subprocesses are mainly described via flowcharts. Samples of \verb!C++! code are used to capture the attention of the reader on important notes.
+
+The main process for the interpreter is depicted in Figure \ref{fig:interpreter} and described in the following subsections.
+
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %---------- Main
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (parseplan) {Parse plan};
+  \node[MainAttribute] (parsepddl)[below=1cm of parseplan] {Parse PDDL problem file};
+  \node[MainAttribute] (canonical)[below=1cm of parsepddl] {Generate canonical robot commands};
+  \draw[myarrow] (parseplan.south) -- (parsepddl.north);
+  \draw[myarrow] (parsepddl.south) -- (canonical.north);
+
+\end{tikzpicture}
+}
+\caption{Main Process for the Interpreter.}
+\label{fig:interpreter}
+\end{figure}
+
+
+
+\subsection{Parse Plan}
+
+\begin{figure}[h!t!]
+\centering
+\scalebox{.70}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+ 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %---------- Parse plan    
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (parseplan) {Parse plan};
+
+  \node[entity] (readplan) [below=1cm of parseplan] {Read plan file};
+  \draw[myarrow] (parseplan.south) -- (readplan.north);
+  
+  % Start of loop For
+  \node[ForLoop] (startloop) [below=1cm of readplan] {For each line in the plan file};
+  \draw[myarrow] (readplan.south) -- (startloop.north);
+
+  \node[entity] (removeparentheses) [below=1cm of startloop] {Remove parentheses};
+  \draw[myarrow] (startloop.south) -- (removeparentheses.north);
+
+  \node[entity] (splitstring) [below=1cm of removeparentheses] {Split line into strings};
+  \draw[myarrow] (removeparentheses.south) -- (splitstring.north);
+
+  \node[entity] (storestring) [below=1cm of splitstring] {Store action and parameters in list \textbf{A}};
+  \draw[myarrow] (splitstring.south) -- (storestring.north);
+  \draw[myarrow] (storestring.east) -- ++ (1,0) -- ++ (0,4)  |- (removeparentheses.east);
+  
+   % End of loop For
+  \node[ForLoop] (endloop) [below=1cm of storestring] {Done};
+  \draw[myarrow] (storestring.south) -- (endloop.north);
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %---------- Store Parameters
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+
+  \node[entity] (readlistA) [right=7cm of readplan] {Read list \textbf{A}};
+  \draw[myarrow] (endloop.east) -- ++ (4,0) -- ++ (0,4)  |- (readlistA.west);
+  
+  \node[entity] (removeduplicates) [below=1cm of readlistA] {Remove duplicate parameters};
+  \draw[myarrow] (readlistA.south) -- (removeduplicates.north);
+
+  \node[entity] (storeparamlistB) [below=1cm of removeduplicates] {Store parameters in list \textbf{B}};
+  \draw[myarrow] (removeduplicates.south) -- (storeparamlistB.north);
+  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Parse PDDL Problem File
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (parsepddl) [below=1cm of storeparamlistB] {Parse PDDL Problem File};
+  \draw[myarrow] (storeparamlistB.south) -- (parsepddl.north);
+
+
+\end{tikzpicture}
+}
+\caption{Process for parsing the plan.}
+\label{fig:plan}
+\end{figure}
+
+\subsection{Parse the PDDL Problem File}
+\begin{figure}[h!t!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+ 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Parse PDDL Problem File
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (parsepddl) {Parse PDDL Problem File};
+
+ \node[entity] (readlistB) [below=1cm of parsepddl] {Read list \textbf{B}};
+  \draw[myarrow] (parsepddl.south) -- (readlistB.north);
+  
+  % Start of loop For
+  \node[ForLoop] (startloop) [below=1cm of readlistB] {For each parameter in list \textbf{B}};
+  \draw[myarrow] (readlistB.south) -- (startloop.north);
+  
+  
+  
+  % Read parameter
+  \node[entity] (readparameter) [below=1cm of startloop] {Read parameter};
+  \draw[myarrow] (startloop.south) -- (readparameter.north);
+  
+  \node[entity] (findparamPDDL) [below=1cm of readparameter] {Find parameter in PDDL file};
+  \draw[myarrow] (readparameter.south) -- (findparamPDDL.north);
+  
+   \node[entity] (findline) [below=1cm of findparamPDDL] {Find type of parameter in PDDL file};
+  \draw[myarrow] (findparamPDDL.south) -- (findline.north);
+  
+  \node[entity] (storeparamtype) [below=1cm of findline] {Store parameter and type in list \textbf{C}};
+  \draw[myarrow] (findline.south) -- (storeparamtype.north);
+
+  \node[ForLoop] (endloop) [below=1cm of storeparamtype] {Done};
+  \draw[myarrow] (storeparamtype.south) -- (endloop.north);
+
+  \draw[myarrow] (storeparamtype.east) -- ++ (2,0) -- ++ (0,4)  |- (readparameter.east);
+  
+
+  \node[MainAttribute] (canonicalr) [below=1cm of endloop] {Generate canonical robot commands};
+  \draw[myarrow] (endloop.south) -- (canonicalr.north);
+  
+\end{tikzpicture}
+}
+\caption{Process for parsing the PDDL problem file.}
+\label{fig:pddl}
+\end{figure}
+
+\subsection{Generate Canonical Robot Commands}
+
+\begin{figure}[h!t!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Parse PDDL Problem File
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (canonical) {Generate canonical robot commands};
+
+  \node[entity] (readlistA) [below=1cm of canonical] {Read list \textbf{A}};
+  \draw[myarrow] (canonical.south) -- (readlistA.north);
+
+  % For
+  \node[ForLoop] (forloop) [below=1cm of readlistA] {For each element in list \textbf{A}};
+  \draw[myarrow] (readlistA.south) -- (forloop.north);
+
+  \node[entity] (actionparam) [below=1cm of forloop] {Get action name and parameter list};
+  \draw[myarrow] (forloop.south) -- (actionparam.north);
+  
+   \node[entity] (database) [below=1cm of actionparam] {Get parameter data from database};
+  \draw[myarrow] (actionparam.south) -- (database.north);
+
+  \node[entity] (canonical) [below=1cm of database] {Generate canonical commands};
+  \draw[myarrow] (database.south) -- (canonical.north);
+  
+  \node[entity] (writefile) [below=1cm of canonical] {Write canonical command in file};
+  \draw[myarrow] (canonical.south) -- (writefile.north);
+
+  \node[ForLoop] (forloop2) [below=1cm of writefile] {Done};
+  \draw[myarrow] (writefile.south) -- (forloop2.north);
+
+  \draw [myarrow] (writefile.east) -- ++ (2,0) -- ++ (0,5)  |- (actionparam.east);
+\end{tikzpicture}
+}
+\caption{Process for generating canonical robot commands.}
+\label{fig:canonical}
+\end{figure}
+
+
+%\subsection{Main Process}
+%% Define block styles
+%\tikzstyle{decision} = [diamond, draw, fill=blue!20,
+%    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+%\tikzstyle{block} = [rectangle, draw, fill=blockcolor,
+%    text width=5em, text centered, rounded corners, minimum height=4em]
+%\tikzstyle{line} = [draw, -latex']
+%\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+%    minimum height=2em]
+%
+%\begin{center}
+%\begin{tikzpicture}[node distance = 2cm, auto]
+%    % Place nodes
+%    \node [block] (init) {Read Plan};
+%    \node [block, right of=init, node distance=3cm] (problem) {Read PDDL Problem File};
+%    \node [block, right of=problem, node distance=3cm] (canonical) {Generate Canonical Robot Commands};
+%    \path [line] (init) -- (problem);
+%    \path [line] (problem) -- (canonical);
+%\end{tikzpicture}
+%\end{center}
+
+%\subsubsection{Read Plan}
+%\texttt{KittingPlan::parsePlanInstance()}:
+%\textit{input}: file name of the plan.
+%\begin{itemize}
+% \item \texttt{KittingPlan::parseLinePlanInstance()}: Parse each line of the plan file.
+% \item \textit{input}: action and parameters.
+% \item \textit{example}: (attach-eff robot\_1 tray\_gripper tray\_gripper\_holder)
+%\begin{itemize}
+%\item \texttt{FileOperator::removeParentheses}: Return each line without the parentheses.
+%\item \textit{input}: action and parameters with parentheses: (attach-eff robot\_1 tray\_gripper tray\_gripper\_holder)
+%\item \textit{output}: action and parameters without parentheses: attach-eff robot\_1 tray\_gripper tray\_gripper\_holder
+%\item \texttt{FileOperator::splitString}: Split each line and store it in a vector.
+%\item \textit{input}: action and parameters without parentheses: attach-eff robot\_1 tray\_gripper tray\_gripper\_holder
+%\item \textit{output}: vector of actions and parameters: <attach-eff, <robot\_1,tray\_gripper,tray\_gripper\_holder>>
+%\end{itemize}
+%\end{itemize}
+
+%\subsubsection{Read PDDL Problem File}
+%
+%\subsubsection{Generate Canonical Robot Commands} 

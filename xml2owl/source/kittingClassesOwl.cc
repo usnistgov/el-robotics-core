@@ -28,6 +28,7 @@ KittingWorkStationFile::printOwl
 
 std::list<XmlID *> OwlPrinter:: locationStack;
 bool OwlPrinter::primary = false;
+char OwlPrinter::inFileName[200];
 
 std::set<std::string> BoxVolumeType::individuals;
 std::set<std::string> EndEffectorHolderType::individuals;
@@ -314,6 +315,9 @@ XmlID, for example:
 DataPropertyAssertion(:hasEndEffector_Id :part_gripper "ThePartGripper"^^xsd:NMTOKEN)
 
 OWL does not include xsd:ID, so xsd:NMTOKEN is used.
+
+This is not currently being called since the only use of xsd:ID is for
+object names, and those are handled by OwlPrinter::startIndi.
 
 */
 
@@ -773,8 +777,7 @@ EndEffectorType::EndEffectorType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
- PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn) :
+ PositiveDecimalType * MaximumLoadWeightIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -783,7 +786,6 @@ EndEffectorType::EndEffectorType(
   Description = DescriptionIn;
   Weight = WeightIn;
   MaximumLoadWeight = MaximumLoadWeightIn;
-  Id = IdIn;
   printTypp = false;
 }
 
@@ -803,16 +805,14 @@ GripperEffectorType::GripperEffectorType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
- PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn) :
+ PositiveDecimalType * MaximumLoadWeightIn) :
   EndEffectorType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
     DescriptionIn,
     WeightIn,
-    MaximumLoadWeightIn,
-    IdIn)
+    MaximumLoadWeightIn)
 {
   printTypp = false;
 }
@@ -829,7 +829,6 @@ void GripperEffectorType::printOwl(FILE * outFile)
   OwlPrinter::printPosDecProp("hasEndEffector_Weight", Name, Weight, outFile);
   OwlPrinter::printPosDecProp("hasEffector_MaximumLoadWeight", Name,
 			      MaximumLoadWeight, outFile);
-  OwlPrinter::printXmlIDProp("hasEndEffector_Id", Name, Id, outFile);
   OwlPrinter::endIndi("GripperEffector", outFile);
   individuals.insert(Name->val);
 }
@@ -844,15 +843,13 @@ KitDesignType::KitDesignType() {}
 
 KitDesignType::KitDesignType(
  XmlID * NameIn,
- XmlIDREF * KitTraySkuRefIn,
- std::list<PartRefAndPoseType *> * PartRefAndPoseIn,
- XmlID * IdIn) :
+ XmlIDREF * KitTraySkuNameIn,
+ std::list<PartRefAndPoseType *> * PartRefAndPoseIn) :
   DataThingType(
     NameIn)
 {
-  KitTraySkuRef = KitTraySkuRefIn;
+  KitTraySkuName = KitTraySkuNameIn;
   PartRefAndPose = PartRefAndPoseIn;
-  Id = IdIn;
   printTypp = false;
 }
 
@@ -863,9 +860,8 @@ void KitDesignType::printOwl(FILE * outFile)
   std::list<PartRefAndPoseType *>::iterator iter;
 
   OwlPrinter::startIndi(Name, "KitDesign", true, outFile);
-  OwlPrinter::printXmlIDProp("hasKitDesign_Id", Name, Id, outFile);
-  OwlPrinter::printXmlIDREFProp("hasKitDesign_KitTraySkuRef", Name,
-				KitTraySkuRef, outFile);
+  OwlPrinter::printObjRefProp("hasKitDesign_KitTraySku", Name,
+			      KitTraySkuName, outFile);
   for (iter = PartRefAndPose->begin(); iter != PartRefAndPose->end(); iter++)
     {
       OwlPrinter::printObjProp("hasKitDesign_PartRefAndPoses", Name,
@@ -894,7 +890,7 @@ KitTrayType::KitTrayType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   BoxyObjectType(
     NameIn,
@@ -904,7 +900,7 @@ KitTrayType::KitTrayType(
     WidthIn,
     HeightIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -917,7 +913,7 @@ void KitTrayType::printOwl(FILE * outFile)
   OwlPrinter::printLocations(Name, PrimaryLocation,
 					 SecondaryLocation, outFile);
   printDimensions(outFile);
-  OwlPrinter::printXmlIDREFProp("hasKitTray_SkuRef", Name, SkuRef, outFile);
+  OwlPrinter::printObjRefProp("hasKitTray_Sku", Name, SkuName, outFile);
   OwlPrinter::printXmlNMTOKENProp("hasKitTray_SerialNumber",
 				  Name, SerialNumber, outFile);
   individuals.insert(Name->val);
@@ -935,7 +931,7 @@ KitType::KitType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- XmlIDREF * DesignRefIn,
+ XmlIDREF * DesignNameIn,
  KitTrayType * TrayIn,
  std::list<PartType *> * PartIn,
  XmlBoolean * FinishedIn) :
@@ -944,7 +940,7 @@ KitType::KitType(
     PrimaryLocationIn,
     SecondaryLocationIn)
 {
-  DesignRef = DesignRefIn;
+  DesignName = DesignNameIn;
   Tray = TrayIn;
   Part = PartIn;
   Finished = FinishedIn;
@@ -960,7 +956,7 @@ void KitType::printOwl(FILE * outFile)
   OwlPrinter::startIndi(Name, "Kit", true, outFile);
   OwlPrinter::printLocations(Name, PrimaryLocation,
 					 SecondaryLocation, outFile);
-  OwlPrinter::printXmlIDREFProp("hasKit_DesignRef", Name, DesignRef, outFile);
+  OwlPrinter::printObjRefProp("hasKit_Design", Name, DesignName, outFile);
   OwlPrinter::printObjProp("hasKit_Tray", Name, Tray->Name, outFile);
   for (iter = Part->begin(); iter != Part->end(); iter++)
     {
@@ -1161,7 +1157,7 @@ LargeBoxWithKitsType::LargeBoxWithKitsType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  LargeContainerType * LargeContainerIn,
  std::list<KitType *> * KitIn,
- XmlIDREF * KitDesignRefIn,
+ XmlIDREF * KitDesignNameIn,
  XmlPositiveInteger * CapacityIn) :
   SolidObjectType(
     NameIn,
@@ -1170,7 +1166,7 @@ LargeBoxWithKitsType::LargeBoxWithKitsType(
 {
   LargeContainer = LargeContainerIn;
   Kit = KitIn;
-  KitDesignRef = KitDesignRefIn;
+  KitDesignName = KitDesignNameIn;
   Capacity = CapacityIn;
   printTypp = false;
 }
@@ -1191,8 +1187,8 @@ void LargeBoxWithKitsType::printOwl(FILE * outFile)
       OwlPrinter::printObjProp("hasLargeBoxWithKits_Kits", Name,
 			       (*iter)->Name, outFile);
     }
-  OwlPrinter::printXmlIDREFProp("hasLargeBoxWithKits_KitDesignRef", Name,
-				KitDesignRef, outFile);
+  OwlPrinter::printObjRefProp("hasLargeBoxWithKits_KitDesign", Name,
+				KitDesignName, outFile);
   fprintf(outFile, "DataPropertyAssertion(:hasLargeBoxWithKits_Capacity :");
   Name->printSelf(outFile);
   fprintf(outFile, " \"");
@@ -1225,7 +1221,7 @@ LargeContainerType::LargeContainerType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   BoxyObjectType(
     NameIn,
@@ -1235,7 +1231,7 @@ LargeContainerType::LargeContainerType(
     WidthIn,
     HeightIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1246,9 +1242,9 @@ void LargeContainerType::printOwl(FILE * outFile)
 {
   OwlPrinter::startIndi(Name, "LargeContainer", true, outFile);
   OwlPrinter::printLocations(Name, PrimaryLocation,
-					 SecondaryLocation, outFile);
-  OwlPrinter::printXmlIDREFProp("hasLargeContainer_SkuRef", Name,
-				SkuRef, outFile);
+			     SecondaryLocation, outFile);
+  OwlPrinter::printObjRefProp("hasLargeContainer_Sku",
+			      Name, SkuName, outFile);
   OwlPrinter::printXmlNMTOKENProp("hasLargeContainer_SerialNumber",
 				  Name, SerialNumber, outFile);
   printDimensions(outFile);
@@ -1306,14 +1302,14 @@ PartRefAndPoseType::PartRefAndPoseType() {}
 
 PartRefAndPoseType::PartRefAndPoseType(
  XmlID * NameIn,
- XmlIDREF * RefIn,
+ XmlIDREF * SkuNameIn,
  PointType * PointIn,
  VectorType * XAxisIn,
  VectorType * ZAxisIn) :
   DataThingType(
     NameIn)
 {
-  Ref = RefIn;
+  SkuName = SkuNameIn;
   Point = PointIn;
   XAxis = XAxisIn;
   ZAxis = ZAxisIn;
@@ -1325,7 +1321,8 @@ PartRefAndPoseType::~PartRefAndPoseType() {}
 void PartRefAndPoseType::printOwl(FILE * outFile)
 {
   OwlPrinter::startIndi(Name, "PartRefAndPose", false, outFile);
-  OwlPrinter::printXmlIDREFProp("hasPartRefAndPose_Ref", Name, Ref, outFile);
+  OwlPrinter::printObjRefProp("hasPartRefAndPose_Sku",
+			      Name, SkuName, outFile);
   OwlPrinter::printObjProp("hasPartRefAndPose_Point", Name,
 			   Point->Name, outFile);
   OwlPrinter::printObjProp("hasPartRefAndPose_ZAxis", Name,
@@ -1350,14 +1347,14 @@ PartType::PartType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1368,8 +1365,8 @@ void PartType::printOwl(FILE * outFile)
 {
   OwlPrinter::startIndi(Name, "Part", true, outFile);
   OwlPrinter::printLocations(Name, PrimaryLocation,
-					 SecondaryLocation, outFile);
-  OwlPrinter::printXmlIDREFProp("hasPart_SkuRef", Name, SkuRef, outFile);
+			     SecondaryLocation, outFile);
+  OwlPrinter::printObjRefProp("hasPart_Sku", Name, SkuName, outFile);
   OwlPrinter::printXmlNMTOKENProp("hasPart_SerialNumber",
 				  Name, SerialNumber, outFile);
   OwlPrinter::endIndi("Part", outFile);
@@ -1391,7 +1388,7 @@ PartsBinType::PartsBinType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * PartSkuRefIn,
+ XmlIDREF * PartSkuNameIn,
  XmlNonNegativeInteger * PartQuantityIn) :
   BoxyObjectType(
     NameIn,
@@ -1401,7 +1398,7 @@ PartsBinType::PartsBinType(
     WidthIn,
     HeightIn)
 {
-  PartSkuRef = PartSkuRefIn;
+  PartSkuName = PartSkuNameIn;
   PartQuantity = PartQuantityIn;
   printTypp = false;
 }
@@ -1414,9 +1411,9 @@ void PartsBinType::printOwl(FILE * outFile)
   OwlPrinter::printLocations(Name, PrimaryLocation,
 					 SecondaryLocation, outFile);
   printDimensions(outFile);
-  OwlPrinter::printXmlIDREFProp("hasPartsBin_PartSkuRef", Name,
-				PartSkuRef, outFile);
-  fprintf(outFile, "DataPropertyAssertion(:hasBin_PartQuantity :");
+  OwlPrinter::printObjRefProp("hasPartsBin_PartSku", Name,
+				PartSkuName, outFile);
+  fprintf(outFile, "DataPropertyAssertion(:hasPartsBin_PartQuantity :");
   Name->printSelf(outFile);
   fprintf(outFile, " \"");
   PartQuantity->printSelf(outFile);
@@ -1440,7 +1437,7 @@ PartsTrayType::PartsTrayType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
    BoxyObjectType(
     NameIn,
@@ -1450,7 +1447,7 @@ PartsTrayType::PartsTrayType(
     WidthIn,
     HeightIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1463,7 +1460,7 @@ void PartsTrayType::printOwl(FILE * outFile)
   OwlPrinter::printLocations(Name, PrimaryLocation,
 					 SecondaryLocation, outFile);
   printDimensions(outFile);
-  OwlPrinter::printXmlIDREFProp("hasPartsTray_SkuRef", Name, SkuRef, outFile);
+  OwlPrinter::printObjRefProp("hasPartsTray_Sku", Name, SkuName, outFile);
   OwlPrinter::printXmlNMTOKENProp("hasPartsTray_SerialNumber",
 				  Name, SerialNumber, outFile);
   OwlPrinter::endIndi("PartsTray", outFile);
@@ -1585,6 +1582,10 @@ void PointType::printOwl(FILE * outFile)
 
 /* class PoseLocationInType
 
+If a primary location is being printed, the printOwl function checks
+that its reference object is the object containing the object whose
+location is being printed.
+
 */
 
 PoseLocationInType::PoseLocationInType() {}
@@ -1628,6 +1629,10 @@ void PoseLocationInType::printOwl(FILE * outFile)
 /*********************************************************************/
 
 /* class PoseLocationOnType
+
+If a primary location is being printed, the printOwl function checks
+that its reference object is the object containing the object whose
+location is being printed.
 
 */
 
@@ -1698,6 +1703,10 @@ PoseLocationType::~PoseLocationType() {}
 /*********************************************************************/
 
 /* class PoseOnlyLocationType
+
+If a primary location is being printed, the printOwl function checks
+that its reference object is the object containing the object whose
+location is being printed.
 
 */
 
@@ -1780,6 +1789,10 @@ void PositiveDecimalType::printOwl(FILE * outFile)
 
 /* class RelativeLocationInType
 
+If a primary location is being printed, the printOwl function checks
+that its reference object is the object containing the object whose
+location is being printed.
+
 */
 
 RelativeLocationInType::RelativeLocationInType() {}
@@ -1839,8 +1852,8 @@ void RelativeLocationOnType::printOwl(FILE * outFile)
 {
   OwlPrinter::checkRefObject(Name->val, RefObject->val);
   OwlPrinter::startIndi(Name, "RelativeLocationOn", false, outFile);
-  OwlPrinter::printObjProp("hasPhysicalLocation_RefObject", Name,
-			   OwlPrinter::locationStack.front(), outFile);
+  OwlPrinter::printObjRefProp("hasPhysicalLocation_RefObject",
+			      Name, RefObject, outFile);
   OwlPrinter::printXmlStringProp("hasRelativeLocation_Description",
 				 Name, Description, outFile);
   individuals.insert(Name->val);
@@ -1881,8 +1894,7 @@ RobotType::RobotType(
  XmlString * DescriptionIn,
  EndEffectorType * EndEffectorIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- std::list<BoxVolumeType *> * WorkVolumeIn,
- XmlID * IdIn) :
+ std::list<BoxVolumeType *> * WorkVolumeIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -1892,7 +1904,6 @@ RobotType::RobotType(
   EndEffector = EndEffectorIn;
   MaximumLoadWeight = MaximumLoadWeightIn;
   WorkVolume = WorkVolumeIn;
-  Id = IdIn;
   printTypp = false;
 }
 
@@ -1907,7 +1918,6 @@ void RobotType::printOwl(FILE * outFile)
 					 SecondaryLocation, outFile);
   OwlPrinter::printXmlStringProp("hasRobot_Description",
 				 Name, Description, outFile);
-  OwlPrinter::printXmlIDProp("hasRobot_Id", Name, Id, outFile);
   OwlPrinter::printPosDecProp("hasRobot_MaximumLoadWeight", Name,
 			      MaximumLoadWeight, outFile);
   if (EndEffector)
@@ -1997,16 +2007,14 @@ StockKeepingUnitType::StockKeepingUnitType(
  XmlString * DescriptionIn,
  ShapeDesignType * ShapeIn,
  PositiveDecimalType * WeightIn,
- std::list<XmlIDREF *> * EndEffectorRefIn,
- XmlID * IdIn) :
+ std::list<XmlIDREF *> * EndEffectorNameIn) :
   DataThingType(
     NameIn)
 {
   Description = DescriptionIn;
   Shape = ShapeIn;
   Weight = WeightIn;
-  EndEffectorRef = EndEffectorRefIn;
-  Id = IdIn;
+  EndEffectorName = EndEffectorNameIn;
   printTypp = false;
 }
 
@@ -2020,12 +2028,11 @@ void StockKeepingUnitType::printOwl(FILE * outFile)
   OwlPrinter::printXmlStringProp("hasSku_Description",
 				 Name, Description, outFile);
   OwlPrinter::printPosDecProp("hasSku_Weight", Name, Weight, outFile);
-  OwlPrinter::printXmlIDProp("hasSku_Id", Name, Id, outFile);
   OwlPrinter::printObjProp("hasSku_Shape", Name, Shape->Name, outFile);
-  for (iter = EndEffectorRef->begin(); iter != EndEffectorRef->end(); iter++)
+  for (iter = EndEffectorName->begin(); iter != EndEffectorName->end(); iter++)
     {
-      OwlPrinter::printXmlIDREFProp("hasSku_EndEffectorRefs",
-				    Name, *iter, outFile);
+      OwlPrinter::printObjRefProp("hasSku_EndEffectors",
+				  Name, *iter, outFile);
     }
   Shape->printOwl(outFile);
   OwlPrinter::endIndi("StockKeepingUnit", outFile);
@@ -2048,7 +2055,6 @@ VacuumEffectorMultiCupType::VacuumEffectorMultiCupType(
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn,
  PositiveDecimalType * CupDiameterIn,
  PositiveDecimalType * LengthIn,
  XmlPositiveInteger * ArrayNumberIn,
@@ -2060,7 +2066,6 @@ VacuumEffectorMultiCupType::VacuumEffectorMultiCupType(
     DescriptionIn,
     WeightIn,
     MaximumLoadWeightIn,
-    IdIn,
     CupDiameterIn,
     LengthIn)
 {
@@ -2082,7 +2087,6 @@ void VacuumEffectorMultiCupType::printOwl(FILE * outFile)
   OwlPrinter::printPosDecProp("hasEndEffector_Weight", Name, Weight, outFile);
   OwlPrinter::printPosDecProp("hasEffector_MaximumLoadWeight", Name,
 			      MaximumLoadWeight, outFile);
-  OwlPrinter::printXmlIDProp("hasEndEffector_Id", Name, Id, outFile);
   OwlPrinter::printPosDecProp("hasVacuumEffector_CupDiameter", Name,
 			      CupDiameter, outFile);
   OwlPrinter::printPosDecProp("hasVacuumEffector_Length", Name,
@@ -2112,7 +2116,6 @@ VacuumEffectorSingleCupType::VacuumEffectorSingleCupType(
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn,
  PositiveDecimalType * CupDiameterIn,
  PositiveDecimalType * LengthIn) :
   VacuumEffectorType(
@@ -2122,7 +2125,6 @@ VacuumEffectorSingleCupType::VacuumEffectorSingleCupType(
     DescriptionIn,
     WeightIn,
     MaximumLoadWeightIn,
-    IdIn,
     CupDiameterIn,
     LengthIn)
 {
@@ -2142,7 +2144,6 @@ void VacuumEffectorSingleCupType::printOwl(FILE * outFile)
   OwlPrinter::printPosDecProp("hasEndEffector_Weight", Name, Weight, outFile);
   OwlPrinter::printPosDecProp("hasEffector_MaximumLoadWeight", Name,
 			      MaximumLoadWeight, outFile);
-  OwlPrinter::printXmlIDProp("hasEndEffector_Id", Name, Id, outFile);
   OwlPrinter::printPosDecProp("hasVacuumEffector_CupDiameter", Name,
 			      CupDiameter, outFile);
   OwlPrinter::printPosDecProp("hasVacuumEffector_Length", Name,
@@ -2166,7 +2167,6 @@ VacuumEffectorType::VacuumEffectorType(
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn,
  PositiveDecimalType * CupDiameterIn,
  PositiveDecimalType * LengthIn) :
   EndEffectorType(
@@ -2175,8 +2175,7 @@ VacuumEffectorType::VacuumEffectorType(
     SecondaryLocationIn,
     DescriptionIn,
     WeightIn,
-    MaximumLoadWeightIn,
-    IdIn)
+    MaximumLoadWeightIn)
 {
   CupDiameter = CupDiameterIn;
   Length = LengthIn;
@@ -2334,11 +2333,12 @@ void XmlHeaderForKittingWorkStation::printOwl(
       "Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n"
       "Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n"
       "Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n"
-      "Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstances.owl#>)\n"
+      "Prefix(:=<http://www.nist.gov/el/ontologies/%s.owl#>)\n"
       "Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)\n"
 
-      "Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>\n"
-      "Import(<file:kittingClasses.owl>)\n");
+      "Ontology(<http://www.nist.gov/el/ontologies/%s.owl>\n"
+      "Import(<file:kittingClasses.owl>)\n",
+      OwlPrinter::inFileName, OwlPrinter::inFileName);
 }
 
 /*********************************************************************/

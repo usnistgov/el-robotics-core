@@ -12,6 +12,7 @@ int main(       /* ARGUMENTS                                      */
  char * argv[]) /* array of executable name and command arguments */
 {
   FILE * outFile;
+  int n;          // for finding beginning of file name
 
   if (argc != 3)
     {
@@ -32,6 +33,20 @@ int main(       /* ARGUMENTS                                      */
       fprintf(stderr, "unable to open file %s for writing\n", argv[2]);
       exit(1);
     }
+  for (n = strlen(argv[1]); n > -1; n--)
+    {
+      if (argv[1][n] == '/')
+	break;
+    }
+  strncpy(OwlPrinter::inFileName, argv[1]+n+1, 200);
+  n = (strlen(OwlPrinter::inFileName) - 4);
+  if (strcmp(OwlPrinter::inFileName + n, ".xml"))
+    {
+      fprintf(stderr, "file name %s must end with .xml\n",
+	      OwlPrinter::inFileName);
+      exit(1);
+    }
+  OwlPrinter::inFileName[n] = 0;
   KittingWorkStationTree->printOwl(outFile);
   fclose(outFile);
   return 0;

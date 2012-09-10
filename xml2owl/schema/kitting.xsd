@@ -2,10 +2,8 @@
 
 <!--
 Things to change
-1. Make the end effector on a robot optional.
-2. Allow objects to be in end effectors.
-3. Get rid of all ids, and change references to ids to the names of
-   instances.
+1. Allow objects to be in end effectors.
+
 -->
 
 <xs:schema
@@ -25,7 +23,7 @@ Things to change
   <xs:annotation>
     <xs:documentation>
       This is an XML schema for kitting classes. It has the same
-      semantic content as the August 7 version of the file
+      semantic content as the September 6 version of the file
       kittingClasses.owl. In files conforming to an XML schema, all
       class instances must occur in a hierarchy descending from a root
       object. In OWL, all objects are declared at the top level; there
@@ -117,7 +115,7 @@ Things to change
         A DataThing includes all complex data types such as Vector,
         PhysicalLocation, etc. A DataThing has a Name to make it easy
         to reference when generating OWL. Names are of type xs:ID so that
-        all names must be unique. Names also must not be the same as Ids.
+        all names must be unique.
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -131,11 +129,12 @@ Things to change
     <xs:annotation>
       <xs:documentation>
         An EndEffector is a SolidObject. It is an end effector for a robot.
-        An EndEffector has a Description, a Weight, an Id, and a
-        MaximimLoadWeight.  Every EndEffector is either a GripperEffector
-        or a VacuumEffector.  Every EndEffector in a KittingWorkstation is
-        either attached to the end of a robot arm or sitting in an
-        EndEffectorHolder at an EndEffectorChangingStation.
+        An EndEffector has a Name inherited from SolidObject, a
+        Description, a Weight, and a MaximimLoadWeight.  Every EndEffector
+        is either a GripperEffector or a VacuumEffector.  Every EndEffector
+        in a KittingWorkstation is either attached to the end of a robot
+        arm or sitting in an EndEffectorHolder at an
+        EndEffectorChangingStation.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -147,8 +146,6 @@ Things to change
             type="PositiveDecimalType"/>
           <xs:element name="MaximumLoadWeight"
             type="PositiveDecimalType"/>
-          <xs:element name="Id"
-            type="xs:ID"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -211,7 +208,7 @@ Things to change
       <xs:documentation>
         A KitType is a SolidObjectType. A KitType inherits Name
         element and a RefObject element from SolidObjectType. KitType
-        also has an identifier for a KitDesignType (DesignRef), and a
+        also has an identifier for a KitDesignType (DesignName), and a
         boolean indicator of whether the Kit is finished
         (Finished). There should be a KitTrayType among the objects
         located relative to the KitType, its locating point should be
@@ -223,7 +220,7 @@ Things to change
     <xs:complexContent>
       <xs:extension base="SolidObjectType">
         <xs:sequence>
-          <xs:element name="DesignRef"
+          <xs:element name="DesignName"
             type="xs:IDREF"/>
           <xs:element name="Tray"
             type="KitTrayType"/>
@@ -242,23 +239,21 @@ Things to change
     <xs:annotation>
       <xs:documentation>
         A KitDesignType is a DataThingType. A KitDesignType has a Name
-        inherited from DataThingType. A KitDesignType identifies a
-        type of tray (KitTraySkuRef), one to many PartRefAndPoseType
-        (PartRefAndPose), and an Id that is unique among KitDesigns.
-        The Pose in a PartAndPose is the location of the part relative
-        to the coordinate system of the ShapeDesign of the tray.
+        inherited from DataThingType. A KitDesignType identifies a type of
+        tray (KitTraySkuName), and one to many PartRefAndPoseType
+        (PartRefAndPose).  The Pose in a PartAndPose is the location of the
+        part relative to the coordinate system of the ShapeDesign of the
+        tray.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="DataThingType">
         <xs:sequence>
-          <xs:element name="KitTraySkuRef"
+          <xs:element name="KitTraySkuName"
             type="xs:IDREF"/>
           <xs:element name="PartRefAndPose"
             type="PartRefAndPoseType"
             maxOccurs="unbounded"/>
-          <xs:element name="Id"
-            type="xs:ID"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -322,15 +317,14 @@ Things to change
     <xs:annotation>
       <xs:documentation>
         A KitTrayType is a BoxyObjectType. A KitTrayType is designed
-        to hold PartTypes with various SKU ids in known positions. A
-        KitTrayType has an identifier for its SKU (SkuRef) and a
-        SerialNumber.
+        to hold PartTypes with various SKUs in known positions. A
+        KitTrayType has the name of its SKU (SkuName) and a SerialNumber.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="BoxyObjectType">
         <xs:sequence>
-          <xs:element name="SkuRef"
+          <xs:element name="SkuName"
             type="xs:IDREF"/>
           <xs:element name="SerialNumber"
             type="xs:NMTOKEN"/>
@@ -377,7 +371,7 @@ Things to change
 	LargeContainer should be (0,0,0), its Z axis should be
 	(0,0,1), and its X axis should be (1,0,0). A
 	LargeBoxWithKitsType also has an identifier for a
-	KitDesignType (KitDesignRef), a PositiveIntegerType giving the
+	KitDesignType (KitDesignName), a PositiveIntegerType giving the
 	maximum number of kits of the given design that can be held in
 	the box (Capacity). The KitTypes in a LargeBoxWithKitsType are
 	intended to all be of the given design, but there is currently
@@ -393,7 +387,7 @@ Things to change
             type="KitType"
             minOccurs="0"
             maxOccurs="unbounded"/>
-          <xs:element name="KitDesignRef"
+          <xs:element name="KitDesignName"
             type="xs:IDREF"/>
           <xs:element name="Capacity"
             type="xs:positiveInteger"/>
@@ -412,14 +406,14 @@ Things to change
         (2) PartsBinType
         (3) PartsTrayType
         (4) KitInstanceType
-        A LargeContainerType has an identifier for its SKU (SkuRef)
+        A LargeContainerType has the name of its SKU (SkuName)
         and a SerialNumber.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="BoxyObjectType">
         <xs:sequence>
-          <xs:element name="SkuRef"
+          <xs:element name="SkuName"
             type="xs:IDREF"/>
           <xs:element name="SerialNumber"
             type="xs:NMTOKEN"/>
@@ -439,14 +433,14 @@ Things to change
   <xs:complexType name="PartType">
     <xs:annotation>
       <xs:documentation>
-        A PartType is a SolidObject. It has a SerialNumber and a SkuRef,
-        which is a reference to the identifier of a StockKeepingUnit.
+        A PartType is a SolidObject. It has a SerialNumber and a SkuName,
+        which is the name of a StockKeepingUnit.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SolidObjectType">
         <xs:sequence>
-          <xs:element name="SkuRef"
+          <xs:element name="SkuName"
             type="xs:IDREF"/>
           <xs:element name="SerialNumber"
             type="xs:NMTOKEN"/>
@@ -459,7 +453,7 @@ Things to change
     <xs:annotation>
       <xs:documentation>
         A PartRefAndPoseType identifies a type of part by giving its
-        SKU id (Ref), it specifies the location of the part (Point), a
+        SKU name (SkuName), it specifies the location of the part (Point), a
         Z axis for the orientation of the Part (ZAxis), and an X axis
         for the orientation of the Part (XAxis). A PartRefAndPose has
         a Name inherited from DataThingType.The Pose is relative to
@@ -470,7 +464,7 @@ Things to change
     <xs:complexContent>
       <xs:extension base="DataThingType">
         <xs:sequence>
-          <xs:element name="Ref"
+          <xs:element name="SkuName"
             type="xs:IDREF"/>
           <xs:element name="Point"
             type="PointType"/>
@@ -487,14 +481,14 @@ Things to change
     <xs:annotation>
       <xs:documentation>
         A PartsBinType is a BoxyObjectType. A PartsBinType holds a
-        number of PartTypes (PartQuantity) with the same SKU id
-        (PartSkuRef) in unknown random positions.
+        number of PartTypes (PartQuantity) with the same SKU name
+        (PartSkuName) in unknown random positions.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="BoxyObjectType">
         <xs:sequence>
-          <xs:element name="PartSkuRef"
+          <xs:element name="PartSkuName"
             type="xs:IDREF"/>
           <xs:element name="PartQuantity"
             type="xs:nonNegativeInteger"/>
@@ -507,14 +501,14 @@ Things to change
     <xs:annotation>
       <xs:documentation>
         A PartsTrayType is a BoxyObjectType used to hold Parts. A
-        PartsTray has an identifier for its SKU (SkuRef)
+        PartsTray has the name of its SKU (SkuName)
         and a SerialNumber.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="BoxyObjectType">
         <xs:sequence>
-          <xs:element name="SkuRef"
+          <xs:element name="SkuName"
             type="xs:IDREF"/>
           <xs:element name="SerialNumber"
             type="xs:NMTOKEN"/>
@@ -726,9 +720,9 @@ Things to change
   <xs:complexType name="RobotType">
     <xs:annotation>
       <xs:documentation>
-        A RobotType is a SolidObjectType. A RobotType currently has a
-        Description, an Id, a WorkVolume, an EndEffector, and a
-        MaximumLoadWeight.
+        A RobotType is a SolidObjectType. A RobotType currently has a Name
+        inherited from SolidObjectType, a Description, a WorkVolume, an
+        EndEffector, and a MaximumLoadWeight.
       </xs:documentation>
       <xs:documentation>
         The Robot ontology given here might be expanded greatly to include,
@@ -744,15 +738,14 @@ Things to change
           <xs:element name="Description"
             type="xs:string"/>
           <xs:element name="EndEffector"
-            type="EndEffectorType"/>
+            type="EndEffectorType"
+            minOccurs="0"/>
           <xs:element name="MaximumLoadWeight"
             type="PositiveDecimalType"/>
           <xs:element name="WorkVolume"
             type="BoxVolumeType"
             maxOccurs="unbounded"/>
-          <xs:element name="Id"
-            type="xs:ID"/>
-        </xs:sequence>
+         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -783,7 +776,7 @@ Things to change
         zero to many SecondaryLocations, also PhysicalLocationType,
         and a Name to make it possible to reference the SolidObject when
         generating OWL. Names are of type xs:ID so that all names must
-        be unique. Names also must not be the same as Ids.
+        be unique.
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -801,13 +794,12 @@ Things to change
   <xs:complexType name="StockKeepingUnitType">
     <xs:annotation>
       <xs:documentation>
-        A StockKeepingUnitType is a DataThingType. A
-        StockKeepingUnitType is a description of a type of object. A
-        StockKeepinUnitType has a Name inherited from DataThingType. A
-        StockKeepingUnitType has a Description, a Shape that is a
-        ShapeDesignType, a Weight, one or more reference to the id of
-        an EndEffectorType that can handle it (EndEffectorRef), and a
-        unique Id.
+        A StockKeepingUnitType is a DataThingType. A StockKeepingUnitType
+        is a description of a type of object. A StockKeepinUnitType has a
+        Name inherited from DataThingType. A StockKeepingUnitType has a
+        Description, a Shape that is a ShapeDesignType, a Weight, and the
+        names of one or more instances of EndEffectorType that can handle
+        it (EndEffectorName).
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -819,12 +811,10 @@ Things to change
             type="ShapeDesignType"/>
           <xs:element name="Weight"
             type="PositiveDecimalType"/>
-          <xs:element name="EndEffectorRef"
+          <xs:element name="EndEffectorName"
             type="xs:IDREF"
             minOccurs="0"
             maxOccurs="unbounded"/>
-          <xs:element name="Id"
-            type="xs:ID"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

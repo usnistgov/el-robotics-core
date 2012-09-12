@@ -130,6 +130,8 @@ int yyerror(const char * s);
 %type <KitDesignTypeListVal>          y_KitDesign_KitDesignType_uList
 %type <XmlIDREFVal>                   y_KitTraySkuName_XmlIDREF
 %type <KitTrayTypeVal>                y_KitTrayType
+%type <KitTrayTypeVal>                y_KitTrays_KitTrayType_0_u
+%type <KitTrayTypeListVal>            y_KitTrays_KitTrayType_0_uList
 %type <KitTypeVal>                    y_KitType
 %type <KitTypeVal>                    y_Kit_KitType_0_u
 %type <KitTypeListVal>                y_Kit_KitType_0_uList
@@ -178,8 +180,6 @@ int yyerror(const char * s);
 %type <SolidObjectTypeListVal>        y_SolidObject_SolidObjectType_0_uList
 %type <StockKeepingUnitTypeVal>       y_StockKeepingUnitType
 %type <KitTrayTypeVal>                y_Tray_KitTrayType
-%type <KitTrayTypeVal>                y_Trays_KitTrayType_0_u
-%type <KitTrayTypeListVal>            y_Trays_KitTrayType_0_uList
 %type <VectorTypeVal>                 y_VectorType
 %type <WeightUnitTypeVal>             y_WeightUnit_WeightUnitType
 %type <PositiveDecimalTypeVal>        y_Weight_PositiveDecimalType
@@ -271,6 +271,8 @@ int yyerror(const char * s);
 %token <iVal> KITDESIGNSTART
 %token <iVal> KITTRAYSKUNAMEEND
 %token <iVal> KITTRAYSKUNAMESTART
+%token <iVal> KITTRAYSEND
+%token <iVal> KITTRAYSSTART
 %token <iVal> KITEND
 %token <iVal> KITSTART
 %token <iVal> KITTINGWORKSTATIONEND
@@ -325,8 +327,6 @@ int yyerror(const char * s);
 %token <iVal> SOLIDOBJECTSTART
 %token <iVal> TRAYEND
 %token <iVal> TRAYSTART
-%token <iVal> TRAYSEND
-%token <iVal> TRAYSSTART
 %token <iVal> WEIGHTUNITEND
 %token <iVal> WEIGHTUNITSTART
 %token <iVal> WEIGHTEND
@@ -568,9 +568,9 @@ y_EndEffectorHolderType :
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
 	  y_EndEffector_EndEffectorType_0
 	  {$$ = new EndEffectorHolderType($2, $3, $4, $5);}
-	| ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  {$$ = new EndEffectorHolderType($2, $3, $4, 0);}
+ 	| ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
+ 	  y_SecondaryLocation_PhysicalLocationType_0_uList
+ 	  {$$ = new EndEffectorHolderType($2, $3, $4, 0);}
 	;
 
 y_EndEffectorHolders_EndEffectorHolderType_u :
@@ -694,6 +694,19 @@ y_KitTrayType :
 	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
 	  y_SerialNumber_XmlNMTOKEN
 	  {$$ = new KitTrayType($2, $3, $4, $5, $6, $7, $8, $9);}
+	;
+
+y_KitTrays_KitTrayType_0_u :
+	  KITTRAYSSTART y_KitTrayType KITTRAYSEND
+	  {$$ = $2;}
+	;
+
+y_KitTrays_KitTrayType_0_uList :
+	  /* empty */
+	  {$$ = new std::list<KitTrayType *>;}
+	| y_KitTrays_KitTrayType_0_uList y_KitTrays_KitTrayType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
 	;
 
 y_KitType :
@@ -1069,19 +1082,6 @@ y_Tray_KitTrayType :
 	  {$$ = $2;}
 	;
 
-y_Trays_KitTrayType_0_u :
-	  TRAYSSTART y_KitTrayType TRAYSEND
-	  {$$ = $2;}
-	;
-
-y_Trays_KitTrayType_0_uList :
-	  /* empty */
-	  {$$ = new std::list<KitTrayType *>;}
-	| y_Trays_KitTrayType_0_uList y_Trays_KitTrayType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
-	;
-
 y_VectorType :
 	   ENDITEM y_Name_XmlID y_I_XmlDecimal y_J_XmlDecimal
 	  y_K_XmlDecimal
@@ -1262,7 +1262,8 @@ y_x_LargeBoxWithEmptyKitTraysType :
 	  LARGEBOXWITHEMPTYKITTRAYSTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_LargeContainer_LargeContainerType y_Trays_KitTrayType_0_uList
+	  y_LargeContainer_LargeContainerType
+	  y_KitTrays_KitTrayType_0_uList
 	  {$$ = new LargeBoxWithEmptyKitTraysType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }

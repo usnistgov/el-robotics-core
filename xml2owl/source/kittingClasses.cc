@@ -851,14 +851,14 @@ LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  LargeContainerType * LargeContainerIn,
- std::list<KitTrayType *> * TraysIn) :
+ std::list<KitTrayType *> * KitTraysIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn)
 {
   LargeContainer = LargeContainerIn;
-  Trays = TraysIn;
+  KitTrays = KitTraysIn;
   printTypp = false;
 }
 
@@ -897,13 +897,13 @@ void LargeBoxWithEmptyKitTraysType::printSelf(FILE * outFile)
   fprintf(outFile, "</LargeContainer>\n");
   {
     std::list<KitTrayType *>::iterator iter;
-    for (iter = Trays->begin(); iter != Trays->end(); iter++)
+    for (iter = KitTrays->begin(); iter != KitTrays->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<Trays");
+        fprintf(outFile, "<KitTrays");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</Trays>\n");
+        fprintf(outFile, "</KitTrays>\n");
       }
   }
   doSpaces(-INDENT, outFile);

@@ -1128,7 +1128,7 @@ void LargeBoxWithEmptyKitTraysType::printOwl(FILE * outFile)
 			   Name, LargeContainer->Name, outFile);
   for (iter = Trays->begin(); iter != Trays->end(); iter++)
     {
-      OwlPrinter::printObjProp("hasLargeBoxWithEmptyKitTrays_Trays", Name,
+      OwlPrinter::printObjProp("hasLargeBoxWithEmptyKitTrays_KitTrays", Name,
 			       (*iter)->Name, outFile);
     }
   OwlPrinter::endIndi("LargeBoxWithEmptyKitTrays", outFile);

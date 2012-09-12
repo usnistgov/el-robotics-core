@@ -3,9 +3,9 @@ Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
 Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstancesInit2.owl#>)
+Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstancesInit.owl#>)
 Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
-Ontology(<http://www.nist.gov/el/ontologies/kittingInstancesInit2.owl>
+Ontology(<http://www.nist.gov/el/ontologies/kittingInstancesInit.owl>
 Import(<file:kittingClasses.owl>)
 
 //*****************************************
@@ -295,7 +295,7 @@ DataPropertyAssertion(:hasVector_I :empty_kit_tray_supply_z_axis "0.000000"^^xsd
 DataPropertyAssertion(:hasVector_J :empty_kit_tray_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :empty_kit_tray_supply_z_axis "1.000000"^^xsd:decimal)
 ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_LargeContainer :empty_kit_tray_supply :empty_kit_tray_box)
-ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Trays :empty_kit_tray_supply :kit_tray_1)
+ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_KitTrays :empty_kit_tray_supply :kit_tray_1)
 // end LargeBoxWithEmptyKitTrays
 //*****************************************
 

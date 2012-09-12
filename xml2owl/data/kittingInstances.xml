@@ -447,7 +447,7 @@
       <SkuName>stock_keeping_unit_kit_box</SkuName>
       <SerialNumber>4</SerialNumber>
     </LargeContainer>
-    <Trays>
+    <KitTrays>
       <Name>kit_tray_1</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>kit_tray_1_pose</Name>
@@ -476,8 +476,8 @@
       <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>1</SerialNumber>
-    </Trays>
-    <Trays>
+    </KitTrays>
+    <KitTrays>
       <Name>kit_tray_2</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>kit_tray_2_pose</Name>
@@ -506,8 +506,8 @@
       <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>2</SerialNumber>
-    </Trays>
-    <Trays>
+    </KitTrays>
+    <KitTrays>
       <Name>kit_tray_3</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>kit_tray_3_pose</Name>
@@ -536,7 +536,7 @@
       <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>3</SerialNumber>
-    </Trays>
+    </KitTrays>
   </Object>
   <Object xsi:type="LargeBoxWithKitsType">
     <Name>finished_kit_receiver</Name>

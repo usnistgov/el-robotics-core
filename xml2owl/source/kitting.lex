@@ -109,6 +109,8 @@ W [ \t\n\r]*
 "<"{W}"KitDesign"             {ECH; return KITDESIGNSTART;}
 "</"{W}"KitTraySkuName"{W}">" {ECH; return KITTRAYSKUNAMEEND;}
 "<"{W}"KitTraySkuName"        {ECH; return KITTRAYSKUNAMESTART;}
+"</"{W}"KitTrays"{W}">"       {ECH; return KITTRAYSEND;}
+"<"{W}"KitTrays"              {ECH; return KITTRAYSSTART;}
 "</"{W}"Kit"{W}">"            {ECH; return KITEND;}
 "<"{W}"Kit"                   {ECH; return KITSTART;}
 "</"{W}"KittingWorkStation"{W}">" {ECH; return KITTINGWORKSTATIONEND;}
@@ -163,8 +165,6 @@ W [ \t\n\r]*
 "<"{W}"SolidObject"           {ECH; return SOLIDOBJECTSTART;}
 "</"{W}"Tray"{W}">"           {ECH; return TRAYEND;}
 "<"{W}"Tray"                  {ECH; return TRAYSTART;}
-"</"{W}"Trays"{W}">"          {ECH; return TRAYSEND;}
-"<"{W}"Trays"                 {ECH; return TRAYSSTART;}
 "</"{W}"WeightUnit"{W}">"     {ECH; return WEIGHTUNITEND;}
 "<"{W}"WeightUnit"            {ECH; return WEIGHTUNITSTART;}
 "</"{W}"Weight"{W}">"         {ECH; return WEIGHTEND;}

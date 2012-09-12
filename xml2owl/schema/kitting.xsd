@@ -352,7 +352,7 @@ Things to change
         <xs:sequence>
           <xs:element name="LargeContainer"
             type="LargeContainerType"/>
-          <xs:element name="Trays"
+          <xs:element name="KitTrays"
             type="KitTrayType"
             minOccurs="0"
             maxOccurs="unbounded"/>

@@ -215,7 +215,7 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
   "A LargeBoxWithEmptyKitTrays is a SolidObject. A
    LargeBoxWithEmptyKitTrays has a LargeContainer
    (hasLargeBoxWithEmptyKitTrays_LargeContainer) and a set of KitTrays
-   which should be empty (hasLargeBoxWithEmptyKitTrays_Trays).  The
+   which should be empty (hasLargeBoxWithEmptyKitTrays_KitTrays).  The
    coordinate system of a LargeBoxWithEmptyKitTrays is the same as the
    coordinate system of its LargeContainer. The PrimaryLocation of a
    KitTray in a LargeBoxWithEmptyKitTrays should be given by a

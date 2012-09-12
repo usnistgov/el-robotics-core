@@ -600,12 +600,12 @@ public:
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
     LargeContainerType * LargeContainerIn,
-    std::list<KitTrayType *> * TraysIn);
+    std::list<KitTrayType *> * KitTraysIn);
   ~LargeBoxWithEmptyKitTraysType();
   void printSelf(FILE * outFile);
 
   LargeContainerType * LargeContainer;
-  std::list<KitTrayType *> * Trays;
+  std::list<KitTrayType *> * KitTrays;
 
   bool printTypp;
 };

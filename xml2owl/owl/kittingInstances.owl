@@ -296,9 +296,9 @@ DataPropertyAssertion(:hasVector_I :empty_kit_tray_supply_z_axis "0.000000"^^xsd
 DataPropertyAssertion(:hasVector_J :empty_kit_tray_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :empty_kit_tray_supply_z_axis "1.000000"^^xsd:decimal)
 ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_LargeContainer :empty_kit_tray_supply :empty_kit_tray_box)
-ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Trays :empty_kit_tray_supply :kit_tray_1)
-ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Trays :empty_kit_tray_supply :kit_tray_2)
-ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_Trays :empty_kit_tray_supply :kit_tray_3)
+ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_KitTrays :empty_kit_tray_supply :kit_tray_1)
+ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_KitTrays :empty_kit_tray_supply :kit_tray_2)
+ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_KitTrays :empty_kit_tray_supply :kit_tray_3)
 // end LargeBoxWithEmptyKitTrays
 //*****************************************
 

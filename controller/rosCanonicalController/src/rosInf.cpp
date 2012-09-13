@@ -81,7 +81,7 @@ int RosInf::initArmNavigation()
 	}
 	else
 	{
-		ROS_ERROR("InitCanon failed: could not connect to arm navigation server");
+		ROS_ERROR("RosInf::initArmNavigation() failed: could not connect to arm navigation server");
 		return 0;
 	}
 }

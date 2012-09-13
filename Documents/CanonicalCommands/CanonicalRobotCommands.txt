@@ -232,6 +232,23 @@ SetRelativeSpeed (double percent)
 Set the speed for the controlled point to the given percentage of the
 robot's maximum speed.
 
+StartObjectScan (string name)
+Activates* the object sensor, if it isn't already, and adds the given 
+name to the list of parts being searched for. When the object sensor
+detects the part, it removes the part from the list of parts to search
+for and writes a sequence of canonical commands to "output_commands.txt" 
+(as a placeholder for updating the mySQL database). When the list of parts
+to search for becomes empty, the object sensor stops motion as soon as 
+possible and the controller ignores further movement commands until the
+sensor is deactivated.
+
+StopObjectScan();
+Deactivates* the object sensor.
+
+*Activate and deactivate are used loosely, because the controller is
+still always subscribed to the sensor topic. But, the sensor callback 
+returns immediately if the sensor is deactivated.
+
 StopMotion (integer isEmergency)
 Stop the robot motion. If 'isEmergency' is not 0, then stop as soon
 as possible regardless of damage to the system. If 'isEmergency' is 0

@@ -358,8 +358,7 @@ EndEffectorType::EndEffectorType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
- PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn) :
+ PositiveDecimalType * MaximumLoadWeightIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -368,7 +367,6 @@ EndEffectorType::EndEffectorType(
   Description = DescriptionIn;
   Weight = WeightIn;
   MaximumLoadWeight = MaximumLoadWeightIn;
-  Id = IdIn;
   printTypp = false;
 }
 
@@ -412,10 +410,6 @@ void EndEffectorType::printSelf(FILE * outFile)
   fprintf(outFile, "<MaximumLoadWeight>");
   MaximumLoadWeight->printSelf(outFile);
   fprintf(outFile, "</MaximumLoadWeight>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -433,16 +427,14 @@ GripperEffectorType::GripperEffectorType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
- PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn) :
+ PositiveDecimalType * MaximumLoadWeightIn) :
   EndEffectorType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
     DescriptionIn,
     WeightIn,
-    MaximumLoadWeightIn,
-    IdIn)
+    MaximumLoadWeightIn)
 {
   printTypp = false;
 }
@@ -487,10 +479,6 @@ void GripperEffectorType::printSelf(FILE * outFile)
   fprintf(outFile, "<MaximumLoadWeight>");
   MaximumLoadWeight->printSelf(outFile);
   fprintf(outFile, "</MaximumLoadWeight>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -504,15 +492,13 @@ KitDesignType::KitDesignType() {}
 
 KitDesignType::KitDesignType(
  XmlID * NameIn,
- XmlIDREF * KitTraySkuRefIn,
- std::list<PartRefAndPoseType *> * PartRefAndPoseIn,
- XmlID * IdIn) :
+ XmlIDREF * KitTraySkuNameIn,
+ std::list<PartRefAndPoseType *> * PartRefAndPoseIn) :
   DataThingType(
     NameIn)
 {
-  KitTraySkuRef = KitTraySkuRefIn;
+  KitTraySkuName = KitTraySkuNameIn;
   PartRefAndPose = PartRefAndPoseIn;
-  Id = IdIn;
   printTypp = false;
 }
 
@@ -529,9 +515,9 @@ void KitDesignType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<KitTraySkuRef>");
-  KitTraySkuRef->printSelf(outFile);
-  fprintf(outFile, "</KitTraySkuRef>\n");
+  fprintf(outFile, "<KitTraySkuName>");
+  KitTraySkuName->printSelf(outFile);
+  fprintf(outFile, "</KitTraySkuName>\n");
   {
     std::list<PartRefAndPoseType *>::iterator iter;
     for (iter = PartRefAndPose->begin(); iter != PartRefAndPose->end(); iter++)
@@ -543,10 +529,6 @@ void KitDesignType::printSelf(FILE * outFile)
         fprintf(outFile, "</PartRefAndPose>\n");
       }
   }
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -565,7 +547,7 @@ KitTrayType::KitTrayType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   BoxyObjectType(
     NameIn,
@@ -575,7 +557,7 @@ KitTrayType::KitTrayType(
     WidthIn,
     HeightIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -621,9 +603,9 @@ void KitTrayType::printSelf(FILE * outFile)
   Height->printSelf(outFile);
   fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<SkuRef>");
-  SkuRef->printSelf(outFile);
-  fprintf(outFile, "</SkuRef>\n");
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SerialNumber>");
   SerialNumber->printSelf(outFile);
@@ -643,7 +625,7 @@ KitType::KitType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- XmlIDREF * DesignRefIn,
+ XmlIDREF * DesignNameIn,
  KitTrayType * TrayIn,
  std::list<PartType *> * PartIn,
  XmlBoolean * FinishedIn) :
@@ -652,7 +634,7 @@ KitType::KitType(
     PrimaryLocationIn,
     SecondaryLocationIn)
 {
-  DesignRef = DesignRefIn;
+  DesignName = DesignNameIn;
   Tray = TrayIn;
   Part = PartIn;
   Finished = FinishedIn;
@@ -688,9 +670,9 @@ void KitType::printSelf(FILE * outFile)
       }
   }
   doSpaces(0, outFile);
-  fprintf(outFile, "<DesignRef>");
-  DesignRef->printSelf(outFile);
-  fprintf(outFile, "</DesignRef>\n");
+  fprintf(outFile, "<DesignName>");
+  DesignName->printSelf(outFile);
+  fprintf(outFile, "</DesignName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<Tray");
   Tray->printSelf(outFile);
@@ -869,14 +851,14 @@ LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  LargeContainerType * LargeContainerIn,
- std::list<KitTrayType *> * TraysIn) :
+ std::list<KitTrayType *> * KitTraysIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn)
 {
   LargeContainer = LargeContainerIn;
-  Trays = TraysIn;
+  KitTrays = KitTraysIn;
   printTypp = false;
 }
 
@@ -915,13 +897,13 @@ void LargeBoxWithEmptyKitTraysType::printSelf(FILE * outFile)
   fprintf(outFile, "</LargeContainer>\n");
   {
     std::list<KitTrayType *>::iterator iter;
-    for (iter = Trays->begin(); iter != Trays->end(); iter++)
+    for (iter = KitTrays->begin(); iter != KitTrays->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<Trays");
+        fprintf(outFile, "<KitTrays");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</Trays>\n");
+        fprintf(outFile, "</KitTrays>\n");
       }
   }
   doSpaces(-INDENT, outFile);
@@ -941,7 +923,7 @@ LargeBoxWithKitsType::LargeBoxWithKitsType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  LargeContainerType * LargeContainerIn,
  std::list<KitType *> * KitIn,
- XmlIDREF * KitDesignRefIn,
+ XmlIDREF * KitDesignNameIn,
  XmlPositiveInteger * CapacityIn) :
   SolidObjectType(
     NameIn,
@@ -950,7 +932,7 @@ LargeBoxWithKitsType::LargeBoxWithKitsType(
 {
   LargeContainer = LargeContainerIn;
   Kit = KitIn;
-  KitDesignRef = KitDesignRefIn;
+  KitDesignName = KitDesignNameIn;
   Capacity = CapacityIn;
   printTypp = false;
 }
@@ -1000,9 +982,9 @@ void LargeBoxWithKitsType::printSelf(FILE * outFile)
       }
   }
   doSpaces(0, outFile);
-  fprintf(outFile, "<KitDesignRef>");
-  KitDesignRef->printSelf(outFile);
-  fprintf(outFile, "</KitDesignRef>\n");
+  fprintf(outFile, "<KitDesignName>");
+  KitDesignName->printSelf(outFile);
+  fprintf(outFile, "</KitDesignName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<Capacity>");
   Capacity->printSelf(outFile);
@@ -1025,7 +1007,7 @@ LargeContainerType::LargeContainerType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   BoxyObjectType(
     NameIn,
@@ -1035,7 +1017,7 @@ LargeContainerType::LargeContainerType(
     WidthIn,
     HeightIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1081,9 +1063,9 @@ void LargeContainerType::printSelf(FILE * outFile)
   Height->printSelf(outFile);
   fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<SkuRef>");
-  SkuRef->printSelf(outFile);
-  fprintf(outFile, "</SkuRef>\n");
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SerialNumber>");
   SerialNumber->printSelf(outFile);
@@ -1141,14 +1123,14 @@ PartRefAndPoseType::PartRefAndPoseType() {}
 
 PartRefAndPoseType::PartRefAndPoseType(
  XmlID * NameIn,
- XmlIDREF * RefIn,
+ XmlIDREF * SkuNameIn,
  PointType * PointIn,
  VectorType * XAxisIn,
  VectorType * ZAxisIn) :
   DataThingType(
     NameIn)
 {
-  Ref = RefIn;
+  SkuName = SkuNameIn;
   Point = PointIn;
   XAxis = XAxisIn;
   ZAxis = ZAxisIn;
@@ -1168,9 +1150,9 @@ void PartRefAndPoseType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<Ref>");
-  Ref->printSelf(outFile);
-  fprintf(outFile, "</Ref>\n");
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -1201,14 +1183,14 @@ PartType::PartType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1242,9 +1224,9 @@ void PartType::printSelf(FILE * outFile)
       }
   }
   doSpaces(0, outFile);
-  fprintf(outFile, "<SkuRef>");
-  SkuRef->printSelf(outFile);
-  fprintf(outFile, "</SkuRef>\n");
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SerialNumber>");
   SerialNumber->printSelf(outFile);
@@ -1267,7 +1249,7 @@ PartsBinType::PartsBinType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * PartSkuRefIn,
+ XmlIDREF * PartSkuNameIn,
  XmlNonNegativeInteger * PartQuantityIn) :
   BoxyObjectType(
     NameIn,
@@ -1277,7 +1259,7 @@ PartsBinType::PartsBinType(
     WidthIn,
     HeightIn)
 {
-  PartSkuRef = PartSkuRefIn;
+  PartSkuName = PartSkuNameIn;
   PartQuantity = PartQuantityIn;
   printTypp = false;
 }
@@ -1323,9 +1305,9 @@ void PartsBinType::printSelf(FILE * outFile)
   Height->printSelf(outFile);
   fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<PartSkuRef>");
-  PartSkuRef->printSelf(outFile);
-  fprintf(outFile, "</PartSkuRef>\n");
+  fprintf(outFile, "<PartSkuName>");
+  PartSkuName->printSelf(outFile);
+  fprintf(outFile, "</PartSkuName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<PartQuantity>");
   PartQuantity->printSelf(outFile);
@@ -1348,7 +1330,7 @@ PartsTrayType::PartsTrayType(
  PositiveDecimalType * LengthIn,
  PositiveDecimalType * WidthIn,
  PositiveDecimalType * HeightIn,
- XmlIDREF * SkuRefIn,
+ XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
   BoxyObjectType(
     NameIn,
@@ -1358,7 +1340,7 @@ PartsTrayType::PartsTrayType(
     WidthIn,
     HeightIn)
 {
-  SkuRef = SkuRefIn;
+  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1404,9 +1386,9 @@ void PartsTrayType::printSelf(FILE * outFile)
   Height->printSelf(outFile);
   fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<SkuRef>");
-  SkuRef->printSelf(outFile);
-  fprintf(outFile, "</SkuRef>\n");
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SerialNumber>");
   SerialNumber->printSelf(outFile);
@@ -1978,8 +1960,7 @@ RobotType::RobotType(
  XmlString * DescriptionIn,
  EndEffectorType * EndEffectorIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- std::list<BoxVolumeType *> * WorkVolumeIn,
- XmlID * IdIn) :
+ std::list<BoxVolumeType *> * WorkVolumeIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -1989,7 +1970,6 @@ RobotType::RobotType(
   EndEffector = EndEffectorIn;
   MaximumLoadWeight = MaximumLoadWeightIn;
   WorkVolume = WorkVolumeIn;
-  Id = IdIn;
   printTypp = false;
 }
 
@@ -2025,11 +2005,14 @@ void RobotType::printSelf(FILE * outFile)
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
   fprintf(outFile, "</Description>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<EndEffector");
-  EndEffector->printSelf(outFile);
-  doSpaces(0, outFile);
-  fprintf(outFile, "</EndEffector>\n");
+  if (EndEffector)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<EndEffector");
+      EndEffector->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</EndEffector>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<MaximumLoadWeight>");
   MaximumLoadWeight->printSelf(outFile);
@@ -2045,10 +2028,6 @@ void RobotType::printSelf(FILE * outFile)
         fprintf(outFile, "</WorkVolume>\n");
       }
   }
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -2149,16 +2128,14 @@ StockKeepingUnitType::StockKeepingUnitType(
  XmlString * DescriptionIn,
  ShapeDesignType * ShapeIn,
  PositiveDecimalType * WeightIn,
- std::list<XmlIDREF *> * EndEffectorRefIn,
- XmlID * IdIn) :
+ std::list<XmlIDREF *> * EndEffectorNameIn) :
   DataThingType(
     NameIn)
 {
   Description = DescriptionIn;
   Shape = ShapeIn;
   Weight = WeightIn;
-  EndEffectorRef = EndEffectorRefIn;
-  Id = IdIn;
+  EndEffectorName = EndEffectorNameIn;
   printTypp = false;
 }
 
@@ -2189,18 +2166,14 @@ void StockKeepingUnitType::printSelf(FILE * outFile)
   fprintf(outFile, "</Weight>\n");
   {
     std::list<XmlIDREF *>::iterator iter;
-    for (iter = EndEffectorRef->begin(); iter != EndEffectorRef->end(); iter++)
+    for (iter = EndEffectorName->begin(); iter != EndEffectorName->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<EndEffectorRef>");
+        fprintf(outFile, "<EndEffectorName>");
         (*iter)->printSelf(outFile);
-        fprintf(outFile, "</EndEffectorRef>\n");
+        fprintf(outFile, "</EndEffectorName>\n");
       }
   }
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -2219,7 +2192,6 @@ VacuumEffectorMultiCupType::VacuumEffectorMultiCupType(
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn,
  PositiveDecimalType * CupDiameterIn,
  PositiveDecimalType * LengthIn,
  XmlPositiveInteger * ArrayNumberIn,
@@ -2231,7 +2203,6 @@ VacuumEffectorMultiCupType::VacuumEffectorMultiCupType(
     DescriptionIn,
     WeightIn,
     MaximumLoadWeightIn,
-    IdIn,
     CupDiameterIn,
     LengthIn)
 {
@@ -2281,10 +2252,6 @@ void VacuumEffectorMultiCupType::printSelf(FILE * outFile)
   MaximumLoadWeight->printSelf(outFile);
   fprintf(outFile, "</MaximumLoadWeight>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
-  doSpaces(0, outFile);
   fprintf(outFile, "<CupDiameter>");
   CupDiameter->printSelf(outFile);
   fprintf(outFile, "</CupDiameter>\n");
@@ -2318,7 +2285,6 @@ VacuumEffectorSingleCupType::VacuumEffectorSingleCupType(
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn,
  PositiveDecimalType * CupDiameterIn,
  PositiveDecimalType * LengthIn) :
   VacuumEffectorType(
@@ -2328,7 +2294,6 @@ VacuumEffectorSingleCupType::VacuumEffectorSingleCupType(
     DescriptionIn,
     WeightIn,
     MaximumLoadWeightIn,
-    IdIn,
     CupDiameterIn,
     LengthIn)
 {
@@ -2376,10 +2341,6 @@ void VacuumEffectorSingleCupType::printSelf(FILE * outFile)
   MaximumLoadWeight->printSelf(outFile);
   fprintf(outFile, "</MaximumLoadWeight>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
-  doSpaces(0, outFile);
   fprintf(outFile, "<CupDiameter>");
   CupDiameter->printSelf(outFile);
   fprintf(outFile, "</CupDiameter>\n");
@@ -2405,7 +2366,6 @@ VacuumEffectorType::VacuumEffectorType(
  XmlString * DescriptionIn,
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
- XmlID * IdIn,
  PositiveDecimalType * CupDiameterIn,
  PositiveDecimalType * LengthIn) :
   EndEffectorType(
@@ -2414,8 +2374,7 @@ VacuumEffectorType::VacuumEffectorType(
     SecondaryLocationIn,
     DescriptionIn,
     WeightIn,
-    MaximumLoadWeightIn,
-    IdIn)
+    MaximumLoadWeightIn)
 {
   CupDiameter = CupDiameterIn;
   Length = LengthIn;
@@ -2462,10 +2421,6 @@ void VacuumEffectorType::printSelf(FILE * outFile)
   fprintf(outFile, "<MaximumLoadWeight>");
   MaximumLoadWeight->printSelf(outFile);
   fprintf(outFile, "</MaximumLoadWeight>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Id>");
-  Id->printSelf(outFile);
-  fprintf(outFile, "</Id>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<CupDiameter>");
   CupDiameter->printSelf(outFile);

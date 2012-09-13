@@ -140,6 +140,7 @@ public:
 
   static std::list<XmlID *>  locationStack;
   static bool primary;
+  static char inFileName[200];
 };
 
 /*********************************************************************/
@@ -200,15 +201,13 @@ public:
   KitDesignType();
   KitDesignType(
     XmlID * NameIn,
-    XmlIDREF * KitTraySkuRefIn,
-    std::list<PartRefAndPoseType *> * PartRefAndPoseIn,
-    XmlID * IdIn);
+    XmlIDREF * KitTraySkuNameIn,
+    std::list<PartRefAndPoseType *> * PartRefAndPoseIn);
   ~KitDesignType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * KitTraySkuRef;
+  XmlIDREF * KitTraySkuName;
   std::list<PartRefAndPoseType *> * PartRefAndPose;
-  XmlID * Id;
   static std::set<std::string> individuals;
 
   bool printTypp;
@@ -237,14 +236,14 @@ public:
   PartRefAndPoseType();
   PartRefAndPoseType(
     XmlID * NameIn,
-    XmlIDREF * RefIn,
+    XmlIDREF * SkuNameIn,
     PointType * PointIn,
     VectorType * XAxisIn,
     VectorType * ZAxisIn);
   ~PartRefAndPoseType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * Ref;
+  XmlIDREF * SkuName;
   PointType * Point;
   VectorType * XAxis;
   VectorType * ZAxis;
@@ -416,16 +415,14 @@ public:
     XmlString * DescriptionIn,
     ShapeDesignType * ShapeIn,
     PositiveDecimalType * WeightIn,
-    std::list<XmlIDREF *> * EndEffectorRefIn,
-    XmlID * IdIn);
+    std::list<XmlIDREF *> * EndEffectorNameIn);
   ~StockKeepingUnitType();
   void printOwl(FILE * outFile);
 
   XmlString * Description;
   ShapeDesignType * Shape;
   PositiveDecimalType * Weight;
-  std::list<XmlIDREF *> * EndEffectorRef;
-  XmlID * Id;
+  std::list<XmlIDREF *> * EndEffectorName;
   static std::set<std::string> individuals;
 
   bool printTypp;
@@ -567,14 +564,12 @@ public:
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn,
-    XmlID * IdIn);
+    PositiveDecimalType * MaximumLoadWeightIn);
   ~EndEffectorType();
 
   XmlString * Description;
   PositiveDecimalType * Weight;
   PositiveDecimalType * MaximumLoadWeight;
-  XmlID * Id;
 
   bool printTypp;
 };
@@ -592,8 +587,7 @@ public:
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn,
-    XmlID * IdIn);
+    PositiveDecimalType * MaximumLoadWeightIn);
   ~GripperEffectorType();
   void printOwl(FILE * outFile);
 
@@ -616,12 +610,12 @@ public:
     PositiveDecimalType * LengthIn,
     PositiveDecimalType * WidthIn,
     PositiveDecimalType * HeightIn,
-    XmlIDREF * SkuRefIn,
+    XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~KitTrayType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * SkuRef;
+  XmlIDREF * SkuName;
   XmlNMTOKEN * SerialNumber;
   static std::set<std::string> individuals;
 
@@ -639,14 +633,14 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    XmlIDREF * DesignRefIn,
+    XmlIDREF * DesignNameIn,
     KitTrayType * TrayIn,
     std::list<PartType *> * PartIn,
     XmlBoolean * FinishedIn);
   ~KitType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * DesignRef;
+  XmlIDREF * DesignName;
   KitTrayType * Tray;
   std::list<PartType *> * Part;
   XmlBoolean * Finished;
@@ -729,14 +723,14 @@ public:
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
     LargeContainerType * LargeContainerIn,
     std::list<KitType *> * KitIn,
-    XmlIDREF * KitDesignRefIn,
+    XmlIDREF * KitDesignNameIn,
     XmlPositiveInteger * CapacityIn);
   ~LargeBoxWithKitsType();
   void printOwl(FILE * outFile);
 
   LargeContainerType * LargeContainer;
   std::list<KitType *> * Kit;
-  XmlIDREF * KitDesignRef;
+  XmlIDREF * KitDesignName;
   XmlPositiveInteger * Capacity;
   static std::set<std::string> individuals;
 
@@ -757,12 +751,12 @@ public:
     PositiveDecimalType * LengthIn,
     PositiveDecimalType * WidthIn,
     PositiveDecimalType * HeightIn,
-    XmlIDREF * SkuRefIn,
+    XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~LargeContainerType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * SkuRef;
+  XmlIDREF * SkuName;
   XmlNMTOKEN * SerialNumber;
   static std::set<std::string> individuals;
 
@@ -780,12 +774,12 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    XmlIDREF * SkuRefIn,
+    XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~PartType();
   void printOwl(FILE * outFile);
   
-  XmlIDREF * SkuRef;
+  XmlIDREF * SkuName;
   XmlNMTOKEN * SerialNumber;
   static std::set<std::string> individuals;
 
@@ -806,12 +800,12 @@ public:
     PositiveDecimalType * LengthIn,
     PositiveDecimalType * WidthIn,
     PositiveDecimalType * HeightIn,
-    XmlIDREF * PartSkuRefIn,
+    XmlIDREF * PartSkuNameIn,
     XmlNonNegativeInteger * PartQuantityIn);
   ~PartsBinType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * PartSkuRef;
+  XmlIDREF * PartSkuName;
   XmlNonNegativeInteger * PartQuantity;
   static std::set<std::string> individuals;
 
@@ -832,12 +826,12 @@ public:
     PositiveDecimalType * LengthIn,
     PositiveDecimalType * WidthIn,
     PositiveDecimalType * HeightIn,
-    XmlIDREF * SkuRefIn,
+    XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~PartsTrayType();
   void printOwl(FILE * outFile);
 
-  XmlIDREF * SkuRef;
+  XmlIDREF * SkuName;
   XmlNMTOKEN * SerialNumber;
   static std::set<std::string> individuals;
 
@@ -963,8 +957,7 @@ public:
     XmlString * DescriptionIn,
     EndEffectorType * EndEffectorIn,
     PositiveDecimalType * MaximumLoadWeightIn,
-    std::list<BoxVolumeType *> * WorkVolumeIn,
-    XmlID * IdIn);
+    std::list<BoxVolumeType *> * WorkVolumeIn);
   ~RobotType();
   void printOwl(FILE * outFile);
 
@@ -972,7 +965,6 @@ public:
   EndEffectorType * EndEffector;
   PositiveDecimalType * MaximumLoadWeight;
   std::list<BoxVolumeType *> * WorkVolume;
-  XmlID * Id;
 
   bool printTypp;
 };
@@ -991,7 +983,6 @@ public:
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
     PositiveDecimalType * MaximumLoadWeightIn,
-    XmlID * IdIn,
     PositiveDecimalType * CupDiameterIn,
     PositiveDecimalType * LengthIn);
   ~VacuumEffectorType();
@@ -1039,7 +1030,6 @@ public:
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
     PositiveDecimalType * MaximumLoadWeightIn,
-    XmlID * IdIn,
     PositiveDecimalType * CupDiameterIn,
     PositiveDecimalType * LengthIn,
     XmlPositiveInteger * ArrayNumberIn,
@@ -1068,7 +1058,6 @@ public:
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
     PositiveDecimalType * MaximumLoadWeightIn,
-    XmlID * IdIn,
     PositiveDecimalType * CupDiameterIn,
     PositiveDecimalType * LengthIn);
   ~VacuumEffectorSingleCupType();

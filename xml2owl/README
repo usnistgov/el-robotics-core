@@ -1,4 +1,4 @@
-xml2owl README - last updated 2012Sep1
+xml2owl README - last updated 2012Sep10
 
 This directory contains four executable utilities with the source code
 and other related code. All of the executables are fast.
@@ -166,7 +166,11 @@ kittingParser
 owlPrinter
 
 ./data:
-kittingInstance2.xml
+kittingInstancesGoal2.xml
+kittingInstancesGoal.xml
+kittingInstancesInitNoLoc.xml
+kittingInstancesInit.xml
+kittingInstances.xml
 
 ./ofiles:
 kittingClasses.o
@@ -179,9 +183,10 @@ xmlSchemaInstance.o
 
 ./owl:
 kittingClasses.owl
-kittingInstance2Compact.owl
-kittingInstance2.owl
-kittingInstancesCompact.owl
+kittingInstancesGoal2.owl
+kittingInstancesGoal.owl
+kittingInstancesInitNoLoc.owl
+kittingInstancesInit.owl
 kittingInstances.owl
 
 ./schema:

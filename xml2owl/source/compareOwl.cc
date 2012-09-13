@@ -20,8 +20,10 @@ it is a duplicate is not recorded.
 
 int main(int argc, char * argv[])
 {
-  FILE * file1;
-  FILE * file2;
+  FILE * inFile1;
+  FILE * inFile2;
+  FILE * outFile1;
+  FILE * outFile2;
   char buffer[200];
   std::set<std::string> set1;
   std::set<std::string> set2;
@@ -33,22 +35,30 @@ int main(int argc, char * argv[])
       fprintf(stderr, "Usage: %s <firstFile> <secondFile>\n", argv[0]);
       return 1;
     }
-  file1 = fopen(argv[1], "r");
-  if (file1 == 0)
+  inFile1 = fopen(argv[1], "r");
+  if (inFile1 == 0)
     {
       fprintf(stderr, "could not open file %s\n", argv[1]);
       return 1;
     }
-  file2 = fopen(argv[2], "r");
-  if (file2 == 0)
+  inFile2 = fopen(argv[2], "r");
+  if (inFile2 == 0)
     {
       fprintf(stderr, "could not open file %s\n", argv[2]);
       return 1;
     }
-  for (; fgets(buffer, 199, file1); )
+  for (; fgets(buffer, 199, inFile1); )
     set1.insert(buffer);
-  for (; fgets(buffer, 199, file2); )
+  for (; fgets(buffer, 199, inFile2); )
     set2.insert(buffer);
+  outFile1 = fopen("junk1", "w");
+  for (iter1 = set1.begin(); iter1 != set1.end(); iter1++)
+    fprintf(outFile1, "%s", (*iter1).c_str());
+  fclose(outFile1);
+  outFile2 = fopen("junk2", "w");
+  for (iter2 = set2.begin(); iter2 != set2.end(); iter2++)
+    fprintf(outFile2, "%s", (*iter2).c_str());
+  fclose(outFile2);
   for (iter1 = set1.begin(), iter2 = set2.begin();
        ((iter1 != set1.end()) && (iter2 != set2.end()));
        iter1++, iter2++)

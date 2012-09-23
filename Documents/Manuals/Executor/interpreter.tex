@@ -27,20 +27,44 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
 
 
 \subsection{Parse Plan}
+The plan is parsed with \class{KittingPlan::parsePlanInstance(const char* filename)} where \class{filename} represents the plan file. The different steps of this function can be described in Figure.
 
 \begin{figure}[h!t!]
 \centering
 \scalebox{.70}{
 \begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
- 
+
+  \node[relationship] (condition) {Condition};
+  \node[entity] (openfile) [above=1cm of condition] {Open file};
+  \draw[myarrow] (openfile.south) -- (condition.north);
+  \node[entity] (loopbody) [below=1cm of condition] {loop};
+  \draw[myarrow] (condition.south) -- (loopbody.north);
+  
+ \draw[myarrow] (loopbody.west) -- ++ (-1,0) -- ++ (0,4)  |-  node [auto] {yes} ($(openfile.south)!.5!(condition.north)$);
+ %\draw[myarrow] (loopbody.west)-|($(empty.south)!.5!(condition.north)$);
+\node[entity] (closefile) [right=1cm of loopbody] {Close file};
+%\draw[myarrow] (condition.east) -- ++ (2.5,0) |- (closefile.north);
+\draw[myarrow] (condition.east)-| node [auto] {no} (closefile.north);
+
+\end{tikzpicture}
+}
+\caption{Process for KittingPlan::parsePlanInstance.}
+\label{KittingPlan::parsePlanInstance}
+\end{figure}
+
+\begin{figure}[h!t!]
+\centering
+\scalebox{.70}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %---------- Parse plan    
+  %---------- Parse plan
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \node[MainAttribute] (parseplan) {Parse plan};
 
   \node[entity] (readplan) [below=1cm of parseplan] {Read plan file};
   \draw[myarrow] (parseplan.south) -- (readplan.north);
-  
+
   % Start of loop For
   \node[ForLoop] (startloop) [below=1cm of readplan] {For each line in the plan file};
   \draw[myarrow] (readplan.south) -- (startloop.north);
@@ -54,7 +78,7 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
   \node[entity] (storestring) [below=1cm of splitstring] {Store action and parameters in list \textbf{A}};
   \draw[myarrow] (splitstring.south) -- (storestring.north);
   \draw[myarrow] (storestring.east) -- ++ (1,0) -- ++ (0,4)  |- (removeparentheses.east);
-  
+
    % End of loop For
   \node[ForLoop] (endloop) [below=1cm of storestring] {Done};
   \draw[myarrow] (storestring.south) -- (endloop.north);
@@ -63,18 +87,18 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %---------- Store Parameters
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
+
 
   \node[entity] (readlistA) [right=7cm of readplan] {Read list \textbf{A}};
   \draw[myarrow] (endloop.east) -- ++ (4,0) -- ++ (0,4)  |- (readlistA.west);
-  
+
   \node[entity] (removeduplicates) [below=1cm of readlistA] {Remove duplicate parameters};
   \draw[myarrow] (readlistA.south) -- (removeduplicates.north);
 
   \node[entity] (storeparamlistB) [below=1cm of removeduplicates] {Store parameters in list \textbf{B}};
   \draw[myarrow] (removeduplicates.south) -- (storeparamlistB.north);
-  
-  
+
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %--------------- Parse PDDL Problem File
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,7 +117,7 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
 \centering
 \scalebox{.7}{
 \begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
- 
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %--------------- Parse PDDL Problem File
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,23 +125,23 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
 
  \node[entity] (readlistB) [below=1cm of parsepddl] {Read list \textbf{B}};
   \draw[myarrow] (parsepddl.south) -- (readlistB.north);
-  
+
   % Start of loop For
   \node[ForLoop] (startloop) [below=1cm of readlistB] {For each parameter in list \textbf{B}};
   \draw[myarrow] (readlistB.south) -- (startloop.north);
-  
-  
-  
+
+
+
   % Read parameter
   \node[entity] (readparameter) [below=1cm of startloop] {Read parameter};
   \draw[myarrow] (startloop.south) -- (readparameter.north);
-  
+
   \node[entity] (findparamPDDL) [below=1cm of readparameter] {Find parameter in PDDL file};
   \draw[myarrow] (readparameter.south) -- (findparamPDDL.north);
-  
+
    \node[entity] (findline) [below=1cm of findparamPDDL] {Find type of parameter in PDDL file};
   \draw[myarrow] (findparamPDDL.south) -- (findline.north);
-  
+
   \node[entity] (storeparamtype) [below=1cm of findline] {Store parameter and type in list \textbf{C}};
   \draw[myarrow] (findline.south) -- (storeparamtype.north);
 
@@ -125,11 +149,11 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
   \draw[myarrow] (storeparamtype.south) -- (endloop.north);
 
   \draw[myarrow] (storeparamtype.east) -- ++ (2,0) -- ++ (0,4)  |- (readparameter.east);
-  
+
 
   \node[MainAttribute] (canonicalr) [below=1cm of endloop] {Generate canonical robot commands};
   \draw[myarrow] (endloop.south) -- (canonicalr.north);
-  
+
 \end{tikzpicture}
 }
 \caption{Process for parsing the PDDL problem file.}
@@ -157,13 +181,13 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
 
   \node[entity] (actionparam) [below=1cm of forloop] {Get action name and parameter list};
   \draw[myarrow] (forloop.south) -- (actionparam.north);
-  
+
    \node[entity] (database) [below=1cm of actionparam] {Get parameter data from database};
   \draw[myarrow] (actionparam.south) -- (database.north);
 
   \node[entity] (canonical) [below=1cm of database] {Generate canonical commands};
   \draw[myarrow] (database.south) -- (canonical.north);
-  
+
   \node[entity] (writefile) [below=1cm of canonical] {Write canonical command in file};
   \draw[myarrow] (canonical.south) -- (writefile.north);
 

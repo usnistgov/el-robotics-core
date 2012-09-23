@@ -15,23 +15,28 @@
 \definecolor{darkblue}{cmyk}{1,1,0,0.45}
 \definecolor{lavenderblush4}{cmyk}{0,0.06,0.04,0.45}
 \definecolor{packergreen}{cmyk}{0.46,0,0.21,0.76}
+\definecolor{fuschia}{cmyk}{0,100,0,0}
 
 \usetikzlibrary{shapes}
 \usetikzlibrary{arrows}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shadows}
+\usetikzlibrary{calc}
 % styles for flowcharts
 
 \tikzstyle{every entity} = [top color=white, bottom color=blue!30,
                             draw=blue!50!black!100, drop shadow]
+\tikzstyle{empty} = [top color=white, bottom color=white,
+                            draw=white]
+
 \tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex,
                                  shadow yshift=-.7ex}]
 \tikzstyle{every attribute} = [top color=white, bottom color=green!20,
                                draw=green, node distance=1cm, drop shadow]
 \tikzstyle{MainAttribute} = [draw, ellipse,top color=white, bottom color=red!20,
                                draw=red, node distance=1cm, drop shadow]
-\tikzstyle{every relationship} = [top color=white, bottom color=yellow!20,
-                                  draw=yellow!50!black!100, drop shadow]
+\tikzstyle{every relationship} = [top color=white, bottom color=fuschia!30,
+                                  draw=fuschia!50!black!100, drop shadow]
 
 \tikzstyle{cloud} = [draw, circle,fill=red, node distance=1cm,
                         minimum height=2em, drop shadow]
@@ -39,7 +44,7 @@
 
 \tikzstyle{ForLoop} = [draw, rectangle, rounded corners,top color=white, bottom color=packergreen!30,draw=packergreen, inner sep=10pt, drop shadow={shadow xshift=.7ex,
                                  shadow yshift=-.7ex}]
-                            
+
 \tikzset{
  %Define standard arrow tip
     >=stealth',

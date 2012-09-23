@@ -23,7 +23,7 @@ For the kitting domain, there is a finite set of constant variable symbols that 
 
 \item A set of \class{Robot} \{\const{robot\_1},\const{robot\_2},\ldots\}: A \class{Robot} in the kitting workstation is a robotic arm that can move objects in order to build \class{Kits}.
 
-\item A set of \class{VacuumEffectorSingleCup} \{\const{part\_gripper},\const{tray\_gripper},\ldots\}: \class{VacuumEffectorSingleCups} are used in a kitting workstation to manipulate \class{Parts}, \class{PartsTrays}, \class{KitTrays}, and \class{Kits}. A \class{VacuumEffectorSingleCup} is attached to a \class{Robot}.
+\item A set of \class{EndEffector} \{\const{part\_gripper},\const{tray\_gripper},\ldots\}: \class{EndEffectors} are used in a kitting workstation to manipulate \class{Parts}, \class{PartsTrays}, \class{KitTrays}, and \class{Kits}. A \class{EndEffector} is attached to a \class{Robot}.
 
 \item A set of \class{EndEffectorHolder}  \{\const{part\_gripper\_holder},\const{tray\_gripper\_holder}, \ldots\}: An \class{EndEffectorHolder} is a storage unit that holds one type of \class{EndEffector}.
 
@@ -43,9 +43,9 @@ $\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ 
 The use of state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain:
 
 \begin{itemize}
-\item \stvar{efflocation}: \class{VacuumEffectorSingleCup}$\mathrm{\times S\rightarrow}$\class{Robot} $\cup$ \class{EndEffectorHolder}: designates the location of a \class{VacuumEffectorSingleCup} in the workstation. A \class{VacuumEffectorSingleCup} is either attached to a \class{Robot} or placed in an \class{EndEffectorHolder}.
+\item \stvar{efflocation}: \class{EndEffector}$\mathrm{\times S\rightarrow}$\class{Robot} $\cup$ \class{EndEffectorHolder}: designates the location of a \class{EndEffector} in the workstation. A \class{EndEffector} is either attached to a \class{Robot} or placed in an \class{EndEffectorHolder}.
 
-\item \stvar{r-eff}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{VacuumEffectorSingleCup} $\cup$ \{\textit{nil}\}: designates the \class{VacuumEffectorSingleCup} attached to a \class{Robot} if there is one attached, otherwise \textit{nil}.
+\item \stvar{r-eff}: \class{Robots}$\mathrm{\times S\rightarrow}$\class{EndEffector} $\cup$ \{\textit{nil}\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise \textit{nil}.
 
 \item \stvar{on-worktable}: \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{Kit} $\cup$ \class{KitTray} $\cup$ \{\textit{nil}\}: designates the object placed on the \class{WorkTable}, i.e., a \class{Kit}, a \class{KitTray}, or nothing (\textit{nil}).
 
@@ -55,7 +55,7 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{partlocation}: \class{Part}$\mathrm{\times S\rightarrow}$\class{PartsTray} $\cup$ \class{Kit} $\cup$ \class{Robots}: designates the different possible locations of a \class{Part} in the workstation, i.e., in a \class{PartTray}, in a \class{Kit}, or being held by a \class{Robot}.
 
-\item \stvar{rhold}: \class{Robot}$\mathrm{\times S\rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part} $\cup$ \{\textit{nil}\}: designates the object being held by a \class{Robot}, i.e., a \class{KitTray}, a \class{Kit}, a \class{Part}, or nothing (\textit{nil}). It is assumed that the \class{Robot} is already equipped with the appropriate \class{VacuumEffectorSingleCup}.
+\item \stvar{rhold}: \class{Robot}$\mathrm{\times S\rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part} $\cup$ \{\textit{nil}\}: designates the object being held by a \class{Robot}, i.e., a \class{KitTray}, a \class{Kit}, a \class{Part}, or nothing (\textit{nil}). It is assumed that the \class{Robot} is already equipped with the appropriate \class{EndEffector}.
 
 \item \stvar{islbwkfull}: \class{LargeBoxWithKits}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{LargeBoxWithKits} is full (1) or not (0).
 
@@ -63,9 +63,9 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{isptempty}: \class{PartsTray}$\mathrm{\times S\rightarrow}$ \{0\} $\cup$ \{1\}: designates if a \class{PartsTray} is empty (1) or not (0).
 
-\item \stvar{efftype}: \class{VacuumEffectorSingleCup}$\mathrm{\times S \rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part}: designates the type of object an \class{VacuumEffectorSingleCup} can hold, i.e., a \class{KitTray}, a \class{Kit}, or a \class{Part}.
+\item \stvar{efftype}: \class{EndEffector}$\mathrm{\times S \rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part}: designates the type of object an \class{EndEffector} can hold, i.e., a \class{KitTray}, a \class{Kit}, or a \class{Part}.
 
-\item \stvar{effhold-eff}: \class{EndEffectorHolder}$\mathrm{\times S \rightarrow}$\class{VacuumEffectorSingleCup} $\cup$ \{\textit{nil}\}: designates the object an \class{EndEffectorHolder} is holding, i.e., a \class{VacuumEffectorSingleCup} or nothing.
+\item \stvar{effhold-eff}: \class{EndEffectorHolder}$\mathrm{\times S \rightarrow}$\class{EndEffector} $\cup$ \{\textit{nil}\}: designates the object an \class{EndEffectorHolder} is holding, i.e., a \class{EndEffector} or nothing.
 \end{itemize}
 
 
@@ -93,14 +93,14 @@ The state variable symbols and their corresponding predicates for kitting are pr
 \begin{itemize}
  \item \stvar{efflocation}
   \begin{itemize}
-  \item \stvar{eff-location}(\class{VacuumEffectorSingleCup},\class{Robot}) ;TRUE iff \class{VacuumEffectorSingleCup} is attached to \class{Robot}
-  \item \stvar{eff-location}(\class{VacuumEffectorSingleCup},\class{EndEffectorHolder}) ;TRUE iff \class{VacuumEffectorSingleCup} is in \class{EndEffectorHolder}
+  \item \stvar{eff-location}(\class{EndEffector},\class{Robot}) ;TRUE iff \class{EndEffector} is attached to \class{Robot}
+  \item \stvar{eff-location}(\class{EndEffector},\class{EndEffectorHolder}) ;TRUE iff \class{EndEffector} is in \class{EndEffectorHolder}
   \end{itemize}
 
  \item \stvar{r-eff}
   \begin{itemize}
-  \item \stvar{r-with-eff}(\class{Robot},\class{VacuumEffectorSingleCup}) ;TRUE iff \class{Robot} is equipped with \class{VacuumEffectorSingleCup}
-  \item \stvar{r-no-eff}(\class{Robot}) ;TRUE iff \class{Robot} is not equipped with any \class{VacuumEffectorSingleCup}	
+  \item \stvar{r-with-eff}(\class{Robot},\class{EndEffector}) ;TRUE iff \class{Robot} is equipped with \class{EndEffector}
+  \item \stvar{r-no-eff}(\class{Robot}) ;TRUE iff \class{Robot} is not equipped with any \class{EndEffector}	
   \end{itemize}
 
  \item \stvar{on-worktable}
@@ -156,15 +156,15 @@ The state variable symbols and their corresponding predicates for kitting are pr
 
  \item \stvar{efftype}
   \begin{itemize}
-    \item \stvar{efftype}(\class{VacuumEffectorSingleCup},\class{KitTray}) ;TRUE iff \class{VacuumEffectorSingleCup} is capable of holding a \class{KitTray}	
-    \item \stvar{efftype}(\class{VacuumEffectorSingleCup},\class{Kit}) ;TRUE iff \class{VacuumEffectorSingleCup} is capable of holding a \class{Kit}
-    \item \stvar{efftype}(\class{VacuumEffectorSingleCup},\class{Part}) ;TRUE iff \class{VacuumEffectorSingleCup} is capable of holding a \class{Part}
+    \item \stvar{efftype}(\class{EndEffector},\class{KitTray}) ;TRUE iff \class{EndEffector} is capable of holding a \class{KitTray}	 
+    \item \stvar{efftype}(\class{EndEffector},\class{Kit}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Kit}
+    \item \stvar{efftype}(\class{EndEffector},\class{Part}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Part}
   \end{itemize}
 
  \item \stvar{effhold-eff}
   \begin{itemize}
-    \item \stvar{effhold-eff}(\class{EndEffectorHolder},\class{VacuumEffectorSingleCup}) ;TRUE iff \class{EndEffectorHolder} is holding \class{VacuumEffectorSingleCup}
-    \item \stvar{effh-empty}(\class{EndEffectorHolder}) ;TRUE iff \class{EndEffectorHolder} is empty ( not holding a \class{VacuumEffectorSingleCup})
+    \item \stvar{effhold-eff}(\class{EndEffectorHolder},\class{EndEffector}) ;TRUE iff \class{EndEffectorHolder} is holding \class{EndEffector}
+    \item \stvar{effh-empty}(\class{EndEffectorHolder}) ;TRUE iff \class{EndEffectorHolder} is empty ( not holding a \class{EndEffector})
   \end{itemize}
 \end{itemize}
 
@@ -183,7 +183,7 @@ Our kitting domain is composed of nine operators which are defined below.
 
 
 \begin{enumerate}
-\item \op{take-kit-tray}(\const{r},\const{kt},\const{lbwekt},\const{eff},\const{wtable}): The \class{Robot} \const{r} equipped with the \class{VacuumEffectorSingleCup} \const{eff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}. The \class{WorkTable} \const{wtable} must be \textit{a priori} empty.
+\item \op{take-kit-tray}(\const{r},\const{kt},\const{lbwekt},\const{eff},\const{wtable}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eff} picks up the \class{KitTray} \const{kt} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
 
 \begin{center}
 \begin{tabular}{ l|l }
@@ -215,7 +215,7 @@ Our kitting domain is composed of nine operators which are defined below.
 \end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{take-kit}(\const{r},\const{kit},\const{wtable},\const{eff}): The \class{Robot} \const{r} equipped with the \class{VacuumEffectorSingleCup} \const{eff} picks up the \class{Kit} \const{kit} from the \class{WorkTable} \const{wtable}.
+\item \op{take-kit}(\const{r},\const{kit},\const{wtable},\const{eff}): The \class{Robot} \const{r} equipped with the \class{EndEffector} \const{eff} picks up the \class{Kit} \const{kit} from the \class{WorkTable} \const{wtable}.
 \begin{center}
 \begin{tabular}{ l|l }
   \textit{precond} & \textit{effects} \\
@@ -243,7 +243,7 @@ Our kitting domain is composed of nine operators which are defined below.
 \end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{take-part}(\const{r},\const{part},\const{pt},\const{eff},\const{wtable},\const{kit}): The \class{Robot} \const{r} uses the \class{VacuumEffectorSingleCup} \const{eff} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{pt}. The \class{Kit} \const{kit} must \textit{a priori} be on the \const{wtable}.
+\item \op{take-part}(\const{r},\const{part},\const{pt},\const{eff},\const{wtable},\const{kit}): The \class{Robot} \const{r} uses the \class{EndEffector} \const{eff} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{pt}. The \class{Kit} \const{kit} must \textit{a priori} be on the \const{wtable}.
 \begin{center}
 \begin{tabular}{ l|l }
   \textit{precond} & \textit{effects} \\
@@ -273,7 +273,7 @@ Our kitting domain is composed of nine operators which are defined below.
 \end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{attach-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} attaches the \class{VacuumEffectorSingleCup} \const{eff} which is situated in the \class{EndEffectorHolder} \const{effh}.
+\item \op{attach-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} attaches the \class{EndEffector} \const{eff} which is situated in the \class{EndEffectorHolder} \const{effh}.
 \begin{center}
 \begin{tabular}{ l|l }
   \textit{precond} & \textit{effects} \\
@@ -289,7 +289,7 @@ Our kitting domain is composed of nine operators which are defined below.
 \end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{remove-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} removes the \class{VacuumEffectorSingleCup} \const{eff} and puts it in the \class{EndEffectorHolder} \const{effh}.
+\item \op{remove-eff}(\const{r},\const{eff},\const{effh}): The \class{Robot} \const{r} removes the \class{EndEffector} \const{eff} and puts it in the \class{EndEffectorHolder} \const{effh}.
 \begin{center}
 \begin{tabular}{ l|l }
   \textit{precond} & \textit{effects} \\

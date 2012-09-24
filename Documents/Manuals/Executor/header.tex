@@ -33,7 +33,7 @@
                                  shadow yshift=-.7ex}]
 \tikzstyle{every attribute} = [top color=white, bottom color=green!20,
                                draw=green, node distance=1cm, drop shadow]
-\tikzstyle{MainAttribute} = [draw, ellipse,top color=white, bottom color=red!20,
+\tikzstyle{MainAttribute} = [draw, rectangle,top color=white, bottom color=red!20,
                                draw=red, node distance=1cm, drop shadow]
 \tikzstyle{every relationship} = [top color=white, bottom color=fuschia!30,
                                   draw=fuschia!50!black!100, drop shadow]
@@ -42,19 +42,18 @@
                         minimum height=2em, drop shadow]
 \tikzstyle{myarrow}=[->, >=stealth', thick, shorten <=2pt,shorten >=2pt]
 
-\tikzstyle{ForLoop} = [draw, rectangle, rounded corners,top color=white, bottom color=packergreen!30,draw=packergreen, inner sep=10pt, drop shadow={shadow xshift=.7ex,
-                                 shadow yshift=-.7ex}]
+\tikzstyle{ForLoop} = [draw, rectangle, rounded corners,top color=white, bottom color=packergreen!30, draw=packergreen, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
+
+\tikzstyle{abstract}=[rectangle, draw=black, rounded corners, fill=blue!40, drop shadow,
+        text centered, anchor=north, text=white, text width=3cm]
 
 \tikzset{
  %Define standard arrow tip
     >=stealth',
 }
 \usepackage{a4wide}
-%\usepackage{calligra}
-
 \usepackage{epstopdf}
 \usepackage{setspace}
-\usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
 \usepackage{url}
@@ -70,6 +69,9 @@
 \usepackage{enumerate}
 \usepackage{mathrsfs}
 \usepackage{tocloft}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 \cftsetpnumwidth{1em}
 \cftsetrmarg{3.5em}
 
@@ -103,6 +105,8 @@
 \newcommand{\op}[1] {\textsl{#1}}
 \newcommand{\nil} {\textit{nil}\ }
 \newcommand{\etal} {\textit{et al.}\ }
+
+\newcommand{\planobj}[1] {$\mathsf{#1}$}
 
 \renewcommand{\labelitemi}{$\blacksquare$}
 \renewcommand{\labelitemii}{$\square$}

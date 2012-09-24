@@ -12,9 +12,26 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %---------- Main
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (parseplan) {Parse plan};
-  \node[MainAttribute] (parsepddl)[below=1cm of parseplan] {Parse PDDL problem file};
-  \node[MainAttribute] (canonical)[below=1cm of parsepddl] {Generate canonical robot commands};
+  \node[MainAttribute] (parseplan) [rectangle split, rectangle split parts=2]
+  {
+        Parse plan
+        \nodepart{second} \textbf{\small{KittingPlan::parsePlanInstance}}
+  };
+  
+
+   \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of parseplan]
+  {
+        Parse PDDL Problem File
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::parsePDDLProblem}}
+  };
+  
+  
+  \node[MainAttribute] (canonical) [rectangle split, rectangle split parts=2, below=1cm of parsepddl]
+  {
+        Generate canonical robot commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::interpretPlan}}
+  };
+  
   \draw[myarrow] (parseplan.south) -- (parsepddl.north);
   \draw[myarrow] (parsepddl.south) -- (canonical.north);
 
@@ -23,143 +40,264 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
 \caption{Main Process for the Interpreter.}
 \label{fig:interpreter}
 \end{figure}
-
+\newpage
 
 
 \subsection{Parse Plan}
-The plan is parsed with \class{KittingPlan::parsePlanInstance(const char* filename)} where \class{filename} represents the plan file. The different steps of this function can be described in Figure.
+In this process, the plan file is parsed and each line is read and stored in different lists. The process for parsing the plan file is performed by \textbf{\small{KittingPlan::parsePlanInstance}} and is depicted in Figure~\ref{fig:parseplan}. This figure and the following ones in this document display some functions in rectangle which are split in half. The upper part of these rectangles describes the action performed by the functions and the lower part displays the name of the functions in the \verb!C++! code source.
+
 
 \begin{figure}[h!t!]
 \centering
-\scalebox{.70}{
-\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
-
-  \node[relationship] (condition) {Condition};
-  \node[entity] (openfile) [above=1cm of condition] {Open file};
-  \draw[myarrow] (openfile.south) -- (condition.north);
-  \node[entity] (loopbody) [below=1cm of condition] {loop};
-  \draw[myarrow] (condition.south) -- (loopbody.north);
-  
- \draw[myarrow] (loopbody.west) -- ++ (-1,0) -- ++ (0,4)  |-  node [auto] {yes} ($(openfile.south)!.5!(condition.north)$);
- %\draw[myarrow] (loopbody.west)-|($(empty.south)!.5!(condition.north)$);
-\node[entity] (closefile) [right=1cm of loopbody] {Close file};
-%\draw[myarrow] (condition.east) -- ++ (2.5,0) |- (closefile.north);
-\draw[myarrow] (condition.east)-| node [auto] {no} (closefile.north);
-
-\end{tikzpicture}
-}
-\caption{Process for KittingPlan::parsePlanInstance.}
-\label{KittingPlan::parsePlanInstance}
-\end{figure}
-
-\begin{figure}[h!t!]
-\centering
-\scalebox{.70}{
+\scalebox{.75}{
 \begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %---------- Parse plan
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (parseplan) {Parse plan};
+  \node[MainAttribute] (parseplan)[rectangle split, rectangle split parts=2]
+  {
+        Parse plan
+        \nodepart{second} \textbf{\small{KittingPlan::parsePlanInstance}}
+  };
 
-  \node[entity] (readplan) [below=1cm of parseplan] {Read plan file};
-  \draw[myarrow] (parseplan.south) -- (readplan.north);
+ %%-- Open Plan file
+  \node[entity] (openplan) [below=1cm of parseplan] {Open plan file};
+  \draw[myarrow] (parseplan.south) -- (openplan.north);
 
-  % Start of loop For
-  \node[ForLoop] (startloop) [below=1cm of readplan] {For each line in the plan file};
-  \draw[myarrow] (readplan.south) -- (startloop.north);
+  %%-- While Loop
+  \node[relationship] (whileloop1) [below=1cm of openplan] {Next line available?};
+  \draw[myarrow] (openplan.south) -- (whileloop1.north);
 
-  \node[entity] (removeparentheses) [below=1cm of startloop] {Remove parentheses};
-  \draw[myarrow] (startloop.south) -- (removeparentheses.north);
+  %%-- Remove parentheses
+  \node[entity] (removeparentheses) [rectangle split, rectangle split parts=2, below=1cm of whileloop1]
+  {
+        Remove parentheses
+        \nodepart{second} \textbf{\small{FileOperator::removeParentheses}}
+  };
 
-  \node[entity] (splitstring) [below=1cm of removeparentheses] {Split line into strings};
+  \draw[myarrow] (whileloop1.south) -- node [auto] {yes} (removeparentheses.north);
+
+  %%-- Split strings
+  \node[entity] (splitstring) [rectangle split, rectangle split parts=2, below=1cm of removeparentheses]
+  {
+    Split line into strings
+    \nodepart{second} \textbf{\small{FileOperator::splitString}}
+  };
+
   \draw[myarrow] (removeparentheses.south) -- (splitstring.north);
 
+
+
+  %%-- Store action and parameters
   \node[entity] (storestring) [below=1cm of splitstring] {Store action and parameters in list \textbf{A}};
   \draw[myarrow] (splitstring.south) -- (storestring.north);
-  \draw[myarrow] (storestring.east) -- ++ (1,0) -- ++ (0,4)  |- (removeparentheses.east);
 
-   % End of loop For
-  \node[ForLoop] (endloop) [below=1cm of storestring] {Done};
-  \draw[myarrow] (storestring.south) -- (endloop.north);
+  %%-- Arrow from storestring to the beginning of the loop
+  \draw[myarrow] (storestring.west) -- ++ (-1,0) -- ++ (0,4)  |-  ($(openplan.south)!.5!(whileloop1.north)$);
 
+  %%-- Close plan file
+  \node[entity] (closefile) [right=5cm of whileloop1] {Close plan file};
+  \draw[myarrow] (whileloop1.east) -- node [auto] {no} (closefile.west);
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %---------- Store Parameters
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  %%-- Read list A
+  \node[entity] (readlistA) [below=1cm of closefile] {Read list \textbf{A}};
+  \draw[myarrow] (closefile.south) -- (readlistA.north);
 
-  \node[entity] (readlistA) [right=7cm of readplan] {Read list \textbf{A}};
-  \draw[myarrow] (endloop.east) -- ++ (4,0) -- ++ (0,4)  |- (readlistA.west);
+  %%-- Store only parameters in list B
+  \node[entity] (storeparamlistB) [rectangle split, rectangle split parts=2, below=1cm of readlistA]
+    {
+    Store parameters in list \textbf{B}
+    \nodepart{second} \textbf{\small{KittingPlan::storeParam}}
+  };
+  \draw[myarrow] (readlistA.south) -- (storeparamlistB.north);
 
-  \node[entity] (removeduplicates) [below=1cm of readlistA] {Remove duplicate parameters};
-  \draw[myarrow] (readlistA.south) -- (removeduplicates.north);
+  %%-- Remove duplicates in list B
+  \node[entity] (removeduplicates) [rectangle split, rectangle split parts=2, below=1cm of storeparamlistB]
+  {
+    Remove duplicates in list \textbf{B}
+    \nodepart{second} \textbf{\small{FileOperator::removeDuplicates}}
+  };
+  \draw[myarrow] (storeparamlistB.south) -- (removeduplicates.north);
 
-  \node[entity] (storeparamlistB) [below=1cm of removeduplicates] {Store parameters in list \textbf{B}};
-  \draw[myarrow] (removeduplicates.south) -- (storeparamlistB.north);
+
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %--------------- Parse PDDL Problem File
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (parsepddl) [below=1cm of storeparamlistB] {Parse PDDL Problem File};
-  \draw[myarrow] (storeparamlistB.south) -- (parsepddl.north);
-
+  \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of removeduplicates]
+  {
+        Parse PDDL Problem File
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::parsePDDLProblem}}
+  };
+  \draw[myarrow] (removeduplicates.south) -- (parsepddl.north);
+%
+%
+%  % Start of loop For
+%  % \node[ForLoop] (startloop) [rectangle split, rectangle split parts=2, below=1cm of readplan]
+%  %  {
+%  %        \textbf{For each line in the plan file}
+%  %        \nodepart{second}test
+%  %  };
+%
+%
 
 \end{tikzpicture}
 }
-\caption{Process for parsing the plan.}
-\label{fig:plan}
+\caption{Process for parsing the plan file.}
+\label{fig:parseplan}
 \end{figure}
 
+The different steps illustrated in Figure~\ref{fig:parseplan} are described below. This process for parsing the plan file is performed by \textbf{\small{KittingPlan::parsePlanInstance}} and is depicted in Figure~\ref{fig:parseplan}.
+
+\begin{itemize}
+\item Open plan file: The location and the name of the plan file can be found in the \textit{Config.h} file. The location of the plan file is given by \texttt{\#define PLAN\_FOLDER} and the name of the plan file is given by \texttt{\#define PLAN\_FILE}.
+\item Next line available?: This while loop reads each line of the plan file and does the following commands:
+\begin{itemize}
+\item If there is a next line in the plan file
+\begin{itemize}
+\item Remove parentheses: To describe this function and the following ones, we will use the following examples which describe two lines of the plan file:\\
+    \small{(\planobj{action_A} \planobj{param_{P_1}} \planobj{param_{P_2}})} \\
+    \small{(\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}})}\\
+    The result of this function for each line is:\\
+    \small{\planobj{action_A} \planobj{param_{P_1}} \planobj{param_{P_2}}} \\
+    \small{\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}}
+\item Split line into strings: Each line of the plan file is then split into separate strings.
+
+\item Store action and parameters in list \textbf{A}(\textbf{\small{KittingPlan::m\_paramList}}): Each line is stored in list \textbf{A}. Using our example the result of this function is:\\
+    list \textbf{A}: \small{<\planobj{action_A} \planobj{param_{P_1}} \planobj{param_{P_2}}> <\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}>}
+\end{itemize}
+\item If there is a next line in the plan file
+\begin{itemize}
+\item Close plan file
+\end{itemize}
+\end{itemize}
+\item Read list \textbf{A}
+\item Store parameters in list \textbf{B}: All parameters in list \textbf{A} are stored in list \textbf{B}. The result of this function generates:\\ list \textbf{B}: \small{<\planobj{param_{P_1}} \planobj{param_{P_2}} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}>}
+\item Remove duplicates in list \textbf{B}: Duplicates are removed from list \textbf{B}. In the example, \planobj{param_{P_2}} appears twice. The result returns the following list:\\
+    list \textbf{B}: \small{<\planobj{param_{P_1}} \planobj{param_{P_3}} \planobj{param_{P_2}}  \planobj{param_{P_4}}>}
+\item Parse PDDL Problem File: This process is used to parse the PDDL problem file in order to retrieve the type of each parameter in list \textbf{B}. The next section gives a deeper description of this process.
+\end{itemize}
+
+\newpage
 \subsection{Parse the PDDL Problem File}
+This process parses the PDDL problem file and retrieves the type for each parameter stored in list \textbf{B}. This process is performed by \textbf{\small{KittingPDDLProblem::parsePDDLProblem}} and is depicted in Figure~\ref{fig:parsepddl}.
 \begin{figure}[h!t!]
 \centering
-\scalebox{.7}{
+\scalebox{.75}{
 \begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %--------------- Parse PDDL Problem File
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (parsepddl) {Parse PDDL Problem File};
 
- \node[entity] (readlistB) [below=1cm of parsepddl] {Read list \textbf{B}};
-  \draw[myarrow] (parsepddl.south) -- (readlistB.north);
+  %%-- Process for parsing the PDDL problem file
+  \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of parseplan]
+  {
+        Parse PDDL Problem File
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::parsePDDLProblem}}
+  };
 
-  % Start of loop For
-  \node[ForLoop] (startloop) [below=1cm of readlistB] {For each parameter in list \textbf{B}};
-  \draw[myarrow] (readlistB.south) -- (startloop.north);
+ %% Open the PDDL problem file
+ \node[entity] (openpddlfile) [below=1cm of parsepddl] {Open PDDL problem file};
+ \draw[myarrow] (parsepddl.south) -- (openpddlfile.north);
+ 
+ %% Read PDDL problem file into memory
+ \node[entity] (memory) [below=1cm of openpddlfile] {Store PDDL problem file into string};
+ \draw[myarrow] (openpddlfile.south) -- (memory.north);
+  
+ \node[entity] (readlistB) [below=1cm of memory] {Read list \textbf{B}};
+  \draw[myarrow] (memory.south) -- (readlistB.north);
 
+ % Read first parameter
+  \node[ForLoop] (firstparam) [below=1cm of readlistB] {Get first parameter};
+  \draw[myarrow] (readlistB.south) -- (firstparam.north);
 
+%%-- insidefor
+  \node[relationship] (forloop) [below=1cm of firstparam] {Parameter exists?};
+  \draw[myarrow] (firstparam.south) -- (forloop.north);
+  
 
-  % Read parameter
-  \node[entity] (readparameter) [below=1cm of startloop] {Read parameter};
-  \draw[myarrow] (startloop.south) -- (readparameter.north);
+  \node[entity] (findparamPDDL) [rectangle split, rectangle split parts=2, below=1cm of forloop]
+  {
+        Find parameter in PDDL file
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::findParam}}
+  };
+  \draw[myarrow] (forloop.south) -- node [auto] {yes} (findparamPDDL.north);
 
-  \node[entity] (findparamPDDL) [below=1cm of readparameter] {Find parameter in PDDL file};
-  \draw[myarrow] (readparameter.south) -- (findparamPDDL.north);
-
-   \node[entity] (findline) [below=1cm of findparamPDDL] {Find type of parameter in PDDL file};
+   \node[entity] (findline) [rectangle split, rectangle split parts=2, below=1cm of findparamPDDL]
+   {
+     Find type of parameter in PDDL file
+     \nodepart{second} \textbf{\small{KittingPDDLProblem::findParamType}}
+   };
   \draw[myarrow] (findparamPDDL.south) -- (findline.north);
 
   \node[entity] (storeparamtype) [below=1cm of findline] {Store parameter and type in list \textbf{C}};
   \draw[myarrow] (findline.south) -- (storeparamtype.north);
 
-  \node[ForLoop] (endloop) [below=1cm of storeparamtype] {Done};
-  \draw[myarrow] (storeparamtype.south) -- (endloop.north);
+  %%-- Next parameter
+  \node[ForLoop] (nextparam) [below=1cm of storeparamtype] {Next parameter};
+  \draw[myarrow] (storeparamtype.south) -- (nextparam.north);
+  \draw[myarrow] (nextparam.west) -- ++ (-3,0) -- ++ (0,4)  |-  ($(firstparam.south)!.5!(forloop.north)$);
 
-  \draw[myarrow] (storeparamtype.east) -- ++ (2,0) -- ++ (0,4)  |- (readparameter.east);
+  \node[entity] (closefile) [right=5cm of forloop] {Close PDDL problem file};
+  \draw[myarrow] (forloop.east) -- node [auto] {no} (closefile.west);
 
+  \node[MainAttribute] (canonicalr) [rectangle split, rectangle split parts=2, below=1cm of closefile]
+  {
+        Generate canonical robot commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::interpretPlan}}
+  };
 
-  \node[MainAttribute] (canonicalr) [below=1cm of endloop] {Generate canonical robot commands};
-  \draw[myarrow] (endloop.south) -- (canonicalr.north);
+  \draw[myarrow] (closefile.south) -- (canonicalr.north);
 
 \end{tikzpicture}
 }
 \caption{Process for parsing the PDDL problem file.}
-\label{fig:pddl}
+\label{fig:parsepddl}
 \end{figure}
 
+The different steps illustrated in Figure~\ref{fig:parsepddl} are described below.
+\begin{itemize}
+\item Open PDDL Problem file: The location and the name of the PDDL problem file can be found in the \textit{Config.h} file. The location of the PDDL problem file is given by \texttt{\#define PDDL\_FOLDER} and the name of the problem file is given by \texttt{\#define PDDL\_PROBLEM}.
+\item Store PDDL problem file into string: The entire PDDL problem file is read and stored in memory (string).
+\item Read list \textbf{B}
+\item For each element in \textbf{B}:
+\begin{itemize}
+\item Find parameter in PDDL problem file (\textbf{\small{KittingPDDLProblem::findParam}}): This function retrieves the first occurrence of the parameter in the PDDL problem file. The first occurrence of the parameter appears in the \texttt{:objects} section of the problem file. An example of the \texttt{:objects} section is given below:
+
+    \begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
+(define (problem kitting-problem)
+	(:domain kitting-domain)
+	(:objects
+		Object\_1 - Type\_A
+		Object\_2 - Type\_B
+		Object\_3 - Type\_C
+		Object\_4 - Type\_D
+	)
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+
+This function returns a \verb!C++! \texttt{map<string,int>}, where the first element is the parameter and the second element is the line where the parameter was found in the problem file.
+\item Find type of parameter in PDDL problem file:
+\item Store parameter in list \textbf{C}:
+\end{itemize}
+\item Close PDDL problem file.
+\item Generate canonical robot commands:
+
+\end{itemize}
+
+
+
+\newpage
 \subsection{Generate Canonical Robot Commands}
 
 \begin{figure}[h!t!]

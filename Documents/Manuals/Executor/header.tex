@@ -35,11 +35,15 @@
                                draw=green, node distance=1cm, drop shadow]
 \tikzstyle{MainAttribute} = [draw, rectangle,top color=white, bottom color=red!20,
                                draw=red, node distance=1cm, drop shadow]
+
+\tikzstyle{StartEnd} = [draw, rectangle,rounded corners, top color=red, bottom color=red!20,
+                               draw=red, node distance=1cm, drop shadow]
+                               
 \tikzstyle{every relationship} = [top color=white, bottom color=fuschia!30,
                                   draw=fuschia!50!black!100, drop shadow]
 
-\tikzstyle{cloud} = [draw, circle,fill=red, node distance=1cm,
-                        minimum height=2em, drop shadow]
+\tikzstyle{cloud} = [draw, circle,fill=white, top color=red, bottom color=red, draw=black, node distance=1cm,
+                        minimum height=2em, text=white, drop shadow]
 \tikzstyle{myarrow}=[->, >=stealth', thick, shorten <=2pt,shorten >=2pt]
 
 \tikzstyle{ForLoop} = [draw, rectangle, rounded corners,top color=white, bottom color=packergreen!30, draw=packergreen, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]

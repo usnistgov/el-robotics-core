@@ -12,12 +12,13 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %---------- Main
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (parseplan) [rectangle split, rectangle split parts=2]
+  \node[cloud] (start) {\textbf{Start}};
+  \node[MainAttribute] (parseplan) [rectangle split, rectangle split parts=2, below=1cm of start]
   {
         Parse plan
         \nodepart{second} \textbf{\small{KittingPlan::parsePlanInstance}}
   };
-  
+  \draw[myarrow] (start.south) -- (parseplan.north);
 
    \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of parseplan]
   {
@@ -34,6 +35,8 @@ The main process for the interpreter is depicted in Figure \ref{fig:interpreter}
   
   \draw[myarrow] (parseplan.south) -- (parsepddl.north);
   \draw[myarrow] (parsepddl.south) -- (canonical.north);
+  \node[cloud] (end) [below=1cm of canonical] {\textbf{End}};
+  \draw[myarrow] (canonical.south) -- (end.north);
 
 \end{tikzpicture}
 }
@@ -55,12 +58,15 @@ In this process, the plan file is parsed and each line is read and stored in dif
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %---------- Parse plan
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (parseplan)[rectangle split, rectangle split parts=2]
+  \node[cloud] (start) {\textbf{Start}};
+  
+  
+  \node[MainAttribute] (parseplan)[rectangle split, rectangle split parts=2, below=1cm of start]
   {
         Parse plan
         \nodepart{second} \textbf{\small{KittingPlan::parsePlanInstance}}
   };
-
+\draw[myarrow] (start.south) -- (parseplan.north);
  %%-- Open Plan file
   \node[entity] (openplan) [below=1cm of parseplan] {Open plan file};
   \draw[myarrow] (parseplan.south) -- (openplan.north);
@@ -169,8 +175,8 @@ The different steps illustrated in Figure~\ref{fig:parseplan} are described belo
     \small{\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}}
 \item Split line into strings: Each line of the plan file is then split into separate strings.
 
-\item Store action and parameters in list \textbf{A}(\textbf{\small{KittingPlan::m\_paramList}}): Each line is stored in list \textbf{A}. Using our example the result of this function is:\\
-    list \textbf{A}: \small{<\planobj{action_A} \planobj{param_{P_1}} \planobj{param_{P_2}}> <\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}>}
+\item Store action and parameters in list \textbf{A}: Each line is stored in list \textbf{A} defind by \textbf{\small{KittingPlan::m\_actionParamList}}. Using our example the result of this function is:\\
+    list \textbf{A}: \small{\planobj{<<action_A,param_{P_1},param_{P_2}><action_B,param_{P_3},param_{P_2},param_{P_4}>>}}
 \end{itemize}
 \item If there is a next line in the plan file
 \begin{itemize}
@@ -178,14 +184,14 @@ The different steps illustrated in Figure~\ref{fig:parseplan} are described belo
 \end{itemize}
 \end{itemize}
 \item Read list \textbf{A}
-\item Store parameters in list \textbf{B}: All parameters in list \textbf{A} are stored in list \textbf{B}. The result of this function generates:\\ list \textbf{B}: \small{<\planobj{param_{P_1}} \planobj{param_{P_2}} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}>}
+\item Store parameters in list \textbf{B}: All parameters present in list \textbf{A} are stored in list \textbf{B}. List \textbf{B} is defined by (\textbf{\small{KittingPlan::m\_paramList}}). The result of this function generates:\\ \small{\planobj{<param_{P_1},param_{P_2},param_{P_3},param_{P_2},param_{P_4}>}}
 \item Remove duplicates in list \textbf{B}: Duplicates are removed from list \textbf{B}. In the example, \planobj{param_{P_2}} appears twice. The result returns the following list:\\
-    list \textbf{B}: \small{<\planobj{param_{P_1}} \planobj{param_{P_3}} \planobj{param_{P_2}}  \planobj{param_{P_4}}>}
-\item Parse PDDL Problem File: This process is used to parse the PDDL problem file in order to retrieve the type of each parameter in list \textbf{B}. The next section gives a deeper description of this process.
+    list \textbf{B}: \small{\planobj{<param_{P_1},param_{P_3},param_{P_2},param_{P_4}>}}
+\item Parse PDDL Problem File: This process is used to parse the PDDL problem file in order to retrieve the type of each parameter in list \textbf{B}. Section~\ref{parseproblem} gives a deeper description of this process.
 \end{itemize}
 
 \newpage
-\subsection{Parse the PDDL Problem File}
+\subsection{Parse the PDDL Problem File}\label{parseproblem}
 This process parses the PDDL problem file and retrieves the type for each parameter stored in list \textbf{B}. This process is performed by \textbf{\small{KittingPDDLProblem::parsePDDLProblem}} and is depicted in Figure~\ref{fig:parsepddl}.
 \begin{figure}[h!t!]
 \centering
@@ -269,36 +275,45 @@ The different steps illustrated in Figure~\ref{fig:parsepddl} are described belo
 \item Read list \textbf{B}
 \item For each element in \textbf{B}:
 \begin{itemize}
-\item Find parameter in PDDL problem file (\textbf{\small{KittingPDDLProblem::findParam}}): This function retrieves the first occurrence of the parameter in the PDDL problem file. The first occurrence of the parameter appears in the \texttt{:objects} section of the problem file. An example of the \texttt{:objects} section is given below:
+\item Find parameter in PDDL problem file: This function retrieves the first occurrence of the parameter in the PDDL problem file. The first occurrence of the parameter appears in the \planobj{:objects} section of the problem file. An excerpt the \planobj{:objects} section for our example is given below:\\
+{\scriptsize{1.}}\planobj{(:objects}\\
+{\scriptsize{2.}}\hspace*{5mm}\planobj{param_{P_1} - type_A}\\
+{\scriptsize{3.}}\hspace*{5mm}\planobj{param_{P_2} - type_B}\\
+{\scriptsize{4.}}\hspace*{5mm}\planobj{param_{P_3} - type_C}\\
+{\scriptsize{5.}}\hspace*{5mm}\planobj{param_{P_4} - type_D}\\
+{\scriptsize{6.}}\planobj{)}
 
-    \begin{minipage}{.5\paperwidth}
-\begin{mylisting}
-\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
-(define (problem kitting-problem)
-	(:domain kitting-domain)
-	(:objects
-		Object\_1 - Type\_A
-		Object\_2 - Type\_B
-		Object\_3 - Type\_C
-		Object\_4 - Type\_D
-	)
-\end{Verbatim}
-\end{mylisting}
-\end{minipage}
+%\begin{minipage}{.5\paperwidth}
+%\begin{mylisting}
+%\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
+%(define (problem kitting-problem)
+%  (:domain kitting-domain)
+%  (:objects
+%     Object_1 - Type_A
+%	 Object_2 - Type_B
+%	 Object_3 - Type_C
+%	 Object_4 - Type_D
+%     ...
+%  )
+%\end{Verbatim}
+%\end{mylisting}
+%\end{minipage}
 
-This function returns a \verb!C++! \texttt{map<string,int>}, where the first element is the parameter and the second element is the line where the parameter was found in the problem file.
-\item Find type of parameter in PDDL problem file:
-\item Store parameter in list \textbf{C}:
+This function returns a \verb!C++! \texttt{map<string,int>}, where the first element is the parameter and the second element is the line where the parameter was found in the problem file. According to our example, this function returns the following map:\\
+\small{\planobj{<<param_{P_1},2><param_{P_3},4><param_{P_2},3><param_{P_4},5>>}}
+\item Find type of parameter in PDDL problem file: This function takes as input the \texttt{map} generated in the previous step and the PDDL problem file. For each line number in \texttt{map<string,int>}, the PDDL problem file is read again until the line number is reached. The last element of the line (type of the parameter) in the PDDL file is retrieved.
+\item Store parameter in list \textbf{C}: The parameter and its type are stored in list \textbf{C} which is a \verb!C++! \texttt{map<string,string>}. The first element of \texttt{map<string,string>} is the parameter and the second element is its type. list \textbf{C} is defined with \textbf{\small{KittingPDDLProblem::m\_ParamType}}. In our example, the result of this function will be:\\
+    \small{\planobj{<<param_{P_1},type_A><param_{P_3},type_C><param_{P_2},type_B><param_{P_4},type_D>>}}
 \end{itemize}
 \item Close PDDL problem file.
-\item Generate canonical robot commands:
+\item Generate canonical robot commands: This process generates the canonical robot commands for each action found in the plan file. More information on this process can be found in section~\ref{robotcommands}.
 
 \end{itemize}
 
 
 
 \newpage
-\subsection{Generate Canonical Robot Commands}
+\subsection{Generate Canonical Robot Commands}\label{robotcommands}
 
 \begin{figure}[h!t!]
 \centering
@@ -308,31 +323,56 @@ This function returns a \verb!C++! \texttt{map<string,int>}, where the first ele
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %--------------- Parse PDDL Problem File
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \node[MainAttribute] (canonical) {Generate canonical robot commands};
-
-  \node[entity] (readlistA) [below=1cm of canonical] {Read list \textbf{A}};
-  \draw[myarrow] (canonical.south) -- (readlistA.north);
+  \node[MainAttribute] (canonical) [rectangle split, rectangle split parts=2]
+  {
+        Generate canonical robot commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::interpretPlan}}
+  };
+  
+  \node[entity] (outputfile) [below=1cm of canonical] {Create output file};
+  \draw[myarrow] (canonical.south) -- (outputfile.north);
+  
+  \node[entity] (initend) [below=1cm of outputfile] {Write \texttt{InitCanon} and \texttt{EndCanon}};
+  \draw[myarrow] (outputfile.south) -- (initend.north);
+  
+  \node[entity] (readlistA) [below=1cm of initend] {Read list \textbf{A}};
+  \draw[myarrow] (initend.south) -- (readlistA.north);
 
   % For
-  \node[ForLoop] (forloop) [below=1cm of readlistA] {For each element in list \textbf{A}};
-  \draw[myarrow] (readlistA.south) -- (forloop.north);
+  \node[ForLoop] (firstelement) [below=1cm of readlistA] {Get first element};
+  \draw[myarrow] (readlistA.south) -- (firstelement.north);
+  
+  %%-- insidefor
+  \node[relationship] (forloop) [below=1cm of firstelement] {Element exists?};
+  \draw[myarrow] (firstelement.south) -- (forloop.north);
+  
 
-  \node[entity] (actionparam) [below=1cm of forloop] {Get action name and parameter list};
-  \draw[myarrow] (forloop.south) -- (actionparam.north);
+  \node[entity] (actionparam) [below=1cm of forloop] {Get action name and parameters};
+  \draw[myarrow] (forloop.south) -- node [auto] {yes} (actionparam.north);
 
-   \node[entity] (database) [below=1cm of actionparam] {Get parameter data from database};
-  \draw[myarrow] (actionparam.south) -- (database.north);
+\node[entity] (interpret) [rectangle split, rectangle split parts=2,below=1cm of actionparam] 
+  {
+        Interpret action
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::actionInterpreter}}
+  };
+  \draw[myarrow] (actionparam.south) -- (interpret.north);
+  
+   \node[entity] (database) [below=1cm of interpret] {Get parameter information from database};
+  \draw[myarrow] (interpret.south) -- (database.north);
 
   \node[entity] (canonical) [below=1cm of database] {Generate canonical commands};
   \draw[myarrow] (database.south) -- (canonical.north);
 
-  \node[entity] (writefile) [below=1cm of canonical] {Write canonical command in file};
+  \node[entity] (writefile) [below=1cm of canonical] {Write canonical commands in file};
   \draw[myarrow] (canonical.south) -- (writefile.north);
 
-  \node[ForLoop] (forloop2) [below=1cm of writefile] {Done};
-  \draw[myarrow] (writefile.south) -- (forloop2.north);
-
-  \draw [myarrow] (writefile.east) -- ++ (2,0) -- ++ (0,5)  |- (actionparam.east);
+  \node[ForLoop] (nextelement) [below=1cm of writefile] {Next element};
+  \draw[myarrow] (writefile.south) -- (nextelement.north);
+  \draw[myarrow] (nextelement.west) -- ++ (-3,0) -- ++ (0,4)  |-  ($(firstelement.south)!.5!(forloop.north)$);
+  
+  \node[cloud] (end) [right=3cm of forloop] {\textbf{End}};
+  \draw[myarrow] (forloop.east) -- node [auto] {no} (end.west);
+  
 \end{tikzpicture}
 }
 \caption{Process for generating canonical robot commands.}

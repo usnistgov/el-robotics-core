@@ -1,0 +1,485 @@
+
+This section describes the process for the interpreter. The interpreter reads the plan file and generates the canonical robot commands. The description of this process and subprocesses are mainly described via flowcharts. The main process for the interpreter is depicted in Figure \ref{fig:interpreter} and described in the following sections.
+
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %---------- Main
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[cloud] (start) {\textbf{Start}};
+  \node[MainAttribute] (parseplan) [rectangle split, rectangle split parts=2, below=1cm of start]
+  {
+        Parse plan
+        \nodepart{second} \textbf{\small{KittingPlan::parsePlanInstance}}
+  };
+  \draw[myarrow] (start.south) -- (parseplan.north);
+
+   \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of parseplan]
+  {
+        Parse PDDL problem file
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::parsePDDLProblem}}
+  };
+
+
+  \node[MainAttribute] (canonical) [rectangle split, rectangle split parts=2, below=1cm of parsepddl]
+  {
+        Generate canonical robot commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::interpretPlan}}
+  };
+
+  \draw[myarrow] (parseplan.south) -- (parsepddl.north);
+  \draw[myarrow] (parsepddl.south) -- (canonical.north);
+  \node[cloud] (end) [below=1cm of canonical] {\textbf{End}};
+  \draw[myarrow] (canonical.south) -- (end.north);
+
+\end{tikzpicture}
+}
+\caption{Main Process for the Interpreter.}
+\label{fig:interpreter}
+\end{figure}
+\newpage
+
+
+\section{Parse Plan}\label{ss:parseplan}
+In this process, the plan file is parsed and each line is read and stored in different lists. The process for parsing the plan file is performed by \textbf{\footnotesize{KittingPlan::parsePlanInstance}} and is depicted in Figure~\ref{fig:parseplan}. This figure and the following ones in this document display some functions in rectangle which are split in half. The upper part of these rectangles describes the action performed by the functions and the lower part displays the name of the functions in the \verb!C++! source code.
+
+
+\begin{figure}[h!t!]
+\centering
+\scalebox{.75}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %---------- Parse plan
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[cloud] (start) {\textbf{Start}};
+
+
+  \node[MainAttribute] (parseplan)[rectangle split, rectangle split parts=2, below=1cm of start]
+  {
+        \texttt{\textbf{1.}} Parse plan
+        \nodepart{second} \textbf{\small{KittingPlan::parsePlanInstance}}
+  };
+\draw[myarrow] (start.south) -- (parseplan.north);
+ %%-- Open Plan file
+  \node[entity] (openplan) [below=1cm of parseplan] {Open plan file};
+  \draw[myarrow] (parseplan.south) -- (openplan.north);
+
+  %%-- While Loop
+  \node[relationship] (whileloop1) [below=1cm of openplan] {\texttt{\textbf{2.}} Next line available ?};
+  \draw[myarrow] (openplan.south) -- (whileloop1.north);
+
+  %%-- Remove parentheses
+  \node[entity] (removeparentheses) [rectangle split, rectangle split parts=2, below=1cm of whileloop1]
+  {
+        \texttt{\textbf{2.1.}} Remove parentheses
+        \nodepart{second} \textbf{\small{FileOperator::removeParentheses}}
+  };
+
+  \draw[myarrow] (whileloop1.south) -- node [auto] {yes} (removeparentheses.north);
+
+  %%-- Split strings
+  \node[entity] (splitstring) [rectangle split, rectangle split parts=2, below=1cm of removeparentheses]
+  {
+    \texttt{\textbf{2.2.}} Split line into strings
+    \nodepart{second} \textbf{\small{FileOperator::splitString}}
+  };
+
+  \draw[myarrow] (removeparentheses.south) -- (splitstring.north);
+
+
+
+  %%-- Store action and parameters
+  \node[entity] (storestring) [below=1cm of splitstring] {\texttt{\textbf{2.3.}} Store action and parameters in list \textbf{A}};
+  \draw[myarrow] (splitstring.south) -- (storestring.north);
+
+  %%-- Arrow from storestring to the beginning of the loop
+  \draw[myarrow] (storestring.west) -- ++ (-1,0) -- ++ (0,4)  |-  ($(openplan.south)!.5!(whileloop1.north)$);
+
+  %%-- Close plan file
+  \node[entity] (closefile) [right=5cm of whileloop1] {\texttt{\textbf{3.}} Close plan file};
+  \draw[myarrow] (whileloop1.east) -- node [auto] {no} (closefile.west);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %---------- Store Parameters
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  %%-- Read list A
+  \node[entity] (readlistA) [below=1cm of closefile] {\texttt{\textbf{4.}} Read list \textbf{A}};
+  \draw[myarrow] (closefile.south) -- (readlistA.north);
+
+  %%-- Store only parameters in list B
+  \node[entity] (storeparamlistB) [rectangle split, rectangle split parts=2, below=1cm of readlistA]
+    {
+    \texttt{\textbf{5.}} Store parameters in list \textbf{B}
+    \nodepart{second} \textbf{\small{KittingPlan::storeParam}}
+  };
+  \draw[myarrow] (readlistA.south) -- (storeparamlistB.north);
+
+  %%-- Remove duplicates in list B
+  \node[entity] (removeduplicates) [rectangle split, rectangle split parts=2, below=1cm of storeparamlistB]
+  {
+    \texttt{\textbf{6.}} Remove duplicates in list \textbf{B}
+    \nodepart{second} \textbf{\small{FileOperator::removeDuplicates}}
+  };
+  \draw[myarrow] (storeparamlistB.south) -- (removeduplicates.north);
+
+
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Parse PDDL Problem File
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of removeduplicates]
+  {
+        Parse PDDL Problem File
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::parsePDDLProblem}}
+  };
+  \draw[myarrow] (removeduplicates.south) -- (parsepddl.north);
+%
+%
+%  % Start of loop For
+%  % \node[ForLoop] (startloop) [rectangle split, rectangle split parts=2, below=1cm of readplan]
+%  %  {
+%  %        \textbf{For each line in the plan file}
+%  %        \nodepart{second}test
+%  %  };
+%
+%
+
+\end{tikzpicture}
+}
+\caption{Process for parsing the plan file.}
+\label{fig:parseplan}
+\end{figure}
+
+The different steps illustrated in Figure~\ref{fig:parseplan} are described below.
+
+\begin{itemize}
+\item Start: This element indicates the beginning of the execution of the whole program.
+\item[\texttt{1.}] Open plan file: The location and the name of the plan file can be found in the \textit{Config.h} file. The location of the plan file is given by \texttt{\footnotesize{\#define PLAN\_FOLDER}} and the name of the plan file is given by \texttt{\footnotesize{\#define PLAN\_FILE}}.
+\item[\texttt{2.}] Next line available ?: This while loop reads each line of the plan file and does the following commands:
+\begin{itemize}
+\item If there is a next line in the plan file
+\begin{itemize}
+\item[\texttt{2.1.}] Remove parentheses: To describe this function and the following ones, we will use the following examples which describe two lines of the plan file:\\
+    \small{(\planobj{action_A} \planobj{param_{P_1}} \planobj{param_{P_2}})} \\
+    \small{(\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}})}\\
+    The result of this function for each line is:\\
+    \small{\planobj{action_A} \planobj{param_{P_1}} \planobj{param_{P_2}}} \\
+    \small{\planobj{action_B} \planobj{param_{P_3}} \planobj{param_{P_2}} \planobj{param_{P_4}}}
+\item[\texttt{2.2.}] Split line into strings: Each line of the plan file is then split into separate strings.
+
+\item[\texttt{2.3.}] Store action and parameters in list \textbf{A}: Each line is stored in list \textbf{A} defined by \textbf{\footnotesize{KittingPlan::m\_actionParamList}}. Using our example the result of this function is:\\
+    list \textbf{A}: \small{\planobj{<<action_A,param_{P_1},param_{P_2}><action_B,param_{P_3},param_{P_2},param_{P_4}>>}}
+\end{itemize}
+\item If there is a next line in the plan file
+\begin{itemize}
+\item[\texttt{3.}] Close plan file
+\end{itemize}
+\end{itemize}
+\item[\texttt{4.}] Read list \textbf{A}
+\item[\texttt{5.}] Store parameters in list \textbf{B}: All parameters present in list \textbf{A} are stored in list \textbf{B}. List \textbf{B} is defined by (\textbf{\small{KittingPlan::m\_paramList}}). The result of this function generates:\\ \small{\planobj{<param_{P_1},param_{P_2},param_{P_3},param_{P_2},param_{P_4}>}}
+\item[\texttt{6.}] Remove duplicates in list \textbf{B}: Duplicates are removed from list \textbf{B}. In the example, \planobj{param_{P_2}} appears twice. The result returns the following list:\\
+    list \textbf{B}: \small{\planobj{<param_{P_1},param_{P_3},param_{P_2},param_{P_4}>}}
+\item Parse PDDL Problem File: This process is used to parse the PDDL problem file in order to retrieve the type of each parameter in list \textbf{B}. Section~\ref{parseproblem} gives a deeper description of this process.
+\end{itemize}
+
+\newpage
+\section{Parse the PDDL Problem File}\label{parseproblem}
+This process parses the PDDL problem file and retrieves the type for each parameter stored in list \textbf{B}. This process is performed by \textbf{\small{KittingPDDLProblem::parsePDDLProblem}} and is depicted in Figure~\ref{fig:parsepddl}.
+\begin{figure}[h!t!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Parse PDDL Problem File
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  %%-- Process for parsing the PDDL problem file
+  \node[MainAttribute] (parsepddl) [rectangle split, rectangle split parts=2, below=1cm of parseplan]
+  {
+        Parse PDDL problem file
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::parsePDDLProblem}}
+  };
+
+ %% Open the PDDL problem file
+ \node[entity] (openpddlfile) [below=1cm of parsepddl] {\texttt{\textbf{1.}} Open PDDL problem file};
+ \draw[myarrow] (parsepddl.south) -- (openpddlfile.north);
+
+ %% Read PDDL problem file into memory
+ \node[entity] (memory) [below=1cm of openpddlfile] {\texttt{\textbf{2.}} Store PDDL problem file into string};
+ \draw[myarrow] (openpddlfile.south) -- (memory.north);
+
+ \node[entity] (readlistB) [below=1cm of memory] {\texttt{\textbf{3.}} Read list \textbf{B}};
+  \draw[myarrow] (memory.south) -- (readlistB.north);
+
+ % Read first parameter
+  \node[ForLoop] (firstparam) [below=1cm of readlistB] {\texttt{\textbf{4.}} Get first parameter};
+  \draw[myarrow] (readlistB.south) -- (firstparam.north);
+
+%%-- insidefor
+  \node[relationship] (forloop) [below=1cm of firstparam] {\texttt{\textbf{5.}} Parameter exists?};
+  \draw[myarrow] (firstparam.south) -- (forloop.north);
+
+
+  \node[entity] (findparamPDDL) [rectangle split, rectangle split parts=2, below=1cm of forloop]
+  {
+        \texttt{\textbf{5.1.}} Find parameter in PDDL file
+        \nodepart{second} \textbf{\small{KittingPDDLProblem::findParam}}
+  };
+  \draw[myarrow] (forloop.south) -- node [auto] {yes} (findparamPDDL.north);
+
+   \node[entity] (findline) [rectangle split, rectangle split parts=2, below=1cm of findparamPDDL]
+   {
+     \texttt{\textbf{5.2.}} Find type of parameter in PDDL file
+     \nodepart{second} \textbf{\small{KittingPDDLProblem::findParamType}}
+   };
+  \draw[myarrow] (findparamPDDL.south) -- (findline.north);
+
+  \node[entity] (storeparamtype) [below=1cm of findline] {\texttt{\textbf{5.3.}} Store parameter and type in list \textbf{C}};
+  \draw[myarrow] (findline.south) -- (storeparamtype.north);
+
+  %%-- Next parameter
+  \node[ForLoop] (nextparam) [below=1cm of storeparamtype] {\texttt{\textbf{5.4.}} Next parameter};
+  \draw[myarrow] (storeparamtype.south) -- (nextparam.north);
+  \draw[myarrow] (nextparam.west) -- ++ (-3,0) -- ++ (0,4)  |-  ($(firstparam.south)!.5!(forloop.north)$);
+
+  \node[entity] (closefile) [right=5cm of forloop] {\texttt{\textbf{6.}} Close PDDL problem file};
+  \draw[myarrow] (forloop.east) -- node [auto] {no} (closefile.west);
+
+  \node[MainAttribute] (canonicalr) [rectangle split, rectangle split parts=2, below=1cm of closefile]
+  {
+        Generate canonical robot commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::interpretPlan}}
+  };
+
+  \draw[myarrow] (closefile.south) -- (canonicalr.north);
+
+\end{tikzpicture}
+}
+\caption{Process for parsing the PDDL problem file.}
+\label{fig:parsepddl}
+\end{figure}
+
+The different steps illustrated in Figure~\ref{fig:parsepddl} are described below.
+\begin{itemize}
+\item[\texttt{1.}] Open PDDL Problem file: The location and the name of the PDDL problem file can be found in the \textit{Config.h} file. The location of the PDDL problem file is given by \texttt{\footnotesize{\#define PDDL\_FOLDER}} and the name of the problem file is given by \texttt{\footnotesize{\#define PDDL\_PROBLEM}}.
+\item[\texttt{2.}] Store PDDL problem file into string: The entire PDDL problem file is read and stored in memory (string).
+\item[\texttt{3.}] Read list \textbf{B}.
+\item[\texttt{4.}] Get the first parameter in list \textbf{B}.
+\item[\texttt{5.}] Parameter exists ?: If the parameter exists, do the following:
+\begin{itemize}
+\item[\texttt{5.1.}] Find parameter in PDDL problem file: This function retrieves the first occurrence of the parameter in the PDDL problem file. The first occurrence of the parameter appears in the \planobj{:objects} section of the problem file. An excerpt the \planobj{:objects} section for our example is given below:\\
+{\scriptsize{1.}}\planobj{(:objects}\\
+{\scriptsize{2.}}\hspace*{5mm}\planobj{param_{P_1} - type_A}\\
+{\scriptsize{3.}}\hspace*{5mm}\planobj{param_{P_2} - type_B}\\
+{\scriptsize{4.}}\hspace*{5mm}\planobj{param_{P_3} - type_C}\\
+{\scriptsize{5.}}\hspace*{5mm}\planobj{param_{P_4} - type_D}\\
+{\scriptsize{6.}}\planobj{)}
+
+%\begin{minipage}{.5\paperwidth}
+%\begin{mylisting}
+%\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\small,numbersep=3pt]
+%(define (problem kitting-problem)
+%  (:domain kitting-domain)
+%  (:objects
+%     Object_1 - Type_A
+%	 Object_2 - Type_B
+%	 Object_3 - Type_C
+%	 Object_4 - Type_D
+%     ...
+%  )
+%\end{Verbatim}
+%\end{mylisting}
+%\end{minipage}
+
+This function returns a \verb!C++! \texttt{map<string,int>}, where the first element is the parameter and the second element is the line where the parameter was found in the problem file. According to our example, this function returns the following map:\\
+\small{\planobj{<<param_{P_1},2><param_{P_3},4><param_{P_2},3><param_{P_4},5>>}}
+\item[\texttt{5.2.}] Find type of parameter in PDDL problem file: This function takes as input the \texttt{map} generated in the previous step and the PDDL problem file. For each line number in \texttt{map<string,int>}, the PDDL problem file is read again until the line number is reached. The last element of the line (type of the parameter) in the PDDL file is retrieved.
+\item[\texttt{5.3.}] Store parameter in list \textbf{C}: The parameter and its type are stored in list \textbf{C} which is a \verb!C++! \texttt{map<string,string>}. The first element of \texttt{map<string,string>} is the parameter and the second element is its type. list \textbf{C} is defined with \textbf{\footnotesize{KittingPDDLProblem::m\_ParamType}}. In our example, the result of this function will be:\\
+    \small{\planobj{<<param_{P_1},type_A><param_{P_3},type_C><param_{P_2},type_B><param_{P_4},type_D>>}}
+\end{itemize}
+\item[\texttt{6.}] Close PDDL problem file.
+\item Generate canonical robot commands: This process generates the canonical robot commands for each action found in the plan file. More information on this process can be found in section~\ref{robotcommands}.
+
+\end{itemize}
+
+
+
+\newpage
+\section{Generate Canonical Robot Commands}\label{robotcommands}
+
+\begin{figure}[h!t!]
+\centering
+\scalebox{.65}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Generate canonical robot commands 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[MainAttribute] (canonical) [rectangle split, rectangle split parts=2]
+  {
+        Generate canonical robot commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::interpretPlan}}
+  };
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Create output file
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (outputfile) [below=1cm of canonical] {\texttt{\textbf{1.}} Create output file};
+  \draw[myarrow] (canonical.south) -- (outputfile.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Write InitCanon and EndCanon
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (initend) [below=1cm of outputfile] {\texttt{\textbf{2.}} Write \texttt{InitCanon} and \texttt{EndCanon}};
+  \draw[myarrow] (outputfile.south) -- (initend.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Read list A
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (readlistA) [below=1cm of initend] {\texttt{\textbf{3.}} Read list \textbf{A}};
+  \draw[myarrow] (initend.south) -- (readlistA.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- For Loop
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[ForLoop] (firstelement) [below=1cm of readlistA] {\texttt{\textbf{4.}} Get first element};
+  \draw[myarrow] (readlistA.south) -- (firstelement.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Element exists ?
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[relationship] (forloop) [below=1cm of firstelement] {\texttt{\textbf{5.}} Element exists ?};
+  \draw[myarrow] (firstelement.south) -- (forloop.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Get action name and parameters
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (actionparam) [below=1cm of forloop] {\texttt{\textbf{5.1.}} Get action name and parameters};
+  \draw[myarrow] (forloop.south) -- node [auto] {yes} (actionparam.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Interpret actions
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (interpret) [rectangle split, rectangle split parts=2, below=1cm of actionparam]
+  {
+        \texttt{\textbf{5.2.}} Interpret action
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::actionInterpreter}}
+  };
+  \draw[myarrow] (actionparam.south) -- (interpret.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Get parameter information from the database
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (database) [below=1cm of interpret] {\texttt{\textbf{5.3.}} Get parameter information from database};
+  \draw[myarrow] (interpret.south) -- (database.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Generate canonical robot commands
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (canonical) [rectangle split, rectangle split parts=2, below=1cm of database]
+  {
+        \texttt{\textbf{5.4.}} Generate canonical commands
+        \nodepart{second} \textbf{\small{CanonicalRobotCommand::print\_COMMAND}}
+  };
+  \draw[myarrow] (database.south) -- (canonical.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Write canonical commands in output file
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[entity] (writefile) [rectangle split, rectangle split parts=2, below=1cm of canonical]
+  {
+        \texttt{\textbf{5.5.}} Write canonical commands in output file
+        \nodepart{second} \textbf{\small{FileOperator::writeData}}
+  };
+  
+  
+  \draw[myarrow] (canonical.south) -- (writefile.north);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- Next Element
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[ForLoop] (nextelement) [below=1cm of writefile] {\texttt{\textbf{6.}} Next element};
+  \draw[myarrow] (writefile.south) -- (nextelement.north);
+  \draw[myarrow] (nextelement.west) -- ++ (-5,0) -- ++ (0,4)  |-  ($(firstelement.south)!.5!(forloop.north)$);
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %--------------- End
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \node[cloud] (end) [right=3cm of forloop] {\textbf{End}};
+  \draw[myarrow] (forloop.east) -- node [auto] {no} (end.west);
+
+\end{tikzpicture}
+}
+\caption{Process for generating canonical robot commands.}
+\label{fig:canonical}
+\end{figure}
+
+The different steps illustrated in Figure~\ref{fig:canonical} are used to generate canonical robot commands and are described below.
+\begin{itemize}
+\item[\texttt{1.}] Create output file: This step creates the output file that will contain a set of canonical robot commands. This output file will be used by the controller to build kits. The output file creation is performed by \textbf{\footnotesize{FileOperator::createOutputFile}}. First, the name of the output file is retrieved by \textbf{\footnotesize{FileOperator::getCanonFile}}. The location of the output file is given by \texttt{\footnotesize{\#define ROBOT\_COMMANDS\_FOLDER}} and the name of the output file is given by \texttt{\footnotesize{\#define ROBOT\_COMMANDS\_FILE}}, both defined in \textit{\footnotesize{Config.h}}. If the output file already exists, from a previous execution of the program, the old file is deleted and a new one is created. If the output file does not exist, it will be created.
+\item[\texttt{2.}] Write \texttt{InitCanon} and \texttt{EndCanon}: Since all sets of canonical robot commands start with \texttt{InitCanon} and end with \texttt{EndCanon}, this step write these two robot commands in the output file created in step \texttt{1.}
+\item[\texttt{3.}] Read list \textbf{A}: In this step, the function \textbf{\footnotesize{CanonicalRobotCommand::interpretPlan}} reads list \textbf{A}, created in the parse plan process (see section~\ref{ss:parseplan}).
+\item[\texttt{4.}] Get first element: The first element of list \textbf{A} is retrieved. Each element of this list includes the name of the PDDL action and the parameters used by this action.
+\item[\texttt{5.}] Element exists ?: If the element (first or next) exists, do the following:
+\begin{itemize}
+\item[\texttt{5.1.}] Get action name and parameters: The name of the action and its related parameters are retrieved.
+\item[\texttt{5.2.}] Interpret action: In this step, the name of the action is used to call the corresponding \verb!C++! function. The following table displays available PDDL actions and their corresponding \verb!C++! functions.\\
+    \begin{center}
+    \begin{tabular}{ l|l }
+  \textit{PDDL Actions} & \textit{C++ Functions} \\
+  \hline
+  \stvar{take-kit-tray} & \textbf{\footnotesize{CanonicalRobotCommand::take\_kit\_tray}}\\
+  \stvar{put-kit-tray} & \textbf{\footnotesize{CanonicalRobotCommand::put\_kit\_tray}}\\
+  \stvar{take-kit} & \textbf{\footnotesize{CanonicalRobotCommand::take\_kit}}\\
+  \stvar{put-kit} & \textbf{\footnotesize{CanonicalRobotCommand::put\_kit}}\\
+  \stvar{take-part} & \textbf{\footnotesize{CanonicalRobotCommand::take\_part}}\\
+  \stvar{put-part} & \textbf{\footnotesize{CanonicalRobotCommand::put\_part}}\\
+  \stvar{attach-eff} & \textbf{\footnotesize{CanonicalRobotCommand::attach\_eff}}\\
+  \stvar{remove-eff} & \textbf{\footnotesize{CanonicalRobotCommand::remove\_eff}}\\
+  \stvar{create-kit} & \textbf{\footnotesize{CanonicalRobotCommand::create\_kit}}
+  \end{tabular}
+  \end{center}
+  
+  The details for each function can be found in the \texttt{doxygen-interpreter.pdf} file.
+\item[\texttt{5.3.}] Get parameter information from database: Once one of the functions in step \texttt{5.2.} is called, a connection is made to the MySQL database to retrieve information on the parameters. The description of the \verb!C++! functions used to access and query the MySQL database is not in the scope of this paper. The user can have more information about this by looking at the files in the \texttt{src/database} directory.
+\item[\texttt{5.4.}] Generate canonical commands: Canonical robot commands are generated by a set of \verb!C++! \textbf{\footnotesize{CanonicalRobotCommand::print\_COMMAND}} functions where \textbf{\footnotesize{COMMAND}} designs the name of the canonical robot command. The following table displays the canonical robot commands and their \verb!C++! counterparts.\\
+        \begin{center}
+    \begin{tabular}{ l|l }
+  \textit{Canonical Robot Commands} & \textit{C++ Functions} \\
+  \hline
+  \stvar{Dwell} & \textbf{\footnotesize{CanonicalRobotCommand::print\_dwell}}\\
+  \stvar{InitCanon} & \textbf{\footnotesize{CanonicalRobotCommand::put\_initcanon}}\\
+  \stvar{EndCanon} & \textbf{\footnotesize{CanonicalRobotCommand::print\_endcanon}}\\
+  \stvar{CloseGripper} & \textbf{\footnotesize{CanonicalRobotCommand::print\_closegripper}}\\
+  \stvar{OpenGripper} & \textbf{\footnotesize{CanonicalRobotCommand::print\_opengripper}}\\
+  \stvar{MoveTo} & \textbf{\footnotesize{CanonicalRobotCommand::put\_moveto}}
+  \end{tabular}
+  \end{center}
+  
+  We note that some PDDL actions cannot be executed since the canonical robot commands for these actions have not been implemented in the controller yet. To date, only the PDDL actions \stvar{take-part} and \stvar{put-part} can be interpreted in the canonical robot language. Below is an example of a set of canonical robot commands used for \stvar{take-part} and \stvar{put-part}.
+          \begin{center}
+    \begin{tabular}{l|l}
+  \stvar{take-part} & \stvar{put-part}\\
+  \hline
+  \texttt{\scriptsize{Message (``take part part\_b\_1")}} & \texttt{\scriptsize{Message (``put part part\_b\_1")}}\\
+  \texttt{\scriptsize{MoveTo({{-0.03, 1.62, -0.25}, {0, 0, 1}, {1, 0, 0}})}} & \texttt{\scriptsize{MoveTo({{0.269, 0.584, -0.25}, {0, 0, 1}, {1, 0, 0}})}}\\
+  \texttt{\scriptsize{Dwell (0.05)}} & \texttt{\scriptsize{Dwell (0.05)}} \\
+  \texttt{\scriptsize{MoveTo({{-0.03, 1.62, 0.1325}, {0, 0, 1}, {1, 0, 0}})}} & \texttt{\scriptsize{MoveTo({{0.269, 0.584, 0.12}, {0, 0, 1}, {1, 0, 0}})}}\\
+  \texttt{\scriptsize{CloseGripper ()}} & \texttt{\scriptsize{Dwell (0.05)}} \\
+  \texttt{\scriptsize{MoveTo({{-0.03, 1.62, -0.25}, {0, 0, 1}, {1, 0, 0}})}} & \texttt{\scriptsize{OpenGripper ()}}\\
+  \texttt{\scriptsize{Dwell (0.05)}} & \texttt{\scriptsize{MoveTo({{0.269, 0.584, -0.25}, {0, 0, 1}, {1, 0, 0}})}}
+  \end{tabular}
+  \end{center}
+\item[\texttt{5.5.}] Write canonical commands in output file: The \textbf{\footnotesize{FileOperator::writeData}} function opens the output file, write the canonical robot commands, and close the output file.
+\end{itemize}
+\item[\texttt{6.}] Next element: Go to the next element in list \textbf{A}.
+\item End: The program ends when all the canonical robot commands have been written in the output file.
+\end{itemize}

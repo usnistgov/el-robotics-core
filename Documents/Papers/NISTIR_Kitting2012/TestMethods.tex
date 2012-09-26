@@ -289,13 +289,17 @@ differences inherent in using two different languages).
 
 \subsection{Using OWL}
 
-The kitting workstation model was defined first in OWL because The IEEE RAS
+The kitting workstation model was defined first in OWL because the IEEE RAS
 Ontologies for Robotics and Automation Working Group has decided to use
 OWL, and the authors are participating in the activities of that working
-group. In addition to having the model defined in OWL, OWL data files
-describing specific initial states and goal states were defined in OWL.
-Software tools were built in C++ to work with the OWL model and data
-files conforming to the model.
+group. OWL allows the use of several different syntaxes. The
+functional-style syntax (which is the most compact one) has been used to
+write the OWL version of the kitting workstation model.
+
+In addition to having the model defined in OWL, OWL data files describing
+specific initial states and goal states were defined in OWL, also using the
+functional-style syntax.  Software tools were built in C++ to work with the
+OWL model and data files conforming to the model.
 
 The initial intent has been to use OWL files for presenting the initial and
 goal conditions for planning problems, and the authors have implemented a

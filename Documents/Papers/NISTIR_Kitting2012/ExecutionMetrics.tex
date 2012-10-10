@@ -30,57 +30,65 @@ The kitting system presented in this document relies on a \textit{direct} model 
 %The \textit{indirect} model tracks the execution of the plan while human agents perform the plan activities. Both models of execution require tools to monitor failures that are likely to emerge during a plan execution.
 
 
+%
+%\begin{figure}[h!]
+%\centering
+%\scalebox{.7}{
+%\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+%
+%  %%-- Domain file
+%  \node[attribute] (domain) {PDDL Domain};
+%  %%-- Empty node to center the planner node that comes right below it
+%  \node[empty] (empty) [right=0.5cm of domain]{};
+%  %%-- Problem file
+%  \node[attribute] (problem) [right=0.5cm of empty] {PDDL Problem};
+%  %%-- Planner
+%  \node[entity] (planner) [below=1cm of empty] {$1.$ Planner};
+%  %%-- Plan
+%  \node[attribute] (plan) [below=0.5cm of planner] {Plan};
+%  %%-- Knowledge Representation
+%  \node[output] (database) [left=1cm of plan] {Knowledge Representation};
+%  %%-- Interpreter
+%  \node[entity] (interpreter) [below=1cm of plan] {$2.$ Interpreter};
+%  %%-- CRCL
+%  \node[attribute] (crcl) [below=0.5cm of interpreter] {CRCL};
+%  %%-- Controller
+%  \node[entity] (controller) [below=0.5cm of crcl] {$3.$ Controller};
+%  %%-- ROS commands
+%  \node[entity] (ros) [below=1cm of controller] {$4.$ ROS};
+%  %%-- Robotic Arm
+%%  \node[output] (arm) [below=1cm of ros] {Robotic Arm};
+%
+%  \draw[myarrow] (domain.south) -- ++ (0,-1)  |-  (planner.west);
+%  \draw[myarrow] (problem.south) -- ++ (0,-1)  |-  (planner.east);
+%  \draw[myarrow] (planner.south) -- (plan.north);
+%  \draw[myarrow] (plan.south) -- (interpreter.north);
+%  \draw[myarrow] (interpreter.south) -- (crcl.north);
+%  \draw[myarrow] (crcl.south) -- (controller.north);
+%  \draw[myarrow] (controller.south) -- (ros.north);
+%  %\draw[myarrow] (ros.south) -- (arm.north);
+%  %\draw[thick,decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
+%  %     (4.5,-10) -- (4.5,-4.2) node[midway, right=15pt]{Executor};
+%  \draw[myarrow] (database.south) -- ++ (0,-1)  |-  (interpreter.west);
+%
+%  %\draw[red,thick,dotted] ($(interpreter.north west)+(-0.5,0.6)$)  rectangle ($(controller.south east)+(0.5,-0.6)$) node [rotate=90, right=of interpreter] {Executor};
+%  \draw[red,thick,dotted] ($(interpreter.north west)+(-0.5,0.6)$)  rectangle ($(controller.south east)+(0.5,-0.6)$);
+%
+%\end{tikzpicture}
+%}
+%\caption{The executor process.}
+%\label{fig:executor}
+%\end{figure}
 
-\begin{figure}[h!]
-\centering
-\scalebox{.7}{
-\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
 
-  %%-- Domain file
-  \node[attribute] (domain) {PDDL Domain};
-  %%-- Empty node to center the planner node that comes right below it
-  \node[empty] (empty) [right=0.5cm of domain]{};
-  %%-- Problem file
-  \node[attribute] (problem) [right=0.5cm of empty] {PDDL Problem};
-  %%-- Planner
-  \node[entity] (planner) [below=1cm of empty] {$1.$ Planner};
-  %%-- Plan
-  \node[attribute] (plan) [below=0.5cm of planner] {Plan};
-  %%-- Knowledge Representation
-  \node[output] (database) [left=1cm of plan] {Knowledge Representation};
-  %%-- Interpreter
-  \node[entity] (interpreter) [below=1cm of plan] {$2.$ Interpreter};
-  %%-- CRCL
-  \node[attribute] (crcl) [below=0.5cm of interpreter] {CRCL};
-  %%-- Controller
-  \node[entity] (controller) [below=0.5cm of crcl] {$3.$ Controller};
-  %%-- ROS commands
-  \node[entity] (ros) [below=1cm of controller] {$4.$ ROS};
-  %%-- Robotic Arm
-%  \node[output] (arm) [below=1cm of ros] {Robotic Arm};
 
-  \draw[myarrow] (domain.south) -- ++ (0,-1)  |-  (planner.west);
-  \draw[myarrow] (problem.south) -- ++ (0,-1)  |-  (planner.east);
-  \draw[myarrow] (planner.south) -- (plan.north);
-  \draw[myarrow] (plan.south) -- (interpreter.north);
-  \draw[myarrow] (interpreter.south) -- (crcl.north);
-  \draw[myarrow] (crcl.south) -- (controller.north);
-  \draw[myarrow] (controller.south) -- (ros.north);
-  %\draw[myarrow] (ros.south) -- (arm.north);
-  %\draw[thick,decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-  %     (4.5,-10) -- (4.5,-4.2) node[midway, right=15pt]{Executor};
-  \draw[myarrow] (database.south) -- ++ (0,-1)  |-  (interpreter.west);
-
-  %\draw[red,thick,dotted] ($(interpreter.north west)+(-0.5,0.6)$)  rectangle ($(controller.south east)+(0.5,-0.6)$) node [rotate=90, right=of interpreter] {Executor};
-  \draw[red,thick,dotted] ($(interpreter.north west)+(-0.5,0.6)$)  rectangle ($(controller.south east)+(0.5,-0.6)$);
-
-\end{tikzpicture}
-}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=8cm]{images/executor.jpg}
 \caption{The executor process.}
 \label{fig:executor}
+\end{center}
 \end{figure}
-
-
 
 During execution, kitting fails to reach its full potential for savings when the supply chain fails and parts and components are not available for kit construction, or when a kit is not properly filled. Part availability failures can be triggered by inaccurate information on the location of the part or part shortage due to delays in internal logistics. Kit construction errors may be due to problems such as improper equipment setup, improper equipment maintenance, part damage, wrong type of part, or part dropped by the robot.
 

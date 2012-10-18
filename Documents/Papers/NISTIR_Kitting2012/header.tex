@@ -32,7 +32,7 @@
 \usepackage{fancyvrb}
 \usepackage{multicol}
 \usepackage{mdwlist}
-\usepackage{tikz-er2}
+%\usepackage{tikz-er2}
 
 
 \newtheorem{defn}{Definition}
@@ -47,50 +47,50 @@
 \newcommand\T{\rule{0pt}{2.6ex}}
 \newcommand\B{\rule[-1.2ex]{0pt}{0pt}}
 
-\definecolor{violetred}{cmyk}{0,0.85,0.31,0.18}
-\definecolor{darkblue}{cmyk}{1,1,0,0.45}
-\definecolor{lavenderblush4}{cmyk}{0,0.06,0.04,0.45}
-\definecolor{packergreen}{cmyk}{0.46,0,0.21,0.76}
-\definecolor{fuschia}{cmyk}{0,100,0,0}
-\definecolor{graycmyk}{cmyk}{0,0,0,0.74}
-
-\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
-    decorations.pathreplacing,decorations.pathmorphing,shapes,%
-    matrix,shapes.symbols,positioning,shadows}
-
-% styles for flowcharts
-
-\tikzstyle{every entity} = [top color=white, bottom color=blue!30,
-                            draw=blue!50!black!100, drop shadow]
-\tikzstyle{empty} = [top color=white, bottom color=white,
-                            draw=white]
-
-\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex,
-                                 shadow yshift=-.7ex}]
-\tikzstyle{every attribute} = [top color=white, bottom color=green!20,
-                               draw=green, node distance=1cm, drop shadow]
-\tikzstyle{ELLIPSE} = [draw, ellipse, top color=white, bottom color=green!20, draw=green, drop shadow]
-\tikzstyle{MainAttribute} = [draw, rectangle,top color=white, bottom color=red!20,
-                               draw=red, node distance=1cm, drop shadow]
-\tikzstyle{DATABASE} = [draw, rectangle, rounded corners,top color=white, bottom color=graycmyk!50, draw=graycmyk, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
-
-
-\tikzstyle{myarrow}=[->, >=stealth', thick, shorten <=2pt,shorten >=2pt]
-
-
-
-\tikzstyle{output} = [draw, rectangle, rounded corners,top color=white, bottom color=red!30, draw=red, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
-
-\tikzstyle{abstract}=[rectangle, draw=black, rounded corners, fill=blue!40, drop shadow,
-        text centered, anchor=north, text=white, text width=3cm]
-
-
-\newbox{\LegendOutput}
-\savebox{\LegendOutput}{
-    (\begin{tikzpicture}[]
-    \node[output] (2) {\hspace{5 mm}};
-    \end{tikzpicture}
-    )}
+%\definecolor{violetred}{cmyk}{0,0.85,0.31,0.18}
+%\definecolor{darkblue}{cmyk}{1,1,0,0.45}
+%\definecolor{lavenderblush4}{cmyk}{0,0.06,0.04,0.45}
+%\definecolor{packergreen}{cmyk}{0.46,0,0.21,0.76}
+%\definecolor{fuschia}{cmyk}{0,100,0,0}
+%\definecolor{graycmyk}{cmyk}{0,0,0,0.74}
+%
+%\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+%    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+%    matrix,shapes.symbols,positioning,shadows}
+%
+%% styles for flowcharts
+%
+%\tikzstyle{every entity} = [top color=white, bottom color=blue!30,
+%                            draw=blue!50!black!100, drop shadow]
+%\tikzstyle{empty} = [top color=white, bottom color=white,
+%                            draw=white]
+%
+%\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex,
+%                                 shadow yshift=-.7ex}]
+%\tikzstyle{every attribute} = [top color=white, bottom color=green!20,
+%                               draw=green, node distance=1cm, drop shadow]
+%\tikzstyle{ELLIPSE} = [draw, ellipse, top color=white, bottom color=green!20, draw=green, drop shadow]
+%\tikzstyle{MainAttribute} = [draw, rectangle,top color=white, bottom color=red!20,
+%                               draw=red, node distance=1cm, drop shadow]
+%\tikzstyle{DATABASE} = [draw, rectangle, rounded corners,top color=white, bottom color=graycmyk!50, draw=graycmyk, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
+%
+%
+%\tikzstyle{myarrow}=[->, >=stealth', thick, shorten <=2pt,shorten >=2pt]
+%
+%
+%
+%\tikzstyle{output} = [draw, rectangle, rounded corners,top color=white, bottom color=red!30, draw=red, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
+%
+%\tikzstyle{abstract}=[rectangle, draw=black, rounded corners, fill=blue!40, drop shadow,
+%        text centered, anchor=north, text=white, text width=3cm]
+%
+%
+%\newbox{\LegendOutput}
+%\savebox{\LegendOutput}{
+%    (\begin{tikzpicture}[]
+%    \node[output] (2) {\hspace{5 mm}};
+%    \end{tikzpicture}
+%    )}
 
 
 \newenvironment{mylisting}

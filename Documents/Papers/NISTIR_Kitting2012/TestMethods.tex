@@ -307,13 +307,13 @@ goal conditions for planning problems, and the authors have implemented a
 planning system that uses OWL files.
 
 The primary tool used by the OWL community for building and checking OWL
-models and data files is named Protege \cite{Horridge.2011}. Protege was
+models and data files is named Prot\'{e}g\'{e} \cite{Horridge.2011}.  Prot\'{e}g\'{e} was
 used for checking the kitting model and data files as they were
-built. Protege continues to be used for checking the model and data files
+built.  Prot\'{e}g\'{e} continues to be used for checking the model and data files
 whenever they are changed. The layout of the hierarchy in
 Figure~\ref{fig:ClassHierarchy} is identical to what may be seen in
-Protege's class hierarchy window when the kitting model is loaded (but
-Protege makes it look better).
+ Prot\'{e}g\'{e}'s class hierarchy window when the kitting model is loaded (but
+ Prot\'{e}g\'{e} makes it look better).
 
 Several difficulties of working with OWL were encountered. The primary
 effect of these difficulties was to make it essentially impossible to
@@ -367,13 +367,13 @@ complex than that. Hence, many OWL statements are required to produce
 effects made in a few statements in other object-oriented languages. Having
 to write a lot of statements is tedious but not a roadblock. A more serious
 problem is that if a statement necessary to produce an object-oriented
-effect is omitted, that is not an OWL error. Protege does not have an
+effect is omitted, that is not an OWL error.  Prot\'{e}g\'{e} does not have an
 object-oriented mode in which it will warn the user if a required statement
 is missing. There are no OWL tools that will help with finding missing
 statements. This is a debugging problem.
 
 OWL was built so that it would support automated reasoning about the
-relationships among properties, classes, and individuals. Protege allows
+relationships among properties, classes, and individuals.  Prot\'{e}g\'{e} allows
 the use of several alternate automatic reasoners. In a typical
 object-oriented style, there is no use for reasoning of that sort.
 Everything useful to know about the relationships among properties,
@@ -386,27 +386,27 @@ for the kitting model.\\
 OWL makes an ``open world'' assumption.  In an open world, anything might
 be true that is not explicitly declared false and is not inconsistent with
 what has been declared true. This makes it easy for errors to go
-unrecognized as such by Protege (or any other OWL tool). For example,
+unrecognized as such by  Prot\'{e}g\'{e} (or any other OWL tool). For example,
 suppose the line \sf DataPropertyDomain(:hasPoint\_X :Point) \rm given
 above is mistyped as \sf DataPropertyDomain(:hasPoint\_x :Point) \rm. When
-Protege loads the file and the reasoner is started, no errors are
-detected. Protege assumes that the DataPropertyDomain for \sf hasPoint\_X
-\rm is unknown (that's fine in OWL and Protege) and that there is a new
+ Prot\'{e}g\'{e} loads the file and the reasoner is started, no errors are
+detected.  Prot\'{e}g\'{e} assumes that the DataPropertyDomain for \sf hasPoint\_X
+\rm is unknown (that's fine in OWL and  Prot\'{e}g\'{e}) and that there is a new
 property named \sf hasPoint\_x \rm about which the only thing known is its
-DataPropertyDomain (also fine in OWL and Protege, even though there is no
+DataPropertyDomain (also fine in OWL and  Prot\'{e}g\'{e}, even though there is no
 explicit DataProperty declaration for the new property). The error can be
 detected by a human by studying the list provided by selecting the
-DataProperties tab in Protege, but the human should not have to go to such
+DataProperties tab in  Prot\'{e}g\'{e}, but the human should not have to go to such
 lengths. Similar errors, such as mistyping the name of an individual, are
-similarly accepted in OWL and Protege as being OK, with similar effects.
+similarly accepted in OWL and  Prot\'{e}g\'{e} as being OK, with similar effects.
 The difficulties caused by the open world assumption would not occur if
-Protege had a closed world mode, but it has none.\\
+ Prot\'{e}g\'{e} had a closed world mode, but it has none.\\
 
 \subsubsection{Model Files vs. Data Files}
 
 While other languages have different file formats for models and
 data conforming to the models, OWL does not distinguish between model files
-and data files. Protege does not provide any method of specifying that a
+and data files.  Prot\'{e}g\'{e} does not provide any method of specifying that a
 file is a model file or a data file. The conceptual difference is simple,
 even in OWL. Model files describe classes and data types (and, possibly,
 constraints). Data files give information about individuals (instances of
@@ -521,8 +521,8 @@ demonstration was achieved as follows.
 After the testing just described was complete, using the owlPrinter,
 another OWL data file was prepared from a manually written XML data file
 for which there was no manually written OWL counterpart. The automatically
-generated OWL data file was checked in Protege and no errors were reported
--- although as described earlier, being OK in Protege does provide much
+generated OWL data file was checked in  Prot\'{e}g\'{e} and no errors were reported
+-- although as described earlier, being OK in  Prot\'{e}g\'{e} does provide much
 assurance of correctness.
 
 Once the owlPrinter has been debugged, as it appears to be, OWL data files

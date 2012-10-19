@@ -15,7 +15,7 @@
 
 (:predicates
 	
-	;TRUE iff ?endeffector is attached to ?robotobot
+	;TRUE iff ?endeffector is attached to ?robot
 	(endeffector-location-robot ?endeffector - EndEffector ?robot - Robot)	
 		
 	;TRUE iff ?endeffector is in ?endeffectorholder

@@ -4,9 +4,9 @@
 0
 1
 kitting.tex
-11
-8
-2
+13
+13
+12
 
 
 
@@ -14,49 +14,57 @@ kitting.tex
 
 
 kitting.tex
-TeX:UNIX
-135278587 0 -1 258 -1 266 0 0 1003 267 0 25 272 -1 -1 0 0 29 -1 -1 29 1 0 266 -1   0
-Appendix.tex
 TeX
-1060859 0 -1 10320 -1 10318 25 25 1028 292 0 25 238 -1 -1 0 0 18 -1 -1 18 1 0 10318 -1   0
-S-state-variable.tex
-TeX:UNIX
-269496315 0 -1 14944 -1 14944 75 75 1078 342 0 1097 238 -1 -1 0 0 39 -1 -1 39 1 0 14944 -1   0
-kitting-ref.bib
-BibTeX:UNIX
-1049586 0 0 1 17 2 66 87 924 425 0 33 289 -1 -1 0 0 16 0 0 16 1 0 2 17   0
+135278587 0 -1 624 -1 624 0 0 1072 345 0 25 340 -1 -1 0 0 44 -1 -1 44 1 0 624 -1   0
 header.tex
-TeX:UNIX
-1060859 0 -1 2038 -1 1974 100 100 1103 367 0 137 119 -1 -1 0 0 60 -1 -1 60 1 0 1974 -1   0
-S-state.tex
-TeX:UNIX
-17838075 1 -1 3448 -1 3458 25 25 1028 292 0 321 272 -1 -1 0 0 25 -1 -1 25 1 0 3458 -1   0
-S-PDDL.tex
-TeX:UNIX
-1060859 0 -1 1898 -1 1898 0 0 1003 267 0 281 221 -1 -1 0 0 752 -1 -1 752 1 0 1898 -1   0
-S-Planner.tex
 TeX
-1060859 0 -1 1329 -1 1329 0 0 1003 267 0 881 425 -1 -1 0 0 17 -1 -1 17 1 0 1329 -1   0
-kitting.prj
-DATA
-273678578 0 0 1 0 1 0 0 793 381 1 73 0 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
-S-domain.tex
-TeX:UNIX
-286273531 1 -1 50 -1 0 50 50 1053 317 0 25 0 -1 -1 0 0 50 -1 -1 50 1 0 0 -1   0
-title.tex
-TeX:UNIX
-269496315 1 -1 41 -1 7 0 0 1003 267 0 81 0 -1 -1 0 0 42 -1 -1 42 1 0 7 -1   0
+1060859 0 -1 0 -1 15 25 25 1097 370 0 145 0 -1 -1 0 0 24 -1 -1 24 1 0 15 -1   0
+sty\myStyle.sty
+TeX:STY
+1060850 5 287 65 287 66 50 50 1122 395 0 545 187 -1 -1 0 0 36 0 0 36 1 0 66 287   0
+sty\titlepage.tex
+TeX
+1060859 0 -1 781 -1 1299 100 100 1172 445 0 137 374 -1 -1 0 0 -1 -1 -1 -1 1 0 1299 -1   0
+section\S-Planner.tex
+TeX
+1060859 5 -1 1427 -1 1428 25 25 1097 370 0 289 306 -1 -1 0 0 40 -1 -1 40 1 0 1428 -1   0
+bib\kitting-ref.bib
+BibTeX
+1049586 1 0 32 0 16 75 75 1147 420 0 145 0 -1 -1 0 0 -1 -1 -1 -1 1 0 16 0   0
+section\S-PDDL.tex
+TeX
+17838075 0 -1 17726 -1 17908 50 50 1122 395 0 481 2737 -1 -1 0 0 0 -1 -1 0 1 0 17908 -1   0
+section\S-domain.tex
+TeX
+1060859 0 14 3 -1 1075 125 125 1197 470 0 25 204 -1 -1 0 0 -1 -1 -1 -1 1 0 1075 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Interpreter\LaTeX-Source\executor.tex
+TeX
+1060859 0 -1 0 -1 0 125 125 1197 470 0 25 0 -1 -1 0 0 29 -1 -1 29 1 0 0 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Interpreter\LaTeX-Source\interpreter.tex
+TeX
+1060859 2 -1 3519 -1 3522 150 150 1222 495 0 465 238 -1 -1 0 0 0 -1 -1 0 1 0 3522 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Interpreter\LaTeX-Source\header.tex
+TeX
+1060859 1 -1 1724 -1 1903 0 0 1072 345 0 569 357 -1 -1 0 0 60 -1 -1 60 1 0 1903 -1   0
+section\S-state.tex
+TeX
+1060859 0 -1 7811 -1 7811 75 75 1147 420 0 25 1292 -1 -1 0 0 25 -1 -1 25 1 0 7811 -1   0
+section\S-state-variable.tex
+TeX
+269496315 5 -1 40177 -1 40178 100 100 1172 445 0 1049 238 -1 -1 0 0 39 -1 -1 39 1 0 40178 -1   0
 
 *kitting.tex
 >
 *header
-*title
-*S-domain
-*S-state-variable
-*S-state
-*S-PDDL
-*S-Planner
-*S-Generator
-*Appendix
-*kitting-ref.bib
+*sty/titlepage
+*section/contents
+*section/S-domain
+*section/S-state-variable
+*section/S-PDDL
+*section/S-Planner
+*section/S-Generator
+*section/refs
+>
+*bib/kitting-ref.bib
+<
 <

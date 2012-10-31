@@ -34,9 +34,9 @@ int main(
  char * argv[])
 {
   FILE * inFile;
-  CommandParser parser;
+  CommandParser parser; // from commandParser.hh
   std::list<CanonicalMsg *> commands; //commands read from file
-  Controller *ctrl;
+  Controller *ctrl; // from controller.hh
   void *dequeueTask = NULL;
   ulapi_integer result;
 
@@ -49,6 +49,7 @@ int main(
       return 1;
     }
 
+  // start task that reads queue and executes commands
   dequeueTask = ulapi_task_new ();
   ulapi_task_start (dequeueTask, dequeueThread, (void *) ctrl, ulapi_prio_lowest (),
 		    1);
@@ -59,6 +60,8 @@ int main(
       fprintf(stderr, "unable to open file %s for reading\n", argv[1]);
       exit(1);
     }
+
+  // read commands, parse, and place in queue
   if (parser.readCommandFile(inFile, ctrl))
     exit(1);
   fclose(inFile);

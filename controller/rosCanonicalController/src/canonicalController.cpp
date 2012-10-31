@@ -10,7 +10,7 @@
 #include "commandParser.hh"
 #include "canonicalMsg.hh"
 
-RosInf *rosControl;
+RosInf *rosControl; // from rosInf.hh
 
 void
 dequeueThread (void *arg)
@@ -44,7 +44,7 @@ dequeueThread (void *arg)
 int
 main (int argc, char* argv[])
 {
-  Controller *ctrl;
+  Controller *ctrl; // from controller.hh
   
   void *dequeueTask = NULL;
 
@@ -53,9 +53,11 @@ main (int argc, char* argv[])
   ros::start();
   rosControl = new RosInf();
   FILE * inFile;
-  CommandParser parser;
+  CommandParser parser; // from commandParser.hh
   CloseGripperMsg closeGripper;
   EndCanonMsg endCanon;
+  ulapi_integer result;
+
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures
   if (ULAPI_OK != ulapi_init (UL_USE_DEFAULT))
@@ -64,6 +66,7 @@ main (int argc, char* argv[])
       return 1;
     }
     
+  // start task that reads queue and executes commands
   dequeueTask = ulapi_task_new ();
   ulapi_task_start (dequeueTask, dequeueThread, (void *) ctrl, ulapi_prio_lowest (),
 		    1);
@@ -75,6 +78,8 @@ main (int argc, char* argv[])
       fprintf(stderr, "unable to open file %s for reading\n", argv[1]);
       exit(1);
     }
+
+  // read commands, parse, and place in queue
   if (parser.readCommandFile(inFile, ctrl))
     exit(1);
   fclose(inFile);
@@ -84,7 +89,13 @@ main (int argc, char* argv[])
   startPoint->sethasPoint_Y(0.6205);
   startPoint->sethasPoint_Z(0.3);*/
   
-  sleep(300);
+  //  sleep(300);
+  ulapi_task_join(dequeueTask, &result);
+  if( result == 0 )
+    printf( "Sucessful completion\n" );
+  else
+    printf( "Error from commandParserMain thread\n" );
+
   ros::shutdown();
   return 1;
 }

@@ -1,22 +1,32 @@
-\documentclass[12pt]{article}
-
-%-- Packages, Environments, ...
+\documentclass[letter,11pt,twoside]{article}
 \input{header}
-%-- Title
-\input{title}
 
+
+%\input {Fonts/EileenBl.fd}
 \begin{document}
-\maketitle
-\tableofcontents
-\clearpage
-\input{S-domain}
-\input{S-state-variable}
-\input{S-state}
-\input{S-PDDL}
-\input{S-Planner}
-\input{S-Generator}
-\input{Appendix}
-\bibliographystyle{asmems4}
-\bibliography{kitting-ref}
+
+%\include{Chapters/title}
+\include{sty/titlepage}
+\pagenumbering{roman} 
+%\include{Chapters/abstract-english}
+%\cleardoublepage
+%\include{Chapters/abstract-french}
+%\cleardoublepage
+
+%\include{Chapters/dedication}
+%\cleardoublepage
+\include{section/contents}
+\pagenumbering{arabic}
+\include{section/S-domain}
+\include{section/S-state-variable}
+%\include{section/S-state}
+\include{section/S-PDDL}
+\include{section/S-Planner}
+\include{section/S-Generator}
+\include{section/refs} % References
+
+\setcounter{lofdepth}{2} \listoffigures
+%\include{Chapters/subjindx} % subject index
+%\include{Chapters/authindx} % author index
 
 \end{document}

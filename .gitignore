@@ -12,3 +12,6 @@
 /Documents/Manuals/Interpreter/LaTeX-Source/executor.lof
 /Documents/Manuals/Interpreter/LaTeX-Source/interpreter.tex.sav
 /Documents/Manuals/Interpreter/LaTeX-Source/executor.ps
+*.sav
+*.lot
+/Documents/Manuals/Kitting-LaTeX/Sources/kitting.lof

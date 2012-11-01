@@ -122,6 +122,27 @@ CRCL command with cumulative values.
   they are useless. The \sf CloseGripper() \rm and \sf CloseToolChanger()
   \rm commands in Figure~\ref{fig:KittingPlan} are useless because the
   gripper and tool changer are closed in the initial conditions.\\
+  
+\item \sf Number of Object Moved Correctly (NOMC) \rm -- the number of objects
+  that were moved correctly from the parts supply to the kit.\\
+
+\item \sf Number of Objects Moved Incorrectly (NOMI) \rm -- the number of objects
+  that were moved to an incorrect position in the kit.\\
+  
+\item \sf Number of Total Objects Moved (NTOM) \rm -- the sum of NOMC and NOMI.\\
+
+\item \sf Incorrect Gripper (IG) \rm -- the wrong gripper was used to pick-up an object.\\
+
+\item \sf Joint Out of Range (JOR) \rm -- a joint of the robot was commanded to 
+  move to an out-of-limit position.\\
+
+\item \sf Weight Violation (WV) \rm -- the robot was asked to move some object that
+  violates it load capacity.\\
+  
+\item \sf Outside Work Volume (OWV) \rm -- the robot was asked to move outside its
+  work volume.\\
+  
+\item \sf Constraint Violations (CV) \rm -- the total of IG, JOR, WV and OWV.
 
 \end{itemize}
 

@@ -281,7 +281,7 @@ and the authors are not planning to attempt it. The approach would be to
 modify the GenXMiller so that the code it generates automatically would
 read XML data files and automatically generate OWL data files.
 
-\subsection{Plan Model}
+\subsection{Robot Control Language}
 \label{sect:Implementation.CRCL}
 It is desirable to have numerous commercial robot systems be able to 
 immediately execute the plan for the series of actions required to transition from the initial state
@@ -437,44 +437,46 @@ format. A C++ class model of CRCL commands has been built, and a parser has
 been built in C++ for reading CRCL files and populating
 CRCL class instances.
 
-\begin{flushleft}
-\begin{figure}[ht]
-\fbox{
-\begin{minipage}{3.2in}
-\sf
-\begin{tabbing}
-xxx\=xx\=xx\=\kill
-InitCanon()\\	
-SetLengthUnits("meter")\\
-CloseGripper()\\
-CloseToolChanger()\\
-Dwell(1.7)\\
-Message("This message is false")\\
-SetRelativeSpeed(50.0)\\
-SetAbsoluteSpeed(3.8)\\
-MoveThroughTo(\{\{\{5,0,2\}, \{0,0,1\}, \{1,0,0\}\},\\
-\>\{\{5,8,2\}, \{0,0,1\}, \{1,0,0\}\},\\
-\>\{\{7,8,2\}, \{0,0,1\}, \{1,0,0\}\}\}, 3)\\
-MoveStraightTo(\{\{4,8,2\}, \{0,0,1\}, \{1,0,0\}\})\\
-MoveTo(\{\{9,8,2\}, \{0,0,1\}, \{1,0,0\}\})\\
-OpenGripper()\\
-OpenToolChanger()\\
-SetAbsoluteAcceleration(0.95)\\
-SetAngleUnits("degree")\\
-SetEndAngleTolerance(1.3)\\
-SetEndPointTolerance(0.4)\\
-SetIntermediatePointTolerance(10.734)\\
-SetLengthUnits("mm")\\
-SetRelativeAcceleration(0.8)\\
-SetRelativeSpeed(0.75)\\
-SetRelativeAcceleration(-110)\\
-MoveStraightTo(87)\\
-EndCanon(2)\\
-\end{tabbing}
-\rm
-\end{minipage}
-}
-\caption{Kitting Plan for Testing}
-\label{fig:KittingPlan}
+\subsection{Plan Model}
+The kitting system presented in this document relies on a \textit{direct} model of execution where the executor directly performs the activities specified in the plan. Figure~\ref{fig:executor} depicts the executor process for the kitting domain where ellipses represent files, regular rectangles are used to define processes, and rounded rectangles illustrate tools. The red dashed box contains the processes part of the executor. The components in Figure~\ref{fig:executor} are described below:
+
+\begin{enumerate}
+\item PDDL domain and problem files are generated from the IEEE RAS  Ontologies for Robotics and Automation Working Group's ontology and are used by a planner to generate a plan file.
+The plan file contains a sequence of actions that can be executed from the initial state and that leads to a goal state. The actions present in the plan file are originally defined in the PDDL domain file. The initial and goal states are defined in the PDDL problem file.
+
+\item The interpreter takes the plan file as input and builds the corresponding CRCL file. The knowledge representation is required to locate objects in the environment. Table~\ref{tab:takepart} shows an example of CRCL commands generated for the PDDL action \stvar{take-part(part\_b\_1)}. Please note that the PDDL action \stvar{take-part} developed for the current kitting domain has more than one parameter. All the parameters are not relevant for the example depicted in Table~\ref{tab:takepart} and the number of parameters has been subsequently reduced for simplicity.
+
+\begin{table}[h!]
+\centering
+
+    \begin{tabular}{l}
+    \stvar{take-part(part\_b\_1)}\\
+    \hline
+    \hline
+  \texttt{\scriptsize{Message (``take part part\_b\_1")}}\\
+  \texttt{\scriptsize{MoveTo(\{\{-0.03, 1.62, -0.25\}, \{0, 0, 1\}, \{1, 0, 0\}\})}}\\
+  \texttt{\scriptsize{Dwell (0.05)}}\\
+  \texttt{\scriptsize{MoveTo(\{\{-0.03, 1.62, 0.1325\}, \{0, 0, 1\}, \{1, 0, 0\}\})}} \\
+  \texttt{\scriptsize{CloseGripper ()}} \\
+  \texttt{\scriptsize{MoveTo(\{\{-0.03, 1.62, -0.25\}, \{0, 0, 1\}, \{1, 0, 0\}\})}}\\
+  \texttt{\scriptsize{Dwell (0.05)}}\\
+  \hline
+  \end{tabular}
+\caption{An example of CRCL commands for a PDDL action.}
+  \label{tab:takepart}
+\end{table}
+
+\item The CRCL file is used by the controller in order to create ROS commands.
+
+\item The ROS commands are used by the ROS software controller for a robotic arm to initiate actual execution of actions.
+
+\end{enumerate}
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[width=8cm]{images/executordiag.jpg}
+\caption{The executor process.}
+\label{fig:executor}
+\end{center}
 \end{figure}
-\end{flushleft}
+

@@ -1,13 +1,3 @@
-\renewcommand{\topfraction}{1.0}
-\setcounter{topnumber}{100}
-
-As described in the previous section, a test method is being developed that
-will be suitable for comparing the performance of different kitting
-planning systems. The method looks at plans that are an ordered sequence
-of actions for a robot to perform. The actions are specified in terms of
-the canonical robot command language (CRCL).
-
-\subsubsection{Kitting Viewer Introduction}
 A software tool named the ``kittingViewer'' is being developed that will
 read files describing the initial state, the goal state, and the plan for
 getting from the initial state to the goal state. The kittingViewer will
@@ -23,18 +13,11 @@ input files and simulate execution of the plan file. Plan metrics are
 being calculated, and robot motion is being animated at speeds specified
 in the plan.
 
-A sample plan file is shown in Figure~\ref{fig:KittingPlan}. The file is
-designed for exercising the kittingViewer and is not intended to make sense
-as a plan. It includes a few intentional errors.
-
 Figure~\ref{fig:KittingViewer} shows the kittingViewer display at its
 current state of development. The display uses three windows, labeled
 Metrics \& Settings, Kitting Viewer, and Kitting Command. The windows may
 be moved and resized independently, like other windows in a typical
-windowing system. The image in the Kitting Viewer window resizes when the
-window is resized, but the text in the other two windows does not
-change size when the windows change size, so there is little point in
-resizing them.
+windowing system. 
 
 The Kitting Viewer window shows a view of the kitting workstation. The
 floor of the workstation is covered with a grid. The spacing of the grid is
@@ -49,84 +32,40 @@ shown (in color) and will move if the robot moves them.
 The Kitting Command window shows the currently executing command or the
 most recently executed command, if no command is currently executing.
 
-\begin{figure*}[ht]
-\begin{center}
-\includegraphics[width=16cm]{images/kittingViewer.jpg}
-\caption{Kitting Viewer Display}
-\label{fig:KittingViewer}
-\end{center}
-\end{figure*}
-
-\subsubsection{Kitting Viewer Metrics}
 The Metrics \& Settings window shows 9 metrics at the top and 14 settings
 below that. All but three of the settings correspond to items that may be
 set using CRCL commands. The extra three are the grid spacing and the robot
 maximum speed and maximum acceleration (which may not be reset). As
 commands are executed, metrics and settings are updated in the window.
 When the kittingViewer is completed, there will be more metrics.
-Currently, the metrics are:\\
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[width=8cm]{images/kittingViewer.jpg}
+\caption{Kitting Viewer Display}
+\label{fig:KittingViewer}
+\end{center}
+\end{figure}
 
-\begin{itemize}
-
-\item \sf action commands executed \rm -- the number of action commands that
-  have been executed so far. An action command is any command that takes
-  time to execute, namely: Dwell, MoveStraightTo, MoveThroughTo, MoveTo,
-  OpenGripper, CloseGripper, OpenToolChanger, and CloseToolChanger.\\
-
-\item \sf other commands executed \rm -- the number of commands that are
-  not action commands and have been executed so far -- mostly setting
-  commands. Executing these commands is assumed to take a negligible amount
-  of time.\\
-
-\item \sf total distance moved \rm -- the total distance covered so
-  far. This is calculated as the total of the distances between points in
-  the move commands, taken in order (and starting at the place where the
-  controlled point is located initially). The value is updated as each point
-  is reached, not continuously.\\
-
-\item \sf total execution time \rm -- the total time taken so far by
-  executing action commands. This does not include any time that may elapse
-  between when one command finishes execution and when the user tells the
-  kittingViewer to execute another command. The total execution time is
-  meant to be very close to the actual amount of time that would be taken
-  by a real robot.\\
-
-\item \sf range errors \rm -- the number of times a command tries to set a
-  value that is out of the allowed range of the value. If a range error
+\subsection{Errors}
+In order to fully evaluate an input file, many planning errors are noted, but
+ignored.
+ If a range error
   occurs, an error message is printed in the terminal window from which the
   kittingViewer was started. The \sf SetRelativeAcceleration(-110) \rm
   command in Figure~\ref{fig:KittingPlan} causes two range errors, one
   because it is negative, and one because its absolute value is greater
-  than 100.\\
-
-\item \sf parse errors \rm -- the number of lines in the CRCL command file
-  that cause an error in the command file parser. When the parser
-  encounters a line that it cannot parse, it adds an UnreadableMsg to the
-  list of commands it has parsed. The UnreadableMsg includes the text of
-  the line on which the parse error occurred. When the UnreadableMsg is
+  than 100.
+  
+  When the parser
+  encounters a line that it cannot parse, it adds an \sf UnreadableMsg \rm to the
+  list of commands it has parsed. The \sf UnreadableMsg \rm includes the text of
+  the line on which the parse error occurred. When the \sf UnreadableMsg \rm is
   executed, the value of parse errors is increased by one and the
-  UnreadableMsg is displayed in the Kitting Command window so the user can
+ \sf  UnreadableMsg \rm is displayed in the Kitting Command window so the user can
   see the line that caused the problem. The \sf MoveStraightTo(87) \rm
   command in Figure~\ref{fig:KittingPlan} causes a parse error.\\
-
-\item \sf command sequence errors \rm -- the number of commands that are
-  out of sequence. An InitCanon command is out of sequence if it is not the
-  first command in the file. An EndCanon command is out of sequence if it
-  is not the last command in the file. Other commands are out of sequence
-  if they occur before InitCanon or after EndCanon.\\
-
-\item \sf total errors \rm -- the sum of the range errors, parse errors,
-  and command sequence errors.\\
-
-\item \sf useless command executed \rm -- the number of commands that do
-  not change the state of the workstation. Such commands have no effect, so
-  they are useless. The \sf CloseGripper() \rm and \sf CloseToolChanger()
-  \rm commands in Figure~\ref{fig:KittingPlan} are useless because the
-  gripper and tool changer are closed in the initial conditions.\\
-
-\end{itemize}
-
-\subsubsection{Controlling Kitting Viewer}
+  
+\subsection{Controlling The Kitting Viewer}
 Controlling the kittingViewer is accomplished by using the mouse and single
 keys on the keyboard. When the kittingViewer starts up, a set of one-line
 instructions is printed in the terminal window from which the

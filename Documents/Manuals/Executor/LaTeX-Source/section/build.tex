@@ -1,0 +1,399 @@
+
+\section{Build the Executor Project Structure with Autotools}\label{section:build}
+This section provides a tutorial on  how the user can build the structure of the executor project for distribution.
+\subsection{Generate the Default Structure}\label{subsection:default}
+
+The execution of the script \texttt{autotools.sh} generates the structure for a simple ``Hello World'' project. To create the executor project using autotools files, the following instructions can be followed:
+\begin{enumerate}
+ \item Create a directory and name it \textbf{executor}
+ \item Move the script \texttt{autotools.sh} in the directory \textbf{executor}
+ \item Run \texttt{autotools.sh} with \texttt{./ autotools.sh}
+\end{enumerate}
+
+
+The structure of the new directory is depicted in Figure~\ref{fig:default-executor}.
+%\begin{itemize}
+%\item[\IconFolder] \directory{executor}
+%  \begin{itemize}
+%    \item[\IconFolder] \directory{bin}
+%      \begin{itemize}
+%	    \item[\IconFile] Makefile.am
+%      \end{itemize}
+%    \item[\IconFolder] \directory{config}
+%      \begin{itemize}
+%	\item[\IconText] README
+%      \end{itemize}
+%    \item[\IconFolder] \directory{lib}
+%      \begin{itemize}
+%	\item[\IconFile] Makefile.am
+%      \end{itemize}
+%    \item[\IconFolder] \directory{src}
+%      \begin{itemize}
+%	\item[\IconFileCSource] main.c
+%	\item[\IconFileCSource] hello.c
+%	\item[\IconFileHeader] hello.h
+%      \end{itemize}
+%    \item[\IconText] AUTHORS
+%    \item[\IconText] NEWS
+%    \item[\IconText] README
+%    \item[\IconText] ChangeLog
+%    \item[\IconFile] acinclude.m4
+%    \item[\IconFile] autoconf.sh
+%    \item[\IconFile] configure.ac
+%    \item[\IconFile] Makefile.am
+%  \end{itemize}
+%\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[
+  grow via three points={one child at (0.5,-0.7) and
+  two children at (0.5,-0.7) and (0.5,-1.4)},
+  edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  \node[folder] {executor}
+    child { node[folder] {bin}
+        child { node {Makefile.am}}}	
+    child [missing] {}	
+    child { node[folder] {config}
+        child { node {README}}}	
+    child [missing] {}	
+    child { node[folder] {lib}
+    child { node {Makefile.am}}}
+     child [missing] {}	
+    child { node[folder] {src}
+        child { node {main.c}}
+        child { node {hello.c}}
+        child { node {hello.h}}
+    }	
+    child [missing] {}
+    child [missing] {}	
+    child [missing] {}	
+    child { node {AUTHORS}}
+    child { node {NEWS}}
+    child { node {README}}
+    child { node {ChangeLog}}
+    child { node {acinclude.m4}}
+    child { node {autoconf.sh}}
+    child { node {autotools.sh}}
+    child { node {configure.ac}}
+    child { node {Makefile.am}};
+\end{tikzpicture}
+}
+\caption{Default structure of the project executor.}
+\label{fig:default-executor}
+\end{figure}
+\subsection{Modify the Default Structure for the New Project}
+The default structure presented in section~\ref{subsection:default} needs to be modified as follows in order to include and use the source files for the executor.
+\begin{itemize}
+  \item Delete the \directory{lib} directory: We don't need this directory since the generated libraries will be stored in the same directory as the source files.
+  \item Delete \texttt{main.c}, \texttt{hello.c}, and \texttt{hello.h} in the \directory{src} directory: These files are required for a simple ``Hello World'' project and are not needed for our project.
+  \item Add \texttt{Makefile.am} in the \directory{bin} directory: This file will be used to generate the executable.
+  \item In the \texttt{src} directory:
+\begin{itemize}
+  \item Add \texttt{Makefile.am}.
+  \item Add the \directory{controller} directory with the source files.
+  \item Add the \directory{database} directory with the source files.
+    \begin{itemize}
+      \item Create \texttt{Makefile.am} in this directory.
+    \end{itemize}
+  \item Add the \directory{interpreter} directory with the source files.
+    \begin{itemize}
+      \item Create \texttt{Makefile.am} in this directory.
+    \end{itemize}
+\end{itemize}
+  \item Add the \directory{etc} directory along with the files in it.
+\item Edit \texttt{configure.ac}
+\item Create and edit the script \texttt{bootstrap.sh}.
+\end{itemize}
+
+
+The previous steps generates the new structure of the executor project as depicted in Figure~\ref{fig:new-executor}.
+%\begin{itemize}
+%\item[\IconFolder] \directory{executor}
+%  \begin{itemize}
+%    \item[\IconFolder] \directory{bin}
+%      \begin{itemize}
+%	    \item[\IconFile] Makefile.am
+%      \end{itemize}
+%    \item[\IconFolder] \directory{config}
+%      \begin{itemize}
+%	\item[\IconText] README
+%      \end{itemize}
+%    \item[\IconFolder] \directory{etc}
+%    \item[\IconFolder] \directory{src}
+%      \begin{itemize}
+%	\item[\IconFile] Makefile.am
+%	\item[\IconFolder] \directory{controller}
+%	\item[\IconFolder] \directory{database}
+%	  \begin{itemize}
+%	    \item[\IconFile] Makefile.am
+%	  \end{itemize}
+%	    \item[\IconFolder] \directory{interpreter}
+%	  \begin{itemize}
+%	    \item[\IconFile] Makefile.am
+%	  \end{itemize}
+%      \end{itemize}
+%    \item[\IconText] AUTHORS
+%    \item[\IconText] NEWS
+%    \item[\IconText] README
+%    \item[\IconText] ChangeLog
+%    \item[\IconFile] acinclude.m4
+%    \item[\IconFile] autoconf.sh
+%    \item[\IconFile] configure.ac
+%    \item[\IconFile] Makefile.am
+%  \end{itemize}
+%\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[
+  grow via three points={one child at (0.5,-0.7) and
+  two children at (0.5,-0.7) and (0.5,-1.4)},
+  edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  \node[folder] {executor}
+    child { node[folder] {bin}
+        child { node {Makefile.am}}}	
+    child [missing] {}	
+    child { node[folder] {config}
+        child { node {README}}}	
+    child [missing] {}	
+    child { node[folder] {etc}}
+    child { node[folder] {src}
+        child { node {Makefile.am}}
+        child { node[folder] {controller}}
+        child { node[folder] {database}
+            child { node {Makefile.am}}}
+        child [missing] {}
+        child { node[folder] {interpreter}
+            child { node {Makefile.am}}}
+        child [missing] {}
+    }	
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}	
+    child [missing] {}
+    child [missing] {}	
+    child [missing] {}	
+    child { node {AUTHORS}}
+    child { node {NEWS}}
+    child { node {README}}
+    child { node {ChangeLog}}
+    child { node {acinclude.m4}}
+    child { node {autoconf.sh}}
+    child { node {autotools.sh}}
+    child { node {configure.ac}}
+    child { node {Makefile.am}}
+    child { node {bootstrap.sh}};
+\end{tikzpicture}
+}
+\caption{New structure of the project executor.}
+\label{fig:new-executor}
+\end{figure}
+The rest of this section describes how to configure \texttt{configure.ac} and the different \texttt{Makefile.am} files.
+
+\subsubsection{The \texttt{configure.ac} File}
+
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#Initial information about the project
+#Our program will be called ``executor'', the version number is 1.0 and bug-reports should go to zeid.kootbally@nist.gov.
+AC_INIT([executor], [1.0], [zeid.kootbally@nist.gov])
+
+#We have to add a line AM_INIT_AUTOMAKE directly below AC_INIT.
+#This initializes the automake process.
+#AM_INIT_AUTOMAKE(executor, 1.0)
+
+#This macro simply checks for the existence of a file in the source directory.
+#This is only a safety check but should also be used every time.
+AC_CONFIG_SRCDIR([src/main.cc])
+
+#This macro call checks if a compatible C++ compiler is available.
+AC_PROG_CXX
+#It is also very helpful to check for an install program which will install the resulting binary, documentation or datafiles
+#into its corresponding directories.
+AC_PROG_INSTALL
+
+#This is required if any libraries are built in the package.
+AC_PROG_RANLIB
+
+#Use the C++ compiler for the following checks
+AC_LANG([C++])
+
+#Distribute additional compiler and linker flags among Makefiles
+# --> set and change these variables instead of CXXFLAGS or LDFLAGS (for user only)
+
+#AC_OUTPUT should substitute every occurrence of @AM_CXXFLAGS@ in input files with the values of \$AM_CXXFLAGS
+AC_SUBST([AM_CXXFLAGS])
+#AC_OUTPUT should substitute every occurrence of @AM_CPPFLAGS@ in input files with the values of \$AM_CPPFLAGS
+AC_SUBST([AM_CPPFLAGS])
+#AC_OUTPUT should substitute every occurrence of @AM_LDFLAGS@ in input files with the values of \$AM_LDFLAGS
+AC_SUBST([AM_LDFLAGS])
+#AC_OUTPUT should substitute every occurrence of @LIBS@ in input files with the values of \$LIBS
+AC_SUBST([LIBS])
+
+#Files to generate via autotools (prepare .am or .in source files)
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([src/interpreter/Makefile])
+AC_CONFIG_FILES([src/database/Makefile])
+AC_CONFIG_FILES([bin/Makefile])
+
+#Automake will look for various helper scripts, such as install-sh, in the directory named in this macro invocation.
+#If AC_CONFIG_AUX_DIR is not given, the scripts are looked in their standard locations.
+AC_CONFIG_AUX_DIR([config])
+
+#Automake initialization (mandatory) including a check for automake API version >= 1.9
+AM_INIT_AUTOMAKE([1.11])
+
+#Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([string])
+AC_CHECK_HEADERS([iostream])
+
+#Automake will generate rules to rebuild these headers
+AC_CONFIG_HEADERS([config/config.h])
+
+#Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
+
+#Checks the platform.
+ACX_HOST
+
+#Generates files that are required for building the packages.
+AC_OUTPUT
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+
+\subsubsection{executor: \texttt{Makefile.am}}
+
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#The top level Makefile.am must tell Automake which subdirectories are to be built
+SUBDIRS = src \textbackslash
+            bin
+
+# Directories needed to be distributed even though not covered in the automatic rules
+EXTRA_DIST = etc
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\subsubsection{src: \texttt{Makefile.am}}
+
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#The current Makefile.am must tell Automake which subdirectories are to be built
+SUBDIRS = database \textbackslash
+interpreter
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\subsubsection{database: \texttt{Makefile.am}}
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#Additional include pathes necessary to compile the C++ library
+AM_CXXFLAGS = -I\$(top\_srcdir)/src @AM\_CXXFLAGS@
+AM_CPPFLAGS = -I\$(top\_srcdir)/src @AM\_CPPFLAGS@
+
+#Building a non-installing library
+noinst\_LIBRARIES = libdatabase.a
+
+#Where to install the headers on the system
+libdatabase\_adir = \$(top\_srcdir)/src/database
+
+libdatabase\_a\_HEADERS = BoxVolume.h BoxyObject.h Connection.h DAO.h \textbackslash
+DataThing.h EndEffector.h EndEffectorChangingStation.h EndEffectorHolder.h \textbackslash
+GripperEffector.h Kit.h KitDesign.h KitTray.h \textbackslash
+KittingWorkstation.h LargeBoxWithEmptyKitTrays.h LargeBoxWithKits.h LargeContainer.h \textbackslash
+Part.h PartRefAndPose.h PartsBin.h PartsTray.h \textbackslash
+PartsTrayWithParts.h PhysicalLocation.h Point.h PoseLocation.h \textbackslash
+PoseLocationIn.h PoseLocationOn.h PoseOnlyLocation.h RelativeLocation.h \textbackslash
+RelativeLocationIn.h RelativeLocationOn.h Robot.h ShapeDesign.h \textbackslash
+SolidObject.h StockKeepingUnit.h VacuumEffector.h VacuumEffectorMultiCup.h \textbackslash
+VacuumEffectorSingleCup.h Vector.h WorkTable.h
+
+libdatabase\_a\_SOURCES = \$(libdatabase\_a\_HEADERS) \
+BoxVolume.cpp BoxyObject.cpp Connection.cpp DAO.cpp \textbackslash
+DataThing.cpp EndEffector.cpp EndEffectorChangingStation.cpp EndEffectorHolder.cpp \textbackslash
+GripperEffector.cpp Kit.cpp KitDesign.cpp KitTray.cpp \textbackslash
+KittingWorkstation.cpp LargeBoxWithEmptyKitTrays.cpp LargeBoxWithKits.cpp LargeContainer.cpp \textbackslash
+Part.cpp PartRefAndPose.cpp PartsBin.cpp PartsTray.cpp \textbackslash
+PartsTrayWithParts.cpp PhysicalLocation.cpp Point.cpp PoseLocation.cpp \textbackslash
+PoseLocationIn.cpp PoseLocationOn.cpp PoseOnlyLocation.cpp RelativeLocation.cpp \textbackslash
+RelativeLocationIn.cpp RelativeLocationOn.cpp Robot.cpp ShapeDesign.cpp \textbackslash
+SolidObject.cpp StockKeepingUnit.cpp VacuumEffector.cpp VacuumEffectorMultiCup.cpp \textbackslash
+VacuumEffectorSingleCup.cpp Vector.cpp WorkTable.cpp
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+
+\subsubsection{interpreter: \texttt{Makefile.am}}
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#Definition of flags during compilation
+#New flags need to be prepend to the other flags, not to append
+#-I refers to extra directories needed to build the library
+AM_CXXFLAGS = -I$(top_srcdir)/src @AM\_CXXFLAGS@
+
+#Building a non-installing library
+noinst_LIBRARIES = libinterpreter.a
+
+#Where to install the headers on the system
+libinterpreter_adir = $(top_srcdir)/src/interpreter
+
+#The list of header files that belong to the library
+libinterpreter_a_HEADERS = IniFile.h CanonicalRobotCommand.h KittingPDDLProblem.h KittingPlan.h Operator.h
+
+#The list of source files that belong to the library
+libinterpreter_a_SOURCES = $(libinterpreter_a_HEADERS) \textbackslash
+	IniFile.cc CanonicalRobotCommand.cc KittingPDDLProblem.cc KittingPlan.cc Operator.c
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\subsubsection{bin: \texttt{Makefile.am}}
+
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#Definition of flags during compilation
+#New flags need to be prepend to the other flags, not to append
+#-I refers to directories needed to build the executor
+AM_CXXFLAGS = -O3  -I$(top_srcdir)/src/ -I$(top_srcdir)/src/database -I$(top_srcdir)/src/interpreter @AM_CXXFLAGS@
+
+#The executable file
+bin_PROGRAMS = executor
+
+#Main file needed to build the executable file
+executor_SOURCES = \$(top\_srcdir)/src/main.cc
+
+#Libraries needed to build the executable
+#The most specific libraries are called before the most common ones
+executor_LDADD = -L\$(top\_srcdir)/src/database -L\$(top\_srcdir)/src/interpreter  -linterpreter -ldatabase -lmysqlcppconn
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+
+\subsubsection{The \texttt{bootstrap.sh} Script}
+The \texttt{bootstrap.sh} file contains all the tools needed to generate extra files and to build the project. More information on the roles of each tool is given in section~\ref{section:components}.
+
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
+#!/bin/sh -x
+
+aclocal && \textbackslash
+autoheader && \textbackslash
+automake --gnu --add-missing --copy && \textbackslash
+autoconf && exit 0
+
+exit 1
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}

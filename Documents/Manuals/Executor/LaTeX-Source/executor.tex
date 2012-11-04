@@ -1,0 +1,35 @@
+\documentclass[letter,12pt,twoside]{article}
+\input{header}
+
+
+%\input {Fonts/EileenBl.fd}
+\begin{document}
+\newcommand{\IconFile}{\includegraphics[width=1.5em]{Icons/file.png}}
+\newcommand{\IconFileCSource}{\includegraphics[width=1.5em]{Icons/c.png}}
+\newcommand{\IconFileHeader}{\includegraphics[width=1.5em]{Icons/h.png}}
+\newcommand{\IconFolder}{\includegraphics[width=1.5em]{Icons/folder.png}}
+\newcommand{\IconText}{\includegraphics[width=1.5em]{Icons/text.png}}
+
+%\include{Chapters/title}
+\include{sty/titlepage}
+\pagenumbering{roman}
+%\include{Chapters/abstract-english}
+%\cleardoublepage
+%\include{Chapters/abstract-french}
+%\cleardoublepage
+
+%\include{Chapters/dedication}
+%\cleardoublepage
+\include{section/contents}
+\pagenumbering{arabic}
+\setcounter{lofdepth}{2} \listoffigures
+%\include{section/introduction}
+\include{section/executor}
+\include{section/build}
+\include{section/tools}
+\include{section/compile}
+%\include{section/refs} % References
+
+
+
+\end{document}

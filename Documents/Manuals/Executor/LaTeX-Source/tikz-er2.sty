@@ -12,6 +12,7 @@ Tikz library]
 
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{arrows}
+\usetikzlibrary{trees}
 \usetikzlibrary{fit}
 
 \tikzstyle{every entity} = []
@@ -23,11 +24,19 @@ Tikz library]
 
 \tikzstyle{link} = [>=triangle 60, draw, thick, every link]
 
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+%\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{selected}=[draw=black]
+\tikzstyle{folder}=[draw=black,fill=yellow!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+
 \tikzstyle{total} = [link, double, double distance=3pt]
 
 \tikzstyle{entity} = [rectangle, draw, black, very thick,
                       minimum width=6em, minimum height=3em,
                       every entity]
+
+\tikzstyle{dummy} = [rectangle, draw=white, text=black ,minimum width=6em, minimum height=3em]
 
 \tikzstyle{weak entity} = [entity, double, double distance=2pt,
                            every weak entity]
@@ -59,7 +68,7 @@ Tikz library]
 \newcommand{\key}[1]{\underline{#1}}
 
 % for text in discriminator attributes
-\def\discriminator{\bgroup 
+\def\discriminator{\bgroup
   \ifdim\ULdepth=\maxdimen  % Set depth based on font, if not set already
    \settodepth\ULdepth{(j}\advance\ULdepth.4pt\fi
   \markoverwith{\kern.15em

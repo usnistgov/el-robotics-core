@@ -1,0 +1,230 @@
+\section{Components for Autotools}\label{section:components}
+
+This section describes all the components required by autotools to build and distribute a project.
+
+\subsection{\prog{aclocal}}
+The \prog{aclocal} program creates the file \file{aclocal.m4} by combining stock
+installed macros, user defined macros and the contents of
+\file{acinclude.m4} to define all of the macros required by \file{configure.ac}
+in a single file. \prog{aclocal} was created as a fix for some missing
+functionality in \prog{Autoconf}, and as such we consider it a wart. In due
+course \prog{aclocal} itself will disappear, and \prog{Autoconf} will perform the
+same function unaided.
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+\node[dummy] (input) {\textit{User input files}};
+\node[dummy] (optional) [right=3cm of input]{\textit{Optional input}};
+\node[dummy] (process) [right=3cm of optional]{\textit{Process}};
+\node[dummy] (output) [right=3cm of process]{\textit{Output files}};
+
+\node[dummy] (acinclude) [below=.5cm of optional] {\file{acinclude.m4}};
+\node[dummy] (configure) [below=2cm of input] {\file{configure.ac}};
+\node[entity] (aclocal) [below=2cm of process] {\prog{aclocal}};
+\node[dummy] (macro) [below=3cm of optional] {User macro files};
+\node[dummy] (aclocalm4) [right=3cm of aclocal] {\file{aclocal.m4}};
+
+\draw[myarrow] (configure.east) -- (aclocal);
+\draw[myarrow] (macro.east)-|(aclocal.south);
+\draw[myarrow] (acinclude.east)-|(aclocal.north);
+\draw[myarrow] (aclocal.east) -- (aclocalm4.west);
+\end{tikzpicture}
+}
+\caption{\prog{aclocal} process.}
+\label{fig:aclocal}
+\end{figure}
+
+\subsection{\prog{autoheader}}
+\prog{autoheader} runs m4 over \file{configure.ac}, but with key macros defined differently than when \prog{Autoconf} is executed, such that suitable cpp and cc definitions are output to \file{config.h.in}.
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+\node[dummy] (input) {\textit{User input files}};
+\node[dummy] (optional) [right=3cm of input]{\textit{Optional input}};
+\node[dummy] (process) [right=3cm of optional]{\textit{Process}};
+\node[dummy] (output) [right=3cm of process]{\textit{Output files}};
+
+\node[dummy] (aclocalm4) [below=.5cm of optional] {\file{acinclude.m4}};
+\node[dummy] (acconfig) [below=0.1cm of aclocalm4] {\file{(acconfig.h)}};
+\node[dummy] (configure) [below=3cm of input] {\file{configure.ac}};
+\node[entity] (autoheader) [below=3cm of process] {\prog{autoheader}};
+\node[dummy] (congifhin) [right=3cm of autoheader] {\file{config.h.in}};
+
+\draw[myarrow] (configure.east) -- (autoheader.west);
+\draw[myarrow] (aclocalm4.east)-|(autoheader);
+\draw[myarrow] (acconfig.east)-|(autoheader);
+\draw[myarrow] (autoheader.east) -- (congifhin.west);
+\end{tikzpicture}
+}
+\caption{\prog{autoheader} process.}
+\label{fig:aclocal}
+\end{figure}
+
+\subsection{\prog{automake} and \prog{libtoolize}}
+\prog{automake} will call \prog{libtoolize} to generate some extra files if the macro \texttt{AC\_PROG\_LIBTOOL} is used in \file{configure.ac}. If it is not present then \prog{automake} will install \file{config.guess} and \file{config.sub} by itself.
+
+\prog{libtoolize} can also be run manually if desired; \prog{automake} will only run \prog{libtoolize} automatically if \file{ltmain.sh} and \file{ltconfig} are missing.
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+\node[dummy] (input) {\textit{User input files}};
+\node[dummy] (optional) [right=3cm of input]{\textit{Optional input}};
+\node[dummy] (process) [right=3cm of optional]{\textit{Process}};
+\node[dummy] (output) [right=3cm of process]{\textit{Output files}};
+
+%input
+\node[dummy] (configure) [below=5cm of input] {\file{configure.ac}};
+\node[dummy] (makefile) [below=6cm of input] {\file{Makefile.am}};
+%process
+\node[entity] (libtoolize) [below=11cm of process] {\prog{libtoolize}};
+\node[entity] (automake) [below=10cm of process] {\prog{automake}};
+%output for automake
+\node[dummy] (copying) [below=1cm of output] {\file{COPYING}};
+\node[dummy] (install) [below=2cm of output] {\file{INSTALL}};
+\node[dummy] (installsh) [below=3cm of output] {\file{install-sh}};
+\node[dummy] (missing) [below=4cm of output] {\file{missing}};
+\node[dummy] (mkinstalldirs) [below=5cm of output] {\file{mkinstalldirs}};
+\node[dummy] (makefilein) [below=6cm of output] {\file{Makefile.in}};
+\node[dummy] (stamph) [below=7cm of output] {\file{stamp-h.in}};
+\node[dummy] (configguess1) [below=8cm of output] {\file{config.guess}};
+\node[dummy] (configsub1) [below=9cm of output] {\file{config.sub}};
+
+%output for libtoolize
+\node[dummy] (configguess2) [below=11cm of output] {\file{config.guess}};
+\node[dummy] (configsub2) [below=12cm of output] {\file{config.sub}};
+\node[dummy] (ltmain) [below=13cm of output] {\file{ltmain.sh}};
+\node[dummy] (ltconfig) [below=14cm of output] {\file{ltconfig}};
+
+%Drawing arrows
+\draw[myarrow] (configure.east)-- ++ (4,0) -- ++ (0,0)  |-(automake.west);
+\draw[myarrow] (makefile.east)-- ++ (3,0) -- ++ (0,0)  |-(automake.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(copying.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(install.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(installsh.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(missing.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(mkinstalldirs.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(makefilein.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(stamph.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(configguess1.west);
+\draw[myarrow] (automake.east)-- ++ (1,0) -- ++ (0,0)  |-(configsub1.west);
+
+\draw[myarrow] (libtoolize.east)-- ++ (1,0) -- ++ (0,0)  |-(configguess2.west);
+\draw[myarrow] (libtoolize.east)-- ++ (1,0) -- ++ (0,0)  |-(configsub2.west);
+\draw[myarrow] (libtoolize.east)-- ++ (1,0) -- ++ (0,0)  |-(ltmain.west);
+\draw[myarrow] (libtoolize.east)-- ++ (1,0) -- ++ (0,0)  |-(ltconfig.west);
+\end{tikzpicture}
+}
+\caption{\prog{automake} and \prog{libtoolize} processes.}
+\label{fig:aclocal}
+\end{figure}
+
+The versions of \file{config.guess} and \file{config.sub} installed differ
+between releases of \prog{Automake} and \prog{Libtool}, and might be different
+depending on whether \prog{libtoolize} is used to install them or not. Before
+releasing your own package you should get the latest versions of these
+files from \url{ftp://ftp.gnu.org/gnu/config}, in case there have been
+changes since releases of the GNU \prog{Autotools}.
+
+\subsection{\prog{autoconf}}
+\prog{autoconf} expands the m4 macros in \file{configure.ac}, perhaps using macro definitions from \file{aclocal.m4}, to generate the configure script.
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+\node[dummy] (input) {\textit{User input files}};
+\node[dummy] (optional) [right=3cm of input]{\textit{Optional input}};
+\node[dummy] (process) [right=3cm of optional]{\textit{Process}};
+\node[dummy] (output) [right=3cm of process]{\textit{Output files}};
+
+\node[dummy] (aclocal) [below=.5cm of optional] {\file{aclocal.m4}};
+\node[dummy] (configureac) [below=2cm of input] {\file{configure.ac}};
+\node[entity] (autoconf) [below=2cm of process] {\prog{autoconf}};
+\node[dummy] (configure) [right=3cm of autoconf] {\file{configure}};
+
+\draw[myarrow] (configureac.east) -- (autoconf);
+\draw[myarrow] (aclocal.east)-|(autoconf.north);
+\draw[myarrow] (autoconf.east) -- (configure.west);
+\end{tikzpicture}
+}
+\caption{\prog{autoconf} process.}
+\label{fig:aclocal}
+\end{figure}
+
+\subsection{\prog{configure}}
+The purpose of the preceding processes was to create the input files
+necessary for configure to run correctly. You would ship your project
+with the generated script and the files in columns, other input and
+processes (except \file{config.cache}), but configure is designed to be run
+by the person installing your package. Naturally, you will run it too
+while you develop your project, but the files it produces are specific
+to your development machine, and are not shipped with your package --
+the person installing it later will run configure and generate output
+files specific to their own machine.
+
+Running the configure script on the build host executes the various
+tests originally specified by the \file{configure.ac} file, and then
+creates another script, \file{config.status}. This new script generates the
+\file{config.h} header file from \file{config.h.in}, and \file{Makefile} from the
+named \file{Makefile.in}. Once \file{config.status} has been created, it can be
+executed by itself to regenerate files without rerunning all the
+tests. Additionally, if \texttt{AC\_PROG\_LIBTOOL} was used, then \prog{ltconfig} is
+used to generate a \file{libtool} script.
+
+\begin{figure}[h!]
+\centering
+\scalebox{.7}{
+\begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
+
+\node[dummy] (input) {\textit{User input files}};
+\node[dummy] (optional) [right=3cm of input]{\textit{Other input}};
+\node[dummy] (process) [right=3cm of optional]{\textit{Process}};
+\node[dummy] (output) [right=3cm of process]{\textit{Output files}};
+
+%other input
+\node[dummy] (configsite) [below=1cm of optional] {\file{config.site}};
+\node[dummy] (configcache1) [below=2cm of optional] {\file{config.cache}};
+\node[dummy] (confighin) [below=4.2cm of optional] {\file{config.h.in}};
+\node[dummy] (Makefilein) [below=5.2cm of optional] {\file{Makefile.in}};
+
+
+%process
+\node[entity] (configure) [below=1.5cm of process] {\prog{configure}};
+\node[entity] (configstatus1) [below=2cm of configure] {\file{config.status}};
+\node[entity] (ltconfig) [below=2cm of configstatus1] {\prog{ltconfig}};
+
+\node[dummy] (ltmainsh) [left=3cm of ltconfig] {\file{ltmain.sh}};
+%output
+\node[dummy] (configcache2) [right=3cm of configure] {\file{config.cache}};
+\node[dummy] (configstatus2) [below=1cm of configcache2] {\file{config.status}};
+\node[dummy] (configh) [below=4.6cm of output] {\file{config.h}};
+\node[dummy] (Makefile) [below=5.5cm of output] {\file{Makefile}};
+\node[dummy] (stamph) [below=6.4cm of output] {\file{stamp-h}};
+\node[dummy] (libtool) [right=3cm of ltconfig] {\prog{libtool}};
+
+\draw[myarrow] (configsite.east)-- ++ (0.5,0) |-(configure.west);
+\draw[myarrow] (configcache1.east)-- ++ (0.39,0) |-(configure.west);
+\draw[myarrow] (confighin.east)-- ++ (0.5,0) |-(configstatus1.west);
+\draw[myarrow] (Makefilein.east)-- ++ (0.5,0) |-(configstatus1.west);
+\draw[myarrow] (ltmainsh.east)-- (ltconfig);
+
+\draw[myarrow] (configure.east)-- (configcache2);
+\draw[myarrow] (configstatus1.east)-- ++ (1,0) -- ++ (0,0)  |-(configstatus2.west);
+\draw[myarrow] (configstatus1.east)-- ++ (1,0) -- ++ (0,0)  |-(configh.west);
+\draw[myarrow] (configstatus1.east)-- ++ (1,0) -- ++ (0,0)  |-(Makefile.west);
+\draw[myarrow] (configstatus1.east)-- ++ (1,0) -- ++ (0,0)  |-(stamph.west);
+\draw[myarrow] (ltconfig.east)-- (libtool);
+\end{tikzpicture}
+}
+\caption{\prog{configure} process.}
+\label{fig:aclocal}
+\end{figure}

@@ -1,0 +1,92 @@
+307 Patch Control
+
+0
+0
+1
+executor.tex
+22
+4
+2
+
+
+
+
+
+
+executor.tex
+TeX
+135278587 0 -1 0 -1 0 0 0 1072 345 0 25 0 -1 -1 0 0 44 -1 -1 44 1 0 0 -1   0
+section\build.tex
+TeX
+17838075 5 -1 15143 -1 15144 125 125 987 584 0 457 204 -1 -1 0 0 0 -1 -1 0 1 0 15144 -1   0
+sty\myStyle.sty
+TeX:STY
+269496306 0 283 19 283 30 100 100 1172 445 0 257 4811 -1 -1 0 0 36 0 0 36 1 0 30 283   0
+section\tools.tex
+TeX
+1060859 5 -1 59 -1 60 0 0 1072 345 0 505 0 -1 -1 0 0 60 -1 -1 60 1 0 60 -1   0
+header.tex
+TeX
+269496315 0 -1 0 -1 0 25 25 1097 370 0 25 0 -1 -1 0 0 24 -1 -1 24 1 0 0 -1   0
+section\compile.tex
+TeX
+269496315 0 -1 382 -1 384 125 125 1197 470 0 457 170 -1 -1 0 0 0 -1 -1 0 1 0 384 -1   0
+tikz-er2.sty
+TeX:STY
+269496306 0 38 45 38 56 125 125 1197 470 0 465 289 -1 -1 0 0 24 0 0 24 1 0 56 38   0
+:\Users\kalucard\Desktop\zeid\LaTeX\Interpreter latex\interpreter\Sources\section\interpreter.tex
+TeX
+269496315 1 -1 0 -1 27794 150 150 1222 495 0 25 2210 -1 -1 0 0 -1 -1 -1 -1 1 0 27794 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Kitting-LaTeX\Sources\section\S-PDDL.tex
+TeX
+269496315 0 -1 3010 -1 1389 150 150 1012 609 0 225 374 -1 -1 0 0 0 -1 -1 0 1 0 1389 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\numeric\augment.tex
+TeX
+269496315 0 -1 0 -1 0 50 50 1122 395 0 25 -51 -1 -1 0 0 47 -1 -1 47 1 0 0 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\kitting.tex
+TeX
+403714043 0 -1 625 -1 625 0 0 1072 345 0 25 459 -1 -1 0 0 44 -1 -1 44 1 0 625 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\header.tex
+TeX
+269496315 0 -1 0 -1 15 25 25 1097 370 0 145 0 -1 -1 0 0 24 -1 -1 24 1 0 15 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\sty\myStyle.sty
+TeX:STY
+269496306 5 287 65 287 66 50 50 1122 395 0 545 187 -1 -1 0 0 36 0 0 36 1 0 66 287   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\sty\titlepage.tex
+TeX
+269496315 0 -1 781 -1 1299 100 100 1172 445 0 137 374 -1 -1 0 0 79 -1 -1 79 1 0 1299 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\section\S-Planner.tex
+TeX
+269496315 5 -1 1427 -1 1428 25 25 1097 370 0 465 306 -1 -1 0 0 40 -1 -1 40 1 0 1428 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\bib\kitting-ref.bib
+BibTeX
+269485042 1 0 32 0 16 75 75 1147 420 0 145 0 -1 -1 0 0 33 0 0 33 1 0 16 0   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\section\S-PDDL.tex
+TeX
+286273531 0 -1 17726 -1 17908 50 50 1122 395 0 481 629 -1 -1 0 0 0 -1 -1 0 1 0 17908 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\section\S-domain.tex
+TeX
+269496315 0 -1 1137 -1 1075 125 125 1197 470 0 497 221 -1 -1 0 0 50 -1 -1 50 1 0 1075 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Interpreter\LaTeX-Source\executor.tex
+TeX
+269496315 0 -1 0 -1 0 125 125 1197 470 0 25 0 -1 -1 0 0 29 -1 -1 29 1 0 0 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Interpreter\LaTeX-Source\header.tex
+TeX
+269496315 1 -1 1724 -1 1903 0 0 1072 345 0 569 357 -1 -1 0 0 60 -1 -1 60 1 0 1903 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\section\S-state.tex
+TeX
+269496315 0 -1 7811 -1 7811 75 75 1147 420 0 25 629 -1 -1 0 0 25 -1 -1 25 1 0 7811 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\section\S-state-variable.tex
+TeX
+269496315 5 -1 40177 -1 40178 100 100 1172 445 0 201 238 -1 -1 0 0 39 -1 -1 39 1 0 40178 -1   0
+
+*executor.tex
+>
+*header
+*sty/titlepage
+*section/contents
+*section/executor
+*section/build
+*section/tools
+*section/compile
+<

@@ -8,7 +8,8 @@ int poseNumber; // global counter for pose number.
 
 /* CommandParser::readCommandFile
 
-Returned Value: none
+Returned Value: 0 on success
+                1 on failure
 
 Called By:  CommandParser::init
 

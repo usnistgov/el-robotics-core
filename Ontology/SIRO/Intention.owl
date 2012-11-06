@@ -1,0 +1,1077 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2012/9/Ontology1349984097026.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.semanticweb.org/ontologies/2012/9/Ontology1349984097026.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Import>http://www.nist.gov/el/ontologies/intentionInstances.owl</Import>
+    <Declaration>
+        <Class IRI="#AnyOrderOrderingConstruct"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CountOrderingConstruct"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ExistOrderingConstruct"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Intention"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kitting"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OnTopWithContactStateRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OrderedListOrderingConstruct"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OrderingConstruct"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PartiallyInStateRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Predicates"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RCC8_Relation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StateRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UnderWithContactStateRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-DC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-EC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-EQ"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-Minus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-NTPP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-NTPPi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-PO"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-Plus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-TPP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#X-TPPi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-DC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-EC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-EQ"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-Minus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-NTPP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-NTPPi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-PO"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-Plus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-TPP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Y-TPPi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-DC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-EC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-EQ"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-Minus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-NTPP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-NTPPi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-PO"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-Plus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-TPP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Z-TPPi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#vaccum_rhold_empty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasOrderedListProperty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasStateRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTargetObject"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasCountNumber"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#KitA3B1C1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC2_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC3_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC4_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC5_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC6_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC7_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC8_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#OC9_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR1_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR2_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR3_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR4_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR5_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR6_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SR7_KitA2B2C1D1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#dfsd"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#part_d_1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#part_e_1"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#OnTopWithContactStateRelation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Z-EC"/>
+            <Class IRI="#Z-Plus"/>
+            <ObjectUnionOf>
+                <Class IRI="#X-NTPP"/>
+                <Class IRI="#X-NTPPi"/>
+                <Class IRI="#X-PO"/>
+                <Class IRI="#X-TPP"/>
+                <Class IRI="#X-TPPi"/>
+            </ObjectUnionOf>
+            <ObjectUnionOf>
+                <Class IRI="#Y-NTPP"/>
+                <Class IRI="#Y-NTPPi"/>
+                <Class IRI="#Y-PO"/>
+                <Class IRI="#Y-TPP"/>
+                <Class IRI="#Y-TPPi"/>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <ObjectIntersectionOf>
+            <ObjectIntersectionOf>
+                <Class IRI="#Z-Plus"/>
+                <ObjectUnionOf>
+                    <Class IRI="#Z-NTPP"/>
+                    <Class IRI="#Z-NTPPi"/>
+                    <Class IRI="#Z-PO"/>
+                    <Class IRI="#Z-TPP"/>
+                    <Class IRI="#Z-TPPi"/>
+                </ObjectUnionOf>
+            </ObjectIntersectionOf>
+            <ObjectUnionOf>
+                <Class IRI="#X-NTPP"/>
+                <Class IRI="#X-NTPPi"/>
+                <Class IRI="#X-TPP"/>
+                <Class IRI="#X-TPPi"/>
+            </ObjectUnionOf>
+            <ObjectUnionOf>
+                <Class IRI="#Y-NTPP"/>
+                <Class IRI="#Y-NTPPi"/>
+                <Class IRI="#Y-TPP"/>
+                <Class IRI="#Y-TPPi"/>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UnderWithContactStateRelation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Z-EC"/>
+            <Class IRI="#Z-Minus"/>
+            <ObjectUnionOf>
+                <Class IRI="#X-NTPP"/>
+                <Class IRI="#X-NTPPi"/>
+                <Class IRI="#X-PO"/>
+                <Class IRI="#X-TPP"/>
+                <Class IRI="#X-TPPi"/>
+            </ObjectUnionOf>
+            <ObjectUnionOf>
+                <Class IRI="#Y-NTPP"/>
+                <Class IRI="#Y-NTPPi"/>
+                <Class IRI="#Y-PO"/>
+                <Class IRI="#Y-TPP"/>
+                <Class IRI="#Y-TPPi"/>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#AnyOrderOrderingConstruct"/>
+        <Class IRI="#OrderingConstruct"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CountOrderingConstruct"/>
+        <Class IRI="#OrderingConstruct"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CountOrderingConstruct"/>
+        <DataAllValuesFrom>
+            <DataProperty IRI="#hasCountNumber"/>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+        </DataAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <Class IRI="#OrderingConstruct"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Intention"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Intention"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasOrderingConstruct"/>
+            <Class IRI="#OrderingConstruct"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kitting"/>
+        <Class IRI="#Intention"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OnTopWithContactStateRelation"/>
+        <Class IRI="#StateRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OrderedListOrderingConstruct"/>
+        <Class IRI="#OrderingConstruct"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OrderingConstruct"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <Class IRI="#StateRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Predicates"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RCC8_Relation"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StateRelation"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StateRelation"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceObject"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StateRelation"/>
+        <ObjectMaxCardinality cardinality="1">
+            <ObjectProperty IRI="#hasTargetObject"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
+        </ObjectMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UnderWithContactStateRelation"/>
+        <Class IRI="#StateRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-DC"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-EC"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-EQ"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-Minus"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-NTPP"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-NTPPi"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-PO"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-Plus"/>
+        <Class IRI="#X-TPPi"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-TPP"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#X-TPPi"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-DC"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-EC"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-EQ"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-Minus"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-NTPP"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-NTPPi"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-PO"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-Plus"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-TPP"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Y-TPPi"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-DC"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-EC"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-EQ"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-Minus"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-NTPP"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-NTPPi"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-PO"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-Plus"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-TPP"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Z-TPPi"/>
+        <Class IRI="#RCC8_Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#vaccum_rhold_empty"/>
+        <Class IRI="#Predicates"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
+        <Class IRI="#Intention"/>
+        <Class IRI="#OrderingConstruct"/>
+        <Class IRI="#Predicates"/>
+        <Class IRI="#RCC8_Relation"/>
+        <Class IRI="#StateRelation"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AnyOrderOrderingConstruct"/>
+        <Class IRI="#CountOrderingConstruct"/>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <Class IRI="#OrderedListOrderingConstruct"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Kitting"/>
+        <NamedIndividual IRI="#KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#AnyOrderOrderingConstruct"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#OrderedListOrderingConstruct"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <ObjectIntersectionOf>
+            <Class IRI="#ExistOrderingConstruct"/>
+            <Class IRI="#OrderedListOrderingConstruct"/>
+        </ObjectIntersectionOf>
+        <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC2_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#CountOrderingConstruct"/>
+        <NamedIndividual IRI="#OC3_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC4_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#CountOrderingConstruct"/>
+        <NamedIndividual IRI="#OC5_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC6_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#CountOrderingConstruct"/>
+        <NamedIndividual IRI="#OC7_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ExistOrderingConstruct"/>
+        <NamedIndividual IRI="#OC8_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#CountOrderingConstruct"/>
+        <NamedIndividual IRI="#OC9_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#OnTopWithContactStateRelation"/>
+        <NamedIndividual IRI="#SR1_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <NamedIndividual IRI="#SR2_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <NamedIndividual IRI="#SR3_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <NamedIndividual IRI="#SR4_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <NamedIndividual IRI="#SR5_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <NamedIndividual IRI="#SR6_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PartiallyInStateRelation"/>
+        <NamedIndividual IRI="#SR7_KitA2B2C1D1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        <NamedIndividual IRI="#part_d_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        <NamedIndividual IRI="#part_e_1"/>
+    </ClassAssertion>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_2"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_3"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_4"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_2"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_3"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_4"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_5"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_6"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_7"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_8"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_2"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_3"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_4"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_5"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_6"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_7"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_8"/>
+        <NamedIndividual IRI="#part_d_1"/>
+        <NamedIndividual IRI="#part_e_1"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC2_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC4_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC6_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC8_KitA2B2C1D1"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#OC3_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC5_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC7_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC9_KitA2B2C1D1"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#SR2_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR3_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR4_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR5_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR6_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR7_KitA2B2C1D1"/>
+    </DifferentIndividuals>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC9_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC3_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC5_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC7_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR6_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC11_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC10_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#OC1_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR1_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <NamedIndividual IRI="#OC2_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR2_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC3_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC2_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <NamedIndividual IRI="#OC4_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR3_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC5_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC4_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <NamedIndividual IRI="#OC6_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR4_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC7_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC6_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <NamedIndividual IRI="#OC8_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR5_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <NamedIndividual IRI="#OC9_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC8_KitA2B2C1D1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR1_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#work_table_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR1_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR2_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR2_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#stock_keeping_unit_part_a"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR3_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR3_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#stock_keeping_unit_part_b"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR4_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR4_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#stock_keeping_unit_part_c"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR5_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR5_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#stock_keeping_unit_part_d"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR6_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#finished_kit_receiver"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR6_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <NamedIndividual IRI="#SR7_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#kit_tray_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <NamedIndividual IRI="#SR7_KitA2B2C1D1"/>
+        <NamedIndividual IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#stock_keeping_unit_part_e"/>
+    </ObjectPropertyAssertion>
+    <NegativeObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#SR7_KitA2B2C1D1"/>
+    </NegativeObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasCountNumber"/>
+        <NamedIndividual IRI="#OC3_KitA2B2C1D1"/>
+        <Literal datatypeIRI="&xsd;integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasCountNumber"/>
+        <NamedIndividual IRI="#OC5_KitA2B2C1D1"/>
+        <Literal datatypeIRI="&xsd;integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasCountNumber"/>
+        <NamedIndividual IRI="#OC7_KitA2B2C1D1"/>
+        <Literal datatypeIRI="&xsd;integer">1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasCountNumber"/>
+        <NamedIndividual IRI="#OC9_KitA2B2C1D1"/>
+        <Literal datatypeIRI="&xsd;integer">1</Literal>
+    </DataPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+        <ObjectProperty IRI="#hasOrderedListProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+        <ObjectProperty IRI="#hasOrderedListProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+        <ObjectProperty IRI="#hasOrderedListProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
+        <ObjectProperty IRI="#hasOrderedListProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasOrderedListProperty"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <ObjectUnionOf>
+            <Class IRI="#Intention"/>
+            <Class IRI="#OrderingConstruct"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <Class IRI="#StateRelation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <Class IRI="#ExistOrderingConstruct"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <Class IRI="#StateRelation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsInOrderedList"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasOrderedListNext"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasOrderedListPrevious"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasOrderingConstruct"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
+        <Class IRI="#OrderingConstruct"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+        <ObjectUnionOf>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#StockKeepingUnit"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasStateRelation"/>
+        <Class IRI="#StateRelation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTargetObject"/>
+        <ObjectUnionOf>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#StockKeepingUnit"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasCountNumber"/>
+        <Class IRI="#CountOrderingConstruct"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasCountNumber"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Intention</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This Class represents templates for Intentions</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Kitting</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This Class contains Intention templates specific to kitting</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#OC12_KitA2B2C1D1</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This individual is a negatiion of the Ordering Construct &quot;Exists&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasOrderedListNext</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Designate the ordering construct that comes directly after the current ordering construct in an ordered list</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasOrderedListPrevious</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Designate the ordering construct that comes directly before the current ordering construct in an ordered list</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
+

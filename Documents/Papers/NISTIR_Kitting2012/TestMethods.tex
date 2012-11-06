@@ -23,7 +23,7 @@ the system's agility and not the system's robotic configuration or abilities. As
 The test methods themselves are designed as a series of tests that have increasing complexity. It is assumed that the tests will be performed
 in order, and that a system that is not capable of performing test {\it n} will fail at test {\it n+1} as well. For all of the tests,
 the initial condition of the world and the goal kit configurations are provided as XML and/or OWL files conforming with the IEEE RAS Ontologies
-for Robotics and Automations Working Group's kitting ontology. The planning system is required to produce an output that
+for Robotics and Automation Working Group's kitting knowledge representation. The planning system is required to produce an output that
 will construct the required kit(s) from the initial condition. All of the commands must be in the form of CRCL, and the system
 is allowed to submit new plans that respond to environmental changes.
 
@@ -36,16 +36,19 @@ changes for the picking of various parts.
 The first test method is the construction of a single basic kit. The kit will contain two or more different types of parts. The design of the
 kit and parts supply will be known before the test begins. The actual location of the kit tray and parts supplies will not be known before
 runtime. The location and orientation (yaw) of the kit and parts supplies will be varied during consecutive runs of the test method.
-The planning system is required to submit a single CRCL formated plan that will construct the given kit. There are no execution errors.
+The planning system is required to submit a single CRCL formatted plan that will construct the given kit. It is assumed that all
+actions are successful and that there are no execution errors.
 Each kit construction will be evaluated by our standard metrics as described in Section \ref{sect:Metrics}. 
 This test method will evaluate the following aspects of agility and flexibility:
 \begin{itemize}
 	\item Ability to correctly build a specific predefined kit.
-	\item Agility in terms of part tray and kit placement. Will show that exact fixturing is not necessary for the construction
+	\item Agility in terms of part tray and kit placement. This will show that exact fixturing is not necessary for the construction
 	of a kit.
-	\item If the robot is capable of supporting tool changing, different end-of-arm tooling may be required for grasping
-	the various parts.
 \end{itemize}
+
+It should be noted that if the robot is capable of supporting tool changing, different end-of-arm tooling may be required for grasping
+the various parts required for this test.
+
 
 \subsection{New Variety of Basic Kit}
 This test provides the system with a never before seen kit variation. The variation will be delivered in the previously

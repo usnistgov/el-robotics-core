@@ -61,10 +61,12 @@ branches of the taxonomy may be applicable across multiple domains.
 
 \subsection{Static Kitting Viewer Metrics}
 \begin{figure}[ht!]
-	\begin{center}
-		\include{MetricTaxonomy}
-	\end{center}
-	\caption{Kitting static metric taxonomy with abbreviations defined below.}
+		\begin{center}
+			\includegraphics[width=3.1in]{images/MetricTaxonomy.jpg}
+			%\include{MetricTaxonomy}}
+		\end{center}
+
+	\caption{Kitting static metric taxonomy with abbreviations defined below}
 	\label{fig:StaticMetricTax}
 \end{figure}
 
@@ -92,7 +94,7 @@ CRCL command with cumulative values.
   controlled point is located initially). The value is updated as each point
   is reached, not continuously.\\
   
- \item \sf Current Command Execution Time (CCE) \rm -- the time that the current
+ \item \sf Current Command Execution Time (CCET) \rm -- the time that the current
    command took to execute.\\
    
 \item \sf Total Execution Time (TET) \rm -- the total time taken so far by
@@ -137,7 +139,7 @@ CRCL command with cumulative values.
   move to an out-of-limit position.\\
 
 \item \sf Weight Violation (WV) \rm -- the robot was asked to move some object that
-  violates it load capacity.\\
+  violates its load capacity.\\
   
 \item \sf Outside Work Volume (OWV) \rm -- the robot was asked to move outside its
   work volume.\\
@@ -150,21 +152,21 @@ CRCL command with cumulative values.
 During execution, kitting fails to reach its full potential for savings when the supply chain fails and parts and components are not available for kit construction, or when a kit is not properly filled. Part availability failures can be triggered by inaccurate information on the location of the part or part shortage due to delays in internal logistics. Kit construction errors may be due to problems such as improper equipment setup, improper equipment maintenance, part damage, wrong type of part, or part dropped by the robot.
 
 
-Models for detecting and recovering from plan execution failures mostly deal with \textit{precondition failures}, \textit{action failures}, and \textit{unattributable failures}~\cite{Myers1998}. Precondition failures appear when all the preconditions for an action are not met during the execution of this action. Action failures are encountered when the execution of an action does not attain its intended effects. Unattributable failures occur when unexpected events caused by external agents change a random part of the environment, thus causing the current plan to become obsolete. The IPMAS project has not yet addressed the creation of a taxonomy of  execution errors. However, some preliminary metrics have been developed and are described
+Models for detecting and recovering from plan execution failures mostly deal with \textit{precondition failures}, \textit{action failures}, and \textit{unattributable failures}~\cite{Myers1998}. Precondition failures appear when all the preconditions for an action are not met during the execution of this action. Action failures are encountered when the execution of an action does not attain its intended effects. Unattributable failures occur when unexpected events caused by external agents change a random part of the environment, thus causing the current plan to become obsolete. NIST\rq{}s Knowledge Driven Planning and Modeling project has not yet addressed the creation of a taxonomy of  execution errors. However, some preliminary metrics have been developed and are described
 below.
 
 \begin{itemize}
-\item \sf Manipulation robustness \rm -- Qualitative functionality metrics that describe how well a robot can handle complex objects in complex environments without failing or requiring additional operator interventions. Failures can occur during object detection (lightning variation, shadows), object approach (partially buried), and object manipulation (fragile) operations.
+\item \sf Manipulation robustness \rm -- qualitative functionality metrics that describe how well a robot can handle complex objects in complex environments without failing or requiring additional operator interventions. Failures can occur during object detection (lightning variation, shadows), object approach (partially buried), and object manipulation (fragile) operations.
 It is envisioned that a taxonomy of robustness will be developed that decomposes robustness into areas such as situational awareness, robot accuracy, and grasping dexterity.\\
 
-\item \sf Transporting components \rm -- Qualitative metrics that describe how well a robotic arm can grasp objects and move these objects from an initial position to a goal position without dropping them.\\
+\item \sf Transporting components \rm -- qualitative metrics that describe how well a robotic arm can grasp objects and move these objects from an initial position to a goal position without dropping them.\\
 
-\item \sf Plan generation \rm -- As mentioned previously, failures are susceptible to happen in kitting during the execution of CRCL commands, causing the current plan to become obsolete. In some cases, the current state of the environment is brought back to the state prior to the failure and the robot starts from a ``stable" state. In other cases a completely new plan must be generated by the planning system where the robot starts all over. This metric will measure the planning systems ability to adapt to failures.\\
+\item \sf Plan generation \rm -- as mentioned previously, failures are susceptible to happen in kitting during the execution of CRCL commands, causing the current plan to become obsolete. In some cases, the current state of the environment is brought back to the state prior to the failure and the robot starts from a ``stable" state. In other cases, a completely new plan must be generated by the planning system where the robot starts all over. This metric will measure the planning systems ability to adapt to failures.\\
 
-\item \sf Contact errors \rm -- Quantitative metrics that keep track of the number of collisions between the robotic arm and objects in the environment. The performance of the robotic arm during kit building is affected by the position of joints and end-effector in the environment. The position of the end-effector can reduce the time to complete tasks but can also increase the number of collisions due to joint contact with other objects in a confined space.\\
+\item \sf Contact errors \rm -- quantitative metrics that keep track of the number of collisions between the robotic arm and objects in the environment. The performance of the robotic arm during kit building is affected by the position of joints and end-effector in the environment. The position of the end-effector can reduce the time to complete tasks but can also increase the number of collisions due to joint contact with other objects in a confined space.\\
 
-\item \sf Failures during kit building\rm -- Quantitative metrics that report the total number of failures encountered during kit building. When a failure arises during the building of a kit, the system may generate a new plan to recover from the failure. If a failure occurs during the execution of the new plan, different or not from the previous one, the number of failures for building the current kit is incremented and this number is now 2. The number of failures for building a kit is not related to the plan itself but with the construction of the finished kit. \\
+\item \sf Failures during kit building\rm -- quantitative metrics that report the total number of failures encountered during kit building. When a failure arises during the building of a kit, the system may generate a new plan to recover from the failure. If a failure occurs during the execution of the new plan, different or not from the previous one, the number of failures for building the current kit is incremented and this number is now 2. The number of failures for building a kit is not related to the plan itself but with the construction of the finished kit. \\
 
-\item \sf Failure modes recovery \rm -- Quantitative metrics that represent the number of failure modes the system recovers from through the use of contingency plans. When a failure is detected in the execution process, failure monitors encode appropriate responses (contingency plans) to failure modes for this particular failure.\\
+\item \sf Failure modes recovery \rm -- quantitative metrics that represent the number of failure modes the system recovers from through the use of contingency plans. When a failure is detected in the execution process, failure monitors encode appropriate responses (contingency plans) to failure modes for this particular failure.\\
 
 \end{itemize}

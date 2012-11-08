@@ -117,8 +117,8 @@ The state variables in our current kitting domain contains the following predica
 \begin{itemize}
  \item \stvar{endeffector-location}
   \begin{itemize}
-  \item \stvar{eff-location-robot}(\class{EndEffector},\class{Robot}) ;TRUE iff \class{EndEffector} is attached to \class{Robot}
-  \item \stvar{eff-location-endeffectorholder}(\class{EndEffector},\class{EndEffectorHolder}) ;TRUE iff \class{EndEffector} is in \class{EndEffectorHolder}
+  \item \stvar{endeffector-location-robot}(\class{EndEffector},\class{Robot}) ;TRUE iff \class{EndEffector} is attached to \class{Robot}
+  \item \stvar{endeffector-location-endeffectorholder}(\class{EndEffector},\class{EndEffectorHolder}) ;TRUE iff \class{EndEffector} is in \class{EndEffectorHolder}
   \end{itemize}
 
  \item \stvar{robot-with-endeffector}
@@ -600,7 +600,7 @@ Our kitting domain is composed of ten operators which are defined below.
  \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{remove-eff}(\const{robot},\const{endeffector},\const{endeffectorholder},\const{endeffectorchangingstation}): The \class{Robot} \const{robot} removes the \class{EndEffector} \const{endeffector} and puts it in the \class{EndEffectorHolder} \const{endeffectorholder}.
+\item \op{remove-endeffector}(\const{robot},\const{endeffector},\const{endeffectorholder},\const{endeffectorchangingstation}): The \class{Robot} \const{robot} removes the \class{EndEffector} \const{endeffector} and puts it in the \class{EndEffectorHolder} \const{endeffectorholder}.
 
 \begin{tabular}{l}
   \textit{preconditions}\\

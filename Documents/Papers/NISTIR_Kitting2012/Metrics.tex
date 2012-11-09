@@ -81,7 +81,7 @@ CRCL command with cumulative values.
   time to execute.\\
 
 \item \sf Other Commands Executed (OCE) \rm -- the number of commands that are
-  not action commands and have been executed so far -- mostly setting
+  not action commands that have been executed so far -- mostly setting
   commands. Executing these commands is assumed to take a negligible amount
   of time.\\
    
@@ -100,12 +100,12 @@ CRCL command with cumulative values.
 \item \sf Total Execution Time (TET) \rm -- the total time taken so far by
   executing action commands. This does not include any time that may elapse
   between when one command finishes execution and when the user tells the
-  kittingViewer to execute another command. The total execution time is
+  system to execute another command. The total execution time is
   meant to be very close to the actual amount of time that would be taken
-  by a real robot.\\
+  by the system without user intervention.\\
 
 \item \sf Range Errors (RE) \rm -- the number of times a command tries to set a
-  value that is out of the allowed range of the value.\\
+  a parameter to a value that is out of the allowed range of the parameter.\\
 
 \item \sf Parse Errors  (PE) \rm -- the number of lines in the CRCL command file
   that cause an error in the command file parser. \\
@@ -125,7 +125,7 @@ CRCL command with cumulative values.
   \rm commands in Figure~\ref{fig:KittingPlan} are useless because the
   gripper and tool changer are closed in the initial conditions.\\
   
-\item \sf Number of Object Moved Correctly (NOMC) \rm -- the number of objects
+\item \sf Number of Objects Moved Correctly (NOMC) \rm -- the number of objects
   that were moved correctly from the parts supply to the kit.\\
 
 \item \sf Number of Objects Moved Incorrectly (NOMI) \rm -- the number of objects
@@ -133,7 +133,7 @@ CRCL command with cumulative values.
   
 \item \sf Number of Total Objects Moved (NTOM) \rm -- the sum of NOMC and NOMI.\\
 
-\item \sf Incorrect Gripper (IG) \rm -- the wrong gripper was used to pick-up an object.\\
+\item \sf Incorrect Gripper (IG) \rm -- the wrong gripper was used to pick up an object.\\
 
 \item \sf Joint Out of Range (JOR) \rm -- a joint of the robot was commanded to 
   move to an out-of-limit position.\\
@@ -149,10 +149,10 @@ CRCL command with cumulative values.
 \end{itemize}
 
 \subsection{Execution Metrics for Kit Building}
-During execution, kitting fails to reach its full potential for savings when the supply chain fails and parts and components are not available for kit construction, or when a kit is not properly filled. Part availability failures can be triggered by inaccurate information on the location of the part or part shortage due to delays in internal logistics. Kit construction errors may be due to problems such as improper equipment setup, improper equipment maintenance, part damage, wrong type of part, or part dropped by the robot.
+During execution, automated kitting fails to reach its full potential when the supply chain fails and parts and components are not available for kit construction, or when a kit is not properly filled. Part availability failures can be triggered by inaccurate information about the location of the part or part shortage due to delays in internal logistics. Kit construction errors may be due to problems such as improper equipment setup, improper equipment maintenance, part damage, wrong type of part, or part dropped by the robot.
 
 
-Models for detecting and recovering from plan execution failures mostly deal with \textit{precondition failures}, \textit{action failures}, and \textit{unattributable failures}~\cite{Myers1998}. Precondition failures appear when all the preconditions for an action are not met during the execution of this action. Action failures are encountered when the execution of an action does not attain its intended effects. Unattributable failures occur when unexpected events caused by external agents change a random part of the environment, thus causing the current plan to become obsolete. NIST\rq{}s Knowledge Driven Planning and Modeling project has not yet addressed the creation of a taxonomy of  execution errors. However, some preliminary metrics have been developed and are described
+Models for detecting and recovering from plan execution failures mostly deal with \textit{precondition failures}, \textit{action failures}, and \textit{unattributable failures}~\cite{Myers1998}. Precondition failures appear when all the preconditions for an action are not met during the execution of the action. Action failures are encountered when the execution of an action does not attain its intended effects. Unattributable failures occur when unexpected events caused by external agents change the environment, thus causing the current plan to become obsolete. NIST\rq{}s Knowledge Driven Planning and Modeling project has not yet addressed the creation of a taxonomy of  execution errors. However, some preliminary metrics have been developed and are described
 below.
 
 \begin{itemize}
@@ -161,9 +161,9 @@ It is envisioned that a taxonomy of robustness will be developed that decomposes
 
 \item \sf Transporting components \rm -- qualitative metrics that describe how well a robotic arm can grasp objects and move these objects from an initial position to a goal position without dropping them.\\
 
-\item \sf Plan generation \rm -- as mentioned previously, failures are susceptible to happen in kitting during the execution of CRCL commands, causing the current plan to become obsolete. In some cases, the current state of the environment is brought back to the state prior to the failure and the robot starts from a ``stable" state. In other cases, a completely new plan must be generated by the planning system where the robot starts all over. This metric will measure the planning system\rq{}s ability to adapt to failures.\\
+\item \sf Plan generation \rm -- as mentioned previously, failures are possible in kitting during the execution of CRCL commands, causing the current plan to become obsolete. In some cases, the current state of the environment is brought back to the state prior to the failure and the robot starts from a ``stable" state. In other cases, a completely new plan must be generated by the planning system where the robot starts all over. This metric will measure the planning system\rq{}s ability to adapt to failures.\\
 
-\item \sf Contact errors \rm -- quantitative metrics that keep track of the number of collisions between the robotic arm and objects in the environment. The performance of the robotic arm during kit building is affected by the position of joints and end-effector in the environment. The position of the end-effector can reduce the time to complete tasks but can also increase the number of collisions due to joint contact with other objects in a confined space.\\
+\item \sf Contact errors \rm -- quantitative metrics that keep track of the number of collisions between the robotic arm and objects in the environment. The performance of the robotic arm during kit building is affected by the positions of joints and the end-effector in the environment. The position of the end-effector can reduce the time to complete tasks but can also increase the number of collisions due to joint contact with other objects in a confined space.\\
 
 \item \sf Failures during kit building\rm -- quantitative metrics that report the total number of failures encountered during kit building. When a failure occurs during the
 building of a kit, the number of failures is increased by one. The system may generate a new plan to recover from the failure. If a failure occurs during the executio nof the new

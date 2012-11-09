@@ -3,7 +3,7 @@ definitive procedure that produces a test result. It is the authors' desire to d
 lead to a better understanding of what it means to have an ``agile" and ``flexible" planning system and metrics that 
 will allow for the measurement of a system's agility and flexibility. We have chosen to begin our study
 with the domain of kit building since it is a greatly simplified manufacturing/assembly domain. However, 
-even in the domain of kit building, there is a large amount of variance that must be accounted for. For
+even in the domain of kit building, a large amount of variance  must be accounted for. For
 example, will parts be rigid or flexible? Will a vacuum effector, or a parallel jaw mechanism, or a fingered 
 gripper be utilized for part picking? Will parts be picked from a tray or a bin? What aspects of the
 process will be stressed to demonstrate flexibility and agility?
@@ -15,13 +15,13 @@ the system's agility and not the system's robotic configuration or abilities. As
 	\item All of the rigid objects are of simple shape (rectilinear) and have a flat surface for a top.
 	\item A vacuum effector is utilized for the handling of the parts.
 	\item All of the parts will be located in a well-defined parts tray. This will allow for repeatable experiments in terms of part placement.
-	\item All of the part's initial and final positions will be within the reach volume of the robot.
+	\item All of the part's initial and final positions will be within the reach of the robot.
 	\item There are no obstacles located within the robot's reach volume.
 \end{itemize}
 
 \subsection{Test Requirements}
 The test methods themselves are designed as a series of tests that have increasing complexity. It is assumed that the tests will be performed
-in order, and that a system that is not capable of performing test {\it n} will fail at test {\it n+1} as well. For all of the tests,
+in order, and that a system that is not capable of performing test {\it n} will fail all subsequent tests as well. For all of the tests,
 the initial condition of the world and the goal kit configurations are provided as XML and/or OWL files conforming with the IEEE RAS Ontologies
 for Robotics and Automation Working Group's kitting knowledge representation. The planning system is required to produce an output that
 will construct the required kit(s) from the initial condition. All of the commands must be in the form of CRCL, and the system
@@ -35,7 +35,7 @@ changes for the picking of various parts.
 \subsection{Basic Kit}
 The first test method is the construction of a single basic kit. The kit will contain two or more different types of parts. The design of the
 kit and parts supply will be known before the test begins. The actual location of the kit tray and parts supplies will not be known before
-runtime. The location and orientation (yaw) of the kit and parts supplies will be varied during consecutive runs of the test method.
+runtime. The locations and orientations (yaw) of the kit and parts supplies will be varied during consecutive runs of the test method.
 The planning system is required to submit a single CRCL formatted plan that will construct the given kit. It is assumed that all
 actions are successful and that there are no execution errors.
 Each kit construction will be evaluated by our standard metrics as described in Section \ref{sect:Metrics}. 

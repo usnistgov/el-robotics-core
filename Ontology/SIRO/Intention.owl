@@ -38,6 +38,12 @@
         <Class IRI="#ExistOrderingConstruct"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#Function"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FunctionOperation"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Intention"/>
     </Declaration>
     <Declaration>
@@ -53,13 +59,16 @@
         <Class IRI="#OrderingConstruct"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#ParameterList"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#PartiallyInStateRelation"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Precondition"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Predicates"/>
+        <Class IRI="#Predicate"/>
     </Declaration>
     <Declaration>
         <Class IRI="#RCC8_Relation"/>
@@ -164,40 +173,265 @@
         <Class IRI="#attach-endeffector"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#attach-endeffector-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#attach-endeffector-preconditions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#capacity-parts-in-kit"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#create-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#create-kit-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#create-kit-preconditions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffector-location-endeffectorholder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffector-location-robot"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffector-type-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffector-type-kittray"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffector-type-part"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffectorchangingstation-contains-endeffectorholder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffectorholder-empty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffectorholder-holds-endeffector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#endeffectorholder-location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#found-part"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kit-location-lbwk"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kit-location-robot"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kit-location-worktable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kittray-location-lbwekt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kittray-location-robot"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kittray-location-worktable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#lbwekt-not-empty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#lbwk-not-full"/>
     </Declaration>
     <Declaration>
         <Class IRI="#look-for-part"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#look-for-part-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#look-for-part-preconditions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#on-worktable-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#on-worktable-kittray"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#origin-part"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#part-location-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#part-location-partstray"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#part-location-robot"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#part-not-searched"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#partstray-not-empty"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#put-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#put-kit-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#put-kit-preconditions"/>
     </Declaration>
     <Declaration>
         <Class IRI="#put-kittray"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#put-kittray-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#put-kittray-preconditions"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#put-part"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#put-part-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#put-part-function-operation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#put-part-preconditions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#quantity-parts-in-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#quantity-parts-in-partstray"/>
     </Declaration>
     <Declaration>
         <Class IRI="#remove-endeffector"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#remove-endeffector-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#remove-endeffector-preconditions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#robot-empty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#robot-holds-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#robot-holds-kittray"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#robot-holds-part"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#robot-with-endeffector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#robot-with-no-endeffector"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#take-kit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#take-kit-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#take-kit-preconditions"/>
     </Declaration>
     <Declaration>
         <Class IRI="#take-kittray"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#take-kittray-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#take-kittray-preconditions"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#take-part"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#vaccum_rhold_empty"/>
+        <Class IRI="#take-part-effects"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#take-part-preconditions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#worktable-empty"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#IsInOrderedList"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterEndEffector"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorChangingStation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorHolder"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterKitTray"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithEmptyKitTrays"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithKits"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterPart"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterPartsTray"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterRobot"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActionParameterWorkTable"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDecreaseFunction"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#hasEffect"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEffectPredicate"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFunction"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFunctionOperation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFunctionOperationFirstElement"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFunctionOperationSecondElement"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasIncreaseFunction"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasOrderedListNext"/>
@@ -218,10 +452,19 @@
         <ObjectProperty IRI="#hasPrecondition"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#hasPreconditionPredicate"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#hasPredicate"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#hasPredicateParameter"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#hasReferenceObject"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReferenceParameter"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasStateRelation"/>
@@ -230,7 +473,13 @@
         <ObjectProperty IRI="#hasTargetObject"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#hasTargetParameter"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#hasCountNumber"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasOperator"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#KitA2B2C1D1"/>
@@ -379,6 +628,1447 @@
             </ObjectUnionOf>
         </ObjectIntersectionOf>
     </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#attach-endeffector-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#attach-endeffector-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#attach-endeffector-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#attach-endeffector-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#endeffector-location-endeffectorholder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#endeffector-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#endeffectorholder-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#endeffectorholder-holds-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-with-no-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-location-endeffectorholder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffectorchangingstation-contains-endeffectorholder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffectorholder-holds-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffectorholder-location"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-with-no-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#create-kit"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#create-kit-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#create-kit-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#create-kit"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#create-kit-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#create-kit-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#create-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#kit-location-worktable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#create-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#on-worktable-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#create-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#on-worktable-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#create-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#on-worktable-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-location-endeffectorholder"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-location-endeffectorholder"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-type-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-type-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-type-kittray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-type-kittray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-type-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffector-type-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorchangingstation-contains-endeffectorholder"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorChangingStation"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorchangingstation-contains-endeffectorholder"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorholder-empty"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorholder-holds-endeffector"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorholder-holds-endeffector"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorholder-location"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#endeffectorholder-location"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorChangingStation"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#found-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#found-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kit-location-lbwk"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kit-location-lbwk"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithKits"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kit-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kit-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kit-location-worktable"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kit-location-worktable"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kittray-location-lbwekt"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kittray-location-lbwekt"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithEmptyKitTrays"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kittray-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kittray-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kittray-location-worktable"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#kittray-location-worktable"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#lbwekt-not-empty"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithEmptyKitTrays"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#lbwk-not-full"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithKits"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#look-for-part-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#look-for-part-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#look-for-part-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#look-for-part-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#found-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#part-not-searched"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-type-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#kit-location-worktable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#on-worktable-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#part-location-partstray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#part-not-searched"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#partstray-not-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#look-for-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#on-worktable-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#on-worktable-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#on-worktable-kittray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#on-worktable-kittray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#origin-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#origin-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#part-location-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#part-location-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#part-location-partstray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#part-location-partstray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#part-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#part-location-robot"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#partstray-not-empty"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#put-kit-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#put-kit-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#put-kit-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#put-kit-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#kit-location-lbwk"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#kittray-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-holds-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#kittray-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#lbwk-not-full"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-holds-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#put-kittray-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#put-kittray-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#put-kittray-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#put-kittray-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#kittray-location-worktable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#on-worktable-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#kittray-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-holds-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#worktable-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#kittray-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-holds-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#worktable-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#put-part-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#put-part-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#put-part-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#put-part-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#part-location-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#found-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#part-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-holds-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasIncreaseFunction"/>
+            <Class IRI="#quantity-parts-in-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-function-operation"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFunctionOperationFirstElement"/>
+            <Class IRI="#quantity-parts-in-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-function-operation"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFunctionOperationSecondElement"/>
+            <Class IRI="#capacity-parts-in-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-function-operation"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasOperator"/>
+            <Literal datatypeIRI="&rdf;PlainLiteral">&lt;</Literal>
+        </DataHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFunctionOperation"/>
+            <Class IRI="#put-part-function-operation"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#on-worktable-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#origin-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#part-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#put-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-holds-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#remove-endeffector-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#remove-endeffector-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#remove-endeffector-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#remove-endeffector-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#endeffector-location-endeffectorholder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#endeffectorholder-holds-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-with-no-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#endeffector-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#endeffectorholder-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffectorchangingstation-contains-endeffectorholder"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffectorholder-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffectorholder-location"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-empty"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasReferenceObject"/>
+                <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasStateRelation"/>
+                <Class IRI="#OnTopWithContactStateRelation"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasTargetObject"/>
+                <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#VacuumEffector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-empty"/>
+        <ObjectComplementOf>
+            <ObjectIntersectionOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasReferenceObject"/>
+                    <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+                </ObjectSomeValuesFrom>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasStateRelation"/>
+                    <Class IRI="#OnTopWithContactStateRelation"/>
+                </ObjectSomeValuesFrom>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasTargetObject"/>
+                    <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
+                </ObjectSomeValuesFrom>
+            </ObjectIntersectionOf>
+        </ObjectComplementOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-empty"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-empty"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-holds-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-holds-kit"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-holds-kittray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-holds-kittray"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-holds-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-holds-part"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-with-endeffector"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-with-endeffector"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTargetParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#robot-with-no-endeffector"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#take-kit-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#take-kit-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#take-kit-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#take-kit-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#kittray-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-holds-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#worktable-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#kit-location-worktable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#on-worktable-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-type-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#kittray-location-worktable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#on-worktable-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kit-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#take-kittray-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#take-kittray-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#take-kittray-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#take-kittray-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-effects"/>
+        <ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffectPredicate"/>
+                <Class IRI="#kittray-location-lbwekt"/>
+            </ObjectSomeValuesFrom>
+        </ObjectComplementOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-effects"/>
+        <ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffectPredicate"/>
+                <Class IRI="#robot-empty"/>
+            </ObjectSomeValuesFrom>
+        </ObjectComplementOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#kittray-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#part-not-searched"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-holds-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-type-kittray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#kittray-location-lbwekt"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#lbwekt-not-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-kittray-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#worktable-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#take-part-effects"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#take-part-effects"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#take-part-preconditions"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#take-part-preconditions"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasDecreaseFunction"/>
+            <Class IRI="#quantity-parts-in-partstray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#part-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicate"/>
+            <Class IRI="#robot-holds-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#part-location-partstray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-effects"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-location-robot"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#endeffector-type-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#found-part"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#kit-location-worktable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#on-worktable-kit"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#part-location-partstray"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#partstray-not-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-empty"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#take-part-preconditions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPreconditionPredicate"/>
+            <Class IRI="#robot-with-endeffector"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#worktable-empty"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasReferenceParameter"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
     <SubClassOf>
         <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
         <Class abbreviatedIRI="owl:Thing"/>
@@ -389,17 +2079,29 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Action"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hasEffect"/>
-            <Class IRI="#Effect"/>
-        </ObjectSomeValuesFrom>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#Effect"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasEffect"/>
+                <Class IRI="#Effect"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Action"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hasPrecondition"/>
-            <Class IRI="#Precondition"/>
-        </ObjectSomeValuesFrom>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#Precondition"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPrecondition"/>
+                <Class IRI="#Precondition"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#AnyOrderOrderingConstruct"/>
@@ -423,13 +2125,28 @@
     <SubClassOf>
         <Class IRI="#Effect"/>
         <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hasEffect"/>
-            <Class IRI="#Predicates"/>
+            <ObjectProperty IRI="#hasFunction"/>
+            <Class IRI="#Function"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Effect"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPredicate"/>
+            <Class IRI="#Predicate"/>
         </ObjectSomeValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#ExistOrderingConstruct"/>
         <Class IRI="#OrderingConstruct"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Function"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FunctionOperation"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Intention"/>
@@ -459,6 +2176,10 @@
         <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#ParameterList"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#PartiallyInStateRelation"/>
         <Class IRI="#StateRelation"/>
     </SubClassOf>
@@ -468,13 +2189,32 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Precondition"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hasPredicate"/>
-            <Class IRI="#Predicates"/>
-        </ObjectSomeValuesFrom>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasFunction"/>
+                <Class IRI="#Function"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasFunction"/>
+                <Class IRI="#Function"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#Predicates"/>
+        <Class IRI="#Precondition"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPredicate"/>
+                <Class IRI="#Predicate"/>
+            </ObjectSomeValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasPredicate"/>
+                <Class IRI="#Predicate"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Predicate"/>
         <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing"/>
     </SubClassOf>
     <SubClassOf>
@@ -628,44 +2368,268 @@
         <Class IRI="#Action"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#attach-endeffector-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#capacity-parts-in-kit"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#create-kit"/>
         <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#create-kit-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#create-kit-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffector-location-endeffectorholder"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffector-location-robot"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffector-type-kit"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffector-type-kittray"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffector-type-part"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffectorchangingstation-contains-endeffectorholder"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffectorholder-empty"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffectorholder-holds-endeffector"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#endeffectorholder-location"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#found-part"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kit-location-lbwk"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kit-location-robot"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kit-location-worktable"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kittray-location-lbwekt"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kittray-location-robot"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kittray-location-worktable"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#lbwekt-not-empty"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#lbwk-not-full"/>
+        <Class IRI="#Predicate"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#look-for-part"/>
         <Class IRI="#Action"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#look-for-part-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#look-for-part-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#on-worktable-kit"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#on-worktable-kittray"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#origin-part"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#part-location-kit"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#part-location-partstray"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#part-location-robot"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#part-not-searched"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#partstray-not-empty"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#put-kit"/>
         <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#put-kit-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#put-kit-preconditions"/>
+        <Class IRI="#Precondition"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#put-kittray"/>
         <Class IRI="#Action"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#put-kittray-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#put-kittray-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#put-part"/>
         <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#put-part-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#put-part-function-operation"/>
+        <Class IRI="#FunctionOperation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#put-part-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#quantity-parts-in-kit"/>
+        <Class IRI="#Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#quantity-parts-in-partstray"/>
+        <Class IRI="#Function"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#remove-endeffector"/>
         <Class IRI="#Action"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#remove-endeffector-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#robot-empty"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#robot-holds-kit"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#robot-holds-kittray"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#robot-holds-part"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#robot-with-endeffector"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#robot-with-no-endeffector"/>
+        <Class IRI="#Predicate"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#take-kit"/>
         <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#take-kit-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#take-kit-preconditions"/>
+        <Class IRI="#Precondition"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#take-kittray"/>
         <Class IRI="#Action"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#take-kittray-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#take-kittray-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#take-part"/>
         <Class IRI="#Action"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#vaccum_rhold_empty"/>
-        <Class IRI="#Predicates"/>
+        <Class IRI="#take-part-effects"/>
+        <Class IRI="#Effect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#take-part-preconditions"/>
+        <Class IRI="#Precondition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#worktable-empty"/>
+        <Class IRI="#Predicate"/>
     </SubClassOf>
     <DisjointClasses>
         <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#BoxVolume"/>
@@ -678,34 +2642,11 @@
         <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Vector"/>
         <Class IRI="#Action"/>
         <Class IRI="#Effect"/>
+        <Class IRI="#Function"/>
         <Class IRI="#Intention"/>
         <Class IRI="#OrderingConstruct"/>
         <Class IRI="#Precondition"/>
-        <Class IRI="#Predicates"/>
-        <Class IRI="#RCC8_Relation"/>
-        <Class IRI="#StateRelation"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#BoxVolume"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitDesign"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartRefAndPose"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PhysicalLocation"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Point"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#ShapeDesign"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#StockKeepingUnit"/>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Vector"/>
-        <Class IRI="#Action"/>
-        <Class IRI="#Intention"/>
-        <Class IRI="#OrderingConstruct"/>
-        <Class IRI="#Predicates"/>
-        <Class IRI="#RCC8_Relation"/>
-        <Class IRI="#StateRelation"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
-        <Class IRI="#Intention"/>
-        <Class IRI="#OrderingConstruct"/>
-        <Class IRI="#Predicates"/>
+        <Class IRI="#Predicate"/>
         <Class IRI="#RCC8_Relation"/>
         <Class IRI="#StateRelation"/>
     </DisjointClasses>
@@ -714,6 +2655,42 @@
         <Class IRI="#CountOrderingConstruct"/>
         <Class IRI="#ExistOrderingConstruct"/>
         <Class IRI="#OrderedListOrderingConstruct"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#attach-endeffector"/>
+        <Class IRI="#create-kit"/>
+        <Class IRI="#look-for-part"/>
+        <Class IRI="#put-kit"/>
+        <Class IRI="#put-kittray"/>
+        <Class IRI="#put-part"/>
+        <Class IRI="#remove-endeffector"/>
+        <Class IRI="#take-kit"/>
+        <Class IRI="#take-kittray"/>
+        <Class IRI="#take-part"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#attach-endeffector-effects"/>
+        <Class IRI="#create-kit-effects"/>
+        <Class IRI="#look-for-part-effects"/>
+        <Class IRI="#put-kit-effects"/>
+        <Class IRI="#put-kittray-effects"/>
+        <Class IRI="#put-part-effects"/>
+        <Class IRI="#remove-endeffector-effects"/>
+        <Class IRI="#take-kit-effects"/>
+        <Class IRI="#take-kittray-effects"/>
+        <Class IRI="#take-part-effects"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#attach-endeffector-preconditions"/>
+        <Class IRI="#create-kit-preconditions"/>
+        <Class IRI="#look-for-part-preconditions"/>
+        <Class IRI="#put-kit-preconditions"/>
+        <Class IRI="#put-kittray-preconditions"/>
+        <Class IRI="#put-part-preconditions"/>
+        <Class IRI="#remove-endeffector-preconditions"/>
+        <Class IRI="#take-kit-preconditions"/>
+        <Class IRI="#take-kittray-preconditions"/>
+        <Class IRI="#take-part-preconditions"/>
     </DisjointClasses>
     <ClassAssertion>
         <Class IRI="#Kitting"/>
@@ -934,12 +2911,12 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasOrderingConstruct"/>
         <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
-        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasOrderingConstruct"/>
         <NamedIndividual IRI="#OC14_KitA2B2C1D1"/>
-        <NamedIndividual IRI="#OC13_KitA2B2C1D1"/>
+        <NamedIndividual IRI="#OC12_KitA2B2C1D1"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#IsInOrderedList"/>
@@ -1096,6 +3073,70 @@
         <ObjectProperty IRI="#hasOrderedListProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterEndEffector"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorChangingStation"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorHolder"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterKitTray"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithEmptyKitTrays"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithKits"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterPart"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterPartsTray"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterRobot"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasActionParameterWorkTable"/>
+        <ObjectProperty IRI="#hasActionParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasDecreaseFunction"/>
+        <ObjectProperty IRI="#hasFunction"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasEffectPredicate"/>
+        <ObjectProperty IRI="#hasPredicate"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasEffectPredicateNegation"/>
+        <ObjectProperty IRI="#hasPredicate"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasFunctionOperationFirstElement"/>
+        <ObjectProperty IRI="#hasFunctionOperation"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasFunctionOperationSecondElement"/>
+        <ObjectProperty IRI="#hasFunctionOperation"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasIncreaseFunction"/>
+        <ObjectProperty IRI="#hasFunction"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="#hasOrderedListNext"/>
         <ObjectProperty IRI="#hasOrderedListProperty"/>
     </SubObjectPropertyOf>
@@ -1106,6 +3147,10 @@
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
         <ObjectProperty IRI="#hasOrderedListProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPreconditionPredicate"/>
+        <ObjectProperty IRI="#hasPredicate"/>
     </SubObjectPropertyOf>
     <InverseObjectProperties>
         <ObjectProperty IRI="#hasOrderingConstructInOrderedList"/>
@@ -1119,18 +3164,99 @@
         <ObjectProperty IRI="#IsInOrderedList"/>
     </FunctionalObjectProperty>
     <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasEffect"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
         <ObjectProperty IRI="#hasOrderedListNext"/>
     </FunctionalObjectProperty>
     <FunctionalObjectProperty>
         <ObjectProperty IRI="#hasOrderedListPrevious"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasPrecondition"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasReferenceObject"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasStateRelation"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasTargetObject"/>
     </FunctionalObjectProperty>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#IsInOrderedList"/>
         <Class IRI="#OrderingConstruct"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameter"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterEndEffector"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorChangingStation"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorHolder"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterKitTray"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithEmptyKitTrays"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithKits"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterPart"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterPartsTray"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterRobot"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActionParameterWorkTable"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasEffect"/>
         <Class IRI="#Action"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFunction"/>
+        <ObjectUnionOf>
+            <Class IRI="#Effect"/>
+            <Class IRI="#Precondition"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFunctionOperation"/>
+        <ObjectUnionOf>
+            <Class IRI="#Effect"/>
+            <Class IRI="#Precondition"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFunctionOperationFirstElement"/>
+        <Class IRI="#FunctionOperation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFunctionOperationSecondElement"/>
+        <Class IRI="#FunctionOperation"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasOrderedListNext"/>
@@ -1171,20 +3297,102 @@
         <Class IRI="#StateRelation"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasReferenceParameter"/>
+        <Class IRI="#Predicate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasStateRelation"/>
-        <Class IRI="#ExistOrderingConstruct"/>
+        <ObjectUnionOf>
+            <Class IRI="#ExistOrderingConstruct"/>
+            <Class IRI="#Predicate"/>
+        </ObjectUnionOf>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasTargetObject"/>
         <Class IRI="#StateRelation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTargetParameter"/>
+        <Class IRI="#Predicate"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#IsInOrderedList"/>
         <Class IRI="#OrderingConstruct"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameter"/>
+        <ObjectUnionOf>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorChangingStation"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithEmptyKitTrays"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithKits"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+            <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterEndEffector"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorChangingStation"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorChangingStation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterEndEffectorHolder"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterKitTray"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithEmptyKitTrays"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithEmptyKitTrays"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterLargeBoxWithKits"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithKits"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterPart"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Part"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterPartsTray"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterRobot"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActionParameterWorkTable"/>
+        <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#hasEffect"/>
         <Class IRI="#Effect"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFunction"/>
+        <Class IRI="#Function"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFunctionOperation"/>
+        <Class IRI="#FunctionOperation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFunctionOperationFirstElement"/>
+        <Class IRI="#Function"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFunctionOperationSecondElement"/>
+        <Class IRI="#Function"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasOrderedListNext"/>
@@ -1208,7 +3416,7 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasPredicate"/>
-        <Class IRI="#Predicates"/>
+        <Class IRI="#Predicate"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasReferenceObject"/>
@@ -1216,6 +3424,10 @@
             <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#SolidObject"/>
             <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#StockKeepingUnit"/>
         </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasReferenceParameter"/>
+        <Class abbreviatedIRI="owl:Thing"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasStateRelation"/>
@@ -1228,13 +3440,25 @@
             <Class IRI="http://www.nist.gov/el/ontologies/kittingClasses.owl#StockKeepingUnit"/>
         </ObjectUnionOf>
     </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTargetParameter"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </ObjectPropertyRange>
     <DataPropertyDomain>
         <DataProperty IRI="#hasCountNumber"/>
         <Class IRI="#CountOrderingConstruct"/>
     </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasOperator"/>
+        <Class IRI="#FunctionOperation"/>
+    </DataPropertyDomain>
     <DataPropertyRange>
         <DataProperty IRI="#hasCountNumber"/>
         <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasOperator"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -1260,6 +3484,16 @@
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#hasOrderedListPrevious</IRI>
         <Literal datatypeIRI="&rdf;PlainLiteral">Designate the ordering construct that comes directly before the current ordering construct in an ordered list</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasReferenceObject</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">hasReferenceObject is relative to hasTargetObject. It designs the object that is stationary around which the target object can move.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasTargetObject</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">hasTargetObject is relative to hasReferenceObject. It designs the object that can move around the reference object.</Literal>
     </AnnotationAssertion>
 </Ontology>
 

@@ -265,7 +265,7 @@ Our kitting domain is composed of ten operators which are defined below.
   \hline
   \stvarsmall{robot-empty}(\constsmall{robot})&$\neg$\stvarsmall{robot-empty}(\constsmall{robot})\\
   \stvarsmall{kittray-location-lbwekt}(\constsmall{kittray},\constsmall{lbwekt})&$\neg$\stvarsmall{kittray-location-lbwekt}(\constsmall{kittray},\constsmall{lbwekt}) \\
-  \stvarsmall{lbwekt-not-empty}(\const{lbwekt})&\stvarsmall{kit-tray-location}(\constsmall{kittray},\constsmall{robot})\\
+  \stvarsmall{lbwekt-not-empty}(\const{lbwekt})&\stvarsmall{kittray-location-robot}(\constsmall{kittray},\constsmall{robot})\\
   \stvarsmall{robot-with-endeffector}(\const{robot},\constsmall{endeffector})&\stvarsmall{robot-holds-kittray}(\constsmall{robot},\constsmall{kittray}) \\
 
   \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})&\\
@@ -478,7 +478,7 @@ Our kitting domain is composed of ten operators which are defined below.
   \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})
   & \stvarsmall{robot-holds-part}(\constsmall{robot},\constsmall{part})\\
   \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})
-  &  \stvarsmall{decrease}\ \stvarsmall{quantity-partstray}(\constsmall{partstray})\\
+  &  \stvarsmall{decrease}\ \stvarsmall{quantity-parts-in-partstray}(\constsmall{partstray})\\
   \stvarsmall{kit-location-worktable}(\constsmall{kit},\const{worktable})
   &  \\
   \stvarsmall{endeffector-type-part}(\constsmall{endeffector},\const{part})
@@ -508,7 +508,7 @@ Our kitting domain is composed of ten operators which are defined below.
  \item $\neg$\stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is now holding \constsmall{part} and is not empty anymore.
  \item  \stvarsmall{part-location-robot}(\constsmall{part},\constsmall{robot}): \constsmall{part} is held by \constsmall{robot}.
  \item \stvarsmall{robot-holds-part}(\constsmall{robot},\constsmall{part}): \constsmall{robot} is holding \constsmall{part}.
- \item \stvarsmall{decrease}\ \stvarsmall{quantity-partstray}(\constsmall{partstray}): After picking up a part from \constsmall{partstray} the number of parts in \constsmall{partstray} is decreased by one. This is expressed with the \stvarsmall{decrease} function.
+ \item \stvarsmall{decrease}\ \stvarsmall{quantity-parts-in-partstray}(\constsmall{partstray}): After picking up a part from \constsmall{partstray} the number of parts in \constsmall{partstray} is decreased by one. This is expressed with the \stvarsmall{decrease} function.
  \end{itemize}
  \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -526,8 +526,8 @@ Our kitting domain is composed of ten operators which are defined below.
   \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable})
   &\stvarsmall{robot-empty}(\constsmall{robot})\\
   \stvarsmall{origin-part}(\constsmall{part},\constsmall{partstray})
-  & \stvarsmall{part-location}(\constsmall{part},\constsmall{kit})\\
-  (< (\stvarsmall{quantity-kit}(\constsmall{kit},\constsmall{partstray})) (\stvarsmall{capacity-kit}(\constsmall{kit},\constsmall{partstray})))
+  & \stvarsmall{part-location-kit}(\constsmall{part},\constsmall{kit})\\
+  (< (\stvarsmall{quantity-parts-in-kit}(\constsmall{kit},\constsmall{partstray})) (\stvarsmall{capacity-kit}(\constsmall{kit},\constsmall{partstray})))
   & (\stvarsmall{increase}\ (\stvarsmall{quantity-kit}(\constsmall{kit},\constsmall{partstray})))\\
   & \stvarsmall{part-not-searched}
 \end{tabular}

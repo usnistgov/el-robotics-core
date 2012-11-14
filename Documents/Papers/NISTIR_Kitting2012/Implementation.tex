@@ -1,6 +1,8 @@
-As previously mentioned, the kitting workstation model has been 
-fully defined in each of two
-languages: XML schema language , and OWL . Although the two 
+In order to maintain compatibility with the IEEE working group,
+the ontology has been fully defined in OWL. However, due to
+several difficulties defined below, the ontology was also fully defined
+in the XML schema language. 
+Although the two 
 models are conceptually identical, there
 are some systematic differences between the models (in addition to
 differences inherent in using two different languages).
@@ -49,7 +51,7 @@ whenever they are changed. The layout of the hierarchy in
 Figure~\ref{fig:ClassHierarchy} is identical to what may be seen in
  Prot\'{e}g\'{e}'s class hierarchy window when the kitting model is loaded.
 
-Several difficulties of working with OWL were encountered. The primary
+Several difficulties in working with OWL were encountered. The primary
 effect of these difficulties was to make it essentially impossible to
 debug OWL files.
 
@@ -93,7 +95,7 @@ it obvious that this is a property of a Point) and to differentiate this X
 attribute from an X attribute of some other class (call it \sf Foo\rm)
 which would have the prefix \sf hasFoo \rm.
 
-As described above, with OWL, it is necessary to make many statements in
+As described above, with OWL it is necessary to make many statements in
 order to build a class in a typical object-oriented style. OWL does not
 assume a typical object-oriented style. It assumes the world might be more
 complex than that. Hence, many OWL statements are required to produce
@@ -166,7 +168,7 @@ The xmlSchemaParser reads an XML schema file, stores it in terms of
 instances of C++ classes, and reprints the schema. When the xmlSchemaParser
 runs, it performs many checks on the validity of the schema that is input
 to it. The xmlSchemaParser handles almost all portions of the XML schema
-syntax. A few of the rarely-used bits of syntax are not implemented.
+syntax. A few of the rarely-used elements of syntax are not implemented.
 
 The GenXMiller reads an XML schema and writes code for reading and writing
 XML data files corresponding to that schema. The code that is generated
@@ -177,7 +179,8 @@ data file corresponding to the schema. The GenXMiller is still under
 development and currently handles only a subset of the XML schema language. 
 The GenXMiller is not a
 new type of system. Several other code generators that use an XML schema
-as input have been developed. Even more XML schema parsers are
+as input have been developed \cite{XMLSchema1,ApacheXML}. 
+Even more XML schema parsers are
 available. However, having the knowledge about XML schema and XML data
 files gained by developing that software and having an intimate knowledge
 of the source code for it has proved very valuable in converting XML representations
@@ -224,7 +227,7 @@ demonstration was achieved as follows.
 \item The three XML data files were run through the owlPrinter to produce
   three OWL files.
 \item Since the owlPrinter has a different approach to ordering OWL
-  statements as was taken in preparing OWL files manually, and a slightly
+  statements than was taken in preparing OWL files manually, and a slightly
   different method of formatting statements, two small utilities were
   written to enable file comparison. The first utility, compactOwl, reads
   an OWL file and writes an OWL file containing the same statements but
@@ -243,7 +246,7 @@ demonstration was achieved as follows.
   all three types of files.
 \end{enumerate}
 
-After the testing just described was complete, using the owlPrinter,
+After the testing just described was complete, using the owlPrinter
 another OWL data file was prepared from a manually written XML data file
 for which there was no manually written OWL counterpart. The automatically
 generated OWL data file was checked in  Prot\'{e}g\'{e} and no errors were reported.
@@ -284,11 +287,11 @@ read XML data files and automatically generate OWL data files.
 
 \subsection{Robot Control Language}
 \label{sect:Implementation.CRCL}
-It is desirable to have numerous commercial robot systems be able to 
+It is desirable that numerous commercial robot systems be able to 
 immediately execute the plan for the series of actions required to transition from the initial state
 to the goal state of the kitting problem. However, there is currently no
 accepted standard robot programming language. For this reason, the authors
-have put together a ``canonical robot control language" (CRCL) that attempts to be
+have developed a ``canonical robot control language" (CRCL) that attempts to be
 a lowest common denominator of robot programing languages. It is anticipated
 that kitting plans can be translated into  CRCL command sets which may then be
 evaluated by standardized metric software. The CRCL command sets may then
@@ -443,11 +446,12 @@ CRCL class instances.
 The kitting system presented in this document relies on a \textit{direct} model of execution where the executor directly performs the activities specified in the plan. Figure~\ref{fig:executor} depicts the executor process for the kitting domain where ellipses represent files, regular rectangles are used to define processes, and rounded rectangles illustrate tools. The red dashed box contains the processes part of the executor. The components in Figure~\ref{fig:executor} are described below:
 
 \begin{enumerate}
-\item PDDL domain and problem files are generated from the IEEE RAS  Ontologies for Robotics and Automation Working Group's knowledge representation
-and are used by a planner to generate a plan file.
-The plan file contains a sequence of actions that can be executed from the initial state and that leads to a goal state. The actions present in the plan file are originally defined in the PDDL domain file. The initial and goal states are defined in the PDDL problem file.
+\item PDDL domain and problem files are currently generated by hand from the IEEE RAS  Ontologies for Robotics and Automation Working Group's
+OWL-based knowledge representation
+and are used by a planner to generate a plan file. In the near future, these files will be automatically generated.
+The plan file contains a sequence of actions that can be executed from the initial state and that lead to a goal state. The actions present in the plan file are originally defined in the PDDL domain file. The initial and goal states are defined in the PDDL problem file.
 
-\item The interpreter takes the plan file as input and builds the corresponding CRCL file. The knowledge representation is required to locate objects in the environment. Table~\ref{tab:takepart} shows an example of CRCL commands generated for the PDDL action \stvar{take-part(part\_b\_1)}. Please note that the PDDL action \stvar{take-part} developed for the current kitting domain has more than one parameter. Not all the parameters are relevant for the example depicted in Table~\ref{tab:takepart} and the number of parameters has been subsequently reduced for simplicity.
+\item The interpreter takes the plan file as input and builds the corresponding CRCL file. The knowledge representation is required to locate objects in the environment. Table~\ref{tab:takepart} shows an example of CRCL commands generated for the PDDL action \stvar{take-part(part\_b\_1)}. Please note that the PDDL action \stvar{take-part} developed for the current kitting domain has more than one parameter. Not all the parameters are relevant for the example depicted in Table~\ref{tab:takepart} and the number of parameters has been  reduced for simplicity.
 
 \begin{table}[h!]
 \centering
@@ -469,7 +473,7 @@ The plan file contains a sequence of actions that can be executed from the initi
   \label{tab:takepart}
 \end{table}
 
-\item The CRCL file is used by the controller in order to create ROS commands.
+\item The CRCL file is used by the controller to create ROS commands.
 
 \item The ROS commands are used by the ROS software controller for a robotic arm to initiate actual execution of actions.
 

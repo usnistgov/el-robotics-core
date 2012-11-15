@@ -84,19 +84,19 @@ CRCL command with cumulative values.
   not action commands that have been executed so far -- mostly setting
   commands. Executing these commands is assumed to take a negligible amount
   of time.\\
-   
+
  \item \sf Total Commands Executed (TCE) \rm -- the sum of ACE and OCE.\\
 
 \item \sf Total Distance Moved (TDM) \rm -- the total distance that the
-  tool tip has moved.  This is calculated as the total of the distances between 
+  tool tip has moved.  This is calculated as the total of the distances between
   points in
   the move commands, taken in order (and starting at the place where the
   controlled point is located initially). The value is updated as each point
   is reached, not continuously.\\
-  
+
  \item \sf Current Command Execution Time (CCET) \rm -- the time that the current
    command took to execute.\\
-   
+
 \item \sf Total Execution Time (TET) \rm -- the total time taken so far by
   executing action commands. This does not include any time that may elapse
   between when one command finishes execution and when the user tells the
@@ -124,26 +124,26 @@ CRCL command with cumulative values.
   they are useless. The \sf CloseGripper() \rm and \sf CloseToolChanger()
   \rm commands in Figure~\ref{fig:KittingPlan} are useless because the
   gripper and tool changer are closed in the initial conditions.\\
-  
+
 \item \sf Number of Objects Moved Correctly (NOMC) \rm -- the number of objects
   that were moved correctly from the parts supply to the kit.\\
 
 \item \sf Number of Objects Moved Incorrectly (NOMI) \rm -- the number of objects
   that were moved to an incorrect position in the kit.\\
-  
+
 \item \sf Number of Total Objects Moved (NTOM) \rm -- the sum of NOMC and NOMI.\\
 
 \item \sf Incorrect Gripper (IG) \rm -- the wrong gripper was used to pick up an object.\\
 
-\item \sf Joint Out of Range (JOR) \rm -- a joint of the robot was commanded to 
+\item \sf Joint Out of Range (JOR) \rm -- a joint of the robot was commanded to
   move to an out-of-limit position.\\
 
 \item \sf Weight Violation (WV) \rm -- the robot was asked to move some object that
   violates its load capacity.\\
-  
+
 \item \sf Outside Work Volume (OWV) \rm -- the robot was asked to move outside its
   work volume.\\
-  
+
 \item \sf Constraint Violations (CV) \rm -- the total of IG, JOR, WV and OWV.
 
 \end{itemize}
@@ -166,7 +166,7 @@ It is envisioned that a taxonomy of robustness will be developed that decomposes
 \item \sf Contact errors \rm -- quantitative metrics that keep track of the number of collisions between the robotic arm and objects in the environment. The performance of the robotic arm during kit building is affected by the positions of joints and the end-effector in the environment. The position of the end-effector can reduce the time to complete tasks but can also increase the number of collisions due to joint contact with other objects in a confined space.\\
 
 \item \sf Failures during kit building\rm -- quantitative metrics that report the total number of failures encountered during kit building. When a failure occurs during the
-building of a kit, the number of failures is increased by one. The system may generate a new plan to recover from the failure. If a failure occurs during the executio nof the new
+building of a kit, the number of failures is increased by one. The system may generate a new plan to recover from the failure. If a failure occurs during the execution of the new
 plan, the number of failures in increased by one again.\\
 
 \item \sf Failure modes recovery \rm -- quantitative metrics that represent the number of failure modes the system recovers from through the use of contingency plans. When a failure is detected in the execution process, failure monitors encode appropriate responses (contingency plans) to failure modes for this particular failure.\\

@@ -1,42 +1,90 @@
+While the knowledge representation presented in this paper provides the \lq\lq{}slots\rq\rq{} necessary for representing dynamic information, the
+static file structure makes the utilization of these slots awkward. It is desirable to be able to represent the dynamic information in a dynamic database.
+For this reason, the authors have developed a technique for automatically generating tables for storing,  and access functions
+for obtaining, the data from the ontology in a MySQL database.
 
-The NIST's Knowledge Driven Planning and Modeling team has developed a methodology to generate a MySQL database from the kitting ontology. Reading data from and to the MySQL database instead of the ontology file offers the community an easy access to a live data structure. Furthermore, it is more practical to modify the information stored in a database than if it was stored in an ontology, which, in some cases, requires the deletion and re-creation of the whole files. Finally, a literature review reveals many efforts and methodologies to produce SQL databases from ontologies. Once the MySQL database in place and the tables filled with information from the ontology, the NIST's team developed tools to automatically generate a set of C++ classes in order to read the kitting MySQL database. Please note that choice of C++ was a team preference and we believe that other object-oriented languages could have been used in this project. The rest of this section describes the methodology and tools mentioned above. Excerpts of C++ classes are used to demonstrate the results.
-\subsection{From the Ontolongy to the MySQL Database}\label{ss:ontology2db}
+Reading data from and to the MySQL database instead of the ontology file offers the community easy access to a live data structure. Furthermore, it is more practical to modify the information stored in a database than if it was stored in an ontology, which in some cases, requires the deletion and re-creation of the whole file. A literature review reveals many efforts and methodologies that have been designed to produce SQL databases from ontologies. Our effort builds upon the work of Astrova et al.\cite{Astrova2007}. 
 
-\subsection{From the MySQL Database to C++ Classes}
-This section first discusses the tools developed to generate a set of C++ classes that is capable of accessing information in the MySQL database. An example is presented on how to use the generated classes to retrieve data from the MySQL database.
+In addition to generating and filling the database tables, the authors have created tools that automatically generate a set of C++ classes for reading and writing
+information to the kitting MySQL database. The choice of C++ was a team preference and we believe that other object-oriented languages could have been used in this project.
 
-The idea is to propose an object-relational mapping tool within the executor module. The C++ classes regarding this object-relational mapping are all generated, and so are the Data Access Objects (DAO) to interact with the MySQL database. To map the MySQL database and indirectly the ontology to C++ classes, we had to perform the two following steps:
+The Generator tool is a graphical user interface developed in Java, allowing the user to store data from OWL files into a MySQL database. This tool also permits the user to query the database using the C++ function calls. The tool Generator is composed of the following functionalities:
+\begin{enumerate}
+ \item Convert OWL documents into SQL syntaxes (OWL to SQL).
+ \item Translate SQL syntaxes to OWL language in order to modify an OWL document (SQL to OWL).
+ \item Convert the OWL language into C++ classes (OWL to C++).
+\end{enumerate}
+
+To date, only steps 1. and 3. have been implemented and will be covered in this document.
+In order to generate the SQL database and C++ classes, the OWL object model must be mapped to the C++ object model and the relational SQL model. 
+To quote the OWL 2 Web Ontolongy website~\cite{OWLspec}, ``Entities are the fundamental building blocks of OWL 2 ontologies, 
+and they define the vocabulary --the named terms-- of an ontology. In logic, the set of entities is usually said to constitute the 
+signature of an ontology''. Therefore, the notions of single-valued and multi-valued properties as well as the inheritance must be 
+mapped from the ontolongy to the SQL database and C++ classes. The mapping from OWL proceeds as follows:
 \begin{itemize}
-\item Generate the C++ classes from the ontology itself.
-\item Build the DAO with the help of the mapping of the ontology into the database (described in section~\ref{ss:ontology2db})
+\item Data properties: In an ontology, data properties link an individual to a data value. Single-valued data properties are mapped into a SQL table entry or C++ class
+variable with the corresponding type of the original property. For example, in the ontology a robot has a single-valued data 
+property \texttt{hasRobot\_Description}, represented in the
+SQL database as a \texttt{varchar} and in the corresponding C++ class as \texttt{std:string}. 
+Multi-valued data properties are mapped from the ontology into the SQL database as a table and into the C++ class as a \texttt{std:vector} with the corresponding
+type of the original property. For example,
+in the ontology a stock keeping unit has a multi-valued
+data property \texttt{hasSku\_EndEffectorRefs}. This maps to a SQL table containing \texttt{varchar} entries and the C++
+\texttt{std::vector\textless std::string\textgreater} in the corresponding C++ class.
+
+\item Object property: In an ontology, object properties link one individual to another individual. 
+The single-valued object properties are mapped to a SQL table entry or C++ class
+variable. Their type is a pointer to the range of the object properties. For example, in the ontology a solid object has the object property \texttt{hasRobot\_Description} 
+linking it to a physical location. In the SQL database, ??? In the C++ classes, this is represented by a reference to a physical location: \texttt{PhysicalLocation* hasSolidObject\_PrimaryLocation}.
+Multi-valued object properties are mapped from the ontology into the SQL database as a table and into the C++ class as a \texttt{std:vector} of pointers referencing objects of the range of the property.  For example, a solid object also has a list of secondary locations corresponding to a multi-valued object property in the ontology: {\scriptsize\texttt{std::vector\\ \textless PhysicalLocation*\textgreater hasSolidObject\_SecondaryLocation}}.
 \end{itemize}
 
+\subsection{MySQL Database Generation}\label{ss:ontology2db}
+\begin{figure}[h!t!]
+\centering
+\includegraphics[width=8.5cm]{images/OWLtoSQL001.jpeg}
+\caption{Owl to SQL tab.}
+\label{fig:owl2sql}
+\end{figure}
 
-The generated C++ classes as well as MySQL tables are based upon the ontolongy's entities. To quote the OWL 2 Web Ontolongy website~\cite{OWLspec}, ``Entities are the fundamental building blocks of OWL 2 ontologies, and they define the vocabulary — the named terms — of an ontology. In logic, the set of entities is usually said to constitute the signature of an ontology''. Therefore, the notions of single-valued and multi-valued properties as well as the inheritance are kept from the ontolongy to the C++ classes.
+This section provides basic information on the Generator Java tool. Specific information on the tools usage is included with the tool in its manual.
+Converting an OWL ontology to SQL script files is easily performed using the \texttt{Owl to SQL} tab  (see Figure~\ref{fig:owl2sql}). The required fields are:
 
-
-Data property: The single-valued data properties are mapped into an attribute of the object with a corresponding type, and multi-valued data properties are mapped to a \texttt{std:vector}. For example, in the ontonlogy, a robot has a single-valued data property \texttt{hasRobot\_Description}, represented in the database as a \texttt{varchar} and in the corresponding C++ class as \texttt{std:string hasRobot\_Description}. In the ontonlogy, a stock keeping unit has a multi-valued
-data property \texttt{hasSku\_EndEffectorRefs} mapped to a \texttt{std::vector\textless std::string\textgreater} in the corresponding C++ class.
-
-Object property: The single-valued object properties are mapped to an attribute of the object, but their type is a pointer to the range of the object properties. The multi-valued object properties one are mapped to a \texttt{std:vector} of pointer referencing objects of the range of the property. To illustrate, a solid object has the object property \texttt{hasRobot\_Description} linking it to a physical location represented by a reference to a physical location: \texttt{PhysicalLocation* hasSolidObject\_PrimaryLocation}. A solid object also has a list of secondary location corresponding to a multi-valued object property in the ontology: {\scriptsize\texttt{std::vector\\ \textless PhysicalLocation*\textgreater hasSolidObject\_SecondaryLocation}}.
-
-
-\subsubsection{Classes}
-
-The C++ classes are generated according to the two following steps :
 \begin{itemize}
-\item The first step generates the header (.h) (see Figure~\ref{fig:headerclass}) and class file (.cpp) used for the connection with the database. It doesn't depend on
-the content of the ontology, it only initializes the specific objects related to the MySQL connector driver.
-
-\item The second step generates all the C++ headers and class files relative to our ontology. All the classes in the ontology are C++ classes, and all the data properties in the ontology are attributes of the C++ classes. The link
-between the ontology entities made with the help of the object properties results in the C++ classes in pointers to an object
-having the same type as the range of the object property. The notion of multiple values are solved with the use of \texttt{std::vector}.
+ \item Ontology Path: The OWL file to be converted. Note that all \texttt{Import} statements in this file must use absolute paths.
+ \item Saves Path: The directory where you want to save the SQL files.
 \end{itemize}
 
-The different includes are made in the C++ class files and only forward declarations are done in the different headers. 
-Doing so resolves the different problems associated to circular includes or multiple ones. In addition to the different getter 
-and setter, the classes have and \textit{explode} method that splits a string into a vector around matches of a given regular expression, 
-and a \textit{copy} method that takes a C++ map as input and copy the values from the map into the instance. The classes also consist of \textit{get} and \textit{set} methods that initialize and use the DAO to read and write data from and to the MySQL database.
+Clicking on the ``Generate SQL'' will generate the SQL script files. Two files will be created by the tool:
+\begin{itemize}
+\item The file used to create tables in the database: \texttt{<inputfile>.owlCreateTable.sql} 
+\item The file used to populate the database tables: \texttt{<inputfile>.owlInsertInto.sql}. 
+\end{itemize}
+These files may then be used with the SQL command line interface to create and populate the database.
+
+\subsection{C++ Class Generation and Usage}
+As previously mentioned, the C++ classes are automatically generated by the Generator tool. In addition to the class structure, 
+Data Access Objects (DAO) that are needed to interact with the MySQL database are generated. 
+To map the MySQL database and indirectly the ontology to C++ classes, both the C++ classes and
+the DAO must be generated.
+
+The C++ class files (.cpp) and header files (.h) are generated in a two step process.
+The first step does not depend on the content of the ontology, it only initializes the specific objects related to the MySQL connector driver
+(see Figure~\ref{fig:headerclass}).
+
+The second step generates all the C++ headers and class files relative to our ontology. 
+All of the \texttt{include} statements  are made directly in the C++ class files, and only forward declarations are performed in the headers. 
+This resolves problems associated with circular includes or multiple includes. All of the classes include the following methods:
+\begin{itemize}
+\item \texttt{This should include all of the methods that a user may need to call and a description of them.}
+\item \texttt{getter} - some description of what this does
+\item \texttt{setter} - some description of what this does
+\item \texttt{explode} - method that splits a string into a vector around matches of a given regular expression, 
+\item \texttt{copy} -  method that takes a C++ map as input and copy the values from the map into the instance. 
+\item \texttt{get} - reads data from the MySQL database,
+\item \texttt{set} - writes data to the MySQL database,
+\item \texttt{init} - Does this really exist? methods that initialize and use the DAO.
+\end{itemize}
 
 \begin{figure}[t!h!]
 \begin{minipage}{.5\paperwidth}
@@ -135,28 +183,30 @@ and a \textit{copy} method that takes a C++ map as input and copy the values fro
 
 
 
-\subsubsection{Data Access Object}
-
-A data access object (DAO) provides an abstract interface to some type of database or other persistence
-mechanism. By mapping application calls to the persistence layer, DAOs provide some specific data operations without exposing
-details of the database. This isolation separates the concerns of what data accesses the application needs, in terms of
-domain-specific objects and data types (the public interface of the DAO), and how these needs can be satisfied with a specific
-DBMS, database schema, etc.
+The actual data access is provided through the use of a data access object (DAO).
+DAOs provide an abstract interface to some type of database or other persistence
+mechanism. DAOs map application calls to the database or persistence mechanism, 
+thus providing some specific data operations without exposing
+details of the database. The use of the DAO separates the data accesses that the application needs from how these needs can be satisfied with a specific
+Database Management System (DBMS), database schema, etc.
 
 A similar mechanism has been used in this project for the interaction between the C++ classes used by the executor module and 
-the MySQL database (see Figure~\ref{fig:headerdao}). The different methods of the DAO are the same for any ontology. 
-We don't care about the data here, only the way we retrieve or store them. Only the four vectors filled by the\texttt{fillGetSqlQueries} method differ from one C++ file to another file.
+The different methods of the DAO are the same for any ontology. 
+The concern here is not about the data, but only about the way to retrieve or store it. Only the four vectors filled by the\texttt{fillGetSqlQueries} method differ from one 
+auto-generated C++ file to another file.
 
-When the DAO is generated, four vectors are built as follows:
+When the DAO is generated, four vectors are built as follows (\ref{fig:headerdao}:
 
 \begin{itemize}
-\item line \textcolor{BrickRed}{17} : A structure with the SQL query to select the content of the tables relative to an entity : the table relative to the entity itself and the ones relative to its super classes
-\item line \textcolor{BrickRed}{18} : A structure with the SQL query to select the multi-valued attributes (multi-valued data) for a given entity
-\item line \textcolor{BrickRed}{19} : A structure with the names of the tables linked to this entity in the ontology
-\item line \textcolor{BrickRed}{20} : A structure with the names of the association tables linked to an object
+\item line \textcolor{BrickRed}{17} : A structure with the SQL query to select the content of the tables relative to an entity, the table relative to the entity itself and the ones relative to its super classes.
+\item line \textcolor{BrickRed}{18} : A structure with the SQL query to select the multi-valued attributes (multi-valued data) for a given entity.
+\item line \textcolor{BrickRed}{19} : A structure with the names of the tables linked to this entity in the ontology.
+\item line \textcolor{BrickRed}{20} : A structure with the names of the association tables linked to an object.
 \end{itemize}
 
-With these four structures, we are able to read (\texttt{get} method) and write (\texttt{set} method) data from and to the MySQL database. The \texttt{get} method fill a C++ map and let the object itself and the \texttt{copy} method deal with the data. As for the method \texttt{set}, the object calls it with a C++ map with the values of his different attributes in input and the \texttt{set} method writes these values into the MySQL database.
+With these four structures,one is able to read (\texttt{get} method) and write (\texttt{set} method) data from and to the MySQL database. The \texttt{get} method fills 
+a C++ map and gets the object itself while the \texttt{copy} method handles the data. The \texttt{set} method,is called with a C++ map containing the values of the 
+different attributes as input and the \texttt{set} method writes these values into the MySQL database. \\textit{Why two set methods?}
 
 
 \begin{figure}[t!h!]
@@ -258,7 +308,7 @@ With these four structures, we are able to read (\texttt{get} method) and write 
 %\end{lstlisting}
 
 
-\subsubsection{How to Use the C++ Classes to Access Data from the MySQL Database}
+\subsection{Using the C++ Classes to Access Data from the MySQL Database}
 
 \begin{figure}[t!h!]
 \begin{minipage}{.5\paperwidth}
@@ -331,7 +381,7 @@ Figure~\ref{fig:exampleofuse} depicts an example using the generated classes to 
 
 \begin{itemize}
 \item lines \textcolor{BrickRed}{1--4}: Include the different headers necessary to query MySQL tables. Here, the tables Point, PoseLocation, Vector, and KitTray are required.
-\item line \textcolor{BrickRed}{9}: Initialize an object from the class \texttt{KitTray} by passing his name.
+\item line \textcolor{BrickRed}{9}: Initialize an object from the class \texttt{KitTray} by passing its name.
 \item line \textcolor{BrickRed}{10}: Allow access to any data from the table KitTray.
 \item lines \textcolor{BrickRed}{12--13}: Initialize an object of type \texttt{PoseLocation} and allow access to any data from the table PoseLocation.
 \item lines \textcolor{BrickRed}{17--18}: Retrieve X, Y, and Z coordinates from the table Point for the kit tray \texttt{kit\_tray\_name}.

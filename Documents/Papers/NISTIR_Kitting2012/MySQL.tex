@@ -17,10 +17,10 @@ The Generator tool is a graphical user interface developed in Java, allowing the
 
 To date, only steps 1. and 3. have been implemented and will be covered in this document.
 In order to generate the SQL database and C++ classes, the OWL object model must be mapped to the C++ object model and the relational SQL model. 
-To quote the OWL 2 Web Ontolongy website~\cite{OWLspec}, ``Entities are the fundamental building blocks of OWL 2 ontologies, 
+To quote the OWL 2 Web Ontology website~\cite{OWLspec}, ``Entities are the fundamental building blocks of OWL 2 ontologies, 
 and they define the vocabulary --the named terms-- of an ontology. In logic, the set of entities is usually said to constitute the 
 signature of an ontology''. Therefore, the notions of single-valued and multi-valued properties as well as the inheritance must be 
-mapped from the ontolongy to the SQL database and C++ classes. The mapping from OWL proceeds as follows:
+mapped from the ontology to the SQL database and C++ classes. The mapping from OWL proceeds as follows:
 \begin{itemize}
 \item Data properties: In an ontology, data properties link an individual to a data value. Single-valued data properties are mapped into a SQL table entry or C++ class
 variable with the corresponding type of the original property. For example, in the ontology a robot has a single-valued data 
@@ -35,7 +35,7 @@ data property \texttt{hasSku\_EndEffectorRefs}. This maps to a SQL table contain
 \item Object property: In an ontology, object properties link one individual to another individual. 
 The single-valued object properties are mapped to a SQL table entry or C++ class
 variable. Their type is a pointer to the range of the object properties. For example, in the ontology a solid object has the object property \texttt{hasRobot\_Description} 
-linking it to a physical location. In the SQL database, ??? In the C++ classes, this is represented by a reference to a physical location: \texttt{PhysicalLocation* hasSolidObject\_PrimaryLocation}.
+linking it to a physical location. In the SQL database, we use the a foreign key to link the two entries. In the C++ classes, this is represented by a reference to a physical location: \texttt{PhysicalLocation* hasSolidObject\_PrimaryLocation}.
 Multi-valued object properties are mapped from the ontology into the SQL database as a table and into the C++ class as a \texttt{std:vector} of pointers referencing objects of the range of the property.  For example, a solid object also has a list of secondary locations corresponding to a multi-valued object property in the ontology: {\scriptsize\texttt{std::vector\\ \textless PhysicalLocation*\textgreater hasSolidObject\_SecondaryLocation}}.
 \end{itemize}
 
@@ -76,14 +76,12 @@ The second step generates all the C++ headers and class files relative to our on
 All of the \texttt{include} statements  are made directly in the C++ class files, and only forward declarations are performed in the headers. 
 This resolves problems associated with circular includes or multiple includes. All of the classes include the following methods:
 \begin{itemize}
-\item \texttt{This should include all of the methods that a user may need to call and a description of them.}
-\item \texttt{getter} - some description of what this does
-\item \texttt{setter} - some description of what this does
+\item \texttt{getter} - method getting a private field,
+\item \texttt{setter} - method setting a private field,
 \item \texttt{explode} - method that splits a string into a vector around matches of a given regular expression, 
 \item \texttt{copy} -  method that takes a C++ map as input and copy the values from the map into the instance. 
 \item \texttt{get} - reads data from the MySQL database,
 \item \texttt{set} - writes data to the MySQL database,
-\item \texttt{init} - Does this really exist? methods that initialize and use the DAO.
 \end{itemize}
 
 \begin{figure}[t!h!]
@@ -206,7 +204,7 @@ When the DAO is generated, four vectors are built as follows (\ref{fig:headerdao
 
 With these four structures,one is able to read (\texttt{get} method) and write (\texttt{set} method) data from and to the MySQL database. The \texttt{get} method fills 
 a C++ map and gets the object itself while the \texttt{copy} method handles the data. The \texttt{set} method,is called with a C++ map containing the values of the 
-different attributes as input and the \texttt{set} method writes these values into the MySQL database. \\textit{Why two set methods?}
+different attributes as input and the \texttt{set} method writes these values into the MySQL database.
 
 
 \begin{figure}[t!h!]

@@ -76,16 +76,16 @@ The second step generates all the C++ headers and class files relative to our on
 All of the \texttt{include} statements  are made directly in the C++ class files, and only forward declarations are performed in the headers. 
 This resolves problems associated with circular includes or multiple includes. All of the classes include the following methods:
 \begin{itemize}
-\item \texttt{getter} - method getting a private field,
-\item \texttt{setter} - method setting a private field,
-\item \texttt{explode} - method that splits a string into a vector around matches of a given regular expression, 
-\item \texttt{copy} -  method that takes a C++ map as input and copy the values from the map into the instance. 
-\item \texttt{get} - reads data from the MySQL database,
-\item \texttt{set} - writes data to the MySQL database,
+\item \texttt{get<private field>} - Method for getting a private field.
+\item \texttt{set<private field>} - Method for setting a private field.
+\item \texttt{explode} - Method that splits a string into a vector around matches of a given regular expression. 
+\item \texttt{copy} -  Method that takes a C++ map as input and copy the values from the map into the instance.
+\item \texttt{get} - Method that reads data from the MySQL database.
+\item \texttt{set} - Method that writes data to the MySQL database.
 \end{itemize}
 
 \begin{figure}[t!h!]
-\begin{minipage}{.5\paperwidth}
+\begin{minipage}{.45\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbersep=2pt]
 \textbf{#ifndef} PARTSBIN_H_
@@ -186,14 +186,13 @@ DAOs provide an abstract interface to some type of database or other persistence
 mechanism. DAOs map application calls to the database or persistence mechanism, 
 thus providing some specific data operations without exposing
 details of the database. The use of the DAO separates the data accesses that the application needs from how these needs can be satisfied with a specific
-Database Management System (DBMS), database schema, etc.
-
-A similar mechanism has been used in this project for the interaction between the C++ classes used by the executor module and 
+Database Management System (DBMS), database schema, etc. 
 The different methods of the DAO are the same for any ontology. 
-The concern here is not about the data, but only about the way to retrieve or store it. Only the four vectors filled by the\texttt{fillGetSqlQueries} method differ from one 
+The concern here is not about the data, but only about the way to retrieve or store it. Only the four vectors filled by the
+private \texttt{fillGetSqlQueries} method differ from one 
 auto-generated C++ file to another file.
 
-When the DAO is generated, four vectors are built as follows (\ref{fig:headerdao}:
+When the DAO is generated, four vectors are built as follows (shown in Figure \ref{fig:headerdao}):
 
 \begin{itemize}
 \item line \textcolor{BrickRed}{17} : A structure with the SQL query to select the content of the tables relative to an entity, the table relative to the entity itself and the ones relative to its super classes.
@@ -202,13 +201,13 @@ When the DAO is generated, four vectors are built as follows (\ref{fig:headerdao
 \item line \textcolor{BrickRed}{20} : A structure with the names of the association tables linked to an object.
 \end{itemize}
 
-With these four structures,one is able to read (\texttt{get} method) and write (\texttt{set} method) data from and to the MySQL database. The \texttt{get} method fills 
-a C++ map and gets the object itself while the \texttt{copy} method handles the data. The \texttt{set} method,is called with a C++ map containing the values of the 
-different attributes as input and the \texttt{set} method writes these values into the MySQL database.
+With these four structures, one is able to read (\texttt{get} method) and write (\texttt{set} method) data from and to the MySQL database. The \texttt{get} method fills 
+a C++ map and gets the object itself while the \texttt{copy} method handles the data. The \texttt{set} method is called with a C++ map containing the values of the 
+different attributes as input and writes these values into the MySQL database.
 
 
 \begin{figure}[t!h!]
-\begin{minipage}{.5\paperwidth}
+\begin{minipage}{.45\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
 \textbf{#ifndef} DAO_H_
@@ -229,26 +228,34 @@ different attributes as input and the \texttt{set} method writes these values in
       std::string path; std::string pathmulti;
       \textbf{static} std::map<std::string, std::string>
         getSqlQueriesDataSingle;
-      \textbf{static} std::map<std::string, std::vector<std::string>>
+      \textbf{static} std::map<std::string, 
+			std::vector<std::string>>
 			getSqlQueriesDataMulti;
-      \textbf{static} std::map<std::string, std::vector<std::string>>
+      \textbf{static} std::map<std::string, 
+			std::vector<std::string>>
 			getSqlQueriesObjectSingle;
-      \textbf{static} std::map<std::string, std::vector<std::string>>
+      \textbf{static} std::map<std::string, 
+			std::vector<std::string>>
 			getSqlQueriesObjectMulti;
-      \textbf{static} std::map<std::string, std::vector<std::string>>
-				  setSqlQueries;
-      \textbf{static} std::map<std::string, std::vector<std::string>>
-				updateSqlQueries;
+      \textbf{static} std::map<std::string, 
+			std::vector<std::string>>
+			setSqlQueries;
+      \textbf{static} std::map<std::string, 
+			std::vector<std::string>>
+			updateSqlQueries;
       \textbf{void} fillGetSqlQueries();
     \textbf{public}:
       DAO(std::string name); ~DAO();
       std::vector<std::string> getclassName();
-      \textbf{void} setclassName(std::vector<std::string> _className);
+      \textbf{void} setclassName(
+		std::vector<std::string> _className);
       Connection* getconnection();
       \textbf{void} setconnection(Connection* _connection);
-      std::map<std::string,std::string> get(std::string name);
+      std::map<std::string,std::string> 
+      	get(std::string name);
       \textbf{void} set(std::map<std::string, std::string> data);
-      std::vector<std::string> Explode(\textbf{const} std::string & str,
+      std::vector<std::string> Explode(
+		\textbf{const} std::string & str,
       \textbf{char separator});
 \};
 \textbf{#endif} /* DAO_H_ */
@@ -309,7 +316,7 @@ different attributes as input and the \texttt{set} method writes these values in
 \subsection{Using the C++ Classes to Access Data from the MySQL Database}
 
 \begin{figure}[t!h!]
-\begin{minipage}{.5\paperwidth}
+\begin{minipage}{.50\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
 #include "Point.h"
@@ -324,7 +331,8 @@ void CanonicalRobotCommand::
   kit_tray->get(kit_tray_name);
 
   PoseLocation* kit_tray_pose = \textbf{new} PoseLocation(
-  kit_tray->gethasSolidObject_PrimaryLocation()->getname());
+  kit_tray->gethasSolidObject_PrimaryLocation()->
+ 		getname());
   kit_tray_pose->get(kit_tray_pose->getname());
 
   //--Retrieve hasPoseLocation_Point

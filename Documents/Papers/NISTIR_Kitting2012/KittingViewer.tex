@@ -13,7 +13,7 @@ input files and simulate execution of the plan file. Plan metrics are
 being calculated, and robot motion is being animated at speeds specified
 in the plan.
 
-Figure~\ref{fig:KittingViewer} shows the kittingViewer display at its
+Figure~\ref{fig:KittingViewer} shows the kittingViewer display in its
 current state of development. The display uses three windows, labeled
 Metrics \& Settings, Kitting Viewer, and Kitting Command. The windows may
 be moved and resized independently, like other windows in a typical
@@ -21,7 +21,7 @@ windowing system.
 
 The Kitting Viewer window shows a view of the kitting workstation. The
 floor of the workstation is covered with a grid. The spacing of the grid is
-the last entry in the Metrics and Settings window. The robot in the
+the last entry in the Metrics \& Settings window. The robot in the
 workstation is represented by a gantry robot spanning the entire width of
 the workstation.  The gantry robot moves when any of the CRCL motion
 commands is executed.  The speed at which the picture of the robot is
@@ -34,13 +34,13 @@ most recently executed command, if no command is currently executing.
 
 The Metrics \& Settings window shows 9 metrics at the top and 14 settings
 below that. All but three of the settings correspond to items that may be
-set using CRCL commands. The extra three are the grid spacing and the robot
+set using CRCL commands. The extra three are the grid spacing and the robot\rq{}s
 maximum speed and maximum acceleration (which may not be reset). As
 commands are executed, metrics and settings are updated in the window.
 When the kittingViewer is completed, there will be more metrics.
 \begin{figure}[ht!]
 \begin{center}
-\includegraphics[width=8cm]{images/kittingViewer.jpg}
+\includegraphics[width=8.5cm]{images/kittingViewer.jpg}
 \caption{Kitting Viewer Display}
 \label{fig:KittingViewer}
 \end{center}
@@ -74,31 +74,31 @@ the longer explanations given below.\\
 
 \begin{itemize}
 
-\item R key -- The R key toggles the behavior of the left mouse button
+\item \lq{}r\rq{} key -- the \lq{}r\rq{} key toggles the behavior of the left mouse button
   between translating and rotating the picture. This functionality is
   included because some mice do not have a middle button. Press R once and
   the left mouse button controls rotation. Press R again and the left
   mouse button controls translation (the original setting).\\
 
-\item Left mouse button -- By default, the left mouse button is used to
+\item Left mouse button -- by default, the left mouse button is used to
   translate the picture. Position the cursor anywhere in the Kitting Viewer
   window, hold down the left mouse button and move the cursor by moving the
   mouse. The picture will move as though it is glued to the cursor. If the
   R key has switched the left mouse button to rotation, it behaves like the
   middle mouse button, as described in the next paragraph.\\
 
-\item Middle mouse button -- The middle mouse button is used to rotate the
+\item Middle mouse button -- the middle mouse button is used to rotate the
   picture. This is a little trickier than the other two mouse buttons. To
   rotate the picture, position the cursor inside the window near an edge of
   the window, hold down the middle mouse button, and move the cursor in a
   straight line towards the opposite edge. The picture rotates around an axis
-  that is perpendicular to the line of mouse motion. Experiment. In order
+  that is perpendicular to the line of mouse motion. In order
   to allow for fine positioning, the amount of rotation that occurs for a
   given amount of mouse motion decreases as the picture is zoomed
   in. Hence, if you want to turn the picture completely over, it is best to
   zoom out, rotate, and zoom back in again.\\
 
-\item Right mouse button -- The right mouse button is used to zoom in or
+\item Right mouse button -- the right mouse button is used to zoom in or
   out. To zoom out, position the cursor near the bottom of the picture,
   hold down the right mouse button and push the mouse away from you (moving
   the cursor up); that appears to push the picture away from you. To zoom
@@ -110,22 +110,22 @@ the longer explanations given below.\\
   easy to see a separation of half a millimeter. This is zooming, not
   moving the point of view, so the eye never goes through the picture.\\
 
-\item H key -- If the h key is pressed, the view in the Kitting Viewer
+\item \lq{}h\rq{} key -- if the \lq{}h\rq{} key is pressed, the view in the Kitting Viewer
   window returns to its original position.\\
 
-\item G key -- If the g key is pressed when the plan is not completely
+\item \lq{}g\rq{} key -- if the \lq{}g\rq{} key is pressed when the plan is not completely
   executed and no action command is executing, the next command in the plan
   is executed and the Metrics \& Settings window is updated. If the g key
   is pressed when the plan is completely executed or when an action command
   is in progress, nothing happens.\\
 
-\item T key -- If the t key is pressed, a combined image of all the windows
+\item \lq{}t\rq{} key -- if the \lq{}t\rq{} key is pressed, a combined image of all the windows
   will be saved in a file. The name of the file will be anaglyph\_N.ppm,
   where N starts at 0000 and increases by 1 each time the t key is
   pressed. The ppm (portable pixmap) format is a common graphics format
   that many graphics utilities can handle.\\
 
-\item Z or Q key -- If the z or q key is pressed, the kittingViewer program
+\item \lq{}z\rq{} or \lq{}q\rq{} key -- if the \lq{}z\rq{} or \lq{}q\rq{} key is pressed, the kittingViewer program
   exits, and the windows disappear.\\
 
 \end{itemize}

@@ -5,8 +5,8 @@
 %\input{outline.tex}
 \maketitle
 \thispagestyle{empty}
-\pagestyle{empty}
-
+\pagestyle{plain}
+\pagenumbering{arabic}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
@@ -14,9 +14,9 @@
 The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to
 developing a methodology for knowledge representation and reasoning in robotics
 and automation. As part of this working group, the Industrial Robots sub-group is
-tasked with studying industrial applications of the ontology. One of the first
+tasked with studying industrial applications of the knowledge representation. One of the first
 areas of interest for this subgroup is the area of kit building or kitting.
-It is anticipated that utilization of the ontology will allow for the development
+It is anticipated that utilization of the knowledge representation will allow for the development
 of higher performing kitting systems. However, the definition of ``higher performing''
 has yet to be defined. This paper addresses this issue by providing the basis
 for performance methods and metrics that are designed to
@@ -30,10 +30,10 @@ Material feeding systems are an integral part of today's assembly line operation
 These systems assure that parts are available where and when
 they are needed during the assembly operations by providing either a continuous
 supply of parts at the station, or a set of parts (known
-as a `kit') that contains the required parts for one or more assembly operations.
+as a kit) that contains the required parts for one or more assembly operations.
 In continuous supply, a quantity of each part that
 may be necessary for the assembly operation is stored at the assembly station.
-If multiple versions of a product are being assembled, (mixed-model assembly)
+If multiple versions of a product are being assembled (mixed-model assembly),
 a larger variety of parts than are used for an individual assembly may need
 to be stored. With this material feeding scheme, parts
 storage and delivery systems must be duplicated at each assembly station.
@@ -47,8 +47,9 @@ collection of components and/or subassemblies that together
 operations for a given product or shop order''. In the case of mixed-model
 assembly, the contents of a kit may vary from product to product.
 The use of kitting allows a single delivery system to feed
-multiple assembly stations. The operation of this kitting
-station may be viewed as a specialization of the general bin-picking problem.
+multiple assembly stations. The individual operations of the station that
+builds the kits may be viewed as a specialization of the general
+bin-picking problem \cite{Schyja2012}.
 
 In industrial assembly of manufactured products, kitting is
 often performed prior to final assembly. Manufacturers utilize kitting
@@ -85,9 +86,9 @@ layout, and component supply. For our test methods, we assume that
 a robot performs a series of pick-and-place operations
 in order to construct the kit. These operations include:
 \begin{enumerate}
-\item Pick empty kit and place on work table.
-\item Pick multiple component parts and place in kit.
-\item Pick completed kit and place in full kit storage area.
+\item Pick up an empty kit and place it on the work table.
+\item Pick up multiple component parts and place them in a kit.
+\item Pick up the completed kit and place it in the full kit storage area.
 \end{enumerate}
 Each of these actions may be a compound action that includes
 other actions such as end-of-arm tool changes, path planning,
@@ -125,6 +126,16 @@ Empty kits are returned to the kit building area for reuse.
 \input{Implementation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Canonical Robot Control Language}
+\label{sect:CRCL}
+\input{Canonical}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MySQL Database for Kitting}
+\label{sect:MySQL}
+\input{MySQL}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Kitting Viewer}
 \label{sect:KittingViewer}
 \input{KittingViewer}
@@ -133,7 +144,7 @@ Empty kits are returned to the kit building area for reuse.
 
 \addtolength{\textheight}{-15cm}
                                   % This command serves to balance the column lengths
-                                  % on the last page of the document manually. It shortens
+                                  % on the last page of dthe document manually. It shortens
                                   % the textheight of the last page by a suitable amount.
                                   % This command does not take effect until the next page
                                   % so it should come on the page before the last. Make

@@ -1,8 +1,9 @@
-The kitting workstation model has been fully defined in each of two
-languages: XML schema language \cite{Walmsley.2002},
-\cite{XMLschemaPrimer}, \cite{XMLschemaStructures}, and Web Ontology
-Language (OWL \it sic\rm) \cite{OWLoverview}, \cite{OWLprimer},
-\cite{OWLspec}. Although the two models are conceptually identical, there
+In order to maintain compatibility with the IEEE working group,
+the ontology has been fully defined in OWL. However, due to
+several difficulties defined below, the ontology was also fully defined
+in the XML schema language. 
+Although the two 
+models are conceptually identical, there
 are some systematic differences between the models (in addition to
 differences inherent in using two different languages).
 
@@ -16,8 +17,10 @@ differences inherent in using two different languages).
   not present in OWL. It is not needed in OWL because names are assigned as
   a matter of course when instances of classes are created.
 
-\item The movable objects that are in the kitting workstation are
-  explicitly modeled in the XML schema model but not in the OWL model.
+\item As shown in Figure~\ref{fig:WorkstationModel}, the XML schema model has a list of ``Object"
+elements. This collects all of the movable objects. The OWL model does not
+have a corresponding list. In an OWL data file, the movable objects may
+appear anywhere.
 
 \item Attribute names in OWL have a prefix, as described below. The
   prefixes are not used in XML schema.
@@ -48,7 +51,7 @@ whenever they are changed. The layout of the hierarchy in
 Figure~\ref{fig:ClassHierarchy} is identical to what may be seen in
  Prot\'{e}g\'{e}'s class hierarchy window when the kitting model is loaded.
 
-Several difficulties of working with OWL were encountered. The primary
+Several difficulties in working with OWL were encountered. The primary
 effect of these difficulties was to make it essentially impossible to
 debug OWL files.
 
@@ -92,7 +95,7 @@ it obvious that this is a property of a Point) and to differentiate this X
 attribute from an X attribute of some other class (call it \sf Foo\rm)
 which would have the prefix \sf hasFoo \rm.
 
-As described above, with OWL, it is necessary to make many statements in
+As described above, with OWL it is necessary to make many statements in
 order to build a class in a typical object-oriented style. OWL does not
 assume a typical object-oriented style. It assumes the world might be more
 complex than that. Hence, many OWL statements are required to produce
@@ -122,7 +125,7 @@ suppose the line \sf DataPropertyDomain(:hasPoint\_X :Point) \rm given
 above is mistyped as \sf DataPropertyDomain(:hasPoint\_x :Point)\rm. When
  Prot\'{e}g\'{e} loads the file and the reasoner is started, no errors are
 detected.  Prot\'{e}g\'{e} assumes that the DataPropertyDomain for \sf hasPoint\_X
-\rm is unknown (tha is not an error in OWL and  Prot\'{e}g\'{e}) and that there is a new
+\rm is unknown (that is not an error in OWL and  Prot\'{e}g\'{e}) and that there is a new
 property named \sf hasPoint\_x \rm about which the only thing known is its
 DataPropertyDomain (also not an error in OWL and  Prot\'{e}g\'{e}, even though there is no
 explicit DataProperty declaration for the new property). The error can be
@@ -165,7 +168,7 @@ The xmlSchemaParser reads an XML schema file, stores it in terms of
 instances of C++ classes, and reprints the schema. When the xmlSchemaParser
 runs, it performs many checks on the validity of the schema that is input
 to it. The xmlSchemaParser handles almost all portions of the XML schema
-syntax. A few of the rarely-used bits of syntax are not implemented.
+syntax. A few of the rarely-used elements of syntax are not implemented.
 
 The GenXMiller reads an XML schema and writes code for reading and writing
 XML data files corresponding to that schema. The code that is generated
@@ -176,7 +179,8 @@ data file corresponding to the schema. The GenXMiller is still under
 development and currently handles only a subset of the XML schema language. 
 The GenXMiller is not a
 new type of system. Several other code generators that use an XML schema
-as input have been developed. Even more XML schema parsers are
+as input have been developed \cite{XMLSchema1,ApacheXML}. 
+Even more XML schema parsers are
 available. However, having the knowledge about XML schema and XML data
 files gained by developing that software and having an intimate knowledge
 of the source code for it has proved very valuable in converting XML representations
@@ -223,7 +227,7 @@ demonstration was achieved as follows.
 \item The three XML data files were run through the owlPrinter to produce
   three OWL files.
 \item Since the owlPrinter has a different approach to ordering OWL
-  statements as was taken in preparing OWL files manually, and a slightly
+  statements than was taken in preparing OWL files manually, and a slightly
   different method of formatting statements, two small utilities were
   written to enable file comparison. The first utility, compactOwl, reads
   an OWL file and writes an OWL file containing the same statements but
@@ -242,7 +246,7 @@ demonstration was achieved as follows.
   all three types of files.
 \end{enumerate}
 
-After the testing just described was complete, using the owlPrinter,
+After the testing just described was complete, using the owlPrinter
 another OWL data file was prepared from a manually written XML data file
 for which there was no manually written OWL counterpart. The automatically
 generated OWL data file was checked in  Prot\'{e}g\'{e} and no errors were reported.
@@ -280,203 +284,3 @@ substantially more difficult task than the other two automatic conversions,
 and the authors are not planning to attempt it. The approach would be to
 modify the GenXMiller so that the code it generates automatically would
 read XML data files and automatically generate OWL data files.
-
-\subsection{Robot Control Language}
-\label{sect:Implementation.CRCL}
-It is desirable to have numerous commercial robot systems be able to 
-immediately execute the plan for the series of actions required to transition from the initial state
-to the goal state of the kitting problem. However, there is currently no
-accepted standard robot programming language. For this reason, the authors
-have put together a ``canonical robot control language" (CRCL) that attempts to be
-a lowest common denominator of robot programing languages. It is anticipated
-that kitting plans can be translated into  CRCL command sets which may then be
-evaluated by standardized metric software. The CRCL command sets may then
-be translated into a specific robot platform's language.
-
-The syntax of commands is given below using C++ syntax. The command
-name is given followed by the command arguments (if any) in parentheses,
-including the types of the arguments.
-Note that the robot cannot be commanded by canonical robot commands in
-terms of its joint angles (or distances).
-
-Three of the CRCL commands use the Pose structure. The Pose structure gives
-the location and orientation of the coordinate system of the controlled
-object in the units of the current operating coordinate system. 
-The controlled object is the gripper if the robot has one attached
-or the outermost component of the robot arm if not.  The location is
-specified by the point in current operating coordinates at which the
-origin of the coordinate system of the controlled object lies. The point is
-described by giving its X, Y, and Z values. The orientation of the
-controlled object is specified by giving the I, J, and K components in
-current operating coordinates of the Z and X axes of the coordinate
-system of the controlled object. 
-
-The complete list of CRCL commands follows.\\
-
-\begin{itemize}
-
-\item \sf CloseGripper() \rm -- Close the gripper.\\
-
-\item \sf CloseToolChanger() \rm -- Close the tool changer on the robot so
-  that it attaches to a tool. The robot must be in an appropriate position
-  with respect to the tool for the changer mechanism on the robot to attach
-  to the tool.\\
-
-\item \sf Dwell (double time) \rm -- Stay motionless for the given amount
-  of \sf time \rm in seconds.\\
-
-\item \sf EndCanon(int reason) \rm -- Do whatever is necessary to stop
-  executing canonical robot commands. No specific action is required. The
-  robot controller should not execute any canonical robot command except
-  \sf InitCanon \rm after executing \sf EndCanon \rm and should signal an
-  error if it is given one.  This command will normally be given when
-  execution of a plan is complete.  It may also be given if the plan
-  interpreter detects an error in the plan or is unable to proceed for any
-  other reason. A value of 0 for \sf reason \rm indicates that execution of
-  a plan has completed successfully.  A positive value of reason indicates
-  not.\\
-
-\item \sf InitCanon() \rm -- Do whatever is necessary to get ready to
-move. Length units, angle units, and operating coordinate system are 
-set to the default units. This command
-will normally be given when the plan interpreter opens a plan to be
-executed.\\
-
-\item \sf Message (string message) \rm -- Display the given \sf message \rm
-  on the operator console.\\
-
-\item \sf MoveStraightTo(Pose * pose) \rm -- Move the controlled point in a
-  straight line from the current pose to the given \sf pose\rm, and stop
-  there.\\
-
-\item \sf MoveThroughTo(Pose ** poses, int numPoses) \rm -- Move the
-  controlled point along a trajectory passing near all but the last of the
-  given \sf poses\rm, and stop at the last of the given \sf poses\rm.
-  The \sf numPoses \rm gives the number of poses.\\
-
-\item \sf MoveTo(Pose * pose) \rm -- Move the controlled point along any
-  convenient trajectory from the current pose to the given \sf pose\rm,
-  and stop there.\\
-
-\item \sf OpenGripper() \rm -- Open the gripper.\\
-
-\item \sf OpenToolChanger() \rm -- Open the tool changer on the robot so
-  that it releases the end effector.  This is normally done after the end
-  effector attached to the robot has been moved into an end effector
-  changer.\\
-
-\item \sf SetAbsoluteAcceleration(double acceleration) \rm -- Set the
-  acceleration for the controlled point to the given value in length units
-  per second per second.\\
-
-\item \sf SetAbsoluteSpeed(double speed) \rm -- Set the speed for the
-  controlled point to the given value in length units per second.\\
-
-\item \sf SetAngleUnits(string UnitName) \rm -- Set angle units to the unit
-  named by the \sf UnitName\rm.  The \sf UnitName \rm must be one of
-  ``degree'' or ``radian''. All commands that use angle units (for
-  orientation or orientation tolerance) are in terms of those angle
-  units. Existing values for orientation are converted automatically to the
-  equivalent value in new angle units.  The default angle unit is
-  ``degree''.\\
-
-\item \sf SetCoordinateFrame(string CoordSystem) \rm -- Set the
-operating coordinate system to the system referred to by
-\sf CoordSystem\rm. The \sf CoordSystem\rm must be one of
-``Workstation", ``RobotBase", or ``ToolTip".
-
-\item \sf SetEndAngleTolerance(double tolerance) \rm -- Set the tolerance
-  for the orientation of the end of the arm (whenever there is no gripper
-  there) or of the gripper (whenever a gripper is on the end of the arm) to
-  the given value in current angle units.\\
-
-\item \sf SetEndPointTolerance(double tolerance) \rm -- Set the tolerance
-  for the position of the end of the arm (whenever there is no gripper
-  there) or of the tool centre point (whenever a gripper is on the end of
-  the arm) to the given value in current length units.\\
-
-\item \sf SetIntermediatePointTolerance(double tolerance) \rm -- Set the
-  tolerance for smooth motion near intermediate points to the given value
-  in current length units.\\
-
-\item \sf SetLengthUnits(string UnitName) \rm -- Set length units to the
-  unit named by the \sf UnitName\rm.  The \sf UnitName \rm must be one of
-  ``inch'', ``mm'' or ``meter''. All commands that use length units (for
-  location, tolerance, speed, and acceleration) are in terms of those
-  length units. Existing values for speed, position, acceleration, etc. are
-  converted automatically to the equivalent value in new length units. The
-  default length unit is millimeters, ``mm''.\\
-
-\item \sf SetRelativeAcceleration(double percent) \rm -- Set the
-  acceleration for the controlled point to the given percentage of the
-  robot's maximum acceleration.\\
-
-\item \sf SetRelativeSpeed(double percent) \rm -- Set the speed for the
-  controlled point to the given percentage of the robot's maximum speed.\\
-
-The next two items do not seem to really belong here. I understand why
-Teddy put them here (he needed the commands), but they seem too specific.
-Any suggestions on how to make them more general? I was thinking of a
-general ``StartRobotSubSystem(string name, string parameter)".
-\item \sf StartObjectScan(string name) \rm -- Activate the object sensor,
-  if it isn't already activated, and add the given \sf name \rm to the list of
-  parts being searched for.\\
-
-\item \sf StopObjectScan() \rm -- Deactivate the object sensor.\\
-
-\item \sf StopMotion(integer isEmergency) \rm -- Stop the robot motion. If
-  \sf isEmergency \rm is not 0, then stop as soon as possible regardless of
-  damage to the system. If \sf isEmergency \rm is 0 then come to a graceful
-  stop.\\
-
-\end{itemize}
-
-A file format for representing CRCL commands has been devised.
-Figure~\ref{fig:KittingPlan} shows an example of a file prepared using this
-format. A C++ class model of CRCL commands has been built, and a parser has
-been built in C++ for reading CRCL files and populating
-CRCL class instances.
-
-\subsection{Plan Model}
-The kitting system presented in this document relies on a \textit{direct} model of execution where the executor directly performs the activities specified in the plan. Figure~\ref{fig:executor} depicts the executor process for the kitting domain where ellipses represent files, regular rectangles are used to define processes, and rounded rectangles illustrate tools. The red dashed box contains the processes part of the executor. The components in Figure~\ref{fig:executor} are described below:
-
-\begin{enumerate}
-\item PDDL domain and problem files are generated from the IEEE RAS  Ontologies for Robotics and Automation Working Group's ontology and are used by a planner to generate a plan file.
-The plan file contains a sequence of actions that can be executed from the initial state and that leads to a goal state. The actions present in the plan file are originally defined in the PDDL domain file. The initial and goal states are defined in the PDDL problem file.
-
-\item The interpreter takes the plan file as input and builds the corresponding CRCL file. The knowledge representation is required to locate objects in the environment. Table~\ref{tab:takepart} shows an example of CRCL commands generated for the PDDL action \stvar{take-part(part\_b\_1)}. Please note that the PDDL action \stvar{take-part} developed for the current kitting domain has more than one parameter. All the parameters are not relevant for the example depicted in Table~\ref{tab:takepart} and the number of parameters has been subsequently reduced for simplicity.
-
-\begin{table}[h!]
-\centering
-
-    \begin{tabular}{l}
-    \stvar{take-part(part\_b\_1)}\\
-    \hline
-    \hline
-  \texttt{\scriptsize{Message (``take part part\_b\_1")}}\\
-  \texttt{\scriptsize{MoveTo(\{\{-0.03, 1.62, -0.25\}, \{0, 0, 1\}, \{1, 0, 0\}\})}}\\
-  \texttt{\scriptsize{Dwell (0.05)}}\\
-  \texttt{\scriptsize{MoveTo(\{\{-0.03, 1.62, 0.1325\}, \{0, 0, 1\}, \{1, 0, 0\}\})}} \\
-  \texttt{\scriptsize{CloseGripper ()}} \\
-  \texttt{\scriptsize{MoveTo(\{\{-0.03, 1.62, -0.25\}, \{0, 0, 1\}, \{1, 0, 0\}\})}}\\
-  \texttt{\scriptsize{Dwell (0.05)}}\\
-  \hline
-  \end{tabular}
-\caption{An example of CRCL commands for a PDDL action.}
-  \label{tab:takepart}
-\end{table}
-
-\item The CRCL file is used by the controller in order to create ROS commands.
-
-\item The ROS commands are used by the ROS software controller for a robotic arm to initiate actual execution of actions.
-
-\end{enumerate}
-
-\begin{figure}[ht!]
-\begin{center}
-\includegraphics[width=8cm]{images/executordiag.jpg}
-\caption{The executor process.}
-\label{fig:executor}
-\end{center}
-\end{figure}
-

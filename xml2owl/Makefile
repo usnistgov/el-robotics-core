@@ -15,13 +15,13 @@ bin/kittingParser : ofiles/kittingParser.o    \
                       -L/usr/lib -lboost_regex
 
 bin/owlPrinter : ofiles/owlPrinter.o         \
-                 ofiles/kittingYACC.o        \
-                 ofiles/kittingLex.o         \
+                 ofiles/kittingYACCOwl.o     \
+                 ofiles/kittingLexOwl.o      \
                  ofiles/kittingClassesOwl.o  \
                  ofiles/xmlSchemaInstance.o
 	$(LINLINK) -o $@ ofiles/owlPrinter.o      \
-                      ofiles/kittingYACC.o        \
-                      ofiles/kittingLex.o         \
+                      ofiles/kittingYACCOwl.o     \
+                      ofiles/kittingLexOwl.o      \
                       ofiles/kittingClassesOwl.o  \
                       ofiles/xmlSchemaInstance.o  \
                       -L/usr/lib -lboost_regex
@@ -46,13 +46,18 @@ ofiles/kittingClassesOwl.o : source/kittingClassesOwl.hh \
 
 ofiles/kittingLex.o : source/kittingLex.cc \
                       source/kittingYACC.hh
-	$(LINCOMPILE) -o $@  $(INCLUD) source/kittingLex.cc
+	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingLex.cc
+
+ofiles/kittingLexOwl.o : source/kittingLex.cc \
+                         source/kittingYACC.hh
+	$(LINCOMPILE) -o $@ -DOWL $(INCLUD) source/kittingLex.cc
 
 ofiles/kittingParser.o : source/kittingParser.cc
-	$(LINCOMPILE) -o $@  $(INCLUD) source/kittingParser.cc
+	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingParser.cc
 
-ofiles/owlPrinter.o : source/owlPrinter.cc
-	$(LINCOMPILE) -o $@  $(INCLUD) source/owlPrinter.cc
+ofiles/owlPrinter.o : source/kittingClassesOwl.hh \
+                      source/owlPrinter.cc
+	$(LINCOMPILE) -o $@ $(INCLUD) source/owlPrinter.cc
 
 ofiles/kittingYACC.o : source/kittingYACC.hh       \
                        source/kittingClasses.hh    \
@@ -60,11 +65,29 @@ ofiles/kittingYACC.o : source/kittingYACC.hh       \
                        source/kittingYACC.cc
 	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingYACC.cc
 
+ofiles/kittingYACCOwl.o : source/kittingYACC.hh       \
+                          source/kittingClassesOwl.hh \
+                          source/xmlSchemaInstance.hh \
+                          source/kittingYACC.cc
+	$(LINCOMPILE) -o $@ -DOWL $(INCLUD) source/kittingYACC.cc
+
 ofiles/xmlSchemaInstance.o : source/xmlSchemaInstance.cc \
-                          source/xmlSchemaInstance.hh
+                             source/xmlSchemaInstance.hh
 	$(LINCOMPILE) -o $@ source/xmlSchemaInstance.cc
 
-source/kittingYACC.cc : source/kitting.y
+# After regenerating kittingYACC.cc or kittingLex.cc, remember to change
+
+# #include "kittingClasses.hh"   // for kitting classes
+
+# to
+
+# #ifdef OWL
+# #include "kittingClassesOwl.hh"   // for kitting classes
+# #else
+# #include "kittingClasses.hh"   // for kitting classes
+# #endif
+
+ssource/kittingYACC.cc : source/kitting.y
 	bison -d -l -o $@ source/kitting.y
 
 source/kittingLex.cc : source/kitting.lex

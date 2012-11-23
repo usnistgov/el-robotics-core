@@ -157,7 +157,9 @@ class XmlDecimal :
 public:
   XmlDecimal();
   XmlDecimal(
-    char * valIn);
+    char * valStringIn);
+  XmlDecimal(
+    double valIn);
   ~XmlDecimal();
   void printSelf(FILE * outFile);
   bool XmlDecimalIsBad();
@@ -180,7 +182,9 @@ class XmlDouble :
 public:
   XmlDouble();
   XmlDouble(
-    char * valIn);
+    char * valStringIn);
+  XmlDouble(
+    double valIn);
   ~XmlDouble();
   void printSelf(FILE * outFile);
   bool XmlDoubleIsBad();

@@ -95,6 +95,8 @@ W [ \t\n\r]*
 "<"{W}"EndEffector"           {ECH; return ENDEFFECTORSTART;}
 "</"{W}"Finished"{W}">"       {ECH; return FINISHEDEND;}
 "<"{W}"Finished"              {ECH; return FINISHEDSTART;}
+"</"{W}"HasTop"{W}">"         {ECH; return HASTOPEND;}
+"<"{W}"HasTop"                {ECH; return HASTOPSTART;}
 "</"{W}"Height"{W}">"         {ECH; return HEIGHTEND;}
 "<"{W}"Height"                {ECH; return HEIGHTSTART;}
 "</"{W}"I"{W}">"              {ECH; return IEND;}
@@ -187,6 +189,7 @@ W [ \t\n\r]*
 "<"{W}"Z"                     {ECH; return ZSTART;}
 
 {W}"xsi:type"{W}"="{W}"\"BoxyObjectType\""  { ECH; return BOXYOBJECTTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"BoxyShapeType\""  { ECH; return BOXYSHAPETYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorChangingStationType\""  { ECH; return ENDEFFECTORCHANGINGSTATIONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorHolderType\""  { ECH; return ENDEFFECTORHOLDERTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorType\""  { ECH; return ENDEFFECTORTYPEDECL; }

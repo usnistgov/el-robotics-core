@@ -1,4 +1,4 @@
-xml2owl README - last updated 2012Sep10
+xml2owl README - last updated 2012Nov23
 
 This directory contains four executable utilities with the source code
 and other related code. All of the executables are fast.
@@ -43,10 +43,10 @@ and then run it through the owlPrinter with a command of the form:
 
 For example, the command
 
-    bin/owlPrinter data/kittingInstance2.xml junk
+    bin/owlPrinter data/kittingInstances.xml junk
 
 will print the file junk, which will be identical to the
-kittingInstance2.owl file in the owl directory.
+kittingInstances.owl file in the owl directory (except for a couple comments).
 
 kittingParser
 -------------
@@ -63,12 +63,12 @@ form:
 
 For example, the command
 
-   bin/kittingParser data/kittingInstance2.xml
+   bin/kittingParser data/kittingInstances.xml
 
-will read kittingInstance2.xml and write kittingInstance2.xmlecho. The
-two files will be identical. If the format of an input file differs from
-the format used for printing the output file, the two files will differ,
-but only in format.
+will read kittingInstances.xml and write kittingInstances.xmlecho. The
+two files will be identical except for comments. If the format of an
+input file differs from the format used for printing the output file,
+the two files will differ, but only in format.
 
 The owlPrinter makes the same checks as the kittingParser, so there is
 no need to use the kittingParser.
@@ -85,25 +85,25 @@ owlPrinter was debugged.
 The compactOwl and compareOwl utilities are used for checking that two
 different OWL instance files have the same statements. They have been
 used as follows to debug the owlPrinter (and the kitting.xsd file
-and the kittingInstance2.xml file and the kittingInstances.owl file).
+and the kittingInstances.xml file and the kittingInstances.owl file).
 
 1. Write kitting.xsd to model the same information as kittingClasses.owl.
 
-2. Write kittingInstance2.xml to correspond to kitting.xsd and contain the
+2. Write kittingInstances.xml to correspond to kitting.xsd and contain the
 same information as kittingInstances.owl.
 
 3. Build the owlPrinter.
 
-4. Run kittingInstance2.xml through the owlPrinter to produce
-kittingInstance2.owl.
+4. Run kittingInstances.xml through the owlPrinter to produce
+kittingInstances.owl.
 
-5. Run kittingInstance2.owl through compactOwl to produce
-kittingInstance2Compact.owl.
+5. Run kittingInstances.owl through compactOwl to produce
+one version of kittingInstancesCompact.owl.
 
 6. Run kittingInstances.owl through compactOwl to produce
-kittingInstancesCompact.owl.
+a second version of kittingInstancesCompact.owl.
 
-7. Run kittingInstance2Compact.owl and kittingInstancesCompact.owl through
+7. Run the two versions of kittingInstancesCompact.owl through
 compareOwl. If compareOwl reports that the two files have the same
 statements, that means that steps 1, 2, and 3 have been done correctly, so
 debugging is finished. If compareOwl reports a pair of statements that
@@ -166,6 +166,7 @@ kittingParser
 owlPrinter
 
 ./data:
+intentionInstances.xml (not updated)
 kittingInstancesGoal2.xml
 kittingInstancesGoal.xml
 kittingInstancesInitNoLoc.xml
@@ -176,12 +177,15 @@ kittingInstances.xml
 kittingClasses.o
 kittingClassesOwl.o
 kittingLex.o
+kittingLexOwl.o
 kittingParser.o
 kittingYACC.o
+kittingYACCOwl.o
 owlPrinter.o
 xmlSchemaInstance.o
 
 ./owl:
+intentionInstances.owl  (not updated)
 kittingClasses.owl
 kittingInstancesGoal2.owl
 kittingInstancesGoal.owl

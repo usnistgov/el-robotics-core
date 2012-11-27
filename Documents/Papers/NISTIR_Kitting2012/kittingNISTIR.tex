@@ -80,7 +80,7 @@ the unbiased comparison of various approaches to building kits
 in an agile manufacturing environment. The performance methods
 that we propose must be simple enough to be repeatable at a variety of
 testing locations, but must also capture the complexity inherent
-to variants of kit building. The test methods must address concerns such as
+in variants of kit building. The test methods must address concerns such as
 measuring performance against variations in kit contents, kit
 layout, and component supply. For our test methods, we assume that
 a robot performs a series of pick-and-place operations
@@ -111,16 +111,6 @@ Empty kits are returned to the kit building area for reuse.
 \input{Prerequisites}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Test Methods}
-\label{sect:TestMethods}
-\input{TestMethods}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Metrics}
-\label{sect:Metrics}
-\input{Metrics}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
 \label{sect:Implementation}
 \input{Implementation}
@@ -136,13 +126,23 @@ Empty kits are returned to the kit building area for reuse.
 \input{MySQL}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Test Methods}
+\label{sect:TestMethods}
+\input{TestMethods}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metrics}
+\label{sect:Metrics}
+\input{Metrics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Kitting Viewer}
 \label{sect:KittingViewer}
 \input{KittingViewer}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\addtolength{\textheight}{-15cm}
+\addtolength{\textheight}{-4cm}
                                   % This command serves to balance the column lengths
                                   % on the last page of dthe document manually. It shortens
                                   % the textheight of the last page by a suitable amount.
@@ -156,6 +156,7 @@ Empty kits are returned to the kit building area for reuse.
 \section{CONCLUSIONS AND FUTURE WORK}
 \label{sect:Conclusions}
 \input{Conclusions}
+
 
 \bibliographystyle{asmems4}
 \bibliography{kitting}

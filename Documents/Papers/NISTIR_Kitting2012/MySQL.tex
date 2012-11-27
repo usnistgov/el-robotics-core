@@ -10,8 +10,8 @@ information to the kitting MySQL database. The choice of C++ was a team preferen
 
 The Generator tool is a graphical user interface developed in Java, allowing the user to store data from OWL files into a MySQL database. This tool also permits the user to query the database using the C++ function calls. The tool Generator is composed of the following functionalities:
 \begin{enumerate}
- \item Convert OWL documents into SQL syntaxes (OWL to SQL).
- \item Translate SQL syntaxes to OWL language in order to modify an OWL document (SQL to OWL).
+ \item Convert OWL documents into SQL syntax (OWL to SQL).
+ \item Translate SQL syntax to OWL language in order to modify an OWL document (SQL to OWL).
  \item Convert the OWL language into C++ classes (OWL to C++).
 \end{enumerate}
 
@@ -35,7 +35,7 @@ data property \texttt{hasSku\_EndEffectorRefs}. This maps to a SQL table contain
 \item Object property: In an ontology, object properties link one individual to another individual. 
 The single-valued object properties are mapped to a SQL table entry or C++ class
 variable. Their type is a pointer to the range of the object properties. For example, in the ontology a solid object has the object property \texttt{hasRobot\_Description} 
-linking it to a physical location. In the SQL database, we use the a foreign key to link the two entries. In the C++ classes, this is represented by a reference to a physical location: \texttt{PhysicalLocation* hasSolidObject\_PrimaryLocation}.
+linking it to a physical location. In the SQL database, we use a foreign key to link the two entries. In the C++ classes, this is represented by a reference to a physical location: \texttt{PhysicalLocation* hasSolidObject\_PrimaryLocation}.
 Multi-valued object properties are mapped from the ontology into the SQL database as a table and into the C++ class as a \texttt{std:vector} of pointers referencing objects of the range of the property.  For example, a solid object also has a list of secondary locations corresponding to a multi-valued object property in the ontology: {\scriptsize\texttt{std::vector\\ \textless PhysicalLocation*\textgreater hasSolidObject\_SecondaryLocation}}.
 \end{itemize}
 
@@ -47,7 +47,7 @@ Multi-valued object properties are mapped from the ontology into the SQL databas
 \label{fig:owl2sql}
 \end{figure}
 
-This section provides basic information on the Generator Java tool. Specific information on the tools usage is included with the tool in its manual.
+This section provides basic information on the Generator Java tool. Specific information on the tool\rq{}s usage is included in the tool\rq{}s manual.
 Converting an OWL ontology to SQL script files is easily performed using the \texttt{Owl to SQL} tab  (see Figure~\ref{fig:owl2sql}). The required fields are:
 
 \begin{itemize}
@@ -79,7 +79,7 @@ This resolves problems associated with circular includes or multiple includes. A
 \item \texttt{get<private field>} - Method for getting a private field.
 \item \texttt{set<private field>} - Method for setting a private field.
 \item \texttt{explode} - Method that splits a string into a vector around matches of a given regular expression. 
-\item \texttt{copy} -  Method that takes a C++ map as input and copy the values from the map into the instance.
+\item \texttt{copy} -  Method that takes a C++ map as input and copies the values from the map into the instance.
 \item \texttt{get} - Method that reads data from the MySQL database.
 \item \texttt{set} - Method that writes data to the MySQL database.
 \end{itemize}
@@ -190,13 +190,14 @@ Database Management System (DBMS), database schema, etc.
 The different methods of the DAO are the same for any ontology. 
 The concern here is not about the data, but only about the way to retrieve or store it. Only the four vectors filled by the
 private \texttt{fillGetSqlQueries} method differ from one 
-auto-generated C++ file to another file.
+auto-generated C++ file to another.
 
 When the DAO is generated, four vectors are built as follows (shown in Figure \ref{fig:headerdao}):
 
 \begin{itemize}
-\item line \textcolor{BrickRed}{17} : A structure with the SQL query to select the content of the tables relative to an entity, the table relative to the entity itself and the ones relative to its super classes.
-\item line \textcolor{BrickRed}{18} : A structure with the SQL query to select the multi-valued attributes (multi-valued data) for a given entity.
+\item line \textcolor{BrickRed}{17} : A structure with the SQL query to select the characteristics of an entity. The table
+relative to the entity itself and the ones relative to its super classes are queried.
+\item line \textcolor{BrickRed}{18} : A structure with the SQL query to select multi-valued attributes (multi-valued data) for a given entity.
 \item line \textcolor{BrickRed}{19} : A structure with the names of the tables linked to this entity in the ontology.
 \item line \textcolor{BrickRed}{20} : A structure with the names of the association tables linked to an object.
 \end{itemize}

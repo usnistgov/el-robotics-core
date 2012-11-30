@@ -2,49 +2,7 @@ As described in the previous section, test methods are being developed that
 will be suitable for comparing the performance of different kitting
 planning systems. The methods look at plans that are an ordered sequence
 of actions for a robot to perform. The actions are specified in terms of
-the canonical robot command language (CRCL).
-
-\begin{flushleft}
-	\begin{figure}[ht]
-		\fbox{
-			\begin{minipage}{3.2in}
-				\sf
-				\begin{tabbing}
-					xxx\=xx\=xx\=\kill
-					InitCanon()\\	
-					SetLengthUnits("meter")\\
-					CloseGripper()\\
-					CloseToolChanger()\\
-					Dwell(1.7)\\
-					Message("This message is false")\\
-					SetRelativeSpeed(50.0)\\
-					SetAbsoluteSpeed(3.8)\\
-					MoveThroughTo(\{\{\{5,0,2\}, \{0,0,1\}, \{1,0,0\}\},\\
-					\>\{\{5,8,2\}, \{0,0,1\}, \{1,0,0\}\},\\
-					\>\{\{7,8,2\}, \{0,0,1\}, \{1,0,0\}\}\}, 3)\\
-					MoveStraightTo(\{\{4,8,2\}, \{0,0,1\}, \{1,0,0\}\})\\
-					MoveTo(\{\{9,8,2\}, \{0,0,1\}, \{1,0,0\}\})\\
-					OpenGripper()\\
-					OpenToolChanger()\\
-					SetAbsoluteAcceleration(0.95)\\
-					SetAngleUnits("degree")\\
-					SetEndAngleTolerance(1.3)\\
-					SetEndPointTolerance(0.4)\\
-					SetIntermediatePointTolerance(10.734)\\
-					SetLengthUnits("mm")\\
-					SetRelativeAcceleration(0.8)\\
-					SetRelativeSpeed(0.75)\\
-					SetRelativeAcceleration(-110)\\
-					MoveStraightTo(87)\\
-					EndCanon(2)\\
-				\end{tabbing}
-				\rm
-			\end{minipage}
-		}
-		\caption{Kitting Plan for Testing}
-		\label{fig:KittingPlan}
-	\end{figure}
-\end{flushleft}
+the CRCL.
 
 A sample plan file is shown in Figure~\ref{fig:KittingPlan}. The file is
 designed for exercising the kittingViewer which is described in Section \ref{sect:KittingViewer}
@@ -57,7 +15,12 @@ execution performance of the system (i.e. the system is allowed to replan due to
 in the environment or action failures). The current metrics were developed with
 kitting specifically in mind. However, it is envisioned that we will eventually have
 a taxonomy of metrics where high-level metrics build upon lower level metrics and
-branches of the taxonomy may be applicable across multiple domains.
+branches of the taxonomy may be applicable across multiple domains. For many
+applications, it will be useful to have a single numeric score that represents a system\rq{}s
+performance with respect to the individual metrics. This may be accomplished by having a
+user specify whether each weight is multiplicative or accumulative and specifying
+weights for each of the accumulative metrics. The metric scores are then multiplied by
+these weights and combined to form a single score that may be used for comparison.
 
 \subsection{Static Kitting Viewer Metrics}
 \begin{figure}[ht!]
@@ -80,10 +43,43 @@ CRCL command with cumulative values.
   have been executed so far. An action command is any command that takes
   time to execute.\\
 
+\item \sf Command Sequence Errors (CSE) \rm -- the number of commands that are
+  out of sequence. An InitCanon command is out of sequence if it is not the
+  first command in the file. An EndCanon command is out of sequence if it
+  is not the last command in the file. Other commands are out of sequence
+  if they occur before InitCanon or after EndCanon.\\
+
+\item \sf Constraint Violations (CV) \rm -- the total of IG, JOR, WV and OWV.\\
+
+\item \sf Current Command Execution Time (CCET) \rm -- the time that the current
+   command took to execute.\\
+
+\item \sf Incorrect Gripper (IG) \rm -- the wrong gripper was used to pick up an object.\\
+
+\item \sf Joint Out of Range (JOR) \rm -- a joint of the robot was commanded to
+  move to an out-of-limit position.\\
+
+\item \sf Number of Objects Moved Correctly (NOMC) \rm -- the number of objects
+  that were moved correctly from the parts supply to the kit.\\
+
+\item \sf Number of Objects Moved Incorrectly (NOMI) \rm -- the number of objects
+  that were moved to an incorrect position in the kit.\\
+
+\item \sf Number of Total Objects Moved (NTOM) \rm -- the sum of NOMC and NOMI.\\
+
 \item \sf Other Commands Executed (OCE) \rm -- the number of commands that are
   not action commands that have been executed so far -- mostly setting
   commands. Executing these commands is assumed to take a negligible amount
   of time.\\
+
+\item \sf Outside Work Volume (OWV) \rm -- the robot was asked to move outside its
+  work volume.\\
+
+\item \sf Parse Errors  (PE) \rm -- the number of lines in the CRCL command file
+  that cause an error in the command file parser. \\
+
+\item \sf Range Errors (RE) \rm -- the number of times a command tries to set a
+  a parameter to a value that is out of the allowed range of the parameter.\\
 
  \item \sf Total Commands Executed (TCE) \rm -- the sum of ACE and OCE.\\
 
@@ -94,27 +90,12 @@ CRCL command with cumulative values.
   controlled point is located initially). The value is updated as each point
   is reached, not continuously.\\
 
- \item \sf Current Command Execution Time (CCET) \rm -- the time that the current
-   command took to execute.\\
-
 \item \sf Total Execution Time (TET) \rm -- the total time taken so far by
   executing action commands. This does not include any time that may elapse
   between when one command finishes execution and when the user tells the
   system to execute another command. The total execution time is
   meant to be very close to the actual amount of time that would be taken
   by the system without user intervention.\\
-
-\item \sf Range Errors (RE) \rm -- the number of times a command tries to set a
-  a parameter to a value that is out of the allowed range of the parameter.\\
-
-\item \sf Parse Errors  (PE) \rm -- the number of lines in the CRCL command file
-  that cause an error in the command file parser. \\
-
-\item \sf Command Sequence Errors (CSE) \rm -- the number of commands that are
-  out of sequence. An InitCanon command is out of sequence if it is not the
-  first command in the file. An EndCanon command is out of sequence if it
-  is not the last command in the file. Other commands are out of sequence
-  if they occur before InitCanon or after EndCanon.\\
 
 \item \sf Total Errors (TE) \rm -- the sum of the range errors, parse errors,
   and command sequence errors.\\
@@ -125,26 +106,8 @@ CRCL command with cumulative values.
   \rm commands in Figure~\ref{fig:KittingPlan} are useless because the
   gripper and tool changer are closed in the initial conditions.\\
 
-\item \sf Number of Objects Moved Correctly (NOMC) \rm -- the number of objects
-  that were moved correctly from the parts supply to the kit.\\
-
-\item \sf Number of Objects Moved Incorrectly (NOMI) \rm -- the number of objects
-  that were moved to an incorrect position in the kit.\\
-
-\item \sf Number of Total Objects Moved (NTOM) \rm -- the sum of NOMC and NOMI.\\
-
-\item \sf Incorrect Gripper (IG) \rm -- the wrong gripper was used to pick up an object.\\
-
-\item \sf Joint Out of Range (JOR) \rm -- a joint of the robot was commanded to
-  move to an out-of-limit position.\\
-
 \item \sf Weight Violation (WV) \rm -- the robot was asked to move some object that
-  violates its load capacity.\\
-
-\item \sf Outside Work Volume (OWV) \rm -- the robot was asked to move outside its
-  work volume.\\
-
-\item \sf Constraint Violations (CV) \rm -- the total of IG, JOR, WV and OWV.
+  violates its load capacity.
 
 \end{itemize}
 

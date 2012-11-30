@@ -22,7 +22,7 @@ state.
 
 The first two representations are of the same nature: a description
 primarily of objects and their locations. Hence, the same representation
-may be used for both. Details follow shortly.
+may be used for both. Details are presented in Section \ref{subsect:dataRep}.
 
 The representation of a plan is of a different nature. A plan is primarily
 a description of actions that change one kitting workstation state to
@@ -31,6 +31,7 @@ workstation is a one-armed robot, the plan model is a sequential
 list of actions for a robot to perform.
 
 \subsection{Kitting Workstation Data Representation}
+\label{subsect:dataRep}
 Conceptually, the kitting workstation model is an object model as found in
 several object oriented programming languages (C++, for example
 \cite{Stroustrup.2000}).  That is:
@@ -230,9 +231,9 @@ found in Section \ref{sect:Implementation}.
 
 \subsection{Robot Requirements}
 As mentioned earlier, the plan format being used is a sequential list of
-actions for a robot to perform. The authors devised a ``canonical robot
-command'' language in which such lists can be written. The purpose of the
-canonical robot command language (CRCL) is to provide generic commands that
+actions for a robot to perform. The authors devised a canonical robot
+command (CRCL) language in which such lists can be written. The purpose of the
+canonical robot command language is to provide generic commands that
 implement the functionality of typical industrial robots without being
 specific either to the language of the planning system that makes a plan or
 to the language used by a robot controller that executes a plan.

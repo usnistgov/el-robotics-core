@@ -1,0 +1,163 @@
+\input{header}
+
+
+\begin{document}
+%\input{outline.tex}
+\maketitle
+\thispagestyle{empty}
+\pagestyle{plain}
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+The IEEE RAS Ontologies for Robotics and Automation Working Group is dedicated to
+developing a methodology for knowledge representation and reasoning in robotics
+and automation. As part of this working group, the Industrial Robots sub-group is
+tasked with studying industrial applications of the knowledge representation. One of the first
+areas of interest for this subgroup is the area of kit building or kitting.
+It is anticipated that utilization of the knowledge representation will allow for the development
+of higher performing kitting systems. However, the definition of ``higher performing''
+has yet to be defined. This paper addresses this issue by providing the basis
+for performance methods and metrics that are designed to
+determine the performance of a kitting system.
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+Material feeding systems are an integral part of today's assembly line operations.
+These systems assure that parts are available where and when
+they are needed during the assembly operations by providing either a continuous
+supply of parts at the station, or a set of parts (known
+as a kit) that contains the required parts for one or more assembly operations.
+In continuous supply, a quantity of each part that
+may be necessary for the assembly operation is stored at the assembly station.
+If multiple versions of a product are being assembled (mixed-model assembly),
+a larger variety of parts than are used for an individual assembly may need
+to be stored. With this material feeding scheme, parts
+storage and delivery systems must be duplicated at each assembly station.
+
+An alternative approach to continuous supply is known as kitting. In kitting,
+parts are delivered to the assembly station in kits that contain
+the exact parts necessary for the completion of one assembly object.
+According to Bozer and McGinnis \cite{Bozer1992} ``A kit is a specific
+collection of components and/or subassemblies that together
+(i.e., in the same container) support one or more assembly
+operations for a given product or shop order''. In the case of mixed-model
+assembly, the contents of a kit may vary from product to product.
+The use of kitting allows a single delivery system to feed
+multiple assembly stations. The individual operations of the station that
+builds the kits may be viewed as a specialization of the general
+bin-picking problem \cite{Schyja2012}.
+
+In industrial assembly of manufactured products, kitting is
+often performed prior to final assembly. Manufacturers utilize kitting
+due to its ability to provide cost savings \cite{Carlsson_2008}
+including saving manufacturing or assembly space \cite{Medbo2003},
+reducing assembly workers walking and searching times \cite{Schwind1992},
+and increasing line flexibility \cite{Bozer1992} and balance \cite{Jiao2000}.
+
+Several different techniques are used to create kits. A kitting
+operation where a kit box is stationary until filled at a single
+kitting workstation is referred to as {\it batch kitting}.
+In {\it zone kitting}, the kit moves while being filled and will pass through one or
+more zones before it is completed. This paper focuses on batch kitting processes.
+
+In batch kitting, the kit's component parts may be staged in
+containers positioned in the workstation or may arrive on a conveyor.
+Component parts may be fixtured, for example placed in compartments
+on trays, or may be in random orientations, for example
+placed in a large bin. In addition to the kit's component parts,
+the workstation usually contains a storage area for empty kit boxes as
+well as completed kits.
+
+Kitting has not yet been automated in many industries where
+automation may be feasible. Consequently, the cost of building
+kits is higher than it could be. We are addressing this problem
+by proposing performance methods and metrics that will allow for
+the unbiased comparison of various approaches to building kits
+in an agile manufacturing environment. The performance methods
+that we propose must be simple enough to be repeatable at a variety of
+testing locations, but must also capture the complexity inherent
+in variants of kit building. The test methods must address concerns such as
+measuring performance against variations in kit contents, kit
+layout, and component supply. For our test methods, we assume that
+a robot performs a series of pick-and-place operations
+in order to construct the kit. These operations include:
+\begin{enumerate}
+\item Pick up an empty kit and place it on the work table.
+\item Pick up multiple component parts and place them in a kit.
+\item Pick up the completed kit and place it in the full kit storage area.
+\end{enumerate}
+Each of these may be a compound action that includes
+other actions such as end-of-arm tool changes, path planning,
+and obstacle avoidance.
+
+It should be noted that multiple kits may be built simultaneously.
+Finished kits are moved to the assembly floor where components
+are picked from the kit for use in the assembly procedure.
+The kits are normally designed to facilitate component picking in the correct
+sequence for assembly. Component orientation may be constrained
+by the kit design in order to ease the pick-to-assembly process.
+Empty kits are returned to the kit building area for reuse.
+
+\renewcommand{\topfraction}{1.0}
+\setcounter{topnumber}{100}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Prerequisites}
+\label{sect:Prerequisites}
+\input{Prerequisites}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation}
+\label{sect:Implementation}
+\input{Implementation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Canonical Robot Control Language}
+\label{sect:CRCL}
+\input{Canonical}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MySQL Database for Kitting}
+\label{sect:MySQL}
+\input{MySQL}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Test Methods}
+\label{sect:TestMethods}
+\input{TestMethods}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metrics}
+\label{sect:Metrics}
+\input{Metrics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Kitting Viewer}
+\label{sect:KittingViewer}
+\input{KittingViewer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addtolength{\textheight}{-4cm}
+                                  % This command serves to balance the column lengths
+                                  % on the last page of dthe document manually. It shortens
+                                  % the textheight of the last page by a suitable amount.
+                                  % This command does not take effect until the next page
+                                  % so it should come on the page before the last. Make
+                                  % sure that you do not shorten the textheight too much.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CONCLUSIONS AND FUTURE WORK}
+\label{sect:Conclusions}
+\input{Conclusions}
+
+
+\bibliographystyle{asmems4}
+\bibliography{kitting}
+\end{document}

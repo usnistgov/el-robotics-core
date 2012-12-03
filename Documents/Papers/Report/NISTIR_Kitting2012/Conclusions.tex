@@ -1,0 +1,57 @@
+The Knowledge Driven Planning and Modeling project is scheduled to continue for an additional two years. During this time,
+we hope to improve on all aspects of the knowledge representation and standardization
+effort. These improvements include increased outreach to industry, improvement of
+test methods and metrics, and improvements of our ontology and knowledge
+representation that will be fed to the IEEE working group.
+
+\subsection{Kitting Viewer Development Plans}
+
+As mentioned earlier, the kittingViewer is far from complete.
+We plan to add the following capabilities.
+
+\begin{itemize}
+
+\item Add drawing the kitting workstation in its current state. The initial
+  state of the workstation is already available as soon as the XML
+  data file that describes it is read in.
+
+\item Add updating the positions of objects as the robot executes commands.
+  It will be necessary to compare the position of the robot with the
+  positions of objects when OpenGripper and CloseGripper commands are
+  executed in order to determine if the robot is grasping them.
+
+\item Add metrics related to the positions of objects. This might include
+  (1) the number of objects that should have been moved, (2) the number of
+  objects that were moved, (3) the number of objects that were moved to the
+  correct place, (4) the number of objects that were moved to the wrong
+  place.
+
+\item Add metrics related to constraint violations. These might include (1)
+  the number of instances of picking up an object that weighs more than the
+  robot's load capacity, (2) the number of instances of asking the robot to move
+  outside of its work volume, (3) the number of instances of using a
+  gripper to move an object when the gripper is not qualified to move the
+  object. It will also be necessary to decide what the simulation should do
+  in these cases and implement that.
+
+\item Add a total score metric and implement finding the total score using
+  a configuration file in which the user assigns weights to the other
+  metrics.
+\end{itemize} 
+
+\subsection{Knowledge Representation Development Plans}
+We have created a knowledge driven system that is capable of building
+kits in a flexible and agile manor assuming perfect actions. For this system
+to be practical, this restriction must be removed. 
+To enable this, our current work on the development of a taxonomy of
+predicates for the situational awareness necessary for kit building will
+be continued and expanded. The system will also be augmented to
+allow for the checking of necessary preconditions before actions are
+executed, and the verification of results after an action has occurred.
+
+To date, we have developed a knowledge representation that supports
+kitting operations. In cooperation with the IEEE Working Group, this
+representation will be expanded to support general assembly operations.
+In addition, we will work with the IEEE Working Group, academia, and 
+industry to standardize the knowledge representations, test methods,
+and metrics.

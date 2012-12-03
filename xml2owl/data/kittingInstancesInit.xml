@@ -303,9 +303,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.900000</Length>
-      <Width>0.700000</Width>
-      <Height>0.800000</Height>
       <SkuName>stock_keeping_unit_kit_box</SkuName>
       <SerialNumber>4</SerialNumber>
     </LargeContainer>
@@ -333,9 +330,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.500000</Length>
-      <Width>0.300000</Width>
-      <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>1</SerialNumber>
     </KitTrays>
@@ -388,9 +382,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.900000</Length>
-      <Width>0.700000</Width>
-      <Height>0.800000</Height>
       <SkuName>stock_keeping_unit_kit_box</SkuName>
       <SerialNumber>5</SerialNumber>
     </LargeContainer>
@@ -445,9 +436,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
       <SerialNumber>6</SerialNumber>
     </PartsTray>
@@ -554,9 +542,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
       <SerialNumber>7</SerialNumber>
     </PartsTray>
@@ -636,9 +621,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
       <SerialNumber>8</SerialNumber>
     </PartsTray>
@@ -728,9 +710,13 @@
   <Sku>
     <Name>stock_keeping_unit_part_a</Name>
     <Description>SKU for Part A</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_a</Name>
       <Description>Shape of PartA</Description>
+      <Length>0.100000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -738,9 +724,13 @@
   <Sku>
     <Name>stock_keeping_unit_part_b</Name>
     <Description>SKU for Part B</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_b</Name>
       <Description>Shape of PartB</Description>
+      <Length>0.120000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -748,9 +738,13 @@
   <Sku>
     <Name>stock_keeping_unit_part_c</Name>
     <Description>SKU for Part C</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_c</Name>
       <Description>Shape of PartC</Description>
+      <Length>0.150000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -758,9 +752,13 @@
   <Sku>
     <Name>stock_keeping_unit_kit_tray</Name>
     <Description>SKU for KitTrays</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_kit_tray</Name>
       <Description>Shape of KitTrays</Description>
+      <Length>0.500000</Length>
+      <Width>0.300000</Width>
+      <Height>0.150000</Height>
+      <HasTop>false</HasTop>
     </Shape>
     <Weight>0.200000</Weight>
     <EndEffectorName>tray_gripper</EndEffectorName>
@@ -768,18 +766,26 @@
   <Sku>
     <Name>stock_keeping_unit_kit_box</Name>
     <Description>SKU for Boxes for Kits and KitTrays</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_kit_box</Name>
       <Description>Shape of boxes to hold kits and kit trays</Description>
+      <Length>0.900000</Length>
+      <Width>0.700000</Width>
+      <Height>0.800000</Height>
+      <HasTop>false</HasTop>
     </Shape>
     <Weight>1.200000</Weight>
   </Sku>
   <Sku>
     <Name>stock_keeping_unit_parts_tray</Name>
     <Description>SKU for PartsTrays</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_parts_tray</Name>
       <Description>Shape of PartsTrays</Description>
+      <Length>0.600000</Length>
+      <Width>0.300000</Width>
+      <Height>0.200000</Height>
+      <HasTop>false</HasTop>
     </Shape>
     <Weight>0.200000</Weight>
     <EndEffectorName>tray_gripper</EndEffectorName>

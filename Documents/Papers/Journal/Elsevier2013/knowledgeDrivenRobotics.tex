@@ -1,0 +1,230 @@
+%% This file  is based off of `elsarticle-template-1a-num.tex',
+\documentclass[preprint,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+\usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+
+\journal{Robotics and Automation}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{Knowledge Driven Robotics}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[NIST]{Stephen Balakirsky}
+\author[NIST,UMD]{Zeid Kootbally}
+\author[CATHU,NIST]{Thomas Kramer}
+\author[NIST]{Anthony Pietromartire}
+\author[NIST]{Craig Schlenoff}
+
+\address[CATHU]{Catholic University of America, Washington, DC, USA}
+\address[NIST]{National Institute of Standards and Technology, Gaithersburg, MD USA}
+\address[UMD]{University of Maryland, College Park, MD, USA}
+
+\begin{abstract}
+%% Text of abstract
+In this article,  a newly developed knowledge architecture that was designed to support the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group
+will be presented. This architecture allows for the creation of systems that demonstrate flexibility, agility, and the ability to be rapidly re-tasked. The architecture, as well as 
+an implementation that combines extensions to the Unified System for Automation and Robot Simulation (USARSim) and the Robot Operating System (ROS), will be discussed 
+in detail. This implementation extends USARSim and ROS to provide models of industrial robots and end-effectors while providing a case study in the area of robotic kit building. 
+The architecture's potential for creating flexible, agile, and rapidly re-taskable systems will be presented, and possible areas of future work will be discussed.
+\end{abstract}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% main text
+\section{Introduction}
+\label{sect:introduction}
+Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a 
+human-led teaching period when the cell\rq{}s
+task is altered.  Many research systems depend on numerous hand-tuned parameters that must be re-tuned by operators whenever a untested
+environment is encountered. These requirements for human intervention cause the robotic systems
+to be brittle and limited in operational scope. The robotic systems of tomorrow 
+need to be capable, flexible, and agile.  These systems need to perform their duties at least as well as human counterparts, be able to be quickly re-tasked to other operations,
+and be able to cope with a wide variety of unexpected environmental and operational changes. In order to be successful, these systems need to combine domain expertise, 
+knowledge of their own skills and limitations, and both semantic and geometric environmental information. 
+
+The IEEE Robotics and Automation Society\rq{}s Ontologies for Robotics and Automation Working group is striving to create an overall ontology and
+associated methodology for knowledge representation and reasoning that will address these knowledge needs. As part of the
+Industrial Subgroup of the IEEE Working Group, the authors have been examining a novel architecture that allows for the combination of the static
+aspects of the ontology with dynamic sensor processing to allow for a robotic system that is able to cope with environmental and task changes
+without operator intervention.
+
+Architectures have always been an important part of advanced robotic systems and have evolved with the robotic systems that they characterize. 
+Early architectures such as the one developed for the Army Research Laboratory\rq{}s (ARL) Demo I program tended to be hardware focused 
+\cite{Balakirsky93}. The Demo I platform was able to perform reconnaissance, surveillance, and target acquisition (RSTA) as well as tele-operated
+control over a compressed bandwidth
+radio channel. However, the lack of a software architecture limited the sharing of information between software applications and forced the human
+operator to fuse information returned from various applications in order to make control decisions.  
+
+The ARL Demo III program demonstrated sophisticated off-road navigation while incorporating a much more sophisticated 
+hardware/software architecture known as 4D/RCS \cite{Albus2000}. This
+architecture provide for a closer coupling of software systems and allowed for the sharing of items such as sensor data and cost maps.
+However, the lack of a knowledge architecture limited this system\rq{}s ability to utilize a priori knowledge to reason over its environment
+and provide fine-grained classification of terrain and obstacles. This resulted in numerous parameters that required human tuning based on 
+the expected environmental conditions. 
+
+In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. They will have to demonstrate flexibility through the 
+elimination of hand-tuned parameters. They will need to demonstrate agility through the ability to cope with rapidly changing situations and task requirements, 
+and they will need to be able to be rapidly re-tasked in order to adapt to new tasking quickly and efficiently. The  industrial subgroup of the 
+Ontologies for Robotics and Automation Working group is striving to demonstrate that the inclusion of knowledge in the form of an ontology
+will allow robotic systems to progress to this next level.
+
+The organization of the remainder of this paper is as follows: Section \ref{Sect:Architecture} presents an overview of the knowledge driven architecture that
+has been developed for this effort. Section \ref{Sect:Kitting} describes the domain of kit building
+which is a greatly simplified, but still practically useful manufacturing/assembly domain. Section \ref{Sect:Ontology} describes our ontology for the kitting
+domain. Section \ref{Sect:Implementation} describes the implementation of the system and Section \ref{Sect:Conclusion} provides for conclusions and
+future work.
+
+
+\section{Architecture}
+\label{Sect:Architecture}
+\input{Architecture}
+
+\section{Industrial Kitting}
+\label{Sect:Kitting}
+\input{kitting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ontology}
+\label{Sect:Ontology}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation}
+\label{Sect:Implementation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\label{Sect:Conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+
+\bibliographystyle{model1a-num-names}
+\bibliography{elsevier}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1a-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-1a-num.tex'.

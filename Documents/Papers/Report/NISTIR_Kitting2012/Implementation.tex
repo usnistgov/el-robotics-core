@@ -1,0 +1,282 @@
+In order to maintain compatibility with the IEEE working group,
+the ontology has been fully defined in OWL. However, due to
+several difficulties defined below, the ontology was also fully defined
+in the XML schema language. 
+Although the two 
+models are conceptually identical, there
+are some systematic differences between the models (in addition to
+differences inherent in using two different languages).
+
+\begin{itemize}
+\item The complexType names (i.e. class names) in XML schema have the
+  suffix ``Type'' added which is not used in OWL. This is so that the same
+  names without the suffix can be used in XML schema language as element
+  names without confusion.
+
+\item All of the XML schema complexTypes have a ``Name'' element that is
+  not present in OWL. It is not needed in OWL because names are assigned as
+  a matter of course when instances of classes are created.
+
+\item As shown in Figure~\ref{fig:WorkstationModel}, the XML schema model has a list of ``Object"
+elements. This collects all of the movable objects. The OWL model does not
+have a corresponding list. In an OWL data file, the movable objects may
+appear anywhere.
+
+\item Attribute names in OWL have a prefix, as described below. The
+  prefixes are not used in XML schema.
+\end{itemize}
+
+\subsection{OWL Specifics}
+The kitting workstation model was defined first in OWL because the IEEE RAS
+Ontologies for Robotics and Automation Working Group has decided to use
+OWL, and the authors are participating in the activities of that working
+group. OWL allows the use of several different syntaxes. The
+functional-style syntax (which is the most compact one) has been used to
+write the OWL version of the kitting workstation model.
+
+In addition to having the model defined in OWL, OWL data files describing
+specific initial states and goal states were defined in OWL, also using the
+functional-style syntax.  Software tools were built in C++ and Java to work with the
+OWL model and data files conforming to the model.
+
+The initial intent has been to use OWL files for presenting the initial and
+goal conditions for planning problems, and the authors have implemented a
+planning system that uses OWL files.
+
+The primary tool used by the OWL community for building and checking OWL
+models and data files is named Prot\'{e}g\'{e} \cite{Horridge.2011}.  Prot\'{e}g\'{e} was
+used for checking the kitting model and data files as they were
+built.  Prot\'{e}g\'{e} continues to be used for checking the model and data files
+whenever they are changed. The layout of the hierarchy in
+Figure~\ref{fig:ClassHierarchy} is identical to what may be seen in
+ Prot\'{e}g\'{e}'s class hierarchy window when the kitting model is loaded.
+
+Defining a model in OWL is quite different from defining the same model in
+other information modeling languages with which the authors are intimately
+familiar: C++, EXPRESS \cite{EXPRESSmanual}, and XML schema. Three of the
+major differences involve (1) the assignment of attributes in classes, (2)
+OWL's ``open world'' assumption, and (3) the distinction between model
+files and data files.\\
+
+\subsubsection{Class Attributes}
+In other languages, assigning a typed attribute to a class requires a
+single line of code. For example, the X attribute may be put into a
+cartesian point class in XML schema language with
+\newline \sf $<$xs:element name=``X'' type=``xs:decimal''/$>$\rm
+\newline or in C++ with
+\newline \sf double X; \rm
+\newline or in EXPRESS with
+\newline \sf X : REAL; \rm \newline
+In these other languages, the name of the attribute is local to the class.
+Hence, an attribute with a given name can appear in more than one class, and
+there will be no confusion.
+
+In OWL, there is no simple method of declaring a class attribute. Instead,
+a property must be declared along with properties of the property. The
+following lines are used in the OWL model to say that all points and only
+points have an X attribute which is a decimal number.
+\newline
+\newline \sf Declaration(DataProperty(hasPoint\_X))
+\newline DataPropertyDomain(:hasPoint\_X :Point)
+\newline DataPropertyRange(:hasPoint\_X xsd:decimal)
+\newline EquivalentClasses(:Point ObjectIntersectionOf(
+\newline \hspace*{0.2in}DataSomeValuesFrom(:hasPoint\_X xsd:decimal)
+\newline \hspace*{0.2in}DataAllValuesFrom(:hasPoint\_X xsd:decimal))) \rm
+\newline
+\newline
+The \sf hasPoint \rm prefix used in the property name is not an OWL
+requirement. It is one of several naming conventions for OWL being used by
+the authors. The prefix is both for the benefit of a human reader (to make
+it obvious that this is a property of a Point) and to differentiate this X
+attribute from an X attribute of some other class (call it \sf Foo\rm)
+which would have the prefix \sf hasFoo \rm.
+
+As described above, with OWL it is necessary to make many statements in
+order to build a class in a typical object-oriented style. OWL does not
+assume a typical object-oriented style. It assumes the world might be more
+complex than that. Hence, many OWL statements are required to produce
+effects made in a few statements in other object-oriented languages. Having
+to write a lot of statements is tedious but not a roadblock. A more serious
+problem is that if a statement necessary to produce an object-oriented
+effect is omitted, that is not an OWL error.  Prot\'{e}g\'{e} does not have an
+object-oriented mode in which it will warn the user if a required statement
+is missing. There are no OWL tools that will help with finding missing
+statements. This is a debugging problem.
+
+OWL was built so that it would support automated reasoning about the
+relationships among properties, classes, and individuals.  Prot\'{e}g\'{e} allows
+the use of several alternate automatic reasoners. In a typical
+object-oriented style, there is no use for reasoning of that sort.
+Everything useful to know about the relationships among properties,
+classes, and individuals is already known. Hence having an automated
+reasoning capability of the sort for which OWL was built is not useful
+for the kitting model.\\
+
+\subsubsection{Open World Assumption}
+OWL makes an ``open world'' assumption.  In an open world, anything might
+be true that is not explicitly declared false and is not inconsistent with
+what has been declared true. This makes it easy for errors to go
+unrecognized as such by  Prot\'{e}g\'{e} (or any other OWL tool). For example,
+suppose the line \sf DataPropertyDomain(:hasPoint\_X :Point) \rm given
+above is mistyped as \sf DataPropertyDomain(:hasPoint\_x :Point)\rm. When
+ Prot\'{e}g\'{e} loads the file and the reasoner is started, no errors are
+detected.  Prot\'{e}g\'{e} assumes that the DataPropertyDomain for \sf hasPoint\_X
+\rm is unknown (that is not an error in OWL and  Prot\'{e}g\'{e}) and that there is a new
+property named \sf hasPoint\_x \rm about which the only thing known is its
+DataPropertyDomain (also not an error in OWL and  Prot\'{e}g\'{e}, even though there is no
+explicit DataProperty declaration for the new property). The error can be
+detected by a human by studying the list provided by selecting the
+DataProperties tab in  Prot\'{e}g\'{e}. Similar errors, such as mistyping the name of an individual, are
+similarly accepted without error in OWL and  Prot\'{e}g\'{e}, with similar effects.
+The difficulties caused by the open world assumption would not occur if
+ Prot\'{e}g\'{e} had a closed world mode, but it has none.\\
+
+\subsubsection{Model Files vs. Data Files}
+While other languages have different file formats for models and
+data conforming to the models, OWL does not distinguish between model files
+and data files.  Prot\'{e}g\'{e} does not provide any method of specifying that a
+file is a model file or a data file. The conceptual difference is simple. 
+Model files describe classes and data types (and, possibly,
+constraints). Data files give information about individuals (instances of
+one or more classes -- often called objects). The authors have made it a
+practice to distinguish OWL model files from OWL data files. An OWL data
+file can inadvertently change an OWL model, a bug that is very hard to
+find. That cannot happen with EXPRESS or XML schema.\\
+
+\subsubsection{Bugs in Files}
+Since humans are error-prone, and the kitting OWL files were built by
+humans, the OWL files had errors of the sort mentioned above. Some of these
+errors were discovered when the OWL files were processed by the tools
+developed for processing them and strange results were observed. Other
+errors were found when a method of generating OWL data files automatically
+from XML data files was developed, as described next.
+
+\subsection{XML Specifics}
+To better explore the pros and cons of various representations,
+the authors are using XML schema and XML data files in parallel with the
+corresponding OWL files.\\
+
+\subsubsection{XML Tools}
+Two automated tools developed by the authors are being used: an xml schema
+parser (xmlSchemaParser) and a code generator (GenXMiller).  
+
+The xmlSchemaParser reads an XML schema file, stores it in terms of
+instances of C++ classes, and reprints the schema. When the xmlSchemaParser
+runs, it performs many checks on the validity of the schema that is input
+to it. The xmlSchemaParser handles almost all portions of the XML schema
+syntax. A few of the rarely-used elements of syntax are not implemented.
+
+The GenXMiller reads an XML schema and writes code for reading and writing
+XML data files corresponding to that schema. The code that is generated
+includes C++ classes (.hh and .cc files), a parser (YACC and Lex files) and
+a stand-alone parser file in C++ that uses the other files.  The executable
+utility produced by compiling a stand-alone parser reads and echoes any XML
+data file corresponding to the schema. The GenXMiller is still under
+development and currently handles only a subset of the XML schema language. 
+The GenXMiller is not a
+new type of system. Several other code generators that use an XML schema
+as input have been developed \cite{XMLSchema1,ApacheXML}. 
+Even more XML schema parsers are
+available. However, having the knowledge about XML schema and XML data
+files gained by developing that software and having an intimate knowledge
+of the source code for it has proved very valuable in converting XML representations
+to OWL representations.
+
+The xmlSchemaParser and the GenXMiller use the same underlying parser,
+which is built in YACC and Lex \cite{LexAndYACC}.
+
+In addition to using the xmlSchemaParser and the GenXMiller, a commercial
+XML tool named XMLSpy \cite{XMLSpyManual} has been used to check all XML
+schemas and XML data files.\\
+
+\subsubsection{Handling Kitting Data Files}
+There is only one conceptual kitting model, but there are several kitting
+data files corresponding to it. If the kitting model is used to represent
+various starting and goal configurations, there
+will be many more data files. Hence, the problem of generating bug-free
+data files was tackled first.
+
+An XML schema, kitting.xsd, was written by hand modeling the same
+information as the OWL kitting workstation model, kittingClasses.owl. The
+GenXMiller was then used to generate C++ classes and a parser for XML
+kitting data files corresponding to kitting.xsd. The C++ classes that were
+generated included code for printing XML kitting data
+files. That code was rewritten by hand so that it prints OWL data files
+rather than XML data files. The utility produced by compiling the code is
+called the owlPrinter. To produce an OWL kitting data file, one writes an
+XML kitting data file and runs it through the owlPrinter.
+
+To determine that the owlPrinter works properly, it seems sufficient to
+demonstrate that OWL data files generated automatically by the owlPrinter
+from XML data files conforming to kitting.xsd contain exactly the same OWL
+statements as are contained in manually prepared OWL data files intended to
+contain the same information and conforming to kittingClasses.owl. This
+demonstration was achieved as follows.
+
+\begin{enumerate}[ (i) ]
+\item Three XML data files were written manually containing the same
+  information as three OWL data files. Each of the OWL files was at least
+  1,100 lines (20 pages) long. Among the three there were statements of
+  almost all of the types possible under the kittingClasses.owl model. It was
+  decided, therefore, that successful performance for these three files
+  would be an adequate test.
+\item The three XML data files were run through the owlPrinter to produce
+  three OWL files.
+\item Since the owlPrinter has a different approach to ordering OWL
+  statements than was taken in preparing OWL files manually, and a slightly
+  different method of formatting statements, two small utilities were
+  written to enable file comparison. The first utility, compactOwl, reads
+  an OWL file and writes an OWL file containing the same statements but
+  with blank lines and comments removed, and with each statement on a
+  single line. For each pair of matching OWL files (manually written and
+  automatically generated), compactOwl was used to generate a corresponding
+  pair of compacted OWL files. The second utility, compareOwl, reads each
+  of a pair of OWL files, alphabetizes the statements from each of them on
+  two saved lists, and then goes through the two lists checking that the
+  n$^{th}$ line of one list is identical to the n$^{th}$ line of the other list.
+  CompareOwl was used to compare each of the three sets of pairs of
+  compacted files.
+\item While the tests just described were being made, changes were made to
+  correct errors in the manually written XML and OWL data files being
+  tested and in the code for the owlPrinter. The tests revealed errors in
+  all three types of files.
+\end{enumerate}
+
+After the testing just described was complete, using the owlPrinter
+another OWL data file was prepared from a manually written XML data file
+for which there was no manually written OWL counterpart. The automatically
+generated OWL data file was checked in  Prot\'{e}g\'{e} and no errors were reported.
+
+OWL data files
+may now be prepared with much less likelihood of human error for the following
+reasons.
+\begin{itemize}
+
+\item Property names and names of individuals will not be misspelled.
+
+\item Statements will not be accidentally omitted.
+
+\item Validity checks made in the kittingParser and XMLSpy will do a
+  better job of detecting errors in XML data files. For example, required
+  attributes that are missing will be detected.
+
+\end{itemize}
+
+\subsubsection{Handling the Kitting Model}
+As described above, the equivalent model files kitting.xsd and
+kittingClasses.owl were both prepared manually. If changes to the kitting
+model are made, it will be necessary to change both of those files and the
+code for the owlPrinter. It would be good to have kitting.xsd as the
+primary source file for the model and to generate kittingClasses.owl
+automatically from it. The authors believe this is possible and have
+started working on it. The work is not yet complete, but no roadblocks are
+anticipated. The approach being using is to modify the printer code in the
+xmlSchemaParser so that it prints an OWL class file rather than an XML
+schema file.
+
+It would also be desirable to be able to modify the owlPrinter
+automatically if the kitting model is changed. Doing that is a
+substantially more difficult task than the other two automatic conversions,
+and the authors are not planning to attempt it. The approach would be to
+modify the GenXMiller so that the code it generates automatically would
+read XML data files and automatically generate OWL data files.

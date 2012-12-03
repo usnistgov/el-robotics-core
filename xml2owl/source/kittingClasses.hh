@@ -12,6 +12,7 @@ class KittingWorkStationFile;
 class AngleUnitType;
 class BoxVolumeType;
 class BoxyObjectType;
+class BoxyShapeType;
 class DataThingType;
 class EndEffectorChangingStationType;
 class EndEffectorHolderType;
@@ -265,10 +266,12 @@ public:
   RelativeLocationType();
   RelativeLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn);
+    XmlIDREF * RefObjectIn,
+    XmlString * DescriptionIn);
   ~RelativeLocationType();
   void printSelf(FILE * outFile);
 
+  XmlString * Description;
 
   bool printTypp;
 };
@@ -416,6 +419,31 @@ public:
 
 /*********************************************************************/
 
+class BoxyShapeType :
+  public ShapeDesignType
+{
+public:
+  BoxyShapeType();
+  BoxyShapeType(
+    XmlID * NameIn,
+    XmlString * DescriptionIn,
+    PositiveDecimalType * LengthIn,
+    PositiveDecimalType * WidthIn,
+    PositiveDecimalType * HeightIn,
+    XmlBoolean * HasTopIn);
+  ~BoxyShapeType();
+  void printSelf(FILE * outFile);
+
+  PositiveDecimalType * Length;
+  PositiveDecimalType * Width;
+  PositiveDecimalType * Height;
+  XmlBoolean * HasTop;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
 class EndEffectorChangingStationType :
   public SolidObjectType
 {
@@ -502,7 +530,7 @@ public:
 /*********************************************************************/
 
 class KitTrayType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   KitTrayType();
@@ -510,9 +538,6 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~KitTrayType();
@@ -639,7 +664,7 @@ public:
 /*********************************************************************/
 
 class LargeContainerType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   LargeContainerType();
@@ -647,9 +672,6 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~LargeContainerType();
@@ -686,7 +708,7 @@ public:
 /*********************************************************************/
 
 class PartsBinType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   PartsBinType();
@@ -694,14 +716,15 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn,
     XmlIDREF * PartSkuNameIn,
     XmlNonNegativeInteger * PartQuantityIn);
   ~PartsBinType();
   void printSelf(FILE * outFile);
 
+  XmlIDREF * SkuName;
+  XmlNMTOKEN * SerialNumber;
   XmlIDREF * PartSkuName;
   XmlNonNegativeInteger * PartQuantity;
 
@@ -711,7 +734,7 @@ public:
 /*********************************************************************/
 
 class PartsTrayType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   PartsTrayType();
@@ -719,9 +742,6 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~PartsTrayType();
@@ -809,7 +829,6 @@ public:
   ~RelativeLocationInType();
   void printSelf(FILE * outFile);
 
-  XmlString * Description;
 
   bool printTypp;
 };
@@ -828,7 +847,6 @@ public:
   ~RelativeLocationOnType();
   void printSelf(FILE * outFile);
 
-  XmlString * Description;
 
   bool printTypp;
 };

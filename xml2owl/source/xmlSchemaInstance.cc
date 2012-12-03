@@ -240,17 +240,24 @@ XmlDecimal::XmlDecimal()
 }
 
 XmlDecimal::XmlDecimal(
-  char * valIn)
+  char * valStringIn)
 {
-  if (sscanf(valIn, "%lf", &val) == 1)
+  if (sscanf(valStringIn, "%lf", &val) == 1)
     {
       bad = false;
     }
   else
     {
-      fprintf(stderr, "%s is not a valid decimal\n", valIn);
+      fprintf(stderr, "%s is not a valid decimal\n", valStringIn);
       bad = true;
     }
+}
+
+XmlDecimal::XmlDecimal(
+  double valIn)
+{
+  val = valIn;
+  bad = false;
 }
 
 XmlDecimal::~XmlDecimal() {}
@@ -286,17 +293,24 @@ XmlDouble::XmlDouble()
 }
 
 XmlDouble::XmlDouble(
-  char * valIn)
+  char * valStringIn)
 {
-  if (sscanf(valIn, "%lf", &val) == 1)
+  if (sscanf(valStringIn, "%lf", &val) == 1)
     {
       bad = false;
     }
   else
     {
-      fprintf(stderr, "%s is not a valid double\n", valIn);
+      fprintf(stderr, "%s is not a valid double\n", valStringIn);
       bad = true;
     }
+}
+
+XmlDouble::XmlDouble(
+  double valIn)
+{
+  val = valIn;
+  bad = false;
 }
 
 XmlDouble::~XmlDouble() {}

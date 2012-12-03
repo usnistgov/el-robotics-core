@@ -1,0 +1,11 @@
+Documentation on the ontology may be found in the Documents\Manuals\Ontology
+directory of the repository.
+
+Most of the OWL files in this directory were produced by processing XML
+data files in the owlPrinter utility. The owlPrinter utility may be found
+in repository/ipmas/xml2owl. The repository/ipmas/xml2owl/data directory
+contains the data files corresponding to the OWL instance files in this
+directory. The names of corresponding files are identical except that the
+OWL files have a .owl suffix and the XML files have a .xml suffix. The XML
+schema, kitting.xsd, corresponding to kittingClasses.owl may be found
+in repository/ipmas/xml2owl/schema.

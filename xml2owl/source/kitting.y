@@ -39,6 +39,7 @@ int yyerror(const char * s);
   std::list<BoxVolumeType *> *        BoxVolumeTypeListVal;
   BoxVolumeType *                     BoxVolumeTypeVal;
   BoxyObjectType *                    BoxyObjectTypeVal;
+  BoxyShapeType *                     BoxyShapeTypeVal;
   EndEffectorChangingStationType *    EndEffectorChangingStationTypeVal;
   std::list<EndEffectorHolderType *> * EndEffectorHolderTypeListVal;
   EndEffectorHolderType *             EndEffectorHolderTypeVal;
@@ -120,6 +121,7 @@ int yyerror(const char * s);
 %type <EndEffectorTypeVal>            y_EndEffectorTypeAny
 %type <EndEffectorTypeVal>            y_EndEffector_EndEffectorType_0
 %type <XmlBooleanVal>                 y_Finished_XmlBoolean
+%type <XmlBooleanVal>                 y_HasTop_XmlBoolean
 %type <PositiveDecimalTypeVal>        y_Height_PositiveDecimalType
 %type <XmlDecimalVal>                 y_I_XmlDecimal
 %type <XmlDecimalVal>                 y_J_XmlDecimal
@@ -170,6 +172,7 @@ int yyerror(const char * s);
 %type <PhysicalLocationTypeListVal>   y_SecondaryLocation_PhysicalLocationType_0_uList
 %type <XmlNMTOKENVal>                 y_SerialNumber_XmlNMTOKEN
 %type <ShapeDesignTypeVal>            y_ShapeDesignType
+%type <ShapeDesignTypeVal>            y_ShapeDesignTypeAny
 %type <ShapeDesignTypeVal>            y_Shape_ShapeDesignType
 %type <XmlIDREFVal>                   y_SkuName_XmlIDREF
 %type <StockKeepingUnitTypeVal>       y_Sku_StockKeepingUnitType_u
@@ -194,6 +197,7 @@ int yyerror(const char * s);
 %type <VectorTypeVal>                 y_ZAxis_VectorType
 %type <XmlDecimalVal>                 y_Z_XmlDecimal
 %type <BoxyObjectTypeVal>             y_x_BoxyObjectType
+%type <BoxyShapeTypeVal>              y_x_BoxyShapeType
 %type <EndEffectorChangingStationTypeVal> y_x_EndEffectorChangingStationType
 %type <EndEffectorHolderTypeVal>      y_x_EndEffectorHolderType
 %type <EndEffectorTypeVal>            y_x_EndEffectorType
@@ -257,6 +261,8 @@ int yyerror(const char * s);
 %token <iVal> ENDEFFECTORSTART
 %token <iVal> FINISHEDEND
 %token <iVal> FINISHEDSTART
+%token <iVal> HASTOPEND
+%token <iVal> HASTOPSTART
 %token <iVal> HEIGHTEND
 %token <iVal> HEIGHTSTART
 %token <iVal> IEND
@@ -351,6 +357,7 @@ int yyerror(const char * s);
 
 %token <iVal> BOXVOLUMETYPEDECL
 %token <iVal> BOXYOBJECTTYPEDECL
+%token <iVal> BOXYSHAPETYPEDECL
 %token <iVal> ENDEFFECTORCHANGINGSTATIONTYPEDECL
 %token <iVal> ENDEFFECTORHOLDERTYPEDECL
 %token <iVal> ENDEFFECTORTYPEDECL
@@ -568,9 +575,6 @@ y_EndEffectorHolderType :
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
 	  y_EndEffector_EndEffectorType_0
 	  {$$ = new EndEffectorHolderType($2, $3, $4, $5);}
- 	| ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
- 	  y_SecondaryLocation_PhysicalLocationType_0_uList
- 	  {$$ = new EndEffectorHolderType($2, $3, $4, 0);}
 	;
 
 y_EndEffectorHolders_EndEffectorHolderType_u :
@@ -623,12 +627,19 @@ y_EndEffectorTypeAny :
 	;
 
 y_EndEffector_EndEffectorType_0 :
-	  ENDEFFECTORSTART y_EndEffectorTypeAny ENDEFFECTOREND
+	  /* empty - this was added by hand */
+	  {$$ = 0;}
+	| ENDEFFECTORSTART y_EndEffectorTypeAny ENDEFFECTOREND
 	  {$$ = $2;}
 	;
 
 y_Finished_XmlBoolean :
 	  FINISHEDSTART ENDITEM {yyReadData = 1;} y_XmlBoolean FINISHEDEND
+	  {$$ = $4;}
+	;
+
+y_HasTop_XmlBoolean :
+	  HASTOPSTART ENDITEM {yyReadData = 1;} y_XmlBoolean HASTOPEND
 	  {$$ = $4;}
 	;
 
@@ -690,10 +701,8 @@ y_KitTraySkuName_XmlIDREF :
 y_KitTrayType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new KitTrayType($2, $3, $4, $5, $6, $7, $8, $9);}
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new KitTrayType($2, $3, $4, $5, $6);}
 	;
 
 y_KitTrays_KitTrayType_0_u :
@@ -746,10 +755,8 @@ y_KittingWorkstationType :
 y_LargeContainerType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new LargeContainerType($2, $3, $4, $5, $6, $7, $8, $9);}
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new LargeContainerType($2, $3, $4, $5, $6);}
 	;
 
 y_LargeContainer_LargeContainerType :
@@ -884,10 +891,8 @@ y_Part_PartType_0_uList :
 y_PartsTrayType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new PartsTrayType($2, $3, $4, $5, $6, $7, $8, $9);}
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new PartsTrayType($2, $3, $4, $5, $6);}
 	;
 
 y_PartsTray_PartsTrayType :
@@ -981,8 +986,13 @@ y_ShapeDesignType :
 	  {$$ = new ShapeDesignType($2, $3);}
 	;
 
+y_ShapeDesignTypeAny :
+	  y_x_BoxyShapeType
+	  {$$ = $1;}
+	;
+
 y_Shape_ShapeDesignType :
-	  SHAPESTART y_ShapeDesignType SHAPEEND
+	  SHAPESTART y_ShapeDesignTypeAny SHAPEEND
 	  {$$ = $2;}
 	;
 
@@ -1177,6 +1187,15 @@ y_x_BoxyObjectType :
 	  }
 	;
 
+y_x_BoxyShapeType :
+	  BOXYSHAPETYPEDECL ENDITEM y_Name_XmlID y_Description_XmlString
+	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
+	  y_Height_PositiveDecimalType y_HasTop_XmlBoolean
+	  {$$ = new BoxyShapeType($3, $4, $5, $6, $7, $8);
+	   $$->printTypp = true;
+	  }
+	;
+
 y_x_EndEffectorChangingStationType :
 	  ENDEFFECTORCHANGINGSTATIONTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
@@ -1223,10 +1242,8 @@ y_x_KitTrayType :
 	  KITTRAYTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new KitTrayType($3, $4, $5, $6, $7, $8, $9, $10);
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new KitTrayType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1284,10 +1301,8 @@ y_x_LargeContainerType :
 	  LARGECONTAINERTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new LargeContainerType($3, $4, $5, $6, $7, $8, $9, $10);
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new LargeContainerType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1306,10 +1321,9 @@ y_x_PartsBinType :
 	  PARTSBINTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_PartSkuName_XmlIDREF
-	  y_PartQuantity_XmlNonNegativeInteger
-	  {$$ = new PartsBinType($3, $4, $5, $6, $7, $8, $9, $10);
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  y_PartSkuName_XmlIDREF y_PartQuantity_XmlNonNegativeInteger
+	  {$$ = new PartsBinType($3, $4, $5, $6, $7, $8, $9);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1318,10 +1332,8 @@ y_x_PartsTrayType :
 	  PARTSTRAYTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
 	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_Length_PositiveDecimalType y_Width_PositiveDecimalType
-	  y_Height_PositiveDecimalType y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new PartsTrayType($3, $4, $5, $6, $7, $8, $9, $10);
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new PartsTrayType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1387,8 +1399,8 @@ y_x_RelativeLocationOnType :
 
 y_x_RelativeLocationType :
 	  RELATIVELOCATIONTYPEDECL ENDITEM y_Name_XmlID
-	  y_RefObject_XmlIDREF
-	  {$$ = new RelativeLocationType($3, $4);
+	  y_RefObject_XmlIDREF y_Description_XmlString
+	  {$$ = new RelativeLocationType($3, $4, $5);
 	   $$->printTypp = true;
 	  }
 	;

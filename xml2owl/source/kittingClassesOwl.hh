@@ -28,6 +28,7 @@ class KittingWorkStationFile;
 class AngleUnitType;
 class BoxVolumeType;
 class BoxyObjectType;
+class BoxyShapeType;
 class DataThingType;
 class EndEffectorChangingStationType;
 class EndEffectorHolderType;
@@ -112,6 +113,11 @@ public:
     XmlID * Name,
     PositiveDecimalType * val,
     FILE * outFile);
+  static void printXmlBoolProp(
+    const char * property,
+    XmlID * Name,
+    XmlBoolean * val,
+    FILE * outFile);
   static void printXmlDecProp(
     const char * property,
     XmlID * Name,
@@ -131,6 +137,11 @@ public:
     const char * property,
     XmlID * Name,
     XmlNMTOKEN * val,
+    FILE * outFile);
+  static void printXmlPosIntProp(
+    const char * property,
+    XmlID * Name,
+    XmlPositiveInteger * val,
     FILE * outFile);
   static void printXmlStringProp(
     const char * property,
@@ -156,6 +167,7 @@ public:
     KittingWorkstationType * KittingWorkStationIn);
   ~KittingWorkStationFile();
   void printOwl(FILE * outFile);
+  void printSelf(FILE * outFile) {}
 
   XmlVersion * version;
   XmlHeaderForKittingWorkStation * header;
@@ -187,7 +199,7 @@ public:
     XmlID * NameIn);
    ~DataThingType();
   void printSelf(FILE * outFile) {}
-  virtual void printOwl(FILE * outFile) = 0;
+  virtual void printOwl(FILE * outFile) {}
 
   XmlID * Name;
 };
@@ -358,8 +370,11 @@ public:
   RelativeLocationType();
   RelativeLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn);
+    XmlIDREF * RefObjectIn,
+    XmlString * DescriptionIn);
   ~RelativeLocationType();
+
+  XmlString * Description;
 
   bool printTypp;
 };
@@ -375,10 +390,8 @@ public:
     XmlID * NameIn,
     XmlString * DescriptionIn);
   ~ShapeDesignType();
-  void printOwl(FILE * outFile);
 
   XmlString * Description;
-  static std::set<std::string> individuals;
 
   bool printTypp;
 };
@@ -396,7 +409,7 @@ public:
     std::list<PhysicalLocationType *> * SecondaryLocationIn);
   ~SolidObjectType();
   void printSelf(FILE * outFile) {}
-  virtual void printOwl(FILE * outFile) = 0;
+  virtual void printOwl(FILE * outFile) {};
 
   XmlID * Name;
   PhysicalLocationType * PrimaryLocation;
@@ -512,6 +525,32 @@ public:
 
 /*********************************************************************/
 
+class BoxyShapeType :
+  public ShapeDesignType
+{
+public:
+  BoxyShapeType();
+  BoxyShapeType(
+    XmlID * NameIn,
+    XmlString * DescriptionIn,
+    PositiveDecimalType * LengthIn,
+    PositiveDecimalType * WidthIn,
+    PositiveDecimalType * HeightIn,
+    XmlBoolean * HasTopIn);
+  ~BoxyShapeType();
+  void printOwl(FILE * outFile);
+
+  PositiveDecimalType * Length;
+  PositiveDecimalType * Width;
+  PositiveDecimalType * Height;
+  XmlBoolean * HasTop;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
 class EndEffectorChangingStationType :
   public SolidObjectType
 {
@@ -599,7 +638,7 @@ public:
 /*********************************************************************/
 
 class KitTrayType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   KitTrayType();
@@ -607,9 +646,6 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~KitTrayType();
@@ -740,7 +776,7 @@ public:
 /*********************************************************************/
 
 class LargeContainerType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   LargeContainerType();
@@ -748,9 +784,6 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~LargeContainerType();
@@ -789,7 +822,7 @@ public:
 /*********************************************************************/
 
 class PartsBinType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   PartsBinType();
@@ -797,14 +830,15 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn,
     XmlIDREF * PartSkuNameIn,
     XmlNonNegativeInteger * PartQuantityIn);
   ~PartsBinType();
   void printOwl(FILE * outFile);
 
+  XmlIDREF * SkuName;
+  XmlNMTOKEN * SerialNumber;
   XmlIDREF * PartSkuName;
   XmlNonNegativeInteger * PartQuantity;
   static std::set<std::string> individuals;
@@ -815,7 +849,7 @@ public:
 /*********************************************************************/
 
 class PartsTrayType :
-  public BoxyObjectType
+  public SolidObjectType
 {
 public:
   PartsTrayType();
@@ -823,9 +857,6 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~PartsTrayType();
@@ -917,7 +948,6 @@ public:
   ~RelativeLocationInType();
   void printOwl(FILE * outFile);
 
-  XmlString * Description;
   static std::set<std::string> individuals;
 
   bool printTypp;
@@ -937,7 +967,6 @@ public:
   ~RelativeLocationOnType();
   void printOwl(FILE * outFile);
 
-  XmlString * Description;
   static std::set<std::string> individuals;
 
   bool printTypp;

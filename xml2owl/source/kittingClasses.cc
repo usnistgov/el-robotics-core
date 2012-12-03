@@ -194,6 +194,67 @@ void BoxyObjectType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class BoxyShapeType
+
+*/
+
+BoxyShapeType::BoxyShapeType() {}
+
+BoxyShapeType::BoxyShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PositiveDecimalType * LengthIn,
+ PositiveDecimalType * WidthIn,
+ PositiveDecimalType * HeightIn,
+ XmlBoolean * HasTopIn) :
+  ShapeDesignType(
+    NameIn,
+    DescriptionIn)
+{
+  Length = LengthIn;
+  Width = WidthIn;
+  Height = HeightIn;
+  HasTop = HasTopIn;
+  printTypp = false;
+}
+
+BoxyShapeType::~BoxyShapeType() {}
+
+void BoxyShapeType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"BoxyShapeType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Description>");
+  Description->printSelf(outFile);
+  fprintf(outFile, "</Description>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Length>");
+  Length->printSelf(outFile);
+  fprintf(outFile, "</Length>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Width>");
+  Width->printSelf(outFile);
+  fprintf(outFile, "</Width>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Height>");
+  Height->printSelf(outFile);
+  fprintf(outFile, "</Height>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<HasTop>");
+  HasTop->printSelf(outFile);
+  fprintf(outFile, "</HasTop>\n");
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
 /* class DataThingType
 
 */
@@ -544,18 +605,12 @@ KitTrayType::KitTrayType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- PositiveDecimalType * LengthIn,
- PositiveDecimalType * WidthIn,
- PositiveDecimalType * HeightIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
-  BoxyObjectType(
+  SolidObjectType(
     NameIn,
     PrimaryLocationIn,
-    SecondaryLocationIn,
-    LengthIn,
-    WidthIn,
-    HeightIn)
+    SecondaryLocationIn)
 {
   SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
@@ -590,18 +645,6 @@ void KitTrayType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Length>");
-  Length->printSelf(outFile);
-  fprintf(outFile, "</Length>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Width>");
-  Width->printSelf(outFile);
-  fprintf(outFile, "</Width>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Height>");
-  Height->printSelf(outFile);
-  fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -1004,18 +1047,12 @@ LargeContainerType::LargeContainerType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- PositiveDecimalType * LengthIn,
- PositiveDecimalType * WidthIn,
- PositiveDecimalType * HeightIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
-  BoxyObjectType(
+  SolidObjectType(
     NameIn,
     PrimaryLocationIn,
-    SecondaryLocationIn,
-    LengthIn,
-    WidthIn,
-    HeightIn)
+    SecondaryLocationIn)
 {
   SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
@@ -1050,18 +1087,6 @@ void LargeContainerType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Length>");
-  Length->printSelf(outFile);
-  fprintf(outFile, "</Length>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Width>");
-  Width->printSelf(outFile);
-  fprintf(outFile, "</Width>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Height>");
-  Height->printSelf(outFile);
-  fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -1246,19 +1271,17 @@ PartsBinType::PartsBinType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- PositiveDecimalType * LengthIn,
- PositiveDecimalType * WidthIn,
- PositiveDecimalType * HeightIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn,
  XmlIDREF * PartSkuNameIn,
  XmlNonNegativeInteger * PartQuantityIn) :
-  BoxyObjectType(
+  SolidObjectType(
     NameIn,
     PrimaryLocationIn,
-    SecondaryLocationIn,
-    LengthIn,
-    WidthIn,
-    HeightIn)
+    SecondaryLocationIn)
 {
+  SkuName = SkuNameIn;
+  SerialNumber = SerialNumberIn;
   PartSkuName = PartSkuNameIn;
   PartQuantity = PartQuantityIn;
   printTypp = false;
@@ -1293,17 +1316,13 @@ void PartsBinType::printSelf(FILE * outFile)
       }
   }
   doSpaces(0, outFile);
-  fprintf(outFile, "<Length>");
-  Length->printSelf(outFile);
-  fprintf(outFile, "</Length>\n");
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<Width>");
-  Width->printSelf(outFile);
-  fprintf(outFile, "</Width>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Height>");
-  Height->printSelf(outFile);
-  fprintf(outFile, "</Height>\n");
+  fprintf(outFile, "<SerialNumber>");
+  SerialNumber->printSelf(outFile);
+  fprintf(outFile, "</SerialNumber>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<PartSkuName>");
   PartSkuName->printSelf(outFile);
@@ -1327,18 +1346,12 @@ PartsTrayType::PartsTrayType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- PositiveDecimalType * LengthIn,
- PositiveDecimalType * WidthIn,
- PositiveDecimalType * HeightIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
-  BoxyObjectType(
+  SolidObjectType(
     NameIn,
     PrimaryLocationIn,
-    SecondaryLocationIn,
-    LengthIn,
-    WidthIn,
-    HeightIn)
+    SecondaryLocationIn)
 {
   SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
@@ -1373,18 +1386,6 @@ void PartsTrayType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Length>");
-  Length->printSelf(outFile);
-  fprintf(outFile, "</Length>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Width>");
-  Width->printSelf(outFile);
-  fprintf(outFile, "</Width>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Height>");
-  Height->printSelf(outFile);
-  fprintf(outFile, "</Height>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -1836,9 +1837,9 @@ RelativeLocationInType::RelativeLocationInType(
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
-    RefObjectIn)
+    RefObjectIn,
+    DescriptionIn)
 {
-  Description = DescriptionIn;
   printTypp = false;
 }
 
@@ -1879,9 +1880,9 @@ RelativeLocationOnType::RelativeLocationOnType(
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
-    RefObjectIn)
+    RefObjectIn,
+    DescriptionIn)
 {
-  Description = DescriptionIn;
   printTypp = false;
 }
 
@@ -1918,11 +1919,13 @@ RelativeLocationType::RelativeLocationType() {}
 
 RelativeLocationType::RelativeLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn) :
+ XmlIDREF * RefObjectIn,
+ XmlString * DescriptionIn) :
   PhysicalLocationType(
     NameIn,
     RefObjectIn)
 {
+  Description = DescriptionIn;
   printTypp = false;
 }
 
@@ -1942,6 +1945,10 @@ void RelativeLocationType::printSelf(FILE * outFile)
   fprintf(outFile, "<RefObject>");
   RefObject->printSelf(outFile);
   fprintf(outFile, "</RefObject>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Description>");
+  Description->printSelf(outFile);
+  fprintf(outFile, "</Description>\n");
   doSpaces(-INDENT, outFile);
 }
 

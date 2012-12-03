@@ -1,27 +1,96 @@
 The design approach described in this article is not intended to
 replace sound engineering of an intelligent system, but rather as 
-an additional step that may be applied to a system in order to provide
+an additional step that may be applied in order to provide
 the system with more agility, flexibility, and the ability to be rapidly
-re-tasked. As such, it is assumed that a system has been implemented
-that is capable of basic robotic actions. In our case, our knowledge
-driven system bottoms out in a Robot Operating System (ROS) control layer
-\footnote{Certain commercial/open source software and tools are identified 
-in this paper in order to explain our research. Such identification does not imply
-recommendation or endorsement by the authors or NIST, nor does it 
-imply that the software tools identified are necessarily the best available for the purpose.}.
+re-tasked. This is accomplished by assuring that the appropriate knowledge
+of the correct scope and format is available to all modules of the
+intelligent system.
+
 \begin{figure}[ht!]
 \begin{center}
 \includegraphics[width=16cm]{images/KnowledgeDrivenRobotics.pdf}
-\caption{Knowledge Driven Design extensions.}
+\caption{Knowledge Driven Design extensions- In this figure, green shaded boxes with curved bottoms 
+represent hand generated files while
+light blue shaded boxes with curved bottoms represent automatically created boxes. Square
+boxes represent processes and libraries.}
 \label{fig:DesignArchitecture}
 \end{center}
 \end{figure}
 
-The overall architecture of the system may be seen in Figure \ref{fig:DesignArchitecture}.
-In this figure, green shaded boxes represent hand generated
-The design begins with requirements generation from a domain expert. 
-A very systematic scenario driven approach for identifying and 
-modeling the concepts has been taken. A scenario 
+The overall knowledge model of the system may be seen in Figure \ref{fig:DesignArchitecture}.
+The figure is organized vertically by the representation that is used for the knowledge
+and horizontally by the classical sense-model-act paradigm of intelligent systems.
+On the vertical axis, knowledge begins with Domain Specific Information that captures
+operational knowledge that is necessary to be successful in the particular domain in which
+the system is designed to operate. This information is then organized into a domain
+independent representation (an Ontology) that allows for the encoding of an object 
+taxonomy, object-to-object
+relationships, and aspects of actions, preconditions, and effects. 
+Aspects of this
+knowledge are automatically extracted and encoded in a form that is easy for
+a planning system to utilize (the Planning Language). Once a plan has been formulated, the knowledge is once
+again transformed. This time into a representation that is easily used by a robotic system
+(the Robot Language).
+
+It is acknowledged that sensing and action are important parts of a robotic system.
+However, this article focuses on knowledge representation, and thus the modeling section
+will be described in the most detail. 
+
+\subsection{Domain Specfic Information}
+The most basic knowledge that must be gathered for a knowledge
+driven system is domain specific information (DSI). This appears along the bottom row of
+Figure \ref{fig:DesignArchitecture}. DSI includes sensors and sensor processing that
+are specifically tuned to operate in the target domain. Examples of sensor processing
+may include pose determination and object identification.
+
+For the knowledge model, a scenario driven approach is taken where
+the DSI design begins with a domain expert creating one or more use cases and specific
+scenarios that describe the typical operation of the system. Based on these scenarios and 
+use cases, the high-level
+actions that the system must be able to accomplish can be enumerated and described. 
+An action description that includes any preconditions that
+must be true for an action to be valid as well as expected effects that will result from a
+given action is then created for each action. 
+
+\begin{figure}[ht!]
+\begin{center}
+\textsl{put-kittray}($\mathit{robot}$,$\mathit{kittray}$,$\mathit{worktable}$): The \textit{Robot} 
+$\mathit{robot}$ puts the \textit{KitTray} $\mathit{kittray}$ on the \textit{WorkTable} $\mathit{worktable}$.
+
+\begin{tabular}{ l|l }
+  \textit{preconditions} & \textit{effects} \\
+  \hline
+  \small {\textsf{kittray-location-robot}}(\small $\mathit{kittray}$,\small $\mathit{robot}$)
+  &$\neg$\small {\textsf{kittray-location-robot}}(\small $\mathit{kittray}$,\small $\mathit{robot}$)\\
+  \small {\textsf{robot-holds-kittray}}(\small $\mathit{robot}$,\small $\mathit{kittray}$)
+  &$\neg$\small {\textsf{robot-holds-kittray}}(\small $\mathit{robot}$,\small $\mathit{kittray}$)\\
+  \small {\textsf{worktable-empty}}(\small $\mathit{worktable}$)
+  &$\neg$\small {\textsf{worktable-empty}}(\small $\mathit{worktable}$)\\
+  &\small {\textsf{kittray-location-worktable}}(\small $\mathit{kittray}$,\small $\mathit{worktable}$)\\
+  &\small {\textsf{robot-empty}}(\small $\mathit{robot}$)\\
+  &\small {\textsf{on-worktable-kittray}}(\small $\mathit{worktable}$,\small $\mathit{kittray}$)\\
+\end{tabular}
+\caption{Example action along with its preconditions and expected effects.}
+\label{fig:ActionExample}
+\end{center}
+\end{figure}
+
+Based on the precondition and effect statements, objects in the environment that are relevant 
+for system operation can be identified. For example, the action depicted in Figure \ref{fig:ActionExample}
+has a given robot place a kit tray onto a work table. Based on the preconditions and expected effects,
+the objects that are relevant to this action include the robot, the kit tray, and the work table.
+Aspects of these items
+
+
+\begin{itemize}
+ \item Object information: This includes an object taxonomy and class description of 
+objects that are relevant to the autonomous system in accomplishing its task.
+ \item Action information: This includes information on all possible actions that
+\end{itemize}
+
+
+
+A scenario 
 was developed that described, in detail, the types of operations that would be performed 
 in the target application, the sequencing of steps, the parts and machines that were 
 needed, constraints 
@@ -45,3 +114,10 @@ described in more detail in Section \ref{Sect:Ontology}.
 From this point forward, automatic planning tools have been designed to transition 
 the knowledge into a planning framework and finally a robot specific framework.
 
+As such, it is assumed that a system has been implemented
+that is capable of basic robotic actions. In our case, our knowledge
+driven system bottoms out in a Robot Operating System (ROS) control layer
+\footnote{Certain commercial/open source software and tools are identified 
+in this paper in order to explain our research. Such identification does not imply
+recommendation or endorsement by the authors or NIST, nor does it 
+imply that the software tools identified are necessarily the best available for the purpose.}.

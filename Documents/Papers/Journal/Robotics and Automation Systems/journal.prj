@@ -1,0 +1,104 @@
+307 Patch Control
+
+0
+0
+1
+journal paper.tex
+28
+1
+0
+
+
+
+
+
+
+journal paper.tex
+TeX
+403714043 0 -1 66415 -1 66417 75 75 1147 420 0 305 357 -1 -1 0 0 -1 -1 -1 -1 1 0 66417 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Executor\LaTeX-Source\executor.tex
+TeX
+269496315 0 -1 0 -1 0 25 25 1097 370 0 25 -117 -1 -1 0 0 -1 -1 -1 -1 1 0 0 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Executor\LaTeX-Source\section\introduction.tex
+TeX
+269496315 0 -1 2174 -1 2152 50 50 1122 395 0 441 357 -1 -1 0 0 -1 -1 -1 -1 1 0 2152 -1   0
+elsarticle.cls
+TeX:STY
+269496306 0 0 1 4 35 150 150 1222 495 0 297 68 -1 -1 0 0 3 0 0 3 1 0 35 4   0
+numcompress.sty
+TeX:STY
+269496306 0 0 1 0 1 0 0 1072 345 0 25 0 -1 -1 0 0 3 0 0 3 1 0 1 0   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\sty\myStyle.sty
+TeX:STY
+269496306 1 57 22 57 1 75 75 1147 420 0 25 51 -1 -1 0 0 36 0 0 36 1 0 1 57   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\Section\task2.tex
+TeX
+269496315 1 -1 2446 -1 4604 50 50 1122 395 0 73 408 -1 -1 0 0 65 -1 -1 65 1 0 4604 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Kitting-LaTeX\Sources\section\S-state-variable.tex
+TeX
+269496315 1 -1 13739 -1 13785 125 125 1197 470 0 761 238 -1 -1 0 0 39 -1 -1 39 1 0 13785 -1   0
+journal.bib
+BibTeX
+269485042 1 252 15 252 7 50 50 1122 395 0 73 272 -1 -1 0 0 1 0 0 1 1 0 7 252   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\action_failures.tex
+TeX
+269496315 0 -1 0 -1 0 0 0 1072 345 0 25 0 -1 -1 0 0 44 -1 -1 44 1 0 0 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Kitting-LaTeX\Sources\sty\myStyle.sty
+TeX:STY
+269496306 1 287 68 280 1 150 150 1222 495 0 25 170 -1 -1 0 0 -1 -1 -1 -1 1 0 1 280   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\New-Kitting\bib\kitting-ref.bib
+BibTeX
+269485042 1 19 2 13 1 100 100 1172 445 0 25 221 -1 -1 0 0 -1 -1 -1 -1 1 0 1 13   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Papers\Journal1\section2.tex
+TeX
+286273531 1 -1 5428 -1 10725 150 150 1222 495 0 137 425 -1 -1 0 0 68 -1 -1 68 1 0 10725 -1   0
+:\Users\kalucard\Desktop\zeid\CV\zeid_latex\zeid.tex
+TeX
+269496315 1 -1 9782 -1 10112 75 75 1147 420 0 937 85 -1 -1 0 0 -1 -1 -1 -1 1 0 10112 -1   0
+:\Users\kalucard\Desktop\zeid\CV\zeid_latex\publication.bib
+BibTeX
+269485042 0 0 1 0 1 50 50 1122 395 0 25 0 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+:\Users\kalucard\Desktop\zeid\Thesis\Chapters\ch5-Integration-LT-ST.tex
+TeX
+269496315 1 -1 4479 -1 4478 25 25 1097 370 0 209 170 -1 -1 0 0 -1 -1 -1 -1 1 0 4478 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Papers\Journal1\j1.tex
+TeX:UTF-8:UNIX:UTF-8:UTF-8:UTF-8:UTF-8
+420491259 1 -1 338 -1 317 0 0 1072 345 0 25 51 -1 -1 0 0 10 -1 -1 10 1 0 317 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Papers\Journal1\section1.tex
+TeX
+269496315 1 -1 90 -1 7203 100 100 1172 445 0 217 459 -1 -1 0 0 88 -1 -1 88 1 0 7203 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\Section\task1.tex
+TeX
+269496315 0 -1 0 -1 0 25 25 1097 370 0 25 0 -1 -1 0 0 69 -1 -1 69 1 0 0 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\Section\task5.tex
+TeX
+269496315 0 -1 9 -1 57 75 75 1147 420 0 481 0 -1 -1 0 0 72 -1 -1 72 1 0 57 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\Section\task4.tex
+TeX
+269496315 0 -1 0 -1 0 100 100 1172 445 0 25 0 -1 -1 0 0 51 -1 -1 51 1 0 0 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Manuals\ActionFailures\Section\introduction.tex
+TeX
+269496315 0 -1 0 -1 0 125 125 1197 470 0 25 0 -1 -1 0 0 22 -1 -1 22 1 0 0 -1   0
+elsarticle-template-harv.tex
+TeX
+403714043 0 -1 0 -1 154 150 150 1222 495 0 41 -1088 -1 -1 0 0 -1 -1 -1 -1 1 0 154 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Papers\Journal1\abstract.tex
+TeX
+269496315 0 -1 0 -1 0 25 25 1097 370 0 25 0 -1 -1 0 0 16 -1 -1 16 1 0 0 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Executor\LaTeX-Source\section\executor.tex
+TeX
+269496315 1 -1 1891 -1 1806 0 0 1072 345 0 25 340 -1 -1 0 0 0 -1 -1 0 1 0 1806 -1   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Papers\Journal1\j1.bib
+BibTeX:UNIX
+269583346 0 35 14 35 18 50 50 1122 395 0 161 357 -1 -1 0 0 1 0 0 1 1 0 18 35   0
+:\Users\kalucard\Desktop\zeid\IPMAS\Papers\Journal1\introduction.tex
+TeX
+269496315 0 -1 3794 -1 4091 25 25 1097 370 0 545 289 -1 -1 0 0 37 -1 -1 37 1 0 4091 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Papers\ASME2012\Paper Source\asme2e.cls
+TeX:STY
+269496306 2 331 12 331 15 75 75 1147 420 0 137 -2482 -1 -1 0 0 -1 -1 -1 -1 1 0 15 331   0
+
+*journal paper.tex
+>
+*journal.bib
+<

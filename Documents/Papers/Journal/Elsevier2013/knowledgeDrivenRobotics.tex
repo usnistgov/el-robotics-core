@@ -23,8 +23,12 @@
 
 %% The amssymb package provides various useful mathematical symbols
 \usepackage{amssymb}
+\usepackage{fancyvrb}
+%\usepackage{amsfonts}
+%%% -- Added by Zeid to use \begin{gather}...\end{gather}
+\usepackage{amsmath}
 %% The amsthm package provides extended theorem environments
-%% \usepackage{amsthm}
+ \usepackage{amsthm}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -51,8 +55,14 @@
 %% \biboptions{comma,round}
 
 % \biboptions{}
+\newenvironment{mylisting}
+{\begin{list}{}{}\item\small}
+{\end{list}}
 
-
+%%-- mytinylisting
+\newenvironment{mytinylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
+{\end{list}}
 \journal{Robotics and Automation}
 
 \begin{document}

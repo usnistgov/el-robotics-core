@@ -8,7 +8,7 @@ intelligent system.
 
 \begin{figure}[ht!]
 \begin{center}
-\includegraphics[width=16cm]{images/KnowledgeDrivenRobotics.pdf}
+\includegraphics[width=18cm]{images/KnowledgeDrivenRobotics.pdf}
 \caption{Knowledge Driven Design extensions- In this figure, green shaded boxes with curved bottoms 
 represent hand generated files while
 light blue shaded boxes with curved bottoms represent automatically created boxes. Square
@@ -28,15 +28,15 @@ taxonomy, object-to-object
 relationships, and aspects of actions, preconditions, and effects. 
 Aspects of this
 knowledge are automatically extracted and encoded in a form that is optimized for
-a planning system to utilize (the Planning Language). Once a plan has been formulated, the knowledge is once
-again transformed. This time into a representation that is optimized for use by a robotic system
+a planning system to utilize (the Planning Language). Once a plan has been formulated, 
+the knowledge is transformed into a representation that is optimized for use by a robotic system
 (the Robot Language).
 
 It is acknowledged that sensing and action are important parts of a robotic system.
 However, this article focuses on knowledge representation, and thus the modeling section
 will be described in the most detail. 
 
-\subsection{Domain Specfic Information}
+\subsection{Domain Specific Information}
 The most basic knowledge that must be gathered for a knowledge
 driven system is domain specific information (DSI). This appears along the bottom row of
 Figure \ref{fig:DesignArchitecture}. DSI includes sensors and sensor processing that
@@ -90,12 +90,28 @@ be held by the robot or placed on the work table.
 
 \subsection{Ontology}
 The design transitions from domain expertise to knowledge modeling expertise
-when the SVR is used to generate an ontology which consists of a base ontology
-that describes the objects in the scenario, extensions that describe the
-actions and predicates relevant to the scenario, and instance files that
-describe the initial and goal states for the system. The ontology files are
+when the SVR is used to generate an ontology which consists of three parts:
+\begin{enumerate}
+ \item A base ontology that describes the objects in the scenario. This file contains
+all of the basic information that was determined to be needed during the evaluation of
+the use cases and scenarios. The knowledge is represented in as compact of a form as
+possible with knowledge classes inheriting common attributes from parent classes. 
+For example, the class for a work table, {\bf WorkTable} is derived from
+{\bf BoxyObject}, and {\bf BoxyObject} is derived from {\bf SolidObject}. The actual size of the work table
+is defined in the {\bf BoxyObject}. The reason for the extension from {\bf BoxyObject}
+The work table itself is part of work station.
+
+ \item Extensions that describe the States of the world and relationships between states,
+ Ordering constructs, Actions, and Predicates (the SOAP ontology) 
+ that are relevant to the scenario.
+ \item Instance files that describe the initial and goal states for the system.
+\end{enumerate}
+The ontology files are
 described in more detail in Section \ref{Sect:Ontology}.
 
+\subsection{Planning Language}
+
+\subsection{Robot Language}
 From this point forward, automatic planning tools have been designed to transition 
 the knowledge into a planning framework and finally a robot specific framework.
 

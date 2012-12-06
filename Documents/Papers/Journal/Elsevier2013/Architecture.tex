@@ -98,18 +98,41 @@ the use cases and scenarios. The knowledge is represented in as compact of a for
 possible with knowledge classes inheriting common attributes from parent classes. 
 For example, the class for a work table, {\bf WorkTable} is derived from
 {\bf BoxyObject}, and {\bf BoxyObject} is derived from {\bf SolidObject}. The actual size of the work table
-is defined in the {\bf BoxyObject}. The reason for the extension from {\bf BoxyObject}
-The work table itself is part of work station.
-
+is defined in the {\bf BoxyObject}. The {\bf WorkTable} includes all of the attributes
+of a {\bf BoxyObject} along with the notion that a work table is something that can have
+other objects placed on it. The work table itself is part of a work station {\bf WorkStation}.
  \item Extensions that describe the States of the world and relationships between states,
- Ordering constructs, Actions, and Predicates (the SOAP ontology) 
- that are relevant to the scenario.
- \item Instance files that describe the initial and goal states for the system.
+Ordering constructs, Actions, and Predicates (the SOAP ontology) 
+that are relevant to the scenario. This extension contains not only the basic class for
+actions and predicates, but also the individual actions and predicates that are necessary
+for the domain under study. In the case of the kit building domain, it was found that
+10 actions and 16 predicates were necessary.
+ \item Instance files that describe the initial and goal states for the system. The final set
+of files for the ontology contain a description of the complete system starting or initial state and the 
+requirements on the goal state. The initial state file must contain a description of the environment that
+is complete enough for a planning system to be able to create a valid sequence of actions that will achieve
+the given goal state. For the kit building domain, this includes information such as the location of the
+various end effectors that are available to the robot, the locations and contents of part supply bins, and 
+the location where finished kits should be placed. The goal state file only needs to contain information that
+is relevant to the end goal of the system. For the case of building a kit, this may simply be that a complete
+kit is located in a bin designed to hold completed kits. 
 \end{enumerate}
 The ontology files are
 described in more detail in Section \ref{Sect:Ontology}.
 
 \subsection{Planning Language}
+The Planning Domain Definition Language (PDDL) \cite{PDDL} is an attempt by the
+domain independent planning community to formulate a standard language
+for planning. A community of planning researchers has been producing plan-
+ning systems that comply with this formalism since the first International
+Planning Competition held in 1998. This competition series continues to-
+day, with the seventh competition being held in 2011. PDDL is constantly
+adding extensions to the base language in order to represent more expressive
+problem domains. Our work is based on PDDL Version 3.
+By placing our knowledge in a PDDL representation, we enable the use of an
+entire family of open source planning systems. Each PDDL file-set consists
+of two files that specify the domain and the problem.
+
 
 \subsection{Robot Language}
 From this point forward, automatic planning tools have been designed to transition 

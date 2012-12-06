@@ -27,9 +27,9 @@ independent representation (an Ontology) that allows for the encoding of an obje
 taxonomy, object-to-object
 relationships, and aspects of actions, preconditions, and effects. 
 Aspects of this
-knowledge are automatically extracted and encoded in a form that is easy for
+knowledge are automatically extracted and encoded in a form that is optimized for
 a planning system to utilize (the Planning Language). Once a plan has been formulated, the knowledge is once
-again transformed. This time into a representation that is easily used by a robotic system
+again transformed. This time into a representation that is optimized for use by a robotic system
 (the Robot Language).
 
 It is acknowledged that sensing and action are important parts of a robotic system.
@@ -75,35 +75,20 @@ $\mathit{robot}$ puts the \textit{KitTray} $\mathit{kittray}$ on the \textit{Wor
 \end{center}
 \end{figure}
 
-Based on the precondition and effect statements, objects in the environment that are relevant 
+Based on the action description, objects in the environment that are relevant 
 for system operation can be identified. For example, the action depicted in Figure \ref{fig:ActionExample}
-has a given robot place a kit tray onto a work table. Based on the preconditions and expected effects,
+has a given robot place a kit tray onto a work table. The preconditions for this action are that
+the robot is holding a kit tray and there is a clear space on the table to place the tray. This is
+represented by the predicate expressions shown in Figure \ref{fig:ActionExample} that specify that
+the robot is holding the kit tray, the kit tray is located on the robot (actually in its gripper), and
+the work table is empty. The expected effects of this action are that the kit tray is now located
+on the work table and the robot is no longer holding it. This is also represented by a series
+of predicates that are shown in Figure \ref{fig:ActionExample}. Based on the preconditions and expected effects,
 the objects that are relevant to this action include the robot, the kit tray, and the work table.
-Aspects of these items
+Aspects of these items may now be represented in the DSI. For example, that a kit tray has a location and may
+be held by the robot or placed on the work table.
 
-
-\begin{itemize}
- \item Object information: This includes an object taxonomy and class description of 
-objects that are relevant to the autonomous system in accomplishing its task.
- \item Action information: This includes information on all possible actions that
-\end{itemize}
-
-
-
-A scenario 
-was developed that described, in detail, the types of operations that would be performed 
-in the target application, the sequencing of steps, the parts and machines that were 
-needed, constraints 
-on the process such as pre- and post-conditions, etc. For this scenario, a set of 
-concepts were extracted and defined. These concepts served as the initial requirements 
-for the knowledge that must be encoded for the domain.
-This knowledge was encoded in the form of a state variable representation (SVR). 
-In a SVR, each state is represented by a tuple of values of $n$ state variables 
-$\lbrace x_1,\dots,x_n\rbrace$, and each action is represented by a partial function 
-that maps this tuple into some other tuple of values of the $n$ state variables.
-The concepts that were modeled in the SVR, built off of the 
-definitions and relationships that were identified in the scenario. 
-
+\subsection{Ontology}
 The design transitions from domain expertise to knowledge modeling expertise
 when the SVR is used to generate an ontology which consists of a base ontology
 that describes the objects in the scenario, extensions that describe the

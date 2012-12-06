@@ -23,8 +23,12 @@
 
 %% The amssymb package provides various useful mathematical symbols
 \usepackage{amssymb}
+\usepackage{fancyvrb}
+%\usepackage{amsfonts}
+%%% -- Added by Zeid to use \begin{gather}...\end{gather}
+\usepackage{amsmath}
 %% The amsthm package provides extended theorem environments
-%% \usepackage{amsthm}
+ \usepackage{amsthm}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -51,8 +55,14 @@
 %% \biboptions{comma,round}
 
 % \biboptions{}
+\newenvironment{mylisting}
+{\begin{list}{}{}\item\small}
+{\end{list}}
 
-
+%%-- mytinylisting
+\newenvironment{mytinylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
+{\end{list}}
 \journal{Robotics and Automation}
 
 \begin{document}
@@ -100,9 +110,9 @@
 \begin{abstract}
 %% Text of abstract
 In this article,  a newly developed knowledge architecture that was designed to support the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group
-will be presented. This architecture allows for the creation of systems that demonstrate flexibility, agility, and the ability to be rapidly re-tasked. The architecture, as well as 
-an implementation that combines extensions to the Unified System for Automation and Robot Simulation (USARSim) and the Robot Operating System (ROS), will be discussed 
-in detail. This implementation extends USARSim and ROS to provide models of industrial robots and end-effectors while providing a case study in the area of robotic kit building. 
+will be presented. This architecture allows for the creation of systems that demonstrate flexibility, agility, and the ability to be rapidly re-tasked. The architecture, as well as
+an implementation that combines extensions to the Unified System for Automation and Robot Simulation (USARSim) and the Robot Operating System (ROS), will be discussed
+in detail. This implementation extends USARSim and ROS to provide models of industrial robots and end-effectors while providing a case study in the area of robotic kit building.
 The architecture's potential for creating flexible, agile, and rapidly re-taskable systems will be presented, and possible areas of future work will be discussed.
 \end{abstract}
 
@@ -124,14 +134,14 @@ The architecture's potential for creating flexible, agile, and rapidly re-taskab
 %% main text
 \section{Introduction}
 \label{sect:introduction}
-Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a 
+Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a
 human-led teaching period when the cell\rq{}s
 task is altered.  Many research systems depend on numerous hand-tuned parameters that must be re-tuned by operators whenever a untested
 environment is encountered. These requirements for human intervention cause the robotic systems
-to be brittle and limited in operational scope. The robotic systems of tomorrow 
+to be brittle and limited in operational scope. The robotic systems of tomorrow
 need to be capable, flexible, and agile.  These systems need to perform their duties at least as well as human counterparts, be able to be quickly re-tasked to other operations,
-and be able to cope with a wide variety of unexpected environmental and operational changes. In order to be successful, these systems need to combine domain expertise, 
-knowledge of their own skills and limitations, and both semantic and geometric environmental information. 
+and be able to cope with a wide variety of unexpected environmental and operational changes. In order to be successful, these systems need to combine domain expertise,
+knowledge of their own skills and limitations, and both semantic and geometric environmental information.
 
 The IEEE Robotics and Automation Society\rq{}s Ontologies for Robotics and Automation Working group is striving to create an overall ontology and
 associated methodology for knowledge representation and reasoning that will address these knowledge needs. As part of the
@@ -139,35 +149,35 @@ Industrial Subgroup of the IEEE Working Group, the authors have been examining a
 aspects of the ontology with dynamic sensor processing to allow for a robotic system that is able to cope with environmental and task changes
 without operator intervention.
 
-Architectures have always been an important part of advanced robotic systems and have evolved with the robotic systems that they characterize. 
-Early architectures such as the one developed for the Army Research Laboratory\rq{}s (ARL) Demo I program tended to be hardware focused 
+Architectures have always been an important part of advanced robotic systems and have evolved with the robotic systems that they characterize.
+Early architectures such as the one developed for the Army Research Laboratory\rq{}s (ARL) Demo I program tended to be hardware focused
 \cite{Balakirsky93}. The Demo I platform was able to perform reconnaissance, surveillance, and target acquisition (RSTA) as well as tele-operated
 control over a compressed bandwidth
 radio channel. However, the lack of a software architecture limited the sharing of information between software applications and forced the human
-operator to fuse information returned from various applications in order to make control decisions.  
+operator to fuse information returned from various applications in order to make control decisions.
 
-The ARL Demo III program demonstrated sophisticated off-road navigation while incorporating a much more sophisticated 
+The ARL Demo III program demonstrated sophisticated off-road navigation while incorporating a much more sophisticated
 hardware/software architecture known as 4D/RCS \cite{Albus2000}. This
 architecture provide for a closer coupling of software systems and allowed for the sharing of items such as sensor data and cost maps.
 However, the lack of a knowledge architecture limited this system\rq{}s ability to utilize a priori knowledge to reason over its environment
-and provide fine-grained classification of terrain and obstacles. This resulted in numerous parameters that required human tuning based on 
-the expected environmental conditions. 
+and provide fine-grained classification of terrain and obstacles. This resulted in numerous parameters that required human tuning based on
+the expected environmental conditions.
 
-In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. They will have to demonstrate flexibility through the 
-elimination of hand-tuned parameters. They will need to demonstrate agility through the ability to cope with rapidly changing situations and task requirements, 
-and they will need to be able to be rapidly re-tasked in order to adapt to new tasking quickly and efficiently. The  industrial subgroup of the 
+In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. They will have to demonstrate flexibility through the
+elimination of hand-tuned parameters. They will need to demonstrate agility through the ability to cope with rapidly changing situations and task requirements,
+and they will need to be able to be rapidly re-tasked in order to adapt to new tasking quickly and efficiently. The  industrial subgroup of the
 Ontologies for Robotics and Automation Working group is striving to demonstrate that the inclusion of knowledge in the form of an ontology
 will allow robotic systems to progress to this next level.
 
-The organization of the remainder of this paper is as follows: Section \ref{Sect:Architecture} presents an overview of the knowledge driven architecture that
+The organization of the remainder of this paper is as follows: Section \ref{Sect:Methodology} presents an overview of the knowledge driven methodology that
 has been developed for this effort. Section \ref{Sect:Kitting} describes the domain of kit building
 which is a greatly simplified, but still practically useful manufacturing/assembly domain. Section \ref{Sect:Ontology} describes our ontology for the kitting
 domain. Section \ref{Sect:Implementation} describes the implementation of the system and Section \ref{Sect:Conclusion} provides for conclusions and
 future work.
 
 
-\section{Architecture}
-\label{Sect:Architecture}
+\section{Design Methodology}
+\label{Sect:Methodology}
 \input{Architecture}
 
 \section{Industrial Kitting}
@@ -177,7 +187,7 @@ future work.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ontology}
 \label{Sect:Ontology}
-
+\input{Ontology}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
 \label{Sect:Implementation}

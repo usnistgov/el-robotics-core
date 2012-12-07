@@ -71,16 +71,16 @@ mathematical information is not available.
 
 
 %++++++++++++++++++++++++++++++++++++++++++++++++++++++%
-\subsection{The OWL Predicate Ontology}\label{owlsoap}
+\subsection{The OWL SOAP Ontology}\label{owlsoap}
 %++++++++++++++++++++++++++++++++++++++++++++++++++++++%
-As depicted in Figure~\ref{fig:DesignArchitecture}, the \onto{SOAP} ontology imports the \onto{Kitting} ontology and is involved in the process that generates the planning domain definition language (PDDL)~\cite{GHALLAB.PDDL.1998} domain file and in the predicate evaluation process. While some concepts in the \onto{SOAP} ontology are used by both processes, other concepts are exclusive to the predicate evaluation process. We approach the description of the \onto{SOAP} ontology with a discussion on each process and the concepts used by these processes.
+As depicted in Figure~\ref{fig:DesignArchitecture}, the \onto{SOAP} ontology imports the \onto{Kitting} ontology and is involved in the process that generates the PDDL domain file and in the predicate evaluation process. While some concepts in the \onto{SOAP} ontology are used by both processes, other concepts are exclusive to the predicate evaluation process. We approach the description of the \onto{SOAP} ontology with a discussion on each process and the concepts used by these processes.
 
 \subsubsection{Concepts for PDDL Domain File Generation Process}\label{sss:domainfile}
 A PDDL domain file consists of definitions of actions, predicates, and functions. Actions are ways of changing the state of the world and consist of a precondition and an effect sections. Predicates and functions constitute preconditions and effects. Predicates are used to encode Boolean state variables, while functions are used to model updates of numerical values. Introducing functions into planning makes it possible to model actions in a more compact and sometimes more natural way~\cite{FOX.JAIR.2003}. Figure~\ref{fig:put-part} shows the action \texttt{put-part} as defined in the kitting domain file.
 
 \begin{figure}[t!h!]
-\begin{minipage}{.8\paperwidth}
-\begin{mylisting}
+\begin{minipage}{.5\paperwidth}
+\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
 (:action put-part
    :parameters(
@@ -107,7 +107,7 @@ A PDDL domain file consists of definitions of actions, predicates, and functions
       (robot-empty ?robot))
 )
 \end{Verbatim}
-\end{mylisting}
+\end{list}
 \end{minipage}
 \caption{PDDL action put-part.}
 \label{fig:put-part}
@@ -164,15 +164,15 @@ PDDL actions have been represented in OWL with relations between classes as desc
 
   \item Each instance of the class \class{Precondition} is related ($0\ldots\infty$ occurrence(s)) to an instance of the class $\mathcal{C}$.
     \begin{enumerate}
-      \item $\mathcal{C}$=\class{Predicate}.\\A precondition can consist only of functions and has no predicates.
-       \item $\mathcal{C}$=\class{Function}.\\A precondition can consist only of predicates and has no functions.
+      \item $\mathcal{C}$=\class{Predicate}. A precondition can consist only of functions and has no predicates.
+       \item $\mathcal{C}$=\class{Function}. A precondition can consist only of predicates and has no functions.
        \item $\mathcal{C}$=\class{FunctionBool}.
     \end{enumerate}
     \item Each instance of the class \class{Effect} is related ($x$ occurrence(s)) to an instance of the class $\mathcal{C}$.
     \begin{enumerate}
-      \item $x$=$1\ldots\infty$, $\mathcal{C}$=\class{Predicate}.\\An effect can consist only of functions and has no predicates. Note that negative predicates are considered to be from the class \class{Predicate}. Negative predicates are expressed in OWL with the property assertion \texttt{owl:NegativePropertyAssertion}.
-       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{Function}.\\An effect can consist only of predicates and has no functions.
-       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{FunctionBool}.\\A precondition can consist only of predicates and has no functions.
+      \item $x$=$1\ldots\infty$, $\mathcal{C}$=\class{Predicate}. An effect can consist only of functions and has no predicates. Note that negative predicates are considered to be from the class \class{Predicate}. Negative predicates are expressed in OWL with the property assertion\\\texttt{owl:NegativePropertyAssertion}.
+       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{Function}. An effect can consist only of predicates and has no functions.
+       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{FunctionBool}. A precondition can consist only of predicates and has no functions.
     \end{enumerate}
   \item Each instance of the class \class{Predicate} is related ($0\ldots2$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. In most domains, including our kitting domain, predicates have a maximum of two parameters. This is the result of the definition of state variables in the SVR~\cite{BALAKIRSKY.IROS.2012}. Note that the instance of the class in the \onto{Kitting} ontology is one of the instances defined in item 2. This way assures that the predicate's parameters refer to the same parameters defined for the action.
   \item Each instance of the class \class{Function} is related ($1\ldots\infty$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. This instance of the class in the \onto{Kitting} ontology is one of the instances defined in item 2.
@@ -219,7 +219,7 @@ A failure is any change or any design or manufacturing error that renders a comp
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=10cm]{images/ActionFailures.pdf}
+\includegraphics[width=12cm]{images/ActionFailures.pdf}
 \caption{The FMEA Process.}
 \label{fig:ActionFailures}
 %\end{center}
@@ -283,7 +283,7 @@ Figure~\ref{fig:problem} is a fragment of the problem file generated for our kit
 
 \begin{figure}[t!h!]
 \begin{minipage}{.7\paperwidth}
-\begin{mylisting}
+\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
 (define (problem kitting-problem)
    (:domain kitting-domain)
@@ -322,7 +322,7 @@ Figure~\ref{fig:problem} is a fragment of the problem file generated for our kit
       (kit-location-lbwk kit_a2b2c1 finished_kit_receiver))
 )
 \end{Verbatim}
-\end{mylisting}
+\end{list}
 \end{minipage}
 \caption{Excerpt of a PDDL problem file for kitting.}
 \label{fig:problem}
@@ -331,19 +331,12 @@ Figure~\ref{fig:problem} is a fragment of the problem file generated for our kit
 The different sections that form the problem file are described below.
 \begin{itemize}
 \item line 1: Signal a planner that the current file contains all the elements required to constitute a PDDL problem file. \texttt{kitting-problem} is the name given to this problem.
-\item line 2: \texttt{:domain} refers to the domain file that the current problem file is associated to. In this case, the problem refers to the domain \texttt{kitting-domain}.
-\item lines 4--11: \texttt{:objects} declare objects present in the problem instance.
+\item line 2: \texttt{:domain} refers to the domain file that the current problem file depends on. In this case, the problem \texttt{kitting-problem} refers to the domain \texttt{kitting-domain}.
+\item lines 4--11: \texttt{:objects} declare all the objects present in the world. Some of these objects are required in both the initial state and the goal state.
 \item line 12: \texttt{:init} signals a planner that the predicates and functions in this section are true in the initial state.
-\item lines 13--19: Predicates true in the initial state of the environment. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
-\begin{itemize}
-\item lines 21--23: Functions describing the capacity of parts of a specific type that the kit \texttt{kit\_a2b2c1} can contain. In this example, \texttt{kit\_a2b2c1} can have 2 parts of type A (\texttt{part\_a\_tray}), 2 parts of type B (\texttt{part\_b\_tray}), and 1 part of type C (\texttt{part\_c\_tray}).
-\item lines 24--26: Functions that represent the quantity of parts of a specific type that are already in \texttt{kit\_a2b2c1}. The kit \texttt{kit\_a2b2c1} has no parts of type A, B, and C.
-\item lines 27--29: Functions that describe the quantity of parts available in their respective parts tray.
-%This also can be read as: \emph{``In the workstation, there are 4 parts of type A that are available, 4 parts of type B that are available, and 4 parts of type C that are available''}.
-\end{itemize}
-\item line 31: \texttt{:goal} is a keyword used to signal a planner about the goal state to reach. All the predicates and functions in the goal state must be true (specified by the keyword \texttt{and}).
-\item lines 32--34: The quantity of parts of a specific type in \texttt{kit\_a2b2c1} should match the capacity of parts of a specific type for the kit \texttt{kit\_a2b2c1}. The quantity of parts in \texttt{kit\_a2b2c1} is increased in the action \textit{put-part}. The initial quantity of parts in \texttt{kit\_a2b2c1} and its capacity are set in the initial state. Note that we are not specifying which instance of \class{Part} should go in \texttt{kit\_a2b2c1} but rather the number of \class{Parts} of a specific type that \texttt{kit\_a2b2c1} must have.
-\item line 35: \texttt{kit\_a2b2c1} should be placed in the large box with kits \\\texttt{finished\_kit\_receiver}.
+\item lines 13--19: Predicates that true in the initial state of the world. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
+\item lines 21--29: Numerical values assigned to functions.
+\item line 31: \texttt{:goal} is a keyword used to signal a planner that all predicates and functions within the goal section have to be true in order to reach the final state.
 \end{itemize}
 
 %------------------------------------------------------------------%

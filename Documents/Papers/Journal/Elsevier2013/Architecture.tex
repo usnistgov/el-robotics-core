@@ -1,5 +1,5 @@
 The design approach described in this article is not intended to
-replace sound engineering of an intelligent system, but rather as 
+replace sound engineering of an intelligent system, but rather as
 an additional step that may be applied in order to provide
 the system with more agility, flexibility, and the ability to be rapidly
 re-tasked. This is accomplished by assuring that the appropriate knowledge
@@ -9,7 +9,7 @@ intelligent system.
 \begin{figure}[ht!]
 \begin{center}
 \includegraphics[width=13cm]{images/KnowledgeDrivenRobotics.pdf}
-\caption{Knowledge Driven Design extensions- In this figure, green shaded boxes with curved bottoms 
+\caption{Knowledge Driven Design extensions- In this figure, green shaded boxes with curved bottoms
 represent hand generated files while
 light blue shaded boxes with curved bottoms represent automatically created boxes. Square
 boxes represent processes and libraries.}
@@ -23,18 +23,18 @@ and horizontally by the classical sense-model-act paradigm of intelligent system
 On the vertical axis, knowledge begins with Domain Specific Information that captures
 operational knowledge that is necessary to be successful in the particular domain in which
 the system is designed to operate. This information is then organized into a domain
-independent representation (an Ontology) that allows for the encoding of an object 
+independent representation (an Ontology) that allows for the encoding of an object
 taxonomy, object-to-object
-relationships, and aspects of actions, preconditions, and effects. 
+relationships, and aspects of actions, preconditions, and effects.
 Aspects of this
 knowledge are automatically extracted and encoded in a form that is optimized for
-a planning system to utilize (the Planning Language). Once a plan has been formulated, 
+a planning system to utilize (the Planning Language). Once a plan has been formulated,
 the knowledge is transformed into a representation that is optimized for use by a robotic system
 (the Robot Language).
 
 It is acknowledged that sensing and action are important parts of a robotic system.
 However, this article focuses on knowledge representation, and thus the modeling section
-will be described in the most detail. 
+will be described in the most detail.
 
 \subsection{Domain Specific Information}
 The most basic knowledge that must be gathered for a knowledge
@@ -45,16 +45,16 @@ may include pose determination and object identification.
 
 For the knowledge model, a scenario driven approach is taken where
 the DSI design begins with a domain expert creating one or more use cases and specific
-scenarios that describe the typical operation of the system. Based on these scenarios and 
+scenarios that describe the typical operation of the system. Based on these scenarios and
 use cases, the high-level
-actions that the system must be able to accomplish can be enumerated and described. 
+actions that the system must be able to accomplish can be enumerated and described.
 An action description that includes any preconditions that
 must be true for an action to be valid as well as expected effects that will result from a
-given action is then created for each action. 
+given action is then created for each action.
 
 \begin{figure}[ht!]
 \begin{center}
-\textsl{put-kittray}($\mathit{robot}$,$\mathit{kittray}$,$\mathit{worktable}$): The \textit{Robot} 
+\textsl{put-kittray}($\mathit{robot}$,$\mathit{kittray}$,$\mathit{worktable}$): The \textit{Robot}
 $\mathit{robot}$ puts the \textit{KitTray} $\mathit{kittray}$ on the \textit{WorkTable} $\mathit{worktable}$.
 
 \begin{tabular}{ l|l }
@@ -75,7 +75,7 @@ $\mathit{robot}$ puts the \textit{KitTray} $\mathit{kittray}$ on the \textit{Wor
 \end{center}
 \end{figure}
 
-Based on the action description, objects in the environment that are relevant 
+Based on the action description, objects in the environment that are relevant
 for system operation can be identified. For example, the action depicted in Figure \ref{fig:ActionExample}
 has a given robot place a kit tray onto a work table. The preconditions for this action are that
 the robot is holding a kit tray and there is a clear space on the table to place the tray. This is
@@ -95,27 +95,27 @@ when the SVR is used to generate an ontology which consists of three parts:
  \item A base ontology that describes the objects in the scenario. This file contains
 all of the basic information that was determined to be needed during the evaluation of
 the use cases and scenarios. The knowledge is represented in as compact of a form as
-possible with knowledge classes inheriting common attributes from parent classes. 
-For example, the class for a work table, {\bf WorkTable} is derived from
-{\bf BoxyObject}, and {\bf BoxyObject} is derived from {\bf SolidObject}. The actual size of the work table
-is defined in the {\bf BoxyObject}. The {\bf WorkTable} includes all of the attributes
-of a {\bf BoxyObject} along with the notion that a work table is something that can have
-other objects placed on it. The work table itself is part of a work station {\bf WorkStation}.
+possible with knowledge classes inheriting common attributes from parent classes.
+For example, the class for a work table, \class{WorkTable} is derived from
+\class{BoxyObject}, and \class{BoxyObject} is derived from \class{SolidObject}. The actual size of the work table
+is defined in the \class{BoxyObject}. The \class{WorkTable} includes all of the attributes
+of a \class{BoxyObject} along with the notion that a work table is something that can have
+other objects placed on it. The work table itself is part of a work station \class{WorkStation}.
  \item Extensions that describe the States of the world and relationships between states,
-Ordering constructs, Actions, and Predicates (the SOAP ontology) 
+Ordering constructs, Actions, and Predicates (the \onto{SOAP} ontology)
 that are relevant to the scenario. This extension contains not only the basic class for
 actions and predicates, but also the individual actions and predicates that are necessary
 for the domain under study. In the case of the kit building domain, it was found that
 10 actions and 16 predicates were necessary.
  \item Instance files that describe the initial and goal states for the system. The final set
-of files for the ontology contain a description of the complete system starting or initial state and the 
+of files for the ontology contain a description of the complete system starting or initial state and the
 requirements on the goal state. The initial state file must contain a description of the environment that
 is complete enough for a planning system to be able to create a valid sequence of actions that will achieve
 the given goal state. For the kit building domain, this includes information such as the location of the
-various end effectors that are available to the robot, the locations and contents of part supply bins, and 
+various end effectors that are available to the robot, the locations and contents of part supply bins, and
 the location where finished kits should be placed. The goal state file only needs to contain information that
 is relevant to the end goal of the system. For the case of building a kit, this may simply be that a complete
-kit is located in a bin designed to hold completed kits. 
+kit is located in a bin designed to hold completed kits.
 \end{enumerate}
 The ontology files are
 described in more detail in Section \ref{Sect:Ontology}.
@@ -123,28 +123,28 @@ described in more detail in Section \ref{Sect:Ontology}.
 \subsection{Planning Language}
 The Planning Domain Definition Language (PDDL) \cite{PDDL} is an attempt by the
 domain independent planning community to formulate a standard language
-for planning. A community of planning researchers has been producing 
+for planning. A community of planning researchers has been producing
 planning systems that comply with this formalism since the first International
-Planning Competition held in 1998. This competition series continues today, 
+Planning Competition held in 1998. This competition series continues today,
 with the seventh competition being held in 2011. PDDL is constantly
 adding extensions to the base language in order to represent more expressive
 problem domains. The work represented in this article is based on PDDL Version 3.
 By placing the knowledge in a PDDL representation, the use of an
-entire family of open source planning systems is enabled. 
+entire family of open source planning systems is enabled.
 
 The PDDL input format consists
-of two files that specify the domain and the problem. As shown in Figure 
+of two files that specify the domain and the problem. As shown in Figure
 \ref{fig:DesignArchitecture}, these files are automatically
 generated from the ontology. The domain file represents actions along
 with required preconditions and expected results. The problem file
-represents the initial state of the system and the desired goal. 
+represents the initial state of the system and the desired goal.
 
 From these two files, a domain independent planning system such as
-the forward-chaining partial-order planning from Coles et. al 
+the forward-chaining partial-order planning from Coles et. al
 \cite{Coles.ICAPS.2010} may be run to create a static plan file. This
 plan file contains a sequence of actions that will transition the
 system from the initial state to the goal state. It should be noted that
-it is not possible for certain peices of necessary data to be specified before
+it is not possible for certain pieces of necessary data to be specified before
 run time. For example the location of objects that are contained
 in a random bin is necessary for them to be picked up by the robot,
 however, this location will not be known before the bin has been examined.
@@ -176,8 +176,6 @@ generated by the PDDL planning system contain only high-level actions.
 \caption{Excerpt of the PDDL solution file for kitting.}
 \label{fig:domain}
 \end{figure}
-
-
 For example, the problem file will specify that a kit tray is located
 on a work table. The exact position of the tray relative to the table
 is not specified, nor is the location of the table relative to the global
@@ -185,15 +183,14 @@ origin of the world. Such detailed information must be gathered by sensor
 processing, and the static PDDL problem file does not lend itself to well
 to the storage of this information.
 
-
 \subsection{Robot Language}
-From this point forward, automatic planning tools have been designed to transition 
+From this point forward, automatic planning tools have been designed to transition
 the knowledge into a planning framework and finally a robot specific framework.
 
 As such, it is assumed that a system has been implemented
 that is capable of basic robotic actions. In our case, our knowledge
 driven system bottoms out in a Robot Operating System (ROS) control layer
-\footnote{Certain commercial/open source software and tools are identified 
+\footnote{Certain commercial/open source software and tools are identified
 in this paper in order to explain our research. Such identification does not imply
-recommendation or endorsement by the authors or NIST, nor does it 
-imply that the software tools identified are necessarily the best available for the purpose.}.
+recommendation or endorsement by the authors or NIST, nor does it
+imply that the software tools identified are necessarily the best available for the purpose.}. 

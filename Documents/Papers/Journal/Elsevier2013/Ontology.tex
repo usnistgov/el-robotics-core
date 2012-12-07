@@ -2,14 +2,12 @@ We believe that building models of the world knowledge is a necessary step towar
 
 Models of executable information are also produced from the system information described in the SVR. These models include actions, actions' precondition, actions' effect, and actions' failures that consist of different spatial relations. A description of these models is given in Section~\ref{owlsoap}.
 
-Models for executable and non-executable information can be combined to generate the OWL/XML kitting init and goal conditions files, as described in Section~\ref{owlinitgoal}.
+Models for executable and non-executable information can be combined to generate the OWL/XML kitting \onto{init} and \onto{goal} conditions files, as described in Section~\ref{owlinitgoal}.
 
-
-
-%The rest of this section describes the two proposed different models along with their representation in the ontologies presented in Figure~\ref{fig:DesignArchitecture}. %The models were defined in OWL's functional-style syntax~\cite{OWLspec}.
-
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
 \subsection{The OWL/XML Kitting Ontology}\label{owlkitting}
-In order to maintain compatibility with the IEEE working group, the \texttt{Kitting} ontology has been fully defined in the Web Ontology Language (OWL)~\cite{OWLoverview}. In addition, the ontology was also fully defined in the XML schema language~\cite{Walmsley.2002}. Although the two models are conceptually identical, there are some systematic differences between the models (in addition to differences inherent in using two different languages).
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
+In order to maintain compatibility with the IEEE working group, the \onto{Kitting} ontology has been fully defined in the Web Ontology Language (OWL)~\cite{OWLoverview}. In addition, the ontology was also fully defined in the XML schema language~\cite{Walmsley.2002}. Although the two models are conceptually identical, there are some systematic differences between the models (in addition to differences inherent in using two different languages).
 
 
 \begin{itemize}
@@ -17,73 +15,73 @@ In order to maintain compatibility with the IEEE working group, the \texttt{Kitt
   \item All of the XML schema \textsf{complexTypes} have a ``Name" element that is not present in OWL. It is not needed in OWL because names are assigned as a matter of course when instances of classes are created.
   \item The XML schema model has a list of ``Object" elements. This collects all of the movable objects. The OWL model does not have a corresponding list. In an OWL data file, the movable objects may appear anywhere.
   \item OWL has classes but does not have attributes; it has \textsf{ObjectProperties} and \textsf{DataProperties} instead. They may be used to model attributes. OWL Properties are global, not local to a class, so localizing each attribute to a class is done by a naming convention that includes using prefixes as described below. The prefixes are not used in XML schema.
-  \item OWL supports multiple inheritances, but that has not been used in the \texttt{Kitting} ontology. Except by subclass relationship, no object is in more than one class.
+  \item OWL supports multiple inheritances, but that has not been used in the \onto{Kitting} ontology. Except by subclass relationship, no object is in more than one class.
 \end{itemize}
 \begin{table}[h!t!b!]
-\caption{Excerpt of the \texttt{Kitting} ontology.}
+\caption{Excerpt of the \onto{Kitting} ontology.}
 \label{tab:kittingonto}
 \centering
 \begin{tabular}{l}
 \hline
-\textsf{SolidObject} \textit{PrimaryLocation} \textit{SecondaryLocation}
+\class{SolidObject} \textit{PrimaryLocation} \textit{SecondaryLocation}
 \\\hline
-\hspace{5 mm}\textsf{Kit} \textit{Tray} \textit{DesignRef} \textit{Parts} \textit{Finished?}
+\hspace{5 mm}\class{Kit} \textit{Tray} \textit{DesignRef} \textit{Parts} \textit{Finished?}
 \\\hline
-\hspace{5 mm}\textsf{LargeBoxWithEmptyKitTrays} \textit{LargeContainer} \textit{Trays}
+\hspace{5 mm}\class{LargeBoxWithEmptyKitTrays} \textit{LargeContainer} \textit{Trays}
 \\\hline
-\hspace{5 mm}\textsf{LargeBoxWithKits} \textit{LargeContainer} \textit{Kits} \textit{KitDesignRef} \textit{Capacity}
+\hspace{5 mm}\class{LargeBoxWithKits} \textit{LargeContainer} \textit{Kits} \textit{KitDesignRef} \textit{Capacity}
 \\\hline
-\hspace{5 mm}\textsf{PartsTrayWithParts} \textit{PartTray}
+\hspace{5 mm}\class{PartsTrayWithParts} \textit{PartTray}
 \\\hline
 \hspace{5 mm}\ldots
 \\\hline
-\textsf{DataThing}
+\class{DataThing}
 \\\hline
-\hspace{5 mm}\textsf{PhysicalLocation} \textit{RefObject}
+\hspace{5 mm}\class{PhysicalLocation} \textit{RefObject}
 \\\hline
-\hspace{10 mm}\textsf{PoseLocation} \textit{Point} \textit{XAxis} \textit{ZAxis}
+\hspace{10 mm}\class{PoseLocation} \textit{Point} \textit{XAxis} \textit{ZAxis}
 \\\hline
-\hspace{15 mm}\textsf{PoseLocationIn}
+\hspace{15 mm}\class{PoseLocationIn}
 \\\hline
-\hspace{15 mm}\textsf{PoseLocationOn}
+\hspace{15 mm}\class{PoseLocationOn}
 \\\hline
-\hspace{10 mm}\textsf{RelativeLocation} \textit{Description}
+\hspace{10 mm}\class{RelativeLocation} \textit{Description}
 \\\hline
-\hspace{15 mm}\textsf{RelativeLocationIn}
+\hspace{15 mm}\class{RelativeLocationIn}
 \\\hline
-\hspace{15 mm}\textsf{RelativeLocationOn}
+\hspace{15 mm}\class{RelativeLocationOn}
 \\\hline
 \hspace{5 mm}\ldots
 \\\hline
 \end{tabular}
 \end{table}
-\textsf{SolidObject} and \textsf{DataThing} constitute the two top-level classes of the \texttt{Kitting} ontology model, from which all other classes are derived.
+\class{SolidObject} and \class{DataThing} constitute the two top-level classes of the \onto{Kitting} ontology model, from which all other classes are derived.
 
 
-\textsf{SolidObject} models solid objects, things made of matter. The \texttt{Kitting} ontology includes several subclasses of \textsf{SolidObject} that are formed from
-components that are \textsf{SolidObject}. The \textsf{DataThing} class models data for \textsf{SolidObject}. Examples of subclasses for \textsf{SolidObject} and \textsf{DataThing} are represented in Table~\ref{tab:kittingonto}. Items in italics following classes are names of class attributes. Derived types inherit the attributes of the parent. Each attribute has a specific type not shown in the listing below. If an attribute type has derived types, any of the derived types may be used.
+\class{SolidObject} models solid objects, things made of matter. The \onto{Kitting} ontology includes several subclasses of \class{SolidObject} that are formed from
+components that are \class{SolidObject}. The \class{DataThing} class models data for \class{SolidObject}. Examples of subclasses for \class{SolidObject} and \class{DataThing} are represented in Table~\ref{tab:kittingonto}. Items in italics following classes are names of class attributes. Derived types inherit the attributes of the parent. Each attribute has a specific type not shown in the listing below. If an attribute type has derived types, any of the derived types may be used.
 
-Using Table~\ref{tab:kittingonto}, an example of interaction between classes \textsf{SolidObject} and \textsf{DataThing} can be expressed as follows: Each \textsf{SolidObject} \textsf{A} has at least one \textsf{PhysicalLocation} (the \textit{PrimaryLocation}). A \textsf{PhysicalLocation} is defined by giving a reference \textsf{SolidObject} \textsf{B} (\textit{RefObject}) and information saying how the position of \textsf{A} is related to \textsf{B}. \textsf{PhysicalLocation} consists of two types of location which are required for the operation of the kitting workstation:
+Using Table~\ref{tab:kittingonto}, an example of interaction between classes \class{SolidObject} and \class{DataThing} can be expressed as follows: Each \class{SolidObject} \class{A} has at least one \class{PhysicalLocation} (the \textit{PrimaryLocation}). A \class{PhysicalLocation} is defined by giving a reference \class{SolidObject} \class{B} (\textit{RefObject}) and information saying how the position of \class{A} is related to \class{B}. \class{PhysicalLocation} consists of two types of location which are required for the operation of the kitting workstation:
 \begin{itemize}
- \item Mathematically precise locations are needed to support robot motion. The mathematical location, \textsf{PoseLocation}, gives the pose of the coordinate system of \textsf{A} in the coordinate system of \textsf{B}. The mathematical information consists of the location of the origin of \textsf{A}'s coordinate system (\textit{Point}) and the directions of its Z (\textit{ZAxis}) and X (\textit{XAxis}) axes. The mathematical location variety has subclasses representing that, in addition, \textsf{A} is in \textsf{B} (\textsf{PoseLocationIn}) or on \textsf{B} (\textsf{PoseLocationOn}).
-\item Relative locations (class \textsf{RelativeLocation}), specifically the knowledge that one \textsf{SolidObject} is in (\textsf{RelativeLocationIn}) or on (\textsf{RelativeLocationOn}) another, are needed to support making logical plans for building kits. The subclasses of \textsf{RelativeLocation} are needed not only for
+ \item Mathematically precise locations are needed to support robot motion. The mathematical location, \class{PoseLocation}, gives the pose of the coordinate system of \class{A} in the coordinate system of \class{B}. The mathematical information consists of the location of the origin of \class{A}'s coordinate system (\textit{Point}) and the directions of its Z (\textit{ZAxis}) and X (\textit{XAxis}) axes. The mathematical location variety has subclasses representing that, in addition, \class{A} is in \class{B} (\class{PoseLocationIn}) or on \class{B} (\class{PoseLocationOn}).
+\item Relative locations (class \class{RelativeLocation}), specifically the knowledge that one \class{SolidObject} is in (\class{RelativeLocationIn}) or on (\class{RelativeLocationOn}) another, are needed to support making logical plans for building kits. The subclasses of \class{RelativeLocation} are needed not only for
 logical planning, but also for cases when the relative location is known, but the
 mathematical information is not available.
 \end{itemize}
 
 
-
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++%
 \subsection{The OWL Predicate Ontology}\label{owlsoap}
-
-As depicted in Figure~\ref{fig:DesignArchitecture}, the \texttt{Predicate} ontology imports the \texttt{Kitting} ontology and is involved in the process that generates the planning domain definition language (PDDL)~\cite{GHALLAB.PDDL.1998} domain file and in the predicate evaluation process. While some concepts in the \texttt{Predicate} ontology are used by both processes, other concepts are exclusive to the predicate evaluation process. We approach the description of the \texttt{Predicate} ontology with a discussion on each process and the concepts used by these processes.
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++%
+As depicted in Figure~\ref{fig:DesignArchitecture}, the \onto{SOAP} ontology imports the \onto{Kitting} ontology and is involved in the process that generates the planning domain definition language (PDDL)~\cite{GHALLAB.PDDL.1998} domain file and in the predicate evaluation process. While some concepts in the \onto{SOAP} ontology are used by both processes, other concepts are exclusive to the predicate evaluation process. We approach the description of the \onto{SOAP} ontology with a discussion on each process and the concepts used by these processes.
 
 \subsubsection{Concepts for PDDL Domain File Generation Process}\label{sss:domainfile}
 A PDDL domain file consists of definitions of actions, predicates, and functions. Actions are ways of changing the state of the world and consist of a precondition and an effect sections. Predicates and functions constitute preconditions and effects. Predicates are used to encode Boolean state variables, while functions are used to model updates of numerical values. Introducing functions into planning makes it possible to model actions in a more compact and sometimes more natural way~\cite{FOX.JAIR.2003}. Figure~\ref{fig:put-part} shows the action \texttt{put-part} as defined in the kitting domain file.
 
 \begin{figure}[t!h!]
-    \begin{minipage}{.9\paperwidth}
-    \begin{mylisting}
-    \begin{Verbatim}[commandchars=\\\{\},fontsize=\small, numbers=left, numbersep=0pt]
+\begin{minipage}{.8\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
 (:action put-part
    :parameters(
       ?robot - Robot
@@ -124,91 +122,239 @@ A PDDL action consists of the following sections:
    \item \texttt{predicate} and \texttt{function}: In Figure~\ref{fig:put-part}, the \texttt{precondition} section includes an operation between functions (lines 13--14) and the \texttt{effect} section includes one function at line 22. The other components of the precondition and the effect sections are predicates and negation of predicates (identified by the keyword \texttt{not}).
 \end{enumerate}
 
-In the \texttt{Predicate} ontology, the concepts of ``Action", ``Precondition", ``Effect", ``Predicate", ``Function", and ``Parameter" are represented by the classes \textsf{Action}, \textsf{Precondition}, \textsf{Effect}, \textsf{Predicate}, \textsf{Function}, and \textsf{ParameterList}, respectively. These classes are subclasses of the \textsf{DataThing} class discussed in Section~\ref{owlkitting}. An operation between two functions (lines 13--14) compares to integers and return a Boolean value. This is expressed in the class \textsf{FunctionBool}. 
+In the \onto{SOAP} ontology, the concepts of ``Action", ``Precondition", ``Effect", ``Predicate", ``Function", and ``Parameter" are represented by the classes \class{Action}, \class{Precondition}, \class{Effect}, \class{Predicate}, \class{Function}, and \class{ParameterList}, respectively. Operations between functions (lines 13--14) that return a Boolean value are expressed in the class \class{FunctionBool}. All the aforementioned classes are subclasses of the \class{DataThing} class discussed in Section~\ref{owlkitting}.
 
-In order to represent the structure of a PDDL action in the ontology, we have expressed the relations between classes as follows:
+PDDL actions have been represented in OWL with relations between classes as described below. In these descriptions, the term ``occurrence" refers to the number of times a relation between two classes can appear in the ontology. For instance, an occurrence $0\ldots\infty$ means that a relation between two classes may not appear or may appear multiple times in the ontology.
+
+%\begin{enumerate}
+%  \item Each instance of the class \class{Action} points (1 occurrence) to an instance of the class \class{ParameterList}.
+%    \begin{enumerate}
+%      \item Each instance of the class \class{ParameterList} points ($1\ldots\infty$ occurrences) to an instance of a class in the \texttt{Kitting} ontology. In Figure~\ref{fig:put-part}, the parameter \texttt{robot} is an instance of the class \class{Robot} which is a subclass of \class{SolidObject} in the \texttt{Kitting} ontology.
+%    \end{enumerate}
+%  \item Each instance of the class \class{Action} points (1 occurrence) to an instance of the class \class{Precondition}.
+%    \begin{enumerate}
+%      \item Each instance of the class \class{Precondition} points ($0\ldots\infty$ occurrences) to an instance of the class \class{Predicate}. A precondition can consist only of functions and has no predicates.
+%	\begin{enumerate}
+%	  \item Each instance of the class \class{Predicate} points ($0\ldots2$ occurrences) to an instance of  a class in the \texttt{Kitting} ontology. In most domains, including our kitting domain, predicates have a maximum of two parameters. This is the result of the definition of state variables in the SVR~\cite{BALAKIRSKY.IROS.2012}. Note that the instance of the class in the \texttt{Kitting} ontology is the same one defined in 1(a). This way assures that the predicate's parameters refer to the same parameters defined for the action.
+%	\end{enumerate}
+%      \item Each instance of the class \class{Precondition} points ($0\ldots\infty$ occurrences) to an instance of the class \class{Function}. A precondition can consist only of predicates and has no functions.
+%	\begin{enumerate}
+%	  \item Each instance of the class \class{Function} points ($1\ldots\infty$ occurrences) to an instance of a class in the \texttt{Kitting} ontology. This instance of the class in the \texttt{Kitting} ontology is the same one defined in 1(a) for the same reason described in 2(a)i.
+%	\end{enumerate}
+%      \item Each instance of the class \class{Precondition} points ($0\ldots\infty$ occurrences) to an instance of the class \class{FunctionBool}.
+%        \begin{enumerate}
+%	  \item Each instance of the class \class{FunctionBool} points (2 occurrences) to the class \class{Function} to formulate the kind of operation depicted at lines 13--14 in Figure~\ref{fig:put-part}.
+%	\end{enumerate}
+%    \end{enumerate}
+%  \item Each instance of the class \class{Action} points (1 occurrence) to an instance of the class \class{Effect}.
+%    \begin{enumerate}
+%      \item The class \class{Effect} has the same relations as the ones described for the class \class{Predicate} (2(a), 2(b), and 2(c)). Note that the effect section can contain $1\ldots\infty$ occurrences of negative predicates. Negative predicates are expressed in OWL with the property assertion \texttt{owl:NegativePropertyAssertion}.
+%    \end{enumerate}
+%\end{enumerate}
+
+
 \begin{enumerate}
-  \item Each instance of the class \textsf{Action} points (1 occurrence) to an instance of the class \textsf{ParameterList}.
-  \begin{enumerate}
-  \item Each instance of the class \textsf{ParameterList} points ($1\ldots\infty$ occurrences) to an instance of a class in the \texttt{Kitting} ontology. In Figure~\ref{fig:put-part}, the parameter \texttt{robot} is an instance of the class \textsf{Robot} which is a subclass of \textsf{SolidObject} in the \texttt{Kitting} ontology.
-\end{enumerate}
-  \item Each instance of the class \textsf{Action} points (1 occurrence) to an instance of the class \textsf{Precondition}.
-  \begin{enumerate}
-  \item Each instance of the class \textsf{Precondition} points ($0\ldots\infty$ occurrences) to an instance of the class \textsf{Predicate}. A precondition can consist only of functions and has no predicates.
-  \begin{enumerate}
-  \item Each instance of the class \textsf{Predicate} points ($0\ldots2$ occurrences) to an instance of  a class in the \texttt{Kitting} ontology. In most domains, including our kitting domain, predicates have a maximum of two parameters. This is the result of the definition of state variables in the SVR~\cite{BALAKIRSKY.IROS.2012}. Note that the instance of the class in the \texttt{Kitting} ontology is the same one defined in 1(a). This way assures that the predicate's parameters refer to the same parameters defined for the action.
-  \end{enumerate}
-    \item Each instance of the class \textsf{Precondition} points ($0\ldots\infty$ occurrences) to an instance of the class \textsf{Function}. A precondition can consist only of predicates and has no functions.
+  \item Each instance of the class \class{Action} is related ($1$ occurrence) to an instance of the class $\mathcal{C}$.
     \begin{enumerate}
-    \item Each instance of the class \textsf{Function} points ($1\ldots\infty$ occurrences) to an instance of a class in the \texttt{Kitting} ontology. This instance of the class in the \texttt{Kitting} ontology is the same one defined in 1(a) for the same reason described in 2(a)i.
-  \end{enumerate}
-    \item Each instance of the class \textsf{Precondition} points ($0\ldots\infty$ occurrences) to an instance of the class \textsf{FunctionBool}.
-        \begin{enumerate}
-    \item Each instance of the class \textsf{FunctionBool} points (2 occurrences) to the class \textsf{Function} to formulate the kind of operation depicted at lines 13--14 in Figure~\ref{fig:put-part}.
-  \end{enumerate}
+      \item $\mathcal{C}$=\class{ParameterList}
+      \item $\mathcal{C}$=\class{Precondition}
+      \item $\mathcal{C}$=\class{Effect}
+    \end{enumerate}
+  \item Each instance of the class \class{ParameterList} is related ($1\ldots\infty$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. In Figure~\ref{fig:put-part}, the parameter \texttt{robot} is an instance of the class \class{Robot} which is a subclass of \class{SolidObject} in the \onto{Kitting} ontology.
+
+  \item Each instance of the class \class{Precondition} is related ($0\ldots\infty$ occurrence(s)) to an instance of the class $\mathcal{C}$.
+    \begin{enumerate}
+      \item $\mathcal{C}$=\class{Predicate}.\\A precondition can consist only of functions and has no predicates.
+       \item $\mathcal{C}$=\class{Function}.\\A precondition can consist only of predicates and has no functions.
+       \item $\mathcal{C}$=\class{FunctionBool}.
+    \end{enumerate}
+    \item Each instance of the class \class{Effect} is related ($x$ occurrence(s)) to an instance of the class $\mathcal{C}$.
+    \begin{enumerate}
+      \item $x$=$1\ldots\infty$, $\mathcal{C}$=\class{Predicate}.\\An effect can consist only of functions and has no predicates. Note that negative predicates are considered to be from the class \class{Predicate}. Negative predicates are expressed in OWL with the property assertion \texttt{owl:NegativePropertyAssertion}.
+       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{Function}.\\An effect can consist only of predicates and has no functions.
+       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{FunctionBool}.\\A precondition can consist only of predicates and has no functions.
+    \end{enumerate}
+  \item Each instance of the class \class{Predicate} is related ($0\ldots2$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. In most domains, including our kitting domain, predicates have a maximum of two parameters. This is the result of the definition of state variables in the SVR~\cite{BALAKIRSKY.IROS.2012}. Note that the instance of the class in the \onto{Kitting} ontology is one of the instances defined in item 2. This way assures that the predicate's parameters refer to the same parameters defined for the action.
+  \item Each instance of the class \class{Function} is related ($1\ldots\infty$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. This instance of the class in the \onto{Kitting} ontology is one of the instances defined in item 2.
+    \item Each instance of the class \class{FunctionBool} is related ($2$ occurrences) to an instance of the class \class{Function}. This is used to formulate the kind of operation depicted at lines 13--14 in Figure~\ref{fig:put-part}.
 \end{enumerate}
-  \item Each instance of the class \textsf{Action} points (1 occurrence) to an instance of the class \textsf{Effect}. The class \textsf{Effect} has the same relations as the ones described for the class \textsf{Predicate} (2(a), 2(b), and 2(c)). Note that the effect section can contain $1\ldots\infty$ occurrences of negative predicates. Negative predicates are expressed in OWL with the property assertion\\\texttt{owl:NegativePropertyAssertion}.
-\end{enumerate}
-
-%
-%\begin{enumerate}
-%\item For each instance of the class \textsf{Action}:
-%\begin{enumerate}
-%  \item There is an object property \texttt{hasActionParameterList} that points to an instance of the class \textsf{ParameterList}.
-%  \item There is an object property \texttt{hasActionPrecondition} that points to an instance of the class \textsf{Precondition}.
-%  \item There is an object property \texttt{hasActionEffect} that points to an instance of the class \textsf{Effect}.
-%\end{enumerate}
-%\item For each instance of the class \textsf{ParameterList}:
-%\begin{enumerate}
-%  \item There exists $1\ldots\infty$ object property \texttt{hasActionParameter} that points to an instance of a class in the \texttt{Kitting} ontology. For instance, referring to Figure~\ref{fig:put-part}, if \texttt{putpart-paramlist} is an instance of the class \textsf{ParameterList} and \texttt{putpart-robot} is an instance of the class \textsf{Robot}, we will have the relation ``\texttt{putpart-paramlist} \texttt{hasActionParameter} \texttt{putpart-robot}".
-%\end{enumerate}
-%\item For each instance of the class \textsf{Precondition}:
-%\begin{enumerate}
-%  \item There exists an object property \texttt{hasPreconditionPredicate} that can occur more than once ($0\ldots\infty$) that points to an instance of the class \textsf{Predicate}.
-%    \item There exists an object property \texttt{hasPreconditionFunction} that can occur more than once ($0\ldots\infty$) that points to an instance of the class \textsf{Function}.
-%    \item There exists an object property \texttt{hasBoolOperator} that can occur more than once ($0\ldots\infty$) that points to an instance of the class \textsf{FunctionBool}.
-%\end{enumerate}
-%\item For each instance of the class \textsf{Predicate}:
-%\begin{enumerate}
-%  \item There exists 1 occurrence of the object property \\\texttt{hasPredicateReferenceParameter} that points to an instance of a class in the \texttt{Kitting} ontology. This instance of the class in the \texttt{Kitting} ontology is the same one defined by the object property \texttt{hasActionParameter} for the class \textsf{ParameterList}. For instance, if \texttt{putpart-robot} has been defined as a parameter for \texttt{putpart-paramlist}, the predicate \texttt{robot-holds-part} (from the class \textsf{Predicate}) points to \texttt{putpart-robot}.
-%    \item There exists 0 or 1 occurrence of the object property \\\texttt{hasPredicateTargetParameter} that points to an instance of a class in the \texttt{Kitting} ontology (same rule as described in 4(a)). Note that the difference between \texttt{hasPredicateReferenceParameter} and \texttt{hasPredicateTargetParameter} lies in the number of parameters for the predicate. If the predicate consists of only one parameter, this parameter is identified by \texttt{hasPredicateReferenceParameter}. If the predicate consists of two parameters, the first parameter is identified by \texttt{hasPredicateReferenceParameter} and the second parameter is identified by \texttt{hasPredicateTargetParameter}.
-%\end{enumerate}
-%\end{enumerate}
 
 
+%-------------------------------------------------------------%
 \subsubsection{Concepts for the Predicate Evaluation Process}
-The predicate evaluation process is called during the execution of robot commands (defined in the Robot Language) by the robot. In our system, one PDDL action generates multiple of these commands. Before the robot executes these commands, the predicates that constitute the precondition section for the original PDDL action are evaluated. In the same way, once the set of robot commands has been carried out by the robot, the predicates part of the effect section for the original PDDL action are evaluated. In our system, we use the concept of \texttt{Spatial Relations} to evaluate these predicates.
+%-------------------------------------------------------------%
+The predicate evaluation process is called during the execution of robot commands (defined in the Robot Language) by the robot. In our system, one PDDL action generates multiple of these commands. Before the robot executes these commands, the predicates that constitute the precondition section for the original PDDL action are evaluated. In the same way, once the set of robot commands has been carried out by the robot, the predicates part of the effect section for the original PDDL action are evaluated. In our system, we use the concept of ``Spatial Relations'' to evaluate these predicates.
 
-\texttt{Spatial Relations} are represented as subclasses of the \textsf{RelativeLocation} class which is a subtype of the \textsf{PhysicalLocation} (see Table~\ref{tab:kittingonto}). There are three types of spatial relations, each represented in a separate class as described below:
+``Spatial Relations'' are represented as subclasses of the \class{RelativeLocation} class which is a subtype of the \class{PhysicalLocation} (see Table~\ref{tab:kittingonto}). There are three types of spatial relations, each represented in a separate class as described below:
 \begin{itemize}
- \item \textsf{RCC8\_Relation}: RCC8~\cite{Wolter.KR.2000} is a well-known and cited approach for representing the relationship between two regions in Euclidean space or in a topological space. Based on the definition of RCC8, the class \textsf{RCC8\_Relation} consists of eight possible relations, including Tangential Proper Part (TPP), Non-Tangential Proper Part(NTPP), Disconnected (DC), Tangential Proper Part Inverse (TPPi), Non-Tangential Proper Part Inverse (NTPPi), Externally Connected (EC), Equal (EQ), and Partially Overlapping (PO). In order to represent these relations in all three dimensions for the kitting domain, we have extended RCC8 to a three-dimensions space by applying it along all three planes (x-y, x-z, y-z) and by including cardinal direction relations ``+'' and ``-''~\cite{SCHLENOFF.ECDRM.2012}. In the ontology, RCC8 relations and cardinal direction relations are represented as subclasses of the class \textsf{RCC8\_Relation}. Examples of such classes are \textsf{X-DC}, \textsf{X-EC}, \textsf{X-Minus}, and \textsf{X-Plus}.
+ \item \class{RCC8\_Relation}: RCC8~\cite{Wolter.KR.2000} is a well-known and cited approach for representing the relationship between two regions in Euclidean space or in a topological space. Based on the definition of RCC8, the class \class{RCC8\_Relation} consists of eight possible relations, including Tangential Proper Part (TPP), Non-Tangential Proper Part(NTPP), Disconnected (DC), Tangential Proper Part Inverse (TPPi), Non-Tangential Proper Part Inverse (NTPPi), Externally Connected (EC), Equal (EQ), and Partially Overlapping (PO). In order to represent these relations in all three dimensions for the kitting domain, we have extended RCC8 to a three-dimensions space by applying it along all three planes (x-y, x-z, y-z) and by including cardinal direction relations ``+'' and ``-''~\cite{SCHLENOFF.ECDRM.2012}. In the ontology, RCC8 relations and cardinal direction relations are represented as subclasses of the class \class{RCC8\_Relation}. Examples of such classes are \class{X-DC}, \class{X-EC}, \class{X-Minus}, and \class{X-Plus}.
 
- \item \textsf{Intermediate\_State\_Relation}: These are intermediate level state relations that can be inferred from the combination of RCC8 and cardinal direction relations. For  instance, the intermediate state relation \textbf{Contained-In} is used to describe object \textit{obj1} completely inside object \textit{obj2} and is represented with the following combination of RCC8 relations:
-
+ \item \class{Intermediate\_State\_Relation}: These are intermediate level state relations that can be inferred from the combination of RCC8 and cardinal direction relations. For  instance, the intermediate state relation \textbf{Contained-In} is used to describe object \textit{obj1} completely inside object \textit{obj2} and is represented with the following combination of RCC8 relations:
 \begin{gather}
 \textbf{Contained-In}(\textit{obj1}, \textit{obj2}) \rightarrow   \notag\\
 (\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
 (\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
 (\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))\notag
 \end{gather}
-In the ontology, intermediate state relations are represented with the OWL built-in property \texttt{owl:equivalentClass} that links the description of the class \textsf{Intermediate\_State\_Relation} to a logical expression based on RCC8 relations from the class \textsf{RCC8\_Relation}.
- \item \textsf{Predicate}: The representation of predicates has been illustrated in Section~\ref{sss:domainfile}. In this section we discuss how the class \textsf{Predicate} has been extended to include the concept of \texttt{Spatial Relation}. The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \textsf{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) is true if and only if the location of the kit \textit{kit} is in the large box with kits \textit{lbwk}. This predicate can be described using the following combination of intermediate state relations:
-
+In the ontology, intermediate state relations are represented with the OWL built-in property \texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation} to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.
+ \item \class{Predicate}: The representation of predicates has been illustrated in Section~\ref{sss:domainfile}. In this section we discuss how the class \class{Predicate} has been extended to include the concept of ``Spatial Relation''. The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \class{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) is true if and only if the location of the kit \textit{kit} is in the large box with kits \textit{lbwk}. This predicate can be described using the following combination of intermediate state relations:
 \begin{gather}
 \textsf{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) \rightarrow   \notag\\
 \textbf{In-Contact-With}(\textit{kit}, \textit{lbwk}) \wedge \notag\\
 \textbf{Contained-In}(\textit{kit}, \textit{lbwk}) \notag
 \end{gather}
+As with state relations, the truth-value of predicates is captured in the ontology using the \texttt{owl:equivalentClass} property that links the description of the class \class{Predicate} to the logical combination of intermediate state relations from the class \class{Intermediate\_State\_Relation}.
 
-As with state relations, the truth-value of predicates is captured in the ontology using the \texttt{owl:equivalentClass} property that links the description of the class \textsf{Predicate} to the logical combination of intermediate state relations from the class \textsf{Intermediate\_State\_Relation}. 
-
-As seen in Section~\ref{sss:domainfile}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter.
+As seen in Section~\ref{sss:domainfile}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
 \end{itemize}
 
-
+%-------------------------------------------------------------%
 \subsubsection{Concept of Failure Mode}\label{sss:failure}
+%-------------------------------------------------------------%
+A failure is any change or any design or manufacturing error that renders a component, assembly, or system incapable of performing its intended function. We are using an approach based on the Failure Modes and Effects Analysis (FMEA) method~\cite{NANNIKAR.ICTBM.2012} to describe failure modes in our kitting system. The main goal of the FMEA is to connect failure modes as closely as possible with the source and thus enables the identification of the origin of the risk. The FMEA also allows the selection of ways to detect the occurrence of a particular failure and/or to find options to stop or lessen the effects of a specific failure.
 
-%The authors refer to Figure~\ref{} to describe the different concepts
-%As depicted in Figure~\ref{fig:DesignArchitecture}, this ontology is applied to the generation of the domain file generation and to the evaluation of predicates.
 
-\subsection{The OWL Kitting Init and Goal Conditions File} \label{owlinitgoal}
+%FMEA is a systematic method of identifying and preventing system, product and process problems before they occur and addresses reliability during the early stages of design. Analyzing failure modes in the design process allows calls of contingency plans when failures occur during the process. Section X describes the different steps adopted by the FMEA to identify failure modes and Section Y shows the approach we have taken to represent failure modes in the \onto{SOAP} ontology.
+
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=10cm]{images/ActionFailures.pdf}
+\caption{The FMEA Process.}
+\label{fig:ActionFailures}
+%\end{center}
+\end{figure}
+
+The different tasks to represent action failures using the FMEA process are shown in Figure~\ref{fig:ActionFailures}. Each block portrayed in the diagram is described below.
+
+ \begin{itemize}
+   \item \texttt{Functions}: The specific behavior or attribute intended by design. In our kitting system, FMEA functions are represented by PDDL actions.
+   \item \texttt{Failure Modes}: Description of everything that can go wrong for a particular function.
+   \item \texttt{Cause(s)}: List of possible causes that triggered a specific failure. Causes can be of different types, such as  components, usage conditions, human interaction, internal factors, external factors, etc.
+   \item \texttt{Effect(s)}: Description of consequences of a system. A typical failure mode may have several effects.
+   \item \texttt{Severity}: Assessment of how serious the effects would be should the failure occur. Each effect is given a rank of severity ranging from 1 (minor) to 10 (very high). An example of severity ranking criteria is given in Table~\ref{tab:severityrankingcriteria}.
+   \item \texttt{Probability of Occurrence}: The probability of occurrence is an estimate number of frequencies (based on experience) that a failure will occur for a specific function.
+   \item \texttt{Detection}: Assessment of the probability that the failure mode will be detected before the impact
+of the failure to the system or process being evaluated is detected.
+ \end{itemize}
+
+\begin{table}[!t!h]
+\centering
+\caption{Severity Ranking Criteria}
+\label{tab:severityrankingcriteria}
+\scalebox{0.8}{
+\begin{tabular}{lc}
+\hline
+\textbf{Rank} & \textbf{Description}\\\hline
+1--2 &
+\begin{minipage}[t]{0.8\columnwidth}%
+\textbf{The final kit is built} but contains failures of minor nature, undetectable by the customer. An example of minor failure is a small scratch on the paint of a component.
+\end{minipage}\tabularnewline
+\\\hline
+6--7 &
+\begin{minipage}[t]{0.8\columnwidth}%
+\textbf{The final kit is built} but contains slight deterioration of component or leads to slight deterioration of the system performance. For example, the locations of two components in the kit have been switched during the kit building process.
+\end{minipage}\tabularnewline
+\\\hline
+8--9 &
+\begin{minipage}[t]{0.8\columnwidth}%
+\textbf{The final kit is not built} and the failure will result deterioration of the system performance. For example, a supply box runs out of components that results in downtime in the process.
+\end{minipage}\tabularnewline
+\\\hline
+10 &
+\begin{minipage}[t]{0.8\columnwidth}%
+\textbf{The final kit is not built} and the failure will cause non-functionality of system. The origin can be a hardware or software failure.
+\end{minipage}\tabularnewline
+\\\hline
+\end{tabular}
+}
+\end{table}
+
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
+\subsection{The OWL/XML Kitting Init and Goal Conditions File} \label{owlinitgoal}
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
+The OWL/XML kitting \onto{init} and \onto{goal} conditions files are used to build the PDDL problem file. This section first describes how a PDDL problem file is structured and then reviews the classes used in the different ontologies to build the PDDL problem file.
+
+%-------------------------------------------------%
+\subsubsection{Structure of a PDDL Problem File}
+%-------------------------------------------------%
+Figure~\ref{fig:problem} is a fragment of the problem file generated for our kitting system but it displays all the necessary components that constitute a PDDL problem file.
+
+\begin{figure}[t!h!]
+\begin{minipage}{.7\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
+(define (problem kitting-problem)
+   (:domain kitting-domain)
+   (:objects
+      robot_1 - Robot
+      changing_station_1 - EndEffectorChangingStation
+      kit_tray_1 - KitTray
+      kit_a2b2c1 - Kit
+      part_a_tray part_b_tray part_c_tray - PartsTray
+      part_a_1 part_a_2 part_a_3 part_a_4 - Part
+      kit_a2b2c1 - Kit
+      ...)
+    (:init
+      (robot-with-no-endeffector robot_1)
+      (partstray-not-empty part_a_tray)
+      (partstray-not-empty part_b_tray)
+      (partstray-not-empty part_c_tray)
+      (part-location-partstray part_a_1 part_a_tray)
+      (part-location-partstray part_b_1 part_b_tray)
+      (part-location-partstray part_c_1 part_c_tray)
+      ...
+      (= (capacity-kit kit_a2b2c1 part_a_tray) 2)
+      (= (capacity-kit kit_a2b2c1 part_b_tray) 2)
+      (= (capacity-kit kit_a2b2c1 part_c_tray) 1)
+      (= (quantity-kit kit_a2b2c1 part_a_tray) 0)
+      (= (quantity-kit kit_a2b2c1 part_b_tray) 0)
+      (= (quantity-kit kit_a2b2c1 part_c_tray) 0)
+      (= (quantity-partstray part_a_tray) 4)
+      (= (quantity-partstray part_b_tray) 4)
+      (= (quantity-partstray part_c_tray) 4)
+      ...)
+    (:goal (and
+      (= (quantity-kit kit_a2b2c1 part_a_tray) (capacity-kit kit_a2b2c1 part_a_tray))
+      (= (quantity-kit kit_a2b2c1 part_b_tray) (capacity-kit kit_a2b2c1 part_b_tray))
+      (= (quantity-kit kit_a2b2c1 part_c_tray) (capacity-kit kit_a2b2c1 part_c_tray))
+      (kit-location-lbwk kit_a2b2c1 finished_kit_receiver))
+)
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\caption{Excerpt of a PDDL problem file for kitting.}
+\label{fig:problem}
+\end{figure}
+
+The different sections that form the problem file are described below.
+\begin{itemize}
+\item line 1: Signal a planner that the current file contains all the elements required to constitute a PDDL problem file. \texttt{kitting-problem} is the name given to this problem.
+\item line 2: \texttt{:domain} refers to the domain file that the current problem file is associated to. In this case, the problem refers to the domain \texttt{kitting-domain}.
+\item lines 4--11: \texttt{:objects} declare objects present in the problem instance.
+\item line 12: \texttt{:init} signals a planner that the predicates and functions in this section are true in the initial state.
+\item lines 13--19: Predicates true in the initial state of the environment. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
+\begin{itemize}
+\item lines 21--23: Functions describing the capacity of parts of a specific type that the kit \texttt{kit\_a2b2c1} can contain. In this example, \texttt{kit\_a2b2c1} can have 2 parts of type A (\texttt{part\_a\_tray}), 2 parts of type B (\texttt{part\_b\_tray}), and 1 part of type C (\texttt{part\_c\_tray}).
+\item lines 24--26: Functions that represent the quantity of parts of a specific type that are already in \texttt{kit\_a2b2c1}. The kit \texttt{kit\_a2b2c1} has no parts of type A, B, and C.
+\item lines 27--29: Functions that describe the quantity of parts available in their respective parts tray.
+%This also can be read as: \emph{``In the workstation, there are 4 parts of type A that are available, 4 parts of type B that are available, and 4 parts of type C that are available''}.
+\end{itemize}
+\item line 31: \texttt{:goal} is a keyword used to signal a planner about the goal state to reach. All the predicates and functions in the goal state must be true (specified by the keyword \texttt{and}).
+\item lines 32--34: The quantity of parts of a specific type in \texttt{kit\_a2b2c1} should match the capacity of parts of a specific type for the kit \texttt{kit\_a2b2c1}. The quantity of parts in \texttt{kit\_a2b2c1} is increased in the action \textit{put-part}. The initial quantity of parts in \texttt{kit\_a2b2c1} and its capacity are set in the initial state. Note that we are not specifying which instance of \class{Part} should go in \texttt{kit\_a2b2c1} but rather the number of \class{Parts} of a specific type that \texttt{kit\_a2b2c1} must have.
+\item line 35: \texttt{kit\_a2b2c1} should be placed in the large box with kits \\\texttt{finished\_kit\_receiver}.
+\end{itemize}
+
+%------------------------------------------------------------------%
+\subsubsection{Expression of a PDDL Problem file using Ontologies}
+%------------------------------------------------------------------%
+In our kitting system, the \texttt{init} and \texttt{goal} sections always consist of predicates and functions. The following steps describe how we build the OWL/XML kitting \onto{init} and \onto{goal} conditions files.
+\begin{enumerate}
+ \item In the \onto{SOAP} ontology, instances of the objects that will appear in the \texttt{:objects} section of the problem file are created. Since these objects are used in both the \texttt{init} and \texttt{goal} sections in the generated PDDL problem file, it is important to make these objects available to the OWL/XML kitting \onto{init} and \onto{goal} conditions files. For instance, the object \texttt{robot\_1} of type \texttt{Robot} (line 4 in Figure~\ref{fig:problem}) will be generated from the instance \texttt{robot\_1} in the class \class{Robot}, created in the \onto{SOAP} ontology.
+ \item Predicates and functions that will appear in the \texttt{init} section for the generated PDDL problem file are created in the OWL/XML kitting \onto{init} file as instances of the class \class{Predicate} and \class{Function}, respectively.
+ \item Predicates and functions that will appear in the \texttt{goal} section in the generated PDDL problem file are created in the OWL/XML kitting \onto{goal} file as instances of the class \class{Predicate} and \class{Function}, respectively.
+ \item Instances of the class \class{Predicate} and of the class \class{Function} created in the OWL/XML kitting \onto{init} and \onto{goal} conditions files point to parameters (instances of classes) that have been created in the \onto{SOAP} ontology (step 1).
+\end{enumerate}
+
+

@@ -17,48 +17,47 @@ In order to maintain compatibility with the IEEE working group, the \onto{Kittin
   \item OWL has classes but does not have attributes; it has \textsf{ObjectProperties} and \textsf{DataProperties} instead. They may be used to model attributes. OWL Properties are global, not local to a class, so localizing each attribute to a class is done by a naming convention that includes using prefixes as described below. The prefixes are not used in XML schema.
   \item OWL supports multiple inheritances, but that has not been used in the \onto{Kitting} ontology. Except by subclass relationship, no object is in more than one class.
 \end{itemize}
+
 \begin{table}[h!t!b!]
-\caption{Excerpt of the \onto{Kitting} ontology.}
-\label{tab:kittingonto}
-\centering
-\begin{tabular}{l}
-\hline
-\class{SolidObject} \textit{PrimaryLocation} \textit{SecondaryLocation}
-\\\hline
-\hspace{5 mm}\class{Kit} \textit{Tray} \textit{DesignRef} \textit{Parts} \textit{Finished?}
-\\\hline
-\hspace{5 mm}\class{LargeBoxWithEmptyKitTrays} \textit{LargeContainer} \textit{Trays}
-\\\hline
-\hspace{5 mm}\class{LargeBoxWithKits} \textit{LargeContainer} \textit{Kits} \textit{KitDesignRef} \textit{Capacity}
-\\\hline
-\hspace{5 mm}\class{PartsTrayWithParts} \textit{PartTray}
-\\\hline
-\hspace{5 mm}\ldots
-\\\hline
-\class{DataThing}
-\\\hline
-\hspace{5 mm}\class{PhysicalLocation} \textit{RefObject}
-\\\hline
-\hspace{10 mm}\class{PoseLocation} \textit{Point} \textit{XAxis} \textit{ZAxis}
-\\\hline
-\hspace{15 mm}\class{PoseLocationIn}
-\\\hline
-\hspace{15 mm}\class{PoseLocationOn}
-\\\hline
-\hspace{10 mm}\class{RelativeLocation} \textit{Description}
-\\\hline
-\hspace{15 mm}\class{RelativeLocationIn}
-\\\hline
-\hspace{15 mm}\class{RelativeLocationOn}
-\\\hline
-\hspace{5 mm}\ldots
-\\\hline
-\end{tabular}
+  \caption{Excerpt of the \onto{Kitting} ontology.}
+  \label{tab:kittingonto}
+  \centering
+  \begin{tabular}{l}
+    \hline
+    \class{SolidObject} \textit{PrimaryLocation} \textit{SecondaryLocation}
+    \\\hline
+    \hspace{5 mm}\class{Kit} \textit{Tray} \textit{DesignRef} \textit{Parts} \textit{Finished?}
+    \\\hline
+    \hspace{5 mm}\class{LargeBoxWithEmptyKitTrays} \textit{LargeContainer} \textit{Trays}
+    \\\hline
+    \hspace{5 mm}\class{LargeBoxWithKits} \textit{LargeContainer} \textit{Kits} \textit{KitDesignRef} \textit{Capacity}
+    \\\hline
+    \hspace{5 mm}\class{PartsTrayWithParts} \textit{PartTray}
+    \\\hline
+    \hspace{5 mm}\ldots
+    \\\hline
+    \class{DataThing}
+    \\\hline
+    \hspace{5 mm}\class{PhysicalLocation} \textit{RefObject}
+    \\\hline
+    \hspace{10 mm}\class{PoseLocation} \textit{Point} \textit{XAxis} \textit{ZAxis}
+    \\\hline
+    \hspace{15 mm}\class{PoseLocationIn}
+    \\\hline
+    \hspace{15 mm}\class{PoseLocationOn}
+    \\\hline
+    \hspace{10 mm}\class{RelativeLocation} \textit{Description}
+    \\\hline
+    \hspace{15 mm}\class{RelativeLocationIn}
+    \\\hline
+    \hspace{15 mm}\class{RelativeLocationOn}
+    \\\hline
+    \hspace{5 mm}\ldots
+    \\\hline
+  \end{tabular}
 \end{table}
-\class{SolidObject} and \class{DataThing} constitute the two top-level classes of the \onto{Kitting} ontology model, from which all other classes are derived.
 
-
-\class{SolidObject} models solid objects, things made of matter. The \onto{Kitting} ontology includes several subclasses of \class{SolidObject} that are formed from
+\class{SolidObject} and \class{DataThing} constitute the two top-level classes of the \onto{Kitting} ontology model, from which all other classes are derived. \class{SolidObject} models solid objects, things made of matter. The \onto{Kitting} ontology includes several subclasses of \class{SolidObject} that are formed from
 components that are \class{SolidObject}. The \class{DataThing} class models data for \class{SolidObject}. Examples of subclasses for \class{SolidObject} and \class{DataThing} are represented in Table~\ref{tab:kittingonto}. Items in italics following classes are names of class attributes. Derived types inherit the attributes of the parent. Each attribute has a specific type not shown in the listing below. If an attribute type has derived types, any of the derived types may be used.
 
 Using Table~\ref{tab:kittingonto}, an example of interaction between classes \class{SolidObject} and \class{DataThing} can be expressed as follows: Each \class{SolidObject} \class{A} has at least one \class{PhysicalLocation} (the \textit{PrimaryLocation}). A \class{PhysicalLocation} is defined by giving a reference \class{SolidObject} \class{B} (\textit{RefObject}) and information saying how the position of \class{A} is related to \class{B}. \class{PhysicalLocation} consists of two types of location which are required for the operation of the kitting workstation:
@@ -75,7 +74,7 @@ mathematical information is not available.
 %++++++++++++++++++++++++++++++++++++++++++++++++++++++%
 As depicted in Figure~\ref{fig:DesignArchitecture}, the \onto{SOAP} ontology imports the \onto{Kitting} ontology and is involved in the process that generates the PDDL domain file and in the predicate evaluation process. While some concepts in the \onto{SOAP} ontology are used by both processes, other concepts are exclusive to the predicate evaluation process. We approach the description of the \onto{SOAP} ontology with a discussion on each process and the concepts used by these processes.
 
-\subsubsection{Concepts for PDDL Domain File Generation Process}\label{sss:domainfile}
+\subsubsection{Concepts for the PDDL Domain File Generation Process}\label{sss:domainfile}
 A PDDL domain file consists of definitions of actions, predicates, and functions. Actions are ways of changing the state of the world and consist of a precondition and an effect sections. Predicates and functions constitute preconditions and effects. Predicates are used to encode Boolean state variables, while functions are used to model updates of numerical values. Introducing functions into planning makes it possible to model actions in a more compact and sometimes more natural way~\cite{FOX.JAIR.2003}. Figure~\ref{fig:put-part} shows the action \texttt{put-part} as defined in the kitting domain file.
 
 \begin{figure}[t!h!]
@@ -119,7 +118,7 @@ A PDDL action consists of the following sections:
   \item \texttt{parameters} (lines 2--7): The parameters (start with a ? mark) that participate in this action are listed along their types. For example, line 3 can be read as ``\texttt{robot} is a parameter and is of type \texttt{Robot}''.
   \item \texttt{precondition} (lines 8--15): This section lists all the predicates (functions) that need to be true (satisfied) for the action to be carried out.
   \item \texttt{effect} (lines 16--23): This section lists all the predicates (functions) that are true (satisfied) when the action is performed.
-   \item \texttt{predicate} and \texttt{function}: In Figure~\ref{fig:put-part}, the \texttt{precondition} section includes an operation between functions (lines 13--14) and the \texttt{effect} section includes one function at line 22. The other components of the precondition and the effect sections are predicates and negation of predicates (identified by the keyword \texttt{not}).
+  \item \texttt{predicate} and \texttt{function}: In Figure~\ref{fig:put-part}, the \texttt{precondition} section includes an operation between functions (lines 13--14) and the \texttt{effect} section includes one function at line 22. The other components of the precondition and the effect sections are predicates and negation of predicates (identified by the keyword \texttt{not}).
 \end{enumerate}
 
 In the \onto{SOAP} ontology, the concepts of ``Action", ``Precondition", ``Effect", ``Predicate", ``Function", and ``Parameter" are represented by the classes \class{Action}, \class{Precondition}, \class{Effect}, \class{Predicate}, \class{Function}, and \class{ParameterList}, respectively. Operations between functions (lines 13--14) that return a Boolean value are expressed in the class \class{FunctionBool}. All the aforementioned classes are subclasses of the \class{DataThing} class discussed in Section~\ref{owlkitting}.
@@ -171,19 +170,317 @@ PDDL actions have been represented in OWL with relations between classes as desc
     \item Each instance of the class \class{Effect} is related ($x$ occurrence(s)) to an instance of the class $\mathcal{C}$.
     \begin{enumerate}
       \item $x$=$1\ldots\infty$, $\mathcal{C}$=\class{Predicate}. An effect can consist only of functions and has no predicates. Note that negative predicates are considered to be from the class \class{Predicate}. Negative predicates are expressed in OWL with the property assertion\\\texttt{owl:NegativePropertyAssertion}.
-       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{Function}. An effect can consist only of predicates and has no functions.
-       \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{FunctionBool}. A precondition can consist only of predicates and has no functions.
+      \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{Function}. An effect can consist only of predicates and has no functions.
+      \item $x$=$0\ldots\infty$, $\mathcal{C}$=\class{FunctionBool}. A precondition can consist only of predicates and has no functions.
     \end{enumerate}
   \item Each instance of the class \class{Predicate} is related ($0\ldots2$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. In most domains, including our kitting domain, predicates have a maximum of two parameters. This is the result of the definition of state variables in the SVR~\cite{BALAKIRSKY.IROS.2012}. Note that the instance of the class in the \onto{Kitting} ontology is one of the instances defined in item 2. This way assures that the predicate's parameters refer to the same parameters defined for the action.
   \item Each instance of the class \class{Function} is related ($1\ldots\infty$ occurrence(s)) to an instance of a class in the \onto{Kitting} ontology. This instance of the class in the \onto{Kitting} ontology is one of the instances defined in item 2.
     \item Each instance of the class \class{FunctionBool} is related ($2$ occurrences) to an instance of the class \class{Function}. This is used to formulate the kind of operation depicted at lines 13--14 in Figure~\ref{fig:put-part}.
 \end{enumerate}
 
+%-------------------------------------------------------------%
+\subsubsection{Concepts for Action Failure}\label{sss:failure}
+%-------------------------------------------------------------%
+ A failure is any change or any design or manufacturing error that renders a component, assembly, or system incapable of performing its intended function. In the knowledge driven diagram (Figure~\ref{fig:DesignArchitecture}), the \process{Predicate Evaluation} process is responsible for failure detection. An action failure consists of failure modes that can occur during the execution of a PDDL action. The steps to identify action failures in the kitting system are described in Figure~\ref{fig:algo}.
+
+\begin{figure}[h!t!]
+  \centering
+  \includegraphics[width=10cm]{images/algorithm.pdf}
+  \caption{Failure identification.}
+  \label{fig:algo}
+\end{figure}
+
+As seen in Figure~\ref{fig:algo}, failures are identified during the execution of canonical robot commands (line 6), generated from PDDL actions (line 3) by the \process{Interpreter}. The \process{Predicate Evaluation} process outputs a Boolean value that results in a failure detection if this value is false (lines 18 and 20). Therefore, to represent failures in the \onto{SOAP} ontology, the following concepts are introduced:
+\begin{itemize}
+ \item ``Action'' the PDDL action for which a failure can occur.
+ \item ``Failure Mode(s)'' for a PDDL action.
+ \item ``Cause(s)'' of failure. Causes can be of different types, such as  components, usage conditions, human interaction, internal factors, external factors, etc.
+ \item ``Predicate(s)'' responsible for generating a ``Failure Mode''.
+ \item ``Effect'' of the failure.
+ \item ``Severity'' of the ``Effect(s)''. Assessment of how serious the effects would be should the failure occur. Each effect is given a rank of severity ranging from 1 (minor) to 10 (very high). The severity rank is used to trigger the appropriate contingency plan.
+ \item ``Probability of Occurrence'': an estimate number of frequencies (based on experience) that a failure will occur for a specific action.
+\end{itemize}
+
+Table~\ref{tab:putpartfailure} shows an example of failure modes associated to the PDDL action \textit{put-part}(\stvar{robot},\stvar{part},\stvar{kit},\stvar{worktable},\stvar{partstray}) which is defined as ``The Robot \stvar{robot} puts the Part \stvar{part} in the Kit \stvar{kit}''.
+%previously presented in Figure~\ref{fig:put-part}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% put-part %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h!t!]
+  %\centering
+  \caption{Failure modes for the PDDL action \textit{put-part}.}
+  \label{tab:putpartfailure}
+  \scalebox{0.6}{
+  \begin{tabular}{|l|l|l|l|c|c|c|}
+    \hline
+    \multicolumn{1}{|c|}{\begin{sideways}Action\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Failure Mode(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Cause(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Effect(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Severity \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Occurrence (\%) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Predicate(s) \,\end{sideways}} \\
+    \hline
+    
+    \multirow{5}{*}{\textit{\small{put-part}}} & 
+    \multirow{2}{*}{\stvar{part} falls off of the end effector} & 
+    \multirow{2}{*}{end effector hardware issues} & 
+    downtime & %\stvar{endeffector} replacement &  
+    9 &
+    \multirow{2}{*}{60} & 
+    \small {\textsf{part-location-robot}}\\\cline{4-5}
+    
+     & 
+     & 
+     & 
+    \stvar{part} damage & %\stvar{endeffector} replacement &  
+    5 &
+     & 
+    \small {\textsf{robot-holds-part}}\\\cline{2-7}
+    
+     & 
+     \multirow{3}{*}{\stvar{part} not released at all}& 
+     end effector hardware issues & 
+     downtime & 
+     9 &
+     \multirow{3}{*}{8} & 
+     $\neg$(\small{\textsf{part-location-robot}})\\\cline{3-5}
+     
+     & 
+     & 
+     \multirow{2}{*}{wrong/inexistant canonical command} & 
+     \multirow{2}{*}{downtime} & 
+     \multirow{2}{*}{7} &
+      & 
+     $\neg$(\small{\textsf{robot-holds-part}})\\
+%    
+     & 
+     & 
+     & 
+     & 
+     &
+     & 
+     \small {\textsf{robot-empty}}\\\hline
+
+\end{tabular}
+}
+\end{table}
+The column \textit{Predicate(s)} shows the predicates from the action \textit{put-part} that can activate the corresponding failure mode (column \textit{Failure Mode(s)}) if their truth-value is evaluated to false.
+
+The representation of action failures in the \onto{SOAP} ontology includes the concepts defined earlier in this section, i.e., ``Action'', ``Failure Mode'', ``Cause'', ``Predicate'', ``Effect'', ``Severity'' and ``Probability of Occurrence''. The concepts of ``Action'' and ``Predicate'' have been discussed in earlier sections and are represented by the OWL classes \class{Action} and \class{Predicate}, respectively. The concepts of ``Failure Mode'', ``Effect'', and ``Severity'' are represented by the OWL classes \class{FailureMode}, \class{FailureEffect}, and \class{FailureSeverity}, respectively. The concepts of ``Cause'' and ``Probability of Occurence'' are represented as \texttt{owl:DataProperty}. The description of action failures in the \onto{SOAP} ontology is given below.
+
+\begin{enumerate}
+ \item \class{Action} has $1\ldots\infty$ \textit{hasFailureMode} relation(s) with \class{FailureMode}.
+ \item \class{FailureMode} has $1$ \textit{hasCause} \texttt{owl:DataProperty}.
+ \item \class{FailureMode} has $1$ \textit{hasOccurrence} \texttt{owl:DataProperty}.
+ \item \class{FailureMode} has $1\ldots\infty$ \textit{hasFailureEffect} relation(s) with \class{FailureEffect}.
+ \item \class{FailureMode} has $1\ldots\infty$ \textit{hasFailurePredicate} relation(s) with \class{Predicate}.
+ \item \class{FailureEffect} has $1$ \textit{hasFailureSeverity} relation(s) with \class{FailureSeverity}.
+  \item \class{FailureEffect} has $1$ \textit{hasEffectDescription} relation(s) \texttt{owl:DataProperty}.
+\end{enumerate}
+
+
+
+
+% \begin{algorithm}[t]
+% \SetLine
+% \For{each action $\mathcal{A}$ in the Plan Instance File}{
+%   \process{Interpreter}\;
+%   converts $\mathcal{A}$ into a set $\mathcal{S}$ of Canonical Robot Language commands\;
+%   stores $\mathcal{S}$ in Canonical Robot Language Plan\;
+% }
+% \For{each set $\mathcal{S}$ in Canonical Robot Language Plan}{
+%   Robot Controller reads $\mathcal{S}$\;
+%   System Monitor calls Predicate Evaluation\;
+%   Predicate Evaluation\; 
+%   \ traces back action $\mathcal{A}$ from set $\mathcal{S}$\;
+%   \ computes truth-value of predicates for action $\mathcal{A}$ precondition\;
+%   \If{output of Predicate Evaluation is true}{
+%     Robot Controller executes $\mathcal{S}$\;
+%     Predicate Evaluation computes truth-value of predicates for action $\mathcal{A}$ effect\;
+%      \If{output of Predicate Evaluation is true}{end\;     
+%     }
+%     \lElse{
+%     failure\;
+%   }
+%   }
+%   \lElse{
+%     failure\;
+%   }
+% }
+% \caption{How to write algorithms}
+% \label{fig:algo}
+% \end{algorithm}
+ 
+ 
+ 
+ 
+%  In the knowledge driven diagram depicted in Figure~\ref{fig:DesignArchitecture}, the \process{Interpreter} converts plan actions into canonical robot commands. A single action usually consists of numerous canonical robot commands. The following steps describe how each process is called and how action failures are identified.
+% \begin{enumerate}
+%  \item The \process{Robot Controller} stores the set of canonical robot commands associated to the first plan action in a queue.
+%  \item the \process{System Monitor} triggers the \process{Predicate Evaluation} process to compute the truth-value of the predicates that constitute the precondition section of this action.
+%  \item If the \process{Predicate Evaluation} process returns true, i.e., all the predicates in the precondition section are true:
+%  \begin{enumerate}
+%  \item The \process{Robot Controller} executes the robot commands previously stored in its queue.
+%  \item Once all the canonical robot commands have been carried out by the robot, the \process{System Monitor} once again triggers the \process{Predicate Evaluation} process to compute the truth-value of the predicates that constitute the effect section of this PDDL action.
+% \end{enumerate}
+% \end{enumerate}
+
+ %We are using an approach based on the Failure Modes and Effects Analysis (FMEA) method~\cite{NANNIKAR.ICTBM.2012} to describe failure modes in our kitting system. The main goal of the FMEA is to connect failure modes as closely as possible with the source and thus enables the identification of the origin of the risk. The FMEA also allows the selection of ways to detect the occurrence of a particular failure and/or to find options to stop or lessen the effects of this failure.
+%FMEA is a systematic method of identifying and preventing system, product and process problems before they occur and addresses reliability during the early stages of design. Analyzing failure modes in the design process allows calls of contingency plans when failures occur during the process. Section X describes the different steps adopted by the FMEA to identify failure modes and Section Y shows the approach we have taken to represent failure modes in the \onto{SOAP} ontology.
+
+% \begin{figure}[h!t!]
+% \centering
+% \includegraphics[width=12cm]{images/ActionFailures.pdf}
+% \caption{The FMEA Process.}
+% \label{fig:ActionFailures}
+% %\end{center}
+% \end{figure}
+
+
+% The different tasks to represent action failures using the FMEA process are shown in Figure~\ref{fig:ActionFailures}. Each block portrayed in the diagram is described below.
+% 
+%  \begin{itemize}
+%    \item \texttt{Functions}: The specific behavior or attribute intended by design. In our kitting system, FMEA functions are represented by PDDL actions.
+%    \item \texttt{Failure Modes}: Description of everything that can go wrong for a particular function.
+%    \item \texttt{Cause(s)}: List of possible causes that triggered a specific failure. Causes can be of different types, such as  components, usage conditions, human interaction, internal factors, external factors, etc.
+%    \item \texttt{Effect(s)}: Description of consequences of a system. A typical failure mode may have several effects.
+%    \item \texttt{Severity}: Assessment of how serious the effects would be should the failure occur. Each effect is given a rank of severity ranging from 1 (minor) to 10 (very high). An example of severity ranking criteria is given in Table~\ref{tab:severityrankingcriteria}.
+%    \item \texttt{Probability of Occurrence}: The probability of occurrence is an estimate number of frequencies (based on experience) that a failure will occur for a specific function.
+%    \item \texttt{Detection}: Assessment of the probability that the failure mode will be detected before the impact
+% of the failure to the system or process being evaluated is detected.
+% \item \texttt{Predicate(s)}: We have adapted the FMEA process to our system by including the predicate(s) responsible for a failure mode. As discussed in Section~\ref{}, the \process{Predicate Evaluation} process computes the truth-value for a predicate and returns a Boolean. An action failure is identified when the truth-value of one or more predicates that constitute this action returns false.
+%  \end{itemize}
+% 
+% \begin{table}[!t!h]
+% \centering
+% \caption{Severity Ranking Criteria for Kitting.}
+% \label{tab:severityrankingcriteria}
+% \scalebox{1}{
+% \begin{tabular}{lc}
+% \hline
+% \textbf{Rank} & \textbf{Description}\tabularnewline
+% \hline
+% \tabularnewline
+% 1--2 &
+% \begin{minipage}[m]{0.8\columnwidth}%
+% \textbf{The final kit is built} but contains failures of minor nature, undetectable by the customer. An example of minor failure is a small scratch on the paint of a component.
+% \end{minipage}\tabularnewline
+% \\\hline
+% \tabularnewline
+% 6--7 &
+% \begin{minipage}[m]{0.8\columnwidth}%
+% \textbf{The final kit is built} but contains slight deterioration of component or leads to slight deterioration of the system performance. For example, the locations of two components in the kit have been switched during the kit building process.
+% \end{minipage}\tabularnewline
+% \\\hline
+% \tabularnewline
+% 8--9 &
+% \begin{minipage}[m]{0.8\columnwidth}%
+% \textbf{The final kit is not built} and the failure will result deterioration of the system performance. For example, a supply box runs out of components that results in downtime in the process.
+% \end{minipage}\tabularnewline
+% \\\hline
+% \tabularnewline
+% 10 &
+% \begin{minipage}[m]{0.8\columnwidth}%
+% \textbf{The final kit is not built} and the failure will cause non-functionality of system. The origin can be a hardware or software failure.
+% \end{minipage}\tabularnewline
+% \\\hline
+% \end{tabular}
+% }
+% \end{table}
+% 
+% Table~\ref{} shows an example of failure modes associated to the PDDL action \textit{put-part}, previously discussed in Section~\ref{sss:domainfile} and presented in Figure~\ref{fig:put-part}.
+% 
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%% put-kittray %%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{table}[h!t!]
+% %\centering
+% \label{tab:occurencerankingcriteria}
+% \scalebox{0.45}{
+% \begin{tabular}{|l|l|l|l|l|l|l|l|}
+% \hline
+% \multicolumn{1}{|c|}{
+% \begin{sideways}
+% Function
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Failure Mode(s) \,
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Cause(s) \,
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Effect(s) \,
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Severity \,
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Occurrence (\%) \,
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Detection (\%)\,
+% \end{sideways}}&
+% \multicolumn{1}{c|}{
+% \begin{sideways}
+% Predicate(s) \,
+% \end{sideways}}
+%  \\\hline
+% \multirow{4}{*}{\textit{\small{put-part}}} & \stvar{part} falls off of \stvar{robot}'s \stvar{endeffector} & \stvar{endeffector} hardware issues. & downtime due to end effector replacement & 8 & 20 & 5& \small {\textsf{part-location-robot}}\\\cline{2-8}
+% & \stvar{part} put at the wrong location in \stvar{kit} & wrong information in the MySQL database & downtime due to end effector replacement & 8 & 20 & 5& \small {\textsf{part-location-robot}}\\\cline{2-8}
+% & \multirow{2}{*}{\stvar{part} stays in \stvar{endeffector}} & hardware issues & downtime due to end effector replacement & 8 & 20 & 5& \small {\textsf{part-location-robot}}\\\cline{3-8}
+% & & software: release command not given to \stvar{robot} & & &  & & \small {\textsf{part-location-robot}}\\\cline{2-8}
+
+
+% \end{tabular}
+% }
+% \caption{Failure modes for the PDDL action \textit{put-part}.}
+% \end{table}
+% 
+% Based on Figure~\ref{} and Table~\ref{}, we have taken the following approach to represent action failures in the \onto{SOAP} ontology.
+
+% 
+% In the knowledge driven diagram depicted in Figure~\ref{fig:DesignArchitecture}, failures are identified when the ouput of the \process{Predicate Evaluation} process returns false, i.e., when a predicate is not true. 
+% 
+% 
+% In the knowledge driven diagram depicted in Figure~\ref{fig:DesignArchitecture}, the \process{Interpreter} converts PDDL actions in the plan instance file into canonical robot commands where a single PDDL action consists of multiple canonical robot commands. The following steps describe how each process is called and how action failures are identified.
+% \begin{enumerate}
+%  \item The \process{Robot Controller} stores the set of canonical robot commands for the first PDDL action in a queue.
+%  \item the \process{System Monitor} triggers the \process{Predicate Evaluation} process to compute the truth-value of the predicates that constitute the precondition section of this PDDL action.
+%  \item If the \process{Predicate Evaluation} process returns true, i.e., all the predicates in the precondition section are true:
+%  \begin{enumerate}
+%  \item The \process{Robot Controller} executes the robot commands previously stored in its queue.
+%  \item Once all the canonical robot commands have been carried out by the robot, the \process{System Monitor} once again triggers the \process{Predicate Evaluation} process to compute the truth-value of the predicates that constitute the effect section of this PDDL action.
+% \end{enumerate}
+% \end{enumerate}
+% 
+% If the the \process{Predicate Evaluation} process is true, the \process{Robot Controller} queues the set of canonical robot commands associated to the next PDDL action. If, the \process{Predicate Evaluation} process returned false
+% 
+% To be more specific, the truth-value of all the predicates of the precondition section in the PDDL action are computed before the \process{Robot Controller} executes the set of canonical robot commands for this action. 
+% 
+% Before performing a set of canonical robot commands, the \process{Robot Controller} process calls the \process{System Monitor} process to start the \process{Predicate Evaluation} process. 
+% 
+% 
+% The predicate evaluation process is called during the execution of robot commands (defined in the Robot Language) by the robot. In our system, one PDDL action generates multiple of these commands. Before the robot executes these commands, the predicates that constitute the precondition section for the original PDDL action are evaluated. In the same way, once the set of robot commands has been carried out by the robot, the predicates part of the effect section for the original PDDL action are evaluated. In our system, we use the concept of ``Spatial Relations'' to evaluate these predicates.
+% 
+% Our kitting system checks for failures during the execution of robot commands by the robot controller (\textbf{Act} level in Figure~\ref{fig:DesignArchitecture}). As mentioned in Section(), the Interpreter process converts PDDL actions in the plan instance file into a set of canonical robot commands that are written in the canonical robot command language plan. This plan file is fed to the robot controller that successively executes each robot command. Before a set of robot commands is carried out by the robot controller, the system monitor invokes the \process{Predicate Evaluation} process to
+% 
+% 
+% the execution of the plan. More precisely, before and after an action is carried out. Before an action is carried out, the predicates part of this action's precondition are verified. Once the action has been executed by the robot, the predicates part of this action's effect are also verified. More information on the methodology used to verify predicates can be found in Section~\ref{task3}. The rest of this section is built as follows: Section~\ref{ss:descriptionfailures} describes failure modes for a kitting system and Section~\ref{ss:failurespredicates} details the predicates where these failure modes can be identified.
 
 %-------------------------------------------------------------%
 \subsubsection{Concepts for the Predicate Evaluation Process}
 %-------------------------------------------------------------%
-The predicate evaluation process is called during the execution of robot commands (defined in the Robot Language) by the robot. In our system, one PDDL action generates multiple of these commands. Before the robot executes these commands, the predicates that constitute the precondition section for the original PDDL action are evaluated. In the same way, once the set of robot commands has been carried out by the robot, the predicates part of the effect section for the original PDDL action are evaluated. In our system, we use the concept of ``Spatial Relations'' to evaluate these predicates.
+As seen in Section~\ref{sss:failure}, the \process{Predicate Evaluation} process is called by the \process{System Monitor} process to check the truth-value of a predicate. The output of this process is a Boolean that is redirected back to the \process{System Monitor}. We have implemented the concept of ``Spatial Relations'' in the \onto{SOAP} ontology to be able to compute the truth-value of a predicate.
 
 ``Spatial Relations'' are represented as subclasses of the \class{RelativeLocation} class which is a subtype of the \class{PhysicalLocation} (see Table~\ref{tab:kittingonto}). There are three types of spatial relations, each represented in a separate class as described below:
 \begin{itemize}
@@ -208,67 +505,6 @@ As with state relations, the truth-value of predicates is captured in the ontolo
 As seen in Section~\ref{sss:domainfile}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
 \end{itemize}
 
-%-------------------------------------------------------------%
-\subsubsection{Concept of Failure Mode}\label{sss:failure}
-%-------------------------------------------------------------%
-A failure is any change or any design or manufacturing error that renders a component, assembly, or system incapable of performing its intended function. We are using an approach based on the Failure Modes and Effects Analysis (FMEA) method~\cite{NANNIKAR.ICTBM.2012} to describe failure modes in our kitting system. The main goal of the FMEA is to connect failure modes as closely as possible with the source and thus enables the identification of the origin of the risk. The FMEA also allows the selection of ways to detect the occurrence of a particular failure and/or to find options to stop or lessen the effects of a specific failure.
-
-
-%FMEA is a systematic method of identifying and preventing system, product and process problems before they occur and addresses reliability during the early stages of design. Analyzing failure modes in the design process allows calls of contingency plans when failures occur during the process. Section X describes the different steps adopted by the FMEA to identify failure modes and Section Y shows the approach we have taken to represent failure modes in the \onto{SOAP} ontology.
-
-
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=12cm]{images/ActionFailures.pdf}
-\caption{The FMEA Process.}
-\label{fig:ActionFailures}
-%\end{center}
-\end{figure}
-
-The different tasks to represent action failures using the FMEA process are shown in Figure~\ref{fig:ActionFailures}. Each block portrayed in the diagram is described below.
-
- \begin{itemize}
-   \item \texttt{Functions}: The specific behavior or attribute intended by design. In our kitting system, FMEA functions are represented by PDDL actions.
-   \item \texttt{Failure Modes}: Description of everything that can go wrong for a particular function.
-   \item \texttt{Cause(s)}: List of possible causes that triggered a specific failure. Causes can be of different types, such as  components, usage conditions, human interaction, internal factors, external factors, etc.
-   \item \texttt{Effect(s)}: Description of consequences of a system. A typical failure mode may have several effects.
-   \item \texttt{Severity}: Assessment of how serious the effects would be should the failure occur. Each effect is given a rank of severity ranging from 1 (minor) to 10 (very high). An example of severity ranking criteria is given in Table~\ref{tab:severityrankingcriteria}.
-   \item \texttt{Probability of Occurrence}: The probability of occurrence is an estimate number of frequencies (based on experience) that a failure will occur for a specific function.
-   \item \texttt{Detection}: Assessment of the probability that the failure mode will be detected before the impact
-of the failure to the system or process being evaluated is detected.
- \end{itemize}
-
-\begin{table}[!t!h]
-\centering
-\caption{Severity Ranking Criteria}
-\label{tab:severityrankingcriteria}
-\scalebox{0.8}{
-\begin{tabular}{lc}
-\hline
-\textbf{Rank} & \textbf{Description}\\\hline
-1--2 &
-\begin{minipage}[t]{0.8\columnwidth}%
-\textbf{The final kit is built} but contains failures of minor nature, undetectable by the customer. An example of minor failure is a small scratch on the paint of a component.
-\end{minipage}\tabularnewline
-\\\hline
-6--7 &
-\begin{minipage}[t]{0.8\columnwidth}%
-\textbf{The final kit is built} but contains slight deterioration of component or leads to slight deterioration of the system performance. For example, the locations of two components in the kit have been switched during the kit building process.
-\end{minipage}\tabularnewline
-\\\hline
-8--9 &
-\begin{minipage}[t]{0.8\columnwidth}%
-\textbf{The final kit is not built} and the failure will result deterioration of the system performance. For example, a supply box runs out of components that results in downtime in the process.
-\end{minipage}\tabularnewline
-\\\hline
-10 &
-\begin{minipage}[t]{0.8\columnwidth}%
-\textbf{The final kit is not built} and the failure will cause non-functionality of system. The origin can be a hardware or software failure.
-\end{minipage}\tabularnewline
-\\\hline
-\end{tabular}
-}
-\end{table}
 
 
 %+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%

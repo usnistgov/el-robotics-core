@@ -1,0 +1,59 @@
+307 Patch Control
+
+0
+0
+1
+action_failures.tex
+9
+0
+0
+
+
+
+
+
+
+Section\task1.tex
+TeX
+286273531 0 -1 18685 -1 18677 22 29 836 472 0 849 255 -1 -1 0 0 69 -1 -1 69 1 0 18677 -1   0
+header.tex
+TeX
+269496315 0 -1 0 -1 0 50 50 1122 395 0 25 0 -1 -1 0 0 24 -1 -1 24 1 0 0 -1   0
+sty\myStyle.sty
+TeX:STY
+269496306 0 36 20 34 22 75 75 1147 420 0 193 238 -1 -1 0 0 36 0 0 36 1 0 22 34   0
+Section\title.tex
+TeX
+269496315 0 -1 464 -1 494 25 25 1097 370 0 377 204 -1 -1 0 0 79 -1 -1 79 1 0 494 -1   0
+Section\task3.tex
+TeX
+269496315 0 -1 1386 -1 1386 150 150 1222 495 0 849 204 -1 -1 0 0 72 -1 -1 72 1 0 1386 -1   0
+action_failures.tex
+TeX
+403714043 0 -1 0 -1 0 100 100 1172 445 0 25 0 -1 -1 0 0 -1 -1 -1 -1 1 0 0 -1   0
+:\Users\kalucard\Desktop\ipmas\Documents\Manuals\Executor\LaTeX-Source\section\executor.tex
+TeX
+269496315 1 -1 1892 -1 1878 125 125 1197 470 0 25 425 -1 -1 0 0 -1 -1 -1 -1 1 0 1878 -1   0
+Section\task2.tex
+TeX
+269496315 0 -1 7710 -1 7708 100 100 1172 445 0 113 -102 -1 -1 0 0 65 -1 -1 65 1 0 7708 -1   0
+Section\task4.tex
+TeX
+269496315 0 -1 0 -1 80 0 0 1072 345 0 25 17 -1 -1 0 0 -1 -1 -1 -1 1 0 80 -1   0
+
+*action_failures.tex
+>
+*header
+*Section/title
+*Section/contents
+*Section/introduction
+*Section/task1
+*Section/task2
+*Section/task3
+*Section/task4
+*Section/task5
+*Section/references
+>
+*Bibliography/failures.bib
+<
+<

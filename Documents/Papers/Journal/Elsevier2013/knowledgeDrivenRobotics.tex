@@ -25,7 +25,7 @@
 \usepackage{amssymb}
 \usepackage{fancyvrb}
 %\usepackage{amsfonts}
-
+\usepackage{color}
 \usepackage{amsmath}%%% -- Added by Zeid to use \begin{gather}...\end{gather}
 \usepackage{rotating}%%% -- Added by Zeid for tabular
 \usepackage{multirow}%%% -- Added by Zeid for tabular
@@ -61,7 +61,7 @@
 
 \newcommand{\class}[1] {\textsf{#1}}
 \newcommand{\onto}[1] {\textsl{#1}}
-\newcommand{\process}[1] {\textbf{#1}}
+\newcommand{\process}[1] {\textmd{#1}}
 \newcommand{\stvar}[1] {\textsf{#1}}
 \journal{Robotics and Automation}
 
@@ -117,6 +117,7 @@ The architecture's potential for creating flexible, agile, and rapidly re-taskab
 \end{abstract}
 
 \begin{keyword}
+Don't forget to add keywords
 %% keywords here, in the form: keyword \sep keyword
 
 %% MSC codes here, in the form: \MSC code \sep code
@@ -159,7 +160,7 @@ operator to fuse information returned from various applications in order to make
 The ARL Demo III program demonstrated sophisticated off-road navigation while incorporating a much more sophisticated
 hardware/software architecture known as 4D/RCS \cite{Albus2000}. This
 architecture provide for a closer coupling of software systems and allowed for the sharing of items such as sensor data and cost maps.
-However, the lack of a knowledge architecture limited this system\rq{}s ability to utilize a priori knowledge to reason over its environment
+However, the lack of a knowledge architecture limited this system\rq{}s ability to utilize \textit{a priori} knowledge to reason over its environment
 and provide fine-grained classification of terrain and obstacles. This resulted in numerous parameters that required human tuning based on
 the expected environmental conditions.
 
@@ -195,7 +196,7 @@ future work.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 \label{Sect:Conclusion}
-
+\input{conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections

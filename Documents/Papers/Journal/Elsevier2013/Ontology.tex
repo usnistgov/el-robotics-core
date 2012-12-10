@@ -75,12 +75,28 @@ As depicted in Figure~\ref{fig:DesignArchitecture}, the \onto{SOAP} ontology imp
 %------------------------------------------------------------------------------------------------------------------------------%
 \subsubsection{PDDL Domain File Generator Process}\label{sss:domainfile}
 %------------------------------------------------------------------------------------------------------------------------------%
-A PDDL domain file consists of definitions of actions, predicates, and functions. Actions are ways of changing the state of the world and consist of a precondition and an effect sections. Predicates and functions constitute preconditions and effects. Predicates are used to encode Boolean state variables while functions are used to model updates of numerical values. Introducing functions into planning makes it possible to model actions in a more compact and sometimes more natural way~\cite{FOX.JAIR.2003}. Both predicates and functions are well documented in the SVR. Figure~\ref{fig:put-part} shows the action \textsl{put-part} that will be used as the model to discuss the components of a PDDL action.
+A PDDL domain file consists of definitions of predicates, functions, and actions. Actions are ways of changing the state of the world and consist of a precondition and an effect sections which consist of predicates and functions. Predicates are used to encode Boolean state variables while functions are used to model updates of numerical values. Introducing functions into planning makes it possible to model actions in a more compact and sometimes more natural way~\cite{FOX.JAIR.2003}. Both predicates and functions are well documented in the SVR. Figure~\ref{fig:put-part} shows the structure of a domain file.
 
 \begin{figure}[t!h!]
+\centering
 \begin{minipage}{.5\paperwidth}
 \begin{list}{}{\setlength{\leftmargin}{1em}}\item\small
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
+(define (domain kitting-domain)
+   (:requirements :strips :typing :derived-predicates :action-costs :fluents)
+   (:types
+      EndEffector
+      EndEffectorHolder 
+      \ldots
+   )
+(:predicates
+   (endeffector-location-robot ?endeffector - EndEffector ?robot - Robot)	
+   \ldots
+)
+(:functions
+   (quantity-partstray ?partstray - PartsTray)
+   \ldots
+)
 (:action put-part
    :parameters(
       ?robot - Robot
@@ -105,43 +121,56 @@ A PDDL domain file consists of definitions of actions, predicates, and functions
       (increase (quantity-kit ?kit ?partstray) 1)
       (robot-empty ?robot))
 )
+\ldots
+)
 \end{Verbatim}
 \end{list}
 \end{minipage}
 \caption{PDDL action put-part.}
 \label{fig:put-part}
 \end{figure}
+The PDDL domain file consists of a unique name (\texttt{kitting-domain} at line 1). The \texttt{requirements} section (line 2) defines the features that are used in the domain file. The \texttt{types} section (lines 3--7) shows the different types of objects that are used in predicates, functions, and actions. The \texttt{predicates} section (lines 8--11) and the \texttt{functions} section (lines 12--15) list all the predicates and functions, respectively, that are used to build an action. Both predicates and functions have a unique name, parameters (defined by the ``?" sign) and types of parameters (placed after the ``-" sign). The \texttt{action} section (lines 16--39) formulates the core of an action. The different components of an \texttt{action} are described as follows: The unique name of the action (\texttt{put-part} in this example) comes directly after the keyword \texttt{:action}. The \texttt{parameters} section (lines 17--22) list all the parameters that participate in this action. The \texttt{precondition} section (lines 23--30) lists the predicates that must be true and the operations on the functions. The \texttt{effect} section (lines 31--38) lists the predicates that must be true and the operations on the functions.
 
+%\begin{itemize}
+%  \item \texttt{action} (line 1): The unique name of the action comes directly after the keyword \texttt{:action}. In this example, the name of the action is \texttt{put-part}.
+%  \item \texttt{parameters} (lines 2--7): The parameters (preceded by a ? mark) that participate in this action are listed along their types. For example, line 3 can be read as ``\texttt{robot} is a parameter and is of type \texttt{Robot}''.
+%  \item \texttt{precondition} (lines 8--15): List of all the predicates and functions needed in the precondition section.
+%  \item \texttt{effect} (lines 16--23): List of all the predicates and functions needed in the effect section.
+%\end{itemize}
+The representation of a PDDL domain file in the ontology requires OWL classes definitions of the components described in Figure~\ref{fig:put-part} and the definition of the relations between these components. The different classes required for the representation of a PDDL domain file are \class{Domain}, \class{Predicate}, \class{Function}, \class{Action}, \class{Precondition}, \class{Effect}, \class{FunctionBool}, and \class{FunctionOperation}. These classes are subclasses of the class \class{DataThing}. The relations between these classes are described below.
+
+%
+%The representation of PDDL action in the ontology is made up of the classes \class{Action}, \class{Precondition}, \class{Effect}, \class{Predicate}, \class{Function}, \class{ParameterList}.  Operations between functions such as the one shown at lines 28--29 in Figure~\ref{fig:put-part}, are expressed with the class \class{FunctionBool}. All these classes are subclasses of \class{DataThing}.
+%
+%In the remainder of this section, we provide paragraph descriptions of each of the classes used to represent PDDL actions in the \onto{SOAP} ontology. The naming convention utilized below follows the OWL implementation of the ontology.
 \begin{enumerate}
-  \item \texttt{action} (line 1): The unique name of the action comes directly after the keyword \texttt{:action}. In this example, the name of the action is \texttt{put-part}.
-  \item \texttt{parameters} (lines 2--7): The parameters (preceded by a ? mark) that participate in this action are listed along their types. For example, line 3 can be read as ``\texttt{robot} is a parameter and is of type \texttt{Robot}''.
-  \item \texttt{precondition} (lines 8--15): List of all the predicates and functions needed in the precondition section.
-  \item \texttt{effect} (lines 16--23): List of all the predicates and functions needed in the effect section.
-\end{enumerate}
-
-The representation of PDDL action in the ontology is made up of the classes \class{Action}, \class{Precondition}, \class{Effect}, \class{Predicate}, \class{Function}, \class{ParameterList}.  Operations between functions such as the one shown at lines 13--14 in Figure~\ref{fig:put-part}, are expressed with the class \class{FunctionBool}. All these classes are subclasses of \class{DataThing}.
-
-In the remainder of this section, we provide paragraph descriptions of each of the classes used to represent PDDL actions in the \onto{SOAP} ontology. The naming convention utilized below follows the OWL implementation of the ontology.
-
-\begin{enumerate}
+\item \class{Domain} -- A \class{Domain} has a name (\emph{hasDomain\_Name}) of type \texttt{string}, at least one requirement (\emph{hasDomain\_Requirement}) of type \texttt{string}, and at least a type (\emph{hasDomain\_Type}) of type \texttt{string}. A \class{Domain} can consist of only one \class{Predicate} (\emph{hasDomain\_Predicate}), only one \class{Function} (\emph{hasDomain\_Function}), or a combination of both. A \class{Domain} has at least one \class{Action} (\emph{hasDomain\_Action}).
 \item \class{Action} -- An \class{Action} has a \class{Precondition} (\emph{hasAction\_Precondition}) and an \class{Effect} (\emph{hasAction\_Effect}). An \class{Action} has a \class{ParameterList} (\emph{hasAction\_ParameterList}) that contains all the parameters for a PDDL action. As seen in Figure~\ref{fig:put-part}, an action has unique name (\emph{hasAction\_Name}) of type \texttt{string}.
 \item \class{ParameterList} -- The \textsl{put-part} action illustrated in Figure~\ref{fig:put-part} has five parameters of different types. Each one of these types is represented by a class in the \onto{Kitting} ontology. To represent all PDDL actions in the \onto{SOAP} ontology, we considered all the different types of parameters that are used in all our ten PDDL actions. To date, we are using eleven different types of parameter, represented by the eleven following classes: \class{Robot}, \class{EndEffectorChangingStation}, \class{KitTray}, \class{Kit}, \class{LargeBoxWithEmptyKitTrays}, \class{LargeBoxWithKits}, \class{WorkTable}, \class{PartsTray}, \class{Part}, \class{EndEffector}, and \class{EndEffectorHolder}. Therefore, \class{ParameterList} has at least a parameter (\emph{hasAction\_Parameter}) that is from one of these eleven classes.
-    
+
     The order of the parameters in a PDDL action also needs to be represented in the ontology. In Figure~\ref{fig:put-part}, the parameter \texttt{robot} comes before the parameter \texttt{part}, the parameter \texttt{part} comes before the parameter \texttt{kit}, and so on. OWL has no built-in structure to represent an ordered list, instead, all the eleven classes mentioned earlier, use \emph{hasParameter\_Next} to point to the next parameter in \class{ParameterList}.
-\item \class{Precondition} -- A \class{Precondition} can consist of only one \class{Predicate} (\emph{hasPrecondition\_Predicate}), only one \class{Function} (\emph{hasPrecondition\_Function}), \class{FunctionBool} (\emph{hasPrecondition\_FunctionBool}), or a combination of these three classes. A \class{Precondition} belongs to one \class{Action} (\emph{hadByPrecondition\_Action}).
-\item \class{Effect} -- An \class{Effect} can consist of only one \class{Predicate} (\emph{hasEffect\_Predicate}), only one \class{Function} (\emph{hasEffect\_Function}), \class{FunctionBool} (\emph{hasEffect\_FunctionBool}), or a combination of these three classes. An \class{Effect} belongs to one \class{Action} (\emph{hadByEffect\_Action}). A negative \class{Predicate} is represented with the declaration of \emph{hasEffect\_Predicate} within the OWL built-in property assertion \texttt{owl:NegativePropertyAssertion}.
+\item \class{Precondition} -- A \class{Precondition} can consist of \class{Predicate} (\emph{hasPrecondition\_Predicate}) and \class{Function} (\emph{hasPrecondition\_Function}). An \class{Effect} can contain o or more \class{FunctionBool} (\emph{hasPrecondition\_FunctionBool}). A \class{Precondition} belongs to one \class{Action} (\emph{hadByPrecondition\_Action}).
+\item \class{Effect} -- An \class{Effect} can consist of \class{Predicate} (\emph{hasEffect\_Predicate}) and \class{Function} (\emph{hasEffect\_Function}). An \class{Effect} can contain o or more \class{FunctionBool} (\emph{hasEffect\_FunctionBool}). An \class{Effect} can contain 0 or more \class{FunctionOperation}. An \class{Effect} belongs to one \class{Action} (\emph{hadByEffect\_Action}). A negative \class{Predicate} is represented with the OWL built-in property assertion \texttt{owl:NegativePropertyAssertion}.
 \item \class{Predicate} -- A \class{Predicate} has a unique name (\emph{hasPredicate\_Name}) of type \texttt{string}. A \class{Predicate} has a reference parameter (\emph{hasPredicate\_RefParam}) and a target parameter (\emph{hasPredicate\_TargetParam}). A reference parameter is the first parameter in the \class{Predicate}'s list and the target parameter is the second parameter in the parameter's list. A \class{Predicate} cannot have more than two parameters due to the definition of \class{Predicates} in the SVR. In the case a \class{Predicate} has only one parameter, it is assign to the reference parameter. Reference and target parameters are one of the parameters defined for the \class{Action} to which the \class{Predicate} belongs.
 \item \class{Function} -- A \class{Function} has a unique name (\emph{hasFunction\_Name}) of type \texttt{string}. A \class{Function} has a reference parameter (\emph{hasFunction\_RefParam}) and a target parameter (\emph{hasFunction\_TargetParam}). The same rules apply to the definition and use of these two types of parameters as the ones defined for \class{Predicate}.
-\item \class{FunctionBool} -- \class{FunctionBool} has one or more subclasses that represent the type of relation between two \class{Functions}. For example, the relation depicted at line 13--14 in Figure~\ref{fig:put-part} is represented in the subclass \class{IntLesserThanInt}. Subclasses of \class{FunctionBool} have a first \class{Function} (\emph{hasFunctionBool\_FirstFunction}) that represents the \class{Function} on the left side of the operator. Subclasses of \class{FunctionBool} have a second \class{Function} (\emph{hasFunctionBool\_SecondFunction}) that represents the \class{Function} on the right side of the operator.
+\item \class{FunctionBool} -- A \class{FunctionBool} is used to represent functions comparison such as the one depicted at lines 28--29 in Figure~\ref{fig:put-part}. A \class{FunctionBool} has one or more subclasses that represent the type of relation between two \class{Functions}. For example, the relation depicted at line 13--14 in Figure~\ref{fig:put-part} is represented in the subclass \class{IntLesserThanInt}. Subclasses of \class{FunctionBool} have a first \class{Function} (\emph{hasFunctionBool\_FirstFunction}) that represents the \class{Function} on the left side of the operator. Subclasses of \class{FunctionBool} have a second \class{Function} (\emph{hasFunctionBool\_SecondFunction}) that represents the \class{Function} on the right side of the operator.
+\item \class{FunctionOperation} -- A \class{FunctionOperation} represents a function operation such as the one depicted at line 37 in Figure~\ref{fig:put-part}. A \class{FunctionOperation} consists of subclasses for each type of operation and \class{FunctionOperation} has one \class{Function} (\emph{hasFunctionOperation\_Function}).
 \end{enumerate}
 
+
 %-------------------------------------------------------------%
-\subsubsection{Concepts for Action Failure}\label{sss:failure}
+\subsubsection{The Predicate Evaluation Process}
 %-------------------------------------------------------------%
- A failure is any change or any design or manufacturing error that renders a component, assembly, or system incapable of performing its intended function. In kitting, failures can occur for multiple reasons: equipment not set up properly, tools and/or fixtures not properly prepared, lack of safety, and improper equipment maintenance. Part/component availability failures can be triggered by inaccurate information on the location of the part, part damage, wrong type of part, or part shortage due to delays in internal logistics. In order to prevent or minimize failures, a disciplined approach needs to be implemented to identify the different ways a process design can fail before impacting the productivity. 
- 
+The \process{Predicate Evaluation} process is used to identify action failures during plan execution by the robot. The identification of action failures relies on spatial relations to compute the truth value of each predicate in each action involved in the plan. Action failures and spatial relations are discussed in the remainder of this section.
+
+
+%-------------------------------------------------------------%
+\paragraph{Representation of Action Failure}\label{sss:failure}
+%-------------------------------------------------------------%
+ A failure is any change or any design or manufacturing error that renders a component, assembly, or system incapable of performing its intended function. In kitting, failures can occur for multiple reasons: equipment not set up properly, tools and/or fixtures not properly prepared, lack of safety, and improper equipment maintenance. Part/component availability failures can be triggered by inaccurate information on the location of the part, part damage, wrong type of part, or part shortage due to delays in internal logistics. In order to prevent or minimize failures, a disciplined approach needs to be implemented to identify the different ways a process design can fail before impacting the productivity.
+
  Failures detected in the workstation can result in the current plan to become obsolete. When a failure is detected in the execution process and the failure mode identified, the value of the severity for the failure mode will be retrieved from the ontology and the appropriate contingency plan will be activated. In some cases, the current state of the environment is brought back to the state prior to the failure and the robot starts from a ``stable" state. To select the right contingency plan, i.e., the less time consuming or safer, the system will need to rely on the information from the knowledge representation.
- 
+
  In the knowledge driven diagram (Figure~\ref{fig:DesignArchitecture}), the \process{Predicate Evaluation} process is responsible for failure detection. An action failure consists of failure modes that can occur during the execution of a PDDL action. The steps to identify action failures in the kitting system are described in Figure~\ref{fig:algo}.
 
 \begin{figure}[h!t!]
@@ -236,10 +265,9 @@ The classes discussed below are used to represent action failures in the \onto{S
 \item \class{FailureEffect} -- A \class{FailureEffect} has one failure severity (\emph{hasFailureEffect\_FailureSeverity}) of type \texttt{integer} and a description (\emph{hasFailureEffect\_Description}) of type \texttt{Literal}.
 \end{enumerate}
 
-%-------------------------------------------------------------%
-\subsubsection{Concepts for the Predicate Evaluation Process}
-%-------------------------------------------------------------%
-As seen in Section~\ref{sss:failure}, the \process{Predicate Evaluation} process is called by the \process{System Monitor} process to check the truth-value of a predicate. The output of this process is a Boolean that is redirected back to the \process{System Monitor}. We have implemented the concept of ``Spatial Relations'' in the \onto{SOAP} ontology to be able to compute the truth-value of a predicate.
+The next section discusses how state relations are used to identify action failures.
+\paragraph{Spatial Relation Representation}
+As seen in the action failure section, the \process{Predicate Evaluation} process is called by the \process{System Monitor} process to check the truth-value of a predicate. The output of this process is a Boolean value that is redirected back to the \process{System Monitor}. We have represented the concept of ``Spatial Relations'' in the \onto{SOAP} ontology so that any algorithm can compute the truth-value of a predicate.
 
 ``Spatial Relations'' are represented as subclasses of the \class{RelativeLocation} class which is a subtype of the \class{PhysicalLocation} (see Table~\ref{tab:kittingonto}). There are three types of spatial relations, each represented in a separate class as described below:
 \begin{itemize}
@@ -272,9 +300,9 @@ As seen in Section~\ref{sss:domainfile}, a predicate can have a maximum of two p
 The OWL/XML kitting \onto{init} and \onto{goal} conditions files are used to build the PDDL problem file. This section first describes how a PDDL problem file is structured and then reviews the classes used in the different ontologies to build the PDDL problem file.
 
 %-------------------------------------------------%
-\subsubsection{Structure of a PDDL Problem File}
+\subsubsection{Init and Goal sections in the Problem File}
 %-------------------------------------------------%
-Figure~\ref{fig:problem} is a fragment of the problem file generated for our kitting system but it displays all the necessary components that constitute a PDDL problem file.
+Figure~\ref{fig:problem} is a fragment of the problem file generated for our kitting system where we have emphasized the init and goal sections.
 
 \begin{figure}[t!h!]
 \begin{minipage}{.7\paperwidth}
@@ -284,37 +312,21 @@ Figure~\ref{fig:problem} is a fragment of the problem file generated for our kit
    (:domain kitting-domain)
    (:objects
       robot_1 - Robot
-      changing_station_1 - EndEffectorChangingStation
       kit_tray_1 - KitTray
       kit_a2b2c1 - Kit
-      part_a_tray part_b_tray part_c_tray - PartsTray
-      part_a_1 part_a_2 part_a_3 part_a_4 - Part
-      kit_a2b2c1 - Kit
-      ...)
+      \ldots
+	)
     (:init
       (robot-with-no-endeffector robot_1)
       (partstray-not-empty part_a_tray)
-      (partstray-not-empty part_b_tray)
-      (partstray-not-empty part_c_tray)
-      (part-location-partstray part_a_1 part_a_tray)
-      (part-location-partstray part_b_1 part_b_tray)
-      (part-location-partstray part_c_1 part_c_tray)
-      ...
+      \ldots
       (= (capacity-kit kit_a2b2c1 part_a_tray) 2)
       (= (capacity-kit kit_a2b2c1 part_b_tray) 2)
-      (= (capacity-kit kit_a2b2c1 part_c_tray) 1)
-      (= (quantity-kit kit_a2b2c1 part_a_tray) 0)
-      (= (quantity-kit kit_a2b2c1 part_b_tray) 0)
-      (= (quantity-kit kit_a2b2c1 part_c_tray) 0)
-      (= (quantity-partstray part_a_tray) 4)
-      (= (quantity-partstray part_b_tray) 4)
-      (= (quantity-partstray part_c_tray) 4)
-      ...)
+      \ldots)
     (:goal (and
-      (= (quantity-kit kit_a2b2c1 part_a_tray) (capacity-kit kit_a2b2c1 part_a_tray))
-      (= (quantity-kit kit_a2b2c1 part_b_tray) (capacity-kit kit_a2b2c1 part_b_tray))
-      (= (quantity-kit kit_a2b2c1 part_c_tray) (capacity-kit kit_a2b2c1 part_c_tray))
-      (kit-location-lbwk kit_a2b2c1 finished_kit_receiver))
+    (= (quantity-kit kit_a2b2c1 part_a_tray) (capacity-kit kit_a2b2c1 part_a_tray))
+    \ldots
+    (kit-location-lbwk kit_a2b2c1 finished_kit_receiver))
 )
 \end{Verbatim}
 \end{list}
@@ -323,19 +335,19 @@ Figure~\ref{fig:problem} is a fragment of the problem file generated for our kit
 \label{fig:problem}
 \end{figure}
 
-The different sections that form the problem file are described below.
-\begin{itemize}
-\item line 1: Signal a planner that the current file contains all the elements required to constitute a PDDL problem file. \texttt{kitting-problem} is the name given to this problem.
-\item line 2: \texttt{:domain} refers to the domain file that the current problem file depends on. In this case, the problem \texttt{kitting-problem} refers to the domain \texttt{kitting-domain}.
-\item lines 4--11: \texttt{:objects} declare all the objects present in the world. Some of these objects are required in both the initial state and the goal state.
-\item line 12: \texttt{:init} signals a planner that the predicates and functions in this section are true in the initial state.
-\item lines 13--19: Predicates that true in the initial state of the world. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
-\item lines 21--29: Numerical values assigned to functions.
-\item line 31: \texttt{:goal} is a keyword used to signal a planner that all predicates and functions within the goal section have to be true in order to reach the final state.
-\end{itemize}
+The different sections that form the problem file are described as follows. The keyword \texttt{problem} (line 1) signals a planner that the current file contains all the elements required to constitute a PDDL problem file. The keyword \texttt{domain} (line 2) refers to the domain file that the current problem file depends on. The \texttt{objects} section (lines 3--7) declare all the objects present in the world. Some of these objects are required in both the initial state and the goal state. The \texttt{:init} keyword (line 9) signals a planner about the initial state of the world. The predicates that are true and the initial values for functions (lines 10--15) are listed in the \texttt{init} section. The \texttt{:goal} keyword (line 16) signals a planner about the final state of the world. The predicates defined in this section must be true and the functions must have the defined numerical values in the final state.
+%\begin{itemize}
+%\item line 1: Signal a planner that the current file contains all the elements required to constitute a PDDL problem file. \texttt{kitting-problem} is the name given to this problem.
+%\item line 2: \texttt{:domain} refers to the domain file that the current problem file depends on. In this case, the problem \texttt{kitting-problem} refers to the domain \texttt{kitting-domain}.
+%\item lines 4--11: \texttt{:objects} declare all the objects present in the world. Some of these objects are required in both the initial state and the goal state.
+%\item line 12: \texttt{:init} signals a planner that the predicates and functions in this section are true in the initial state.
+%\item lines 13--19: Predicates that true in the initial state of the world. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
+%\item lines 21--29: Numerical values assigned to functions.
+%\item line 31: \texttt{:goal} is a keyword used to signal a planner that all predicates and functions within the goal section have to be true in order to reach the final state.
+%\end{itemize}
 
 %------------------------------------------------------------------%
-\subsubsection{Expression of a PDDL Problem file using Ontologies}
+\subsubsection{Representation of the Init and Goal Files Using Ontologies}
 %------------------------------------------------------------------%
 In our kitting system, the \texttt{init} and \texttt{goal} sections always consist of predicates and functions. The following steps describe how we build the OWL/XML kitting \onto{init} and \onto{goal} conditions files.
 \begin{enumerate}

@@ -35,7 +35,7 @@ Several different techniques are used to create kits. A kitting
 operation where a kit box is stationary until filled at a single
 kitting workstation is referred to as {\it batch kitting}.
 In {\it zone kitting}, the kit moves while being filled and will pass through one or
-more zones before it is completed. This paper focuses on batch kitting processes.
+more zones before it is completed. This article focuses on batch kitting processes.
 
 In batch kitting, the kit's component parts may be staged in
 containers positioned in the workstation or may arrive on a conveyor.
@@ -45,17 +45,7 @@ placed in a large bin. In addition to the kit's component parts,
 the workstation usually contains a storage area for empty kit boxes as
 well as completed kits.
 
-Kitting has not yet been automated in many industries where
-automation may be feasible. Consequently, the cost of building
-kits is higher than it could be. We are addressing this problem
-by proposing performance methods and metrics that will allow for
-the unbiased comparison of various approaches to building kits
-in an agile manufacturing environment. The performance methods
-that we propose must be simple enough to be repeatable at a variety of
-testing locations, but must also capture the complexity inherent
-in variants of kit building. The test methods must address concerns such as
-measuring performance against variations in kit contents, kit
-layout, and component supply. For our test methods, we assume that
+For our sample implementation, we assume that
 a robot performs a series of pick-and-place operations
 in order to construct the kit. These operations include:
 \begin{enumerate}
@@ -74,3 +64,10 @@ The kits are normally designed to facilitate component picking in the correct
 sequence for assembly. Component orientation may be constrained
 by the kit design in order to ease the pick-to-assembly process.
 Empty kits are returned to the kit building area for reuse.
+
+The knowledge methodology/model presented in this article is
+designed to allow for more agility and flexibility in the
+kit preparation process. This includes the ability to easily
+adapt to variations in kit contents, kit
+layout, and component supply as well as the ability to work in
+environments where components are not fixtured to precise locations.

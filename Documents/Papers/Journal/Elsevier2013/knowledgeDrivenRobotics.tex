@@ -157,50 +157,61 @@ aspects of the ontology with dynamic sensor processing to allow for a robotic sy
 is able to cope with environmental and task changes
 without operator intervention.
 
-This article presents a formal knowledge model and implementation methodology
-that has been developed by the industrial subgroup
-of the IEEE Working Group. The knowledge model allows for the compact representation
-of the world knowledge required to successfully plan for and carry out industrial applications.
+This article presents the first steps in the formation of a formal knowledge model and implementation methodology
+that is being developed by the industrial subgroup
+of the IEEE Working Group. The knowledge model will eventually allow for the compact representation
+of the world knowledge required to successfully plan for and carry out a variety of industrial applications. Currently,
+the model has been focused on automated kit building.
 The methodology presents sample techniques that demonstrate how this knowledge can by transformed
-into representations that are optimized for 
+into representations that are optimized for planning systems and robotic operations. When possible,
+these transformations are accomplished in an automated fashion, without the need for intervention from
+the user. In addition, sensor processing is utilized to provide late-binding of detailed information
+about the environment to the control process. This allows for generalized plans that reside in the knowledge
+model to adapt to a changing environment.
+
 The knowledge methodology/model proposed in this article is not designed to act as a stand-alone
 system architecture. Rather it is intended to be an extension to well developed hierarchical, 
 deliberative architectures such as 4D/RCS \cite{Albus2000}. The methodology relies on the robotic system
-to be able to formulate high-level, goal oriented plans and to be able to carry out
-specific robot motions. The knowledge model i
+to be able to carry out
+specific robot motions such as Cartesian moves, avoid collisions, and pick-up objects. 
+The knowledge methodology/model proposed in this paper is designed to work in conjunction with the existing
+robotic architecture to allow the system to be more agile, flexible, and easily re-tasked.
 
-In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. 
-They will have to demonstrate flexibility through the
-elimination of hand-tuned parameters. They will need to demonstrate agility through the 
-ability to cope with rapidly changing situations and task requirements,
-and they will need to be able to be rapidly re-tasked in order to adapt 
-to new tasking quickly and efficiently. The  industrial subgroup of the
-Ontologies for Robotics and Automation Working group is striving to demonstrate 
-that the inclusion of knowledge in the form of an ontology
-will allow robotic systems to progress to this next level.
+% In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. 
+% They will have to demonstrate flexibility through the
+% elimination of hand-tuned parameters. They will need to demonstrate agility through the 
+% ability to cope with rapidly changing situations and task requirements,
+% and they will need to be able to be rapidly re-tasked in order to adapt 
+% to new tasking quickly and efficiently. The  industrial subgroup of the
+% Ontologies for Robotics and Automation Working group is striving to demonstrate 
+% that the inclusion of knowledge in the form of an ontology
+% will allow robotic systems to progress to this next level.
 
-The organization of the remainder of this paper is as follows: Section \ref{Sect:Methodology} presents an overview of the knowledge driven methodology that
-has been developed for this effort. Section \ref{Sect:Kitting} describes the domain of kit building
-which is a greatly simplified, but still practically useful manufacturing/assembly domain. Section \ref{Sect:Ontology} describes our ontology for the kitting
-domain. Section \ref{Sect:Implementation} describes the implementation of the system and Section \ref{Sect:Conclusion} provides for conclusions and
+The organization of the remainder of this paper is as follows: Section \ref{Sect:Kitting} describes the domain of kit building
+which is a greatly simplified, but still practically useful manufacturing/assembly domain.
+Section \ref{Sect:Methodology} presents an overview of the knowledge driven methodology that
+has been developed for this effort.  Section \ref{Sect:Ontology} describes our knowledge model for the kitting
+domain. Finally, Section \ref{Sect:Conclusion} provides for conclusions and
 future work.
 
-
-\section{Design Methodology}
-\label{Sect:Methodology}
-\input{Architecture}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Industrial Kitting}
 \label{Sect:Kitting}
 \input{kitting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ontology}
+\section{Design Methodology}
+\label{Sect:Methodology}
+\input{Architecture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Knowledge Model}
 \label{Sect:Ontology}
 \input{Ontology}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementation}
-\label{Sect:Implementation}
+%\section{Implementation}
+%\label{Sect:Implementation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}

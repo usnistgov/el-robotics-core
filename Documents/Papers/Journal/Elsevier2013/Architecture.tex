@@ -87,6 +87,14 @@ the objects that are relevant to this action include the robot, the kit tray, an
 Aspects of these items may now be represented in the DSI. For example, that a kit tray has a location and may
 be held by the robot or placed on the work table.
 
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[width=13cm]{images/worktable.jpg}
+\caption{Inheritance hierarchy for the type WorkTable.}
+\label{fig:worktable}
+\end{center}
+\end{figure}
+
 \subsection{Ontology}
 The design transitions from domain expertise to knowledge modeling expertise
 when the State Variable Representation (SVR) is used to generate an ontology which consists of three parts:
@@ -95,11 +103,13 @@ when the State Variable Representation (SVR) is used to generate an ontology whi
 all of the basic information that was determined to be needed during the evaluation of
 the use cases and scenarios. The knowledge is represented in as compact of a form as
 possible with knowledge classes inheriting common attributes from parent classes.
-For example, the class for a work table, \class{WorkTable} is derived from
+For example, as shown in Figure \ref{fig:worktable}, the class for a work table, \class{WorkTable} is derived from
 \class{BoxyObject}, and \class{BoxyObject} is derived from \class{SolidObject}. The actual size of the work table
 is defined in the \class{BoxyObject}. The \class{WorkTable} includes all of the attributes
 of a \class{BoxyObject} along with the notion that a work table is something that can have
-other objects placed on it. The work table itself is part of a work station \class{WorkStation}.
+other objects placed on it (the 0 - $\infty$ \class{Solidobject}s that are added to \class{WorkTable}
+when extended from \class{BoxyObject}. The work table itself is part of a 
+kitting work station \class{KittingWorkStation}.
  \item Extensions that describe the States of the world and relationships between states,
 Ordering constructs, Actions, and Predicates (the \onto{SOAP} ontology)
 that are relevant to the scenario. This extension contains not only the basic class for
@@ -124,7 +134,7 @@ The Planning Domain Definition Language (PDDL) \cite{PDDL} is an attempt by the
 domain independent planning community to formulate a standard language
 for planning. A community of planning researchers has been producing
 planning systems that comply with this formalism since the first International
-Planning Competition held in 1998. This competition series continues today,
+Planning Competition was held in 1998. This competition series continues today,
 with the seventh competition being held in 2011. PDDL is constantly
 adding extensions to the base language in order to represent more expressive
 problem domains. The work represented in this article is based on PDDL Version 3.
@@ -139,7 +149,7 @@ with required preconditions and expected results. The problem file
 represents the initial state of the system and the desired goal.
 
 From these two files, a domain independent planning system such as
-the forward-chaining partial-order planning system from Coles \textit{et. al}
+the forward-chaining partial-order planning system from Coles \textit{et al.}
 \cite{Coles.ICAPS.2010} may be run to create a static plan file. This
 plan file contains a sequence of actions that will transition the
 system from the initial state to the goal state.
@@ -221,4 +231,4 @@ language commands.
 One or more canonical robot commands may be placed on a queue and
 executed (in order) when desired.
 More information on CRCL commands may be found in
-Balakirsky \textit{et. al} \cite{Balakirsky2012-1}.
+Balakirsky \textit{et al.} \cite{Balakirsky2012-1}.

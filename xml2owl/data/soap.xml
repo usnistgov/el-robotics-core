@@ -392,142 +392,6 @@
       </ZAxis>
     </PartRefAndPose>
   </KitDesign>
-  <KitDesign>
-    <Name>kit_design_a2b2c1d1</Name>
-    <KitTraySkuName>stock_keeping_unit_kit_tray</KitTraySkuName>
-    <PartRefAndPose>
-      <Name>part_ref_and_pose_kit_a2b2c1d1_a_1</Name>
-      <SkuName>stock_keeping_unit_part_a</SkuName>
-      <Point>
-        <Name>point_kit_a2b2c1d1_a_1</Name>
-        <X>0.200000</X>
-        <Y>0.300000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>x_axis_kit_a2b2c1d1_a_1</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>z_axis_kit_a2b2c1d1_a_1</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PartRefAndPose>
-    <PartRefAndPose>
-      <Name>part_ref_and_pose_kit_a2b2c1d1_a_2</Name>
-      <SkuName>stock_keeping_unit_part_a</SkuName>
-      <Point>
-        <Name>point_kit_a2b2c1d1_a_2</Name>
-        <X>0.400000</X>
-        <Y>0.300000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>x_axis_kit_a2b2c1d1_a_2</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>z_axis_kit_a2b2c1d1_a_2</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PartRefAndPose>
-    <PartRefAndPose>
-      <Name>part_ref_and_pose_kit_a2b2c1d1_b_1</Name>
-      <SkuName>stock_keeping_unit_part_b</SkuName>
-      <Point>
-        <Name>point_kit_a2b2c1d1_b_1</Name>
-        <X>0.200000</X>
-        <Y>0.500000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>x_axis_kit_a2b2c1d1_b_1</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>z_axis_kit_a2b2c1d1_b_1</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PartRefAndPose>
-    <PartRefAndPose>
-      <Name>part_ref_and_pose_kit_a2b2c1d1_b_2</Name>
-      <SkuName>stock_keeping_unit_part_b</SkuName>
-      <Point>
-        <Name>point_kit_a2b2c1d1_b_2</Name>
-        <X>0.200000</X>
-        <Y>0.500000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>x_axis_kit_a2b2c1d1_b_2</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>z_axis_kit_a2b2c1d1_b_2</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PartRefAndPose>
-    <PartRefAndPose>
-      <Name>part_ref_and_pose_kit_a2b2c1d1_c_1</Name>
-      <SkuName>stock_keeping_unit_part_c</SkuName>
-      <Point>
-        <Name>point_kit_a2b2c1d1_c_1</Name>
-        <X>0.400000</X>
-        <Y>0.500000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>x_axis_kit_a2b2c1d1_c_1</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>z_axis_kit_a2b2c1d1_c_1</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PartRefAndPose>
-    <PartRefAndPose>
-      <Name>part_ref_and_pose_kit_a2b2c1d1_d_1</Name>
-      <SkuName>stock_keeping_unit_part_c</SkuName>
-      <Point>
-        <Name>point_kit_a2b2c1d1_d_1</Name>
-        <X>0.400000</X>
-        <Y>0.500000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>x_axis_kit_a2b2c1d1_d_1</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>z_axis_kit_a2b2c1d1_d_1</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PartRefAndPose>
-  </KitDesign>
   <LengthUnit>meter</LengthUnit>
   <Object xsi:type="LargeBoxWithEmptyKitTraysType">
     <Name>empty_kit_tray_supply</Name>
@@ -577,9 +441,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.900000</Length>
-      <Width>0.700000</Width>
-      <Height>0.800000</Height>
       <SkuName>stock_keeping_unit_kit_box</SkuName>
       <SerialNumber>4</SerialNumber>
     </LargeContainer>
@@ -607,9 +468,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.500000</Length>
-      <Width>0.300000</Width>
-      <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>1</SerialNumber>
     </KitTrays>
@@ -637,9 +495,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.500000</Length>
-      <Width>0.300000</Width>
-      <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>2</SerialNumber>
     </KitTrays>
@@ -667,9 +522,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.500000</Length>
-      <Width>0.300000</Width>
-      <Height>0.150000</Height>
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>3</SerialNumber>
     </KitTrays>
@@ -722,9 +574,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.900000</Length>
-      <Width>0.700000</Width>
-      <Height>0.800000</Height>
       <SkuName>stock_keeping_unit_kit_box</SkuName>
       <SerialNumber>5</SerialNumber>
     </LargeContainer>
@@ -779,9 +628,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
       <SerialNumber>6</SerialNumber>
     </PartsTray>
@@ -942,9 +788,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
       <SerialNumber>7</SerialNumber>
     </PartsTray>
@@ -1213,9 +1056,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
       <SerialNumber>8</SerialNumber>
     </PartsTray>
@@ -1484,11 +1324,8 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
-      <SerialNumber>9</SerialNumber>
+      <SerialNumber>8</SerialNumber>
     </PartsTray>
     <Part>
       <Name>part_d_1</Name>
@@ -1515,7 +1352,7 @@
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_part_d</SkuName>
-      <SerialNumber>c1</SerialNumber>
+      <SerialNumber>d1</SerialNumber>
     </Part>
     <Part>
       <Name>part_d_2</Name>
@@ -1622,7 +1459,7 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <SkuName>stock_keeping_unit_part_d</SkuName>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
       <SerialNumber>d5</SerialNumber>
     </Part>
     <Part>
@@ -1755,11 +1592,8 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <Length>0.600000</Length>
-      <Width>0.300000</Width>
-      <Height>0.200000</Height>
       <SkuName>stock_keeping_unit_parts_tray</SkuName>
-      <SerialNumber>10</SerialNumber>
+      <SerialNumber>8</SerialNumber>
     </PartsTray>
     <Part>
       <Name>part_e_1</Name>
@@ -2036,9 +1870,13 @@
   <Sku>
     <Name>stock_keeping_unit_part_a</Name>
     <Description>SKU for Part A</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_a</Name>
       <Description>Shape of PartA</Description>
+      <Length>0.100000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -2046,9 +1884,13 @@
   <Sku>
     <Name>stock_keeping_unit_part_b</Name>
     <Description>SKU for Part B</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_b</Name>
       <Description>Shape of PartB</Description>
+      <Length>0.120000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -2056,19 +1898,13 @@
   <Sku>
     <Name>stock_keeping_unit_part_c</Name>
     <Description>SKU for Part C</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_c</Name>
       <Description>Shape of PartC</Description>
-    </Shape>
-    <Weight>0.180000</Weight>
-    <EndEffectorName>part_gripper</EndEffectorName>
-  </Sku>
-  <Sku>
-    <Name>stock_keeping_unit_part_e</Name>
-    <Description>SKU for Part E</Description>
-    <Shape>
-      <Name>shape_part_e</Name>
-      <Description>Shape of PartE</Description>
+      <Length>0.150000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -2076,9 +1912,27 @@
   <Sku>
     <Name>stock_keeping_unit_part_d</Name>
     <Description>SKU for Part D</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_part_d</Name>
       <Description>Shape of PartD</Description>
+      <Length>0.150000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
+    </Shape>
+    <Weight>0.180000</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
+  </Sku>
+    <Sku>
+    <Name>stock_keeping_unit_part_e</Name>
+    <Description>SKU for Part E</Description>
+    <Shape xsi:type="BoxyShapeType">
+      <Name>shape_part_e</Name>
+      <Description>Shape of PartE</Description>
+      <Length>0.150000</Length>
+      <Width>0.080000</Width>
+      <Height>0.150000</Height>
+      <HasTop>true</HasTop>
     </Shape>
     <Weight>0.180000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -2086,9 +1940,13 @@
   <Sku>
     <Name>stock_keeping_unit_kit_tray</Name>
     <Description>SKU for KitTrays</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_kit_tray</Name>
       <Description>Shape of KitTrays</Description>
+      <Length>0.500000</Length>
+      <Width>0.300000</Width>
+      <Height>0.150000</Height>
+      <HasTop>false</HasTop>
     </Shape>
     <Weight>0.200000</Weight>
     <EndEffectorName>tray_gripper</EndEffectorName>
@@ -2096,18 +1954,26 @@
   <Sku>
     <Name>stock_keeping_unit_kit_box</Name>
     <Description>SKU for Boxes for Kits and KitTrays</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_kit_box</Name>
       <Description>Shape of boxes to hold kits and kit trays</Description>
+      <Length>0.900000</Length>
+      <Width>0.700000</Width>
+      <Height>0.800000</Height>
+      <HasTop>false</HasTop>
     </Shape>
     <Weight>1.200000</Weight>
   </Sku>
   <Sku>
     <Name>stock_keeping_unit_parts_tray</Name>
     <Description>SKU for PartsTrays</Description>
-    <Shape>
+    <Shape xsi:type="BoxyShapeType">
       <Name>shape_parts_tray</Name>
       <Description>Shape of PartsTrays</Description>
+      <Length>0.600000</Length>
+      <Width>0.300000</Width>
+      <Height>0.200000</Height>
+      <HasTop>false</HasTop>
     </Shape>
     <Weight>0.200000</Weight>
     <EndEffectorName>tray_gripper</EndEffectorName>

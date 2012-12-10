@@ -25,8 +25,10 @@
 \usepackage{amssymb}
 \usepackage{fancyvrb}
 %\usepackage{amsfonts}
-%%% -- Added by Zeid to use \begin{gather}...\end{gather}
-\usepackage{amsmath}
+\usepackage{color}
+\usepackage{amsmath}%%% -- Added by Zeid to use \begin{gather}...\end{gather}
+\usepackage{rotating}%%% -- Added by Zeid for tabular
+\usepackage{multirow}%%% -- Added by Zeid for tabular
 %% The amsthm package provides extended theorem environments
  \usepackage{amsthm}
 
@@ -55,14 +57,12 @@
 %% \biboptions{comma,round}
 
 % \biboptions{}
-\newenvironment{mylisting}
-{\begin{list}{}{}\item\small}
-{\end{list}}
 
-%%-- mytinylisting
-\newenvironment{mytinylisting}
-{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
-{\end{list}}
+
+\newcommand{\class}[1] {\textsf{#1}}
+\newcommand{\onto}[1] {\textsl{#1}}
+\newcommand{\process}[1] {\textmd{#1}}
+\newcommand{\stvar}[1] {\textsf{#1}}
 \journal{Robotics and Automation}
 
 \begin{document}
@@ -117,6 +117,7 @@ The architecture's potential for creating flexible, agile, and rapidly re-taskab
 \end{abstract}
 
 \begin{keyword}
+Don't forget to add keywords
 %% keywords here, in the form: keyword \sep keyword
 
 %% MSC codes here, in the form: \MSC code \sep code
@@ -134,39 +135,48 @@ The architecture's potential for creating flexible, agile, and rapidly re-taskab
 %% main text
 \section{Introduction}
 \label{sect:introduction}
-Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a
-human-led teaching period when the cell\rq{}s
-task is altered.  Many research systems depend on numerous hand-tuned parameters that must be re-tuned by operators whenever a untested
-environment is encountered. These requirements for human intervention cause the robotic systems
-to be brittle and limited in operational scope. The robotic systems of tomorrow
-need to be capable, flexible, and agile.  These systems need to perform their duties at least as well as human counterparts, be able to be quickly re-tasked to other operations,
-and be able to cope with a wide variety of unexpected environmental and operational changes. In order to be successful, these systems need to combine domain expertise,
+Today's state-of-the-art industrial robots are capable of sub-millimeter accuracy \cite{RobotAccuracy}.
+However, they are often programmed by an operator using crude positional controls from a teach pendent. 
+Reprogramming these robots when their task is altered requires that the robot cell be taken off-line for a
+human-led teaching period.  For small batch processors or other customers who must frequently change
+their line configuration, this frequent down time may be unacceptable. 
+The robotic systems of tomorrow
+need to be capable, flexible, and agile.  These systems need to perform their duties at least 
+as well as human counterparts, be able to be quickly re-tasked to other operations,
+and be able to cope with a wide variety of unexpected environmental and operational changes. 
+In order to be successful, these systems need to combine domain expertise,
 knowledge of their own skills and limitations, and both semantic and geometric environmental information.
 
-The IEEE Robotics and Automation Society\rq{}s Ontologies for Robotics and Automation Working group is striving to create an overall ontology and
-associated methodology for knowledge representation and reasoning that will address these knowledge needs. As part of the
-Industrial Subgroup of the IEEE Working Group, the authors have been examining a novel architecture that allows for the combination of the static
-aspects of the ontology with dynamic sensor processing to allow for a robotic system that is able to cope with environmental and task changes
+The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working group is 
+striving to create an overall ontology and
+associated methodology for knowledge representation and reasoning that will address these 
+knowledge needs. As part of the
+Industrial Subgroup of the IEEE Working Group, the authors have been examining a novel 
+architecture that allows for the combination of the static
+aspects of the ontology with dynamic sensor processing to allow for a robotic system that 
+is able to cope with environmental and task changes
 without operator intervention.
 
-Architectures have always been an important part of advanced robotic systems and have evolved with the robotic systems that they characterize.
-Early architectures such as the one developed for the Army Research Laboratory\rq{}s (ARL) Demo I program tended to be hardware focused
-\cite{Balakirsky93}. The Demo I platform was able to perform reconnaissance, surveillance, and target acquisition (RSTA) as well as tele-operated
-control over a compressed bandwidth
-radio channel. However, the lack of a software architecture limited the sharing of information between software applications and forced the human
-operator to fuse information returned from various applications in order to make control decisions.
+This article presents a formal knowledge model and implementation methodology
+that has been developed by the industrial subgroup
+of the IEEE Working Group. The knowledge model allows for the compact representation
+of the world knowledge required to successfully plan for and carry out industrial applications.
+The methodology presents sample techniques that demonstrate how this knowledge can by transformed
+into representations that are optimized for 
+The knowledge methodology/model proposed in this article is not designed to act as a stand-alone
+system architecture. Rather it is intended to be an extension to well developed hierarchical, 
+deliberative architectures such as 4D/RCS \cite{Albus2000}. The methodology relies on the robotic system
+to be able to formulate high-level, goal oriented plans and to be able to carry out
+specific robot motions. The knowledge model i
 
-The ARL Demo III program demonstrated sophisticated off-road navigation while incorporating a much more sophisticated
-hardware/software architecture known as 4D/RCS \cite{Albus2000}. This
-architecture provide for a closer coupling of software systems and allowed for the sharing of items such as sensor data and cost maps.
-However, the lack of a knowledge architecture limited this system\rq{}s ability to utilize a priori knowledge to reason over its environment
-and provide fine-grained classification of terrain and obstacles. This resulted in numerous parameters that required human tuning based on
-the expected environmental conditions.
-
-In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. They will have to demonstrate flexibility through the
-elimination of hand-tuned parameters. They will need to demonstrate agility through the ability to cope with rapidly changing situations and task requirements,
-and they will need to be able to be rapidly re-tasked in order to adapt to new tasking quickly and efficiently. The  industrial subgroup of the
-Ontologies for Robotics and Automation Working group is striving to demonstrate that the inclusion of knowledge in the form of an ontology
+In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. 
+They will have to demonstrate flexibility through the
+elimination of hand-tuned parameters. They will need to demonstrate agility through the 
+ability to cope with rapidly changing situations and task requirements,
+and they will need to be able to be rapidly re-tasked in order to adapt 
+to new tasking quickly and efficiently. The  industrial subgroup of the
+Ontologies for Robotics and Automation Working group is striving to demonstrate 
+that the inclusion of knowledge in the form of an ontology
 will allow robotic systems to progress to this next level.
 
 The organization of the remainder of this paper is as follows: Section \ref{Sect:Methodology} presents an overview of the knowledge driven methodology that
@@ -195,7 +205,7 @@ future work.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 \label{Sect:Conclusion}
-
+\input{conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections

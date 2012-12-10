@@ -1,0 +1,27 @@
+\section{Representation of Predicates with State Relations}\label{task3}
+
+As seen in Section~\ref{task2}, the \process{Predicate Evaluation} process is called by the \process{System Monitor} process to check the truth-value of a predicate. The output of this process is a Boolean that is redirected back to the \process{System Monitor}. We have implemented the concept of ``Spatial Relations'' in the \onto{SOAP} ontology to be able to compute the truth-value of a predicate.
+
+``Spatial Relations'' are represented as subclasses of the \class{RelativeLocation} class which is a subtype of the \class{PhysicalLocation}. There are three types of spatial relations, each represented in a separate class as described below:
+\begin{itemize}
+ \item \class{RCC8\_Relation}: RCC8~\cite{Wolter.KR.2000} is a well-known and cited approach for representing the relationship between two regions in Euclidean space or in a topological space. Based on the definition of RCC8, the class \class{RCC8\_Relation} consists of eight possible relations, including Tangential Proper Part (TPP), Non-Tangential Proper Part(NTPP), Disconnected (DC), Tangential Proper Part Inverse (TPPi), Non-Tangential Proper Part Inverse (NTPPi), Externally Connected (EC), Equal (EQ), and Partially Overlapping (PO). In order to represent these relations in all three dimensions for the kitting domain, we have extended RCC8 to a three-dimensions space by applying it along all three planes (x-y, x-z, y-z) and by including cardinal direction relations ``+'' and ``-''~\cite{SCHLENOFF.ECDRM.2012}. In the ontology, RCC8 relations and cardinal direction relations are represented as subclasses of the class \class{RCC8\_Relation}. Examples of such classes are \class{X-DC}, \class{X-EC}, \class{X-Minus}, and \class{X-Plus}.
+
+ \item \class{Intermediate\_State\_Relation}: These are intermediate level state relations that can be inferred from the combination of RCC8 and cardinal direction relations. For  instance, the intermediate state relation \textbf{Contained-In} is used to describe object \textit{obj1} completely inside object \textit{obj2} and is represented with the following combination of RCC8 relations:
+\begin{gather}
+\textbf{Contained-In}(\textit{obj1}, \textit{obj2}) \rightarrow   \notag\\
+(\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
+(\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
+(\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))\notag
+\end{gather}
+In the ontology, intermediate state relations are represented with the OWL built-in property \texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation} to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.
+ \item \class{Predicate}: The representation of predicates has been illustrated in Section~\ref{task1}. In this section we discuss how the class \class{Predicate} has been extended to include the concept of ``Spatial Relation''. The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \class{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) is true if and only if the location of the kit \textit{kit} is in the large box with kits \textit{lbwk}. This predicate can be described using the following combination of intermediate state relations:
+\begin{gather}
+\textsf{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) \rightarrow   \notag\\
+\textbf{In-Contact-With}(\textit{kit}, \textit{lbwk}) \wedge \notag\\
+\textbf{Contained-In}(\textit{kit}, \textit{lbwk}) \notag
+\end{gather}
+As with state relations, the truth-value of predicates is captured in the ontology using the \texttt{owl:equivalentClass} property that links the description of the class \class{Predicate} to the logical combination of intermediate state relations from the class \class{Intermediate\_State\_Relation}.
+
+As seen in Section~\ref{task1}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
+\end{itemize}
+

@@ -1,0 +1,83 @@
+\section{Representation of PDDL Actions in the Ontology}\label{task1}
+Actions are ways of changing the state of the world and consist of a precondition and an effect sections. Predicates and functions constitute preconditions and effects. Predicates are used to encode Boolean state variables while functions are used to model updates of numerical values. Introducing functions into planning makes it possible to model actions in a more compact and sometimes more natural way~\cite{FOX.JAIR.2003}. Both predicates and functions are well documented in the SVR. 
+Before a robot can perform a PDDL action in the plan, the system needs to validate that
+the preconditions associated to this action are true. When the action has been carried out
+by the robot, the system will need to check that the effects for this action are met. In the
+kitting domain, PDDL actions' preconditions and effects are represented with predicates,
+negative predicates, and functions.
+
+Figure~\ref{fig:put-part} shows the action \textsl{put-part} that will be used as the model to discuss the components of a PDDL action.
+
+\begin{figure}[t!h!]
+\centering
+\begin{minipage}{.5\paperwidth}
+\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small, numbers=left, numbersep=2pt]
+(:action put-part
+   :parameters(
+      ?robot - Robot
+      ?part - Part
+      ?kit - Kit
+      ?worktable - WorkTable
+      ?partstray - PartsTray)
+   :precondition (and
+      (part-location-robot ?part ?robot)
+      (robot-holds-part ?robot ?part)
+      (on-worktable-kit ?worktable ?kit)
+      (origin-part ?part ?partstray)
+      (< (quantity-kit ?kit ?partstray)
+      (capacity-kit ?kit ?partstray))
+      (kit-location-worktable ?kit ?worktable))
+   :effect (and
+      (not (part-location-robot ?part ?robot))
+      (not (robot-holds-part ?robot ?part))
+      (part-not-searched)
+      (not (found-part ?part ?partstray))
+      (part-location-kit ?part ?kit)
+      (increase (quantity-kit ?kit ?partstray) 1)
+      (robot-empty ?robot))
+)
+\end{Verbatim}
+\end{list}
+\end{minipage}
+\caption{PDDL action put-part.}
+\label{fig:put-part}
+\end{figure}
+
+\begin{enumerate}
+  \item \texttt{action} (line 1): The unique name of the action comes directly after the keyword \texttt{:action}. In this example, the name of the action is \texttt{put-part}.
+  \item \texttt{parameters} (lines 2--7): The parameters (preceded by a ? mark) that participate in this action are listed along their types. For example, line 3 can be read as ``\texttt{robot} is a parameter and is of type \texttt{Robot}''.
+  \item \texttt{precondition} (lines 8--15): List of all the predicates and functions needed in the precondition section.
+  \item \texttt{effect} (lines 16--23): List of all the predicates and functions needed in the effect section.
+\end{enumerate}
+
+The representation of PDDL action in the ontology is made up of the classes \class{Action}, \class{Precondition}, \class{Effect}, \class{Predicate}, \class{Function}, \class{ParameterList}.  Operations between functions such as the one shown at lines 13--14 in Figure~\ref{fig:put-part}, are expressed with the class \class{FunctionBool}. All these classes are subclasses of \class{DataThing}.
+
+In the remainder of this section, we provide paragraph descriptions of each of the classes used to represent PDDL actions in the \onto{SOAP} ontology. The naming convention utilized below follows the OWL implementation of the ontology.
+
+\begin{enumerate}
+\item \class{Action} -- An \class{Action} has a \class{Precondition} (\emph{hasAction\_Precondition}) and an \class{Effect} (\emph{hasAction\_Effect}). An \class{Action} has a \class{ParameterList} (\emph{hasAction\_ParameterList}) that contains all the parameters for a PDDL action. As seen in Figure~\ref{fig:put-part}, an action has unique name (\emph{hasAction\_Name}) of type \texttt{string}.
+\item \class{ParameterList} -- The \textsl{put-part} action illustrated in Figure~\ref{fig:put-part} has five parameters of different types. Each one of these types is represented by a class in the \onto{Kitting} ontology. To represent all PDDL actions in the \onto{SOAP} ontology, we considered all the different types of parameters that are used in all our ten PDDL actions. To date, we are using eleven different types of parameter, represented by the eleven following classes: \class{Robot}, \class{EndEffectorChangingStation}, \class{KitTray}, \class{Kit}, \class{LargeBoxWithEmptyKitTrays}, \class{LargeBoxWithKits}, \class{WorkTable}, \class{PartsTray}, \class{Part}, \class{EndEffector}, and \class{EndEffectorHolder}. Therefore, \class{ParameterList} has at least a parameter (\emph{hasAction\_Parameter}) that is from one of these eleven classes.
+
+    The order of the parameters in a PDDL action also needs to be represented in the ontology. In Figure~\ref{fig:put-part}, the parameter \texttt{robot} comes before the parameter \texttt{part}, the parameter \texttt{part} comes before the parameter \texttt{kit}, and so on. OWL has no built-in structure to represent an ordered list, instead, all the eleven classes mentioned earlier, use \emph{hasParameter\_Next} to point to the next parameter in \class{ParameterList}.
+\item \class{Precondition} -- A \class{Precondition} can consist of only one \class{Predicate} (\emph{hasPrecondition\_Predicate}), only one \class{Function} (\emph{hasPrecondition\_Function}), \class{FunctionBool} (\emph{hasPrecondition\_FunctionBool}), or a combination of these three classes. A \class{Precondition} belongs to one \class{Action} (\emph{hadByPrecondition\_Action}).
+\item \class{Effect} -- An \class{Effect} can consist of only one \class{Predicate} (\emph{hasEffect\_Predicate}), only one \class{Function} (\emph{hasEffect\_Function}), \class{FunctionBool} (\emph{hasEffect\_FunctionBool}), or a combination of these three classes. An \class{Effect} belongs to one \class{Action} (\emph{hadByEffect\_Action}). A negative \class{Predicate} is represented with the declaration of \emph{hasEffect\_Predicate} within the OWL built-in property assertion \texttt{owl:NegativePropertyAssertion}.
+\item \class{Predicate} -- A \class{Predicate} has a unique name (\emph{hasPredicate\_Name}) of type \texttt{string}. A \class{Predicate} has a reference parameter (\emph{hasPredicate\_RefParam}) and a target parameter (\emph{hasPredicate\_TargetParam}). A reference parameter is the first parameter in the \class{Predicate}'s list and the target parameter is the second parameter in the parameter's list. A \class{Predicate} cannot have more than two parameters due to the definition of \class{Predicates} in the SVR. In the case a \class{Predicate} has only one parameter, it is assign to the reference parameter. Reference and target parameters are one of the parameters defined for the \class{Action} to which the \class{Predicate} belongs.
+    
+    The meaning of reference and target parameters lies in the definition of a state variable. We recall the following definition of a state variable $\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$) that is used to convert state variables into predicates as follows:
+
+\begin{itemize}
+ \item $\mathrm{A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$)
+  \begin{itemize}
+  \item \stvar{predicate\_1}($\mathcal{A,B}$)
+  \item \ldots
+  \item \stvar{predicate\_n}($\mathcal{A,B}$)
+  \end{itemize}
+\end{itemize}
+
+Where $\mathcal{A} \in \mathrm{\{A_1,\ldots,A_i\}}$ and $\mathcal{B} \in \mathrm{\{B_1,\ldots,B_i\}}$ ($i, j\geq 1$)
+
+From this methodology, we have defined a predicate's parameter as a reference parameter if the parameter belongs to the set $\mathcal{A}$. Similarly, we have defined a predicate's parameter as a target parameter if the parameter belongs to the set $\mathcal{B}$. For instance, the predicate \texttt{(part-location-robot ?part ?robot)} has \texttt{?part} as the reference parameter and \texttt{?robot} as the target parameter. This convention has been used in our ontology to define these two distinct types of parameters.
+\item \class{Function} -- A \class{Function} has a unique name (\emph{hasFunction\_Name}) of type \texttt{string}. A \class{Function} has a reference parameter (\emph{hasFunction\_RefParam}) and a target parameter (\emph{hasFunction\_TargetParam}). The same rules apply to the definition and use of these two types of parameters as the ones defined for \class{Predicate}.
+\item \class{FunctionBool} -- \class{FunctionBool} has one or more subclasses that represent the type of relation between two \class{Functions}. For example, the relation depicted at line 13--14 in Figure~\ref{fig:put-part} is represented in the subclass \class{IntLesserThanInt}. Subclasses of \class{FunctionBool} have a first \class{Function} (\emph{hasFunctionBool\_FirstFunction}) that represents the \class{Function} on the left side of the operator. Subclasses of \class{FunctionBool} have a second \class{Function} (\emph{hasFunctionBool\_SecondFunction}) that represents the \class{Function} on the right side of the operator.
+\end{enumerate}

@@ -664,7 +664,7 @@ DROP TABLE IF EXISTS `Point`;
 CREATE TABLE `Point` (
   `PointID` int(11) NOT NULL,
   `_NAME` varchar(255) NOT NULL DEFAULT '',
-  `hasPoint_X` varchar(255) NOT NULL,
+  `hasPoint_X` double NOT NULL,
   `hasPoint_Y` double NOT NULL,
   `hasPoint_Z` double NOT NULL,
   PRIMARY KEY (`PointID`,`_NAME`),
@@ -678,7 +678,7 @@ CREATE TABLE `Point` (
 
 LOCK TABLES `Point` WRITE;
 /*!40000 ALTER TABLE `Point` DISABLE KEYS */;
-INSERT INTO `Point` VALUES (16,'point_kit_a2b1c1_a_2','0.400000',0.3,0),(17,'point_kit_a2b1c1_a_1','0.200000',0.3,0),(28,'part_c_6_point','0.330000',-0.216,0.035),(38,'point_min','-1.000000',-1,0),(47,'part_c_3_point','-0.110000',0.216,0.035),(51,'part_b_1_point','-0.080000',0.12,0.0675),(54,'part_b_6_point','-0.240000',-0.12,0.0675),(63,'part_a_1_point','0.159000',0.159,0.0275),(64,'point_kit_a2b2c1_a_2','-0.159000',-0.149,0.036),(66,'point_kit_a2b2c1_a_1','-0.159000',0.145,0.036),(71,'empty_kit_tray_supply_point','0.500000',0,0),(74,'point_kit_a2b2c1_c_1','0.060000',-0.09,0.045),(80,'part_c_1_point','0.110000',0.216,0.035),(84,'tray_gripper_holder_point','-0.250000',0,0.5),(88,'part_b_2_point','-0.240000',0.12,0.0675),(89,'part_gripper_point','0.000000',0,0),(92,'finished_kit_box_point','0.000000',0,0),(96,'part_c_4_point','-0.330000',0.216,0.035),(99,'part_c_8_point','-0.330000',-0.216,0.035),(102,'part_b_4_point','0.240000',0.12,0.0675),(106,'part_c_5_point','0.110000',-0.216,0.035),(110,'part_c_tray_point','0.000000',0,0),(111,'kit_tray_3_point','0.000000',0,0.3),(118,'part_b_3_point','0.080000',0.12,0.0675),(119,'part_a_4_point','-0.159000',0.159,0.0275),(124,'part_b_supply_point','5.500000',0,0),(125,'point_kit_a2b2c1_b_2','0.171000',0.215,0.08),(126,'point_kit_a2b2c1_b_1','0.219000',-0.166,0.08),(129,'point_kit_a2b1c1_c_1','0.400000',0.5,0),(130,'part_b_8_point','0.240000',-0.12,0.0675),(132,'part_c_2_point','0.330000',0.216,0.035),(134,'kit_tray_2_point','0.000000',0,0.15),(135,'part_gripper_holder_point','0.250000',0,0.5),(137,'part_c_7_point','-0.110000',-0.216,0.035),(138,'point_max','1.000000',1,2),(145,'part_a_3_point','-0.159000',-0.159,0.0275),(148,'part_b_tray_point','0.000000',0,0),(158,'part_c_supply_point','6.500000',0,0),(165,'part_b_7_point','0.080000',-0.12,0.0675),(167,'part_a_tray_point','0.000000',0,0),(180,'finished_kit_receiver_point','1.500000',0,0),(188,'robot_point','3.000000',0,2),(194,'part_a_2_point','0.159000',-0.159,0.0275),(196,'point_kit_a2b1c1_b_1','0.200000',0.5,0),(198,'kit_tray_1_point','0.000000',0,0),(200,'empty_kit_tray_box_point','0.500000',0,0),(203,'work_table_point','3.000000',0,0),(205,'changing_station_point','7.500000',0,0),(207,'part_a_supply_point','4.500000',0,0),(209,'part_b_5_point','-0.080000',-0.12,0.0675);
+INSERT INTO `Point` VALUES (16,'point_kit_a2b1c1_a_2',0.4,0.3,0),(17,'point_kit_a2b1c1_a_1',0.2,0.3,0),(28,'part_c_6_point',0.33,-0.216,0.035),(38,'point_min',-1,-1,0),(47,'part_c_3_point',-0.11,0.216,0.035),(51,'part_b_1_point',-0.08,0.12,0.0675),(54,'part_b_6_point',-0.24,-0.12,0.0675),(63,'part_a_1_point',0.159,0.159,0.0275),(64,'point_kit_a2b2c1_a_2',-0.159,-0.149,0.036),(66,'point_kit_a2b2c1_a_1',-0.159,0.145,0.036),(71,'empty_kit_tray_supply_point',0.5,0,0),(74,'point_kit_a2b2c1_c_1',0.06,-0.09,0.045),(80,'part_c_1_point',0.11,0.216,0.035),(84,'tray_gripper_holder_point',-0.25,0,0.5),(88,'part_b_2_point',-0.24,0.12,0.0675),(89,'part_gripper_point',0,0,0),(92,'finished_kit_box_point',0,0,0),(96,'part_c_4_point',-0.33,0.216,0.035),(99,'part_c_8_point',-0.33,-0.216,0.035),(102,'part_b_4_point',0.24,0.12,0.0675),(106,'part_c_5_point',0.11,-0.216,0.035),(110,'part_c_tray_point',0,0,0),(111,'kit_tray_3_point',0,0,0.3),(118,'part_b_3_point',0.08,0.12,0.0675),(119,'part_a_4_point',-0.159,0.159,0.0275),(124,'part_b_supply_point',5.5,0,0),(125,'point_kit_a2b2c1_b_2',0.171,0.215,0.08),(126,'point_kit_a2b2c1_b_1',0.219,-0.166,0.08),(129,'point_kit_a2b1c1_c_1',0.4,0.5,0),(130,'part_b_8_point',0.24,-0.12,0.0675),(132,'part_c_2_point',0.33,0.216,0.035),(134,'kit_tray_2_point',0,0,0.15),(135,'part_gripper_holder_point',0.25,0,0.5),(137,'part_c_7_point',-0.11,-0.216,0.035),(138,'point_max',1,1,2),(145,'part_a_3_point',-0.159,-0.159,0.0275),(148,'part_b_tray_point',0,0,0),(158,'part_c_supply_point',6.5,0,0),(165,'part_b_7_point',0.08,-0.12,0.0675),(167,'part_a_tray_point',0,0,0),(180,'finished_kit_receiver_point',1.5,0,0),(188,'robot_point',3,0,2),(194,'part_a_2_point',0.159,-0.159,0.0275),(196,'point_kit_a2b1c1_b_1',0.2,0.5,0),(198,'kit_tray_1_point',0,0,0),(200,'empty_kit_tray_box_point',0.5,0,0),(203,'work_table_point',3,0,0),(205,'changing_station_point',7.5,0,0),(207,'part_a_supply_point',4.5,0,0),(209,'part_b_5_point',-0.08,-0.12,0.0675);
 /*!40000 ALTER TABLE `Point` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1115,29 +1115,6 @@ INSERT INTO `WorkTable` VALUES (33,'work_table_1');
 UNLOCK TABLES;
 
 --
--- Table structure for table `hasPoint_xValue`
---
-
-DROP TABLE IF EXISTS `hasPoint_xValue`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hasPoint_xValue` (
-  `VacuumEffectorID` int(11) NOT NULL,
-  `hasPoint_x` double NOT NULL,
-  PRIMARY KEY (`VacuumEffectorID`,`hasPoint_x`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hasPoint_xValue`
---
-
-LOCK TABLES `hasPoint_xValue` WRITE;
-/*!40000 ALTER TABLE `hasPoint_xValue` DISABLE KEYS */;
-/*!40000 ALTER TABLE `hasPoint_xValue` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `hasRobot_WorkVolume`
 --
 
@@ -1240,4 +1217,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-12-11 15:17:17
+-- Dump completed on 2012-12-11 16:32:20

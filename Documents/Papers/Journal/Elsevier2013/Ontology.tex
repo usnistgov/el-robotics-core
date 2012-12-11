@@ -330,7 +330,7 @@ involved in the plan. Action failures and spatial relations are discussed in the
 component, assembly, or system incapable of performing its intended function. 
 In kitting, failures can occur for multiple reasons: equipment not set up properly, 
 tools and/or fixtures not properly prepared, lack of safety, and improper equipment 
-maintenance. Part/component availability failures can be triggered by inaccurate information 
+maintenance~\cite{Leger.1999,Kaiser.2007}. Part/component availability failures can be triggered by inaccurate information 
 on the location of the part, part damage, wrong type of part, or part shortage due to delays 
 in internal logistics. In order to prevent or minimize failures, a disciplined approach 
 needs to be implemented to identify the different ways a process design can fail before 
@@ -338,11 +338,6 @@ impacting productivity. Failures detected in the workstation can result in the c
 plan becoming obsolete. When a failure is detected in the execution process and the failure 
 mode identified, the value of the severity for the failure mode will be retrieved from the 
 ontology and the appropriate contingency plan will be activated.
-
- Table~\ref{tab:putpartfailure} shows an example of failure modes associated to the PDDL 
-action \textsl{put-part} where the \textit{Robot} puts the \textit{Part} in the \textit{Kit}.
-%previously presented in Figure~\ref{fig:put-part}.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%% put-part %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -350,19 +345,19 @@ action \textsl{put-part} where the \textit{Robot} puts the \textit{Part} in the 
   \centering
   \caption{Failure modes for the PDDL action \textsl{put-part}($\mathit{robot}$,$\mathit{part}$,$\mathit{kit}$,$\mathit{worktable}$,$\mathit{partstray}$).}
   \label{tab:putpartfailure}
-  \scalebox{0.6}{
+  \scalebox{0.55}{
   \begin{tabular}{|l|l|l|l|c|c|c|}
     \hline
     \multicolumn{1}{|c|}{\begin{sideways}Action\end{sideways}} &
-    \multicolumn{1}{c|}{\begin{sideways}Failure Mode(s) \,\end{sideways}} &
-    \multicolumn{1}{c|}{\begin{sideways}Cause(s) \,\end{sideways}} &
-    \multicolumn{1}{c|}{\begin{sideways}Effect(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Failure Mode \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Cause \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Effect \,\end{sideways}} &
     \multicolumn{1}{c|}{\begin{sideways}Severity \,\end{sideways}} &
     \multicolumn{1}{c|}{\begin{sideways}Occurrence (\%) \,\end{sideways}} &
-    \multicolumn{1}{c|}{\begin{sideways}Predicate(s) \,\end{sideways}} \\
+    \multicolumn{1}{c|}{\begin{sideways}Predicate \,\end{sideways}} \\
     \hline
 
-    \multirow{5}{*}{\textit{\small{put-part}}} &
+    \multirow{6}{*}{\textit{\small{put-part}}} &
     \multirow{2}{*}{\stvar{part} falls off of the end effector} &
     \multirow{2}{*}{end effector hardware issues} &
     downtime & %\stvar{endeffector} replacement &
@@ -383,7 +378,7 @@ action \textsl{put-part} where the \textit{Robot} puts the \textit{Part} in the 
      end effector hardware issues &
      downtime &
      9 &
-     \multirow{3}{*}{8} &
+     \multirow{3}{*}{10} &
      $\neg$(\small{\textsf{part-location-robot}})\\\cline{3-5}
 
      &
@@ -400,16 +395,37 @@ action \textsl{put-part} where the \textit{Robot} puts the \textit{Part} in the 
      &
      &
      &
-     \small {\textsf{robot-empty}}\\\hline
+     \small {\textsf{robot-empty}}\\\cline{2-7}
+     &
+     \ldots&
+     \ldots&
+     \ldots&
+     \ldots&
+     \ldots&
+     \ldots
+     \\\hline
 
 \end{tabular}
 }
 \end{table}
-The column \textit{Predicate(s)} shows the predicates from the action \textit{put-part} 
-that can activate the corresponding failure mode (column \textit{Failure Mode(s)}) if their truth-value is evaluated to false.
+ Table~\ref{tab:putpartfailure} shows an example of failure modes associated to the PDDL 
+action \textsl{put-part} where the \textit{Robot} puts the \textit{Part} in the \textit{Kit}. The meaning of each column is described below.
+
+
+
+\textit{Action} displays the PDDL action for which failure modes are described and \textit{Failure Mode} lists all possible failure modes that can 
+occur during the execution of this action. \textit{Cause} describes the possible root causes for the \textit{Failure Mode}. \textit{Effect} 
+displays the effects for each failure mode and it encompasses local and global effects. We note that one failure can have many effects. \textit{Severity} assesses how serious an effect would be should the failure mode occur. Each effect
+is given a rank of severity ranging from 1 (minor) to 10 (major). The severity rank will be used in future work to trigger the appropriate contingency plan. \textit{Occurrence} is an estimate
+number of frequencies (based on experience) that a failure mode will occur for a specific action. \textit{Predicate} lists the predicates within an action's precondition or effect
+that can trigger a failure mode if the truth-values of these predicates are evaluated to false.
+%previously presented in Figure~\ref{fig:put-part}.
+
+
+
 
 The classes discussed below are used to represent action failures in the \onto{SOAP} 
-ontology. All these classes are subclasses of the \class{DataThing} class.
+ontology and are based on the description of failure modes shown in Table~\ref{tab:putpartfailure}. All these classes are subclasses of the \class{DataThing} class.
 \begin{enumerate}
 \item \class{Action} -- An \class{Action} has at least one \class{FailureMode} 
 (\emph{hasAction\_FailureMode}).
@@ -420,8 +436,8 @@ nature of the failure mode. The cause of the failure mode is expressed with
 \emph{hasFailureMode\_Cause} and is of type \texttt{Literal}. The occurrence of 
 the failure mode is expressed with \emph{hasFailureMode\_Occurrence} and is of 
 type \texttt{Integer}. A \class{FailureMode} has at least one \class{Predicate} 
-(\emph{hasFailureMode\_Predicate}) that can trigger the failure mode. The \class{Predicate} 
-should be already defined \textit{prior} to its association with the class \class{FailureMode}.
+(\emph{hasFailureMode\_Predicate}) that can trigger the failure mode. The class \class{Predicate} should be represented in the 
+ontology \textit{prior} to its association with the class \class{FailureMode}.
 \item \class{FailureEffect} -- A \class{FailureEffect} has one failure severity 
 (\emph{hasFailureEffect\_FailureSeverity}) of type \texttt{integer} and a 
 description (\emph{hasFailureEffect\_Description}) of type \texttt{Literal}.
@@ -570,15 +586,7 @@ the initial state of the world. The predicates that are true and the initial val
 functions (lines 10--15) are listed in the \texttt{init} section. The \texttt{goal} keyword 
 (line 16) signals a planner about the final state of the world. The predicates must be true 
 and the functions must have the defined numerical values in this final state.
-%\begin{itemize}
-%\item line 1: Signal a planner that the current file contains all the elements required to constitute a PDDL problem file. \texttt{kitting-problem} is the name given to this problem.
-%\item line 2: \texttt{:domain} refers to the domain file that the current problem file depends on. In this case, the problem \texttt{kitting-problem} refers to the domain \texttt{kitting-domain}.
-%\item lines 4--11: \texttt{:objects} declare all the objects present in the world. Some of these objects are required in both the initial state and the goal state.
-%\item line 12: \texttt{:init} signals a planner that the predicates and functions in this section are true in the initial state.
-%\item lines 13--19: Predicates that true in the initial state of the world. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
-%\item lines 21--29: Numerical values assigned to functions.
-%\item line 31: \texttt{:goal} is a keyword used to signal a planner that all predicates and functions within the goal section have to be true in order to reach the final state.
-%\end{itemize}
+
 
 %------------------------------------------------------------------%
 \subsubsection{Representation of the Init and Goal Files Using Ontologies}

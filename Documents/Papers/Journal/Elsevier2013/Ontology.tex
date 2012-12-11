@@ -1,17 +1,18 @@
 We believe that building models of the world knowledge is a necessary step towards 
-operating an automated kitting workstation. The proposed models include 
+operating a workcell in an industrial environment. The proposed models 
+for the kitting workstation application include 
 representations for non-executable information about the kitting workstation 
 such as information about parts, kits, and trays. The description of these 
-models includes for instance the location, orientation, and relation 
+models includes properties such as the location, orientation, and relation 
 between components. These models are discussed in Section~\ref{owlkitting}. 
 Models of executable information are also produced from the system 
 information described in the SVR. These models include actions along 
-with their precondition and effect, and failures. 
+with their preconditions,effects, and failures. 
 Section~\ref{owlsoap} discusses models of executable information.
 
 Models for non-executable and executable information can be 
 combined to generate the OWL/XML kitting \onto{init} and \onto{goal} 
-conditions files, as described in Section~\ref{owlinitgoal}.
+files, as described in Section~\ref{owlinitgoal}.
 
 %+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
 \subsection{The OWL/XML Kitting Ontology}\label{owlkitting}
@@ -216,7 +217,7 @@ Both predicates and functions have a unique name, parameters (defined by the
 section (lines 16--39) formulates the core of an action. The different components 
 of an \texttt{action} are described as follows: The unique name of the action 
 (\texttt{put-part} in this example) comes directly after the keyword \texttt{:action}. 
-The \texttt{parameters} section (lines 17--22) list all the parameters that 
+The \texttt{parameters} section (lines 17--22) lists all the parameters that 
 participate in this action. The \texttt{precondition} section (lines 23--30) 
 and the \texttt{effect} section (lines 31--38) list the predicates that must 
 be true and the operations on functions.
@@ -227,7 +228,9 @@ be true and the operations on functions.
 %  \item \texttt{precondition} (lines 8--15): List of all the predicates and functions needed in the precondition section.
 %  \item \texttt{effect} (lines 16--23): List of all the predicates and functions needed in the effect section.
 %\end{itemize}
-The representation of a PDDL domain file in the ontology requires OWL classes 
+The automatic generation of a PDDL domain file from the ontology places
+certain requirements on the knowledge representation.
+It requires class 
 definitions of the components described in Figure~\ref{fig:put-part} and the 
 definition of the relations between these components. The different classes 
 required for the representation of a PDDL domain file are \class{Domain}, 
@@ -250,15 +253,15 @@ at least one \class{Action} (\emph{hasDomain\_Action}).
 \item \class{Action} -- An \class{Action} has a name (\emph{hasAction\_Name}) of 
 type \texttt{string}, a \class{Precondition} (\emph{hasAction\_Precondition}) and 
 an \class{Effect} (\emph{hasAction\_Effect}). An \class{Action} has a 
-\class{ParameterList} (\emph{hasAction\_ParameterList}) that contains all the 
+\class{ParameterList} (\emph{hasAction\_ParameterList}) that contains all of the 
 parameters for a PDDL action. As seen in Figure~\ref{fig:put-part}, an action 
-has unique name (\emph{hasAction\_Name}) of type \texttt{string}.
+has a unique name (\emph{hasAction\_Name}) of type \texttt{string}.
 \item \class{ParameterList} -- The \textsl{put-part} action illustrated in 
 Figure~\ref{fig:put-part} has five parameters of different types. Each one of 
 these types is represented by a class in the \onto{Kitting} ontology. To represent 
 all PDDL actions in the \onto{SOAP} ontology, we considered all the different types 
-of parameters that are used in all our ten PDDL actions. To date, we are using eleven 
-different types of parameter, represented by the eleven following classes: 
+of parameters that are used in all of our ten PDDL actions. To date, we are using eleven 
+different types of parameters, represented by the following classes: 
 \class{Robot}, \class{EndEffectorChangingStation}, \class{KitTray}, \class{Kit}, 
 \class{LargeBoxWithEmptyKitTrays}, \class{LargeBoxWithKits}, \class{WorkTable}, 
 \class{PartsTray}, \class{Part}, \class{EndEffector}, and \class{EndEffectorHolder}. 
@@ -273,7 +276,7 @@ to represent an ordered list. This issue has been solved with the introduction
 of \emph{hasParameter\_Next} that points to the next parameter in \class{ParameterList}.
 \item \class{Precondition} -- A \class{Precondition} can consist of \class{Predicate} 
 (\emph{hasPrecondition\_Predicate}) and \class{Function} (\emph{hasPrecondition\_Function}). 
-An \class{Effect} can contain o or more \class{FunctionBool} 
+An \class{Effect} can contain 0 or more \class{FunctionBool} 
 (\emph{hasPrecondition\_FunctionBool}). A \class{Precondition} belongs to one \class{Action} 
 (\emph{hadByPrecondition\_Action}).
 \item \class{Effect} -- An \class{Effect} can consist of \class{Predicate} 
@@ -281,7 +284,7 @@ An \class{Effect} can contain o or more \class{FunctionBool}
 An \class{Effect} can contain 0 or more \class{FunctionBool} (\emph{hasEffect\_FunctionBool}) 
 and 0 or more \class{FunctionOperation}. An \class{Effect} belongs to one \class{Action} 
 (\emph{hadByEffect\_Action}). An \class{Effect} can contain negative \class{Predicates} 
-which is represented with the OWL built-in property assertion \texttt{owl:NegativePropertyAssertion}.
+which are represented in OWL with the built-in property assertion \texttt{owl:NegativePropertyAssertion}.
 \item \class{Predicate} -- A \class{Predicate} has a unique name (\emph{hasPredicate\_Name}) 
 of type \texttt{string}. A \class{Predicate} has a reference parameter 
 (\emph{hasPredicate\_RefParam}) and a target parameter (\emph{hasPredicate\_TargetParam}). 
@@ -331,8 +334,8 @@ maintenance. Part/component availability failures can be triggered by inaccurate
 on the location of the part, part damage, wrong type of part, or part shortage due to delays 
 in internal logistics. In order to prevent or minimize failures, a disciplined approach 
 needs to be implemented to identify the different ways a process design can fail before 
-impacting the productivity. Failures detected in the workstation can result in the current 
-plan to become obsolete. When a failure is detected in the execution process and the failure 
+impacting productivity. Failures detected in the workstation can result in the current 
+plan becoming obsolete. When a failure is detected in the execution process and the failure 
 mode identified, the value of the severity for the failure mode will be retrieved from the 
 ontology and the appropriate contingency plan will be activated.
 
@@ -561,7 +564,7 @@ The different sections that form the problem file are described as follows. The 
 \texttt{problem} (line 1) signals a planner that the current file contains all the elements 
 required to constitute a PDDL problem file. The keyword \texttt{domain} (line 2) refers to 
 the domain file that the current problem file depends on. The \texttt{objects} section (lines 3--7) 
-declare all the objects present in the world. Some of these objects are required in both the 
+declares all of the objects present in the world. Some of these objects are required in both the 
 initial state and the goal state. The \texttt{init} keyword (line 9) signals a planner about 
 the initial state of the world. The predicates that are true and the initial values for 
 functions (lines 10--15) are listed in the \texttt{init} section. The \texttt{goal} keyword 

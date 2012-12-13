@@ -332,18 +332,18 @@ Below,we formalize these spatial relationships by defining them using the RCC8 s
 \begin{gather}
 \label{eq:on-top-of}
 \textbf{On-Top-Of}(\textit{obj1}, \textit{obj2}) \rightarrow \vee \\
-\texttt{greater-z}(\textit{obj1}, \textit{obj2}) \wedge ((\texttt{x-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
+\texttt{greater-z}(\textit{obj1}, \textit{obj2}) \wedge (\texttt{x-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
 \texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPPi}(\textit{obj1}, \textit{obj2}) \vee \notag\\
-\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge ((\texttt{y-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
+\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge (\texttt{y-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
 \texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPPi}(\textit{obj1}, \textit{obj2}) \vee \notag\\
 \texttt{y-TPPi}(\textit{obj1}, \textit{obj2})) \notag
 \end{gather}
 \begin{gather}
 \label{eq:under}
 \textbf{Under}(\textit{obj1}, \textit{obj2}) \rightarrow \\
-\texttt{smaller-z}(\textit{obj1}, \textit{obj2}) \wedge ((\texttt{x-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
+\texttt{smaller-z}(\textit{obj1}, \textit{obj2}) \wedge (\texttt{x-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
 \texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPPi}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
-\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge ((\texttt{y-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
+\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge (\texttt{y-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
 \texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPPi}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
 \texttt{y-TPPi}(\textit{obj1}, \textit{obj2})) \notag
 \end{gather}

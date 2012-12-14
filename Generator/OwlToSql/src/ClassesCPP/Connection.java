@@ -35,15 +35,14 @@ import java.io.Writer;
 public class Connection {
 
 	/**
-	 * \brief      Where we are going to save the file.
+	 * \brief Where we are going to save the file.
 	 */
 	private String path;
 
 	/**
-     *  \brief Constructor
-     *  \details Constructor of the Connection class.
-     *  \param path 	path of the file.
-     */
+	 * \brief Constructor \details Constructor of the Connection class. \param
+	 * path path of the file.
+	 */
 	public Connection(String path) {
 
 		this.setPath(path);
@@ -53,7 +52,7 @@ public class Connection {
 	}
 
 	/**
-	 * \brief      Generate the header file for the connection with the DB.
+	 * \brief Generate the header file for the connection with the DB.
 	 */
 	public String generateHeader() {
 		String header = "";
@@ -90,20 +89,27 @@ public class Connection {
 		header = header
 				+ "class Connection {\n"
 				+ "public:\n"
-				+ "Connection(std::string url, "
-				+ "std::string user, std::string pass,std::string name);\n"
-				+ "virtual ~Connection();\n"
-				+ "sql::Connection *getCon() const;\n"
-				+ "sql::mysql::MySQL_Driver *getDriver() const;\nvoid setCon(sql::Connection *con);\n"
-				+ "void setDriver(sql::mysql::MySQL_Driver *driver);\n"
-				+ "private:sql::mysql::MySQL_Driver *driver;"
-				+ "sql::Connection *con;\n};\n#endif /* CONNEXION_H_ */";
+				+ "	Connection(std::string url, std::string user, std::string pass,\n"
+				+ "			std::string name);\n"
+				+ "	virtual ~Connection();\n"
+				+ "	sql::Connection *getCon() const;\n"
+				+ "	sql::mysql::MySQL_Driver *getDriver() const;\n"
+				+ "	static Connection * getInstance(std::string url, std::string user,\n"
+				+ "			std::string pass, std::string name);\n"
+				+ "	void setCon(sql::Connection *con);\n"
+				+ "	void setDriver(sql::mysql::MySQL_Driver *driver);\n"
+				+ "private:\n" + "	sql::mysql::MySQL_Driver *driver;\n"
+				+ "	sql::Connection *con;\n"
+				+ "	static Connection* instance;\n" + "};\n"
+				+ "#endif /* CONNEXION_H_ */\n"
+
+		;
 
 		return header;
 	}
 
 	/**
-	 * \brief      Generate the C++ file for the connection with the DB.
+	 * \brief Generate the C++ file for the connection with the DB.
 	 */
 	public String generateCpp() {
 		String generatedClass = "";
@@ -130,41 +136,47 @@ public class Connection {
 
 		generatedClass = generatedClass + "#include \"Connection.h\"\n";
 		generatedClass = generatedClass
-				+ "Connection::Connection(std::string url, "
-				+ "std::string user, std::string pass,"
-				+ "std::string name) {\n"
-				+ "try {\n"
-				+ "driver = sql::mysql::get_mysql_driver_instance();"
-				+ "\n} catch (sql::SQLException e) {\n"
-				+ "std::cout << \"Could not get a database driver. Error message: \""
-				+ "<< e.what() << std::endl;\n"
-				+ "exit(1);\n"
-				+ "}\n"
-				+ "con = driver->connect(url, user, pass);\n"
-				+ "con->setSchema(name);\n"
-				+ "std::cout << \"Connected to : \" << name << std::endl;\n"
-				+ "}\n"
-				+ "Connection::~Connection() {\n"
-				+ "delete con;\n"
-				+ "}\n"
-				+ "sql::Connection *Connection::getCon() const {\n"
-				+ "return con;\n"
-				+ "}\n"
-				+ "sql::mysql::MySQL_Driver *Connection::getDriver() const {\n"
-				+ "return driver;\n"
-				+ "}\n"
-				+ "void Connection::setCon(sql::Connection *con) {	\n"
-				+ "this->con = con;	\n"
+				+ "	Connection* Connection::instance; \n"
+
+				+ "Connection* Connection::getInstance(std::string url, std::string user, \n"
+				+ "		std::string pass, std::string name) {\n"
+				+ "		if (!Connection::instance)\n"
+				+ "			Connection::instance = new Connection(url, user, pass, name);\n"
+				+ "		return Connection::instance;\n"
 				+ "	}\n"
-				+ "void Connection::setDriver(sql::mysql::MySQL_Driver *driver) \n{	"
-				+ "this->driver = driver;\n" + "\n}";
+				+ "	Connection::Connection(std::string url, std::string user, std::string pass,\n"
+				+ "			std::string name) {\n"
+				+ "		try {\n"
+				+ "			driver = sql::mysql::get_mysql_driver_instance();\n"
+				+ "		} catch (sql::SQLException e) {\n"
+				+ "			std::cout << \"Could not get a database driver. Error message: \"\n"
+				+ "					<< e.what() << std::endl;\n"
+				+ "			exit(1);\n"
+				+ "		}\n"
+				+ "		con = driver->connect(url, user, pass);\n"
+				+ "		con->setSchema(name);\n"
+				+ "		std::cout << \"Connected to : \" << name << std::endl;\n"
+				+ "	}\n"
+				+ "	Connection::~Connection() {\n"
+				+ "		delete con;\n"
+				+ "	}\n"
+				+ "	sql::Connection *Connection::getCon() const {\n"
+				+ "		return con;\n"
+				+ "	}\n"
+				+ "	sql::mysql::MySQL_Driver *Connection::getDriver() const {\n"
+				+ "		return driver;\n"
+				+ "	}\n"
+				+ "	void Connection::setCon(sql::Connection *con) {\n"
+				+ "		this->con = con;\n"
+				+ "	}\n"
+				+ "	void Connection::setDriver(sql::mysql::MySQL_Driver *driver) {\n"
+				+ "		this->driver = driver;\n" + "	}\n";
 		return generatedClass;
 	}
 
 	/**
-	 * \brief      Write the header file on the Disk.
-	 * \param    data		   	Data you want to write.
-	 * \param    path			Path of your file
+	 * \brief Write the header file on the Disk. \param data Data you want to
+	 * write. \param path Path of your file
 	 */
 	public void writeHeader(String data, String path) {
 		Writer fstream;
@@ -181,9 +193,8 @@ public class Connection {
 	}
 
 	/**
-	 * \brief      Write the C++ file on the Disk.
-	 * \param    data		   	Data you want to write.
-	 * \param    path			Path of your file
+	 * \brief Write the C++ file on the Disk. \param data Data you want to
+	 * write. \param path Path of your file
 	 */
 	public void writeClass(String data, String path) {
 		Writer fstream;
@@ -198,16 +209,16 @@ public class Connection {
 		}
 
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return path
+	 * \brief Simple getter. \return path
 	 */
 	public String getPath() {
 		return path;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param path
+	 * \brief Simple setter. \param path
 	 */
 	public void setPath(String path) {
 		this.path = path;

@@ -48,6 +48,7 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -149,7 +150,6 @@ public class Ontology {
 				superClassesClean, op.getObjectPropertyInverse());
 		ind = new Individuals(tables.getTables(), ontology, pathSave,
 				superClassesClean);
-		new WriteFileXLSX("/home/pna1/XL/", this);
 	}
 
 	/**

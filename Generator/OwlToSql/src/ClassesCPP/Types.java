@@ -37,26 +37,26 @@ import java.util.Set;
 public class Types extends ClassGenerator {
 
 	/**
-	 * \brief      Map - Key : class name => Value : super classes names.
-	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \brief Map - Key : class name => Value : super classes names. \details
+	 * Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClasses;
 
-	
 	/**
 	 * \brief Constructor \details Constructor of the Types class. \param
 	 * className Name of the class.
 	 */
-	public Types(String className,HashMap<String, ArrayList<String>> superClasses) {
+	public Types(String className,
+			HashMap<String, ArrayList<String>> superClasses) {
 		this.className = className;
-		this.superClasses=superClasses;
+		this.superClasses = superClasses;
 		fillUnit();
 	}
 
 	/**
-	 * \brief      Retrieve the super classes for a given one.
-	 * \param     table				The type we want to get his super classes.
-	 * \return    A String with all the super classes seperated by a space
+	 * \brief Retrieve the super classes for a given one. \param table The type
+	 * we want to get his super classes. \return A String with all the super
+	 * classes seperated by a space
 	 */
 	public String getParent(String table) {
 		if (superClasses.get(table) != null) {
@@ -67,7 +67,7 @@ public class Types extends ClassGenerator {
 		return "";
 
 	}
-	
+
 	/**
 	 * \brief Generate the header file for a given type \param className Name of
 	 * the class. \param classParentName List of the super classes. \param
@@ -132,7 +132,7 @@ public class Types extends ClassGenerator {
 							// vector of objects
 							String s = sunit.substring(sunit.indexOf("<") + 1,
 									sunit.indexOf(">") - 1);
-							if (!include.contains("class " + s))
+							if (!include.equals("class " + s))
 								include = include + "\n class " + s + ";";
 
 						}
@@ -141,7 +141,7 @@ public class Types extends ClassGenerator {
 					// Class simple
 					if (sunit.endsWith("*"))
 						sunit = sunit.substring(0, sunit.length() - 1);
-					if (!include.contains("class " + sunit))
+					if (!include.equals("class " + sunit))
 						include = include + "\n class " + sunit + ";";
 				}
 			}
@@ -175,12 +175,12 @@ public class Types extends ClassGenerator {
 
 		for (int i = 0; i < attributes.size(); i++) {
 			if (!attributes.get(i).equals("name")) {
-			/*	if (unit.get(i).contains("vector"))
-					pub = pub + "\n" + unit.get(i) + "* get"
-							+ attributes.get(i) + "();";
-				else*/
-					pub = pub + "\n" + unit.get(i) + " get" + attributes.get(i)
-							+ "();";
+				/*
+				 * if (unit.get(i).contains("vector")) pub = pub + "\n" +
+				 * unit.get(i) + "* get" + attributes.get(i) + "();"; else
+				 */
+				pub = pub + "\n" + unit.get(i) + " get" + attributes.get(i)
+						+ "();";
 				if (!attributes.get(i).equals(className + "ID")
 						&& !attributes.get(i).equals("name"))
 					pub = pub + "\nvoid set" + attributes.get(i) + "("
@@ -292,8 +292,9 @@ public class Types extends ClassGenerator {
 				paramConstruct = paramConstruct + attributes.get(i)
 						+ " = NULL;\n";
 
-				destructor = destructor + "delete(" + attributes.get(i)
-						+ ");\n";
+				if (!attributes.get(i).equals("dao"))
+					destructor = destructor + "delete(" + attributes.get(i)
+							+ ");\n";
 			}
 		}
 
@@ -316,15 +317,16 @@ public class Types extends ClassGenerator {
 
 		for (int i = 0; i < attributes.size(); i++) {
 			if (!attributes.get(i).equals("name")) {
-			/*	if (unit.get(i).contains("vector")) {
-					get = get + unit.get(i) + "* " + className + "::get"
-							+ attributes.get(i) + "(){\n";
-					get = get + "return &" + attributes.get(i) + ";\n}\n";
-				} else {*/
-					get = get + unit.get(i) + " " + className + "::get"
-							+ attributes.get(i) + "(){\n";
-					get = get + "return " + attributes.get(i) + ";\n}\n";
-				//}
+				/*
+				 * if (unit.get(i).contains("vector")) { get = get + unit.get(i)
+				 * + "* " + className + "::get" + attributes.get(i) + "(){\n";
+				 * get = get + "return &" + attributes.get(i) + ";\n}\n"; } else
+				 * {
+				 */
+				get = get + unit.get(i) + " " + className + "::get"
+						+ attributes.get(i) + "(){\n";
+				get = get + "return " + attributes.get(i) + ";\n}\n";
+				// }
 				if (!attributes.get(i).equals(className + "ID")) {
 					set = set + "void " + className + "::set"
 							+ attributes.get(i) + "(" + unit.get(i) + " _"
@@ -335,7 +337,7 @@ public class Types extends ClassGenerator {
 				}
 			}
 		}
-		if (classParentName == null){
+		if (classParentName == null) {
 			get = get + "std::string " + className + "::getname" + "(){\n";
 			get = get + "return name;\n}\n";
 		}
@@ -345,12 +347,11 @@ public class Types extends ClassGenerator {
 		if (classParentName != null) {
 			String[] parents = getParent(className).split(" ");
 			for (int i = 0; i < parents.length; i++) {
-				globalGet = globalGet + "dao  = new DAO(\""
-						+ parents[i] + "\");";
+				globalGet = globalGet + "dao  = new DAO(\"" + parents[i]
+						+ "\");";
 				globalGet = globalGet + "\n temp = dao->get(name);";
 				globalGet = globalGet + "delete (dao);";
-				globalGet = globalGet + "\n " + parents[i]
-						+ "::copy(temp);\n";
+				globalGet = globalGet + "\n " + parents[i] + "::copy(temp);\n";
 			}
 		}
 
@@ -366,9 +367,9 @@ public class Types extends ClassGenerator {
 		if (classParentName != null) {
 			String[] parents = getParent(className).split(" ");
 			for (int i = 0; i < parents.length; i++) {
-				globalSet = globalSet + parents[i] + "* temp"+i+" = ("
+				globalSet = globalSet + parents[i] + "* temp" + i + " = ("
 						+ parents[i] + "*) this;\n";
-				globalSet = globalSet + "temp"+i+"->set(name);\n";
+				globalSet = globalSet + "temp" + i + "->set(name);\n";
 			}
 		}
 
@@ -449,6 +450,27 @@ public class Types extends ClassGenerator {
 		String copy = "";
 		copy = copy + "\nvoid " + className
 				+ "::copy(std::map<std::string,std::string> object){";
+
+		for (int i = 0; i < unit.size(); i++) {
+			if (unit.get(i).contains("*") && !unit.get(i).contains("std::")) {
+
+				if (!attributes.get(i).equals("dao")) {
+					copy = copy + "delete(" + attributes.get(i) + ");\n";
+					copy = copy + attributes.get(i) + "=NULL;\n";
+				}
+			}
+		}
+
+		for (int i = 0; i < unit.size(); i++) {
+			if (unit.get(i).contains("*")
+					&& unit.get(i).contains("std::vector")) {
+				copy = copy + "for(std::size_t i = 0; i < " + attributes.get(i)
+						+ ".size(); i++){\n";
+				copy = copy + "delete(" + attributes.get(i) + "[i]);\n";
+				copy = copy + attributes.get(i) + "[i]=NULL;}\n";
+			}
+		}
+
 		copy = copy + "std::vector<std::string> temp;\n";
 		copy = copy + "std::map<std::string,std::string> mapTemp;\n";
 		copy = copy + "std::map<std::string,std::string> mapTempBis;\n";

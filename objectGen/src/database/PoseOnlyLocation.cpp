@@ -20,7 +20,6 @@ PoseOnlyLocation::PoseOnlyLocation(std::string name) : PoseLocation(name){
 dao = NULL;
 
 }PoseOnlyLocation::~PoseOnlyLocation(){
-delete(dao);
 }
 int PoseOnlyLocation::getPoseOnlyLocationID(){
 return PoseOnlyLocationID;

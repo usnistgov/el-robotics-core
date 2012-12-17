@@ -20,7 +20,6 @@ BoxyShape::BoxyShape(std::string name) : ShapeDesign(name){
 dao = NULL;
 
 }BoxyShape::~BoxyShape(){
-delete(dao);
 }
 double BoxyShape::gethasBoxyShape_Width(){
 return hasBoxyShape_Width;

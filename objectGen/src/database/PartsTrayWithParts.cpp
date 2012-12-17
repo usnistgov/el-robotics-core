@@ -23,7 +23,6 @@ dao = NULL;
 hasPartsTrayWithParts_Tray = NULL;
 
 }PartsTrayWithParts::~PartsTrayWithParts(){
-delete(dao);
 delete(hasPartsTrayWithParts_Tray);
 for(std::size_t i = 0; i < hadByPart_PartsTrayWithParts.size(); i++)
 delete(hadByPart_PartsTrayWithParts[i]);
@@ -81,7 +80,12 @@ dao->set(data);
 delete (dao);
 }
 
-void PartsTrayWithParts::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void PartsTrayWithParts::copy(std::map<std::string,std::string> object){delete(hasPartsTrayWithParts_Tray);
+hasPartsTrayWithParts_Tray=NULL;
+for(std::size_t i = 0; i < hadByPart_PartsTrayWithParts.size(); i++){
+delete(hadByPart_PartsTrayWithParts[i]);
+hadByPart_PartsTrayWithParts[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

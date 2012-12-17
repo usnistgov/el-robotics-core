@@ -20,7 +20,6 @@ BoxyObject::BoxyObject(std::string name) : SolidObject(name){
 dao = NULL;
 
 }BoxyObject::~BoxyObject(){
-delete(dao);
 }
 double BoxyObject::gethasBox_Height(){
 return hasBox_Height;

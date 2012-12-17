@@ -30,7 +30,9 @@ ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keepi
 ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_c)
 ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_kit_tray)
 ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_kit_box)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray)
+ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray_a)
+ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray_b)
+ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray_c)
 // end KittingWorkstation
 //*****************************************
 
@@ -548,7 +550,7 @@ ClassAssertion(:Vector :part_a_tray_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_a_tray_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTray_Sku :part_a_tray :stock_keeping_unit_parts_tray)
+ObjectPropertyAssertion(:hasPartsTray_Sku :part_a_tray :stock_keeping_unit_parts_tray_a)
 DataPropertyAssertion(:hasPartsTray_SerialNumber :part_a_tray "6"^^xsd:NMTOKEN)
 // end PartsTray
 //*****************************************
@@ -747,7 +749,7 @@ ClassAssertion(:Vector :part_b_tray_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_tray_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTray_Sku :part_b_tray :stock_keeping_unit_parts_tray)
+ObjectPropertyAssertion(:hasPartsTray_Sku :part_b_tray :stock_keeping_unit_parts_tray_b)
 DataPropertyAssertion(:hasPartsTray_SerialNumber :part_b_tray "7"^^xsd:NMTOKEN)
 // end PartsTray
 //*****************************************
@@ -1074,7 +1076,7 @@ ClassAssertion(:Vector :part_c_tray_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_tray_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTray_Sku :part_c_tray :stock_keeping_unit_parts_tray)
+ObjectPropertyAssertion(:hasPartsTray_Sku :part_c_tray :stock_keeping_unit_parts_tray_c)
 DataPropertyAssertion(:hasPartsTray_SerialNumber :part_c_tray "8"^^xsd:NMTOKEN)
 // end PartsTray
 //*****************************************
@@ -1563,6 +1565,7 @@ ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_a :part_gr
 Declaration(NamedIndividual(:shape_part_a))
 ClassAssertion(:BoxyShape :shape_part_a)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_a "Shape of PartA"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_part_a "PartA"^^xsd:string)
 DataPropertyAssertion(:hasBoxyShape_Length :shape_part_a "0.100000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Width :shape_part_a "0.080000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_part_a "0.150000"^^:positiveDecimal)
@@ -1582,6 +1585,7 @@ ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_b :part_gr
 Declaration(NamedIndividual(:shape_part_b))
 ClassAssertion(:BoxyShape :shape_part_b)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_b "Shape of PartB"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_part_b "PartB"^^xsd:string)
 DataPropertyAssertion(:hasBoxyShape_Length :shape_part_b "0.120000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Width :shape_part_b "0.080000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_part_b "0.150000"^^:positiveDecimal)
@@ -1601,6 +1605,7 @@ ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_c :part_gr
 Declaration(NamedIndividual(:shape_part_c))
 ClassAssertion(:BoxyShape :shape_part_c)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_c "Shape of PartC"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_part_c "PartC"^^xsd:string)
 DataPropertyAssertion(:hasBoxyShape_Length :shape_part_c "0.150000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Width :shape_part_c "0.080000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_part_c "0.150000"^^:positiveDecimal)
@@ -1620,6 +1625,7 @@ ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_kit_tray :tray_
 Declaration(NamedIndividual(:shape_kit_tray))
 ClassAssertion(:BoxyShape :shape_kit_tray)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_kit_tray "Shape of KitTrays"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_kit_tray "WCKitTray"^^xsd:string)
 DataPropertyAssertion(:hasBoxyShape_Length :shape_kit_tray "0.500000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Width :shape_kit_tray "0.300000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_kit_tray "0.150000"^^:positiveDecimal)
@@ -1638,6 +1644,7 @@ ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_kit_box :shape_kit_box
 Declaration(NamedIndividual(:shape_kit_box))
 ClassAssertion(:BoxyShape :shape_kit_box)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_kit_box "Shape of boxes to hold kits and kit trays"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_kit_box "KitBox"^^xsd:string)
 DataPropertyAssertion(:hasBoxyShape_Length :shape_kit_box "0.900000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Width :shape_kit_box "0.700000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_kit_box "0.800000"^^:positiveDecimal)
@@ -1647,19 +1654,60 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_box "false"^^xsd:boolean)
 
 
 //*****************************************
-// start StockKeepingUnit stock_keeping_unit_parts_tray
-Declaration(NamedIndividual(:stock_keeping_unit_parts_tray))
-ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray "SKU for PartsTrays"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_parts_tray "0.200000"^^:positiveDecimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_parts_tray :shape_parts_tray)
-ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_parts_tray :tray_gripper)
-Declaration(NamedIndividual(:shape_parts_tray))
-ClassAssertion(:BoxyShape :shape_parts_tray)
-DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray "Shape of PartsTrays"^^xsd:string)
-DataPropertyAssertion(:hasBoxyShape_Length :shape_parts_tray "0.600000"^^:positiveDecimal)
-DataPropertyAssertion(:hasBoxyShape_Width :shape_parts_tray "0.300000"^^:positiveDecimal)
-DataPropertyAssertion(:hasBoxyShape_Height :shape_parts_tray "0.200000"^^:positiveDecimal)
+// start StockKeepingUnit stock_keeping_unit_parts_tray_a
+Declaration(NamedIndividual(:stock_keeping_unit_parts_tray_a))
+ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray_a)
+DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray_a "SKU for PartsTray_A"^^xsd:string)
+DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_parts_tray_a "0.200000"^^:positiveDecimal)
+ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_parts_tray_a :shape_parts_tray_a)
+ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_parts_tray_a :tray_gripper)
+Declaration(NamedIndividual(:shape_parts_tray_a))
+ClassAssertion(:BoxyShape :shape_parts_tray_a)
+DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray_a "Shape of PartsTray_A"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_parts_tray_a "PartATray"^^xsd:string)
+DataPropertyAssertion(:hasBoxyShape_Length :shape_parts_tray "0.640000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Width :shape_parts_tray "0.640000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :shape_parts_tray "0.040000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Top :shape_parts_tray "false"^^xsd:boolean)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start StockKeepingUnit stock_keeping_unit_parts_tray_b
+Declaration(NamedIndividual(:stock_keeping_unit_parts_tray_b))
+ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray_b)
+DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray_b "SKU for PartsTray_B"^^xsd:string)
+DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_parts_tray_b "0.200000"^^:positiveDecimal)
+ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_parts_tray_b :shape_parts_tray_b)
+ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_parts_tray_b :tray_gripper)
+Declaration(NamedIndividual(:shape_parts_tray_b))
+ClassAssertion(:BoxyShape :shape_parts_tray_b)
+DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray_b "Shape of PartsTray_B"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_parts_tray_b "PartBTray"^^xsd:string)
+DataPropertyAssertion(:hasBoxyShape_Length :shape_parts_tray "0.640000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Width :shape_parts_tray "0.480000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :shape_parts_tray "0.044000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Top :shape_parts_tray "false"^^xsd:boolean)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start StockKeepingUnit stock_keeping_unit_parts_tray_c
+Declaration(NamedIndividual(:stock_keeping_unit_parts_tray_c))
+ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray_c)
+DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray_c "SKU for PartsTray_C"^^xsd:string)
+DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_parts_tray_c "0.200000"^^:positiveDecimal)
+ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_parts_tray_c :shape_parts_tray_c)
+ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_parts_tray_c :tray_gripper)
+Declaration(NamedIndividual(:shape_parts_tray_c))
+ClassAssertion(:BoxyShape :shape_parts_tray_c)
+DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray_c "Shape of PartsTray_C"^^xsd:string)
+DataPropertyAssertion(:hasShapeDesign_Model :shape_parts_tray_c "PartCTray"^^xsd:string)
+DataPropertyAssertion(:hasBoxyShape_Length :shape_parts_tray "0.640000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Width :shape_parts_tray "0.640000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :shape_parts_tray "0.040000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_parts_tray "false"^^xsd:boolean)
 // end StockKeepingUnit
 //*****************************************

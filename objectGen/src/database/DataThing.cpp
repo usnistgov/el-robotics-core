@@ -20,7 +20,6 @@ DataThing::DataThing(std::string name){
 this->name=name;dao = NULL;
 
 }DataThing::~DataThing(){
-delete(dao);
 }
 int DataThing::getDataThingID(){
 return DataThingID;

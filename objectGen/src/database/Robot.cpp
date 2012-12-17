@@ -25,7 +25,6 @@ hadByEndEffector_Robot = NULL;
 hasWorkstation_Robot = NULL;
 
 }Robot::~Robot(){
-delete(dao);
 delete(hadByEndEffector_Robot);
 delete(hasWorkstation_Robot);
 for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++)
@@ -108,7 +107,14 @@ dao->set(data);
 delete (dao);
 }
 
-void Robot::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Robot::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
+hadByEndEffector_Robot=NULL;
+delete(hasWorkstation_Robot);
+hasWorkstation_Robot=NULL;
+for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++){
+delete(hasRobot_WorkVolume[i]);
+hasRobot_WorkVolume[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

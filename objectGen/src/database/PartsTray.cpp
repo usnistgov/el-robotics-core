@@ -24,7 +24,6 @@ hasPartsTray_Sku = NULL;
 hasPartsTrayWithParts_Tray = NULL;
 
 }PartsTray::~PartsTray(){
-delete(dao);
 delete(hasPartsTray_Sku);
 delete(hasPartsTrayWithParts_Tray);
 }
@@ -84,7 +83,11 @@ dao->set(data);
 delete (dao);
 }
 
-void PartsTray::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void PartsTray::copy(std::map<std::string,std::string> object){delete(hasPartsTray_Sku);
+hasPartsTray_Sku=NULL;
+delete(hasPartsTrayWithParts_Tray);
+hasPartsTrayWithParts_Tray=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

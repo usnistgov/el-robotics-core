@@ -29,7 +29,6 @@ hasPartRefAndPose_Point = NULL;
 hasPartRefAndPose_XAxis = NULL;
 
 }PartRefAndPose::~PartRefAndPose(){
-delete(dao);
 delete(hasPartRefAndPose_Sku);
 delete(hasPartRefAndPose_ZAxis);
 delete(hadByPartRefAndPose_KitDesign);
@@ -109,7 +108,17 @@ dao->set(data);
 delete (dao);
 }
 
-void PartRefAndPose::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void PartRefAndPose::copy(std::map<std::string,std::string> object){delete(hasPartRefAndPose_Sku);
+hasPartRefAndPose_Sku=NULL;
+delete(hasPartRefAndPose_ZAxis);
+hasPartRefAndPose_ZAxis=NULL;
+delete(hadByPartRefAndPose_KitDesign);
+hadByPartRefAndPose_KitDesign=NULL;
+delete(hasPartRefAndPose_Point);
+hasPartRefAndPose_Point=NULL;
+delete(hasPartRefAndPose_XAxis);
+hasPartRefAndPose_XAxis=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

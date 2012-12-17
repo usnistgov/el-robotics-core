@@ -21,7 +21,7 @@ software
 #include <vector>
 #include <sstream>
 
-#include "Part.h"
+
 #include "DataThing.h"
  class PartsBin;
  class KittingWorkstation;
@@ -33,6 +33,7 @@ software
  class EndEffector;
  class KitDesign;
  class DAO;
+ class Part;
 class StockKeepingUnit: public DataThing{private:
 std::string hasSku_Description;
 double hasSku_Weight;

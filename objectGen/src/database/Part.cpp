@@ -26,7 +26,6 @@ hadByPart_PartsTrayWithParts = NULL;
 hasPart_Sku = NULL;
 
 }Part::~Part(){
-delete(dao);
 delete(hadByPart_Kit);
 delete(hadByPart_PartsTrayWithParts);
 delete(hasPart_Sku);
@@ -95,7 +94,13 @@ dao->set(data);
 delete (dao);
 }
 
-void Part::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Part::copy(std::map<std::string,std::string> object){delete(hadByPart_Kit);
+hadByPart_Kit=NULL;
+delete(hadByPart_PartsTrayWithParts);
+hadByPart_PartsTrayWithParts=NULL;
+delete(hasPart_Sku);
+hasPart_Sku=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

@@ -22,7 +22,6 @@ dao = NULL;
 hasPhysicalLocation_RefObject = NULL;
 
 }PhysicalLocation::~PhysicalLocation(){
-delete(dao);
 delete(hasPhysicalLocation_RefObject);
 for(std::size_t i = 0; i < hasSolidObject_SecondaryLocation.size(); i++)
 delete(hasSolidObject_SecondaryLocation[i]);
@@ -94,7 +93,15 @@ dao->set(data);
 delete (dao);
 }
 
-void PhysicalLocation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void PhysicalLocation::copy(std::map<std::string,std::string> object){delete(hasPhysicalLocation_RefObject);
+hasPhysicalLocation_RefObject=NULL;
+for(std::size_t i = 0; i < hasSolidObject_SecondaryLocation.size(); i++){
+delete(hasSolidObject_SecondaryLocation[i]);
+hasSolidObject_SecondaryLocation[i]=NULL;}
+for(std::size_t i = 0; i < hasSolidObject_PrimaryLocation.size(); i++){
+delete(hasSolidObject_PrimaryLocation[i]);
+hasSolidObject_PrimaryLocation[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

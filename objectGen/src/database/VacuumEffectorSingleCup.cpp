@@ -20,7 +20,6 @@ VacuumEffectorSingleCup::VacuumEffectorSingleCup(std::string name) : VacuumEffec
 dao = NULL;
 
 }VacuumEffectorSingleCup::~VacuumEffectorSingleCup(){
-delete(dao);
 }
 int VacuumEffectorSingleCup::getVacuumEffectorSingleCupID(){
 return VacuumEffectorSingleCupID;

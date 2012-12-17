@@ -25,7 +25,6 @@ hasPoseLocation_ZAxis = NULL;
 hasPoseLocation_XAxis = NULL;
 
 }PoseLocation::~PoseLocation(){
-delete(dao);
 delete(hasPoseLocation_Point);
 delete(hasPoseLocation_ZAxis);
 delete(hasPoseLocation_XAxis);
@@ -92,7 +91,13 @@ dao->set(data);
 delete (dao);
 }
 
-void PoseLocation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void PoseLocation::copy(std::map<std::string,std::string> object){delete(hasPoseLocation_Point);
+hasPoseLocation_Point=NULL;
+delete(hasPoseLocation_ZAxis);
+hasPoseLocation_ZAxis=NULL;
+delete(hasPoseLocation_XAxis);
+hasPoseLocation_XAxis=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

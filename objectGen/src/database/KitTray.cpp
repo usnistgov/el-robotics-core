@@ -26,7 +26,6 @@ hasKit_Tray = NULL;
 hadByKitTray_LargeBoxWithEmptyKitTrays = NULL;
 
 }KitTray::~KitTray(){
-delete(dao);
 delete(hasKitTray_Sku);
 delete(hasKit_Tray);
 delete(hadByKitTray_LargeBoxWithEmptyKitTrays);
@@ -95,7 +94,13 @@ dao->set(data);
 delete (dao);
 }
 
-void KitTray::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void KitTray::copy(std::map<std::string,std::string> object){delete(hasKitTray_Sku);
+hasKitTray_Sku=NULL;
+delete(hasKit_Tray);
+hasKit_Tray=NULL;
+delete(hadByKitTray_LargeBoxWithEmptyKitTrays);
+hadByKitTray_LargeBoxWithEmptyKitTrays=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

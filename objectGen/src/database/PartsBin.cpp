@@ -23,7 +23,6 @@ hasPartsBin_Sku = NULL;
 hasPartsBin_PartSku = NULL;
 
 }PartsBin::~PartsBin(){
-delete(dao);
 delete(hasPartsBin_Sku);
 delete(hasPartsBin_PartSku);
 }
@@ -90,7 +89,11 @@ dao->set(data);
 delete (dao);
 }
 
-void PartsBin::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void PartsBin::copy(std::map<std::string,std::string> object){delete(hasPartsBin_Sku);
+hasPartsBin_Sku=NULL;
+delete(hasPartsBin_PartSku);
+hasPartsBin_PartSku=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

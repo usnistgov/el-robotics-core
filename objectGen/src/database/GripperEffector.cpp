@@ -20,7 +20,6 @@ GripperEffector::GripperEffector(std::string name) : EndEffector(name){
 dao = NULL;
 
 }GripperEffector::~GripperEffector(){
-delete(dao);
 }
 int GripperEffector::getGripperEffectorID(){
 return GripperEffectorID;

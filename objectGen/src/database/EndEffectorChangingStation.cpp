@@ -23,7 +23,6 @@ dao = NULL;
 hasWorkstation_ChangingStation = NULL;
 
 }EndEffectorChangingStation::~EndEffectorChangingStation(){
-delete(dao);
 delete(hasWorkstation_ChangingStation);
 for(std::size_t i = 0; i < hadByEndEffectorHolder_ChangingStation.size(); i++)
 delete(hadByEndEffectorHolder_ChangingStation[i]);
@@ -81,7 +80,12 @@ dao->set(data);
 delete (dao);
 }
 
-void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){delete(hasWorkstation_ChangingStation);
+hasWorkstation_ChangingStation=NULL;
+for(std::size_t i = 0; i < hadByEndEffectorHolder_ChangingStation.size(); i++){
+delete(hadByEndEffectorHolder_ChangingStation[i]);
+hadByEndEffectorHolder_ChangingStation[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

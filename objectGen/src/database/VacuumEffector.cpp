@@ -20,7 +20,6 @@ VacuumEffector::VacuumEffector(std::string name) : EndEffector(name){
 dao = NULL;
 
 }VacuumEffector::~VacuumEffector(){
-delete(dao);
 }
 double VacuumEffector::gethasVacuumEffector_CupDiameter(){
 return hasVacuumEffector_CupDiameter;

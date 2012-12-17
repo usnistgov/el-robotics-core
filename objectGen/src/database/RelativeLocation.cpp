@@ -20,7 +20,6 @@ RelativeLocation::RelativeLocation(std::string name) : PhysicalLocation(name){
 dao = NULL;
 
 }RelativeLocation::~RelativeLocation(){
-delete(dao);
 }
 std::string RelativeLocation::gethasRelativeLocation_Description(){
 return hasRelativeLocation_Description;

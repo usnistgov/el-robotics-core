@@ -24,7 +24,6 @@ hasSolidObject_PrimaryLocation = NULL;
 hadBySolidObject_WorkTable = NULL;
 
 }SolidObject::~SolidObject(){
-delete(dao);
 delete(hasSolidObject_PrimaryLocation);
 delete(hadBySolidObject_WorkTable);
 for(std::size_t i = 0; i < hasSolidObject_SecondaryLocation.size(); i++)
@@ -103,7 +102,17 @@ dao->set(data);
 delete (dao);
 }
 
-void SolidObject::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void SolidObject::copy(std::map<std::string,std::string> object){delete(hasSolidObject_PrimaryLocation);
+hasSolidObject_PrimaryLocation=NULL;
+delete(hadBySolidObject_WorkTable);
+hadBySolidObject_WorkTable=NULL;
+for(std::size_t i = 0; i < hasSolidObject_SecondaryLocation.size(); i++){
+delete(hasSolidObject_SecondaryLocation[i]);
+hasSolidObject_SecondaryLocation[i]=NULL;}
+for(std::size_t i = 0; i < hasPhysicalLocation_RefObject.size(); i++){
+delete(hasPhysicalLocation_RefObject[i]);
+hasPhysicalLocation_RefObject[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

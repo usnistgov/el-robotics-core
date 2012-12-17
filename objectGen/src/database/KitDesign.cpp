@@ -27,7 +27,6 @@ hadByKitDesign_Workstation = NULL;
 hasKitDesign_KitTraySku = NULL;
 
 }KitDesign::~KitDesign(){
-delete(dao);
 delete(hadByKitDesign_Workstation);
 delete(hasKitDesign_KitTraySku);
 for(std::size_t i = 0; i < hasLargeBoxWithKits_KitDesign.size(); i++)
@@ -122,7 +121,20 @@ dao->set(data);
 delete (dao);
 }
 
-void KitDesign::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void KitDesign::copy(std::map<std::string,std::string> object){delete(hadByKitDesign_Workstation);
+hadByKitDesign_Workstation=NULL;
+delete(hasKitDesign_KitTraySku);
+hasKitDesign_KitTraySku=NULL;
+for(std::size_t i = 0; i < hasLargeBoxWithKits_KitDesign.size(); i++){
+delete(hasLargeBoxWithKits_KitDesign[i]);
+hasLargeBoxWithKits_KitDesign[i]=NULL;}
+for(std::size_t i = 0; i < hadByPartRefAndPose_KitDesign.size(); i++){
+delete(hadByPartRefAndPose_KitDesign[i]);
+hadByPartRefAndPose_KitDesign[i]=NULL;}
+for(std::size_t i = 0; i < hasKit_Design.size(); i++){
+delete(hasKit_Design[i]);
+hasKit_Design[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

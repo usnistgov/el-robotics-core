@@ -25,7 +25,6 @@ hasLargeBoxWithKits_LargeContainer = NULL;
 hasLargeBoxWithKits_KitDesign = NULL;
 
 }LargeBoxWithKits::~LargeBoxWithKits(){
-delete(dao);
 delete(hasLargeBoxWithKits_LargeContainer);
 delete(hasLargeBoxWithKits_KitDesign);
 for(std::size_t i = 0; i < hadByKit_LargeBoxWithKits.size(); i++)
@@ -99,7 +98,14 @@ dao->set(data);
 delete (dao);
 }
 
-void LargeBoxWithKits::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void LargeBoxWithKits::copy(std::map<std::string,std::string> object){delete(hasLargeBoxWithKits_LargeContainer);
+hasLargeBoxWithKits_LargeContainer=NULL;
+delete(hasLargeBoxWithKits_KitDesign);
+hasLargeBoxWithKits_KitDesign=NULL;
+for(std::size_t i = 0; i < hadByKit_LargeBoxWithKits.size(); i++){
+delete(hadByKit_LargeBoxWithKits[i]);
+hadByKit_LargeBoxWithKits[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

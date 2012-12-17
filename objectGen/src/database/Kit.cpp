@@ -27,7 +27,6 @@ hasKit_Tray = NULL;
 hasKit_Design = NULL;
 
 }Kit::~Kit(){
-delete(dao);
 delete(hadByKit_LargeBoxWithKits);
 delete(hasKit_Tray);
 delete(hasKit_Design);
@@ -112,7 +111,16 @@ dao->set(data);
 delete (dao);
 }
 
-void Kit::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Kit::copy(std::map<std::string,std::string> object){delete(hadByKit_LargeBoxWithKits);
+hadByKit_LargeBoxWithKits=NULL;
+delete(hasKit_Tray);
+hasKit_Tray=NULL;
+delete(hasKit_Design);
+hasKit_Design=NULL;
+for(std::size_t i = 0; i < hadByPart_Kit.size(); i++){
+delete(hadByPart_Kit[i]);
+hadByPart_Kit[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

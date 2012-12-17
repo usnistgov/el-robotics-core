@@ -25,7 +25,6 @@ hadByEndEffector_Robot = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
 
 }EndEffector::~EndEffector(){
-delete(dao);
 delete(hadByEndEffector_Robot);
 delete(hasEndEffectorHolder_EndEffector);
 for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++)
@@ -117,7 +116,14 @@ dao->set(data);
 delete (dao);
 }
 
-void EndEffector::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void EndEffector::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
+hadByEndEffector_Robot=NULL;
+delete(hasEndEffectorHolder_EndEffector);
+hasEndEffectorHolder_EndEffector=NULL;
+for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++){
+delete(hasSku_EndEffectors[i]);
+hasSku_EndEffectors[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

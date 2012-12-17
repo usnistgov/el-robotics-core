@@ -24,7 +24,6 @@ hadByEndEffectorHolder_ChangingStation = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
 
 }EndEffectorHolder::~EndEffectorHolder(){
-delete(dao);
 delete(hadByEndEffectorHolder_ChangingStation);
 delete(hasEndEffectorHolder_EndEffector);
 }
@@ -77,7 +76,11 @@ dao->set(data);
 delete (dao);
 }
 
-void EndEffectorHolder::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void EndEffectorHolder::copy(std::map<std::string,std::string> object){delete(hadByEndEffectorHolder_ChangingStation);
+hadByEndEffectorHolder_ChangingStation=NULL;
+delete(hasEndEffectorHolder_EndEffector);
+hasEndEffectorHolder_EndEffector=NULL;
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

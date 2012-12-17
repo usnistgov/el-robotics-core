@@ -23,7 +23,6 @@ Point::Point(std::string name) : DataThing(name){
 dao = NULL;
 
 }Point::~Point(){
-delete(dao);
 for(std::size_t i = 0; i < hasPartRefAndPose_Point.size(); i++)
 delete(hasPartRefAndPose_Point[i]);
 for(std::size_t i = 0; i < hasBoxVolume_MaximumPoint.size(); i++)
@@ -141,7 +140,19 @@ dao->set(data);
 delete (dao);
 }
 
-void Point::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Point::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hasPartRefAndPose_Point.size(); i++){
+delete(hasPartRefAndPose_Point[i]);
+hasPartRefAndPose_Point[i]=NULL;}
+for(std::size_t i = 0; i < hasBoxVolume_MaximumPoint.size(); i++){
+delete(hasBoxVolume_MaximumPoint[i]);
+hasBoxVolume_MaximumPoint[i]=NULL;}
+for(std::size_t i = 0; i < hasBoxVolume_MinimumPoint.size(); i++){
+delete(hasBoxVolume_MinimumPoint[i]);
+hasBoxVolume_MinimumPoint[i]=NULL;}
+for(std::size_t i = 0; i < hasPoseLocation_Point.size(); i++){
+delete(hasPoseLocation_Point[i]);
+hasPoseLocation_Point[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

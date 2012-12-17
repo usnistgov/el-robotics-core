@@ -26,6 +26,7 @@ software
  class StockKeepingUnit;
  class DAO;
 class ShapeDesign: public DataThing{private:
+std::string hasShapeDesign_Model;
 std::string hasShapeDesign_Description;
 int ShapeDesignID;
 DAO* dao;
@@ -37,6 +38,8 @@ ShapeDesign(std::string name);
  void get(std::string name);
 void set(int id, ShapeDesign* obj);
 void set(std::string name);
+std::string gethasShapeDesign_Model();
+void sethasShapeDesign_Model(std::string _hasShapeDesign_Model);
 std::string gethasShapeDesign_Description();
 void sethasShapeDesign_Description(std::string _hasShapeDesign_Description);
 int getShapeDesignID();

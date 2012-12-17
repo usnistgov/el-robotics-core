@@ -44,6 +44,7 @@ DataPropertyDomain(:hasRelativeLocation_Description :RelativeLocation)
 DataPropertyDomain(:hasRobot_Description :Robot)
 DataPropertyDomain(:hasRobot_MaximumLoadWeight :Robot)
 DataPropertyDomain(:hasShapeDesign_Description :ShapeDesign)
+DataPropertyDomain(:hasShapeDesign_Model :ShapeDesign)
 DataPropertyDomain(:hasSku_Description :StockKeepingUnit)
 DataPropertyDomain(:hasSku_Weight :StockKeepingUnit)
 DataPropertyDomain(:hasVacuumEffector_CupDiameter :VacuumEffector)
@@ -82,6 +83,7 @@ DataPropertyRange(:hasRelativeLocation_Description xsd:string)
 DataPropertyRange(:hasRobot_Description xsd:string)
 DataPropertyRange(:hasRobot_MaximumLoadWeight :positiveDecimal)
 DataPropertyRange(:hasShapeDesign_Description xsd:string)
+DataPropertyRange(:hasShapeDesign_Model xsd:string)
 DataPropertyRange(:hasSku_Description xsd:string)
 DataPropertyRange(:hasSku_Weight :positiveDecimal)
 DataPropertyRange(:hasVacuumEffector_CupDiameter :positiveDecimal)
@@ -467,8 +469,10 @@ AnnotationAssertion(rdfs:comment :Robot
 
 Declaration(Class(:ShapeDesign))
 AnnotationAssertion(rdfs:comment :ShapeDesign
-  "A ShapeDesign is a DataThing. A ShapeDesign has only a description
-   (hasShapeDesign_Description) that is an xsd:string.")
+  "A ShapeDesign is a DataThing. A ShapeDesign has a description
+   (hasShapeDesign_Description) that is an xsd:string and a model
+   (hasShapeDesign_Model) that is an xsd:string. The model may
+   be the name of a model, or point to an external model file source.")
 
 Declaration(Class(:SolidObject))
 AnnotationAssertion(rdfs:comment :SolidObject
@@ -587,6 +591,7 @@ Declaration(DataProperty(:hasRobot_MaximumLoadWeight))
 AnnotationAssertion(rdfs:comment :hasRobot_MaximumLoadWeight
   "The maximum load weight includes the weight of the end effector.")
 Declaration(DataProperty(:hasShapeDesign_Description))
+Declaration(DataProperty(:hasShapeDesign_Model))
 Declaration(DataProperty(:hasSku_Description))
 Declaration(DataProperty(:hasSku_Weight))
 Declaration(DataProperty(:hasVacuumEffector_CupDiameter))
@@ -1131,6 +1136,12 @@ EquivalentClasses(:ShapeDesign
                          DataAllValuesFrom(:hasShapeDesign_Description
                                            xsd:string)))
 
+EquivalentClasses(:ShapeDesign
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasShapeDesign_Model
+                                            xsd:string)
+                         DataAllValuesFrom(:hasShapeDesign_Model
+                                           xsd:string)))
+
 EquivalentClasses(:SolidObject
     ObjectIntersectionOf(
        ObjectSomeValuesFrom(:hasSolidObject_PrimaryLocation
@@ -1215,6 +1226,7 @@ FunctionalDataProperty(:hasRelativeLocation_Description)
 FunctionalDataProperty(:hasRobot_Description)
 FunctionalDataProperty(:hasRobot_MaximumLoadWeight)
 FunctionalDataProperty(:hasShapeDesign_Description)
+FunctionalDataProperty(:hasShapeDesign_Model)
 FunctionalDataProperty(:hasSku_Description)
 FunctionalDataProperty(:hasSku_Weight)
 FunctionalDataProperty(:hasVacuumEffector_CupDiameter)

@@ -32,7 +32,6 @@ hadBySku_Workstation = NULL;
 hasSku_Shape = NULL;
 
 }StockKeepingUnit::~StockKeepingUnit(){
-delete(dao);
 delete(hadBySku_Workstation);
 delete(hasSku_Shape);
 for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++)
@@ -227,7 +226,38 @@ dao->set(data);
 delete (dao);
 }
 
-void StockKeepingUnit::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void StockKeepingUnit::copy(std::map<std::string,std::string> object){delete(hadBySku_Workstation);
+hadBySku_Workstation=NULL;
+delete(hasSku_Shape);
+hasSku_Shape=NULL;
+for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++){
+delete(hasSku_EndEffectors[i]);
+hasSku_EndEffectors[i]=NULL;}
+for(std::size_t i = 0; i < hasPartsBin_Sku.size(); i++){
+delete(hasPartsBin_Sku[i]);
+hasPartsBin_Sku[i]=NULL;}
+for(std::size_t i = 0; i < hasPartsBin_PartSku.size(); i++){
+delete(hasPartsBin_PartSku[i]);
+hasPartsBin_PartSku[i]=NULL;}
+for(std::size_t i = 0; i < hasLargeContainer_Sku.size(); i++){
+delete(hasLargeContainer_Sku[i]);
+hasLargeContainer_Sku[i]=NULL;}
+for(std::size_t i = 0; i < hasPart_Sku.size(); i++){
+delete(hasPart_Sku[i]);
+hasPart_Sku[i]=NULL;}
+for(std::size_t i = 0; i < hasPartsTray_Sku.size(); i++){
+delete(hasPartsTray_Sku[i]);
+hasPartsTray_Sku[i]=NULL;}
+for(std::size_t i = 0; i < hasPartRefAndPose_Sku.size(); i++){
+delete(hasPartRefAndPose_Sku[i]);
+hasPartRefAndPose_Sku[i]=NULL;}
+for(std::size_t i = 0; i < hasKitTray_Sku.size(); i++){
+delete(hasKitTray_Sku[i]);
+hasKitTray_Sku[i]=NULL;}
+for(std::size_t i = 0; i < hasKitDesign_KitTraySku.size(); i++){
+delete(hasKitDesign_KitTraySku[i]);
+hasKitDesign_KitTraySku[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

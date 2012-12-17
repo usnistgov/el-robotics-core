@@ -1,0 +1,275 @@
+%% This file  is based off of `elsarticle-template-1a-num.tex',
+\documentclass[final,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+\usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+\usepackage{fancyvrb}
+%\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amsmath}%%% -- Added by Zeid to use \begin{gather}...\end{gather}
+\usepackage{rotating}%%% -- Added by Zeid for tabular
+\usepackage{multirow}%%% -- Added by Zeid for tabular
+%% The amsthm package provides extended theorem environments
+ \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+
+\newcommand{\class}[1] {\textsf{#1}}
+\newcommand{\onto}[1] {\textsl{#1}}
+\newcommand{\process}[1] {\textmd{#1}}
+\newcommand{\stvar}[1] {\textsf{#1}}
+%\journal{Robotics and Automation}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{Agility and Flexibility for Kitting Applications}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[NIST]{Stephen Balakirsky}
+\author[NIST]{Zeid Kootbally}
+
+%\address[CATHU]{Catholic University of America, Washington, DC, USA}
+\address[NIST]{National Institute of Standards and Technology, Gaithersburg, MD USA}
+%\address[UMD]{University of Maryland, College Park, MD, USA}
+
+ \begin{abstract}
+This short paper examines agility and flexibility for kitting applications as part as an undergoing effort at the National Institute of Standards and Technology (NIST). We first show the common ideas behind the multiple definitions for each term through a literature review. We then discuss the challenges that we need to address to create an agile and flexible kitting system.
+ \end{abstract}
+
+%\begin{keyword}
+%Ontology \sep Robotics \sep Manufacturing \sep Knowledge Representation
+%%% keywords here, in the form: keyword \sep keyword
+%%% MSC codes here, in the form: \MSC code \sep code
+%%% or \MSC[2008] code \sep code (2000 is the default)
+%\end{keyword}
+
+\end{frontmatter}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sect:introduction}
+
+Applications for assembly robots have been primarily implemented in fixed and programmable automation. Fixed automation is a process using mechanized machinery to perform fixed and repetitive operations in order to produce a high volume of similar parts. Although fixed automation provides maximum efficiency at a low unit cost, drastic modifications of the machines are realized when parts need major changes or become too complicated in design. In programmable automation, products are made in batch quantities ranging from several dozen to several thousand units at a time. However, each new batch requires long set up time to accommodate the new product style. The time and therefore the cost of developing applications for fixed and programmable automation is usually quite high. The challenge of expanding industrial use of robots is through flexible automation where minimized setup times can lead in to more output and generally better throughput.
+
+Agile and flexible robots are required to be quickly reconfigured for design and process modifications. Furthermore, they need to be information driven so that they can reliably perform different sequences of actions on command. The cost of generating the information that drives the actions must be kept down and the information must be accurate.
+
+Researchers from the Intelligent Systems Division (ISD) of the National Institute of Standards and Technology (NIST) have started the production of a methodology/model in the area of industrial assembly of manufactured products. This effort is designed to support the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group. Industrial assembly of manufactured products is often performed by first bringing parts together in a kit and then moving the kit to the assembly area where the parts are used to assemble products. Kitting is the process in which several different, but related items are placed into a container and supplied together as a single unit (kit). Kitting itself may be viewed as a specialization of the general bin-picking problem.
+
+In industrial assembly of manufactured products, kitting is often performed prior to final assembly. Agile and Flexible kitting, when applied properly, has been observed to show numerous benefits for the assembly line, such as cost savings~\cite{Carlsson_2008} including saving manufacturing or assembly space~\cite{Medbo2003}, reducing assembly workers walking and searching times~\cite{Schwind1992}, and increasing line flexibility~\cite{Bozer1992} and balance~\cite{Jiao2000}.
+%
+%This paper first describes the meaning of agility and flexibility within manufacturing settings. As proven in the past, vague definitions of such important terms can lead to disastrous results.
+%Researchers from the Intelligent Systems Division (ISD) of the National Institute of Standards and Technology (NIST) have started the production of a methodology/model in the area of robotic kit building. This effort is designed to support the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group. This methodology/model allows for the creation of systems that demonstrate flexibility, agility, and the ability to be rapidly re-tasked.
+
+During the first stage of this effort, studies were made to define the conditions that are necessary to develop an agile and a flexible manufacturing setting to nest kitting applications. A literature review reveals that vague definitions of the concept of agile and flexible can lead to disastrous results. Once these terms have been set, we have analyzed the strategies to produce an agile and flexible kitting system. This paper first describes the different terms found in the literature for agile and flexible manufacturing and focuses on the definitions adopted for kitting. Then, this paper discusses the different agile and flexible approaches that need to be established to lead to higher payoffs in the proposed kitting system.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Concepts of Agile and Flexible Manufacturing}
+\label{Sect:AgilityFlexibility}
+
+%\subsection{Flexible Manufacturing}
+Business firms are focusing on areas of strength that will help them to face today's global competition. Among the different varieties of existing areas for competition, a large proportion of firms are developing structures to meet the area of flexibility~\cite{Jaikumar.HBR.1986,Dertouzos.MIT.1990}.
+
+The concept of flexibility started with business organizations in the 1970s to cope with \textit{environmental uncertainty} due to changes in the environment (socio-political, changing demand, etc) and to be able to produce \textit{variability in outputs}. In the early 1980s there was much interest in technological advances in computer-controlled production facilities which allowed self-contained ``flexible manufacturing systems" to be developed.
+
+Amongst the firms that focused solely on flexible automation technology, very few succeeded due to the lack of a good analysis and definition for ``flexibility". As such, many authors undertook research in order to conceptualize and analyze flexibility in manufacturing organizations. Slack~\cite{Slack.1988,Slack.1983} proposed a definition of flexibility based on three concepts: level, type, and dimension. Alternative taxonomies of flexibility were developed by other authors~\cite{Gervin.1987,Buzacott.1982,Mandelbaum.1978,Slack.1988,Slack.1983,Browne.1984,Jaikumar.HBR.1986} to review the different types of flexibility in manufacturing. Four different types of flexibility applicable in different competitive situations were identified:
+
+\begin{itemize}
+\item Mix flexibility -- Ability to change the relative proportions of different products within aggregate output level.
+\item Volume flexibility -- Ability to produce above/below the installed capacity for a product.
+\item Product flexibility -- Ability to introduce new products and modify existing products with ease.
+\item Delivery-time flexibility -- Ability to reduce or speed up the time for an order delivery.
+\end{itemize}
+
+%\subsection{Agile Manufacturing}
+The concept of agile manufacturing~\cite{SHERIDAN.1993,Struebing.1995,NAGEL.1991} was first introduced in 1991 at the end of a government-sponsored research effort at Lehigh University. This effort reunited a group of more than 150 industry executives to discuss the evolution of US industrial competitiveness in the next 15 years.
+
+
+Many definitions of agile manufacturing have emerged during the last 30 years without being opposed or contradictory to each other~\cite{Dahmardeh.2010}. Kidd~\cite{KIDD.2000} defined agility as a way for companies to rapidly adapt to tomorrow's surprises where agile production can be considered as a structure in the company which has the ability of product developments and some business methods. For Maskell~\cite{Maskell.2001}, the three main components of agile production are customer's growth and flourish, compatibility of individuals and information, and cooperation and change ability. According to Gunasekaran~\cite{GUNASEKARAN.1999}, agile production is a new production model resulting from changes in environment which links innovations in production, information technology and communication by fundamental organizational redesigning and new marketing strategies.
+
+Agility mainly represents the idea of ``speed and change in business environment" and consists of two main factors: 1) Responding to change in proper ways and due time and 2) Exploiting changes and taking advantage of them as opportunities~\cite{SHARIFI.1999}. Agile manufacturing aims at addressing continuous and unpredictable customers needs by rapidly and effectively responding to changes in customers' requirements. It demands a manufacturing system that is able to produce effectively a large variety of products and to be reconfigurable to accommodate changes in the product mix and product designs~\cite{GUNASEKARAN.1999}. Reconfigurability of manufacturing systems, product variety, velocity and flexibility in production are critical aspects to achieving and maintaining competitive advantage. The concept of agility has an impact on the design of assemblies and therefore, methodologies for the design of agile manufacturing are needed.
+
+Some of the key words and terms linked to ``agile manufacturing" are~\cite{KIDD.2000}:
+\begin{itemize}
+\item Fast -- A very high speed of response to new opportunities.
+\item Adaptable -- The ability to change the current approach and change direction with ease (enter new market or product areas).
+\item Reconfiguration -- The ability to quickly reconfigure a firm structures, facilities, organization, and technology to meet unexpected and short lived market opportunities.
+\item Transformation of knowledge -- The ability to explicitly transform raw ideas into a range of competence which is then used in both products and services.
+%\item The business firms are given a competitive advantage when they change their approaches to satisfy the customers,
+%\item The business firms can rapidly respond to emerging crisis,
+%\item Agile manufacturing can improve organizational capabilities within business firms,
+%\item Even though the production is susceptible to change rapidly, mass production is still reachable while flexibility is still possible.
+\end{itemize}
+%The benefits generally are specialization, customization, flexibility, lower costs, higher quality, lower inventory, and shorter lead times~\cite{}.
+
+
+
+
+
+
+
+% Jaikumar~\cite{Fernando} concluded that a flexible manufacturing required both automation technology and management systems.
+%Flexibility is mainly classified in the literature as product-mix or process flexibility (ability to adapt quickly to consumers' changing tastes by easily switching between different product designs~\cite{CHANG.JIE.1993}) and volume flexibility (ability to produce above/below the installed capacity for a product~\cite{Goyaland.MSOM.2011}).
+
+
+%Flexible manufacturing serves different purposes. In an economic point of view, some of the advantages of agile manufacturing are protection of firms from the uncertainty present in future market conditions~\cite{}. For a strategic purpose, competition between different firms influences each other's behaviors and strategies~\cite{}.
+
+%Robotics is a key component of flexible manufacturing. Flexibility in manufacturing settings is possible via robots with programmable controls, end-of-arm tooling and machine vision systems, the devices can perform a wide variety of repeatable tasks. Flexible automation allows manufacturers to run different products in the same line, which is much more difficult to do with hard automation.
+
+%Universal Work Cell Controller - Application Experiences in Flexible Manufacturing
+
+
+%In a similar sense, some researchers contrast flexible manufacturing systems (FMS) and agile
+%manufacturing systems (AMS) according to the type of adaptation: FMS is reactive
+%adaptation, while AMS is proactive adaptation~\cite{SANCHEZ.IJPR.2001}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Design for an Agile and Flexible Kitting System}
+\label{Sect:design}
+
+Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a human-led teaching period when the cell's task is altered.  Many research systems depend on numerous hand-tuned parameters that must be re-tuned by operators whenever a untested environment is encountered. These requirements for human intervention cause the robotic systems to be brittle and limited in operational scope. The robotic systems of tomorrow need to be capable, flexible, and agile.  These systems need to perform their duties at least as well as human counterparts, be able to be quickly re-tasked to other operations, and be able to cope with a wide variety of unexpected environmental and operational changes. 
+
+To include agility in our kitting system, we relate on the principles that promote hardware and software reuse, allowing rapid redesign for new applications. Although robots constitute one component of an agile manufacturing system, they are an ideal element in the way that they can perform an array of repeatable tasks with no or little hardware changes (equipment reuse). Moreover, the use of robots provides rapid programming (rapid deployment) for new applications. Robotics is a key component of flexible manufacturing as they provide flexible automation for high-mix, high-volume applications. The flexibility required of an agile manufacturing system must be achieved largely through computer software. The system's control software must be adaptable to new products and to new system components without becoming unreliable or difficult to maintain. This requires designing the software specifically to facilitate future changes. Some examples o
+
+
+%The previous section describes the importance of agile and flexible manufacturing and how they can help in the advancement of firms in the competitive market. In this section we focus on agile and flexible kitting. We %describe the strategies and methodologies that can improve kitting production with the integration of Advanced Robotics and Intelligent Automation. Advanced Robotics and Intelligent Automation has the ability  to support %technical solutions that could provide a new level of agile and flexible aspects to an industry that has historically focused on long production runs and large volume manufacturing~\cite{NIST}. 
+
+
+\subsection{Robots Cooperation for Workload Balancing}
+Our current kit building system consists of one robotic cell with a single robotic arm. Higher productivity is possible with the addition of one or more robotic arms where robots can work in tandem. Within this set up, each robot shares information on the specific parts to pick from part bins and on the location in the kit where the parts are to be placed. Location knowledge is kept in the different ontologies used in the system. In this situation, each robot has its own plan where consecutive execution is performed. 
+
+\subsection{Grippers and Fixtures}
+In the current kitting system, part handling is performed with a vacuum end effector while kit tray handling is performed with a gripper end effector. A tool change is required when switching from part handling to kit tray handling, and vice versa. When an end effector is not used, it is placed in changing station. Tool change is a time consuming process and can affect productivity. This issue can be solved by the use of multiple end effectors on a rotary wrist, such as the one described in~\cite{}. 
+Another method would be to use a robot equipped with a vacuum end effector that will only handle parts and another robot equipped with a gripper end effector will only handle kit trays. This method is not conceivable in space constrained environments but can prove to be very efficient in environments that can hold multiple robots.
+\subsection{Part Handling}
+
+\subsection{Sensing}
+
+\subsection{Simulation Software}
+%Industrial robots have the potential to make a significant contribution to productivity in manufacturing
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Implementation}
+%\label{Sect:Implementation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Conclusion}
+%\label{Sect:Conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+
+\bibliographystyle{bst/model6-num-names}
+\bibliography{agilityflexibility}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1a-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-1a-num.tex'.

@@ -22,16 +22,17 @@ software
 #include <sstream>
 
 
-#include "BoxyObject.h"
+#include "SolidObject.h"
+ class StockKeepingUnit;
  class LargeBoxWithKits;
  class LargeBoxWithEmptyKitTrays;
  class DAO;
-class LargeContainer: public BoxyObject{private:
-std::string hasLargeContainer_SkuRef;
+class LargeContainer: public SolidObject{private:
 std::string hasLargeContainer_SerialNumber;
 int LargeContainerID;
 DAO* dao;
 LargeBoxWithKits* hasLargeBoxWithKits_LargeContainer;
+StockKeepingUnit* hasLargeContainer_Sku;
 LargeBoxWithEmptyKitTrays* hasLargeBoxWithEmptyKitTrays_LargeContainer;
 public:
 LargeContainer(std::string name);
@@ -40,8 +41,6 @@ LargeContainer(std::string name);
  void get(std::string name);
 void set(int id, LargeContainer* obj);
 void set(std::string name);
-std::string gethasLargeContainer_SkuRef();
-void sethasLargeContainer_SkuRef(std::string _hasLargeContainer_SkuRef);
 std::string gethasLargeContainer_SerialNumber();
 void sethasLargeContainer_SerialNumber(std::string _hasLargeContainer_SerialNumber);
 int getLargeContainerID();
@@ -49,6 +48,8 @@ DAO* getdao();
 void setdao(DAO* _dao);
 LargeBoxWithKits* gethasLargeBoxWithKits_LargeContainer();
 void sethasLargeBoxWithKits_LargeContainer(LargeBoxWithKits* _hasLargeBoxWithKits_LargeContainer);
+StockKeepingUnit* gethasLargeContainer_Sku();
+void sethasLargeContainer_Sku(StockKeepingUnit* _hasLargeContainer_Sku);
 LargeBoxWithEmptyKitTrays* gethasLargeBoxWithEmptyKitTrays_LargeContainer();
 void sethasLargeBoxWithEmptyKitTrays_LargeContainer(LargeBoxWithEmptyKitTrays* _hasLargeBoxWithEmptyKitTrays_LargeContainer);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

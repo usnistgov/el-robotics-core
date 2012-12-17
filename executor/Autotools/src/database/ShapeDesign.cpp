@@ -21,9 +21,11 @@ ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
 dao = NULL;
 
 }ShapeDesign::~ShapeDesign(){
-delete(dao);
 for(std::size_t i = 0; i < hasSku_Shape.size(); i++)
 delete(hasSku_Shape[i]);
+}
+std::string ShapeDesign::gethasShapeDesign_Model(){
+return hasShapeDesign_Model;
 }
 std::string ShapeDesign::gethasShapeDesign_Description(){
 return hasShapeDesign_Description;
@@ -36,6 +38,9 @@ return dao;
 }
 std::vector<StockKeepingUnit*> ShapeDesign::gethasSku_Shape(){
 return hasSku_Shape;
+}
+void ShapeDesign::sethasShapeDesign_Model(std::string _hasShapeDesign_Model){
+this->hasShapeDesign_Model= _hasShapeDesign_Model;
 }
 void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
 this->hasShapeDesign_Description= _hasShapeDesign_Description;
@@ -61,6 +66,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
+data["hasShapeDesign_Model"]=hasShapeDesign_Model;
 data["hasShapeDesign_Description"]=hasShapeDesign_Description;
 data["name"]=name;
 ss.str("");
@@ -77,12 +83,16 @@ dao->set(data);
 delete (dao);
 }
 
-void ShapeDesign::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void ShapeDesign::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hasSku_Shape.size(); i++){
+delete(hasSku_Shape[i]);
+hasSku_Shape[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<ShapeDesign*> tmp;
+this->hasShapeDesign_Model = object["ShapeDesign.hasShapeDesign_Model"];
 this->hasShapeDesign_Description = object["ShapeDesign.hasShapeDesign_Description"];
 this->name = object["ShapeDesign._NAME"];
 this->ShapeDesignID = std::atof(object["ShapeDesign.ShapeDesignID"].c_str());

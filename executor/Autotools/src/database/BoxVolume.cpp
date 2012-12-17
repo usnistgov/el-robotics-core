@@ -25,7 +25,6 @@ hasBoxVolume_MaximumPoint = NULL;
 hasBoxVolume_MinimumPoint = NULL;
 
 }BoxVolume::~BoxVolume(){
-delete(dao);
 delete(hasBoxVolume_MaximumPoint);
 delete(hasBoxVolume_MinimumPoint);
 for(std::size_t i = 0; i < hasWorkstation_OtherObstacles.size(); i++)
@@ -106,7 +105,17 @@ dao->set(data);
 delete (dao);
 }
 
-void BoxVolume::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void BoxVolume::copy(std::map<std::string,std::string> object){delete(hasBoxVolume_MaximumPoint);
+hasBoxVolume_MaximumPoint=NULL;
+delete(hasBoxVolume_MinimumPoint);
+hasBoxVolume_MinimumPoint=NULL;
+for(std::size_t i = 0; i < hasWorkstation_OtherObstacles.size(); i++){
+delete(hasWorkstation_OtherObstacles[i]);
+hasWorkstation_OtherObstacles[i]=NULL;}
+for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++){
+delete(hasRobot_WorkVolume[i]);
+hasRobot_WorkVolume[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

@@ -229,14 +229,22 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
 
 				if (!strcmp(type2.c_str(),"Kit"))
 				{
-					Kit* kit = new Kit (paramList[j]);
-					kit->get(paramList[j]);
-					string kit_design_name = kit->gethasKit_DesignRef();
+					//Kit* kit = new Kit (paramList[j]);
+					//kit->get(paramList[j]);
+					//string kit_design_name = kit->gethasKit_Design();
+					//KitDesign *kit_design = new KitDesign(kit_design_name);
+					//kit_design->get(kit_design_name);
+					//part_ref_pose_list = kit_design->gethadByPartRefAndPose_KitDesign();
+					
+					//Kit* kit = new Kit ("kit_a2b2c1");
+					//kit->get(paramList[j]);
+					string kit_design_name = "kit_design_a2b2c1";
 					KitDesign *kit_design = new KitDesign(kit_design_name);
 					kit_design->get(kit_design_name);
 					part_ref_pose_list = kit_design->gethadByPartRefAndPose_KitDesign();
 				}
 			}
+			
 
 			for (int i = 0; i < part_ref_pose_list.size(); i++){
 				PartRefAndPose* part_ref_pose_tmp = part_ref_pose_list.at(i);

@@ -20,7 +20,6 @@ VacuumEffectorMultiCup::VacuumEffectorMultiCup(std::string name) : VacuumEffecto
 dao = NULL;
 
 }VacuumEffectorMultiCup::~VacuumEffectorMultiCup(){
-delete(dao);
 }
 std::string VacuumEffectorMultiCup::gethasMultiCup_ArrayNumber(){
 return hasMultiCup_ArrayNumber;

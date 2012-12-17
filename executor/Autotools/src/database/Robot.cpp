@@ -25,7 +25,6 @@ hadByEndEffector_Robot = NULL;
 hasWorkstation_Robot = NULL;
 
 }Robot::~Robot(){
-delete(dao);
 delete(hadByEndEffector_Robot);
 delete(hasWorkstation_Robot);
 for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++)
@@ -33,9 +32,6 @@ delete(hasRobot_WorkVolume[i]);
 }
 std::string Robot::gethasRobot_Description(){
 return hasRobot_Description;
-}
-std::string Robot::gethasRobot_Id(){
-return hasRobot_Id;
 }
 double Robot::gethasRobot_MaximumLoadWeight(){
 return hasRobot_MaximumLoadWeight;
@@ -57,9 +53,6 @@ return hasWorkstation_Robot;
 }
 void Robot::sethasRobot_Description(std::string _hasRobot_Description){
 this->hasRobot_Description= _hasRobot_Description;
-}
-void Robot::sethasRobot_Id(std::string _hasRobot_Id){
-this->hasRobot_Id= _hasRobot_Id;
 }
 void Robot::sethasRobot_MaximumLoadWeight(double _hasRobot_MaximumLoadWeight){
 this->hasRobot_MaximumLoadWeight= _hasRobot_MaximumLoadWeight;
@@ -92,7 +85,6 @@ std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
 data["hasRobot_Description"]=hasRobot_Description;
-data["hasRobot_Id"]=hasRobot_Id;
 ss.str("");
 ss << hasRobot_MaximumLoadWeight;
 data["hasRobot_MaximumLoadWeight"]=ss.str();
@@ -115,14 +107,20 @@ dao->set(data);
 delete (dao);
 }
 
-void Robot::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Robot::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
+hadByEndEffector_Robot=NULL;
+delete(hasWorkstation_Robot);
+hasWorkstation_Robot=NULL;
+for(std::size_t i = 0; i < hasRobot_WorkVolume.size(); i++){
+delete(hasRobot_WorkVolume[i]);
+hasRobot_WorkVolume[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<Robot*> tmp;
 this->hasRobot_Description = object["Robot.hasRobot_Description"];
-this->hasRobot_Id = object["Robot.hasRobot_Id"];
 this->hasRobot_MaximumLoadWeight = std::atof(object["Robot.hasRobot_MaximumLoadWeight"].c_str());
 this->name = object["Robot._NAME"];
 this->RobotID = std::atof(object["Robot.RobotID"].c_str());

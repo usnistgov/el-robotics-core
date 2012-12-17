@@ -24,17 +24,18 @@ software
 
 #include "SolidObject.h"
  class Robot;
+ class StockKeepingUnit;
  class DAO;
  class EndEffectorHolder;
 class EndEffector: public SolidObject{private:
 std::string hasEndEffector_Description;
 double hasEndEffector_Weight;
 double hasEffector_MaximumLoadWeight;
-std::string hasEndEffector_Id;
 int EndEffectorID;
 DAO* dao;
 Robot* hadByEndEffector_Robot;
 EndEffectorHolder* hasEndEffectorHolder_EndEffector;
+std::vector<StockKeepingUnit*> hasSku_EndEffectors;
 public:
 EndEffector(std::string name);
 ~EndEffector();
@@ -48,8 +49,6 @@ double gethasEndEffector_Weight();
 void sethasEndEffector_Weight(double _hasEndEffector_Weight);
 double gethasEffector_MaximumLoadWeight();
 void sethasEffector_MaximumLoadWeight(double _hasEffector_MaximumLoadWeight);
-std::string gethasEndEffector_Id();
-void sethasEndEffector_Id(std::string _hasEndEffector_Id);
 int getEndEffectorID();
 DAO* getdao();
 void setdao(DAO* _dao);
@@ -57,6 +56,8 @@ Robot* gethadByEndEffector_Robot();
 void sethadByEndEffector_Robot(Robot* _hadByEndEffector_Robot);
 EndEffectorHolder* gethasEndEffectorHolder_EndEffector();
 void sethasEndEffectorHolder_EndEffector(EndEffectorHolder* _hasEndEffectorHolder_EndEffector);
+std::vector<StockKeepingUnit*> gethasSku_EndEffectors();
+void sethasSku_EndEffectors(std::vector<StockKeepingUnit*> _hasSku_EndEffectors);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* ENDEFFECTOR_H_ */

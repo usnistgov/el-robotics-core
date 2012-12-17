@@ -27,13 +27,14 @@ software
  class KitTray;
  class DAO;
  class Part;
+ class KitDesign;
 class Kit: public SolidObject{private:
-std::string hasKit_DesignRef;
 bool isKit_Finished;
 int KitID;
 DAO* dao;
 LargeBoxWithKits* hadByKit_LargeBoxWithKits;
 KitTray* hasKit_Tray;
+KitDesign* hasKit_Design;
 std::vector<Part*> hadByPart_Kit;
 public:
 Kit(std::string name);
@@ -42,8 +43,6 @@ Kit(std::string name);
  void get(std::string name);
 void set(int id, Kit* obj);
 void set(std::string name);
-std::string gethasKit_DesignRef();
-void sethasKit_DesignRef(std::string _hasKit_DesignRef);
 bool getisKit_Finished();
 void setisKit_Finished(bool _isKit_Finished);
 int getKitID();
@@ -53,6 +52,8 @@ LargeBoxWithKits* gethadByKit_LargeBoxWithKits();
 void sethadByKit_LargeBoxWithKits(LargeBoxWithKits* _hadByKit_LargeBoxWithKits);
 KitTray* gethasKit_Tray();
 void sethasKit_Tray(KitTray* _hasKit_Tray);
+KitDesign* gethasKit_Design();
+void sethasKit_Design(KitDesign* _hasKit_Design);
 std::vector<Part*> gethadByPart_Kit();
 void sethadByPart_Kit(std::vector<Part*> _hadByPart_Kit);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

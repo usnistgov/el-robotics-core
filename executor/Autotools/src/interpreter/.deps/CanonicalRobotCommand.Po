@@ -112,9 +112,8 @@ CanonicalRobotCommand.o: CanonicalRobotCommand.cc CanonicalRobotCommand.h \
  ../../src/database/KitDesign.h ../../src/database/DataThing.h \
  ../../src/database/Kit.h ../../src/database/SolidObject.h \
  ../../src/database/Part.h ../../src/database/PartRefAndPose.h \
- ../../src/database/PartsTray.h ../../src/database/BoxyObject.h \
- ../../src/database/Point.h ../../src/database/PoseLocation.h \
- ../../src/database/PhysicalLocation.h \
+ ../../src/database/PartsTray.h ../../src/database/Point.h \
+ ../../src/database/PoseLocation.h ../../src/database/PhysicalLocation.h \
  ../../src/database/PhysicalLocation.h ../../src/database/Robot.h \
  ../../src/database/Vector.h ../../src/database/KitTray.h Structdef.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
@@ -438,8 +437,6 @@ KittingPDDLProblem.h:
 ../../src/database/PartRefAndPose.h:
 
 ../../src/database/PartsTray.h:
-
-../../src/database/BoxyObject.h:
 
 ../../src/database/Point.h:
 

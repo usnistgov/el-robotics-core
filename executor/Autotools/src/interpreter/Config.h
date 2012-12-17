@@ -31,7 +31,7 @@
 
 /*!
 @def PDDL_PROBLEM
-@brief Name and Path of the PDDL Problem File
+@brief Name and Path of the PDDL Domain and Problem files
 */
 #define PDDL_FOLDER "../etc/PDDL/"
 #define PDDL_DOMAIN "domain_a2b2c1.pddl"
@@ -39,7 +39,7 @@
 
 /*!
 @def CanonicalRobotCommands directory
-@brief Directory that will be used to store canonical robot commands
+@brief Directory that will be used to store output canonical robot commands
 */
 #define ROBOT_COMMANDS_FOLDER "../etc/CanonicalRobotCommands/"
 #define ROBOT_COMMANDS_FILE "canon_commands_a2b2c1.txt"

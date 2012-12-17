@@ -29,7 +29,6 @@ software
  class DAO;
 class Robot: public SolidObject{private:
 std::string hasRobot_Description;
-std::string hasRobot_Id;
 double hasRobot_MaximumLoadWeight;
 int RobotID;
 DAO* dao;
@@ -45,8 +44,6 @@ void set(int id, Robot* obj);
 void set(std::string name);
 std::string gethasRobot_Description();
 void sethasRobot_Description(std::string _hasRobot_Description);
-std::string gethasRobot_Id();
-void sethasRobot_Id(std::string _hasRobot_Id);
 double gethasRobot_MaximumLoadWeight();
 void sethasRobot_MaximumLoadWeight(double _hasRobot_MaximumLoadWeight);
 int getRobotID();

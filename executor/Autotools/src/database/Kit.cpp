@@ -18,21 +18,20 @@ software
  #include "KitTray.h"
  #include "DAO.h"
  #include "Part.h"
+ #include "KitDesign.h"
 
 Kit::Kit(std::string name) : SolidObject(name){
 dao = NULL;
 hadByKit_LargeBoxWithKits = NULL;
 hasKit_Tray = NULL;
+hasKit_Design = NULL;
 
 }Kit::~Kit(){
-delete(dao);
 delete(hadByKit_LargeBoxWithKits);
 delete(hasKit_Tray);
+delete(hasKit_Design);
 for(std::size_t i = 0; i < hadByPart_Kit.size(); i++)
 delete(hadByPart_Kit[i]);
-}
-std::string Kit::gethasKit_DesignRef(){
-return hasKit_DesignRef;
 }
 bool Kit::getisKit_Finished(){
 return isKit_Finished;
@@ -49,11 +48,11 @@ return hadByKit_LargeBoxWithKits;
 KitTray* Kit::gethasKit_Tray(){
 return hasKit_Tray;
 }
+KitDesign* Kit::gethasKit_Design(){
+return hasKit_Design;
+}
 std::vector<Part*> Kit::gethadByPart_Kit(){
 return hadByPart_Kit;
-}
-void Kit::sethasKit_DesignRef(std::string _hasKit_DesignRef){
-this->hasKit_DesignRef= _hasKit_DesignRef;
 }
 void Kit::setisKit_Finished(bool _isKit_Finished){
 this->isKit_Finished= _isKit_Finished;
@@ -66,6 +65,9 @@ this->hadByKit_LargeBoxWithKits= _hadByKit_LargeBoxWithKits;
 }
 void Kit::sethasKit_Tray(KitTray* _hasKit_Tray){
 this->hasKit_Tray= _hasKit_Tray;
+}
+void Kit::sethasKit_Design(KitDesign* _hasKit_Design){
+this->hasKit_Design= _hasKit_Design;
 }
 void Kit::sethadByPart_Kit(std::vector<Part*> _hadByPart_Kit){
 this->hadByPart_Kit= _hadByPart_Kit;
@@ -85,7 +87,6 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasKit_DesignRef"]=hasKit_DesignRef;
 ss.str("");
 ss << isKit_Finished;
 data["isKit_Finished"]=ss.str();
@@ -97,6 +98,8 @@ if(hadByKit_LargeBoxWithKits!=NULL)
 data["hadByKit_LargeBoxWithKits"]=hadByKit_LargeBoxWithKits->getname();
 if(hasKit_Tray!=NULL)
 data["hasKit_Tray"]=hasKit_Tray->getname();
+if(hasKit_Design!=NULL)
+data["hasKit_Design"]=hasKit_Design->getname();
 for(unsigned int i=0;i<hadByPart_Kit.size();++i){
 ss.str("");
 hadByPart_Kit[i]->get(hadByPart_Kit[i]->getname());
@@ -108,13 +111,21 @@ dao->set(data);
 delete (dao);
 }
 
-void Kit::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Kit::copy(std::map<std::string,std::string> object){delete(hadByKit_LargeBoxWithKits);
+hadByKit_LargeBoxWithKits=NULL;
+delete(hasKit_Tray);
+hasKit_Tray=NULL;
+delete(hasKit_Design);
+hasKit_Design=NULL;
+for(std::size_t i = 0; i < hadByPart_Kit.size(); i++){
+delete(hadByPart_Kit[i]);
+hadByPart_Kit[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<Kit*> tmp;
-this->hasKit_DesignRef = object["Kit.hasKit_DesignRef"];
 this->isKit_Finished = std::atof(object["Kit.isKit_Finished"].c_str());
 this->name = object["Kit._NAME"];
 this->KitID = std::atof(object["Kit.KitID"].c_str());
@@ -123,6 +134,9 @@ this->hadByKit_LargeBoxWithKits = new LargeBoxWithKits(object["hadByKit_LargeBox
 }
 if(this->hasKit_Tray== NULL && object["hasKit_Tray/KitTray._NAME"]!=""){
 this->hasKit_Tray = new KitTray(object["hasKit_Tray/KitTray._NAME"]);
+}
+if(this->hasKit_Design== NULL && object["hasKit_Design/KitDesign._NAME"]!=""){
+this->hasKit_Design = new KitDesign(object["hasKit_Design/KitDesign._NAME"]);
 }
 if(this->hadByPart_Kit.empty() && object["hadByPart_Kit/Part._NAME"]!=""){
 temp = Explode(object["hadByPart_Kit/Part._NAME"], ' ' );

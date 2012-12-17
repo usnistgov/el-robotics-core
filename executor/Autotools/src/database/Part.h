@@ -23,16 +23,17 @@ software
 
 
 #include "SolidObject.h"
+ class StockKeepingUnit;
  class PartsTrayWithParts;
  class Kit;
  class DAO;
 class Part: public SolidObject{private:
-std::string hasPart_SkuRef;
 std::string hasPart_SerialNumber;
 int PartID;
 DAO* dao;
 Kit* hadByPart_Kit;
 PartsTrayWithParts* hadByPart_PartsTrayWithParts;
+StockKeepingUnit* hasPart_Sku;
 public:
 Part(std::string name);
 ~Part();
@@ -40,8 +41,6 @@ Part(std::string name);
  void get(std::string name);
 void set(int id, Part* obj);
 void set(std::string name);
-std::string gethasPart_SkuRef();
-void sethasPart_SkuRef(std::string _hasPart_SkuRef);
 std::string gethasPart_SerialNumber();
 void sethasPart_SerialNumber(std::string _hasPart_SerialNumber);
 int getPartID();
@@ -51,6 +50,8 @@ Kit* gethadByPart_Kit();
 void sethadByPart_Kit(Kit* _hadByPart_Kit);
 PartsTrayWithParts* gethadByPart_PartsTrayWithParts();
 void sethadByPart_PartsTrayWithParts(PartsTrayWithParts* _hadByPart_PartsTrayWithParts);
+StockKeepingUnit* gethasPart_Sku();
+void sethasPart_Sku(StockKeepingUnit* _hasPart_Sku);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* PART_H_ */

@@ -22,7 +22,6 @@ Vector::Vector(std::string name) : DataThing(name){
 dao = NULL;
 
 }Vector::~Vector(){
-delete(dao);
 for(std::size_t i = 0; i < hasPartRefAndPose_ZAxis.size(); i++)
 delete(hasPartRefAndPose_ZAxis[i]);
 for(std::size_t i = 0; i < hasPartRefAndPose_XAxis.size(); i++)
@@ -140,7 +139,19 @@ dao->set(data);
 delete (dao);
 }
 
-void Vector::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void Vector::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hasPartRefAndPose_ZAxis.size(); i++){
+delete(hasPartRefAndPose_ZAxis[i]);
+hasPartRefAndPose_ZAxis[i]=NULL;}
+for(std::size_t i = 0; i < hasPartRefAndPose_XAxis.size(); i++){
+delete(hasPartRefAndPose_XAxis[i]);
+hasPartRefAndPose_XAxis[i]=NULL;}
+for(std::size_t i = 0; i < hasPoseLocation_ZAxis.size(); i++){
+delete(hasPoseLocation_ZAxis[i]);
+hasPoseLocation_ZAxis[i]=NULL;}
+for(std::size_t i = 0; i < hasPoseLocation_XAxis.size(); i++){
+delete(hasPoseLocation_XAxis[i]);
+hasPoseLocation_XAxis[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

@@ -23,7 +23,6 @@ dao = NULL;
 hasWorkstation_WorkTable = NULL;
 
 }WorkTable::~WorkTable(){
-delete(dao);
 delete(hasWorkstation_WorkTable);
 for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++)
 delete(hadBySolidObject_WorkTable[i]);
@@ -86,7 +85,12 @@ dao->set(data);
 delete (dao);
 }
 
-void WorkTable::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void WorkTable::copy(std::map<std::string,std::string> object){delete(hasWorkstation_WorkTable);
+hasWorkstation_WorkTable=NULL;
+for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++){
+delete(hadBySolidObject_WorkTable[i]);
+hadBySolidObject_WorkTable[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

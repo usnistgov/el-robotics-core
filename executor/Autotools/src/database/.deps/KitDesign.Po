@@ -90,11 +90,11 @@ KitDesign.o: KitDesign.cpp KitDesign.h /usr/include/c++/4.6/cstdlib \
  /usr/include/c++/4.6/bits/stl_vector.h \
  /usr/include/c++/4.6/bits/stl_bvector.h \
  /usr/include/c++/4.6/bits/vector.tcc /usr/include/c++/4.6/sstream \
- /usr/include/c++/4.6/bits/sstream.tcc DataThing.h KittingWorkstation.h \
- SolidObject.h DAO.h Connection.h /usr/include/mysql_connection.h \
- /usr/include/cppconn/connection.h /usr/include/boost/variant.hpp \
- /usr/include/boost/variant/variant.hpp /usr/include/c++/4.6/cstddef \
- /usr/include/c++/4.6/typeinfo \
+ /usr/include/c++/4.6/bits/sstream.tcc DataThing.h StockKeepingUnit.h \
+ Kit.h SolidObject.h KittingWorkstation.h DAO.h Connection.h \
+ /usr/include/mysql_connection.h /usr/include/cppconn/connection.h \
+ /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
+ /usr/include/c++/4.6/cstddef /usr/include/c++/4.6/typeinfo \
  /usr/include/boost/variant/detail/config.hpp \
  /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/select_compiler_config.hpp \
@@ -499,7 +499,8 @@ KitDesign.o: KitDesign.cpp KitDesign.h /usr/include/c++/4.6/cstdlib \
  /usr/include/cppconn/resultset.h \
  /usr/include/cppconn/prepared_statement.h \
  /usr/include/cppconn/statement.h \
- /usr/include/cppconn/resultset_metadata.h PartRefAndPose.h
+ /usr/include/cppconn/resultset_metadata.h PartRefAndPose.h \
+ LargeBoxWithKits.h
 
 KitDesign.h:
 
@@ -745,9 +746,13 @@ KitDesign.h:
 
 DataThing.h:
 
-KittingWorkstation.h:
+StockKeepingUnit.h:
+
+Kit.h:
 
 SolidObject.h:
+
+KittingWorkstation.h:
 
 DAO.h:
 
@@ -1648,3 +1653,5 @@ Connection.h:
 /usr/include/cppconn/resultset_metadata.h:
 
 PartRefAndPose.h:
+
+LargeBoxWithKits.h:

@@ -20,7 +20,6 @@ PoseLocationIn::PoseLocationIn(std::string name) : PoseLocation(name){
 dao = NULL;
 
 }PoseLocationIn::~PoseLocationIn(){
-delete(dao);
 }
 int PoseLocationIn::getPoseLocationInID(){
 return PoseLocationInID;

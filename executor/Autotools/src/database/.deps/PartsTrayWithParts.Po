@@ -499,8 +499,7 @@ PartsTrayWithParts.o: PartsTrayWithParts.cpp PartsTrayWithParts.h \
  /usr/include/cppconn/resultset.h \
  /usr/include/cppconn/prepared_statement.h \
  /usr/include/cppconn/statement.h \
- /usr/include/cppconn/resultset_metadata.h Part.h PartsTray.h \
- BoxyObject.h
+ /usr/include/cppconn/resultset_metadata.h Part.h PartsTray.h
 
 PartsTrayWithParts.h:
 
@@ -1647,5 +1646,3 @@ Connection.h:
 Part.h:
 
 PartsTray.h:
-
-BoxyObject.h:

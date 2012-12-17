@@ -91,11 +91,13 @@ StockKeepingUnit.o: StockKeepingUnit.cpp StockKeepingUnit.h \
  /usr/include/c++/4.6/bits/stl_vector.h \
  /usr/include/c++/4.6/bits/stl_bvector.h \
  /usr/include/c++/4.6/bits/vector.tcc /usr/include/c++/4.6/sstream \
- /usr/include/c++/4.6/bits/sstream.tcc DataThing.h KittingWorkstation.h \
- SolidObject.h ShapeDesign.h DAO.h Connection.h \
- /usr/include/mysql_connection.h /usr/include/cppconn/connection.h \
- /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
- /usr/include/c++/4.6/cstddef /usr/include/c++/4.6/typeinfo \
+ /usr/include/c++/4.6/bits/sstream.tcc DataThing.h PartsBin.h \
+ SolidObject.h KittingWorkstation.h KitTray.h ShapeDesign.h \
+ LargeContainer.h PartsTray.h PartRefAndPose.h EndEffector.h KitDesign.h \
+ DAO.h Connection.h /usr/include/mysql_connection.h \
+ /usr/include/cppconn/connection.h /usr/include/boost/variant.hpp \
+ /usr/include/boost/variant/variant.hpp /usr/include/c++/4.6/cstddef \
+ /usr/include/c++/4.6/typeinfo \
  /usr/include/boost/variant/detail/config.hpp \
  /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/select_compiler_config.hpp \
@@ -500,7 +502,7 @@ StockKeepingUnit.o: StockKeepingUnit.cpp StockKeepingUnit.h \
  /usr/include/cppconn/resultset.h \
  /usr/include/cppconn/prepared_statement.h \
  /usr/include/cppconn/statement.h \
- /usr/include/cppconn/resultset_metadata.h
+ /usr/include/cppconn/resultset_metadata.h Part.h
 
 StockKeepingUnit.h:
 
@@ -746,11 +748,25 @@ StockKeepingUnit.h:
 
 DataThing.h:
 
-KittingWorkstation.h:
+PartsBin.h:
 
 SolidObject.h:
 
+KittingWorkstation.h:
+
+KitTray.h:
+
 ShapeDesign.h:
+
+LargeContainer.h:
+
+PartsTray.h:
+
+PartRefAndPose.h:
+
+EndEffector.h:
+
+KitDesign.h:
 
 DAO.h:
 
@@ -1649,3 +1665,5 @@ Connection.h:
 /usr/include/cppconn/statement.h:
 
 /usr/include/cppconn/resultset_metadata.h:
+
+Part.h:

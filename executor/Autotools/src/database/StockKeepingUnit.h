@@ -23,18 +23,33 @@ software
 
 
 #include "DataThing.h"
+ class PartsBin;
  class KittingWorkstation;
+ class KitTray;
  class ShapeDesign;
+ class LargeContainer;
+ class PartsTray;
+ class PartRefAndPose;
+ class EndEffector;
+ class KitDesign;
  class DAO;
+ class Part;
 class StockKeepingUnit: public DataThing{private:
-std::vector<std::string> hasSku_EndEffectorRefs;
 std::string hasSku_Description;
-std::string hasSku_Id;
 double hasSku_Weight;
 int StockKeepingUnitID;
 DAO* dao;
 KittingWorkstation* hadBySku_Workstation;
+std::vector<EndEffector*> hasSku_EndEffectors;
 ShapeDesign* hasSku_Shape;
+std::vector<PartsBin*> hasPartsBin_Sku;
+std::vector<PartsBin*> hasPartsBin_PartSku;
+std::vector<LargeContainer*> hasLargeContainer_Sku;
+std::vector<Part*> hasPart_Sku;
+std::vector<PartsTray*> hasPartsTray_Sku;
+std::vector<PartRefAndPose*> hasPartRefAndPose_Sku;
+std::vector<KitTray*> hasKitTray_Sku;
+std::vector<KitDesign*> hasKitDesign_KitTraySku;
 public:
 StockKeepingUnit(std::string name);
 ~StockKeepingUnit();
@@ -42,12 +57,8 @@ StockKeepingUnit(std::string name);
  void get(std::string name);
 void set(int id, StockKeepingUnit* obj);
 void set(std::string name);
-std::vector<std::string> gethasSku_EndEffectorRefs();
-void sethasSku_EndEffectorRefs(std::vector<std::string> _hasSku_EndEffectorRefs);
 std::string gethasSku_Description();
 void sethasSku_Description(std::string _hasSku_Description);
-std::string gethasSku_Id();
-void sethasSku_Id(std::string _hasSku_Id);
 double gethasSku_Weight();
 void sethasSku_Weight(double _hasSku_Weight);
 int getStockKeepingUnitID();
@@ -55,8 +66,26 @@ DAO* getdao();
 void setdao(DAO* _dao);
 KittingWorkstation* gethadBySku_Workstation();
 void sethadBySku_Workstation(KittingWorkstation* _hadBySku_Workstation);
+std::vector<EndEffector*> gethasSku_EndEffectors();
+void sethasSku_EndEffectors(std::vector<EndEffector*> _hasSku_EndEffectors);
 ShapeDesign* gethasSku_Shape();
 void sethasSku_Shape(ShapeDesign* _hasSku_Shape);
+std::vector<PartsBin*> gethasPartsBin_Sku();
+void sethasPartsBin_Sku(std::vector<PartsBin*> _hasPartsBin_Sku);
+std::vector<PartsBin*> gethasPartsBin_PartSku();
+void sethasPartsBin_PartSku(std::vector<PartsBin*> _hasPartsBin_PartSku);
+std::vector<LargeContainer*> gethasLargeContainer_Sku();
+void sethasLargeContainer_Sku(std::vector<LargeContainer*> _hasLargeContainer_Sku);
+std::vector<Part*> gethasPart_Sku();
+void sethasPart_Sku(std::vector<Part*> _hasPart_Sku);
+std::vector<PartsTray*> gethasPartsTray_Sku();
+void sethasPartsTray_Sku(std::vector<PartsTray*> _hasPartsTray_Sku);
+std::vector<PartRefAndPose*> gethasPartRefAndPose_Sku();
+void sethasPartRefAndPose_Sku(std::vector<PartRefAndPose*> _hasPartRefAndPose_Sku);
+std::vector<KitTray*> gethasKitTray_Sku();
+void sethasKitTray_Sku(std::vector<KitTray*> _hasKitTray_Sku);
+std::vector<KitDesign*> gethasKitDesign_KitTraySku();
+void sethasKitDesign_KitTraySku(std::vector<KitDesign*> _hasKitDesign_KitTraySku);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* STOCKKEEPINGUNIT_H_ */

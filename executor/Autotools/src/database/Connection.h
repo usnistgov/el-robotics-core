@@ -26,12 +26,18 @@ software
 #include <cppconn/resultset_metadata.h>
 class Connection {
 public:
-Connection(std::string url, std::string user, std::string pass,std::string name);
-virtual ~Connection();
-sql::Connection *getCon() const;
-sql::mysql::MySQL_Driver *getDriver() const;
-void setCon(sql::Connection *con);
-void setDriver(sql::mysql::MySQL_Driver *driver);
-private:sql::mysql::MySQL_Driver *driver;sql::Connection *con;
+	Connection(std::string url, std::string user, std::string pass,
+			std::string name);
+	virtual ~Connection();
+	sql::Connection *getCon() const;
+	sql::mysql::MySQL_Driver *getDriver() const;
+	static Connection * getInstance(std::string url, std::string user,
+			std::string pass, std::string name);
+	void setCon(sql::Connection *con);
+	void setDriver(sql::mysql::MySQL_Driver *driver);
+private:
+	sql::mysql::MySQL_Driver *driver;
+	sql::Connection *con;
+	static Connection* instance;
 };
 #endif /* CONNEXION_H_ */

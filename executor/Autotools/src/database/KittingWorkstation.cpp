@@ -29,7 +29,6 @@ hasWorkstation_WorkTable = NULL;
 hasWorkstation_Robot = NULL;
 
 }KittingWorkstation::~KittingWorkstation(){
-delete(dao);
 delete(hasWorkstation_ChangingStation);
 delete(hasWorkstation_WorkTable);
 delete(hasWorkstation_Robot);
@@ -154,7 +153,22 @@ dao->set(data);
 delete (dao);
 }
 
-void KittingWorkstation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void KittingWorkstation::copy(std::map<std::string,std::string> object){delete(hasWorkstation_ChangingStation);
+hasWorkstation_ChangingStation=NULL;
+delete(hasWorkstation_WorkTable);
+hasWorkstation_WorkTable=NULL;
+delete(hasWorkstation_Robot);
+hasWorkstation_Robot=NULL;
+for(std::size_t i = 0; i < hadByKitDesign_Workstation.size(); i++){
+delete(hadByKitDesign_Workstation[i]);
+hadByKitDesign_Workstation[i]=NULL;}
+for(std::size_t i = 0; i < hasWorkstation_OtherObstacles.size(); i++){
+delete(hasWorkstation_OtherObstacles[i]);
+hasWorkstation_OtherObstacles[i]=NULL;}
+for(std::size_t i = 0; i < hadBySku_Workstation.size(); i++){
+delete(hadBySku_Workstation[i]);
+hadBySku_Workstation[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;

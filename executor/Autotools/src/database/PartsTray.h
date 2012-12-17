@@ -22,14 +22,15 @@ software
 #include <sstream>
 
 
-#include "BoxyObject.h"
+#include "SolidObject.h"
+ class StockKeepingUnit;
  class PartsTrayWithParts;
  class DAO;
-class PartsTray: public BoxyObject{private:
-std::string hasPartsTray_SkuRef;
+class PartsTray: public SolidObject{private:
 std::string hasPartsTray_SerialNumber;
 int PartsTrayID;
 DAO* dao;
+StockKeepingUnit* hasPartsTray_Sku;
 PartsTrayWithParts* hasPartsTrayWithParts_Tray;
 public:
 PartsTray(std::string name);
@@ -38,13 +39,13 @@ PartsTray(std::string name);
  void get(std::string name);
 void set(int id, PartsTray* obj);
 void set(std::string name);
-std::string gethasPartsTray_SkuRef();
-void sethasPartsTray_SkuRef(std::string _hasPartsTray_SkuRef);
 std::string gethasPartsTray_SerialNumber();
 void sethasPartsTray_SerialNumber(std::string _hasPartsTray_SerialNumber);
 int getPartsTrayID();
 DAO* getdao();
 void setdao(DAO* _dao);
+StockKeepingUnit* gethasPartsTray_Sku();
+void sethasPartsTray_Sku(StockKeepingUnit* _hasPartsTray_Sku);
 PartsTrayWithParts* gethasPartsTrayWithParts_Tray();
 void sethasPartsTrayWithParts_Tray(PartsTrayWithParts* _hasPartsTrayWithParts_Tray);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

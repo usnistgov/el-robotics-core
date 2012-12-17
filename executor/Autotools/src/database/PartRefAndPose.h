@@ -23,14 +23,15 @@ software
 
 
 #include "DataThing.h"
+ class StockKeepingUnit;
  class DAO;
  class Vector;
  class KitDesign;
  class Point;
 class PartRefAndPose: public DataThing{private:
-std::string hasPartRefAndPose_Ref;
 int PartRefAndPoseID;
 DAO* dao;
+StockKeepingUnit* hasPartRefAndPose_Sku;
 Vector* hasPartRefAndPose_ZAxis;
 KitDesign* hadByPartRefAndPose_KitDesign;
 Point* hasPartRefAndPose_Point;
@@ -42,11 +43,11 @@ PartRefAndPose(std::string name);
  void get(std::string name);
 void set(int id, PartRefAndPose* obj);
 void set(std::string name);
-std::string gethasPartRefAndPose_Ref();
-void sethasPartRefAndPose_Ref(std::string _hasPartRefAndPose_Ref);
 int getPartRefAndPoseID();
 DAO* getdao();
 void setdao(DAO* _dao);
+StockKeepingUnit* gethasPartRefAndPose_Sku();
+void sethasPartRefAndPose_Sku(StockKeepingUnit* _hasPartRefAndPose_Sku);
 Vector* gethasPartRefAndPose_ZAxis();
 void sethasPartRefAndPose_ZAxis(Vector* _hasPartRefAndPose_ZAxis);
 KitDesign* gethadByPartRefAndPose_KitDesign();

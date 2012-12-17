@@ -20,7 +20,6 @@ RelativeLocationOn::RelativeLocationOn(std::string name) : RelativeLocation(name
 dao = NULL;
 
 }RelativeLocationOn::~RelativeLocationOn(){
-delete(dao);
 }
 int RelativeLocationOn::getRelativeLocationOnID(){
 return RelativeLocationOnID;

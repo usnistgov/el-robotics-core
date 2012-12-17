@@ -25,6 +25,7 @@ software
 #include "DataThing.h"
  class SolidObject;
  class DAO;
+ class SolidObject;
 class PhysicalLocation: public DataThing{private:
 int PhysicalLocationID;
 DAO* dao;

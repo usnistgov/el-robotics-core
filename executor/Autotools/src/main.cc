@@ -23,6 +23,10 @@ The interpreter reads a plan file \ref PLAN_INSTANCE and generate a text file th
  <br><a href="http://www.nist.gov/el/isd/">Intelligent Systems Division</a>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "interpreter/Operator.h"
 #include "interpreter/KittingPlan.h"
 #include "interpreter/KittingPDDLProblem.h"

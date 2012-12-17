@@ -24,6 +24,7 @@ software
 
  class PhysicalLocation;
  class DAO;
+ class PhysicalLocation;
  class WorkTable;
 class SolidObject{private:
 int SolidObjectID;

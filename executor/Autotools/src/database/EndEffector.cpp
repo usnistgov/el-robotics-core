@@ -15,6 +15,7 @@ software
 
 
  #include "Robot.h"
+ #include "StockKeepingUnit.h"
  #include "DAO.h"
  #include "EndEffectorHolder.h"
 
@@ -24,9 +25,10 @@ hadByEndEffector_Robot = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
 
 }EndEffector::~EndEffector(){
-delete(dao);
 delete(hadByEndEffector_Robot);
 delete(hasEndEffectorHolder_EndEffector);
+for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++)
+delete(hasSku_EndEffectors[i]);
 }
 std::string EndEffector::gethasEndEffector_Description(){
 return hasEndEffector_Description;
@@ -36,9 +38,6 @@ return hasEndEffector_Weight;
 }
 double EndEffector::gethasEffector_MaximumLoadWeight(){
 return hasEffector_MaximumLoadWeight;
-}
-std::string EndEffector::gethasEndEffector_Id(){
-return hasEndEffector_Id;
 }
 int EndEffector::getEndEffectorID(){
 return EndEffectorID;
@@ -52,6 +51,9 @@ return hadByEndEffector_Robot;
 EndEffectorHolder* EndEffector::gethasEndEffectorHolder_EndEffector(){
 return hasEndEffectorHolder_EndEffector;
 }
+std::vector<StockKeepingUnit*> EndEffector::gethasSku_EndEffectors(){
+return hasSku_EndEffectors;
+}
 void EndEffector::sethasEndEffector_Description(std::string _hasEndEffector_Description){
 this->hasEndEffector_Description= _hasEndEffector_Description;
 }
@@ -61,9 +63,6 @@ this->hasEndEffector_Weight= _hasEndEffector_Weight;
 void EndEffector::sethasEffector_MaximumLoadWeight(double _hasEffector_MaximumLoadWeight){
 this->hasEffector_MaximumLoadWeight= _hasEffector_MaximumLoadWeight;
 }
-void EndEffector::sethasEndEffector_Id(std::string _hasEndEffector_Id){
-this->hasEndEffector_Id= _hasEndEffector_Id;
-}
 void EndEffector::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -72,6 +71,9 @@ this->hadByEndEffector_Robot= _hadByEndEffector_Robot;
 }
 void EndEffector::sethasEndEffectorHolder_EndEffector(EndEffectorHolder* _hasEndEffectorHolder_EndEffector){
 this->hasEndEffectorHolder_EndEffector= _hasEndEffectorHolder_EndEffector;
+}
+void EndEffector::sethasSku_EndEffectors(std::vector<StockKeepingUnit*> _hasSku_EndEffectors){
+this->hasSku_EndEffectors= _hasSku_EndEffectors;
 }
 void EndEffector::get(std::string name){
 std::map<std::string,std::string> temp;
@@ -95,7 +97,6 @@ data["hasEndEffector_Weight"]=ss.str();
 ss.str("");
 ss << hasEffector_MaximumLoadWeight;
 data["hasEffector_MaximumLoadWeight"]=ss.str();
-data["hasEndEffector_Id"]=hasEndEffector_Id;
 data["name"]=name;
 ss.str("");
 ss << EndEffectorID;
@@ -104,12 +105,25 @@ if(hadByEndEffector_Robot!=NULL)
 data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
 if(hasEndEffectorHolder_EndEffector!=NULL)
 data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+for(unsigned int i=0;i<hasSku_EndEffectors.size();++i){
+ss.str("");
+hasSku_EndEffectors[i]->get(hasSku_EndEffectors[i]->getname());
+ss << hasSku_EndEffectors[i]->getStockKeepingUnitID();
+data["hasSku_EndEffectors"]=data["hasSku_EndEffectors"]+" "+ss.str();
+}
 dao  = new DAO("EndEffector");
 dao->set(data);
 delete (dao);
 }
 
-void EndEffector::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
+void EndEffector::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
+hadByEndEffector_Robot=NULL;
+delete(hasEndEffectorHolder_EndEffector);
+hasEndEffectorHolder_EndEffector=NULL;
+for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++){
+delete(hasSku_EndEffectors[i]);
+hasSku_EndEffectors[i]=NULL;}
+std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
@@ -118,7 +132,6 @@ std::vector<EndEffector*> tmp;
 this->hasEndEffector_Description = object["EndEffector.hasEndEffector_Description"];
 this->hasEndEffector_Weight = std::atof(object["EndEffector.hasEndEffector_Weight"].c_str());
 this->hasEffector_MaximumLoadWeight = std::atof(object["EndEffector.hasEffector_MaximumLoadWeight"].c_str());
-this->hasEndEffector_Id = object["EndEffector.hasEndEffector_Id"];
 this->name = object["EndEffector._NAME"];
 this->EndEffectorID = std::atof(object["EndEffector.EndEffectorID"].c_str());
 if(this->hadByEndEffector_Robot== NULL && object["hadByEndEffector_Robot/Robot._NAME"]!=""){
@@ -126,6 +139,12 @@ this->hadByEndEffector_Robot = new Robot(object["hadByEndEffector_Robot/Robot._N
 }
 if(this->hasEndEffectorHolder_EndEffector== NULL && object["hasEndEffectorHolder_EndEffector/EndEffectorHolder._NAME"]!=""){
 this->hasEndEffectorHolder_EndEffector = new EndEffectorHolder(object["hasEndEffectorHolder_EndEffector/EndEffectorHolder._NAME"]);
+}
+if(this->hasSku_EndEffectors.empty() && object["hasSku_EndEffectors/StockKeepingUnit._NAME"]!=""){
+temp = Explode(object["hasSku_EndEffectors/StockKeepingUnit._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasSku_EndEffectors.push_back(new StockKeepingUnit(temp[i]));
+}
 }
 
 }std::vector<std::string> EndEffector::Explode(const std::string & str, char separator )

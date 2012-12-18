@@ -1,5 +1,5 @@
 %% This file  is based off of `elsarticle-template-1a-num.tex',
-\documentclass[final,12pt]{elsarticle}
+\documentclass[final,3p,12pt]{elsarticle}
 
 %% Use the option review to obtain double line spacing
 %% \documentclass[preprint,review,12pt]{elsarticle}
@@ -98,14 +98,15 @@
 %% \address[label2]{<address>}
 
 \author[NIST]{Stephen Balakirsky}
-\author[NIST]{Zeid Kootbally}
+\author[UMD]{Zeid Kootbally}
 
 %\address[CATHU]{Catholic University of America, Washington, DC, USA}
 \address[NIST]{National Institute of Standards and Technology, Gaithersburg, MD USA}
-%\address[UMD]{University of Maryland, College Park, MD, USA}
+\address[UMD]{University of Maryland, College Park, MD, USA}
 
  \begin{abstract}
-This short paper examines agility and flexibility for kitting applications as part as an undergoing effort at the National Institute of Standards and Technology (NIST). We first show the common ideas behind the multiple definitions for each term through a literature review. We then discuss the challenges that we need to address to create an agile and flexible kitting system.
+This short paper examines agility and flexibility for kitting applications as part as an undergoing effort at the National Institute of Standards and Technology (NIST). For a successful kitting process, agile and flexible robots are required to be quickly reconfigured for design and process modifications. Furthermore, they need to be information driven so that they can reliably perform different sequences of actions on command. The cost of generating the information that drives the actions must be kept down and the information must be accurate. We first describe the meaning behind the terms ``flexible" and ``agile" with research provided in the literature review. We then discuss the challenges that we need to address to create an agile and flexible kitting system.
+
  \end{abstract}
 
 %\begin{keyword}
@@ -123,9 +124,9 @@ This short paper examines agility and flexibility for kitting applications as pa
 \section{Introduction}
 \label{sect:introduction}
 
-Applications for assembly robots have been primarily implemented in fixed and programmable automation. Fixed automation is a process using mechanized machinery to perform fixed and repetitive operations in order to produce a high volume of similar parts. Although fixed automation provides maximum efficiency at a low unit cost, drastic modifications of the machines are realized when parts need major changes or become too complicated in design. In programmable automation, products are made in batch quantities ranging from several dozen to several thousand units at a time. However, each new batch requires long set up time to accommodate the new product style. The time and therefore the cost of developing applications for fixed and programmable automation is usually quite high. The challenge of expanding industrial use of robots is through flexible automation where minimized setup times can lead in to more output and generally better throughput.
+Applications for assembly robots have been primarily implemented in fixed and programmable automation. Fixed automation is a process using mechanized machinery to perform fixed and repetitive operations in order to produce a high volume of similar parts. Although fixed automation provides maximum efficiency at a low unit cost, drastic modifications of the machines are realized when parts need major changes or become too complicated in design. In programmable automation, products are made in batch quantities ranging from several dozen to several thousand units at a time. However, each new batch requires long set up time to accommodate the new product style. The time and therefore the cost of developing applications for fixed and programmable automation is usually quite high. The challenge of expanding industrial use of robots is through agile and flexible automation where minimized setup times can lead in to more output and generally better throughput.
 
-Agile and flexible robots are required to be quickly reconfigured for design and process modifications. Furthermore, they need to be information driven so that they can reliably perform different sequences of actions on command. The cost of generating the information that drives the actions must be kept down and the information must be accurate.
+%Agile and flexible robots are required to be quickly reconfigured for design and process modifications. Furthermore, they need to be information driven so that they can reliably perform different sequences of actions on command. The cost of generating the information that drives the actions must be kept down and the information must be accurate.
 
 Researchers from the Intelligent Systems Division (ISD) of the National Institute of Standards and Technology (NIST) have started the production of a methodology/model in the area of industrial assembly of manufactured products. This effort is designed to support the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group. Industrial assembly of manufactured products is often performed by first bringing parts together in a kit and then moving the kit to the assembly area where the parts are used to assemble products. Kitting is the process in which several different, but related items are placed into a container and supplied together as a single unit (kit). Kitting itself may be viewed as a specialization of the general bin-picking problem.
 
@@ -134,7 +135,7 @@ In industrial assembly of manufactured products, kitting is often performed prio
 %This paper first describes the meaning of agility and flexibility within manufacturing settings. As proven in the past, vague definitions of such important terms can lead to disastrous results.
 %Researchers from the Intelligent Systems Division (ISD) of the National Institute of Standards and Technology (NIST) have started the production of a methodology/model in the area of robotic kit building. This effort is designed to support the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group. This methodology/model allows for the creation of systems that demonstrate flexibility, agility, and the ability to be rapidly re-tasked.
 
-During the first stage of this effort, studies were made to define the conditions that are necessary to develop an agile and a flexible manufacturing setting to nest kitting applications. A literature review reveals that vague definitions of the concept of agile and flexible can lead to disastrous results. Once these terms have been set, we have analyzed the strategies to produce an agile and flexible kitting system. This paper first describes the different terms found in the literature for agile and flexible manufacturing and focuses on the definitions adopted for kitting. Then, this paper discusses the different agile and flexible approaches that need to be established to lead to higher payoffs in the proposed kitting system.
+During the first stage of this effort, studies were made to define the conditions that are necessary to develop an agile and a flexible manufacturing setting to nest kitting applications. A literature review reveals that vague definitions of the concept of agile and flexible can lead to disastrous results. Once these terms have been set, we have analyzed the strategies to produce an agile and flexible kitting system. This paper first describes the different terms found in the literature for agile and flexible manufacturing and focuses on the definitions adopted for kitting, then discusses the different approaches that need to be established to lead to higher payoffs in the proposed kitting system.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,25 +201,57 @@ Some of the key words and terms linked to ``agile manufacturing" are~\cite{KIDD.
 \section{Design for an Agile and Flexible Kitting System}
 \label{Sect:design}
 
-Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a human-led teaching period when the cell's task is altered.  Many research systems depend on numerous hand-tuned parameters that must be re-tuned by operators whenever a untested environment is encountered. These requirements for human intervention cause the robotic systems to be brittle and limited in operational scope. The robotic systems of tomorrow need to be capable, flexible, and agile.  These systems need to perform their duties at least as well as human counterparts, be able to be quickly re-tasked to other operations, and be able to cope with a wide variety of unexpected environmental and operational changes. 
+Today's state-of-the-art industrial robots are often programmed with a teach pendent. This requires that the robot cell be taken off-line for a human-led teaching period when the cell's task is altered.  Many research systems depend on numerous hand-tuned parameters that must be re-tuned by operators whenever a untested environment is encountered. These requirements for human intervention cause the robotic systems to be brittle and limited in operational scope. The robotic systems of tomorrow need to be capable, flexible, and agile.  These systems need to perform their duties at least as well as human counterparts, be able to be quickly re-tasked to other operations, and be able to cope with a wide variety of unexpected environmental and operational changes.
 
-To include agility in our kitting system, we relate on the principles that promote hardware and software reuse, allowing rapid redesign for new applications. Although robots constitute one component of an agile manufacturing system, they are an ideal element in the way that they can perform an array of repeatable tasks with no or little hardware changes (equipment reuse). Moreover, the use of robots provides rapid programming (rapid deployment) for new applications. Robotics is a key component of flexible manufacturing as they provide flexible automation for high-mix, high-volume applications. The flexibility required of an agile manufacturing system must be achieved largely through computer software. The system's control software must be adaptable to new products and to new system components without becoming unreliable or difficult to maintain. This requires designing the software specifically to facilitate future changes. Some examples o
+To include agility in our kitting system, we relate on the principles that promote hardware and software reuse, allowing rapid redesign for new applications. Although robots constitute one component of an agile manufacturing system, they are an ideal element in the way that they can perform an array of repeatable tasks with no or little hardware changes (equipment reuse). Moreover, the use of robots provides rapid programming (rapid deployment) for new applications. Robotics is a key component of flexible manufacturing as they provide flexible automation for high-mix, high-volume applications. The flexibility required of an agile manufacturing system must be achieved largely through computer software. The system's control software must be adaptable to new products and to new system components without becoming unreliable or difficult to maintain. This requires designing the software specifically to facilitate future changes. Some examples of agile and flexible capabilities for our kitting system are described in the remainder of this paper.
 
 
-%The previous section describes the importance of agile and flexible manufacturing and how they can help in the advancement of firms in the competitive market. In this section we focus on agile and flexible kitting. We %describe the strategies and methodologies that can improve kitting production with the integration of Advanced Robotics and Intelligent Automation. Advanced Robotics and Intelligent Automation has the ability  to support %technical solutions that could provide a new level of agile and flexible aspects to an industry that has historically focused on long production runs and large volume manufacturing~\cite{NIST}. 
+%The previous section describes the importance of agile and flexible manufacturing and how they can help in the advancement of firms in the competitive market. In this section we focus on agile and flexible kitting. We %describe the strategies and methodologies that can improve kitting production with the integration of Advanced Robotics and Intelligent Automation. Advanced Robotics and Intelligent Automation has the ability  to support %technical solutions that could provide a new level of agile and flexible aspects to an industry that has historically focused on long production runs and large volume manufacturing~\cite{NIST}.
 
 
 \subsection{Robots Cooperation for Workload Balancing}
-Our current kit building system consists of one robotic cell with a single robotic arm. Higher productivity is possible with the addition of one or more robotic arms where robots can work in tandem. Within this set up, each robot shares information on the specific parts to pick from part bins and on the location in the kit where the parts are to be placed. Location knowledge is kept in the different ontologies used in the system. In this situation, each robot has its own plan where consecutive execution is performed. 
+Our current kitting system consists of one robotic cell with a single robotic arm. Higher productivity is possible with the addition of one or more robotic arms thus allowing robots to work in tandem. Within this set up, each robot shares information on the specific parts to pick from part bins and on the location in the kit where the parts are to be placed. Location knowledge is kept in the kitting ontology and are required during the execution process. In this situation, each robot carries out its own plan where the robots take turn to perform the pick and place process. This structure enables kits to be built in an efficient, effective, and fast way.
 
-\subsection{Grippers and Fixtures}
-In the current kitting system, part handling is performed with a vacuum end effector while kit tray handling is performed with a gripper end effector. A tool change is required when switching from part handling to kit tray handling, and vice versa. When an end effector is not used, it is placed in changing station. Tool change is a time consuming process and can affect productivity. This issue can be solved by the use of multiple end effectors on a rotary wrist, such as the one described in~\cite{}. 
-Another method would be to use a robot equipped with a vacuum end effector that will only handle parts and another robot equipped with a gripper end effector will only handle kit trays. This method is not conceivable in space constrained environments but can prove to be very efficient in environments that can hold multiple robots.
-\subsection{Part Handling}
+\subsection{Agile End Effectors}
+Part handling in our kitting system is performed with a vacuum end effector while kit tray handling is performed with a gripper end effector. A tool change is required when switching from part handling to kit tray handling, and vice versa. When an end effector is not used, it is placed in an end effector changing station. Tool change is a time consuming process and can affect productivity. This issue can be solved by the use of of rotary wrist~\cite{QUINN.1997} that can hold both types of end effector. The use of a rotary wrist will limit the multiple trips the robot has to take to switch the different types of end effector.
 
-\subsection{Sensing}
+Another method would be to use a different robot for each task. One robot equipped with a vacuum end effector will only handle parts while kit trays will be handled by a different robot equipped with a gripper end effector. This method is not conceivable in space constrained environments but can prove to be very efficient if the environments are broad enough to handle multiple robots.
+
+\subsection{Introduction of New Objects in the Work Station}
+Adding new objects in the work station involves a few well defined entries in the kitting ontology such as the type of the objects, their location, their reference to other objects, and the type of end effectors to handle these objects. The NIST team has developed a tool using the XML schema language~\cite{XMLschemaStructures} to handle new additions in the ontology. The XML schema was written by hand, modeling the same information as the OWL kitting workstation model. The new tool allows fast and intuitive additions of new objects data in the kitting ontology. The conceptual similarity between the two models prevents the user from entering wrong or corrupt data in the ontology.
+
+
+
+%\subsection{Part Handling}
+%
+%\subsection{Sensing}
 
 \subsection{Simulation Software}
+In order to validate the knowledge models for kitting, we felt that it was important to be able to utilize the models to construct kit building plans, and then to execute these plans in dynamic virtual and real environments. Due to the advent of open source robotic operating systems such as ROS~\cite{ROS} and simulation packages such as USARSim~\cite{Balakirsky.USARSIM.2007}, we do not need to design these systems ourselves. However, our architecture must be designed to represent the required knowledge base in several different abstractions that are likely to be required by these systems as the knowledge flows from domain and process specification, to plan generation, to plan execution.
+
+
+In kitting, failures can occur for multiple reasons~\cite{Leger.1999,Kaiser.2007}: equipment not set up properly,
+tools and/or fixtures not properly prepared, lack of safety, and improper equipment
+maintenance. Part/component availability failures can be triggered by inaccurate information
+on the location of the part, part damage, wrong type of part, or part shortage due to delays
+in internal logistics.
+Automatic failure recovery is crucial for control software for manufacturing processes. Testing techniques for failure recovery in a real work station can be either very expensive, very difficult, or practically impossible. However, such routines can be simulated in a virtual environment with much more flexibility and possibility. A simulation environment enables researchers to focus on algorithm development without having to worry about the hardware aspects of the robots. Simulation can be an effective first step in the development and deployment of new algorithms and provides extensive testing opportunities without the risk of harming personnel or equipment. Major components of the robotic architecture (for example, advanced sensors) can be simulated and enable the developers to focus on the algorithms or components in which they are interested without the need to purchase expensive hardware. This can be advantageous when development teams are working in parallel or when experimenting with novel technological components that may not be fully implemented or available.
+
+Although the current state of the simulation environment is capable of testing normal control flow conditions, it can be augmented to emulate hardware and software malfunctions. For instance, we can simulate the robot to pick up a part using a wrong location or attach the end effector for kit tray in order to pick up a part. This enhanced capability allowed complex testing and can be especially helpful in testing error-prone testing, reducing the cost and time involved from development to implementation.
+
+When a failure is detected in the execution process and the failure mode identified, the
+value of the severity for the failure mode will be retrieved from the ontology and the
+appropriate contingency plan will be activated. In some cases, the current state of the environment is brought back to the state prior to the failure and the robot starts from a
+``stable" state. In other cases a completely new plan is generated by the planning system
+where the robot starts all over. Previous experience suggests that the latter solution is
+preferable considering it will take less time to generate a new plan than going back to a
+previous state from the original plan. However, the state of the environment after a failure
+may be closer to the goal state and generating a new plan may take longer. To
+select the right contingency plan, i.e., the less time consuming or safer, the system will
+need to rely on the information from the kitting ontology.
+
+
+
 %Industrial robots have the potential to make a significant contribution to productivity in manufacturing
 
 

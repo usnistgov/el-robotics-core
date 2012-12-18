@@ -7,7 +7,7 @@ models includes properties such as the location, orientation, and relation
 between components. These models are discussed in Section~\ref{owlkitting}. 
 Models of executable information are also produced from the system 
 information described in the SVR. These models include actions along 
-with their preconditions,effects, and failures. 
+with their preconditions, effects, and failures. 
 Section~\ref{owlsoap} discusses models of executable information.
 
 Models for non-executable and executable information can be 
@@ -250,12 +250,11 @@ these classes are described below.
 A \class{Domain} can consist of 0 or more \class{Predicate} (\emph{hasDomain\_Predicate}) 
 and 0 or more \class{Function} (\emph{hasDomain\_Function}). A \class{Domain} has 
 at least one \class{Action} (\emph{hasDomain\_Action}).
-\item \class{Action} -- An \class{Action} has a name (\emph{hasAction\_Name}) of 
-type \texttt{string}, a \class{Precondition} (\emph{hasAction\_Precondition}) and 
-an \class{Effect} (\emph{hasAction\_Effect}). An \class{Action} has a 
-\class{ParameterList} (\emph{hasAction\_ParameterList}) that contains all of the 
-parameters for a PDDL action. As seen in Figure~\ref{fig:put-part}, an action 
-has a unique name (\emph{hasAction\_Name}) of type \texttt{string}.
+\item \class{Action} -- An \class{Action} has a unique name (\emph{hasAction\_Name}) of 
+type \texttt{string}, a \class{ParameterList} (\emph{hasAction\_ParameterList}) that contains all of the 
+parameters for a PDDL action,
+a \class{Precondition} (\emph{hasAction\_Precondition}) and 
+an \class{Effect} (\emph{hasAction\_Effect}). 
 \item \class{ParameterList} -- The \textsl{put-part} action illustrated in 
 Figure~\ref{fig:put-part} has five parameters of different types. Each one of 
 these types is represented by a class in the \onto{Kitting} ontology. To represent 
@@ -274,13 +273,12 @@ comes before the parameter \texttt{part}, the parameter \texttt{part} comes
 before the parameter \texttt{kit}, and so on. OWL has no built-in structure 
 to represent an ordered list. This issue has been solved with the introduction 
 of \emph{hasParameter\_Next} that points to the next parameter in \class{ParameterList}.
-\item \class{Precondition} -- A \class{Precondition} can consist of \class{Predicate} 
-(\emph{hasPrecondition\_Predicate}) and \class{Function} (\emph{hasPrecondition\_Function}). 
-An \class{Effect} can contain 0 or more \class{FunctionBool} 
-(\emph{hasPrecondition\_FunctionBool}). A \class{Precondition} belongs to one \class{Action} 
+\item \class{Precondition} -- A \class{Precondition} can consist of \class{Predicate}s 
+(\emph{hasPrecondition\_Predicate}) and \class{Function}s (\emph{hasPrecondition\_Function}). 
+A \class{Precondition} belongs to one \class{Action} 
 (\emph{hadByPrecondition\_Action}).
-\item \class{Effect} -- An \class{Effect} can consist of \class{Predicate} 
-(\emph{hasEffect\_Predicate}) and \class{Function} (\emph{hasEffect\_Function}). 
+\item \class{Effect} -- An \class{Effect} can consist of \class{Predicate}s 
+(\emph{hasEffect\_Predicate}) and \class{Function}s (\emph{hasEffect\_Function}). 
 An \class{Effect} can contain 0 or more \class{FunctionBool} (\emph{hasEffect\_FunctionBool}) 
 and 0 or more \class{FunctionOperation}. An \class{Effect} belongs to one \class{Action} 
 (\emph{hadByEffect\_Action}). An \class{Effect} can contain negative \class{Predicates} 
@@ -329,7 +327,7 @@ involved in the plan. Action failures and spatial relations are discussed in the
  A failure is any change or any design or manufacturing error that renders a 
 component, assembly, or system incapable of performing its intended function. 
 In kitting, failures can occur for multiple reasons: equipment not set up properly, 
-tools and/or fixtures not properly prepared, lack of safety, and improper equipment 
+tools and/or fixtures not properly prepared, incorrect planning sequence, lack of safety, and improper equipment 
 maintenance~\cite{Leger.1999,Kaiser.2007}. Part/component availability failures can be triggered by inaccurate information 
 on the location of the part, part damage, wrong type of part, or part shortage due to delays 
 in internal logistics. In order to prevent or minimize failures, a disciplined approach 
@@ -408,7 +406,7 @@ ontology and the appropriate contingency plan will be activated.
 \end{tabular}
 }
 \end{table}
- Table~\ref{tab:putpartfailure} shows an example of failure modes associated to the PDDL 
+ Table~\ref{tab:putpartfailure} shows an example of failure modes associated with the PDDL 
 action \textsl{put-part} where the \textit{Robot} puts the \textit{Part} in the \textit{Kit}. The meaning of each column is described below.
 
 
@@ -484,7 +482,7 @@ consists of eight possible relations, including Tangential Proper Part (TPP), No
 Proper Part(NTPP), Disconnected (DC), Tangential Proper Part Inverse (TPPi), Non-Tangential 
 Proper Part Inverse (NTPPi), Externally Connected (EC), Equal (EQ), and Partially 
 Overlapping (PO). In order to represent these relations in all three dimensions for the 
-kitting domain, we have extended RCC8 to a three-dimensions space by applying it along 
+kitting domain, we have extended RCC8 to a three-dimensional space by applying it along 
 all three planes (x-y, x-z, y-z) and by including cardinal direction relations ``+'' 
 and ``-''~\cite{SCHLENOFF.ECDRM.2012}. In the ontology, RCC8 relations and cardinal direction 
 relations are represented as subclasses of the class \class{RCC8\_Relation}. Examples of 

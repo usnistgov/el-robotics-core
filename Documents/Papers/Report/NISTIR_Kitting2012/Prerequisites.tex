@@ -118,7 +118,7 @@ DataThing\\
 The structure of the kitting workstation class (or type) is shown in
 Figure~\ref{fig:WorkstationModel}. The figure shows the names of the
 attributes of a kitting workstation. The first three attributes (Name,
-PrimaryLocation and SecondaryLocation) are inherited from the SolidObject
+PrimaryLocation, and SecondaryLocation) are inherited from the SolidObject
 class. The rest of the attributes are specific to the kitting workstation
 class. The AngleUnit, LengthUnit, and WeightUnit apply to all quantities in
 a data file that are in terms of those unit types. No other unit types are
@@ -140,7 +140,7 @@ upper limit on the number of occurrences.
 \label{fig:WorkstationModel}
 \end{figure}
 
-The types (i.e. classes or datatypes) of the attributes of a kitting
+The types (i.e., classes or datatypes) of the attributes of a kitting
 workstation are not shown in Figure~\ref{fig:WorkstationModel}. The
 structures of several of the attributes are shown in the following figures:
 \begin{itemize}
@@ -157,7 +157,7 @@ structures of several of the attributes are shown in the following figures:
 
 The type of the Object elements in a kitting workstation is
 SolidObject. That is an abstract class not intended to be
-instantiated. Hence, figures \ref{fig:ChangingStation} through
+instantiated. Hence, Figures \ref{fig:ChangingStation} through
 \ref{fig:WorkTable} show the structures of derived classes of
 SolidObject that are intended to be used for instances of the Object
 attribute.
@@ -232,7 +232,7 @@ found in Section \ref{sect:Implementation}.
 \subsection{Robot Requirements}
 As mentioned earlier, the plan format being used is a sequential list of
 actions for a robot to perform. The authors devised a canonical robot
-command (CRCL) language in which such lists can be written. The purpose of the
+command language (CRCL)  in which such lists can be written. The purpose of the
 canonical robot command language is to provide generic commands that
 implement the functionality of typical industrial robots without being
 specific either to the language of the planning system that makes a plan or

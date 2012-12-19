@@ -1,14 +1,116 @@
-/* returns 1 on success, 0 on recursion end
- */
+/*****************************************************************************
+ DISCLAIMER:
+ This software was produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  Recipients of this software
+ assume all responsibility associated with its operation, modification,
+ maintenance, and subsequent redistribution.
+
+ See NIST Administration Manual 4.09.07 b and Appendix I.
+ *****************************************************************************/
+
 #include "recurseLocation.h"
 #include <stdio.h> // printf
+#include <math.h>
 
+/*!
+ @brief Retreive the roll, pitch, and yaw from the RecLoc.
+ This function utilizes the forward and up vectors to compute
+ the associated roll, pitch, and yaw.
+@param roll Storage location for the computed roll
+@param pitch Storage location for the computed roll
+@param yaw Storage location for the computed roll
+@return None
+ */
+void RecLoc::getRollPitchYaw(double *roll, double *pitch, double *yaw)
+{
+  double cosPitch, cosYaw, sinYaw, cosRoll, sinRoll;
+
+  *pitch = asin(-xAxis[2]);
+  cosPitch = sqrt(1. - xAxis[2]*xAxis[2]);
+    
+  //Check if we are straight up or down
+  if (cosPitch == 0 || fabs(xAxis[2]) >= 1)
+    {
+      if (*pitch > 0)
+        {
+	  *yaw = 0;
+	  *roll = atan2(-zAxis[1], -zAxis[0]) + M_PI;
+        }
+      else
+        {
+	  yaw = 0;
+	  *roll = -atan2(zAxis[1], zAxis[0]) + M_PI;    
+        }
+    }
+    else
+      {
+        
+        cosYaw = xAxis[0]/cosPitch;
+        sinYaw = xAxis[1]/cosPitch;
+        *yaw = atan2(sinYaw, cosYaw);
+        
+        cosRoll = zAxis[2]/cosPitch;
+        if (fabs(cosYaw) < fabs(sinYaw))
+	  {
+            sinRoll = -(zAxis[0] + 
+			xAxis[2]*cosRoll*cosYaw)/sinYaw;
+	  }
+        else
+	  {
+            sinRoll = (zAxis[1] + 
+		       xAxis[2]*cosRoll*sinYaw)/cosYaw;
+	  }
+        *roll = atan2(sinRoll, cosRoll);
+      }
+    
+    
+    //Keep all angles in [0, 2pi]
+    if (*yaw < 0)
+      *yaw += 2*M_PI;
+    else if (*yaw >= 2*M_PI)
+      *yaw -= 2*M_PI;
+    
+    if (*pitch < 0)
+      *pitch += 2*M_PI;
+    else if (*pitch >= 2*M_PI)
+      *pitch -= 2*M_PI;
+        
+    if (*roll < 0)
+      *roll += 2*M_PI;
+    else if (*roll >= 2*M_PI)
+      *roll -= 2*M_PI;
+    }
+
+/*!
+ @brief Constructor
+ The constructor will clear out the global location.
+@return None
+ */
 RecurseLocation::RecurseLocation()
 {
   initGlobalLoc();
 }
 
-/* returns 0 on failure, 1 on success
+/*!
+ @brief Clears the location vector and global location
+ The recursive chain of global locations is cleared and the
+ global location is set to (0,0,0) with front along the x-axis
+ and up along the z-axis.
+@return None
+ */
+void RecurseLocation::clear()
+{
+  recLoc.clear();
+  initGlobalLoc();
+}
+
+/*!
+ @brief Computes the global location
+ This function goes through the recursive
+ list of locations and computes the global
+ location of the item.
+@return 1 on success and 0 on failure
  */
 int RecurseLocation::computeGlobalLoc()
 {
@@ -33,6 +135,22 @@ int RecurseLocation::computeGlobalLoc()
   return 1;
 }
 
+/*!
+ @brief Access to global location
+ @return global location
+ */
+RecLoc RecurseLocation::getGlobalLoc()
+{
+  return globalLoc;
+}
+
+/*!
+ @brief Initialized the global location.
+ The global location is set to
+ (0,0,0) with front along the x-axis
+ and up along the z-axis.
+@return None
+ */
 void RecurseLocation::initGlobalLoc()
 {
   globalLoc.solidObjectName = "kitting_workstation_1";
@@ -53,6 +171,11 @@ void RecurseLocation::initGlobalLoc()
   globalLoc.zAxis.push_back(1);
 }
 
+/*!
+ @brief Build the recursive chain of locations
+ Builds a chain of locations ending at "kitting_workstation_1"
+ @return 1 still working, 0 done
+ */
 int RecurseLocation::recurse(SolidObject *solidObject)
 {
   PhysicalLocation *physicalLocation;
@@ -114,11 +237,25 @@ int RecurseLocation::recurse(SolidObject *solidObject)
   return 1;
 }
 
+/*!
+ @brief Clean up allocated memory
+ Unable to currently do this. Core
+ dumps if we try to delete.
+ @return None
+ */
 void RecurseLocation::cleanup()
 {
 }
 
-int RecurseLocation::printMe(int verbosity)
+/*!
+ @brief Print informatio about the recurse location
+ Based on the verbosity, either the entire chain
+ of recursive locations will be printed or only 
+ the global location.
+ @param verbosity 0-print minimal information, 1-print a lot.
+ @return None
+ */
+void RecurseLocation::printMe(int verbosity)
 {
   if( verbosity > 0 )
     {
@@ -154,18 +291,16 @@ int RecurseLocation::printMe(int verbosity)
 }
 
 /* RecurseLocation::poseProduct
-
-Returned Value: none
-
-This routine is from Tom Kramer's kittingViewer.cc file that
-is part of the kittingViewer program.
-
-This computes and sets the Point, XAxis, and ZAxis for poseToSet as
-the product of pose1 and pose2, treating all the poses as homogeneous
-matrices, and assuming the XAxis and ZAxis of pose1 and pose2 are
-normalized. A set of Y axis values are calculated for pose1 and pose2
-as an intermediate step, but those values are not saved.
-
+ @brief This routine is from Tom Kramer's kittingViewer.cc file that is part of the kittingViewer program.
+ This computes and sets the Point, XAxis, and ZAxis for poseToSet as
+ the product of pose1 and pose2, treating all the poses as homogeneous
+ matrices, and assuming the XAxis and ZAxis of pose1 and pose2 are
+ normalized. A set of Y axis values are calculated for pose1 and pose2
+ as an intermediate step, but those values are not saved.
+ @param poseToSet Pose is returned here
+ @param pose1 First pose of product.
+ @param pose2 Second pose of product.
+ @return None
 */
 
 void RecurseLocation::poseProduct(

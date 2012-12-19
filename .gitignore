@@ -9,6 +9,8 @@
 *.aux
 *.blg
 *.bbl
+*.o
+*.a
 /Documents/Manuals/Interpreter/LaTeX-Source/executor.lof
 /Documents/Manuals/Interpreter/LaTeX-Source/interpreter.tex.sav
 /Documents/Manuals/Interpreter/LaTeX-Source/executor.ps

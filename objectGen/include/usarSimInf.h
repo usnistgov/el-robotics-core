@@ -13,10 +13,12 @@
 class UsarSimInf{
  private:
   int PORT;
+  int connected; // 1 if connected to USARSim, 0 else
   ulapi_integer socket_fd;
 
  public:
-  UsarSimInf();
-  int placeObject( std::string className, std::string name, RecLoc *where );
+  UsarSimInf(int connectIn, std::string hostname, int portIn=3000);
+  int placeObject( std::string className, std::string name, RecLoc where,
+		   int permanent);
 };
 #endif

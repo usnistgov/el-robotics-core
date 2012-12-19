@@ -498,6 +498,13 @@ instance, the intermediate state relation \textbf{Contained-In} is used to descr
 (\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
 (\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))\notag
 \end{gather}
+
+To date this approach has been applied to our simplified kitting domain and has been shown to work on axis-aligned 
+rectilinear objects as described by the shape \class{BoxyObject}s in the ontology. As objects get more complex 
+in shape and orientation there may be instances where these intermediate state relations appear to be true 
+when they actually are not. This is an area of future research that is expected to be resolved shortly. 
+More information on the use of RCC8 relations for intermediate predicates may be found in \cite{Schlenoff2012}.
+
 In the ontology, intermediate state relations are represented with the OWL built-in property
 \texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation}
 to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.

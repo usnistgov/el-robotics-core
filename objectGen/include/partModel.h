@@ -1,6 +1,7 @@
 #ifndef __partModel
 #define __partModel
 #include "database/Part.h"
+#include "database/ShapeDesign.h"
 #include "database/StockKeepingUnit.h"
 #include <stdio.h> // printf
 #include <string>

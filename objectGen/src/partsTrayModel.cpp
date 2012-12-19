@@ -1,27 +1,27 @@
-#include "partModel.h"
+#include "partsTrayModel.h"
 
-PartModel::PartModel()
+PartsTrayModel::PartsTrayModel()
 {
-  part = NULL;
+  partsTray = NULL;
 }
 
-PartModel::PartModel( Part *partIn )
+PartsTrayModel::PartsTrayModel( PartsTray *partsTrayIn )
 {
-  setPart(partIn);
+  setPartsTray(partsTrayIn);
 }
 
-void PartModel::setPart( Part *partIn )
+void PartsTrayModel::setPartsTray( PartsTray *partsTrayIn )
 {
-  part = partIn;
+  partsTray = partsTrayIn;
 }
 
-std::string PartModel::getModel()
+std::string PartsTrayModel::getModel()
 {
   std::string modelName;
   StockKeepingUnit *sku;
   ShapeDesign *shapeDesign;
 
-  sku = part->gethasPart_Sku();
+  sku = partsTray->gethasPartsTray_Sku();
   //  printf( "getting sku name: \"%s\"\n", sku->getname().c_str() );
   sku->get(sku->getname());
   shapeDesign = sku->gethasSku_Shape();

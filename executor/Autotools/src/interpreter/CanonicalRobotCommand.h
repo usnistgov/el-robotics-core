@@ -24,7 +24,7 @@
 
 #include "Tools.h"
 #include "KittingPlan.h"
-
+#include "recurseLocation.h"
 //-- Headers to access data from the database
 
 #include "database/KitDesign.h"
@@ -60,10 +60,11 @@ public:
 
 
 	void attach_eff(vector<string> paramList,KittingPlan *kittingplan);
-	void canon_put_part(vector<double> xyz, Vector* z_axis, Vector* x_axis);
-	void canon_take_part(vector<double> xyz, Vector* z_axis, Vector* x_axis);
+	void canon_put_part(vector<double> xyz, vector<double> z_axis, vector<double> x_axis);
+	void canon_take_part(vector<double> xyz, vector<double> z_axis, vector<double> x_axis);
 	void create_kit(vector<string> paramList, KittingPlan *kittingplan);
 
+	RecLoc getPartGoalLocation(string part_name, string kit_name);
 	void put_kit(vector<string> paramList);
 	void put_kit_tray(vector<string> paramList);
 	void put_part(vector<string> paramList,KittingPlan *kittingplan);
@@ -77,12 +78,13 @@ public:
 private:
 	KitTrayLocStruct getKitTrayLocation(string kit_tray_name);
 	PartsTrayLocStruct getPartsTrayLocation(string parts_tray_name);
-	PartLocStruct getPartLocation(string part_name);
+	RecLoc getPartLocation(string part_name);
 	void print_closegripper();
 	void print_dwell(double time);
 	void print_endcannon(int id);
 	void print_initcannon();
-	void print_moveto(double x, double y, double z, Vector* z_axis, Vector* x_axis);
+	void print_moveto(double x, double y, double z, vector<double> z_axis, 
+			  vector<double> x_axis);
 	void print_opengripper();
 
 	double m_safe_z;

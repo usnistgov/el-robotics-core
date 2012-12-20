@@ -1,9 +1,9 @@
 # this is example-file: src/interpreter/Makefile.am
 
 # additional include paths necessary to compile the C++ library
-#AM_CXXFLAGS = -I$(top_srcdir)/src/database -Wall -Wextra @AM_CXXFLAGS@
+#AM_CXXFLAGS = -I$(top_srcdir)/src/database -Wall -Wextra @AM_CXXFLAGS@ 
 
-AM_CXXFLAGS = -I$(top_srcdir)/src
+AM_CXXFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/../../objectGen/include
 
 
 ###############################################################################

@@ -15,7 +15,7 @@ software
 
 DAO::DAO(std::string name){
 this->className.push_back(name);
-connection = Connection::getInstance("localhost", "root", "zeid", "IPMAS");this->fillGetSqlQueries();
+connection = Connection::getInstance("localhost", "root", "warnerBr0s", "OWL");this->fillGetSqlQueries();
 }
 std::map<std::string, std::string> DAO::getSqlQueriesDataSingle;std::map<std::string,std::vector<std::string> > DAO::getSqlQueriesDataMulti;std::map<std::string,std::vector<std::string> > DAO::getSqlQueriesObjectSingle;std::map<std::string,std::vector<std::string> > DAO::getSqlQueriesObjectMulti;
 

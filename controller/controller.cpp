@@ -251,121 +251,144 @@ int Controller::processMsg(CanonicalMsg *canonicalPt, void *sendTo)
 {
   int isError = 0;
   
-  printf( "Processing msg number: %d from time: %lf\n",
+  printf( "controller.cpp:Processing msg number: %d from time: %lf\n",
 	  canonicalPt->getMsgID(), canonicalPt->getTime() );
 
   if (dynamic_cast<CloseGripperMsg *>(canonicalPt))
     {
+      dynamic_cast<CloseGripperMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<CloseGripperMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<CloseGripperMsg *>(canonicalPt);
     }
   else if (dynamic_cast<CloseToolChangerMsg *>(canonicalPt))
     {
+      dynamic_cast<CloseToolChangerMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<CloseToolChangerMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<CloseToolChangerMsg *>(canonicalPt);
     }
   else if (dynamic_cast<DwellMsg *>(canonicalPt))
     {
+      dynamic_cast<DwellMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<DwellMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<DwellMsg *>(canonicalPt);
     }
   else if (dynamic_cast<EndCanonMsg *>(canonicalPt))
     {
+      dynamic_cast<EndCanonMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<EndCanonMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<EndCanonMsg *>(canonicalPt);
     }
   else if (dynamic_cast<InitCanonMsg *>(canonicalPt))
     {
+      dynamic_cast<InitCanonMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<InitCanonMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<InitCanonMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MessageMsg *>(canonicalPt))
     {
+      dynamic_cast<MessageMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<MessageMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MessageMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveStraightToMsg *>(canonicalPt))
     {
+      dynamic_cast<MoveStraightToMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<MoveStraightToMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MoveStraightToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveThroughToMsg *>(canonicalPt))
     {
+      dynamic_cast<MoveThroughToMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<MoveThroughToMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MoveThroughToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveToMsg *>(canonicalPt))
     {
+      dynamic_cast<MoveToMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<MoveToMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<MoveToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<OpenGripperMsg *>(canonicalPt))
     {
+      dynamic_cast<OpenGripperMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<OpenGripperMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<OpenGripperMsg *>(canonicalPt);
     }
   else if (dynamic_cast<OpenToolChangerMsg *>(canonicalPt))
     {
+      dynamic_cast<OpenToolChangerMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<OpenToolChangerMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<OpenToolChangerMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt))
     {
+      dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt))
     {
+      dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAngleUnitsMsg *>(canonicalPt))
     {
+      dynamic_cast<SetAngleUnitsMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetAngleUnitsMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetAngleUnitsMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt))
     {
+      dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt))
     {
+      dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt))
     {
+      dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetLengthUnitsMsg *>(canonicalPt))
     {
+      dynamic_cast<SetLengthUnitsMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetLengthUnitsMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetLengthUnitsMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt))
     {
+      dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt))
     {
+      dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt);
     }
   else if (dynamic_cast<StartObjectScanMsg *>(canonicalPt))
     {
+      dynamic_cast<StartObjectScanMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<StartObjectScanMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<StartObjectScanMsg *>(canonicalPt);
     }
   else if (dynamic_cast<StopMotionMsg *>(canonicalPt))
     {
+      dynamic_cast<StopMotionMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<StopMotionMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<StopMotionMsg *>(canonicalPt);
     }
   else if (dynamic_cast<StopObjectScanMsg *>(canonicalPt))
     {
+      dynamic_cast<StopObjectScanMsg *>(canonicalPt)->printMe();
       isError = dynamic_cast<StopObjectScanMsg *>(canonicalPt)->process(sendTo);
       delete dynamic_cast<StopObjectScanMsg *>(canonicalPt);
     }

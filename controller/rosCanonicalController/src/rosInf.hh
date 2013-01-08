@@ -10,7 +10,6 @@
 #include <actionlib/client/simple_action_client.h>
 #include <controller.hh>
 #include <Point.h>
-
 enum EffectorType
 {
   ROS_INF_GRIPPER = 1,

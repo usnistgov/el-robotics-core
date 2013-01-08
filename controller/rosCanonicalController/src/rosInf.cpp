@@ -8,7 +8,7 @@ RosInf::RosInf ()
   armGoals.clear ();
   moveArmClient = NULL;
   lengthUnits = "mm";
-  positionTolerance = 0.01;	//(meters)
+  positionTolerance = 0.015;	//(meters)
 }
 
 RosInf::~RosInf ()
@@ -363,12 +363,29 @@ RosInf::navigationDoneCallback (const actionlib::
 				MoveArmResultConstPtr & result)
 {
   printf ("Arm navigation goal complete: %s\n", state.toString ().c_str ());
-  printf ("Arm goal error code: %s\n", arm_navigation_msgs::
-	  armNavigationErrorCodeToString(result->error_code).c_str ());
   if( state == actionlib::SimpleClientGoalState::ABORTED )
     {
-      printf( "Error from action\n" );
-      exit(1);
+      tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
+      //      const bt::Quaternion goalOrientation = armGoals.front ().getGoalOrientation();
+      //      btScalar roll, pitch, yaw;
+      //      btMatrix3x3(goalOrientation).getRPY(roll, pitch, yaw );
+
+      printf ("Arm goal error code: %s on goal <%f %f %f> <f f f>\n", 
+	      arm_navigation_msgs::armNavigationErrorCodeToString(result->error_code).c_str (),
+	      goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
+      //	      roll, pitch, yaw);
+      if( result->error_code.val != result->error_code.SUCCESS )
+	{
+	  printf( "rosInf.cpp:Should probably exit here!\n" );
+	  exit(1);
+	}
+    }
+  else
+    {
+      tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
+      printf ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
+	      goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
+      
     }
   armGoals.pop_front ();
   if (!armGoals.empty ())

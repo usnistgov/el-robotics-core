@@ -4,11 +4,10 @@
 #include <Point.h>
 #include <tf/transform_datatypes.h>
 
-int CloseGripperMsg::process(void* sendTo)
+int CloseGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-    printf("Received CloseGripper msg, setting all effector goal states to CLOSE\n");
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
@@ -18,11 +17,15 @@ int CloseGripperMsg::process(void* sendTo)
   return 1;
 }
 
+void CloseGripperMsg::printMe()
+{
+  printf( "\tCloseGripperMsg\n");
+}
+
 int CloseToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-    printf("Received CloseGripper msg, setting all effector goal states to CLOSE\n");
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
@@ -32,46 +35,77 @@ int CloseToolChangerMsg::process(void *sendTo)
   return 1;
 }
 
-int DwellMsg::process(void* sendTo)
+void CloseToolChangerMsg::printMe()
+{
+  printf( "\tCloseToolChangerMsg\n");
+}
+
+int DwellMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-	  printf( "Received dwell message of time: %lf\n", time );
 	  usleep((int)(time*1000000));
   }
-  printf("dwell\n");
   return 0;
 }
 
-int EndCanonMsg::process(void* sendTo)
+void DwellMsg::printMe()
+{
+  printf( "\tDwellMsg of time: %lf\n", time);
+}
+
+int EndCanonMsg::process(void *sendTo)
 {
   if(sendTo != NULL)
   {
   	((RosInf*)sendTo)->shutDown();
   }
   ros::shutdown();
-  printf( "Received endCanon message reason: %d\n", reason );
   return 2;
 }
 
-int InitCanonMsg::process(void* sendTo)
+void EndCanonMsg::printMe()
+{
+  printf( "\tEndCanonMsg reason: %d\n", reason);
+}
+
+int InitCanonMsg::process(void *sendTo)
 {
 	if(sendTo != NULL)
 	{
 		((RosInf*)sendTo)->init();
-		printf("initcanon\n");
 		return 0;
 	}
 	printf("Could not initialize canon because controller is null\n");
 	return 1;
 }
 
-int MessageMsg::process(void* sendTo)
+void InitCanonMsg::printMe()
 {
-  printf( "Received Message msg\n" );
+      printf( "\tInitCanonMsg\n");
+}
+
+int MessageMsg::process(void *sendTo)
+{
   return 0;
 }
-int MoveThroughToMsg::process(void* sendTo)
+
+void MessageMsg::printMe()
+{
+  printf( "\tMessageMsg: %s\n", message.c_str());
+}
+
+int MoveStraightToMsg::process(void *sendTo)
+{
+  return 0;
+}
+
+void MoveStraightToMsg::printMe()
+{
+      printf( "\tMoveStraightToMsg\n");
+}
+
+int MoveThroughToMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -91,12 +125,13 @@ int MoveThroughToMsg::process(void* sendTo)
   }
   return 1;
 }
-int MoveStraightToMsg::process(void* sendTo)
+
+void MoveThroughToMsg::printMe()
 {
-  printf( "Received MoveStraightTo msg\n" );
-  return 0;
+      printf( "\tMoveThroughtToMsg\n");
 }
-int MoveToMsg::process(void* sendTo)
+
+int MoveToMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -112,11 +147,49 @@ int MoveToMsg::process(void* sendTo)
   }
   return 0;
 }
-int OpenGripperMsg::process(void* sendTo)
+
+void MoveToMsg::printMe()
+{
+      printf( "\tMoveToMsg\n");
+      printf( "\t Loc: <%f %f %f>\n", 
+	      poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
+	      poseLocation->gethasPoseLocation_Point()->gethasPoint_Y(),
+	      poseLocation->gethasPoseLocation_Point()->gethasPoint_Z());
+
+      tf::Vector3 xAxis (poseLocation->gethasPoseLocation_XAxis()->gethasVector_I(),
+			 poseLocation->gethasPoseLocation_XAxis()->gethasVector_J(),
+			 poseLocation->gethasPoseLocation_XAxis()->gethasVector_K());
+
+      tf::Vector3 zAxis (poseLocation->gethasPoseLocation_ZAxis()->gethasVector_I(), 
+			 poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
+			 poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
+
+      //find equivalent quaternion for x/z vectors
+      tf::Vector3 xRotationAxis (0, -1 * xAxis.z (), xAxis.y ());	//cross product of target point x axis and (1,0,0)
+      float xAngle = acos (xAxis.x ());
+      if (xRotationAxis.length () == 0)	//if target point x axis is parallel to world x
+	{
+	  xRotationAxis = tf::Vector3 (0, 1, 0);	//rotate either pi or 0 about y axis
+	}
+      tf::Transform xTransform (tf::Quaternion (xRotationAxis, xAngle));
+      tf::Vector3 transformedZ = xTransform * tf::Vector3 (0, 0, 1);
+      float zAngle = acos (transformedZ.dot (zAxis) / zAxis.length ());
+      tf::Transform zTransform (tf::
+				Quaternion (tf::Vector3 (1.0, 0.0, 0.0),
+					    zAngle));
+      tf::Transform axisTransform = xTransform * zTransform;
+
+      printf( "\t Rot: <%f %f %f %f>\n",
+	      axisTransform.getRotation ().x (),
+	      axisTransform.getRotation ().y (),
+	      axisTransform.getRotation ().z (),
+	      axisTransform.getRotation ().w ());
+}
+
+int OpenGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-    printf("Received OpenGripper msg, setting all effector goal states to OPEN\n");
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
@@ -126,11 +199,15 @@ int OpenGripperMsg::process(void* sendTo)
   return 1;
 }
 
+void OpenGripperMsg::printMe()
+{
+      printf( "\tOpenGripperMsg\n");
+}
+
 int OpenToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-    printf("Received OpenGripper msg, setting all effector goal states to OPEN\n");
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
@@ -140,65 +217,112 @@ int OpenToolChangerMsg::process(void *sendTo)
   return 1;
 }
 
-int SetAbsoluteAccelerationMsg::process(void* sendTo)
+void OpenToolChangerMsg::printMe()
 {
-  printf( "Received SetAbsoluteAcceleration msg\n" );
+      printf( "\tOpenToolChangerMsg\n");
+}
+
+int SetAbsoluteAccelerationMsg::process(void *sendTo)
+{
   return 0;
+}
+
+void SetAbsoluteAccelerationMsg::printMe()
+{
+      printf( "\tSetAbsoluteAccelerationMsg\n");
 }
 
 int SetAbsoluteSpeedMsg::process(void *sendTo)
 {
-  printf( "Received SetAbsoluteSpeed msg\n" );
   return 0;
 }
 
-
-int SetAngleUnitsMsg::process(void* sendTo)
+void SetAbsoluteSpeedMsg::printMe()
 {
-  printf( "Received SetAngleUnits msg\n" );
-  return 0;
+  printf( "\tSetAbsoluteSpeedMsg\n" );
 }
 
-int SetEndAngleToleranceMsg::process(void* sendTo)
+int SetAngleUnitsMsg::process(void *sendTo)
 {
-  printf( "Received SetEndAngleTolerance msg\n" );
   return 0;
 }
 
-int SetEndPointToleranceMsg::process(void* sendTo)
+void SetAngleUnitsMsg::printMe()
+{
+      printf( "\tSetAngleUnitsMsg\n");
+}
+
+int SetEndAngleToleranceMsg::process(void *sendTo)
+{
+  return 0;
+}
+
+void SetEndAngleToleranceMsg::printMe()
+{
+      printf( "\tSetEndAngleToleranceMsg\n");
+}
+
+int SetEndPointToleranceMsg::process(void *sendTo)
 {
   ((RosInf*)sendTo)->setEndPointTolerance(tolerance);
   return 0;
 }
 
-int SetIntermediatePointToleranceMsg::process(void* sendTo)
+void SetEndPointToleranceMsg::printMe()
 {
-  printf( "Received SetIntermediatePointTolerance msg\n" );
+      printf( "\tSetEndPointToleranceMsg\n");
+}
+
+int SetIntermediatePointToleranceMsg::process(void *sendTo)
+{
   return 0;
 }
 
-int SetLengthUnitsMsg::process(void* sendTo)
+void SetIntermediatePointToleranceMsg::printMe()
+{
+      printf( "\tSetIntermediatePointToleranceMsg\n");
+}
+
+int SetLengthUnitsMsg::process(void *sendTo)
 {
   ((RosInf*)sendTo)->setLengthUnits(unitName);
   return 0;
 }
 
-int SetRelativeAccelerationMsg::process(void* sendTo)
+void SetLengthUnitsMsg::printMe()
 {
-  printf( "Received SetRelativeAcceleration msg\n" );
+      printf( "\tSetLengthUnitsMsg\n");
+}
+
+int SetRelativeAccelerationMsg::process(void *sendTo)
+{
   return 0;
 }
 
-int SetRelativeSpeedMsg::process(void* sendTo)
+void SetRelativeAccelerationMsg::printMe()
 {
-  printf( "Received SetRelativeSpeed msg\n" );
+      printf( "\tSetRelativeAccelerationMsg\n");
+}
+
+int SetRelativeSpeedMsg::process(void *sendTo)
+{
   return 0;
 }
 
-int StartObjectScanMsg::process(void* sendTo)
+void SetRelativeSpeedMsg::printMe()
+{
+      printf( "\tSetRelativeSpeedMsg\n");
+}
+
+int StartObjectScanMsg::process(void *sendTo)
 {
   ((RosInf*)sendTo)->searchPart(objectName);
   return 0;
+}
+
+void StartObjectScanMsg::printMe()
+{
+      printf( "\tStartObjectScanMsg\n");
 }
 
 int StopMotionMsg::process(void *sendTo)
@@ -207,10 +331,19 @@ int StopMotionMsg::process(void *sendTo)
 	return 0;
 }
 
-int StopObjectScanMsg::process(void* sendTo)
+void StopMotionMsg::printMe()
+{
+      printf( "\tStopMotionMsg\n");
+}
+
+int StopObjectScanMsg::process(void *sendTo)
 {
 	ROS_ERROR("STOP SCAN!");
 	((RosInf*)sendTo)->stopSearch();
 	return 0;
 }
 
+void StopObjectScanMsg::printMe()
+{
+      printf( "\tStopObjectScanMsg\n");
+}

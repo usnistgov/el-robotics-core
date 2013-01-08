@@ -139,6 +139,16 @@ std::string NavigationGoal::getActName()
 	return actName;
 }
 
+tf::Vector3 NavigationGoal::getGoalPosition()
+{
+  return goalPosition;
+}
+
+tf::Quaternion NavigationGoal::getGoalOrientation()
+{
+  return goalOrientation;
+}
+
 arm_navigation_msgs::MoveArmGoal NavigationGoal::getGoal()
 {
 	updateGoalTransformation();

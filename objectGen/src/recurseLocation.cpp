@@ -12,6 +12,15 @@
 #include "recurseLocation.h"
 #include <stdio.h> // printf
 #include <math.h>
+/*!
+  @brief Clear out the vectors for this structure
+*/
+void RecLoc::clear()
+{
+  pointXYZ.clear();
+  xAxis.clear();
+  zAxis.clear();
+}
 
 /*!
  @brief Retreive the roll, pitch, and yaw from the RecLoc.
@@ -90,6 +99,16 @@ void RecLoc::getRollPitchYaw(double *roll, double *pitch, double *yaw)
 RecurseLocation::RecurseLocation()
 {
   initGlobalLoc();
+}
+
+/*!
+  @ manually add location to recursive list
+  @param recLocToAdd The location to add
+  @return None
+*/
+void RecurseLocation::addRecLoc(RecLoc *recLocToAdd)
+{
+  recLoc.push_back(*recLocToAdd);
 }
 
 /*!
@@ -261,7 +280,7 @@ void RecurseLocation::printMe(int verbosity)
     {
       for(int i=0; i<recLoc.size(); i++ )
 	{
-	  printf( "solidObject: %s\n\tprim: %s\n\tPoint:%s <%f %f %f>\n\txAxis:%s <%d %d %d>\n\tzAxis:%s <%d %d %d>\n",
+	  printf( "solidObject: %s\n\tprim: %s\n\tPoint:%s <%f %f %f>\n\txAxis:%s <%f %f %f>\n\tzAxis:%s <%f %f %f>\n",
 		  recLoc[i].solidObjectName.c_str(),
 		  recLoc[i].primaryLocationName.c_str(),
 		  recLoc[i].posePointName.c_str(),
@@ -278,7 +297,7 @@ void RecurseLocation::printMe(int verbosity)
 		  recLoc[i].zAxis[2] );
 	}
     }
-  printf( "\tGlobalLoc:\n\t\t <%f %f %f>\n\t\t <%d %d %d>\n\t\t<%d %d %d>\n",
+  printf( "\tGlobalLoc:\n\t\t <%f %f %f>\n\t\t <%f %f %f>\n\t\t<%f %f %f>\n",
 	  globalLoc.pointXYZ[0],
 	  globalLoc.pointXYZ[1],
 	  globalLoc.pointXYZ[2],

@@ -30,6 +30,8 @@ public:
 	void setTransformListener(tf::TransformListener *listenerPtrIn);
 	arm_navigation_msgs::MoveArmGoal getGoal();
 	std::string getActName();
+        tf::Vector3 getGoalPosition();
+        tf::Quaternion getGoalOrientation();
 private:
 	tf::TransformListener *listenerPtr;
 	arm_navigation_msgs::MoveArmGoal goal;

@@ -29,9 +29,10 @@ class RecLoc{
   std::string xAxisName;
   std::string zAxisName;
   std::vector<double>pointXYZ;
-  std::vector<int>xAxis;
-  std::vector<int>zAxis;
+  std::vector<double>xAxis;
+  std::vector<double>zAxis;
   void getRollPitchYaw(double *roll, double *pitch, double *yaw);
+  void clear();
 };
 
 class RecurseLocation{
@@ -41,6 +42,7 @@ class RecurseLocation{
   void cleanup();
  public:
   RecurseLocation();
+  void addRecLoc(RecLoc *recLocToAdd);
   void clear();
   int computeGlobalLoc();
   RecLoc getGlobalLoc();

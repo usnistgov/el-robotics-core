@@ -71,8 +71,20 @@ main (int argc, char* argv[])
   ulapi_task_start (dequeueTask, dequeueThread, (void *) ctrl, ulapi_prio_lowest (),
 		    1);
   
-  
-  inFile = fopen(argv[1], "r");
+
+  if( argc == 1 )
+    {
+      printf( "%s: Using stdio for input\n", argv[0] );
+      inFile = stdin;
+    }
+  else if( argc == 2 )
+    inFile = fopen(argv[1], "r");
+  else
+    {
+      printf( "Usage: %s <file>\n\t If file is not specified, then keyboard input is read.\n", argv[0] );
+      exit(1);
+    }
+
   if (inFile == 0)
     {
       fprintf(stderr, "unable to open file %s for reading\n", argv[1]);

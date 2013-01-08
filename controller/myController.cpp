@@ -28,16 +28,31 @@ int CloseGripperMsg::process(void *sendTo)
   return 0;
 }
 
+void CloseGripperMsg::printMe()
+{
+  printf( "CloseGripperMsg\n");
+}
+
 int CloseToolChangerMsg::process(void *sendTo)
 {
   printf( "Received close tool changer msg\n" );
   return 0;
 }
 
+void CloseToolChangerMsg::printMe()
+{
+  printf( "CloseToolChangerMsg\n");
+}
+
 int DwellMsg::process(void *sendTo)
 {
   printf( "Received dwell message of time: %lf\n", time );
   return 0;
+}
+
+void DwellMsg::printMe()
+{
+      printf( "DwellMsg\n");
 }
 
 // return 2 to let processes know that we are done
@@ -47,10 +62,20 @@ int EndCanonMsg::process(void *sendTo)
   return 2;
 }
 
+void EndCanonMsg::printMe()
+{
+      printf( "EndCanonMsg\n");
+}
+
 int InitCanonMsg::process(void *sendTo)
 {
   printf( "Received initCanon message\n" );
   return 0;
+}
+
+void InitCanonMsg::printMe()
+{
+      printf( "InitCanonMsg\n");
 }
 
 int MessageMsg::process(void *sendTo)
@@ -59,10 +84,20 @@ int MessageMsg::process(void *sendTo)
   return 0;
 }
 
+void MessageMsg::printMe()
+{
+      printf( "MessageMsg\n");
+}
+
 int MoveStraightToMsg::process(void *sendTo)
 {
   printf( "Received MoveStraightTo msg\n" );
   return 0;
+}
+
+void MoveStraightToMsg::printMe()
+{
+      printf( "MoveStraightToMsg\n");
 }
 
 int MoveThroughToMsg::process(void *sendTo)
@@ -71,10 +106,20 @@ int MoveThroughToMsg::process(void *sendTo)
   return 0;
 }
 
+void MoveThroughToMsg::printMe()
+{
+      printf( "MoveThroughtToMsg\n");
+}
+
 int MoveToMsg::process(void *sendTo)
 {
   printf( "Received MoveTo msg\n" );
   return 0;
+}
+
+void MoveToMsg::printMe()
+{
+      printf( "MoveToMsg\n");
 }
 
 int OpenGripperMsg::process(void *sendTo)
@@ -83,10 +128,20 @@ int OpenGripperMsg::process(void *sendTo)
   return 0;
 }
 
+void OpenGripperMsg::printMe()
+{
+      printf( "OpenGripperMsg\n");
+}
+
 int OpenToolChangerMsg::process(void *sendTo)
 {
   printf( "Received open tool changer msg\n" );
   return 0;
+}
+
+void OpenToolChangerMsg::printMe()
+{
+      printf( "OpenToolChangerMsg\n");
 }
 
 int SetAbsoluteAccelerationMsg::process(void *sendTo)
@@ -95,10 +150,20 @@ int SetAbsoluteAccelerationMsg::process(void *sendTo)
   return 0;
 }
 
+void SetAbsoluteAccelerationMsg::printMe()
+{
+      printf( "SetAbsoluteAccelerationMsg\n");
+}
+
 int SetAbsoluteSpeedMsg::process(void *sendTo)
 {
   printf( "Received SetAbsoluteSpeed msg\n" );
   return 0;
+}
+
+void SetAbsoluteSpeedMsg::printMe()
+{
+  printf( "SetAbsoluteSpeedMsg\n" );
 }
 
 int SetAngleUnitsMsg::process(void *sendTo)
@@ -107,10 +172,20 @@ int SetAngleUnitsMsg::process(void *sendTo)
   return 0;
 }
 
+void SetAngleUnitsMsg::printMe()
+{
+      printf( "SetAngleUnitsMsg\n");
+}
+
 int SetEndAngleToleranceMsg::process(void *sendTo)
 {
   printf( "Received SetEndAngleTolerance msg\n" );
   return 0;
+}
+
+void SetEndAngleToleranceMsg::printMe()
+{
+      printf( "SetEndAngleToleranceMsg\n");
 }
 
 int SetEndPointToleranceMsg::process(void *sendTo)
@@ -119,10 +194,20 @@ int SetEndPointToleranceMsg::process(void *sendTo)
   return 0;
 }
 
+void SetEndPointToleranceMsg::printMe()
+{
+      printf( "SetEndPointToleranceMsg\n");
+}
+
 int SetIntermediatePointToleranceMsg::process(void *sendTo)
 {
   printf( "Received SetIntermediatePointTolerance msg\n" );
   return 0;
+}
+
+void SetIntermediatePointToleranceMsg::printMe()
+{
+      printf( "SetIntermediatePointToleranceMsg\n");
 }
 
 int SetLengthUnitsMsg::process(void *sendTo)
@@ -131,10 +216,20 @@ int SetLengthUnitsMsg::process(void *sendTo)
   return 0;
 }
 
+void SetLengthUnitsMsg::printMe()
+{
+      printf( "SetLengthUnitsMsg\n");
+}
+
 int SetRelativeAccelerationMsg::process(void *sendTo)
 {
   printf( "Received SetRelativeAcceleration msg\n" );
   return 0;
+}
+
+void SetRelativeAccelerationMsg::printMe()
+{
+      printf( "SetRelativeAccelerationMsg\n");
 }
 
 int SetRelativeSpeedMsg::process(void *sendTo)
@@ -143,9 +238,19 @@ int SetRelativeSpeedMsg::process(void *sendTo)
   return 0;
 }
 
+void SetRelativeSpeedMsg::printMe()
+{
+      printf( "SetRelativeSpeedMsg\n");
+}
+
 int StartObjectScanMsg::process(void *sendTo)
 {
 	printf( "Received StartObjectScan msg for part %s\n", objectName.c_str() );
+}
+
+void StartObjectScanMsg::printMe()
+{
+      printf( "StartObjectScanMsg\n");
 }
 
 int StopMotionMsg::process(void *sendTo)
@@ -157,7 +262,17 @@ int StopMotionMsg::process(void *sendTo)
   return 0;
 }
 
+void StopMotionMsg::printMe()
+{
+      printf( "StopMotionMsg\n");
+}
+
 int StopObjectScanMsg::process(void *sendTo)
 {
 	printf( "Received StopObjectScanMsg.\n");
+}
+
+void StopObjectScanMsg::printMe()
+{
+      printf( "StopObjectScanMsg\n");
 }

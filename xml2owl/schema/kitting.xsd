@@ -6,7 +6,7 @@
   targetNamespace="urn:kitting"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
-  version="2013Jan10">
+  version="2013Jan10B">
 
   <xs:element name="KittingWorkstation"
     type="KittingWorkstationType">
@@ -919,8 +919,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="SolidObjectType"
-    abstract="true">
+  <xs:complexType name="SolidObjectType">
     <xs:annotation>
       <xs:documentation>
         A SolidObjectType has (1) a Name, (2) a PrimaryLocation that is a

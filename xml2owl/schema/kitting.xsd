@@ -6,7 +6,7 @@
   targetNamespace="urn:kitting"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
-  version="2013Jan10B">
+  version="2013Jan10C">
 
   <xs:element name="KittingWorkstation"
     type="KittingWorkstationType">
@@ -199,14 +199,14 @@
         EndEffectorChangingStationType is in the same place as the
         coordinate system of its Base. The shape of an
         EndEffectorChangingStationType may also be found from the shapes of
-        Base and the EndEffectorHolders and their relative positions.
+        the Base and the EndEffectorHolders and their relative positions.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SolidObjectType">
         <xs:sequence>
           <xs:element name="Base"
-            type="SolidObjectType"/>
+            type="MechanicalComponentType"/>
           <xs:element name="EndEffectorHolders"
             type="EndEffectorHolderType"
             maxOccurs="unbounded"/>
@@ -530,10 +530,25 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:complexType name="MechanicalComponentType">
+    <xs:annotation>
+      <xs:documentation>
+        A MechanicalComponentType is a SolidObjectType. It has Name,
+        PrimaryLocation, SecondaryLocation, InternalShape, and
+        ExternalShape elements inherited from SolidObjectType. A
+        MechanicalComponentType is a component of kitting workstation
+        device such as a robot or an end effector changing station.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="PartType">
     <xs:annotation>
       <xs:documentation>
-        A PartType is a SolidObject. It has Name, PrimaryLocation,
+        A PartType is a SolidObjectType. It has Name, PrimaryLocation,
         SecondaryLocation, InternalShape, and ExternalShape elements
         inherited from SolidObjectType. It also has SerialNumber and
         SkuName elements. The SkuName is the name of a StockKeepingUnit.
@@ -919,7 +934,8 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="SolidObjectType">
+  <xs:complexType name="SolidObjectType"
+    abstract="true">
     <xs:annotation>
       <xs:documentation>
         A SolidObjectType has (1) a Name, (2) a PrimaryLocation that is a

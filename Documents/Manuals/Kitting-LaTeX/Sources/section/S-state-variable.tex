@@ -25,9 +25,9 @@ For the kitting domain, there is a finite set of constant variable symbols that 
 
 \item A set of \class{EndEffector}: \class{EndEffectors} are used in a kitting workstation to manipulate \class{Parts}, \class{PartsTrays}, \class{KitTrays}, and \class{Kits}. An \class{EndEffector} is attached to a \class{Robot} in order to grasp objects.
 
-\item A set of \class{EndEffectorHolder}: An \class{EndEffectorHolder} is a storage unit that holds one type of \class{EndEffector}.
+\item A set of \class{EndEffHolder}: An \class{EndEffHolder} is a storage unit that holds one type of \class{EndEffector}.
 
-\item A set of \class{EndEffectorChangingStation}: An \class{EndEffectorChangingStation} is made up of \class{EndEffectorHolders}.
+\item A set of \class{EndEffChStation}: An \class{EndEffChStation} is made up of \class{EndEffHolders}.
 \end{itemize}
 %\end {small}
 
@@ -50,11 +50,11 @@ $\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow}$ $\mathrm{B_1\cup\dots
 The use of state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain.
 
 \begin{itemize}
-\item \stvar{endeffector-location}\\ \class{EndEffector}$\mathrm{\times S\rightarrow}$\class{Robot} $\cup$ \class{EndEffectorHolder}: designates the location of an \class{EndEffector} in the workstation. An \class{EndEffector} is either attached to a \class{Robot} or placed in an \class{EndEffectorHolder}.
+\item \stvar{endeff-location}\\ \class{EndEffector}$\mathrm{\times S\rightarrow}$\class{Robot} $\cup$ \class{EndEffHolder}: designates the location of an \class{EndEffector} in the workstation. An \class{EndEffector} is either attached to a \class{Robot} or placed in an \class{EndEffHolder}.
 
-\item \stvar{robot-with-endeffector}\\ \class{Robot}$\mathrm{\times S\rightarrow}$\class{EndEffector} $\cup$ \{\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise nothing.
+\item \stvar{robot-with-endeff}\\ \class{Robot}$\mathrm{\times S\rightarrow}$\class{EndEffector} $\cup$ \{\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise nothing.
 
-\item \stvar{on-worktable}\\ \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{Kit} $\cup$ \class{KitTray} $\cup$ \{\}: designates the object placed on the \class{WorkTable}, i.e., a \class{Kit}, a \class{KitTray}, or nothing.
+\item \stvar{on-wtable}\\ \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{Kit} $\cup$ \class{KitTray} $\cup$ \{\}: designates the object placed on the \class{WorkTable}, i.e., a \class{Kit}, a \class{KitTray}, or nothing.
 
 \item \stvar{kit-location}\\ \class{Kit}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithKits} $\cup$ \class{WorkTable} $\cup$ \class{Robot}: designates the different possible locations of a \class{Kit} in the workstation, i.e., in a \class{LargeBoxWithKits}, on the \class{WorkTable}, or being held by a \class{Robot}.
 
@@ -72,11 +72,11 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{endffector-type}\\ \class{EndEffector}$\mathrm{\times S \rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part}: designates the type of object an \class{EndEffector} can hold, i.e., a \class{KitTray}, a \class{Kit}, or a \class{Part}.
 
-\item \stvar{endeffectorholder-holds-endeffector}\\ \class{EndEffectorHolder}$\mathrm{\times S \rightarrow}$\class{EndEffector} $\cup$ \{\}: designates wether an \class{EndEffectorHolder} is holding an \class{EndEffector} or nothing.
+\item \stvar{endeffholder-holds-endeff}\\ \class{EndEffHolder}$\mathrm{\times S \rightarrow}$\class{EndEffector} $\cup$ \{\}: designates wether an \class{EndEffHolder} is holding an \class{EndEffector} or nothing.
 
-\item \stvar{endeffectorholder-location}\\ \class{EndEffectorHolder}$\mathrm{\times S \rightarrow}$\class{EndEffectorChangingStation}: designates the \class{EndEffectorChangingStation} where the \class{EndEffectorHolder} is located.
+\item \stvar{endeffholder-location}\\ \class{EndEffHolder}$\mathrm{\times S \rightarrow}$\class{EndEffChStation}: designates the \class{EndEffChStation} where the \class{EndEffHolder} is located.
 
-\item \stvar{endeffectorchangingstation-has-endeffectorholder}\\ \class{EndEffectorChangingStation}$\mathrm{\times S \rightarrow}$\class{EndEffectorHolder}: designates the \class{EndEffectorHolder} the \class{EndEffectorChangingStation} contains.
+\item \stvar{endeffchstation-has-endeffholder}\\ \class{EndEffChStation}$\mathrm{\times S \rightarrow}$\class{EndEffHolder}: designates the \class{EndEffHolder} the \class{EndEffChStation} contains.
 
 \item \stvar{found-part}\\ \class{PartsTray}$\mathrm{\times S \rightarrow}$\class{Part} $\cup$ \{\}: designates wether a \class{Part} is found in a \class{PartsTray} or not.
 
@@ -93,7 +93,7 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 %\subsection{Rigid Relations}
 %\label{subsubsect:Rigid_Relation}
-%\stvar{efftype} and \stvar{effhold-eff} are rigid relations since their values do not vary from one state to another. In each state, a given \class{EndEffector} will %always hold the same type of object and a given \class{EndEffectorHolder} will always hold the same \class{EndEffectors}.
+%\stvar{efftype} and \stvar{effhold-eff} are rigid relations since their values do not vary from one state to another. In each state, a given \class{EndEffector} will %always hold the same type of object and a given \class{EndEffHolder} will always hold the same \class{EndEffectors}.
 
 \subsection{Predicates and Functions}
 In PDDL, predicates are used to encode Boolean state variables, while functions are used to model updates of numerical values~\cite{FOXandLong.2003}. This section describes the predicates and functions derived from the state variables described in section~\ref{subsect:State_Variable_Symbols}. We recall the following definition of a state variable ((section~\ref{subsect:State_Variable_Symbols})) $\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow B_1\cup\dots\cup B_j}$ ($i, j\geq 1$) that is used to convert state variables into predicates as follows:
@@ -115,29 +115,29 @@ Where $\mathcal{A} \in \mathrm{\{A_1,\ldots,A_i\}}$ and $\mathcal{B} \in \mathrm
 
 The state variables in our current kitting domain contains the following predicates.
 \begin{itemize}
- \item \stvar{endeffector-location}
+ \item \stvar{endeff-location}
   \begin{itemize}
-  \item \stvar{endeffector-location-robot}(\class{EndEffector},\class{Robot}) ;TRUE iff \class{EndEffector} is attached to \class{Robot}
-  \item \stvar{endeffector-location-endeffectorholder}(\class{EndEffector},\class{EndEffectorHolder}) ;TRUE iff \class{EndEffector} is in \class{EndEffectorHolder}
+  \item \stvar{endeff-location-robot}(\class{EndEffector},\class{Robot}) ;TRUE iff \class{EndEffector} is attached to \class{Robot}
+  \item \stvar{endeff-location-endeffholder}(\class{EndEffector},\class{EndEffHolder}) ;TRUE iff \class{EndEffector} is in \class{EndEffHolder}
   \end{itemize}
 
- \item \stvar{robot-with-endeffector}
+ \item \stvar{robot-with-endeff}
   \begin{itemize}
-  \item \stvar{robot-with-endeffector}(\class{Robot},\class{EndEffector}) ;TRUE iff \class{Robot} is equipped with \class{EndEffector}
-  \item \stvar{robot-with-no-endeffector}(\class{Robot}) ;TRUE iff \class{Robot} is not equipped with any \class{EndEffector}	
+  \item \stvar{robot-with-endeff}(\class{Robot},\class{EndEffector}) ;TRUE iff \class{Robot} is equipped with \class{EndEffector}
+  \item \stvar{robot-with-no-endeff}(\class{Robot}) ;TRUE iff \class{Robot} is not equipped with any \class{EndEffector}	
   \end{itemize}
 
- \item \stvar{on-worktable}
+ \item \stvar{on-wtable}
   \begin{itemize}
-  \item \stvar{on-worktable-kit}(\class{WorkTable},\class{Kit}) ;TRUE iff \class{Kit} is on the \class{WorkTable}
-  \item \stvar{on-worktable-kittray}(\class{WorkTable},\class{KitTray}) ;TRUE iff \class{KitTray} is on the \class{WorkTable}
+  \item \stvar{on-wtable-kit}(\class{WorkTable},\class{Kit}) ;TRUE iff \class{Kit} is on the \class{WorkTable}
+  \item \stvar{on-wtable-kittray}(\class{WorkTable},\class{KitTray}) ;TRUE iff \class{KitTray} is on the \class{WorkTable}
   \item \stvar{worktable-empty}(\class{WorkTable}) ;TRUE iff there is nothing on the \class{WorkTable}
   \end{itemize}
 
  \item \stvar{kit-location}
   \begin{itemize}
   \item \stvar{kit-location-lbwk}(\class{Kit},\class{LargeBoxWithKits}) ;TRUE iff \class{Kit} is in the \class{LargeBoxWithKits}
-  \item \stvar{kit-location-worktable}(\class{Kit},\class{WorkTable}) ;TRUE iff \class{Kit} is on the \class{WorkTable}
+  \item \stvar{kit-location-wtable}(\class{Kit},\class{WorkTable}) ;TRUE iff \class{Kit} is on the \class{WorkTable}
   \item \stvar{kit-location-robot}(\class{Kit},\class{Robot}) ;TRUE iff \class{Kit} is being held by the \class{Robot}	
   \end{itemize}
 
@@ -145,7 +145,7 @@ The state variables in our current kitting domain contains the following predica
   \begin{itemize}
   \item \stvar{kittray-location-lbwekt}(\class{KitTray},\class{LargeBoxWithEmptyKitTrays}) ;TRUE iff \class{KitTray} is in the \class{LargeBoxWithEmptyKitTrays}	
   \item \stvar{kittray-location-robot}(\class{KitTray},\class{Robot}) ;TRUE iff \class{KitTray} is being held by the \class{Robot}
-  \item \stvar{kittray-location-worktable}(\class{KitTray},\class{WorkTable}) ;TRUE iff \class{KitTray} is on the \class{WorkTable}
+  \item \stvar{kittray-location-wtable}(\class{KitTray},\class{WorkTable}) ;TRUE iff \class{KitTray} is on the \class{WorkTable}
   \end{itemize}
 
  \item \stvar{part-location}
@@ -178,28 +178,28 @@ The state variables in our current kitting domain contains the following predica
     \item \stvar{partstray-not-empty}(\class{PartsTray}) ;TRUE iff \class{PartsTray} is not empty
   \end{itemize}
 
- \item \stvar{endeffector-type}
+ \item \stvar{endeff-type}
   \begin{itemize}
-    \item \stvar{endeffector-type-kittray}(\class{EndEffector},\class{KitTray}) ;TRUE iff \class{EndEffector} is capable of holding a \class{KitTray}	
-    \item \stvar{endeffector-type-kit}(\class{EndEffector},\class{Kit}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Kit}
-    \item \stvar{endeffector-type-part}(\class{EndEffector},\class{Part}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Part}
+    \item \stvar{endeff-type-kittray}(\class{EndEffector},\class{KitTray}) ;TRUE iff \class{EndEffector} is capable of holding a \class{KitTray}	
+    \item \stvar{endeff-type-kit}(\class{EndEffector},\class{Kit}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Kit}
+    \item \stvar{endeff-type-part}(\class{EndEffector},\class{Part}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Part}
   \end{itemize}
 
- \item \stvar{endeffectorholder-holds-endeffector}
+ \item \stvar{endeffholder-holds-endeff}
   \begin{itemize}
-    \item \stvar{endeffectorholder-holds-endeffector}(\class{EndEffectorHolder},\class{EndEffector}) ;TRUE iff \class{EndEffectorHolder} is holding \class{EndEffector}
-    \item \stvar{endeffectorholder-empty}(\class{EndEffectorHolder}) ;TRUE iff \class{EndEffectorHolder} is empty (not holding an \class{EndEffector})
+    \item \stvar{endeffholder-holds-endeff}(\class{EndEffHolder},\class{EndEffector}) ;TRUE iff \class{EndEffHolder} is holding \class{EndEffector}
+    \item \stvar{endeffholder-empty}(\class{EndEffHolder}) ;TRUE iff \class{EndEffHolder} is empty (not holding an \class{EndEffector})
   \end{itemize}
 
 
- \item \stvar{endeffectorholder-location}
+ \item \stvar{endeffholder-location}
   \begin{itemize}
-    \item \stvar{endeffectorholder-location}(\class{EndEffectorHolder},\class{EndEffectorChangingStation}) ;TRUE iff \class{EndEffectorHolder} is in \class{EndEffectorChangingStation}
+    \item \stvar{endeffholder-location}(\class{EndEffHolder},\class{EndEffChStation}) ;TRUE iff \class{EndEffHolder} is in \class{EndEffChStation}
   \end{itemize}
 
-\item \stvar{endeffectorchangingstation-has-endeffectorholder}
+\item \stvar{endeffchstation-has-endeffholder}
   \begin{itemize}
-    \item \stvar{endeffectorchangingstation-has-endeffectorholder}(\class{EndEffectorChangingStation},\class{EndEffectorHolder}) ;TRUE iff \class{EndEffectorChangingStation} contains \class{EndEffectorHolder}
+    \item \stvar{endeffchstation-has-endeffholder}(\class{EndEffChStation},\class{EndEffHolder}) ;TRUE iff \class{EndEffChStation} contains \class{EndEffHolder}
   \end{itemize}
 
 \item \stvar{found-part}
@@ -257,7 +257,7 @@ Our kitting domain is composed of ten operators which are defined below.
 \begin{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% take-kittray
-\item \op{take-kittray}(\const{robot},\const{kittray},\const{lbwekt},\const{endeffector},\const{worktable}): The \class{Robot} \const{robot} equipped with the \class{EndEffector} \const{endeffector} picks up the \class{KitTray} \const{kittray} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
+\item \op{take-kittray}(\const{robot},\const{kittray},\const{lbwekt},\const{endeff},\const{worktable}): The \class{Robot} \const{robot} equipped with the \class{EndEffector} \const{endeff} picks up the \class{KitTray} \const{kittray} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt}.
 
 
 \begin{tabular}{ l|l }
@@ -266,11 +266,11 @@ Our kitting domain is composed of ten operators which are defined below.
   \stvarsmall{robot-empty}(\constsmall{robot})&$\neg$\stvarsmall{robot-empty}(\constsmall{robot})\\
   \stvarsmall{kittray-location-lbwekt}(\constsmall{kittray},\constsmall{lbwekt})&$\neg$\stvarsmall{kittray-location-lbwekt}(\constsmall{kittray},\constsmall{lbwekt}) \\
   \stvarsmall{lbwekt-not-empty}(\const{lbwekt})&\stvarsmall{kittray-location-robot}(\constsmall{kittray},\constsmall{robot})\\
-  \stvarsmall{robot-with-endeffector}(\const{robot},\constsmall{endeffector})&\stvarsmall{robot-holds-kittray}(\constsmall{robot},\constsmall{kittray}) \\
+  \stvarsmall{robot-with-endeff}(\const{robot},\constsmall{endeff})&\stvarsmall{robot-holds-kittray}(\constsmall{robot},\constsmall{kittray}) \\
 
-  \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})&\\
+  \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})&\\
   \stvarsmall{worktable-empty}(\constsmall{worktable})& \\
-  \stvarsmall{endeffector-type-kittray}(\constsmall{endeffector},\constsmall{kittray})&
+  \stvarsmall{endeff-type-kittray}(\constsmall{endeff},\constsmall{kittray})&
 \end{tabular}
 
 
@@ -280,10 +280,10 @@ Our kitting domain is composed of ten operators which are defined below.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} does not hold anything.
  \item \stvarsmall{kittray-location-lbwekt}(\constsmall{kittray},\constsmall{lbwekt}): \constsmall{kittray} is in \constsmall{lbwekt}.
  \item \stvarsmall{lbwekt-not-empty}(\const{lbwekt}): \constsmall{lbwekt} is not empty (contains at least one kit tray).
- \item \stvarsmall{robot-with-endeffector}(\const{robot},\constsmall{endeffector}): \constsmall{robot} is equipped with \constsmall{endeffector}.
- \item \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot}): The end effector is on the robot's arm.
+ \item \stvarsmall{robot-with-endeff}(\const{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}.
+ \item \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): The end effector is on the robot's arm.
  \item \stvarsmall{worktable-empty}(\constsmall{worktable}): After picking up an empty kit tray from a large box of empty kit trays, the robot would normally place the kit tray on the work table. To put a kit tray on the work table, it is necessary that there is nothing on top of the work table. If the robot is allowed to pick up the kit tray while there is another object on the work table, the planning system may not be able to find a solution when it comes to put the kit tray on the work table. Therefore, it is necessary to check that the top of \constsmall{worktable} is clear even before the robot picks up a kit tray from the large box of empty kit trays.
- \item \stvarsmall{endeffector-type-kittray}(\constsmall{endeffector},\constsmall{kittray}): \constsmall{endeffector} in the robot's arm must be capable of handling \constsmall{kittray}.
+ \item \stvarsmall{endeff-type-kittray}(\constsmall{endeff},\constsmall{kittray}): \constsmall{endeff} in the robot's arm must be capable of handling \constsmall{kittray}.
  \end{itemize}
 \item \textit{effects}
  \begin{itemize}
@@ -312,9 +312,9 @@ Our kitting domain is composed of ten operators which are defined below.
   &$\neg$\stvarsmall{robot-holds-kittray}(\constsmall{robot},\constsmall{kittray})\\
   \stvarsmall{worktable-empty}(\constsmall{worktable})
   &$\neg$\stvarsmall{worktable-empty}(\constsmall{worktable})\\
-  &\stvarsmall{kittray-location-worktable}(\constsmall{kittray},\constsmall{worktable})\\
+  &\stvarsmall{kittray-location-wtable}(\constsmall{kittray},\constsmall{worktable})\\
   &\stvarsmall{robot-empty}(\constsmall{robot})\\
-  &\stvarsmall{on-worktable-kittray}(\constsmall{worktable},\constsmall{kittray})\\
+  &\stvarsmall{on-wtable-kittray}(\constsmall{worktable},\constsmall{kittray})\\
 \end{tabular}
 
 
@@ -330,9 +330,9 @@ Our kitting domain is composed of ten operators which are defined below.
  \item $\neg$\stvarsmall{kittray-location-robot}(\constsmall{kittray},\constsmall{robot}): \constsmall{kittray} is no longer it \constsmall{robot}'s end effector since it is placed on \constsmall{worktable}.
  \item $\neg$\stvarsmall{robot-holds-kittray}(\constsmall{robot},\constsmall{kittray}): \constsmall{robot} is not holding \constsmall{kittray} anymore.
  \item $\neg$\stvarsmall{worktable-empty}(\constsmall{worktable}): \constsmall{worktable} is not empty anymore since there is something on top of it.
- \item \stvarsmall{kittray-location-worktable}(\constsmall{kittray},\constsmall{worktable}): \constsmall{kittray} is on \constsmall{worktable}.
+ \item \stvarsmall{kittray-location-wtable}(\constsmall{kittray},\constsmall{worktable}): \constsmall{kittray} is on \constsmall{worktable}.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is not holding anything.
- \item \stvarsmall{on-worktable-kittray}(\constsmall{worktable},\constsmall{kittray}): \constsmall{worktable} has \constsmall{kittray} on top of it.
+ \item \stvarsmall{on-wtable-kittray}(\constsmall{worktable},\constsmall{kittray}): \constsmall{worktable} has \constsmall{kittray} on top of it.
  \end{itemize}
 
 \end{itemize}
@@ -340,20 +340,20 @@ Our kitting domain is composed of ten operators which are defined below.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% take-kit
 
-\item \op{take-kit}(\const{robot},\const{kit},\const{worktable},\const{endeffector}): The \class{Robot} \const{robot} equipped with the \class{EndEffector} \const{endeffector} picks up the \class{Kit} \const{kit} from the \class{WorkTable} \const{worktable}.
+\item \op{take-kit}(\const{robot},\const{kit},\const{worktable},\const{endeff}): The \class{Robot} \const{robot} equipped with the \class{EndEffector} \const{endeff} picks up the \class{Kit} \const{kit} from the \class{WorkTable} \const{worktable}.
 
 \begin{tabular}{ l|l }
   \textit{preconditions} & \textit{effects} \\
   \hline
-  \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable})
-  &$\neg$\stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable})\\
+  \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable})
+  &$\neg$\stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable})\\
   \stvarsmall{robot-empty}(\constsmall{robot})
   &$\neg$\stvarsmall{robot-empty}(\constsmall{robot})\\
-  \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})
-  &$\neg$\stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})\\
-  \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})
+  \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit})
+  &$\neg$\stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit})\\
+  \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff})
   &\stvarsmall{kit-location-robot}(\constsmall{kit},\constsmall{robot})\\
-  \stvarsmall{endeffector-type-kit}(\constsmall{endeffector},\constsmall{kit})
+  \stvarsmall{endeff-type-kit}(\constsmall{endeff},\constsmall{kit})
   &\stvarsmall{robot-holds-kit}(\constsmall{robot},\constsmall{kit})\\
   &\stvarsmall{worktable-empty}(\constsmall{worktable})
 \end{tabular}
@@ -362,17 +362,17 @@ Our kitting domain is composed of ten operators which are defined below.
 \begin{itemize}
  \item \textit{preconditions}
  \begin{itemize}
- \item \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is located on  \constsmall{worktable}.
+ \item \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is located on  \constsmall{worktable}.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is not holding any object.
- \item \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
- \item \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector}): \constsmall{robot} is equipped with \constsmall{endeffector}.
- \item \stvarsmall{endeffector-type-kit}(\constsmall{endeffector},\constsmall{kit}): The type of \constsmall{endeffector} is capable of handling \constsmall{kit}.
+ \item \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
+ \item \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}.
+ \item \stvarsmall{endeff-type-kit}(\constsmall{endeff},\constsmall{kit}): The type of \constsmall{endeff} is capable of handling \constsmall{kit}.
  \end{itemize}
 \item \textit{effects}
  \begin{itemize}
- \item $\neg$\stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is not on \constsmall{worktable}.
+ \item $\neg$\stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is not on \constsmall{worktable}.
  \item $\neg$\stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is holding an object (\constsmall{kit}).
- \item $\neg$\stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} does not have \constsmall{kit} on top of it.
+ \item $\neg$\stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} does not have \constsmall{kit} on top of it.
  \item \stvarsmall{kit-location-robot}(\constsmall{kit},\constsmall{robot}): \constsmall{kit} is being held by \constsmall{robot}.
  \item \stvarsmall{robot-holds-kit}(\constsmall{robot},\constsmall{kit}): \constsmall{robot} is holding \constsmall{kit}.
  \item \stvarsmall{worktable-empty}(\constsmall{worktable}): \constsmall{worktable} does not have any object on top of it.
@@ -417,7 +417,7 @@ Our kitting domain is composed of ten operators which are defined below.
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% look-for-part
 
-\item \op{look-for-part}(\const{robot},\const{part},\const{partstray},\const{kit},\const{worktable},\const{endeffector}): A sensor looks for the \class{Part} \const{part} in the \class{PartTray} \const{partstray}.
+\item \op{look-for-part}(\const{robot},\const{part},\const{partstray},\const{kit},\const{worktable},\const{endeff}): A sensor looks for the \class{Part} \const{part} in the \class{PartTray} \const{partstray}.
 
 \begin{tabular}{ l|l }
   \textit{preconditions} & \textit{effects} \\
@@ -426,17 +426,17 @@ Our kitting domain is composed of ten operators which are defined below.
   & $\neg$\stvarsmall{part-not-searched}\\
   \stvarsmall{robot-empty}(\constsmall{robot})
   &\stvarsmall{found-part}(\constsmall{partstray})\\
-  \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})
+  \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff})
   &\\
-  \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})
+  \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit})
   &\\
-  \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})
+  \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})
   &\\
   \stvarsmall{part-location-partstray}(\constsmall{part},\constsmall{partstray})
   &\\
-  \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable})
+  \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable})
   &\\
-  \stvarsmall{endeffector-type-part}(\constsmall{endeffector},\constsmall{part})
+  \stvarsmall{endeff-type-part}(\constsmall{endeff},\constsmall{part})
   &\\
   \stvarsmall{partstray-not-empty}(\constsmall{partstray}) &
 \end{tabular}
@@ -447,12 +447,12 @@ Our kitting domain is composed of ten operators which are defined below.
  \begin{itemize}
  \item \stvarsmall{part-not-searched}: This flag is set to true in the initial state in the problem file (see section~\ref{S:PDDL-problem}) and means that a part has not been searched yet.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} should not be holding anything. We want the operator \op{look-for-part} to be directly followed by the operator \op{take-part} to simulate a sensor identifying a part before being picked up by a robot. It is necessary to check that \constsmall{robot}'s end effector is empty to prepare for the execution of the operator \op{take-part}.
- \item \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector}): \constsmall{robot} is equipped with \constsmall{endeffector}. Again, since we want the operator following \op{look-for-part} to be \op{take-part}, we want to make sure that \constsmall{robot} is already equipped with \constsmall{endeffector}.
- \item \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
- \item \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot}): \constsmall{endeffector} is on \constsmall{robot} so it is ready for the operator \op{take-part}.
+ \item \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}. Again, since we want the operator following \op{look-for-part} to be \op{take-part}, we want to make sure that \constsmall{robot} is already equipped with \constsmall{endeff}.
+ \item \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
+ \item \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): \constsmall{endeff} is on \constsmall{robot} so it is ready for the operator \op{take-part}.
  \item \stvarsmall{part-location-partstray}(\constsmall{part},\constsmall{partstray}): \constsmall{part} is in \constsmall{partstray}.
- \item \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is on \constsmall{worktable}.
- \item \stvarsmall{endeffector-type-part}(\constsmall{endeffector},\constsmall{part}): \constsmall{endeffector} can handle \constsmall{part}.
+ \item \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is on \constsmall{worktable}.
+ \item \stvarsmall{endeff-type-part}(\constsmall{endeff},\constsmall{part}): \constsmall{endeff} can handle \constsmall{part}.
  \item \stvarsmall{partstray-not-empty}(\constsmall{partstray}): \constsmall{partstray} contains at least one part.
  \end{itemize}
 \item \textit{effects}
@@ -464,7 +464,7 @@ Our kitting domain is composed of ten operators which are defined below.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% take-part
 
-\item \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeffector},\const{worktable},\const{kit}): The \class{Robot} \const{robot} uses the \class{EndEffector} \const{endeffector} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{partstray}.
+\item \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeff},\const{worktable},\const{kit}): The \class{Robot} \const{robot} uses the \class{EndEffector} \const{endeff} to pick up the \class{Part} \const{part} from the \class{PartTray} \const{partstray}.
 
 \begin{tabular}{ l|l }
   \textit{preconditions} & \textit{effects} \\
@@ -473,15 +473,15 @@ Our kitting domain is composed of ten operators which are defined below.
   &$\neg$\stvarsmall{part-location-partstray}(\constsmall{part},\constsmall{partstray})\\
   \stvarsmall{robot-empty}(\constsmall{robot})
   & $\neg$\stvarsmall{robot-empty}(\constsmall{robot})\\
-  \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})
+  \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})
   & \stvarsmall{part-location-robot}(\constsmall{part},\constsmall{robot})\\
-  \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})
+  \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff})
   & \stvarsmall{robot-holds-part}(\constsmall{robot},\constsmall{part})\\
-  \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})
+  \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit})
   &  \stvarsmall{decrease}\ \stvarsmall{quantity-parts-in-partstray}(\constsmall{partstray})\\
-  \stvarsmall{kit-location-worktable}(\constsmall{kit},\const{worktable})
+  \stvarsmall{kit-location-wtable}(\constsmall{kit},\const{worktable})
   &  \\
-  \stvarsmall{endeffector-type-part}(\constsmall{endeffector},\const{part})
+  \stvarsmall{endeff-type-part}(\constsmall{endeff},\const{part})
   &  \\
   \stvarsmall{partstray-not-empty}(\constsmall{partstray})
   &\\
@@ -494,11 +494,11 @@ Our kitting domain is composed of ten operators which are defined below.
  \begin{itemize}
  \item \stvarsmall{part-location-partstray}(\constsmall{part},\constsmall{partstray}): \constsmall{part} to be picked up is in \constsmall{partstray}.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is not holding any object.
- \item \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot}): \constsmall{endeffector} is on \constsmall{robot}.
- \item \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector}): \constsmall{robot} is equipped with \constsmall{endeffector}.
- \item \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
- \item \stvarsmall{kit-location-worktable}(\constsmall{kit},\const{worktable}): \constsmall{kit} is on \constsmall{worktable}. Once a part is picked up by the robot, the next logical action would be to put the part in the kit. For this to happen, the kit needs to be already on the work table so it can hold the part.
- \item \stvarsmall{endeffector-type-part}(\constsmall{endeffector},\const{part}): \constsmall{endeffector} is the type for \constsmall{part} handling.
+ \item \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): \constsmall{endeff} is on \constsmall{robot}.
+ \item \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}.
+ \item \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
+ \item \stvarsmall{kit-location-wtable}(\constsmall{kit},\const{worktable}): \constsmall{kit} is on \constsmall{worktable}. Once a part is picked up by the robot, the next logical action would be to put the part in the kit. For this to happen, the kit needs to be already on the work table so it can hold the part.
+ \item \stvarsmall{endeff-type-part}(\constsmall{endeff},\const{part}): \constsmall{endeff} is the type for \constsmall{part} handling.
  \item \stvarsmall{partstray-not-empty}(\constsmall{partstray}): \constsmall{partstray} is not empty and contains at least one part.
  \item \stvarsmall{found-part}(\constsmall{part},\constsmall{partstray}): \constsmall{part} has been found in \constsmall{partstray}. \stvarsmall{found-part} is set to true in the \textit{effects} of the operator \op{look-for-part}.
  \end{itemize}
@@ -511,7 +511,8 @@ Our kitting domain is composed of ten operators which are defined below.
  \item \stvarsmall{decrease}\ \stvarsmall{quantity-parts-in-partstray}(\constsmall{partstray}): After picking up a part from \constsmall{partstray} the number of parts in \constsmall{partstray} is decreased by one. This is expressed with the \stvarsmall{decrease} function.
  \end{itemize}
  \end{itemize}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% put-part
 
 \item \op{put-part}(\const{robot},\const{part},\const{kit},\const{worktable},\const{partstray}): The \class{Robot} \const{robot} puts the \class{Part} \const{part} in the \class{Kit} \const{kit}.
 
@@ -521,15 +522,15 @@ Our kitting domain is composed of ten operators which are defined below.
   \stvarsmall{part-location-robot}(\constsmall{part},\constsmall{robot}) &$\neg$\stvarsmall{part-location-robot}(\constsmall{part},\constsmall{robot})\\
   \stvarsmall{robot-holds-part}(\constsmall{robot},\constsmall{part})
   & $\neg$\stvarsmall{robot-holds-part}(\const{robot},\const{part})\\
-  \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})
+  \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit})
   & $\neg$\stvarsmall{found-part}(\const{part},\const{partstray})\\
-  \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable})
+  \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable})
   &\stvarsmall{robot-empty}(\constsmall{robot})\\
   \stvarsmall{origin-part}(\constsmall{part},\constsmall{partstray})
   & \stvarsmall{part-location-kit}(\constsmall{part},\constsmall{kit})\\
-  (< (\stvarsmall{quantity-parts-in-kit}(\constsmall{kit},\constsmall{partstray})) (\stvarsmall{capacity-kit}(\constsmall{kit},\constsmall{partstray})))
+  (< (\stvarsmall{quantity-parts-in-kit}(\constsmall{kit},\constsmall{partstray})) 
   & (\stvarsmall{increase}\ (\stvarsmall{quantity-kit}(\constsmall{kit},\constsmall{partstray})))\\
-  & \stvarsmall{part-not-searched}
+  (\stvarsmall{capacity-kit}(\constsmall{kit},\constsmall{partstray}))) & \stvarsmall{part-not-searched}
 \end{tabular}
 
 \begin{itemize}
@@ -537,8 +538,8 @@ Our kitting domain is composed of ten operators which are defined below.
  \begin{itemize}
  \item \stvarsmall{part-location-robot}(\constsmall{part},\constsmall{robot}): \constsmall{part} is held by \constsmall{robot}.
  \item \stvarsmall{robot-holds-part}(\constsmall{robot},\constsmall{part}): \constsmall{robot} is holding \constsmall{part}.
- \item \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
- \item \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is on \constsmall{worktable}.
+ \item \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} has \constsmall{kit} on top of it.
+ \item \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is on \constsmall{worktable}.
  \item \stvarsmall{origin-part}(\constsmall{part},\constsmall{partstray}): \constsmall{part} is from \constsmall{partstray}. This is used to tell the type of \constsmall{part}.
  \item (< (\stvarsmall{quantity-kit}(\constsmall{kit},\constsmall{partstray})) (\stvarsmall{capacity-kit}(\constsmall{kit},\constsmall{partstray}))): The quantity of parts of type \constsmall{partstray} in \constsmall{kit} should be lesser than the capacity \constsmall{kit} can hold for this type of part.
  \end{itemize}
@@ -554,63 +555,63 @@ Our kitting domain is composed of ten operators which are defined below.
  \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{attach-endeffector}(\const{robot},\const{endeffector},\const{endeffectorholder},\const{endeffectorchangingstation}): The \class{Robot} \const{robot} attaches the \class{EndEffector} \const{endeffector} which is situated in the \class{EndEffectorHolder} \const{endeffectorholder}.
+\item \op{attach-endeff}(\const{robot},\const{endeff},\const{endeffholder},\const{endeffchstation}): The \class{Robot} \const{robot} attaches the \class{EndEffector} \const{endeff} which is situated in the \class{EndEffHolder} \const{endeffholder}.
 
 \begin{tabular}{l}
   \textit{preconditions}\\
   \hline
-  \stvarsmall{endeffector-location-endeffectorholder}(\constsmall{endeffector},\constsmall{endeffectorholder})\\
-  \stvarsmall{robot-with-no-endeffector}(\constsmall{robot})\\
-  \stvarsmall{endeffectorholder-holds-endeffector}(\constsmall{endeffectorholder},\constsmall{endeffector})\\
-  \stvarsmall{endeffectorholder-location}(\constsmall{endeffectorholder},\constsmall{endeffectorchangingstation}) \\
-  \stvarsmall{endeffectorchangingstation-contains-endeffectorholder}(\constsmall{endeffectorchangingstation},\constsmall{endeffectorholder})
+  \stvarsmall{endeff-location-endeffholder}(\constsmall{endeff},\constsmall{endeffholder})\\
+  \stvarsmall{robot-with-no-endeff}(\constsmall{robot})\\
+  \stvarsmall{endeffholder-holds-endeff}(\constsmall{endeffholder},\constsmall{endeff})\\
+  \stvarsmall{endeffholder-location}(\constsmall{endeffholder},\constsmall{endeffchstation}) \\
+  \stvarsmall{endeffchstation-contains-endeffholder}(\constsmall{endeffchstation},\constsmall{endeffholder})
 \end{tabular}
 
 \begin{tabular}{l}
   \textit{effects}\\
   \hline
-  $\neg$\stvarsmall{endeffector-location-endeffectorholder}(\constsmall{endeffector},\constsmall{endeffectorholder})\\
-  $\neg$\stvarsmall{endeffectorholder-holds-endeffector}(\constsmall{endeffectorholder},\constsmall{endeffector})\\
-  $\neg$\stvarsmall{robot-with-no-endeffector}(\constsmall{robot})\\
+  $\neg$\stvarsmall{endeff-location-endeffholder}(\constsmall{endeff},\constsmall{endeffholder})\\
+  $\neg$\stvarsmall{endeffholder-holds-endeff}(\constsmall{endeffholder},\constsmall{endeff})\\
+  $\neg$\stvarsmall{robot-with-no-endeff}(\constsmall{robot})\\
   \stvarsmall{robot-empty}(\constsmall{robot})\\
-  \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})\\
-  \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})\\
-  \stvarsmall{endeffectorholder-empty}(\constsmall{endeffectorholder})
+  \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})\\
+  \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff})\\
+  \stvarsmall{endeffholder-empty}(\constsmall{endeffholder})
 \end{tabular}
 
 \begin{itemize}
  \item \textit{preconditions}
  \begin{itemize}
- \item \stvarsmall{endeffector-location-endeffectorholder}(\constsmall{endeffector},\constsmall{endeffectorholder}): \constsmall{endeffector} is located in \constsmall{endeffectorholder}.
- \item \stvarsmall{robot-with-no-endeffector}(\constsmall{robot}): \constsmall{robot} is not equipped with any \constsmall{endeffector}.
- \item \stvarsmall{endeffectorholder-holds-endeffector}(\constsmall{endeffectorholder},\constsmall{endeffector}): \constsmall{endeffectorholder} is holding \constsmall{endeffector}.
- \item \stvarsmall{endeffectorholder-location}(\constsmall{endeffectorholder},\constsmall{endeffectorchangingstation}): \constsmall{endeffectorholder} is in \constsmall{endeffectorchangingstation}.
- \item \stvarsmall{endeffectorchangingstation-contains-endeffectorholder}(\constsmall{endeffectorchangingstation},\constsmall{endeffectorholder}): \constsmall{endeffectorchangingstation} contains \constsmall{endeffectorholder}.
+ \item \stvarsmall{endeff-location-endeffholder}(\constsmall{endeff},\constsmall{endeffholder}): \constsmall{endeff} is located in \constsmall{endeffholder}.
+ \item \stvarsmall{robot-with-no-endeff}(\constsmall{robot}): \constsmall{robot} is not equipped with any \constsmall{endeff}.
+ \item \stvarsmall{endeffholder-holds-endeff}(\constsmall{endeffholder},\constsmall{endeff}): \constsmall{endeffholder} is holding \constsmall{endeff}.
+ \item \stvarsmall{endeffholder-location}(\constsmall{endeffholder},\constsmall{endeffchstation}): \constsmall{endeffholder} is in \constsmall{endeffchstation}.
+ \item \stvarsmall{endeffchstation-contains-endeffholder}(\constsmall{endeffchstation},\constsmall{endeffholder}): \constsmall{endeffchstation} contains \constsmall{endeffholder}.
  \end{itemize}
 \item \textit{effects}
  \begin{itemize}
- \item $\neg$\stvarsmall{endeffector-location-endeffectorholder}(\constsmall{endeffector},\constsmall{endeffectorholder}): \constsmall{endeffector} is not in \constsmall{endeffectorholder} anymore since it has been attached to \constsmall{robot}.
- \item $\neg$\stvarsmall{endeffectorholder-holds-endeffector}(\constsmall{endeffectorholder},\constsmall{endeffector}): \constsmall{endeffectorholder} is not holding \constsmall{endeffector} anymore.
- \item $\neg$\stvarsmall{robot-with-no-endeffector}(\constsmall{robot}): \constsmall{robot} is now equipped with \constsmall{endeffector}.
+ \item $\neg$\stvarsmall{endeff-location-endeffholder}(\constsmall{endeff},\constsmall{endeffholder}): \constsmall{endeff} is not in \constsmall{endeffholder} anymore since it has been attached to \constsmall{robot}.
+ \item $\neg$\stvarsmall{endeffholder-holds-endeff}(\constsmall{endeffholder},\constsmall{endeff}): \constsmall{endeffholder} is not holding \constsmall{endeff} anymore.
+ \item $\neg$\stvarsmall{robot-with-no-endeff}(\constsmall{robot}): \constsmall{robot} is now equipped with \constsmall{endeff}.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is not holding any object.
- \item \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot}): \constsmall{endeffector} is on \constsmall{robot}.
- \item \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector}): \constsmall{robot} is equipped with \constsmall{endeffector}.
- \item \stvarsmall{endeffectorholder-empty}(\constsmall{endeffectorholder}): \constsmall{endeffectorholder} is not holding any \constsmall{endeffector}.
+ \item \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): \constsmall{endeff} is on \constsmall{robot}.
+ \item \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}.
+ \item \stvarsmall{endeffholder-empty}(\constsmall{endeffholder}): \constsmall{endeffholder} is not holding any \constsmall{endeff}.
  \end{itemize}
  \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \op{remove-endeffector}(\const{robot},\const{endeffector},\const{endeffectorholder},\const{endeffectorchangingstation}): The \class{Robot} \const{robot} removes the \class{EndEffector} \const{endeffector} and puts it in the \class{EndEffectorHolder} \const{endeffectorholder}.
+\item \op{remove-endeff}(\const{robot},\const{endeff},\const{endeffholder},\const{endeffchstation}): The \class{Robot} \const{robot} removes the \class{EndEffector} \const{endeff} and puts it in the \class{EndEffHolder} \const{endeffholder}.
 
 \begin{tabular}{l}
   \textit{preconditions}\\
   \hline
-  \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})\\
-  \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})\\
+  \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})\\
+  \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff})\\
   \stvarsmall{robot-empty}(\constsmall{robot})\\
-  \stvarsmall{endeffectorholder-location}(\constsmall{endeffectorholder},\constsmall{endeffectorchangingstation})\\
-  \stvarsmall{endeffectorchangingstation-contains-endeffectorholder}(\constsmall{endeffectorchangingstation},\constsmall{endeffectorholder})\\
-  \stvarsmall{endeffectorholder-empty}(\constsmall{endeffectorholder})
+  \stvarsmall{endeffholder-location}(\constsmall{endeffholder},\constsmall{endeffchstation})\\
+  \stvarsmall{endeffchstation-contains-endeffholder}(\constsmall{endeffchstation},\constsmall{endeffholder})\\
+  \stvarsmall{endeffholder-empty}(\constsmall{endeffholder})
 \end{tabular}
 
 
@@ -618,32 +619,32 @@ Our kitting domain is composed of ten operators which are defined below.
 \begin{tabular}{l}
   \textit{effects}\\
   \hline
-  $\neg$\stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot})\\
-  $\neg$\stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector})\\
-  $\neg$\stvarsmall{endeffectorholder-empty}(\constsmall{endeffectorholder})\\
-  \stvarsmall{endeffector-location-endeffectorholder}(\constsmall{endeffector},\constsmall{endeffectorholder})\\
-  \stvarsmall{endeffectorholder-holds-endeffector}(\constsmall{endeffectorholder},\constsmall{endeffector})\\
-  \stvarsmall{robot-with-no-endeffector}(\constsmall{robot})
+  $\neg$\stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})\\
+  $\neg$\stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff})\\
+  $\neg$\stvarsmall{endeffholder-empty}(\constsmall{endeffholder})\\
+  \stvarsmall{endeff-location-endeffholder}(\constsmall{endeff},\constsmall{endeffholder})\\
+  \stvarsmall{endeffholder-holds-endeff}(\constsmall{endeffholder},\constsmall{endeff})\\
+  \stvarsmall{robot-with-no-endeff}(\constsmall{robot})
 \end{tabular}
 
 \begin{itemize}
  \item \textit{preconditions}
  \begin{itemize}
- \item \stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot}): \constsmall{endeffector} is on \constsmall{robot}.
- \item  \stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector}): \constsmall{robot} is holding \constsmall{endeffector}.
+ \item \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): \constsmall{endeff} is on \constsmall{robot}.
+ \item  \stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff}): \constsmall{robot} is holding \constsmall{endeff}.
  \item   \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} is not holding anything.
- \item   \stvarsmall{endeffectorholder-location}(\constsmall{endeffectorholder},\constsmall{endeffectorchangingstation}): \constsmall{endeffectorholder} is in \constsmall{endeffectorchangingstation}.
- \item \stvarsmall{endeffectorchangingstation-contains-endeffectorholder}(\constsmall{endeffectorchangingstation},\constsmall{endeffectorholder})
- \item   \stvarsmall{endeffectorholder-empty}(\constsmall{endeffectorholder}): \constsmall{endeffectorholder} does not contain \constsmall{endeffector}.
+ \item   \stvarsmall{endeffholder-location}(\constsmall{endeffholder},\constsmall{endeffchstation}): \constsmall{endeffholder} is in \constsmall{endeffchstation}.
+ \item \stvarsmall{endeffchstation-contains-endeffholder}(\constsmall{endeffchstation},\constsmall{endeffholder})
+ \item   \stvarsmall{endeffholder-empty}(\constsmall{endeffholder}): \constsmall{endeffholder} does not contain \constsmall{endeff}.
  \end{itemize}
 \item \textit{effects}
  \begin{itemize}
- \item  $\neg$\stvarsmall{endeffector-location-robot}(\constsmall{endeffector},\constsmall{robot}): \constsmall{endeffector} is not on \constsmall{robot} anymore.
- \item  $\neg$\stvarsmall{robot-with-endeffector}(\constsmall{robot},\constsmall{endeffector}): \constsmall{robot} does not have \constsmall{endeffector} anymore.
- \item  $\neg$\stvarsmall{endeffectorholder-empty}(\constsmall{endeffectorholder}): \constsmall{endeffectorholder} does not contain any \constsmall{endeffector}.
- \item  \stvarsmall{endeffector-location-endeffectorholder}(\constsmall{endeffector},\constsmall{endeffectorholder}): \constsmall{endeffector} is situated in \constsmall{endeffectorholder}.
- \item  \stvarsmall{endeffectorholder-holds-endeffector}(\constsmall{endeffectorholder},\constsmall{endeffector}): \constsmall{endeffectorholder} holds \constsmall{endeffector}.
- \item  \stvarsmall{robot-with-no-endeffector}(\constsmall{robot}): \constsmall{robot} is not equipped with \constsmall{endeffector}.
+ \item  $\neg$\stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): \constsmall{endeff} is not on \constsmall{robot} anymore.
+ \item  $\neg$\stvarsmall{robot-with-endeff}(\constsmall{robot},\constsmall{endeff}): \constsmall{robot} does not have \constsmall{endeff} anymore.
+ \item  $\neg$\stvarsmall{endeffholder-empty}(\constsmall{endeffholder}): \constsmall{endeffholder} does not contain any \constsmall{endeff}.
+ \item  \stvarsmall{endeff-location-endeffholder}(\constsmall{endeff},\constsmall{endeffholder}): \constsmall{endeff} is situated in \constsmall{endeffholder}.
+ \item  \stvarsmall{endeffholder-holds-endeff}(\constsmall{endeffholder},\constsmall{endeff}): \constsmall{endeffholder} holds \constsmall{endeff}.
+ \item  \stvarsmall{robot-with-no-endeff}(\constsmall{robot}): \constsmall{robot} is not equipped with \constsmall{endeff}.
  \end{itemize}
  \end{itemize}
 
@@ -654,22 +655,22 @@ Our kitting domain is composed of ten operators which are defined below.
 \begin{tabular}{ l|l }
   \textit{preconditions} & \textit{effects} \\
   \hline
-  \stvarsmall{on-worktable-kittray}(\constsmall{worktable},\constsmall{kittray})
-  &$\neg$\stvarsmall{on-worktable-kittray}(\constsmall{worktable},\constsmall{kittray})\\
-  &\stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit})\\
-  &\stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable})\\
+  \stvarsmall{on-wtable-kittray}(\constsmall{worktable},\constsmall{kittray})
+  &$\neg$\stvarsmall{on-wtable-kittray}(\constsmall{worktable},\constsmall{kittray})\\
+  &\stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit})\\
+  &\stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable})\\
 \end{tabular}
 
 \begin{itemize}
  \item \textit{preconditions}
  \begin{itemize}
- \item \stvarsmall{on-worktable-kittray}(\constsmall{worktable},\constsmall{kittray}): \constsmall{worktable} has \constsmall{kittray} on top of it.
+ \item \stvarsmall{on-wtable-kittray}(\constsmall{worktable},\constsmall{kittray}): \constsmall{worktable} has \constsmall{kittray} on top of it.
  \end{itemize}
 \item \textit{effects}
  \begin{itemize}
- \item $\neg$\stvarsmall{on-worktable-kittray}(\constsmall{worktable},\constsmall{kittray}): The object \constsmall{kittray} is destroyed and is thus not on \constsmall{worktable} anymore.
- \item \stvarsmall{on-worktable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} now has \constsmall{kit} on top of it.
- \item \stvarsmall{kit-location-worktable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is on \constsmall{worktable}.
+ \item $\neg$\stvarsmall{on-wtable-kittray}(\constsmall{worktable},\constsmall{kittray}): The object \constsmall{kittray} is destroyed and is thus not on \constsmall{worktable} anymore.
+ \item \stvarsmall{on-wtable-kit}(\constsmall{worktable},\constsmall{kit}): \constsmall{worktable} now has \constsmall{kit} on top of it.
+ \item \stvarsmall{kit-location-wtable}(\constsmall{kit},\constsmall{worktable}): \constsmall{kit} is on \constsmall{worktable}.
  \end{itemize}
  \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -677,7 +678,7 @@ Our kitting domain is composed of ten operators which are defined below.
 
 \subsubsection{Actions}
 An action \textit{a} can be obtained by substituting the object variable symbols that
-appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeffector}) in the kitting domain can be translated into the action \op{take-part}(\const{robot\_1},\const{part\_1},\const{partstray\_1},\const{endeffector\_2}) where \const{robot\_1}, \const{part\_1}, \const{partstray\_1}, and \const{endeffector\_2} are constant variable symbols in the classes \class{Robot}, \class{Part}, \class{PartsTray}, and \class{EndEffector}, respectively.
+appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeff}) in the kitting domain can be translated into the action \op{take-part}(\const{robot\_1},\const{part\_1},\const{partstray\_1},\const{endeff\_2}) where \const{robot\_1}, \const{part\_1}, \const{partstray\_1}, and \const{endeff\_2} are constant variable symbols in the classes \class{Robot}, \class{Part}, \class{PartsTray}, and \class{EndEffector}, respectively.
 
 
 

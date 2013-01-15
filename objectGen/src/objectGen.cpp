@@ -34,7 +34,7 @@ int placeObject( ulapi_integer socket_fd, const char *className, const char *nam
   
   ulapi_snprintf( str, sizeof(str), "CONTROL {Type Create}{ClassName %s}{Name %s}{Location %f, %f, %f}{Rotation %f, %f %f}{Scale 1, 1, 1}{Physics RigidBody}{Permanent true}\r\n",
 		  className, name, x, y, z, roll, pitch, yaw);
-  printf( "Sending %s\n", str );
+  //  printf( "Sending %s\n", str );
   ulapi_socket_write(socket_fd, str, strlen(str));
   return 1;
 }
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
       return -1;
     }
   ulapi_snprintf( str, sizeof(str), "INIT {ClassName USARBotAPI.WorldController} {Location 0, 0, 0} {Rotation 0, 0, 0}\r\n" ); 
-  printf( "Sending %s\n", str );
+  //  printf( "Sending %s\n", str );
   ulapi_socket_write(socket_fd, str, strlen(str));
   placeObject( socket_fd, "WCCrate", "foo", 0, 0, 0, 0, 0, 0 );
   sleep(20);

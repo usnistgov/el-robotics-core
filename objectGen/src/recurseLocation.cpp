@@ -297,7 +297,7 @@ void RecurseLocation::printMe(int verbosity)
 		  recLoc[i].zAxis[2] );
 	}
     }
-  printf( "\tGlobalLoc:\n\t\t <%f %f %f>\n\t\t <%f %f %f>\n\t\t<%f %f %f>\n",
+  printf( "\tGlobalLoc:\n\t\t <%f %f %f>\n\t\t <%f %f %f>\n\t\t <%f %f %f>\n",
 	  globalLoc.pointXYZ[0],
 	  globalLoc.pointXYZ[1],
 	  globalLoc.pointXYZ[2],

@@ -15,13 +15,13 @@ bin/kittingParser : ofiles/kittingParser.o    \
                       -L/usr/lib -lboost_regex
 
 bin/owlPrinter : ofiles/owlPrinter.o         \
-                 ofiles/kittingYACCOwl.o     \
-                 ofiles/kittingLexOwl.o      \
+                 ofiles/kittingYACC.o        \
+                 ofiles/kittingLex.o         \
                  ofiles/kittingClassesOwl.o  \
                  ofiles/xmlSchemaInstance.o
 	$(LINLINK) -o $@ ofiles/owlPrinter.o      \
-                      ofiles/kittingYACCOwl.o     \
-                      ofiles/kittingLexOwl.o      \
+                      ofiles/kittingYACC.o        \
+                      ofiles/kittingLex.o         \
                       ofiles/kittingClassesOwl.o  \
                       ofiles/xmlSchemaInstance.o  \
                       -L/usr/lib -lboost_regex
@@ -48,10 +48,6 @@ ofiles/kittingLex.o : source/kittingLex.cc \
                       source/kittingYACC.hh
 	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingLex.cc
 
-ofiles/kittingLexOwl.o : source/kittingLex.cc \
-                         source/kittingYACC.hh
-	$(LINCOMPILE) -o $@ -DOWL $(INCLUD) source/kittingLex.cc
-
 ofiles/kittingParser.o : source/kittingParser.cc
 	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingParser.cc
 
@@ -64,12 +60,6 @@ ofiles/kittingYACC.o : source/kittingYACC.hh       \
                        source/xmlSchemaInstance.hh \
                        source/kittingYACC.cc
 	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingYACC.cc
-
-ofiles/kittingYACCOwl.o : source/kittingYACC.hh       \
-                          source/kittingClassesOwl.hh \
-                          source/xmlSchemaInstance.hh \
-                          source/kittingYACC.cc
-	$(LINCOMPILE) -o $@ -DOWL $(INCLUD) source/kittingYACC.cc
 
 ofiles/xmlSchemaInstance.o : source/xmlSchemaInstance.cc \
                              source/xmlSchemaInstance.hh
@@ -87,7 +77,7 @@ ofiles/xmlSchemaInstance.o : source/xmlSchemaInstance.cc \
 # #include "kittingClasses.hh"   // for kitting classes
 # #endif
 
-ssource/kittingYACC.cc : source/kitting.y
+source/kittingYACC.cc : source/kitting.y
 	bison -d -l -o $@ source/kitting.y
 
 source/kittingLex.cc : source/kitting.lex

@@ -87,7 +87,7 @@ DataPropertyAssertion(:hasVacuumEffector_Length :tray_gripper "0.100000"^^:posit
 
 
 //*****************************************
-// start Robot work volume
+// start BoxVolume box_volume_1
 Declaration(NamedIndividual(:box_volume_1))
 ClassAssertion(:BoxVolume :box_volume_1)
 ObjectPropertyAssertion(:hasBoxVolume_MaximumPoint :box_volume_1 :point_max)
@@ -102,8 +102,7 @@ ClassAssertion(:Point :point_min)
 DataPropertyAssertion(:hasPoint_X :point_min "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :point_min "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :point_min "0.000000"^^xsd:decimal)
-
-// end Robot work volume
+// end BoxVolume
 //*****************************************
 
 
@@ -133,9 +132,54 @@ ClassAssertion(:Vector :changing_station_z_axis)
 DataPropertyAssertion(:hasVector_I :changing_station_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :changing_station_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :changing_station_z_axis "1.000000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasChangingStation_Base :changing_station_1 :changing_station_base)
 ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolders :changing_station_1 :part_gripper_holder)
 ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolders :changing_station_1 :tray_gripper_holder)
 // end EndEffectorChangingStation
+//*****************************************
+
+
+//*****************************************
+// start MechanicalComponent changing_station_base
+Declaration(NamedIndividual(:changing_station_base))
+ClassAssertion(:MechanicalComponent :changing_station_base)
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :changing_station_base :changing_station_base_pose)
+Declaration(NamedIndividual(:changing_station_base_pose))
+ClassAssertion(:PoseOnlyLocation :changing_station_base_pose)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :changing_station_base_pose :changing_station_1)
+ObjectPropertyAssertion(:hasPoseLocation_Point :changing_station_base_pose :changing_station_base_point)
+ObjectPropertyAssertion(:hasPoseLocation_XAxis :changing_station_base_pose :changing_station_base_x_axis)
+ObjectPropertyAssertion(:hasPoseLocation_ZAxis :changing_station_base_pose :changing_station_base_z_axis)
+Declaration(NamedIndividual(:changing_station_base_point))
+ClassAssertion(:Point :changing_station_base_point)
+DataPropertyAssertion(:hasPoint_X :changing_station_base_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :changing_station_base_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :changing_station_base_point "0.000000"^^xsd:decimal)
+Declaration(NamedIndividual(:changing_station_base_x_axis))
+ClassAssertion(:Vector :changing_station_base_x_axis)
+DataPropertyAssertion(:hasVector_I :changing_station_base_x_axis "1.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :changing_station_base_x_axis "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :changing_station_base_x_axis "0.000000"^^xsd:decimal)
+Declaration(NamedIndividual(:changing_station_base_z_axis))
+ClassAssertion(:Vector :changing_station_base_z_axis)
+DataPropertyAssertion(:hasVector_I :changing_station_base_z_axis "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :changing_station_base_z_axis "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :changing_station_base_z_axis "1.000000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasSolidObject_InternalShape :changing_station_base :shape_changing_station_base)
+// end MechanicalComponent
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_changing_station_base
+Declaration(NamedIndividual(:shape_changing_station_base))
+ClassAssertion(:BoxyShape :shape_changing_station_base)
+DataPropertyAssertion(:hasShapeDesign_Description :shape_changing_station_base "Shape of base of changing station"^^xsd:string)
+DataPropertyAssertion(:hasBoxyShape_Length :shape_changing_station_base "1.000000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Width :shape_changing_station_base "0.100000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :shape_changing_station_base "1.000000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Top :shape_changing_station_base "true"^^xsd:boolean)
+// end BoxyShape
 //*****************************************
 
 
@@ -248,8 +292,8 @@ ObjectPropertyAssertion(:hasPoseLocation_XAxis :work_table_pose :work_table_x_ax
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :work_table_pose :work_table_z_axis)
 Declaration(NamedIndividual(:work_table_point))
 ClassAssertion(:Point :work_table_point)
-DataPropertyAssertion(:hasPoint_X :work_table_point "3.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :work_table_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_X :work_table_point "4.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :work_table_point "1.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :work_table_point "0.000000"^^xsd:decimal)
 Declaration(NamedIndividual(:work_table_x_axis))
 ClassAssertion(:Vector :work_table_x_axis)
@@ -261,10 +305,21 @@ ClassAssertion(:Vector :work_table_z_axis)
 DataPropertyAssertion(:hasVector_I :work_table_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :work_table_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :work_table_z_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasBox_Height :work_table_1 "0.500000"^^:positiveDecimal)
-DataPropertyAssertion(:hasBox_Length :work_table_1 "1.600000"^^:positiveDecimal)
-DataPropertyAssertion(:hasBox_Width :work_table_1 "0.800000"^^:positiveDecimal)
+ObjectPropertyAssertion(:hasSolidObject_InternalShape :work_table_1 :shape_work_table)
 // end WorkTable
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_work_table
+Declaration(NamedIndividual(:shape_work_table))
+ClassAssertion(:BoxyShape :shape_work_table)
+DataPropertyAssertion(:hasShapeDesign_Description :shape_work_table "Shape of the work table"^^xsd:string)
+DataPropertyAssertion(:hasBoxyShape_Length :shape_work_table "1.600000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Width :shape_work_table "0.800000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :shape_work_table "0.500000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Top :shape_work_table "true"^^xsd:boolean)
+// end BoxyShape
 //*****************************************
 
 
@@ -404,14 +459,14 @@ ClassAssertion(:Kit :kit_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :kit_2 :kit_2_pose)
 Declaration(NamedIndividual(:kit_2_pose))
 ClassAssertion(:PoseOnlyLocation :kit_2_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :kit_2_pose :finished_kit_box)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :kit_2_pose :finished_kit_receiver)
 ObjectPropertyAssertion(:hasPoseLocation_Point :kit_2_pose :kit_2_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :kit_2_pose :kit_2_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :kit_2_pose :kit_2_z_axis)
 Declaration(NamedIndividual(:kit_2_point))
 ClassAssertion(:Point :kit_2_point)
-DataPropertyAssertion(:hasPoint_X :kit_2_point "0.300000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :kit_2_point "0.200000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_X :kit_2_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :kit_2_point "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :kit_2_point "0.000000"^^xsd:decimal)
 Declaration(NamedIndividual(:kit_2_x_axis))
 ClassAssertion(:Vector :kit_2_x_axis)
@@ -439,6 +494,9 @@ ObjectPropertyAssertion(:hasKit_Parts :kit_2 :part_c_2)
 ObjectPropertyAssertion(:hasKit_Parts :kit_2 :part_c_3)
 ObjectPropertyAssertion(:hasKit_Parts :kit_2 :part_c_4)
 DataPropertyAssertion(:isKit_Finished :kit_2 "true"^^xsd:boolean)
+// end Kit
+//*****************************************
+
 
 //*****************************************
 // start KitTray kit_tray_1
@@ -468,6 +526,9 @@ DataPropertyAssertion(:hasVector_J :kit_tray_1_new_z_axis "0.000000"^^xsd:decima
 DataPropertyAssertion(:hasVector_K :kit_tray_1_new_z_axis "1.000000"^^xsd:decimal)
 ObjectPropertyAssertion(:hasKitTray_Sku :kit_tray_1 :stock_keeping_unit_kit_tray)
 DataPropertyAssertion(:hasKitTray_SerialNumber :kit_tray_1 "1"^^xsd:NMTOKEN)
+// end KitTray
+//*****************************************
+
 
 //*****************************************
 // start Part part_a_1
@@ -476,7 +537,7 @@ ClassAssertion(:Part :part_a_1)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_1 :part_a_1_new_pose)
 Declaration(NamedIndividual(:part_a_1_new_pose))
 ClassAssertion(:PoseLocationIn :part_a_1_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_1_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_1_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_1_new_pose :part_a_1_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_1_new_pose :part_a_1_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_1_new_pose :part_a_1_new_z_axis)
@@ -508,7 +569,7 @@ ClassAssertion(:Part :part_a_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_2 :part_a_2_new_pose)
 Declaration(NamedIndividual(:part_a_2_new_pose))
 ClassAssertion(:PoseLocationIn :part_a_2_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_2_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_2_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_2_new_pose :part_a_2_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_2_new_pose :part_a_2_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_2_new_pose :part_a_2_new_z_axis)
@@ -540,7 +601,7 @@ ClassAssertion(:Part :part_a_3)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_3 :part_a_3_new_pose)
 Declaration(NamedIndividual(:part_a_3_new_pose))
 ClassAssertion(:PoseLocationIn :part_a_3_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_3_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_3_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_3_new_pose :part_a_3_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_3_new_pose :part_a_3_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_3_new_pose :part_a_3_new_z_axis)
@@ -572,7 +633,7 @@ ClassAssertion(:Part :part_b_1)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_1 :part_b_1_new_pose)
 Declaration(NamedIndividual(:part_b_1_new_pose))
 ClassAssertion(:PoseLocationIn :part_b_1_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_1_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_1_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_1_new_pose :part_b_1_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_1_new_pose :part_b_1_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_1_new_pose :part_b_1_new_z_axis)
@@ -604,7 +665,7 @@ ClassAssertion(:Part :part_b_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_2 :part_b_2_new_pose)
 Declaration(NamedIndividual(:part_b_2_new_pose))
 ClassAssertion(:PoseLocationIn :part_b_2_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_2_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_2_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_2_new_pose :part_b_2_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_2_new_pose :part_b_2_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_2_new_pose :part_b_2_new_z_axis)
@@ -636,7 +697,7 @@ ClassAssertion(:Part :part_b_3)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_3 :part_b_3_new_pose)
 Declaration(NamedIndividual(:part_b_3_new_pose))
 ClassAssertion(:PoseLocationIn :part_b_3_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_3_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_3_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_3_new_pose :part_b_3_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_3_new_pose :part_b_3_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_3_new_pose :part_b_3_new_z_axis)
@@ -668,7 +729,7 @@ ClassAssertion(:Part :part_b_4)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_4 :part_b_4_new_pose)
 Declaration(NamedIndividual(:part_b_4_new_pose))
 ClassAssertion(:PoseLocationIn :part_b_4_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_4_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_4_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_4_new_pose :part_b_4_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_4_new_pose :part_b_4_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_4_new_pose :part_b_4_new_z_axis)
@@ -700,7 +761,7 @@ ClassAssertion(:Part :part_b_5)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_5 :part_b_5_new_pose)
 Declaration(NamedIndividual(:part_b_5_new_pose))
 ClassAssertion(:PoseLocationIn :part_b_5_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_5_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_5_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_5_new_pose :part_b_5_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_5_new_pose :part_b_5_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_5_new_pose :part_b_5_new_z_axis)
@@ -732,7 +793,7 @@ ClassAssertion(:Part :part_b_6)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_6 :part_b_6_new_pose)
 Declaration(NamedIndividual(:part_b_6_new_pose))
 ClassAssertion(:PoseLocationIn :part_b_6_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_6_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_6_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_6_new_pose :part_b_6_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_6_new_pose :part_b_6_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_6_new_pose :part_b_6_new_z_axis)
@@ -764,7 +825,7 @@ ClassAssertion(:Part :part_c_1)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_1 :part_c_1_new_pose)
 Declaration(NamedIndividual(:part_c_1_new_pose))
 ClassAssertion(:PoseLocationIn :part_c_1_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_1_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_1_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_1_new_pose :part_c_1_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_1_new_pose :part_c_1_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_1_new_pose :part_c_1_new_z_axis)
@@ -796,7 +857,7 @@ ClassAssertion(:Part :part_c_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_2 :part_c_2_new_pose)
 Declaration(NamedIndividual(:part_c_2_new_pose))
 ClassAssertion(:PoseLocationIn :part_c_2_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_2_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_2_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_2_new_pose :part_c_2_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_2_new_pose :part_c_2_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_2_new_pose :part_c_2_new_z_axis)
@@ -828,7 +889,7 @@ ClassAssertion(:Part :part_c_3)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_3 :part_c_3_new_pose)
 Declaration(NamedIndividual(:part_c_3_new_pose))
 ClassAssertion(:PoseLocationIn :part_c_3_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_3_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_3_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_3_new_pose :part_c_3_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_3_new_pose :part_c_3_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_3_new_pose :part_c_3_new_z_axis)
@@ -860,7 +921,7 @@ ClassAssertion(:Part :part_c_4)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_4 :part_c_4_new_pose)
 Declaration(NamedIndividual(:part_c_4_new_pose))
 ClassAssertion(:PoseLocationIn :part_c_4_new_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_4_new_pose :kit_tray_1)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_4_new_pose :kit_2)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_4_new_pose :part_c_4_new_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_4_new_pose :part_c_4_new_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_4_new_pose :part_c_4_new_z_axis)
@@ -1377,6 +1438,12 @@ DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_a "SKU for Pa
 DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_part_a "0.180000"^^:positiveDecimal)
 ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_part_a :shape_part_a)
 ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_a :part_gripper)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_part_a
 Declaration(NamedIndividual(:shape_part_a))
 ClassAssertion(:BoxyShape :shape_part_a)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_a "Shape of PartA"^^xsd:string)
@@ -1384,7 +1451,7 @@ DataPropertyAssertion(:hasBoxyShape_Length :shape_part_a "0.100000"^^:positiveDe
 DataPropertyAssertion(:hasBoxyShape_Width :shape_part_a "0.080000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_part_a "0.150000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_part_a "true"^^xsd:boolean)
-// end StockKeepingUnit
+// end BoxyShape
 //*****************************************
 
 
@@ -1396,6 +1463,12 @@ DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_b "SKU for Pa
 DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_part_b "0.180000"^^:positiveDecimal)
 ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_part_b :shape_part_b)
 ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_b :part_gripper)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_part_b
 Declaration(NamedIndividual(:shape_part_b))
 ClassAssertion(:BoxyShape :shape_part_b)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_b "Shape of PartB"^^xsd:string)
@@ -1403,7 +1476,7 @@ DataPropertyAssertion(:hasBoxyShape_Length :shape_part_b "0.120000"^^:positiveDe
 DataPropertyAssertion(:hasBoxyShape_Width :shape_part_b "0.080000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_part_b "0.150000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_part_b "true"^^xsd:boolean)
-// end StockKeepingUnit
+// end BoxyShape
 //*****************************************
 
 
@@ -1415,6 +1488,12 @@ DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_c "SKU for Pa
 DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_part_c "0.180000"^^:positiveDecimal)
 ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_part_c :shape_part_c)
 ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_c :part_gripper)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_part_c
 Declaration(NamedIndividual(:shape_part_c))
 ClassAssertion(:BoxyShape :shape_part_c)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_c "Shape of PartC"^^xsd:string)
@@ -1422,7 +1501,7 @@ DataPropertyAssertion(:hasBoxyShape_Length :shape_part_c "0.150000"^^:positiveDe
 DataPropertyAssertion(:hasBoxyShape_Width :shape_part_c "0.080000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_part_c "0.150000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_part_c "true"^^xsd:boolean)
-// end StockKeepingUnit
+// end BoxyShape
 //*****************************************
 
 
@@ -1434,6 +1513,12 @@ DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_kit_tray "SKU for 
 DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_kit_tray "0.200000"^^:positiveDecimal)
 ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_kit_tray :shape_kit_tray)
 ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_kit_tray :tray_gripper)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_kit_tray
 Declaration(NamedIndividual(:shape_kit_tray))
 ClassAssertion(:BoxyShape :shape_kit_tray)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_kit_tray "Shape of KitTrays"^^xsd:string)
@@ -1441,7 +1526,7 @@ DataPropertyAssertion(:hasBoxyShape_Length :shape_kit_tray "0.500000"^^:positive
 DataPropertyAssertion(:hasBoxyShape_Width :shape_kit_tray "0.300000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_kit_tray "0.150000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_tray "false"^^xsd:boolean)
-// end StockKeepingUnit
+// end BoxyShape
 //*****************************************
 
 
@@ -1452,6 +1537,12 @@ ClassAssertion(:StockKeepingUnit :stock_keeping_unit_kit_box)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_kit_box "SKU for Boxes for Kits and KitTrays"^^xsd:string)
 DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_kit_box "1.200000"^^:positiveDecimal)
 ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_kit_box :shape_kit_box)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_kit_box
 Declaration(NamedIndividual(:shape_kit_box))
 ClassAssertion(:BoxyShape :shape_kit_box)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_kit_box "Shape of boxes to hold kits and kit trays"^^xsd:string)
@@ -1459,7 +1550,7 @@ DataPropertyAssertion(:hasBoxyShape_Length :shape_kit_box "0.900000"^^:positiveD
 DataPropertyAssertion(:hasBoxyShape_Width :shape_kit_box "0.700000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_kit_box "0.800000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_box "false"^^xsd:boolean)
-// end StockKeepingUnit
+// end BoxyShape
 //*****************************************
 
 
@@ -1471,6 +1562,12 @@ DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray "SKU fo
 DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_parts_tray "0.200000"^^:positiveDecimal)
 ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_parts_tray :shape_parts_tray)
 ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_parts_tray :tray_gripper)
+// end StockKeepingUnit
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_parts_tray
 Declaration(NamedIndividual(:shape_parts_tray))
 ClassAssertion(:BoxyShape :shape_parts_tray)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray "Shape of PartsTrays"^^xsd:string)
@@ -1478,19 +1575,21 @@ DataPropertyAssertion(:hasBoxyShape_Length :shape_parts_tray "0.600000"^^:positi
 DataPropertyAssertion(:hasBoxyShape_Width :shape_parts_tray "0.300000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Height :shape_parts_tray "0.200000"^^:positiveDecimal)
 DataPropertyAssertion(:hasBoxyShape_Top :shape_parts_tray "false"^^xsd:boolean)
-// end StockKeepingUnit
+// end BoxyShape
 //*****************************************
 
 
 //*****************************************
 // BoxyShape individuals 
 DifferentIndividuals(
+ :shape_changing_station_base
  :shape_kit_box
  :shape_kit_tray
  :shape_part_a
  :shape_part_b
  :shape_part_c
- :shape_parts_tray)
+ :shape_parts_tray
+ :shape_work_table)
 
 //*****************************************
 // EndEffectorHolder individuals 
@@ -1555,6 +1654,7 @@ DifferentIndividuals(
 //*****************************************
 // Point individuals 
 DifferentIndividuals(
+ :changing_station_base_point
  :changing_station_point
  :empty_kit_tray_box_point
  :empty_kit_tray_supply_point
@@ -1622,6 +1722,7 @@ DifferentIndividuals(
 //*****************************************
 // PoseOnlyLocation individuals 
 DifferentIndividuals(
+ :changing_station_base_pose
  :changing_station_pose
  :empty_kit_tray_box_pose
  :empty_kit_tray_supply_pose
@@ -1660,6 +1761,8 @@ DifferentIndividuals(
 //*****************************************
 // Vector individuals 
 DifferentIndividuals(
+ :changing_station_base_x_axis
+ :changing_station_base_z_axis
  :changing_station_x_axis
  :changing_station_z_axis
  :empty_kit_tray_box_x_axis

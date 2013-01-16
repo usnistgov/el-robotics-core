@@ -3,7 +3,7 @@
 #include <stdlib.h>  // exit
 #include "kittingClassesOwl.hh"
 
-extern KittingWorkStationFile * KittingWorkStationTree;
+extern KittingWorkstationFile * KittingWorkstationTree;
 extern FILE * yyin;
 extern int yyparse();
 
@@ -47,7 +47,7 @@ int main(       /* ARGUMENTS                                      */
       exit(1);
     }
   OwlPrinter::inFileName[n] = 0;
-  KittingWorkStationTree->printOwl(outFile);
+  KittingWorkstationTree->printOwl(outFile);
   fclose(outFile);
   return 0;
 }

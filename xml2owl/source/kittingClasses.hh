@@ -8,16 +8,17 @@
 
 /*********************************************************************/
 
-class KittingWorkStationFile;
+class KittingWorkstationFile;
 class AngleUnitType;
 class BoxVolumeType;
-class BoxyObjectType;
 class BoxyShapeType;
 class DataThingType;
 class EndEffectorChangingStationType;
 class EndEffectorHolderType;
 class EndEffectorType;
+class ExternalShapeType;
 class GripperEffectorType;
+class InternalShapeType;
 class KitDesignType;
 class KitTrayType;
 class KitType;
@@ -26,6 +27,7 @@ class LargeBoxWithEmptyKitTraysType;
 class LargeBoxWithKitsType;
 class LargeContainerType;
 class LengthUnitType;
+class MechanicalComponentType;
 class PartRefAndPoseType;
 class PartType;
 class PartsBinType;
@@ -51,26 +53,26 @@ class VacuumEffectorType;
 class VectorType;
 class WeightUnitType;
 class WorkTableType;
-class XmlHeaderForKittingWorkStation;
+class XmlHeaderForKittingWorkstation;
 
 /*********************************************************************/
 /*********************************************************************/
 
-class KittingWorkStationFile :
+class KittingWorkstationFile :
   public XmlSchemaInstanceBase
 {
 public:
-  KittingWorkStationFile();
-  KittingWorkStationFile(
+  KittingWorkstationFile();
+  KittingWorkstationFile(
     XmlVersion * versionIn,
-    XmlHeaderForKittingWorkStation * headerIn,
-    KittingWorkstationType * KittingWorkStationIn);
-  ~KittingWorkStationFile();
+    XmlHeaderForKittingWorkstation * headerIn,
+    KittingWorkstationType * KittingWorkstationIn);
+  ~KittingWorkstationFile();
   void printSelf(FILE * outFile);
 
   XmlVersion * version;
-  XmlHeaderForKittingWorkStation * header;
-  KittingWorkstationType * KittingWorkStation;
+  XmlHeaderForKittingWorkstation * header;
+  KittingWorkstationType * KittingWorkstation;
 };
 
 /*********************************************************************/
@@ -285,11 +287,13 @@ public:
   ShapeDesignType();
   ShapeDesignType(
     XmlID * NameIn,
-    XmlString * DescriptionIn);
+    XmlString * DescriptionIn,
+    PoseLocationType * GraspPoseIn);
   ~ShapeDesignType();
   void printSelf(FILE * outFile);
 
   XmlString * Description;
+  PoseLocationType * GraspPose;
 
   bool printTypp;
 };
@@ -304,13 +308,17 @@ public:
   SolidObjectType(
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn);
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn);
   ~SolidObjectType();
   void printSelf(FILE * outFile);
 
   XmlID * Name;
   PhysicalLocationType * PrimaryLocation;
   std::list<PhysicalLocationType *> * SecondaryLocation;
+  InternalShapeType * InternalShape;
+  ExternalShapeType * ExternalShape;
 };
 
 /*********************************************************************/
@@ -375,6 +383,28 @@ public:
 
 /*********************************************************************/
 
+class WorkTableType :
+  public SolidObjectType
+{
+public:
+  WorkTableType();
+  WorkTableType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    std::list<SolidObjectType *> * SolidObjectIn);
+  ~WorkTableType();
+  void printSelf(FILE * outFile);
+
+  std::list<SolidObjectType *> * SolidObject;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
 class BoxVolumeType :
   public DataThingType
 {
@@ -395,55 +425,6 @@ public:
 
 /*********************************************************************/
 
-class BoxyObjectType :
-  public SolidObjectType
-{
-public:
-  BoxyObjectType();
-  BoxyObjectType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn);
-  ~BoxyObjectType();
-  void printSelf(FILE * outFile);
-
-  PositiveDecimalType * Length;
-  PositiveDecimalType * Width;
-  PositiveDecimalType * Height;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class BoxyShapeType :
-  public ShapeDesignType
-{
-public:
-  BoxyShapeType();
-  BoxyShapeType(
-    XmlID * NameIn,
-    XmlString * DescriptionIn,
-    PositiveDecimalType * LengthIn,
-    PositiveDecimalType * WidthIn,
-    PositiveDecimalType * HeightIn,
-    XmlBoolean * HasTopIn);
-  ~BoxyShapeType();
-  void printSelf(FILE * outFile);
-
-  PositiveDecimalType * Length;
-  PositiveDecimalType * Width;
-  PositiveDecimalType * Height;
-  XmlBoolean * HasTop;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class EndEffectorChangingStationType :
   public SolidObjectType
 {
@@ -453,10 +434,14 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    MechanicalComponentType * BaseIn,
     std::list<EndEffectorHolderType *> * EndEffectorHoldersIn);
   ~EndEffectorChangingStationType();
   void printSelf(FILE * outFile);
 
+  MechanicalComponentType * Base;
   std::list<EndEffectorHolderType *> * EndEffectorHolders;
 
   bool printTypp;
@@ -473,6 +458,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     EndEffectorType * EndEffectorIn);
   ~EndEffectorHolderType();
   void printSelf(FILE * outFile);
@@ -493,15 +480,43 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn);
+    PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn);
   ~EndEffectorType();
   void printSelf(FILE * outFile);
 
   XmlString * Description;
   PositiveDecimalType * Weight;
   PositiveDecimalType * MaximumLoadWeight;
+  SolidObjectType * HeldObject;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class ExternalShapeType :
+  public ShapeDesignType
+{
+public:
+  ExternalShapeType();
+  ExternalShapeType(
+    XmlID * NameIn,
+    XmlString * DescriptionIn,
+    PoseLocationType * GraspPoseIn,
+    XmlString * ModelTypeNameIn,
+    XmlString * ModelFileNameIn,
+    XmlString * ModelNameIn);
+  ~ExternalShapeType();
+  void printSelf(FILE * outFile);
+
+  XmlString * ModelTypeName;
+  XmlString * ModelFileName;
+  XmlString * ModelName;
 
   bool printTypp;
 };
@@ -517,10 +532,31 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn);
+    PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn);
   ~GripperEffectorType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class InternalShapeType :
+  public ShapeDesignType
+{
+public:
+  InternalShapeType();
+  InternalShapeType(
+    XmlID * NameIn,
+    XmlString * DescriptionIn,
+    PoseLocationType * GraspPoseIn);
+  ~InternalShapeType();
   void printSelf(FILE * outFile);
 
 
@@ -538,6 +574,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~KitTrayType();
@@ -560,6 +598,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlIDREF * DesignNameIn,
     KitTrayType * TrayIn,
     std::list<PartType *> * PartIn,
@@ -586,6 +626,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     AngleUnitType * AngleUnitIn,
     EndEffectorChangingStationType * ChangingStationIn,
     std::list<KitDesignType *> * KitDesignIn,
@@ -624,6 +666,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     LargeContainerType * LargeContainerIn,
     std::list<KitTrayType *> * KitTraysIn);
   ~LargeBoxWithEmptyKitTraysType();
@@ -646,6 +690,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     LargeContainerType * LargeContainerIn,
     std::list<KitType *> * KitIn,
     XmlIDREF * KitDesignNameIn,
@@ -672,6 +718,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~LargeContainerType();
@@ -679,6 +727,26 @@ public:
 
   XmlIDREF * SkuName;
   XmlNMTOKEN * SerialNumber;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class MechanicalComponentType :
+  public SolidObjectType
+{
+public:
+  MechanicalComponentType();
+  MechanicalComponentType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn);
+  ~MechanicalComponentType();
+  void printSelf(FILE * outFile);
+
 
   bool printTypp;
 };
@@ -694,6 +762,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~PartType();
@@ -716,6 +786,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn,
     XmlIDREF * PartSkuNameIn,
@@ -742,6 +814,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlIDREF * SkuNameIn,
     XmlNMTOKEN * SerialNumberIn);
   ~PartsTrayType();
@@ -764,6 +838,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     PartsTrayType * PartsTrayIn,
     std::list<PartType *> * PartIn);
   ~PartsTrayWithPartsType();
@@ -862,6 +938,8 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlString * DescriptionIn,
     EndEffectorType * EndEffectorIn,
     PositiveDecimalType * MaximumLoadWeightIn,
@@ -888,9 +966,12 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
     PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn,
     PositiveDecimalType * CupDiameterIn,
     PositiveDecimalType * LengthIn);
   ~VacuumEffectorType();
@@ -904,23 +985,26 @@ public:
 
 /*********************************************************************/
 
-class WorkTableType :
-  public BoxyObjectType
+class BoxyShapeType :
+  public InternalShapeType
 {
 public:
-  WorkTableType();
-  WorkTableType(
+  BoxyShapeType();
+  BoxyShapeType(
     XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlString * DescriptionIn,
+    PoseLocationType * GraspPoseIn,
     PositiveDecimalType * LengthIn,
     PositiveDecimalType * WidthIn,
     PositiveDecimalType * HeightIn,
-    std::list<SolidObjectType *> * SolidObjectIn);
-  ~WorkTableType();
+    XmlBoolean * HasTopIn);
+  ~BoxyShapeType();
   void printSelf(FILE * outFile);
 
-  std::list<SolidObjectType *> * SolidObject;
+  PositiveDecimalType * Length;
+  PositiveDecimalType * Width;
+  PositiveDecimalType * Height;
+  XmlBoolean * HasTop;
 
   bool printTypp;
 };
@@ -936,9 +1020,12 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
     PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn,
     PositiveDecimalType * CupDiameterIn,
     PositiveDecimalType * LengthIn,
     XmlPositiveInteger * ArrayNumberIn,
@@ -963,9 +1050,12 @@ public:
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     XmlString * DescriptionIn,
     PositiveDecimalType * WeightIn,
     PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn,
     PositiveDecimalType * CupDiameterIn,
     PositiveDecimalType * LengthIn);
   ~VacuumEffectorSingleCupType();
@@ -977,13 +1067,13 @@ public:
 
 /*********************************************************************/
 
-class XmlHeaderForKittingWorkStation
+class XmlHeaderForKittingWorkstation
 {
 public:
-  XmlHeaderForKittingWorkStation();
-  XmlHeaderForKittingWorkStation(
+  XmlHeaderForKittingWorkstation();
+  XmlHeaderForKittingWorkstation(
     SchemaLocation * locationIn);
-  ~XmlHeaderForKittingWorkStation();
+  ~XmlHeaderForKittingWorkstation();
   void printSelf(FILE * outFile);
 
   SchemaLocation * location;

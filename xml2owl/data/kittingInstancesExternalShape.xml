@@ -783,6 +783,19 @@
     <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
   <Sku>
+    <Name>stock_keeping_unit_part_d</Name>
+    <Description>SKU for Part D</Description>
+    <Shape xsi:type="ExternalShapeType">
+      <Name>shape_part_d</Name>
+      <Description>Shape of PartD</Description>
+      <ModelTypeName>OpenGL</ModelTypeName>
+      <ModelFileName>model/Part_d.gl</ModelFileName>
+      <ModelName>model of part d shape</ModelName>
+    </Shape>
+    <Weight>0.180000</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
+  </Sku>
+  <Sku>
     <Name>stock_keeping_unit_kit_tray</Name>
     <Description>SKU for KitTrays</Description>
     <Shape xsi:type="BoxyShapeType">

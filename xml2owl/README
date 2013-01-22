@@ -1,4 +1,4 @@
-xml2owl README - last updated 2012Nov23
+xml2owl README - last updated 2013Jan16
 
 This directory contains four executable utilities with the source code
 and other related code. All of the executables are fast.
@@ -46,7 +46,7 @@ For example, the command
     bin/owlPrinter data/kittingInstances.xml junk
 
 will print the file junk, which will be identical to the
-kittingInstances.owl file in the owl directory (except for a couple comments).
+kittingInstances.owl file in the owl directory.
 
 kittingParser
 -------------
@@ -66,9 +66,9 @@ For example, the command
    bin/kittingParser data/kittingInstances.xml
 
 will read kittingInstances.xml and write kittingInstances.xmlecho. The
-two files will be identical except for comments. If the format of an
-input file differs from the format used for printing the output file,
-the two files will differ, but only in format.
+two files will be identical. If the format of an input file differs from
+the format used for printing the output file, the two files will differ,
+but only in format.
 
 The owlPrinter makes the same checks as the kittingParser, so there is
 no need to use the kittingParser.
@@ -98,12 +98,12 @@ same information as kittingInstances.owl.
 kittingInstances.owl.
 
 5. Run kittingInstances.owl through compactOwl to produce
-one version of kittingInstancesCompact.owl.
+kittingInstancesCompact.owl.
 
 6. Run kittingInstances.owl through compactOwl to produce
-a second version of kittingInstancesCompact.owl.
+kittingInstancesCompact.owl.
 
-7. Run the two versions of kittingInstancesCompact.owl through
+7. Run kittingInstancesCompact.owl and kittingInstancesCompact.owl through
 compareOwl. If compareOwl reports that the two files have the same
 statements, that means that steps 1, 2, and 3 have been done correctly, so
 debugging is finished. If compareOwl reports a pair of statements that
@@ -166,9 +166,10 @@ kittingParser
 owlPrinter
 
 ./data:
-intentionInstances.xml (not updated)
+kittingInstancesExternalShape.xml
 kittingInstancesGoal2.xml
 kittingInstancesGoal.xml
+kittingInstancesInit2.xml
 kittingInstancesInitNoLoc.xml
 kittingInstancesInit.xml
 kittingInstances.xml
@@ -177,18 +178,17 @@ kittingInstances.xml
 kittingClasses.o
 kittingClassesOwl.o
 kittingLex.o
-kittingLexOwl.o
 kittingParser.o
 kittingYACC.o
-kittingYACCOwl.o
 owlPrinter.o
 xmlSchemaInstance.o
 
 ./owl:
-intentionInstances.owl  (not updated)
 kittingClasses.owl
+kittingInstancesExternalShape.owl
 kittingInstancesGoal2.owl
 kittingInstancesGoal.owl
+kittingInstancesInit2.owl
 kittingInstancesInitNoLoc.owl
 kittingInstancesInit.owl
 kittingInstances.owl

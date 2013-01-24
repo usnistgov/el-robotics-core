@@ -373,9 +373,13 @@ Called By:
   VacuumEffectorSingleCupType::printOwl
 
 This prints a DataPropertyAssertion when the type of data is a
-PositiveDecimalType, for example:
+PositiveDecimalType. The equivalent property in OWL is positiveDecimal,
+which is defined using a DatatypeDefinition that constrains xsd:decimal.
+In an OWL instance file, data values cannot be declared using the name
+of the DatatypeDefinition. The base type (xsd:decimal in this case) must
+be used instead. Thus, this prints, for example:
 
-DataPropertyAssertion(:hasBox_Height :empty_kit_tray_box "0.800000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :empty_kit_tray_box "0.800000"^^xsd:decimal)
 
 */
 
@@ -389,7 +393,7 @@ void OwlPrinter::printPosDecProp(  /* ARGUMENTS                        */
   Name->printSelf(outFile);
   fprintf(outFile, " \"");
   val->printOwl(outFile);
-  fprintf(outFile, "\"^^:positiveDecimal)\n");
+  fprintf(outFile, "\"^^xsd:decimal)\n");
 }
 
 /*********************************************************************/
@@ -591,7 +595,7 @@ Called By:
 This prints a DataPropertyAssertion when the type of data is an
 XmlPositiveInteger, for example:
 
-DataPropertyAssertion(:hasBox_Height :empty_kit_tray_box "0.800000"^^:positiveDecimal)
+DataPropertyAssertion(:hasBoxyShape_Height :empty_kit_tray_box "0.800000"^^:positiveDecimal)
 
 */
 
@@ -1212,7 +1216,7 @@ void GripperEffectorType::printOwl(FILE * outFile)
 {
   OwlPrinter::startIndi(Name, "GripperEffector", true, outFile);
   OwlPrinter::printLocations(Name, PrimaryLocation,
-					 SecondaryLocation, outFile);
+			     SecondaryLocation, outFile);
   OwlPrinter::printShapes(InternalShape, ExternalShape, Name, outFile);
   OwlPrinter::printXmlStringProp("hasEndEffector_Description",
 				 Name, Description, outFile);
@@ -1483,25 +1487,13 @@ void KittingWorkstationType::printOwl(FILE * outFile)
   OwlPrinter::locationStack.push_front(Name);
   OwlPrinter::startIndi(Name, "KittingWorkstation", true, outFile);
   OwlPrinter::printLocations(Name, PrimaryLocation,
-					 SecondaryLocation, outFile);
-  fprintf(outFile, "DataPropertyAssertion(:hasWorkstation_AngleUnit :");
-  Name->printSelf(outFile);
-  fprintf(outFile, " \"");
-  AngleUnit->printOwl(outFile);
-  fprintf(outFile, "\")\n");
-  
-  fprintf(outFile, "DataPropertyAssertion(:hasWorkstation_LengthUnit :");
-  Name->printSelf(outFile);
-  fprintf(outFile, " \"");
-  LengthUnit->printOwl(outFile);
-  fprintf(outFile, "\")\n");
-
-  fprintf(outFile, "DataPropertyAssertion(:hasWorkstation_WeightUnit :");
-  Name->printSelf(outFile);
-  fprintf(outFile, " \"");
-  WeightUnit->printSelf(outFile);
-  fprintf(outFile, "\")\n");
-
+			     SecondaryLocation, outFile);
+  OwlPrinter::printXmlNMTOKENProp("hasWorkstation_AngleUnit",
+				  Name, AngleUnit, outFile);
+  OwlPrinter::printXmlNMTOKENProp("hasWorkstation_LengthUnit",
+				  Name, LengthUnit, outFile);
+  OwlPrinter::printXmlNMTOKENProp("hasWorkstation_WeightUnit",
+				  Name, WeightUnit, outFile);
   OwlPrinter::printObjProp("hasWorkstation_Robot", Name, Robot->Name, outFile);
   OwlPrinter::printObjProp("hasWorkstation_ChangingStation", Name,
 			   ChangingStation->Name, outFile);

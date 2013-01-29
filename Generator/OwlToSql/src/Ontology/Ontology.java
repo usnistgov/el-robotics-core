@@ -30,14 +30,16 @@ software
 package Ontology;
 
 import DataBase.*;
-import ExcelExport.WriteFileXLSX;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.semanticweb.HermiT.Configuration;
+import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -48,16 +50,24 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.reasoner.ConsoleProgressMonitor;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.util.InferredAxiomGenerator;
+import org.semanticweb.owlapi.util.InferredDataPropertyCharacteristicAxiomGenerator;
+import org.semanticweb.owlapi.util.InferredInverseObjectPropertiesAxiomGenerator;
+import org.semanticweb.owlapi.util.InferredObjectPropertyCharacteristicAxiomGenerator;
+import org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator;
+
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
@@ -165,6 +175,48 @@ public class Ontology {
 			ontology = merger.createMergedOntology(manager, null);
 			// end merge
 			System.out.println("Loaded ontology: " + this.ontology);
+			/*
+			 * reasoner = PelletReasonerFactory.getInstance()
+			 * .createReasoner(ontology); System.out.println("Consistent? " +
+			 * reasoner.isConsistent());
+			 */
+
+			ReasonerFactory factory = new ReasonerFactory();
+			// The factory can now be used to obtain an instance of HermiT as an
+			// OWLReasoner.
+			Configuration c = new Configuration();
+			c.reasonerProgressMonitor = new ConsoleProgressMonitor();
+			OWLReasoner reasoner = factory.createReasoner(ontology, c);
+			System.out.println("Consistent ? " + reasoner.isConsistent());
+
+			List<InferredAxiomGenerator<? extends OWLAxiom>> axiomGenerators = new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
+			// axiomGenerators.add(new InferredClassAssertionAxiomGenerator());
+			axiomGenerators.add(new InferredPropertyAssertionGenerator());
+			axiomGenerators
+					.add(new InferredDataPropertyCharacteristicAxiomGenerator());
+			// axiomGenerators.add(new InferredEquivalentClassAxiomGenerator());
+			// axiomGenerators.add(new
+			// InferredEquivalentDataPropertiesAxiomGenerator());
+			// axiomGenerators.add(new
+			// InferredEquivalentObjectPropertyAxiomGenerator());
+			axiomGenerators
+					.add(new InferredInverseObjectPropertiesAxiomGenerator());
+			axiomGenerators
+					.add(new InferredObjectPropertyCharacteristicAxiomGenerator());
+			axiomGenerators.add(new InferredPropertyAssertionGenerator());
+			// axiomGenerators.add(new InferredSubClassAxiomGenerator());
+			// axiomGenerators.add(new InferredSubDataPropertyAxiomGenerator());
+			// axiomGenerators.add(new
+			// InferredSubObjectPropertyAxiomGenerator());
+
+			List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+			for (InferredAxiomGenerator<? extends OWLAxiom> axiomGenerator : axiomGenerators) {
+				for (OWLAxiom ax : axiomGenerator.createAxioms(manager,
+						reasoner)) {
+					changes.add(new AddAxiom(ontology, ax));
+				}
+			}
+			manager.applyChanges(changes);
 
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

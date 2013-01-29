@@ -56,9 +56,6 @@ DataPropertyDomain(:hasWorkstation_LengthUnit :KittingWorkstation)
 DataPropertyDomain(:hasWorkstation_WeightUnit :KittingWorkstation)
 DataPropertyDomain(:isKit_Finished :Kit)
 
-DataPropertyRange(:hasBox_Height :positiveDecimal)
-DataPropertyRange(:hasBox_Length :positiveDecimal)
-DataPropertyRange(:hasBox_Width :positiveDecimal)
 DataPropertyRange(:hasBoxyShape_Height :positiveDecimal)
 DataPropertyRange(:hasBoxyShape_Length :positiveDecimal)
 DataPropertyRange(:hasBoxyShape_Top xsd:boolean)
@@ -537,9 +534,6 @@ AnnotationAssertion(rdfs:comment :WorkTable
 // formal method of representing the AnnotationAssertions. There would be
 // (probably) if the properties were ObjectProperty rather than DataProperty.
 
-Declaration(DataProperty(:hasBox_Height))
-Declaration(DataProperty(:hasBox_Length))
-Declaration(DataProperty(:hasBox_Width))
 Declaration(DataProperty(:hasBoxyShape_Height))
 Declaration(DataProperty(:hasBoxyShape_Length))
 Declaration(DataProperty(:hasBoxyShape_Top))
@@ -1195,9 +1189,6 @@ EquivalentClasses(:Vector
     ObjectIntersectionOf(DataSomeValuesFrom(:hasVector_K xsd:decimal)
                          DataAllValuesFrom(:hasVector_K xsd:decimal)))
 
-FunctionalDataProperty(:hasBox_Height)
-FunctionalDataProperty(:hasBox_Length)
-FunctionalDataProperty(:hasBox_Width)
 FunctionalDataProperty(:hasBoxyShape_Height)
 FunctionalDataProperty(:hasBoxyShape_Length)
 FunctionalDataProperty(:hasBoxyShape_Top)

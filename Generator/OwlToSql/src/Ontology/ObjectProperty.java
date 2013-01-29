@@ -9,7 +9,7 @@ software
    maintenance, and subsequent redistribution.
 
    See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 
 /**
  * \file      ObjectProperty.java
@@ -27,6 +27,7 @@ software
  */
 
 package Ontology;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,59 +47,58 @@ import org.semanticweb.owlapi.util.OWLOntologyWalkerVisitor;
 
 public class ObjectProperty {
 	/**
-	 * \brief     Separator between URL and the class' name in the ontology.
+	 * \brief Separator between URL and the class' name in the ontology.
 	 */
 	private static final char SEPARATOR = '#';
 	/**
-	 * \brief      List of classes in the ontology.
+	 * \brief List of classes in the ontology.
 	 */
 	private ArrayList<OWLClass> classes;
 	/**
-	 * \brief      List of classes without the url before their name.
+	 * \brief List of classes without the url before their name.
 	 */
-	private ArrayList<String> classesClean; 
+	private ArrayList<String> classesClean;
 	/**
-	 * \brief      Our ontology.
+	 * \brief Our ontology.
 	 */
 	private OWLOntology ontology;
 	/**
-	 * \brief      List of the object properties in the ontology.
-	 * \details <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 * \brief List of the object properties in the ontology. \details <<Classe1,
+	 * ObjectPropertyName1,ObjectPropertyName2>
 	 */
 	private HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> objectProperties;
 	/**
-	 * \brief      List of the object properties without the URL before their name in the ontology.
-	 * \details <<Classe1, ObjectPropertyName1,ObjectPropertyName2>
+	 * \brief List of the object properties without the URL before their name in
+	 * the ontology. \details <<Classe1,
+	 * ObjectPropertyName1,ObjectPropertyName2>
 	 */
 	private ArrayList<ArrayList<String>> objectPropertiesClean;
 	/**
-	 * \brief      Map - Used to know if a object property is single or multi valued
+	 * \brief Map - Used to know if a object property is single or multi valued
 	 * \details ObjectPropertyName => true or false
 	 */
-	private HashMap<String, String> objectSingleValued; 
+	private HashMap<String, String> objectSingleValued;
 	/**
-	 * \brief      Map - Used to know if an object property is required or optional valued
-	 * \details ObjectPropertyName => true or false
+	 * \brief Map - Used to know if an object property is required or optional
+	 * valued \details ObjectPropertyName => true or false
 	 */
-	private HashMap<String, String> objectRequired; 
+	private HashMap<String, String> objectRequired;
 	/**
-	 * \brief      List of the ranges for a given object property
-	 * \details 	 <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
+	 * \brief List of the ranges for a given object property \details
+	 * <<ObjectPropertyName1,Range1,Range2...,<ObjectName2,Range1,Range2...>>
 	 */
 	private HashMap<String, ArrayList<String>> objectPropertyRanges;
 	/**
-	 * \brief      List of the inverse properties for a given one.
-	 * \details 	 property => inverse
-	 */	
-	private HashMap<String, String> objectPropertyInverse; 
+	 * \brief List of the inverse properties for a given one. \details property
+	 * => inverse
+	 */
+	private HashMap<String, String> objectPropertyInverse;
 
 	/**
-     *  \brief Constructor
-     *  \details Constructor of the ObjectProperty class.
-     *  \param c 	List of the classes.
-     *  \param cc 	List of the classes cleaned.
-     *  \param ont 	Our ontology.
-     */
+	 * \brief Constructor \details Constructor of the ObjectProperty class.
+	 * \param c List of the classes. \param cc List of the classes cleaned.
+	 * \param ont Our ontology.
+	 */
 	public ObjectProperty(ArrayList<OWLClass> c, ArrayList<String> cc,
 			OWLOntology ont) {
 		objectPropertiesClean = new ArrayList<ArrayList<String>>();
@@ -122,19 +122,18 @@ public class ObjectProperty {
 											// objectRequired Map
 		addInverse(); // fill up the objectPropertyInverse list
 		addTypes(); // fill up the objectPropertyRanges list - add the ranges
-		System.out.println();
 	}
 
 	/**
 	 * \brief List all the inverse properties for each object properties.
 	 * \details Fill the objectPropertyInverse map
-	 */	
+	 */
 	public void addInverse() {
 		for (int i = 0; i < classes.size(); i++) {
 			if (objectProperties.containsKey(classes.get(i))) {
 				for (int j = 0; j < objectProperties.get(classes.get(i)).size(); j++) {
-					if (!objectProperties.get(classes.get(i)).get(j)
-							.getInverses(ontology).toString().equals("[]")) {
+					if (objectProperties.get(classes.get(i)).get(j)
+							.getInverses(ontology).size() > 1) {
 						objectPropertyInverse
 								.put(objectProperties
 										.get(classes.get(i))
@@ -164,61 +163,20 @@ public class ObjectProperty {
 																.toString()
 																.indexOf(
 																		SEPARATOR) + 1,
-														objectProperties
-																.get(classes
-																		.get(i))
-																.get(j)
-																.getInverses(
-																		ontology)
-																.toString()
-																.length() - 2));
-				} 
-//						else {
-//						objectPropertyInverse
-//								.put(objectProperties
-//										.get(classes.get(i))
-//										.get(j)
-//										.toString()
-//										.substring(
-//												objectProperties
-//														.get(classes.get(i))
-//														.get(j).toString()
-//														.indexOf(SEPARATOR) + 1,
-//												objectProperties
-//														.get(classes.get(i))
-//														.get(j).toString()
-//														.length() - 1),
-//										"InverseOf("
-//												+ objectProperties
-//														.get(classes.get(i))
-//														.get(j)
-//														.toString()
-//														.substring(
-//																objectProperties
-//																		.get(classes
-//																				.get(i))
-//																		.get(j)
-//																		.toString()
-//																		.indexOf(
-//																				SEPARATOR) + 1,
-//																objectProperties
-//																		.get(classes
-//																				.get(i))
-//																		.get(j)
-//																		.toString()
-//																		.length() - 1)
-//												+ ")");
-//
-//					}
+										objectProperties.get(classes.get(i))
+												.get(j).getInverses(ontology)
+												.toArray()[0].toString()
+												.length()));
+					}
 				}
 			}
 		}
 	}
 
 	/**
-	 * \brief List all the object properties for each class.
-	 * \details Fill the objectProperties map
-	 */	
+	 * \brief List all the object properties for each class. \details Fill the
+	 * objectProperties map
+	 */
 	public void addObjectProperties() {
 		ArrayList<OWLObjectProperty> l = new ArrayList<OWLObjectProperty>(
 				ontology.getObjectPropertiesInSignature(true));
@@ -279,15 +237,18 @@ public class ObjectProperty {
 	}
 
 	/**
-	 * \brief Precise which properties are single valued.
-	 * \details Fill the objectSingleValued map.
+	 * \brief Precise which properties are single valued. \details Fill the
+	 * objectSingleValued map.
 	 */
 	public void singleValuedObjectProperties() {
 		for (Entry<OWLClassExpression, ArrayList<OWLObjectProperty>> currentEntry : objectProperties
 				.entrySet()) {
 			ArrayList<OWLObjectProperty> value = currentEntry.getValue();
 			for (OWLObjectProperty d : value) {
-				if (d.isFunctional(ontology) /*|| d.isInverseFunctional(ontology)*/)
+				if (d.isFunctional(ontology) /*
+											 * ||
+											 * d.isInverseFunctional(ontology)
+											 */)
 					objectSingleValued.put(
 							d.toString().substring(
 									d.toString().indexOf(SEPARATOR) + 1,
@@ -345,9 +306,9 @@ public class ObjectProperty {
 	}
 
 	/**
-	 * \brief Precise which properties are required.
-	 * \details Fill the objectRequired map.
-	 */	
+	 * \brief Precise which properties are required. \details Fill the
+	 * objectRequired map.
+	 */
 	public void requiredValueObjectProperties() {
 		for (Entry<OWLClassExpression, ArrayList<OWLObjectProperty>> currentEntry : objectProperties
 				.entrySet()) {
@@ -445,9 +406,9 @@ public class ObjectProperty {
 	}
 
 	/**
-	 * \brief List all the ranges for each object properties.
-	 * \details Fill the objectPropertyRanges list	 
-	 */	
+	 * \brief List all the ranges for each object properties. \details Fill the
+	 * objectPropertyRanges list
+	 */
 	public void addTypes() {
 		for (Entry<OWLClassExpression, ArrayList<OWLObjectProperty>> currentEntry : objectProperties
 				.entrySet()) {
@@ -517,138 +478,138 @@ public class ObjectProperty {
 			}
 		}
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return objectProperties
+	 * \brief Simple getter. \return objectProperties
 	 */
 	public HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> getObjectProperties() {
 		return objectProperties;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param objectProperties
+	 * \brief Simple setter. \param objectProperties
 	 */
 	public void setObjectProperties(
 			HashMap<OWLClassExpression, ArrayList<OWLObjectProperty>> objectProperties) {
 		this.objectProperties = objectProperties;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return objectPropertiesClean
+	 * \brief Simple getter. \return objectPropertiesClean
 	 */
 	public ArrayList<ArrayList<String>> getObjectPropertiesClean() {
 		return objectPropertiesClean;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param objectPropertiesClean
+	 * \brief Simple setter. \param objectPropertiesClean
 	 */
 	public void setObjectPropertiesClean(
 			ArrayList<ArrayList<String>> objectPropertiesClean) {
 		this.objectPropertiesClean = objectPropertiesClean;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return objectSingleValued
+	 * \brief Simple getter. \return objectSingleValued
 	 */
 	public HashMap<String, String> getObjectSingleValued() {
 		return objectSingleValued;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param objectSingleValued
+	 * \brief Simple setter. \param objectSingleValued
 	 */
 	public void setObjectSingleValued(HashMap<String, String> objectSingleValued) {
 		this.objectSingleValued = objectSingleValued;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return objectRequired
+	 * \brief Simple getter. \return objectRequired
 	 */
 	public HashMap<String, String> getObjectRequired() {
 		return objectRequired;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param objectRequired
+	 * \brief Simple setter. \param objectRequired
 	 */
 	public void setObjectRequired(HashMap<String, String> objectRequired) {
 		this.objectRequired = objectRequired;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return classes
+	 * \brief Simple getter. \return classes
 	 */
 	public ArrayList<OWLClass> getClasses() {
 		return classes;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param classes
+	 * \brief Simple setter. \param classes
 	 */
 	public void setClasses(ArrayList<OWLClass> classes) {
 		this.classes = classes;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return classesClean
+	 * \brief Simple getter. \return classesClean
 	 */
 	public ArrayList<String> getClassesClean() {
 		return classesClean;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param classesClean
+	 * \brief Simple setter. \param classesClean
 	 */
 	public void setClassesClean(ArrayList<String> classesClean) {
 		this.classesClean = classesClean;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return ontology
+	 * \brief Simple getter. \return ontology
 	 */
 	public OWLOntology getOntology() {
 		return ontology;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param ontology
+	 * \brief Simple setter. \param ontology
 	 */
 	public void setOntology(OWLOntology ontology) {
 		this.ontology = ontology;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return SEPARATOR
+	 * \brief Simple getter. \return SEPARATOR
 	 */
 	public static char getSeparator() {
 		return SEPARATOR;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return objectPropertyRanges
+	 * \brief Simple getter. \return objectPropertyRanges
 	 */
 	public HashMap<String, ArrayList<String>> getObjectPropertyRanges() {
 		return objectPropertyRanges;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param objectPropertyRanges
+	 * \brief Simple setter. \param objectPropertyRanges
 	 */
 	public void setObjectPropertyRanges(
 			HashMap<String, ArrayList<String>> objectPropertyRanges) {
 		this.objectPropertyRanges = objectPropertyRanges;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return objectPropertyInverse
+	 * \brief Simple getter. \return objectPropertyInverse
 	 */
 	public HashMap<String, String> getObjectPropertyInverse() {
 		return objectPropertyInverse;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param objectPropertyInverse
+	 * \brief Simple setter. \param objectPropertyInverse
 	 */
 	public void setObjectPropertyInverse(
 			HashMap<String, String> objectPropertyInverse) {

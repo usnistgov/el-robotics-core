@@ -183,7 +183,7 @@ public class Tables {
 
 				s = s + attributes(classesClean.get(i)) + "PRIMARY KEY ("
 						+ classesClean.get(i) + "ID, _NAME" + ")\n)ENGINE=InnoDB;\n\n";
-				// }
+				
 			}
 		}
 		// dataProperty multi valued => rule 3 in the OWL to SQL Paper
@@ -270,9 +270,14 @@ public class Tables {
 									.get(0)
 									.equals(objectPropertyRanges.get(
 											opClean.get(i).get(j)).get(d))) {
+								/*System.out.println("remove ? "+opClean.get(s).remove(
+										objectPropertyInverse.get(opClean
+												.get(i).get(j))));*/
 								opClean.get(s).remove(
 										objectPropertyInverse.get(opClean
 												.get(i).get(j)));
+								/*System.out.println("remove? "+objectPropertyInverse.get(opClean
+										.get(i).get(j)));*/
 								break;
 							}
 						}

@@ -6,7 +6,7 @@
   targetNamespace="urn:kitting"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
-  version="2013Jan10C">
+  version="2013Jan10D">
 
   <xs:element name="KittingWorkstation"
     type="KittingWorkstationType">
@@ -31,15 +31,17 @@
       4. BoxyShapeType is now derived from InternalShapeType rather than
          from ShapeDesignType.
 
-      5. A HeldObject element of SolidObjectType was added to
-         EndEffectorType.
+      5. A HeldObject element of SolidObjectType was added to EndEffectorType.
 
-      6. A Base element (the physical base of the changing station) was
-         added to the EndEffectorChangingStationType.
+      6. MechanicalComponentType was defined, derived from SolidObjectType.
 
-      7. A GraspPose element was added to ShapeDesignType.
+      7. A Base element (the physical base of the changing station) of
+         MechanicalComponentType was added to the
+         EndEffectorChangingStationType.
 
-      8. Documentation was changed or added in several places.
+      8. A GraspPose element was added to ShapeDesignType.
+
+      9. Documentation was changed or added in several places.
 
       One effect of the changes described above is that there are now
       four ways to specify the shape of a SolidObjectType:

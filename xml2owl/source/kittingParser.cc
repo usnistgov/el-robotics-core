@@ -3,7 +3,7 @@
 #include <stdlib.h>  // exit
 #include "kittingClasses.hh"
 
-extern KittingWorkStationFile * KittingWorkStationTree;
+extern KittingWorkstationFile * KittingWorkstationTree;
 extern FILE * yyin;
 extern int yyparse();
 
@@ -31,7 +31,7 @@ int main(       /* ARGUMENTS                                      */
   outFileName = new char[strlen(argv[1]) + 5];
   sprintf(outFileName, "%secho", argv[1]);
   outFile = fopen(outFileName, "w");
-  KittingWorkStationTree->printSelf(outFile);
+  KittingWorkstationTree->printSelf(outFile);
   fclose(outFile);
   return 0;
 }

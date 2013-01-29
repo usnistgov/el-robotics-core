@@ -47,7 +47,7 @@ This file has the following named objects (and others). Indentation in
 
 -->
 
-<KittingWorkStation
+<KittingWorkstation
   xmlns="urn:kitting"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="urn:kitting ../schema/kitting.xsd">
@@ -82,6 +82,39 @@ This file has the following named objects (and others). Indentation in
         <K>1.000000</K>
       </ZAxis>
     </PrimaryLocation>
+    <Base>
+      <Name>changing_station_base</Name>
+      <PrimaryLocation xsi:type="PoseOnlyLocationType">
+        <Name>changing_station_base_pose</Name>
+        <RefObject>changing_station_1</RefObject>
+        <Point>
+          <Name>changing_station_base_point</Name>
+          <X>0.000000</X>
+          <Y>0.000000</Y>
+          <Z>0.000000</Z>
+        </Point>
+        <XAxis>
+          <Name>changing_station_base_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>changing_station_base_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <InternalShape xsi:type="BoxyShapeType">
+        <Name>shape_changing_station_base</Name>
+        <Description>Shape of base of changing station</Description>
+        <Length>1.000000</Length>
+        <Width>0.100000</Width>
+        <Height>1.000000</Height>
+        <HasTop>true</HasTop>
+      </InternalShape>
+    </Base>
     <EndEffectorHolders>
       <Name>part_gripper_holder</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
@@ -363,7 +396,7 @@ This file has the following named objects (and others). Indentation in
       <Name>kit_1</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>kit_1_pose</Name>
-        <RefObject>finished_kit_box</RefObject>
+        <RefObject>finished_kit_receiver</RefObject>
         <Point>
           <Name>kit_1_point</Name>
           <X>0.300000</X>
@@ -415,7 +448,7 @@ This file has the following named objects (and others). Indentation in
         <Name>part_a_1</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_a_1_new_pose</Name>
-          <RefObject>kit_tray_1</RefObject>
+          <RefObject>kit_1</RefObject>
           <Point>
             <Name>part_a_1_new_point</Name>
             <X>-0.200000</X>
@@ -442,7 +475,7 @@ This file has the following named objects (and others). Indentation in
         <Name>part_a_2</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_a_2_new_pose</Name>
-          <RefObject>kit_tray_1</RefObject>
+          <RefObject>kit_1</RefObject>
           <Point>
             <Name>part_a_2_new_point</Name>
             <X>-0.200000</X>
@@ -469,7 +502,7 @@ This file has the following named objects (and others). Indentation in
         <Name>part_b_1</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_b_1_new_pose</Name>
-          <RefObject>kit_tray_1</RefObject>
+          <RefObject>kit_1</RefObject>
           <Point>
             <Name>part_b_1_new_point</Name>
             <X>0.050000</X>
@@ -496,7 +529,7 @@ This file has the following named objects (and others). Indentation in
         <Name>part_c_1</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_c_1_new_pose</Name>
-          <RefObject>kit_tray_1</RefObject>
+          <RefObject>kit_1</RefObject>
           <Point>
             <Name>part_c_1_new_point</Name>
             <X>0.050000</X>
@@ -843,8 +876,13 @@ This file has the following named objects (and others). Indentation in
         <K>1.000000</K>
       </ZAxis>
     </PrimaryLocation>
-    <Length>1.600000</Length>
-    <Width>0.800000</Width>
-    <Height>0.500000</Height>
+    <InternalShape xsi:type="BoxyShapeType">
+      <Name>shape_work_table</Name>
+      <Description>Shape of the work table</Description>
+      <Length>1.600000</Length>
+      <Width>0.800000</Width>
+      <Height>0.500000</Height>
+      <HasTop>true</HasTop>
+    </InternalShape>
   </WorkTable>
-</KittingWorkStation>
+</KittingWorkstation>

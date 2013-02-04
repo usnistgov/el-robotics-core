@@ -12,8 +12,8 @@ software
  *****************************************************************************/
 
 
-#ifndef BOXYOBJECT_H_
-#define BOXYOBJECT_H_
+#ifndef INTERNALSHAPE_H_
+#define INTERNALSHAPE_H_
 #include <cstdlib>
 #include <iostream>
 #include <map>
@@ -22,30 +22,25 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "ShapeDesign.h"
+ class SolidObject;
  class DAO;
-class BoxyObject: public SolidObject{private:
-double hasBox_Height;
-double hasBox_Width;
-double hasBox_Length;
-int BoxyObjectID;
+class InternalShape: public ShapeDesign{private:
+int InternalShapeID;
 DAO* dao;
+std::vector<SolidObject*> hasSolidObject_InternalShape;
 public:
-BoxyObject(std::string name);
-~BoxyObject();
+InternalShape(std::string name);
+~InternalShape();
  void get(int id);
  void get(std::string name);
-void set(int id, BoxyObject* obj);
+void set(int id, InternalShape* obj);
 void set(std::string name);
-double gethasBox_Height();
-void sethasBox_Height(double _hasBox_Height);
-double gethasBox_Width();
-void sethasBox_Width(double _hasBox_Width);
-double gethasBox_Length();
-void sethasBox_Length(double _hasBox_Length);
-int getBoxyObjectID();
+int getInternalShapeID();
 DAO* getdao();
 void setdao(DAO* _dao);
+std::vector<SolidObject*> gethasSolidObject_InternalShape();
+void sethasSolidObject_InternalShape(std::vector<SolidObject*> _hasSolidObject_InternalShape);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
-#endif /* BOXYOBJECT_H_ */
+#endif /* INTERNALSHAPE_H_ */

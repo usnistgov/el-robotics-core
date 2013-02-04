@@ -18,7 +18,7 @@ software
  #include "SolidObject.h"
  #include "DAO.h"
 
-WorkTable::WorkTable(std::string name) : BoxyObject(name){
+WorkTable::WorkTable(std::string name) : SolidObject(name){
 dao = NULL;
 hasWorkstation_WorkTable = NULL;
 
@@ -50,9 +50,6 @@ this->hasWorkstation_WorkTable= _hasWorkstation_WorkTable;
 }
 void WorkTable::get(std::string name){
 std::map<std::string,std::string> temp;
-dao  = new DAO("BoxyObject");
- temp = dao->get(name);delete (dao);
- BoxyObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -64,10 +61,8 @@ copy(temp);
  void WorkTable::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-BoxyObject* temp0 = (BoxyObject*) this;
+SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-SolidObject* temp1 = (SolidObject*) this;
-temp1->set(name);
 data["name"]=name;
 ss.str("");
 ss << WorkTableID;

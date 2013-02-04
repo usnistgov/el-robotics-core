@@ -13,7 +13,8 @@
 
 int main(int argc, char *argv[])
 {
-  UsarSimInf usarsim(1,std::string("marvin"));
+  //  UsarSimInf usarsim(1,std::string("marvin"));
+  UsarSimInf usarsim(0,std::string("marvin"));
   std::string myPart = "part_b_1";
   KitTray *kitTray = new KitTray(myPart);
   Part *testPart = new Part(myPart);;

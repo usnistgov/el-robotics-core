@@ -1,6 +1,6 @@
 IDIR =../include
 CC=g++
-CFLAGS=-I$(IDIR) -I ../src -g3
+CFLAGS=-I$(IDIR) -I ../src -g -O2
 
 ODIR=obj
 LIBS=-L./ -lpthread -lsqlKit -lmysqlcppconn

@@ -42,11 +42,11 @@ delete(hadBySku_Workstation[i]);
 std::string KittingWorkstation::gethasWorkstation_LengthUnit(){
 return hasWorkstation_LengthUnit;
 }
-std::string KittingWorkstation::gethasWorkstation_WeightUnit(){
-return hasWorkstation_WeightUnit;
-}
 std::string KittingWorkstation::gethasWorkstation_AngleUnit(){
 return hasWorkstation_AngleUnit;
+}
+std::string KittingWorkstation::gethasWorkstation_WeightUnit(){
+return hasWorkstation_WeightUnit;
 }
 int KittingWorkstation::getKittingWorkstationID(){
 return KittingWorkstationID;
@@ -75,11 +75,11 @@ return hasWorkstation_Robot;
 void KittingWorkstation::sethasWorkstation_LengthUnit(std::string _hasWorkstation_LengthUnit){
 this->hasWorkstation_LengthUnit= _hasWorkstation_LengthUnit;
 }
-void KittingWorkstation::sethasWorkstation_WeightUnit(std::string _hasWorkstation_WeightUnit){
-this->hasWorkstation_WeightUnit= _hasWorkstation_WeightUnit;
-}
 void KittingWorkstation::sethasWorkstation_AngleUnit(std::string _hasWorkstation_AngleUnit){
 this->hasWorkstation_AngleUnit= _hasWorkstation_AngleUnit;
+}
+void KittingWorkstation::sethasWorkstation_WeightUnit(std::string _hasWorkstation_WeightUnit){
+this->hasWorkstation_WeightUnit= _hasWorkstation_WeightUnit;
 }
 void KittingWorkstation::setdao(DAO* _dao){
 this->dao= _dao;
@@ -118,8 +118,8 @@ std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
 data["hasWorkstation_LengthUnit"]=hasWorkstation_LengthUnit;
-data["hasWorkstation_WeightUnit"]=hasWorkstation_WeightUnit;
 data["hasWorkstation_AngleUnit"]=hasWorkstation_AngleUnit;
+data["hasWorkstation_WeightUnit"]=hasWorkstation_WeightUnit;
 data["name"]=name;
 ss.str("");
 ss << KittingWorkstationID;
@@ -175,8 +175,8 @@ int nbVal=0;
 int nbValCurrent=0;
 std::vector<KittingWorkstation*> tmp;
 this->hasWorkstation_LengthUnit = object["KittingWorkstation.hasWorkstation_LengthUnit"];
-this->hasWorkstation_WeightUnit = object["KittingWorkstation.hasWorkstation_WeightUnit"];
 this->hasWorkstation_AngleUnit = object["KittingWorkstation.hasWorkstation_AngleUnit"];
+this->hasWorkstation_WeightUnit = object["KittingWorkstation.hasWorkstation_WeightUnit"];
 this->name = object["KittingWorkstation._NAME"];
 this->KittingWorkstationID = std::atof(object["KittingWorkstation.KittingWorkstationID"].c_str());
 if(this->hadByKitDesign_Workstation.empty() && object["hadByKitDesign_Workstation/KitDesign._NAME"]!=""){

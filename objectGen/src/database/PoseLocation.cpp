@@ -15,6 +15,7 @@ software
 
 
  #include "DAO.h"
+ #include "ShapeDesign.h"
  #include "Vector.h"
  #include "Point.h"
 
@@ -28,6 +29,8 @@ hasPoseLocation_XAxis = NULL;
 delete(hasPoseLocation_Point);
 delete(hasPoseLocation_ZAxis);
 delete(hasPoseLocation_XAxis);
+for(std::size_t i = 0; i < hasShapeDesign_GraspPose.size(); i++)
+delete(hasShapeDesign_GraspPose[i]);
 }
 int PoseLocation::getPoseLocationID(){
 return PoseLocationID;
@@ -44,6 +47,9 @@ return hasPoseLocation_ZAxis;
 Vector* PoseLocation::gethasPoseLocation_XAxis(){
 return hasPoseLocation_XAxis;
 }
+std::vector<ShapeDesign*> PoseLocation::gethasShapeDesign_GraspPose(){
+return hasShapeDesign_GraspPose;
+}
 void PoseLocation::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -55,6 +61,9 @@ this->hasPoseLocation_ZAxis= _hasPoseLocation_ZAxis;
 }
 void PoseLocation::sethasPoseLocation_XAxis(Vector* _hasPoseLocation_XAxis){
 this->hasPoseLocation_XAxis= _hasPoseLocation_XAxis;
+}
+void PoseLocation::sethasShapeDesign_GraspPose(std::vector<ShapeDesign*> _hasShapeDesign_GraspPose){
+this->hasShapeDesign_GraspPose= _hasShapeDesign_GraspPose;
 }
 void PoseLocation::get(std::string name){
 std::map<std::string,std::string> temp;
@@ -86,6 +95,12 @@ if(hasPoseLocation_ZAxis!=NULL)
 data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
 if(hasPoseLocation_XAxis!=NULL)
 data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+for(unsigned int i=0;i<hasShapeDesign_GraspPose.size();++i){
+ss.str("");
+hasShapeDesign_GraspPose[i]->get(hasShapeDesign_GraspPose[i]->getname());
+ss << hasShapeDesign_GraspPose[i]->getShapeDesignID();
+data["hasShapeDesign_GraspPose"]=data["hasShapeDesign_GraspPose"]+" "+ss.str();
+}
 dao  = new DAO("PoseLocation");
 dao->set(data);
 delete (dao);
@@ -97,6 +112,9 @@ delete(hasPoseLocation_ZAxis);
 hasPoseLocation_ZAxis=NULL;
 delete(hasPoseLocation_XAxis);
 hasPoseLocation_XAxis=NULL;
+for(std::size_t i = 0; i < hasShapeDesign_GraspPose.size(); i++){
+delete(hasShapeDesign_GraspPose[i]);
+hasShapeDesign_GraspPose[i]=NULL;}
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
@@ -113,6 +131,12 @@ this->hasPoseLocation_ZAxis = new Vector(object["hasPoseLocation_ZAxis/Vector._N
 }
 if(this->hasPoseLocation_XAxis== NULL && object["hasPoseLocation_XAxis/Vector._NAME"]!=""){
 this->hasPoseLocation_XAxis = new Vector(object["hasPoseLocation_XAxis/Vector._NAME"]);
+}
+if(this->hasShapeDesign_GraspPose.empty() && object["hasShapeDesign_GraspPose/ShapeDesign._NAME"]!=""){
+temp = Explode(object["hasShapeDesign_GraspPose/ShapeDesign._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasShapeDesign_GraspPose.push_back(new ShapeDesign(temp[i]));
+}
 }
 
 }std::vector<std::string> PoseLocation::Explode(const std::string & str, char separator )

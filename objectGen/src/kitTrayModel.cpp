@@ -21,11 +21,13 @@ std::string KitTrayModel::getModel()
   StockKeepingUnit *sku;
   ShapeDesign *shapeDesign;
 
+  printf( "Need to fix kitTrayModel::getModel()\n");
   sku = kitTray->gethasKitTray_Sku();
   //  printf( "getting sku name: \"%s\"\n", sku->getname().c_str() );
   sku->get(sku->getname());
   shapeDesign = sku->gethasSku_Shape();
   shapeDesign->get(shapeDesign->getname());
-  modelName = shapeDesign->gethasShapeDesign_Model();
+  // fixme!
+  //  modelName = shapeDesign->gethasShapeDesign_Model();
   return modelName;
 }

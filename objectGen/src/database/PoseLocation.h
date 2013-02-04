@@ -24,6 +24,7 @@ software
 
 #include "PhysicalLocation.h"
  class DAO;
+ class ShapeDesign;
  class Vector;
  class Point;
 class PoseLocation: public PhysicalLocation{private:
@@ -32,6 +33,7 @@ DAO* dao;
 Point* hasPoseLocation_Point;
 Vector* hasPoseLocation_ZAxis;
 Vector* hasPoseLocation_XAxis;
+std::vector<ShapeDesign*> hasShapeDesign_GraspPose;
 public:
 PoseLocation(std::string name);
 ~PoseLocation();
@@ -48,6 +50,8 @@ Vector* gethasPoseLocation_ZAxis();
 void sethasPoseLocation_ZAxis(Vector* _hasPoseLocation_ZAxis);
 Vector* gethasPoseLocation_XAxis();
 void sethasPoseLocation_XAxis(Vector* _hasPoseLocation_XAxis);
+std::vector<ShapeDesign*> gethasShapeDesign_GraspPose();
+void sethasShapeDesign_GraspPose(std::vector<ShapeDesign*> _hasShapeDesign_GraspPose);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* POSELOCATION_H_ */

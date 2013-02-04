@@ -26,6 +26,7 @@ software
  class Robot;
  class StockKeepingUnit;
  class DAO;
+ class SolidObject;
  class EndEffectorHolder;
 class EndEffector: public SolidObject{private:
 std::string hasEndEffector_Description;
@@ -34,6 +35,7 @@ double hasEffector_MaximumLoadWeight;
 int EndEffectorID;
 DAO* dao;
 Robot* hadByEndEffector_Robot;
+SolidObject* hasEndEffector_HeldObject;
 EndEffectorHolder* hasEndEffectorHolder_EndEffector;
 std::vector<StockKeepingUnit*> hasSku_EndEffectors;
 public:
@@ -54,6 +56,8 @@ DAO* getdao();
 void setdao(DAO* _dao);
 Robot* gethadByEndEffector_Robot();
 void sethadByEndEffector_Robot(Robot* _hadByEndEffector_Robot);
+SolidObject* gethasEndEffector_HeldObject();
+void sethasEndEffector_HeldObject(SolidObject* _hasEndEffector_HeldObject);
 EndEffectorHolder* gethasEndEffectorHolder_EndEffector();
 void sethasEndEffectorHolder_EndEffector(EndEffectorHolder* _hasEndEffectorHolder_EndEffector);
 std::vector<StockKeepingUnit*> gethasSku_EndEffectors();

@@ -103,7 +103,10 @@ int UsarSimInf::placeObject( std::string className, std::string name,
   else
     output += "false}\r\n";
 
-  //  printf( "Sending %s\n", output.c_str() );
-  ulapi_socket_write(socket_fd, output.c_str(), output.length());
+  if( connected )
+    ulapi_socket_write(socket_fd, output.c_str(), output.length());
+  else
+    printf( "Would have sent: %s\n", output.c_str() );
+
   return 1;
 }

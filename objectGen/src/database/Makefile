@@ -1,6 +1,6 @@
 IDIR =../include
 CC=g++
-CFLAGS=-I$(IDIR) -g3 -shared
+CFLAGS=-I$(IDIR) -g -O2 -shared
 
 ODIR=obj
 LIBS=
@@ -10,47 +10,50 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 all: libsqlKit.a
 
+# create list with "ls -x > fileList.txt"
 libsqlKit_SOURCES = \
-BoxVolume.cpp      \
-BoxyObject.cpp     \
-BoxyShape.cpp      \
-Connection.cpp      \
-DAO.cpp      \
-DataThing.cpp      \
-EndEffectorChangingStation.cpp      \
-EndEffector.cpp      \
-EndEffectorHolder.cpp      \
-GripperEffector.cpp      \
-Kit.cpp      \
-KitDesign.cpp      \
-KittingWorkstation.cpp      \
-KitTray.cpp      \
-LargeBoxWithEmptyKitTrays.cpp      \
-LargeBoxWithKits.cpp      \
-LargeContainer.cpp      \
-Part.cpp      \
-PartRefAndPose.cpp      \
-PartsBin.cpp      \
-PartsTray.cpp      \
-PartsTrayWithParts.cpp      \
-PhysicalLocation.cpp      \
-Point.cpp      \
-PoseLocation.cpp      \
-PoseLocationIn.cpp      \
-PoseLocationOn.cpp      \
-PoseOnlyLocation.cpp      \
-RelativeLocation.cpp      \
-RelativeLocationIn.cpp      \
-RelativeLocationOn.cpp      \
-Robot.cpp      \
-ShapeDesign.cpp      \
-SolidObject.cpp      \
-StockKeepingUnit.cpp      \
-VacuumEffector.cpp      \
-VacuumEffectorMultiCup.cpp      \
-VacuumEffectorSingleCup.cpp      \
-Vector.cpp      \
-WorkTable.cpp      
+BoxVolume.cpp \
+BoxyShape.cpp \
+Connection.cpp \
+DAO.cpp \
+DataThing.cpp \
+EndEffectorChangingStation.cpp \
+EndEffector.cpp \
+EndEffectorHolder.cpp \
+ExternalShape.cpp \
+GripperEffector.cpp \
+InternalShape.cpp \
+Kit.cpp \
+KitDesign.cpp \
+KittingWorkstation.cpp \
+KitTray.cpp \
+LargeBoxWithEmptyKitTrays.cpp \
+LargeBoxWithKits.cpp \
+LargeContainer.cpp \
+MechanicalComponent.cpp \
+Part.cpp \
+PartRefAndPose.cpp \
+PartsBin.cpp \
+PartsTray.cpp \
+PartsTrayWithParts.cpp \
+PhysicalLocation.cpp \
+Point.cpp \
+PoseLocation.cpp \
+PoseLocationIn.cpp \
+PoseLocationOn.cpp \
+PoseOnlyLocation.cpp \
+RelativeLocation.cpp \
+RelativeLocationIn.cpp \
+RelativeLocationOn.cpp \
+Robot.cpp \
+ShapeDesign.cpp \
+SolidObject.cpp \
+StockKeepingUnit.cpp \
+VacuumEffector.cpp \
+VacuumEffectorMultiCup.cpp \
+VacuumEffectorSingleCup.cpp \
+Vector.cpp \
+WorkTable.cpp
 
 libsqlKit_OBJECTS=$(patsubst %, $(ODIR)/%,$(libsqlKit_SOURCES:.cpp=.o))
 

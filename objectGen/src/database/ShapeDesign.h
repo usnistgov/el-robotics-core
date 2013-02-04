@@ -25,11 +25,12 @@ software
 #include "DataThing.h"
  class StockKeepingUnit;
  class DAO;
+ class PoseLocation;
 class ShapeDesign: public DataThing{private:
-std::string hasShapeDesign_Model;
 std::string hasShapeDesign_Description;
 int ShapeDesignID;
 DAO* dao;
+PoseLocation* hasShapeDesign_GraspPose;
 std::vector<StockKeepingUnit*> hasSku_Shape;
 public:
 ShapeDesign(std::string name);
@@ -38,15 +39,16 @@ ShapeDesign(std::string name);
  void get(std::string name);
 void set(int id, ShapeDesign* obj);
 void set(std::string name);
-std::string gethasShapeDesign_Model();
-void sethasShapeDesign_Model(std::string _hasShapeDesign_Model);
 std::string gethasShapeDesign_Description();
 void sethasShapeDesign_Description(std::string _hasShapeDesign_Description);
 int getShapeDesignID();
 DAO* getdao();
 void setdao(DAO* _dao);
+PoseLocation* gethasShapeDesign_GraspPose();
+void sethasShapeDesign_GraspPose(PoseLocation* _hasShapeDesign_GraspPose);
 std::vector<StockKeepingUnit*> gethasSku_Shape();
 void sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
+ virtual void printMe();
 }; 
 #endif /* SHAPEDESIGN_H_ */

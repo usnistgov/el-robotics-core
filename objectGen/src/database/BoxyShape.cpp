@@ -16,7 +16,7 @@ software
 
  #include "DAO.h"
 
-BoxyShape::BoxyShape(std::string name) : ShapeDesign(name){
+BoxyShape::BoxyShape(std::string name) : InternalShape(name){
 dao = NULL;
 
 }BoxyShape::~BoxyShape(){
@@ -56,6 +56,9 @@ this->dao= _dao;
 }
 void BoxyShape::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("InternalShape");
+ temp = dao->get(name);delete (dao);
+ InternalShape::copy(temp);
 dao  = new DAO("ShapeDesign");
  temp = dao->get(name);delete (dao);
  ShapeDesign::copy(temp);
@@ -70,10 +73,12 @@ copy(temp);
  void BoxyShape::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-ShapeDesign* temp0 = (ShapeDesign*) this;
+InternalShape* temp0 = (InternalShape*) this;
 temp0->set(name);
-DataThing* temp1 = (DataThing*) this;
+ShapeDesign* temp1 = (ShapeDesign*) this;
 temp1->set(name);
+DataThing* temp2 = (DataThing*) this;
+temp2->set(name);
 ss.str("");
 ss << hasBoxyShape_Width;
 data["hasBoxyShape_Width"]=ss.str();

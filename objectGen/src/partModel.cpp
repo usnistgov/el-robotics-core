@@ -21,28 +21,30 @@ std::string PartModel::getModel()
   StockKeepingUnit *sku;
   ShapeDesign *shapeDesign;
   ExternalShape *externalShape;
+  InternalShape *internalShape;
   ShapeDesign *testShape;
 
   sku = part->gethasPart_Sku();
   //  printf( "getting sku name: \"%s\"\n", sku->getname().c_str() );
   sku->get(sku->getname());
 
+
   testShape = sku->gethasSku_Shape();
   //  externalShape = (ExternalShape*)sku->gethasSku_Shape();
-  if (dynamic_cast<ExternalShape *>(testShape))
+  externalShape = new ExternalShape(testShape->getname());
+  externalShape->get(testShape->getname());
+  if( externalShape->getExternalShapeID() > 0 )
     {
       printf( "%s has external model\n", sku->getname().c_str() );
+      printf( "external model type: %s name: %s model file name: %s\n",
+	      externalShape->gethasExternalShape_ModelTypeName().c_str(),
+	      externalShape->gethasExternalShape_ModelName().c_str(),
+	      externalShape->gethasExternalShape_ModelFileName().c_str() );
+      modelName = externalShape->gethasExternalShape_ModelName();
     }
   else
     {
-      printf( "%s has no external model\n", sku->getname().c_str() );
-      /*
-      printf( "%s has external model\n", sku->getname().c_str() );
-      printf( "external model type: %s name: %s\n",
-	      externalShape->gethasExternalShape_ModelTypeName().c_str(),
-	      externalShape->gethasExternalShape_ModelName().c_str() );
-      modelName = externalShape->gethasExternalShape_ModelName();
-      */
+      printf( "%s is not an external shape\n", sku->getname().c_str() );
     }
 
   // need shape design to get grasp point

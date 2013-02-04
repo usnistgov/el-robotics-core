@@ -1580,7 +1580,7 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_1_pose' WHERE _NAME = 'part_c_1';
 
 UPDATE Part
- SET  hadByPart_PartsTrayWithParts='part_c_supply', hasPart_Sku= 'stock_keeping_unit_part_c' WHERE _NAME = 'part_c_1';
+ SET  hadByPart_PartsTrayWithParts='part_c_supply', hasPart_Sku= 'stock_keeping_unit_part_d' WHERE _NAME = 'part_c_1';
 
 UPDATE SolidObject
  SET  hasSolidObject_InternalShape='shape_work_table', hasSolidObject_PrimaryLocation= 'work_table_pose' WHERE _NAME = 'work_table_1';

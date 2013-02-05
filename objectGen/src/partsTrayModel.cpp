@@ -17,16 +17,8 @@ void PartsTrayModel::setPartsTray( PartsTray *partsTrayIn )
 
 std::string PartsTrayModel::getModel()
 {
-  std::string modelName;
   StockKeepingUnit *sku;
-  ShapeDesign *shapeDesign;
 
-  printf( "Need to fix PartsTrayModel::getModel()\n");
   sku = partsTray->gethasPartsTray_Sku();
-  //  printf( "getting sku name: \"%s\"\n", sku->getname().c_str() );
-  sku->get(sku->getname());
-  shapeDesign = sku->gethasSku_Shape();
-  shapeDesign->get(shapeDesign->getname());
-  //  modelName = shapeDesign->gethasShapeDesign_Model();
-  return modelName;
+  return (GenericModel::getModel(sku));
 }

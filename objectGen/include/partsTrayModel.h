@@ -3,10 +3,12 @@
 #include "database/PartsTray.h"
 #include "database/ShapeDesign.h"
 #include "database/StockKeepingUnit.h"
+#include "database/ExternalShape.h"
+#include "genericModel.h"
 #include <stdio.h> // printf
 #include <string>
 
-class PartsTrayModel{
+class PartsTrayModel: public GenericModel{
  private:
   PartsTray *partsTray;
  public:

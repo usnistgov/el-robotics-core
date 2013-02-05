@@ -1637,7 +1637,7 @@ Declaration(NamedIndividual(:shape_part_a))
 ClassAssertion(:ExternalShape :shape_part_a)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_a "Shape of PartA"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_part_a "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_part_a "USARPhysObj.PartA"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_part_a "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_part_a "PartA"^^xsd:string)
 // end ExternalShape
 //*****************************************
@@ -1648,7 +1648,7 @@ Declaration(NamedIndividual(:shape_part_b))
 ClassAssertion(:ExternalShape :shape_part_b)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_b "Shape of PartB"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_part_b "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_part_b "USARPhysObj.PartB"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_part_b "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_part_b "PartB"^^xsd:string)
 // end ExternalShape
 //*****************************************
@@ -1659,7 +1659,7 @@ Declaration(NamedIndividual(:shape_part_c))
 ClassAssertion(:ExternalShape :shape_part_c)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_part_c "Shape of PartC"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_part_c "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_part_c "USARPhysObj.PartC"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_part_c "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_part_c "PartC"^^xsd:string)
 // end ExternalShape
 //*****************************************
@@ -1707,7 +1707,7 @@ Declaration(NamedIndividual(:shape_kit_tray))
 ClassAssertion(:ExternalShape :shape_kit_tray)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_kit_tray "Shape of KitTrays"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_kit_tray "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_kit_tray "USARPhysObj.WCKitTraySmall"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_kit_tray "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_kit_tray "WCKitTraySmall"^^xsd:string)
 // end ExternalShape
 //*****************************************
@@ -1778,7 +1778,7 @@ Declaration(NamedIndividual(:shape_parts_tray_a))
 ClassAssertion(:ExternalShape :shape_parts_tray_a)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray_a "Shape of PartsTray_A"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_parts_tray_a "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_parts_tray_a "USARPhysObj.PartATray"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_parts_tray_a "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_parts_tray_a "PartATray"^^xsd:string)
 // end ExternalShape
 //*****************************************
@@ -1790,7 +1790,7 @@ Declaration(NamedIndividual(:shape_parts_tray_b))
 ClassAssertion(:ExternalShape :shape_parts_tray_b)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray_b "Shape of PartsTray_B"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_parts_tray_b "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_parts_tray_b "USARPhysObj.PartBTray"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_parts_tray_b "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_parts_tray_b "PartBTray"^^xsd:string)
 // end ExternalShape
 //*****************************************
@@ -1802,7 +1802,7 @@ Declaration(NamedIndividual(:shape_parts_tray_c))
 ClassAssertion(:ExternalShape :shape_parts_tray_c)
 DataPropertyAssertion(:hasShapeDesign_Description :shape_parts_tray_c "Shape of PartsTray_C"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelTypeName :shape_parts_tray_c "USARSim"^^xsd:string)
-DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_parts_tray_c "USARPhysObj.PartCTray"^^xsd:string)
+DataPropertyAssertion(:hasExternalShape_ModelFileName :shape_parts_tray_c "USARPhysObj"^^xsd:string)
 DataPropertyAssertion(:hasExternalShape_ModelName :shape_parts_tray_c "PartCTray"^^xsd:string)
 // end ExternalShape
 //*****************************************

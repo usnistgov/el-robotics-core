@@ -1,5 +1,5 @@
 #ifndef __genericModel
-#define __genericyModel
+#define __genericModel
 #include "database/ShapeDesign.h"
 #include "database/StockKeepingUnit.h"
 #include "database/ExternalShape.h"

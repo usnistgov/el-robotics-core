@@ -26,7 +26,9 @@ std::string GenericModel::getModel(StockKeepingUnit *sku)
 	      externalShape->gethasExternalShape_ModelName().c_str(),
 	      externalShape->gethasExternalShape_ModelFileName().c_str() );
       */
-      modelName = externalShape->gethasExternalShape_ModelFileName();
+      modelName = externalShape->gethasExternalShape_ModelFileName() +
+	std::string (".") + 
+	externalShape->gethasExternalShape_ModelName();
     }
   else
     {

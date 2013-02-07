@@ -1,6 +1,6 @@
 IDIR =../include
 CC=g++
-CFLAGS=-I$(IDIR) -I ../src -g3
+CFLAGS=-I$(IDIR) -I ../src -g -O2
 
 ODIR=obj
 LIBS=-L./ -lpthread -lsqlKit -lmysqlcppconn
@@ -11,7 +11,7 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 all: dataTest genTest objectGen
 
 dataTest_SOURCES = dataTest.cpp recurseLocation.cpp partModel.cpp usarSimInf.cpp \
-                   ulapi.cpp kitTrayModel.cpp partsTrayModel.cpp
+                   ulapi.cpp kitTrayModel.cpp partsTrayModel.cpp genericModel.cpp
 dataTest_OBJECTS = $(patsubst %, $(ODIR)/%,$(dataTest_SOURCES:.cpp=.o))
 
 genTest_SOURCES = genTest.cpp ulapi.cpp

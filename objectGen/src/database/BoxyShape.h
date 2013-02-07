@@ -22,9 +22,9 @@ software
 #include <sstream>
 
 
-#include "ShapeDesign.h"
+#include "InternalShape.h"
  class DAO;
-class BoxyShape: public ShapeDesign{private:
+class BoxyShape: public InternalShape{private:
 double hasBoxyShape_Width;
 bool hasBoxyShape_Top;
 double hasBoxyShape_Height;

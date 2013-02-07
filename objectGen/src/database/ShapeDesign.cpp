@@ -16,16 +16,20 @@ software
 
  #include "StockKeepingUnit.h"
  #include "DAO.h"
+ #include "PoseLocation.h"
+void ShapeDesign::printMe()
+{
+  std::cout << "ShapeDesign's printMe() function should be overwritten\n";
+}
 
 ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
 dao = NULL;
+hasShapeDesign_GraspPose = NULL;
 
 }ShapeDesign::~ShapeDesign(){
+delete(hasShapeDesign_GraspPose);
 for(std::size_t i = 0; i < hasSku_Shape.size(); i++)
 delete(hasSku_Shape[i]);
-}
-std::string ShapeDesign::gethasShapeDesign_Model(){
-return hasShapeDesign_Model;
 }
 std::string ShapeDesign::gethasShapeDesign_Description(){
 return hasShapeDesign_Description;
@@ -36,17 +40,20 @@ return ShapeDesignID;
 DAO* ShapeDesign::getdao(){
 return dao;
 }
+PoseLocation* ShapeDesign::gethasShapeDesign_GraspPose(){
+return hasShapeDesign_GraspPose;
+}
 std::vector<StockKeepingUnit*> ShapeDesign::gethasSku_Shape(){
 return hasSku_Shape;
-}
-void ShapeDesign::sethasShapeDesign_Model(std::string _hasShapeDesign_Model){
-this->hasShapeDesign_Model= _hasShapeDesign_Model;
 }
 void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
 this->hasShapeDesign_Description= _hasShapeDesign_Description;
 }
 void ShapeDesign::setdao(DAO* _dao){
 this->dao= _dao;
+}
+void ShapeDesign::sethasShapeDesign_GraspPose(PoseLocation* _hasShapeDesign_GraspPose){
+this->hasShapeDesign_GraspPose= _hasShapeDesign_GraspPose;
 }
 void ShapeDesign::sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape){
 this->hasSku_Shape= _hasSku_Shape;
@@ -66,12 +73,13 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["hasShapeDesign_Model"]=hasShapeDesign_Model;
 data["hasShapeDesign_Description"]=hasShapeDesign_Description;
 data["name"]=name;
 ss.str("");
 ss << ShapeDesignID;
 data["ShapeDesignID"]=ss.str();
+if(hasShapeDesign_GraspPose!=NULL)
+data["hasShapeDesign_GraspPose"]=hasShapeDesign_GraspPose->getname();
 for(unsigned int i=0;i<hasSku_Shape.size();++i){
 ss.str("");
 hasSku_Shape[i]->get(hasSku_Shape[i]->getname());
@@ -83,7 +91,9 @@ dao->set(data);
 delete (dao);
 }
 
-void ShapeDesign::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hasSku_Shape.size(); i++){
+void ShapeDesign::copy(std::map<std::string,std::string> object){delete(hasShapeDesign_GraspPose);
+hasShapeDesign_GraspPose=NULL;
+for(std::size_t i = 0; i < hasSku_Shape.size(); i++){
 delete(hasSku_Shape[i]);
 hasSku_Shape[i]=NULL;}
 std::vector<std::string> temp;
@@ -92,10 +102,12 @@ std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<ShapeDesign*> tmp;
-this->hasShapeDesign_Model = object["ShapeDesign.hasShapeDesign_Model"];
 this->hasShapeDesign_Description = object["ShapeDesign.hasShapeDesign_Description"];
 this->name = object["ShapeDesign._NAME"];
 this->ShapeDesignID = std::atof(object["ShapeDesign.ShapeDesignID"].c_str());
+if(this->hasShapeDesign_GraspPose== NULL && object["hasShapeDesign_GraspPose/PoseLocation._NAME"]!=""){
+this->hasShapeDesign_GraspPose = new PoseLocation(object["hasShapeDesign_GraspPose/PoseLocation._NAME"]);
+}
 if(this->hasSku_Shape.empty() && object["hasSku_Shape/StockKeepingUnit._NAME"]!=""){
 temp = Explode(object["hasSku_Shape/StockKeepingUnit._NAME"], ' ' );
 for(unsigned int i=0; i<temp.size();i++){

@@ -14,6 +14,7 @@
 int main(int argc, char *argv[])
 {
   UsarSimInf usarsim(1,std::string("marvin"));
+  //UsarSimInf usarsim(0,std::string("marvin"));
   std::string myPart = "part_b_1";
   KitTray *kitTray = new KitTray(myPart);
   Part *testPart = new Part(myPart);;
@@ -45,14 +46,16 @@ int main(int argc, char *argv[])
       partsTray->get(myPart);
       partsTrayModel.setPartsTray(partsTray);
       USARModel = partsTrayModel.getModel();
+      /*
       printf( "partsTrayid for %s is %d with serial %s and model \"%s\"\n", 
 	      myPart.c_str(), partsTray->getPartsTrayID(),
 	      partsTray->gethasPartsTray_SerialNumber().c_str(),
 	      USARModel.c_str());
+      */
       recurseLocation.clear();
       recurseLocation.recurse(partsTray);
       recurseLocation.computeGlobalLoc();
-      recurseLocation.printMe(0);
+      //      recurseLocation.printMe(0);
       usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
 			   permanent );
       //      delete testPart;
@@ -69,14 +72,16 @@ int main(int argc, char *argv[])
       kitTray->get(myPart);
       kitTrayModel.setKitTray(kitTray);
       USARModel = kitTrayModel.getModel();
+      /*
       printf( "kitTrayid for %s is %d with serial %s and model \"%s\"\n", 
 	      myPart.c_str(), kitTray->getKitTrayID(),
 	      kitTray->gethasKitTray_SerialNumber().c_str(),
 	      USARModel.c_str());
+      */
       recurseLocation.clear();
       recurseLocation.recurse(kitTray);
       recurseLocation.computeGlobalLoc();
-      recurseLocation.printMe(0);
+      //      recurseLocation.printMe(0);
       usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
 			   permanent);
       //      delete testPart;
@@ -92,14 +97,16 @@ int main(int argc, char *argv[])
       testPart->get(myPart);
       partModel.setPart(testPart);
       USARModel = partModel.getModel();
+/*
       printf( "partid for %s is %d with serial %s and model \"%s\"\n", 
 	      myPart.c_str(), testPart->getPartID(),
 	      testPart->gethasPart_SerialNumber().c_str(),
 	      USARModel.c_str());
+*/
       recurseLocation.clear();
       recurseLocation.recurse(testPart);
       recurseLocation.computeGlobalLoc();
-      recurseLocation.printMe(0);
+      //      recurseLocation.printMe(0);
       usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
 			   permanent);
       //      delete testPart;

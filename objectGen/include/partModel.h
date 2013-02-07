@@ -1,12 +1,15 @@
 #ifndef __partModel
 #define __partModel
+#include "database/ExternalShape.h"
+#include "database/InternalShape.h"
 #include "database/Part.h"
 #include "database/ShapeDesign.h"
 #include "database/StockKeepingUnit.h"
+#include "genericModel.h"
 #include <stdio.h> // printf
 #include <string>
 
-class PartModel{
+class PartModel: public GenericModel{
  private:
   Part *part;
  public:

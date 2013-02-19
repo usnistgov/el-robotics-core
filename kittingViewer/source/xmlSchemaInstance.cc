@@ -109,7 +109,7 @@ XmlBoolean::XmlBoolean()
 }
 
 XmlBoolean::XmlBoolean(
-  char * valIn)
+  const char * valIn)
 {
   if (strcmp(valIn, "true") == 0)
     {
@@ -240,7 +240,7 @@ XmlDecimal::XmlDecimal()
 }
 
 XmlDecimal::XmlDecimal(
-  char * valStringIn)
+  const char * valStringIn)
 {
   if (sscanf(valStringIn, "%lf", &val) == 1)
     {
@@ -293,7 +293,7 @@ XmlDouble::XmlDouble()
 }
 
 XmlDouble::XmlDouble(
-  char * valStringIn)
+  const char * valStringIn)
 {
   if (sscanf(valStringIn, "%lf", &val) == 1)
     {
@@ -347,7 +347,7 @@ XmlFloat::XmlFloat()
 }
 
 XmlFloat::XmlFloat(
-  char * valIn)
+  const char * valIn)
 {
   if (sscanf(valIn, "%f", &val) == 1)
     {
@@ -598,7 +598,7 @@ XmlInt::XmlInt()
 }
 
 XmlInt::XmlInt(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 
@@ -667,7 +667,7 @@ XmlInteger::XmlInteger()
 }
 
 XmlInteger::XmlInteger(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 
@@ -736,7 +736,7 @@ XmlLong::XmlLong()
 }
 
 XmlLong::XmlLong(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 
@@ -871,7 +871,7 @@ XmlNonNegativeInteger::XmlNonNegativeInteger()
 }
 
 XmlNonNegativeInteger::XmlNonNegativeInteger(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 
@@ -953,7 +953,7 @@ XmlPositiveInteger::XmlPositiveInteger()
 }
 
 XmlPositiveInteger::XmlPositiveInteger(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 
@@ -1095,7 +1095,7 @@ XmlUnsignedInt::XmlUnsignedInt()
 }
 
 XmlUnsignedInt::XmlUnsignedInt(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 
@@ -1161,7 +1161,7 @@ XmlUnsignedLong::XmlUnsignedLong()
 }
 
 XmlUnsignedLong::XmlUnsignedLong(
-  char * valIn)
+  const char * valIn)
 {
   boost::regex pattern;
 

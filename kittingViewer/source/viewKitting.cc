@@ -87,6 +87,11 @@ Called By: glInit (as glutIdleFunction for the pictureWindow)
 
 static void animate()
 {
+  if (dump)
+    {
+      windowDump();
+      dump = 0;
+    }
   if (((glutGet(GLUT_ELAPSED_TIME) / 1000.0) <
        KittingViewer::times[KittingViewer::posesTotal - 1]) ||
       (KittingViewer::poseIndex < KittingViewer::posesTotal))
@@ -202,11 +207,6 @@ static void displayPictureWindow(void) /* NO ARGUMENTS */
   glColor3f(1.0, 1.0, 1.0);
   glCallList(drawList);
   glPopMatrix();
-  if (dump)
-    {
-      windowDump();
-      dump = 0;
-    }
   glutSwapBuffers();
   if (distance != KittingViewer::distanceTotal)
     {
@@ -558,8 +558,9 @@ dumped image is skewed. The "glPixelStorei(GL_PACK_ALIGNMENT, 1);"
 sets the value to 1.
 
 */
+/*
 #define fname_size 32
-static int windowDump(void) /* NO ARGUMENTS */
+static int windowDump(void) // NO ARGUMENTS
 {
   FILE * outFile;         // file pointer for dumped image
   static int counter = 1; // counter for dumped images
@@ -601,6 +602,172 @@ static int windowDump(void) /* NO ARGUMENTS */
       return 1;
     }
   fprintf(outFile, "P6\n%d %d\n255\n", (width / 3), height);
+  if (fwrite(ppmImage, imageSize * sizeof(char), 1, outFile) != 1)
+    {
+      fprintf(stderr, "WindowDump - Failed to write in file %s\n", fname);
+      fclose(outFile);
+      return 1;
+    }
+  fclose(outFile);
+  return 0;
+}
+*/
+/********************************************************************/
+
+/* windowDump
+
+Returned Value: int
+If this file is written successfully, this returns 0.
+Otherwise, it prints an error message to the terminal and returns 1.
+
+Called By: animate
+  This was formerly called by displayPictureWindow, but that did not
+  work. Possibly, animate was interfering with glReadPixels since
+  animate is the glutIdleFunction for the picture window and may have
+  been swapping buffers at the same time the buffers were being copied.
+  That could happen if different windows are in different threads.
+
+This writes a ppm file containing an image that combines the
+metricsWindow, the pictureWindow, and the commandWindow. The
+metricsWindow is on the left side of the image, the pictureWindow on
+the right, and the commandWindow on the bottom.
+
+This gets copies the three windows, combines them, and writes out the
+ppm file. Each window is first saved in the tempImage array and then
+transferred to the allImage array. 
+
+The indexing for making allImage (the contents of the ppm file) is
+complex since (1) glReadPixels writes pixels left to right and
+bottom to top, while ppm files are read left to right and top to
+bottom, (2) three windows are being combined into one image, and (3)
+there are 3 chars for each pixel. The critical variables are:
+ i is the index for rows of allImage. For copying a window from tempImage
+   into allImage, its value is set initially to the row of allImage into
+   which the lowest row of the window is to be copied. Then i is
+   decreased by 1 each time around the row loop, to move upwards in
+   allImage.
+ k is the index for lines of whatever window is being copied into
+   allImage. It starts at 0 and is increased by 1 each time around
+   the row loop to move upwards in tempImage.
+ j is the index for chars on a row.
+ start is the char index of place on a line of allImage at which to
+   start copying in a line from the tempImage.
+ stop is the length in chars of a line of the tempImage.
+
+The default value for GL_PACK_ALIGNMENT is 4 rather than 1. If the
+value is not set to 1 and the window width is not divisible by 4, the
+dumped image is skewed. The "glPixelStorei(GL_PACK_ALIGNMENT, 1);"
+which sets the value to 1 needs to be repeated for each window.
+
+This function is unreliable. Sometimes the picture it makes has black
+or white areas that should be images. It appears that the glReadPixels
+function is unreliable. It is not clear why glReadBuffer(GL_FRONT) is
+necessary with the metrics window and the command window. The picture
+was not being generated correctly when glReadBuffer(GL_BACK) was being
+used with those windows.
+
+*/
+
+#define fname_size 32
+static int windowDump(void) // NO ARGUMENTS
+{
+  FILE * outFile;         // file pointer for dumped image
+  static int counter = 1; // counter for dumped images
+  char fname[fname_size]; // name of dumped image
+  static char ppmImage[IMAGE_SIZE];  // storage for dumped image
+  static char tempImage[IMAGE_SIZE]; // storage for image of one window
+  int allWidth;     // entire width of dumped image, in chars
+  int allHeight;    // entire height of dumped image, in lines of pixels
+  int i;            // index for lines of ppmImage
+  int j;            // index for columns of tempImage and ppmImage
+  int k;            // index for lines of tempImage
+  int start;        // starting point on line of ppmImage
+  int stop;         // length of run or upper bound of index value
+  int imageSize;    // number of chars in image (3 times number of pixels)
+  
+  allHeight = (max(pictureExtent, metricsHeight) + commandHeight);
+  allWidth = (3 * (pictureExtent + metricsWidth));
+  imageSize = (allWidth * allHeight);
+  if (imageSize > IMAGE_SIZE)
+    {
+      fprintf(stderr, "WindowDump - Image too large for window dump\n");
+      return 1;
+    }
+
+  // handle the picture window
+  glutSetWindow(pictureWindow);
+  glPixelStorei(GL_PACK_ALIGNMENT, 1);
+  glReadBuffer(GL_BACK);
+  glReadPixels(0, 0, pictureExtent, pictureExtent,
+  	       GL_RGB, GL_UNSIGNED_BYTE, tempImage);
+  start = (3 * metricsWidth);
+  stop = (3 * pictureExtent);
+  i = (max(metricsHeight, pictureExtent) - 1);
+  for (k=0; i > (pictureExtent - 1); i--, k++)
+    { // put black under picture window if necessary
+      for (j = 0;  j < stop; j++)
+	ppmImage[(i * allWidth) + start + j] = 0;
+    }
+  i =  (pictureExtent - 1);
+  for (k=0; i >= 0; i--, k++)
+    { // copy in the picture window
+      for (j = 0; j < stop; j++)
+	ppmImage[(i * allWidth) + start + j] = tempImage[(k * stop) + j];
+    }
+
+  // handle the metrics window
+  glutSetWindow(metricsWindow);
+  glPixelStorei(GL_PACK_ALIGNMENT, 1);
+  glReadBuffer(GL_FRONT);
+  glReadPixels(0, 0, metricsWidth, metricsHeight,
+	       GL_RGB, GL_UNSIGNED_BYTE, tempImage);
+  stop = (3 * metricsWidth);
+  i = (max(metricsHeight, pictureExtent) - 1);
+  for (k=0; i > (metricsHeight - 1); i--, k++)
+    { // put black under metrics window if necessary
+      for (j = 0;  j < stop; j++)
+	ppmImage[(i * allWidth) + j] = 0;
+    }
+  i = (metricsHeight - 1);
+  for (k=0; i >= 0; i--, k++)
+    { // copy in the metrics window
+      for (j = 0;  j < stop; j++)
+	ppmImage[(i * allWidth) + j] = tempImage[(k * stop) + j];
+    }
+
+  // handle the command window
+  glutSetWindow(commandWindow);
+  glPixelStorei(GL_PACK_ALIGNMENT, 1);
+  glReadBuffer(GL_FRONT);
+  glReadPixels(0, 0, commandWidth, commandHeight,
+	       GL_RGB, GL_UNSIGNED_BYTE, tempImage);
+  if ((3 * commandWidth) < allWidth)
+    { // put black to the right of the command window if necessary
+      start = (3 * commandWidth);
+      stop = allWidth;
+      i = (allHeight - 1);
+      for (k = 0; i > (max(pictureExtent, metricsHeight) - 1); i--)
+	{
+	  for (j = start; j < stop; j++)
+	    ppmImage[(i * allWidth) + j] = 0;
+	}
+    }
+  stop = (((3 * commandWidth) < allWidth) ? (3 * commandWidth) : allWidth);
+  i = (allHeight - 1);
+  for (k = 0; i > (max(pictureExtent, metricsHeight) - 1); i--, k++)
+    { // copy in the command window; truncate on the right if necessary
+      for (j = 0;  j < stop; j++)
+	ppmImage[(i * allWidth) + j] = tempImage[(3 * k * commandWidth) + j];
+    }
+
+  glutSetWindow(pictureWindow);
+  snprintf(fname, fname_size, "kittingViewer_%04d.ppm", counter++);
+  if ((outFile = fopen(fname, "w")) == NULL)
+    {
+      fprintf(stderr, "WindowDump - Failed to open file %s\n", fname);
+      return 1;
+    }
+  fprintf(outFile, "P6\n%d %d\n255\n", (allWidth / 3), allHeight);
   if (fwrite(ppmImage, imageSize * sizeof(char), 1, outFile) != 1)
     {
       fprintf(stderr, "WindowDump - Failed to write in file %s\n", fname);

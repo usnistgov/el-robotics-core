@@ -31,6 +31,7 @@ initialized in that file.
 #include <map>
 #include "canonicalMsg.hh"
 #include "kittingClassesView.hh"
+#include "scoreKittingClasses.hh"
 
 class KittingViewer
 {
@@ -45,6 +46,8 @@ class KittingViewer
 		   VectorType * goalZAxis, VectorType * actualZAxis,
 		   const char * name);
   static void clearLists();
+  static void computeScore(SolidObjectType * object);
+  static int countMovableObjects();
   static void createKit(PartType * part, KitTrayType * tray,
 			SolidObjectType * parent);
   static void drawBoxyShape(BoxyShapeType * boxy, col color,
@@ -58,7 +61,7 @@ class KittingViewer
                    double xK, double zI, double zJ, double zK);
   static void drawSolidObject(SolidObjectType * object);
   static void drawString(float x, float y, void * font, char * string);
-  static void drawWorkstation(std::map<std::string,SolidObjectType *>allSolids);
+  static void drawWorkstation();
   static void dwell(double seconds);
   static void enterPoseTarget(Pose * pose);
   static void enterPoseTargets(Pose ** posesIn, int num);
@@ -87,6 +90,7 @@ class KittingViewer
 		  SetRelativeAccelerationMsg * setRelAccel);
   static void executeSetRelativeSpeedCommand(
 		  SetRelativeSpeedMsg * setRelSpeed);
+  static double findDistance(SolidObjectType * object);
   static SolidObjectType * findGripped(double X, double Y, double Z);
   static KitType * findKitWithTray(
                   std::string trayName, std::list<KitType *> * allKits);
@@ -103,9 +107,8 @@ class KittingViewer
   static void handleExecute();
   static void handleResets();
   static double hypot3(double x, double y, double z);
-  static void increaseByOne(int * number);
-  static void init(char * commandFile,
-		   char * kittingInitFile, char * kittingGoalFile);
+  static void init(char * commandFile, char * kittingInitFile,
+                   char * kittingGoalFile, char * scoringFile);
   static void initData();
   static void insertBox(col boxColor, double minX, double minY, double minZ,
 			double maxX, double maxY, double maxZ, bool solid);
@@ -113,7 +116,7 @@ class KittingViewer
 		  double pointZ, double length, double width, double height,
                   double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
 		  double zAxisY, double zAxisZ, bool hasTop, bool solid);
- static void insertConeTransformed(col color, double pointX, double pointY,
+  static void insertConeTransformed(col color, double pointX, double pointY,
 		  double pointZ, double radius1, double radius2, double height,
 		  double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
                   double zAxisY, double zAxisZ);
@@ -129,6 +132,10 @@ class KittingViewer
   static void putInDefaultPosition(PoseLocationType * pose);
   static void putInOtherPosition(
                   PoseLocationType * pose, PoseLocationType * source);
+  static void readScoringFile(char * scoringFile);
+  static void recordInitialPosition(SolidObjectType * goalObject);
+  static void recordInitialPositions(
+                  std::map<std::string, SolidObjectType *> allSolids);
   static void redraw();
   static void releaseObject(VacuumEffectorSingleCupType * single,
 			    SolidObjectType * solid);
@@ -143,8 +150,10 @@ class KittingViewer
   static void setNetTransform(PoseLocationType * newPose,
 		  std::list<PhysicalLocationType *> * locationStack);
   static void setWorkstationLocation(SolidObjectType * object);
+  static bool solidIsMovable(SolidObjectType * solid);
   static void updateWorkstationPosition(SolidObjectType * object,
 					PoseLocationType * parentPose);
+  static double valuate(valueFunctionType * fun, double val);
 
   // private: // might make this private again. Need access functions if so.
 
@@ -156,7 +165,7 @@ class KittingViewer
   static std::list<CanonicalMsg *> commands; //commands read from file
   static int                 commandSequenceErrors; // number of sequence errors
   static char                commandString[MAXPOSES][TEXTSIZE]; //command string
-  static double              distanceTotal; // total distance moved
+  static double              distanceTotal; // total distance moved by robot
   static double              distances[MAXPOSES];// array of distances
   static double              distancesX[MAXPOSES];// array of X distances
   static double              distancesY[MAXPOSES];// array of Y distances
@@ -202,11 +211,14 @@ class KittingViewer
   static double              robotRelSpeed; // relative speed setting
   static double              robotSpeed;  // speed setting in length units/sec
   static bool                robotToolChangerOpen; // true=open, false=closed
+  static double              score;   // the score for the command file
   static float               scale;   // scale to use to convert mm to picture
+  static char                scoringFileName[TEXTSIZE]; // name of scoring file
   static float               spacing; // grid line spacing in meters
   static double              times[MAXPOSES]; // times corresponding to poses
   static int                 toolChangeErrors; // total tool change errors
   static double              totalExecutionTime; // total execution time
+  static double              totalGoalDistance; // total goal object distance
   static int                 uselessCommands; // number commands with no effect
   static double              weightFactor; // factor for weight conversion
   static char                weightUnits[TEXTSIZE]; // gram, pound, etc.

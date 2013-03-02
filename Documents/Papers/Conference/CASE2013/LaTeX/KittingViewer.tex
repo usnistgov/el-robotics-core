@@ -2,22 +2,35 @@ A software tool named the ``Kitting Viewer'' has been developed that
 simulates the execution of a plan (CRCL command file) for changing a
 kitting workstation from an initial state to a goal state. Usually, that is
 a plan for making one or more kits. The Kitting Viewer evaluates the plan
-as it runs. The Kitting Viewer source code is in C++ with OpenGL graphics.
+as it runs. The Kitting Viewer source code is in C++ with OpenGL\footnote{Certain commercial/open source software and tools are identified in this paper in order to explain our research. Such identification does not imply
+recommendation or endorsement by the authors or NIST, nor does it imply that the software tools identified are necessarily the best available for the purpose.} graphics.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=8.5cm]{images/kittingViewer2013Feb23.jpg}
+\caption{Kitting Viewer Display}
+\label{fig:KittingViewer}
+\end{figure}
 
 \subsection{Overview}
 
-The Kitting Viewer reads files describing the initial state, the goal state,
-and the plan for getting from the initial state to the goal state.
+The Kitting Viewer reads files describing the initial state, the goal
+state, and the plan for getting from the initial state to the goal state.
 Optionally, it also reads a scoring file. If no scoring file is specified
 by the user, a hard-coded default scoring file structure is used. The
 Kitting Viewer simulates execution of the plan, displays a view of the plan
 being executed, and produces and displays metrics about the plan. All of
 the metrics are numbers. All but one of the metrics are objective and
-require no human judgement. These metrics are presented in
-Section \ref{sect:Metrics}. The final metric is a subjective combination of
-the other metrics in which the other metrics are weighted and combined as
+require no human judgement. These metrics are presented in Section
+\ref{sect:Metrics}. The final metric is a subjective combination of the
+other metrics in which the other metrics are weighted and combined as
 specified by the scoring file. The scoring file may be edited as desired by
 the user. Scoring details are given in Section \ref{sect:Scoring}.
+
+Controlling the Kitting Viewer is accomplished by using the mouse and single
+keys on the keyboard. When the Kitting Viewer starts up, a set of one-line
+instructions is printed in the terminal window from which the
+Kitting Viewer was started.
 
 The Kitting Viewer runs in two phases. In the first phase, each time the
 user gives a signal (presses the \tt g \rm key) the next command from the
@@ -27,11 +40,13 @@ the command is executed properly. In the second phase, which starts after
 all commands have been executed, each time the user gives a signal the
 position of the next movable object in the goal file is checked.
 
-Figure~\ref{fig:KittingViewer} shows the Kitting Viewer windows as they look
-after a test run has been completed. The display uses three windows,
+Figure~\ref{fig:KittingViewer} shows the Kitting Viewer windows as they
+look after a test run has been completed. The display uses three windows,
 labeled Metrics \& Settings, Kitting Viewer, and Kitting Command \&
 Messages. The windows may be moved and re-sized independently, like other
-windows in a typical windowing system.
+windows in a typical windowing system. At any time, the user may save a
+combined image of all three windows in a file in portable pixmap (.ppm)
+format, a common graphics format that many graphics utilities can handle.
 
 In Figure~\ref{fig:KittingViewer}, the large blue object is a work table.
 The small blue object is the end effector changing station. The three empty
@@ -61,13 +76,6 @@ items that may be set using CRCL commands. The extra two are the
 robot\rq{}s maximum speed and maximum acceleration, which may not be
 reset. As commands are executed, metrics and settings are updated in the
 window.
-\begin{figure}[ht!]
-\begin{center}
-\includegraphics[width=8.5cm]{images/kittingViewer2013Feb23.jpg}
-\caption{Kitting Viewer Display}
-\label{fig:KittingViewer}
-\end{center}
-\end{figure}
 
 \subsection{Errors}
 In order to fully evaluate a plan file, usually, if a plan error is
@@ -81,49 +89,6 @@ occurred. When the \sf UnreadableMsg \rm is executed, the value of parse
 errors is increased by one and the \sf UnreadableMsg \rm is displayed in
 the Kitting Command \& Messages window so the user can see the line that
 caused the problem.
-  
-\subsection{Controlling The Kitting Viewer}
-Controlling the Kitting Viewer is accomplished by using the mouse and single
-keys on the keyboard. When the Kitting Viewer starts up, a set of one-line
-instructions is printed in the terminal window from which the
-Kitting Viewer was started. Those instructions have the same meaning as
-the longer explanations given below.
-
-\begin{itemize}
-
-\item \tt r \rm key -- the \tt r \rm key toggles the behavior of the
-left mouse button between translating and rotating the picture. This is
-needed so two-button mice will work.
-
-\item Left mouse button -- By default, the left mouse button is used to
-translate the picture.
-
-\item Middle mouse button -- The middle mouse button is used to rotate the
-picture.
-
-\item Right mouse button -- The right mouse button is used to zoom in or
-  out.
-
-\item \tt h \rm key -- If the \tt h \rm key is pressed, the view in the
-Kitting Viewer window returns to its original position.
-
-\item \tt g \rm key -- If the \tt g \rm key is pressed when the plan is not
-completely executed and no command is executing, the next command in the
-plan is executed. If the \tt g \rm key is pressed when a command is in
-progress, it has no effect. If the \tt g \rm key is pressed when the plan
-is completely executed but not all goal objects have been checked, the
-position of the next goal object is checked.
-
-\item \tt t \rm key -- If the \tt t \rm key is pressed, a combined image of
-all the windows will be saved in a file. The name of the file will be
-kittingViewer\_N.ppm, where N starts at 0000 and increases by 1 each time
-the t key is pressed. The ppm (portable pixmap) format is a common graphics
-format that many graphics utilities can handle.
-
-\item \tt z \rm or \tt q \rm key -- if the \tt z \rm or \tt q \rm key is
-pressed, the Kitting Viewer program exits, and the windows disappear.
-
-\end{itemize}
 
 \subsection{Modeling}
 The project in which the Kitting Viewer was developed has modeled the state
@@ -170,10 +135,10 @@ For CloseGripper, if all of the following hold:
    kind of gripper the Kitting Viewer knows how to use).
 
 \item Either:\\
-3A. There is a parts tray or kit tray with a topless boxy shape
+3a. There is a parts tray or kit tray with a topless boxy shape
     such that the gripper cup is within 0.1 mm of the bottom of the
     tray and is within 1 mm of the XY location of the origin of the tray. OR\\
-3B. There is a part with a boxy shape with top such that the gripper cup
+3b. There is a part with a boxy shape with top such that the gripper cup
     is within 0.1 mm of the top of the part and is within 1 mm of the XY
     location of the middle of the top of the part.
 
@@ -190,17 +155,17 @@ Then the gripper will attach to an object. Call it B.
 
 \begin{itemize}
 
-\item If 3B above occurred, then B is a part
+\item If 3b above occurred, then B is a part
 
-\item If 3A above occurred with a parts tray in a parts tray with parts,
+\item If 3a above occurred with a parts tray in a parts tray with parts,
    then B is the parts tray with parts.
 
-\item If 3A above occurred with a parts tray not in a parts tray with parts,
+\item If 3a above occurred with a parts tray not in a parts tray with parts,
    then B is the parts tray.
 
-\item If 3A above occurred with a kit tray in a kit, then B is the kit.
+\item If 3a above occurred with a kit tray in a kit, then B is the kit.
 
-\item If 3A above occurred with a kit tray not in a kit, then B is the kit tray.
+\item If 3a above occurred with a kit tray not in a kit, then B is the kit tray.
 
 \end{itemize}
 

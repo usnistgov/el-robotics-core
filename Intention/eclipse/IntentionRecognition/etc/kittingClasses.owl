@@ -18,9 +18,6 @@ last part of the name describes the meaning of the value of the
 property. If a name has three parts there is an underscore between the
 second and third parts.")
 
-DataPropertyDomain(:hasBox_Height :BoxyObject)
-DataPropertyDomain(:hasBox_Length :BoxyObject)
-DataPropertyDomain(:hasBox_Width :BoxyObject)
 DataPropertyDomain(:hasBoxyShape_Height :BoxyShape)
 DataPropertyDomain(:hasBoxyShape_Length :BoxyShape)
 DataPropertyDomain(:hasBoxyShape_Top :BoxyShape)
@@ -28,6 +25,9 @@ DataPropertyDomain(:hasBoxyShape_Width :BoxyShape)
 DataPropertyDomain(:hasEffector_MaximumLoadWeight :EndEffector)
 DataPropertyDomain(:hasEndEffector_Description :EndEffector)
 DataPropertyDomain(:hasEndEffector_Weight :EndEffector)
+DataPropertyDomain(:hasExternalShape_ModelTypeName :ExternalShape)
+DataPropertyDomain(:hasExternalShape_ModelFileName :ExternalShape)
+DataPropertyDomain(:hasExternalShape_ModelName :ExternalShape)
 DataPropertyDomain(:hasKitTray_SerialNumber :KitTray)
 DataPropertyDomain(:hasLargeBoxWithKits_Capacity :LargeBoxWithKits)
 DataPropertyDomain(:hasLargeContainer_SerialNumber :LargeContainer)
@@ -56,9 +56,6 @@ DataPropertyDomain(:hasWorkstation_LengthUnit :KittingWorkstation)
 DataPropertyDomain(:hasWorkstation_WeightUnit :KittingWorkstation)
 DataPropertyDomain(:isKit_Finished :Kit)
 
-DataPropertyRange(:hasBox_Height :positiveDecimal)
-DataPropertyRange(:hasBox_Length :positiveDecimal)
-DataPropertyRange(:hasBox_Width :positiveDecimal)
 DataPropertyRange(:hasBoxyShape_Height :positiveDecimal)
 DataPropertyRange(:hasBoxyShape_Length :positiveDecimal)
 DataPropertyRange(:hasBoxyShape_Top xsd:boolean)
@@ -66,6 +63,9 @@ DataPropertyRange(:hasBoxyShape_Width :positiveDecimal)
 DataPropertyRange(:hasEffector_MaximumLoadWeight :positiveDecimal)
 DataPropertyRange(:hasEndEffector_Description xsd:string)
 DataPropertyRange(:hasEndEffector_Weight :positiveDecimal)
+DataPropertyRange(:hasExternalShape_ModelTypeName xsd:string)
+DataPropertyRange(:hasExternalShape_ModelFileName xsd:string)
+DataPropertyRange(:hasExternalShape_ModelName  xsd:string)
 DataPropertyRange(:hasKitTray_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
 DataPropertyRange(:hasLargeContainer_SerialNumber xsd:NMTOKEN)
@@ -75,7 +75,7 @@ DataPropertyRange(:hasPartsBin_PartQuantity xsd:nonNegativeInteger)
 DataPropertyRange(:hasPartsBin_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasPartsTray_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasPart_SerialNumber xsd:NMTOKEN)
-DataPropertyRange(:hasPoint_x xsd:decimal)
+DataPropertyRange(:hasPoint_X xsd:decimal)
 DataPropertyRange(:hasPoint_Y xsd:decimal)
 DataPropertyRange(:hasPoint_Z xsd:decimal)
 DataPropertyRange(:hasRelativeLocation_Description xsd:string)
@@ -112,27 +112,9 @@ AnnotationAssertion(rdfs:comment :BoxVolume
    minimum point has the minimum values of X, Y, and Z. The maximum
    point has the maximum values of X, Y, and Z.")
 
-Declaration(Class(:BoxyObject))
-AnnotationAssertion(rdfs:comment :BoxyObject
-  "A BoxyObject is a SolidObject. It inherits primary location and
-   secondary location from SolidObject. A BoxyObject is box
-   shaped. It has a length, width, and height (hasBox_Length,
-   hasBox_Width, hasBox_Height). It has a preferred partial
-   orientation in which the edges along which the height is measured
-   are vertical (parallel to the force of gravity). The length is
-   larger of the two dimensions that are not the height. The width is
-   smaller of the two dimensions that are not the height. The
-   coordinate system of a BoxyObject (i.e. the thing that is located
-   and oriented by a pose) has its origin in the middle of the bottom,
-   its Z-axis parallel to the height sides, and its X-axis parallel to
-   the length sides. Since this still allows two choices for
-   orientation (four if the length and width are equal) which may or
-   may not be distinguishable, some subtypes of BoxyObject will need
-   one more piece of orientation information.")
-
 Declaration(Class(:BoxyShape))
 AnnotationAssertion(rdfs:comment :BoxyShape
-  "A BoxyShape is a ShapeDesign. A BoxyShape is box shaped. It has
+  "A BoxyShape is an InternalShape. A BoxyShape is box shaped. It has
    length, width, height, and top (hasBoxyShape_Length,
    hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Top). It has
    a preferred partial orientation in which the edges along which the
@@ -154,11 +136,11 @@ AnnotationAssertion(rdfs:comment :DataThing
 
 Declaration(Class(:EndEffector))
 AnnotationAssertion(rdfs:comment :EndEffector
-  "An EndEffector is a SolidObject. It inherits primary location and
-   secondary location from SolidObject. It is an end effector for
+  "An EndEffector is a SolidObject. It is an end effector for
    a robot. An EndEffector has a description (hasEndEffector_Description),
-   a weight (hasEndEffector_Weight), and a maximum weight it can lift
-   (hasEffector_MaximumLoadWeight). Every EndEffector is either a
+   a weight (hasEndEffector_Weight), a maximum weight it can lift
+   (hasEffector_MaximumLoadWeight) and an optional held object
+   (hasEffector_HeldObject). Every EndEffector is either a
    GripperEffector or a VacuumEffector. Every EndEffector in a
    KittingWorkstation is either attached to the end of a robot arm
    (hadByEndEffector_Robot) or sitting in an EndEffectorHolder
@@ -167,48 +149,65 @@ AnnotationAssertion(rdfs:comment :EndEffector
    anything when it is placed in an EndEffectorHolder or when it is
    sitting in an EndEffectorHolder.")
 AnnotationAssertion(rdfs:comment :EndEffector
-   "It might be better if each EndEffector has an associated data set
+  "It might be better if each EndEffector has an associated data set
    that holds data for a type of EndEffector. Currently, the data
    is for a specific object, not for a type. The data set would be
    analogous to the SKU data for a Part (it might even be a SKU).")
 
 Declaration(Class(:EndEffectorChangingStation))
 AnnotationAssertion(rdfs:comment :EndEffectorChangingStation
-  "An EndEffectorChangingStation is a SolidObject. It inherits primary
-   location and secondary location from SolidObject. It is a
+  "An EndEffectorChangingStation is a SolidObject. It is a
    place where end effectors are stored and where the robot can change
-   end effectors. It has EndEffectorHolders
-   (hasChangingStation_EndEffectorHolders). An
-   EndEffectorChangingStation belongs to a KittingWorkstation
-   (hadByChangingStation_Workstation)")
+   end effectors. It has a base (hasChangingStation_Base) that is
+   a MechanicalComponent and EndEffectorHolders
+   (hasChangingStation_EndEffectorHolders). An EndEffectorChangingStation
+   belongs to a KittingWorkstation (hadByChangingStation_Workstation).
+   The coordinate system of an EndEffectorChangingStationType is in the
+   same place as the coordinate system of its Base. The shape of an
+   EndEffectorChangingStation may be found from the shapes of the
+   Base and the EndEffectorHolders and their relative positions.")
 
 Declaration(Class(:EndEffectorHolder))
 AnnotationAssertion(rdfs:comment :EndEffectorHolder
-  "An EndEffectorHolder is a SolidObject. It inherits primary
-   location and secondary location from SolidObject. An
-   EndEffectorHolder holds zero or one EndEffector
-   (hasEndEffectorHolder_EndEffector). An EndEffectorHolder is part of
-   an EndEffectorChangingStation
+  "An EndEffectorHolder is a SolidObject. An EndEffectorHolder holds
+   zero or one EndEffector (hasEndEffectorHolder_EndEffector). An
+   EndEffectorHolder is part of an EndEffectorChangingStation
    (hadByEndEffectorHolder_ChangingStation).")
+
+Declaration(Class(:ExternalShape))
+AnnotationAssertion(rdfs:comment :ExternalShape
+  "An ExternalShape is a ShapeDesign. An ExternalShape has a model
+   type name (hasExternalShape_ModelTypeName) that is the name of the
+   type of model(for example, STEP Advanced Brep or USARSim). An
+   ExternalShape has a model file name (hasExternalShape_ModelFileName)
+   that is the name of the file containing the model and may include a
+   path (for example partFiles/STEP/ANC101.stp). An ExternalShape has
+   an optional model name (hasExternalShape_ModelName) that is the
+   name of a model within the model file. The model name is necessary
+   if the model file contains more than one model. The coordinate
+   system of an ExternalShape (i.e. the thing that is located and
+   oriented by a pose) is expected to be specified explicitly or
+   implicitly in the model file. A model file that gives coordinate
+   values has an implicit coordinate system.")
 
 Declaration(Class(:GripperEffector))
 AnnotationAssertion(rdfs:comment :GripperEffector
-  "A GripperEffector is an EndEffector.  It inherits primary location,
-   secondary location, description, weight, and maximim load weight
-   from EndEffector. A GripperEffector holds an object by gripping
-   it with fingers or claws.")
+  "A GripperEffector is an EndEffector. A GripperEffector holds an
+   object by gripping it with fingers or claws.")
+
+Declaration(Class(:InternalShape))
+AnnotationAssertion(rdfs:comment :InternalShape
+  "An InternalShape is a ShapeDesign.")
 
 Declaration(Class(:Kit))
 AnnotationAssertion(rdfs:comment :Kit
-  "A Kit is a SolidObject. It inherits primary location and
-   secondary location from SolidObject. A Kit has a KitDesign
-   (hasKit_Design), a KitTray (hasKit_Tray), zero to many Parts
-   (hasKit_Parts), and a boolean indicator of whether the Kit is
-   finished (isKit_Finished). The coordinate system of a Kit is the
-   same as the coordinate system of its KitTray. The PrimaryLocation
-   of a Part in a Kit should be given by a PoseLocationIn that is
-   relative to the KitTray. A Kit may belong to a LargeBoxWithKits
-   (hadByKit_LargeBoxWithKits).")
+  "A Kit is a SolidObject. A Kit has a KitDesign (hasKit_Design), a
+   KitTray (hasKit_Tray), zero to many Parts (hasKit_Parts), and a
+   boolean indicator of whether the Kit is finished (isKit_Finished).
+   The coordinate system of a Kit is the same as the coordinate system
+   of its KitTray. The PrimaryLocation of a Part in a Kit should be
+   given by a PoseLocationIn that is relative to the KitTray. A Kit
+   may belong to a LargeBoxWithKits (hadByKit_LargeBoxWithKits).")
 
 Declaration(Class(:KitDesign))
 AnnotationAssertion(rdfs:comment :KitDesign
@@ -222,40 +221,37 @@ AnnotationAssertion(rdfs:comment :KitDesign
 
 Declaration(Class(:KittingWorkstation))
 AnnotationAssertion(rdfs:comment :KittingWorkstation
-  "A KittingWorkstation is a SolidObject. It inherits primary
-   location and secondary location from SolidObject. A
-   KittingWorkstation contains a work table
-   (hasWorkstation_WorkTable), a robot (hasWorkstation_Robot), an
-   EndEffectorChangingStation (hasWorkstation_ChangingStation), and
-   other fixed obstacles (hasWorkstation_OtherObstacles) such as a
-   computer. A KittingWorkstation has an angle unit
-   (hasWorkstation_AngleUnit), a length unit
-   (hasWorkstation_LengthUnit) and a weight unit
+  "A KittingWorkstation is a SolidObject. A KittingWorkstation
+   contains a work table (hasWorkstation_WorkTable), a robot
+   (hasWorkstation_Robot), an EndEffectorChangingStation
+   (hasWorkstation_ChangingStation), and other fixed obstacles
+   (hasWorkstation_OtherObstacles) such as a computer. A
+   KittingWorkstation has an angle unit (hasWorkstation_AngleUnit), a
+   length unit (hasWorkstation_LengthUnit) and a weight unit
    (hasWorkstation_WeightUnit). All angle, length, and weight values
    related to the workstation must use those units. A
    KittingWorkstation has StockKeepingUnits it knows about
    (hasWorkstation_Skus). A KittingWorkstation has KitDesigns it knows
    about (hasWorkstation_KitDesigns).")
-AnnotationAssertion(rdfs:comment :KittingWorkstation
-  "Containers of various sorts enter and leave the workstation. The
-   robot builds kits of parts by executing kitting plans as directed
-   by a kitting plan execution system. The location of each instance
-   of KittingWorkstation should be given relative to itself in order
-   to end the chain of relative locations.")
+   AnnotationAssertion(rdfs:comment :KittingWorkstation "Containers of
+   various sorts enter and leave the workstation. The robot builds
+   kits of parts by executing kitting plans as directed by a kitting
+   plan execution system. The location of each instance of
+   KittingWorkstation should be given relative to itself in order to
+   end the chain of relative locations.")
 
 Declaration(Class(:KitTray))
 AnnotationAssertion(rdfs:comment :KitTray
-  "A KitTray is a SolidObject. It inherits primary location and
-   secondary location from SolidObject. A KitTray is designed to
-   hold Parts with various SKU ids in known positions. A KitTray has a
-   SKU (hasKitTray_Sku) and a serial number (hasKitTray_SerialNumber).
-   A KitTray may belong to a Kit (hadByKitTray_Kit) or to a
-   LargeBoxWithEmptyKitTrays (hadByKitTray_LargeBoxWithEmptyKitTrays).")
+  "A KitTray is a SolidObject. A KitTray is designed to hold Parts
+   with various SKU ids in known positions. A KitTray has a SKU
+   (hasKitTray_Sku) and a serial number (hasKitTray_SerialNumber). A
+   KitTray may belong to a Kit (hadByKitTray_Kit) or to a
+   LargeBoxWithEmptyKitTrays
+   (hadByKitTray_LargeBoxWithEmptyKitTrays).")
 
 Declaration(Class(:LargeBoxWithEmptyKitTrays))
 AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
-  "A LargeBoxWithEmptyKitTrays is a SolidObject. It inherits primary
-   location and secondary location from SolidObject. A
+  "A LargeBoxWithEmptyKitTrays is a SolidObject. A
    LargeBoxWithEmptyKitTrays has a LargeContainer
    (hasLargeBoxWithEmptyKitTrays_LargeContainer) and zero to many KitTrays
    which should be empty (hasLargeBoxWithEmptyKitTrays_KitTrays). The
@@ -269,8 +265,7 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
 
 Declaration(Class(:LargeBoxWithKits))
 AnnotationAssertion(rdfs:comment :LargeBoxWithKits
-  "A LargeBoxWithKits is a SolidObject. It inherits primary location and
-   secondary location from SolidObject. A LargeBoxWithKits has
+  "A LargeBoxWithKits is a SolidObject. A LargeBoxWithKits has
    - a LargeContainer (hasLargeBoxWithKits_LargeContainer)
    - a set of Kits (hasLargeBoxWithKits_Kits)
    - a KitDesign (hasLargeBoxWithKits_KitDesign)
@@ -289,10 +284,9 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithKits
 
 Declaration(Class(:LargeContainer))
 AnnotationAssertion(rdfs:comment :LargeContainer
-  "A LargeContainer is a SolidObject. It inherits primary location
-   and secondary location from SolidObject. A LargeContainer can
-   hold one or more instances of a single type of tray or bin. The
-   single type may be 
+  "A LargeContainer is a SolidObject. A LargeContainer can hold one or
+   more instances of a single type of tray or bin. The single type may
+   be
    (1) KitTray
    (2) PartsBin
    (3) PartsTray
@@ -303,12 +297,17 @@ AnnotationAssertion(rdfs:comment :LargeContainer
    (hadByLargeContainer_LargeBoxWithEmptyKitTrays) or to a
    LargeBoxWithKits (hadByLargeContainer_LargeBoxWithKits).")
 
+Declaration(Class(:MechanicalComponent))
+AnnotationAssertion(rdfs:comment :MechanicalComponent
+  "A MechanicalComponent is a SolidObject. A MechanicalComponent is a
+   component of kitting workstation device such as a robot or an end
+   effector changing station.")
+
 Declaration(Class(:Part))
 AnnotationAssertion(rdfs:comment :Part
-  "A Part is a SolidObject. It inherits primary location and secondary
-   location from SolidObject. It has a StockKeepingUnit
-   (hasPart_Sku) and a SerialNumber (hasPart_SerialNumber). A Part may
-   belong to a Kit (hadByPart_Kit) or to a PartsTrayWithParts
+  "A Part is a SolidObject. It has a StockKeepingUnit (hasPart_Sku)
+   and a SerialNumber (hasPart_SerialNumber). A Part may belong to a
+   Kit (hadByPart_Kit) or to a PartsTrayWithParts
    (hadByPart_PartsTrayWithParts).")
 
 Declaration(Class(:PartRefAndPose))
@@ -323,15 +322,14 @@ AnnotationAssertion(rdfs:comment :PartRefAndPose
 
 Declaration(Class(:PartsBin))
 AnnotationAssertion(rdfs:comment :PartsBin
-  "A PartsBin is a SolidObject.  It inherits primary location and secondary
-   location from SolidObject.  It has a StockKeepingUnit
+  "A PartsBin is a SolidObject. It has a StockKeepingUnit
    (hasPartsBin_Sku) and a SerialNumber (hasPartsBin_SerialNumber).
    A PartsBin holds a number of Parts (hasPartsBin_PartQuantity) with the
    same SKU (hasPartsBin_PartSku) in unknown random positions.")
 
 Declaration(Class(:PartsTray))
 AnnotationAssertion(rdfs:comment :PartsTray
-  "A PartsTray is a BoxyObject used to hold Parts. A PartsTray has a
+  "A PartsTray is a SolidObject used to hold Parts. A PartsTray has a
    SKU (hasPartsTray_Sku) and a serial number
    (hasPartsTray_SerialNumber). The SkuName is the name of the SKU of
    the PartsTray, not the name of the SKU of a type of part the
@@ -341,8 +339,7 @@ AnnotationAssertion(rdfs:comment :PartsTray
 
 Declaration(Class(:PartsTrayWithParts))
 AnnotationAssertion(rdfs:comment :PartsTrayWithParts
-  "A PartsTrayWithParts is a SolidObject. It inherits primary location
-   and secondary location from SolidObject. A PartsTrayWithParts
+  "A PartsTrayWithParts is a SolidObject. A PartsTrayWithParts
    has a PartsTray (hasPartsTrayWithParts_Tray) and zero to many Parts
    (hasPartsTrayWithParts_Parts). The coordinate system of a
    PartsTrayWithParts is in the same place as the coordinate system of
@@ -369,23 +366,17 @@ AnnotationAssertion(rdfs:comment :Point
 
 Declaration(Class(:PoseLocation))
 AnnotationAssertion(rdfs:comment :PoseLocation
-  "A PoseLocation is a PhysicalLocation. It inherits a reference
-   object from PhysicalLocation (hasPhysicalLocation_RefObject). A
-   PoseLocation also has a Point (hasPoseLocation_Point), a Vector for
-   the Z axis (hasPoseLocation_ZAxis), a Vector for the X axis
-   (hasPoseLocation_XAxis), and a reference object inherited from the
-   PhysicalLocation class (hasPhysicalLocation_RefObject). The data
-   for the Point, the ZAxis and the XAxis are expressed relative to
-   the coordinate system of the reference object. A PoseLocation must
-   be a PoseOnlyLocation, a PoseLocationIn, or a PoseLocationOn")
+  "A PoseLocation is a PhysicalLocation. A PoseLocation has a Point
+   (hasPoseLocation_Point), a Vector for the Z axis
+   (hasPoseLocation_ZAxis), and a Vector for the X axis
+   (hasPoseLocation_XAxis). The data for the Point, the ZAxis and the
+   XAxis are expressed relative to the coordinate system of the
+   reference object. A PoseLocation must be a PoseOnlyLocation, a
+   PoseLocationIn, or a PoseLocationOn")
 
 Declaration(Class(:PoseLocationIn))
 AnnotationAssertion(rdfs:comment :PoseLocation
-  "A PoseLocationIn is a PoseLocation. It inherits a Point
-   (hasPoseLocation_Point), a Vector for the Z axis
-   (hasPoseLocation_ZAxis), a Vector for the X axis
-   (hasPoseLocation_XAxis), and a reference object
-   (hasPhysicalLocation_RefObject) from PoseLocation. The data for the
+  "A PoseLocationIn is a PoseLocation. The data for the
    Point, the ZAxis and the XAxis are expressed relative to the
    coordinate system of the reference object. A PoseLocationIn
    indicates that a SolidObject that has the PoseLocationIn as the
@@ -396,11 +387,7 @@ AnnotationAssertion(rdfs:comment :PoseLocation
 
 Declaration(Class(:PoseLocationOn))
 AnnotationAssertion(rdfs:comment :PoseLocation
-  "A PoseLocationOn is a PoseLocation. It inherits a Point
-   (hasPoseLocation_Point), a Vector for the Z axis
-   (hasPoseLocation_ZAxis), a Vector for the X axis
-   (hasPoseLocation_XAxis), and a reference object
-   (hasPhysicalLocation_RefObject) from PoseLocation. The data for the
+  "A PoseLocationOn is a PoseLocation. The data for the
    Point, the ZAxis and the XAxis are expressed relative to the
    coordinate system of the reference object. A PoseLocationOn
    indicates that a SolidObject that has the PoseLocationOn as the
@@ -411,11 +398,7 @@ AnnotationAssertion(rdfs:comment :PoseLocation
 
 Declaration(Class(:PoseOnlyLocation))
 AnnotationAssertion(rdfs:comment :PoseLocation
-  "A PoseOnlyLocation is a PoseLocation. It inherits a Point
-   (hasPoseLocation_Point), a Vector for the Z axis
-   (hasPoseLocation_ZAxis), a Vector for the X axis
-   (hasPoseLocation_XAxis), and a reference object
-   (hasPhysicalLocation_RefObject) from PoseLocation. The data for the
+  "A PoseOnlyLocation is a PoseLocation. The data for the
    Point, the ZAxis and the XAxis are expressed relative to the
    coordinate system of the reference object. An object located by a
    PoseOnlyLocation may or may not be inside or on top of the
@@ -423,41 +406,35 @@ AnnotationAssertion(rdfs:comment :PoseLocation
 
 Declaration(Class(:RelativeLocation))
 AnnotationAssertion(rdfs:comment :RelativeLocation
-  "A RelativeLocation is a PhysicalLocation. It inherits a reference
-   object (hasPhysicalLocation_RefObject) from PhysicalLocation. A
-   RelativeLocation indicates that one solid object is on or in
-   another solid object. A RelativeLocation must be a
-   RelativeLocationIn or a RelativeLocationOn. A RelativeLocation has
-   a description (hasRelativeLocation_Description) that is a string.")
+  "A RelativeLocation is a PhysicalLocation. A RelativeLocation
+   indicates that one solid object is on or in another solid object. A
+   RelativeLocation must be a RelativeLocationIn or a
+   RelativeLocationOn. A RelativeLocation has a description
+   (hasRelativeLocation_Description) that is a string.")
 
 Declaration(Class(:RelativeLocationIn))
 AnnotationAssertion(rdfs:comment :RelativeLocationIn
-  "A RelativeLocationIn is a RelativeLocation. It inherits a reference
-   object (hasPhysicalLocation_RefObject) and a description
-   (hasRelativeLocation_Description) from RelativeLocation. A
-   RelativeLocationIn indicates that a SolidObject that has the
-   RelativeLocationIn is in the SolidObject that is the reference
-   object of the RelativeLocationIn. The notion of 'in' is vague and
-   might be made more precise.")
+  "A RelativeLocationIn is a RelativeLocation. A RelativeLocationIn
+   indicates that a SolidObject that has the RelativeLocationIn is in
+   the SolidObject that is the reference object of the
+   RelativeLocationIn. The notion of 'in' is vague and might be made
+   more precise.")
 
 Declaration(Class(:RelativeLocationOn))
 AnnotationAssertion(rdfs:comment :RelativeLocationOn
-  "A RelativeLocationOn is a RelativeLocation. It inherits a reference
-   object (hasPhysicalLocation_RefObject) and a description
-   (hasRelativeLocation_Description) from RelativeLocation. A
-   RelativeLocationOn indicates that a SolidObject that has the
-   RelativeLocationOn is on top of the SolidObject that is the
-   reference object of the RelativeLocationOn. The notion of 'on top
-   of' is vague and might be made more precise.")
+  "A RelativeLocationOn is a RelativeLocation. A RelativeLocationOn
+   indicates that a SolidObject that has the RelativeLocationOn is on
+   top of the SolidObject that is the reference object of the
+   RelativeLocationOn. The notion of 'on top of' is vague and might be
+   made more precise.")
 
 Declaration(Class(:Robot))
 AnnotationAssertion(rdfs:comment :Robot
-  "A Robot is a SolidObject. It inherits primary location and
-   secondary location from SolidObject. It also has a
-   description (hasRobot_Description), a work volume
-   (hasRobot_WorkVolume), an end effector (hasRobot_EndEffector), and
-   a maximum load weight (hasRobot_MaximumLoadWeight). A robot belongs
-   to a KittingWorkstation (hadByRobot_Workstation).")
+ "A Robot is a SolidObject. A Robot has a description
+  (hasRobot_Description), a work volume (hasRobot_WorkVolume), an end
+  effector (hasRobot_EndEffector), and a maximum load weight
+  (hasRobot_MaximumLoadWeight). A robot belongs to a
+  KittingWorkstation (hadByRobot_Workstation).")
 AnnotationAssertion(rdfs:comment :Robot
   "The Robot ontology given here might be expanded greatly to include,
    for example, its kinematic description, the values of joint angles,
@@ -467,8 +444,10 @@ AnnotationAssertion(rdfs:comment :Robot
 
 Declaration(Class(:ShapeDesign))
 AnnotationAssertion(rdfs:comment :ShapeDesign
-  "A ShapeDesign is a DataThing. A ShapeDesign has only a description
-   (hasShapeDesign_Description) that is an xsd:string.")
+  "A ShapeDesign is a DataThing. A ShapeDesign has a description
+   (hasShapeDesign_Description) that is an xsd:string. A ShapeDesign
+   may have zero or one grasp pose (hasShapeDesign_GraspPose) that is
+   a PoseLocation.")
 
 Declaration(Class(:SolidObject))
 AnnotationAssertion(rdfs:comment :SolidObject
@@ -484,7 +463,12 @@ AnnotationAssertion(rdfs:comment :SolidObject
    SolidObject describe (or are consistent with) a single place in
    space. No SolidObject except the Workstation may be located with
    respect to itself, and all chains of primary location must end at
-   the Workstation.")
+   the Workstation. A SolidObject may have zero or one internal shape
+   (hasSolidObject_InternalShape) and zero or one external shape
+   (hasSolidObject_ExternalShape). The shapes are not required to
+   represent the same shape, but they should not be inconsistent. If a
+   solid object consists of components it may also get its shape from
+   the shape of the components and their relative positions.")
 
 Declaration(Class(:StockKeepingUnit))
 AnnotationAssertion(rdfs:comment :StockKeepingUnit
@@ -498,10 +482,8 @@ AnnotationAssertion(rdfs:comment :StockKeepingUnit
 
 Declaration(Class(:VacuumEffector))
 AnnotationAssertion(rdfs:comment :VacuumEffector
-  "A VacuumEffector is an EndEffector. It inherits primary location,
-   secondary location, description, weight, and maximum load weight
-   from EndEffector. A VacuumEffector also has a cup diameter
-   (hasVacuumEffector_CupDiameter) and a length
+  "A VacuumEffector is an EndEffector. A VacuumEffector has a cup
+   diameter (hasVacuumEffector_CupDiameter) and a length
    (hasVacuumEffector_Length). A VacuumEffector holds an object by
    putting a cup against the object and applying a vacuum. A
    VacuumEffector is either a VacuumEffectorSingleCup or a
@@ -509,11 +491,9 @@ AnnotationAssertion(rdfs:comment :VacuumEffector
 
 Declaration(Class(:VacuumEffectorMultiCup))
 AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
-  "A VacuumEffectorMultiCup is a VacuumEffector. It inherits primary
-   location, secondary location, description, weight, maximum load
-   weight, cup diameter, and length from VacuumEffector. A
-   VacuumEffectorMultiCup also has two or more identical cups
-   (represented by hasMultiCup_ArrayNumber) and an array radius
+  "A VacuumEffectorMultiCup is a VacuumEffector. A
+   VacuumEffectorMultiCup has two or more identical cups (represented
+   by hasMultiCup_ArrayNumber) and an array radius
    (hasMultiCup_ArrayRadius). The cups are arranged in a circular
    array spaced evenly apart. The center of the wide end of one cup is
    on the X-axis of the coordinate system of the
@@ -527,9 +507,7 @@ AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
 
 Declaration(Class(:VacuumEffectorSingleCup))
 AnnotationAssertion(rdfs:comment :VacuumEffectorSingleCup
-  "A VacuumEffectorSingleCup is a VacuumEffector. It inherits primary
-   location, secondary location, description, weight, maximum load
-   weight, cup diameter, and length from VacuumEffector. A
+  "A VacuumEffectorSingleCup is a VacuumEffector. A
    VacuumEffectorSingleCup has one cup. The center of the wide end of
    the cup (which is a circle) is at the origin of the coordinate
    system of the VacuumEffectorSingleCup. The Z axis of the coordinate
@@ -544,24 +522,18 @@ AnnotationAssertion(rdfs:comment :Vector
 
 Declaration(Class(:WorkTable))
 AnnotationAssertion(rdfs:comment :WorkTable
-  "A WorkTable is a BoxyObject. It inherits primary location,
-   secondary location, length, width, and height from BoxyObject. It
-   also has zero to many SolidObjects (hasWorkTable_SolidObjects)
-   which are located with respect to the WorkTable. The top of a
-   WorkTable is a flat, rectangular, horizontal surface. The length
-   and width of the top are those of the BoxyObject. The reference
-   object of each of the solid objects in hasWorkTable_SolidObjects is
-   the WorkTable (hasWorkTable_SolidObjects). Typically, those objects
-   will be on top of the WorkTable. A WorkTable belongs to a
-   Workstation (hadByWorkTable_Workstation).")
+  "A WorkTable is a SolidObject. A WorkTable has zero to many
+   SolidObjects (hasWorkTable_SolidObjects) which are located with
+   respect to the WorkTable. The reference object of each of the solid
+   objects in hasWorkTable_SolidObjects is the WorkTable
+   (hasWorkTable_SolidObjects). Typically, those objects will be on
+   top of the WorkTable. A WorkTable belongs to a Workstation
+   (hadByWorkTable_Workstation).")
 
 // In the following DataProperty Declarations, there is may be a more
 // formal method of representing the AnnotationAssertions. There would be
 // (probably) if the properties were ObjectProperty rather than DataProperty.
 
-Declaration(DataProperty(:hasBox_Height))
-Declaration(DataProperty(:hasBox_Length))
-Declaration(DataProperty(:hasBox_Width))
 Declaration(DataProperty(:hasBoxyShape_Height))
 Declaration(DataProperty(:hasBoxyShape_Length))
 Declaration(DataProperty(:hasBoxyShape_Top))
@@ -569,6 +541,9 @@ Declaration(DataProperty(:hasBoxyShape_Width))
 Declaration(DataProperty(:hasEndEffector_Description))
 Declaration(DataProperty(:hasEndEffector_Weight))
 Declaration(DataProperty(:hasEffector_MaximumLoadWeight))
+Declaration(DataProperty(:hasExternalShape_ModelTypeName))
+Declaration(DataProperty(:hasExternalShape_ModelFileName))
+Declaration(DataProperty(:hasExternalShape_ModelName))
 Declaration(DataProperty(:hasKitTray_SerialNumber))
 Declaration(DataProperty(:hasLargeBoxWithKits_Capacity))
 Declaration(DataProperty(:hasLargeContainer_SerialNumber))
@@ -679,9 +654,17 @@ Declaration(ObjectProperty(:hasBoxVolume_MinimumPoint))
 AnnotationAssertion(rdfs:comment :hasBoxVolume_MinimumPoint
   "A BoxVolume has a minimum Point.")
 
+Declaration(ObjectProperty(:hasChangingStation_Base))
+AnnotationAssertion(rdfs:comment :hasChangingStation_Base
+  "An EndEffectorChangingStation has a Base.")
+
 Declaration(ObjectProperty(:hasChangingStation_EndEffectorHolders))
 AnnotationAssertion(rdfs:comment :hasChangingStation_EndEffectorHolders
   "An EndEffectorChangingStation has EndEffectorHolders.")
+
+Declaration(ObjectProperty(:hasEndEffector_HeldObject))
+AnnotationAssertion(rdfs:comment :hasEndEffector_HeldObject
+  "An EndEffector holds zero or one SolidObject.")
 
 Declaration(ObjectProperty(:hasEndEffectorHolder_EndEffector))
 AnnotationAssertion(rdfs:comment :hasEndEffectorHolder_EndEffector
@@ -816,6 +799,10 @@ AnnotationAssertion(rdfs:comment :hasRobot_WorkVolume
    the absence of other obstacles. The coordinate system of the BoxVolumes
    is the coordinate system of the robot.")
 
+Declaration(ObjectProperty(:hasShapeDesign_GraspPose))
+AnnotationAssertion(rdfs:comment :hasShapeDesign_GraspPose
+  "A ShapeDesign has zero or one GraspPose.")
+
 Declaration(ObjectProperty(:hasSku_EndEffectors))
 AnnotationAssertion(rdfs:comment :hasSku_EndEffectors
   "A StockKeepingUnit has EndEffectors that can handle the StockKeepingUnit.")
@@ -823,6 +810,14 @@ AnnotationAssertion(rdfs:comment :hasSku_EndEffectors
 Declaration(ObjectProperty(:hasSku_Shape))
 AnnotationAssertion(rdfs:comment :hasSku_Shape
   "A StockKeepingUnit has a ShapeDesign.")
+
+Declaration(ObjectProperty(:hasSolidObject_ExternalShape))
+AnnotationAssertion(rdfs:comment :hasSolidObject_ExternalShape
+  "A SolidObject has zero or one an ExternalShape.")
+
+Declaration(ObjectProperty(:hasSolidObject_InternalShape))
+AnnotationAssertion(rdfs:comment :hasSolidObject_InternalShape
+  "A SolidObject has zero or one an InternalShape.")
 
 Declaration(ObjectProperty(:hasSolidObject_PrimaryLocation))
 AnnotationAssertion(rdfs:comment :hasSolidObject_PrimaryLocation
@@ -832,7 +827,7 @@ AnnotationAssertion(rdfs:comment :hasSolidObject_PrimaryLocation
 
 Declaration(ObjectProperty(:hasSolidObject_SecondaryLocation))
 AnnotationAssertion(rdfs:comment :hasSolidObject_SecondaryLocation
-  "A SolidObject may have zero to many secondary PhysicalLocations.")
+  "A SolidObject has zero to many secondary PhysicalLocations.")
 
 Declaration(ObjectProperty(:hasWorkstation_ChangingStation))
 AnnotationAssertion(rdfs:comment :hasWorkstation_ChangingStation
@@ -878,9 +873,6 @@ AnnotationAssertion(rdfs:comment :hasWorkTable_SolidObjects
 DisjointClasses(:DataThing
                 :SolidObject)
 
-// DisjointUnion(:BoxyObject
-//               :WorkTable)
-
 DisjointUnion(:DataThing
               :BoxVolume
               :KitDesign
@@ -895,6 +887,9 @@ DisjointUnion(:EndEffector
               :GripperEffector
               :VacuumEffector)
 
+//DisjointUnion(:InternalShape
+//              :BoxyShape)
+
 DisjointUnion(:PhysicalLocation
               :PoseLocation
               :RelativeLocation)
@@ -908,8 +903,11 @@ DisjointUnion(:RelativeLocation
               :RelativeLocationIn
               :RelativeLocationOn)
 
+DisjointUnion(:ShapeDesign
+              :ExternalShape
+              :InternalShape)
+
 DisjointUnion(:SolidObject
-              :BoxyObject
               :EndEffector
               :EndEffectorChangingStation
               :EndEffectorHolder
@@ -919,11 +917,13 @@ DisjointUnion(:SolidObject
               :LargeBoxWithEmptyKitTrays
               :LargeBoxWithKits
               :LargeContainer
+              :MechanicalComponent
               :Part
               :PartsBin
               :PartsTray
               :PartsTrayWithParts
-              :Robot)
+              :Robot
+              :WorkTable)
 
 DisjointUnion(:VacuumEffector
               :VacuumEffectorSingleCup
@@ -942,18 +942,6 @@ EquivalentClasses(:BoxVolume
                                               :Point)
                          ObjectAllValuesFrom(:hasBoxVolume_MinimumPoint
                                              :Point)))
-
-EquivalentClasses(:BoxyObject
-    ObjectIntersectionOf(DataSomeValuesFrom(:hasBox_Length :positiveDecimal)
-                         DataAllValuesFrom(:hasBox_Length :positiveDecimal)))
-
-EquivalentClasses(:BoxyObject
-    ObjectIntersectionOf(DataSomeValuesFrom(:hasBox_Width :positiveDecimal)
-                         DataAllValuesFrom(:hasBox_Width :positiveDecimal)))
-
-EquivalentClasses(:BoxyObject
-    ObjectIntersectionOf(DataSomeValuesFrom(:hasBox_Height :positiveDecimal)
-                         DataAllValuesFrom(:hasBox_Height :positiveDecimal)))
 
 EquivalentClasses(:BoxyShape
     ObjectIntersectionOf(DataSomeValuesFrom(:hasBoxyShape_Length
@@ -996,6 +984,18 @@ EquivalentClasses(:EndEffector
                                             :positiveDecimal)
                          DataAllValuesFrom(:hasEndEffector_Weight
                                             :positiveDecimal)))
+
+EquivalentClasses(:ExternalShape
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasExternalShape_ModelFileName
+                                            xsd:string)
+                         DataAllValuesFrom(:hasExternalShape_ModelFileName
+                                           xsd:string)))
+
+EquivalentClasses(:ExternalShape
+    ObjectIntersectionOf(DataSomeValuesFrom(:hasExternalShape_ModelTypeName
+                                            xsd:string)
+                         DataAllValuesFrom(:hasExternalShape_ModelTypeName
+                                           xsd:string)))
 
 EquivalentClasses(:Kit
     ObjectIntersectionOf(DataSomeValuesFrom(:isKit_Finished xsd:boolean)
@@ -1189,9 +1189,6 @@ EquivalentClasses(:Vector
     ObjectIntersectionOf(DataSomeValuesFrom(:hasVector_K xsd:decimal)
                          DataAllValuesFrom(:hasVector_K xsd:decimal)))
 
-FunctionalDataProperty(:hasBox_Height)
-FunctionalDataProperty(:hasBox_Length)
-FunctionalDataProperty(:hasBox_Width)
 FunctionalDataProperty(:hasBoxyShape_Height)
 FunctionalDataProperty(:hasBoxyShape_Length)
 FunctionalDataProperty(:hasBoxyShape_Top)
@@ -1199,6 +1196,9 @@ FunctionalDataProperty(:hasBoxyShape_Width)
 FunctionalDataProperty(:hasEffector_MaximumLoadWeight)
 FunctionalDataProperty(:hasEndEffector_Description)
 FunctionalDataProperty(:hasEndEffector_Weight)
+FunctionalDataProperty(:hasExternalShape_ModelTypeName)
+FunctionalDataProperty(:hasExternalShape_ModelFileName)
+FunctionalDataProperty(:hasExternalShape_ModelName)
 FunctionalDataProperty(:hasKitTray_SerialNumber)
 FunctionalDataProperty(:hasLargeBoxWithKits_Capacity)
 FunctionalDataProperty(:hasLargeContainer_SerialNumber)
@@ -1248,6 +1248,8 @@ FunctionalObjectProperty(:hadByWorkTable_Workstation)
 
 FunctionalObjectProperty(:hasBoxVolume_MaximumPoint)
 FunctionalObjectProperty(:hasBoxVolume_MinimumPoint)
+FunctionalObjectProperty(:hasChangingStation_Base)
+FunctionalObjectProperty(:hasEndEffector_HeldObject)
 FunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
 FunctionalObjectProperty(:hasKit_Design)
 FunctionalObjectProperty(:hasKit_Tray)
@@ -1271,7 +1273,10 @@ FunctionalObjectProperty(:hasPoseLocation_Point)
 FunctionalObjectProperty(:hasPoseLocation_XAxis)
 FunctionalObjectProperty(:hasPoseLocation_ZAxis)
 FunctionalObjectProperty(:hasRobot_EndEffector)
+FunctionalObjectProperty(:hasShapeDesign_GraspPose)
 FunctionalObjectProperty(:hasSku_Shape)
+FunctionalObjectProperty(:hasSolidObject_ExternalShape)
+FunctionalObjectProperty(:hasSolidObject_InternalShape)
 FunctionalObjectProperty(:hasSolidObject_PrimaryLocation)
 FunctionalObjectProperty(:hasWorkstation_ChangingStation)
 FunctionalObjectProperty(:hasWorkstation_Robot)
@@ -1368,8 +1373,10 @@ ObjectPropertyDomain(:hadByWorkTable_Workstation :WorkTable)
 
 ObjectPropertyDomain(:hasBoxVolume_MaximumPoint :BoxVolume)
 ObjectPropertyDomain(:hasBoxVolume_MinimumPoint :BoxVolume)
+ObjectPropertyDomain(:hasChangingStation_Base :EndEffectorChangingStation)
 ObjectPropertyDomain(:hasChangingStation_EndEffectorHolders
                      :EndEffectorChangingStation)
+ObjectPropertyDomain(:hasEndEffector_HeldObject :EndEffector)
 ObjectPropertyDomain(:hasEndEffectorHolder_EndEffector :EndEffectorHolder)
 ObjectPropertyDomain(:hasKit_Design :Kit)
 ObjectPropertyDomain(:hasKit_Parts :Kit)
@@ -1401,8 +1408,11 @@ ObjectPropertyDomain(:hasPoseLocation_XAxis :PoseLocation)
 ObjectPropertyDomain(:hasPoseLocation_ZAxis :PoseLocation)
 ObjectPropertyDomain(:hasRobot_EndEffector :Robot)
 ObjectPropertyDomain(:hasRobot_WorkVolume :Robot)
+ObjectPropertyDomain(:hasShapeDesign_GraspPose :ShapeDesign)
 ObjectPropertyDomain(:hasSku_EndEffectors :StockKeepingUnit)
 ObjectPropertyDomain(:hasSku_Shape :StockKeepingUnit)
+ObjectPropertyDomain(:hasSolidObject_ExternalShape :SolidObject)
+ObjectPropertyDomain(:hasSolidObject_InternalShape :SolidObject)
 ObjectPropertyDomain(:hasSolidObject_PrimaryLocation :SolidObject)
 ObjectPropertyDomain(:hasSolidObject_SecondaryLocation :SolidObject)
 ObjectPropertyDomain(:hasWorkstation_ChangingStation :KittingWorkstation)
@@ -1437,7 +1447,9 @@ ObjectPropertyRange(:hadByWorkTable_Workstation :KittingWorkstation)
 
 ObjectPropertyRange(:hasBoxVolume_MaximumPoint :Point)
 ObjectPropertyRange(:hasBoxVolume_MinimumPoint :Point)
+ObjectPropertyRange(:hasChangingStation_Base :MechanicalComponent)
 ObjectPropertyRange(:hasChangingStation_EndEffectorHolders :EndEffectorHolder)
+ObjectPropertyRange(:hasEndEffector_HeldObject :SolidObject)
 ObjectPropertyRange(:hasEndEffectorHolder_EndEffector :EndEffector)
 ObjectPropertyRange(:hasKit_Design :KitDesign)
 ObjectPropertyRange(:hasKit_Parts :Part)
@@ -1468,6 +1480,9 @@ ObjectPropertyRange(:hasPoseLocation_XAxis :Vector)
 ObjectPropertyRange(:hasPoseLocation_ZAxis :Vector)
 ObjectPropertyRange(:hasRobot_EndEffector :EndEffector)
 ObjectPropertyRange(:hasRobot_WorkVolume :BoxVolume)
+ObjectPropertyRange(:hasShapeDesign_GraspPose :PoseLocation)
+ObjectPropertyRange(:hasSolidObject_ExternalShape :ExternalShape)
+ObjectPropertyRange(:hasSolidObject_InternalShape :InternalShape)
 ObjectPropertyRange(:hasSolidObject_PrimaryLocation :PhysicalLocation)
 ObjectPropertyRange(:hasSolidObject_SecondaryLocation :PhysicalLocation)
 ObjectPropertyRange(:hasSku_EndEffectors :EndEffector)
@@ -1487,13 +1502,14 @@ ObjectPropertyRange(:hasWorkTable_SolidObjects :SolidObject)
 // the Classes view or the OWLViz view. The inferred hierarchy is
 // correct if the SubClassOf statements are omitted, however.
 
-SubClassOf(:BoxyObject :SolidObject)
-SubClassOf(:BoxyShape :ShapeDesign)
+SubClassOf(:BoxyShape :InternalShape)
 SubClassOf(:BoxVolume :DataThing)
 SubClassOf(:EndEffector :SolidObject)
 SubClassOf(:EndEffectorChangingStation :SolidObject)
 SubClassOf(:EndEffectorHolder :SolidObject)
+SubClassOf(:ExternalShape :ShapeDesign)
 SubClassOf(:GripperEffector :EndEffector)
+SubClassOf(:InternalShape :ShapeDesign)
 SubClassOf(:Kit :SolidObject)
 SubClassOf(:KitDesign :DataThing)
 SubClassOf(:KittingWorkstation :SolidObject)
@@ -1501,6 +1517,7 @@ SubClassOf(:KitTray :SolidObject)
 SubClassOf(:LargeContainer :SolidObject)
 SubClassOf(:LargeBoxWithEmptyKitTrays :SolidObject)
 SubClassOf(:LargeBoxWithKits :SolidObject)
+SubClassOf(:MechanicalComponent :SolidObject)
 SubClassOf(:Part :SolidObject)
 SubClassOf(:PartRefAndPose :DataThing)
 SubClassOf(:PartsBin :SolidObject)
@@ -1522,6 +1539,6 @@ SubClassOf(:VacuumEffector :EndEffector)
 SubClassOf(:VacuumEffectorMultiCup :VacuumEffector)
 SubClassOf(:VacuumEffectorSingleCup :VacuumEffector)
 SubClassOf(:Vector :DataThing)
-SubClassOf(:WorkTable :BoxyObject)
+SubClassOf(:WorkTable :SolidObject)
 
 )

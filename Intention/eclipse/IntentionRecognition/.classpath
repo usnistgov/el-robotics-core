@@ -2,8 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Users/kalucard/workspace/IntentionRecognition/lib/jgrapht-jdk1.6.jar"/>
-	<classpathentry kind="lib" path="lib/owlapi-bin.jar"/>
-	<classpathentry kind="lib" path="lib/owlapi-src.jar"/>
+	<classpathentry kind="lib" path="/home/zeid/workspace/IntentionRecognition/lib/owlapi-distribution-3.4.3-bin.jar"/>
+	<classpathentry kind="lib" path="/home/zeid/workspace/IntentionRecognition/lib/jgrapht-jdk1.6.jar"/>
+	<classpathentry kind="lib" path="/home/zeid/workspace/IntentionRecognition/lib/jfreechart-1.0.14/lib/jfreechart-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/home/zeid/workspace/IntentionRecognition/lib/jfreechart-1.0.14/lib/jcommon-1.0.17.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.14/lib/iText-2.1.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -144,7 +144,7 @@ We approach the description of the \onto{SOAP} ontology with a discussion on eac
 %------------------------------------------------------------------------------------------------------------------------------%
 A PDDL domain file consists of definitions of predicates, functions,
 and actions. Actions are ways of changing the state of the world and
-consist of a precondition and an effect sections. Predicates and
+consist of precondition and effect sections. Predicates and
 functions constitute an action precondition and effect. Predicates
 are used to encode Boolean state variables while functions are used
 to model updates of numerical values. Introducing functions into
@@ -499,14 +499,14 @@ instance, the intermediate state relation \textbf{Contained-In} is used to descr
 (\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))\notag
 \end{gather}
 
-To date this approach has been applied to our simplified kitting domain and has been shown to work on axis-aligned 
+To date, this approach has been applied to our simplified kitting domain and has been shown to work on axis-aligned 
 rectilinear objects as described by the shape \class{BoxyObject}s in the ontology. As objects get more complex 
-in shape and orientation there may be instances where these intermediate state relations appear to be true 
+in shape and orientation, there may be instances where these intermediate state relations appear to be true 
 when they actually are not. This is an area of future research that is expected to be resolved shortly. 
 More information on the use of RCC8 relations for intermediate predicates may be found in \cite{Schlenoff2012}.
 
 In the ontology, intermediate state relations are represented with the OWL built-in property
-\texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation}
+\texttt{owl:equivalentClass}. This property links the description of the class \class{Intermediate\_State\_Relation}
 to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.
  \item \class{Predicate}: The representation of predicates has been illustrated in
 Section~\ref{sss:domainfile}. In this section we discuss how the class \class{Predicate}
@@ -525,7 +525,7 @@ As with state relations, the truth-value of predicates is captured in the ontolo
 to the logical combination of intermediate state relations from the class \class{Intermediate\_State\_Relation}.
 
 As seen in Section~\ref{sss:domainfile}, a predicate can have a maximum of two parameters.
-In the case a predicate has two parameters, both parameters are passed to the intermediate
+In case a predicate has two parameters, both parameters are passed to the intermediate
 state relations defined for the predicate, and are in turn passed to the RCC8 relations were
 the truth-value of the predicate is computed. In the case the predicate has only one parameter,
 the truth-value of intermediate state relations, and by inference, the truth-value of RCC8
@@ -541,7 +541,7 @@ formulation of the plan. Predicates of this nature are not treated in the concep
 \subsection{The OWL/XML Kitting Init and Goal Conditions File} \label{owlinitgoal}
 %+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%
 The OWL/XML kitting \onto{init} and \onto{goal} conditions files are used to build the PDDL
-problem file. This section first describes how a PDDL problem file is structured and then
+problem file. This section describes how a PDDL problem file is structured and 
 reviews the classes used in the different ontologies to build the PDDL problem file.
 
 %-------------------------------------------------%
@@ -606,7 +606,7 @@ in both the \texttt{init} and \texttt{goal} sections in the generated PDDL probl
 it is important to make these objects available to the OWL/XML kitting \onto{init} and
 \onto{goal} conditions files. For instance, the object \texttt{robot\_1} of type
 \texttt{Robot} (line 4 in Figure~\ref{fig:problem}) will be generated from the instance
-\texttt{robot\_1} in the class \class{Robot}, created in the \onto{SOAP} ontology.
+\texttt{robot\_1} in the class \class{Robot}, and created in the \onto{SOAP} ontology.
  \item Predicates and functions that will appear in the \texttt{init} section for the
 generated PDDL problem file are created in the OWL/XML kitting \onto{init} file as instances
 of the class \class{Predicate} and \class{Function}, respectively.

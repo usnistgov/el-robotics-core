@@ -18,10 +18,11 @@ The Kitting Viewer reads files describing the initial state, the goal
 state, and the plan for getting from the initial state to the goal state.
 Optionally, it also reads a scoring file. If no scoring file is specified
 by the user, a hard-coded default scoring file structure is used. The
-Kitting Viewer simulates execution of the plan, displays a view of the plan
-being executed, and produces and displays metrics about the plan. All of
-the metrics are numbers. All but one of the metrics are objective and
-require no human judgement. These metrics are presented in Section
+Kitting Viewer simulates execution of the plan on a gantry type robot,
+displays a view of the plan being executed, and produces and displays
+metrics about the plan. All of the metrics are numbers. All but one of the
+metrics are objective and require no human judgement. These metrics are
+presented in Section
 \ref{sect:Metrics}. The final metric is a subjective combination of the
 other metrics in which the other metrics are weighted and combined as
 specified by the scoring file. The scoring file may be edited as desired by
@@ -33,11 +34,11 @@ instructions is printed in the terminal window from which the
 Kitting Viewer was started.
 
 The Kitting Viewer runs in two phases. In the first phase, each time the
-user gives a signal (presses the \tt g \rm key) the next command from the
+user gives a signal (presses a key), the next command from the
 command file is executed. The Kitting Viewer may decide that a command
 cannot be executed, but if it decides a command can be executed, it assumes
 the command is executed properly. In the second phase, which starts after
-all commands have been executed, each time the user gives a signal the
+all commands have been executed, each time the user gives a signal, the
 position of the next movable object in the goal file is checked.
 
 Figure~\ref{fig:KittingViewer} shows the Kitting Viewer windows as they
@@ -69,7 +70,7 @@ executed command, if no command is currently executing. In the second
 phase, the window shows messages describing success or failure in locating
 goal objects.
 
-The Metrics \& Settings window shows 12 (first phase) or 15 (second phase)
+The Metrics \& Settings window shows 11 (first phase) or 15 (second phase)
 metrics at the top. Below that it shows 13 robot settings and two
 Kitting Viewer settings. All but two of the robot settings correspond to
 items that may be set using CRCL commands. The extra two are the
@@ -92,14 +93,14 @@ caused the problem.
 
 \subsection{Modeling}
 The project in which the Kitting Viewer was developed has modeled the state
-of a kitting workstation in both OWL and XML schema language. The XML model
-is kitting.xsd. An automatic code generator named the GenXMiller written by
-the authors at NIST is being used in the project. The GenXMiller will read
-an XML schema and produce C++ classes and a parser for XML data files
-corresponding to the XML schema. The GenXMiller was used to produce the C++
-class model of a kitting workstation and the state file parser used in the
-Kitting Viewer. The initial and goal state files used by the Kitting Viewer
-are XML data files corresponding to the kitting.xsd XML schema.
+of a kitting workstation in both OWL and XML schema language. An automatic
+code generator written by the authors at NIST is being used in the project.
+The code generator will read an XML schema and produce C++ classes and a
+parser for XML data files corresponding to the XML schema. The code
+generator was used to produce the C++ class model of a kitting workstation
+and the state file parser used in the Kitting Viewer. The initial and goal
+state files used by the Kitting Viewer are XML data files corresponding to
+the XML schema.
 
 The Kitting Viewer does a great deal of modeling while it runs. When the
 initial state file is read, a model of the initial state is built and saved
@@ -170,7 +171,7 @@ Then the gripper will attach to an object. Call it B.
 \end{itemize}
 
 When the gripper attaches to an object, the primary state changes (i.e.
-changes in states present in kitting.xsd) are that the gripper is closed,
+changes in states present in the model) are that the gripper is closed,
 and the pose of the object is changed so that the object is located
 relative to the gripper. In addition, as described above, if the object is
 the last part in a parts tray with parts, the parts tray with parts will go

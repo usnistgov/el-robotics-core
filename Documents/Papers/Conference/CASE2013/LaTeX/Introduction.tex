@@ -1,10 +1,10 @@
 Applications for assembly robots have been primarily implemented in fixed
 and programmable automation. Fixed automation is a process using mechanized
-machinery to perform fixed and repetitive operations in order to produce a
+machinery to perform repetitive operations in order to produce a
 high volume of similar parts. In programmable automation, products are made
 in batch quantities ranging from several dozen to several thousand units at
 a time. Although today's state-of-the-art industrial robots are capable of
-sub-millimeter accuracy, they are often programmed by
+sub-millimeter accuracy~\cite{RobotAccuracy}, they are often programmed by
 an operator using crude positional controls from a teach pendant. Moreover,
 drastic modifications in the design process are realized when parts need
 major changes or become too complicated in design, thus resulting in long
@@ -27,7 +27,7 @@ throughput. Flexible robots are required to be quickly reconfigured for
 design and process modifications. Furthermore, they need to be information
 driven so that they can reliably perform different sequences of actions on
 command. The cost for generating the information that drives the actions
-must be kept down and the information must be accurate.
+must be kept down and this information must be accurate.
 
 This paper discusses a flexible kitting system. Kitting is the process in
 which several different, but related items are placed into a container and
@@ -41,8 +41,7 @@ space \cite{Medbo2003}, reducing assembly workers' walking and searching
 times \cite{Schwind1992}, and increasing line flexibility \cite{Bozer1992}
 and balance \cite{Jiao2000}.
 
-The increasing global competition demands the manufacturing industry to
-move towards state-of-the-art flexible systems. Therefore, it is important
+The increasing global competition demands the manufacturing industry move towards state-of-the-art flexible systems. Therefore, it is important
 not only to know how to measure the complexity of an assembly operation --
 the tasks that form a plan -- but also to evaluate how well these
 operations are carried out by a manufacturing process. Recently, some
@@ -63,12 +62,9 @@ index to evaluate the assembly sequences in order to determine the optimal
 one.
 
 
-This paper presents a system that evaluates the performance of kitting
-applications through simulation using specific metrics. The authors have
-developed a canonical robot control language
-(CRCL)~\cite{NISTIR.Balakirsky} that attempts to be a lowest common
-denominator of robot programing languages. It is anticipated that kitting
-plans can be translated into CRCL command sets which may then be evaluated
+This paper presents a system that evaluates the performance of kitting plans through simulation using specific metrics. It is anticipated that kitting
+plans can be translated into canonical robot control language
+(CRCL)~\cite{NISTIR.Balakirsky} command sets which may then be evaluated
 by standardized metric software. The CRCL command sets may then be
 translated into a specific robot platform's language.
 

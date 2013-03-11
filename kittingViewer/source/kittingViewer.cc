@@ -20,23 +20,13 @@
   \endcode
 
   \author Tom Kramer
-  \date October 11, 2012
+  \date March 6, 2013
 
 */
 
 /* TODO
 
-1. Add an option to base location metrics on SKUs rather than on specific
-objects. The data files would still use specific objects. For example,
-if there are two instances of part_a it is OK if the locations of
-part_a_1 and part_a_2 are switched when the robot program is finished
-executing.
-
-2. Implement fixes described in enterPoseTargets.
-
-3. Get gripper to rotate while translating (or rotate without translating)
-
-4. Write a user guide for the kittingViewer
+1. Write a user guide for the kittingViewer
 
 */
 
@@ -74,7 +64,7 @@ put into the kit tray).
 10. Use grasp point information in deciding whether a close gripper command
 results in an object being held by the gripper.
 
-11. Use shape data fom an external file (identified by an ExternalShape).
+11. Use shape data from an external file (identified by an ExternalShape).
 
 */
 
@@ -172,6 +162,31 @@ origin is located on the positive Z axis of the gripper a distance
 from the origin of the gripper coordinate system equal to the length
 of the gripper.
 
+Kinematics, Speed, and Acceleration
+-----------------------------------
+
+Kinematics are built into the kittingViewer for a gantry robot that can
+hold a gripper of fixed length, can rotate the axis of the gripper and
+can rotate the gripper around its axis. The ROBOTDEFAULTMAXACCEL and 
+ROBOTDEFAULTMAXSPEED apply to the end of the quill of the robot (whether
+a gripper is attached or not). The GRIPPERDEFAULTMAXROTATE applies to
+both gripper rotations.
+
+There are no canonical robot commands for gripper rotational speed, so the
+kittingViewer sets the gripper rotational speed to a fraction of the maximum
+rotational speed that is the same as the fraction used for the robot speed.
+
+The gripper is treated as having a built-in X axis (i.e. the gripper is not
+symmetric about its Z axis) that is perpendicular to the gripper Z axis.
+The X axis of the gripper is parallel to the X-axis of the holder
+when the gripper is in a gripper holder. If a gripper starts out on the
+robot, its Z axis is assumed to be antiparallel to the robot Z axis, and
+its X axis is assumed to be parallel to the robot X axis.
+
+Any change of position may include a translation and two rotations. The time
+for a change of position is calculated as the longest time for any of the
+three.
+
 Command Execution
 -----------------
 
@@ -235,6 +250,33 @@ The requirements in effect here for tool holders and end effectors are:
   the end effector to turn so that it is not vertical, but the end
   effector must always point somewhat down.
 
+Dealing with Identical Objects
+------------------------------
+
+It is often desirable to treat objects as being identical. For
+example, we may want two part A's in a kit in particular places, but we
+don't care which part A is in which place. On other occasions we may care
+which part A is where. The kittingViewer deals with this by having the
+swap boolean which the user may set. If swap is set to true, kits with
+the same DesignName and other objects with the same SkuName are
+treated as identical for purposes of checking locations. This is
+implemented as follows.
+
+In handleExecute, after executing all the commands, if swap is true, a
+map, skuGoalMap, is made from SkuNames to lists of the locations of
+goal objects with the same SkuName. Another map, kitGoalMap is made
+from kit DesignNames to lists of the locations of goal kits with the
+same DesignName.
+
+Later, when the location of an object is being checked, if swap is
+true and the object has a SkuName or is a kit, the location is checked
+against the list of locations for items of that name. It is an error
+if a nearly identical location is not on the list. If a nearly
+identical location is on the list, it is removed from the list.
+
+This method does not deal with LargeBoxWithEmptyKitTrays, LargeBoxWithKits,
+or PartsTrayWithParts.
+
 */
 
 #include <stdlib.h>         // exit
@@ -265,7 +307,10 @@ The requirements in effect here for tool holders and end effectors are:
 
 int                 KittingViewer::actionCommandsExecuted; // action cmds exec'd
 double              KittingViewer::angleFactor; // factor for angle conversion
+double              KittingViewer::anglesX[MAXPOSES]; // X rots corresp to poses
+double              KittingViewer::anglesZ[MAXPOSES]; // Z rots corresp to poses
 char                KittingViewer::angleUnits[TEXTSIZE]; // degree, radian
+VectorIJK           KittingViewer::axlesZ[MAXPOSES]; //rot axes corresp to poses
 std::list<CanonicalMsg *> KittingViewer::commands;  // commands
 int                 KittingViewer::commandSequenceErrors; // num sequence errors
 char                KittingViewer::commandString[MAXPOSES][TEXTSIZE]; //cmd str
@@ -279,8 +324,12 @@ int                 KittingViewer::executionState; // unready, ready, or ended
 double              KittingViewer::fraction;  // proportion of motion done
 KittingWorkstationType * KittingViewer::goalModel; // model built from goal file
 int                 KittingViewer::gripperUseErrors; // num gripper use errors
+std::map<std::string, std::list<PoseLocationType *>*> KittingViewer::kitGoalMap;
 double              KittingViewer::lengthFactor; // factor for length conversion
 char                KittingViewer::lengthUnits[TEXTSIZE]; // meter, millim, inch
+int                 KittingViewer::locationErrors; //number errors in obj loc'n
+int                 KittingViewer::locationGoods; // number objs in right loc'n
+int                 KittingViewer::motionErrors; //number of errors in motion
 KittingWorkstationType * KittingViewer::nowModel; //model from init file updated
 double              KittingViewer::nowX;   // controlled point X position now
 double              KittingViewer::nowXAxisI; // X component of cntrld pt X axis
@@ -293,8 +342,6 @@ double              KittingViewer::nowZAxisJ; // Y component of cntrld pt Z axis
 double              KittingViewer::nowZAxisK; // Z component of cntrld pt Z axis
 int                 KittingViewer::otherCommandsExecuted; // other cmds executed
 int                 KittingViewer::parseErrors; // number errors in parsing file
-int                 KittingViewer::locationErrors; //number errors in obj loc'n
-int                 KittingViewer::locationGoods; // number objs in right loc'n
 int                 KittingViewer::poseIndex; // index of poses and times arrays
 Pose                KittingViewer::poses[MAXPOSES];// array of poses to move to
 int                 KittingViewer::posesTotal; // total number poses to move to
@@ -311,13 +358,16 @@ double              KittingViewer::robotLengthFactor; // factor 4 length conver
 char                KittingViewer::robotLengthUnits[TEXTSIZE]; // m, mm, inch
 double              KittingViewer::robotMaxAccel; // maximum robot acceleration
 double              KittingViewer::robotMaxSpeed; // maximum robot speed
+PointType *         KittingViewer::robotPoint; // point at end of quill
 double              KittingViewer::robotRelAccel; // relative acceleration
 double              KittingViewer::robotRelSpeed; // relative speed setting
 double              KittingViewer::robotSpeed;  // speed set in length units/sec
 bool                KittingViewer::robotToolChangerOpen; // true=open, false=clo
+bool                KittingViewer::swap; //true=same name obs may swap positions
 float               KittingViewer::scale;     // scale to use to convert mm
 double              KittingViewer::score;     // score for the command file
 char                KittingViewer::scoringFileName[TEXTSIZE];//name scoring file
+std::map<std::string, std::list<PoseLocationType *>*> KittingViewer::skuGoalMap;
 float               KittingViewer::spacing;   // grid line spacing in meters
 double              KittingViewer::times[MAXPOSES]; // times corresp. to poses
 int                 KittingViewer::toolChangeErrors; // total tool change errors
@@ -459,17 +509,34 @@ Returned Value: none
 
 Called By: KittingViewer::handleExecute
 
-The goalObject here is a solid object from the goalModel. If the
-goalObject is a part, a parts tray, a kit, a kit tray, or a large container
-(the movable objects that should not disappear), its location is
-compared with that of the object of the same name (nowObject) in the
-nowModel. If there is no nowObject, if the nowObject is a different
-type from the goalObject, or if the nowObject is in a different location
-from the goalObject, this increases locationErrors by 1. Otherwise,
-it increases locationGoods by 1.
+The goalObject here is a solid object from the goalModel.
+If the goalObject is any of:
+ KitType (DesignName)
+ KitTrayType (SkuName)
+ LargeBoxWithEmptyKitTraysType
+ LargeBoxWithKitsType
+ LargeContainerType (SkuName)
+ PartType (SkuName)
+ PartsTrayType (SkuName)
+ PartsTrayWithPartsType
+then its location is compared with that of the object of the same name
+(nowObject) in the nowModel.
+
+If any of the following errors occurs, this prints an error message and
+increases locationErrors by 1.
+1. There is no nowObject (i.e., no object of the same name in the nowModel).
+2. The nowObject is a different type from the goalObject.
+3a. The nowObject and goalObject have SkuNames and the names differ.
+3b. The nowObject and goalObject are kits with different DesignNames.
+4. The nowObject location cannot be matched with a goalObject location.
+
+Otherwise, this increases locationGoods by 1.
 
 This is called only to check on goal objects. This is not checking for
 objects in the current environment that are not goal objects.
+
+The location matching process differs according to the value of swap for
+kits and objects with SkuNames. See documentation at the top of this file.
 
 */
 
@@ -477,9 +544,9 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
  SolidObjectType * goalObject)     /* goal object to compare with nowObject */
 {
   SolidObjectType * nowObject;       // now object to compare with goalObject
-  PoseLocationType * actualLocation;
-  PoseLocationType * goalLocation;
   std::map<std::string, SolidObjectType *>::iterator iter;
+  std::string nowName;
+  std::string goalName;
 
   iter = nowModel->allSolids.find(goalObject->Name->val);
   if (iter == nowModel->allSolids.end())
@@ -502,6 +569,22 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;
 	}
+      nowName = dynamic_cast<PartType *>(nowObject)->SkuName->val;
+      goalName = dynamic_cast<PartType *>(goalObject)->SkuName->val;
+      if (nowName != goalName)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: sku name %s of goal part %s differs "
+		   "from sku name %s of same-name current part",
+		   goalName.c_str(), goalObject->Name->val.c_str(),
+		   nowName.c_str());
+	  locationErrors++;
+	  return;
+	}
+      if (swap)
+	checkLocationIdentical(nowObject, &skuGoalMap, nowName);
+      else
+	checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<KitType *>(goalObject))
     {
@@ -514,6 +597,22 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;
 	}
+      nowName = dynamic_cast<KitType *>(nowObject)->DesignName->val;
+      goalName = dynamic_cast<KitType *>(goalObject)->DesignName->val;
+      if (nowName != goalName)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: design name %s of goal kit %s differs from "
+		   "design name %s of same-name current kit",
+		   goalName.c_str(), goalObject->Name->val.c_str(),
+		   nowName.c_str());
+	  locationErrors++;
+	  return;
+	}
+      if (swap)
+	checkLocationIdentical(nowObject, &kitGoalMap, nowName);
+      else
+	checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<KitTrayType *>(goalObject))
     {
@@ -526,6 +625,22 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;
 	}
+      nowName = dynamic_cast<KitTrayType *>(nowObject)->SkuName->val;
+      goalName = dynamic_cast<KitTrayType *>(goalObject)->SkuName->val;
+      if (nowName != goalName)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: sku name %s of goal kit tray %s differs "
+		   "from sku name %s of same-name current kit tray",
+		   goalName.c_str(), goalObject->Name->val.c_str(),
+		   nowName.c_str());
+	  locationErrors++;
+	  return;
+	}
+      if (swap)
+	checkLocationIdentical(nowObject, &skuGoalMap, nowName);
+      else
+	checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<PartsTrayType *>(goalObject))
     {
@@ -538,6 +653,22 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;      
 	}
+      nowName = dynamic_cast<PartsTrayType *>(nowObject)->SkuName->val;
+      goalName = dynamic_cast<PartsTrayType *>(goalObject)->SkuName->val;
+      if (nowName != goalName)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: sku name %s of goal parts tray %s differs "
+		   "from sku name %s of same-name current parts tray",
+		   goalName.c_str(), goalObject->Name->val.c_str(),
+		   nowName.c_str());
+	  locationErrors++;
+	  return;
+	}
+      if (swap)
+	checkLocationIdentical(nowObject, &skuGoalMap, nowName);
+      else
+	checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<PartsTrayWithPartsType *>(goalObject))
     {
@@ -550,6 +681,7 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;      
 	}
+      checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<LargeBoxWithKitsType *>(goalObject))
     {
@@ -562,6 +694,7 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;
 	}
+      checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<LargeBoxWithEmptyKitTraysType *>(goalObject))
     {
@@ -575,6 +708,7 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;
 	}
+      checkLocationUnique(goalObject, nowObject);
     }
   else if (dynamic_cast<LargeContainerType *>(goalObject))
     {
@@ -587,9 +721,113 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 	  locationErrors++;
 	  return;
 	}
+      nowName = dynamic_cast<LargeContainerType *>(nowObject)->SkuName->val;
+      goalName = dynamic_cast<LargeContainerType *>(goalObject)->SkuName->val;
+      if (nowName != goalName)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: sku name %s of goal large container %s differs "
+		   "from sku name %s of same-name current large container",
+		   goalName.c_str(), goalObject->Name->val.c_str(),
+		   nowName.c_str());
+	  locationErrors++;
+	  return;
+	}
+      if (swap)
+	checkLocationIdentical(nowObject, &skuGoalMap, nowName);
+       else
+	checkLocationUnique(goalObject, nowObject);
     }
   else
     return;
+}
+
+/********************************************************************/
+
+/* KittingViewer::checkLocationIdentical
+
+Returned Value: none
+
+Called By: KittingViewer::checkLocation
+
+This looks through the goalMap (for kits or skus) for the list of
+locations whose key is the given name.
+
+If no list is found, that is a bug since the name is known to have a
+corresponding list, so this prints an error message.
+
+If a list is found and the location of the nowObject is nearly
+identical to a location on the list, that location is removed from the
+list, a success message is printed, and locationGoods is increased by
+one. Otherwise, this prints an error message and adds one to
+locationErrors.
+
+*/
+
+void KittingViewer::checkLocationIdentical(      /* ARGUMENTS            */
+ SolidObjectType * nowObject,                    /* now object to check  */
+ std::map<std::string, std::list<PoseLocationType *>*> * goalMap, /* map */
+ std::string name)                               /* name to use for key  */
+{
+  std::map<std::string, std::list<PoseLocationType *>*>::iterator iter;
+  std::list<PoseLocationType *> * locations;
+  std::list<PoseLocationType *>::iterator ator;
+  PoseLocationType * goalLocation;
+  PoseLocationType * actualLocation;
+
+  iter = goalMap->find(name);
+  if (iter == goalMap->end())
+    {
+      snprintf(commandString[0], TEXTSIZE,
+	       "Bug: location list for %s is missing", name.c_str());
+      return;
+    }
+  actualLocation = findPrimaryPose(nowObject);
+  locations = iter->second;
+  if (locations->size() == 0)
+    {
+      snprintf(commandString[0], TEXTSIZE, "Error: more current "
+	       "objects than goal objects of the same type");
+      locationErrors++;
+      return;
+    }
+  for (ator = locations->begin(); ator != locations->end(); ator++)
+    {
+      goalLocation = *ator;
+      if ((actualLocation->RefObject->val == goalLocation->RefObject->val) &&
+	  checkPointAndAxes(goalLocation->Point, actualLocation->Point,
+			    goalLocation->XAxis, actualLocation->XAxis,
+			    goalLocation->ZAxis, actualLocation->ZAxis, 0))
+	{ // found a matching location
+	  locations->remove(goalLocation);
+	  snprintf(commandString[0], TEXTSIZE, "%s is located correctly",
+		   nowObject->Name->val.c_str());
+	  locationGoods++;
+	  return;
+	}
+    }
+  snprintf(commandString[0], TEXTSIZE, "Error: %s is not located correctly",
+	   nowObject->Name->val.c_str());
+  locationErrors++;
+}
+
+/********************************************************************/
+
+/* KittingViewer::checkLocationUnique
+
+Returned Value: none
+
+Called By:  KittingViewer::checkLocation
+
+*/
+
+void KittingViewer::checkLocationUnique(
+ SolidObjectType * goalObject,
+ SolidObjectType * nowObject)
+{
+  PoseLocationType * goalLocation;
+  PoseLocationType * actualLocation;
+
   goalLocation = findPrimaryPose(goalObject);
   actualLocation = findPrimaryPose(nowObject);
   if (goalLocation->RefObject->val != actualLocation->RefObject->val)
@@ -621,9 +859,11 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
 
 Returned Value: bool
   If the point and axis values of the goal and actual objects are very
-  nearly equal, this returns true. Otherwise, it returns false.
+  nearly equal, this returns true. Otherwise, it returns false. If name
+  is not null, this will also print an error message describing the
+  first difference found and increase locationErrors by 1.
 
-Called By:  KittingViewer::checkLocation
+Called By:  KittingViewer::checkLocationUnique
 
 */
 
@@ -640,36 +880,48 @@ bool KittingViewer::checkPointAndAxes( /*  ARGUMENTS                      */
       (fabs(actualPoint->Y->val - goalPoint->Y->val) > TINYDISTANCE) ||
       (fabs(actualPoint->Z->val - goalPoint->Z->val) > TINYDISTANCE))
     {
-      snprintf(commandString[0], TEXTSIZE,
-	       "Error: goal location Point (%.6f,%.6f,%.6f) of %s "
-	       "differs from current location Point (%.6f,%.6f,%.6f)",
-	       goalPoint->X->val, goalPoint->Y->val, goalPoint->Z->val, name,
-	       actualPoint->X->val, actualPoint->Y->val, actualPoint->Z->val);
-      locationErrors++;
+      if (name)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: goal location Point (%.6f,%.6f,%.6f) of %s "
+		   "differs from current location Point (%.6f,%.6f,%.6f)",
+		   goalPoint->X->val, goalPoint->Y->val, goalPoint->Z->val,
+		   name, actualPoint->X->val, actualPoint->Y->val,
+		   actualPoint->Z->val);
+	  locationErrors++;
+	}
       return false;
     }
   if ((fabs(actualXAxis->I->val - goalXAxis->I->val) > TINYVAL) ||
       (fabs(actualXAxis->J->val - goalXAxis->J->val) > TINYVAL) ||
       (fabs(actualXAxis->K->val - goalXAxis->K->val) > TINYVAL))
     {
-      snprintf(commandString[0], TEXTSIZE,
-	       "Error: goal location XAxis (%.6f,%.6f,%.6f) of %s "
-	       "differs from current location XAxis (%.6f,%.6f,%.6f)",
-	       goalXAxis->I->val, goalXAxis->J->val, goalXAxis->K->val, name,
-	       actualXAxis->I->val, actualXAxis->J->val, actualXAxis->K->val);
-      locationErrors++;
+      if (name)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: goal location XAxis (%.6f,%.6f,%.6f) of %s "
+		   "differs from current location XAxis (%.6f,%.6f,%.6f)",
+		   goalXAxis->I->val, goalXAxis->J->val, goalXAxis->K->val,
+		   name, actualXAxis->I->val, actualXAxis->J->val,
+		   actualXAxis->K->val);
+	  locationErrors++;
+	}
       return false;
     }
   if ((fabs(actualZAxis->I->val - goalZAxis->I->val) > TINYVAL) ||
       (fabs(actualZAxis->J->val - goalZAxis->J->val) > TINYVAL) ||
       (fabs(actualZAxis->K->val - goalZAxis->K->val) > TINYVAL))
     {
-      snprintf(commandString[0], TEXTSIZE,
-	       "Error: goal location ZAxis (%.6f,%.6f,%.6f) of %s "
-	       "differs from current location ZAxis (%.6f,%.6f,%.6f)",
-	       goalZAxis->I->val, goalZAxis->J->val, goalZAxis->K->val, name,
-	       actualZAxis->I->val, actualZAxis->J->val, actualZAxis->K->val);
-      locationErrors++;
+      if (name)
+	{
+	  snprintf(commandString[0], TEXTSIZE,
+		   "Error: goal location ZAxis (%.6f,%.6f,%.6f) of %s "
+		   "differs from current location ZAxis (%.6f,%.6f,%.6f)",
+		   goalZAxis->I->val, goalZAxis->J->val, goalZAxis->K->val,
+		   name, actualZAxis->I->val, actualZAxis->J->val,
+		   actualZAxis->K->val);
+	  locationErrors++;
+	}
       return false;
     }
   return true;
@@ -855,7 +1107,7 @@ void KittingViewer::computeScore( /* ARGUMENTS               */
     ((double)(actionCommandsExecuted + otherCommandsExecuted) /
      (double)(actionCommandsExecuted + otherCommandsExecuted + 
 	      rangeErrors + commandSequenceErrors + gripperUseErrors + 
-	      parseErrors + toolChangeErrors));
+	      parseErrors + motionErrors + toolChangeErrors));
   totalGoalDistance += findDistance(object);
   fraction = ((double)n / (double)movableObjects);
   distanceValue = ((2.0 * totalGoalDistance) / (distanceTotal * fraction));
@@ -1137,30 +1389,28 @@ void KittingViewer::drawRobot() /* NO ARGUMENTS */
   static double thick2 = 50.0; // half of the thickness of a robot component
   static double thick4 = 25.0; // quarter of the thickness of a robot component
   static double robotHeight = 3000.0; // height of the robot (max z)
-  RobotType * robot;
-  PoseLocationType * robotPose;
+  col color;
   double robotX;
   double robotY;
   double robotZ;
 
-  robot = nowModel->Robot;
-  robotPose = findPrimaryPose(robot);
-  robotX = robotPose->Point->X->val;
-  robotY = robotPose->Point->Y->val;
-  robotZ = robotPose->Point->Z->val;
+  color = nowModel->Robot->color;
+  robotX = robotPoint->X->val;
+  robotY = robotPoint->Y->val;
+  robotZ = robotPoint->Z->val;
   // gantry crossbar
-  insertBox(robot->color, 0, (robotY - thick2), (robotHeight - thick2),
+  insertBox(color, 0, (robotY - thick2), (robotHeight - thick2),
             WORKSTATIONLENGTH, (robotY + thick2), (robotHeight + thick2),
 	    true);
   // gantry -X side support
-  insertBox(robot->color, 0, (robotY - wide2), 0,
+  insertBox(color, 0, (robotY - wide2), 0,
             thick, (robotY + wide2), (robotHeight + thick2), true);
   // gantry +X side support
-  insertBox(robot->color, (WORKSTATIONLENGTH - thick), (robotY - wide2), 0,
+  insertBox(color, (WORKSTATIONLENGTH - thick), (robotY - wide2), 0,
             WORKSTATIONLENGTH, (robotY + wide2), (robotHeight + thick2),
 	    true);
   // draw quill with no effector
-  insertBox(robot->color, (robotX - thick4), (robotY - thick4), robotZ,
+  insertBox(color, (robotX - thick4), (robotY - thick4), robotZ,
 	    (robotX + thick4), (robotY + thick4), (robotZ + robotHeight), true);
 }
 
@@ -1348,9 +1598,9 @@ void KittingViewer::drawWorkstation() /* NO ARGUMENTS */
   std::list<SolidObjectType *>::iterator iter;
   VacuumEffectorType * vacEffector;
   double length;
-  PoseLocationType * pose;
+  PoseLocationType * robotPose;
 
-  pose = findPrimaryPose(nowModel->Robot);
+  robotPose = findPrimaryPose(nowModel->Robot);
   if (nowModel->Robot->EndEffector)
     {
       vacEffector =
@@ -1358,25 +1608,26 @@ void KittingViewer::drawWorkstation() /* NO ARGUMENTS */
       if (vacEffector)
 	{
 	  length = vacEffector->Length->val;
-	  pose->Point->X->val = (nowX - (length * nowZAxisI));
-	  pose->Point->Y->val = (nowY - (length * nowZAxisJ));
-	  pose->Point->Z->val = (nowZ - (length * nowZAxisK));
+	  robotPoint->X->val = (nowX - (length * nowZAxisI));
+	  robotPoint->Y->val = (nowY - (length * nowZAxisJ));
+	  robotPoint->Z->val = (nowZ - (length * nowZAxisK));
 	}
       else
 	{
-	  fprintf(stderr, "cannot handle non-vacuum end effector\n");
+	  fprintf(stderr,
+		  "Fatal error: cannot handle non-vacuum end effector\n");
 	  exit(1);
 	}
     }
   else
     {
-      pose->Point->X->val = nowX;
-      pose->Point->Y->val = nowY;
-      pose->Point->Z->val = nowZ;
+      robotPoint->X->val = nowX;
+      robotPoint->Y->val = nowY;
+      robotPoint->Z->val = nowZ;
     }
   for (iter = nowModel->Robot->refFor.begin();
        iter != nowModel->Robot->refFor.end(); iter++)
-    updateWorkstationPosition(*iter, pose);
+    updateWorkstationPosition(*iter, robotPose);
   for (iter = nowModel->refFor.begin(); iter != nowModel->refFor.end(); iter++)
     {
       if (*iter != nowModel)
@@ -1412,63 +1663,147 @@ void KittingViewer::dwell( /* ARGUMENTS                    */
 
 /********************************************************************/
 
-/* KittingViewer::enterPoseTarget
+/* KittingViewer::enhancePoses
 
 Returned Value: none
 
-Called By:
-  KittingViewer::executeMoveStraightToCommand
-  KittingViewer::executeMoveToCommand
-
-In order to make computations simpler, this is putting:
- - the current time into times[0]
- - the target finish time into times[1]
- - the current position into poses[0].origin
- - the target position into poses[1].origin
-
-This is converting positions in the robot command to millimeters before
-using the positions.
-
-The call to checkYAxis normalizes the xAxis and zAxis vectors in the
-Pose and checks that they are orthogonal.
-
-FIX - see fixes in enterPoseTargets.
+Called By: KittingViewer::enterPoseTargets
 
 */
 
-void KittingViewer::enterPoseTarget( /* ARGUMENTS                   */
- Pose * pose)                        /* pose from the robot command */
+void KittingViewer::enhancePoses() /* NO ARGUMENTS */
 {
-  Point * point0;
-  Point * point1;
-
-  times[0] = (glutGet(GLUT_ELAPSED_TIME) / 1000.0);
-  point0 = &(poses[0].origin);
-  point0->x = nowX;
-  point0->y = nowY;
-  point0->z = nowZ;
-  poses[1] = *pose;
-  poses[1].checkYAxis();
-  point1 = &(poses[1].origin);
-  point1->x *= robotLengthFactor;
-  point1->y *= robotLengthFactor;
-  point1->z *= robotLengthFactor;
-  posesTotal = 2;
-  distancesX[1] = point1->x - nowX;
-  distancesY[1] = point1->y - nowY;
-  distancesZ[1] = point1->z - nowZ;
-  distances[1] = hypot3(distancesX[1], distancesY[1], distancesZ[1]);
-  if (robotSpeed == 0.0)
+  int n;
+  Pose * poseA;       // previous pose
+  Pose * poseB;       // current pose
+  Point * pointA;     // previous controlled point location
+  Point * pointB;     // current controlled point location
+  VectorIJK newXAxis; // X axis after Z rotation
+  VectorIJK newZAxis; // Z axis after Z rotation
+  double qTime;       // quill motion time
+  double zTime;       // gripper Z axis motion time
+  double xTime;       // gripper X axis motion time
+  double qAx;         // quill X coordinate at point A
+  double qAy;         // quill Y coordinate at point A
+  double qAz;         // quill Z coordinate at point A
+  double qBx;         // quill X coordinate at point B
+  double qBy;         // quill Y coordinate at point B
+  double qBz;         // quill Z coordinate at point B
+  EndEffectorType * effector; // end effector
+  VacuumEffectorType * vacEffector; // vacuum gripper
+  double qDist;    // distance between quill location points
+  double length;   // length of vacuum effector
+  
+  //set poses[0] to the current location
+  poseB = &(poses[0]);
+  pointB = &(poseB->origin);
+  pointB->x = nowX;
+  pointB->y = nowY;
+  pointB->z = nowZ;
+  poseB->xAxis.i = nowXAxisI;
+  poseB->xAxis.j = nowXAxisJ;
+  poseB->xAxis.k = nowXAxisK;
+  poseB->zAxis.i = nowZAxisI;
+  poseB->zAxis.j = nowZAxisJ;
+  poseB->zAxis.k = nowZAxisK;
+  for (n = 1; n < posesTotal; n++)
     {
-      fprintf(stderr, "Warning: robot speed for move is zero\n");
-      fprintf(stderr, "Time for move set to one minute\n");
-      times[1] = (times[0] + 60.0);
+      poseA = poseB;
+      pointA = pointB;
+      poseB = poses + n;
+      pointB = &(poseB->origin);
+      distancesX[n] = pointB->x - pointA->x;
+      distancesY[n] = pointB->y - pointA->y;
+      distancesZ[n] = pointB->z - pointA->z;
+      distances[n] = hypot3(distancesX[n], distancesY[n], distancesZ[n]);
+      if ((effector = nowModel->Robot->EndEffector) && 
+	  (vacEffector = dynamic_cast<VacuumEffectorType *>(effector)))
+	{
+	  length = vacEffector->Length->val;
+	  qAx = pointA->x - (length * poseA->zAxis.i);
+	  qAy = pointA->y - (length * poseA->zAxis.j);
+	  qAz = pointA->z - (length * poseA->zAxis.k);
+	  qBx = pointB->x - (length * poseB->zAxis.i);
+	  qBy = pointB->y - (length * poseB->zAxis.j);
+	  qBz = pointB->z - (length * poseB->zAxis.k);
+	  qDist = hypot3((qBx - qAx), (qBy - qAy), (qBz - qAz));
+	  qTime = ((robotSpeed == 0.0) ? (10 * qDist / robotMaxSpeed) :
+		   (qDist / robotSpeed));
+	  if ((poseA->zAxis.i == poseB->zAxis.i) &&
+	      (poseA->zAxis.j == poseB->zAxis.j) &&
+	      (poseA->zAxis.k == poseB->zAxis.k))
+	    {
+	      zTime = 0.0;
+	      anglesZ[n] = 0.0;
+	      if ((poseA->xAxis.i == poseB->xAxis.i) &&
+		  (poseA->xAxis.j == poseB->xAxis.j) &&
+		  (poseA->xAxis.k == poseB->xAxis.k))
+		{
+		  xTime = 0.0;
+		  anglesZ[n] = 0.0;
+		}
+	      else
+		{
+		  findAngleX(poseA->xAxis, poseB->xAxis, poseA->zAxis, n);
+		  xTime =
+		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
+		}
+	    }
+	  else
+	    {
+	      findAngleAndAxleZ(poseA->zAxis, poseB->zAxis, n);
+	      zTime = anglesZ[n]/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
+	      newXAxis = rotate(poseA->xAxis, axlesZ[n], anglesZ[n]);
+	      if ((fabs(newXAxis.i - poseB->xAxis.i) > TINYVAL) ||
+		  (fabs(newXAxis.j - poseB->xAxis.j) > TINYVAL) ||
+		  (fabs(newXAxis.k - poseB->xAxis.k) > TINYVAL))
+		{
+		  newZAxis = rotate(poseA->zAxis, axlesZ[n], anglesZ[n]);
+		  findAngleX(newXAxis, poseB->xAxis, newZAxis, n);
+		  xTime =
+		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
+		}
+	      else
+		{
+		  xTime = 0.0;
+		  anglesX[n] = 0.0;		  
+		}
+	    }
+	}
+      else
+	{
+	  if (effector)
+	    {
+	      fprintf(stderr, "Fatal error: can handle only vacuum effector\n");
+	      exit(1);
+	    }
+	  if ((poseB->xAxis.i != 1.0) ||
+	      (poseB->xAxis.j != 0.0) ||
+	      (poseB->xAxis.k != 0.0) ||
+	      (poseB->zAxis.i != 0.0) ||
+	      (poseB->zAxis.j != 0.0) ||
+	      (poseB->zAxis.k != -1.0))
+	    {
+	      snprintf(commandString[0], TEXTSIZE,
+		       "Error: attempt to reorient without a gripper; "
+		       "setting Z axis 0,0,-1, X axis 1,0,0\n");
+	      poseB->xAxis.i = 1.0;
+	      poseB->xAxis.j = 0.0;
+	      poseB->xAxis.k = 0.0;
+	      poseB->zAxis.i = 0.0;
+	      poseB->zAxis.j = 0.0;
+	      poseB->zAxis.k = -1.0;
+	      motionErrors++;
+	    }
+	  zTime = 0.0;
+	  xTime = 0.0;
+	  anglesZ[n] = 0;
+	  anglesX[n] = 0;
+	  qTime = ((robotSpeed == 0.0) ? (10 * distances[n] / robotMaxSpeed) :
+		   (distances[n] / robotSpeed));
+	}
+      times[n] = times[n-1] + max(max(qTime, zTime), xTime);
     }
-  else
-    {
-      times[1] = (times[0] + (distances[1] / robotSpeed));
-    }
-  poseIndex = 1;
 }
 
 /********************************************************************/
@@ -1477,8 +1812,10 @@ void KittingViewer::enterPoseTarget( /* ARGUMENTS                   */
 
 Returned Value: none
 
-Called By: 
-  MoveThroughToMsg::process (in viewerCanonicalMsg.cc)
+Called By:
+  KittingViewer::executeMoveStraightToCommand
+  KittingViewer::executeMoveThroughToCommand
+  KittingViewer::executeMoveToCommand
 
 This is converting positions in the robot command to millimeters before
 using the positions.
@@ -1487,31 +1824,17 @@ The calls to checkYAxis normalize the xAxis and aAxis vectors of each
 Pose and check that they are orthogonal.
 
 To calculate the time required for a move from one pose to another
-when there is an end effector on the robot, this calculates two
-distances. The first is the distance moved by the quill between poses.
-The second is the distance moved by the controlled point (at the tip
-of the end effector). The larger of the two distances is used for
-finding the time required for the move. Otherwise, if the same point
-is used in two successive poses (with Z axis and/or X axis
-motion), the time required will be zero, and calculations will fail.
-Also if the points are only a tiny distance apart but the axis motion
-is large, the speed of the end of the quill will be very large if only
-the distance between controlled points is used.
+when there is a gripper on the robot, this calculates three times.
+The first is the distance moved by the quill between poses divided by
+the robot speed. The second is the angle through which the Z axis of
+the gripper moves divided by the gripper rotational speed. The third
+is the amount of rotation of the X axis of the gripper around the
+the Z axis of the gripper divided by the gripper rotational speed.
+The maximum of the three times is used.
 
-FIX - Make the preceding paragraph be true.
-
-FIX - Add a check that if there is no gripper, the Z axis of each pose
-is 0,0,-1.
-
-FIX - Try to handle "too many poses" some way other than exiting.
-
-FIX - Try to handle zero speed as a range error. Zero speed is an error only
-when trying to move.
-
-FIX - Maybe add a check that no two successive poses are the same.
-That would mess up the calculations. Or maybe change the logic to live
-with that by throwing away all but one of any group of consecutive
-identical poses.
+FIX - Maybe add a check that no two successive poses are the same. Or
+maybe change the logic to live with that by throwing away all but one
+of any group of consecutive identical poses.
 
 */
 
@@ -1520,11 +1843,7 @@ void KittingViewer::enterPoseTargets( /* ARGUMENTS                  */
  int num)                             /* number of poses in command */
 {
   int n;
-  Pose * poseA;    // previous pose
-  Point * pointA;  // previous controlled point location
   Point * pointB;  // current controlled point location
-  //Point * pointAQ; // previous quill location
-  //Point * pointBQ; // current quill location
 
   if (num > MAXPOSES)
     {
@@ -1532,18 +1851,6 @@ void KittingViewer::enterPoseTargets( /* ARGUMENTS                  */
       exit(1);
     }
   times[0] = (glutGet(GLUT_ELAPSED_TIME) / 1000.0);
-  //set poses[0] to the current location
-  poseA = &(poses[0]);
-  pointA = &(poseA->origin);
-  pointA->x = nowX;
-  pointA->y = nowY;
-  pointA->z = nowZ;
-  poseA->xAxis.i = nowXAxisI;
-  poseA->xAxis.j = nowXAxisJ;
-  poseA->xAxis.k = nowXAxisK;
-  poseA->zAxis.i = nowZAxisI;
-  poseA->zAxis.j = nowZAxisJ;
-  poseA->zAxis.k = nowZAxisK;
   // copy each incoming pose into the poses array
   // and check each copy for Z axis orthogonal to X axis
   for (n = 1; n <= num; n++)
@@ -1554,31 +1861,20 @@ void KittingViewer::enterPoseTargets( /* ARGUMENTS                  */
   // convert units for lengths in poses to millimeters.
   for (n = 1; n <= num; n++)
     {
-      pointA = &(poses[n].origin);
-      pointA->x *= robotLengthFactor;
-      pointA->y *= robotLengthFactor;
-      pointA->z *= robotLengthFactor;
+      pointB = &(poses[n].origin);
+      pointB->x *= robotLengthFactor;
+      pointB->y *= robotLengthFactor;
+      pointB->z *= robotLengthFactor;
     }
   if (robotSpeed == 0.0)
     {
-      fprintf(stderr, "Warning: robot speed for move is zero\n");
-      fprintf(stderr, "Time for move set to one minute per leg\n");
+      snprintf(commandString[0], TEXTSIZE,
+	       "Error: motion with robot speed set to zero; "
+	       "speed for move reset to 0.1 maximum\n");
+      motionErrors++;
     }
   posesTotal = (num + 1);
-  pointB = &(poses[0].origin);
-  for (n = 1; n < posesTotal; n++)
-    {
-      pointA = pointB;
-      pointB = &(poses[n].origin);
-      distancesX[n] = pointB->x - pointA->x;
-      distancesY[n] = pointB->y - pointA->y;
-      distancesZ[n] = pointB->z - pointA->z;
-      distances[n] = hypot3(distancesX[n], distancesY[n], distancesZ[n]);
-      if (robotSpeed == 0.0)
-	times[n] = (times[n-1] + 60.0);
-      else
-	times[n] = (times[n-1] + (distances[n] / robotSpeed));
-    }
+  enhancePoses();
   poseIndex = 1;
 }
 
@@ -2103,13 +2399,27 @@ Returned Value: none
 
 Called By: KittingViewer::executeCommand
 
+The enterPoseTargets function may increase the motionErrors, possibly
+more than once. We want to count only one error per command, so the
+three commands for executing motion each save the value of
+motionErrors before calling enterPoseTargets. If the value has
+increased afterwards, it is set to one more than the old value.
+Otherwise, the command has executed successfully, so one is added to
+actionCommandsExecuted.
+
 */
 
 void KittingViewer::executeMoveStraightToCommand( /* ARGUMENTS               */
  MoveStraightToMsg * moveStraightTo)    /* moveStraightTo command to execute */
 {
-  enterPoseTarget(moveStraightTo->pose);
-  actionCommandsExecuted++;
+  int oldMotionErrors;
+
+  oldMotionErrors = motionErrors;
+  enterPoseTargets(&(moveStraightTo->pose), 1);
+  if (motionErrors > oldMotionErrors)
+    motionErrors = oldMotionErrors + 1;
+  else
+    actionCommandsExecuted++;
   resetFlag = true;
 }
 
@@ -2121,13 +2431,21 @@ Returned Value: none
 
 Called By: KittingViewer::executeCommand
 
+See executeMoveStraightToCommand regarding motionErrors.
+
 */
 
 void KittingViewer::executeMoveThroughToCommand( /* ARGUMENTS               */
  MoveThroughToMsg * moveThroughTo)      /* moveThroughTo command to execute */
 {
+  int oldMotionErrors;
+
+  oldMotionErrors = motionErrors;
   enterPoseTargets(moveThroughTo->poses, moveThroughTo->num);
-  actionCommandsExecuted++;
+  if (motionErrors > oldMotionErrors)
+    motionErrors = oldMotionErrors + 1;
+  else
+    actionCommandsExecuted++;
   resetFlag = true;
 }
 
@@ -2139,13 +2457,21 @@ Returned Value: none
 
 Called By: KittingViewer::executeCommand
 
+See executeMoveStraightToCommand regarding motionErrors.
+
 */
 
 void KittingViewer::executeMoveToCommand( /* ARGUMENTS                 */
  MoveToMsg * moveTo)                      /* moveTo command to execute */
 {
-  enterPoseTarget(moveTo->pose);
-  actionCommandsExecuted++;
+  int oldMotionErrors;
+
+  oldMotionErrors = motionErrors;
+  enterPoseTargets(&(moveTo->pose), 1);
+  if (motionErrors > oldMotionErrors)
+    motionErrors = oldMotionErrors + 1;
+  else
+    actionCommandsExecuted++;
   resetFlag = true;
 }
 
@@ -2391,6 +2717,7 @@ void KittingViewer::executeSetAbsoluteSpeedCommand( /* ARGUMENTS             */
       snprintf(commandString[0], TEXTSIZE,
 	       "Error: speed (%.4f) larger than maximum (%.4f)",
 	       speed, (robotMaxSpeed / robotLengthFactor));
+      rangeErrors++;
     }
   else
     {
@@ -2672,30 +2999,161 @@ void KittingViewer::executeSetRelativeSpeedCommand( /* ARGUMENTS             */
 
 /********************************************************************/
 
-/* KittingViewer::findKitWithTray
+/* KittingViewer::findAngleX
 
-Returned Value: SolidObjectType
+Returned Value: none
 
-Called By: KittingViewer::createKit
+Called By: KittingViewer::enhancePoses
 
-This looks through the allKits list for a Kit that has a tray with the
-given trayName. If one is found a pointer to it is returned. If not, a
-null pointer is returned.
+This finds the angle of rotation around the given zAxis that rotates
+xAxisA to xAxisB and stores it in anglesX[n].
 
-*/ 
+The X axis may rotate around the Z axis by 180 degrees, so that the
+cross product is the zero vector. If this happens, it does not matter
+in which direction the rotation occurs. In general, the axle should be
+either the Z axis or its negative and the direction of rotation does
+matter.
 
-KitType * KittingViewer::findKitWithTray( /* ARGUMENTS                 */
- std::string trayName,                    /* name of tray to look for  */
- std::list<KitType *> * allKits)          /* a list of kits to look in */
+*/
+
+void KittingViewer::findAngleX( /* ARGUMENTS                    */
+ VectorIJK xAxisA,              /* initial X axis               */
+ VectorIJK xAxisB,              /* final X axis                 */
+ VectorIJK zAxis,               /* Z axis for setting direction */
+ int n)                         /* index of final X axis        */
 {
-  std::list<KitType *>::iterator iter;
+  double dot;
+  VectorIJK cross;
+  double s;
+  
 
-  for (iter = allKits->begin(); iter != allKits->end(); iter++)
-    {
-      if ((*iter)->Tray->Name->val == trayName)
-	return *iter;
+  dot = (xAxisA.i * xAxisB.i) + (xAxisA.j * xAxisB.j) + (xAxisA.k * xAxisB.k);
+  cross.i = (xAxisA.j * xAxisB.k) - (xAxisB.j * xAxisA.k);
+  cross.j = (xAxisA.k * xAxisB.i) - (xAxisB.k * xAxisA.i);
+  cross.k = (xAxisA.i * xAxisB.j) - (xAxisB.i * xAxisA.j);
+  s = hypot3(cross.i, cross.j, cross.k);
+  if (s < TINYVAL)
+    anglesX[n] = M_PI;
+  else if (((fabs((cross.i / s) - zAxis.i)) < TINYVAL) &&
+	   ((fabs((cross.j / s) - zAxis.j)) < TINYVAL) &&
+	   ((fabs((cross.k / s) - zAxis.k)) < TINYVAL))
+    anglesX[n] = atan2(s, dot); // always positive
+  else if (((fabs((cross.i / s) + zAxis.i)) < TINYVAL) &&
+	   ((fabs((cross.j / s) + zAxis.j)) < TINYVAL) &&
+	   ((fabs((cross.k / s) + zAxis.k)) < TINYVAL))
+    anglesX[n] = -atan2(s, dot); // axle is opposite zAxis
+  else
+    { // axle is neither parallel nor antiparallel to Z axis
+      fprintf(stderr, "Bug in finding axle for X axis rotation\n");
+      exit(1);
     }
-  return 0;
+}
+
+/********************************************************************/
+
+/* KittingViewer::findAngleAndAxleZ
+
+Returned Value: none
+
+Called By: KittingViewer::enhancePoses
+
+This finds the angle of rotation and the axle around which the
+rotation takes place that rotates zAxisA to zAxisB. The angle is
+stored in anglesZ[n]. The axle is stored in axlesZ[n].
+
+The Z axis rotation is always positive and not more than 180 degrees.
+This checks for the angle being 180 degrees since the cross product is
+zero in that case. In this case, the axle is set to the line where the
+plane normal to the Z vectors intersects the XY plane, unless that IS
+the XY plane, in which case the axle is set to the X axis.
+
+*/
+
+void KittingViewer::findAngleAndAxleZ( /* ARGUMENTS             */
+ VectorIJK zAxisA,                     /* initial Z axis        */
+ VectorIJK zAxisB,                     /* final Z axis          */
+ int n)                                /* index of final Z axis */
+{
+  double dot;
+  VectorIJK cross;
+  double s;
+  double length;
+
+  if ((fabs(zAxisA.i + zAxisB.i) < TINYVAL) &&
+      (fabs(zAxisA.j + zAxisB.j) < TINYVAL) &&
+      (fabs(zAxisA.k + zAxisB.k) < TINYVAL))
+    {
+      anglesZ[n] = M_PI;
+      if ((fabs(zAxisA.i) < TINYVAL) && (fabs(zAxisA.j) < TINYVAL))
+	{
+	  axlesZ[n].i = 1.0;
+	  axlesZ[n].j = 0.0;
+	  axlesZ[n].k = 0.0;
+	}
+      else
+	{
+	  length = hypot(zAxisA.i, zAxisA.j);
+	  axlesZ[n].i = -zAxisA.j / length;
+	  axlesZ[n].j = zAxisA.i / length;
+	  axlesZ[n].k = 0.0;
+	}
+    }
+  else
+    {
+      dot = ((zAxisA.i * zAxisB.i) +
+	     (zAxisA.j * zAxisB.j) +
+	     (zAxisA.k * zAxisB.k));
+      cross.i = (zAxisA.j * zAxisB.k) - (zAxisB.j * zAxisA.k);
+      cross.j = (zAxisA.k * zAxisB.i) - (zAxisB.k * zAxisA.i);
+      cross.k = (zAxisA.i * zAxisB.j) - (zAxisB.i * zAxisA.j);
+      s = hypot3(cross.i, cross.j, cross.k);
+      axlesZ[n].i = cross.i / s;
+      axlesZ[n].j = cross.j / s;
+      axlesZ[n].k = cross.k / s;
+      anglesZ[n] = atan2(s, dot);
+    }
+}
+
+/********************************************************************/
+
+/* KittingViewer::findDistance
+
+Returned Value: double
+
+Called By: computeScore
+
+This finds the distance moved by a basic solid object in the goalModel
+that has a counterpart (same name and type) in the initial model. Only
+those have a secondary location in the goalModel.
+
+*/
+
+double KittingViewer::findDistance( /* ARGUMENTS                           */
+ SolidObjectType * goalObject)      /* movable object to find distance for */
+{
+  std::map<std::string, SolidObjectType *>::iterator iter;
+  SolidObjectType * nowObject;
+  PointType * initPoint; 
+  PointType * nowPoint;
+
+  if (goalObject->SecondaryLocation &&
+      goalObject->SecondaryLocation->size())
+    {
+      iter = nowModel->allSolids.find(goalObject->Name->val);
+      if (iter == nowModel->allSolids.end())
+	{
+	  fprintf(stderr, "bug in findDistance\n");
+	  exit(1);
+	}
+      nowObject = iter->second;
+      nowPoint = findSecondaryPose(nowObject)->Point;
+      initPoint = findSecondaryPose(goalObject)->Point;
+      return hypot3((nowPoint->X->val - initPoint->X->val),
+		    (nowPoint->Y->val - initPoint->Y->val),
+		    (nowPoint->Z->val - initPoint->Z->val));
+    }
+  else
+    return 0.0;
 }
 
 /********************************************************************/
@@ -2724,7 +3182,7 @@ a point P.
     of the tray (assumes the tray bottom has no thickness - yuck).
 6. P is within 1 millimeter in X and Y from the origin of B
    (the origin of a boxy shape is in the middle of the bottom). This is
-   required so that that there will be little torque on a gipper that lifts
+   required so that that there will be little torque on a gripper that lifts
    B and so that it will be easy to determine if the gripper fits B.
 
 Returned pointer rules:
@@ -2798,12 +3256,40 @@ SolidObjectType * KittingViewer::findGripped( /* ARGUMENTS                   */
 
 /********************************************************************/
 
+/* KittingViewer::findKitWithTray
+
+Returned Value: SolidObjectType
+
+Called By: KittingViewer::createKit
+
+This looks through the allKits list for a Kit that has a tray with the
+given trayName. If one is found a pointer to it is returned. If not, a
+null pointer is returned.
+
+*/ 
+
+KitType * KittingViewer::findKitWithTray( /* ARGUMENTS                 */
+ std::string trayName,                    /* name of tray to look for  */
+ std::list<KitType *> * allKits)          /* a list of kits to look in */
+{
+  std::list<KitType *>::iterator iter;
+
+  for (iter = allKits->begin(); iter != allKits->end(); iter++)
+    {
+      if ((*iter)->Tray->Name->val == trayName)
+	return *iter;
+    }
+  return 0;
+}
+
+/********************************************************************/
+
 /* KittingViewer::findPrimaryPose
 
 Returned Value: PoseLocationType *
 
 Called By:
-  KittingViewer::checkLocation
+  KittingViewer::checkLocationUnique
   KittingViewer::createKit
   KittingViewer::drawRobot
   KittingViewer::drawWorkstation
@@ -2903,10 +3389,35 @@ StockKeepingUnitType * KittingViewer::findSku( /* ARGUMENTS           */
     }
   if (iter == Skus->end())
     {
-      fprintf(stderr, "cannot find a required SKU named %s\n",
+      fprintf(stderr, "Fatal error: cannot find a required SKU named %s\n",
 	      skuName->val.c_str());
       exit(1);
     }
+  return 0;
+}
+
+/********************************************************************/
+
+/*  KittingViewer::findSkuName
+
+Returned Value: std::string *
+
+Called By:
+  KittingViewer::makeLocationMaps
+
+*/
+
+std::string * KittingViewer::findSkuName( /* ARGUMENTS                */
+ SolidObjectType * solid)                 /* the solid object to test */
+{
+  if (dynamic_cast<PartType *>(solid))
+    return &(dynamic_cast<PartType *>(solid)->SkuName->val);
+  else if (dynamic_cast<KitTrayType *>(solid))
+    return &(dynamic_cast<KitTrayType *>(solid)->SkuName->val);
+  else if (dynamic_cast<PartsTrayType *>(solid))
+    return &(dynamic_cast<PartsTrayType *>(solid)->SkuName->val);
+  else if (dynamic_cast<LargeContainerType *>(solid))
+    return &(dynamic_cast<LargeContainerType *>(solid)->SkuName->val);
   return 0;
 }
 
@@ -3071,48 +3582,6 @@ EndEffectorHolderType * KittingViewer::findToolHolder( /* ARGUMENTS        */
 
 /********************************************************************/
 
-/* KittingViewer::findDistance
-
-Returned Value: double
-
-Called By: computeScore
-
-This finds the distance moved by a basic solid object in the goalModel
-that has a counterpart (same name and type) in the initial model. Only
-those have a secondary location in the goalModel.
-
-*/
-
-double KittingViewer::findDistance( /* ARGUMENTS                           */
- SolidObjectType * goalObject)      /* movable object to find distance for */
-{
-  std::map<std::string, SolidObjectType *>::iterator iter;
-  SolidObjectType * nowObject;
-  PointType * initPoint; 
-  PointType * nowPoint;
-
-  if (goalObject->SecondaryLocation &&
-      goalObject->SecondaryLocation->size())
-    {
-      iter = nowModel->allSolids.find(goalObject->Name->val);
-      if (iter == nowModel->allSolids.end())
-	{
-	  fprintf(stderr, "bug in findDistance\n");
-	  exit(1);
-	}
-      nowObject = iter->second;
-      nowPoint = findSecondaryPose(nowObject)->Point;
-      initPoint = findSecondaryPose(goalObject)->Point;
-      return hypot3((nowPoint->X->val - initPoint->X->val),
-		    (nowPoint->Y->val - initPoint->Y->val),
-		    (nowPoint->Z->val - initPoint->Z->val));
-    }
-  else
-    return 0.0;
-}
-
-/********************************************************************/
-
 /* KittingViewer::gripperCanHandleSku
 
 Returned Value: bool
@@ -3199,6 +3668,8 @@ void KittingViewer::handleExecute() /* NO ARGUMENTS   */
     {
       iter = goalModel->allSolids.begin();
       iterUnset = false;
+      //if (swap)
+	makeLocationMaps();
     }
   if (iter != goalModel->allSolids.end())
     {
@@ -3238,13 +3709,16 @@ Returned Value: none
 Called By: KittingViewer::redraw
 
 This is called if a motion command is in progress, in which case the
-resetFlag is true;
+resetFlag is true. All position data here is in workstation coordinates.
 
-Data for the most recently executed motion command has been saved in
-three arrays, all indexed by the number of legs in the motion: 
+Data for the motion command that is executing has been saved in
+six arrays, all indexed by the number of legs in the motion: 
  - poses (the pose at the end of the leg)
  - times (the time at which the end of the leg should be reached)
  - distances (the length of the leg)
+ - anglesZ (the angle through which the Z axis must rotate in this leg)
+ - axlesZ (the line around which the Z axis must rotate in this leg)
+ - anglesX (the angle through which the X axis must rotate in this leg)
 
 1. If it is time for the most recent waypoint to have been passed,
 find the index of the poses array for the next waypoint W based on
@@ -3260,17 +3734,29 @@ representing that W has been reached.
 
 3. Otherwise, a motion command is in progress and is not supposed to
 be complete. Let P denote the waypoint before W. Find the fraction of
-time from P to W represented by the current time. Then set the current
-point to the point that is that fraction of the way from P to W.
+time from P to W represented by the current time.
+
+3A. Set the current point to the point that is that fraction of the way
+from P to W.
+
+3B. Set the current Z axis by rotating the Z axis at P about the Z axle
+for this leg by fraction times the Z angle for this leg.
+
+3C. Set the current X axis by rotating the X axis at P about the Z
+axle for this leg by fraction times the Z angle for this leg. Then
+rotate the new X axis about the new Z axis by fraction times the X
+angle for this leg. If the Z axis does not move, only the last step is
+needed.
 
 */
 
 void KittingViewer::handleResets() /* NO ARGUMENTS  */
 {
-  Point point;     // Point from Pose.h
-  VectorIJK xAxis; // VectorIJK from Pose.h
-  VectorIJK zAxis; // VectorIJK from Pose.h
-  double fraction;
+  Point point;     // (Point from Pose.h)
+  VectorIJK xAxis; // (VectorIJK from Pose.h)
+  VectorIJK zAxis; // (VectorIJK from Pose.h)
+  VectorIJK axle;  // (VectorIJK from Pose.h)
+  double fraction; 
   int n;
   double timeNow;
 
@@ -3282,13 +3768,14 @@ void KittingViewer::handleResets() /* NO ARGUMENTS  */
       poseIndex++;
     }
   if (poseIndex == posesTotal)
-    {
+    { // get all the way to the end
       resetFlag = false;
       point = poses[posesTotal - 1].origin;
+      nowX = point.x;
+      nowY = point.y;
+      nowZ = point.z;
       xAxis = poses[posesTotal - 1].xAxis;
       zAxis = poses[posesTotal - 1].zAxis;
-      resetPositions(point.x, point.y, point.z, xAxis.i, xAxis.j, xAxis.k,
-		     zAxis.i, zAxis.j, zAxis.k);
     }
   else
     {
@@ -3299,7 +3786,26 @@ void KittingViewer::handleResets() /* NO ARGUMENTS  */
       nowX = (point.x + (fraction * distancesX[poseIndex]));
       nowY = (point.y + (fraction * distancesY[poseIndex]));
       nowZ = (point.z + (fraction * distancesZ[poseIndex]));
+      xAxis = poses[poseIndex - 1].xAxis;
+      zAxis = poses[poseIndex - 1].zAxis;
+      if (anglesZ[poseIndex] != 0)
+	{
+	  zAxis =
+	    rotate(zAxis, axlesZ[poseIndex], fraction * anglesZ[poseIndex]);
+	  xAxis =
+	    rotate(xAxis, axlesZ[poseIndex], fraction * anglesZ[poseIndex]);
+	  if (anglesX[poseIndex] != 0)
+	    {
+	      xAxis =
+		rotate(xAxis, zAxis, fraction * anglesX[poseIndex]);
+	    }
+	}
+      else if (anglesX[poseIndex] != 0)
+	{
+	  xAxis = rotate(xAxis, zAxis, fraction * anglesX[poseIndex]);
+	}
     }
+  resetPositions(xAxis.i, xAxis.j, xAxis.k, zAxis.i, zAxis.j, zAxis.k);
 }
 
 /********************************************************************/
@@ -3309,19 +3815,19 @@ void KittingViewer::handleResets() /* NO ARGUMENTS  */
 Returned Value: double
 
 Called By:
-  KittingViewer::enterPoseTarget
-  KittingViewer::enterPoseTargets
+  KittingViewer::enhancePoses
+  KittingViewer::findAngleX
+  KittingViewer::findAngleAndAxleZ
   KittingViewer::findDistance
 
-This returns the distance between two points from the differences in
-their x, y, and z values.
+This finds the length of a line segment from its components.
 
 */
 
-double KittingViewer::hypot3( /* ARGUMENTS  */
- double x,                    /* x distance */
- double y,                    /* y distance */
- double z)                    /* z distance */
+double KittingViewer::hypot3( /* ARGUMENTS   */
+ double x,                    /* x component */
+ double y,                    /* y component */
+ double z)                    /* z component */
 {
   return sqrt((x*x) + (y*y) + (z*z));
 }
@@ -3353,11 +3859,11 @@ which is 1.0 unit in picture space.
 
 */
 
-void KittingViewer::init( /* ARGUMENTS                                  */
- char * commandFile,      /* name of file of canonical robot commands   */
- char * kittingInitFile,  /* name of file describing initial conditions */
- char * kittingGoalFile,  /* name of file describing goal conditions    */
- char * scoringFile)      /* name of file describing how to score       */
+void KittingViewer::init( /* ARGUMENTS                                   */
+ char * commandFile,      /* name of file of canonical robot commands    */
+ char * kittingInitFile,  /* name of file describing initial conditions  */
+ char * kittingGoalFile,  /* name of file describing goal conditions     */
+ char * scoringFile)      /* name of file describing how to score        */
 {
   FILE * inFile;
   CommandParser commandParser;
@@ -3365,7 +3871,8 @@ void KittingViewer::init( /* ARGUMENTS                                  */
   inFile = fopen(commandFile, "r");
   if (inFile == 0)
     {
-      fprintf(stderr, "unable to open file %s for reading\n", commandFile);
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      commandFile);
       exit(1);
     }
   commandParser.readCommandFile(inFile, &commands);
@@ -3374,7 +3881,8 @@ void KittingViewer::init( /* ARGUMENTS                                  */
   yyin = fopen(kittingInitFile, "r");
   if (yyin == 0)
     {
-      fprintf(stderr, "unable to open file %s for reading\n", kittingInitFile);
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      kittingInitFile);
       exit(1);
     }
   clearLists();
@@ -3387,7 +3895,8 @@ void KittingViewer::init( /* ARGUMENTS                                  */
   yyin = fopen(kittingGoalFile, "r");
   if (yyin == 0)
     {
-      fprintf(stderr, "unable to open file %s for reading\n", kittingGoalFile);
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      kittingGoalFile);
       exit(1);
     }
   clearLists(); // goalModel will have new lists
@@ -3430,7 +3939,10 @@ void KittingViewer::initData() /* NO ARGUMENTS */
 
   actionCommandsExecuted = 0;
   // angleFactor set when initial state read
+  // anglesX set when needed
+  // anglesZ set when needed
   // angleUnits set when initial state read
+  // axlesZ set when needed
   // commands set when command file read
   commandSequenceErrors = 0;
   // commandString set in canonicalMsgView.cc used in viewKitting.cc
@@ -3444,11 +3956,15 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   // fraction
   // goalModel built when goal state file read
   gripperUseErrors = 0;
+  // kitGoalMap
   // lengthFactor set when initial state read
   // lengthUnits set when initial state read
+  locationErrors = 0;
+  locationGoods = 0;
+  motionErrors = 0;
   // nowModel set when initial state read, updated during command execution
-  effector = nowModel->Robot->EndEffector;
-  if (effector && (vacEffector = dynamic_cast<VacuumEffectorType *>(effector)))
+  if ((effector = nowModel->Robot->EndEffector) &&
+      (vacEffector = dynamic_cast<VacuumEffectorType *>(effector)))
     { // controlled point at end of effector
       pose = findSecondaryPose(effector);
       length = vacEffector->Length->val;
@@ -3471,8 +3987,6 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   nowZAxisK = pose->ZAxis->K->val;
   otherCommandsExecuted = 0;
   parseErrors = 0;
-  locationErrors = 0;
-  locationGoods = 0;
   poseIndex = 1;
   poses[0].origin.x = nowX;
   poses[0].origin.y = nowY;
@@ -3494,13 +4008,16 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   strncpy(robotLengthUnits, "millimeter", TEXTSIZE);
   robotMaxAccel = ROBOTDEFAULTMAXACCEL;
   robotMaxSpeed = ROBOTDEFAULTMAXSPEED;
+  robotPoint = (findPrimaryPose(nowModel->Robot))->Point;
   robotRelAccel = 10.0;
   robotRelSpeed = 10.0;
   robotSpeed = (robotMaxSpeed * robotRelSpeed) / 100.0;
   robotToolChangerOpen = false;
   score = 0;
   // scale set when initial state read
+  // skuGoalMap
   // spacing set when initial state read
+  // swap set in main
   times[0] = 0.0;
   times[1] = 0.001;
   toolChangeErrors = 0;
@@ -4154,6 +4671,77 @@ void KittingViewer::makeRedColor( /* ARGUMENTS    */
 
 /********************************************************************/
 
+/* KittingViewer::makeLocationMaps
+
+Returned Value: none
+
+Called By: KittingViewer::handleExecute
+
+This goes through all the goal objects paying attention to those that
+are kits or have a SkuName. 
+
+Those that are kits have a DesignName. This makes the kitGoalMap using
+the DesignName as the key and the list of all locations of instances
+of kits with that DesignName as the data.
+
+Those with a SkuName also have a sku that is not null. This makes the
+skuGoalMap using the sku name as the key and the list of all locations
+of instances of the sku as the data.
+
+*/
+
+void KittingViewer::makeLocationMaps()  /* NO ARGUMENTS */
+{
+  static std::map<std::string, SolidObjectType *>::iterator iter;
+  SolidObjectType * object;
+  std::map<std::string, std::list<PoseLocationType *>*>::iterator ator;
+  std::list<PoseLocationType *> * poseList;
+  KitType * kit;
+  std::string * skuName;
+
+  for (iter = goalModel->allSolids.begin();
+       iter != goalModel->allSolids.end(); iter++)
+    {
+      object = iter->second;
+      if ((kit = dynamic_cast<KitType *>(object)))
+	{
+	  ator = kitGoalMap.find(kit->DesignName->val);
+	  if (ator == kitGoalMap.end())
+	    { // there's no list for this kit design; make one; add kit's pose
+	      poseList = new std::list<PoseLocationType *>;
+	      poseList->push_back(findPrimaryPose(kit));
+	      kitGoalMap.insert(std::pair<std::string,
+				std::list<PoseLocationType *>*>
+				(kit->DesignName->val, poseList));
+	    }
+	  else
+	    { // there's a list for this kit design; add kit's pose
+	      poseList = ator->second;
+	      poseList->push_back(findPrimaryPose(kit));
+	    }
+	}
+      else if ((skuName = findSkuName(object)))
+	{
+	  ator = skuGoalMap.find(*skuName);
+	  if (ator == skuGoalMap.end())
+	    { // there's no list for this sku; make one; add object's pose
+	      poseList = new std::list<PoseLocationType *>;
+	      poseList->push_back(findPrimaryPose(object));
+	      skuGoalMap.insert(std::pair<std::string,
+				std::list<PoseLocationType *>*>
+				(*skuName, poseList));
+	    }
+	  else
+	    { // there's a list for this sku; add object's pose
+	      poseList = ator->second;
+	      poseList->push_back(findPrimaryPose(object));
+	    }
+	}
+    }
+}
+
+/********************************************************************/
+
 /* KittingViewer::poseProduct
 
 Returned Value: none
@@ -4274,25 +4862,15 @@ void KittingViewer::printMetricsAndSettings( /* ARGUMENTS                 */
 	   otherCommandsExecuted);
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
-  if (commands.size() == 0)
-    {
-      snprintf(str, TEXTSIZE, "objects located correctly: %d", locationGoods);
-      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-    }
   snprintf(str, TEXTSIZE, "total robot distance moved: %.4lf %s",
 	   (distanceTotal / robotLengthFactor), robotLengthUnits);
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
-  if (commands.size() == 0)
-    {
-      snprintf(str, TEXTSIZE,
-	       "total basic goal object distance moved: %.4lf %s",
-	       (totalGoalDistance / robotLengthFactor), robotLengthUnits);
-      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-    }
-
   snprintf(str, TEXTSIZE, "total execution time: %.2lf seconds",
 	   totalExecutionTime);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "useless commands executed: %d", uselessCommands);
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
   snprintf(str, TEXTSIZE, "range errors: %d", rangeErrors);
@@ -4310,21 +4888,27 @@ void KittingViewer::printMetricsAndSettings( /* ARGUMENTS                 */
   snprintf(str, TEXTSIZE, "tool change errors: %d", toolChangeErrors);
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
+  snprintf(str, TEXTSIZE, "motion errors: %d", motionErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "total errors: %d",
+	   (rangeErrors + commandSequenceErrors + gripperUseErrors + 
+	    parseErrors + toolChangeErrors + motionErrors + locationErrors));
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
   if (commands.size() == 0)
     {
       snprintf(str, TEXTSIZE, "object location errors: %d", locationErrors);
       drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-    }
-  snprintf(str, TEXTSIZE, "total errors: %d",
-	   (rangeErrors + commandSequenceErrors + gripperUseErrors + 
-	    parseErrors + toolChangeErrors + locationErrors));
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
-  snprintf(str, TEXTSIZE, "useless commands executed: %d", uselessCommands);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+      snprintf(str, TEXTSIZE, "objects located correctly: %d", locationGoods);
+      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
-  if (commands.size() == 0)
-    {
+      snprintf(str, TEXTSIZE,
+	       "total basic goal object distance moved: %.4lf %s",
+	       (totalGoalDistance / robotLengthFactor), robotLengthUnits);
+      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
       snprintf(str, TEXTSIZE, "score: %f", score);
       drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
     }
@@ -4394,6 +4978,9 @@ void KittingViewer::printMetricsAndSettings( /* ARGUMENTS                 */
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
   snprintf(str, TEXTSIZE, "scoring file: %s", scoringFileName);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "swap: %s", (swap ? "true" : "false"));
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
 }
@@ -4477,7 +5064,8 @@ void KittingViewer::readScoringFile( /* ARGUMENTS                        */
       yyscin = fopen(scoringFile, "r");
       if (yyscin == 0)
 	{
-	  fprintf(stderr, "unable to open file %s for reading\n", scoringFile);
+	  fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+		  scoringFile);
 	  exit(1);
 	}
       yyscparse();
@@ -4490,7 +5078,8 @@ void KittingViewer::readScoringFile( /* ARGUMENTS                        */
 	  (scorer->distance->weight->val         <= 0) ||
 	  (scorer->time->weight->val             <= 0))
 	{
-	  fprintf(stderr, "At least one scoring weight must be positive\n");
+	  fprintf(stderr, "Fatal error: at least one scoring weight "
+		  "must be positive\n");
 	  exit(1);
 	}
     }
@@ -4538,7 +5127,7 @@ container.
 
 */
 
-void KittingViewer::recordInitialPosition( /* ARGUMENTS                    */
+void KittingViewer::recordInitialPosition( /* ARGUMENTS                      */
  SolidObjectType * goalObject)             /* object to find initial pos for */
 {
   SolidObjectType * initObject;   // initial object to compare with goalObject
@@ -4571,21 +5160,21 @@ void KittingViewer::recordInitialPosition( /* ARGUMENTS                    */
 
 /********************************************************************/
 
-/* KittingViewer::recordInitialPosition
+/* KittingViewer::recordInitialPositions
 
 Returned Value: none
 
 Called By:KittingViewer::init
 
-This finds the initial positions of each basic object in allSolids. A
+This records the initial positions of each basic object in allSolids. A
 basic object is a solid object that is not comprised of other solid
 objects. That is each Part, PartsTray, KitTray, or LargeContainer. The
 allSolids argument is the goal objects when this is called by init.
 
 */
 
-void KittingViewer::recordInitialPositions(
- std::map<std::string, SolidObjectType *> allSolids)
+void KittingViewer::recordInitialPositions(          /* ARGUMENTS       */
+ std::map<std::string, SolidObjectType *> allSolids) /* list of objects */
 {
   std::map<std::string, SolidObjectType *>::iterator iter;
 
@@ -4792,27 +5381,26 @@ void KittingViewer::relocateTray( /*  ARGUMENTS                   */
 
 Returned Value: none
 
-Called By: KittingViewer::redraw
+Called By: KittingViewer::handleResets
 
-This sets the current position and the primary position of the robot.
-If the robot is holding a gripper, this also sets the primary postion
-of that gripper. The position of the gripper relative to the
-workstation will be found in updateWorkstationPosition when
-drawWorkstation starts. This function is called only when a robot
-motion command has just finished executing.
+The incoming data here is in workstation coordinates.
+
+This sets the current position and the primary position of the robot;
+both are in workstation coordinates If the robot is holding a gripper,
+this also sets the primary position of that gripper (which is relative
+to the robot). The position of the gripper relative to the workstation
+will be found in updateWorkstationPosition when drawWorkstation
+starts.
 
 The primary position of a gripper on the robot is always relative to
 the robot and has its point at (0,0,0), so that point is not reset.
 The Z axis of the robot is always (0,0,-1) while the X axis is always
-(1,0,0), so the signs of the K components of the gripper X axis and Z
-axis need to be reversed to be relative to the robot.
+(1,0,0), so the signs of the K components of the gripper Z axis need
+to be reversed to be relative to the robot.
 
 */
 
 void KittingViewer::resetPositions( /*  ARGUMENTS                   */
- double x,                          /* X value of controlled point  */
- double y,                          /* Y value of controlled point  */
- double z,                          /* Z value of controlled point  */
  double xi,                         /* I value of controlled X axis */
  double xj,                         /* J value of controlled X axis */
  double xk,                         /* K value of controlled X axis */
@@ -4823,41 +5411,108 @@ void KittingViewer::resetPositions( /*  ARGUMENTS                   */
 {
   EndEffectorType * effector;
   VacuumEffectorType * vacEffector;
-  PoseLocationType * vacEffectorPose;
-  PoseLocationType * robotPose;
+  PoseLocationType * vacEffectorPose; // pose of gripper wrt quill
   double length;
 
-  nowX = x;
-  nowY = y;
-  nowZ = z;
   nowXAxisI = xi;
   nowXAxisJ = xj;
   nowXAxisK = xk;
   nowZAxisI = zi;
   nowZAxisJ = zj;
   nowZAxisK = zk;
-  robotPose = findPrimaryPose(nowModel->Robot);
   if ((effector = nowModel->Robot->EndEffector) && 
       (vacEffector = dynamic_cast<VacuumEffectorType *>(effector)))
     {
       length = vacEffector->Length->val;
       vacEffectorPose = findPrimaryPose(vacEffector);
+      // vacEffectorPose Point is always (0,0,0)
       vacEffectorPose->XAxis->I->val = nowXAxisI;
-      vacEffectorPose->XAxis->J->val = nowXAxisJ;
+      vacEffectorPose->XAxis->J->val = -nowXAxisJ;
       vacEffectorPose->XAxis->K->val = -nowXAxisK;
       vacEffectorPose->ZAxis->I->val = nowZAxisI;
-      vacEffectorPose->ZAxis->J->val = nowZAxisJ;
+      vacEffectorPose->ZAxis->J->val = -nowZAxisJ;
       vacEffectorPose->ZAxis->K->val = -nowZAxisK;
-      robotPose->Point->X->val = (nowX - (length * nowZAxisI));
-      robotPose->Point->Y->val = (nowY - (length * nowZAxisJ));
-      robotPose->Point->Z->val = (nowZ - (length * nowZAxisK));
+      // robotPose XAxis is always (1,0,0)
+      // robotPose ZAxis is always (0,0,-1)
+      robotPoint->X->val = (nowX - (length * nowZAxisI));
+      robotPoint->Y->val = (nowY - (length * nowZAxisJ));
+      robotPoint->Z->val = (nowZ - (length * nowZAxisK));
     }
   else
     { // controlled point is end point of robot quill
-      robotPose->Point->X->val = nowX;
-      robotPose->Point->Y->val = nowY;
-      robotPose->Point->Z->val = nowZ;	      
+      robotPoint->X->val = nowX;
+      robotPoint->Y->val = nowY;
+      robotPoint->Z->val = nowZ;	      
     }
+}
+
+/********************************************************************/
+
+/* KittingViewer::rotate
+
+Returned Value:  VectorIJK 
+
+Called By:
+  KittingViewer::enhancePoses
+  KittingViewer::handleResets
+
+This rotates the point (or vector) x,y,z by an angle theta about a
+unit vector u,v,w through the origin.
+
+Formula from http://inside.mines.edu/~gmurray/ArbitraryAxisRotation/
+
+X= u*(u*x + v*y + w*z)*(1 - cos(theta)) + x*cos(theta) + (v*z - w*y)*sin(theta)
+Y= v*(u*x + v*y + w*z)*(1 - cos(theta)) + y*cos(theta) + (w*x - u*z)*sin(theta)
+Z= w*(u*x + v*y + w*z)*(1 - cos(theta)) + z*cos(theta) + (u*y - v*x)*sin(theta)
+
+This appears to be numerically stable regardless of the values of the input
+variables.
+
+letting
+dot = u*x + v*y + w*z
+c = cos(theta)
+d = (1 - cos(theta))
+s = sin(theta)
+
+this becomes
+
+X = u*dot*d + x*c + (v*z - w*y)*s
+Y = v*dot*d + y*c + (w*x - u*z)*s
+Z = w*dot*d + z*c + (u*y - v*x)*s
+
+*/
+
+VectorIJK KittingViewer::rotate( /* ARGUMENTS                             */
+ VectorIJK vec,                  /* vector to rotate                      */
+ VectorIJK axle,                 /* unit vector about which to rotate vec */
+ double theta)                   /* angle by which to rotate vec          */
+{
+  double x;
+  double y;
+  double z;
+  double u;
+  double v;
+  double w;
+  VectorIJK ret;
+  double dot;
+  double c;
+  double d;
+  double s;
+
+  x = vec.i;
+  y = vec.j;
+  z = vec.k;
+  u = axle.i;
+  v = axle.j;
+  w = axle.k;
+  dot = u*x + v*y + w*z;
+  c = cos(theta);
+  d = 1 - c;
+  s = sin(theta);
+  ret.i = u*dot*d + x*c + (v*z - w*y)*s;
+  ret.j = v*dot*d + y*c + (w*x - u*z)*s;
+  ret.k = w*dot*d + z*c + (u*y - v*x)*s;
+  return ret;
 }
 
 /********************************************************************/
@@ -5294,40 +5949,6 @@ void KittingViewer::updateWorkstationPosition( /* ARGUMENTS                  */
 
 /********************************************************************/
 
-/* usageMessage
-
-Returned Value: none
-
-Called By: main
-
-This prints a message about how to use kittingViewer.
-
-*/
-
-void usageMessage( /* ARGUMENTS                                             */
- char * command)   /* command with which the user started the kittingViewer */
-{
-  fprintf(stderr,
-	  "usage: %s <commandFile> <initFile> <goalFile> [<scoringFile>]\n",
-	  command);
-  fprintf(stderr,
-	  "commandFile is the name of a file of canonical robot commands\n");
-  fprintf(stderr,
-	  "initFile and goalFile are the names of XML "
-	  "kitting workstation files\n");
-  fprintf(stderr,
-	  "scoringFile is the name of an XML file for scoring\n");
-  fprintf(stderr,
-	  "Example1: %s commands init.xml goal.xml\n",
-	  command);
-  fprintf(stderr,
-	  "Example2: %s commands init.xml goal.xml scoring.xml\n",
-	  command);
-  exit(1);
-}
-
-/********************************************************************/
-
 /* KittingViewer::valuate
 
 Returned Value: double
@@ -5410,11 +6031,49 @@ double KittingViewer::valuate( /* ARGUMENTS                 */
     }
   else
     {
-      fprintf(stderr, "bad taperSide %s in a valueFunctionType\n",
+      fprintf(stderr, "Fatal error: bad taperSide %s in a valueFunctionType\n",
 	      fun->taperSide->val.c_str());
       exit(1);
     }
   return 0.0;
+}
+
+/********************************************************************/
+
+/* usageMessage
+
+Returned Value: none
+
+Called By: main
+
+This prints a message about how to use kittingViewer.
+
+*/
+
+void usageMessage( /* ARGUMENTS                                             */
+ char * command)   /* command with which the user started the kittingViewer */
+{
+  fprintf(stderr,
+	  "usage: %s <commandFile> <initFile> <goalFile> "
+	  "<swap> [<scoringFile>]\n",
+	  command);
+  fprintf(stderr,
+	  "commandFile is the name of a file of canonical robot commands\n");
+  fprintf(stderr,
+	  "initFile and goalFile are the names of XML "
+	  "kitting workstation files\n");
+  fprintf(stderr,
+	  "swap must be true or false; true means goal objects of\n"
+	  "the same design may swap positions\n");
+  fprintf(stderr,
+	  "scoringFile is the name of an XML file for scoring\n");
+  fprintf(stderr,
+	  "Example1: %s commands init.xml goal.xml true\n",
+	  command);
+  fprintf(stderr,
+	  "Example2: %s commands init.xml goal.xml false scoring.xml\n",
+	  command);
+  exit(1);
 }
 
 /********************************************************************/
@@ -5441,12 +6100,18 @@ int main(       /* ARGUMENTS                              */
  int argc,      /* number of command arguments plus one   */
  char * argv[]) /* array of command and command arguments */
 {
-  if (argc == 4) 
-    KittingViewer::init(argv[1], argv[2], argv[3], 0);
-  else if (argc == 5)
-    KittingViewer::init(argv[1], argv[2], argv[3], argv[4]);
+  if ((argc < 5) || (argc > 6))
+    usageMessage(argv[0]);
+  if (strcmp(argv[4], "true") == 0)
+    KittingViewer::swap = true;
+  else if (strcmp(argv[4], "false") == 0)
+    KittingViewer::swap = false;
   else
     usageMessage(argv[0]);
+  if (argc == 5) 
+    KittingViewer::init(argv[1], argv[2], argv[3], 0);
+  else // if (argc == 6)
+    KittingViewer::init(argv[1], argv[2], argv[3], argv[5]);
   printf("Press r to toggle left mouse button "
 	 "between translating and rotating\n");
   printf("Hold down left mouse button and move mouse "

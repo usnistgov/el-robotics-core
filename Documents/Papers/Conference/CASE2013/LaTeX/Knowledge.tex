@@ -1,7 +1,7 @@
 \begin{figure}[!t!h!b!]
 \centering
 \includegraphics[width=8.5cm]{images/KnowledgeDrivenRobotics.pdf}
-\caption{Knowledge Driven Design extensions – In this figure, green shaded
+\caption{Knowledge Driven Design extensions -- In this figure, green shaded
   boxes with curved bottoms represent hand generated files while light blue
   shaded boxes with curved bottoms represent automatically created boxes.
   Rectangular boxes represent processes and libraries. }
@@ -19,8 +19,7 @@ level of the hierarchy to help the reader understand the basic concepts
 implemented within the system architecture. The reader may find a more
 detailed description of each component and each level of the architecture
 in other documented
-publications~\cite{BALAKIRSKY.IROS.2012,NISTIR.Balakirsky}.
-
+publications~\cite{NISTIR.Balakirsky,BALAKIRSKY.IROS.2012}.
 \begin{itemize}
 \item On the vertical axis, knowledge begins with Domain Specific Information
 (DSI) that captures operational knowledge that is necessary to be
@@ -31,7 +30,7 @@ to occur and what the likely results of the action are. The authors have
 chosen to encode this basic information in a formalism known as a state
 variable representation~\cite{NAU.2004}.
 
-\item The information encoded in the DSI is then organized into a domain
+\item At the next level up, the information encoded in the DSI is then organized into a domain
 independent representation. A base ontology (\textsf{OWL/XML Kitting})
 contains all of the basic information that was determined to be needed
 during the evaluation of the use cases and scenarios. The knowledge is
@@ -45,12 +44,12 @@ system through the \textsf{Kitting Init Conditions File} and the
 must contain a description of the environment that is complete enough for a
 planning system to be able to create a valid sequence of actions that will
 achieve the given goal state. The goal state file only needs to contain
-information that is relevant to the end goal of the system. 
-%For the case of building a kit, this may simply be that a complete kit is located in a bin designed to hold completed kits. 
+information that is relevant to the end goal of the system.
+%For the case of building a kit, this may simply be that a complete kit is located in a bin designed to hold completed kits.
 
 Since both the OWL and XML implementations of the knowledge representation are file based, real time information proved to be problematic. In order to solve this problem, an automatically generated MySQL database has been introduced as part of the knowledge representation.
 
-\item Aspects of this knowledge are automatically extracted and encoded in a form
+\item At the next level up, aspects of this knowledge are automatically extracted and encoded in a form
 that is optimized for a planning system to utilize (the Planning Language).
 The planning language used in the knowledge driven system is expressed with
 the Planning Domain Definition Language (PDDL)~\cite{PDDL} (version 3.0).
@@ -61,7 +60,7 @@ actions along with required preconditions and expected results. The problem
 file represents the initial state of the system and the desired goal. From
 these two files, a domain independent planning
 system~\cite{Coles.ICAPS.2010} was used to produce a static \textsf{Plan Instance File}.
-  
+
 \item Once a plan has been formulated, the knowledge is transformed into a
 representation that is optimized for use by a robotic system (the Robot
 Language). The interpreter combines knowledge from the plan with knowledge
@@ -72,4 +71,4 @@ the CRCL is to provide generic commands that implement the functionality of
 typical industrial robots without being specific either to the language of
 the planning system that makes a plan or to the language used by a robot
 controller that executes a plan.
-\end{itemize}
+\end{itemize} 

@@ -49,6 +49,5 @@ void sethasShapeDesign_GraspPose(PoseLocation* _hasShapeDesign_GraspPose);
 std::vector<StockKeepingUnit*> gethasSku_Shape();
 void sethasSku_Shape(std::vector<StockKeepingUnit*> _hasSku_Shape);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
- virtual void printMe();
 }; 
 #endif /* SHAPEDESIGN_H_ */

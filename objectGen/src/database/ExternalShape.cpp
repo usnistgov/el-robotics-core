@@ -19,9 +19,8 @@ software
 
 ExternalShape::ExternalShape(std::string name) : ShapeDesign(name){
 dao = NULL;
-ExternalShapeID = -1;
-}
-ExternalShape::~ExternalShape(){
+
+}ExternalShape::~ExternalShape(){
 for(std::size_t i = 0; i < hasSolidObject_ExternalShape.size(); i++)
 delete(hasSolidObject_ExternalShape[i]);
 }

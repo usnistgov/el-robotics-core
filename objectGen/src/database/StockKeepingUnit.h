@@ -24,8 +24,8 @@ software
 
 #include "DataThing.h"
  class PartsBin;
- class KittingWorkstation;
  class KitTray;
+ class KittingWorkstation;
  class ShapeDesign;
  class LargeContainer;
  class PartsTray;

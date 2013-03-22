@@ -15,8 +15,8 @@ software
 
 
  #include "PartsBin.h"
- #include "KittingWorkstation.h"
  #include "KitTray.h"
+ #include "KittingWorkstation.h"
  #include "ShapeDesign.h"
  #include "LargeContainer.h"
  #include "PartsTray.h"

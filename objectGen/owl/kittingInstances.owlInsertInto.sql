@@ -576,7 +576,7 @@ VALUES(41, 'shape_part_a', 'Shape of PartA');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(41, 'shape_part_a', 'USARSim', 'PartA', 'USARPhysObj.PartA');
+VALUES(41, 'shape_part_a', 'USARSim', 'PartA', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)
@@ -588,7 +588,7 @@ VALUES(42, 'shape_part_b', 'Shape of PartB');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(42, 'shape_part_b', 'USARSim', 'PartB', 'USARPhysObj.PartB');
+VALUES(42, 'shape_part_b', 'USARSim', 'PartB', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)
@@ -624,7 +624,7 @@ VALUES(45, 'shape_part_c', 'Shape of PartC');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(45, 'shape_part_c', 'USARSim', 'PartC', 'USARPhysObj.PartC');
+VALUES(45, 'shape_part_c', 'USARSim', 'PartC', 'USARPhysObj');
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -1384,7 +1384,7 @@ VALUES(107, 'shape_kit_tray', 'Shape of KitTrays');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(107, 'shape_kit_tray', 'USARSim', 'WCKitTraySmall', 'USARPhysObj.WCKitTraySmall');
+VALUES(107, 'shape_kit_tray', 'USARSim', 'WCKitTraySmall', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)
@@ -1532,7 +1532,7 @@ VALUES(122, 'shape_parts_tray_a', 'Shape of PartsTray_A');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(122, 'shape_parts_tray_a', 'USARSim', 'PartATray', 'USARPhysObj.PartATray');
+VALUES(122, 'shape_parts_tray_a', 'USARSim', 'PartATray', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)
@@ -1552,7 +1552,7 @@ VALUES(124, 'shape_parts_tray_b', 'Shape of PartsTray_B');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(124, 'shape_parts_tray_b', 'USARSim', 'PartBTray', 'USARPhysObj.PartBTray');
+VALUES(124, 'shape_parts_tray_b', 'USARSim', 'PartBTray', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)
@@ -1564,7 +1564,7 @@ VALUES(125, 'shape_parts_tray_c', 'Shape of PartsTray_C');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(125, 'shape_parts_tray_c', 'USARSim', 'PartCTray', 'USARPhysObj.PartCTray');
+VALUES(125, 'shape_parts_tray_c', 'USARSim', 'PartCTray', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)

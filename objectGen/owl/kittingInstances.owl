@@ -6,8 +6,8 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstances.owl#>)
 Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
 Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>
-//Import(<file:/home/stephen/projects/ipmas/objectGen/owl/kittingClasses.owl>)
-Import(<file:./kittingClasses.owl>)
+Import(<file:/home/sbalakirsky3/projects/ipmas/objectGen/owl/kittingClasses.owl>)
+//Import(<file:./kittingClasses.owl>)
 
 //*****************************************
 // start KittingWorkstation kitting_workstation_1

@@ -191,16 +191,16 @@ hasPoint_Z DOUBLE NOT NULL,
 PRIMARY KEY (PointID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE LargeBoxWithEmptyKitTrays(
-LargeBoxWithEmptyKitTraysID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (LargeBoxWithEmptyKitTraysID, _NAME)
-)ENGINE=InnoDB;
-
 CREATE TABLE BoxVolume(
 BoxVolumeID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (BoxVolumeID, _NAME)
+)ENGINE=InnoDB;
+
+CREATE TABLE LargeBoxWithEmptyKitTrays(
+LargeBoxWithEmptyKitTraysID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (LargeBoxWithEmptyKitTraysID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE VacuumEffectorSingleCup(

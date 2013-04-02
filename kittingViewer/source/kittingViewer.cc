@@ -20,13 +20,15 @@
   \endcode
 
   \author Tom Kramer
-  \date March 6, 2013
+  \date March 14, 2013
 
 */
 
 /* TODO
 
-1. Write a user guide for the kittingViewer
+1. Implement tolerances for checking position.
+
+2. Write a user guide for the kittingViewer.
 
 */
 
@@ -65,6 +67,12 @@ put into the kit tray).
 results in an object being held by the gripper.
 
 11. Use shape data from an external file (identified by an ExternalShape).
+
+12. Expand functionality to include collision checking. Use a solid modeler.
+
+13. Implement other gripper types and geometries.
+
+14. Make the graphics fancier (lighting, textures, etc.)
 
 */
 
@@ -176,12 +184,11 @@ There are no canonical robot commands for gripper rotational speed, so the
 kittingViewer sets the gripper rotational speed to a fraction of the maximum
 rotational speed that is the same as the fraction used for the robot speed.
 
-The gripper is treated as having a built-in X axis (i.e. the gripper is not
-symmetric about its Z axis) that is perpendicular to the gripper Z axis.
-The X axis of the gripper is parallel to the X-axis of the holder
-when the gripper is in a gripper holder. If a gripper starts out on the
-robot, its Z axis is assumed to be antiparallel to the robot Z axis, and
-its X axis is assumed to be parallel to the robot X axis.
+The gripper is treated as having a built-in X axis that is perpendicular
+to the gripper Z axis. The X axis of the gripper is parallel to the X-axis
+of the holder when the gripper is in a gripper holder. If a gripper starts
+out on the robot, its Z axis is assumed to be antiparallel to the robot Z
+axis, and its X axis is assumed to be parallel to the robot X axis.
 
 Any change of position may include a translation and two rotations. The time
 for a change of position is calculated as the longest time for any of the
@@ -277,6 +284,26 @@ identical location is on the list, it is removed from the list.
 This method does not deal with LargeBoxWithEmptyKitTrays, LargeBoxWithKits,
 or PartsTrayWithParts.
 
+Changing the Speed of Animation
+-------------------------------
+
+To change the speed of the animation, the user may use the 'f' (faster) and
+'s' (slower) keys. Two taps of the 'f' key doubles the apparent speed of
+the robot, and two taps of the 's' key cuts the speed in half. The
+programmed speed of the robot is not changed. The speed up is done by
+changing the speed of a pseudo elapsed time clock. Changing the speed
+of the animation has no effect on the metrics and settings (including
+the execution time).
+
+The variable speed pseudo elapsed time clock is implemented in the
+getPseudoElapsedTime function. This is done by maintaining (1) a
+timeFactor whose initial value is 1, (2) the last real elapsed time
+(in glutElapsedTime), and (3) the last pseudo elapsed time (in
+pseudoElapsedTime). To find the current pseudo elapsed time,
+getPseudoElapsedTime gets the current real elapsed time, subtracts
+the last real elapsed time, multiplies the difference by the timeFactor,
+and adds the product to the last saved pseudo elapsed time.
+
 */
 
 #include <stdlib.h>         // exit
@@ -311,6 +338,8 @@ double              KittingViewer::anglesX[MAXPOSES]; // X rots corresp to poses
 double              KittingViewer::anglesZ[MAXPOSES]; // Z rots corresp to poses
 char                KittingViewer::angleUnits[TEXTSIZE]; // degree, radian
 VectorIJK           KittingViewer::axlesZ[MAXPOSES]; //rot axes corresp to poses
+bool                KittingViewer::checkingNotStarted; // true = not started
+char *              KittingViewer::commandFile; // name of command file
 std::list<CanonicalMsg *> KittingViewer::commands;  // commands
 int                 KittingViewer::commandSequenceErrors; // num sequence errors
 char                KittingViewer::commandString[MAXPOSES][TEXTSIZE]; //cmd str
@@ -322,14 +351,18 @@ double              KittingViewer::distancesZ[MAXPOSES];// array of Z distances
 bool                KittingViewer::executeFlag; // true = execute next command
 int                 KittingViewer::executionState; // unready, ready, or ended
 double              KittingViewer::fraction;  // proportion of motion done
+double              KittingViewer::glutElapsedTime; //real elapsed time, secs
 KittingWorkstationType * KittingViewer::goalModel; // model built from goal file
 int                 KittingViewer::gripperUseErrors; // num gripper use errors
 std::map<std::string, std::list<PoseLocationType *>*> KittingViewer::kitGoalMap;
+char *              KittingViewer::kittingGoalFile; // name of goal state file
+char *              KittingViewer::kittingInitFile; // name of init state file
 double              KittingViewer::lengthFactor; // factor for length conversion
 char                KittingViewer::lengthUnits[TEXTSIZE]; // meter, millim, inch
 int                 KittingViewer::locationErrors; //number errors in obj loc'n
 int                 KittingViewer::locationGoods; // number objs in right loc'n
 int                 KittingViewer::motionErrors; //number of errors in motion
+int                 KittingViewer::movableObjects; // number of movable objects
 KittingWorkstationType * KittingViewer::nowModel; //model from init file updated
 double              KittingViewer::nowX;   // controlled point X position now
 double              KittingViewer::nowXAxisI; // X component of cntrld pt X axis
@@ -345,6 +378,7 @@ int                 KittingViewer::parseErrors; // number errors in parsing file
 int                 KittingViewer::poseIndex; // index of poses and times arrays
 Pose                KittingViewer::poses[MAXPOSES];// array of poses to move to
 int                 KittingViewer::posesTotal; // total number poses to move to
+double              KittingViewer::pseudoElapsedTime; //fake elapsed time, secs
 int                 KittingViewer::rangeErrors; // total out-of-range errors
 bool                KittingViewer::resetFlag; // true = execute next command
 double              KittingViewer::robotAccel; // acceleration setting
@@ -366,9 +400,11 @@ bool                KittingViewer::robotToolChangerOpen; // true=open, false=clo
 bool                KittingViewer::swap; //true=same name obs may swap positions
 float               KittingViewer::scale;     // scale to use to convert mm
 double              KittingViewer::score;     // score for the command file
+char *              KittingViewer::scoringFile; // name of scoring file, maybe 0
 char                KittingViewer::scoringFileName[TEXTSIZE];//name scoring file
 std::map<std::string, std::list<PoseLocationType *>*> KittingViewer::skuGoalMap;
 float               KittingViewer::spacing;   // grid line spacing in meters
+double              KittingViewer::timeFactor; //factor 4 speeding, slowing time
 double              KittingViewer::times[MAXPOSES]; // times corresp. to poses
 int                 KittingViewer::toolChangeErrors; // total tool change errors
 double              KittingViewer::totalExecutionTime; // total execution time
@@ -380,11 +416,11 @@ char                KittingViewer::weightUnits[TEXTSIZE]; // gram, pound, etc.
 /********************************************************************/
 
 extern KittingWorkstationFile * KittingWorkstationTree;
-extern ScoreKittingFile * scoreKittingTree; 
-extern FILE * yyin;
-extern FILE * yyscin;
-extern int yyparse();
-extern int yyscparse();
+extern ScoreKittingFile * scoreKittingTree; // from scoreKittingYACC.cc
+extern FILE * yyin;     // for init file and goal file
+extern FILE * yyscin;   // for scoring file
+extern int yyparse();   // for init file and goal file
+extern int yyscparse(); // for scoring file
 
 /********************************************************************/
 
@@ -981,7 +1017,7 @@ the other three factors come into play.
 After all commands have been executed, the commandExecution and
 uselessCommands commands values are fixed, but the rightStuff,
 distance, and time change each time another object in the goal state
-is checked. That happens each time the g key is pressed until all
+is checked. That happens each time the e key is pressed until all
 objects in the goal state have been checked. Showing the current score
 after each object has been checked makes the display more interesting.
 
@@ -1071,9 +1107,6 @@ kit trays.
 This checks that at least one weight in the scoring system is non-zero.
 It prints an error message and exits if that is not the case.
 
-This function is "used up" when the kittingViewer is done because
-n increases to the total number of movable objects.
-
 It has been checked that there is at least one positive weight before
 this is called.
 
@@ -1091,11 +1124,13 @@ void KittingViewer::computeScore( /* ARGUMENTS               */
   unsigned totalWeight = 0;     // sum of weights for additive factors
   valueFunctionType * fun;      // a value function
   double fraction;              // fraction of movable objects checked
-  static int movableObjects;    // total number of movable objects
-  static int n = 0;             // number of times this is called
+  static int n;                 // number of times this is called
 
-  if (n == 0)
-    movableObjects = countMovableObjects();
+  if (movableObjects == -1)
+    { // reset to usable initial values
+      n = 0;
+      movableObjects = countMovableObjects();
+    }
   n++;
   score = 0; // score is a kittingViewer attribute
   scorer = scoreKittingTree->scoreKitting;
@@ -1346,6 +1381,169 @@ void KittingViewer::drawChangingStation(   /* ARGUMENTS                */
 
 /********************************************************************/
 
+/* KittingViewer::drawMetricsAndSettings
+
+Returned Value: none
+
+Called By: displayMetricsWindow (in viewKitting.cc)
+
+This draws the metrics. The text is drawn in the metricsWindow. The
+size and position of the text do not change if the size of the
+metricsWindow is changed. Instead, if the window is made larger there
+is more blank space, and if the window is made smaller, some of the
+text is no longer visible. The text is anchored at the upper left
+corner of the metrics window.
+
+*/
+
+void KittingViewer::drawMetricsAndSettings( /* ARGUMENTS                 */
+ int height)                                /* side of screen, in pixels */
+{
+  char str[TEXTSIZE];   // string to print in
+  float wy;             // Y value of line being printed
+
+  glColor3f(1.0f, 1.0f, 1.0f);
+  wy = (float)height;
+
+  snprintf(str, TEXTSIZE, "METRICS");
+  drawString(20.0f, (wy -= 20.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "action commands executed successfully: %d",
+	   actionCommandsExecuted);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "other commands executed successfully: %d",
+	   otherCommandsExecuted);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "total robot distance moved: %.4lf %s",
+	   (distanceTotal / robotLengthFactor), robotLengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "total execution time: %.2lf seconds",
+	   totalExecutionTime);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "useless commands executed: %d", uselessCommands);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "range errors: %d", rangeErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "parse errors: %d", parseErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "command sequence errors: %d", commandSequenceErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "gripper use errors: %d", gripperUseErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "tool change errors: %d", toolChangeErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "motion errors: %d", motionErrors);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "total errors: %d",
+	   (rangeErrors + commandSequenceErrors + gripperUseErrors + 
+	    parseErrors + toolChangeErrors + motionErrors + locationErrors));
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  if (commands.size() == 0)
+    {
+      snprintf(str, TEXTSIZE, "object location errors: %d", locationErrors);
+      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+      snprintf(str, TEXTSIZE, "objects located correctly: %d", locationGoods);
+      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+      snprintf(str, TEXTSIZE,
+	       "total basic goal object distance moved: %.4lf %s",
+	       (totalGoalDistance / robotLengthFactor), robotLengthUnits);
+      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+      snprintf(str, TEXTSIZE, "score: %f", score);
+      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+    }
+
+  snprintf(str, TEXTSIZE, "ROBOT SETTINGS");
+  drawString(20.0f, (wy -= 20.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot length units: %s", robotLengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot angle units: %s", robotAngleUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot speed: %.4f %s/s",
+	   (robotSpeed / robotLengthFactor), robotLengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE,
+	   "robot maximum speed: %.4f %s/s",
+	   (robotMaxSpeed / robotLengthFactor), robotLengthUnits );
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot relative speed: %.2f%%",
+	   robotRelSpeed);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE,
+	   "robot acceleration: %.4f %s/s*s",
+	   (robotAccel / robotLengthFactor), robotLengthUnits );
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE,
+	   "robot maximum acceleration: %.4f %s/s*s",
+	   (robotMaxAccel / robotLengthFactor), robotLengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot relative acceleration: %.2f%%",
+	   robotRelAccel);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot end angle tolerance: %.4f %s",
+	   (robotEndAngleTol / robotAngleFactor), robotAngleUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot end point tolerance : %.4f %s",
+	   (robotEndPointTol / robotLengthFactor), robotLengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "robot intermediate point tolerance : %.4f %s",
+	   (robotIntPointTol / robotLengthFactor), robotLengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "gripper is: %s",
+	   ((nowModel->Robot->EndEffector == 0) ? "not on robot" :
+	    robotGripperOpen ? "open" : "closed"));
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "tool changer is: %s",
+	   (robotToolChangerOpen ? "open" : "closed"));
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "KITTING VIEWER SETTINGS");
+  drawString(20.0f, (wy -= 20.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "grid spacing: %.4f %s",
+	   (spacing / lengthFactor), lengthUnits);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "scoring file: %s", scoringFileName);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "swap: %s", (swap ? "true" : "false"));
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "time factor: %.4f", timeFactor);
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+}
+
+/********************************************************************/
+
 /* KittingViewer::drawRobot
 
 Returned Value: none
@@ -1509,10 +1707,10 @@ void KittingViewer::drawSolidObject(/* ARGUMENTS            */
 
 Returned Value: none
 
-Called By: KittingViewer::printMetricsAndSettings
+Called By: KittingViewer::drawMetricsAndSettings
 
-This prints one line of text starting at the given (x,y) location (in
-currently active screen coordinates). The text is printed left to right
+This draws one line of text starting at the given (x,y) location (in
+currently active screen coordinates). The text is drawn left to right
 in the normal fashion for the English language.
 
 The font argument is actually a symbol such as GLUT_BITMAP_HELVETICA_10.
@@ -1656,8 +1854,8 @@ void KittingViewer::dwell( /* ARGUMENTS                    */
 {
   int start;
 
-  start = glutGet(GLUT_ELAPSED_TIME);
-  while ((glutGet(GLUT_ELAPSED_TIME) - start) < (1000.0 * seconds));
+  start = getPseudoElapsedTime();
+  while ((getPseudoElapsedTime() - start) < seconds);
 }
 
 
@@ -1850,7 +2048,7 @@ void KittingViewer::enterPoseTargets( /* ARGUMENTS                  */
       fprintf(stderr, "too many poses in command");
       exit(1);
     }
-  times[0] = (glutGet(GLUT_ELAPSED_TIME) / 1000.0);
+  times[0] = getPseudoElapsedTime();
   // copy each incoming pose into the poses array
   // and check each copy for Z axis orthogonal to X axis
   for (n = 1; n <= num; n++)
@@ -3315,7 +3513,8 @@ PoseLocationType * KittingViewer::findPrimaryPose(/*  ARGUMENTS              */
   
   if ((pose = dynamic_cast<PoseLocationType *>(solid->PrimaryLocation)) == 0)
     {
-      fprintf(stderr, "bug: bad PrimaryLocation for solid object\n");
+      fprintf(stderr, "bad PrimaryLocation for %s; must be PoseLocation\n",
+	      solid->Name->val.c_str());
       exit(1);
     }
   return pose;
@@ -3582,6 +3781,37 @@ EndEffectorHolderType * KittingViewer::findToolHolder( /* ARGUMENTS        */
 
 /********************************************************************/
 
+/* KittingViewer::getPseudoElapsedTime
+
+Returned Value: double
+
+Called By:
+  animate (in viewKitting.cc)
+  void KittingViewer::dwell
+  KittingViewer::enterPoseTargets
+  KittingViewer::handleResets
+
+This updates and returns the pseudo elapsed time. The update is to
+increase the last pseudo elapsed time by ([the difference between the
+real last time and the real current time] times the timeFactor). If the
+time factor is less than one, time will seem to pass more slowly, so
+the animation will run more slowly. If the time factor is greater than
+one, time will seem to pass faster, so the animation will run faster.
+
+*/
+
+double KittingViewer::getPseudoElapsedTime()
+{
+  double glutLastTime;
+
+  glutLastTime = glutElapsedTime;
+  glutElapsedTime = (glutGet(GLUT_ELAPSED_TIME) / 1000.0); // convert to seconds
+  pseudoElapsedTime += (glutElapsedTime - glutLastTime) * timeFactor;
+  return pseudoElapsedTime;
+}
+
+/********************************************************************/
+
 /* KittingViewer::gripperCanHandleSku
 
 Returned Value: bool
@@ -3649,7 +3879,6 @@ moving iter along allSolids in the goalModel until it reaches the end.
 void KittingViewer::handleExecute() /* NO ARGUMENTS   */
 {
   static std::map<std::string, SolidObjectType *>::iterator iter;
-  static bool iterUnset = true;
   SolidObjectType * object;
 
   if (commands.size())
@@ -3664,12 +3893,11 @@ void KittingViewer::handleExecute() /* NO ARGUMENTS   */
       executeFlag = false;
       return;
     }
-  if (iterUnset)
+  if (checkingNotStarted)
     {
       iter = goalModel->allSolids.begin();
-      iterUnset = false;
-      //if (swap)
-	makeLocationMaps();
+      checkingNotStarted = false;
+      makeLocationMaps();
     }
   if (iter != goalModel->allSolids.end())
     {
@@ -3720,33 +3948,42 @@ six arrays, all indexed by the number of legs in the motion:
  - axlesZ (the line around which the Z axis must rotate in this leg)
  - anglesX (the angle through which the X axis must rotate in this leg)
 
-1. If it is time for the most recent waypoint to have been passed,
-find the index of the poses array for the next waypoint W based on
-what time it is; the times for waypoints have been recorded previously
-in the times array. Also use the times and distances arrays to update
-the total time used and the total distance travelled. Then add one to
-the poses index.
+Let W be the current target waypoint. W is poses[poseIndex].
 
-2. If the poses index is now out of range, W is the last point of the
-move, and the move should be complete but might not be. In this case,
-set the resetFlag to false, and call resetPositions to set things
-representing that W has been reached.
+1. If it is time for W to have been passed, act as though W has just
+been reached. Even if it is time to have passed more waypoints, this
+will pass only one waypoint, so that at least one frame of the
+animation will show the robot at each waypoint.
 
-3. Otherwise, a motion command is in progress and is not supposed to
+1A. Use the times and distances arrays to update the total time used
+and the total distance travelled.
+
+1B. Set the now point to the point of W, and set the xAxis and zAxis
+local variables to those of W.
+
+1C. Add one to the poses index.
+
+1D. If the poseIndex is now posesTotal, the end of the move has been
+reached, so set the reset flag to false.
+
+2. Otherwise, a motion command is in progress and is not supposed to
 be complete. Let P denote the waypoint before W. Find the fraction of
 time from P to W represented by the current time.
 
-3A. Set the current point to the point that is that fraction of the way
+2A. Set the current point to the point that is that fraction of the way
 from P to W.
 
-3B. Set the current Z axis by rotating the Z axis at P about the Z axle
+2B. Set the current Z axis by rotating the Z axis at P about the Z axle
 for this leg by fraction times the Z angle for this leg.
 
-3C. Set the current X axis by rotating the X axis at P about the Z
+2C. Set the current X axis by rotating the X axis at P about the Z
 axle for this leg by fraction times the Z angle for this leg. Then
 rotate the new X axis about the new Z axis by fraction times the X
 angle for this leg. If the Z axis does not move, only the last step is
 needed.
+
+3. Call resetPositions to set the poses of the robot and the gripper (if
+there is one).
 
 */
 
@@ -3760,28 +3997,30 @@ void KittingViewer::handleResets() /* NO ARGUMENTS  */
   int n;
   double timeNow;
 
-  timeNow = (glutGet(GLUT_ELAPSED_TIME) / 1000.0);
-  while ((timeNow > times[poseIndex]) && (poseIndex < posesTotal))
-    {
+  timeNow = getPseudoElapsedTime();
+  if (timeNow > times[poseIndex])
+    { // at this time, the next waypoint should have been reached, so go there
       distanceTotal += distances[poseIndex];
       totalExecutionTime += (times[poseIndex] - times[poseIndex - 1]);
-      poseIndex++;
-    }
-  if (poseIndex == posesTotal)
-    { // get all the way to the end
-      resetFlag = false;
-      point = poses[posesTotal - 1].origin;
+      point = poses[poseIndex].origin;
       nowX = point.x;
       nowY = point.y;
       nowZ = point.z;
-      xAxis = poses[posesTotal - 1].xAxis;
-      zAxis = poses[posesTotal - 1].zAxis;
+      xAxis = poses[poseIndex].xAxis;
+      zAxis = poses[poseIndex].zAxis;
+      poseIndex++;
+      if (poseIndex == posesTotal)
+	{ // the end of the move has been reached
+	  resetFlag = false;
+	}
     }
   else
     {
       n = poseIndex - 1;
       fraction = (((double)(timeNow - times[n])) /
 		  ((double)(times[poseIndex] - times[n])));
+      if (fraction > 1.0)
+	fraction = 1.0;
       point = poses[n].origin;
       nowX = (point.x + (fraction * distancesX[poseIndex]));
       nowY = (point.y + (fraction * distancesY[poseIndex]));
@@ -3859,11 +4098,7 @@ which is 1.0 unit in picture space.
 
 */
 
-void KittingViewer::init( /* ARGUMENTS                                   */
- char * commandFile,      /* name of file of canonical robot commands    */
- char * kittingInitFile,  /* name of file describing initial conditions  */
- char * kittingGoalFile,  /* name of file describing goal conditions     */
- char * scoringFile)      /* name of file describing how to score        */
+void KittingViewer::init() /* NO ARGUMENTS */
 {
   FILE * inFile;
   CommandParser commandParser;
@@ -3943,25 +4178,28 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   // anglesZ set when needed
   // angleUnits set when initial state read
   // axlesZ set when needed
+  checkingNotStarted = true;
   // commands set when command file read
   commandSequenceErrors = 0;
   // commandString set in canonicalMsgView.cc used in viewKitting.cc
   distanceTotal = 0.0;
-  // distances
-  // distancesX
-  // distancesY
-  // distancesZ
+  // distances set when needed
+  // distancesX set when needed
+  // distancesY set when needed
+  // distancesZ set when needed
   // executeFlag
   executionState = unready;
   // fraction
+  glutElapsedTime = 0.0;
   // goalModel built when goal state file read
   gripperUseErrors = 0;
-  // kitGoalMap
+  // kitGoalMap populated by makeLocationMaps
   // lengthFactor set when initial state read
   // lengthUnits set when initial state read
   locationErrors = 0;
   locationGoods = 0;
   motionErrors = 0;
+  movableObjects = -1; // indicates unset
   // nowModel set when initial state read, updated during command execution
   if ((effector = nowModel->Robot->EndEffector) &&
       (vacEffector = dynamic_cast<VacuumEffectorType *>(effector)))
@@ -3995,6 +4233,7 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   poses[1].origin.y = nowY;
   poses[1].origin.z = nowZ;
   posesTotal = 2;
+  pseudoElapsedTime = 0.0;
   rangeErrors = 0;
   resetFlag = false;
   robotAngleFactor = 1.0;
@@ -4015,9 +4254,10 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   robotToolChangerOpen = false;
   score = 0;
   // scale set when initial state read
-  // skuGoalMap
+  // skuGoalMap populated by makeLocationMaps
   // spacing set when initial state read
   // swap set in main
+  timeFactor = 1.0;
   times[0] = 0.0;
   times[1] = 0.001;
   toolChangeErrors = 0;
@@ -4477,7 +4717,9 @@ void KittingViewer::insertDiskTransformed( /* ARGUMENTS                  */
 
 Returned Value: none
 
-Called By: KittingViewer::setColorAndSku
+Called By:
+  KittingViewer::resetViewer
+  KittingViewer::setColorAndSku
 
 This makes bluish colors by picking points in the RGB cube and
 selecting the ones that are bluish. Each time this is called, it
@@ -4524,6 +4766,7 @@ octant  R G B
 6       - - +
 7       - - -
 
+This may be reset by calling it with color == 0;
 
 */
 
@@ -4532,9 +4775,14 @@ void KittingViewer::makeBlueColor( /* ARGUMENTS    */
 {
   static int index = 1;
   int n;      // total number of colors at end of last go-around
-  float jump; // how far to moveq
+  float jump; // how far to move
   int octant;
 
+  if (color == 0)
+    { // reset
+      index = 1;
+      return;
+    }
   while (1)
     {
       color->r = 0.5f;
@@ -4571,7 +4819,9 @@ void KittingViewer::makeBlueColor( /* ARGUMENTS    */
 
 Returned Value: none
 
-Called By: KittingViewer::setColorAndSku
+Called By:
+  KittingViewer::resetViewer
+  KittingViewer::setColorAndSku
 
 This makes greenish colors by picking points in the RGB cube and
 selecting the ones that are greenish. See documentation of makeBlueColor.
@@ -4584,9 +4834,14 @@ void KittingViewer::makeGreenColor( /* ARGUMENTS    */
 {
   static int index = 1;
   int n;      // total number of colors at end of last go-around
-  float jump; // how far to moveq
+  float jump; // how far to move
   int octant;
 
+  if (color == 0)
+    { // reset
+      index = 1;
+      return;
+    }
   while (1)
     {
       color->r = 0.5f;
@@ -4623,7 +4878,9 @@ void KittingViewer::makeGreenColor( /* ARGUMENTS    */
 
 Returned Value: none
 
-Called By: KittingViewer::setColorAndSku
+Called By:
+  KittingViewer::resetViewer
+  KittingViewer::setColorAndSku
 
 This makes reddish colors by picking points in the RGB cube and
 selecting the ones that are greenish. See documentation of makeBlueColor.
@@ -4636,9 +4893,14 @@ void KittingViewer::makeRedColor( /* ARGUMENTS    */
 {
   static int index = 1;
   int n;      // total number of colors at end of last go-around
-  float jump; // how far to moveq
+  float jump; // how far to move
   int octant;
 
+  if (color == 0)
+    { // reset
+      index = 1;
+      return;
+    }
   while (1)
     {
       color->r = 0.5f;
@@ -4823,166 +5085,6 @@ void KittingViewer::poseProduct( /* ARGUMENTS       */
   poseToSet->Point->Y->bad = false;
   poseToSet->Point->Z->val = ((x1k * o2x) + (y1k * o2y) + (z1k * o2z) + o1z);
   poseToSet->Point->Z->bad = false;
-}
-
-/********************************************************************/
-
-/* KittingViewer::printMetricsAndSettings
-
-Returned Value: none
-
-Called By: displayMetricsWindow (in viewKitting.cc)
-
-This prints the metrics The text is printed in the metricsWindow. The
-size and position of the text do not change if the size of the
-metricsWindow is changed. Instead, if the window is made larger there
-is more blank space, and if the window is made smaller, some of the
-text is no longer visible. The text is anchored at the upper left
-corner of the metrics window.
-
-*/
-
-void KittingViewer::printMetricsAndSettings( /* ARGUMENTS                 */
- int height)                                 /* side of screen, in pixels */
-{
-  char str[TEXTSIZE];   // string to print in
-  float wy;             // Y value of line being printed
-
-  glColor3f(1.0f, 1.0f, 1.0f);
-  wy = (float)height;
-
-  snprintf(str, TEXTSIZE, "METRICS");
-  drawString(20.0f, (wy -= 20.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "action commands executed successfully: %d",
-	   actionCommandsExecuted);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "other commands executed successfully: %d",
-	   otherCommandsExecuted);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "total robot distance moved: %.4lf %s",
-	   (distanceTotal / robotLengthFactor), robotLengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "total execution time: %.2lf seconds",
-	   totalExecutionTime);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "useless commands executed: %d", uselessCommands);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "range errors: %d", rangeErrors);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "parse errors: %d", parseErrors);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "command sequence errors: %d", commandSequenceErrors);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "gripper use errors: %d", gripperUseErrors);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "tool change errors: %d", toolChangeErrors);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "motion errors: %d", motionErrors);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "total errors: %d",
-	   (rangeErrors + commandSequenceErrors + gripperUseErrors + 
-	    parseErrors + toolChangeErrors + motionErrors + locationErrors));
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  if (commands.size() == 0)
-    {
-      snprintf(str, TEXTSIZE, "object location errors: %d", locationErrors);
-      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-      snprintf(str, TEXTSIZE, "objects located correctly: %d", locationGoods);
-      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-      snprintf(str, TEXTSIZE,
-	       "total basic goal object distance moved: %.4lf %s",
-	       (totalGoalDistance / robotLengthFactor), robotLengthUnits);
-      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-      snprintf(str, TEXTSIZE, "score: %f", score);
-      drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-    }
-
-  snprintf(str, TEXTSIZE, "ROBOT SETTINGS");
-  drawString(20.0f, (wy -= 20.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot length units: %s", robotLengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot angle units: %s", robotAngleUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot speed: %.4f %s/s",
-	   (robotSpeed / robotLengthFactor), robotLengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE,
-	   "robot maximum speed: %.4f %s/s",
-	   (robotMaxSpeed / robotLengthFactor), robotLengthUnits );
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot relative speed: %.2f%%",
-	   robotRelSpeed);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE,
-	   "robot acceleration: %.4f %s/s*s",
-	   (robotAccel / robotLengthFactor), robotLengthUnits );
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE,
-	   "robot maximum acceleration: %.4f %s/s*s",
-	   (robotMaxAccel / robotLengthFactor), robotLengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot relative acceleration: %.2f%%",
-	   robotRelAccel);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot end angle tolerance: %.4f %s",
-	   (robotEndAngleTol / robotAngleFactor), robotAngleUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot end point tolerance : %.4f %s",
-	   (robotEndPointTol / robotLengthFactor), robotLengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "robot intermediate point tolerance : %.4f %s",
-	   (robotIntPointTol / robotLengthFactor), robotLengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "gripper is: %s",
-	   ((nowModel->Robot->EndEffector == 0) ? "not on robot" :
-	    robotGripperOpen ? "open" : "closed"));
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "tool changer is: %s",
-	   (robotToolChangerOpen ? "open" : "closed"));
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "KITTING VIEWER SETTINGS");
-  drawString(20.0f, (wy -= 20.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "grid spacing: %.4f %s",
-	   (spacing / lengthFactor), lengthUnits);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "scoring file: %s", scoringFileName);
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
-  snprintf(str, TEXTSIZE, "swap: %s", (swap ? "true" : "false"));
-  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
-
 }
 
 /********************************************************************/
@@ -5448,6 +5550,36 @@ void KittingViewer::resetPositions( /*  ARGUMENTS                   */
 
 /********************************************************************/
 
+/* KittingViewer::resetViewer
+
+Returned Value: none
+
+Called By: KittingViewer::runAgain
+
+void KittingViewer::resetViewer
+
+This resets the kittingViewer model so that a simulation can be run over
+again. The destructors this calls currently do not delete the components
+of the things that get destructed, so resetting leaks a lot of memory.
+
+*/
+
+void KittingViewer::resetViewer() /* NO ARGUMENTS */
+{
+  clearLists();
+  commands.clear();
+  kitGoalMap.clear();
+  skuGoalMap.clear();
+  delete goalModel;
+  delete nowModel;
+  delete scoreKittingTree;
+  makeBlueColor(0);
+  makeGreenColor(0);
+  makeRedColor(0);
+}
+
+/********************************************************************/
+
 /* KittingViewer::rotate
 
 Returned Value:  VectorIJK 
@@ -5513,6 +5645,26 @@ VectorIJK KittingViewer::rotate( /* ARGUMENTS                             */
   ret.j = v*dot*d + y*c + (w*x - u*z)*s;
   ret.k = w*dot*d + z*c + (u*y - v*x)*s;
   return ret;
+}
+
+/********************************************************************/
+
+/* KittingViewer::runAgain
+
+Returned Value: none
+
+Called By: keyboard (in viewKitting.cc)
+
+This runs the simulation over again from the beginning. All stored values
+that need to be cleared are cleared, and the files are reread. This is
+called if the user presses the 'a' (again) key.
+
+*/
+
+void KittingViewer::runAgain()
+{
+  resetViewer();
+  init();
 }
 
 /********************************************************************/
@@ -6108,10 +6260,12 @@ int main(       /* ARGUMENTS                              */
     KittingViewer::swap = false;
   else
     usageMessage(argv[0]);
-  if (argc == 5) 
-    KittingViewer::init(argv[1], argv[2], argv[3], 0);
-  else // if (argc == 6)
-    KittingViewer::init(argv[1], argv[2], argv[3], argv[5]);
+  KittingViewer::commandFile = argv[1];
+  KittingViewer::kittingInitFile = argv[2];
+  KittingViewer::kittingGoalFile = argv[3];
+  KittingViewer::scoringFile = ((argc == 5) ? 0: argv[5]);
+  KittingViewer::init();
+  printf("\n");
   printf("Press r to toggle left mouse button "
 	 "between translating and rotating\n");
   printf("Hold down left mouse button and move mouse "
@@ -6120,10 +6274,16 @@ int main(       /* ARGUMENTS                              */
 	 "to rotate workstation\n");
   printf("Hold down right mouse button and move mouse "
 	 "up/dn to zoom workstation\n");
-  printf("Press h to return to the default view\n");
-  printf("Press g to execute the next command\n");
-  printf("Press t to save the current image in a ppm file\n");
-  printf("Press z or q to exit\n");
+  printf("Press f to make the animation run faster\n");
+  printf("Press s to make the animation run slower\n");
+  printf("Press v to return to the default view\n");
+  printf("Press e to execute the next command\n");
+  printf("Press d to dump the current image in a ppm file\n");
+  printf("Press t to to print metrics and settings in a text file\n");
+  printf("Press D to dump image and print text file\n");
+  printf("Press a to run the simulation over\n");
+  printf("Press Esc to exit\n");
+  printf("\n");
   glInit(argc, argv, "Kitting Viewer");
   glutMainLoop();
   

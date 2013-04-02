@@ -1,12 +1,12 @@
 %{
 
-#include <stdio.h>               // for stderr
-#include <string.h>              // for strcat
-#include <stdlib.h>              // for malloc, free
+#include <stdio.h>             // for stderr
+#include <string.h>            // for strcat
+#include <stdlib.h>            // for malloc, free
 #ifdef VIEWER                    // added by hand
 #include "kittingClassesView.hh" // for kitting classes in viewer, added by hand
 #else                            // added by hand
-#include "kittingClasses.hh"     // for kitting classes in parser, added by hand
+#include "kittingClasses.hh"     // for kitting classes in parser
 #endif                           // added by hand
 
 #define YYERROR_VERBOSE
@@ -124,7 +124,6 @@ int yyerror(const char * s);
 %type <EndEffectorHolderTypeListVal>  y_EndEffectorHolders_EndEffectorHolderType_uList
 %type <XmlIDREFVal>                   y_EndEffectorName_XmlIDREF_0_u
 %type <IDREFListVal>                  y_EndEffectorName_XmlIDREF_0_uList
-%type <EndEffectorTypeVal>            y_EndEffectorType
 %type <EndEffectorTypeVal>            y_EndEffectorTypeAny
 %type <EndEffectorTypeVal>            y_EndEffector_EndEffectorType_0
 %type <ExternalShapeTypeVal>          y_ExternalShapeType
@@ -135,7 +134,6 @@ int yyerror(const char * s);
 %type <PositiveDecimalTypeVal>        y_Height_PositiveDecimalType
 %type <SolidObjectTypeVal>            y_HeldObject_SolidObjectType_0
 %type <XmlDecimalVal>                 y_I_XmlDecimal
-%type <InternalShapeTypeVal>          y_InternalShapeType
 %type <InternalShapeTypeVal>          y_InternalShapeTypeAny
 %type <InternalShapeTypeVal>          y_InternalShape_InternalShapeType_0
 %type <XmlDecimalVal>                 y_J_XmlDecimal
@@ -178,11 +176,9 @@ int yyerror(const char * s);
 %type <PartTypeListVal>               y_Part_PartType_0_uList
 %type <PartsTrayTypeVal>              y_PartsTrayType
 %type <PartsTrayTypeVal>              y_PartsTray_PartsTrayType
-%type <PhysicalLocationTypeVal>       y_PhysicalLocationType
 %type <PhysicalLocationTypeVal>       y_PhysicalLocationTypeAny
 %type <PointTypeVal>                  y_PointType
 %type <PointTypeVal>                  y_Point_PointType
-%type <PoseLocationTypeVal>           y_PoseLocationType
 %type <PoseLocationTypeVal>           y_PoseLocationTypeAny
 %type <PhysicalLocationTypeVal>       y_PrimaryLocation_PhysicalLocationType
 %type <XmlIDREFVal>                   y_RefObject_XmlIDREF
@@ -191,13 +187,11 @@ int yyerror(const char * s);
 %type <PhysicalLocationTypeVal>       y_SecondaryLocation_PhysicalLocationType_0_u
 %type <PhysicalLocationTypeListVal>   y_SecondaryLocation_PhysicalLocationType_0_uList
 %type <XmlNMTOKENVal>                 y_SerialNumber_XmlNMTOKEN
-%type <ShapeDesignTypeVal>            y_ShapeDesignType
 %type <ShapeDesignTypeVal>            y_ShapeDesignTypeAny
 %type <ShapeDesignTypeVal>            y_Shape_ShapeDesignType
 %type <XmlIDREFVal>                   y_SkuName_XmlIDREF
 %type <StockKeepingUnitTypeVal>       y_Sku_StockKeepingUnitType_u
 %type <StockKeepingUnitTypeListVal>   y_Sku_StockKeepingUnitType_uList
-%type <SolidObjectTypeVal>            y_SolidObjectType
 %type <SolidObjectTypeVal>            y_SolidObjectTypeAny
 %type <SolidObjectTypeVal>            y_SolidObject_SolidObjectType_0_u
 %type <SolidObjectTypeListVal>        y_SolidObject_SolidObjectType_0_uList
@@ -219,10 +213,8 @@ int yyerror(const char * s);
 %type <BoxyShapeTypeVal>              y_x_BoxyShapeType
 %type <EndEffectorChangingStationTypeVal> y_x_EndEffectorChangingStationType
 %type <EndEffectorHolderTypeVal>      y_x_EndEffectorHolderType
-%type <EndEffectorTypeVal>            y_x_EndEffectorType
 %type <ExternalShapeTypeVal>          y_x_ExternalShapeType
 %type <GripperEffectorTypeVal>        y_x_GripperEffectorType
-%type <InternalShapeTypeVal>          y_x_InternalShapeType
 %type <KitTrayTypeVal>                y_x_KitTrayType
 %type <KitTypeVal>                    y_x_KitType
 %type <KittingWorkstationTypeVal>     y_x_KittingWorkstationType
@@ -236,15 +228,12 @@ int yyerror(const char * s);
 %type <PartsTrayWithPartsTypeVal>     y_x_PartsTrayWithPartsType
 %type <PoseLocationInTypeVal>         y_x_PoseLocationInType
 %type <PoseLocationOnTypeVal>         y_x_PoseLocationOnType
-%type <PoseLocationTypeVal>           y_x_PoseLocationType
 %type <PoseOnlyLocationTypeVal>       y_x_PoseOnlyLocationType
 %type <RelativeLocationInTypeVal>     y_x_RelativeLocationInType
 %type <RelativeLocationOnTypeVal>     y_x_RelativeLocationOnType
-%type <RelativeLocationTypeVal>       y_x_RelativeLocationType
 %type <RobotTypeVal>                  y_x_RobotType
 %type <VacuumEffectorMultiCupTypeVal> y_x_VacuumEffectorMultiCupType
 %type <VacuumEffectorSingleCupTypeVal> y_x_VacuumEffectorSingleCupType
-%type <VacuumEffectorTypeVal>         y_x_VacuumEffectorType
 %type <WorkTableTypeVal>              y_x_WorkTableType
 
 %token <iVal> BAD
@@ -657,17 +646,6 @@ y_EndEffectorName_XmlIDREF_0_uList :
 	   $$->push_back($2);}
 	;
 
-y_EndEffectorType :
-	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
-	  y_Weight_PositiveDecimalType
-	  y_MaximumLoadWeight_PositiveDecimalType
-	  y_HeldObject_SolidObjectType_0
-	  {$$ = new EndEffectorType($2, $3, $4, $5, $6, $7, $8, $9, $10);}
-	;
-
 y_EndEffectorTypeAny :
 	  y_x_GripperEffectorType
 	  {$$ = $1;}
@@ -675,12 +653,10 @@ y_EndEffectorTypeAny :
 	  {$$ = $1;}
 	| y_x_VacuumEffectorSingleCupType
 	  {$$ = $1;}
-	| y_x_VacuumEffectorType
-	  {$$ = $1;}
 	;
 
 y_EndEffector_EndEffectorType_0 :
-	  /* empty - this was added by hand */
+	  /* empty */
 	  {$$ = 0;}
 	| ENDEFFECTORSTART y_EndEffectorTypeAny ENDEFFECTOREND
 	  {$$ = $2;}
@@ -706,7 +682,7 @@ y_Finished_XmlBoolean :
 	;
 
 y_GraspPose_PoseLocationType_0 :
-	  /* empty - this was added by hand */
+	  /* empty */
 	  {$$ = 0;}
 	| GRASPPOSESTART y_PoseLocationTypeAny GRASPPOSEEND
 	  {$$ = $2;}
@@ -726,7 +702,7 @@ y_Height_PositiveDecimalType :
 	;
 
 y_HeldObject_SolidObjectType_0 :
-	  /* empty - this was added by hand */
+	  /* empty */
 	  {$$ = 0;}
 	| HELDOBJECTSTART y_SolidObjectTypeAny HELDOBJECTEND
 	  {$$ = $2;}
@@ -737,19 +713,13 @@ y_I_XmlDecimal :
 	  {$$ = $4;}
 	;
 
-y_InternalShapeType :
-	   ENDITEM y_Name_XmlID y_Description_XmlString
-	  y_GraspPose_PoseLocationType_0
-	  {$$ = new InternalShapeType($2, $3, $4);}
-	;
-
 y_InternalShapeTypeAny :
 	  y_x_BoxyShapeType
 	  {$$ = $1;}
 	;
 
 y_InternalShape_InternalShapeType_0 :
-	  /* empty - this was added by hand */
+	  /* empty */
 	  {$$ = 0;}
 	| INTERNALSHAPESTART y_InternalShapeTypeAny INTERNALSHAPEEND
 	  {$$ = $2;}
@@ -938,9 +908,7 @@ y_Name_XmlID :
 	;
 
 y_Object_SolidObjectType_u :
-	  OBJECTSTART y_SolidObjectType OBJECTEND
-	  {$$ = $2;}
-	| OBJECTSTART y_SolidObjectTypeAny OBJECTEND
+	  OBJECTSTART y_SolidObjectTypeAny OBJECTEND
 	  {$$ = $2;}
 	;
 
@@ -1036,25 +1004,16 @@ y_PartsTray_PartsTrayType :
 	  {$$ = $2;}
 	;
 
-y_PhysicalLocationType :
-	   ENDITEM y_Name_XmlID y_RefObject_XmlIDREF
-	  {$$ = new PhysicalLocationType($2, $3);}
-	;
-
 y_PhysicalLocationTypeAny :
 	  y_x_PoseLocationInType
 	  {$$ = $1;}
 	| y_x_PoseLocationOnType
-	  {$$ = $1;}
-	| y_x_PoseLocationType
 	  {$$ = $1;}
 	| y_x_PoseOnlyLocationType
 	  {$$ = $1;}
 	| y_x_RelativeLocationInType
 	  {$$ = $1;}
 	| y_x_RelativeLocationOnType
-	  {$$ = $1;}
-	| y_x_RelativeLocationType
 	  {$$ = $1;}
 	;
 
@@ -1067,12 +1026,6 @@ y_PointType :
 y_Point_PointType :
 	  POINTSTART y_PointType POINTEND
 	  {$$ = $2;}
-	;
-
-y_PoseLocationType :
-	   ENDITEM y_Name_XmlID y_RefObject_XmlIDREF y_Point_PointType
-	  y_XAxis_VectorType y_ZAxis_VectorType
-	  {$$ = new PoseLocationType($2, $3, $4, $5, $6);}
 	;
 
 y_PoseLocationTypeAny :
@@ -1111,10 +1064,7 @@ y_Robot_RobotType :
 	;
 
 y_SecondaryLocation_PhysicalLocationType_0_u :
-	  SECONDARYLOCATIONSTART y_PhysicalLocationType
-	  SECONDARYLOCATIONEND
-	  {$$ = $2;}
-	| SECONDARYLOCATIONSTART y_PhysicalLocationTypeAny
+	  SECONDARYLOCATIONSTART y_PhysicalLocationTypeAny
 	  SECONDARYLOCATIONEND
 	  {$$ = $2;}
 	;
@@ -1134,18 +1084,10 @@ y_SerialNumber_XmlNMTOKEN :
 	  {$$ = $4;}
 	;
 
-y_ShapeDesignType :
-	   ENDITEM y_Name_XmlID y_Description_XmlString
-	  y_GraspPose_PoseLocationType_0
-	  {$$ = new ShapeDesignType($2, $3, $4);}
-	;
-
 y_ShapeDesignTypeAny :
 	  y_x_BoxyShapeType
 	  {$$ = $1;}
 	| y_x_ExternalShapeType
-	  {$$ = $1;}
-	| y_x_InternalShapeType
 	  {$$ = $1;}
 	;
 
@@ -1173,20 +1115,10 @@ y_Sku_StockKeepingUnitType_uList :
 	   $$->push_back($2);}
 	;
 
-y_SolidObjectType :
-	  ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0
-	  {$$ = new SolidObjectType($2, $3, $4, $5, $6);}
-	;
-
 y_SolidObjectTypeAny :
 	  y_x_EndEffectorChangingStationType
 	  {$$ = $1;}
 	| y_x_EndEffectorHolderType
-	  {$$ = $1;}
-	| y_x_EndEffectorType
 	  {$$ = $1;}
 	| y_x_GripperEffectorType
 	  {$$ = $1;}
@@ -1218,16 +1150,12 @@ y_SolidObjectTypeAny :
 	  {$$ = $1;}
 	| y_x_VacuumEffectorSingleCupType
 	  {$$ = $1;}
-	| y_x_VacuumEffectorType
-	  {$$ = $1;}
 	| y_x_WorkTableType
 	  {$$ = $1;}
 	;
 
 y_SolidObject_SolidObjectType_0_u :
-	  SOLIDOBJECTSTART y_SolidObjectType SOLIDOBJECTEND
-	  {$$ = $2;}
-	| SOLIDOBJECTSTART y_SolidObjectTypeAny SOLIDOBJECTEND
+	  SOLIDOBJECTSTART y_SolidObjectTypeAny SOLIDOBJECTEND
 	  {$$ = $2;}
 	;
 
@@ -1371,20 +1299,6 @@ y_x_EndEffectorHolderType :
 	  }
 	;
 
-y_x_EndEffectorType :
-	  ENDEFFECTORTYPEDECL ENDITEM y_Name_XmlID
-	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
-	  y_Weight_PositiveDecimalType
-	  y_MaximumLoadWeight_PositiveDecimalType
-	  y_HeldObject_SolidObjectType_0
-	  {$$ = new EndEffectorType($3, $4, $5, $6, $7, $8, $9, $10, $11);
-	   $$->printTypp = true;
-	  }
-	;
-
 y_x_ExternalShapeType :
 	  EXTERNALSHAPETYPEDECL ENDITEM y_Name_XmlID
 	  y_Description_XmlString y_GraspPose_PoseLocationType_0
@@ -1405,14 +1319,6 @@ y_x_GripperEffectorType :
 	  y_MaximumLoadWeight_PositiveDecimalType
 	  y_HeldObject_SolidObjectType_0
 	  {$$ = new GripperEffectorType($3, $4, $5, $6, $7, $8, $9, $10, $11);
-	   $$->printTypp = true;
-	  }
-	;
-
-y_x_InternalShapeType :
-	  INTERNALSHAPETYPEDECL ENDITEM y_Name_XmlID
-	  y_Description_XmlString y_GraspPose_PoseLocationType_0
-	  {$$ = new InternalShapeType($3, $4, $5);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1572,14 +1478,6 @@ y_x_PoseLocationOnType :
 	  }
 	;
 
-y_x_PoseLocationType :
-	  POSELOCATIONTYPEDECL ENDITEM y_Name_XmlID y_RefObject_XmlIDREF
-	  y_Point_PointType y_XAxis_VectorType y_ZAxis_VectorType
-	  {$$ = new PoseLocationType($3, $4, $5, $6, $7);
-	   $$->printTypp = true;
-	  }
-	;
-
 y_x_PoseOnlyLocationType :
 	  POSEONLYLOCATIONTYPEDECL ENDITEM y_Name_XmlID
 	  y_RefObject_XmlIDREF y_Point_PointType y_XAxis_VectorType
@@ -1601,14 +1499,6 @@ y_x_RelativeLocationOnType :
 	  RELATIVELOCATIONONTYPEDECL ENDITEM y_Name_XmlID
 	  y_RefObject_XmlIDREF y_Description_XmlString
 	  {$$ = new RelativeLocationOnType($3, $4, $5);
-	   $$->printTypp = true;
-	  }
-	;
-
-y_x_RelativeLocationType :
-	  RELATIVELOCATIONTYPEDECL ENDITEM y_Name_XmlID
-	  y_RefObject_XmlIDREF y_Description_XmlString
-	  {$$ = new RelativeLocationType($3, $4, $5);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1654,21 +1544,6 @@ y_x_VacuumEffectorSingleCupType :
 	  y_HeldObject_SolidObjectType_0 y_CupDiameter_PositiveDecimalType
 	  y_Length_PositiveDecimalType
 	  {$$ = new VacuumEffectorSingleCupType($3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
-	   $$->printTypp = true;
-	  }
-	;
-
-y_x_VacuumEffectorType :
-	  VACUUMEFFECTORTYPEDECL ENDITEM y_Name_XmlID
-	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
-	  y_Weight_PositiveDecimalType
-	  y_MaximumLoadWeight_PositiveDecimalType
-	  y_HeldObject_SolidObjectType_0 y_CupDiameter_PositiveDecimalType
-	  y_Length_PositiveDecimalType
-	  {$$ = new VacuumEffectorType($3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
 	   $$->printTypp = true;
 	  }
 	;

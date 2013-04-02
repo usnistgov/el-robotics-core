@@ -60,14 +60,15 @@ class KittingViewer
   static void drawBoxyShape(BoxyShapeType * boxy, col color,
 		   PoseLocationType * pose);
   static void drawChangingStation(EndEffectorChangingStationType * station);
-  static void drawVacuumGripper(VacuumEffectorType * gripper,
-		   PoseLocationType * pose);
+  static void drawMetricsAndSettings(int height);
   static void drawRobot();
   static void drawSingleCupGripper(col color, double x, double y, double z,
 		   double cupRadius, double length, double xI, double xJ,
                    double xK, double zI, double zJ, double zK);
   static void drawSolidObject(SolidObjectType * object);
   static void drawString(float x, float y, void * font, char * string);
+  static void drawVacuumGripper(VacuumEffectorType * gripper,
+		   PoseLocationType * pose);
   static void drawWorkstation();
   static void dwell(double seconds);
   static void enterPoseTargets(Pose ** posesIn, int num);
@@ -113,13 +114,13 @@ class KittingViewer
 		  std::list<StockKeepingUnitType *> * Skus);
   static std::string * findSkuName(SolidObjectType * solid);
   static EndEffectorHolderType * findToolHolder(PointType * point);
+  static double getPseudoElapsedTime();
   static bool gripperCanHandleSku(XmlID * gripperName,
 		  StockKeepingUnitType * sku);
   static void handleExecute();
   static void handleResets();
   static double hypot3(double x, double y, double z);
-  static void init(char * commandFile, char * kittingInitFile,
-                   char * kittingGoalFile, char * scoringFile);
+  static void init();
   static void initData();
   static void insertBox(col boxColor, double minX, double minY, double minZ,
 			double maxX, double maxY, double maxZ, bool solid);
@@ -154,7 +155,9 @@ class KittingViewer
   static void relocateTray(PartsTrayWithPartsType * supply);
   static void resetPositions(double xi, double xj, double xk,
 			     double zi, double zj, double zk);
+  static void resetViewer();
   static VectorIJK rotate(VectorIJK vec, VectorIJK axle, double theta);
+  static void runAgain();
   static void setColorAndSku(SolidObjectType * object,
 			     std::list<StockKeepingUnitType *> * Skus);
   static void setExecuteFlag(bool setting);
@@ -178,6 +181,8 @@ class KittingViewer
   static double              anglesZ[MAXPOSES]; // Z rots corresponding to poses
   static char                angleUnits[TEXTSIZE]; // degree, radian
   static VectorIJK           axlesZ[MAXPOSES]; // rot axes corresp to poses
+  static bool                checkingNotStarted; // true = checking not started
+  static char *              commandFile; // name of command file
   static std::list<CanonicalMsg *> commands; //commands read from file
   static int                 commandSequenceErrors; // number of sequence errors
   static char                commandString[MAXPOSES][TEXTSIZE]; //command string
@@ -189,14 +194,18 @@ class KittingViewer
   static bool                executeFlag; // true = execute next command
   static int                 executionState; // unready, ready, or ended
   static double              fraction;    // proportion of motion done
+  static double              glutElapsedTime; // elapsed time in seconds
   static KittingWorkstationType * goalModel; // model built from goal file
   static int                 gripperUseErrors; // number of gripper use errors
   static std::map<std::string, std::list<PoseLocationType *>*> kitGoalMap;
+  static char *              kittingGoalFile; // name of goal state file
+  static char *              kittingInitFile; // name of initial state file
   static double              lengthFactor; // factor for length conversion
   static char                lengthUnits[TEXTSIZE]; // meter, millim, inch
   static int                 locationErrors; //number of errors in part location
   static int                 locationGoods; // number objects in right location
   static int                 motionErrors; //number of errors in motion
+  static int                 movableObjects; // number of movable objects
   static KittingWorkstationType * nowModel; // model from init file & updated
   static double              nowX;   // controlled point X position now
   static double              nowXAxisI; // X component of controlled pt X axis
@@ -212,6 +221,7 @@ class KittingViewer
   static int                 poseIndex;   // index of poses and times arrays
   static Pose                poses[MAXPOSES]; // array of poses to move to
   static int                 posesTotal;  // total number of poses to move to
+  static double              pseudoElapsedTime; // fake elapsed time in seconds
   static int                 rangeErrors; // total out-of-range errors
   static bool                resetFlag; // true = update positions
   static double              robotAccel; // acceleration setting
@@ -232,10 +242,12 @@ class KittingViewer
   static bool                robotToolChangerOpen; // true=open, false=closed
   static double              score;   // the score for the command file
   static float               scale;   // scale to use to convert mm to picture
+  static char *              scoringFile; // name of scoring file, may be 0
   static char                scoringFileName[TEXTSIZE]; // name of scoring file
   static std::map<std::string, std::list<PoseLocationType *>*> skuGoalMap;
   static float               spacing; // grid line spacing in meters
   static bool                swap; //true=same name objects may swap positions
+  static double              timeFactor; // factor for speeding or slowing time
   static double              times[MAXPOSES]; // times corresponding to poses
   static int                 toolChangeErrors; // total tool change errors
   static double              totalExecutionTime; // total execution time

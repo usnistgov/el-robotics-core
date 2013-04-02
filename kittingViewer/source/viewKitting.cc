@@ -43,9 +43,10 @@ there and uses no processing time.
 #include "mouse.hh"
 
 #define IMAGE_SIZE 4000000
+#define FILENAME_SIZE 32
 #define max(x,y) (((y) > (x)) ? (y) : (x))
 
-static void animate();
+static void animate(void);
 static void buildDisplayList(void);
 static void displayCommandWindow(void);
 static void displayMetricsWindow(void);
@@ -58,11 +59,13 @@ static void mouse(int button, int state, int x, int y);
 static void reshapeCommandWindow(int width, int height);
 static void reshapeMetricsWindow(int width, int height);
 static void reshapePictureWindow(int width, int height);
+static int textDump(void);
 static int windowDump(void);
 
 /********************************************************************/
 
 static int dump = 0;            // whether to dump image
+static int dumpIndex = 0;       // number of dump
 static int commandHeight = 100; // height of command window
 static int commandWidth = 908;  // width of command window
 static int commandWindow = 0;   // id of command window
@@ -71,6 +74,7 @@ static int metricsWidth = 300;  // width of metrics window
 static int metricsWindow = 0;   // id of metrics window
 static int pictureExtent = 600; // width and height of picture window
 static int pictureWindow = 0;   // id of picture window
+static int text = 0;            // whether to write text file
 static GLuint drawList = 0;     // display list for grid and all objects
 
 int rotate = 0;         // whether mouse button 1 rotates, used by mouse.cc
@@ -83,16 +87,38 @@ Returned Value: none
 
 Called By: glInit (as glutIdleFunction for the pictureWindow)
 
+1. If "dump" is non-zero, dump the three windows and set "dump" to 0.
+
+2. If "text" is non-zero, print metrics and settings, and set "text" to 0.
+
+3. If it is not time for the last move command to be fully executed or
+if not all poses have been reached, redraw the picture window.
+
 */
 
 static void animate()
 {
-  if (dump)
+  if (dump && text)
+    {
+      windowDump();
+      textDump();
+      dump = 0;
+      text = 0;
+      dumpIndex++;
+    }
+  else if (dump)
     {
       windowDump();
       dump = 0;
+      dumpIndex++;
     }
-  if (((glutGet(GLUT_ELAPSED_TIME) / 1000.0) <
+  else if (text)
+    {
+      textDump();
+      text = 0;
+      dumpIndex++;
+    }
+  if ((KittingViewer::getPseudoElapsedTime() <
        KittingViewer::times[KittingViewer::posesTotal - 1]) ||
       (KittingViewer::poseIndex < KittingViewer::posesTotal))
     {
@@ -177,7 +203,7 @@ This draws the metricsWindow.
 static void displayMetricsWindow(void) /* NO ARGUMENTS */
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  KittingViewer::printMetricsAndSettings(metricsHeight);
+  KittingViewer::drawMetricsAndSettings(metricsHeight);
   glutSwapBuffers();
 }
 
@@ -188,9 +214,6 @@ static void displayMetricsWindow(void) /* NO ARGUMENTS */
 Returned Value: none
 
 Called By: glInit (as glutDisplayFunc for pictureWindow)
-
-This draws the display. If dump is non-zero, it also dumps a ppm image
-and sets dump to zero.
 
 This is also posting a redisplay for the metricsWindow if the
 distanceTotal changes.
@@ -298,20 +321,44 @@ Returned Value: none
 
 Called By: glInit (as glutKeyboardFunc)
 
-If g is pressed, and there are more commands to execute, and the last command
-     has finished executing, another command is executed. If the last command
-     was a move command, the indication that it has completed executing is
-     that the current time is later than the time scheduled for completion.
-If h or H is pressed, the view is returned to its original position.
-If r is pressed, using mouse button 1 to rotate instead of translate is toggled
-If t or T is pressed the current image is dumped to a ppm file.
-if z, Z, q, or Q is pressed, kittingViewer exits.
+If Esc (escape) is pressed, this exits.
 
-The 0.02 second delay after the previous command should be finished
-executing before calling setExecuteFlag is there because without it,
-sometimes the previous command was not finished. In that case, the robot
-was not in the final commanded position, and a part that should have been
-picked up when a close gripper command was given was not picked up.
+If a (again) is pressed, this starts the simulation over from the
+     beginning
+
+If d (dump) is pressed, the dump variable is set to 1, indicating that
+     the current image should be dumped to a ppm file.
+
+If D (dump) is pressed, the dump variable is set to 1, indicating that
+     the current image should be dumped to a ppm file and the text
+     variable is set to 1, indicating that the current metrics,
+     settings, and command should be written to a text file.
+
+If e (execute) is pressed, and the kittingViewer's resetFlag is false,
+     this sets the kittingViewer's executeFlag to true. This will
+     cause the kittingViewer to execute the next command if there is
+     one; otherwise, if not all movable objects have been checked, this
+     will cause the position of the next movable object to be checked.
+
+If f (faster) is pressed, the kittingViewer's timeFactor is multiplied
+     by the square root of 2, causing the animation to run faster.
+
+If r (rotate) is pressed, using mouse button 1 to rotate instead of
+     translate is toggled.
+
+If s (slower) is pressed, the kittingViewer's timeFactor is divided
+     by the square root of 2, causing the animation to run slower.
+
+If t (text) is pressed, the text variable is set to 1, indicating that
+     the current metrics, settings, and command should be written to a
+     text file.
+
+If T (text) is pressed, the dump variable is set to 1, indicating that
+     the current image should be dumped to a ppm file and the text
+     variable is set to 1, indicating that the current metrics,
+     settings, and command should be written to a text file.
+
+If v (view) is pressed, the view is returned to its original position.
 
 */
 
@@ -322,34 +369,54 @@ static void keyboard(
 {
   switch (key)
     {
-    case 'Q':
-    case 'q':
-    case 'Z':
-    case 'z':
+    case 27:  // Esc
       exit(0);
       break;
-    case 'h':
-    case 'H':
-      msInit();
+    case 'a':
+      KittingViewer::runAgain();
       break;
-    case 't':
-    case 'T':
+    case 'd':
       dump = 1;
       break;
-    case 'g':
+    case 'D':
+      dump = 1;
+      text = 1;
+      break;
+    case 'e':
       glutSetWindow(commandWindow);
       glutPostRedisplay();
       glutSetWindow(metricsWindow);
       glutPostRedisplay();
       glutSetWindow(pictureWindow);
-      if ((glutGet(GLUT_ELAPSED_TIME) / 1000.0) - 0.02 >
-	  KittingViewer::times[KittingViewer::posesTotal - 1])
+      if (!KittingViewer::resetFlag)
 	KittingViewer::setExecuteFlag(true);
       buildDisplayList();
       glutPostRedisplay();
       break;
+    case 'f':
+      KittingViewer::timeFactor *= 1.414213562;
+      glutSetWindow(metricsWindow);
+      glutPostRedisplay();
+      glutSetWindow(pictureWindow);
+      break;
     case 'r' :
       rotate = ((rotate == 0) ? 1 : 0);
+      break;
+    case 's':
+      KittingViewer::timeFactor /= 1.414213562;
+      glutSetWindow(metricsWindow);
+      glutPostRedisplay();
+      glutSetWindow(pictureWindow);
+      break;
+    case 't':
+      text = 1;
+      break;
+    case 'T':
+      dump = 1;
+      text = 1;
+      break;
+    case 'v':
+      msInit();
       break;
     }
   glutPostRedisplay();
@@ -559,12 +626,12 @@ sets the value to 1.
 
 */
 /*
-#define fname_size 32
+
 static int windowDump(void) // NO ARGUMENTS
 {
   FILE * outFile;         // file pointer for dumped image
   static int counter = 1; // counter for dumped images
-  char fname[fname_size]; // name of dumped image
+  char fname[FILENAME_SIZE]; // name of dumped image
   static char ppmImage[IMAGE_SIZE];  // storage for dumped image
   static char tempImage[IMAGE_SIZE]; // storage for image of one window
   int width;              // width of dumped image, in chars
@@ -668,12 +735,10 @@ used with those windows.
 
 */
 
-#define fname_size 32
 static int windowDump(void) // NO ARGUMENTS
 {
   FILE * outFile;         // file pointer for dumped image
-  static int counter = 1; // counter for dumped images
-  char fname[fname_size]; // name of dumped image
+  char fileName[FILENAME_SIZE]; // name of dumped image
   static char ppmImage[IMAGE_SIZE];  // storage for dumped image
   static char tempImage[IMAGE_SIZE]; // storage for image of one window
   int allWidth;     // entire width of dumped image, in chars
@@ -761,20 +826,151 @@ static int windowDump(void) // NO ARGUMENTS
     }
 
   glutSetWindow(pictureWindow);
-  snprintf(fname, fname_size, "kittingViewer_%04d.ppm", counter++);
-  if ((outFile = fopen(fname, "w")) == NULL)
+  snprintf(fileName, FILENAME_SIZE, "kittingViewer_%04d.ppm", dumpIndex);
+  if ((outFile = fopen(fileName, "w")) == NULL)
     {
-      fprintf(stderr, "WindowDump - Failed to open file %s\n", fname);
+      fprintf(stderr, "windowDump - failed to open file %s\n", fileName);
       return 1;
     }
   fprintf(outFile, "P6\n%d %d\n255\n", (allWidth / 3), allHeight);
   if (fwrite(ppmImage, imageSize * sizeof(char), 1, outFile) != 1)
     {
-      fprintf(stderr, "WindowDump - Failed to write in file %s\n", fname);
+      fprintf(stderr, "windowDump - failed to write in file %s\n", fileName);
       fclose(outFile);
       return 1;
     }
   fclose(outFile);
+  printf("dumped kittingViewer windows in file %s\n", fileName);
+  return 0;
+}
+
+/********************************************************************/
+
+/* textDump
+
+Returned Value: int
+If this file is written successfully, this returns 0.
+Otherwise, it prints an error message to the terminal and returns 1.
+
+Called By: animate
+
+This prints to a text file the information in the Metrics and Settings
+window and the information in the Kitting Command and Messages window.
+
+*/
+
+static int textDump(void) // NO ARGUMENTS
+{
+  FILE * outFile;         // file pointer for dumped image
+  char fileName[FILENAME_SIZE]; // name of dumped image
+  int n;
+
+  snprintf(fileName, FILENAME_SIZE, "kittingViewer_%04d.txt", dumpIndex);
+  outFile = fopen(fileName, "w");
+  if (outFile == NULL)
+    {
+      fprintf(stderr, "textDump - failed to open file %s\n", fileName);
+      return 1;
+    }
+  fprintf(outFile, "METRICS\n");
+  fprintf(outFile, "action commands executed successfully: %d\n",
+	  KittingViewer::actionCommandsExecuted);
+  fprintf(outFile, "other commands executed successfully: %d\n",
+	  KittingViewer::otherCommandsExecuted);
+  fprintf(outFile, "total robot distance moved: %.4lf %s\n",
+	  (KittingViewer::distanceTotal / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits);
+  fprintf(outFile, "total execution time: %.2lf seconds\n",
+	  KittingViewer::totalExecutionTime);
+  fprintf(outFile, "useless commands executed: %d\n",
+	  KittingViewer::uselessCommands);
+  fprintf(outFile, "range errors: %d\n",
+	  KittingViewer::rangeErrors);
+  fprintf(outFile, "parse errors: %d\n",
+	  KittingViewer::parseErrors);
+  fprintf(outFile, "command sequence errors: %d\n",
+	  KittingViewer::commandSequenceErrors);
+  fprintf(outFile, "gripper use errors: %d\n",
+	  KittingViewer::gripperUseErrors);
+  fprintf(outFile, "tool change errors: %d\n",
+	  KittingViewer::toolChangeErrors);
+  fprintf(outFile, "motion errors: %d\n",
+	  KittingViewer::motionErrors);
+  fprintf(outFile, "total errors: %d\n",
+	  (KittingViewer::rangeErrors + KittingViewer::commandSequenceErrors +
+	   KittingViewer::gripperUseErrors + KittingViewer::parseErrors +
+	   KittingViewer::toolChangeErrors + KittingViewer::motionErrors +
+	   KittingViewer::locationErrors));
+  if (KittingViewer::commands.size() == 0)
+    {
+      fprintf(outFile, "object location errors: %d\n",
+	      KittingViewer::locationErrors);
+      fprintf(outFile, "objects located correctly: %d\n",
+	      KittingViewer::locationGoods);
+      fprintf(outFile, "total basic goal object distance moved: %.4lf %s\n",
+	      (KittingViewer::totalGoalDistance /
+	       KittingViewer::robotLengthFactor),
+	      KittingViewer::robotLengthUnits);
+      fprintf(outFile, "score: %f\n\n", KittingViewer::score);
+    }
+
+  fprintf(outFile, "ROBOT SETTINGS\n");
+  fprintf(outFile, "robot length units: %s\n",
+	  KittingViewer::robotLengthUnits);
+  fprintf(outFile, "robot angle units: %s\n",
+	  KittingViewer::robotAngleUnits);
+  fprintf(outFile, "robot speed: %.4f %s/s\n",
+	  (KittingViewer::robotSpeed / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits);
+  fprintf(outFile, "robot maximum speed: %.4f %s/s\n",
+	  (KittingViewer::robotMaxSpeed / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits );
+  fprintf(outFile, "robot relative speed: %.2f%%\n",
+	  KittingViewer::robotRelSpeed);
+  fprintf(outFile, "robot acceleration: %.4f %s/s*s\n",
+	  (KittingViewer::robotAccel / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits );
+  fprintf(outFile, "robot maximum acceleration: %.4f %s/s*s\n",
+	  (KittingViewer::robotMaxAccel / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits);
+  fprintf(outFile, "robot relative acceleration: %.2f%%\n",
+	  KittingViewer::robotRelAccel);
+  fprintf(outFile, "robot end angle tolerance: %.4f %s\n",
+	  (KittingViewer::robotEndAngleTol / KittingViewer::robotAngleFactor),
+	  KittingViewer::robotAngleUnits);
+  fprintf(outFile, "robot end point tolerance : %.4f %s\n",
+	  (KittingViewer::robotEndPointTol / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits);
+  fprintf(outFile, "robot intermediate point tolerance : %.4f %s\n",
+	  (KittingViewer::robotIntPointTol / KittingViewer::robotLengthFactor),
+	  KittingViewer::robotLengthUnits);
+  fprintf(outFile, "gripper is: %s\n",
+	   ((KittingViewer::nowModel->Robot->EndEffector == 0) ? "not on robot"
+	    : KittingViewer::robotGripperOpen ? "open"
+	    : "closed"));
+  fprintf(outFile, "tool changer is: %s\n\n",
+	  (KittingViewer::robotToolChangerOpen ? "open" : "closed"));
+
+  fprintf(outFile, "KITTING VIEWER SETTINGS\n");
+  fprintf(outFile, "grid spacing: %.4f %s\n",
+	  (KittingViewer::spacing / KittingViewer::lengthFactor),
+	  KittingViewer::lengthUnits);
+  fprintf(outFile, "scoring file: %s\n", KittingViewer::scoringFileName);
+  fprintf(outFile, "swap: %s\n", (KittingViewer::swap ? "true" : "false"));
+  fprintf(outFile, "time factor: %.4f\n\n", KittingViewer::timeFactor);
+
+  for (n = 1; ((n < MAXPOSES) && (KittingViewer::commandString[n][0])); n++)
+    {
+      fprintf(outFile, "%s\n", KittingViewer::commandString[n]);
+    }
+  if (KittingViewer::commandString[0][0])
+    {
+      if (KittingViewer::commandString[1][0])
+	fprintf(outFile, "\n");
+      fprintf(outFile, "%s\n", KittingViewer::commandString[0]);
+    }
+  fclose(outFile);
+  printf("dumped kittingViewer metrics and settings in file %s\n", fileName);
   return 0;
 }
 

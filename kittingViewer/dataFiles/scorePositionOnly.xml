@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<scoreKitting
+  xmlns="urn:Kitting"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:Kitting ../schema/scoreKitting.xsd">
+  <rightStuff>
+    <isAdditive>true</isAdditive>
+    <weight>1</weight>
+  </rightStuff>
+  <commandExecution>
+    <isAdditive>true</isAdditive>
+    <weight>0</weight>
+  </commandExecution>
+  <distance>
+    <isAdditive>true</isAdditive>
+    <weight>0</weight>
+  </distance>
+  <time>
+    <isAdditive>true</isAdditive>
+    <weight>0</weight>
+  </time>
+  <uselessCommands>
+    <isAdditive>true</isAdditive>
+    <weight>0</weight>
+    <valueFunction>
+      <bestValue>0.000000</bestValue>
+      <width>0.000000</width>
+      <taper>3.000000</taper>
+      <taperSide>plus</taperSide>
+    </valueFunction>
+  </uselessCommands>
+</scoreKitting>

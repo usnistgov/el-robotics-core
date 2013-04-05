@@ -141,12 +141,16 @@ class KittingViewer
   static void makeLocationMaps();
   static void poseProduct(PoseLocationType * poseToSet,
 			  PoseLocationType * pose1, PoseLocationType * pose2);
-  static void printMetricsAndSettings(int height);
+  static void printInstructions();
   static void putInDefaultPosition(PoseLocationType * pose);
   static void putInOtherPosition(
                   PoseLocationType * pose, PoseLocationType * source);
+  static void readArguments(int argc, char * argv[]);
+  static void readBuiltFile();
+  static void readCommandFile();
+  static void readGoalFile();
+  static void readInitFile(bool printMessage);
   static void readScoringFile(char * scoringFile);
-  static void recordInitialPosition(SolidObjectType * goalObject);
   static void recordInitialPositions(
                   std::map<std::string, SolidObjectType *> allSolids);
   static void redraw();
@@ -165,10 +169,12 @@ class KittingViewer
                   std::map<std::string, SolidObjectType *> allSolids);
   static void setNetTransform(PoseLocationType * newPose,
 		  std::list<PhysicalLocationType *> * locationStack);
-  static void setWorkstationLocation(SolidObjectType * object);
+  static void setWorkstationLocation(SolidObjectType * object,
+		  std::map<std::string, SolidObjectType *> allSolids);
   static bool solidIsMovable(SolidObjectType * solid);
   static void updateWorkstationPosition(SolidObjectType * object,
 					PoseLocationType * parentPose);
+  static void usageMessage(char * command);
   static double valuate(valueFunctionType * fun, double val);
 
   // private: // might make this private again. Need access functions if so.
@@ -197,7 +203,9 @@ class KittingViewer
   static double              glutElapsedTime; // elapsed time in seconds
   static KittingWorkstationType * goalModel; // model built from goal file
   static int                 gripperUseErrors; // number of gripper use errors
+  static KittingWorkstationType * initModel; // model built from init file
   static std::map<std::string, std::list<PoseLocationType *>*> kitGoalMap;
+  static char *              kittingBuiltFile; // name of as-built state file
   static char *              kittingGoalFile; // name of goal state file
   static char *              kittingInitFile; // name of initial state file
   static double              lengthFactor; // factor for length conversion
@@ -240,15 +248,16 @@ class KittingViewer
   static double              robotRelSpeed; // relative speed setting
   static double              robotSpeed;  // speed setting in length units/sec
   static bool                robotToolChangerOpen; // true=open, false=closed
-  static double              score;   // the score for the command file
   static float               scale;   // scale to use to convert mm to picture
+  static double              score;   // the score for the command file
   static char *              scoringFile; // name of scoring file, may be 0
   static char                scoringFileName[TEXTSIZE]; // name of scoring file
   static std::map<std::string, std::list<PoseLocationType *>*> skuGoalMap;
   static float               spacing; // grid line spacing in meters
-  static bool                swap; //true=same name objects may swap positions
+  static bool                swap; //true=same SKU objects may swap positions
   static double              timeFactor; // factor for speeding or slowing time
   static double              times[MAXPOSES]; // times corresponding to poses
+  static double              tolerance; // location tolerance
   static int                 toolChangeErrors; // total tool change errors
   static double              totalExecutionTime; // total execution time
   static double              totalGoalDistance; // total goal object distance

@@ -26,10 +26,6 @@
 
 /* TODO
 
-1. Implement tolerances for checking position.
-
-2. Write a user guide for the kittingViewer.
-
 */
 
 /* MAYBE TODO
@@ -74,19 +70,28 @@ results in an object being held by the gripper.
 
 14. Make the graphics fancier (lighting, textures, etc.)
 
+15. Give some credit in the metrics when an object has the correct secondary
+location (i.e. is at the correct place in the workstation) even if the
+primary location is incorrect. Currently there is no credit for that.
+
 */
 
 /*
 
+What the Kitting Viewer Does
+----------------------------
+
+See Users Manual.
+
 Units
 -----
 
-KittingViewer internal values for length units are always millimeters.
+Kitting Viewer internal values for length units are always millimeters.
 Internal values for angle units are always degrees. Internal values
 for weight units are always grams.
 
 The robot has a robotLengthUnits, a robotLengthFactor, a
-robotAngleUnits, and a robotAngleFactor. Initially, the kittingViewer
+robotAngleUnits, and a robotAngleFactor. Initially, the Kitting Viewer
 sets the robotLengthUnits to millimeters and sets the robotAngleUnits
 to degrees. The units may be changed by a setLengthUnits or
 setAngleUnits canonical robot command. The robotLengthFactor is reset
@@ -119,7 +124,7 @@ Robot
 The robot model in the kitting workstation model currently has no
 shape. To deal with that, this file has shape for the robot, as
 described in documentation of the drawRobot function. In the
-kittingViewer, the location of the robot is the location of the quill
+Kitting Viewer, the location of the robot is the location of the quill
 of the robot (the last arm). The coordinate system of the quill has
 its origin at the end of the quill, its Z axis on the axis of the
 quill pointing away from the quill (always 0,0,-1 in workstation
@@ -173,7 +178,7 @@ of the gripper.
 Kinematics, Speed, and Acceleration
 -----------------------------------
 
-Kinematics are built into the kittingViewer for a gantry robot that can
+Kinematics are built into the Kitting Viewer for a gantry robot that can
 hold a gripper of fixed length, can rotate the axis of the gripper and
 can rotate the gripper around its axis. The ROBOTDEFAULTMAXACCEL and 
 ROBOTDEFAULTMAXSPEED apply to the end of the quill of the robot (whether
@@ -181,7 +186,7 @@ a gripper is attached or not). The GRIPPERDEFAULTMAXROTATE applies to
 both gripper rotations.
 
 There are no canonical robot commands for gripper rotational speed, so the
-kittingViewer sets the gripper rotational speed to a fraction of the maximum
+Kitting Viewer sets the gripper rotational speed to a fraction of the maximum
 rotational speed that is the same as the fraction used for the robot speed.
 
 The gripper is treated as having a built-in X axis that is perpendicular
@@ -202,7 +207,7 @@ cases calls a subordinate function that handles the specific type of
 command.
 
 Several of these commands run sanity checks on their arguments. The three
-move commands trigger the kittingViewer to save data for animation. If a
+move commands trigger the Kitting Viewer to save data for animation. If a
 command sets something to what it already is, one is added to the number
 of useless commands; this applies to angle units, length units, and opening
 or closing of gripper or tool changer. If a command sets a value out of
@@ -263,7 +268,7 @@ Dealing with Identical Objects
 It is often desirable to treat objects as being identical. For
 example, we may want two part A's in a kit in particular places, but we
 don't care which part A is in which place. On other occasions we may care
-which part A is where. The kittingViewer deals with this by having the
+which part A is where. The Kitting Viewer deals with this by having the
 swap boolean which the user may set. If swap is set to true, kits with
 the same DesignName and other objects with the same SkuName are
 treated as identical for purposes of checking locations. This is
@@ -303,6 +308,16 @@ pseudoElapsedTime). To find the current pseudo elapsed time,
 getPseudoElapsedTime gets the current real elapsed time, subtracts
 the last real elapsed time, multiplies the difference by the timeFactor,
 and adds the product to the last saved pseudo elapsed time.
+
+Position Checking
+-----------------
+
+For checking the position of objects there is a distance tolerance and a
+vector tolerance for unit vectors and orthogonality. The distance tolerance
+may be set using the -t option in the command that starts the Kitting Viewer.
+The default value is TINYDISTANCE, a #define in this file currently set to
+two tenths of a millimeter. The vector tolerance is not settable. Its value
+is TINYVAL, also a #define in this file. It is currently set to 0.0001.
 
 */
 
@@ -354,7 +369,9 @@ double              KittingViewer::fraction;  // proportion of motion done
 double              KittingViewer::glutElapsedTime; //real elapsed time, secs
 KittingWorkstationType * KittingViewer::goalModel; // model built from goal file
 int                 KittingViewer::gripperUseErrors; // num gripper use errors
+KittingWorkstationType * KittingViewer::initModel; // model built from init file
 std::map<std::string, std::list<PoseLocationType *>*> KittingViewer::kitGoalMap;
+char *              KittingViewer::kittingBuiltFile; // name of as-built file
 char *              KittingViewer::kittingGoalFile; // name of goal state file
 char *              KittingViewer::kittingInitFile; // name of init state file
 double              KittingViewer::lengthFactor; // factor for length conversion
@@ -406,6 +423,7 @@ std::map<std::string, std::list<PoseLocationType *>*> KittingViewer::skuGoalMap;
 float               KittingViewer::spacing;   // grid line spacing in meters
 double              KittingViewer::timeFactor; //factor 4 speeding, slowing time
 double              KittingViewer::times[MAXPOSES]; // times corresp. to poses
+double              KittingViewer::tolerance; // location tolerance
 int                 KittingViewer::toolChangeErrors; // total tool change errors
 double              KittingViewer::totalExecutionTime; // total execution time
 double              KittingViewer::totalGoalDistance; // total goal object dist
@@ -855,11 +873,14 @@ Returned Value: none
 
 Called By:  KittingViewer::checkLocation
 
+This checks the location of a unique object, i.e., an object that is
+regarded as different from other objects with the same SKU.
+
 */
 
-void KittingViewer::checkLocationUnique(
- SolidObjectType * goalObject,
- SolidObjectType * nowObject)
+void KittingViewer::checkLocationUnique( /*  ARGUMENTS                   */
+ SolidObjectType * goalObject,           /* goal object to check against */
+ SolidObjectType * nowObject)            /* now object to chck           */
 {
   PoseLocationType * goalLocation;
   PoseLocationType * actualLocation;
@@ -912,9 +933,9 @@ bool KittingViewer::checkPointAndAxes( /*  ARGUMENTS                      */
  VectorType * actualZAxis,             /* actual ZAxis of object location */
  const char * name)                    /* name of object                  */
 {
-  if ((fabs(actualPoint->X->val - goalPoint->X->val) > TINYDISTANCE) ||
-      (fabs(actualPoint->Y->val - goalPoint->Y->val) > TINYDISTANCE) ||
-      (fabs(actualPoint->Z->val - goalPoint->Z->val) > TINYDISTANCE))
+  if ((fabs(actualPoint->X->val - goalPoint->X->val) > tolerance) ||
+      (fabs(actualPoint->Y->val - goalPoint->Y->val) > tolerance) ||
+      (fabs(actualPoint->Z->val - goalPoint->Z->val) > tolerance))
     {
       if (name)
 	{
@@ -1145,10 +1166,12 @@ void KittingViewer::computeScore( /* ARGUMENTS               */
 	      parseErrors + motionErrors + toolChangeErrors));
   totalGoalDistance += findDistance(object);
   fraction = ((double)n / (double)movableObjects);
-  distanceValue = ((2.0 * totalGoalDistance) / (distanceTotal * fraction));
+  distanceValue = (((distanceTotal * fraction) == 0) ? 0 :
+		   ((2.0 * totalGoalDistance) / (distanceTotal * fraction)));
   distanceValue = ((distanceValue > 1.0) ? 1.0 : distanceValue);
-  timeValue = (((2.0 * totalGoalDistance) / robotMaxSpeed) /
-	       (totalExecutionTime * fraction));
+  timeValue = (((totalExecutionTime * fraction) == 0) ? 0 :
+	       (((2.0 * totalGoalDistance) / robotMaxSpeed) /
+		(totalExecutionTime * fraction)));
   timeValue = ((timeValue > 1.0) ? 1.0 : timeValue);
   weight = scorer->rightStuff->weight->val;
   if (weight && scorer->rightStuff->isAdditive->val)
@@ -1316,7 +1339,7 @@ void KittingViewer::createKit( /* ARGUMENTS                   */
   newKit->refThing = parent;
   newKit->refFor.push_back(part);
   newKit->refFor.push_back(tray);
-  setWorkstationLocation(newKit);
+  setWorkstationLocation(newKit, nowModel->allSolids);
   nowModel->allKits.push_back(newKit);
   nowModel->allSolids.insert
     (std::pair<std::string, SolidObjectType *>(newKit->Name->val, newKit));
@@ -1387,12 +1410,12 @@ Returned Value: none
 
 Called By: displayMetricsWindow (in viewKitting.cc)
 
-This draws the metrics. The text is drawn in the metricsWindow. The
-size and position of the text do not change if the size of the
-metricsWindow is changed. Instead, if the window is made larger there
-is more blank space, and if the window is made smaller, some of the
-text is no longer visible. The text is anchored at the upper left
-corner of the metrics window.
+This draws the metrics, robot settings, and Kitting Viewer settings.
+The text is drawn in the metricsWindow. The size and position of the
+text do not change if the size of the metricsWindow is changed.
+Instead, if the window is made larger there is more blank space, and
+if the window is made smaller, some of the text is no longer visible.
+The text is anchored at the upper left corner of the metrics window.
 
 */
 
@@ -1534,7 +1557,11 @@ void KittingViewer::drawMetricsAndSettings( /* ARGUMENTS                 */
   snprintf(str, TEXTSIZE, "scoring file: %s", scoringFileName);
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
-  snprintf(str, TEXTSIZE, "swap: %s", (swap ? "true" : "false"));
+  snprintf(str, TEXTSIZE, "same-SKU equivalent: %s",
+	   (swap ? "true" : "false"));
+  drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
+
+  snprintf(str, TEXTSIZE, "tolerance: %.4f millimeter", tolerance);
   drawString(20.0f, (wy -= 15.0f), GLUT_BITMAP_HELVETICA_10, str);
 
   snprintf(str, TEXTSIZE, "time factor: %.4f", timeFactor);
@@ -3320,9 +3347,13 @@ Returned Value: double
 
 Called By: computeScore
 
-This finds the distance moved by a basic solid object in the goalModel
-that has a counterpart (same name and type) in the initial model. Only
-those have a secondary location in the goalModel.
+goalObject is a basic solid object in the goalModel.
+
+This finds the objects in the initModel and the nowModel with the same
+name as the goalObject. Then it finds the distance between the
+workstation locations of those two objects.
+
+It also checks that all three objects are the same type.
 
 */
 
@@ -3331,27 +3362,52 @@ double KittingViewer::findDistance( /* ARGUMENTS                           */
 {
   std::map<std::string, SolidObjectType *>::iterator iter;
   SolidObjectType * nowObject;
+  SolidObjectType * initObject;
   PointType * initPoint; 
   PointType * nowPoint;
 
-  if (goalObject->SecondaryLocation &&
-      goalObject->SecondaryLocation->size())
+  if (!(dynamic_cast<PartType *>(goalObject)      ||
+	dynamic_cast<KitTrayType *>(goalObject)   ||
+        dynamic_cast<PartsTrayType *>(goalObject) ||
+        dynamic_cast<LargeContainerType *>(goalObject)))
+    return 0;
+  iter = initModel->allSolids.find(goalObject->Name->val);
+  if (iter == initModel->allSolids.end())
     {
-      iter = nowModel->allSolids.find(goalObject->Name->val);
-      if (iter == nowModel->allSolids.end())
-	{
-	  fprintf(stderr, "bug in findDistance\n");
-	  exit(1);
-	}
-      nowObject = iter->second;
-      nowPoint = findSecondaryPose(nowObject)->Point;
-      initPoint = findSecondaryPose(goalObject)->Point;
-      return hypot3((nowPoint->X->val - initPoint->X->val),
-		    (nowPoint->Y->val - initPoint->Y->val),
-		    (nowPoint->Z->val - initPoint->Z->val));
+      fprintf(stderr, "object missing from initModel in findDistance\n");
+      exit(1);
     }
-  else
-    return 0.0;
+  initObject = iter->second;
+  iter = nowModel->allSolids.find(goalObject->Name->val);
+  if (iter == nowModel->allSolids.end())
+    {
+      fprintf(stderr, "object missing from nowModel in findDistance\n");
+      exit(1);
+    }
+  nowObject = iter->second;
+  if ((dynamic_cast<PartType *>(goalObject) &&
+       (!dynamic_cast<PartType *>(initObject) ||
+	!dynamic_cast<PartType *>(nowObject))) ||
+      (dynamic_cast<KitTrayType *>(goalObject) &&
+       (!dynamic_cast<KitTrayType *>(initObject) ||
+	!dynamic_cast<KitTrayType *>(nowObject))) ||
+      (dynamic_cast<PartsTrayType *>(goalObject) &&
+       (!dynamic_cast<PartsTrayType *>(initObject) ||
+	!dynamic_cast<PartsTrayType *>(nowObject))) ||
+      (dynamic_cast<LargeContainerType *>(goalObject) &&
+       (!dynamic_cast<LargeContainerType *>(initObject) ||
+	!dynamic_cast<LargeContainerType *>(nowObject))))
+    {
+      fprintf(stderr, 
+	      "goal object %s has different type in inital or current model\n",
+	      goalObject->Name->val.c_str());
+      exit(1);
+    }
+  initPoint = findSecondaryPose(initObject)->Point;
+  nowPoint = findSecondaryPose(nowObject)->Point;
+  return hypot3((nowPoint->X->val - initPoint->X->val),
+		(nowPoint->Y->val - initPoint->Y->val),
+		(nowPoint->Z->val - initPoint->Z->val));
 }
 
 /********************************************************************/
@@ -3374,9 +3430,9 @@ a point P.
 3. In kittingWorkstation coordinates, the Z axis of B is 0,0,1.
 4A. If B is a part, the shape has a top.
 4B. If B is a tray, the shape has no top.
-5A. If B is a part, the point argument is within TINYDISTANCE of
+5A. If B is a part, the point argument is within tolerance of
     the top of the part.
-5B. If B is a tray, P is within TINYDISTANCE of the bottom
+5B. If B is a tray, P is within tolerance of the bottom
     of the tray (assumes the tray bottom has no thickness - yuck).
 6. P is within 1 millimeter in X and Y from the origin of B
    (the origin of a boxy shape is in the middle of the bottom). This is
@@ -3421,14 +3477,14 @@ SolidObjectType * KittingViewer::findGripped( /* ARGUMENTS                   */
 	  if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)) &&
 	      (boxy->HasTop->val == true) &&
 	      (fabs((pose->Point->Z->val + boxy->Height->val) - Z) <
-	       TINYDISTANCE))
+	       tolerance))
 		return object;
 	}
       else if (dynamic_cast<PartsTrayType *>(object))
 	{
 	  if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)) &&
 	      (boxy->HasTop->val == false) &&
-	      (fabs(pose->Point->Z->val - Z) < TINYDISTANCE))
+	      (fabs(pose->Point->Z->val - Z) < tolerance))
 	    {
 	      if (dynamic_cast<PartsTrayWithPartsType *>(object->refThing))
 		return object->refThing;
@@ -3440,7 +3496,7 @@ SolidObjectType * KittingViewer::findGripped( /* ARGUMENTS                   */
 	{
 	  if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)) &&
 	      (boxy->HasTop->val == false) &&
-	      (fabs(pose->Point->Z->val - Z) < TINYDISTANCE))
+	      (fabs(pose->Point->Z->val - Z) < tolerance))
 	    {
 	      if (dynamic_cast<KitType *>(object->refThing))
 		return object->refThing;
@@ -3639,7 +3695,7 @@ tray.
 The offsets are set to the offsets from the point in the location of
 the object to the given xyz point.
 
-The actual check on the Z value is that z is within TINYDISTANCE of
+The actual check on the Z value is that z is within tolerance of
 a surface.
 
 This is similar to KittingViewer::findGripped.
@@ -3724,7 +3780,7 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
 	  height = boxy->Height->val;
 	}
       // check height
-      if (fabs((pose->Point->Z->val + height) - Z) > TINYDISTANCE)
+      if (fabs((pose->Point->Z->val + height) - Z) > tolerance)
 	continue;
       // check that point is inside object rectangle
       vi = (X - pose->Point->X->val);
@@ -3771,9 +3827,9 @@ EndEffectorHolderType * KittingViewer::findToolHolder( /* ARGUMENTS        */
   for (iter = holders->begin(); iter != holders->end(); iter++)
     {
       pose = findSecondaryPose(*iter);
-      if ((fabs(point->X->val - pose->Point->X->val) < TINYDISTANCE) &&
-	  (fabs(point->Y->val - pose->Point->Y->val) < TINYDISTANCE) &&
-	  (fabs(point->Z->val - pose->Point->Z->val) < TINYDISTANCE))
+      if ((fabs(point->X->val - pose->Point->X->val) < tolerance) &&
+	  (fabs(point->Y->val - pose->Point->Y->val) < tolerance) &&
+	  (fabs(point->Z->val - pose->Point->Z->val) < tolerance))
 	return *iter;
     }
   return 0;
@@ -4079,18 +4135,35 @@ Returned Value: none
 
 Called By: main
 
-This initializes the kittingViewer. Specifically, it:
- - reads the command file
- - reads the initial configuration file
- - reads the goal configuration file
- - reads the scoring file if there is one
- - converts units in the initial configuration and the goal configuration
- - sets the nowModel and the goalModel
- - calculates the positions of all solid objects in the initial
-   configuration relative to the workstation
- - makes colors for the solid objects that have their own colors
+This initializes the kittingViewer. Specifically:
+ - sets up the initModel:
+   * reads the initial configuration file
+   * puts the workstation model just read into the initModel
+   * converts units in the initModel
+   * puts initial positions with respect to the workstation into the
+     secondary positions list of each basic movable object in the initModel
+ - if there is a command file:
+   * reads the command file
+   * reads the initial configuration file again 
+ - otherwise (there must be kittingBuiltFile)
+   * reads the kittingBuiltFile
+ - sets up the nowModel
+   * puts the workstation model just read (either initial or as-built)
+     into the nowModel
+   * converts units in the nowModel
+   * sets locations and colors in the nowModel
+   * calculates the positions of all solid objects in the nowModel
+     configuration relative to the workstation
+   * makes colors for the solid objects in the nowModel that have their
+     own colors
+ - sets up the goalModel
+   * reads the goal configuration file
+   * puts the workstation model just read into the goalModel
+   * converts units in the goalModel
+ - reads the scoring file if there is one, otherwise sets default scoring
  - initializes the data in the kittingViewer world model
- - sets the scale for the drawing 
+ - sets the grid spacing for the workstation drawing
+ - sets the scale for the workstation drawing 
 
 The scale to use is calculated by having the larger of the length and
 width of the workstation being used fit exactly into 20 grid squares,
@@ -4100,49 +4173,23 @@ which is 1.0 unit in picture space.
 
 void KittingViewer::init() /* NO ARGUMENTS */
 {
-  FILE * inFile;
-  CommandParser commandParser;
-
-  inFile = fopen(commandFile, "r");
-  if (inFile == 0)
+  readInitFile(true);
+  initModel = KittingWorkstationTree->KittingWorkstation;
+  initModel->convertUnits(true);
+  recordInitialPositions(initModel->allSolids);
+  if (commandFile)
     {
-      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
-	      commandFile);
-      exit(1);
+      readCommandFile();
+      readInitFile(false);
     }
-  commandParser.readCommandFile(inFile, &commands);
-  fclose(inFile);
-  printf("Command file read\n");
-  yyin = fopen(kittingInitFile, "r");
-  if (yyin == 0)
-    {
-      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
-	      kittingInitFile);
-      exit(1);
-    }
-  clearLists();
-  yyparse();
-  fclose(yyin);
-  printf("Kitting workstation initial configuration file read\n");
+  else // if (kittingBuiltFile)
+    readBuiltFile();
   nowModel = KittingWorkstationTree->KittingWorkstation;
   nowModel->convertUnits(true);
   setLocationsAndColors(nowModel->allSolids);
-  yyin = fopen(kittingGoalFile, "r");
-  if (yyin == 0)
-    {
-      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
-	      kittingGoalFile);
-      exit(1);
-    }
-  clearLists(); // goalModel will have new lists
-  yyparse();
-  fclose(yyin);
-  XmlID::allIDs.clear(); // to prevent duplicate ID messages later
-  XmlIDREF::allIDREFs.clear(); // to prevent missing IDREF messages later
-  printf("Kitting workstation goal configuration file read\n");
+  readGoalFile();
   goalModel = KittingWorkstationTree->KittingWorkstation;
   goalModel->convertUnits(false);
-  recordInitialPositions(goalModel->allSolids);
   readScoringFile(scoringFile);
   scale = 1.0 / max(WORKSTATIONLENGTH, WORKSTATIONWIDTH);
   spacing =  (max(WORKSTATIONLENGTH, WORKSTATIONWIDTH) / 20.0);
@@ -4179,6 +4226,7 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   // angleUnits set when initial state read
   // axlesZ set when needed
   checkingNotStarted = true;
+  // commandFile set in readArguments
   // commands set when command file read
   commandSequenceErrors = 0;
   // commandString set in canonicalMsgView.cc used in viewKitting.cc
@@ -4193,7 +4241,11 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   glutElapsedTime = 0.0;
   // goalModel built when goal state file read
   gripperUseErrors = 0;
+  // initModel built when initial state file read
   // kitGoalMap populated by makeLocationMaps
+  // kittingBuiltFile set when arguments read
+  // kittingGoalFile set when arguments read
+  // kittingInitFile set when arguments read
   // lengthFactor set when initial state read
   // lengthUnits set when initial state read
   locationErrors = 0;
@@ -4236,8 +4288,8 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   pseudoElapsedTime = 0.0;
   rangeErrors = 0;
   resetFlag = false;
-  robotAngleFactor = 1.0;
   robotAccel = (robotMaxAccel * robotRelAccel) / 100.0;
+  robotAngleFactor = 1.0;
   strncpy(robotAngleUnits, "degree", TEXTSIZE);
   robotEndAngleTol = 0.0;
   robotEndPointTol = 0.0;
@@ -4252,14 +4304,17 @@ void KittingViewer::initData() /* NO ARGUMENTS */
   robotRelSpeed = 10.0;
   robotSpeed = (robotMaxSpeed * robotRelSpeed) / 100.0;
   robotToolChangerOpen = false;
-  score = 0;
   // scale set when initial state read
+  score = 0;
+  // scoringFile set in readArguments
+  // scoringFileName set in readScoringFile
   // skuGoalMap populated by makeLocationMaps
   // spacing set when initial state read
   // swap set in main
   timeFactor = 1.0;
   times[0] = 0.0;
   times[1] = 0.001;
+  // tolerance set in readArguments
   toolChangeErrors = 0;
   totalExecutionTime = 0;
   totalGoalDistance = 0;
@@ -5089,6 +5144,42 @@ void KittingViewer::poseProduct( /* ARGUMENTS       */
 
 /********************************************************************/
 
+/* KittingViewer::printInstructions
+
+Returned Value: none
+
+Called By: main
+
+This prints instructions for using the mouse and keyboard to run the
+Kitting Viewer.
+
+*/
+
+void KittingViewer::printInstructions() /* NO ARGUMENTS */
+{
+  printf("\n");
+  printf("Press r to toggle left mouse button "
+	 "between translating and rotating\n");
+  printf("Hold down left mouse button and move mouse "
+	 "to translate or rotate workstation\n");
+  printf("Hold down middle mouse button and move mouse "
+	 "to rotate workstation\n");
+  printf("Hold down right mouse button and move mouse "
+	 "up/dn to zoom workstation\n");
+  printf("Press f to make the animation run faster\n");
+  printf("Press s to make the animation run slower\n");
+  printf("Press v to return to the default view\n");
+  printf("Press e to execute the next command\n");
+  printf("Press d to dump the current image in a ppm file\n");
+  printf("Press t to to print metrics and settings in a text file\n");
+  printf("Press D to dump image and print text file\n");
+  printf("Press a to run the simulation over\n");
+  printf("Press Esc to exit\n");
+  printf("\n");
+}
+
+/********************************************************************/
+
 /* KittingViewer::putInDefaultPosition
 
 Returned Value: none
@@ -5143,6 +5234,247 @@ void KittingViewer::putInOtherPosition( /* ARGUMENTS                          */
 
 /********************************************************************/
 
+/* KittingViewer::readArguments
+
+Returned Value: none
+
+Called By: main
+
+This reads the command arguments and requires that one of the following
+forms be used. If neither form is matched, it calls usageMessage, which
+prints a usage message and exits.
+
+KittingViewer <-c commandFile> <-i initFile> <-g goalFile> <-e equiv> [<-s scoringFile>] [<-t tolerance>]
+
+KittingViewer <-b asBuiltFile> <-i initFile> <-g goalFile> <-e equiv> [<-s scoringFile>] [<-t tolerance>]
+
+*/
+
+void KittingViewer::readArguments( /* ARGUMENTS                          */
+ int argc,                         /* number of command arguments plus 1 */
+ char * argv[])                    /* array of command and arguments     */
+{
+
+  int commandIndex = 0;
+  int initIndex = 0;
+  int goalIndex = 0;
+  int equivIndex = 0;
+  int scoreIndex = 0;
+  int builtIndex = 0;
+  int tolIndex = 0;
+  int n;
+
+  if ((argc != 9) &&
+      (argc != 11) &&
+      (argc != 13))
+    {
+      usageMessage(argv[0]);
+    }
+  for (n = 1; n < argc; n += 2)
+    {
+      if (strcmp(argv[n], "-b") == 0)
+	{
+	  if (builtIndex)
+	    usageMessage(argv[0]);
+	  else
+	    builtIndex = n+1;
+	}
+      else if (strcmp(argv[n], "-c") == 0)
+	{
+	  if (commandIndex)
+	    usageMessage(argv[0]);
+	  else
+	    commandIndex = n+1;
+	}
+      else if (strcmp(argv[n], "-e") == 0)
+	{
+	  if (equivIndex)
+	    usageMessage(argv[0]);
+	  else
+	    equivIndex = n+1;
+	}
+      else if (strcmp(argv[n], "-g") == 0)
+	{
+	  if (goalIndex)
+	    usageMessage(argv[0]);
+	  else
+	    goalIndex = n+1;
+	}
+      else if (strcmp(argv[n], "-i") == 0)
+	{
+	  if (initIndex)
+	    usageMessage(argv[0]);
+	  else
+	    initIndex = n+1;
+	}
+      else if (strcmp(argv[n], "-s") == 0)
+	{
+	  if (scoreIndex)
+	    usageMessage(argv[0]);
+	  else
+	    scoreIndex = n+1;
+	}
+      else if (strcmp(argv[n], "-t") == 0)
+	{
+	  if (tolIndex)
+	    usageMessage(argv[0]);
+	  else
+	    tolIndex = n+1;
+	}
+      else
+	usageMessage(argv[0]);
+    }
+  if ((goalIndex == 0) ||
+      (equivIndex == 0) ||
+      (initIndex == 0) ||
+      (builtIndex && commandIndex) ||
+      ((builtIndex == 0) && (commandIndex == 0)))
+    usageMessage(argv[0]);
+  
+  if (strcmp(argv[equivIndex], "true") == 0)
+    swap = true;
+  else if (strcmp(argv[equivIndex], "false") == 0)
+    swap = false;
+  else
+    usageMessage(argv[0]);
+  kittingGoalFile = argv[goalIndex];
+  kittingInitFile = argv[initIndex];
+  if (commandIndex)
+    {
+      commandFile = argv[commandIndex];
+      kittingBuiltFile = 0;
+    }
+  else // if (builtIndex)
+    {
+      kittingBuiltFile = argv[builtIndex];
+      commandFile = 0;
+    }
+  scoringFile = (scoreIndex ? argv[scoreIndex] : 0);
+  if (tolIndex)
+    {
+      if (sscanf(argv[tolIndex], "%lf", &tolerance) == 0)
+	usageMessage(argv[0]);
+    }
+  else
+    tolerance = TINYDISTANCE;
+}
+
+/********************************************************************/
+
+/* KittingViewer::readBuiltFile
+
+Returned Value: none
+
+Called By: KittingViewer::init
+
+This reads the as-built workstation state file.
+
+*/
+
+void KittingViewer::readBuiltFile() /* NO ARGUMENTS */
+{
+  yyin = fopen(kittingBuiltFile, "r");
+  if (yyin == 0)
+    {
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      kittingBuiltFile);
+      exit(1);
+    }
+  clearLists();
+  yyparse();
+  fclose(yyin);
+  printf("Kitting workstation as-built file read\n");
+}
+
+/********************************************************************/
+
+/* KittingViewer::readCommandFile
+
+Returned Value: none
+
+Called By: KittingViewer::init
+
+This reads the command file.
+
+*/
+
+void KittingViewer::readCommandFile() /* NO ARGUMENTS */
+{
+  FILE * inFile;
+  CommandParser commandParser;
+
+  inFile = fopen(commandFile, "r");
+  if (inFile == 0)
+    {
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      commandFile);
+      exit(1);
+    }
+  commandParser.readCommandFile(inFile, &commands);
+  fclose(inFile);
+  printf("Command file read\n");
+}
+
+/********************************************************************/
+
+/* KittingViewer::readGoalFile
+
+Returned Value: none
+
+Called By: KittingViewer::init
+
+This reads the goal workstation state file.
+
+*/
+
+void KittingViewer::readGoalFile() /* NO ARGUMENTS */
+{
+  yyin = fopen(kittingGoalFile, "r");
+  if (yyin == 0)
+    {
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      kittingGoalFile);
+      exit(1);
+    }
+  clearLists(); // goalModel will have new lists
+  yyparse();
+  fclose(yyin);
+  XmlID::allIDs.clear(); // to prevent duplicate ID messages later
+  XmlIDREF::allIDREFs.clear(); // to prevent missing IDREF messages later
+  printf("Kitting workstation goal configuration file read\n");
+}
+
+/********************************************************************/
+
+/* KittingViewer::readInitFile
+
+Returned Value: none
+
+Called By: KittingViewer::init
+
+This reads the initial workstation state file.
+
+*/
+
+void KittingViewer::readInitFile( /* ARGUMENTS                            */
+ bool printMessage)               /* true=print read message, false=don't */
+{
+  yyin = fopen(kittingInitFile, "r");
+  if (yyin == 0)
+    {
+      fprintf(stderr, "Fatal error: unable to open file %s for reading\n",
+	      kittingInitFile);
+      exit(1);
+    }
+  clearLists();
+  yyparse();
+  fclose(yyin);
+  if (printMessage)
+    printf("Kitting workstation initial configuration file read\n");
+}
+
+/********************************************************************/
+
 /* KittingViewer::readScoringFile
 
 Returned Value: none
@@ -5174,19 +5506,19 @@ void KittingViewer::readScoringFile( /* ARGUMENTS                        */
       fclose(yyscin);
       printf("Scoring file read\n\n");
       scorer = scoreKittingTree->scoreKitting;
-      if ((scorer->rightStuff->weight->val       <= 0) ||
-	  (scorer->commandExecution->weight->val <= 0) ||
-	  (scorer->uselessCommands->weight->val  <= 0) ||
-	  (scorer->distance->weight->val         <= 0) ||
-	  (scorer->time->weight->val             <= 0))
+      if ((scorer->rightStuff->weight->val       == 0) &&
+	  (scorer->commandExecution->weight->val == 0) &&
+	  (scorer->uselessCommands->weight->val  == 0) &&
+	  (scorer->distance->weight->val         == 0) &&
+	  (scorer->time->weight->val             == 0))
 	{
 	  fprintf(stderr, "Fatal error: at least one scoring weight "
 		  "must be positive\n");
 	  exit(1);
 	}
     }
-  else
-    {
+  else if (commandFile)
+    { // equal weights, right stuff is multiplicative, others additive
       strncpy(scoringFileName, "none, using default scoring", TEXTSIZE);
       scoreKittingTree =
 	new ScoreKittingFile
@@ -5209,55 +5541,25 @@ void KittingViewer::readScoringFile( /* ARGUMENTS                        */
 				  new nonNegativeReal(strdup("3.0")), 
 				  new taperSideType(strdup("plus"))))));
     }
-}
-
-/********************************************************************/
-
-/* KittingViewer::recordInitialPosition
-
-Returned Value: none
-
-Called By:KittingViewer::recordInitialPositions
-
-This finds the initial position of a goal object if there is an object
-in the initial objects with the same name and type. The initial
-position is saved in the goal object as the first secondary position.
-Only the point is saved.
-
-The goalObject is known to be a part, parts tray, kit tray, or large
-container.
-
-*/
-
-void KittingViewer::recordInitialPosition( /* ARGUMENTS                      */
- SolidObjectType * goalObject)             /* object to find initial pos for */
-{
-  SolidObjectType * initObject;   // initial object to compare with goalObject
-  PointType * point;
-  std::map<std::string, SolidObjectType *>::iterator iter;
-  PoseLocationType * initPose;
-  PoseLocationType * initPoseSave;
-  
-  iter = nowModel->allSolids.find(goalObject->Name->val);
-  if (iter == nowModel->allSolids.end())
-    return;
-  initObject = iter->second;
-  if ((dynamic_cast<PartType *>(goalObject) &&
-       !dynamic_cast<PartType *>(initObject)) ||
-      (dynamic_cast<PartsTrayType *>(goalObject) &&
-       !dynamic_cast<PartsTrayType *>(initObject)) ||
-      (dynamic_cast<KitTrayType *>(goalObject) &&
-       !dynamic_cast<KitTrayType *>(initObject)) ||
-      (dynamic_cast<LargeContainerType *>(goalObject) &&
-       !dynamic_cast<LargeContainerType *>(initObject)))
-    return;
-  initPose = findSecondaryPose(initObject);
-  initPoseSave = new PoseLocationType(); // makes a valid pose
-  point = initPoseSave->Point;
-  point->X->val = initPose->Point->X->val;
-  point->Y->val = initPose->Point->Y->val;
-  point->Z->val = initPose->Point->Z->val;
-  goalObject->SecondaryLocation->push_back(initPoseSave);
+  else // if asBuiltFile
+    { // only right stuff is used
+      strncpy(scoringFileName, "none, using default scoring", TEXTSIZE);
+      scoreKittingTree =
+	new ScoreKittingFile
+	(new XmlVersion(false),
+	 new XmlHeaderForScoreKitting (new SchemaLocation(0,0)),
+	 new scoreKittingType
+	 (new factorValueOptType(new XmlBoolean("true"),
+				 new XmlUnsignedInt("1"), 0),
+	  new factorValueOptType(new XmlBoolean("true"),
+				 new XmlUnsignedInt("0"), 0),
+	  new factorValueOptType(new XmlBoolean("true"),
+				 new XmlUnsignedInt("0"), 0),
+	  new factorValueOptType(new XmlBoolean("true"),
+				 new XmlUnsignedInt("0"), 0),
+	  new factorValueReqType(new XmlBoolean("true"),
+				 new XmlUnsignedInt("0"), 0)));
+    }
 }
 
 /********************************************************************/
@@ -5266,12 +5568,12 @@ void KittingViewer::recordInitialPosition( /* ARGUMENTS                      */
 
 Returned Value: none
 
-Called By:KittingViewer::init
+Called By:  KittingViewer::init
 
 This records the initial positions of each basic object in allSolids. A
 basic object is a solid object that is not comprised of other solid
 objects. That is each Part, PartsTray, KitTray, or LargeContainer. The
-allSolids argument is the goal objects when this is called by init.
+allSolids argument is the init objects when this is called by init.
 
 */
 
@@ -5286,7 +5588,7 @@ void KittingViewer::recordInitialPositions(          /* ARGUMENTS       */
 	  dynamic_cast<PartsTrayType *>(iter->second) ||
 	  dynamic_cast<KitTrayType *>(iter->second) ||
 	  dynamic_cast<LargeContainerType *>(iter->second))
-      recordInitialPosition(iter->second);
+	setWorkstationLocation(iter->second, allSolids);
     }
 }
 
@@ -5661,7 +5963,7 @@ called if the user presses the 'a' (again) key.
 
 */
 
-void KittingViewer::runAgain()
+void KittingViewer::runAgain() /* NO ARGUMENTS */
 {
   resetViewer();
   init();
@@ -5784,7 +6086,7 @@ void KittingViewer::setLocationsAndColors(           /* ARGUMENTS            */
   std::map<std::string, SolidObjectType *>::iterator iter;
   for (iter = allSolids.begin(); iter != allSolids.end(); iter++)
     {
-      setWorkstationLocation(iter->second);
+      setWorkstationLocation(iter->second, allSolids);
       setColorAndSku(iter->second, nowModel->Sku);
     }
 }
@@ -5960,10 +6262,13 @@ void KittingViewer::setNetTransform(                /* ARGUMENTS            */
 
 Returned Value: none
 
-Called By:  KittingViewer::setLocationsAndColors
+Called By:
+  KittingViewer::createKit
+  KittingViewer::recordInitialPositions
+  KittingViewer::setLocationsAndColors
 
-This finds the chain of primary locations leading from the object back
-to the workstation (locationStack) and uses it to find the location of
+This finds the chain of primary locations (locationStack) leading from
+the object back to the workstation and uses it to find the location of
 the object relative to the workstation. That location is inserted as
 the first element of the object's list of secondary locations.
 
@@ -5975,18 +6280,15 @@ While the function is constructing the locationStack, it also adds the
 object to the refFor list of the refThing and sets object->refThing
 to refThing.
 
-This function might be moved to kittingClassesView.cc since it deals
-only with kittingClasses information. On the other hand, it is the
-kittingViewer that needs the information.
-
 This function will not return if there is a loop of reference objects.
 Might add a check for that. The locationStack would grow until memory
 is exhausted.
 
 */
 
-void KittingViewer::setWorkstationLocation( /* ARGUMENTS        */
- SolidObjectType * object)                  /* object to locate */
+void KittingViewer::setWorkstationLocation(          /* ARGUMENTS        */
+ SolidObjectType * object,                           /* object to locate */
+ std::map<std::string, SolidObjectType *> allSolids) /* map of solid objects */
 {
   std::list<PhysicalLocationType *> locationStack;
   std::map<std::string, SolidObjectType *>::iterator iter;
@@ -5998,7 +6300,7 @@ void KittingViewer::setWorkstationLocation( /* ARGUMENTS        */
   locationStack.push_front(object->PrimaryLocation);
   ref = object->PrimaryLocation->RefObject;
   refObjectName = ref->val;
-  iter = nowModel->allSolids.find(refObjectName);
+  iter = allSolids.find(refObjectName);
   refThing = iter->second;
   refThing->refFor.push_back(object);
   object->refThing = refThing;
@@ -6007,7 +6309,7 @@ void KittingViewer::setWorkstationLocation( /* ARGUMENTS        */
       locationStack.push_front(refThing->PrimaryLocation);
       ref = refThing->PrimaryLocation->RefObject;
       refObjectName = ref->val;
-      iter = nowModel->allSolids.find(refObjectName);
+      iter = allSolids.find(refObjectName);
       refThing = iter->second;
     }
   newPose = new PoseLocationType();
@@ -6097,6 +6399,60 @@ void KittingViewer::updateWorkstationPosition( /* ARGUMENTS                  */
     {
       updateWorkstationPosition(*iter, workstationPose);
     }
+}
+
+/********************************************************************/
+
+/* KittingViewer::usageMessage
+
+Returned Value: none
+
+Called By: KittingViewer::readArguments
+
+This prints a message about how to use kittingViewer. The command must match
+one of the two following templates. 
+
+KittingViewer -c <commandFile> -i <initFile> -g <goalFile> -e <equiv> [-s <scoringFile>] [-t <tolerance>]
+
+KittingViewer -b <asBuiltFile> -i <initFile> -g <goalFile> -e <equiv> [-s <scoringFile>] [-t <tolerance>]
+
+*/
+
+void KittingViewer::usageMessage( /* ARGUMENTS                              */
+ char * command)   /* command with which the user started the kittingViewer */
+{
+  fprintf(stderr, "usage is either of the following\n\n");
+  fprintf(stderr,
+	  "%s -c <commandFile> -i <initFile> -g <goalFile> "
+	  "-e <equiv> [-s <scoringFile>] [-t <tolerance>]\n\n",
+	  command);
+  fprintf(stderr,
+	  "%s -b <asBuiltFile> -i <initFile> -g <goalFile> "
+	  "-e <equiv> [-s <scoringFile>] [-t <tolerance>]\n\n",
+	  command);
+  fprintf(stderr,
+	  "commandFile is the name of a file of canonical robot commands\n");
+  fprintf(stderr,
+	  "asBuiltFile, initFile, and goalFile are names of XML "
+	  "kitting workstation files\n");
+  fprintf(stderr,
+	  "equiv = true or false; true = "
+	  "same design goal objects are equivalent\n");
+  fprintf(stderr,
+	  "scoringFile is the name of an XML file for scoring\n");
+  fprintf(stderr,
+	  "tolerance is location tolerance in millimeters, default is %lf\n\n",
+	  TINYDISTANCE);
+  fprintf(stderr, "Example1:\n");
+  fprintf(stderr,
+	  "%s -c commands -i init.xml -g goal.xml -e true -t 1.5\n\n",
+	  command);
+  fprintf(stderr,
+	  "Example2:\n");
+  fprintf(stderr,
+	  "%s -b built.xml -i init.xml -g goal.xml -e false -s score.xml\n\n",
+	  command);
+  exit(1);
 }
 
 /********************************************************************/
@@ -6192,44 +6548,6 @@ double KittingViewer::valuate( /* ARGUMENTS                 */
 
 /********************************************************************/
 
-/* usageMessage
-
-Returned Value: none
-
-Called By: main
-
-This prints a message about how to use kittingViewer.
-
-*/
-
-void usageMessage( /* ARGUMENTS                                             */
- char * command)   /* command with which the user started the kittingViewer */
-{
-  fprintf(stderr,
-	  "usage: %s <commandFile> <initFile> <goalFile> "
-	  "<swap> [<scoringFile>]\n",
-	  command);
-  fprintf(stderr,
-	  "commandFile is the name of a file of canonical robot commands\n");
-  fprintf(stderr,
-	  "initFile and goalFile are the names of XML "
-	  "kitting workstation files\n");
-  fprintf(stderr,
-	  "swap must be true or false; true means goal objects of\n"
-	  "the same design may swap positions\n");
-  fprintf(stderr,
-	  "scoringFile is the name of an XML file for scoring\n");
-  fprintf(stderr,
-	  "Example1: %s commands init.xml goal.xml true\n",
-	  command);
-  fprintf(stderr,
-	  "Example2: %s commands init.xml goal.xml false scoring.xml\n",
-	  command);
-  exit(1);
-}
-
-/********************************************************************/
-
 /* main
 
 Returned Value: int
@@ -6252,38 +6570,9 @@ int main(       /* ARGUMENTS                              */
  int argc,      /* number of command arguments plus one   */
  char * argv[]) /* array of command and command arguments */
 {
-  if ((argc < 5) || (argc > 6))
-    usageMessage(argv[0]);
-  if (strcmp(argv[4], "true") == 0)
-    KittingViewer::swap = true;
-  else if (strcmp(argv[4], "false") == 0)
-    KittingViewer::swap = false;
-  else
-    usageMessage(argv[0]);
-  KittingViewer::commandFile = argv[1];
-  KittingViewer::kittingInitFile = argv[2];
-  KittingViewer::kittingGoalFile = argv[3];
-  KittingViewer::scoringFile = ((argc == 5) ? 0: argv[5]);
+  KittingViewer::readArguments(argc, argv);
   KittingViewer::init();
-  printf("\n");
-  printf("Press r to toggle left mouse button "
-	 "between translating and rotating\n");
-  printf("Hold down left mouse button and move mouse "
-	 "to translate or rotate workstation\n");
-  printf("Hold down middle mouse button and move mouse "
-	 "to rotate workstation\n");
-  printf("Hold down right mouse button and move mouse "
-	 "up/dn to zoom workstation\n");
-  printf("Press f to make the animation run faster\n");
-  printf("Press s to make the animation run slower\n");
-  printf("Press v to return to the default view\n");
-  printf("Press e to execute the next command\n");
-  printf("Press d to dump the current image in a ppm file\n");
-  printf("Press t to to print metrics and settings in a text file\n");
-  printf("Press D to dump image and print text file\n");
-  printf("Press a to run the simulation over\n");
-  printf("Press Esc to exit\n");
-  printf("\n");
+  KittingViewer::printInstructions();
   glInit(argc, argv, "Kitting Viewer");
   glutMainLoop();
   

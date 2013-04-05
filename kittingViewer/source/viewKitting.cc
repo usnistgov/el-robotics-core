@@ -911,9 +911,10 @@ static int textDump(void) // NO ARGUMENTS
 	      (KittingViewer::totalGoalDistance /
 	       KittingViewer::robotLengthFactor),
 	      KittingViewer::robotLengthUnits);
-      fprintf(outFile, "score: %f\n\n", KittingViewer::score);
+      fprintf(outFile, "score: %f\n", KittingViewer::score);
     }
 
+  fprintf(outFile, "\n");
   fprintf(outFile, "ROBOT SETTINGS\n");
   fprintf(outFile, "robot length units: %s\n",
 	  KittingViewer::robotLengthUnits);
@@ -956,7 +957,9 @@ static int textDump(void) // NO ARGUMENTS
 	  (KittingViewer::spacing / KittingViewer::lengthFactor),
 	  KittingViewer::lengthUnits);
   fprintf(outFile, "scoring file: %s\n", KittingViewer::scoringFileName);
-  fprintf(outFile, "swap: %s\n", (KittingViewer::swap ? "true" : "false"));
+  fprintf(outFile, "same-SKU equivalent: %s\n",
+	  (KittingViewer::swap ? "true" : "false"));
+  fprintf(outFile, "tolerance: %.4f millimeter\n", KittingViewer::tolerance);
   fprintf(outFile, "time factor: %.4f\n\n", KittingViewer::timeFactor);
 
   for (n = 1; ((n < MAXPOSES) && (KittingViewer::commandString[n][0])); n++)

@@ -3685,31 +3685,34 @@ Returned Value: PoseLocationType *
 Called By: KittingViewer::releaseObject
 
 This finds and returns a pointer to a solid object (if there is one)
-such that the given xyz point is somewhere on a horizontal
-upward-facing surface of the object. The solid object must be the work
-table, a part, a parts tray, or a kit tray. If there is no such
-object, this returns 0. The upward-facing surface is the top for a
-work table or part. The upward-facing surface is the bottom for a
-tray.
+called object such that the given xyz point is somewhere on a
+horizontal upward-facing surface of the object. object must be the
+work table, a part, a parts tray, a kit tray, or a large container. If
+there is no such object, this returns 0. The upward-facing surface is
+the top for a work table or part. The upward-facing surface is the
+bottom for a kit tray, a parts tray, or a large container.
+
+This works by going through allSolids of the now model, calling each
+one "test" and seeing if the conditions described above for object are met.
+There may be more than one qualifying test since the bottoms of
+objects currently have zero thickness.
+When there is more than one qualifying test, object is picked as follows
+
+- If "solid" is a part, test1 is a tray, and test2 is the worktable,
+  object is set to the tray.
+
+- If "solid" is a kit, test1 is a kit tray (the kit's own kit tray will
+  qualify), and test2 is a large container, object is set to the large
+  container.
+
+- Otherwise, object is set to whichever qualifying object is found first.
+  It may be useful to have additional special cases.
 
 The offsets are set to the offsets from the point in the location of
 the object to the given xyz point.
 
 The actual check on the Z value is that z is within tolerance of
 a surface.
-
-This is similar to KittingViewer::findGripped.
-
-This returns when it finds the first qualifying object. This could
-make a problem if there is more than one qualifying object. There can
-be more than one when the bottoms of objects have zero thickness, as
-is currently the case. For example, if a part is placed in a kit tray
-which is on the work table, both the kit tray and the work table will
-qualify. Fortunately, the solid object map is kept in alphabetical
-order by object name. kit_tray_xxx comes before work_table_xxx, so the
-correct object will be chosen by accident in most normal kitting
-scenarios. It would probably be a good idea to add a thickness to the
-bottoms of objects. That would ensure the problem would not arise.
 
 */
 
@@ -3723,6 +3726,7 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
  double * zOffset)  /* Z offset from object location to point, object coords */
 {
   SolidObjectType * object;
+  SolidObjectType * test;
   std::map<std::string, SolidObjectType *>::iterator iter;
   PoseLocationType * pose;
   BoxyShapeType * boxy;
@@ -3734,41 +3738,44 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
   double length;           // length of target rectangle
   double width;            // width of target rectangle
   double height;           // height of target object
+  double xOff;             // test X offset
+  double yOff;             // test Y offset
 
+  object = 0;
   for (iter = nowModel->allSolids.begin();
        iter != nowModel->allSolids.end(); iter++)
     {
-      object = iter->second;
-      // don't located the solid with respect to itself
-      if (object == solid)
+      test = iter->second;
+      // don't locate the solid with respect to itself
+      if (test == solid)
 	continue;
-      pose = findSecondaryPose(object);
+      pose = findSecondaryPose(test);
       // check that surface is horizontal
       if ((fabs(pose->ZAxis->I->val) > TINYVAL)     ||
 	  (fabs(pose->ZAxis->J->val) > TINYVAL)     ||
 	  (fabs(pose->ZAxis->K->val - 1) > TINYVAL))
 	continue;
       // find length, width, and height
-      if (dynamic_cast<PartType *>(object))
+      if (dynamic_cast<PartType *>(test))
 	{
-	  boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape);
+	  boxy = dynamic_cast<BoxyShapeType *>(test->sku->Shape);
 	  if ((!boxy) || (boxy->HasTop->val == false))
 	    continue;
 	  length = boxy->Length->val;
 	  width  = boxy->Width->val;
 	  height = boxy->Height->val;
 	}
-      else if (dynamic_cast<PartsTrayType *>(object) ||
-	       dynamic_cast<KitTrayType *>(object))
+      else if (dynamic_cast<PartsTrayType *>(test) ||
+	       dynamic_cast<KitTrayType *>(test))
 	{
-	  boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape);
+	  boxy = dynamic_cast<BoxyShapeType *>(test->sku->Shape);
 	  if ((!boxy) || (boxy->HasTop->val == true))
 	    continue;
 	  length = boxy->Length->val;
 	  width  = boxy->Width->val;
 	  height = 0;
 	}
-      else if ((table = dynamic_cast<WorkTableType *>(object)))
+      else if ((table = dynamic_cast<WorkTableType *>(test)))
 	{
 	  if (table->InternalShape == 0)
 	    continue;
@@ -3779,24 +3786,60 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
 	  width  = boxy->Width->val;
 	  height = boxy->Height->val;
 	}
+      else if (dynamic_cast<LargeContainerType *>(test))
+	{
+	  boxy = dynamic_cast<BoxyShapeType *>(test->sku->Shape);
+	  if ((!boxy) || (boxy->HasTop->val == true))
+	    continue;
+	  length = boxy->Length->val;
+	  width  = boxy->Width->val;
+	  height = 0;
+	}
+      else
+	continue;
       // check height
       if (fabs((pose->Point->Z->val + height) - Z) > tolerance)
 	continue;
-      // check that point is inside object rectangle
+      // check that point is inside test rectangle
       vi = (X - pose->Point->X->val);
       vj = (Y - pose->Point->Y->val);
       xi = pose->XAxis->I->val;
       xj = pose->XAxis->J->val;
-      *xOffset = ((vi * xi) + (vj * xj));
-      *yOffset = ((xi * vj) - (vi * xj));
-      if ((fabs(*xOffset) < (length / 2.0)) &&
-	  (fabs(*yOffset) < (width / 2.0)))
+      xOff = ((vi * xi) + (vj * xj));
+      yOff = ((xi * vj) - (vi * xj));
+      if ((fabs(xOff) < (length / 2.0)) &&
+	  (fabs(yOff) < (width / 2.0)))
 	{
-	  *zOffset = height;
-	  return object;
+	  if (object == 0)
+	    {
+	      *xOffset = xOff;
+	      *yOffset = yOff;
+	      *zOffset = height;
+	      object = test;
+	    }
+	  else if (dynamic_cast<PartType *>(solid) &&
+		   dynamic_cast<WorkTableType *>(object) &&
+		   (dynamic_cast<PartsTrayType *>(test) ||
+		    dynamic_cast<KitTrayType *>(test)))
+	    {
+	      *xOffset = xOff;
+	      *yOffset = yOff;
+	      *zOffset = height;
+	      object = test;
+	    }
+	  else if (dynamic_cast<KitType *>(solid) &&
+		   dynamic_cast<KitTrayType *>(object) &&
+		   dynamic_cast<LargeContainerType *>(test))
+
+	    {
+	      *xOffset = xOff;
+	      *yOffset = yOff;
+	      *zOffset = height;
+	      object = test;
+	    }	   
 	}
     }
-  return 0;
+  return object;
 }
 
 /********************************************************************/
@@ -5625,38 +5668,36 @@ Returned Value: none
 
 Called By: KittingViewer::executeOpenGripperCommand
 
-This implements the effects of releasing a solid object B from a single cup
-gripper. The gripper is holding the object when the function starts.
+This implements the effects of releasing a solid object "solid" from a
+single cup gripper. The gripper is holding solid when the function
+starts.
 
-If all of the following hold:
-1. The Z axis of B relative to the workstation is close to (0,0,1).
-2. The bottom of B is at very nearly the same height as one of
-   - the top of the worktable
-   - the top of a part
-   - the bottom of a large container
-   - the bottom of a parts tray
-   - the bottom of kit tray
-3. B is a part, parts tray, or kit tray.
-4. The shape of B is a BoxyShape.
-5. The XY outline of B fits within the XY outline of the object R found
-   in step 2 above.
-6. The Z axis of R relative to the workstation is close to (0,0,1).
+If findSurface finds a surface R on which the the coordinate
+system of solid is resting, then:
+ - The primary location of solid is made relative to R.
+ - The point of solid is located relative to R as found in findSurface.
+ - The I component of the X axis of solid relative to R is found by taking
+   the dot product of the X axis of R relative to the workstation with the
+   X axis of solid relative to the workstation.
+ - The J component of the X axis of solid relative to R is found by taking
+   the cross product of the X axis of R relative to the workstation with
+   the X axis of solid relative to the workstation.
+ - The K component of the X axis of solid relative to R is 0 and the
+   Z axis of solid is (0,0,1) relative to R, since findSurface would
+   not have found a surface otherwise.
 
-Then the primary location of B is made relative to R. The I component
-of the X axis of B relative to R is found by taking the dot product of
-the X axis of R relative to the workstation with the X axis of B
-relative to the workstation. The J component of the X axis of B
-relative to R is found by taking the cross product of the X axis of R
-relative to the workstation with the X axis of B relative to the
-workstation.
+Otherwise, the primary location of solid is made relative to the
+workstation in the same place as solid's secondary location.
 
-Otherwise, the primary location of B is made relative to the
-workstation in the same place as B's secondary location.
+Finally:
+a. if solid is a part, the location of solid is adjusted if necessary.
+See the documentation of adjustPartLocation.
+b. otherwise, if solid is a kit, the location of solid is adjusted if
+   necessary. See the documentation of adjustKitLocation.
+c. otherwise, if solid is not a tray, an error is reported, since only
+   parts, kits, and trays can be held by the robot.
 
-Finally, if B is a part, the location of B is adjusted if necessary.
-See the documentation of adjustPartLocation
-
-This is putting the object directly on the surface it is near.
+This is putting solid directly on the surface it is near.
 
 */
 
@@ -5728,6 +5769,14 @@ void KittingViewer::releaseObject(     /*  ARGUMENTS                  */
     {
       adjustKitLocation(dynamic_cast<KitType *>(solid),
 			refSolid, solidPrimaryPose);
+    }
+  else if (dynamic_cast<PartsTrayType *>(solid));
+  else if (dynamic_cast<KitTrayType *>(solid));
+  else
+    {
+      fprintf(stderr,
+	      "Bug in releaseObject; object %s released not liftable\n",
+	      solid->Name->val.c_str());
     }
 }
 

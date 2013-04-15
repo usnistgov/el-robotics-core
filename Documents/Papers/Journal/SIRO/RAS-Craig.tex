@@ -123,7 +123,7 @@
 % \address{Address\fnref{label3}}
 % \fntext[label3]{}
 
-\title{SIRO: State-Based Intention Recognition Using Ontologies in Cooperative Human-Robot Environments}
+\title{Ontology-Based State Representations for Intention Recognition in Human-Robot Collaborative Environments}
 
 %% use optional labels to link authors explicitly to addresses:
  \author[nist,le2i]{Craig Schlenoff\corref{cor1}}
@@ -176,7 +176,7 @@ Proposed standards exist for robot-human safety, but these standards focus on ro
 
 A key enabler for human-robot safety in cooperative environments involves the field of intention recognition, in which the robot attempts to understand the intention of an agent (the human) by recognizing some or all of their actions~\cite{SADRI.2011} to help predict the human's future actions. Knowing these future actions will allow a robot to plan in such a way as to either help the human perform his/her activities or, at a minimum, not put itself in a position to cause an unsafe situation.
 
-In this paper, we present an approach to representing state information in an ontology for the purpose of ontology-based intention recognition. This is an extension to the conference paper~\cite{SCHLENOFF.UBICOMP.2012} presented at the Ubiquitous Computing Conference, Workshop on Ubiquitous Robotics. In this context, a state is defined as a set of properties of one or more objects in an area of interest that consist of specific recognizable configuration(s) and or characteristic(s). A state is composed of one to many state relationships, which is a specific relation between two objects (e.g., Object 1 is on top of Object 2). This approach to intention recognition is different than many ontology-based intention recognition approaches in the literature (as described in the section 2) as they primarily focus on activity (as opposed to state) recognition and then use a form of abduction to provide explanations for observations. We infer detailed state relationships using observations based on Region Connection Calculus 8 (RCC8)~\cite{RANDELL.ICKRR.1992} and other cardinal relationships and then combine these observations to infer the overall state relationships that are true at a given time. The advantages of using state representation over activity representation to perform intention recognition is documented in~\cite{SCHLENOFF.ECDRM.2012}. The core concept is that states tend to be easier to recognize than activities, thus allowing for more accurate input into intention recognition systems. Once a sequence of state relationships has been identified, we use probabilistic procedures to associate those states with likely overall intentions to determine the next possible action (and associated state) that is likely to occur. This paper focuses on the way that states are represented, reasoned over, and updated in the ontology. The way that the states are combined to represent intentions is only lightly described in this paper. The reader is referred to~\cite{SCHLENOFF.ECDRM.2012} for more information about this topic. The value that this journal article provides is a general approach for the recognition and representation of states in the environment for the purpose of intention recognition as well as the application of this approach to the manufacturing kitting domain.
+In this paper, we present an approach to representing state information in an ontology for the purpose of ontology-based intention recognition. This is an extension to the conference paper~\cite{SCHLENOFF.UBICOMP.2012} presented at the Ubiquitous Computing Conference, Workshop on Ubiquitous Robotics. In this context, a state is defined as a set of properties of one or more objects in an area of interest that consist of specific recognizable configuration(s) and or characteristic(s). A state is composed of one to many state relationships, which is a specific relation between two objects (e.g., Object 1 is on top of Object 2). This approach to intention recognition is different than many ontology-based intention recognition approaches in the literature (as described in the section 2) as they primarily focus on activity (as opposed to state) recognition and then use a form of abduction to provide explanations for observations. We infer detailed state relationships using observations based on Region Connection Calculus 8 (RCC8)~\cite{RANDELL.ICKRR.1992} and other cardinal relationships and then combine these observations to infer the overall state relationships that are true at a given time. The advantages of using state representation over activity representation to perform intention recognition is documented in~\cite{SCHLENOFF.ECDRM.2012}. In this paper, we describe the state of the art in state vs. activity recognition and show that, although still a very tough problem, the results of state recognition algorithms tend to be much more accurate than those doing activity recognition. Because the intention recognition approaches are only as good as the input that is provided to them, the higher accuracy in state recognition would imply a great accuracy in the intention recognition algorithms that employ them. Once a sequence of state relationships has been identified, we use probabilistic procedures to associate those states with likely overall intentions to determine the next possible action (and associated state) that is likely to occur. This paper focuses on the way that states are represented, reasoned over, and updated in the ontology. The way that the states are combined to represent intentions is only lightly described in this paper. The reader is referred to~\cite{SCHLENOFF.ECDRM.2012} for more information about this topic. The value that this journal article provides is a general approach for the recognition and representation of states in the environment for the purpose of intention recognition as well as the application of this approach to the manufacturing kitting domain.
 
 We start by providing an overview of intention recognition efforts in the literature as well as various approaches for ontology-based state representation. The approach to state recognition is then presented. Because the ontology is meant to be a more permanent form of knowledge representation and does not need to be updated with every new state detected, we explain the logic employed to determine when the ontology should be updated. We then present a manufacturing kitting scenario along with a corresponding kitting ontology and we apply the state representation approach to this domain. Lastly, we describe the results of an implementation of these state-based approaches in a simulation environment.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -188,9 +188,9 @@ Intention recognition traditionally involves recognizing the intent of an agent 
 There have been many techniques in the literature applied to intention recognition that follow the three steps listed above, including an ontology-based approach~\cite{JEON.ICMUE.2008}, multiple probabilistic frameworks such as  Hidden Markov Models~\cite{KELLEY.ICHRI.2008} and Dynamic Bayesian Networks~\cite{SCHREMPF.ICAR.2005}, utility-based intention recognition~\cite{MAO.AAMAS.2004}, and graph-based intention recognition~\cite{YOUN.IJASET.2008}. In this paper, we focus on ontology/logic-based approaches.
 
 
-Once observations of actions have been made, different approaches exist to match those observations to an overall intention or goal. For example, in~\cite{MULDER.IF.2003}, the authors use existentially quantified observations (not fully grounded observations) to match actions to plan libraries. Mulder can handle situations when they see an action occur (e.g., opening a door), without seeing or knowing who performed that action Other approaches have focused on building plans with frequency information, to represent how often an activity occurs~\cite{JARVIS.AIM.2005}. The rationale behind these approaches is that there are some activities that occur very frequently and are often not relevant to the recognition process (e.g., a person cleaning his/her hands). These frequently-occurring activities can be mostly ignored, and only activities that are less commonly performed can be considered. In~\cite{DEMOLOMBE.CLIMA.2005}, the authors combine probabilities and situation calculus-like formalization of actions. In particular, Demolombe not only define the actions and sequences of actions that constitute an intention, they also state which activities cannot occur for the intention to be valid. For example, if the intention was to drive a car, the activity may be to open the door, get into the car, turn on the engine, release the emergency brake, and take the car out of park. Demolombe may also include that an activity cannot be to turn the car off after it is turned on and before the car is taken out of park.
+Once observations of actions have been made, different approaches exist to match those observations to an overall intention or goal. For example, in~\cite{MULDER.IF.2003}, the authors use existentially quantified observations (not fully grounded observations) to match actions to plan libraries. Mulder can handle situations when they see an action occur (e.g., opening a door), without seeing or knowing who performed that action. Other approaches have focused on building plans with frequency information, to represent how often an activity occurs~\cite{JARVIS.AIM.2005}. The rationale behind these approaches is that there are some activities that occur very frequently and are often not relevant to the recognition process (e.g., a person cleaning his/her hands). These frequently-occurring activities can be mostly ignored, and only activities that are less commonly performed can be considered. In~\cite{DEMOLOMBE.CLIMA.2005}, the authors combine probabilities and situation calculus-like formalization of actions. In particular, Demolombe not only define the actions and sequences of actions that constitute an intention, they also state which activities cannot occur for the intention to be valid. For example, if the intention was to drive a car, the activity may be to open the door, get into the car, turn on the engine, release the emergency brake, and take the car out of park. Demolombe may also include that an activity cannot be to turn the car off after it is turned on and before the car is taken out of park.
 
-All of these approaches have focused on the activity being performed as the primary basis for observation and the building block for intention recognition. However, as noted in~\cite{SADRI.2011}, activity recognition is a very hard problem and one that is far from being solved. There has been limited success in using Radio Frequency Identification (RFID) readers and tags attached to objects of interest to track their movement with the goal of associating their movement with known activities. For example, in~\cite{Philipose.PC.2004}, the authors describe the process of making tea as a three step process involving using a kettle, getting a box of tea bags, and adding some combination of milk, sugar or lemon. Each of these activities is identified by a user wearing a special set of gloves that can read RFID tags on objects of interest. However, this additional hardware can be inhibiting and unnatural.  Recognizing and representing states as opposed to actions can help to address some of the issues involved in activity recognition (e.g., the location of the tea bag box and the milk carton with respect to the tea cup) will be the focus of the rest of this paper.
+All of these approaches have focused on the activity being performed as the primary basis for observation and the building block for intention recognition. However, as noted in~\cite{SADRI.2011}, activity recognition is a very hard problem and one that is far from being solved. There has been limited success in using Radio Frequency Identification (RFID) readers and tags attached to objects of interest to track their movement with the goal of associating their movement with known activities. For example, in~\cite{Philipose.PC.2004}, the authors describe the process of making tea as a three step process involving using a kettle, getting a box of tea bags, and adding some combination of milk, sugar or lemon. Each of these activities is identified by a user wearing a special set of gloves that can read RFID tags on objects of interest. However, this additional hardware can be inhibiting and unnatural.  Recognizing and representing states as opposed to actions can help to address some of the issues involved in activity recognition (e.g., the location of the tea bag box and the milk carton with respect to the tea cup) which will be the focus of the rest of this paper.
 
 
 State representation is documented in the literature, although it has not been used (to the authors knowledge) for ontology-based intention recognition. An important aspect of an object's state is its spatial relationships to other objects. In~\cite{Bateman.2006}, an overview is given that describes the way that spatial information is represented in various upper ontologies including the Descriptive Ontology for Linguistics and Cognitive Engineering (DOLCE), Cyc, the Standard Upper Merged Ontology (SUMO), and Basic Formal Ontology (BFO). The conclusion of this work is the identification of a list of high-level requirements that were necessary for any spatial ontology, including:
@@ -211,7 +211,18 @@ Throughout the rest of this paper, we will describe an approach for ontology-bas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Representing States and Spatial Relations in the Ontology}\label{S:section2}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this section, we describe an approach that uses RCC8 to model state relationships based on the relative position of objects in the environment. However, we will extend RCC8, which was initially developed for a two-dimensional space, to a three-dimensions space by applying it along all three planes (x-y, x-z, y-z). The frame of reference will be with respect to the fixed object (e.g., a worktable), with the z-dimension pointing straight upwards and the tabletop extending in the x- and y- dimension (with detailed orientation specific to the application).  Each of the high-level state relationships (to be discusses later in the paper) will have a set of logical rules that associate these RCC8 relations to them. These RCC8 relations should easily allow a sensor system to characterize the corresponding state relations.
+In this section, we describe an approach that uses RCC8 to model state relationships based on the relative position of objects in the environment. However, we will extend RCC8, which was initially developed for a two-dimensional space, to a three-dimensions space by applying it along all three planes (x-y, x-z, y-z). The frame of reference (see Figure~\ref{fig:reference_frame}) will be with respect to the fixed object (e.g., a worktable), with the z-dimension pointing straight upwards and the tabletop extending in the x- and y- dimension (with detailed orientation specific to the application).  Each of the high-level state relationships (to be discusses later in the paper) will have a set of logical rules that associate these RCC8 relations to them. These RCC8 relations should easily allow a sensor system to characterize the corresponding state relations. To avoid any confusion and to clarify several doubts, It is important to note that in the manufacturing kitting domain, not all objects can be represented as convex regions, as is required by the RCC8 formalism.
+
+\begin{figure}[h!t!]
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=13cm]{scenegenerator.pdf}
+\end{tabular}
+\end{center}
+\caption{A Sample of frames of reference for a kitting workstation. $\{$A$\}$ is a frame of reference of the workstation.  $\{$B$\}$ is a frame of reference of the robotic arm in relation with $\{$A$\}$. $\{$C$\}$ is a frame of reference of the worktable in relation with $\{$A$\}$.  $\{$D$\}$ is a frame of reference of a parts tray in relation with $\{$C$\}$. 
+}
+\label{fig:reference_frame}
+\end{figure}
 
 \subsection{RCC8 Approach}
 As mentioned earlier, RCC8 abstractly describes regions in Euclidean or topological space by their relations to each other. RCC8 consists of eight basic relations that are possible between any two regions:
@@ -219,10 +230,10 @@ As mentioned earlier, RCC8 abstractly describes regions in Euclidean or topologi
 \begin{itemize}
   \item Disconnected (DC)
   \item Externally Connected (EC)
-  \item Equal (EQ)
-  \item Partially Overlapping (PO)
   \item Tangential Proper Part (TPP)
   \item Non-Tangential Proper Part (NTPP)
+  \item Partially Overlapping (PO)
+  \item Equal (EQ)
   \item Tangential Proper Part Inverse (TPPi)
   \item Non-Tangential Proper Part Inverse (NTPPi)
 \end{itemize}
@@ -233,7 +244,7 @@ These are shown pictorially in Figure~\ref{fig:RCC8}.
 \begin{figure}[h!t!]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=12cm]{rcc8.eps}
+\includegraphics[width=12cm]{rcc8.pdf}
 \end{tabular}
 \end{center}
 \caption{RCC8 Relations (credit: http://en.wikipedia.org/wiki/RCC8).}
@@ -244,10 +255,10 @@ RCC8 was created to model the relationships between two regions in two dimension
 \begin{itemize}
   \item \rcc{x-DC}
   \item \rcc{x-EC}
-  \item \rcc{x-EQ}
-  \item \rcc{x-PO}
   \item \rcc{x-TPP}
   \item \rcc{x-NTPP}
+  \item \rcc{x-PO}
+  \item \rcc{x-EQ}
   \item \rcc{x-TPPi}
   \item \rcc{x-NTPPi}
 \end{itemize}
@@ -259,7 +270,7 @@ Similar nomenclature would be used in the y- and z- dimensions. The combination 
 \end{equation}
 %\begin{center}\texttt{z-EC}(\textit{worktable}, \textit{obj1})\end{center}
 
-(which intuitively means \obj{obj1} is externally connected to the \obj{worktable} in the z-dimension) is not sufficient because \obj{obj1} could be either on top of or below the \obj{worktable}. In other words, we need to represent directionality. We do this using the following Boolean operators:
+(which intuitively means \obj{obj1} is externally connected to the \obj{worktable} in the z-dimension) is not sufficient because \obj{obj1} could be either on top of or below the \obj{worktable}. In other words, we need to represent directionality. We do this using the following predicates:
 
 \begin{equation}\label{eq:greater-x}
 \texttt{greater-x}(\textit{A}, \textit{B})
@@ -280,7 +291,7 @@ Similar nomenclature would be used in the y- and z- dimensions. The combination 
 \texttt{smaller-z}(\textit{A}, \textit{B})
 \end{equation}
 
-which intuitively means, in Equation~\ref{eq:greater-x}, that the edge of the bounding plane of object \textit{A} is greater than (in the x-dimension in the defined frame of reference) the edge of the bounding plane of object \textit{B}.
+which intuitively means, in Equation~\ref{eq:greater-x}, that the center of gravity of object \textit{A} is greater than (in the x-dimension in the defined frame of reference) the center of gravity of object \textit{B}.
 
 \subsection{Defining More Complex Relations}
 There are undoubtedly many other relationships that may be needed in the future to describe a scene of interest. These could include absolute locations and orientations of objects (x, y, z, roll, pitch, yaw) and relative distance (closer, farther, etc.). However, these spatial relations are sufficient for describing the manufacturing kitting example later in this paper.
@@ -289,16 +300,16 @@ From these RCC8 spatial relations, we can define more complex spatial relations 
 \begin{itemize}
   \item \sr{Contained-In} - an object is enclosed in a second object from all sides
   \item \sr{Not-Contained-In} - an object is not enclosed in a second object from all sides
-  \item \sr{Partially-In} - an object is inside of another object in at least two dimensions but not fully contained in
-  \item \sr{In-Contact-With} - touching at least one side and not contained with (i.e., touching outer edges)
-  \item \sr{On-Top-Of} - the edge of the bounding plane of one object is greater (in the z-dimension) than that of a second object
-  \item \sr{Under} - the edge of the bounding plane of one object is less (in the z-dimension) than a second object
+  \item \sr{Partially-In} - an object is fully inside of a second object in two dimensions and partially in the third dimension
+  \item \sr{In-Contact-With} - touching at least one side and not contained within (i.e., touching outer edges)
+  \item \sr{On-Top-Of} - the z component of the center of gravity of an object is greater than that of a second object and the two objects are overlapping in the x and y dimensions
+  \item \sr{Under} - the z component of the center of gravity of an object is less than that of a second object and the two objects are overlapping in the x and y dimensions
 \end{itemize}
 
 And from these, we can define composite spatial relationships such as:
 \begin{itemize}
   \item \sr{Under-And-In-Contact-With} - an object is both under and in contact with a second object
-  \item \sr{Partially-In-And-In-Contact-With} - an object is inside of another object in at least two dimensions and touching the object in at least one dimension
+  \item \sr{Partially-In-And-In-Contact-With} - an object is fully inside of a second object in two dimensions and partially in the third dimension and is touching in at least one dimension
 \end{itemize}
 Below,we formalize these spatial relationships by defining them using the RCC8 state representation. In natural language, Equation~\ref{eq:contained-in} below states that object 1 (\obj{obj1}) is contained in object 2 (\obj{obj2}) if \obj{obj1} is tangentially or non-tangentially a proper part of \obj{obj2} in the x, y, and z-dimension. One can logically envision this by drawing two convex figures, and the first convex hull is completely inside of the second convex hull in all three dimensions, with it touching or not touching the second convex hull in all of the three dimensions.
 \begin{gather}
@@ -318,11 +329,14 @@ Below,we formalize these spatial relationships by defining them using the RCC8 s
 \textbf{Partially-In}(\textit{obj1}, \textit{obj2}) \rightarrow \\
 \textbf{Not-Contained-In}(\textit{obj1}, \textit{obj2}) \wedge \notag\\
 ((\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})) \wedge  \notag\\
-(\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}))) \vee  \notag\\
-((\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})) \wedge  \notag\\
+(\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
+\texttt{z-PO}(\textit{obj1}, \textit{obj2})) \vee  \notag\\
+((\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})\wedge \notag\\
 (\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))) \vee  \notag\\
+\texttt{y-PO}(\textit{obj1}, \textit{obj2})) \vee  \notag\\
 ((\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge  \notag\\
-(\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))) \notag
+(\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))  \wedge \notag\\
+\texttt{y-PO}(\textit{obj1}, \textit{obj2})) \notag
 \end{gather}
 \begin{gather}
 \label{eq:in-contact-with}
@@ -331,19 +345,19 @@ Below,we formalize these spatial relationships by defining them using the RCC8 s
 \end{gather}
 \begin{gather}
 \label{eq:on-top-of}
-\textbf{On-Top-Of}(\textit{obj1}, \textit{obj2}) \rightarrow \vee \\
-\texttt{greater-z}(\textit{obj1}, \textit{obj2}) \wedge (\texttt{x-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
+\textbf{On-Top-Of}(\textit{obj1}, \textit{obj2}) \rightarrow  \\
+\texttt{greater-z}(\textit{obj1}, \textit{obj2}) \wedge ((\texttt{x-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
 \texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPPi}(\textit{obj1}, \textit{obj2}) \vee \notag\\
-\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge (\texttt{y-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
+\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge ((\texttt{y-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee \notag\\
 \texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPPi}(\textit{obj1}, \textit{obj2}) \vee \notag\\
 \texttt{y-TPPi}(\textit{obj1}, \textit{obj2})) \notag
 \end{gather}
 \begin{gather}
 \label{eq:under}
 \textbf{Under}(\textit{obj1}, \textit{obj2}) \rightarrow \\
-\texttt{smaller-z}(\textit{obj1}, \textit{obj2}) \wedge (\texttt{x-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
+\texttt{smaller-z}(\textit{obj1}, \textit{obj2}) \wedge ((\texttt{x-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
 \texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPPi}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
-\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge (\texttt{y-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
+\texttt{x-TPPi}(\textit{obj1}, \textit{obj2})) \wedge ((\texttt{y-EQ}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
 \texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-PO}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPPi}(\textit{obj1}, \textit{obj2}) \vee  \notag\\
 \texttt{y-TPPi}(\textit{obj1}, \textit{obj2})) \notag
 \end{gather}
@@ -374,15 +388,15 @@ The spatial relations above are represented as subclasses of the \class{Relative
 The purpose of representing state information is to try to determine the intention that is being performed by a human in the environment. It is impractical for the ontology to be updated every time a new state relation or predicate is identified as being true because of the overhead involved in updating the ontology (which is often represented as flat files) and the frequency in which state relations and predicates can change in a highly dynamic environment.  This information is maintained in the code that is performing the intention recognition and is only written to the ontology when certain conditions are met. This section describes those conditions.
 
 
-It is first important to describe what the state information will be used for. Once intentions in the environment are recognized, it is envisioned that a robot will determine what actions it should take to assist the human in performing those actions. This could be anything from staying away from the human's projected next actions (that are consistent with the intention) to proactively taking steps to help the human perform their intention. In the latter case, the robot would not only need to know the intention of the human; it would also need to know the state of the environment to determine what the best action would be for it to perform. For example, if it was determined that the human's intention was to build an industrial kit that required two more Part A's, and there was only one more Part A left in the part bin, the robot may go to retrieve additional Part A's to help the human accomplish his/her intention.
+First, it is important to describe what the state information will be used for. Once intentions in the environment are recognized, it is envisioned that a robot will determine what actions it should take to assist the human in performing those actions. This could be anything from staying away from the human's projected next actions (that are consistent with the intention) to proactively taking steps to help the human perform their intention. In the latter case, the robot would not only need to know the intention of the human; it would also need to know the state of the environment to determine what the best action would be for it to perform. For example, if it was determined that the human's intention was to build an industrial kit that required two more Part A's, and there was only one more Part A left in the part bin, the robot may go to retrieve additional Part A's to help the human accomplish his/her intention.
 
-Only the objects and state relations that are consider ``of interest" are updated in the ontology. Every intention has a set of objects that participate in it. For example, Parts A, B, C, D, a kit tray, a robot gripper, a set of parts bin and a table may be the objects that participate in a kitting operation. Each of the objects is part of state relations and predicates that are important and relevant to the intention(s) being evaluated. For example, in the kitting intention, the intention system may be specifically looking for cases in which Part A is either in the parts bin or in the kit tray. Therefore, Part A is an object of interest. When updating the ontology, as described below, all spatial relations in which Part A is involved, either those that are expected or those that are not (e.g., Part A is on the floor) are considered state relations of interest.
+Only the objects and state relations that are considered ``of interest" are updated in the ontology. Every intention has a set of objects that participate in it. For example, Parts A, B, C, D, a kit tray, a robot gripper, a set of parts bin and a table may be the objects that participate in a kitting operation. Each of the objects is part of state relations and predicates that are important and relevant to the intention(s) being evaluated. For example, in the kitting intention, the intention system may be specifically looking for cases in which Part A is either in the parts bin or in the kit tray. Therefore, Part A is an object of interest. When updating the ontology, as described below, all spatial relations in which Part A is involved, either those that are expected or those that are not (e.g., Part A is on the floor) are considered state relations of interest. Though there could be many objects and relations of interest, only a very few of them will change during any individual state, thus the system performance will not be negatively affected even with a large number of objects.
 
 
 State information is updated in the ontology when one of three conditions occur:
 
 \begin{itemize}
-\item \textbf{A new intention becomes the ``most likely" intention} - Although the details of the intention recognition system is outside the scope of the paper (more information can be found in~\cite{SCHLENOFF.ECDRM.2012}), it is important to understand that the system's output consists of a list of possible intentions and a probability associated with each. As new perception data becomes available and new state relations and predicates evaluate to true, the intention recognition algorithms are re-run and new probabilities are determined. As a new intention becomes most likely, the states relations that are associated with that intention as updated in the ontology so that robot can have the latest snapshot of the state of the world to make informed decisions of the actions it should take to help with the intention. It is anticipated that early in the process, the most likely intention will change often, but as the intention proceeds, the results will stabilize and the state information will not need to be updated as often.
+\item \textbf{A new intention becomes the ``most likely" intention} - Although the details of the intention recognition system is outside the scope of the paper (more information can be found in~\cite{SCHLENOFF.ECDRM.2012}), it is important to understand that the system's output consists of a list of possible intentions and a probability associated with each. As new perception data becomes available and new state relations and predicates evaluate to true, the intention recognition algorithms are re-run and new probabilities are determined. As a new intention becomes most likely, the states relations that are associated with that intention are updated in the ontology so that robot can have the latest snapshot of the state of the world to make informed decisions of the actions it should take to help with the intention. It is anticipated that early in the process, the most likely intention will change often, but as the intention proceeds, the results will stabilize and the state information will not need to be updated as often.
 \item \textbf{An intention completed} - When an intention is complete, the state information is updated in the ontology to reflect the final state of the intention. This information can also be used as the initial state to recognize subsequent intentions.
 \item \textbf{A failure is determined} - There are cases when a failure occurs during the intention recognition process. This occurs when an object of interest occupies a state that was not anticipated in any intention described in the ontology. For example, a part may drop out of a person's hand and fall on the floor. In this case, the part would have a relation of On-Top-Of with the floor, which is not a state relation which was defined in the ontology. Similarly, a part could be put on the table temporarily while another activity is being performed by the human. This would be an unexpected state that was not pre-determined. In these cases, not only would the probability of an intention be decreased, but the current state relations and predicates would be updated in the ontology to allow for replanning or to allow the robotic system to explore options to rectify the situations to further the most likely intention.
 \end{itemize}
@@ -398,7 +412,7 @@ Although we expect the approaches described in this paper to be generic, we are 
 \begin{figure}[h!b!]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=6cm]{kit.eps}
+\includegraphics[width=6cm]{kit.pdf}
 \end{tabular}
 \end{center}
 \caption{Example kit (courtesy of http://littlemachineshop.com/).}
@@ -431,13 +445,13 @@ Each of these actions may be a compound action that includes other actions such 
 \toprule
 \class{SolidObject} \textit{PrimaryLocation} \textit{SecondaryLocation}
 \\\midrule
-\hspace{5 mm}\class{BoxyObject} \textit{Length} \textit{Width} \textit{Heigh}
+\hspace{5 mm}\class{BoxyObject} \textit{Length} \textit{Width} \textit{Height}
 \\\midrule
-\hspace{10 mm}\class{WorkTable} \textit{SolidObject}
+\hspace{10 mm}\class{WorkTable}
 \\\midrule
 \hspace{5 mm}\class{EndEffector} \textit{Description} \textit{Weight} \textit{Id} \textit{LoadWeight}
 \\\midrule
-\hspace{10 mm}\class{GripperEffector} \textit{SolidObject}
+\hspace{10 mm}\class{GripperEffector}
 \\\midrule
 \hspace{10 mm}\class{VacuumEffector} \textit{CupDiameter} \textit{Length}
 \\\midrule
@@ -536,7 +550,7 @@ Each \class{SolidObject} has a native coordinate system conceptually fixed to th
 \end{tabular}
 \end{center}
 \end{table}
-In addition to representing objects, the ontology also represents activities. To represent activities in the manufacturing kitting ontology, both the actions and the pre- and post-conditions of those actions need to be represented. Preconditions and post-conditions (effects) are a combination of predicates. An example of action is \op{take-kittray} (take kit tray) which is defined as \op{take-kittray}(\const{robot},\const{kittray},\const{lbwekt},\const{eeff},\const{worktable}). In natural language, the \op{take-kittray} action involves a robot (\const{robot}) equipped with an end effector (\const{eeff}) picking up a kit tray (\const{kittray}) from within a large box with empty kit trays (\const{lbwekt}). This action is formally defined in the State Variable Representation~\cite{NAU.2004}. Table~\ref{tab:takekittray} shows the preconditions and effects (predicates) that are associated with this action.
+In addition to objects, the ontology also represents activities. In the manufacturing kitting ontology, both the activities and the pre- and post-conditions of those activities need to be represented. Preconditions and post-conditions (effects) are a combination of predicates. An example of action is \op{take-kittray} (take kit tray) which is defined as \op{take-kittray}(\const{robot},\const{kittray},\const{lbwekt},\const{eeff},\const{worktable}). In natural language, the \op{take-kittray} action involves a robot (\const{robot}) equipped with an end effector (\const{eeff}) picking up a kit tray (\const{kittray}) from within a large box with empty kit trays (\const{lbwekt}). This action is formally defined in the State Variable Representation~\cite{NAU.2004}. Table~\ref{tab:takekittray} shows the preconditions and effects (predicates) that are associated with this action.
 
 
 
@@ -555,7 +569,7 @@ Each of the predicates in Table~\ref{tab:takekittray} is described below:
 \item $\neg$\stvar{kittray-loc-lbwekt}(\const{kittray},\const{lbwekt}) - TRUE iff the kit tray (\const{kittray}) is not in the large box with empty kit trays (\const{lbwekt})
 \end{enumerate}
 
-There are many other actions that can be performed during the kitting operation, including putting down a kit tray, picking up and putting down a part, attaching/removing an end effector, etc. Each of these actions has associated preconditions and effects
+There are many other actions that can be performed during the kitting operation, including putting down a kit tray, picking up and putting down a part, attaching/removing an end effector, etc. Each of these actions has associated preconditions and effects. Some of the predicates described above appear to be redundant, such as number 3 and 5 above. Some are exact opposites, such as numbers 1 and 8 above. These are included in this way because of the requirements of a sister project that looking at automated planning and the goal was to leverage the same predicates between the two projects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Representing Manufacturing States}\label{S:section4}
@@ -567,7 +581,7 @@ When modeling the predicates in the preconditions and effects shown in the previ
 \caption{Revised definitions of spatial relationships}
 \label{tab:revised}
 \centering
-\scalebox{0.7}{
+\scalebox{0.6}{
 \begin{tabular}{lcc}
 \toprule
 \textbf{Predicate} & \textbf{Previous definition} & \textbf{Revised definition}\\\midrule
@@ -579,12 +593,13 @@ TRUE iff the large box with empty kit trays (\const{lbwekt}) is not empty
 There is an object that is \textbf{Contained-In} the large box with empty kit trays (\const{lbwekt})
 \end{minipage}
 \\\midrule
-\stvar{robot-with-endeffector}(\const{robot},\const{eeff}) &
+\stvar{robot-with-endeffector}(\const{robot},\const{eeff})   &
 \begin{minipage}[t]{0.22\columnwidth}%
 TRUE iff robot (\const{robot}) is equipped with the end effector (\const{eeff})
 \end{minipage} &
 \begin{minipage}[t]{0.3\columnwidth}%
-The end effector (\const{eeff}) is \textbf{In-Contact-With} the robot (\const{robot})
+The end effector (\const{eeff}) is \textbf{In-Contact-With} the robot (\const{robot})\footnote{For the purpose of this effort, we will assume that if the end effector is in contact with the robot arm, then it is correctly positioned and attached}
+
 \end{minipage}
 \\\midrule
 
@@ -646,7 +661,7 @@ The kit tray (\const{kittray}) is \textbf{Not-Contained-In} the large box with e
 \end{table}
 \end{center}
 
-The predicates \stvar{robot-empty}, $\neg$\stvar{robot-empty}, and \stvar{robot-holds-kittray} depend on the type of effector that is being used to define the predicate. We will assume there are two types of end effectors: a vacuum end effector and a parallel gripper end effector. The vacuum end effector picks objects up by positioning itself on top of the object and uses air to create a vacuum to adhere to the object. The parallel gripper end effector picks objects up by squeezing them from both sides.  Because the vacuum end effector would not reasonably be used to pick up the kit tray, the \stvar{vacuum-holds-kittray}(\const{robot},\const{kittray}) state is not included below. In the case of the vacuum end effector, the relevant predicates would be:
+The predicates \stvar{robot-empty}, $\neg$\stvar{robot-empty}, and \stvar{robot-holds-kittray} depend on the type of end effector that is being used to define the predicate. These predicates are not included in Table~\ref{tab:revised} but instead discussed and elaborated below. We will assume there are two types of end effectors: a vacuum end effector and a parallel gripper end effector. The vacuum end effector picks objects up by positioning itself on top of the object and uses air to create a vacuum to adhere to the object. The parallel gripper end effector picks objects up by squeezing them from both sides.  Because the vacuum end effector would not reasonably be used to pick up the kit tray, the \stvar{vacuum-holds-kittray}(\const{robot},\const{kittray}) state is not included below. In the case of the vacuum end effector, the relevant predicates would be:
 
 
 \begin{itemize}
@@ -658,20 +673,20 @@ In the case of the parallel gripper end effector, the predicates would be:
 \begin{itemize}
 \item \stvar{gripper-robot-empty}(\const{robot}) - there is no object \textbf{Partially-In-And-In-Contact-With} the robot (\const{robot}) gripper
 \item $\neg$\stvar{gripper-robot-empty}(\const{robot}) - there is an object \textbf{Partially-In-And-In-Contact-With} the robot (\const{robot}) gripper
-\item \stvar{gripper-holds-kittray}(\const{robot},\const{kittray}) - the kit tray (\const{kittray}) is \textbf{Partially-In-And-In-Contact-With} the robot (\const{robot}) gripper
+\item \stvar{gripper-holds-kittray}(\const{robot},\const{kittray}) - the kit tray (\const{kittray}) is \textbf{Partially-In-And-In-Contact-With} the robot (\const{robot}) gripper~\footnote{For this work, we assume that if the kit tray in partially in and in contact with the gripper, it is being held by the gripper.}
 \end{itemize}
 \begin{figure}[h!t!]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=6cm]{gripper.eps}
+\includegraphics[width=6cm]{gripper.pdf}
 \end{tabular}
 \end{center}
 \caption{Convex hull around robot gripper.}
 \label{fig:gripper}
 \end{figure}
-There is also one predicate that does not rely on spatial relations. The definition of \stvar{endeffector-type-kittray}(\const{eeff},\const{kittray}) states that a specific end effector must be able to be used on a kit tray. This information is included in the ontology class to describe the kit tray and therefore is out of scope of this document.
+As mentioned earlier, some of the predicates described above  are exact opposites. These are included in this way because of the requirements of a sister project that looking at automated planning and the goal was to leverage the same predicates between the two projects. There is also one predicate that does not rely on spatial relations. The definition of \stvar{endeffector-type-kittray}(\const{eeff},\const{kittray}) states that a specific end effector must be able to be used on a kit tray. This information is included in the ontology class to describe the kit tray and therefore is out of scope of this document.
 
-Also, in the manufacturing kitting domain, not all objects can be represented as convex regions, as is required by the RCC8 formalism. For example, the robot gripper in Figure~\ref{fig:gripper} is not convex and thus does not neatly fit into the RCC8 approach. To address this, we develop a convex hull along each relevant plane (as shown in Figure~\ref{fig:gripper}) around objects of this sort and use that convex hull to represent the region of the object in that plane.
+As stated earlier, in the manufacturing kitting domain, not all objects can be represented as convex regions, as is required by the RCC8 formalism. For example, the robot gripper in Figure~\ref{fig:gripper} is not convex and thus does not neatly fit into the RCC8 approach. To address this, we develop a convex hull along each relevant plane (as shown in Figure~\ref{fig:gripper}) around objects of this sort and use that convex hull to represent the region of the object in that plane.
 
 Based on the manufacturing kitting ontology and the spatial relations, we can formally define the 11 manufacturing kitting predicates:
 
@@ -700,7 +715,7 @@ Based on the manufacturing kitting ontology and the spatial relations, we can fo
 \label{eq:gripper-holds-kittray}
 \stvar{gripper-holds-kittray}(\mathit{robot},\mathit{kittray}) \rightarrow \\
 \class{GripperEffector}(\mathit{eeff}) \wedge \stvar{robot-with-endeffector}(\mathit{robot},\mathit{eeff}) \wedge \notag\\
-\neg \textbf{Partially-In-And-In-Contact-With}(\mathit{kittray}, \mathit{eeff})\notag
+\textbf{Partially-In-And-In-Contact-With}(\mathit{kittray}, \mathit{eeff})\notag
 \end{gather}
 \begin{gather}
 \label{eq:neg-kittray-loc-lbwekt}
@@ -712,7 +727,7 @@ Based on the manufacturing kitting ontology and the spatial relations, we can fo
 \stvar{vacuum-robot-empty}(\mathit{robot}) \rightarrow \\
 \class{SolidObject}(\mathit{obj1}) \wedge \class{SolidObject}(\mathit{obj2}) \wedge \class{VacuumEffector}(\mathit{eeff}) \wedge\notag\\
 \stvar{robot-with-endeffector}(\mathit{robot},\mathit{eeff}) \wedge \notag\\ \neg (\textbf{Under-And-In-Contact-With}(\mathit{obj1},\mathit{eeff}) \wedge \notag\\
-\neg (\textbf{Under-And-With-Contact-With}(\mathit{obj2},\mathit{obj1}))\notag
+\neg (\textbf{Under-And-In-Contact-With}(\mathit{obj2},\mathit{obj1}))\notag
 \end{gather}
 \begin{gather}
 \label{eq:neg-vacuum-robot-empty}
@@ -725,7 +740,8 @@ Based on the manufacturing kitting ontology and the spatial relations, we can fo
 \label{eq:gripper-robot-empty}
 \stvar{gripper-robot-empty}(\mathit{robot}) \rightarrow \\
 \class{SolidObject}(\mathit{obj1}) \wedge \class{GripperEffector}(\mathit{eeff}) \wedge\notag\\
-\stvar{robot-with-endeffector}(\mathit{robot},\mathit{eeff}) \notag
+\stvar{robot-with-endeffector}(\mathit{robot},\mathit{eeff}) \wedge \notag \\
+\neg \textbf{Partially-In-And-In-Contact-With}(\mathit{obj1},\mathit{eeff})\notag
 \end{gather}
 \begin{gather}
 \label{eq:neg-gripper-robot-empty}
@@ -753,7 +769,7 @@ This section describes the experiments that were performed to validate the state
 
 \begin{figure}[t!h!]
 \begin{tabular}{c}
-\includegraphics[width=13cm]{architecture.eps}
+\includegraphics[width=13cm]{architecture.pdf}
 \end{tabular}
 \caption{Implementation architecture.}
 \label{fig:architecture}
@@ -765,7 +781,7 @@ The ontology described earlier in this paper and the output from \texttt{USARTru
 \begin{figure}[t!h!]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=7cm]{simulation.eps}
+\includegraphics[width=7cm]{simulation.pdf}
 \end{tabular}
 \end{center}
 \caption{Scenario.}
@@ -787,7 +803,7 @@ For the third bullet above, the spatial relation is \sr{Under-And-In-Contact-Wit
 \begin{figure}[h!t!]
 \begin{center}
 \begin{tabular}{c}
-\includegraphics[width=13cm]{checker.eps}
+\includegraphics[width=13cm]{checker.pdf}
 \end{tabular}
 \end{center}
 \caption{State recognition algorithms output.}
@@ -813,7 +829,7 @@ The next step in this work is to apply the output of the state recognition algor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\bibliographystyle{elsarticle-num}
-\bibliographystyle{model6-num-names}
+\bibliographystyle{model1a-num-names}
 %\bibliographystyle{plain}
 %\bibliographystyle{siam}
 \bibliography{journal}

@@ -53,7 +53,7 @@
   <PrimaryLocation xsi:type="RelativeLocationInType">
     <Name>relative_location_in_1</Name>
     <RefObject>kitting_workstation_1</RefObject>
-    <Description>The  KittingWorkstation is in kitting_workstation_1</Description>
+    <Description>kitting_workstation_1 is in kitting_workstation_1</Description>
   </PrimaryLocation>
   <AngleUnit>degree</AngleUnit>
   <ChangingStation>
@@ -107,9 +107,9 @@
       <InternalShape xsi:type="BoxyShapeType">
         <Name>shape_changing_station_base</Name>
         <Description>Shape of base of changing station</Description>
-        <Length>1.000000</Length>
+        <Length>0.420000</Length>
         <Width>0.100000</Width>
-        <Height>1.000000</Height>
+        <Height>0.500000</Height>
         <HasTop>true</HasTop>
       </InternalShape>
     </Base>
@@ -137,6 +137,14 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
+      <InternalShape xsi:type="BoxyShapeType">
+        <Name>shape_gripper_holder_1</Name>
+        <Description>Shape of gripper holder 1</Description>
+        <Length>0.080000</Length>
+        <Width>0.080000</Width>
+        <Height>0.001000</Height>
+        <HasTop>true</HasTop>
+      </InternalShape>
       <EndEffector xsi:type="VacuumEffectorSingleCupType">
         <Name>part_gripper</Name>
         <PrimaryLocation xsi:type="PoseOnlyLocationType">
@@ -192,6 +200,14 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
+      <InternalShape xsi:type="BoxyShapeType">
+        <Name>shape_gripper_holder_2</Name>
+        <Description>Shape of gripper holder 2</Description>
+        <Length>0.080000</Length>
+        <Width>0.080000</Width>
+        <Height>0.001000</Height>
+        <HasTop>true</HasTop>
+      </InternalShape>
     </EndEffectorHolders>
   </ChangingStation>
   <KitDesign>

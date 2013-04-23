@@ -1954,27 +1954,9 @@ void KittingViewer::enhancePoses() /* NO ARGUMENTS */
 	  qDist = hypot3((qBx - qAx), (qBy - qAy), (qBz - qAz));
 	  qTime = ((robotSpeed == 0.0) ? (10 * qDist / robotMaxSpeed) :
 		   (qDist / robotSpeed));
-	  if ((poseA->zAxis.i == poseB->zAxis.i) &&
-	      (poseA->zAxis.j == poseB->zAxis.j) &&
-	      (poseA->zAxis.k == poseB->zAxis.k))
-	    {
-	      zTime = 0.0;
-	      anglesZ[n] = 0.0;
-	      if ((poseA->xAxis.i == poseB->xAxis.i) &&
-		  (poseA->xAxis.j == poseB->xAxis.j) &&
-		  (poseA->xAxis.k == poseB->xAxis.k))
-		{
-		  xTime = 0.0;
-		  anglesZ[n] = 0.0;
-		}
-	      else
-		{
-		  findAngleX(poseA->xAxis, poseB->xAxis, poseA->zAxis, n);
-		  xTime =
-		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
-		}
-	    }
-	  else
+	  if ((fabs(poseA->zAxis.i - poseB->zAxis.i) > TINYVAL) ||
+	      (fabs(poseA->zAxis.j - poseB->zAxis.j) > TINYVAL) ||
+	      (fabs(poseA->zAxis.k - poseB->zAxis.k) > TINYVAL))
 	    {
 	      findAngleAndAxleZ(poseA->zAxis, poseB->zAxis, n);
 	      zTime = anglesZ[n]/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
@@ -1992,6 +1974,24 @@ void KittingViewer::enhancePoses() /* NO ARGUMENTS */
 		{
 		  xTime = 0.0;
 		  anglesX[n] = 0.0;		  
+		}
+	    }
+	  else
+	    {
+	      zTime = 0.0;
+	      anglesZ[n] = 0.0;
+	      if ((fabs(poseA->xAxis.i - poseB->xAxis.i) > TINYVAL) ||
+		  (fabs(poseA->xAxis.j - poseB->xAxis.j) > TINYVAL) ||
+		  (fabs(poseA->xAxis.k - poseB->xAxis.k) > TINYVAL))
+		{
+		  findAngleX(poseA->xAxis, poseB->xAxis, poseA->zAxis, n);
+		  xTime =
+		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
+		}
+	      else
+		{
+		  xTime = 0.0;
+		  anglesX[n] = 0.0;
 		}
 	    }
 	}

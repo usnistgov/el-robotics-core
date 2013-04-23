@@ -577,7 +577,7 @@
       <Name>kit_tray_1</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>kit_tray_1_pose</Name>
-        <RefObject>empty_kit_tray_box</RefObject>
+        <RefObject>empty_kit_tray_supply</RefObject>
         <Point>
           <Name>kit_tray_1_point</Name>
           <X>0.000000</X>
@@ -864,7 +864,7 @@
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_part_b</SkuName>
-      <SerialNumber>14</SerialNumber>
+      <SerialNumber>13</SerialNumber>
     </Part>
     <Part>
       <Name>part_b_2</Name>
@@ -918,7 +918,7 @@
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_part_b</SkuName>
-      <SerialNumber>14</SerialNumber>
+      <SerialNumber>15</SerialNumber>
     </Part>
     <Part>
       <Name>part_b_4</Name>
@@ -945,7 +945,7 @@
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_part_b</SkuName>
-      <SerialNumber>14</SerialNumber>
+      <SerialNumber>16</SerialNumber>
     </Part>
     <Part>
       <Name>part_b_5</Name>
@@ -972,7 +972,7 @@
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_part_b</SkuName>
-      <SerialNumber>14</SerialNumber>
+      <SerialNumber>17</SerialNumber>
     </Part>
     <Part>
       <Name>part_b_6</Name>
@@ -999,7 +999,7 @@
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_part_b</SkuName>
-      <SerialNumber>14</SerialNumber>
+      <SerialNumber>18</SerialNumber>
     </Part>
   </Object>
   <Object xsi:type="PartsTrayWithPartsType">

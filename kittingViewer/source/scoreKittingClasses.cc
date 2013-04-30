@@ -4,7 +4,6 @@
 #include <string.h>            // for strdup
 #include <stdlib.h>            // for exit
 #include <list>
-#include <boost/regex.hpp>
 #include "xmlSchemaInstance.hh"
 #include "scoreKittingClasses.hh"
 

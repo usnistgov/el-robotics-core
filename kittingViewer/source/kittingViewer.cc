@@ -1879,7 +1879,7 @@ Linux and unix).
 void KittingViewer::dwell( /* ARGUMENTS                    */
  double seconds)           /* how long to dwell in seconds */
 {
-  int start;
+  double start;
 
   start = getPseudoElapsedTime();
   while ((getPseudoElapsedTime() - start) < seconds);
@@ -4234,7 +4234,7 @@ void KittingViewer::init() /* NO ARGUMENTS */
   goalModel = KittingWorkstationTree->KittingWorkstation;
   goalModel->convertUnits(false);
   readScoringFile(scoringFile);
-  scale = 1.0 / max(WORKSTATIONLENGTH, WORKSTATIONWIDTH);
+  scale = (float)(1.0 / max(WORKSTATIONLENGTH, WORKSTATIONWIDTH));
   spacing =  (max(WORKSTATIONLENGTH, WORKSTATIONWIDTH) / 20.0);
   initData();
   executeFlag = false;
@@ -5444,7 +5444,6 @@ This reads the command file.
 void KittingViewer::readCommandFile() /* NO ARGUMENTS */
 {
   FILE * inFile;
-  CommandParser commandParser;
 
   inFile = fopen(commandFile, "r");
   if (inFile == 0)
@@ -5453,7 +5452,7 @@ void KittingViewer::readCommandFile() /* NO ARGUMENTS */
 	      commandFile);
       exit(1);
     }
-  commandParser.readCommandFile(inFile, &commands);
+  CommandParser::readCommandFile(inFile, &commands);
   fclose(inFile);
   printf("Command file read\n");
 }

@@ -21,11 +21,11 @@ and are not used by the kittingViewer (so they could be deleted).
 
 */
 
+#include <math.h>              // for sqrt
 #include <stdio.h>             // for printf, etc.
 #include <string.h>            // for strdup
 #include <stdlib.h>            // for exit
 #include <list>
-#include <boost/regex.hpp>
 #include "xmlSchemaInstance.hh"
 #include "kittingClassesView.hh"
 #include "kittingViewer.hh"

@@ -176,13 +176,13 @@ static void displayCommandWindow(void) /* NO ARGUMENTS */
   glColor3f(1.0f, 1.0f, 1.0f);
   for (n = 1; ((n < MAXPOSES) && (KittingViewer::commandString[n][0])); n++)
     {
-      KittingViewer::drawString(10.0f, (commandHeight - (20 + (n * 15))),
+      KittingViewer::drawString(10.0f, (float)(commandHeight - (20 + (n * 15))),
 				GLUT_BITMAP_HELVETICA_10,
 				KittingViewer::commandString[n]);
       glutPostRedisplay();
     }
   if (KittingViewer::commandString[0][0])
-    KittingViewer::drawString(10.0f, (commandHeight - (20 + (n * 15))),
+    KittingViewer::drawString(10.0f, (float)(commandHeight - (20 + (n * 15))),
 			      GLUT_BITMAP_HELVETICA_10,
 			      KittingViewer::commandString[0]);
   glutSwapBuffers();
@@ -447,10 +447,10 @@ static void makeGrid(void) /* NO ARGUMENTS */
   glBegin(GL_LINES);
   for (t = -k; t <= (k + 0.01); t += c)
     {
-      glVertex3f(t, k, -0.0005);
-      glVertex3f(t, -k, -0.0005);
-      glVertex3f(k, t, -0.0005);
-      glVertex3f(-k, t, -0.0005);
+      glVertex3f(t, k, (GLfloat)-0.0005);
+      glVertex3f(t, -k, (GLfloat)-0.0005);
+      glVertex3f(k, t, (GLfloat)-0.0005);
+      glVertex3f(-k, t, (GLfloat)-0.0005);
     }
   glEnd();
 }

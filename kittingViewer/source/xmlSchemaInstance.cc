@@ -3,8 +3,14 @@
 #include <stdio.h>              // for fprintf, etc.
 #include <stdlib.h>             // for exit
 #include <string.h>             // for strcmp
-#include <boost/regex.hpp>      // for regexp, etc.
 #include "xmlSchemaInstance.hh"
+
+/* 
+
+In this copy of xmlSchemaInstance.cc, the boost regex facility is not used.
+Hard-coded string format checkers are used instead.
+
+*/
 
 /*********************************************************************/
 
@@ -600,22 +606,30 @@ XmlInt::XmlInt()
 XmlInt::XmlInt(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] == '+') || (valIn[n] == '-'))
+    n++;
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab non-one-sign is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid int\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid int\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%d", &val) == 1)
     {
-      if (sscanf(valIn, "%d", &val) == 1)
-	{
-	  bad = false;
-	}
-      else
-	{
-	  val = 0;
-	  bad = true;
-	  fprintf(stderr, "%s is not a valid int\n", valIn);
-	}
+      bad = false;
     }
   else
     {
@@ -669,22 +683,30 @@ XmlInteger::XmlInteger()
 XmlInteger::XmlInteger(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] == '+') || (valIn[n] == '-'))
+    n++;
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab non-one-sign is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid integer\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; valIn[n] && ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid integer\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%d", &val) == 1)
     {
-      if (sscanf(valIn, "%d", &val) == 1)
-	{
-	  bad = false;
-	}
-      else
-	{
-	  val = 0;
-	  bad = true;
-	  fprintf(stderr, "%s is not a valid integer\n", valIn);
-	}
+      bad = false;
     }
   else
     {
@@ -738,20 +760,30 @@ XmlLong::XmlLong()
 XmlLong::XmlLong(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] == '+') || (valIn[n] == '-'))
+    n++;
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab non-one-sign is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid long\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid long\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%ld", &val) == 1)
     {
-      if (sscanf(valIn, "%ld", &val) == 1)
-	bad = false;
-      else
-	{
-	  val = 0;
-	  bad = true;
-	  fprintf(stderr, "%s is not a valid long\n", valIn);
-	}
+      bad = false;
     }
   else
     {
@@ -788,6 +820,9 @@ The constructor that takes an argument checks that valIn a valid NMTOKEN.
 If so, val is set to valIn and bad is set to false.
 If not, val is set to the empty string and bad is set to true.
 
+A valid NMTOKEN may have leading and/or trailing spaces and tabs, but
+otherwise, it must be a member of [a-zA-Z0-9:_.-].
+
 */
 
 XmlNMTOKEN::XmlNMTOKEN()
@@ -799,40 +834,61 @@ XmlNMTOKEN::XmlNMTOKEN()
 XmlNMTOKEN::XmlNMTOKEN(
   char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[a-zA-Z0-9:_.-]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if(boost::regex_search(valIn, pattern))
-    {
-      val = valIn; // automatic conversion
-      bad = false;
-    }
-  else
-    {
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] != ':') &&
+      (valIn[n] != '_') &&
+      (valIn[n] != '.') &&
+      (valIn[n] != '-') &&
+      ((valIn[n] < 'a') || (valIn[n] > 'z')) &&
+      ((valIn[n] < 'A') || (valIn[n] > 'Z')) &&
+      ((valIn[n] < '0') || (valIn[n] > '9')))
+    { // first non-space non-tab is not allowed
       val = "";
       bad = true;
       fprintf(stderr, "%s is not a valid NMTOKEN\n", valIn);
+      return;
     }
+  for (n++; ((valIn[n] == ':') ||
+	     (valIn[n] == '_') ||
+	     (valIn[n] == '.') ||
+	     (valIn[n] == '-') ||
+	     ((valIn[n] >= 'a') && (valIn[n] <= 'z')) ||
+	     ((valIn[n] >= 'A') && (valIn[n] <= 'Z')) ||
+	     ((valIn[n] >= '0') && (valIn[n] <= '9'))); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid NMTOKEN\n", valIn);
+      return;
+    }
+  val = valIn; // automatic conversion
+  bad = false;
 }
 
 XmlNMTOKEN::~XmlNMTOKEN() {}
 
 bool XmlNMTOKEN::XmlNMTOKENIsBad()
 {
-  boost::regex pattern;
-
+  int n;
+  const char * valIn;
+  
   if (bad)
     return true;
-  else
-    {
-      pattern = boost::regex("^[a-zA-Z0-9:_.-]*$",
-			     boost::regex::extended|boost::regex::no_except);
-      if(boost::regex_search(val.c_str(), pattern))
-	return false;
-      else
-	return true;
-    }
+  valIn = val.c_str();
+  for (n=0; ((valIn[n] == ':') ||
+	     (valIn[n] == '_') ||
+	     (valIn[n] == '.') ||
+	     (valIn[n] == '-') ||
+	     ((valIn[n] >= 'a') && (valIn[n] <= 'z')) ||
+	     ((valIn[n] >= 'A') && (valIn[n] <= 'Z')) ||
+	     ((valIn[n] >= '0') && (valIn[n] <= '9'))); n++);
+  if ((n == 0) || valIn[n])
+    return true;
+  return false;
 }
 
 void XmlNMTOKEN::printSelf(FILE * outFile)
@@ -873,23 +929,31 @@ XmlNonNegativeInteger::XmlNonNegativeInteger()
 XmlNonNegativeInteger::XmlNonNegativeInteger(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] == '+') || (valIn[n] == '-'))
+    n++;
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab non-one-sign is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid nonNegativeInteger\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid nonNegativeInteger\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%d", &val) == 1)
     {
-      if (sscanf(valIn, "%d", &val) == 1)
-	{
-	  if (val > -1)
-	    bad = false;
-	  else
-	    {
-	      val = 0;
-	      bad = true;
-	      fprintf(stderr, "%s is not a valid nonNegativeInteger\n", valIn);
-	    }
-	}
+      if (val > -1)
+	bad = false;
       else
 	{
 	  val = 0;
@@ -955,23 +1019,31 @@ XmlPositiveInteger::XmlPositiveInteger()
 XmlPositiveInteger::XmlPositiveInteger(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] == '+') || (valIn[n] == '-'))
+    n++;
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab non-one-sign is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid positiveInteger\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid positiveInteger\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%d", &val) == 1)
     {
-      if (sscanf(valIn, "%d", &val) == 1)
-	{
-	  if (val > 0)
-	    bad = false;
-	  else
-	    {
-	      val = 0;
-	      bad = true;
-	      fprintf(stderr, "%s is not a valid positiveInteger\n", valIn);
-	    }
-	}
+      if (val > 0)
+	bad = false;
       else
 	{
 	  val = 0;
@@ -1097,20 +1169,28 @@ XmlUnsignedInt::XmlUnsignedInt()
 XmlUnsignedInt::XmlUnsignedInt(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid unsignedInt\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid unsignedInt\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%d", &val) == 1)
     {
-      if (sscanf(valIn, "%u", &val) == 1)
-	bad = false;
-      else
-	{
-	  val = 0;
-	  bad = true;
-	  fprintf(stderr, "%s is not a valid unsignedInt\n", valIn);
-	}
+      bad = false;
     }
   else
     {
@@ -1163,20 +1243,28 @@ XmlUnsignedLong::XmlUnsignedLong()
 XmlUnsignedLong::XmlUnsignedLong(
   const char * valIn)
 {
-  boost::regex pattern;
+  int n;
 
-  pattern = boost::regex("^[ \t]*[0-9]+[ \t]*$",
-			 boost::regex::extended|boost::regex::no_except);
-  if (boost::regex_search(valIn, pattern))
+  for (n=0; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if ((valIn[n] < '0') || (valIn[n] > '9'))
+    { // first non-space non-tab is not a digit
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid unsignedLong\n", valIn);
+      return;
+    }
+  for (n++ ; ((valIn[n] >= '0') && (valIn[n] <= '9')); n++);
+  for ( ; ((valIn[n] == ' ') || (valIn[n] == '\t')); n++);
+  if (valIn[n])
+    { // valIn[n] should be 0 but isn't
+      val = 0;
+      bad = true;
+      fprintf(stderr, "%s is not a valid unsignedLong\n", valIn);
+      return;
+    }
+  else if (sscanf(valIn, "%ld", &val) == 1)
     {
-      if (sscanf(valIn, "%lu", &val) == 1)
-	bad = false;
-      else
-	{
-	  val = 0;
-	  bad = true;
-	  fprintf(stderr, "%s is not a valid unsignedLong\n", valIn);
-	}
+      bad = false;
     }
   else
     {

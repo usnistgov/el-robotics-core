@@ -12,8 +12,7 @@ bin/kittingParser : ofiles/kittingParser.o    \
                       ofiles/kittingYACC.o       \
                       ofiles/kittingLex.o        \
                       ofiles/kittingClasses.o    \
-                      ofiles/xmlSchemaInstance.o \
-                      -L/usr/lib -lboost_regex
+                      ofiles/xmlSchemaInstance.o
 
 bin/kittingViewer: ofiles/commandParser.o      \
                    ofiles/canonicalMsgView.o   \
@@ -41,7 +40,7 @@ bin/kittingViewer: ofiles/commandParser.o      \
                          ofiles/scoreKittingLex.o     \
                          ofiles/scoreKittingYACC.o    \
                          ofiles/xmlSchemaInstance.o   \
-                         $(GLUT_LIBS) -L/usr/lib -lboost_regex
+                         $(GLUT_LIBS)
 
 bin/commandParser: ofiles/commandParserMain.o       \
                    ofiles/commandParser.o           \
@@ -59,8 +58,7 @@ bin/scoreKittingParser : ofiles/scoreKittingParser.o  \
                          ofiles/scoreKittingClasses.o \
                          ofiles/scoreKittingLex.o     \
                          ofiles/xmlSchemaInstance.o   \
-                         ofiles/scoreKittingYACC.o    \
-                         -L/usr/lib -lboost_regex
+                         ofiles/scoreKittingYACC.o
 
 ofiles/canonicalMsg.o: source/canonicalMsg.hh \
                        source/canonicalMsg.cc

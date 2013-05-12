@@ -1,1 +1,1 @@
-kittingViewer -c commandFiles/commands3 -g dataFiles/kittingInstancesGoal1.xml -e true -t 0.5 -s dataFiles/scoreKitting1.xml -i dataFiles/kittingInstancesInit1.xml
+.\windows\kittingViewer\Debug\kittingViewer -c commandFiles/commands1 -g dataFiles/kittingInstancesGoal1.xml -e true -t 0.5 -s dataFiles/scoreKitting1.xml -i dataFiles/kittingInstancesInit1.xml

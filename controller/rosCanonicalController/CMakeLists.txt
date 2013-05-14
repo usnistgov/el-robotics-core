@@ -27,7 +27,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_boost_directories()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 
-link_directories(~/ipmas/controller) #change this line to point to the ipmas directory
+link_directories(~/Documents/Assembla/ipmas/controller) #change this line to point to the ipmas directory
 rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp
 											src/rosInf.cpp
 											src/rosController.cpp

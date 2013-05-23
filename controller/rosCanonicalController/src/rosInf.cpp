@@ -420,14 +420,19 @@ RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
       nextGoal.setTransformListener (&listener);
 
       nextGoal.setPositionFrameType ("global");
-      nextGoal.setOrientationFrameType ("global");
+      nextGoal.setOrientationFrameType (COORDORIENT);
       nextGoal.setPositionTolerance (positionTolerance);
       nextGoal.setOrientationTolerance (0.04);
 
       if (effectorAttached)
-	nextGoal.setTargetPointFrame (activeEffectorName);
-
-      nextGoal.movePosition (x, y, z);
+	{
+	  nextGoal.setTargetPointFrame (activeEffectorName);
+	  ROS_ERROR("Movement based on %s", activeEffectorName.c_str() );
+	}
+      nextGoal.movePosition (x, y, z + 0.085); // adding this value here is
+      // wrong on so many levels. However, it works for the vacuum cup tool tip
+      // offset which I can't seem to get to work any other way.
+      //      nextGoal.moveOffset (x, y, z);
       nextGoal.moveOrientation (xRot, yRot, zRot, wRot);
 
 

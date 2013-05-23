@@ -5,6 +5,7 @@
 #include <arm_navigation_msgs/MoveArmAction.h>
 #include <tf/transform_listener.h>
 
+#define COORDORIENT "global"
 enum frame_type
 {
 	GLOBAL=0,

@@ -18,43 +18,15 @@
   <xs:annotation>
     <xs:documentation>
       This is an XML schema for kitting classes. It has the same semantic
-      content as the December 20, 2012 version of the kitting.xsd file
-      except that
-      1. InternalShapeType was added, derived from ShapeDesignType.
-
-      2. Two optional elements were added to SolidObjectType
-         - InternalShape of InternalShapeType
-         - ExternalShape of ExternalShapeType
-
-      3. BoxyObjectType was removed from the model.
-
-      4. BoxyShapeType is now derived from InternalShapeType rather than
-         from ShapeDesignType.
-
-      5. A HeldObject element of SolidObjectType was added to EndEffectorType.
-
-      6. MechanicalComponentType was defined, derived from SolidObjectType.
-
-      7. A Base element (the physical base of the changing station) of
-         MechanicalComponentType was added to the
-         EndEffectorChangingStationType.
-
-      8. A GraspPose element was added to ShapeDesignType.
-
-      9. Documentation was changed or added in several places.
-
-      One effect of the changes described above is that there are now
-      four ways to specify the shape of a SolidObjectType:
-        - by an internal shape element
-        - by an external shape element
-        - by having a stock keeping unit name element (some derived types
-          of SolidObjectType have that)
-        - by being entirely composed of objects that have shape and are
-          the values of elements of the object.
+      content as the January 14, 2013 version of the kitting.xsd file
+      except that 
+      1. HumanType has been added as a derived type of SolidObjectType.
+      2. A timestamp has been added to PhysicalLocationType.
+      3. PositionStandardDeviation and OrientationStandardDeviation
+         have been added to PoseLocationType.
     </xs:documentation>
     <xs:documentation>
-      This file has the same semantic content as the 2013Jan10 version of
-      kittingClasses.owl. In OWL, all objects are declared at the top
+      In OWL, all objects are declared at the top
       level; there is no hierarchy. In files conforming to an XML schema,
       all class instances must occur in a hierarchy descending from a root
       object. Some SolidObjectTypes, such as a robot, are elements of the
@@ -281,6 +253,19 @@
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="EndEffectorType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="HumanType">
+    <xs:annotation>
+      <xs:documentation>
+        A HumanType is a type representing a human being. The shape of a
+        human is the shape of a bounding box (or other bounding shape)
+        that encloses the human completely.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType"/>
     </xs:complexContent>
   </xs:complexType>
 
@@ -689,8 +674,10 @@
         A PhysicalLocationType is a DataThingType. A PhysicalLocationType
         says where a SolidObjectType is. A PhysicalLocationType has a Name
         inherited from DataThingType. It also has a RefObject element that
-        is a SolidObjectType. A PhysicalLocationType is either a
-        RelativeLocationType or a PoseLocationType.
+        is a SolidObjectType and an optional Timestamp element. The
+        Timestamp element represents the most recent date and time when
+        the location was updated. A PhysicalLocationType is either a
+        RelativeLocationType or a PoseLocationType. 
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -698,6 +685,9 @@
         <xs:sequence>
           <xs:element name="RefObject"
             type="xs:IDREF"/>
+          <xs:element name="Timestamp"
+            type="xs:dateTime"
+            minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -731,14 +721,33 @@
       <xs:documentation>
         A PoseLocationType is a PhysicalLocationType. A PoseLocationType
         has Name and RefObject elements inherited from
-        PhysicalLocationType. A PoseLocationType also also has a Point
-        element of PointType and XAxis and ZAxis elements of VectorType.
-        The Point locates the origin of a coordinate system, and the XAxis
+        PhysicalLocationType. A PoseLocationType also also has:
+        - a Point element of PointType
+        - an XAxis element of VectorType
+        - a ZAxis element of VectorType
+        - an optional PositionStandardDeviation element measured
+          in the length units being used
+        - an optional OrientationStandardDeviation element measured
+          in the angle units being used
+        The Point locates the origin of a coordinate system. The XAxis
         and ZAxis give the orientation of the coordinate system. The data
         for the Point, the ZAxis and the XAxis are expressed relative to
         the coordinate system of the reference object. A PoseLocationType
         must be a PoseOnlyLocationType, a PoseLocationInType, or a
         PoseLocationOnType.
+      </xs:documentation>
+      <xs:documentation>
+        The PositionStandardDeviation is based on a normal distribution of
+        actual position about its given value. Thus, for example, the
+        actual position is expected to be within the given
+        PositionStandardDeviation amount 68% of the time and within twice
+        the given amount 95% of the time.
+      </xs:documentation>
+      <xs:documentation>
+        The OrientationStandardDeviation is based on a normal distribution
+        of orientation about its given value. The error is to be measured
+        as the angle of rotation about a single axis needed to rotate a
+        solid object from its stated orientation to its actual orientation.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -750,6 +759,12 @@
             type="VectorType"/>
           <xs:element name="ZAxis"
             type="VectorType"/>
+	  <xs:element name="PositionStandardDeviation"
+            type="PositiveDecimalType"
+            minOccurs="0"/>
+	  <xs:element name="OrientationStandardDeviation"
+            type="PositiveDecimalType"
+            minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

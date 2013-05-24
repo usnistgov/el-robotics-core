@@ -37,9 +37,12 @@ DataPropertyDomain(:hasPartsBin_PartQuantity :PartsBin)
 DataPropertyDomain(:hasPartsBin_SerialNumber :PartsBin)
 DataPropertyDomain(:hasPartsTray_SerialNumber :PartsTray)
 DataPropertyDomain(:hasPart_SerialNumber :Part)
+DataPropertyDomain(:hasPhysicalLocation_Timestamp :PhysicalLocation)
 DataPropertyDomain(:hasPoint_X :Point)
 DataPropertyDomain(:hasPoint_Y :Point)
 DataPropertyDomain(:hasPoint_Z :Point)
+DataPropertyDomain(:hasPoseLocation_OrientationStandardDeviation :PoseLocation)
+DataPropertyDomain(:hasPoseLocation_PositionStandardDeviation :PoseLocation)
 DataPropertyDomain(:hasRelativeLocation_Description :RelativeLocation)
 DataPropertyDomain(:hasRobot_Description :Robot)
 DataPropertyDomain(:hasRobot_MaximumLoadWeight :Robot)
@@ -75,9 +78,12 @@ DataPropertyRange(:hasPartsBin_PartQuantity xsd:nonNegativeInteger)
 DataPropertyRange(:hasPartsBin_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasPartsTray_SerialNumber xsd:NMTOKEN)
 DataPropertyRange(:hasPart_SerialNumber xsd:NMTOKEN)
+DataPropertyRange(:hasPhysicalLocation_Timestamp  xsd:dateTime)
 DataPropertyRange(:hasPoint_X xsd:decimal)
 DataPropertyRange(:hasPoint_Y xsd:decimal)
 DataPropertyRange(:hasPoint_Z xsd:decimal)
+DataPropertyRange(:hasPoseLocation_OrientationStandardDeviation :positiveDecimal)
+DataPropertyRange(:hasPoseLocation_PositionStandardDeviation :positiveDecimal)
 DataPropertyRange(:hasRelativeLocation_Description xsd:string)
 DataPropertyRange(:hasRobot_Description xsd:string)
 DataPropertyRange(:hasRobot_MaximumLoadWeight :positiveDecimal)
@@ -195,6 +201,10 @@ AnnotationAssertion(rdfs:comment :GripperEffector
   "A GripperEffector is an EndEffector. A GripperEffector holds an
    object by gripping it with fingers or claws.")
 
+Declaration(Class(:Human))
+AnnotationAssertion(rdfs:comment :Human
+  "A Human is a SolidObject. A Human may be in a kitting workstation.")
+
 Declaration(Class(:InternalShape))
 AnnotationAssertion(rdfs:comment :InternalShape
   "An InternalShape is a ShapeDesign.")
@@ -225,7 +235,8 @@ AnnotationAssertion(rdfs:comment :KittingWorkstation
    contains a work table (hasWorkstation_WorkTable), a robot
    (hasWorkstation_Robot), an EndEffectorChangingStation
    (hasWorkstation_ChangingStation), and other fixed obstacles
-   (hasWorkstation_OtherObstacles) such as a computer. A
+   (hasWorkstation_OtherObstacles) such as a computer. A KittingWorkstation
+   may contain zero to many Humans, which are movable obstacles. A
    KittingWorkstation has an angle unit (hasWorkstation_AngleUnit), a
    length unit (hasWorkstation_LengthUnit) and a weight unit
    (hasWorkstation_WeightUnit). All angle, length, and weight values
@@ -356,7 +367,9 @@ Declaration(Class(:PhysicalLocation))
 AnnotationAssertion(rdfs:comment :PhysicalLocation
   "A PhysicalLocation is a DataThing. A PhysicalLocation says where a
    SolidObject is. A PhysicalLocation has a reference object
-   (hasPhysicalLocation_RefObject) that is a SolidObject.
+   (hasPhysicalLocation_RefObject) that is a SolidObject. A
+   PhysicalLocation has an optional timestamp
+   (hasPhysicalLocation_Timestamp) that is an xs:dateTime.
    A PhysicalLocation is either a RelativeLocation or a PoseLocation.")
 
 Declaration(Class(:Point))
@@ -370,9 +383,14 @@ AnnotationAssertion(rdfs:comment :PoseLocation
    (hasPoseLocation_Point), a Vector for the Z axis
    (hasPoseLocation_ZAxis), and a Vector for the X axis
    (hasPoseLocation_XAxis). The data for the Point, the ZAxis and the
-   XAxis are expressed relative to the coordinate system of the
-   reference object. A PoseLocation must be a PoseOnlyLocation, a
-   PoseLocationIn, or a PoseLocationOn")
+   XAxis are expressed relative to the coordinate system of the reference
+   object. A PoseLocation has an optional position standard deviation
+   hasPoseLocation_PositionStandardDeviation) that is a positiveDecimalType
+   measured in declared length units. A PoseLocation has an optional
+   orientation standard deviation
+   (hasPoseLocation_OrientationStandardDeviation) that is a
+   positiveDecimalType measured in declared angle units. A PoseLocation
+   must be a PoseOnlyLocation, a PoseLocationIn, or a PoseLocationOn")
 
 Declaration(Class(:PoseLocationIn))
 AnnotationAssertion(rdfs:comment :PoseLocation
@@ -553,9 +571,12 @@ Declaration(DataProperty(:hasPartsBin_PartQuantity))
 Declaration(DataProperty(:hasPartsBin_SerialNumber))
 Declaration(DataProperty(:hasPartsTray_SerialNumber))
 Declaration(DataProperty(:hasPart_SerialNumber))
+Declaration(DataProperty(:hasPhysicalLocation_Timestamp))
 Declaration(DataProperty(:hasPoint_X))
 Declaration(DataProperty(:hasPoint_Y))
 Declaration(DataProperty(:hasPoint_Z))
+Declaration(DataProperty(:hasPoseLocation_OrientationStandardDeviation))
+Declaration(DataProperty(:hasPoseLocation_PositionStandardDeviation))
 Declaration(DataProperty(:hasRelativeLocation_Description))
 Declaration(DataProperty(:hasRobot_Description))
 Declaration(DataProperty(:hasRobot_MaximumLoadWeight))
@@ -911,6 +932,7 @@ DisjointUnion(:SolidObject
               :EndEffector
               :EndEffectorChangingStation
               :EndEffectorHolder
+              :Human
               :Kit
               :KittingWorkstation
               :KitTray
@@ -1208,9 +1230,12 @@ FunctionalDataProperty(:hasPartsBin_PartQuantity)
 FunctionalDataProperty(:hasPartsBin_SerialNumber)
 FunctionalDataProperty(:hasPartsTray_SerialNumber)
 FunctionalDataProperty(:hasPart_SerialNumber)
+FunctionalDataProperty(:hasPhysicalLocation_Timestamp)
 FunctionalDataProperty(:hasPoint_X)
 FunctionalDataProperty(:hasPoint_Y)
 FunctionalDataProperty(:hasPoint_Z)
+FunctionalDataProperty(:hasPoseLocation_OrientationStandardDeviation)
+FunctionalDataProperty(:hasPoseLocation_PositionStandardDeviation)
 FunctionalDataProperty(:hasRelativeLocation_Description)
 FunctionalDataProperty(:hasRobot_Description)
 FunctionalDataProperty(:hasRobot_MaximumLoadWeight)
@@ -1509,6 +1534,7 @@ SubClassOf(:EndEffectorChangingStation :SolidObject)
 SubClassOf(:EndEffectorHolder :SolidObject)
 SubClassOf(:ExternalShape :ShapeDesign)
 SubClassOf(:GripperEffector :EndEffector)
+SubClassOf(:Human :SolidObject)
 SubClassOf(:InternalShape :ShapeDesign)
 SubClassOf(:Kit :SolidObject)
 SubClassOf(:KitDesign :DataThing)

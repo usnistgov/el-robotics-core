@@ -1,0 +1,35 @@
+\section{Introduction}
+%Robots have now become a part of many people's everyday lives. Whether as simple toys used by children, floor cleaning robots used in the home, or high precision industrial manipulators used in manufacturing, these systems are quickly changing the ways in which we play and work. 
+%One can no longer make the assumption that robots will exist only in laboratories, or that the programmer or developer of the systems will be highly-skilled robotics experts. 
+With the development of  advanced but also more complex algorithms one cannot expect that a robotic control system will be developed from scratch.
+With the aid of open source projects such as the Robot Operating System (ROS)
+%\footnote{Certain commercial software and tools are identified in this paper in order to explain our research. Such identification does not imply recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}
+\cite{Quigley2009} allow anyone with a Linux computer to download and run some of the most advanced robotic algorithms that exist.
+% If the users desire a deeper knowledge of how these algorithms 
+%work, there is even a free robotics course from Stanford that may be taken online.
+This is essential for the RoboCup mission; to accelerate the developments of intelligent and dexterous robots.
+With working modules that cover all basic capabilities needed for a functional robot, developers can concentrate on improving the aspects needed for their application.
+
+Most programmers have access to a single robot or small sensor suite, but are missing access to some of the robotic hardware needed for the job. 
+Simulators exist to fill this void and allow both experts and novices to experiment with robotic algorithms in a safe, low-cost environment. However, to truly provide valid simulation, the simulator must provide noise models for sensors and must be validated \cite{BALAGUER.IROS.2008,vanNoort2012permis,okamoto2008validation,Pepper2007permis,WANG.HFES.2005}. 
+One modern robotic simulator, known as the Unified System for Automation and Robot Simulation (USARSim)~\cite{BALAGUER.IROS.2008}
+%\footnote{\url{{http://www.usarsim.sourceforge.net}}} 
+provides such a simulation platform. 
+This simulator has been used by the expert robotics community for several years and has played an important role in developing robotics applications~\cite{Balakirsky2009iros}. 
+%Its uses include rapid prototyping, debugging, and development of many tasks ranging from legged robots playing soccer \cite{ZARATTI.LNAI.2007} to urban search and rescue (USAR) \cite{CARPIN.LNAI.2006,WANG.WSC.2003}. In fact, a search for the keyword ``USARSim'' on Google Scholar returns over 700 articles that have referenced the simulation platform.
+
+\begin{comment}
+One reason for the simulation environment's popularity is that it enables researchers to focus on algorithm development without having to worry about the hardware aspects of the robots. Simulation can be an effective first step in the development and deployment of new algorithms and provides extensive testing opportunities without the risk of harming personnel or equipment. Major components of the robotic architecture (for example, advanced sensors) can be simulated and enable the developers to focus on the algorithms or components in which they are interested without the need to purchase expensive hardware. This can be useful when development teams are working in parallel or when experimenting with novel technological components that may not be fully implemented or available.
+
+Simulation can also be used to provide access to environments that would normally not be available to the development team. Particular test scenarios can be run repeatedly, with the assurance that conditions are identical for each run. The environmental conditions, such as time of day, lighting, or weather, as well as the position and behavior of other entities in the world can be fully controlled. In terms of performance evaluation, it can truly provide an ``apples-to-apples" comparison of different software running on identical hardware platforms in identical environments. Another important feature of a robotic simulator is easy integration of different robotic platforms, different scenarios, different objects in the scene, as well
+as support for multi-robot applications.
+\end{comment}
+
+This paper examines how a new interface to  the ROS control framework (introduced by \cite{Balakirsky2012}) can be used inside the RoboCup Rescue Simulation League~\cite{Akin2013}.
+The ROS framework allows for easy sharing of modules~\cite{SharingSoftware}, allowing fast progress. 
+%In addition, as the Darpa Robotics Challenge is based on the ROS framework, progress in this competition could be an advance for the RoboCup, and vice versa. %~\cite{deWaard2013rios}
+% Novice robot developers can now work with world class algorithms from the safety of their computer without the expense of actual robotic hardware.
+%This paper describes the interface connecting the USARSim framework with the ROS framework. 
+%The following sections describe, analyze and illustrate the new interface for the navigation of a mobile robot base, control of a robotic arm, and interface to existing sensors. In addition, a novel sensor interface is presented that allows the simulator to mimic a sensor processing system that produces the 6-degree-of-freedom pose for known objects.
+
+%The rest of this paper is organized as follows: Section~\ref{s:background} gives an overview of USARSim and ROS. Section~\ref{s:topics} describes the specification of the topics addressed in ROS. Section~\ref{s:interface} details the interface and the associated commands to setup and run the interface. Section~\ref{s:navigation} displays examples of the interface running the navigation and motion stacks for mobile robots and robotic arms, respectively. Section~\ref{s:conclusion} concludes this paper and gives an overview of the future work. 

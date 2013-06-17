@@ -126,7 +126,7 @@
 	;Quantity of parts from ?partstray that is in ?kit
 	(quantity-kit ?kit - Kit ?partstray - PartsTray)
 	
-	;TRUE is capacity of a kit is equal to the quantity of parts
+	;TRUE if capacity of a kit is equal to the quantity of parts tray
 	(capacity-kit ?kit - Kit ?partstray - PartsTray) 
 )
 

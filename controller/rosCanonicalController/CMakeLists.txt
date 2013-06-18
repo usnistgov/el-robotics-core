@@ -27,11 +27,16 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_boost_directories()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 
+<<<<<<< HEAD
+link_directories(~/projects/ipmas/controller) #change this line to point to the ipmas directory
+=======
 link_directories(~/Documents/Assembla/ipmas/controller) #change this line to point to the ipmas directory
+>>>>>>> 9adbf11b73b7d271504da7f32c2f8d4ffaba20a0
 rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp
 											src/rosInf.cpp
 											src/rosController.cpp
 											src/navigationGoal.cpp
+											src/navigationGoal.hh
 											src/scanPattern.cpp)	
 rosbuild_add_executable(binPickup src/scanPickup.cpp
 											src/rosInf.cpp

@@ -17,10 +17,6 @@ software
  #include "StockKeepingUnit.h"
  #include "DAO.h"
  #include "PoseLocation.h"
-void ShapeDesign::printMe()
-{
-  std::cout << "ShapeDesign's printMe() function should be overwritten\n";
-}
 
 ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
 dao = NULL;

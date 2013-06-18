@@ -13,8 +13,8 @@
 
 int main(int argc, char *argv[])
 {
-  UsarSimInf usarsim(1,std::string("marvin"));
-  //UsarSimInf usarsim(0,std::string("marvin"));
+  //  UsarSimInf usarsim(1,std::string("sbalakirsky-e64")); // connect
+  //  UsarSimInf usarsim(0,std::string("sbalakirsky-e64"));  // don't connect
   std::string myPart = "part_b_1";
   KitTray *kitTray = new KitTray(myPart);
   Part *testPart = new Part(myPart);;
@@ -28,13 +28,36 @@ int main(int argc, char *argv[])
   DAO* dao = new DAO("Part");
   std::vector<std::string> attributes;
   int permanent = 1;
+  int connectToUSARSim = 1;
+  int opt;
 
+  while ((opt = getopt (argc, argv, "dt")) != -1)
+    switch (opt)
+      {
+      case 'd':
+	connectToUSARSim = 0;
+	break;
+      case 't':
+	permanent = 0;
+	break;
+      case '?':
+	printf( "Unknown option character `\\x%x`.\n", optopt );
+	return 1;
+	break;
+      default:
+	printf( "Usage: %s -d -t, d: debug mode, t: objects are temporary\n",
+		argv[0]);
+	break;
+      }
+  /*
   if( argc > 1 )
     {
       printf( "Objects will not be permanent.\n" );
       permanent = 0;
     }
-
+  */
+  UsarSimInf usarsim(connectToUSARSim,
+		     std::string("sbalakirsky-e64")); // connect
   attributes.push_back("_NAME");
 
   // get the name of all of the partstrays

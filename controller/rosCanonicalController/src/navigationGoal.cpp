@@ -36,10 +36,10 @@ NavigationGoal::NavigationGoal()
 	goal.motion_plan_request.allowed_planning_time = ros::Duration(10.0);
 	
 	goal.motion_plan_request.goal_constraints.position_constraints[0].weight = 1.0;
-	goal.motion_plan_request.goal_constraints.orientation_constraints[0].weight = 0.0;
+	goal.motion_plan_request.goal_constraints.orientation_constraints[0].weight = 1.0; // was 0
 	
 	setPositionFrameType("global");
-	setOrientationFrameType("local");
+	setOrientationFrameType(COORDORIENT);
 }
 int NavigationGoal::setupActuator()
 {
@@ -80,13 +80,15 @@ int NavigationGoal::setupActuator()
 	//control arm tip by default
 	targetPointFrame = actName + "_tip";
 	setPositionFrameType("global");
-	setOrientationFrameType("local");
+	setOrientationFrameType(COORDORIENT);
 	return 1;
 }
 void NavigationGoal::setPositionFrameType(const std::string& frame)
 {
+  ROS_ERROR( "Frame type is %s", frame.c_str());
+
 	if(frame == "global")
-		useGlobalPositionFrame = true;
+	    useGlobalPositionFrame = true;
 	else if(frame == "local")
 		useGlobalPositionFrame = false;
 	else
@@ -94,6 +96,7 @@ void NavigationGoal::setPositionFrameType(const std::string& frame)
 }
 void NavigationGoal::setOrientationFrameType(const std::string& frame)
 {
+  ROS_ERROR( "Orientation Frame type is %s", frame.c_str());
 	if(frame == "global")
 		useGlobalOrientationFrame = true;
 	else if(frame == "local")

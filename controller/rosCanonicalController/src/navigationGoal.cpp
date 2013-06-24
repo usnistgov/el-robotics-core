@@ -85,7 +85,6 @@ int NavigationGoal::setupActuator()
 }
 void NavigationGoal::setPositionFrameType(const std::string& frame)
 {
-  ROS_ERROR( "Frame type is %s", frame.c_str());
 
 	if(frame == "global")
 	    useGlobalPositionFrame = true;
@@ -96,7 +95,6 @@ void NavigationGoal::setPositionFrameType(const std::string& frame)
 }
 void NavigationGoal::setOrientationFrameType(const std::string& frame)
 {
-  ROS_ERROR( "Orientation Frame type is %s", frame.c_str());
 	if(frame == "global")
 		useGlobalOrientationFrame = true;
 	else if(frame == "local")

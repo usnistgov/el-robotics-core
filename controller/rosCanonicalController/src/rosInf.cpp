@@ -1,7 +1,8 @@
 #include "rosInf.hh"
 #include <stdio.h>
 #define INCH_TO_METER 0.0254
-#define MAX_NAVIGATION_FAILURES 30
+#define MAX_NAVIGATION_FAILURES 15
+
 RosInf::RosInf ()
 {
   initialized = false;
@@ -106,56 +107,38 @@ RosInf::initArmNavigation ()
     }
 }
 
-int
-RosInf::initEffectors ()
-{
-  effectorControllers.clear ();
-  return updateEffectors();
-}
-
-int RosInf::updateEffectors() {
+int RosInf::initEffectors() {
   ros::master::V_TopicInfo topics;
-  bool foundEffector = false;
   
-  ROS_INFO ("Searching for effector topics...");
+  ROS_INFO ("Updating effector topics...");
   ros::master::getTopics (topics);
+  
+  unsigned int initEffectorNum = effectorControllers.size();
+  effectorControllers.clear();
+  
   for (unsigned int i = 0; i < topics.size (); ++i)
   {
     if (topics[i].datatype == "usarsim_inf/EffectorStatus")
     {
-      if(addEffector<usarsim_inf::EffectorStatus>(topics[i].name, ROS_INF_GRIPPER)) {
-        ROS_INFO ("Found new status topic %s, subscribing.",
-           topics[i].name.c_str ());
-        foundEffector = true;
-      }
+      effectorControllers.push_back (EffectorController ());
+      effectorControllers.back ().initSubscriber<usarsim_inf::EffectorStatus>(topics[i].name, this, ROS_INF_GRIPPER);
+      ROS_INFO ("Found status topic %s, subscribing.",
+         topics[i].name.c_str ());
     }
     else if (topics[i].datatype == "usarsim_inf/ToolchangerStatus")
     {
-      if(addEffector<usarsim_inf::ToolchangerStatus>(topics[i].name, ROS_INF_TOOLCHANGER)) {
-        ROS_INFO ("Found status topic %s, subscribing.",
-           topics[i].name.c_str ());
-        foundEffector = true;
-      }
+      effectorControllers.push_back (EffectorController ());
+      effectorControllers.back ().initSubscriber<usarsim_inf::ToolchangerStatus>(topics[i].name, this, ROS_INF_TOOLCHANGER);
+      ROS_INFO ("Found status topic %s, subscribing.",
+         topics[i].name.c_str ());
     }
   }
-  if (foundEffector) {
+  //this has the potential to misbehave if two effectors are added and removed in the space of a single status message
+  //which is unlikely.
+  if (initEffectorNum != effectorControllers.size()) { //if an effector was either added or removed
     waitForEffectors ();	//wait for effectors to publish their current state before returning
   }
-  return 1;
-}
-
-template <class M>
-int RosInf::addEffector (std::string statusTopic, EffectorType type) {
-  //check to see if effector is already in list of known effectors
-  for(unsigned int i = 0;i<effectorControllers.size();i++) {
-    if(statusTopic == effectorControllers[i].getStatusTopic()) {
-      return 0;
-    }
-  }
-  //if not, add it to the list and subscribe to its topic
-  effectorControllers.push_back (EffectorController ());
-  effectorControllers.back ().initSubscriber<M>(statusTopic, this, type);
-  
+  ROS_INFO("Effectors initialized.");
   return 1;
 }
 
@@ -355,7 +338,7 @@ RosInf::waitForEffectors ()
   ROS_DEBUG ("All effectors are in their goal state.");
   
   //check to see if a new tool was added by the toolchanger
-  updateEffectors();
+  initEffectors();
 }
 
 // called whenever arm navigation transitions to Active
@@ -382,11 +365,12 @@ RosInf::navigationDoneCallback (const actionlib::
 				const arm_navigation_msgs::
 				MoveArmResultConstPtr & result)
 {
+  //FILE *fp = NULL;
   ROS_DEBUG ("Arm navigation goal complete: %s\n", state.toString ().c_str ());
   tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
   tf::Quaternion goalOrientation = armGoals.front ().getGoalOrientation();
-  if( state == actionlib::SimpleClientGoalState::ABORTED && 
-    result->error_code.val != arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS)
+  //tf::Vector3 zAxis = tf::Vector3(0,0,1.0).rotate(goalOrientation.getAxis(), goalOrientation.getAngle());
+  if( state == actionlib::SimpleClientGoalState::ABORTED && result->error_code.val != arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS)
   {
     navigationFailureCount++;
     //      btScalar roll, pitch, yaw;
@@ -404,10 +388,23 @@ RosInf::navigationDoneCallback (const actionlib::
       this, _1, _2));
     } else {
       
-      ROS_ERROR("Arm goal error: %s on goal <%f %f %f> <%f %f %f %f>\n", 
-        arm_navigation_msgs::armNavigationErrorCodeToString(result->error_code).c_str (),
-        goalPosition.getX(), goalPosition.getY(), goalPosition.getZ(),
-	      goalOrientation.x(), goalOrientation.y(), goalOrientation.z(), goalOrientation.w());
+      //uncomment to write arm successes/failures to a file
+      /*fp = fopen("datfile","a");
+      if(fp != NULL) {
+        fprintf(fp, "%d\n", navigationFailureCount);
+        fclose(fp);
+      }
+      ROS_ERROR("RosInf: Arm navigation failed to complete properly. Normally this results in an exit, but for now we just record and move on.");
+      armGoals.pop_front ();
+      if (!armGoals.empty ())
+      {
+      navigationFailureCount = 0;
+      moveArmClient->sendGoal (armGoals.front ().getGoal (),
+        boost::bind (&RosInf::navigationDoneCallback,
+        this, _1, _2));
+      }*/
+      
+      ROS_ERROR("RosInf: Arm navigation failed to complete properly.");
       exit(1);
     }
   }
@@ -416,7 +413,12 @@ RosInf::navigationDoneCallback (const actionlib::
     tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
     ROS_INFO ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
     goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
-
+    //uncomment to write arm success/failures to a file
+    /*fp = fopen("datfile","a");
+      if(fp != NULL) {
+        fprintf(fp, "%d\n",navigationFailureCount);
+        fclose(fp);
+      }*/
     armGoals.pop_front ();
     if (!armGoals.empty ())
     {
@@ -453,6 +455,7 @@ RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
 
       nextGoal.setPositionFrameType ("global");
       nextGoal.setOrientationFrameType (COORDORIENT);
+      nextGoal.setGlobalFrame("/odom"); //set this to "/base_link" to test random positions
       nextGoal.setPositionTolerance (positionTolerance);
       nextGoal.setOrientationTolerance (0.04);
 

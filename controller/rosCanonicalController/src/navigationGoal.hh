@@ -24,6 +24,7 @@ public:
 	void moveOrientation(float x, float y, float z, float w);
 	void setPositionFrameType(const std::string& frame);
 	void setOrientationFrameType(const std::string& frame);
+	void setGlobalFrame(const std::string& frame);
 	void resetOrientation();
 	void setPositionTolerance(double tolerance);
 	void setOrientationTolerance(double tolerance);
@@ -31,8 +32,8 @@ public:
 	void setTransformListener(tf::TransformListener *listenerPtrIn);
 	arm_navigation_msgs::MoveArmGoal getGoal();
 	std::string getActName();
-        tf::Vector3 getGoalPosition();
-        tf::Quaternion getGoalOrientation();
+  tf::Vector3 getGoalPosition();
+  tf::Quaternion getGoalOrientation();
 private:
 	tf::TransformListener *listenerPtr;
 	arm_navigation_msgs::MoveArmGoal goal;
@@ -41,6 +42,7 @@ private:
 	std::string actName;
 	std::string targetPointFrame;
 	std::string tipLink;
+	std::string globalFrame;
 	tf::Vector3 goalPosition;
 	tf::Quaternion goalOrientation;
 	void updateGoalTransformation();

@@ -82,9 +82,6 @@ private:
   int initSensors ();
   bool initialized;
   unsigned int navigationFailureCount;
-  template<class M>
-  int addEffector (std::string effectorName, EffectorType type);
-  int updateEffectors();
   
   //arm navigation 
     std::deque < NavigationGoal > armGoals;

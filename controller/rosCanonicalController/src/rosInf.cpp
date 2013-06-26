@@ -1,10 +1,13 @@
 #include "rosInf.hh"
 #include <stdio.h>
 #define INCH_TO_METER 0.0254
+#define MAX_NAVIGATION_FAILURES 15
+
 RosInf::RosInf ()
 {
   initialized = false;
   effectorAttached = false;
+  navigationFailureCount = 0;
   armGoals.clear ();
   moveArmClient = NULL;
   lengthUnits = "mm";
@@ -66,7 +69,7 @@ RosInf::init ()
   if (initEffectors () && initArmNavigation () && initSensors ())
     {
       initialized = true;
-      printf ("ROS canonical controller initialized.\n");
+      ROS_INFO ("ROS canonical controller initialized.\n");
       return true;
     }
   return false;
@@ -104,37 +107,38 @@ RosInf::initArmNavigation ()
     }
 }
 
-int
-RosInf::initEffectors ()
-{
+int RosInf::initEffectors() {
   ros::master::V_TopicInfo topics;
-  bool foundEffector = false;
-  effectorControllers.clear ();
-
-  ROS_DEBUG ("Searching for effector topics...");
+  
+  ROS_INFO ("Updating effector topics...");
   ros::master::getTopics (topics);
+  
+  unsigned int initEffectorNum = effectorControllers.size();
+  effectorControllers.clear();
+  
   for (unsigned int i = 0; i < topics.size (); ++i)
+  {
+    if (topics[i].datatype == "usarsim_inf/EffectorStatus")
     {
-      if (topics[i].datatype == "usarsim_inf/EffectorStatus")
-	{
-	  ROS_DEBUG ("Found status topic %s, subscribing.",
-		     topics[i].name.c_str ());
-	  effectorControllers.push_back (EffectorController ());
-	  effectorControllers.back ().initGripperSubscriber (topics[i].name);
-	  foundEffector = true;
-	}
-      else if (topics[i].datatype == "usarsim_inf/ToolchangerStatus")
-	{
-	  ROS_DEBUG ("Found status topic %s, subscribing.",
-		     topics[i].name.c_str ());
-	  effectorControllers.push_back (EffectorController ());
-	  effectorControllers.back ().initToolchangerSubscriber (topics[i].
-								 name);
-	  foundEffector = true;
-	}
+      effectorControllers.push_back (EffectorController ());
+      effectorControllers.back ().initSubscriber<usarsim_inf::EffectorStatus>(topics[i].name, this, ROS_INF_GRIPPER);
+      ROS_INFO ("Found status topic %s, subscribing.",
+         topics[i].name.c_str ());
     }
-  if (foundEffector)
+    else if (topics[i].datatype == "usarsim_inf/ToolchangerStatus")
+    {
+      effectorControllers.push_back (EffectorController ());
+      effectorControllers.back ().initSubscriber<usarsim_inf::ToolchangerStatus>(topics[i].name, this, ROS_INF_TOOLCHANGER);
+      ROS_INFO ("Found status topic %s, subscribing.",
+         topics[i].name.c_str ());
+    }
+  }
+  //this has the potential to misbehave if two effectors are added and removed in the space of a single status message
+  //which is unlikely.
+  if (initEffectorNum != effectorControllers.size()) { //if an effector was either added or removed
     waitForEffectors ();	//wait for effectors to publish their current state before returning
+  }
+  ROS_INFO("Effectors initialized.");
   return 1;
 }
 
@@ -306,36 +310,35 @@ void
 RosInf::waitForEffectors ()
 {
   bool effectorsSet;
-  do
-    {
-      effectorsSet = true;
-      for (unsigned int i = 0; i < effectorControllers.size (); i++)
-	{
-	  if (!effectorControllers[i].isPublished ())
-	    {
-	      effectorsSet = false;
-	    }
-	  else
-	    {
-	      //active effector is always the last one discovered
-	      effectorAttached = true;
-	      activeEffectorName =
-		effectorControllers[i].goalState.header.frame_id;
-	      if (effectorControllers[i].currentState.state !=
-		  effectorControllers[i].goalState.state)
-		{
-		  effectorControllers[i].goalState.header.stamp =
-		    ros::Time::now ();
-		  effectorControllers[i].publisher.
-		    publish (effectorControllers[i].goalState);
-		  effectorsSet = false;
-		}
-	    }
-	}
-      ros::spinOnce ();		//need to spin so that callbacks are called even though this blocks
+  do {
+    effectorsSet = true;
+    for (unsigned int i = 0; i < effectorControllers.size (); i++) {
+      if (!effectorControllers[i].isPublished ()) {
+        effectorsSet = false;
+      }
+      else {
+        //active effector is always the last one discovered
+        effectorAttached = true;
+        activeEffectorName =
+        effectorControllers[i].goalState.header.frame_id;
+        if (effectorControllers[i].currentState.state !=
+        effectorControllers[i].goalState.state)
+        {
+          effectorControllers[i].goalState.header.stamp =
+          ros::Time::now ();
+          effectorControllers[i].publisher.
+          publish (effectorControllers[i].goalState);
+          effectorsSet = false;
+        }
+      }
     }
+    ros::spinOnce ();		//need to spin so that callbacks are called even though this blocks
+  }
   while (!effectorsSet);
   ROS_DEBUG ("All effectors are in their goal state.");
+  
+  //check to see if a new tool was added by the toolchanger
+  initEffectors();
 }
 
 // called whenever arm navigation transitions to Active
@@ -362,47 +365,78 @@ RosInf::navigationDoneCallback (const actionlib::
 				const arm_navigation_msgs::
 				MoveArmResultConstPtr & result)
 {
-  printf ("Arm navigation goal complete: %s\n", state.toString ().c_str ());
-  if( state == actionlib::SimpleClientGoalState::ABORTED )
-    {
-      tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
-      //      const bt::Quaternion goalOrientation = armGoals.front ().getGoalOrientation();
-      //      btScalar roll, pitch, yaw;
-      //      btMatrix3x3(goalOrientation).getRPY(roll, pitch, yaw );
+  //FILE *fp = NULL;
+  ROS_DEBUG ("Arm navigation goal complete: %s\n", state.toString ().c_str ());
+  tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
+  tf::Quaternion goalOrientation = armGoals.front ().getGoalOrientation();
+  //tf::Vector3 zAxis = tf::Vector3(0,0,1.0).rotate(goalOrientation.getAxis(), goalOrientation.getAngle());
+  if( state == actionlib::SimpleClientGoalState::ABORTED && result->error_code.val != arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS)
+  {
+    navigationFailureCount++;
+    //      btScalar roll, pitch, yaw;
+    //      btMatrix3x3(goalOrientation).getRPY(roll, pitch, yaw );
 
-      printf ("Arm goal error code: %s on goal <%f %f %f> <f f f>\n", 
-	      arm_navigation_msgs::armNavigationErrorCodeToString(result->error_code).c_str (),
-	      goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
-      //	      roll, pitch, yaw);
-      if( result->error_code.val != result->error_code.SUCCESS )
-	{
-	  printf( "rosInf.cpp:Should probably exit here!\n" );
-	  exit(1);
-	}
-    }
-  else
+    ROS_DEBUG ("Arm goal error code: %s on goal <%f %f %f> <%f %f %f %f>\n", 
+    arm_navigation_msgs::armNavigationErrorCodeToString(result->error_code).c_str (),
+    goalPosition.getX(), goalPosition.getY(), goalPosition.getZ(),
+  	      goalOrientation.x(), goalOrientation.y(), goalOrientation.z(), goalOrientation.w());
+    if(navigationFailureCount < MAX_NAVIGATION_FAILURES)
     {
-      tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
-      printf ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
-	      goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
-      
-    }
-  armGoals.pop_front ();
-  if (!armGoals.empty ())
-    {
+      ROS_DEBUG("RosInf: Arm navigation failed to find a solution after %d tries, retrying...", navigationFailureCount);
       moveArmClient->sendGoal (armGoals.front ().getGoal (),
-			       boost::bind (&RosInf::navigationDoneCallback,
-					    this, _1, _2));
+      boost::bind (&RosInf::navigationDoneCallback,
+      this, _1, _2));
+    } else {
+      
+      //uncomment to write arm successes/failures to a file
+      /*fp = fopen("datfile","a");
+      if(fp != NULL) {
+        fprintf(fp, "%d\n", navigationFailureCount);
+        fclose(fp);
+      }
+      ROS_ERROR("RosInf: Arm navigation failed to complete properly. Normally this results in an exit, but for now we just record and move on.");
+      armGoals.pop_front ();
+      if (!armGoals.empty ())
+      {
+      navigationFailureCount = 0;
+      moveArmClient->sendGoal (armGoals.front ().getGoal (),
+        boost::bind (&RosInf::navigationDoneCallback,
+        this, _1, _2));
+      }*/
+      
+      ROS_ERROR("RosInf: Arm navigation failed to complete properly.");
+      exit(1);
+    }
+  }
+  else
+  {
+    tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
+    ROS_INFO ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
+    goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
+    //uncomment to write arm success/failures to a file
+    /*fp = fopen("datfile","a");
+      if(fp != NULL) {
+        fprintf(fp, "%d\n",navigationFailureCount);
+        fclose(fp);
+      }*/
+    armGoals.pop_front ();
+    if (!armGoals.empty ())
+    {
+      navigationFailureCount = 0;
+      moveArmClient->sendGoal (armGoals.front ().getGoal (),
+        boost::bind (&RosInf::navigationDoneCallback,
+        this, _1, _2));
       /*
       moveArmClient->sendGoal (armGoals.front ().getGoal (),
-			       boost::bind (&RosInf::navigationDoneCallback,
-					    this, _1, _2),
-			       boost::bind (&RosInf::navigationActiveCallback,
-					    this),
-			       boost::bind (&RosInf::navigationFeedbackCallback,
-					    this, _1));
+        boost::bind (&RosInf::navigationDoneCallback,
+        this, _1, _2),
+        boost::bind (&RosInf::navigationActiveCallback,
+        this),
+        boost::bind (&RosInf::navigationFeedbackCallback,
+        this, _1));
       */
     }
+  }
 }
 
 void
@@ -421,40 +455,39 @@ RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
 
       nextGoal.setPositionFrameType ("global");
       nextGoal.setOrientationFrameType (COORDORIENT);
+      nextGoal.setGlobalFrame("/odom"); //set this to "/base_link" to test random positions
       nextGoal.setPositionTolerance (positionTolerance);
       nextGoal.setOrientationTolerance (0.04);
 
       if (effectorAttached)
-	{
-	  nextGoal.setTargetPointFrame (activeEffectorName);
-	  ROS_ERROR("Movement based on %s", activeEffectorName.c_str() );
-	}
-      nextGoal.movePosition (x, y, z + 0.085); // adding this value here is
-      // wrong on so many levels. However, it works for the vacuum cup tool tip
-      // offset which I can't seem to get to work any other way.
+      {
+        nextGoal.setTargetPointFrame (activeEffectorName);
+      }
+      nextGoal.movePosition (x, y, z);
       //      nextGoal.moveOffset (x, y, z);
       nextGoal.moveOrientation (xRot, yRot, zRot, wRot);
 
 
       armGoals.push_back (nextGoal);
       if (armGoals.size () == 1)	// if there were no goals in the queue already, send this one immediately
-	{
-	  moveArmClient->sendGoal (armGoals.front ().getGoal (),
-				   boost::bind (&RosInf::navigationDoneCallback,
-						this, _1, _2));
+      {
+        navigationFailureCount = 0;
+        moveArmClient->sendGoal (armGoals.front ().getGoal (),
+			         boost::bind (&RosInf::navigationDoneCallback,
+					      this, _1, _2));
 
-	  /*
-	  moveArmClient->sendGoal (nextGoal.getGoal (),
-				   boost::bind (&RosInf::
-						navigationDoneCallback, this,
-						_1, _2),
-				   boost::bind (&RosInf::navigationActiveCallback,
-						this),
-				   boost::bind (&RosInf::navigationFeedbackCallback,
-						this, _1));
-	  */
+        /*
+        moveArmClient->sendGoal (nextGoal.getGoal (),
+			         boost::bind (&RosInf::
+					      navigationDoneCallback, this,
+					      _1, _2),
+			         boost::bind (&RosInf::navigationActiveCallback,
+					      this),
+			         boost::bind (&RosInf::navigationFeedbackCallback,
+					      this, _1));
+        */
 
-	}
+      }
     }
 }
 
@@ -512,9 +545,40 @@ RosInf::setLengthUnits (std::string units)
   else if (units == "meter")
     lengthUnits = "meter";
   else
-    printf
+    ROS_WARN
       ("Warning: unrecognized length unit \"%s,\" using \"%s\" instead\n",
        units.c_str (), lengthUnits.c_str ());
+}
+
+template<class M>
+void RosInf::effectorCallback(const M & msg, const std::string topicName) {
+  ROS_ERROR("RosInf: unknown effector callback on status topic %s",topicName.c_str());
+}
+
+template<>
+void RosInf::effectorCallback<const usarsim_inf::EffectorStatusConstPtr &>(const usarsim_inf::EffectorStatusConstPtr & msg, const std::string topicName) {
+  ROS_DEBUG("getting status message from topic %s",topicName.c_str());
+  //find the effector sending status updates to the given topic
+  for(unsigned int i = 0;i<effectorControllers.size();i++) {
+    if(effectorControllers[i].getStatusTopic() == topicName) {
+      effectorControllers[i].gripperCallback (msg);
+      return;
+    }
+  }
+  ROS_ERROR("RosInf: effector callback received unexpected status topic %s",topicName.c_str());
+}
+
+template<>
+void RosInf::effectorCallback<const usarsim_inf::ToolchangerStatusConstPtr &>(const usarsim_inf::ToolchangerStatusConstPtr & msg, const std::string topicName) {
+  ROS_DEBUG("getting status message from topic %s",topicName.c_str());
+  //find the effector sending status updates to the given topic
+  for(unsigned int i = 0;i<effectorControllers.size();i++) {
+    if(effectorControllers[i].getStatusTopic() == topicName) {
+      effectorControllers[i].toolchangerCallback (msg);
+      return;
+    }
+  }
+  ROS_ERROR("RosInf: effector callback received unexpected status topic %s",topicName.c_str());
 }
 
 EffectorController::EffectorController ()
@@ -522,23 +586,20 @@ EffectorController::EffectorController ()
   published = false;
 }
 
+template <class M>
 void
-EffectorController::initGripperSubscriber (const std::string & topicName)
+EffectorController::initSubscriber (const std::string & topicName, RosInf* const infHandle, EffectorType type)
 {
   ros::NodeHandle nh;
-  type = ROS_INF_GRIPPER;
   subscriber =
-    nh.subscribe (topicName, 10, &EffectorController::gripperCallback, this);
-}
-
-void
-EffectorController::initToolchangerSubscriber (const std::string & topicName)
-{
-  ros::NodeHandle nh;
-  type = ROS_INF_TOOLCHANGER;
-  subscriber =
-    nh.subscribe (topicName, 10, &EffectorController::toolchangerCallback,
-		  this);
+    nh.subscribe <M> (topicName, 
+    10, 
+    boost::bind(&RosInf::effectorCallback<const boost::shared_ptr< M const >&>, 
+      infHandle, 
+      _1, 
+      topicName));
+  this->type = type;
+  statusTopic = topicName;
 }
 
 bool
@@ -546,49 +607,53 @@ EffectorController::isType (EffectorType type)
 {
   return (this->type == type);
 }
-
-void
-EffectorController::gripperCallback (const usarsim_inf::
-				     EffectorStatusConstPtr & msg)
-{
-  if (!published)
-    {
-      //if a publisher hasn't already been created for this effector, create one
-      printf ("Creating effector goal publisher for %s\n",
-	      msg->header.frame_id.c_str ());
-      ros::NodeHandle nh;
-      publisher =
-	nh.advertise < usarsim_inf::EffectorCommand >
-	(msg->header.frame_id + "/command", 2);
-      published = true;
-      goalState.header.frame_id = msg->header.frame_id;
-      goalState.state = msg->state;
-    }
-  currentState.state = msg->state;
+EffectorType EffectorController::getType() {
+  return type;
 }
 
 void
-EffectorController::toolchangerCallback (const usarsim_inf::
-					 ToolchangerStatusConstPtr & msg)
+EffectorController::toolchangerCallback (const usarsim_inf::ToolchangerStatusConstPtr & msg)
 {
   if (!published)
     {
       //if a publisher hasn't already been created for this effector, create one
-      printf ("Creating effector goal publisher for %s\n",
+      ROS_INFO ("Creating effector goal publisher for %s\n",
 	      msg->header.frame_id.c_str ());
       ros::NodeHandle nh;
-      publisher =
-	nh.advertise < usarsim_inf::EffectorCommand >
-	(msg->header.frame_id + "/command", 2);
       published = true;
       goalState.header.frame_id = msg->header.frame_id;
       goalState.state = msg->effector_status.state;
+      
+      publisher = nh.advertise < usarsim_inf::EffectorCommand >
+      (msg->header.frame_id + "/command", 2);
     }
   currentState.state = msg->effector_status.state;
+}
+
+void
+EffectorController::gripperCallback (const usarsim_inf::EffectorStatusConstPtr & msg)
+{
+  if (!published)
+    {
+      //if a publisher hasn't already been created for this effector, create one
+      ROS_INFO ("Creating effector goal publisher for %s\n",
+	      msg->header.frame_id.c_str ());
+      ros::NodeHandle nh;
+      published = true;
+      goalState.header.frame_id = msg->header.frame_id;
+      goalState.state = msg->state;
+      
+      publisher = nh.advertise < usarsim_inf::EffectorCommand >
+      (msg->header.frame_id + "/command", 2);
+    }
+  currentState.state = msg->state;
 }
 
 bool
 EffectorController::isPublished ()
 {
   return published;
+}
+const std::string EffectorController::getStatusTopic () {
+  return statusTopic;
 }

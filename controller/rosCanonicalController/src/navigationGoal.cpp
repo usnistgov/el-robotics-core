@@ -40,6 +40,7 @@ NavigationGoal::NavigationGoal()
 	
 	setPositionFrameType("global");
 	setOrientationFrameType(COORDORIENT);
+	setGlobalFrame("/odom");
 }
 int NavigationGoal::setupActuator()
 {
@@ -85,7 +86,6 @@ int NavigationGoal::setupActuator()
 }
 void NavigationGoal::setPositionFrameType(const std::string& frame)
 {
-  ROS_ERROR( "Frame type is %s", frame.c_str());
 
 	if(frame == "global")
 	    useGlobalPositionFrame = true;
@@ -96,13 +96,16 @@ void NavigationGoal::setPositionFrameType(const std::string& frame)
 }
 void NavigationGoal::setOrientationFrameType(const std::string& frame)
 {
-  ROS_ERROR( "Orientation Frame type is %s", frame.c_str());
 	if(frame == "global")
 		useGlobalOrientationFrame = true;
 	else if(frame == "local")
 		useGlobalOrientationFrame = false;
 	else
 		ROS_WARN("Did not recognize frame type \"%s\"", frame.c_str());
+}
+void NavigationGoal::setGlobalFrame(const std::string& frame)
+{
+  globalFrame = frame;
 }
 void NavigationGoal::setTargetPointFrame(std::string targetPointFrameIn)
 {
@@ -173,8 +176,8 @@ void NavigationGoal::updateGoalTransformation()
 	tf::Transform goalTransform;
 	try
 	{
-		listenerPtr->waitForTransform(targetPointFrame,"/odom",ros::Time(0), ros::Duration(10.0));
-		listenerPtr->lookupTransform("/odom", tipLink, ros::Time(0), tipTransform);
+		listenerPtr->waitForTransform(targetPointFrame, globalFrame ,ros::Time(0), ros::Duration(10.0));
+		listenerPtr->lookupTransform(globalFrame, tipLink, ros::Time(0), tipTransform);
 		listenerPtr->lookupTransform(tipLink, targetPointFrame, ros::Time(0), targetPointTransform);
 	}catch(tf::TransformException ex)
 	{

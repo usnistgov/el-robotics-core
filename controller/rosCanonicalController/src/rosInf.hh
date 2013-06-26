@@ -10,6 +10,9 @@
 #include <actionlib/client/simple_action_client.h>
 #include <controller.hh>
 #include <Point.h>
+
+class RosInf;
+
 enum EffectorType
 {
   ROS_INF_GRIPPER = 1,
@@ -23,14 +26,16 @@ public:
   ros::Publisher publisher;
   usarsim_inf::EffectorCommand goalState;
   usarsim_inf::EffectorStatus currentState;
-  void initGripperSubscriber (const std::string & topicName);
-  void initToolchangerSubscriber (const std::string & topicName);
+  template <class M>
+  void initSubscriber (const std::string & topicName, RosInf* const infHandle, EffectorType type);
   bool isType (EffectorType type);
+  EffectorType getType();
   bool isPublished ();
+  const std::string getStatusTopic();
+  void gripperCallback(const usarsim_inf::EffectorStatusConstPtr & msg);
+  void toolchangerCallback(const usarsim_inf::ToolchangerStatusConstPtr & msg);
 private:
-  void gripperCallback (const usarsim_inf::EffectorStatusConstPtr & msg);
-  void toolchangerCallback (const usarsim_inf::
-			    ToolchangerStatusConstPtr & msg);
+  std::string statusTopic;
   bool published;
   EffectorType type;
 };
@@ -58,6 +63,10 @@ public:
 		   double xAxisZ, double zAxisX, double zAxisY,
 		   double zAxisZ);
   double getSensorFOV ();
+  
+  template<class M>
+  void effectorCallback(const M & msg, const std::string topicName);
+  
 private:
     std::string actuatorName;
     std::string lengthUnits;
@@ -72,6 +81,8 @@ private:
   int initEffectors ();
   int initSensors ();
   bool initialized;
+  unsigned int navigationFailureCount;
+  
   //arm navigation 
     std::deque < NavigationGoal > armGoals;
     actionlib::SimpleActionClient < arm_navigation_msgs::MoveArmAction >
@@ -84,7 +95,7 @@ private:
 			       MoveArmResultConstPtr & result);
 
   //ROS status and command topic subscribers and publishers 
-    std::vector < EffectorController > effectorControllers;
+    std::vector < EffectorController > effectorControllers;  
 
   //object sensor
   bool hasObjectSensor;

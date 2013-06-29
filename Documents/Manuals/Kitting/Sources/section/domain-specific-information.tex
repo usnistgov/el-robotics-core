@@ -1,3 +1,11 @@
+\section{Domain Specific Information}\label{kitting_domain}
+
+The foundation for the knowledge representation is domain specific information that is produced by an expert in the particular field of study. This includes
+information on items ranging from what actions and attributes are relevant, to what the necessary conditions are for an action to occur and what the
+likely results of the action are. We have chosen to encode this basic information in a formalism know as a state variable representation (SVR) \cite{NAU.2004}.
+This information will then flow up the abstraction and be transformed into the ontology, planning language, and robot language.\\
+Before building a SVR, the domain for kitting needs to be specified. The domain for kitting contains some fixed equipment: a robot, a work table, end effectors, end effector holders, and an end effector changing station. Items that enter the workstation include kit trays, boxes in which to put kits, boxes that contain empty kit trays, and part supplies. Items that leave the workstation may be boxes with finished kits inside, empty part trays, empty boxes. An external agent is responsible of moving the items that leave the workstation. We assume that the workstation has only one work table, one changing station, and one robot.
+
 %\section{State-Variable Representation}
 
 
@@ -681,8 +689,3 @@ Our kitting domain is composed of ten operators which are defined below.
 \subsubsection{Actions}
 An action \textit{a} can be obtained by substituting the object variable symbols that
 appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeff}) in the kitting domain can be translated into the action \op{take-part}(\const{robot\_1},\const{part\_1},\const{partstray\_1},\const{endeff\_2}) where \const{robot\_1}, \const{part\_1}, \const{partstray\_1}, and \const{endeff\_2} are constant variable symbols in the classes \class{Robot}, \class{Part}, \class{PartsTray}, and \class{EndEffector}, respectively.
-
-
-
-
-

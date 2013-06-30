@@ -1,7 +1,8 @@
 \select@language {english}
-\contentsline {figure}{\numberline {1}{\ignorespaces Excerpt of the PDDL domain file for kitting.}}{20}{figure.1}
-\contentsline {figure}{\numberline {2}{\ignorespaces Initial state $S_0$.}}{25}{figure.2}
-\contentsline {figure}{\numberline {3}{\ignorespaces Goal state $S_G$.}}{26}{figure.3}
-\contentsline {figure}{\numberline {4}{\ignorespaces Example of plan generated with the kitting domain and problem files.}}{29}{figure.4}
-\contentsline {figure}{\numberline {5}{\ignorespaces Owl to SQL tab.}}{35}{figure.5}
-\contentsline {figure}{\numberline {6}{\ignorespaces Owl to C++ tab.}}{37}{figure.6}
+\contentsline {figure}{\numberline {1}{\ignorespaces Knowledge Driven Design extensions -- In this figure, green shaded boxes with curved bottoms represent hand generated files while light blue shaded boxes with curved bottoms represent automatically created boxes. Rectangular boxes represent processes and libraries. }}{1}{figure.1}
+\contentsline {figure}{\numberline {2}{\ignorespaces Excerpt of the PDDL domain file for kitting.}}{26}{figure.2}
+\contentsline {figure}{\numberline {3}{\ignorespaces Initial state $S_0$.}}{30}{figure.3}
+\contentsline {figure}{\numberline {4}{\ignorespaces Goal state $S_G$.}}{30}{figure.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces Example of plan generated with the kitting domain and problem files.}}{33}{figure.5}
+\contentsline {figure}{\numberline {6}{\ignorespaces Owl to SQL tab.}}{38}{figure.6}
+\contentsline {figure}{\numberline {7}{\ignorespaces Owl to C++ tab.}}{40}{figure.7}

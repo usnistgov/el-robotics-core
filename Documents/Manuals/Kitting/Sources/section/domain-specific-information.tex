@@ -60,11 +60,11 @@ $\mathrm{x: A_1\times \dots\times A_i\times S\rightarrow}$ $\mathrm{B_1\cup\dots
 The use of state variable symbols reduces the possibility of inconsistent states and generates a smaller state space. The following state variable symbols are used in the kitting domain.
 
 \begin{itemize}
-\item \stvar{endeff-location}\\ \class{EndEffector}$\mathrm{\times S\rightarrow}$\class{Robot} $\cup$ \class{EndEffHolder}: designates the location of an \class{EndEffector} in the workstation. An \class{EndEffector} is either attached to a \class{Robot} or placed in an \class{EndEffHolder}.
+\item \stvar{endeffector-location}\\ \class{EndEffector}$\mathrm{\times S\rightarrow}$\class{Robot} $\cup$ \class{EndEffHolder}: designates the location of an \class{EndEffector} in the workstation. An \class{EndEffector} is either attached to a \class{Robot} or placed in an \class{EndEffHolder}.
 
-\item \stvar{robot-with-endeff}\\ \class{Robot}$\mathrm{\times S\rightarrow}$\class{EndEffector} $\cup$ \{\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise nothing.
+\item \stvar{robot-with-endeffector}\\ \class{Robot}$\mathrm{\times S\rightarrow}$\class{EndEffector} $\cup$ \{\}: designates the \class{EndEffector} attached to a \class{Robot} if there is one attached, otherwise nothing.
 
-\item \stvar{on-wtable}\\ \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{Kit} $\cup$ \class{KitTray} $\cup$ \{\}: designates the object placed on the \class{WorkTable}, i.e., a \class{Kit}, a \class{KitTray}, or nothing.
+\item \stvar{on-worktable}\\ \class{WorkTable}$\mathrm{\times S\rightarrow}$\class{Kit} $\cup$ \class{KitTray} $\cup$ \{\}: designates the object placed on the \class{WorkTable}, i.e., a \class{Kit}, a \class{KitTray}, or nothing.
 
 \item \stvar{kit-location}\\ \class{Kit}$\mathrm{\times S\rightarrow}$\class{LargeBoxWithKits} $\cup$ \class{WorkTable} $\cup$ \class{Robot}: designates the different possible locations of a \class{Kit} in the workstation, i.e., in a \class{LargeBoxWithKits}, on the \class{WorkTable}, or being held by a \class{Robot}.
 
@@ -80,13 +80,13 @@ The use of state variable symbols reduces the possibility of inconsistent states
 
 \item \stvar{partstray-empty}\\ \class{PartsTray}$\mathrm{\times S\rightarrow}$ \textit{bool}: designates if a \class{PartsTray} is empty or not.
 
-\item \stvar{endffector-type}\\ \class{EndEffector}$\mathrm{\times S \rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part}: designates the type of object an \class{EndEffector} can hold, i.e., a \class{KitTray}, a \class{Kit}, or a \class{Part}.
+\item \stvar{endeffector-type}\\ \class{EndEffector}$\mathrm{\times S \rightarrow}$\class{KitTray} $\cup$ \class{Kit} $\cup$ \class{Part}: designates the type of object an \class{EndEffector} can hold, i.e., a \class{KitTray}, a \class{Kit}, or a \class{Part}.
 
-\item \stvar{endeffholder-holds-endeff}\\ \class{EndEffHolder}$\mathrm{\times S \rightarrow}$\class{EndEffector} $\cup$ \{\}: designates wether an \class{EndEffHolder} is holding an \class{EndEffector} or nothing.
+\item \stvar{endeffectorholder-holds-endeff}\\ \class{EndEffHolder}$\mathrm{\times S \rightarrow}$\class{EndEffector} $\cup$ \{\}: designates wether an \class{EndEffHolder} is holding an \class{EndEffector} or nothing.
 
-\item \stvar{endeffholder-location}\\ \class{EndEffHolder}$\mathrm{\times S \rightarrow}$\class{EndEffChStation}: designates the \class{EndEffChStation} where the \class{EndEffHolder} is located.
+\item \stvar{endeffectorholder-location}\\ \class{EndEffHolder}$\mathrm{\times S \rightarrow}$\class{EndEffChStation}: designates the \class{EndEffChStation} where the \class{EndEffHolder} is located.
 
-\item \stvar{endeffchstation-has-endeffholder}\\ \class{EndEffChStation}$\mathrm{\times S \rightarrow}$\class{EndEffHolder}: designates the \class{EndEffHolder} the \class{EndEffChStation} contains.
+\item \stvar{endeffectorchangingstation-has-endeffholder}\\ \class{EndEffChStation}$\mathrm{\times S \rightarrow}$\class{EndEffHolder}: designates the \class{EndEffHolder} the \class{EndEffChStation} contains.
 
 \item \stvar{found-part}\\ \class{PartsTray}$\mathrm{\times S \rightarrow}$\class{Part} $\cup$ \{\}: designates wether a \class{Part} is found in a \class{PartsTray} or not.
 
@@ -125,102 +125,214 @@ Where $\mathcal{A} \in \mathrm{\{A_1,\ldots,A_i\}}$ and $\mathcal{B} \in \mathrm
 
 The state variables in our current kitting domain contains the following predicates.
 \begin{itemize}
- \item \stvar{endeff-location}
-  \begin{itemize}
-  \item \stvar{endeff-location-robot}(\class{EndEffector},\class{Robot}) ;TRUE iff \class{EndEffector} is attached to \class{Robot}
-  \item \stvar{endeff-location-endeffholder}(\class{EndEffector},\class{EndEffHolder}) ;TRUE iff \class{EndEffector} is in \class{EndEffHolder}
-  \end{itemize}
+ \item \stvar{endeffector-location}
+  \begin{enumerate}
+  \item \stvar{endeffector-location-robot}(\class{EndEffector},\class{Robot})
+    \begin{itemize}
+        \item TRUE iff \class{EndEffector} is attached to \class{Robot}
+    \end{itemize}
+  \item \stvar{endeffector-location-endeffholder}(\class{EndEffector},\class{EndEffHolder})
+    \begin{itemize}
+        \item TRUE iff \class{EndEffector} is in \class{EndEffHolder}
+    \end{itemize}
+  \end{enumerate}
 
- \item \stvar{robot-with-endeff}
-  \begin{itemize}
-  \item \stvar{robot-with-endeff}(\class{Robot},\class{EndEffector}) ;TRUE iff \class{Robot} is equipped with \class{EndEffector}
-  \item \stvar{robot-with-no-endeff}(\class{Robot}) ;TRUE iff \class{Robot} is not equipped with any \class{EndEffector}	
-  \end{itemize}
+ \item \stvar{robot-with-endeffector}
+    \begin{enumerate}[resume]
+        \item \stvar{robot-with-endeffector}(\class{Robot},\class{EndEffector})
+        \begin{itemize}
+            \item TRUE iff \class{Robot} is equipped with \class{EndEffector}
+        \end{itemize}
+  
+        \item \stvar{robot-with-no-endeffector}(\class{Robot})
+            \begin{itemize}
+                \item TRUE iff \class{Robot} is not equipped with any \class{EndEffector}
+             \end{itemize}  
+  \end{enumerate}
 
- \item \stvar{on-wtable}
-  \begin{itemize}
-  \item \stvar{on-wtable-kit}(\class{WorkTable},\class{Kit}) ;TRUE iff \class{Kit} is on the \class{WorkTable}
-  \item \stvar{on-wtable-kittray}(\class{WorkTable},\class{KitTray}) ;TRUE iff \class{KitTray} is on the \class{WorkTable}
-  \item \stvar{worktable-empty}(\class{WorkTable}) ;TRUE iff there is nothing on the \class{WorkTable}
-  \end{itemize}
+ \item \stvar{on-worktable}
+  \begin{enumerate}[resume]
+    \item \stvar{on-worktable-kit}(\class{WorkTable},\class{Kit})
+        \begin{itemize}
+            \item TRUE iff \class{Kit} is on the \class{WorkTable}
+        \end{itemize}
+  
+    \item \stvar{on-worktable-kittray}(\class{WorkTable},\class{KitTray})
+        \begin{itemize}
+            \item TRUE iff \class{KitTray} is on the \class{WorkTable}
+        \end{itemize}
+  
+    \item \stvar{worktable-empty}(\class{WorkTable})
+        \begin{itemize}
+            \item TRUE iff there is nothing on the \class{WorkTable}
+        \end{itemize}
+  
+  \end{enumerate}
 
- \item \stvar{kit-location}
-  \begin{itemize}
-  \item \stvar{kit-location-lbwk}(\class{Kit},\class{LargeBoxWithKits}) ;TRUE iff \class{Kit} is in the \class{LargeBoxWithKits}
-  \item \stvar{kit-location-wtable}(\class{Kit},\class{WorkTable}) ;TRUE iff \class{Kit} is on the \class{WorkTable}
-  \item \stvar{kit-location-robot}(\class{Kit},\class{Robot}) ;TRUE iff \class{Kit} is being held by the \class{Robot}	
-  \end{itemize}
+\item \stvar{kit-location}
+    \begin{enumerate}[resume]
+        \item \stvar{kit-location-lbwk}(\class{Kit},\class{LargeBoxWithKits})
+            \begin{itemize}
+                \item TRUE iff \class{Kit} is in the \class{LargeBoxWithKits}
+            \end{itemize}
+  
+        \item \stvar{kit-location-worktable}(\class{Kit},\class{WorkTable})
+            \begin{itemize}
+                \item TRUE iff \class{Kit} is on the \class{WorkTable}
+            \end{itemize}
+  
+        \item \stvar{kit-location-robot}(\class{Kit},\class{Robot})
+            \begin{itemize}
+                \item TRUE iff \class{Kit} is being held by the \class{Robot}	
+            \end{itemize}
+    \end{enumerate}
 
- \item \stvar{kittray-location}
-  \begin{itemize}
-  \item \stvar{kittray-location-lbwekt}(\class{KitTray},\class{LargeBoxWithEmptyKitTrays}) ;TRUE iff \class{KitTray} is in the \class{LargeBoxWithEmptyKitTrays}	
-  \item \stvar{kittray-location-robot}(\class{KitTray},\class{Robot}) ;TRUE iff \class{KitTray} is being held by the \class{Robot}
-  \item \stvar{kittray-location-wtable}(\class{KitTray},\class{WorkTable}) ;TRUE iff \class{KitTray} is on the \class{WorkTable}
-  \end{itemize}
+\item \stvar{kittray-location}
+    \begin{enumerate}[resume]
+        \item \stvar{kittray-location-lbwekt}(\class{KitTray},\class{LargeBoxWithEmptyKitTrays})
+            \begin{itemize}
+                \item TRUE iff \class{KitTray} is in the \class{LargeBoxWithEmptyKitTrays}	
+            \end{itemize}
+  
+        \item \stvar{kittray-location-robot}(\class{KitTray},\class{Robot}) 
+            \begin{itemize}
+                \item TRUE iff \class{KitTray} is being held by the \class{Robot}
+            \end{itemize}
+  
+        \item \stvar{kittray-location-worktable}(\class{KitTray},\class{WorkTable}) 
+            \begin{itemize}
+                \item TRUE iff \class{KitTray} is on the \class{WorkTable}
+            \end{itemize}
+  \end{enumerate}
 
- \item \stvar{part-location}
-  \begin{itemize}
-    \item \stvar{part-location-partstray}(\class{Part},\class{PartsTray}) ;TRUE iff \class{Part} is in the \class{PartsTray}	
-    \item \stvar{part-location-kit}(\class{Part},\class{Kit}) ;TRUE iff \class{Part} is in the \class{Kit}
-    \item \stvar{part-location-robot}(\class{Part},\class{Robot}) ;TRUE iff \class{Part} is being held by the \class{Robot}
-  \end{itemize}
+\item \stvar{part-location}
+    \begin{enumerate}[resume]
+        \item \stvar{part-location-partstray}(\class{Part},\class{PartsTray})
+            \begin{itemize}
+                \item TRUE iff \class{Part} is in the \class{PartsTray}
+            \end{itemize}
+    	
+        \item \stvar{part-location-kit}(\class{Part},\class{Kit}) 
+            \begin{itemize}
+                \item TRUE iff \class{Part} is in the \class{Kit}
+            \end{itemize}
+    
+        \item \stvar{part-location-robot}(\class{Part},\class{Robot}) 
+            \begin{itemize}
+                \item TRUE iff \class{Part} is being held by the \class{Robot}
+            \end{itemize}
+    \end{enumerate}
 
- \item \stvar{robot-holds}
-  \begin{itemize}
-    \item \stvar{robot-holds-kittray}(\class{Robot},\class{KitTray}) ;TRUE iff \class{Robot} is holding a \class{KitTray}	
-    \item \stvar{robot-holds-kit}(\class{Robot},\class{Kit}) ;TRUE iff \class{Robot} is holding a \class{Kit}
-    \item \stvar{robot-holds-part}(\class{Robot},\class{Part}) ;TRUE iff \class{Robot} is holding a \class{Part}
-    \item \stvar{robot-empty}(\class{Robot}) ;TRUE iff \class{Robot} is not holding anything
-  \end{itemize}
+\item \stvar{robot-holds}
+    \begin{enumerate}[resume]
+        \item \stvar{robot-holds-kittray}(\class{Robot},\class{KitTray}) 
+            \begin{itemize}
+                \item TRUE iff \class{Robot} is holding a \class{KitTray}
+            \end{itemize}
+    
+        \item \stvar{robot-holds-kit}(\class{Robot},\class{Kit}) 
+            \begin{itemize}
+                \item TRUE iff \class{Robot} is holding a \class{Kit}
+            \end{itemize}
+    
+        \item \stvar{robot-holds-part}(\class{Robot},\class{Part}) 
+            \begin{itemize}
+                \item TRUE iff \class{Robot} is holding a \class{Part}
+            \end{itemize}
+    
+        \item \stvar{robot-empty}(\class{Robot}) 
+            \begin{itemize}
+                \item TRUE iff \class{Robot} is not holding anything
+            \end{itemize}
+    \end{enumerate}
 
- \item \stvar{lbwk-full}
-  \begin{itemize}
-    \item \stvar{lbwk-not-full}(\class{LargeBoxWithKits}) ;TRUE iff \class{LargeBoxWithKits} is not full	
-  \end{itemize}
+\item \stvar{lbwk-full}
+    \begin{enumerate}[resume]
+        \item \stvar{lbwk-not-full}(\class{LargeBoxWithKits}) 
+            \begin{itemize}
+                \item TRUE iff \class{LargeBoxWithKits} is not full	
+            \end{itemize}
+  \end{enumerate}
 
- \item \stvar{lbwekt-empty}
-  \begin{itemize}
-    \item \stvar{lbwekt-not-empty}(\class{LargeBoxWithEmptyKitTrays}) ;TRUE iff \class{LargeBoxWithEmptyKitTrays} is not empty
-  \end{itemize}
+\item \stvar{lbwekt-empty}
+    \begin{enumerate}[resume]
+        \item \stvar{lbwekt-not-empty}(\class{LargeBoxWithEmptyKitTrays}) 
+            \begin{itemize}
+                \item TRUE iff \class{LargeBoxWithEmptyKitTrays} is not empty
+            \end{itemize}
+    \end{enumerate}
 
- \item \stvar{partstray-empty}
-  \begin{itemize}
-    \item \stvar{partstray-not-empty}(\class{PartsTray}) ;TRUE iff \class{PartsTray} is not empty
-  \end{itemize}
+\item \stvar{partstray-empty}
+    \begin{enumerate}[resume]
+        \item \stvar{partstray-not-empty}(\class{PartsTray}) 
+            \begin{itemize}
+                \item TRUE iff \class{PartsTray} is not empty
+            \end{itemize}
+    \end{enumerate}
 
- \item \stvar{endeff-type}
-  \begin{itemize}
-    \item \stvar{endeff-type-kittray}(\class{EndEffector},\class{KitTray}) ;TRUE iff \class{EndEffector} is capable of holding a \class{KitTray}	
-    \item \stvar{endeff-type-kit}(\class{EndEffector},\class{Kit}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Kit}
-    \item \stvar{endeff-type-part}(\class{EndEffector},\class{Part}) ;TRUE iff \class{EndEffector} is capable of holding a \class{Part}
-  \end{itemize}
+\item \stvar{endeffector-type}
+    \begin{enumerate}[resume]
+        \item \stvar{endeffeffector-type-kittray}(\class{EndEffector},\class{KitTray}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffector} is capable of holding a \class{KitTray}
+            \end{itemize}
+    
+        \item \stvar{endeffector-type-kit}(\class{EndEffector},\class{Kit}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffector} is capable of holding a \class{Kit}
+            \end{itemize}
+    
+        \item \stvar{endeffector-type-part}(\class{EndEffector},\class{Part}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffector} is capable of holding a \class{Part}
+            \end{itemize}
+    \end{enumerate}
 
- \item \stvar{endeffholder-holds-endeff}
-  \begin{itemize}
-    \item \stvar{endeffholder-holds-endeff}(\class{EndEffHolder},\class{EndEffector}) ;TRUE iff \class{EndEffHolder} is holding \class{EndEffector}
-    \item \stvar{endeffholder-empty}(\class{EndEffHolder}) ;TRUE iff \class{EndEffHolder} is empty (not holding an \class{EndEffector})
-  \end{itemize}
+\item \stvar{endeffectorholder-holds-endeff}
+    \begin{enumerate}[resume]
+        \item \stvar{endeffectorholder-holds-endeff}(\class{EndEffHolder},\class{EndEffector}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffHolder} is holding \class{EndEffector}
+            \end{itemize}
+    
+        \item \stvar{endeffectorholder-empty}(\class{EndEffHolder}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffHolder} is empty (not holding an \class{EndEffector})
+            \end{itemize}
+  \end{enumerate}
 
 
- \item \stvar{endeffholder-location}
-  \begin{itemize}
-    \item \stvar{endeffholder-location}(\class{EndEffHolder},\class{EndEffChStation}) ;TRUE iff \class{EndEffHolder} is in \class{EndEffChStation}
-  \end{itemize}
+\item \stvar{endeffectorholder-location}
+    \begin{enumerate}[resume]
+        \item \stvar{endeffectorholder-location}(\class{EndEffHolder},\class{EndEffChStation}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffHolder} is in \class{EndEffChStation}
+            \end{itemize}
+    \end{enumerate}
 
-\item \stvar{endeffchstation-has-endeffholder}
-  \begin{itemize}
-    \item \stvar{endeffchstation-has-endeffholder}(\class{EndEffChStation},\class{EndEffHolder}) ;TRUE iff \class{EndEffChStation} contains \class{EndEffHolder}
-  \end{itemize}
+\item \stvar{endeffectorchangingstation-has-endeffholder}
+    \begin{enumerate}[resume]
+        \item \stvar{endeffectorchangingstation-has-endeffholder}(\class{EndEffChStation},\class{EndEffHolder}) 
+            \begin{itemize}
+                \item TRUE iff \class{EndEffChStation} contains \class{EndEffHolder}
+            \end{itemize}
+    \end{enumerate}
 
 \item \stvar{found-part}
-  \begin{itemize}
-    \item \stvar{found-part}(\class{Part},\class{PartsTray}) ;TRUE iff \class{Part} is found in \class{PartsTray}
-  \end{itemize}
+    \begin{enumerate}[resume]
+        \item \stvar{found-part}(\class{Part},\class{PartsTray}) 
+            \begin{itemize}
+                \item TRUE iff \class{Part} is found in \class{PartsTray}
+            \end{itemize}
+  \end{enumerate}
 
 \item \stvar{origin-part}
-  \begin{itemize}
-    \item \stvar{origin-part}(\class{Part},\class{PartsTray}) ;TRUE iff \class{Part} is from \class{PartsTray}.
-  \end{itemize}
+    \begin{enumerate}[resume]
+        \item \stvar{origin-part}(\class{Part},\class{PartsTray}) 
+            \begin{itemize}
+                \item TRUE iff \class{Part} is from \class{PartsTray}
+            \end{itemize}
+    \end{enumerate}
 \end{itemize}
 
 \subsubsection{Functions}
@@ -231,17 +343,27 @@ values in a more general way than allowed for by a purely relational language bu
 \begin{itemize}
  \item \stvar{quantity-parts-in-partstray}
   \begin{itemize}
-   \item \stvar{quantity-parts-in-partstray}(\class{PartsTray}) ;Quantity of parts in \class{PartsTray}
+   \item \stvar{quantity-parts-in-partstray}(\class{PartsTray}) 
+   \begin{itemize}
+   \item Number of parts in \class{PartsTray}
+  \end{itemize}
+  
   \end{itemize}
 
  \item \stvar{quantity-parts-in-kit}
   \begin{itemize}
-   \item \stvar{quantity-parts-in-kit}(\class{Kit},\class{PartsTray}) ;Quantity of parts from \class{PartsTray} that is in \class{Kit}
+   \item \stvar{quantity-parts-in-kit}(\class{Kit},\class{PartsTray})
+   \begin{itemize}
+   \item Number of parts from \class{PartsTray} that is in \class{Kit}
+  \end{itemize}
   \end{itemize}
 
      \item \stvar{capacity-parts-in-kit}
   \begin{itemize}
-  \item \stvar{capacity-parts-in-kit}(\class{Kit},\class{PartsTray}) ;Quantity of parts from \class{PartsTray} that \class{Kit} \textbf{can} contain
+  \item \stvar{capacity-parts-in-kit}(\class{Kit},\class{PartsTray}) 
+     \begin{itemize}
+   \item Number of parts from \class{PartsTray} that \class{Kit} \textbf{can} contain
+  \end{itemize}
   \end{itemize}
 \end{itemize}
 
@@ -278,9 +400,9 @@ Our kitting domain is composed of ten operators which are defined below.
   \stvarsmall{lbwekt-not-empty}(\const{lbwekt})&\stvarsmall{kittray-location-robot}(\constsmall{kittray},\constsmall{robot})\\
   \stvarsmall{robot-with-endeff}(\const{robot},\constsmall{endeff})&\stvarsmall{robot-holds-kittray}(\constsmall{robot},\constsmall{kittray}) \\
 
-  \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot})&\\
+  \stvarsmall{endeffector-location-robot}(\constsmall{endeff},\constsmall{robot})&\\
   \stvarsmall{worktable-empty}(\constsmall{worktable})& \\
-  \stvarsmall{endeff-type-kittray}(\constsmall{endeff},\constsmall{kittray})&
+  \stvarsmall{endeffector-type-kittray}(\constsmall{endeff},\constsmall{kittray})&
 \end{tabular}
 
 
@@ -290,10 +412,10 @@ Our kitting domain is composed of ten operators which are defined below.
  \item \stvarsmall{robot-empty}(\constsmall{robot}): \constsmall{robot} does not hold anything.
  \item \stvarsmall{kittray-location-lbwekt}(\constsmall{kittray},\constsmall{lbwekt}): \constsmall{kittray} is in \constsmall{lbwekt}.
  \item \stvarsmall{lbwekt-not-empty}(\const{lbwekt}): \constsmall{lbwekt} is not empty (contains at least one kit tray).
- \item \stvarsmall{robot-with-endeff}(\const{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}.
- \item \stvarsmall{endeff-location-robot}(\constsmall{endeff},\constsmall{robot}): The end effector is on the robot's arm.
+ \item \stvarsmall{robot-with-endeffector}(\const{robot},\constsmall{endeff}): \constsmall{robot} is equipped with \constsmall{endeff}.
+ \item \stvarsmall{endeffector-location-robot}(\constsmall{endeff},\constsmall{robot}): The end effector is on the robot's arm.
  \item \stvarsmall{worktable-empty}(\constsmall{worktable}): After picking up an empty kit tray from a large box of empty kit trays, the robot would normally place the kit tray on the work table. To put a kit tray on the work table, it is necessary that there is nothing on top of the work table. If the robot is allowed to pick up the kit tray while there is another object on the work table, the planning system may not be able to find a solution when it comes to put the kit tray on the work table. Therefore, it is necessary to check that the top of \constsmall{worktable} is clear even before the robot picks up a kit tray from the large box of empty kit trays.
- \item \stvarsmall{endeff-type-kittray}(\constsmall{endeff},\constsmall{kittray}): \constsmall{endeff} in the robot's arm must be capable of handling \constsmall{kittray}.
+ \item \stvarsmall{endeffector-type-kittray}(\constsmall{endeff},\constsmall{kittray}): \constsmall{endeff} in the robot's arm must be capable of handling \constsmall{kittray}.
  \end{itemize}
 \item \textit{effects}
  \begin{itemize}
@@ -538,7 +660,7 @@ Our kitting domain is composed of ten operators which are defined below.
   &\stvarsmall{robot-empty}(\constsmall{robot})\\
   \stvarsmall{origin-part}(\constsmall{part},\constsmall{partstray})
   & \stvarsmall{part-location-kit}(\constsmall{part},\constsmall{kit})\\
-  (< (\stvarsmall{quantity-parts-in-kit}(\constsmall{kit},\constsmall{partstray})) 
+  (< (\stvarsmall{quantity-parts-in-kit}(\constsmall{kit},\constsmall{partstray}))
   & (\stvarsmall{increase}\ (\stvarsmall{quantity-kit}(\constsmall{kit},\constsmall{partstray})))\\
   (\stvarsmall{capacity-kit}(\constsmall{kit},\constsmall{partstray}))) & \stvarsmall{part-not-searched}
 \end{tabular}
@@ -688,4 +810,4 @@ Our kitting domain is composed of ten operators which are defined below.
 
 \subsubsection{Actions}
 An action \textit{a} can be obtained by substituting the object variable symbols that
-appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeff}) in the kitting domain can be translated into the action \op{take-part}(\const{robot\_1},\const{part\_1},\const{partstray\_1},\const{endeff\_2}) where \const{robot\_1}, \const{part\_1}, \const{partstray\_1}, and \const{endeff\_2} are constant variable symbols in the classes \class{Robot}, \class{Part}, \class{PartsTray}, and \class{EndEffector}, respectively.
+appear anywhere in the operator with constant variable symbols. For instance, the operator \op{take-part}(\const{robot},\const{part},\const{partstray},\const{endeff}) in the kitting domain can be translated into the action \op{take-part}(\const{robot\_1},\const{part\_1},\const{partstray\_1},\const{endeff\_2}) where \const{robot\_1}, \const{part\_1}, \const{partstray\_1}, and \const{endeff\_2} are constant variable symbols in the classes \class{Robot}, \class{Part}, \class{PartsTray}, and \class{EndEffector}, respectively. 

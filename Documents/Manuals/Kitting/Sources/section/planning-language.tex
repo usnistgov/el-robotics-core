@@ -6,7 +6,7 @@ By placing our knowledge in a PDDL representation, we enable the use of an entir
 Each PDDL file-set consists of two files that specify the domain and the problem.
 
 \subsection{The PDDL Domain File}\label{S:PDDL-domain}
-The PDDL domain file is composed of four sections that include requirements, types, predicates and functions, and actions. An excerpt of the PDDL domain file is depicted in Figure~\ref{fig:domain}.
+The PDDL domain file for kitting is composed of five sections that include requirements, types, predicates, functions, and actions. An excerpt of the PDDL domain file is depicted in Figure~\ref{fig:domain}.
 
 \begin{figure}[t!h!]
 \begin{minipage}{.5\paperwidth}
@@ -78,16 +78,16 @@ The PDDL domain file is composed of four sections that include requirements, typ
 \item \texttt{:fluents}: A domain's set of requirements allow a planner to quickly tell if it is likely to be able
 to handle the domain. For example, this version of the kitting world requires fluents numeric, so a straight STRIPS-representation planner would not be able to handle it. A fluent is a term (\texttt{:functions}) with time-varying value (i.e., a value that can change as a result of performing an action).
 \end{itemize}
-\item line 3--15:  Type names have to be declared before they are used (before \texttt{:predicates} and \texttt{:functions}). This is done with the declaration \texttt{(:types $name_1$ ... $name_n$)}.
-\item line 17--20: The \texttt{:predicates} part of a domain definition specify only what are the predicate names used in the domain, and their number of arguments (and argument types, if the domain uses \texttt{:typing}). The ``meaning'' of a predicate, in the sense of for what combinations of arguments it can be true and its relationship to other predicates, is determined by the effects that actions in the domain can have on the predicate, and by what instances of the predicate are listed as true in the initial state of the problem definition.\\
+\item lines 3--15:  Type names have to be declared before they are used (before \texttt{:predicates} and \texttt{:functions}). This is done with the declaration \texttt{(:types $name_1$ ... $name_n$)}.
+\item lines 17--20: The \texttt{:predicates} part of a domain definition specify only what are the predicate names used in the domain, and their number of arguments (and argument types, if the domain uses \texttt{:typing}). The ``meaning'' of a predicate, in the sense of for what combinations of arguments it can be true and its relationship to other predicates, is determined by the effects that actions in the domain can have on the predicate, and by what instances of the predicate are listed as true in the initial state of the problem definition.\\
     It is common to make a distinction between static and dynamic predicates. A \textit{static} predicate is not changed by any action. Thus in a problem, the true and false instances of a \textit{static} predicate will always be precisely those listed in the initial state specification of the problem definition. Note that there is no syntactic difference between \textit{static} and \textit{dynamic} predicates in PDDL, they look exactly the same in the \texttt{:predicates} declaration part of the domain.\\
     A predicate is build using the structure \texttt{(predicate\_name ?X - type\_of\_X)}. A list of parameters of the same type in a predicate can be abbreviated to \texttt{(predicate\_name ?X ?Y ?Z - type\_of\_XYZ)}. Note that the hyphen between parameter and type name is surrounded by whitespace.
-\item line 22--26: A fluent is similar to a state variable/predicate except that its value is a number instead of true or false. The initial value of a function is set in the initial state of the problem file and changes when an action is executed. The declaration of functions is similar to predicates.
-\item line 28--48: The domain definition contains operators (called \textit{actions} in PDDL). An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. All parts of an action definition except the name are, according to the PDDL specification, optional (although, of course, an action without effects is pretty useless). However, for an action that has no preconditions some planners may require an ``empty'' precondition, on the form :precondition () or :precondition (and), and some planners may also require an empty :parameter list for actions without parameters).
+\item lines 22--26: A fluent is similar to a state variable/predicate except that its value is a number instead of true or false. The initial value of a function is set in the initial state of the problem file and changes when an action is executed. The declaration of functions is similar to predicates.
+\item lines 28--48: The domain definition contains operators (called \textit{actions} in PDDL). An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. All parts of an action definition except the name are, according to the PDDL specification, optional (although, of course, an action without effects is pretty useless). However, for an action that has no preconditions some planners may require an ``empty'' precondition, on the form :precondition () or :precondition (and), and some planners may also require an empty :parameter list for actions without parameters).
 \begin{itemize}
-\item line 29--34: The \texttt{:parameters} section declare all the parameters used by predicates and functions in \texttt{preconditions} and \texttt{effects}.
-\item line 35--42:  The \texttt{:preconditions} section is a conjunction of predicates and functions that need to be true in the world in order for the action to be invoked.
-\item line 43--47: The \texttt{:effects} equation dictates the changes in the world that will occur due to the execution of the action.
+\item lines 29--34: The \texttt{:parameters} section declare all the parameters used by predicates and functions in \texttt{preconditions} and \texttt{effects}.
+\item lines 35--42:  The \texttt{:preconditions} section is a conjunction of predicates and functions that need to be true in the world in order for the action to be invoked.
+\item lines 43--47: The \texttt{:effects} equation dictates the changes in the world that will occur due to the execution of the action.
 \end{itemize}
 \end{itemize}
 
@@ -232,11 +232,11 @@ In this example, the \class{Robot} has to build a kit that contains two \class{P
 
 (:goal
     (and
-        (= (quantity-kit kit_a2b2c1 part_a_tray) 
+        (= (quantity-kit kit_a2b2c1 part_a_tray)
 	(capacity-kit kit_a2b2c1 part_a_tray))
-        (= (quantity-kit kit_a2b2c1 part_b_tray) 
+        (= (quantity-kit kit_a2b2c1 part_b_tray)
 	(capacity-kit kit_a2b2c1 part_b_tray))
-        (= (quantity-kit kit_a2b2c1 part_c_tray) 
+        (= (quantity-kit kit_a2b2c1 part_c_tray)
 	(capacity-kit kit_a2b2c1 part_c_tray))
         (kit-location-lbwk kit_a2b2c1 finished_kit_receiver)
     )

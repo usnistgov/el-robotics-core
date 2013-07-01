@@ -14,15 +14,18 @@ software
 #include "EndEffectorChangingStation.h"
 
 
+ #include "MechanicalComponent.h"
  #include "KittingWorkstation.h"
  #include "DAO.h"
  #include "EndEffectorHolder.h"
 
 EndEffectorChangingStation::EndEffectorChangingStation(std::string name) : SolidObject(name){
 dao = NULL;
+hasChangingStation_Base = NULL;
 hasWorkstation_ChangingStation = NULL;
 
 }EndEffectorChangingStation::~EndEffectorChangingStation(){
+delete(hasChangingStation_Base);
 delete(hasWorkstation_ChangingStation);
 for(std::size_t i = 0; i < hadByEndEffectorHolder_ChangingStation.size(); i++)
 delete(hadByEndEffectorHolder_ChangingStation[i]);
@@ -33,6 +36,9 @@ return EndEffectorChangingStationID;
 DAO* EndEffectorChangingStation::getdao(){
 return dao;
 }
+MechanicalComponent* EndEffectorChangingStation::gethasChangingStation_Base(){
+return hasChangingStation_Base;
+}
 std::vector<EndEffectorHolder*> EndEffectorChangingStation::gethadByEndEffectorHolder_ChangingStation(){
 return hadByEndEffectorHolder_ChangingStation;
 }
@@ -41,6 +47,9 @@ return hasWorkstation_ChangingStation;
 }
 void EndEffectorChangingStation::setdao(DAO* _dao){
 this->dao= _dao;
+}
+void EndEffectorChangingStation::sethasChangingStation_Base(MechanicalComponent* _hasChangingStation_Base){
+this->hasChangingStation_Base= _hasChangingStation_Base;
 }
 void EndEffectorChangingStation::sethadByEndEffectorHolder_ChangingStation(std::vector<EndEffectorHolder*> _hadByEndEffectorHolder_ChangingStation){
 this->hadByEndEffectorHolder_ChangingStation= _hadByEndEffectorHolder_ChangingStation;
@@ -67,6 +76,8 @@ data["name"]=name;
 ss.str("");
 ss << EndEffectorChangingStationID;
 data["EndEffectorChangingStationID"]=ss.str();
+if(hasChangingStation_Base!=NULL)
+data["hasChangingStation_Base"]=hasChangingStation_Base->getname();
 for(unsigned int i=0;i<hadByEndEffectorHolder_ChangingStation.size();++i){
 ss.str("");
 hadByEndEffectorHolder_ChangingStation[i]->get(hadByEndEffectorHolder_ChangingStation[i]->getname());
@@ -80,7 +91,9 @@ dao->set(data);
 delete (dao);
 }
 
-void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){delete(hasWorkstation_ChangingStation);
+void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){delete(hasChangingStation_Base);
+hasChangingStation_Base=NULL;
+delete(hasWorkstation_ChangingStation);
 hasWorkstation_ChangingStation=NULL;
 for(std::size_t i = 0; i < hadByEndEffectorHolder_ChangingStation.size(); i++){
 delete(hadByEndEffectorHolder_ChangingStation[i]);
@@ -93,6 +106,9 @@ int nbValCurrent=0;
 std::vector<EndEffectorChangingStation*> tmp;
 this->name = object["EndEffectorChangingStation._NAME"];
 this->EndEffectorChangingStationID = std::atof(object["EndEffectorChangingStation.EndEffectorChangingStationID"].c_str());
+if(this->hasChangingStation_Base== NULL && object["hasChangingStation_Base/MechanicalComponent._NAME"]!=""){
+this->hasChangingStation_Base = new MechanicalComponent(object["hasChangingStation_Base/MechanicalComponent._NAME"]);
+}
 if(this->hadByEndEffectorHolder_ChangingStation.empty() && object["hadByEndEffectorHolder_ChangingStation/EndEffectorHolder._NAME"]!=""){
 temp = Explode(object["hadByEndEffectorHolder_ChangingStation/EndEffectorHolder._NAME"], ' ' );
 for(unsigned int i=0; i<temp.size();i++){

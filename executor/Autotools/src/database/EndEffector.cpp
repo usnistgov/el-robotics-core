@@ -17,15 +17,18 @@ software
  #include "Robot.h"
  #include "StockKeepingUnit.h"
  #include "DAO.h"
+ #include "SolidObject.h"
  #include "EndEffectorHolder.h"
 
 EndEffector::EndEffector(std::string name) : SolidObject(name){
 dao = NULL;
 hadByEndEffector_Robot = NULL;
+hasEndEffector_HeldObject = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
 
 }EndEffector::~EndEffector(){
 delete(hadByEndEffector_Robot);
+delete(hasEndEffector_HeldObject);
 delete(hasEndEffectorHolder_EndEffector);
 for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++)
 delete(hasSku_EndEffectors[i]);
@@ -48,6 +51,9 @@ return dao;
 Robot* EndEffector::gethadByEndEffector_Robot(){
 return hadByEndEffector_Robot;
 }
+SolidObject* EndEffector::gethasEndEffector_HeldObject(){
+return hasEndEffector_HeldObject;
+}
 EndEffectorHolder* EndEffector::gethasEndEffectorHolder_EndEffector(){
 return hasEndEffectorHolder_EndEffector;
 }
@@ -68,6 +74,9 @@ this->dao= _dao;
 }
 void EndEffector::sethadByEndEffector_Robot(Robot* _hadByEndEffector_Robot){
 this->hadByEndEffector_Robot= _hadByEndEffector_Robot;
+}
+void EndEffector::sethasEndEffector_HeldObject(SolidObject* _hasEndEffector_HeldObject){
+this->hasEndEffector_HeldObject= _hasEndEffector_HeldObject;
 }
 void EndEffector::sethasEndEffectorHolder_EndEffector(EndEffectorHolder* _hasEndEffectorHolder_EndEffector){
 this->hasEndEffectorHolder_EndEffector= _hasEndEffectorHolder_EndEffector;
@@ -103,6 +112,8 @@ ss << EndEffectorID;
 data["EndEffectorID"]=ss.str();
 if(hadByEndEffector_Robot!=NULL)
 data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+if(hasEndEffector_HeldObject!=NULL)
+data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
 if(hasEndEffectorHolder_EndEffector!=NULL)
 data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
 for(unsigned int i=0;i<hasSku_EndEffectors.size();++i){
@@ -118,6 +129,8 @@ delete (dao);
 
 void EndEffector::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
 hadByEndEffector_Robot=NULL;
+delete(hasEndEffector_HeldObject);
+hasEndEffector_HeldObject=NULL;
 delete(hasEndEffectorHolder_EndEffector);
 hasEndEffectorHolder_EndEffector=NULL;
 for(std::size_t i = 0; i < hasSku_EndEffectors.size(); i++){
@@ -136,6 +149,9 @@ this->name = object["EndEffector._NAME"];
 this->EndEffectorID = std::atof(object["EndEffector.EndEffectorID"].c_str());
 if(this->hadByEndEffector_Robot== NULL && object["hadByEndEffector_Robot/Robot._NAME"]!=""){
 this->hadByEndEffector_Robot = new Robot(object["hadByEndEffector_Robot/Robot._NAME"]);
+}
+if(this->hasEndEffector_HeldObject== NULL && object["hasEndEffector_HeldObject/SolidObject._NAME"]!=""){
+this->hasEndEffector_HeldObject = new SolidObject(object["hasEndEffector_HeldObject/SolidObject._NAME"]);
 }
 if(this->hasEndEffectorHolder_EndEffector== NULL && object["hasEndEffectorHolder_EndEffector/EndEffectorHolder._NAME"]!=""){
 this->hasEndEffectorHolder_EndEffector = new EndEffectorHolder(object["hasEndEffectorHolder_EndEffector/EndEffectorHolder._NAME"]);

@@ -1,0 +1,36 @@
+\documentclass[letter,11pt,oneside]{article}
+\input{header}
+
+
+%\input {Fonts/EileenBl.fd}
+\begin{document}
+
+%\include{Chapters/title}
+\include{sty/titlepage}
+\pagenumbering{roman} 
+%\include{Chapters/abstract-english}
+%\cleardoublepage
+%\include{Chapters/abstract-french}
+%\cleardoublepage
+
+%\include{Chapters/dedication}
+%\cleardoublepage
+\include{section/contents}
+\pagenumbering{arabic}
+\include{section/introduction}
+\include{section/domain-specific-information}
+\include{section/ontology}
+\include{section/planning-language}
+\include{section/robot-language}
+%\include{section/S-state-variable}
+
+%\include{section/S-PDDL}
+\include{section/planner}
+\include{section/S-Tools}
+\include{section/refs} % References
+
+\setcounter{lofdepth}{2} \listoffigures
+%\include{Chapters/subjindx} % subject index
+%\include{Chapters/authindx} % author index
+
+\end{document}

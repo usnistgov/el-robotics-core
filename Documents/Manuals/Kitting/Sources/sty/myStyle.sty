@@ -1,0 +1,393 @@
+% file to change the style of LaTeX
+% Tony Roberts May 2004
+% modified by Carlos Gershenson, 2006
+
+%Possible colors:
+
+% GreenYellow, Yellow, Goldenrod, Dandelion, Apricot, Peach, Melon, YellowOrange, Orange, BurntOrange,
+%Bittersweet, RedOrange, Mahogany, Maroon, BrickRed, Red, OrangeRed, RubineRed, WildStrawberry, Salmon,
+%CarnationPink, Magenta, VioletRed, Rhodamine, Mulberry, RedViolet, Fuchsia, Lavender, Thistle, Orchid,
+%DarkOrchid, Purple, Plum, Violet, RoyalPurple, BlueViolet, Periwinkle, CadetBlue, CornflowerBlue, MidnightBlue,
+%NavyBlue, RoyalBlue, Blue, Cerulean, Cyan, ProcessBlue, SkyBlue, Turquoise, TealBlue, Aquamarine, BlueGreen, Emerald,
+%JungleGreen, SeaGreen, Green, ForestGreen, PineGreen, LimeGreen, YellowGreen, SpringGreen, OliveGreen, RawSienna,
+%Sepia, Brown, Tan, Gray
+
+%MidnightBlue
+
+% first colour for latex or pdflatex
+\ifx\pdfoutput\@undefined\usepackage[usenames,dvips]{color}
+\else\usepackage[usenames,dvipsnames]{color}
+% and fix pdf colour problems
+\IfFileExists{pdfcolmk.sty}{\usepackage{pdfcolmk}}{}
+\fi
+% second test for a5paper
+%\ifdim\paperwidth=148mm \usepackage[a5paper]{geometry}\fi
+% lastly load colour hyperref
+
+%\usepackage[plainpages=false,pdfpagelabels,pagebackref=true,naturalnames=true]{hyperref}
+%\hypersetup{colorlinks=true,
+%urlcolor=Cerulean,linkcolor=Black,citecolor=RoyalBlue,a4paper,bookmarksopen=true,pdfpagemode=None,pdfstartview=FitH}
+
+
+%\usepackage[chapter]{tocbibind}
+\usepackage[lined,boxed,ruled]{algorithm2e}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{psfrag}
+\usepackage[hang,center]{subfigure}
+\usepackage{url}
+%\usepackage{stfloats}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{color}
+\usepackage{moreverb}                    % for boxedboxedverbatim
+\usepackage{fancyvrb}
+\usepackage{alltt}
+\usepackage{setspace}
+\usepackage{pstcol}
+\usepackage{pst-node}
+\usepackage{epstopdf}
+\usepackage{subfigure}
+\usepackage{hhline}
+\usepackage{multirow}
+\usepackage{calligra}
+\usepackage{palatino}%nicer font
+\usepackage{mdwlist}
+\usepackage[toc,page]{appendix}
+\usepackage{ae,aecompl} %For better ps documents
+\usepackage[T2A,T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{setspace}
+%\usepackage{a4wide}
+\usepackage{epsfig}
+
+\usepackage{multind}
+\usepackage{index}
+\usepackage{enumitem}
+\newindex{def}{adx}{and}{Subject Index}
+
+\usepackage[withbib]{authorindex}
+\let\cite=\aicite
+\def\theaipage{\string\hyperpage{\thepage}}
+\usepackage{tikz-er2}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\definecolor{violetred}{cmyk}{0,0.85,0.31,0.18}
+\definecolor{darkblue}{cmyk}{1,1,0,0.45}
+\definecolor{lavenderblush4}{cmyk}{0,0.06,0.04,0.45}
+\definecolor{packergreen}{cmyk}{0.46,0,0.21,0.76}
+\definecolor{fuschia}{cmyk}{0,100,0,0}
+\definecolor{gray91}{cmyk}{0,0,0,0.09}
+
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+% styles for flowcharts
+
+\tikzstyle{every entity} = [top color=white, bottom color=blue!30,
+                            draw=blue!50!black!100, drop shadow]
+\tikzstyle{empty} = [top color=white, bottom color=white,
+                            draw=white]
+
+\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex,
+                                 shadow yshift=-.7ex}]
+\tikzstyle{every attribute} = [top color=white, bottom color=green!20,
+                               draw=green, node distance=1cm, drop shadow]
+\tikzstyle{MainAttribute} = [draw, rectangle,top color=white, bottom color=red!20,
+                               draw=red, node distance=1cm, drop shadow]
+
+\tikzstyle{StartEnd} = [draw, rectangle,rounded corners, top color=red, bottom color=red!20,
+                               draw=red, node distance=1cm, drop shadow]
+
+\tikzstyle{every relationship} = [top color=white, bottom color=fuschia!30,
+                                  draw=fuschia!50!black!100, drop shadow]
+
+\tikzstyle{cloud} = [draw, circle,fill=white, top color=white, bottom color=white, draw=black, node distance=1cm,
+                        minimum height=2em, text=black, drop shadow]
+\tikzstyle{cloud2} = [draw, circle,fill=white, top color=gray91, bottom color=gray91, draw=black, node distance=1cm,
+                        minimum height=2em, text=black, drop shadow]
+\tikzstyle{myarrow}=[->, >=stealth', thick, shorten <=2pt,shorten >=2pt]
+
+\tikzstyle{ForLoop} = [draw, rectangle, rounded corners,top color=white, bottom color=packergreen!30, draw=packergreen, inner sep=10pt, drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
+
+\tikzstyle{abstract}=[rectangle, draw=black, rounded corners, fill=blue!40, drop shadow,
+        text centered, anchor=north, text=white, text width=3cm]
+
+\tikzset{
+ %Define standard arrow tip
+    >=stealth',
+}
+%Light Gray
+\definecolor{Light}{cmyk}{0.5,0.42,0.42,0.6}
+%\definecolor{ChapNum}{cmyk}{1,0.97,0.39,0.46}
+\definecolor{ChapNum}{cmyk}{0,0,0,0.49}
+%\definecolor{ChapTitle}{cmyk}{0.98,0.78,0.25,0.09}
+\definecolor{ChapTitle}{cmyk}{0,0,0,0.7}
+\definecolor{Aphor}{cmyk}{0,0,0,0.7}
+%\definecolor{HRuleColor}{cmyk}{0.5,0.42,0.42,0.6}
+\definecolor{HRuleColor}{cmyk}{0.0,0.0,0.0,1}
+\definecolor{CiteColor}{cmyk}{0,0,0,1}
+\definecolor{DefColor}{cmyk}{0,0,0,0.5}
+\definecolor{TabColorGray}{cmyk}{0,0,0,0.5}
+\definecolor{TabShadow}{cmyk}{0,0,0,0.1}
+% Use this package at the end, otherwise it could be overwritten
+%\usepackage[urlcolor=OrangeRed,colorlinks=true,plainpages=true,pdfpagelabels,pagebackref=true,naturalnames=true,dvipdfm,citecolor=CiteColor,linkcolor=Black]{hyperref}
+%\hypersetup{colorlinks=true,urlcolor=OrangeRed,a4paper,bookmarksopen=true,pdfpagemode=None,pdfstartview=FitH}
+
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat�s bookmarks
+    pdftoolbar=true,        % show Acrobat�s toolbar?
+    pdfmenubar=true,        % show Acrobat�s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Planning for a Kitting Workstation},    % title
+    pdfauthor={Zeid Kootbally},     % author
+    pdfsubject={IPMAS},   % subject of the document
+    pdfcreator={Zeid Kootbally},   % creator of the document
+    pdfproducer={Zeid Kootbally}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=black           % color of external links
+}
+
+\newenvironment{liste}%
+{ \begin{list}%
+    {$\bullet$}%
+    {\setlength{\labelwidth}{30pt}%
+     \setlength{\leftmargin}{25pt}%
+     \setlength{\itemsep}{\parsep}}}%
+{ \end{list} }
+
+
+\renewcommand{\thesubfigure}{\thefigure.\arabic{subfigure}}
+\renewcommand{\p@subfigure}{}
+\renewcommand{\@thesubfigure}{\thesubfigure:\hskip\subfiglabelskip}
+
+
+
+
+\renewcommand{\theFancyVerbLine}{%
+\textcolor{BrickRed}{\scriptsize%
+\arabic{FancyVerbLine}.}}
+
+%
+% allows for numbered verbatim carrying on where the last
+% ended
+%
+\define@key{FV}{firstnumber}[auto]{%
+  \def\@tempa{#1}\def\@tempb{auto}%
+  \ifx\@tempa\@tempb
+    \def\FV@SetLineNo{%
+      \c@FancyVerbLine\FV@CodeLineNo
+      \advance\c@FancyVerbLine\m@ne}%
+  \else
+    \def\@tempb{continue}%
+    \ifx\@tempa\@tempb
+       \def\FV@SetLineNo{}%
+    \else
+     \def\@tempb{last}%
+     \ifx\@tempa\@tempb
+       \let\FV@SetLineNo\relax
+     \else
+       \def\FV@SetLineNo{\c@FancyVerbLine#1}%
+     \fi
+  \fi
+\fi
+}
+
+\newcommand\T{\rule{0pt}{2.6ex}}
+\newcommand\B{\rule[-1.2ex]{0pt}{0pt}}
+\parindent 0pt
+\parskip 7pt
+
+\pagestyle{fancy} \headheight=20pt
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+\newcommand\etal{~\textit{et al.}}
+\newcommand\apriori{~\textit{a priori}}
+
+\newtheorem{definition}{Definition}
+
+%Definition of the header
+\lhead[\fancyplain{}{{\color{BrickRed}\thepage}}]
+{\fancyplain{}{{\color{Gray}\leftmark}}}
+
+\chead[\fancyplain{}{}] {\fancyplain{}{}}
+
+
+\rhead[\fancyplain{}{{\color{Gray}\rightmark}}]
+{\fancyplain{}{{\color{BrickRed}\thepage}}}
+
+\lfoot[\fancyplain{}{}] {\fancyplain{}{}}
+
+\rfoot[\fancyplain{}{}] {\fancyplain{}{}}
+
+\cfoot[\fancyplain{}{\thepage}] {\fancyplain{}{\thepage}}
+
+
+%\let\LaTeXtitle\title
+%\renewcommand{\title}[1]{\LaTeXtitle{\color{Brown}\textsf{#1}}}
+
+%\pagestyle{headings}
+% crunching MakeUppercase is very naughty
+%\renewcommand{\MakeUppercase}[1]{\color{Gray}\textsf{#1}}
+
+
+
+
+%\renewcommand{\abstractname}{\color{blue}Abstract}
+%\renewcommand{\figurename}{\color{Sepia}Figure}
+%\renewcommand{\tablename}{\color{Sepia}Table}
+
+%\let\LaTeX@startsection\@startsection
+%\renewcommand{\@startsection}[6]{\LaTeX@startsection%
+%{#1}{#2}{#3}{#4}{#5}{\raggedright #6}}
+
+
+ %set my own environments...
+
+%\newenvironment{example}[1]{{\textsf{\color{PineGreen}#1}}}{}
+%\newenvironment{notion}[1]{{\textsf{\emph{\color{OrangeRed}#1}}}}{}
+\newenvironment{aphorism}[1]{\begin{flushright}{\textit{\color{Aphor}#1}}\end{flushright}}{}
+
+
+
+
+
+\newenvironment{rulecode}
+{\begin{list}
+    {}
+    {\setlength{\leftmargin}{2em}\setlength{\parsep}{0ex}\ttfamily\small}
+    \item[]
+} {\end{list}}
+
+
+\newcommand{\class}[1] {\textit{#1}}
+\newcommand{\const}[1] {$\mathit{#1}$}
+\newcommand{\constsmall}[1] {\small $\mathit{#1}$}
+\newcommand{\objvar}[1] {$\mathsf{#1}$}
+\newcommand{\stvar}[1] {\textsf{#1}}
+\newcommand{\stvarsmall}[1] {\small {\textsf{#1}}}
+\newcommand{\op}[1] {{\color{BrickRed}{\textsl{#1}}}}
+\newcommand{\opsmall}[1] {{\color{BrickRed}{\small {\textsl{#1}}}}}
+\newcommand{\nil} {\textit{nil}\ }
+\newcommand{\app}[1] {\textit{#1}}
+\newcommand{\file}[1] {\textsf{#1}}
+
+\renewcommand{\labelitemi}{$\blacksquare$}
+\renewcommand{\labelitemii}{$\square$}
+
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{3pt}
+
+\newenvironment{mylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small}
+{\end{list}}
+
+\newenvironment{mytinylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
+{\end{list}}
+
+\renewcommand{\fnum@figure}{\small\textbf{\figurename~\thefigure}}
+\renewcommand{\fnum@table}{\small\textbf{\tablename~\thetable}}
+
+ %%%from acmtrans2m.cls
+%\renewcommand{\@makechapterhead}[1]{%
+%  \vspace*{20\p@}%
+%  {\parindent \z@ \raggedright \normalfont
+%    \color{OrangeRed} \hrule                                         % horizontal line
+%    \vspace{5pt}%                                                   % add vertical space
+%    \ifnum \c@secnumdepth >\m@ne
+%        \Huge \color{Black} \scshape \@chapapp\space {\color{OrangeRed}{\thechapter}}  % Chapter number
+%        \par\nobreak
+%        \vskip 20\p@
+%    \fi
+%    \interlinepenalty\@M
+%    \LARGE \color{ChapTitle} \scshape #1\par                         % chapter title
+%    \vspace{5pt}%                                                    % add vertical space
+%    \color{OrangeRed} \hrule                                          % horizontal rule
+%    \nobreak
+%    \vskip 30\p@
+%  }}
+
+%\renewcommand{\@makeschapterhead}[1]{%
+%  \vspace*{20\p@}%
+%  {\parindent \z@ \raggedright
+%    \normalfont
+%    \color{OrangeRed} \hrule                                         % horizontal line
+%    \vspace{5pt}%                                                   % add vertical space
+%    \interlinepenalty\@M
+%    \LARGE \color{ChapTitle} \scshape #1\par                            % chapter title
+%    \vspace{5pt}%                                                   % add vertical space
+%    \color{OrangeRed} \hrule                                         % horizontal line
+%    \nobreak
+%    \vskip 10\p@
+%  }}
+
+%
+%  Parts
+%
+
+
+%\def\@makeparthead#1{ \vspace*{-10pc} {\centering
+%\color{OrangeRed} \hrule                                         % horizontal line
+%\vspace{5pt}%
+% \ifnum \c@secnumdepth >\m@ne \Huge \color{ChapNum}Part \color{ChapNum}\thepart \par
+% \vspace{10\p@} \fi
+%  \def\baselinestretch{1.0}\LARGE \color{ChapTitle} \scshape #1\par
+%  \vspace{5pt}%                                                   % add vertical space
+%    \color{OrangeRed} \hrule
+% \nobreak \vspace{20\p@}} }
+%%
+%\def\@makesparthead#1{ \vspace*{2pc} {\centering
+% \large\bf \uppercase\color{BrickRed}\expandafter{#1}\par
+% \nobreak \vspace{20\p@}} }
+%%
+%\def\@part[#1]#2{
+%  \ifnum \c@secnumdepth >\m@ne
+%  \refstepcounter{part}
+%  \typeout{<<\thepart>>}
+%  {\def\\{ }  % allow \\ in title
+%   \addcontentsline{toc}{part}{\protect
+%     \numberline{Part\ \thepart:\ \ \ \ }\ \ \ \ \ #1}}\else
+%  {\def\\{ }  % allow \\ in title
+%   \addcontentsline{toc}{part}{#1}}\fi
+% \addtocontents{lof}{\protect\addvspace{5\p@}}
+% \addtocontents{lot}{\protect\addvspace{5\p@}}
+% \if@twocolumn
+%  \@topnewpage[\@makeparthead{#2}]
+%  \else \@makeparthead{#2}
+%  \@afterheading \fi}
+%\def\@spart#1{\if@twocolumn \@topnewpage[\@makesparthead{#1}]
+%  \else \@makesparthead{#1}
+%  \@afterheading\fi}
+
+
+%\newcommand{\Chapter}[1]{\chapter{#1} \setcounter{section}{0}}
+%\newcommand{\Part}[1]{\part{#1} \setcounter{chapter}{0}}
+
+%\@part
+%\@spart
+%for index...
+%\newcommand{\mainidx}[1]{{\it #1}}
+%\newcommand{\boldidx}[1]{{\bf #1}}
+
+%to avoid overfull /hboxes
+\global\emergencystretch = .17\hsize

@@ -4,81 +4,10 @@ Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
 Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
-<<<<<<< HEAD
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstances.owl#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
+
+
 Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>
 Import(<file:/home/sbalakirsky3/projects/ipmas/objectGen/owl/kittingClasses.owl>)
-//Import(<file:./kittingClasses.owl>)
-
-//*****************************************
-// start KittingWorkstation kitting_workstation_1
-Declaration(NamedIndividual(:kitting_workstation_1))
-ClassAssertion(:KittingWorkstation :kitting_workstation_1)
-ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :kitting_workstation_1 :relative_location_in_1)
-Declaration(NamedIndividual(:relative_location_in_1))
-ClassAssertion(:RelativeLocationIn :relative_location_in_1)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :relative_location_in_1 :kitting_workstation_1)
-DataPropertyAssertion(:hasRelativeLocation_Description :relative_location_in_1 "The  KittingWorkstation is in kitting_workstation_1"^^xsd:string)
-DataPropertyAssertion(:hasWorkstation_AngleUnit :kitting_workstation_1 "degree"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasWorkstation_LengthUnit :kitting_workstation_1 "meter"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasWorkstation_WeightUnit :kitting_workstation_1 "kilogram"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasWorkstation_Robot :kitting_workstation_1 :robot_1)
-ObjectPropertyAssertion(:hasWorkstation_ChangingStation :kitting_workstation_1 :changing_station_1)
-ObjectPropertyAssertion(:hasWorkstation_WorkTable :kitting_workstation_1 :work_table_1)
-ObjectPropertyAssertion(:hasWorkstation_KitDesigns :kitting_workstation_1 :kit_design_a2b1c1)
-ObjectPropertyAssertion(:hasWorkstation_KitDesigns :kitting_workstation_1 :kit_design_a2b2c1)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_a)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_b)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_c)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_kit_tray)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_kit_box)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray_a)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray_b)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray_c)
-// end KittingWorkstation
-//*****************************************
-
-
-//*****************************************
-// start Robot robot_1
-Declaration(NamedIndividual(:robot_1))
-ClassAssertion(:Robot :robot_1)
-ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :robot_1 :robot_pose)
-Declaration(NamedIndividual(:robot_pose))
-ClassAssertion(:PoseOnlyLocation :robot_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :robot_pose :kitting_workstation_1)
-ObjectPropertyAssertion(:hasPoseLocation_Point :robot_pose :robot_point)
-ObjectPropertyAssertion(:hasPoseLocation_XAxis :robot_pose :robot_x_axis)
-ObjectPropertyAssertion(:hasPoseLocation_ZAxis :robot_pose :robot_z_axis)
-Declaration(NamedIndividual(:robot_point))
-ClassAssertion(:Point :robot_point)
-DataPropertyAssertion(:hasPoint_X :robot_point "3.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :robot_point "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :robot_point "2.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:robot_x_axis))
-ClassAssertion(:Vector :robot_x_axis)
-DataPropertyAssertion(:hasVector_I :robot_x_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :robot_x_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :robot_x_axis "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:robot_z_axis))
-ClassAssertion(:Vector :robot_z_axis)
-DataPropertyAssertion(:hasVector_I :robot_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :robot_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :robot_z_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasRobot_Description :robot_1 "this is the robot"^^xsd:string)
-DataPropertyAssertion(:hasRobot_MaximumLoadWeight :robot_1 "7.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasRobot_EndEffector :robot_1 :tray_gripper)
-ObjectPropertyAssertion(:hasRobot_WorkVolume :robot_1 :box_volume_1)
-// end Robot
-//*****************************************
-
-=======
->>>>>>> 9adbf11b73b7d271504da7f32c2f8d4ffaba20a0
-
-
-Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>
-Import(<file:/home/pna1/IPMAScopy/objectGen/owl/kittingClasses.owl>)
 
 SubClassOf(:ExternalShape :ShapeDesign)
 Declaration(NamedIndividual(:box_volume_1))

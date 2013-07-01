@@ -73,17 +73,17 @@ hasPart_SerialNumber varchar(100),
 PRIMARY KEY (PartID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE PartsTrayWithParts(
-PartsTrayWithPartsID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (PartsTrayWithPartsID, _NAME)
-)ENGINE=InnoDB;
-
 CREATE TABLE PartsTray(
 PartsTrayID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
 hasPartsTray_SerialNumber varchar(100),
 PRIMARY KEY (PartsTrayID, _NAME)
+)ENGINE=InnoDB;
+
+CREATE TABLE PartsTrayWithParts(
+PartsTrayWithPartsID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (PartsTrayWithPartsID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE Robot(
@@ -176,12 +176,6 @@ CHECK(hasSku_Weight >= 0),
 PRIMARY KEY (StockKeepingUnitID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE WorkTable(
-WorkTableID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (WorkTableID, _NAME)
-)ENGINE=InnoDB;
-
 CREATE TABLE Point(
 PointID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
@@ -191,16 +185,22 @@ hasPoint_Z DOUBLE NOT NULL,
 PRIMARY KEY (PointID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE BoxVolume(
-BoxVolumeID INT NOT NULL,
+CREATE TABLE WorkTable(
+WorkTableID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (BoxVolumeID, _NAME)
+PRIMARY KEY (WorkTableID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE LargeBoxWithEmptyKitTrays(
 LargeBoxWithEmptyKitTraysID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (LargeBoxWithEmptyKitTraysID, _NAME)
+)ENGINE=InnoDB;
+
+CREATE TABLE BoxVolume(
+BoxVolumeID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (BoxVolumeID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE VacuumEffectorSingleCup(
@@ -247,13 +247,6 @@ _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (PoseLocationID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE Kit(
-KitID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-isKit_Finished boolean NOT NULL,
-PRIMARY KEY (KitID, _NAME)
-)ENGINE=InnoDB;
-
 CREATE TABLE VacuumEffector(
 VacuumEffectorID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
@@ -264,16 +257,23 @@ CHECK(hasVacuumEffector_Length >= 0),
 PRIMARY KEY (VacuumEffectorID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE EndEffectorHolder(
-EndEffectorHolderID INT NOT NULL,
+CREATE TABLE Kit(
+KitID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (EndEffectorHolderID, _NAME)
+isKit_Finished boolean NOT NULL,
+PRIMARY KEY (KitID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE RelativeLocationOn(
 RelativeLocationOnID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (RelativeLocationOnID, _NAME)
+)ENGINE=InnoDB;
+
+CREATE TABLE EndEffectorHolder(
+EndEffectorHolderID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (EndEffectorHolderID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE PoseOnlyLocation(
@@ -397,15 +397,15 @@ ADD hasPart_Sku VARCHAR(255),
 ADD CONSTRAINT fkhasPart_Sku
 FOREIGN KEY(hasPart_Sku) REFERENCES StockKeepingUnit(_NAME);
 
-ALTER TABLE PartsTrayWithParts
-ADD hasPartsTrayWithParts_Tray VARCHAR(255),
-ADD CONSTRAINT fkhasPartsTrayWithParts_Tray
-FOREIGN KEY(hasPartsTrayWithParts_Tray) REFERENCES PartsTray(_NAME);
-
 ALTER TABLE PartsTray
 ADD hasPartsTray_Sku VARCHAR(255),
 ADD CONSTRAINT fkhasPartsTray_Sku
 FOREIGN KEY(hasPartsTray_Sku) REFERENCES StockKeepingUnit(_NAME);
+
+ALTER TABLE PartsTrayWithParts
+ADD hasPartsTrayWithParts_Tray VARCHAR(255),
+ADD CONSTRAINT fkhasPartsTrayWithParts_Tray
+FOREIGN KEY(hasPartsTrayWithParts_Tray) REFERENCES PartsTray(_NAME);
 
 ALTER TABLE EndEffector
 ADD hadByEndEffector_Robot VARCHAR(255),

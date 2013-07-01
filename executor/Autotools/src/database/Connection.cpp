@@ -30,7 +30,7 @@ Connection* Connection::getInstance(std::string url, std::string user,
 		}
 		con = driver->connect(url, user, pass);
 		con->setSchema(name);
-		//std::cout << "Connected to : " << name << std::endl;
+		std::cout << "Connected to : " << name << std::endl;
 	}
 	Connection::~Connection() {
 		delete con;

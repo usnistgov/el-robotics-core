@@ -23,12 +23,14 @@ software
 
 
 #include "SolidObject.h"
+ class MechanicalComponent;
  class KittingWorkstation;
  class DAO;
  class EndEffectorHolder;
 class EndEffectorChangingStation: public SolidObject{private:
 int EndEffectorChangingStationID;
 DAO* dao;
+MechanicalComponent* hasChangingStation_Base;
 std::vector<EndEffectorHolder*> hadByEndEffectorHolder_ChangingStation;
 KittingWorkstation* hasWorkstation_ChangingStation;
 public:
@@ -41,6 +43,8 @@ void set(std::string name);
 int getEndEffectorChangingStationID();
 DAO* getdao();
 void setdao(DAO* _dao);
+MechanicalComponent* gethasChangingStation_Base();
+void sethasChangingStation_Base(MechanicalComponent* _hasChangingStation_Base);
 std::vector<EndEffectorHolder*> gethadByEndEffectorHolder_ChangingStation();
 void sethadByEndEffectorHolder_ChangingStation(std::vector<EndEffectorHolder*> _hadByEndEffectorHolder_ChangingStation);
 KittingWorkstation* gethasWorkstation_ChangingStation();

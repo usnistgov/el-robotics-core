@@ -12,8 +12,8 @@ software
  *****************************************************************************/
 
 
-#ifndef BOXYSHAPE_H_
-#define BOXYSHAPE_H_
+#ifndef MECHANICALCOMPONENT_H_
+#define MECHANICALCOMPONENT_H_
 #include <cstdlib>
 #include <iostream>
 #include <map>
@@ -22,33 +22,25 @@ software
 #include <sstream>
 
 
-#include "InternalShape.h"
+#include "SolidObject.h"
+ class EndEffectorChangingStation;
  class DAO;
-class BoxyShape: public InternalShape{private:
-double hasBoxyShape_Width;
-bool hasBoxyShape_Top;
-double hasBoxyShape_Height;
-double hasBoxyShape_Length;
-int BoxyShapeID;
+class MechanicalComponent: public SolidObject{private:
+int MechanicalComponentID;
 DAO* dao;
+std::vector<EndEffectorChangingStation*> hasChangingStation_Base;
 public:
-BoxyShape(std::string name);
-~BoxyShape();
+MechanicalComponent(std::string name);
+~MechanicalComponent();
  void get(int id);
  void get(std::string name);
-void set(int id, BoxyShape* obj);
+void set(int id, MechanicalComponent* obj);
 void set(std::string name);
-double gethasBoxyShape_Width();
-void sethasBoxyShape_Width(double _hasBoxyShape_Width);
-bool gethasBoxyShape_Top();
-void sethasBoxyShape_Top(bool _hasBoxyShape_Top);
-double gethasBoxyShape_Height();
-void sethasBoxyShape_Height(double _hasBoxyShape_Height);
-double gethasBoxyShape_Length();
-void sethasBoxyShape_Length(double _hasBoxyShape_Length);
-int getBoxyShapeID();
+int getMechanicalComponentID();
 DAO* getdao();
 void setdao(DAO* _dao);
+std::vector<EndEffectorChangingStation*> gethasChangingStation_Base();
+void sethasChangingStation_Base(std::vector<EndEffectorChangingStation*> _hasChangingStation_Base);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
-#endif /* BOXYSHAPE_H_ */
+#endif /* MECHANICALCOMPONENT_H_ */

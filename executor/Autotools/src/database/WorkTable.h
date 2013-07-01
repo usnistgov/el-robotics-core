@@ -22,11 +22,11 @@ software
 #include <sstream>
 
 
-#include "BoxyObject.h"
+#include "SolidObject.h"
  class KittingWorkstation;
  class SolidObject;
  class DAO;
-class WorkTable: public BoxyObject{private:
+class WorkTable: public SolidObject{private:
 int WorkTableID;
 DAO* dao;
 std::vector<SolidObject*> hadBySolidObject_WorkTable;

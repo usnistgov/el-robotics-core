@@ -16,26 +16,21 @@ noinst_LIBRARIES = libdatabase.a
 libdatabase_adir = $(top_srcdir)/src/database
 #libdatabase_adir = $(top_srcdir)/lib
 
-libdatabase_a_HEADERS =  \
-BoxVolume.h \
+libdatabase_a_HEADERS = BoxVolume.h \
 BoxyShape.h \
 Connection.h \
 DAO.h \
 DataThing.h \
-EndEffectorChangingStation.h \
 EndEffector.h \
+EndEffectorChangingStation.h \
 EndEffectorHolder.h \
 ExternalShape.h \
 GripperEffector.h \
 InternalShape.h \
->>>>>>>>>>>>>>>>>>>> File 1
-KitDesign.h \
->>>>>>>>>>>>>>>>>>>> File 2
->>>>>>>>>>>>>>>>>>>> File 3
-<<<<<<<<<<<<<<<<<<<<
 Kit.h \
-KittingWorkstation.h \
+KitDesign.h \
 KitTray.h \
+KittingWorkstation.h \
 LargeBoxWithEmptyKitTrays.h \
 LargeBoxWithKits.h \
 LargeContainer.h \
@@ -62,13 +57,8 @@ VacuumEffector.h \
 VacuumEffectorMultiCup.h \
 VacuumEffectorSingleCup.h \
 Vector.h \
-WorkTable.h 
->>>>>>>>>>>>>>>>>>>> File 1
->>>>>>>>>>>>>>>>>>>> File 2
+WorkTable.h
 
->>>>>>>>>>>>>>>>>>>> File 3
-
-<<<<<<<<<<<<<<<<<<<<
 
 
 libdatabase_a_SOURCES = $(libdatabase_a_HEADERS) \
@@ -77,16 +67,16 @@ BoxyShape.cpp \
 Connection.cpp \
 DAO.cpp \
 DataThing.cpp \
-EndEffectorChangingStation.cpp \
 EndEffector.cpp \
+EndEffectorChangingStation.cpp \
 EndEffectorHolder.cpp \
 ExternalShape.cpp \
 GripperEffector.cpp \
 InternalShape.cpp \
 Kit.cpp \
 KitDesign.cpp \
-KittingWorkstation.cpp \
 KitTray.cpp \
+KittingWorkstation.cpp \
 LargeBoxWithEmptyKitTrays.cpp \
 LargeBoxWithKits.cpp \
 LargeContainer.cpp \
@@ -113,9 +103,10 @@ VacuumEffector.cpp \
 VacuumEffectorMultiCup.cpp \
 VacuumEffectorSingleCup.cpp \
 Vector.cpp \
-WorkTable.cpp
+WorkTable.cpp 
 
 
 
 #INCLUDES = -I@top_srcdir@/src/includes
+
 

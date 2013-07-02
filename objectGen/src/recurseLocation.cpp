@@ -267,7 +267,7 @@ void RecurseLocation::cleanup()
 }
 
 /*!
- @brief Print informatio about the recurse location
+ @brief Print information about the recurse location
  Based on the verbosity, either the entire chain
  of recursive locations will be printed or only 
  the global location.

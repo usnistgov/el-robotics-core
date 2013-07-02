@@ -120,5 +120,5 @@ string KittingPlan::matchParamType(string param){
 		//cout << "Param: " << param << endl;
 		if (!strcmp(param.c_str(),firstArg.c_str()))
 			return (iter->second);
-		}
+	}
 }

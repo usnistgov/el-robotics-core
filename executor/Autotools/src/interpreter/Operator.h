@@ -7,7 +7,7 @@
   maintenance, and subsequent redistribution.
 
   See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 /*!
  *  \brief     Class for operations on files
  *  \details   This class is used to manipulate files (open, substract, concat, etc).
@@ -19,7 +19,6 @@
 #ifndef FILEOPERATOR_H_
 #define FILEOPERATOR_H_
 
-#include "Config.h"
 #include "Tools.h"
 #include "KittingPDDLProblem.h"
 #include <vector>
@@ -46,6 +45,11 @@ public:
 	void stripSpace(string &str);
 	void writeData(string message);
 	void createOutputFile();
+	void setCRCLFile(string file_name);
+	string getCRCLFileName();
+
+private:
+	string m_crcl_file;
 };
 
 #endif /* FILEOPERATOR_H_ */

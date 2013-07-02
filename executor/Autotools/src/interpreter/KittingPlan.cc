@@ -47,7 +47,8 @@ void KittingPlan::parsePlanInstance(const char* filename) {
 
 	if( inputfile.fail() )
 	  {
-	    cout << "KittingPlan.cc:parsePlanInstance:Error on file open" << endl;
+	    cout << "KittingPlan.cc::parsePlanInstance:Error on file open " 
+		 << filename << endl;
 	    exit(0);
 	  }
 	size_t pos;

@@ -26,20 +26,20 @@
 @def PLAN_INSTANCE
 @brief Name and Path of the Plan Instance File
 */
-#define PLAN_FOLDER "../../../PDDL plans/a2b2c1/"
-#define PLAN_FILE "plan_a2b2c1.txt"
+#define PLAN_FOLDER "../../../PDDL plans/a2b3c5/"
+#define PLAN_FILE "plan_a2b3c5.txt"
 /*
 #define PLAN_FOLDER "../etc/Plan/"
-#define PLAN_FILE "plan_a2b2c1.txt"
+#define PLAN_FILE "plan_a2b3c5.txt"
 */
 
 /*!
 @def PDDL_PROBLEM
 @brief Name and Path of the PDDL Domain and Problem files
 */
-#define PDDL_FOLDER "../../../PDDL plans/a2b2c1/"
+#define PDDL_FOLDER PLAN_FOLDER
 #define PDDL_DOMAIN "domain-fluents.pddl"
-#define PDDL_PROBLEM "problem-fluents.pddl"
+#define PDDL_PROBLEM "problem-fluents-a2b3c5.pddl"
 /*
 #define PDDL_FOLDER "../etc/PDDL/"
 #define PDDL_DOMAIN "domain_a2b2c1.pddl"

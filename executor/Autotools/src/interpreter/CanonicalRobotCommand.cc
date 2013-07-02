@@ -202,19 +202,18 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   stringstream ss;//create a stringstream
   RecLoc recLoc;
   KitTrayLocStruct kit_tray_loc_struct;
-  string erase_part_name;
-  string kit_design_name = "kit_design_a2b2c1";
-  // check here to replace these two strings with queried values with hadBy
-  string locationPrefix = "part_ref_and_pose_" + 
-    kit_design_name.erase(4,7) + string("_");
+  string locationPrefix = "part_ref_and_pose_";
   string goalRefObject = "kit_tray_1";
   string partName;
   string type;
-  printf( "prefix: %s\n", locationPrefix.c_str() );
+  Part* part = NULL;
+  Kit* kit = NULL;
+  KitDesign* kitDesign  = NULL;
+  KitTray* kitTray = NULL;
 
   listLength=(int)paramList.size();  
 
-  // debug
+  /* debug
   printf( "CanonicalRobotCommand debug for list of lenght %d\n", listLength );
   for (vector<string>::size_type i = 0; i < listLength; i++){
     type=kittingplan->matchParamType(paramList[i]);
@@ -223,7 +222,7 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
 	    type.c_str(), paramList[i].c_str() );
   }
   printf( "End of debug\n\n" );
-  //end debug
+  //end debug */
 
   for (vector<string>::size_type i = 0; i < listLength; i++){
     type=kittingplan->matchParamType(paramList[i]);
@@ -231,34 +230,44 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
 
     if (!strcmp(type.c_str(),"Part"))
       {
-	Part* part = new Part (paramList[i]);
+	part = new Part (paramList[i]);
 	part->get(paramList[i]);
 	printf( "Part retrieved\n" );
 	part->get(paramList[i]);
       }
     else if (!strcmp(type.c_str(),"Kit"))
       {
-	printf( "Getting kit %s\n", paramList[i].c_str());
-	Kit* kit = new Kit (paramList[i]);
+	kit = new Kit (paramList[i]);
 	kit->get(paramList[i]);
-	KitDesign* kitDesign = kit->gethasKit_Design();
+	kitDesign = kit->gethasKit_Design();
 	if( kitDesign == NULL )
 	  {
-	    printf( "Error from CanonicalRobotCommand on kit creation of kit %s\n", paramList[i].c_str());
+	    printf( "Error from CanonicalRobotCommand on kit creation of kit (bad design) %s\n", paramList[i].c_str());
 	    exit(1);
 	  }
-	printf( "found kitDesign named %s\n", kit->gethasKit_Design()->getname().c_str());//kitDesign->getname().c_str());
+	kitTray = kit->gethasKit_Tray();
+	if( kitTray == NULL )
+	  {
+	    printf( "Error from CanonicalRobotCommand on kit creation of kit (bad tray) %s\n", paramList[i].c_str());
+	    exit(1);
+	  }
+
       }
   }
+  
+  //  printf( "KitDesign: %s part: %s locationPrefix: %s\n", 
+  // kitDesign->getname().c_str(), part->getname().c_str(), 
+  // locationPrefix.c_str());
+
+  partName = locationPrefix + kitDesign->getname().erase(4,7);
+  unsigned found = partName.find_last_of("_");
+  
+  partName = partName.substr(0,found) + "_" + part->getname().erase(0,5);
+  //  printf( "Getting location of part %s\n", partName.c_str() );
+  recLoc=getPartGoalLocation(partName, kitTray->getname());
+  canon_put_part(recLoc.pointXYZ, recLoc.xAxis, recLoc.zAxis);
+  //  sql_put_part(partName, kitTray.getname());
   /*
-  part->get(paramList[i]);
-   get kit location
-    string param = paramList[i];
-  erase_part_name = param.erase (0,5);
-  printf( "erased parm: %s\n", erase_part_name.c_str() );
-  partName = locationPrefix + erase_part_name;
-  printf( "Getting location of part %s\n", partName.c_str() );
-  recLoc=getPartGoalLocation(partName, goalRefObject);
 
   cout <<"Message (\"put part " << paramList[i] <<"\")"<< endl;
   ss << paramList[i];//add number to the stream
@@ -266,10 +275,18 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   string message = "\nMessage (\"put part " + s_paramlist +"\")\n";
   fileop->writeData(message);
 
-  canon_put_part(recLoc.pointXYZ, recLoc.xAxis, recLoc.zAxis);
-  sql_put_part(partName, goalRefObject);
   */
-  exit(1);
+  if( part != NULL )
+    delete part;
+  if( kit != NULL )
+    delete kit;
+  /*
+    cannot delete this, why???
+  if( kitDesign != NULL )
+    delete kitDesign;
+  if( kitTray != NULL )
+    delete kitTray;
+  */
 }
 
 /*!

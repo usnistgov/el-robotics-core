@@ -69,6 +69,7 @@ public:
 	void put_kit_tray(vector<string> paramList);
 	void put_part(vector<string> paramList,KittingPlan *kittingplan);
 	void remove_eff(vector<string> paramList);
+	void sql_put_part(string partName, string goalRefObject);
 	void take_kit(vector<string> paramList);
 	void take_kit_tray(vector<string> paramList);
 	void take_part(vector<string> paramList,KittingPlan *kittingplan);

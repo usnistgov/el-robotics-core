@@ -135,30 +135,31 @@ The different steps are:
 </ul>
 */
 void KittingPDDLProblem::parsePDDLProblem(const char* filename, KittingPlan *kittingplan){
-	ifstream inputfile;
-	inputfile.open(filename);
+  ifstream inputfile, f;
 	size_t pos;
 	vector<string> vectTemp;
 	map<string, int> paramLine;//--paramLine is used to store the parameters and the line in inputfile where they first appear
 	FileOperator *fileop = new FileOperator;
 
+	inputfile.open(filename);
+	if( inputfile.fail() )
+	  {
+	    cout << "KittingPDDLProblem.cc:parsePDDLProblem file open error on " << filename << endl;
+	    exit(0);
+	  }
+
 	//-- Copy kittingplan->m_paramVector to vectTemp for better manipulation
 	vectTemp.reserve(kittingplan->m_paramList.size());
 	copy(kittingplan->m_paramList.begin(),kittingplan->m_paramList.end(),back_inserter(vectTemp));
 
-	ifstream f( filename );
-	if (!f){
-		cerr << "Could not open file " << filename << endl;
-		exit(0);
-	}
-
+	f.open( filename );
 
 	// Read the entire file into memory
 	  string s;
 	  string t;
 	  while (getline( f, t ))
 	    s += t + '\n';
-	  //f.close();
+	  f.close();
 
 	  paramLine=findParam(s,vectTemp);
 	  findParamType(inputfile, paramLine, kittingplan);

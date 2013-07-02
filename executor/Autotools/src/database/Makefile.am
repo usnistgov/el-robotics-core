@@ -28,11 +28,7 @@ EndEffectorHolder.h \
 ExternalShape.h \
 GripperEffector.h \
 InternalShape.h \
->>>>>>>>>>>>>>>>>>>> File 1
 KitDesign.h \
->>>>>>>>>>>>>>>>>>>> File 2
->>>>>>>>>>>>>>>>>>>> File 3
-<<<<<<<<<<<<<<<<<<<<
 Kit.h \
 KittingWorkstation.h \
 KitTray.h \
@@ -63,13 +59,6 @@ VacuumEffectorMultiCup.h \
 VacuumEffectorSingleCup.h \
 Vector.h \
 WorkTable.h 
->>>>>>>>>>>>>>>>>>>> File 1
->>>>>>>>>>>>>>>>>>>> File 2
-
->>>>>>>>>>>>>>>>>>>> File 3
-
-<<<<<<<<<<<<<<<<<<<<
-
 
 libdatabase_a_SOURCES = $(libdatabase_a_HEADERS) \
 BoxVolume.cpp \
@@ -114,8 +103,6 @@ VacuumEffectorMultiCup.cpp \
 VacuumEffectorSingleCup.cpp \
 Vector.cpp \
 WorkTable.cpp
-
-
 
 #INCLUDES = -I@top_srcdir@/src/includes
 

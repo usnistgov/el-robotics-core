@@ -30,7 +30,7 @@ The interpreter reads a plan file \ref PLAN_INSTANCE and generate a text file th
 #include "interpreter/Operator.h"
 #include "interpreter/KittingPlan.h"
 #include "interpreter/KittingPDDLProblem.h"
-#include "interpreter/Config.h"
+#include "interpreter/Config.h" // This file contains hard coded locations for plan file and output files.
 #include "interpreter/Tools.h"
 #include "interpreter/CanonicalRobotCommand.h"
 #include "interpreter/IniFile.h"

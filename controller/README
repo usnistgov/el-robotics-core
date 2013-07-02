@@ -1,0 +1,21 @@
+Build instructions for the ROS Canonical Controller:
+
+  1. Build the most recent version of the USARSim ROS interface with
+    $ rosmake usarsim_inf
+  2. In this directory (ipmas/controller), run "make" to build the controller library files.
+  3. Build the ROS controller by entering the RosCanonicalController directory and running "make".
+  
+  Important: Follow these steps in the order given! The controller may not work otherwise. 
+
+
+  
+Running the ROS Canonical Controller with a stand-alone robot:
+  1. launch the robot with
+    $ roslaunch usarsim_inf [robot_launch_file.launch]
+  2. launch arm navigation with 
+    $ roslaunch [robot_name]_arm_navigation [robot_name]_arm_navigation.launch
+  3. run the controller with
+    $ rosrun rosCanonicalController rosCanonicalController [command_file_name.txt]
+Use of a command file in step 3 is optional; if none is specified then the controller will use stdio for input.
+
+

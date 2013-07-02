@@ -155,7 +155,6 @@ void KittingPDDLProblem::parsePDDLProblem(const char* filename, KittingPlan *kit
 	f.open( filename );
 
 	// Read the entire file into memory
-<<<<<<< HEAD
 	  string s;
 	  string t;
 	  while (getline( f, t ))
@@ -168,15 +167,3 @@ void KittingPDDLProblem::parsePDDLProblem(const char* filename, KittingPlan *kit
 	  //fileop->readMap(m_ParamType);
 
 	  }
-=======
-	string s;
-	string t;
-	while (getline( f, t ))
-		s += t + '\n';
-	//f.close();
-
-	paramLine=findParam(s,vectTemp);
-	findParamType(inputfile, paramLine, kittingplan);
-	inputfile.close();
-}
->>>>>>> 868bcdc523ef77a27b52a8cb1b3ee19fa63620e0

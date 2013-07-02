@@ -198,7 +198,6 @@ void CanonicalRobotCommand::put_kit_tray(vector<string> paramList){
   @param kittingplan Instance of KittingPlan
  */
 void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kittingplan){
-<<<<<<< HEAD
   FileOperator *fileop = new FileOperator;
   int listLength;
   stringstream ss;//create a stringstream
@@ -289,48 +288,6 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   if( kitTray != NULL )
     delete kitTray;
   */
-=======
-	int listLength;
-	stringstream ss;//create a stringstream
-	RecLoc recLoc;
-	KitTrayLocStruct kit_tray_loc_struct;
-	string erase_part_name;
-	string kit_design_name = "kit_design_a2b2c1";
-	string locationPrefix = "part_ref_and_pose_" +
-			kit_design_name.erase(4,7) + string("_");
-	string partName;
-	printf( "prefix: %s\n", locationPrefix.c_str() );
-
-	listLength=(int)paramList.size();
-	for (vector<string>::size_type i = 0; i < listLength; i++){
-		string type;
-		type=kittingplan->matchParamType(paramList[i]);
-		m_file_operator->stripSpace(type);
-
-
-		if (!strcmp(type.c_str(),"Part"))
-		{
-			Part* part = new Part (paramList[i]);
-			part->get(paramList[i]);
-			// get kit location
-			string param = paramList[i];
-			erase_part_name = param.erase (0,5);
-			printf( "erased parm: %s\n", erase_part_name.c_str() );
-			partName = locationPrefix + erase_part_name;
-			printf( "Getting location of part %s\n", partName.c_str() );
-			recLoc=getPartGoalLocation(partName, "kit_tray_1");
-
-			cout <<"Message (\"put part " << paramList[i] <<"\")"<< endl;
-			ss << paramList[i];//add number to the stream
-			string s_paramlist = ss.str();
-			string message = "\nMessage (\"put part " + s_paramlist +"\")\n";
-			m_file_operator->writeData(message);
-
-
-			canon_put_part(recLoc.pointXYZ, recLoc.xAxis, recLoc.zAxis);
-		}
-	}
->>>>>>> 868bcdc523ef77a27b52a8cb1b3ee19fa63620e0
 }
 
 /*!

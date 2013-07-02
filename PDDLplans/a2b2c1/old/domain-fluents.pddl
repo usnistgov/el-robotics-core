@@ -140,17 +140,17 @@
 		?worktable - WorkTable)
 	:precondition(and 
 		(robot-empty ?robot) 
-		(kittray-location-lbwekt ?kittray ?largeboxwithemptykittrays) 
 		(lbwekt-not-empty ?largeboxwithemptykittrays)
 		(robot-with-endeffector ?robot ?endeffector) 
+		(kittray-location-lbwekt ?kittray ?largeboxwithemptykittrays) 
 		(endeffector-location-robot ?endeffector ?robot)
 		(worktable-empty ?worktable)
 		(endeffector-type-kittray ?endeffector ?kittray))
 	:effect(and 
+		(robot-holds-kittray ?robot ?kittray) 
+		(kittray-location-robot ?kittray ?robot) 
 		(not (robot-empty ?robot)) 
 		(not (kittray-location-lbwekt ?kittray ?largeboxwithemptykittrays)))
-		(kittray-location-robot ?kittray ?robot) 
-		(robot-holds-kittray ?robot ?kittray)
 )
 			
 ; Put a KitTray on a WorkTable

@@ -7,19 +7,19 @@
   maintenance, and subsequent redistribution.
 
   See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 #include "KittingPDDLProblem.h"
 
 
 /*!
 @brief Auto-generated constructor stub
-*/
+ */
 KittingPDDLProblem::KittingPDDLProblem() {
 }
 
 /*!
 @brief Auto-generated destructor stub
-*/
+ */
 KittingPDDLProblem::~KittingPDDLProblem() {
 }
 
@@ -46,7 +46,7 @@ The different steps are:
 </ul>
 </ul>
 </ul>
-*/
+ */
 void KittingPDDLProblem::findParamType(std::ifstream &inputfile,map<string,int> myMap, KittingPlan *kittingplan){
 	int lineNumber = 0;
 
@@ -56,23 +56,23 @@ void KittingPDDLProblem::findParamType(std::ifstream &inputfile,map<string,int> 
 		string line;
 		while(getline(inputfile, line)){
 			lineNumber++;
-				  for( map<string, int>::iterator ii=myMap.begin(); ii!=myMap.end(); ++ii){
-					  //cout << (*ii).first << ": " << (*ii).second << endl;
-					  if (lineNumber==(*ii).second)
-					  {
-						  line.erase(line.find_last_not_of(" \n\r\t")+1); //right-trim
-						  std::size_t pos = line.size();
-						  while (line[pos] == ' ' && pos > 0) --pos;
-						  if (pos == 0) { /* string consists entirely of spaces */ }
+			for( map<string, int>::iterator ii=myMap.begin(); ii!=myMap.end(); ++ii){
+				//cout << (*ii).first << ": " << (*ii).second << endl;
+				if (lineNumber==(*ii).second)
+				{
+					line.erase(line.find_last_not_of(" \n\r\t")+1); //right-trim
+					std::size_t pos = line.size();
+					while (line[pos] == ' ' && pos > 0) --pos;
+					if (pos == 0) { /* string consists entirely of spaces */ }
 
-						  std::string result = line.substr(line.find_last_of(' ', pos));
-						  kittingplan->m_ParamTypeList.insert(std::pair<string,string>((*ii).first,result));
+					std::string result = line.substr(line.find_last_of(' ', pos));
+					kittingplan->m_ParamTypeList.insert(std::pair<string,string>((*ii).first,result));
 
-						  //cout << (*ii).first << " " << result << endl;
-					  }
-				  }
-			  }
-		  }
+					//cout << (*ii).first << " " << result << endl;
+				}
+			}
+		}
+	}
 }
 
 /*!
@@ -89,7 +89,7 @@ The different steps are:
 <li>Return the @a line where @a s was found
 <li>Store @a s and the corresponding @a line in a map
 </ul>
-*/
+ */
 map<string,int> KittingPDDLProblem::findParam(string myString, vector<string> myVector){
 
 	map<string,int> paramLine;
@@ -133,7 +133,7 @@ The different steps are:
 </ul>
 </ul>
 </ul>
-*/
+ */
 void KittingPDDLProblem::parsePDDLProblem(const char* filename, KittingPlan *kittingplan){
   ifstream inputfile, f;
 	size_t pos;
@@ -155,6 +155,7 @@ void KittingPDDLProblem::parsePDDLProblem(const char* filename, KittingPlan *kit
 	f.open( filename );
 
 	// Read the entire file into memory
+<<<<<<< HEAD
 	  string s;
 	  string t;
 	  while (getline( f, t ))
@@ -167,3 +168,15 @@ void KittingPDDLProblem::parsePDDLProblem(const char* filename, KittingPlan *kit
 	  //fileop->readMap(m_ParamType);
 
 	  }
+=======
+	string s;
+	string t;
+	while (getline( f, t ))
+		s += t + '\n';
+	//f.close();
+
+	paramLine=findParam(s,vectTemp);
+	findParamType(inputfile, paramLine, kittingplan);
+	inputfile.close();
+}
+>>>>>>> 868bcdc523ef77a27b52a8cb1b3ee19fa63620e0

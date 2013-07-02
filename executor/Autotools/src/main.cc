@@ -7,7 +7,7 @@
   maintenance, and subsequent redistribution.
 
   See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 
 /*!
  \mainpage
@@ -37,33 +37,90 @@ The interpreter reads a plan file \ref PLAN_INSTANCE and generate a text file th
 
 
 int main(int argc, const char* argv[]) {
+	std::string problem;
+	std::string plan;
+	std::string crcl;
+
+	std::string sep = "\n------------------------------------------------------------------------------------------------------------------\n";
+	if (argc<7 || argc>7)
+	{
+		std::cout << sep;
+		std::cout << "                                           ERROR -- Wrong Usage !!"<<sep;
+		std::cout << "Right Usage: ./executor -problem <kit/problem.pddl> -plan <kit/plan.txt> -output <crcl.txt>\n\n";
+		std::cout << "Real example: ./executor -problem a2b3c5/problem-fluents-a2b3c5.pddl -plan a2b3c5/plan_a2b3c5.txt -output test.txt";
+		std::cout << sep;
+		std::cout << "<problem.pddl>: The name to the problem file for a specific kit.\n";
+		std::cout << "The program will automatically search for this file in ../../../PDDLplans/<kit/problem.pddl>";
+		std::cout <<sep;
+		std::cout << "<kit/plan.txt>: The \"name\" of the plan file.\n";
+		std::cout << "The program will automatically search for this file in ../../../PDDLplans/<kit/plan.txt>	";
+		std::cout <<sep;
+		std::cout << "<crcl.txt>: The \"name\" of the output crcl file.\n";
+		std::cout << "The program will automatically save the new file in ../etc/CanonicalRobotCommands/"<<sep;
+
+		std::cout << "                                              -- EXIT --"<<sep;
+		exit(0);
+
+	}
+	else
+	{
+		//-- Making sure we typed "-input"
+		if (argv[1] == std::string("-problem"))
+			problem = argv[2];
+		else
+		{
+			std::cout << sep;
+			std::cout << "ERROR -- make sure you use the key \"-problem\" for the problem file !!"<<sep;
+			exit(0);
+		}
+
+		//-- Making sure we typed "-output"
+		if (argv[3] == std::string("-plan"))
+			plan = argv[4];
+		else
+		{
+			std::cout << sep;
+			std::cout << "ERROR -- make sure you use the key \"-plan\" for the plan file !!"<<sep;
+			exit(0);
+		}
+
+
+		if (argv[5] == std::string("-output"))
+			crcl = argv[6];
+		else
+		{
+			std::cout << sep;
+			std::cout << "ERROR -- make sure you use the key \"-output\" for the output CRCL file !!"<<sep;
+			exit(0);
+		}
+
+	}
+
+	std::string problem_path = "../../../PDDLplans/";
+	std::string plan_path = "../../../PDDLplans/";
+	std::string crcl_path = "../etc/CanonicalRobotCommands/";
+
+	std::string problem_file = problem_path.append(problem);
+	std::string plan_file = plan_path.append(plan);
+	std::string crcl_file = crcl_path.append(crcl);
+
+
 	FileOperator *fileop = new FileOperator;
 	KittingPlan *kittingplan = new KittingPlan;
 	KittingPDDLProblem *kittingProb = new KittingPDDLProblem;
-	CanonicalRobotCommand *canonicalRobotCommand = new CanonicalRobotCommand;
+	CanonicalRobotCommand *canonicalRobotCommand = new CanonicalRobotCommand(fileop);
 
-	//-- Retrieve the PLAN File
-	string plan = "";
-	plan +=PLAN_FOLDER;
-	plan +=PLAN_FILE;
+	fileop->setCRCLFile(crcl_file);
 
-	//-- Retrieve the PDDL Problem File
-	string pddl = "";
-	pddl +=PDDL_FOLDER;
-	pddl +=PDDL_PROBLEM;
 
-	kittingplan->parsePlanInstance(plan.c_str());
+	kittingplan->parsePlanInstance(plan_file.c_str());
 	kittingplan->storeParam();
-	kittingProb->parsePDDLProblem(pddl.c_str(), kittingplan);
+	kittingProb->parsePDDLProblem(problem_file.c_str(), kittingplan);
 	canonicalRobotCommand->interpretPlan(kittingplan);
 
 	delete kittingplan;
 	delete fileop;
 	delete kittingProb;
 	delete canonicalRobotCommand;
-
-//	IniFile *inifile = new IniFile();
-	//inifile->findSection ("etc/plan_a2b2c1.txt", "PLAN");
-	//printf ("[seg1] tag1=%s\n", inifile->find ("tag1", "seg1"));
 }
 

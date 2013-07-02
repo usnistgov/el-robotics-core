@@ -233,7 +233,7 @@ Figure~\ref{fig:sf} depicts the goal state $S_G$ for the kitting workstation. Th
 
 \begin{itemize}
 \item line 78: \texttt{:goal} is a keyword used to signal a planner about the goal state to reach. All the predicates and functions in the goal state must be true.
-\item line 80--82: The quantity of parts of a specific type in \constsmall{kit\_a2b1c1} should match the capacity of parts of a specific type for \constsmall{kit\_a2b1c1}. The quantity of parts in \constsmall{kit\_a2b1c1} is increased in the operator \op{put-part}. The initial quantity of parts in \constsmall{kit\_a2b1c1} and its capacity are set in the initial state. Note that we are not specifying which instance of \class{Part} should go in \constsmall{kit\_a2b1c1} but rather the number of \class{Parts} of a specific type that \constsmall{kit\_a2b1c1} must have.
+\item line 80--82: The quantity of parts of a specific type in \constsmall{kit\_a2b1c1} should match the capacity of parts of a specific type for \constsmall{kit\_a2b1c1}. The quantity of parts in \constsmall{kit\_a2b1c1} is increased in the operator \op{put-part}. The initial quantity of parts in \constsmall{kit\_a2b1c1} (lines 62--64) and its capacity (lines 58--60) are set in the initial state. Note that we are not specifying which instance of \class{Part} should go in \constsmall{kit\_a2b1c1} but rather the number of \class{Parts} of a specific type that \constsmall{kit\_a2b1c1} must have.
 \item line 83: \constsmall{kit\_a2b1c1} should be placed in the large box with kits \constsmall{finished\_kit\_receiver}.
 \end{itemize}
 

@@ -287,7 +287,7 @@ read XML data files and automatically generate OWL data files.
 
 \begin{table}[H]
 \begin{tabular}{ll} % centered columns (4 columns)
-\raisebox{-16 pt}{\includegraphics[width=1.5cm]{Figure/gears2.png}} & \textbf{\textcolor{BrickRed}{HOW TO -- } Write an OWL File from an XML File}.  
+\raisebox{-16 pt}{\includegraphics[width=1.5cm]{Figure/gears2.png}} & \textbf{\textcolor{BrickRed}{HOW TO} -- Write an OWL File from an XML File -- \textcolor{BrickRed}{owlPrinter}}
 \end{tabular}
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
@@ -312,21 +312,29 @@ For example, the following command will print the file \file{junk}, which will b
 \end{itemize}
 
 
-
-
-\subsubsection{kittingParser}
+%%%%%%%%%%%%%%%%%%%%%%% HOW TO -- Write an OWL File from an XML File %%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[H]
+\begin{tabular}{ll} % centered columns (4 columns)
+\raisebox{-16 pt}{\includegraphics[width=1.5cm]{Figure/gears2.png}} & \textbf{\textcolor{BrickRed}{HOW TO} -- Check XML Data Files Against XML Schema -- \textcolor{BrickRed}{kittingParser}}
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
 The kittingParser may be used to check an XML data file against the
 kitting.xsd schema. The schema is hard-coded into the kittingParser.
 If there is any error in the XML data file, the kittingParser prints
 a message and quits. If there is no error, the input file is echoed by
 printing an output file whose name is the same as that of the input file
 with "echo" appended. To run the kittingParser, give a command of the
-form:\\
-\texttt{bin/kittingParser [XML kitting data file in]}\\
+form:
 
-For example, the command\\
+\begin{itemize}
+ \item[\textcolor{BrickRed}{$\blacksquare$}] \texttt{bin/kittingParser [XML kitting data file in]}
+\end{itemize}
 
-\texttt{bin/kittingParser data/kittingInstances.xml}
+For example, the command:
+\begin{itemize}
+ \item[\textcolor{BrickRed}{$\blacksquare$}] \texttt{bin/kittingParser data/kittingInstances.xml}
+\end{itemize}
 
 will read \file{kittingInstances.xml} and write \file{kittingInstances.xmlecho}. The
 two files will be identical except for comments. If the format of an
@@ -339,7 +347,13 @@ no need to use the kittingParser.
 All of the source code for the kittingParser was generated automatically
 by the GenXMiller generator.
 
-\subsubsection{compactOwl and compareOwl}
+%%%%%%%%%%%%%%%%%%%%%%% HOW TO -- Write an OWL File from an XML File %%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[H]
+\begin{tabular}{ll} % centered columns (4 columns)
+\raisebox{-16 pt}{\includegraphics[width=1.5cm]{Figure/gears2.png}} & \textbf{\textcolor{BrickRed}{HOW TO} -- Debug the owlprinter -- \textcolor{BrickRed}{compactOwl \& compareOwl}}
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
 There is no need to read this section unless you are interested in how the
 \app{owlPrinter} was debugged.
 
@@ -393,9 +407,10 @@ The \app{compactOwl} utility compacts an OWL instance file by:
 \item putting the \textbf{DifferentIndividuals} inside \textbf{DifferentIndividuals} statements
    into alphabetical order.
 \end{enumerate}
-To run \app{compactOwl} use a command of the form:\\
-
-\texttt{bin/compactOwl < [owl file in] > [owl file out]}\\
+To run \app{compactOwl} use a command of the form:
+\begin{itemize}
+ \item[\textcolor{BrickRed}{$\blacksquare$}] \texttt{bin/compactOwl < [owl file in] > [owl file out]}
+\end{itemize}
 
 where \texttt{[owl file in]} and \texttt{[owl file out]} are replaced by file names.
 
@@ -408,9 +423,10 @@ the two sets in order. If it finds two lines that do not match, it prints
 the line from the first file followed by the line from the second file.  If
 all lines match, that is reported.
 
-To run \app{compareOwl}, use a command of the form:\\
-
-\texttt{bin/compareOwl [first owl file in] [second owl file in]}
+To run \app{compareOwl}, use a command of the form:
+\begin{itemize}
+ \item[\textcolor{BrickRed}{$\blacksquare$}] \texttt{bin/compareOwl [first owl file in] [second owl file in]}
+\end{itemize}
 
 where \texttt{[first owl file in]} and \texttt{[second owl file in]} are replaced by the
 names of compacted OWL files.

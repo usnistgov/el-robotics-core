@@ -283,24 +283,35 @@ and the authors are not planning to attempt it. The approach would be to
 modify the GenXMiller so that the code it generates automatically would
 read XML data files and automatically generate OWL data files.
 
-\subsection{Tools}
-This section describes the tools that are used to generate OWL files from XML files.
-\subsubsection{owlPrinter}
+%%%%%%%%%%%%%%%%%%%%%%% HOW TO -- Write an OWL File from an XML File %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[H]
+\begin{tabular}{ll} % centered columns (4 columns)
+\raisebox{-16 pt}{\includegraphics[width=1.5cm]{Figure/gears2.png}} & \textbf{\textcolor{BrickRed}{HOW TO -- } Write an OWL File from an XML File}.  
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+
+%\subsection{Tools}
+%This section describes the tools that are used to generate OWL files from XML files.
+%\subsubsection{owlPrinter}
 owlPrinter reads an XML kitting data file corresponding to an XML schema for kitting (\file{kitting.xsd}) and writes an OWL instance file corresponding to the OWL class file \file{kittingClasses.owl}. The \file{kitting.xsd} file contains the same conceptual model as the \file{kittingClasses.owl} file, but in a different language.
 
 The owlPrinter is useful because there is no OWL tool that will help generate an OWL instance file and check the file adequately against an OWL class file. That is because OWL uses an open world model in which anything not explicitly or implicitly illegal is allowed. Hence many things that are errors to the writer of the instance file are not OWL errors. For example, if the name of an instance is misspelled, OWL will assume that there is a new instance that has not been explicitly declared as such, which is OK in OWL. If a reference to an instance name is misspelled in an XML data file corresponding to the \file{kitting.xsd} schema, that will be caught automatically by the owlPrinter (and other readily available XML tools).  Several other types of error will not be caught by OWL tools but will not be made or will be detected if the OWL printer is used.
 
 Another OWL problem that disappears in XML is that in OWL, there is no distinction between an instance file and a class file. An instance file can modify classes, intentionally, or accidentally. In XML there is no way a data file can modify a model.
 
-To use the owlPrinter, use a text editor such as emacs or an XML tool such as XMLSpy to write an XML data file corresponding to the \file{kitting.xsd} schema and then run it through the owlPrinter with a command of the form:\\
+To use the owlPrinter, use a text editor such as emacs or an XML tool such as XMLSpy to write an XML data file corresponding to the \file{kitting.xsd} schema and then run it through the owlPrinter with a command of the form:
+\begin{itemize}
+ \item[\textcolor{BrickRed}{$\blacksquare$}] \texttt{bin/owlPrinter [XML file in] [OWL file out]}
+\end{itemize}
 
-\texttt{bin/owlPrinter [XML file in] [OWL file out]}\\
+For example, the following command will print the file \file{junk}, which will be identical to the \file{kittingInstances.owl} file in the owl directory (except for a couple comments).
+\begin{itemize}
+ \item[\textcolor{BrickRed}{$\blacksquare$}] \texttt{bin/owlPrinter data/kittingInstances.xml junk}
+\end{itemize}
 
-For example, the command\\
 
-\texttt{bin/owlPrinter data/kittingInstances.xml junk}\\
-
-will print the file junk, which will be identical to the \file{kittingInstances.owl} file in the owl directory (except for a couple comments).
 
 
 \subsubsection{kittingParser}

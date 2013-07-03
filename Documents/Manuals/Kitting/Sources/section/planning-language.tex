@@ -6,7 +6,7 @@ By placing our knowledge in a PDDL representation, we enable the use of an entir
 Each PDDL file-set consists of two files that specify the domain and the problem.
 
 \subsection{The PDDL Domain File}\label{S:PDDL-domain}
-The PDDL domain file for kitting is composed of five sections that include requirements, types, predicates, functions, and actions. An excerpt of the PDDL domain file is depicted in Figure~\ref{fig:domain}.
+The PDDL domain file for kitting is consists of five sections that include \texttt{requirements}, \texttt{types}, \texttt{predicates}, \texttt{functions}, and \texttt{actions}. An excerpt of the PDDL domain file is depicted in Figure~\ref{fig:domain}.
 
 \begin{figure}[t!h!]
 \begin{minipage}{.5\paperwidth}
@@ -14,30 +14,17 @@ The PDDL domain file for kitting is composed of five sections that include requi
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
 (define (domain kitting-domain)
     (:requirements :strips :typing :fluents)
-    (:types
-        EndEffector
-        EndEffectorHolder
-        Kit
-        KitTray
-        LargeBoxWithEmptyKitTrays
-        LargeBoxWithKits
-        Part
-        PartsTray
-        EndEffectorChangingStation
-        Robot
-        WorkTable
-    )
+    (:types EndEffector EndEffectorHolder Kit KitTray LargeBoxWithEmptyKitTrays 
+        PartsTray EndEffectorChangingStation Robot WorkTable LargeBoxWithKits Part)
 
     (:predicates
 	   (endeffector-location-robot ?endeffector - EndEffector ?robot - Robot)	
-	   (on-worktable-kit ?worktable - WorkTable ?kit - Kit)
-    )
+	   (on-worktable-kit ?worktable - WorkTable ?kit - Kit))
 
     (:functions
 	   (quantity-partstray ?partstray - PartsTray)
 	   (quantity-kit ?kit - Kit ?partstray - PartsTray)
-	   (capacity-kit ?kit - Kit ?partstray - PartsTray)
-    )
+	   (capacity-kit ?kit - Kit ?partstray - PartsTray))
 
     (:action take-kittray
         :parameters(
@@ -58,8 +45,7 @@ The PDDL domain file for kitting is composed of five sections that include requi
             (robot-holds-kittray ?robot ?kittray)
             (kittray-location-robot ?kittray ?robot)
             (not (robot-empty ?robot))
-            (not (kittray-location-lbwekt ?kittray ?largeboxwithemptykittrays)))
-    )
+            (not (kittray-location-lbwekt ?kittray ?largeboxwithemptykittrays))))
 )
 
 \end{Verbatim}
@@ -78,58 +64,24 @@ The PDDL domain file for kitting is composed of five sections that include requi
 \item \texttt{:fluents}: A domain's set of requirements allow a planner to quickly tell if it is likely to be able
 to handle the domain. For example, this version of the kitting world requires fluents numeric, so a straight STRIPS-representation planner would not be able to handle it. A fluent is a term (\texttt{:functions}) with time-varying value (i.e., a value that can change as a result of performing an action).
 \end{itemize}
-\item lines 3--15:  Type names have to be declared before they are used (before \texttt{:predicates} and \texttt{:functions}). This is done with the declaration \texttt{(:types $name_1$ ... $name_n$)}.
-\item lines 17--20: The \texttt{:predicates} part of a domain definition specify only what are the predicate names used in the domain, and their number of arguments (and argument types, if the domain uses \texttt{:typing}). The ``meaning'' of a predicate, in the sense of for what combinations of arguments it can be true and its relationship to other predicates, is determined by the effects that actions in the domain can have on the predicate, and by what instances of the predicate are listed as true in the initial state of the problem definition.\\
+\item lines 3--4:  Type names have to be declared before they are used (before \texttt{:predicates} and \texttt{:functions}). This is done with the declaration \texttt{(:types $name_1$ ... $name_n$)}.
+\item lines 6--8: The \texttt{:predicates} part of a domain definition specify only what are the predicate names used in the domain, and their number of arguments (and argument types, if the domain uses \texttt{:typing}). The ``meaning'' of a predicate, in the sense of for what combinations of arguments it can be true and its relationship to other predicates, is determined by the effects that actions in the domain can have on the predicate, and by what instances of the predicate are listed as true in the initial state of the problem definition.\\
     It is common to make a distinction between static and dynamic predicates. A \textit{static} predicate is not changed by any action. Thus in a problem, the true and false instances of a \textit{static} predicate will always be precisely those listed in the initial state specification of the problem definition. Note that there is no syntactic difference between \textit{static} and \textit{dynamic} predicates in PDDL, they look exactly the same in the \texttt{:predicates} declaration part of the domain.\\
     A predicate is build using the structure \texttt{(predicate\_name ?X - type\_of\_X)}. A list of parameters of the same type in a predicate can be abbreviated to \texttt{(predicate\_name ?X ?Y ?Z - type\_of\_XYZ)}. Note that the hyphen between parameter and type name is surrounded by whitespace.
-\item lines 22--26: A fluent is similar to a state variable/predicate except that its value is a number instead of true or false. The initial value of a function is set in the initial state of the problem file and changes when an action is executed. The declaration of functions is similar to predicates.
-\item lines 28--48: The domain definition contains operators (called \textit{actions} in PDDL). An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. All parts of an action definition except the name are, according to the PDDL specification, optional (although, of course, an action without effects is pretty useless). However, for an action that has no preconditions some planners may require an ``empty'' precondition, on the form :precondition () or :precondition (and), and some planners may also require an empty :parameter list for actions without parameters).
+\item lines 10--13: A fluent is similar to a state variable/predicate except that its value is a number instead of true or false. The initial value of a function is set in the initial state of the problem file and changes when an action is executed. The declaration of functions is similar to predicates.
+\item lines 15--34: The domain definition contains operators (called \textit{actions} in PDDL). An action statement specifies a way that a planner affects the state of the world. The statement includes parameters, preconditions, and effects. All parts of an action definition except the name are, according to the PDDL specification, optional (although, of course, an action without effects is pretty useless). However, for an action that has no preconditions some planners may require an ``empty'' precondition, on the form :precondition () or :precondition (and), and some planners may also require an empty :parameter list for actions without parameters).
 \begin{itemize}
-\item lines 29--34: The \texttt{:parameters} section declare all the parameters used by predicates and functions in \texttt{preconditions} and \texttt{effects}.
-\item lines 35--42:  The \texttt{:preconditions} section is a conjunction of predicates and functions that need to be true in the world in order for the action to be invoked.
-\item lines 43--47: The \texttt{:effects} equation dictates the changes in the world that will occur due to the execution of the action.
+\item lines 16--21: The \texttt{:parameters} section declare all the parameters used by predicates and functions in \texttt{preconditions} and \texttt{effects}.
+\item lines 22--29: The \texttt{:preconditions} section is a conjunction of predicates and functions that need to be true in the world in order for the action to be invoked.
+\item lines 30--34: The \texttt{:effects} equation dictates the changes in the world that will occur due to the execution of the action.
 \end{itemize}
 \end{itemize}
 
 
 \subsection{PDDL Problem File}\label{S:PDDL-problem}
 The second file of the PDDL file-set is a  problem file. The problem file specifies information about the specific instance of the given problem. This file contains the initial conditions and definition of the world (in the \texttt{init} section) and the final state that the world must be brought to (in the \texttt{goal} section). Using an example of kit to build, this section only describes the initial and goal states explicitly. The operators detailed in Section~\ref{subsect:Planning_Operators} are used by a planner to generate the other states as needed.\\
-In this example, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, two \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the \class{Kit} is placed in the \class{LargeBoxWithKits}. The PDDL problem file for the kitting domain is presented below.
+In the PDDL problem file depicted below, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the \class{Kit} is placed in the \class{LargeBoxWithKits}.
 
-%\begin{figure}[t!h!]
-%\centering
-%\begin{minipage}{.5\paperwidth}
-%\begin{mylisting}
-%\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize, numbers=left, numbersep=2pt]
-%(define (problem kitting-problem)
-%    (:domain kitting-domain)
-%    (:objects
-%        robot_1 - Robot
-%        changing_station_1 - EndEffectorChangingStation
-%        kit_tray_1 - KitTray
-%        kit_a2b2c1 - Kit
-%        empty_kit_tray_supply - LargeBoxWithEmptyKitTrays
-%        finished_kit_receiver - LargeBoxWithKits
-%        work_table_1 - WorkTable
-%        part_a_tray part_b_tray part_c_tray - PartsTray
-%        part_a_1 part_a_2 part_a_3 part_a_4 - Part
-%        part_b_1 part_b_2 part_b_3 part_b_4 - Part
-%        part_c_1 part_c_2 part_c_3 part_c_4 - Part
-%        part_gripper tray_gripper - EndEffector
-%        part_gripper_holder tray_gripper_holder - EndEffectorHolder
-%    )
-%)
-%\end{Verbatim}
-%\end{mylisting}
-%\end{minipage}
-%\caption{Representation of constant variable symbols in PDDL.}
-%\label{fig:objects}
-%\end{figure}
-
-
-
-
-%\begin{figure}[t!h!]
 \begin{center}
 \begin{minipage}{.9\paperwidth}
 \begin{mylisting}
@@ -140,14 +92,14 @@ In this example, the \class{Robot} has to build a kit that contains two \class{P
         robot_1 - Robot
         changing_station_1 - EndEffectorChangingStation
         kit_tray_1 - KitTray
-        kit_a2b2c1 - Kit
+        kit_a2b1c1 - Kit
         empty_kit_tray_supply - LargeBoxWithEmptyKitTrays
         finished_kit_receiver - LargeBoxWithKits
         work_table_1 - WorkTable
         part_a_tray part_b_tray part_c_tray - PartsTray
-        part_a_1 part_a_2 part_a_3 part_a_4 - Part
-        part_b_1 part_b_2 part_b_3 part_b_4 - Part
-        part_c_1 part_c_2 part_c_3 part_c_4 - Part
+        part_a_1 part_a_2  - Part
+        part_b_1 part_b_2 part_b_3 - Part
+        part_c_1 part_c_2 - Part
         part_gripper tray_gripper - EndEffector
         part_gripper_holder tray_gripper_holder - EndEffectorHolder
     )
@@ -171,23 +123,6 @@ In this example, the \class{Robot} has to build a kit that contains two \class{P
     (worktable-empty work_table_1)
     (kittray-location-lbwekt kit_tray_1 empty_kit_tray_supply)
 
-    (part-location-partstray part_a_1 part_a_tray)
-    (part-location-partstray part_a_2 part_a_tray)
-    (part-location-partstray part_a_3 part_a_tray)
-    (part-location-partstray part_a_4 part_a_tray)
-    (part-location-partstray part_b_1 part_b_tray)
-    (part-location-partstray part_b_2 part_b_tray)
-    (part-location-partstray part_b_3 part_b_tray)
-    (part-location-partstray part_b_4 part_b_tray)
-    (part-location-partstray part_c_1 part_c_tray)
-    (part-location-partstray part_c_2 part_c_tray)
-    (part-location-partstray part_c_3 part_c_tray)
-    (part-location-partstray part_c_4 part_c_tray)
-	
-    (endeffector-type-part part_gripper part_a_1)
-    (endeffector-type-part part_gripper part_a_2)
-    (endeffector-type-part part_gripper part_a_3)
-    (endeffector-type-part part_gripper part_a_4)
 \end{Verbatim}
 \end{mylisting}
 \end{minipage}
@@ -195,49 +130,58 @@ In this example, the \class{Robot} has to build a kit that contains two \class{P
 \begin{minipage}{.5\paperwidth}
 \begin{mylisting}
 \begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize,  firstnumber=continue, numbers=left, numbersep=2pt]	
+
+    (part-location-partstray part_a_1 part_a_tray)
+    (part-location-partstray part_a_2 part_a_tray)
+    (part-location-partstray part_b_1 part_b_tray)
+    (part-location-partstray part_b_2 part_b_tray)
+    (part-location-partstray part_b_3 part_b_tray)
+    (part-location-partstray part_c_1 part_c_tray)
+    (part-location-partstray part_c_2 part_c_tray)
+	
+    (endeffector-type-part part_gripper part_a_1)
+    (endeffector-type-part part_gripper part_a_2)
     (endeffector-type-part part_gripper part_b_1)
     (endeffector-type-part part_gripper part_b_2)
     (endeffector-type-part part_gripper part_b_3)
-    (endeffector-type-part part_gripper part_b_4)
     (endeffector-type-part part_gripper part_c_1)
     (endeffector-type-part part_gripper part_c_2)
-    (endeffector-type-part part_gripper part_c_3)
-    (endeffector-type-part part_gripper part_c_4)
-    (endeffector-type-kittray tray_gripper kit_tray_1)
-    (endeffector-type-kit tray_gripper kit_a2b2c1)
 
-    (= (capacity-kit kit_a2b2c1 part_a_tray) 2)
-    (= (capacity-kit kit_a2b2c1 part_b_tray) 2)
-    (= (capacity-kit kit_a2b2c1 part_c_tray) 1)
-    (= (quantity-kit kit_a2b2c1 part_a_tray) 0)
-    (= (quantity-kit kit_a2b2c1 part_b_tray) 0)
-    (= (quantity-kit kit_a2b2c1 part_c_tray) 0)
-    (= (quantity-partstray part_a_tray) 4)
-    (= (quantity-partstray part_b_tray) 4)
-    (= (quantity-partstray part_c_tray) 4)
+    (endeffector-type-kittray tray_gripper kit_tray_1)
+    (endeffector-type-kit tray_gripper kit_a2b1c1)
+
+    (= (capacity-kit kit_a2b1c1 part_a_tray) 2)
+    (= (capacity-kit kit_a2b1c1 part_b_tray) 1)
+    (= (capacity-kit kit_a2b1c1 part_c_tray) 1)
+
+    (= (quantity-kit kit_a2b1c1 part_a_tray) 0)
+    (= (quantity-kit kit_a2b1c1 part_b_tray) 0)
+    (= (quantity-kit kit_a2b1c1 part_c_tray) 0)
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\scriptsize,  firstnumber=continue, numbers=left, numbersep=2pt]	
+    (= (quantity-partstray part_a_tray) 2)
+    (= (quantity-partstray part_b_tray) 3)
+    (= (quantity-partstray part_c_tray) 2)
 
     (origin-part part_a_1 part_a_tray)
     (origin-part part_a_2 part_a_tray)
-    (origin-part part_a_3 part_a_tray)
-    (origin-part part_a_4 part_a_tray)
     (origin-part part_b_1 part_b_tray)
     (origin-part part_b_2 part_b_tray)
     (origin-part part_b_3 part_b_tray)
-    (origin-part part_b_4 part_b_tray)
     (origin-part part_c_1 part_c_tray)
     (origin-part part_c_2 part_c_tray)
-    (origin-part part_c_3 part_c_tray)
-    (origin-part part_c_4 part_c_tray)
 )
 
 (:goal
     (and
-        (= (quantity-kit kit_a2b2c1 part_a_tray)
-	(capacity-kit kit_a2b2c1 part_a_tray))
-        (= (quantity-kit kit_a2b2c1 part_b_tray)
-	(capacity-kit kit_a2b2c1 part_b_tray))
-        (= (quantity-kit kit_a2b2c1 part_c_tray)
-	(capacity-kit kit_a2b2c1 part_c_tray))
+        (= (quantity-kit kit_a2b1c1 part_a_tray)(capacity-kit kit_a2b1c1 part_a_tray))
+        (= (quantity-kit kit_a2b1c1 part_b_tray)(capacity-kit kit_a2b1c1 part_b_tray))
+        (= (quantity-kit kit_a2b1c1 part_c_tray)(capacity-kit kit_a2b1c1 part_c_tray))
         (kit-location-lbwk kit_a2b2c1 finished_kit_receiver)
     )
 )
@@ -267,13 +211,13 @@ The initial state $S_0$ (Figure~\ref{fig:s0}) defines the environment in its ini
 
 \begin{itemize}
 \item line 19: \texttt{:init} signals a planner that the predicates and functions in this section are true in the initial state.
-\item line 20--87: Predicates true in the initial state of the environment. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
+\item line 20--76: Predicates true in the initial state of the environment. Since PDDL uses a close world assumption, predicates that are not present in the initial state are automatically set to false. This section also set the initial values for functions. Some relevant sections are presented:
 \begin{itemize}
 \item line 21: The predicate \stvarsmall{part-not-searched} is set to true so that the operator \op{look-for-part} can be activated during a plan search.
-\item line 65--67: Functions describing the quantity of parts of a type that \constsmall{kit\_a2b2c1} can contain. In this example, \constsmall{kit\_a2b2c1} can have 2 parts of type A (\constsmall{part\_a\_tray}), 2 parts of type B (\constsmall{part\_b\_tray}), and 1 part of type C (\constsmall{part\_c\_tray}).
-\item line 68--70: Functions that represent the quantity of parts of a specific type that are already in \constsmall{kit\_a2b2c1}. \constsmall{kit\_a2b2c1} has no parts of type A, B, and C.
-\item line 71--73: Functions that describe the quantity of parts available in their respective parts tray. This also can be read as: \emph{In the workstation, there are 4 parts of type A available, 4 parts of type B available, and 4 parts of type C available}.
-\item line 75--86: Predicates that describe the type of each specific part in the workstation.
+\item line 58--60: Functions describing how many parts of a specific type that \constsmall{kit\_a2b1c1} can contain. In this example, \constsmall{kit\_a2b1c1} can have two \class{Parts} of type A (\constsmall{part\_a\_tray}), one \class{Part} of type B (\constsmall{part\_b\_tray}), and one \class{Part} of type C (\constsmall{part\_c\_tray}).
+\item line 62--64: Functions that represent the number of parts of a specific type that are already in \constsmall{kit\_a2b1c1}. In the initial state, \constsmall{kit\_a2b1c1} is empty (no \class{Parts} of type A, B, or C).
+\item line 65--67: Functions that describe the number of parts available in their respective parts tray. This also can be read as: \emph{In the workstation, there are two \class{Parts} of type A available, three \class{Parts} of type B available, and three \class{Parts} of type C available}.
+\item line 69--75: Predicates that describe the type of each specific part in the workstation. Defining that \texttt{part\_a\_1} is from \texttt{part\_a\_tray} is similar to \texttt{part\_a\_tray} is of type A since a \class{PartsTray} consists of parts of the same type.
 \end{itemize}
 \end{itemize}
 
@@ -288,15 +232,15 @@ Figure~\ref{fig:sf} depicts the goal state $S_G$ for the kitting workstation. Th
 
 
 \begin{itemize}
-\item line 89: \texttt{:goal} is a keyword used to signal a planner about the goal state to reach. All the predicates and functions in the goal state must be true.
-\item line 91--93: The quantity of parts of a specific type in \constsmall{kit\_a2b2c1} should match the capacity of parts of a specific type for \constsmall{kit\_a2b2c1}. The quantity of parts in \constsmall{kit\_a2b2c1} is increased in the operator \op{put-part}. The initial quantity of parts in \constsmall{kit\_a2b2c1} and its capacity are set in the initial state. Note that we are not specifying which instance of \class{Part} should go in \constsmall{kit\_a2b2c1} but rather the number of \class{Parts} of a specific type that \constsmall{kit\_a2b2c1} must have.
-\item line 94: \constsmall{kit\_a2b2c1} should be placed in the large box with kits \constsmall{finished\_kit\_receiver}.
+\item line 78: \texttt{:goal} is a keyword used to signal a planner about the goal state to reach. All the predicates and functions in the goal state must be true.
+\item line 80--82: The quantity of parts of a specific type in \constsmall{kit\_a2b1c1} should match the capacity of parts of a specific type for \constsmall{kit\_a2b1c1}. The quantity of parts in \constsmall{kit\_a2b1c1} is increased in the operator \op{put-part}. The initial quantity of parts in \constsmall{kit\_a2b1c1} (lines 62--64) and its capacity (lines 58--60) are set in the initial state. Note that we are not specifying which instance of \class{Part} should go in \constsmall{kit\_a2b1c1} but rather the number of \class{Parts} of a specific type that \constsmall{kit\_a2b1c1} must have.
+\item line 83: \constsmall{kit\_a2b1c1} should be placed in the large box with kits \constsmall{finished\_kit\_receiver}.
 \end{itemize}
 
 \subsection{Plan}
-This section shows an example of a plan generated by a planner (see section~\ref{section:planner}) for the PDDL domain and problem files discussed previously in this document.
+This section shows an example of a plan generated by a planner for the PDDL domain and problem files discussed previously in this document.
 
- Figure~\ref{fig:plan} displays the different states and actions used by the planner to generate a plan starting from the initial state $S_0$ to the goal state $S_G$. The actions $A_1$ \ldots $A_{17}$ are described below.
+Figure~\ref{fig:plan} displays the different states and actions used by the planner to generate a plan starting from the initial state $S_0$ to the goal state $S_G$. The actions $A_1$ \ldots $A_{17}$ are described below.
 \begin{itemize}
 \item $A1$:(\opsmall{attach-endeffector} \constsmall{robot\_1} \constsmall{tray\_gripper} \constsmall{tray\_gripper\_holder} \constsmall{changing\_station\_1})
 \item $A2$:(\opsmall{take-kittray} \constsmall{robot\_1} \constsmall{kit\_tray\_1} \constsmall{empty\_kit\_tray\_supply} \constsmall{tray\_gripper} \constsmall{work\_table\_1})
@@ -325,10 +269,14 @@ This section shows an example of a plan generated by a planner (see section~\ref
 \item $A25$:(\opsmall{put-kit} \constsmall{robot\_1} \constsmall{kit\_a2b2c1} \constsmall{finished\_kit\_receiver})
 \end{itemize}
 
+% \begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=8cm]{Figure/plan.jpg}
+% \end{figure}
+
 \begin{figure}[h!]
-\centering
-%\includegraphics[width=12cm]{Figure/generated-plan.jpg}
-\scalebox{.7}{
+ \centering
+\scalebox{.5}{
 \begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

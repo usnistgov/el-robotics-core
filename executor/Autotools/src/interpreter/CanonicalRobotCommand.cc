@@ -7,7 +7,8 @@
   maintenance, and subsequent redistribution.
 
   See NIST Administration Manual 4.09.07 b and Appendix I.
- *****************************************************************************/
+ *********************************************
+********************************/
 #include "CanonicalRobotCommand.h"
 #include "Tools.h"
 #include "recurseLocation.h"
@@ -204,7 +205,6 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   RecLoc recLoc;
   KitTrayLocStruct kit_tray_loc_struct;
   string locationPrefix = "part_ref_and_pose_";
-  string goalRefObject = "kit_tray_1";
   string partName;
   string type;
   Part* part = NULL;

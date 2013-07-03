@@ -8,7 +8,7 @@
 #AM_CXXFLAGS = -I$(top_srcdir)/src/database -Wall @AM_CXXFLAGS@
 #AM_CPPFLAGS = -I$(top_srcdir)/include/database -Wall @AM_CXXFLAGS@
 
-SUBDIRS = database \
+SUBDIRS = \
 interpreter
 
 #executor_LDADD = $(top_builddir)/lib/libinterpreter.a  $(top_builddir)/lib/libdatabase.a $(AM_LDFLAGS) 
@@ -27,8 +27,8 @@ interpreter
 #	[try this for a non-standard install prefix of the mysqlcppconn library])],
 #	[mysqlcppconnPATHSET=1],
 #	[mysqlcppconnPATHSET=0])
-	
-## if optional parameter used, extend path flags for compliler and linker
+#
+# if optional parameter used, extend path flags for compliler and linker
 #if test $mysqlcppconnPATHSET = 1 ; then
 #    # extend the compiler and linker flags according to the path set
 #    AM_CXXFLAGS="$AM_CXXFLAGS -I$with_mysqlcppconn/include"

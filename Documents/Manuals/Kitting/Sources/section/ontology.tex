@@ -40,7 +40,7 @@ write the OWL version of the kitting workstation model.
 
 In addition to having the model defined in OWL, OWL data files describing
 specific initial states and goal states were defined in OWL, also using the
-functional-style syntax.  Software tools were built in C++ and Java to work with the
+functional-style syntax.  Software tools were built in {\cpp} and Java to work with the
 OWL model and data files conforming to the model.
 
 The initial intent has been to use OWL files for presenting the initial and
@@ -55,7 +55,7 @@ whenever they are changed.
 
 Defining a model in OWL is quite different from defining the same model in
 other information modeling languages with which the authors are intimately
-familiar: C++, EXPRESS \cite{EXPRESSmanual}, and XML schema. Three of the
+familiar: {\cpp}, EXPRESS \cite{EXPRESSmanual}, and XML schema. Three of the
 major differences involve (1) the assignment of attributes in classes, (2)
 OWL's ``open world'' assumption, and (3) the distinction between model
 files and data files.\\
@@ -65,7 +65,7 @@ In other languages, assigning a typed attribute to a class requires a
 single line of code. For example, the X attribute may be put into a
 cartesian point class in XML schema language with
 \newline \sf $<$xs:element name=``X'' type=``xs:decimal''/$>$\rm
-\newline or in C++ with
+\newline or in {\cpp} with
 \newline \sf double X; \rm
 \newline or in EXPRESS with
 \newline \sf X : REAL; \rm \newline
@@ -163,15 +163,15 @@ Two automated tools developed by the authors are being used: an xml schema
 parser (xmlSchemaParser) and a code generator (GenXMiller).
 
 The xmlSchemaParser reads an XML schema file, stores it in terms of
-instances of C++ classes, and reprints the schema. When the xmlSchemaParser
+instances of {\cpp} classes, and reprints the schema. When the xmlSchemaParser
 runs, it performs many checks on the validity of the schema that is input
 to it. The xmlSchemaParser handles almost all portions of the XML schema
 syntax. A few of the rarely-used elements of syntax are not implemented.
 
 The GenXMiller reads an XML schema and writes code for reading and writing
 XML data files corresponding to that schema. The code that is generated
-includes C++ classes (.hh and .cc files), a parser (YACC and Lex files), and
-a stand-alone parser file in C++ that uses the other files.  The executable
+includes {\cpp} classes (.hh and .cc files), a parser (YACC and Lex files), and
+a stand-alone parser file in {\cpp} that uses the other files.  The executable
 utility produced by compiling a stand-alone parser reads and echoes any XML
 data file corresponding to the schema. The GenXMiller is still under
 development and currently handles only a subset of the XML schema language.
@@ -200,8 +200,8 @@ data files was tackled first.
 
 An XML schema, kitting.xsd, was written by hand modeling the same
 information as the OWL kitting workstation model, kittingClasses.owl. The
-GenXMiller was then used to generate C++ classes and a parser for XML
-kitting data files corresponding to kitting.xsd. The C++ classes that were
+GenXMiller was then used to generate {\cpp} classes and a parser for XML
+kitting data files corresponding to kitting.xsd. The {\cpp} classes that were
 generated included code for printing XML kitting data
 files. That code was rewritten by hand so that it prints OWL data files
 rather than XML data files. The utility produced by compiling the code is

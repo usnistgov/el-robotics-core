@@ -58,6 +58,16 @@ main (int argc, char* argv[])
   EndCanonMsg endCanon;
   ulapi_integer result;
 
+  //ROS configuration
+  std::string globalFrame;
+  ros::NodeHandle nh;
+  if(!nh.getParam("usarsim/globalFrame", globalFrame))
+  {
+    ROS_INFO("No global frame parameter specified, using default /odom");
+    globalFrame = "/odom";
+  }
+  rosControl->setGlobalFrame(globalFrame);
+
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures
   if (ULAPI_OK != ulapi_init (UL_USE_DEFAULT))

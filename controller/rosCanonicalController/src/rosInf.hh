@@ -67,7 +67,10 @@ public:
   template<class M>
   void effectorCallback(const M & msg, const std::string topicName);
   
+  void setGlobalFrame(const std::string &globalFrame);
+  
 private:
+    std::string globalFrameName;
     std::string actuatorName;
     std::string lengthUnits;
 

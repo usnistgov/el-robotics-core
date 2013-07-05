@@ -1,7 +1,9 @@
 #include "rosInf.hh"
 #include <stdio.h>
 #define INCH_TO_METER 0.0254
-#define MAX_NAVIGATION_FAILURES 15
+#define MAX_NAVIGATION_FAILURES 30
+
+#define LOG_FAILURES 0
 
 RosInf::RosInf ()
 {
@@ -12,6 +14,7 @@ RosInf::RosInf ()
   moveArmClient = NULL;
   lengthUnits = "mm";
   positionTolerance = 0.015;	//(meters)
+  globalFrameName = "/odom";
 }
 
 RosInf::~RosInf ()
@@ -365,7 +368,7 @@ RosInf::navigationDoneCallback (const actionlib::
 				const arm_navigation_msgs::
 				MoveArmResultConstPtr & result)
 {
-  //FILE *fp = NULL;
+  FILE *fp = NULL;
   ROS_DEBUG ("Arm navigation goal complete: %s\n", state.toString ().c_str ());
   tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
   tf::Quaternion goalOrientation = armGoals.front ().getGoalOrientation();
@@ -388,12 +391,14 @@ RosInf::navigationDoneCallback (const actionlib::
       this, _1, _2));
     } else {
       
-      //uncomment to write arm successes/failures to a file
-      /*fp = fopen("datfile","a");
-      if(fp != NULL) {
-        fprintf(fp, "%d\n", navigationFailureCount);
-        fclose(fp);
+      if(LOG_FAILURES) {
+        fp = fopen("datfile","a");
+        if(fp != NULL) {
+          fprintf(fp, "%d\n", navigationFailureCount);
+          fclose(fp);
+        }
       }
+      
       ROS_ERROR("RosInf: Arm navigation failed to complete properly. Normally this results in an exit, but for now we just record and move on.");
       armGoals.pop_front ();
       if (!armGoals.empty ())
@@ -402,10 +407,10 @@ RosInf::navigationDoneCallback (const actionlib::
       moveArmClient->sendGoal (armGoals.front ().getGoal (),
         boost::bind (&RosInf::navigationDoneCallback,
         this, _1, _2));
-      }*/
+      }
       
-      ROS_ERROR("RosInf: Arm navigation failed to complete properly.");
-      exit(1);
+      //ROS_ERROR("RosInf: Arm navigation failed to complete properly.");
+      //exit(1);
     }
   }
   else
@@ -413,12 +418,13 @@ RosInf::navigationDoneCallback (const actionlib::
     tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
     ROS_INFO ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
     goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
-    //uncomment to write arm success/failures to a file
-    /*fp = fopen("datfile","a");
-      if(fp != NULL) {
-        fprintf(fp, "%d\n",navigationFailureCount);
-        fclose(fp);
-      }*/
+    if(LOG_FAILURES) {
+      fp = fopen("datfile","a");
+        if(fp != NULL) {
+          fprintf(fp, "%d\n",navigationFailureCount);
+          fclose(fp);
+        }
+    }
     armGoals.pop_front ();
     if (!armGoals.empty ())
     {
@@ -455,9 +461,9 @@ RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
 
       nextGoal.setPositionFrameType ("global");
       nextGoal.setOrientationFrameType (COORDORIENT);
-      nextGoal.setGlobalFrame("/odom"); //set this to "/base_link" to test random positions
+      nextGoal.setGlobalFrame(globalFrameName);
       nextGoal.setPositionTolerance (positionTolerance);
-      nextGoal.setOrientationTolerance (0.04);
+      nextGoal.setOrientationTolerance (0.0001);
 
       if (effectorAttached)
       {
@@ -548,6 +554,12 @@ RosInf::setLengthUnits (std::string units)
     ROS_WARN
       ("Warning: unrecognized length unit \"%s,\" using \"%s\" instead\n",
        units.c_str (), lengthUnits.c_str ());
+}
+
+void 
+RosInf::setGlobalFrame(const std::string &globalFrame)
+{
+  globalFrameName = globalFrame;
 }
 
 template<class M>

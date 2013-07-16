@@ -16,33 +16,43 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-#uncomment if you have defined messages
-#rosbuild_genmsg()
-#uncomment if you have defined services
-#rosbuild_gensrv()
+SET(controlGUI_SOURCES src/main.cpp src/mainwindow.cpp)
+SET(controlGUI_HEADERS src/mainwindow.h)
+SET(controlGUI_FORMS src/mainwindow.ui)
 
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
+SET(rosControl_SOURCES src/rosInf.cpp src/navigationGoal.cpp src/rosController.cpp)
+SET(rosControl_HEADERS src/rosInf.hh src/navigationGoal.hh)
 
-link_directories(~/projects/ipmas/controller) #change this line to point to the ipmas directory
-rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp
-											src/rosInf.cpp
-											src/rosController.cpp
-											src/navigationGoal.cpp
-											src/navigationGoal.hh
-											src/scanPattern.cpp)	
-rosbuild_add_executable(binPickup src/scanPickup.cpp
-											src/rosInf.cpp
-											src/rosController.cpp
-											src/navigationGoal.cpp
-											src/scanPattern.cpp)									
-target_link_libraries(rosCanonicalController Controller)
-target_link_libraries(rosCanonicalController pthread)
-target_link_libraries(rosCanonicalController mysqlcppconn)
-target_link_libraries(binPickup Controller)
-target_link_libraries(binPickup pthread)
-target_link_libraries(binPickup mysqlcppconn)
-include_directories(../ ../../AutoGen/)
+SET(roscontroller_LIBS Controller rosControl)
+
+#set up QT build
+FIND_PACKAGE(Qt4 REQUIRED)
+QT4_WRAP_CPP(controlGUI_HEADERS_MOC ${controlGUI_HEADERS})
+QT4_WRAP_UI(controlGUI_FORMS_HEADERS ${controlGUI_FORMS})
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+ADD_DEFINITIONS(-DQT_NO_KEYWORDS) #need this fix for boost
+
+link_directories(~/IPMAS/controller) #change this line to point to the ipmas directory
+link_directories(~/IPMAS/AutoGen) #change this line to point to the ipmas directory
+
+rosbuild_add_library(rosControl ${rosControl_SOURCES})
+
+rosbuild_add_executable(rosCanonicalController 
+                      src/canonicalController.cpp)
+
+rosbuild_add_executable(binPickup
+                      src/scanPickup.cpp
+											src/scanPattern.cpp)
+
+ADD_EXECUTABLE(controlGUI
+  ${controlGUI_SOURCES}
+  ${controlGUI_HEADERS_MOC}
+  ${controlGUI_FORMS_HEADERS})							
+
+target_link_libraries(rosControl pthread sqlKit)
+target_link_libraries(rosCanonicalController ${roscontroller_LIBS})
+target_link_libraries(binPickup ${roscontroller_LIBS})
+target_link_libraries(controlGUI ${roscontroller_LIBS} ${QT_LIBRARIES})
+
+include_directories(../ ../../AutoGen/ ${CMAKE_BINARY_DIR})

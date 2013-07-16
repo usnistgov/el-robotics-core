@@ -1,15 +1,21 @@
 #ifndef __rosInf
 #define __rosInf
 
-#include <ros/ros.h>
+#define INCH_TO_METER 0.0254
+#define MAX_NAVIGATION_FAILURES 30
+
+#define LOG_FAILURES 0
+#define EFFECTOR_TIMEOUT 2.0
+
+#include "ros/ros.h"
 #include "navigationGoal.hh"
-#include <usarsim_inf/EffectorStatus.h>
-#include <usarsim_inf/ToolchangerStatus.h>
-#include <usarsim_inf/EffectorCommand.h>
-#include <usarsim_inf/SenseObject.h>
-#include <actionlib/client/simple_action_client.h>
-#include <controller.hh>
-#include <Point.h>
+#include "usarsim_inf/EffectorStatus.h"
+#include "usarsim_inf/ToolchangerStatus.h"
+#include "usarsim_inf/EffectorCommand.h"
+#include "usarsim_inf/SenseObject.h"
+#include "actionlib/client/simple_action_client.h"
+#include "controller.hh"
+#include "database/Point.h"
 
 class RosInf;
 
@@ -45,11 +51,14 @@ class RosInf
 public:
   RosInf ();
   ~RosInf ();
+  int publishEffectors ();
   void waitForEffectors ();
   bool checkCommandDone ();
   bool isInitialized ();
   void setEffectorGoal (const usarsim_inf::EffectorCommand & command,
-			EffectorType type);
+	    EffectorType type);
+	void setEffectorGoal (const usarsim_inf::EffectorCommand & command,
+	    std::string effectorTopic);
   void shutDown ();
   bool init ();
   void searchPart (std::string partName);
@@ -68,6 +77,8 @@ public:
   void effectorCallback(const M & msg, const std::string topicName);
   
   void setGlobalFrame(const std::string &globalFrame);
+  
+  void getEffectorStatusNames(std::vector<std::string> &effectorNames);
   
 private:
     std::string globalFrameName;

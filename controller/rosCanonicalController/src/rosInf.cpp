@@ -1,9 +1,6 @@
 #include "rosInf.hh"
 #include <stdio.h>
-#define INCH_TO_METER 0.0254
-#define MAX_NAVIGATION_FAILURES 30
 
-#define LOG_FAILURES 0
 
 RosInf::RosInf ()
 {
@@ -77,7 +74,9 @@ RosInf::init ()
     }
   return false;
 }
-
+/*
+  Set the goal for each effector with the given type to match a state
+*/
 void
 RosInf::setEffectorGoal (const usarsim_inf::EffectorCommand & command,
 			 EffectorType type)
@@ -87,6 +86,21 @@ RosInf::setEffectorGoal (const usarsim_inf::EffectorCommand & command,
       if (effectorControllers[i].isType (type))
 	effectorControllers[i].goalState.state = command.state;
     }
+}
+/*
+  Set the effector with this status topic to match a state.
+*/
+void 
+RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand & command,
+	    std::string effectorTopic)
+{
+  for (unsigned int i = 0;i < effectorControllers.size (); i++) {
+    if (effectorControllers[i].getStatusTopic() == effectorTopic)
+    {
+      effectorControllers[i].goalState.state = command.state;
+      break;
+    }
+  }
 }
 
 int
@@ -307,41 +321,58 @@ RosInf::setEndPointTolerance (double tolerance)
 }
 
 /*
-	block until all effectors have reached their goal state.
+	block until all effectors have reached their goal state, or until the timeout is reached
 */
 void
 RosInf::waitForEffectors ()
 {
   bool effectorsSet;
+  ros::Time timeout = ros::Time::now() + ros::Duration(EFFECTOR_TIMEOUT);
   do {
-    effectorsSet = true;
-    for (unsigned int i = 0; i < effectorControllers.size (); i++) {
-      if (!effectorControllers[i].isPublished ()) {
-        effectorsSet = false;
-      }
-      else {
-        //active effector is always the last one discovered
-        effectorAttached = true;
-        activeEffectorName =
-        effectorControllers[i].goalState.header.frame_id;
-        if (effectorControllers[i].currentState.state !=
-        effectorControllers[i].goalState.state)
-        {
-          effectorControllers[i].goalState.header.stamp =
-          ros::Time::now ();
-          effectorControllers[i].publisher.
-          publish (effectorControllers[i].goalState);
-          effectorsSet = false;
-        }
-      }
-    }
+    effectorsSet = publishEffectors();
     ros::spinOnce ();		//need to spin so that callbacks are called even though this blocks
   }
-  while (!effectorsSet);
-  ROS_DEBUG ("All effectors are in their goal state.");
+  while (!effectorsSet && ros::Time::now() < timeout);
+  if(effectorsSet) {
+    ROS_DEBUG ("All effectors are in their goal state.");
+  } else {
+    ROS_WARN("At least one effector timed out on goal!");
+  }
   
   //check to see if a new tool was added by the toolchanger
   initEffectors();
+}
+
+/*
+  publish effector goal states once.
+  Return 1 if published state matches goal state for all effectors, 0 otherwise.
+*/
+int
+RosInf::publishEffectors()
+{
+  bool effectorsSet = true;
+  for (unsigned int i = 0; i < effectorControllers.size (); i++) {
+    if (!effectorControllers[i].isPublished ()) {
+      effectorsSet = false;
+    }
+    else {
+      //active effector is always the last one discovered
+      //this should probably actually check to see if effectors have children & then walk up the tf tree
+      effectorAttached = true;
+      activeEffectorName =
+      effectorControllers[i].goalState.header.frame_id;
+      if (effectorControllers[i].currentState.state !=
+      effectorControllers[i].goalState.state)
+      {
+        effectorControllers[i].goalState.header.stamp =
+        ros::Time::now ();
+        effectorControllers[i].publisher.
+        publish (effectorControllers[i].goalState);
+        effectorsSet = false;
+      }
+    }
+  }
+  return effectorsSet;
 }
 
 // called whenever arm navigation transitions to Active
@@ -560,6 +591,17 @@ void
 RosInf::setGlobalFrame(const std::string &globalFrame)
 {
   globalFrameName = globalFrame;
+}
+/*
+  Fill a vector with the list of all effector status topics
+*/
+void
+RosInf::getEffectorStatusNames(std::vector<std::string> &effectorNames)
+{
+  effectorNames.clear();
+  for(unsigned int i = 0;i<effectorControllers.size();i++) {
+    effectorNames.push_back(effectorControllers[i].getStatusTopic());
+  }
 }
 
 template<class M>

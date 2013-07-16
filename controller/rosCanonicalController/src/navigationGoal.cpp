@@ -32,7 +32,7 @@ NavigationGoal::NavigationGoal()
 	goal.motion_plan_request.planner_id = std::string("");
 	goal.planner_service_name = std::string("ompl_planning/plan_kinematic_path");
 
-	goal.motion_plan_request.num_planning_attempts = 1;
+	goal.motion_plan_request.num_planning_attempts = 5;
 	goal.motion_plan_request.allowed_planning_time = ros::Duration(10.0);
 	
 	goal.motion_plan_request.goal_constraints.position_constraints[0].weight = 1.0;

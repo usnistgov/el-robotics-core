@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "rosInf.hh"
-#include <Vector.h>
-#include <Point.h>
-#include <tf/transform_datatypes.h>
+#include "database/Vector.h"
+#include "database/Point.h"
+#include "tf/transform_datatypes.h"
 
 int CloseGripperMsg::process(void *sendTo)
 {

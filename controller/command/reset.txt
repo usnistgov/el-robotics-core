@@ -1,0 +1,8 @@
+InitCanon ()
+MoveTo({{.31, 1.24, -0.67}, {0, 0, 1}, {1, 0, 0}})
+OpenGripper()
+CloseGripper()
+OpenGripper()
+CloseGripper()
+OpenGripper()
+EndCanon (5)

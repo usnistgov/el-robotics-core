@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "controlGUI/mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <iostream>
@@ -12,8 +12,9 @@
 #include <QListWidgetItem>
 #include <ctime>
 
-/*
-  The main loop for the canonical controller thread.
+/**
+  @brief The main loop for the canonical controller thread
+  
   See similar implementation in canonicalController.cpp for details
 */
 void RosCanonicalThread::run()
@@ -53,8 +54,10 @@ void RosCanonicalThread::run()
 	  ros::spinOnce();
   }
 }
-/*
-  Initialize the controller pointers for the canonical control thread
+/**
+  @brief Initializes the controller pointers for the canonical control thread
+  @param control Pointer to the canonical controller
+  @param rosControl Pointer to the ROS interface
 */
 void
 RosCanonicalThread::setupController(Controller *control, RosInf* rosControl)
@@ -64,15 +67,16 @@ RosCanonicalThread::setupController(Controller *control, RosInf* rosControl)
   ctrl = control;
   this->rosControl = rosControl;
 }
-/*
-  Flag the thread to exit the dequeueing loop
+/**
+  @brief Flags the thread to exit the dequeueing loop
 */
 void RosCanonicalThread::stopThread()
 {
   running = false;
 }
-/*
-  Constructor for main canonical GUI window
+/**
+  @brief Constructor
+  @param parent Handle to the parent widget, if any
 */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -96,13 +100,16 @@ MainWindow::MainWindow(QWidget *parent) :
   QObject::connect(ui->commandChoices, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(fillCommandLine(const QString&)));
   
 }
-
+/**
+  @brief Destructor
+*/
 MainWindow::~MainWindow()
 {
   delete ui;
 }
-/*
-  Stop canonical thread and clean up controllers
+/**
+  @brief Stops canonical thread and clean up controllers
+  @param event The window close event.
 */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -123,8 +130,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     ctrl = NULL;
   }
 }
-/*
-  Update the list of independently controlled effectors in the list on the left side of the window
+/**
+  @brief Updates the list of independently controlled effectors in the list on the left side of the window.
 */
 void MainWindow::refreshEffectors()
 {
@@ -140,8 +147,10 @@ void MainWindow::refreshEffectors()
     ui->effectorList->addItem(QString(name.c_str()));
   }
 }
-/*
-  Set the goal state of the selected effector in the list to "open"
+/**
+  @brief Sets the goal state of the selected effector in the list to "open".
+  
+  This method does not use CRCL to control the robot, but directly publishes to a ROS command topic.
 */
 void MainWindow::openSelectedEffector()
 { 
@@ -156,8 +165,10 @@ void MainWindow::openSelectedEffector()
     refreshEffectors();
   }
 }
-/*
-  Set the goal state of the selected effector in the list to "closed"
+/**
+  @brief Sets the goal state of the selected effector in the list to "closed"
+  
+  This method does not use CRCL to control the robot, but directly publishes to a ROS command topic.
 */
 void MainWindow::closeSelectedEffector()
 {
@@ -172,8 +183,8 @@ void MainWindow::closeSelectedEffector()
     refreshEffectors();
   }
 }
-/*
-  Load in a ROS parameter, initialize the ROS controller, and start the dequeueing thread
+/**
+  @brief Loads in a ROS parameter, initialize the ROS controller, and start the dequeueing thread
 */
 void MainWindow::initRosNode()
 {    
@@ -197,20 +208,19 @@ void MainWindow::initRosNode()
     
     nodeStarted = true;
 }
-/*
-  send the canonical command in the command line to the controller
+/**
+  @brief Sends the canonical command in the command line to the controller
+  
+  Rather than rewriting the command parser to interpret strings, this method is implemented by:
+  1. Writing the command to a temporary file
+  2. Reading and parsing the file
+  3. Removing the temporary file
 */
 void MainWindow::sendCanonicalCommand()
 {
   //ROS node may not be started yet, start it now
   if(!nodeStarted)
     initRosNode();
-
-  /*rather than rewriting the command parser to interpret strings, we:
-  1. Write the command to a temporary file
-  2. Read and parse the file
-  3. Remove the temporary file
-  */
   
   //read the command from the command line
   QString command = ui->commandLine->text();
@@ -235,11 +245,10 @@ void MainWindow::sendCanonicalCommand()
   ui->commandHistory->addItem(command);
   //autoscroll to bottom of history
   ui->commandHistory->verticalScrollBar()->setValue(ui->commandHistory->verticalScrollBar()->maximum());
-  updateCurrentCommandText();
   
 }
-/*
-  Set up the list of independent effectors
+/**
+  @brief Set up the list of independent effectors
 */
 void MainWindow::setupRosUI()
 {    
@@ -249,8 +258,8 @@ void MainWindow::setupRosUI()
   ui->closeButton->setEnabled(true);
   ui->refreshButton->setEnabled(true);
 }
-/*
-  Bring up a file dialog to open a CRCL file to parse and run
+/**
+  @brief Bring up a file dialog to open a CRCL file to parse and run
 */
 void MainWindow::openFile()
 {
@@ -280,12 +289,12 @@ void MainWindow::openFile()
     }
     //autoscroll to bottom of history
     ui->commandHistory->verticalScrollBar()->setValue(ui->commandHistory->verticalScrollBar()->maximum());
-    updateCurrentCommandText();
   }
    
 }
-/*
-  Set the command line text (used by the drop-down box to fill in common CRCL commands)
+/**
+  @brief Set the command line text (used by the drop-down box to fill in common CRCL commands)
+  @param text The text to set the command line to
 */
 void MainWindow::fillCommandLine(const QString &text)
 {

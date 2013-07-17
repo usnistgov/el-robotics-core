@@ -16,12 +16,14 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-SET(controlGUI_SOURCES src/main.cpp src/mainwindow.cpp)
-SET(controlGUI_HEADERS src/mainwindow.h)
-SET(controlGUI_FORMS src/mainwindow.ui)
+SET(controlGUI_SOURCES src/controlGUI/main.cpp src/controlGUI/mainwindow.cpp)
+SET(controlGUI_HEADERS include/controlGUI/mainwindow.h)
+SET(controlGUI_FORMS src/controlGUI/mainwindow.ui)
 
-SET(rosControl_SOURCES src/rosInf.cpp src/navigationGoal.cpp src/rosController.cpp)
-SET(rosControl_HEADERS src/rosInf.hh src/navigationGoal.hh)
+SET(rosControl_SOURCES src/rosControl/rosInf.cpp src/rosControl/navigationGoal.cpp src/rosControl/rosController.cpp)
+SET(rosControl_HEADERS src/rosControl/rosInf.hh src/rosControl/navigationGoal.hh)
+
+SET(binPickup_SOURCES src/binPickup/scanPattern.cpp src/binPickup/scanPickup.cpp)
 
 SET(roscontroller_LIBS Controller rosControl)
 
@@ -36,21 +38,20 @@ ADD_DEFINITIONS(-DQT_NO_KEYWORDS) #need this fix for boost
 link_directories(~/IPMAS/controller) #change this line to point to the ipmas directory
 link_directories(~/IPMAS/AutoGen) #change this line to point to the ipmas directory
 
-rosbuild_add_library(rosControl ${rosControl_SOURCES})
+rosbuild_add_library(rosControl STATIC ${rosControl_SOURCES})
 
 rosbuild_add_executable(rosCanonicalController 
                       src/canonicalController.cpp)
 
 rosbuild_add_executable(binPickup
-                      src/scanPickup.cpp
-											src/scanPattern.cpp)
+                      ${binPickup_SOURCES})
 
 ADD_EXECUTABLE(controlGUI
   ${controlGUI_SOURCES}
   ${controlGUI_HEADERS_MOC}
   ${controlGUI_FORMS_HEADERS})							
 
-target_link_libraries(rosControl pthread sqlKit)
+target_link_libraries(rosControl pthread sqlKit mysqlcppconn)
 target_link_libraries(rosCanonicalController ${roscontroller_LIBS})
 target_link_libraries(binPickup ${roscontroller_LIBS})
 target_link_libraries(controlGUI ${roscontroller_LIBS} ${QT_LIBRARIES})

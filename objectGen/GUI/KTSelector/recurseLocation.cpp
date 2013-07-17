@@ -139,9 +139,8 @@ int RecurseLocation::computeGlobalLoc()
   if( recLoc.size() <= 0 )
     return 0;
 
-  // reorder vector to make access more efficient and to
-  // preserve the original vector
-  for( int i=recLoc.size()-1; i>=0; i-- )
+  //copy recLoc vector, preserving the order (local first, global last)
+  for( int i=0; i<recLoc.size(); i++)
     tempLoc.push_back(recLoc[i]);
 
   globalLoc = tempLoc.back();
@@ -267,7 +266,7 @@ void RecurseLocation::cleanup()
 }
 
 /*!
- @brief Print informatio about the recurse location
+ @brief Print information about the recurse location
  Based on the verbosity, either the entire chain
  of recursive locations will be printed or only 
  the global location.

@@ -15,6 +15,8 @@ public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
     void generateScene();
+    void setInputFile(char *fileName);
+    QString inputFile;
 
 private:
     Ui::Dialog *ui;

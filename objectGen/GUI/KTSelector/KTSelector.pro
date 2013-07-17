@@ -6,29 +6,22 @@
 
 QT       += core gui
 
-INCPATH += -I ../../../AutoGen
+INCLUDEPATH += -I ../../../AutoGen -I ../../include
 TARGET = KTSelector
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         dialog.cpp \
-    usarSimInf.cpp \
-    ulapi.cpp \
-    recurseLocation.cpp \
-    partsTrayModel.cpp \
-    partModel.cpp \
-    kitTrayModel.cpp \
-    genericModel.cpp
+    ../../src/usarSimInf.cpp \
+    ../../src/ulapi.cpp \
+    ../../src/recurseLocation.cpp \
+    ../../src/partsTrayModel.cpp \
+    ../../src/partModel.cpp \
+    ../../src/kitTrayModel.cpp \
+    ../../src/genericModel.cpp
 
-HEADERS  += dialog.h \
-    usarSimInf.h \
-    ulapi.hh \
-    recurseLocation.h \
-    partsTrayModel.h \
-    partModel.h \
-    kitTrayModel.h \
-    genericModel.h
+HEADERS  += dialog.h 
 
 FORMS    += dialog.ui
 

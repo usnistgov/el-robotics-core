@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
   // get the name of all of the partstrays
   results = dao->getAll(attributes, "PartsTray");
-  for(int i=0; (int) i<results["_NAME"].size();i++)
+  for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
     {
       myPart = results["_NAME"][i];
       //      testPart  = new Part(myPart);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
   // get the name of all of the kitTrays
   results = dao->getAll(attributes, "KitTray");
   //  for(int i=0; (int) i<results["_NAME"].size();i++)
-  for(int i=0; (int) i<1;i++)
+  for(unsigned int i=0; i<1;i++)
     {
       myPart = results["_NAME"][i];
       //      testPart  = new Part(myPart);
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 
   // get the name of all of the parts
   results = dao->getAll(attributes, "Part");
-  for(int i=0; (int) i<results["_NAME"].size();i++)
+  for(unsigned int i=0; i<results["_NAME"].size();i++)
     {
       myPart = results["_NAME"][i];
       //      testPart  = new Part(myPart);

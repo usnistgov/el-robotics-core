@@ -20,13 +20,14 @@ Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
+  inputFile = "";
     ui->setupUi(this);
     std::map<std::string, std::vector<std::string> > results;
     std::vector<std::string> attributes;
     attributes.push_back("_NAME");
     DAO* dao = new DAO("KitTray");
     results = dao->getAll(attributes, "KitTray");
-    for(int i=0; (int) i<results["_NAME"].size();i++){
+    for(unsigned int i=0; i<results["_NAME"].size();i++){
         ui->comboKittray->addItem(QString::fromStdString(results["_NAME"][i]));
     }
     displayed=false;
@@ -37,13 +38,21 @@ Dialog::~Dialog()
     delete ui;
 }
 
+void Dialog::setInputFile(char *fileName)
+{
+  inputFile = fileName;
+}
+
 void Dialog::generateScene(){
     if(!displayed){
         displayed=true;
         QString CurrentDir = QDir::currentPath();
         //CurrentDir=CurrentDir.left(CurrentDir.length()-1)  ;
      //   CurrentDir= CurrentDir.left(CurrentDir.lastIndexOf("/"));
-        CurrentDir=CurrentDir+"/robot.sh";
+	if( inputFile == "" )
+	  CurrentDir=CurrentDir+"/robot.sh";
+	else
+	  CurrentDir=CurrentDir+"/"+inputFile;
         system((char*)CurrentDir.toStdString().c_str());
         UsarSimInf usarsim(1,ui->textHostname->text().toStdString());
         std::string myPart = "part_b_1";
@@ -64,7 +73,7 @@ void Dialog::generateScene(){
 
         // get the name of all of the partstrays
         results = dao->getAll(attributes, "PartsTray");
-        for(int i=0; (int) i<results["_NAME"].size();i++)
+        for(unsigned int i=0; i<results["_NAME"].size();i++)
         {
             myPart = results["_NAME"][i];
             //      testPart  = new Part(myPart);
@@ -101,7 +110,7 @@ void Dialog::generateScene(){
 
         // get the name of all of the parts
         results = dao->getAll(attributes, "Part");
-        for(int i=0; (int) i<results["_NAME"].size();i++)
+        for(unsigned int i=0; i<results["_NAME"].size();i++)
         {
             myPart = results["_NAME"][i];
             testPart->get(myPart);

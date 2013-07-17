@@ -32,7 +32,7 @@ std::string GenericModel::getModel(StockKeepingUnit *sku)
     }
   else
     {
-      modelName = "USARPhysObj.unknown";
+      modelName = "USARPhysObj.Unknown";
       //      printf( "%s is not an external shape\n", sku->getname().c_str() );
     }
 

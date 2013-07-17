@@ -1,5 +1,0 @@
-roslaunch usarsim_inf usarsimKR60.tweety.launch 
-./runAny.sh 1 junk obstacleSpawn.dat vmacmob tweety
-rosrun gmapping slam_gmapping scan:=lms200 _odom_frame:=odom
-roslaunch KR60_arm_navigation KR60_arm_navigation.launch
-rosrun rosCanonicalController rosCanonicalController Kit1FixedLoc.txt

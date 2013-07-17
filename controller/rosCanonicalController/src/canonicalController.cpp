@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include <Point.h>
-#include <Vector.h>
 #include <vector>
 #include <sstream>
-#include <ros/ros.h>
+
+#include "database/Point.h"
+#include "database/Vector.h"
+#include "ros/ros.h"
 #include "rosInf.hh"
 #include "ulapi.hh"
 #include "controller.hh"
@@ -12,6 +13,10 @@
 
 RosInf *rosControl; // from rosInf.hh
 
+/**
+  @brief Dequeueing loop for CRCL controller
+  @param arg Pointer to the controller that dequeues command messages
+*/
 void
 dequeueThread (void *arg)
 {

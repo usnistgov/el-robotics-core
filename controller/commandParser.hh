@@ -2,8 +2,8 @@
 #define COMMANDPARSER_HH
 
 #include <list>
-#include <Point.h>
-#include <Vector.h>
+#include "database/Point.h"
+#include "database/Vector.h"
 #include "canonicalMsg.hh"
 #include "controller.hh"
 #define TEXTSIZE 200

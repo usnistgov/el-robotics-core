@@ -19,7 +19,7 @@
 #ifndef __cannonicalMsg
 #define __cannonicalMsg
 #include <stdio.h>
-#include <PoseLocation.h>
+#include "database/PoseLocation.h"
 #include <string>
 #include "ulapi.hh"
 

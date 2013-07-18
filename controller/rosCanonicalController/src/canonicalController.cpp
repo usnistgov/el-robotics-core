@@ -14,8 +14,14 @@
 RosInf *rosControl; // from rosInf.hh
 
 /**
-  @brief Dequeueing loop for CRCL controller
-  @param arg Pointer to the controller that dequeues command messages
+	\file canonicalController.cpp
+	
+	This file contains the implementation of the controller dequeuing thread and main function for the rosCanonicalController node.
+*/
+
+/**
+  \brief Dequeueing loop for CRCL controller
+  \param arg Pointer to the controller that dequeues command messages
 */
 void
 dequeueThread (void *arg)

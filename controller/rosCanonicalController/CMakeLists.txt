@@ -35,8 +35,8 @@ INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS(-DQT_NO_KEYWORDS) #need this fix for boost
 
-link_directories(~/IPMAS/controller) #change this line to point to the ipmas directory
-link_directories(~/IPMAS/AutoGen) #change this line to point to the ipmas directory
+link_directories(~/ipmas/controller) #change this line to point to the ipmas directory
+link_directories(~/ipmas/AutoGen) #change this line to point to the ipmas directory
 
 rosbuild_add_library(rosControl STATIC ${rosControl_SOURCES})
 

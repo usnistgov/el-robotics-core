@@ -4,6 +4,12 @@
 #include "database/Point.h"
 #include "tf/transform_datatypes.h"
 
+/**
+	\file rosController.cpp 
+	
+	This file contains the ROS controller implementations of CRCL messages. The \c sendTo pointer is typecast to RosInf * in each of these implementations.
+*/
+
 int CloseGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())

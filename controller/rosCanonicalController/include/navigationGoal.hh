@@ -11,7 +11,12 @@ enum frame_type
 	GLOBAL=0,
 	LOCAL
 };
-
+/**
+	\class NavigationGoal navigationGoal.hh
+	\brief Wrapper class with helper methods for a MoveArmGoal message
+	
+	This class consists of an arm_navigation_msgs::MoveArmGoal message, and functions for initializing and manipulating it. The constructor checks the ROS parameter server (robot_description_planning/groups) for the name of the arm to control. When the getGoal() function is called, before returning the MoveArmGoal message, the object checks the current state of the arm to convert the goal pose to the correct coordinate system (since poses may be given to the arm either globally or locally).
+*/
 class NavigationGoal
 {
 public:

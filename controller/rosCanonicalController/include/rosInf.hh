@@ -24,6 +24,12 @@ enum EffectorType
   ROS_INF_GRIPPER = 1,
   ROS_INF_TOOLCHANGER
 };
+/**
+	\class EffectorController rosInf.hh "rosInf.hh"
+	\brief Class to manage end effector subscriber callbacks and command publishers.
+	
+	This class holds state data for a single effector. State data is updated by subscriber callbacks listening on the effector's topic, and commands can be sent by updating the \c goalState member.
+*/
 class EffectorController
 {
 public:
@@ -45,7 +51,16 @@ private:
   bool published;
   EffectorType type;
 };
-
+/**
+	\class RosInf rosInf.hh "rosInf.hh"
+	\brief Interface between a Canonical controller and the USARSimROS node.
+	
+	This class provides a way to send common commands to the USARSimROS node using a combination of action clients and simple pairs of command/status ROS topics. It manages and updates a vector of EffectorControllers, adding and removing effectors whenever they start or stop publishing status messages on the \c effectorName/status topic.
+	
+	The class uses a SimpleActionClient to connect to a move_arm action server, and manages a queue of arm pose goals to send to the action server sequentially.
+	
+	It also provides some basic callbacks for an object sensor that may be attached to the robot. 
+*/
 class RosInf
 {
 public:

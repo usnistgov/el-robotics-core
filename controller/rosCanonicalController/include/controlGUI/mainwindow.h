@@ -16,8 +16,8 @@ namespace Ui {
 class MainWindow;
 }
 /**
-  @class RosCanonicalThread mainwindow.h
-  @brief Main thread class for the canonical controller dequeueing loop.
+  \class RosCanonicalThread mainwindow.h
+  \brief Main thread class for the canonical controller dequeueing loop.
   
   This class is based on QThread, and replaces the ulapi implementation used in the command-line
   rosCanonicalController.
@@ -40,8 +40,8 @@ Q_SIGNALS:
   void rosInit();
 };
 /**
-  @class MainWindow mainwindow.h
-  @brief The main Qt window class for the application
+  \class MainWindow mainwindow.h
+  \brief The main Qt window class for the application
   
   This class has pointers to the canonical controller objects and can queue CRCL commands, as
   well as operate end effectors directly.
@@ -74,6 +74,7 @@ public Q_SLOTS:
     void fillCommandLine(const QString &text);
     void openSelectedEffector();
     void openFile();
+    void saveFile();
     void refreshEffectors();
     void sendCanonicalCommand();
     void setupRosUI();

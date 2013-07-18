@@ -1,7 +1,6 @@
 #include "rosInf.hh"
 #include <stdio.h>
 
-
 RosInf::RosInf ()
 {
   initialized = false;
@@ -20,20 +19,23 @@ RosInf::~RosInf ()
     delete moveArmClient;
 }
 
-bool
-RosInf::checkCommandDone ()
+/**
+	\brief Checks to see if the arm navigation goals is empty
+	\return \c true if the queue is empty, \c false otherwise
+*/
+bool RosInf::checkCommandDone ()
 {
   return armGoals.empty ();
 }
 
-bool
-RosInf::isInitialized ()
+bool RosInf::isInitialized ()
 {
   return initialized;
 }
-
-void
-RosInf::shutDown ()
+/**
+	\brief Clean up and finish the controller
+*/
+void RosInf::shutDown ()
 {
   if (initialized)
     {
@@ -45,9 +47,11 @@ RosInf::shutDown ()
 	}
     }
 }
-
-double
-RosInf::getSensorFOV ()
+/**
+	\brief Get the FOV of an object sensor mounted on this robot
+	\return The FOV of the sensor if one is mounted, or 0 if no valid sensor could be found
+*/
+double RosInf::getSensorFOV ()
 {
   if (hasObjectSensor)
     {
@@ -61,9 +65,12 @@ RosInf::getSensorFOV ()
       return 0;
     }
 }
-
-bool
-RosInf::init ()
+/**
+	\brief Initialize the ROS interface
+	
+	Sets up sensors, arm IK controller, and end effectors.
+*/
+bool RosInf::init ()
 {
   initialized = false;
   if (initEffectors () && initArmNavigation () && initSensors ())
@@ -74,11 +81,10 @@ RosInf::init ()
     }
   return false;
 }
-/*
-  Set the goal for each effector with the given type to match a state
+/**
+  \brief Set the goal for each effector of type \a type to match the state given in \a command
 */
-void
-RosInf::setEffectorGoal (const usarsim_inf::EffectorCommand & command,
+void RosInf::setEffectorGoal (const usarsim_inf::EffectorCommand & command,
 			 EffectorType type)
 {
   for (unsigned int i = 0; i < effectorControllers.size (); i++)
@@ -87,11 +93,10 @@ RosInf::setEffectorGoal (const usarsim_inf::EffectorCommand & command,
 	effectorControllers[i].goalState.state = command.state;
     }
 }
-/*
-  Set the effector with this status topic to match a state.
+/**
+  \brief Set the effector with the status topic \a effectorTopic to match the state given in \a command
 */
-void 
-RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand & command,
+void RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand & command,
 	    std::string effectorTopic)
 {
   for (unsigned int i = 0;i < effectorControllers.size (); i++) {
@@ -102,9 +107,11 @@ RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand & command,
     }
   }
 }
-
-int
-RosInf::initArmNavigation ()
+/**
+	\brief Connect to the ROS arm_navigation server.
+	\return 1 if succesful, 0 if the server connection failed
+*/
+int RosInf::initArmNavigation ()
 {
   NavigationGoal armGoal;
   armGoal.setupActuator ();
@@ -123,7 +130,14 @@ RosInf::initArmNavigation ()
       return 0;
     }
 }
-
+/**
+	\brief Initialize end effectors that may be attached to the robot
+	
+	End effectors that can be attached include grippers and tool changers.
+	
+	This method may be called any time an effector is opened or closed, since a toolchanger may change the number of end effectors attached to the robot.
+	If an effector has been added or removed since the last time this method was called, the controller will wait for the effector to start (or stop) publishing to its status topic, and then call this method again.
+*/
 int RosInf::initEffectors() {
   ros::master::V_TopicInfo topics;
   
@@ -158,9 +172,12 @@ int RosInf::initEffectors() {
   ROS_INFO("Effectors initialized.");
   return 1;
 }
-
-int
-RosInf::initSensors ()
+/**
+	\brief Set up the sensors attached to this robot
+	
+	Currently this method only handles object sensors.
+*/
+int RosInf::initSensors ()
 {
   ros::master::V_TopicInfo topics;
   ros::NodeHandle nh;
@@ -184,9 +201,12 @@ RosInf::initSensors ()
     waitForObjectSensor ();
   return 1;
 }
-
-void
-RosInf::objectSensorCallback (const usarsim_inf::SenseObjectConstPtr & msg)
+/**
+	\brief Called whenever an object sensor recieves an incoming message on its topic
+	
+	This method writes a CRCL file to disk whenever the object sensor detects a part that the arm is specified to be "searching" for. The command file tells the robot to move to a location where it can pick up the detected part, close the gripper, move the part to a hard-coded location, and open the gripper. It is intended to be read by the canonical controller and fed back into the command queue to be executed.
+*/
+void RosInf::objectSensorCallback (const usarsim_inf::SenseObjectConstPtr & msg)
 {
   FILE *fp = NULL;
   objectSensorInitialized = true;
@@ -281,9 +301,10 @@ RosInf::objectSensorCallback (const usarsim_inf::SenseObjectConstPtr & msg)
 	}
     }
 }
-
-void
-RosInf::searchPart (std::string partName)
+/**
+	\brief Add a part type to the list of parts to search for
+*/
+void RosInf::searchPart (std::string partName)
 {
   scanActive = true;
   //if the part name isn't already in the list of parts being looked for, add it
@@ -294,22 +315,25 @@ RosInf::searchPart (std::string partName)
       findPartNames.push_back (partName);
     }
 }
-
-void
-RosInf::stopMotion ()
+/**
+	\brief Clear all arm goals except for the current one
+	
+	Due to a bug in the ROS arm_navigation stack, it is not currently possible to interrupt an arm in the middle of a MoveTo message. However, it is possible to cancel the remainder of the goals given in a MoveThroughTo message, which is what this method does.
+*/
+void RosInf::stopMotion ()
 {
   armGoals.erase (armGoals.begin () + 1, armGoals.end ());	//clear everything except for the current goal
 }
-
-void
-RosInf::stopSearch ()
+/**
+	\brief Remove all parts from the list of parts being searched for
+*/
+void RosInf::stopSearch ()
 {
   findPartNames.clear ();
   scanActive = false;
 }
 
-void
-RosInf::setEndPointTolerance (double tolerance)
+void RosInf::setEndPointTolerance (double tolerance)
 {
   //always use meters internally
   if (lengthUnits == "meter")
@@ -320,11 +344,12 @@ RosInf::setEndPointTolerance (double tolerance)
     positionTolerance = tolerance * INCH_TO_METER;
 }
 
-/*
-	block until all effectors have reached their goal state, or until the timeout is reached
+/**
+	\brief Block until all effectors have reached their goal state, or until the timeout is reached
+	
+	The timeout used by this method is \c EFFECTOR_TIMEOUT, defined in rosInf.hh.
 */
-void
-RosInf::waitForEffectors ()
+void RosInf::waitForEffectors ()
 {
   bool effectorsSet;
   ros::Time timeout = ros::Time::now() + ros::Duration(EFFECTOR_TIMEOUT);
@@ -343,12 +368,11 @@ RosInf::waitForEffectors ()
   initEffectors();
 }
 
-/*
-  publish effector goal states once.
-  Return 1 if published state matches goal state for all effectors, 0 otherwise.
+/**
+  \brief Publish effector goal states once.
+  \return 1 if published state matches goal state for all effectors, 0 otherwise.
 */
-int
-RosInf::publishEffectors()
+int RosInf::publishEffectors()
 {
   bool effectorsSet = true;
   for (unsigned int i = 0; i < effectorControllers.size (); i++) {
@@ -375,26 +399,35 @@ RosInf::publishEffectors()
   return effectorsSet;
 }
 
-// called whenever arm navigation transitions to Active
-void
-RosInf::navigationActiveCallback ()
+/**
+	\brief Called whenever arm navigation transitions to Active
+*/
+void RosInf::navigationActiveCallback ()
 {
   //  printf( "Reached navigationActivateCallback of rosInf.cpp\n" );
 }
 
-// called whenever arm navigation gives feedback
-void
-RosInf::navigationFeedbackCallback (const arm_navigation_msgs::
+/**
+	\brief Called whenever arm navigation gives feedback.
+*/
+void RosInf::navigationFeedbackCallback (const arm_navigation_msgs::
 				    MoveArmFeedbackConstPtr & feedback)
 {
   //  printf( "Reached navigationFeedbackCallback of rosInf.cpp time to complete:%f state: %s\n", 
   //	  feedback->time_to_completion.toSec(), feedback->state.c_str() );
 }
 
-//called whenever an arm navigation goal is completed
+/** 
+	\brief called whenever an arm navigation goal is completed.
+	
+	If an arm navigation goal is completed succesfully, this method checks to see if there are any more goals in the queue, and begins executing the next one if there are.
+	
+	If an arm navigation goal was aborted, the callback increments the failure counter and tries to execute it again. If the failure counter exceeds \c MAX_NAVIGATION_FAILURES (defined in rosInf.hh), then the goal is removed from the queue and an error message is displayed. Currently, command execution continues even when this happens.
+	
+	If the \c LOG_FAILURES flag in rosInf.hh is set to \c true, then for each goal, the callback will open the local file \c datfile and append the number of attempts the arm took before succeeding in reaching the navigation goal, writing the value of \c MAX_NAVIGATION_FAILURES if navigation never completed succesfully. 
+*/
 #include <arm_navigation_msgs/convert_messages.h>
-void
-RosInf::navigationDoneCallback (const actionlib::
+void RosInf::navigationDoneCallback (const actionlib::
 				SimpleClientGoalState & state,
 				const arm_navigation_msgs::
 				MoveArmResultConstPtr & result)
@@ -475,9 +508,12 @@ RosInf::navigationDoneCallback (const actionlib::
     }
   }
 }
-
-void
-RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
+/**
+	\brief Adds an arm pose goal to the queue.
+	
+	This method accepts an xyz position and an xyzw quaternion in the global coordinate frame.
+*/
+void RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
 		    double zRot, double wRot)
 {
   NavigationGoal nextGoal;
@@ -527,10 +563,12 @@ RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
       }
     }
 }
-
-/* this signature calls the above routine */
-void
-RosInf::addArmGoal (double x, double y, double z, double xAxisX,
+/**
+	\brief Add an arm pose goal to the queue
+	
+	This method accepts an xyz position and direction vectors for the x and z axes. It converts the axis vectors into a quaternion and then calls addArmGoal()
+*/
+void RosInf::addArmGoal (double x, double y, double z, double xAxisX,
 		    double xAxisY, double xAxisZ, double zAxisX,
 		    double zAxisY, double zAxisZ)
 {
@@ -561,9 +599,10 @@ RosInf::addArmGoal (double x, double y, double z, double xAxisX,
 		  axisTransform.getRotation ().w ());
     }
 }
-
-void
-RosInf::waitForObjectSensor ()
+/**
+	\brief Spin ROS, waiting for the object sensor callback to be called
+*/
+void RosInf::waitForObjectSensor ()
 {
   while (!objectSensorInitialized)
     {
@@ -571,9 +610,17 @@ RosInf::waitForObjectSensor ()
       ros::Duration (0.1).sleep ();
     }
 }
-
-void
-RosInf::setLengthUnits (std::string units)
+/**
+	\brief Set the length units for arm control
+	
+	This method recognizes the following strings as valid length units :
+	- "inch"
+	- "mm"
+	- "meter"
+	
+	Unit conversions for previously entered values are not performed when this method is called; see the CRCL language specifications for details.
+*/
+void RosInf::setLengthUnits (std::string units)
 {
   if (units == "inch")
     lengthUnits = "inch";
@@ -586,29 +633,35 @@ RosInf::setLengthUnits (std::string units)
       ("Warning: unrecognized length unit \"%s,\" using \"%s\" instead\n",
        units.c_str (), lengthUnits.c_str ());
 }
-
-void 
-RosInf::setGlobalFrame(const std::string &globalFrame)
+/**
+	\brief Set the global position frame.
+	
+	This should be called with the value of the usarsim/globalFrame parameter as its argument.
+*/
+void RosInf::setGlobalFrame(const std::string &globalFrame)
 {
   globalFrameName = globalFrame;
 }
-/*
-  Fill a vector with the list of all effector status topics
+/**
+  \brief Fill \a effectorNames with the list of all effector status topics
 */
-void
-RosInf::getEffectorStatusNames(std::vector<std::string> &effectorNames)
+void RosInf::getEffectorStatusNames(std::vector<std::string> &effectorNames)
 {
   effectorNames.clear();
   for(unsigned int i = 0;i<effectorControllers.size();i++) {
     effectorNames.push_back(effectorControllers[i].getStatusTopic());
   }
 }
-
+/**
+	\brief Templated effector callback.
+*/
 template<class M>
 void RosInf::effectorCallback(const M & msg, const std::string topicName) {
   ROS_ERROR("RosInf: unknown effector callback on status topic %s",topicName.c_str());
 }
-
+/**
+	\brief Implementation of effector callback for a gripper
+*/
 template<>
 void RosInf::effectorCallback<const usarsim_inf::EffectorStatusConstPtr &>(const usarsim_inf::EffectorStatusConstPtr & msg, const std::string topicName) {
   ROS_DEBUG("getting status message from topic %s",topicName.c_str());
@@ -621,7 +674,9 @@ void RosInf::effectorCallback<const usarsim_inf::EffectorStatusConstPtr &>(const
   }
   ROS_ERROR("RosInf: effector callback received unexpected status topic %s",topicName.c_str());
 }
-
+/**
+	\brief Implementation of effector callback for a toolchanger
+*/
 template<>
 void RosInf::effectorCallback<const usarsim_inf::ToolchangerStatusConstPtr &>(const usarsim_inf::ToolchangerStatusConstPtr & msg, const std::string topicName) {
   ROS_DEBUG("getting status message from topic %s",topicName.c_str());
@@ -639,10 +694,11 @@ EffectorController::EffectorController ()
 {
   published = false;
 }
-
+/**
+	\brief Create the subscriber for an effector topic
+*/
 template <class M>
-void
-EffectorController::initSubscriber (const std::string & topicName, RosInf* const infHandle, EffectorType type)
+void EffectorController::initSubscriber (const std::string & topicName, RosInf* const infHandle, EffectorType type)
 {
   ros::NodeHandle nh;
   subscriber =
@@ -655,18 +711,19 @@ EffectorController::initSubscriber (const std::string & topicName, RosInf* const
   this->type = type;
   statusTopic = topicName;
 }
-
-bool
-EffectorController::isType (EffectorType type)
+bool EffectorController::isType (EffectorType type)
 {
   return (this->type == type);
 }
 EffectorType EffectorController::getType() {
   return type;
 }
-
-void
-EffectorController::toolchangerCallback (const usarsim_inf::ToolchangerStatusConstPtr & msg)
+/**
+	\brief Callback for a toolchanger status message
+	
+	This method updates the current known state of the effector and sets up a publisher if one doesn't already exist.
+*/
+void EffectorController::toolchangerCallback (const usarsim_inf::ToolchangerStatusConstPtr & msg)
 {
   if (!published)
     {
@@ -683,9 +740,12 @@ EffectorController::toolchangerCallback (const usarsim_inf::ToolchangerStatusCon
     }
   currentState.state = msg->effector_status.state;
 }
-
-void
-EffectorController::gripperCallback (const usarsim_inf::EffectorStatusConstPtr & msg)
+/**
+	\brief Callback for a gripper status message
+	
+	This method updates the current known state of the effector and sets up a publisher if one doesn't already exist.
+*/
+void EffectorController::gripperCallback (const usarsim_inf::EffectorStatusConstPtr & msg)
 {
   if (!published)
     {
@@ -703,8 +763,7 @@ EffectorController::gripperCallback (const usarsim_inf::EffectorStatusConstPtr &
   currentState.state = msg->state;
 }
 
-bool
-EffectorController::isPublished ()
+bool EffectorController::isPublished ()
 {
   return published;
 }

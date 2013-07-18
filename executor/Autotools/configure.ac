@@ -24,7 +24,6 @@ AC_SUBST([LIBS])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/interpreter/Makefile])
-AC_CONFIG_FILES([src/database/Makefile])
 #AC_CONFIG_FILES([lib/Makefile])
 AC_CONFIG_FILES([bin/Makefile])
 # Checks for header files.

@@ -7,7 +7,8 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 
 Ontology(<http://www.nist.gov/el/ontologies/kittingInstances.owl>
-Import(<https://www.assembla.com/code/ipmas/git/nodes/master/Ontology/Kitting/kittingClasses.owl>)
+// Import(<https://www.assembla.com/code/ipmas/git/nodes/master/Ontology/Kitting/kittingClasses.owl>)
+Import(<file:/home/sbalakirsky3/projects/ipmas/Ontology/Kitting/kittingClasses.owl>)
 
 SubClassOf(:ExternalShape :ShapeDesign)
 Declaration(NamedIndividual(:box_volume_1))

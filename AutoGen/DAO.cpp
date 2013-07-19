@@ -16,8 +16,10 @@ software
 DAO::DAO(std::string name){
 this->className.push_back(name);
 if(getenv("MysqlDefaultHost") && getenv("MysqlDefaultUser")&& getenv("MysqlDefaultPassword")&& getenv("MysqlDefaultSchema"))
-connection = Connection::getInstance(getenv("MysqlDefaultHost"), getenv("MysqlDefaultUser"), getenv("MysqlDefaultPassword"), getenv("MysqlDefaultSchema"));
-this->fillGetSqlQueries();
+  {
+    connection = Connection::getInstance(getenv("MysqlDefaultHost"), getenv("MysqlDefaultUser"), getenv("MysqlDefaultPassword"), getenv("MysqlDefaultSchema"));
+    this->fillGetSqlQueries();
+  }
 else
 std::cout<<"Check the readme file to know which environment variables to assign"<<std::endl;
 }

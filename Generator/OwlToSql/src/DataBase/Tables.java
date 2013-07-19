@@ -857,7 +857,7 @@ public class Tables {
 		unit.put("NCName", "varchar(100)");
 		unit.put("time", "TIME");
 		unit.put("date", "DATE");
-		unit.put("datetime", "TIMESTAMP");
+		unit.put("datetime", "TIMESTAMP(14)");
 		unit.put("gYearMonth", "DATE");
 		unit.put("gMonthDay", "DATE");
 		unit.put("gDay", "DATE");

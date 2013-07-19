@@ -45,14 +45,18 @@ void KittingPlan::parsePlanInstance(const char* filename) {
 	//FileOperator *fileop = new FileOperator;
 	inputfile.open(filename);
 
+	if( inputfile.fail() )
+	  {
+	    cout << "KittingPlan.cc::parsePlanInstance:Error on file open " 
+		 << filename << endl;
+	    exit(0);
+	  }
 	size_t pos;
 
-	if (inputfile.is_open()) {
 		std::string line;
 		while (getline(inputfile, line)) {
-			parseLinePlanInstance(line);
+		  parseLinePlanInstance(line);
 		}
-	}
 	inputfile.close();
 	//fileop->readVectorOfVector(m_actionParamList);
 }
@@ -80,6 +84,7 @@ void KittingPlan::parseLinePlanInstance(string action) {
 	string simpAction;
 	vector<string> vectTemp;
 	FileOperator *fileop = new FileOperator;
+	if( action.length() <=0 )return;
 	simpAction = fileop->removeParentheses(action);
 	vectTemp = fileop->splitString(simpAction);
 	m_actionParamList.push_back(vectTemp);
@@ -120,5 +125,5 @@ string KittingPlan::matchParamType(string param){
 		//cout << "Param: " << param << endl;
 		if (!strcmp(param.c_str(),firstArg.c_str()))
 			return (iter->second);
-		}
+	}
 }

@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include <Point.h>
-#include <Vector.h>
 #include <vector>
 #include <sstream>
-#include <ros/ros.h>
+
+#include "database/Point.h"
+#include "database/Vector.h"
+#include "ros/ros.h"
 #include "rosInf.hh"
 #include "ulapi.hh"
 #include "controller.hh"
@@ -12,6 +13,16 @@
 
 RosInf *rosControl; // from rosInf.hh
 
+/**
+	\file canonicalController.cpp
+	
+	This file contains the implementation of the controller dequeuing thread and main function for the rosCanonicalController node.
+*/
+
+/**
+  \brief Dequeueing loop for CRCL controller
+  \param arg Pointer to the controller that dequeues command messages
+*/
 void
 dequeueThread (void *arg)
 {
@@ -57,6 +68,16 @@ main (int argc, char* argv[])
   CloseGripperMsg closeGripper;
   EndCanonMsg endCanon;
   ulapi_integer result;
+
+  //ROS configuration
+  std::string globalFrame;
+  ros::NodeHandle nh;
+  if(!nh.getParam("usarsim/globalFrame", globalFrame))
+  {
+    ROS_INFO("No global frame parameter specified, using default /odom");
+    globalFrame = "/odom";
+  }
+  rosControl->setGlobalFrame(globalFrame);
 
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures

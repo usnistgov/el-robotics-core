@@ -7,16 +7,16 @@
   maintenance, and subsequent redistribution.
 
   See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 
 /*!
-*	\file		CanonicalRobotCommand.h
-*	\brief 		Test
-*	\class		CanonicalRobotCommand
-*	\brief 		This class provides functions to build <b>Canonical Robot Commands</b> from PDDL actions in the Plan.
-*	\author		<a href="http://www.nist.gov/el/isd/ks/kootbally.cfm">Zeid Kootbally</a> \a zeid.kootbally\@nist.gov
-*	\date		May 17, 2012
-*/
+ *	\file		CanonicalRobotCommand.h
+ *	\brief 		Test
+ *	\class		CanonicalRobotCommand
+ *	\brief 		This class provides functions to build <b>Canonical Robot Commands</b> from PDDL actions in the Plan.
+ *	\author		<a href="http://www.nist.gov/el/isd/ks/kootbally.cfm">Zeid Kootbally</a> \a zeid.kootbally\@nist.gov
+ *	\date		May 17, 2012
+ */
 
 #ifndef CANONICALROBOTCOMMAND_H_
 #define CANONICALROBOTCOMMAND_H_
@@ -52,7 +52,7 @@
 
 class CanonicalRobotCommand {
 public:
-	CanonicalRobotCommand();
+	CanonicalRobotCommand(FileOperator *fileoperator);
 	virtual ~CanonicalRobotCommand();
 
 	void actionInterpreter(string action,vector<string> paramName,KittingPlan *kittingplan);
@@ -69,6 +69,7 @@ public:
 	void put_kit_tray(vector<string> paramList);
 	void put_part(vector<string> paramList,KittingPlan *kittingplan);
 	void remove_eff(vector<string> paramList);
+	void sql_put_part(string partName, string goalRefObject);
 	void take_kit(vector<string> paramList);
 	void take_kit_tray(vector<string> paramList);
 	void take_part(vector<string> paramList,KittingPlan *kittingplan);
@@ -84,12 +85,13 @@ private:
 	void print_endcannon(int id);
 	void print_initcannon();
 	void print_moveto(double x, double y, double z, vector<double> z_axis, 
-			  vector<double> x_axis);
+			vector<double> x_axis);
 	void print_opengripper();
 
 	double m_safe_z;
 	double m_dwell;
 	string m_kit_tray;
+	FileOperator* m_file_operator;
 };
 
 #endif /* CANONICALROBOTCOMMAND_H_ */

@@ -7,38 +7,43 @@
   maintenance, and subsequent redistribution.
 
   See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ *****************************************************************************/
 #include "Operator.h"
 
 
 
 /*!
 @brief Auto-generated constructor stub
-*/
+ */
 FileOperator::FileOperator() {
 }
 
 /*!
 @brief Auto-generated destructor stub
-*/
+ */
 FileOperator::~FileOperator() {
 }
 
+void FileOperator::setCRCLFile(string file_name){
+	m_crcl_file=file_name;
+}
+
+string FileOperator::getCRCLFileName(){
+	return m_crcl_file;
+}
 
 void FileOperator::stripSpace(string &str) {
-    for (int i=0;i<str.length();i++)
-       if (str[i]==' ') {
-         str.erase(i,1);
-         i--;
-        }
+	for (int i=0;i<str.length();i++)
+		if (str[i]==' ') {
+			str.erase(i,1);
+			i--;
+		}
 }
 
 
 char* FileOperator::getCanonFile(){
-	string output = "";
-	output +=ROBOT_COMMANDS_FOLDER;
-	output +=ROBOT_COMMANDS_FILE;
-	char *fileName = (char*)output.c_str();
+	string crcl_file = getCRCLFileName();
+	char *fileName = (char*)crcl_file.c_str();
 	return fileName;
 }
 
@@ -58,7 +63,7 @@ The different steps are:
 <li> Keep the string that starts after @a pos2: use the string::substr function
 </ul>
 </ul>
-*/
+ */
 string FileOperator::removeParentheses(std::string s){
 	size_t pos1, pos2;
 	std::string newLine;
@@ -81,22 +86,22 @@ string FileOperator::removeParentheses(std::string s){
 @return vector A vector that contains all elements from the string @a s
 
 <b>Example</b>: Read the string "word1 word2 word3" and generates a vector vector<word1,word2,word3>
-*/
+ */
 vector<string> FileOperator::splitString(string s){
-	 istringstream iss(s);
-	 vector<string> tokens;
+	istringstream iss(s);
+	vector<string> tokens;
 
-	 copy(istream_iterator<string>(iss),
-	          istream_iterator<string>(),
-	          back_inserter<vector<string> >(tokens));
+	copy(istream_iterator<string>(iss),
+			istream_iterator<string>(),
+			back_inserter<vector<string> >(tokens));
 
-	 return tokens;
+	return tokens;
 }
 
 /*!
 @brief Read and display elements of a vector
 @param myVector The vector to read
-*/
+ */
 void FileOperator::readVector(vector<string> myVector){
 	int vectLength;
 	vectLength=(int)myVector.size();
@@ -109,7 +114,7 @@ void FileOperator::readVector(vector<string> myVector){
 /*!
 @brief Read the elements of a vector that contains a vector of string
 @param myVector The vector to read
-*/
+ */
 void FileOperator::readVectorOfVector(vector<vector<string> > myVector){
 	for (vector< vector<string> >::size_type u = 0; u < myVector.size(); u++) {
 		for (vector<string>::size_type v = 0; v < myVector[u].size(); v++) {
@@ -122,7 +127,7 @@ void FileOperator::readVectorOfVector(vector<vector<string> > myVector){
 /*!
 @brief Remove duplicate values in a vector
 @param myVector The vector to read
-*/
+ */
 void FileOperator::removeDuplicates(vector<string>& myVector){
 	sort(myVector.begin(), myVector.end());
 	myVector.erase(unique(myVector.begin(), myVector.end()), myVector.end());
@@ -131,7 +136,7 @@ void FileOperator::removeDuplicates(vector<string>& myVector){
 /*!
 @brief Read the elements of a map that contains a vector as the second parameter
 @param myMap The map to read
-*/
+ */
 
 void FileOperator::readMapOfVector(std::map<string,std::vector<string> > myMap){
 	for(map<string, vector<string> >::iterator iter = myMap.begin(); iter != myMap.end(); ++iter ) {
@@ -145,7 +150,7 @@ void FileOperator::readMapOfVector(std::map<string,std::vector<string> > myMap){
 /*!
 @brief Read the elements of a map
 @param myMap The map to read
-*/
+ */
 void FileOperator::readMap(map<string,string> myMap){
 	for(map<string, string >::iterator iter = myMap.begin(); iter != myMap.end(); ++iter ) {
 		cout  << iter->first << " ";
@@ -156,7 +161,7 @@ void FileOperator::readMap(map<string,string> myMap){
 /*!
 @brief Find the type of the parameter @a myParameter by parsing #KittingPDDLProblem:m_ParamTypeList
 @param myParameter The parameter for which the type is needed
-*/
+ */
 /*
 string FileOperator::findParamType(string myParameter, KittingPDDLProblem *kittingProb){
 
@@ -173,7 +178,7 @@ string FileOperator::findParamType(string myParameter, KittingPDDLProblem *kitti
 			//cout  << iter->second << endl;
 		}
 }
-*/
+ */
 
 /*!
 @brief Write canonical commands in the output file
@@ -184,7 +189,7 @@ The different steps are defined as follows:
 <li> Close the output file
 </ul>
 @param message Message to write in the file
-*/
+ */
 void FileOperator::writeData(string message){
 	char *fileName = getCanonFile();
 	std:ofstream canonfile;
@@ -205,11 +210,11 @@ The different steps are defined as follows:
 </ul>
 <li> Create the output file
 </ul>
-*/
+ */
 void FileOperator::createOutputFile(){
-	FileOperator *fileop = new FileOperator;
+	//FileOperator *fileop = new FileOperator;
 	//-- Get the name of the output file to write canonical commands
-	char *fileName = fileop->getCanonFile();
+	char *fileName = getCanonFile();
 
 	cout << "------------------------" << endl;
 	ifstream fin(fileName);

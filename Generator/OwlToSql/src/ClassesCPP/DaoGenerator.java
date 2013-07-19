@@ -602,9 +602,11 @@ public class DaoGenerator {
 
 		paramConstruct = paramConstruct
 				+ "{\nthis->className.push_back(name);\n"
-				+ "connection = Connection::getInstance(\"" + url + "\", \"" + user
-				+ "\", \"" + pass + "\", \"" + nameDb + "\");"
-				+ "this->fillGetSqlQueries();\n}\n";
+				+ "if(getenv(\"MysqlDefaultHost\") && getenv(\"MysqlDefaultUser\")&& getenv(\"MysqlDefaultPassword\")&& getenv(\"MysqlDefaultSchema\")){\n"
+			    +"connection = Connection::getInstance(getenv(\"MysqlDefaultHost\"), getenv(\"MysqlDefaultUser\"), getenv(\"MysqlDefaultPassword\"), getenv(\"MysqlDefaultSchema\"));\n"
+			    +"this->fillGetSqlQueries();}\n"
+			    +"else\n"
+			    +"std::cout<<\"Check the readme file to know which environment variables to assign\"<<std::endl;\n}\n";
 
 		String fillGetSqlQueries = "std::map<std::string, std::string> "
 				+ "DAO::getSqlQueriesDataSingle;"

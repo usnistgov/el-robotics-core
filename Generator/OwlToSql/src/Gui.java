@@ -161,7 +161,7 @@ public class Gui extends JFrame {
 		panOtS.add(panGenerate);
 		panOtoCpp.add(panCreateCpp);
 		panOtoCpp.add(panSaveCpp);
-		panOtoCpp.add(panDb);
+		//panOtoCpp.add(panDb);
 		panOtoCpp.add(panGenerateCpp);
 		pathSaveCpp.setColumns(25);
 		panSaveCpp.add(pathSaveCpp);

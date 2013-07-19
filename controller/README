@@ -1,0 +1,5 @@
+To build the canonical controller, run:
+
+cd build
+cmake ..
+make

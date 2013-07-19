@@ -19,7 +19,7 @@ level of the hierarchy to help the reader understand the basic concepts
 implemented within the system architecture. The reader may find a more
 detailed description of each component and each level of the architecture
 in other documented
-publications~\cite{NISTIR.Balakirsky,BALAKIRSKY.IROS.2012}.
+publications~\cite{BALAKIRSKY.IROS.2012}.
 \begin{itemize}
 \item On the vertical axis, knowledge begins with Domain Specific Information
 (DSI) that captures operational knowledge that is necessary to be
@@ -55,9 +55,7 @@ The planning language used in the knowledge driven system is expressed with
 the Planning Domain Definition Language (PDDL)~\cite{PDDL} (version 3.0).
 The PDDL input format consists of two files that specify the domain and the
 problem. As shown in Figure~\ref{fig:methodology}, these files are
-automatically generated from the ontology. The domain file represents
-actions along with required preconditions and expected results. The problem
-file represents the initial state of the system and the desired goal. From
+automatically generated from the ontology. From
 these two files, a domain independent planning
 system~\cite{Coles.ICAPS.2010} was used to produce a static \textsf{Plan Instance File}.
 

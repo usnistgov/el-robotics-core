@@ -1,9 +1,9 @@
 IDIR =../include
 CC=g++
-CFLAGS=-I$(IDIR) -I ../src -g -O2
+CFLAGS=-I$(IDIR) -I ../src -g -I../../AutoGen
 
 ODIR=obj
-LIBS=-L./ -lpthread -lsqlKit -lmysqlcppconn
+LIBS=-L../../AutoGen -lpthread -lsqlKit -lmysqlcppconn
 
 _DEPS = ulapi.hh
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))

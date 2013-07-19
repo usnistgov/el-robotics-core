@@ -47,63 +47,62 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 public class Individuals {
 	/**
-	 * \brief     Update queries.
+	 * \brief Update queries.
 	 */
 	private String resultUpdate = "";
 	/**
-	 * \brief     Separator between URL and the individuals' name in the ontology.
+	 * \brief Separator between URL and the individuals' name in the ontology.
 	 */
 	private static final char SEPARATOR = '#';
 	/**
-	 * \brief      List of super classes.
-	 * \details Used to know where insert data when there is a hierarchy.
+	 * \brief List of super classes. \details Used to know where insert data
+	 * when there is a hierarchy.
 	 */
 	private ArrayList<String> parent;
 	/**
-	 * \brief      Our ontology
+	 * \brief Our ontology
 	 */
 	private OWLOntology ontology;
 	/**
-	 * \brief      Where we are going to save the script.
+	 * \brief Where we are going to save the script.
 	 */
 	private String path;
 	/**
-	 * \brief      Number of insertion for a given table.
-	 * Map - Key: Type => Value : # of insertion.
+	 * \brief Number of insertion for a given table. Map - Key: Type => Value :
+	 * # of insertion.
 	 */
-	private HashMap<String, Integer> nbInsert; 
+	private HashMap<String, Integer> nbInsert;
 	/**
-	 * \brief      Attributes for a given table.
-	 * \details <Table1 => <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
+	 * \brief Attributes for a given table. \details <Table1 =>
+	 * <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
 	 */
-	private HashMap<String, ArrayList<String>> tables; 
+	private HashMap<String, ArrayList<String>> tables;
 	/**
-	 * \brief      List of the individuals in the ontology.
+	 * \brief List of the individuals in the ontology.
 	 */
 	private ArrayList<OWLIndividual> individuals;
 	/**
-	 * \brief      List of the individuals without the URL before their name.
+	 * \brief List of the individuals without the URL before their name.
 	 */
 	private ArrayList<String> individualsClean;
 	/**
-	 * \brief      Collection of the types and individuals associated.
-	 * \details Type1 => <Individual1, Individual2>, Type2 => <Individual3, Individual4>
+	 * \brief Collection of the types and individuals associated. \details Type1
+	 * => <Individual1, Individual2>, Type2 => <Individual3, Individual4>
 	 */
-	private HashMap<String, ArrayList<String>> individualsType; 
+	private HashMap<String, ArrayList<String>> individualsType;
 	/**
-	 * \brief      List of the super classes without the URL before their name in the ontology.
-	 * \details Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
+	 * \brief List of the super classes without the URL before their name in the
+	 * ontology. \details
+	 * Classe1=<SuperClasse1,SuperClasse2>,Classe2=<SuperClasse1,SuperClasse2>
 	 */
 	private HashMap<String, ArrayList<String>> superClassesClean;
 
 	/**
-     *  \brief Constructor
-     *  \details Constructor of the Individuals class.
-     *  \param tables 	Collections of the tables and attributes.
-     *  \param ontology 	Our ontology.
-     *  \param path 	Where we are going to save the script.
-     *  \param superClassesClean 	List of the super classes.
-     */
+	 * \brief Constructor \details Constructor of the Individuals class. \param
+	 * tables Collections of the tables and attributes. \param ontology Our
+	 * ontology. \param path Where we are going to save the script. \param
+	 * superClassesClean List of the super classes.
+	 */
 	public Individuals(HashMap<String, ArrayList<String>> tables,
 			OWLOntology ontology, String path,
 			HashMap<String, ArrayList<String>> superClassesClean) {
@@ -113,7 +112,7 @@ public class Individuals {
 		this.superClassesClean = superClassesClean;
 		parent = new ArrayList<String>();
 		individuals = null;
-		nbInsert =new HashMap<String, Integer>();
+		nbInsert = new HashMap<String, Integer>();
 		individualsType = new HashMap<String, ArrayList<String>>();
 		addIndividuals(); // Extract the individuals of the ontology - Fill up
 		// the Individuals list
@@ -124,12 +123,14 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Test if a String is a number.
-	 * \param    s			   String we want to test.
-	 * \return   A boolean : true if the String can be cast in a number, false if it can't.
+	 * \brief Test if a String is a number. \param s String we want to test.
+	 * \return A boolean : true if the String can be cast in a number, false if
+	 * it can't.
 	 */
 	public boolean isNumber(String s) {
 		try {
+			if (s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false"))
+				return true;
 			Double.valueOf(s);
 			return true;
 		} catch (NumberFormatException nfe) {
@@ -138,15 +139,18 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Make all the call to generate the SQL script used for the insertions.
+	 * \brief Make all the call to generate the SQL script used for the
+	 * insertions.
 	 */
 	public void insert() {
 		write(insertInto() + resultUpdate);
 	}
 
 	/**
-	 * \brief      Fill a map whith the different classes in the ontology, and their indivuals.
-	 * \details   The key is the name of the class in the ontology, and the value a list which contains the names of the individuals of this class
+	 * \brief Fill a map whith the different classes in the ontology, and their
+	 * indivuals. \details The key is the name of the class in the ontology, and
+	 * the value a list which contains the names of the individuals of this
+	 * class
 	 */
 	private void addTypes() {
 		for (int i = 0; i < individualsClean.size(); i++) {
@@ -172,8 +176,8 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Fill a list whith the name of the individuals from the ontology
-	 * \details   It cleans the name by removing the URI from it.
+	 * \brief Fill a list whith the name of the individuals from the ontology
+	 * \details It cleans the name by removing the URI from it.
 	 */
 	public void cleanIndividuals() {
 		for (int i = 0; i < individuals.size(); i++) {
@@ -189,20 +193,21 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief   Extract the individuals of the ontology and fill up the Individuals list
-	 */	
+	 * \brief Extract the individuals of the ontology and fill up the
+	 * Individuals list
+	 */
 	public void addIndividuals() {
 		individuals = new ArrayList<OWLIndividual>(
 				ontology.getIndividualsInSignature());
 	}
 
 	/**
-	 * \brief      Add the local data properties in the SQL script for a given individual.
-	 * \param    i		Position of the individual in the list.
-	 * \param    attributesTab		Tab with all the attributes.
-	 * \param    attributes		Conversion of the tab in a single string.
-	 * \param    name		To know if the name is added in order to do it only once.
-	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 * \brief Add the local data properties in the SQL script for a given
+	 * individual. \param i Position of the individual in the list. \param
+	 * attributesTab Tab with all the attributes. \param attributes Conversion
+	 * of the tab in a single string. \param name To know if the name is added
+	 * in order to do it only once. \return A tab with in position 0 the values
+	 * corresponding to the attributes and in position 1 if the name is added.
 	 */
 	public Object[] insertIntoData(int i, String[] attributesTab,
 			String attributes, boolean name) {
@@ -331,12 +336,12 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Add the local object properties in the SQL script for a given individual.
-	 * \param    i		Position of the individual in the list.
-	 * \param    attributesTab		Tab with all the attributes.
-	 * \param    attributes		Conversion of the tab in a single string.
-	 * \param    name		To know if the name is added in order to do it only once.
-	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 * \brief Add the local object properties in the SQL script for a given
+	 * individual. \param i Position of the individual in the list. \param
+	 * attributesTab Tab with all the attributes. \param attributes Conversion
+	 * of the tab in a single string. \param name To know if the name is added
+	 * in order to do it only once. \return A tab with in position 0 the values
+	 * corresponding to the attributes and in position 1 if the name is added.
 	 */
 	public Object[] insertIntoObject(int i, String[] attributesTab,
 			String attributes, boolean name) {
@@ -465,12 +470,12 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Add the data properties from other tables in the SQL script for a given individual.
-	 * \param    i		Position of the individual in the list.
-	 * \param    l		Position of the attribute in the tab.
-	 * \param    attributesTab		Tab with all the attributes.
-	 * \param    name		To know if the name is added in order to do it only once.
-	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 * \brief Add the data properties from other tables in the SQL script for a
+	 * given individual. \param i Position of the individual in the list. \param
+	 * l Position of the attribute in the tab. \param attributesTab Tab with all
+	 * the attributes. \param name To know if the name is added in order to do
+	 * it only once. \return A tab with in position 0 the values corresponding
+	 * to the attributes and in position 1 if the name is added.
 	 */
 	public Object[] insertIntoDataForeign(int i, int l, String[] attributesTab,
 			boolean name) {
@@ -616,12 +621,12 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Add the object properties from other tables in the SQL script for a given individual.
-	 * \param    i		Position of the individual in the list.
-	 * \param    l		Position of the attribute in the tab.
-	 * \param    attributesTab		Tab with all the attributes.
-	 * \param    name		To know if the name is added in order to do it only once.
-	 * \return    A tab with in position 0 the values corresponding to the attributes and in position 1 if the name is added.
+	 * \brief Add the object properties from other tables in the SQL script for
+	 * a given individual. \param i Position of the individual in the list.
+	 * \param l Position of the attribute in the tab. \param attributesTab Tab
+	 * with all the attributes. \param name To know if the name is added in
+	 * order to do it only once. \return A tab with in position 0 the values
+	 * corresponding to the attributes and in position 1 if the name is added.
 	 */
 	public Object[] insertIntoObjectForeign(int i, int l,
 			String[] attributesTab, boolean name) {
@@ -690,8 +695,9 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Manage the call to the insertSuper method to generate the script and populate the tables issued from multi valued properties.
-	 * \return    A String with the insert into queries.
+	 * \brief Manage the call to the insertSuper method to generate the script
+	 * and populate the tables issued from multi valued properties. \return A
+	 * String with the insert into queries.
 	 */
 	public String insertInto() {
 		Object[] resultTab = new Object[2];
@@ -865,8 +871,8 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Generate the sql script used to populate the tables (INSERT and UPDATE).
-	 * \return    A String with the insert into queries.
+	 * \brief Generate the sql script used to populate the tables (INSERT and
+	 * UPDATE). \return A String with the insert into queries.
 	 */
 	@SuppressWarnings("unchecked")
 	public String insertSuper(int i, String table, String[] attributesLocalTab,
@@ -925,6 +931,7 @@ public class Individuals {
 		ArrayList<String> attributes = new ArrayList<String>();
 		ArrayList<String> dataKeys = new ArrayList<String>();
 		ArrayList<String> objectKeys = new ArrayList<String>();
+		//System.out.println(table + " " + individualsClean.get(i));
 		attributes = (ArrayList<String>) tables.get(table).clone();
 
 		ArrayList<OWLDataPropertyExpression> valuesDataKeys = new ArrayList<OWLDataPropertyExpression>(
@@ -1050,8 +1057,7 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief      Write the script on the disk.
-	 * \param    s	Data to write.
+	 * \brief Write the script on the disk. \param s Data to write.
 	 */
 	public void write(String s) {
 		Writer fstream;
@@ -1067,85 +1073,84 @@ public class Individuals {
 	}
 
 	/**
-	 * \brief Simple getter.
-	 * \return tables
+	 * \brief Simple getter. \return tables
 	 */
 	public HashMap<String, ArrayList<String>> getTables() {
 		return tables;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param tables
+	 * \brief Simple setter. \param tables
 	 */
 	public void setTables(HashMap<String, ArrayList<String>> tables) {
 		this.tables = tables;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return individuals
+	 * \brief Simple getter. \return individuals
 	 */
 	public ArrayList<OWLIndividual> getIndividuals() {
 		return individuals;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param individuals
+	 * \brief Simple setter. \param individuals
 	 */
 	public void setIndividuals(ArrayList<OWLIndividual> individuals) {
 		this.individuals = individuals;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return individualsClean
+	 * \brief Simple getter. \return individualsClean
 	 */
 	public ArrayList<String> getIndividualsClean() {
 		return individualsClean;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param individualsClean
+	 * \brief Simple setter. \param individualsClean
 	 */
 	public void setIndividualsClean(ArrayList<String> individualsClean) {
 		this.individualsClean = individualsClean;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return path
+	 * \brief Simple getter. \return path
 	 */
 	public String getPath() {
 		return path;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param path
+	 * \brief Simple setter. \param path
 	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return nbInsert
+	 * \brief Simple getter. \return nbInsert
 	 */
 	public HashMap<String, Integer> getNbInsert() {
 		return nbInsert;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param nbInsert
+	 * \brief Simple setter. \param nbInsert
 	 */
 	public void setNbInsert(HashMap<String, Integer> nbInsert) {
 		this.nbInsert = nbInsert;
 	}
+
 	/**
-	 * \brief Simple getter.
-	 * \return superClassesClean
+	 * \brief Simple getter. \return superClassesClean
 	 */
 	public HashMap<String, ArrayList<String>> getSuperClassesClean() {
 		return superClassesClean;
 	}
+
 	/**
-	 * \brief Simple setter.
-	 * \param superClassesClean
+	 * \brief Simple setter. \param superClassesClean
 	 */
 	public void setSuperClassesClean(
 			HashMap<String, ArrayList<String>> superClassesClean) {

@@ -54,7 +54,7 @@ VacuumEffector.cpp \
 VacuumEffectorMultiCup.cpp \
 VacuumEffectorSingleCup.cpp \
 Vector.cpp \
-WorkTable.cpp
+WorkTable.cpp 
 
 libsqlKit_OBJECTS=$(patsubst %, $(ODIR)/%,$(libsqlKit_SOURCES:.cpp=.o))
 

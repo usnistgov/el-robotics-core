@@ -15,7 +15,11 @@ software
 
 DAO::DAO(std::string name){
 this->className.push_back(name);
-connection = Connection::getInstance("localhost", "root", "warnerBr0s", "OWL");this->fillGetSqlQueries();
+if(getenv("MysqlDefaultHost") && getenv("MysqlDefaultUser")&& getenv("MysqlDefaultPassword")&& getenv("MysqlDefaultSchema"))
+connection = Connection::getInstance(getenv("MysqlDefaultHost"), getenv("MysqlDefaultUser"), getenv("MysqlDefaultPassword"), getenv("MysqlDefaultSchema"));
+this->fillGetSqlQueries();
+else
+std::cout<<"Check the readme file to know which environment variables to assign"<<std::endl;
 }
 std::map<std::string, std::string> DAO::getSqlQueriesDataSingle;std::map<std::string,std::vector<std::string> > DAO::getSqlQueriesDataMulti;std::map<std::string,std::vector<std::string> > DAO::getSqlQueriesObjectSingle;std::map<std::string,std::vector<std::string> > DAO::getSqlQueriesObjectMulti;
 
@@ -398,7 +402,6 @@ nameDone.push_back(className.back() + "+" + name);
 				delete (prep_stmt);
 				delete (stmt);
 			} catch (sql::SQLException &e) {
-			  /*
 				std::cout << "# ERR: SQLException in " << __FILE__;
 				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 						<< std::endl;
@@ -406,7 +409,6 @@ nameDone.push_back(className.back() + "+" + name);
 				std::cout << " (MySQL error code: " << e.getErrorCode();
 				std::cout << ", SQLState: " << e.getSQLState() << " )"
 						<< std::endl;
-						*/
 			}
 		}
 
@@ -507,7 +509,6 @@ nameDone.push_back(className.back() + "+" + name);
 							delete (res);
 							delete (prep_stmt);
 						} catch (sql::SQLException &e) {
-						  /*
 							std::cout << "# ERR: SQLException in " << __FILE__;
 							std::cout << "(" << __FUNCTION__ << ") on line "
 									<< __LINE__ << std::endl;
@@ -516,7 +517,6 @@ nameDone.push_back(className.back() + "+" + name);
 									<< e.getErrorCode();
 							std::cout << ", SQLState: " << e.getSQLState()
 									<< " )" << std::endl;
-									*/
 						}
 					}
 					//End Add Data Multi
@@ -667,7 +667,6 @@ nameDone.push_back(className.back() + "+" + name);
 							delete (prep_stmt);
 							delete (stmt);
 						} catch (sql::SQLException &e) {
-						  /*
 							std::cout << "# ERR: SQLException in " << __FILE__;
 							std::cout << "(" << __FUNCTION__ << ") on line "
 									<< __LINE__ << std::endl;
@@ -676,13 +675,11 @@ nameDone.push_back(className.back() + "+" + name);
 									<< e.getErrorCode();
 							std::cout << ", SQLState: " << e.getSQLState()
 									<< " )" << std::endl;
-									*/
 						}
 					}
 				} while (!restempmulti->isLast());
 				delete (restempmulti);
 			} catch (sql::SQLException &e) {
-			  /*
 				std::cout << "# ERR: SQLException in " << __FILE__;
 				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 						<< std::endl;
@@ -690,18 +687,15 @@ nameDone.push_back(className.back() + "+" + name);
 				std::cout << " (MySQL error code: " << e.getErrorCode();
 				std::cout << ", SQLState: " << e.getSQLState() << " )"
 						<< std::endl;
-						*/
 			}
 		}
 	} catch (sql::SQLException &e) {
-	  /*
 		std::cout << "# ERR: SQLException in " << __FILE__;
 		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 				<< std::endl;
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		*/
 	}
 	className.pop_back();
 	return map;
@@ -735,14 +729,12 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 	}
 
 	catch (sql::SQLException &e) {
-	  /*
 		std::cout << "# ERR: SQLException in " << __FILE__;
 		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 				<< std::endl;
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		*/
 	}
 	// DATA MULTI
 
@@ -817,14 +809,12 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 				}
 			delete (stmt);
 		} catch (sql::SQLException &e) {
-		  /*
 			std::cout << "# ERR: SQLException in " << __FILE__;
 			std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 					<< std::endl;
 			std::cout << "# ERR: " << e.what();
 			std::cout << " (MySQL error code: " << e.getErrorCode();
 			std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-			*/
 		}
 	}
 
@@ -879,14 +869,12 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 			}
 			delete (stmt);
 		} catch (sql::SQLException &e) {
-		  /*
 			std::cout << "# ERR: SQLException in " << __FILE__;
 			std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 					<< std::endl;
 			std::cout << "# ERR: " << e.what();
 			std::cout << " (MySQL error code: " << e.getErrorCode();
 			std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-			*/
 		}
 	}
 
@@ -937,14 +925,12 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 			delete (stmt);
 
 		} catch (sql::SQLException &e) {
-		  /*
 			std::cout << "# ERR: SQLException in " << __FILE__;
 			std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 					<< std::endl;
 			std::cout << "# ERR: " << e.what();
 			std::cout << " (MySQL error code: " << e.getErrorCode();
 			std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-			*/
 		}
 	}
 		}
@@ -995,14 +981,12 @@ std::map<std::string, std::vector<std::string> > DAO::getAll(std::vector<
 		delete (stmt);
 
 	} catch (sql::SQLException &e) {
-	  /*
 		std::cout << "# ERR: SQLException in " << __FILE__;
 		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 				<< std::endl;
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		*/
 	}
 	return result;
 }

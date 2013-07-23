@@ -46,13 +46,12 @@
 -->
 
 <KittingWorkstation
-  xmlns="urn:kitting"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="urn:kitting ../schema/kitting.xsd">
+  xsi:noNamespaceSchemaLocation="../schema/kitting.xsd">
   <Name>kitting_workstation_1</Name>
   <PrimaryLocation xsi:type="RelativeLocationInType">
     <Name>relative_location_in_1</Name>
-    <RefObject>kitting_workstation_1</RefObject>
+    <RefObjectName>kitting_workstation_1</RefObjectName>
     <Description>kitting_workstation_1 is in kitting_workstation_1</Description>
   </PrimaryLocation>
   <AngleUnit>degree</AngleUnit>
@@ -60,7 +59,7 @@
     <Name>changing_station_1</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>changing_station_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>changing_station_point</Name>
         <X>8.500000</X>
@@ -84,7 +83,7 @@
       <Name>changing_station_base</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>changing_station_base_pose</Name>
-        <RefObject>changing_station_1</RefObject>
+        <RefObjectName>changing_station_1</RefObjectName>
         <Point>
           <Name>changing_station_base_point</Name>
           <X>0.000000</X>
@@ -113,11 +112,11 @@
         <HasTop>true</HasTop>
       </InternalShape>
     </Base>
-    <EndEffectorHolders>
+    <EndEffectorHolder>
       <Name>part_gripper_holder</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>part_gripper_holder_pose</Name>
-        <RefObject>changing_station_1</RefObject>
+        <RefObjectName>changing_station_1</RefObjectName>
         <Point>
           <Name>part_gripper_holder_point</Name>
           <X>0.250000</X>
@@ -149,7 +148,7 @@
         <Name>part_gripper</Name>
         <PrimaryLocation xsi:type="PoseOnlyLocationType">
           <Name>part_gripper_pose</Name>
-          <RefObject>part_gripper_holder</RefObject>
+          <RefObjectName>part_gripper_holder</RefObjectName>
           <Point>
             <Name>part_gripper_point</Name>
             <X>0.000000</X>
@@ -175,12 +174,12 @@
         <CupDiameter>0.040000</CupDiameter>
         <Length>0.025000</Length>
       </EndEffector>
-    </EndEffectorHolders>
-    <EndEffectorHolders>
+    </EndEffectorHolder>
+    <EndEffectorHolder>
       <Name>tray_gripper_holder</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>tray_gripper_holder_pose</Name>
-        <RefObject>changing_station_1</RefObject>
+        <RefObjectName>changing_station_1</RefObjectName>
         <Point>
           <Name>tray_gripper_holder_point</Name>
           <X>-0.250000</X>
@@ -208,7 +207,7 @@
         <Height>0.001000</Height>
         <HasTop>true</HasTop>
       </InternalShape>
-    </EndEffectorHolders>
+    </EndEffectorHolder>
   </ChangingStation>
   <KitDesign>
     <Name>kit_design_a2b1c1</Name>
@@ -307,7 +306,7 @@
     <Name>empty_kit_tray_supply</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>empty_kit_tray_supply_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>empty_kit_tray_supply_point</Name>
         <X>1.500000</X>
@@ -331,7 +330,7 @@
       <Name>empty_kit_tray_box</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>empty_kit_tray_box_pose</Name>
-        <RefObject>empty_kit_tray_supply</RefObject>
+        <RefObjectName>empty_kit_tray_supply</RefObjectName>
         <Point>
           <Name>empty_kit_tray_box_point</Name>
           <X>0.000000</X>
@@ -359,7 +358,7 @@
     <Name>finished_kit_receiver</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>finished_kit_receiver_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>finished_kit_receiver_point</Name>
         <X>2.500000</X>
@@ -383,7 +382,7 @@
       <Name>finished_kit_box</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>finished_kit_box_pose</Name>
-        <RefObject>finished_kit_receiver</RefObject>
+        <RefObjectName>finished_kit_receiver</RefObjectName>
         <Point>
           <Name>finished_kit_box_point</Name>
           <X>0.000000</X>
@@ -410,7 +409,7 @@
       <Name>kit_1</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>kit_1_pose</Name>
-        <RefObject>finished_kit_receiver</RefObject>
+        <RefObjectName>finished_kit_receiver</RefObjectName>
         <Point>
           <Name>kit_1_point</Name>
           <X>0.000000</X>
@@ -431,11 +430,11 @@
         </ZAxis>
       </PrimaryLocation>
       <DesignName>kit_design_a2b1c1</DesignName>
-      <Tray>
+      <KitTray>
         <Name>kit_tray_1</Name>
         <PrimaryLocation xsi:type="PoseOnlyLocationType">
           <Name>kit_tray_1_pose</Name>
-          <RefObject>kit_1</RefObject>
+          <RefObjectName>kit_1</RefObjectName>
           <Point>
             <Name>kit_tray_1_point</Name>
             <X>0.000000</X>
@@ -457,12 +456,12 @@
         </PrimaryLocation>
         <SkuName>stock_keeping_unit_kit_tray</SkuName>
         <SerialNumber>1</SerialNumber>
-      </Tray>
+      </KitTray>
       <Part>
         <Name>part_a_1</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_a_1_pose</Name>
-          <RefObject>kit_1</RefObject>
+          <RefObjectName>kit_1</RefObjectName>
           <Point>
             <Name>part_a_1_point</Name>
             <X>-0.140000</X>
@@ -489,7 +488,7 @@
         <Name>part_a_2</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_a_2_pose</Name>
-          <RefObject>kit_1</RefObject>
+          <RefObjectName>kit_1</RefObjectName>
           <Point>
             <Name>part_a_2_point</Name>
             <X>-0.140000</X>
@@ -516,7 +515,7 @@
         <Name>part_b_1</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_b_1_pose</Name>
-          <RefObject>kit_1</RefObject>
+          <RefObjectName>kit_1</RefObjectName>
           <Point>
             <Name>part_b_1_point</Name>
             <X>0.140000</X>
@@ -543,7 +542,7 @@
         <Name>part_c_1</Name>
         <PrimaryLocation xsi:type="PoseLocationInType">
           <Name>part_c_1_pose</Name>
-          <RefObject>kit_1</RefObject>
+          <RefObjectName>kit_1</RefObjectName>
           <Point>
             <Name>part_c_1_point</Name>
             <X>0.140000</X>
@@ -575,7 +574,7 @@
     <Name>part_a_tray</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>part_a_tray_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>part_a_tray_point</Name>
         <X>5.500000</X>
@@ -602,7 +601,7 @@
     <Name>part_b_tray</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>part_b_tray_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>part_b_tray_point</Name>
         <X>6.500000</X>
@@ -629,7 +628,7 @@
     <Name>part_c_tray</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>part_c_tray_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>part_c_tray_point</Name>
         <X>7.500000</X>
@@ -652,11 +651,44 @@
     <SkuName>stock_keeping_unit_parts_tray</SkuName>
     <SerialNumber>8</SerialNumber>
   </Object>
+  <Object xsi:type="WorkTableType">
+    <Name>work_table_1</Name>
+    <PrimaryLocation xsi:type="PoseOnlyLocationType">
+      <Name>work_table_pose</Name>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
+      <Point>
+        <Name>work_table_point</Name>
+        <X>4.000000</X>
+        <Y>1.000000</Y>
+        <Z>0.000000</Z>
+      </Point>
+      <XAxis>
+        <Name>work_table_x_axis</Name>
+        <I>1.000000</I>
+        <J>0.000000</J>
+        <K>0.000000</K>
+      </XAxis>
+      <ZAxis>
+        <Name>work_table_z_axis</Name>
+        <I>0.000000</I>
+        <J>0.000000</J>
+        <K>1.000000</K>
+      </ZAxis>
+    </PrimaryLocation>
+    <InternalShape xsi:type="BoxyShapeType">
+      <Name>shape_work_table</Name>
+      <Description>Shape of the work table</Description>
+      <Length>1.600000</Length>
+      <Width>0.800000</Width>
+      <Height>0.500000</Height>
+      <HasTop>true</HasTop>
+    </InternalShape>
+  </Object>
   <Robot>
     <Name>robot_1</Name>
     <PrimaryLocation xsi:type="PoseOnlyLocationType">
       <Name>robot_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
+      <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>robot_point</Name>
         <X>0.250000</X>
@@ -681,7 +713,7 @@
       <Name>tray_gripper</Name>
       <PrimaryLocation xsi:type="PoseOnlyLocationType">
         <Name>tray_gripper_pose</Name>
-        <RefObject>robot_1</RefObject>
+        <RefObjectName>robot_1</RefObjectName>
         <Point>
           <Name>tray_gripper_point</Name>
           <X>0.000000</X>
@@ -808,37 +840,4 @@
     <EndEffectorName>tray_gripper</EndEffectorName>
   </Sku>
   <WeightUnit>kilogram</WeightUnit>
-  <WorkTable>
-    <Name>work_table_1</Name>
-    <PrimaryLocation xsi:type="PoseOnlyLocationType">
-      <Name>work_table_pose</Name>
-      <RefObject>kitting_workstation_1</RefObject>
-      <Point>
-        <Name>work_table_point</Name>
-        <X>4.000000</X>
-        <Y>1.000000</Y>
-        <Z>0.000000</Z>
-      </Point>
-      <XAxis>
-        <Name>work_table_x_axis</Name>
-        <I>1.000000</I>
-        <J>0.000000</J>
-        <K>0.000000</K>
-      </XAxis>
-      <ZAxis>
-        <Name>work_table_z_axis</Name>
-        <I>0.000000</I>
-        <J>0.000000</J>
-        <K>1.000000</K>
-      </ZAxis>
-    </PrimaryLocation>
-    <InternalShape xsi:type="BoxyShapeType">
-      <Name>shape_work_table</Name>
-      <Description>Shape of the work table</Description>
-      <Length>1.600000</Length>
-      <Width>0.800000</Width>
-      <Height>0.500000</Height>
-      <HasTop>true</HasTop>
-    </InternalShape>
-  </WorkTable>
 </KittingWorkstation>

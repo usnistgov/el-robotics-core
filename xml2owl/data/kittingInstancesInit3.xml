@@ -6,34 +6,57 @@
   this comment matches indentation in the rest of the file and indicates
   that an item belongs to the first slightly less indented item above
   it. If the more indented item is a SolidObject, it is in or on the less
-  indented item, which is also a SolidObject.
+  indented item, which is also a SolidObject
 
   kitting_workstation_1
     changing_station_1
-      changing_station_base
-      part_gripper_holder
-        part_gripper
-      tray_gripper_holder
+    part_gripper_holder
+      part_gripper
+    tray_gripper_holder
     kit_design_a2b1c1
       part_ref_and_pose_kit_a2b1c1_a_1
       part_ref_and_pose_kit_a2b1c1_a_2
       part_ref_and_pose_kit_a2b1c1_b_1
       part_ref_and_pose_kit_a2b1c1_c_1
+    kit_design_a2b2c1
+      part_ref_and_pose_kit_a2b2c1_a_1
+      part_ref_and_pose_kit_a2b2c1_a_2
+      part_ref_and_pose_kit_a2b2c1_b_1
+      part_ref_and_pose_kit_a2b2c1_b_2
+      part_ref_and_pose_kit_a2b2c1_c_1
     empty_kit_tray_supply
       empty_kit_tray_box
         kit_tray_1
+        kit_tray_2
+        kit_tray_3
     finished_kit_receiver
       finished_kit_box
     part_a_supply
       part_a_tray
       part_a_1
       part_a_2
+      part_a_3
+      part_a_4
     part_b_supply
       part_b_tray
       part_b_1
+      part_b_2
+      part_b_3
+      part_b_4
+      part_b_5
+      part_b_6
+      part_b_7
+      part_b_8
     part_c_supply
       part_c_tray
       part_c_1
+      part_c_2
+      part_c_3
+      part_c_4
+      part_c_5
+      part_c_6
+      part_c_7
+      part_c_8
     robot_1
       tray_gripper
       box_volume_1
@@ -54,7 +77,8 @@
   <PrimaryLocation xsi:type="RelativeLocationInType">
     <Name>relative_location_in_1</Name>
     <RefObjectName>kitting_workstation_1</RefObjectName>
-    <Description>The  KittingWorkstation is in kitting_workstation_1</Description>
+    <Description>The KittingWorkstation is in kitting_workstation_1
+    </Description>
   </PrimaryLocation>
   <AngleUnit>degree</AngleUnit>
   <ChangingStation>
@@ -64,8 +88,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>changing_station_point</Name>
-        <X>8.500000</X>
-        <Y>1.000000</Y>
+        <X>7.500000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -108,9 +132,9 @@
       <InternalShape xsi:type="BoxyShapeType">
         <Name>shape_changing_station_base</Name>
         <Description>Shape of base of changing station</Description>
-        <Length>0.420000</Length>
+        <Length>1.000000</Length>
         <Width>0.100000</Width>
-        <Height>0.500000</Height>
+        <Height>1.000000</Height>
         <HasTop>true</HasTop>
       </InternalShape>
     </Base>
@@ -123,7 +147,7 @@
           <Name>part_gripper_holder_point</Name>
           <X>0.250000</X>
           <Y>0.000000</Y>
-          <Z>0.499910</Z>
+          <Z>0.500000</Z>
         </Point>
         <XAxis>
           <Name>part_gripper_holder_x_axis</Name>
@@ -138,14 +162,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <InternalShape xsi:type="BoxyShapeType">
-        <Name>shape_gripper_holder_1</Name>
-        <Description>Shape of gripper holder 1</Description>
-        <Length>0.080000</Length>
-        <Width>0.080000</Width>
-        <Height>0.001000</Height>
-        <HasTop>true</HasTop>
-      </InternalShape>
       <EndEffector xsi:type="VacuumEffectorSingleCupType">
         <Name>part_gripper</Name>
         <PrimaryLocation xsi:type="PoseOnlyLocationType">
@@ -167,13 +183,13 @@
             <Name>part_gripper_z_axis</Name>
             <I>0.000000</I>
             <J>0.000000</J>
-            <K>-1.000000</K>
+            <K>1.000000</K>
           </ZAxis>
         </PrimaryLocation>
         <Description>small single cup vacuum effector</Description>
         <Weight>0.010000</Weight>
         <MaximumLoadWeight>0.400000</MaximumLoadWeight>
-        <CupDiameter>0.040000</CupDiameter>
+        <CupDiameter>0.020000</CupDiameter>
         <Length>0.025000</Length>
       </EndEffector>
     </EndEffectorHolder>
@@ -186,7 +202,7 @@
           <Name>tray_gripper_holder_point</Name>
           <X>-0.250000</X>
           <Y>0.000000</Y>
-          <Z>0.499910</Z>
+          <Z>0.500000</Z>
         </Point>
         <XAxis>
           <Name>tray_gripper_holder_x_axis</Name>
@@ -201,14 +217,6 @@
           <K>1.000000</K>
         </ZAxis>
       </PrimaryLocation>
-      <InternalShape xsi:type="BoxyShapeType">
-        <Name>shape_gripper_holder_2</Name>
-        <Description>Shape of gripper holder 2</Description>
-        <Length>0.080000</Length>
-        <Width>0.080000</Width>
-        <Height>0.001000</Height>
-        <HasTop>true</HasTop>
-      </InternalShape>
     </EndEffectorHolder>
   </ChangingStation>
   <KitDesign>
@@ -219,8 +227,8 @@
       <SkuName>stock_keeping_unit_part_a</SkuName>
       <Point>
         <Name>point_kit_a2b1c1_a_1</Name>
-        <X>-0.140000</X>
-        <Y>0.070000</Y>
+        <X>0.200000</X>
+        <Y>0.300000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -241,9 +249,9 @@
       <SkuName>stock_keeping_unit_part_a</SkuName>
       <Point>
         <Name>point_kit_a2b1c1_a_2</Name>
-        <X>-0.140000</X>
-        <Y>-0.070000</Y>
-        <Z>0.000100</Z>
+        <X>0.400000</X>
+        <Y>0.300000</Y>
+        <Z>0.000000</Z>
       </Point>
       <XAxis>
         <Name>x_axis_kit_a2b1c1_a_2</Name>
@@ -263,8 +271,8 @@
       <SkuName>stock_keeping_unit_part_b</SkuName>
       <Point>
         <Name>point_kit_a2b1c1_b_1</Name>
-        <X>0.140000</X>
-        <Y>-0.070000</Y>
+        <X>0.200000</X>
+        <Y>0.500000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -285,8 +293,8 @@
       <SkuName>stock_keeping_unit_part_c</SkuName>
       <Point>
         <Name>point_kit_a2b1c1_c_1</Name>
-        <X>0.140000</X>
-        <Y>0.070000</Y>
+        <X>0.400000</X>
+        <Y>0.500000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -303,6 +311,120 @@
       </ZAxis>
     </PartRefAndPose>
   </KitDesign>
+  <KitDesign>
+    <Name>kit_design_a2b2c1</Name>
+    <KitTraySkuName>stock_keeping_unit_kit_tray</KitTraySkuName>
+    <PartRefAndPose>
+      <Name>part_ref_and_pose_kit_a2b2c1_a_1</Name>
+      <SkuName>stock_keeping_unit_part_a</SkuName>
+      <Point>
+        <Name>point_kit_a2b2c1_a_1</Name>
+        <X>-0.159000</X>
+        <Y>0.145000</Y>
+        <Z>0.036000</Z>
+      </Point>
+      <XAxis>
+        <Name>x_axis_kit_a2b2c1_a_1</Name>
+        <I>1.000000</I>
+        <J>0.000000</J>
+        <K>0.000000</K>
+      </XAxis>
+      <ZAxis>
+        <Name>z_axis_kit_a2b2c1_a_1</Name>
+        <I>0.000000</I>
+        <J>0.000000</J>
+        <K>1.000000</K>
+      </ZAxis>
+    </PartRefAndPose>
+    <PartRefAndPose>
+      <Name>part_ref_and_pose_kit_a2b2c1_a_2</Name>
+      <SkuName>stock_keeping_unit_part_a</SkuName>
+      <Point>
+        <Name>point_kit_a2b2c1_a_2</Name>
+        <X>-0.159000</X>
+        <Y>-0.149000</Y>
+        <Z>0.036000</Z>
+      </Point>
+      <XAxis>
+        <Name>x_axis_kit_a2b2c1_a_2</Name>
+        <I>1.000000</I>
+        <J>0.000000</J>
+        <K>0.000000</K>
+      </XAxis>
+      <ZAxis>
+        <Name>z_axis_kit_a2b2c1_a_2</Name>
+        <I>0.000000</I>
+        <J>0.000000</J>
+        <K>1.000000</K>
+      </ZAxis>
+    </PartRefAndPose>
+    <PartRefAndPose>
+      <Name>part_ref_and_pose_kit_a2b2c1_b_1</Name>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <Point>
+        <Name>point_kit_a2b2c1_b_1</Name>
+        <X>0.219000</X>
+        <Y>-0.166000</Y>
+        <Z>0.080000</Z>
+      </Point>
+      <XAxis>
+        <Name>x_axis_kit_a2b2c1_b_1</Name>
+        <I>1.000000</I>
+        <J>0.000000</J>
+        <K>0.000000</K>
+      </XAxis>
+      <ZAxis>
+        <Name>z_axis_kit_a2b2c1_b_1</Name>
+        <I>0.000000</I>
+        <J>0.000000</J>
+        <K>1.000000</K>
+      </ZAxis>
+    </PartRefAndPose>
+    <PartRefAndPose>
+      <Name>part_ref_and_pose_kit_a2b2c1_b_2</Name>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <Point>
+        <Name>point_kit_a2b2c1_b_2</Name>
+        <X>0.171000</X>
+        <Y>0.215000</Y>
+        <Z>0.080000</Z>
+      </Point>
+      <XAxis>
+        <Name>x_axis_kit_a2b2c1_b_2</Name>
+        <I>0.000000</I>
+        <J>1.000000</J>
+        <K>0.000000</K>
+      </XAxis>
+      <ZAxis>
+        <Name>z_axis_kit_a2b2c1_b_2</Name>
+        <I>0.000000</I>
+        <J>0.000000</J>
+        <K>1.000000</K>
+      </ZAxis>
+    </PartRefAndPose>
+    <PartRefAndPose>
+      <Name>part_ref_and_pose_kit_a2b2c1_c_1</Name>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <Point>
+        <Name>point_kit_a2b2c1_c_1</Name>
+        <X>0.060000</X>
+        <Y>-0.090000</Y>
+        <Z>0.045000</Z>
+      </Point>
+      <XAxis>
+        <Name>x_axis_kit_a2b2c1_c_1</Name>
+        <I>1.000000</I>
+        <J>0.000000</J>
+        <K>0.000000</K>
+      </XAxis>
+      <ZAxis>
+        <Name>z_axis_kit_a2b2c1_c_1</Name>
+        <I>0.000000</I>
+        <J>0.000000</J>
+        <K>1.000000</K>
+      </ZAxis>
+    </PartRefAndPose>
+  </KitDesign>
   <LengthUnit>meter</LengthUnit>
   <Object xsi:type="LargeBoxWithEmptyKitTraysType">
     <Name>empty_kit_tray_supply</Name>
@@ -311,8 +433,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>empty_kit_tray_supply_point</Name>
-        <X>1.500000</X>
-        <Y>1.000000</Y>
+        <X>0.500000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -335,7 +457,7 @@
         <RefObjectName>empty_kit_tray_supply</RefObjectName>
         <Point>
           <Name>empty_kit_tray_box_point</Name>
-          <X>0.000000</X>
+          <X>0.500000</X>
           <Y>0.000000</Y>
           <Z>0.000000</Z>
         </Point>
@@ -364,7 +486,7 @@
           <Name>kit_tray_1_point</Name>
           <X>0.000000</X>
           <Y>0.000000</Y>
-          <Z>0.000100</Z>
+          <Z>0.000000</Z>
         </Point>
         <XAxis>
           <Name>kit_tray_1_x_axis</Name>
@@ -382,6 +504,60 @@
       <SkuName>stock_keeping_unit_kit_tray</SkuName>
       <SerialNumber>1</SerialNumber>
     </KitTray>
+    <KitTray>
+      <Name>kit_tray_2</Name>
+      <PrimaryLocation xsi:type="PoseOnlyLocationType">
+        <Name>kit_tray_2_pose</Name>
+        <RefObjectName>empty_kit_tray_supply</RefObjectName>
+        <Point>
+          <Name>kit_tray_2_point</Name>
+          <X>0.000000</X>
+          <Y>0.000000</Y>
+          <Z>0.150000</Z>
+        </Point>
+        <XAxis>
+          <Name>kit_tray_2_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>kit_tray_2_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_kit_tray</SkuName>
+      <SerialNumber>2</SerialNumber>
+    </KitTray>
+    <KitTray>
+      <Name>kit_tray_3</Name>
+      <PrimaryLocation xsi:type="PoseOnlyLocationType">
+        <Name>kit_tray_3_pose</Name>
+        <RefObjectName>empty_kit_tray_supply</RefObjectName>
+        <Point>
+          <Name>kit_tray_3_point</Name>
+          <X>0.000000</X>
+          <Y>0.000000</Y>
+          <Z>0.300000</Z>
+        </Point>
+        <XAxis>
+          <Name>kit_tray_3_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>kit_tray_3_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_kit_tray</SkuName>
+      <SerialNumber>3</SerialNumber>
+    </KitTray>
   </Object>
   <Object xsi:type="LargeBoxWithKitsType">
     <Name>finished_kit_receiver</Name>
@@ -390,8 +566,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>finished_kit_receiver_point</Name>
-        <X>2.500000</X>
-        <Y>1.000000</Y>
+        <X>1.500000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -444,8 +620,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>part_a_supply_point</Name>
-        <X>5.500000</X>
-        <Y>1.000000</Y>
+        <X>4.500000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -496,8 +672,8 @@
         <Point>
           <Name>part_a_1_point</Name>
           <X>0.159000</X>
-          <Y>0.100000</Y>
-          <Z>0.000100</Z>
+          <Y>0.159000</Y>
+          <Z>0.027500</Z>
         </Point>
         <XAxis>
           <Name>part_a_1_x_axis</Name>
@@ -523,8 +699,8 @@
         <Point>
           <Name>part_a_2_point</Name>
           <X>0.159000</X>
-          <Y>-0.100000</Y>
-          <Z>0.000100</Z>
+          <Y>-0.159000</Y>
+          <Z>0.027500</Z>
         </Point>
         <XAxis>
           <Name>part_a_2_x_axis</Name>
@@ -542,6 +718,60 @@
       <SkuName>stock_keeping_unit_part_a</SkuName>
       <SerialNumber>a2</SerialNumber>
     </Part>
+    <Part>
+      <Name>part_a_3</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_a_3_pose</Name>
+        <RefObjectName>part_a_supply</RefObjectName>
+        <Point>
+          <Name>part_a_3_point</Name>
+          <X>-0.159000</X>
+          <Y>-0.159000</Y>
+          <Z>0.027500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_a_3_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_a_3_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_a</SkuName>
+      <SerialNumber>a3</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_a_4</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_a_4_pose</Name>
+        <RefObjectName>part_a_supply</RefObjectName>
+        <Point>
+          <Name>part_a_4_point</Name>
+          <X>-0.159000</X>
+          <Y>0.159000</Y>
+          <Z>0.027500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_a_4_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_a_4_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_a</SkuName>
+      <SerialNumber>a4</SerialNumber>
+    </Part>
   </Object>
   <Object xsi:type="PartsTrayWithPartsType">
     <Name>part_b_supply</Name>
@@ -550,8 +780,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>part_b_supply_point</Name>
-        <X>6.500000</X>
-        <Y>1.000000</Y>
+        <X>5.500000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -602,8 +832,8 @@
         <Point>
           <Name>part_b_1_point</Name>
           <X>-0.080000</X>
-          <Y>0.000000</Y>
-          <Z>0.000100</Z>
+          <Y>0.120000</Y>
+          <Z>0.067500</Z>
         </Point>
         <XAxis>
           <Name>part_b_1_x_axis</Name>
@@ -621,6 +851,195 @@
       <SkuName>stock_keeping_unit_part_b</SkuName>
       <SerialNumber>b1</SerialNumber>
     </Part>
+    <Part>
+      <Name>part_b_2</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_2_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_2_point</Name>
+          <X>-0.240000</X>
+          <Y>0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_2_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_2_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b2</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_b_3</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_3_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_3_point</Name>
+          <X>0.080000</X>
+          <Y>0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_3_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_3_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b3</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_b_4</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_4_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_4_point</Name>
+          <X>0.240000</X>
+          <Y>0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_4_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_4_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b4</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_b_5</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_5_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_5_point</Name>
+          <X>-0.080000</X>
+          <Y>-0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_5_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_5_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b5</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_b_6</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_6_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_6_point</Name>
+          <X>-0.240000</X>
+          <Y>-0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_6_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_6_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b6</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_b_7</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_7_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_7_point</Name>
+          <X>0.080000</X>
+          <Y>-0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_7_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_7_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b7</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_b_8</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_b_8_pose</Name>
+        <RefObjectName>part_b_supply</RefObjectName>
+        <Point>
+          <Name>part_b_8_point</Name>
+          <X>0.240000</X>
+          <Y>-0.120000</Y>
+          <Z>0.067500</Z>
+        </Point>
+        <XAxis>
+          <Name>part_b_8_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_b_8_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_b</SkuName>
+      <SerialNumber>b8</SerialNumber>
+    </Part>
   </Object>
   <Object xsi:type="PartsTrayWithPartsType">
     <Name>part_c_supply</Name>
@@ -629,8 +1048,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>part_c_supply_point</Name>
-        <X>7.500000</X>
-        <Y>1.000000</Y>
+        <X>6.500000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -681,8 +1100,8 @@
         <Point>
           <Name>part_c_1_point</Name>
           <X>0.110000</X>
-          <Y>0.020000</Y>
-          <Z>0.000100</Z>
+          <Y>0.216000</Y>
+          <Z>0.035000</Z>
         </Point>
         <XAxis>
           <Name>part_c_1_x_axis</Name>
@@ -700,6 +1119,195 @@
       <SkuName>stock_keeping_unit_part_c</SkuName>
       <SerialNumber>c1</SerialNumber>
     </Part>
+    <Part>
+      <Name>part_c_2</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_2_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_2_point</Name>
+          <X>0.330000</X>
+          <Y>0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_2_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_2_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c2</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_c_3</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_3_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_3_point</Name>
+          <X>-0.110000</X>
+          <Y>0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_3_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_3_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c3</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_c_4</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_4_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_4_point</Name>
+          <X>-0.330000</X>
+          <Y>0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_4_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_4_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c4</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_c_5</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_5_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_5_point</Name>
+          <X>0.110000</X>
+          <Y>-0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_5_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_5_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c5</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_c_6</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_6_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_6_point</Name>
+          <X>0.330000</X>
+          <Y>-0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_6_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_6_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c6</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_c_7</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_7_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_7_point</Name>
+          <X>-0.110000</X>
+          <Y>-0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_7_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_7_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c7</SerialNumber>
+    </Part>
+    <Part>
+      <Name>part_c_8</Name>
+      <PrimaryLocation xsi:type="PoseLocationInType">
+        <Name>part_c_8_pose</Name>
+        <RefObjectName>part_c_supply</RefObjectName>
+        <Point>
+          <Name>part_c_8_point</Name>
+          <X>-0.330000</X>
+          <Y>-0.216000</Y>
+          <Z>0.035000</Z>
+        </Point>
+        <XAxis>
+          <Name>part_c_8_x_axis</Name>
+          <I>1.000000</I>
+          <J>0.000000</J>
+          <K>0.000000</K>
+        </XAxis>
+        <ZAxis>
+          <Name>part_c_8_z_axis</Name>
+          <I>0.000000</I>
+          <J>0.000000</J>
+          <K>1.000000</K>
+        </ZAxis>
+      </PrimaryLocation>
+      <SkuName>stock_keeping_unit_part_c</SkuName>
+      <SerialNumber>c8</SerialNumber>
+    </Part>
   </Object>
   <Object xsi:type="WorkTableType">
     <Name>work_table_1</Name>
@@ -708,8 +1316,8 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>work_table_point</Name>
-        <X>4.000000</X>
-        <Y>1.000000</Y>
+        <X>3.000000</X>
+        <Y>0.000000</Y>
         <Z>0.000000</Z>
       </Point>
       <XAxis>
@@ -725,11 +1333,10 @@
         <K>1.000000</K>
       </ZAxis>
     </PrimaryLocation>
-    <InternalShape xsi:type="BoxyShapeType">
+    <InternalShape xsi:type="CylindricalShapeType">
       <Name>shape_work_table</Name>
       <Description>Shape of the work table</Description>
-      <Length>1.600000</Length>
-      <Width>0.800000</Width>
+      <Diameter>1.600000</Diameter>
       <Height>0.500000</Height>
       <HasTop>true</HasTop>
     </InternalShape>
@@ -741,7 +1348,7 @@
       <RefObjectName>kitting_workstation_1</RefObjectName>
       <Point>
         <Name>robot_point</Name>
-        <X>0.250000</X>
+        <X>3.000000</X>
         <Y>0.000000</Y>
         <Z>2.000000</Z>
       </Point>
@@ -755,38 +1362,21 @@
         <Name>robot_z_axis</Name>
         <I>0.000000</I>
         <J>0.000000</J>
-        <K>-1.000000</K>
+        <K>1.000000</K>
       </ZAxis>
     </PrimaryLocation>
     <Description>this is the robot</Description>
     <EndEffector xsi:type="VacuumEffectorSingleCupType">
       <Name>tray_gripper</Name>
-      <PrimaryLocation xsi:type="PoseOnlyLocationType">
-        <Name>tray_gripper_pose</Name>
+      <PrimaryLocation xsi:type="RelativeLocationOnType">
+        <Name>relative_location_on_1</Name>
         <RefObjectName>robot_1</RefObjectName>
-        <Point>
-          <Name>tray_gripper_point</Name>
-          <X>0.000000</X>
-          <Y>0.000000</Y>
-          <Z>0.000000</Z>
-        </Point>
-        <XAxis>
-          <Name>tray_gripper_x_axis</Name>
-          <I>1.000000</I>
-          <J>0.000000</J>
-          <K>0.000000</K>
-        </XAxis>
-        <ZAxis>
-          <Name>tray_gripper_z_axis</Name>
-          <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
-        </ZAxis>
+        <Description>The tray_gripper is on robot_1</Description>
       </PrimaryLocation>
       <Description>large single cup vacuum effector</Description>
       <Weight>0.040000</Weight>
       <MaximumLoadWeight>0.500000</MaximumLoadWeight>
-      <CupDiameter>0.080000</CupDiameter>
+      <CupDiameter>0.040000</CupDiameter>
       <Length>0.100000</Length>
     </EndEffector>
     <MaximumLoadWeight>7.000000</MaximumLoadWeight>

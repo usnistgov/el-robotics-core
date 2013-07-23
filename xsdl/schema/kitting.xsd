@@ -319,12 +319,16 @@ documentation to just "xxx".
         A KitType is a SolidObjectType. It has Name, PrimaryLocation,
         SecondaryLocation, InternalShape, and ExternalShape elements
         inherited from SolidObjectType. A KitType also has
-        DesignName(IDREF), Tray, and Finished elements and zero to many
-        Part elements. Finished is a boolean indicator of whether the Kit
-        is finished. The Part element may occur several times (once for
-        each part in the kit). The locating point of the Tray in the kit
-        should be (0,0,0), and its X and Z axes should be (1,0,0) and
-        (0,0,1), respectively.
+        DesignName(IDREF), Tray, and Finished elements, zero to many Part
+        elements, and zero to many Slot elements. Finished is a boolean
+        indicator of whether the Kit is finished. The Part element may
+        occur several times (once for each part in the kit). The optional
+        Slot elements may be used to keep track of whether each place in
+        the kit that should have a part on it does have a part on it. The
+        PartRefAndPoseName of each Slot should be the name of a
+        PartRefAndPose in the design of the kit (different for each slot).
+        The locating point of the Tray in the kit should be (0,0,0), and
+        its X and Z axes should be (1,0,0) and (0,0,1), respectively.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -354,6 +358,10 @@ documentation to just "xxx".
               <xs:field xpath="SerialNumber"/>
             </xs:key>
           </xs:element>
+          <xs:element name="Slot"
+            type="SlotType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
           <xs:element name="Finished"
             type="xs:boolean"/>
         </xs:sequence>
@@ -1030,7 +1038,7 @@ documentation to just "xxx".
         The ZAxis of the pose may be used to indicate a direction for
         aligning the ZAxis of the gripper (parallel or antiparallel) and is
         usually normal to the the object having the shape and pointing away
-        from the object.
+        from the object. 
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -1046,6 +1054,44 @@ documentation to just "xxx".
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="SlotType">
+    <xs:annotation>
+      <xs:documentation>
+        A SlotType is a DataThingType that identifies whether or not a
+        particular PartRefAndPose from the design of a Kit is occupied in
+        an instance of a Kit. A SlotType has a Name element inherited from
+        DataThingType. It also has a PartRefAndPoseName that identifies a
+        PartRefAndPose and an optional PartName that identifies a Part that
+        occupies the PartRefAndPose. The Sku of the PartRefAndPose should
+        be the Sku of the Part, the PartRefAndPose should be in the Kit
+        design, and the Part should be in the Kit. The location described
+        by the Pose of the Part in the Kit may differ from the location
+        described by the Pose in the PartRefAndPose, but will usually be
+        very close to it. If the PartName is not used for a slot, that
+        means the slot is empty.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="PartRefAndPoseName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartRefAndPoseType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartName"
+            type="xs:IDREF"
+            minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>PartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+ 
   <xs:complexType name="SolidObjectType"
     abstract="true">
     <xs:annotation>

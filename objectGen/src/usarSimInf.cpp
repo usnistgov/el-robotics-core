@@ -17,10 +17,12 @@
 */
 #include "usarSimInf.h"
 
-/*
-connectIn: 1 to connect to USARSim, 0 else
-hostname: USARSim host
-portIn: USARSim port
+/*! \brief Creates UsarSimInf object
+    This creates the object and sends the Init string to USARSim in order to create the world controller.
+    \param connectIn 1 to connect to USARSim, 0 else
+    \param hostname  USARSim host
+    \param portIn USARSim port
+    \return None
 */
 UsarSimInf::UsarSimInf(int connectIn, std::string hostname, int portIn)
 {
@@ -47,11 +49,14 @@ UsarSimInf::UsarSimInf(int connectIn, std::string hostname, int portIn)
     }
 }
 
-/*
-  className: USARSim class to spawn
-  name: unique name of object
-  where: where to locate it
-  permanent: 1 - always keep, 0 - delete on exit
+/*! \brief Place an object into the simulation
+    Note that this method will change the coordinate frame from z-down to z-up. To do this it
+    will rotate every position 180 degrees about x (y and z are flipped).
+    \param className USARSim class to spawn
+    \param name unique name of object
+    \param where where to locate it
+    \param permanent 1 - always keep, 0 - delete on exit
+    \return Always returns 1. Not very useful!
 */
 int UsarSimInf::placeObject( std::string className, std::string name, 
 			     RecLoc where, int permanent )
@@ -78,10 +83,12 @@ int UsarSimInf::placeObject( std::string className, std::string name,
   output += converter.str() + ", ";
 
   converter.str(std::string());
+  converter << -where.pointXYZ[1]; // swap axis (rotation about x)
   converter << where.pointXYZ[1];
   output += converter.str() + ", ";
 
   converter.str(std::string());
+  converter << -where.pointXYZ[2]; // swap axis (rotation about x)
   converter << where.pointXYZ[2];
   output += converter.str() + "}{Rotation  ";
 

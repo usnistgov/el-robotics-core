@@ -19,7 +19,7 @@
   @brief Constructor
  */
 CanonicalRobotCommand::CanonicalRobotCommand(FileOperator *fileoperator) {
-	m_safe_z = -0.25;
+	m_safe_z = 0.25;
 	m_dwell = 0.05;
 	m_file_operator = fileoperator;
 }
@@ -437,6 +437,7 @@ PartsTrayLocStruct CanonicalRobotCommand::getPartsTrayLocation(string part_tray_
 
 /*!
   @brief Retrieve the location of the part @a part_name
+         This routine will return the grasp point of the given part.
   @param partName Name of the part
   @return RecLoc pointXYZ (@a vector), the Z axis (@a Vector), and the X axis (@a Vector) of the part @a part_name
 
@@ -458,6 +459,59 @@ RecLoc CanonicalRobotCommand::getPartLocation(string part_name){
 	Part *part = new Part(part_name);
 	part->get(part_name);
 	recurseLocation.clear();
+	/* new code */
+
+	recLoc.clear();
+	//	partRefAndPose->get(part_name);
+	//	mypoint = partRefAndPose->gethasPartRefAndPose_Point();
+	//	printf( "Got it! Now getting point.\n" );
+	//	mypoint->get(mypoint->getname());
+	//	recLoc.posePointName = mypoint->getname();
+	recLoc.posePointName = "grasp";
+	//	doubleValue = mypoint->gethasPoint_X();
+	//	recLoc.pointXYZ.push_back(doubleValue);
+	recLoc.pointXYZ.push_back(0);
+	//	doubleValue = mypoint->gethasPoint_Y();
+	//	recLoc.pointXYZ.push_back(doubleValue);
+	recLoc.pointXYZ.push_back(0);
+	//	doubleValue = mypoint->gethasPoint_Z();
+	//	recLoc.pointXYZ.push_back(doubleValue);
+	recLoc.pointXYZ.push_back(.05);
+
+	//	myvector = partRefAndPose->gethasPartRefAndPose_XAxis();
+	//	myvector->get(myvector->getname());
+	//	doubleValue = myvector->gethasVector_I();
+	//	recLoc.xAxis.push_back(doubleValue);
+	recLoc.xAxis.push_back(1.);
+	recLoc.xAxis.push_back(0.);
+	recLoc.xAxis.push_back(0.);
+	recLoc.xAxisName = "xAxis";
+	//	doubleValue = myvector->gethasVector_J();
+	//	recLoc.xAxis.push_back(doubleValue);
+	//	doubleValue = myvector->gethasVector_K();
+	//	recLoc.xAxis.push_back(doubleValue);
+	//	recLoc.xAxisName = myvector->getname();
+
+	//	myvector = partRefAndPose->gethasPartRefAndPose_ZAxis();
+	recLoc.zAxis.push_back(0.);
+	recLoc.zAxis.push_back(0.);
+	recLoc.zAxis.push_back(-1.);
+	recLoc.zAxisName = "zAxis";
+	//	myvector->get(myvector->getname());
+	//	doubleValue = myvector->gethasVector_I();
+	//	recLoc.zAxis.push_back(doubleValue);
+	//	doubleValue = myvector->gethasVector_J();
+	//	recLoc.zAxis.push_back(doubleValue);
+	//	doubleValue = myvector->gethasVector_K();
+	//	recLoc.zAxis.push_back(doubleValue);
+	//	recLoc.zAxisName = myvector->getname();
+
+	recurseLocation.addRecLoc(&recLoc);
+	recLoc.clear();
+
+	/* end of new code */
+
+
 	recurseLocation.recurse(part);
 	recurseLocation.computeGlobalLoc();
 	recurseLocation.printMe(0);
@@ -591,7 +645,7 @@ void CanonicalRobotCommand::print_initcannon(){
 	//FileOperator *fileop = new FileOperator;
 	string message = "InitCanon () \n";
 	m_file_operator->writeData(message);
-	message = "MoveTo({{.31, 1.24, -0.67}, {0, 0, 1}, {1, 0, 0}})\n";
+	message = "MoveTo({{0, 0, 0.5}, {0, 0, -1}, {1, 0, 0}})\n";
 	m_file_operator->writeData(message);
 }
 

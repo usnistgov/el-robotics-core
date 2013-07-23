@@ -8,4 +8,5 @@ INCLUDES = -I$(top_srcdir)/src/ -I$(top_srcdir)/src/database -I$(top_srcdir)/src
 bin_PROGRAMS = executor
 executor_SOURCES = $(top_srcdir)/src/main.cc $(top_srcdir)/../../objectGen/src/recurseLocation.cpp $(topsrcdir)/src/interpreter/libinterpreter.a
 executor_LDADD = -L$(top_srcdir)/../../AutoGen -L$(top_srcdir)/src/interpreter  -linterpreter -lsqlKit -lmysqlcppconn
+executor_DEPENDENCIES = ../src/interpreter/libinterpreter.a
 

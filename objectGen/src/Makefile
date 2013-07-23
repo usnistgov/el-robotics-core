@@ -23,7 +23,7 @@ objectGen_OBJECTS=$(patsubst %, $(ODIR)/%,$(objectGen_SOURCES:.cpp=.o))
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-dataTest: $(dataTest_OBJECTS) libsqlKit.a $(IDIR)/recurseLocation.h $(IDIR)/partModel.h $(IDIR)/kitTrayModel.h $(IDIR)/partsTrayModel.h
+dataTest: $(dataTest_OBJECTS) ../../AutoGen/libsqlKit.a $(IDIR)/recurseLocation.h $(IDIR)/partModel.h $(IDIR)/kitTrayModel.h $(IDIR)/partsTrayModel.h
 	$(CC) -o $@ $(dataTest_OBJECTS) $(CFLAGS) $(LIBS)
 
 genTest: $(genTest_OBJECTS)

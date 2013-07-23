@@ -1,0 +1,10 @@
+generator_no_gui.jar usage:
+
+./generator_no_gui.jar -owl owlInputFile [-sql sql_output_directory|-cpp cpp_output_directory]
+
+where:
+  owlInputFile: relative or absolute path to the .owl file to use to generate the code
+  sql_output_directory: relative or absolute path to the directory to place the generated .sql files
+  cpp_output_directory: relative or absolute path to the directory to place the generated .cpp, .h, and .sql files
+
+If the -sql option is used, only the owlCreateTable.sql and owlInsertInto.sql files are generated. If the -cpp option is used, then the .cpp and .h files will be created, with the .sql files in the same directory. Exactly one of these options should be specified.

@@ -10,7 +10,14 @@ printSelf functions that do nothing were defined for the two classes
 derived.
 
 A set of strings that has the names of individuals in the class was
-added to most leaf classes.
+added to most leaf classes. Classes representing abstract types should
+not have individuals since there are no individuals of abstract types,
+and individuals of derived types are automatically different individuals
+from the DisjointClasses declaration for the abstract parent type.
+
+Classes representing abstract types also do not need printOwl
+functions declared, since the printOwl functions are inherited
+automatically and there is no definition for them.
 
 */
 
@@ -28,12 +35,14 @@ class KittingWorkstationFile;
 class AngleUnitType;
 class BoxVolumeType;
 class BoxyShapeType;
+class CylindricalShapeType;
 class DataThingType;
 class EndEffectorChangingStationType;
 class EndEffectorHolderType;
 class EndEffectorType;
 class ExternalShapeType;
 class GripperEffectorType;
+class HumanType;
 class InternalShapeType;
 class KitDesignType;
 class KitTrayType;
@@ -62,6 +71,7 @@ class RelativeLocationOnType;
 class RelativeLocationType;
 class RobotType;
 class ShapeDesignType;
+class SlotType;
 class SolidObjectType;
 class StockKeepingUnitType;
 class VacuumEffectorMultiCupType;
@@ -124,6 +134,11 @@ public:
     const char * property,
     XmlID * Name,
     XmlBoolean * val,
+    FILE * outFile);
+  static void printXmlDateTimeProp(
+    const char * property,
+    XmlID * Name,
+    XmlDateTime * val,
     FILE * outFile);
   static void printXmlDecProp(
     const char * property,
@@ -280,10 +295,12 @@ public:
   PhysicalLocationType();
   PhysicalLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn);
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn);
   ~PhysicalLocationType();
 
-  XmlIDREF * RefObject;
+  XmlIDREF * RefObjectName;
+  XmlDateTime * Timestamp;
 
   bool printTypp;
 };
@@ -320,15 +337,20 @@ public:
   PoseLocationType();
   PoseLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseLocationType();
 
   PointType * Point;
   VectorType * XAxis;
   VectorType * ZAxis;
+  PositiveDecimalType * PositionStandardDeviation;
+  PositiveDecimalType * OrientationStandardDeviation;
 
   bool printTypp;
 };
@@ -342,10 +364,13 @@ public:
   PoseOnlyLocationType();
   PoseOnlyLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseOnlyLocationType();
   void printOwl(FILE * outFile);
 
@@ -377,7 +402,8 @@ public:
   RelativeLocationType();
   RelativeLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     XmlString * DescriptionIn);
   ~RelativeLocationType();
 
@@ -401,6 +427,27 @@ public:
 
   XmlString * Description;
   PoseLocationType * GraspPose;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class SlotType :
+  public DataThingType
+{
+public:
+  SlotType();
+  SlotType(
+    XmlID * NameIn,
+    XmlIDREF * PartRefAndPoseNameIn,
+    XmlIDREF * PartNameIn);
+  ~SlotType();
+  void printOwl(FILE * outFile);
+
+  XmlIDREF * PartRefAndPoseName;
+  XmlIDREF * PartName;
+  static std::set<std::string> individuals;
 
   bool printTypp;
 };
@@ -548,12 +595,12 @@ public:
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn,
     MechanicalComponentType * BaseIn,
-    std::list<EndEffectorHolderType *> * EndEffectorHoldersIn);
+    std::list<EndEffectorHolderType *> * EndEffectorHolderIn);
   ~EndEffectorChangingStationType();
   void printOwl(FILE * outFile);
 
   MechanicalComponentType * Base;
-  std::list<EndEffectorHolderType *> * EndEffectorHolders;
+  std::list<EndEffectorHolderType *> * EndEffectorHolder;
 
   bool printTypp;
 };
@@ -660,6 +707,27 @@ public:
 
 /*********************************************************************/
 
+class HumanType :
+  public SolidObjectType
+{
+public:
+  HumanType();
+  HumanType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn);
+  ~HumanType();
+  void printOwl(FILE * outFile);
+
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
 class InternalShapeType :
   public ShapeDesignType
 {
@@ -670,8 +738,6 @@ public:
     XmlString * DescriptionIn,
     PoseLocationType * GraspPoseIn);
   ~InternalShapeType();
-
-  static std::set<std::string> individuals;
 
   bool printTypp;
 };
@@ -715,15 +781,17 @@ public:
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn,
     XmlIDREF * DesignNameIn,
-    KitTrayType * TrayIn,
+    KitTrayType * KitTrayIn,
     std::list<PartType *> * PartIn,
+    std::list<SlotType *> * SlotIn,
     XmlBoolean * FinishedIn);
   ~KitType();
   void printOwl(FILE * outFile);
 
   XmlIDREF * DesignName;
-  KitTrayType * Tray;
+  KitTrayType * KitTray;
   std::list<PartType *> * Part;
+  std::list<SlotType *> * Slot;
   XmlBoolean * Finished;
   static std::set<std::string> individuals;
 
@@ -751,8 +819,7 @@ public:
     std::list<BoxVolumeType *> * OtherObstacleIn,
     RobotType * RobotIn,
     std::list<StockKeepingUnitType *> * SkuIn,
-    WeightUnitType * WeightUnitIn,
-    WorkTableType * WorkTableIn);
+    WeightUnitType * WeightUnitIn);
   ~KittingWorkstationType();
   void printOwl(FILE * outFile);
 
@@ -765,7 +832,6 @@ public:
   RobotType * Robot;
   std::list<StockKeepingUnitType *> * Sku;
   WeightUnitType * WeightUnit;
-  WorkTableType * WorkTable;
 
   bool printTypp;
 };
@@ -789,7 +855,7 @@ public:
   void printOwl(FILE * outFile);
 
   LargeContainerType * LargeContainer;
-  std::list<KitTrayType *> * KitTrays;
+  std::list<KitTrayType *> * KitTray;
   static std::set<std::string> individuals;
 
   bool printTypp;
@@ -983,10 +1049,13 @@ public:
   PoseLocationInType();
   PoseLocationInType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseLocationInType();
   void printOwl(FILE * outFile);
 
@@ -1004,10 +1073,13 @@ public:
   PoseLocationOnType();
   PoseLocationOnType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseLocationOnType();
   void printOwl(FILE * outFile);
 
@@ -1025,7 +1097,8 @@ public:
   RelativeLocationInType();
   RelativeLocationInType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     XmlString * DescriptionIn);
   ~RelativeLocationInType();
   void printOwl(FILE * outFile);
@@ -1044,7 +1117,8 @@ public:
   RelativeLocationOnType();
   RelativeLocationOnType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     XmlString * DescriptionIn);
   ~RelativeLocationOnType();
   void printOwl(FILE * outFile);
@@ -1129,6 +1203,31 @@ public:
 
   PositiveDecimalType * Length;
   PositiveDecimalType * Width;
+  PositiveDecimalType * Height;
+  XmlBoolean * HasTop;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class CylindricalShapeType :
+  public InternalShapeType
+{
+public:
+  CylindricalShapeType();
+  CylindricalShapeType(
+    XmlID * NameIn,
+    XmlString * DescriptionIn,
+    PoseLocationType * GraspPoseIn,
+    PositiveDecimalType * DiameterIn,
+    PositiveDecimalType * HeightIn,
+    XmlBoolean * HasTopIn);
+  ~CylindricalShapeType();
+  void printOwl(FILE * outFile);
+
+  PositiveDecimalType * Diameter;
   PositiveDecimalType * Height;
   XmlBoolean * HasTop;
   static std::set<std::string> individuals;

@@ -196,6 +196,71 @@ void BoxyShapeType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class CylindricalShapeType
+
+*/
+
+CylindricalShapeType::CylindricalShapeType() {}
+
+CylindricalShapeType::CylindricalShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn,
+ PositiveDecimalType * DiameterIn,
+ PositiveDecimalType * HeightIn,
+ XmlBoolean * HasTopIn) :
+  InternalShapeType(
+    NameIn,
+    DescriptionIn,
+    GraspPoseIn)
+{
+  Diameter = DiameterIn;
+  Height = HeightIn;
+  HasTop = HasTopIn;
+  printTypp = false;
+}
+
+CylindricalShapeType::~CylindricalShapeType() {}
+
+void CylindricalShapeType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"CylindricalShapeType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Description>");
+  Description->printSelf(outFile);
+  fprintf(outFile, "</Description>\n");
+  if (GraspPose)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<GraspPose");
+      GraspPose->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</GraspPose>\n");
+    }
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Diameter>");
+  Diameter->printSelf(outFile);
+  fprintf(outFile, "</Diameter>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Height>");
+  Height->printSelf(outFile);
+  fprintf(outFile, "</Height>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<HasTop>");
+  HasTop->printSelf(outFile);
+  fprintf(outFile, "</HasTop>\n");
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
 /* class DataThingType
 
 */
@@ -236,7 +301,7 @@ EndEffectorChangingStationType::EndEffectorChangingStationType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  MechanicalComponentType * BaseIn,
- std::list<EndEffectorHolderType *> * EndEffectorHoldersIn) :
+ std::list<EndEffectorHolderType *> * EndEffectorHolderIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -245,7 +310,7 @@ EndEffectorChangingStationType::EndEffectorChangingStationType(
     ExternalShapeIn)
 {
   Base = BaseIn;
-  EndEffectorHolders = EndEffectorHoldersIn;
+  EndEffectorHolder = EndEffectorHolderIn;
   printTypp = false;
 }
 
@@ -300,13 +365,13 @@ void EndEffectorChangingStationType::printSelf(FILE * outFile)
   fprintf(outFile, "</Base>\n");
   {
     std::list<EndEffectorHolderType *>::iterator iter;
-    for (iter = EndEffectorHolders->begin(); iter != EndEffectorHolders->end(); iter++)
+    for (iter = EndEffectorHolder->begin(); iter != EndEffectorHolder->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<EndEffectorHolders");
+        fprintf(outFile, "<EndEffectorHolder");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</EndEffectorHolders>\n");
+        fprintf(outFile, "</EndEffectorHolder>\n");
       }
   }
   doSpaces(-INDENT, outFile);
@@ -661,6 +726,77 @@ void GripperEffectorType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class HumanType
+
+*/
+
+HumanType::HumanType() {}
+
+HumanType::HumanType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn) :
+  SolidObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  printTypp = false;
+}
+
+HumanType::~HumanType() {}
+
+void HumanType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"HumanType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PrimaryLocation");
+  PrimaryLocation->printSelf(outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "</PrimaryLocation>\n");
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin(); iter != SecondaryLocation->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<SecondaryLocation");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</SecondaryLocation>\n");
+      }
+  }
+  if (InternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<InternalShape");
+      InternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</InternalShape>\n");
+    }
+  if (ExternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<ExternalShape");
+      ExternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</ExternalShape>\n");
+    }
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
 /* class InternalShapeType
 
 */
@@ -854,8 +990,9 @@ KitType::KitType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  XmlIDREF * DesignNameIn,
- KitTrayType * TrayIn,
+ KitTrayType * KitTrayIn,
  std::list<PartType *> * PartIn,
+ std::list<SlotType *> * SlotIn,
  XmlBoolean * FinishedIn) :
   SolidObjectType(
     NameIn,
@@ -865,8 +1002,9 @@ KitType::KitType(
     ExternalShapeIn)
 {
   DesignName = DesignNameIn;
-  Tray = TrayIn;
+  KitTray = KitTrayIn;
   Part = PartIn;
+  Slot = SlotIn;
   Finished = FinishedIn;
   printTypp = false;
 }
@@ -920,10 +1058,10 @@ void KitType::printSelf(FILE * outFile)
   DesignName->printSelf(outFile);
   fprintf(outFile, "</DesignName>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<Tray");
-  Tray->printSelf(outFile);
+  fprintf(outFile, "<KitTray");
+  KitTray->printSelf(outFile);
   doSpaces(0, outFile);
-  fprintf(outFile, "</Tray>\n");
+  fprintf(outFile, "</KitTray>\n");
   {
     std::list<PartType *>::iterator iter;
     for (iter = Part->begin(); iter != Part->end(); iter++)
@@ -933,6 +1071,17 @@ void KitType::printSelf(FILE * outFile)
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
         fprintf(outFile, "</Part>\n");
+      }
+  }
+  {
+    std::list<SlotType *>::iterator iter;
+    for (iter = Slot->begin(); iter != Slot->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<Slot");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</Slot>\n");
       }
   }
   doSpaces(0, outFile);
@@ -964,8 +1113,7 @@ KittingWorkstationType::KittingWorkstationType(
  std::list<BoxVolumeType *> * OtherObstacleIn,
  RobotType * RobotIn,
  std::list<StockKeepingUnitType *> * SkuIn,
- WeightUnitType * WeightUnitIn,
- WorkTableType * WorkTableIn) :
+ WeightUnitType * WeightUnitIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -982,7 +1130,6 @@ KittingWorkstationType::KittingWorkstationType(
   Robot = RobotIn;
   Sku = SkuIn;
   WeightUnit = WeightUnitIn;
-  WorkTable = WorkTableIn;
   printTypp = false;
 }
 
@@ -1096,11 +1243,6 @@ void KittingWorkstationType::printSelf(FILE * outFile)
   fprintf(outFile, "<WeightUnit>");
   WeightUnit->printSelf(outFile);
   fprintf(outFile, "</WeightUnit>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<WorkTable");
-  WorkTable->printSelf(outFile);
-  doSpaces(0, outFile);
-  fprintf(outFile, "</WorkTable>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -1119,7 +1261,7 @@ LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  LargeContainerType * LargeContainerIn,
- std::list<KitTrayType *> * KitTraysIn) :
+ std::list<KitTrayType *> * KitTrayIn) :
   SolidObjectType(
     NameIn,
     PrimaryLocationIn,
@@ -1128,7 +1270,7 @@ LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
     ExternalShapeIn)
 {
   LargeContainer = LargeContainerIn;
-  KitTrays = KitTraysIn;
+  KitTray = KitTrayIn;
   printTypp = false;
 }
 
@@ -1183,13 +1325,13 @@ void LargeBoxWithEmptyKitTraysType::printSelf(FILE * outFile)
   fprintf(outFile, "</LargeContainer>\n");
   {
     std::list<KitTrayType *>::iterator iter;
-    for (iter = KitTrays->begin(); iter != KitTrays->end(); iter++)
+    for (iter = KitTray->begin(); iter != KitTray->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<KitTrays");
+        fprintf(outFile, "<KitTray");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</KitTrays>\n");
+        fprintf(outFile, "</KitTray>\n");
       }
   }
   doSpaces(-INDENT, outFile);
@@ -1912,11 +2054,13 @@ PhysicalLocationType::PhysicalLocationType() {}
 
 PhysicalLocationType::PhysicalLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn) :
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn) :
   DataThingType(
     NameIn)
 {
-  RefObject = RefObjectIn;
+  RefObjectName = RefObjectNameIn;
+  Timestamp = TimestampIn;
   printTypp = false;
 }
 
@@ -1933,9 +2077,16 @@ void PhysicalLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -1998,16 +2149,22 @@ PoseLocationInType::PoseLocationInType() {}
 
 PoseLocationInType::PoseLocationInType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PoseLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
-    ZAxisIn)
+    ZAxisIn,
+    PositionStandardDeviationIn,
+    OrientationStandardDeviationIn)
 {
   printTypp = false;
 }
@@ -2025,9 +2182,16 @@ void PoseLocationInType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2043,6 +2207,20 @@ void PoseLocationInType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2056,16 +2234,22 @@ PoseLocationOnType::PoseLocationOnType() {}
 
 PoseLocationOnType::PoseLocationOnType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PoseLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
-    ZAxisIn)
+    ZAxisIn,
+    PositionStandardDeviationIn,
+    OrientationStandardDeviationIn)
 {
   printTypp = false;
 }
@@ -2083,9 +2267,16 @@ void PoseLocationOnType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2101,6 +2292,20 @@ void PoseLocationOnType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2114,17 +2319,23 @@ PoseLocationType::PoseLocationType() {}
 
 PoseLocationType::PoseLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PhysicalLocationType(
     NameIn,
-    RefObjectIn)
+    RefObjectNameIn,
+    TimestampIn)
 {
   Point = PointIn;
   XAxis = XAxisIn;
   ZAxis = ZAxisIn;
+  PositionStandardDeviation = PositionStandardDeviationIn;
+  OrientationStandardDeviation = OrientationStandardDeviationIn;
   printTypp = false;
 }
 
@@ -2141,9 +2352,16 @@ void PoseLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2159,6 +2377,20 @@ void PoseLocationType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2172,16 +2404,22 @@ PoseOnlyLocationType::PoseOnlyLocationType() {}
 
 PoseOnlyLocationType::PoseOnlyLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PoseLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
-    ZAxisIn)
+    ZAxisIn,
+    PositionStandardDeviationIn,
+    OrientationStandardDeviationIn)
 {
   printTypp = false;
 }
@@ -2199,9 +2437,16 @@ void PoseOnlyLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2217,6 +2462,20 @@ void PoseOnlyLocationType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2267,11 +2526,13 @@ RelativeLocationInType::RelativeLocationInType() {}
 
 RelativeLocationInType::RelativeLocationInType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     DescriptionIn)
 {
   printTypp = false;
@@ -2290,9 +2551,16 @@ void RelativeLocationInType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
@@ -2310,11 +2578,13 @@ RelativeLocationOnType::RelativeLocationOnType() {}
 
 RelativeLocationOnType::RelativeLocationOnType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     DescriptionIn)
 {
   printTypp = false;
@@ -2333,9 +2603,16 @@ void RelativeLocationOnType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
@@ -2353,11 +2630,13 @@ RelativeLocationType::RelativeLocationType() {}
 
 RelativeLocationType::RelativeLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   PhysicalLocationType(
     NameIn,
-    RefObjectIn)
+    RefObjectNameIn,
+    TimestampIn)
 {
   Description = DescriptionIn;
   printTypp = false;
@@ -2376,9 +2655,16 @@ void RelativeLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
@@ -2535,6 +2821,52 @@ void ShapeDesignType::printSelf(FILE * outFile)
       GraspPose->printSelf(outFile);
       doSpaces(0, outFile);
       fprintf(outFile, "</GraspPose>\n");
+    }
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
+/* class SlotType
+
+*/
+
+SlotType::SlotType() {}
+
+SlotType::SlotType(
+ XmlID * NameIn,
+ XmlIDREF * PartRefAndPoseNameIn,
+ XmlIDREF * PartNameIn) :
+  DataThingType(
+    NameIn)
+{
+  PartRefAndPoseName = PartRefAndPoseNameIn;
+  PartName = PartNameIn;
+  printTypp = false;
+}
+
+SlotType::~SlotType() {}
+
+void SlotType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"SlotType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PartRefAndPoseName>");
+  PartRefAndPoseName->printSelf(outFile);
+  fprintf(outFile, "</PartRefAndPoseName>\n");
+  if (PartName)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PartName>");
+      PartName->printSelf(outFile);
+      fprintf(outFile, "</PartName>\n");
     }
   doSpaces(-INDENT, outFile);
 }
@@ -3205,7 +3537,6 @@ XmlHeaderForKittingWorkstation::~XmlHeaderForKittingWorkstation() {}
 void XmlHeaderForKittingWorkstation::printSelf(
   FILE * outFile)
 {
-  fprintf(outFile, "  xmlns=\"urn:kitting\"\n");
   fprintf(outFile,
           "  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
   location->printSelf(outFile);

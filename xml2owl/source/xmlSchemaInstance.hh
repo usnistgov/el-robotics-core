@@ -66,12 +66,14 @@ public:
   SchemaLocation();
   SchemaLocation(
     char * prefixIn,
-    char * locationIn);
+    char * locationIn,
+    bool hasNamespaceIn);
   ~SchemaLocation();
   void printSelf(FILE * outFile);
 
   char * prefix;
   char * location;
+  bool hasNamespace;
 };
 
 /*********************************************************************/
@@ -88,7 +90,7 @@ class XmlBoolean :
 public:
   XmlBoolean();
   XmlBoolean(
-    char * valIn);
+    const char * valIn);
   ~XmlBoolean();
   void printSelf(FILE * outFile);
   bool XmlBooleanIsBad();
@@ -157,7 +159,7 @@ class XmlDecimal :
 public:
   XmlDecimal();
   XmlDecimal(
-    char * valStringIn);
+    const char * valStringIn);
   XmlDecimal(
     double valIn);
   ~XmlDecimal();
@@ -182,7 +184,7 @@ class XmlDouble :
 public:
   XmlDouble();
   XmlDouble(
-    char * valStringIn);
+    const char * valStringIn);
   XmlDouble(
     double valIn);
   ~XmlDouble();
@@ -207,7 +209,7 @@ class XmlFloat :
 public:
   XmlFloat();
   XmlFloat(
-    char * valIn);
+    const char * valIn);
   ~XmlFloat();
   void printSelf(FILE * outFile);
   bool XmlFloatIsBad();
@@ -289,7 +291,7 @@ class XmlInt :
 public:
   XmlInt();
   XmlInt(
-    char * valIn);
+    const char * valIn);
   ~XmlInt();
   void printSelf(FILE * outFile);
   bool XmlIntIsBad();
@@ -315,7 +317,7 @@ class XmlInteger :
 public:
   XmlInteger();
   XmlInteger(
-    char * valIn);
+    const char * valIn);
   ~XmlInteger();
   void printSelf(FILE * outFile);
   bool XmlIntegerIsBad();
@@ -338,7 +340,7 @@ class XmlLong :
 public:
   XmlLong();
   XmlLong(
-    char * valIn);
+    const char * valIn);
   ~XmlLong();
   void printSelf(FILE * outFile);
   bool XmlLongIsBad();
@@ -387,7 +389,7 @@ class XmlNonNegativeInteger :
 public:
   XmlNonNegativeInteger();
   XmlNonNegativeInteger(
-    char * valIn);
+    const char * valIn);
   ~XmlNonNegativeInteger();
   void printSelf(FILE * outFile);
   bool XmlNonNegativeIntegerIsBad();
@@ -413,7 +415,7 @@ class XmlPositiveInteger :
 public:
   XmlPositiveInteger();
   XmlPositiveInteger(
-    char * valIn);
+    const char * valIn);
   ~XmlPositiveInteger();
   void printSelf(FILE * outFile);
   bool XmlPositiveIntegerIsBad();
@@ -459,7 +461,7 @@ class XmlUnsignedInt :
 public:
   XmlUnsignedInt();
   XmlUnsignedInt(
-    char * valIn);
+    const char * valIn);
   ~XmlUnsignedInt();
   void printSelf(FILE * outFile);
   bool XmlUnsignedIntIsBad();
@@ -482,7 +484,7 @@ class XmlUnsignedLong :
 public:
   XmlUnsignedLong();
   XmlUnsignedLong(
-    char * valIn);
+    const char * valIn);
   ~XmlUnsignedLong();
   void printSelf(FILE * outFile);
   bool XmlUnsignedLongIsBad();

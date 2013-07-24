@@ -22,7 +22,6 @@ DataPropertyAssertion(:hasWorkstation_LengthUnit :kitting_workstation_1 "meter"^
 DataPropertyAssertion(:hasWorkstation_WeightUnit :kitting_workstation_1 "kilogram"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasWorkstation_Robot :kitting_workstation_1 :robot_1)
 ObjectPropertyAssertion(:hasWorkstation_ChangingStation :kitting_workstation_1 :changing_station_1)
-ObjectPropertyAssertion(:hasWorkstation_WorkTable :kitting_workstation_1 :work_table_1)
 ObjectPropertyAssertion(:hasWorkstation_KitDesigns :kitting_workstation_1 :kit_design_a2b1c1)
 ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_a)
 ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_b)
@@ -134,8 +133,8 @@ DataPropertyAssertion(:hasVector_I :changing_station_z_axis "0.000000"^^xsd:deci
 DataPropertyAssertion(:hasVector_J :changing_station_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :changing_station_z_axis "1.000000"^^xsd:decimal)
 ObjectPropertyAssertion(:hasChangingStation_Base :changing_station_1 :changing_station_base)
-ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolders :changing_station_1 :part_gripper_holder)
-ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolders :changing_station_1 :tray_gripper_holder)
+ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolder :changing_station_1 :part_gripper_holder)
+ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolder :changing_station_1 :tray_gripper_holder)
 // end EndEffectorChangingStation
 //*****************************************
 
@@ -281,50 +280,6 @@ DataPropertyAssertion(:hasVector_K :tray_gripper_holder_z_axis "1.000000"^^xsd:d
 
 
 //*****************************************
-// start WorkTable work_table_1
-Declaration(NamedIndividual(:work_table_1))
-ClassAssertion(:WorkTable :work_table_1)
-ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :work_table_1 :work_table_pose)
-Declaration(NamedIndividual(:work_table_pose))
-ClassAssertion(:PoseOnlyLocation :work_table_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :work_table_pose :kitting_workstation_1)
-ObjectPropertyAssertion(:hasPoseLocation_Point :work_table_pose :work_table_point)
-ObjectPropertyAssertion(:hasPoseLocation_XAxis :work_table_pose :work_table_x_axis)
-ObjectPropertyAssertion(:hasPoseLocation_ZAxis :work_table_pose :work_table_z_axis)
-Declaration(NamedIndividual(:work_table_point))
-ClassAssertion(:Point :work_table_point)
-DataPropertyAssertion(:hasPoint_X :work_table_point "3.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :work_table_point "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :work_table_point "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:work_table_x_axis))
-ClassAssertion(:Vector :work_table_x_axis)
-DataPropertyAssertion(:hasVector_I :work_table_x_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :work_table_x_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :work_table_x_axis "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:work_table_z_axis))
-ClassAssertion(:Vector :work_table_z_axis)
-DataPropertyAssertion(:hasVector_I :work_table_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :work_table_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :work_table_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSolidObject_InternalShape :work_table_1 :shape_work_table)
-// end WorkTable
-//*****************************************
-
-
-//*****************************************
-// start BoxyShape shape_work_table
-Declaration(NamedIndividual(:shape_work_table))
-ClassAssertion(:BoxyShape :shape_work_table)
-DataPropertyAssertion(:hasShapeDesign_Description :shape_work_table "Shape of the work table"^^xsd:string)
-DataPropertyAssertion(:hasBoxyShape_Length :shape_work_table "1.600000"^^xsd:decimal)
-DataPropertyAssertion(:hasBoxyShape_Width :shape_work_table "0.800000"^^xsd:decimal)
-DataPropertyAssertion(:hasBoxyShape_Height :shape_work_table "0.500000"^^xsd:decimal)
-DataPropertyAssertion(:hasBoxyShape_Top :shape_work_table "true"^^xsd:boolean)
-// end BoxyShape
-//*****************************************
-
-
-//*****************************************
 // start LargeBoxWithEmptyKitTrays empty_kit_tray_supply
 Declaration(NamedIndividual(:empty_kit_tray_supply))
 ClassAssertion(:LargeBoxWithEmptyKitTrays :empty_kit_tray_supply)
@@ -351,7 +306,7 @@ DataPropertyAssertion(:hasVector_I :empty_kit_tray_supply_z_axis "0.000000"^^xsd
 DataPropertyAssertion(:hasVector_J :empty_kit_tray_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :empty_kit_tray_supply_z_axis "1.000000"^^xsd:decimal)
 ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_LargeContainer :empty_kit_tray_supply :empty_kit_tray_box)
-ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_KitTrays :empty_kit_tray_supply :kit_tray_1)
+ObjectPropertyAssertion(:hasLargeBoxWithEmptyKitTrays_KitTray :empty_kit_tray_supply :kit_tray_1)
 // end LargeBoxWithEmptyKitTrays
 //*****************************************
 
@@ -803,6 +758,50 @@ DataPropertyAssertion(:hasVector_K :part_c_1_z_axis "1.000000"^^xsd:decimal)
 ObjectPropertyAssertion(:hasPart_Sku :part_c_1 :stock_keeping_unit_part_c)
 DataPropertyAssertion(:hasPart_SerialNumber :part_c_1 "c1"^^xsd:NMTOKEN)
 // end Part
+//*****************************************
+
+
+//*****************************************
+// start WorkTable work_table_1
+Declaration(NamedIndividual(:work_table_1))
+ClassAssertion(:WorkTable :work_table_1)
+ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :work_table_1 :work_table_pose)
+Declaration(NamedIndividual(:work_table_pose))
+ClassAssertion(:PoseOnlyLocation :work_table_pose)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :work_table_pose :kitting_workstation_1)
+ObjectPropertyAssertion(:hasPoseLocation_Point :work_table_pose :work_table_point)
+ObjectPropertyAssertion(:hasPoseLocation_XAxis :work_table_pose :work_table_x_axis)
+ObjectPropertyAssertion(:hasPoseLocation_ZAxis :work_table_pose :work_table_z_axis)
+Declaration(NamedIndividual(:work_table_point))
+ClassAssertion(:Point :work_table_point)
+DataPropertyAssertion(:hasPoint_X :work_table_point "3.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :work_table_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :work_table_point "0.000000"^^xsd:decimal)
+Declaration(NamedIndividual(:work_table_x_axis))
+ClassAssertion(:Vector :work_table_x_axis)
+DataPropertyAssertion(:hasVector_I :work_table_x_axis "1.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :work_table_x_axis "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :work_table_x_axis "0.000000"^^xsd:decimal)
+Declaration(NamedIndividual(:work_table_z_axis))
+ClassAssertion(:Vector :work_table_z_axis)
+DataPropertyAssertion(:hasVector_I :work_table_z_axis "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_J :work_table_z_axis "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :work_table_z_axis "1.000000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasSolidObject_InternalShape :work_table_1 :shape_work_table)
+// end WorkTable
+//*****************************************
+
+
+//*****************************************
+// start BoxyShape shape_work_table
+Declaration(NamedIndividual(:shape_work_table))
+ClassAssertion(:BoxyShape :shape_work_table)
+DataPropertyAssertion(:hasShapeDesign_Description :shape_work_table "Shape of the work table"^^xsd:string)
+DataPropertyAssertion(:hasBoxyShape_Length :shape_work_table "1.600000"^^xsd:decimal)
+DataPropertyAssertion(:hasBoxyShape_Width :shape_work_table "0.800000"^^xsd:decimal)
+DataPropertyAssertion(:hasBoxyShape_Height :shape_work_table "0.500000"^^xsd:decimal)
+DataPropertyAssertion(:hasBoxyShape_Top :shape_work_table "true"^^xsd:boolean)
+// end BoxyShape
 //*****************************************
 
 

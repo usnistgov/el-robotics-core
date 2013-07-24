@@ -12,12 +12,14 @@ class KittingWorkstationFile;
 class AngleUnitType;
 class BoxVolumeType;
 class BoxyShapeType;
+class CylindricalShapeType;
 class DataThingType;
 class EndEffectorChangingStationType;
 class EndEffectorHolderType;
 class EndEffectorType;
 class ExternalShapeType;
 class GripperEffectorType;
+class HumanType;
 class InternalShapeType;
 class KitDesignType;
 class KitTrayType;
@@ -45,6 +47,7 @@ class RelativeLocationOnType;
 class RelativeLocationType;
 class RobotType;
 class ShapeDesignType;
+class SlotType;
 class SolidObjectType;
 class StockKeepingUnitType;
 class VacuumEffectorMultiCupType;
@@ -171,11 +174,13 @@ public:
   PhysicalLocationType();
   PhysicalLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn);
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn);
   ~PhysicalLocationType();
   void printSelf(FILE * outFile);
 
-  XmlIDREF * RefObject;
+  XmlIDREF * RefObjectName;
+  XmlDateTime * Timestamp;
 
   bool printTypp;
 };
@@ -211,16 +216,21 @@ public:
   PoseLocationType();
   PoseLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseLocationType();
   void printSelf(FILE * outFile);
 
   PointType * Point;
   VectorType * XAxis;
   VectorType * ZAxis;
+  PositiveDecimalType * PositionStandardDeviation;
+  PositiveDecimalType * OrientationStandardDeviation;
 
   bool printTypp;
 };
@@ -234,10 +244,13 @@ public:
   PoseOnlyLocationType();
   PoseOnlyLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseOnlyLocationType();
   void printSelf(FILE * outFile);
 
@@ -268,7 +281,8 @@ public:
   RelativeLocationType();
   RelativeLocationType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     XmlString * DescriptionIn);
   ~RelativeLocationType();
   void printSelf(FILE * outFile);
@@ -294,6 +308,26 @@ public:
 
   XmlString * Description;
   PoseLocationType * GraspPose;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class SlotType :
+  public DataThingType
+{
+public:
+  SlotType();
+  SlotType(
+    XmlID * NameIn,
+    XmlIDREF * PartRefAndPoseNameIn,
+    XmlIDREF * PartNameIn);
+  ~SlotType();
+  void printSelf(FILE * outFile);
+
+  XmlIDREF * PartRefAndPoseName;
+  XmlIDREF * PartName;
 
   bool printTypp;
 };
@@ -437,12 +471,12 @@ public:
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn,
     MechanicalComponentType * BaseIn,
-    std::list<EndEffectorHolderType *> * EndEffectorHoldersIn);
+    std::list<EndEffectorHolderType *> * EndEffectorHolderIn);
   ~EndEffectorChangingStationType();
   void printSelf(FILE * outFile);
 
   MechanicalComponentType * Base;
-  std::list<EndEffectorHolderType *> * EndEffectorHolders;
+  std::list<EndEffectorHolderType *> * EndEffectorHolder;
 
   bool printTypp;
 };
@@ -547,6 +581,26 @@ public:
 
 /*********************************************************************/
 
+class HumanType :
+  public SolidObjectType
+{
+public:
+  HumanType();
+  HumanType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn);
+  ~HumanType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
 class InternalShapeType :
   public ShapeDesignType
 {
@@ -601,15 +655,17 @@ public:
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn,
     XmlIDREF * DesignNameIn,
-    KitTrayType * TrayIn,
+    KitTrayType * KitTrayIn,
     std::list<PartType *> * PartIn,
+    std::list<SlotType *> * SlotIn,
     XmlBoolean * FinishedIn);
   ~KitType();
   void printSelf(FILE * outFile);
 
   XmlIDREF * DesignName;
-  KitTrayType * Tray;
+  KitTrayType * KitTray;
   std::list<PartType *> * Part;
+  std::list<SlotType *> * Slot;
   XmlBoolean * Finished;
 
   bool printTypp;
@@ -636,8 +692,7 @@ public:
     std::list<BoxVolumeType *> * OtherObstacleIn,
     RobotType * RobotIn,
     std::list<StockKeepingUnitType *> * SkuIn,
-    WeightUnitType * WeightUnitIn,
-    WorkTableType * WorkTableIn);
+    WeightUnitType * WeightUnitIn);
   ~KittingWorkstationType();
   void printSelf(FILE * outFile);
 
@@ -650,7 +705,6 @@ public:
   RobotType * Robot;
   std::list<StockKeepingUnitType *> * Sku;
   WeightUnitType * WeightUnit;
-  WorkTableType * WorkTable;
 
   bool printTypp;
 };
@@ -669,12 +723,12 @@ public:
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn,
     LargeContainerType * LargeContainerIn,
-    std::list<KitTrayType *> * KitTraysIn);
+    std::list<KitTrayType *> * KitTrayIn);
   ~LargeBoxWithEmptyKitTraysType();
   void printSelf(FILE * outFile);
 
   LargeContainerType * LargeContainer;
-  std::list<KitTrayType *> * KitTrays;
+  std::list<KitTrayType *> * KitTray;
 
   bool printTypp;
 };
@@ -860,10 +914,13 @@ public:
   PoseLocationInType();
   PoseLocationInType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseLocationInType();
   void printSelf(FILE * outFile);
 
@@ -880,10 +937,13 @@ public:
   PoseLocationOnType();
   PoseLocationOnType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     PointType * PointIn,
     VectorType * XAxisIn,
-    VectorType * ZAxisIn);
+    VectorType * ZAxisIn,
+    PositiveDecimalType * PositionStandardDeviationIn,
+    PositiveDecimalType * OrientationStandardDeviationIn);
   ~PoseLocationOnType();
   void printSelf(FILE * outFile);
 
@@ -900,7 +960,8 @@ public:
   RelativeLocationInType();
   RelativeLocationInType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     XmlString * DescriptionIn);
   ~RelativeLocationInType();
   void printSelf(FILE * outFile);
@@ -918,7 +979,8 @@ public:
   RelativeLocationOnType();
   RelativeLocationOnType(
     XmlID * NameIn,
-    XmlIDREF * RefObjectIn,
+    XmlIDREF * RefObjectNameIn,
+    XmlDateTime * TimestampIn,
     XmlString * DescriptionIn);
   ~RelativeLocationOnType();
   void printSelf(FILE * outFile);
@@ -1003,6 +1065,30 @@ public:
 
   PositiveDecimalType * Length;
   PositiveDecimalType * Width;
+  PositiveDecimalType * Height;
+  XmlBoolean * HasTop;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class CylindricalShapeType :
+  public InternalShapeType
+{
+public:
+  CylindricalShapeType();
+  CylindricalShapeType(
+    XmlID * NameIn,
+    XmlString * DescriptionIn,
+    PoseLocationType * GraspPoseIn,
+    PositiveDecimalType * DiameterIn,
+    PositiveDecimalType * HeightIn,
+    XmlBoolean * HasTopIn);
+  ~CylindricalShapeType();
+  void printSelf(FILE * outFile);
+
+  PositiveDecimalType * Diameter;
   PositiveDecimalType * Height;
   XmlBoolean * HasTop;
 

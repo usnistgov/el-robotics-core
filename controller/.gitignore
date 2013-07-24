@@ -1,4 +1,10 @@
 CMakeFiles
-bin
-lib
-build
+build/*
+rosCanonicalController/build/*
+rosCanonicalController/bin/*
+rosCanonicalController/lib/*
+canonicalQueue/bin/*
+canonicalQueue/lib/*
+!build/.gitignore
+rosCanonicalController/doc/html
+rosCanonicalController/doc/latex

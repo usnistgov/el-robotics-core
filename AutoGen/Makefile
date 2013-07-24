@@ -1,71 +1,37 @@
-IDIR =./database
-CC=g++
-CFLAGS=-I$(IDIR) -g -shared
+export IDIR =./database
+export CC=g++
+export CFLAGS=-I$(IDIR) -g -shared
 
-ODIR=obj
-LIBS=
+export ODIR=obj
+export LIBS=
 
-_DEPS = 
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+export _DEPS = 
+export DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+IPMAS_DIR =../
+
+OWL_ONTOLOGY=$(IPMAS_DIR)/Ontology/Kitting/kittingClasses.owl
 
 all: libsqlKit.a
 
-# create list with "ls -x > fileList.txt"
-
-libsqlKit_SOURCES = \
-BoxVolume.cpp \
-BoxyShape.cpp \
-Connection.cpp \
-DAO.cpp \
-DataThing.cpp \
-EndEffectorChangingStation.cpp \
-EndEffector.cpp \
-EndEffectorHolder.cpp \
-ExternalShape.cpp \
-GripperEffector.cpp \
-InternalShape.cpp \
-Kit.cpp \
-KitDesign.cpp \
-KittingWorkstation.cpp \
-KitTray.cpp \
-LargeBoxWithEmptyKitTrays.cpp \
-LargeBoxWithKits.cpp \
-LargeContainer.cpp \
-MechanicalComponent.cpp \
-Part.cpp \
-PartRefAndPose.cpp \
-PartsBin.cpp \
-PartsTray.cpp \
-PartsTrayWithParts.cpp \
-PhysicalLocation.cpp \
-Point.cpp \
-PoseLocation.cpp \
-PoseLocationIn.cpp \
-PoseLocationOn.cpp \
-PoseOnlyLocation.cpp \
-RelativeLocation.cpp \
-RelativeLocationIn.cpp \
-RelativeLocationOn.cpp \
-Robot.cpp \
-ShapeDesign.cpp \
-SolidObject.cpp \
-StockKeepingUnit.cpp \
-VacuumEffector.cpp \
-VacuumEffectorMultiCup.cpp \
-VacuumEffectorSingleCup.cpp \
-Vector.cpp \
-WorkTable.cpp 
+#do NOT export source or obj file names
+#recursive make calls need to reevaluate these if sources are generated into an empty directory
+libsqlKit_SOURCES=$(wildcard *.cpp)
 
 libsqlKit_OBJECTS=$(patsubst %, $(ODIR)/%,$(libsqlKit_SOURCES:.cpp=.o))
 
-$(ODIR)/%.o: %.cpp ./database/%.h $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+libsqlKit_HEADERS=$(wildcard $(IDIR)/*.h)
 
-libsqlKit.a: $(libsqlKit_OBJECTS)
-	ar rcs $@ $(libsqlKit_OBJECTS)
-	ranlib $@
+libsqlKit.a: genSrc $(libsqlKit_OBJECTS) $(libsqlKit_SOURCES) $(libsqlKit_HEADERS) $(DEPS)
+	$(MAKE) -f sqlKitMakefile
 
+#dummy target to signal source generation
+genSrc: $(OWL_ONTOLOGY)
+	$(IPMAS_DIR)/Generator/generator_no_gui.jar -owl $< -cpp ./
+	mv *.h $(IDIR)
+	touch genSrc
+	
 .PHONY: clean
 
 clean:
-	rm -rf $(ODIR)/*.o genTest objectGen *~ $(INCDIR)/*~ ../libsqlKit.a
+	rm -rf $(ODIR)/*.o *~ $(INCDIR)/*~ ./libsqlKit.a genSrc *.owl*

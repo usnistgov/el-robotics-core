@@ -18,4 +18,4 @@ add_custom_target(sqlKitTarget ALL
 	WORKING_DIRECTORY ${IPMAS_DIRECTORY}/AutoGen)
 
 add_subdirectory(canonicalQueue)
-
+add_dependencies(canonicalQueue sqlKitTarget)

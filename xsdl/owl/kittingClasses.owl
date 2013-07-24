@@ -7,19 +7,6 @@ Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
 
 Ontology(<http://www.nist.gov/el/ontologies/kittingClasses.owl>
 
-<!-- 
-
-TODO - put inherited elements in lists in the documentation following the
-model given in EndEffectorHolderType. This is so that the Name element can
-easily be deleted automatically from the documentation in the
-xmlSchemaOwlPrinter.
-
-Also mark xxxName elements that are IDREFs as shown in KitType. This is
-so that xxxName(IDREF) can easily be automatically changed in the
-documentation to just "xxx".
-
--->
-
 Annotation(rdfs:comment
   "This kitting ontology models a kitting workstation including objects
   in the workstation and data associated with the workstation. The

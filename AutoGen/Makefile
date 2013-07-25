@@ -24,6 +24,9 @@ libsqlKit_HEADERS=$(wildcard $(IDIR)/*.h)
 
 libsqlKit.a: genSrc $(libsqlKit_OBJECTS) $(libsqlKit_SOURCES) $(libsqlKit_HEADERS) $(DEPS)
 	$(MAKE) -f sqlKitMakefile
+	
+$(libsqlKit_OBJECTS):
+	$(MAKE) -f sqlKitMakefile $(libsqlKit_OBJECTS)
 
 #dummy target to signal source generation
 genSrc: $(OWL_ONTOLOGY)

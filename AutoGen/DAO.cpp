@@ -407,6 +407,7 @@ nameDone.push_back(className.back() + "+" + name);
 				delete (prep_stmt);
 				delete (stmt);
 			} catch (sql::SQLException &e) {
+			  /*
 				std::cout << "# ERR: SQLException in " << __FILE__;
 				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 						<< std::endl;
@@ -414,6 +415,7 @@ nameDone.push_back(className.back() + "+" + name);
 				std::cout << " (MySQL error code: " << e.getErrorCode();
 				std::cout << ", SQLState: " << e.getSQLState() << " )"
 						<< std::endl;
+			  */
 			}
 		}
 

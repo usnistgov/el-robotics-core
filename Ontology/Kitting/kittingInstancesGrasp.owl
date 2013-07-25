@@ -1461,7 +1461,7 @@ Declaration(NamedIndividual(:part_a_grasp_point))
 ClassAssertion(:Point :part_a_grasp_point)
 DataPropertyAssertion(:hasPoint_X :part_a_grasp_point "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Y :part_a_grasp_point "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :part_a_grasp_point "0.150000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Z :part_a_grasp_point "0.021900"^^xsd:decimal)
 Declaration(NamedIndividual(:part_a_grasp_x_axis))
 ClassAssertion(:Vector :part_a_grasp_x_axis)
 DataPropertyAssertion(:hasVector_I :part_a_grasp_x_axis "1.000000"^^xsd:decimal)
@@ -1471,7 +1471,7 @@ Declaration(NamedIndividual(:part_a_grasp_z_axis))
 ClassAssertion(:Vector :part_a_grasp_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_grasp_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_grasp_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_a_grasp_z_axis "1.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasVector_K :part_a_grasp_z_axis "-1.000000"^^xsd:decimal)
 // end BoxyShape
 //*****************************************
 

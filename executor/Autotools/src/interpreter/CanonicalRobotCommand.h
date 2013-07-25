@@ -36,6 +36,8 @@
 #include "database/PoseLocation.h"
 #include "database/PhysicalLocation.h"
 #include "database/Robot.h"
+#include "database/ShapeDesign.h"
+#include "database/StockKeepingUnit.h"
 #include "database/Vector.h"
 #include "database/KitTray.h"
 #include "Structdef.h"

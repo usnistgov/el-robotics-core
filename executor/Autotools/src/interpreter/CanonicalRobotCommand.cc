@@ -450,75 +450,79 @@ PartsTrayLocStruct CanonicalRobotCommand::getPartsTrayLocation(string part_tray_
   - Query the table @a Vector to retrieve the vector for the Z axis
  */
 RecLoc CanonicalRobotCommand::getPartLocation(string part_name){
+  double doubleValue;
+  PartLocStruct partloc;
+  RecurseLocation recurseLocation;
+  RecLoc recLoc;
+  Part *part = new Part(part_name);
+  Point *point;
+  PoseLocation *graspPose;
+  ShapeDesign *shapeDesign;
+  StockKeepingUnit *sku;
+  Vector *vector;
 
-	PartLocStruct partloc;
-	RecurseLocation recurseLocation;
-	RecLoc recLoc;
+  part->get(part_name);
+  recurseLocation.clear();
 
+  /* get grasp location */
+  // first get sku
+  sku = part->gethasPart_Sku();
+  sku->get(sku->getname());
 
-	Part *part = new Part(part_name);
-	part->get(part_name);
-	recurseLocation.clear();
-	/* new code */
+  // from sku, get shape
+  shapeDesign = sku->gethasSku_Shape();
+  shapeDesign->get(shapeDesign->getname());
 
-	recLoc.clear();
-	//	partRefAndPose->get(part_name);
-	//	mypoint = partRefAndPose->gethasPartRefAndPose_Point();
-	//	printf( "Got it! Now getting point.\n" );
-	//	mypoint->get(mypoint->getname());
-	//	recLoc.posePointName = mypoint->getname();
-	recLoc.posePointName = "grasp";
-	//	doubleValue = mypoint->gethasPoint_X();
-	//	recLoc.pointXYZ.push_back(doubleValue);
-	recLoc.pointXYZ.push_back(0);
-	//	doubleValue = mypoint->gethasPoint_Y();
-	//	recLoc.pointXYZ.push_back(doubleValue);
-	recLoc.pointXYZ.push_back(0);
-	//	doubleValue = mypoint->gethasPoint_Z();
-	//	recLoc.pointXYZ.push_back(doubleValue);
-	recLoc.pointXYZ.push_back(.05);
+  // from shape design, get grasp pose
+  graspPose = shapeDesign->gethasShapeDesign_GraspPose();
+  graspPose->get(graspPose->getname());
+  recLoc.clear();
 
-	//	myvector = partRefAndPose->gethasPartRefAndPose_XAxis();
-	//	myvector->get(myvector->getname());
-	//	doubleValue = myvector->gethasVector_I();
-	//	recLoc.xAxis.push_back(doubleValue);
-	recLoc.xAxis.push_back(1.);
-	recLoc.xAxis.push_back(0.);
-	recLoc.xAxis.push_back(0.);
-	recLoc.xAxisName = "xAxis";
-	//	doubleValue = myvector->gethasVector_J();
-	//	recLoc.xAxis.push_back(doubleValue);
-	//	doubleValue = myvector->gethasVector_K();
-	//	recLoc.xAxis.push_back(doubleValue);
-	//	recLoc.xAxisName = myvector->getname();
+  // from the grasp pose, get the point
+  point = graspPose->gethasPoseLocation_Point();
+  recLoc.posePointName = point->getname();
+  point->get(recLoc.posePointName);
+  doubleValue = point->gethasPoint_X();
+  recLoc.pointXYZ.push_back(doubleValue);
+  doubleValue = point->gethasPoint_Y();
+  recLoc.pointXYZ.push_back(doubleValue);
+  doubleValue = point->gethasPoint_Z();
+  recLoc.pointXYZ.push_back(doubleValue);
 
-	//	myvector = partRefAndPose->gethasPartRefAndPose_ZAxis();
-	recLoc.zAxis.push_back(0.);
-	recLoc.zAxis.push_back(0.);
-	recLoc.zAxis.push_back(-1.);
-	recLoc.zAxisName = "zAxis";
-	//	myvector->get(myvector->getname());
-	//	doubleValue = myvector->gethasVector_I();
-	//	recLoc.zAxis.push_back(doubleValue);
-	//	doubleValue = myvector->gethasVector_J();
-	//	recLoc.zAxis.push_back(doubleValue);
-	//	doubleValue = myvector->gethasVector_K();
-	//	recLoc.zAxis.push_back(doubleValue);
-	//	recLoc.zAxisName = myvector->getname();
+  // from the grasp pose, get the XAxis vector
+  vector = graspPose->gethasPoseLocation_XAxis();
+  recLoc.xAxisName = vector->getname();
+  vector->get(recLoc.xAxisName);
+  doubleValue = vector->gethasVector_I();
+  recLoc.xAxis.push_back(doubleValue);
+  doubleValue = vector->gethasVector_J();
+  recLoc.xAxis.push_back(doubleValue);
+  doubleValue = vector->gethasVector_K();
+  recLoc.xAxis.push_back(doubleValue);
 
-	recurseLocation.addRecLoc(&recLoc);
-	recLoc.clear();
+  // from the grasp pose, get the ZAxis vector
+  vector = graspPose->gethasPoseLocation_ZAxis();
+  recLoc.zAxisName = vector->getname();
+  vector->get(recLoc.zAxisName);
+  doubleValue = vector->gethasVector_I();
+  recLoc.zAxis.push_back(doubleValue);
+  doubleValue = vector->gethasVector_J();
+  recLoc.zAxis.push_back(doubleValue);
+  doubleValue = vector->gethasVector_K();
+  recLoc.zAxis.push_back(doubleValue);
 
-	/* end of new code */
+  // add grasp to transform
+  recurseLocation.addRecLoc(&recLoc);
+  recLoc.clear();
 
+  /* now get location of part */
+  recurseLocation.recurse(part);
+  recurseLocation.computeGlobalLoc();
+  recurseLocation.printMe(0);
+  recLoc = recurseLocation.getGlobalLoc();
 
-	recurseLocation.recurse(part);
-	recurseLocation.computeGlobalLoc();
-	recurseLocation.printMe(0);
-	recLoc = recurseLocation.getGlobalLoc();
-
-	//  delete part;
-	return recLoc;
+  //  delete part;
+  return recLoc;
 }
 
 RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, 

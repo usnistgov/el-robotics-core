@@ -19,10 +19,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_kit_tray_5_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(2, 'stock_keeping_unit_kit_tray_5_ir', 'SKU for KitTray 5', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(2, 1);
 
@@ -40,7 +40,7 @@ VALUES('part_gear_1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(4, 'part_gear_1_point', 0.8000, 0.0000, 0.05000);
+VALUES(4, 'part_gear_1_point', 0.8000, -0.0000, -0.05000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -64,7 +64,7 @@ VALUES('part_gear_shaft_2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(6, 'part_gear_shaft_2_point', 0.6, 2.0000, 0.05000);
+VALUES(6, 'part_gear_shaft_2_point', 0.6, -2.0000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -72,7 +72,7 @@ VALUES('point_kit_a2b3c5_c_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(7, 'point_kit_a2b3c5_c_3_ir', 0.787200, -0.330100, -0.065000);
+VALUES(7, 'point_kit_a2b3c5_c_3_ir', 0.787200, 0.330100, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -83,7 +83,7 @@ INSERT INTO PhysicalLocation
 VALUES(8, 'part_b_3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(8, 'part_b_3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -103,8 +103,12 @@ INSERT INTO SolidObject
 VALUES('kit_a4b3c3', NULL);
 
 INSERT INTO Kit
-(KitID, _NAME, isKit_Finished, hasKit_Tray, hasKit_Design)
-VALUES(3, 'kit_a4b3c3', false, NULL, NULL);
+(KitID, _NAME, hasKit_KitTray, hasKit_Design)
+VALUES(3, 'kit_a4b3c3', NULL, NULL);
+
+INSERT INTO isKit_FinishedValue
+(KitID, isKit_Finished)
+VALUES(3, false);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -123,7 +127,7 @@ INSERT INTO PhysicalLocation
 VALUES(10, 'finished_kit_receiver_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(10, 'finished_kit_receiver_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -139,7 +143,7 @@ INSERT INTO PhysicalLocation
 VALUES(11, 'part_b_5_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(11, 'part_b_5_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -155,7 +159,7 @@ INSERT INTO PhysicalLocation
 VALUES(12, 'part_b_4_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(12, 'part_b_4_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -171,7 +175,7 @@ INSERT INTO PhysicalLocation
 VALUES(13, 'kit_a2b3c5_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(13, 'kit_a2b3c5_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -187,7 +191,7 @@ INSERT INTO PhysicalLocation
 VALUES(14, 'part_c_4_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(14, 'part_c_4_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -232,7 +236,7 @@ VALUES('point_kit_a2b1c1_a_2');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(16, 'point_kit_a2b1c1_a_2', 0.400000, -0.300000, 0.000000);
+VALUES(16, 'point_kit_a2b1c1_a_2', 0.400000, 0.300000, 0.000000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -248,7 +252,7 @@ VALUES('point_kit_a2b1c1_a_1');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(17, 'point_kit_a2b1c1_a_1', 0.200000, -0.300000, 0.000000);
+VALUES(17, 'point_kit_a2b1c1_a_1', 0.200000, 0.300000, 0.000000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -296,7 +300,7 @@ VALUES('part_a_10_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(19, 'part_a_10_point_ir', 0.469500, -0.216000, -0.065000);
+VALUES(19, 'part_a_10_point_ir', 0.469500, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -307,7 +311,7 @@ INSERT INTO PhysicalLocation
 VALUES(20, 'part_a_tray_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(20, 'part_a_tray_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -367,7 +371,7 @@ INSERT INTO SolidObject
 VALUES('part_c_supply', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(17, 'part_c_supply', NULL);
 
 INSERT INTO DataThing
@@ -444,7 +448,7 @@ VALUES('part_e_4_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(30, 'part_e_4_point_ir', 0.165600, -0.127400, -0.065000);
+VALUES(30, 'part_e_4_point_ir', 0.165600, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -460,7 +464,7 @@ VALUES('point_kit_a4b3c2d1_d_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(32, 'point_kit_a4b3c2d1_d_1_ir', 0.088800, -0.292000, -0.065000);
+VALUES(32, 'point_kit_a4b3c2d1_d_1_ir', 0.088800, 0.292000, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -491,7 +495,7 @@ INSERT INTO PhysicalLocation
 VALUES(34, 'part_d_tray_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(34, 'part_d_tray_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -520,7 +524,7 @@ VALUES('point_kit_a4b3c3_b_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(37, 'point_kit_a4b3c3_b_3_ir', 0.635000, -0.114700, -0.065000);
+VALUES(37, 'point_kit_a4b3c3_b_3_ir', 0.635000, 0.114700, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -539,7 +543,7 @@ INSERT INTO PhysicalLocation
 VALUES(39, 'part_b_1_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(39, 'part_b_1_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -552,7 +556,7 @@ VALUES('point_kit_a4b4c2_a_4_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(40, 'point_kit_a4b4c2_a_4_ir', 0.622700, -0.292400, -0.065000);
+VALUES(40, 'point_kit_a4b4c2_a_4_ir', 0.622700, 0.292400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -560,7 +564,7 @@ VALUES('point_kit_a4b3c3_a_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(41, 'point_kit_a4b3c3_a_1_ir', 0.546100, -0.368700, -0.065000);
+VALUES(41, 'point_kit_a4b3c3_a_1_ir', 0.546100, 0.368700, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -604,17 +608,17 @@ VALUES('part_a_11_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(45, 'part_a_11_point_ir', 0.596500, -0.216000, -0.065000);
+VALUES(45, 'part_a_11_point_ir', 0.596500, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('stock_keeping_unit_part_gear_holder');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(46, 'stock_keeping_unit_part_gear_holder', 'SKU for gear holder', 1.200000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(46, 1);
 
@@ -624,7 +628,7 @@ VALUES('kit_tray_5_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(47, 'kit_tray_5_point_ir', -0.5, 1.000000, 0.320000);
+VALUES(47, 'kit_tray_5_point_ir', -0.5, -1.000000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -632,7 +636,7 @@ VALUES('point_min');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(48, 'point_min', -1.000000, -1.000000, 0.000000);
+VALUES(48, 'point_min', -1.000000, -1.000000, -2.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -691,7 +695,7 @@ INSERT INTO PhysicalLocation
 VALUES(54, 'part_a_10_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(54, 'part_a_10_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -719,7 +723,7 @@ INSERT INTO PhysicalLocation
 VALUES(56, 'part_a_2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(56, 'part_a_2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -768,27 +772,27 @@ VALUES(61, 'part_gripper_holder_x_axis', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('part_ref_and_pose_kit_a4b4c2_a_1_ir');
-
-INSERT INTO PartRefAndPose
-(PartRefAndPoseID, _NAME, hasPartRefAndPose_Sku, hasPartRefAndPose_ZAxis, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Point, hasPartRefAndPose_XAxis)
-VALUES(62, 'part_ref_and_pose_kit_a4b4c2_a_1_ir', NULL, NULL, NULL, NULL, NULL);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('part_d_1_pose_ir');
 
 INSERT INTO PhysicalLocation
 (PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject)
-VALUES(63, 'part_d_1_pose_ir', NULL);
+VALUES(62, 'part_d_1_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
-VALUES(63, 'part_d_1_pose_ir', NULL, NULL, NULL);
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
+VALUES(62, 'part_d_1_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
 (PoseLocationInID, _NAME)
-VALUES(63, 'part_d_1_pose_ir');
+VALUES(62, 'part_d_1_pose_ir');
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_ref_and_pose_kit_a4b4c2_a_1_ir');
+
+INSERT INTO PartRefAndPose
+(PartRefAndPoseID, _NAME, hasPartRefAndPose_Sku, hasPartRefAndPose_ZAxis, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Point, hasPartRefAndPose_XAxis)
+VALUES(63, 'part_ref_and_pose_kit_a4b4c2_a_1_ir', NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)
@@ -796,7 +800,7 @@ VALUES('part_c_3_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(64, 'part_c_3_point_ir', 0.533400, -0.330200, -0.065000);
+VALUES(64, 'part_c_3_point_ir', 0.533400, 0.330200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -820,7 +824,7 @@ VALUES('part_b_6_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(66, 'part_b_6_point', -0.240000, 0.120000, -0.05);
+VALUES(66, 'part_b_6_point', -0.240000, -0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -860,19 +864,7 @@ VALUES('part_a_1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(71, 'part_a_1_point', 0.159000, -0.159000, -0.027500);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('stock_keeping_unit_part_d_ir');
-
-INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
-VALUES(72, 'stock_keeping_unit_part_d_ir', 'SKU for Part D_ir', 0.180000, NULL);
-
-INSERT INTO hasSku_EndEffectors
-(StockKeepingUnitID, EndEffectorID)
-VALUES(72, 1);
+VALUES(71, 'part_a_1_point', 0.159000, 0.159000, 0.027500);
 
 INSERT INTO DataThing
 (_NAME)
@@ -880,7 +872,19 @@ VALUES('part_d_8_z_axis_ir');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(73, 'part_d_8_z_axis_ir', 1.000000, 0.000000, 0.000000);
+VALUES(72, 'part_d_8_z_axis_ir', 1.000000, 0.000000, 0.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('stock_keeping_unit_part_d_ir');
+
+INSERT INTO StockKeepingUnit
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
+VALUES(73, 'stock_keeping_unit_part_d_ir', 'SKU for Part D_ir', 0.180000, NULL);
+
+INSERT INTO hasStockKeepingUnit_EndEffector
+(StockKeepingUnitID, EndEffectorID)
+VALUES(73, 1);
 
 INSERT INTO DataThing
 (_NAME)
@@ -907,7 +911,7 @@ INSERT INTO PhysicalLocation
 VALUES(76, 'part_b_supply_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(76, 'part_b_supply_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -947,7 +951,7 @@ INSERT INTO PhysicalLocation
 VALUES(80, 'part_b_6_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(80, 'part_b_6_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -960,7 +964,7 @@ VALUES('point_kit_a2b3c3d1e1_b_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(81, 'point_kit_a2b3c3d1e1_b_1_ir', 0.126800, -0.089300, -0.065000);
+VALUES(81, 'point_kit_a2b3c3d1e1_b_1_ir', 0.126800, 0.089300, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1011,7 +1015,7 @@ INSERT INTO PhysicalLocation
 VALUES(83, 'part_b_9_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(83, 'part_b_9_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1024,7 +1028,7 @@ VALUES('point_kit_a2b2c1_c_1');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(84, 'point_kit_a2b2c1_c_1', 0.060000, -0.090000, -0.045000);
+VALUES(84, 'point_kit_a2b2c1_c_1', 0.060000, 0.090000, 0.045000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -1064,7 +1068,7 @@ VALUES('part_d_4_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(85, 'part_d_4_point_ir', 0.165600, -0.216000, -0.065000);
+VALUES(85, 'part_d_4_point_ir', 0.165600, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1075,7 +1079,7 @@ INSERT INTO PhysicalLocation
 VALUES(86, 'part_b_1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(86, 'part_b_1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1088,7 +1092,7 @@ VALUES('part_c_1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(87, 'part_c_1_point', 0.110000, -0.216000, -0.035000);
+VALUES(87, 'part_c_1_point', 0.110000, 0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1111,8 +1115,8 @@ INSERT INTO InternalShape
 VALUES(89, 'shape_parts_tray_c_ir');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(89, 'shape_parts_tray_c_ir', 0.457200, false, 0.025400, 0.863600);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(89, 'shape_parts_tray_c_ir', 0.457200, 0.025400, 0.863600);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1120,7 +1124,7 @@ VALUES('part_a_13_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(90, 'part_a_13_point_ir', 0.088500, -0.089000, -0.065000);
+VALUES(90, 'part_a_13_point_ir', 0.088500, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1131,7 +1135,7 @@ INSERT INTO PhysicalLocation
 VALUES(91, 'part_b_2_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(91, 'part_b_2_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1152,7 +1156,7 @@ VALUES('kit_a2b3c3d1e1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(92, 'kit_a2b3c3d1e1_point', 0.100000, 0.200000, 0.500000);
+VALUES(92, 'kit_a2b3c3d1e1_point', 0.100000, -0.200000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1175,10 +1179,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_kit_tray_1_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(94, 'stock_keeping_unit_kit_tray_1_ir', 'SKU for KitTray 1', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(94, 1);
 
@@ -1187,10 +1191,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_c_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(95, 'stock_keeping_unit_part_c_ir', 'SKU for Part C_ir', 0.180000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(95, 1);
 
@@ -1203,7 +1207,7 @@ INSERT INTO PhysicalLocation
 VALUES(96, 'part_c_5_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(96, 'part_c_5_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1219,7 +1223,7 @@ INSERT INTO PhysicalLocation
 VALUES(97, 'kit_tray_3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(97, 'kit_tray_3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -1275,7 +1279,7 @@ INSERT INTO PhysicalLocation
 VALUES(102, 'part_c_4_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(102, 'part_c_4_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1287,10 +1291,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_parts_d_tray_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(103, 'stock_keeping_unit_parts_d_tray_ir', 'SKU for PartsTrays containing parts of type D, used for Intention Recognition', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(103, 1);
 
@@ -1307,7 +1311,7 @@ INSERT INTO SolidObject
 VALUES('part_e_supply_ir', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(33, 'part_e_supply_ir', NULL);
 
 INSERT INTO DataThing
@@ -1319,7 +1323,7 @@ INSERT INTO PhysicalLocation
 VALUES(105, 'part_a_4_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(105, 'part_a_4_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1342,6 +1346,14 @@ INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
 VALUES(107, 'part_a_3_x_axis', 0.000000, 0.000000, 1.000000);
 
+INSERT INTO DataThing
+(_NAME)
+VALUES('point_kit_a4b4c2_b_2_ir');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(108, 'point_kit_a4b4c2_b_2_ir', 0.330600, 0.216400, 0.065000);
+
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
 VALUES('part_b_4_ir', NULL);
@@ -1349,14 +1361,6 @@ VALUES('part_b_4_ir', NULL);
 INSERT INTO Part
 (PartID, _NAME, hasPart_SerialNumber, hadByPart_PartsTrayWithParts, hasPart_Sku)
 VALUES(34, 'part_b_4_ir', 'b4_ir', NULL, NULL);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('point_kit_a4b4c2_b_2_ir');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(108, 'point_kit_a4b4c2_b_2_ir', 0.330600, -0.216400, -0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1379,10 +1383,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_kit_tray_3_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(111, 'stock_keeping_unit_kit_tray_3_ir', 'SKU for KitTray 3', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(111, 1);
 
@@ -1395,7 +1399,7 @@ INSERT INTO PhysicalLocation
 VALUES(112, 'part_c_tray_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(112, 'part_c_tray_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -1432,7 +1436,7 @@ VALUES('kit_tray_3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(115, 'kit_tray_3_point', 2.000000, 0.000000, 0.225000);
+VALUES(115, 'kit_tray_3_point', 2.000000, 0.000000, -0.225000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1448,7 +1452,7 @@ VALUES('part_a_5_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(117, 'part_a_5_point_ir', 0.596500, -0.343000, -0.065000);
+VALUES(117, 'part_a_5_point_ir', 0.596500, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1496,7 +1500,7 @@ VALUES('part_b_3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(123, 'part_b_3_point', 0.080000, -0.120000, -0.05);
+VALUES(123, 'part_b_3_point', 0.080000, 0.120000, 0.05);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -1531,7 +1535,7 @@ INSERT INTO PhysicalLocation
 VALUES(124, 'part_c_8_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(124, 'part_c_8_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1559,8 +1563,8 @@ INSERT INTO InternalShape
 VALUES(125, 'shape_parts_tray_e_ir');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(125, 'shape_parts_tray_e_ir', 0.431900, false, 0.025400, 0.889500);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(125, 'shape_parts_tray_e_ir', 0.431900, 0.025400, 0.889500);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1579,7 +1583,7 @@ INSERT INTO PhysicalLocation
 VALUES(127, 'part_c_6_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(127, 'part_c_6_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1592,7 +1596,7 @@ VALUES('point_kit_a4b3c2d1_a_4_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(128, 'point_kit_a4b3c2d1_a_4_ir', 0.088800, -0.088800, -0.065000);
+VALUES(128, 'point_kit_a4b3c2d1_a_4_ir', 0.088800, 0.088800, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -1627,7 +1631,7 @@ INSERT INTO PhysicalLocation
 VALUES(130, 'part_c_7_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(130, 'part_c_7_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1648,7 +1652,7 @@ VALUES('part_a_2_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(131, 'part_a_2_point_ir', 0.215500, -0.343000, -0.065000);
+VALUES(131, 'part_a_2_point_ir', 0.215500, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1664,7 +1668,7 @@ VALUES('part_b_1_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(133, 'part_b_1_point_ir', 0.088500, -0.330600, -0.065000);
+VALUES(133, 'part_b_1_point_ir', 0.088500, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1696,7 +1700,7 @@ VALUES('point_max');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(135, 'point_max', 1.000000, 1.000000, 2.000000);
+VALUES(135, 'point_max', 1.000000, 1.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1711,7 +1715,7 @@ INSERT INTO DataThing
 VALUES('kit_design_a4b3c3_ir');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
 VALUES(137, 'kit_design_a4b3c3_ir', NULL, NULL);
 
 INSERT INTO DataThing
@@ -1743,7 +1747,7 @@ INSERT INTO PhysicalLocation
 VALUES(140, 'part_c_supply_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(140, 'part_c_supply_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -1763,8 +1767,8 @@ INSERT INTO DataThing
 VALUES('box_volume_1');
 
 INSERT INTO BoxVolume
-(BoxVolumeID, _NAME, hasBoxVolume_MaximumPoint, hasBoxVolume_MinimumPoint)
-VALUES(142, 'box_volume_1', NULL, NULL);
+(BoxVolumeID, _NAME, hadByWorkVolume_Robot, hasBoxVolume_MaximumPoint, hasBoxVolume_MinimumPoint)
+VALUES(142, 'box_volume_1', NULL, NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1783,7 +1787,7 @@ INSERT INTO PhysicalLocation
 VALUES(144, 'part_a_4_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(144, 'part_a_4_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1796,7 +1800,7 @@ VALUES('part_d_8_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(145, 'part_d_8_point_ir', 0.445000, -0.089000, -0.065000);
+VALUES(145, 'part_d_8_point_ir', 0.445000, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1812,7 +1816,7 @@ VALUES('point_kit_a4b3c2d1_a_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(147, 'point_kit_a4b3c2d1_a_1_ir', 0.622200, -0.368200, -0.065000);
+VALUES(147, 'point_kit_a4b3c2d1_a_1_ir', 0.622200, 0.368200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1820,7 +1824,7 @@ VALUES('point_kit_a4b3c3_c_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(148, 'point_kit_a4b3c3_c_1_ir', 0.127000, -0.330600, -0.065000);
+VALUES(148, 'point_kit_a4b3c3_c_1_ir', 0.127000, 0.330600, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -1867,7 +1871,7 @@ INSERT INTO DataThing
 VALUES('kit_design_a4b4c2_ir');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
 VALUES(153, 'kit_design_a4b4c2_ir', NULL, NULL);
 
 INSERT INTO DataThing
@@ -1895,7 +1899,7 @@ INSERT INTO PhysicalLocation
 VALUES(156, 'part_gear_holder_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(156, 'part_gear_holder_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -1915,10 +1919,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_gear');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(158, 'stock_keeping_unit_part_gear', 'SKU for gears', 1.200000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(158, 1);
 
@@ -1952,7 +1956,7 @@ VALUES('part_b_5_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(162, 'part_b_5_point_ir', 0.596500, -0.330600, -0.065000);
+VALUES(162, 'part_b_5_point_ir', 0.596500, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1960,7 +1964,7 @@ VALUES('kit_tray_4_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(163, 'kit_tray_4_point_ir', -0.5, 1.000000, 0.320000);
+VALUES(163, 'kit_tray_4_point_ir', -0.5, -1.000000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1968,7 +1972,7 @@ VALUES('point_kit_a4b3c2d1_a_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(164, 'point_kit_a4b3c2d1_a_3_ir', 0.622200, -0.114200, -0.065000);
+VALUES(164, 'point_kit_a4b3c2d1_a_3_ir', 0.622200, 0.114200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -1983,7 +1987,7 @@ INSERT INTO DataThing
 VALUES('kit_design_a2b2c1');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
 VALUES(166, 'kit_design_a2b2c1', NULL, NULL);
 
 INSERT INTO DataThing
@@ -2036,7 +2040,7 @@ VALUES('point_kit_a4b3c3_a_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(172, 'point_kit_a4b3c3_a_3_ir', 0.546100, -0.241700, -0.065000);
+VALUES(172, 'point_kit_a4b3c3_a_3_ir', 0.546100, 0.241700, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2071,7 +2075,7 @@ INSERT INTO PhysicalLocation
 VALUES(176, 'kit_tray_3_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(176, 'kit_tray_3_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -2103,7 +2107,7 @@ INSERT INTO PhysicalLocation
 VALUES(179, 'part_b_8_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(179, 'part_b_8_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2116,7 +2120,7 @@ VALUES('part_c_6_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(180, 'part_c_6_point_ir', 0.330200, -0.127000, -0.065000);
+VALUES(180, 'part_c_6_point_ir', 0.330200, 0.127000, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -2132,7 +2136,7 @@ VALUES('kit_a4b4c2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(181, 'kit_a4b4c2_point', 0.100000, 0.200000, 0.500000);
+VALUES(181, 'kit_a4b4c2_point', 0.100000, -0.200000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2223,7 +2227,7 @@ INSERT INTO PhysicalLocation
 VALUES(190, 'part_c_2_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(190, 'part_c_2_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2252,7 +2256,7 @@ VALUES('part_b_5_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(193, 'part_b_5_point', -0.080000, 0.120000, -0.05);
+VALUES(193, 'part_b_5_point', -0.080000, -0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2271,7 +2275,7 @@ INSERT INTO PhysicalLocation
 VALUES(195, 'part_e_3_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(195, 'part_e_3_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2284,7 +2288,7 @@ VALUES('point_kit_a2b3c3d1e1_c_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(196, 'point_kit_a2b3c3d1e1_c_1_ir', 0.457000, -0.330600, -0.065000);
+VALUES(196, 'point_kit_a2b3c3d1e1_c_1_ir', 0.457000, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2300,7 +2304,7 @@ VALUES('part_b_2_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(198, 'part_b_2_point_ir', 0.215500, -0.330600, -0.065000);
+VALUES(198, 'part_b_2_point_ir', 0.215500, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2311,7 +2315,7 @@ INSERT INTO PhysicalLocation
 VALUES(199, 'part_a_5_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(199, 'part_a_5_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2342,6 +2346,14 @@ INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
 VALUES(201, 'part_a_9_z_axis_ir', 1.000000, 0.000000, 0.000000);
 
+INSERT INTO DataThing
+(_NAME)
+VALUES('point_kit_a4b3c2d1_c_2_ir');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(202, 'point_kit_a4b3c2d1_c_2_ir', 0.253900, 0.126900, 0.065000);
+
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
 VALUES('part_b_tray', NULL);
@@ -2352,14 +2364,6 @@ VALUES(50, 'part_b_tray', 7, NULL);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('point_kit_a4b3c2d1_c_2_ir');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(202, 'point_kit_a4b3c2d1_c_2_ir', 0.253900, -0.126900, -0.065000);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('finished_kit_receiver_pose_ir');
 
 INSERT INTO PhysicalLocation
@@ -2367,7 +2371,7 @@ INSERT INTO PhysicalLocation
 VALUES(203, 'finished_kit_receiver_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(203, 'finished_kit_receiver_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -2387,10 +2391,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_a');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(205, 'stock_keeping_unit_part_a', 'SKU for Part A', 0.180000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(205, 1);
 
@@ -2416,17 +2420,17 @@ VALUES('part_b_7_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(206, 'part_b_7_point_ir', 0.088500, -0.127400, -0.065000);
+VALUES(206, 'part_b_7_point_ir', 0.088500, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('stock_keeping_unit_parts_b_tray_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(207, 'stock_keeping_unit_parts_b_tray_ir', 'SKU for PartsTrays containing parts of type B, used for Intention Recognition', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(207, 1);
 
@@ -2503,7 +2507,7 @@ INSERT INTO PhysicalLocation
 VALUES(211, 'part_b_supply_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(211, 'part_b_supply_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -2512,23 +2516,23 @@ VALUES(211, 'part_b_supply_pose');
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('kit_design_a2b3c3d1e1_ir');
-
-INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
-VALUES(212, 'kit_design_a2b3c3d1e1_ir', NULL, NULL);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('stock_keeping_unit_kit_tray');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
-VALUES(213, 'stock_keeping_unit_kit_tray', 'SKU for KitTrays', 0.200000, NULL, NULL);
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
+VALUES(212, 'stock_keeping_unit_kit_tray', 'SKU for KitTrays', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
-VALUES(213, 1);
+VALUES(212, 1);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('kit_design_a2b3c3d1e1_ir');
+
+INSERT INTO KitDesign
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
+VALUES(213, 'kit_design_a2b3c3d1e1_ir', NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2536,7 +2540,7 @@ VALUES('point_kit_a2b3c3d1e1_a_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(214, 'point_kit_a2b3c3d1e1_a_2_ir', 0.825300, -0.368700, -0.065000);
+VALUES(214, 'point_kit_a2b3c3d1e1_a_2_ir', 0.825300, 0.368700, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2547,7 +2551,7 @@ INSERT INTO PhysicalLocation
 VALUES(215, 'part_b_4_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(215, 'part_b_4_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2576,7 +2580,7 @@ VALUES('kit_a4b3c3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(218, 'kit_a4b3c3_point', 0.100000, 0.200000, 0.500000);
+VALUES(218, 'kit_a4b3c3_point', 0.100000, -0.200000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2592,7 +2596,7 @@ VALUES('part_c_2_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(220, 'part_c_2_point_ir', 0.330200, -0.330200, -0.065000);
+VALUES(220, 'part_c_2_point_ir', 0.330200, 0.330200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2600,7 +2604,7 @@ VALUES('point_kit_a2b3c5_a_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(221, 'point_kit_a2b3c5_a_2_ir', 0.215700, -0.114200, -0.065000);
+VALUES(221, 'point_kit_a2b3c5_a_2_ir', 0.215700, 0.114200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2640,7 +2644,7 @@ VALUES('part_b_12_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(225, 'part_b_12_point_ir', 0.723500, -0.127400, -0.065000);
+VALUES(225, 'part_b_12_point_ir', 0.723500, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2651,7 +2655,7 @@ INSERT INTO PhysicalLocation
 VALUES(226, 'part_a_16_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(226, 'part_a_16_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2680,7 +2684,7 @@ VALUES('part_a_16_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(229, 'part_a_16_point_ir', 0.469500, -0.089000, -0.065000);
+VALUES(229, 'part_a_16_point_ir', 0.469500, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2711,10 +2715,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_c');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(233, 'stock_keeping_unit_part_c', 'SKU for Part C', 0.180000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(233, 1);
 
@@ -2723,10 +2727,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_b');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(234, 'stock_keeping_unit_part_b', 'SKU for Part B', 0.180000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(234, 1);
 
@@ -2764,7 +2768,7 @@ VALUES('point_kit_a4b3c3_a_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(238, 'point_kit_a4b3c3_a_2_ir', 0.673100, -0.368700, -0.065000);
+VALUES(238, 'point_kit_a4b3c3_a_2_ir', 0.673100, 0.368700, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2783,7 +2787,7 @@ INSERT INTO PhysicalLocation
 VALUES(240, 'part_gear_5_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(240, 'part_gear_5_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2796,7 +2800,7 @@ VALUES('part_c_3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(241, 'part_c_3_point', -0.110000, -0.216000, -0.035000);
+VALUES(241, 'part_c_3_point', -0.110000, 0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2807,7 +2811,7 @@ INSERT INTO PhysicalLocation
 VALUES(242, 'part_a_15_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(242, 'part_a_15_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2823,7 +2827,7 @@ INSERT INTO PhysicalLocation
 VALUES(243, 'part_b_10_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(243, 'part_b_10_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2884,7 +2888,7 @@ VALUES('point_kit_a2b3c3d1e1_d_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(250, 'point_kit_a2b3c3d1e1_d_1_ir', 0.291900, -0.292500, -0.065000);
+VALUES(250, 'point_kit_a2b3c3d1e1_d_1_ir', 0.291900, 0.292500, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2903,12 +2907,20 @@ INSERT INTO ShapeDesign
 VALUES(252, 'shape_changing_station_base', 'Shape of base of changing station');
 
 INSERT INTO InternalShape
-(InternalShapeID, _NAME)
-VALUES(252, 'shape_changing_station_base');
+(InternalShapeID, _NAME, hadByInternalShape_SolidObject)
+VALUES(252, 'shape_changing_station_base', NULL);
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(252, 'shape_changing_station_base', 0.100000, true, 1.000000, 1.000000);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(252, 'shape_changing_station_base', 0.100000, 1.000000, 1.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('stock_keeping_unit_kit_box_ir');
+
+INSERT INTO StockKeepingUnit
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
+VALUES(253, 'stock_keeping_unit_kit_box_ir', 'SKU for Boxes for Kits and KitTrays for Intention Recognition', 1.200000, NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2916,15 +2928,7 @@ VALUES('part_a_11_z_axis_ir');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(253, 'part_a_11_z_axis_ir', 1.000000, 0.000000, 0.000000);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('stock_keeping_unit_kit_box_ir');
-
-INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
-VALUES(254, 'stock_keeping_unit_kit_box_ir', 'SKU for Boxes for Kits and KitTrays for Intention Recognition', 1.200000, NULL, NULL);
+VALUES(254, 'part_a_11_z_axis_ir', 1.000000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2951,7 +2955,7 @@ INSERT INTO PhysicalLocation
 VALUES(257, 'part_a_13_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(257, 'part_a_13_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -2964,17 +2968,17 @@ VALUES('point_kit_a2b2c1_a_2');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(258, 'point_kit_a2b2c1_a_2', -0.159000, -0.149000, -0.036000);
+VALUES(258, 'point_kit_a2b2c1_a_2', -0.159000, 0.149000, 0.036000);
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('stock_keeping_unit_parts_a_tray_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(259, 'stock_keeping_unit_parts_a_tray_ir', 'SKU for PartsTrays containing parts of type A, used for Intention Recognition', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(259, 1);
 
@@ -2984,7 +2988,7 @@ VALUES('part_c_5_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(260, 'part_c_5_point_ir', 0.127000, -0.127000, -0.065000);
+VALUES(260, 'part_c_5_point_ir', 0.127000, 0.127000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -2992,7 +2996,7 @@ VALUES('point_kit_a2b2c1_a_1');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(261, 'point_kit_a2b2c1_a_1', -0.159000, 0.145000, -0.036000);
+VALUES(261, 'point_kit_a2b2c1_a_1', -0.159000, -0.145000, 0.036000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -3008,7 +3012,7 @@ VALUES('part_e_6_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(262, 'part_e_6_point_ir', 0.724400, -0.127400, -0.065000);
+VALUES(262, 'part_e_6_point_ir', 0.724400, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3048,7 +3052,7 @@ VALUES('part_gear_holder_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(267, 'part_gear_holder_point', 0.60000, 2.3000, 0.05000);
+VALUES(267, 'part_gear_holder_point', 0.60000, -2.3000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3083,7 +3087,7 @@ INSERT INTO PhysicalLocation
 VALUES(271, 'part_c_7_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(271, 'part_c_7_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3104,7 +3108,7 @@ VALUES('point_kit_a4b4c2_c_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(273, 'point_kit_a4b4c2_c_1_ir', 0.127400, -0.381300, -0.065000);
+VALUES(273, 'point_kit_a4b4c2_c_1_ir', 0.127400, 0.381300, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3124,19 +3128,19 @@ VALUES(275, 'part_b_11_z_axis_ir', 1.000000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('robot_x_axis');
-
-INSERT INTO Vector
-(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(276, 'robot_x_axis', 0.000000, 0.000000, 1.000000);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('part_b_11_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(277, 'part_b_11_point_ir', 0.596500, -0.127400, -0.065000);
+VALUES(276, 'part_b_11_point_ir', 0.596500, 0.127400, 0.065000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('robot_x_axis');
+
+INSERT INTO Vector
+(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
+VALUES(277, 'robot_x_axis', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3160,7 +3164,7 @@ VALUES('part_gear_boss_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(280, 'part_gear_boss_point', 1.20000, 0.20000, 0.05000);
+VALUES(280, 'part_gear_boss_point', 1.20000, -0.20000, -0.05000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -3176,7 +3180,7 @@ VALUES('point_kit_a2b3c5_b_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(281, 'point_kit_a2b3c5_b_3_ir', 0.749100, -0.126900, -0.065000);
+VALUES(281, 'point_kit_a2b3c5_b_3_ir', 0.749100, 0.126900, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3196,19 +3200,19 @@ VALUES(283, 'x_axis_kit_a4b3c3_a_1_ir', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('part_d_7_point_ir');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(284, 'part_d_7_point_ir', 0.165600, -0.089000, -0.065000);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('part_a_14_x_axis_ir');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(285, 'part_a_14_x_axis_ir', 0.000000, 0.000000, 1.000000);
+VALUES(284, 'part_a_14_x_axis_ir', 0.000000, 0.000000, 1.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_d_7_point_ir');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(285, 'part_d_7_point_ir', 0.165600, 0.089000, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -3248,7 +3252,7 @@ VALUES('part_b_2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(288, 'part_b_2_point', -0.240000, -0.120000, -0.05);
+VALUES(288, 'part_b_2_point', -0.240000, 0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3259,7 +3263,7 @@ INSERT INTO PhysicalLocation
 VALUES(289, 'part_e_2_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(289, 'part_e_2_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3328,7 +3332,7 @@ VALUES('part_c_4_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(296, 'part_c_4_point', -0.330000, -0.216000, -0.035000);
+VALUES(296, 'part_c_4_point', -0.330000, 0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3387,7 +3391,7 @@ INSERT INTO PhysicalLocation
 VALUES(303, 'part_gear_boss_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(303, 'part_gear_boss_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3400,7 +3404,7 @@ VALUES('part_d_6_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(304, 'part_d_6_point_ir', 0.724400, -0.216000, -0.065000);
+VALUES(304, 'part_d_6_point_ir', 0.724400, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3416,7 +3420,7 @@ VALUES('part_a_9_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(306, 'part_a_9_point_ir', 0.342500, -0.216000, -0.065000);
+VALUES(306, 'part_a_9_point_ir', 0.342500, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3456,7 +3460,7 @@ VALUES('part_b_supply_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(311, 'part_b_supply_point_ir', -3.400000, 2.350000, 0.320000);
+VALUES(311, 'part_b_supply_point_ir', -3.400000, -2.350000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3476,23 +3480,23 @@ VALUES(313, 'part_c_7_z_axis', 1.000000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('ext_shape_gear_holder');
-
-INSERT INTO ShapeDesign
-(ShapeDesignID, _NAME, hasShapeDesign_Description)
-VALUES(314, 'ext_shape_gear_holder', 'Shape of the gear holder');
-
-INSERT INTO ExternalShape
-(ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(314, 'ext_shape_gear_holder', 'USARSim', 'gear_holder', 'USARPhysObj');
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('point_kit_a4b3c3_b_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(315, 'point_kit_a4b3c3_b_1_ir', 0.292100, -0.128000, -0.065000);
+VALUES(314, 'point_kit_a4b3c3_b_1_ir', 0.292100, 0.128000, 0.065000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('ext_shape_gear_holder');
+
+INSERT INTO ShapeDesign
+(ShapeDesignID, _NAME, hasShapeDesign_Description)
+VALUES(315, 'ext_shape_gear_holder', 'Shape of the gear holder');
+
+INSERT INTO ExternalShape
+(ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
+VALUES(315, 'ext_shape_gear_holder', 'USARSim', 'gear_holder', 'USARPhysObj');
 
 INSERT INTO DataThing
 (_NAME)
@@ -3527,7 +3531,7 @@ INSERT INTO PhysicalLocation
 VALUES(319, 'kit_tray_1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(319, 'kit_tray_1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -3566,6 +3570,14 @@ INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
 VALUES(322, 'shape_parts_tray_b', 'USARSim', 'PartBTray', 'USARPhysObj');
 
+INSERT INTO SolidObject
+(_NAME, hasSolidObject_PrimaryLocation)
+VALUES('part_a_12_ir', NULL);
+
+INSERT INTO Part
+(PartID, _NAME, hasPart_SerialNumber, hadByPart_PartsTrayWithParts, hasPart_Sku)
+VALUES(64, 'part_a_12_ir', 'a12_ir', NULL, NULL);
+
 INSERT INTO DataThing
 (_NAME)
 VALUES('shape_parts_tray_c');
@@ -3578,21 +3590,13 @@ INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
 VALUES(323, 'shape_parts_tray_c', 'USARSim', 'PartCTray', 'USARPhysObj');
 
-INSERT INTO SolidObject
-(_NAME, hasSolidObject_PrimaryLocation)
-VALUES('part_a_12_ir', NULL);
-
-INSERT INTO Part
-(PartID, _NAME, hasPart_SerialNumber, hadByPart_PartsTrayWithParts, hasPart_Sku)
-VALUES(64, 'part_a_12_ir', 'a12_ir', NULL, NULL);
-
 INSERT INTO DataThing
 (_NAME)
 VALUES('part_a_4_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(324, 'part_a_4_point', -0.159000, -0.159000, -0.027500);
+VALUES(324, 'part_a_4_point', -0.159000, 0.159000, 0.027500);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3659,7 +3663,7 @@ INSERT INTO PhysicalLocation
 VALUES(331, 'part_gear_shaft_3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(331, 'part_gear_shaft_3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3675,7 +3679,7 @@ INSERT INTO PhysicalLocation
 VALUES(332, 'kit_tray_4_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(332, 'kit_tray_4_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -3688,7 +3692,7 @@ VALUES('point_kit_a2b1c1_c_1');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(333, 'point_kit_a2b1c1_c_1', 0.400000, -0.500000, 0.000000);
+VALUES(333, 'point_kit_a2b1c1_c_1', 0.400000, 0.500000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3711,7 +3715,7 @@ INSERT INTO SolidObject
 VALUES('part_b_supply_ir', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(65, 'part_b_supply_ir', NULL);
 
 INSERT INTO DataThing
@@ -3720,7 +3724,7 @@ VALUES('part_c_2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(336, 'part_c_2_point', 0.330000, -0.216000, -0.035000);
+VALUES(336, 'part_c_2_point', 0.330000, 0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3736,7 +3740,7 @@ VALUES('kit_tray_2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(338, 'kit_tray_2_point', 0.75, 0.000000, 0.155000);
+VALUES(338, 'kit_tray_2_point', 0.75, 0.000000, -0.155000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3744,7 +3748,7 @@ VALUES('part_gripper_holder_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(339, 'part_gripper_holder_point', 0.250000, 0.000000, 0.500000);
+VALUES(339, 'part_gripper_holder_point', 0.250000, 0.000000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3776,7 +3780,7 @@ VALUES('part_c_1_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(343, 'part_c_1_point_ir', 0.127000, -0.330200, -0.065000);
+VALUES(343, 'part_c_1_point_ir', 0.127000, 0.330200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3787,7 +3791,7 @@ INSERT INTO PhysicalLocation
 VALUES(344, 'part_a_17_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(344, 'part_a_17_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3807,10 +3811,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_kit_tray_2_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(346, 'stock_keeping_unit_kit_tray_2_ir', 'SKU for KitTray 2', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(346, 1);
 
@@ -3823,7 +3827,7 @@ INSERT INTO PhysicalLocation
 VALUES(347, 'part_c_6_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(347, 'part_c_6_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3835,10 +3839,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_parts_c_tray_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(348, 'stock_keeping_unit_parts_c_tray_ir', 'SKU for PartsTrays containing parts of type C, used for Intention Recognition', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(348, 1);
 
@@ -3847,7 +3851,7 @@ INSERT INTO DataThing
 VALUES('kit_design_a2b3c5_ir');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
 VALUES(349, 'kit_design_a2b3c5_ir', NULL, NULL);
 
 INSERT INTO DataThing
@@ -3883,7 +3887,7 @@ INSERT INTO PhysicalLocation
 VALUES(352, 'part_c_3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(352, 'part_c_3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3896,7 +3900,7 @@ VALUES('part_e_2_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(353, 'part_e_2_point_ir', 0.445000, -0.330600, -0.065000);
+VALUES(353, 'part_e_2_point_ir', 0.445000, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3907,7 +3911,7 @@ INSERT INTO PhysicalLocation
 VALUES(354, 'changing_station_base_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(354, 'changing_station_base_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -3920,7 +3924,7 @@ VALUES('point_kit_a2b3c5_a_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(355, 'point_kit_a2b3c5_a_1_ir', 0.215700, -0.241200, -0.065000);
+VALUES(355, 'point_kit_a2b3c5_a_1_ir', 0.215700, 0.241200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -3931,7 +3935,7 @@ INSERT INTO PhysicalLocation
 VALUES(356, 'part_a_3_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(356, 'part_a_3_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3971,7 +3975,7 @@ INSERT INTO PhysicalLocation
 VALUES(359, 'part_a_3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(359, 'part_a_3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -3983,8 +3987,12 @@ INSERT INTO SolidObject
 VALUES('kit_a2b3c3d1e1', NULL);
 
 INSERT INTO Kit
-(KitID, _NAME, isKit_Finished, hasKit_Tray, hasKit_Design)
-VALUES(68, 'kit_a2b3c3d1e1', false, NULL, NULL);
+(KitID, _NAME, hasKit_KitTray, hasKit_Design)
+VALUES(68, 'kit_a2b3c3d1e1', NULL, NULL);
+
+INSERT INTO isKit_FinishedValue
+(KitID, isKit_Finished)
+VALUES(68, false);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4020,19 +4028,19 @@ VALUES(363, 'finished_kit_receiver_point_ir', 1.500000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('kit_a4b3c3_z_axis');
-
-INSERT INTO Vector
-(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(364, 'kit_a4b3c3_z_axis', 1.000000, 0.000000, 0.000000);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('part_gear_shaft_3_z_axis');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(365, 'part_gear_shaft_3_z_axis', 1.000000, 0.000000, 0.000000);
+VALUES(364, 'part_gear_shaft_3_z_axis', 1.000000, 0.000000, 0.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('kit_a4b3c3_z_axis');
+
+INSERT INTO Vector
+(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
+VALUES(365, 'kit_a4b3c3_z_axis', 1.000000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4064,7 +4072,7 @@ VALUES('kit_tray_1_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(369, 'kit_tray_1_point_ir', -0.5, 1.000000, 0.320000);
+VALUES(369, 'kit_tray_1_point_ir', -0.5, -1.000000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4104,7 +4112,7 @@ VALUES('part_b_7_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(373, 'part_b_7_point', 0.080000, 0.120000, -0.05);
+VALUES(373, 'part_b_7_point', 0.080000, -0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4120,7 +4128,7 @@ VALUES('part_gear_shaft_3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(375, 'part_gear_shaft_3_point', 0.6000, 2.1000, 0.05000);
+VALUES(375, 'part_gear_shaft_3_point', 0.6000, -2.1000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4128,7 +4136,7 @@ VALUES('part_b_8_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(376, 'part_b_8_point_ir', 0.215500, -0.127400, -0.065000);
+VALUES(376, 'part_b_8_point_ir', 0.215500, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4151,7 +4159,7 @@ INSERT INTO PhysicalLocation
 VALUES(378, 'changing_station_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(378, 'changing_station_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -4167,7 +4175,7 @@ INSERT INTO PhysicalLocation
 VALUES(379, 'part_e_5_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(379, 'part_e_5_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4212,7 +4220,7 @@ VALUES('point_kit_a2b3c3d1e1_c_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(384, 'point_kit_a2b3c3d1e1_c_2_ir', 0.660200, -0.330600, -0.065000);
+VALUES(384, 'point_kit_a2b3c3d1e1_c_2_ir', 0.660200, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4228,7 +4236,7 @@ VALUES('kit_a4b3c2d1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(386, 'kit_a4b3c2d1_point', 0.100000, 0.200000, 0.500000);
+VALUES(386, 'kit_a4b3c2d1_point', 0.100000, -0.200000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4255,7 +4263,7 @@ INSERT INTO PhysicalLocation
 VALUES(389, 'part_e_tray_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(389, 'part_e_tray_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -4295,7 +4303,7 @@ INSERT INTO PhysicalLocation
 VALUES(393, 'part_gear_base_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(393, 'part_gear_base_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4308,7 +4316,7 @@ VALUES('part_c_7_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(394, 'part_c_7_point_ir', 0.533400, -0.127000, -0.065000);
+VALUES(394, 'part_c_7_point_ir', 0.533400, 0.127000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4316,7 +4324,7 @@ VALUES('robot_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(395, 'robot_point', 3.000000, 0.000000, 2.000000);
+VALUES(395, 'robot_point', 3.000000, 0.000000, -2.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4360,7 +4368,7 @@ VALUES('part_a_3_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(400, 'part_a_3_point_ir', 0.342500, -0.343000, -0.065000);
+VALUES(400, 'part_a_3_point_ir', 0.342500, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4368,7 +4376,7 @@ VALUES('part_a_2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(401, 'part_a_2_point', 0.159000, 0.159000, -0.027500);
+VALUES(401, 'part_a_2_point', 0.159000, -0.159000, 0.027500);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4379,7 +4387,7 @@ INSERT INTO PhysicalLocation
 VALUES(402, 'part_d_4_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(402, 'part_d_4_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4411,7 +4419,7 @@ INSERT INTO PhysicalLocation
 VALUES(404, 'part_b_12_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(404, 'part_b_12_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4424,7 +4432,7 @@ VALUES('point_kit_a2b3c5_b_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(405, 'point_kit_a2b3c5_b_2_ir', 0.088700, -0.203100, -0.065000);
+VALUES(405, 'point_kit_a2b3c5_b_2_ir', 0.088700, 0.203100, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4440,7 +4448,7 @@ VALUES('part_c_8_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(407, 'part_c_8_point_ir', 0.736600, -0.127000, -0.065000);
+VALUES(407, 'part_c_8_point_ir', 0.736600, 0.127000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4456,7 +4464,7 @@ VALUES('part_e_supply_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(409, 'part_e_supply_point_ir', -0.250000, 0.320000, 0.320000);
+VALUES(409, 'part_e_supply_point_ir', -0.250000, -0.320000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4479,7 +4487,7 @@ INSERT INTO PhysicalLocation
 VALUES(411, 'part_e_1_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(411, 'part_e_1_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4559,7 +4567,7 @@ INSERT INTO PhysicalLocation
 VALUES(420, 'kit_tray_1_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(420, 'kit_tray_1_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -4583,7 +4591,7 @@ INSERT INTO PhysicalLocation
 VALUES(422, 'part_b_2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(422, 'part_b_2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4612,7 +4620,7 @@ VALUES('part_a_14_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(425, 'part_a_14_point_ir', 0.215500, -0.089000, -0.065000);
+VALUES(425, 'part_a_14_point_ir', 0.215500, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4691,7 +4699,7 @@ INSERT INTO SolidObject
 VALUES('part_gripper_holder', NULL);
 
 INSERT INTO EndEffectorHolder
-(EndEffectorHolderID, _NAME, hadByEndEffectorHolder_ChangingStation, hasEndEffectorHolder_EndEffector)
+(EndEffectorHolderID, _NAME, hadByEndEffectorHolder_EndEffectorChangingStation, hasEndEffectorHolder_EndEffector)
 VALUES(72, 'part_gripper_holder', NULL, NULL);
 
 INSERT INTO DataThing
@@ -4743,7 +4751,7 @@ INSERT INTO PhysicalLocation
 VALUES(439, 'part_d_2_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(439, 'part_d_2_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4755,7 +4763,7 @@ INSERT INTO SolidObject
 VALUES('part_c_supply_ir', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(73, 'part_c_supply_ir', NULL);
 
 INSERT INTO DataThing
@@ -4775,7 +4783,7 @@ INSERT INTO PhysicalLocation
 VALUES(441, 'part_gripper_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(441, 'part_gripper_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -4787,10 +4795,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_gear_base');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(442, 'stock_keeping_unit_part_gear_base', 'SKU for gear base', 1.200000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(442, 1);
 
@@ -4803,7 +4811,7 @@ INSERT INTO PhysicalLocation
 VALUES(443, 'empty_kit_tray_supply_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(443, 'empty_kit_tray_supply_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -4819,7 +4827,7 @@ INSERT INTO PhysicalLocation
 VALUES(444, 'part_c_3_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(444, 'part_c_3_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4840,7 +4848,7 @@ VALUES('part_c_6_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(445, 'part_c_6_point', 0.330000, 0.216000, -0.035000);
+VALUES(445, 'part_c_6_point', 0.330000, -0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -4848,7 +4856,7 @@ VALUES('part_a_7_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(446, 'part_a_7_point_ir', 0.088500, -0.216000, -0.065000);
+VALUES(446, 'part_a_7_point_ir', 0.088500, 0.216000, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -4871,10 +4879,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_e_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(447, 'stock_keeping_unit_part_e_ir', 'SKU for Part E_ir', 0.180000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(447, 1);
 
@@ -4915,7 +4923,7 @@ INSERT INTO PhysicalLocation
 VALUES(451, 'part_b_6_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(451, 'part_b_6_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -4930,21 +4938,25 @@ INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
 VALUES(452, 'z_axis_kit_a2b3c5_c_4_ir', 1.000000, 0.000000, 0.000000);
 
-INSERT INTO SolidObject
-(_NAME, hasSolidObject_PrimaryLocation)
-VALUES('kit_a4b3c2d1', NULL);
-
-INSERT INTO Kit
-(KitID, _NAME, isKit_Finished, hasKit_Tray, hasKit_Design)
-VALUES(77, 'kit_a4b3c2d1', false, NULL, NULL);
-
 INSERT INTO DataThing
 (_NAME)
 VALUES('part_a_supply_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(453, 'part_a_supply_point_ir', -0.250000, 2.350000, 0.320000);
+VALUES(453, 'part_a_supply_point_ir', -0.250000, -2.350000, -0.320000);
+
+INSERT INTO SolidObject
+(_NAME, hasSolidObject_PrimaryLocation)
+VALUES('kit_a4b3c2d1', NULL);
+
+INSERT INTO Kit
+(KitID, _NAME, hasKit_KitTray, hasKit_Design)
+VALUES(77, 'kit_a4b3c2d1', NULL, NULL);
+
+INSERT INTO isKit_FinishedValue
+(KitID, isKit_Finished)
+VALUES(77, false);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -4995,7 +5007,7 @@ INSERT INTO PhysicalLocation
 VALUES(458, 'part_b_11_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(458, 'part_b_11_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5011,7 +5023,7 @@ INSERT INTO PhysicalLocation
 VALUES(459, 'part_b_7_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(459, 'part_b_7_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5055,7 +5067,7 @@ INSERT INTO SolidObject
 VALUES('tray_gripper', NULL);
 
 INSERT INTO EndEffector
-(EndEffectorID, _NAME, hasEndEffector_Description, hasEndEffector_Weight, hasEffector_MaximumLoadWeight, hadByEndEffector_Robot)
+(EndEffectorID, _NAME, hasEndEffector_Description, hasEndEffector_Weight, hasEndEffector_MaximumLoadWeight, hadByEndEffector_Robot)
 VALUES(79, 'tray_gripper', 'large single cup vacuum effector', 0.040000, 0.500000, NULL);
 
 INSERT INTO VacuumEffector
@@ -5135,7 +5147,7 @@ INSERT INTO PhysicalLocation
 VALUES(471, 'part_b_tray_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(471, 'part_b_tray_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -5148,7 +5160,7 @@ VALUES('kit_tray_2_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(472, 'kit_tray_2_point_ir', -0.5, 1.000000, 0.320000);
+VALUES(472, 'kit_tray_2_point_ir', -0.5, -1.000000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5164,7 +5176,7 @@ VALUES('part_gear_5_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(474, 'part_gear_5_point', 1.000, 0.2000, 0.05000);
+VALUES(474, 'part_gear_5_point', 1.000, -0.2000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5183,12 +5195,12 @@ INSERT INTO ShapeDesign
 VALUES(476, 'shape_work_table', 'Shape of the work table');
 
 INSERT INTO InternalShape
-(InternalShapeID, _NAME)
-VALUES(476, 'shape_work_table');
+(InternalShapeID, _NAME, hadByInternalShape_SolidObject)
+VALUES(476, 'shape_work_table', NULL);
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(476, 'shape_work_table', 0.800000, true, 0.500000, 1.600000);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(476, 'shape_work_table', 0.800000, 0.500000, 1.600000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -5267,8 +5279,8 @@ INSERT INTO InternalShape
 VALUES(479, 'shape_kit_box_ir');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(479, 'shape_kit_box_ir', 0.500000, false, 0.800000, 1.000000);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(479, 'shape_kit_box_ir', 0.500000, 0.800000, 1.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5300,7 +5312,7 @@ VALUES('part_b_3_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(481, 'part_b_3_point_ir', 0.342500, -0.330600, -0.065000);
+VALUES(481, 'part_b_3_point_ir', 0.342500, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5332,7 +5344,7 @@ VALUES('part_a_8_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(484, 'part_a_8_point_ir', 0.215500, -0.216000, -0.065000);
+VALUES(484, 'part_a_8_point_ir', 0.215500, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5356,7 +5368,7 @@ VALUES('tray_gripper_holder_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(487, 'tray_gripper_holder_point', -0.250000, 0.000000, 0.500000);
+VALUES(487, 'tray_gripper_holder_point', -0.250000, 0.000000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5367,7 +5379,7 @@ INSERT INTO PhysicalLocation
 VALUES(488, 'part_c_tray_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(488, 'part_c_tray_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -5400,23 +5412,23 @@ VALUES(491, 'empty_kit_tray_box_x_axis_ir', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('stock_keeping_unit_part_gear_shaft');
-
-INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
-VALUES(492, 'stock_keeping_unit_part_gear_shaft', 'SKU for gear shaft', 1.200000, NULL);
-
-INSERT INTO hasSku_EndEffectors
-(StockKeepingUnitID, EndEffectorID)
-VALUES(492, 79);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('x_axis_kit_a4b3c2d1_c_1_ir');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(493, 'x_axis_kit_a4b3c2d1_c_1_ir', 0.000000, 0.000000, 1.000000);
+VALUES(492, 'x_axis_kit_a4b3c2d1_c_1_ir', 0.000000, 0.000000, 1.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('stock_keeping_unit_part_gear_shaft');
+
+INSERT INTO StockKeepingUnit
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
+VALUES(493, 'stock_keeping_unit_part_gear_shaft', 'SKU for gear shaft', 1.200000, NULL);
+
+INSERT INTO hasStockKeepingUnit_EndEffector
+(StockKeepingUnitID, EndEffectorID)
+VALUES(493, 79);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5427,7 +5439,7 @@ INSERT INTO PhysicalLocation
 VALUES(494, 'kit_a4b4c2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(494, 'kit_a4b4c2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -5491,7 +5503,7 @@ INSERT INTO PhysicalLocation
 VALUES(499, 'part_a_11_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(499, 'part_a_11_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5512,7 +5524,7 @@ VALUES('part_c_8_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(501, 'part_c_8_point', -0.330000, 0.216000, -0.035000);
+VALUES(501, 'part_c_8_point', -0.330000, -0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5523,7 +5535,7 @@ INSERT INTO PhysicalLocation
 VALUES(502, 'part_d_9_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(502, 'part_d_9_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5547,7 +5559,7 @@ INSERT INTO PhysicalLocation
 VALUES(504, 'part_c_5_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(504, 'part_c_5_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5563,7 +5575,7 @@ INSERT INTO PhysicalLocation
 VALUES(505, 'part_b_7_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(505, 'part_b_7_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5579,7 +5591,7 @@ INSERT INTO PhysicalLocation
 VALUES(506, 'part_a_1_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(506, 'part_a_1_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5592,7 +5604,7 @@ VALUES('part_gear_shaft_1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(507, 'part_gear_shaft_1_point', 0.6000, 1.90000, 0.05000);
+VALUES(507, 'part_gear_shaft_1_point', 0.6000, -1.90000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5603,7 +5615,7 @@ INSERT INTO PhysicalLocation
 VALUES(508, 'part_gear_shaft_4_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(508, 'part_gear_shaft_4_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5643,7 +5655,7 @@ INSERT INTO SolidObject
 VALUES('part_b_supply', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(92, 'part_b_supply', NULL);
 
 INSERT INTO DataThing
@@ -5652,7 +5664,7 @@ VALUES('part_b_4_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(511, 'part_b_4_point_ir', 0.469500, -0.330600, -0.065000);
+VALUES(511, 'part_b_4_point_ir', 0.469500, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5660,7 +5672,7 @@ VALUES('part_e_1_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(512, 'part_e_1_point_ir', 0.165600, -0.330600, -0.065000);
+VALUES(512, 'part_e_1_point_ir', 0.165600, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5668,7 +5680,7 @@ VALUES('part_a_18_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(513, 'part_a_18_point_ir', 0.723500, -0.089000, -0.065000);
+VALUES(513, 'part_a_18_point_ir', 0.723500, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5687,8 +5699,8 @@ INSERT INTO Vector
 VALUES(515, 'kit_tray_3_x_axis_ir', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO SolidObject
-(_NAME, hasSolidObject_InternalShape, hasSolidObject_PrimaryLocation)
-VALUES('work_table_1', NULL, NULL);
+(_NAME, hasSolidObject_PrimaryLocation)
+VALUES('work_table_1', NULL);
 
 INSERT INTO WorkTable
 (WorkTableID, _NAME)
@@ -5708,7 +5720,7 @@ VALUES('part_a_6_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(517, 'part_a_6_point_ir', 0.723500, -0.343000, -0.065000);
+VALUES(517, 'part_a_6_point_ir', 0.723500, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5719,7 +5731,7 @@ INSERT INTO PhysicalLocation
 VALUES(518, 'part_b_3_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(518, 'part_b_3_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5740,7 +5752,7 @@ VALUES('point_kit_a4b4c2_a_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(520, 'point_kit_a4b4c2_a_1_ir', 0.495700, -0.419400, -0.065000);
+VALUES(520, 'point_kit_a4b4c2_a_1_ir', 0.495700, 0.419400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5748,7 +5760,7 @@ VALUES('point_kit_a4b4c2_b_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(521, 'point_kit_a4b4c2_b_3_ir', 0.127400, -0.089370, -0.065000);
+VALUES(521, 'point_kit_a4b4c2_b_3_ir', 0.127400, 0.089370, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5756,7 +5768,7 @@ VALUES('point_kit_a4b3c3_c_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(522, 'point_kit_a4b3c3_c_2_ir', 0.330200, -0.330600, -0.065000);
+VALUES(522, 'point_kit_a4b3c3_c_2_ir', 0.330200, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5784,7 +5796,7 @@ VALUES('part_e_5_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(525, 'part_e_5_point_ir', 0.445000, -0.127400, -0.065000);
+VALUES(525, 'part_e_5_point_ir', 0.445000, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5811,7 +5823,7 @@ INSERT INTO PhysicalLocation
 VALUES(527, 'part_b_5_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(527, 'part_b_5_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5820,19 +5832,19 @@ VALUES(527, 'part_b_5_pose_ir');
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('part_a_6_z_axis_ir');
-
-INSERT INTO Vector
-(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(528, 'part_a_6_z_axis_ir', 1.000000, 0.000000, 0.000000);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('part_d_2_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(529, 'part_d_2_point_ir', 0.445000, -0.343000, -0.065000);
+VALUES(528, 'part_d_2_point_ir', 0.445000, 0.343000, 0.065000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_a_6_z_axis_ir');
+
+INSERT INTO Vector
+(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
+VALUES(529, 'part_a_6_z_axis_ir', 1.000000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5879,7 +5891,7 @@ INSERT INTO PhysicalLocation
 VALUES(534, 'part_c_2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(534, 'part_c_2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5903,7 +5915,7 @@ INSERT INTO PhysicalLocation
 VALUES(536, 'part_a_9_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(536, 'part_a_9_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -5916,15 +5928,7 @@ VALUES('point_kit_a4b3c2d1_a_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(537, 'point_kit_a4b3c2d1_a_2_ir', 0.622200, -0.241200, -0.065000);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('point_kit_a4b3c2d1_b_2_ir');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(538, 'point_kit_a4b3c2d1_b_2_ir', 0.457100, -0.241200, -0.065000);
+VALUES(537, 'point_kit_a4b3c2d1_a_2_ir', 0.622200, 0.241200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5932,7 +5936,15 @@ VALUES('point_kit_a4b3c3_b_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(539, 'point_kit_a4b3c3_b_2_ir', 0.419100, -0.127400, -0.065000);
+VALUES(538, 'point_kit_a4b3c3_b_2_ir', 0.419100, 0.127400, 0.065000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('point_kit_a4b3c2d1_b_2_ir');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(539, 'point_kit_a4b3c2d1_b_2_ir', 0.457100, 0.241200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5955,8 +5967,8 @@ INSERT INTO InternalShape
 VALUES(541, 'shape_parts_tray_b_ir');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(541, 'shape_parts_tray_b_ir', 0.457600, false, 0.025400, 0.812400);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(541, 'shape_parts_tray_b_ir', 0.457600, 0.025400, 0.812400);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5964,7 +5976,7 @@ VALUES('part_a_3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(542, 'part_a_3_point', -0.159000, 0.159000, -0.027500);
+VALUES(542, 'part_a_3_point', -0.159000, -0.159000, 0.027500);
 
 INSERT INTO DataThing
 (_NAME)
@@ -5972,15 +5984,19 @@ VALUES('point_kit_a4b4c2_a_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(543, 'point_kit_a4b4c2_a_3_ir', 0.495700, -0.292400, -0.065000);
+VALUES(543, 'point_kit_a4b4c2_a_3_ir', 0.495700, 0.292400, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
 VALUES('kit_a2b3c5', NULL);
 
 INSERT INTO Kit
-(KitID, _NAME, isKit_Finished, hasKit_Tray, hasKit_Design)
-VALUES(95, 'kit_a2b3c5', false, NULL, NULL);
+(KitID, _NAME, hasKit_KitTray, hasKit_Design)
+VALUES(95, 'kit_a2b3c5', NULL, NULL);
+
+INSERT INTO isKit_FinishedValue
+(KitID, isKit_Finished)
+VALUES(95, false);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -5996,7 +6012,7 @@ VALUES('part_a_4_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(544, 'part_a_4_point_ir', 0.469500, -0.343000, -0.065000);
+VALUES(544, 'part_a_4_point_ir', 0.469500, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6011,7 +6027,7 @@ INSERT INTO DataThing
 VALUES('kit_design_a4b3c2d1_ir');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
 VALUES(546, 'kit_design_a4b3c2d1_ir', NULL, NULL);
 
 INSERT INTO DataThing
@@ -6044,7 +6060,7 @@ VALUES('point_kit_a4b3c3_a_4_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(550, 'point_kit_a4b3c3_a_4_ir', 0.673100, -0.241700, -0.065000);
+VALUES(550, 'point_kit_a4b3c3_a_4_ir', 0.673100, 0.241700, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6060,7 +6076,7 @@ VALUES('part_c_supply_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(552, 'part_c_supply_point', -3.000000, 0.780000, 0.280000);
+VALUES(552, 'part_c_supply_point', -3.000000, -0.780000, -0.280000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6076,7 +6092,7 @@ VALUES('part_d_5_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(554, 'part_d_5_point_ir', 0.445000, -0.216000, -0.065000);
+VALUES(554, 'part_d_5_point_ir', 0.445000, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6111,7 +6127,7 @@ INSERT INTO PhysicalLocation
 VALUES(557, 'finished_kit_box_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(557, 'finished_kit_box_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6143,7 +6159,7 @@ INSERT INTO PhysicalLocation
 VALUES(559, 'finished_kit_box_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(559, 'finished_kit_box_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6159,7 +6175,7 @@ INSERT INTO PhysicalLocation
 VALUES(560, 'part_c_supply_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(560, 'part_c_supply_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6183,7 +6199,7 @@ INSERT INTO PhysicalLocation
 VALUES(562, 'part_d_5_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(562, 'part_d_5_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6196,7 +6212,7 @@ VALUES('point_kit_a2b3c5_c_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(563, 'point_kit_a2b3c5_c_1_ir', 0.380800, -0.330100, -0.065000);
+VALUES(563, 'point_kit_a2b3c5_c_1_ir', 0.380800, 0.330100, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6239,7 +6255,7 @@ INSERT INTO PhysicalLocation
 VALUES(568, 'part_d_3_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(568, 'part_d_3_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6276,7 +6292,7 @@ VALUES('point_kit_a2b3c3d1e1_b_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(572, 'point_kit_a2b3c3d1e1_b_3_ir', 0.825300, -0.127400, -0.065000);
+VALUES(572, 'point_kit_a2b3c3d1e1_b_3_ir', 0.825300, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6287,20 +6303,12 @@ INSERT INTO PhysicalLocation
 VALUES(573, 'part_a_supply_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(573, 'part_a_supply_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
 (PoseOnlyLocationID, _NAME)
 VALUES(573, 'part_a_supply_pose');
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('part_d_3_point_ir');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(574, 'part_d_3_point_ir', 0.724400, -0.343000, -0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -6309,6 +6317,14 @@ VALUES('part_b_12_ir', NULL);
 INSERT INTO Part
 (PartID, _NAME, hasPart_SerialNumber, hadByPart_PartsTrayWithParts, hasPart_Sku)
 VALUES(99, 'part_b_12_ir', 'b12_ir', NULL, NULL);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_d_3_point_ir');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(574, 'part_d_3_point_ir', 0.724400, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6351,7 +6367,7 @@ INSERT INTO PhysicalLocation
 VALUES(579, 'part_a_12_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(579, 'part_a_12_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6363,8 +6379,8 @@ INSERT INTO SolidObject
 VALUES('kitting_workstation_1', NULL);
 
 INSERT INTO KittingWorkstation
-(KittingWorkstationID, _NAME, hasWorkstation_LengthUnit, hasWorkstation_AngleUnit, hasWorkstation_WeightUnit, hasWorkstation_ChangingStation, hasWorkstation_WorkTable, hasWorkstation_Robot)
-VALUES(100, 'kitting_workstation_1', 'meter', 'degree', 'kilogram', NULL, NULL, NULL);
+(KittingWorkstationID, _NAME, hasKittingWorkstation_LengthUnit, hasKittingWorkstation_WeightUnit, hasKittingWorkstation_AngleUnit, hasKittingWorkstation_ChangingStation, hasKittingWorkstation_Robot)
+VALUES(100, 'kitting_workstation_1', 'meter', 'kilogram', 'degree', NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6399,7 +6415,7 @@ INSERT INTO PhysicalLocation
 VALUES(583, 'part_e_6_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(583, 'part_e_6_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6412,7 +6428,7 @@ VALUES('part_gear_4_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(584, 'part_gear_4_point', 0.8000, 0.20000, 0.05000);
+VALUES(584, 'part_gear_4_point', 0.8000, -0.20000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6431,7 +6447,7 @@ INSERT INTO PhysicalLocation
 VALUES(586, 'kit_a4b3c3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(586, 'kit_a4b3c3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6444,7 +6460,7 @@ VALUES('part_gear_2_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(587, 'part_gear_2_point', 1, 0.0000, 0.05000);
+VALUES(587, 'part_gear_2_point', 1, -0.0000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6452,7 +6468,7 @@ VALUES('kit_tray_1_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(588, 'kit_tray_1_point', 0.050000, 0.750000, 0.280000);
+VALUES(588, 'kit_tray_1_point', 0.050000, -0.750000, -0.280000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6471,7 +6487,7 @@ INSERT INTO PhysicalLocation
 VALUES(590, 'part_a_supply_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(590, 'part_a_supply_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6528,24 +6544,24 @@ VALUES(596, 'part_a_2_z_axis_ir', 1.000000, 0.000000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('changing_station_point');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(597, 'changing_station_point', 7.500000, 0.000000, 0.000000);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('shape_part_c_ir');
 
 INSERT INTO ShapeDesign
 (ShapeDesignID, _NAME, hasShapeDesign_Description)
-VALUES(598, 'shape_part_c_ir', 'Shape of PartC_ir
+VALUES(597, 'shape_part_c_ir', 'Shape of PartC_ir
 ');
 
 INSERT INTO ExternalShape
 (ExternalShapeID, _NAME, hasExternalShape_ModelTypeName, hasExternalShape_ModelName, hasExternalShape_ModelFileName)
-VALUES(598, 'shape_part_c_ir', 'USARSim', 'BlockC', 'USARPhysObj');
+VALUES(597, 'shape_part_c_ir', 'USARSim', 'BlockC', 'USARPhysObj');
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('changing_station_point');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(598, 'changing_station_point', 7.500000, 0.000000, 0.000000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -6561,7 +6577,7 @@ VALUES('part_a_supply_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(599, 'part_a_supply_point', -2.850000, 1.550000, 0.300000);
+VALUES(599, 'part_a_supply_point', -2.850000, -1.550000, -0.300000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6572,7 +6588,7 @@ INSERT INTO PhysicalLocation
 VALUES(600, 'kit_tray_2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(600, 'kit_tray_2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6593,7 +6609,7 @@ VALUES('part_b_6_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(602, 'part_b_6_point_ir', 0.723500, -0.330600, -0.065000);
+VALUES(602, 'part_b_6_point_ir', 0.723500, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6612,7 +6628,7 @@ INSERT INTO PhysicalLocation
 VALUES(604, 'part_c_1_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(604, 'part_c_1_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6633,7 +6649,7 @@ VALUES('point_kit_a4b3c3_c_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(606, 'point_kit_a4b3c3_c_3_ir', 0.127000, -0.127400, -0.065000);
+VALUES(606, 'point_kit_a4b3c3_c_3_ir', 0.127000, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6644,7 +6660,7 @@ INSERT INTO PhysicalLocation
 VALUES(607, 'robot_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(607, 'robot_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6692,7 +6708,7 @@ INSERT INTO PhysicalLocation
 VALUES(611, 'part_d_6_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(611, 'part_d_6_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6721,7 +6737,7 @@ VALUES('point_kit_a2b3c3d1e1_e_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(614, 'point_kit_a2b3c3d1e1_e_1_ir', 0.126800, -0.292500, -0.065000);
+VALUES(614, 'point_kit_a2b3c3d1e1_e_1_ir', 0.126800, 0.292500, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6740,7 +6756,7 @@ INSERT INTO PhysicalLocation
 VALUES(616, 'tray_gripper_holder_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(616, 'tray_gripper_holder_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6768,7 +6784,7 @@ INSERT INTO SolidObject
 VALUES('part_gripper', NULL);
 
 INSERT INTO EndEffector
-(EndEffectorID, _NAME, hasEndEffector_Description, hasEndEffector_Weight, hasEffector_MaximumLoadWeight)
+(EndEffectorID, _NAME, hasEndEffector_Description, hasEndEffector_Weight, hasEndEffector_MaximumLoadWeight)
 VALUES(103, 'part_gripper', 'small single cup vacuum effector', 0.010000, 0.400000);
 
 INSERT INTO VacuumEffector
@@ -6796,8 +6812,8 @@ INSERT INTO Vector
 VALUES(620, 'x_axis_kit_a4b4c2_a_1_ir', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO SolidObject
-(_NAME, hasSolidObject_InternalShape, hasSolidObject_PrimaryLocation)
-VALUES('changing_station_base', NULL, NULL);
+(_NAME, hasSolidObject_PrimaryLocation)
+VALUES('changing_station_base', NULL);
 
 INSERT INTO MechanicalComponent
 (MechanicalComponentID, _NAME)
@@ -6825,7 +6841,7 @@ VALUES('point_kit_a2b3c3d1e1_b_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(623, 'point_kit_a2b3c3d1e1_b_2_ir', 0.698300, -0.127400, -0.065000);
+VALUES(623, 'point_kit_a2b3c3d1e1_b_2_ir', 0.698300, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6848,10 +6864,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_a_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(626, 'stock_keeping_unit_part_a_ir', 'SKU for Part A_ir', 0.180000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(626, 103);
 
@@ -6864,7 +6880,7 @@ INSERT INTO PhysicalLocation
 VALUES(627, 'part_gripper_holder_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(627, 'part_gripper_holder_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -6877,7 +6893,7 @@ VALUES('part_gear_base_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(628, 'part_gear_base_point', 1.0000, 2.0000, 0.05000);
+VALUES(628, 'part_gear_base_point', 1.0000, -2.0000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6893,7 +6909,7 @@ VALUES('part_a_15_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(630, 'part_a_15_point_ir', 0.342500, -0.089000, -0.065000);
+VALUES(630, 'part_a_15_point_ir', 0.342500, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6925,7 +6941,7 @@ VALUES('part_gear_3_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(634, 'part_gear_3_point', 1.2000, 0.0000, 0.05000);
+VALUES(634, 'part_gear_3_point', 1.2000, -0.0000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6944,10 +6960,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_kit_tray_4_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(636, 'stock_keeping_unit_kit_tray_4_ir', 'SKU for KitTray 4', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(636, 103);
 
@@ -6957,7 +6973,7 @@ VALUES('part_c_supply_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(637, 'part_c_supply_point_ir', -3.400000, 0.320000, 0.320000);
+VALUES(637, 'part_c_supply_point_ir', -3.400000, -0.320000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -6968,7 +6984,7 @@ INSERT INTO PhysicalLocation
 VALUES(638, 'part_a_1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(638, 'part_a_1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -6989,7 +7005,7 @@ VALUES('part_b_9_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(640, 'part_b_9_point_ir', 0.342500, -0.127400, -0.065000);
+VALUES(640, 'part_b_9_point_ir', 0.342500, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7000,7 +7016,7 @@ INSERT INTO PhysicalLocation
 VALUES(641, 'kit_tray_2_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(641, 'kit_tray_2_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -7016,7 +7032,7 @@ INSERT INTO PhysicalLocation
 VALUES(642, 'part_gear_4_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(642, 'part_gear_4_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7032,7 +7048,7 @@ INSERT INTO PhysicalLocation
 VALUES(643, 'part_gear_2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(643, 'part_gear_2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7084,8 +7100,8 @@ INSERT INTO InternalShape
 VALUES(647, 'shape_parts_tray_a_ir');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(647, 'shape_parts_tray_a_ir', 0.431900, false, 0.025400, 0.812400);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(647, 'shape_parts_tray_a_ir', 0.431900, 0.025400, 0.812400);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7116,7 +7132,7 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_kit_box');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(651, 'stock_keeping_unit_kit_box', 'SKU for Boxes for Kits and KitTrays', 1.200000, NULL, NULL);
 
 INSERT INTO DataThing
@@ -7132,7 +7148,7 @@ INSERT INTO SolidObject
 VALUES('part_d_supply_ir', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(106, 'part_d_supply_ir', NULL);
 
 INSERT INTO DataThing
@@ -7152,7 +7168,7 @@ INSERT INTO PhysicalLocation
 VALUES(654, 'part_e_supply_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(654, 'part_e_supply_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -7165,7 +7181,7 @@ VALUES('point_kit_a4b4c2_b_4_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(655, 'point_kit_a4b4c2_b_4_ir', 0.330600, -0.089370, -0.065000);
+VALUES(655, 'point_kit_a4b4c2_b_4_ir', 0.330600, 0.089370, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7173,7 +7189,7 @@ VALUES('point_kit_a4b4c2_b_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(656, 'point_kit_a4b4c2_b_1_ir', 0.127400, -0.216400, -0.065000);
+VALUES(656, 'point_kit_a4b4c2_b_1_ir', 0.127400, 0.216400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7204,8 +7220,8 @@ INSERT INTO InternalShape
 VALUES(659, 'shape_kit_box');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(659, 'shape_kit_box', 0.700000, false, 0.800000, 0.900000);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(659, 'shape_kit_box', 0.700000, 0.800000, 0.900000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -7245,7 +7261,7 @@ VALUES('part_a_1_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(663, 'part_a_1_point_ir', 0.088500, -0.343000, -0.065000);
+VALUES(663, 'part_a_1_point_ir', 0.088500, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7253,17 +7269,17 @@ VALUES('part_b_10_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(664, 'part_b_10_point_ir', 0.469500, -0.127400, -0.065000);
+VALUES(664, 'part_b_10_point_ir', 0.469500, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('stock_keeping_unit_parts_tray_a');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(665, 'stock_keeping_unit_parts_tray_a', 'SKU for Part a PartsTray', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(665, 103);
 
@@ -7273,39 +7289,19 @@ VALUES('kit_tray_3_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(666, 'kit_tray_3_point_ir', -0.5, 1.000000, 0.320000);
+VALUES(666, 'kit_tray_3_point_ir', -0.5, -1.000000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('stock_keeping_unit_parts_tray_c');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(667, 'stock_keeping_unit_parts_tray_c', 'SKU for Part c PartsTrays', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(667, 103);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('part_b_1_point');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(668, 'part_b_1_point', -0.080000, -0.120000, -0.05);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('stock_keeping_unit_parts_tray_b');
-
-INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
-VALUES(669, 'stock_keeping_unit_parts_tray_b', 'SKU for Part b PartsTrays', 0.200000, NULL, NULL);
-
-INSERT INTO hasSku_EndEffectors
-(StockKeepingUnitID, EndEffectorID)
-VALUES(669, 103);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7313,15 +7309,15 @@ VALUES('part_b_8_pose');
 
 INSERT INTO PhysicalLocation
 (PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject)
-VALUES(670, 'part_b_8_pose', NULL);
+VALUES(668, 'part_b_8_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
-VALUES(670, 'part_b_8_pose', NULL, NULL, NULL);
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
+VALUES(668, 'part_b_8_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
 (PoseLocationInID, _NAME)
-VALUES(670, 'part_b_8_pose');
+VALUES(668, 'part_b_8_pose');
 
 INSERT INTO DataThing
 (_NAME)
@@ -7329,7 +7325,27 @@ VALUES('part_b_7_x_axis');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(671, 'part_b_7_x_axis', 0.000000, 0.000000, 1.000000);
+VALUES(669, 'part_b_7_x_axis', 0.000000, 0.000000, 1.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('stock_keeping_unit_parts_tray_b');
+
+INSERT INTO StockKeepingUnit
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
+VALUES(670, 'stock_keeping_unit_parts_tray_b', 'SKU for Part b PartsTrays', 0.200000, NULL, NULL);
+
+INSERT INTO hasStockKeepingUnit_EndEffector
+(StockKeepingUnitID, EndEffectorID)
+VALUES(670, 103);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_b_1_point');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(671, 'part_b_1_point', -0.080000, 0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7353,7 +7369,7 @@ VALUES('part_d_9_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(674, 'part_d_9_point_ir', 0.724400, -0.089000, -0.065000);
+VALUES(674, 'part_d_9_point_ir', 0.724400, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7380,7 +7396,7 @@ INSERT INTO PhysicalLocation
 VALUES(677, 'work_table_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(677, 'work_table_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -7436,7 +7452,7 @@ INSERT INTO PhysicalLocation
 VALUES(681, 'part_a_18_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(681, 'part_a_18_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7457,7 +7473,7 @@ VALUES('part_a_12_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(683, 'part_a_12_point_ir', 0.723500, -0.216000, -0.065000);
+VALUES(683, 'part_a_12_point_ir', 0.723500, 0.216000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7540,7 +7556,7 @@ INSERT INTO PhysicalLocation
 VALUES(692, 'part_a_tray_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(692, 'part_a_tray_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -7553,7 +7569,7 @@ VALUES('part_e_3_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(693, 'part_e_3_point_ir', 0.724400, -0.330600, -0.065000);
+VALUES(693, 'part_e_3_point_ir', 0.724400, 0.330600, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7628,7 +7644,7 @@ INSERT INTO PhysicalLocation
 VALUES(700, 'part_c_8_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(700, 'part_c_8_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7657,7 +7673,7 @@ VALUES('part_d_supply_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(702, 'part_d_supply_point_ir', 0.400000, 1.700000, 0.320000);
+VALUES(702, 'part_d_supply_point_ir', 0.400000, -1.700000, -0.320000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7736,7 +7752,7 @@ INSERT INTO SolidObject
 VALUES('part_a_supply', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(117, 'part_a_supply', NULL);
 
 INSERT INTO DataThing
@@ -7748,7 +7764,7 @@ INSERT INTO PhysicalLocation
 VALUES(709, 'part_a_7_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(709, 'part_a_7_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7777,7 +7793,7 @@ VALUES('part_d_1_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(712, 'part_d_1_point_ir', 0.165600, -0.343000, -0.065000);
+VALUES(712, 'part_d_1_point_ir', 0.165600, 0.343000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7788,7 +7804,7 @@ INSERT INTO PhysicalLocation
 VALUES(713, 'part_a_6_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(713, 'part_a_6_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7801,7 +7817,7 @@ VALUES('part_b_4_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(714, 'part_b_4_point', 0.240000, -0.120000, -0.05);
+VALUES(714, 'part_b_4_point', 0.240000, 0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7817,7 +7833,7 @@ VALUES('point_kit_a4b3c2d1_b_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(716, 'point_kit_a4b3c2d1_b_1_ir', 0.457100, -0.365000, -0.065000);
+VALUES(716, 'point_kit_a4b3c2d1_b_1_ir', 0.457100, 0.365000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7828,7 +7844,7 @@ INSERT INTO PhysicalLocation
 VALUES(717, 'part_gear_shaft_2_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(717, 'part_gear_shaft_2_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -7856,10 +7872,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_b_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(720, 'stock_keeping_unit_part_b_ir', 'SKU for Part B_ir', 0.180000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(720, 103);
 
@@ -7872,7 +7888,7 @@ INSERT INTO PhysicalLocation
 VALUES(721, 'kit_a4b3c2d1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(721, 'kit_a4b3c2d1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -7893,7 +7909,7 @@ VALUES('part_c_5_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(723, 'part_c_5_point', 0.110000, 0.216000, -0.035000);
+VALUES(723, 'part_c_5_point', 0.110000, -0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7924,8 +7940,8 @@ INSERT INTO InternalShape
 VALUES(725, 'shape_parts_tray_d_ir');
 
 INSERT INTO BoxyShape
-(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Top, hasBoxyShape_Height, hasBoxyShape_Length)
-VALUES(725, 'shape_parts_tray_d_ir', 0.431900, false, 0.025400, 0.889500);
+(BoxyShapeID, _NAME, hasBoxyShape_Width, hasBoxyShape_Height, hasBoxyShape_Length)
+VALUES(725, 'shape_parts_tray_d_ir', 0.431900, 0.025400, 0.889500);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -7941,7 +7957,7 @@ VALUES('part_c_4_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(726, 'part_c_4_point_ir', 0.736600, -0.330200, -0.065000);
+VALUES(726, 'part_c_4_point_ir', 0.736600, 0.330200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7981,7 +7997,7 @@ VALUES('point_kit_a4b3c2d1_b_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(731, 'point_kit_a4b3c2d1_b_3_ir', 0.457100, -0.114200, -0.065000);
+VALUES(731, 'point_kit_a4b3c2d1_b_3_ir', 0.457100, 0.114200, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -7989,7 +8005,7 @@ VALUES('part_a_17_point_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(732, 'part_a_17_point_ir', 0.596500, -0.089000, -0.065000);
+VALUES(732, 'part_a_17_point_ir', 0.596500, 0.089000, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8013,7 +8029,7 @@ VALUES('part_gear_shaft_4_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(735, 'part_gear_shaft_4_point', 0.6000, 2.20000, 0.05000);
+VALUES(735, 'part_gear_shaft_4_point', 0.6000, -2.20000, -0.05000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8053,7 +8069,7 @@ VALUES('part_b_supply_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(739, 'part_b_supply_point', 0.050000, 1.500000, 0.280000);
+VALUES(739, 'part_b_supply_point', 0.050000, -1.500000, -0.280000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8077,35 +8093,19 @@ VALUES('point_kit_a2b2c1_b_2');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(742, 'point_kit_a2b2c1_b_2', 0.171000, 0.215000, -0.080000);
+VALUES(742, 'point_kit_a2b2c1_b_2', 0.171000, -0.215000, 0.080000);
 
 INSERT INTO DataThing
 (_NAME)
 VALUES('stock_keeping_unit_parts_e_tray_ir');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hadBySku_Workstation, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hadBySku_KittingWorkstation, hasStockKeepingUnit_Shape)
 VALUES(743, 'stock_keeping_unit_parts_e_tray_ir', 'SKU for PartsTrays containing parts of type E, used for Intention Recognition', 0.200000, NULL, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(743, 103);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('part_d_8_pose_ir');
-
-INSERT INTO PhysicalLocation
-(PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject)
-VALUES(744, 'part_d_8_pose_ir', NULL);
-
-INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
-VALUES(744, 'part_d_8_pose_ir', NULL, NULL, NULL);
-
-INSERT INTO PoseLocationIn
-(PoseLocationInID, _NAME)
-VALUES(744, 'part_d_8_pose_ir');
 
 INSERT INTO DataThing
 (_NAME)
@@ -8113,7 +8113,23 @@ VALUES('point_kit_a2b2c1_b_1');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(745, 'point_kit_a2b2c1_b_1', 0.219000, -0.166000, -0.080000);
+VALUES(744, 'point_kit_a2b2c1_b_1', 0.219000, 0.166000, 0.080000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_d_8_pose_ir');
+
+INSERT INTO PhysicalLocation
+(PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject)
+VALUES(745, 'part_d_8_pose_ir', NULL);
+
+INSERT INTO PoseLocation
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
+VALUES(745, 'part_d_8_pose_ir', NULL, NULL, NULL);
+
+INSERT INTO PoseLocationIn
+(PoseLocationInID, _NAME)
+VALUES(745, 'part_d_8_pose_ir');
 
 INSERT INTO DataThing
 (_NAME)
@@ -8140,7 +8156,7 @@ INSERT INTO PhysicalLocation
 VALUES(748, 'part_e_4_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(748, 'part_e_4_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8152,10 +8168,10 @@ INSERT INTO DataThing
 VALUES('stock_keeping_unit_part_gear_boss');
 
 INSERT INTO StockKeepingUnit
-(StockKeepingUnitID, _NAME, hasSku_Description, hasSku_Weight, hasSku_Shape)
+(StockKeepingUnitID, _NAME, hasStockKeepingUnit_Description, hasStockKeepingUnit_Weight, hasStockKeepingUnit_Shape)
 VALUES(749, 'stock_keeping_unit_part_gear_boss', 'SKU for gear boss', 1.200000, NULL);
 
-INSERT INTO hasSku_EndEffectors
+INSERT INTO hasStockKeepingUnit_EndEffector
 (StockKeepingUnitID, EndEffectorID)
 VALUES(749, 103);
 
@@ -8168,7 +8184,7 @@ INSERT INTO PhysicalLocation
 VALUES(750, 'kit_a2b3c3d1e1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(750, 'kit_a2b3c3d1e1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -8184,7 +8200,7 @@ INSERT INTO PhysicalLocation
 VALUES(751, 'part_a_8_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(751, 'part_a_8_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8193,19 +8209,19 @@ VALUES(751, 'part_a_8_pose_ir');
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('part_b_8_point');
-
-INSERT INTO Point
-(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(752, 'part_b_8_point', 0.240000, 0.120000, -0.05);
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('part_a_tray_z_axis_ir');
 
 INSERT INTO Vector
 (VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(753, 'part_a_tray_z_axis_ir', 1.000000, 0.000000, 0.000000);
+VALUES(752, 'part_a_tray_z_axis_ir', 1.000000, 0.000000, 0.000000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_b_8_point');
+
+INSERT INTO Point
+(PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
+VALUES(753, 'part_b_8_point', 0.240000, -0.120000, 0.05);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8257,7 +8273,7 @@ VALUES('part_c_7_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(758, 'part_c_7_point', -0.110000, 0.216000, -0.035000);
+VALUES(758, 'part_c_7_point', -0.110000, -0.216000, 0.035000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8296,7 +8312,7 @@ INSERT INTO SolidObject
 VALUES('tray_gripper_holder', NULL);
 
 INSERT INTO EndEffectorHolder
-(EndEffectorHolderID, _NAME, hadByEndEffectorHolder_ChangingStation)
+(EndEffectorHolderID, _NAME, hadByEndEffectorHolder_EndEffectorChangingStation)
 VALUES(122, 'tray_gripper_holder', NULL);
 
 INSERT INTO DataThing
@@ -8321,7 +8337,7 @@ VALUES('point_kit_a2b3c5_c_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(765, 'point_kit_a2b3c5_c_2_ir', 0.584000, -0.330100, -0.065000);
+VALUES(765, 'point_kit_a2b3c5_c_2_ir', 0.584000, 0.330100, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8332,7 +8348,7 @@ INSERT INTO PhysicalLocation
 VALUES(766, 'part_a_14_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(766, 'part_a_14_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8360,7 +8376,7 @@ INSERT INTO SolidObject
 VALUES('part_a_supply_ir', NULL);
 
 INSERT INTO PartsTrayWithParts
-(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_Tray)
+(PartsTrayWithPartsID, _NAME, hasPartsTrayWithParts_PartsTray)
 VALUES(123, 'part_a_supply_ir', NULL);
 
 INSERT INTO DataThing
@@ -8405,7 +8421,7 @@ VALUES('point_kit_a2b3c3d1e1_a_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(773, 'point_kit_a2b3c3d1e1_a_1_ir', 0.291900, -0.089300, -0.065000);
+VALUES(773, 'point_kit_a2b3c3d1e1_a_1_ir', 0.291900, 0.089300, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8424,7 +8440,7 @@ INSERT INTO PhysicalLocation
 VALUES(775, 'part_b_tray_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(775, 'part_b_tray_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -8448,7 +8464,7 @@ INSERT INTO PhysicalLocation
 VALUES(777, 'part_gear_shaft_1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(777, 'part_gear_shaft_1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8480,7 +8496,7 @@ INSERT INTO PhysicalLocation
 VALUES(780, 'kit_tray_5_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(780, 'kit_tray_5_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -8521,23 +8537,7 @@ VALUES('point_kit_a2b3c5_c_5_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(784, 'point_kit_a2b3c5_c_5_ir', 0.584000, -0.126900, -0.065000);
-
-INSERT INTO SolidObject
-(_NAME, hasSolidObject_PrimaryLocation)
-VALUES('kit_a4b4c2', NULL);
-
-INSERT INTO Kit
-(KitID, _NAME, isKit_Finished, hasKit_Tray, hasKit_Design)
-VALUES(124, 'kit_a4b4c2', false, NULL, NULL);
-
-INSERT INTO DataThing
-(_NAME)
-VALUES('part_a_4_x_axis_ir');
-
-INSERT INTO Vector
-(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
-VALUES(785, 'part_a_4_x_axis_ir', 0.000000, 0.000000, 1.000000);
+VALUES(784, 'point_kit_a2b3c5_c_5_ir', 0.584000, 0.126900, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8545,7 +8545,27 @@ VALUES('part_ref_and_pose_kit_a4b4c2_a_2_ir');
 
 INSERT INTO PartRefAndPose
 (PartRefAndPoseID, _NAME, hasPartRefAndPose_Sku, hasPartRefAndPose_ZAxis, hadByPartRefAndPose_KitDesign, hasPartRefAndPose_Point, hasPartRefAndPose_XAxis)
-VALUES(786, 'part_ref_and_pose_kit_a4b4c2_a_2_ir', NULL, NULL, NULL, NULL, NULL);
+VALUES(785, 'part_ref_and_pose_kit_a4b4c2_a_2_ir', NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO SolidObject
+(_NAME, hasSolidObject_PrimaryLocation)
+VALUES('kit_a4b4c2', NULL);
+
+INSERT INTO Kit
+(KitID, _NAME, hasKit_KitTray, hasKit_Design)
+VALUES(124, 'kit_a4b4c2', NULL, NULL);
+
+INSERT INTO isKit_FinishedValue
+(KitID, isKit_Finished)
+VALUES(124, false);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_a_4_x_axis_ir');
+
+INSERT INTO Vector
+(VectorID, _NAME, hasVector_K, hasVector_J, hasVector_I)
+VALUES(786, 'part_a_4_x_axis_ir', 0.000000, 0.000000, 1.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8569,7 +8589,7 @@ VALUES('point_kit_a4b4c2_a_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(789, 'point_kit_a4b4c2_a_2_ir', 0.622700, -0.419400, -0.065000);
+VALUES(789, 'point_kit_a4b4c2_a_2_ir', 0.622700, 0.419400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8593,7 +8613,7 @@ VALUES('kit_a2b3c5_point');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(791, 'kit_a2b3c5_point', 0.100000, 0.200000, 0.500000);
+VALUES(791, 'kit_a2b3c5_point', 0.100000, -0.200000, -0.500000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8608,7 +8628,7 @@ INSERT INTO DataThing
 VALUES('kit_design_a2b1c1');
 
 INSERT INTO KitDesign
-(KitDesignID, _NAME, hadByKitDesign_Workstation, hasKitDesign_KitTraySku)
+(KitDesignID, _NAME, hadByKitDesign_KittingWorkstation, hasKitDesign_KitTraySku)
 VALUES(793, 'kit_design_a2b1c1', NULL, NULL);
 
 INSERT INTO DataThing
@@ -8628,7 +8648,7 @@ INSERT INTO PhysicalLocation
 VALUES(795, 'empty_kit_tray_box_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(795, 'empty_kit_tray_box_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -8649,7 +8669,7 @@ VALUES('point_kit_a2b3c5_c_4_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(797, 'point_kit_a2b3c5_c_4_ir', 0.380800, -0.126900, -0.065000);
+VALUES(797, 'point_kit_a2b3c5_c_4_ir', 0.380800, 0.126900, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8708,7 +8728,7 @@ INSERT INTO PhysicalLocation
 VALUES(803, 'empty_kit_tray_supply_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(803, 'empty_kit_tray_supply_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -8721,7 +8741,7 @@ VALUES('point_kit_a4b3c2d1_c_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(804, 'point_kit_a4b3c2d1_c_1_ir', 0.253900, -0.330100, -0.065000);
+VALUES(804, 'point_kit_a4b3c2d1_c_1_ir', 0.253900, 0.330100, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
@@ -8730,10 +8750,6 @@ VALUES('robot_1', NULL);
 INSERT INTO Robot
 (RobotID, _NAME, hasRobot_Description, hasRobot_MaximumLoadWeight)
 VALUES(126, 'robot_1', 'this is the robot', 7.000000);
-
-INSERT INTO hasRobot_WorkVolume
-(RobotID, BoxVolumeID)
-VALUES(126, 142);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8808,7 +8824,7 @@ INSERT INTO PhysicalLocation
 VALUES(810, 'part_d_7_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(810, 'part_d_7_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8825,27 +8841,27 @@ VALUES(130, 'part_a_4', 'a4', NULL, NULL);
 
 INSERT INTO DataThing
 (_NAME)
-VALUES('part_d_supply_pose_ir');
-
-INSERT INTO PhysicalLocation
-(PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject)
-VALUES(811, 'part_d_supply_pose_ir', NULL);
-
-INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
-VALUES(811, 'part_d_supply_pose_ir', NULL, NULL, NULL);
-
-INSERT INTO PoseOnlyLocation
-(PoseOnlyLocationID, _NAME)
-VALUES(811, 'part_d_supply_pose_ir');
-
-INSERT INTO DataThing
-(_NAME)
 VALUES('point_kit_a4b4c2_c_2_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(812, 'point_kit_a4b4c2_c_2_ir', 0.330600, -0.381300, -0.065000);
+VALUES(811, 'point_kit_a4b4c2_c_2_ir', 0.330600, 0.381300, 0.065000);
+
+INSERT INTO DataThing
+(_NAME)
+VALUES('part_d_supply_pose_ir');
+
+INSERT INTO PhysicalLocation
+(PhysicalLocationID, _NAME, hasPhysicalLocation_RefObject)
+VALUES(812, 'part_d_supply_pose_ir', NULL);
+
+INSERT INTO PoseLocation
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
+VALUES(812, 'part_d_supply_pose_ir', NULL, NULL, NULL);
+
+INSERT INTO PoseOnlyLocation
+(PoseOnlyLocationID, _NAME)
+VALUES(812, 'part_d_supply_pose_ir');
 
 INSERT INTO DataThing
 (_NAME)
@@ -8853,7 +8869,7 @@ VALUES('point_kit_a2b1c1_b_1');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(813, 'point_kit_a2b1c1_b_1', 0.200000, -0.500000, 0.000000);
+VALUES(813, 'point_kit_a2b1c1_b_1', 0.200000, 0.500000, 0.000000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -8872,7 +8888,7 @@ INSERT INTO PhysicalLocation
 VALUES(815, 'part_gear_3_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(815, 'part_gear_3_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8888,7 +8904,7 @@ INSERT INTO PhysicalLocation
 VALUES(816, 'empty_kit_tray_box_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(816, 'empty_kit_tray_box_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseOnlyLocation
@@ -8901,14 +8917,14 @@ VALUES('point_kit_a2b3c5_b_1_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(817, 'point_kit_a2b3c5_b_1_ir', 0.126800, -0.368200, -0.065000);
+VALUES(817, 'point_kit_a2b3c5_b_1_ir', 0.126800, 0.368200, 0.065000);
 
 INSERT INTO SolidObject
 (_NAME, hasSolidObject_PrimaryLocation)
 VALUES('changing_station_1', NULL);
 
 INSERT INTO EndEffectorChangingStation
-(EndEffectorChangingStationID, _NAME, hasChangingStation_Base)
+(EndEffectorChangingStationID, _NAME, hasEndEffectorChangingStation_Base)
 VALUES(131, 'changing_station_1', NULL);
 
 INSERT INTO DataThing
@@ -8940,7 +8956,7 @@ INSERT INTO PhysicalLocation
 VALUES(820, 'part_gear_1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(820, 'part_gear_1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8956,7 +8972,7 @@ INSERT INTO PhysicalLocation
 VALUES(821, 'part_a_2_pose_ir', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(821, 'part_a_2_pose_ir', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -8980,7 +8996,7 @@ INSERT INTO PhysicalLocation
 VALUES(823, 'part_c_1_pose', NULL);
 
 INSERT INTO PoseLocation
-(PoseLocationID, _NAME, hasPoseLocation_Point, hasPoseLocation_ZAxis, hasPoseLocation_XAxis)
+(PoseLocationID, _NAME, hasPoseLocation_XAxis, hasPoseLocation_ZAxis, hasPoseLocation_Point)
 VALUES(823, 'part_c_1_pose', NULL, NULL, NULL);
 
 INSERT INTO PoseLocationIn
@@ -9001,7 +9017,7 @@ VALUES('point_kit_a2b3c3d1e1_c_3_ir');
 
 INSERT INTO Point
 (PointID, _NAME, hasPoint_X, hasPoint_Y, hasPoint_Z)
-VALUES(825, 'point_kit_a2b3c3d1e1_c_3_ir', 0.457000, -0.127400, -0.065000);
+VALUES(825, 'point_kit_a2b3c3d1e1_c_3_ir', 0.457000, 0.127400, 0.065000);
 
 INSERT INTO DataThing
 (_NAME)
@@ -9044,7 +9060,7 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_d_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_d_ir' WHERE _NAME = 'part_d_6_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_tray_5_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_5_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_tray_5_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_5_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_4_pose_ir' WHERE _NAME = 'part_d_4_ir';
@@ -9059,13 +9075,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_3_point', hasPoseLocation_ZAxis= 'part_b_3_z_axis', hasPoseLocation_XAxis= 'part_b_3_x_axis' WHERE _NAME = 'part_b_3_pose';
+ SET  hasPoseLocation_XAxis='part_b_3_x_axis', hasPoseLocation_ZAxis= 'part_b_3_z_axis', hasPoseLocation_Point= 'part_b_3_point' WHERE _NAME = 'part_b_3_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_a4b3c3_pose' WHERE _NAME = 'kit_a4b3c3';
 
 UPDATE Kit
- SET  hasKit_Tray='kit_tray_1_ir', hasKit_Design= 'kit_design_a4b3c3_ir' WHERE _NAME = 'kit_a4b3c3';
+ SET  hasKit_KitTray='kit_tray_1_ir', hasKit_Design= 'kit_design_a4b3c3_ir' WHERE _NAME = 'kit_a4b3c3';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_tray_pose_ir' WHERE _NAME = 'part_d_tray_ir';
@@ -9077,31 +9093,31 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'finished_kit_receiver_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='finished_kit_receiver_point', hasPoseLocation_ZAxis= 'finished_kit_receiver_z_axis', hasPoseLocation_XAxis= 'finished_kit_receiver_x_axis' WHERE _NAME = 'finished_kit_receiver_pose';
+ SET  hasPoseLocation_XAxis='finished_kit_receiver_x_axis', hasPoseLocation_ZAxis= 'finished_kit_receiver_z_axis', hasPoseLocation_Point= 'finished_kit_receiver_point' WHERE _NAME = 'finished_kit_receiver_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_5_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_5_point', hasPoseLocation_ZAxis= 'part_b_5_z_axis', hasPoseLocation_XAxis= 'part_b_5_x_axis' WHERE _NAME = 'part_b_5_pose';
+ SET  hasPoseLocation_XAxis='part_b_5_x_axis', hasPoseLocation_ZAxis= 'part_b_5_z_axis', hasPoseLocation_Point= 'part_b_5_point' WHERE _NAME = 'part_b_5_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_4_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_4_point', hasPoseLocation_ZAxis= 'part_b_4_z_axis', hasPoseLocation_XAxis= 'part_b_4_x_axis' WHERE _NAME = 'part_b_4_pose';
+ SET  hasPoseLocation_XAxis='part_b_4_x_axis', hasPoseLocation_ZAxis= 'part_b_4_z_axis', hasPoseLocation_Point= 'part_b_4_point' WHERE _NAME = 'part_b_4_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='work_table_1' WHERE _NAME = 'kit_a2b3c5_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_a2b3c5_point', hasPoseLocation_ZAxis= 'kit_a2b3c5_z_axis', hasPoseLocation_XAxis= 'kit_a2b3c5_x_axis' WHERE _NAME = 'kit_a2b3c5_pose';
+ SET  hasPoseLocation_XAxis='kit_a2b3c5_x_axis', hasPoseLocation_ZAxis= 'kit_a2b3c5_z_axis', hasPoseLocation_Point= 'kit_a2b3c5_point' WHERE _NAME = 'kit_a2b3c5_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_4_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_4_point', hasPoseLocation_ZAxis= 'part_c_4_z_axis', hasPoseLocation_XAxis= 'part_c_4_x_axis' WHERE _NAME = 'part_c_4_pose';
+ SET  hasPoseLocation_XAxis='part_c_4_x_axis', hasPoseLocation_ZAxis= 'part_c_4_z_axis', hasPoseLocation_Point= 'part_c_4_point' WHERE _NAME = 'part_c_4_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_tray_pose_ir' WHERE _NAME = 'part_b_tray_ir';
@@ -9155,7 +9171,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply' WHERE _NAME = 'part_a_tray_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_tray_point', hasPoseLocation_ZAxis= 'part_a_tray_z_axis', hasPoseLocation_XAxis= 'part_a_tray_x_axis' WHERE _NAME = 'part_a_tray_pose';
+ SET  hasPoseLocation_XAxis='part_a_tray_x_axis', hasPoseLocation_ZAxis= 'part_a_tray_z_axis', hasPoseLocation_Point= 'part_a_tray_point' WHERE _NAME = 'part_a_tray_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_8_pose' WHERE _NAME = 'part_c_8';
@@ -9185,7 +9201,7 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_supply_pose' WHERE _NAME = 'part_c_supply';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_c_tray' WHERE _NAME = 'part_c_supply';
+ SET  hasPartsTrayWithParts_PartsTray='part_c_tray' WHERE _NAME = 'part_c_supply';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c3_b_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c3_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c3_b_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c3_b_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c3_b_1_ir';
@@ -9206,13 +9222,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_tray_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_tray_point_ir', hasPoseLocation_ZAxis= 'part_d_tray_z_axis_ir', hasPoseLocation_XAxis= 'part_d_tray_x_axis_ir' WHERE _NAME = 'part_d_tray_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_tray_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_tray_z_axis_ir', hasPoseLocation_Point= 'part_d_tray_point_ir' WHERE _NAME = 'part_d_tray_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_1_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_1_point_ir', hasPoseLocation_ZAxis= 'part_b_1_z_axis_ir', hasPoseLocation_XAxis= 'part_b_1_x_axis_ir' WHERE _NAME = 'part_b_1_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_1_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_1_z_axis_ir', hasPoseLocation_Point= 'part_b_1_point_ir' WHERE _NAME = 'part_b_1_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_c_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c2d1_c_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c2d1_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c2d1_c_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c2d1_c_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c2d1_c_1_ir';
@@ -9224,31 +9240,31 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_a_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_a_ir' WHERE _NAME = 'part_a_11_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='ext_shape_gear_holder' WHERE _NAME = 'stock_keeping_unit_part_gear_holder';
+ SET  hasStockKeepingUnit_Shape='ext_shape_gear_holder' WHERE _NAME = 'stock_keeping_unit_part_gear_holder';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_10_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_10_point_ir', hasPoseLocation_ZAxis= 'part_a_10_z_axis_ir', hasPoseLocation_XAxis= 'part_a_10_x_axis_ir' WHERE _NAME = 'part_a_10_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_10_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_10_z_axis_ir', hasPoseLocation_Point= 'part_a_10_point_ir' WHERE _NAME = 'part_a_10_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply' WHERE _NAME = 'part_a_2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_2_point', hasPoseLocation_ZAxis= 'part_a_2_z_axis', hasPoseLocation_XAxis= 'part_a_2_x_axis' WHERE _NAME = 'part_a_2_pose';
+ SET  hasPoseLocation_XAxis='part_a_2_x_axis', hasPoseLocation_ZAxis= 'part_a_2_z_axis', hasPoseLocation_Point= 'part_a_2_point' WHERE _NAME = 'part_a_2_pose';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_c_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c3_c_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c3_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c3_c_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c3_c_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c3_c_1_ir';
-
-UPDATE PartRefAndPose
- SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_a_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_a_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_a_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_a_1_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_1_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_1_point_ir', hasPoseLocation_ZAxis= 'part_d_1_z_axis_ir', hasPoseLocation_XAxis= 'part_d_1_x_axis_ir' WHERE _NAME = 'part_d_1_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_1_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_1_z_axis_ir', hasPoseLocation_Point= 'part_d_1_point_ir' WHERE _NAME = 'part_d_1_pose_ir';
+
+UPDATE PartRefAndPose
+ SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_a_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_a_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_a_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_a_1_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_6_pose_ir' WHERE _NAME = 'part_b_6_ir';
@@ -9257,19 +9273,19 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_b_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_b_ir' WHERE _NAME = 'part_b_6_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='shape_part_d_ir' WHERE _NAME = 'stock_keeping_unit_part_d_ir';
+ SET  hasStockKeepingUnit_Shape='shape_part_d_ir' WHERE _NAME = 'stock_keeping_unit_part_d_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_b_supply_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_supply_point_ir', hasPoseLocation_ZAxis= 'part_b_supply_z_axis_ir', hasPoseLocation_XAxis= 'part_b_supply_x_axis_ir' WHERE _NAME = 'part_b_supply_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_supply_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_supply_z_axis_ir', hasPoseLocation_Point= 'part_b_supply_point_ir' WHERE _NAME = 'part_b_supply_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_6_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_6_point', hasPoseLocation_ZAxis= 'part_b_6_z_axis', hasPoseLocation_XAxis= 'part_b_6_x_axis' WHERE _NAME = 'part_b_6_pose';
+ SET  hasPoseLocation_XAxis='part_b_6_x_axis', hasPoseLocation_ZAxis= 'part_b_6_z_axis', hasPoseLocation_Point= 'part_b_6_point' WHERE _NAME = 'part_b_6_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_gear_4_pose' WHERE _NAME = 'part_gear_4';
@@ -9299,7 +9315,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_9_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_9_point_ir', hasPoseLocation_ZAxis= 'part_b_9_z_axis_ir', hasPoseLocation_XAxis= 'part_b_9_x_axis_ir' WHERE _NAME = 'part_b_9_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_9_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_9_z_axis_ir', hasPoseLocation_Point= 'part_b_9_point_ir' WHERE _NAME = 'part_b_9_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_e_2_pose_ir' WHERE _NAME = 'part_e_2_ir';
@@ -9329,13 +9345,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_1_point', hasPoseLocation_ZAxis= 'part_b_1_z_axis', hasPoseLocation_XAxis= 'part_b_1_x_axis' WHERE _NAME = 'part_b_1_pose';
+ SET  hasPoseLocation_XAxis='part_b_1_x_axis', hasPoseLocation_ZAxis= 'part_b_1_z_axis', hasPoseLocation_Point= 'part_b_1_point' WHERE _NAME = 'part_b_1_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_2_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_2_point_ir', hasPoseLocation_ZAxis= 'part_b_2_z_axis_ir', hasPoseLocation_XAxis= 'part_b_2_x_axis_ir' WHERE _NAME = 'part_b_2_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_2_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_2_z_axis_ir', hasPoseLocation_Point= 'part_b_2_point_ir' WHERE _NAME = 'part_b_2_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_9_pose_ir' WHERE _NAME = 'part_a_9_ir';
@@ -9350,22 +9366,22 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_b_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_b_ir' WHERE _NAME = 'part_b_8_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_tray_1_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_1_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_tray_1_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_1_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='shape_part_c_ir' WHERE _NAME = 'stock_keeping_unit_part_c_ir';
+ SET  hasStockKeepingUnit_Shape='shape_part_c_ir' WHERE _NAME = 'stock_keeping_unit_part_c_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_5_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_5_point', hasPoseLocation_ZAxis= 'part_c_5_z_axis', hasPoseLocation_XAxis= 'part_c_5_x_axis' WHERE _NAME = 'part_c_5_pose';
+ SET  hasPoseLocation_XAxis='part_c_5_x_axis', hasPoseLocation_ZAxis= 'part_c_5_z_axis', hasPoseLocation_Point= 'part_c_5_point' WHERE _NAME = 'part_c_5_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply' WHERE _NAME = 'kit_tray_3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_3_point', hasPoseLocation_ZAxis= 'kit_tray_3_z_axis', hasPoseLocation_XAxis= 'kit_tray_3_x_axis' WHERE _NAME = 'kit_tray_3_pose';
+ SET  hasPoseLocation_XAxis='kit_tray_3_x_axis', hasPoseLocation_ZAxis= 'kit_tray_3_z_axis', hasPoseLocation_Point= 'kit_tray_3_point' WHERE _NAME = 'kit_tray_3_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_2_pose_ir' WHERE _NAME = 'part_d_2_ir';
@@ -9377,22 +9393,22 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_4_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_4_point_ir', hasPoseLocation_ZAxis= 'part_c_4_z_axis_ir', hasPoseLocation_XAxis= 'part_c_4_x_axis_ir' WHERE _NAME = 'part_c_4_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_4_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_4_z_axis_ir', hasPoseLocation_Point= 'part_c_4_point_ir' WHERE _NAME = 'part_c_4_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'ext_shape_parts_tray_d_ir' WHERE _NAME = 'stock_keeping_unit_parts_d_tray_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'ext_shape_parts_tray_d_ir' WHERE _NAME = 'stock_keeping_unit_parts_d_tray_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_e_supply_pose_ir' WHERE _NAME = 'part_e_supply_ir';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_e_tray_ir' WHERE _NAME = 'part_e_supply_ir';
+ SET  hasPartsTrayWithParts_PartsTray='part_e_tray_ir' WHERE _NAME = 'part_e_supply_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_4_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_4_point_ir', hasPoseLocation_ZAxis= 'part_a_4_z_axis_ir', hasPoseLocation_XAxis= 'part_a_4_x_axis_ir' WHERE _NAME = 'part_a_4_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_4_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_4_z_axis_ir', hasPoseLocation_Point= 'part_a_4_point_ir' WHERE _NAME = 'part_a_4_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_b_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_b_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_b_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_b_2_ir';
@@ -9404,13 +9420,13 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_b_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_b_ir' WHERE _NAME = 'part_b_4_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_tray_3_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_3_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_tray_3_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_3_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_tray_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_tray_point', hasPoseLocation_ZAxis= 'part_c_tray_z_axis', hasPoseLocation_XAxis= 'part_c_tray_x_axis' WHERE _NAME = 'part_c_tray_pose';
+ SET  hasPoseLocation_XAxis='part_c_tray_x_axis', hasPoseLocation_ZAxis= 'part_c_tray_z_axis', hasPoseLocation_Point= 'part_c_tray_point' WHERE _NAME = 'part_c_tray_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_8_pose_ir' WHERE _NAME = 'part_d_8_ir';
@@ -9440,7 +9456,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_8_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_8_point_ir', hasPoseLocation_ZAxis= 'part_c_8_z_axis_ir', hasPoseLocation_XAxis= 'part_c_8_x_axis_ir' WHERE _NAME = 'part_c_8_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_8_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_8_z_axis_ir', hasPoseLocation_Point= 'part_c_8_point_ir' WHERE _NAME = 'part_c_8_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_gear_shaft_4_pose' WHERE _NAME = 'part_gear_shaft_4';
@@ -9452,7 +9468,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_6_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_6_point_ir', hasPoseLocation_ZAxis= 'part_c_6_z_axis_ir', hasPoseLocation_XAxis= 'part_c_6_x_axis_ir' WHERE _NAME = 'part_c_6_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_6_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_6_z_axis_ir', hasPoseLocation_Point= 'part_c_6_point_ir' WHERE _NAME = 'part_c_6_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_4_pose_ir' WHERE _NAME = 'part_a_4_ir';
@@ -9470,7 +9486,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_7_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_7_point_ir', hasPoseLocation_ZAxis= 'part_c_7_z_axis_ir', hasPoseLocation_XAxis= 'part_c_7_x_axis_ir' WHERE _NAME = 'part_c_7_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_7_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_7_z_axis_ir', hasPoseLocation_Point= 'part_c_7_point_ir' WHERE _NAME = 'part_c_7_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_tray_pose_ir' WHERE _NAME = 'part_a_tray_ir';
@@ -9491,22 +9507,22 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_b_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_b_ir' WHERE _NAME = 'part_b_10_ir';
 
 UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_1_ir' WHERE _NAME = 'kit_design_a4b3c3_ir';
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_1_ir' WHERE _NAME = 'kit_design_a4b3c3_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_c_supply_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_supply_point_ir', hasPoseLocation_ZAxis= 'part_c_supply_z_axis_ir', hasPoseLocation_XAxis= 'part_c_supply_x_axis_ir' WHERE _NAME = 'part_c_supply_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_supply_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_supply_z_axis_ir', hasPoseLocation_Point= 'part_c_supply_point_ir' WHERE _NAME = 'part_c_supply_pose_ir';
 
 UPDATE BoxVolume
- SET  hasBoxVolume_MaximumPoint='point_max', hasBoxVolume_MinimumPoint= 'point_min' WHERE _NAME = 'box_volume_1';
+ SET  hadByWorkVolume_Robot='robot_1', hasBoxVolume_MaximumPoint= 'point_max', hasBoxVolume_MinimumPoint= 'point_min' WHERE _NAME = 'box_volume_1';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply' WHERE _NAME = 'part_a_4_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_4_point', hasPoseLocation_ZAxis= 'part_a_4_z_axis', hasPoseLocation_XAxis= 'part_a_4_x_axis' WHERE _NAME = 'part_a_4_pose';
+ SET  hasPoseLocation_XAxis='part_a_4_x_axis', hasPoseLocation_ZAxis= 'part_a_4_z_axis', hasPoseLocation_Point= 'part_a_4_point' WHERE _NAME = 'part_a_4_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_1_pose_ir' WHERE _NAME = 'part_a_1_ir';
@@ -9515,16 +9531,16 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_a_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_a_ir' WHERE _NAME = 'part_a_1_ir';
 
 UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_2_ir' WHERE _NAME = 'kit_design_a4b4c2_ir';
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_2_ir' WHERE _NAME = 'kit_design_a4b4c2_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_holder_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_holder_point', hasPoseLocation_ZAxis= 'part_gear_holder_z_axis', hasPoseLocation_XAxis= 'part_gear_holder_x_axis' WHERE _NAME = 'part_gear_holder_pose';
+ SET  hasPoseLocation_XAxis='part_gear_holder_x_axis', hasPoseLocation_ZAxis= 'part_gear_holder_z_axis', hasPoseLocation_Point= 'part_gear_holder_point' WHERE _NAME = 'part_gear_holder_pose';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='ext_shape_gear' WHERE _NAME = 'stock_keeping_unit_part_gear';
+ SET  hasStockKeepingUnit_Shape='ext_shape_gear' WHERE _NAME = 'stock_keeping_unit_part_gear';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c2d1_b_3_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c2d1_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c2d1_b_3_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c2d1_b_3_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c2d1_b_3_ir';
@@ -9533,7 +9549,7 @@ UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_b_4_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_b_4_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_b_4_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_b_4_ir';
 
 UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray' WHERE _NAME = 'kit_design_a2b2c1';
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray' WHERE _NAME = 'kit_design_a2b2c1';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c3_a_3_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c3_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c3_a_3_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c3_a_3_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c3_a_3_ir';
@@ -9545,13 +9561,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply_ir' WHERE _NAME = 'kit_tray_3_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_3_point_ir', hasPoseLocation_ZAxis= 'kit_tray_3_z_axis_ir', hasPoseLocation_XAxis= 'kit_tray_3_x_axis_ir' WHERE _NAME = 'kit_tray_3_pose_ir';
+ SET  hasPoseLocation_XAxis='kit_tray_3_x_axis_ir', hasPoseLocation_ZAxis= 'kit_tray_3_z_axis_ir', hasPoseLocation_Point= 'kit_tray_3_point_ir' WHERE _NAME = 'kit_tray_3_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_8_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_8_point_ir', hasPoseLocation_ZAxis= 'part_b_8_z_axis_ir', hasPoseLocation_XAxis= 'part_b_8_x_axis_ir' WHERE _NAME = 'part_b_8_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_8_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_8_z_axis_ir', hasPoseLocation_Point= 'part_b_8_point_ir' WHERE _NAME = 'part_b_8_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_4_pose_ir' WHERE _NAME = 'part_c_4_ir';
@@ -9581,7 +9597,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_2_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_2_point_ir', hasPoseLocation_ZAxis= 'part_c_2_z_axis_ir', hasPoseLocation_XAxis= 'part_c_2_x_axis_ir' WHERE _NAME = 'part_c_2_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_2_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_2_z_axis_ir', hasPoseLocation_Point= 'part_c_2_point_ir' WHERE _NAME = 'part_c_2_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c3d1e1_b_3_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c3d1e1_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c3d1e1_b_3_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c3d1e1_b_3_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c3d1e1_b_3_ir';
@@ -9590,13 +9606,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_3_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_3_point_ir', hasPoseLocation_ZAxis= 'part_e_3_z_axis_ir', hasPoseLocation_XAxis= 'part_e_3_x_axis_ir' WHERE _NAME = 'part_e_3_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_3_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_3_z_axis_ir', hasPoseLocation_Point= 'part_e_3_point_ir' WHERE _NAME = 'part_e_3_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_5_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_5_point_ir', hasPoseLocation_ZAxis= 'part_a_5_z_axis_ir', hasPoseLocation_XAxis= 'part_a_5_x_axis_ir' WHERE _NAME = 'part_a_5_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_5_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_5_z_axis_ir', hasPoseLocation_Point= 'part_a_5_point_ir' WHERE _NAME = 'part_a_5_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_3_pose_ir' WHERE _NAME = 'part_d_3_ir';
@@ -9614,10 +9630,10 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'finished_kit_receiver_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='finished_kit_receiver_point_ir', hasPoseLocation_ZAxis= 'finished_kit_receiver_z_axis_ir', hasPoseLocation_XAxis= 'finished_kit_receiver_x_axis_ir' WHERE _NAME = 'finished_kit_receiver_pose_ir';
+ SET  hasPoseLocation_XAxis='finished_kit_receiver_x_axis_ir', hasPoseLocation_ZAxis= 'finished_kit_receiver_z_axis_ir', hasPoseLocation_Point= 'finished_kit_receiver_point_ir' WHERE _NAME = 'finished_kit_receiver_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_part_a' WHERE _NAME = 'stock_keeping_unit_part_a';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_part_a' WHERE _NAME = 'stock_keeping_unit_part_a';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_3_pose_ir' WHERE _NAME = 'part_a_3_ir';
@@ -9632,7 +9648,7 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_a_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_a_ir' WHERE _NAME = 'part_a_18_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'ext_shape_parts_tray_b_ir' WHERE _NAME = 'stock_keeping_unit_parts_b_tray_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'ext_shape_parts_tray_b_ir' WHERE _NAME = 'stock_keeping_unit_parts_b_tray_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_16_pose_ir' WHERE _NAME = 'part_a_16_ir';
@@ -9668,19 +9684,19 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_b_supply_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_supply_point', hasPoseLocation_ZAxis= 'part_b_supply_z_axis', hasPoseLocation_XAxis= 'part_b_supply_x_axis' WHERE _NAME = 'part_b_supply_pose';
-
-UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_5_ir' WHERE _NAME = 'kit_design_a2b3c3d1e1_ir';
+ SET  hasPoseLocation_XAxis='part_b_supply_x_axis', hasPoseLocation_ZAxis= 'part_b_supply_z_axis', hasPoseLocation_Point= 'part_b_supply_point' WHERE _NAME = 'part_b_supply_pose';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_tray' WHERE _NAME = 'stock_keeping_unit_kit_tray';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_tray' WHERE _NAME = 'stock_keeping_unit_kit_tray';
+
+UPDATE KitDesign
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_5_ir' WHERE _NAME = 'kit_design_a2b3c3d1e1_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_4_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_4_point_ir', hasPoseLocation_ZAxis= 'part_b_4_z_axis_ir', hasPoseLocation_XAxis= 'part_b_4_x_axis_ir' WHERE _NAME = 'part_b_4_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_4_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_4_z_axis_ir', hasPoseLocation_Point= 'part_b_4_point_ir' WHERE _NAME = 'part_b_4_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_tray_pose_ir' WHERE _NAME = 'part_c_tray_ir';
@@ -9692,13 +9708,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_16_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_16_point_ir', hasPoseLocation_ZAxis= 'part_a_16_z_axis_ir', hasPoseLocation_XAxis= 'part_a_16_x_axis_ir' WHERE _NAME = 'part_a_16_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_16_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_16_z_axis_ir', hasPoseLocation_Point= 'part_a_16_point_ir' WHERE _NAME = 'part_a_16_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_part_c' WHERE _NAME = 'stock_keeping_unit_part_c';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_part_c' WHERE _NAME = 'stock_keeping_unit_part_c';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_part_b' WHERE _NAME = 'stock_keeping_unit_part_b';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_part_b' WHERE _NAME = 'stock_keeping_unit_part_b';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_a_3_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_a_3_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_a_3_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_a_3_ir';
@@ -9707,19 +9723,19 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_5_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_5_point', hasPoseLocation_ZAxis= 'part_gear_5_z_axis', hasPoseLocation_XAxis= 'part_gear_5_x_axis' WHERE _NAME = 'part_gear_5_pose';
+ SET  hasPoseLocation_XAxis='part_gear_5_x_axis', hasPoseLocation_ZAxis= 'part_gear_5_z_axis', hasPoseLocation_Point= 'part_gear_5_point' WHERE _NAME = 'part_gear_5_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_15_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_15_point_ir', hasPoseLocation_ZAxis= 'part_a_15_z_axis_ir', hasPoseLocation_XAxis= 'part_a_15_x_axis_ir' WHERE _NAME = 'part_a_15_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_15_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_15_z_axis_ir', hasPoseLocation_Point= 'part_a_15_point_ir' WHERE _NAME = 'part_a_15_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_10_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_10_point_ir', hasPoseLocation_ZAxis= 'part_b_10_z_axis_ir', hasPoseLocation_XAxis= 'part_b_10_x_axis_ir' WHERE _NAME = 'part_b_10_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_10_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_10_z_axis_ir', hasPoseLocation_Point= 'part_b_10_point_ir' WHERE _NAME = 'part_b_10_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_part_a', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b1c1_a_2', hadByPartRefAndPose_KitDesign= 'kit_design_a2b1c1', hasPartRefAndPose_Point= 'point_kit_a2b1c1_a_2', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b1c1_a_2' WHERE _NAME = 'part_ref_and_pose_kit_a2b1c1_a_2';
@@ -9727,17 +9743,20 @@ UPDATE PartRefAndPose
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_part_a', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b1c1_a_1', hadByPartRefAndPose_KitDesign= 'kit_design_a2b1c1', hasPartRefAndPose_Point= 'point_kit_a2b1c1_a_1', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b1c1_a_1' WHERE _NAME = 'part_ref_and_pose_kit_a2b1c1_a_1';
 
+UPDATE InternalShape
+ SET  hadByInternalShape_SolidObject='changing_station_base' WHERE _NAME = 'shape_changing_station_base';
+
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_box_ir' WHERE _NAME = 'stock_keeping_unit_kit_box_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_box_ir' WHERE _NAME = 'stock_keeping_unit_kit_box_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_13_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_13_point_ir', hasPoseLocation_ZAxis= 'part_a_13_z_axis_ir', hasPoseLocation_XAxis= 'part_a_13_x_axis_ir' WHERE _NAME = 'part_a_13_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_13_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_13_z_axis_ir', hasPoseLocation_Point= 'part_a_13_point_ir' WHERE _NAME = 'part_a_13_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'ext_shape_parts_tray_a_ir' WHERE _NAME = 'stock_keeping_unit_parts_a_tray_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'ext_shape_parts_tray_a_ir' WHERE _NAME = 'stock_keeping_unit_parts_a_tray_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_e_4_pose_ir' WHERE _NAME = 'part_e_4_ir';
@@ -9755,7 +9774,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_7_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_7_point', hasPoseLocation_ZAxis= 'part_c_7_z_axis', hasPoseLocation_XAxis= 'part_c_7_x_axis' WHERE _NAME = 'part_c_7_pose';
+ SET  hasPoseLocation_XAxis='part_c_7_x_axis', hasPoseLocation_ZAxis= 'part_c_7_z_axis', hasPoseLocation_Point= 'part_c_7_point' WHERE _NAME = 'part_c_7_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_tray_pose' WHERE _NAME = 'part_c_tray';
@@ -9782,7 +9801,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_2_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_2_point_ir', hasPoseLocation_ZAxis= 'part_e_2_z_axis_ir', hasPoseLocation_XAxis= 'part_e_2_x_axis_ir' WHERE _NAME = 'part_e_2_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_2_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_2_z_axis_ir', hasPoseLocation_Point= 'part_e_2_point_ir' WHERE _NAME = 'part_e_2_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='empty_kit_tray_box_pose' WHERE _NAME = 'empty_kit_tray_box';
@@ -9794,13 +9813,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_boss_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_boss_point', hasPoseLocation_ZAxis= 'part_gear_boss_z_axis', hasPoseLocation_XAxis= 'part_gear_boss_x_axis' WHERE _NAME = 'part_gear_boss_pose';
+ SET  hasPoseLocation_XAxis='part_gear_boss_x_axis', hasPoseLocation_ZAxis= 'part_gear_boss_z_axis', hasPoseLocation_Point= 'part_gear_boss_point' WHERE _NAME = 'part_gear_boss_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply' WHERE _NAME = 'kit_tray_1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_1_point', hasPoseLocation_ZAxis= 'kit_tray_1_z_axis', hasPoseLocation_XAxis= 'kit_tray_1_x_axis' WHERE _NAME = 'kit_tray_1_pose';
+ SET  hasPoseLocation_XAxis='kit_tray_1_x_axis', hasPoseLocation_ZAxis= 'kit_tray_1_z_axis', hasPoseLocation_Point= 'kit_tray_1_point' WHERE _NAME = 'kit_tray_1_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_12_pose_ir' WHERE _NAME = 'part_a_12_ir';
@@ -9818,40 +9837,40 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_shaft_3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_shaft_3_point', hasPoseLocation_ZAxis= 'part_gear_shaft_3_z_axis', hasPoseLocation_XAxis= 'part_gear_shaft_3_x_axis' WHERE _NAME = 'part_gear_shaft_3_pose';
+ SET  hasPoseLocation_XAxis='part_gear_shaft_3_x_axis', hasPoseLocation_ZAxis= 'part_gear_shaft_3_z_axis', hasPoseLocation_Point= 'part_gear_shaft_3_point' WHERE _NAME = 'part_gear_shaft_3_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply_ir' WHERE _NAME = 'kit_tray_4_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_4_point_ir', hasPoseLocation_ZAxis= 'kit_tray_4_z_axis_ir', hasPoseLocation_XAxis= 'kit_tray_4_x_axis_ir' WHERE _NAME = 'kit_tray_4_pose_ir';
+ SET  hasPoseLocation_XAxis='kit_tray_4_x_axis_ir', hasPoseLocation_ZAxis= 'kit_tray_4_z_axis_ir', hasPoseLocation_Point= 'kit_tray_4_point_ir' WHERE _NAME = 'kit_tray_4_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_supply_pose_ir' WHERE _NAME = 'part_b_supply_ir';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_b_tray_ir' WHERE _NAME = 'part_b_supply_ir';
+ SET  hasPartsTrayWithParts_PartsTray='part_b_tray_ir' WHERE _NAME = 'part_b_supply_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_17_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_17_point_ir', hasPoseLocation_ZAxis= 'part_a_17_z_axis_ir', hasPoseLocation_XAxis= 'part_a_17_x_axis_ir' WHERE _NAME = 'part_a_17_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_17_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_17_z_axis_ir', hasPoseLocation_Point= 'part_a_17_point_ir' WHERE _NAME = 'part_a_17_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_tray_2_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_2_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_tray_2_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_2_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_6_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_6_point', hasPoseLocation_ZAxis= 'part_c_6_z_axis', hasPoseLocation_XAxis= 'part_c_6_x_axis' WHERE _NAME = 'part_c_6_pose';
+ SET  hasPoseLocation_XAxis='part_c_6_x_axis', hasPoseLocation_ZAxis= 'part_c_6_z_axis', hasPoseLocation_Point= 'part_c_6_point' WHERE _NAME = 'part_c_6_pose';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'ext_shape_parts_tray_c_ir' WHERE _NAME = 'stock_keeping_unit_parts_c_tray_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'ext_shape_parts_tray_c_ir' WHERE _NAME = 'stock_keeping_unit_parts_c_tray_ir';
 
 UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_3_ir' WHERE _NAME = 'kit_design_a2b3c5_ir';
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_3_ir' WHERE _NAME = 'kit_design_a2b3c5_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_1_pose_ir' WHERE _NAME = 'part_d_1_ir';
@@ -9863,19 +9882,19 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_3_point', hasPoseLocation_ZAxis= 'part_c_3_z_axis', hasPoseLocation_XAxis= 'part_c_3_x_axis' WHERE _NAME = 'part_c_3_pose';
+ SET  hasPoseLocation_XAxis='part_c_3_x_axis', hasPoseLocation_ZAxis= 'part_c_3_z_axis', hasPoseLocation_Point= 'part_c_3_point' WHERE _NAME = 'part_c_3_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='changing_station_1' WHERE _NAME = 'changing_station_base_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='changing_station_base_point', hasPoseLocation_ZAxis= 'changing_station_base_z_axis', hasPoseLocation_XAxis= 'changing_station_base_x_axis' WHERE _NAME = 'changing_station_base_pose';
+ SET  hasPoseLocation_XAxis='changing_station_base_x_axis', hasPoseLocation_ZAxis= 'changing_station_base_z_axis', hasPoseLocation_Point= 'changing_station_base_point' WHERE _NAME = 'changing_station_base_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_3_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_3_point_ir', hasPoseLocation_ZAxis= 'part_a_3_z_axis_ir', hasPoseLocation_XAxis= 'part_a_3_x_axis_ir' WHERE _NAME = 'part_a_3_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_3_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_3_z_axis_ir', hasPoseLocation_Point= 'part_a_3_point_ir' WHERE _NAME = 'part_a_3_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_tray_5_pose_ir' WHERE _NAME = 'kit_tray_5_ir';
@@ -9887,13 +9906,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply' WHERE _NAME = 'part_a_3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_3_point', hasPoseLocation_ZAxis= 'part_a_3_z_axis', hasPoseLocation_XAxis= 'part_a_3_x_axis' WHERE _NAME = 'part_a_3_pose';
+ SET  hasPoseLocation_XAxis='part_a_3_x_axis', hasPoseLocation_ZAxis= 'part_a_3_z_axis', hasPoseLocation_Point= 'part_a_3_point' WHERE _NAME = 'part_a_3_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_a2b3c3d1e1_pose' WHERE _NAME = 'kit_a2b3c3d1e1';
 
 UPDATE Kit
- SET  hasKit_Tray='kit_tray_5_ir', hasKit_Design= 'kit_design_a2b3c3d1e1_ir' WHERE _NAME = 'kit_a2b3c3d1e1';
+ SET  hasKit_KitTray='kit_tray_5_ir', hasKit_Design= 'kit_design_a2b3c3d1e1_ir' WHERE _NAME = 'kit_a2b3c3d1e1';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_b_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_b_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_b_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_b_1_ir';
@@ -9914,31 +9933,31 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'changing_station_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='changing_station_point', hasPoseLocation_ZAxis= 'changing_station_z_axis', hasPoseLocation_XAxis= 'changing_station_x_axis' WHERE _NAME = 'changing_station_pose';
+ SET  hasPoseLocation_XAxis='changing_station_x_axis', hasPoseLocation_ZAxis= 'changing_station_z_axis', hasPoseLocation_Point= 'changing_station_point' WHERE _NAME = 'changing_station_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_5_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_5_point_ir', hasPoseLocation_ZAxis= 'part_e_5_z_axis_ir', hasPoseLocation_XAxis= 'part_e_5_x_axis_ir' WHERE _NAME = 'part_e_5_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_5_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_5_z_axis_ir', hasPoseLocation_Point= 'part_e_5_point_ir' WHERE _NAME = 'part_e_5_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_tray_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_tray_point_ir', hasPoseLocation_ZAxis= 'part_e_tray_z_axis_ir', hasPoseLocation_XAxis= 'part_e_tray_x_axis_ir' WHERE _NAME = 'part_e_tray_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_tray_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_tray_z_axis_ir', hasPoseLocation_Point= 'part_e_tray_point_ir' WHERE _NAME = 'part_e_tray_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_base_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_base_point', hasPoseLocation_ZAxis= 'part_gear_base_z_axis', hasPoseLocation_XAxis= 'part_gear_base_x_axis' WHERE _NAME = 'part_gear_base_pose';
+ SET  hasPoseLocation_XAxis='part_gear_base_x_axis', hasPoseLocation_ZAxis= 'part_gear_base_z_axis', hasPoseLocation_Point= 'part_gear_base_point' WHERE _NAME = 'part_gear_base_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_4_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_4_point_ir', hasPoseLocation_ZAxis= 'part_d_4_z_axis_ir', hasPoseLocation_XAxis= 'part_d_4_x_axis_ir' WHERE _NAME = 'part_d_4_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_4_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_4_z_axis_ir', hasPoseLocation_Point= 'part_d_4_point_ir' WHERE _NAME = 'part_d_4_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_tray_1_pose_ir' WHERE _NAME = 'kit_tray_1_ir';
@@ -9950,7 +9969,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_12_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_12_point_ir', hasPoseLocation_ZAxis= 'part_b_12_z_axis_ir', hasPoseLocation_XAxis= 'part_b_12_x_axis_ir' WHERE _NAME = 'part_b_12_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_12_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_12_z_axis_ir', hasPoseLocation_Point= 'part_b_12_point_ir' WHERE _NAME = 'part_b_12_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c3_a_4_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c3_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c3_a_4_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c3_a_4_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c3_a_4_ir';
@@ -9959,7 +9978,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_1_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_1_point_ir', hasPoseLocation_ZAxis= 'part_e_1_z_axis_ir', hasPoseLocation_XAxis= 'part_e_1_x_axis_ir' WHERE _NAME = 'part_e_1_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_1_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_1_z_axis_ir', hasPoseLocation_Point= 'part_e_1_point_ir' WHERE _NAME = 'part_e_1_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_c_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c3d1e1_c_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c3d1e1_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c3d1e1_c_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c3d1e1_c_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c3d1e1_c_2_ir';
@@ -9977,13 +9996,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply_ir' WHERE _NAME = 'kit_tray_1_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_1_point_ir', hasPoseLocation_ZAxis= 'kit_tray_1_z_axis_ir', hasPoseLocation_XAxis= 'kit_tray_1_x_axis_ir' WHERE _NAME = 'kit_tray_1_pose_ir';
+ SET  hasPoseLocation_XAxis='kit_tray_1_x_axis_ir', hasPoseLocation_ZAxis= 'kit_tray_1_z_axis_ir', hasPoseLocation_Point= 'kit_tray_1_point_ir' WHERE _NAME = 'kit_tray_1_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_2_point', hasPoseLocation_ZAxis= 'part_b_2_z_axis', hasPoseLocation_XAxis= 'part_b_2_x_axis' WHERE _NAME = 'part_b_2_pose';
+ SET  hasPoseLocation_XAxis='part_b_2_x_axis', hasPoseLocation_ZAxis= 'part_b_2_z_axis', hasPoseLocation_Point= 'part_b_2_point' WHERE _NAME = 'part_b_2_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_8_pose_ir' WHERE _NAME = 'part_a_8_ir';
@@ -9995,40 +10014,40 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_gripper_holder_pose' WHERE _NAME = 'part_gripper_holder';
 
 UPDATE EndEffectorHolder
- SET  hadByEndEffectorHolder_ChangingStation='changing_station_1', hasEndEffectorHolder_EndEffector= 'part_gripper' WHERE _NAME = 'part_gripper_holder';
+ SET  hadByEndEffectorHolder_EndEffectorChangingStation='changing_station_1', hasEndEffectorHolder_EndEffector= 'part_gripper' WHERE _NAME = 'part_gripper_holder';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_2_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_2_point_ir', hasPoseLocation_ZAxis= 'part_d_2_z_axis_ir', hasPoseLocation_XAxis= 'part_d_2_x_axis_ir' WHERE _NAME = 'part_d_2_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_2_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_2_z_axis_ir', hasPoseLocation_Point= 'part_d_2_point_ir' WHERE _NAME = 'part_d_2_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_supply_pose_ir' WHERE _NAME = 'part_c_supply_ir';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_c_tray_ir' WHERE _NAME = 'part_c_supply_ir';
+ SET  hasPartsTrayWithParts_PartsTray='part_c_tray_ir' WHERE _NAME = 'part_c_supply_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_gripper_holder' WHERE _NAME = 'part_gripper_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gripper_point', hasPoseLocation_ZAxis= 'part_gripper_z_axis', hasPoseLocation_XAxis= 'part_gripper_x_axis' WHERE _NAME = 'part_gripper_pose';
+ SET  hasPoseLocation_XAxis='part_gripper_x_axis', hasPoseLocation_ZAxis= 'part_gripper_z_axis', hasPoseLocation_Point= 'part_gripper_point' WHERE _NAME = 'part_gripper_pose';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='ext_shape_gear_base' WHERE _NAME = 'stock_keeping_unit_part_gear_base';
+ SET  hasStockKeepingUnit_Shape='ext_shape_gear_base' WHERE _NAME = 'stock_keeping_unit_part_gear_base';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'empty_kit_tray_supply_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='empty_kit_tray_supply_point_ir', hasPoseLocation_ZAxis= 'empty_kit_tray_supply_z_axis_ir', hasPoseLocation_XAxis= 'empty_kit_tray_supply_x_axis_ir' WHERE _NAME = 'empty_kit_tray_supply_pose_ir';
+ SET  hasPoseLocation_XAxis='empty_kit_tray_supply_x_axis_ir', hasPoseLocation_ZAxis= 'empty_kit_tray_supply_z_axis_ir', hasPoseLocation_Point= 'empty_kit_tray_supply_point_ir' WHERE _NAME = 'empty_kit_tray_supply_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_3_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_3_point_ir', hasPoseLocation_ZAxis= 'part_c_3_z_axis_ir', hasPoseLocation_XAxis= 'part_c_3_x_axis_ir' WHERE _NAME = 'part_c_3_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_3_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_3_z_axis_ir', hasPoseLocation_Point= 'part_c_3_point_ir' WHERE _NAME = 'part_c_3_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_6_pose_ir' WHERE _NAME = 'part_c_6_ir';
@@ -10049,19 +10068,19 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_a_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_a_ir' WHERE _NAME = 'part_a_17_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='shape_part_e_ir' WHERE _NAME = 'stock_keeping_unit_part_e_ir';
+ SET  hasStockKeepingUnit_Shape='shape_part_e_ir' WHERE _NAME = 'stock_keeping_unit_part_e_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_6_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_6_point_ir', hasPoseLocation_ZAxis= 'part_b_6_z_axis_ir', hasPoseLocation_XAxis= 'part_b_6_x_axis_ir' WHERE _NAME = 'part_b_6_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_6_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_6_z_axis_ir', hasPoseLocation_Point= 'part_b_6_point_ir' WHERE _NAME = 'part_b_6_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_a4b3c2d1_pose' WHERE _NAME = 'kit_a4b3c2d1';
 
 UPDATE Kit
- SET  hasKit_Tray='kit_tray_4_ir', hasKit_Design= 'kit_design_a4b3c2d1_ir' WHERE _NAME = 'kit_a4b3c2d1';
+ SET  hasKit_KitTray='kit_tray_4_ir', hasKit_Design= 'kit_design_a4b3c2d1_ir' WHERE _NAME = 'kit_a4b3c2d1';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_3_pose_ir' WHERE _NAME = 'part_b_3_ir';
@@ -10073,13 +10092,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_11_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_11_point_ir', hasPoseLocation_ZAxis= 'part_b_11_z_axis_ir', hasPoseLocation_XAxis= 'part_b_11_x_axis_ir' WHERE _NAME = 'part_b_11_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_11_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_11_z_axis_ir', hasPoseLocation_Point= 'part_b_11_point_ir' WHERE _NAME = 'part_b_11_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_7_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_7_point', hasPoseLocation_ZAxis= 'part_b_7_z_axis', hasPoseLocation_XAxis= 'part_b_7_x_axis' WHERE _NAME = 'part_b_7_pose';
+ SET  hasPoseLocation_XAxis='part_b_7_x_axis', hasPoseLocation_ZAxis= 'part_b_7_z_axis', hasPoseLocation_Point= 'part_b_7_point' WHERE _NAME = 'part_b_7_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='relative_location_on_1' WHERE _NAME = 'tray_gripper';
@@ -10094,7 +10113,10 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_tray_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_tray_point', hasPoseLocation_ZAxis= 'part_b_tray_z_axis', hasPoseLocation_XAxis= 'part_b_tray_x_axis' WHERE _NAME = 'part_b_tray_pose';
+ SET  hasPoseLocation_XAxis='part_b_tray_x_axis', hasPoseLocation_ZAxis= 'part_b_tray_z_axis', hasPoseLocation_Point= 'part_b_tray_point' WHERE _NAME = 'part_b_tray_pose';
+
+UPDATE InternalShape
+ SET  hadByInternalShape_SolidObject='work_table_1' WHERE _NAME = 'shape_work_table';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_1_pose' WHERE _NAME = 'part_b_1';
@@ -10157,16 +10179,16 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_tray_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_tray_point_ir', hasPoseLocation_ZAxis= 'part_c_tray_z_axis_ir', hasPoseLocation_XAxis= 'part_c_tray_x_axis_ir' WHERE _NAME = 'part_c_tray_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_tray_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_tray_z_axis_ir', hasPoseLocation_Point= 'part_c_tray_point_ir' WHERE _NAME = 'part_c_tray_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='ext_shape_gear_shaft' WHERE _NAME = 'stock_keeping_unit_part_gear_shaft';
+ SET  hasStockKeepingUnit_Shape='ext_shape_gear_shaft' WHERE _NAME = 'stock_keeping_unit_part_gear_shaft';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='work_table_1' WHERE _NAME = 'kit_a4b4c2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_a4b4c2_point', hasPoseLocation_ZAxis= 'kit_a4b4c2_z_axis', hasPoseLocation_XAxis= 'kit_a4b4c2_x_axis' WHERE _NAME = 'kit_a4b4c2_pose';
+ SET  hasPoseLocation_XAxis='kit_a4b4c2_x_axis', hasPoseLocation_ZAxis= 'kit_a4b4c2_z_axis', hasPoseLocation_Point= 'kit_a4b4c2_point' WHERE _NAME = 'kit_a4b4c2_pose';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c3d1e1_b_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c3d1e1_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c3d1e1_b_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c3d1e1_b_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c3d1e1_b_1_ir';
@@ -10187,13 +10209,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_11_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_11_point_ir', hasPoseLocation_ZAxis= 'part_a_11_z_axis_ir', hasPoseLocation_XAxis= 'part_a_11_x_axis_ir' WHERE _NAME = 'part_a_11_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_11_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_11_z_axis_ir', hasPoseLocation_Point= 'part_a_11_point_ir' WHERE _NAME = 'part_a_11_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_9_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_9_point_ir', hasPoseLocation_ZAxis= 'part_d_9_z_axis_ir', hasPoseLocation_XAxis= 'part_d_9_x_axis_ir' WHERE _NAME = 'part_d_9_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_9_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_9_z_axis_ir', hasPoseLocation_Point= 'part_d_9_point_ir' WHERE _NAME = 'part_d_9_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c5_b_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c5_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c5_b_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c5_b_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c5_b_2_ir';
@@ -10202,25 +10224,25 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_5_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_5_point_ir', hasPoseLocation_ZAxis= 'part_c_5_z_axis_ir', hasPoseLocation_XAxis= 'part_c_5_x_axis_ir' WHERE _NAME = 'part_c_5_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_5_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_5_z_axis_ir', hasPoseLocation_Point= 'part_c_5_point_ir' WHERE _NAME = 'part_c_5_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_7_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_7_point_ir', hasPoseLocation_ZAxis= 'part_b_7_z_axis_ir', hasPoseLocation_XAxis= 'part_b_7_x_axis_ir' WHERE _NAME = 'part_b_7_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_7_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_7_z_axis_ir', hasPoseLocation_Point= 'part_b_7_point_ir' WHERE _NAME = 'part_b_7_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_1_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_1_point_ir', hasPoseLocation_ZAxis= 'part_a_1_z_axis_ir', hasPoseLocation_XAxis= 'part_a_1_x_axis_ir' WHERE _NAME = 'part_a_1_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_1_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_1_z_axis_ir', hasPoseLocation_Point= 'part_a_1_point_ir' WHERE _NAME = 'part_a_1_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_shaft_4_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_shaft_4_point', hasPoseLocation_ZAxis= 'part_gear_shaft_4_z_axis', hasPoseLocation_XAxis= 'part_gear_shaft_4_x_axis' WHERE _NAME = 'part_gear_shaft_4_pose';
+ SET  hasPoseLocation_XAxis='part_gear_shaft_4_x_axis', hasPoseLocation_ZAxis= 'part_gear_shaft_4_z_axis', hasPoseLocation_Point= 'part_gear_shaft_4_point' WHERE _NAME = 'part_gear_shaft_4_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='finished_kit_receiver_pose' WHERE _NAME = 'finished_kit_receiver';
@@ -10232,16 +10254,16 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_supply_pose' WHERE _NAME = 'part_b_supply';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_b_tray' WHERE _NAME = 'part_b_supply';
+ SET  hasPartsTrayWithParts_PartsTray='part_b_tray' WHERE _NAME = 'part_b_supply';
 
 UPDATE SolidObject
- SET  hasSolidObject_InternalShape='shape_work_table', hasSolidObject_PrimaryLocation= 'work_table_pose' WHERE _NAME = 'work_table_1';
+ SET  hasSolidObject_PrimaryLocation='work_table_pose' WHERE _NAME = 'work_table_1';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_3_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_3_point_ir', hasPoseLocation_ZAxis= 'part_b_3_z_axis_ir', hasPoseLocation_XAxis= 'part_b_3_x_axis_ir' WHERE _NAME = 'part_b_3_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_3_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_3_z_axis_ir', hasPoseLocation_Point= 'part_b_3_point_ir' WHERE _NAME = 'part_b_3_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c5_b_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c5_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c5_b_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c5_b_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c5_b_1_ir';
@@ -10256,7 +10278,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_5_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_5_point_ir', hasPoseLocation_ZAxis= 'part_b_5_z_axis_ir', hasPoseLocation_XAxis= 'part_b_5_x_axis_ir' WHERE _NAME = 'part_b_5_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_5_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_5_z_axis_ir', hasPoseLocation_Point= 'part_b_5_point_ir' WHERE _NAME = 'part_b_5_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_c_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c5_c_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c5_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c5_c_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c5_c_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c5_c_2_ir';
@@ -10268,13 +10290,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_2_point', hasPoseLocation_ZAxis= 'part_c_2_z_axis', hasPoseLocation_XAxis= 'part_c_2_x_axis' WHERE _NAME = 'part_c_2_pose';
+ SET  hasPoseLocation_XAxis='part_c_2_x_axis', hasPoseLocation_ZAxis= 'part_c_2_z_axis', hasPoseLocation_Point= 'part_c_2_point' WHERE _NAME = 'part_c_2_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_9_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_9_point_ir', hasPoseLocation_ZAxis= 'part_a_9_z_axis_ir', hasPoseLocation_XAxis= 'part_a_9_x_axis_ir' WHERE _NAME = 'part_a_9_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_9_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_9_z_axis_ir', hasPoseLocation_Point= 'part_a_9_point_ir' WHERE _NAME = 'part_a_9_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_part_c', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b1c1_c_1', hadByPartRefAndPose_KitDesign= 'kit_design_a2b1c1', hasPartRefAndPose_Point= 'point_kit_a2b1c1_c_1', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b1c1_c_1' WHERE _NAME = 'part_ref_and_pose_kit_a2b1c1_c_1';
@@ -10283,7 +10305,7 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_a2b3c5_pose' WHERE _NAME = 'kit_a2b3c5';
 
 UPDATE Kit
- SET  hasKit_Tray='kit_tray_3_ir', hasKit_Design= 'kit_design_a2b3c5_ir' WHERE _NAME = 'kit_a2b3c5';
+ SET  hasKit_KitTray='kit_tray_3_ir', hasKit_Design= 'kit_design_a2b3c5_ir' WHERE _NAME = 'kit_a2b3c5';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_e_1_pose_ir' WHERE _NAME = 'part_e_1_ir';
@@ -10292,7 +10314,7 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_e_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_e_ir' WHERE _NAME = 'part_e_1_ir';
 
 UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_4_ir' WHERE _NAME = 'kit_design_a4b3c2d1_ir';
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray_4_ir' WHERE _NAME = 'kit_design_a4b3c2d1_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c3_b_3_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c3_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c3_b_3_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c3_b_3_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c3_b_3_ir';
@@ -10307,7 +10329,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='finished_kit_receiver' WHERE _NAME = 'finished_kit_box_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='finished_kit_box_point', hasPoseLocation_ZAxis= 'finished_kit_box_z_axis', hasPoseLocation_XAxis= 'finished_kit_box_x_axis' WHERE _NAME = 'finished_kit_box_pose';
+ SET  hasPoseLocation_XAxis='finished_kit_box_x_axis', hasPoseLocation_ZAxis= 'finished_kit_box_z_axis', hasPoseLocation_Point= 'finished_kit_box_point' WHERE _NAME = 'finished_kit_box_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_5_pose_ir' WHERE _NAME = 'part_a_5_ir';
@@ -10319,13 +10341,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='finished_kit_receiver_ir' WHERE _NAME = 'finished_kit_box_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='finished_kit_box_point_ir', hasPoseLocation_ZAxis= 'finished_kit_box_z_axis_ir', hasPoseLocation_XAxis= 'finished_kit_box_x_axis_ir' WHERE _NAME = 'finished_kit_box_pose_ir';
+ SET  hasPoseLocation_XAxis='finished_kit_box_x_axis_ir', hasPoseLocation_ZAxis= 'finished_kit_box_z_axis_ir', hasPoseLocation_Point= 'finished_kit_box_point_ir' WHERE _NAME = 'finished_kit_box_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_c_supply_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_supply_point', hasPoseLocation_ZAxis= 'part_c_supply_z_axis', hasPoseLocation_XAxis= 'part_c_supply_x_axis' WHERE _NAME = 'part_c_supply_pose';
+ SET  hasPoseLocation_XAxis='part_c_supply_x_axis', hasPoseLocation_ZAxis= 'part_c_supply_z_axis', hasPoseLocation_Point= 'part_c_supply_point' WHERE _NAME = 'part_c_supply_pose';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c3_b_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c3_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c3_b_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c3_b_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c3_b_2_ir';
@@ -10334,13 +10356,13 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_5_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_5_point_ir', hasPoseLocation_ZAxis= 'part_d_5_z_axis_ir', hasPoseLocation_XAxis= 'part_d_5_x_axis_ir' WHERE _NAME = 'part_d_5_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_5_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_5_z_axis_ir', hasPoseLocation_Point= 'part_d_5_point_ir' WHERE _NAME = 'part_d_5_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_3_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_3_point_ir', hasPoseLocation_ZAxis= 'part_d_3_z_axis_ir', hasPoseLocation_XAxis= 'part_d_3_x_axis_ir' WHERE _NAME = 'part_d_3_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_3_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_3_z_axis_ir', hasPoseLocation_Point= 'part_d_3_point_ir' WHERE _NAME = 'part_d_3_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c3d1e1_b_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c3d1e1_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c3d1e1_b_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c3d1e1_b_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c3d1e1_b_2_ir';
@@ -10349,7 +10371,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_a_supply_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_supply_point', hasPoseLocation_ZAxis= 'part_a_supply_z_axis', hasPoseLocation_XAxis= 'part_a_supply_x_axis' WHERE _NAME = 'part_a_supply_pose';
+ SET  hasPoseLocation_XAxis='part_a_supply_x_axis', hasPoseLocation_ZAxis= 'part_a_supply_z_axis', hasPoseLocation_Point= 'part_a_supply_point' WHERE _NAME = 'part_a_supply_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_12_pose_ir' WHERE _NAME = 'part_b_12_ir';
@@ -10364,31 +10386,31 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_12_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_12_point_ir', hasPoseLocation_ZAxis= 'part_a_12_z_axis_ir', hasPoseLocation_XAxis= 'part_a_12_x_axis_ir' WHERE _NAME = 'part_a_12_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_12_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_12_z_axis_ir', hasPoseLocation_Point= 'part_a_12_point_ir' WHERE _NAME = 'part_a_12_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='relative_location_in_1' WHERE _NAME = 'kitting_workstation_1';
 
 UPDATE KittingWorkstation
- SET  hasWorkstation_ChangingStation='changing_station_1', hasWorkstation_WorkTable= 'work_table_1', hasWorkstation_Robot= 'robot_1' WHERE _NAME = 'kitting_workstation_1';
+ SET  hasKittingWorkstation_ChangingStation='changing_station_1', hasKittingWorkstation_Robot= 'robot_1' WHERE _NAME = 'kitting_workstation_1';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_6_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_6_point_ir', hasPoseLocation_ZAxis= 'part_e_6_z_axis_ir', hasPoseLocation_XAxis= 'part_e_6_x_axis_ir' WHERE _NAME = 'part_e_6_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_6_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_6_z_axis_ir', hasPoseLocation_Point= 'part_e_6_point_ir' WHERE _NAME = 'part_e_6_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='work_table_1' WHERE _NAME = 'kit_a4b3c3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_a4b3c3_point', hasPoseLocation_ZAxis= 'kit_a4b3c3_z_axis', hasPoseLocation_XAxis= 'kit_a4b3c3_x_axis' WHERE _NAME = 'kit_a4b3c3_pose';
+ SET  hasPoseLocation_XAxis='kit_a4b3c3_x_axis', hasPoseLocation_ZAxis= 'kit_a4b3c3_z_axis', hasPoseLocation_Point= 'kit_a4b3c3_point' WHERE _NAME = 'kit_a4b3c3_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_a_supply_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_supply_point_ir', hasPoseLocation_ZAxis= 'part_a_supply_z_axis_ir', hasPoseLocation_XAxis= 'part_a_supply_x_axis_ir' WHERE _NAME = 'part_a_supply_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_supply_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_supply_z_axis_ir', hasPoseLocation_Point= 'part_a_supply_point_ir' WHERE _NAME = 'part_a_supply_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_c_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c5_c_4_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c5_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c5_c_4_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c5_c_4_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c5_c_4_ir';
@@ -10406,19 +10428,19 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply' WHERE _NAME = 'kit_tray_2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_2_point', hasPoseLocation_ZAxis= 'kit_tray_2_z_axis', hasPoseLocation_XAxis= 'kit_tray_2_x_axis' WHERE _NAME = 'kit_tray_2_pose';
+ SET  hasPoseLocation_XAxis='kit_tray_2_x_axis', hasPoseLocation_ZAxis= 'kit_tray_2_z_axis', hasPoseLocation_Point= 'kit_tray_2_point' WHERE _NAME = 'kit_tray_2_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply_ir' WHERE _NAME = 'part_c_1_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_1_point_ir', hasPoseLocation_ZAxis= 'part_c_1_z_axis_ir', hasPoseLocation_XAxis= 'part_c_1_x_axis_ir' WHERE _NAME = 'part_c_1_pose_ir';
+ SET  hasPoseLocation_XAxis='part_c_1_x_axis_ir', hasPoseLocation_ZAxis= 'part_c_1_z_axis_ir', hasPoseLocation_Point= 'part_c_1_point_ir' WHERE _NAME = 'part_c_1_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'robot_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='robot_point', hasPoseLocation_ZAxis= 'robot_z_axis', hasPoseLocation_XAxis= 'robot_x_axis' WHERE _NAME = 'robot_pose';
+ SET  hasPoseLocation_XAxis='robot_x_axis', hasPoseLocation_ZAxis= 'robot_z_axis', hasPoseLocation_Point= 'robot_point' WHERE _NAME = 'robot_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_c_5_pose_ir' WHERE _NAME = 'part_c_5_ir';
@@ -10430,7 +10452,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_6_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_6_point_ir', hasPoseLocation_ZAxis= 'part_d_6_z_axis_ir', hasPoseLocation_XAxis= 'part_d_6_x_axis_ir' WHERE _NAME = 'part_d_6_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_6_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_6_z_axis_ir', hasPoseLocation_Point= 'part_d_6_point_ir' WHERE _NAME = 'part_d_6_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_a_4_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_a_4_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_a_4_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_a_4_ir';
@@ -10439,7 +10461,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='changing_station_1' WHERE _NAME = 'tray_gripper_holder_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='tray_gripper_holder_point', hasPoseLocation_ZAxis= 'tray_gripper_holder_z_axis', hasPoseLocation_XAxis= 'tray_gripper_holder_x_axis' WHERE _NAME = 'tray_gripper_holder_pose';
+ SET  hasPoseLocation_XAxis='tray_gripper_holder_x_axis', hasPoseLocation_ZAxis= 'tray_gripper_holder_z_axis', hasPoseLocation_Point= 'tray_gripper_holder_point' WHERE _NAME = 'tray_gripper_holder_pose';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c3d1e1_a_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c3d1e1_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c3d1e1_a_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c3d1e1_a_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c3d1e1_a_2_ir';
@@ -10448,46 +10470,46 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_gripper_pose' WHERE _NAME = 'part_gripper';
 
 UPDATE SolidObject
- SET  hasSolidObject_InternalShape='shape_changing_station_base', hasSolidObject_PrimaryLocation= 'changing_station_base_pose' WHERE _NAME = 'changing_station_base';
+ SET  hasSolidObject_PrimaryLocation='changing_station_base_pose' WHERE _NAME = 'changing_station_base';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_b_3_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_b_3_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_b_3_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_b_3_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='shape_part_a_ir' WHERE _NAME = 'stock_keeping_unit_part_a_ir';
+ SET  hasStockKeepingUnit_Shape='shape_part_a_ir' WHERE _NAME = 'stock_keeping_unit_part_a_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='changing_station_1' WHERE _NAME = 'part_gripper_holder_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gripper_holder_point', hasPoseLocation_ZAxis= 'part_gripper_holder_z_axis', hasPoseLocation_XAxis= 'part_gripper_holder_x_axis' WHERE _NAME = 'part_gripper_holder_pose';
+ SET  hasPoseLocation_XAxis='part_gripper_holder_x_axis', hasPoseLocation_ZAxis= 'part_gripper_holder_z_axis', hasPoseLocation_Point= 'part_gripper_holder_point' WHERE _NAME = 'part_gripper_holder_pose';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_tray_4_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_4_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_tray_4_ir' WHERE _NAME = 'stock_keeping_unit_kit_tray_4_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply' WHERE _NAME = 'part_a_1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_1_point', hasPoseLocation_ZAxis= 'part_a_1_z_axis', hasPoseLocation_XAxis= 'part_a_1_x_axis' WHERE _NAME = 'part_a_1_pose';
+ SET  hasPoseLocation_XAxis='part_a_1_x_axis', hasPoseLocation_ZAxis= 'part_a_1_z_axis', hasPoseLocation_Point= 'part_a_1_point' WHERE _NAME = 'part_a_1_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply_ir' WHERE _NAME = 'kit_tray_2_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_2_point_ir', hasPoseLocation_ZAxis= 'kit_tray_2_z_axis_ir', hasPoseLocation_XAxis= 'kit_tray_2_x_axis_ir' WHERE _NAME = 'kit_tray_2_pose_ir';
+ SET  hasPoseLocation_XAxis='kit_tray_2_x_axis_ir', hasPoseLocation_ZAxis= 'kit_tray_2_z_axis_ir', hasPoseLocation_Point= 'kit_tray_2_point_ir' WHERE _NAME = 'kit_tray_2_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_4_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_4_point', hasPoseLocation_ZAxis= 'part_gear_4_z_axis', hasPoseLocation_XAxis= 'part_gear_4_x_axis' WHERE _NAME = 'part_gear_4_pose';
+ SET  hasPoseLocation_XAxis='part_gear_4_x_axis', hasPoseLocation_ZAxis= 'part_gear_4_z_axis', hasPoseLocation_Point= 'part_gear_4_point' WHERE _NAME = 'part_gear_4_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_2_point', hasPoseLocation_ZAxis= 'part_gear_2_z_axis', hasPoseLocation_XAxis= 'part_gear_2_x_axis' WHERE _NAME = 'part_gear_2_pose';
+ SET  hasPoseLocation_XAxis='part_gear_2_x_axis', hasPoseLocation_ZAxis= 'part_gear_2_z_axis', hasPoseLocation_Point= 'part_gear_2_point' WHERE _NAME = 'part_gear_2_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_e_tray_pose_ir' WHERE _NAME = 'part_e_tray_ir';
@@ -10499,19 +10521,19 @@ UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_b_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c2d1_b_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c2d1_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c2d1_b_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c2d1_b_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c2d1_b_1_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_kit_box' WHERE _NAME = 'stock_keeping_unit_kit_box';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_kit_box' WHERE _NAME = 'stock_keeping_unit_kit_box';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_d_supply_pose_ir' WHERE _NAME = 'part_d_supply_ir';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_d_tray_ir' WHERE _NAME = 'part_d_supply_ir';
+ SET  hasPartsTrayWithParts_PartsTray='part_d_tray_ir' WHERE _NAME = 'part_d_supply_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_e_supply_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_supply_point_ir', hasPoseLocation_ZAxis= 'part_e_supply_z_axis_ir', hasPoseLocation_XAxis= 'part_e_supply_x_axis_ir' WHERE _NAME = 'part_e_supply_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_supply_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_supply_z_axis_ir', hasPoseLocation_Point= 'part_e_supply_point_ir' WHERE _NAME = 'part_e_supply_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_5_pose_ir' WHERE _NAME = 'part_b_5_ir';
@@ -10520,19 +10542,19 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_b_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_b_ir' WHERE _NAME = 'part_b_5_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_parts_tray_a' WHERE _NAME = 'stock_keeping_unit_parts_tray_a';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_parts_tray_a' WHERE _NAME = 'stock_keeping_unit_parts_tray_a';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_parts_tray_c' WHERE _NAME = 'stock_keeping_unit_parts_tray_c';
-
-UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'shape_parts_tray_b' WHERE _NAME = 'stock_keeping_unit_parts_tray_b';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_parts_tray_c' WHERE _NAME = 'stock_keeping_unit_parts_tray_c';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply' WHERE _NAME = 'part_b_8_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_8_point', hasPoseLocation_ZAxis= 'part_b_8_z_axis', hasPoseLocation_XAxis= 'part_b_8_x_axis' WHERE _NAME = 'part_b_8_pose';
+ SET  hasPoseLocation_XAxis='part_b_8_x_axis', hasPoseLocation_ZAxis= 'part_b_8_z_axis', hasPoseLocation_Point= 'part_b_8_point' WHERE _NAME = 'part_b_8_pose';
+
+UPDATE StockKeepingUnit
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'shape_parts_tray_b' WHERE _NAME = 'stock_keeping_unit_parts_tray_b';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c3d1e1_a_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c3d1e1_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c3d1e1_a_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c3d1e1_a_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c3d1e1_a_1_ir';
@@ -10544,7 +10566,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'work_table_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='work_table_point', hasPoseLocation_ZAxis= 'work_table_z_axis', hasPoseLocation_XAxis= 'work_table_x_axis' WHERE _NAME = 'work_table_pose';
+ SET  hasPoseLocation_XAxis='work_table_x_axis', hasPoseLocation_ZAxis= 'work_table_z_axis', hasPoseLocation_Point= 'work_table_point' WHERE _NAME = 'work_table_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='empty_kit_tray_box_pose_ir' WHERE _NAME = 'empty_kit_tray_box_ir';
@@ -10562,7 +10584,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_18_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_18_point_ir', hasPoseLocation_ZAxis= 'part_a_18_z_axis_ir', hasPoseLocation_XAxis= 'part_a_18_x_axis_ir' WHERE _NAME = 'part_a_18_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_18_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_18_z_axis_ir', hasPoseLocation_Point= 'part_a_18_point_ir' WHERE _NAME = 'part_a_18_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='empty_kit_tray_supply_pose' WHERE _NAME = 'empty_kit_tray_supply';
@@ -10574,7 +10596,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_tray_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_tray_point_ir', hasPoseLocation_ZAxis= 'part_a_tray_z_axis_ir', hasPoseLocation_XAxis= 'part_a_tray_x_axis_ir' WHERE _NAME = 'part_a_tray_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_tray_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_tray_z_axis_ir', hasPoseLocation_Point= 'part_a_tray_point_ir' WHERE _NAME = 'part_a_tray_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c2d1_a_4_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c2d1_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c2d1_a_4_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c2d1_a_4_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c2d1_a_4_ir';
@@ -10598,7 +10620,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_8_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_8_point', hasPoseLocation_ZAxis= 'part_c_8_z_axis', hasPoseLocation_XAxis= 'part_c_8_x_axis' WHERE _NAME = 'part_c_8_pose';
+ SET  hasPoseLocation_XAxis='part_c_8_x_axis', hasPoseLocation_ZAxis= 'part_c_8_z_axis', hasPoseLocation_Point= 'part_c_8_point' WHERE _NAME = 'part_c_8_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_1_pose_ir' WHERE _NAME = 'part_b_1_ir';
@@ -10634,34 +10656,34 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_supply_pose' WHERE _NAME = 'part_a_supply';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_a_tray' WHERE _NAME = 'part_a_supply';
+ SET  hasPartsTrayWithParts_PartsTray='part_a_tray' WHERE _NAME = 'part_a_supply';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_7_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_7_point_ir', hasPoseLocation_ZAxis= 'part_a_7_z_axis_ir', hasPoseLocation_XAxis= 'part_a_7_x_axis_ir' WHERE _NAME = 'part_a_7_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_7_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_7_z_axis_ir', hasPoseLocation_Point= 'part_a_7_point_ir' WHERE _NAME = 'part_a_7_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_6_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_6_point_ir', hasPoseLocation_ZAxis= 'part_a_6_z_axis_ir', hasPoseLocation_XAxis= 'part_a_6_x_axis_ir' WHERE _NAME = 'part_a_6_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_6_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_6_z_axis_ir', hasPoseLocation_Point= 'part_a_6_point_ir' WHERE _NAME = 'part_a_6_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_shaft_2_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_shaft_2_point', hasPoseLocation_ZAxis= 'part_gear_shaft_2_z_axis', hasPoseLocation_XAxis= 'part_gear_shaft_2_x_axis' WHERE _NAME = 'part_gear_shaft_2_pose';
+ SET  hasPoseLocation_XAxis='part_gear_shaft_2_x_axis', hasPoseLocation_ZAxis= 'part_gear_shaft_2_z_axis', hasPoseLocation_Point= 'part_gear_shaft_2_point' WHERE _NAME = 'part_gear_shaft_2_pose';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='shape_part_b_ir' WHERE _NAME = 'stock_keeping_unit_part_b_ir';
+ SET  hasStockKeepingUnit_Shape='shape_part_b_ir' WHERE _NAME = 'stock_keeping_unit_part_b_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='work_table_1' WHERE _NAME = 'kit_a4b3c2d1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_a4b3c2d1_point', hasPoseLocation_ZAxis= 'kit_a4b3c2d1_z_axis', hasPoseLocation_XAxis= 'kit_a4b3c2d1_x_axis' WHERE _NAME = 'kit_a4b3c2d1_pose';
+ SET  hasPoseLocation_XAxis='kit_a4b3c2d1_x_axis', hasPoseLocation_ZAxis= 'kit_a4b3c2d1_z_axis', hasPoseLocation_Point= 'kit_a4b3c2d1_point' WHERE _NAME = 'kit_a4b3c2d1_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_tray_2_pose_ir' WHERE _NAME = 'kit_tray_2_ir';
@@ -10682,34 +10704,34 @@ UPDATE Part
  SET  hadByPart_PartsTrayWithParts='part_a_supply_ir', hasPart_Sku= 'stock_keeping_unit_part_a_ir' WHERE _NAME = 'part_a_13_ir';
 
 UPDATE StockKeepingUnit
- SET  hadBySku_Workstation='kitting_workstation_1', hasSku_Shape= 'ext_shape_parts_tray_e_ir' WHERE _NAME = 'stock_keeping_unit_parts_e_tray_ir';
+ SET  hadBySku_KittingWorkstation='kitting_workstation_1', hasStockKeepingUnit_Shape= 'ext_shape_parts_tray_e_ir' WHERE _NAME = 'stock_keeping_unit_parts_e_tray_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_8_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_8_point_ir', hasPoseLocation_ZAxis= 'part_d_8_z_axis_ir', hasPoseLocation_XAxis= 'part_d_8_x_axis_ir' WHERE _NAME = 'part_d_8_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_8_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_8_z_axis_ir', hasPoseLocation_Point= 'part_d_8_point_ir' WHERE _NAME = 'part_d_8_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_e_supply_ir' WHERE _NAME = 'part_e_4_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_e_4_point_ir', hasPoseLocation_ZAxis= 'part_e_4_z_axis_ir', hasPoseLocation_XAxis= 'part_e_4_x_axis_ir' WHERE _NAME = 'part_e_4_pose_ir';
+ SET  hasPoseLocation_XAxis='part_e_4_x_axis_ir', hasPoseLocation_ZAxis= 'part_e_4_z_axis_ir', hasPoseLocation_Point= 'part_e_4_point_ir' WHERE _NAME = 'part_e_4_pose_ir';
 
 UPDATE StockKeepingUnit
- SET  hasSku_Shape='ext_shape_gear_boss' WHERE _NAME = 'stock_keeping_unit_part_gear_boss';
+ SET  hasStockKeepingUnit_Shape='ext_shape_gear_boss' WHERE _NAME = 'stock_keeping_unit_part_gear_boss';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='work_table_1' WHERE _NAME = 'kit_a2b3c3d1e1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_a2b3c3d1e1_point', hasPoseLocation_ZAxis= 'kit_a2b3c3d1e1_z_axis', hasPoseLocation_XAxis= 'kit_a2b3c3d1e1_x_axis' WHERE _NAME = 'kit_a2b3c3d1e1_pose';
+ SET  hasPoseLocation_XAxis='kit_a2b3c3d1e1_x_axis', hasPoseLocation_ZAxis= 'kit_a2b3c3d1e1_z_axis', hasPoseLocation_Point= 'kit_a2b3c3d1e1_point' WHERE _NAME = 'kit_a2b3c3d1e1_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_8_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_8_point_ir', hasPoseLocation_ZAxis= 'part_a_8_z_axis_ir', hasPoseLocation_XAxis= 'part_a_8_x_axis_ir' WHERE _NAME = 'part_a_8_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_8_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_8_z_axis_ir', hasPoseLocation_Point= 'part_a_8_point_ir' WHERE _NAME = 'part_a_8_pose_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b3c5_a_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a2b3c5_ir', hasPartRefAndPose_Point= 'point_kit_a2b3c5_a_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b3c5_a_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a2b3c5_a_1_ir';
@@ -10727,19 +10749,19 @@ UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='tray_gripper_holder_pose' WHERE _NAME = 'tray_gripper_holder';
 
 UPDATE EndEffectorHolder
- SET  hadByEndEffectorHolder_ChangingStation='changing_station_1' WHERE _NAME = 'tray_gripper_holder';
+ SET  hadByEndEffectorHolder_EndEffectorChangingStation='changing_station_1' WHERE _NAME = 'tray_gripper_holder';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_14_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_14_point_ir', hasPoseLocation_ZAxis= 'part_a_14_z_axis_ir', hasPoseLocation_XAxis= 'part_a_14_x_axis_ir' WHERE _NAME = 'part_a_14_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_14_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_14_z_axis_ir', hasPoseLocation_Point= 'part_a_14_point_ir' WHERE _NAME = 'part_a_14_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_supply_pose_ir' WHERE _NAME = 'part_a_supply_ir';
 
 UPDATE PartsTrayWithParts
- SET  hasPartsTrayWithParts_Tray='part_a_tray_ir' WHERE _NAME = 'part_a_supply_ir';
+ SET  hasPartsTrayWithParts_PartsTray='part_a_tray_ir' WHERE _NAME = 'part_a_supply_ir';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_part_a', hasPartRefAndPose_ZAxis= 'z_axis_kit_a2b2c1_a_1', hadByPartRefAndPose_KitDesign= 'kit_design_a2b2c1', hasPartRefAndPose_Point= 'point_kit_a2b2c1_a_1', hasPartRefAndPose_XAxis= 'x_axis_kit_a2b2c1_a_1' WHERE _NAME = 'part_ref_and_pose_kit_a2b2c1_a_1';
@@ -10751,34 +10773,34 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_b_supply_ir' WHERE _NAME = 'part_b_tray_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_b_tray_point_ir', hasPoseLocation_ZAxis= 'part_b_tray_z_axis_ir', hasPoseLocation_XAxis= 'part_b_tray_x_axis_ir' WHERE _NAME = 'part_b_tray_pose_ir';
+ SET  hasPoseLocation_XAxis='part_b_tray_x_axis_ir', hasPoseLocation_ZAxis= 'part_b_tray_z_axis_ir', hasPoseLocation_Point= 'part_b_tray_point_ir' WHERE _NAME = 'part_b_tray_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_shaft_1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_shaft_1_point', hasPoseLocation_ZAxis= 'part_gear_shaft_1_z_axis', hasPoseLocation_XAxis= 'part_gear_shaft_1_x_axis' WHERE _NAME = 'part_gear_shaft_1_pose';
+ SET  hasPoseLocation_XAxis='part_gear_shaft_1_x_axis', hasPoseLocation_ZAxis= 'part_gear_shaft_1_z_axis', hasPoseLocation_Point= 'part_gear_shaft_1_point' WHERE _NAME = 'part_gear_shaft_1_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply_ir' WHERE _NAME = 'kit_tray_5_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='kit_tray_5_point_ir', hasPoseLocation_ZAxis= 'kit_tray_5_z_axis_ir', hasPoseLocation_XAxis= 'kit_tray_5_x_axis_ir' WHERE _NAME = 'kit_tray_5_pose_ir';
+ SET  hasPoseLocation_XAxis='kit_tray_5_x_axis_ir', hasPoseLocation_ZAxis= 'kit_tray_5_z_axis_ir', hasPoseLocation_Point= 'kit_tray_5_point_ir' WHERE _NAME = 'kit_tray_5_pose_ir';
+
+UPDATE PartRefAndPose
+ SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_a_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_a_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_a_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_a_2_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='kit_a4b4c2_pose' WHERE _NAME = 'kit_a4b4c2';
 
 UPDATE Kit
- SET  hasKit_Tray='kit_tray_2_ir', hasKit_Design= 'kit_design_a4b4c2_ir' WHERE _NAME = 'kit_a4b4c2';
-
-UPDATE PartRefAndPose
- SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b4c2_a_2_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b4c2_ir', hasPartRefAndPose_Point= 'point_kit_a4b4c2_a_2_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b4c2_a_2_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b4c2_a_2_ir';
+ SET  hasKit_KitTray='kit_tray_2_ir', hasKit_Design= 'kit_design_a4b4c2_ir' WHERE _NAME = 'kit_a4b4c2';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='robot_1' WHERE _NAME = 'relative_location_on_1';
 
 UPDATE KitDesign
- SET  hadByKitDesign_Workstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray' WHERE _NAME = 'kit_design_a2b1c1';
+ SET  hadByKitDesign_KittingWorkstation='kitting_workstation_1', hasKitDesign_KitTraySku= 'stock_keeping_unit_kit_tray' WHERE _NAME = 'kit_design_a2b1c1';
 
 UPDATE PartRefAndPose
  SET  hasPartRefAndPose_Sku='stock_keeping_unit_parts_a_tray_ir', hasPartRefAndPose_ZAxis= 'z_axis_kit_a4b3c2d1_a_1_ir', hadByPartRefAndPose_KitDesign= 'kit_design_a4b3c2d1_ir', hasPartRefAndPose_Point= 'point_kit_a4b3c2d1_a_1_ir', hasPartRefAndPose_XAxis= 'x_axis_kit_a4b3c2d1_a_1_ir' WHERE _NAME = 'part_ref_and_pose_kit_a4b3c2d1_a_1_ir';
@@ -10787,7 +10809,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply' WHERE _NAME = 'empty_kit_tray_box_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='empty_kit_tray_box_point', hasPoseLocation_ZAxis= 'empty_kit_tray_box_z_axis', hasPoseLocation_XAxis= 'empty_kit_tray_box_x_axis' WHERE _NAME = 'empty_kit_tray_box_pose';
+ SET  hasPoseLocation_XAxis='empty_kit_tray_box_x_axis', hasPoseLocation_ZAxis= 'empty_kit_tray_box_z_axis', hasPoseLocation_Point= 'empty_kit_tray_box_point' WHERE _NAME = 'empty_kit_tray_box_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_b_2_pose_ir' WHERE _NAME = 'part_b_2_ir';
@@ -10802,7 +10824,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'empty_kit_tray_supply_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='empty_kit_tray_supply_point', hasPoseLocation_ZAxis= 'empty_kit_tray_supply_z_axis', hasPoseLocation_XAxis= 'empty_kit_tray_supply_x_axis' WHERE _NAME = 'empty_kit_tray_supply_pose';
+ SET  hasPoseLocation_XAxis='empty_kit_tray_supply_x_axis', hasPoseLocation_ZAxis= 'empty_kit_tray_supply_z_axis', hasPoseLocation_Point= 'empty_kit_tray_supply_point' WHERE _NAME = 'empty_kit_tray_supply_pose';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='robot_pose' WHERE _NAME = 'robot_1';
@@ -10829,7 +10851,7 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_d_supply_ir' WHERE _NAME = 'part_d_7_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_7_point_ir', hasPoseLocation_ZAxis= 'part_d_7_z_axis_ir', hasPoseLocation_XAxis= 'part_d_7_x_axis_ir' WHERE _NAME = 'part_d_7_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_7_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_7_z_axis_ir', hasPoseLocation_Point= 'part_d_7_point_ir' WHERE _NAME = 'part_d_7_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='part_a_4_pose' WHERE _NAME = 'part_a_4';
@@ -10841,40 +10863,40 @@ UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_d_supply_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_d_supply_point_ir', hasPoseLocation_ZAxis= 'part_d_supply_z_axis_ir', hasPoseLocation_XAxis= 'part_d_supply_x_axis_ir' WHERE _NAME = 'part_d_supply_pose_ir';
+ SET  hasPoseLocation_XAxis='part_d_supply_x_axis_ir', hasPoseLocation_ZAxis= 'part_d_supply_z_axis_ir', hasPoseLocation_Point= 'part_d_supply_point_ir' WHERE _NAME = 'part_d_supply_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_3_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_3_point', hasPoseLocation_ZAxis= 'part_gear_3_z_axis', hasPoseLocation_XAxis= 'part_gear_3_x_axis' WHERE _NAME = 'part_gear_3_pose';
+ SET  hasPoseLocation_XAxis='part_gear_3_x_axis', hasPoseLocation_ZAxis= 'part_gear_3_z_axis', hasPoseLocation_Point= 'part_gear_3_point' WHERE _NAME = 'part_gear_3_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='empty_kit_tray_supply_ir' WHERE _NAME = 'empty_kit_tray_box_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='empty_kit_tray_box_point_ir', hasPoseLocation_ZAxis= 'empty_kit_tray_box_z_axis_ir', hasPoseLocation_XAxis= 'empty_kit_tray_box_x_axis_ir' WHERE _NAME = 'empty_kit_tray_box_pose_ir';
+ SET  hasPoseLocation_XAxis='empty_kit_tray_box_x_axis_ir', hasPoseLocation_ZAxis= 'empty_kit_tray_box_z_axis_ir', hasPoseLocation_Point= 'empty_kit_tray_box_point_ir' WHERE _NAME = 'empty_kit_tray_box_pose_ir';
 
 UPDATE SolidObject
  SET  hasSolidObject_PrimaryLocation='changing_station_pose' WHERE _NAME = 'changing_station_1';
 
 UPDATE EndEffectorChangingStation
- SET  hasChangingStation_Base='changing_station_base' WHERE _NAME = 'changing_station_1';
+ SET  hasEndEffectorChangingStation_Base='changing_station_base' WHERE _NAME = 'changing_station_1';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='kitting_workstation_1' WHERE _NAME = 'part_gear_1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_gear_1_point', hasPoseLocation_ZAxis= 'part_gear_1_z_axis', hasPoseLocation_XAxis= 'part_gear_1_x_axis' WHERE _NAME = 'part_gear_1_pose';
+ SET  hasPoseLocation_XAxis='part_gear_1_x_axis', hasPoseLocation_ZAxis= 'part_gear_1_z_axis', hasPoseLocation_Point= 'part_gear_1_point' WHERE _NAME = 'part_gear_1_pose';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_a_supply_ir' WHERE _NAME = 'part_a_2_pose_ir';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_a_2_point_ir', hasPoseLocation_ZAxis= 'part_a_2_z_axis_ir', hasPoseLocation_XAxis= 'part_a_2_x_axis_ir' WHERE _NAME = 'part_a_2_pose_ir';
+ SET  hasPoseLocation_XAxis='part_a_2_x_axis_ir', hasPoseLocation_ZAxis= 'part_a_2_z_axis_ir', hasPoseLocation_Point= 'part_a_2_point_ir' WHERE _NAME = 'part_a_2_pose_ir';
 
 UPDATE PhysicalLocation
  SET  hasPhysicalLocation_RefObject='part_c_supply' WHERE _NAME = 'part_c_1_pose';
 
 UPDATE PoseLocation
- SET  hasPoseLocation_Point='part_c_1_point', hasPoseLocation_ZAxis= 'part_c_1_z_axis', hasPoseLocation_XAxis= 'part_c_1_x_axis' WHERE _NAME = 'part_c_1_pose';
+ SET  hasPoseLocation_XAxis='part_c_1_x_axis', hasPoseLocation_ZAxis= 'part_c_1_z_axis', hasPoseLocation_Point= 'part_c_1_point' WHERE _NAME = 'part_c_1_pose';

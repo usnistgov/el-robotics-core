@@ -1109,17 +1109,15 @@ void EndEffectorChangingStationType::printOwl(FILE * outFile)
 {
   std::list<EndEffectorHolderType *>::iterator iter;
 
-  OwlPrinter::startIndi(Name, "EndEffectorChangingStation",
-				    true, outFile);
-  OwlPrinter::printLocations(Name, PrimaryLocation,
-					 SecondaryLocation, outFile);
-  OwlPrinter::printObjProp("hasChangingStation_Base", Name,
+  OwlPrinter::startIndi(Name, "EndEffectorChangingStation", true, outFile);
+  OwlPrinter::printLocations(Name, PrimaryLocation, SecondaryLocation, outFile);
+  OwlPrinter::printObjProp("hasEndEffectorChangingStation_Base", Name,
 			   Base->Name, outFile);
   for (iter = EndEffectorHolder->begin();
        iter != EndEffectorHolder->end(); iter++)
     {
-      OwlPrinter::printObjProp("hasChangingStation_EndEffectorHolder", Name,
-			       (*iter)->Name, outFile);
+     OwlPrinter::printObjProp("hasEndEffectorChangingStation_EndEffectorHolder",
+			      Name, (*iter)->Name, outFile);
     }
   OwlPrinter::endIndi("EndEffectorChangingStation", outFile);
   OwlPrinter::locationStack.push_front(Name);
@@ -1315,11 +1313,11 @@ void GripperEffectorType::printOwl(FILE * outFile)
   OwlPrinter::printXmlStringProp("hasEndEffector_Description",
 				 Name, Description, outFile);
   OwlPrinter::printPosDecProp("hasEndEffector_Weight", Name, Weight, outFile);
-  OwlPrinter::printPosDecProp("hasEffector_MaximumLoadWeight", Name,
+  OwlPrinter::printPosDecProp("hasEndEffector_MaximumLoadWeight", Name,
 			      MaximumLoadWeight, outFile);
   if (HeldObject)
     {
-      OwlPrinter::printObjProp("hasGripperEffector_HeldObject", Name,
+      OwlPrinter::printObjProp("hasEndEffector_HeldObject", Name,
 			       HeldObject->Name, outFile);
     }
   OwlPrinter::endIndi("GripperEffector", outFile);
@@ -1535,7 +1533,7 @@ void KitType::printOwl(FILE * outFile)
 					 SecondaryLocation, outFile);
   OwlPrinter::printShapes(InternalShape, ExternalShape, Name, outFile);
   OwlPrinter::printObjRefProp("hasKit_Design", Name, DesignName, outFile);
-  OwlPrinter::printObjProp("hasKit_Tray", Name, KitTray->Name, outFile);
+  OwlPrinter::printObjProp("hasKit_KitTray", Name, KitTray->Name, outFile);
   for (iter = Part->begin(); iter != Part->end(); iter++)
     {
       OwlPrinter::printObjProp("hasKit_Part", Name, (*iter)->Name, outFile);
@@ -1544,7 +1542,7 @@ void KitType::printOwl(FILE * outFile)
     {
       OwlPrinter::printObjProp("hasKit_Slot", Name, (*ator)->Name, outFile);
     }
-  OwlPrinter::printXmlBoolProp("isKit_Finished", Name, Finished, outFile);
+  OwlPrinter::printXmlBoolProp("hasKit_Finished", Name, Finished, outFile);
   OwlPrinter::endIndi("Kit", outFile);
   OwlPrinter::locationStack.push_front(Name);
   KitTray->printOwl(outFile);
@@ -1632,25 +1630,26 @@ void KittingWorkstationType::printOwl(FILE * outFile)
   OwlPrinter::startIndi(Name, "KittingWorkstation", true, outFile);
   OwlPrinter::printLocations(Name, PrimaryLocation,
 			     SecondaryLocation, outFile);
-  OwlPrinter::printXmlNMTOKENProp("hasWorkstation_AngleUnit",
+  OwlPrinter::printXmlNMTOKENProp("hasKittingWorkstation_AngleUnit",
 				  Name, AngleUnit, outFile);
-  OwlPrinter::printXmlNMTOKENProp("hasWorkstation_LengthUnit",
+  OwlPrinter::printXmlNMTOKENProp("hasKittingWorkstation_LengthUnit",
 				  Name, LengthUnit, outFile);
-  OwlPrinter::printXmlNMTOKENProp("hasWorkstation_WeightUnit",
+  OwlPrinter::printXmlNMTOKENProp("hasKittingWorkstation_WeightUnit",
 				  Name, WeightUnit, outFile);
-  OwlPrinter::printObjProp("hasWorkstation_Robot", Name, Robot->Name, outFile);
-  OwlPrinter::printObjProp("hasWorkstation_ChangingStation", Name,
-			   ChangingStation->Name, outFile);
+  OwlPrinter::printObjProp("hasKittingWorkstation_Robot",
+			   Name, Robot->Name, outFile);
+  OwlPrinter::printObjProp("hasKittingWorkstation_ChangingStation",
+			   Name, ChangingStation->Name, outFile);
   for (designIter = KitDesign->begin();
        designIter != KitDesign->end(); designIter++)
     {
-      OwlPrinter::printObjProp("hasWorkstation_KitDesigns", Name,
-			       (*designIter)->Name, outFile);
+      OwlPrinter::printObjProp("hasWorkstation_KitDesign",
+			       Name, (*designIter)->Name, outFile);
     }
   for (skuIter = Sku->begin(); skuIter != Sku->end(); skuIter++)
     {
-      OwlPrinter::printObjProp("hasWorkstation_Skus", Name,
-			       (*skuIter)->Name, outFile);
+      OwlPrinter::printObjProp("hasKittingWorkstation_Sku",
+			       Name, (*skuIter)->Name, outFile);
     }
   OwlPrinter::endIndi("KittingWorkstation", outFile);
   Robot->printOwl(outFile);
@@ -1788,7 +1787,7 @@ void LargeBoxWithKitsType::printOwl(FILE * outFile)
 			   LargeContainer->Name, outFile);
   for (iter = Kit->begin(); iter != Kit->end(); iter++)
     {
-      OwlPrinter::printObjProp("hasLargeBoxWithKits_Kits", Name,
+      OwlPrinter::printObjProp("hasLargeBoxWithKits_Kit", Name,
 			       (*iter)->Name, outFile);
     }
   OwlPrinter::printObjRefProp("hasLargeBoxWithKits_KitDesign", Name,
@@ -2070,8 +2069,8 @@ void PartsBinType::printOwl(FILE * outFile)
   OwlPrinter::printLocations(Name, PrimaryLocation,
 					 SecondaryLocation, outFile);
   OwlPrinter::printShapes(InternalShape, ExternalShape, Name, outFile);
-  OwlPrinter::printObjRefProp("hasPartsTray_Sku", Name, SkuName, outFile);
-  OwlPrinter::printXmlNMTOKENProp("hasPartsTray_SerialNumber",
+  OwlPrinter::printObjRefProp("hasPartsBin_Sku", Name, SkuName, outFile);
+  OwlPrinter::printXmlNMTOKENProp("hasPartsBin_SerialNumber",
 				  Name, SerialNumber, outFile);
   OwlPrinter::printObjRefProp("hasPartsBin_PartSku", Name,
 				PartSkuName, outFile);
@@ -2176,12 +2175,12 @@ void PartsTrayWithPartsType::printOwl(FILE * outFile)
   OwlPrinter::printLocations(Name, PrimaryLocation,
 			     SecondaryLocation, outFile);
   OwlPrinter::printShapes(InternalShape, ExternalShape, Name, outFile);
-  OwlPrinter::printObjProp("hasPartsTrayWithParts_Tray", Name,
-			   PartsTray->Name, outFile);
+  OwlPrinter::printObjProp("hasPartsTrayWithParts_PartsTray",
+			   Name, PartsTray->Name, outFile);
   for (iter = Part->begin(); iter != Part->end(); iter++)
     {
-      OwlPrinter::printObjProp("hasPartsTrayWithParts_Parts", Name,
-			       (*iter)->Name, outFile);
+      OwlPrinter::printObjProp("hasPartsTrayWithParts_Part",
+			       Name, (*iter)->Name, outFile);
     }
   OwlPrinter::endIndi("PartsTrayWithParts", outFile);
   if (InternalShape)
@@ -2309,15 +2308,15 @@ void PoseLocationInType::printOwl(FILE * outFile)
 			   Name, XAxis->Name, outFile);
   OwlPrinter::printObjProp("hasPoseLocation_ZAxis",
 			   Name, ZAxis->Name, outFile);
-  Point->printOwl(outFile);
-  XAxis->printOwl(outFile);
-  ZAxis->printOwl(outFile);
   if (PositionStandardDeviation)
     OwlPrinter::printPosDecProp("hasPoseLocation_PositionStandardDeviation",
 				Name, PositionStandardDeviation, outFile);
   if (OrientationStandardDeviation)
     OwlPrinter::printPosDecProp("hasPoseLocation_OrientationStandardDeviation",
 				Name, OrientationStandardDeviation, outFile);
+  Point->printOwl(outFile);
+  XAxis->printOwl(outFile);
+  ZAxis->printOwl(outFile);
   individuals.insert(Name->val);
 }
 
@@ -2377,15 +2376,15 @@ void PoseLocationOnType::printOwl(FILE * outFile)
 			   Name, XAxis->Name, outFile);
   OwlPrinter::printObjProp("hasPoseLocation_ZAxis",
 			   Name, ZAxis->Name, outFile);
-  Point->printOwl(outFile);
-  XAxis->printOwl(outFile);
-  ZAxis->printOwl(outFile);
   if (PositionStandardDeviation)
     OwlPrinter::printPosDecProp("hasPoseLocation_PositionStandardDeviation",
 				Name, PositionStandardDeviation, outFile);
   if (OrientationStandardDeviation)
     OwlPrinter::printPosDecProp("hasPoseLocation_OrientationStandardDeviation",
 				Name, OrientationStandardDeviation, outFile);
+  Point->printOwl(outFile);
+  XAxis->printOwl(outFile);
+  ZAxis->printOwl(outFile);
   individuals.insert(Name->val);
 }
 
@@ -2477,15 +2476,15 @@ void PoseOnlyLocationType::printOwl(FILE * outFile)
 			   Name, XAxis->Name, outFile);
   OwlPrinter::printObjProp("hasPoseLocation_ZAxis",
 			   Name, ZAxis->Name, outFile);
-  Point->printOwl(outFile);
-  XAxis->printOwl(outFile);
-  ZAxis->printOwl(outFile);
   if (PositionStandardDeviation)
     OwlPrinter::printPosDecProp("hasPoseLocation_PositionStandardDeviation",
 				Name, PositionStandardDeviation, outFile);
   if (OrientationStandardDeviation)
     OwlPrinter::printPosDecProp("hasPoseLocation_OrientationStandardDeviation",
 				Name, OrientationStandardDeviation, outFile);
+  Point->printOwl(outFile);
+  XAxis->printOwl(outFile);
+  ZAxis->printOwl(outFile);
   individuals.insert(Name->val);
 }
 
@@ -2829,11 +2828,13 @@ void StockKeepingUnitType::printOwl(FILE * outFile)
   OwlPrinter::startIndi(Name, "StockKeepingUnit", true, outFile);
   OwlPrinter::printXmlStringProp("hasSku_Description",
 				 Name, Description, outFile);
-  OwlPrinter::printPosDecProp("hasSku_Weight", Name, Weight, outFile);
-  OwlPrinter::printObjProp("hasSku_Shape", Name, Shape->Name, outFile);
+  OwlPrinter::printPosDecProp("hasStockKeepingUnit_Weight",
+			      Name, Weight, outFile);
+  OwlPrinter::printObjProp("hasStockKeepingUnit_Shape",
+			   Name, Shape->Name, outFile);
   for (iter = EndEffectorName->begin(); iter != EndEffectorName->end(); iter++)
     {
-      OwlPrinter::printObjRefProp("hasSku_EndEffectors",
+      OwlPrinter::printObjRefProp("hasStockKeepingUnit_EndEffector",
 				  Name, *iter, outFile);
     }
   OwlPrinter::endIndi("StockKeepingUnit", outFile);
@@ -2893,15 +2894,15 @@ void VacuumEffectorMultiCupType::printOwl(FILE * outFile)
   OwlPrinter::printXmlStringProp("hasEndEffector_Description",
 				 Name, Description, outFile);
   OwlPrinter::printPosDecProp("hasEndEffector_Weight", Name, Weight, outFile);
-  OwlPrinter::printPosDecProp("hasEffector_MaximumLoadWeight", Name,
+  OwlPrinter::printPosDecProp("hasEndEffector_MaximumLoadWeight", Name,
 			      MaximumLoadWeight, outFile);
   OwlPrinter::printPosDecProp("hasVacuumEffector_CupDiameter", Name,
 			      CupDiameter, outFile);
   OwlPrinter::printPosDecProp("hasVacuumEffector_Length", Name,
 			      Length, outFile);
-  OwlPrinter::printXmlPosIntProp("hasMultiCup_ArrayNumber", Name,
+  OwlPrinter::printXmlPosIntProp("hasVacuumEffectorMultiCup_ArrayNumber", Name,
 				 ArrayNumber, outFile);
-  OwlPrinter::printPosDecProp("hasMultiCup_ArrayRadius", Name,
+  OwlPrinter::printPosDecProp("hasVacuumEffectorMultiCup_ArrayRadius", Name,
 			      ArrayRadius, outFile);
   OwlPrinter::endIndi("VacuumEffectorMultiCup", outFile);
   if (InternalShape)
@@ -2959,12 +2960,12 @@ void VacuumEffectorSingleCupType::printOwl(FILE * outFile)
   OwlPrinter::printXmlStringProp("hasEndEffector_Description",
 				 Name, Description, outFile);
   OwlPrinter::printPosDecProp("hasEndEffector_Weight", Name, Weight, outFile);
-  OwlPrinter::printPosDecProp("hasEffector_MaximumLoadWeight", Name,
-			      MaximumLoadWeight, outFile);
-  OwlPrinter::printPosDecProp("hasVacuumEffector_CupDiameter", Name,
-			      CupDiameter, outFile);
-  OwlPrinter::printPosDecProp("hasVacuumEffector_Length", Name,
-			      Length, outFile);
+  OwlPrinter::printPosDecProp("hasEndEffector_MaximumLoadWeight",
+			      Name, MaximumLoadWeight, outFile);
+  OwlPrinter::printPosDecProp("hasVacuumEffector_CupDiameter",
+			      Name, CupDiameter, outFile);
+  OwlPrinter::printPosDecProp("hasVacuumEffector_Length",
+			      Name, Length, outFile);
   OwlPrinter::endIndi("VacuumEffectorSingleCup", outFile);
   if (InternalShape)
     InternalShape->printOwl(outFile);
@@ -3127,7 +3128,7 @@ void WorkTableType::printOwl(FILE * outFile)
   OwlPrinter::printShapes(InternalShape, ExternalShape, Name, outFile);
   for (iter = SolidObject->begin(); iter != SolidObject->end(); iter++)
     {
-      OwlPrinter::printObjProp("hasWorkTable_SolidObjects", Name,
+      OwlPrinter::printObjProp("hasWorkTable_SolidObject", Name,
 			       (*iter)->Name, outFile);
     }
   OwlPrinter::endIndi("WorkTable", outFile);

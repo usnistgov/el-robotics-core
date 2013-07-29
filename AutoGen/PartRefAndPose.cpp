@@ -62,6 +62,9 @@ return hasPartRefAndPose_XAxis;
 std::vector<Slot*> PartRefAndPose::gethasSlot_PartRefAndPose(){
 return hasSlot_PartRefAndPose;
 }
+void PartRefAndPose::setPartRefAndPoseID(int _PartRefAndPoseID){
+this->PartRefAndPoseID= _PartRefAndPoseID;
+}
 void PartRefAndPose::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -98,7 +101,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PartRefAndPoseID;
 data["PartRefAndPoseID"]=ss.str();
@@ -121,6 +124,32 @@ data["hasSlot_PartRefAndPose"]=data["hasSlot_PartRefAndPose"]+" "+ss.str();
 dao  = new DAO("PartRefAndPose");
 dao->set(data);
 delete (dao);
+}
+void PartRefAndPose::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getDataThingID();
+data["PartRefAndPoseID"]=ss.str();
+if(hasPartRefAndPose_Sku!=NULL)
+data["hasPartRefAndPose_Sku"]=hasPartRefAndPose_Sku->getname();
+if(hasPartRefAndPose_ZAxis!=NULL)
+data["hasPartRefAndPose_ZAxis"]=hasPartRefAndPose_ZAxis->getname();
+if(hadByPartRefAndPose_KitDesign!=NULL)
+data["hadByPartRefAndPose_KitDesign"]=hadByPartRefAndPose_KitDesign->getname();
+if(hasPartRefAndPose_Point!=NULL)
+data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
+if(hasPartRefAndPose_XAxis!=NULL)
+data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
+dao  = new DAO("PartRefAndPose");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void PartRefAndPose::copy(std::map<std::string,std::string> object){delete(hasPartRefAndPose_Sku);

@@ -45,6 +45,9 @@ return hasStockKeepingUnit_Shape;
 void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
 this->hasShapeDesign_Description= _hasShapeDesign_Description;
 }
+void ShapeDesign::setShapeDesignID(int _ShapeDesignID){
+this->ShapeDesignID= _ShapeDesignID;
+}
 void ShapeDesign::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -69,8 +72,8 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["hasShapeDesign_Description"]=hasShapeDesign_Description;
-data["name"]=name;
+data["hasShapeDesign_Description"]="'" + hasShapeDesign_Description + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << ShapeDesignID;
 data["ShapeDesignID"]=ss.str();
@@ -81,6 +84,27 @@ data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
 dao  = new DAO("ShapeDesign");
 dao->set(data);
 delete (dao);
+}
+void ShapeDesign::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasShapeDesign_Description"]="'" + hasShapeDesign_Description+ "'";
+ss.str("");
+ss << temp0->getDataThingID();
+data["ShapeDesignID"]=ss.str();
+if(hadByGraspPose_ShapeDesign!=NULL)
+data["hadByGraspPose_ShapeDesign"]=hadByGraspPose_ShapeDesign->getname();
+if(hasStockKeepingUnit_Shape!=NULL)
+data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
+dao  = new DAO("ShapeDesign");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void ShapeDesign::copy(std::map<std::string,std::string> object){delete(hadByGraspPose_ShapeDesign);

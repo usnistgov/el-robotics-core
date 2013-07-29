@@ -39,6 +39,9 @@ this->hasVacuumEffectorMultiCup_ArrayRadius= _hasVacuumEffectorMultiCup_ArrayRad
 void VacuumEffectorMultiCup::sethasVacuumEffectorMultiCup_ArrayNumber(std::string _hasVacuumEffectorMultiCup_ArrayNumber){
 this->hasVacuumEffectorMultiCup_ArrayNumber= _hasVacuumEffectorMultiCup_ArrayNumber;
 }
+void VacuumEffectorMultiCup::setVacuumEffectorMultiCupID(int _VacuumEffectorMultiCupID){
+this->VacuumEffectorMultiCupID= _VacuumEffectorMultiCupID;
+}
 void VacuumEffectorMultiCup::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -70,14 +73,40 @@ temp2->set(name);
 ss.str("");
 ss << hasVacuumEffectorMultiCup_ArrayRadius;
 data["hasVacuumEffectorMultiCup_ArrayRadius"]=ss.str();
-data["hasVacuumEffectorMultiCup_ArrayNumber"]=hasVacuumEffectorMultiCup_ArrayNumber;
-data["name"]=name;
+data["hasVacuumEffectorMultiCup_ArrayNumber"]="'" + hasVacuumEffectorMultiCup_ArrayNumber + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << VacuumEffectorMultiCupID;
 data["VacuumEffectorMultiCupID"]=ss.str();
 dao  = new DAO("VacuumEffectorMultiCup");
 dao->set(data);
 delete (dao);
+}
+void VacuumEffectorMultiCup::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp2 = (SolidObject*) this;
+temp2->insert(name);
+temp2->get(name);
+EndEffector* temp1 = (EndEffector*) this;
+temp1->setEndEffectorID(temp2->getSolidObjectID());
+temp1->insert(name);
+VacuumEffector* temp0 = (VacuumEffector*) this;
+temp0->setVacuumEffectorID(temp2->getSolidObjectID());
+temp0->insert(name);
+ss.str("");
+ss << hasVacuumEffectorMultiCup_ArrayRadius;
+data["hasVacuumEffectorMultiCup_ArrayRadius"]=ss.str();
+data["hasVacuumEffectorMultiCup_ArrayNumber"]="'" + hasVacuumEffectorMultiCup_ArrayNumber+ "'";
+ss.str("");
+ss << temp2->getSolidObjectID();
+data["VacuumEffectorMultiCupID"]=ss.str();
+dao  = new DAO("VacuumEffectorMultiCup");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void VacuumEffectorMultiCup::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

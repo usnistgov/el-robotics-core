@@ -169,6 +169,7 @@ public class Types extends ClassGenerator {
 		pub = pub + "\n void get(std::string name);";
 		pub = pub + "\nvoid set(int id, " + className + "* obj);";
 		pub = pub + "\nvoid set(std::string name);";
+		pub = pub + "\nvoid insert(std::string name);";
 
 		if (classParentName == null)
 			pub = pub + "\nstd::string getname();";
@@ -181,8 +182,7 @@ public class Types extends ClassGenerator {
 				 */
 				pub = pub + "\n" + unit.get(i) + " get" + attributes.get(i)
 						+ "();";
-				if (!attributes.get(i).equals(className + "ID")
-						&& !attributes.get(i).equals("name"))
+				if (!attributes.get(i).equals("name"))
 					pub = pub + "\nvoid set" + attributes.get(i) + "("
 							+ unit.get(i) + " _" + attributes.get(i) + ");";
 			}
@@ -327,14 +327,13 @@ public class Types extends ClassGenerator {
 						+ attributes.get(i) + "(){\n";
 				get = get + "return " + attributes.get(i) + ";\n}\n";
 				// }
-				if (!attributes.get(i).equals(className + "ID")) {
-					set = set + "void " + className + "::set"
-							+ attributes.get(i) + "(" + unit.get(i) + " _"
-							+ attributes.get(i) + "){\n";
+				// if (!attributes.get(i).equals(className + "ID")) {
+				set = set + "void " + className + "::set" + attributes.get(i)
+						+ "(" + unit.get(i) + " _" + attributes.get(i) + "){\n";
 
-					set = set + "this->" + attributes.get(i) + "= _"
-							+ attributes.get(i) + ";\n}\n";
-				}
+				set = set + "this->" + attributes.get(i) + "= _"
+						+ attributes.get(i) + ";\n}\n";
+				// }
 			}
 		}
 		if (classParentName == null) {
@@ -379,7 +378,8 @@ public class Types extends ClassGenerator {
 					&& !unit.get(i).contains("std::vector"))
 				if (unit.get(i).equals("std::string"))
 					globalSet = globalSet + "data[\"" + attributes.get(i)
-							+ "\"]=" + attributes.get(i) + ";\n";
+							+ "\"]=\"'\" + " + attributes.get(i)
+							+ " + \"'\";\n";
 				else {
 					globalSet = globalSet + "ss.str(\"\");\n";
 					globalSet = globalSet + "ss << " + attributes.get(i)
@@ -446,6 +446,81 @@ public class Types extends ClassGenerator {
 		globalSet = globalSet + "dao  = new DAO(\"" + className + "\");\n";
 		globalSet = globalSet + "dao->set(data);\n";
 		globalSet = globalSet + "delete (dao);\n}\n";
+
+		String globalInsert = "void " + className
+				+ "::insert(std::string name){\n";
+		globalInsert = globalInsert
+				+ "std::map<std::string, std::string> data;\n";
+		globalInsert = globalInsert + "std::stringstream ss;\n";
+		globalInsert = globalInsert
+				+ "data[\"_Name\"]=\"'\" + name + \"'\";\n\n";
+
+		if (classParentName != null) {
+			String[] parents = getParent(className).split(" ");
+			for (int i = parents.length - 1; i >= 0; i--) {
+				globalInsert = globalInsert + parents[i] + "* temp" + i
+						+ " = (" + parents[i] + "*) this;\n";
+				if (i == parents.length - 1) {
+					globalInsert = globalInsert + "temp" + i
+							+ "->insert(name);\n";
+					globalInsert = globalInsert + "temp" + i + "->get(name);\n";
+				} else {
+					globalInsert = globalInsert + "temp" + i + "->set"
+							+ parents[i] + "ID(temp" + (parents.length - 1)
+							+ "->get" + parents[parents.length - 1]
+							+ "ID());\n";
+					globalInsert = globalInsert + "temp" + i
+							+ "->insert(name);\n";
+				}
+			}
+		}
+		for (int i = 0; i < attributes.size(); i++) {
+			// data property single
+			if (!unit.get(i).contains("*")
+					&& !unit.get(i).contains("std::vector"))
+				if (!attributes.get(i).equals(className + "ID")
+						&& !attributes.get(i).equals("name")) {
+					if (unit.get(i).equals("std::string"))
+						globalInsert = globalInsert + "data[\""
+								+ attributes.get(i) + "\"]=\"'\" + "
+								+ attributes.get(i) + "+ \"'\";\n";
+					else {
+						globalInsert = globalInsert + "ss.str(\"\");\n";
+						globalInsert = globalInsert + "ss << "
+								+ attributes.get(i) + ";\n";
+						globalInsert = globalInsert + "data[\""
+								+ attributes.get(i) + "\"]=ss.str();\n";
+
+					}
+				}
+			if (classParentName != null
+					&& attributes.get(i).equals(className + "ID")) {
+				String[] parents = getParent(className).split(" ");
+				globalInsert = globalInsert + "ss.str(\"\");\n";
+				globalInsert = globalInsert + "ss << temp"
+						+ (parents.length - 1) + "->get"
+						+ parents[parents.length - 1] + "ID();\n";
+				globalInsert = globalInsert + "data[\"" + attributes.get(i)
+						+ "\"]=ss.str();\n";
+
+			}
+
+			// object property single
+			if (unit.get(i).contains("*")
+					&& !unit.get(i).contains("std::vector")
+					&& !unit.get(i).equals("DAO*")) {
+				globalInsert = globalInsert + "if(" + attributes.get(i)
+						+ "!=NULL)\n";
+				globalInsert = globalInsert + "data[\"" + attributes.get(i)
+						+ "\"]=" + attributes.get(i) + "->getname();\n";
+			}
+		}
+
+		globalInsert = globalInsert + "dao  = new DAO(\"" + className
+				+ "\");\n";
+		globalInsert = globalInsert + "dao->insert(data);\n";
+		globalInsert = globalInsert + "delete (dao);\n";
+		globalInsert = globalInsert + "this->set(name);\n}\n";
 
 		String copy = "";
 		copy = copy + "\nvoid " + className
@@ -677,7 +752,8 @@ public class Types extends ClassGenerator {
 		explode = explode + "}\n";
 
 		result = result + include + constructor + paramConstruct + destructor
-				+ get + set + globalGet + globalSet + copy + explode;
+				+ get + set + globalGet + globalSet + globalInsert + copy
+				+ explode;
 		return result;
 	}
 }

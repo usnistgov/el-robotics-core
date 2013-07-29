@@ -45,6 +45,9 @@ this->hasCylindricalShape_HasTop= _hasCylindricalShape_HasTop;
 void CylindricalShape::sethasCylindricalShape_Diameter(double _hasCylindricalShape_Diameter){
 this->hasCylindricalShape_Diameter= _hasCylindricalShape_Diameter;
 }
+void CylindricalShape::setCylindricalShapeID(int _CylindricalShapeID){
+this->CylindricalShapeID= _CylindricalShapeID;
+}
 void CylindricalShape::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -82,13 +85,44 @@ data["hasCylindricalShape_HasTop"]=ss.str();
 ss.str("");
 ss << hasCylindricalShape_Diameter;
 data["hasCylindricalShape_Diameter"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << CylindricalShapeID;
 data["CylindricalShapeID"]=ss.str();
 dao  = new DAO("CylindricalShape");
 dao->set(data);
 delete (dao);
+}
+void CylindricalShape::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp2 = (DataThing*) this;
+temp2->insert(name);
+temp2->get(name);
+ShapeDesign* temp1 = (ShapeDesign*) this;
+temp1->setShapeDesignID(temp2->getDataThingID());
+temp1->insert(name);
+InternalShape* temp0 = (InternalShape*) this;
+temp0->setInternalShapeID(temp2->getDataThingID());
+temp0->insert(name);
+ss.str("");
+ss << hasCylindricalShape_Height;
+data["hasCylindricalShape_Height"]=ss.str();
+ss.str("");
+ss << hasCylindricalShape_HasTop;
+data["hasCylindricalShape_HasTop"]=ss.str();
+ss.str("");
+ss << hasCylindricalShape_Diameter;
+data["hasCylindricalShape_Diameter"]=ss.str();
+ss.str("");
+ss << temp2->getDataThingID();
+data["CylindricalShapeID"]=ss.str();
+dao  = new DAO("CylindricalShape");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void CylindricalShape::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

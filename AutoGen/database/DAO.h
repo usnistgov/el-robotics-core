@@ -22,6 +22,8 @@ software
 #include <map>
 #include <vector>
 #include <sstream>
+#include <typeinfo>
+
 #include "Connection.h"
 class DAO {
 private:
@@ -47,7 +49,10 @@ Connection* getconnection();
 void setconnection(Connection* _connection);
 	std::map<std::string, std::string> get(std::string name);
 void set(std::map<std::string,std::string> data);
+void insert(std::map<std::string,std::string> data);
 std::vector<std::string> Explode(const std::string & str, char separator);
+bool toAdd(std::string s);
+bool needQuote(std::string s);
 std::map<std::string, std::vector<std::string> > getAll(std::vector<std::string> attributesList, std::string table);
 }; 
 #endif /* DAO_H_ */

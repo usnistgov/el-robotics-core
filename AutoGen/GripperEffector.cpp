@@ -27,6 +27,9 @@ return GripperEffectorID;
 DAO* GripperEffector::getdao(){
 return dao;
 }
+void GripperEffector::setGripperEffectorID(int _GripperEffectorID){
+this->GripperEffectorID= _GripperEffectorID;
+}
 void GripperEffector::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -50,13 +53,32 @@ EndEffector* temp0 = (EndEffector*) this;
 temp0->set(name);
 SolidObject* temp1 = (SolidObject*) this;
 temp1->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << GripperEffectorID;
 data["GripperEffectorID"]=ss.str();
 dao  = new DAO("GripperEffector");
 dao->set(data);
 delete (dao);
+}
+void GripperEffector::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+EndEffector* temp0 = (EndEffector*) this;
+temp0->setEndEffectorID(temp1->getSolidObjectID());
+temp0->insert(name);
+ss.str("");
+ss << temp1->getSolidObjectID();
+data["GripperEffectorID"]=ss.str();
+dao  = new DAO("GripperEffector");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void GripperEffector::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

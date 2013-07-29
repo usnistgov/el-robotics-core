@@ -33,6 +33,9 @@ return dao;
 EndEffectorChangingStation* MechanicalComponent::gethasEndEffectorChangingStation_Base(){
 return hasEndEffectorChangingStation_Base;
 }
+void MechanicalComponent::setMechanicalComponentID(int _MechanicalComponentID){
+this->MechanicalComponentID= _MechanicalComponentID;
+}
 void MechanicalComponent::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -54,7 +57,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << MechanicalComponentID;
 data["MechanicalComponentID"]=ss.str();
@@ -63,6 +66,24 @@ data["hasEndEffectorChangingStation_Base"]=hasEndEffectorChangingStation_Base->g
 dao  = new DAO("MechanicalComponent");
 dao->set(data);
 delete (dao);
+}
+void MechanicalComponent::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["MechanicalComponentID"]=ss.str();
+if(hasEndEffectorChangingStation_Base!=NULL)
+data["hasEndEffectorChangingStation_Base"]=hasEndEffectorChangingStation_Base->getname();
+dao  = new DAO("MechanicalComponent");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void MechanicalComponent::copy(std::map<std::string,std::string> object){delete(hasEndEffectorChangingStation_Base);

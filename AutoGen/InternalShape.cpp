@@ -33,6 +33,9 @@ return dao;
 SolidObject* InternalShape::gethadByInternalShape_SolidObject(){
 return hadByInternalShape_SolidObject;
 }
+void InternalShape::setInternalShapeID(int _InternalShapeID){
+this->InternalShapeID= _InternalShapeID;
+}
 void InternalShape::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -59,7 +62,7 @@ ShapeDesign* temp0 = (ShapeDesign*) this;
 temp0->set(name);
 DataThing* temp1 = (DataThing*) this;
 temp1->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << InternalShapeID;
 data["InternalShapeID"]=ss.str();
@@ -68,6 +71,27 @@ data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname()
 dao  = new DAO("InternalShape");
 dao->set(data);
 delete (dao);
+}
+void InternalShape::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp1 = (DataThing*) this;
+temp1->insert(name);
+temp1->get(name);
+ShapeDesign* temp0 = (ShapeDesign*) this;
+temp0->setShapeDesignID(temp1->getDataThingID());
+temp0->insert(name);
+ss.str("");
+ss << temp1->getDataThingID();
+data["InternalShapeID"]=ss.str();
+if(hadByInternalShape_SolidObject!=NULL)
+data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname();
+dao  = new DAO("InternalShape");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void InternalShape::copy(std::map<std::string,std::string> object){delete(hadByInternalShape_SolidObject);

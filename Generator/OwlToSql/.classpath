@@ -4,10 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="owlapi-3.2.4/owlapi-bin.jar"/>
 	<classpathentry kind="lib" path="owlapi-3.2.4/owlapi-src.jar"/>
-	<classpathentry kind="lib" path="/home/pna1/workspace/OwlToSql/lib/poi-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="/home/pna1/workspace/OwlToSql/lib/poi-ooxml-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="/home/pna1/workspace/OwlToSql/lib/poi-ooxml-schemas-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="/home/pna1/workspace/OwlToSql/lib/dom4j-2.0.0-ALPHA-2.jar"/>
-	<classpathentry kind="lib" path="/home/pna1/workspace/OwlToSql/lib/xbean.jar"/>
+	<classpathentry kind="lib" path="HermiT/org.semanticweb.HermiT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

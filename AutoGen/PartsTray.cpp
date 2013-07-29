@@ -45,6 +45,9 @@ return hasPartsTrayWithParts_PartsTray;
 void PartsTray::sethasPartsTray_SerialNumber(std::string _hasPartsTray_SerialNumber){
 this->hasPartsTray_SerialNumber= _hasPartsTray_SerialNumber;
 }
+void PartsTray::setPartsTrayID(int _PartsTrayID){
+this->PartsTrayID= _PartsTrayID;
+}
 void PartsTray::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -69,8 +72,8 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasPartsTray_SerialNumber"]=hasPartsTray_SerialNumber;
-data["name"]=name;
+data["hasPartsTray_SerialNumber"]="'" + hasPartsTray_SerialNumber + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PartsTrayID;
 data["PartsTrayID"]=ss.str();
@@ -81,6 +84,27 @@ data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname
 dao  = new DAO("PartsTray");
 dao->set(data);
 delete (dao);
+}
+void PartsTray::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasPartsTray_SerialNumber"]="'" + hasPartsTray_SerialNumber+ "'";
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["PartsTrayID"]=ss.str();
+if(hasPartsTray_Sku!=NULL)
+data["hasPartsTray_Sku"]=hasPartsTray_Sku->getname();
+if(hasPartsTrayWithParts_PartsTray!=NULL)
+data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname();
+dao  = new DAO("PartsTray");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void PartsTray::copy(std::map<std::string,std::string> object){delete(hasPartsTray_Sku);

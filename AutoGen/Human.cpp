@@ -27,6 +27,9 @@ return HumanID;
 DAO* Human::getdao(){
 return dao;
 }
+void Human::setHumanID(int _HumanID){
+this->HumanID= _HumanID;
+}
 void Human::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -45,13 +48,29 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << HumanID;
 data["HumanID"]=ss.str();
 dao  = new DAO("Human");
 dao->set(data);
 delete (dao);
+}
+void Human::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["HumanID"]=ss.str();
+dao  = new DAO("Human");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Human::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

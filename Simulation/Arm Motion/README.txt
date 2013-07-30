@@ -1,10 +1,17 @@
-This directory contains data from arm motion attempts that utilized the ROS
-Fourte arm motion stack.Histogram.png and datafile1.dat contain random motion
-attempts with the default settings on the arm wizzard.
-Histogram2 and datafile2.dat contain data from the arm wizzard using the most complex solutions.
-randCommand.txt is the canonical command file used to generate both datasets.
-genPts.py is the python file that generated randCommand.txt
+This directory contains data from arm motion tests that utilized the ROS Fuerte arm motion stack.
 
-to recollect the data from the simulator, modifications to rosInf.cpp need to be made--uncomment the marked sections of code 
-in navigationDoneCallback, and comment out the exit command.
-The global position frame needs to be changed to /base_link instead of /odom (the call to nextGoal.setGlobalFrame() in addArmGoal) .
+The test1 directory contains data and plots from an attempt to find the effectiveness of using repeated IK requests to improve IK success rates, and a comparison of success rates using different arm wizard settings.
+The test2 directory contains data and plots from a comparison of the success rates of two different IK solver plugins (the ROS default KDL plugin and openrave IKFast plugin). The test also compared different several different versions of the KR60 URDF within the KDL plugin.
+The CRCL files used in each test are included in the test directories.
+
+To run these tests:
+
+-Set the LOG_FAILURES flag in rosCanonicalController/include/rosInf.hh to 1
+-If desired, adjust MAX_NAVIGATION_FAILURES (also defined in rosInf.hh). This will only have an effect if the KDL plugin is used
+-Rebuild the rosCanonicalController
+-Run ExampleMap.bat on windows, and launch the robot with desired IK solver configuration
+-Then run:
+$ ./genPts.py [to generate a new random command file]
+$ rosrun rosCanonicalController rosCanonicalController randCommand.txt
+
+data will be written to "datfile", in whichever directory the controller is run from.

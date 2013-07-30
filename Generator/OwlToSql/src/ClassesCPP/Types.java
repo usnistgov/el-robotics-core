@@ -414,8 +414,9 @@ public class Types extends ClassGenerator {
 					&& !unit.get(i).contains("std::vector")
 					&& !unit.get(i).equals("DAO*")) {
 				globalSet = globalSet + "if(" + attributes.get(i) + "!=NULL)\n";
-				globalSet = globalSet + "data[\"" + attributes.get(i) + "\"]="
-						+ attributes.get(i) + "->getname();\n";
+				globalSet = globalSet + "data[\"" + attributes.get(i) + "\"]=\"'\" +"
+						+ attributes.get(i) + "->getname() + \"'\";\n";
+				globalSet = globalSet + "else \n data[\"" + attributes.get(i) + "\"]=\"null\";\n";
 			}
 			// object property multi
 			if (unit.get(i).contains("*")
@@ -512,7 +513,7 @@ public class Types extends ClassGenerator {
 				globalInsert = globalInsert + "if(" + attributes.get(i)
 						+ "!=NULL)\n";
 				globalInsert = globalInsert + "data[\"" + attributes.get(i)
-						+ "\"]=" + attributes.get(i) + "->getname();\n";
+						+ "\"]=\"'\" + " + attributes.get(i) + "->getname() + \"'\";\n";
 			}
 		}
 
@@ -533,16 +534,18 @@ public class Types extends ClassGenerator {
 					copy = copy + "delete(" + attributes.get(i) + ");\n";
 					copy = copy + attributes.get(i) + "=NULL;\n";
 				}
-			}
-		}
 
-		for (int i = 0; i < unit.size(); i++) {
-			if (unit.get(i).contains("*")
+			} else if (unit.get(i).contains("*")
 					&& unit.get(i).contains("std::vector")) {
 				copy = copy + "for(std::size_t i = 0; i < " + attributes.get(i)
 						+ ".size(); i++){\n";
 				copy = copy + "delete(" + attributes.get(i) + "[i]);\n";
 				copy = copy + attributes.get(i) + "[i]=NULL;}\n";
+				copy = copy + attributes.get(i) + ".clear();\n";
+			}
+			else if (!unit.get(i).contains("*")
+					&& unit.get(i).contains("std::vector")) {
+				copy = copy + attributes.get(i) + ".clear();\n";
 			}
 		}
 

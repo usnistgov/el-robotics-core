@@ -81,6 +81,9 @@ this->hasKittingWorkstation_WeightUnit= _hasKittingWorkstation_WeightUnit;
 void KittingWorkstation::sethasKittingWorkstation_AngleUnit(std::string _hasKittingWorkstation_AngleUnit){
 this->hasKittingWorkstation_AngleUnit= _hasKittingWorkstation_AngleUnit;
 }
+void KittingWorkstation::setKittingWorkstationID(int _KittingWorkstationID){
+this->KittingWorkstationID= _KittingWorkstationID;
+}
 void KittingWorkstation::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -117,10 +120,10 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasKittingWorkstation_LengthUnit"]=hasKittingWorkstation_LengthUnit;
-data["hasKittingWorkstation_WeightUnit"]=hasKittingWorkstation_WeightUnit;
-data["hasKittingWorkstation_AngleUnit"]=hasKittingWorkstation_AngleUnit;
-data["name"]=name;
+data["hasKittingWorkstation_LengthUnit"]="'" + hasKittingWorkstation_LengthUnit + "'";
+data["hasKittingWorkstation_WeightUnit"]="'" + hasKittingWorkstation_WeightUnit + "'";
+data["hasKittingWorkstation_AngleUnit"]="'" + hasKittingWorkstation_AngleUnit + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << KittingWorkstationID;
 data["KittingWorkstationID"]=ss.str();
@@ -155,6 +158,29 @@ data["hadByObject_KittingWorkstation"]=data["hadByObject_KittingWorkstation"]+" 
 dao  = new DAO("KittingWorkstation");
 dao->set(data);
 delete (dao);
+}
+void KittingWorkstation::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasKittingWorkstation_LengthUnit"]="'" + hasKittingWorkstation_LengthUnit+ "'";
+data["hasKittingWorkstation_WeightUnit"]="'" + hasKittingWorkstation_WeightUnit+ "'";
+data["hasKittingWorkstation_AngleUnit"]="'" + hasKittingWorkstation_AngleUnit+ "'";
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["KittingWorkstationID"]=ss.str();
+if(hasKittingWorkstation_ChangingStation!=NULL)
+data["hasKittingWorkstation_ChangingStation"]=hasKittingWorkstation_ChangingStation->getname();
+if(hasKittingWorkstation_Robot!=NULL)
+data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
+dao  = new DAO("KittingWorkstation");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void KittingWorkstation::copy(std::map<std::string,std::string> object){delete(hasKittingWorkstation_ChangingStation);

@@ -39,6 +39,9 @@ this->hasVacuumEffector_CupDiameter= _hasVacuumEffector_CupDiameter;
 void VacuumEffector::sethasVacuumEffector_Length(double _hasVacuumEffector_Length){
 this->hasVacuumEffector_Length= _hasVacuumEffector_Length;
 }
+void VacuumEffector::setVacuumEffectorID(int _VacuumEffectorID){
+this->VacuumEffectorID= _VacuumEffectorID;
+}
 void VacuumEffector::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -68,13 +71,38 @@ data["hasVacuumEffector_CupDiameter"]=ss.str();
 ss.str("");
 ss << hasVacuumEffector_Length;
 data["hasVacuumEffector_Length"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << VacuumEffectorID;
 data["VacuumEffectorID"]=ss.str();
 dao  = new DAO("VacuumEffector");
 dao->set(data);
 delete (dao);
+}
+void VacuumEffector::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+EndEffector* temp0 = (EndEffector*) this;
+temp0->setEndEffectorID(temp1->getSolidObjectID());
+temp0->insert(name);
+ss.str("");
+ss << hasVacuumEffector_CupDiameter;
+data["hasVacuumEffector_CupDiameter"]=ss.str();
+ss.str("");
+ss << hasVacuumEffector_Length;
+data["hasVacuumEffector_Length"]=ss.str();
+ss.str("");
+ss << temp1->getSolidObjectID();
+data["VacuumEffectorID"]=ss.str();
+dao  = new DAO("VacuumEffector");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void VacuumEffector::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

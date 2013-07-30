@@ -51,6 +51,9 @@ return hadByKitTray_LargeBoxWithEmptyKitTrays;
 void KitTray::sethasKitTray_SerialNumber(std::string _hasKitTray_SerialNumber){
 this->hasKitTray_SerialNumber= _hasKitTray_SerialNumber;
 }
+void KitTray::setKitTrayID(int _KitTrayID){
+this->KitTrayID= _KitTrayID;
+}
 void KitTray::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -78,8 +81,8 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasKitTray_SerialNumber"]=hasKitTray_SerialNumber;
-data["name"]=name;
+data["hasKitTray_SerialNumber"]="'" + hasKitTray_SerialNumber + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << KitTrayID;
 data["KitTrayID"]=ss.str();
@@ -92,6 +95,29 @@ data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=hadByKitTray_LargeBoxWithEmptyKit
 dao  = new DAO("KitTray");
 dao->set(data);
 delete (dao);
+}
+void KitTray::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasKitTray_SerialNumber"]="'" + hasKitTray_SerialNumber+ "'";
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["KitTrayID"]=ss.str();
+if(hasKitTray_Sku!=NULL)
+data["hasKitTray_Sku"]=hasKitTray_Sku->getname();
+if(hasKit_KitTray!=NULL)
+data["hasKit_KitTray"]=hasKit_KitTray->getname();
+if(hadByKitTray_LargeBoxWithEmptyKitTrays!=NULL)
+data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=hadByKitTray_LargeBoxWithEmptyKitTrays->getname();
+dao  = new DAO("KitTray");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void KitTray::copy(std::map<std::string,std::string> object){delete(hasKitTray_Sku);

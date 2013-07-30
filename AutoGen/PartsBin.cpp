@@ -50,6 +50,9 @@ this->hasPartsBin_PartQuantity= _hasPartsBin_PartQuantity;
 void PartsBin::sethasPartsBin_SerialNumber(std::string _hasPartsBin_SerialNumber){
 this->hasPartsBin_SerialNumber= _hasPartsBin_SerialNumber;
 }
+void PartsBin::setPartsBinID(int _PartsBinID){
+this->PartsBinID= _PartsBinID;
+}
 void PartsBin::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -74,9 +77,9 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasPartsBin_PartQuantity"]=hasPartsBin_PartQuantity;
-data["hasPartsBin_SerialNumber"]=hasPartsBin_SerialNumber;
-data["name"]=name;
+data["hasPartsBin_PartQuantity"]="'" + hasPartsBin_PartQuantity + "'";
+data["hasPartsBin_SerialNumber"]="'" + hasPartsBin_SerialNumber + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PartsBinID;
 data["PartsBinID"]=ss.str();
@@ -87,6 +90,28 @@ data["hasPartsBin_PartSku"]=hasPartsBin_PartSku->getname();
 dao  = new DAO("PartsBin");
 dao->set(data);
 delete (dao);
+}
+void PartsBin::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasPartsBin_PartQuantity"]="'" + hasPartsBin_PartQuantity+ "'";
+data["hasPartsBin_SerialNumber"]="'" + hasPartsBin_SerialNumber+ "'";
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["PartsBinID"]=ss.str();
+if(hasPartsBin_Sku!=NULL)
+data["hasPartsBin_Sku"]=hasPartsBin_Sku->getname();
+if(hasPartsBin_PartSku!=NULL)
+data["hasPartsBin_PartSku"]=hasPartsBin_PartSku->getname();
+dao  = new DAO("PartsBin");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void PartsBin::copy(std::map<std::string,std::string> object){delete(hasPartsBin_Sku);

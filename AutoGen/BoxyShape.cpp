@@ -51,6 +51,9 @@ this->hasBoxyShape_Length= _hasBoxyShape_Length;
 void BoxyShape::sethasBoxyShape_HasTop(bool _hasBoxyShape_HasTop){
 this->hasBoxyShape_HasTop= _hasBoxyShape_HasTop;
 }
+void BoxyShape::setBoxyShapeID(int _BoxyShapeID){
+this->BoxyShapeID= _BoxyShapeID;
+}
 void BoxyShape::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -91,13 +94,47 @@ data["hasBoxyShape_Length"]=ss.str();
 ss.str("");
 ss << hasBoxyShape_HasTop;
 data["hasBoxyShape_HasTop"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << BoxyShapeID;
 data["BoxyShapeID"]=ss.str();
 dao  = new DAO("BoxyShape");
 dao->set(data);
 delete (dao);
+}
+void BoxyShape::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp2 = (DataThing*) this;
+temp2->insert(name);
+temp2->get(name);
+ShapeDesign* temp1 = (ShapeDesign*) this;
+temp1->setShapeDesignID(temp2->getDataThingID());
+temp1->insert(name);
+InternalShape* temp0 = (InternalShape*) this;
+temp0->setInternalShapeID(temp2->getDataThingID());
+temp0->insert(name);
+ss.str("");
+ss << hasBoxyShape_Width;
+data["hasBoxyShape_Width"]=ss.str();
+ss.str("");
+ss << hasBoxyShape_Height;
+data["hasBoxyShape_Height"]=ss.str();
+ss.str("");
+ss << hasBoxyShape_Length;
+data["hasBoxyShape_Length"]=ss.str();
+ss.str("");
+ss << hasBoxyShape_HasTop;
+data["hasBoxyShape_HasTop"]=ss.str();
+ss.str("");
+ss << temp2->getDataThingID();
+data["BoxyShapeID"]=ss.str();
+dao  = new DAO("BoxyShape");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void BoxyShape::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

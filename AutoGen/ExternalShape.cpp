@@ -51,6 +51,9 @@ this->hasExternalShape_ModelName= _hasExternalShape_ModelName;
 void ExternalShape::sethasExternalShape_ModelFileName(std::string _hasExternalShape_ModelFileName){
 this->hasExternalShape_ModelFileName= _hasExternalShape_ModelFileName;
 }
+void ExternalShape::setExternalShapeID(int _ExternalShapeID){
+this->ExternalShapeID= _ExternalShapeID;
+}
 void ExternalShape::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -77,10 +80,10 @@ ShapeDesign* temp0 = (ShapeDesign*) this;
 temp0->set(name);
 DataThing* temp1 = (DataThing*) this;
 temp1->set(name);
-data["hasExternalShape_ModelTypeName"]=hasExternalShape_ModelTypeName;
-data["hasExternalShape_ModelName"]=hasExternalShape_ModelName;
-data["hasExternalShape_ModelFileName"]=hasExternalShape_ModelFileName;
-data["name"]=name;
+data["hasExternalShape_ModelTypeName"]="'" + hasExternalShape_ModelTypeName + "'";
+data["hasExternalShape_ModelName"]="'" + hasExternalShape_ModelName + "'";
+data["hasExternalShape_ModelFileName"]="'" + hasExternalShape_ModelFileName + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << ExternalShapeID;
 data["ExternalShapeID"]=ss.str();
@@ -89,6 +92,30 @@ data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname()
 dao  = new DAO("ExternalShape");
 dao->set(data);
 delete (dao);
+}
+void ExternalShape::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp1 = (DataThing*) this;
+temp1->insert(name);
+temp1->get(name);
+ShapeDesign* temp0 = (ShapeDesign*) this;
+temp0->setShapeDesignID(temp1->getDataThingID());
+temp0->insert(name);
+data["hasExternalShape_ModelTypeName"]="'" + hasExternalShape_ModelTypeName+ "'";
+data["hasExternalShape_ModelName"]="'" + hasExternalShape_ModelName+ "'";
+data["hasExternalShape_ModelFileName"]="'" + hasExternalShape_ModelFileName+ "'";
+ss.str("");
+ss << temp1->getDataThingID();
+data["ExternalShapeID"]=ss.str();
+if(hadByExternalShape_SolidObject!=NULL)
+data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname();
+dao  = new DAO("ExternalShape");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void ExternalShape::copy(std::map<std::string,std::string> object){delete(hadByExternalShape_SolidObject);

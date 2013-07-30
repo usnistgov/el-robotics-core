@@ -68,6 +68,9 @@ this->hasPoint_Y= _hasPoint_Y;
 void Point::sethasPoint_Z(double _hasPoint_Z){
 this->hasPoint_Z= _hasPoint_Z;
 }
+void Point::setPointID(int _PointID){
+this->PointID= _PointID;
+}
 void Point::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -107,7 +110,7 @@ data["hasPoint_Y"]=ss.str();
 ss.str("");
 ss << hasPoint_Z;
 data["hasPoint_Z"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PointID;
 data["PointID"]=ss.str();
@@ -122,6 +125,39 @@ data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
 dao  = new DAO("Point");
 dao->set(data);
 delete (dao);
+}
+void Point::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << hasPoint_X;
+data["hasPoint_X"]=ss.str();
+ss.str("");
+ss << hasPoint_Y;
+data["hasPoint_Y"]=ss.str();
+ss.str("");
+ss << hasPoint_Z;
+data["hasPoint_Z"]=ss.str();
+ss.str("");
+ss << temp0->getDataThingID();
+data["PointID"]=ss.str();
+if(hasBoxVolume_MaximumPoint!=NULL)
+data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+if(hasBoxVolume_MinimumPoint!=NULL)
+data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
+if(hasPoseLocation_Point!=NULL)
+data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
+if(hasPartRefAndPose_Point!=NULL)
+data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
+dao  = new DAO("Point");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Point::copy(std::map<std::string,std::string> object){delete(hasBoxVolume_MaximumPoint);

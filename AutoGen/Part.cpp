@@ -57,6 +57,9 @@ return hasSlot_Part;
 void Part::sethasPart_SerialNumber(std::string _hasPart_SerialNumber){
 this->hasPart_SerialNumber= _hasPart_SerialNumber;
 }
+void Part::setPartID(int _PartID){
+this->PartID= _PartID;
+}
 void Part::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -87,8 +90,8 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasPart_SerialNumber"]=hasPart_SerialNumber;
-data["name"]=name;
+data["hasPart_SerialNumber"]="'" + hasPart_SerialNumber + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PartID;
 data["PartID"]=ss.str();
@@ -107,6 +110,29 @@ data["hasSlot_Part"]=data["hasSlot_Part"]+" "+ss.str();
 dao  = new DAO("Part");
 dao->set(data);
 delete (dao);
+}
+void Part::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasPart_SerialNumber"]="'" + hasPart_SerialNumber+ "'";
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["PartID"]=ss.str();
+if(hadByPart_Kit!=NULL)
+data["hadByPart_Kit"]=hadByPart_Kit->getname();
+if(hadByPart_PartsTrayWithParts!=NULL)
+data["hadByPart_PartsTrayWithParts"]=hadByPart_PartsTrayWithParts->getname();
+if(hasPart_Sku!=NULL)
+data["hasPart_Sku"]=hasPart_Sku->getname();
+dao  = new DAO("Part");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Part::copy(std::map<std::string,std::string> object){delete(hadByPart_Kit);

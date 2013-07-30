@@ -76,6 +76,9 @@ return hasPhysicalLocation_RefObject;
 std::string SolidObject::getname(){
 return name;
 }
+void SolidObject::setSolidObjectID(int _SolidObjectID){
+this->SolidObjectID= _SolidObjectID;
+}
 void SolidObject::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -113,7 +116,7 @@ copy(temp);
  void SolidObject::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << SolidObjectID;
 data["SolidObjectID"]=ss.str();
@@ -144,6 +147,28 @@ data["hasPhysicalLocation_RefObject"]=data["hasPhysicalLocation_RefObject"]+" "+
 dao  = new DAO("SolidObject");
 dao->set(data);
 delete (dao);
+}
+void SolidObject::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+if(hadByObject_KittingWorkstation!=NULL)
+data["hadByObject_KittingWorkstation"]=hadByObject_KittingWorkstation->getname();
+if(hadByInternalShape_SolidObject!=NULL)
+data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname();
+if(hasSolidObject_PrimaryLocation!=NULL)
+data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+if(hadBySolidObject_WorkTable!=NULL)
+data["hadBySolidObject_WorkTable"]=hadBySolidObject_WorkTable->getname();
+if(hadByExternalShape_SolidObject!=NULL)
+data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname();
+if(hasEndEffector_HeldObject!=NULL)
+data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
+dao  = new DAO("SolidObject");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void SolidObject::copy(std::map<std::string,std::string> object){delete(hadByObject_KittingWorkstation);

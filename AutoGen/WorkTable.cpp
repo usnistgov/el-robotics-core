@@ -33,6 +33,9 @@ return dao;
 std::vector<SolidObject*> WorkTable::gethadBySolidObject_WorkTable(){
 return hadBySolidObject_WorkTable;
 }
+void WorkTable::setWorkTableID(int _WorkTableID){
+this->WorkTableID= _WorkTableID;
+}
 void WorkTable::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -54,7 +57,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << WorkTableID;
 data["WorkTableID"]=ss.str();
@@ -67,6 +70,22 @@ data["hadBySolidObject_WorkTable"]=data["hadBySolidObject_WorkTable"]+" "+ss.str
 dao  = new DAO("WorkTable");
 dao->set(data);
 delete (dao);
+}
+void WorkTable::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["WorkTableID"]=ss.str();
+dao  = new DAO("WorkTable");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void WorkTable::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++){

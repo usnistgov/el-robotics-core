@@ -27,6 +27,9 @@ return PoseOnlyLocationID;
 DAO* PoseOnlyLocation::getdao(){
 return dao;
 }
+void PoseOnlyLocation::setPoseOnlyLocationID(int _PoseOnlyLocationID){
+this->PoseOnlyLocationID= _PoseOnlyLocationID;
+}
 void PoseOnlyLocation::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -55,13 +58,35 @@ PhysicalLocation* temp1 = (PhysicalLocation*) this;
 temp1->set(name);
 DataThing* temp2 = (DataThing*) this;
 temp2->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PoseOnlyLocationID;
 data["PoseOnlyLocationID"]=ss.str();
 dao  = new DAO("PoseOnlyLocation");
 dao->set(data);
 delete (dao);
+}
+void PoseOnlyLocation::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp2 = (DataThing*) this;
+temp2->insert(name);
+temp2->get(name);
+PhysicalLocation* temp1 = (PhysicalLocation*) this;
+temp1->setPhysicalLocationID(temp2->getDataThingID());
+temp1->insert(name);
+PoseLocation* temp0 = (PoseLocation*) this;
+temp0->setPoseLocationID(temp2->getDataThingID());
+temp0->insert(name);
+ss.str("");
+ss << temp2->getDataThingID();
+data["PoseOnlyLocationID"]=ss.str();
+dao  = new DAO("PoseOnlyLocation");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void PoseOnlyLocation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

@@ -62,6 +62,9 @@ this->hasPoseLocation_OrientationStandardDeviation= _hasPoseLocation_Orientation
 void PoseLocation::sethasPoseLocation_PositionStandardDeviation(double _hasPoseLocation_PositionStandardDeviation){
 this->hasPoseLocation_PositionStandardDeviation= _hasPoseLocation_PositionStandardDeviation;
 }
+void PoseLocation::setPoseLocationID(int _PoseLocationID){
+this->PoseLocationID= _PoseLocationID;
+}
 void PoseLocation::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -103,7 +106,7 @@ data["hasPoseLocation_OrientationStandardDeviation"]=ss.str();
 ss.str("");
 ss << hasPoseLocation_PositionStandardDeviation;
 data["hasPoseLocation_PositionStandardDeviation"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PoseLocationID;
 data["PoseLocationID"]=ss.str();
@@ -118,6 +121,39 @@ data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
 dao  = new DAO("PoseLocation");
 dao->set(data);
 delete (dao);
+}
+void PoseLocation::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp1 = (DataThing*) this;
+temp1->insert(name);
+temp1->get(name);
+PhysicalLocation* temp0 = (PhysicalLocation*) this;
+temp0->setPhysicalLocationID(temp1->getDataThingID());
+temp0->insert(name);
+ss.str("");
+ss << hasPoseLocation_OrientationStandardDeviation;
+data["hasPoseLocation_OrientationStandardDeviation"]=ss.str();
+ss.str("");
+ss << hasPoseLocation_PositionStandardDeviation;
+data["hasPoseLocation_PositionStandardDeviation"]=ss.str();
+ss.str("");
+ss << temp1->getDataThingID();
+data["PoseLocationID"]=ss.str();
+if(hadByGraspPose_ShapeDesign!=NULL)
+data["hadByGraspPose_ShapeDesign"]=hadByGraspPose_ShapeDesign->getname();
+if(hasPoseLocation_XAxis!=NULL)
+data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+if(hasPoseLocation_ZAxis!=NULL)
+data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
+if(hasPoseLocation_Point!=NULL)
+data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
+dao  = new DAO("PoseLocation");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void PoseLocation::copy(std::map<std::string,std::string> object){delete(hadByGraspPose_ShapeDesign);

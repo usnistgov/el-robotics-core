@@ -33,6 +33,9 @@ return dao;
 void RelativeLocation::sethasRelativeLocation_Description(std::string _hasRelativeLocation_Description){
 this->hasRelativeLocation_Description= _hasRelativeLocation_Description;
 }
+void RelativeLocation::setRelativeLocationID(int _RelativeLocationID){
+this->RelativeLocationID= _RelativeLocationID;
+}
 void RelativeLocation::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -56,14 +59,34 @@ PhysicalLocation* temp0 = (PhysicalLocation*) this;
 temp0->set(name);
 DataThing* temp1 = (DataThing*) this;
 temp1->set(name);
-data["hasRelativeLocation_Description"]=hasRelativeLocation_Description;
-data["name"]=name;
+data["hasRelativeLocation_Description"]="'" + hasRelativeLocation_Description + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << RelativeLocationID;
 data["RelativeLocationID"]=ss.str();
 dao  = new DAO("RelativeLocation");
 dao->set(data);
 delete (dao);
+}
+void RelativeLocation::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp1 = (DataThing*) this;
+temp1->insert(name);
+temp1->get(name);
+PhysicalLocation* temp0 = (PhysicalLocation*) this;
+temp0->setPhysicalLocationID(temp1->getDataThingID());
+temp0->insert(name);
+data["hasRelativeLocation_Description"]="'" + hasRelativeLocation_Description+ "'";
+ss.str("");
+ss << temp1->getDataThingID();
+data["RelativeLocationID"]=ss.str();
+dao  = new DAO("RelativeLocation");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void RelativeLocation::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

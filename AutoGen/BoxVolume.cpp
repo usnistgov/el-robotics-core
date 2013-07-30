@@ -50,6 +50,9 @@ return hasBoxVolume_MaximumPoint;
 Point* BoxVolume::gethasBoxVolume_MinimumPoint(){
 return hasBoxVolume_MinimumPoint;
 }
+void BoxVolume::setBoxVolumeID(int _BoxVolumeID){
+this->BoxVolumeID= _BoxVolumeID;
+}
 void BoxVolume::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -80,7 +83,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << BoxVolumeID;
 data["BoxVolumeID"]=ss.str();
@@ -95,6 +98,30 @@ data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
 dao  = new DAO("BoxVolume");
 dao->set(data);
 delete (dao);
+}
+void BoxVolume::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getDataThingID();
+data["BoxVolumeID"]=ss.str();
+if(hadByOtherObstacle_KittingWorkstation!=NULL)
+data["hadByOtherObstacle_KittingWorkstation"]=hadByOtherObstacle_KittingWorkstation->getname();
+if(hadByWorkVolume_Robot!=NULL)
+data["hadByWorkVolume_Robot"]=hadByWorkVolume_Robot->getname();
+if(hasBoxVolume_MaximumPoint!=NULL)
+data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+if(hasBoxVolume_MinimumPoint!=NULL)
+data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
+dao  = new DAO("BoxVolume");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void BoxVolume::copy(std::map<std::string,std::string> object){delete(hadByOtherObstacle_KittingWorkstation);

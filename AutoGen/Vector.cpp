@@ -67,6 +67,9 @@ this->hasVector_J= _hasVector_J;
 void Vector::sethasVector_I(double _hasVector_I){
 this->hasVector_I= _hasVector_I;
 }
+void Vector::setVectorID(int _VectorID){
+this->VectorID= _VectorID;
+}
 void Vector::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -106,7 +109,7 @@ data["hasVector_J"]=ss.str();
 ss.str("");
 ss << hasVector_I;
 data["hasVector_I"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << VectorID;
 data["VectorID"]=ss.str();
@@ -121,6 +124,39 @@ data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
 dao  = new DAO("Vector");
 dao->set(data);
 delete (dao);
+}
+void Vector::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << hasVector_K;
+data["hasVector_K"]=ss.str();
+ss.str("");
+ss << hasVector_J;
+data["hasVector_J"]=ss.str();
+ss.str("");
+ss << hasVector_I;
+data["hasVector_I"]=ss.str();
+ss.str("");
+ss << temp0->getDataThingID();
+data["VectorID"]=ss.str();
+if(hasPoseLocation_XAxis!=NULL)
+data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+if(hasPoseLocation_ZAxis!=NULL)
+data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
+if(hasPartRefAndPose_ZAxis!=NULL)
+data["hasPartRefAndPose_ZAxis"]=hasPartRefAndPose_ZAxis->getname();
+if(hasPartRefAndPose_XAxis!=NULL)
+data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
+dao  = new DAO("Vector");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Vector::copy(std::map<std::string,std::string> object){delete(hasPoseLocation_XAxis);

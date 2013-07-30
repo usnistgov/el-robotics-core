@@ -49,6 +49,7 @@ KittingWorkstation(std::string name);
  void get(std::string name);
 void set(int id, KittingWorkstation* obj);
 void set(std::string name);
+void insert(std::string name);
 std::string gethasKittingWorkstation_LengthUnit();
 void sethasKittingWorkstation_LengthUnit(std::string _hasKittingWorkstation_LengthUnit);
 std::string gethasKittingWorkstation_WeightUnit();
@@ -56,6 +57,7 @@ void sethasKittingWorkstation_WeightUnit(std::string _hasKittingWorkstation_Weig
 std::string gethasKittingWorkstation_AngleUnit();
 void sethasKittingWorkstation_AngleUnit(std::string _hasKittingWorkstation_AngleUnit);
 int getKittingWorkstationID();
+void setKittingWorkstationID(int _KittingWorkstationID);
 DAO* getdao();
 void setdao(DAO* _dao);
 std::vector<StockKeepingUnit*> gethadBySku_KittingWorkstation();

@@ -57,6 +57,9 @@ this->hasRobot_Description= _hasRobot_Description;
 void Robot::sethasRobot_MaximumLoadWeight(double _hasRobot_MaximumLoadWeight){
 this->hasRobot_MaximumLoadWeight= _hasRobot_MaximumLoadWeight;
 }
+void Robot::setRobotID(int _RobotID){
+this->RobotID= _RobotID;
+}
 void Robot::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -84,11 +87,11 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasRobot_Description"]=hasRobot_Description;
+data["hasRobot_Description"]="'" + hasRobot_Description + "'";
 ss.str("");
 ss << hasRobot_MaximumLoadWeight;
 data["hasRobot_MaximumLoadWeight"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << RobotID;
 data["RobotID"]=ss.str();
@@ -105,6 +108,30 @@ data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
 dao  = new DAO("Robot");
 dao->set(data);
 delete (dao);
+}
+void Robot::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasRobot_Description"]="'" + hasRobot_Description+ "'";
+ss.str("");
+ss << hasRobot_MaximumLoadWeight;
+data["hasRobot_MaximumLoadWeight"]=ss.str();
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["RobotID"]=ss.str();
+if(hadByEndEffector_Robot!=NULL)
+data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+if(hasKittingWorkstation_Robot!=NULL)
+data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
+dao  = new DAO("Robot");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Robot::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);

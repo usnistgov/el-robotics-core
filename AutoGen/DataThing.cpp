@@ -30,6 +30,9 @@ return dao;
 std::string DataThing::getname(){
 return name;
 }
+void DataThing::setDataThingID(int _DataThingID){
+this->DataThingID= _DataThingID;
+}
 void DataThing::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -43,13 +46,23 @@ copy(temp);
  void DataThing::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << DataThingID;
 data["DataThingID"]=ss.str();
 dao  = new DAO("DataThing");
 dao->set(data);
 delete (dao);
+}
+void DataThing::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+dao  = new DAO("DataThing");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void DataThing::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

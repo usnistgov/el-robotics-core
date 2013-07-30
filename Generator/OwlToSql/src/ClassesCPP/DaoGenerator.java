@@ -197,7 +197,6 @@ public class DaoGenerator {
 		pub = pub
 				+ "\nstd::vector<std::string> Explode(const std::string & str, char separator);";
 		pub = pub + "\nbool toAdd(std::string s);";
-		pub = pub + "\nbool needQuote(std::string s);";
 
 		pub = pub
 				+ "\nstd::map<std::string, std::vector<std::string> > getAll(std::vector<std::string> attributesList, std::string table);";
@@ -1302,15 +1301,13 @@ public class DaoGenerator {
 		setGlobal+= "						= query + \"SET \"\n";
 		setGlobal+="								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
 		setGlobal+="										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal+= "												\"/\") + 1) + \"='\"\n";
+		setGlobal+= "												\"/\") + 1) + \"=\"\n";
 		setGlobal+="								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
 		setGlobal+="										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
 		setGlobal+= "												\"/\") + 1)];\n";
-		setGlobal+="				query = query + \"' WHERE \" + this->className.back() + \"ID=\"\n";
+		setGlobal+="				query = query + \" WHERE \" + this->className.back() + \"ID=\"\n";
 		setGlobal+="						+ data[this->className.back() + \"ID\"];\n";
-		setGlobal+="				if (!data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal+="						DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal+= "								\"/\") + 1)].empty())\n";
+
 		setGlobal+= "\n";
 		setGlobal+= "					stmt->execute(query);\n";
 		setGlobal+= "\n";
@@ -1331,9 +1328,6 @@ public class DaoGenerator {
 		setGlobal+="								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
 		setGlobal+="										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
 		setGlobal+= "												\"/\") + 1)] + \"'\";\n";
-		setGlobal+="				if (!data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
-		setGlobal+="						DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal+= "								\"/\") + 1)].empty())\n";
 		setGlobal+= "					stmt->execute(query);\n";
 		setGlobal+= "			}\n";
 		setGlobal+= "			delete (stmt);\n";
@@ -1416,9 +1410,7 @@ public class DaoGenerator {
 		insert+="if (toAdd(it->first)){\n";
 		insert+="execute=true;\n";
 		insert+="query = query + it->first + \", \";\n";
-		insert+="if(!needQuote(it->second))\n";
 		insert+="queryEnd= queryEnd + it->second + \", \";\n";
-		insert+="else \n queryEnd= queryEnd +\"'\"+ it->second + \"', \";\n";
 		insert+="}\n";
 		insert+="}\n";
 		insert+="if(execute){\n";
@@ -1493,7 +1485,7 @@ public class DaoGenerator {
 		getAll+="\n";
 
 		String check = "bool DAO::toAdd(std::string s) {\n";
-		check+="	for (int i=0;i<DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {\n";
+		check+="	for (int unsigned i=0;i<DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {\n";
 		check+="		std::string key = DAO::getSqlQueriesObjectSingle[className.back()][i];\n";
 		check+="if (std::equal(key.begin() + key.size() - s.size(), key.end(),s.begin()) && key.substr(0, 1) == \"-\")\n";
 		check+="	return false;\n";
@@ -1501,12 +1493,7 @@ public class DaoGenerator {
 		check+="		return true;\n";
 		check+="}\n";
 
-		check+="bool DAO::needQuote(std::string s) {\n";
-		check+="	if (s.substr(0, 1) == \"'\")\n";
-		check+="		return false;\n";
-		check+="	else\n";
-		check+="		return true;\n";
-		check+="}\n";
+
 
 		
 		String destructor = "DAO::~DAO() {\n\n}";

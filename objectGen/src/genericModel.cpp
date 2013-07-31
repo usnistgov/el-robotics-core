@@ -14,7 +14,7 @@ std::string GenericModel::getModel(StockKeepingUnit *sku)
   sku->get(sku->getname());
 
 
-  testShape = sku->gethasSku_Shape();
+  testShape = sku->gethasStockKeepingUnit_Shape();
   externalShape = new ExternalShape(testShape->getname());
   externalShape->get(testShape->getname());
   if( externalShape->getExternalShapeID() > 0 )
@@ -37,7 +37,7 @@ std::string GenericModel::getModel(StockKeepingUnit *sku)
     }
 
   // need shape design to get grasp point
-  shapeDesign = sku->gethasSku_Shape();
+  shapeDesign = sku->gethasStockKeepingUnit_Shape();
   shapeDesign->get(shapeDesign->getname());
 
   delete externalShape;

@@ -39,6 +39,9 @@ return hasLargeBoxWithEmptyKitTrays_LargeContainer;
 std::vector<KitTray*> LargeBoxWithEmptyKitTrays::gethadByKitTray_LargeBoxWithEmptyKitTrays(){
 return hadByKitTray_LargeBoxWithEmptyKitTrays;
 }
+void LargeBoxWithEmptyKitTrays::setLargeBoxWithEmptyKitTraysID(int _LargeBoxWithEmptyKitTraysID){
+this->LargeBoxWithEmptyKitTraysID= _LargeBoxWithEmptyKitTraysID;
+}
 void LargeBoxWithEmptyKitTrays::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -63,7 +66,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << LargeBoxWithEmptyKitTraysID;
 data["LargeBoxWithEmptyKitTraysID"]=ss.str();
@@ -78,6 +81,24 @@ data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=data["hadByKitTray_LargeBoxWithEm
 dao  = new DAO("LargeBoxWithEmptyKitTrays");
 dao->set(data);
 delete (dao);
+}
+void LargeBoxWithEmptyKitTrays::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["LargeBoxWithEmptyKitTraysID"]=ss.str();
+if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
+data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
+dao  = new DAO("LargeBoxWithEmptyKitTrays");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void LargeBoxWithEmptyKitTrays::copy(std::map<std::string,std::string> object){delete(hasLargeBoxWithEmptyKitTrays_LargeContainer);

@@ -63,6 +63,9 @@ return hadByPart_Kit;
 void Kit::sethasKit_Finished(bool _hasKit_Finished){
 this->hasKit_Finished= _hasKit_Finished;
 }
+void Kit::setKitID(int _KitID){
+this->KitID= _KitID;
+}
 void Kit::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -99,7 +102,7 @@ temp0->set(name);
 ss.str("");
 ss << hasKit_Finished;
 data["hasKit_Finished"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << KitID;
 data["KitID"]=ss.str();
@@ -124,6 +127,31 @@ data["hadByPart_Kit"]=data["hadByPart_Kit"]+" "+ss.str();
 dao  = new DAO("Kit");
 dao->set(data);
 delete (dao);
+}
+void Kit::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << hasKit_Finished;
+data["hasKit_Finished"]=ss.str();
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["KitID"]=ss.str();
+if(hadByKit_LargeBoxWithKits!=NULL)
+data["hadByKit_LargeBoxWithKits"]=hadByKit_LargeBoxWithKits->getname();
+if(hasKit_KitTray!=NULL)
+data["hasKit_KitTray"]=hasKit_KitTray->getname();
+if(hasKit_Design!=NULL)
+data["hasKit_Design"]=hasKit_Design->getname();
+dao  = new DAO("Kit");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Kit::copy(std::map<std::string,std::string> object){delete(hadByKit_LargeBoxWithKits);

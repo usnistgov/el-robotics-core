@@ -69,6 +69,9 @@ this->hasEndEffector_Weight= _hasEndEffector_Weight;
 void EndEffector::sethasEndEffector_MaximumLoadWeight(double _hasEndEffector_MaximumLoadWeight){
 this->hasEndEffector_MaximumLoadWeight= _hasEndEffector_MaximumLoadWeight;
 }
+void EndEffector::setEndEffectorID(int _EndEffectorID){
+this->EndEffectorID= _EndEffectorID;
+}
 void EndEffector::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -99,14 +102,14 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasEndEffector_Description"]=hasEndEffector_Description;
+data["hasEndEffector_Description"]="'" + hasEndEffector_Description + "'";
 ss.str("");
 ss << hasEndEffector_Weight;
 data["hasEndEffector_Weight"]=ss.str();
 ss.str("");
 ss << hasEndEffector_MaximumLoadWeight;
 data["hasEndEffector_MaximumLoadWeight"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << EndEffectorID;
 data["EndEffectorID"]=ss.str();
@@ -125,6 +128,35 @@ data["hasStockKeepingUnit_EndEffector"]=data["hasStockKeepingUnit_EndEffector"]+
 dao  = new DAO("EndEffector");
 dao->set(data);
 delete (dao);
+}
+void EndEffector::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasEndEffector_Description"]="'" + hasEndEffector_Description+ "'";
+ss.str("");
+ss << hasEndEffector_Weight;
+data["hasEndEffector_Weight"]=ss.str();
+ss.str("");
+ss << hasEndEffector_MaximumLoadWeight;
+data["hasEndEffector_MaximumLoadWeight"]=ss.str();
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["EndEffectorID"]=ss.str();
+if(hasEndEffector_HeldObject!=NULL)
+data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
+if(hadByEndEffector_Robot!=NULL)
+data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+if(hasEndEffectorHolder_EndEffector!=NULL)
+data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+dao  = new DAO("EndEffector");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void EndEffector::copy(std::map<std::string,std::string> object){delete(hasEndEffector_HeldObject);

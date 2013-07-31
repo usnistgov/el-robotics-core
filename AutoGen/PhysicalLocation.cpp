@@ -49,6 +49,9 @@ return hasSolidObject_PrimaryLocation;
 void PhysicalLocation::sethasPhysicalLocation_Timestamp(std::string _hasPhysicalLocation_Timestamp){
 this->hasPhysicalLocation_Timestamp= _hasPhysicalLocation_Timestamp;
 }
+void PhysicalLocation::setPhysicalLocationID(int _PhysicalLocationID){
+this->PhysicalLocationID= _PhysicalLocationID;
+}
 void PhysicalLocation::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -76,8 +79,8 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["hasPhysicalLocation_Timestamp"]=hasPhysicalLocation_Timestamp;
-data["name"]=name;
+data["hasPhysicalLocation_Timestamp"]="'" + hasPhysicalLocation_Timestamp + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << PhysicalLocationID;
 data["PhysicalLocationID"]=ss.str();
@@ -90,6 +93,29 @@ data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname()
 dao  = new DAO("PhysicalLocation");
 dao->set(data);
 delete (dao);
+}
+void PhysicalLocation::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasPhysicalLocation_Timestamp"]="'" + hasPhysicalLocation_Timestamp+ "'";
+ss.str("");
+ss << temp0->getDataThingID();
+data["PhysicalLocationID"]=ss.str();
+if(hadBySecondaryLocation_SolidObject!=NULL)
+data["hadBySecondaryLocation_SolidObject"]=hadBySecondaryLocation_SolidObject->getname();
+if(hasPhysicalLocation_RefObject!=NULL)
+data["hasPhysicalLocation_RefObject"]=hasPhysicalLocation_RefObject->getname();
+if(hasSolidObject_PrimaryLocation!=NULL)
+data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+dao  = new DAO("PhysicalLocation");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void PhysicalLocation::copy(std::map<std::string,std::string> object){delete(hadBySecondaryLocation_SolidObject);

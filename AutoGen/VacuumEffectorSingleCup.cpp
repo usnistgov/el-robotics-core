@@ -27,6 +27,9 @@ return VacuumEffectorSingleCupID;
 DAO* VacuumEffectorSingleCup::getdao(){
 return dao;
 }
+void VacuumEffectorSingleCup::setVacuumEffectorSingleCupID(int _VacuumEffectorSingleCupID){
+this->VacuumEffectorSingleCupID= _VacuumEffectorSingleCupID;
+}
 void VacuumEffectorSingleCup::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -55,13 +58,35 @@ EndEffector* temp1 = (EndEffector*) this;
 temp1->set(name);
 SolidObject* temp2 = (SolidObject*) this;
 temp2->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << VacuumEffectorSingleCupID;
 data["VacuumEffectorSingleCupID"]=ss.str();
 dao  = new DAO("VacuumEffectorSingleCup");
 dao->set(data);
 delete (dao);
+}
+void VacuumEffectorSingleCup::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp2 = (SolidObject*) this;
+temp2->insert(name);
+temp2->get(name);
+EndEffector* temp1 = (EndEffector*) this;
+temp1->setEndEffectorID(temp2->getSolidObjectID());
+temp1->insert(name);
+VacuumEffector* temp0 = (VacuumEffector*) this;
+temp0->setVacuumEffectorID(temp2->getSolidObjectID());
+temp0->insert(name);
+ss.str("");
+ss << temp2->getSolidObjectID();
+data["VacuumEffectorSingleCupID"]=ss.str();
+dao  = new DAO("VacuumEffectorSingleCup");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void VacuumEffectorSingleCup::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;

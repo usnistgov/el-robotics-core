@@ -57,6 +57,9 @@ return hadByPartRefAndPose_KitDesign;
 std::vector<Kit*> KitDesign::gethasKit_Design(){
 return hasKit_Design;
 }
+void KitDesign::setKitDesignID(int _KitDesignID){
+this->KitDesignID= _KitDesignID;
+}
 void KitDesign::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -90,7 +93,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << KitDesignID;
 data["KitDesignID"]=ss.str();
@@ -119,6 +122,26 @@ data["hasKit_Design"]=data["hasKit_Design"]+" "+ss.str();
 dao  = new DAO("KitDesign");
 dao->set(data);
 delete (dao);
+}
+void KitDesign::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getDataThingID();
+data["KitDesignID"]=ss.str();
+if(hadByKitDesign_KittingWorkstation!=NULL)
+data["hadByKitDesign_KittingWorkstation"]=hadByKitDesign_KittingWorkstation->getname();
+if(hasKitDesign_KitTraySku!=NULL)
+data["hasKitDesign_KitTraySku"]=hasKitDesign_KitTraySku->getname();
+dao  = new DAO("KitDesign");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void KitDesign::copy(std::map<std::string,std::string> object){delete(hadByKitDesign_KittingWorkstation);

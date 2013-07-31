@@ -51,6 +51,9 @@ return hasLargeBoxWithKits_KitDesign;
 void LargeBoxWithKits::sethasLargeBoxWithKits_Capacity(std::string _hasLargeBoxWithKits_Capacity){
 this->hasLargeBoxWithKits_Capacity= _hasLargeBoxWithKits_Capacity;
 }
+void LargeBoxWithKits::setLargeBoxWithKitsID(int _LargeBoxWithKitsID){
+this->LargeBoxWithKitsID= _LargeBoxWithKitsID;
+}
 void LargeBoxWithKits::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -78,8 +81,8 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 SolidObject* temp0 = (SolidObject*) this;
 temp0->set(name);
-data["hasLargeBoxWithKits_Capacity"]=hasLargeBoxWithKits_Capacity;
-data["name"]=name;
+data["hasLargeBoxWithKits_Capacity"]="'" + hasLargeBoxWithKits_Capacity + "'";
+data["name"]="'" + name + "'";
 ss.str("");
 ss << LargeBoxWithKitsID;
 data["LargeBoxWithKitsID"]=ss.str();
@@ -96,6 +99,27 @@ data["hasLargeBoxWithKits_KitDesign"]=hasLargeBoxWithKits_KitDesign->getname();
 dao  = new DAO("LargeBoxWithKits");
 dao->set(data);
 delete (dao);
+}
+void LargeBoxWithKits::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+SolidObject* temp0 = (SolidObject*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasLargeBoxWithKits_Capacity"]="'" + hasLargeBoxWithKits_Capacity+ "'";
+ss.str("");
+ss << temp0->getSolidObjectID();
+data["LargeBoxWithKitsID"]=ss.str();
+if(hasLargeBoxWithKits_LargeContainer!=NULL)
+data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
+if(hasLargeBoxWithKits_KitDesign!=NULL)
+data["hasLargeBoxWithKits_KitDesign"]=hasLargeBoxWithKits_KitDesign->getname();
+dao  = new DAO("LargeBoxWithKits");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void LargeBoxWithKits::copy(std::map<std::string,std::string> object){delete(hasLargeBoxWithKits_LargeContainer);

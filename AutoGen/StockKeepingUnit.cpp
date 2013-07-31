@@ -104,6 +104,9 @@ this->hasStockKeepingUnit_Description= _hasStockKeepingUnit_Description;
 void StockKeepingUnit::sethasStockKeepingUnit_Weight(double _hasStockKeepingUnit_Weight){
 this->hasStockKeepingUnit_Weight= _hasStockKeepingUnit_Weight;
 }
+void StockKeepingUnit::setStockKeepingUnitID(int _StockKeepingUnitID){
+this->StockKeepingUnitID= _StockKeepingUnitID;
+}
 void StockKeepingUnit::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -155,11 +158,11 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["hasStockKeepingUnit_Description"]=hasStockKeepingUnit_Description;
+data["hasStockKeepingUnit_Description"]="'" + hasStockKeepingUnit_Description + "'";
 ss.str("");
 ss << hasStockKeepingUnit_Weight;
 data["hasStockKeepingUnit_Weight"]=ss.str();
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << StockKeepingUnitID;
 data["StockKeepingUnitID"]=ss.str();
@@ -224,6 +227,30 @@ data["hasKitDesign_KitTraySku"]=data["hasKitDesign_KitTraySku"]+" "+ss.str();
 dao  = new DAO("StockKeepingUnit");
 dao->set(data);
 delete (dao);
+}
+void StockKeepingUnit::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+data["hasStockKeepingUnit_Description"]="'" + hasStockKeepingUnit_Description+ "'";
+ss.str("");
+ss << hasStockKeepingUnit_Weight;
+data["hasStockKeepingUnit_Weight"]=ss.str();
+ss.str("");
+ss << temp0->getDataThingID();
+data["StockKeepingUnitID"]=ss.str();
+if(hadBySku_KittingWorkstation!=NULL)
+data["hadBySku_KittingWorkstation"]=hadBySku_KittingWorkstation->getname();
+if(hasStockKeepingUnit_Shape!=NULL)
+data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
+dao  = new DAO("StockKeepingUnit");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void StockKeepingUnit::copy(std::map<std::string,std::string> object){delete(hadBySku_KittingWorkstation);

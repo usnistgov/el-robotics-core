@@ -45,6 +45,9 @@ return hasSlot_PartRefAndPose;
 Part* Slot::gethasSlot_Part(){
 return hasSlot_Part;
 }
+void Slot::setSlotID(int _SlotID){
+this->SlotID= _SlotID;
+}
 void Slot::setdao(DAO* _dao){
 this->dao= _dao;
 }
@@ -72,7 +75,7 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 DataThing* temp0 = (DataThing*) this;
 temp0->set(name);
-data["name"]=name;
+data["name"]="'" + name + "'";
 ss.str("");
 ss << SlotID;
 data["SlotID"]=ss.str();
@@ -85,6 +88,28 @@ data["hasSlot_Part"]=hasSlot_Part->getname();
 dao  = new DAO("Slot");
 dao->set(data);
 delete (dao);
+}
+void Slot::insert(std::string name){
+std::map<std::string, std::string> data;
+std::stringstream ss;
+data["_Name"]="'" + name + "'";
+
+DataThing* temp0 = (DataThing*) this;
+temp0->insert(name);
+temp0->get(name);
+ss.str("");
+ss << temp0->getDataThingID();
+data["SlotID"]=ss.str();
+if(hadBySlot_Kit!=NULL)
+data["hadBySlot_Kit"]=hadBySlot_Kit->getname();
+if(hasSlot_PartRefAndPose!=NULL)
+data["hasSlot_PartRefAndPose"]=hasSlot_PartRefAndPose->getname();
+if(hasSlot_Part!=NULL)
+data["hasSlot_Part"]=hasSlot_Part->getname();
+dao  = new DAO("Slot");
+dao->insert(data);
+delete (dao);
+this->set(name);
 }
 
 void Slot::copy(std::map<std::string,std::string> object){delete(hadBySlot_Kit);

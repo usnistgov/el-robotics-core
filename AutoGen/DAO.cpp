@@ -261,7 +261,7 @@ nameDone.push_back(className.back() + "+" + name);
 				map[res_meta -> getColumnLabel(1)] = temp;
 				delete (res);
 				delete (prep_stmt);
-			} catch (sql::SQLException &e) {
+			} catch (sql::SQLException &e) {/*
 				std::cout << "# ERR: SQLException in " << __FILE__;
 				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 						<< std::endl;
@@ -269,7 +269,7 @@ nameDone.push_back(className.back() + "+" + name);
 				std::cout << " (MySQL error code: " << e.getErrorCode();
 				std::cout << ", SQLState: " << e.getSQLState() << " )"
 						<< std::endl;
-			}
+			*/}
 		}
 		// get the Object Single
 		temp = "";
@@ -406,7 +406,7 @@ nameDone.push_back(className.back() + "+" + name);
 
 				delete (prep_stmt);
 				delete (stmt);
-			} catch (sql::SQLException &e) {
+			} catch (sql::SQLException &e) {/*
 				std::cout << "# ERR: SQLException in " << __FILE__;
 				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 						<< std::endl;
@@ -414,7 +414,7 @@ nameDone.push_back(className.back() + "+" + name);
 				std::cout << " (MySQL error code: " << e.getErrorCode();
 				std::cout << ", SQLState: " << e.getSQLState() << " )"
 						<< std::endl;
-			}
+			*/}
 		}
 
 		//get the Object multi
@@ -513,7 +513,7 @@ nameDone.push_back(className.back() + "+" + name);
 									+ res_meta -> getColumnLabel(1)] = temp;
 							delete (res);
 							delete (prep_stmt);
-						} catch (sql::SQLException &e) {
+						} catch (sql::SQLException &e) {/*
 							std::cout << "# ERR: SQLException in " << __FILE__;
 							std::cout << "(" << __FUNCTION__ << ") on line "
 									<< __LINE__ << std::endl;
@@ -522,7 +522,7 @@ nameDone.push_back(className.back() + "+" + name);
 									<< e.getErrorCode();
 							std::cout << ", SQLState: " << e.getSQLState()
 									<< " )" << std::endl;
-						}
+						*/}
 					}
 					//End Add Data Multi
 					// Add Object Single
@@ -671,7 +671,7 @@ nameDone.push_back(className.back() + "+" + name);
 
 							delete (prep_stmt);
 							delete (stmt);
-						} catch (sql::SQLException &e) {
+						} catch (sql::SQLException &e) {/*
 							std::cout << "# ERR: SQLException in " << __FILE__;
 							std::cout << "(" << __FUNCTION__ << ") on line "
 									<< __LINE__ << std::endl;
@@ -680,11 +680,11 @@ nameDone.push_back(className.back() + "+" + name);
 									<< e.getErrorCode();
 							std::cout << ", SQLState: " << e.getSQLState()
 									<< " )" << std::endl;
-						}
+						*/}
 					}
 				} while (!restempmulti->isLast());
 				delete (restempmulti);
-			} catch (sql::SQLException &e) {
+			} catch (sql::SQLException &e) {/*
 				std::cout << "# ERR: SQLException in " << __FILE__;
 				std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 						<< std::endl;
@@ -692,16 +692,16 @@ nameDone.push_back(className.back() + "+" + name);
 				std::cout << " (MySQL error code: " << e.getErrorCode();
 				std::cout << ", SQLState: " << e.getSQLState() << " )"
 						<< std::endl;
-			}
+			*/}
 		}
-	} catch (sql::SQLException &e) {
+	} catch (sql::SQLException &e) {/*
 		std::cout << "# ERR: SQLException in " << __FILE__;
 		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 				<< std::endl;
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-	}
+	*/}
 	className.pop_back();
 	return map;
 	}
@@ -716,31 +716,25 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 			if (DAO::getSqlQueriesDataSingle[this->className.back()].find(
 					this->className.back() + "." + it->first)
 					!= std::string::npos) {
-				int val;
-				std::stringstream stream(it->second);
-				if (!(stream >> val)) {
-					query = query + it->first + "='" + it->second + "', ";
-				} else {
 					query = query + it->first + "=" + it->second + ", ";
-				}
 			}
 		}
 		query = query.substr(0, query.length() - 2) + " ";//to delete the last ,
-		query = query + "WHERE _NAME='" + data["name"] + "' ";
-		query = query + "AND " + this->className.back() + "ID="
+		query = query + "WHERE _NAME=" + data["name"] + " ";
+		query = query + " AND " + this->className.back() + "ID="
 				+ data[this->className.back() + "ID"];
 		stmt->executeUpdate(query);
 		delete (stmt);
 	}
 
-	catch (sql::SQLException &e) {
+	catch (sql::SQLException &e) {/*
 		std::cout << "# ERR: SQLException in " << __FILE__;
 		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 				<< std::endl;
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-	}
+	*/}
 	// DATA MULTI
 
 	for (int unsigned i = 0; i
@@ -813,14 +807,14 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 
 				}
 			delete (stmt);
-		} catch (sql::SQLException &e) {
+		} catch (sql::SQLException &e) {/*
 			std::cout << "# ERR: SQLException in " << __FILE__;
 			std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 					<< std::endl;
 			std::cout << "# ERR: " << e.what();
 			std::cout << " (MySQL error code: " << e.getErrorCode();
 			std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		}
+		*/}
 	}
 
 	// OBJECT SINGLE
@@ -861,9 +855,9 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 						= query + " SET "
 								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
 										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
-												"/") + 1) + "='" + data["name"];
+												"/") + 1) + "=" + data["name"];
 				query
-						= query + "' WHERE _NAME='"
+						= query + " WHERE _NAME='"
 								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
 										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
 												"/") + 1)] + "'";
@@ -873,14 +867,14 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 					stmt->execute(query);
 			}
 			delete (stmt);
-		} catch (sql::SQLException &e) {
+		} catch (sql::SQLException &e) {/*
 			std::cout << "# ERR: SQLException in " << __FILE__;
 			std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 					<< std::endl;
 			std::cout << "# ERR: " << e.what();
 			std::cout << " (MySQL error code: " << e.getErrorCode();
 			std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		}
+		*/}
 	}
 
 	// OBJECT MULTI
@@ -929,16 +923,41 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 			}
 			delete (stmt);
 
-		} catch (sql::SQLException &e) {
+		} catch (sql::SQLException &e) {/*
 			std::cout << "# ERR: SQLException in " << __FILE__;
 			std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 					<< std::endl;
 			std::cout << "# ERR: " << e.what();
 			std::cout << " (MySQL error code: " << e.getErrorCode();
 			std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-		}
+		*/}
 	}
 		}
+void DAO::insert(std::map<std::string, std::string> data) {
+bool execute=false;
+sql::Statement *stmt;
+stmt = connection->getCon()->createStatement();
+std::string query = "INSERT INTO " + this->className.back() +"(";
+std::string queryEnd = "VALUES(";
+for (std::map<std::string, std::string>::iterator it = data.begin();
+it != data.end(); it++) {
+if (toAdd(it->first)){
+execute=true;
+query = query + it->first + ", ";
+if(!needQuote(it->second))
+queryEnd= queryEnd + it->second + ", ";
+else 
+ queryEnd= queryEnd +"'"+ it->second + "', ";
+}
+}
+if(execute){
+query = query.substr(0, query.length() - 2) + ") "; //to delete the last ,
+queryEnd = queryEnd.substr(0, queryEnd.length() - 2) + ") "; //to delete the last ,
+query = query + queryEnd;
+stmt->execute(query);
+delete (stmt);
+}
+}
 std::vector<std::string> DAO::Explode(const std::string & str, char separator )
 {
    std::vector< std::string > result;
@@ -956,6 +975,20 @@ std::vector<std::string> DAO::Explode(const std::string & str, char separator )
    }
    result.push_back( str.substr(pos1, str.size()-pos1) );
    return result;
+}
+bool DAO::toAdd(std::string s) {
+	for (int i=0;i<DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {
+		std::string key = DAO::getSqlQueriesObjectSingle[className.back()][i];
+if (std::equal(key.begin() + key.size() - s.size(), key.end(),s.begin()) && key.substr(0, 1) == "-")
+	return false;
+}
+		return true;
+}
+bool DAO::needQuote(std::string s) {
+	if (s.substr(0, 1) == "'")
+		return false;
+	else
+		return true;
 }
 
 
@@ -985,14 +1018,14 @@ std::map<std::string, std::vector<std::string> > DAO::getAll(std::vector<
 		delete (res);
 		delete (stmt);
 
-	} catch (sql::SQLException &e) {
+	} catch (sql::SQLException &e) {/*
 		std::cout << "# ERR: SQLException in " << __FILE__;
 		std::cout << "(" << __FUNCTION__ << ") on line " << __LINE__
 				<< std::endl;
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
-	}
+	*/}
 	return result;
 }
 

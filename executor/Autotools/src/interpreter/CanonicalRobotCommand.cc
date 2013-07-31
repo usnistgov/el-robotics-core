@@ -246,7 +246,7 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
 	    printf( "Error from CanonicalRobotCommand on kit creation of kit (bad design) %s\n", paramList[i].c_str());
 	    exit(1);
 	  }
-	kitTray = kit->gethasKit_Tray();
+	kitTray = kit->gethasKit_KitTray();
 	if( kitTray == NULL )
 	  {
 	    printf( "Error from CanonicalRobotCommand on kit creation of kit (bad tray) %s\n", paramList[i].c_str());
@@ -260,10 +260,15 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   // kitDesign->getname().c_str(), part->getname().c_str(), 
   // locationPrefix.c_str());
 
-  partName = locationPrefix + kitDesign->getname().erase(4,7);
+  printf( "Kit design name: %s\n", kitDesign->getname().c_str());
+  printf( "Part name: %s\n", part->getname().c_str());
+  //  partName = locationPrefix + kitDesign->getname().erase(4,7);
+  partName = locationPrefix + kitDesign->getname().erase(4,7) + part->getname().erase(0,4);
+  printf( "partname now: %s\n", partName.c_str());
   unsigned found = partName.find_last_of("_");
   
-  partName = partName.substr(0,found) + "_" + part->getname().erase(0,5);
+  //  partName = partName.substr(0,found) + "_" + part->getname().erase(0,5);
+  printf( "partname now: %s\n", partName.c_str());
   //  printf( "Getting location of part %s\n", partName.c_str() );
   recLoc=getPartGoalLocation(partName, kitTray->getname());
   canon_put_part(recLoc.pointXYZ, recLoc.xAxis, recLoc.zAxis);
@@ -470,11 +475,11 @@ RecLoc CanonicalRobotCommand::getPartLocation(string part_name){
   sku->get(sku->getname());
 
   // from sku, get shape
-  shapeDesign = sku->gethasSku_Shape();
+  shapeDesign = sku->gethasStockKeepingUnit_Shape();
   shapeDesign->get(shapeDesign->getname());
 
   // from shape design, get grasp pose
-  graspPose = shapeDesign->gethasShapeDesign_GraspPose();
+  graspPose = shapeDesign->gethadByGraspPose_ShapeDesign();
   graspPose->get(graspPose->getname());
   recLoc.clear();
 
@@ -540,6 +545,8 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name,
 	recurseLocation.clear();
 	recLoc.clear();
 	partRefAndPose->get(part_name);
+	printf( "Getting part %s from kit %s\n",
+		part_name.c_str(), kit_name.c_str());
 	mypoint = partRefAndPose->gethasPartRefAndPose_Point();
 	printf( "Got it! Now getting point.\n" );
 	mypoint->get(mypoint->getname());

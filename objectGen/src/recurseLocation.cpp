@@ -1,13 +1,32 @@
 /*****************************************************************************
- DISCLAIMER:
- This software was produced by the National Institute of Standards
- and Technology (NIST), an agency of the U.S. government, and by statute is
- not subject to copyright in the United States.  Recipients of this software
- assume all responsibility associated with its operation, modification,
- maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
- See NIST Administration Manual 4.09.07 b and Appendix I.
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
  *****************************************************************************/
+
+/*!
+ *	\file		recurseLocation.cpp
+ *	\brief 		Recursively search for an object's location
+ *	\class		RecLoc
+ *	\author		Stephen Balakirsky, GTRI
+ *	\date		July 30, 2013
+ *      \copyright      Georgia Tech Research Institute
+ */
 
 #include "recurseLocation.h"
 #include <stdio.h> // printf

@@ -1,19 +1,31 @@
 /*****************************************************************************
-  DISCLAIMER:
-  This software was produced by the National Institute of Standards
-  and Technology (NIST), an agency of the U.S. government, and by statute is
-  not subject to copyright in the United States.  Recipients of this software
-  assume all responsibility associated with its operation, modification,
-  maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
-  See NIST Administration Manual 4.09.07 b and Appendix I. 
-*****************************************************************************/
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
+
 /*!
   \file   usarSimInf.cpp
   \brief  Class that controls the connection to USARSim.
   Provides methods to connect to USARSim and add objects to the world.
   \author Stephen Balakirsky
   \date   12/14/2012
+  \copyright Georgia Tech Research Institute
 */
 #include "usarSimInf.h"
 

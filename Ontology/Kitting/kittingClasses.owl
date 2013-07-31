@@ -950,12 +950,14 @@ Declaration(Class(:PartsTray))
 
 AnnotationAssertion(rdfs:comment :PartsTray
   "A PartsTrayType is a SolidObjectType used to hold Parts. It has
-  Name, PrimaryLocation, SecondaryLocation, InternalShape, and
+  Name,o PrimaryLocation, SecondaryLocation, InternalShape, and
   ExternalShape elements inherited from SolidObjectType. It also has
   SkuName and SerialNumber elements. The SkuName is the name of the
   SKU of the PartsTrayType, not the name of the SKU of a type of part
   the tray can hold. The shape of the SKU identified by the SkuName
-  should be a BoxyShape.")
+  should be a BoxyShape.A PartsTrayType holds a number of
+  PartTypes (PartQuantity) with the same SKU name (PartSkuName) in
+  known positions.")
 
 
 Declaration(ObjectProperty(:hasPartsTray_Sku))
@@ -974,6 +976,21 @@ EquivalentClasses(:PartsTray ObjectIntersectionOf(
   DataSomeValuesFrom(:hasPartsTray_SerialNumber xsd:NMTOKEN)
   DataAllValuesFrom (:hasPartsTray_SerialNumber xsd:NMTOKEN)))
 
+Declaration(ObjectProperty(:hasPartsTray_PartSku))
+ObjectPropertyDomain(:hasPartsTray_PartSku :PartsTray)
+ObjectPropertyRange(:hasPartsTray_PartSku :StockKeepingUnit)
+FunctionalObjectProperty(:hasPartsTray_PartSku)
+EquivalentClasses(:PartsTray ObjectIntersectionOf(
+  ObjectSomeValuesFrom(:hasPartsTray_PartSku :StockKeepingUnit)
+  ObjectAllValuesFrom (:hasPartsTray_PartSku :StockKeepingUnit)))
+
+Declaration(DataProperty(:hasPartsTray_PartQuantity))
+DataPropertyDomain(:hasPartsTray_PartQuantity :PartsTray)
+DataPropertyRange(:hasPartsTray_PartQuantity xsd:nonNegativeInteger)
+FunctionalDataProperty(:hasPartsTray_PartQuantity)
+EquivalentClasses(:PartsTray ObjectIntersectionOf(
+  DataSomeValuesFrom(:hasPartsTray_PartQuantity xsd:nonNegativeInteger)
+  DataAllValuesFrom (:hasPartsTray_PartQuantity xsd:nonNegativeInteger)))
 
 
 Declaration(Class(:PartsTrayWithParts))

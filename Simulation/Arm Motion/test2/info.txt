@@ -1,8 +1,0 @@
-URDF file variations within KDL plugin tests:
-"joint coordinates" or "old generator" refers to using transformed joint orientation frames in the URDF file so that the joint axis of rotation always points along +z.
-"nojoint" or "new generator" means using the same orientation frame for every joint and changing the axis of rotation.
-"box collisions" means using a 0.05x0.05 box, with a length 80% that of the actual arm link, as the collision model for the link.
-"accurate collisions" or "real collisions" means using the collision models built in Blender from the arm visual models.
- "perp" or "hand-adjusted" means that the joint axes of rotation on the URDF model were adjusted to be perpendicular and axis-aligned. For instance, axes pointing along (0.002, -1.000, 0.000) were changed to (0.000, -1.000, 0.000).
- 
-The IKFast plugin uses the new generator and a hand-adjusted URDF, since it will NOT work otherwise. It also uses the more accurate collision models.

@@ -1,2 +1,2 @@
-datafile1 and histogram1: KDL plugin, default URDF generator, default settings on arm wizard
-datafile2 and histogram2: KDL plugin, default URDF generator, highest collision sampling settings on arm wizard
+datafile1 and histogram.png: KDL plugin, default URDF generator, default settings on arm wizard
+datafile2 and histogram2.png: KDL plugin, default URDF generator, highest collision sampling settings on arm wizard

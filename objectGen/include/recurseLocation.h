@@ -43,16 +43,31 @@ This may also be seen in the dataTest.cpp file.
 #include "database/SolidObject.h"
 #include "database/Vector.h"
 
+class Frame{
+ public:
+  std::vector<double>pointXYZ;
+  std::vector<double>xAxis;
+  std::vector<double>zAxis;
+  std::string pointName;
+  std::string xAxisName;
+  std::string zAxisName;
+
+  void clear();
+  std::vector<double> computeYAxis();
+  void setPoint(double x, double y, double z);
+  void setPointName(std::string pointNameIn);
+  void setXAxis(double x, double y, double z);
+  void setXAxisName(std::string xAxisNameIn);
+  void setZAxis(double x, double y, double z);
+  void setZAxisName(std::string zAxisNameIn);
+  Frame invert();
+};
+
 class RecLoc{
  public:
   std::string solidObjectName;
   std::string primaryLocationName;
-  std::string posePointName;
-  std::string xAxisName;
-  std::string zAxisName;
-  std::vector<double>pointXYZ;
-  std::vector<double>xAxis;
-  std::vector<double>zAxis;
+  Frame frame;
   void getRollPitchYaw(double *roll, double *pitch, double *yaw);
   void clear();
 };

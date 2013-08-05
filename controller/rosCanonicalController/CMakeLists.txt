@@ -10,12 +10,14 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 get_filename_component(CONTROLLER_DIRECTORY ${PROJECT_SOURCE_DIR} PATH)
 get_filename_component(IPMAS_DIRECTORY ${CONTROLLER_DIRECTORY} PATH)
 
-SET(controlGUI_SOURCES src/controlGUI/main.cpp src/controlGUI/mainwindow.cpp)
-SET(controlGUI_HEADERS include/controlGUI/mainwindow.h)
+SET(controlGUI_SOURCES src/controlGUI/main.cpp src/controlGUI/mainwindow.cpp src/controlGUI/customcontrols.cpp)
+SET(controlGUI_HEADERS include/controlGUI/mainwindow.h include/controlGUI/customcontrols.h)
 SET(controlGUI_FORMS src/controlGUI/mainwindow.ui)
 
-SET(rosControl_SOURCES src/rosControl/rosInf.cpp src/rosControl/navigationGoal.cpp src/rosControl/rosController.cpp)
-SET(rosControl_HEADERS src/rosControl/rosInf.hh src/rosControl/navigationGoal.hh)
+SET(rosControl_SOURCES src/rosControl/rosInf.cpp
+                       src/rosControl/navigationGoal.cpp
+                       src/rosControl/rosController.cpp
+                       src/rosControl/robotDescription.cpp)
 
 SET(binPickup_SOURCES src/binPickup/scanPattern.cpp src/binPickup/scanPickup.cpp)
 

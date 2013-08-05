@@ -1,4 +1,5 @@
 #include "rosInf.hh"
+#include "robotDescription.hh"
 #include <stdio.h>
 
 RosInf::RosInf ()
@@ -113,11 +114,13 @@ void RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand & command,
 */
 int RosInf::initArmNavigation ()
 {
-  NavigationGoal armGoal;
-  armGoal.setupActuator ();
+  std::string actuatorName;
+  std::string tipLink;
+  std::string baseLink;
+  RobotDescription::getPlanningInfo(actuatorName, tipLink, baseLink);
   moveArmClient =
     new actionlib::SimpleActionClient < arm_navigation_msgs::MoveArmAction >
-    ("move_" + armGoal.getActName (), true);
+    ("move_" + actuatorName, true);
   if (moveArmClient->waitForServer (ros::Duration (10.0)))
     {
       ROS_INFO ("Connected to navigation server.");
@@ -598,6 +601,29 @@ void RosInf::addArmGoal (double x, double y, double z, double xAxisX,
 		  axisTransform.getRotation ().z (),
 		  axisTransform.getRotation ().w ());
     }
+}
+/**
+  \brief Add an arm joint goal for several joints to the queue
+  \param jointName Vector of target joint names
+  \param jointPosition Vector of target angles for the joints, in radians
+*/
+void RosInf::addArmJointGoal(std::vector<double> jointPosition)
+{
+  NavigationGoal nextGoal;
+  nextGoal.setupActuator();
+  nextGoal.setTransformListener (&listener);
+  
+  nextGoal.setJointConstraint(jointPosition);
+  nextGoal.clearPoseConstraints();
+  armGoals.push_back (nextGoal);
+  if (armGoals.size () == 1)	// if there were no goals in the queue already, send this one immediately
+  {
+    navigationFailureCount = 0;
+    moveArmClient->sendGoal (armGoals.front ().getGoal (),
+	         boost::bind (&RosInf::navigationDoneCallback,
+			      this, _1, _2));
+
+  }
 }
 /**
 	\brief Spin ROS, waiting for the object sensor callback to be called

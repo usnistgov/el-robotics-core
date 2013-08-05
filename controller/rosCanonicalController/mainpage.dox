@@ -44,7 +44,7 @@ The source for this node can be found in the src/controlGUI directory.
 Each of the nodes above uses the rosControl library, which is built from the following components:
 
 \subsection navigationGoal NavigationGoal
-This class consists of an arm_navigation_msgs::MoveArmGoal message, and functions for initializing and manipulating it. The constructor checks the ROS parameter server (robot_description_planning/groups) for the name of the arm to control. When NavigationGoal::getGoal() is called, before returning the MoveArmGoal message, the object checks the current state of the arm to convert the goal pose to the correct coordinate system (since poses may be given to the arm either globally or locally).
+This class consists of an arm_navigation_msgs::MoveArmGoal message, and functions for initializing and manipulating it. When NavigationGoal::getGoal() is called, before returning the MoveArmGoal message, the object checks the current state of the arm to convert the goal pose to the correct coordinate frame (since poses may be given to the arm either globally or locally).
 
 \subsection effectorController
 An EffectorController contains the publisher, subscriber, and state data for a single effector (gripper or toolchanger).
@@ -57,6 +57,9 @@ It also has an object sensor callback, used to write the "output_commands.txt" f
 
 \subsection rosController rosController
 rosController.cpp contains the implementations of each of the different CanonicalMsg::process() functions, for handling a message. The sendTo pointer is cast to RosInf *.
+
+\subsection robotDescription RobotDescription
+The RobotDescription namespace had helper functions for reading arm navigation information from ROS parameters. It reads the name of the actuator to control and the names of the tip/base links of the arm from the robot_description_planning/groups parameter, and reads the joints to control from the robot_description parameter (parsed as an URDF). 
 
 \section dependencies Dependencies
 

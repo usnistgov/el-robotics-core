@@ -80,7 +80,9 @@ ss.str("");
 ss << EndEffectorChangingStationID;
 data["EndEffectorChangingStationID"]=ss.str();
 if(hasEndEffectorChangingStation_Base!=NULL)
-data["hasEndEffectorChangingStation_Base"]=hasEndEffectorChangingStation_Base->getname();
+data["hasEndEffectorChangingStation_Base"]="'" +hasEndEffectorChangingStation_Base->getname() + "'";
+else 
+ data["hasEndEffectorChangingStation_Base"]="null";
 for(unsigned int i=0;i<hadByEndEffectorHolder_EndEffectorChangingStation.size();++i){
 ss.str("");
 hadByEndEffectorHolder_EndEffectorChangingStation[i]->get(hadByEndEffectorHolder_EndEffectorChangingStation[i]->getname());
@@ -88,7 +90,9 @@ ss << hadByEndEffectorHolder_EndEffectorChangingStation[i]->getEndEffectorHolder
 data["hadByEndEffectorHolder_EndEffectorChangingStation"]=data["hadByEndEffectorHolder_EndEffectorChangingStation"]+" "+ss.str();
 }
 if(hasKittingWorkstation_ChangingStation!=NULL)
-data["hasKittingWorkstation_ChangingStation"]=hasKittingWorkstation_ChangingStation->getname();
+data["hasKittingWorkstation_ChangingStation"]="'" +hasKittingWorkstation_ChangingStation->getname() + "'";
+else 
+ data["hasKittingWorkstation_ChangingStation"]="null";
 dao  = new DAO("EndEffectorChangingStation");
 dao->set(data);
 delete (dao);
@@ -105,9 +109,9 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["EndEffectorChangingStationID"]=ss.str();
 if(hasEndEffectorChangingStation_Base!=NULL)
-data["hasEndEffectorChangingStation_Base"]=hasEndEffectorChangingStation_Base->getname();
+data["hasEndEffectorChangingStation_Base"]="'" + hasEndEffectorChangingStation_Base->getname() + "'";
 if(hasKittingWorkstation_ChangingStation!=NULL)
-data["hasKittingWorkstation_ChangingStation"]=hasKittingWorkstation_ChangingStation->getname();
+data["hasKittingWorkstation_ChangingStation"]="'" + hasKittingWorkstation_ChangingStation->getname() + "'";
 dao  = new DAO("EndEffectorChangingStation");
 dao->insert(data);
 delete (dao);
@@ -116,11 +120,12 @@ this->set(name);
 
 void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){delete(hasEndEffectorChangingStation_Base);
 hasEndEffectorChangingStation_Base=NULL;
-delete(hasKittingWorkstation_ChangingStation);
-hasKittingWorkstation_ChangingStation=NULL;
 for(std::size_t i = 0; i < hadByEndEffectorHolder_EndEffectorChangingStation.size(); i++){
 delete(hadByEndEffectorHolder_EndEffectorChangingStation[i]);
 hadByEndEffectorHolder_EndEffectorChangingStation[i]=NULL;}
+hadByEndEffectorHolder_EndEffectorChangingStation.clear();
+delete(hasKittingWorkstation_ChangingStation);
+hasKittingWorkstation_ChangingStation=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

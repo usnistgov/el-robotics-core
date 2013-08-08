@@ -62,7 +62,9 @@ ss.str("");
 ss << MechanicalComponentID;
 data["MechanicalComponentID"]=ss.str();
 if(hasEndEffectorChangingStation_Base!=NULL)
-data["hasEndEffectorChangingStation_Base"]=hasEndEffectorChangingStation_Base->getname();
+data["hasEndEffectorChangingStation_Base"]="'" +hasEndEffectorChangingStation_Base->getname() + "'";
+else 
+ data["hasEndEffectorChangingStation_Base"]="null";
 dao  = new DAO("MechanicalComponent");
 dao->set(data);
 delete (dao);
@@ -79,7 +81,7 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["MechanicalComponentID"]=ss.str();
 if(hasEndEffectorChangingStation_Base!=NULL)
-data["hasEndEffectorChangingStation_Base"]=hasEndEffectorChangingStation_Base->getname();
+data["hasEndEffectorChangingStation_Base"]="'" + hasEndEffectorChangingStation_Base->getname() + "'";
 dao  = new DAO("MechanicalComponent");
 dao->insert(data);
 delete (dao);

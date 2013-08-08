@@ -91,6 +91,7 @@ this->set(name);
 void WorkTable::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++){
 delete(hadBySolidObject_WorkTable[i]);
 hadBySolidObject_WorkTable[i]=NULL;}
+hadBySolidObject_WorkTable.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

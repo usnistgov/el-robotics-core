@@ -96,11 +96,17 @@ ss.str("");
 ss << PartID;
 data["PartID"]=ss.str();
 if(hadByPart_Kit!=NULL)
-data["hadByPart_Kit"]=hadByPart_Kit->getname();
+data["hadByPart_Kit"]="'" +hadByPart_Kit->getname() + "'";
+else 
+ data["hadByPart_Kit"]="null";
 if(hadByPart_PartsTrayWithParts!=NULL)
-data["hadByPart_PartsTrayWithParts"]=hadByPart_PartsTrayWithParts->getname();
+data["hadByPart_PartsTrayWithParts"]="'" +hadByPart_PartsTrayWithParts->getname() + "'";
+else 
+ data["hadByPart_PartsTrayWithParts"]="null";
 if(hasPart_Sku!=NULL)
-data["hasPart_Sku"]=hasPart_Sku->getname();
+data["hasPart_Sku"]="'" +hasPart_Sku->getname() + "'";
+else 
+ data["hasPart_Sku"]="null";
 for(unsigned int i=0;i<hasSlot_Part.size();++i){
 ss.str("");
 hasSlot_Part[i]->get(hasSlot_Part[i]->getname());
@@ -124,11 +130,11 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["PartID"]=ss.str();
 if(hadByPart_Kit!=NULL)
-data["hadByPart_Kit"]=hadByPart_Kit->getname();
+data["hadByPart_Kit"]="'" + hadByPart_Kit->getname() + "'";
 if(hadByPart_PartsTrayWithParts!=NULL)
-data["hadByPart_PartsTrayWithParts"]=hadByPart_PartsTrayWithParts->getname();
+data["hadByPart_PartsTrayWithParts"]="'" + hadByPart_PartsTrayWithParts->getname() + "'";
 if(hasPart_Sku!=NULL)
-data["hasPart_Sku"]=hasPart_Sku->getname();
+data["hasPart_Sku"]="'" + hasPart_Sku->getname() + "'";
 dao  = new DAO("Part");
 dao->insert(data);
 delete (dao);
@@ -144,6 +150,7 @@ hasPart_Sku=NULL;
 for(std::size_t i = 0; i < hasSlot_Part.size(); i++){
 delete(hasSlot_Part[i]);
 hasSlot_Part[i]=NULL;}
+hasSlot_Part.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

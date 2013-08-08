@@ -111,13 +111,21 @@ ss.str("");
 ss << PoseLocationID;
 data["PoseLocationID"]=ss.str();
 if(hadByGraspPose_ShapeDesign!=NULL)
-data["hadByGraspPose_ShapeDesign"]=hadByGraspPose_ShapeDesign->getname();
+data["hadByGraspPose_ShapeDesign"]="'" +hadByGraspPose_ShapeDesign->getname() + "'";
+else 
+ data["hadByGraspPose_ShapeDesign"]="null";
 if(hasPoseLocation_XAxis!=NULL)
-data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+data["hasPoseLocation_XAxis"]="'" +hasPoseLocation_XAxis->getname() + "'";
+else 
+ data["hasPoseLocation_XAxis"]="null";
 if(hasPoseLocation_ZAxis!=NULL)
-data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
+data["hasPoseLocation_ZAxis"]="'" +hasPoseLocation_ZAxis->getname() + "'";
+else 
+ data["hasPoseLocation_ZAxis"]="null";
 if(hasPoseLocation_Point!=NULL)
-data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
+data["hasPoseLocation_Point"]="'" +hasPoseLocation_Point->getname() + "'";
+else 
+ data["hasPoseLocation_Point"]="null";
 dao  = new DAO("PoseLocation");
 dao->set(data);
 delete (dao);
@@ -143,13 +151,13 @@ ss.str("");
 ss << temp1->getDataThingID();
 data["PoseLocationID"]=ss.str();
 if(hadByGraspPose_ShapeDesign!=NULL)
-data["hadByGraspPose_ShapeDesign"]=hadByGraspPose_ShapeDesign->getname();
+data["hadByGraspPose_ShapeDesign"]="'" + hadByGraspPose_ShapeDesign->getname() + "'";
 if(hasPoseLocation_XAxis!=NULL)
-data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+data["hasPoseLocation_XAxis"]="'" + hasPoseLocation_XAxis->getname() + "'";
 if(hasPoseLocation_ZAxis!=NULL)
-data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
+data["hasPoseLocation_ZAxis"]="'" + hasPoseLocation_ZAxis->getname() + "'";
 if(hasPoseLocation_Point!=NULL)
-data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
+data["hasPoseLocation_Point"]="'" + hasPoseLocation_Point->getname() + "'";
 dao  = new DAO("PoseLocation");
 dao->insert(data);
 delete (dao);

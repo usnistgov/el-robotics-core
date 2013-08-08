@@ -71,7 +71,9 @@ ss.str("");
 ss << PartsTrayWithPartsID;
 data["PartsTrayWithPartsID"]=ss.str();
 if(hasPartsTrayWithParts_PartsTray!=NULL)
-data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname();
+data["hasPartsTrayWithParts_PartsTray"]="'" +hasPartsTrayWithParts_PartsTray->getname() + "'";
+else 
+ data["hasPartsTrayWithParts_PartsTray"]="null";
 for(unsigned int i=0;i<hadByPart_PartsTrayWithParts.size();++i){
 ss.str("");
 hadByPart_PartsTrayWithParts[i]->get(hadByPart_PartsTrayWithParts[i]->getname());
@@ -94,7 +96,7 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["PartsTrayWithPartsID"]=ss.str();
 if(hasPartsTrayWithParts_PartsTray!=NULL)
-data["hasPartsTrayWithParts_PartsTray"]=hasPartsTrayWithParts_PartsTray->getname();
+data["hasPartsTrayWithParts_PartsTray"]="'" + hasPartsTrayWithParts_PartsTray->getname() + "'";
 dao  = new DAO("PartsTrayWithParts");
 dao->insert(data);
 delete (dao);
@@ -106,6 +108,7 @@ hasPartsTrayWithParts_PartsTray=NULL;
 for(std::size_t i = 0; i < hadByPart_PartsTrayWithParts.size(); i++){
 delete(hadByPart_PartsTrayWithParts[i]);
 hadByPart_PartsTrayWithParts[i]=NULL;}
+hadByPart_PartsTrayWithParts.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

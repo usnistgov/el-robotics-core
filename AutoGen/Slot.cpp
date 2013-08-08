@@ -80,11 +80,17 @@ ss.str("");
 ss << SlotID;
 data["SlotID"]=ss.str();
 if(hadBySlot_Kit!=NULL)
-data["hadBySlot_Kit"]=hadBySlot_Kit->getname();
+data["hadBySlot_Kit"]="'" +hadBySlot_Kit->getname() + "'";
+else 
+ data["hadBySlot_Kit"]="null";
 if(hasSlot_PartRefAndPose!=NULL)
-data["hasSlot_PartRefAndPose"]=hasSlot_PartRefAndPose->getname();
+data["hasSlot_PartRefAndPose"]="'" +hasSlot_PartRefAndPose->getname() + "'";
+else 
+ data["hasSlot_PartRefAndPose"]="null";
 if(hasSlot_Part!=NULL)
-data["hasSlot_Part"]=hasSlot_Part->getname();
+data["hasSlot_Part"]="'" +hasSlot_Part->getname() + "'";
+else 
+ data["hasSlot_Part"]="null";
 dao  = new DAO("Slot");
 dao->set(data);
 delete (dao);
@@ -101,11 +107,11 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["SlotID"]=ss.str();
 if(hadBySlot_Kit!=NULL)
-data["hadBySlot_Kit"]=hadBySlot_Kit->getname();
+data["hadBySlot_Kit"]="'" + hadBySlot_Kit->getname() + "'";
 if(hasSlot_PartRefAndPose!=NULL)
-data["hasSlot_PartRefAndPose"]=hasSlot_PartRefAndPose->getname();
+data["hasSlot_PartRefAndPose"]="'" + hasSlot_PartRefAndPose->getname() + "'";
 if(hasSlot_Part!=NULL)
-data["hasSlot_Part"]=hasSlot_Part->getname();
+data["hasSlot_Part"]="'" + hasSlot_Part->getname() + "'";
 dao  = new DAO("Slot");
 dao->insert(data);
 delete (dao);

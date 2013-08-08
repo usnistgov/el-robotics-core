@@ -85,11 +85,17 @@ ss.str("");
 ss << PhysicalLocationID;
 data["PhysicalLocationID"]=ss.str();
 if(hadBySecondaryLocation_SolidObject!=NULL)
-data["hadBySecondaryLocation_SolidObject"]=hadBySecondaryLocation_SolidObject->getname();
+data["hadBySecondaryLocation_SolidObject"]="'" +hadBySecondaryLocation_SolidObject->getname() + "'";
+else 
+ data["hadBySecondaryLocation_SolidObject"]="null";
 if(hasPhysicalLocation_RefObject!=NULL)
-data["hasPhysicalLocation_RefObject"]=hasPhysicalLocation_RefObject->getname();
+data["hasPhysicalLocation_RefObject"]="'" +hasPhysicalLocation_RefObject->getname() + "'";
+else 
+ data["hasPhysicalLocation_RefObject"]="null";
 if(hasSolidObject_PrimaryLocation!=NULL)
-data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+data["hasSolidObject_PrimaryLocation"]="'" +hasSolidObject_PrimaryLocation->getname() + "'";
+else 
+ data["hasSolidObject_PrimaryLocation"]="null";
 dao  = new DAO("PhysicalLocation");
 dao->set(data);
 delete (dao);
@@ -107,11 +113,11 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["PhysicalLocationID"]=ss.str();
 if(hadBySecondaryLocation_SolidObject!=NULL)
-data["hadBySecondaryLocation_SolidObject"]=hadBySecondaryLocation_SolidObject->getname();
+data["hadBySecondaryLocation_SolidObject"]="'" + hadBySecondaryLocation_SolidObject->getname() + "'";
 if(hasPhysicalLocation_RefObject!=NULL)
-data["hasPhysicalLocation_RefObject"]=hasPhysicalLocation_RefObject->getname();
+data["hasPhysicalLocation_RefObject"]="'" + hasPhysicalLocation_RefObject->getname() + "'";
 if(hasSolidObject_PrimaryLocation!=NULL)
-data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+data["hasSolidObject_PrimaryLocation"]="'" + hasSolidObject_PrimaryLocation->getname() + "'";
 dao  = new DAO("PhysicalLocation");
 dao->insert(data);
 delete (dao);

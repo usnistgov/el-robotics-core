@@ -114,13 +114,21 @@ ss.str("");
 ss << VectorID;
 data["VectorID"]=ss.str();
 if(hasPoseLocation_XAxis!=NULL)
-data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+data["hasPoseLocation_XAxis"]="'" +hasPoseLocation_XAxis->getname() + "'";
+else 
+ data["hasPoseLocation_XAxis"]="null";
 if(hasPoseLocation_ZAxis!=NULL)
-data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
+data["hasPoseLocation_ZAxis"]="'" +hasPoseLocation_ZAxis->getname() + "'";
+else 
+ data["hasPoseLocation_ZAxis"]="null";
 if(hasPartRefAndPose_ZAxis!=NULL)
-data["hasPartRefAndPose_ZAxis"]=hasPartRefAndPose_ZAxis->getname();
+data["hasPartRefAndPose_ZAxis"]="'" +hasPartRefAndPose_ZAxis->getname() + "'";
+else 
+ data["hasPartRefAndPose_ZAxis"]="null";
 if(hasPartRefAndPose_XAxis!=NULL)
-data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
+data["hasPartRefAndPose_XAxis"]="'" +hasPartRefAndPose_XAxis->getname() + "'";
+else 
+ data["hasPartRefAndPose_XAxis"]="null";
 dao  = new DAO("Vector");
 dao->set(data);
 delete (dao);
@@ -146,13 +154,13 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["VectorID"]=ss.str();
 if(hasPoseLocation_XAxis!=NULL)
-data["hasPoseLocation_XAxis"]=hasPoseLocation_XAxis->getname();
+data["hasPoseLocation_XAxis"]="'" + hasPoseLocation_XAxis->getname() + "'";
 if(hasPoseLocation_ZAxis!=NULL)
-data["hasPoseLocation_ZAxis"]=hasPoseLocation_ZAxis->getname();
+data["hasPoseLocation_ZAxis"]="'" + hasPoseLocation_ZAxis->getname() + "'";
 if(hasPartRefAndPose_ZAxis!=NULL)
-data["hasPartRefAndPose_ZAxis"]=hasPartRefAndPose_ZAxis->getname();
+data["hasPartRefAndPose_ZAxis"]="'" + hasPartRefAndPose_ZAxis->getname() + "'";
 if(hasPartRefAndPose_XAxis!=NULL)
-data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
+data["hasPartRefAndPose_XAxis"]="'" + hasPartRefAndPose_XAxis->getname() + "'";
 dao  = new DAO("Vector");
 dao->insert(data);
 delete (dao);

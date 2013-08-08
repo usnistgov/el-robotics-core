@@ -115,13 +115,21 @@ ss.str("");
 ss << PointID;
 data["PointID"]=ss.str();
 if(hasBoxVolume_MaximumPoint!=NULL)
-data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+data["hasBoxVolume_MaximumPoint"]="'" +hasBoxVolume_MaximumPoint->getname() + "'";
+else 
+ data["hasBoxVolume_MaximumPoint"]="null";
 if(hasBoxVolume_MinimumPoint!=NULL)
-data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
+data["hasBoxVolume_MinimumPoint"]="'" +hasBoxVolume_MinimumPoint->getname() + "'";
+else 
+ data["hasBoxVolume_MinimumPoint"]="null";
 if(hasPoseLocation_Point!=NULL)
-data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
+data["hasPoseLocation_Point"]="'" +hasPoseLocation_Point->getname() + "'";
+else 
+ data["hasPoseLocation_Point"]="null";
 if(hasPartRefAndPose_Point!=NULL)
-data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
+data["hasPartRefAndPose_Point"]="'" +hasPartRefAndPose_Point->getname() + "'";
+else 
+ data["hasPartRefAndPose_Point"]="null";
 dao  = new DAO("Point");
 dao->set(data);
 delete (dao);
@@ -147,13 +155,13 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["PointID"]=ss.str();
 if(hasBoxVolume_MaximumPoint!=NULL)
-data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+data["hasBoxVolume_MaximumPoint"]="'" + hasBoxVolume_MaximumPoint->getname() + "'";
 if(hasBoxVolume_MinimumPoint!=NULL)
-data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
+data["hasBoxVolume_MinimumPoint"]="'" + hasBoxVolume_MinimumPoint->getname() + "'";
 if(hasPoseLocation_Point!=NULL)
-data["hasPoseLocation_Point"]=hasPoseLocation_Point->getname();
+data["hasPoseLocation_Point"]="'" + hasPoseLocation_Point->getname() + "'";
 if(hasPartRefAndPose_Point!=NULL)
-data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
+data["hasPartRefAndPose_Point"]="'" + hasPartRefAndPose_Point->getname() + "'";
 dao  = new DAO("Point");
 dao->insert(data);
 delete (dao);

@@ -56,7 +56,7 @@ DAO::getSqlQueriesDataSingle["PoseOnlyLocation"] = "SELECT PoseOnlyLocation.Pose
 DAO::getSqlQueriesDataSingle["WorkTable"] = "SELECT WorkTable.WorkTableID AS 'WorkTable.WorkTableID', WorkTable._NAME AS 'WorkTable._NAME' FROM WorkTable, SolidObject WHERE  WorkTable.WorkTableID = ? AND SolidObject.SolidObjectID = WorkTable.WorkTableID";
 DAO::getSqlQueriesDataSingle["EndEffectorChangingStation"] = "SELECT EndEffectorChangingStation.EndEffectorChangingStationID AS 'EndEffectorChangingStation.EndEffectorChangingStationID', EndEffectorChangingStation._NAME AS 'EndEffectorChangingStation._NAME' FROM EndEffectorChangingStation, SolidObject WHERE  EndEffectorChangingStation.EndEffectorChangingStationID = ? AND SolidObject.SolidObjectID = EndEffectorChangingStation.EndEffectorChangingStationID";
 DAO::getSqlQueriesDataSingle["LargeBoxWithEmptyKitTrays"] = "SELECT LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID AS 'LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID', LargeBoxWithEmptyKitTrays._NAME AS 'LargeBoxWithEmptyKitTrays._NAME' FROM LargeBoxWithEmptyKitTrays, SolidObject WHERE  LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID = ? AND SolidObject.SolidObjectID = LargeBoxWithEmptyKitTrays.LargeBoxWithEmptyKitTraysID";
-DAO::getSqlQueriesDataSingle["PartsTray"] = "SELECT PartsTray.PartsTrayID AS 'PartsTray.PartsTrayID', PartsTray._NAME AS 'PartsTray._NAME', PartsTray.hasPartsTray_SerialNumber AS 'PartsTray.hasPartsTray_SerialNumber' FROM PartsTray, SolidObject WHERE  PartsTray.PartsTrayID = ? AND SolidObject.SolidObjectID = PartsTray.PartsTrayID";
+DAO::getSqlQueriesDataSingle["PartsTray"] = "SELECT PartsTray.PartsTrayID AS 'PartsTray.PartsTrayID', PartsTray._NAME AS 'PartsTray._NAME', PartsTray.hasPartsTray_PartQuantity AS 'PartsTray.hasPartsTray_PartQuantity', PartsTray.hasPartsTray_SerialNumber AS 'PartsTray.hasPartsTray_SerialNumber' FROM PartsTray, SolidObject WHERE  PartsTray.PartsTrayID = ? AND SolidObject.SolidObjectID = PartsTray.PartsTrayID";
 DAO::getSqlQueriesDataSingle["DataThing"] = "SELECT DataThing.DataThingID AS 'DataThing.DataThingID', DataThing._NAME AS 'DataThing._NAME' FROM DataThing WHERE  DataThing.DataThingID = ?";
 DAO::getSqlQueriesDataSingle["KittingWorkstation"] = "SELECT KittingWorkstation.KittingWorkstationID AS 'KittingWorkstation.KittingWorkstationID', KittingWorkstation._NAME AS 'KittingWorkstation._NAME', KittingWorkstation.hasKittingWorkstation_LengthUnit AS 'KittingWorkstation.hasKittingWorkstation_LengthUnit', KittingWorkstation.hasKittingWorkstation_WeightUnit AS 'KittingWorkstation.hasKittingWorkstation_WeightUnit', KittingWorkstation.hasKittingWorkstation_AngleUnit AS 'KittingWorkstation.hasKittingWorkstation_AngleUnit' FROM KittingWorkstation, SolidObject WHERE  KittingWorkstation.KittingWorkstationID = ? AND SolidObject.SolidObjectID = KittingWorkstation.KittingWorkstationID";
 DAO::getSqlQueriesDataSingle["KitTray"] = "SELECT KitTray.KitTrayID AS 'KitTray.KitTrayID', KitTray._NAME AS 'KitTray._NAME', KitTray.hasKitTray_SerialNumber AS 'KitTray.hasKitTray_SerialNumber' FROM KitTray, SolidObject WHERE  KitTray.KitTrayID = ? AND SolidObject.SolidObjectID = KitTray.KitTrayID";
@@ -146,6 +146,7 @@ temp.push_back("-PartsBin/hasPartsBin_PartSku");
 temp.push_back("KittingWorkstation/hadBySku_KittingWorkstation");
 temp.push_back("ShapeDesign/hasStockKeepingUnit_Shape");
 temp.push_back("-PartsTray/hasPartsTray_Sku");
+temp.push_back("-PartsTray/hasPartsTray_PartSku");
 temp.push_back("-KitTray/hasKitTray_Sku");
 temp.push_back("-KitDesign/hasKitDesign_KitTraySku");
 temp.push_back("-LargeContainer/hasLargeContainer_Sku");
@@ -164,6 +165,7 @@ temp.push_back("MechanicalComponent/hasEndEffectorChangingStation_Base");
 temp.push_back("-KittingWorkstation/hasKittingWorkstation_ChangingStation");
 DAO::getSqlQueriesObjectSingle["EndEffectorChangingStation"] = temp;
 temp.clear();temp.push_back("StockKeepingUnit/hasPartsTray_Sku");
+temp.push_back("StockKeepingUnit/hasPartsTray_PartSku");
 temp.push_back("-PartsTrayWithParts/hasPartsTrayWithParts_PartsTray");
 DAO::getSqlQueriesObjectSingle["PartsTray"] = temp;
 temp.clear();temp.push_back("-SolidObject/hadByObject_KittingWorkstation");
@@ -832,15 +834,12 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 						= query + "SET "
 								+ DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
 										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
-												"/") + 1) + "='"
+												"/") + 1) + "="
 								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
 										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
 												"/") + 1)];
-				query = query + "' WHERE " + this->className.back() + "ID="
+				query = query + " WHERE " + this->className.back() + "ID="
 						+ data[this->className.back() + "ID"];
-				if (!data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
-						DAO::getSqlQueriesObjectSingle[className.back()][i].find(
-								"/") + 1)].empty())
 
 					stmt->execute(query);
 
@@ -861,9 +860,6 @@ void DAO::set(std::map<std::string,std::string> data){	try {
 								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
 										DAO::getSqlQueriesObjectSingle[className.back()][i].find(
 												"/") + 1)] + "'";
-				if (!data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(
-						DAO::getSqlQueriesObjectSingle[className.back()][i].find(
-								"/") + 1)].empty())
 					stmt->execute(query);
 			}
 			delete (stmt);
@@ -944,10 +940,7 @@ it != data.end(); it++) {
 if (toAdd(it->first)){
 execute=true;
 query = query + it->first + ", ";
-if(!needQuote(it->second))
 queryEnd= queryEnd + it->second + ", ";
-else 
- queryEnd= queryEnd +"'"+ it->second + "', ";
 }
 }
 if(execute){
@@ -977,17 +970,11 @@ std::vector<std::string> DAO::Explode(const std::string & str, char separator )
    return result;
 }
 bool DAO::toAdd(std::string s) {
-	for (int i=0;i<DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {
+	for (int unsigned i=0;i<DAO::getSqlQueriesObjectSingle[className.back()].size(); i++) {
 		std::string key = DAO::getSqlQueriesObjectSingle[className.back()][i];
 if (std::equal(key.begin() + key.size() - s.size(), key.end(),s.begin()) && key.substr(0, 1) == "-")
 	return false;
 }
-		return true;
-}
-bool DAO::needQuote(std::string s) {
-	if (s.substr(0, 1) == "'")
-		return false;
-	else
 		return true;
 }
 

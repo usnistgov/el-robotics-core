@@ -87,11 +87,17 @@ ss.str("");
 ss << LargeContainerID;
 data["LargeContainerID"]=ss.str();
 if(hasLargeBoxWithKits_LargeContainer!=NULL)
-data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
+data["hasLargeBoxWithKits_LargeContainer"]="'" +hasLargeBoxWithKits_LargeContainer->getname() + "'";
+else 
+ data["hasLargeBoxWithKits_LargeContainer"]="null";
 if(hasLargeContainer_Sku!=NULL)
-data["hasLargeContainer_Sku"]=hasLargeContainer_Sku->getname();
+data["hasLargeContainer_Sku"]="'" +hasLargeContainer_Sku->getname() + "'";
+else 
+ data["hasLargeContainer_Sku"]="null";
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
-data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
+data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" +hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
+else 
+ data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="null";
 dao  = new DAO("LargeContainer");
 dao->set(data);
 delete (dao);
@@ -109,11 +115,11 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["LargeContainerID"]=ss.str();
 if(hasLargeBoxWithKits_LargeContainer!=NULL)
-data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
+data["hasLargeBoxWithKits_LargeContainer"]="'" + hasLargeBoxWithKits_LargeContainer->getname() + "'";
 if(hasLargeContainer_Sku!=NULL)
-data["hasLargeContainer_Sku"]=hasLargeContainer_Sku->getname();
+data["hasLargeContainer_Sku"]="'" + hasLargeContainer_Sku->getname() + "'";
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
-data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
+data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" + hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
 dao  = new DAO("LargeContainer");
 dao->insert(data);
 delete (dao);

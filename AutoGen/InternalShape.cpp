@@ -67,7 +67,9 @@ ss.str("");
 ss << InternalShapeID;
 data["InternalShapeID"]=ss.str();
 if(hadByInternalShape_SolidObject!=NULL)
-data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname();
+data["hadByInternalShape_SolidObject"]="'" +hadByInternalShape_SolidObject->getname() + "'";
+else 
+ data["hadByInternalShape_SolidObject"]="null";
 dao  = new DAO("InternalShape");
 dao->set(data);
 delete (dao);
@@ -87,7 +89,7 @@ ss.str("");
 ss << temp1->getDataThingID();
 data["InternalShapeID"]=ss.str();
 if(hadByInternalShape_SolidObject!=NULL)
-data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname();
+data["hadByInternalShape_SolidObject"]="'" + hadByInternalShape_SolidObject->getname() + "'";
 dao  = new DAO("InternalShape");
 dao->insert(data);
 delete (dao);

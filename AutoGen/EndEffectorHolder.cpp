@@ -71,9 +71,13 @@ ss.str("");
 ss << EndEffectorHolderID;
 data["EndEffectorHolderID"]=ss.str();
 if(hadByEndEffectorHolder_EndEffectorChangingStation!=NULL)
-data["hadByEndEffectorHolder_EndEffectorChangingStation"]=hadByEndEffectorHolder_EndEffectorChangingStation->getname();
+data["hadByEndEffectorHolder_EndEffectorChangingStation"]="'" +hadByEndEffectorHolder_EndEffectorChangingStation->getname() + "'";
+else 
+ data["hadByEndEffectorHolder_EndEffectorChangingStation"]="null";
 if(hasEndEffectorHolder_EndEffector!=NULL)
-data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+data["hasEndEffectorHolder_EndEffector"]="'" +hasEndEffectorHolder_EndEffector->getname() + "'";
+else 
+ data["hasEndEffectorHolder_EndEffector"]="null";
 dao  = new DAO("EndEffectorHolder");
 dao->set(data);
 delete (dao);
@@ -90,9 +94,9 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["EndEffectorHolderID"]=ss.str();
 if(hadByEndEffectorHolder_EndEffectorChangingStation!=NULL)
-data["hadByEndEffectorHolder_EndEffectorChangingStation"]=hadByEndEffectorHolder_EndEffectorChangingStation->getname();
+data["hadByEndEffectorHolder_EndEffectorChangingStation"]="'" + hadByEndEffectorHolder_EndEffectorChangingStation->getname() + "'";
 if(hasEndEffectorHolder_EndEffector!=NULL)
-data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+data["hasEndEffectorHolder_EndEffector"]="'" + hasEndEffectorHolder_EndEffector->getname() + "'";
 dao  = new DAO("EndEffectorHolder");
 dao->insert(data);
 delete (dao);

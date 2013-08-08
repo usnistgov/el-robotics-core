@@ -114,11 +114,17 @@ ss.str("");
 ss << EndEffectorID;
 data["EndEffectorID"]=ss.str();
 if(hasEndEffector_HeldObject!=NULL)
-data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
+data["hasEndEffector_HeldObject"]="'" +hasEndEffector_HeldObject->getname() + "'";
+else 
+ data["hasEndEffector_HeldObject"]="null";
 if(hadByEndEffector_Robot!=NULL)
-data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+data["hadByEndEffector_Robot"]="'" +hadByEndEffector_Robot->getname() + "'";
+else 
+ data["hadByEndEffector_Robot"]="null";
 if(hasEndEffectorHolder_EndEffector!=NULL)
-data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+data["hasEndEffectorHolder_EndEffector"]="'" +hasEndEffectorHolder_EndEffector->getname() + "'";
+else 
+ data["hasEndEffectorHolder_EndEffector"]="null";
 for(unsigned int i=0;i<hasStockKeepingUnit_EndEffector.size();++i){
 ss.str("");
 hasStockKeepingUnit_EndEffector[i]->get(hasStockKeepingUnit_EndEffector[i]->getname());
@@ -148,11 +154,11 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["EndEffectorID"]=ss.str();
 if(hasEndEffector_HeldObject!=NULL)
-data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
+data["hasEndEffector_HeldObject"]="'" + hasEndEffector_HeldObject->getname() + "'";
 if(hadByEndEffector_Robot!=NULL)
-data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+data["hadByEndEffector_Robot"]="'" + hadByEndEffector_Robot->getname() + "'";
 if(hasEndEffectorHolder_EndEffector!=NULL)
-data["hasEndEffectorHolder_EndEffector"]=hasEndEffectorHolder_EndEffector->getname();
+data["hasEndEffectorHolder_EndEffector"]="'" + hasEndEffectorHolder_EndEffector->getname() + "'";
 dao  = new DAO("EndEffector");
 dao->insert(data);
 delete (dao);
@@ -168,6 +174,7 @@ hasEndEffectorHolder_EndEffector=NULL;
 for(std::size_t i = 0; i < hasStockKeepingUnit_EndEffector.size(); i++){
 delete(hasStockKeepingUnit_EndEffector[i]);
 hasStockKeepingUnit_EndEffector[i]=NULL;}
+hasStockKeepingUnit_EndEffector.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

@@ -96,7 +96,9 @@ ss.str("");
 ss << RobotID;
 data["RobotID"]=ss.str();
 if(hadByEndEffector_Robot!=NULL)
-data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+data["hadByEndEffector_Robot"]="'" +hadByEndEffector_Robot->getname() + "'";
+else 
+ data["hadByEndEffector_Robot"]="null";
 for(unsigned int i=0;i<hadByWorkVolume_Robot.size();++i){
 ss.str("");
 hadByWorkVolume_Robot[i]->get(hadByWorkVolume_Robot[i]->getname());
@@ -104,7 +106,9 @@ ss << hadByWorkVolume_Robot[i]->getBoxVolumeID();
 data["hadByWorkVolume_Robot"]=data["hadByWorkVolume_Robot"]+" "+ss.str();
 }
 if(hasKittingWorkstation_Robot!=NULL)
-data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
+data["hasKittingWorkstation_Robot"]="'" +hasKittingWorkstation_Robot->getname() + "'";
+else 
+ data["hasKittingWorkstation_Robot"]="null";
 dao  = new DAO("Robot");
 dao->set(data);
 delete (dao);
@@ -125,9 +129,9 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["RobotID"]=ss.str();
 if(hadByEndEffector_Robot!=NULL)
-data["hadByEndEffector_Robot"]=hadByEndEffector_Robot->getname();
+data["hadByEndEffector_Robot"]="'" + hadByEndEffector_Robot->getname() + "'";
 if(hasKittingWorkstation_Robot!=NULL)
-data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
+data["hasKittingWorkstation_Robot"]="'" + hasKittingWorkstation_Robot->getname() + "'";
 dao  = new DAO("Robot");
 dao->insert(data);
 delete (dao);
@@ -136,11 +140,12 @@ this->set(name);
 
 void Robot::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
 hadByEndEffector_Robot=NULL;
-delete(hasKittingWorkstation_Robot);
-hasKittingWorkstation_Robot=NULL;
 for(std::size_t i = 0; i < hadByWorkVolume_Robot.size(); i++){
 delete(hadByWorkVolume_Robot[i]);
 hadByWorkVolume_Robot[i]=NULL;}
+hadByWorkVolume_Robot.clear();
+delete(hasKittingWorkstation_Robot);
+hasKittingWorkstation_Robot=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

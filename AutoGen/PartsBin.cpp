@@ -84,9 +84,13 @@ ss.str("");
 ss << PartsBinID;
 data["PartsBinID"]=ss.str();
 if(hasPartsBin_Sku!=NULL)
-data["hasPartsBin_Sku"]=hasPartsBin_Sku->getname();
+data["hasPartsBin_Sku"]="'" +hasPartsBin_Sku->getname() + "'";
+else 
+ data["hasPartsBin_Sku"]="null";
 if(hasPartsBin_PartSku!=NULL)
-data["hasPartsBin_PartSku"]=hasPartsBin_PartSku->getname();
+data["hasPartsBin_PartSku"]="'" +hasPartsBin_PartSku->getname() + "'";
+else 
+ data["hasPartsBin_PartSku"]="null";
 dao  = new DAO("PartsBin");
 dao->set(data);
 delete (dao);
@@ -105,9 +109,9 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["PartsBinID"]=ss.str();
 if(hasPartsBin_Sku!=NULL)
-data["hasPartsBin_Sku"]=hasPartsBin_Sku->getname();
+data["hasPartsBin_Sku"]="'" + hasPartsBin_Sku->getname() + "'";
 if(hasPartsBin_PartSku!=NULL)
-data["hasPartsBin_PartSku"]=hasPartsBin_PartSku->getname();
+data["hasPartsBin_PartSku"]="'" + hasPartsBin_PartSku->getname() + "'";
 dao  = new DAO("PartsBin");
 dao->insert(data);
 delete (dao);

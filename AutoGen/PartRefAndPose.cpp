@@ -106,15 +106,25 @@ ss.str("");
 ss << PartRefAndPoseID;
 data["PartRefAndPoseID"]=ss.str();
 if(hasPartRefAndPose_Sku!=NULL)
-data["hasPartRefAndPose_Sku"]=hasPartRefAndPose_Sku->getname();
+data["hasPartRefAndPose_Sku"]="'" +hasPartRefAndPose_Sku->getname() + "'";
+else 
+ data["hasPartRefAndPose_Sku"]="null";
 if(hasPartRefAndPose_ZAxis!=NULL)
-data["hasPartRefAndPose_ZAxis"]=hasPartRefAndPose_ZAxis->getname();
+data["hasPartRefAndPose_ZAxis"]="'" +hasPartRefAndPose_ZAxis->getname() + "'";
+else 
+ data["hasPartRefAndPose_ZAxis"]="null";
 if(hadByPartRefAndPose_KitDesign!=NULL)
-data["hadByPartRefAndPose_KitDesign"]=hadByPartRefAndPose_KitDesign->getname();
+data["hadByPartRefAndPose_KitDesign"]="'" +hadByPartRefAndPose_KitDesign->getname() + "'";
+else 
+ data["hadByPartRefAndPose_KitDesign"]="null";
 if(hasPartRefAndPose_Point!=NULL)
-data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
+data["hasPartRefAndPose_Point"]="'" +hasPartRefAndPose_Point->getname() + "'";
+else 
+ data["hasPartRefAndPose_Point"]="null";
 if(hasPartRefAndPose_XAxis!=NULL)
-data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
+data["hasPartRefAndPose_XAxis"]="'" +hasPartRefAndPose_XAxis->getname() + "'";
+else 
+ data["hasPartRefAndPose_XAxis"]="null";
 for(unsigned int i=0;i<hasSlot_PartRefAndPose.size();++i){
 ss.str("");
 hasSlot_PartRefAndPose[i]->get(hasSlot_PartRefAndPose[i]->getname());
@@ -137,15 +147,15 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["PartRefAndPoseID"]=ss.str();
 if(hasPartRefAndPose_Sku!=NULL)
-data["hasPartRefAndPose_Sku"]=hasPartRefAndPose_Sku->getname();
+data["hasPartRefAndPose_Sku"]="'" + hasPartRefAndPose_Sku->getname() + "'";
 if(hasPartRefAndPose_ZAxis!=NULL)
-data["hasPartRefAndPose_ZAxis"]=hasPartRefAndPose_ZAxis->getname();
+data["hasPartRefAndPose_ZAxis"]="'" + hasPartRefAndPose_ZAxis->getname() + "'";
 if(hadByPartRefAndPose_KitDesign!=NULL)
-data["hadByPartRefAndPose_KitDesign"]=hadByPartRefAndPose_KitDesign->getname();
+data["hadByPartRefAndPose_KitDesign"]="'" + hadByPartRefAndPose_KitDesign->getname() + "'";
 if(hasPartRefAndPose_Point!=NULL)
-data["hasPartRefAndPose_Point"]=hasPartRefAndPose_Point->getname();
+data["hasPartRefAndPose_Point"]="'" + hasPartRefAndPose_Point->getname() + "'";
 if(hasPartRefAndPose_XAxis!=NULL)
-data["hasPartRefAndPose_XAxis"]=hasPartRefAndPose_XAxis->getname();
+data["hasPartRefAndPose_XAxis"]="'" + hasPartRefAndPose_XAxis->getname() + "'";
 dao  = new DAO("PartRefAndPose");
 dao->insert(data);
 delete (dao);
@@ -165,6 +175,7 @@ hasPartRefAndPose_XAxis=NULL;
 for(std::size_t i = 0; i < hasSlot_PartRefAndPose.size(); i++){
 delete(hasSlot_PartRefAndPose[i]);
 hasSlot_PartRefAndPose[i]=NULL;}
+hasSlot_PartRefAndPose.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

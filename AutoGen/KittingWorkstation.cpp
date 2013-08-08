@@ -146,9 +146,13 @@ ss << hadByOtherObstacle_KittingWorkstation[i]->getBoxVolumeID();
 data["hadByOtherObstacle_KittingWorkstation"]=data["hadByOtherObstacle_KittingWorkstation"]+" "+ss.str();
 }
 if(hasKittingWorkstation_ChangingStation!=NULL)
-data["hasKittingWorkstation_ChangingStation"]=hasKittingWorkstation_ChangingStation->getname();
+data["hasKittingWorkstation_ChangingStation"]="'" +hasKittingWorkstation_ChangingStation->getname() + "'";
+else 
+ data["hasKittingWorkstation_ChangingStation"]="null";
 if(hasKittingWorkstation_Robot!=NULL)
-data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
+data["hasKittingWorkstation_Robot"]="'" +hasKittingWorkstation_Robot->getname() + "'";
+else 
+ data["hasKittingWorkstation_Robot"]="null";
 for(unsigned int i=0;i<hadByObject_KittingWorkstation.size();++i){
 ss.str("");
 hadByObject_KittingWorkstation[i]->get(hadByObject_KittingWorkstation[i]->getname());
@@ -174,31 +178,35 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["KittingWorkstationID"]=ss.str();
 if(hasKittingWorkstation_ChangingStation!=NULL)
-data["hasKittingWorkstation_ChangingStation"]=hasKittingWorkstation_ChangingStation->getname();
+data["hasKittingWorkstation_ChangingStation"]="'" + hasKittingWorkstation_ChangingStation->getname() + "'";
 if(hasKittingWorkstation_Robot!=NULL)
-data["hasKittingWorkstation_Robot"]=hasKittingWorkstation_Robot->getname();
+data["hasKittingWorkstation_Robot"]="'" + hasKittingWorkstation_Robot->getname() + "'";
 dao  = new DAO("KittingWorkstation");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void KittingWorkstation::copy(std::map<std::string,std::string> object){delete(hasKittingWorkstation_ChangingStation);
-hasKittingWorkstation_ChangingStation=NULL;
-delete(hasKittingWorkstation_Robot);
-hasKittingWorkstation_Robot=NULL;
-for(std::size_t i = 0; i < hadBySku_KittingWorkstation.size(); i++){
+void KittingWorkstation::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadBySku_KittingWorkstation.size(); i++){
 delete(hadBySku_KittingWorkstation[i]);
 hadBySku_KittingWorkstation[i]=NULL;}
+hadBySku_KittingWorkstation.clear();
 for(std::size_t i = 0; i < hadByKitDesign_KittingWorkstation.size(); i++){
 delete(hadByKitDesign_KittingWorkstation[i]);
 hadByKitDesign_KittingWorkstation[i]=NULL;}
+hadByKitDesign_KittingWorkstation.clear();
 for(std::size_t i = 0; i < hadByOtherObstacle_KittingWorkstation.size(); i++){
 delete(hadByOtherObstacle_KittingWorkstation[i]);
 hadByOtherObstacle_KittingWorkstation[i]=NULL;}
+hadByOtherObstacle_KittingWorkstation.clear();
+delete(hasKittingWorkstation_ChangingStation);
+hasKittingWorkstation_ChangingStation=NULL;
+delete(hasKittingWorkstation_Robot);
+hasKittingWorkstation_Robot=NULL;
 for(std::size_t i = 0; i < hadByObject_KittingWorkstation.size(); i++){
 delete(hadByObject_KittingWorkstation[i]);
 hadByObject_KittingWorkstation[i]=NULL;}
+hadByObject_KittingWorkstation.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

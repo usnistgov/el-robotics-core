@@ -88,13 +88,21 @@ ss.str("");
 ss << BoxVolumeID;
 data["BoxVolumeID"]=ss.str();
 if(hadByOtherObstacle_KittingWorkstation!=NULL)
-data["hadByOtherObstacle_KittingWorkstation"]=hadByOtherObstacle_KittingWorkstation->getname();
+data["hadByOtherObstacle_KittingWorkstation"]="'" +hadByOtherObstacle_KittingWorkstation->getname() + "'";
+else 
+ data["hadByOtherObstacle_KittingWorkstation"]="null";
 if(hadByWorkVolume_Robot!=NULL)
-data["hadByWorkVolume_Robot"]=hadByWorkVolume_Robot->getname();
+data["hadByWorkVolume_Robot"]="'" +hadByWorkVolume_Robot->getname() + "'";
+else 
+ data["hadByWorkVolume_Robot"]="null";
 if(hasBoxVolume_MaximumPoint!=NULL)
-data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+data["hasBoxVolume_MaximumPoint"]="'" +hasBoxVolume_MaximumPoint->getname() + "'";
+else 
+ data["hasBoxVolume_MaximumPoint"]="null";
 if(hasBoxVolume_MinimumPoint!=NULL)
-data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
+data["hasBoxVolume_MinimumPoint"]="'" +hasBoxVolume_MinimumPoint->getname() + "'";
+else 
+ data["hasBoxVolume_MinimumPoint"]="null";
 dao  = new DAO("BoxVolume");
 dao->set(data);
 delete (dao);
@@ -111,13 +119,13 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["BoxVolumeID"]=ss.str();
 if(hadByOtherObstacle_KittingWorkstation!=NULL)
-data["hadByOtherObstacle_KittingWorkstation"]=hadByOtherObstacle_KittingWorkstation->getname();
+data["hadByOtherObstacle_KittingWorkstation"]="'" + hadByOtherObstacle_KittingWorkstation->getname() + "'";
 if(hadByWorkVolume_Robot!=NULL)
-data["hadByWorkVolume_Robot"]=hadByWorkVolume_Robot->getname();
+data["hadByWorkVolume_Robot"]="'" + hadByWorkVolume_Robot->getname() + "'";
 if(hasBoxVolume_MaximumPoint!=NULL)
-data["hasBoxVolume_MaximumPoint"]=hasBoxVolume_MaximumPoint->getname();
+data["hasBoxVolume_MaximumPoint"]="'" + hasBoxVolume_MaximumPoint->getname() + "'";
 if(hasBoxVolume_MinimumPoint!=NULL)
-data["hasBoxVolume_MinimumPoint"]=hasBoxVolume_MinimumPoint->getname();
+data["hasBoxVolume_MinimumPoint"]="'" + hasBoxVolume_MinimumPoint->getname() + "'";
 dao  = new DAO("BoxVolume");
 dao->insert(data);
 delete (dao);

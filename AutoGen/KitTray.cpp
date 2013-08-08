@@ -87,11 +87,17 @@ ss.str("");
 ss << KitTrayID;
 data["KitTrayID"]=ss.str();
 if(hasKitTray_Sku!=NULL)
-data["hasKitTray_Sku"]=hasKitTray_Sku->getname();
+data["hasKitTray_Sku"]="'" +hasKitTray_Sku->getname() + "'";
+else 
+ data["hasKitTray_Sku"]="null";
 if(hasKit_KitTray!=NULL)
-data["hasKit_KitTray"]=hasKit_KitTray->getname();
+data["hasKit_KitTray"]="'" +hasKit_KitTray->getname() + "'";
+else 
+ data["hasKit_KitTray"]="null";
 if(hadByKitTray_LargeBoxWithEmptyKitTrays!=NULL)
-data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=hadByKitTray_LargeBoxWithEmptyKitTrays->getname();
+data["hadByKitTray_LargeBoxWithEmptyKitTrays"]="'" +hadByKitTray_LargeBoxWithEmptyKitTrays->getname() + "'";
+else 
+ data["hadByKitTray_LargeBoxWithEmptyKitTrays"]="null";
 dao  = new DAO("KitTray");
 dao->set(data);
 delete (dao);
@@ -109,11 +115,11 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["KitTrayID"]=ss.str();
 if(hasKitTray_Sku!=NULL)
-data["hasKitTray_Sku"]=hasKitTray_Sku->getname();
+data["hasKitTray_Sku"]="'" + hasKitTray_Sku->getname() + "'";
 if(hasKit_KitTray!=NULL)
-data["hasKit_KitTray"]=hasKit_KitTray->getname();
+data["hasKit_KitTray"]="'" + hasKit_KitTray->getname() + "'";
 if(hadByKitTray_LargeBoxWithEmptyKitTrays!=NULL)
-data["hadByKitTray_LargeBoxWithEmptyKitTrays"]=hadByKitTray_LargeBoxWithEmptyKitTrays->getname();
+data["hadByKitTray_LargeBoxWithEmptyKitTrays"]="'" + hadByKitTray_LargeBoxWithEmptyKitTrays->getname() + "'";
 dao  = new DAO("KitTray");
 dao->insert(data);
 delete (dao);

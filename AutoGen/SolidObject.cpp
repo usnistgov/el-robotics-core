@@ -127,17 +127,29 @@ ss << hadBySecondaryLocation_SolidObject[i]->getPhysicalLocationID();
 data["hadBySecondaryLocation_SolidObject"]=data["hadBySecondaryLocation_SolidObject"]+" "+ss.str();
 }
 if(hadByObject_KittingWorkstation!=NULL)
-data["hadByObject_KittingWorkstation"]=hadByObject_KittingWorkstation->getname();
+data["hadByObject_KittingWorkstation"]="'" +hadByObject_KittingWorkstation->getname() + "'";
+else 
+ data["hadByObject_KittingWorkstation"]="null";
 if(hadByInternalShape_SolidObject!=NULL)
-data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname();
+data["hadByInternalShape_SolidObject"]="'" +hadByInternalShape_SolidObject->getname() + "'";
+else 
+ data["hadByInternalShape_SolidObject"]="null";
 if(hasSolidObject_PrimaryLocation!=NULL)
-data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+data["hasSolidObject_PrimaryLocation"]="'" +hasSolidObject_PrimaryLocation->getname() + "'";
+else 
+ data["hasSolidObject_PrimaryLocation"]="null";
 if(hadBySolidObject_WorkTable!=NULL)
-data["hadBySolidObject_WorkTable"]=hadBySolidObject_WorkTable->getname();
+data["hadBySolidObject_WorkTable"]="'" +hadBySolidObject_WorkTable->getname() + "'";
+else 
+ data["hadBySolidObject_WorkTable"]="null";
 if(hadByExternalShape_SolidObject!=NULL)
-data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname();
+data["hadByExternalShape_SolidObject"]="'" +hadByExternalShape_SolidObject->getname() + "'";
+else 
+ data["hadByExternalShape_SolidObject"]="null";
 if(hasEndEffector_HeldObject!=NULL)
-data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
+data["hasEndEffector_HeldObject"]="'" +hasEndEffector_HeldObject->getname() + "'";
+else 
+ data["hasEndEffector_HeldObject"]="null";
 for(unsigned int i=0;i<hasPhysicalLocation_RefObject.size();++i){
 ss.str("");
 hasPhysicalLocation_RefObject[i]->get(hasPhysicalLocation_RefObject[i]->getname());
@@ -154,24 +166,28 @@ std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
 if(hadByObject_KittingWorkstation!=NULL)
-data["hadByObject_KittingWorkstation"]=hadByObject_KittingWorkstation->getname();
+data["hadByObject_KittingWorkstation"]="'" + hadByObject_KittingWorkstation->getname() + "'";
 if(hadByInternalShape_SolidObject!=NULL)
-data["hadByInternalShape_SolidObject"]=hadByInternalShape_SolidObject->getname();
+data["hadByInternalShape_SolidObject"]="'" + hadByInternalShape_SolidObject->getname() + "'";
 if(hasSolidObject_PrimaryLocation!=NULL)
-data["hasSolidObject_PrimaryLocation"]=hasSolidObject_PrimaryLocation->getname();
+data["hasSolidObject_PrimaryLocation"]="'" + hasSolidObject_PrimaryLocation->getname() + "'";
 if(hadBySolidObject_WorkTable!=NULL)
-data["hadBySolidObject_WorkTable"]=hadBySolidObject_WorkTable->getname();
+data["hadBySolidObject_WorkTable"]="'" + hadBySolidObject_WorkTable->getname() + "'";
 if(hadByExternalShape_SolidObject!=NULL)
-data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname();
+data["hadByExternalShape_SolidObject"]="'" + hadByExternalShape_SolidObject->getname() + "'";
 if(hasEndEffector_HeldObject!=NULL)
-data["hasEndEffector_HeldObject"]=hasEndEffector_HeldObject->getname();
+data["hasEndEffector_HeldObject"]="'" + hasEndEffector_HeldObject->getname() + "'";
 dao  = new DAO("SolidObject");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void SolidObject::copy(std::map<std::string,std::string> object){delete(hadByObject_KittingWorkstation);
+void SolidObject::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadBySecondaryLocation_SolidObject.size(); i++){
+delete(hadBySecondaryLocation_SolidObject[i]);
+hadBySecondaryLocation_SolidObject[i]=NULL;}
+hadBySecondaryLocation_SolidObject.clear();
+delete(hadByObject_KittingWorkstation);
 hadByObject_KittingWorkstation=NULL;
 delete(hadByInternalShape_SolidObject);
 hadByInternalShape_SolidObject=NULL;
@@ -183,12 +199,10 @@ delete(hadByExternalShape_SolidObject);
 hadByExternalShape_SolidObject=NULL;
 delete(hasEndEffector_HeldObject);
 hasEndEffector_HeldObject=NULL;
-for(std::size_t i = 0; i < hadBySecondaryLocation_SolidObject.size(); i++){
-delete(hadBySecondaryLocation_SolidObject[i]);
-hadBySecondaryLocation_SolidObject[i]=NULL;}
 for(std::size_t i = 0; i < hasPhysicalLocation_RefObject.size(); i++){
 delete(hasPhysicalLocation_RefObject[i]);
 hasPhysicalLocation_RefObject[i]=NULL;}
+hasPhysicalLocation_RefObject.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

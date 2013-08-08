@@ -78,9 +78,13 @@ ss.str("");
 ss << ShapeDesignID;
 data["ShapeDesignID"]=ss.str();
 if(hadByGraspPose_ShapeDesign!=NULL)
-data["hadByGraspPose_ShapeDesign"]=hadByGraspPose_ShapeDesign->getname();
+data["hadByGraspPose_ShapeDesign"]="'" +hadByGraspPose_ShapeDesign->getname() + "'";
+else 
+ data["hadByGraspPose_ShapeDesign"]="null";
 if(hasStockKeepingUnit_Shape!=NULL)
-data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
+data["hasStockKeepingUnit_Shape"]="'" +hasStockKeepingUnit_Shape->getname() + "'";
+else 
+ data["hasStockKeepingUnit_Shape"]="null";
 dao  = new DAO("ShapeDesign");
 dao->set(data);
 delete (dao);
@@ -98,9 +102,9 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["ShapeDesignID"]=ss.str();
 if(hadByGraspPose_ShapeDesign!=NULL)
-data["hadByGraspPose_ShapeDesign"]=hadByGraspPose_ShapeDesign->getname();
+data["hadByGraspPose_ShapeDesign"]="'" + hadByGraspPose_ShapeDesign->getname() + "'";
 if(hasStockKeepingUnit_Shape!=NULL)
-data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
+data["hasStockKeepingUnit_Shape"]="'" + hasStockKeepingUnit_Shape->getname() + "'";
 dao  = new DAO("ShapeDesign");
 dao->insert(data);
 delete (dao);

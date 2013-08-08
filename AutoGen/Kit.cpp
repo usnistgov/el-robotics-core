@@ -107,11 +107,17 @@ ss.str("");
 ss << KitID;
 data["KitID"]=ss.str();
 if(hadByKit_LargeBoxWithKits!=NULL)
-data["hadByKit_LargeBoxWithKits"]=hadByKit_LargeBoxWithKits->getname();
+data["hadByKit_LargeBoxWithKits"]="'" +hadByKit_LargeBoxWithKits->getname() + "'";
+else 
+ data["hadByKit_LargeBoxWithKits"]="null";
 if(hasKit_KitTray!=NULL)
-data["hasKit_KitTray"]=hasKit_KitTray->getname();
+data["hasKit_KitTray"]="'" +hasKit_KitTray->getname() + "'";
+else 
+ data["hasKit_KitTray"]="null";
 if(hasKit_Design!=NULL)
-data["hasKit_Design"]=hasKit_Design->getname();
+data["hasKit_Design"]="'" +hasKit_Design->getname() + "'";
+else 
+ data["hasKit_Design"]="null";
 for(unsigned int i=0;i<hadBySlot_Kit.size();++i){
 ss.str("");
 hadBySlot_Kit[i]->get(hadBySlot_Kit[i]->getname());
@@ -143,11 +149,11 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["KitID"]=ss.str();
 if(hadByKit_LargeBoxWithKits!=NULL)
-data["hadByKit_LargeBoxWithKits"]=hadByKit_LargeBoxWithKits->getname();
+data["hadByKit_LargeBoxWithKits"]="'" + hadByKit_LargeBoxWithKits->getname() + "'";
 if(hasKit_KitTray!=NULL)
-data["hasKit_KitTray"]=hasKit_KitTray->getname();
+data["hasKit_KitTray"]="'" + hasKit_KitTray->getname() + "'";
 if(hasKit_Design!=NULL)
-data["hasKit_Design"]=hasKit_Design->getname();
+data["hasKit_Design"]="'" + hasKit_Design->getname() + "'";
 dao  = new DAO("Kit");
 dao->insert(data);
 delete (dao);
@@ -163,9 +169,11 @@ hasKit_Design=NULL;
 for(std::size_t i = 0; i < hadBySlot_Kit.size(); i++){
 delete(hadBySlot_Kit[i]);
 hadBySlot_Kit[i]=NULL;}
+hadBySlot_Kit.clear();
 for(std::size_t i = 0; i < hadByPart_Kit.size(); i++){
 delete(hadByPart_Kit[i]);
 hadByPart_Kit[i]=NULL;}
+hadByPart_Kit.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

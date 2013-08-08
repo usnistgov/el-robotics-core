@@ -71,7 +71,9 @@ ss.str("");
 ss << LargeBoxWithEmptyKitTraysID;
 data["LargeBoxWithEmptyKitTraysID"]=ss.str();
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
-data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
+data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" +hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
+else 
+ data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="null";
 for(unsigned int i=0;i<hadByKitTray_LargeBoxWithEmptyKitTrays.size();++i){
 ss.str("");
 hadByKitTray_LargeBoxWithEmptyKitTrays[i]->get(hadByKitTray_LargeBoxWithEmptyKitTrays[i]->getname());
@@ -94,7 +96,7 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["LargeBoxWithEmptyKitTraysID"]=ss.str();
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
-data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]=hasLargeBoxWithEmptyKitTrays_LargeContainer->getname();
+data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" + hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
 dao  = new DAO("LargeBoxWithEmptyKitTrays");
 dao->insert(data);
 delete (dao);
@@ -106,6 +108,7 @@ hasLargeBoxWithEmptyKitTrays_LargeContainer=NULL;
 for(std::size_t i = 0; i < hadByKitTray_LargeBoxWithEmptyKitTrays.size(); i++){
 delete(hadByKitTray_LargeBoxWithEmptyKitTrays[i]);
 hadByKitTray_LargeBoxWithEmptyKitTrays[i]=NULL;}
+hadByKitTray_LargeBoxWithEmptyKitTrays.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

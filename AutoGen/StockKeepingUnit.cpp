@@ -46,6 +46,8 @@ for(std::size_t i = 0; i < hasPart_Sku.size(); i++)
 delete(hasPart_Sku[i]);
 for(std::size_t i = 0; i < hasPartsTray_Sku.size(); i++)
 delete(hasPartsTray_Sku[i]);
+for(std::size_t i = 0; i < hasPartsTray_PartSku.size(); i++)
+delete(hasPartsTray_PartSku[i]);
 for(std::size_t i = 0; i < hasPartRefAndPose_Sku.size(); i++)
 delete(hasPartRefAndPose_Sku[i]);
 for(std::size_t i = 0; i < hasKitTray_Sku.size(); i++)
@@ -88,6 +90,9 @@ return hasPart_Sku;
 }
 std::vector<PartsTray*> StockKeepingUnit::gethasPartsTray_Sku(){
 return hasPartsTray_Sku;
+}
+std::vector<PartsTray*> StockKeepingUnit::gethasPartsTray_PartSku(){
+return hasPartsTray_PartSku;
 }
 std::vector<PartRefAndPose*> StockKeepingUnit::gethasPartRefAndPose_Sku(){
 return hasPartRefAndPose_Sku;
@@ -134,6 +139,9 @@ this->hasPart_Sku= _hasPart_Sku;
 void StockKeepingUnit::sethasPartsTray_Sku(std::vector<PartsTray*> _hasPartsTray_Sku){
 this->hasPartsTray_Sku= _hasPartsTray_Sku;
 }
+void StockKeepingUnit::sethasPartsTray_PartSku(std::vector<PartsTray*> _hasPartsTray_PartSku){
+this->hasPartsTray_PartSku= _hasPartsTray_PartSku;
+}
 void StockKeepingUnit::sethasPartRefAndPose_Sku(std::vector<PartRefAndPose*> _hasPartRefAndPose_Sku){
 this->hasPartRefAndPose_Sku= _hasPartRefAndPose_Sku;
 }
@@ -167,9 +175,13 @@ ss.str("");
 ss << StockKeepingUnitID;
 data["StockKeepingUnitID"]=ss.str();
 if(hadBySku_KittingWorkstation!=NULL)
-data["hadBySku_KittingWorkstation"]=hadBySku_KittingWorkstation->getname();
+data["hadBySku_KittingWorkstation"]="'" +hadBySku_KittingWorkstation->getname() + "'";
+else 
+ data["hadBySku_KittingWorkstation"]="null";
 if(hasStockKeepingUnit_Shape!=NULL)
-data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
+data["hasStockKeepingUnit_Shape"]="'" +hasStockKeepingUnit_Shape->getname() + "'";
+else 
+ data["hasStockKeepingUnit_Shape"]="null";
 for(unsigned int i=0;i<hasStockKeepingUnit_EndEffector.size();++i){
 ss.str("");
 hasStockKeepingUnit_EndEffector[i]->get(hasStockKeepingUnit_EndEffector[i]->getname());
@@ -205,6 +217,12 @@ ss.str("");
 hasPartsTray_Sku[i]->get(hasPartsTray_Sku[i]->getname());
 ss << hasPartsTray_Sku[i]->getPartsTrayID();
 data["hasPartsTray_Sku"]=data["hasPartsTray_Sku"]+" "+ss.str();
+}
+for(unsigned int i=0;i<hasPartsTray_PartSku.size();++i){
+ss.str("");
+hasPartsTray_PartSku[i]->get(hasPartsTray_PartSku[i]->getname());
+ss << hasPartsTray_PartSku[i]->getPartsTrayID();
+data["hasPartsTray_PartSku"]=data["hasPartsTray_PartSku"]+" "+ss.str();
 }
 for(unsigned int i=0;i<hasPartRefAndPose_Sku.size();++i){
 ss.str("");
@@ -244,9 +262,9 @@ ss.str("");
 ss << temp0->getDataThingID();
 data["StockKeepingUnitID"]=ss.str();
 if(hadBySku_KittingWorkstation!=NULL)
-data["hadBySku_KittingWorkstation"]=hadBySku_KittingWorkstation->getname();
+data["hadBySku_KittingWorkstation"]="'" + hadBySku_KittingWorkstation->getname() + "'";
 if(hasStockKeepingUnit_Shape!=NULL)
-data["hasStockKeepingUnit_Shape"]=hasStockKeepingUnit_Shape->getname();
+data["hasStockKeepingUnit_Shape"]="'" + hasStockKeepingUnit_Shape->getname() + "'";
 dao  = new DAO("StockKeepingUnit");
 dao->insert(data);
 delete (dao);
@@ -260,30 +278,43 @@ hasStockKeepingUnit_Shape=NULL;
 for(std::size_t i = 0; i < hasStockKeepingUnit_EndEffector.size(); i++){
 delete(hasStockKeepingUnit_EndEffector[i]);
 hasStockKeepingUnit_EndEffector[i]=NULL;}
+hasStockKeepingUnit_EndEffector.clear();
 for(std::size_t i = 0; i < hasPartsBin_Sku.size(); i++){
 delete(hasPartsBin_Sku[i]);
 hasPartsBin_Sku[i]=NULL;}
+hasPartsBin_Sku.clear();
 for(std::size_t i = 0; i < hasPartsBin_PartSku.size(); i++){
 delete(hasPartsBin_PartSku[i]);
 hasPartsBin_PartSku[i]=NULL;}
+hasPartsBin_PartSku.clear();
 for(std::size_t i = 0; i < hasLargeContainer_Sku.size(); i++){
 delete(hasLargeContainer_Sku[i]);
 hasLargeContainer_Sku[i]=NULL;}
+hasLargeContainer_Sku.clear();
 for(std::size_t i = 0; i < hasPart_Sku.size(); i++){
 delete(hasPart_Sku[i]);
 hasPart_Sku[i]=NULL;}
+hasPart_Sku.clear();
 for(std::size_t i = 0; i < hasPartsTray_Sku.size(); i++){
 delete(hasPartsTray_Sku[i]);
 hasPartsTray_Sku[i]=NULL;}
+hasPartsTray_Sku.clear();
+for(std::size_t i = 0; i < hasPartsTray_PartSku.size(); i++){
+delete(hasPartsTray_PartSku[i]);
+hasPartsTray_PartSku[i]=NULL;}
+hasPartsTray_PartSku.clear();
 for(std::size_t i = 0; i < hasPartRefAndPose_Sku.size(); i++){
 delete(hasPartRefAndPose_Sku[i]);
 hasPartRefAndPose_Sku[i]=NULL;}
+hasPartRefAndPose_Sku.clear();
 for(std::size_t i = 0; i < hasKitTray_Sku.size(); i++){
 delete(hasKitTray_Sku[i]);
 hasKitTray_Sku[i]=NULL;}
+hasKitTray_Sku.clear();
 for(std::size_t i = 0; i < hasKitDesign_KitTraySku.size(); i++){
 delete(hasKitDesign_KitTraySku[i]);
 hasKitDesign_KitTraySku[i]=NULL;}
+hasKitDesign_KitTraySku.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
@@ -334,6 +365,12 @@ if(this->hasPartsTray_Sku.empty() && object["hasPartsTray_Sku/PartsTray._NAME"]!
 temp = Explode(object["hasPartsTray_Sku/PartsTray._NAME"], ' ' );
 for(unsigned int i=0; i<temp.size();i++){
 this->hasPartsTray_Sku.push_back(new PartsTray(temp[i]));
+}
+}
+if(this->hasPartsTray_PartSku.empty() && object["hasPartsTray_PartSku/PartsTray._NAME"]!=""){
+temp = Explode(object["hasPartsTray_PartSku/PartsTray._NAME"], ' ' );
+for(unsigned int i=0; i<temp.size();i++){
+this->hasPartsTray_PartSku.push_back(new PartsTray(temp[i]));
 }
 }
 if(this->hasPartRefAndPose_Sku.empty() && object["hasPartRefAndPose_Sku/PartRefAndPose._NAME"]!=""){

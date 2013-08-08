@@ -87,7 +87,9 @@ ss.str("");
 ss << LargeBoxWithKitsID;
 data["LargeBoxWithKitsID"]=ss.str();
 if(hasLargeBoxWithKits_LargeContainer!=NULL)
-data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
+data["hasLargeBoxWithKits_LargeContainer"]="'" +hasLargeBoxWithKits_LargeContainer->getname() + "'";
+else 
+ data["hasLargeBoxWithKits_LargeContainer"]="null";
 for(unsigned int i=0;i<hadByKit_LargeBoxWithKits.size();++i){
 ss.str("");
 hadByKit_LargeBoxWithKits[i]->get(hadByKit_LargeBoxWithKits[i]->getname());
@@ -95,7 +97,9 @@ ss << hadByKit_LargeBoxWithKits[i]->getKitID();
 data["hadByKit_LargeBoxWithKits"]=data["hadByKit_LargeBoxWithKits"]+" "+ss.str();
 }
 if(hasLargeBoxWithKits_KitDesign!=NULL)
-data["hasLargeBoxWithKits_KitDesign"]=hasLargeBoxWithKits_KitDesign->getname();
+data["hasLargeBoxWithKits_KitDesign"]="'" +hasLargeBoxWithKits_KitDesign->getname() + "'";
+else 
+ data["hasLargeBoxWithKits_KitDesign"]="null";
 dao  = new DAO("LargeBoxWithKits");
 dao->set(data);
 delete (dao);
@@ -113,9 +117,9 @@ ss.str("");
 ss << temp0->getSolidObjectID();
 data["LargeBoxWithKitsID"]=ss.str();
 if(hasLargeBoxWithKits_LargeContainer!=NULL)
-data["hasLargeBoxWithKits_LargeContainer"]=hasLargeBoxWithKits_LargeContainer->getname();
+data["hasLargeBoxWithKits_LargeContainer"]="'" + hasLargeBoxWithKits_LargeContainer->getname() + "'";
 if(hasLargeBoxWithKits_KitDesign!=NULL)
-data["hasLargeBoxWithKits_KitDesign"]=hasLargeBoxWithKits_KitDesign->getname();
+data["hasLargeBoxWithKits_KitDesign"]="'" + hasLargeBoxWithKits_KitDesign->getname() + "'";
 dao  = new DAO("LargeBoxWithKits");
 dao->insert(data);
 delete (dao);
@@ -124,11 +128,12 @@ this->set(name);
 
 void LargeBoxWithKits::copy(std::map<std::string,std::string> object){delete(hasLargeBoxWithKits_LargeContainer);
 hasLargeBoxWithKits_LargeContainer=NULL;
-delete(hasLargeBoxWithKits_KitDesign);
-hasLargeBoxWithKits_KitDesign=NULL;
 for(std::size_t i = 0; i < hadByKit_LargeBoxWithKits.size(); i++){
 delete(hadByKit_LargeBoxWithKits[i]);
 hadByKit_LargeBoxWithKits[i]=NULL;}
+hadByKit_LargeBoxWithKits.clear();
+delete(hasLargeBoxWithKits_KitDesign);
+hasLargeBoxWithKits_KitDesign=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;

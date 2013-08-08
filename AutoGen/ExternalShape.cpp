@@ -88,7 +88,9 @@ ss.str("");
 ss << ExternalShapeID;
 data["ExternalShapeID"]=ss.str();
 if(hadByExternalShape_SolidObject!=NULL)
-data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname();
+data["hadByExternalShape_SolidObject"]="'" +hadByExternalShape_SolidObject->getname() + "'";
+else 
+ data["hadByExternalShape_SolidObject"]="null";
 dao  = new DAO("ExternalShape");
 dao->set(data);
 delete (dao);
@@ -111,7 +113,7 @@ ss.str("");
 ss << temp1->getDataThingID();
 data["ExternalShapeID"]=ss.str();
 if(hadByExternalShape_SolidObject!=NULL)
-data["hadByExternalShape_SolidObject"]=hadByExternalShape_SolidObject->getname();
+data["hadByExternalShape_SolidObject"]="'" + hadByExternalShape_SolidObject->getname() + "'";
 dao  = new DAO("ExternalShape");
 dao->insert(data);
 delete (dao);

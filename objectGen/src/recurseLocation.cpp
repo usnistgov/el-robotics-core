@@ -322,11 +322,13 @@ int RecurseLocation::recurse(SolidObject *solidObject)
 
   poseLocation->get(physicalLocation->getname());
 
+  /*
   printf( "object: %s physical location: %s poseLocation: %s ref: %s\n", 
 	  solidObject->getname().c_str(),
 	  physicalLocation->getname().c_str(),
 	  poseLocation->getname().c_str(),
 	  (physicalLocation->gethasPhysicalLocation_RefObject())->getname().c_str());
+  */
 
   mypoint = poseLocation->gethasPoseLocation_Point();
   mypoint->get(mypoint->getname());
@@ -335,7 +337,7 @@ int RecurseLocation::recurse(SolidObject *solidObject)
 			  mypoint->gethasPoint_Y(),
 			  mypoint->gethasPoint_Z());
 
-    printf( "past issue\n" );
+  //    printf( "past issue\n" );
   vectorXAxis = poseLocation->gethasPoseLocation_XAxis();
   vectorXAxis->get(vectorXAxis->getname());
   myrecLoc.frame.setXAxisName(vectorXAxis->getname());

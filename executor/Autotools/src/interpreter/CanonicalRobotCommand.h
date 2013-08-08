@@ -1,37 +1,47 @@
 /*****************************************************************************
-  DISCLAIMER:
-  This software was produced by the National Institute of Standards
-  and Technology (NIST), an agency of the U.S. government, and by statute is
-  not subject to copyright in the United States.  Recipients of this software
-  assume all responsibility associated with its operation, modification,
-  maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
-  See NIST Administration Manual 4.09.07 b and Appendix I.
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
  *****************************************************************************/
-
 /*!
  *	\file		CanonicalRobotCommand.h
  *	\brief 		Test
  *	\class		CanonicalRobotCommand
  *	\brief 		This class provides functions to build <b>Canonical Robot Commands</b> from PDDL actions in the Plan.
- *	\author		<a href="http://www.nist.gov/el/isd/ks/kootbally.cfm">Zeid Kootbally</a> \a zeid.kootbally\@nist.gov
+ *	\author		Zeid Kootbally, NIST and Stephen Balakirsky, GTRI
  *	\date		May 17, 2012
  */
 
 #ifndef CANONICALROBOTCOMMAND_H_
 #define CANONICALROBOTCOMMAND_H_
 
-
+#include "DatabaseUpdate.h"
 #include "Tools.h"
 #include "KittingPlan.h"
 #include "recurseLocation.h"
 //-- Headers to access data from the database
-
+#include "database/DAO.h"
 #include "database/KitDesign.h"
 #include "database/Kit.h"
 #include "database/Part.h"
 #include "database/PartRefAndPose.h"
 #include "database/PartsTray.h"
+#include "database/PartsTrayWithParts.h"
 #include "database/Point.h"
 #include "database/PoseLocation.h"
 #include "database/PhysicalLocation.h"
@@ -60,28 +70,42 @@ public:
 	void actionInterpreter(string action,vector<string> paramName,KittingPlan *kittingplan);
 	void interpretPlan(KittingPlan *kittingplan);
 
-
-	void attach_eff(vector<string> paramList,KittingPlan *kittingplan);
+	/* generate canonical robot command language commands from PDDL */
 	void canon_put_part(vector<double> xyz, vector<double> z_axis, vector<double> x_axis);
 	void canon_take_part(vector<double> xyz, vector<double> z_axis, vector<double> x_axis);
-	void create_kit(vector<string> paramList, KittingPlan *kittingplan);
 
-	RecLoc getPartGoalLocation(string part_name, string kit_name);
+	/* examine the effects of PDDL actions */
+	void effect_put_part(string robot, string slot, string part);
+	void effect_take_part(string robot, string part, Frame graspFrame);
+
+	/* examine the PDDL preconditions */
+	int precondition_put_part();
+	int precondition_take_part();
+
+	/* methods to process pddl actions */
+	void attach_eff(vector<string> paramList,KittingPlan *kittingplan);
+	void create_kit(vector<string> paramList, KittingPlan *kittingplan);
+	void look_for_part(vector<string> paramList, KittingPlan *kittingplan);
+	bool look_for_slot(vector<string> paramList, KittingPlan *kittingplan);
 	void put_kit(vector<string> paramList);
 	void put_kit_tray(vector<string> paramList);
 	void put_part(vector<string> paramList,KittingPlan *kittingplan);
 	void remove_eff(vector<string> paramList);
-	void sql_put_part(string partName, string goalRefObject);
 	void take_kit(vector<string> paramList);
 	void take_kit_tray(vector<string> paramList);
 	void take_part(vector<string> paramList,KittingPlan *kittingplan);
+
+	RecLoc getPartGoalLocation(string part_name, string slotLocation);
+	void sql_put_part(string partName, string goalRefObject);
 
 	//Point* getRobotPoseLocation(string robotName);
 
 private:
 	KitTrayLocStruct getKitTrayLocation(string kit_tray_name);
 	PartsTrayLocStruct getPartsTrayLocation(string parts_tray_name);
-	RecLoc getPartLocation(string part_name);
+
+	RecLoc getPartLocation(string part_name, Frame grasp_frame);
+	string getPartInstance(string part_name);
 	void print_closegripper();
 	void print_dwell(double time);
 	void print_endcannon(int id);
@@ -94,6 +118,10 @@ private:
 	double m_dwell;
 	string m_kit_tray;
 	FileOperator* m_file_operator;
+	Frame located_frame; // grasp frame to use for located part
+	string located_part; // part located by look_for_part command
+	string located_slot; // slot located by look_for_slot command
+	DAO* dao;
 };
 
 #endif /* CANONICALROBOTCOMMAND_H_ */

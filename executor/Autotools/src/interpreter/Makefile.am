@@ -22,14 +22,16 @@ libinterpreter_a_HEADERS = IniFile.h \
 CanonicalRobotCommand.h \
 KittingPDDLProblem.h \
 KittingPlan.h \
-Operator.h 
+Operator.h  \
+DatabaseUpdate.h
 
 libinterpreter_a_SOURCES = $(libinterpreter_a_HEADERS) \
 			IniFile.cc \
 			CanonicalRobotCommand.cc \
 			KittingPDDLProblem.cc \
 			KittingPlan.cc \
-			Operator.cc 
+			Operator.cc \
+			DatabaseUpdate.cpp
 
 #INCLUDES = -I$(top_srcdir)/src/database
 

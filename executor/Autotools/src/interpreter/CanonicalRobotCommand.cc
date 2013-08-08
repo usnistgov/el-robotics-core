@@ -1,14 +1,32 @@
 /*****************************************************************************
-  DISCLAIMER:
-  This software was produced by the National Institute of Standards
-  and Technology (NIST), an agency of the U.S. government, and by statute is
-  not subject to copyright in the United States.  Recipients of this software
-  assume all responsibility associated with its operation, modification,
-  maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
-  See NIST Administration Manual 4.09.07 b and Appendix I.
- *********************************************
-********************************/
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
+
+/*!
+ *	\file		CanonicalRobotCommand.cpp
+ *	\brief 		Parse and process canonical robot commands
+ *	\class		CanonicalRobotCommand
+ *	\author		Zeid Kootbally, NIST and Stephen Balakirsky, GTRI
+ *	\date		July 30, 2013
+ *      \copyright      Georgia Tech Research Institute
+ */
 #include "CanonicalRobotCommand.h"
 #include "Tools.h"
 #include "recurseLocation.h"
@@ -22,6 +40,10 @@ CanonicalRobotCommand::CanonicalRobotCommand(FileOperator *fileoperator) {
 	m_safe_z = 0.25;
 	m_dwell = 0.05;
 	m_file_operator = fileoperator;
+	located_part = ""; // clear out located part to show that one has not been found
+	located_slot = ""; // clear out located slot to show that one has not been found
+	located_frame.clear(); // clear out located frame to show that one has not been found
+	dao = new DAO("PartsTrayWithParts");
 }
 /*!
   @brief Auto-generated destructor stub
@@ -40,15 +62,23 @@ void CanonicalRobotCommand::actionInterpreter(string action_name,
 		vector<string> paramList,
 		KittingPlan *kittingplan){
 
-	if(action_name == "take-kittray")	take_kit_tray(paramList);
-	if(action_name == "put-kit-tray") 	put_kit_tray(paramList);
-	if(action_name == "take-kit") 		take_kit(paramList);
-	if(action_name == "put-kittray") 		put_kit(paramList);
-	if(action_name == "take-part") 		take_part(paramList, kittingplan);
-	if(action_name == "put-part") 		put_part(paramList, kittingplan);
-	if(action_name == "attach-endeffector") 		attach_eff(paramList, kittingplan);
-	if(action_name == "remove-endeffector") 		remove_eff(paramList);
-	if(action_name == "create-kit") 		create_kit(paramList, kittingplan);
+	if(action_name == "attach-endeffector")	     attach_eff(paramList, kittingplan);
+	else if(action_name == "create-kit")         create_kit(paramList, kittingplan);
+	else if(action_name == "look-for-part")      look_for_part(paramList, kittingplan);
+	else if(action_name == "look-for-slot"){
+	  if( !look_for_slot(paramList, kittingplan) ){
+	    printf( "Could not find slot. Don't know what to do\n" );
+	    exit(1);
+	  }
+	}
+	else if(action_name == "put-kit")            put_kit(paramList);
+	else if(action_name == "put-kittray") 	     put_kit_tray(paramList);
+	else if(action_name == "put-part")           put_part(paramList, kittingplan);
+	else if(action_name == "remove-endeffector") remove_eff(paramList);
+	else if(action_name == "take-kit")           take_kit(paramList);
+	else if(action_name == "take-kittray")       take_kit_tray(paramList);
+	else if(action_name == "take-part")          take_part(paramList, kittingplan);
+	else printf( "unknown pddl action of %s\n", action_name.c_str() );
 }
 
 /*!
@@ -58,48 +88,6 @@ void CanonicalRobotCommand::actionInterpreter(string action_name,
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>attach-eff</b> is implemented in ROS/USARSim
  */
 void CanonicalRobotCommand::attach_eff(vector<string> paramList,KittingPlan *kittingplan){
-}
-
-/*!
-  @brief Compile a set of <b>Canonical Robot Commands</b> to perform the PDDL action <b>put-part</b>
-  @param xyz Vector that contains the coordinates of the part in the kit
-  @param z_axis Z axis used by the robot to put the part in the kit
-  @param x_axis X axis used by the robot to put the part in the kit
- */
-void CanonicalRobotCommand::canon_put_part(vector<double> xyz, vector<double> x_axis, 
-		vector<double> z_axis){
-
-	double part_point_x = xyz.at(0);
-	double part_point_y = xyz.at(1);
-	double part_point_z = xyz.at(2);
-
-	print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
-	print_dwell(m_dwell);
-	print_moveto(part_point_x, part_point_y, part_point_z, x_axis, z_axis);
-	print_dwell(m_dwell);
-	print_opengripper();
-	print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
-}
-
-/*!
-  @brief Generate the canonical robot commands for the PDDL action <b>take-part</b>
-  @param xyz Vector that contains the coordinates of the part in the parts tray
-  @param z_axis Z axis used by the robot to take the part from the parts tray
-  @param x_axis X axis used by the robot to take the part from the parts tray
- */
-void CanonicalRobotCommand::canon_take_part(vector<double> xyz, vector<double> x_axis, 
-		vector<double> z_axis){
-
-	double part_point_x = xyz.at(0);
-	double part_point_y = xyz.at(1);
-	double part_point_z = xyz.at(2);
-
-	print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
-	print_dwell(m_dwell);
-	print_moveto(part_point_x, part_point_y, part_point_z, x_axis, z_axis);
-	print_closegripper();
-	print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
-	print_dwell(m_dwell);
 }
 
 /*!
@@ -139,6 +127,412 @@ void CanonicalRobotCommand::create_kit(vector<string> paramList, KittingPlan *ki
 }
 
 /*!
+  @brief A canonical robot command for the PDDL action <b>look-for-part</b>
+  @param paramList List of parameters for the action <b>look-for-part</b>
+  (example: <b>look-for-part</b> robot_1 part_c_1 partstray_a kit_1 Work_table_1 end_eff_1)
+ */
+void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan *kittingplan){
+  int listLength;
+  StockKeepingUnit *sku;
+  ShapeDesign *shapeDesign;
+  PoseLocation *graspPose;
+  Point *point;
+  Vector *myVector;
+  Part *part = new Part(located_part);
+  bool found = false;
+
+  listLength=(int)paramList.size();
+
+  for (vector<string>::size_type i = 0; i < listLength; i++){
+    string type;
+    type=kittingplan->matchParamType(paramList[i]);
+    m_file_operator->stripSpace(type);
+    
+    if (!strcmp(type.c_str(),"Part")){
+      //      printf( "Looking for part %s\n", paramList[i].c_str() );
+      located_part = getPartInstance(paramList[i]);
+      if( located_part == "" ) // no part found
+	{
+	  printf( "Could not find part! Don't know what to do!\n" );
+	  exit(1);
+	}
+      break;
+    }
+  }
+
+  /* get grasp location */
+  // first get sku
+  part->get(located_part);
+  sku = part->gethasPart_Sku();
+  sku->get(sku->getname());
+
+  // from sku, get shape
+  shapeDesign = sku->gethasStockKeepingUnit_Shape();
+  shapeDesign->get(shapeDesign->getname());
+
+  // from shape design, get grasp pose
+  graspPose = shapeDesign->gethadByGraspPose_ShapeDesign();
+  graspPose->get(graspPose->getname());
+  located_frame.clear();
+
+  // from the grasp pose, get the point
+  point = graspPose->gethasPoseLocation_Point();
+  located_frame.setPointName(point->getname());
+  point->get(located_frame.pointName);
+  located_frame.setPoint(point->gethasPoint_X(), point->gethasPoint_Y(), point->gethasPoint_Z());
+
+  // from the grasp pose, get the XAxis vector
+  myVector = graspPose->gethasPoseLocation_XAxis();
+  located_frame.setXAxisName(myVector->getname());
+  myVector->get(located_frame.xAxisName);
+  located_frame.setXAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
+
+  // from the grasp pose, get the ZAxis vector
+  myVector = graspPose->gethasPoseLocation_ZAxis();
+  located_frame.setZAxisName(myVector->getname());
+  myVector->get(located_frame.zAxisName);
+  located_frame.setZAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
+  return;
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>look-for-slot</b>
+  @param paramList List of parameters for the action <b>look-for-slot</b>
+  @return true - found slot, false - could not find slot
+  (example: <b>look-for-slot</b> robot_1 part_c_1 kit_1 Work_table_1)
+*/
+bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, KittingPlan *kittingplan){
+  int listLength;
+  Kit *kit;
+  string partName;
+  string kitName;
+  string skuName;
+  vector<Slot*> slots;
+  Part *part;
+  StockKeepingUnit *sku;
+
+  ShapeDesign *shapeDesign;
+  PoseLocation *graspPose;
+  Point *point;
+  Vector *myVector;
+
+  listLength=(int)paramList.size();
+
+  for (vector<string>::size_type i = 0; i < listLength; i++){
+    string type;
+    type=kittingplan->matchParamType(paramList[i]);
+    m_file_operator->stripSpace(type);
+    
+    if (!strcmp(type.c_str(),"Part"))
+      {
+	partName = paramList[i];
+	part = new Part(partName);
+	part->get(partName);
+	sku = part->gethasPart_Sku();
+	skuName = sku->getname();
+	/*
+	printf( "Looking for slot for part %s with sku: %s\n", 
+		partName.c_str(),
+		skuName.c_str());
+	*/
+      }
+    else if (!strcmp(type.c_str(),"Kit")){
+      {
+	//	printf( "Looking for slot in kit %s\n", paramList[i].c_str() );
+	kitName = paramList[i];
+      }
+    }
+  }
+
+  /* get slots from kit */
+  kit = new Kit(kitName);
+  kit->get(kitName);
+  slots = kit->gethadBySlot_Kit();
+  for (int i=0; i<slots.size(); i++ )
+    {
+      kit = slots[i]->gethadBySlot_Kit();
+      if( DatabaseUpdate::matchSlot(slots[i], kitName, skuName) == true )
+	{
+	  located_slot = slots[i]->getname();
+	  return true;
+	}
+    }
+  printf( "Could not find slot for part %s with SKU %s\n", partName.c_str(), skuName.c_str() );
+  return false;
+}
+
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>put-kit</b>
+  @param paramList List of parameters for the action <b>put-kit</b>
+  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>put-kit</b> is implemented in ROS/USARSim
+*/
+void CanonicalRobotCommand::put_kit(vector<string> paramList){
+  //cout <<endl;
+  //cout <<"Message (\"put kit\")"<< endl;
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>put-kit-tray</b>
+  @param paramList List of parameters for the action <b>put-kit-tray</b>
+  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>put-kit-tray</b> is implemented in ROS/USARSim
+*/
+void CanonicalRobotCommand::put_kit_tray(vector<string> paramList){
+  //cout <<endl;
+  //cout <<"Message (\"put kit tray\")"<< endl;
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>put-part</b>
+  @param paramList List of parameters for the action <b>put-part</b>
+  (example: <b>put-part</b> robot_1 part_c_1 kit_1 Work_table_1)
+  @param kittingplan Instance of KittingPlan
+*/
+void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kittingplan){
+  FileOperator *fileop = new FileOperator;
+  int listLength;
+  //  stringstream ss;//create a stringstream
+  string type;//, partName;
+  Robot* robot = NULL;
+  SolidObject* solidObject = NULL;
+  EndEffector* endEffector = NULL;
+  Slot* slot = new Slot(located_slot);
+
+  RecLoc recLoc;
+
+  listLength=(int)paramList.size();  
+
+  for (vector<string>::size_type i = 0; i < listLength; i++){
+    type=kittingplan->matchParamType(paramList[i]);
+    fileop->stripSpace(type);
+    if (!strcmp(type.c_str(),"Robot"))
+      {
+	robot = new Robot(paramList[i]);
+	robot->get(paramList[i]);
+      }
+    /*
+    else if (!strcmp(type.c_str(),"Part"))
+      partName = paramList[i];
+    */
+  }
+  /* compute the part being held */
+  // get the end effector
+  endEffector = robot->gethadByEndEffector_Robot();
+  endEffector->get(endEffector->getname());
+  // get what is being held
+  solidObject = endEffector->gethasEndEffector_HeldObject();
+  // get the slot
+  slot->get(located_slot);
+
+  recLoc=getPartGoalLocation(solidObject->getname(), slot->getname());
+  canon_put_part(recLoc.frame.pointXYZ, recLoc.frame.xAxis, recLoc.frame.zAxis);
+  effect_put_part( robot->getname(), located_slot, solidObject->getname() );
+
+  // clean up
+  located_slot = "";
+  if( robot != NULL )
+    delete robot;
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>remove-eff</b>
+  @param paramList List of parameters for the action <b>remove-eff</b>
+  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>remove-eff</b> is implemented in ROS/USARSim
+*/
+void CanonicalRobotCommand::remove_eff(vector<string> paramList){
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>take-kit</b>
+  @param paramList List of parameters for the action <b>take-kit</b>
+  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-kit</b> is implemented in ROS/USARSim
+*/
+void CanonicalRobotCommand::take_kit(vector<string> paramList){
+  //cout <<endl;
+  //cout <<"Message (\"take kit\")"<< endl;
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>take-kit-tray</b>
+  @param paramList List of parameters for the action <b>take-kit-tray</b>
+  @param kittingplan Instance of KittingPlan
+  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-kit-tray</b> is implemented in ROS/USARSim
+*/
+void CanonicalRobotCommand::take_kit_tray(vector<string> paramList){
+  //cout <<endl;
+  //cout <<"Message (\"take kit tray\")"<< endl;
+}
+
+/*!
+  @brief A canonical robot command for the PDDL action <b>take-part</b>
+  @param paramList List of parameters for the action <b>take-part</b>
+  @param kittingplan Instance of KittingPlan
+  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-part</b> is implemented in ROS/USARSim
+*/
+void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kittingplan){
+  //FileOperator *fileop = new FileOperator;
+  int listLength;
+  listLength=(int)paramList.size();
+  stringstream ss;//create a stringstream
+  RecLoc recLoc;
+  string partName, robotName;
+
+  for (vector<string>::size_type i = 0; i < listLength; i++){
+    string type;
+    type=kittingplan->matchParamType(paramList[i]);
+    m_file_operator->stripSpace(type);
+
+    if (!strcmp(type.c_str(),"Part"))
+      partName = paramList[i];
+    else if (!strcmp(type.c_str(),"Robot"))
+      robotName = paramList[i];
+  }
+
+  ss << partName;//add number to the stream
+  string s_paramlist = ss.str();
+  string message = "\nMessage (\"take part " + s_paramlist +"\")\n";
+  m_file_operator->writeData(message);
+
+  // cout <<"Message (\"take part " << paramList[i] <<"\")"<< endl;
+  if( located_part == "" )
+    {
+      printf( "did not call look_for_part before take_part!\n");
+      located_part = partName;
+    }
+  recLoc = getPartLocation( located_part, located_frame );
+			
+  canon_take_part(recLoc.frame.pointXYZ, recLoc.frame.xAxis, recLoc.frame.zAxis);
+  effect_take_part( robotName, located_part, located_frame );
+  // part is now taken, so clear located part
+  located_part = "";
+  return;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/*!
+  @brief Compile a set of <b>Canonical Robot Commands</b> to perform the PDDL action <b>put-part</b>
+  @param xyz Vector that contains the coordinates of the part in the kit
+  @param z_axis Z axis used by the robot to put the part in the kit
+  @param x_axis X axis used by the robot to put the part in the kit
+*/
+void CanonicalRobotCommand::canon_put_part(vector<double> xyz, vector<double> x_axis, 
+					   vector<double> z_axis){
+
+  double part_point_x = xyz.at(0);
+  double part_point_y = xyz.at(1);
+  double part_point_z = xyz.at(2);
+
+  print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
+  print_dwell(m_dwell);
+  print_moveto(part_point_x, part_point_y, part_point_z, x_axis, z_axis);
+  print_dwell(m_dwell);
+  print_opengripper();
+  print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
+}
+
+/*!
+  @brief Generate the canonical robot commands for the PDDL action <b>take-part</b>
+  @param xyz Vector that contains the coordinates of the part in the parts tray
+  @param z_axis Z axis used by the robot to take the part from the parts tray
+  @param x_axis X axis used by the robot to take the part from the parts tray
+*/
+void CanonicalRobotCommand::canon_take_part(vector<double> xyz, vector<double> x_axis, 
+					    vector<double> z_axis){
+
+  double part_point_x = xyz.at(0);
+  double part_point_y = xyz.at(1);
+  double part_point_z = xyz.at(2);
+
+  print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
+  print_dwell(m_dwell);
+  print_moveto(part_point_x, part_point_y, part_point_z, x_axis, z_axis);
+  print_closegripper();
+  print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
+  print_dwell(m_dwell);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+void CanonicalRobotCommand::effect_put_part( string robotName, string slotName, string partName){
+  Slot* slot = new Slot(slotName);
+  Part* part = new Part(partName);
+
+  slot->get(slotName);
+  part->get(partName);
+
+  /*
+  Frame frame;
+  PartRefAndPose* partRefAndPose;
+  Point* mypoint;
+  Vector* vector;
+  Kit* kit;
+
+  partRefAndPose = slot->gethasSlot_PartRefAndPose();
+  partRefAndPose->get(partRefAndPose->getname());
+  mypoint = partRefAndPose->gethasPartRefAndPose_Point();
+  mypoint->get(mypoint->getname());
+  frame.setPointName(mypoint->getname());
+  frame.setPoint( mypoint->gethasPoint_X(),
+		  mypoint->gethasPoint_Y(),
+		  mypoint->gethasPoint_Z());
+
+  vector = partRefAndPose->gethasPartRefAndPose_XAxis();
+  vector->get(vector->getname());
+  frame.setXAxisName(vector->getname());
+  frame.setXAxis(vector->gethasVector_I(),
+		 vector->gethasVector_J(),
+		 vector->gethasVector_K());
+
+  vector = partRefAndPose->gethasPartRefAndPose_ZAxis();
+  vector->get(vector->getname());
+  frame.setZAxisName(vector->getname());
+  frame.setZAxis(vector->gethasVector_I(),
+		 vector->gethasVector_J(),
+		 vector->gethasVector_K());
+  kit = slot->gethadBySlot_Kit();  
+  */
+
+  // release part in database
+  DatabaseUpdate::releaseByRobot( robotName, partName, slotName );
+
+  // put part in slot
+  slot->sethasSlot_Part(part);
+  slot->set(slot->getname());
+  //   delete slot; causes dump
+    delete part;
+}
+
+/*!
+  @brief Modifies database to reflect that part has been taken
+  Items modified:
+  <ul>
+  <li> Set the parts "hadByPart_PartsTrayWithParts" field to be empty
+  </ul>
+  @param part Part that is being taken
+*/
+void CanonicalRobotCommand::effect_take_part(string robotName, string partName,
+					     Frame graspFrame){
+  Part *part = new Part(partName);
+
+  // temporarilly set part supply to part_b_supply_ir
+  //  PartsTrayWithParts *parttray = new PartsTrayWithParts("part_b_supply_ir");
+  //  parttray->get("part_b_supply_ir");
+  
+  part->get(partName);
+  //    part->sethadByPart_PartsTrayWithParts(parttray);
+  part->sethadByPart_PartsTrayWithParts(NULL);
+  part->set(part->getname());
+  DatabaseUpdate::graspByRobot( robotName, part->getname(), graspFrame);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+int CanonicalRobotCommand::precondition_put_part(){
+  return 1;
+}
+int CanonicalRobotCommand::precondition_take_part(){
+  return 1;
+}
+
+/*!
   @brief Read the plan stored in KittingPlan::m_actionParamList and interpret each action
   The different steps are:
   <ul>
@@ -149,158 +543,27 @@ void CanonicalRobotCommand::create_kit(vector<string> paramList, KittingPlan *ki
   <li> Write the command EndCanon () in the output file
   </ul>
   @param kittingplan Instance of KittingPlan
- */
+*/
 void CanonicalRobotCommand::interpretPlan(KittingPlan *kittingplan){
-	int nbAction=0;
-	string action(""), actionName("");
-	vector<string> paramName;
-	//FileOperator *fileop = new FileOperator;
-	m_file_operator->createOutputFile();
+  int nbAction=0;
+  string action(""), actionName("");
+  vector<string> paramName;
+  //FileOperator *fileop = new FileOperator;
+  m_file_operator->createOutputFile();
 
-	print_initcannon();
-	print_opengripper();
+  print_initcannon();
+  print_opengripper();
 
-	for (vector< vector<string> >::size_type u = 0; u < kittingplan->m_actionParamList.size(); u++) {
-		actionName=kittingplan->m_actionParamList[u][0];
-		nbAction++;
-		for (vector<string>::size_type v = 1; v < kittingplan->m_actionParamList[u].size(); v++) {
-			paramName.push_back(kittingplan->m_actionParamList[u][v]);
-		}
-		actionInterpreter(actionName, paramName, kittingplan);
-		paramName.clear();
-	}
-	print_endcannon(2);
-}
-
-/*!
-  @brief A canonical robot command for the PDDL action <b>put-kit</b>
-  @param paramList List of parameters for the action <b>put-kit</b>
-  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>put-kit</b> is implemented in ROS/USARSim
- */
-void CanonicalRobotCommand::put_kit(vector<string> paramList){
-	//cout <<endl;
-	//cout <<"Message (\"put kit\")"<< endl;
-}
-
-/*!
-  @brief A canonical robot command for the PDDL action <b>put-kit-tray</b>
-  @param paramList List of parameters for the action <b>put-kit-tray</b>
-  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>put-kit-tray</b> is implemented in ROS/USARSim
- */
-void CanonicalRobotCommand::put_kit_tray(vector<string> paramList){
-	//cout <<endl;
-	//cout <<"Message (\"put kit tray\")"<< endl;
-}
-
-/*!
-  @brief A canonical robot command for the PDDL action <b>put-part</b>
-  @param paramList List of parameters for the action <b>put-part</b>
-  (example: <b>put-part</b> robot_1 part_c_1 kit_1 Work_table_1)
-  @param kittingplan Instance of KittingPlan
- */
-void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kittingplan){
-  FileOperator *fileop = new FileOperator;
-  int listLength;
-  stringstream ss;//create a stringstream
-  RecLoc recLoc;
-  KitTrayLocStruct kit_tray_loc_struct;
-  string locationPrefix = "part_ref_and_pose_";
-  string partName;
-  string type;
-  Part* part = NULL;
-  Kit* kit = NULL;
-  KitDesign* kitDesign  = NULL;
-  KitTray* kitTray = NULL;
-
-  listLength=(int)paramList.size();  
-
-  /* debug
-  printf( "CanonicalRobotCommand debug for list of lenght %d\n", listLength );
-  for (vector<string>::size_type i = 0; i < listLength; i++){
-    type=kittingplan->matchParamType(paramList[i]);
-    fileop->stripSpace(type);
-    printf( "\tparam %d is of type %s and value %s\n", (int)i, 
-	    type.c_str(), paramList[i].c_str() );
+  for (vector< vector<string> >::size_type u = 0; u < kittingplan->m_actionParamList.size(); u++) {
+    actionName=kittingplan->m_actionParamList[u][0];
+    nbAction++;
+    for (vector<string>::size_type v = 1; v < kittingplan->m_actionParamList[u].size(); v++) {
+      paramName.push_back(kittingplan->m_actionParamList[u][v]);
+    }
+    actionInterpreter(actionName, paramName, kittingplan);
+    paramName.clear();
   }
-  printf( "End of debug\n\n" );
-  //end debug */
-
-  for (vector<string>::size_type i = 0; i < listLength; i++){
-    type=kittingplan->matchParamType(paramList[i]);
-    fileop->stripSpace(type);
-
-    if (!strcmp(type.c_str(),"Part"))
-      {
-	part = new Part (paramList[i]);
-	part->get(paramList[i]);
-	printf( "Part retrieved\n" );
-	part->get(paramList[i]);
-      }
-    else if (!strcmp(type.c_str(),"Kit"))
-      {
-	kit = new Kit (paramList[i]);
-	kit->get(paramList[i]);
-	kitDesign = kit->gethasKit_Design();
-	if( kitDesign == NULL )
-	  {
-	    printf( "Error from CanonicalRobotCommand on kit creation of kit (bad design) %s\n", paramList[i].c_str());
-	    exit(1);
-	  }
-	kitTray = kit->gethasKit_KitTray();
-	if( kitTray == NULL )
-	  {
-	    printf( "Error from CanonicalRobotCommand on kit creation of kit (bad tray) %s\n", paramList[i].c_str());
-	    exit(1);
-	  }
-
-      }
-  }
-  
-  //  printf( "KitDesign: %s part: %s locationPrefix: %s\n", 
-  // kitDesign->getname().c_str(), part->getname().c_str(), 
-  // locationPrefix.c_str());
-
-  printf( "Kit design name: %s\n", kitDesign->getname().c_str());
-  printf( "Part name: %s\n", part->getname().c_str());
-  //  partName = locationPrefix + kitDesign->getname().erase(4,7);
-  partName = locationPrefix + kitDesign->getname().erase(4,7) + part->getname().erase(0,4);
-  printf( "partname now: %s\n", partName.c_str());
-  unsigned found = partName.find_last_of("_");
-  
-  //  partName = partName.substr(0,found) + "_" + part->getname().erase(0,5);
-  printf( "partname now: %s\n", partName.c_str());
-  //  printf( "Getting location of part %s\n", partName.c_str() );
-  recLoc=getPartGoalLocation(partName, kitTray->getname());
-  canon_put_part(recLoc.pointXYZ, recLoc.xAxis, recLoc.zAxis);
-  //  sql_put_part(partName, kitTray.getname());
-  /*
-
-  cout <<"Message (\"put part " << paramList[i] <<"\")"<< endl;
-  ss << paramList[i];//add number to the stream
-  string s_paramlist = ss.str();
-  string message = "\nMessage (\"put part " + s_paramlist +"\")\n";
-  fileop->writeData(message);
-
-  */
-  if( part != NULL )
-    delete part;
-  if( kit != NULL )
-    delete kit;
-  /*
-    cannot delete this, why???
-  if( kitDesign != NULL )
-    delete kitDesign;
-  if( kitTray != NULL )
-    delete kitTray;
-  */
-}
-
-/*!
-  @brief A canonical robot command for the PDDL action <b>remove-eff</b>
-  @param paramList List of parameters for the action <b>remove-eff</b>
-  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>remove-eff</b> is implemented in ROS/USARSim
- */
-void CanonicalRobotCommand::remove_eff(vector<string> paramList){
+  print_endcannon(2);
 }
 
 /*!
@@ -315,58 +578,6 @@ void CanonicalRobotCommand::sql_put_part(string partName, string goalRefObject){
 
 
 /*!
-  @brief A canonical robot command for the PDDL action <b>take-kit</b>
-  @param paramList List of parameters for the action <b>take-kit</b>
-  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-kit</b> is implemented in ROS/USARSim
- */
-void CanonicalRobotCommand::take_kit(vector<string> paramList){
-	//cout <<endl;
-	//cout <<"Message (\"take kit\")"<< endl;
-}
-
-/*!
-  @brief A canonical robot command for the PDDL action <b>take-kit-tray</b>
-  @param paramList List of parameters for the action <b>take-kit-tray</b>
-  @param kittingplan Instance of KittingPlan
-  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-kit-tray</b> is implemented in ROS/USARSim
- */
-void CanonicalRobotCommand::take_kit_tray(vector<string> paramList){
-	//cout <<endl;
-	//cout <<"Message (\"take kit tray\")"<< endl;
-}
-
-/*!
-  @brief A canonical robot command for the PDDL action <b>take-part</b>
-  @param paramList List of parameters for the action <b>take-part</b>
-  @param kittingplan Instance of KittingPlan
-  @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-part</b> is implemented in ROS/USARSim
- */
-void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kittingplan){
-	//FileOperator *fileop = new FileOperator;
-	int listLength;
-	listLength=(int)paramList.size();
-	stringstream ss;//create a stringstream
-	RecLoc recLoc;
-
-	for (vector<string>::size_type i = 0; i < listLength; i++){
-		string type;
-		type=kittingplan->matchParamType(paramList[i]);
-		m_file_operator->stripSpace(type);
-
-		if (!strcmp(type.c_str(),"Part")){
-			ss << paramList[i];//add number to the stream
-			string s_paramlist = ss.str();
-			string message = "\nMessage (\"take part " + s_paramlist +"\")\n";
-			m_file_operator->writeData(message);
-
-			//			cout <<"Message (\"take part " << paramList[i] <<"\")"<< endl;
-			recLoc=getPartLocation(paramList[i]);
-			canon_take_part(recLoc.pointXYZ, recLoc.xAxis, recLoc.zAxis);
-		}
-	}
-}
-
-/*!
   @brief Retrieve the location of the kit tray @a kit_tray_name
   @param kit_tray_name Name of the kit tray
   @return KitTrayLocStruct Pose (@a Point), the Z axis (@a Vector), and the X axis (@a Vector) of the kit tray @a kit_tray_name
@@ -378,29 +589,29 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
   - Query the table @a Vector to retrieve the vector for the X axis
   -# Query the field @a hasPoseLocation_ZAxis from the table @a PoseLocation to retrieve the name of the Z axis for the kit tray
   - Query the table @a Vector to retrieve the vector for the Z axis
- */
+*/
 KitTrayLocStruct CanonicalRobotCommand::getKitTrayLocation(string kit_tray_name){
 
-	KitTrayLocStruct kit_tray_loc_struct;
+  KitTrayLocStruct kit_tray_loc_struct;
 
-	KitTray* kit_tray = new KitTray(kit_tray_name);
-	kit_tray->get(kit_tray_name);
+  KitTray* kit_tray = new KitTray(kit_tray_name);
+  kit_tray->get(kit_tray_name);
 
-	PoseLocation* kit_tray_pose = new PoseLocation(kit_tray->gethasSolidObject_PrimaryLocation()->getname());
-	kit_tray_pose->get(kit_tray_pose->getname());
+  PoseLocation* kit_tray_pose = new PoseLocation(kit_tray->gethasSolidObject_PrimaryLocation()->getname());
+  kit_tray_pose->get(kit_tray_pose->getname());
 
-	//--Retrieve hasPoseLocation_Point
-	Point * kit_tray_point = kit_tray_pose->gethasPoseLocation_Point();
-	//--Retrieve hasPoseLocation_XAxis
-	Vector * kit_tray_x_axis  = kit_tray_pose->gethasPoseLocation_XAxis();
-	//--Retrieve hasPoseLocation_ZAxis
-	Vector * kit_tray_z_axis  = kit_tray_pose->gethasPoseLocation_ZAxis();
+  //--Retrieve hasPoseLocation_Point
+  Point * kit_tray_point = kit_tray_pose->gethasPoseLocation_Point();
+  //--Retrieve hasPoseLocation_XAxis
+  Vector * kit_tray_x_axis  = kit_tray_pose->gethasPoseLocation_XAxis();
+  //--Retrieve hasPoseLocation_ZAxis
+  Vector * kit_tray_z_axis  = kit_tray_pose->gethasPoseLocation_ZAxis();
 
-	kit_tray_loc_struct.point=kit_tray_point;
-	kit_tray_loc_struct.x_axis=kit_tray_x_axis;
-	kit_tray_loc_struct.z_axis=kit_tray_z_axis;
+  kit_tray_loc_struct.point=kit_tray_point;
+  kit_tray_loc_struct.x_axis=kit_tray_x_axis;
+  kit_tray_loc_struct.z_axis=kit_tray_z_axis;
 
-	return kit_tray_loc_struct;
+  return kit_tray_loc_struct;
 }
 
 /*!
@@ -414,36 +625,37 @@ KitTrayLocStruct CanonicalRobotCommand::getKitTrayLocation(string kit_tray_name)
   - Query the table @a Vector to retrieve the vector for the X axis
   -# Query the field @a hasPoseLocation_ZAxis from the table @a PoseLocation to retrieve the name of the Z axis for the parts tray
   - Query the table @a Vector to retrieve the vector for the Z axis
- */
+*/
 PartsTrayLocStruct CanonicalRobotCommand::getPartsTrayLocation(string part_tray_name){
 
-	PartsTrayLocStruct parts_tray_loc_struct;
+  PartsTrayLocStruct parts_tray_loc_struct;
 
-	PartsTray* part_tray = new PartsTray(part_tray_name);
-	part_tray->get(part_tray_name);
+  PartsTray* part_tray = new PartsTray(part_tray_name);
+  part_tray->get(part_tray_name);
 
-	//part_tray->gethasSolidObject_PrimaryLocation()->get("part_b_tray_pose");
-	PoseLocation* part_tray_pose = new PoseLocation(part_tray->gethasSolidObject_PrimaryLocation()->getname());
-	part_tray_pose->get(part_tray_pose->getname());
+  //part_tray->gethasSolidObject_PrimaryLocation()->get("part_b_tray_pose");
+  PoseLocation* part_tray_pose = new PoseLocation(part_tray->gethasSolidObject_PrimaryLocation()->getname());
+  part_tray_pose->get(part_tray_pose->getname());
 
-	//--Retrieve hasPoseLocation_Point
-	Point * part_tray_point = part_tray_pose->gethasPoseLocation_Point();
-	//--Retrieve hasPoseLocation_XAxis
-	Vector * part_tray_x_axis  = part_tray_pose->gethasPoseLocation_XAxis();
-	//--Retrieve hasPoseLocation_ZAxis
-	Vector * part_tray_z_axis  = part_tray_pose->gethasPoseLocation_ZAxis();
+  //--Retrieve hasPoseLocation_Point
+  Point * part_tray_point = part_tray_pose->gethasPoseLocation_Point();
+  //--Retrieve hasPoseLocation_XAxis
+  Vector * part_tray_x_axis  = part_tray_pose->gethasPoseLocation_XAxis();
+  //--Retrieve hasPoseLocation_ZAxis
+  Vector * part_tray_z_axis  = part_tray_pose->gethasPoseLocation_ZAxis();
 
-	parts_tray_loc_struct.point=part_tray_point;
-	parts_tray_loc_struct.x_axis=part_tray_x_axis;
-	parts_tray_loc_struct.z_axis=part_tray_z_axis;
+  parts_tray_loc_struct.point=part_tray_point;
+  parts_tray_loc_struct.x_axis=part_tray_x_axis;
+  parts_tray_loc_struct.z_axis=part_tray_z_axis;
 
-	return parts_tray_loc_struct;
+  return parts_tray_loc_struct;
 }
 
 /*!
   @brief Retrieve the location of the part @a part_name
-         This routine will return the grasp point of the given part.
+  This routine will return the grasp point of the given part.
   @param partName Name of the part
+  @param grasp_frame The grasp frame that has been decided to be optimal for this particular part
   @return RecLoc pointXYZ (@a vector), the Z axis (@a Vector), and the X axis (@a Vector) of the part @a part_name
 
   -# Query the field @a hasSolidObject_PrimaryLocation from the table @a SolidObject to retrieve the name of the pose for the part
@@ -453,27 +665,104 @@ PartsTrayLocStruct CanonicalRobotCommand::getPartsTrayLocation(string part_tray_
   - Query the table @a Vector to retrieve the vector for the X axis
   -# Query the field @a hasPoseLocation_ZAxis from the table @a PoseLocation to retrieve the name of the Z axis for the part
   - Query the table @a Vector to retrieve the vector for the Z axis
- */
-RecLoc CanonicalRobotCommand::getPartLocation(string part_name){
-  double doubleValue;
+*/
+RecLoc CanonicalRobotCommand::getPartLocation(string part_name, Frame grasp_frame){
+  double x,y,z;
   PartLocStruct partloc;
   RecurseLocation recurseLocation;
   RecLoc recLoc;
   Part *part = new Part(part_name);
-  Point *point;
-  PoseLocation *graspPose;
-  ShapeDesign *shapeDesign;
-  StockKeepingUnit *sku;
-  Vector *vector;
 
   part->get(part_name);
   recurseLocation.clear();
 
-  /* get grasp location */
+  // add grasp to transform
+  recLoc.frame = grasp_frame;
+  recurseLocation.addRecLoc(&recLoc);
+  recLoc.clear();
+
+  /* now get location of part */
+  recurseLocation.recurse(part);
+  recurseLocation.computeGlobalLoc();
+  //  recurseLocation.printMe(0);
+  recLoc = recurseLocation.getGlobalLoc();
+
+  //  delete part;
+  return recLoc;
+}
+
+/*!
+  @param part_name part to get instance of
+  @return part instance or "" if no part found
+ */
+string CanonicalRobotCommand::getPartInstance(string part_name)
+{
+  std::map<std::string, std::vector<std::string> > results;
+  std::vector<std::string> attributes;
+  std::string myPartsTrayWithParts;
+  PartsTrayWithParts *partsTrayWithParts = new PartsTrayWithParts("PartsTrayWithParts");
+  PartsTray *partsTray;
+  bool found = false;
+
+  double doubleValue;
+  PartLocStruct partloc;
+  RecurseLocation recurseLocation;
+  Part *part = new Part(part_name);
+  std::vector<Part*> availableParts;
+  Point *point;
+  PoseLocation *graspPose;
+  ShapeDesign *shapeDesign;
+  StockKeepingUnit *sku, *partsTray_PartSku;
+  Vector *vector;
+  DAO* mydao = new DAO("Part");
+  //  RecLoc recLoc;
+
+  part->get(part_name);
+
+  /* find part tray that contains this kind of part */
   // first get sku
   sku = part->gethasPart_Sku();
   sku->get(sku->getname());
+  //  printf("Sku name: %s\n", sku->getname().c_str());
+  // get the name of all PartsTrayWithParts
+  attributes.push_back("_NAME");
+  results = mydao->getAll(attributes, "PartsTrayWithParts");
+  for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
+    {
+      myPartsTrayWithParts = results["_NAME"][i];
+      //      myPartsTrayWithParts = "part_c_supply";
+      partsTrayWithParts->get(myPartsTrayWithParts);
+      //      printf( "PartsTrayWithParts: %s\n", partsTrayWithParts->getname().c_str());
+      // get the partsTray
+      partsTray = partsTrayWithParts->gethasPartsTrayWithParts_PartsTray();
+      partsTray->get(partsTray->getname());
+      // get the partsTray's SKU
+      partsTray_PartSku = partsTray->gethasPartsTray_PartSku();
+      partsTray_PartSku->get(partsTray_PartSku->getname());
+      if( sku->getname() == partsTray_PartSku->getname() )
+	{
+	  // found the correct part tray
+	  found = true;
+	  printf( "found parts tray %s for parts of SKU %s\n", partsTrayWithParts->getname().c_str(), sku->getname().c_str() );
+	  break;
+	}
+      //      else
+      //	printf( "parts tray %s does not have %s as parts\n", partsTray_PartSku->getname().c_str(), sku->getname().c_str() );
+    }
+  if( !found )
+    {
+      printf( "could not find parts tray that matches\n" );
+      return "";
+    }
+  
+  // get vector of parts
+  availableParts = partsTrayWithParts->gethadByPart_PartsTrayWithParts();
+  printf( "found %d parts in tray. Specific part %s\n", 
+	  (int)availableParts.size(),
+	  availableParts.at(0)->getname().c_str());
+  return availableParts.at(0)->getname();
 
+  /*
   // from sku, get shape
   shapeDesign = sku->gethasStockKeepingUnit_Shape();
   shapeDesign->get(shapeDesign->getname());
@@ -519,78 +808,116 @@ RecLoc CanonicalRobotCommand::getPartLocation(string part_name){
   // add grasp to transform
   recurseLocation.addRecLoc(&recLoc);
   recLoc.clear();
-
+  */
   /* now get location of part */
-  recurseLocation.recurse(part);
-  recurseLocation.computeGlobalLoc();
-  recurseLocation.printMe(0);
-  recLoc = recurseLocation.getGlobalLoc();
+  /*
+    recurseLocation.recurse(availableParts[0]);
+    recurseLocation.computeGlobalLoc();
+    recurseLocation.printMe(0);
+    recLoc = recurseLocation.getGlobalLoc();
 
-  //  delete part;
-  return recLoc;
+    //  delete part;
+    return recLoc;
+  */
 }
 
-RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, 
-		string kit_name){
+/*!
+  @Brief Compute the goal location to send the robot gripper to in world coordinates
+  When the part that is being held by the robot is in its slot, the slot frame
+  and the part frame will be coincident. This will allow for the transform of
+  Gripper -> Part (really slot) -> kit -> table -> workcell
+*/
+RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_location)
+{
+  SolidObject* solidObject = new SolidObject(part_name);
+  PoseLocation *poseLocation = new PoseLocation("foo");
+  PhysicalLocation *physicalLocation;
+  PartRefAndPose *partRefAndPose;
+  Kit* kit;
+  Point *mypoint;
+  Vector *vectorXAxis, *vectorZAxis;
+  double doubleValue;
+  Slot *slot;
+  RecurseLocation recurseLocation;
+  RecLoc recLoc;
 
-	RecurseLocation recurseLocation;
-	RecLoc recLoc;
-	KitTray *kitTray = new KitTray(kit_name);
-	PartRefAndPose *partRefAndPose = new PartRefAndPose(part_name);
-	Point *mypoint;
-	Vector *myvector;
-	double doubleValue;
+  /* compute the inverse transform to get grasp (0,0,0) wrt part */
+  solidObject->get(part_name);
+  physicalLocation = solidObject->gethasSolidObject_PrimaryLocation();
+  physicalLocation->get(physicalLocation->getname());
 
-	kitTray->get(kit_name);
-	recurseLocation.clear();
-	recLoc.clear();
-	partRefAndPose->get(part_name);
-	printf( "Getting part %s from kit %s\n",
-		part_name.c_str(), kit_name.c_str());
-	mypoint = partRefAndPose->gethasPartRefAndPose_Point();
-	printf( "Got it! Now getting point.\n" );
-	mypoint->get(mypoint->getname());
-	recLoc.posePointName = mypoint->getname();
-	doubleValue = mypoint->gethasPoint_X();
-	recLoc.pointXYZ.push_back(doubleValue);
-	doubleValue = mypoint->gethasPoint_Y();
-	recLoc.pointXYZ.push_back(doubleValue);
-	doubleValue = mypoint->gethasPoint_Z();
-	recLoc.pointXYZ.push_back(doubleValue);
+  poseLocation->get(physicalLocation->getname());
+  mypoint = poseLocation->gethasPoseLocation_Point();
+  mypoint->get(mypoint->getname());
+  recLoc.frame.setPointName(mypoint->getname());
+  recLoc.frame.setPoint( mypoint->gethasPoint_X(),
+			 mypoint->gethasPoint_Y(),
+			 mypoint->gethasPoint_Z());
 
-	myvector = partRefAndPose->gethasPartRefAndPose_XAxis();
-	myvector->get(myvector->getname());
-	doubleValue = myvector->gethasVector_I();
-	recLoc.xAxis.push_back(doubleValue);
-	doubleValue = myvector->gethasVector_J();
-	recLoc.xAxis.push_back(doubleValue);
-	doubleValue = myvector->gethasVector_K();
-	recLoc.xAxis.push_back(doubleValue);
-	recLoc.xAxisName = myvector->getname();
+  vectorXAxis = poseLocation->gethasPoseLocation_XAxis();
+  vectorXAxis->get(vectorXAxis->getname());
+  recLoc.frame.setXAxisName(vectorXAxis->getname());
+  recLoc.frame.setXAxis(vectorXAxis->gethasVector_I(),
+			vectorXAxis->gethasVector_J(),
+			vectorXAxis->gethasVector_K());
 
-	myvector = partRefAndPose->gethasPartRefAndPose_ZAxis();
-	myvector->get(myvector->getname());
-	doubleValue = myvector->gethasVector_I();
-	recLoc.zAxis.push_back(doubleValue);
-	doubleValue = myvector->gethasVector_J();
-	recLoc.zAxis.push_back(doubleValue);
-	doubleValue = myvector->gethasVector_K();
-	recLoc.zAxis.push_back(doubleValue);
-	recLoc.zAxisName = myvector->getname();
+  vectorZAxis = poseLocation->gethasPoseLocation_ZAxis();
+  vectorZAxis->get(vectorZAxis->getname());
+  recLoc.frame.setZAxisName(vectorZAxis->getname());
+  recLoc.frame.setZAxis(vectorZAxis->gethasVector_I(),
+			vectorZAxis->gethasVector_J(),
+			vectorZAxis->gethasVector_K());
+  // invert frame
+  recLoc.frame = recLoc.frame.invert();
 
-	recurseLocation.addRecLoc(&recLoc);
-	recLoc.clear();
+  // add to transform
+  recurseLocation.addRecLoc(&recLoc);
 
-	recurseLocation.recurse(kitTray);
-	recurseLocation.computeGlobalLoc();
-	recurseLocation.printMe(0);
-	recLoc = recurseLocation.getGlobalLoc();
+  /* since part and slot are same frame, we can now add the slot frame to kit transform
+     to the transform chain */
+  recLoc.clear();
+  slot = new Slot(slot_location);
+  slot->get(slot_location);
+  partRefAndPose = slot->gethasSlot_PartRefAndPose();
+  partRefAndPose->get(partRefAndPose->getname());
+  mypoint = partRefAndPose->gethasPartRefAndPose_Point();
+  mypoint->get(mypoint->getname());
+  recLoc.frame.setPointName(mypoint->getname());
+  recLoc.frame.setPoint( mypoint->gethasPoint_X(),
+			 mypoint->gethasPoint_Y(),
+			 mypoint->gethasPoint_Z());
 
-	recurseLocation.clear();
+  vectorXAxis = partRefAndPose->gethasPartRefAndPose_XAxis();
+  vectorXAxis->get(vectorXAxis->getname());
+  recLoc.frame.setXAxisName(vectorXAxis->getname());
+  recLoc.frame.setXAxis(vectorXAxis->gethasVector_I(),
+			vectorXAxis->gethasVector_J(),
+			vectorXAxis->gethasVector_K());
 
-	//  delete kitTray;
-	//  delete partRefAndPose;
-	return recLoc;
+  vectorZAxis = partRefAndPose->gethasPartRefAndPose_ZAxis();
+  vectorZAxis->get(vectorZAxis->getname());
+  recLoc.frame.setZAxisName(vectorZAxis->getname());
+  recLoc.frame.setZAxis(vectorZAxis->gethasVector_I(),
+			vectorZAxis->gethasVector_J(),
+			vectorZAxis->gethasVector_K());
+  // add to transform
+  recurseLocation.addRecLoc(&recLoc);
+
+  /* now recurse on kit */ 
+  kit = slot->gethadBySlot_Kit();
+  kit->get(kit->getname());
+  recurseLocation.recurse(kit);
+  recurseLocation.computeGlobalLoc();
+  /*
+  printf("Slot location:\n");
+  recurseLocation.printMe(0);
+  */
+  recLoc = recurseLocation.getGlobalLoc();
+
+  delete solidObject;
+  delete poseLocation;
+  delete slot;
+  return recLoc;
 }
 
 /*!

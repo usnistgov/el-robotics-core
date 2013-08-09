@@ -69,6 +69,7 @@ class RecLoc{
   std::string primaryLocationName;
   Frame frame;
   void getRollPitchYaw(double *roll, double *pitch, double *yaw);
+  void setRollPitchYaw(double roll, double pitch, double yaw);
   void clear();
 };
 

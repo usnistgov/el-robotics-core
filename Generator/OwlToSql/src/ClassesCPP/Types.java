@@ -531,7 +531,7 @@ public class Types extends ClassGenerator {
 			if (unit.get(i).contains("*") && !unit.get(i).contains("std::")) {
 
 				if (!attributes.get(i).equals("dao")) {
-					copy = copy + "delete(" + attributes.get(i) + ");\n";
+					//copy = copy + "delete(" + attributes.get(i) + ");\n";
 					copy = copy + attributes.get(i) + "=NULL;\n";
 				}
 
@@ -539,7 +539,7 @@ public class Types extends ClassGenerator {
 					&& unit.get(i).contains("std::vector")) {
 				copy = copy + "for(std::size_t i = 0; i < " + attributes.get(i)
 						+ ".size(); i++){\n";
-				copy = copy + "delete(" + attributes.get(i) + "[i]);\n";
+				//copy = copy + "delete(" + attributes.get(i) + "[i]);\n";
 				copy = copy + attributes.get(i) + "[i]=NULL;}\n";
 				copy = copy + attributes.get(i) + ".clear();\n";
 			}

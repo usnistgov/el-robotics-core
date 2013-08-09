@@ -13,12 +13,21 @@
 
 RosInf *rosControl;
 
+/**
+  \addtogroup binPickup
+  @{
+  \file scanPickup.cpp
+  
+  This file contains the implementation of the controller dequeuing thread and main function for the binPickup node.
+  @}
+*/
+
 //prototype for scanpickup function
 void generateScanPattern(MoveThroughToMsg *scanPattern, RosInf* rosInf, Point *initPoint, double length, double width);
 
 /**
-  @brief Dequeueing loop for CRCL controller
-  @param arg Pointer to the controller that dequeues command messages
+  \brief Dequeueing loop for CRCL controller
+  \param arg Pointer to the controller that dequeues command messages
 */
 void
 dequeueThread (void *arg)

@@ -25,6 +25,8 @@ enum EffectorType
   ROS_INF_TOOLCHANGER
 };
 /**
+  \addtogroup RosControl
+	@{
 	\class EffectorController rosInf.hh "rosInf.hh"
 	\brief Class to manage end effector subscriber callbacks and command publishers.
 	
@@ -86,6 +88,7 @@ public:
   void addArmGoal (double x, double y, double z, double xAxisX, double xAxisY,
 		   double xAxisZ, double zAxisX, double zAxisY,
 		   double zAxisZ);
+	void addArmJointGoal(std::vector<double> jointPosition);
   double getSensorFOV ();
   
   template<class M>
@@ -136,5 +139,7 @@ private:
     std::vector < std::string > findPartNames;
   void objectSensorCallback (const usarsim_inf::SenseObjectConstPtr & msg);
 };
+
+/** @} */
 
 #endif

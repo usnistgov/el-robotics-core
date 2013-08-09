@@ -1,37 +1,6 @@
 #define NAMESIZE 200
 #define TEXTSIZE 2000
 
-/* class elementInfo
-
-An elementInfo gives:
-1. element - a pointer to an element,
-2. complexType - a pointer to an XmlComplexType, which is the type of
-   the element if that type is an XmlComplexType and null otherwise.
-3. simpleType - a pointer to an XmlSimpleType, which is the type of
-   the element if that type is an XmlSimpleType and null otherwise.
-
-At most one of complexType and simpleType can be non-null. If both
-are null, the type of the element is a built-in XML type.
-
-The elementInfos list (a list of elementInfo) is used for several
-different purposes. Different C++ attributes of elementInfo are used
-for these different purposes.
-
-*/
-
-class elementInfo
-{
-public:
-  elementInfo();
-  elementInfo(XmlElementLocal * elementIn,
-	      XmlComplexType * complexTypeIn, XmlSimpleType * simpleTypeIn);
-  ~elementInfo();
-  
-  XmlElementLocal * element;
-  XmlComplexType * complexType;
-  XmlSimpleType * simpleType;
-};
-
 /********************************************************************/
 
 /* class xmlSchemaOwlPrinter
@@ -54,14 +23,13 @@ public:
   void deNameName(char * name, char * buffer);
   void deTypeName(char * name, char * buffer);
   void enterClass(XmlType * aClass);
-  void enterElementInfo(elementInfo * info);
   void enterKid(XmlComplexType * parent, XmlComplexType * kid);
   void enterKids();
   XmlComplexType * findComplexClass(char * name);
-  void findCppTypeName(char * wg3TypeName, char * cppTypeName);
   XmlSimpleType * findSimpleClass(char * name);
   void printOwlAnnotation(XmlAnnotation * annotation, FILE * outFile);
   void printOwlChoSeqItem(XmlChoSeqItem * item, FILE * outFile);
+  void printOwlClassFile(XmlSchema * schemaFile, char * URL, FILE * outFile);
   void printOwlComplexContent(XmlComplexContent * complxCont, FILE * outFile);
   void printOwlComplexContentItem (XmlComplexContentItem * item,
 				   FILE * outFile);
@@ -88,10 +56,9 @@ public:
   void printOwlOtherContentBase(XmlOtherContentBase * base, FILE * outFile);
   void printOwlPattern(XmlPattern * pattern, FILE * outFile);
   void printOwlRestriction(XmlRestrictionType * restrict,  FILE * outFile);
-  void printOwlSchema(XmlSchema * schema, FILE * outFile);
   void printOwlSchemaContent1(XmlSchemaContent1 * content1, FILE * outFile);
-  void printOwlSchemaFile(XmlSchemaFile * schemaFile, FILE * outFile);
-  void printOwlSchemaHeader(XmlSchemaHeader * header, FILE * outFile);
+  void printOwlSchemaHeader(XmlSchemaHeader * header, char * URL,
+			    FILE * outFile);
   void printOwlSequence(XmlSequence * sequence, FILE * outFile);
   void printOwlSimpleList(XmlSimpleList * aList, FILE * outFile);
   void printOwlSimpleRestriction(XmlSimpleRestriction * restrict,
@@ -103,7 +70,6 @@ public:
   char                        className[NAMESIZE];
   std::list<XmlComplexType *> complexTypes;
   std::list<XmlComplexType *> disjointClasses;
-  std::list<elementInfo *>    elementInfos;
   char                        nameBuffer[NAMESIZE];
   char                        otherName[NAMESIZE];
   std::list<XmlSimpleType *>  simpleTypes;

@@ -9,10 +9,10 @@ Ontology(<http://www.nist.gov/el/ontologies/kittingClasses.owl>
 
 Annotation(rdfs:comment
   "This kitting ontology models a kitting workstation including objects
-  in the workstation and data associated with the workstation. The
-  ontology assumes coordinate systems are right handed. For objects
-  such as trays or a robot with a preferred orientation with respect to
-  gravity, the Z axis points up (opposite the pull of gravity).")
+      in the workstation and data associated with the workstation. The
+      ontology assumes coordinate systems are right handed. For objects
+      such as trays or a robot with a preferred orientation with respect to
+      gravity, the Z axis points up (opposite the pull of gravity).")
 
 
 
@@ -33,13 +33,16 @@ DatatypeDefinition(:weightUnit
 Declaration(Class(:BoxVolume))
 
 AnnotationAssertion(rdfs:comment :BoxVolume
-  "A BoxVolumeType has a Name element inherited from DataThingType. It
-  also has MaximumPoint and MinimumPoint elements. These are
-  diagonally opposite corner points of a box shaped volume whose
-  edges are aligned with the coordinate system in which the
-  BoxVolumeType is located. The MinimumPoint has the minimum values
-  of X, Y, and Z. The MaximumPoint has the maximum values of X, Y,
-  and Z.")
+  "BoxVolume is derived from DataThing.
+  An instance of BoxVolume has the following:
+    MaximumPoint
+    MinimumPoint.
+ 
+  The MaximumPoint and MinimumPoint are diagonally opposite corner
+  points of a box shaped volume whose edges are aligned with the
+  coordinate system in which the BoxVolume is located. The
+  MinimumPoint has the minimum values of X, Y, and Z. The
+  MaximumPoint has the maximum values of X, Y, and Z.")
 
 Declaration(ObjectProperty(:hasBoxVolume_MaximumPoint))
 ObjectPropertyDomain(:hasBoxVolume_MaximumPoint :BoxVolume)
@@ -76,17 +79,24 @@ ObjectPropertyRange(:hadByMinimumPoint_BoxVolume :BoxVolume)
 Declaration(Class(:BoxyShape))
 
 AnnotationAssertion(rdfs:comment :BoxyShape
-  "A BoxyShapeType is an InternalShapeType that is box shaped. It has
-  a Name, Description, and GraspPose elements inherited from
-  InternalShapeType. It also has Length, Width, Height, and HasTop
-  elements. The length is larger of the two dimensions that are not
-  the height. The width is smaller of the two dimensions that are not
-  the height. The coordinate system of a BoxyShapeType (i.e. the
-  thing that is located and oriented by a pose) has its origin in the
-  middle of the bottom, its Z-axis parallel to the height sides, and
-  its X-axis parallel to the length sides. If HasTop is true, the top
-  of the box (i.e. the side through which the +Z axis passes) exists
-  and is closed. If HasTop is false, the box has no top.")
+  "BoxyShape is derived from InternalShape.
+  An instance of BoxyShape has the following:
+    Description (inherited)
+    GraspPose (inherited, optional)
+    Length
+    Width
+    Height
+    HasTop.
+ 
+  A BoxyShape is box shaped. The Length is larger of the two
+  dimensions that are not the Height. The Width is smaller of the two
+  dimensions that are not the Height. The coordinate system of a
+  BoxyShape (i.e. the thing that is located and oriented by a
+  Pose) has its origin in the middle of the bottom, its Z-axis
+  parallel to the height sides and pointing into the box, and its
+  X-axis parallel to the length sides. If HasTop is true, the top of
+  the box (i.e. the side through which the +Z axis passes) exists and
+  is closed. If HasTop is false, the box has no top.")
 
 Declaration(DataProperty(:hasBoxyShape_Length))
 DataPropertyDomain(:hasBoxyShape_Length :BoxyShape)
@@ -125,19 +135,24 @@ EquivalentClasses(:BoxyShape ObjectIntersectionOf(
 Declaration(Class(:CylindricalShape))
 
 AnnotationAssertion(rdfs:comment :CylindricalShape
-  "A CylindricalShapeType is an InternalShapeType that is cylindrical.
-  It has a Name, Description, and GraspPose elements inherited from
-  InternalShapeType. It also has Diameter, Height, and HasTop
-  elements. The cylinder is a right circular cylinder with a
-  circular base having the given diameter. The axis is perpendicular
-  to the base. The base is always a surface that is part of the
-  cylinder. The sides of the cylinder stop at the given height as if
-  cut by a plane perpendicular to the axis. The coordinate system
-  of a CylindrialShapeType (i.e. the thing that is located and
-  oriented by a pose) has its origin in the middle of the bottom, and
-  its Z-axis on the axis of the cylinder. If HasTop is true, the top
-  of the cylinder (i.e. the side through which the +Z axis passes)
-  exists and is closed. If HasTop is false, the cylinder has no top.")
+  "CylindricalShape is derived from InternalShape.
+  An instance of CylindricalShape has the following:
+    Description (inherited)
+    GraspPose (inherited, optional)
+    Diameter
+    Height
+    HasTop.
+ 
+  The cylinder is a right circular cylinder with a circular base
+  having the given Diameter. The axis is perpendicular to the base.
+  The base is always a surface that is part of the cylinder. The
+  sides of the cylinder stop at the given Height as if cut by a plane
+  perpendicular to the axis. The coordinate system of a
+  CylindricalShape (i.e. the thing that is located and oriented by
+  a pose) has its origin in the middle of the bottom, and its Z-axis
+  on the axis of the cylinder. If HasTop is true, the top of the
+  cylinder (i.e. the side through which the +Z axis passes) exists
+  and is closed. If HasTop is false, the cylinder has no top.")
 
 Declaration(DataProperty(:hasCylindricalShape_Diameter))
 DataPropertyDomain(:hasCylindricalShape_Diameter :CylindricalShape)
@@ -168,10 +183,12 @@ EquivalentClasses(:CylindricalShape ObjectIntersectionOf(
 Declaration(Class(:DataThing))
 
 AnnotationAssertion(rdfs:comment :DataThing
-  "A DataThing includes all complex data types such as Vector,
-  PhysicalLocation, etc. A DataThing has a Name to make it easy
-  to reference when generating OWL. Names are of type xs:ID so that
-  all names must be unique. Names also must not be the same as Ids.")
+  "An instance of DataThing has the following:
+    .
+  DataThing is an abstract type from which more specific types
+  of data thing are derived. That includes all complex data
+  types such as Vector, PhysicalLocation, etc.")
+
 SubClassOf(:BoxVolume :DataThing)
 SubClassOf(:KitDesign :DataThing)
 SubClassOf(:PartRefAndPose :DataThing)
@@ -197,17 +214,26 @@ DisjointUnion(:DataThing
 Declaration(Class(:EndEffector))
 
 AnnotationAssertion(rdfs:comment :EndEffector
-  "An EndEffectorType is a SolidObjectType. It is an end effector for
-  a robot. It has Name, PrimaryLocation, SecondaryLocation,
-  InternalShape, and ExternalShape elements inherited from
-  SolidObjectType. An EndEffectorType also has Description, Weight,
-  MaximumLoadWeight, and HeldObject elements. The optional HeldObject
-  element is for the object being held by the end effector, if the
-  end effector is holding an object. Every EndEffectorType is either
-  a GripperEffectorType or a VacuumEffectorType. Every
-  EndEffectorType in a KittingWorkstation is either attached to the
-  end of a robot arm or sitting in an EndEffectorHolderType at an
-  EndEffectorChangingStationType.")
+  "EndEffector is derived from NoSkuObject.
+  An instance of EndEffector has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description
+    Weight
+    MaximumLoadWeight
+    HeldObject (optional).
+ 
+  EndEffector is an abstract type from which more specific types
+  of end effector are derived. An EndEffector is an end effector
+  for a robot. The optional HeldObject is for the object being held
+  by the end effector, if the end effector is holding an object.
+  Every EndEffector is either a GripperEffector or a
+  VacuumEffector. Every EndEffector in a KittingWorkstation
+  is either attached to the end of a robot arm or sitting in an
+  EndEffectorHolder at an EndEffectorChangingStation.")
+
 SubClassOf(:GripperEffector :EndEffector)
 SubClassOf(:VacuumEffector :EndEffector)
 DisjointUnion(:EndEffector
@@ -255,15 +281,21 @@ ObjectPropertyRange(:hadByHeldObject_EndEffector :EndEffector)
 Declaration(Class(:EndEffectorChangingStation))
 
 AnnotationAssertion(rdfs:comment :EndEffectorChangingStation
-  "An EndEffectorChangingStationType is a SolidObjectType. It has
-  Name, PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  a Base element and one to many EndEffectorHolder elements. It is a
-  place where end effectors are stored and where the robot can change
-  end effectors. The coordinate system of an
-  EndEffectorChangingStationType is in the same place as the
-  coordinate system of its Base. The shape of an
-  EndEffectorChangingStationType may also be found from the shapes of
+  "EndEffectorChangingStation is derived from NoSkuObject.
+  An instance of EndEffectorChangingStation has the
+  following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Base
+    EndEffectorHolder (multiple).
+ 
+  An EndEffectorChangingStation is a place where end effectors
+  are stored and where the robot can change end effectors. The
+  coordinate system of an EndEffectorChangingStation is in the
+  same place as the coordinate system of its Base. The shape of an
+  EndEffectorChangingStation may also be found from the shapes of
   the Base and the EndEffectorHolders and their relative positions.")
 
 Declaration(ObjectProperty(:hasEndEffectorChangingStation_Base))
@@ -297,15 +329,16 @@ ObjectPropertyRange(:hadByEndEffectorHolder_EndEffectorChangingStation :EndEffec
 Declaration(Class(:EndEffectorHolder))
 
 AnnotationAssertion(rdfs:comment :EndEffectorHolder
-  "An EndEffectorHolderType is a SolidObjectType,
-  from which it has the following inherited elements:
-  Name
-  PrimaryLocation
-  SecondaryLocation
-  InternalShape
-  ExternalShape
-  It also has zero or one EndEffectorType element. An
-  EndEffectorHolderType is part of an EndEffectorChangingStationType.")
+  "EndEffectorHolder is derived from NoSkuObject.
+  An instance of EndEffectorHolder has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    EndEffector (optional).
+ 
+  An EndEffectorHolder holds zero or one end effector and is part
+  of an EndEffectorChangingStation.")
 
 Declaration(ObjectProperty(:hasEndEffectorHolder_EndEffector))
 ObjectPropertyDomain(:hasEndEffectorHolder_EndEffector :EndEffectorHolder)
@@ -324,25 +357,30 @@ ObjectPropertyRange(:hadByEndEffector_EndEffectorHolder :EndEffectorHolder)
 Declaration(Class(:ExternalShape))
 
 AnnotationAssertion(rdfs:comment :ExternalShape
-  "An ExternalShapeType is a ShapeDesignType whose shape is defined in
-  an external file. It has Name, Description, and GraspPose elements
-  inherited from ShapeDesignType. It also has ModelTypeName,
-  ModelFileName, and ModelName elements. ModelTypeName is the name of
-  the type of model (for example, 'STEP Advanced Brep' or 'USARSim').
-  ModelFileName is the name of the file containing the model and may
-  include a path (for example 'partFiles/STEP/ANC101.stp'). The model
-  file may contain more than one shape model. The ModelName is
-  optional and is the name of a model within the model file. The
-  ModelName is necessary if the model file contains more than one
-  model.")
+  "ExternalShape is derived from ShapeDesign.
+  An instance of ExternalShape has the following:
+    Description (inherited)
+    GraspPose (inherited, optional)
+    ModelFormatName
+    ModelFileName
+    ModelName (optional).
+ 
+  An ExternalShape is a shape defined in an external file. The
+  ModelFormatName is the name of the format of model (for example,
+  'STEP Advanced Brep' or 'USARSim'). The ModelFileName is the name
+  of the file containing the model and may include a path (for
+  example 'partFiles/STEP/ANC101.stp'). The model file may contain
+  more than one shape model. The ModelName is optional and is the
+  name of a model within the model file. The ModelName is necessary
+  if the model file contains more than one model.")
 
-Declaration(DataProperty(:hasExternalShape_ModelTypeName))
-DataPropertyDomain(:hasExternalShape_ModelTypeName :ExternalShape)
-DataPropertyRange(:hasExternalShape_ModelTypeName xsd:string)
-FunctionalDataProperty(:hasExternalShape_ModelTypeName)
+Declaration(DataProperty(:hasExternalShape_ModelFormatName))
+DataPropertyDomain(:hasExternalShape_ModelFormatName :ExternalShape)
+DataPropertyRange(:hasExternalShape_ModelFormatName xsd:string)
+FunctionalDataProperty(:hasExternalShape_ModelFormatName)
 EquivalentClasses(:ExternalShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasExternalShape_ModelTypeName xsd:string)
-  DataAllValuesFrom (:hasExternalShape_ModelTypeName xsd:string)))
+  DataSomeValuesFrom(:hasExternalShape_ModelFormatName xsd:string)
+  DataAllValuesFrom (:hasExternalShape_ModelFormatName xsd:string)))
 
 Declaration(DataProperty(:hasExternalShape_ModelFileName))
 DataPropertyDomain(:hasExternalShape_ModelFileName :ExternalShape)
@@ -362,10 +400,18 @@ FunctionalDataProperty(:hasExternalShape_ModelName)
 Declaration(Class(:GripperEffector))
 
 AnnotationAssertion(rdfs:comment :GripperEffector
-  "A GripperEffectorType is an EndEffectorType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, ExternalShape,
-  Description, Weight, and MaximumLoadWeight elements inherited from
-  EndEffectorType. A GripperEffectorType holds an object by gripping
+  "GripperEffector is derived from EndEffector.
+  An instance of GripperEffector has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description (inherited)
+    Weight (inherited)
+    MaximumLoadWeight (inherited)
+    HeldObject (inherited, optional).
+ 
+  A GripperEffector holds an object by gripping
   it with fingers or claws or by suction.")
 
 
@@ -373,9 +419,14 @@ AnnotationAssertion(rdfs:comment :GripperEffector
 Declaration(Class(:Human))
 
 AnnotationAssertion(rdfs:comment :Human
-  "A HumanType is a type representing a human being. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. The shape of
+  "Human is derived from NoSkuObject.
+  An instance of Human has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional).
+ 
+  A Human is a type representing a human being. The shape of
   a human is the shape of a bounding box (or other bounding shape)
   that encloses the human completely.")
 
@@ -384,12 +435,16 @@ AnnotationAssertion(rdfs:comment :Human
 Declaration(Class(:InternalShape))
 
 AnnotationAssertion(rdfs:comment :InternalShape
-  "An InternalShapeType is an abstract type derived from
-  ShapeDesignType from which more specific types of shape are
-  derived. It has Name, Description, and GraspPose elements inherited
-  from ShapeDesignType. Instances of InternalShapeType in a data file
-  conforming to this schema contain information about the appearance
-  of the shape without referring to another file.")
+  "InternalShape is derived from ShapeDesign.
+  An instance of InternalShape has the following:
+    Description (inherited)
+    GraspPose (inherited, optional).
+ 
+  InternalShape is an abstract type from which more specific
+  types of shape are derived. Instances of InternalShape in a
+  instance file contain information about the appearance of the
+  shape without referring to another file.")
+
 SubClassOf(:BoxyShape :InternalShape)
 SubClassOf(:CylindricalShape :InternalShape)
 DisjointUnion(:InternalShape
@@ -401,17 +456,27 @@ DisjointUnion(:InternalShape
 Declaration(Class(:Kit))
 
 AnnotationAssertion(rdfs:comment :Kit
-  "A KitType is a SolidObjectType. It has Name, PrimaryLocation,
-  SecondaryLocation, InternalShape, and ExternalShape elements
-  inherited from SolidObjectType. A KitType also has
-  DesignName(IDREF), Tray, and Finished elements, zero to many Part
-  elements, and zero to many Slot elements. Finished is a boolean
-  indicator of whether the Kit is finished. The Part element may
-  occur several times (once for each part in the kit). The optional
-  Slot elements may be used to keep track of whether each place in
-  the kit that should have a part on it does have a part on it. The
-  PartRefAndPoseName of each Slot should be the name of a
+  "Kit is derived from NoSkuObject.
+  An instance of Kit has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Design
+    KitTray
+    Finished
+    Part (optional, multiple)
+    Slot (optional, multiple).
+ 
+  Finished is a boolean indicator of whether the Kit is finished.
+ 
+  Part may occur several times (once for each part in the kit).
+ 
+  The optional Slots may be used to keep track of whether each place
+  in the kit that should have a part on it does have a part on it.
+  The PartRefAndPose of each Slot should indicate a
   PartRefAndPose in the design of the kit (different for each slot).
+ 
   The locating point of the Tray in the kit should be (0,0,0), and
   its X and Z axes should be (1,0,0) and (0,0,1), respectively.")
 
@@ -478,12 +543,14 @@ EquivalentClasses(:Kit ObjectIntersectionOf(
 Declaration(Class(:KitDesign))
 
 AnnotationAssertion(rdfs:comment :KitDesign
-  "A KitDesignType is a DataThingType. A KitDesignType has a Name
-  element inherited from DataThingType. It also has a KitTraySkuName
-  element and one to many PartRefAndPose elements. The KitTraySkuName
-  identifies a type of kit tray. The Pose in a PartRefAndPose is the
-  location of the part relative to the coordinate system of the
-  ShapeDesign of the tray.")
+  "KitDesign is derived from DataThing.
+  An instance of KitDesign has the following:
+    KitTraySku
+    PartRefAndPose (multiple).
+ 
+  The KitTraySku identifies a type of kit tray. The Pose
+  in a PartRefAndPose is the location of the part relative to the
+  coordinate system of the ShapeDesign of the tray.")
 
 
 Declaration(ObjectProperty(:hasKitDesign_KitTraySku))
@@ -510,19 +577,45 @@ ObjectPropertyRange(:hadByPartRefAndPose_KitDesign :KitDesign)
 Declaration(Class(:KittingWorkstation))
 
 AnnotationAssertion(rdfs:comment :KittingWorkstation
-  "A KittingWorkstationType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  AngleUnit, LengthUnit, WeightUnit, ChangingStation, one to many
-  Object, one to many OtherObstacle, Robot, one to many KitDesign,
-  and one to many Sku elements. All angle, length, and
-  weight values related to the workstation use the units implicitly.")
-AnnotationAssertion(rdfs:comment :KittingWorkstation
-  "Containers of various sorts enter and leave the workstation. The
+  "KittingWorkstation is derived from NoSkuObject.
+  An instance of KittingWorkstation has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    AngleUnit
+    LengthUnit
+    ChangingStation
+    Object (multiple)
+    OtherObstacle (optional, multiple)
+    Robot
+    KitDesign (multiple)
+    Sku (multiple)
+    WeightUnit.
+ 
+  All angle, length, and weight values related to the workstation
+  use the units implicitly.
+ 
+  The workstation includes one robot and one end effector changing
+  station. There may be many instances of Object in the workstation,
+  including such things as work tables, large boxes with kits,
+  large boxes with empty kit trays, and parts trays.
+ 
+  The collection of instances of KitDesign is a library of all kit
+  designs known to the workstation.
+ 
+  The collection of instances of Sku is a library of all stock
+  keeping units known to the workstation.
+ 
+  The OtherObstacles are obstacles to robot motion of unspecified
+  type.
+ 
+  Containers of various sorts enter and leave the workstation. The
   robot builds kits of parts by executing kitting plans as directed
-  by a kitting plan execution system. The location of each instance
-  of KittingWorkstation should be given relative to itself in order
-  to end the chain of relative locations.")
+  by a kitting plan execution system.
+ 
+  The location of each instance of KittingWorkstation should be given
+  relative to itself in order to end the chain of relative locations.")
 
 Declaration(DataProperty(:hasKittingWorkstation_AngleUnit))
 DataPropertyDomain(:hasKittingWorkstation_AngleUnit :KittingWorkstation)
@@ -627,21 +720,16 @@ EquivalentClasses(:KittingWorkstation ObjectIntersectionOf(
 Declaration(Class(:KitTray))
 
 AnnotationAssertion(rdfs:comment :KitTray
-  "A KitTrayType is a SolidObjectType. It has Name, PrimaryLocation,
-  SecondaryLocation, InternalShape, and ExternalShape elements
-  inherited from SolidObjectType. It also has SkuName (the name of
-  its SKU) and SerialNumber elements. The shape of the SKU should be
-  a BoxyShape. A KitTrayType is designed to hold PartTypes with
-  various SKUs in known positions.")
-
-
-Declaration(ObjectProperty(:hasKitTray_Sku))
-ObjectPropertyDomain(:hasKitTray_Sku :KitTray)
-ObjectPropertyRange(:hasKitTray_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasKitTray_Sku)
-EquivalentClasses(:KitTray ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasKitTray_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasKitTray_Sku :StockKeepingUnit)))
+  "KitTray is derived from SkuObject.
+  An instance of KitTray has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber.
+ 
+  The Sku specifies the SKU of the kit tray. A
+  KitTray is designed to hold Parts with various SKUs in
+  known positions.")
 
 Declaration(DataProperty(:hasKitTray_SerialNumber))
 DataPropertyDomain(:hasKitTray_SerialNumber :KitTray)
@@ -656,17 +744,23 @@ EquivalentClasses(:KitTray ObjectIntersectionOf(
 Declaration(Class(:LargeBoxWithEmptyKitTrays))
 
 AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
-  "A LargeBoxWithEmptyKitTraysType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  LargeContainer and zero to many KitTrays elements. The location
-  point of the LargeContainer should be (0,0,0), its Z axis should be
-  (0,0,1), and its X axis should be (1,0,0). The PrimaryLocation of a
-  KitTray in a LargeBoxWithEmptyKitTrays should be given by a
-  PoseLocationIn or RelativeLocationInType that is relative to the
-  LargeContainer. The KitTrayTypes in a LargeBoxWithEmptyKitTraysType
-  are intended to all be of the same SKU, although there is currently
-  no formal requirement for that.")
+  "LargeBoxWithEmptyKitTrays is derived from NoSkuObject.
+  An instance of LargeBoxWithEmptyKitTrays has the
+  following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    LargeContainer
+    KitTray (optional, multiple).
+ 
+  The location point of the LargeContainer should be (0,0,0), its Z
+  axis should be (0,0,1), and its X axis should be (1,0,0). The
+  PrimaryLocation of a KitTray in a LargeBoxWithEmptyKitTrays should
+  be given by a PoseLocationIn or RelativeLocationIn that
+  is relative to the LargeContainer. The KitTrays in a
+  LargeBoxWithEmptyKitTrays are intended to all be of the same
+  SKU, although there is currently no formal requirement for that.")
 
 HasKey(:LargeContainer (:hasLargeContainer_Sku) (:hasLargeContainer_SerialNumber))
 
@@ -701,21 +795,31 @@ ObjectPropertyRange(:hadByKitTray_LargeBoxWithEmptyKitTrays :LargeBoxWithEmptyKi
 Declaration(Class(:LargeBoxWithKits))
 
 AnnotationAssertion(rdfs:comment :LargeBoxWithKits
-  "A LargeBoxWithKitsType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  LargeContainer, zero to many Kit, KitDesignName, and Capacity
-  elements. The coordinate system of a LargeBoxWithKits is in the
-  same place as the coordinate system of its LargeContainer. The
-  PrimaryLocation of the LargeContainer should be relative to the
-  LargeBoxWithKitsType. The KitDesignName is an identifier for a
-  KitDesignType. The PrimaryLocation of a Kit in a LargeBoxWithKits
-  should be given by a PoseLocationIn or RelativeLocationInType that
-  is relative to the LargeContainer. The Capacity is an
-  xs:positiveInteger giving the maximum number of kits of the given
-  design that can be held in the box. The KitTypes in a
-  LargeBoxWithKitsType are intended to all be of the given design,
-  but there is currently no formal constraint requiring that.")
+  "LargeBoxWithKits is derived from NoSkuObject.
+  An instance of LargeBoxWithKits has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    LargeContainer
+    Kit (optional, multiple)
+    KitDesign
+    Capacity.
+ 
+  The coordinate system of a LargeBoxWithKits is in the same place as
+  the coordinate system of its LargeContainer. The PrimaryLocation of
+  the LargeContainer should be relative to the LargeBoxWithKits.
+  The KitDesign is an identifier for a KitDesign. The
+  PrimaryLocation of a Kit in a LargeBoxWithKits should be given by a
+  PoseLocationIn or RelativeLocationIn that is relative to
+  the LargeContainer.
+ 
+  The Capacity is an xs:positiveInteger giving the maximum number of
+  kits of the given design that can be held in the box.
+ 
+  The Kits in a LargeBoxWithKits are intended to all be of
+  the given design, but there is currently no formal constraint
+  requiring that.")
 
 Declaration(ObjectProperty(:hasLargeBoxWithKits_LargeContainer))
 ObjectPropertyDomain(:hasLargeBoxWithKits_LargeContainer :LargeBoxWithKits)
@@ -765,23 +869,16 @@ EquivalentClasses(:LargeBoxWithKits ObjectIntersectionOf(
 Declaration(Class(:LargeContainer))
 
 AnnotationAssertion(rdfs:comment :LargeContainer
-  "A LargeContainerType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  SkuName and SerialNumber elements. The SkuName is the name of its
-  SKU. The shape of the SKU should be a BoxyShape. A
-  LargeContainerType can hold one or more instances of a single type
-  of tray or bin. The single type may be (1) KitTrayType (2)
-  PartsBinType (3) PartsTrayType (4) KitInstanceType.")
-
-
-Declaration(ObjectProperty(:hasLargeContainer_Sku))
-ObjectPropertyDomain(:hasLargeContainer_Sku :LargeContainer)
-ObjectPropertyRange(:hasLargeContainer_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasLargeContainer_Sku)
-EquivalentClasses(:LargeContainer ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasLargeContainer_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasLargeContainer_Sku :StockKeepingUnit)))
+  "LargeContainer is derived from SkuObject.
+  An instance of LargeContainer has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber.
+ 
+  The Sku specifies the SKU of the LargeContainer. A
+  LargeContainer can hold one or more instances of a single type
+  of tray, bin, or kit.")
 
 Declaration(DataProperty(:hasLargeContainer_SerialNumber))
 DataPropertyDomain(:hasLargeContainer_SerialNumber :LargeContainer)
@@ -796,30 +893,97 @@ EquivalentClasses(:LargeContainer ObjectIntersectionOf(
 Declaration(Class(:MechanicalComponent))
 
 AnnotationAssertion(rdfs:comment :MechanicalComponent
-  "A MechanicalComponentType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. A
-  MechanicalComponentType is a component of kitting workstation
+  "MechanicalComponent is derived from NoSkuObject.
+  An instance of MechanicalComponent has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional).
+ 
+  A MechanicalComponent is a component of kitting workstation
   device such as a robot or an end effector changing station.")
+
+
+
+Declaration(Class(:NoSkuObject))
+
+AnnotationAssertion(rdfs:comment :NoSkuObject
+  "NoSkuObject is derived from SolidObject.
+  An instance NoSkuObject has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocations (inherited, optional, multiple)
+    InternalShape (optional)
+    ExternalShape (optional).
+ 
+  A SkuObject is an abstract type from which more specific types
+  of solid object are derived. The InternalShape and ExternalShape
+  are not required to represent the same shape, but they should not
+  be inconsistent. If a NoSkuObject consists of components it may
+  also get its shape from the shape of the components and their
+  relative positions.")
+
+SubClassOf(:EndEffectorChangingStation :NoSkuObject)
+SubClassOf(:EndEffectorHolder :NoSkuObject)
+SubClassOf(:EndEffector :NoSkuObject)
+SubClassOf(:Human :NoSkuObject)
+SubClassOf(:Kit :NoSkuObject)
+SubClassOf(:KittingWorkstation :NoSkuObject)
+SubClassOf(:LargeBoxWithEmptyKitTrays :NoSkuObject)
+SubClassOf(:LargeBoxWithKits :NoSkuObject)
+SubClassOf(:MechanicalComponent :NoSkuObject)
+SubClassOf(:Robot :NoSkuObject)
+SubClassOf(:WorkTable :NoSkuObject)
+DisjointUnion(:NoSkuObject
+              :EndEffectorChangingStation
+              :EndEffectorHolder
+              :EndEffector
+              :Human
+              :Kit
+              :KittingWorkstation
+              :LargeBoxWithEmptyKitTrays
+              :LargeBoxWithKits
+              :MechanicalComponent
+              :Robot
+              :WorkTable)
+
+Declaration(ObjectProperty(:hasNoSkuObject_InternalShape))
+ObjectPropertyDomain(:hasNoSkuObject_InternalShape :NoSkuObject)
+ObjectPropertyRange(:hasNoSkuObject_InternalShape :InternalShape)
+InverseFunctionalObjectProperty(:hasNoSkuObject_InternalShape)
+FunctionalObjectProperty(:hasNoSkuObject_InternalShape)
+
+Declaration(ObjectProperty(:hadByInternalShape_NoSkuObject))
+InverseObjectProperties(:hasNoSkuObject_InternalShape
+                        :hadByInternalShape_NoSkuObject)
+ObjectPropertyDomain(:hadByInternalShape_NoSkuObject :InternalShape)
+ObjectPropertyRange(:hadByInternalShape_NoSkuObject :NoSkuObject)
+
+Declaration(ObjectProperty(:hasNoSkuObject_ExternalShape))
+ObjectPropertyDomain(:hasNoSkuObject_ExternalShape :NoSkuObject)
+ObjectPropertyRange(:hasNoSkuObject_ExternalShape :ExternalShape)
+InverseFunctionalObjectProperty(:hasNoSkuObject_ExternalShape)
+FunctionalObjectProperty(:hasNoSkuObject_ExternalShape)
+
+Declaration(ObjectProperty(:hadByExternalShape_NoSkuObject))
+InverseObjectProperties(:hasNoSkuObject_ExternalShape
+                        :hadByExternalShape_NoSkuObject)
+ObjectPropertyDomain(:hadByExternalShape_NoSkuObject :ExternalShape)
+ObjectPropertyRange(:hadByExternalShape_NoSkuObject :NoSkuObject)
 
 
 
 Declaration(Class(:Part))
 
 AnnotationAssertion(rdfs:comment :Part
-  "A PartType is a SolidObjectType. It has Name, PrimaryLocation,
-  SecondaryLocation, InternalShape, and ExternalShape elements
-  inherited from SolidObjectType. It also has SerialNumber and
-  SkuName elements. The SkuName is the name of a StockKeepingUnit.")
-
-
-Declaration(ObjectProperty(:hasPart_Sku))
-ObjectPropertyDomain(:hasPart_Sku :Part)
-ObjectPropertyRange(:hasPart_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasPart_Sku)
-EquivalentClasses(:Part ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPart_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasPart_Sku :StockKeepingUnit)))
+  "Part is derived from SkuObject.
+  An instance of Part has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber.
+ 
+  The Part represents a part.
+  The Sku specifies the SKU for the part.")
 
 Declaration(DataProperty(:hasPart_SerialNumber))
 DataPropertyDomain(:hasPart_SerialNumber :Part)
@@ -834,13 +998,18 @@ EquivalentClasses(:Part ObjectIntersectionOf(
 Declaration(Class(:PartRefAndPose))
 
 AnnotationAssertion(rdfs:comment :PartRefAndPose
-  "A PartRefAndPoseType is a DataThingType. It has a Name inherited
-  from DataThingType. A PartRefAndPoseType also has SkuName, Point,
-  ZAxis, and XAxis elements. The SkuName identifies a type of part.
-  The Point specifies the location of the origin of the part in the
-  coordinate system of the tray of the KitDesignType to which the
-  PartRefAndPoseType belongs. The ZAxis and XAxis specify the
-  orientation of the part relative to that coordinate system.")
+  "PartRefAndPose is derived from DataThing.
+  An instance of PartRefAndPose has the following:
+    Sku
+    Point
+    ZAxis
+    XAxis.
+ 
+  The Sku identifies a type of part. The Point specifies
+  the location of the origin of the part in the coordinate system of
+  the tray of the KitDesign to which the PartRefAndPose
+  belongs. The ZAxis and XAxis specify the orientation of the part
+  relative to that coordinate system.")
 
 
 Declaration(ObjectProperty(:hasPartRefAndPose_Sku))
@@ -901,139 +1070,123 @@ ObjectPropertyRange(:hadByZAxis_PartRefAndPose :PartRefAndPose)
 Declaration(Class(:PartsBin))
 
 AnnotationAssertion(rdfs:comment :PartsBin
-  "A PartsBinType is a SolidObjectType. It has Name, PrimaryLocation,
-  SecondaryLocation, InternalShape, and ExternalShape elements
-  inherited from SolidObjectType. It also has SkuName, SerialNumber,
-  PartSkuName and PartQuantity elements. The SkuName is the name of
-  the SKU for the PartsBinType. The shape of the SKU identified by
-  the SkuName should be a BoxyShape. A PartsBinType holds a number of
-  PartTypes (PartQuantity) with the same SKU name (PartSkuName) in
-  unknown random positions.")
+  "PartsBin is derived from PartsVessel.
+  An instance of PartsBin has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber (inherited)
+    PartSku (inherited)
+    PartQuantity (inherited)
+    Part (inherited, optional, multiple).
+ 
+  The Sku specifies the SKU for the PartsBin. A
+  PartsBin holds a number of Parts (PartQuantity) with the
+  same SKU (PartSku)in unknown random positions. Each
+  Part in the tray should be listed explictly and have a
+  RelativeLocationIn with the bin as its RefObject.")
 
 
-Declaration(ObjectProperty(:hasPartsBin_Sku))
-ObjectPropertyDomain(:hasPartsBin_Sku :PartsBin)
-ObjectPropertyRange(:hasPartsBin_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasPartsBin_Sku)
-EquivalentClasses(:PartsBin ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartsBin_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasPartsBin_Sku :StockKeepingUnit)))
 
-Declaration(DataProperty(:hasPartsBin_SerialNumber))
-DataPropertyDomain(:hasPartsBin_SerialNumber :PartsBin)
-DataPropertyRange(:hasPartsBin_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(:hasPartsBin_SerialNumber)
-EquivalentClasses(:PartsBin ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPartsBin_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (:hasPartsBin_SerialNumber xsd:NMTOKEN)))
+Declaration(Class(:PartsVessel))
+
+AnnotationAssertion(rdfs:comment :PartsVessel
+  "PartsVessel is derived from SkuObject.
+  An instance of PartsVessel has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber
+    PartSku
+    PartQuantity
+    Part (optional, multiple)
+ 
+  PartsVessel is an abstract type from which more specific types
+  of things that supply parts are derived. The Sku
+  specifies the SKU for the PartsVessel. The shape of a
+  PartsVessel is as specified in its Sku. The PartSku
+  specifies the SKU for the Parts in the PartsVessel. The value
+  of PartQuantity should be the number of instances of Part.")
+
+SubClassOf(:PartsBin :PartsVessel)
+SubClassOf(:PartsTray :PartsVessel)
+DisjointUnion(:PartsVessel
+              :PartsBin
+              :PartsTray)
+
+Declaration(DataProperty(:hasPartsVessel_SerialNumber))
+DataPropertyDomain(:hasPartsVessel_SerialNumber :PartsVessel)
+DataPropertyRange(:hasPartsVessel_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(:hasPartsVessel_SerialNumber)
+EquivalentClasses(:PartsVessel ObjectIntersectionOf(
+  DataSomeValuesFrom(:hasPartsVessel_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (:hasPartsVessel_SerialNumber xsd:NMTOKEN)))
 
 
-Declaration(ObjectProperty(:hasPartsBin_PartSku))
-ObjectPropertyDomain(:hasPartsBin_PartSku :PartsBin)
-ObjectPropertyRange(:hasPartsBin_PartSku :StockKeepingUnit)
-FunctionalObjectProperty(:hasPartsBin_PartSku)
-EquivalentClasses(:PartsBin ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartsBin_PartSku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasPartsBin_PartSku :StockKeepingUnit)))
+Declaration(ObjectProperty(:hasPartsVessel_PartSku))
+ObjectPropertyDomain(:hasPartsVessel_PartSku :PartsVessel)
+ObjectPropertyRange(:hasPartsVessel_PartSku :StockKeepingUnit)
+FunctionalObjectProperty(:hasPartsVessel_PartSku)
+EquivalentClasses(:PartsVessel ObjectIntersectionOf(
+  ObjectSomeValuesFrom(:hasPartsVessel_PartSku :StockKeepingUnit)
+  ObjectAllValuesFrom (:hasPartsVessel_PartSku :StockKeepingUnit)))
 
-Declaration(DataProperty(:hasPartsBin_PartQuantity))
-DataPropertyDomain(:hasPartsBin_PartQuantity :PartsBin)
-DataPropertyRange(:hasPartsBin_PartQuantity xsd:nonNegativeInteger)
-FunctionalDataProperty(:hasPartsBin_PartQuantity)
-EquivalentClasses(:PartsBin ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPartsBin_PartQuantity xsd:nonNegativeInteger)
-  DataAllValuesFrom (:hasPartsBin_PartQuantity xsd:nonNegativeInteger)))
+Declaration(DataProperty(:hasPartsVessel_PartQuantity))
+DataPropertyDomain(:hasPartsVessel_PartQuantity :PartsVessel)
+DataPropertyRange(:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
+FunctionalDataProperty(:hasPartsVessel_PartQuantity)
+EquivalentClasses(:PartsVessel ObjectIntersectionOf(
+  DataSomeValuesFrom(:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
+  DataAllValuesFrom (:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)))
+
+Declaration(ObjectProperty(:hasPartsVessel_Part))
+ObjectPropertyDomain(:hasPartsVessel_Part :PartsVessel)
+ObjectPropertyRange(:hasPartsVessel_Part :Part)
+InverseFunctionalObjectProperty(:hasPartsVessel_Part)
+
+Declaration(ObjectProperty(:hadByPart_PartsVessel))
+InverseObjectProperties(:hasPartsVessel_Part
+                        :hadByPart_PartsVessel)
+ObjectPropertyDomain(:hadByPart_PartsVessel :Part)
+ObjectPropertyRange(:hadByPart_PartsVessel :PartsVessel)
 
 
 
 Declaration(Class(:PartsTray))
 
 AnnotationAssertion(rdfs:comment :PartsTray
-  "A PartsTrayType is a SolidObjectType used to hold Parts. It has
-  Name, PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  SkuName and SerialNumber elements. The SkuName is the name of the
-  SKU of the PartsTrayType, not the name of the SKU of a type of part
-  the tray can hold. The shape of the SKU identified by the SkuName
-  should be a BoxyShape.")
-
-
-Declaration(ObjectProperty(:hasPartsTray_Sku))
-ObjectPropertyDomain(:hasPartsTray_Sku :PartsTray)
-ObjectPropertyRange(:hasPartsTray_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasPartsTray_Sku)
-EquivalentClasses(:PartsTray ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartsTray_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasPartsTray_Sku :StockKeepingUnit)))
-
-Declaration(DataProperty(:hasPartsTray_SerialNumber))
-DataPropertyDomain(:hasPartsTray_SerialNumber :PartsTray)
-DataPropertyRange(:hasPartsTray_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(:hasPartsTray_SerialNumber)
-EquivalentClasses(:PartsTray ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPartsTray_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (:hasPartsTray_SerialNumber xsd:NMTOKEN)))
-
-
-
-Declaration(Class(:PartsTrayWithParts))
-
-AnnotationAssertion(rdfs:comment :PartsTrayWithParts
-  "A PartsTrayWithPartsType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also has
-  a PartsTray and zero to many Part elements. The coordinate system
-  of a PartsTrayWithParts is in the same place as the coordinate
-  system of its PartsTray. To implement this, the PartsTray should
-  have the PartsTrayWithPartsType as the RefObject of its location,
-  the location point of the PartsTray should be (0,0,0), its Z axis
-  should be (0,0,1), and its X axis should be (1,0,0). The
-  PrimaryLocation of a Part in a PartsTrayWithPartsType should be
-  given by a PoseLocationInType that is relative to the PartsTray.
-  The PartTypes in a PartsTrayWithPartsType are intended to all be of
-  the same SKU, although there is currently no formal requirement for
-  that.")
-
-HasKey(:PartsTray (:hasPartsTray_Sku) (:hasPartsTray_SerialNumber))
-
-Declaration(ObjectProperty(:hasPartsTrayWithParts_PartsTray))
-ObjectPropertyDomain(:hasPartsTrayWithParts_PartsTray :PartsTrayWithParts)
-ObjectPropertyRange(:hasPartsTrayWithParts_PartsTray :PartsTray)
-InverseFunctionalObjectProperty(:hasPartsTrayWithParts_PartsTray)
-FunctionalObjectProperty(:hasPartsTrayWithParts_PartsTray)
-EquivalentClasses(:PartsTrayWithParts ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartsTrayWithParts_PartsTray :PartsTray)
-  ObjectAllValuesFrom (:hasPartsTrayWithParts_PartsTray :PartsTray)))
-
-Declaration(ObjectProperty(:hadByPartsTray_PartsTrayWithParts))
-InverseObjectProperties(:hasPartsTrayWithParts_PartsTray
-                        :hadByPartsTray_PartsTrayWithParts)
-ObjectPropertyDomain(:hadByPartsTray_PartsTrayWithParts :PartsTray)
-ObjectPropertyRange(:hadByPartsTray_PartsTrayWithParts :PartsTrayWithParts)
-
-Declaration(ObjectProperty(:hasPartsTrayWithParts_Part))
-ObjectPropertyDomain(:hasPartsTrayWithParts_Part :PartsTrayWithParts)
-ObjectPropertyRange(:hasPartsTrayWithParts_Part :Part)
-InverseFunctionalObjectProperty(:hasPartsTrayWithParts_Part)
-
-Declaration(ObjectProperty(:hadByPart_PartsTrayWithParts))
-InverseObjectProperties(:hasPartsTrayWithParts_Part
-                        :hadByPart_PartsTrayWithParts)
-ObjectPropertyDomain(:hadByPart_PartsTrayWithParts :Part)
-ObjectPropertyRange(:hadByPart_PartsTrayWithParts :PartsTrayWithParts)
+  "PartsTray is derived from PartsVessel.
+  An instance of PartsTray has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber (inherited)
+    PartSku (inherited)
+    PartQuantity (inherited)
+    Part (inherited, optional, multiple).
+ 
+  The Sku specifies the SKU of the PartsTray. A
+  PartsTray holds a number of Parts (PartQuantity) with the
+  same SKU (PartSku) in known positions. Each Part in
+  the tray should be listed explictly and have a PoseLocation with
+  the parts tray as its RefObject.")
 
 
 
 Declaration(Class(:PhysicalLocation))
 
 AnnotationAssertion(rdfs:comment :PhysicalLocation
-  "A PhysicalLocationType is a DataThingType. A PhysicalLocationType
-  says where a SolidObjectType is. A PhysicalLocationType has a Name
-  inherited from DataThingType. It also has a RefObjectName element that
-  is a SolidObjectType and an optional Timestamp element. The
-  Timestamp element represents the most recent date and time when
-  the location was updated. A PhysicalLocationType is either a
-  RelativeLocationType or a PoseLocationType.")
+  "PhysicalLocation is derived from DataThing.
+  An instance of PhysicalLocation has the following:
+    RefObject
+    Timestamp (optional).
+ 
+  PhysicalLocation is an abstract type from which more specific
+  types of physical location are derived. A PhysicalLocation says
+  where a SolidObject is relative to its reference object. The
+  Timestamp element represents the most recent date and time when the
+  location was updated.")
+
 SubClassOf(:PoseLocation :PhysicalLocation)
 SubClassOf(:RelativeLocation :PhysicalLocation)
 DisjointUnion(:PhysicalLocation
@@ -1059,9 +1212,13 @@ FunctionalDataProperty(:hasPhysicalLocation_Timestamp)
 Declaration(Class(:Point))
 
 AnnotationAssertion(rdfs:comment :Point
-  "A PointType is a DataThingType. A PointType has a Name element
-  inherited from DataThingType. A PointType also has X, Y, and Z
-  elements that are the Cartesian coordinates of the Point.")
+  "Point is derived from DataThing.
+  An instance of Point has the following:
+    X
+    Y
+    Z.
+ 
+  The X, Y, and Z elements are the Cartesian coordinates of the Point.")
 
 Declaration(DataProperty(:hasPoint_X))
 DataPropertyDomain(:hasPoint_X :Point)
@@ -1092,33 +1249,37 @@ EquivalentClasses(:Point ObjectIntersectionOf(
 Declaration(Class(:PoseLocation))
 
 AnnotationAssertion(rdfs:comment :PoseLocation
-  "A PoseLocationType is a PhysicalLocationType. A PoseLocationType
-  has Name and RefObjectName elements inherited from
-  PhysicalLocationType. A PoseLocationType also also has:
-  - a Point element of PointType
-  - an XAxis element of VectorType
-  - a ZAxis element of VectorType
-  - an optional PositionStandardDeviation element measured
-  in the length units being used
-  - an optional OrientationStandardDeviation element measured
-  in the angle units being used
-  The Point locates the origin of a coordinate system. The XAxis
-  and ZAxis give the orientation of the coordinate system. The data
-  for the Point, the ZAxis and the XAxis are expressed relative to
-  the coordinate system of the reference object. A PoseLocationType
-  must be a PoseOnlyLocationType, a PoseLocationInType, or a
-  PoseLocationOnType.")
-AnnotationAssertion(rdfs:comment :PoseLocation
-  "The PositionStandardDeviation is based on a normal distribution of
+  "PoseLocation is derived from PhysicalLocation.
+  An instance of PoseLocation has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional).
+    Point
+    XAxis
+    ZAxis 
+    PositionStandardDeviation (optional)
+    OrientationStandardDeviation (optional).
+ 
+  PoseLocation is an abstract type from which more specific types
+  of pose location are derived. The Point locates the origin of a
+  coordinate system. The XAxis and ZAxis give the orientation of the
+  coordinate system. The data for the Point, the ZAxis and the XAxis
+  are expressed relative to the coordinate system of the reference
+  object.
+ 
+  The PositionStandardDeviation is based on a normal distribution of
   actual position about its given value. Thus, for example, the
   actual position is expected to be within the given
   PositionStandardDeviation amount 68% of the time and within twice
-  the given amount 95% of the time.")
-AnnotationAssertion(rdfs:comment :PoseLocation
-  "The OrientationStandardDeviation is based on a normal distribution
+  the given amount 95% of the time. The PositionStandardDeviation is
+  measured in the length units being used.
+ 
+  The OrientationStandardDeviation is based on a normal distribution
   of orientation about its given value. The error is to be measured
   as the angle of rotation about a single axis needed to rotate a
-  solid object from its stated orientation to its actual orientation.")
+  solid object from its stated orientation to its actual orientation.
+  The OrientationStandardDeviation is measured in the angle units
+  being used.")
+
 SubClassOf(:PoseLocationIn :PoseLocation)
 SubClassOf(:PoseLocationOn :PoseLocation)
 SubClassOf(:PoseOnlyLocation :PoseLocation)
@@ -1187,12 +1348,17 @@ FunctionalDataProperty(:hasPoseLocation_OrientationStandardDeviation)
 Declaration(Class(:PoseLocationIn))
 
 AnnotationAssertion(rdfs:comment :PoseLocationIn
-  "A PoseLocationInType is a PoseLocationType. It has Point, ZAxis (a
-  Vector for the Z axis), XAxis (a Vector for the X axis) and
-  RefObjectName (a reference object) elements inherited from
-  PoseLocationType. The data for the Point, the ZAxis and the XAxis
-  are expressed relative to the coordinate system of the reference
-  object. A PoseLocationInType indicates that the Object is inside
+  "PoseLocationIn is derived from PoseLocation.
+  An instance of PoseLocationIn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional).
+    Point (inherited)
+    XAxis (inherited)
+    ZAxis  (inherited)
+    PositionStandardDeviation (inherited, optional)
+    OrientationStandardDeviation (inherited, optional).
+ 
+  A PoseLocationIn indicates that the object is inside
   the location-parent. The notion of 'inside' is vague and might be
   made more precise.")
 
@@ -1201,41 +1367,57 @@ AnnotationAssertion(rdfs:comment :PoseLocationIn
 Declaration(Class(:PoseLocationOn))
 
 AnnotationAssertion(rdfs:comment :PoseLocationOn
-  "A PoseLocationOnType is a PoseLocationType. It has Point, ZAxis (a
-  Vector for the Z axis), XAxis (a Vector for the X axis) and
-  RefObjectName (a reference object) elements inherited from
-  PoseLocationType. The data for the Point, the ZAxis and the XAxis
-  are expressed relative to the coordinate system of the reference
-  object. A PoseLocationOnType indicates that the Object is on top of
-  the location-parent. The notion of 'on top of' is vague and might
-  be made more precise.")
+  "PoseLocationOn is derived from PoseLocation.
+  An instance of PoseLocationOn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional).
+    Point (inherited)
+    XAxis (inherited)
+    ZAxis  (inherited)
+    PositionStandardDeviation (inherited, optional)
+    OrientationStandardDeviation (inherited, optional).
+ 
+  A PoseLocationOn indicates that the Object is on top of the
+  location-parent. The notion of 'on top of' is vague and might be
+  made more precise.")
 
 
 
 Declaration(Class(:PoseOnlyLocation))
 
 AnnotationAssertion(rdfs:comment :PoseOnlyLocation
-  "A PoseOnlyLocationType is a PoseLocationType. It has Point, ZAxis
-  (a Vector for the Z axis), XAxis (a Vector for the X axis) and
-  RefObjectName (a reference object) elements inherited from
-  PoseLocationType. The data for the Point, the ZAxis and the XAxis
-  are expressed relative to the coordinate system of the reference
-  object. An object located by a PoseOnlyLocationType may or may not
-  be inside or on top of the reference object of the
-  PoseOnlyLocationType.")
+  "PoseOnlyLocation is derived from PoseLocation.
+  An instance of PoseOnlyLocation has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional).
+    Point (inherited)
+    XAxis (inherited)
+    ZAxis  (inherited)
+    PositionStandardDeviation (inherited, optional)
+    OrientationStandardDeviation (inherited, optional).
+ 
+  An object located by a PoseOnlyLocation may or may not be
+  inside or on top of the reference object of the
+  PoseOnlyLocation.")
 
 
 
 Declaration(Class(:RelativeLocation))
 
 AnnotationAssertion(rdfs:comment :RelativeLocation
-  "A RelativeLocationType is a PhysicalLocationType. It has a
-  RefObjectName element inherited from PhysicalLocationType that
-  identifies a reference object. It also has a Description element
-  that is a string. A RelativeLocationType indicates that the
-  SolidObjectType that has the RelativeLocationType is on or in the
-  object identified by the RefObjectName. A RelativeLocationType is a
-  RelativeLocationInType or a RelativeLocationOnType.")
+  "RelativeLocation is derived from PhysicalLocation.
+  An instance of RelativeLocation has a the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional)
+    Description.
+ 
+  RelativeLocation is an abstract type from which more specific
+  types of relative location are derived. A RelativeLocation
+  indicates that the SolidObject that has the
+  RelativeLocation is on or in the RefObject. The Description may
+  be used to describe the relative positions of the object and its
+  reference object.")
+
 SubClassOf(:RelativeLocationIn :RelativeLocation)
 SubClassOf(:RelativeLocationOn :RelativeLocation)
 DisjointUnion(:RelativeLocation
@@ -1255,37 +1437,48 @@ EquivalentClasses(:RelativeLocation ObjectIntersectionOf(
 Declaration(Class(:RelativeLocationIn))
 
 AnnotationAssertion(rdfs:comment :RelativeLocationIn
-  "A RelativeLocationInType is a RelativeLocationType. It has
-  reference object (RefObjectName) and description (Description)
-  elements inherited from RelativeLocationType. A
-  RelativeLocationInType indicates that the SolidObjectType that has
-  the RelativeLocationType is in the object identified by the
-  RefObjectName. The notion of 'in' is vague and might be made more
-  precise.")
+  "RelativeLocationIn is derived from RelativeLocation.
+  An instance of RelativeLocationIn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional)
+    Description (inherited).
+ 
+  A RelativeLocationIn indicates that the SolidObject that
+  has the RelativeLocation is in the RefObject. The notion of
+  'in' is vague and might be made more precise.")
 
 
 
 Declaration(Class(:RelativeLocationOn))
 
 AnnotationAssertion(rdfs:comment :RelativeLocationOn
-  "A RelativeLocationOnType is a RelativeLocationType. It has
-  RefObjectName and Description elements inherited from
-  RelativeLocationType. A RelativeLocationOnType indicates that the
-  SolidObjectType that has the RelativeLocationType is on top of the
-  object identified by the RefObjectName. The notion of 'on top of'
-  is vague and might be made more precise.")
+  "RelativeLocationOn is derived from RelativeLocation.
+  An instance of RelativeLocationOn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional)
+    Description (inherited).
+ 
+  A RelativeLocationOn indicates that the SolidObject that
+  has the RelativeLocation is on top of the the RefObject. The
+  notion of 'on top of' is vague and might be made more precise.")
 
 
 
 Declaration(Class(:Robot))
 
 AnnotationAssertion(rdfs:comment :Robot
-  "A RobotType is a SolidObjectType. It has Name, PrimaryLocation,
-  SecondaryLocation, InternalShape, and ExternalShape elements
-  inherited from SolidObjectType. It also has Description,
-  EndEffector, MaximumLoadWeight, and WorkVolume elements.")
-AnnotationAssertion(rdfs:comment :Robot
-  "The Robot ontology given here might be expanded greatly to include,
+  "Robot is derived from NoSkuObject.
+  An instance of Robot has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description
+    EndEffector (optional)
+    MaximumLoadWeight
+    WorkVolume (multiple).
+ 
+  The Robot ontology given here might be expanded greatly to include,
   for example, its kinematic description, the values of joint angles,
   arm lengths of variable length arms, gripper actuation (open,
   closed, etc.), ranges, velocities, and accelerations of each joint,
@@ -1335,19 +1528,25 @@ ObjectPropertyRange(:hadByWorkVolume_Robot :Robot)
 Declaration(Class(:ShapeDesign))
 
 AnnotationAssertion(rdfs:comment :ShapeDesign
-  "A ShapeDesignType is an abstract type that is a DataThingType. A
-  ShapeDesignType has a Name element inherited from DataThingType. It
-  also has a Description element that is a string and an optional
-  GraspPose element that is a PoseLocationType. Each ShapeDesignType
-  has a coordinate system that is expected to be specified explicitly
-  or implicitly. A shape defined using coordinate values has an
-  implicit coordinate system. The GraspPose is relative to the
-  coordinate system of the ShapeDesignType. The Point in the pose is
-  the point at which a gripper should make contact with the shape.
-  The ZAxis of the pose may be used to indicate a direction for
-  aligning the ZAxis of the gripper (parallel or antiparallel) and is
-  usually normal to the the object having the shape and pointing away
-  from the object.")
+  "ShapeDesign is derived from DataThing.
+  An instance of ShapeDesign has the following:
+    Description (optional)
+    GraspPose (optional).
+ 
+  ShapeDesign is an abstract type from which more specific types
+  of shape design are derived. Each ShapeDesign has a coordinate
+  system that is expected to be specified explicitly or implicitly. A
+  shape defined using coordinate values has an implicit coordinate
+  system.
+ 
+  The GraspPose is relative to the coordinate system of the
+  ShapeDesign. The Point in the pose is the point at which a
+  gripper should make contact with the shape. The ZAxis of the pose
+  may be used to indicate a direction for aligning the ZAxis of the
+  gripper (parallel or antiparallel) and is usually normal to the the
+  object having the shape and pointing away from the object. The
+  GraspPose should not use the optional Timestamp.")
+
 SubClassOf(:ExternalShape :ShapeDesign)
 SubClassOf(:InternalShape :ShapeDesign)
 DisjointUnion(:ShapeDesign
@@ -1376,21 +1575,60 @@ ObjectPropertyRange(:hadByGraspPose_ShapeDesign :ShapeDesign)
 
 
 
+Declaration(Class(:SkuObject))
+
+AnnotationAssertion(rdfs:comment :SkuObject
+  "SkuObject is derived from SolidObject.
+  An instance of SkuObject has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocations (inherited, optional, multiple)
+    Sku
+ 
+  A SkuObject is an abstract type from which more specific types
+  of solid object are derived. A SkuObject is an instance of a
+  stockkeeping unit. The shape of a SkuObject is specified by its
+  stockkeeping unit.")
+
+SubClassOf(:KitTray :SkuObject)
+SubClassOf(:LargeContainer :SkuObject)
+SubClassOf(:Part :SkuObject)
+SubClassOf(:PartsVessel :SkuObject)
+DisjointUnion(:SkuObject
+              :KitTray
+              :LargeContainer
+              :Part
+              :PartsVessel)
+
+
+Declaration(ObjectProperty(:hasSkuObject_Sku))
+ObjectPropertyDomain(:hasSkuObject_Sku :SkuObject)
+ObjectPropertyRange(:hasSkuObject_Sku :StockKeepingUnit)
+FunctionalObjectProperty(:hasSkuObject_Sku)
+EquivalentClasses(:SkuObject ObjectIntersectionOf(
+  ObjectSomeValuesFrom(:hasSkuObject_Sku :StockKeepingUnit)
+  ObjectAllValuesFrom (:hasSkuObject_Sku :StockKeepingUnit)))
+
+
+
 Declaration(Class(:Slot))
 
 AnnotationAssertion(rdfs:comment :Slot
-  "A SlotType is a DataThingType that identifies whether or not a
-  particular PartRefAndPose from the design of a Kit is occupied in
-  an instance of a Kit. A SlotType has a Name element inherited from
-  DataThingType. It also has a PartRefAndPoseName that identifies a
-  PartRefAndPose and an optional PartName that identifies a Part that
+  "Slot is derived from DataThing.
+  An instance of Slot has the following:
+    PartRefAndPose
+    Part (optional).
+ 
+  A Slot identifies whether or not a particular PartRefAndPose from
+  the design of a Kit is occupied in an instance of a Kit. The
+  PartRefAndPose identifies a PartRefAndPose from the
+  Design of the Kit. The Part identifies a Part that
   occupies the PartRefAndPose. The Sku of the PartRefAndPose should
   be the Sku of the Part, the PartRefAndPose should be in the Kit
   design, and the Part should be in the Kit. The location described
   by the Pose of the Part in the Kit may differ from the location
   described by the Pose in the PartRefAndPose, but will usually be
-  very close to it. If the PartName is not used for a slot, that
-  means the slot is empty.")
+  very close to it. If the Part is not used for a slot,
+  that means the slot is empty.")
 
 
 Declaration(ObjectProperty(:hasSlot_PartRefAndPose))
@@ -1412,55 +1650,24 @@ FunctionalObjectProperty(:hasSlot_Part)
 Declaration(Class(:SolidObject))
 
 AnnotationAssertion(rdfs:comment :SolidObject
-  "A SolidObjectType has (1) a Name, (2) a PrimaryLocation that is a
-  PhysicalLocationType, (3) zero to many SecondaryLocations, also
-  PhysicalLocationType, (4) an optional InternalShape, and (5) an
-  optional ExternalShape. The secondary locations are required to be
-  logically and mathematically consistent with the value of the
-  PrimaryLocation so that all locations of a SolidObjectType describe
-  (or are consistent with) a single place in space. Names are of type
-  xs:ID so that all names must be unique. No SolidObjectType except
-  the Workstation may be located with respect to itself, and all
-  chains of primary location must end at the Workstation. The shapes
-  are not required to represent the same shape, but they should not
-  be inconsistent. If a solid object consists of components it may
-  also get its shape from the shape of the components and their
-  relative positions.")
-SubClassOf(:EndEffectorChangingStation :SolidObject)
-SubClassOf(:EndEffectorHolder :SolidObject)
-SubClassOf(:EndEffector :SolidObject)
-SubClassOf(:Human :SolidObject)
-SubClassOf(:KitTray :SolidObject)
-SubClassOf(:Kit :SolidObject)
-SubClassOf(:KittingWorkstation :SolidObject)
-SubClassOf(:LargeBoxWithEmptyKitTrays :SolidObject)
-SubClassOf(:LargeBoxWithKits :SolidObject)
-SubClassOf(:LargeContainer :SolidObject)
-SubClassOf(:MechanicalComponent :SolidObject)
-SubClassOf(:Part :SolidObject)
-SubClassOf(:PartsBin :SolidObject)
-SubClassOf(:PartsTray :SolidObject)
-SubClassOf(:PartsTrayWithParts :SolidObject)
-SubClassOf(:Robot :SolidObject)
-SubClassOf(:WorkTable :SolidObject)
+  "An instance of SolidObject has the following:
+    PrimaryLocation
+    SecondaryLocations (optional, multiple)
+ 
+  SolidObject is an abstract type from which more specific types
+  of SolidObject are derived. The secondary locations are required to
+  be logically and mathematically consistent with the value of the
+  PrimaryLocation so that all locations of a SolidObject describe
+  (or are consistent with) a single place in space. No
+  SolidObject except the Workstation may be located with respect
+  to itself, and all chains of primary location must end at the
+  Workstation.")
+
+SubClassOf(:NoSkuObject :SolidObject)
+SubClassOf(:SkuObject :SolidObject)
 DisjointUnion(:SolidObject
-              :EndEffectorChangingStation
-              :EndEffectorHolder
-              :EndEffector
-              :Human
-              :KitTray
-              :Kit
-              :KittingWorkstation
-              :LargeBoxWithEmptyKitTrays
-              :LargeBoxWithKits
-              :LargeContainer
-              :MechanicalComponent
-              :Part
-              :PartsBin
-              :PartsTray
-              :PartsTrayWithParts
-              :Robot
-              :WorkTable)
+              :NoSkuObject
+              :SkuObject)
 
 Declaration(ObjectProperty(:hasSolidObject_PrimaryLocation))
 ObjectPropertyDomain(:hasSolidObject_PrimaryLocation :SolidObject)
@@ -1488,41 +1695,25 @@ InverseObjectProperties(:hasSolidObject_SecondaryLocation
 ObjectPropertyDomain(:hadBySecondaryLocation_SolidObject :PhysicalLocation)
 ObjectPropertyRange(:hadBySecondaryLocation_SolidObject :SolidObject)
 
-Declaration(ObjectProperty(:hasSolidObject_InternalShape))
-ObjectPropertyDomain(:hasSolidObject_InternalShape :SolidObject)
-ObjectPropertyRange(:hasSolidObject_InternalShape :InternalShape)
-InverseFunctionalObjectProperty(:hasSolidObject_InternalShape)
-FunctionalObjectProperty(:hasSolidObject_InternalShape)
-
-Declaration(ObjectProperty(:hadByInternalShape_SolidObject))
-InverseObjectProperties(:hasSolidObject_InternalShape
-                        :hadByInternalShape_SolidObject)
-ObjectPropertyDomain(:hadByInternalShape_SolidObject :InternalShape)
-ObjectPropertyRange(:hadByInternalShape_SolidObject :SolidObject)
-
-Declaration(ObjectProperty(:hasSolidObject_ExternalShape))
-ObjectPropertyDomain(:hasSolidObject_ExternalShape :SolidObject)
-ObjectPropertyRange(:hasSolidObject_ExternalShape :ExternalShape)
-InverseFunctionalObjectProperty(:hasSolidObject_ExternalShape)
-FunctionalObjectProperty(:hasSolidObject_ExternalShape)
-
-Declaration(ObjectProperty(:hadByExternalShape_SolidObject))
-InverseObjectProperties(:hasSolidObject_ExternalShape
-                        :hadByExternalShape_SolidObject)
-ObjectPropertyDomain(:hadByExternalShape_SolidObject :ExternalShape)
-ObjectPropertyRange(:hadByExternalShape_SolidObject :SolidObject)
-
 
 
 Declaration(Class(:StockKeepingUnit))
 
 AnnotationAssertion(rdfs:comment :StockKeepingUnit
-  "A StockKeepingUnitType is a DataThingType. A StockKeepingUnitType
-  is a description of a type of object. A StockKeepinUnitType has a
-  Name element inherited from DataThingType. A StockKeepingUnitType
-  also has Description, Shape (a ShapeDesignType), and Weight
-  elements, and zero to many EndEffectorName elements (the names of
-  one or more instances of EndEffectorType that can handle it).")
+  "StockKeepingUnit is derived from DataThing.
+  An instance of StockKeepingUnit has the following:
+    Description
+    InternalShape (optional)
+    ExternalShape (optional)
+    Weight
+    EndEffector (optional, multiple).
+ 
+  A StockKeepingUnit is a description of a type of object. SKU is
+  an abbreviation for Stock Keeping Unit. Each EndEffectorName
+  (IDREF) identifies an instance of EndEffector that can handle
+  the SKU. One or both of InternalShape and ExternalShape must be
+  given. The shapes are not required to represent the same shape, but
+  they should not be inconsistent.")
 
 Declaration(DataProperty(:hasStockKeepingUnit_Description))
 DataPropertyDomain(:hasStockKeepingUnit_Description :StockKeepingUnit)
@@ -1532,20 +1723,29 @@ EquivalentClasses(:StockKeepingUnit ObjectIntersectionOf(
   DataSomeValuesFrom(:hasStockKeepingUnit_Description xsd:string)
   DataAllValuesFrom (:hasStockKeepingUnit_Description xsd:string)))
 
-Declaration(ObjectProperty(:hasStockKeepingUnit_Shape))
-ObjectPropertyDomain(:hasStockKeepingUnit_Shape :StockKeepingUnit)
-ObjectPropertyRange(:hasStockKeepingUnit_Shape :ShapeDesign)
-InverseFunctionalObjectProperty(:hasStockKeepingUnit_Shape)
-FunctionalObjectProperty(:hasStockKeepingUnit_Shape)
-EquivalentClasses(:StockKeepingUnit ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasStockKeepingUnit_Shape :ShapeDesign)
-  ObjectAllValuesFrom (:hasStockKeepingUnit_Shape :ShapeDesign)))
+Declaration(ObjectProperty(:hasStockKeepingUnit_InternalShape))
+ObjectPropertyDomain(:hasStockKeepingUnit_InternalShape :StockKeepingUnit)
+ObjectPropertyRange(:hasStockKeepingUnit_InternalShape :InternalShape)
+InverseFunctionalObjectProperty(:hasStockKeepingUnit_InternalShape)
+FunctionalObjectProperty(:hasStockKeepingUnit_InternalShape)
 
-Declaration(ObjectProperty(:hadByShape_StockKeepingUnit))
-InverseObjectProperties(:hasStockKeepingUnit_Shape
-                        :hadByShape_StockKeepingUnit)
-ObjectPropertyDomain(:hadByShape_StockKeepingUnit :ShapeDesign)
-ObjectPropertyRange(:hadByShape_StockKeepingUnit :StockKeepingUnit)
+Declaration(ObjectProperty(:hadByInternalShape_StockKeepingUnit))
+InverseObjectProperties(:hasStockKeepingUnit_InternalShape
+                        :hadByInternalShape_StockKeepingUnit)
+ObjectPropertyDomain(:hadByInternalShape_StockKeepingUnit :InternalShape)
+ObjectPropertyRange(:hadByInternalShape_StockKeepingUnit :StockKeepingUnit)
+
+Declaration(ObjectProperty(:hasStockKeepingUnit_ExternalShape))
+ObjectPropertyDomain(:hasStockKeepingUnit_ExternalShape :StockKeepingUnit)
+ObjectPropertyRange(:hasStockKeepingUnit_ExternalShape :ExternalShape)
+InverseFunctionalObjectProperty(:hasStockKeepingUnit_ExternalShape)
+FunctionalObjectProperty(:hasStockKeepingUnit_ExternalShape)
+
+Declaration(ObjectProperty(:hadByExternalShape_StockKeepingUnit))
+InverseObjectProperties(:hasStockKeepingUnit_ExternalShape
+                        :hadByExternalShape_StockKeepingUnit)
+ObjectPropertyDomain(:hadByExternalShape_StockKeepingUnit :ExternalShape)
+ObjectPropertyRange(:hadByExternalShape_StockKeepingUnit :StockKeepingUnit)
 
 Declaration(DataProperty(:hasStockKeepingUnit_Weight))
 DataPropertyDomain(:hasStockKeepingUnit_Weight :StockKeepingUnit)
@@ -1565,13 +1765,23 @@ ObjectPropertyRange(:hasStockKeepingUnit_EndEffector :EndEffector)
 Declaration(Class(:VacuumEffector))
 
 AnnotationAssertion(rdfs:comment :VacuumEffector
-  "A VacuumEffectorType is an EndEffectorType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, ExternalShape,
-  Description, Weight, and MaximumLoadWeight elements inherited from
-  EndEffectorType. It also has CupDiameter and Length elements. A
-  VacuumEffectorType holds an object by putting a cup against the
-  object and applying a vacuum. A VacuumEffectorType is either a
-  VacuumEffectorSingleCupType or a VacuumEffectorMultiCupType.")
+  "VacuumEffector is derived from EndEffector.
+  An instance of VacuumEffector has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description (inherited)
+    Weight (inherited)
+    MaximumLoadWeight (inherited)
+    CupDiameter
+    Length.
+ 
+  VacuumEffector is an abstract type from which more specific
+  types of VacuumEffector are derived. A VacuumEffector holds
+  an object by putting a cup or cups against the object and applying
+  a vacuum.")
+
 SubClassOf(:VacuumEffectorMultiCup :VacuumEffector)
 SubClassOf(:VacuumEffectorSingleCup :VacuumEffector)
 DisjointUnion(:VacuumEffector
@@ -1599,21 +1809,32 @@ EquivalentClasses(:VacuumEffector ObjectIntersectionOf(
 Declaration(Class(:VacuumEffectorMultiCup))
 
 AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
-  "A VacuumEffectorMultiCupType is a VacuumEffectorType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, ExternalShape,
-  Description, Weight, MaximumLoadWeight, CupDiameter, and Length
-  elements inherited from VacuumEffectorType. A
-  VacuumEffectorMultiCup also has ArrayNumber (number of cups -- at
-  least 2) and ArrayRadius elements. The cups are arranged in a
-  circular array spaced evenly apart. The center of the wide end of
-  one cup is on the X-axis of the coordinate system of the
-  VacuumEffectorMultiCupType. The center of the circular array is at
-  the origin of the coordinate system. The axis of the array circle
-  is the Z axis of the coordinate system, and the length of the
-  VacuumEffectorType is measured along that axis. The wide ends of
-  the cups lie on the XY plane of the coordinate system.")
-AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
-  "Note that a square array can be represented easily as circular array.")
+  "VacuumEffectorMultiCup is derived from VacuumEffector. An
+  instance of VacuumEffectorMultiCup has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description (inherited)
+    Weight (inherited)
+    MaximumLoadWeight (inherited)
+    CupDiameter
+    Length
+    ArrayNumber
+    ArrayRadius.
+ 
+  The ArrayNumber is the number of cups, which must be at least 2.
+  The cups are arranged in a circular array spaced evenly apart. The
+  center of the wide end of one cup is on the X-axis of the
+  coordinate system of the VacuumEffectorMultiCup. The center of
+  the circular array is at the origin of the coordinate system. The
+  axis of the array circle is the Z axis of the coordinate system,
+  and the length of the VacuumEffector is measured along that
+  axis. The wide ends of the cups lie on the XY plane of the
+  coordinate system.
+ 
+  Note that a square array can be represented easily as circular
+  array.")
 
 Declaration(DataProperty(:hasVacuumEffectorMultiCup_ArrayNumber))
 DataPropertyDomain(:hasVacuumEffectorMultiCup_ArrayNumber :VacuumEffectorMultiCup)
@@ -1636,24 +1857,37 @@ EquivalentClasses(:VacuumEffectorMultiCup ObjectIntersectionOf(
 Declaration(Class(:VacuumEffectorSingleCup))
 
 AnnotationAssertion(rdfs:comment :VacuumEffectorSingleCup
-  "A VacuumEffectorSingleCupType is a VacuumEffectorType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, ExternalShape,
-  Description, Weight, MaximumLoadWeight, CupDiameter, and Length
-  elements inherited from VacuumEffectorType. A
-  VacuumEffectorSingleCupType has one cup. The center of the wide end
-  of the cup (which is a circle) is at the origin of the coordinate
-  system of the VacuumEffectorSingleCupType. The Z axis of the
-  coordinate system is the axis of that circle, and the length of the
-  VacuumEffectorType is measured along that axis.")
+  "VacuumEffectorSingleCup is derived from VacuumEffector.
+  An instance of KitTray has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description (inherited)
+    Weight (inherited)
+    MaximumLoadWeight (inherited)
+    CupDiameter (inherited)
+    Length (inherited).
+ 
+  A VacuumEffectorSingleCup has one cup. The center of the wide
+  end of the cup (which is a circle) is at the origin of the
+  coordinate system of the VacuumEffectorSingleCup. The Z axis of
+  the coordinate system is the axis of that circle, and the length of
+  the VacuumEffector is measured along that axis.")
 
 
 
 Declaration(Class(:Vector))
 
 AnnotationAssertion(rdfs:comment :Vector
-  "A VectorType is a DataThingType. A Vector has a Name element
-  inherited from DataThingType. It also has I, J, and K elements
-  which represent the usual I, J, and K components of a 3D vector.")
+  "Vector is derived from DataThing.
+  An instance of Vector has the following:
+    I
+    J
+    K.
+ 
+  The I, J, and K elements represent the usual i, j, and k
+  components of a 3D vector.")
 
 Declaration(DataProperty(:hasVector_I))
 DataPropertyDomain(:hasVector_I :Vector)
@@ -1684,26 +1918,30 @@ EquivalentClasses(:Vector ObjectIntersectionOf(
 Declaration(Class(:WorkTable))
 
 AnnotationAssertion(rdfs:comment :WorkTable
-  "A WorkTableType is a SolidObjectType. It has Name,
-  PrimaryLocation, SecondaryLocation, InternalShape, and
-  ExternalShape elements inherited from SolidObjectType. It also
-  has zero to many SolidObject elements, which are SolidObjectTypes
-  located with respect to the WorkTableType. The reference object of
-  each SolidObject element should be the WorkTable. Typically, those
-  objects will be on top of the WorkTable. Typically, the shape of a
-  WorkTableType will be a BoxyShape, so that the table has Length,
-  Width, and Height.")
+  "WorkTable is derived from NoSkuObject.
+  An instance of WorkTable has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    ObjectOnTable (optional, multiple).
+ 
+  Each ObjectOnTable is a SolidObject located with respect to the
+  WorkTable. The reference object of each ObjectOnTable should be
+  the WorkTable. Typically, those objects will be on top of the
+  WorkTable. Typically, the shape of a WorkTable will be a
+  BoxyShape, so that the table has Length, Width, and Height.")
 
-Declaration(ObjectProperty(:hasWorkTable_SolidObject))
-ObjectPropertyDomain(:hasWorkTable_SolidObject :WorkTable)
-ObjectPropertyRange(:hasWorkTable_SolidObject :SolidObject)
-InverseFunctionalObjectProperty(:hasWorkTable_SolidObject)
+Declaration(ObjectProperty(:hasWorkTable_ObjectOnTable))
+ObjectPropertyDomain(:hasWorkTable_ObjectOnTable :WorkTable)
+ObjectPropertyRange(:hasWorkTable_ObjectOnTable :SolidObject)
+InverseFunctionalObjectProperty(:hasWorkTable_ObjectOnTable)
 
-Declaration(ObjectProperty(:hadBySolidObject_WorkTable))
-InverseObjectProperties(:hasWorkTable_SolidObject
-                        :hadBySolidObject_WorkTable)
-ObjectPropertyDomain(:hadBySolidObject_WorkTable :SolidObject)
-ObjectPropertyRange(:hadBySolidObject_WorkTable :WorkTable)
+Declaration(ObjectProperty(:hadByObjectOnTable_WorkTable))
+InverseObjectProperties(:hasWorkTable_ObjectOnTable
+                        :hadByObjectOnTable_WorkTable)
+ObjectPropertyDomain(:hadByObjectOnTable_WorkTable :SolidObject)
+ObjectPropertyRange(:hadByObjectOnTable_WorkTable :WorkTable)
 
 DisjointClasses(:DataThing
                 :SolidObject)

@@ -17,18 +17,18 @@ Declaration(NamedIndividual(:relative_location_in_1))
 ClassAssertion(:RelativeLocationIn :relative_location_in_1)
 ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :relative_location_in_1 :kitting_workstation_1)
 DataPropertyAssertion(:hasRelativeLocation_Description :relative_location_in_1 "The  KittingWorkstation is in kitting_workstation_1"^^xsd:string)
-DataPropertyAssertion(:hasWorkstation_AngleUnit :kitting_workstation_1 "degree"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasWorkstation_LengthUnit :kitting_workstation_1 "meter"^^xsd:NMTOKEN)
-DataPropertyAssertion(:hasWorkstation_WeightUnit :kitting_workstation_1 "kilogram"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(:hasWorkstation_Robot :kitting_workstation_1 :robot_1)
-ObjectPropertyAssertion(:hasWorkstation_ChangingStation :kitting_workstation_1 :changing_station_1)
-ObjectPropertyAssertion(:hasWorkstation_KitDesigns :kitting_workstation_1 :kit_design_a2b1c1)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_a)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_b)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_part_c)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_kit_tray)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_kit_box)
-ObjectPropertyAssertion(:hasWorkstation_Skus :kitting_workstation_1 :stock_keeping_unit_parts_tray)
+DataPropertyAssertion(:hasKittingWorkstation_AngleUnit :kitting_workstation_1 "degree"^^xsd:NMTOKEN)
+DataPropertyAssertion(:hasKittingWorkstation_LengthUnit :kitting_workstation_1 "meter"^^xsd:NMTOKEN)
+DataPropertyAssertion(:hasKittingWorkstation_WeightUnit :kitting_workstation_1 "kilogram"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(:hasKittingWorkstation_Robot :kitting_workstation_1 :robot_1)
+ObjectPropertyAssertion(:hasKittingWorkstation_ChangingStation :kitting_workstation_1 :changing_station_1)
+ObjectPropertyAssertion(:hasWorkstation_KitDesign :kitting_workstation_1 :kit_design_a2b1c1)
+ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_part_a)
+ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_part_c)
+ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_kit_tray)
+ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_kit_box)
+ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_parts_tray)
 // end KittingWorkstation
 //*****************************************
 
@@ -95,7 +95,7 @@ DataPropertyAssertion(:hasVector_J :tray_gripper_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :tray_gripper_z_axis "1.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasEndEffector_Description :tray_gripper "large single cup vacuum effector"^^xsd:string)
 DataPropertyAssertion(:hasEndEffector_Weight :tray_gripper "0.040000"^^xsd:decimal)
-DataPropertyAssertion(:hasEffector_MaximumLoadWeight :tray_gripper "0.500000"^^xsd:decimal)
+DataPropertyAssertion(:hasEndEffector_MaximumLoadWeight :tray_gripper "0.500000"^^xsd:decimal)
 DataPropertyAssertion(:hasVacuumEffector_CupDiameter :tray_gripper "0.080000"^^xsd:decimal)
 DataPropertyAssertion(:hasVacuumEffector_Length :tray_gripper "0.100000"^^xsd:decimal)
 // end VacuumEffectorSingleCup
@@ -148,9 +148,9 @@ ClassAssertion(:Vector :changing_station_z_axis)
 DataPropertyAssertion(:hasVector_I :changing_station_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :changing_station_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :changing_station_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasChangingStation_Base :changing_station_1 :changing_station_base)
-ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolder :changing_station_1 :part_gripper_holder)
-ObjectPropertyAssertion(:hasChangingStation_EndEffectorHolder :changing_station_1 :tray_gripper_holder)
+ObjectPropertyAssertion(:hasEndEffectorChangingStation_Base :changing_station_1 :changing_station_base)
+ObjectPropertyAssertion(:hasEndEffectorChangingStation_EndEffectorHolder :changing_station_1 :part_gripper_holder)
+ObjectPropertyAssertion(:hasEndEffectorChangingStation_EndEffectorHolder :changing_station_1 :tray_gripper_holder)
 // end EndEffectorChangingStation
 //*****************************************
 
@@ -272,7 +272,7 @@ DataPropertyAssertion(:hasVector_J :part_gripper_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_gripper_z_axis "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasEndEffector_Description :part_gripper "small single cup vacuum effector"^^xsd:string)
 DataPropertyAssertion(:hasEndEffector_Weight :part_gripper "0.010000"^^xsd:decimal)
-DataPropertyAssertion(:hasEffector_MaximumLoadWeight :part_gripper "0.400000"^^xsd:decimal)
+DataPropertyAssertion(:hasEndEffector_MaximumLoadWeight :part_gripper "0.400000"^^xsd:decimal)
 DataPropertyAssertion(:hasVacuumEffector_CupDiameter :part_gripper "0.040000"^^xsd:decimal)
 DataPropertyAssertion(:hasVacuumEffector_Length :part_gripper "0.025000"^^xsd:decimal)
 // end VacuumEffectorSingleCup
@@ -510,9 +510,9 @@ ClassAssertion(:Vector :part_a_supply_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_a_supply_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :part_a_supply :part_a_tray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :part_a_supply :part_a_1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :part_a_supply :part_a_2)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :part_a_supply :part_a_tray)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_a_supply :part_a_1)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_a_supply :part_a_2)
 // end PartsTrayWithParts
 //*****************************************
 
@@ -639,8 +639,8 @@ ClassAssertion(:Vector :part_b_supply_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_supply_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :part_b_supply :part_b_tray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :part_b_supply :part_b_1)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :part_b_supply :part_b_tray)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_1)
 // end PartsTrayWithParts
 //*****************************************
 
@@ -735,8 +735,8 @@ ClassAssertion(:Vector :part_c_supply_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_supply_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_supply_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Tray :part_c_supply :part_c_tray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Parts :part_c_supply :part_c_1)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :part_c_supply :part_c_tray)
+ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_c_supply :part_c_1)
 // end PartsTrayWithParts
 //*****************************************
 
@@ -951,9 +951,9 @@ DataPropertyAssertion(:hasVector_K :z_axis_kit_a2b1c1_c_1 "1.000000"^^xsd:decima
 Declaration(NamedIndividual(:stock_keeping_unit_part_a))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_part_a)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_a "SKU for Part A"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_part_a "0.180000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_part_a :shape_part_a)
-ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_a :part_gripper)
+DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_part_a "0.180000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_part_a :shape_part_a)
+ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_part_a :part_gripper)
 // end StockKeepingUnit
 //*****************************************
 
@@ -976,9 +976,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_part_a "true"^^xsd:boolean)
 Declaration(NamedIndividual(:stock_keeping_unit_part_b))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_b "SKU for Part B"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_part_b "0.180000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_part_b :shape_part_b)
-ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_b :part_gripper)
+DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_part_b "0.180000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_part_b :shape_part_b)
+ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_part_b :part_gripper)
 // end StockKeepingUnit
 //*****************************************
 
@@ -1001,9 +1001,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_part_b "true"^^xsd:boolean)
 Declaration(NamedIndividual(:stock_keeping_unit_part_c))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_part_c)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_c "SKU for Part C"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_part_c "0.180000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_part_c :shape_part_c)
-ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_part_c :part_gripper)
+DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_part_c "0.180000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_part_c :shape_part_c)
+ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_part_c :part_gripper)
 // end StockKeepingUnit
 //*****************************************
 
@@ -1026,9 +1026,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_part_c "true"^^xsd:boolean)
 Declaration(NamedIndividual(:stock_keeping_unit_kit_tray))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_kit_tray)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_kit_tray "SKU for KitTrays"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_kit_tray "0.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_kit_tray :shape_kit_tray)
-ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_kit_tray :tray_gripper)
+DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_kit_tray "0.200000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_kit_tray :shape_kit_tray)
+ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_kit_tray :tray_gripper)
 // end StockKeepingUnit
 //*****************************************
 
@@ -1051,8 +1051,8 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_tray "false"^^xsd:boolean)
 Declaration(NamedIndividual(:stock_keeping_unit_kit_box))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_kit_box)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_kit_box "SKU for Boxes for Kits and KitTrays"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_kit_box "1.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_kit_box :shape_kit_box)
+DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_kit_box "1.200000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_kit_box :shape_kit_box)
 // end StockKeepingUnit
 //*****************************************
 
@@ -1075,9 +1075,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_box "false"^^xsd:boolean)
 Declaration(NamedIndividual(:stock_keeping_unit_parts_tray))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray)
 DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray "SKU for PartsTrays"^^xsd:string)
-DataPropertyAssertion(:hasSku_Weight :stock_keeping_unit_parts_tray "0.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSku_Shape :stock_keeping_unit_parts_tray :shape_parts_tray)
-ObjectPropertyAssertion(:hasSku_EndEffectors :stock_keeping_unit_parts_tray :tray_gripper)
+DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_parts_tray "0.200000"^^xsd:decimal)
+ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_parts_tray :shape_parts_tray)
+ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_parts_tray :tray_gripper)
 // end StockKeepingUnit
 //*****************************************
 

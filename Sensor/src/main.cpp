@@ -6,7 +6,10 @@
 #include "partModel.h"
 #include "recurseLocation.h"
 #include "usarTruth.hh"
-
+/**
+	\brief Get a vector of all part classes (external shapes) from the parts directory
+	\param partClasses vector of part classes
+*/
 void getPartClasses(std::vector<std::string> &partClasses)
 {
 	partClasses.clear();
@@ -41,7 +44,42 @@ void getPartClasses(std::vector<std::string> &partClasses)
 
 int main(int argc, char ** argv)
 {
-	UsarTruth utruth("yosemite", 3989);
+	opterr = 0;
+	std::string hostname = "localhost";
+	int port = 3989;
+	
+	for (;;) {
+		int option = getopt(argc, argv, "p:h:");
+		if (option == -1)
+			break;
+
+		switch (option) {
+		case 'p':
+			port = atoi(optarg);
+			break;
+
+		case 'h':
+			printf("%s\n",optarg);
+			hostname = std::string(optarg);
+			break;
+
+		case ':':
+			fprintf(stderr, "missing value for -%c\n", optopt);
+			return 1;
+			break;
+
+		default:			/* '?' */
+			fprintf(stderr, "unrecognized option -%c\n", optopt);
+			return 1;
+			break;
+		}
+	}
+	if (optind < argc) {
+		fprintf(stderr, "extra non-option characters: %s\n", argv[optind]);
+		return 1;
+	}
+	std::cout<<"Connecting to USARSim host at " << hostname << ":"<<port<<"\n";
+	UsarTruth utruth(hostname, port);
 	utruth.connect();
 	std::vector<UsarData> data;
 	

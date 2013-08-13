@@ -2,7 +2,11 @@
 #include <string>
 #include "ulapi.hh"
 
-//we're ignoring Bone data for now
+/**
+	\brief Struct to hold data for a single object retrieved from USARTruth
+	
+	Ignores bone data
+*/
 typedef struct
 {
 	std::string objectName;
@@ -12,6 +16,9 @@ typedef struct
 	double rotation[3];
 } UsarData;
 
+/**
+	\brief class to handle USARTruth connection and querying
+*/
 class UsarTruth
 {
 public:

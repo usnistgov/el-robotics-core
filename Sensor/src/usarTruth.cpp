@@ -6,18 +6,33 @@
 #define BUFFERLEN 256
 #define DELIMITER '\n'
 
-
+/**
+	\brief Constructor
+	\param hostname The USARSim host
+	\param port USARTruth port (usually 3989)
+*/
 UsarTruth::UsarTruth(const std::string &hostname, int port)
 {
 	this->hostname = hostname;
 	this->port = port;
 	connected = false;
 }
+/**
+	\brief Set up the ulapi socket to connect to USARSim
+*/
 void UsarTruth::connect()
 {
 	socket_id = ulapi_socket_get_client_id(port, hostname.c_str());
 	connected = true;
 }
+/**
+	\brief Fill a vector with UsarData objects by querying USARTruth for their poses
+	\param data vector to store USARTruth data
+	\param className The USARSim class name of the objects to query USARTruth for
+	\param objectName The name of the object to query USARTruth for
+	
+	This method will retrieve no data if the object with name \a objectName is not a member of class \a className
+*/
 bool UsarTruth::getData(std::vector<UsarData> &data, const std::string &className, const std::string &objectName) const
 {
 	char buffer[BUFFERLEN];
@@ -103,7 +118,13 @@ bool UsarTruth::getData(std::vector<UsarData> &data, const std::string &classNam
 	}
 	return false;
 }
-//mostly copied from USARTruth.c
+/**
+	\brief handle a single UsarTruth result message, storing the data into an object
+	\param msg The message sent from USARSim
+	\param data An object to store USARTruth data
+	
+	Code for this method was mostly copied from USARTruth.c
+*/
 int UsarTruth::handle_message(const char* msg, UsarData &data) const
 {
 	const char *nextptr;

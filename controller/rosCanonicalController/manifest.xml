@@ -13,6 +13,7 @@
   <depend package="actionlib"/>
   <depend package="tf"/>
   <depend package="usarsim_inf"/>
+  <depend package="usarsim_tools"/>
   <depend package="urdf" />
 
 </package>

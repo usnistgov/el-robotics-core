@@ -73,7 +73,7 @@ enumerated list shown below. The naming convention utilized follows the OWL \cit
 ZEID, FIX HERE!
 
 \begin{enumerate}
-\item \class{Action} -- An \class{Action} has a \class{Precondition} and an \class{Effect}. An \class{Action} has a \class{ParameterList} that contains all the parameters for an action. An action has a unique name.
+\item \class{Action} -- An \class{Action} has a \class{ActionPrecondition} and an \class{ActionEffect}. An \class{Action} has a \class{ActionParameterList} that contains all the parameters for an action. An \class{Action} has a unique name ().
 \item \class{ParameterList} -- Actions may have multiple parameters of different types. Each one of these types is represented by a class in the upper ontology. The \class{ParameterList} has \class{Parameter}s that are instances from the upper ontology. The order of the parameters in an  action also needs to be represented in the ontology. OWL has no built-in structure to represent an ordered list, instead, the \class{Parameter}, uses \emph{hasParameter\_Next} to point to the next parameter in \class{ParameterList}.
 \item \class{Precondition} -- A \class{Precondition} can consist of a \class{Predicate}, a \class{Function}, a \class{FunctionBool}, or a combination of these three classes. A \class{Precondition} belongs to one \class{Action}.
 \item \class{Effect} -- An \class{Effect} can consist of a \class{Predicate}, a \class{Function}, \class{FunctionBool}, or a combination of these three classes. An \class{Effect} belongs to one \class{Action}. A negative \class{Predicate} is represented with the declaration of \emph{hasEffect\_Predicate} within the OWL built-in property assertion \texttt{owl:NegativePropertyAssertion}.

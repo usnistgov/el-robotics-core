@@ -26,7 +26,7 @@ void RobotDescription::walkToBaseLink(boost::shared_ptr<const urdf::Link> link, 
   \brief Get basic planning information about the first group found
   \param actuatorName Reference to hold the name of the planning group found
   \param tipName Reference to hold the name of the planning group tip link
-  \param tipName Reference to hold the name of the planning group base link
+  \param baseName Reference to hold the name of the planning group base link
   \return true if the robot_description_planning/groups parameter is set properly, false otherwise
 */
 bool RobotDescription::getPlanningInfo(std::string &actuatorName, std::string &tipName, std::string &baseName)

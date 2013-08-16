@@ -31,6 +31,7 @@ void NavigationGoal::moveOffset(float xGoal, float yGoal, float zGoal)
 void NavigationGoal::moveOrientation(float roll, float pitch, float yaw)
 {
 	goalOrientation.setRPY(roll, pitch, yaw);
+	originalOrientation = goalOrientation;
 }
 /**
   \brief Sets the orientation of the goal point, using a quaternion
@@ -40,6 +41,7 @@ void NavigationGoal::moveOrientation(float roll, float pitch, float yaw)
 void NavigationGoal::moveOrientation(float x, float y, float z, float w)
 {
 	goalOrientation = tf::Quaternion(x,y,z,w);
+	originalOrientation = goalOrientation;
 }
 /**
 	\brief Constructor.
@@ -217,9 +219,32 @@ arm_navigation_msgs::MoveArmGoal NavigationGoal::getGoal()
 {
 	if(!goal.motion_plan_request.goal_constraints.position_constraints.empty())
 	{
-	  updateGoalTransformation();
+		tf::StampedTransform tipTransform;
+		tf::StampedTransform targetPointTransform;
+		tf::Transform globalGoalTransform;
+		
+		getTransforms(tipTransform, targetPointTransform);
+		globalGoalTransform = getGlobalGoalTransform(tipTransform, targetPointTransform);
+		
+	  updateGoalTransformation(tipTransform, targetPointTransform, globalGoalTransform);
 	  goal.motion_plan_request.goal_constraints.orientation_constraints[0].header.stamp = ros::Time::now();
 	  goal.motion_plan_request.goal_constraints.position_constraints[0].header.stamp = ros::Time::now();
+	  
+	  //if start and goal state are reasonably close, set path orientation constraints to match goal orientation
+	  /*tf::Quaternion rotDiff = (tipTransform * targetPointTransform).inverseTimes(globalGoalTransform).getRotation();
+	  //angle here was picked pretty arbitrarily
+	  if(rotDiff.getAngle() < 0.05)
+	  {
+			goal.motion_plan_request.path_constraints.orientation_constraints.resize(1);
+			goal.motion_plan_request.path_constraints.orientation_constraints[0] = goal.motion_plan_request.goal_constraints.orientation_constraints[0];
+	  	goal.motion_plan_request.path_constraints.orientation_constraints[0].absolute_roll_tolerance = 3.14;
+	  	goal.motion_plan_request.path_constraints.orientation_constraints[0].absolute_pitch_tolerance = 3.14;
+	  	goal.motion_plan_request.path_constraints.orientation_constraints[0].absolute_yaw_tolerance = 3.14;
+	  }
+	  else
+	  {
+	  	goal.motion_plan_request.path_constraints.orientation_constraints.clear();
+	  }*/
 	}
 	return goal;
 }
@@ -266,19 +291,39 @@ void NavigationGoal::setTransformListener(tf::TransformListener *listenerPtrIn)
 }
 /**
 	\brief Update the internal representation of the goal point
+	\param tipTransform global transform for the tip frame
+	\param targetPointTransform transform from the tip frame to the target point frame
+	\param globalGoalTransform global goal transformation
 	
 	The ROS arm_navigation package does not appear to function properly when the goal point for the arm is specified in anything other than the local coordinate frame of the tip link. This causes a problem when goal points are given in the global coordinate frame (which can be specified by setting the position or orientation frame type to "global").
 	
-	The NavigationGoal class solves this problem by converting points from the global coordinate frame to the local frame, when appropriate. The updateGoalTransformation() method listens for the tf transformation between the global frame and the local frame, and converts the global goal to a local one accordingly.
+	The NavigationGoal class solves this problem by converting points from the global coordinate frame to the local frame, when appropriate. Given the global transforms for the arm tip and the arm target point, the internal goal is converted to the local tip frame.
 	
 	This method will need to be called immediately before the arm goal is sent to the move_arm actionserver if the location of the arm tip has changed since the goal was created, since the local goal that was computed is no longer valid. For this reason, it is automatically called whenever a goal message is retrieved from the NavigationGoal object.
 */
-void NavigationGoal::updateGoalTransformation()
+void NavigationGoal::updateGoalTransformation(const tf::StampedTransform &tipTransform, const tf::StampedTransform &targetPointTransform, const tf::Transform &globalGoalTransform)
 {
-	tf::StampedTransform tipTransform;
-	tf::StampedTransform targetPointTransform;
-	tf::Transform globalGoalTransform;
 	tf::Transform goalTransform;
+
+	goalTransform = tipTransform.inverseTimes(globalGoalTransform) * targetPointTransform.inverse();
+	if(!goal.motion_plan_request.goal_constraints.position_constraints.empty())
+	{
+	  tf::pointTFToMsg(goalTransform.getOrigin(), goal.motion_plan_request.goal_constraints.position_constraints[0].position);
+	  tf::quaternionTFToMsg(goalTransform.getRotation(), goal.motion_plan_request.goal_constraints.orientation_constraints[0].orientation);
+	} else {
+	  ROS_WARN("Attempting to adjust pose on a NavigationGoal with no pose goal! This will have no effect.");
+	}
+}
+/**
+	\brief get the transformations for the tip frame and target point frame
+	\param tipTransform value to hold the global tip transformation
+	\param targetPointTransform value to hold transformation from tip to target
+	\return \c true if the tf listener succeeded, \c false otherwise
+	
+	This method listens on the tf topic for the transformations it returns.
+*/
+bool NavigationGoal::getTransforms(tf::StampedTransform &tipTransform, tf::StampedTransform &targetPointTransform)
+{
 	try
 	{
 		listenerPtr->waitForTransform(targetPointFrame, globalFrame ,ros::Time(0), ros::Duration(10.0));
@@ -286,7 +331,20 @@ void NavigationGoal::updateGoalTransformation()
 		listenerPtr->lookupTransform(tipLink, targetPointFrame, ros::Time(0), targetPointTransform);
 	}catch(tf::TransformException ex)
 	{
+		return false;
 	}
+	return true;
+}
+/**
+	\brief Get the global goal transformation, if the goal is not already in global coordinates
+	\param tipTransform global transform for the tip frame
+	\param targetPointTransform transform from the tip frame to the target point frame
+	
+	\return the goal transformation in frame \c globalFrame
+*/
+tf::Transform NavigationGoal::getGlobalGoalTransform(const tf::StampedTransform &tipTransform, const tf::StampedTransform &targetPointTransform)
+{
+	tf::Transform globalGoalTransform;
 	
 	if(useGlobalOrientationFrame)
 		globalGoalTransform.setRotation(goalOrientation);
@@ -307,13 +365,25 @@ void NavigationGoal::updateGoalTransformation()
 			globalGoalTransform.setOrigin((tipTransform * localGoalTransform).getOrigin());
 		}
 	}
-	goalTransform = tipTransform.inverseTimes(globalGoalTransform) * targetPointTransform.inverse();
-	if(!goal.motion_plan_request.goal_constraints.position_constraints.empty())
-	{
-	  tf::pointTFToMsg(goalTransform.getOrigin(), goal.motion_plan_request.goal_constraints.position_constraints[0].position);
-	  tf::quaternionTFToMsg(goalTransform.getRotation(), goal.motion_plan_request.goal_constraints.orientation_constraints[0].orientation);
-	} else {
-	  ROS_WARN("Attempting to adjust pose on a NavigationGoal with no pose goal! This will have no effect.");
-	}
+	return globalGoalTransform;
 }
-
+/**
+	\brief rotate the goal by a fixed angle about a random axis
+	
+	The goal rotated is the original goal provided by the user. Subsequent calls to this method will continue to adjust the original goal (that is, the adjustments will not be composed).
+*/
+void NavigationGoal::nudgeGoalOrientation()
+{
+	double x = ((double)rand())/RAND_MAX * 2.0 - 1.0;
+	double y = ((double)rand())/RAND_MAX * 2.0 - 1.0;
+	double z = ((double)rand())/RAND_MAX * 2.0 - 1.0;
+	//double angle = ((double)rand())/RAND_MAX * 2.0 - 1.0;
+	//anything less than about this seems to have no effect on success rate? Uncertain.
+	double angle = 0.2;
+	double n = 1/sqrt(x*x + y*y + z*z);
+	x = x*n;
+	y = y*n;
+	z = z*n;
+	tf::Quaternion nudgeQuat(tf::Vector3(x,y,z), angle);
+	goalOrientation = originalOrientation * nudgeQuat;	
+}

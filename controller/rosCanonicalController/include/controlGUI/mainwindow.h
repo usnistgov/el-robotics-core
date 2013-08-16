@@ -86,8 +86,6 @@ private:
     void initRosNode();
     void buildJointSliders();
     void jointCallback(const sensor_msgs::JointStateConstPtr &ptr);
-    
-    void deleteWidgetVector(std::vector<QWidget*>::iterator begin, std::vector<QWidget*>::iterator end);
 
 public Q_SLOTS:
     void closeSelectedEffector();

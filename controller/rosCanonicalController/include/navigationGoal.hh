@@ -45,6 +45,7 @@ public:
 	std::string getActName();
   tf::Vector3 getGoalPosition();
   tf::Quaternion getGoalOrientation();
+  void nudgeGoalOrientation();
 private:
 	tf::TransformListener *listenerPtr;
 	arm_navigation_msgs::MoveArmGoal goal;
@@ -56,8 +57,11 @@ private:
 	std::string globalFrame;
 	tf::Vector3 goalPosition;
 	tf::Quaternion goalOrientation;
+	tf::Quaternion originalOrientation;
 	std::vector<std::string> jointNames;
-	void updateGoalTransformation();
+	void updateGoalTransformation(const tf::StampedTransform &tipTransform, const tf::StampedTransform &targetPointTransform, const tf::Transform &globalGoalTransform);
+	bool getTransforms(tf::StampedTransform &tipTransform, tf::StampedTransform &targetPointTransform);
+	tf::Transform getGlobalGoalTransform(const tf::StampedTransform &tipTransform, const tf::StampedTransform &targetPointTransform);
 };
 
 /** @} */

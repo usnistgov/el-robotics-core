@@ -46,7 +46,7 @@ This area of the ontology contains information on basic elements such as a ``poi
 and a three-dimensional quantity, as well as complex types such as a ``part'', which is
 shown in Figure \ref{fig:part}, and
 contains elements such as a the part's shape, stock keeping unit (SKU) number, and location. This information is utilized to create parameters for the Planning World
-Model and the skeleton tables for the mySQL database of the Execution World Model.
+Model and the skeleton tables for the MySQL database of the Execution World Model.
 %
 \begin{figure}[htb!]
 \begin{center}
@@ -120,7 +120,7 @@ a standard PDDL domain and PDDL problem file. Any of the family of PDDL Version 
 run on these files to create the static plan instance file. A representation of this plan may be stored in the ontology for future use.
 %
 \subsubsection{Execution --}
-The execution world model is also built automatically from the ontology. This world model consists of a mySQL database and C++ and Java
+The execution world model is also built automatically from the ontology. This world model consists of a MySQL database and C++ and Java
 interfaces that provide for easy access to the data. The table skeletons are generated from the kitting ontology, and the tables are initially populated
 with information from the initial and goal condition files. During plan execution, the executor guides the sensor processing system
 in updating the information in 

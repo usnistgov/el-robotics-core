@@ -58,8 +58,8 @@ evaluation.
  	determine actual pose $APoseT$ of $PredicateIn.TargetParameter$\;
  	determine RCC8 relations between $APoseR$ and $APoseT$\;
  	determine Intermediate State Relations based on RCC8 relations\;
- 	determine truth value of $PredicateIn$ and write to mySQL dataqbase\;
-\caption{{\sc SensorProcessing} -- Updates the mySQL database in the Execution world model
+ 	determine truth value of $PredicateIn$ and write to MySQL dataqbase\;
+\caption{{\sc SensorProcessing} -- Updates the MySQL database in the Execution world model
 to contain the latest evaluation of predicates related to $PredicateIn$.}
 \label{fig:sensorProcess}
 \end{algorithm}
@@ -76,12 +76,10 @@ RCC8 \cite{Wolter2000} is an approach for representing the relationship between 
 is based on the definition of RCC8 and consists of eight possible relations that include Tangential Proper Part (TPP), Non-Tangential Proper Part(NTPP), Disconnected (DC), Tangential Proper Part Inverse (TPPi), Non-Tangential Proper Part Inverse (NTPPi), Externally Connected (EC), Equal (EQ), and Partially Overlapping (PO). In order to represent these relations in all three dimensions for the kitting domain, RCC8 has been extended to a three-dimensional space by applying it along all three planes (x-y, x-z, y-z) and by including cardinal direction relations ``+'' and ``-''. In the ontology, RCC8 relations and cardinal direction relations are represented as subclasses of the class \class{RCC8\_Relation}. 
 %
 \subsubsection{Intermediate State Relation --}
-These are intermediate level state relations that can be inferred from the combination of RCC8 and cardinal direction relations. For  instance, the intermediate state relation \textbf{Contained-In} is used to describe object \textit{obj1} completely inside object \textit{obj2} and is represented with the following combination of RCC8 relations:
+These relations can be inferred from the combination of RCC8 and cardinal direction relations. For  instance, the intermediate state relation \textbf{In-Contact-With} is used to describe that object \textit{obj1} is in contact with object \textit{obj2}. This is true if \textit{obj1} is externally connected to \textit{obj2} in the x-direction, the y-direction, or the z-direction,  and is represented with the following combination of RCC8 relations:
 \begin{gather}
-\textbf{Contained-In}(\textit{obj1}, \textit{obj2}) \rightarrow   \notag\\
-(\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
-(\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
-(\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))\notag
+\textbf{In-Contact-With}(\textit{obj1}, \textit{obj2}) \rightarrow   \notag\\
+\texttt{x-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-EC}(\textit{obj1},\textit{obj2}) \notag
 \end{gather}
 In the ontology, intermediate state relations are represented with the OWL built-in property \texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation} to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.
 \subsubsection{Predicate Relation --} The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \class{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) is true if and only if the location of the kit \textit{kit} is in the large box with kits \textit{lbwk}. This predicate can be described using the following combination of intermediate state relations:
@@ -102,7 +100,7 @@ generated.
 %
 \begin{figure}[htb!]
 \begin{center}
-\includegraphics[width=8.5cm]{images/Kit.jpg}
+\includegraphics[width=12cm]{images/Kit.jpg}
 \caption{Description of the KitType class that is designed to bring together
 a container (the KitTray), a design for the kit creation, and specific parts
 that populate the kit.}
@@ -119,7 +117,7 @@ location for this part to be placed is not specified at the time of plan
 creation. It is up to the executor, working with the world model, to find
 an empty slot in the kit that can receive the part. The structure of the
 ontology is specifically designed to support this grounding, and this
-structure is automatically replicated in the mySQL database that resides
+structure is automatically replicated in the MySQL database that resides
 in the execution portion of the world model. 
 
 Continuing with

@@ -5,14 +5,14 @@ Even though today's state-of-the-art industrial robots are capable of sub-millim
 necessary to detect failures and the programming required to cope with and correct the failure. This is due to the fact that they are often programmed
 by an operator using crude positional controls from a teach pendent. These teach pendent programs are highly repeatable, which provides 
 utility for large-batch, error-free operation. However, the cyclic program that repeats identical operations does not lend itself well to adaptation for 
-error failure mitigation. In fact, producing a program to correct a perceived failure would require that the cell be taken off-line
+failure mitigation. In fact, producing a program to correct a perceived failure would require that the cell be taken off-line
 for additional human-led teach pendent programming. In addition, 
 most cells lack the ability to sense that an failure occurred and  lack programming (that would have had to be teach pendent entered) to cope
-with error conditions, thus making it impossible for the cell to recover from errors.
-This leads to faulty products being sent down the line, and/or downtime for the cell as errors are detected and corrected.
+with failure conditions, thus making it impossible for the cell to recover from failures.
+This leads to faulty products being sent down the line, and/or downtime for the cell as failures are detected and corrected.
 
 For small batch processors or other customers who must frequently change their line configuration or desire to perform complex operations
-with their robots, this frequent downtime and lack of error correction/detection may be unacceptable. The robotic systems of tomorrow need to be capable, flexible, and agile.  
+with their robots, this frequent downtime and lack of failure correction/detection may be unacceptable. The robotic systems of tomorrow need to be capable, flexible, and agile.  
 These systems need to perform their duties at least  as well as human counterparts, be quickly re-tasked to other operations, cope with a wide 
 variety of unexpected environmental and operational changes, and be able to detect and correct errors in operation. 
 To be successful, these systems need to combine domain expertise, knowledge of their own skills and limitations, and both semantic and geometric 
@@ -22,7 +22,7 @@ The IEEE Robotics and Automation Society's Ontologies for Robotics and Automatio
 infrastructure necessary for such a system, while the Industrial Subgroup has applied this infrastructure to create a sample kit building
 system.  This work is presented in Balakirsky et al. \cite{balakirsky2013} which describes the construction of a robotic kit building
 system that is able to cope with environmental and task changes without operator intervention. This article extends that work to utilize
-the same infrastructure to allow for the detection and correction of action errors in the system.
+the same infrastructure to allow for the detection and correction of action failures in the system.
 
 The organization of the remainder of this paper is as follows. Section \ref{sect:kitting} describes the domain of kit building. Section \ref{sect:overview} presents
 an overview of the software system architecture for the robot cell. Section \ref{sect:operation} presents results of this work, and Section \ref{sect:future} presents

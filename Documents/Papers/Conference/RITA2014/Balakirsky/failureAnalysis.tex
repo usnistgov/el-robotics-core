@@ -1,0 +1,96 @@
+\section{Failure Analysis}
+As seen in Figure~\ref{fig:predicateEval}, failures are identified during the evaluation of preconditions and effects. 
+In addition to recognizing failures, it is desired to be able to respond to them.
+In order to properly model this response, additional information must be modeled
+in the ontology. This information is structured as shown below.
+\begin{description}
+	\item{\it Action} -- The action being performed when the failure was detected.
+	\begin{description}
+  		\item{\it Failure Modes} -- A description of the known failure modes that can occur during the execution of a specific action.
+  		\begin{description}
+			\item{\it Causes} -- One or more root causes that could cause the failure. 
+  			\begin{description}
+  				\item{\it Consequences} -- What are the particular consequences of the detected failure?
+  		   		\item{\it Severity} -- An assessment of how serious the consequences of a particular failure are. Each consequence is given a rank of severity ranging from 1 (minor) to 10 (very high). The severity rank is used to trigger the appropriate contingency plan.
+ 				\item{\it Remediation} -- What should the system do to remediate this
+ 				failure?
+  			\end{description}
+   		\end{description}
+  		\item{\it Predicates} -- The predicates that were detected as invalid during the failure analysis.
+	\end{description}
+\end{description}
+
+Table~\ref{tab:putpartfailure} shows an example of failure modes associated to the PDDL action \textsl{put-part}($\mathit{robot}$,$\mathit{part}$,$\mathit{kit}$,$\mathit{worktable}$,$\mathit{partstray}$) which is defined as ``The \textit{Robot} $\mathit{robot}$ puts the \textit{Part} $\mathit{part}$ in the \textit{Kit} $\mathit{kit}$''.
+%previously presented in Figure~\ref{fig:put-part}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% put-part %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h!t!]
+  %\centering
+  \caption{Failure modes for the PDDL action \textit{put-part}.}
+  \label{tab:putpartfailure}
+  \scalebox{0.7}{
+  \begin{tabular}{|l|l|l|l|c|c|c|}
+    \hline
+    \multicolumn{1}{|c|}{\begin{sideways}Action\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Failure Mode(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Cause(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Effect(s) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Severity \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Occurrence (\%) \,\end{sideways}} &
+    \multicolumn{1}{c|}{\begin{sideways}Predicate(s) \,\end{sideways}} \\
+    \hline
+    \multirow{5}{*}{\textit{\small{put-part}}} &
+    \multirow{2}{*}{\stvar{part} falls off of the end effector} &
+    \multirow{2}{*}{end effector hardware issues} &
+    downtime & %\stvar{endeffector} replacement &
+    9 &
+    \multirow{2}{*}{60} &
+    \small {\textsf{part-location-robot}}\\\cline{4-5}
+
+     &
+     &
+     &
+    \stvar{part} damage & %\stvar{endeffector} replacement &
+    5 &
+     &
+    \small {\textsf{robot-holds-part}}\\\cline{2-7}
+
+     &
+     \multirow{3}{*}{\stvar{part} not released at all}&
+     end effector hardware issues &
+     downtime &
+     9 &
+     \multirow{3}{*}{8} &
+     $\neg$(\small{\textsf{part-location-robot}})\\\cline{3-5}
+
+     &
+     &
+     \multirow{2}{*}{wrong/inexistant CRCL command} &
+     \multirow{2}{*}{downtime} &
+     \multirow{2}{*}{7} &
+      &
+     $\neg$(\small{\textsf{robot-holds-part}})\\
+%
+     &
+     &
+     &
+     &
+     &
+     &
+     \small {\textsf{robot-empty}}\\\hline
+
+\end{tabular}
+}
+\end{table}
+The column \textit{Predicate(s)} shows the predicates from the action \textit{put-part} that can activate the corresponding failure mode (column \textit{Failure Mode(s)}) if their truth-value is evaluated to false.
+
+The classes discussed below are used to represent action failures in the SOAP ontology. All these classes are subclasses of \class{DataThing}.
+\begin{enumerate}
+\item \class{Action} -- An \class{Action} has at least one \class{FailureMode} (\emph{hasAction\_FailureMode}).
+\item \class{FailureMode} -- A \class{FailureMode} has at least one \class{FailureEffect} (\emph{hasFailureMode\_FailureEffect}). A \class{FailureMode} has a description (\emph{hasFailureMode\_Description}) of type \texttt{Literal} which represents the nature of the failure mode. The cause of the failure mode is expressed with \emph{hasFailureMode\_Cause} and is of type \texttt{Literal}. The occurrence of the failure mode is expressed with \emph{hasFailureMode\_Occurrence} and is of type \texttt{Integer}. A \class{FailureMode} has at least one \class{Predicate} (\emph{hasFailureMode\_Predicate}) that can be responsible for the occurrence of the failure mode. The \class{Predicate} should be already defined \textit{prior} to its association with the class \class{FailureMode}.
+\item \class{FailureEffect} -- A \class{FailureEffect} has one failure severity (\emph{hasFailureEffect\_FailureSeverity}) of type \texttt{integer} and a description (\emph{hasFailureEffect\_Description}) of type \texttt{Literal}.
+\end{enumerate}
+%
+%

@@ -8,6 +8,8 @@
 \usepackage{graphicx}
 \usepackage{multirow,array}
 \usepackage{rotating} % for sideways
+\usepackage{amsmath}
+\usepackage{amsthm}
 %\usepackage{algorithm2e}
 \usepackage[linesnumbered, boxed, figure]{algorithm2e}
 %
@@ -170,6 +172,7 @@ reasoning, planning, and execution. All of the concepts necessary for the manufa
 encoded in the ontology that resides in the reasoning section of the model. The planning and execution sections of the model are automatically generated from
 this section.
 \subsubsection{Ontology --}
+\label{sect:Ontology}
 The reasoning portion of the world model is designed to contain all of the information needed to reason over and solve complex manufacturing
 problems. The knowledge is represented in an ontology that is structured in three levels. The first part of the ontology is an upper ontology
 that contains generic information and classes that are needed for the domain of kit building. 
@@ -300,13 +303,13 @@ been successful. Information on predicates is written to the world model by the 
 \section{System Operation}
 \label{sect:operation}
 In order to construct a kit, the kitting system steps through each action in
-the precomputed plan. Failures are searched for both before and after execution of 
+the precomputed PDDL plan. Failures are searched for both before and after execution of 
 each action. The overall process, known as {\sc BuildKit} is shown in Figure
 \ref{fig:buildkit}. 
 
 This process begins by retrieving a planning instance that has been 
 precomputed to solve the construction of the requested kit (Line 1 of 
-Figure \ref{fig:buildkit}). This is a high-level
+Figure \ref{fig:buildkit}). This is a high-level PDDL
 plan that is not grounded to actual parts or locations. It contains information
 on the named storage location for classes of parts (individual SKU numbers), 
 the quantity of each SKU that is required by the kit, and a build order (a sequence
@@ -315,13 +318,62 @@ end-of-arm tooling required to grip each part is also included.
 
 This planning instance is decomposed into individual actions that must
 be successfully carried out to complete the construction of the kit (the
-for loop beginning at line 2 of Figure \ref{fig:buildkit}). At this point,
+{\it for} loop beginning at line 2 of Figure \ref{fig:buildkit}). At this point,
 preconditions of the action are examined to assure that the action to be attempted
 is valid. If any of the action's preconditions are not able to be validated,
 a failure is reported; otherwise, the action is approved for execution.
 
+\subsection{Predicate Validation}
+The procedure for validating predicates is shown in Figure \ref{fig:predicateEval}. In line 1 of this algorithm, the world
+model is queried for the pose and class of each relevant 
+parameter of the predicate. The information returned is the 
+latest knowledge that has been recorded by the sensor processing
+system and is not guaranteed to be up-to-date. This predicted
+knowledge is sent as a focus of attention indicator to the sensor
+processing system, and the sensor processing system is instructed to
+update the predictions in the world model with current observations.
+While the location of objects is the basis for predicate evaluation,
+it is not sufficient to determine a predicates truth value. The
+concept of ``Spatial Relations'' is used as an aid to compute the
+final truth values.
+
+\subsubsection{Representation of Predicates with State Relations --}
+There are three types of spatial relations that are each represented as a separate class in the ontology. Each class is described below.
+\begin{itemize}
+ \item \class{RCC8\_Relation}: RCC8 \cite{Wolter2000} is a well-known and cited approach for representing the relationship between two regions in Euclidean space or in a topological space. Based on the definition of RCC8, the class \class{RCC8\_Relation} consists of eight possible relations, including Tangential Proper Part (TPP), Non-Tangential Proper Part(NTPP), Disconnected (DC), Tangential Proper Part Inverse (TPPi), Non-Tangential Proper Part Inverse (NTPPi), Externally Connected (EC), Equal (EQ), and Partially Overlapping (PO). In order to represent these relations in all three dimensions for the kitting domain, we have extended RCC8 to a three-dimensions space by applying it along all three planes (x-y, x-z, y-z) and by including cardinal direction relations ``+'' and ``-''. In the ontology, RCC8 relations and cardinal direction relations are represented as subclasses of the class \class{RCC8\_Relation}. Examples of such classes are \class{X-DC}, \class{X-EC}, \class{X-Minus}, and \class{X-Plus}.
+
+ \item \class{Intermediate\_State\_Relation}: These are intermediate level state relations that can be inferred from the combination of RCC8 and cardinal direction relations. For  instance, the intermediate state relation \textbf{Contained-In} is used to describe object \textit{obj1} completely inside object \textit{obj2} and is represented with the following combination of RCC8 relations:
+\begin{gather}
+\textbf{Contained-In}(\textit{obj1}, \textit{obj2}) \rightarrow   \notag\\
+(\texttt{x-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{x-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
+(\texttt{y-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-NTPP}(\textit{obj1}, \textit{obj2})) \wedge \notag\\
+(\texttt{z-TPP}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-NTPP}(\textit{obj1}, \textit{obj2}))\notag
+\end{gather}
+In the ontology, intermediate state relations are represented with the OWL built-in property \texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation} to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.
+ \item \class{Predicate}: The representation of predicates has been illustrated in Section. In this section we discuss how the class \class{Predicate} has been extended to include the concept of ``Spatial Relation''. The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \class{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) is true if and only if the location of the kit \textit{kit} is in the large box with kits \textit{lbwk}. This predicate can be described using the following combination of intermediate state relations:
+\begin{gather}
+\textsf{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) \rightarrow   \notag\\
+\textbf{In-Contact-With}(\textit{kit}, \textit{lbwk}) \wedge \notag\\
+\textbf{Contained-In}(\textit{kit}, \textit{lbwk}) \notag
+\end{gather}
+As with state relations, the truth-value of predicates is captured in the ontology using the \texttt{owl:equivalentClass} property that links the description of the class \class{Predicate} to the logical combination of intermediate state relations from the class \class{Intermediate\_State\_Relation}.
+
+As seen in Section \ref{sect:Ontology}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
+\end{itemize}
+
+
+
+
+
+As shown in Line 1 \& 2 of Figure \ref{fig:sensorProcess}, the sensor processing
+system uses this predicted knowledge to seed its algorithms and
+determines the true pose of the relevant objects. This information 
+is written back into the mySQL database of the knowledge repository.
+
+
+
 Once an action's execution is approved,the action must be grounded on actual
-parts and locations in the world. 
+parts and locations in the world. This is accomplished by 
 
 %
 \begin{algorithm}[h!]
@@ -358,7 +410,7 @@ interactions are describe in Figure \ref{fig:predicateEval} and Figure \ref{fig:
 
 Predicate evaluation is 
 
-As seen in Figure~\ref{fig:algoithm}, failures are identified during the execution of canonical robot commands (line 6), generated from PDDL actions (line 3) by the Interpreter. The Predicate Evaluation process outputs a Boolean value that results in a failure detection if this value is false (lines 18 and 20). Therefore, to represent failures in the SOAP ontology, the following concepts are introduced:
+As seen in Figure~\ref{fig:sensorProcess}, failures are identified during the execution of canonical robot commands (line 6), generated from PDDL actions (line 3) by the Interpreter. The Predicate Evaluation process outputs a Boolean value that results in a failure detection if this value is false (lines 18 and 20). Therefore, to represent failures in the SOAP ontology, the following concepts are introduced:
 \begin{itemize}
  \item ``Action'' the PDDL action for which a failure can occur.
  \item ``Failure Modes'': List of failure modes that can occur during the execution of a specific action.
@@ -390,7 +442,6 @@ Table~\ref{tab:putpartfailure} shows an example of failure modes associated to t
     \multicolumn{1}{c|}{\begin{sideways}Occurrence (\%) \,\end{sideways}} &
     \multicolumn{1}{c|}{\begin{sideways}Predicate(s) \,\end{sideways}} \\
     \hline
-
     \multirow{5}{*}{\textit{\small{put-part}}} &
     \multirow{2}{*}{\stvar{part} falls off of the end effector} &
     \multirow{2}{*}{end effector hardware issues} &

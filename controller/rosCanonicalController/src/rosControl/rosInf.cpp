@@ -452,10 +452,17 @@ void RosInf::navigationDoneCallback (const actionlib::
   	      goalOrientation.x(), goalOrientation.y(), goalOrientation.z(), goalOrientation.w());
     if(navigationFailureCount < MAX_NAVIGATION_FAILURES)
     {
+    	if(NUDGE_FAILED_GOAL)
+    	{
+		  	NavigationGoal nudgedGoal = armGoals.front();
+		  	nudgedGoal.nudgeGoalOrientation();
+		  	armGoals[0] = nudgedGoal;
+    	}
       ROS_DEBUG("RosInf: Arm navigation failed to find a solution after %d tries, retrying...", navigationFailureCount);
       moveArmClient->sendGoal (armGoals.front ().getGoal (),
       boost::bind (&RosInf::navigationDoneCallback,
       this, _1, _2));
+      
     } else {
       
       if(LOG_FAILURES) {
@@ -533,11 +540,12 @@ void RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
       nextGoal.setOrientationFrameType (COORDORIENT);
       nextGoal.setGlobalFrame(globalFrameName);
       nextGoal.setPositionTolerance (positionTolerance);
-      nextGoal.setOrientationTolerance (0.0001);
+      nextGoal.setOrientationTolerance (0.5);
 
       if (effectorAttached)
       {
         nextGoal.setTargetPointFrame (activeEffectorName);
+        //nextGoal.setTargetPointFrame("KR60Arm_link6");
       }
       nextGoal.movePosition (x, y, z);
       //      nextGoal.moveOffset (x, y, z);

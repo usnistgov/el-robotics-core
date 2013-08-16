@@ -2,8 +2,9 @@
 #define __rosInf
 
 #define INCH_TO_METER 0.0254
-#define MAX_NAVIGATION_FAILURES 30
+#define MAX_NAVIGATION_FAILURES 20
 
+#define NUDGE_FAILED_GOAL 0
 #define LOG_FAILURES 0
 #define EFFECTOR_TIMEOUT 2.0
 

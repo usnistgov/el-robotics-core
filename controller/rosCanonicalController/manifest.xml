@@ -14,6 +14,7 @@
   <depend package="tf"/>
   <depend package="usarsim_inf"/>
   <depend package="usarsim_tools"/>
+  <depend package="KR60_arm_navigation"/>
   <depend package="urdf" />
 
 </package>

@@ -8,7 +8,7 @@ each action. The overall process, known as {\sc BuildKit} is shown in Figure
 This process begins by retrieving a planning instance that has been 
 precomputed to solve the construction of the requested kit (Line 1 of 
 Figure \ref{fig:buildkit}). This is a high-level PDDL
-plan that is not grounded to actual parts or locations. It contains information
+plan that is not grounded to actual part instances or locations. It contains information
 on the named storage location for classes of parts (individual SKU numbers), 
 the quantity of each SKU that is required by the kit, and a build order (a sequence
 of SKUs to be added to the kit). Additional information on the appropriate

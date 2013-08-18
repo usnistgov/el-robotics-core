@@ -39,7 +39,7 @@ this section.
 \subsubsection{Ontology --}
 \label{sect:Ontology}
 The reasoning portion of the world model is designed to contain all of the information needed to reason over and solve complex manufacturing
-problems. The knowledge is represented in an ontology that is structured in three levels. The first part of the ontology is an upper ontology
+problems. The knowledge is represented in an ontology that is structured in three parts. The first part of the ontology is an upper ontology
 that contains generic information and classes that are needed for the domain of kit building. 
 
 This area of the ontology contains information on basic elements such as a ``point" which is defined as a class that contains a name 
@@ -62,7 +62,7 @@ operation,  dynamic information is updated in the Execution World Model.
 More information on this portion of the ontology may be found in \cite{Balakirsky2012-1}.
 
 
-The second level of the ontology (known as States, Ordering constraints, Actions, and Predicates or SOAP) contains the high-level concept of an action and all of the concepts 
+The second part of the ontology (known as States, Ordering constraints, Actions, and Predicates or SOAP) contains the high-level concept of an action and all of the concepts 
 that are required to support an action. In this case, a Planning Domain Definition Language (PDDL) \cite{PDDL} action is being represented, and this action is defined
  as an operator that causes one or more properties of an 
 instance to change. Before this action may be
@@ -99,7 +99,7 @@ From this methodology, we have defined a predicate's parameter as a reference pa
 \item \class{ActionFunctionBool} -- \class{ActionFunctionBool} has one or more subclasses that represent the type of relation (mathematical operator) between two \class{ActionFunction}s. Subclasses of \class{ActionFunctionBool} have a first \class{ActionFunction} that represents the \class{ActionFunction} on the left side of the operator. Subclasses of \class{ActionFunctionBool} have a second \class{ActionFunction} that represents the \class{ActionFunction} on the right side of the operator.
 \end{enumerate}
 
-The third level of the ontology contains specific instances needed for a particular kitting domain. For example, it will contain the definition of the finished kits that may be
+The third part of the ontology contains specific instances needed for a particular kitting domain. For example, it will contain the definition of the finished kits that may be
 constructed and specific information on the individual parts. One of the goals of this framework is to introduce additional agility into the kit building process. Therefore,
 partial information is accepted and even encouraged for this area of the ontology. For the example of a part shown in Figure \ref{fig:part}, information on the SKU, grasp points 
 (part of the ExternalShape or InternalShape), and name would be expected to be available at runtime. Information on the location of the part (PrimaryLocation) may not

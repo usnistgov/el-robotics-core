@@ -1,5 +1,5 @@
 \section{Introduction}
-A failure is any change, design, or manufacturing error that renders a component, assembly, or system incapable of performing its intended function \cite{Collins93}. In kitting, failures can occur for multiple reasons including: equipment not being set up properly, tools and/or fixtures not being properly prepared, and improper equipment maintenance. Part/component availability failures can be triggered by inaccurate information on the location of the part, part damage, incorrect part types, or part shortage due to delays in internal logistics. In order to prevent or minimize failures, a disciplined approach needs to be implemented to identify the different ways a process design can fail before impacting the productivity.
+A failure is any change, design, or manufacturing error that renders a component, assembly, or system incapable of performing its intended function \cite{Collins93}. In kitting, failures can occur for multiple reasons that include equipment not being set up properly, tools and/or fixtures not being properly prepared, and improper equipment maintenance. Part/component availability failures can be triggered by inaccurate information on the location of the part, part damage, incorrect part types, or part shortage due to delays in internal logistics. In order to prevent or minimize failures, a disciplined approach needs to be implemented to identify the different ways a process design can fail before impacting productivity.
 
 Even though today's state-of-the-art industrial robots are capable of sub-millimeter accuracy \cite{RobotAccuracy}, they often lack the sensing
 necessary to detect failures and the programming required to cope with and correct the failure. This is due to the fact that they are often programmed
@@ -25,7 +25,7 @@ system that is able to cope with environmental and task changes without operator
 the same infrastructure to allow for the detection and correction of action failures in the system.
 
 The organization of the remainder of this paper is as follows. Section \ref{sect:kitting} describes the domain of kit building. Section \ref{sect:overview} presents
-an overview of the software system architecture for the robot cell. Section \ref{sect:operation} presents results of this work, and Section \ref{sect:future} presents
+an overview of the software system architecture as well as details of the ontology and world model for the robot cell. Section \ref{sect:operation} discusses the detailed operation of cell, and Section \ref{sect:failure} discusses how failures are handled by the ontology. Finally, Section \ref{sect:future} presents
 conclusions and future work.
 %
 %
@@ -55,7 +55,7 @@ in order to construct the kit. These operations include:
 \item Pick up multiple component parts, inspect them, and place them in the kit.
 \item Pick up the completed kit and place it in the full kit storage area.
 \end{enumerate}
-Each of these may be a compound action that includes
+Each of these steps may be a compound action that includes
 other actions such as end-of-arm tool changes, path planning,
 and obstacle avoidance. The items that are being placed in the kit may be of varying size and shape and have various grasping and inspection
 requirements.

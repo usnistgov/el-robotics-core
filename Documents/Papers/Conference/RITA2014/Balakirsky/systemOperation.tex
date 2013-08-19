@@ -16,7 +16,7 @@ end-of-arm tooling required to grip each part is also included.
 
 This planning instance is decomposed into individual actions that must
 be successfully carried out to complete the construction of the kit (the
-{\it for} loop beginning at line 2 of Figure \ref{fig:buildkit}). At this point,
+{\it for} loop beginning at Line 2 of Figure \ref{fig:buildkit}). At this point,
 preconditions of the action are examined to assure that the action to be attempted
 is valid. If any of the action's preconditions are not able to be validated,
 a failure is reported; otherwise, the action is approved for execution.
@@ -41,7 +41,7 @@ a failure is reported; otherwise, the action is approved for execution.
 \label{sect:preconditionValid}
 Each precondition is a predicate expression that must be validated prior to
 action execution.
-The procedure for validating predicates is shown in Figure \ref{fig:predicateEval}. In line 1 of this algorithm, the world
+The procedure for validating predicates is shown in Figure \ref{fig:predicateEval}. In Line 1 of this algorithm, the world
 model is queried for the pose and class of each relevant 
 parameter of the predicate. The information returned is the 
 latest knowledge that has been recorded by the sensor processing
@@ -82,20 +82,20 @@ These relations can be inferred from the combination of RCC8 and cardinal direct
 \texttt{x-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{y-EC}(\textit{obj1}, \textit{obj2}) \vee \texttt{z-EC}(\textit{obj1},\textit{obj2}) \notag
 \end{gather}
 In the ontology, intermediate state relations are represented with the OWL built-in property \texttt{owl:equivalentClass} that links the description of the class \class{Intermediate\_State\_Relation} to a logical expression based on RCC8 relations from the class \class{RCC8\_Relation}.
-\subsubsection{Predicate Relation --} The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \class{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) is true if and only if the location of the kit \textit{kit} is in the large box with kits \textit{lbwk}. This predicate can be described using the following combination of intermediate state relations:
+\subsubsection{Predicate Relation --} The truth-value of predicates can be determined through the logical combination of intermediate state relations. The predicate \class{endeffector-location-endeffectorholder}(\textit{endeffector}, \textit{endeffectorholder}) is true if and only if the location of the end effector \textit{endeffector} is in the end effector holder \textit{endeffectorholder} and is not attached to a robot. This predicate can be described using the following combination of intermediate state relations:
 \begin{gather}
-\textsf{kit-location-lbwk}(\textit{kit}, \textit{lbwk}) \rightarrow   \notag\\
-\textbf{In-Contact-With}(\textit{kit}, \textit{lbwk}) \wedge \notag\\
-\textbf{Contained-In}(\textit{kit}, \textit{lbwk}) \notag
+\textsf{endeffector-location-endeffectorholder}(\textit{endeffector},\textit{endeffectorholder}) \rightarrow   \notag\\
+\textbf{In-Contact-With}(\textit{endeffector}, \textit{enfectorholder}) \wedge \notag\\
+\neg\textbf{In-Contact-With}(\textit{endeffector}, \textit{robot}) \notag
 \end{gather}
 As with state relations, the truth-value of predicates is captured in the ontology using the \texttt{owl:equivalentClass} property that links the description of the class \class{Predicate} to the logical combination of intermediate state relations from the class \class{Intermediate\_State\_Relation}.
 \subsubsection{Truth Value Determination --}
 As seen in Section \ref{sect:Ontology}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
 
 These truth values may be retrieved from the ontology for use in Line 3 of Figure
-\ref{fig:predicateEval} which will then propagate back up to {sc BuildKit}. If
+\ref{fig:predicateEval} which will then propagate back up to {\sc BuildKit}. If
 the predicates are successfully evaluated, the action will be cleared for 
-execution and a set of Canonical Robot Control Language (CRCL) Commands will be 
+execution and a set of CRCL Commands will be 
 generated.
 %
 \begin{figure}[htb!]
@@ -114,33 +114,32 @@ that exist in the world. For example, the action \texttt{put-part} is designed
 to place the part that is currently being held by the robot into a kit that
 is specified as one of the action's input parameters. However, the precise
 location for this part to be placed is not specified at the time of plan
-creation. It is up to the executor, working with the world model, to find
+creation. It is up to the Executor, working with the World Model, to find
 an empty slot in the kit that can receive the part. The structure of the
 ontology is specifically designed to support this grounding, and this
 structure is automatically replicated in the MySQL database that resides
 in the execution portion of the world model. 
 
 Continuing with
-the example of the \texttt{put-part} command, the executor needs to find
+the example of the \texttt{put-part} command, the Executor needs to find
 an empty slot in the target kit to place the specific part that the robot is
 holding. As shown in Figure \ref{fig:kit}, the {\sc KitType} class contains
 zero to many {\sc Slot} classes that in turn contain specific location and 
-part identification information. The executor is able to read this information
+part identification information. The Executor is able to read this information
 from the world model and determine the precise global pose where the part
 should be placed. The robot controller must now be commanded to complete this action.
 
 While the action is an atomic element in PDDL, it will decompose into a series
 of actions in CRCL. The robot will need to follow a safe trajectory to achieve
 the slot in the kit, and the gripper will need to be controlled in order to release
-the part. This one-to-many mapping is performed in the executor and is currently
+the part. This one-to-many mapping is performed in the Executor and is currently
 hand-coded for each of the PDDL commands that exists in the system. 
 %
 \subsection{Effect Validation}
-After an action is performed, there are results that the action was expected to 
-achieve. There results are represented in the PDDL effects. Each effect is a predicate expression that must be validated to assure proper
+The purpose of performing an action is to achieve results in the world. These results are represented in the PDDL effects. Each effect is a predicate expression that must be validated to assure proper
 action execution. The technique for validating the effect predicates is identical
 to the evaluation of the precondition predicates described in Section \ref{sect:preconditionValid}. If all of the effects are able to be validated, the
-system will start to perform the next action in the plan.
+system will report the action's success and begin performing the next action in the plan.
 %
 \begin{figure}[htb!]
 \begin{center}

@@ -39,7 +39,7 @@
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
-\author{Zeid Kootbally\inst{1}, Craig Schlenoff\inst{2}, Teddy Weisman\inst{2}, Stephen Balakirsky\inst{3}, and Anthony Pietromartire\inst{2}}
+\author{Zeid Kootbally\inst{1}, Craig Schlenoff\inst{2}, Teddy Weisman\inst{3}, Stephen Balakirsky\inst{4}, and Anthony Pietromartire\inst{2}}
 %
 \authorrunning{Zeid Kootbally et al.} % abbreviated author list (for running head)
 %
@@ -52,9 +52,12 @@ University of Maryland, College Park, MD 20740, USA,\\
 \texttt{www.nist.gov/el/isd/ks/kootbally.cfm}
 \and 
 Intelligent Systems Division, National Institute of Standards and Technology, Gaithersburg, MD, USA,\\
-\email{craig.schlenoff@nist.gov, tjweisman@gmail.com, anthony.pietromartire@nist.gov},\\ 
+\email{craig.schlenoff@nist.gov, anthony.pietromartire@nist.gov},\\ 
 WWW home page:
 \texttt{www.nist.gov/el/smartcyber.cfm}
+\and
+Yale University, New Haven, CT 06520,\\
+\email{tjweisman@gmail.com}
 \and
 Georgia Tech Research Institute, Atlanta, GA 30332, USA,\\
 \email{stephen.balakirsky@gtri.gatech.edu},\\ 
@@ -65,16 +68,17 @@ WWW home page:
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-Parts/components manipulation in robotic work cells requires sensor processing in order to detect where these objects are located in the work cells during kitting. Kitting or kit building is a process in which individually separate but related items are grouped, packaged, and supplied together as one unit (kit). It is anticipated that utilization of the knowledge representation will allow for the development of higher performing kitting systems.
 
-In this paper, kitting is performed by a robotic arm that manipulates parts/components by following an ordered sequence of steps that consists a plan. To prevent parts/components (objects of interest) availability failures, it is necessary to know the pose of these objects of interest prior executing each step of the plan. This is performed by tasking a sensor system to retrieve the poses of objects of interest, thus providing agiliity where the system can cope with objects of interest in the case they are moved within robotic work cell by external agents.
+6 degree of freedom (6DOF) pose estimation of objects are required for robotic grasping and manipulation during kit building. Kit building or kitting is a process in which individually separate but related items are grouped, packaged, and supplied together as one unit (kit). It is anticipated that utilization of the knowledge representation will allow for the development of higher performing kitting systems.
 
-This paper describes advances in developing key software, sensing/control, and parts-handling technologies enabling robust operation of kit building applications in simulation. In particular, an interface is presented in simulation and a description of the methodology tasking a sensor system to retrieve information on objects of interest is given. \end{abstract}
+In this paper, kitting is performed by a robotic arm that manipulates parts/components (objects of interest) by following an ordered sequence of steps that constitute a plan. To prevent availability failures of objects of interest, it is necessary to know their pose estimation prior executing each step of the plan. This is performed by querying a simulated sensor system thus providing an agile system where the system can cope with objects of interest in the case they are moved within robotic work cells by external agents.
+
+This paper describes advances in developing key software, sensing/control, and parts-handling technologies enabling robust operation of kitting applications in simulation. In particular, an interface is presented and a description of the methodology tasking a sensor system to retrieve 6DOF pose estimation of objects of interest is given. \end{abstract}
 %
 %
 \input{introduction}
-\input{architecture}
 \input{simulation}
+\input{architecture}
 \input{sensor}
 \input{conclusions}
 %

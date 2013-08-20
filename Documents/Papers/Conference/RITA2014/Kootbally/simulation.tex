@@ -1,6 +1,7 @@
 \section{Simulation Environment}
 \label{sect:simulation}
-In order to experiment with robotic systems, a researcher requires a controllable robotic platform, a control system that interfaces to the robotic system and provides behaviors for the robot to carry out, and an environment to operate in. The effort described in this paper relies on an open source (the game engine is free, but license restrictions do apply), freely available framework capable of fulfilling all of these requirements. This framework is composed of the Unified System for Automation and Robot Simulation (USARSim) \cite{USARSimWeb} framework that provides the robotic platform and environment, and the Operating System (ROS)\footnote{Certain commercial software and tools are identified in this paper in order to explain our research. Such identification does not imply recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}\cite{ROSWeb} framework that provides the control system.
+
+In order to experiment with robotic systems, a researcher requires a controllable robotic platform, a control system that interfaces to the robotic system and provides behaviors for the robot to carry out, and an environment to operate in. Our kitting application relies on an open source (the game engine is free, but license restrictions do apply), freely available framework capable of fulfilling all of these requirements. This framework is composed of the Unified System for Automation and Robot Simulation (USARSim) \cite{USARSimWeb} framework that provides the robotic platform and environment, and the Operating System (ROS)\footnote{Certain commercial software and tools are identified in this paper in order to explain our research. Such identification does not imply recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}\cite{ROSWeb} framework that provides the control system.
 
 \subsection{The USARSim Framework}
 
@@ -17,14 +18,11 @@ system. The current release of USARSim consists of various model environments, m
 \begin{figure}[t!]
 \centering
 \subfigure[Test Room.]{\label{TestRoom}\includegraphics[width=4cm]{images/Worlds/testRoom.jpg}}\qquad
-\subfigure[NIST main
-campus.]{\label{3D_World-b}\includegraphics[width=4cm]{images/Worlds/nist2.jpg}}\qquad
-\subfigure[Factory,]{\label{3D_World-c}\includegraphics[width=4cm]{images/Worlds/factory.jpg}}\qquad%
-\subfigure[Road course.]{\label{3D_World-a}\includegraphics[width=4cm]{images/Worlds/arda1.jpg}}
+\subfigure[Factory,]{\label{3D_World-c}\includegraphics[width=4cm]{images/Worlds/factory.jpg}}
 \caption{Sample of 3D environments in USARSim.} \label{3D_World}
 \end{figure}
 
-USARSim was initially developed with a focus on differential drive wheeled robots. However, USARSim's open source framework has encouraged wide community interest and support that now allows USARSim to offer multiple robots, including humanoid robots (Figure~\ref{Fig:Nao}), aerial platforms (Figure~\ref{Fig:AirRobot}), robotic arms (Figure~\ref{Fig:KR60}), and commercial vehicles (Figure~\ref{Fig:Kiva}). In USARSim, robots are based on physical computer aided design (CAD) models of the real
+USARSim was initially developed with a focus on differential drive wheeled robots. However, USARSim's open source framework has encouraged wide community interest and support that now allows USARSim to offer multiple robots, including humanoid robots, aerial platforms (Figure~\ref{Fig:AirRobot}), robotic arms (Figure~\ref{Fig:KR60}), and commercial vehicles. In USARSim, robots are based on physical computer aided design (CAD) models of the real
 robots and are implemented by specialization of specific existing classes. This structure allows for easier development of new platforms that model custom designs.
 
 All robots in USARSim have a chassis, and may contain multiple wheels, sensors, and
@@ -35,17 +33,15 @@ data transmission.
 
 \begin{figure}[t!]
 \centering
-\subfigure[Aldebaran Robotics Nao.]{\label{Fig:Nao}\includegraphics[width=4cm]{images/Robots/nao.jpg}}\qquad
 \subfigure[Air Robot AR100B.]{\label{Fig:AirRobot}\includegraphics[width=4cm]{images/Robots/airRobot_2.jpg}}\qquad
-\subfigure[Kuka KR60,]{\label{Fig:KR60}\includegraphics[width=4cm]{images/Robots/kr60.jpg}}\qquad
-\subfigure[Kiva Robot.]{\label{Fig:Kiva}\includegraphics[width=4cm]{images/Robots/kiva.jpg}}
+\subfigure[Kuka KR60,]{\label{Fig:KR60}\includegraphics[width=4cm]{images/Robots/kr60.jpg}}
 \caption{Sample of vehicles in USARSim.}
 \end{figure}
 
 
 
 
-\subsection*{The ROS Framework}
+\subsection{The ROS Framework}
 ROS~\cite{ROSWeb} is an open source framework designed to provide an abstraction layer to complex robotic hardware and software configurations. It provides libraries and tools to help software developers create robot applications and has found wide use in both industry and academia. Examples of ROS applications include
 Willow Garage's Personal Robots Program~\cite{WYOBEK.ICRA.2008} and the Stanford University STAIR project~\cite{QUIGLEY.AAAI.2007}. Developers of ROS code are encouraged to
 contribute their code back to the community and to provide documentation and maintenance of their algorithms.

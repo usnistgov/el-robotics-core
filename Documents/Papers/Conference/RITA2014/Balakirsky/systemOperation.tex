@@ -58,7 +58,7 @@ evaluation.
  	determine actual pose $APoseT$ of $PredicateIn.TargetParameter$\;
  	determine RCC8 relations between $APoseR$ and $APoseT$\;
  	determine Intermediate State Relations based on RCC8 relations\;
- 	determine truth value of $PredicateIn$ and write to MySQL dataqbase\;
+ 	determine truth value of $PredicateIn$ and write to MySQL database\;
 \caption{{\sc SensorProcessing} -- Updates the MySQL database in the Execution world model
 to contain the latest evaluation of predicates related to $PredicateIn$.}
 \label{fig:sensorProcess}
@@ -114,11 +114,11 @@ that exist in the world. For example, the action \texttt{put-part} is designed
 to place the part that is currently being held by the robot into a kit that
 is specified as one of the action's input parameters. However, the precise
 location for this part to be placed is not specified at the time of plan
-creation. It is up to the Executor, working with the World Model, to find
+creation. It is up to the Executor, working with the world model, to find
 an empty slot in the kit that can receive the part. The structure of the
 ontology is specifically designed to support this grounding, and this
 structure is automatically replicated in the MySQL database that resides
-in the execution portion of the world model. 
+in the Execution portion of the world model. 
 
 Continuing with
 the example of the \texttt{put-part} command, the Executor needs to find

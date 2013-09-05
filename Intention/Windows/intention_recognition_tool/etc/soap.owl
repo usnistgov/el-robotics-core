@@ -1,0 +1,1059 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY kittingClasses "http://www.nist.gov/el/ontologies/kittingClasses.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2013/0/soap.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2013/0/soap.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:kittingClasses="http://www.nist.gov/el/ontologies/kittingClasses.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl">
+        <owl:imports rdf:resource="file:C:\Users\kalucard\Desktop\zeid\workspace\etc\kittingClasses.owl"/>
+    </owl:Ontology>
+    
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#hasKitTray_Sku -->
+
+    <owl:ObjectProperty rdf:about="&kittingClasses;hasKitTray_Sku"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#hasSku_EndEffectors -->
+
+    <owl:ObjectProperty rdf:about="&kittingClasses;hasSku_EndEffectors"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#hasSku_Shape -->
+
+    <owl:ObjectProperty rdf:about="&kittingClasses;hasSku_Shape"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasIntention_OrderingConstruct -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasIntention_OrderingConstruct">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Intention"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasOrderingConstruct_OrderingConstruct -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasOrderingConstruct_OrderingConstruct">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasOrderingConstruct_Predicate -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasOrderingConstruct_Predicate">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_Equivalence -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_Equivalence">
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_ReferenceObject -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_ReferenceObject">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Lbwk"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Worktable"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#On-Worktable-Kit"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Location-Kit"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Type-Location-Kit"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&kittingClasses;EndEffector"/>
+                    <rdf:Description rdf:about="&kittingClasses;EndEffectorChangingStation"/>
+                    <rdf:Description rdf:about="&kittingClasses;EndEffectorHolder"/>
+                    <rdf:Description rdf:about="&kittingClasses;Kit"/>
+                    <rdf:Description rdf:about="&kittingClasses;KitTray"/>
+                    <rdf:Description rdf:about="&kittingClasses;LargeBoxWithEmptyKitTrays"/>
+                    <rdf:Description rdf:about="&kittingClasses;LargeBoxWithKits"/>
+                    <rdf:Description rdf:about="&kittingClasses;Part"/>
+                    <rdf:Description rdf:about="&kittingClasses;PartsTray"/>
+                    <rdf:Description rdf:about="&kittingClasses;Robot"/>
+                    <rdf:Description rdf:about="&kittingClasses;WorkTable"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_StateRelation -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_StateRelation">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_TargetObject -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_TargetObject">
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&kittingClasses;EndEffector"/>
+                    <rdf:Description rdf:about="&kittingClasses;EndEffectorChangingStation"/>
+                    <rdf:Description rdf:about="&kittingClasses;EndEffectorHolder"/>
+                    <rdf:Description rdf:about="&kittingClasses;Kit"/>
+                    <rdf:Description rdf:about="&kittingClasses;KitTray"/>
+                    <rdf:Description rdf:about="&kittingClasses;LargeBoxWithEmptyKitTrays"/>
+                    <rdf:Description rdf:about="&kittingClasses;LargeBoxWithKits"/>
+                    <rdf:Description rdf:about="&kittingClasses;Part"/>
+                    <rdf:Description rdf:about="&kittingClasses;PartsTray"/>
+                    <rdf:Description rdf:about="&kittingClasses;Robot"/>
+                    <rdf:Description rdf:about="&kittingClasses;WorkTable"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Lbwk"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Worktable"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#On-Worktable-Kit"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Location-Kit"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Type-Location-Kit"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasStateRelationEquivalence_Formula -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasStateRelationEquivalence_Formula">
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasStateRelation_Equivalence -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasStateRelation_Equivalence">
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#hasSku_Description -->
+
+    <owl:DatatypeProperty rdf:about="&kittingClasses;hasSku_Description"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#hasSku_Weight -->
+
+    <owl:DatatypeProperty rdf:about="&kittingClasses;hasSku_Weight"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#isKit_Finished -->
+
+    <owl:DatatypeProperty rdf:about="&kittingClasses;isKit_Finished"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasCount_Occurrence -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasCount_Occurrence">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Count"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasIntention_Name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasIntention_Name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Intention"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasOrderingConstruct_Position -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasOrderingConstruct_Position">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Count"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_Formula -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_Formula">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_Name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasPredicate_Name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasStateRelation_Formula -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#hasStateRelation_Formula">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#BoxyShape -->
+
+    <owl:Class rdf:about="&kittingClasses;BoxyShape"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#DataThing -->
+
+    <owl:Class rdf:about="&kittingClasses;DataThing"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffector -->
+
+    <owl:Class rdf:about="&kittingClasses;EndEffector"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorChangingStation -->
+
+    <owl:Class rdf:about="&kittingClasses;EndEffectorChangingStation"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#EndEffectorHolder -->
+
+    <owl:Class rdf:about="&kittingClasses;EndEffectorHolder"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#Kit -->
+
+    <owl:Class rdf:about="&kittingClasses;Kit"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#KitTray -->
+
+    <owl:Class rdf:about="&kittingClasses;KitTray"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithEmptyKitTrays -->
+
+    <owl:Class rdf:about="&kittingClasses;LargeBoxWithEmptyKitTrays"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#LargeBoxWithKits -->
+
+    <owl:Class rdf:about="&kittingClasses;LargeBoxWithKits"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#Part -->
+
+    <owl:Class rdf:about="&kittingClasses;Part"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#PartsTray -->
+
+    <owl:Class rdf:about="&kittingClasses;PartsTray"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#Robot -->
+
+    <owl:Class rdf:about="&kittingClasses;Robot"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#WorkTable -->
+
+    <owl:Class rdf:about="&kittingClasses;WorkTable"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#AnyOrder -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#AnyOrder">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Count -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Count">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Equivalence">
+        <rdfs:subClassOf rdf:resource="&kittingClasses;DataThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Exist -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Exist">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Intention -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Intention">
+        <rdfs:subClassOf rdf:resource="&kittingClasses;DataThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Lbwk -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Lbwk">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Worktable -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kit-Location-Worktable">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kitting -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Kitting">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Intention"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#On-Worktable-Kit -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#On-Worktable-Kit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#OnTopWithContact -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OnTopWithContact">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderedList -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderedList">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#OrderingConstruct">
+        <rdfs:subClassOf rdf:resource="&kittingClasses;DataThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Location-Kit -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Location-Kit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Type-Location-Kit -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Part-Type-Location-Kit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#PartiallyIn -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#PartiallyIn">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate">
+        <rdfs:subClassOf rdf:resource="&kittingClasses;DataThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8 -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8">
+        <rdfs:subClassOf rdf:resource="&kittingClasses;DataThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation">
+        <rdfs:subClassOf rdf:resource="&kittingClasses;DataThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#UnderWithContact -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#UnderWithContact">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#StateRelation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Worktable-Empty -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Worktable-Empty">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Predicate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-DC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-DC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-EC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-EC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-EQ -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-EQ">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-Minus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-Minus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-NTPP -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-NTPP">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-NTPPi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-NTPPi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-PO -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-PO">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-Plus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-Plus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-TPP -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-TPP">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-TPPi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#X-TPPi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-DC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-DC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-EC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-EC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-EQ -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-EQ">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-Minus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-Minus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-NTPP -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-NTPP">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-NTPPi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-NTPPi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-PO -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-PO">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-Plus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-Plus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-TPP -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-TPP">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-TPPi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Y-TPPi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-DC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-DC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-EC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-EC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-EQ -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-EQ">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-Minus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-Minus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-NTPP -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-NTPP">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-NTPPi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-NTPPi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-PO -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-PO">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-Plus -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-Plus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-TPP -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-TPP">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-TPPi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#Z-TPPi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#RCC8"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#finished_kit_receiver -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;finished_kit_receiver"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_1 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_a_1"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_2 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_a_2"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_3 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_a_3"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_a_4 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_a_4"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_1 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_b_1"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_2 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_b_2"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_3 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_b_3"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_b_4 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_b_4"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_1 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_c_1"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#part_c_2 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;part_c_2"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#tray_gripper -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;tray_gripper"/>
+    
+
+
+    <!-- http://www.nist.gov/el/ontologies/kittingClasses.owl#work_table_1 -->
+
+    <owl:NamedIndividual rdf:about="&kittingClasses;work_table_1"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a2b3c3d1e1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a2b3c3d1e1"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a2b3c5 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a2b3c5"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a4b3c2d1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a4b3c2d1"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a4b3c3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a4b3c3"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#intention_kit_a4b4c2"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a2b3c3d1e1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a2b3c3d1e1">
+        <kittingClasses:isKit_Finished rdf:datatype="&xsd;boolean">false</kittingClasses:isKit_Finished>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a2b3c5 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a2b3c5"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b3c2d1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b3c2d1"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b3c3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b3c3"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_tray_a2b3c3d1e1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_tray_a2b3c3d1e1">
+        <kittingClasses:hasKitTray_Sku rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#stock_keeping_unit_kit_tray_a2b3c3d1e1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#oc1_kit_a4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#oc1_kit_a4b4c2">
+        <hasOrderingConstruct_Predicate rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate1-kit-location-worktable-kita4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate1-kit-location-worktable-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate1-kit-location-worktable-kita4b4c2">
+        <hasPredicate_ReferenceObject rdf:resource="&kittingClasses;work_table_1"/>
+        <hasPredicate_TargetObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate10-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate10-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_c_1"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate11-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate11-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_c_2"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate12-kit-location-lbwk-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate12-kit-location-lbwk-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;finished_kit_receiver"/>
+        <hasPredicate_TargetObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate2-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate2-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_a_1"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate3-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate3-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_a_2"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate4-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate4-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_a_3"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate5-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate5-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_a_4"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate6-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate6-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_b_1"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate7-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate7-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_b_2"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate8-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate8-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_b_3"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate9-part-location-kita4b4c2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#predicate9-part-location-kita4b4c2">
+        <hasPredicate_TargetObject rdf:resource="&kittingClasses;part_b_4"/>
+        <hasPredicate_ReferenceObject rdf:resource="http://www.semanticweb.org/ontologies/2013/0/soap.owl#kit_a4b4c2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2013/0/soap.owl#stock_keeping_unit_kit_tray_a2b3c3d1e1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2013/0/soap.owl#stock_keeping_unit_kit_tray_a2b3c3d1e1">
+        <kittingClasses:hasSku_Weight rdf:datatype="&xsd;decimal">0.200000</kittingClasses:hasSku_Weight>
+        <kittingClasses:hasSku_Description rdf:datatype="&xsd;string">SKU for KitTrays</kittingClasses:hasSku_Description>
+        <kittingClasses:hasSku_EndEffectors rdf:resource="&kittingClasses;tray_gripper"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
+

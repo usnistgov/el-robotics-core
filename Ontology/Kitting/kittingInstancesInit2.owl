@@ -182,7 +182,7 @@ ClassAssertion(:Vector :changing_station_base_z_axis)
 DataPropertyAssertion(:hasVector_I :changing_station_base_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :changing_station_base_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :changing_station_base_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSolidObject_InternalShape :changing_station_base :shape_changing_station_base)
+ObjectPropertyAssertion(:hasNoSkuObject_InternalShape :changing_station_base :shape_changing_station_base)
 // end MechanicalComponent
 //*****************************************
 
@@ -226,7 +226,7 @@ ClassAssertion(:Vector :part_gripper_holder_z_axis)
 DataPropertyAssertion(:hasVector_I :part_gripper_holder_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_gripper_holder_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_gripper_holder_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSolidObject_InternalShape :part_gripper_holder :shape_gripper_holder_1)
+ObjectPropertyAssertion(:hasNoSkuObject_InternalShape :part_gripper_holder :shape_gripper_holder_1)
 ObjectPropertyAssertion(:hasEndEffectorHolder_EndEffector :part_gripper_holder :part_gripper)
 // end EndEffectorHolder
 //*****************************************
@@ -306,7 +306,7 @@ ClassAssertion(:Vector :tray_gripper_holder_z_axis)
 DataPropertyAssertion(:hasVector_I :tray_gripper_holder_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :tray_gripper_holder_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :tray_gripper_holder_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSolidObject_InternalShape :tray_gripper_holder :shape_gripper_holder_2)
+ObjectPropertyAssertion(:hasNoSkuObject_InternalShape :tray_gripper_holder :shape_gripper_holder_2)
 // end EndEffectorHolder
 //*****************************************
 
@@ -382,7 +382,7 @@ ClassAssertion(:Vector :empty_kit_tray_box_z_axis)
 DataPropertyAssertion(:hasVector_I :empty_kit_tray_box_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :empty_kit_tray_box_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :empty_kit_tray_box_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasLargeContainer_Sku :empty_kit_tray_box :stock_keeping_unit_kit_box)
+ObjectPropertyAssertion(:hasSkuObject_Sku :empty_kit_tray_box :stock_keeping_unit_kit_box)
 DataPropertyAssertion(:hasLargeContainer_SerialNumber :empty_kit_tray_box "4"^^xsd:NMTOKEN)
 // end LargeContainer
 //*****************************************
@@ -414,7 +414,7 @@ ClassAssertion(:Vector :kit_tray_1_z_axis)
 DataPropertyAssertion(:hasVector_I :kit_tray_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :kit_tray_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :kit_tray_1_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasKitTray_Sku :kit_tray_1 :stock_keeping_unit_kit_tray)
+ObjectPropertyAssertion(:hasSkuObject_Sku :kit_tray_1 :stock_keeping_unit_kit_tray)
 DataPropertyAssertion(:hasKitTray_SerialNumber :kit_tray_1 "1"^^xsd:NMTOKEN)
 // end KitTray
 //*****************************************
@@ -479,43 +479,9 @@ ClassAssertion(:Vector :finished_kit_box_z_axis)
 DataPropertyAssertion(:hasVector_I :finished_kit_box_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :finished_kit_box_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :finished_kit_box_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasLargeContainer_Sku :finished_kit_box :stock_keeping_unit_kit_box)
+ObjectPropertyAssertion(:hasSkuObject_Sku :finished_kit_box :stock_keeping_unit_kit_box)
 DataPropertyAssertion(:hasLargeContainer_SerialNumber :finished_kit_box "5"^^xsd:NMTOKEN)
 // end LargeContainer
-//*****************************************
-
-
-//*****************************************
-// start PartsTrayWithParts part_a_supply
-Declaration(NamedIndividual(:part_a_supply))
-ClassAssertion(:PartsTrayWithParts :part_a_supply)
-ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_supply :part_a_supply_pose)
-Declaration(NamedIndividual(:part_a_supply_pose))
-ClassAssertion(:PoseOnlyLocation :part_a_supply_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_supply_pose :kitting_workstation_1)
-ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_supply_pose :part_a_supply_point)
-ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_supply_pose :part_a_supply_x_axis)
-ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_supply_pose :part_a_supply_z_axis)
-Declaration(NamedIndividual(:part_a_supply_point))
-ClassAssertion(:Point :part_a_supply_point)
-DataPropertyAssertion(:hasPoint_X :part_a_supply_point "3.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :part_a_supply_point "2.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :part_a_supply_point "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:part_a_supply_x_axis))
-ClassAssertion(:Vector :part_a_supply_x_axis)
-DataPropertyAssertion(:hasVector_I :part_a_supply_x_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :part_a_supply_x_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_a_supply_x_axis "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:part_a_supply_z_axis))
-ClassAssertion(:Vector :part_a_supply_z_axis)
-DataPropertyAssertion(:hasVector_I :part_a_supply_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :part_a_supply_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_a_supply_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :part_a_supply :part_a_tray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_a_supply :part_a_1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_a_supply :part_a_2)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_a_supply :part_a_3)
-// end PartsTrayWithParts
 //*****************************************
 
 
@@ -526,14 +492,14 @@ ClassAssertion(:PartsTray :part_a_tray)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_tray :part_a_tray_pose)
 Declaration(NamedIndividual(:part_a_tray_pose))
 ClassAssertion(:PoseOnlyLocation :part_a_tray_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_tray_pose :part_a_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_tray_pose :kitting_workstation_1)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_tray_pose :part_a_tray_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_tray_pose :part_a_tray_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_tray_pose :part_a_tray_z_axis)
 Declaration(NamedIndividual(:part_a_tray_point))
 ClassAssertion(:Point :part_a_tray_point)
-DataPropertyAssertion(:hasPoint_X :part_a_tray_point "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :part_a_tray_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_X :part_a_tray_point "3.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :part_a_tray_point "2.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :part_a_tray_point "0.000000"^^xsd:decimal)
 Declaration(NamedIndividual(:part_a_tray_x_axis))
 ClassAssertion(:Vector :part_a_tray_x_axis)
@@ -545,11 +511,13 @@ ClassAssertion(:Vector :part_a_tray_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_a_tray_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTray_Sku :part_a_tray :stock_keeping_unit_parts_tray_ac)
-DataPropertyAssertion(:hasPartsTray_SerialNumber :part_a_tray "6"^^xsd:NMTOKEN)
-// end PartsTray
-//*****************************************
-
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_a_tray :stock_keeping_unit_parts_tray_ac)
+DataPropertyAssertion(:hasPartsVessel_SerialNumber :part_a_tray "6"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(:hasPartsVessel_PartSku :part_a_tray :stock_keeping_unit_part_a)
+DataPropertyAssertion(:hasPartsVessel_PartQuantity :part_a_tray "3"^^xsd:nonNegativeInteger)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_a_tray :part_a_1)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_a_tray :part_a_2)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_a_tray :part_a_3)
 
 //*****************************************
 // start Part part_a_1
@@ -558,7 +526,7 @@ ClassAssertion(:Part :part_a_1)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_1 :part_a_1_pose)
 Declaration(NamedIndividual(:part_a_1_pose))
 ClassAssertion(:PoseLocationIn :part_a_1_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_1_pose :part_a_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_1_pose :part_a_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_1_pose :part_a_1_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_1_pose :part_a_1_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_1_pose :part_a_1_z_axis)
@@ -577,7 +545,7 @@ ClassAssertion(:Vector :part_a_1_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_a_1_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_a_1 :stock_keeping_unit_part_a)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_a_1 :stock_keeping_unit_part_a)
 DataPropertyAssertion(:hasPart_SerialNumber :part_a_1 "9"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -590,7 +558,7 @@ ClassAssertion(:Part :part_a_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_2 :part_a_2_pose)
 Declaration(NamedIndividual(:part_a_2_pose))
 ClassAssertion(:PoseLocationIn :part_a_2_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_2_pose :part_a_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_2_pose :part_a_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_2_pose :part_a_2_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_2_pose :part_a_2_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_2_pose :part_a_2_z_axis)
@@ -609,7 +577,7 @@ ClassAssertion(:Vector :part_a_2_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_2_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_2_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_a_2_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_a_2 :stock_keeping_unit_part_a)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_a_2 :stock_keeping_unit_part_a)
 DataPropertyAssertion(:hasPart_SerialNumber :part_a_2 "10"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -622,7 +590,7 @@ ClassAssertion(:Part :part_a_3)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_a_3 :part_a_3_pose)
 Declaration(NamedIndividual(:part_a_3_pose))
 ClassAssertion(:PoseLocationIn :part_a_3_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_3_pose :part_a_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_a_3_pose :part_a_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_a_3_pose :part_a_3_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_a_3_pose :part_a_3_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_a_3_pose :part_a_3_z_axis)
@@ -641,46 +609,12 @@ ClassAssertion(:Vector :part_a_3_z_axis)
 DataPropertyAssertion(:hasVector_I :part_a_3_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_a_3_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_a_3_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_a_3 :stock_keeping_unit_part_a)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_a_3 :stock_keeping_unit_part_a)
 DataPropertyAssertion(:hasPart_SerialNumber :part_a_3 "11"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
 
-
-//*****************************************
-// start PartsTrayWithParts part_b_supply
-Declaration(NamedIndividual(:part_b_supply))
-ClassAssertion(:PartsTrayWithParts :part_b_supply)
-ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_supply :part_b_supply_pose)
-Declaration(NamedIndividual(:part_b_supply_pose))
-ClassAssertion(:PoseOnlyLocation :part_b_supply_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_supply_pose :kitting_workstation_1)
-ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_supply_pose :part_b_supply_point)
-ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_supply_pose :part_b_supply_x_axis)
-ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_supply_pose :part_b_supply_z_axis)
-Declaration(NamedIndividual(:part_b_supply_point))
-ClassAssertion(:Point :part_b_supply_point)
-DataPropertyAssertion(:hasPoint_X :part_b_supply_point "4.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :part_b_supply_point "2.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :part_b_supply_point "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:part_b_supply_x_axis))
-ClassAssertion(:Vector :part_b_supply_x_axis)
-DataPropertyAssertion(:hasVector_I :part_b_supply_x_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :part_b_supply_x_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_b_supply_x_axis "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:part_b_supply_z_axis))
-ClassAssertion(:Vector :part_b_supply_z_axis)
-DataPropertyAssertion(:hasVector_I :part_b_supply_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :part_b_supply_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_b_supply_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :part_b_supply :part_b_tray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_2)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_3)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_4)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_5)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_b_supply :part_b_6)
-// end PartsTrayWithParts
+// end PartsTray
 //*****************************************
 
 
@@ -691,14 +625,14 @@ ClassAssertion(:PartsTray :part_b_tray)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_tray :part_b_tray_pose)
 Declaration(NamedIndividual(:part_b_tray_pose))
 ClassAssertion(:PoseOnlyLocation :part_b_tray_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_tray_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_tray_pose :kitting_workstation_1)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_tray_pose :part_b_tray_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_tray_pose :part_b_tray_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_tray_pose :part_b_tray_z_axis)
 Declaration(NamedIndividual(:part_b_tray_point))
 ClassAssertion(:Point :part_b_tray_point)
-DataPropertyAssertion(:hasPoint_X :part_b_tray_point "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :part_b_tray_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_X :part_b_tray_point "4.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :part_b_tray_point "2.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :part_b_tray_point "0.000000"^^xsd:decimal)
 Declaration(NamedIndividual(:part_b_tray_x_axis))
 ClassAssertion(:Vector :part_b_tray_x_axis)
@@ -710,11 +644,16 @@ ClassAssertion(:Vector :part_b_tray_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_tray_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTray_Sku :part_b_tray :stock_keeping_unit_parts_tray_b)
-DataPropertyAssertion(:hasPartsTray_SerialNumber :part_b_tray "7"^^xsd:NMTOKEN)
-// end PartsTray
-//*****************************************
-
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_tray :stock_keeping_unit_parts_tray_b)
+DataPropertyAssertion(:hasPartsVessel_SerialNumber :part_b_tray "7"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(:hasPartsVessel_PartSku :part_b_tray :stock_keeping_unit_part_b)
+DataPropertyAssertion(:hasPartsVessel_PartQuantity :part_b_tray "6"^^xsd:nonNegativeInteger)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_b_tray :part_b_1)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_b_tray :part_b_2)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_b_tray :part_b_3)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_b_tray :part_b_4)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_b_tray :part_b_5)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_b_tray :part_b_6)
 
 //*****************************************
 // start Part part_b_1
@@ -723,7 +662,7 @@ ClassAssertion(:Part :part_b_1)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_1 :part_b_1_pose)
 Declaration(NamedIndividual(:part_b_1_pose))
 ClassAssertion(:PoseLocationIn :part_b_1_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_1_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_1_pose :part_b_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_1_pose :part_b_1_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_1_pose :part_b_1_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_1_pose :part_b_1_z_axis)
@@ -742,7 +681,7 @@ ClassAssertion(:Vector :part_b_1_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_1_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_b_1 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_1 :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasPart_SerialNumber :part_b_1 "13"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -755,7 +694,7 @@ ClassAssertion(:Part :part_b_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_2 :part_b_2_pose)
 Declaration(NamedIndividual(:part_b_2_pose))
 ClassAssertion(:PoseLocationIn :part_b_2_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_2_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_2_pose :part_b_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_2_pose :part_b_2_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_2_pose :part_b_2_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_2_pose :part_b_2_z_axis)
@@ -774,7 +713,7 @@ ClassAssertion(:Vector :part_b_2_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_2_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_2_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_2_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_b_2 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_2 :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasPart_SerialNumber :part_b_2 "14"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -787,7 +726,7 @@ ClassAssertion(:Part :part_b_3)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_3 :part_b_3_pose)
 Declaration(NamedIndividual(:part_b_3_pose))
 ClassAssertion(:PoseLocationIn :part_b_3_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_3_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_3_pose :part_b_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_3_pose :part_b_3_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_3_pose :part_b_3_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_3_pose :part_b_3_z_axis)
@@ -806,7 +745,7 @@ ClassAssertion(:Vector :part_b_3_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_3_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_3_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_3_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_b_3 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_3 :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasPart_SerialNumber :part_b_3 "15"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -819,7 +758,7 @@ ClassAssertion(:Part :part_b_4)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_4 :part_b_4_pose)
 Declaration(NamedIndividual(:part_b_4_pose))
 ClassAssertion(:PoseLocationIn :part_b_4_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_4_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_4_pose :part_b_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_4_pose :part_b_4_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_4_pose :part_b_4_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_4_pose :part_b_4_z_axis)
@@ -838,7 +777,7 @@ ClassAssertion(:Vector :part_b_4_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_4_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_4_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_4_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_b_4 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_4 :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasPart_SerialNumber :part_b_4 "16"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -851,7 +790,7 @@ ClassAssertion(:Part :part_b_5)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_5 :part_b_5_pose)
 Declaration(NamedIndividual(:part_b_5_pose))
 ClassAssertion(:PoseLocationIn :part_b_5_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_5_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_5_pose :part_b_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_5_pose :part_b_5_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_5_pose :part_b_5_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_5_pose :part_b_5_z_axis)
@@ -870,7 +809,7 @@ ClassAssertion(:Vector :part_b_5_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_5_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_5_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_5_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_b_5 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_5 :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasPart_SerialNumber :part_b_5 "17"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -883,7 +822,7 @@ ClassAssertion(:Part :part_b_6)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_b_6 :part_b_6_pose)
 Declaration(NamedIndividual(:part_b_6_pose))
 ClassAssertion(:PoseLocationIn :part_b_6_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_6_pose :part_b_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_b_6_pose :part_b_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_b_6_pose :part_b_6_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_b_6_pose :part_b_6_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_b_6_pose :part_b_6_z_axis)
@@ -902,44 +841,12 @@ ClassAssertion(:Vector :part_b_6_z_axis)
 DataPropertyAssertion(:hasVector_I :part_b_6_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_b_6_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_b_6_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_b_6 :stock_keeping_unit_part_b)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_b_6 :stock_keeping_unit_part_b)
 DataPropertyAssertion(:hasPart_SerialNumber :part_b_6 "18"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
 
-
-//*****************************************
-// start PartsTrayWithParts part_c_supply
-Declaration(NamedIndividual(:part_c_supply))
-ClassAssertion(:PartsTrayWithParts :part_c_supply)
-ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_supply :part_c_supply_pose)
-Declaration(NamedIndividual(:part_c_supply_pose))
-ClassAssertion(:PoseOnlyLocation :part_c_supply_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_supply_pose :kitting_workstation_1)
-ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_supply_pose :part_c_supply_point)
-ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_supply_pose :part_c_supply_x_axis)
-ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_supply_pose :part_c_supply_z_axis)
-Declaration(NamedIndividual(:part_c_supply_point))
-ClassAssertion(:Point :part_c_supply_point)
-DataPropertyAssertion(:hasPoint_X :part_c_supply_point "5.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :part_c_supply_point "2.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Z :part_c_supply_point "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:part_c_supply_x_axis))
-ClassAssertion(:Vector :part_c_supply_x_axis)
-DataPropertyAssertion(:hasVector_I :part_c_supply_x_axis "1.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :part_c_supply_x_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_c_supply_x_axis "0.000000"^^xsd:decimal)
-Declaration(NamedIndividual(:part_c_supply_z_axis))
-ClassAssertion(:Vector :part_c_supply_z_axis)
-DataPropertyAssertion(:hasVector_I :part_c_supply_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_J :part_c_supply_z_axis "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasVector_K :part_c_supply_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_PartsTray :part_c_supply :part_c_tray)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_c_supply :part_c_1)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_c_supply :part_c_2)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_c_supply :part_c_3)
-ObjectPropertyAssertion(:hasPartsTrayWithParts_Part :part_c_supply :part_c_4)
-// end PartsTrayWithParts
+// end PartsTray
 //*****************************************
 
 
@@ -950,14 +857,14 @@ ClassAssertion(:PartsTray :part_c_tray)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_tray :part_c_tray_pose)
 Declaration(NamedIndividual(:part_c_tray_pose))
 ClassAssertion(:PoseOnlyLocation :part_c_tray_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_tray_pose :part_c_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_tray_pose :kitting_workstation_1)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_tray_pose :part_c_tray_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_tray_pose :part_c_tray_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_tray_pose :part_c_tray_z_axis)
 Declaration(NamedIndividual(:part_c_tray_point))
 ClassAssertion(:Point :part_c_tray_point)
-DataPropertyAssertion(:hasPoint_X :part_c_tray_point "0.000000"^^xsd:decimal)
-DataPropertyAssertion(:hasPoint_Y :part_c_tray_point "0.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_X :part_c_tray_point "5.000000"^^xsd:decimal)
+DataPropertyAssertion(:hasPoint_Y :part_c_tray_point "2.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasPoint_Z :part_c_tray_point "0.000000"^^xsd:decimal)
 Declaration(NamedIndividual(:part_c_tray_x_axis))
 ClassAssertion(:Vector :part_c_tray_x_axis)
@@ -969,11 +876,14 @@ ClassAssertion(:Vector :part_c_tray_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_tray_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_tray_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPartsTray_Sku :part_c_tray :stock_keeping_unit_parts_tray_ac)
-DataPropertyAssertion(:hasPartsTray_SerialNumber :part_c_tray "8"^^xsd:NMTOKEN)
-// end PartsTray
-//*****************************************
-
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_c_tray :stock_keeping_unit_parts_tray_ac)
+DataPropertyAssertion(:hasPartsVessel_SerialNumber :part_c_tray "8"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(:hasPartsVessel_PartSku :part_c_tray :stock_keeping_unit_part_c)
+DataPropertyAssertion(:hasPartsVessel_PartQuantity :part_c_tray "4"^^xsd:nonNegativeInteger)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_c_tray :part_c_1)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_c_tray :part_c_2)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_c_tray :part_c_3)
+ObjectPropertyAssertion(:hasPartsVessel_Part :part_c_tray :part_c_4)
 
 //*****************************************
 // start Part part_c_1
@@ -982,7 +892,7 @@ ClassAssertion(:Part :part_c_1)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_1 :part_c_1_pose)
 Declaration(NamedIndividual(:part_c_1_pose))
 ClassAssertion(:PoseLocationIn :part_c_1_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_1_pose :part_c_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_1_pose :part_c_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_1_pose :part_c_1_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_1_pose :part_c_1_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_1_pose :part_c_1_z_axis)
@@ -1001,7 +911,7 @@ ClassAssertion(:Vector :part_c_1_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_1_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_1_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_c_1 :stock_keeping_unit_part_c)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_c_1 :stock_keeping_unit_part_c)
 DataPropertyAssertion(:hasPart_SerialNumber :part_c_1 "15"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -1014,7 +924,7 @@ ClassAssertion(:Part :part_c_2)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_2 :part_c_2_pose)
 Declaration(NamedIndividual(:part_c_2_pose))
 ClassAssertion(:PoseLocationIn :part_c_2_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_2_pose :part_c_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_2_pose :part_c_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_2_pose :part_c_2_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_2_pose :part_c_2_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_2_pose :part_c_2_z_axis)
@@ -1033,7 +943,7 @@ ClassAssertion(:Vector :part_c_2_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_2_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_2_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_2_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_c_2 :stock_keeping_unit_part_c)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_c_2 :stock_keeping_unit_part_c)
 DataPropertyAssertion(:hasPart_SerialNumber :part_c_2 "16"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -1046,7 +956,7 @@ ClassAssertion(:Part :part_c_3)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_3 :part_c_3_pose)
 Declaration(NamedIndividual(:part_c_3_pose))
 ClassAssertion(:PoseLocationIn :part_c_3_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_3_pose :part_c_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_3_pose :part_c_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_3_pose :part_c_3_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_3_pose :part_c_3_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_3_pose :part_c_3_z_axis)
@@ -1065,7 +975,7 @@ ClassAssertion(:Vector :part_c_3_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_3_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_3_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_3_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_c_3 :stock_keeping_unit_part_c)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_c_3 :stock_keeping_unit_part_c)
 DataPropertyAssertion(:hasPart_SerialNumber :part_c_3 "17"^^xsd:NMTOKEN)
 // end Part
 //*****************************************
@@ -1078,7 +988,7 @@ ClassAssertion(:Part :part_c_4)
 ObjectPropertyAssertion(:hasSolidObject_PrimaryLocation :part_c_4 :part_c_4_pose)
 Declaration(NamedIndividual(:part_c_4_pose))
 ClassAssertion(:PoseLocationIn :part_c_4_pose)
-ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_4_pose :part_c_supply)
+ObjectPropertyAssertion(:hasPhysicalLocation_RefObject :part_c_4_pose :part_c_tray)
 ObjectPropertyAssertion(:hasPoseLocation_Point :part_c_4_pose :part_c_4_point)
 ObjectPropertyAssertion(:hasPoseLocation_XAxis :part_c_4_pose :part_c_4_x_axis)
 ObjectPropertyAssertion(:hasPoseLocation_ZAxis :part_c_4_pose :part_c_4_z_axis)
@@ -1097,9 +1007,12 @@ ClassAssertion(:Vector :part_c_4_z_axis)
 DataPropertyAssertion(:hasVector_I :part_c_4_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :part_c_4_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :part_c_4_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasPart_Sku :part_c_4 :stock_keeping_unit_part_c)
+ObjectPropertyAssertion(:hasSkuObject_Sku :part_c_4 :stock_keeping_unit_part_c)
 DataPropertyAssertion(:hasPart_SerialNumber :part_c_4 "18"^^xsd:NMTOKEN)
 // end Part
+//*****************************************
+
+// end PartsTray
 //*****************************************
 
 
@@ -1129,7 +1042,7 @@ ClassAssertion(:Vector :work_table_z_axis)
 DataPropertyAssertion(:hasVector_I :work_table_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_J :work_table_z_axis "0.000000"^^xsd:decimal)
 DataPropertyAssertion(:hasVector_K :work_table_z_axis "1.000000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasSolidObject_InternalShape :work_table_1 :shape_work_table)
+ObjectPropertyAssertion(:hasNoSkuObject_InternalShape :work_table_1 :shape_work_table)
 // end WorkTable
 //*****************************************
 
@@ -1446,9 +1359,9 @@ DataPropertyAssertion(:hasVector_K :z_axis_kit_a3b6c4_c_4 "1.000000"^^xsd:decima
 // start StockKeepingUnit stock_keeping_unit_part_a
 Declaration(NamedIndividual(:stock_keeping_unit_part_a))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_part_a)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_a "SKU for Part A"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_part_a "SKU for Part A"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_part_a :shape_part_a)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_part_a "0.180000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_part_a :shape_part_a)
 ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_part_a :part_gripper)
 // end StockKeepingUnit
 //*****************************************
@@ -1471,9 +1384,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_part_a "true"^^xsd:boolean)
 // start StockKeepingUnit stock_keeping_unit_part_b
 Declaration(NamedIndividual(:stock_keeping_unit_part_b))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_part_b)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_b "SKU for Part B"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_part_b "SKU for Part B"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_part_b :shape_part_b)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_part_b "0.180000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_part_b :shape_part_b)
 ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_part_b :part_gripper)
 // end StockKeepingUnit
 //*****************************************
@@ -1496,9 +1409,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_part_b "true"^^xsd:boolean)
 // start StockKeepingUnit stock_keeping_unit_part_c
 Declaration(NamedIndividual(:stock_keeping_unit_part_c))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_part_c)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_part_c "SKU for Part C"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_part_c "SKU for Part C"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_part_c :shape_part_c)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_part_c "0.180000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_part_c :shape_part_c)
 ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_part_c :part_gripper)
 // end StockKeepingUnit
 //*****************************************
@@ -1521,9 +1434,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_part_c "true"^^xsd:boolean)
 // start StockKeepingUnit stock_keeping_unit_kit_tray
 Declaration(NamedIndividual(:stock_keeping_unit_kit_tray))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_kit_tray)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_kit_tray "SKU for KitTrays"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_kit_tray "SKU for KitTrays"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_kit_tray :shape_kit_tray)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_kit_tray "0.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_kit_tray :shape_kit_tray)
 ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_kit_tray :tray_gripper)
 // end StockKeepingUnit
 //*****************************************
@@ -1546,9 +1459,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_tray "false"^^xsd:boolean)
 // start StockKeepingUnit stock_keeping_unit_kit_box
 Declaration(NamedIndividual(:stock_keeping_unit_kit_box))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_kit_box)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_kit_box "SKU for Boxes for Kits and KitTrays"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_kit_box "SKU for Boxes for Kits and KitTrays"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_kit_box :shape_kit_box)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_kit_box "1.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_kit_box :shape_kit_box)
 // end StockKeepingUnit
 //*****************************************
 
@@ -1570,9 +1483,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_kit_box "false"^^xsd:boolean)
 // start StockKeepingUnit stock_keeping_unit_parts_tray_ac
 Declaration(NamedIndividual(:stock_keeping_unit_parts_tray_ac))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray_ac)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray_ac "SKU for PartsTrays for parts a and c"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_parts_tray_ac "SKU for PartsTrays for parts a and c"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_parts_tray_ac :shape_parts_tray_ac)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_parts_tray_ac "0.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_parts_tray_ac :shape_parts_tray_ac)
 ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_parts_tray_ac :tray_gripper)
 // end StockKeepingUnit
 //*****************************************
@@ -1595,9 +1508,9 @@ DataPropertyAssertion(:hasBoxyShape_Top :shape_parts_tray_ac "false"^^xsd:boolea
 // start StockKeepingUnit stock_keeping_unit_parts_tray_b
 Declaration(NamedIndividual(:stock_keeping_unit_parts_tray_b))
 ClassAssertion(:StockKeepingUnit :stock_keeping_unit_parts_tray_b)
-DataPropertyAssertion(:hasSku_Description :stock_keeping_unit_parts_tray_b "SKU for PartsTrays for part b"^^xsd:string)
+DataPropertyAssertion(:hasStockKeepingUnit_Description :stock_keeping_unit_parts_tray_b "SKU for PartsTrays for part b"^^xsd:string)
+ObjectPropertyAssertion(:hasStockKeepingUnit_InternalShape :stock_keeping_unit_parts_tray_b :shape_parts_tray_b)
 DataPropertyAssertion(:hasStockKeepingUnit_Weight :stock_keeping_unit_parts_tray_b "0.200000"^^xsd:decimal)
-ObjectPropertyAssertion(:hasStockKeepingUnit_Shape :stock_keeping_unit_parts_tray_b :shape_parts_tray_b)
 ObjectPropertyAssertion(:hasStockKeepingUnit_EndEffector :stock_keeping_unit_parts_tray_b :tray_gripper)
 // end StockKeepingUnit
 //*****************************************
@@ -1668,13 +1581,6 @@ DifferentIndividuals(
  :part_c_tray)
 
 //*****************************************
-// PartsTrayWithParts individuals 
-DifferentIndividuals(
- :part_a_supply
- :part_b_supply
- :part_c_supply)
-
-//*****************************************
 // Part individuals 
 DifferentIndividuals(
  :part_a_1
@@ -1704,7 +1610,6 @@ DifferentIndividuals(
  :part_a_1_point
  :part_a_2_point
  :part_a_3_point
- :part_a_supply_point
  :part_a_tray_point
  :part_b_1_point
  :part_b_2_point
@@ -1712,13 +1617,11 @@ DifferentIndividuals(
  :part_b_4_point
  :part_b_5_point
  :part_b_6_point
- :part_b_supply_point
  :part_b_tray_point
  :part_c_1_point
  :part_c_2_point
  :part_c_3_point
  :part_c_4_point
- :part_c_supply_point
  :part_c_tray_point
  :part_gripper_holder_point
  :part_gripper_point
@@ -1769,11 +1672,8 @@ DifferentIndividuals(
  :finished_kit_box_pose
  :finished_kit_receiver_pose
  :kit_tray_1_pose
- :part_a_supply_pose
  :part_a_tray_pose
- :part_b_supply_pose
  :part_b_tray_pose
- :part_c_supply_pose
  :part_c_tray_pose
  :part_gripper_holder_pose
  :part_gripper_pose
@@ -1822,8 +1722,6 @@ DifferentIndividuals(
  :part_a_2_z_axis
  :part_a_3_x_axis
  :part_a_3_z_axis
- :part_a_supply_x_axis
- :part_a_supply_z_axis
  :part_a_tray_x_axis
  :part_a_tray_z_axis
  :part_b_1_x_axis
@@ -1838,8 +1736,6 @@ DifferentIndividuals(
  :part_b_5_z_axis
  :part_b_6_x_axis
  :part_b_6_z_axis
- :part_b_supply_x_axis
- :part_b_supply_z_axis
  :part_b_tray_x_axis
  :part_b_tray_z_axis
  :part_c_1_x_axis
@@ -1850,8 +1746,6 @@ DifferentIndividuals(
  :part_c_3_z_axis
  :part_c_4_x_axis
  :part_c_4_z_axis
- :part_c_supply_x_axis
- :part_c_supply_z_axis
  :part_c_tray_x_axis
  :part_c_tray_z_axis
  :part_gripper_holder_x_axis

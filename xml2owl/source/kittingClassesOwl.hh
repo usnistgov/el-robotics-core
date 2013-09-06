@@ -53,12 +53,13 @@ class LargeBoxWithKitsType;
 class LargeContainerType;
 class LengthUnitType;
 class MechanicalComponentType;
+class NoSkuObjectType;
 class OwlPrinter;
 class PartRefAndPoseType;
 class PartType;
 class PartsBinType;
 class PartsTrayType;
-class PartsTrayWithPartsType;
+class PartsVesselType;
 class PhysicalLocationType;
 class PointType;
 class PoseLocationInType;
@@ -71,6 +72,7 @@ class RelativeLocationOnType;
 class RelativeLocationType;
 class RobotType;
 class ShapeDesignType;
+class SkuObjectType;
 class SlotType;
 class SolidObjectType;
 class StockKeepingUnitType;
@@ -159,6 +161,11 @@ public:
     const char * property,
     XmlID * Name,
     XmlNMTOKEN * val,
+    FILE * outFile);
+  static void printXmlNonNegIntProp(
+    const char * property,
+    XmlID * Name,
+    XmlNonNegativeInteger * val,
     FILE * outFile);
   static void printXmlPosIntProp(
     const char * property,
@@ -462,9 +469,7 @@ public:
   SolidObjectType(
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn);
+    std::list<PhysicalLocationType *> * SecondaryLocationIn);
   ~SolidObjectType();
   void printSelf(FILE * outFile) {}
   virtual void printOwl(FILE * outFile) {}
@@ -472,8 +477,6 @@ public:
   XmlID * Name;
   PhysicalLocationType * PrimaryLocation;
   std::list<PhysicalLocationType *> * SecondaryLocation;
-  InternalShapeType * InternalShape;
-  ExternalShapeType * ExternalShape;
 };
 
 /*********************************************************************/
@@ -486,14 +489,16 @@ public:
   StockKeepingUnitType(
     XmlID * NameIn,
     XmlString * DescriptionIn,
-    ShapeDesignType * ShapeIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
     PositiveDecimalType * WeightIn,
     std::list<XmlIDREF *> * EndEffectorNameIn);
   ~StockKeepingUnitType();
   void printOwl(FILE * outFile);
 
   XmlString * Description;
-  ShapeDesignType * Shape;
+  InternalShapeType * InternalShape;
+  ExternalShapeType * ExternalShape;
   PositiveDecimalType * Weight;
   std::list<XmlIDREF *> * EndEffectorName;
   static std::set<std::string> individuals;
@@ -540,28 +545,6 @@ public:
 
 /*********************************************************************/
 
-class WorkTableType :
-  public SolidObjectType
-{
-public:
-  WorkTableType();
-  WorkTableType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    std::list<SolidObjectType *> * SolidObjectIn);
-  ~WorkTableType();
-  void printOwl(FILE * outFile);
-
-  std::list<SolidObjectType *> * SolidObject;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class BoxVolumeType :
   public DataThingType
 {
@@ -583,80 +566,6 @@ public:
 
 /*********************************************************************/
 
-class EndEffectorChangingStationType :
-  public SolidObjectType
-{
-public:
-  EndEffectorChangingStationType();
-  EndEffectorChangingStationType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    MechanicalComponentType * BaseIn,
-    std::list<EndEffectorHolderType *> * EndEffectorHolderIn);
-  ~EndEffectorChangingStationType();
-  void printOwl(FILE * outFile);
-
-  MechanicalComponentType * Base;
-  std::list<EndEffectorHolderType *> * EndEffectorHolder;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class EndEffectorHolderType :
-  public SolidObjectType
-{
-public:
-  EndEffectorHolderType();
-  EndEffectorHolderType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    EndEffectorType * EndEffectorIn);
-  ~EndEffectorHolderType();
-  void printOwl(FILE * outFile);
-
-  EndEffectorType * EndEffector;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class EndEffectorType :
-  public SolidObjectType
-{
-public:
-  EndEffectorType();
-  EndEffectorType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlString * DescriptionIn,
-    PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn,
-    SolidObjectType * HeldObjectIn);
-  ~EndEffectorType();
-
-  XmlString * Description;
-  PositiveDecimalType * Weight;
-  PositiveDecimalType * MaximumLoadWeight;
-  SolidObjectType * HeldObject;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class ExternalShapeType :
   public ShapeDesignType
 {
@@ -666,61 +575,15 @@ public:
     XmlID * NameIn,
     XmlString * DescriptionIn,
     PoseLocationType * GraspPoseIn,
-    XmlString * ModelTypeNameIn,
+    XmlString * ModelFormatNameIn,
     XmlString * ModelFileNameIn,
     XmlString * ModelNameIn);
   ~ExternalShapeType();
   void printOwl(FILE * outFile);
 
-  XmlString * ModelTypeName;
+  XmlString * ModelFormatName;
   XmlString * ModelFileName;
   XmlString * ModelName;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class GripperEffectorType :
-  public EndEffectorType
-{
-public:
-  GripperEffectorType();
-  GripperEffectorType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlString * DescriptionIn,
-    PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn,
-    SolidObjectType * HeldObjectIn);
-  ~GripperEffectorType();
-  void printOwl(FILE * outFile);
-
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class HumanType :
-  public SolidObjectType
-{
-public:
-  HumanType();
-  HumanType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn);
-  ~HumanType();
-  void printOwl(FILE * outFile);
-
   static std::set<std::string> individuals;
 
   bool printTypp;
@@ -744,298 +607,21 @@ public:
 
 /*********************************************************************/
 
-class KitTrayType :
+class NoSkuObjectType :
   public SolidObjectType
 {
 public:
-  KitTrayType();
-  KitTrayType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlIDREF * SkuNameIn,
-    XmlNMTOKEN * SerialNumberIn);
-  ~KitTrayType();
-  void printOwl(FILE * outFile);
-
-  XmlIDREF * SkuName;
-  XmlNMTOKEN * SerialNumber;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class KitType :
-  public SolidObjectType
-{
-public:
-  KitType();
-  KitType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlIDREF * DesignNameIn,
-    KitTrayType * KitTrayIn,
-    std::list<PartType *> * PartIn,
-    std::list<SlotType *> * SlotIn,
-    XmlBoolean * FinishedIn);
-  ~KitType();
-  void printOwl(FILE * outFile);
-
-  XmlIDREF * DesignName;
-  KitTrayType * KitTray;
-  std::list<PartType *> * Part;
-  std::list<SlotType *> * Slot;
-  XmlBoolean * Finished;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class KittingWorkstationType :
-  public SolidObjectType
-{
-public:
-  KittingWorkstationType();
-  KittingWorkstationType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    AngleUnitType * AngleUnitIn,
-    EndEffectorChangingStationType * ChangingStationIn,
-    std::list<KitDesignType *> * KitDesignIn,
-    LengthUnitType * LengthUnitIn,
-    std::list<SolidObjectType *> * ObjectIn,
-    std::list<BoxVolumeType *> * OtherObstacleIn,
-    RobotType * RobotIn,
-    std::list<StockKeepingUnitType *> * SkuIn,
-    WeightUnitType * WeightUnitIn);
-  ~KittingWorkstationType();
-  void printOwl(FILE * outFile);
-
-  AngleUnitType * AngleUnit;
-  EndEffectorChangingStationType * ChangingStation;
-  std::list<KitDesignType *> * KitDesign;
-  LengthUnitType * LengthUnit;
-  std::list<SolidObjectType *> * Object;
-  std::list<BoxVolumeType *> * OtherObstacle;
-  RobotType * Robot;
-  std::list<StockKeepingUnitType *> * Sku;
-  WeightUnitType * WeightUnit;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class LargeBoxWithEmptyKitTraysType :
-  public SolidObjectType
-{
-public:
-  LargeBoxWithEmptyKitTraysType();
-  LargeBoxWithEmptyKitTraysType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    LargeContainerType * LargeContainerIn,
-    std::list<KitTrayType *> * KitTraysIn);
-  ~LargeBoxWithEmptyKitTraysType();
-  void printOwl(FILE * outFile);
-
-  LargeContainerType * LargeContainer;
-  std::list<KitTrayType *> * KitTray;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class LargeBoxWithKitsType :
-  public SolidObjectType
-{
-public:
-  LargeBoxWithKitsType();
-  LargeBoxWithKitsType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    LargeContainerType * LargeContainerIn,
-    std::list<KitType *> * KitIn,
-    XmlIDREF * KitDesignNameIn,
-    XmlPositiveInteger * CapacityIn);
-  ~LargeBoxWithKitsType();
-  void printOwl(FILE * outFile);
-
-  LargeContainerType * LargeContainer;
-  std::list<KitType *> * Kit;
-  XmlIDREF * KitDesignName;
-  XmlPositiveInteger * Capacity;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class LargeContainerType :
-  public SolidObjectType
-{
-public:
-  LargeContainerType();
-  LargeContainerType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlIDREF * SkuNameIn,
-    XmlNMTOKEN * SerialNumberIn);
-  ~LargeContainerType();
-  void printOwl(FILE * outFile);
-
-  XmlIDREF * SkuName;
-  XmlNMTOKEN * SerialNumber;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class MechanicalComponentType :
-  public SolidObjectType
-{
-public:
-  MechanicalComponentType();
-  MechanicalComponentType(
+  NoSkuObjectType();
+  NoSkuObjectType(
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn);
-  ~MechanicalComponentType();
-  void printOwl(FILE * outFile);
+  ~NoSkuObjectType();
 
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PartType :
-  public SolidObjectType
-{
-public:
-  PartType();
-  PartType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlIDREF * SkuNameIn,
-    XmlNMTOKEN * SerialNumberIn);
-  ~PartType();
-  void printOwl(FILE * outFile);
-
-  XmlIDREF * SkuName;
-  XmlNMTOKEN * SerialNumber;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PartsBinType :
-  public SolidObjectType
-{
-public:
-  PartsBinType();
-  PartsBinType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlIDREF * SkuNameIn,
-    XmlNMTOKEN * SerialNumberIn,
-    XmlIDREF * PartSkuNameIn,
-    XmlNonNegativeInteger * PartQuantityIn);
-  ~PartsBinType();
-  void printOwl(FILE * outFile);
-
-  XmlIDREF * SkuName;
-  XmlNMTOKEN * SerialNumber;
-  XmlIDREF * PartSkuName;
-  XmlNonNegativeInteger * PartQuantity;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PartsTrayType :
-  public SolidObjectType
-{
-public:
-  PartsTrayType();
-  PartsTrayType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    XmlIDREF * SkuNameIn,
-    XmlNMTOKEN * SerialNumberIn);
-  ~PartsTrayType();
-  void printOwl(FILE * outFile);
-
-  XmlIDREF * SkuName;
-  XmlNMTOKEN * SerialNumber;
-  static std::set<std::string> individuals;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PartsTrayWithPartsType :
-  public SolidObjectType
-{
-public:
-  PartsTrayWithPartsType();
-  PartsTrayWithPartsType(
-    XmlID * NameIn,
-    PhysicalLocationType * PrimaryLocationIn,
-    std::list<PhysicalLocationType *> * SecondaryLocationIn,
-    InternalShapeType * InternalShapeIn,
-    ExternalShapeType * ExternalShapeIn,
-    PartsTrayType * PartsTrayIn,
-    std::list<PartType *> * PartIn);
-  ~PartsTrayWithPartsType();
-  void printOwl(FILE * outFile);
-
-  PartsTrayType * PartsTray;
-  std::list<PartType *> * Part;
-  static std::set<std::string> individuals;
+  InternalShapeType * InternalShape;
+  ExternalShapeType * ExternalShape;
 
   bool printTypp;
 };
@@ -1131,7 +717,7 @@ public:
 /*********************************************************************/
 
 class RobotType :
-  public SolidObjectType
+  public NoSkuObjectType
 {
 public:
   RobotType();
@@ -1158,27 +744,41 @@ public:
 
 /*********************************************************************/
 
-class VacuumEffectorType :
-  public EndEffectorType
+class SkuObjectType :
+  public SolidObjectType
 {
 public:
-  VacuumEffectorType();
-  VacuumEffectorType(
+  SkuObjectType();
+  SkuObjectType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn);
+  ~SkuObjectType();
+
+  XmlIDREF * SkuName;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class WorkTableType :
+  public NoSkuObjectType
+{
+public:
+  WorkTableType();
+  WorkTableType(
     XmlID * NameIn,
     PhysicalLocationType * PrimaryLocationIn,
     std::list<PhysicalLocationType *> * SecondaryLocationIn,
     InternalShapeType * InternalShapeIn,
     ExternalShapeType * ExternalShapeIn,
-    XmlString * DescriptionIn,
-    PositiveDecimalType * WeightIn,
-    PositiveDecimalType * MaximumLoadWeightIn,
-    SolidObjectType * HeldObjectIn,
-    PositiveDecimalType * CupDiameterIn,
-    PositiveDecimalType * LengthIn);
-  ~VacuumEffectorType();
+    std::list<SolidObjectType *> * ObjectOnTableIn);
+  ~WorkTableType();
+  void printOwl(FILE * outFile);
 
-  PositiveDecimalType * CupDiameter;
-  PositiveDecimalType * Length;
+  std::list<SolidObjectType *> * ObjectOnTable;
 
   bool printTypp;
 };
@@ -1230,6 +830,437 @@ public:
   PositiveDecimalType * Diameter;
   PositiveDecimalType * Height;
   XmlBoolean * HasTop;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class EndEffectorChangingStationType :
+  public NoSkuObjectType
+{
+public:
+  EndEffectorChangingStationType();
+  EndEffectorChangingStationType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    MechanicalComponentType * BaseIn,
+    std::list<EndEffectorHolderType *> * EndEffectorHolderIn);
+  ~EndEffectorChangingStationType();
+  void printOwl(FILE * outFile);
+
+  MechanicalComponentType * Base;
+  std::list<EndEffectorHolderType *> * EndEffectorHolder;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class EndEffectorHolderType :
+  public NoSkuObjectType
+{
+public:
+  EndEffectorHolderType();
+  EndEffectorHolderType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    EndEffectorType * EndEffectorIn);
+  ~EndEffectorHolderType();
+  void printOwl(FILE * outFile);
+
+  EndEffectorType * EndEffector;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class EndEffectorType :
+  public NoSkuObjectType
+{
+public:
+  EndEffectorType();
+  EndEffectorType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    XmlString * DescriptionIn,
+    PositiveDecimalType * WeightIn,
+    PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn);
+  ~EndEffectorType();
+
+  XmlString * Description;
+  PositiveDecimalType * Weight;
+  PositiveDecimalType * MaximumLoadWeight;
+  SolidObjectType * HeldObject;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class GripperEffectorType :
+  public EndEffectorType
+{
+public:
+  GripperEffectorType();
+  GripperEffectorType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    XmlString * DescriptionIn,
+    PositiveDecimalType * WeightIn,
+    PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn);
+  ~GripperEffectorType();
+  void printOwl(FILE * outFile);
+
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class HumanType :
+  public NoSkuObjectType
+{
+public:
+  HumanType();
+  HumanType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn);
+  ~HumanType();
+  void printOwl(FILE * outFile);
+
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class KitTrayType :
+  public SkuObjectType
+{
+public:
+  KitTrayType();
+  KitTrayType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn);
+  ~KitTrayType();
+  void printOwl(FILE * outFile);
+
+  XmlNMTOKEN * SerialNumber;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class KitType :
+  public NoSkuObjectType
+{
+public:
+  KitType();
+  KitType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    XmlIDREF * DesignNameIn,
+    KitTrayType * KitTrayIn,
+    std::list<PartType *> * PartIn,
+    std::list<SlotType *> * SlotIn,
+    XmlBoolean * FinishedIn);
+  ~KitType();
+  void printOwl(FILE * outFile);
+
+  XmlIDREF * DesignName;
+  KitTrayType * KitTray;
+  std::list<PartType *> * Part;
+  std::list<SlotType *> * Slot;
+  XmlBoolean * Finished;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class KittingWorkstationType :
+  public NoSkuObjectType
+{
+public:
+  KittingWorkstationType();
+  KittingWorkstationType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    AngleUnitType * AngleUnitIn,
+    EndEffectorChangingStationType * ChangingStationIn,
+    std::list<KitDesignType *> * KitDesignIn,
+    LengthUnitType * LengthUnitIn,
+    std::list<SolidObjectType *> * ObjectIn,
+    std::list<BoxVolumeType *> * OtherObstacleIn,
+    RobotType * RobotIn,
+    std::list<StockKeepingUnitType *> * SkuIn,
+    WeightUnitType * WeightUnitIn);
+  ~KittingWorkstationType();
+  void printOwl(FILE * outFile);
+
+  AngleUnitType * AngleUnit;
+  EndEffectorChangingStationType * ChangingStation;
+  std::list<KitDesignType *> * KitDesign;
+  LengthUnitType * LengthUnit;
+  std::list<SolidObjectType *> * Object;
+  std::list<BoxVolumeType *> * OtherObstacle;
+  RobotType * Robot;
+  std::list<StockKeepingUnitType *> * Sku;
+  WeightUnitType * WeightUnit;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class LargeBoxWithEmptyKitTraysType :
+  public NoSkuObjectType
+{
+public:
+  LargeBoxWithEmptyKitTraysType();
+  LargeBoxWithEmptyKitTraysType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    LargeContainerType * LargeContainerIn,
+    std::list<KitTrayType *> * KitTraysIn);
+  ~LargeBoxWithEmptyKitTraysType();
+  void printOwl(FILE * outFile);
+
+  LargeContainerType * LargeContainer;
+  std::list<KitTrayType *> * KitTray;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class LargeBoxWithKitsType :
+  public NoSkuObjectType
+{
+public:
+  LargeBoxWithKitsType();
+  LargeBoxWithKitsType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    LargeContainerType * LargeContainerIn,
+    std::list<KitType *> * KitIn,
+    XmlIDREF * KitDesignNameIn,
+    XmlPositiveInteger * CapacityIn);
+  ~LargeBoxWithKitsType();
+  void printOwl(FILE * outFile);
+
+  LargeContainerType * LargeContainer;
+  std::list<KitType *> * Kit;
+  XmlIDREF * KitDesignName;
+  XmlPositiveInteger * Capacity;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class LargeContainerType :
+  public SkuObjectType
+{
+public:
+  LargeContainerType();
+  LargeContainerType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn);
+  ~LargeContainerType();
+  void printOwl(FILE * outFile);
+
+  XmlNMTOKEN * SerialNumber;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class MechanicalComponentType :
+  public NoSkuObjectType
+{
+public:
+  MechanicalComponentType();
+  MechanicalComponentType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn);
+  ~MechanicalComponentType();
+  void printOwl(FILE * outFile);
+
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PartType :
+  public SkuObjectType
+{
+public:
+  PartType();
+  PartType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn);
+  ~PartType();
+  void printOwl(FILE * outFile);
+
+  XmlNMTOKEN * SerialNumber;
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PartsVesselType :
+  public SkuObjectType
+{
+public:
+  PartsVesselType();
+  PartsVesselType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn,
+    XmlIDREF * PartSkuNameIn,
+    XmlNonNegativeInteger * PartQuantityIn,
+    std::list<PartType *> * PartIn);
+  ~PartsVesselType();
+
+  XmlNMTOKEN * SerialNumber;
+  XmlIDREF * PartSkuName;
+  XmlNonNegativeInteger * PartQuantity;
+  std::list<PartType *> * Part;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class VacuumEffectorType :
+  public EndEffectorType
+{
+public:
+  VacuumEffectorType();
+  VacuumEffectorType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    InternalShapeType * InternalShapeIn,
+    ExternalShapeType * ExternalShapeIn,
+    XmlString * DescriptionIn,
+    PositiveDecimalType * WeightIn,
+    PositiveDecimalType * MaximumLoadWeightIn,
+    SolidObjectType * HeldObjectIn,
+    PositiveDecimalType * CupDiameterIn,
+    PositiveDecimalType * LengthIn);
+  ~VacuumEffectorType();
+
+  PositiveDecimalType * CupDiameter;
+  PositiveDecimalType * Length;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PartsBinType :
+  public PartsVesselType
+{
+public:
+  PartsBinType();
+  PartsBinType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn,
+    XmlIDREF * PartSkuNameIn,
+    XmlNonNegativeInteger * PartQuantityIn,
+    std::list<PartType *> * PartIn);
+  ~PartsBinType();
+  void printOwl(FILE * outFile);
+
+  static std::set<std::string> individuals;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PartsTrayType :
+  public PartsVesselType
+{
+public:
+  PartsTrayType();
+  PartsTrayType(
+    XmlID * NameIn,
+    PhysicalLocationType * PrimaryLocationIn,
+    std::list<PhysicalLocationType *> * SecondaryLocationIn,
+    XmlIDREF * SkuNameIn,
+    XmlNMTOKEN * SerialNumberIn,
+    XmlIDREF * PartSkuNameIn,
+    XmlNonNegativeInteger * PartQuantityIn,
+    std::list<PartType *> * PartIn);
+  ~PartsTrayType();
+  void printOwl(FILE * outFile);
+
   static std::set<std::string> individuals;
 
   bool printTypp;

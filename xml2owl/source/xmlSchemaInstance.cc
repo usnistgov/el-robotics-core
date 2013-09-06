@@ -601,6 +601,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -678,6 +679,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -755,6 +757,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -832,7 +835,8 @@ If so, val is set to valIn and bad is set to false.
 If not, val is set to the empty string and bad is set to true.
 
 A valid NMTOKEN may have leading and/or trailing spaces and tabs, but
-otherwise, it must be a member of [a-zA-Z0-9:_.-].
+otherwise, it must be a member of [a-zA-Z0-9:_.-]+.
+boost::regex("^[a-zA-Z0-9:_.-]+$"
 
 */
 
@@ -923,6 +927,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more  spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If that checks, it is checked that the value is not negative.
@@ -1013,6 +1018,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If that checks, it is checked that the value is positive.
@@ -1164,6 +1170,7 @@ The constructor that takes an argument checks that valIn consists of
 1. a sequence of zero or more spaces and tabs followed by
 2. a string of one or more digits followed by
 3. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[0-9]+[ \t]*$"
 
 If that checks, sscanf is called to read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -1238,6 +1245,7 @@ The constructor that takes an argument checks that valIn consists of
 1. a sequence of zero or more spaces and tabs followed by
 2. a string of one or more digits followed by
 3. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[0-9]+[ \t]*$"
 
 If that checks, sscanf is called to read the number.
 If all checks pass, bad is set to false and val is set to the number read.

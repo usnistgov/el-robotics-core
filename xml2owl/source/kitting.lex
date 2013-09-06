@@ -143,12 +143,14 @@ W [ \t\n\r]*
 "<"{W}"MinimumPoint"          {ECH; return MINIMUMPOINTSTART;}
 "</"{W}"ModelFileName"{W}">"  {ECH; return MODELFILENAMEEND;}
 "<"{W}"ModelFileName"         {ECH; return MODELFILENAMESTART;}
+"</"{W}"ModelFormatName"{W}">" {ECH; return MODELFORMATNAMEEND;}
+"<"{W}"ModelFormatName"       {ECH; return MODELFORMATNAMESTART;}
 "</"{W}"ModelName"{W}">"      {ECH; return MODELNAMEEND;}
 "<"{W}"ModelName"             {ECH; return MODELNAMESTART;}
-"</"{W}"ModelTypeName"{W}">"  {ECH; return MODELTYPENAMEEND;}
-"<"{W}"ModelTypeName"         {ECH; return MODELTYPENAMESTART;}
 "</"{W}"Name"{W}">"           {ECH; return NAMEEND;}
 "<"{W}"Name"                  {ECH; return NAMESTART;}
+"</"{W}"ObjectOnTable"{W}">"  {ECH; return OBJECTONTABLEEND;}
+"<"{W}"ObjectOnTable"         {ECH; return OBJECTONTABLESTART;}
 "</"{W}"Object"{W}">"         {ECH; return OBJECTEND;}
 "<"{W}"Object"                {ECH; return OBJECTSTART;}
 "</"{W}"OrientationStandardDeviation"{W}">" {ECH; return ORIENTATIONSTANDARDDEVIATIONEND;}
@@ -167,8 +169,6 @@ W [ \t\n\r]*
 "<"{W}"PartSkuName"           {ECH; return PARTSKUNAMESTART;}
 "</"{W}"Part"{W}">"           {ECH; return PARTEND;}
 "<"{W}"Part"                  {ECH; return PARTSTART;}
-"</"{W}"PartsTray"{W}">"      {ECH; return PARTSTRAYEND;}
-"<"{W}"PartsTray"             {ECH; return PARTSTRAYSTART;}
 "</"{W}"Point"{W}">"          {ECH; return POINTEND;}
 "<"{W}"Point"                 {ECH; return POINTSTART;}
 "</"{W}"PositionStandardDeviation"{W}">" {ECH; return POSITIONSTANDARDDEVIATIONEND;}
@@ -183,16 +183,12 @@ W [ \t\n\r]*
 "<"{W}"SecondaryLocation"     {ECH; return SECONDARYLOCATIONSTART;}
 "</"{W}"SerialNumber"{W}">"   {ECH; return SERIALNUMBEREND;}
 "<"{W}"SerialNumber"          {ECH; return SERIALNUMBERSTART;}
-"</"{W}"Shape"{W}">"          {ECH; return SHAPEEND;}
-"<"{W}"Shape"                 {ECH; return SHAPESTART;}
 "</"{W}"SkuName"{W}">"        {ECH; return SKUNAMEEND;}
 "<"{W}"SkuName"               {ECH; return SKUNAMESTART;}
 "</"{W}"Sku"{W}">"            {ECH; return SKUEND;}
 "<"{W}"Sku"                   {ECH; return SKUSTART;}
 "</"{W}"Slot"{W}">"           {ECH; return SLOTEND;}
 "<"{W}"Slot"                  {ECH; return SLOTSTART;}
-"</"{W}"SolidObject"{W}">"    {ECH; return SOLIDOBJECTEND;}
-"<"{W}"SolidObject"           {ECH; return SOLIDOBJECTSTART;}
 "</"{W}"Timestamp"{W}">"      {ECH; return TIMESTAMPEND;}
 "<"{W}"Timestamp"             {ECH; return TIMESTAMPSTART;}
 "</"{W}"WeightUnit"{W}">"     {ECH; return WEIGHTUNITEND;}
@@ -219,10 +215,8 @@ W [ \t\n\r]*
 {W}"xsi:type"{W}"="{W}"\"EndEffectorChangingStationType\""  { ECH; return ENDEFFECTORCHANGINGSTATIONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorHolderType\""  { ECH; return ENDEFFECTORHOLDERTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorType\""  { ECH; return ENDEFFECTORTYPEDECL; }
-{W}"xsi:type"{W}"="{W}"\"ExternalShapeType\""  { ECH; return EXTERNALSHAPETYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"GripperEffectorType\""  { ECH; return GRIPPEREFFECTORTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"HumanType\""  { ECH; return HUMANTYPEDECL; }
-{W}"xsi:type"{W}"="{W}"\"InternalShapeType\""  { ECH; return INTERNALSHAPETYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"KitTrayType\""  { ECH; return KITTRAYTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"KitType\""  { ECH; return KITTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"KittingWorkstationType\""  { ECH; return KITTINGWORKSTATIONTYPEDECL; }
@@ -230,10 +224,11 @@ W [ \t\n\r]*
 {W}"xsi:type"{W}"="{W}"\"LargeBoxWithKitsType\""  { ECH; return LARGEBOXWITHKITSTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"LargeContainerType\""  { ECH; return LARGECONTAINERTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"MechanicalComponentType\""  { ECH; return MECHANICALCOMPONENTTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"NoSkuObjectType\""  { ECH; return NOSKUOBJECTTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PartType\""  { ECH; return PARTTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PartsBinType\""  { ECH; return PARTSBINTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PartsTrayType\""  { ECH; return PARTSTRAYTYPEDECL; }
-{W}"xsi:type"{W}"="{W}"\"PartsTrayWithPartsType\""  { ECH; return PARTSTRAYWITHPARTSTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"PartsVesselType\""  { ECH; return PARTSVESSELTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PoseLocationInType\""  { ECH; return POSELOCATIONINTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PoseLocationOnType\""  { ECH; return POSELOCATIONONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PoseLocationType\""  { ECH; return POSELOCATIONTYPEDECL; }
@@ -242,6 +237,7 @@ W [ \t\n\r]*
 {W}"xsi:type"{W}"="{W}"\"RelativeLocationOnType\""  { ECH; return RELATIVELOCATIONONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"RelativeLocationType\""  { ECH; return RELATIVELOCATIONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"RobotType\""  { ECH; return ROBOTTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"SkuObjectType\""  { ECH; return SKUOBJECTTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"VacuumEffectorMultiCupType\""  { ECH; return VACUUMEFFECTORMULTICUPTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"VacuumEffectorSingleCupType\""  { ECH; return VACUUMEFFECTORSINGLECUPTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"VacuumEffectorType\""  { ECH; return VACUUMEFFECTORTYPEDECL; }

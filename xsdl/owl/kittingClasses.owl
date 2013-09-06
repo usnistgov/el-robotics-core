@@ -489,7 +489,7 @@ EquivalentClasses(:Kit ObjectIntersectionOf(
   ObjectSomeValuesFrom(:hasKit_Design :KitDesign)
   ObjectAllValuesFrom (:hasKit_Design :KitDesign)))
 
-HasKey(:KitTray (:hasKitTray_Sku) (:hasKitTray_SerialNumber))
+HasKey(:KitTray (:hasSkuObject_Sku) (:hasKitTray_SerialNumber))
 
 Declaration(ObjectProperty(:hasKit_KitTray))
 ObjectPropertyDomain(:hasKit_KitTray :Kit)
@@ -506,7 +506,7 @@ InverseObjectProperties(:hasKit_KitTray
 ObjectPropertyDomain(:hadByKitTray_Kit :KitTray)
 ObjectPropertyRange(:hadByKitTray_Kit :Kit)
 
-HasKey(:Part (:hasPart_Sku) (:hasPart_SerialNumber))
+HasKey(:Part (:hasSkuObject_Sku) (:hasPart_SerialNumber))
 
 Declaration(ObjectProperty(:hasKit_Part))
 ObjectPropertyDomain(:hasKit_Part :Kit)
@@ -762,7 +762,7 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
   LargeBoxWithEmptyKitTrays are intended to all be of the same
   SKU, although there is currently no formal requirement for that.")
 
-HasKey(:LargeContainer (:hasLargeContainer_Sku) (:hasLargeContainer_SerialNumber))
+HasKey(:LargeContainer (:hasSkuObject_Sku) (:hasLargeContainer_SerialNumber))
 
 Declaration(ObjectProperty(:hasLargeBoxWithEmptyKitTrays_LargeContainer))
 ObjectPropertyDomain(:hasLargeBoxWithEmptyKitTrays_LargeContainer :LargeBoxWithEmptyKitTrays)

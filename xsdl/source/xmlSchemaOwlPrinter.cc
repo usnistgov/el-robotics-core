@@ -551,6 +551,101 @@ XmlComplexType * xmlSchemaOwlPrinter::findComplexClass( /* ARGUMENTS        */
 
 /********************************************************************/
 
+/* xmlSchemaOwlPrinter::findHasName
+
+Returned Value: char *
+  This returns the detyped most distant ancestor of haser+Type that has
+  an element with the given elementName. That may be haser itself.
+
+Called By: xmlSchemaOwlPrinter::printOwlIdConstraint
+
+Note that this requires that the type of haser be haser concatenated with
+"Type"
+
+A. If a complexType cannot be found whose name is haserType, this prints
+   an error message and exits.
+
+B. If a complexType is found with complex content
+B1. If haserType is an extension
+B1a. If haserType has a sequence with items
+B1a1. If elementName is the name of one of the elements in the sequence,
+     this returns haser.
+B1a2. Otherwise this calls itself recursively using the detyped name of
+      the base of the extension along with the elementName.
+B1b. Otherwise this calls itself recursively using the detyped name of
+      the base of the extension along with the elementName.
+B2. If haserType is not an extension, this prints an error message and exits.
+
+C. If a complexType is found with other content, this returns a string that
+   is the same as haser.
+
+D. If a complexType is found that has neither complex content nor other
+   content, this prints an error message and exits.
+
+*/
+
+char * xmlSchemaOwlPrinter::findHasName(
+ char * haser,
+ char * elementName)
+{
+  XmlComplexType * complx;
+  XmlComplexContent * complxCont;
+  XmlOtherContent * otherCont;
+  XmlComplexExtension * extend;
+  XmlSequence * sequence;
+  XmlElementLocal * element;
+  std::list<XmlChoSeqItem *>::iterator iter;
+
+  snprintf(nameBuffer, NAMESIZE, "%sType", haser);
+  complx = findComplexClass(nameBuffer);
+  if (complx == 0)
+    {
+      fprintf(stderr, "Cannot find complex class %s\n", nameBuffer);
+      exit(1);
+    }
+  if ((complxCont = dynamic_cast<XmlComplexContent *>(complx->item)))
+    {
+      if ((extend = dynamic_cast<XmlComplexExtension *>(complxCont->item)))
+	{
+	  if (extend->item &&
+	      (sequence = dynamic_cast<XmlSequence *>(extend->item)) &&
+	      sequence->items)
+	    {
+	      for (iter = sequence->items->begin();
+		   iter != sequence->items->end(); iter++)
+		{
+		  if ((element = dynamic_cast<XmlElementLocal *>(*iter)) &&
+		      (strcmp(element->newName, elementName) == 0))
+		    {
+		      deTypeName(complx->newName, nameBuffer);
+		      return nameBuffer;
+		    }
+		}
+	    }
+	  deTypeName(extend->base, otherName);
+	  return findHasName(otherName, elementName);
+	}
+      else
+	{
+	  fprintf(stderr, "findHasName can handle only extension\n");
+	  exit(1);
+	}
+    }
+  else if ((otherCont = dynamic_cast<XmlOtherContent *>(complx->item)))
+    {
+      deTypeName(complx->newName, nameBuffer);
+      return nameBuffer;
+    }
+  else
+    {
+      fprintf(stderr, "Unknown complex type in findHasName\n");
+      exit(1);
+    }
+  return 0;
+}
+
+/********************************************************************/
+
 /* xmlSchemaOwlPrinter::findSimpleClass
 
 Returned Value: XmlSimpleType *
@@ -1461,7 +1556,9 @@ Returned Value: none
 
 Called By: xmlSchemaOwlPrinter::printOwlElementRefable
 
-This prints only XmlKey.
+This prints only XmlKey. This might print, for example
+
+HasKey(:KitTray (:hasSkuObject_Sku) (:hasKitTray_SerialNumber))
 
 If elementName is 0, that means the constraint is in the top level element.
 In this case, the selector xpath must be of the form .//XXX, where XXXType
@@ -1484,6 +1581,14 @@ xpath must be only an element name. For example:
       <xs:field xpath="SerialNumber"/>
     </xs:key>
 
+The field name YYY may be the name of an element inherited from an ancestor
+type XXX. For example, SkuName might be inherited from SkuObjectType, which
+is the parent type of KitTrayType. In that case, we need to find the
+most distant ancestor that has the field in order to construct the
+correct hasXXX_YYY property name, for example hasSkuObject_Sku. This is
+made somewhat messier by the need to remove Name from the end of any field
+that ends in Name.
+
 */
 
 void xmlSchemaOwlPrinter::printOwlIdConstraint( /* ARGUMENTS                 */
@@ -1493,6 +1598,7 @@ void xmlSchemaOwlPrinter::printOwlIdConstraint( /* ARGUMENTS                 */
 {
   XmlKey * ky;
   char * haser;
+  char * hasName;
   std::list<XmlField *>::iterator iter;
   char fieldName[NAMESIZE];
   int length;
@@ -1523,11 +1629,12 @@ void xmlSchemaOwlPrinter::printOwlIdConstraint( /* ARGUMENTS                 */
       fprintf(outFile, "\nHasKey(:%s", haser);
       for (iter = ky->fields->begin(); iter != ky->fields->end(); iter++)
 	{ // if the field xpath ends in Name, get rid of Name
+	  hasName = findHasName(haser, (*iter)->xpath);
 	  strncpy(fieldName, (*iter)->xpath, NAMESIZE);
 	  length = strlen(fieldName) - 4;
 	  if ((length > 0) && (strcmp((fieldName + length), "Name") == 0))
 	    fieldName[length] = 0;
-	  fprintf(outFile, " (:has%s_%s)", haser, fieldName);
+	  fprintf(outFile, " (:has%s_%s)", hasName, fieldName);
 	} 
       fprintf(outFile, ")\n");
     }

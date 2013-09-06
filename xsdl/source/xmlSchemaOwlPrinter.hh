@@ -26,6 +26,7 @@ public:
   void enterKid(XmlComplexType * parent, XmlComplexType * kid);
   void enterKids();
   XmlComplexType * findComplexClass(char * name);
+  char * findHasName(char * haser, char * elementName);
   XmlSimpleType * findSimpleClass(char * name);
   void printOwlAnnotation(XmlAnnotation * annotation, FILE * outFile);
   void printOwlChoSeqItem(XmlChoSeqItem * item, FILE * outFile);

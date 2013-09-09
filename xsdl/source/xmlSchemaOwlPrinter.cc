@@ -76,8 +76,6 @@ This does not handle the following XML schema constructs:
   substitutionGroup
   unique
 
-TODO - See items marked "FIX".
-
 The handling of XSDL keys is complex. This is because XSDL keys are
 element-based and apply only to specified instances of a type, while
 OWL hasKey statements are type-based and apply to all instances of a
@@ -231,24 +229,23 @@ Returned Value: none
 
 Called By:  main
 
-This calls enterElementInfo for every XmlElementLocal in the XML schema.
-These are all descended from the classes list. The XmlElementLocals are
-found in the items lists of sequences and choices in complex types of
-the classes list.
+This builds the disjointClasses list from the complexTypes in the
+schema. This also checks for types that cannot be handled. It exits if
+any such types are found.
+
+This is allowing a choice, but choice is disallowed later.
 
 */
 
 void xmlSchemaOwlPrinter::buildElementInfo()/* NO ARGUMENTS */
 {
   XmlComplexType * complx;
-  XmlSimpleType * simple;
   XmlOtherContent * other;
   XmlComplexContent * comp;
   XmlComplexExtension * extend;
   XmlSequence * sequence;
   XmlChoice * choice;
   XmlElementLocal * elementLocal;
-  //XmlElementRefable * elementRef;
   std::list<XmlType *>::iterator iter;
   std::list<XmlChoSeqItem *> * items;
   std::list<XmlChoSeqItem *>::iterator ator;
@@ -301,10 +298,6 @@ void xmlSchemaOwlPrinter::buildElementInfo()/* NO ARGUMENTS */
 			      elementLocal->name);
 		      exit(1);
 		    }
-		  complx = findComplexClass(elementLocal->newTyp);
-		  simple = findSimpleClass(elementLocal->newTyp);
-		  enterElementInfo
-		    (new elementInfo (elementLocal, complx, simple));
 		}
 	    }
 	}
@@ -355,7 +348,7 @@ Called By:
   xmlSchemaOwlPrinter::printOwlComplexType
   xmlSchemaOwlPrinter::printOwlElementLocalComplex
   xmlSchemaOwlPrinter::printOwlElementLocalData
-  xmlSchemaOwlPrinter::printOwlSchema
+  xmlSchemaOwlPrinter::printOwlClassFile
 
 This checks that the name ends in "Type". If so, it copies the name into
 the buffer with "Type" removed. If not, it prints an error message and
@@ -451,140 +444,6 @@ void xmlSchemaOwlPrinter::enterClass( /* ARGUMENTS                 */
 
 /********************************************************************/
 
-/* xmlSchemaOwlPrinter::enterElementInfo
-
-Returned Value: none
-
-Called By:  xmlSchemaOwlPrinter::buildElementInfo
-
-MOST OF THIS DOCUMENTATION IS IRRELEVANT. THE FUNCTION WAS TAKEN FROM
-ANOTHER SOFTWARE SYSTEM AND CAN PROBABLY BE SIMPLIFIED.
-
-This assigns a prodBase name to each element that arrives in an elementInfo,
-which is normally all elements in the schema.
-
-The prodBase name has two to four parts. In general, it has the form A_B_C_D
-
-A is the newName of the element.
-B is the newName of the type of the element.
-_C is used only if the element is optional, in which case C is a zero.
-_D is used only if the element is a list (may occur zero times or more
-   than once). If the list is unbounded, D is u. Otherwise, D is the 
-   upper limit on the size of the list.
-
-For example, if the newName of the element is foo, the newName of the
-type of the element is bar, the element is optional, and it may occur
-at most three times, the prodBase name will be foo_bar_0_3.
-
-If an info with the same prodBase name is not already on the
-elementInfos list, this inserts the info in the elementInfos list in
-alphabetical order (by element name and then type name).
-
-The info argument may be a duplicate of an elementInfo already on the
-list for two reasons.
-1. Two or more different XML types may use elements with the same
-name and type.
-2. When an XmlComplexExtension is being processed, this function will be
-called for each element of the parent type and the child type.  Since
-the parent type elements are also processed here when the parent type
-is being handled, elements of the parent type will be processed more
-than once.
-
-Any particular element name may be used in more than one place in an
-XML schema, so the names of the elements in the elementInfos may not be
-unique. Thus, there may be several entries in elementInfos with the
-same element name.
-
-If both minOccurs and maxOccurs are zero, that is handled by using
-a list. The list will be required to have no elements.
-
-Recall that (1) for minOccurs, a negative value means no value was given,
-so the actual value is the default value, one, and (2) for maxOccurs,
-a value of -1 means "unbounded" was given, and a value of -2 or less means
-no value was given, so the actual value is the default value, one.
-
-This does not guarantee that the prodName is as unique as it needs to be
-since strange combinations of names could produce the same prodName.
-For example, the combination of foo_bar and baz will produce the same
-name as the combination of foo and bar_baz (foo_bar_baz). However, if
-that happens, compiler errors will occur, so it won't sneak through.
-
-This prints an error message and exits if the maximum of the number of
-times the element can occur is less than the minimum.
-
-This is not distinguishing names based on the minimum number of times
-the element may occur (unless it is zero) because the YACC rules that
-get generated do not include a minimum size test. The rules do include
-a maximum size test.
-
-
-*/
-
-void xmlSchemaOwlPrinter::enterElementInfo( /* ARGUMENTS                  */
- elementInfo * info)              /* elementInfo to put into elementInfos */
-{
-  std::list<elementInfo *>::iterator iter;
-  XmlElementLocal * element;
-  int maxi;
-  int mini;
-  int val;
-  int n;
-
-  static char prodBase[NAMESIZE];
-  static char typName[NAMESIZE];
-  element = info->element;
-  maxi = ((element->maxOccurs < -1) ? 1 : element->maxOccurs);
-  mini = ((element->minOccurs <  0) ? 1 : element->minOccurs);
-  if ((maxi != -1) && (maxi < mini))
-    {
-      fprintf(stderr,
-	      "maxOccurs, %d, must not be less than minOccurs, %d, in %s\n",
-	      maxi, mini, element->name);
-      exit(1);
-    }
-  if (info->complexType)
-    n = sprintf(prodBase, "%s_%s",
-		element->newName, info->complexType->newName);
-  else if (info->simpleType)
-    n = sprintf(prodBase, "%s_%s",
-		element->newName, info->simpleType->newName);
-  else
-    { // basic XML type
-      findCppTypeName(element->newTyp, typName);
-      n = sprintf(prodBase, "%s_%s", element->newName, typName);
-    }
-  if (mini == 0)
-    { // optional, so add _0 suffix
-      n += sprintf(prodBase+n, "_0");
-    }
-  if (maxi == -1)
-    { // unbounded list, so add _u suffix
-      sprintf(prodBase+n, "_u");
-    }
-  else if ((maxi > 1) || (maxi == 0))
-    { // list with a maximum size, so add _N suffix (N is max size)
-      sprintf(prodBase+n, "_%d", maxi);
-    }
-  element->prodBase = strdup(prodBase);
-  for (iter = elementInfos.begin(); iter != elementInfos.end(); iter++)
-    {
-      val = strcmp(element->prodBase, (*iter)->element->prodBase);
-      if (val == 0)
-	return; // already processed this element or one just like it
-      if (val <= 0)
-	{
-	  elementInfos.insert(iter, info);
-	  break;
-	}
-    }
-  if (iter == elementInfos.end())
-    {
-      elementInfos.push_back(info);
-    }
-}
-
-/********************************************************************/
-
 /* xmlSchemaOwlPrinter::enterKid
 
 Returned Value: none
@@ -671,7 +530,7 @@ Called By:
   xmlSchemaOwlPrinter::buildElementInfo
   xmlSchemaOwlPrinter::enterKids;
   xmlSchemaOwlPrinter::printOwlElementLocal
-  printOwlElementLocalComplex
+  xmlSchemaOwlPrinter::printOwlElementLocalComplex
 
 */
 
@@ -692,30 +551,97 @@ XmlComplexType * xmlSchemaOwlPrinter::findComplexClass( /* ARGUMENTS        */
 
 /********************************************************************/
 
-/* xmlSchemaOwlPrinter::findCppTypeName
+/* xmlSchemaOwlPrinter::findHasName
 
-Returned Value: none
+Returned Value: char *
+  This returns the detyped most distant ancestor of haser+Type that has
+  an element with the given elementName. That may be haser itself.
 
-Called By:  xmlSchemaOwlPrinter::enterElementInfo
+Called By: xmlSchemaOwlPrinter::printOwlIdConstraint
 
-This finds the C++ type name corresponding to the wg3 type name and
-copies it into the cppTypeName. All such names are formed by writing
-the prefix "Xml" followed by the wg3TypeName with the first letter in
-upper case.
+Note that this requires that the type of haser be haser concatenated with
+"Type"
 
-The names copied into cppTypeName are all the names of C++
-classes. Where the cppTypeName is used in the caller, a "*" will be
-added to change the type to a pointer. Using pointers makes it easy to
-handle optional items (as null pointers).
+A. If a complexType cannot be found whose name is haserType, this prints
+   an error message and exits.
+
+B. If a complexType is found with complex content
+B1. If haserType is an extension
+B1a. If haserType has a sequence with items
+B1a1. If elementName is the name of one of the elements in the sequence,
+     this returns haser.
+B1a2. Otherwise this calls itself recursively using the detyped name of
+      the base of the extension along with the elementName.
+B1b. Otherwise this calls itself recursively using the detyped name of
+      the base of the extension along with the elementName.
+B2. If haserType is not an extension, this prints an error message and exits.
+
+C. If a complexType is found with other content, this returns a string that
+   is the same as haser.
+
+D. If a complexType is found that has neither complex content nor other
+   content, this prints an error message and exits.
 
 */
 
-void xmlSchemaOwlPrinter::findCppTypeName( /* ARGUMENTS                     */
- char * wg3TypeName,                       /* name of XML type              */
- char * cppTypeName)                       /* array to put C++ type name in */
+char * xmlSchemaOwlPrinter::findHasName(
+ char * haser,
+ char * elementName)
 {
-  snprintf(cppTypeName, NAMESIZE, "Xml%c%s", toupper(wg3TypeName[0]),
-	   wg3TypeName+1);
+  XmlComplexType * complx;
+  XmlComplexContent * complxCont;
+  XmlOtherContent * otherCont;
+  XmlComplexExtension * extend;
+  XmlSequence * sequence;
+  XmlElementLocal * element;
+  std::list<XmlChoSeqItem *>::iterator iter;
+
+  snprintf(nameBuffer, NAMESIZE, "%sType", haser);
+  complx = findComplexClass(nameBuffer);
+  if (complx == 0)
+    {
+      fprintf(stderr, "Cannot find complex class %s\n", nameBuffer);
+      exit(1);
+    }
+  if ((complxCont = dynamic_cast<XmlComplexContent *>(complx->item)))
+    {
+      if ((extend = dynamic_cast<XmlComplexExtension *>(complxCont->item)))
+	{
+	  if (extend->item &&
+	      (sequence = dynamic_cast<XmlSequence *>(extend->item)) &&
+	      sequence->items)
+	    {
+	      for (iter = sequence->items->begin();
+		   iter != sequence->items->end(); iter++)
+		{
+		  if ((element = dynamic_cast<XmlElementLocal *>(*iter)) &&
+		      (strcmp(element->newName, elementName) == 0))
+		    {
+		      deTypeName(complx->newName, nameBuffer);
+		      return nameBuffer;
+		    }
+		}
+	    }
+	  deTypeName(extend->base, otherName);
+	  return findHasName(otherName, elementName);
+	}
+      else
+	{
+	  fprintf(stderr, "findHasName can handle only extension\n");
+	  exit(1);
+	}
+    }
+  else if ((otherCont = dynamic_cast<XmlOtherContent *>(complx->item)))
+    {
+      deTypeName(complx->newName, nameBuffer);
+      return nameBuffer;
+    }
+  else
+    {
+      fprintf(stderr, "Unknown complex type in findHasName\n");
+      exit(1);
+    }
+  return 0;
 }
 
 /********************************************************************/
@@ -854,6 +780,68 @@ void xmlSchemaOwlPrinter::printOwlChoSeqItem(/* ARGUMENTS                */
 
 /********************************************************************/
 
+/* xmlSchemaOwlPrinter::printOwlClassFile
+
+Returned Value: none
+
+Called By: main
+
+*/
+
+void xmlSchemaOwlPrinter::printOwlClassFile(/* ARGUMENTS                    */
+ XmlSchema * schema,                        /* XML schema to print OWL from */
+ char * URL,                                /* URL to use in header         */
+ FILE * outFile)                            /* OWL file to print in         */
+{
+  std::list<XmlSchemaContent1 *>::iterator iter;
+  std::list<XmlSchemaContent2 *>::iterator ator;
+  std::list<XmlComplexType *>::iterator eter;
+  std::list<XmlSimpleType *>::iterator otor;
+
+  printOwlSchemaHeader(schema->header, URL, outFile);
+  className[0] = 0;
+  for (iter = schema->contents1->begin();
+       iter != schema->contents1->end(); iter++)
+    printOwlSchemaContent1(*iter, outFile);
+  topElement = 0;
+  for (ator = schema->contents2->begin();
+       ator != schema->contents2->end(); ator++)
+    saveOwlSchemaContent2(*ator);
+  if (topElement == 0)
+    {
+      fprintf(stderr, "there must be one top-level element\n");
+      exit(1);
+    }
+  printOwlElementRefable(topElement, outFile);
+  if (simpleTypes.size())
+    {
+      fprintf(outFile, "\n\n");
+      for (otor = simpleTypes.begin(); otor != simpleTypes.end(); otor++)
+	printOwlSimpleType(*otor, outFile);
+    }
+  if (complexTypes.size())
+    {
+      for (eter = complexTypes.begin(); eter != complexTypes.end(); eter++)
+	printOwlComplexType(*eter, outFile);
+    }
+  if (disjointClasses.size() > 1)
+    {
+      fprintf(outFile, "\nDisjointClasses(");
+      eter = disjointClasses.begin();
+      deTypeName((*eter)->name, nameBuffer);
+      fprintf(outFile, ":%s", nameBuffer);
+      for (eter++; eter != disjointClasses.end(); eter++)
+	{
+	  deTypeName((*eter)->name, nameBuffer);
+	  fprintf(outFile, "\n                :%s", nameBuffer);
+	}
+      fprintf(outFile, ")\n");
+    }
+  fprintf(outFile, ")\n");
+}
+
+/********************************************************************/
+
 /* xmlSchemaOwlPrinter::printOwlComplexContent
 
 Returned Value: none
@@ -943,7 +931,7 @@ void xmlSchemaOwlPrinter::printOwlComplexExtension( /* ARGUMENTS            */
 
 Returned Value: none
 
-Called By: xmlSchemaOwlPrinter::printOwlSchema
+Called By: xmlSchemaOwlPrinter::printOwlClassFile
 
 */
 
@@ -969,6 +957,7 @@ void xmlSchemaOwlPrinter::printOwlComplexType( /* ARGUMENTS             */
     printOwlAnnotation(complx->frontNote, outFile);
   if (complx->extensions)
     {
+      fprintf(outFile, "\n");
       for (iter = complx->extensions->begin();
 	   iter != complx->extensions->end(); iter++)
 	{
@@ -1042,13 +1031,55 @@ Returned Value: none
 
 Called By: xmlSchemaOwlPrinter::printOwlAnnotation
 
-This skips leading and trailing white space. Where the text has (1) a
-newline, a carriage return, or both followed by (2) three or more spaces,
-this prints the newline and/or carriage return followed by two spaces.
+This expects doc->text to be formatted with 8 or more spaces at the
+beginning of each line. This echos the text while modifying it as
+follows. The doc->text must be prepared so that the modifications are
+what is needed to convert XML schema documentation to OWL
+documentation.
 
-FIX - make this delete lines containing only the one word "Name"
+1. Initial and trailing white space is removed so that the quotes printed
+   by printOwlAnnotation are right next to the documentation text.
+2. The string "Type" is removed everywhere.
+3. The string "          Name\n" is removed everywhere.
+4. The string "          Name (inherited)\n" is removed everywhere.
+5. The string "Name (IDREF)" is removed everywhere.
+6. The string "Name (IDREF, " is converted to " (" everywhere.
+7. The string "following elements" is converted to "following" everywhere.
+8. Six of the first eight spaces on each line are removed.
 
-FIX - make this change strings of the form xxxName(IDREF) to xxx.
+Example:
+
+This in the XML schema
+
+  <xs:complexType name="VectorType">
+    <xs:annotation>
+      <xs:documentation>
+        VectorType is derived from DataThingType.
+        An instance of VectorType has the following elements:
+          Name (inherited)
+          I
+          J
+          K.
+ 
+        The I, J, and K elements represent the usual i, j, and k
+        components of a 3D vector.
+      </xs:documentation>
+    </xs:annotation>
+    ...
+
+becomes this in the OWL class file
+
+Declaration(Class(:Vector))
+AnnotationAssertion(rdfs:comment :Vector
+  "Vector is derived from DataThing.
+  An instance of Vector has the following:
+    I
+    J
+    K.
+ 
+  The I, J, and K elements represent the usual i, j, and k
+  components of a 3D vector.")
+  ...
 
 */
 
@@ -1058,32 +1089,74 @@ void xmlSchemaOwlPrinter::printOwlDocumentation( /* ARGUMENTS              */
 {
   int n;
   char * tex;
-  bool newLine;
 
-  if (doc->text)
+  tex = doc->text;
+  if (tex == 0)
+    return;
+  for (n = (strlen(tex) - 1); // remove trailing white space
+       ((tex[n] == 10) || (tex[n] == 13) ||
+	(tex[n] == 32) || (tex[n] ==  9)); n--);
+  tex[n+1] = 0;
+  for (n = 0; ((tex[n] == 10) || (tex[n] == 13) ||      // skip initial
+	       (tex[n] == 32) || (tex[n] ==  9)); n++); // white space
+  while (tex[n])
     {
-      tex = doc->text;
-      for (n = (strlen(tex) - 1);
-	   ((tex[n] == 10)   || (tex[n] == 13) ||
-	    (tex[n] == '\t') || (tex[n] == ' ')); n--);
-      tex[n+1] = 0;
-      for (n = 0; ((tex[n] == 10)   || (tex[n] == 13) ||
-		   (tex[n] == '\t') || (tex[n] == ' ')); n++);
-      newLine = false;
-      for (; tex[n]; n++)
-	{ // skip consecutive newlines and carriage returns
-	  for (; ((tex[n] == 10) || (tex[n] == 13)); n++)
-	    newLine = true;
-	  if (newLine)
-	    { // skip space at beginning of new line
-	      for (; ((tex[n] == '\t') || (tex[n] == ' ')); n++);
-	      newLine = false;
-	      if (tex[n])
-		{ 
-		  fprintf(outFile, "\n  ");
-		}
+      if (tex[n] == ' ')
+	{
+	  if ((strncmp(tex+n, "          Name", 14) == 0) &&
+	      ((tex[n+14] == 10) || (tex[n+14] == 13)))
+	    {
+	      n += 15;
+	      for ( ; ((tex[n] == 10) || (tex[n] == 13)); n++);
 	    }
-	  fputc(tex[n], outFile);
+	  else if ((strncmp(tex+n, "          Name (inherited)", 26) == 0) &&
+	      ((tex[n+26] == 10) || (tex[n+26] == 13)))
+	    {
+	      n += 27;
+	      for ( ; ((tex[n] == 10) || (tex[n] == 13)); n++);
+	    }
+	  else if (strncmp(tex+n, "        ", 8) == 0)
+	    n += 6;
+	  else
+	    fputc(tex[n++], outFile);
+	}
+      else if ((tex[n] == 10) || (tex[n] == 13))
+	{
+	  for (n++; ((tex[n] == 10) || (tex[n] == 13)); n++);
+	  fputc('\n', outFile);
+	}
+      else if (tex[n] == 'T')
+	{
+	  if (strncmp(tex+n, "Type", 4) == 0)
+	    n += 4;
+	  else
+	    fputc(tex[n++], outFile);
+	}
+      else if (tex[n] == 'N')
+	{
+	  if (strncmp(tex+n, "Name (IDREF)", 12) == 0)
+	    n += 12;
+	  else if (strncmp(tex+n, "Name (IDREF, ", 13) == 0)
+	    {
+	      fprintf(outFile, " (");
+	      n += 13;
+	    }
+	  else
+	    fputc(tex[n++], outFile);
+	}
+      else if (tex[n] == 'f')
+	{
+	  if (strncmp(tex+n, "following elements", 18) == 0)
+	    {
+	      fprintf(outFile, "following");
+	      n += 18;
+	    }
+	  else
+	    fputc(tex[n++], outFile);
+	}
+      else
+	{
+	  fputc(tex[n++], outFile);
 	}
     }
 }
@@ -1405,7 +1478,7 @@ void xmlSchemaOwlPrinter::printOwlElementLocalIDREF( /* ARGUMENTS            */
 
 Returned Value: none
 
-Called By: xmlSchemaOwlPrinter::printOwlSchema
+Called By: xmlSchemaOwlPrinter::printOwlClassFile
 
 The root element of an XML schema (which, by convention, is the first
 thing in the schema file after the header) is an XmlElementRefable.
@@ -1483,7 +1556,9 @@ Returned Value: none
 
 Called By: xmlSchemaOwlPrinter::printOwlElementRefable
 
-This prints only XmlKey.
+This prints only XmlKey. This might print, for example
+
+HasKey(:KitTray (:hasSkuObject_Sku) (:hasKitTray_SerialNumber))
 
 If elementName is 0, that means the constraint is in the top level element.
 In this case, the selector xpath must be of the form .//XXX, where XXXType
@@ -1506,6 +1581,14 @@ xpath must be only an element name. For example:
       <xs:field xpath="SerialNumber"/>
     </xs:key>
 
+The field name YYY may be the name of an element inherited from an ancestor
+type XXX. For example, SkuName might be inherited from SkuObjectType, which
+is the parent type of KitTrayType. In that case, we need to find the
+most distant ancestor that has the field in order to construct the
+correct hasXXX_YYY property name, for example hasSkuObject_Sku. This is
+made somewhat messier by the need to remove Name from the end of any field
+that ends in Name.
+
 */
 
 void xmlSchemaOwlPrinter::printOwlIdConstraint( /* ARGUMENTS                 */
@@ -1515,6 +1598,7 @@ void xmlSchemaOwlPrinter::printOwlIdConstraint( /* ARGUMENTS                 */
 {
   XmlKey * ky;
   char * haser;
+  char * hasName;
   std::list<XmlField *>::iterator iter;
   char fieldName[NAMESIZE];
   int length;
@@ -1545,11 +1629,12 @@ void xmlSchemaOwlPrinter::printOwlIdConstraint( /* ARGUMENTS                 */
       fprintf(outFile, "\nHasKey(:%s", haser);
       for (iter = ky->fields->begin(); iter != ky->fields->end(); iter++)
 	{ // if the field xpath ends in Name, get rid of Name
+	  hasName = findHasName(haser, (*iter)->xpath);
 	  strncpy(fieldName, (*iter)->xpath, NAMESIZE);
 	  length = strlen(fieldName) - 4;
 	  if ((length > 0) && (strcmp((fieldName + length), "Name") == 0))
 	    fieldName[length] = 0;
-	  fprintf(outFile, " (:has%s_%s)", haser, fieldName);
+	  fprintf(outFile, " (:has%s_%s)", hasName, fieldName);
 	} 
       fprintf(outFile, ")\n");
     }
@@ -1852,72 +1937,11 @@ void xmlSchemaOwlPrinter::printOwlRestriction( /* ARGUMENTS            */
 
 /********************************************************************/
 
-/* xmlSchemaOwlPrinter::printOwlSchema
-
-Returned Value: none
-
-Called By: xmlSchemaOwlPrinter::printOwlSchemaFile
-
-*/
-
-void xmlSchemaOwlPrinter::printOwlSchema( /* ARGUMENTS                    */
- XmlSchema * schema,                      /* XML schema to print OWL from */
- FILE * outFile)                          /* OWL file to print in         */
-{
-  std::list<XmlSchemaContent1 *>::iterator iter;
-  std::list<XmlSchemaContent2 *>::iterator ator;
-  std::list<XmlComplexType *>::iterator eter;
-  std::list<XmlSimpleType *>::iterator otor;
-
-  printOwlSchemaHeader(schema->header, outFile);
-  className[0] = 0;
-  for (iter = schema->contents1->begin();
-       iter != schema->contents1->end(); iter++)
-    printOwlSchemaContent1(*iter, outFile);
-  topElement = 0;
-  for (ator = schema->contents2->begin();
-       ator != schema->contents2->end(); ator++)
-    saveOwlSchemaContent2(*ator);
-  if (topElement == 0)
-    {
-      fprintf(stderr, "there must be one top-level element\n");
-      exit(1);
-    }
-  printOwlElementRefable(topElement, outFile);
-  if (simpleTypes.size())
-    {
-      fprintf(outFile, "\n\n");
-      for (otor = simpleTypes.begin(); otor != simpleTypes.end(); otor++)
-	printOwlSimpleType(*otor, outFile);
-    }
-  if (complexTypes.size())
-    {
-      for (eter = complexTypes.begin(); eter != complexTypes.end(); eter++)
-	printOwlComplexType(*eter, outFile);
-    }
-  if (disjointClasses.size() > 1)
-    {
-      fprintf(outFile, "\nDisjointClasses(");
-      eter = disjointClasses.begin();
-      deTypeName((*eter)->name, nameBuffer);
-      fprintf(outFile, ":%s", nameBuffer);
-      for (eter++; eter != disjointClasses.end(); eter++)
-	{
-	  deTypeName((*eter)->name, nameBuffer);
-	  fprintf(outFile, "\n                :%s", nameBuffer);
-	}
-      fprintf(outFile, ")\n");
-    }
-  fprintf(outFile, ")\n");
-}
-
-/********************************************************************/
-
 /* xmlSchemaOwlPrinter::printOwlSchemaContent1
 
 Returned Value: none
 
-Called By: xmlSchemaOwlPrinter::printOwlSchema
+Called By: xmlSchemaOwlPrinter::printOwlClassFile
 
 */
 
@@ -1939,35 +1963,17 @@ XmlSchemaContent1 * content1,                     /* content1 item to print */
 
 /********************************************************************/
 
-/* xmlSchemaOwlPrinter::printOwlSchemaFile
-
-Returned Value: none
-
-Called By:  main
-
-*/
-
-void xmlSchemaOwlPrinter::printOwlSchemaFile( /* ARGUMENTS            */
- XmlSchemaFile * schemaFile,                  /* schema file to print */
- FILE * outFile)                              /* OWL file to print in */
-{
-  printOwlSchema(schemaFile->schema, outFile);
-}
-
-/********************************************************************/
-
 /* xmlSchemaOwlPrinter::printOwlSchemaHeader
 
 Returned Value: none
 
-Called By:  xmlSchemaOwlPrinter::printOwlSchema
-
-FIX - get "kittingClasses" from XML schema
+Called By:  xmlSchemaOwlPrinter::printOwlClassFile
 
 */
 
 void xmlSchemaOwlPrinter::printOwlSchemaHeader( /* ARGUMENTS              */
  XmlSchemaHeader * header,                      /* schema header to print */
+ char * URL,                                    /* URL to use in header   */
  FILE * outFile)                                /* OWL file to print in   */
 {
     fprintf(outFile,
@@ -1976,9 +1982,9 @@ void xmlSchemaOwlPrinter::printOwlSchemaHeader( /* ARGUMENTS              */
 "Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n"
 "Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n"
 "Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n"
-"Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)\n"
+"Prefix(:=<%s#>)\n"
 "\n"
-"Ontology(<http://www.nist.gov/el/ontologies/kittingClasses.owl>\n");
+"Ontology(<%s>\n", URL, URL);
 }
 
 /********************************************************************/
@@ -2152,7 +2158,7 @@ void xmlSchemaOwlPrinter::printOwlSimpleRestriction( /* ARGUMENTS            */
 
 Returned Value: none
 
-Called By: xmlSchemaOwlPrinter::xmlSchemaOwlPrinter::printOwlSchema
+Called By: xmlSchemaOwlPrinter::printOwlClassFile
 
 */
 
@@ -2203,7 +2209,7 @@ void xmlSchemaOwlPrinter::printOwlSimpleType( /* ARGUMENTS            */
 
 Returned Value: none
 
-Called By:  xmlSchemaOwlPrinter::printOwlSchema
+Called By:  xmlSchemaOwlPrinter::printOwlClassFile
 
 */
 
@@ -2249,6 +2255,16 @@ xmlSchemaOwlPrinter::~xmlSchemaOwlPrinter() {}
 
 /********************************************************************/
 
+/* main
+
+The first argument (argv[1]) is the name of an XML schema file,
+for example, kitting.xsd
+
+The second argument (argv[2]) is the URL used in the OWL file,
+for example, http://www.nist.gov/el/ontologies/kittingClasses.owl
+
+*/
+
 int main(       /* ARGUMENTS                                      */
  int argc,      /* one more than the number of command arguments  */
  char * argv[]) /* array of executable name and command arguments */
@@ -2258,9 +2274,11 @@ int main(       /* ARGUMENTS                                      */
   FILE * outFile;
   int nameLength;
 
-  if (argc != 2)
+  if (argc != 3)
     {
-      fprintf(stderr, "Usage: %s <schema file name>\n", argv[0]);
+      fprintf(stderr, "Usage: %s <schema file name> <URL>\n", argv[0]);
+      fprintf(stderr, "example: %s kit.xsd http://www.nist.gov/kit.owl\n",
+	      argv[0]);
       exit(1);
     }
   yyin = fopen(argv[1], "r");
@@ -2287,30 +2305,9 @@ int main(       /* ARGUMENTS                                      */
   snprintf(outFileName, (nameLength + 1), "%s", argv[1]);
   snprintf((outFileName + nameLength - 3), 4, "owl");
   outFile = fopen(outFileName, "w");
-  owler.printOwlSchemaFile(xmlSchemaFile, outFile);
+  owler.printOwlClassFile(xmlSchemaFile->schema, argv[2], outFile);
   fclose(outFile);
   return 0;
 }
 
 /********************************************************************/
-
-/* elementInfo functions
-
-two constructors and a destructor for the elementInfo class.
-
-*/
-
-elementInfo:: elementInfo() {}
-
-elementInfo:: elementInfo(
- XmlElementLocal * elementIn,
- XmlComplexType * complexTypeIn,
- XmlSimpleType * simpleTypeIn)
-{
-  element = elementIn;
-  complexType = complexTypeIn;
-  simpleType = simpleTypeIn;
-}
-
- elementInfo::~ elementInfo() {}
-

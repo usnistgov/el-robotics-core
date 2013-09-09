@@ -1,4 +1,5 @@
 #include "rosInf.hh"
+#include "robotDescription.hh"
 #include <stdio.h>
 
 RosInf::RosInf ()
@@ -113,11 +114,13 @@ void RosInf::setEffectorGoal(const usarsim_inf::EffectorCommand & command,
 */
 int RosInf::initArmNavigation ()
 {
-  NavigationGoal armGoal;
-  armGoal.setupActuator ();
+  std::string actuatorName;
+  std::string tipLink;
+  std::string baseLink;
+  RobotDescription::getPlanningInfo(actuatorName, tipLink, baseLink);
   moveArmClient =
     new actionlib::SimpleActionClient < arm_navigation_msgs::MoveArmAction >
-    ("move_" + armGoal.getActName (), true);
+    ("move_" + actuatorName, true);
   if (moveArmClient->waitForServer (ros::Duration (10.0)))
     {
       ROS_INFO ("Connected to navigation server.");
@@ -449,10 +452,17 @@ void RosInf::navigationDoneCallback (const actionlib::
   	      goalOrientation.x(), goalOrientation.y(), goalOrientation.z(), goalOrientation.w());
     if(navigationFailureCount < MAX_NAVIGATION_FAILURES)
     {
+    	if(NUDGE_FAILED_GOAL)
+    	{
+		  	NavigationGoal nudgedGoal = armGoals.front();
+		  	nudgedGoal.nudgeGoalOrientation();
+		  	armGoals[0] = nudgedGoal;
+    	}
       ROS_DEBUG("RosInf: Arm navigation failed to find a solution after %d tries, retrying...", navigationFailureCount);
       moveArmClient->sendGoal (armGoals.front ().getGoal (),
       boost::bind (&RosInf::navigationDoneCallback,
       this, _1, _2));
+      
     } else {
       
       if(LOG_FAILURES) {
@@ -530,11 +540,12 @@ void RosInf::addArmGoal (double x, double y, double z, double xRot, double yRot,
       nextGoal.setOrientationFrameType (COORDORIENT);
       nextGoal.setGlobalFrame(globalFrameName);
       nextGoal.setPositionTolerance (positionTolerance);
-      nextGoal.setOrientationTolerance (0.0001);
+      nextGoal.setOrientationTolerance (0.5);
 
       if (effectorAttached)
       {
         nextGoal.setTargetPointFrame (activeEffectorName);
+        //nextGoal.setTargetPointFrame("KR60Arm_link6");
       }
       nextGoal.movePosition (x, y, z);
       //      nextGoal.moveOffset (x, y, z);
@@ -598,6 +609,29 @@ void RosInf::addArmGoal (double x, double y, double z, double xAxisX,
 		  axisTransform.getRotation ().z (),
 		  axisTransform.getRotation ().w ());
     }
+}
+/**
+  \brief Add an arm joint goal for several joints to the queue
+  \param jointName Vector of target joint names
+  \param jointPosition Vector of target angles for the joints, in radians
+*/
+void RosInf::addArmJointGoal(std::vector<double> jointPosition)
+{
+  NavigationGoal nextGoal;
+  nextGoal.setupActuator();
+  nextGoal.setTransformListener (&listener);
+  
+  nextGoal.setJointConstraint(jointPosition);
+  nextGoal.clearPoseConstraints();
+  armGoals.push_back (nextGoal);
+  if (armGoals.size () == 1)	// if there were no goals in the queue already, send this one immediately
+  {
+    navigationFailureCount = 0;
+    moveArmClient->sendGoal (armGoals.front ().getGoal (),
+	         boost::bind (&RosInf::navigationDoneCallback,
+			      this, _1, _2));
+
+  }
 }
 /**
 	\brief Spin ROS, waiting for the object sensor callback to be called

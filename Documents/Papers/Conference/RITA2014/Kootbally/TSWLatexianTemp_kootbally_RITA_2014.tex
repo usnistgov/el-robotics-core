@@ -1,0 +1,103 @@
+% LaTex file for Stephen Balakirsky's RITA 2014 submission
+%
+\documentclass{llncs}
+%
+\usepackage{makeidx}  % allows for indexgeneration
+%
+% my additional packages
+\usepackage{graphicx}
+\usepackage{multirow,array}
+\usepackage{rotating} % for sideways
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{subfigure}
+
+%\usepackage{algorithm2e}
+\usepackage[linesnumbered, boxed, figure]{algorithm2e}
+%
+% zeid's definitions
+\newcommand{\class}[1] {\textit{#1}}
+\newcommand{\const}[1] {$\mathit{#1}$}
+\newcommand{\objvar}[1] {$\mathsf{#1}$}
+\newcommand{\stvar}[1] {\textsf{#1}}
+%
+%
+\begin{document}
+%
+\frontmatter          % for the preliminaries
+%
+\pagestyle{headings}  % switches on printing of running heads
+\addtocmark{Hamiltonian Mechanics} % additional mark in the TOC
+%
+%
+\mainmatter              % start of the contributions
+%
+%\title{Development of a Canonical Sensor Command/Response Language for Industrial Kit Building Applications}
+\title{Improve the Agility of Kit Building Applications via Virtual Sensor Tasking}
+%
+\titlerunning{Agile Manufacturing}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Zeid Kootbally\inst{1}, Craig Schlenoff\inst{2}, Teddy Weisman\inst{3}, Stephen Balakirsky\inst{4}, and Anthony Pietromartire\inst{2}}
+%
+\authorrunning{Zeid Kootbally et al.} % abbreviated author list (for running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+\tocauthor{Zeid Kootbally, Craig Schlenoff, Teddy Weisman, Stephen Balakirsky, and Anthony Pietromartire}
+%
+\institute{
+University of Maryland, College Park, MD 20740, USA,\\
+\email{zeid.kootbally@nist.gov},\\ WWW home page:
+\texttt{www.nist.gov/el/isd/ks/kootbally.cfm}
+\and 
+Intelligent Systems Division, National Institute of Standards and Technology, Gaithersburg, MD, USA,\\
+\email{craig.schlenoff@nist.gov, anthony.pietromartire@nist.gov},\\ 
+WWW home page:
+\texttt{www.nist.gov/el/smartcyber.cfm}
+\and
+Yale University, New Haven, CT 06520,\\
+\email{tjweisman@gmail.com}
+\and
+Georgia Tech Research Institute, Atlanta, GA 30332, USA,\\
+\email{stephen.balakirsky@gtri.gatech.edu},\\ 
+WWW home page: 
+\texttt{unmannedsystems.gtri.gatech.edu}
+}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+
+6 degree of freedom (6DOF) pose estimation of objects are required for robotic grasping and manipulation during kit building. Kit building or kitting is a process in which individually separate but related items are grouped, packaged, and supplied together as one unit (kit). It is anticipated that utilization of the knowledge representation will allow for the development of higher performing kitting systems.
+
+In this paper, kitting is performed by a robotic arm that manipulates parts/components (objects of interest) by following an ordered sequence of steps that constitute a plan. To prevent availability failures of objects of interest, it is necessary to know their pose estimation prior executing each step of the plan. This is performed by querying a simulated sensor system thus providing an agile system where the system can cope with objects of interest in the case they are moved within robotic work cells by external agents.
+
+This paper describes advances in developing key software, sensing/control, and parts-handling technologies enabling robust operation of kitting applications in simulation. In particular, an interface is presented and a description of the methodology tasking a sensor system to retrieve 6DOF pose estimation of objects of interest is given. \end{abstract}
+%
+%
+\input{introduction}
+\input{simulation}
+\input{architecture}
+\input{sensor}
+\input{conclusions}
+%
+%
+
+
+
+%
+% ---- Bibliography ----
+%
+\bibliographystyle{plain}
+\bibliography{rita2014}
+\clearpage
+\addtocmark[2]{Author Index} % additional numbered TOC entry
+\renewcommand{\indexname}{Author Index}
+\printindex
+\clearpage
+\addtocmark[2]{Subject Index} % additional numbered TOC entry
+\markboth{Subject Index}{Subject Index}
+\renewcommand{\indexname}{Subject Index}
+%\input{subjidx.ind}
+\end{document}

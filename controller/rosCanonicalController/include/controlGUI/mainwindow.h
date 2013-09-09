@@ -1,11 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "controlGUI/customcontrols.h"
+
 #include <QMainWindow>
 #include <QListWidget>
 #include <QThread>
+#include <QLabel>
+#include <QSignalMapper>
 #include <vector>
 #include <string>
+#include <urdf/model.h>
 #include "rosInf.hh"
 #include "controller.hh"
 #include "commandParser.hh"
@@ -16,6 +21,9 @@ namespace Ui {
 class MainWindow;
 }
 /**
+  \addtogroup controlGUI
+  @{
+
   \class RosCanonicalThread mainwindow.h
   \brief Main thread class for the canonical controller dequeueing loop.
   
@@ -44,7 +52,7 @@ Q_SIGNALS:
   \brief The main Qt window class for the application
   
   This class has pointers to the canonical controller objects and can queue CRCL commands, as
-  well as operate end effectors directly.
+  well as operate end effectors directly. It can also directly send joint goals to the move_arm controller using a slider interface.
 */
 class MainWindow : public QMainWindow
 {
@@ -66,8 +74,18 @@ private:
     RosInf *rosControl;
     RosCanonicalThread rosThread;
     std::vector<std::string> statusTopics;
+    std::vector<std::string> jointNames;
+    std::vector<boost::shared_ptr<JointSlider> > jointSliders;
+    std::vector<boost::shared_ptr<QLabel> > labels;
+    std::vector<boost::shared_ptr<JointEdit> > jointEdits;
+    std::vector<double> jointValues;
+    std::vector<double> realJtValues;
+    urdf::Model robotModel;
+    ros::Subscriber jointSub;
     
     void initRosNode();
+    void buildJointSliders();
+    void jointCallback(const sensor_msgs::JointStateConstPtr &ptr);
 
 public Q_SLOTS:
     void closeSelectedEffector();
@@ -78,6 +96,11 @@ public Q_SLOTS:
     void refreshEffectors();
     void sendCanonicalCommand();
     void setupRosUI();
+    void updateJoint(int index, double value);
+    void sendJointCommand();
+    void syncJointValues();
 };
+
+/** @} */
 
 #endif // MAINWINDOW_H

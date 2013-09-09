@@ -1,16 +1,21 @@
 #include "controlGUI/mainwindow.h"
 #include "ui_mainwindow.h"
+#include "robotDescription.hh"
 
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <stdio.h>
+#include <QSlider>
 #include <QString>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QFileDialog>
 #include <QListWidgetItem>
 #include <ctime>
+#include <cmath>
+
+#define DEFAULT_SLIDER_PRECISION 0.01
 
 /**
   \brief The main loop for the canonical controller thread
@@ -107,6 +112,15 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
   delete ui;
+  
+  if(rosControl != NULL) {
+    delete rosControl;
+    rosControl = NULL;
+  }
+  if(ctrl != NULL) {
+    delete ctrl;
+    ctrl = NULL;
+  }
 }
 /**
   \brief Stops canonical thread and clean up controllers
@@ -120,15 +134,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
   {
     rosThread.stopThread();
     rosThread.wait();
-  }
-  
-  if(rosControl != NULL) {
-    delete rosControl;
-    rosControl = NULL;
-  }
-  if(ctrl != NULL) {
-    delete ctrl;
-    ctrl = NULL;
   }
 }
 /**
@@ -189,25 +194,32 @@ void MainWindow::closeSelectedEffector()
 */
 void MainWindow::initRosNode()
 {    
-    //ROS configuration
-    std::string globalFrame;
-    ros::init(ros::VP_string(), "canonicalControllerGui");
-    ros::start();
-    ros::NodeHandle nh;
-    if(!nh.getParam("usarsim/globalFrame", globalFrame))
-    {
-      ROS_INFO("No global frame parameter specified, using default /odom");
-      globalFrame = "/odom";
-    }
-    
-    rosControl = new RosInf();
-    ctrl = new Controller();
-    rosControl->setGlobalFrame(globalFrame);
-    
-    rosThread.setupController(ctrl, rosControl);
-    rosThread.start();
-    
-    nodeStarted = true;
+  //ROS configuration
+  std::string globalFrame;
+  std::string robotDescription;
+  
+  ros::init(ros::VP_string(), "canonicalControllerGui");
+  ros::start();
+  ros::NodeHandle nh;
+  if(!nh.getParam("usarsim/globalFrame", globalFrame))
+  {
+    ROS_INFO("No global frame parameter specified, using default /odom");
+    globalFrame = "/odom";
+  }
+  if(nh.getParam("robot_description", robotDescription))
+  {
+    robotModel.initString(robotDescription);
+  }
+  jointSub = nh.subscribe("joint_states", 1, &MainWindow::jointCallback, this);
+
+  rosControl = new RosInf();
+  ctrl = new Controller();
+  rosControl->setGlobalFrame(globalFrame);
+
+  rosThread.setupController(ctrl, rosControl);
+  rosThread.start();
+
+  nodeStarted = true;
 }
 /**
   \brief Sends the canonical command in the command line to the controller
@@ -256,6 +268,7 @@ void MainWindow::sendCanonicalCommand()
 void MainWindow::setupRosUI()
 {    
   refreshEffectors();
+  buildJointSliders();
   
   ui->openButton->setEnabled(true);
   ui->closeButton->setEnabled(true);
@@ -326,4 +339,105 @@ void MainWindow::saveFile()
 			fclose(fp);
 		}
 	}
+}
+/**
+  \brief Set up the slider controllers for the arm joints
+  
+  This method reads joint names in from the robot_description parameter, and sets up an array of linked sliders in a new tab of the GUI window. The sliders can be synced to the current real position of the arm joints.
+*/
+void MainWindow::buildJointSliders()
+{
+  ros::NodeHandle nh;
+	XmlRpc::XmlRpcValue planningGroups;
+	jointNames.clear();
+	std::string baseLink, tipLink, actName;
+  if(RobotDescription::getPlanningInfo(actName, tipLink, baseLink))
+  {
+    RobotDescription::getJointNames(tipLink, baseLink, jointNames);
+    for(int i = 0;i<jointNames.size();i++)
+    {
+      //create sliders, labels, text boxes (using smart pointers)
+      boost::shared_ptr<JointSlider> slider = boost::shared_ptr<JointSlider> (new JointSlider(DEFAULT_SLIDER_PRECISION, this));
+      boost::shared_ptr<QLabel> label = boost::shared_ptr<QLabel>(new QLabel(QString(jointNames[i].c_str()), this));
+      boost::shared_ptr<JointEdit> lineEdit = boost::shared_ptr<JointEdit>(new JointEdit(this));
+      
+      //so we know to delete the extra widgets at cleanup
+      jointSliders.push_back(slider);
+      labels.push_back(label);
+      jointEdits.push_back(lineEdit);
+      
+      lineEdit->setMaximumWidth(50);
+      ui->sliderLayout->addWidget(label.get(), i, 0);
+      ui->sliderLayout->addWidget(slider.get(), i, 1);
+      ui->sliderLayout->addWidget(lineEdit.get(), i, 2);
+      
+      //read joint limits from robot model and set sliders
+      boost::shared_ptr<const urdf::Joint> jointPtr = robotModel.getJoint(jointNames[i]);
+      slider->setMinimum((int) round (jointPtr->limits->lower / DEFAULT_SLIDER_PRECISION));
+      slider->setMaximum((int) round (jointPtr->limits->upper / DEFAULT_SLIDER_PRECISION));
+      slider->setValue (0); //assume we start at 0 (ok since sliders don't update in realtime)
+      lineEdit->setLimits(jointPtr->limits->lower, jointPtr->limits->upper);
+      
+      lineEdit->jointIndex = i;
+      slider->jointIndex = i;
+      
+      jointValues.push_back(0.0);
+      lineEdit->setText("0.00");
+      connect(slider.get(), SIGNAL(sliderMoved(int)), lineEdit.get(), SLOT(syncToSlider()));
+      connect(lineEdit.get(), SIGNAL(editingFinished()), slider.get(), SLOT(syncToText()));
+      connect(slider.get(), SIGNAL(updateJoint(int, double)), this, SLOT(updateJoint(int, double)));
+      connect(lineEdit.get(), SIGNAL(updateJoint(int, double)), this, SLOT(updateJoint(int, double)));
+    }
+    ui->sendJointsButton->setEnabled(true);
+    ui->syncButton->setEnabled(true);
+    connect(ui->sendJointsButton, SIGNAL(clicked()), this, SLOT(sendJointCommand()));
+    connect(ui->syncButton, SIGNAL(clicked()), this, SLOT(syncJointValues()));
+	}
+}
+/**
+  \brief Qt slot to update internal joint goal
+*/
+void MainWindow::updateJoint(int index, double value)
+{
+  jointValues[index] = value;
+}
+/**
+  \brief Sends the joint goal to the ROS controller
+*/
+void MainWindow::sendJointCommand()
+{
+  rosControl->addArmJointGoal(jointValues);
+}
+/**
+  \brief Callback for joint_state subscriber.
+  
+  The GUI listens to the joint_state topics in order to update slider positions to the current (real) robot positions.
+*/
+void MainWindow::jointCallback(const sensor_msgs::JointStateConstPtr &ptr)
+{
+  realJtValues.resize(jointValues.size());
+  int jointsUpdated = 0;
+  for(unsigned int i = 0;i<ptr->name.size();i++)
+  {
+    std::vector<std::string>::iterator it = std::find(jointNames.begin(), jointNames.end(), ptr->name[i]);
+    if(it != jointNames.end())
+    {
+      int index = std::distance(jointNames.begin(), it);
+      realJtValues[index] = ptr->position[i];
+      if(++jointsUpdated >= realJtValues.size())
+        break;
+    }
+  }
+}
+/**
+  \brief Sets the joint sliders and text boxes to the real joint values
+*/
+void MainWindow::syncJointValues()
+{
+  for(unsigned int i = 0;i<realJtValues.size();i++)
+  {
+    jointValues[i] = realJtValues[i];
+    jointSliders[i]->setJoint(realJtValues[i]);
+    jointEdits[i]->setJoint(realJtValues[i]);
+  }
 }

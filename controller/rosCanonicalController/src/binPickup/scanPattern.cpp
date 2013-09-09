@@ -4,13 +4,18 @@
 #include "canonicalMsg.hh"
 #include "rosInf.hh"
 
+/**\addtogroup binPickup
+  @{
+*/
+
 /**
-  @brief Generates a move command to scan an area.
-  @param scanPattern Pointer to a message to set the command to
-  @param rosInf Pointer to the ROS interface
-  @param initPoint The point representing the top left corner of the scan pattern
-  @param length The scan pattern length
-  @param width The scan pattern width
+  \
+  \brief Generates a move command to scan an area.
+  \param scanPattern Pointer to a message to set the command to
+  \param rosInf Pointer to the ROS interface
+  \param initPoint The point representing the top left corner of the scan pattern
+  \param length The scan pattern length
+  \param width The scan pattern width
   
   This function generates a MoveThroughToMsg that can be queued by a CRCL controller to move the arm in a pattern that will scan the provided area. The pattern generated takes into account the height of the arm and the FOV of the object sensor to create the pattern.
 */
@@ -89,4 +94,6 @@ void generateScanPattern(MoveThroughToMsg *scanPattern, RosInf* rosInf, Point *i
 	scanPattern->num = numPoses;
 	scanPattern->poseLocations = poses;
 }
+
+/** @} */
 

@@ -2,8 +2,9 @@
 #define __rosInf
 
 #define INCH_TO_METER 0.0254
-#define MAX_NAVIGATION_FAILURES 30
+#define MAX_NAVIGATION_FAILURES 20
 
+#define NUDGE_FAILED_GOAL 0
 #define LOG_FAILURES 0
 #define EFFECTOR_TIMEOUT 2.0
 
@@ -25,6 +26,8 @@ enum EffectorType
   ROS_INF_TOOLCHANGER
 };
 /**
+  \addtogroup RosControl
+	@{
 	\class EffectorController rosInf.hh "rosInf.hh"
 	\brief Class to manage end effector subscriber callbacks and command publishers.
 	
@@ -86,6 +89,7 @@ public:
   void addArmGoal (double x, double y, double z, double xAxisX, double xAxisY,
 		   double xAxisZ, double zAxisX, double zAxisY,
 		   double zAxisZ);
+	void addArmJointGoal(std::vector<double> jointPosition);
   double getSensorFOV ();
   
   template<class M>
@@ -136,5 +140,7 @@ private:
     std::vector < std::string > findPartNames;
   void objectSensorCallback (const usarsim_inf::SenseObjectConstPtr & msg);
 };
+
+/** @} */
 
 #endif

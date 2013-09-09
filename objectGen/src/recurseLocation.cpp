@@ -207,6 +207,31 @@ void RecLoc::getRollPitchYaw(double *roll, double *pitch, double *yaw)
       *roll -= 2*M_PI;
     }
 
+void RecLoc::setRollPitchYaw(double roll, double pitch, double yaw)
+{
+	double cosRoll, sinRoll, cosPitch, sinPitch, cosYaw, sinYaw;
+	
+	cosRoll = cos(roll);
+	sinRoll = sin(roll);
+	cosPitch = cos(pitch);
+	sinPitch = sin(pitch);
+	cosYaw = cos(yaw);
+	sinYaw = sin(yaw);
+	
+	double xi, xj, xk, zi, zj, zk;
+	
+	xi = cosYaw * cosPitch;
+	xj = sinYaw * cosPitch;
+	xk = -sinPitch;
+	
+	zi = cosYaw * sinPitch * cosRoll + sinYaw * sinRoll;
+	zj = sinYaw * sinPitch * cosRoll - cosYaw * sinRoll;
+	zk = cosPitch * cosRoll;
+	
+	frame.setXAxis(xi, xj, xk);
+	frame.setZAxis(zi, zj, zk);
+}
+
 /*!
  @brief Constructor
  The constructor will clear out the global location.
@@ -329,7 +354,6 @@ int RecurseLocation::recurse(SolidObject *solidObject)
 	  poseLocation->getname().c_str(),
 	  (physicalLocation->gethasPhysicalLocation_RefObject())->getname().c_str());
   */
-
   mypoint = poseLocation->gethasPoseLocation_Point();
   mypoint->get(mypoint->getname());
   myrecLoc.frame.setPointName(mypoint->getname());
@@ -355,7 +379,7 @@ int RecurseLocation::recurse(SolidObject *solidObject)
   recLoc.push_back(myrecLoc);
   if (recurse( physicalLocation->gethasPhysicalLocation_RefObject()) == 0 )
     {
-      //      delete poseLocation;
+            delete poseLocation;
       return 0;
     }
   return 1;

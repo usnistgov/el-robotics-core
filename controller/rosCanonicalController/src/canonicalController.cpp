@@ -14,9 +14,12 @@
 RosInf *rosControl; // from rosInf.hh
 
 /**
+  \addtogroup rosCanonicalController
+	@{
 	\file canonicalController.cpp
 	
 	This file contains the implementation of the controller dequeuing thread and main function for the rosCanonicalController node.
+	
 */
 
 /**
@@ -30,10 +33,10 @@ dequeueThread (void *arg)
   Controller *ctrl = reinterpret_cast < Controller *>(arg);
   while(ros::ok())
   {
-  	  while(errReturn == 0)
+  	  while(ros::ok() && errReturn == 0)
   	  	errReturn = ctrl->dequeueMsgHigh(rosControl);
   	  errReturn = ctrl->dequeueMsgLow(rosControl);
-  	  while(!rosControl->checkCommandDone())
+  	  while(ros::ok() && !rosControl->checkCommandDone())
   	  {
   	    errReturn = ctrl->dequeueMsgHigh(rosControl);
   	    sleep(.1);
@@ -132,3 +135,5 @@ main (int argc, char* argv[])
   ros::shutdown();
   return 1;
 }
+
+/** @} */

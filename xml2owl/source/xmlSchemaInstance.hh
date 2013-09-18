@@ -449,6 +449,32 @@ public:
 
 /*********************************************************************/
 
+/* class XmlToken
+
+This is a class for handling XML basic type token.
+A token is a string with no white space at the front or back, and
+all white space substrings inside reduced to a single space.
+White space is 9, 10, 13 and 32 (tab, linefeed, carriage return, space).
+
+*/
+
+class XmlToken :
+  public XmlSchemaInstanceBase
+{
+public:
+  XmlToken();
+  XmlToken(
+    char * valIn);
+  ~XmlToken();
+  void printSelf(FILE * outFile);
+  bool XmlTokenIsBad();
+
+  std::string val;
+  bool bad;
+};
+
+/*********************************************************************/
+
 /* class XmlUnsignedInt
 
 This is a class for handling XML basic type unsignedInt.

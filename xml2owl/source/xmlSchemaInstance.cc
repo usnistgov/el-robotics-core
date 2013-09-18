@@ -1162,6 +1162,75 @@ void XmlString::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class XmlToken
+
+This is a class for handling XML basic type token.
+
+In the constructor that takes a char array, white space at the front
+and back of the char array is removed if there is any, and substrings
+of white space inside the char array are replaced by a single space.
+
+*/
+
+XmlToken::XmlToken()
+{
+  val = "";
+  bad = true;
+}
+
+XmlToken::XmlToken(
+  char * valIn)
+{
+  char * buffer;
+  int n;
+  int m;
+
+  buffer = new char[strlen(valIn) + 1];
+  strcpy(buffer, valIn);
+  for (n = 0; ((buffer[n] == 9)  || (buffer[n] == 10) ||
+	       (buffer[n] == 13) || (buffer[n] == 32)); n++);
+  for (m = 0; buffer[n]; n++)
+    {
+      if ((buffer[n] == 9)  || (buffer[n] == 10) ||
+	  (buffer[n] == 13) || (buffer[n] == 32))
+	{
+	  buffer[m++] = 32;
+	  for (n++; ((buffer[n] == 9)  || (buffer[n] == 10) ||
+		  (buffer[n] == 13) || (buffer[n] == 32)); n++);
+	  n--;
+	}
+      else
+	{
+	  buffer[m++] = buffer[n];
+	}
+    }
+  buffer[m] = 0;
+  if (buffer[m-1] == 32)
+    (buffer[m-1] = 0);
+  val = buffer; // automatic conversion
+  bad = false;
+  delete buffer;
+}
+
+XmlToken::~XmlToken() {}
+
+bool XmlToken::XmlTokenIsBad()
+{
+  return bad;
+}
+
+void XmlToken::printSelf(FILE * outFile)
+{
+  if (XmlTokenIsBad())
+    {
+      fprintf(stderr, "token value is bad\n");
+      exit(1);
+    }
+  fprintf(outFile, "%s", val.c_str());
+}
+
+/*********************************************************************/
+
 /* class XmlUnsignedInt
 
 This is a class for handling XML basic type unsignedInt.

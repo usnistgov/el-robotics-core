@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<KittingPlan
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../schema/kittingPlan.xsd">
+  <Name>test</Name>
+  <PlanId>test.xml</PlanId>
+  <PlanVersion>2013Sep16</PlanVersion>
+  <PlanDateAndTime>2013-09-16T18:49:00-05:00</PlanDateAndTime>
+  <PlanAuthor>Tom Kramer</PlanAuthor>
+  <PlanDescription>
+    The point of this plan is to test various control structures
+    and expressions. The plan is complete nonsense and is not executable.
+    In addition to instances of actions, the plan has named instances of:
+      AndType (binary boolean expression)
+      DecimalType (arithmetic constant)
+      EqualType (arithmetic comparison boolean expression)
+      FalseType (boolean constant)
+      GreaterType (arithmetic comparison boolean expression)
+      IfActionGroupType (control structure)
+      MinusType (binary arithmetic expression)
+      OrderedActionGroupType (control structure)
+      PartiallyOrderedActionGroupType (control structure)
+      PlusType (binary arithmetic expression)
+      PropValType  (arithmetic expression)
+      TrueType (boolean constant)
+      UnorderedActionGroupType (control structure)
+      VarValType (arithmetic expression)
+      VarSetType
+      WhileActionGroupType (control structure)
+    The plan also has implicit instances of:
+      ElseType
+      KittingPlanType
+      NumberedPlanElementType
+      StepWithPredecessorsType
+      TestAndStepType
+      VariableDeclarationType
+  </PlanDescription>
+  <Object>finished_kit_receiver</Object>
+  <Object>kit_tray_1</Object>
+  <Object>part_a_1</Object>
+  <Object>part_a_2</Object>
+  <Object>part_b_1</Object>
+  <Object>part_c_1</Object>
+  <Object>part_gripper</Object>
+  <Object>part_gripper_holder</Object>
+  <Object>robot_1</Object>
+  <Object>tray_gripper</Object>
+  <Object>tray_gripper_holder</Object>
+  <Object>work_table_1</Object>
+  <Variable>
+    <Name>X</Name>
+    <Val>0</Val>
+  </Variable>
+  <PlanRoot xsi:type="UnorderedActionGroupType">
+    <Name>plan_1</Name>
+    <Step xsi:type="IfActionGroupType">
+      <Name>if_group_1</Name>
+      <If>
+        <Name>if_1</Name>
+        <Test xsi:type="TrueType">
+          <Name>true_1</Name>
+        </Test>
+        <Step xsi:type="TakePartType">
+          <Name>take_part_a_1_1</Name>
+          <RobotName>robot_1</RobotName>
+          <PartName>part_a_1</PartName>
+        </Step>
+      </If>
+      <ElseIf>
+        <Name>test_2</Name>
+        <Test xsi:type="AndType">
+          <Name>and_1</Name>
+          <B1 xsi:type="TrueType">
+            <Name>true_2</Name>
+          </B1>
+          <B2 xsi:type="FalseType">
+            <Name>false_2</Name>
+          </B2>
+        </Test>
+        <Step xsi:type="TakePartType">
+          <Name>take_part_a_1_2</Name>
+          <RobotName>robot_1</RobotName>
+          <PartName>part_a_1</PartName>
+        </Step>
+      </ElseIf>
+      <ElseIf>
+        <Name>test_3</Name>
+        <Test xsi:type="EqualType">
+          <Name>equal_1</Name>
+          <A1 xsi:type="DecimalType">
+            <Name>equal_1_A1</Name>
+            <A>7</A>
+          </A1>
+          <A2 xsi:type="PlusType">
+            <Name>equal_1_A2</Name>
+            <A1 xsi:type="VarValType">
+              <Name>equal_1_A2_A1</Name>
+              <VarName>X</VarName>
+            </A1>
+            <A2 xsi:type="PropValType">
+              <Name>equal_1_A2_A2</Name>
+              <ThingName>tray_gripper</ThingName>
+              <Property>Length</Property>
+            </A2>
+          </A2>
+        </Test>
+        <Step xsi:type="TakePartType">
+          <Name>take_part_a_1_3</Name>
+          <RobotName>robot_1</RobotName>
+          <PartName>part_a_1</PartName>
+        </Step>
+      </ElseIf>
+      <Else>
+        <Name>else_1</Name>
+        <Step xsi:type="TakePartType">
+          <Name>take_part_a_1_4</Name>
+          <RobotName>robot_1</RobotName>
+          <PartName>part_a_1</PartName>
+        </Step>
+      </Else>
+    </Step>
+    <Step xsi:type="PartiallyOrderedActionGroupType">
+      <Name>group_1</Name>
+      <Step>
+        <Name>first_1</Name>
+        <SequenceNumber>1</SequenceNumber>
+        <PlanElement xsi:type="VarSetType">
+          <Name>set_X_1</Name>
+          <VarName>X</VarName>
+          <Val xsi:type="DecimalType">
+            <Name>set_X_1_Val</Name>
+            <A>10</A>
+          </Val>
+        </PlanElement>
+      </Step>
+      <Step>
+        <Name>second_1</Name>
+        <SequenceNumber>2</SequenceNumber>
+        <Predecessor>1</Predecessor>
+        <PlanElement xsi:type="WhileActionGroupType">
+          <Name>while_1</Name>
+          <Test xsi:type="GreaterType">
+            <Name>greater_1</Name>
+            <A1 xsi:type="VarValType">
+              <Name>greater_1_A1</Name>
+              <VarName>X</VarName>
+            </A1>
+            <A2 xsi:type="DecimalType">
+              <Name>greater_1_A12</Name>
+              <A>0</A>
+            </A2>
+          </Test>
+          <Step xsi:type="OrderedActionGroupType">
+            <Name>ordered_1</Name>
+            <Step>
+              <Name>first_2</Name>
+              <SequenceNumber>1</SequenceNumber>
+              <PlanElement xsi:type="TakePartType">
+                <Name>take_part_a_1_5</Name>
+                <RobotName>robot_1</RobotName>
+                <PartName>part_a_1</PartName>
+              </PlanElement>
+            </Step>
+            <Step>
+              <Name>second_2</Name>
+              <SequenceNumber>2</SequenceNumber>
+              <PlanElement xsi:type="VarSetType">
+                <Name>set_X_2</Name>
+                <VarName>X</VarName>
+                <Val xsi:type="MinusType">
+                  <Name>minus_1</Name>
+                  <A1 xsi:type="VarValType">
+                    <Name>minus_1_A1</Name>
+                    <VarName>X</VarName>
+                  </A1>
+                  <A2 xsi:type="DecimalType">
+                    <Name>minus_1_A2</Name>
+                    <A>1</A>
+                  </A2>
+                </Val>
+              </PlanElement>
+            </Step>
+          </Step>
+        </PlanElement>
+      </Step>
+    </Step>
+  </PlanRoot>
+
+</KittingPlan>

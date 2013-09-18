@@ -923,8 +923,9 @@
  
         PhysicalLocationType is an abstract type from which more specific
         types of physical location are derived. A PhysicalLocationType says
-        where a SolidObjectType is relative to its reference object. The
-        Timestamp element represents the most recent date and time when the
+        where a SolidObjectType is relative to its reference object.
+
+        Timestamp represents the most recent date and time when the
         location was updated.
       </xs:documentation>
     </xs:annotation>
@@ -1522,8 +1523,8 @@
           J
           K.
  
-        The I, J, and K elements represent the usual i, j, and k
-        components of a 3D vector.
+        I, J, and K represent the usual i, j, and k components of a 3D
+        vector.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>

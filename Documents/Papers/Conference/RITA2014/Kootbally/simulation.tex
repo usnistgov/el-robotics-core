@@ -1,19 +1,12 @@
-\section{Simulation Environment}
 \label{sect:simulation}
-
-In order to experiment with robotic systems, a researcher requires a controllable robotic platform, a control system that interfaces to the robotic system and provides behaviors for the robot to carry out, and an environment to operate in. Our kitting application relies on an open source (the game engine is free, but license restrictions do apply), freely available framework capable of fulfilling all of these requirements. This framework is composed of the Unified System for Automation and Robot Simulation (USARSim) \cite{USARSimWeb} framework that provides the robotic platform and environment, and the Operating System (ROS)\footnote{Certain commercial software and tools are identified in this paper in order to explain our research. Such identification does not imply recommendation or endorsement by the authors, nor does it imply that the software tools identified are necessarily the best available for the purpose.}\cite{ROSWeb} framework that provides the control system.
+In order to experiment with robotic systems, a researcher requires a controllable robotic platform, a control system that interfaces to the robotic system and provides behaviors for the robot to carry out, and an environment to operate in. Our kitting application relies on an open source (the game engine is free, but license restrictions do apply), freely available framework capable of fulfilling all of these requirements. This framework is the Unified System for Automation and Robot Simulation (USARSim) \cite{USARSimWeb}. It provides the robotic platform and environment.
 
 \subsection{The USARSim Framework}
 
-USARSim~\cite{CARPIN.LNAI.2006,WANG.WSC.2003} is a high-fidelity physics-based simulation system based on the Unreal Developers Kit (UDK)~\cite{UDKWeb} from Epic Games. USARSim was originally developed under a National Science Foundation grant to study Robot, Agent, Person Teams in Urban Search and Rescue~\cite{LEWIS.ICHC.2003}. Since that time, it has been turned into a National Institute of Standards and Technology (NIST)-led, community-supported open source project that provides validated models of robots, sensors, and environments.
+USARSim~\cite{CARPIN.LNAI.2006,WANG.WSC.2003} is a high-fidelity physics-based simulation system based on the Unreal Developers Kit (UDK)~\cite{UDKWeb} from Epic Games. USARSim was originally developed under a National Science Foundation grant to study Robot, Agent, Person Teams in Urban Search and Rescue~\cite{LEWIS.ICHC.2003}. Since that time, it has been turned into a National Institute of Standards and Technology (NIST)-led, community-supported open source project that provides validated models of robots, sensors, and environments. Altogether, the Karma Physics engine~\cite{KarmEngine} and high-quality 3D rendering facilities of the Unreal game engine allow the creation of realistic simulation environments that provide the embodiment of a robotic system. Furthermore, USARSim comes with tools to develop objects and environments and it is possible to control actors in the game through a TCP/IP socket API.
 
-%Altogether, the Karma Physics engine~\cite{KarmEngine} and high-quality 3D rendering facilities of the Unreal game engine allow the creation of realistic simulation environments that provide the embodiment of a robotic system. Furthermore, USARSim comes with tools to develop objects and environments (Unreal Editor) and it is possible to control actors in the game through a TCP/IP socket API.
+Through its usage of UDK, USARSim utilizes the physX physics engine~\cite{physXWeb} and high-quality 3D rendering facilities to create a realistic robotic system simulation environment (Figure~\ref{3D_World}). The current release of USARSim consists of various model environments, models of commercial and experimental robots, and sensor models. High fidelity at low cost is made possible by building the simulation on top of a game engine. By delegating  simulation specific tasks to a high volume commercial platform (available for free to most users) which provides superior visual rendering and physical modeling, full user effort can be devoted to the robotics-specific tasks of modeling platforms, control systems, sensors, interface tools and environments. These tasks are in turn accelerated by the advanced editing and development tools integrated with the game engine. This leads to a virtuous spiral in which a wide range of platforms can be modeled with greater fidelity in a short period of time.
 
-Through its usage of UDK, USARSim utilizes the physX physics engine~\cite{physXWeb} and high-quality 3D rendering facilities to create a realistic simulation environment (Figure~\ref{3D_World}) that provides the embodiment of, and the environment for a robotic
-system. The current release of USARSim consists of various model environments, models of commercial and experimental robots, and sensor models. High fidelity at low cost is made possible by building the simulation on top of a game engine. By delegating  simulation specific tasks to a high volume commercial platform (available for free to most users) which provides superior visual rendering and physical modeling, full user effort can be devoted to the robotics-specific tasks of modeling platforms, control systems, sensors, interface tools and environments. These tasks are in turn accelerated by the advanced editing and development tools integrated with the game engine. This leads to a virtuous spiral in which a wide range of platforms can be modeled with greater fidelity in a short period of time.
-
-%USARSim was originally based upon simulated environments in the USAR domain. Realistic disaster scenarios as well as robot test methods were created (Figure~\ref{TestRoom}).
-%Since then, USARSim has been used worldwide and more environments have been developed for different purposes. Other environments such as the NIST campus (Figure~\ref{3D_World-b}) and factories (Figure~\ref{3D_World-c}) have been used to test the performance of algorithms in different efforts~\cite{WANG.HFES.2005,BALAGUER.IROS.2008,KOOTBALLY.ITEA.2010}. The simulation is also widely used for the RoboCup Virtual Robot Rescue Competition \cite{RoboCupWeb}, the IEEE Virtual Manufacturing and Automation Challenge \cite{VMACWeb}, and has been applied to the DARPA Urban Challenge (Figure~\ref{3D_World-a}).
 
 \begin{figure}[t!]
 \centering
@@ -33,39 +26,32 @@ sensors/end effectors) through a configuration file that is read at run-time. Th
 also be configured, such as the battery life and the frequency of
 data transmission.
 
-% In USARSim, robots are based on physical computer aided design (CAD) models of the real
-%robots and are implemented by specialization of specific existing classes. This structure allows for easier development of new platforms that model custom designs.
+\subsection{The Simulated Sensor System}
+\label{subsection:usartruth}
+Poses of objects in the virtual environment are retrieved with the USARTruth tool. USARTruth is capable of reading out information on objects in USARSim by connecting as a client to TCP socket port 3989. The simulator USARTruthConnection object listens for incoming connections on port 3989 and receives queries over a socket in the form of strings formatted into key-value pairs. 
+
+The USARTruth connection accepts two different keys, ``class'' and ``name,'' which are both optional. When USARSim receives a new string over the connection, it sends a sequence of key-value formatted strings back over the socket, one for each Unreal Engine Actor object that matches the requested class and object names. An example of the strings returned by USARSim is given below along with a description for each key.
 
 
+\{Name P3AT\_0\} \{Class P3AT\} \{Time 29.97\} \{Location 0.67,2.30,1.86\} \\ \{Rotation 0.00,0.46,0.00\} where:
+%\{Name P3AT\_0\} \{Class P3AT\} \{Time 29.97\} \{Location 0.67,2.30,1.86\} \{Rotation 0.00,0.46,0.00\} where:
+%The return strings include the following keys:
+
+\begin{itemize}
+\item Name: The internal name of the object in USARSim.
+\item Class: The name of the most specific Unreal Engine class the object belongs to.
+\item Time: The number of seconds that have elapsed since the simulator start, as a floating-point value.
+\item Location: The comma-separated position of the object in global coordinates.
+\item Rotation: The comma-separated orientation of the object in global coordinates, in roll, pitch, yaw form.
+\end{itemize}
 
 
+%The virtual sensor system uses USARTruth to simulate real-world sensors by opening a new USARTruth connection and sending one request for specified Unreal Engine class names.
 
-
-
-
-\subsection{The ROS Framework}
-ROS~\cite{ROSWeb} is an open source framework designed to provide an abstraction layer to complex robotic hardware and software configurations. It provides libraries and tools to help software developers create robot applications and has found wide use in both industry and academia. Examples of ROS applications include
-Willow Garage's Personal Robots Program~\cite{WYOBEK.ICRA.2008} and the Stanford University STAIR project~\cite{QUIGLEY.AAAI.2007}. Developers of ROS code are encouraged to
-contribute their code back to the community and to provide documentation and maintenance of their algorithms.
-
-ROS possesses a large range of tools and services that both users and developers alike can benefit from. The philosophical goals of ROS include an advanced set of criteria and can be summarized as: peer-to-peer, tools-based, multi-lingual, thin, and free and open-source~\cite{QUIGLEY.ICRA.2009}. Furthermore, debugging at all levels of the software is made possible with the full source code of ROS being publicly available. Thus, the main developers of a project can benefit from the community and vice-versa.
-
-In the effort described in this paper, the authors have used ROS as the main system controller. Once a CRCL plan file is generated by the interpreter from the PDDL plan file (Robot Language level in Figure~\ref{fig:methodology}), the CRCL plan file is parsed by the ROS controller and each robot command in this file is executed by the simulated robotic arm.
-
-\subsection{The USARSim/ROS Interface}
-USARSim is designed to communicate over an American Standard Code for Information Interchange (ASCII) Transmission Control Protocol/Internet Protocol (TCP/IP) socket with a host computer. The host computer initiates the socket interface and creates the desired robot in the simulated world that is currently running on the game server. A robot's configuration is controlled by an initialization file that resides on the simulation system's computer. This file controls such aspects as sensor configuration, battery life, and simulated noise models. Please see the USARSim wiki for more information on robot configuration~\cite{USARSimWeb}.  One socket connection is established per simulated robot, with both commands and sensor data being transmitted over the socket. An additional separate socket is established for high-volume sensors such as camera systems.
-%
-%ROS stacks are designed with their lowest-level node at a hardware abstraction layer that provides basic topics to and from the robot. For example, the mobility stack expects to control a platform by writing commands to low-level topics that control items such as platform velocities, and to receive feedback from sensors over other low-level topics. These stacks may also place constraints or naming conventions on the topics.  In order to close this low-level loop between ROS and USARSim, a USARSim package was created. This package contains a node called {\it RosSim} that publishes a ROS transform tree (from the ROS {\it tf} package) and sensor messages, and also accepts platform and actuator motion commands. When run, it provides a mechanism for spawning a robot in USARSim, and then auto-discovering the robot's sensors, actuators, and drive configuration in order to provide the necessary ROS topics. 
-% \begin{table}[t!]
-%\centering
-%  
-%    \begin{tabular}{ | l | l | p{4cm} |}
-%    \hline
-%    Parameter & Default & Definition \\ \hline
-%   robotType & P3AT & Type of robot to spawn. \\ \hline
-%   hostname & localhost & Name of host running USARSim. \\ \hline
-%   port & 3000 & TCP/IP Port on which USARSim listens. \\ \hline
-%   startPosition & Vehicle1 & Named location where robot should be spawned. This location is simulated world dependent. \\ \hline
-%   odomSensor & InsTest & Odometry sensor that should be used as the default sensor for feeding the {\it odom} topic of ROS.\\ \hline
-%    \end{tabular}
-%\end{table}
+% each different Unreal Engine class name found in the \textsf{MySQL Database}. For simulation purposes, the Unreal Engine class name is stored as an object's ``external shape''. It is important to note that the Location and Rotation values coming out of USARTruth do not include noises and assume perfect sensor data.
+% 
+% The system then parses the data coming in from USARTruth and updates the relative pose in the MySQL database for each object returned. Since USARTruth returns object locations in global coordinates, the relative pose for each object is updated without changing its transformation tree; that is, the RefObject for its PhysicalLocation is unchanged. The actual updated relative pose is computed according to
+% \begin{equation}
+% L' = LG^{-1}G'
+% \end{equation}
+% where $L'$ is the updated relative transformation, $L$ is the old relative transformation (read from the MySQL database), $G$ is the old global transformation (computed from the transformation tree in the database), and $G'$ is the updated global transformation (retrieved from USARTruth).

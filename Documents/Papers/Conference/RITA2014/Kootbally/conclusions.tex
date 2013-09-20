@@ -1,3 +1,13 @@
-\section{Conclusions and Future Work}
-\label{sect:future}
+This paper describes the approach that uses a simulated sensor system to retrieve 6DOF pose estimations of objects of interest during kit building applications. The approach is mainly used during the predicate evaluation process. The use of a simulated sensor system allows the current kitting system to move towards an agile system where the current observations on parts and components are fed into the predicate evaluation process before and after action executions.
+
+As mentioned in Section \ref{subsection:DSI}, pose information coming from USARTruth is assumed to be perfect. In a future effort, the authors will attempt to present a model for the different sources of noise relative to each sensor-based pose estimation step (similar to the one described in~\cite{Meeden.GPC.1998}), and use measurements of real sensor data to validate the model. Once validated, the new sensor system can then be used to validate the truth-value of predicates.
+
+It is also intended to apply contingency plans once an action failure occurs. One of the contingency plans is to re-plan from a state of the environment that is stable. Information on this stable state is retrieved from the \textsf{MySQL Database} that was updated from the latest poses of objects of interest. During the re-planning process, the new initial state becomes the stable state while the goal state stays unchanged.
+
+The current kitting workcell involves objects that are originally placed on a non-movable surface and also involves a pedestal-based articulated arm. To move towards an agile and flexible manufacturing system, the authors will need to address more challenging scenarios where parts come into the workcell via conveyor belts and where the robotic arm can be of gantry type. These new settings will need to be simulated and tested for kitting applications.
+
+
+
+% Once a failure is detected and the failure mode is identified, one of the contingency plans is to re-plan from a known state of the environment 
+% Moreover, updating the MySQL database with the latest information from the kitting work cell can greatly help failure recovery. Once a failure occur, the latest stable version of the kitting work cell can be used as the new initial state of the environment to generate a new plan where the goal state stays unchanged. 
 

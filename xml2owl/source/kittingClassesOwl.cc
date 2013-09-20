@@ -1673,7 +1673,7 @@ void KittingWorkstationType::printOwl(FILE * outFile)
   for (designIter = KitDesign->begin();
        designIter != KitDesign->end(); designIter++)
     {
-      OwlPrinter::printObjProp("hasWorkstation_KitDesign",
+      OwlPrinter::printObjProp("hasKittingWorkstation_KitDesign",
 			       Name, (*designIter)->Name, outFile);
     }
   for (skuIter = Sku->begin(); skuIter != Sku->end(); skuIter++)

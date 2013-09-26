@@ -22,7 +22,7 @@ DataPropertyAssertion(:hasKittingWorkstation_LengthUnit :kitting_workstation_1 "
 DataPropertyAssertion(:hasKittingWorkstation_WeightUnit :kitting_workstation_1 "kilogram"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(:hasKittingWorkstation_Robot :kitting_workstation_1 :robot_1)
 ObjectPropertyAssertion(:hasKittingWorkstation_ChangingStation :kitting_workstation_1 :changing_station_1)
-ObjectPropertyAssertion(:hasWorkstation_KitDesign :kitting_workstation_1 :kit_design_a2b1c1)
+ObjectPropertyAssertion(:hasKittingWorkstation_KitDesign :kitting_workstation_1 :kit_design_a2b1c1)
 ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_part_a)
 ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_part_b)
 ObjectPropertyAssertion(:hasKittingWorkstation_Sku :kitting_workstation_1 :stock_keeping_unit_part_c)

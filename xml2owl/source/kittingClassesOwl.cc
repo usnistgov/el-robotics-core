@@ -1466,7 +1466,7 @@ void KitDesignType::printOwl(FILE * outFile)
 			      KitTraySkuName, outFile);
   for (iter = PartRefAndPose->begin(); iter != PartRefAndPose->end(); iter++)
     {
-      OwlPrinter::printObjProp("hasKitDesign_PartRefAndPoses", Name,
+      OwlPrinter::printObjProp("hasKitDesign_PartRefAndPose", Name,
 			       (*iter)->Name, outFile);
     }
   for (iter = PartRefAndPose->begin(); iter != PartRefAndPose->end(); iter++)

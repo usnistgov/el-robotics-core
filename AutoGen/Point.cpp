@@ -168,13 +168,9 @@ delete (dao);
 this->set(name);
 }
 
-void Point::copy(std::map<std::string,std::string> object){delete(hasBoxVolume_MaximumPoint);
-hasBoxVolume_MaximumPoint=NULL;
-delete(hasBoxVolume_MinimumPoint);
+void Point::copy(std::map<std::string,std::string> object){hasBoxVolume_MaximumPoint=NULL;
 hasBoxVolume_MinimumPoint=NULL;
-delete(hasPoseLocation_Point);
 hasPoseLocation_Point=NULL;
-delete(hasPartRefAndPose_Point);
 hasPartRefAndPose_Point=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

@@ -18,7 +18,7 @@ software
  #include "EndEffectorChangingStation.h"
  #include "DAO.h"
 
-EndEffectorHolder::EndEffectorHolder(std::string name) : SolidObject(name){
+EndEffectorHolder::EndEffectorHolder(std::string name) : NoSkuObject(name){
 dao = NULL;
 hadByEndEffectorHolder_EndEffectorChangingStation = NULL;
 hasEndEffectorHolder_EndEffector = NULL;
@@ -53,6 +53,9 @@ this->hasEndEffectorHolder_EndEffector= _hasEndEffectorHolder_EndEffector;
 }
 void EndEffectorHolder::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -64,8 +67,10 @@ copy(temp);
  void EndEffectorHolder::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["name"]="'" + name + "'";
 ss.str("");
 ss << EndEffectorHolderID;
@@ -87,11 +92,14 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["EndEffectorHolderID"]=ss.str();
 if(hadByEndEffectorHolder_EndEffectorChangingStation!=NULL)
 data["hadByEndEffectorHolder_EndEffectorChangingStation"]="'" + hadByEndEffectorHolder_EndEffectorChangingStation->getname() + "'";
@@ -103,9 +111,7 @@ delete (dao);
 this->set(name);
 }
 
-void EndEffectorHolder::copy(std::map<std::string,std::string> object){delete(hadByEndEffectorHolder_EndEffectorChangingStation);
-hadByEndEffectorHolder_EndEffectorChangingStation=NULL;
-delete(hasEndEffectorHolder_EndEffector);
+void EndEffectorHolder::copy(std::map<std::string,std::string> object){hadByEndEffectorHolder_EndEffectorChangingStation=NULL;
 hasEndEffectorHolder_EndEffector=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

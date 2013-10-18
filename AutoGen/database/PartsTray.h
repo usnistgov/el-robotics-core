@@ -22,18 +22,11 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
- class StockKeepingUnit;
- class PartsTrayWithParts;
+#include "PartsVessel.h"
  class DAO;
-class PartsTray: public SolidObject{private:
-std::string hasPartsTray_PartQuantity;
-std::string hasPartsTray_SerialNumber;
+class PartsTray: public PartsVessel{private:
 int PartsTrayID;
 DAO* dao;
-StockKeepingUnit* hasPartsTray_Sku;
-StockKeepingUnit* hasPartsTray_PartSku;
-PartsTrayWithParts* hasPartsTrayWithParts_PartsTray;
 public:
 PartsTray(std::string name);
 ~PartsTray();
@@ -42,20 +35,10 @@ PartsTray(std::string name);
 void set(int id, PartsTray* obj);
 void set(std::string name);
 void insert(std::string name);
-std::string gethasPartsTray_PartQuantity();
-void sethasPartsTray_PartQuantity(std::string _hasPartsTray_PartQuantity);
-std::string gethasPartsTray_SerialNumber();
-void sethasPartsTray_SerialNumber(std::string _hasPartsTray_SerialNumber);
 int getPartsTrayID();
 void setPartsTrayID(int _PartsTrayID);
 DAO* getdao();
 void setdao(DAO* _dao);
-StockKeepingUnit* gethasPartsTray_Sku();
-void sethasPartsTray_Sku(StockKeepingUnit* _hasPartsTray_Sku);
-StockKeepingUnit* gethasPartsTray_PartSku();
-void sethasPartsTray_PartSku(StockKeepingUnit* _hasPartsTray_PartSku);
-PartsTrayWithParts* gethasPartsTrayWithParts_PartsTray();
-void sethasPartsTrayWithParts_PartsTray(PartsTrayWithParts* _hasPartsTrayWithParts_PartsTray);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* PARTSTRAY_H_ */

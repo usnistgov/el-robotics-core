@@ -164,13 +164,9 @@ delete (dao);
 this->set(name);
 }
 
-void PoseLocation::copy(std::map<std::string,std::string> object){delete(hadByGraspPose_ShapeDesign);
-hadByGraspPose_ShapeDesign=NULL;
-delete(hasPoseLocation_XAxis);
+void PoseLocation::copy(std::map<std::string,std::string> object){hadByGraspPose_ShapeDesign=NULL;
 hasPoseLocation_XAxis=NULL;
-delete(hasPoseLocation_ZAxis);
 hasPoseLocation_ZAxis=NULL;
-delete(hasPoseLocation_Point);
 hasPoseLocation_Point=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

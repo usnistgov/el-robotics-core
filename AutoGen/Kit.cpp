@@ -21,7 +21,7 @@ software
  #include "Part.h"
  #include "KitDesign.h"
 
-Kit::Kit(std::string name) : SolidObject(name){
+Kit::Kit(std::string name) : NoSkuObject(name){
 dao = NULL;
 hadByKit_LargeBoxWithKits = NULL;
 hasKit_KitTray = NULL;
@@ -86,6 +86,9 @@ this->hadByPart_Kit= _hadByPart_Kit;
 }
 void Kit::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -97,8 +100,10 @@ copy(temp);
  void Kit::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 ss.str("");
 ss << hasKit_Finished;
 data["hasKit_Finished"]=ss.str();
@@ -139,14 +144,17 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 ss.str("");
 ss << hasKit_Finished;
 data["hasKit_Finished"]=ss.str();
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["KitID"]=ss.str();
 if(hadByKit_LargeBoxWithKits!=NULL)
 data["hadByKit_LargeBoxWithKits"]="'" + hadByKit_LargeBoxWithKits->getname() + "'";
@@ -160,18 +168,13 @@ delete (dao);
 this->set(name);
 }
 
-void Kit::copy(std::map<std::string,std::string> object){delete(hadByKit_LargeBoxWithKits);
-hadByKit_LargeBoxWithKits=NULL;
-delete(hasKit_KitTray);
+void Kit::copy(std::map<std::string,std::string> object){hadByKit_LargeBoxWithKits=NULL;
 hasKit_KitTray=NULL;
-delete(hasKit_Design);
 hasKit_Design=NULL;
 for(std::size_t i = 0; i < hadBySlot_Kit.size(); i++){
-delete(hadBySlot_Kit[i]);
 hadBySlot_Kit[i]=NULL;}
 hadBySlot_Kit.clear();
 for(std::size_t i = 0; i < hadByPart_Kit.size(); i++){
-delete(hadByPart_Kit[i]);
 hadByPart_Kit[i]=NULL;}
 hadByPart_Kit.clear();
 std::vector<std::string> temp;

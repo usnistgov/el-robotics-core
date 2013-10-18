@@ -14,18 +14,15 @@ software
 #include "ShapeDesign.h"
 
 
- #include "StockKeepingUnit.h"
  #include "DAO.h"
  #include "PoseLocation.h"
 
 ShapeDesign::ShapeDesign(std::string name) : DataThing(name){
 dao = NULL;
 hadByGraspPose_ShapeDesign = NULL;
-hasStockKeepingUnit_Shape = NULL;
 
 }ShapeDesign::~ShapeDesign(){
 delete(hadByGraspPose_ShapeDesign);
-delete(hasStockKeepingUnit_Shape);
 }
 std::string ShapeDesign::gethasShapeDesign_Description(){
 return hasShapeDesign_Description;
@@ -39,9 +36,6 @@ return dao;
 PoseLocation* ShapeDesign::gethadByGraspPose_ShapeDesign(){
 return hadByGraspPose_ShapeDesign;
 }
-StockKeepingUnit* ShapeDesign::gethasStockKeepingUnit_Shape(){
-return hasStockKeepingUnit_Shape;
-}
 void ShapeDesign::sethasShapeDesign_Description(std::string _hasShapeDesign_Description){
 this->hasShapeDesign_Description= _hasShapeDesign_Description;
 }
@@ -53,9 +47,6 @@ this->dao= _dao;
 }
 void ShapeDesign::sethadByGraspPose_ShapeDesign(PoseLocation* _hadByGraspPose_ShapeDesign){
 this->hadByGraspPose_ShapeDesign= _hadByGraspPose_ShapeDesign;
-}
-void ShapeDesign::sethasStockKeepingUnit_Shape(StockKeepingUnit* _hasStockKeepingUnit_Shape){
-this->hasStockKeepingUnit_Shape= _hasStockKeepingUnit_Shape;
 }
 void ShapeDesign::get(std::string name){
 std::map<std::string,std::string> temp;
@@ -81,10 +72,6 @@ if(hadByGraspPose_ShapeDesign!=NULL)
 data["hadByGraspPose_ShapeDesign"]="'" +hadByGraspPose_ShapeDesign->getname() + "'";
 else 
  data["hadByGraspPose_ShapeDesign"]="null";
-if(hasStockKeepingUnit_Shape!=NULL)
-data["hasStockKeepingUnit_Shape"]="'" +hasStockKeepingUnit_Shape->getname() + "'";
-else 
- data["hasStockKeepingUnit_Shape"]="null";
 dao  = new DAO("ShapeDesign");
 dao->set(data);
 delete (dao);
@@ -103,18 +90,13 @@ ss << temp0->getDataThingID();
 data["ShapeDesignID"]=ss.str();
 if(hadByGraspPose_ShapeDesign!=NULL)
 data["hadByGraspPose_ShapeDesign"]="'" + hadByGraspPose_ShapeDesign->getname() + "'";
-if(hasStockKeepingUnit_Shape!=NULL)
-data["hasStockKeepingUnit_Shape"]="'" + hasStockKeepingUnit_Shape->getname() + "'";
 dao  = new DAO("ShapeDesign");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void ShapeDesign::copy(std::map<std::string,std::string> object){delete(hadByGraspPose_ShapeDesign);
-hadByGraspPose_ShapeDesign=NULL;
-delete(hasStockKeepingUnit_Shape);
-hasStockKeepingUnit_Shape=NULL;
+void ShapeDesign::copy(std::map<std::string,std::string> object){hadByGraspPose_ShapeDesign=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
@@ -126,9 +108,6 @@ this->name = object["ShapeDesign._NAME"];
 this->ShapeDesignID = std::atof(object["ShapeDesign.ShapeDesignID"].c_str());
 if(this->hadByGraspPose_ShapeDesign== NULL && object["hadByGraspPose_ShapeDesign/PoseLocation._NAME"]!=""){
 this->hadByGraspPose_ShapeDesign = new PoseLocation(object["hadByGraspPose_ShapeDesign/PoseLocation._NAME"]);
-}
-if(this->hasStockKeepingUnit_Shape== NULL && object["hasStockKeepingUnit_Shape/StockKeepingUnit._NAME"]!=""){
-this->hasStockKeepingUnit_Shape = new StockKeepingUnit(object["hasStockKeepingUnit_Shape/StockKeepingUnit._NAME"]);
 }
 
 }std::vector<std::string> ShapeDesign::Explode(const std::string & str, char separator )

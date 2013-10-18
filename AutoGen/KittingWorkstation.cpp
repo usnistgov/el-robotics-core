@@ -22,7 +22,7 @@ software
  #include "EndEffectorChangingStation.h"
  #include "DAO.h"
 
-KittingWorkstation::KittingWorkstation(std::string name) : SolidObject(name){
+KittingWorkstation::KittingWorkstation(std::string name) : NoSkuObject(name){
 dao = NULL;
 hasKittingWorkstation_ChangingStation = NULL;
 hasKittingWorkstation_Robot = NULL;
@@ -107,6 +107,9 @@ this->hadByObject_KittingWorkstation= _hadByObject_KittingWorkstation;
 }
 void KittingWorkstation::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -118,8 +121,10 @@ copy(temp);
  void KittingWorkstation::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["hasKittingWorkstation_LengthUnit"]="'" + hasKittingWorkstation_LengthUnit + "'";
 data["hasKittingWorkstation_WeightUnit"]="'" + hasKittingWorkstation_WeightUnit + "'";
 data["hasKittingWorkstation_AngleUnit"]="'" + hasKittingWorkstation_AngleUnit + "'";
@@ -168,14 +173,17 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 data["hasKittingWorkstation_LengthUnit"]="'" + hasKittingWorkstation_LengthUnit+ "'";
 data["hasKittingWorkstation_WeightUnit"]="'" + hasKittingWorkstation_WeightUnit+ "'";
 data["hasKittingWorkstation_AngleUnit"]="'" + hasKittingWorkstation_AngleUnit+ "'";
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["KittingWorkstationID"]=ss.str();
 if(hasKittingWorkstation_ChangingStation!=NULL)
 data["hasKittingWorkstation_ChangingStation"]="'" + hasKittingWorkstation_ChangingStation->getname() + "'";
@@ -188,23 +196,17 @@ this->set(name);
 }
 
 void KittingWorkstation::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadBySku_KittingWorkstation.size(); i++){
-delete(hadBySku_KittingWorkstation[i]);
 hadBySku_KittingWorkstation[i]=NULL;}
 hadBySku_KittingWorkstation.clear();
 for(std::size_t i = 0; i < hadByKitDesign_KittingWorkstation.size(); i++){
-delete(hadByKitDesign_KittingWorkstation[i]);
 hadByKitDesign_KittingWorkstation[i]=NULL;}
 hadByKitDesign_KittingWorkstation.clear();
 for(std::size_t i = 0; i < hadByOtherObstacle_KittingWorkstation.size(); i++){
-delete(hadByOtherObstacle_KittingWorkstation[i]);
 hadByOtherObstacle_KittingWorkstation[i]=NULL;}
 hadByOtherObstacle_KittingWorkstation.clear();
-delete(hasKittingWorkstation_ChangingStation);
 hasKittingWorkstation_ChangingStation=NULL;
-delete(hasKittingWorkstation_Robot);
 hasKittingWorkstation_Robot=NULL;
 for(std::size_t i = 0; i < hadByObject_KittingWorkstation.size(); i++){
-delete(hadByObject_KittingWorkstation[i]);
 hadByObject_KittingWorkstation[i]=NULL;}
 hadByObject_KittingWorkstation.clear();
 std::vector<std::string> temp;

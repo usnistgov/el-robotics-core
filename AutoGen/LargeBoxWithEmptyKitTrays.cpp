@@ -18,7 +18,7 @@ software
  #include "LargeContainer.h"
  #include "DAO.h"
 
-LargeBoxWithEmptyKitTrays::LargeBoxWithEmptyKitTrays(std::string name) : SolidObject(name){
+LargeBoxWithEmptyKitTrays::LargeBoxWithEmptyKitTrays(std::string name) : NoSkuObject(name){
 dao = NULL;
 hasLargeBoxWithEmptyKitTrays_LargeContainer = NULL;
 
@@ -53,6 +53,9 @@ this->hadByKitTray_LargeBoxWithEmptyKitTrays= _hadByKitTray_LargeBoxWithEmptyKit
 }
 void LargeBoxWithEmptyKitTrays::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -64,8 +67,10 @@ copy(temp);
  void LargeBoxWithEmptyKitTrays::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["name"]="'" + name + "'";
 ss.str("");
 ss << LargeBoxWithEmptyKitTraysID;
@@ -89,11 +94,14 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["LargeBoxWithEmptyKitTraysID"]=ss.str();
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
 data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" + hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
@@ -103,10 +111,8 @@ delete (dao);
 this->set(name);
 }
 
-void LargeBoxWithEmptyKitTrays::copy(std::map<std::string,std::string> object){delete(hasLargeBoxWithEmptyKitTrays_LargeContainer);
-hasLargeBoxWithEmptyKitTrays_LargeContainer=NULL;
+void LargeBoxWithEmptyKitTrays::copy(std::map<std::string,std::string> object){hasLargeBoxWithEmptyKitTrays_LargeContainer=NULL;
 for(std::size_t i = 0; i < hadByKitTray_LargeBoxWithEmptyKitTrays.size(); i++){
-delete(hadByKitTray_LargeBoxWithEmptyKitTrays[i]);
 hadByKitTray_LargeBoxWithEmptyKitTrays[i]=NULL;}
 hadByKitTray_LargeBoxWithEmptyKitTrays.clear();
 std::vector<std::string> temp;

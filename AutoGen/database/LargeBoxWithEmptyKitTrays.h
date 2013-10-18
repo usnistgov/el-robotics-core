@@ -22,11 +22,11 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class KitTray;
  class LargeContainer;
  class DAO;
-class LargeBoxWithEmptyKitTrays: public SolidObject{private:
+class LargeBoxWithEmptyKitTrays: public NoSkuObject{private:
 int LargeBoxWithEmptyKitTraysID;
 DAO* dao;
 LargeContainer* hasLargeBoxWithEmptyKitTrays_LargeContainer;

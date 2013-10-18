@@ -17,12 +17,12 @@ software
  #include "SolidObject.h"
  #include "DAO.h"
 
-WorkTable::WorkTable(std::string name) : SolidObject(name){
+WorkTable::WorkTable(std::string name) : NoSkuObject(name){
 dao = NULL;
 
 }WorkTable::~WorkTable(){
-for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++)
-delete(hadBySolidObject_WorkTable[i]);
+for(std::size_t i = 0; i < hadByObjectOnTable_WorkTable.size(); i++)
+delete(hadByObjectOnTable_WorkTable[i]);
 }
 int WorkTable::getWorkTableID(){
 return WorkTableID;
@@ -30,8 +30,8 @@ return WorkTableID;
 DAO* WorkTable::getdao(){
 return dao;
 }
-std::vector<SolidObject*> WorkTable::gethadBySolidObject_WorkTable(){
-return hadBySolidObject_WorkTable;
+std::vector<SolidObject*> WorkTable::gethadByObjectOnTable_WorkTable(){
+return hadByObjectOnTable_WorkTable;
 }
 void WorkTable::setWorkTableID(int _WorkTableID){
 this->WorkTableID= _WorkTableID;
@@ -39,11 +39,14 @@ this->WorkTableID= _WorkTableID;
 void WorkTable::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void WorkTable::sethadBySolidObject_WorkTable(std::vector<SolidObject*> _hadBySolidObject_WorkTable){
-this->hadBySolidObject_WorkTable= _hadBySolidObject_WorkTable;
+void WorkTable::sethadByObjectOnTable_WorkTable(std::vector<SolidObject*> _hadByObjectOnTable_WorkTable){
+this->hadByObjectOnTable_WorkTable= _hadByObjectOnTable_WorkTable;
 }
 void WorkTable::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -55,17 +58,19 @@ copy(temp);
  void WorkTable::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["name"]="'" + name + "'";
 ss.str("");
 ss << WorkTableID;
 data["WorkTableID"]=ss.str();
-for(unsigned int i=0;i<hadBySolidObject_WorkTable.size();++i){
+for(unsigned int i=0;i<hadByObjectOnTable_WorkTable.size();++i){
 ss.str("");
-hadBySolidObject_WorkTable[i]->get(hadBySolidObject_WorkTable[i]->getname());
-ss << hadBySolidObject_WorkTable[i]->getSolidObjectID();
-data["hadBySolidObject_WorkTable"]=data["hadBySolidObject_WorkTable"]+" "+ss.str();
+hadByObjectOnTable_WorkTable[i]->get(hadByObjectOnTable_WorkTable[i]->getname());
+ss << hadByObjectOnTable_WorkTable[i]->getSolidObjectID();
+data["hadByObjectOnTable_WorkTable"]=data["hadByObjectOnTable_WorkTable"]+" "+ss.str();
 }
 dao  = new DAO("WorkTable");
 dao->set(data);
@@ -76,11 +81,14 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["WorkTableID"]=ss.str();
 dao  = new DAO("WorkTable");
 dao->insert(data);
@@ -88,10 +96,9 @@ delete (dao);
 this->set(name);
 }
 
-void WorkTable::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadBySolidObject_WorkTable.size(); i++){
-delete(hadBySolidObject_WorkTable[i]);
-hadBySolidObject_WorkTable[i]=NULL;}
-hadBySolidObject_WorkTable.clear();
+void WorkTable::copy(std::map<std::string,std::string> object){for(std::size_t i = 0; i < hadByObjectOnTable_WorkTable.size(); i++){
+hadByObjectOnTable_WorkTable[i]=NULL;}
+hadByObjectOnTable_WorkTable.clear();
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
@@ -100,10 +107,10 @@ int nbValCurrent=0;
 std::vector<WorkTable*> tmp;
 this->name = object["WorkTable._NAME"];
 this->WorkTableID = std::atof(object["WorkTable.WorkTableID"].c_str());
-if(this->hadBySolidObject_WorkTable.empty() && object["hadBySolidObject_WorkTable/SolidObject._NAME"]!=""){
-temp = Explode(object["hadBySolidObject_WorkTable/SolidObject._NAME"], ' ' );
+if(this->hadByObjectOnTable_WorkTable.empty() && object["hadByObjectOnTable_WorkTable/SolidObject._NAME"]!=""){
+temp = Explode(object["hadByObjectOnTable_WorkTable/SolidObject._NAME"], ' ' );
 for(unsigned int i=0; i<temp.size();i++){
-this->hadBySolidObject_WorkTable.push_back(new SolidObject(temp[i]));
+this->hadByObjectOnTable_WorkTable.push_back(new SolidObject(temp[i]));
 }
 }
 

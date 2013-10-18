@@ -22,11 +22,11 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class EndEffector;
  class EndEffectorChangingStation;
  class DAO;
-class EndEffectorHolder: public SolidObject{private:
+class EndEffectorHolder: public NoSkuObject{private:
 int EndEffectorHolderID;
 DAO* dao;
 EndEffectorChangingStation* hadByEndEffectorHolder_EndEffectorChangingStation;

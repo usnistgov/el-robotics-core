@@ -24,10 +24,8 @@ software
 
  class EndEffector;
  class KittingWorkstation;
- class ExternalShape;
  class PhysicalLocation;
  class DAO;
- class InternalShape;
  class PhysicalLocation;
  class WorkTable;
 class SolidObject{private:
@@ -35,10 +33,8 @@ int SolidObjectID;
 DAO* dao;
 std::vector<PhysicalLocation*> hadBySecondaryLocation_SolidObject;
 KittingWorkstation* hadByObject_KittingWorkstation;
-InternalShape* hadByInternalShape_SolidObject;
+WorkTable* hadByObjectOnTable_WorkTable;
 PhysicalLocation* hasSolidObject_PrimaryLocation;
-WorkTable* hadBySolidObject_WorkTable;
-ExternalShape* hadByExternalShape_SolidObject;
 EndEffector* hasEndEffector_HeldObject;
 std::vector<PhysicalLocation*> hasPhysicalLocation_RefObject;
 protected :
@@ -60,14 +56,10 @@ std::vector<PhysicalLocation*> gethadBySecondaryLocation_SolidObject();
 void sethadBySecondaryLocation_SolidObject(std::vector<PhysicalLocation*> _hadBySecondaryLocation_SolidObject);
 KittingWorkstation* gethadByObject_KittingWorkstation();
 void sethadByObject_KittingWorkstation(KittingWorkstation* _hadByObject_KittingWorkstation);
-InternalShape* gethadByInternalShape_SolidObject();
-void sethadByInternalShape_SolidObject(InternalShape* _hadByInternalShape_SolidObject);
+WorkTable* gethadByObjectOnTable_WorkTable();
+void sethadByObjectOnTable_WorkTable(WorkTable* _hadByObjectOnTable_WorkTable);
 PhysicalLocation* gethasSolidObject_PrimaryLocation();
 void sethasSolidObject_PrimaryLocation(PhysicalLocation* _hasSolidObject_PrimaryLocation);
-WorkTable* gethadBySolidObject_WorkTable();
-void sethadBySolidObject_WorkTable(WorkTable* _hadBySolidObject_WorkTable);
-ExternalShape* gethadByExternalShape_SolidObject();
-void sethadByExternalShape_SolidObject(ExternalShape* _hadByExternalShape_SolidObject);
 EndEffector* gethasEndEffector_HeldObject();
 void sethasEndEffector_HeldObject(EndEffector* _hasEndEffector_HeldObject);
 std::vector<PhysicalLocation*> gethasPhysicalLocation_RefObject();

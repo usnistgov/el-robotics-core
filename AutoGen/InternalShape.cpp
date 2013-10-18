@@ -14,15 +14,18 @@ software
 #include "InternalShape.h"
 
 
+ #include "StockKeepingUnit.h"
+ #include "NoSkuObject.h"
  #include "DAO.h"
- #include "SolidObject.h"
 
 InternalShape::InternalShape(std::string name) : ShapeDesign(name){
 dao = NULL;
-hadByInternalShape_SolidObject = NULL;
+hasStockKeepingUnit_InternalShape = NULL;
+hasNoSkuObject_InternalShape = NULL;
 
 }InternalShape::~InternalShape(){
-delete(hadByInternalShape_SolidObject);
+delete(hasStockKeepingUnit_InternalShape);
+delete(hasNoSkuObject_InternalShape);
 }
 int InternalShape::getInternalShapeID(){
 return InternalShapeID;
@@ -30,8 +33,11 @@ return InternalShapeID;
 DAO* InternalShape::getdao(){
 return dao;
 }
-SolidObject* InternalShape::gethadByInternalShape_SolidObject(){
-return hadByInternalShape_SolidObject;
+StockKeepingUnit* InternalShape::gethasStockKeepingUnit_InternalShape(){
+return hasStockKeepingUnit_InternalShape;
+}
+NoSkuObject* InternalShape::gethasNoSkuObject_InternalShape(){
+return hasNoSkuObject_InternalShape;
 }
 void InternalShape::setInternalShapeID(int _InternalShapeID){
 this->InternalShapeID= _InternalShapeID;
@@ -39,8 +45,11 @@ this->InternalShapeID= _InternalShapeID;
 void InternalShape::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void InternalShape::sethadByInternalShape_SolidObject(SolidObject* _hadByInternalShape_SolidObject){
-this->hadByInternalShape_SolidObject= _hadByInternalShape_SolidObject;
+void InternalShape::sethasStockKeepingUnit_InternalShape(StockKeepingUnit* _hasStockKeepingUnit_InternalShape){
+this->hasStockKeepingUnit_InternalShape= _hasStockKeepingUnit_InternalShape;
+}
+void InternalShape::sethasNoSkuObject_InternalShape(NoSkuObject* _hasNoSkuObject_InternalShape){
+this->hasNoSkuObject_InternalShape= _hasNoSkuObject_InternalShape;
 }
 void InternalShape::get(std::string name){
 std::map<std::string,std::string> temp;
@@ -66,10 +75,14 @@ data["name"]="'" + name + "'";
 ss.str("");
 ss << InternalShapeID;
 data["InternalShapeID"]=ss.str();
-if(hadByInternalShape_SolidObject!=NULL)
-data["hadByInternalShape_SolidObject"]="'" +hadByInternalShape_SolidObject->getname() + "'";
+if(hasStockKeepingUnit_InternalShape!=NULL)
+data["hasStockKeepingUnit_InternalShape"]="'" +hasStockKeepingUnit_InternalShape->getname() + "'";
 else 
- data["hadByInternalShape_SolidObject"]="null";
+ data["hasStockKeepingUnit_InternalShape"]="null";
+if(hasNoSkuObject_InternalShape!=NULL)
+data["hasNoSkuObject_InternalShape"]="'" +hasNoSkuObject_InternalShape->getname() + "'";
+else 
+ data["hasNoSkuObject_InternalShape"]="null";
 dao  = new DAO("InternalShape");
 dao->set(data);
 delete (dao);
@@ -88,16 +101,18 @@ temp0->insert(name);
 ss.str("");
 ss << temp1->getDataThingID();
 data["InternalShapeID"]=ss.str();
-if(hadByInternalShape_SolidObject!=NULL)
-data["hadByInternalShape_SolidObject"]="'" + hadByInternalShape_SolidObject->getname() + "'";
+if(hasStockKeepingUnit_InternalShape!=NULL)
+data["hasStockKeepingUnit_InternalShape"]="'" + hasStockKeepingUnit_InternalShape->getname() + "'";
+if(hasNoSkuObject_InternalShape!=NULL)
+data["hasNoSkuObject_InternalShape"]="'" + hasNoSkuObject_InternalShape->getname() + "'";
 dao  = new DAO("InternalShape");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void InternalShape::copy(std::map<std::string,std::string> object){delete(hadByInternalShape_SolidObject);
-hadByInternalShape_SolidObject=NULL;
+void InternalShape::copy(std::map<std::string,std::string> object){hasStockKeepingUnit_InternalShape=NULL;
+hasNoSkuObject_InternalShape=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
@@ -106,8 +121,11 @@ int nbValCurrent=0;
 std::vector<InternalShape*> tmp;
 this->name = object["InternalShape._NAME"];
 this->InternalShapeID = std::atof(object["InternalShape.InternalShapeID"].c_str());
-if(this->hadByInternalShape_SolidObject== NULL && object["hadByInternalShape_SolidObject/SolidObject._NAME"]!=""){
-this->hadByInternalShape_SolidObject = new SolidObject(object["hadByInternalShape_SolidObject/SolidObject._NAME"]);
+if(this->hasStockKeepingUnit_InternalShape== NULL && object["hasStockKeepingUnit_InternalShape/StockKeepingUnit._NAME"]!=""){
+this->hasStockKeepingUnit_InternalShape = new StockKeepingUnit(object["hasStockKeepingUnit_InternalShape/StockKeepingUnit._NAME"]);
+}
+if(this->hasNoSkuObject_InternalShape== NULL && object["hasNoSkuObject_InternalShape/NoSkuObject._NAME"]!=""){
+this->hasNoSkuObject_InternalShape = new NoSkuObject(object["hasNoSkuObject_InternalShape/NoSkuObject._NAME"]);
 }
 
 }std::vector<std::string> InternalShape::Explode(const std::string & str, char separator )

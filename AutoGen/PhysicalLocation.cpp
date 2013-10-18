@@ -124,11 +124,8 @@ delete (dao);
 this->set(name);
 }
 
-void PhysicalLocation::copy(std::map<std::string,std::string> object){delete(hadBySecondaryLocation_SolidObject);
-hadBySecondaryLocation_SolidObject=NULL;
-delete(hasPhysicalLocation_RefObject);
+void PhysicalLocation::copy(std::map<std::string,std::string> object){hadBySecondaryLocation_SolidObject=NULL;
 hasPhysicalLocation_RefObject=NULL;
-delete(hasSolidObject_PrimaryLocation);
 hasSolidObject_PrimaryLocation=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

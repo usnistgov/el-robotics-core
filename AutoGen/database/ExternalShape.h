@@ -23,15 +23,17 @@ software
 
 
 #include "ShapeDesign.h"
+ class StockKeepingUnit;
+ class NoSkuObject;
  class DAO;
- class SolidObject;
 class ExternalShape: public ShapeDesign{private:
-std::string hasExternalShape_ModelTypeName;
+std::string hasExternalShape_ModelFormatName;
 std::string hasExternalShape_ModelName;
 std::string hasExternalShape_ModelFileName;
 int ExternalShapeID;
 DAO* dao;
-SolidObject* hadByExternalShape_SolidObject;
+StockKeepingUnit* hadByExternalShape_StockKeepingUnit;
+NoSkuObject* hadByExternalShape_NoSkuObject;
 public:
 ExternalShape(std::string name);
 ~ExternalShape();
@@ -40,8 +42,8 @@ ExternalShape(std::string name);
 void set(int id, ExternalShape* obj);
 void set(std::string name);
 void insert(std::string name);
-std::string gethasExternalShape_ModelTypeName();
-void sethasExternalShape_ModelTypeName(std::string _hasExternalShape_ModelTypeName);
+std::string gethasExternalShape_ModelFormatName();
+void sethasExternalShape_ModelFormatName(std::string _hasExternalShape_ModelFormatName);
 std::string gethasExternalShape_ModelName();
 void sethasExternalShape_ModelName(std::string _hasExternalShape_ModelName);
 std::string gethasExternalShape_ModelFileName();
@@ -50,8 +52,10 @@ int getExternalShapeID();
 void setExternalShapeID(int _ExternalShapeID);
 DAO* getdao();
 void setdao(DAO* _dao);
-SolidObject* gethadByExternalShape_SolidObject();
-void sethadByExternalShape_SolidObject(SolidObject* _hadByExternalShape_SolidObject);
+StockKeepingUnit* gethadByExternalShape_StockKeepingUnit();
+void sethadByExternalShape_StockKeepingUnit(StockKeepingUnit* _hadByExternalShape_StockKeepingUnit);
+NoSkuObject* gethadByExternalShape_NoSkuObject();
+void sethadByExternalShape_NoSkuObject(NoSkuObject* _hadByExternalShape_NoSkuObject);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* EXTERNALSHAPE_H_ */

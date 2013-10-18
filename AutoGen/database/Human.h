@@ -22,9 +22,9 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class DAO;
-class Human: public SolidObject{private:
+class Human: public NoSkuObject{private:
 int HumanID;
 DAO* dao;
 public:

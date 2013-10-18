@@ -52,7 +52,6 @@ void set(std::map<std::string,std::string> data);
 void insert(std::map<std::string,std::string> data);
 std::vector<std::string> Explode(const std::string & str, char separator);
 bool toAdd(std::string s);
-bool needQuote(std::string s);
 std::map<std::string, std::vector<std::string> > getAll(std::vector<std::string> attributesList, std::string table);
 }; 
 #endif /* DAO_H_ */

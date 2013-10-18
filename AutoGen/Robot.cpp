@@ -19,7 +19,7 @@ software
  #include "KittingWorkstation.h"
  #include "DAO.h"
 
-Robot::Robot(std::string name) : SolidObject(name){
+Robot::Robot(std::string name) : NoSkuObject(name){
 dao = NULL;
 hadByEndEffector_Robot = NULL;
 hasKittingWorkstation_Robot = NULL;
@@ -74,6 +74,9 @@ this->hasKittingWorkstation_Robot= _hasKittingWorkstation_Robot;
 }
 void Robot::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -85,8 +88,10 @@ copy(temp);
  void Robot::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["hasRobot_Description"]="'" + hasRobot_Description + "'";
 ss.str("");
 ss << hasRobot_MaximumLoadWeight;
@@ -118,15 +123,18 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 data["hasRobot_Description"]="'" + hasRobot_Description+ "'";
 ss.str("");
 ss << hasRobot_MaximumLoadWeight;
 data["hasRobot_MaximumLoadWeight"]=ss.str();
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["RobotID"]=ss.str();
 if(hadByEndEffector_Robot!=NULL)
 data["hadByEndEffector_Robot"]="'" + hadByEndEffector_Robot->getname() + "'";
@@ -138,13 +146,10 @@ delete (dao);
 this->set(name);
 }
 
-void Robot::copy(std::map<std::string,std::string> object){delete(hadByEndEffector_Robot);
-hadByEndEffector_Robot=NULL;
+void Robot::copy(std::map<std::string,std::string> object){hadByEndEffector_Robot=NULL;
 for(std::size_t i = 0; i < hadByWorkVolume_Robot.size(); i++){
-delete(hadByWorkVolume_Robot[i]);
 hadByWorkVolume_Robot[i]=NULL;}
 hadByWorkVolume_Robot.clear();
-delete(hasKittingWorkstation_Robot);
 hasKittingWorkstation_Robot=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

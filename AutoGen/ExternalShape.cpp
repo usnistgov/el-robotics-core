@@ -14,18 +14,21 @@ software
 #include "ExternalShape.h"
 
 
+ #include "StockKeepingUnit.h"
+ #include "NoSkuObject.h"
  #include "DAO.h"
- #include "SolidObject.h"
 
 ExternalShape::ExternalShape(std::string name) : ShapeDesign(name){
 dao = NULL;
-hadByExternalShape_SolidObject = NULL;
+hadByExternalShape_StockKeepingUnit = NULL;
+hadByExternalShape_NoSkuObject = NULL;
 
 }ExternalShape::~ExternalShape(){
-delete(hadByExternalShape_SolidObject);
+delete(hadByExternalShape_StockKeepingUnit);
+delete(hadByExternalShape_NoSkuObject);
 }
-std::string ExternalShape::gethasExternalShape_ModelTypeName(){
-return hasExternalShape_ModelTypeName;
+std::string ExternalShape::gethasExternalShape_ModelFormatName(){
+return hasExternalShape_ModelFormatName;
 }
 std::string ExternalShape::gethasExternalShape_ModelName(){
 return hasExternalShape_ModelName;
@@ -39,11 +42,14 @@ return ExternalShapeID;
 DAO* ExternalShape::getdao(){
 return dao;
 }
-SolidObject* ExternalShape::gethadByExternalShape_SolidObject(){
-return hadByExternalShape_SolidObject;
+StockKeepingUnit* ExternalShape::gethadByExternalShape_StockKeepingUnit(){
+return hadByExternalShape_StockKeepingUnit;
 }
-void ExternalShape::sethasExternalShape_ModelTypeName(std::string _hasExternalShape_ModelTypeName){
-this->hasExternalShape_ModelTypeName= _hasExternalShape_ModelTypeName;
+NoSkuObject* ExternalShape::gethadByExternalShape_NoSkuObject(){
+return hadByExternalShape_NoSkuObject;
+}
+void ExternalShape::sethasExternalShape_ModelFormatName(std::string _hasExternalShape_ModelFormatName){
+this->hasExternalShape_ModelFormatName= _hasExternalShape_ModelFormatName;
 }
 void ExternalShape::sethasExternalShape_ModelName(std::string _hasExternalShape_ModelName){
 this->hasExternalShape_ModelName= _hasExternalShape_ModelName;
@@ -57,8 +63,11 @@ this->ExternalShapeID= _ExternalShapeID;
 void ExternalShape::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void ExternalShape::sethadByExternalShape_SolidObject(SolidObject* _hadByExternalShape_SolidObject){
-this->hadByExternalShape_SolidObject= _hadByExternalShape_SolidObject;
+void ExternalShape::sethadByExternalShape_StockKeepingUnit(StockKeepingUnit* _hadByExternalShape_StockKeepingUnit){
+this->hadByExternalShape_StockKeepingUnit= _hadByExternalShape_StockKeepingUnit;
+}
+void ExternalShape::sethadByExternalShape_NoSkuObject(NoSkuObject* _hadByExternalShape_NoSkuObject){
+this->hadByExternalShape_NoSkuObject= _hadByExternalShape_NoSkuObject;
 }
 void ExternalShape::get(std::string name){
 std::map<std::string,std::string> temp;
@@ -80,17 +89,21 @@ ShapeDesign* temp0 = (ShapeDesign*) this;
 temp0->set(name);
 DataThing* temp1 = (DataThing*) this;
 temp1->set(name);
-data["hasExternalShape_ModelTypeName"]="'" + hasExternalShape_ModelTypeName + "'";
+data["hasExternalShape_ModelFormatName"]="'" + hasExternalShape_ModelFormatName + "'";
 data["hasExternalShape_ModelName"]="'" + hasExternalShape_ModelName + "'";
 data["hasExternalShape_ModelFileName"]="'" + hasExternalShape_ModelFileName + "'";
 data["name"]="'" + name + "'";
 ss.str("");
 ss << ExternalShapeID;
 data["ExternalShapeID"]=ss.str();
-if(hadByExternalShape_SolidObject!=NULL)
-data["hadByExternalShape_SolidObject"]="'" +hadByExternalShape_SolidObject->getname() + "'";
+if(hadByExternalShape_StockKeepingUnit!=NULL)
+data["hadByExternalShape_StockKeepingUnit"]="'" +hadByExternalShape_StockKeepingUnit->getname() + "'";
 else 
- data["hadByExternalShape_SolidObject"]="null";
+ data["hadByExternalShape_StockKeepingUnit"]="null";
+if(hadByExternalShape_NoSkuObject!=NULL)
+data["hadByExternalShape_NoSkuObject"]="'" +hadByExternalShape_NoSkuObject->getname() + "'";
+else 
+ data["hadByExternalShape_NoSkuObject"]="null";
 dao  = new DAO("ExternalShape");
 dao->set(data);
 delete (dao);
@@ -106,35 +119,40 @@ temp1->get(name);
 ShapeDesign* temp0 = (ShapeDesign*) this;
 temp0->setShapeDesignID(temp1->getDataThingID());
 temp0->insert(name);
-data["hasExternalShape_ModelTypeName"]="'" + hasExternalShape_ModelTypeName+ "'";
+data["hasExternalShape_ModelFormatName"]="'" + hasExternalShape_ModelFormatName+ "'";
 data["hasExternalShape_ModelName"]="'" + hasExternalShape_ModelName+ "'";
 data["hasExternalShape_ModelFileName"]="'" + hasExternalShape_ModelFileName+ "'";
 ss.str("");
 ss << temp1->getDataThingID();
 data["ExternalShapeID"]=ss.str();
-if(hadByExternalShape_SolidObject!=NULL)
-data["hadByExternalShape_SolidObject"]="'" + hadByExternalShape_SolidObject->getname() + "'";
+if(hadByExternalShape_StockKeepingUnit!=NULL)
+data["hadByExternalShape_StockKeepingUnit"]="'" + hadByExternalShape_StockKeepingUnit->getname() + "'";
+if(hadByExternalShape_NoSkuObject!=NULL)
+data["hadByExternalShape_NoSkuObject"]="'" + hadByExternalShape_NoSkuObject->getname() + "'";
 dao  = new DAO("ExternalShape");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void ExternalShape::copy(std::map<std::string,std::string> object){delete(hadByExternalShape_SolidObject);
-hadByExternalShape_SolidObject=NULL;
+void ExternalShape::copy(std::map<std::string,std::string> object){hadByExternalShape_StockKeepingUnit=NULL;
+hadByExternalShape_NoSkuObject=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<ExternalShape*> tmp;
-this->hasExternalShape_ModelTypeName = object["ExternalShape.hasExternalShape_ModelTypeName"];
+this->hasExternalShape_ModelFormatName = object["ExternalShape.hasExternalShape_ModelFormatName"];
 this->hasExternalShape_ModelName = object["ExternalShape.hasExternalShape_ModelName"];
 this->hasExternalShape_ModelFileName = object["ExternalShape.hasExternalShape_ModelFileName"];
 this->name = object["ExternalShape._NAME"];
 this->ExternalShapeID = std::atof(object["ExternalShape.ExternalShapeID"].c_str());
-if(this->hadByExternalShape_SolidObject== NULL && object["hadByExternalShape_SolidObject/SolidObject._NAME"]!=""){
-this->hadByExternalShape_SolidObject = new SolidObject(object["hadByExternalShape_SolidObject/SolidObject._NAME"]);
+if(this->hadByExternalShape_StockKeepingUnit== NULL && object["hadByExternalShape_StockKeepingUnit/StockKeepingUnit._NAME"]!=""){
+this->hadByExternalShape_StockKeepingUnit = new StockKeepingUnit(object["hadByExternalShape_StockKeepingUnit/StockKeepingUnit._NAME"]);
+}
+if(this->hadByExternalShape_NoSkuObject== NULL && object["hadByExternalShape_NoSkuObject/NoSkuObject._NAME"]!=""){
+this->hadByExternalShape_NoSkuObject = new NoSkuObject(object["hadByExternalShape_NoSkuObject/NoSkuObject._NAME"]);
 }
 
 }std::vector<std::string> ExternalShape::Explode(const std::string & str, char separator )

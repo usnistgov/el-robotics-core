@@ -148,20 +148,15 @@ delete (dao);
 this->set(name);
 }
 
-void KitDesign::copy(std::map<std::string,std::string> object){delete(hadByKitDesign_KittingWorkstation);
-hadByKitDesign_KittingWorkstation=NULL;
-delete(hasKitDesign_KitTraySku);
+void KitDesign::copy(std::map<std::string,std::string> object){hadByKitDesign_KittingWorkstation=NULL;
 hasKitDesign_KitTraySku=NULL;
 for(std::size_t i = 0; i < hasLargeBoxWithKits_KitDesign.size(); i++){
-delete(hasLargeBoxWithKits_KitDesign[i]);
 hasLargeBoxWithKits_KitDesign[i]=NULL;}
 hasLargeBoxWithKits_KitDesign.clear();
 for(std::size_t i = 0; i < hadByPartRefAndPose_KitDesign.size(); i++){
-delete(hadByPartRefAndPose_KitDesign[i]);
 hadByPartRefAndPose_KitDesign[i]=NULL;}
 hadByPartRefAndPose_KitDesign.clear();
 for(std::size_t i = 0; i < hasKit_Design.size(); i++){
-delete(hasKit_Design[i]);
 hasKit_Design[i]=NULL;}
 hasKit_Design.clear();
 std::vector<std::string> temp;

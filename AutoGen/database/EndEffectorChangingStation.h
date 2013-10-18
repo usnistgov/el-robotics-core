@@ -22,12 +22,12 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class MechanicalComponent;
  class KittingWorkstation;
  class DAO;
  class EndEffectorHolder;
-class EndEffectorChangingStation: public SolidObject{private:
+class EndEffectorChangingStation: public NoSkuObject{private:
 int EndEffectorChangingStationID;
 DAO* dao;
 MechanicalComponent* hasEndEffectorChangingStation_Base;

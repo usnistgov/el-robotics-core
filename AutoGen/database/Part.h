@@ -22,19 +22,17 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
- class StockKeepingUnit;
- class PartsTrayWithParts;
+#include "SkuObject.h"
  class Slot;
  class Kit;
  class DAO;
-class Part: public SolidObject{private:
+ class PartsVessel;
+class Part: public SkuObject{private:
 std::string hasPart_SerialNumber;
 int PartID;
 DAO* dao;
+PartsVessel* hadByPart_PartsVessel;
 Kit* hadByPart_Kit;
-PartsTrayWithParts* hadByPart_PartsTrayWithParts;
-StockKeepingUnit* hasPart_Sku;
 std::vector<Slot*> hasSlot_Part;
 public:
 Part(std::string name);
@@ -50,12 +48,10 @@ int getPartID();
 void setPartID(int _PartID);
 DAO* getdao();
 void setdao(DAO* _dao);
+PartsVessel* gethadByPart_PartsVessel();
+void sethadByPart_PartsVessel(PartsVessel* _hadByPart_PartsVessel);
 Kit* gethadByPart_Kit();
 void sethadByPart_Kit(Kit* _hadByPart_Kit);
-PartsTrayWithParts* gethadByPart_PartsTrayWithParts();
-void sethadByPart_PartsTrayWithParts(PartsTrayWithParts* _hadByPart_PartsTrayWithParts);
-StockKeepingUnit* gethasPart_Sku();
-void sethasPart_Sku(StockKeepingUnit* _hasPart_Sku);
 std::vector<Slot*> gethasSlot_Part();
 void sethasSlot_Part(std::vector<Slot*> _hasSlot_Part);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

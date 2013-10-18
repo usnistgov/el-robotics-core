@@ -16,7 +16,7 @@ software
 
  #include "DAO.h"
 
-Human::Human(std::string name) : SolidObject(name){
+Human::Human(std::string name) : NoSkuObject(name){
 dao = NULL;
 
 }Human::~Human(){
@@ -35,6 +35,9 @@ this->dao= _dao;
 }
 void Human::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -46,8 +49,10 @@ copy(temp);
  void Human::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["name"]="'" + name + "'";
 ss.str("");
 ss << HumanID;
@@ -61,11 +66,14 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["HumanID"]=ss.str();
 dao  = new DAO("Human");
 dao->insert(data);

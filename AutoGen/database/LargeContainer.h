@@ -22,17 +22,15 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
- class StockKeepingUnit;
+#include "SkuObject.h"
  class LargeBoxWithKits;
  class LargeBoxWithEmptyKitTrays;
  class DAO;
-class LargeContainer: public SolidObject{private:
+class LargeContainer: public SkuObject{private:
 std::string hasLargeContainer_SerialNumber;
 int LargeContainerID;
 DAO* dao;
 LargeBoxWithKits* hasLargeBoxWithKits_LargeContainer;
-StockKeepingUnit* hasLargeContainer_Sku;
 LargeBoxWithEmptyKitTrays* hasLargeBoxWithEmptyKitTrays_LargeContainer;
 public:
 LargeContainer(std::string name);
@@ -50,8 +48,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 LargeBoxWithKits* gethasLargeBoxWithKits_LargeContainer();
 void sethasLargeBoxWithKits_LargeContainer(LargeBoxWithKits* _hasLargeBoxWithKits_LargeContainer);
-StockKeepingUnit* gethasLargeContainer_Sku();
-void sethasLargeContainer_Sku(StockKeepingUnit* _hasLargeContainer_Sku);
 LargeBoxWithEmptyKitTrays* gethasLargeBoxWithEmptyKitTrays_LargeContainer();
 void sethasLargeBoxWithEmptyKitTrays_LargeContainer(LargeBoxWithEmptyKitTrays* _hasLargeBoxWithEmptyKitTrays_LargeContainer);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );

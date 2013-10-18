@@ -22,13 +22,13 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class SolidObject;
  class DAO;
-class WorkTable: public SolidObject{private:
+class WorkTable: public NoSkuObject{private:
 int WorkTableID;
 DAO* dao;
-std::vector<SolidObject*> hadBySolidObject_WorkTable;
+std::vector<SolidObject*> hadByObjectOnTable_WorkTable;
 public:
 WorkTable(std::string name);
 ~WorkTable();
@@ -41,8 +41,8 @@ int getWorkTableID();
 void setWorkTableID(int _WorkTableID);
 DAO* getdao();
 void setdao(DAO* _dao);
-std::vector<SolidObject*> gethadBySolidObject_WorkTable();
-void sethadBySolidObject_WorkTable(std::vector<SolidObject*> _hadBySolidObject_WorkTable);
+std::vector<SolidObject*> gethadByObjectOnTable_WorkTable();
+void sethadByObjectOnTable_WorkTable(std::vector<SolidObject*> _hadByObjectOnTable_WorkTable);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* WORKTABLE_H_ */

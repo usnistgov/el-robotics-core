@@ -14,23 +14,12 @@ software
 #include "PartsBin.h"
 
 
- #include "StockKeepingUnit.h"
  #include "DAO.h"
 
-PartsBin::PartsBin(std::string name) : SolidObject(name){
+PartsBin::PartsBin(std::string name) : PartsVessel(name){
 dao = NULL;
-hasPartsBin_Sku = NULL;
-hasPartsBin_PartSku = NULL;
 
 }PartsBin::~PartsBin(){
-delete(hasPartsBin_Sku);
-delete(hasPartsBin_PartSku);
-}
-std::string PartsBin::gethasPartsBin_PartQuantity(){
-return hasPartsBin_PartQuantity;
-}
-std::string PartsBin::gethasPartsBin_SerialNumber(){
-return hasPartsBin_SerialNumber;
 }
 int PartsBin::getPartsBinID(){
 return PartsBinID;
@@ -38,32 +27,20 @@ return PartsBinID;
 DAO* PartsBin::getdao(){
 return dao;
 }
-StockKeepingUnit* PartsBin::gethasPartsBin_Sku(){
-return hasPartsBin_Sku;
-}
-StockKeepingUnit* PartsBin::gethasPartsBin_PartSku(){
-return hasPartsBin_PartSku;
-}
-void PartsBin::sethasPartsBin_PartQuantity(std::string _hasPartsBin_PartQuantity){
-this->hasPartsBin_PartQuantity= _hasPartsBin_PartQuantity;
-}
-void PartsBin::sethasPartsBin_SerialNumber(std::string _hasPartsBin_SerialNumber){
-this->hasPartsBin_SerialNumber= _hasPartsBin_SerialNumber;
-}
 void PartsBin::setPartsBinID(int _PartsBinID){
 this->PartsBinID= _PartsBinID;
 }
 void PartsBin::setdao(DAO* _dao){
 this->dao= _dao;
 }
-void PartsBin::sethasPartsBin_Sku(StockKeepingUnit* _hasPartsBin_Sku){
-this->hasPartsBin_Sku= _hasPartsBin_Sku;
-}
-void PartsBin::sethasPartsBin_PartSku(StockKeepingUnit* _hasPartsBin_PartSku){
-this->hasPartsBin_PartSku= _hasPartsBin_PartSku;
-}
 void PartsBin::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("PartsVessel");
+ temp = dao->get(name);delete (dao);
+ PartsVessel::copy(temp);
+dao  = new DAO("SkuObject");
+ temp = dao->get(name);delete (dao);
+ SkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -75,22 +52,16 @@ copy(temp);
  void PartsBin::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+PartsVessel* temp0 = (PartsVessel*) this;
 temp0->set(name);
-data["hasPartsBin_PartQuantity"]="'" + hasPartsBin_PartQuantity + "'";
-data["hasPartsBin_SerialNumber"]="'" + hasPartsBin_SerialNumber + "'";
+SkuObject* temp1 = (SkuObject*) this;
+temp1->set(name);
+SolidObject* temp2 = (SolidObject*) this;
+temp2->set(name);
 data["name"]="'" + name + "'";
 ss.str("");
 ss << PartsBinID;
 data["PartsBinID"]=ss.str();
-if(hasPartsBin_Sku!=NULL)
-data["hasPartsBin_Sku"]="'" +hasPartsBin_Sku->getname() + "'";
-else 
- data["hasPartsBin_Sku"]="null";
-if(hasPartsBin_PartSku!=NULL)
-data["hasPartsBin_PartSku"]="'" +hasPartsBin_PartSku->getname() + "'";
-else 
- data["hasPartsBin_PartSku"]="null";
 dao  = new DAO("PartsBin");
 dao->set(data);
 delete (dao);
@@ -100,44 +71,32 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp2 = (SolidObject*) this;
+temp2->insert(name);
+temp2->get(name);
+SkuObject* temp1 = (SkuObject*) this;
+temp1->setSkuObjectID(temp2->getSolidObjectID());
+temp1->insert(name);
+PartsVessel* temp0 = (PartsVessel*) this;
+temp0->setPartsVesselID(temp2->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
-data["hasPartsBin_PartQuantity"]="'" + hasPartsBin_PartQuantity+ "'";
-data["hasPartsBin_SerialNumber"]="'" + hasPartsBin_SerialNumber+ "'";
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp2->getSolidObjectID();
 data["PartsBinID"]=ss.str();
-if(hasPartsBin_Sku!=NULL)
-data["hasPartsBin_Sku"]="'" + hasPartsBin_Sku->getname() + "'";
-if(hasPartsBin_PartSku!=NULL)
-data["hasPartsBin_PartSku"]="'" + hasPartsBin_PartSku->getname() + "'";
 dao  = new DAO("PartsBin");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void PartsBin::copy(std::map<std::string,std::string> object){delete(hasPartsBin_Sku);
-hasPartsBin_Sku=NULL;
-delete(hasPartsBin_PartSku);
-hasPartsBin_PartSku=NULL;
-std::vector<std::string> temp;
+void PartsBin::copy(std::map<std::string,std::string> object){std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
 std::map<std::string,std::string> mapTempBis;
 int nbVal=0;
 int nbValCurrent=0;
 std::vector<PartsBin*> tmp;
-this->hasPartsBin_PartQuantity = object["PartsBin.hasPartsBin_PartQuantity"];
-this->hasPartsBin_SerialNumber = object["PartsBin.hasPartsBin_SerialNumber"];
 this->name = object["PartsBin._NAME"];
 this->PartsBinID = std::atof(object["PartsBin.PartsBinID"].c_str());
-if(this->hasPartsBin_Sku== NULL && object["hasPartsBin_Sku/StockKeepingUnit._NAME"]!=""){
-this->hasPartsBin_Sku = new StockKeepingUnit(object["hasPartsBin_Sku/StockKeepingUnit._NAME"]);
-}
-if(this->hasPartsBin_PartSku== NULL && object["hasPartsBin_PartSku/StockKeepingUnit._NAME"]!=""){
-this->hasPartsBin_PartSku = new StockKeepingUnit(object["hasPartsBin_PartSku/StockKeepingUnit._NAME"]);
-}
 
 }std::vector<std::string> PartsBin::Explode(const std::string & str, char separator )
 {

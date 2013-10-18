@@ -22,16 +22,14 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
- class StockKeepingUnit;
+#include "SkuObject.h"
  class LargeBoxWithEmptyKitTrays;
  class Kit;
  class DAO;
-class KitTray: public SolidObject{private:
+class KitTray: public SkuObject{private:
 std::string hasKitTray_SerialNumber;
 int KitTrayID;
 DAO* dao;
-StockKeepingUnit* hasKitTray_Sku;
 Kit* hasKit_KitTray;
 LargeBoxWithEmptyKitTrays* hadByKitTray_LargeBoxWithEmptyKitTrays;
 public:
@@ -48,8 +46,6 @@ int getKitTrayID();
 void setKitTrayID(int _KitTrayID);
 DAO* getdao();
 void setdao(DAO* _dao);
-StockKeepingUnit* gethasKitTray_Sku();
-void sethasKitTray_Sku(StockKeepingUnit* _hasKitTray_Sku);
 Kit* gethasKit_KitTray();
 void sethasKit_KitTray(Kit* _hasKit_KitTray);
 LargeBoxWithEmptyKitTrays* gethadByKitTray_LargeBoxWithEmptyKitTrays();

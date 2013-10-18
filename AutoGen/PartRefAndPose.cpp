@@ -162,18 +162,12 @@ delete (dao);
 this->set(name);
 }
 
-void PartRefAndPose::copy(std::map<std::string,std::string> object){delete(hasPartRefAndPose_Sku);
-hasPartRefAndPose_Sku=NULL;
-delete(hasPartRefAndPose_ZAxis);
+void PartRefAndPose::copy(std::map<std::string,std::string> object){hasPartRefAndPose_Sku=NULL;
 hasPartRefAndPose_ZAxis=NULL;
-delete(hadByPartRefAndPose_KitDesign);
 hadByPartRefAndPose_KitDesign=NULL;
-delete(hasPartRefAndPose_Point);
 hasPartRefAndPose_Point=NULL;
-delete(hasPartRefAndPose_XAxis);
 hasPartRefAndPose_XAxis=NULL;
 for(std::size_t i = 0; i < hasSlot_PartRefAndPose.size(); i++){
-delete(hasSlot_PartRefAndPose[i]);
 hasSlot_PartRefAndPose[i]=NULL;}
 hasSlot_PartRefAndPose.clear();
 std::vector<std::string> temp;

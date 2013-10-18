@@ -22,12 +22,12 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class BoxVolume;
  class EndEffector;
  class KittingWorkstation;
  class DAO;
-class Robot: public SolidObject{private:
+class Robot: public NoSkuObject{private:
 std::string hasRobot_Description;
 double hasRobot_MaximumLoadWeight;
 int RobotID;

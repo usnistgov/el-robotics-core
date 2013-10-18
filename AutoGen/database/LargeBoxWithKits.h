@@ -22,12 +22,12 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class Kit;
  class LargeContainer;
  class DAO;
  class KitDesign;
-class LargeBoxWithKits: public SolidObject{private:
+class LargeBoxWithKits: public NoSkuObject{private:
 std::string hasLargeBoxWithKits_Capacity;
 int LargeBoxWithKitsID;
 DAO* dao;

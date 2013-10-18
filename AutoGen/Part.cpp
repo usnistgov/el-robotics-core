@@ -14,22 +14,19 @@ software
 #include "Part.h"
 
 
- #include "StockKeepingUnit.h"
- #include "PartsTrayWithParts.h"
  #include "Slot.h"
  #include "Kit.h"
  #include "DAO.h"
+ #include "PartsVessel.h"
 
-Part::Part(std::string name) : SolidObject(name){
+Part::Part(std::string name) : SkuObject(name){
 dao = NULL;
+hadByPart_PartsVessel = NULL;
 hadByPart_Kit = NULL;
-hadByPart_PartsTrayWithParts = NULL;
-hasPart_Sku = NULL;
 
 }Part::~Part(){
+delete(hadByPart_PartsVessel);
 delete(hadByPart_Kit);
-delete(hadByPart_PartsTrayWithParts);
-delete(hasPart_Sku);
 for(std::size_t i = 0; i < hasSlot_Part.size(); i++)
 delete(hasSlot_Part[i]);
 }
@@ -42,14 +39,11 @@ return PartID;
 DAO* Part::getdao(){
 return dao;
 }
+PartsVessel* Part::gethadByPart_PartsVessel(){
+return hadByPart_PartsVessel;
+}
 Kit* Part::gethadByPart_Kit(){
 return hadByPart_Kit;
-}
-PartsTrayWithParts* Part::gethadByPart_PartsTrayWithParts(){
-return hadByPart_PartsTrayWithParts;
-}
-StockKeepingUnit* Part::gethasPart_Sku(){
-return hasPart_Sku;
 }
 std::vector<Slot*> Part::gethasSlot_Part(){
 return hasSlot_Part;
@@ -63,20 +57,20 @@ this->PartID= _PartID;
 void Part::setdao(DAO* _dao){
 this->dao= _dao;
 }
+void Part::sethadByPart_PartsVessel(PartsVessel* _hadByPart_PartsVessel){
+this->hadByPart_PartsVessel= _hadByPart_PartsVessel;
+}
 void Part::sethadByPart_Kit(Kit* _hadByPart_Kit){
 this->hadByPart_Kit= _hadByPart_Kit;
-}
-void Part::sethadByPart_PartsTrayWithParts(PartsTrayWithParts* _hadByPart_PartsTrayWithParts){
-this->hadByPart_PartsTrayWithParts= _hadByPart_PartsTrayWithParts;
-}
-void Part::sethasPart_Sku(StockKeepingUnit* _hasPart_Sku){
-this->hasPart_Sku= _hasPart_Sku;
 }
 void Part::sethasSlot_Part(std::vector<Slot*> _hasSlot_Part){
 this->hasSlot_Part= _hasSlot_Part;
 }
 void Part::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("SkuObject");
+ temp = dao->get(name);delete (dao);
+ SkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -88,25 +82,23 @@ copy(temp);
  void Part::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+SkuObject* temp0 = (SkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["hasPart_SerialNumber"]="'" + hasPart_SerialNumber + "'";
 data["name"]="'" + name + "'";
 ss.str("");
 ss << PartID;
 data["PartID"]=ss.str();
+if(hadByPart_PartsVessel!=NULL)
+data["hadByPart_PartsVessel"]="'" +hadByPart_PartsVessel->getname() + "'";
+else 
+ data["hadByPart_PartsVessel"]="null";
 if(hadByPart_Kit!=NULL)
 data["hadByPart_Kit"]="'" +hadByPart_Kit->getname() + "'";
 else 
  data["hadByPart_Kit"]="null";
-if(hadByPart_PartsTrayWithParts!=NULL)
-data["hadByPart_PartsTrayWithParts"]="'" +hadByPart_PartsTrayWithParts->getname() + "'";
-else 
- data["hadByPart_PartsTrayWithParts"]="null";
-if(hasPart_Sku!=NULL)
-data["hasPart_Sku"]="'" +hasPart_Sku->getname() + "'";
-else 
- data["hasPart_Sku"]="null";
 for(unsigned int i=0;i<hasSlot_Part.size();++i){
 ss.str("");
 hasSlot_Part[i]->get(hasSlot_Part[i]->getname());
@@ -122,33 +114,29 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+SkuObject* temp0 = (SkuObject*) this;
+temp0->setSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 data["hasPart_SerialNumber"]="'" + hasPart_SerialNumber+ "'";
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["PartID"]=ss.str();
+if(hadByPart_PartsVessel!=NULL)
+data["hadByPart_PartsVessel"]="'" + hadByPart_PartsVessel->getname() + "'";
 if(hadByPart_Kit!=NULL)
 data["hadByPart_Kit"]="'" + hadByPart_Kit->getname() + "'";
-if(hadByPart_PartsTrayWithParts!=NULL)
-data["hadByPart_PartsTrayWithParts"]="'" + hadByPart_PartsTrayWithParts->getname() + "'";
-if(hasPart_Sku!=NULL)
-data["hasPart_Sku"]="'" + hasPart_Sku->getname() + "'";
 dao  = new DAO("Part");
 dao->insert(data);
 delete (dao);
 this->set(name);
 }
 
-void Part::copy(std::map<std::string,std::string> object){delete(hadByPart_Kit);
+void Part::copy(std::map<std::string,std::string> object){hadByPart_PartsVessel=NULL;
 hadByPart_Kit=NULL;
-delete(hadByPart_PartsTrayWithParts);
-hadByPart_PartsTrayWithParts=NULL;
-delete(hasPart_Sku);
-hasPart_Sku=NULL;
 for(std::size_t i = 0; i < hasSlot_Part.size(); i++){
-delete(hasSlot_Part[i]);
 hasSlot_Part[i]=NULL;}
 hasSlot_Part.clear();
 std::vector<std::string> temp;
@@ -160,14 +148,11 @@ std::vector<Part*> tmp;
 this->hasPart_SerialNumber = object["Part.hasPart_SerialNumber"];
 this->name = object["Part._NAME"];
 this->PartID = std::atof(object["Part.PartID"].c_str());
+if(this->hadByPart_PartsVessel== NULL && object["hadByPart_PartsVessel/PartsVessel._NAME"]!=""){
+this->hadByPart_PartsVessel = new PartsVessel(object["hadByPart_PartsVessel/PartsVessel._NAME"]);
+}
 if(this->hadByPart_Kit== NULL && object["hadByPart_Kit/Kit._NAME"]!=""){
 this->hadByPart_Kit = new Kit(object["hadByPart_Kit/Kit._NAME"]);
-}
-if(this->hadByPart_PartsTrayWithParts== NULL && object["hadByPart_PartsTrayWithParts/PartsTrayWithParts._NAME"]!=""){
-this->hadByPart_PartsTrayWithParts = new PartsTrayWithParts(object["hadByPart_PartsTrayWithParts/PartsTrayWithParts._NAME"]);
-}
-if(this->hasPart_Sku== NULL && object["hasPart_Sku/StockKeepingUnit._NAME"]!=""){
-this->hasPart_Sku = new StockKeepingUnit(object["hasPart_Sku/StockKeepingUnit._NAME"]);
 }
 if(this->hasSlot_Part.empty() && object["hasSlot_Part/Slot._NAME"]!=""){
 temp = Explode(object["hasSlot_Part/Slot._NAME"], ' ' );

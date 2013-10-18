@@ -22,14 +22,14 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class Slot;
  class LargeBoxWithKits;
  class KitTray;
  class DAO;
  class Part;
  class KitDesign;
-class Kit: public SolidObject{private:
+class Kit: public NoSkuObject{private:
 bool hasKit_Finished;
 int KitID;
 DAO* dao;

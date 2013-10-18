@@ -22,16 +22,11 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
- class StockKeepingUnit;
+#include "PartsVessel.h"
  class DAO;
-class PartsBin: public SolidObject{private:
-std::string hasPartsBin_PartQuantity;
-std::string hasPartsBin_SerialNumber;
+class PartsBin: public PartsVessel{private:
 int PartsBinID;
 DAO* dao;
-StockKeepingUnit* hasPartsBin_Sku;
-StockKeepingUnit* hasPartsBin_PartSku;
 public:
 PartsBin(std::string name);
 ~PartsBin();
@@ -40,18 +35,10 @@ PartsBin(std::string name);
 void set(int id, PartsBin* obj);
 void set(std::string name);
 void insert(std::string name);
-std::string gethasPartsBin_PartQuantity();
-void sethasPartsBin_PartQuantity(std::string _hasPartsBin_PartQuantity);
-std::string gethasPartsBin_SerialNumber();
-void sethasPartsBin_SerialNumber(std::string _hasPartsBin_SerialNumber);
 int getPartsBinID();
 void setPartsBinID(int _PartsBinID);
 DAO* getdao();
 void setdao(DAO* _dao);
-StockKeepingUnit* gethasPartsBin_Sku();
-void sethasPartsBin_Sku(StockKeepingUnit* _hasPartsBin_Sku);
-StockKeepingUnit* gethasPartsBin_PartSku();
-void sethasPartsBin_PartSku(StockKeepingUnit* _hasPartsBin_PartSku);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* PARTSBIN_H_ */

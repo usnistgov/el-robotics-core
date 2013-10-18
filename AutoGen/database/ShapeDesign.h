@@ -23,7 +23,6 @@ software
 
 
 #include "DataThing.h"
- class StockKeepingUnit;
  class DAO;
  class PoseLocation;
 class ShapeDesign: public DataThing{private:
@@ -31,7 +30,6 @@ std::string hasShapeDesign_Description;
 int ShapeDesignID;
 DAO* dao;
 PoseLocation* hadByGraspPose_ShapeDesign;
-StockKeepingUnit* hasStockKeepingUnit_Shape;
 public:
 ShapeDesign(std::string name);
 ~ShapeDesign();
@@ -48,8 +46,6 @@ DAO* getdao();
 void setdao(DAO* _dao);
 PoseLocation* gethadByGraspPose_ShapeDesign();
 void sethadByGraspPose_ShapeDesign(PoseLocation* _hadByGraspPose_ShapeDesign);
-StockKeepingUnit* gethasStockKeepingUnit_Shape();
-void sethasStockKeepingUnit_Shape(StockKeepingUnit* _hasStockKeepingUnit_Shape);
 void copy(std::map<std::string,std::string> object);std::vector<std::string> Explode(const std::string & str, char separator );
 }; 
 #endif /* SHAPEDESIGN_H_ */

@@ -20,7 +20,7 @@ software
  #include "SolidObject.h"
  #include "EndEffectorHolder.h"
 
-EndEffector::EndEffector(std::string name) : SolidObject(name){
+EndEffector::EndEffector(std::string name) : NoSkuObject(name){
 dao = NULL;
 hasEndEffector_HeldObject = NULL;
 hadByEndEffector_Robot = NULL;
@@ -89,6 +89,9 @@ this->hasStockKeepingUnit_EndEffector= _hasStockKeepingUnit_EndEffector;
 }
 void EndEffector::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -100,8 +103,10 @@ copy(temp);
  void EndEffector::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["hasEndEffector_Description"]="'" + hasEndEffector_Description + "'";
 ss.str("");
 ss << hasEndEffector_Weight;
@@ -140,9 +145,12 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 data["hasEndEffector_Description"]="'" + hasEndEffector_Description+ "'";
 ss.str("");
 ss << hasEndEffector_Weight;
@@ -151,7 +159,7 @@ ss.str("");
 ss << hasEndEffector_MaximumLoadWeight;
 data["hasEndEffector_MaximumLoadWeight"]=ss.str();
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["EndEffectorID"]=ss.str();
 if(hasEndEffector_HeldObject!=NULL)
 data["hasEndEffector_HeldObject"]="'" + hasEndEffector_HeldObject->getname() + "'";
@@ -165,14 +173,10 @@ delete (dao);
 this->set(name);
 }
 
-void EndEffector::copy(std::map<std::string,std::string> object){delete(hasEndEffector_HeldObject);
-hasEndEffector_HeldObject=NULL;
-delete(hadByEndEffector_Robot);
+void EndEffector::copy(std::map<std::string,std::string> object){hasEndEffector_HeldObject=NULL;
 hadByEndEffector_Robot=NULL;
-delete(hasEndEffectorHolder_EndEffector);
 hasEndEffectorHolder_EndEffector=NULL;
 for(std::size_t i = 0; i < hasStockKeepingUnit_EndEffector.size(); i++){
-delete(hasStockKeepingUnit_EndEffector[i]);
 hasStockKeepingUnit_EndEffector[i]=NULL;}
 hasStockKeepingUnit_EndEffector.clear();
 std::vector<std::string> temp;

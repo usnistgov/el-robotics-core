@@ -132,13 +132,9 @@ delete (dao);
 this->set(name);
 }
 
-void BoxVolume::copy(std::map<std::string,std::string> object){delete(hadByOtherObstacle_KittingWorkstation);
-hadByOtherObstacle_KittingWorkstation=NULL;
-delete(hadByWorkVolume_Robot);
+void BoxVolume::copy(std::map<std::string,std::string> object){hadByOtherObstacle_KittingWorkstation=NULL;
 hadByWorkVolume_Robot=NULL;
-delete(hasBoxVolume_MaximumPoint);
 hasBoxVolume_MaximumPoint=NULL;
-delete(hasBoxVolume_MinimumPoint);
 hasBoxVolume_MinimumPoint=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

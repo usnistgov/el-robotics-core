@@ -14,20 +14,17 @@ software
 #include "LargeContainer.h"
 
 
- #include "StockKeepingUnit.h"
  #include "LargeBoxWithKits.h"
  #include "LargeBoxWithEmptyKitTrays.h"
  #include "DAO.h"
 
-LargeContainer::LargeContainer(std::string name) : SolidObject(name){
+LargeContainer::LargeContainer(std::string name) : SkuObject(name){
 dao = NULL;
 hasLargeBoxWithKits_LargeContainer = NULL;
-hasLargeContainer_Sku = NULL;
 hasLargeBoxWithEmptyKitTrays_LargeContainer = NULL;
 
 }LargeContainer::~LargeContainer(){
 delete(hasLargeBoxWithKits_LargeContainer);
-delete(hasLargeContainer_Sku);
 delete(hasLargeBoxWithEmptyKitTrays_LargeContainer);
 }
 std::string LargeContainer::gethasLargeContainer_SerialNumber(){
@@ -41,9 +38,6 @@ return dao;
 }
 LargeBoxWithKits* LargeContainer::gethasLargeBoxWithKits_LargeContainer(){
 return hasLargeBoxWithKits_LargeContainer;
-}
-StockKeepingUnit* LargeContainer::gethasLargeContainer_Sku(){
-return hasLargeContainer_Sku;
 }
 LargeBoxWithEmptyKitTrays* LargeContainer::gethasLargeBoxWithEmptyKitTrays_LargeContainer(){
 return hasLargeBoxWithEmptyKitTrays_LargeContainer;
@@ -60,14 +54,14 @@ this->dao= _dao;
 void LargeContainer::sethasLargeBoxWithKits_LargeContainer(LargeBoxWithKits* _hasLargeBoxWithKits_LargeContainer){
 this->hasLargeBoxWithKits_LargeContainer= _hasLargeBoxWithKits_LargeContainer;
 }
-void LargeContainer::sethasLargeContainer_Sku(StockKeepingUnit* _hasLargeContainer_Sku){
-this->hasLargeContainer_Sku= _hasLargeContainer_Sku;
-}
 void LargeContainer::sethasLargeBoxWithEmptyKitTrays_LargeContainer(LargeBoxWithEmptyKitTrays* _hasLargeBoxWithEmptyKitTrays_LargeContainer){
 this->hasLargeBoxWithEmptyKitTrays_LargeContainer= _hasLargeBoxWithEmptyKitTrays_LargeContainer;
 }
 void LargeContainer::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("SkuObject");
+ temp = dao->get(name);delete (dao);
+ SkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -79,8 +73,10 @@ copy(temp);
  void LargeContainer::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+SkuObject* temp0 = (SkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["hasLargeContainer_SerialNumber"]="'" + hasLargeContainer_SerialNumber + "'";
 data["name"]="'" + name + "'";
 ss.str("");
@@ -90,10 +86,6 @@ if(hasLargeBoxWithKits_LargeContainer!=NULL)
 data["hasLargeBoxWithKits_LargeContainer"]="'" +hasLargeBoxWithKits_LargeContainer->getname() + "'";
 else 
  data["hasLargeBoxWithKits_LargeContainer"]="null";
-if(hasLargeContainer_Sku!=NULL)
-data["hasLargeContainer_Sku"]="'" +hasLargeContainer_Sku->getname() + "'";
-else 
- data["hasLargeContainer_Sku"]="null";
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
 data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" +hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
 else 
@@ -107,17 +99,18 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+SkuObject* temp0 = (SkuObject*) this;
+temp0->setSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 data["hasLargeContainer_SerialNumber"]="'" + hasLargeContainer_SerialNumber+ "'";
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["LargeContainerID"]=ss.str();
 if(hasLargeBoxWithKits_LargeContainer!=NULL)
 data["hasLargeBoxWithKits_LargeContainer"]="'" + hasLargeBoxWithKits_LargeContainer->getname() + "'";
-if(hasLargeContainer_Sku!=NULL)
-data["hasLargeContainer_Sku"]="'" + hasLargeContainer_Sku->getname() + "'";
 if(hasLargeBoxWithEmptyKitTrays_LargeContainer!=NULL)
 data["hasLargeBoxWithEmptyKitTrays_LargeContainer"]="'" + hasLargeBoxWithEmptyKitTrays_LargeContainer->getname() + "'";
 dao  = new DAO("LargeContainer");
@@ -126,11 +119,7 @@ delete (dao);
 this->set(name);
 }
 
-void LargeContainer::copy(std::map<std::string,std::string> object){delete(hasLargeBoxWithKits_LargeContainer);
-hasLargeBoxWithKits_LargeContainer=NULL;
-delete(hasLargeContainer_Sku);
-hasLargeContainer_Sku=NULL;
-delete(hasLargeBoxWithEmptyKitTrays_LargeContainer);
+void LargeContainer::copy(std::map<std::string,std::string> object){hasLargeBoxWithKits_LargeContainer=NULL;
 hasLargeBoxWithEmptyKitTrays_LargeContainer=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;
@@ -143,9 +132,6 @@ this->name = object["LargeContainer._NAME"];
 this->LargeContainerID = std::atof(object["LargeContainer.LargeContainerID"].c_str());
 if(this->hasLargeBoxWithKits_LargeContainer== NULL && object["hasLargeBoxWithKits_LargeContainer/LargeBoxWithKits._NAME"]!=""){
 this->hasLargeBoxWithKits_LargeContainer = new LargeBoxWithKits(object["hasLargeBoxWithKits_LargeContainer/LargeBoxWithKits._NAME"]);
-}
-if(this->hasLargeContainer_Sku== NULL && object["hasLargeContainer_Sku/StockKeepingUnit._NAME"]!=""){
-this->hasLargeContainer_Sku = new StockKeepingUnit(object["hasLargeContainer_Sku/StockKeepingUnit._NAME"]);
 }
 if(this->hasLargeBoxWithEmptyKitTrays_LargeContainer== NULL && object["hasLargeBoxWithEmptyKitTrays_LargeContainer/LargeBoxWithEmptyKitTrays._NAME"]!=""){
 this->hasLargeBoxWithEmptyKitTrays_LargeContainer = new LargeBoxWithEmptyKitTrays(object["hasLargeBoxWithEmptyKitTrays_LargeContainer/LargeBoxWithEmptyKitTrays._NAME"]);

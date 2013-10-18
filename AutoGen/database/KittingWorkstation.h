@@ -22,7 +22,7 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class Robot;
  class BoxVolume;
  class SolidObject;
@@ -30,7 +30,7 @@ software
  class StockKeepingUnit;
  class EndEffectorChangingStation;
  class DAO;
-class KittingWorkstation: public SolidObject{private:
+class KittingWorkstation: public NoSkuObject{private:
 std::string hasKittingWorkstation_LengthUnit;
 std::string hasKittingWorkstation_WeightUnit;
 std::string hasKittingWorkstation_AngleUnit;

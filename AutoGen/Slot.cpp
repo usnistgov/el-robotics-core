@@ -118,11 +118,8 @@ delete (dao);
 this->set(name);
 }
 
-void Slot::copy(std::map<std::string,std::string> object){delete(hadBySlot_Kit);
-hadBySlot_Kit=NULL;
-delete(hasSlot_PartRefAndPose);
+void Slot::copy(std::map<std::string,std::string> object){hadBySlot_Kit=NULL;
 hasSlot_PartRefAndPose=NULL;
-delete(hasSlot_Part);
 hasSlot_Part=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

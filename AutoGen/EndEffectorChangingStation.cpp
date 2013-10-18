@@ -19,7 +19,7 @@ software
  #include "DAO.h"
  #include "EndEffectorHolder.h"
 
-EndEffectorChangingStation::EndEffectorChangingStation(std::string name) : SolidObject(name){
+EndEffectorChangingStation::EndEffectorChangingStation(std::string name) : NoSkuObject(name){
 dao = NULL;
 hasEndEffectorChangingStation_Base = NULL;
 hasKittingWorkstation_ChangingStation = NULL;
@@ -62,6 +62,9 @@ this->hasKittingWorkstation_ChangingStation= _hasKittingWorkstation_ChangingStat
 }
 void EndEffectorChangingStation::get(std::string name){
 std::map<std::string,std::string> temp;
+dao  = new DAO("NoSkuObject");
+ temp = dao->get(name);delete (dao);
+ NoSkuObject::copy(temp);
 dao  = new DAO("SolidObject");
  temp = dao->get(name);delete (dao);
  SolidObject::copy(temp);
@@ -73,8 +76,10 @@ copy(temp);
  void EndEffectorChangingStation::set(std::string name){
 std::map<std::string, std::string> data;
 std::stringstream ss;
-SolidObject* temp0 = (SolidObject*) this;
+NoSkuObject* temp0 = (NoSkuObject*) this;
 temp0->set(name);
+SolidObject* temp1 = (SolidObject*) this;
+temp1->set(name);
 data["name"]="'" + name + "'";
 ss.str("");
 ss << EndEffectorChangingStationID;
@@ -102,11 +107,14 @@ std::map<std::string, std::string> data;
 std::stringstream ss;
 data["_Name"]="'" + name + "'";
 
-SolidObject* temp0 = (SolidObject*) this;
+SolidObject* temp1 = (SolidObject*) this;
+temp1->insert(name);
+temp1->get(name);
+NoSkuObject* temp0 = (NoSkuObject*) this;
+temp0->setNoSkuObjectID(temp1->getSolidObjectID());
 temp0->insert(name);
-temp0->get(name);
 ss.str("");
-ss << temp0->getSolidObjectID();
+ss << temp1->getSolidObjectID();
 data["EndEffectorChangingStationID"]=ss.str();
 if(hasEndEffectorChangingStation_Base!=NULL)
 data["hasEndEffectorChangingStation_Base"]="'" + hasEndEffectorChangingStation_Base->getname() + "'";
@@ -118,13 +126,10 @@ delete (dao);
 this->set(name);
 }
 
-void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){delete(hasEndEffectorChangingStation_Base);
-hasEndEffectorChangingStation_Base=NULL;
+void EndEffectorChangingStation::copy(std::map<std::string,std::string> object){hasEndEffectorChangingStation_Base=NULL;
 for(std::size_t i = 0; i < hadByEndEffectorHolder_EndEffectorChangingStation.size(); i++){
-delete(hadByEndEffectorHolder_EndEffectorChangingStation[i]);
 hadByEndEffectorHolder_EndEffectorChangingStation[i]=NULL;}
 hadByEndEffectorHolder_EndEffectorChangingStation.clear();
-delete(hasKittingWorkstation_ChangingStation);
 hasKittingWorkstation_ChangingStation=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

@@ -22,13 +22,13 @@ software
 #include <sstream>
 
 
-#include "SolidObject.h"
+#include "NoSkuObject.h"
  class Robot;
  class StockKeepingUnit;
  class DAO;
  class SolidObject;
  class EndEffectorHolder;
-class EndEffector: public SolidObject{private:
+class EndEffector: public NoSkuObject{private:
 std::string hasEndEffector_Description;
 double hasEndEffector_Weight;
 double hasEndEffector_MaximumLoadWeight;

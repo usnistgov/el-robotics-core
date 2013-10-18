@@ -167,13 +167,9 @@ delete (dao);
 this->set(name);
 }
 
-void Vector::copy(std::map<std::string,std::string> object){delete(hasPoseLocation_XAxis);
-hasPoseLocation_XAxis=NULL;
-delete(hasPoseLocation_ZAxis);
+void Vector::copy(std::map<std::string,std::string> object){hasPoseLocation_XAxis=NULL;
 hasPoseLocation_ZAxis=NULL;
-delete(hasPartRefAndPose_ZAxis);
 hasPartRefAndPose_ZAxis=NULL;
-delete(hasPartRefAndPose_XAxis);
 hasPartRefAndPose_XAxis=NULL;
 std::vector<std::string> temp;
 std::map<std::string,std::string> mapTemp;

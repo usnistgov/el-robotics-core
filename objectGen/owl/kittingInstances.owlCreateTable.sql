@@ -1,9 +1,6 @@
 CREATE TABLE PartsBin(
 PartsBinID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasPartsBin_PartQuantity INTEGER NOT NULL,
-hasPartsBin_SerialNumber varchar(100) NOT NULL,
-CHECK(hasPartsBin_PartQuantity >= 0),
 PRIMARY KEY (PartsBinID, _NAME)
 )ENGINE=InnoDB;
 
@@ -73,6 +70,15 @@ _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (RelativeLocationInID, _NAME)
 )ENGINE=InnoDB;
 
+CREATE TABLE PartsVessel(
+PartsVesselID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+hasPartsVessel_PartQuantity INTEGER NOT NULL,
+hasPartsVessel_SerialNumber varchar(100) NOT NULL,
+CHECK(hasPartsVessel_PartQuantity >= 0),
+PRIMARY KEY (PartsVesselID, _NAME)
+)ENGINE=InnoDB;
+
 CREATE TABLE Part(
 PartID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
@@ -83,14 +89,7 @@ PRIMARY KEY (PartID, _NAME)
 CREATE TABLE PartsTray(
 PartsTrayID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasPartsTray_SerialNumber varchar(100) NOT NULL,
 PRIMARY KEY (PartsTrayID, _NAME)
-)ENGINE=InnoDB;
-
-CREATE TABLE PartsTrayWithParts(
-PartsTrayWithPartsID INT NOT NULL,
-_NAME varchar(255), INDEX (_NAME),
-PRIMARY KEY (PartsTrayWithPartsID, _NAME)
 )ENGINE=InnoDB;
 
 CREATE TABLE Robot(
@@ -227,6 +226,12 @@ _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (VacuumEffectorSingleCupID, _NAME)
 )ENGINE=InnoDB;
 
+CREATE TABLE NoSkuObject(
+NoSkuObjectID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (NoSkuObjectID, _NAME)
+)ENGINE=InnoDB;
+
 CREATE TABLE DataThing(
 DataThingID INT NOT NULL AUTO_INCREMENT, 
 _NAME varchar(255), INDEX (_NAME),
@@ -247,7 +252,7 @@ PRIMARY KEY (EndEffectorID, _NAME)
 CREATE TABLE ExternalShape(
 ExternalShapeID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
-hasExternalShape_ModelTypeName varchar(255) NOT NULL,
+hasExternalShape_ModelFormatName varchar(255) NOT NULL,
 hasExternalShape_ModelName varchar(255),
 hasExternalShape_ModelFileName varchar(255) NOT NULL,
 PRIMARY KEY (ExternalShapeID, _NAME)
@@ -292,6 +297,12 @@ _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (SlotID, _NAME)
 )ENGINE=InnoDB;
 
+CREATE TABLE SkuObject(
+SkuObjectID INT NOT NULL,
+_NAME varchar(255), INDEX (_NAME),
+PRIMARY KEY (SkuObjectID, _NAME)
+)ENGINE=InnoDB;
+
 CREATE TABLE RelativeLocationOn(
 RelativeLocationOnID INT NOT NULL,
 _NAME varchar(255), INDEX (_NAME),
@@ -316,39 +327,12 @@ _NAME varchar(255), INDEX (_NAME),
 PRIMARY KEY (PoseLocationOnID, _NAME)
 )ENGINE=InnoDB;
 
-CREATE TABLE isKit_FinishedValue(
-KitID INT NOT NULL,
-isKit_Finished varchar(255) NOT NULL, 
-PRIMARY KEY (KitID,isKit_Finished)
-);
 
-CREATE TABLE hasBoxyShape_TopValue(
-KitID INT NOT NULL,
-hasBoxyShape_Top varchar(255) NOT NULL, 
-PRIMARY KEY (KitID,hasBoxyShape_Top)
-);
-
-
-
-ALTER TABLE PartsBin
-ADD hasPartsBin_Sku VARCHAR(255),
-ADD CONSTRAINT fkhasPartsBin_Sku
-FOREIGN KEY(hasPartsBin_Sku) REFERENCES StockKeepingUnit(_NAME);
-
-ALTER TABLE PartsBin
-ADD hasPartsBin_PartSku VARCHAR(255),
-ADD CONSTRAINT fkhasPartsBin_PartSku
-FOREIGN KEY(hasPartsBin_PartSku) REFERENCES StockKeepingUnit(_NAME);
 
 ALTER TABLE LargeBoxWithKits
 ADD hasLargeBoxWithKits_LargeContainer VARCHAR(255),
 ADD CONSTRAINT fkhasLargeBoxWithKits_LargeContainer
 FOREIGN KEY(hasLargeBoxWithKits_LargeContainer) REFERENCES LargeContainer(_NAME);
-
-ALTER TABLE LargeContainer
-ADD hasLargeContainer_Sku VARCHAR(255),
-ADD CONSTRAINT fkhasLargeContainer_Sku
-FOREIGN KEY(hasLargeContainer_Sku) REFERENCES StockKeepingUnit(_NAME);
 
 ALTER TABLE LargeBoxWithEmptyKitTrays
 ADD hasLargeBoxWithEmptyKitTrays_LargeContainer VARCHAR(255),
@@ -365,25 +349,15 @@ ADD hadByObject_KittingWorkstation VARCHAR(255),
 ADD CONSTRAINT fkhadByObject_KittingWorkstation
 FOREIGN KEY(hadByObject_KittingWorkstation) REFERENCES KittingWorkstation(_NAME);
 
-ALTER TABLE InternalShape
-ADD hadByInternalShape_SolidObject VARCHAR(255),
-ADD CONSTRAINT fkhadByInternalShape_SolidObject
-FOREIGN KEY(hadByInternalShape_SolidObject) REFERENCES SolidObject(_NAME);
+ALTER TABLE SolidObject
+ADD hadByObjectOnTable_WorkTable VARCHAR(255),
+ADD CONSTRAINT fkhadByObjectOnTable_WorkTable
+FOREIGN KEY(hadByObjectOnTable_WorkTable) REFERENCES WorkTable(_NAME);
 
 ALTER TABLE SolidObject
 ADD hasSolidObject_PrimaryLocation VARCHAR(255),
 ADD CONSTRAINT fkhasSolidObject_PrimaryLocation
 FOREIGN KEY(hasSolidObject_PrimaryLocation) REFERENCES PhysicalLocation(_NAME);
-
-ALTER TABLE SolidObject
-ADD hadBySolidObject_WorkTable VARCHAR(255),
-ADD CONSTRAINT fkhadBySolidObject_WorkTable
-FOREIGN KEY(hadBySolidObject_WorkTable) REFERENCES WorkTable(_NAME);
-
-ALTER TABLE ExternalShape
-ADD hadByExternalShape_SolidObject VARCHAR(255),
-ADD CONSTRAINT fkhadByExternalShape_SolidObject
-FOREIGN KEY(hadByExternalShape_SolidObject) REFERENCES SolidObject(_NAME);
 
 ALTER TABLE EndEffector
 ADD hasEndEffector_HeldObject VARCHAR(255),
@@ -430,35 +404,20 @@ ADD hadByGraspPose_ShapeDesign VARCHAR(255),
 ADD CONSTRAINT fkhadByGraspPose_ShapeDesign
 FOREIGN KEY(hadByGraspPose_ShapeDesign) REFERENCES ShapeDesign(_NAME);
 
-ALTER TABLE StockKeepingUnit
-ADD hasStockKeepingUnit_Shape VARCHAR(255),
-ADD CONSTRAINT fkhasStockKeepingUnit_Shape
-FOREIGN KEY(hasStockKeepingUnit_Shape) REFERENCES ShapeDesign(_NAME);
+ALTER TABLE PartsVessel
+ADD hasPartsVessel_PartSku VARCHAR(255),
+ADD CONSTRAINT fkhasPartsVessel_PartSku
+FOREIGN KEY(hasPartsVessel_PartSku) REFERENCES StockKeepingUnit(_NAME);
+
+ALTER TABLE Part
+ADD hadByPart_PartsVessel VARCHAR(255),
+ADD CONSTRAINT fkhadByPart_PartsVessel
+FOREIGN KEY(hadByPart_PartsVessel) REFERENCES PartsVessel(_NAME);
 
 ALTER TABLE Part
 ADD hadByPart_Kit VARCHAR(255),
 ADD CONSTRAINT fkhadByPart_Kit
 FOREIGN KEY(hadByPart_Kit) REFERENCES Kit(_NAME);
-
-ALTER TABLE Part
-ADD hadByPart_PartsTrayWithParts VARCHAR(255),
-ADD CONSTRAINT fkhadByPart_PartsTrayWithParts
-FOREIGN KEY(hadByPart_PartsTrayWithParts) REFERENCES PartsTrayWithParts(_NAME);
-
-ALTER TABLE Part
-ADD hasPart_Sku VARCHAR(255),
-ADD CONSTRAINT fkhasPart_Sku
-FOREIGN KEY(hasPart_Sku) REFERENCES StockKeepingUnit(_NAME);
-
-ALTER TABLE PartsTray
-ADD hasPartsTray_Sku VARCHAR(255),
-ADD CONSTRAINT fkhasPartsTray_Sku
-FOREIGN KEY(hasPartsTray_Sku) REFERENCES StockKeepingUnit(_NAME);
-
-ALTER TABLE PartsTrayWithParts
-ADD hasPartsTrayWithParts_PartsTray VARCHAR(255),
-ADD CONSTRAINT fkhasPartsTrayWithParts_PartsTray
-FOREIGN KEY(hasPartsTrayWithParts_PartsTray) REFERENCES PartsTray(_NAME);
 
 ALTER TABLE EndEffector
 ADD hadByEndEffector_Robot VARCHAR(255),
@@ -510,6 +469,16 @@ ADD hadByEndEffectorHolder_EndEffectorChangingStation VARCHAR(255),
 ADD CONSTRAINT fkhadByEndEffectorHolder_EndEffectorChangingStation
 FOREIGN KEY(hadByEndEffectorHolder_EndEffectorChangingStation) REFERENCES EndEffectorChangingStation(_NAME);
 
+ALTER TABLE StockKeepingUnit
+ADD hasStockKeepingUnit_InternalShape VARCHAR(255),
+ADD CONSTRAINT fkhasStockKeepingUnit_InternalShape
+FOREIGN KEY(hasStockKeepingUnit_InternalShape) REFERENCES InternalShape(_NAME);
+
+ALTER TABLE NoSkuObject
+ADD hasNoSkuObject_InternalShape VARCHAR(255),
+ADD CONSTRAINT fkhasNoSkuObject_InternalShape
+FOREIGN KEY(hasNoSkuObject_InternalShape) REFERENCES InternalShape(_NAME);
+
 ALTER TABLE PoseLocation
 ADD hasPoseLocation_XAxis VARCHAR(255),
 ADD CONSTRAINT fkhasPoseLocation_XAxis
@@ -520,11 +489,6 @@ ADD hasPoseLocation_ZAxis VARCHAR(255),
 ADD CONSTRAINT fkhasPoseLocation_ZAxis
 FOREIGN KEY(hasPoseLocation_ZAxis) REFERENCES Vector(_NAME);
 
-ALTER TABLE KitTray
-ADD hasKitTray_Sku VARCHAR(255),
-ADD CONSTRAINT fkhasKitTray_Sku
-FOREIGN KEY(hasKitTray_Sku) REFERENCES StockKeepingUnit(_NAME);
-
 ALTER TABLE Kit
 ADD hasKit_KitTray VARCHAR(255),
 ADD CONSTRAINT fkhasKit_KitTray
@@ -534,6 +498,11 @@ ALTER TABLE KitTray
 ADD hadByKitTray_LargeBoxWithEmptyKitTrays VARCHAR(255),
 ADD CONSTRAINT fkhadByKitTray_LargeBoxWithEmptyKitTrays
 FOREIGN KEY(hadByKitTray_LargeBoxWithEmptyKitTrays) REFERENCES LargeBoxWithEmptyKitTrays(_NAME);
+
+ALTER TABLE ExternalShape
+ADD hadByExternalShape_StockKeepingUnit VARCHAR(255),
+ADD CONSTRAINT fkhadByExternalShape_StockKeepingUnit
+FOREIGN KEY(hadByExternalShape_StockKeepingUnit) REFERENCES StockKeepingUnit(_NAME);
 
 CREATE TABLE hasStockKeepingUnit_EndEffector(
 StockKeepingUnitID INT NOT NULL,
@@ -555,6 +524,11 @@ ALTER TABLE PoseLocation
 ADD hasPoseLocation_Point VARCHAR(255),
 ADD CONSTRAINT fkhasPoseLocation_Point
 FOREIGN KEY(hasPoseLocation_Point) REFERENCES Point(_NAME);
+
+ALTER TABLE ExternalShape
+ADD hadByExternalShape_NoSkuObject VARCHAR(255),
+ADD CONSTRAINT fkhadByExternalShape_NoSkuObject
+FOREIGN KEY(hadByExternalShape_NoSkuObject) REFERENCES NoSkuObject(_NAME);
 
 ALTER TABLE EndEffectorHolder
 ADD hasEndEffectorHolder_EndEffector VARCHAR(255),
@@ -585,3 +559,8 @@ ALTER TABLE Slot
 ADD hasSlot_Part VARCHAR(255),
 ADD CONSTRAINT fkhasSlot_Part
 FOREIGN KEY(hasSlot_Part) REFERENCES Part(_NAME);
+
+ALTER TABLE SkuObject
+ADD hasSkuObject_Sku VARCHAR(255),
+ADD CONSTRAINT fkhasSkuObject_Sku
+FOREIGN KEY(hasSkuObject_Sku) REFERENCES StockKeepingUnit(_NAME);

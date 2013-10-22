@@ -17,10 +17,13 @@
 
  Modifications to the code have been made by Georgia Tech Research Institute
  and these modifications are subject to the copyright shown above
- *****************************************************************************/
+*****************************************************************************/
 /*!
  *	\file		objectGen.cpp
  *	\brief 		Read mysql database and populate usarsim with objects
+ *      Usage: -d -t -h <host>, d: debug mode, t: objects are temporary, 
+ *	        o: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts,
+ *              h: use usarSim host <host>
  *	\author		Stephen Balakirsky, GTRI
  *	\date		July 30, 2013
  *      \copyright      Georgia Tech Research Institute
@@ -38,6 +41,11 @@
 #include "partModel.h"
 #include "partsTrayModel.h"
 #include "usarSimInf.h"
+
+/* define flags for population */
+#define POPULATE_PART_TRAY 0x1
+#define POPULATE_KIT_TRAY  0x2
+#define POPULATE_PARTS     0x4
 
 int main(int argc, char *argv[])
 {
@@ -63,12 +71,19 @@ int main(int argc, char *argv[])
   int connectToUSARSim = 1;
   int opt;
   std::string usarsimHost = "sbalakirsky-e64";
+  unsigned int populateFlags = 0xFF;
 
-  while ((opt = getopt (argc, argv, "dth:")) != -1)
+  while ((opt = getopt (argc, argv, "dth:o:")) != -1)
     switch (opt)
       {
       case 'd':
 	connectToUSARSim = 0;
+	break;
+      case 'h':
+	usarsimHost = std::string(optarg);
+	break;
+      case 'o':
+	populateFlags = atoi(optarg);
 	break;
       case 't':
 	permanent = 0;
@@ -80,12 +95,10 @@ int main(int argc, char *argv[])
 	  printf( "Unknown option `-%c`.\n", optopt);
 	else
 	  printf( "Unknown option character `\\x%x`.\n", optopt );
-	printf( "Usage: %s -d -t -h <host>, d: debug mode, ", argv[0]);
+	printf( "Usage: %s -d -t -h <host> -o <flags>, d: debug mode, ", argv[0]);
+	printf( "o: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts");
 	printf( "t: objects are temporary, h: use usarSim host <host>\n");
 	return 1;
-      case 'h':
-	usarsimHost = std::string(optarg);
-	break;
       default:
 	return 1;
       }
@@ -95,89 +108,96 @@ int main(int argc, char *argv[])
   attributes.push_back("_NAME");
 
   // get the name of all of the partstrays
-  results = dao->getAll(attributes, "PartsTray");
-  for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
+  if(POPULATE_PART_TRAY&populateFlags)
     {
-      myPart = results["_NAME"][i];
-      //      testPart  = new Part(myPart);
-      partsTray->get(myPart);
-      partsTrayModel.setPartsTray(partsTray);
-      USARModel = partsTrayModel.getModel();
-      /*
-      printf( "partsTrayid for %s is %d with serial %s and model \"%s\"\n", 
-	      myPart.c_str(), partsTray->getPartsTrayID(),
-	      partsTray->gethasPartsTray_SerialNumber().c_str(),
-	      USARModel.c_str());
-      */
-      recurseLocation.clear();
-      recurseLocation.recurse(partsTray);
-      recurseLocation.computeGlobalLoc();
-      //      recurseLocation.printMe(0);
-      usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
-			   permanent );
-      //      delete testPart;
-      //      sleep(1);
+      results = dao->getAll(attributes, "PartsTray");
+      for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
+	{
+	  myPart = results["_NAME"][i];
+	  //      testPart  = new Part(myPart);
+	  partsTray->get(myPart);
+	  partsTrayModel.setPartsTray(partsTray);
+	  USARModel = partsTrayModel.getModel();
+	  /*
+	    printf( "partsTrayid for %s is %d with serial %s and model \"%s\"\n", 
+	    myPart.c_str(), partsTray->getPartsTrayID(),
+	    partsTray->gethasPartsTray_SerialNumber().c_str(),
+	    USARModel.c_str());
+	  */
+	  recurseLocation.clear();
+	  recurseLocation.recurse(partsTray);
+	  recurseLocation.computeGlobalLoc();
+	  //      recurseLocation.printMe(0);
+	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
+			       permanent );
+	  //      delete testPart;
+	  //      sleep(1);
+	}
     }
-
   // get the name of all of the kitTrays
   //  results = dao->getAll(attributes, "KitTray");
   // try for results of kits
-  results = dao->getAll(attributes, "Kit");
-  //  for(int i=0; (int) i<results["_NAME"].size();i++)
-  for(unsigned int i=0; i<1;i++)
+  if(POPULATE_KIT_TRAY&populateFlags)
     {
-      myPart = results["_NAME"][i];
-      //      testPart  = new Part(myPart);
-      kit->get(myPart);
-      //      kitTray->get(myPart);
-      // change
-      kitTray = kit->gethasKit_KitTray();
-      kitTray->get(kitTray->getname());
-      // end of change
-      kitTrayModel.setKitTray(kitTray);
-      USARModel = kitTrayModel.getModel();
-      /*
-      printf( "kitTrayid for %s is %d with serial %s and model \"%s\"\n", 
-	      myPart.c_str(), kitTray->getKitTrayID(),
-	      kitTray->gethasKitTray_SerialNumber().c_str(),
-	      USARModel.c_str());
-      */
-      recurseLocation.clear();
-      //      recurseLocation.recurse(kitTray);
-      // change
-      recurseLocation.recurse(kit);
-      // end of change
-      recurseLocation.computeGlobalLoc();
-      //      recurseLocation.printMe(0);
-      usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
-			   permanent);
-      //      delete testPart;
-      //      sleep(1);
+      results = dao->getAll(attributes, "Kit");
+      //  for(int i=0; (int) i<results["_NAME"].size();i++)
+      for(unsigned int i=0; i<1;i++)
+	{
+	  myPart = results["_NAME"][i];
+	  //      testPart  = new Part(myPart);
+	  kit->get(myPart);
+	  //      kitTray->get(myPart);
+	  // change
+	  kitTray = kit->gethasKit_KitTray();
+	  kitTray->get(kitTray->getname());
+	  // end of change
+	  kitTrayModel.setKitTray(kitTray);
+	  USARModel = kitTrayModel.getModel();
+	  /*
+	    printf( "kitTrayid for %s is %d with serial %s and model \"%s\"\n", 
+	    myPart.c_str(), kitTray->getKitTrayID(),
+	    kitTray->gethasKitTray_SerialNumber().c_str(),
+	    USARModel.c_str());
+	  */
+	  recurseLocation.clear();
+	  //      recurseLocation.recurse(kitTray);
+	  // change
+	  recurseLocation.recurse(kit);
+	  // end of change
+	  recurseLocation.computeGlobalLoc();
+	  //      recurseLocation.printMe(0);
+	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
+			       permanent);
+	  //      delete testPart;
+	  //      sleep(1);
+	}
     }
-
   // get the name of all of the parts
-  results = dao->getAll(attributes, "Part");
-  for(unsigned int i=0; i<results["_NAME"].size();i++)
+  if(POPULATE_PARTS&populateFlags)
     {
-      myPart = results["_NAME"][i];
-      //      testPart  = new Part(myPart);
-      testPart->get(myPart);
-      partModel.setPart(testPart);
-      USARModel = partModel.getModel();
-/*
-      printf( "partid for %s is %d with serial %s and model \"%s\"\n", 
-	      myPart.c_str(), testPart->getPartID(),
-	      testPart->gethasPart_SerialNumber().c_str(),
-	      USARModel.c_str());
-*/
-      recurseLocation.clear();
-      recurseLocation.recurse(testPart);
-      recurseLocation.computeGlobalLoc();
-      //      recurseLocation.printMe(0);
-      usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
-			   permanent);
-      //      delete testPart;
-      //      sleep(1);
+      results = dao->getAll(attributes, "Part");
+      for(unsigned int i=0; i<results["_NAME"].size();i++)
+	{
+	  myPart = results["_NAME"][i];
+	  //      testPart  = new Part(myPart);
+	  testPart->get(myPart);
+	  partModel.setPart(testPart);
+	  USARModel = partModel.getModel();
+	  /*
+	    printf( "partid for %s is %d with serial %s and model \"%s\"\n", 
+	    myPart.c_str(), testPart->getPartID(),
+	    testPart->gethasPart_SerialNumber().c_str(),
+	    USARModel.c_str());
+	  */
+	  recurseLocation.clear();
+	  recurseLocation.recurse(testPart);
+	  recurseLocation.computeGlobalLoc();
+	  //      recurseLocation.printMe(0);
+	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
+			       permanent);
+	  //      delete testPart;
+	  //      sleep(1);
+	}
     }
   if( !permanent )
     sleep(20);

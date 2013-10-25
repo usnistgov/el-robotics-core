@@ -3,9 +3,9 @@ Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
 Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
+Prefix(:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
 
-Ontology(<http://www.nist.gov/el/ontologies/kittingClasses.owl>
+Ontology(<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl>
 
 Annotation(rdfs:comment
   "This kitting ontology models a kitting workstation including objects
@@ -1183,8 +1183,8 @@ AnnotationAssertion(rdfs:comment :PhysicalLocation
  
   PhysicalLocation is an abstract type from which more specific
   types of physical location are derived. A PhysicalLocation says
-  where a SolidObject is relative to its reference object. The
-  Timestamp element represents the most recent date and time when the
+  where a SolidObject is relative to its reference object.
+  Timestamp represents the most recent date and time when the
   location was updated.")
 
 SubClassOf(:PoseLocation :PhysicalLocation)
@@ -1218,7 +1218,7 @@ AnnotationAssertion(rdfs:comment :Point
     Y
     Z.
  
-  The X, Y, and Z elements are the Cartesian coordinates of the Point.")
+  X, Y, and Z are the Cartesian coordinates of the Point.")
 
 Declaration(DataProperty(:hasPoint_X))
 DataPropertyDomain(:hasPoint_X :Point)
@@ -1886,8 +1886,8 @@ AnnotationAssertion(rdfs:comment :Vector
     J
     K.
  
-  The I, J, and K elements represent the usual i, j, and k
-  components of a 3D vector.")
+  I, J, and K represent the usual i, j, and k components of a 3D
+  vector.")
 
 Declaration(DataProperty(:hasVector_I))
 DataPropertyDomain(:hasVector_I :Vector)

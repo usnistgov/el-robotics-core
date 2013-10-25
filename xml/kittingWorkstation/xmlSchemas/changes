@@ -1,0 +1,62 @@
+Changes in kitting.xsd
+
+2012Sept6
+- Initial version with same content as kittingClasses.owl
+
+2012Nov20
+- ShapeDesignType made abstract.
+- BoxyShapeType added derived from ShapeDesignType.
+- SkuRef and SerialNumber elements added to PartsBinType.
+- SkuRef and SerialNumber elements added to PartsTrayType.
+- KitTrayType, LargeContainerType, PartsBinType, and PartsTrayType derived 
+  fromSolidObjectType rather than from BoxyObjectType.
+
+2012Dec20
+- ExternalDesignType added derived from ShapeDesignType.
+
+2013Jan10
+- InternalShapeType was added, derived from ShapeDesignType.
+- Two optional elements were added to SolidObjectType
+   * InternalShape of InternalShapeType
+   * ExternalShape of ExternalShapeType
+- BoxyObjectType was removed from the model.
+- BoxyShapeType is now derived from InternalShapeType rather than
+  from ShapeDesignType.
+- A HeldObject element of SolidObjectType was added to EndEffectorType.
+- MechanicalComponentType was defined, derived from SolidObjectType
+- A Base element (the physical base of the changing station) of
+  MechanicalComponentType was
+  added to the EndEffectorChangingStationType.
+- A GraspPose element was added to ShapeDesignType.
+- Documentation was changed or added in several places.
+- One effect of the changes described above is that there are now
+  four ways to specify the shape of a SolidObjectType:
+   * by an internal shape element
+   * by an external shape element
+   * by having a stock keeping unit name element (some derived types
+     of SolidObjectType have that)
+   * by being entirely composed of objects that have shape and are
+     the values of elements of the object.
+
+2013May
+- An optional Timestamp element was added to PhysicalLocationType.
+- An optional PositionStandardDeviation element was added
+  to PoseLocationType.
+- An optional OrientationStandardDeviation element was added
+  to PoseLocationType
+- HumanType was added, derived from SolidObjectType.
+
+2013July
+- The Tray element of KitType was renamed to KitTray.
+- The Parts element of KitType was renamed to Part.
+- The EndEffectorHolders element of EndEffectorChangingStationType
+  was renamed to EndEffectorHolder.
+- The WorkTable element of KittingWorkstationType was removed. One or more
+  work tables can be included in a kitting workstation as instances of the
+  Object element.
+- SlotType was added, derived from DataThingType.
+- An optional multiple Slot element was added to KitType.
+- The namespace declaration was removed.
+- appinfo nodes were added to provide the types for IDREFs, which are
+  needed by xmlSchemaOwlPrinter.
+- CylindricalShapeType was added, derived from InternalShapeType.

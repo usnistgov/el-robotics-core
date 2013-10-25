@@ -1,0 +1,131 @@
+README for the kittingWorkstation directory - last updated 2013Oct25
+
+The kittingWorkstation (formerly called kitting) directory contains the
+following subdirectories:
+
+      bin
+        kittingWorkstationParser
+           (parses XML kitting workstation instance files)
+        owlKittingWorkstationPrinter
+           (translates XML kitting workstation instance files to OWL)
+      ofiles (object files compiled from .cc files)
+      owlFiles (OWL class file and instance files for kitting workstation)
+      source (.cc .hh .lex .y files)
+      xmlInstanceFiles (XML instance files for kitting workstation)
+      xmlSchemas (XML schema for kitting workstation)
+  
+The kittingWorkstationParser and the owlKittingWorkstationPrinter are
+very fast.
+
+In the IPMAS repository, the owlFiles directory is empty except for a
+list of the names of files that should be there. Those files may be
+found in the Ontology/Kitting directory of the repository.
+
+
+kittingWorkstationParser
+------------------------
+
+The kittingWorkstationParser may be used to check an XML instance file
+against the kittingWorkstation.xsd schema. The information content of
+the schema is hard-coded into the kittingWorkstationParser. If there
+is any error in the XML instance file, the kittingWorkstationParser
+prints a message and quits. If there is no error, the input file is
+echoed by printing an output file whose name is the same as that of
+the input file with "echo" appended. To run the
+kittingWorkstationParser, give a command of the form:
+
+   bin/kittingWorkstationParser [XML kitting instance file in]
+
+For example, the command
+
+   bin/kittingWorkstationParser xmlInstanceFiles/kittingInstances.xml
+
+will read kittingInstances.xml and write kittingInstances.xmlecho. If
+the format of an input file differs from the format used for printing
+the output file, the two files will differ, but only in format. If the
+two formats are the same, the files will be identical.
+
+The owlKittingWorkstationPrinter makes the same checks as the
+kittingWorkstationParser, so there is no need to use the
+kittingWorkstationParser if the objective is to generate owl.
+
+All of the source code for the kittingWorkstationParser that is
+specific to the kitting workstation was generated automatically by
+the xmlInstanceParserGenerator. The domain-independent
+file ../common/ofiles/xmlSchemaInstance.o is linked into the
+kittingWorkstationParser.
+
+
+
+owlKittingWorkstationPrinter
+----------------------------
+
+The owlKittingWorkstationPrinter reads an XML kitting workstation
+instance file corresponding to kittingWorkstation.xsd (the XML schema
+for a kitting workstation) and writes an OWL instance file
+corresponding to kittingClasses.owl (the OWL class file for a kitting
+workstation). The kittingWorkstation.xsd file contains the same
+conceptual model as the kittingClasses.owl file, but in a different
+language.
+
+The owlKittingWorkstationPrinter is useful because there is no OWL
+tool that will help generate an OWL instance file and check the file
+adequately against an OWL class file. That is because OWL uses an open
+world model in which anything not explicitly or implicitly illegal is
+allowed. Hence many things that are errors to the writer of the
+instance file are not OWL errors. For example, if the name of an
+instance is misspelled, OWL will assume that there is a new instance
+that has not been explicitly declared as such, which is OK in OWL. If
+a reference to an instance name is misspelled in an XML instance file
+corresponding to the kitting.xsd schema, that will be caught
+automatically by the owlKittingWorkstationPrinter (and other readily
+available XML tools). Several other types of error will not be caught
+by OWL tools but will not be made or will be detected if the
+owlKittingWorkstationPrinter is used.
+
+Another OWL problem that disappears in XML is that in OWL, there is no
+distinction between an instance file and a class file. An instance file can
+modify classes intentionally or accidentally. In XML there is no way an
+instance file can modify a model.
+
+To use the owlPrinter, use a text editor such as emacs or an XML tool
+such as XMLSpy to write an XML instance file corresponding to the
+kittingWorkstation.xsd schema and then run it through the
+owlKittingWorkstationPrinter with a command of the form:
+
+ bin/owlKittingWorkstationPrinter <xmlInst> <owlInst> <owlClass> <uri>
+
+where
+<xmlInst> = path to XML instance file to read
+<owlInst> = name of OWL instance file to write
+<owlClass> = name of OWL class file
+<uri> = URI base to use in header
+
+For example, the following command will print the OWL file
+kittingInstancesGoal1.owl
+
+bin/owlKittingWorkstationPrinter xmlInstanceFiles/kittingInstancesGoal1.xml kittingInstancesGoal1.owl kittingWorkstationClasses.owl http://www.nist.gov/el/ontologies
+
+The kittingWorkstation.lex and kittingWorkstation.y source code files
+used for the owlKittingWorkstationPrinter are the ones produced by the
+xmlInstanceParserGenerator for the kittingWorkstationParser, but the
+.cc files produced from them are compiled with a different flag. The
+rest of the source code for the owlKittingWorkstationPrinter that is
+specific to the kitting workstation was generated automatically by the
+xml2owlGenerator. The domain independent files
+../common/ofiles/owlInstancePrinter.o and
+../common/ofiles/xmlSchemaInstance.o are also linked into the
+owlKittingWorkstationPrinter.
+
+
+
+other
+-----
+
+The kittingClasses.owl file in the owlFiles directory was generated
+automatically from kittingWorkstation.xsd by the xmlSchemaOwlClassGenerator.
+
+In the source directory, the kittingWorkstationYACC.cc and
+kittingWorkstationYACC.cc files are produced automatically from
+kittingWorkstation.y by bison. The kittingWorkstationLex.cc file
+is produced automatically from kittingWorkstation.lex by flex.

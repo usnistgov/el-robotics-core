@@ -1,0 +1,3191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+  version="1.0.0">
+
+  <xs:annotation>
+    <xs:documentation>
+      This kitting plan ontology models a plan for actions in a kitting
+      workstation. It is expected that most plans conforming to the 
+      model will be plans for building kits.
+
+      This schema uses the following types from kitting.xsd:
+      DataThingType
+      PhysicalLocationType (and its derived subtypes)
+      PointType
+      PositiveDecimalType
+      VectorType
+      Those definitions are included at the end of this file.
+      Alternatively, the kitting.xsd file might simply be included using
+      an xs:include, but the xmlSchemaOwlPrinter cannot currently handle
+      xs:include.
+ 
+      The model includes:
+      - a tree-like plan structure of arbitrary length and depth
+      - a variety of methods of ordering the steps of the tree
+      - arithmetic variables
+      - boolean expressions
+      - arithmetic expressions
+      - actions specific to kitting
+      - a 'while' loop
+      - an If-ElseIf-Else structure
+ 
+      The appinfo entries in the model are solely for the benefit of the
+      xmlSchemaOwlPrinter, which needs to know the type of the named
+      objects.
+
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="KittingPlan"
+    type="KittingPlanType">
+    <xs:annotation>
+      <xs:documentation>
+        Root element of a kitting plan.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="ActionBaseType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        ActionBaseType is derived from PlanElementBaseType.
+        An instance of ActionBaseType has the following elements:
+          Name (inherited)
+          .
+ 
+        ActionBaseType is the abstract base type that defines a single
+        action to be carried out.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PlanElementBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ActionGroupBaseType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        ActionGroupBaseType is derived from PlanElementBaseType.
+        An instance of ActionGroupBaseType has the following elements:
+          Name (inherited)
+          .
+ 
+        ActionGroupBaseType is the abstract base type that defines an
+        action group. An action group consists of a control structure
+        and the plan elements to which the control structure applies.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PlanElementBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        AttachEndEffectorType is derived from RobotActionBaseType.
+        An instance of AttachEndEffectorType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          EndEffectorName (IDREF)
+          EndEffectorHolderName (IDREF).
+ 
+        Immediately before an instance of AttachEndEffectorType is executed:
+        (1) The named robot must not have an end effector in its tool changer.
+        (2) The end effector must be located relative to the named
+            end effector holder.
+ 
+        As an instance of AttachEndEffectorType is executed:
+        If the tool changer is closed, the robot opens the tool changer.
+        The robot moves to a position relative to the tool holder at
+        which it can attach to the end effector. The robot closes the
+        tool changer so as to attach the end effector. The location of
+        the end effector changes from being relative to the end effector
+        holder to being relative to the robot. The robot withdraws the end
+        end effector from the tool holder a slight amount that is far
+        enough so that any end effector sensor on the end effector holder no
+        longer indicates that there is an end effector in the holder.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>EndEffectorType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorHolderName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>EndEffectorHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CreateKitType">
+    <xs:annotation>
+      <xs:documentation>
+        CreateKitType is derived from ActionBaseType.
+        An instance of CreateKitType has the following elements:
+          Name (inherited)
+          KitTrayName (IDREF)
+          KitName.
+ 
+        Immediately before an instance of CreateKitType is executed:
+        (1) The named kit tray must not be in a kit.
+        (2) A kit with the given name must not exist.
+ 
+        As an instance of CreateKitType is executed:
+        A kit with the given name is created at the location of the kit
+        tray, and the location of the kit tray becomes relative to the kit,
+        in the same place relative to the kitting workstation as before.
+        The location of any parts in the kit tray becomes relative to the
+        kit.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType">
+        <xs:sequence>
+          <xs:element name="KitTrayName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitName"
+            type="xs:ID"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DetachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        DetachEndEffectorType is derived from RobotActionBaseType.
+        An instance of DetachEndEffectorType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          EndEffectorName (IDREF)
+          EndEffectorHolderName (IDREF).
+ 
+        Immediately before an instance of DetachEndEffectorType is executed:
+        (1) The named robot must have the named end effector in its tool
+            changer.
+        (2) The end effector must be located relative to the robot.
+        (3) The end effector holder must be empty.
+ 
+        As an instance of DetachEndEffectorType is executed:
+        The robot moves to a position relative to the tool holder at which
+        it can detach from the end effector. The robot opens the tool
+        changer so as to detach the end effector. The location of the end
+        effector changes from being relative to the robot to being relative
+        to the end effector holder. The robot moves a small distance away
+        from the end effector holder.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>EndEffectorType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorHolderName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>EndEffectorHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ElseType">
+    <xs:annotation>
+      <xs:documentation>
+        Else type represents the 'else' part of an If-ElseIf-Else
+        construct.
+        An instance of ElseType has the following elements:
+          Name (inherited)
+          Step.
+
+        Step is the plan element to execute.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Step"
+            type="PlanElementBaseType"/>
+        </xs:sequence>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IfActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        IfActionGroupType is derived from ActionGroupBaseType and
+        represents an If-ElseIf-Else construct with zero to many Else-Ifs
+        and an optional Else.
+        An instance of IfActionGroupType has the following elements:
+          Name (inherited)
+          If
+          ElseIf (optional, multiple)
+          Else (optional).
+ 
+        If is a test to evaluate and the plan element to execute if the
+        test evaluates to true.
+ 
+        Each optional ElseIf is a test to evaluate and the plan
+        element to execute if the test evaluates to true.
+ 
+        The optional Else is a plan element to execute if none
+        of the If or ElseIf tests evaluates to true.
+ 
+        To execute an instance of IfActionGroupType:
+        1. Evaluate the test in the If. If it evaluates to true,
+           execute the plan element in the If and return.
+ 
+        2. Otherwise, evaluate the test in the next ElseIf if there is one.
+           If it evaluates to true, execute the plan element in the ElseIf
+           and return. Repeat until either return occurs or there are no
+           more ElseIfs.
+ 
+        3. Otherwise, if there is an Else, execute the plan element in the
+           Else and return.
+ 
+        4. Otherwise, return.
+ 
+        It is possible that no plan element will be executed when an
+        instance of IfActionGroupType is executed.
+ 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="If"
+            type="TestAndStepType"/>
+          <xs:element name="ElseIf"
+            type="TestAndStepType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="Else"
+            type="ElseType"
+            minOccurs="0"/>
+        </xs:sequence>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KittingPlanType">
+    <xs:annotation>
+      <xs:documentation>
+        KittingPlanType is derived from DataThingType
+        An instance of KittingPlanType has the following elements:
+          Name (inherited)
+          Object (multiple)
+          PlanRoot.
+ 
+        The KittingPlanType defines information about a kitting plan.
+ 
+        Each object is the name of an object mentioned by name elsewhere in
+        the plan.
+ 
+        The PlanRoot gives information about the activities to be carried
+        out in executing the kitting plan and how execution of the kitting
+        plan is to be controlled. Structurally, the PlanRoot is at the top
+        of an (upside down) plan tree of PlanElements. All PlanElement
+        instances occur within the tree. The PlanRoot consists of a control
+        structure and the plan elements to which the control structure
+        applies.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Object"
+            type="xs:ID"
+            maxOccurs="unbounded"/>
+          <xs:element name="workstation"
+            type="KittingWorkstationType"/>
+          <xs:element name="Variable"
+            type="VariableDeclarationType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="PlanRoot"
+            type="PlanElementBaseType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LocatePartType">
+    <xs:annotation>
+      <xs:documentation>
+        LocatePartType is derived from SensorActionBaseType.
+        An instance of LocatePartType has the following elements:
+          Name (inherited)
+          PartName (IDREF).
+ 
+        The LocatePartType is an action that locates the specified
+        part. This may change the location information in the part.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SensorActionBaseType">
+        <xs:sequence>
+          <xs:element name="PartName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NumberedPlanElementType">
+    <xs:annotation>
+      <xs:documentation>
+        NumberedPlanElementType is derived from DataThingType.
+        An instance of NumberedPlanElementType has the following elements:
+          Name (inherited)
+          SequenceNumber
+          PlanElement.
+ 
+        The NumberedPlanElementType defines a single ordered plan element.
+ 
+        The SequenceNumber is a positive integer used in determining either
+        the order within a set of PlanElements in which a plan element
+        should be executed or which plan element in the set should be
+        executed.
+ 
+        The PlanElement is the plan element associated with the
+        SequenceNumber.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="SequenceNumber"
+            type="xs:positiveInteger"/>
+          <xs:element name="PlanElement"
+            type="PlanElementBaseType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OneOfActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        OneOfActionGroupType is derived from ActionGroupBaseType.
+        An instance of OneOfActionGroupType has the following elements:
+          Name (inherited)
+          Step (multiple).
+ 
+        The OneOfActionGroupType defines an action group for which exactly
+        one of the steps it contains must be executed. Any step in the list
+        will do. The SequenceNumbers of the Steps in an instance of
+        OneOfActionGroupType are not required to be distinct. The
+        SequenceNumbers indicate a preference for which step is executed,
+        with 1 the most preferred, 2 the second most preferred, and so on.
+        Steps with the same SequenceNumber are equally preferred.
+ 
+        Each Step is a numbered plan element.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="Step"
+            type="NumberedPlanElementType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OrderedActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        OrderedActionGroupType is derived from ActionGroupBaseType.
+        An instance of OrderedActionGroupType has the following elements:
+          Name (inherited)
+          Step (multiple).
+ 
+        The OrderedActionGroupType defines an action group for which the
+        all the steps it contains must be executed in order of increasing
+        sequence number. The SequenceNumbers of the Steps in an instance of
+        OrderedActionGroupType must be present, must be assigned 1, 2, 3,
+        ..., and must be executed in that order.
+ 
+        Each Step is a numbered plan element.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="Step"
+            type="NumberedPlanElementType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartiallyOrderedActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        PartiallyOrderedActionGroupType is derived from ActionGroupBaseType.
+        An instance of Partially OrderedActionGroupType has the following
+        elements:
+          Name (inherited)
+          Step (multiple).
+ 
+        The PartiallyOrderedActionGroupType defines an action group for
+        which all of the steps it contains should be executed, but each
+        step may be executed only after all of the predecessors of that
+        step have been executed. If more than one step meets that
+        condition, any order of executing those steps will work, and no
+        particular order is required by the plan. The SequenceNumbers of
+        the steps in an instance of PartiallyOrderedActionGroupType must be
+        assigned 1, 2, 3, ... but usually will not be executed in that
+        order.
+ 
+        Each Step is a PlanElement with predecessors.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="Step"
+            type="StepWithPredecessorsType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PlanElementBaseType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        PlanElementBaseType is derived from DataThingType.
+        An instance of PlanElementBaseType has the following elements:
+          Name (inherited)
+          .
+ 
+        PlanElementBaseType is the abstract base type for plan element
+        types.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PutKitType">
+    <xs:annotation>
+      <xs:documentation>
+        PutKitType is derived from RobotActionBaseType.
+        An instance of PutKitType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          KitName (IDREF)
+          Location.
+ 
+        When an instance of PutKitType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be holding the named kit.
+        (3) The gripper must be closed.
+        (4) The location of the kit should be relative to the gripper.
+        The robot moves to the specified location at which it opens the
+        gripper so as to release the kit. The location of the kit
+        changes so that the kit is located as specified. The Location
+        may be a relative location or a pose location. The gripper is
+        open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Location"
+            type="PhysicalLocationType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PutKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        PutKitTrayType is derived from RobotActionBaseType.
+        An instance of PutKitTrayType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          KitTrayName (IDREF)
+          Location.
+ 
+        When an instance of PutKitTrayType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be holding the named kit tray.
+        (3) The gripper must be closed.
+        (4) The location of the kit tray should be relative to the gripper.
+        The robot moves to the specified location at which it opens the
+        gripper so as to release the kit tray. The location of the kit tray
+        changes so that the kit tray is located as specified. The Location
+        may be a relative location or a pose location. The gripper is
+        open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Location"
+            type="PhysicalLocationType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PutPartType">
+    <xs:annotation>
+      <xs:documentation>
+        PutPartType is derived from RobotActionBaseType.
+        An instance of PutPartType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          PartName (IDREF)
+          Location.
+ 
+        When an instance of PutPartType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be holding the named part.
+        (3) The gripper must be closed.
+        (4) The location of the part should be relative to the gripper.
+        The robot moves to the specified location at which it opens the
+        gripper so as to release the part. The location of the part
+        changes so that the part is located as specified. The Location
+        may be a relative location or a pose location. The gripper is
+        open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Location"
+            type="PhysicalLocationType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotActionBaseType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        RobotActionBaseType is derived from ActionBaseType.
+        An instance of RobotActionBaseType has the following elements:
+          Name (inherited)
+          .
+ 
+        The RobotActionBaseType defines the base type for robot actions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SensorActionBaseType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        SensorActionBaseType is derived from ActionBaseType.
+        An instance of SensorActionBaseType has the following elements:
+          Name (inherited)
+          .
+ 
+        The SensorActionBaseType defines the base type for sensor actions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SomeOfActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        SomeOfActionGroupType is derived from ActionGroupBaseType.
+        An instance of SomeOfActionGroupType has the following elements:
+          Name (inherited)
+          Step
+          NumberOfSteps.
+ 
+        The SomeOfActionGroupType defines an action group for which a
+        specified number of the steps it contains must be executed; they
+        may be executed in any order.
+ 
+        Each Step is a plan element.
+ 
+        The NumberOfSteps is the number of steps from the Step
+        list to be executed. This must be at least one and must not be
+        larger than the number of items in the Step list.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="Step"
+            type="PlanElementBaseType"
+            maxOccurs="unbounded"/>
+          <xs:element name="NumberOfSteps"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="StepWithPredecessorsType">
+    <xs:annotation>
+      <xs:documentation>
+        StepWithPredecessorsType is derived from DataThingType
+        An instance of StepWithPredecessorsType has the following elements:
+          Name (inherited)
+          SequenceNumber
+          Predecessor (optional, multiple)
+          PlanElement.
+ 
+        The StepWithPredecessorsType defines information about a single
+        PlanElement that has predecessors.
+ 
+        Each optional Predecessor is the number of a step that must be
+        executed before this step is executed. Care should be taken that no
+        step has itself as a predecessor and that there are no loops of
+        predecessors, as when step 1 is a predecessor of step 2 and step 2
+        is a predecessor of step 1.
+ 
+        The PlanElement is a plan element to be executed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="SequenceNumber"
+            type="xs:positiveInteger"/>
+          <xs:element name="Predecessor"
+            type="xs:positiveInteger"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="PlanElement"
+            type="PlanElementBaseType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakeKitType">
+    <xs:annotation>
+      <xs:documentation>
+        TakeKitType is derived from RobotActionBaseType.
+        An instance of TakeKitType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          KitName (IDREF).
+ 
+        Immediately before an instance of TakeKitType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be appropriate for picking up the named kit.
+        (3) The gripper must be empty.
+        (4) The gripper must be open.
+ 
+        As an instance of TakeKitType is executed:
+        The robot moves to a position from which it may pick up the kit
+        and closes the gripper on the kit. The kit is not moved but
+        the location of the kit changes so that the kit is located
+        relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakeKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        TakeKitTrayType is derived from RobotActionBaseType.
+        An instance of TakeKitTrayType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          KitTrayName (IDREF).
+ 
+        Immediately before an instance of TakeKitTrayType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be appropriate for picking up the named kit tray.
+        (3) The gripper must be empty.
+        (4) The gripper must be open.
+ 
+        As an instance of TakeKitTrayType is executed:
+        The robot moves to a position from which it may pick up the kit tray
+        and closes the gripper on the kit tray. The kit tray is not moved but
+        the location of the kit tray changes so that the kit tray is located
+        relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakePartType">
+    <xs:annotation>
+      <xs:documentation>
+        TakePartType is derived from RobotActionBaseType.
+        An instance of TakePartType has the following elements:
+          Name (inherited)
+          RobotName (IDREF)
+          PartName (IDREF).
+ 
+        Immediately before an instance of TakePartType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be appropriate for picking up the named part.
+        (3) The gripper must be empty.
+        (4) The gripper must be open.
+ 
+        As an instance of TakePartType is executed:
+        The robot moves to a position from which it may pick up the part
+        and closes the gripper on the part. The part is not moved but
+        the location of the part changes so that the part is located
+        relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="RobotName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>RobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TestAndStepType">
+    <xs:annotation>
+      <xs:documentation>
+        TestAndStepType represents a test to evaluate and a plan element
+        to execute if the test evaluates to true.
+        An instance of TestAndStepType has the following elements:
+          Name (inherited)
+          Test
+          Step.
+ 
+        Test is a boolean expression to evaluate.
+        Step is the plan element to execute if the Test evaluates to true.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Test"
+            type="BooleanExpressionType"/>
+          <xs:element name="Step"
+            type="PlanElementBaseType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UnorderedActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        UnorderedActionGroupType is derived from ActionGroupBaseType.
+        An instance of UnorderedActionGroupType has the following elements:
+          Name (inherited)
+          Step.
+ 
+        The UnorderedActionGroupType defines an action group for which all
+        of the steps it contains should be executed, but any order of
+        executing them will work, and no particular order of execution is
+        required.
+ 
+        Each Step is a plan element to execute.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="Step"
+            type="PlanElementBaseType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="WhileActionGroupType">
+    <xs:annotation>
+      <xs:documentation>
+        WhileActionGroupType represents a loop.
+        An instance of WhileActionGroupType has the following elements:
+          Name (inherited)
+          Test
+          Step.
+ 
+        Test is a boolean expression to evaluate.
+        Step is a plan element to execute if the test evaluates to true.
+ 
+        To execute an instance of WhileActionGroupType, evaluate the Test.
+        If the Test evaluates to true, execute the Step. Repeat evaluating
+        and executing as long as the Test evaluates to true. The first time
+        the Test evaluates to false, return.
+ 
+        If the Test evaluates to false the first time it is evaluated, the
+        Step is never executed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionGroupBaseType">
+        <xs:sequence>
+          <xs:element name="Test"
+            type="BooleanExpressionType"/>
+          <xs:element name="Step"
+            type="PlanElementBaseType"/>
+        </xs:sequence>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AndType">
+    <xs:annotation>
+      <xs:documentation>
+        AndType is derived from BinaryBooleanExpressionType.
+        An instance of AndType has the following elements:
+          Name (inherited)
+          B1 (inherited)
+          B2 (inherited).
+ 
+        B1 and B2 are two boolean expressions to be considered. The AndType
+        returns True if the value of B1 is True and the value of B2 is
+        True. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ArithmeticComparisonBooleanExpressionType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        ArithmeticComparisonBooleanExpressionType is an abstract type
+        derived from BooleanExpressionType representing an expression
+        with a value that is an xs:boolean. An instance of
+        ArithmeticComparisonBooleanExpressionType has the following elements:
+          Name (inherited)
+          A1
+          A2.
+ 
+        A1 and A2 are two arithmetic expressions to be compared.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BooleanExpressionType">
+        <xs:sequence>
+          <xs:element name="A1"
+            type="ArithmeticExpressionType"/>
+          <xs:element name="A2"
+            type="ArithmeticExpressionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ArithmeticExpressionType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        ArithmeticExpressionType is an abstract type derived from
+        DataThingType and representing an expression with a value that
+        is an xs:decimal.
+        An instance of ArithmeticExpressionType has the following elements:
+          Name (inherited)
+          .
+ 
+        ArithmeticExpressionType has the following derivation hierarchy:
+        DataThingType
+        |-ArithmeticExpressionType
+          |-DecimalType
+          |-BinaryArithmeticExpressionType
+          | |-DivType
+          | |-MinusType
+          | |-ModType
+          | |-PlusType
+          | |-TimesType
+          |-NegateType
+          |-PropValType
+          |-VarValType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>      
+  </xs:complexType>
+
+  <xs:complexType name="BinaryArithmeticExpressionType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        BinaryArithmeticExpressionType is an abstract type derived from
+        ArithmeticExpressionType that represents an arithmetic operation
+        with two operands, both of which are ArithmeticExpressionType.
+        An instance of BinaryArithmeticExpressionType has the
+        following elements:
+          A1
+          A2.
+ 
+        A1 is the first arithmetic expression.
+        A2 is the second arithmetic expression.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticExpressionType">
+        <xs:sequence>
+          <xs:element name="A1"
+            type="ArithmeticExpressionType"/>
+          <xs:element name="A2"
+            type="ArithmeticExpressionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+    
+  <xs:complexType name="BinaryBooleanExpressionType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        BinaryBooleanExpressionType is an abstract type derived from
+        BooleanExpressionType that represents a boolean operation
+        with two operands, both of which are BooleanExpressionType.
+        An instance of BinaryBooleanExpressionType has the
+        following elements:
+          Name (inherited)
+          B1
+          B2.
+ 
+        B1 is the first boolean expression.
+        B2 is the second boolean expression.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BooleanExpressionType">
+        <xs:sequence>
+          <xs:element name="B1"
+            type="BooleanExpressionType"/>
+          <xs:element name="B2"
+            type="BooleanExpressionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BooleanExpressionType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        BooleanExpressionType is an abstract type derived from
+	DataThingType and representing an expression with a value that is
+        an xs:boolean (i.e., either True or False).
+        An instance of BooleanExpressionType has the following elements:
+          Name (inherited)
+          .
+ 
+        BooleanExpressionType has the following derivation hierarchy:
+        DataThingType
+        |-BooleanExpressionType
+          |-ArithmeticComparisonBooleanExpressionType
+          | |-EqualType
+          | |-GreaterOrEqualType
+          | |-GreaterType
+          | |-LessOrEqualType
+          | |-LessType
+          | |-NotEqualType
+          |-BooleanConstantType
+          | |-TrueType
+          | |-FalseType
+          |-BinaryBooleanExpressionType
+          | |-AndType
+          | |-OrType
+          |-NotType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>      
+  </xs:complexType>
+
+  <xs:complexType name="BooleanConstantType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        BooleanConstantType is an abstract type derived from
+        BooleanExpressionType representing a constant boolean value
+        (i.e., either True or False). An instance of BooleanExpressionType
+        has the following elements:
+          Name (inherited)
+          .
+ 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DecimalType">
+    <xs:annotation>
+      <xs:documentation>
+        DecimalType is derived from ArithmeticExpressionType and
+        represents a constant number. An instance of DecimalType has
+        the following elements:
+          Name (inherited)
+          A.
+ 
+        A is a number that is an xs:decimal.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticExpressionType">
+        <xs:sequence>
+          <xs:element name="A"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+    
+  <xs:complexType name="DivType">
+    <xs:annotation>
+      <xs:documentation>
+        DivType is derived from BinaryArithmeticExpressionType and
+        represents one number divided by another.
+        An instance of DivType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The value of an instance of DivType is the value of A1 divided by
+        the value of A2. The value of A2 should not be zero.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryArithmeticExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+    
+  <xs:complexType name="EqualType">
+    <xs:annotation>
+      <xs:documentation>
+        EqualType is derived from ArithmeticComparisonBooleanExpressionType.
+        An instance of EqualType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The EqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of arithmetic expression A1 is
+        equal to the value of arithmetic expression A2. Otherwise, it
+        returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticComparisonBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FalseType">
+    <xs:annotation>
+      <xs:documentation>
+        FalseType is derived from BooleanConstantType and represents
+        a boolean value of False.
+        An instance of FalseType has the following elements:
+          Name (inherited)
+          .
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BooleanConstantType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GreaterOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        GreaterOrEqualType is derived from
+        ArithmeticComparisonBooleanExpressionType.
+        An instance of GreaterOrEqualType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The GreaterOrEqualType is an arithmetic comparison type. It returns
+        a boolean value of True if the value of arithmetic expression A1 is
+        greater than or equal to the value of arithmetic expression A2.
+        Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticComparisonBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GreaterType">
+    <xs:annotation>
+      <xs:documentation>
+        GreaterType is derived from
+        ArithmeticComparisonBooleanExpressionType.
+        An instance of GreaterType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The GreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of arithmetic expression A1 is
+        greater than the value of arithmetic expression A2. Otherwise, it
+        returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticComparisonBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LessOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        LessOrEqualType is derived from
+        ArithmeticComparisonBooleanExpressionType.
+        An instance of LessOrEqualType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The LessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of arithmetic expression A1 is
+        less than or equal to the value of arithmetic expression A2.
+        Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticComparisonBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LessType">
+    <xs:annotation>
+      <xs:documentation>
+        LessType is derived from ArithmeticComparisonBooleanExpressionType.
+        An instance of LessType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The LessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of arithmetic expression A1 is less than
+        the value of arithmetic expression A2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticComparisonBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MinusType">
+    <xs:annotation>
+      <xs:documentation>
+        MinusType is derived from BinaryArithmeticExpressionType and
+        represents one number subtracted from another.
+        An instance of MinusType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The value of an instance of MinusType is the value of A1 minus the
+        value of A2.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryArithmeticExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+    
+  <xs:complexType name="ModType">
+    <xs:annotation>
+      <xs:documentation>
+        ModType is derived from BinaryArithmeticExpressionType and
+        represents the remainder when one number is divided by another.
+        An instance of ModType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The value of an instance of ModType is the remainder when the value
+        of A1 is divided by the value of A2. The value of A2 should not be
+        zero.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryArithmeticExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+    
+  <xs:complexType name="NegateType">
+    <xs:annotation>
+      <xs:documentation>
+        NegateType is derived from ArithmeticExpressionType and represents
+        reversing the sign of the value of an arithmetic expression.
+        An instance of NegateType has the following elements:
+          Name (inherited)
+          A.
+ 
+        A is the arithmetic expression whose value is to have its sign
+        reversed. The value of an instance of NegateType is the value of
+        A multiplied by -1.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticExpressionType">
+        <xs:sequence>
+          <xs:element name="A"
+            type="ArithmeticExpressionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        NotEqualType is derived from ArithmeticComparisonBooleanExpressionType.
+        An instance of NotEqualType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The NotEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of arithmetic expression A1 is
+        not equal to the value of arithmetic expression A2. Otherwise, it
+        returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticComparisonBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotType">
+    <xs:annotation>
+      <xs:documentation>
+        NotType is derived from BooleanExpressionType.
+        An instance of NotType has the following elements:
+          Name (inherited)
+          B.
+ 
+        B is a boolean expression to be negated. The NotType returns True
+        if the value of B is False. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BooleanExpressionType">
+        <xs:sequence>
+          <xs:element name="B"
+            type="BooleanExpressionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OrType">
+    <xs:annotation>
+      <xs:documentation>
+        OrType is derived from BinaryBooleanExpressionType.
+        An instance of OrType has the following elements:
+          Name (inherited)
+          B1 (inherited)
+          B2 (inherited).
+ 
+        B1 and B2 are two boolean expressions to be considered. The OrType
+        returns True (a) if the value of B1 is True and the value of B2 is
+        False, or (b) if the value of B2 is True and the value of B1 is
+        False, or (c) if both values are True. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PlusType">
+    <xs:annotation>
+      <xs:documentation>
+        PlusType is derived from BinaryArithmeticExpressionType and
+        represents one number added to another.
+        An instance of PlusType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The value of an instance of PlusType is the value of A1 plus the
+        value of A2.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryArithmeticExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PropValType">
+    <xs:annotation>
+      <xs:documentation>
+        PropValType is derived from ArithmeticExpressionType and represents
+        the value of any numerical data property of any DataThing.
+        An instance of PropValType has the following elements.
+          Name (inherited)
+          ThingName
+          Property.
+ 
+        ThingName is the name of an instance of DataThingType.
+ 
+        Property is the name of a numerical property of the identified
+        instance of DataThingType. The value of an instance of PropValType
+        is the value of the property.
+ 
+        It might be useful to be able also to get the values of numerical
+        properties of solid objects.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticExpressionType">
+        <xs:sequence>
+          <xs:element name="ThingName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>DataThingType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        <xs:element name="Property"
+          type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TimesType">
+    <xs:annotation>
+      <xs:documentation>
+        TimesType is derived from BinaryArithmeticExpressionType and
+        represents one number multiplied by another.
+        An instance of TimesType has the following elements:
+          Name (inherited)
+          A1 (inherited)
+          A2 (inherited)
+          .
+ 
+        The value of an instance of TimesType is the value of A1 multiplied
+        by the value of A2.
+       </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BinaryArithmeticExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+    
+  <xs:complexType name="TrueType">
+    <xs:annotation>
+      <xs:documentation>
+        TrueType is derived from BooleanConstantType and represents
+        a boolean value of True.
+        An instance of TrueType has the following elements:
+          Name (inherited)
+          .
+ 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="BooleanConstantType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VariableDeclarationType">
+    <xs:annotation>
+      <xs:documentation>
+        VariableDeclarationType is derived from DataThingType and
+        represents declaring a numerical variable whose value is
+        an xs:decimal.
+        An instance of VariableDeclarationType has the following elements:
+          Name (inherited)
+          Val.
+ 
+        Val is the initial value of the variable. The value may be reset
+        using an instance of VarSetType. The value may be used using an
+        instance of VarValType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Val"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VarValType">
+    <xs:annotation>
+      <xs:documentation>
+        VarValType is derived from ArithmeticExpressionType and represents
+        the value of a numerical variable.
+        An instance of VarValType has the following elements.
+          Name (inherited)
+          VarName.
+ 
+        VarName is the name of a variable created with the
+        VariableDeclarationType. The value of an instance of VarValType is
+        the value of the variable at the time the variable is used (as in
+        standard programming languages).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ArithmeticExpressionType">
+        <xs:sequence>
+          <xs:element name="VarName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>VariableDeclarationType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VarSetType">
+    <xs:annotation>
+      <xs:documentation>
+        VarSetType is derived from PlanElementBaseType and represents
+        the setting of a variable.
+        An instance of VarSetType has the following elements:
+          Name (inherited)
+          VarName (IDREF)
+          Val.
+ 
+        VarName is the name of a variable.
+ 
+        Val is the value to which the variable should be set.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PlanElementBaseType">
+        <xs:sequence>
+          <xs:element name="VarName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>VariableDeclarationType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Val"
+            type="ArithmeticExpressionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:annotation>
+    <xs:documentation>
+      This kitting ontology models a kitting workstation including objects
+      in the workstation and data associated with the workstation. The
+      ontology assumes coordinate systems are right handed. For objects
+      such as trays or a robot with a preferred orientation with respect to
+      gravity, the Z axis points up (opposite the pull of gravity).
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="AngleUnitType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="degree"/>
+      <xs:enumeration value="radian"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="BoxVolumeType">
+    <xs:annotation>
+      <xs:documentation>
+        BoxVolumeType is derived from DataThingType.
+        An instance of BoxVolumeType has the following elements:
+          Name (inherited)
+          MaximumPoint
+          MinimumPoint.
+ 
+        The MaximumPoint and MinimumPoint are diagonally opposite corner
+        points of a box shaped volume whose edges are aligned with the
+        coordinate system in which the BoxVolumeType is located. The
+        MinimumPoint has the minimum values of X, Y, and Z. The
+        MaximumPoint has the maximum values of X, Y, and Z.
+       </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="MaximumPoint"
+            type="PointType"/>
+          <xs:element name="MinimumPoint"
+            type="PointType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BoxyShapeType">
+    <xs:annotation>
+      <xs:documentation>
+        BoxyShapeType is derived from InternalShapeType.
+        An instance of BoxyShapeType has the following elements:
+          Name (inherited)
+          Description (inherited)
+          GraspPose (inherited, optional)
+          Length
+          Width
+          Height
+          HasTop.
+ 
+        A BoxyShapeType is box shaped. The Length is larger of the two
+        dimensions that are not the Height. The Width is smaller of the two
+        dimensions that are not the Height. The coordinate system of a
+        BoxyShapeType (i.e. the thing that is located and oriented by a
+        Pose) has its origin in the middle of the bottom, its Z-axis
+        parallel to the height sides and pointing into the box, and its
+        X-axis parallel to the length sides. If HasTop is true, the top of
+        the box (i.e. the side through which the +Z axis passes) exists and
+        is closed. If HasTop is false, the box has no top.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="InternalShapeType">
+        <xs:sequence>
+          <xs:element name="Length"
+            type="PositiveDecimalType"/>
+          <xs:element name="Width"
+            type="PositiveDecimalType"/>
+          <xs:element name="Height"
+            type="PositiveDecimalType"/>
+          <xs:element name="HasTop"
+            type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CylindricalShapeType">
+    <xs:annotation>
+      <xs:documentation>
+        CylindricalShapeType is derived from InternalShapeType.
+        An instance of CylindricalShapeType has the following elements:
+          Name (inherited)
+          Description (inherited)
+          GraspPose (inherited, optional)
+          Diameter
+          Height
+          HasTop.
+ 
+        The cylinder is a right circular cylinder with a circular base
+        having the given Diameter. The axis is perpendicular to the base.
+        The base is always a surface that is part of the cylinder. The
+        sides of the cylinder stop at the given Height as if cut by a plane
+        perpendicular to the axis. The coordinate system of a
+        CylindricalShapeType (i.e. the thing that is located and oriented by
+        a pose) has its origin in the middle of the bottom, and its Z-axis
+        on the axis of the cylinder. If HasTop is true, the top of the
+        cylinder (i.e. the side through which the +Z axis passes) exists
+        and is closed. If HasTop is false, the cylinder has no top.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="InternalShapeType">
+        <xs:sequence>
+          <xs:element name="Diameter"
+            type="PositiveDecimalType"/>
+          <xs:element name="Height"
+            type="PositiveDecimalType"/>
+          <xs:element name="HasTop"
+            type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DataThingType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An instance of DataThingType has the following elements:
+          Name
+          .
+        DataThingType is an abstract type from which more specific types
+        of data thing are derived. That includes all complex data
+        types such as Vector, PhysicalLocation, etc.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Name"
+        type="xs:ID"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EndEffectorType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        EndEffectorType is derived from NoSkuObjectType.
+        An instance of EndEffectorType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Description
+          Weight
+          MaximumLoadWeight
+          HeldObject (optional).
+ 
+        EndEffectorType is an abstract type from which more specific types
+        of end effector are derived. An EndEffectorType is an end effector
+        for a robot. The optional HeldObject is for the object being held
+        by the end effector, if the end effector is holding an object.
+        Every EndEffectorType is either a GripperEffectorType or a
+        VacuumEffectorType. Every EndEffectorType in a KittingWorkstation
+        is either attached to the end of a robot arm or sitting in an
+        EndEffectorHolderType at an EndEffectorChangingStationType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="Weight"
+            type="PositiveDecimalType"/>
+          <xs:element name="MaximumLoadWeight"
+            type="PositiveDecimalType"/>
+          <xs:element name="HeldObject"
+            type="SolidObjectType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EndEffectorChangingStationType">
+    <xs:annotation>
+      <xs:documentation>
+        EndEffectorChangingStationType is derived from NoSkuObjectType.
+        An instance of EndEffectorChangingStationType has the
+        following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Base
+          EndEffectorHolder (multiple).
+ 
+        An EndEffectorChangingStationType is a place where end effectors
+        are stored and where the robot can change end effectors. The
+        coordinate system of an EndEffectorChangingStationType is in the
+        same place as the coordinate system of its Base. The shape of an
+        EndEffectorChangingStationType may also be found from the shapes of
+        the Base and the EndEffectorHolders and their relative positions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="Base"
+            type="MechanicalComponentType"/>
+          <xs:element name="EndEffectorHolder"
+            type="EndEffectorHolderType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EndEffectorHolderType">
+    <xs:annotation>
+      <xs:documentation>
+        EndEffectorHolderType is derived from NoSkuObjectType.
+        An instance of EndEffectorHolderType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          EndEffector (optional).
+ 
+        An EndEffectorHolderType holds zero or one end effector and is part
+        of an EndEffectorChangingStationType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="EndEffector"
+            type="EndEffectorType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ExternalShapeType">
+    <xs:annotation>
+      <xs:documentation>
+        ExternalShapeType is derived from ShapeDesignType.
+        An instance of ExternalShapeType has the following elements:
+          Name (inherited)
+          Description (inherited)
+          GraspPose (inherited, optional)
+          ModelFormatName
+          ModelFileName
+          ModelName (optional).
+ 
+        An ExternalShapeType is a shape defined in an external file. The
+        ModelFormatName is the name of the format of model (for example,
+        'STEP Advanced Brep' or 'USARSim'). The ModelFileName is the name
+        of the file containing the model and may include a path (for
+        example 'partFiles/STEP/ANC101.stp'). The model file may contain
+        more than one shape model. The ModelName is optional and is the
+        name of a model within the model file. The ModelName is necessary
+        if the model file contains more than one model.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ShapeDesignType">
+        <xs:sequence>
+          <xs:element name="ModelFormatName"
+            type="xs:string"/>
+          <xs:element name="ModelFileName"
+            type="xs:string"/>
+          <xs:element name="ModelName"
+            type="xs:string"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GripperEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        GripperEffectorType is derived from EndEffectorType.
+        An instance of GripperEffectorType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Description (inherited)
+          Weight (inherited)
+          MaximumLoadWeight (inherited)
+          HeldObject (inherited, optional).
+ 
+        A GripperEffectorType holds an object by gripping
+        it with fingers or claws or by suction.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EndEffectorType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="HumanType">
+    <xs:annotation>
+      <xs:documentation>
+        HumanType is derived from NoSkuObjectType.
+        An instance of HumanType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional).
+ 
+        A HumanType is a type representing a human being. The shape of
+        a human is the shape of a bounding box (or other bounding shape)
+        that encloses the human completely.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="InternalShapeType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        InternalShapeType is derived from ShapeDesignType.
+        An instance of InternalShapeType has the following elements:
+          Name (inherited)
+          Description (inherited)
+          GraspPose (inherited, optional).
+ 
+        InternalShapeType is an abstract type from which more specific
+        types of shape are derived. Instances of InternalShapeType in a
+        instance file contain information about the appearance of the
+        shape without referring to another file.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ShapeDesignType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitType">
+    <xs:annotation>
+      <xs:documentation>
+        KitType is derived from NoSkuObjectType.
+        An instance of KitType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          DesignName (IDREF)
+          KitTray
+          Finished
+          Part (optional, multiple)
+          Slot (optional, multiple).
+ 
+        Finished is a boolean indicator of whether the Kit is finished.
+ 
+        Part may occur several times (once for each part in the kit).
+ 
+        The optional Slots may be used to keep track of whether each place
+        in the kit that should have a part on it does have a part on it.
+        The PartRefAndPoseName (IDREF) of each Slot should indicate a
+        PartRefAndPose in the design of the kit (different for each slot).
+ 
+        The locating point of the Tray in the kit should be (0,0,0), and
+        its X and Z axes should be (1,0,0) and (0,0,1), respectively.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="DesignName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitDesignType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTray"
+            type="KitTrayType">
+
+            <xs:key name="KitTrayKey">
+              <xs:selector xpath="."/>
+              <xs:field xpath="SkuName"/>
+              <xs:field xpath="SerialNumber"/>
+            </xs:key>
+          </xs:element>
+          <xs:element name="Part"
+            type="PartType"
+            minOccurs="0"
+            maxOccurs="unbounded">
+
+            <xs:key name="PartKey">
+              <xs:selector xpath="."/>
+              <xs:field xpath="SkuName"/>
+              <xs:field xpath="SerialNumber"/>
+            </xs:key>
+          </xs:element>
+          <xs:element name="Slot"
+            type="SlotType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="Finished"
+            type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitDesignType">
+    <xs:annotation>
+      <xs:documentation>
+        KitDesignType is derived from DataThingType.
+        An instance of KitDesignType has the following elements:
+          Name (inherited)
+          KitTraySkuName (IDREF)
+          PartRefAndPose (multiple).
+ 
+        The KitTraySkuName (IDREF) identifies a type of kit tray. The Pose
+        in a PartRefAndPose is the location of the part relative to the
+        coordinate system of the ShapeDesign of the tray.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="KitTraySkuName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>StockKeepingUnitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartRefAndPose"
+            type="PartRefAndPoseType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KittingWorkstationType">
+    <xs:annotation>
+      <xs:documentation>
+        KittingWorkstationType is derived from NoSkuObjectType.
+        An instance of KittingWorkstationType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          AngleUnit
+          LengthUnit
+          ChangingStation
+          Object (multiple)
+          OtherObstacle (optional, multiple)
+          Robot
+          KitDesign (multiple)
+          Sku (multiple)
+          WeightUnit.
+ 
+        All angle, length, and weight values related to the workstation
+        use the units implicitly.
+ 
+        The workstation includes one robot and one end effector changing
+        station. There may be many instances of Object in the workstation,
+        including such things as work tables, large boxes with kits,
+        large boxes with empty kit trays, and parts trays.
+ 
+        The collection of instances of KitDesign is a library of all kit
+        designs known to the workstation.
+ 
+        The collection of instances of Sku is a library of all stock
+        keeping units known to the workstation.
+ 
+        The OtherObstacles are obstacles to robot motion of unspecified
+        type.
+ 
+        Containers of various sorts enter and leave the workstation. The
+        robot builds kits of parts by executing kitting plans as directed
+        by a kitting plan execution system.
+ 
+        The location of each instance of KittingWorkstation should be given
+        relative to itself in order to end the chain of relative locations.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="AngleUnit"
+            type="AngleUnitType"/>
+          <xs:element name="ChangingStation"
+            type="EndEffectorChangingStationType"/>
+          <xs:element name="KitDesign"
+            type="KitDesignType"
+            maxOccurs="unbounded"/>
+          <xs:element name="LengthUnit"
+            type="LengthUnitType"/>
+          <xs:element name="Object"
+            type="SolidObjectType"
+            maxOccurs="unbounded"/>
+          <xs:element name="OtherObstacle"
+            type="BoxVolumeType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="Robot"
+            type="RobotType"/>
+          <xs:element name="Sku"
+            type="StockKeepingUnitType"
+            maxOccurs="unbounded"/>
+          <xs:element name="WeightUnit"
+            type="WeightUnitType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        KitTrayType is derived from SkuObjectType.
+        An instance of KitTrayType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          SkuName (IDREF) (inherited)
+          SerialNumber.
+ 
+        The SkuName (IDREF) specifies the SKU of the kit tray. A
+        KitTrayType is designed to hold PartTypes with various SKUs in
+        known positions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SkuObjectType">
+        <xs:sequence>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LargeBoxWithEmptyKitTraysType">
+    <xs:annotation>
+      <xs:documentation>
+        LargeBoxWithEmptyKitTraysType is derived from NoSkuObjectType.
+        An instance of LargeBoxWithEmptyKitTraysType has the
+        following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          LargeContainer
+          KitTray (optional, multiple).
+ 
+        The location point of the LargeContainer should be (0,0,0), its Z
+        axis should be (0,0,1), and its X axis should be (1,0,0). The
+        PrimaryLocation of a KitTray in a LargeBoxWithEmptyKitTrays should
+        be given by a PoseLocationInType or RelativeLocationInType that
+        is relative to the LargeContainer. The KitTrayTypes in a
+        LargeBoxWithEmptyKitTraysType are intended to all be of the same
+        SKU, although there is currently no formal requirement for that.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="LargeContainer"
+            type="LargeContainerType">
+
+            <xs:key name="LargeContainerKey">
+              <xs:selector xpath="."/>
+              <xs:field xpath="SkuName"/>
+              <xs:field xpath="SerialNumber"/>
+            </xs:key>
+          </xs:element>
+          <xs:element name="KitTray"
+            type="KitTrayType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LargeBoxWithKitsType">
+    <xs:annotation>
+      <xs:documentation>
+        LargeBoxWithKitsType is derived from NoSkuObjectType.
+        An instance of LargeBoxWithKitsType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          LargeContainer
+          Kit (optional, multiple)
+          KitDesignName (IDREF)
+          Capacity.
+ 
+        The coordinate system of a LargeBoxWithKits is in the same place as
+        the coordinate system of its LargeContainer. The PrimaryLocation of
+        the LargeContainer should be relative to the LargeBoxWithKitsType.
+        The KitDesignName (IDREF) is an identifier for a KitDesignType. The
+        PrimaryLocation of a Kit in a LargeBoxWithKits should be given by a
+        PoseLocationInType or RelativeLocationInType that is relative to
+        the LargeContainer.
+ 
+        The Capacity is an xs:positiveInteger giving the maximum number of
+        kits of the given design that can be held in the box.
+ 
+        The KitTypes in a LargeBoxWithKitsType are intended to all be of
+        the given design, but there is currently no formal constraint
+        requiring that.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="LargeContainer"
+            type="LargeContainerType"/>
+          <xs:element name="Kit"
+            type="KitType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="KitDesignName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>KitDesignType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Capacity"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LargeContainerType">
+    <xs:annotation>
+      <xs:documentation>
+        LargeContainerType is derived from SkuObjectType.
+        An instance of LargeContainerType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          SkuName (IDREF) (inherited)
+          SerialNumber.
+ 
+        The SkuName (IDREF) specifies the SKU of the LargeContainerType. A
+        LargeContainerType can hold one or more instances of a single type
+        of tray, bin, or kit.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SkuObjectType">
+        <xs:sequence>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="LengthUnitType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="meter"/>
+      <xs:enumeration value="millimeter"/>
+      <xs:enumeration value="inch"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="MechanicalComponentType">
+    <xs:annotation>
+      <xs:documentation>
+        MechanicalComponentType is derived from NoSkuObjectType.
+        An instance of MechanicalComponentType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional).
+ 
+        A MechanicalComponentType is a component of kitting workstation
+        device such as a robot or an end effector changing station.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NoSkuObjectType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        NoSkuObjectType is derived from SolidObjectType.
+        An instance NoSkuObjectType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocations (inherited, optional, multiple)
+          InternalShape (optional)
+          ExternalShape (optional).
+ 
+        A SkuObjectType is an abstract type from which more specific types
+        of solid object are derived. The InternalShape and ExternalShape
+        are not required to represent the same shape, but they should not
+        be inconsistent. If a NoSkuObjectType consists of components it may
+        also get its shape from the shape of the components and their
+        relative positions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="InternalShape"
+            type="InternalShapeType"
+            minOccurs="0"/>
+          <xs:element name="ExternalShape"
+            type="ExternalShapeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartType">
+    <xs:annotation>
+      <xs:documentation>
+        PartType is derived from SkuObjectType.
+        An instance of PartType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          SkuName (IDREF) (inherited)
+          SerialNumber.
+ 
+        The PartType represents a part.
+        The SkuName (IDREF) specifies the SKU for the part.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SkuObjectType">
+        <xs:sequence>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartRefAndPoseType">
+    <xs:annotation>
+      <xs:documentation>
+        PartRefAndPoseType is derived from DataThingType.
+        An instance of PartRefAndPoseType has the following elements:
+          Name (inherited)
+          SkuName (IDREF)
+          Point
+          ZAxis
+          XAxis.
+ 
+        The SkuName (IDREF) identifies a type of part. The Point specifies
+        the location of the origin of the part in the coordinate system of
+        the tray of the KitDesignType to which the PartRefAndPoseType
+        belongs. The ZAxis and XAxis specify the orientation of the part
+        relative to that coordinate system.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="SkuName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>StockKeepingUnitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Point"
+            type="PointType"/>
+          <xs:element name="XAxis"
+            type="VectorType"/>
+          <xs:element name="ZAxis"
+            type="VectorType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsBinType">
+    <xs:annotation>
+      <xs:documentation>
+        PartsBinType is derived from PartsVesselType.
+        An instance of PartsBinType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          SkuName (IDREF) (inherited)
+          SerialNumber (inherited)
+          PartSkuName (IDREF) (inherited)
+          PartQuantity (inherited)
+          Part (inherited, optional, multiple).
+ 
+        The SkuName (IDREF) specifies the SKU for the PartsBinType. A
+        PartsBinType holds a number of PartTypes (PartQuantity) with the
+        same SKU (PartSkuName (IDREF))in unknown random positions. Each
+        PartType in the tray should be listed explictly and have a
+        RelativeLocationIn with the bin as its RefObjectName (IDREF).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PartsVesselType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsVesselType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        PartsVesselType is derived from SkuObjectType.
+        An instance of PartsVesselType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          SkuName (IDREF) (inherited)
+          SerialNumber
+          PartSkuName (IDREF)
+          PartQuantity
+          Part (optional, multiple)
+ 
+        PartsVesselType is an abstract type from which more specific types
+        of things that supply parts are derived. The SkuName (IDREF)
+        specifies the SKU for the PartsVesselType. The shape of a
+        PartsVesselType is as specified in its Sku. The PartSkuName (IDREF)
+        specifies the SKU for the Parts in the PartsVessel. The value
+        of PartQuantity should be the number of instances of Part.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SkuObjectType">
+        <xs:sequence>
+          <xs:element name="SerialNumber"
+            type="xs:NMTOKEN"/>
+          <xs:element name="PartSkuName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>StockKeepingUnitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartQuantity"
+            type="xs:nonNegativeInteger"/>
+          <xs:element name="Part"
+            type="PartType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        PartsTrayType is derived from PartsVesselType.
+        An instance of PartsTrayType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          SkuName (IDREF) (inherited)
+          SerialNumber (inherited)
+          PartSkuName (IDREF) (inherited)
+          PartQuantity (inherited)
+          Part (inherited, optional, multiple).
+ 
+        The SkuName (IDREF) specifies the SKU of the PartsTrayType. A
+        PartsTrayType holds a number of PartTypes (PartQuantity) with the
+        same SKU (PartSkuName (IDREF)) in known positions. Each PartType in
+        the tray should be listed explictly and have a PoseLocation with
+        the parts tray as its RefObjectName (IDREF).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PartsVesselType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PhysicalLocationType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        PhysicalLocationType is derived from DataThingType.
+        An instance of PhysicalLocationType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF)
+          Timestamp (optional).
+ 
+        PhysicalLocationType is an abstract type from which more specific
+        types of physical location are derived. A PhysicalLocationType says
+        where a SolidObjectType is relative to its reference object.
+
+        Timestamp represents the most recent date and time when the
+        location was updated.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="RefObjectName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>SolidObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Timestamp"
+            type="xs:dateTime"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PointType">
+    <xs:annotation>
+      <xs:documentation>
+        PointType is derived from DataThingType.
+        An instance of PointType has the following elements:
+          Name (inherited)
+          X
+          Y
+          Z.
+ 
+        The X, Y, and Z elements are the Cartesian coordinates of the Point.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="X"
+            type="xs:decimal"/>
+          <xs:element name="Y"
+            type="xs:decimal"/>
+          <xs:element name="Z"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseLocationType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        PoseLocationType is derived from PhysicalLocationType.
+        An instance of PoseLocationType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional).
+          Point
+          XAxis
+          ZAxis 
+          PositionStandardDeviation (optional)
+          OrientationStandardDeviation (optional).
+ 
+        PoseLocationType is an abstract type from which more specific types
+        of pose location are derived. The Point locates the origin of a
+        coordinate system. The XAxis and ZAxis give the orientation of the
+        coordinate system. The data for the Point, the ZAxis and the XAxis
+        are expressed relative to the coordinate system of the reference
+        object.
+ 
+        The PositionStandardDeviation is based on a normal distribution of
+        actual position about its given value. Thus, for example, the
+        actual position is expected to be within the given
+        PositionStandardDeviation amount 68% of the time and within twice
+        the given amount 95% of the time. The PositionStandardDeviation is
+        measured in the length units being used.
+ 
+        The OrientationStandardDeviation is based on a normal distribution
+        of orientation about its given value. The error is to be measured
+        as the angle of rotation about a single axis needed to rotate a
+        solid object from its stated orientation to its actual orientation.
+        The OrientationStandardDeviation is measured in the angle units
+        being used.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PhysicalLocationType">
+        <xs:sequence>
+          <xs:element name="Point"
+            type="PointType"/>
+          <xs:element name="XAxis"
+            type="VectorType"/>
+          <xs:element name="ZAxis"
+            type="VectorType"/>
+          <xs:element name="PositionStandardDeviation"
+            type="PositiveDecimalType"
+            minOccurs="0"/>
+          <xs:element name="OrientationStandardDeviation"
+            type="PositiveDecimalType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseLocationInType">
+    <xs:annotation>
+      <xs:documentation>
+        PoseLocationInType is derived from PoseLocationType.
+        An instance of PoseLocationInType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional).
+          Point (inherited)
+          XAxis (inherited)
+          ZAxis  (inherited)
+          PositionStandardDeviation (inherited, optional)
+          OrientationStandardDeviation (inherited, optional).
+ 
+        A PoseLocationInType indicates that the object is inside
+        the location-parent. The notion of 'inside' is vague and might be
+        made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PoseLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseLocationOnType">
+    <xs:annotation>
+      <xs:documentation>
+        PoseLocationOnType is derived from PoseLocationType.
+        An instance of PoseLocationOnType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional).
+          Point (inherited)
+          XAxis (inherited)
+          ZAxis  (inherited)
+          PositionStandardDeviation (inherited, optional)
+          OrientationStandardDeviation (inherited, optional).
+ 
+        A PoseLocationOnType indicates that the Object is on top of the
+        location-parent. The notion of 'on top of' is vague and might be
+        made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PoseLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PoseOnlyLocationType">
+    <xs:annotation>
+      <xs:documentation>
+        PoseOnlyLocationType is derived from PoseLocationType.
+        An instance of PoseOnlyLocationType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional).
+          Point (inherited)
+          XAxis (inherited)
+          ZAxis  (inherited)
+          PositionStandardDeviation (inherited, optional)
+          OrientationStandardDeviation (inherited, optional).
+ 
+        An object located by a PoseOnlyLocationType may or may not be
+        inside or on top of the reference object of the
+        PoseOnlyLocationType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PoseLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="PositiveDecimalType">
+    <xs:restriction base="xs:decimal">
+      <xs:minExclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="RelativeLocationType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        RelativeLocationType is derived from PhysicalLocationType.
+        An instance of RelativeLocationType has a the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional)
+          Description.
+ 
+        RelativeLocationType is an abstract type from which more specific
+        types of relative location are derived. A RelativeLocationType
+        indicates that the SolidObjectType that has the
+        RelativeLocationType is on or in the RefObject. The Description may
+        be used to describe the relative positions of the object and its
+        reference object.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PhysicalLocationType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RelativeLocationInType">
+    <xs:annotation>
+      <xs:documentation>
+        RelativeLocationInType is derived from RelativeLocationType.
+        An instance of RelativeLocationInType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional)
+          Description (inherited).
+ 
+        A RelativeLocationInType indicates that the SolidObjectType that
+        has the RelativeLocationType is in the RefObject. The notion of
+        'in' is vague and might be made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RelativeLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RelativeLocationOnType">
+    <xs:annotation>
+      <xs:documentation>
+        RelativeLocationOnType is derived from RelativeLocationType.
+        An instance of RelativeLocationOnType has the following elements:
+          Name (inherited)
+          RefObjectName (IDREF, inherited)
+          Timestamp (inherited, optional)
+          Description (inherited).
+ 
+        A RelativeLocationOnType indicates that the SolidObjectType that
+        has the RelativeLocationType is on top of the the RefObject. The
+        notion of 'on top of' is vague and might be made more precise.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RelativeLocationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotType">
+    <xs:annotation>
+      <xs:documentation>
+        RobotType is derived from NoSkuObjectType.
+        An instance of RobotType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Description
+          EndEffector (optional)
+          MaximumLoadWeight
+          WorkVolume (multiple).
+ 
+        The Robot ontology given here might be expanded greatly to include,
+        for example, its kinematic description, the values of joint angles,
+        arm lengths of variable length arms, gripper actuation (open,
+        closed, etc.), ranges, velocities, and accelerations of each joint,
+        etc.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="EndEffector"
+            type="EndEffectorType"
+            minOccurs="0"/>
+          <xs:element name="MaximumLoadWeight"
+            type="PositiveDecimalType"/>
+          <xs:element name="WorkVolume"
+            type="BoxVolumeType"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ShapeDesignType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        ShapeDesignType is derived from DataThingType.
+        An instance of ShapeDesignType has the following elements:
+          Name (inherited)
+          Description (optional)
+          GraspPose (optional).
+ 
+        ShapeDesignType is an abstract type from which more specific types
+        of shape design are derived. Each ShapeDesignType has a coordinate
+        system that is expected to be specified explicitly or implicitly. A
+        shape defined using coordinate values has an implicit coordinate
+        system.
+ 
+        The GraspPose is relative to the coordinate system of the
+        ShapeDesignType. The Point in the pose is the point at which a
+        gripper should make contact with the shape. The ZAxis of the pose
+        may be used to indicate a direction for aligning the ZAxis of the
+        gripper (parallel or antiparallel) and is usually normal to the the
+        object having the shape and pointing away from the object. The
+        GraspPose should not use the optional Timestamp.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="GraspPose"
+            type="PoseLocationType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SkuObjectType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        SkuObjectType is derived from SolidObjectType.
+        An instance of SkuObjectType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocations (inherited, optional, multiple)
+          SkuName (IDREF)
+ 
+        A SkuObjectType is an abstract type from which more specific types
+        of solid object are derived. A SkuObjectType is an instance of a
+        stockkeeping unit. The shape of a SkuObjectType is specified by its
+        stockkeeping unit.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SolidObjectType">
+        <xs:sequence>
+          <xs:element name="SkuName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>StockKeepingUnitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SlotType">
+    <xs:annotation>
+      <xs:documentation>
+        SlotType is derived from DataThingType.
+        An instance of SlotType has the following elements:
+          Name (inherited)
+          PartRefAndPoseName (IDREF)
+          PartName (IDREF, optional).
+ 
+        A Slot identifies whether or not a particular PartRefAndPose from
+        the design of a Kit is occupied in an instance of a Kit. The
+        PartRefAndPoseName (IDREF) identifies a PartRefAndPose from the
+        Design of the Kit. The PartName (IDREF) identifies a Part that
+        occupies the PartRefAndPose. The Sku of the PartRefAndPose should
+        be the Sku of the Part, the PartRefAndPose should be in the Kit
+        design, and the Part should be in the Kit. The location described
+        by the Pose of the Part in the Kit may differ from the location
+        described by the Pose in the PartRefAndPose, but will usually be
+        very close to it. If the PartName (IDREF) is not used for a slot,
+        that means the slot is empty.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="PartRefAndPoseName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartRefAndPoseType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartName"
+            type="xs:IDREF"
+            minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>PartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SolidObjectType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An instance of SolidObjectType has the following elements:
+          Name
+          PrimaryLocation
+          SecondaryLocations (optional, multiple)
+ 
+        SolidObjectType is an abstract type from which more specific types
+        of SolidObject are derived. The secondary locations are required to
+        be logically and mathematically consistent with the value of the
+        PrimaryLocation so that all locations of a SolidObjectType describe
+        (or are consistent with) a single place in space. No
+        SolidObjectType except the Workstation may be located with respect
+        to itself, and all chains of primary location must end at the
+        Workstation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Name"
+        type="xs:ID"/>
+      <xs:element name="PrimaryLocation"
+        type="PhysicalLocationType"/>
+      <xs:element name="SecondaryLocation"
+        type="PhysicalLocationType"
+        minOccurs="0"
+        maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StockKeepingUnitType">
+    <xs:annotation>
+      <xs:documentation>
+        StockKeepingUnitType is derived from DataThingType.
+        An instance of StockKeepingUnitType has the following elements:
+          Name (inherited)
+          Description
+          InternalShape (optional)
+          ExternalShape (optional)
+          Weight
+          EndEffectorName (IDREF, optional, multiple).
+ 
+        A StockKeepingUnitType is a description of a type of object. SKU is
+        an abbreviation for Stock Keeping Unit. Each EndEffectorName
+        (IDREF) identifies an instance of EndEffectorType that can handle
+        the SKU. One or both of InternalShape and ExternalShape must be
+        given. The shapes are not required to represent the same shape, but
+        they should not be inconsistent.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"/>
+          <xs:element name="InternalShape"
+            type="InternalShapeType"
+            minOccurs="0"/>
+          <xs:element name="ExternalShape"
+            type="ExternalShapeType"
+            minOccurs="0"/>
+          <xs:element name="Weight"
+            type="PositiveDecimalType"/>
+          <xs:element name="EndEffectorName"
+            type="xs:IDREF"
+            minOccurs="0"
+            maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>EndEffectorType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VacuumEffectorType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        VacuumEffectorType is derived from EndEffectorType.
+        An instance of VacuumEffectorType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Description (inherited)
+          Weight (inherited)
+          MaximumLoadWeight (inherited)
+          CupDiameter
+          Length.
+ 
+        VacuumEffectorType is an abstract type from which more specific
+        types of VacuumEffectorType are derived. A VacuumEffectorType holds
+        an object by putting a cup or cups against the object and applying
+        a vacuum.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EndEffectorType">
+        <xs:sequence>
+          <xs:element name="CupDiameter"
+            type="PositiveDecimalType"/>
+          <xs:element name="Length"
+            type="PositiveDecimalType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VacuumEffectorMultiCupType">
+    <xs:annotation>
+      <xs:documentation>
+        VacuumEffectorMultiCupType is derived from VacuumEffectorType. An
+        instance of VacuumEffectorMultiCupType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Description (inherited)
+          Weight (inherited)
+          MaximumLoadWeight (inherited)
+          CupDiameter
+          Length
+          ArrayNumber
+          ArrayRadius.
+ 
+        The ArrayNumber is the number of cups, which must be at least 2.
+        The cups are arranged in a circular array spaced evenly apart. The
+        center of the wide end of one cup is on the X-axis of the
+        coordinate system of the VacuumEffectorMultiCupType. The center of
+        the circular array is at the origin of the coordinate system. The
+        axis of the array circle is the Z axis of the coordinate system,
+        and the length of the VacuumEffectorType is measured along that
+        axis. The wide ends of the cups lie on the XY plane of the
+        coordinate system.
+ 
+        Note that a square array can be represented easily as circular
+        array.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="VacuumEffectorType">
+        <xs:sequence>
+          <xs:element name="ArrayNumber"
+            type="xs:positiveInteger"/>
+          <xs:element name="ArrayRadius"
+            type="PositiveDecimalType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VacuumEffectorSingleCupType">
+    <xs:annotation>
+      <xs:documentation>
+        VacuumEffectorSingleCupType is derived from VacuumEffectorType.
+        An instance of KitTrayType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          Description (inherited)
+          Weight (inherited)
+          MaximumLoadWeight (inherited)
+          CupDiameter (inherited)
+          Length (inherited).
+ 
+        A VacuumEffectorSingleCupType has one cup. The center of the wide
+        end of the cup (which is a circle) is at the origin of the
+        coordinate system of the VacuumEffectorSingleCupType. The Z axis of
+        the coordinate system is the axis of that circle, and the length of
+        the VacuumEffectorType is measured along that axis.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="VacuumEffectorType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VectorType">
+    <xs:annotation>
+      <xs:documentation>
+        VectorType is derived from DataThingType.
+        An instance of VectorType has the following elements:
+          Name (inherited)
+          I
+          J
+          K.
+ 
+        I, J, and K represent the usual i, j, and k components of a 3D
+        vector.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="I"
+            type="xs:decimal"/>
+          <xs:element name="J"
+            type="xs:decimal"/>
+          <xs:element name="K"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="WeightUnitType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="kilogram"/>
+      <xs:enumeration value="gram"/>
+      <xs:enumeration value="milligram"/>
+      <xs:enumeration value="ounce"/>
+      <xs:enumeration value="pound"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="WorkTableType">
+    <xs:annotation>
+      <xs:documentation>
+        WorkTableType is derived from NoSkuObjectType.
+        An instance of WorkTableType has the following elements:
+          Name (inherited)
+          PrimaryLocation (inherited)
+          SecondaryLocation (inherited, optional, multiple)
+          InternalShape (inherited, optional)
+          ExternalShape (inherited, optional)
+          ObjectOnTable (optional, multiple).
+ 
+        Each ObjectOnTable is a SolidObjectType located with respect to the
+        WorkTableType. The reference object of each ObjectOnTable should be
+        the WorkTable. Typically, those objects will be on top of the
+        WorkTable. Typically, the shape of a WorkTableType will be a
+        BoxyShape, so that the table has Length, Width, and Height.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NoSkuObjectType">
+        <xs:sequence>
+          <xs:element name="ObjectOnTable"
+            type="SolidObjectType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

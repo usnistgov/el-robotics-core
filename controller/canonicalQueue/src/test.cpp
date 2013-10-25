@@ -1,13 +1,23 @@
 /*****************************************************************************
-  DISCLAIMER:
-  This software was produced by the National Institute of Standards
-  and Technology (NIST), an agency of the U.S. government, and by statute is
-  not subject to copyright in the United States.  Recipients of this software
-  assume all responsibility associated with its operation, modification,
-  maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
-  See NIST Administration Manual 4.09.07 b and Appendix I. 
-*****************************************************************************/
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
 /*!
   \file   test.cc
   \brief  test controller interface library by reading and writing commands to the queue
@@ -25,11 +35,31 @@ dequeueThread (void *arg)
 {
   Controller *ctrl = reinterpret_cast < Controller *>(arg);	
   void *myVoid;
+  StatusMsg statusMsg;
+  CanonicalMsg *canonicalPt;
+  CanonicalHdr myHeader;
+  static int once = 0;
 
   for(;;)
     {
-      if( ctrl->dequeueMsgLow(myVoid) == 0)
+      statusMsg = ctrl->dequeueMsgLow(myVoid);
+      if( statusMsg.getStatus() == QueueEmpty)
 	sleep(1);
+      else
+	{
+	  myHeader = statusMsg.getHeader();
+	  printf( "Test::dequeueThread:Dequeued message %d of time %f with status %s\n",
+		  myHeader.msgID, myHeader.time,
+		  statusMsg.getError() );
+	  statusMsg.setStatus(CmdComplete);
+	  if( once == 0 )
+	    {
+	      sleep(5);
+	      once++;
+	      if( once > 3 ) once = 0;
+	    }
+	  ctrl->queueMsgStatus(&statusMsg);
+	}
     }
 }
 
@@ -46,6 +76,7 @@ main ()
   OpenToolChangerMsg openToolChanger;
   MessageMsg message("This is a test message");
   void *dequeueTask = NULL;
+  StatusMsg statusMsg;
 
   ctrl = new Controller();
   // this code uses the ULAPI library to provide portability
@@ -59,27 +90,50 @@ main ()
   dequeueTask = ulapi_task_new ();
   ulapi_task_start (dequeueTask, dequeueThread, (void *) ctrl, ulapi_prio_lowest (),
 		    1);
-
-  printf( "Queue InitCanon\n" );
+  printf( "\tQueue InitCanon\n" );
   ctrl->queueMsgLow(&initCanon);
-  //  sleep(1);
-  printf( "Queue dwell\n" );
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
+    //  sleep(1);
+  printf( "\tQueue dwell\n" );
   ctrl->queueMsgLow(&dwell);
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
   //  sleep(2);
-  printf( "Queue openGripper\n" );
+  printf( "\tQueue openGripper\n" );
   ctrl->queueMsgLow(&openGripper);
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
   //  sleep(2);
-  printf( "Queue closeGripper\n" );
+  printf( "\tQueue closeGripper\n" );
   ctrl->queueMsgLow(&closeGripper);
-  printf( "Queue messageMsg\n" );
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
+  printf( "\tQueue messageMsg\n" );
   ctrl->queueMsgLow(&message);
-  printf( "Queue openToolChanger\n" );
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
+  printf( "\tQueue openToolChanger\n" );
   ctrl->queueMsgLow(&openToolChanger);
-  printf( "Queue closeToolChanger\n" );
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
+  printf( "\tQueue closeToolChanger\n" );
   ctrl->queueMsgLow(&closeToolChanger);
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
   sleep(10);
-  printf( "Queue endCanon\n" );
+  printf( "\tQueue endCanon\n" );
   ctrl->queueMsgLow(&endCanon);
+  statusMsg = ctrl->dequeueMsgStatus();
+  printf( "\tMainThread got status:msg: %d status %s\n",
+	  statusMsg.getHeader().msgID, statusMsg.getError() );
   sleep(10);
   return 1;
 }

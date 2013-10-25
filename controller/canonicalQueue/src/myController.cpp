@@ -1,12 +1,22 @@
 /*****************************************************************************
-  DISCLAIMER:
-  This software was produced by the National Institute of Standards
-  and Technology (NIST), an agency of the U.S. government, and by statute is
-  not subject to copyright in the United States.  Recipients of this software
-  assume all responsibility associated with its operation, modification,
-  maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
-  See NIST Administration Manual 4.09.07 b and Appendix I. 
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
 *****************************************************************************/
 /*!
   \file   myController.cc
@@ -22,257 +32,441 @@
 //
 // process must return 0 for no error
 //
-int CloseGripperMsg::process(void *sendTo)
+statusReturn CloseGripperMsg::process(void *sendTo)
 {
-  printf( "Received close gripper msg\n" );
-  return 0;
+  printf( "myController::Received close gripper msg\n" );
+  return CmdComplete;
 }
 
-void CloseGripperMsg::printMe()
+void CloseGripperMsg::printMe(int verbosity)
 {
-  printf( "CloseGripperMsg\n");
+  if( verbosity )
+    printf( "myController::printMe:CloseGripperMsg\n");
 }
 
-int CloseToolChangerMsg::process(void *sendTo)
+StatusMsg CloseGripperMsg::timer(float *resetTime)
 {
-  printf( "Received close tool changer msg\n" );
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void CloseToolChangerMsg::printMe()
+statusReturn CloseToolChangerMsg::process(void *sendTo)
 {
-  printf( "CloseToolChangerMsg\n");
+  printf( "myController::Received close tool changer msg\n" );
+  return CmdComplete;
 }
 
-int DwellMsg::process(void *sendTo)
+void CloseToolChangerMsg::printMe(int verbosity)
 {
-  printf( "Received dwell message of time: %lf\n", time );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:CloseToolChangerMsg\n");
 }
 
-void DwellMsg::printMe()
+StatusMsg CloseToolChangerMsg::timer(float *resetTime)
 {
-      printf( "DwellMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn DwellMsg::process(void *sendTo)
+{
+  printf( "myController::Received dwell message of time: %lf\n", time );
+  return CmdComplete;
+}
+
+void DwellMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:DwellMsg\n");
+}
+
+StatusMsg DwellMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
 // return 2 to let processes know that we are done
-int EndCanonMsg::process(void *sendTo)
+statusReturn EndCanonMsg::process(void *sendTo)
 {
-  printf( "Received endCanon message reason: %d\n", reason );
-  return 2;
+  printf( "myController::Received endCanon message reason: %d\n", reason );
+  return SystemDone;
 }
 
-void EndCanonMsg::printMe()
+void EndCanonMsg::printMe(int verbosity)
 {
-      printf( "EndCanonMsg\n");
+  if( verbosity )
+    printf( "myController::printMe:EndCanonMsg\n");
 }
 
-int InitCanonMsg::process(void *sendTo)
+StatusMsg EndCanonMsg::timer(float *resetTime)
 {
-  printf( "Received initCanon message\n" );
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void InitCanonMsg::printMe()
+statusReturn InitCanonMsg::process(void *sendTo)
 {
-      printf( "InitCanonMsg\n");
+  printf( "myController::Received initCanon message\n" );
+  return CmdComplete;
 }
 
-int MessageMsg::process(void *sendTo)
+void InitCanonMsg::printMe(int verbosity)
 {
-  printf( "Received Message msg: %s\n", message.c_str() );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:InitCanonMsg\n");
 }
 
-void MessageMsg::printMe()
+StatusMsg InitCanonMsg::timer(float *resetTime)
 {
-      printf( "MessageMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int MoveStraightToMsg::process(void *sendTo)
+statusReturn MessageMsg::process(void *sendTo)
 {
-  printf( "Received MoveStraightTo msg\n" );
-  return 0;
+  printf( "myController::Received Message msg: %s\n", message.c_str() );
+  return CmdComplete;
 }
 
-void MoveStraightToMsg::printMe()
+StatusMsg MessageMsg::timer(float *resetTime)
 {
-      printf( "MoveStraightToMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int MoveThroughToMsg::process(void *sendTo)
+void MessageMsg::printMe(int verbosity)
 {
-  printf( "Received MoveThroughTo msg\n" );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:MessageMsg\n");
 }
 
-void MoveThroughToMsg::printMe()
+statusReturn MoveStraightToMsg::process(void *sendTo)
 {
-      printf( "MoveThroughtToMsg\n");
+  printf( "myController::Received MoveStraightTo msg\n" );
+  return CmdComplete;
 }
 
-int MoveToMsg::process(void *sendTo)
+void MoveStraightToMsg::printMe(int verbosity)
 {
-  printf( "Received MoveTo msg\n" );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:MoveStraightToMsg\n");
 }
 
-void MoveToMsg::printMe()
+StatusMsg MoveStraightToMsg::timer(float *resetTime)
 {
-      printf( "MoveToMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int OpenGripperMsg::process(void *sendTo)
+statusReturn MoveThroughToMsg::process(void *sendTo)
 {
-  printf( "Received open gripper msg\n" );
-  return 0;
+  printf( "myController::Received MoveThroughTo msg\n" );
+  return CmdComplete;
 }
 
-void OpenGripperMsg::printMe()
+void MoveThroughToMsg::printMe(int verbosity)
 {
-      printf( "OpenGripperMsg\n");
+  if( verbosity )
+    printf( "myController::printMe:MoveThroughtToMsg\n");
 }
 
-int OpenToolChangerMsg::process(void *sendTo)
+StatusMsg MoveThroughToMsg::timer(float *resetTime)
 {
-  printf( "Received open tool changer msg\n" );
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void OpenToolChangerMsg::printMe()
+statusReturn MoveToMsg::process(void *sendTo)
 {
-      printf( "OpenToolChangerMsg\n");
+  printf( "myController::Received MoveTo msg\n" );
+  return CmdComplete;
 }
 
-int SetAbsoluteAccelerationMsg::process(void *sendTo)
+void MoveToMsg::printMe(int verbosity)
 {
-  printf( "Received SetAbsoluteAcceleration msg\n" );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:MoveToMsg\n");
 }
 
-void SetAbsoluteAccelerationMsg::printMe()
+StatusMsg MoveToMsg::timer(float *resetTime)
 {
-      printf( "SetAbsoluteAccelerationMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int SetAbsoluteSpeedMsg::process(void *sendTo)
+statusReturn OpenGripperMsg::process(void *sendTo)
 {
-  printf( "Received SetAbsoluteSpeed msg\n" );
-  return 0;
+  printf( "myController::Received open gripper msg\n" );
+  return CmdComplete;
 }
 
-void SetAbsoluteSpeedMsg::printMe()
+void OpenGripperMsg::printMe(int verbosity)
 {
-  printf( "SetAbsoluteSpeedMsg\n" );
+  if( verbosity )
+    printf( "myController::printMe:OpenGripperMsg\n");
 }
 
-int SetAngleUnitsMsg::process(void *sendTo)
+StatusMsg OpenGripperMsg::timer(float *resetTime)
 {
-  printf( "Received SetAngleUnits msg\n" );
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetAngleUnitsMsg::printMe()
+statusReturn OpenToolChangerMsg::process(void *sendTo)
 {
-      printf( "SetAngleUnitsMsg\n");
+  printf( "myController::Received open tool changer msg\n" );
+  return CmdComplete;
 }
 
-int SetEndAngleToleranceMsg::process(void *sendTo)
+void OpenToolChangerMsg::printMe(int verbosity)
 {
-  printf( "Received SetEndAngleTolerance msg\n" );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:OpenToolChangerMsg\n");
 }
 
-void SetEndAngleToleranceMsg::printMe()
+StatusMsg OpenToolChangerMsg::timer(float *resetTime)
 {
-      printf( "SetEndAngleToleranceMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int SetEndPointToleranceMsg::process(void *sendTo)
+statusReturn SetAbsoluteAccelerationMsg::process(void *sendTo)
 {
-  printf( "Received SetEndPointTolerance msg\n" );
-  return 0;
+  printf( "myController::Received SetAbsoluteAcceleration msg\n" );
+  return CmdComplete;
 }
 
-void SetEndPointToleranceMsg::printMe()
+void SetAbsoluteAccelerationMsg::printMe(int verbosity)
 {
-      printf( "SetEndPointToleranceMsg\n");
+  if( verbosity )
+    printf( "myController::printMe:SetAbsoluteAccelerationMsg\n");
 }
 
-int SetIntermediatePointToleranceMsg::process(void *sendTo)
+StatusMsg SetAbsoluteAccelerationMsg::timer(float *resetTime)
 {
-  printf( "Received SetIntermediatePointTolerance msg\n" );
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetIntermediatePointToleranceMsg::printMe()
+statusReturn SetAbsoluteSpeedMsg::process(void *sendTo)
 {
-      printf( "SetIntermediatePointToleranceMsg\n");
+  printf( "myController::Received SetAbsoluteSpeed msg\n" );
+  return CmdComplete;
 }
 
-int SetLengthUnitsMsg::process(void *sendTo)
+void SetAbsoluteSpeedMsg::printMe(int verbosity)
 {
-  printf( "Received SetLengthUnits msg\n" );
-  return 0;
+  if( verbosity )
+    printf( "myController::printMe:SetAbsoluteSpeedMsg\n" );
 }
 
-void SetLengthUnitsMsg::printMe()
+StatusMsg SetAbsoluteSpeedMsg::timer(float *resetTime)
 {
-      printf( "SetLengthUnitsMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int SetRelativeAccelerationMsg::process(void *sendTo)
+statusReturn SetAngleUnitsMsg::process(void *sendTo)
 {
-  printf( "Received SetRelativeAcceleration msg\n" );
-  return 0;
+  printf( "myController::Received SetAngleUnits msg\n" );
+  return CmdComplete;
 }
 
-void SetRelativeAccelerationMsg::printMe()
+void SetAngleUnitsMsg::printMe(int verbosity)
 {
-      printf( "SetRelativeAccelerationMsg\n");
+  if( verbosity )
+    printf( "myController::printMe:SetAngleUnitsMsg\n");
 }
 
-int SetRelativeSpeedMsg::process(void *sendTo)
+StatusMsg SetAngleUnitsMsg::timer(float *resetTime)
 {
-  printf( "Received SetRelativeSpeed msg\n" );
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetRelativeSpeedMsg::printMe()
+statusReturn SetEndAngleToleranceMsg::process(void *sendTo)
 {
-      printf( "SetRelativeSpeedMsg\n");
+  printf( "myController::Received SetEndAngleTolerance msg\n" );
+  return CmdComplete;
 }
 
-int StartObjectScanMsg::process(void *sendTo)
+void SetEndAngleToleranceMsg::printMe(int verbosity)
 {
-	printf( "Received StartObjectScan msg for part %s\n", objectName.c_str() );
+  if( verbosity )
+    printf( "myController::printMe:SetEndAngleToleranceMsg\n");
 }
 
-void StartObjectScanMsg::printMe()
+StatusMsg SetEndAngleToleranceMsg::timer(float *resetTime)
 {
-      printf( "StartObjectScanMsg\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-int StopMotionMsg::process(void *sendTo)
+statusReturn SetEndPointToleranceMsg::process(void *sendTo)
+{
+  printf( "myController::Received SetEndPointTolerance msg\n" );
+  return CmdComplete;
+}
+
+void SetEndPointToleranceMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:SetEndPointToleranceMsg\n");
+}
+
+StatusMsg SetEndPointToleranceMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn SetIntermediatePointToleranceMsg::process(void *sendTo)
+{
+  printf( "myController::Received SetIntermediatePointTolerance msg\n" );
+  return CmdComplete;
+}
+
+void SetIntermediatePointToleranceMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:SetIntermediatePointToleranceMsg\n");
+}
+
+StatusMsg SetIntermediatePointToleranceMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn SetLengthUnitsMsg::process(void *sendTo)
+{
+  printf( "myController::Received SetLengthUnits msg\n" );
+  return CmdComplete;
+}
+
+void SetLengthUnitsMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:SetLengthUnitsMsg\n");
+}
+
+StatusMsg SetLengthUnitsMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn SetRelativeAccelerationMsg::process(void *sendTo)
+{
+  printf( "myController::Received SetRelativeAcceleration msg\n" );
+  return CmdComplete;
+}
+
+void SetRelativeAccelerationMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:SetRelativeAccelerationMsg\n");
+}
+
+StatusMsg SetRelativeAccelerationMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn SetRelativeSpeedMsg::process(void *sendTo)
+{
+  printf( "myController::Received SetRelativeSpeed msg\n" );
+  return CmdComplete;
+}
+
+void SetRelativeSpeedMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:SetRelativeSpeedMsg\n");
+}
+
+StatusMsg SetRelativeSpeedMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn StartObjectScanMsg::process(void *sendTo)
+{
+	printf( "myController::Received StartObjectScan msg for part %s\n", objectName.c_str() );
+}
+
+void StartObjectScanMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:StartObjectScanMsg\n");
+}
+
+StatusMsg StartObjectScanMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn StopMotionMsg::process(void *sendTo)
 {
   if( isEmergency )
-    printf( "Received emergency stop motion msg\n" );
+    printf( "myController::Received emergency stop motion msg\n" );
   else
-    printf( "Received non-emergency stop motion msg\n" );
-  return 0;
+    printf( "myController::Received non-emergency stop motion msg\n" );
+  return CmdComplete;
 }
 
-void StopMotionMsg::printMe()
+void StopMotionMsg::printMe(int verbosity)
 {
-      printf( "StopMotionMsg\n");
+  if( verbosity )
+    printf( "myController::printMe:StopMotionMsg\n");
 }
 
-int StopObjectScanMsg::process(void *sendTo)
+StatusMsg StopMotionMsg::timer(float *resetTime)
 {
-	printf( "Received StopObjectScanMsg.\n");
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void StopObjectScanMsg::printMe()
+statusReturn StopObjectScanMsg::process(void *sendTo)
 {
-      printf( "StopObjectScanMsg\n");
+	printf( "myController::Received StopObjectScanMsg.\n");
+}
+
+void StopObjectScanMsg::printMe(int verbosity)
+{
+  if( verbosity )
+    printf( "myController::printMe:StopObjectScanMsg\n");
+}
+
+StatusMsg StopObjectScanMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }

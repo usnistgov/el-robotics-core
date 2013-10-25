@@ -41,7 +41,6 @@
 #include "database/Part.h"
 #include "database/PartRefAndPose.h"
 #include "database/PartsTray.h"
-#include "database/PartsTrayWithParts.h"
 #include "database/Point.h"
 #include "database/PoseLocation.h"
 #include "database/PhysicalLocation.h"

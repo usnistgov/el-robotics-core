@@ -14,46 +14,68 @@
 RosInf *rosControl; // from rosInf.hh
 
 /**
-  \addtogroup rosCanonicalController
-	@{
-	\file canonicalController.cpp
+   \addtogroup rosCanonicalController
+   @{
+   \file canonicalController.cpp
 	
-	This file contains the implementation of the controller dequeuing thread and main function for the rosCanonicalController node.
+   This file contains the implementation of the controller dequeuing thread and main function for the rosCanonicalController node.
 	
 */
 
 /**
-  \brief Dequeueing loop for CRCL controller
-  \param arg Pointer to the controller that dequeues command messages
+   \brief Dequeueing loop for CRCL controller
+   \param arg Pointer to the controller that dequeues command messages
 */
 void
 dequeueThread (void *arg)
 {
-  int errReturn = 0;
+  StatusMsg errReturn;
   Controller *ctrl = reinterpret_cast < Controller *>(arg);
+
   while(ros::ok())
-  {
-  	  while(ros::ok() && errReturn == 0)
-  	  	errReturn = ctrl->dequeueMsgHigh(rosControl);
-  	  errReturn = ctrl->dequeueMsgLow(rosControl);
-  	  while(ros::ok() && !rosControl->checkCommandDone())
-  	  {
-  	    errReturn = ctrl->dequeueMsgHigh(rosControl);
-  	    sleep(.1);
-  	  	ros::spinOnce();
-  	  }
-  	  if(errReturn == 0 || errReturn == -1)
-  	  {
-  	  	//either no command to process or command was processed successfully
-  	  }
-  	  else if(errReturn == 1)
-  	  {
-  	  	printf("Error in command queue.\n");
-  	  	ros::shutdown();
-  	  	return;
-  	  }
+    {
+      errReturn.setStatus(CmdComplete);
+      while(ros::ok() && errReturn.getStatus() != QueueEmpty)
+	{
+	  errReturn = ctrl->dequeueMsgHigh(rosControl);
+	  if(errReturn.getStatus() == QueueEmpty || errReturn.getStatus() == CmdComplete)
+	    {
+	      if( errReturn.getStatus() == QueueEmpty )
+		printf( "high queue empty\n");
+	      else
+		printf( "high queue empty\n" );
+	      //either no command to process or command was processed successfully
+	    }
+	  else 
+	    {
+	      printf("Error in command queue.%s\n", errReturn.getError());
+	      ros::shutdown();
+	      return;
+	    }
+	}
+      errReturn = ctrl->dequeueMsgLow(rosControl, 1);
+      printf( "canonicalController.cpp: going to wait for command done\n" );
+      while(ros::ok() && !rosControl->checkCommandDone())
+	{
+	  printf( "canonicalController.cpp: dequeuing message\n" );
+	  errReturn = ctrl->dequeueMsgHigh(rosControl);
+	  sleep(.1);
 	  ros::spinOnce();
-  }
+	}
+      if(errReturn.getStatus() == QueueEmpty || errReturn.getStatus() == CmdComplete)
+	{
+	  if( errReturn.getStatus() == QueueEmpty )
+	    printf( "queue empty\n");
+	  //either no command to process or command was processed successfully
+	}
+      else 
+	{
+	  printf("Error in command queue.%s\n", errReturn.getError());
+	  ros::shutdown();
+	  return;
+	}
+      ros::spinOnce();
+    }
 }
 int
 main (int argc, char* argv[])
@@ -76,10 +98,10 @@ main (int argc, char* argv[])
   std::string globalFrame;
   ros::NodeHandle nh;
   if(!nh.getParam("usarsim/globalFrame", globalFrame))
-  {
-    ROS_INFO("No global frame parameter specified, using default /odom");
-    globalFrame = "/odom";
-  }
+    {
+      ROS_INFO("No global frame parameter specified, using default /odom");
+      globalFrame = "/odom";
+    }
   rosControl->setGlobalFrame(globalFrame);
 
   // this code uses the ULAPI library to provide portability
@@ -121,9 +143,9 @@ main (int argc, char* argv[])
   fclose(inFile);
   
   /*Point *startPoint = new Point("start_scan");
-  startPoint->sethasPoint_X(-.163);
-  startPoint->sethasPoint_Y(0.6205);
-  startPoint->sethasPoint_Z(0.3);*/
+    startPoint->sethasPoint_X(-.163);
+    startPoint->sethasPoint_Y(0.6205);
+    startPoint->sethasPoint_Z(0.3);*/
   
   //  sleep(300);
   ulapi_task_join(dequeueTask, &result);

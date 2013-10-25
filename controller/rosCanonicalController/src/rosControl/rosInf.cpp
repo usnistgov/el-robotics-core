@@ -21,6 +21,7 @@ RosInf::~RosInf ()
 }
 
 /**
+   need to have this interact with queue!
 	\brief Checks to see if the arm navigation goals is empty
 	\return \c true if the queue is empty, \c false otherwise
 */

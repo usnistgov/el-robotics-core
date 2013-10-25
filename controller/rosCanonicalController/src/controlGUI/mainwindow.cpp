@@ -24,10 +24,12 @@
 */
 void RosCanonicalThread::run()
 {
-  int errReturn = 0;
+  StatusMsg errReturn;
+
+  errReturn.setStatus(CmdComplete);
   while(ros::ok() && running)
   {
-  	  while(errReturn == 0)
+    while(errReturn.getStatus() == CmdComplete)
   	  {
   	  	errReturn = ctrl->dequeueMsgHigh(rosControl);
   	  }
@@ -38,7 +40,7 @@ void RosCanonicalThread::run()
   	    sleep(.1);
   	  	ros::spinOnce();
   	  }
-  	  if(errReturn == 0) //processed at least one message succesfully
+  	  if(errReturn.getStatus() == CmdComplete) //processed at least one message succesfully
   	  {
   	  	if(!initialized)
   	  	{
@@ -46,13 +48,13 @@ void RosCanonicalThread::run()
   	  	}
   	  	initialized = true;
   	  }
-  	  else if(errReturn == -1)
+  	  else if(errReturn.getStatus() == QueueEmpty)
   	  {
   	    //no command to process
   	  }
-  	  else if(errReturn == 1)
+  	  else 
   	  {
-  	  	printf("Error in command queue.\n");
+	    printf("Error in command queue %s.\n", errReturn.getError());
   	  	ros::shutdown();
   	  	return;
   	  }

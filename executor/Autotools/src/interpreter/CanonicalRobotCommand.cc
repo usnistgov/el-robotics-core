@@ -133,6 +133,7 @@ void CanonicalRobotCommand::create_kit(vector<string> paramList, KittingPlan *ki
  */
 void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan *kittingplan){
   int listLength;
+  SkuObject *skuObject = new SkuObject("foo");
   StockKeepingUnit *sku;
   ShapeDesign *shapeDesign;
   PoseLocation *graspPose;
@@ -163,11 +164,21 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
   /* get grasp location */
   // first get sku
   part->get(located_part);
-  sku = part->gethasPart_Sku();
+  skuObject->get(part->getname());
+  sku = skuObject->gethasSkuObject_Sku();
   sku->get(sku->getname());
 
   // from sku, get shape
-  shapeDesign = sku->gethasStockKeepingUnit_Shape();
+  // first check if there is an internal shape
+  shapeDesign = (ShapeDesign*)sku->gethasStockKeepingUnit_InternalShape();
+  if( shapeDesign == NULL ) // check for external shape
+    {
+      shapeDesign = (ShapeDesign*)sku->gethadByExternalShape_StockKeepingUnit();
+      if( shapeDesign == NULL )
+	{
+	  return;
+	}
+    }
   shapeDesign->get(shapeDesign->getname());
 
   // from shape design, get grasp pose
@@ -210,6 +221,7 @@ bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, KittingPlan 
   vector<Slot*> slots;
   Part *part;
   StockKeepingUnit *sku;
+  SkuObject *skuObject = new SkuObject("foo");
 
   ShapeDesign *shapeDesign;
   PoseLocation *graspPose;
@@ -228,7 +240,8 @@ bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, KittingPlan 
 	partName = paramList[i];
 	part = new Part(partName);
 	part->get(partName);
-	sku = part->gethasPart_Sku();
+	skuObject->get(part->getname());
+	sku = skuObject->gethasSkuObject_Sku();
 	skuName = sku->getname();
 	/*
 	printf( "Looking for slot for part %s with sku: %s\n", 
@@ -518,8 +531,7 @@ void CanonicalRobotCommand::effect_take_part(string robotName, string partName,
   //  parttray->get("part_b_supply_ir");
   
   part->get(partName);
-  //    part->sethadByPart_PartsTrayWithParts(parttray);
-  part->sethadByPart_PartsTrayWithParts(NULL);
+  part->sethadByPart_PartsVessel(NULL);
   part->set(part->getname());
   DatabaseUpdate::graspByRobot( robotName, part->getname(), graspFrame);
 }
@@ -699,9 +711,8 @@ string CanonicalRobotCommand::getPartInstance(string part_name)
 {
   std::map<std::string, std::vector<std::string> > results;
   std::vector<std::string> attributes;
-  std::string myPartsTrayWithParts;
-  PartsTrayWithParts *partsTrayWithParts = new PartsTrayWithParts("PartsTrayWithParts");
-  PartsTray *partsTray;
+  std::string myPartsVessel;
+  PartsVessel *partsVessel = new PartsVessel("PartsVessel");
   bool found = false;
 
   double doubleValue;
@@ -712,38 +723,36 @@ string CanonicalRobotCommand::getPartInstance(string part_name)
   Point *point;
   PoseLocation *graspPose;
   ShapeDesign *shapeDesign;
-  StockKeepingUnit *sku, *partsTray_PartSku;
+  StockKeepingUnit *sku, *partsVessel_PartSku;
+  SkuObject *skuObject = new SkuObject("foo");
   Vector *vector;
   DAO* mydao = new DAO("Part");
   //  RecLoc recLoc;
 
   part->get(part_name);
 
-  /* find part tray that contains this kind of part */
+  /* find part vessel that contains this kind of part */
   // first get sku
-  sku = part->gethasPart_Sku();
+  skuObject->get(part->getname());
+  sku = skuObject->gethasSkuObject_Sku();
   sku->get(sku->getname());
   //  printf("Sku name: %s\n", sku->getname().c_str());
-  // get the name of all PartsTrayWithParts
+  // get the name of all PartsVessels
   attributes.push_back("_NAME");
-  results = mydao->getAll(attributes, "PartsTrayWithParts");
+  results = mydao->getAll(attributes, "PartsVessel");
   for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
     {
-      myPartsTrayWithParts = results["_NAME"][i];
-      //      myPartsTrayWithParts = "part_c_supply";
-      partsTrayWithParts->get(myPartsTrayWithParts);
-      //      printf( "PartsTrayWithParts: %s\n", partsTrayWithParts->getname().c_str());
-      // get the partsTray
-      partsTray = partsTrayWithParts->gethasPartsTrayWithParts_PartsTray();
-      partsTray->get(partsTray->getname());
-      // get the partsTray's SKU
-      partsTray_PartSku = partsTray->gethasPartsTray_PartSku();
-      partsTray_PartSku->get(partsTray_PartSku->getname());
-      if( sku->getname() == partsTray_PartSku->getname() )
+      myPartsVessel = results["_NAME"][i];
+      partsVessel->get(myPartsVessel);
+      //      printf( "PartsVessel: %s\n", partsVessel->getname().c_str());
+      // get the SKU of the parts in the vessel
+      partsVessel_PartSku = partsVessel->gethasPartsVessel_PartSku();
+      partsVessel_PartSku->get(partsVessel_PartSku->getname());
+      if( sku->getname() == partsVessel_PartSku->getname() )
 	{
 	  // found the correct part tray
 	  found = true;
-	  printf( "found parts tray %s for parts of SKU %s\n", partsTrayWithParts->getname().c_str(), sku->getname().c_str() );
+	  printf( "found parts tray %s for parts of SKU %s\n", partsVessel->getname().c_str(), sku->getname().c_str() );
 	  break;
 	}
       //      else
@@ -756,7 +765,7 @@ string CanonicalRobotCommand::getPartInstance(string part_name)
     }
   
   // get vector of parts
-  availableParts = partsTrayWithParts->gethadByPart_PartsTrayWithParts();
+  availableParts = partsVessel->gethadByPart_PartsVessel();
   printf( "found %d parts in tray. Specific part %s\n", 
 	  (int)availableParts.size(),
 	  availableParts.at(0)->getname().c_str());

@@ -9,14 +9,16 @@ dequeueThread (void *arg)
 {
   Controller *ctrl = reinterpret_cast < Controller *>(arg);	
   void *myVoid;
-  int errReturn;
+  StatusMsg errReturn;
+
+  errReturn.setStatus(CmdComplete);
 
   for(;;)
     {
       errReturn = ctrl->dequeueMsgLow(myVoid);
-      if( errReturn == 0)
+      if( errReturn.getStatus() == QueueEmpty)
 	sleep(1);
-      else if( errReturn == 2 )
+      else if( errReturn.getStatus() == SystemDone )
 	{
 	  printf( "End of canon and thread\n" );
 	  ulapi_task_exit(0);

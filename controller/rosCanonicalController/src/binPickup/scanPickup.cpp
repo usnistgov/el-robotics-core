@@ -32,26 +32,28 @@ void generateScanPattern(MoveThroughToMsg *scanPattern, RosInf* rosInf, Point *i
 void
 dequeueThread (void *arg)
 {
-  int errReturn = 0;
+  StatusMsg errReturn;
   Controller *ctrl = reinterpret_cast < Controller *>(arg);
+
+  errReturn.setStatus(CmdComplete);
   while(ros::ok())
   {
-  	  while(errReturn == 0)
-  	  	errReturn = ctrl->dequeueMsgHigh(rosControl);
-  	  errReturn = ctrl->dequeueMsgLow(rosControl);
-  	  while(!rosControl->checkCommandDone())
-  	  {
-  	    errReturn = ctrl->dequeueMsgHigh(rosControl);
-  	    sleep(.1);
-  	  	ros::spinOnce();
-  	  }
-  	  if(errReturn == 0 || errReturn == -1)
+    while(errReturn.getStatus() != QueueEmpty)
+      errReturn = ctrl->dequeueMsgHigh(rosControl);
+    errReturn = ctrl->dequeueMsgLow(rosControl);
+    while(!rosControl->checkCommandDone())
+      {
+	errReturn = ctrl->dequeueMsgHigh(rosControl);
+	sleep(.1);
+	ros::spinOnce();
+      }
+    if(errReturn.getStatus() == QueueEmpty || errReturn.getStatus() == CmdComplete)
   	  {
   	  	//either no command to process or command was processed successfully
   	  }
-  	  else if(errReturn == 1)
+	  else
   	  {
-  	  	printf("Error in command queue.\n");
+	    printf("Error in command queue %s.\n", errReturn.getError());
   	  	ros::shutdown();
   	  	return;
   	  }

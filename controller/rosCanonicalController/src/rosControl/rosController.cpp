@@ -1,16 +1,37 @@
+/*****************************************************************************
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
+
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
 #include <stdio.h>
 #include "rosInf.hh"
 #include "database/Vector.h"
 #include "database/Point.h"
 #include "tf/transform_datatypes.h"
-
 /**
 	\file rosController.cpp 
-	
-	This file contains the ROS controller implementations of CRCL messages. The \c sendTo pointer is typecast to RosInf * in each of these implementations.
+	\author Stephen Balakirsky
+
+	This file contains the ROS controller implementations of CRCL messages. 
+	The \c sendTo pointer is typecast to RosInf * in each of these implementations.
 */
 
-int CloseGripperMsg::process(void *sendTo)
+statusReturn CloseGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -18,17 +39,24 @@ int CloseGripperMsg::process(void *sendTo)
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
   	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return 0;
+  	return CmdComplete;
   }
-  return 1;
+  return SystemNoInit;
 }
 
-void CloseGripperMsg::printMe()
+void CloseGripperMsg::printMe(int verbosity)
 {
   printf( "\tCloseGripperMsg\n");
 }
 
-int CloseToolChangerMsg::process(void *sendTo)
+StatusMsg CloseGripperMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn CloseToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -36,82 +64,124 @@ int CloseToolChangerMsg::process(void *sendTo)
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
   	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return 0;
+  	return CmdComplete;
   }
-  return 1;
+  return SystemNoInit;
 }
 
-void CloseToolChangerMsg::printMe()
+void CloseToolChangerMsg::printMe(int verbosity)
 {
   printf( "\tCloseToolChangerMsg\n");
 }
 
-int DwellMsg::process(void *sendTo)
+StatusMsg CloseToolChangerMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn DwellMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
 	  usleep((int)(time*1000000));
   }
-  return 0;
+  return CmdComplete;
 }
 
-void DwellMsg::printMe()
+void DwellMsg::printMe(int verbosity)
 {
   printf( "\tDwellMsg of time: %lf\n", time);
 }
 
-int EndCanonMsg::process(void *sendTo)
+StatusMsg DwellMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn EndCanonMsg::process(void *sendTo)
 {
   if(sendTo != NULL)
   {
   	((RosInf*)sendTo)->shutDown();
   }
   ros::shutdown();
-  return 2;
+  return SystemDone;
 }
 
-void EndCanonMsg::printMe()
+void EndCanonMsg::printMe(int verbosity)
 {
   printf( "\tEndCanonMsg reason: %d\n", reason);
 }
 
-int InitCanonMsg::process(void *sendTo)
+StatusMsg EndCanonMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn InitCanonMsg::process(void *sendTo)
 {
 	if(sendTo != NULL)
 	{
 		((RosInf*)sendTo)->init();
-		return 0;
+		return CmdComplete;
 	}
 	printf("Could not initialize canon because controller is null\n");
-	return 1;
+	return SystemNoInit;
 }
 
-void InitCanonMsg::printMe()
+void InitCanonMsg::printMe(int verbosity)
 {
       printf( "\tInitCanonMsg\n");
 }
 
-int MessageMsg::process(void *sendTo)
+StatusMsg InitCanonMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void MessageMsg::printMe()
+statusReturn MessageMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void MessageMsg::printMe(int verbosity)
 {
   printf( "\tMessageMsg: %s\n", message.c_str());
 }
 
-int MoveStraightToMsg::process(void *sendTo)
+StatusMsg MessageMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void MoveStraightToMsg::printMe()
+statusReturn MoveStraightToMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void MoveStraightToMsg::printMe(int verbosity)
 {
       printf( "\tMoveStraightToMsg\n");
 }
 
-int MoveThroughToMsg::process(void *sendTo)
+StatusMsg MoveStraightToMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn MoveThroughToMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -127,17 +197,24 @@ int MoveThroughToMsg::process(void *sendTo)
 							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_J(),
 							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_K());
 	}
-	return 0;	
+	return CmdComplete;	
   }
-  return 1;
+  return SystemNoInit;
 }
 
-void MoveThroughToMsg::printMe()
+void MoveThroughToMsg::printMe(int verbosity)
 {
       printf( "\tMoveThroughtToMsg\n");
 }
 
-int MoveToMsg::process(void *sendTo)
+StatusMsg MoveThroughToMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn MoveToMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -151,10 +228,10 @@ int MoveToMsg::process(void *sendTo)
 							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
 							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
   }
-  return 0;
+  return CmdComplete;
 }
 
-void MoveToMsg::printMe()
+void MoveToMsg::printMe(int verbosity)
 {
       printf( "\tMoveToMsg\n");
       printf( "\t Loc: <%f %f %f>\n", 
@@ -192,7 +269,14 @@ void MoveToMsg::printMe()
 	      axisTransform.getRotation ().w ());
 }
 
-int OpenGripperMsg::process(void *sendTo)
+StatusMsg MoveToMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn OpenGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -200,17 +284,24 @@ int OpenGripperMsg::process(void *sendTo)
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
   	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return 0;
+  	return CmdComplete;
   }
-  return 1;
+  return SystemNoInit;
 }
 
-void OpenGripperMsg::printMe()
+void OpenGripperMsg::printMe(int verbosity)
 {
       printf( "\tOpenGripperMsg\n");
 }
 
-int OpenToolChangerMsg::process(void *sendTo)
+StatusMsg OpenGripperMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn OpenToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
@@ -218,138 +309,229 @@ int OpenToolChangerMsg::process(void *sendTo)
     command.state = usarsim_inf::EffectorCommand::OPEN;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
   	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return 0;
+  	return CmdComplete;
   }
-  return 1;
+  return SystemNoInit;
 }
 
-void OpenToolChangerMsg::printMe()
+void OpenToolChangerMsg::printMe(int verbosity)
 {
       printf( "\tOpenToolChangerMsg\n");
 }
 
-int SetAbsoluteAccelerationMsg::process(void *sendTo)
+StatusMsg OpenToolChangerMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetAbsoluteAccelerationMsg::printMe()
+statusReturn SetAbsoluteAccelerationMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetAbsoluteAccelerationMsg::printMe(int verbosity)
 {
       printf( "\tSetAbsoluteAccelerationMsg\n");
 }
 
-int SetAbsoluteSpeedMsg::process(void *sendTo)
+StatusMsg SetAbsoluteAccelerationMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetAbsoluteSpeedMsg::printMe()
+statusReturn SetAbsoluteSpeedMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetAbsoluteSpeedMsg::printMe(int verbosity)
 {
   printf( "\tSetAbsoluteSpeedMsg\n" );
 }
 
-int SetAngleUnitsMsg::process(void *sendTo)
+StatusMsg SetAbsoluteSpeedMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetAngleUnitsMsg::printMe()
+statusReturn SetAngleUnitsMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetAngleUnitsMsg::printMe(int verbosity)
 {
       printf( "\tSetAngleUnitsMsg\n");
 }
 
-int SetEndAngleToleranceMsg::process(void *sendTo)
+StatusMsg SetAngleUnitsMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetEndAngleToleranceMsg::printMe()
+statusReturn SetEndAngleToleranceMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetEndAngleToleranceMsg::printMe(int verbosity)
 {
       printf( "\tSetEndAngleToleranceMsg\n");
 }
 
-int SetEndPointToleranceMsg::process(void *sendTo)
+StatusMsg SetEndAngleToleranceMsg::timer(float *resetTime)
 {
-  ((RosInf*)sendTo)->setEndPointTolerance(tolerance);
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetEndPointToleranceMsg::printMe()
+statusReturn SetEndPointToleranceMsg::process(void *sendTo)
+{
+  ((RosInf*)sendTo)->setEndPointTolerance(tolerance);
+  return CmdComplete;
+}
+
+void SetEndPointToleranceMsg::printMe(int verbosity)
 {
       printf( "\tSetEndPointToleranceMsg\n");
 }
 
-int SetIntermediatePointToleranceMsg::process(void *sendTo)
+StatusMsg SetEndPointToleranceMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetIntermediatePointToleranceMsg::printMe()
+statusReturn SetIntermediatePointToleranceMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetIntermediatePointToleranceMsg::printMe(int verbosity)
 {
       printf( "\tSetIntermediatePointToleranceMsg\n");
 }
 
-int SetLengthUnitsMsg::process(void *sendTo)
+StatusMsg SetIntermediatePointToleranceMsg::timer(float *resetTime)
 {
-  ((RosInf*)sendTo)->setLengthUnits(unitName);
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetLengthUnitsMsg::printMe()
+statusReturn SetLengthUnitsMsg::process(void *sendTo)
+{
+  ((RosInf*)sendTo)->setLengthUnits(unitName);
+  return CmdComplete;
+}
+
+void SetLengthUnitsMsg::printMe(int verbosity)
 {
       printf( "\tSetLengthUnitsMsg\n");
 }
 
-int SetRelativeAccelerationMsg::process(void *sendTo)
+StatusMsg SetLengthUnitsMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetRelativeAccelerationMsg::printMe()
+statusReturn SetRelativeAccelerationMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetRelativeAccelerationMsg::printMe(int verbosity)
 {
       printf( "\tSetRelativeAccelerationMsg\n");
 }
 
-int SetRelativeSpeedMsg::process(void *sendTo)
+StatusMsg SetRelativeAccelerationMsg::timer(float *resetTime)
 {
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void SetRelativeSpeedMsg::printMe()
+statusReturn SetRelativeSpeedMsg::process(void *sendTo)
+{
+  return CmdComplete;
+}
+
+void SetRelativeSpeedMsg::printMe(int verbosity)
 {
       printf( "\tSetRelativeSpeedMsg\n");
 }
 
-int StartObjectScanMsg::process(void *sendTo)
+StatusMsg SetRelativeSpeedMsg::timer(float *resetTime)
 {
-  ((RosInf*)sendTo)->searchPart(objectName);
-  return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void StartObjectScanMsg::printMe()
+statusReturn StartObjectScanMsg::process(void *sendTo)
+{
+  ((RosInf*)sendTo)->searchPart(objectName);
+  return CmdComplete;
+}
+
+void StartObjectScanMsg::printMe(int verbosity)
 {
       printf( "\tStartObjectScanMsg\n");
 }
 
-int StopMotionMsg::process(void *sendTo)
+StatusMsg StartObjectScanMsg::timer(float *resetTime)
 {
-	((RosInf*)sendTo)->stopMotion();
-	return 0;
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }
 
-void StopMotionMsg::printMe()
+statusReturn StopMotionMsg::process(void *sendTo)
+{
+	((RosInf*)sendTo)->stopMotion();
+	return CmdComplete;
+}
+
+void StopMotionMsg::printMe(int verbosity)
 {
       printf( "\tStopMotionMsg\n");
 }
 
-int StopObjectScanMsg::process(void *sendTo)
+StatusMsg StopMotionMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
+}
+
+statusReturn StopObjectScanMsg::process(void *sendTo)
 {
 	ROS_ERROR("STOP SCAN!");
 	((RosInf*)sendTo)->stopSearch();
-	return 0;
+	return CmdComplete;
 }
 
-void StopObjectScanMsg::printMe()
+void StopObjectScanMsg::printMe(int verbosity)
 {
       printf( "\tStopObjectScanMsg\n");
+}
+
+StatusMsg StopObjectScanMsg::timer(float *resetTime)
+{
+  StatusMsg status;
+  resetTime = 0;
+  return(status);
 }

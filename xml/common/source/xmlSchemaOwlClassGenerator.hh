@@ -8,8 +8,6 @@
 Documentation of class functions is given in xmlSchemaOwlClassGenerator.cc.
 Documentation of data members of this class follows.
 
-"baseNameNoPath" is the base name for files without the path or suffix
-
 "classes" is a list of all the XmlTypes in the schema (a class results
 from each). It is kept in alphabetical order by class name. It is
 built in buildClasses shortly after the input schema is parsed.
@@ -21,14 +19,8 @@ The order in which it is kept is not significant, but it is kept in
 the order in which complex types occur in the schema. It is built in
 saveOwlSchemaContent2.
 
-"contents1" is the list of XmlSchemaContent1 in the XML file.
-
-"contents2" is the list of XmlSchemaContent2 in the XML file.
-
 "disjointClasses" is a list of all complex classes in the schema that
 are not derived from a parent class.
-
-"includedSchemas" is a list of the names of included schemas
 
 "simpleTypes" is a list of all the simple XmlTypes in the schema.
 The order in which it is kept is not significant, but it is kept in
@@ -109,21 +101,16 @@ public:
   void printOwlSimpleRestriction(XmlSimpleRestriction * restrict,
 				 FILE * outFile);
   void printOwlSimpleType(XmlSimpleType * simple, FILE * outFile);
-  void readSchema(char * fileName);
   void saveOwlSchemaContent2(XmlSchemaContent2 * content2);
 
-  char                             baseNameNoPath[NAMESIZE];
-  std::list<XmlType *>             classes;
-  char                             className[NAMESIZE];
-  std::list<XmlComplexType *>      complexTypes;
-  std::list<XmlSchemaContent1 *> * contents1;
-  std::list<XmlSchemaContent2 *> * contents2;
-  std::list<XmlComplexType *>      disjointClasses;
-  std::list<char *> *              includedSchemas;
-  char                             nameBuffer[NAMESIZE];
-  char                             otherName[NAMESIZE];
-  std::list<XmlSimpleType *>       simpleTypes;
-  XmlElementRefable *              topElement;
+  std::list<XmlType *>        classes;
+  char                        className[NAMESIZE];
+  std::list<XmlComplexType *> complexTypes;
+  std::list<XmlComplexType *> disjointClasses;
+  char                        nameBuffer[NAMESIZE];
+  char                        otherName[NAMESIZE];
+  std::list<XmlSimpleType *>  simpleTypes;
+  XmlElementRefable *         topElement;
 };
 
 /********************************************************************/

@@ -1,13 +1,13 @@
 \section{Introduction}
-A failure is any change, design, or manufacturing error that renders a component, assembly, or system incapable of performing its intended function \cite{Collins93}. In kitting, failures can occur for multiple reasons that include equipment not being set up properly, tools and/or fixtures not being properly prepared, and improper equipment maintenance. Part/component availability failures can be triggered by inaccurate information on the location of the part, part damage, incorrect part types, or part shortage due to delays in internal logistics. In order to prevent or minimize failures, a disciplined approach needs to be implemented to identify the different ways a process design can fail before impacting productivity.
+A failure is any change, design, or manufacturing error that renders a component, assembly, or system incapable of performing its intended function \cite{Collins93}. In kitting, as described in Section \ref{sect:kitting}, failures can occur for multiple reasons that include equipment not being set up properly, tools and/or fixtures not being properly prepared, and improper equipment maintenance. Part/component availability failures can be triggered by inaccurate information on the location of the part, part damage, incorrect part types, or part shortage due to delays in internal logistics. In order to prevent or minimize failures, a disciplined approach needs to be implemented to identify the different ways a process design can fail and to allow for corrective actions to be taken before the failure impacts productivity.
 
 Even though today's state-of-the-art industrial robots are capable of sub-millimeter accuracy \cite{RobotAccuracy}, they often lack the sensing
 necessary to detect failures and the programming required to cope with and correct the failure. This is due to the fact that they are often programmed
-by an operator using crude positional controls from a teach pendent. These teach pendent programs are highly repeatable, which provides 
+by an operator using imprecise positional controls from a teach pendant. These teach pendant programs are highly repeatable, which provides 
 utility for large-batch, error-free operation. However, the cyclic program that repeats identical operations does not lend itself well to adaptation for 
 failure mitigation. In fact, producing a program to correct a perceived failure would require that the cell be taken off-line
-for additional human-led teach pendent programming. In addition, 
-most cells lack the ability to sense that a failure occurred and  lack programming (that would have had to be teach pendent entered) to cope
+for additional human-led teach pendant programming. In addition, 
+most cells lack the ability to sense that a failure occurred and  lack programming (that would have had to be teach pendant entered) to cope
 with failure conditions, thus making it impossible for the cell to recover from failures.
 This leads to faulty products being sent down the line, and/or downtime for the cell as failures are detected and corrected.
 
@@ -18,7 +18,7 @@ variety of unexpected environmental and operational changes, and be able to dete
 To be successful, these systems need to combine domain expertise, knowledge of their own skills and limitations, and both semantic and geometric 
 environmental information.
 
-The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working group has taken the first steps in creating the 
+The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group has taken the first steps in creating the 
 infrastructure necessary for such a system, while the Industrial Subgroup has applied this infrastructure to create a sample kit building
 system.  This work is presented in Balakirsky et al. \cite{balakirsky2013} which describes the construction of a robotic kit building
 system that is able to cope with environmental and task changes without operator intervention. This article extends that work to utilize

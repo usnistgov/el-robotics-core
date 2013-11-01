@@ -18,27 +18,46 @@ On the vertical axis, knowledge begins with Domain Specific Information (DSI). D
 For the knowledge model, a scenario driven approach is taken where the DSI design begins with a domain expert creating one or more use cases and specific scenarios that describe the typical operation of the system. This includes information on items ranging from what actions and attributes are relevant, to what the necessary conditions (preconditions) are for an action to occur and what the likely results (effects) of the action are. The authors have chosen to encode this basic information in a formalism known as a state variable representation~\cite{NAU.2004}.
 
 
-% Based on the action description, objects in the environment that are relevant for system operation can be identified. For example, the action \textsf{take-part}, depicted in Figure 2, has a given robot place a kit tray onto a work table. The preconditions for this action are that the robot is holding a kit tray and there is a clear space on the table to place the tray. This is represented by the predicate expressions shown in Figure 2 that specify that the robot is holding the kit tray, the kit tray is located on the robot (actually in its  gripper), and the work table is empty. The expected effects of this action are that the kit tray is now located on the work table and the robot is no longer holding it. This is also represented by a series of predicates that are shown in Figure 2. Based on the preconditions and expected effects, the objects that are relevant to this action include the robot, the kit tray, and the work table. Aspects of these items may now be represented in the DSI. For example, that a kit tray has a location and may be held by the robot or placed on the work table.
+% Based on the action description, objects in the environment that are relevant for system operation can be identified. For example, the action \textsf{take-part}, depicted in Figure 2, has a given robot place a kit tray onto a work table. The preconditions for this action are that the robot is holding a kit tray and there is a clear space on the table to place the tray. This is represented by the predicate expressions shown in Figure 2 that specify that the robot is holding the kit tray, the kit tray is located on the robot (actually in its  gripper), and the work table is empty. The expected effects of this action are that the kit tray is now located on the work table and the robot is no longer holding it. This is also represented by a series of predicates that are shown in Figure 2. Based on the preconditions and expected effects, the objects that are relevant to this action include the robot, the kit tray, and the work table. Aspects of these items may now be represented in the DSI. For example, that a 
+kit tray has a location and may be held by the robot or placed on the work table.
 
 \subsection{Ontology}
 \label{subsection:ontology}
 The information encoded in the DSI is then organized into a domain
-independent representation. A base ontology (\textsf{OWL/XML Kitting})
+independent representation. 
+
+\begin{itemize}
+\item A base ontology (\textsf{OWL/XML Kitting})
 contains all of the basic information that was determined to be needed
 during the evaluation of the use cases and scenarios. The knowledge is
-represented in as compact a form as possible with knowledge classes
+represented in a compact form with knowledge classes
 inheriting common attributes from parent classes. 
+\item The \textsf{OWL/XML SOAP} ontology describes the links between States, Ordering constructs, Actions, and Predicates (the SOAP
+ontology) that are relevant to the scenario. A State is composed of one to many state relationships, which is
+a specific relation between two objects (e.g., Object 1 is on top of Object 2). An Ordering construct defines the order in which the state relationships need to be 
+represented for a specific State. In classical representation, States are represented as sets of logical
+atoms (Predicates) that are true or false within some interpretation. Actions are represented by
+planning operators that change the truth values of these atoms. In the case of the kit building domain, it was found that 10 actions and
+16 predicates were necessary.
 
-
-The \textsf{OWL/XML SOAP} (States, Ordering constructs, Actions, and Predicates) ontology describes not only aspects of actions and predicates but also the individual actions and predicates that are necessary for the domain under study. 
-
-The instance files describe the initial and goal states for the
+\item The instance files describe the initial and goal states for the
 system through the \textsf{Kitting Init Conditions File} and the
 \textsf{Kitting Goal Conditions File}, respectively. The initial state file
 must contain a description of the environment that is complete enough for a
 planning system to be able to create a valid sequence of actions that will
 achieve the given goal state. The goal state file only needs to contain
 information that is relevant to the end goal of the system. For the case of building a kit, this may simply be that a complete kit is located in a bin designed to hold completed kits.
+
+\end{itemize}
+
+
+
+
+%The \textsf{OWL/XML SOAP} ontology describes not only aspects of actions and predicates but also the 
+%individual actions and predicates that are necessary for the domain under study. 
+
+
+
 % 
 % <<<<<<< HEAD
 % Since both the OWL (Web Ontology Language) \cite{OWLoverview} and XML implementations of the knowledge representation are file based, real-time information proved to be problematic. In order to solve this problem, an automatically generated MySQL database has been introduced as part of the knowledge representation. 

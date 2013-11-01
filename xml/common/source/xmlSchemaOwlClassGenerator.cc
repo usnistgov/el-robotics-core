@@ -2368,6 +2368,57 @@ void xmlSchemaOwlPrinter::printOwlSimpleType( /* ARGUMENTS            */
 
 /********************************************************************/
 
+/* xmlSchemaOwlPrinter::readSchema
+
+Returned Value: none
+
+Called By:
+  main
+  processIncludes
+
+This reads the schema with the given fileName and sets the following
+attributes of the generator that is calling:
+  baseNameWithPath
+  baseNameNoPath
+  contents1
+  contents2
+
+When the caller is the generator in main, this also sets the static
+class attribute XmlCppBase::wg3Prefix.
+
+*/
+
+void xmlSchemaOwlPrinter::readSchema( /* ARGUMENTS                         */
+ char * fileName,        /* name of schema to read, including path         */
+ bool isTop)             /* true=caller main, false=caller processIncludes */
+{
+  char * savedPrefix;
+
+  checkName(fileName, baseNameWithPath, baseNameNoPath);
+  yyin = fopen(fileName, "r");
+  if (yyin == 0)
+    {
+      fprintf(stderr, "unable to open file %s for reading\n", fileName);
+      exit(1);
+    }
+  if (isTop) // XmlCppBase::wg3Prefix is reset by yyparse
+    XmlCppBase::wg3Prefix = 0;
+  else
+    savedPrefix = XmlCppBase::wg3Prefix;
+  yyparse();
+  fclose(yyin);
+  if (!isTop && strncmp(savedPrefix, XmlCppBase::wg3Prefix, NAMESIZE))
+    {
+      fprintf(stderr, 
+	      "included files must use same wg3Prefix as including file\n");
+      exit(1);
+    }
+  contents1 = xmlSchemaFile->schema->contents1;
+  contents2 = xmlSchemaFile->schema->contents2;
+}
+
+/********************************************************************/
+
 /* xmlSchemaOwlPrinter::saveOwlSchemaContent2
 
 Returned Value: none
@@ -2455,9 +2506,10 @@ int main(       /* ARGUMENTS                                      */
  int argc,      /* one more than the number of command arguments  */
  char * argv[]) /* array of executable name and command arguments */
 {
-  xmlSchemaOwlPrinter owler;
+  xmlSchemaOwlPrinter owler;   
   char * outFileName;
   FILE * outFile;
+  std::list<char *> includeds; // list of included schema names
   int nameLength;
 
   if (argc != 3)

@@ -45,10 +45,11 @@ The procedure for validating predicates is shown in Figure \ref{fig:predicateEva
 model is queried for the pose and class of each relevant 
 parameter of the predicate. The information returned is the 
 latest knowledge that has been recorded by the sensor processing
-system and is not guaranteed to be up-to-date. This predicted
+system and is not guaranteed to be up-to-date. This possibly out-of-date
+information is used as a prediction of the object's current pose and the
 knowledge is sent as a focus of attention indicator to the sensor
-processing system, and the sensor processing system is instructed to
-update the predictions in the world model with current observations
+processing system. The sensor processing system is instructed to
+update the world model with current observations
 and to compute the supporting relationships necessary for predicate
 evaluation.
 %

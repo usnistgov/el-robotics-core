@@ -13,12 +13,10 @@ selecting critical objects of interest that are tagged with predicted locations 
 also known as focus of attention, is guided by
 the Executor process with knowledge obtained from preconditions and effects of planned actions.
 Actual algorithm development for pose and object detection is an active research area, and is beyond the scope of this article. 
-
 For our purposes, 
 we have assumed the use of a high-quality
-system that is capable of recognizing a limited variety of items in a controlled environment and then determining the item's pose. This is accomplished through
-simulation by using the Unified System for Automation and Robot Simulation (USARSim) \cite{Balakirsky2007}. As described in Section \ref{sect:future}, 
-we intend to relax this assumption in the near future.
+system that is capable of recognizing a limited variety of items in a controlled environment and then determining each item's pose. 
+%This is accomplished through simulation by using the Unified System for Automation and Robot Simulation (USARSim) \cite{Balakirsky2007}. As described in Section \ref{sect:future}, we intend to relax this assumption in the near future.
 %
 \begin{figure}[htb!]
 \begin{center}
@@ -41,21 +39,21 @@ this section.
 The reasoning portion of the world model is designed to contain all of the information needed to reason over and solve complex manufacturing
 problems. The knowledge is represented in a Web Ontology Language (OWL) ontology that is structured in three parts. The first part of the ontology is an upper ontology
 that contains generic information and classes that are needed for the domain of kit building. 
-
-This area of the ontology contains information on basic elements such as a ``point" which is defined as a class that contains a name 
-and a three-dimensional quantity, as well as complex types such as a ``part'', which is
-shown in Figure \ref{fig:part}, and
-contains elements such as a the part's shape, stock keeping unit (SKU) number, and location. This information is utilized to create parameters for the Planning World
-Model and the skeleton tables for the MySQL database of the Execution World Model.
 %
 \begin{figure}[htb!]
 \begin{center}
-\includegraphics[width=8.5cm]{images/Part.jpg}
-\caption{Description of the PartType class that is designed to contain both static and dynamic information about particular parts.}
+\includegraphics[width=8.5cm]{images/PartSKUV2.jpg}
+\caption{Description of the PartType class that is designed to contain both static and dynamic information about particular parts and the StockKeepingUnitType class that contains static information about classes of parts.}
 \label{fig:part}
 \end{center}
 \end{figure}
 %
+This area of the ontology contains information on basic elements such as a ``point" which is defined as a class that contains a name 
+and a three-dimensional quantity, as well as complex types such as a ``part'', which is
+shown in Figure \ref{fig:part}, and
+contains elements such as the part's location and a name that references a stock keeping unit. The stock keeping unit contains static information on classes of parts such as the part's shape, weight, and the end effector that should be used for grasping the part. This information is utilized to create parameters for the Planning World
+Model and the skeleton tables for the MySQL database of the Execution World Model.
+
 Both static and dynamic information is represented in this
 ontology and is automatically transitioned into the Planning and Execution areas of the world model. During system
 operation,  dynamic information is updated in the Execution World Model.
@@ -122,7 +120,7 @@ this section of the world model. All of the data structures encoded in the ontol
 \label{subsection:Act}
 The actions that take place in the kitting work cell are coordinated by the Executor as illustrated in Figure \ref{fig:SenseModelAct}.  The Executor
 reads PDDL actions as input and outputs a standardized set of low-level robot commands encoded in a language developed at the National Institute of Standards
-and Technology (NIST) known as the  Canonical Robotic Control Language \cite{Balakirsky2012-1}. 
+and Technology (NIST) known as the  Canonical Robotic Command Language (CRCL) \cite{Balakirsky2012-1}. 
 
 Before and after each high-level command
 is executed, the Executor sends focus of attention information into the sensor processing system. This allows the sensor processing system to compute

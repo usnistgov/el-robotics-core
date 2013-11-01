@@ -90,7 +90,7 @@ In the ontology, intermediate state relations are represented with the OWL built
 \end{gather}
 As with state relations, the truth-value of predicates is captured in the ontology using the \texttt{owl:equivalentClass} property that links the description of the class \class{Predicate} to the logical combination of intermediate state relations from the class \class{Intermediate\_State\_Relation}.
 \subsubsection{Truth Value Determination --}
-As seen in Section \ref{sect:Ontology}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations were the truth-value of these relations are computed. In the case the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
+As seen in Section \ref{sect:Ontology}, a predicate can have a maximum of two parameters. In the case where a predicate has two parameters, the parameters are passed to the intermediate state relations defined for the predicate, and are in turn passed to the RCC8 relations where the truth-value of these relations are computed. If the predicate has only one parameter, the truth-value of intermediate state relations, and by inference, the truth-value of RCC8 relations will be tested with this parameter and with every object in the environment in lieu of the second parameter. Our kitting domain consists of only one predicate that has no parameters. This predicate is used as a flag in order to force some actions to come before others during the formulation of the plan. Predicates of this nature are not treated in the concept of ``Spatial Relation''.
 
 These truth values may be retrieved from the ontology for use in Line 3 of Figure
 \ref{fig:predicateEval} which will then propagate back up to {\sc BuildKit}. If
@@ -108,7 +108,7 @@ that populate the kit.}
 \end{center}
 \end{figure}
 %
-\subsection{Canonical Robot Control Language Generation}
+\subsection{Canonical Robot Command Language Generation}
 Up to this point, the PDDL actions are not fully grounded to specific instances
 that exist in the world. For example, the action \texttt{put-part} is designed
 to place the part that is currently being held by the robot into a kit that

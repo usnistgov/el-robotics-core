@@ -29,6 +29,38 @@ sensors/end effectors) through a configuration file that is read at run-time. Th
 also be configured, such as the battery life and the frequency of
 data transmission.
 
+%%--------------
+USARSim was originally based upon simulated environments in the USAR domain. Realistic disaster scenarios as well as robot test methods were created (Figure~\ref{TestRoom}).
+Since then, USARSim has been used worldwide and more environments have been developed for different purposes. Other environments such as the NIST campus (Figure~\ref{3D_World-b}) and factories (Figure~\ref{3D_World-c}) have been used to test the performance of algorithms in different efforts~\cite{WANG.HFES.2005,BALAGUER.IROS.2008,KOOTBALLY.ITEA.2010}. The simulation is also widely used for the RoboCup Virtual Robot Rescue Competition \cite{RoboCupWeb}, the IEEE Virtual Manufacturing and Automation Challenge \cite{VMACWeb}, and has been applied to the DARPA Urban Challenge (Figure~\ref{3D_World-a}).
+
+\begin{figure}[t!]
+\centering
+\subfigure[Test Room.]{\label{TestRoom}\includegraphics[width=4cm]{Figures/Worlds/testRoom.jpg}}\qquad
+\subfigure[NIST main
+campus.]{\label{3D_World-b}\psfig{file=Figures/Worlds/nist2.jpg,width=4cm}}\qquad
+\subfigure[Factory,]{\label{3D_World-c}\psfig{file=Figures/Worlds/factory.jpg,width=4cm}}\qquad%
+\subfigure[Road course.]{\label{3D_World-a}\psfig{file=Figures/Worlds/arda1.jpg,width=4cm}}
+\caption{Sample of 3D environments in USARSim.} \label{3D_World}
+\end{figure}
+
+USARSim was initially developed with a focus on differential drive wheeled robots. However, USARSim's open source framework has encouraged wide community interest and support that now allows USARSim to offer multiple robots, including humanoid robots (Figure~\ref{Fig:Nao}), aerial platforms (Figure~\ref{Fig:AirRobot}), robotic arms (Figure~\ref{Fig:KR60}), and commercial vehicles (Figure~\ref{Fig:Kiva}). In USARSim, robots are based on physical computer aided design (CAD) models of the real
+robots and are implemented by specialization of specific existing classes. This structure allows for easier development of new platforms that model custom designs.
+
+All robots in USARSim have a chassis, and may contain multiple wheels, sensors, and
+actuators. The robots are configurable (e.g. specify types of
+sensors/end effectors) through a configuration file that is read at run-time. The properties of the robots can
+also be configured, such as the battery life and the frequency of
+data transmission.
+
+\begin{figure}[t!]
+\centering
+\subfigure[Aldebaran Robotics Nao.]{\label{Fig:Nao}\includegraphics[width=4cm]{Figures/Robots/nao.jpg}}\qquad
+\subfigure[Air Robot AR100B.]{\label{Fig:AirRobot}\includegraphics[width=4cm]{Figures/Robots/airRobot_2.jpg}}\qquad
+\subfigure[Kuka KR60,]{\label{Fig:KR60}\includegraphics[width=4cm]{Figures/Robots/kr60.jpg}}\qquad
+\subfigure[Kiva Robot.]{\label{Fig:Kiva}\includegraphics[width=4cm]{Figures/Robots/kiva.jpg}}
+\caption{Sample of vehicles in USARSim.}
+\end{figure}
+
 \subsection{The Simulated Sensor System}
 \label{subsection:usartruth}
 Poses of objects in the virtual environment are retrieved with the USARTruth tool. USARTruth is capable of reading out information on objects in USARSim by connecting as a client to TCP socket port 3989. The simulator USARTruthConnection object listens for incoming connections on port 3989 and receives queries over a socket in the form of strings formatted into key-value pairs. 

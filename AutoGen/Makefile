@@ -30,7 +30,7 @@ $(libsqlKit_OBJECTS):
 
 #dummy target to signal source generation
 genSrc: $(OWL_ONTOLOGY)
-	$(IPMAS_DIR)/Generator/generator_no_gui.jar -owl $< -cpp ./
+	java -jar $(IPMAS_DIR)/Generator/generator_no_gui.jar -owl $< -cpp ./
 	mv *.h $(IDIR)
 	touch genSrc
 	

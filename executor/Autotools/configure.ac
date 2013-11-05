@@ -25,7 +25,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/interpreter/Makefile])
 #AC_CONFIG_FILES([lib/Makefile])
-AC_CONFIG_FILES([bin/Makefile])
+#AC_CONFIG_FILES([bin/Makefile])
 # Checks for header files.
 AC_CONFIG_AUX_DIR([config])
 

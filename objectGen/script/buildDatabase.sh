@@ -14,9 +14,9 @@ then
 	mysql -u $MysqlDefaultUser -h $MysqlDefaultHost --password=$MysqlDefaultPassword -e "CREATE DATABASE $MysqlDefaultSchema;"
 	echo Database reset.
 	echo Creating tables...
-	mysql -u $MysqlDefaultUser -h $MysqlDefaultHost --password=$MysqlDefaultPassword $MysqlDefaultSchema < kittingInstances.owlCreateTable.sql
+	mysql -u $MysqlDefaultUser -h $MysqlDefaultHost --password=$MysqlDefaultPassword $MysqlDefaultSchema < $1CreateTable.sql
 	echo Inserting table data...
-	mysql -u $MysqlDefaultUser -h $MysqlDefaultHost --password=$MysqlDefaultPassword $MysqlDefaultSchema < kittingInstances.owlInsertInto.sql
+	mysql -u $MysqlDefaultUser -h $MysqlDefaultHost --password=$MysqlDefaultPassword $MysqlDefaultSchema < $1InsertInto.sql
 	echo Done.
 else
 	echo "buildDatabase.sh:\ncreates a database using mysql environment variables and populates it using an owl instance file"

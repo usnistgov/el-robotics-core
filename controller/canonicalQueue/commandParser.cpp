@@ -170,6 +170,7 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	  returnVal = 1;
 	}
     }
+  printf( "commandParser leaving file read loop\n" );
   return returnVal;
 }
 

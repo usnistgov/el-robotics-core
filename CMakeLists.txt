@@ -11,8 +11,11 @@
 
 cmake_minimum_required(VERSION 2.6)
 cmake_policy(VERSION 2.6)
-message("In controller directory")
-project(canonicalController)
 
-add_subdirectory(canonicalQueue)
-add_subdirectory(rosCanonicalController)
+project(ipmas)
+set(IPMAS_DIR ${PROJECT_SOURCE_DIR})
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+add_subdirectory(AutoGen)
+add_subdirectory(controller)

@@ -44,10 +44,13 @@ void CloseGripperMsg::printMe(int verbosity)
     printf( "myController::printMe:CloseGripperMsg\n");
 }
 
-StatusMsg CloseGripperMsg::timer(float *resetTime)
+statusReturn CloseGripperMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -63,10 +66,13 @@ void CloseToolChangerMsg::printMe(int verbosity)
     printf( "myController::printMe:CloseToolChangerMsg\n");
 }
 
-StatusMsg CloseToolChangerMsg::timer(float *resetTime)
+statusReturn CloseToolChangerMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -82,10 +88,13 @@ void DwellMsg::printMe(int verbosity)
     printf( "myController::printMe:DwellMsg\n");
 }
 
-StatusMsg DwellMsg::timer(float *resetTime)
+statusReturn DwellMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -102,10 +111,13 @@ void EndCanonMsg::printMe(int verbosity)
     printf( "myController::printMe:EndCanonMsg\n");
 }
 
-StatusMsg EndCanonMsg::timer(float *resetTime)
+statusReturn EndCanonMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -121,10 +133,13 @@ void InitCanonMsg::printMe(int verbosity)
     printf( "myController::printMe:InitCanonMsg\n");
 }
 
-StatusMsg InitCanonMsg::timer(float *resetTime)
+statusReturn InitCanonMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -134,10 +149,13 @@ statusReturn MessageMsg::process(void *sendTo)
   return CmdComplete;
 }
 
-StatusMsg MessageMsg::timer(float *resetTime)
+statusReturn MessageMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -159,10 +177,13 @@ void MoveStraightToMsg::printMe(int verbosity)
     printf( "myController::printMe:MoveStraightToMsg\n");
 }
 
-StatusMsg MoveStraightToMsg::timer(float *resetTime)
+statusReturn MoveStraightToMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -178,10 +199,13 @@ void MoveThroughToMsg::printMe(int verbosity)
     printf( "myController::printMe:MoveThroughtToMsg\n");
 }
 
-StatusMsg MoveThroughToMsg::timer(float *resetTime)
+statusReturn MoveThroughToMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -197,10 +221,13 @@ void MoveToMsg::printMe(int verbosity)
     printf( "myController::printMe:MoveToMsg\n");
 }
 
-StatusMsg MoveToMsg::timer(float *resetTime)
+statusReturn MoveToMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -216,10 +243,13 @@ void OpenGripperMsg::printMe(int verbosity)
     printf( "myController::printMe:OpenGripperMsg\n");
 }
 
-StatusMsg OpenGripperMsg::timer(float *resetTime)
+statusReturn OpenGripperMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -235,10 +265,13 @@ void OpenToolChangerMsg::printMe(int verbosity)
     printf( "myController::printMe:OpenToolChangerMsg\n");
 }
 
-StatusMsg OpenToolChangerMsg::timer(float *resetTime)
+statusReturn OpenToolChangerMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -254,10 +287,13 @@ void SetAbsoluteAccelerationMsg::printMe(int verbosity)
     printf( "myController::printMe:SetAbsoluteAccelerationMsg\n");
 }
 
-StatusMsg SetAbsoluteAccelerationMsg::timer(float *resetTime)
+statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -273,10 +309,13 @@ void SetAbsoluteSpeedMsg::printMe(int verbosity)
     printf( "myController::printMe:SetAbsoluteSpeedMsg\n" );
 }
 
-StatusMsg SetAbsoluteSpeedMsg::timer(float *resetTime)
+statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -292,10 +331,13 @@ void SetAngleUnitsMsg::printMe(int verbosity)
     printf( "myController::printMe:SetAngleUnitsMsg\n");
 }
 
-StatusMsg SetAngleUnitsMsg::timer(float *resetTime)
+statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -311,10 +353,13 @@ void SetEndAngleToleranceMsg::printMe(int verbosity)
     printf( "myController::printMe:SetEndAngleToleranceMsg\n");
 }
 
-StatusMsg SetEndAngleToleranceMsg::timer(float *resetTime)
+statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -330,10 +375,13 @@ void SetEndPointToleranceMsg::printMe(int verbosity)
     printf( "myController::printMe:SetEndPointToleranceMsg\n");
 }
 
-StatusMsg SetEndPointToleranceMsg::timer(float *resetTime)
+statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -349,10 +397,13 @@ void SetIntermediatePointToleranceMsg::printMe(int verbosity)
     printf( "myController::printMe:SetIntermediatePointToleranceMsg\n");
 }
 
-StatusMsg SetIntermediatePointToleranceMsg::timer(float *resetTime)
+statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -368,10 +419,13 @@ void SetLengthUnitsMsg::printMe(int verbosity)
     printf( "myController::printMe:SetLengthUnitsMsg\n");
 }
 
-StatusMsg SetLengthUnitsMsg::timer(float *resetTime)
+statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -387,10 +441,13 @@ void SetRelativeAccelerationMsg::printMe(int verbosity)
     printf( "myController::printMe:SetRelativeAccelerationMsg\n");
 }
 
-StatusMsg SetRelativeAccelerationMsg::timer(float *resetTime)
+statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -406,10 +463,13 @@ void SetRelativeSpeedMsg::printMe(int verbosity)
     printf( "myController::printMe:SetRelativeSpeedMsg\n");
 }
 
-StatusMsg SetRelativeSpeedMsg::timer(float *resetTime)
+statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -424,10 +484,13 @@ void StartObjectScanMsg::printMe(int verbosity)
     printf( "myController::printMe:StartObjectScanMsg\n");
 }
 
-StatusMsg StartObjectScanMsg::timer(float *resetTime)
+statusReturn StartObjectScanMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -446,10 +509,13 @@ void StopMotionMsg::printMe(int verbosity)
     printf( "myController::printMe:StopMotionMsg\n");
 }
 
-StatusMsg StopMotionMsg::timer(float *resetTime)
+statusReturn StopMotionMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -464,9 +530,12 @@ void StopObjectScanMsg::printMe(int verbosity)
     printf( "myController::printMe:StopObjectScanMsg\n");
 }
 
-StatusMsg StopObjectScanMsg::timer(float *resetTime)
+statusReturn StopObjectScanMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }

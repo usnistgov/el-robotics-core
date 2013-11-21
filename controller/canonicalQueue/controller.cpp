@@ -42,6 +42,7 @@ Controller::Controller()
       printf ("can't initialize ulapi");
       exit(1);
     }
+  printf( "controller: Creating new mutex\n" );
   statusMsgMutex = ulapi_mutex_new(0);
   lowHighMsgMutex = ulapi_mutex_new(0);
   verbosity = 1;
@@ -57,6 +58,118 @@ void Controller::setVerbosity( int verbosityIn )
 }
 
 /*
+ * check the status of the ROS system and see if command is finished
+ */
+itimerval Controller::cmdStatusCheck(StatusMsg &statusMsg)
+{
+  itimerval resetTime;
+  CanonicalMsg *currentCmd = currentMsgQueue.front();
+  statusReturn status;
+
+  statusMsg.setHeader(currentCmd->getHeader());
+  if (dynamic_cast<CloseGripperMsg *>(currentCmd))
+    {
+      status = dynamic_cast<CloseGripperMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<CloseToolChangerMsg *>(currentCmd))
+    {
+      status = dynamic_cast<CloseToolChangerMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<DwellMsg *>(currentCmd))
+    {
+      status = dynamic_cast<DwellMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<EndCanonMsg *>(currentCmd))
+    {
+      status = dynamic_cast<EndCanonMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<InitCanonMsg *>(currentCmd))
+    {
+      status = dynamic_cast<InitCanonMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<MessageMsg *>(currentCmd))
+    {
+      status = dynamic_cast<MessageMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<MoveStraightToMsg *>(currentCmd))
+    {
+      status = dynamic_cast<MoveStraightToMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<MoveThroughToMsg *>(currentCmd))
+    {
+      status = dynamic_cast<MoveThroughToMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<MoveToMsg *>(currentCmd))
+    {
+      status = dynamic_cast<MoveToMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<OpenGripperMsg *>(currentCmd))
+    {
+      status = dynamic_cast<OpenGripperMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<OpenToolChangerMsg *>(currentCmd))
+    {
+      status = dynamic_cast<OpenToolChangerMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetAbsoluteAccelerationMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetAbsoluteAccelerationMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetAbsoluteSpeedMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetAbsoluteSpeedMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetAngleUnitsMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetAngleUnitsMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetEndAngleToleranceMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetEndAngleToleranceMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetEndPointToleranceMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetEndPointToleranceMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetIntermediatePointToleranceMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetIntermediatePointToleranceMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetLengthUnitsMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetLengthUnitsMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetRelativeAccelerationMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetRelativeSpeedMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<SetRelativeSpeedMsg *>(currentCmd))
+    {
+      status = dynamic_cast<SetRelativeSpeedMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<StartObjectScanMsg *>(currentCmd))
+    {
+      status = dynamic_cast<StartObjectScanMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<StopMotionMsg *>(currentCmd))
+    {
+      status = dynamic_cast<StopMotionMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else if (dynamic_cast<StopObjectScanMsg *>(currentCmd))
+    {
+      status = dynamic_cast<StopObjectScanMsg *>(currentCmd)->timer(&resetTime);
+    }
+  else
+    {
+      printf( "controller.cpp:: Error: unknown message for status check\n" );
+    }
+  if( resetTime.it_value.tv_sec <= 0 && resetTime.it_value.tv_usec <= 0 )
+    currentMsgQueue.clear();
+  statusMsg.setStatus(status);
+  return resetTime;
+}
+
+/*
  * returns the id of the message that was queued. This value is unique.
  */
 int Controller::queueMsgLow(CanonicalMsg *msgIn)
@@ -64,6 +177,7 @@ int Controller::queueMsgLow(CanonicalMsg *msgIn)
   CanonicalMsg* msgPtr = getMsg(msgIn);
   if(msgPtr == NULL)
     return 0;
+  printf( "controller.cpp: queueing message low\n" );
   ulapi_mutex_give(lowHighMsgMutex);
   cmdQueueLow.push_back(msgPtr);
   return msgPtr->getMsgID();
@@ -77,6 +191,7 @@ int Controller::queueMsgHigh(CanonicalMsg *msgIn)
   CanonicalMsg* msgPtr = getMsg(msgIn);
   if(msgPtr == NULL)
     return 0;
+  printf( "controller.cpp: queueing message high\n" );
   ulapi_mutex_give(lowHighMsgMutex);
   ulapi_mutex_give(statusMsgMutex);  // give status mutex to unblock if waiting 
                                      // on a status queue when a high message comes in
@@ -268,13 +383,11 @@ CanonicalMsg* Controller::getMsg( CanonicalMsg *msgIn )
   \param wait - automatically set to 0 which causes the system 
                 to not block on an empty queue. To block, set this
 		to be 1.
-  \returns - StatusMsg that represents the result of the query.
+  \returns - none
  */
-StatusMsg Controller::dequeueMsgHigh(void* sendTo, int wait)
+void Controller::dequeueMsgHigh(void* sendTo, int wait)
 {
-  StatusMsg statusMsg;
-  CanonicalMsg *canonicalPt;
-  statusMsg.setStatus(QueueEmpty);
+  CanonicalMsg *canonicalMsg;
   if(wait)
     {
       if(cmdQueueHigh.empty()) // need to wait
@@ -285,14 +398,14 @@ StatusMsg Controller::dequeueMsgHigh(void* sendTo, int wait)
 
   if(!cmdQueueHigh.empty())
     {
-      canonicalPt = cmdQueueHigh.front();
-      if(canonicalPt != NULL)
-	statusMsg.setStatus(processMsg(canonicalPt, sendTo));
+      canonicalMsg = cmdQueueHigh.front();
+      if(canonicalMsg == NULL)
+	return;
+      currentMsgQueue.push_back(canonicalMsg);
+      processMsg(canonicalMsg, sendTo);
       cmdQueueHigh.pop_front();
-      statusMsg.setHeader(canonicalPt->getHeader());
     }
   //high priority queue is empty
-  return statusMsg;
 }
 
 /*! 
@@ -301,33 +414,33 @@ StatusMsg Controller::dequeueMsgHigh(void* sendTo, int wait)
   \param wait - automatically set to 1 which causes the system 
                 to block on an empty queue. To block, set this
 		to be 1.
-  \returns - StatusMsg that represents the result of the query.
+  \returns - none
 */
-StatusMsg Controller::dequeueMsgLow(void* sendTo, int wait)
+void Controller::dequeueMsgLow(void* sendTo, int wait)
 {
-  StatusMsg statusMsg;
-  CanonicalMsg *canonicalPt;
-  statusMsg.setStatus(QueueEmpty);
+  CanonicalMsg *canonicalMsg;
 
   printf( "in controller.cpp:dequeueMsgLow with wait %d\n", wait );
   if(wait)
     {
       if(cmdQueueLow.empty()) // need to wait
 	{
+	  printf( "controller.cpp: waiting for lowHighMsgMutex\n" );
 	  ulapi_mutex_take(lowHighMsgMutex); // take mutex
+	  printf( "controller.cpp: received lowHighMsgMutex\n" );
 	}
     }
 	
   if(!cmdQueueLow.empty())
     {
-      canonicalPt = cmdQueueLow.front();
-      if(canonicalPt != NULL)
-	statusMsg.setStatus(processMsg(canonicalPt, sendTo));
+      canonicalMsg = cmdQueueLow.front();
+      if(canonicalMsg == NULL)
+	return;
+      currentMsgQueue.push_back(canonicalMsg);
+      processMsg(canonicalMsg, sendTo);
       cmdQueueLow.pop_front();
-      statusMsg.setHeader(canonicalPt->getHeader());
     }
   //low priority queue is empty
-  return statusMsg;
 }
 
 /*! 
@@ -368,6 +481,7 @@ StatusMsg Controller::dequeueMsgStatus(int wait)
 statusReturn Controller::processMsg(CanonicalMsg *canonicalPt, void *sendTo)
 {
   statusReturn isError = CmdComplete;
+  StatusMsg statusMsg;
 
   /*  
   printf( "controller.cpp::processMsg:Processing msg number: %d from time: %lf\n",
@@ -378,139 +492,142 @@ statusReturn Controller::processMsg(CanonicalMsg *canonicalPt, void *sendTo)
     {
       dynamic_cast<CloseGripperMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<CloseGripperMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<CloseGripperMsg *>(canonicalPt);
+      //      delete dynamic_cast<CloseGripperMsg *>(canonicalPt);
     }
   else if (dynamic_cast<CloseToolChangerMsg *>(canonicalPt))
     {
       dynamic_cast<CloseToolChangerMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<CloseToolChangerMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<CloseToolChangerMsg *>(canonicalPt);
+      //      delete dynamic_cast<CloseToolChangerMsg *>(canonicalPt);
     }
   else if (dynamic_cast<DwellMsg *>(canonicalPt))
     {
       dynamic_cast<DwellMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<DwellMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<DwellMsg *>(canonicalPt);
+      //      delete dynamic_cast<DwellMsg *>(canonicalPt);
     }
   else if (dynamic_cast<EndCanonMsg *>(canonicalPt))
     {
       dynamic_cast<EndCanonMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<EndCanonMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<EndCanonMsg *>(canonicalPt);
+      //      delete dynamic_cast<EndCanonMsg *>(canonicalPt);
     }
   else if (dynamic_cast<InitCanonMsg *>(canonicalPt))
     {
       dynamic_cast<InitCanonMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<InitCanonMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<InitCanonMsg *>(canonicalPt);
+      statusMsg.setStatus(isError);
+      statusMsg.setHeader(canonicalPt->getHeader());
+      //      queueMsgStatus(&statusMsg);
+      //      delete dynamic_cast<InitCanonMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MessageMsg *>(canonicalPt))
     {
       dynamic_cast<MessageMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<MessageMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<MessageMsg *>(canonicalPt);
+      //      delete dynamic_cast<MessageMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveStraightToMsg *>(canonicalPt))
     {
       dynamic_cast<MoveStraightToMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<MoveStraightToMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<MoveStraightToMsg *>(canonicalPt);
+      //      delete dynamic_cast<MoveStraightToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveThroughToMsg *>(canonicalPt))
     {
       dynamic_cast<MoveThroughToMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<MoveThroughToMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<MoveThroughToMsg *>(canonicalPt);
+      //      delete dynamic_cast<MoveThroughToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<MoveToMsg *>(canonicalPt))
     {
       dynamic_cast<MoveToMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<MoveToMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<MoveToMsg *>(canonicalPt);
+      //      delete dynamic_cast<MoveToMsg *>(canonicalPt);
     }
   else if (dynamic_cast<OpenGripperMsg *>(canonicalPt))
     {
       dynamic_cast<OpenGripperMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<OpenGripperMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<OpenGripperMsg *>(canonicalPt);
+      //      delete dynamic_cast<OpenGripperMsg *>(canonicalPt);
     }
   else if (dynamic_cast<OpenToolChangerMsg *>(canonicalPt))
     {
       dynamic_cast<OpenToolChangerMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<OpenToolChangerMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<OpenToolChangerMsg *>(canonicalPt);
+      //      delete dynamic_cast<OpenToolChangerMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt))
     {
       dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetAbsoluteAccelerationMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt))
     {
       dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetAbsoluteSpeedMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetAngleUnitsMsg *>(canonicalPt))
     {
       dynamic_cast<SetAngleUnitsMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetAngleUnitsMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetAngleUnitsMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetAngleUnitsMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt))
     {
       dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetEndAngleToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt))
     {
       dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetEndPointToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt))
     {
       dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetIntermediatePointToleranceMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetLengthUnitsMsg *>(canonicalPt))
     {
       dynamic_cast<SetLengthUnitsMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetLengthUnitsMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetLengthUnitsMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetLengthUnitsMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt))
     {
       dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetRelativeAccelerationMsg *>(canonicalPt);
     }
   else if (dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt))
     {
       dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt);
+      //      delete dynamic_cast<SetRelativeSpeedMsg *>(canonicalPt);
     }
   else if (dynamic_cast<StartObjectScanMsg *>(canonicalPt))
     {
       dynamic_cast<StartObjectScanMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<StartObjectScanMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<StartObjectScanMsg *>(canonicalPt);
+      //      delete dynamic_cast<StartObjectScanMsg *>(canonicalPt);
     }
   else if (dynamic_cast<StopMotionMsg *>(canonicalPt))
     {
       dynamic_cast<StopMotionMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<StopMotionMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<StopMotionMsg *>(canonicalPt);
+      //      delete dynamic_cast<StopMotionMsg *>(canonicalPt);
     }
   else if (dynamic_cast<StopObjectScanMsg *>(canonicalPt))
     {
       dynamic_cast<StopObjectScanMsg *>(canonicalPt)->printMe(verbosity);
       isError = dynamic_cast<StopObjectScanMsg *>(canonicalPt)->process(sendTo);
-      delete dynamic_cast<StopObjectScanMsg *>(canonicalPt);
+      //      delete dynamic_cast<StopObjectScanMsg *>(canonicalPt);
     }
   else
     {

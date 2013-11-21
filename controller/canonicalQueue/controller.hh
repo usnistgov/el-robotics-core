@@ -30,6 +30,7 @@
 #ifndef __controller
 #define __controller
 #include <deque>
+#include <sys/time.h>
 #include "canonicalMsg.hh"
 
 class Controller
@@ -37,11 +38,12 @@ class Controller
 public:
   Controller();
   ~Controller();
+  itimerval cmdStatusCheck(StatusMsg &status);
   int queueMsgLow( CanonicalMsg *msgIn );
   int queueMsgHigh( CanonicalMsg *msgIn );
   int queueMsgStatus( StatusMsg *statusOut );
-  StatusMsg dequeueMsgHigh(void *sendTo, int wait=0);
-  StatusMsg dequeueMsgLow(void* sendTo, int wait=1);
+  void dequeueMsgHigh(void *sendTo, int wait=0);
+  void dequeueMsgLow(void* sendTo, int wait=1);
   StatusMsg dequeueMsgStatus(int wait=1); 
   void setVerbosity( int verbosityIn );
 private:
@@ -49,6 +51,7 @@ private:
   std::deque<CanonicalMsg *> cmdQueueLow;
   std::deque<CanonicalMsg *> cmdQueueHigh;
   std::deque<StatusMsg> statusQueue;
+  std::deque<CanonicalMsg *> currentMsgQueue;
   int queue_length;
   statusReturn processMsg(CanonicalMsg *canonicalPt, void* sendTo);
   CanonicalMsg* getMsg(CanonicalMsg *msgIn);

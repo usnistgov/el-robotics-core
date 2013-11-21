@@ -172,7 +172,7 @@ extern ulapi_integer ulapi_task_id (void);
   is passed to the other mutex functions, or NULL if no mutex can
   be created.
 */
-extern void *ulapi_mutex_new (ulapi_id key);
+extern void *ulapi_mutex_new (ulapi_integer startAvailable);
 
 /*! Deletes the mutex. */
 extern ulapi_result ulapi_mutex_delete (void *mutex);

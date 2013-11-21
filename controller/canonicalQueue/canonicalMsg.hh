@@ -28,6 +28,7 @@
 */
 #ifndef __cannonicalMsg
 #define __cannonicalMsg
+#include <sys/time.h>
 #include <stdio.h>
 #include "database/PoseLocation.h"
 #include <string>
@@ -59,6 +60,7 @@ class StatusMsg{
   statusReturn getStatus();
   CanonicalHdr getHeader();
   char *getError();
+  void print();
  protected:
   CanonicalHdr hdr;
   statusReturn status;
@@ -72,9 +74,10 @@ public:
   double getTime(){ return hdr.time; };
   virtual statusReturn process(void *sendTo) = 0;
   virtual void printMe(int verbosity) = 0;
-  virtual StatusMsg timer(float *reset) = 0;
+  virtual statusReturn timer(itimerval *reset) = 0;
   
 protected:
+  statusReturn currentStatus;
   static int nextID;
   CanonicalHdr hdr;
 };
@@ -85,7 +88,7 @@ public:
   ~CloseGripperMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
 };
 
 class CloseToolChangerMsg:public CanonicalMsg{
@@ -94,7 +97,7 @@ public:
   ~CloseToolChangerMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
 };
 
 class DwellMsg:public CanonicalMsg{
@@ -104,7 +107,7 @@ class DwellMsg:public CanonicalMsg{
   ~DwellMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double time;
 };
 
@@ -115,7 +118,7 @@ public:
   ~EndCanonMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   int reason;
 };
 
@@ -125,7 +128,7 @@ public:
   ~InitCanonMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
 };
 
 class MessageMsg:public CanonicalMsg{
@@ -135,7 +138,7 @@ public:
   ~MessageMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   std::string message;
 };
 
@@ -146,7 +149,7 @@ public:
   ~MoveStraightToMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   PoseLocation *poseLocation;
 };
 
@@ -157,7 +160,7 @@ public:
   ~MoveThroughToMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   PoseLocation **poseLocations;
   int num;
 };
@@ -169,7 +172,7 @@ public:
   ~MoveToMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   PoseLocation *poseLocation;
 };
 
@@ -179,7 +182,7 @@ public:
   ~OpenGripperMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
 };
 
 class OpenToolChangerMsg:public CanonicalMsg{
@@ -188,7 +191,7 @@ public:
   ~OpenToolChangerMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
 };
 
 class SetAbsoluteAccelerationMsg:public CanonicalMsg{
@@ -198,7 +201,7 @@ public:
   ~SetAbsoluteAccelerationMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double acceleration;
 };
 
@@ -209,7 +212,7 @@ public:
   ~SetAbsoluteSpeedMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double speed;
 };
 
@@ -220,7 +223,7 @@ public:
   ~SetAngleUnitsMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   std::string unitName;
 };
 
@@ -231,7 +234,7 @@ public:
   ~SetEndAngleToleranceMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double tolerance;
 };
 
@@ -242,7 +245,7 @@ public:
   ~SetEndPointToleranceMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double tolerance;
 };
 
@@ -253,7 +256,7 @@ public:
   ~SetIntermediatePointToleranceMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double tolerance;
 };
 
@@ -264,7 +267,7 @@ public:
   ~SetLengthUnitsMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   std::string unitName;
 };
 
@@ -275,7 +278,7 @@ public:
   ~SetRelativeAccelerationMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double percent;
 };
 
@@ -286,7 +289,7 @@ public:
   ~SetRelativeSpeedMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   double percent;
 };
 
@@ -297,7 +300,7 @@ public:
   ~StartObjectScanMsg(){};
   virtual statusReturn process(void* sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   std::string objectName;
 };
 
@@ -308,7 +311,7 @@ public:
   ~StopMotionMsg(){};
   virtual statusReturn process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
   int isEmergency;
 };
 
@@ -318,7 +321,7 @@ public:
   ~StopObjectScanMsg(){};
   virtual statusReturn process(void* sendTo);
   virtual void printMe(int verbosity);
-  virtual StatusMsg timer(float *reset);
+  virtual statusReturn timer(itimerval *reset);
 };
 
 

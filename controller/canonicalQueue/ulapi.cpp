@@ -205,7 +205,7 @@ ulapi_mutex_delete (void *mutex)
 }
 
 void *
-ulapi_mutex_new (ulapi_id key)
+ulapi_mutex_new (ulapi_integer startAvailable)
 {
   pthread_mutex_t *mutex;
 
@@ -217,6 +217,12 @@ ulapi_mutex_new (ulapi_id key)
   if (0 == pthread_mutex_init (mutex, NULL))
     {
       (void) pthread_mutex_unlock (mutex);
+      if( !startAvailable )
+	{
+	  ulapi_mutex_take(mutex);
+	  printf( "ulapi: mutex starting locked\n" );
+	}
+      printf( "ulapi: mutex starting unlocked\n" );
       return (void *) mutex;
     }
   /* else got an error, so free the mutex and return null */

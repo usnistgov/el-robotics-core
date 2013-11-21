@@ -19,6 +19,7 @@
  and these modifications are subject to the copyright shown above
  *****************************************************************************/
 #include <stdio.h>
+#include <sys/time.h>
 #include "rosInf.hh"
 #include "database/Vector.h"
 #include "database/Point.h"
@@ -49,10 +50,13 @@ void CloseGripperMsg::printMe(int verbosity)
   printf( "\tCloseGripperMsg\n");
 }
 
-StatusMsg CloseGripperMsg::timer(float *resetTime)
+statusReturn CloseGripperMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -74,10 +78,13 @@ void CloseToolChangerMsg::printMe(int verbosity)
   printf( "\tCloseToolChangerMsg\n");
 }
 
-StatusMsg CloseToolChangerMsg::timer(float *resetTime)
+statusReturn CloseToolChangerMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -95,10 +102,13 @@ void DwellMsg::printMe(int verbosity)
   printf( "\tDwellMsg of time: %lf\n", time);
 }
 
-StatusMsg DwellMsg::timer(float *resetTime)
+statusReturn DwellMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -117,10 +127,14 @@ void EndCanonMsg::printMe(int verbosity)
   printf( "\tEndCanonMsg reason: %d\n", reason);
 }
 
-StatusMsg EndCanonMsg::timer(float *resetTime)
+statusReturn EndCanonMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = CmdComplete;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
+  printf( "rosController: in endcanonmsg timer\n" );
   return(status);
 }
 
@@ -140,10 +154,21 @@ void InitCanonMsg::printMe(int verbosity)
       printf( "\tInitCanonMsg\n");
 }
 
-StatusMsg InitCanonMsg::timer(float *resetTime)
+statusReturn InitCanonMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  static int counter = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 1;
+  (*resetTime).it_value.tv_usec = 0;
+  printf( "In init canon timer with count: %d\n", counter );
+  if( counter++ > 5 )
+    {
+      status = CmdComplete;
+      (*resetTime).it_value.tv_sec = 0;
+      counter = 0;
+    }
   return(status);
 }
 
@@ -157,10 +182,13 @@ void MessageMsg::printMe(int verbosity)
   printf( "\tMessageMsg: %s\n", message.c_str());
 }
 
-StatusMsg MessageMsg::timer(float *resetTime)
+statusReturn MessageMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -174,10 +202,13 @@ void MoveStraightToMsg::printMe(int verbosity)
       printf( "\tMoveStraightToMsg\n");
 }
 
-StatusMsg MoveStraightToMsg::timer(float *resetTime)
+statusReturn MoveStraightToMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -207,10 +238,13 @@ void MoveThroughToMsg::printMe(int verbosity)
       printf( "\tMoveThroughtToMsg\n");
 }
 
-StatusMsg MoveThroughToMsg::timer(float *resetTime)
+statusReturn MoveThroughToMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -269,10 +303,13 @@ void MoveToMsg::printMe(int verbosity)
 	      axisTransform.getRotation ().w ());
 }
 
-StatusMsg MoveToMsg::timer(float *resetTime)
+statusReturn MoveToMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -294,10 +331,13 @@ void OpenGripperMsg::printMe(int verbosity)
       printf( "\tOpenGripperMsg\n");
 }
 
-StatusMsg OpenGripperMsg::timer(float *resetTime)
+statusReturn OpenGripperMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -319,10 +359,13 @@ void OpenToolChangerMsg::printMe(int verbosity)
       printf( "\tOpenToolChangerMsg\n");
 }
 
-StatusMsg OpenToolChangerMsg::timer(float *resetTime)
+statusReturn OpenToolChangerMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -336,10 +379,13 @@ void SetAbsoluteAccelerationMsg::printMe(int verbosity)
       printf( "\tSetAbsoluteAccelerationMsg\n");
 }
 
-StatusMsg SetAbsoluteAccelerationMsg::timer(float *resetTime)
+statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -353,10 +399,13 @@ void SetAbsoluteSpeedMsg::printMe(int verbosity)
   printf( "\tSetAbsoluteSpeedMsg\n" );
 }
 
-StatusMsg SetAbsoluteSpeedMsg::timer(float *resetTime)
+statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -370,10 +419,13 @@ void SetAngleUnitsMsg::printMe(int verbosity)
       printf( "\tSetAngleUnitsMsg\n");
 }
 
-StatusMsg SetAngleUnitsMsg::timer(float *resetTime)
+statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -387,10 +439,13 @@ void SetEndAngleToleranceMsg::printMe(int verbosity)
       printf( "\tSetEndAngleToleranceMsg\n");
 }
 
-StatusMsg SetEndAngleToleranceMsg::timer(float *resetTime)
+statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -405,10 +460,13 @@ void SetEndPointToleranceMsg::printMe(int verbosity)
       printf( "\tSetEndPointToleranceMsg\n");
 }
 
-StatusMsg SetEndPointToleranceMsg::timer(float *resetTime)
+statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -422,10 +480,13 @@ void SetIntermediatePointToleranceMsg::printMe(int verbosity)
       printf( "\tSetIntermediatePointToleranceMsg\n");
 }
 
-StatusMsg SetIntermediatePointToleranceMsg::timer(float *resetTime)
+statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -440,10 +501,13 @@ void SetLengthUnitsMsg::printMe(int verbosity)
       printf( "\tSetLengthUnitsMsg\n");
 }
 
-StatusMsg SetLengthUnitsMsg::timer(float *resetTime)
+statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -457,10 +521,13 @@ void SetRelativeAccelerationMsg::printMe(int verbosity)
       printf( "\tSetRelativeAccelerationMsg\n");
 }
 
-StatusMsg SetRelativeAccelerationMsg::timer(float *resetTime)
+statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -474,10 +541,13 @@ void SetRelativeSpeedMsg::printMe(int verbosity)
       printf( "\tSetRelativeSpeedMsg\n");
 }
 
-StatusMsg SetRelativeSpeedMsg::timer(float *resetTime)
+statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -492,10 +562,13 @@ void StartObjectScanMsg::printMe(int verbosity)
       printf( "\tStartObjectScanMsg\n");
 }
 
-StatusMsg StartObjectScanMsg::timer(float *resetTime)
+statusReturn StartObjectScanMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -510,10 +583,13 @@ void StopMotionMsg::printMe(int verbosity)
       printf( "\tStopMotionMsg\n");
 }
 
-StatusMsg StopMotionMsg::timer(float *resetTime)
+statusReturn StopMotionMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }
 
@@ -529,9 +605,12 @@ void StopObjectScanMsg::printMe(int verbosity)
       printf( "\tStopObjectScanMsg\n");
 }
 
-StatusMsg StopObjectScanMsg::timer(float *resetTime)
+statusReturn StopObjectScanMsg::timer(itimerval *resetTime)
 {
-  StatusMsg status;
-  resetTime = 0;
+  statusReturn status = SystemWorking;
+  (*resetTime).it_interval.tv_sec = 0;
+  (*resetTime).it_interval.tv_usec = 0;
+  (*resetTime).it_value.tv_sec = 0;
+  (*resetTime).it_value.tv_usec = 0;
   return(status);
 }

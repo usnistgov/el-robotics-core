@@ -1,3 +1,5 @@
+// code currently broken!
+
 /*****************************************************************************
 ------------------------------------------------------------------------------
 --  Copyright 2012-2013
@@ -26,47 +28,72 @@
   \date   05/31/2012
 */
 #include <stdio.h>
+#include <sys/time.h>
+#include <signal.h>
 #include "ulapi.hh"
 #include "controller.hh"
 #include "canonicalMsg.hh"
 
+Controller *ctrl; // from controller.hh don't like global, but I need it in the signal callback
+
+void cmdStatusCheck(int sig)
+{
+  itimerval timeToWait;
+  StatusMsg errReturn;
+  statusReturn status;
+
+  timeToWait = ctrl->cmdStatusCheck(errReturn);
+  if( timeToWait.it_value.tv_sec <= 0 && timeToWait.it_value.tv_usec <= 0 )
+    ctrl->queueMsgStatus(&errReturn);
+  else
+    setitimer(ITIMER_REAL, &timeToWait,NULL);
+}
+
 void
 dequeueThread (void *arg)
 {
-  Controller *ctrl = reinterpret_cast < Controller *>(arg);	
+  Controller *dequeueCtrl = reinterpret_cast < Controller *>(arg);	
   void *myVoid;
   StatusMsg statusMsg;
   CanonicalMsg *canonicalPt;
   CanonicalHdr myHeader;
   static int once = 0;
 
+  StatusMsg errReturn;
+
+  errReturn.setStatus(CmdComplete);
+
   for(;;)
     {
-      statusMsg = ctrl->dequeueMsgLow(myVoid);
-      if( statusMsg.getStatus() == QueueEmpty)
-	sleep(1);
-      else
+      dequeueCtrl->dequeueMsgLow(myVoid);
+      cmdStatusCheck(SIGALRM);
+      errReturn.setStatus(SystemWorking);
+      while(errReturn.getStatus() != SystemDone ||
+	    errReturn.getStatus() != CmdError ||
+	    errReturn.getStatus() != CmdComplete )
 	{
-	  myHeader = statusMsg.getHeader();
-	  printf( "Test::dequeueThread:Dequeued message %d of time %f with status %s\n",
-		  myHeader.msgID, myHeader.time,
-		  statusMsg.getError() );
-	  statusMsg.setStatus(CmdComplete);
-	  if( once == 0 )
-	    {
-	      sleep(5);
-	      once++;
-	      if( once > 3 ) once = 0;
-	    }
-	  ctrl->queueMsgStatus(&statusMsg);
+	  errReturn = dequeueCtrl->dequeueMsgStatus(1);
+	  printf( "Received status\n" );
+	  errReturn.print();
 	}
+      myHeader = errReturn.getHeader();
+      printf( "Test::dequeueThread:Dequeued message %d of time %f with status %s\n",
+	      myHeader.msgID, myHeader.time,
+	      statusMsg.getError() );
+      errReturn.setStatus(CmdComplete);
+      if( once == 0 )
+	{
+	  sleep(5);
+	  once++;
+	  if( once > 3 ) once = 0;
+	}
+      dequeueCtrl->queueMsgStatus(&statusMsg);
     }
 }
 
 int
 main ()
 {
-  Controller *ctrl;
   CloseGripperMsg closeGripper;
   CloseToolChangerMsg closeToolChanger;
   DwellMsg dwell(987.654);

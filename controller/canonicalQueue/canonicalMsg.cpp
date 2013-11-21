@@ -19,6 +19,12 @@
   \date   05/31/2012
 */
 #include "canonicalMsg.hh"
+void StatusMsg::print()
+{
+  printf( "StatusMsgMsg: msgID: %d time: %f error: %s\n",
+	  hdr.msgID, hdr.time, getError() );
+}
+
 void StatusMsg::setHeader(CanonicalHdr headerIn)
 {
   hdr.time = headerIn.time; 

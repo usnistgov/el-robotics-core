@@ -32,10 +32,9 @@
 //
 // process must return 0 for no error
 //
-statusReturn CloseGripperMsg::process(void *sendTo)
+void CloseGripperMsg::process(void *sendTo)
 {
   printf( "myController::Received close gripper msg\n" );
-  return CmdComplete;
 }
 
 void CloseGripperMsg::printMe(int verbosity)
@@ -44,7 +43,7 @@ void CloseGripperMsg::printMe(int verbosity)
     printf( "myController::printMe:CloseGripperMsg\n");
 }
 
-statusReturn CloseGripperMsg::timer(itimerval *resetTime)
+statusReturn CloseGripperMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -54,10 +53,9 @@ statusReturn CloseGripperMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn CloseToolChangerMsg::process(void *sendTo)
+void CloseToolChangerMsg::process(void *sendTo)
 {
   printf( "myController::Received close tool changer msg\n" );
-  return CmdComplete;
 }
 
 void CloseToolChangerMsg::printMe(int verbosity)
@@ -66,7 +64,7 @@ void CloseToolChangerMsg::printMe(int verbosity)
     printf( "myController::printMe:CloseToolChangerMsg\n");
 }
 
-statusReturn CloseToolChangerMsg::timer(itimerval *resetTime)
+statusReturn CloseToolChangerMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -76,10 +74,9 @@ statusReturn CloseToolChangerMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn DwellMsg::process(void *sendTo)
+void DwellMsg::process(void *sendTo)
 {
   printf( "myController::Received dwell message of time: %lf\n", time );
-  return CmdComplete;
 }
 
 void DwellMsg::printMe(int verbosity)
@@ -88,7 +85,7 @@ void DwellMsg::printMe(int verbosity)
     printf( "myController::printMe:DwellMsg\n");
 }
 
-statusReturn DwellMsg::timer(itimerval *resetTime)
+statusReturn DwellMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -99,10 +96,9 @@ statusReturn DwellMsg::timer(itimerval *resetTime)
 }
 
 // return 2 to let processes know that we are done
-statusReturn EndCanonMsg::process(void *sendTo)
+void EndCanonMsg::process(void *sendTo)
 {
   printf( "myController::Received endCanon message reason: %d\n", reason );
-  return SystemDone;
 }
 
 void EndCanonMsg::printMe(int verbosity)
@@ -111,7 +107,7 @@ void EndCanonMsg::printMe(int verbosity)
     printf( "myController::printMe:EndCanonMsg\n");
 }
 
-statusReturn EndCanonMsg::timer(itimerval *resetTime)
+statusReturn EndCanonMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -121,10 +117,9 @@ statusReturn EndCanonMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn InitCanonMsg::process(void *sendTo)
+void InitCanonMsg::process(void *sendTo)
 {
   printf( "myController::Received initCanon message\n" );
-  return CmdComplete;
 }
 
 void InitCanonMsg::printMe(int verbosity)
@@ -133,7 +128,7 @@ void InitCanonMsg::printMe(int verbosity)
     printf( "myController::printMe:InitCanonMsg\n");
 }
 
-statusReturn InitCanonMsg::timer(itimerval *resetTime)
+statusReturn InitCanonMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -143,13 +138,12 @@ statusReturn InitCanonMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn MessageMsg::process(void *sendTo)
+void MessageMsg::process(void *sendTo)
 {
   printf( "myController::Received Message msg: %s\n", message.c_str() );
-  return CmdComplete;
 }
 
-statusReturn MessageMsg::timer(itimerval *resetTime)
+statusReturn MessageMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -165,10 +159,9 @@ void MessageMsg::printMe(int verbosity)
     printf( "myController::printMe:MessageMsg\n");
 }
 
-statusReturn MoveStraightToMsg::process(void *sendTo)
+void MoveStraightToMsg::process(void *sendTo)
 {
   printf( "myController::Received MoveStraightTo msg\n" );
-  return CmdComplete;
 }
 
 void MoveStraightToMsg::printMe(int verbosity)
@@ -177,7 +170,7 @@ void MoveStraightToMsg::printMe(int verbosity)
     printf( "myController::printMe:MoveStraightToMsg\n");
 }
 
-statusReturn MoveStraightToMsg::timer(itimerval *resetTime)
+statusReturn MoveStraightToMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -187,10 +180,9 @@ statusReturn MoveStraightToMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn MoveThroughToMsg::process(void *sendTo)
+void MoveThroughToMsg::process(void *sendTo)
 {
   printf( "myController::Received MoveThroughTo msg\n" );
-  return CmdComplete;
 }
 
 void MoveThroughToMsg::printMe(int verbosity)
@@ -199,7 +191,7 @@ void MoveThroughToMsg::printMe(int verbosity)
     printf( "myController::printMe:MoveThroughtToMsg\n");
 }
 
-statusReturn MoveThroughToMsg::timer(itimerval *resetTime)
+statusReturn MoveThroughToMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -209,10 +201,9 @@ statusReturn MoveThroughToMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn MoveToMsg::process(void *sendTo)
+void MoveToMsg::process(void *sendTo)
 {
   printf( "myController::Received MoveTo msg\n" );
-  return CmdComplete;
 }
 
 void MoveToMsg::printMe(int verbosity)
@@ -221,7 +212,7 @@ void MoveToMsg::printMe(int verbosity)
     printf( "myController::printMe:MoveToMsg\n");
 }
 
-statusReturn MoveToMsg::timer(itimerval *resetTime)
+statusReturn MoveToMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -231,10 +222,9 @@ statusReturn MoveToMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn OpenGripperMsg::process(void *sendTo)
+void OpenGripperMsg::process(void *sendTo)
 {
   printf( "myController::Received open gripper msg\n" );
-  return CmdComplete;
 }
 
 void OpenGripperMsg::printMe(int verbosity)
@@ -243,7 +233,7 @@ void OpenGripperMsg::printMe(int verbosity)
     printf( "myController::printMe:OpenGripperMsg\n");
 }
 
-statusReturn OpenGripperMsg::timer(itimerval *resetTime)
+statusReturn OpenGripperMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -253,10 +243,9 @@ statusReturn OpenGripperMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn OpenToolChangerMsg::process(void *sendTo)
+void OpenToolChangerMsg::process(void *sendTo)
 {
   printf( "myController::Received open tool changer msg\n" );
-  return CmdComplete;
 }
 
 void OpenToolChangerMsg::printMe(int verbosity)
@@ -265,7 +254,7 @@ void OpenToolChangerMsg::printMe(int verbosity)
     printf( "myController::printMe:OpenToolChangerMsg\n");
 }
 
-statusReturn OpenToolChangerMsg::timer(itimerval *resetTime)
+statusReturn OpenToolChangerMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -275,10 +264,9 @@ statusReturn OpenToolChangerMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetAbsoluteAccelerationMsg::process(void *sendTo)
+void SetAbsoluteAccelerationMsg::process(void *sendTo)
 {
   printf( "myController::Received SetAbsoluteAcceleration msg\n" );
-  return CmdComplete;
 }
 
 void SetAbsoluteAccelerationMsg::printMe(int verbosity)
@@ -287,7 +275,7 @@ void SetAbsoluteAccelerationMsg::printMe(int verbosity)
     printf( "myController::printMe:SetAbsoluteAccelerationMsg\n");
 }
 
-statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime)
+statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -297,10 +285,9 @@ statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetAbsoluteSpeedMsg::process(void *sendTo)
+void SetAbsoluteSpeedMsg::process(void *sendTo)
 {
   printf( "myController::Received SetAbsoluteSpeed msg\n" );
-  return CmdComplete;
 }
 
 void SetAbsoluteSpeedMsg::printMe(int verbosity)
@@ -309,7 +296,7 @@ void SetAbsoluteSpeedMsg::printMe(int verbosity)
     printf( "myController::printMe:SetAbsoluteSpeedMsg\n" );
 }
 
-statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime)
+statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -319,10 +306,9 @@ statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetAngleUnitsMsg::process(void *sendTo)
+void SetAngleUnitsMsg::process(void *sendTo)
 {
   printf( "myController::Received SetAngleUnits msg\n" );
-  return CmdComplete;
 }
 
 void SetAngleUnitsMsg::printMe(int verbosity)
@@ -331,7 +317,7 @@ void SetAngleUnitsMsg::printMe(int verbosity)
     printf( "myController::printMe:SetAngleUnitsMsg\n");
 }
 
-statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime)
+statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -341,10 +327,9 @@ statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetEndAngleToleranceMsg::process(void *sendTo)
+void SetEndAngleToleranceMsg::process(void *sendTo)
 {
   printf( "myController::Received SetEndAngleTolerance msg\n" );
-  return CmdComplete;
 }
 
 void SetEndAngleToleranceMsg::printMe(int verbosity)
@@ -353,7 +338,7 @@ void SetEndAngleToleranceMsg::printMe(int verbosity)
     printf( "myController::printMe:SetEndAngleToleranceMsg\n");
 }
 
-statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime)
+statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -363,10 +348,9 @@ statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetEndPointToleranceMsg::process(void *sendTo)
+void SetEndPointToleranceMsg::process(void *sendTo)
 {
   printf( "myController::Received SetEndPointTolerance msg\n" );
-  return CmdComplete;
 }
 
 void SetEndPointToleranceMsg::printMe(int verbosity)
@@ -375,7 +359,7 @@ void SetEndPointToleranceMsg::printMe(int verbosity)
     printf( "myController::printMe:SetEndPointToleranceMsg\n");
 }
 
-statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime)
+statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -385,10 +369,9 @@ statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetIntermediatePointToleranceMsg::process(void *sendTo)
+void SetIntermediatePointToleranceMsg::process(void *sendTo)
 {
   printf( "myController::Received SetIntermediatePointTolerance msg\n" );
-  return CmdComplete;
 }
 
 void SetIntermediatePointToleranceMsg::printMe(int verbosity)
@@ -397,7 +380,7 @@ void SetIntermediatePointToleranceMsg::printMe(int verbosity)
     printf( "myController::printMe:SetIntermediatePointToleranceMsg\n");
 }
 
-statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime)
+statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -407,10 +390,9 @@ statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetLengthUnitsMsg::process(void *sendTo)
+void SetLengthUnitsMsg::process(void *sendTo)
 {
   printf( "myController::Received SetLengthUnits msg\n" );
-  return CmdComplete;
 }
 
 void SetLengthUnitsMsg::printMe(int verbosity)
@@ -419,7 +401,7 @@ void SetLengthUnitsMsg::printMe(int verbosity)
     printf( "myController::printMe:SetLengthUnitsMsg\n");
 }
 
-statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime)
+statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -429,10 +411,9 @@ statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetRelativeAccelerationMsg::process(void *sendTo)
+void SetRelativeAccelerationMsg::process(void *sendTo)
 {
   printf( "myController::Received SetRelativeAcceleration msg\n" );
-  return CmdComplete;
 }
 
 void SetRelativeAccelerationMsg::printMe(int verbosity)
@@ -441,7 +422,7 @@ void SetRelativeAccelerationMsg::printMe(int verbosity)
     printf( "myController::printMe:SetRelativeAccelerationMsg\n");
 }
 
-statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime)
+statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -451,10 +432,9 @@ statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn SetRelativeSpeedMsg::process(void *sendTo)
+void SetRelativeSpeedMsg::process(void *sendTo)
 {
   printf( "myController::Received SetRelativeSpeed msg\n" );
-  return CmdComplete;
 }
 
 void SetRelativeSpeedMsg::printMe(int verbosity)
@@ -463,7 +443,7 @@ void SetRelativeSpeedMsg::printMe(int verbosity)
     printf( "myController::printMe:SetRelativeSpeedMsg\n");
 }
 
-statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime)
+statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -473,7 +453,7 @@ statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn StartObjectScanMsg::process(void *sendTo)
+void StartObjectScanMsg::process(void *sendTo)
 {
 	printf( "myController::Received StartObjectScan msg for part %s\n", objectName.c_str() );
 }
@@ -484,7 +464,7 @@ void StartObjectScanMsg::printMe(int verbosity)
     printf( "myController::printMe:StartObjectScanMsg\n");
 }
 
-statusReturn StartObjectScanMsg::timer(itimerval *resetTime)
+statusReturn StartObjectScanMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -494,13 +474,12 @@ statusReturn StartObjectScanMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn StopMotionMsg::process(void *sendTo)
+void StopMotionMsg::process(void *sendTo)
 {
   if( isEmergency )
     printf( "myController::Received emergency stop motion msg\n" );
   else
     printf( "myController::Received non-emergency stop motion msg\n" );
-  return CmdComplete;
 }
 
 void StopMotionMsg::printMe(int verbosity)
@@ -509,7 +488,7 @@ void StopMotionMsg::printMe(int verbosity)
     printf( "myController::printMe:StopMotionMsg\n");
 }
 
-statusReturn StopMotionMsg::timer(itimerval *resetTime)
+statusReturn StopMotionMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;
@@ -519,7 +498,7 @@ statusReturn StopMotionMsg::timer(itimerval *resetTime)
   return(status);
 }
 
-statusReturn StopObjectScanMsg::process(void *sendTo)
+void StopObjectScanMsg::process(void *sendTo)
 {
 	printf( "myController::Received StopObjectScanMsg.\n");
 }
@@ -530,7 +509,7 @@ void StopObjectScanMsg::printMe(int verbosity)
     printf( "myController::printMe:StopObjectScanMsg\n");
 }
 
-statusReturn StopObjectScanMsg::timer(itimerval *resetTime)
+statusReturn StopObjectScanMsg::timer(itimerval *resetTime, void *rosInf)
 {
   statusReturn status;
   (*resetTime).it_interval.tv_sec = 0;

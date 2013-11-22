@@ -54,14 +54,14 @@ enum statusReturn
   };
 
 class StatusMsg{
- public:
+public:
   void setHeader(CanonicalHdr headerIn);
   void setStatus(statusReturn statusIn);
   statusReturn getStatus();
   CanonicalHdr getHeader();
   char *getError();
   void print();
- protected:
+protected:
   CanonicalHdr hdr;
   statusReturn status;
 };
@@ -70,12 +70,14 @@ class CanonicalMsg{
 public:
   CanonicalHdr getHeader(){return hdr;};
   void setHeader(){ hdr.time = ulapi_time(); hdr.msgID = nextID++;};
+  void setCurrentStatus(statusReturn statusIn){currentStatus=statusIn;};
+  statusReturn getCurrentStatus(){return currentStatus;};
   int getMsgID(){ return hdr.msgID; };
   double getTime(){ return hdr.time; };
-  virtual statusReturn process(void *sendTo) = 0;
+  virtual void process(void *sendTo) = 0;
   virtual void printMe(int verbosity) = 0;
-  virtual statusReturn timer(itimerval *reset) = 0;
-  
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl) = 0;
+  std::string printCurrentStatus();
 protected:
   statusReturn currentStatus;
   static int nextID;
@@ -86,18 +88,18 @@ class CloseGripperMsg:public CanonicalMsg{
 public:
   CloseGripperMsg(){};
   ~CloseGripperMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
 };
 
 class CloseToolChangerMsg:public CanonicalMsg{
 public:
   CloseToolChangerMsg(){};
   ~CloseToolChangerMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
 };
 
 class DwellMsg:public CanonicalMsg{
@@ -105,9 +107,9 @@ class DwellMsg:public CanonicalMsg{
   DwellMsg(){};
   DwellMsg(double timeIn){ time = timeIn;};
   ~DwellMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double time;
 };
 
@@ -116,9 +118,9 @@ public:
   EndCanonMsg(){};
   EndCanonMsg(int reasonIn){ reason = reasonIn; };
   ~EndCanonMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   int reason;
 };
 
@@ -126,9 +128,9 @@ class InitCanonMsg:public CanonicalMsg{
 public:
   InitCanonMsg(){};
   ~InitCanonMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
 };
 
 class MessageMsg:public CanonicalMsg{
@@ -136,9 +138,9 @@ public:
   MessageMsg(){};
   MessageMsg(std::string messageIn){ message = messageIn; };
   ~MessageMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   std::string message;
 };
 
@@ -147,9 +149,9 @@ public:
   MoveStraightToMsg(){};
   MoveStraightToMsg(PoseLocation *poseLocationIn){  poseLocation = poseLocationIn; };
   ~MoveStraightToMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   PoseLocation *poseLocation;
 };
 
@@ -158,9 +160,9 @@ public:
   MoveThroughToMsg(){};
   MoveThroughToMsg(PoseLocation **poseLocationsIn, int numIn){ poseLocations = poseLocationsIn; num = numIn; };
   ~MoveThroughToMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   PoseLocation **poseLocations;
   int num;
 };
@@ -170,9 +172,9 @@ public:
   MoveToMsg(){};
   MoveToMsg(PoseLocation *poseLocationIn){ poseLocation = poseLocationIn; };
   ~MoveToMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   PoseLocation *poseLocation;
 };
 
@@ -180,18 +182,18 @@ class OpenGripperMsg:public CanonicalMsg{
 public:
   OpenGripperMsg(){};
   ~OpenGripperMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
 };
 
 class OpenToolChangerMsg:public CanonicalMsg{
 public:
   OpenToolChangerMsg(){};
   ~OpenToolChangerMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
 };
 
 class SetAbsoluteAccelerationMsg:public CanonicalMsg{
@@ -199,9 +201,9 @@ public:
   SetAbsoluteAccelerationMsg(){};
   SetAbsoluteAccelerationMsg(double accelerationIn){ acceleration = accelerationIn; };
   ~SetAbsoluteAccelerationMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double acceleration;
 };
 
@@ -210,9 +212,9 @@ public:
   SetAbsoluteSpeedMsg(){};
   SetAbsoluteSpeedMsg(double speedIn){ speed = speedIn; };
   ~SetAbsoluteSpeedMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double speed;
 };
 
@@ -221,9 +223,9 @@ public:
   SetAngleUnitsMsg(){};
   SetAngleUnitsMsg(std::string unitNameIn){ unitName = unitNameIn; };
   ~SetAngleUnitsMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   std::string unitName;
 };
 
@@ -232,9 +234,9 @@ public:
   SetEndAngleToleranceMsg(){};
   SetEndAngleToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetEndAngleToleranceMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double tolerance;
 };
 
@@ -243,9 +245,9 @@ public:
   SetEndPointToleranceMsg(){};
   SetEndPointToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetEndPointToleranceMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double tolerance;
 };
 
@@ -254,9 +256,9 @@ public:
   SetIntermediatePointToleranceMsg(){};
   SetIntermediatePointToleranceMsg(double toleranceIn){ tolerance = toleranceIn; };
   ~SetIntermediatePointToleranceMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double tolerance;
 };
 
@@ -265,9 +267,9 @@ public:
   SetLengthUnitsMsg(){};
   SetLengthUnitsMsg(std::string unitNameIn){ unitName = unitNameIn; };
   ~SetLengthUnitsMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   std::string unitName;
 };
 
@@ -276,9 +278,9 @@ public:
   SetRelativeAccelerationMsg(){};
   SetRelativeAccelerationMsg(double percentIn){ percent = percentIn; };
   ~SetRelativeAccelerationMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double percent;
 };
 
@@ -287,9 +289,9 @@ public:
   SetRelativeSpeedMsg(){};
   SetRelativeSpeedMsg(double percentIn){ percent = percentIn; };
   ~SetRelativeSpeedMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   double percent;
 };
 
@@ -298,9 +300,9 @@ public:
   StartObjectScanMsg(){};
   StartObjectScanMsg(std::string objectNameIn){objectName = objectNameIn; };
   ~StartObjectScanMsg(){};
-  virtual statusReturn process(void* sendTo);
+  virtual void process(void* sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   std::string objectName;
 };
 
@@ -309,9 +311,9 @@ public:
   StopMotionMsg(){};
   StopMotionMsg(int isEmergencyIn){ isEmergency = isEmergencyIn; };
   ~StopMotionMsg(){};
-  virtual statusReturn process(void *sendTo);
+  virtual void process(void *sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
   int isEmergency;
 };
 
@@ -319,9 +321,9 @@ class StopObjectScanMsg:public CanonicalMsg{
 public:
   StopObjectScanMsg(){};
   ~StopObjectScanMsg(){};
-  virtual statusReturn process(void* sendTo);
+  virtual void process(void* sendTo);
   virtual void printMe(int verbosity);
-  virtual statusReturn timer(itimerval *reset);
+  virtual statusReturn timer(itimerval *reset, void *rosCtrl);
 };
 
 

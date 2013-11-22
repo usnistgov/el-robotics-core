@@ -55,6 +55,7 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
       else if (readIntArgCommand("EndCanon", length, readHere, &intVal))
 	{
 	  ctrl->queueMsgLow(new EndCanonMsg(intVal));
+	  return returnVal;
 	}
       else if (readNoArgCommand("InitCanon", length, readHere))
 	{
@@ -170,6 +171,9 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	  returnVal = 1;
 	}
     }
+  // don't leave if stdin
+  if( inFile == stdin )
+    readCommandFile(inFile, ctrl);
   printf( "commandParser leaving file read loop\n" );
   return returnVal;
 }

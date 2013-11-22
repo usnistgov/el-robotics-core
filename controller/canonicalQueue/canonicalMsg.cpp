@@ -21,7 +21,7 @@
 #include "canonicalMsg.hh"
 void StatusMsg::print()
 {
-  printf( "StatusMsgMsg: msgID: %d time: %f error: %s\n",
+  printf( "StatusMsgMsg: msgID: %d time: %f status: %s\n",
 	  hdr.msgID, hdr.time, getError() );
 }
 
@@ -72,4 +72,29 @@ char *StatusMsg::getError()
 	return (char*)"UnknownStatus";
       }
     return (char*)"UnknownStatus";
+}
+
+std::string CanonicalMsg::printCurrentStatus()
+{
+  switch(getCurrentStatus())
+    {
+    case QueueEmpty:
+      return "QueueEmpty";
+    case QueueError:
+      return "QueueError";
+    case CmdComplete:
+      return "cmdCOmplete";
+    case CmdError:
+      return "CmdError";
+    case CmdUnknown:
+      return "CmdUnknown";
+    case SystemNoInit:
+      return "SystemNoInit";
+    case SystemWorking:
+      return "SystemWorking";
+    case SystemDone:
+      return "SystemDone";
+    default:
+      return "Unknown status";
+    }
 }

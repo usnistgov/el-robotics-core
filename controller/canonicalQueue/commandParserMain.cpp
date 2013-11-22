@@ -32,8 +32,9 @@ void cmdStatusCheck(int sig)
 {
   itimerval timeToWait;
   StatusMsg errReturn;
+  void *trash;
 
-  timeToWait = ctrl->cmdStatusCheck(errReturn);
+  timeToWait = ctrl->cmdStatusCheck(errReturn, trash);
   if( timeToWait.it_value.tv_sec <= 0 && timeToWait.it_value.tv_usec <= 0 )
     ctrl->queueMsgStatus(&errReturn);
   else

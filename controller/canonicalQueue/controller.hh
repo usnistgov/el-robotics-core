@@ -38,7 +38,7 @@ class Controller
 public:
   Controller();
   ~Controller();
-  itimerval cmdStatusCheck(StatusMsg &status);
+  itimerval cmdStatusCheck(StatusMsg &status, void *rosCtrl);
   int queueMsgLow( CanonicalMsg *msgIn );
   int queueMsgHigh( CanonicalMsg *msgIn );
   int queueMsgStatus( StatusMsg *statusOut );
@@ -53,7 +53,7 @@ private:
   std::deque<StatusMsg> statusQueue;
   std::deque<CanonicalMsg *> currentMsgQueue;
   int queue_length;
-  statusReturn processMsg(CanonicalMsg *canonicalPt, void* sendTo);
+  void processMsg(CanonicalMsg *canonicalPt, void* sendTo);
   CanonicalMsg* getMsg(CanonicalMsg *msgIn);
   void *statusMsgMutex;
   void *lowHighMsgMutex;

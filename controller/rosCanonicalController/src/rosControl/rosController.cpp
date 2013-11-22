@@ -32,205 +32,229 @@
 	The \c sendTo pointer is typecast to RosInf * in each of these implementations.
 */
 
-statusReturn CloseGripperMsg::process(void *sendTo)
+void CloseGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
+    setCurrentStatus(SystemWorking);
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::CLOSE;
-  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
-  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return CmdComplete;
+    ((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
+    return;
   }
-  return SystemNoInit;
+  setCurrentStatus(SystemNoInit);
 }
 
 void CloseGripperMsg::printMe(int verbosity)
 {
-  printf( "\tCloseGripperMsg\n");
+  printf( "\tCloseGripperMsg current status: %s\n", printCurrentStatus().c_str());
 }
 
-statusReturn CloseGripperMsg::timer(itimerval *resetTime)
+statusReturn CloseGripperMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      ((RosInf*)rosCtrlTime)->waitForEffectors(); // block until the goal state has been reached
+      setCurrentStatus(CmdComplete);
+    }
+
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn CloseToolChangerMsg::process(void *sendTo)
+void CloseToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
     usarsim_inf::EffectorCommand command;
     command.state = usarsim_inf::EffectorCommand::CLOSE;
   	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
-  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return CmdComplete;
+	setCurrentStatus(SystemWorking);
+  	return;
   }
-  return SystemNoInit;
+  setCurrentStatus(SystemNoInit);
 }
 
 void CloseToolChangerMsg::printMe(int verbosity)
 {
-  printf( "\tCloseToolChangerMsg\n");
+  printf( "\tCloseToolChangerMsg current status: %s\n", printCurrentStatus().c_str());
 }
 
-statusReturn CloseToolChangerMsg::timer(itimerval *resetTime)
+statusReturn CloseToolChangerMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      ((RosInf*)rosCtrlTime)->waitForEffectors(); // block until the goal state has been reached
+      setCurrentStatus(CmdComplete);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn DwellMsg::process(void *sendTo)
+void DwellMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-	  usleep((int)(time*1000000));
+    setCurrentStatus(SystemWorking);
+    return;
   }
-  return CmdComplete;
+  setCurrentStatus(SystemNoInit);
 }
 
 void DwellMsg::printMe(int verbosity)
 {
-  printf( "\tDwellMsg of time: %lf\n", time);
+  printf( "\tDwellMsg of time: %lf with current status: %s\n", time, printCurrentStatus().c_str());
 }
 
-statusReturn DwellMsg::timer(itimerval *resetTime)
+statusReturn DwellMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      usleep((int)(time*1000000));
+      setCurrentStatus(CmdComplete);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn EndCanonMsg::process(void *sendTo)
+void EndCanonMsg::process(void *sendTo)
 {
   if(sendTo != NULL)
   {
+
   	((RosInf*)sendTo)->shutDown();
   }
-  ros::shutdown();
-  return SystemDone;
+  setCurrentStatus(SystemNoInit);
 }
 
 void EndCanonMsg::printMe(int verbosity)
 {
-  printf( "\tEndCanonMsg reason: %d\n", reason);
+  printf( "\tEndCanonMsg reason: %d with current status: %s\n", reason, printCurrentStatus().c_str());
 }
 
-statusReturn EndCanonMsg::timer(itimerval *resetTime)
+statusReturn EndCanonMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = CmdComplete;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      ros::shutdown();
+      setCurrentStatus(SystemDone);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  printf( "rosController: in endcanonmsg timer\n" );
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn InitCanonMsg::process(void *sendTo)
+void InitCanonMsg::process(void *sendTo)
 {
 	if(sendTo != NULL)
 	{
 		((RosInf*)sendTo)->init();
-		return CmdComplete;
+		setCurrentStatus(SystemWorking);
+		return;
 	}
+	setCurrentStatus(CmdError);
 	printf("Could not initialize canon because controller is null\n");
-	return SystemNoInit;
 }
 
 void InitCanonMsg::printMe(int verbosity)
 {
-      printf( "\tInitCanonMsg\n");
+  printf( "\tInitCanonMsg with current status %s\n", printCurrentStatus().c_str());
 }
 
-statusReturn InitCanonMsg::timer(itimerval *resetTime)
+statusReturn InitCanonMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
   static int counter = 0;
-  statusReturn status = SystemWorking;
+
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 1;
   (*resetTime).it_value.tv_usec = 0;
   printf( "In init canon timer with count: %d\n", counter );
+  printMe(1);
   if( counter++ > 5 )
     {
-      status = CmdComplete;
+      setCurrentStatus(CmdComplete);
       (*resetTime).it_value.tv_sec = 0;
       counter = 0;
     }
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn MessageMsg::process(void *sendTo)
+void MessageMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  setCurrentStatus(SystemWorking);
 }
 
 void MessageMsg::printMe(int verbosity)
 {
-  printf( "\tMessageMsg: %s\n", message.c_str());
+  printf( "\tMessageMsg: %s with current status: %s\n", message.c_str(), printCurrentStatus().c_str());
 }
 
-statusReturn MessageMsg::timer(itimerval *resetTime)
+statusReturn MessageMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn MoveStraightToMsg::process(void *sendTo)
+void MoveStraightToMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void MoveStraightToMsg::printMe(int verbosity)
 {
-      printf( "\tMoveStraightToMsg\n");
+  printf( "\tMoveStraightToMsg with current status: %s\n", printCurrentStatus().c_str());
 }
 
-statusReturn MoveStraightToMsg::timer(itimerval *resetTime)
+statusReturn MoveStraightToMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn MoveThroughToMsg::process(void *sendTo)
+void MoveThroughToMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
   {
-  	for(int i = 0;i<num;i++)
-  	{
-  		((RosInf*)sendTo)->addArmGoal(poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_X(),
-							poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Y(),
-							poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Z(),
-							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_I(),
-							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_J(),
-							poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_K(),
-							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_I(), 
-							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_J(),
-							poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_K());
-	}
-	return CmdComplete;	
+    setCurrentStatus(SystemWorking);
+    for(int i = 0;i<num;i++)
+      {
+	((RosInf*)sendTo)->addArmGoal(poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_X(),
+				      poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Y(),
+				      poseLocations[i]->gethasPoseLocation_Point()->gethasPoint_Z(),
+				      poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_I(),
+				      poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_J(),
+				      poseLocations[i]->gethasPoseLocation_XAxis()->gethasVector_K(),
+				      poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_I(), 
+				      poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_J(),
+				      poseLocations[i]->gethasPoseLocation_ZAxis()->gethasVector_K());
+      }
+    return;
   }
-  return SystemNoInit;
+  setCurrentStatus(SystemNoInit);
 }
 
 void MoveThroughToMsg::printMe(int verbosity)
@@ -238,31 +262,44 @@ void MoveThroughToMsg::printMe(int verbosity)
       printf( "\tMoveThroughtToMsg\n");
 }
 
-statusReturn MoveThroughToMsg::timer(itimerval *resetTime)
+statusReturn MoveThroughToMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      if( !((RosInf*)rosCtrlTime)->checkCommandDone())
+	{
+	  (*resetTime).it_interval.tv_sec = 0;
+	  (*resetTime).it_interval.tv_usec = 0;
+	  (*resetTime).it_value.tv_sec = 0;
+	  (*resetTime).it_value.tv_usec = 500000;
+	  return( getCurrentStatus() );
+	}
+      setCurrentStatus(CmdComplete);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn MoveToMsg::process(void *sendTo)
+void MoveToMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
-  {
-  	((RosInf*)sendTo)->addArmGoal(poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
-							poseLocation->gethasPoseLocation_Point()->gethasPoint_Y(),
-							poseLocation->gethasPoseLocation_Point()->gethasPoint_Z(),
-							poseLocation->gethasPoseLocation_XAxis()->gethasVector_I(),
-							poseLocation->gethasPoseLocation_XAxis()->gethasVector_J(),
-							poseLocation->gethasPoseLocation_XAxis()->gethasVector_K(),
-							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_I(), 
-							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
-							poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
-  }
-  return CmdComplete;
+    {
+      setCurrentStatus(SystemWorking);
+      ((RosInf*)sendTo)->addArmGoal(poseLocation->gethasPoseLocation_Point()->gethasPoint_X(),
+				    poseLocation->gethasPoseLocation_Point()->gethasPoint_Y(),
+				    poseLocation->gethasPoseLocation_Point()->gethasPoint_Z(),
+				    poseLocation->gethasPoseLocation_XAxis()->gethasVector_I(),
+				    poseLocation->gethasPoseLocation_XAxis()->gethasVector_J(),
+				    poseLocation->gethasPoseLocation_XAxis()->gethasVector_K(),
+				    poseLocation->gethasPoseLocation_ZAxis()->gethasVector_I(), 
+				    poseLocation->gethasPoseLocation_ZAxis()->gethasVector_J(),
+				    poseLocation->gethasPoseLocation_ZAxis()->gethasVector_K());
+      return;
+    }
+  setCurrentStatus(SystemNoInit);
 }
 
 void MoveToMsg::printMe(int verbosity)
@@ -303,27 +340,38 @@ void MoveToMsg::printMe(int verbosity)
 	      axisTransform.getRotation ().w ());
 }
 
-statusReturn MoveToMsg::timer(itimerval *resetTime)
+statusReturn MoveToMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      if( !((RosInf*)rosCtrlTime)->checkCommandDone())
+	{
+	  (*resetTime).it_interval.tv_sec = 0;
+	  (*resetTime).it_interval.tv_usec = 0;
+	  (*resetTime).it_value.tv_sec = 0;
+	  (*resetTime).it_value.tv_usec = 500000;
+	  return( getCurrentStatus() );
+	}
+      setCurrentStatus(CmdComplete);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn OpenGripperMsg::process(void *sendTo)
+void OpenGripperMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
-  {
-    usarsim_inf::EffectorCommand command;
-    command.state = usarsim_inf::EffectorCommand::OPEN;
-  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
-  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return CmdComplete;
-  }
-  return SystemNoInit;
+    {
+      setCurrentStatus(SystemWorking);
+      usarsim_inf::EffectorCommand command;
+      command.state = usarsim_inf::EffectorCommand::OPEN;
+      ((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_GRIPPER);
+      return;
+    }
+  setCurrentStatus(SystemNoInit);
 }
 
 void OpenGripperMsg::printMe(int verbosity)
@@ -331,27 +379,31 @@ void OpenGripperMsg::printMe(int verbosity)
       printf( "\tOpenGripperMsg\n");
 }
 
-statusReturn OpenGripperMsg::timer(itimerval *resetTime)
+statusReturn OpenGripperMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      ((RosInf*)rosCtrlTime)->waitForEffectors(); // block until the goal state has been reached
+      setCurrentStatus(CmdComplete);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn OpenToolChangerMsg::process(void *sendTo)
+void OpenToolChangerMsg::process(void *sendTo)
 {
   if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
-  {
-    usarsim_inf::EffectorCommand command;
-    command.state = usarsim_inf::EffectorCommand::OPEN;
-  	((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
-  	((RosInf*)sendTo)->waitForEffectors(); // block until the goal state has been reached
-  	return CmdComplete;
-  }
-  return SystemNoInit;
+    {
+      setCurrentStatus(SystemWorking);
+      usarsim_inf::EffectorCommand command;
+      command.state = usarsim_inf::EffectorCommand::OPEN;
+      ((RosInf*)sendTo)->setEffectorGoal(command, ROS_INF_TOOLCHANGER);
+      return;
+    }
+  setCurrentStatus(SystemNoInit);
 }
 
 void OpenToolChangerMsg::printMe(int verbosity)
@@ -359,19 +411,26 @@ void OpenToolChangerMsg::printMe(int verbosity)
       printf( "\tOpenToolChangerMsg\n");
 }
 
-statusReturn OpenToolChangerMsg::timer(itimerval *resetTime)
+statusReturn OpenToolChangerMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    {
+      ((RosInf*)rosCtrlTime)->waitForEffectors(); // block until the goal state has been reached
+      setCurrentStatus(CmdComplete);
+    }
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetAbsoluteAccelerationMsg::process(void *sendTo)
+void SetAbsoluteAccelerationMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetAbsoluteAccelerationMsg::printMe(int verbosity)
@@ -379,19 +438,23 @@ void SetAbsoluteAccelerationMsg::printMe(int verbosity)
       printf( "\tSetAbsoluteAccelerationMsg\n");
 }
 
-statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime)
+statusReturn SetAbsoluteAccelerationMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetAbsoluteSpeedMsg::process(void *sendTo)
+void SetAbsoluteSpeedMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetAbsoluteSpeedMsg::printMe(int verbosity)
@@ -399,19 +462,23 @@ void SetAbsoluteSpeedMsg::printMe(int verbosity)
   printf( "\tSetAbsoluteSpeedMsg\n" );
 }
 
-statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime)
+statusReturn SetAbsoluteSpeedMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetAngleUnitsMsg::process(void *sendTo)
+void SetAngleUnitsMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetAngleUnitsMsg::printMe(int verbosity)
@@ -419,19 +486,23 @@ void SetAngleUnitsMsg::printMe(int verbosity)
       printf( "\tSetAngleUnitsMsg\n");
 }
 
-statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime)
+statusReturn SetAngleUnitsMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetEndAngleToleranceMsg::process(void *sendTo)
+void SetEndAngleToleranceMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetEndAngleToleranceMsg::printMe(int verbosity)
@@ -439,20 +510,26 @@ void SetEndAngleToleranceMsg::printMe(int verbosity)
       printf( "\tSetEndAngleToleranceMsg\n");
 }
 
-statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime)
+statusReturn SetEndAngleToleranceMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetEndPointToleranceMsg::process(void *sendTo)
+void SetEndPointToleranceMsg::process(void *sendTo)
 {
-  ((RosInf*)sendTo)->setEndPointTolerance(tolerance);
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    {
+      setCurrentStatus(SystemWorking);
+      ((RosInf*)sendTo)->setEndPointTolerance(tolerance);
+    }
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetEndPointToleranceMsg::printMe(int verbosity)
@@ -460,19 +537,23 @@ void SetEndPointToleranceMsg::printMe(int verbosity)
       printf( "\tSetEndPointToleranceMsg\n");
 }
 
-statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime)
+statusReturn SetEndPointToleranceMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetIntermediatePointToleranceMsg::process(void *sendTo)
+void SetIntermediatePointToleranceMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetIntermediatePointToleranceMsg::printMe(int verbosity)
@@ -480,20 +561,26 @@ void SetIntermediatePointToleranceMsg::printMe(int verbosity)
       printf( "\tSetIntermediatePointToleranceMsg\n");
 }
 
-statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime)
+statusReturn SetIntermediatePointToleranceMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetLengthUnitsMsg::process(void *sendTo)
+void SetLengthUnitsMsg::process(void *sendTo)
 {
-  ((RosInf*)sendTo)->setLengthUnits(unitName);
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    {
+      setCurrentStatus(SystemWorking);
+      ((RosInf*)sendTo)->setLengthUnits(unitName);
+    }
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetLengthUnitsMsg::printMe(int verbosity)
@@ -501,19 +588,23 @@ void SetLengthUnitsMsg::printMe(int verbosity)
       printf( "\tSetLengthUnitsMsg\n");
 }
 
-statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime)
+statusReturn SetLengthUnitsMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetRelativeAccelerationMsg::process(void *sendTo)
+void SetRelativeAccelerationMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetRelativeAccelerationMsg::printMe(int verbosity)
@@ -521,19 +612,23 @@ void SetRelativeAccelerationMsg::printMe(int verbosity)
       printf( "\tSetRelativeAccelerationMsg\n");
 }
 
-statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime)
+statusReturn SetRelativeAccelerationMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn SetRelativeSpeedMsg::process(void *sendTo)
+void SetRelativeSpeedMsg::process(void *sendTo)
 {
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    setCurrentStatus(SystemWorking);
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void SetRelativeSpeedMsg::printMe(int verbosity)
@@ -541,20 +636,27 @@ void SetRelativeSpeedMsg::printMe(int verbosity)
       printf( "\tSetRelativeSpeedMsg\n");
 }
 
-statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime)
+statusReturn SetRelativeSpeedMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn StartObjectScanMsg::process(void *sendTo)
+void StartObjectScanMsg::process(void *sendTo)
 {
-  ((RosInf*)sendTo)->searchPart(objectName);
-  return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    {
+      setCurrentStatus(SystemWorking);
+      ((RosInf*)sendTo)->searchPart(objectName);
+    }
+  else
+    setCurrentStatus(SystemNoInit);
+
 }
 
 void StartObjectScanMsg::printMe(int verbosity)
@@ -562,20 +664,27 @@ void StartObjectScanMsg::printMe(int verbosity)
       printf( "\tStartObjectScanMsg\n");
 }
 
-statusReturn StartObjectScanMsg::timer(itimerval *resetTime)
+statusReturn StartObjectScanMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn StopMotionMsg::process(void *sendTo)
+void StopMotionMsg::process(void *sendTo)
 {
-	((RosInf*)sendTo)->stopMotion();
-	return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    {
+      setCurrentStatus(SystemWorking);
+      ((RosInf*)sendTo)->stopMotion();
+    }
+  else
+    setCurrentStatus(SystemNoInit);
+
 }
 
 void StopMotionMsg::printMe(int verbosity)
@@ -583,21 +692,27 @@ void StopMotionMsg::printMe(int verbosity)
       printf( "\tStopMotionMsg\n");
 }
 
-statusReturn StopMotionMsg::timer(itimerval *resetTime)
+statusReturn StopMotionMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }
 
-statusReturn StopObjectScanMsg::process(void *sendTo)
+void StopObjectScanMsg::process(void *sendTo)
 {
-	ROS_ERROR("STOP SCAN!");
-	((RosInf*)sendTo)->stopSearch();
-	return CmdComplete;
+  if(sendTo != NULL && ((RosInf*)sendTo)->isInitialized())
+    {
+      setCurrentStatus(SystemWorking);
+      ROS_ERROR("STOP SCAN!");
+      ((RosInf*)sendTo)->stopSearch();
+    }
+  else
+    setCurrentStatus(SystemNoInit);
 }
 
 void StopObjectScanMsg::printMe(int verbosity)
@@ -605,12 +720,13 @@ void StopObjectScanMsg::printMe(int verbosity)
       printf( "\tStopObjectScanMsg\n");
 }
 
-statusReturn StopObjectScanMsg::timer(itimerval *resetTime)
+statusReturn StopObjectScanMsg::timer(itimerval *resetTime, void *rosCtrlTime)
 {
-  statusReturn status = SystemWorking;
+  if( getCurrentStatus() == SystemWorking )
+    setCurrentStatus(CmdComplete);
   (*resetTime).it_interval.tv_sec = 0;
   (*resetTime).it_interval.tv_usec = 0;
   (*resetTime).it_value.tv_sec = 0;
   (*resetTime).it_value.tv_usec = 0;
-  return(status);
+  return(getCurrentStatus());
 }

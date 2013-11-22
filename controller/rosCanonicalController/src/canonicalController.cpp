@@ -55,7 +55,7 @@ void cmdStatusCheck(int sig)
   itimerval timeToWait;
   StatusMsg errReturn;
 
-  timeToWait = ctrl->cmdStatusCheck(errReturn);
+  timeToWait = ctrl->cmdStatusCheck(errReturn, rosControl);
   if( timeToWait.it_value.tv_sec <= 0 && timeToWait.it_value.tv_usec <= 0 )
     ctrl->queueMsgStatus(&errReturn);
   else
@@ -79,7 +79,7 @@ dequeueThread (void *arg)
 	    errReturn.getStatus() != CmdComplete )
 	{
 	  errReturn = dequeueCtrl->dequeueMsgStatus(1);
-	  printf( "Received status\n" );
+	  printf( "canonicalController.cpp: Received status " );
 	  errReturn.print();
 	  ros::spinOnce();
 	}
@@ -99,7 +99,6 @@ main (int argc, char* argv[])
   FILE * inFile;
   CommandParser parser; // from commandParser.hh
   CloseGripperMsg closeGripper;
-  EndCanonMsg endCanon;
   ulapi_integer result;
   struct sigaction action;
 
@@ -156,12 +155,6 @@ main (int argc, char* argv[])
     exit(1);
   fclose(inFile);
   
-  /*Point *startPoint = new Point("start_scan");
-    startPoint->sethasPoint_X(-.163);
-    startPoint->sethasPoint_Y(0.6205);
-    startPoint->sethasPoint_Z(0.3);*/
-  
-  //  sleep(300);
   ulapi_task_join(dequeueTask, &result);
   if( result == 0 )
     printf( "Sucessful completion\n" );

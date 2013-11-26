@@ -1,0 +1,1044 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:kitting"
+  targetNamespace="urn:kitting"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xsd:include schemaLocation="kittingWorkstation.xsd"/>
+
+  <xsd:annotation>
+    <xsd:documentation>
+      This is a schema with classes for actions representation.
+    </xsd:documentation>
+    <xsd:documentation>owlPrefix=soap</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="SOAP"
+    type="SOAPType">
+    <xsd:annotation>
+      <xsd:documentation>
+        This is a schema with classes for actions representation.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="SOAPType">
+    <xsd:annotation>
+      <xsd:documentation>
+	SOAPType is derived from DataThingType. 
+	
+	An instance of SOAPType has:
+	- A DomainType (optional) - A DomainType is mandatory in order to generate a PDDL domain file.
+	- At least 1 PredicateType
+	- 0 or multiple FunctionType
+	- At least 1 ActionType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="KittingWorkstation"
+            type="KittingWorkstationType"
+            minOccurs="1"/>
+          <xsd:element name="TakePart"
+            type="TakePartType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xsd:element name="Domain"
+            type="DomainType"
+            minOccurs="0"/>
+          <xsd:element name="Predicate"
+            type="PredicateType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="Function"
+            type="FunctionType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="DomainType">
+    <xsd:annotation>
+      <xsd:documentation>
+      DomainType is derived from DataThingType.
+      
+A DomainType consists of the header of a PDDL domain file. A simple example of a header for a PDDL domain file is given below.
+  (define (domain kitting-domain)
+  (:requirements :strips :typing :action-costs :fluents)
+  (:types
+    EndEffector
+    EndEffectorHolder
+    Kit
+    KitTray
+    LargeBoxWithEmptyKitTrays 
+    LargeBoxWithKits
+    Part 
+    PartsTray 
+    EndEffectorChangingStation
+    Robot 
+    WorkTable)
+ 
+To represent a PDDL domain file, a DomainType consists of the following elements:
+  - Name: Name of the domain (inherited)
+  - Requirements: Because PDDL is a very general language and most planners support only a subset, 
+    domains may declare requirements. 
+    The requirements given in the above example are:
+      - :strips
+      - :typing
+      - :action-costs 
+      - :fluents
+  - VariableTypes: type of each variable used in the domain file.
+     </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="Requirement"
+            type="xsd:NMTOKEN"
+            maxOccurs="unbounded"/>
+          <xsd:element name="VariableTypes"
+            type="xsd:NMTOKEN"
+            maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AttachEndEffectorType">
+    <xsd:annotation>
+      <xsd:documentation>
+        AttachEndEffectorType is derived from RobotActionBaseType.
+An instance of AttachEndEffectorType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - Precondition
+  - Effect
+  - RobotName
+  - RobotParameterType (optional)
+  - EndEffectorName
+  - EndEffectorParameterType (optional)
+  - EndEffectorHolderName
+  - EndEffectorHolderParameterType (optional)
+  
+Immediately before an instance of AttachEndEffectorType is executed:
+  (1) The named robot must not have an end effector in its tool changer.
+  (2) The end effector must be located relative to the named end effector holder.
+ 
+
+As an instance of AttachEndEffectorType is executed:
+If the tool changer is closed, the robot opens the tool changer.
+The robot moves to a position relative to the tool holder at
+which it can attach to the end effector. The robot closes the
+tool changer so as to attach the end effector. The location of
+the end effector changes from being relative to the end effector
+holder to being relative to the robot. The robot withdraws the end
+end effector from the tool holder a slight amount that is far
+enough so that any end effector sensor on the end effector holder no
+longer indicates that there is an end effector in the holder.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>RobotType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="EndEffectorName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>EndEffectorType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="EndEffectorHolderName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>EndEffectorHolderType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="EndEffectorChangingStationName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>EndEffectorChangingStationType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="TakePartType">
+    <xsd:annotation>
+      <xsd:documentation>
+        TakePartType is derived from RobotActionBaseType.
+
+An instance of TakePartType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - Precondition
+  - Effect
+  - RobotName
+  - RobotParameterType (optional)
+  - PartName
+  - PartParameterType (optional)
+ 
+Immediately before an instance of TakePartType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named part.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakePartType is executed:
+The robot moves to a position from which it may pick up the part
+and closes the gripper on the part. The part is not moved but
+the location of the part changes so that the part is located
+relative to the gripper.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>RobotType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="PartName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>PartType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="PartsTrayName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>PartsTrayType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="EndEffectorName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>EndEffectorType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PreconditionType">
+    <xsd:annotation>
+      <xsd:documentation>
+	PreconditionType is derived from DataThingType.
+      
+An instance of PreconditionType specifies necessary conditions that must 
+be true in order for a RobotActionBaseType or ActionBaseType
+to be performed. It can consist of:
+  - At least one instance of PredicateType
+  - Optional instances of FunctionType
+  - Optional instances of ActionBaseFunctionBoolType
+
+An instance of PreconditionType belongs to one instance of RobotActionBaseType or ActionBaseType.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="Predicate"
+            type="PredicateType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xsd:element name="Function"
+            type="FunctionType"
+            minOccurs="0"/>
+          <xsd:element name="FunctionOperation"
+            type="FunctionOperationType"
+            minOccurs="0"/>
+          <xsd:element name="FunctionToFunction"
+            type="FunctionToFunctionBoolType"
+            minOccurs="0"/>
+          <xsd:element name="FunctionToDecimal"
+            type="FunctionToDecimalBoolType"
+            minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EffectType">
+    <xsd:annotation>
+      <xsd:documentation>
+	EffectType is derived from DataThingType.
+
+An instance of EffectType specifies the results that are anticipated to occur as a result of a RobotActionBaseType or ActionBaseType. 
+An instance of EffectType can consist of:
+  - At least one instance of PredicateType
+  - Optional instances of FunctionType
+  - Optional instances of ActionBaseFunctionBoolType
+	
+	
+	An instance of EffectType belongs to one instance of RobotActionBaseType or ActionBaseType.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="Predicate"
+            type="PredicateType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="NotPredicate"
+            type="NotPredicateType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="Function"
+            type="FunctionType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="FunctionOperation"
+            type="FunctionOperationType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="FunctionToFunctionBool"
+            type="FunctionToFunctionBoolType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="FunctionToDecimalBool"
+            type="FunctionToDecimalBoolType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PredicateType">
+    <xsd:annotation>
+      <xsd:documentation>
+	PredicateType is derived from DataThingType.
+	
+        A predicate is used to specify a binary property of a single object, or a relationship between two objects. 
+	For example, the predicate (robot-empty ?robot) is true if only if the robot ?robot is not holding anything. 
+	The predicate (part-location-robot ?part ?robot) is true if only if the reference parameter ?part is being held by
+	the target parameter ?robot.
+	
+	An example of PredicateType is (robot-holds-kit ?robot - Robot ?kit - Kit), which consists of:
+	- Name: A unique name 'robot-holds-kit' (inherited)
+	
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="PredicateGroupElement"
+            type="PredicateGroupElementType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PredicateGroupElementType">
+    <xsd:annotation>
+      <xsd:documentation>
+        PredicateStateRelationGroupElementType is derived from DataThingType and consists of elements that constitute a PredicateType.
+        An instance of PredicateStateRelationGroupElementType has the following elements:
+	- Name (inherited)
+	- ReferenceName: Name of the reference parameter
+	- TargetName (optional): Name of the target parameter
+	- StateRelation: The state relation for the current PredicateType
+	
+	ReferenceName is the first parameter in the PredicateType’s parameter list and TargetName is 
+	the second parameter in the PredicateType’s parameter list. 
+	In the case where an PredicateType has only one parameter, it is assigned to the reference parameter.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="ReferenceName"
+            type="xsd:IDREF"
+            minOccurs="1">
+            <xsd:annotation>
+              <xsd:appinfo>SolidObjectType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="TargetName"
+            type="xsd:IDREF"
+            minOccurs="0">
+            <xsd:annotation>
+              <xsd:appinfo>SolidObjectType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="StateRelation"
+            type="StateRelationType"
+            minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="NotPredicateType">
+    <xsd:annotation>
+      <xsd:documentation>
+        NotPredicateType is derived from DataThingType and represents the negation of a PredicateType.
+        An instance of NotPredicateType has the following elements:
+	- Name (inherited)
+	- Predicate.
+ 
+        Predicate is the PredicateType to be negated.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="PredicateName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>PredicateType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionType">
+    <xsd:annotation>
+      <xsd:documentation>
+	FunctionType is derived from DataThingType.
+	An example of FunctionType is '(quantity-kit ?kit - Kit ?partstray - PartsTray)' which consists of:
+	- Name: A unique name 'quantity-kit' (inherited)
+	- ReferenceName: Name of the reference parameter 'kit'
+	- ReferenceParameterType: Type of the reference parameter 'Kit'
+	- TargetName: Name of the target parameter 'partstray'
+	- TargetParameterType: Type of the target parameter 'PartsTray'
+	The reference parameter is the first parameter in the FunctionType’s parameter list and the target parameter is the second parameter 
+	in the FunctionType’s parameter list. 
+	In the case where an FunctionType has only one parameter, it is assigned to the reference parameter.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="ReferenceName"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="ReferenceParameterType"
+            type="xsd:NMTOKEN"
+            minOccurs="0"/>
+          <xsd:element name="TargetName"
+            type="xsd:NMTOKEN"
+            minOccurs="0"/>
+          <xsd:element name="TargetParameterType"
+            type="xsd:NMTOKEN"
+            minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionOperationType">
+    <xsd:annotation>
+      <xsd:documentation>
+	FunctionOperationType is derived from DataThingType.
+	
+	A FunctionOperationType defines the change applied to an FunctionType.
+	An example of a FunctionOperationType is '(decrease (quantity-partstray ?partstray) 1)', which consists of:
+	- An FunctionType: '(quantity-partstray ?partstray)'
+	- An Expression that changes the value of an ActionBaseFunction: 'decrease'
+	- A Value used by the Expression to change the original value of an ActionBaseFunction: '1'
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="ActionBaseFunction"
+            type="FunctionType"/>
+          <xsd:element name="Expression"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Value"
+            type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToFunctionBoolType"
+    abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToFunctionBoolType is an abstract type
+        derived from FunctionBooleanExpressionType representing an expression
+        with a value that is an xsd:boolean. 
+	
+	FunctionToFunctionBoolType compares two functions.
+	
+	FunctionToFunctionBoolType has the following derivation hierarchy:
+	|-FunctionToFunctionBoolType
+          | |-FunctionToFunctionEqualType
+          | |-FunctionToFunctionGreaterOrEqualType
+          | |-FunctionToFunctionGreaterType
+          | |-FunctionToFunctionLessOrEqualType
+          | |-FunctionToFunctionLessType
+          | |-FunctionToFunctionNotEqualType
+	An instance of FunctionComparisonBooleanExpressionType has the following elements:
+          - Name (inherited)
+          - F1
+          - F2.
+ 
+        F1 and F2 are the results of two FunctionType to be compared, e.g., '(= (quantity-kit ?kit ?partstray) (capacity-kit ?kit ?partstray))'
+	checks if the result of the FunctionType '(quantity-kit ?kit ?partstray)' equals the result of the FunctionType '(capacity-kit ?kit ?partstray)'.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionBooleanExpressionType">
+        <xsd:sequence>
+          <xsd:element name="F1"
+            type="FunctionType"/>
+          <xsd:element name="F2"
+            type="FunctionType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToDecimalBoolType"
+    abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToDecimalBoolType is an abstract type
+        derived from FunctionBooleanExpressionType representing an expression
+        with a value that is an xsd:boolean. 
+	FunctionToDecimalBoolType compares an FunctionType with a decimal.
+	
+	FunctionToDecimalBoolType has the following derivation hierarchy:
+	|-FunctionToDecimalBoolType
+          | |-FunctionToArithmeticEqualType
+          | |-FunctionToArithmeticGreaterOrEqualType
+          | |-FunctionToArithmeticGreaterType
+          | |-FunctionToArithmeticLessOrEqualType
+          | |-FunctionToArithmeticLessType
+          | |-FunctionToArithmeticNotEqualType
+	  
+	An instance of FunctionToDecimalBoolType has the following elements:
+          - Name (inherited)
+          - F1
+          - A1
+	  F1 is the result of an FunctionType and A1 is a xsd:decimal.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionBooleanExpressionType">
+        <xsd:sequence>
+          <xsd:element name="F1"
+            type="FunctionType"/>
+          <xsd:element name="A1"
+            type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionBooleanExpressionType"
+    abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionBooleanExpressionType is an abstract type derived from DataThingType and representing an expression with a value that is an xsd:boolean 
+	(i.e., either True or False).
+	
+	An instance of FunctionBooleanExpressionType has the following elements:
+	
+	Name (inherited).
+        
+	FunctionBooleanExpressionType has the following derivation hierarchy:
+        DataThingType
+        |-FunctionBooleanExpressionType
+          |-FunctionToFunctionBoolType
+          | |-FunctionToFunctionEqualType
+          | |-FunctionToFunctionGreaterOrEqualType
+          | |-FunctionToFunctionGreaterType
+          | |-FunctionToFunctionLessOrEqualType
+          | |-FunctionToFunctionLessType
+          | |-FunctionToFunctionNotEqualType
+	  
+	  |-FunctionToDecimalBoolType
+          | |-FunctionToArithmeticEqualType
+          | |-FunctionToArithmeticGreaterOrEqualType
+          | |-FunctionToArithmeticGreaterType
+          | |-FunctionToArithmeticLessOrEqualType
+          | |-FunctionToArithmeticLessType
+          | |-FunctionToArithmeticNotEqualType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToFunctionEqualType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToFunctionEqualType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+	  
+	  The FunctionToFunctionEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of F1 is 
+	  equal to the value of F2. Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToFunctionBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToFunctionGreaterOrEqualType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToFunctionGreaterOrEqualType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionGreaterOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+	  
+	  The FunctionToFunctionGreaterOrEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of 
+	  F1 is greater than or equal to F2.
+	  Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToFunctionBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToFunctionGreaterType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToFunctionGreaterType is derived from
+        FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionGreaterType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+          
+ 
+        The FunctionToFunctionGreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        greater than the value of F2. Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToFunctionBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToFunctionLessOrEqualType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToFunctionLessOrEqualType is derived from
+        FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionLessOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+          .
+ 
+        The FunctionToFunctionLessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        less than or equal to the value of F2.
+        Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToFunctionBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToFunctionLessType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToFunctionLessType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionLessType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+
+ 
+        The FunctionToFunctionLessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of F1 is less than
+        the value of F2. Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToFunctionBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToDecimalEqualType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToDecimalEqualType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+	  
+	  The FunctionToDecimalEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of F1 is 
+	  equal to the value of A1. Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToDecimalBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToDecimalGreaterOrEqualType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToDecimalGreaterOrEqualType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalGreaterOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+	  
+	  The FunctionToDecimalGreaterOrEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of 
+	  F1 is greater than or equal to A1.
+	  Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToDecimalBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToDecimalGreaterType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToDecimalGreaterType is derived from
+        FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalGreaterType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+          
+ 
+        The FunctionToFunctionGreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        greater than the value of A1. Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToDecimalBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToDecimalLessOrEqualType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToDecimalLessOrEqualType is derived from
+        FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalLessOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+
+        The FunctionToDecimalLessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        less than or equal to the value of A1.
+        Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToDecimalBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="FunctionToDecimalLessType">
+    <xsd:annotation>
+      <xsd:documentation>
+        FunctionToDecimalLessType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalLessType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+
+        The FunctionToDecimalLessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of F1 is less than
+        the value of A1. Otherwise, it returns False.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="FunctionToDecimalBoolType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="OrderingConstructType">
+    <xsd:annotation>
+      <xsd:documentation>
+	OrderingConstructType is derived from DataThingType.
+	An instance of OrderingConstructType has the following elements:
+	  Name
+	
+	OrderingConstructType has the following derivation hierarchy:
+	DataThingType
+	|-OrderingConstructType
+	  |-AnyOrderType
+	  |-CountType
+	  |-ExistType
+	  |-OrderedListType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AnyOrderType">
+    <xsd:annotation>
+      <xsd:documentation>
+	AnyOrderType is derived from OrderingConstructType.
+	AnyOrderType consists of:
+	- Name (inherited)
+	- One or multiple instances of CountType
+	- The position of AnyOrderType within an OrderedListType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="OrderingConstructType">
+        <xsd:sequence>
+          <xsd:element name="Count"
+            type="CountType"/>
+          <xsd:element name="PositionInOrderedList"
+            type="xsd:positiveInteger"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="CountType">
+    <xsd:annotation>
+      <xsd:documentation>
+	CountType is derived from OrderingConstructType.
+	CountType consists of:
+	- Name (inherited)
+	- An PredicateType 
+	- The occurrence of PredicateType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="OrderingConstructType">
+        <xsd:sequence>
+          <xsd:element name="Predicate"
+            type="PredicateType"/>
+          <xsd:element name="PredicateOccurrence"
+            type="xsd:positiveInteger"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ExistType">
+    <xsd:annotation>
+      <xsd:documentation>
+	ExistType is derived from OrderingConstructType.
+	ExistType consists of:
+	- Name (inherited)
+	- An PredicateType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="OrderingConstructType">
+        <xsd:sequence>
+          <xsd:element name="Predicate"
+            type="PredicateType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="OrderedListType">
+    <xsd:annotation>
+      <xsd:documentation>
+	OrderedListType is derived from OrderingConstructType.
+	OrderedListType consists of:
+	- Name (inherited)
+	- An ExistType
+	- An AnyOrderType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="OrderingConstructType">
+        <xsd:sequence>
+          <xsd:element name="Exist"
+            type="ExistType"/>
+          <xsd:element name="AnyOrder"
+            type="AnyOrderType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StateRelationType">
+    <xsd:annotation>
+      <xsd:documentation>
+	StateRelationType is derived from DataThingType.
+	StateRelationType consists of:
+	- Name (inherited)
+	- StateRelationRCC8Set: a set of RCC8 relations
+	
+	StateRelationType has the following derivation hierarchy:
+	DataThingType
+	|-StateRelationType
+	  |-OnTopWithContactType
+	  |-InContactWithType
+	  |-PartiallyInType
+	  |-UnderWithContactType
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType">
+        <xsd:sequence>
+          <xsd:element name="RCC8Set"
+            type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="OnTopWithContactType">
+    <xsd:annotation>
+      <xsd:documentation>
+	OnTopWithContactType is derived from StateRelationType.
+	OnTopWithContactType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="StateRelationType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InContactWithType">
+    <xsd:annotation>
+      <xsd:documentation>
+	InContactWithType is derived from StateRelationType.
+	InContactWithType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="StateRelationType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PartiallyInType">
+    <xsd:annotation>
+      <xsd:documentation>
+	PartiallyInType is derived from StateRelationType.
+	PartiallyInType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="StateRelationType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="UnderWithContactType">
+    <xsd:annotation>
+      <xsd:documentation>
+	UnderWithContactType is derived from StateRelationType.
+	UnderWithContactType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="StateRelationType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RobotActionBaseType"
+    abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>
+        RobotActionBaseType is derived from ActionBaseType.
+        An instance of RobotActionBaseType has the following elements:
+	- Name (inherited)
+ 
+        The RobotActionBaseType defines the base type for robot actions.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ActionBaseType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ActionBaseType">
+    <xsd:annotation>
+      <xsd:documentation>
+	ActionBaseType is derived from DataThingType.
+
+An instance of ActionBaseType has the following elements:
+  - Name (inherited)
+	
+ActionBaseType is the abstract base type that defines a single action to be carried out.
+
+ActionBaseType has the following derivation hierarchy:
+|-ActionBaseType
+  | |- CreateKitType
+  | |- RobotActionBaseType
+    | |-AttachEndEffectorType
+    | |-DetachEndEffectorType
+    | |-PutKitType
+    | |-PutKitTrayType
+    | |-PutPartType
+    | |-TakeKitType
+    | |-TakeKitTrayType
+    | |-TakePart
+	 
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="DataThingType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,82 @@
+cd xmlSchemas
+#copy kittingWorkstation.xsd in this directory
+# see what is in the directory
+ls
+# use the xmlSchemaParser to check a schema
+../../common/bin/xmlSchemaParser soap.xsd
+# see what is in the directory now (should be a copy of soap.xsd)
+ls
+# compare the echoed schema with the original
+diff soap.xsdecho soap.xsd
+# get rid of the copy that was just made
+rm soap.xsdecho
+
+
+# generate all the files needed by a geometrySchema3Parser
+../../common/bin/xmlInstanceParserGenerator -x soap.xsd
+# see what is in the directory now
+ls
+# move the new files into the source directory
+mv *.cc *.hh *.lex *.y ../source
+# move into the parent directory
+cd ..
+# make the XML instance file parser
+make bin/soapParser
+# check that the parser exists now
+ls bin
+# list the source directory to see that there are 3 new files
+ls source
+# go into the XML instance files directory to test the parser
+cd xmlInstanceFiles
+# test the parser
+../bin/soapParser soapInstances.xml
+# see that an echoed file exists now
+ls
+# compare the echoed file with the original (number formats change)
+diff soapInstances.xml  soapInstances.xmlecho
+# get rid of the copy that was just made
+rm soapInstances.xmlecho
+
+
+# go back into the xmlSchemas directory to generate the OWL class files
+cd ../xmlSchemas
+# run the OWL class generator
+../../common/bin/xmlSchemaOwlClassGenerator soap.xsd http://www.nist.gov/el/ontologies
+# see that three .owl files have been generated
+ls
+# move the .owl files to the owlFiles directory
+mv *.owl ../owlFiles
+# change to the owlFiles directory
+cd ../owlFiles
+# use Protege to check the OWL files - your method of running Protege may differ
+/usr/local/Protege_4.1/Protege & 
+
+
+# go back into the xmlSchemas directory to generate additional C++ code
+# for the owlSoapPrinter.
+cd ../xmlSchemas
+# run the xml2owlGenerator
+../../common/bin/xml2owlGenerator soap.xsd soap
+# see that it has generated three new files
+ls -lrt
+# move the new files into the source directory (the .lex and .y files
+# generated earlier will be used for the 
+mv *.cc *.hh ../source
+# move into the parent directory
+cd ..
+# make the xml2owl translator for soap
+make bin/owlSoapPrinter
+# check that the translator exists
+ls bin
+# change to the xmlInstanceFiles directory
+cd xmlInstanceFiles
+# run the translator to translate the soapInstances.xml file to OWL
+../bin/owlSoapPrinter soapInstances.xml soapInstances.owl http://www.nist.gov/el/ontologies
+# check that the OWL file exists
+ls
+# move the new OWL file to the owlFiles directory
+mv soapInstances.owl ../owlFiles
+# move into the owlFiles directory
+cd  ../owlFiles
+#use Protege to check the OWL file - your method of running Protege may differ
+/usr/local/Protege_4.1/Protege &

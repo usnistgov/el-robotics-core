@@ -1,0 +1,6 @@
+This owlFiles directory would contain the following OWL files, except
+that they have been moved to ipmas/Ontology/Kitting.
+
+kittingWorkstation.owl
+soapClasses.owl
+soapInstances.owl

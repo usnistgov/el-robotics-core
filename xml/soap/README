@@ -1,0 +1,131 @@
+README for the soap directory - last updated 2013Oct25
+
+The soap (formerly called kitting) directory contains the
+following subdirectories:
+
+      bin
+        soapParser
+           (parses XML soap instance files)
+        owlSoapPrinter
+           (translates XML soap instance files to OWL)
+      ofiles (object files compiled from .cc files)
+      owlFiles (OWL class file and instance files for soap)
+      source (.cc .hh .lex .y files)
+      xmlInstanceFiles (XML instance files for soap)
+      xmlSchemas (XML schema for soap)
+  
+The soapParser and the owlSoapPrinter are
+very fast.
+
+In the IPMAS repository, the owlFiles directory is empty except for a
+list of the names of files that should be there. Those files may be
+found in the Ontology/Kitting directory of the repository.
+
+
+soapParser
+------------------------
+
+The soapParser may be used to check an XML instance file
+against the soap.xsd schema. The information content of
+the schema is hard-coded into the soapParser. If there
+is any error in the XML instance file, the soapParser
+prints a message and quits. If there is no error, the input file is
+echoed by printing an output file whose name is the same as that of
+the input file with "echo" appended. To run the
+soapParser, give a command of the form:
+
+   bin/soapParser [XML kitting instance file in]
+
+For example, the command
+
+   bin/soapParser xmlInstanceFiles/kittingInstances.xml
+
+will read kittingInstances.xml and write kittingInstances.xmlecho. If
+the format of an input file differs from the format used for printing
+the output file, the two files will differ, but only in format. If the
+two formats are the same, the files will be identical.
+
+The owlSoapPrinter makes the same checks as the
+soapParser, so there is no need to use the
+soapParser if the objective is to generate owl.
+
+All of the source code for the soapParser that is
+specific to the soap was generated automatically by
+the xmlInstanceParserGenerator. The domain-independent
+file ../common/ofiles/xmlSchemaInstance.o is linked into the
+soapParser.
+
+
+
+owlSoapPrinter
+----------------------------
+
+The owlSoapPrinter reads an XML soap
+instance file corresponding to soap.xsd (the XML schema
+for a soap) and writes an OWL instance file
+corresponding to kittingClasses.owl (the OWL class file for a kitting
+workstation). The soap.xsd file contains the same
+conceptual model as the kittingClasses.owl file, but in a different
+language.
+
+The owlSoapPrinter is useful because there is no OWL
+tool that will help generate an OWL instance file and check the file
+adequately against an OWL class file. That is because OWL uses an open
+world model in which anything not explicitly or implicitly illegal is
+allowed. Hence many things that are errors to the writer of the
+instance file are not OWL errors. For example, if the name of an
+instance is misspelled, OWL will assume that there is a new instance
+that has not been explicitly declared as such, which is OK in OWL. If
+a reference to an instance name is misspelled in an XML instance file
+corresponding to the kitting.xsd schema, that will be caught
+automatically by the owlSoapPrinter (and other readily
+available XML tools). Several other types of error will not be caught
+by OWL tools but will not be made or will be detected if the
+owlSoapPrinter is used.
+
+Another OWL problem that disappears in XML is that in OWL, there is no
+distinction between an instance file and a class file. An instance file can
+modify classes intentionally or accidentally. In XML there is no way an
+instance file can modify a model.
+
+To use the owlPrinter, use a text editor such as emacs or an XML tool
+such as XMLSpy to write an XML instance file corresponding to the
+soap.xsd schema and then run it through the
+owlSoapPrinter with a command of the form:
+
+ bin/owlSoapPrinter <xmlInst> <owlInst> <owlClass> <uri>
+
+where
+<xmlInst> = path to XML instance file to read
+<owlInst> = name of OWL instance file to write
+<owlClass> = name of OWL class file
+<uri> = URI base to use in header
+
+For example, the following command will print the OWL file
+kittingInstancesGoal1.owl
+
+bin/owlSoapPrinter xmlInstanceFiles/kittingInstancesGoal1.xml kittingInstancesGoal1.owl soapClasses.owl http://www.nist.gov/el/ontologies
+
+The soap.lex and soap.y source code files
+used for the owlSoapPrinter are the ones produced by the
+xmlInstanceParserGenerator for the soapParser, but the
+.cc files produced from them are compiled with a different flag. The
+rest of the source code for the owlSoapPrinter that is
+specific to the soap was generated automatically by the
+xml2owlGenerator. The domain independent files
+../common/ofiles/owlInstancePrinter.o and
+../common/ofiles/xmlSchemaInstance.o are also linked into the
+owlSoapPrinter.
+
+
+
+other
+-----
+
+The kittingClasses.owl file in the owlFiles directory was generated
+automatically from soap.xsd by the xmlSchemaOwlClassGenerator.
+
+In the source directory, the soapYACC.cc and
+soapYACC.cc files are produced automatically from
+soap.y by bison. The soapLex.cc file
+is produced automatically from soap.lex by flex.

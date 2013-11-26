@@ -4,7 +4,7 @@
 		EndEffector
 		EndEffectorHolder 
 		Kit 
-		KitTray;
+		KitTray
 		LargeBoxWithEmptyKitTrays 
 		LargeBoxWithKits
 		Part 
@@ -246,17 +246,13 @@
 		?robot - Robot 
 		?part - Part 
 		?partstray - PartsTray 
-		?endeffector - EndEffector 
-		?worktable - WorkTable 
-		?kit - Kit)
+		?endeffector - EndEffector)
 	:precondition 
 		(and  
 		(part-location-partstray ?part ?partstray) 
 		(endeffector-location-robot ?endeffector ?robot) 
 		(robot-empty ?robot) 
-		(robot-with-endeffector ?robot ?endeffector) 
-		(on-worktable-kit ?worktable ?kit) 
-		(kit-location-worktable ?kit ?worktable)
+		(robot-with-endeffector ?robot ?endeffector)
 		(endeffector-type-part ?endeffector ?part)
 		(found-part ?part ?partstray)
 		(partstray-not-empty ?partstray))

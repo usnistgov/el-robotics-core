@@ -63,22 +63,14 @@ InverseObjectProperties(soap:hasSOAP_KittingWorkstation
 ObjectPropertyDomain(soap:hadByKittingWorkstation_SOAP ktw:KittingWorkstation)
 ObjectPropertyRange(soap:hadByKittingWorkstation_SOAP soap:SOAP)
 
-Declaration(ObjectProperty(soap:hasSOAP_TakePart))
-ObjectPropertyDomain(soap:hasSOAP_TakePart soap:SOAP)
-ObjectPropertyRange(soap:hasSOAP_TakePart soap:TakePart)
-InverseFunctionalObjectProperty(soap:hasSOAP_TakePart)
-
-Declaration(ObjectProperty(soap:hadByTakePart_SOAP))
-InverseObjectProperties(soap:hasSOAP_TakePart
-                        soap:hadByTakePart_SOAP)
-ObjectPropertyDomain(soap:hadByTakePart_SOAP soap:TakePart)
-ObjectPropertyRange(soap:hadByTakePart_SOAP soap:SOAP)
-
 Declaration(ObjectProperty(soap:hasSOAP_Domain))
 ObjectPropertyDomain(soap:hasSOAP_Domain soap:SOAP)
 ObjectPropertyRange(soap:hasSOAP_Domain soap:Domain)
 InverseFunctionalObjectProperty(soap:hasSOAP_Domain)
 FunctionalObjectProperty(soap:hasSOAP_Domain)
+EquivalentClasses(soap:SOAP ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasSOAP_Domain soap:Domain)
+  ObjectAllValuesFrom (soap:hasSOAP_Domain soap:Domain)))
 
 Declaration(ObjectProperty(soap:hadByDomain_SOAP))
 InverseObjectProperties(soap:hasSOAP_Domain
@@ -86,27 +78,65 @@ InverseObjectProperties(soap:hasSOAP_Domain
 ObjectPropertyDomain(soap:hadByDomain_SOAP soap:Domain)
 ObjectPropertyRange(soap:hadByDomain_SOAP soap:SOAP)
 
-Declaration(ObjectProperty(soap:hasSOAP_Predicate))
-ObjectPropertyDomain(soap:hasSOAP_Predicate soap:SOAP)
-ObjectPropertyRange(soap:hasSOAP_Predicate soap:Predicate)
-InverseFunctionalObjectProperty(soap:hasSOAP_Predicate)
+Declaration(ObjectProperty(soap:hasSOAP_InContactWith))
+ObjectPropertyDomain(soap:hasSOAP_InContactWith soap:SOAP)
+ObjectPropertyRange(soap:hasSOAP_InContactWith soap:InContactWith)
+InverseFunctionalObjectProperty(soap:hasSOAP_InContactWith)
+FunctionalObjectProperty(soap:hasSOAP_InContactWith)
+EquivalentClasses(soap:SOAP ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasSOAP_InContactWith soap:InContactWith)
+  ObjectAllValuesFrom (soap:hasSOAP_InContactWith soap:InContactWith)))
 
-Declaration(ObjectProperty(soap:hadByPredicate_SOAP))
-InverseObjectProperties(soap:hasSOAP_Predicate
-                        soap:hadByPredicate_SOAP)
-ObjectPropertyDomain(soap:hadByPredicate_SOAP soap:Predicate)
-ObjectPropertyRange(soap:hadByPredicate_SOAP soap:SOAP)
+Declaration(ObjectProperty(soap:hadByInContactWith_SOAP))
+InverseObjectProperties(soap:hasSOAP_InContactWith
+                        soap:hadByInContactWith_SOAP)
+ObjectPropertyDomain(soap:hadByInContactWith_SOAP soap:InContactWith)
+ObjectPropertyRange(soap:hadByInContactWith_SOAP soap:SOAP)
 
-Declaration(ObjectProperty(soap:hasSOAP_Function))
-ObjectPropertyDomain(soap:hasSOAP_Function soap:SOAP)
-ObjectPropertyRange(soap:hasSOAP_Function soap:Function)
-InverseFunctionalObjectProperty(soap:hasSOAP_Function)
+Declaration(ObjectProperty(soap:hasSOAP_UnderWithContact))
+ObjectPropertyDomain(soap:hasSOAP_UnderWithContact soap:SOAP)
+ObjectPropertyRange(soap:hasSOAP_UnderWithContact soap:UnderWithContact)
+InverseFunctionalObjectProperty(soap:hasSOAP_UnderWithContact)
+FunctionalObjectProperty(soap:hasSOAP_UnderWithContact)
+EquivalentClasses(soap:SOAP ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasSOAP_UnderWithContact soap:UnderWithContact)
+  ObjectAllValuesFrom (soap:hasSOAP_UnderWithContact soap:UnderWithContact)))
 
-Declaration(ObjectProperty(soap:hadByFunction_SOAP))
-InverseObjectProperties(soap:hasSOAP_Function
-                        soap:hadByFunction_SOAP)
-ObjectPropertyDomain(soap:hadByFunction_SOAP soap:Function)
-ObjectPropertyRange(soap:hadByFunction_SOAP soap:SOAP)
+Declaration(ObjectProperty(soap:hadByUnderWithContact_SOAP))
+InverseObjectProperties(soap:hasSOAP_UnderWithContact
+                        soap:hadByUnderWithContact_SOAP)
+ObjectPropertyDomain(soap:hadByUnderWithContact_SOAP soap:UnderWithContact)
+ObjectPropertyRange(soap:hadByUnderWithContact_SOAP soap:SOAP)
+
+Declaration(ObjectProperty(soap:hasSOAP_PartiallyIn))
+ObjectPropertyDomain(soap:hasSOAP_PartiallyIn soap:SOAP)
+ObjectPropertyRange(soap:hasSOAP_PartiallyIn soap:PartiallyIn)
+InverseFunctionalObjectProperty(soap:hasSOAP_PartiallyIn)
+FunctionalObjectProperty(soap:hasSOAP_PartiallyIn)
+EquivalentClasses(soap:SOAP ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasSOAP_PartiallyIn soap:PartiallyIn)
+  ObjectAllValuesFrom (soap:hasSOAP_PartiallyIn soap:PartiallyIn)))
+
+Declaration(ObjectProperty(soap:hadByPartiallyIn_SOAP))
+InverseObjectProperties(soap:hasSOAP_PartiallyIn
+                        soap:hadByPartiallyIn_SOAP)
+ObjectPropertyDomain(soap:hadByPartiallyIn_SOAP soap:PartiallyIn)
+ObjectPropertyRange(soap:hadByPartiallyIn_SOAP soap:SOAP)
+
+Declaration(ObjectProperty(soap:hasSOAP_OnTopWithContact))
+ObjectPropertyDomain(soap:hasSOAP_OnTopWithContact soap:SOAP)
+ObjectPropertyRange(soap:hasSOAP_OnTopWithContact soap:OnTopWithContact)
+InverseFunctionalObjectProperty(soap:hasSOAP_OnTopWithContact)
+FunctionalObjectProperty(soap:hasSOAP_OnTopWithContact)
+EquivalentClasses(soap:SOAP ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasSOAP_OnTopWithContact soap:OnTopWithContact)
+  ObjectAllValuesFrom (soap:hasSOAP_OnTopWithContact soap:OnTopWithContact)))
+
+Declaration(ObjectProperty(soap:hadByOnTopWithContact_SOAP))
+InverseObjectProperties(soap:hasSOAP_OnTopWithContact
+                        soap:hadByOnTopWithContact_SOAP)
+ObjectPropertyDomain(soap:hadByOnTopWithContact_SOAP soap:OnTopWithContact)
+ObjectPropertyRange(soap:hadByOnTopWithContact_SOAP soap:SOAP)
 
 
 
@@ -140,15 +170,175 @@ To represent a PDDL domain file, a Domain consists of the following:
       - :typing
       - :action-costs 
       - :fluents
-  - Variables: type of each variable used in the domain file.")
+  - Variables: type of each variable used in the domain file.
+  - Predicate
+  - Function
+  - Action")
 
 Declaration(DataProperty(soap:hasDomain_Requirement))
 DataPropertyDomain(soap:hasDomain_Requirement soap:Domain)
 DataPropertyRange(soap:hasDomain_Requirement xsd:NMTOKEN)
 
-Declaration(DataProperty(soap:hasDomain_VariableTypes))
-DataPropertyDomain(soap:hasDomain_VariableTypes soap:Domain)
-DataPropertyRange(soap:hasDomain_VariableTypes xsd:NMTOKEN)
+Declaration(DataProperty(soap:hasDomain_Variable))
+DataPropertyDomain(soap:hasDomain_Variable soap:Domain)
+DataPropertyRange(soap:hasDomain_Variable xsd:NMTOKEN)
+
+Declaration(ObjectProperty(soap:hasDomain_Predicate))
+ObjectPropertyDomain(soap:hasDomain_Predicate soap:Domain)
+ObjectPropertyRange(soap:hasDomain_Predicate soap:Predicate)
+InverseFunctionalObjectProperty(soap:hasDomain_Predicate)
+
+Declaration(ObjectProperty(soap:hadByPredicate_Domain))
+InverseObjectProperties(soap:hasDomain_Predicate
+                        soap:hadByPredicate_Domain)
+ObjectPropertyDomain(soap:hadByPredicate_Domain soap:Predicate)
+ObjectPropertyRange(soap:hadByPredicate_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_Function))
+ObjectPropertyDomain(soap:hasDomain_Function soap:Domain)
+ObjectPropertyRange(soap:hasDomain_Function soap:Function)
+InverseFunctionalObjectProperty(soap:hasDomain_Function)
+
+Declaration(ObjectProperty(soap:hadByFunction_Domain))
+InverseObjectProperties(soap:hasDomain_Function
+                        soap:hadByFunction_Domain)
+ObjectPropertyDomain(soap:hadByFunction_Domain soap:Function)
+ObjectPropertyRange(soap:hadByFunction_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_AttachEndEffector))
+ObjectPropertyDomain(soap:hasDomain_AttachEndEffector soap:Domain)
+ObjectPropertyRange(soap:hasDomain_AttachEndEffector soap:AttachEndEffector)
+InverseFunctionalObjectProperty(soap:hasDomain_AttachEndEffector)
+FunctionalObjectProperty(soap:hasDomain_AttachEndEffector)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_AttachEndEffector soap:AttachEndEffector)
+  ObjectAllValuesFrom (soap:hasDomain_AttachEndEffector soap:AttachEndEffector)))
+
+Declaration(ObjectProperty(soap:hadByAttachEndEffector_Domain))
+InverseObjectProperties(soap:hasDomain_AttachEndEffector
+                        soap:hadByAttachEndEffector_Domain)
+ObjectPropertyDomain(soap:hadByAttachEndEffector_Domain soap:AttachEndEffector)
+ObjectPropertyRange(soap:hadByAttachEndEffector_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_CreateKit))
+ObjectPropertyDomain(soap:hasDomain_CreateKit soap:Domain)
+ObjectPropertyRange(soap:hasDomain_CreateKit soap:CreateKit)
+InverseFunctionalObjectProperty(soap:hasDomain_CreateKit)
+FunctionalObjectProperty(soap:hasDomain_CreateKit)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_CreateKit soap:CreateKit)
+  ObjectAllValuesFrom (soap:hasDomain_CreateKit soap:CreateKit)))
+
+Declaration(ObjectProperty(soap:hadByCreateKit_Domain))
+InverseObjectProperties(soap:hasDomain_CreateKit
+                        soap:hadByCreateKit_Domain)
+ObjectPropertyDomain(soap:hadByCreateKit_Domain soap:CreateKit)
+ObjectPropertyRange(soap:hadByCreateKit_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_DetachEndEffector))
+ObjectPropertyDomain(soap:hasDomain_DetachEndEffector soap:Domain)
+ObjectPropertyRange(soap:hasDomain_DetachEndEffector soap:DetachEndEffector)
+InverseFunctionalObjectProperty(soap:hasDomain_DetachEndEffector)
+FunctionalObjectProperty(soap:hasDomain_DetachEndEffector)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_DetachEndEffector soap:DetachEndEffector)
+  ObjectAllValuesFrom (soap:hasDomain_DetachEndEffector soap:DetachEndEffector)))
+
+Declaration(ObjectProperty(soap:hadByDetachEndEffector_Domain))
+InverseObjectProperties(soap:hasDomain_DetachEndEffector
+                        soap:hadByDetachEndEffector_Domain)
+ObjectPropertyDomain(soap:hadByDetachEndEffector_Domain soap:DetachEndEffector)
+ObjectPropertyRange(soap:hadByDetachEndEffector_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_TakePart))
+ObjectPropertyDomain(soap:hasDomain_TakePart soap:Domain)
+ObjectPropertyRange(soap:hasDomain_TakePart soap:TakePart)
+InverseFunctionalObjectProperty(soap:hasDomain_TakePart)
+FunctionalObjectProperty(soap:hasDomain_TakePart)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_TakePart soap:TakePart)
+  ObjectAllValuesFrom (soap:hasDomain_TakePart soap:TakePart)))
+
+Declaration(ObjectProperty(soap:hadByTakePart_Domain))
+InverseObjectProperties(soap:hasDomain_TakePart
+                        soap:hadByTakePart_Domain)
+ObjectPropertyDomain(soap:hadByTakePart_Domain soap:TakePart)
+ObjectPropertyRange(soap:hadByTakePart_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_TakeKit))
+ObjectPropertyDomain(soap:hasDomain_TakeKit soap:Domain)
+ObjectPropertyRange(soap:hasDomain_TakeKit soap:TakeKit)
+InverseFunctionalObjectProperty(soap:hasDomain_TakeKit)
+FunctionalObjectProperty(soap:hasDomain_TakeKit)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_TakeKit soap:TakeKit)
+  ObjectAllValuesFrom (soap:hasDomain_TakeKit soap:TakeKit)))
+
+Declaration(ObjectProperty(soap:hadByTakeKit_Domain))
+InverseObjectProperties(soap:hasDomain_TakeKit
+                        soap:hadByTakeKit_Domain)
+ObjectPropertyDomain(soap:hadByTakeKit_Domain soap:TakeKit)
+ObjectPropertyRange(soap:hadByTakeKit_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_TakeKitTray))
+ObjectPropertyDomain(soap:hasDomain_TakeKitTray soap:Domain)
+ObjectPropertyRange(soap:hasDomain_TakeKitTray soap:TakeKitTray)
+InverseFunctionalObjectProperty(soap:hasDomain_TakeKitTray)
+FunctionalObjectProperty(soap:hasDomain_TakeKitTray)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_TakeKitTray soap:TakeKitTray)
+  ObjectAllValuesFrom (soap:hasDomain_TakeKitTray soap:TakeKitTray)))
+
+Declaration(ObjectProperty(soap:hadByTakeKitTray_Domain))
+InverseObjectProperties(soap:hasDomain_TakeKitTray
+                        soap:hadByTakeKitTray_Domain)
+ObjectPropertyDomain(soap:hadByTakeKitTray_Domain soap:TakeKitTray)
+ObjectPropertyRange(soap:hadByTakeKitTray_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_PutPart))
+ObjectPropertyDomain(soap:hasDomain_PutPart soap:Domain)
+ObjectPropertyRange(soap:hasDomain_PutPart soap:PutPart)
+InverseFunctionalObjectProperty(soap:hasDomain_PutPart)
+FunctionalObjectProperty(soap:hasDomain_PutPart)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_PutPart soap:PutPart)
+  ObjectAllValuesFrom (soap:hasDomain_PutPart soap:PutPart)))
+
+Declaration(ObjectProperty(soap:hadByPutPart_Domain))
+InverseObjectProperties(soap:hasDomain_PutPart
+                        soap:hadByPutPart_Domain)
+ObjectPropertyDomain(soap:hadByPutPart_Domain soap:PutPart)
+ObjectPropertyRange(soap:hadByPutPart_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_PutKit))
+ObjectPropertyDomain(soap:hasDomain_PutKit soap:Domain)
+ObjectPropertyRange(soap:hasDomain_PutKit soap:PutKit)
+InverseFunctionalObjectProperty(soap:hasDomain_PutKit)
+FunctionalObjectProperty(soap:hasDomain_PutKit)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_PutKit soap:PutKit)
+  ObjectAllValuesFrom (soap:hasDomain_PutKit soap:PutKit)))
+
+Declaration(ObjectProperty(soap:hadByPutKit_Domain))
+InverseObjectProperties(soap:hasDomain_PutKit
+                        soap:hadByPutKit_Domain)
+ObjectPropertyDomain(soap:hadByPutKit_Domain soap:PutKit)
+ObjectPropertyRange(soap:hadByPutKit_Domain soap:Domain)
+
+Declaration(ObjectProperty(soap:hasDomain_PutKitTray))
+ObjectPropertyDomain(soap:hasDomain_PutKitTray soap:Domain)
+ObjectPropertyRange(soap:hasDomain_PutKitTray soap:PutKitTray)
+InverseFunctionalObjectProperty(soap:hasDomain_PutKitTray)
+FunctionalObjectProperty(soap:hasDomain_PutKitTray)
+EquivalentClasses(soap:Domain ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDomain_PutKitTray soap:PutKitTray)
+  ObjectAllValuesFrom (soap:hasDomain_PutKitTray soap:PutKitTray)))
+
+Declaration(ObjectProperty(soap:hadByPutKitTray_Domain))
+InverseObjectProperties(soap:hasDomain_PutKitTray
+                        soap:hadByPutKitTray_Domain)
+ObjectPropertyDomain(soap:hadByPutKitTray_Domain soap:PutKitTray)
+ObjectPropertyRange(soap:hadByPutKitTray_Domain soap:Domain)
 
 
 
@@ -159,14 +349,11 @@ AnnotationAssertion(rdfs:comment soap:AttachEndEffector
 An instance of AttachEndEffector has the following:
   - Name (inherited)
   - Description (optional)
+  - RobotName
+  - EndEffectorName
+  - EndEffectorHolderName
   - Precondition
   - Effect
-  - RobotName
-  - RobotParameter (optional)
-  - EndEffectorName
-  - EndEffectorParameter (optional)
-  - EndEffectorHolderName
-  - EndEffectorHolderParameter (optional)
   
 Immediately before an instance of AttachEndEffector is executed:
   (1) The named robot must not have an end effector in its tool changer.
@@ -188,41 +375,37 @@ DataPropertyDomain(soap:hasAttachEndEffector_Description soap:AttachEndEffector)
 DataPropertyRange(soap:hasAttachEndEffector_Description xsd:string)
 FunctionalDataProperty(soap:hasAttachEndEffector_Description)
 
-
-Declaration(ObjectProperty(soap:hasAttachEndEffector_Robot))
-ObjectPropertyDomain(soap:hasAttachEndEffector_Robot soap:AttachEndEffector)
-ObjectPropertyRange(soap:hasAttachEndEffector_Robot ktw:Robot)
-FunctionalObjectProperty(soap:hasAttachEndEffector_Robot)
+Declaration(DataProperty(soap:hasAttachEndEffector_RobotParameter))
+DataPropertyDomain(soap:hasAttachEndEffector_RobotParameter soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasAttachEndEffector_RobotParameter)
 EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasAttachEndEffector_Robot ktw:Robot)
-  ObjectAllValuesFrom (soap:hasAttachEndEffector_Robot ktw:Robot)))
+  DataSomeValuesFrom(soap:hasAttachEndEffector_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasAttachEndEffector_RobotParameter xsd:NMTOKEN)))
 
-
-Declaration(ObjectProperty(soap:hasAttachEndEffector_EndEffector))
-ObjectPropertyDomain(soap:hasAttachEndEffector_EndEffector soap:AttachEndEffector)
-ObjectPropertyRange(soap:hasAttachEndEffector_EndEffector ktw:EndEffector)
-FunctionalObjectProperty(soap:hasAttachEndEffector_EndEffector)
+Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorParameter))
+DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorParameter soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_EndEffectorParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorParameter)
 EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasAttachEndEffector_EndEffector ktw:EndEffector)
-  ObjectAllValuesFrom (soap:hasAttachEndEffector_EndEffector ktw:EndEffector)))
+  DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorParameter xsd:NMTOKEN)))
 
-
-Declaration(ObjectProperty(soap:hasAttachEndEffector_EndEffectorHolder))
-ObjectPropertyDomain(soap:hasAttachEndEffector_EndEffectorHolder soap:AttachEndEffector)
-ObjectPropertyRange(soap:hasAttachEndEffector_EndEffectorHolder ktw:EndEffectorHolder)
-FunctionalObjectProperty(soap:hasAttachEndEffector_EndEffectorHolder)
+Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorHolderParameter))
+DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorHolderParameter soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorHolderParameter)
 EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorHolder ktw:EndEffectorHolder)
-  ObjectAllValuesFrom (soap:hasAttachEndEffector_EndEffectorHolder ktw:EndEffectorHolder)))
+  DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)))
 
-
-Declaration(ObjectProperty(soap:hasAttachEndEffector_EndEffectorChangingStation))
-ObjectPropertyDomain(soap:hasAttachEndEffector_EndEffectorChangingStation soap:AttachEndEffector)
-ObjectPropertyRange(soap:hasAttachEndEffector_EndEffectorChangingStation ktw:EndEffectorChangingStation)
-FunctionalObjectProperty(soap:hasAttachEndEffector_EndEffectorChangingStation)
+Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorChangingStationParameter))
+DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorChangingStationParameter soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorChangingStationParameter)
 EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorChangingStation ktw:EndEffectorChangingStation)
-  ObjectAllValuesFrom (soap:hasAttachEndEffector_EndEffectorChangingStation ktw:EndEffectorChangingStation)))
+  DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)))
 
 Declaration(ObjectProperty(soap:hasAttachEndEffector_Precondition))
 ObjectPropertyDomain(soap:hasAttachEndEffector_Precondition soap:AttachEndEffector)
@@ -256,6 +439,370 @@ ObjectPropertyRange(soap:hadByEffect_AttachEndEffector soap:AttachEndEffector)
 
 
 
+Declaration(Class(soap:CreateKit))
+
+AnnotationAssertion(rdfs:comment soap:CreateKit
+  "CreateKit is derived from ActionBase.
+An instance of CreateKit has the following:
+  - Name (inherited)
+  - Description (optional)
+  - KitName
+  - KitTrayName
+  - WorkTableName
+  - Precondition
+  - Effect
+  
+  Immediately before an instance of CreateKit is executed:
+    (1) The named kit tray must not be in a kit.
+    (2) A kit with the given name must not exist.
+    
+    As an instance of CreateKit is executed:
+    A kit with the given name is created at the location of the kit
+    tray, and the location of the kit tray becomes relative to the kit,
+    in the same place relative to the kitting workstation as before.
+    The location of any parts in the kit tray becomes relative to the
+    kit.")
+
+Declaration(DataProperty(soap:hasCreateKit_Description))
+DataPropertyDomain(soap:hasCreateKit_Description soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_Description xsd:string)
+FunctionalDataProperty(soap:hasCreateKit_Description)
+
+Declaration(DataProperty(soap:hasCreateKit_KitParameter))
+DataPropertyDomain(soap:hasCreateKit_KitParameter soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_KitParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasCreateKit_KitParameter)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCreateKit_KitParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasCreateKit_KitParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasCreateKit_KitTrayParameter))
+DataPropertyDomain(soap:hasCreateKit_KitTrayParameter soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_KitTrayParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasCreateKit_KitTrayParameter)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCreateKit_KitTrayParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasCreateKit_KitTrayParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasCreateKit_WorkTableParameter))
+DataPropertyDomain(soap:hasCreateKit_WorkTableParameter soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_WorkTableParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasCreateKit_WorkTableParameter)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCreateKit_WorkTableParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasCreateKit_WorkTableParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasCreateKit_Precondition))
+ObjectPropertyDomain(soap:hasCreateKit_Precondition soap:CreateKit)
+ObjectPropertyRange(soap:hasCreateKit_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasCreateKit_Precondition)
+FunctionalObjectProperty(soap:hasCreateKit_Precondition)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasCreateKit_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasCreateKit_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_CreateKit))
+InverseObjectProperties(soap:hasCreateKit_Precondition
+                        soap:hadByPrecondition_CreateKit)
+ObjectPropertyDomain(soap:hadByPrecondition_CreateKit soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_CreateKit soap:CreateKit)
+
+Declaration(ObjectProperty(soap:hasCreateKit_Effect))
+ObjectPropertyDomain(soap:hasCreateKit_Effect soap:CreateKit)
+ObjectPropertyRange(soap:hasCreateKit_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasCreateKit_Effect)
+FunctionalObjectProperty(soap:hasCreateKit_Effect)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasCreateKit_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasCreateKit_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_CreateKit))
+InverseObjectProperties(soap:hasCreateKit_Effect
+                        soap:hadByEffect_CreateKit)
+ObjectPropertyDomain(soap:hadByEffect_CreateKit soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_CreateKit soap:CreateKit)
+
+
+
+Declaration(Class(soap:DetachEndEffector))
+
+AnnotationAssertion(rdfs:comment soap:DetachEndEffector
+  "DetachEndEffector is derived from RobotActionBase.
+  
+An instance of DetachEndEffector has the following:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - EndEffectorName
+  - EndEffectorHolderName
+  - EndEffectorChangingStationName
+  - Precondition
+  - Effect
+  
+Immediately before an instance of DetachEndEffector is executed:
+  (1) The named robot must have the named end effector in its tool
+  changer.
+  (2) The end effector must be located relative to the robot.
+  (3) The end effector holder must be empty.
+ 
+As an instance of DetachEndEffector is executed:
+The robot moves to a position relative to the tool holder at which
+it can detach from the end effector. The robot opens the tool
+changer so as to detach the end effector. The location of the end
+effector changes from being relative to the robot to being relative
+to the end effector holder. The robot moves a small distance away
+from the end effector holder.")
+
+Declaration(DataProperty(soap:hasDetachEndEffector_Description))
+DataPropertyDomain(soap:hasDetachEndEffector_Description soap:DetachEndEffector)
+DataPropertyRange(soap:hasDetachEndEffector_Description xsd:string)
+FunctionalDataProperty(soap:hasDetachEndEffector_Description)
+
+Declaration(DataProperty(soap:hasDetachEndEffector_RobotParameter))
+DataPropertyDomain(soap:hasDetachEndEffector_RobotParameter soap:DetachEndEffector)
+DataPropertyRange(soap:hasDetachEndEffector_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasDetachEndEffector_RobotParameter)
+EquivalentClasses(soap:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasDetachEndEffector_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasDetachEndEffector_RobotParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasDetachEndEffector_EndEffectorParameter))
+DataPropertyDomain(soap:hasDetachEndEffector_EndEffectorParameter soap:DetachEndEffector)
+DataPropertyRange(soap:hasDetachEndEffector_EndEffectorParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasDetachEndEffector_EndEffectorParameter)
+EquivalentClasses(soap:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasDetachEndEffector_EndEffectorParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasDetachEndEffector_EndEffectorParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasDetachEndEffector_EndEffectorHolderParameter))
+DataPropertyDomain(soap:hasDetachEndEffector_EndEffectorHolderParameter soap:DetachEndEffector)
+DataPropertyRange(soap:hasDetachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasDetachEndEffector_EndEffectorHolderParameter)
+EquivalentClasses(soap:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasDetachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasDetachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasDetachEndEffector_EndEffectorChangingStationParameter))
+DataPropertyDomain(soap:hasDetachEndEffector_EndEffectorChangingStationParameter soap:DetachEndEffector)
+DataPropertyRange(soap:hasDetachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasDetachEndEffector_EndEffectorChangingStationParameter)
+EquivalentClasses(soap:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasDetachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasDetachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasDetachEndEffector_Precondition))
+ObjectPropertyDomain(soap:hasDetachEndEffector_Precondition soap:DetachEndEffector)
+ObjectPropertyRange(soap:hasDetachEndEffector_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasDetachEndEffector_Precondition)
+FunctionalObjectProperty(soap:hasDetachEndEffector_Precondition)
+EquivalentClasses(soap:DetachEndEffector ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDetachEndEffector_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasDetachEndEffector_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_DetachEndEffector))
+InverseObjectProperties(soap:hasDetachEndEffector_Precondition
+                        soap:hadByPrecondition_DetachEndEffector)
+ObjectPropertyDomain(soap:hadByPrecondition_DetachEndEffector soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_DetachEndEffector soap:DetachEndEffector)
+
+Declaration(ObjectProperty(soap:hasDetachEndEffector_Effect))
+ObjectPropertyDomain(soap:hasDetachEndEffector_Effect soap:DetachEndEffector)
+ObjectPropertyRange(soap:hasDetachEndEffector_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasDetachEndEffector_Effect)
+FunctionalObjectProperty(soap:hasDetachEndEffector_Effect)
+EquivalentClasses(soap:DetachEndEffector ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasDetachEndEffector_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasDetachEndEffector_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_DetachEndEffector))
+InverseObjectProperties(soap:hasDetachEndEffector_Effect
+                        soap:hadByEffect_DetachEndEffector)
+ObjectPropertyDomain(soap:hadByEffect_DetachEndEffector soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_DetachEndEffector soap:DetachEndEffector)
+
+
+
+Declaration(Class(soap:TakeKit))
+
+AnnotationAssertion(rdfs:comment soap:TakeKit
+  "TakeKit is derived from RobotActionBase.
+An instance of TakeKit has the following:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakeKit is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakeKit is executed:
+The robot moves to a position from which it may pick up the kit
+and closes the gripper on the kit. The kit is not moved but
+the location of the kit changes so that the kit is located
+relative to the gripper.")
+
+Declaration(DataProperty(soap:hasTakeKit_Description))
+DataPropertyDomain(soap:hasTakeKit_Description soap:TakeKit)
+DataPropertyRange(soap:hasTakeKit_Description xsd:string)
+FunctionalDataProperty(soap:hasTakeKit_Description)
+
+Declaration(DataProperty(soap:hasTakeKit_RobotParameter))
+DataPropertyDomain(soap:hasTakeKit_RobotParameter soap:TakeKit)
+DataPropertyRange(soap:hasTakeKit_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKit_RobotParameter)
+EquivalentClasses(soap:TakeKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKit_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKit_RobotParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasTakeKit_KitParameter))
+DataPropertyDomain(soap:hasTakeKit_KitParameter soap:TakeKit)
+DataPropertyRange(soap:hasTakeKit_KitParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKit_KitParameter)
+EquivalentClasses(soap:TakeKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKit_KitParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKit_KitParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasTakeKit_EndEffectorParameter))
+DataPropertyDomain(soap:hasTakeKit_EndEffectorParameter soap:TakeKit)
+DataPropertyRange(soap:hasTakeKit_EndEffectorParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKit_EndEffectorParameter)
+EquivalentClasses(soap:TakeKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKit_EndEffectorParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKit_EndEffectorParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasTakeKit_Precondition))
+ObjectPropertyDomain(soap:hasTakeKit_Precondition soap:TakeKit)
+ObjectPropertyRange(soap:hasTakeKit_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasTakeKit_Precondition)
+FunctionalObjectProperty(soap:hasTakeKit_Precondition)
+EquivalentClasses(soap:TakeKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasTakeKit_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasTakeKit_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_TakeKit))
+InverseObjectProperties(soap:hasTakeKit_Precondition
+                        soap:hadByPrecondition_TakeKit)
+ObjectPropertyDomain(soap:hadByPrecondition_TakeKit soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_TakeKit soap:TakeKit)
+
+Declaration(ObjectProperty(soap:hasTakeKit_Effect))
+ObjectPropertyDomain(soap:hasTakeKit_Effect soap:TakeKit)
+ObjectPropertyRange(soap:hasTakeKit_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasTakeKit_Effect)
+FunctionalObjectProperty(soap:hasTakeKit_Effect)
+EquivalentClasses(soap:TakeKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasTakeKit_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasTakeKit_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_TakeKit))
+InverseObjectProperties(soap:hasTakeKit_Effect
+                        soap:hadByEffect_TakeKit)
+ObjectPropertyDomain(soap:hadByEffect_TakeKit soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_TakeKit soap:TakeKit)
+
+
+
+Declaration(Class(soap:TakeKitTray))
+
+AnnotationAssertion(rdfs:comment soap:TakeKitTray
+  "TakeKitTray is derived from RobotActionBase.
+An instance of TakeKitTray has the following:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitTrayName
+  - LargeBoxWithEmptyKitTraysName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakeKitTray is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit tray.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakeKitTray is executed:
+The robot moves to a position from which it may pick up the kit tray
+and closes the gripper on the kit tray. The kit tray is not moved but
+the location of the kit tray changes so that the kit tray is located
+relative to the gripper.")
+
+Declaration(DataProperty(soap:hasTakeKitTray_Description))
+DataPropertyDomain(soap:hasTakeKitTray_Description soap:TakeKitTray)
+DataPropertyRange(soap:hasTakeKitTray_Description xsd:string)
+FunctionalDataProperty(soap:hasTakeKitTray_Description)
+
+Declaration(DataProperty(soap:hasTakeKitTray_RobotParameter))
+DataPropertyDomain(soap:hasTakeKitTray_RobotParameter soap:TakeKitTray)
+DataPropertyRange(soap:hasTakeKitTray_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKitTray_RobotParameter)
+EquivalentClasses(soap:TakeKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKitTray_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKitTray_RobotParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasTakeKitTray_KitTrayParameter))
+DataPropertyDomain(soap:hasTakeKitTray_KitTrayParameter soap:TakeKitTray)
+DataPropertyRange(soap:hasTakeKitTray_KitTrayParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKitTray_KitTrayParameter)
+EquivalentClasses(soap:TakeKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKitTray_KitTrayParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKitTray_KitTrayParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter))
+DataPropertyDomain(soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter soap:TakeKitTray)
+DataPropertyRange(soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter)
+EquivalentClasses(soap:TakeKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasTakeKitTray_EndEffectorParameter))
+DataPropertyDomain(soap:hasTakeKitTray_EndEffectorParameter soap:TakeKitTray)
+DataPropertyRange(soap:hasTakeKitTray_EndEffectorParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakeKitTray_EndEffectorParameter)
+EquivalentClasses(soap:TakeKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasTakeKitTray_EndEffectorParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakeKitTray_EndEffectorParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasTakeKitTray_Precondition))
+ObjectPropertyDomain(soap:hasTakeKitTray_Precondition soap:TakeKitTray)
+ObjectPropertyRange(soap:hasTakeKitTray_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasTakeKitTray_Precondition)
+FunctionalObjectProperty(soap:hasTakeKitTray_Precondition)
+EquivalentClasses(soap:TakeKitTray ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasTakeKitTray_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasTakeKitTray_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_TakeKitTray))
+InverseObjectProperties(soap:hasTakeKitTray_Precondition
+                        soap:hadByPrecondition_TakeKitTray)
+ObjectPropertyDomain(soap:hadByPrecondition_TakeKitTray soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_TakeKitTray soap:TakeKitTray)
+
+Declaration(ObjectProperty(soap:hasTakeKitTray_Effect))
+ObjectPropertyDomain(soap:hasTakeKitTray_Effect soap:TakeKitTray)
+ObjectPropertyRange(soap:hasTakeKitTray_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasTakeKitTray_Effect)
+FunctionalObjectProperty(soap:hasTakeKitTray_Effect)
+EquivalentClasses(soap:TakeKitTray ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasTakeKitTray_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasTakeKitTray_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_TakeKitTray))
+InverseObjectProperties(soap:hasTakeKitTray_Effect
+                        soap:hadByEffect_TakeKitTray)
+ObjectPropertyDomain(soap:hadByEffect_TakeKitTray soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_TakeKitTray soap:TakeKitTray)
+
+
+
 Declaration(Class(soap:TakePart))
 
 AnnotationAssertion(rdfs:comment soap:TakePart
@@ -263,12 +810,12 @@ AnnotationAssertion(rdfs:comment soap:TakePart
 An instance of TakePart has the following:
   - Name (inherited)
   - Description (optional)
+  - RobotName
+  - PartName
+  - PartsTrayName
+  - EndEffectorName
   - Precondition
   - Effect
-  - RobotName
-  - RobotParameter (optional)
-  - PartName
-  - PartParameter (optional)
  
 Immediately before an instance of TakePart is executed:
   (1) The named robot must have a gripper in its tool changer.
@@ -287,41 +834,37 @@ DataPropertyDomain(soap:hasTakePart_Description soap:TakePart)
 DataPropertyRange(soap:hasTakePart_Description xsd:string)
 FunctionalDataProperty(soap:hasTakePart_Description)
 
-
-Declaration(ObjectProperty(soap:hasTakePart_Robot))
-ObjectPropertyDomain(soap:hasTakePart_Robot soap:TakePart)
-ObjectPropertyRange(soap:hasTakePart_Robot ktw:Robot)
-FunctionalObjectProperty(soap:hasTakePart_Robot)
+Declaration(DataProperty(soap:hasTakePart_RobotParameter))
+DataPropertyDomain(soap:hasTakePart_RobotParameter soap:TakePart)
+DataPropertyRange(soap:hasTakePart_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakePart_RobotParameter)
 EquivalentClasses(soap:TakePart ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasTakePart_Robot ktw:Robot)
-  ObjectAllValuesFrom (soap:hasTakePart_Robot ktw:Robot)))
+  DataSomeValuesFrom(soap:hasTakePart_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakePart_RobotParameter xsd:NMTOKEN)))
 
-
-Declaration(ObjectProperty(soap:hasTakePart_Part))
-ObjectPropertyDomain(soap:hasTakePart_Part soap:TakePart)
-ObjectPropertyRange(soap:hasTakePart_Part ktw:Part)
-FunctionalObjectProperty(soap:hasTakePart_Part)
+Declaration(DataProperty(soap:hasTakePart_PartParameter))
+DataPropertyDomain(soap:hasTakePart_PartParameter soap:TakePart)
+DataPropertyRange(soap:hasTakePart_PartParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakePart_PartParameter)
 EquivalentClasses(soap:TakePart ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasTakePart_Part ktw:Part)
-  ObjectAllValuesFrom (soap:hasTakePart_Part ktw:Part)))
+  DataSomeValuesFrom(soap:hasTakePart_PartParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakePart_PartParameter xsd:NMTOKEN)))
 
-
-Declaration(ObjectProperty(soap:hasTakePart_PartsTray))
-ObjectPropertyDomain(soap:hasTakePart_PartsTray soap:TakePart)
-ObjectPropertyRange(soap:hasTakePart_PartsTray ktw:PartsTray)
-FunctionalObjectProperty(soap:hasTakePart_PartsTray)
+Declaration(DataProperty(soap:hasTakePart_PartsTrayParameter))
+DataPropertyDomain(soap:hasTakePart_PartsTrayParameter soap:TakePart)
+DataPropertyRange(soap:hasTakePart_PartsTrayParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakePart_PartsTrayParameter)
 EquivalentClasses(soap:TakePart ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasTakePart_PartsTray ktw:PartsTray)
-  ObjectAllValuesFrom (soap:hasTakePart_PartsTray ktw:PartsTray)))
+  DataSomeValuesFrom(soap:hasTakePart_PartsTrayParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakePart_PartsTrayParameter xsd:NMTOKEN)))
 
-
-Declaration(ObjectProperty(soap:hasTakePart_EndEffector))
-ObjectPropertyDomain(soap:hasTakePart_EndEffector soap:TakePart)
-ObjectPropertyRange(soap:hasTakePart_EndEffector ktw:EndEffector)
-FunctionalObjectProperty(soap:hasTakePart_EndEffector)
+Declaration(DataProperty(soap:hasTakePart_EndEffectorParameter))
+DataPropertyDomain(soap:hasTakePart_EndEffectorParameter soap:TakePart)
+DataPropertyRange(soap:hasTakePart_EndEffectorParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasTakePart_EndEffectorParameter)
 EquivalentClasses(soap:TakePart ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasTakePart_EndEffector ktw:EndEffector)
-  ObjectAllValuesFrom (soap:hasTakePart_EndEffector ktw:EndEffector)))
+  DataSomeValuesFrom(soap:hasTakePart_EndEffectorParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasTakePart_EndEffectorParameter xsd:NMTOKEN)))
 
 Declaration(ObjectProperty(soap:hasTakePart_Precondition))
 ObjectPropertyDomain(soap:hasTakePart_Precondition soap:TakePart)
@@ -355,6 +898,262 @@ ObjectPropertyRange(soap:hadByEffect_TakePart soap:TakePart)
 
 
 
+Declaration(Class(soap:PutKit))
+
+AnnotationAssertion(rdfs:comment soap:PutKit
+  "PutKit is derived from RobotActionBase.
+	
+An instance of PutKit has the following:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitName
+  - LargeBoxWithKitsName
+  - Precondition
+  - Effect
+ 
+When an instance of PutKit is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit.
+  (3) The gripper must be closed.
+  (4) The location of the kit should be relative to the gripper.
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit. The location of the kit
+  changes so that the kit is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.")
+
+Declaration(DataProperty(soap:hasPutKit_Description))
+DataPropertyDomain(soap:hasPutKit_Description soap:PutKit)
+DataPropertyRange(soap:hasPutKit_Description xsd:string)
+FunctionalDataProperty(soap:hasPutKit_Description)
+
+Declaration(DataProperty(soap:hasPutKit_RobotParameter))
+DataPropertyDomain(soap:hasPutKit_RobotParameter soap:PutKit)
+DataPropertyRange(soap:hasPutKit_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutKit_RobotParameter)
+EquivalentClasses(soap:PutKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutKit_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutKit_RobotParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPutKit_KitParameter))
+DataPropertyDomain(soap:hasPutKit_KitParameter soap:PutKit)
+DataPropertyRange(soap:hasPutKit_KitParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutKit_KitParameter)
+EquivalentClasses(soap:PutKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutKit_KitParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutKit_KitParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPutKit_LargeBoxWithKitsParameter))
+DataPropertyDomain(soap:hasPutKit_LargeBoxWithKitsParameter soap:PutKit)
+DataPropertyRange(soap:hasPutKit_LargeBoxWithKitsParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutKit_LargeBoxWithKitsParameter)
+EquivalentClasses(soap:PutKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutKit_LargeBoxWithKitsParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutKit_LargeBoxWithKitsParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasPutKit_Precondition))
+ObjectPropertyDomain(soap:hasPutKit_Precondition soap:PutKit)
+ObjectPropertyRange(soap:hasPutKit_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasPutKit_Precondition)
+FunctionalObjectProperty(soap:hasPutKit_Precondition)
+EquivalentClasses(soap:PutKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasPutKit_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasPutKit_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_PutKit))
+InverseObjectProperties(soap:hasPutKit_Precondition
+                        soap:hadByPrecondition_PutKit)
+ObjectPropertyDomain(soap:hadByPrecondition_PutKit soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_PutKit soap:PutKit)
+
+Declaration(ObjectProperty(soap:hasPutKit_Effect))
+ObjectPropertyDomain(soap:hasPutKit_Effect soap:PutKit)
+ObjectPropertyRange(soap:hasPutKit_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasPutKit_Effect)
+FunctionalObjectProperty(soap:hasPutKit_Effect)
+EquivalentClasses(soap:PutKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasPutKit_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasPutKit_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_PutKit))
+InverseObjectProperties(soap:hasPutKit_Effect
+                        soap:hadByEffect_PutKit)
+ObjectPropertyDomain(soap:hadByEffect_PutKit soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_PutKit soap:PutKit)
+
+
+
+Declaration(Class(soap:PutKitTray))
+
+AnnotationAssertion(rdfs:comment soap:PutKitTray
+  "PutKitTray is derived from RobotActionBase.
+An instance of PutKitTray has the following:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitTrayName
+  - Precondition
+  - Effect
+ 
+When an instance of PutKitTray is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit tray.
+  (3) The gripper must be closed.
+  (4) The location of the kit tray should be relative to the gripper. 
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit tray. The location of the kit tray
+  changes so that the kit tray is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.")
+
+Declaration(DataProperty(soap:hasPutKitTray_Description))
+DataPropertyDomain(soap:hasPutKitTray_Description soap:PutKitTray)
+DataPropertyRange(soap:hasPutKitTray_Description xsd:string)
+FunctionalDataProperty(soap:hasPutKitTray_Description)
+
+Declaration(DataProperty(soap:hasPutKitTray_RobotParameter))
+DataPropertyDomain(soap:hasPutKitTray_RobotParameter soap:PutKitTray)
+DataPropertyRange(soap:hasPutKitTray_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutKitTray_RobotParameter)
+EquivalentClasses(soap:PutKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutKitTray_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutKitTray_RobotParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPutKitTray_KitTrayParameter))
+DataPropertyDomain(soap:hasPutKitTray_KitTrayParameter soap:PutKitTray)
+DataPropertyRange(soap:hasPutKitTray_KitTrayParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutKitTray_KitTrayParameter)
+EquivalentClasses(soap:PutKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutKitTray_KitTrayParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutKitTray_KitTrayParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasPutKitTray_Precondition))
+ObjectPropertyDomain(soap:hasPutKitTray_Precondition soap:PutKitTray)
+ObjectPropertyRange(soap:hasPutKitTray_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasPutKitTray_Precondition)
+FunctionalObjectProperty(soap:hasPutKitTray_Precondition)
+EquivalentClasses(soap:PutKitTray ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasPutKitTray_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasPutKitTray_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_PutKitTray))
+InverseObjectProperties(soap:hasPutKitTray_Precondition
+                        soap:hadByPrecondition_PutKitTray)
+ObjectPropertyDomain(soap:hadByPrecondition_PutKitTray soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_PutKitTray soap:PutKitTray)
+
+Declaration(ObjectProperty(soap:hasPutKitTray_Effect))
+ObjectPropertyDomain(soap:hasPutKitTray_Effect soap:PutKitTray)
+ObjectPropertyRange(soap:hasPutKitTray_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasPutKitTray_Effect)
+FunctionalObjectProperty(soap:hasPutKitTray_Effect)
+EquivalentClasses(soap:PutKitTray ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasPutKitTray_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasPutKitTray_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_PutKitTray))
+InverseObjectProperties(soap:hasPutKitTray_Effect
+                        soap:hadByEffect_PutKitTray)
+ObjectPropertyDomain(soap:hadByEffect_PutKitTray soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_PutKitTray soap:PutKitTray)
+
+
+
+Declaration(Class(soap:PutPart))
+
+AnnotationAssertion(rdfs:comment soap:PutPart
+  "PutPart is derived from RobotActionBase.
+An instance of PutPart has the following:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - PartName
+  - KitName
+  - PartsTrayName
+  - Precondition
+  - Effect
+ 
+When an instance of PutPart is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named part.
+  (3) The gripper must be closed.
+  (4) The location of the part should be relative to the gripper.
+  The robot moves to the specified location at which it opens the 
+  gripper so as to release the part. The location of the part
+  changes so that the part is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.")
+
+Declaration(DataProperty(soap:hasPutPart_Description))
+DataPropertyDomain(soap:hasPutPart_Description soap:PutPart)
+DataPropertyRange(soap:hasPutPart_Description xsd:string)
+FunctionalDataProperty(soap:hasPutPart_Description)
+
+Declaration(DataProperty(soap:hasPutPart_RobotParameter))
+DataPropertyDomain(soap:hasPutPart_RobotParameter soap:PutPart)
+DataPropertyRange(soap:hasPutPart_RobotParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutPart_RobotParameter)
+EquivalentClasses(soap:PutPart ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutPart_RobotParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutPart_RobotParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPutPart_PartParameter))
+DataPropertyDomain(soap:hasPutPart_PartParameter soap:PutPart)
+DataPropertyRange(soap:hasPutPart_PartParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutPart_PartParameter)
+EquivalentClasses(soap:PutPart ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutPart_PartParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutPart_PartParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPutPart_KitParameter))
+DataPropertyDomain(soap:hasPutPart_KitParameter soap:PutPart)
+DataPropertyRange(soap:hasPutPart_KitParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutPart_KitParameter)
+EquivalentClasses(soap:PutPart ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutPart_KitParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutPart_KitParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPutPart_PartsTrayParameter))
+DataPropertyDomain(soap:hasPutPart_PartsTrayParameter soap:PutPart)
+DataPropertyRange(soap:hasPutPart_PartsTrayParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPutPart_PartsTrayParameter)
+EquivalentClasses(soap:PutPart ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPutPart_PartsTrayParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPutPart_PartsTrayParameter xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(soap:hasPutPart_Precondition))
+ObjectPropertyDomain(soap:hasPutPart_Precondition soap:PutPart)
+ObjectPropertyRange(soap:hasPutPart_Precondition soap:Precondition)
+InverseFunctionalObjectProperty(soap:hasPutPart_Precondition)
+FunctionalObjectProperty(soap:hasPutPart_Precondition)
+EquivalentClasses(soap:PutPart ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasPutPart_Precondition soap:Precondition)
+  ObjectAllValuesFrom (soap:hasPutPart_Precondition soap:Precondition)))
+
+Declaration(ObjectProperty(soap:hadByPrecondition_PutPart))
+InverseObjectProperties(soap:hasPutPart_Precondition
+                        soap:hadByPrecondition_PutPart)
+ObjectPropertyDomain(soap:hadByPrecondition_PutPart soap:Precondition)
+ObjectPropertyRange(soap:hadByPrecondition_PutPart soap:PutPart)
+
+Declaration(ObjectProperty(soap:hasPutPart_Effect))
+ObjectPropertyDomain(soap:hasPutPart_Effect soap:PutPart)
+ObjectPropertyRange(soap:hasPutPart_Effect soap:Effect)
+InverseFunctionalObjectProperty(soap:hasPutPart_Effect)
+FunctionalObjectProperty(soap:hasPutPart_Effect)
+EquivalentClasses(soap:PutPart ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasPutPart_Effect soap:Effect)
+  ObjectAllValuesFrom (soap:hasPutPart_Effect soap:Effect)))
+
+Declaration(ObjectProperty(soap:hadByEffect_PutPart))
+InverseObjectProperties(soap:hasPutPart_Effect
+                        soap:hadByEffect_PutPart)
+ObjectPropertyDomain(soap:hadByEffect_PutPart soap:Effect)
+ObjectPropertyRange(soap:hadByEffect_PutPart soap:PutPart)
+
+
+
 Declaration(Class(soap:Precondition))
 
 AnnotationAssertion(rdfs:comment soap:Precondition
@@ -368,28 +1167,16 @@ to be performed. It can consist of:
   - Optional instances of ActionBaseFunctionBool
 An instance of Precondition belongs to one instance of RobotActionBase or ActionBase.")
 
+
 Declaration(ObjectProperty(soap:hasPrecondition_Predicate))
 ObjectPropertyDomain(soap:hasPrecondition_Predicate soap:Precondition)
 ObjectPropertyRange(soap:hasPrecondition_Predicate soap:Predicate)
-InverseFunctionalObjectProperty(soap:hasPrecondition_Predicate)
 
-Declaration(ObjectProperty(soap:hadByPredicate_Precondition))
-InverseObjectProperties(soap:hasPrecondition_Predicate
-                        soap:hadByPredicate_Precondition)
-ObjectPropertyDomain(soap:hadByPredicate_Precondition soap:Predicate)
-ObjectPropertyRange(soap:hadByPredicate_Precondition soap:Precondition)
 
 Declaration(ObjectProperty(soap:hasPrecondition_Function))
 ObjectPropertyDomain(soap:hasPrecondition_Function soap:Precondition)
 ObjectPropertyRange(soap:hasPrecondition_Function soap:Function)
-InverseFunctionalObjectProperty(soap:hasPrecondition_Function)
 FunctionalObjectProperty(soap:hasPrecondition_Function)
-
-Declaration(ObjectProperty(soap:hadByFunction_Precondition))
-InverseObjectProperties(soap:hasPrecondition_Function
-                        soap:hadByFunction_Precondition)
-ObjectPropertyDomain(soap:hadByFunction_Precondition soap:Function)
-ObjectPropertyRange(soap:hadByFunction_Precondition soap:Precondition)
 
 Declaration(ObjectProperty(soap:hasPrecondition_FunctionOperation))
 ObjectPropertyDomain(soap:hasPrecondition_FunctionOperation soap:Precondition)
@@ -403,29 +1190,60 @@ InverseObjectProperties(soap:hasPrecondition_FunctionOperation
 ObjectPropertyDomain(soap:hadByFunctionOperation_Precondition soap:FunctionOperation)
 ObjectPropertyRange(soap:hadByFunctionOperation_Precondition soap:Precondition)
 
-Declaration(ObjectProperty(soap:hasPrecondition_FunctionToFunction))
-ObjectPropertyDomain(soap:hasPrecondition_FunctionToFunction soap:Precondition)
-ObjectPropertyRange(soap:hasPrecondition_FunctionToFunction soap:FunctionToFunctionBool)
-InverseFunctionalObjectProperty(soap:hasPrecondition_FunctionToFunction)
-FunctionalObjectProperty(soap:hasPrecondition_FunctionToFunction)
+Declaration(ObjectProperty(soap:hasPrecondition_F1LessF2))
+ObjectPropertyDomain(soap:hasPrecondition_F1LessF2 soap:Precondition)
+ObjectPropertyRange(soap:hasPrecondition_F1LessF2 soap:FunctionToFunctionLess)
+InverseFunctionalObjectProperty(soap:hasPrecondition_F1LessF2)
 
-Declaration(ObjectProperty(soap:hadByFunctionToFunction_Precondition))
-InverseObjectProperties(soap:hasPrecondition_FunctionToFunction
-                        soap:hadByFunctionToFunction_Precondition)
-ObjectPropertyDomain(soap:hadByFunctionToFunction_Precondition soap:FunctionToFunctionBool)
-ObjectPropertyRange(soap:hadByFunctionToFunction_Precondition soap:Precondition)
+Declaration(ObjectProperty(soap:hadByF1LessF2_Precondition))
+InverseObjectProperties(soap:hasPrecondition_F1LessF2
+                        soap:hadByF1LessF2_Precondition)
+ObjectPropertyDomain(soap:hadByF1LessF2_Precondition soap:FunctionToFunctionLess)
+ObjectPropertyRange(soap:hadByF1LessF2_Precondition soap:Precondition)
 
-Declaration(ObjectProperty(soap:hasPrecondition_FunctionToDecimal))
-ObjectPropertyDomain(soap:hasPrecondition_FunctionToDecimal soap:Precondition)
-ObjectPropertyRange(soap:hasPrecondition_FunctionToDecimal soap:FunctionToDecimalBool)
-InverseFunctionalObjectProperty(soap:hasPrecondition_FunctionToDecimal)
-FunctionalObjectProperty(soap:hasPrecondition_FunctionToDecimal)
+Declaration(ObjectProperty(soap:hasPrecondition_F1EqualF2))
+ObjectPropertyDomain(soap:hasPrecondition_F1EqualF2 soap:Precondition)
+ObjectPropertyRange(soap:hasPrecondition_F1EqualF2 soap:FunctionToFunctionEqual)
+InverseFunctionalObjectProperty(soap:hasPrecondition_F1EqualF2)
 
-Declaration(ObjectProperty(soap:hadByFunctionToDecimal_Precondition))
-InverseObjectProperties(soap:hasPrecondition_FunctionToDecimal
-                        soap:hadByFunctionToDecimal_Precondition)
-ObjectPropertyDomain(soap:hadByFunctionToDecimal_Precondition soap:FunctionToDecimalBool)
-ObjectPropertyRange(soap:hadByFunctionToDecimal_Precondition soap:Precondition)
+Declaration(ObjectProperty(soap:hadByF1EqualF2_Precondition))
+InverseObjectProperties(soap:hasPrecondition_F1EqualF2
+                        soap:hadByF1EqualF2_Precondition)
+ObjectPropertyDomain(soap:hadByF1EqualF2_Precondition soap:FunctionToFunctionEqual)
+ObjectPropertyRange(soap:hadByF1EqualF2_Precondition soap:Precondition)
+
+Declaration(ObjectProperty(soap:hasPrecondition_F1GreaterOrEqualF2))
+ObjectPropertyDomain(soap:hasPrecondition_F1GreaterOrEqualF2 soap:Precondition)
+ObjectPropertyRange(soap:hasPrecondition_F1GreaterOrEqualF2 soap:FunctionToFunctionGreaterOrEqual)
+InverseFunctionalObjectProperty(soap:hasPrecondition_F1GreaterOrEqualF2)
+
+Declaration(ObjectProperty(soap:hadByF1GreaterOrEqualF2_Precondition))
+InverseObjectProperties(soap:hasPrecondition_F1GreaterOrEqualF2
+                        soap:hadByF1GreaterOrEqualF2_Precondition)
+ObjectPropertyDomain(soap:hadByF1GreaterOrEqualF2_Precondition soap:FunctionToFunctionGreaterOrEqual)
+ObjectPropertyRange(soap:hadByF1GreaterOrEqualF2_Precondition soap:Precondition)
+
+Declaration(ObjectProperty(soap:hasPrecondition_F1GreaterF2))
+ObjectPropertyDomain(soap:hasPrecondition_F1GreaterF2 soap:Precondition)
+ObjectPropertyRange(soap:hasPrecondition_F1GreaterF2 soap:FunctionToFunctionGreater)
+InverseFunctionalObjectProperty(soap:hasPrecondition_F1GreaterF2)
+
+Declaration(ObjectProperty(soap:hadByF1GreaterF2_Precondition))
+InverseObjectProperties(soap:hasPrecondition_F1GreaterF2
+                        soap:hadByF1GreaterF2_Precondition)
+ObjectPropertyDomain(soap:hadByF1GreaterF2_Precondition soap:FunctionToFunctionGreater)
+ObjectPropertyRange(soap:hadByF1GreaterF2_Precondition soap:Precondition)
+
+Declaration(ObjectProperty(soap:hasPrecondition_F1LessOrEqualF2))
+ObjectPropertyDomain(soap:hasPrecondition_F1LessOrEqualF2 soap:Precondition)
+ObjectPropertyRange(soap:hasPrecondition_F1LessOrEqualF2 soap:FunctionToFunctionLessOrEqual)
+InverseFunctionalObjectProperty(soap:hasPrecondition_F1LessOrEqualF2)
+
+Declaration(ObjectProperty(soap:hadByF1LessOrEqualF2_Precondition))
+InverseObjectProperties(soap:hasPrecondition_F1LessOrEqualF2
+                        soap:hadByF1LessOrEqualF2_Precondition)
+ObjectPropertyDomain(soap:hadByF1LessOrEqualF2_Precondition soap:FunctionToFunctionLessOrEqual)
+ObjectPropertyRange(soap:hadByF1LessOrEqualF2_Precondition soap:Precondition)
 
 
 
@@ -442,43 +1260,27 @@ An instance of Effect can consist of:
 	
 	An instance of Effect belongs to one instance of RobotActionBase or ActionBase.")
 
+
 Declaration(ObjectProperty(soap:hasEffect_Predicate))
 ObjectPropertyDomain(soap:hasEffect_Predicate soap:Effect)
 ObjectPropertyRange(soap:hasEffect_Predicate soap:Predicate)
-InverseFunctionalObjectProperty(soap:hasEffect_Predicate)
 
-Declaration(ObjectProperty(soap:hadByPredicate_Effect))
-InverseObjectProperties(soap:hasEffect_Predicate
-                        soap:hadByPredicate_Effect)
-ObjectPropertyDomain(soap:hadByPredicate_Effect soap:Predicate)
-ObjectPropertyRange(soap:hadByPredicate_Effect soap:Effect)
 
 Declaration(ObjectProperty(soap:hasEffect_NotPredicate))
 ObjectPropertyDomain(soap:hasEffect_NotPredicate soap:Effect)
-ObjectPropertyRange(soap:hasEffect_NotPredicate soap:NotPredicate)
-InverseFunctionalObjectProperty(soap:hasEffect_NotPredicate)
+ObjectPropertyRange(soap:hasEffect_NotPredicate soap:Predicate)
 
-Declaration(ObjectProperty(soap:hadByNotPredicate_Effect))
-InverseObjectProperties(soap:hasEffect_NotPredicate
-                        soap:hadByNotPredicate_Effect)
-ObjectPropertyDomain(soap:hadByNotPredicate_Effect soap:NotPredicate)
-ObjectPropertyRange(soap:hadByNotPredicate_Effect soap:Effect)
 
 Declaration(ObjectProperty(soap:hasEffect_Function))
 ObjectPropertyDomain(soap:hasEffect_Function soap:Effect)
 ObjectPropertyRange(soap:hasEffect_Function soap:Function)
-InverseFunctionalObjectProperty(soap:hasEffect_Function)
-
-Declaration(ObjectProperty(soap:hadByFunction_Effect))
-InverseObjectProperties(soap:hasEffect_Function
-                        soap:hadByFunction_Effect)
-ObjectPropertyDomain(soap:hadByFunction_Effect soap:Function)
-ObjectPropertyRange(soap:hadByFunction_Effect soap:Effect)
+FunctionalObjectProperty(soap:hasEffect_Function)
 
 Declaration(ObjectProperty(soap:hasEffect_FunctionOperation))
 ObjectPropertyDomain(soap:hasEffect_FunctionOperation soap:Effect)
 ObjectPropertyRange(soap:hasEffect_FunctionOperation soap:FunctionOperation)
 InverseFunctionalObjectProperty(soap:hasEffect_FunctionOperation)
+FunctionalObjectProperty(soap:hasEffect_FunctionOperation)
 
 Declaration(ObjectProperty(soap:hadByFunctionOperation_Effect))
 InverseObjectProperties(soap:hasEffect_FunctionOperation
@@ -486,27 +1288,60 @@ InverseObjectProperties(soap:hasEffect_FunctionOperation
 ObjectPropertyDomain(soap:hadByFunctionOperation_Effect soap:FunctionOperation)
 ObjectPropertyRange(soap:hadByFunctionOperation_Effect soap:Effect)
 
-Declaration(ObjectProperty(soap:hasEffect_FunctionToFunctionBool))
-ObjectPropertyDomain(soap:hasEffect_FunctionToFunctionBool soap:Effect)
-ObjectPropertyRange(soap:hasEffect_FunctionToFunctionBool soap:FunctionToFunctionBool)
-InverseFunctionalObjectProperty(soap:hasEffect_FunctionToFunctionBool)
+Declaration(ObjectProperty(soap:hasEffect_F1LessF2))
+ObjectPropertyDomain(soap:hasEffect_F1LessF2 soap:Effect)
+ObjectPropertyRange(soap:hasEffect_F1LessF2 soap:FunctionToFunctionLess)
+InverseFunctionalObjectProperty(soap:hasEffect_F1LessF2)
 
-Declaration(ObjectProperty(soap:hadByFunctionToFunctionBool_Effect))
-InverseObjectProperties(soap:hasEffect_FunctionToFunctionBool
-                        soap:hadByFunctionToFunctionBool_Effect)
-ObjectPropertyDomain(soap:hadByFunctionToFunctionBool_Effect soap:FunctionToFunctionBool)
-ObjectPropertyRange(soap:hadByFunctionToFunctionBool_Effect soap:Effect)
+Declaration(ObjectProperty(soap:hadByF1LessF2_Effect))
+InverseObjectProperties(soap:hasEffect_F1LessF2
+                        soap:hadByF1LessF2_Effect)
+ObjectPropertyDomain(soap:hadByF1LessF2_Effect soap:FunctionToFunctionLess)
+ObjectPropertyRange(soap:hadByF1LessF2_Effect soap:Effect)
 
-Declaration(ObjectProperty(soap:hasEffect_FunctionToDecimalBool))
-ObjectPropertyDomain(soap:hasEffect_FunctionToDecimalBool soap:Effect)
-ObjectPropertyRange(soap:hasEffect_FunctionToDecimalBool soap:FunctionToDecimalBool)
-InverseFunctionalObjectProperty(soap:hasEffect_FunctionToDecimalBool)
+Declaration(ObjectProperty(soap:hasEffect_F1EqualF2))
+ObjectPropertyDomain(soap:hasEffect_F1EqualF2 soap:Effect)
+ObjectPropertyRange(soap:hasEffect_F1EqualF2 soap:FunctionToFunctionEqual)
+InverseFunctionalObjectProperty(soap:hasEffect_F1EqualF2)
 
-Declaration(ObjectProperty(soap:hadByFunctionToDecimalBool_Effect))
-InverseObjectProperties(soap:hasEffect_FunctionToDecimalBool
-                        soap:hadByFunctionToDecimalBool_Effect)
-ObjectPropertyDomain(soap:hadByFunctionToDecimalBool_Effect soap:FunctionToDecimalBool)
-ObjectPropertyRange(soap:hadByFunctionToDecimalBool_Effect soap:Effect)
+Declaration(ObjectProperty(soap:hadByF1EqualF2_Effect))
+InverseObjectProperties(soap:hasEffect_F1EqualF2
+                        soap:hadByF1EqualF2_Effect)
+ObjectPropertyDomain(soap:hadByF1EqualF2_Effect soap:FunctionToFunctionEqual)
+ObjectPropertyRange(soap:hadByF1EqualF2_Effect soap:Effect)
+
+Declaration(ObjectProperty(soap:hasEffect_F1GreaterOrEqualF2))
+ObjectPropertyDomain(soap:hasEffect_F1GreaterOrEqualF2 soap:Effect)
+ObjectPropertyRange(soap:hasEffect_F1GreaterOrEqualF2 soap:FunctionToFunctionGreaterOrEqual)
+InverseFunctionalObjectProperty(soap:hasEffect_F1GreaterOrEqualF2)
+
+Declaration(ObjectProperty(soap:hadByF1GreaterOrEqualF2_Effect))
+InverseObjectProperties(soap:hasEffect_F1GreaterOrEqualF2
+                        soap:hadByF1GreaterOrEqualF2_Effect)
+ObjectPropertyDomain(soap:hadByF1GreaterOrEqualF2_Effect soap:FunctionToFunctionGreaterOrEqual)
+ObjectPropertyRange(soap:hadByF1GreaterOrEqualF2_Effect soap:Effect)
+
+Declaration(ObjectProperty(soap:hasEffect_F1GreaterF2))
+ObjectPropertyDomain(soap:hasEffect_F1GreaterF2 soap:Effect)
+ObjectPropertyRange(soap:hasEffect_F1GreaterF2 soap:FunctionToFunctionGreater)
+InverseFunctionalObjectProperty(soap:hasEffect_F1GreaterF2)
+
+Declaration(ObjectProperty(soap:hadByF1GreaterF2_Effect))
+InverseObjectProperties(soap:hasEffect_F1GreaterF2
+                        soap:hadByF1GreaterF2_Effect)
+ObjectPropertyDomain(soap:hadByF1GreaterF2_Effect soap:FunctionToFunctionGreater)
+ObjectPropertyRange(soap:hadByF1GreaterF2_Effect soap:Effect)
+
+Declaration(ObjectProperty(soap:hasEffect_F1LessOrEqualF2))
+ObjectPropertyDomain(soap:hasEffect_F1LessOrEqualF2 soap:Effect)
+ObjectPropertyRange(soap:hasEffect_F1LessOrEqualF2 soap:FunctionToFunctionLessOrEqual)
+InverseFunctionalObjectProperty(soap:hasEffect_F1LessOrEqualF2)
+
+Declaration(ObjectProperty(soap:hadByF1LessOrEqualF2_Effect))
+InverseObjectProperties(soap:hasEffect_F1LessOrEqualF2
+                        soap:hadByF1LessOrEqualF2_Effect)
+ObjectPropertyDomain(soap:hadByF1LessOrEqualF2_Effect soap:FunctionToFunctionLessOrEqual)
+ObjectPropertyRange(soap:hadByF1LessOrEqualF2_Effect soap:Effect)
 
 
 
@@ -555,53 +1390,24 @@ AnnotationAssertion(rdfs:comment soap:PredicateGroupElement
 	the second parameter in the Predicate’s parameter list. 
 	In the case where an Predicate has only one parameter, it is assigned to the reference parameter.")
 
-
-Declaration(ObjectProperty(soap:hasPredicateGroupElement_Reference))
-ObjectPropertyDomain(soap:hasPredicateGroupElement_Reference soap:PredicateGroupElement)
-ObjectPropertyRange(soap:hasPredicateGroupElement_Reference ktw:SolidObject)
-FunctionalObjectProperty(soap:hasPredicateGroupElement_Reference)
+Declaration(DataProperty(soap:hasPredicateGroupElement_ReferenceName))
+DataPropertyDomain(soap:hasPredicateGroupElement_ReferenceName soap:PredicateGroupElement)
+DataPropertyRange(soap:hasPredicateGroupElement_ReferenceName xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPredicateGroupElement_ReferenceName)
 EquivalentClasses(soap:PredicateGroupElement ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasPredicateGroupElement_Reference ktw:SolidObject)
-  ObjectAllValuesFrom (soap:hasPredicateGroupElement_Reference ktw:SolidObject)))
+  DataSomeValuesFrom(soap:hasPredicateGroupElement_ReferenceName xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPredicateGroupElement_ReferenceName xsd:NMTOKEN)))
 
+Declaration(DataProperty(soap:hasPredicateGroupElement_TargetName))
+DataPropertyDomain(soap:hasPredicateGroupElement_TargetName soap:PredicateGroupElement)
+DataPropertyRange(soap:hasPredicateGroupElement_TargetName xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPredicateGroupElement_TargetName)
 
-Declaration(ObjectProperty(soap:hasPredicateGroupElement_Target))
-ObjectPropertyDomain(soap:hasPredicateGroupElement_Target soap:PredicateGroupElement)
-ObjectPropertyRange(soap:hasPredicateGroupElement_Target ktw:SolidObject)
-FunctionalObjectProperty(soap:hasPredicateGroupElement_Target)
 
 Declaration(ObjectProperty(soap:hasPredicateGroupElement_StateRelation))
 ObjectPropertyDomain(soap:hasPredicateGroupElement_StateRelation soap:PredicateGroupElement)
 ObjectPropertyRange(soap:hasPredicateGroupElement_StateRelation soap:StateRelation)
-InverseFunctionalObjectProperty(soap:hasPredicateGroupElement_StateRelation)
 FunctionalObjectProperty(soap:hasPredicateGroupElement_StateRelation)
-
-Declaration(ObjectProperty(soap:hadByStateRelation_PredicateGroupElement))
-InverseObjectProperties(soap:hasPredicateGroupElement_StateRelation
-                        soap:hadByStateRelation_PredicateGroupElement)
-ObjectPropertyDomain(soap:hadByStateRelation_PredicateGroupElement soap:StateRelation)
-ObjectPropertyRange(soap:hadByStateRelation_PredicateGroupElement soap:PredicateGroupElement)
-
-
-
-Declaration(Class(soap:NotPredicate))
-
-AnnotationAssertion(rdfs:comment soap:NotPredicate
-  "NotPredicate is derived from DataThing and represents the negation of a Predicate.
-  An instance of NotPredicate has the following:
-	- Name (inherited)
-	- Predicate.
- 
-  Predicate is the Predicate to be negated.")
-
-
-Declaration(ObjectProperty(soap:hasNotPredicate_Predicate))
-ObjectPropertyDomain(soap:hasNotPredicate_Predicate soap:NotPredicate)
-ObjectPropertyRange(soap:hasNotPredicate_Predicate soap:Predicate)
-FunctionalObjectProperty(soap:hasNotPredicate_Predicate)
-EquivalentClasses(soap:NotPredicate ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasNotPredicate_Predicate soap:Predicate)
-  ObjectAllValuesFrom (soap:hasNotPredicate_Predicate soap:Predicate)))
 
 
 
@@ -632,20 +1438,10 @@ EquivalentClasses(soap:Function ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasFunction_ReferenceName xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasFunction_ReferenceName xsd:NMTOKEN)))
 
-Declaration(DataProperty(soap:hasFunction_ReferenceParameterType))
-DataPropertyDomain(soap:hasFunction_ReferenceParameterType soap:Function)
-DataPropertyRange(soap:hasFunction_ReferenceParameterType xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasFunction_ReferenceParameterType)
-
 Declaration(DataProperty(soap:hasFunction_TargetName))
 DataPropertyDomain(soap:hasFunction_TargetName soap:Function)
 DataPropertyRange(soap:hasFunction_TargetName xsd:NMTOKEN)
 FunctionalDataProperty(soap:hasFunction_TargetName)
-
-Declaration(DataProperty(soap:hasFunction_TargetParameterType))
-DataPropertyDomain(soap:hasFunction_TargetParameterType soap:Function)
-DataPropertyRange(soap:hasFunction_TargetParameterType xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasFunction_TargetParameterType)
 
 
 
@@ -660,20 +1456,14 @@ AnnotationAssertion(rdfs:comment soap:FunctionOperation
 	- An Expression that changes the value of an ActionBaseFunction: 'decrease'
 	- A Value used by the Expression to change the original value of an ActionBaseFunction: '1'")
 
-Declaration(ObjectProperty(soap:hasFunctionOperation_ActionBaseFunction))
-ObjectPropertyDomain(soap:hasFunctionOperation_ActionBaseFunction soap:FunctionOperation)
-ObjectPropertyRange(soap:hasFunctionOperation_ActionBaseFunction soap:Function)
-InverseFunctionalObjectProperty(soap:hasFunctionOperation_ActionBaseFunction)
-FunctionalObjectProperty(soap:hasFunctionOperation_ActionBaseFunction)
-EquivalentClasses(soap:FunctionOperation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasFunctionOperation_ActionBaseFunction soap:Function)
-  ObjectAllValuesFrom (soap:hasFunctionOperation_ActionBaseFunction soap:Function)))
 
-Declaration(ObjectProperty(soap:hadByActionBaseFunction_FunctionOperation))
-InverseObjectProperties(soap:hasFunctionOperation_ActionBaseFunction
-                        soap:hadByActionBaseFunction_FunctionOperation)
-ObjectPropertyDomain(soap:hadByActionBaseFunction_FunctionOperation soap:Function)
-ObjectPropertyRange(soap:hadByActionBaseFunction_FunctionOperation soap:FunctionOperation)
+Declaration(ObjectProperty(soap:hasFunctionOperation_Function))
+ObjectPropertyDomain(soap:hasFunctionOperation_Function soap:FunctionOperation)
+ObjectPropertyRange(soap:hasFunctionOperation_Function soap:Function)
+FunctionalObjectProperty(soap:hasFunctionOperation_Function)
+EquivalentClasses(soap:FunctionOperation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasFunctionOperation_Function soap:Function)
+  ObjectAllValuesFrom (soap:hasFunctionOperation_Function soap:Function)))
 
 Declaration(DataProperty(soap:hasFunctionOperation_Expression))
 DataPropertyDomain(soap:hasFunctionOperation_Expression soap:FunctionOperation)
@@ -685,11 +1475,11 @@ EquivalentClasses(soap:FunctionOperation ObjectIntersectionOf(
 
 Declaration(DataProperty(soap:hasFunctionOperation_Value))
 DataPropertyDomain(soap:hasFunctionOperation_Value soap:FunctionOperation)
-DataPropertyRange(soap:hasFunctionOperation_Value xsd:decimal)
+DataPropertyRange(soap:hasFunctionOperation_Value xsd:positiveInteger)
 FunctionalDataProperty(soap:hasFunctionOperation_Value)
 EquivalentClasses(soap:FunctionOperation ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasFunctionOperation_Value xsd:decimal)
-  DataAllValuesFrom (soap:hasFunctionOperation_Value xsd:decimal)))
+  DataSomeValuesFrom(soap:hasFunctionOperation_Value xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasFunctionOperation_Value xsd:positiveInteger)))
 
 
 
@@ -730,35 +1520,23 @@ DisjointUnion(soap:FunctionToFunctionBool
               soap:FunctionToFunctionLessOrEqual
               soap:FunctionToFunctionLess)
 
+
 Declaration(ObjectProperty(soap:hasFunctionToFunctionBool_F1))
 ObjectPropertyDomain(soap:hasFunctionToFunctionBool_F1 soap:FunctionToFunctionBool)
 ObjectPropertyRange(soap:hasFunctionToFunctionBool_F1 soap:Function)
-InverseFunctionalObjectProperty(soap:hasFunctionToFunctionBool_F1)
 FunctionalObjectProperty(soap:hasFunctionToFunctionBool_F1)
 EquivalentClasses(soap:FunctionToFunctionBool ObjectIntersectionOf(
   ObjectSomeValuesFrom(soap:hasFunctionToFunctionBool_F1 soap:Function)
   ObjectAllValuesFrom (soap:hasFunctionToFunctionBool_F1 soap:Function)))
 
-Declaration(ObjectProperty(soap:hadByF1_FunctionToFunctionBool))
-InverseObjectProperties(soap:hasFunctionToFunctionBool_F1
-                        soap:hadByF1_FunctionToFunctionBool)
-ObjectPropertyDomain(soap:hadByF1_FunctionToFunctionBool soap:Function)
-ObjectPropertyRange(soap:hadByF1_FunctionToFunctionBool soap:FunctionToFunctionBool)
 
 Declaration(ObjectProperty(soap:hasFunctionToFunctionBool_F2))
 ObjectPropertyDomain(soap:hasFunctionToFunctionBool_F2 soap:FunctionToFunctionBool)
 ObjectPropertyRange(soap:hasFunctionToFunctionBool_F2 soap:Function)
-InverseFunctionalObjectProperty(soap:hasFunctionToFunctionBool_F2)
 FunctionalObjectProperty(soap:hasFunctionToFunctionBool_F2)
 EquivalentClasses(soap:FunctionToFunctionBool ObjectIntersectionOf(
   ObjectSomeValuesFrom(soap:hasFunctionToFunctionBool_F2 soap:Function)
   ObjectAllValuesFrom (soap:hasFunctionToFunctionBool_F2 soap:Function)))
-
-Declaration(ObjectProperty(soap:hadByF2_FunctionToFunctionBool))
-InverseObjectProperties(soap:hasFunctionToFunctionBool_F2
-                        soap:hadByF2_FunctionToFunctionBool)
-ObjectPropertyDomain(soap:hadByF2_FunctionToFunctionBool soap:Function)
-ObjectPropertyRange(soap:hadByF2_FunctionToFunctionBool soap:FunctionToFunctionBool)
 
 
 
@@ -797,20 +1575,14 @@ DisjointUnion(soap:FunctionToDecimalBool
               soap:FunctionToDecimalLessOrEqual
               soap:FunctionToDecimalLess)
 
+
 Declaration(ObjectProperty(soap:hasFunctionToDecimalBool_F1))
 ObjectPropertyDomain(soap:hasFunctionToDecimalBool_F1 soap:FunctionToDecimalBool)
 ObjectPropertyRange(soap:hasFunctionToDecimalBool_F1 soap:Function)
-InverseFunctionalObjectProperty(soap:hasFunctionToDecimalBool_F1)
 FunctionalObjectProperty(soap:hasFunctionToDecimalBool_F1)
 EquivalentClasses(soap:FunctionToDecimalBool ObjectIntersectionOf(
   ObjectSomeValuesFrom(soap:hasFunctionToDecimalBool_F1 soap:Function)
   ObjectAllValuesFrom (soap:hasFunctionToDecimalBool_F1 soap:Function)))
-
-Declaration(ObjectProperty(soap:hadByF1_FunctionToDecimalBool))
-InverseObjectProperties(soap:hasFunctionToDecimalBool_F1
-                        soap:hadByF1_FunctionToDecimalBool)
-ObjectPropertyDomain(soap:hadByF1_FunctionToDecimalBool soap:Function)
-ObjectPropertyRange(soap:hadByF1_FunctionToDecimalBool soap:FunctionToDecimalBool)
 
 Declaration(DataProperty(soap:hasFunctionToDecimalBool_A1))
 DataPropertyDomain(soap:hasFunctionToDecimalBool_A1 soap:FunctionToDecimalBool)
@@ -836,20 +1608,7 @@ AnnotationAssertion(rdfs:comment soap:FunctionBooleanExpression
   DataThing
   |-FunctionBooleanExpression
     |-FunctionToFunctionBool
-    | |-FunctionToFunctionEqual
-    | |-FunctionToFunctionGreaterOrEqual
-    | |-FunctionToFunctionGreater
-    | |-FunctionToFunctionLessOrEqual
-    | |-FunctionToFunctionLess
-    | |-FunctionToFunctionNotEqual
-	  
-	  |-FunctionToDecimalBool
-    | |-FunctionToArithmeticEqual
-    | |-FunctionToArithmeticGreaterOrEqual
-    | |-FunctionToArithmeticGreater
-    | |-FunctionToArithmeticLessOrEqual
-    | |-FunctionToArithmeticLess
-    | |-FunctionToArithmeticNotEqual")
+	  |-FunctionToDecimalBool")
 
 SubClassOf(soap:FunctionToDecimalBool soap:FunctionBooleanExpression)
 SubClassOf(soap:FunctionToFunctionBool soap:FunctionBooleanExpression)
@@ -1019,149 +1778,149 @@ AnnotationAssertion(rdfs:comment soap:OrderingConstruct
 	  |-Exist
 	  |-OrderedList")
 
-SubClassOf(soap:AnyOrder soap:OrderingConstruct)
-SubClassOf(soap:Count soap:OrderingConstruct)
-SubClassOf(soap:Exist soap:OrderingConstruct)
-SubClassOf(soap:OrderedList soap:OrderingConstruct)
+SubClassOf(soap:AnyOrderOrderingConstruct soap:OrderingConstruct)
+SubClassOf(soap:CountOrderingConstruct soap:OrderingConstruct)
+SubClassOf(soap:ExistOrderingConstruct soap:OrderingConstruct)
+SubClassOf(soap:OrderedListOrderingConstruct soap:OrderingConstruct)
 DisjointUnion(soap:OrderingConstruct
-              soap:AnyOrder
-              soap:Count
-              soap:Exist
-              soap:OrderedList)
+              soap:AnyOrderOrderingConstruct
+              soap:CountOrderingConstruct
+              soap:ExistOrderingConstruct
+              soap:OrderedListOrderingConstruct)
 
 
 
-Declaration(Class(soap:AnyOrder))
+Declaration(Class(soap:AnyOrderOrderingConstruct))
 
-AnnotationAssertion(rdfs:comment soap:AnyOrder
+AnnotationAssertion(rdfs:comment soap:AnyOrderOrderingConstruct
   "AnyOrder is derived from OrderingConstruct.
 	AnyOrder consists of:
 	- Name (inherited)
 	- One or multiple instances of Count
 	- The position of AnyOrder within an OrderedList")
 
-Declaration(ObjectProperty(soap:hasAnyOrder_Count))
-ObjectPropertyDomain(soap:hasAnyOrder_Count soap:AnyOrder)
-ObjectPropertyRange(soap:hasAnyOrder_Count soap:Count)
-InverseFunctionalObjectProperty(soap:hasAnyOrder_Count)
-FunctionalObjectProperty(soap:hasAnyOrder_Count)
-EquivalentClasses(soap:AnyOrder ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasAnyOrder_Count soap:Count)
-  ObjectAllValuesFrom (soap:hasAnyOrder_Count soap:Count)))
+Declaration(ObjectProperty(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct))
+ObjectPropertyDomain(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct soap:AnyOrderOrderingConstruct)
+ObjectPropertyRange(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct soap:CountOrderingConstruct)
+InverseFunctionalObjectProperty(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct)
+FunctionalObjectProperty(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct)
+EquivalentClasses(soap:AnyOrderOrderingConstruct ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct soap:CountOrderingConstruct)
+  ObjectAllValuesFrom (soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct soap:CountOrderingConstruct)))
 
-Declaration(ObjectProperty(soap:hadByCount_AnyOrder))
-InverseObjectProperties(soap:hasAnyOrder_Count
-                        soap:hadByCount_AnyOrder)
-ObjectPropertyDomain(soap:hadByCount_AnyOrder soap:Count)
-ObjectPropertyRange(soap:hadByCount_AnyOrder soap:AnyOrder)
+Declaration(ObjectProperty(soap:hadByCountOrderingConstruct_AnyOrderOrderingConstruct))
+InverseObjectProperties(soap:hasAnyOrderOrderingConstruct_CountOrderingConstruct
+                        soap:hadByCountOrderingConstruct_AnyOrderOrderingConstruct)
+ObjectPropertyDomain(soap:hadByCountOrderingConstruct_AnyOrderOrderingConstruct soap:CountOrderingConstruct)
+ObjectPropertyRange(soap:hadByCountOrderingConstruct_AnyOrderOrderingConstruct soap:AnyOrderOrderingConstruct)
 
-Declaration(DataProperty(soap:hasAnyOrder_PositionInOrderedList))
-DataPropertyDomain(soap:hasAnyOrder_PositionInOrderedList soap:AnyOrder)
-DataPropertyRange(soap:hasAnyOrder_PositionInOrderedList xsd:positiveInteger)
-FunctionalDataProperty(soap:hasAnyOrder_PositionInOrderedList)
-EquivalentClasses(soap:AnyOrder ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasAnyOrder_PositionInOrderedList xsd:positiveInteger)
-  DataAllValuesFrom (soap:hasAnyOrder_PositionInOrderedList xsd:positiveInteger)))
+Declaration(DataProperty(soap:hasAnyOrderOrderingConstruct_PositionInOrderedList))
+DataPropertyDomain(soap:hasAnyOrderOrderingConstruct_PositionInOrderedList soap:AnyOrderOrderingConstruct)
+DataPropertyRange(soap:hasAnyOrderOrderingConstruct_PositionInOrderedList xsd:positiveInteger)
+FunctionalDataProperty(soap:hasAnyOrderOrderingConstruct_PositionInOrderedList)
+EquivalentClasses(soap:AnyOrderOrderingConstruct ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasAnyOrderOrderingConstruct_PositionInOrderedList xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasAnyOrderOrderingConstruct_PositionInOrderedList xsd:positiveInteger)))
 
 
 
-Declaration(Class(soap:Count))
+Declaration(Class(soap:CountOrderingConstruct))
 
-AnnotationAssertion(rdfs:comment soap:Count
+AnnotationAssertion(rdfs:comment soap:CountOrderingConstruct
   "Count is derived from OrderingConstruct.
 	Count consists of:
 	- Name (inherited)
 	- An Predicate 
 	- The occurrence of Predicate")
 
-Declaration(ObjectProperty(soap:hasCount_Predicate))
-ObjectPropertyDomain(soap:hasCount_Predicate soap:Count)
-ObjectPropertyRange(soap:hasCount_Predicate soap:Predicate)
-InverseFunctionalObjectProperty(soap:hasCount_Predicate)
-FunctionalObjectProperty(soap:hasCount_Predicate)
-EquivalentClasses(soap:Count ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasCount_Predicate soap:Predicate)
-  ObjectAllValuesFrom (soap:hasCount_Predicate soap:Predicate)))
+Declaration(ObjectProperty(soap:hasCountOrderingConstruct_Predicate))
+ObjectPropertyDomain(soap:hasCountOrderingConstruct_Predicate soap:CountOrderingConstruct)
+ObjectPropertyRange(soap:hasCountOrderingConstruct_Predicate soap:Predicate)
+InverseFunctionalObjectProperty(soap:hasCountOrderingConstruct_Predicate)
+FunctionalObjectProperty(soap:hasCountOrderingConstruct_Predicate)
+EquivalentClasses(soap:CountOrderingConstruct ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasCountOrderingConstruct_Predicate soap:Predicate)
+  ObjectAllValuesFrom (soap:hasCountOrderingConstruct_Predicate soap:Predicate)))
 
-Declaration(ObjectProperty(soap:hadByPredicate_Count))
-InverseObjectProperties(soap:hasCount_Predicate
-                        soap:hadByPredicate_Count)
-ObjectPropertyDomain(soap:hadByPredicate_Count soap:Predicate)
-ObjectPropertyRange(soap:hadByPredicate_Count soap:Count)
+Declaration(ObjectProperty(soap:hadByPredicate_CountOrderingConstruct))
+InverseObjectProperties(soap:hasCountOrderingConstruct_Predicate
+                        soap:hadByPredicate_CountOrderingConstruct)
+ObjectPropertyDomain(soap:hadByPredicate_CountOrderingConstruct soap:Predicate)
+ObjectPropertyRange(soap:hadByPredicate_CountOrderingConstruct soap:CountOrderingConstruct)
 
-Declaration(DataProperty(soap:hasCount_PredicateOccurrence))
-DataPropertyDomain(soap:hasCount_PredicateOccurrence soap:Count)
-DataPropertyRange(soap:hasCount_PredicateOccurrence xsd:positiveInteger)
-FunctionalDataProperty(soap:hasCount_PredicateOccurrence)
-EquivalentClasses(soap:Count ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasCount_PredicateOccurrence xsd:positiveInteger)
-  DataAllValuesFrom (soap:hasCount_PredicateOccurrence xsd:positiveInteger)))
+Declaration(DataProperty(soap:hasCountOrderingConstruct_PredicateOccurrence))
+DataPropertyDomain(soap:hasCountOrderingConstruct_PredicateOccurrence soap:CountOrderingConstruct)
+DataPropertyRange(soap:hasCountOrderingConstruct_PredicateOccurrence xsd:positiveInteger)
+FunctionalDataProperty(soap:hasCountOrderingConstruct_PredicateOccurrence)
+EquivalentClasses(soap:CountOrderingConstruct ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCountOrderingConstruct_PredicateOccurrence xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasCountOrderingConstruct_PredicateOccurrence xsd:positiveInteger)))
 
 
 
-Declaration(Class(soap:Exist))
+Declaration(Class(soap:ExistOrderingConstruct))
 
-AnnotationAssertion(rdfs:comment soap:Exist
+AnnotationAssertion(rdfs:comment soap:ExistOrderingConstruct
   "Exist is derived from OrderingConstruct.
 	Exist consists of:
 	- Name (inherited)
 	- An Predicate")
 
-Declaration(ObjectProperty(soap:hasExist_Predicate))
-ObjectPropertyDomain(soap:hasExist_Predicate soap:Exist)
-ObjectPropertyRange(soap:hasExist_Predicate soap:Predicate)
-InverseFunctionalObjectProperty(soap:hasExist_Predicate)
-FunctionalObjectProperty(soap:hasExist_Predicate)
-EquivalentClasses(soap:Exist ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasExist_Predicate soap:Predicate)
-  ObjectAllValuesFrom (soap:hasExist_Predicate soap:Predicate)))
+Declaration(ObjectProperty(soap:hasExistOrderingConstruct_Predicate))
+ObjectPropertyDomain(soap:hasExistOrderingConstruct_Predicate soap:ExistOrderingConstruct)
+ObjectPropertyRange(soap:hasExistOrderingConstruct_Predicate soap:Predicate)
+InverseFunctionalObjectProperty(soap:hasExistOrderingConstruct_Predicate)
+FunctionalObjectProperty(soap:hasExistOrderingConstruct_Predicate)
+EquivalentClasses(soap:ExistOrderingConstruct ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasExistOrderingConstruct_Predicate soap:Predicate)
+  ObjectAllValuesFrom (soap:hasExistOrderingConstruct_Predicate soap:Predicate)))
 
-Declaration(ObjectProperty(soap:hadByPredicate_Exist))
-InverseObjectProperties(soap:hasExist_Predicate
-                        soap:hadByPredicate_Exist)
-ObjectPropertyDomain(soap:hadByPredicate_Exist soap:Predicate)
-ObjectPropertyRange(soap:hadByPredicate_Exist soap:Exist)
+Declaration(ObjectProperty(soap:hadByPredicate_ExistOrderingConstruct))
+InverseObjectProperties(soap:hasExistOrderingConstruct_Predicate
+                        soap:hadByPredicate_ExistOrderingConstruct)
+ObjectPropertyDomain(soap:hadByPredicate_ExistOrderingConstruct soap:Predicate)
+ObjectPropertyRange(soap:hadByPredicate_ExistOrderingConstruct soap:ExistOrderingConstruct)
 
 
 
-Declaration(Class(soap:OrderedList))
+Declaration(Class(soap:OrderedListOrderingConstruct))
 
-AnnotationAssertion(rdfs:comment soap:OrderedList
+AnnotationAssertion(rdfs:comment soap:OrderedListOrderingConstruct
   "OrderedList is derived from OrderingConstruct.
 	OrderedList consists of:
 	- Name (inherited)
 	- An Exist
 	- An AnyOrder")
 
-Declaration(ObjectProperty(soap:hasOrderedList_Exist))
-ObjectPropertyDomain(soap:hasOrderedList_Exist soap:OrderedList)
-ObjectPropertyRange(soap:hasOrderedList_Exist soap:Exist)
-InverseFunctionalObjectProperty(soap:hasOrderedList_Exist)
-FunctionalObjectProperty(soap:hasOrderedList_Exist)
-EquivalentClasses(soap:OrderedList ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasOrderedList_Exist soap:Exist)
-  ObjectAllValuesFrom (soap:hasOrderedList_Exist soap:Exist)))
+Declaration(ObjectProperty(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct))
+ObjectPropertyDomain(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct soap:OrderedListOrderingConstruct)
+ObjectPropertyRange(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct soap:ExistOrderingConstruct)
+InverseFunctionalObjectProperty(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct)
+FunctionalObjectProperty(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct)
+EquivalentClasses(soap:OrderedListOrderingConstruct ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct soap:ExistOrderingConstruct)
+  ObjectAllValuesFrom (soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct soap:ExistOrderingConstruct)))
 
-Declaration(ObjectProperty(soap:hadByExist_OrderedList))
-InverseObjectProperties(soap:hasOrderedList_Exist
-                        soap:hadByExist_OrderedList)
-ObjectPropertyDomain(soap:hadByExist_OrderedList soap:Exist)
-ObjectPropertyRange(soap:hadByExist_OrderedList soap:OrderedList)
+Declaration(ObjectProperty(soap:hadByExistOrderingConstruct_OrderedListOrderingConstruct))
+InverseObjectProperties(soap:hasOrderedListOrderingConstruct_ExistOrderingConstruct
+                        soap:hadByExistOrderingConstruct_OrderedListOrderingConstruct)
+ObjectPropertyDomain(soap:hadByExistOrderingConstruct_OrderedListOrderingConstruct soap:ExistOrderingConstruct)
+ObjectPropertyRange(soap:hadByExistOrderingConstruct_OrderedListOrderingConstruct soap:OrderedListOrderingConstruct)
 
-Declaration(ObjectProperty(soap:hasOrderedList_AnyOrder))
-ObjectPropertyDomain(soap:hasOrderedList_AnyOrder soap:OrderedList)
-ObjectPropertyRange(soap:hasOrderedList_AnyOrder soap:AnyOrder)
-InverseFunctionalObjectProperty(soap:hasOrderedList_AnyOrder)
-FunctionalObjectProperty(soap:hasOrderedList_AnyOrder)
-EquivalentClasses(soap:OrderedList ObjectIntersectionOf(
-  ObjectSomeValuesFrom(soap:hasOrderedList_AnyOrder soap:AnyOrder)
-  ObjectAllValuesFrom (soap:hasOrderedList_AnyOrder soap:AnyOrder)))
+Declaration(ObjectProperty(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct))
+ObjectPropertyDomain(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct soap:OrderedListOrderingConstruct)
+ObjectPropertyRange(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct soap:AnyOrderOrderingConstruct)
+InverseFunctionalObjectProperty(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct)
+FunctionalObjectProperty(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct)
+EquivalentClasses(soap:OrderedListOrderingConstruct ObjectIntersectionOf(
+  ObjectSomeValuesFrom(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct soap:AnyOrderOrderingConstruct)
+  ObjectAllValuesFrom (soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct soap:AnyOrderOrderingConstruct)))
 
-Declaration(ObjectProperty(soap:hadByAnyOrder_OrderedList))
-InverseObjectProperties(soap:hasOrderedList_AnyOrder
-                        soap:hadByAnyOrder_OrderedList)
-ObjectPropertyDomain(soap:hadByAnyOrder_OrderedList soap:AnyOrder)
-ObjectPropertyRange(soap:hadByAnyOrder_OrderedList soap:OrderedList)
+Declaration(ObjectProperty(soap:hadByAnyOrderOrderingConstruct_OrderedListOrderingConstruct))
+InverseObjectProperties(soap:hasOrderedListOrderingConstruct_AnyOrderOrderingConstruct
+                        soap:hadByAnyOrderOrderingConstruct_OrderedListOrderingConstruct)
+ObjectPropertyDomain(soap:hadByAnyOrderOrderingConstruct_OrderedListOrderingConstruct soap:AnyOrderOrderingConstruct)
+ObjectPropertyRange(soap:hadByAnyOrderOrderingConstruct_OrderedListOrderingConstruct soap:OrderedListOrderingConstruct)
 
 
 
@@ -1251,9 +2010,21 @@ AnnotationAssertion(rdfs:comment soap:RobotActionBase
   The RobotActionBase defines the base type for robot actions.")
 
 SubClassOf(soap:AttachEndEffector soap:RobotActionBase)
+SubClassOf(soap:DetachEndEffector soap:RobotActionBase)
+SubClassOf(soap:PutKitTray soap:RobotActionBase)
+SubClassOf(soap:PutKit soap:RobotActionBase)
+SubClassOf(soap:PutPart soap:RobotActionBase)
+SubClassOf(soap:TakeKitTray soap:RobotActionBase)
+SubClassOf(soap:TakeKit soap:RobotActionBase)
 SubClassOf(soap:TakePart soap:RobotActionBase)
 DisjointUnion(soap:RobotActionBase
               soap:AttachEndEffector
+              soap:DetachEndEffector
+              soap:PutKitTray
+              soap:PutKit
+              soap:PutPart
+              soap:TakeKitTray
+              soap:TakeKit
               soap:TakePart)
 
 
@@ -1279,7 +2050,11 @@ ActionBase has the following derivation hierarchy:
     | |-TakeKitTray
     | |-TakePart")
 
+SubClassOf(soap:CreateKit soap:ActionBase)
 SubClassOf(soap:RobotActionBase soap:ActionBase)
+DisjointUnion(soap:ActionBase
+              soap:CreateKit
+              soap:RobotActionBase)
 
 DisjointClasses(ktw:DataThing
                 ktw:SolidObject)

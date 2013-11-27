@@ -205,7 +205,6 @@ SubClassOf(soap:FunctionBooleanExpression ktw:DataThing)
 SubClassOf(soap:FunctionOperation ktw:DataThing)
 SubClassOf(soap:Function ktw:DataThing)
 SubClassOf(ktw:KitDesign ktw:DataThing)
-SubClassOf(soap:NotPredicate ktw:DataThing)
 SubClassOf(soap:OrderingConstruct ktw:DataThing)
 SubClassOf(ktw:PartRefAndPose ktw:DataThing)
 SubClassOf(ktw:PhysicalLocation ktw:DataThing)
@@ -228,7 +227,6 @@ DisjointUnion(ktw:DataThing
               soap:FunctionOperation
               soap:Function
               ktw:KitDesign
-              soap:NotPredicate
               soap:OrderingConstruct
               ktw:PartRefAndPose
               ktw:PhysicalLocation

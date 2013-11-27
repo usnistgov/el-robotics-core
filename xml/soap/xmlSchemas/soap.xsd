@@ -42,21 +42,21 @@
           <xsd:element name="KittingWorkstation"
             type="KittingWorkstationType"
             minOccurs="1"/>
-          <xsd:element name="TakePart"
-            type="TakePartType"
-            minOccurs="1"
-            maxOccurs="unbounded"/>
           <xsd:element name="Domain"
             type="DomainType"
-            minOccurs="0"/>
-          <xsd:element name="Predicate"
-            type="PredicateType"
-            minOccurs="0"
-            maxOccurs="unbounded"/>
-          <xsd:element name="Function"
-            type="FunctionType"
-            minOccurs="0"
-            maxOccurs="unbounded"/>
+            minOccurs="1"/>
+          <xsd:element name="InContactWith"
+            type="InContactWithType"
+            minOccurs="1"/>
+          <xsd:element name="UnderWithContact"
+            type="UnderWithContactType"
+            minOccurs="1"/>
+          <xsd:element name="PartiallyIn"
+            type="PartiallyInType"
+            minOccurs="1"/>
+          <xsd:element name="OnTopWithContact"
+            type="OnTopWithContactType"
+            minOccurs="1"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -93,6 +93,9 @@ To represent a PDDL domain file, a DomainType consists of the following elements
       - :action-costs 
       - :fluents
   - VariableTypes: type of each variable used in the domain file.
+  - Predicate
+  - Function
+  - Action
      </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
@@ -101,9 +104,42 @@ To represent a PDDL domain file, a DomainType consists of the following elements
           <xsd:element name="Requirement"
             type="xsd:NMTOKEN"
             maxOccurs="unbounded"/>
-          <xsd:element name="VariableTypes"
+          <xsd:element name="Variable"
             type="xsd:NMTOKEN"
             maxOccurs="unbounded"/>
+          <xsd:element name="Predicate"
+            type="PredicateType"
+            maxOccurs="unbounded"/>
+          <xsd:element name="Function"
+            type="FunctionType"
+            maxOccurs="unbounded"/>
+          <xsd:element name="AttachEndEffector"
+            type="AttachEndEffectorType"
+            minOccurs="1"/>
+          <xsd:element name="CreateKit"
+            type="CreateKitType"
+            minOccurs="1"/>
+          <xsd:element name="DetachEndEffector"
+            type="DetachEndEffectorType"
+            minOccurs="1"/>
+          <xsd:element name="TakePart"
+            type="TakePartType"
+            minOccurs="1"/>
+          <xsd:element name="TakeKit"
+            type="TakeKitType"
+            minOccurs="1"/>
+          <xsd:element name="TakeKitTray"
+            type="TakeKitTrayType"
+            minOccurs="1"/>
+          <xsd:element name="PutPart"
+            type="PutPartType"
+            minOccurs="1"/>
+          <xsd:element name="PutKit"
+            type="PutKitType"
+            minOccurs="1"/>
+          <xsd:element name="PutKitTray"
+            type="PutKitTrayType"
+            minOccurs="1"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -116,14 +152,11 @@ To represent a PDDL domain file, a DomainType consists of the following elements
 An instance of AttachEndEffectorType has the following elements:
   - Name (inherited)
   - Description (optional)
+  - RobotName
+  - EndEffectorName
+  - EndEffectorHolderName
   - Precondition
   - Effect
-  - RobotName
-  - RobotParameterType (optional)
-  - EndEffectorName
-  - EndEffectorParameterType (optional)
-  - EndEffectorHolderName
-  - EndEffectorHolderParameterType (optional)
   
 Immediately before an instance of AttachEndEffectorType is executed:
   (1) The named robot must not have an end effector in its tool changer.
@@ -148,30 +181,219 @@ longer indicates that there is an end effector in the holder.
           <xsd:element name="Description"
             type="xsd:string"
             minOccurs="0"/>
-          <xsd:element name="RobotName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>RobotType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="EndEffectorName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>EndEffectorType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="EndEffectorHolderName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>EndEffectorHolderType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="EndEffectorChangingStationName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>EndEffectorChangingStationType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorHolderParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorChangingStationParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreateKitType">
+    <xsd:annotation>
+      <xsd:documentation>
+	CreateKitType is derived from ActionBaseType.
+An instance of CreateKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - KitName
+  - KitTrayName
+  - WorkTableName
+  - Precondition
+  - Effect
+  
+  Immediately before an instance of CreateKitType is executed:
+    (1) The named kit tray must not be in a kit.
+    (2) A kit with the given name must not exist.
+    
+    As an instance of CreateKitType is executed:
+    A kit with the given name is created at the location of the kit
+    tray, and the location of the kit tray becomes relative to the kit,
+    in the same place relative to the kitting workstation as before.
+    The location of any parts in the kit tray becomes relative to the
+    kit.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="KitParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="KitTrayParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="WorkTableParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="DetachEndEffectorType">
+    <xsd:annotation>
+      <xsd:documentation>
+        DetachEndEffectorType is derived from RobotActionBaseType.
+        
+An instance of DetachEndEffectorType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - EndEffectorName
+  - EndEffectorHolderName
+  - EndEffectorChangingStationName
+  - Precondition
+  - Effect
+  
+Immediately before an instance of DetachEndEffectorType is executed:
+  (1) The named robot must have the named end effector in its tool
+  changer.
+  (2) The end effector must be located relative to the robot.
+  (3) The end effector holder must be empty.
+ 
+As an instance of DetachEndEffectorType is executed:
+The robot moves to a position relative to the tool holder at which
+it can detach from the end effector. The robot opens the tool
+changer so as to detach the end effector. The location of the end
+effector changes from being relative to the robot to being relative
+to the end effector holder. The robot moves a small distance away
+from the end effector holder.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorHolderParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorChangingStationParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="TakeKitType">
+    <xsd:annotation>
+      <xsd:documentation>
+        TakeKitType is derived from RobotActionBaseType.
+An instance of TakeKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakeKitType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakeKitType is executed:
+The robot moves to a position from which it may pick up the kit
+and closes the gripper on the kit. The kit is not moved but
+the location of the kit changes so that the kit is located
+relative to the gripper.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="KitParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="TakeKitTrayType">
+    <xsd:annotation>
+      <xsd:documentation>
+	TakeKitTrayType is derived from RobotActionBaseType.
+
+An instance of TakeKitTrayType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitTrayName
+  - LargeBoxWithEmptyKitTraysName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakeKitTrayType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit tray.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakeKitTrayType is executed:
+The robot moves to a position from which it may pick up the kit tray
+and closes the gripper on the kit tray. The kit tray is not moved but
+the location of the kit tray changes so that the kit tray is located
+relative to the gripper.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="KitTrayParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="LargeBoxWithEmptyKitTraysParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorParameter"
+            type="xsd:NMTOKEN"/>
           <xsd:element name="Precondition"
             type="PreconditionType"
             minOccurs="1"/>
@@ -191,12 +413,12 @@ longer indicates that there is an end effector in the holder.
 An instance of TakePartType has the following elements:
   - Name (inherited)
   - Description (optional)
+  - RobotName
+  - PartName
+  - PartsTrayName
+  - EndEffectorName
   - Precondition
   - Effect
-  - RobotName
-  - RobotParameterType (optional)
-  - PartName
-  - PartParameterType (optional)
  
 Immediately before an instance of TakePartType is executed:
   (1) The named robot must have a gripper in its tool changer.
@@ -217,30 +439,161 @@ relative to the gripper.
           <xsd:element name="Description"
             type="xsd:string"
             minOccurs="0"/>
-          <xsd:element name="RobotName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>RobotType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="PartName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>PartType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="PartsTrayName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>PartsTrayType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="EndEffectorName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>EndEffectorType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="PartParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="PartsTrayParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="EndEffectorParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PutKitType">
+    <xsd:annotation>
+      <xsd:documentation>
+	PutKitType is derived from RobotActionBaseType.
+	
+An instance of PutKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitName
+  - LargeBoxWithKitsName
+  - Precondition
+  - Effect
+ 
+When an instance of PutKitType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit.
+  (3) The gripper must be closed.
+  (4) The location of the kit should be relative to the gripper.
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit. The location of the kit
+  changes so that the kit is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="KitParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="LargeBoxWithKitsParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PutKitTrayType">
+    <xsd:annotation>
+      <xsd:documentation>
+        PutKitTrayType is derived from RobotActionBaseType.
+
+An instance of PutKitTrayType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitTrayName
+  - Precondition
+  - Effect
+ 
+When an instance of PutKitTrayType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit tray.
+  (3) The gripper must be closed.
+  (4) The location of the kit tray should be relative to the gripper. 
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit tray. The location of the kit tray
+  changes so that the kit tray is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="KitTrayParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xsd:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PutPartType">
+    <xsd:annotation>
+      <xsd:documentation>
+        PutPartType is derived from RobotActionBaseType.
+
+An instance of PutPartType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - PartName
+  - KitName
+  - PartsTrayName
+  - Precondition
+  - Effect
+ 
+When an instance of PutPartType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named part.
+  (3) The gripper must be closed.
+  (4) The location of the part should be relative to the gripper.
+  The robot moves to the specified location at which it opens the 
+  gripper so as to release the part. The location of the part
+  changes so that the part is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="RobotActionBaseType">
+        <xsd:sequence>
+          <xsd:element name="Description"
+            type="xsd:string"
+            minOccurs="0"/>
+          <xsd:element name="RobotParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="PartParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="KitParameter"
+            type="xsd:NMTOKEN"/>
+          <xsd:element name="PartsTrayParameter"
+            type="xsd:NMTOKEN"/>
           <xsd:element name="Precondition"
             type="PreconditionType"
             minOccurs="1"/>
@@ -270,22 +623,44 @@ An instance of PreconditionType belongs to one instance of RobotActionBaseType o
     <xsd:complexContent>
       <xsd:extension base="DataThingType">
         <xsd:sequence>
-          <xsd:element name="Predicate"
-            type="PredicateType"
+          <xsd:element name="PredicateName"
+            type="xsd:IDREF"
             minOccurs="1"
-            maxOccurs="unbounded"/>
-          <xsd:element name="Function"
-            type="FunctionType"
-            minOccurs="0"/>
+            maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:appinfo>PredicateType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="FunctionName"
+            type="xsd:IDREF"
+            minOccurs="0">
+            <xsd:annotation>
+              <xsd:appinfo>FunctionType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
           <xsd:element name="FunctionOperation"
             type="FunctionOperationType"
             minOccurs="0"/>
-          <xsd:element name="FunctionToFunction"
-            type="FunctionToFunctionBoolType"
-            minOccurs="0"/>
-          <xsd:element name="FunctionToDecimal"
-            type="FunctionToDecimalBoolType"
-            minOccurs="0"/>
+          <xsd:element name="F1LessF2"
+            type="FunctionToFunctionLessType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="F1EqualF2"
+            type="FunctionToFunctionEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="F1GreaterOrEqualF2"
+            type="FunctionToFunctionGreaterOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="F1GreaterF2"
+            type="FunctionToFunctionGreaterType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="F1LessOrEqualF2"
+            type="FunctionToFunctionLessOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -309,28 +684,50 @@ An instance of EffectType can consist of:
     <xsd:complexContent>
       <xsd:extension base="DataThingType">
         <xsd:sequence>
-          <xsd:element name="Predicate"
-            type="PredicateType"
+          <xsd:element name="PredicateName"
+            type="xsd:IDREF"
             minOccurs="0"
-            maxOccurs="unbounded"/>
-          <xsd:element name="NotPredicate"
-            type="NotPredicateType"
+            maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:appinfo>PredicateType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="NotPredicateName"
+            type="xsd:IDREF"
             minOccurs="0"
-            maxOccurs="unbounded"/>
-          <xsd:element name="Function"
-            type="FunctionType"
-            minOccurs="0"
-            maxOccurs="unbounded"/>
+            maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:appinfo>PredicateType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="FunctionName"
+            type="xsd:IDREF"
+            minOccurs="0">
+            <xsd:annotation>
+              <xsd:appinfo>FunctionType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
           <xsd:element name="FunctionOperation"
             type="FunctionOperationType"
+            minOccurs="0"/>
+          <xsd:element name="F1LessF2"
+            type="FunctionToFunctionLessType"
             minOccurs="0"
             maxOccurs="unbounded"/>
-          <xsd:element name="FunctionToFunctionBool"
-            type="FunctionToFunctionBoolType"
+          <xsd:element name="F1EqualF2"
+            type="FunctionToFunctionEqualType"
             minOccurs="0"
             maxOccurs="unbounded"/>
-          <xsd:element name="FunctionToDecimalBool"
-            type="FunctionToDecimalBoolType"
+          <xsd:element name="F1GreaterOrEqualF2"
+            type="FunctionToFunctionGreaterOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="F1GreaterF2"
+            type="FunctionToFunctionGreaterType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xsd:element name="F1LessOrEqualF2"
+            type="FunctionToFunctionLessOrEqualType"
             minOccurs="0"
             maxOccurs="unbounded"/>
         </xsd:sequence>
@@ -387,45 +784,16 @@ An instance of EffectType can consist of:
       <xsd:extension base="DataThingType">
         <xsd:sequence>
           <xsd:element name="ReferenceName"
-            type="xsd:IDREF"
-            minOccurs="1">
-            <xsd:annotation>
-              <xsd:appinfo>SolidObjectType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
+            type="xsd:NMTOKEN"
+            minOccurs="1"/>
           <xsd:element name="TargetName"
+            type="xsd:NMTOKEN"
+            minOccurs="0"/>
+          <xsd:element name="StateRelationName"
             type="xsd:IDREF"
             minOccurs="0">
             <xsd:annotation>
-              <xsd:appinfo>SolidObjectType</xsd:appinfo>
-            </xsd:annotation>
-          </xsd:element>
-          <xsd:element name="StateRelation"
-            type="StateRelationType"
-            minOccurs="0"/>
-        </xsd:sequence>
-      </xsd:extension>
-    </xsd:complexContent>
-  </xsd:complexType>
-
-  <xsd:complexType name="NotPredicateType">
-    <xsd:annotation>
-      <xsd:documentation>
-        NotPredicateType is derived from DataThingType and represents the negation of a PredicateType.
-        An instance of NotPredicateType has the following elements:
-	- Name (inherited)
-	- Predicate.
- 
-        Predicate is the PredicateType to be negated.
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:complexContent>
-      <xsd:extension base="DataThingType">
-        <xsd:sequence>
-          <xsd:element name="PredicateName"
-            type="xsd:IDREF">
-            <xsd:annotation>
-              <xsd:appinfo>PredicateType</xsd:appinfo>
+              <xsd:appinfo>StateRelationType</xsd:appinfo>
             </xsd:annotation>
           </xsd:element>
         </xsd:sequence>
@@ -455,14 +823,9 @@ An instance of EffectType can consist of:
             type="xsd:string"
             minOccurs="0"/>
           <xsd:element name="ReferenceName"
-            type="xsd:NMTOKEN"/>
-          <xsd:element name="ReferenceParameterType"
             type="xsd:NMTOKEN"
-            minOccurs="0"/>
+            minOccurs="1"/>
           <xsd:element name="TargetName"
-            type="xsd:NMTOKEN"
-            minOccurs="0"/>
-          <xsd:element name="TargetParameterType"
             type="xsd:NMTOKEN"
             minOccurs="0"/>
         </xsd:sequence>
@@ -485,19 +848,22 @@ An instance of EffectType can consist of:
     <xsd:complexContent>
       <xsd:extension base="DataThingType">
         <xsd:sequence>
-          <xsd:element name="ActionBaseFunction"
-            type="FunctionType"/>
+          <xsd:element name="FunctionName"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>FunctionType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
           <xsd:element name="Expression"
             type="xsd:NMTOKEN"/>
           <xsd:element name="Value"
-            type="xsd:decimal"/>
+            type="xsd:positiveInteger"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="FunctionToFunctionBoolType"
-    abstract="true">
+  <xsd:complexType name="FunctionToFunctionBoolType">
     <xsd:annotation>
       <xsd:documentation>
         FunctionToFunctionBoolType is an abstract type
@@ -526,17 +892,24 @@ An instance of EffectType can consist of:
     <xsd:complexContent>
       <xsd:extension base="FunctionBooleanExpressionType">
         <xsd:sequence>
-          <xsd:element name="F1"
-            type="FunctionType"/>
-          <xsd:element name="F2"
-            type="FunctionType"/>
+          <xsd:element name="F1Name"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>FunctionType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="F2Name"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>FunctionType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="FunctionToDecimalBoolType"
-    abstract="true">
+  <xsd:complexType name="FunctionToDecimalBoolType">
     <xsd:annotation>
       <xsd:documentation>
         FunctionToDecimalBoolType is an abstract type
@@ -563,8 +936,12 @@ An instance of EffectType can consist of:
     <xsd:complexContent>
       <xsd:extension base="FunctionBooleanExpressionType">
         <xsd:sequence>
-          <xsd:element name="F1"
-            type="FunctionType"/>
+          <xsd:element name="F1Name"
+            type="xsd:IDREF">
+            <xsd:annotation>
+              <xsd:appinfo>FunctionType</xsd:appinfo>
+            </xsd:annotation>
+          </xsd:element>
           <xsd:element name="A1"
             type="xsd:decimal"/>
         </xsd:sequence>
@@ -572,8 +949,7 @@ An instance of EffectType can consist of:
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="FunctionBooleanExpressionType"
-    abstract="true">
+  <xsd:complexType name="FunctionBooleanExpressionType">
     <xsd:annotation>
       <xsd:documentation>
         FunctionBooleanExpressionType is an abstract type derived from DataThingType and representing an expression with a value that is an xsd:boolean 
@@ -587,20 +963,7 @@ An instance of EffectType can consist of:
         DataThingType
         |-FunctionBooleanExpressionType
           |-FunctionToFunctionBoolType
-          | |-FunctionToFunctionEqualType
-          | |-FunctionToFunctionGreaterOrEqualType
-          | |-FunctionToFunctionGreaterType
-          | |-FunctionToFunctionLessOrEqualType
-          | |-FunctionToFunctionLessType
-          | |-FunctionToFunctionNotEqualType
-	  
 	  |-FunctionToDecimalBoolType
-          | |-FunctionToArithmeticEqualType
-          | |-FunctionToArithmeticGreaterOrEqualType
-          | |-FunctionToArithmeticGreaterType
-          | |-FunctionToArithmeticLessOrEqualType
-          | |-FunctionToArithmeticLessType
-          | |-FunctionToArithmeticNotEqualType
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
@@ -827,7 +1190,7 @@ An instance of EffectType can consist of:
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="AnyOrderType">
+  <xsd:complexType name="AnyOrderOrderingConstructType">
     <xsd:annotation>
       <xsd:documentation>
 	AnyOrderType is derived from OrderingConstructType.
@@ -840,8 +1203,8 @@ An instance of EffectType can consist of:
     <xsd:complexContent>
       <xsd:extension base="OrderingConstructType">
         <xsd:sequence>
-          <xsd:element name="Count"
-            type="CountType"/>
+          <xsd:element name="CountOrderingConstruct"
+            type="CountOrderingConstructType"/>
           <xsd:element name="PositionInOrderedList"
             type="xsd:positiveInteger"/>
         </xsd:sequence>
@@ -849,7 +1212,7 @@ An instance of EffectType can consist of:
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="CountType">
+  <xsd:complexType name="CountOrderingConstructType">
     <xsd:annotation>
       <xsd:documentation>
 	CountType is derived from OrderingConstructType.
@@ -871,7 +1234,7 @@ An instance of EffectType can consist of:
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="ExistType">
+  <xsd:complexType name="ExistOrderingConstructType">
     <xsd:annotation>
       <xsd:documentation>
 	ExistType is derived from OrderingConstructType.
@@ -890,7 +1253,7 @@ An instance of EffectType can consist of:
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="OrderedListType">
+  <xsd:complexType name="OrderedListOrderingConstructType">
     <xsd:annotation>
       <xsd:documentation>
 	OrderedListType is derived from OrderingConstructType.
@@ -903,10 +1266,10 @@ An instance of EffectType can consist of:
     <xsd:complexContent>
       <xsd:extension base="OrderingConstructType">
         <xsd:sequence>
-          <xsd:element name="Exist"
-            type="ExistType"/>
-          <xsd:element name="AnyOrder"
-            type="AnyOrderType"/>
+          <xsd:element name="ExistOrderingConstruct"
+            type="ExistOrderingConstructType"/>
+          <xsd:element name="AnyOrderOrderingConstruct"
+            type="AnyOrderOrderingConstructType"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>

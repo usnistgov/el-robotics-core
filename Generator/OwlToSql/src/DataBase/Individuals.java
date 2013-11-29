@@ -228,99 +228,35 @@ public class Individuals {
 					if (l != attributesTab.length - 1)
 						result = result + ", ";
 				}
-				if (value.getKey().toString()
-						.contains(attributesTab[l].substring(1))) {
-					// The attribute type = a xsd type
-					if (value.getValue().toString().contains("^")) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString()
-												.indexOf("^") - 1)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1)
-									+ "'";
+				if (value
+						.getKey()
+						.toString()
+						.endsWith(
+								SEPARATOR + attributesTab[l].substring(1) + ">")) {
+					if (isNumber(value
+							.getValue()
+							.toString()
+							.substring(
+									2,
+									value.getValue().toString().indexOf("^") - 1)))
+						result = result
+								+ value.getValue()
+										.toString()
+										.substring(
+												2,
+												value.getValue().toString()
+														.indexOf("^") - 1);
+					else
+						result = result
+								+ "'"
+								+ value.getValue()
+										.toString()
+										.substring(
+												2,
+												value.getValue().toString()
+														.indexOf("^") - 1)
+								+ "'";
 
-					}
-					// The attribute is a reference
-					else if (value.getValue().toString()
-							.contains(String.valueOf(SEPARATOR))) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										value.getValue().toString()
-												.lastIndexOf(SEPARATOR) + 1,
-										value.getValue().toString().length() - 2)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-					}
-					// The attribute is a part of an enumeration
-					else {
-
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString().length() - 2)))
-							result = result
-
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-
-					}
 					if (attributes.substring(2).contains(",")
 							&& l != attributesTab.length - 1)
 						result = result + ", ";
@@ -360,105 +296,25 @@ public class Individuals {
 						result = result + ", ";
 
 				}
-				if (value.getKey().toString()
-						.contains(attributesTab[l].substring(1))) {
 
-					// The attribute type = a xsd type
+				if (value
+						.getKey()
+						.toString()
+						.endsWith(
+								SEPARATOR + attributesTab[l].substring(1) + ">")) {
+					result = result
+							+ "'"
+							+ value.getValue()
+									.toString()
+									.substring(
+											value.getValue().toString()
+													.lastIndexOf(SEPARATOR) + 1,
+											value.getValue().toString()
+													.length() - 2) + "'";
 
-					if (value.getValue().toString().contains("^")) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString()
-												.indexOf("^") - 1)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1)
-									+ "'";
-
-					} // The attribute is a reference
-
-					else if (value.getValue().toString()
-							.contains(String.valueOf(SEPARATOR))) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										value.getValue().toString()
-												.lastIndexOf(SEPARATOR) + 1,
-										value.getValue().toString().length() - 2)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-
-					} else {
-						// The attribute is a part of an
-						// enumeration
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString().length() - 2)))
-							result = result
-
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-
-					}
 					if (attributes.substring(2).contains(",")
 							&& l != attributesTab.length - 1)
 						result = result + ", ";
-
 				}
 			}
 
@@ -512,97 +368,40 @@ public class Individuals {
 				if (l != attributesTab.length - 1)
 					result = result + ", ";
 			}
-
 			if (value
 					.getKey()
 					.toString()
-					.contains(
-							attributesTab[l].toString()
-									.substring(
+					.endsWith(
+							SEPARATOR
+									+ attributesTab[l].toString().substring(
 											attributesTab[l].toString()
 													.indexOf("/") + 1,
 											attributesTab[l].toString()
-													.length()))) {
+													.length()) + ">")) {
 
 				// The attribute type = a xsd type
-				if (value.getValue().toString().contains("^")) {
-					if (isNumber(value
-							.getValue()
-							.toString()
-							.substring(
-									2,
-									value.getValue().toString().indexOf("^") - 1)))
-						result = result
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.indexOf("^") - 1);
-					else
-						result = result
-								+ "'"
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.indexOf("^") - 1)
-								+ "'";
+				if (isNumber(value
+						.getValue()
+						.toString()
+						.substring(2,
+								value.getValue().toString().indexOf("^") - 1)))
+					result = result
+							+ value.getValue()
+									.toString()
+									.substring(
+											2,
+											value.getValue().toString()
+													.indexOf("^") - 1);
+				else
+					result = result
+							+ "'"
+							+ value.getValue()
+									.toString()
+									.substring(
+											2,
+											value.getValue().toString()
+													.indexOf("^") - 1) + "'";
 
-				} else if (value.getValue().toString()
-						.contains(String.valueOf(SEPARATOR))) {
-					if (isNumber(value
-							.getValue()
-							.toString()
-							.substring(
-									value.getValue().toString()
-											.lastIndexOf(SEPARATOR) + 1,
-									value.getValue().toString().length() - 2)))
-						result = result
-								+ value.getValue()
-										.toString()
-										.substring(
-												value.getValue().toString()
-														.lastIndexOf(SEPARATOR) + 1,
-												value.getValue().toString()
-														.length() - 2);
-					else
-						result = result
-								+ "'"
-								+ value.getValue()
-										.toString()
-										.substring(
-												value.getValue().toString()
-														.lastIndexOf(SEPARATOR) + 1,
-												value.getValue().toString()
-														.length() - 2) + "'";
-
-				} else {
-					if (isNumber(value
-							.getValue()
-							.toString()
-							.substring(2,
-									value.getValue().toString().length() - 2)))
-						result = result
-
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.length() - 2);
-					else
-						result = result
-								+ "'"
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.length() - 2) + "'";
-
-				}
 				if (attributesTab[l]
 						.toString()
 						.substring(
@@ -611,9 +410,9 @@ public class Individuals {
 						.contains(",")
 						&& l != attributesTab.length - 1)
 					result = result + ", ";
-
 			}
 		}
+
 		Object[] resultTab = new Object[2];
 		resultTab[0] = result;
 		resultTab[1] = name;
@@ -647,37 +446,21 @@ public class Individuals {
 			if (value
 					.getKey()
 					.toString()
-					.contains(
-							attributesTab[l].toString()
-									.substring(
+					.endsWith(
+							SEPARATOR
+									+ attributesTab[l].toString().substring(
 											attributesTab[l].toString()
 													.indexOf("/") + 1,
 											attributesTab[l].toString()
-													.length()))) {
+													.length()) + ">")) {
+				result = result
+						+ value.getValue()
+								.toString()
+								.substring(
+										value.getValue().toString()
+												.lastIndexOf(SEPARATOR) + 1,
+										value.getValue().toString().length());
 
-				// The attribute is a reference
-				if (value.getValue().toString()
-						.contains(String.valueOf(SEPARATOR))) {
-					result = result
-							+ value.getValue()
-									.toString()
-									.substring(
-											value.getValue().toString()
-													.lastIndexOf(SEPARATOR) + 1,
-											value.getValue().toString()
-													.length());
-
-				} else {
-					result = result
-							+ "'"
-							+ value.getValue()
-									.toString()
-									.substring(
-											2,
-											value.getValue().toString()
-													.length() - 2) + "'";
-
-				}
 				if (attributesTab[l]
 						.toString()
 						.substring(
@@ -931,7 +714,7 @@ public class Individuals {
 		ArrayList<String> attributes = new ArrayList<String>();
 		ArrayList<String> dataKeys = new ArrayList<String>();
 		ArrayList<String> objectKeys = new ArrayList<String>();
-		//System.out.println(table + " " + individualsClean.get(i));
+		// System.out.println(table + " " + individualsClean.get(i));
 		attributes = (ArrayList<String>) tables.get(table).clone();
 
 		ArrayList<OWLDataPropertyExpression> valuesDataKeys = new ArrayList<OWLDataPropertyExpression>(
@@ -985,11 +768,11 @@ public class Individuals {
 		result = result + "INSERT INTO " + table + "\n("
 				+ attributesLocalBis.substring(2) + ")\nVALUES(";
 		String att = "";
-		for (int lll = 0; lll < attributesLocalBis.substring(2).split(",").length; lll++) {
+		for (int a = 0; a < attributesLocalBis.substring(2).split(",").length; a++) {
 			if (objectKeys
-					.contains(attributesLocalBis.substring(2).split(",")[lll]
+					.contains(attributesLocalBis.substring(2).split(",")[a]
 							.replace(" ", ""))) {
-				att = att + attributesLocalBis.substring(2).split(",")[lll]
+				att = att + attributesLocalBis.substring(2).split(",")[a]
 						+ "=,";
 			}
 		}
@@ -1019,11 +802,10 @@ public class Individuals {
 			result = result + ", ";
 		if (!resultTab[0].equals("") && !att.equals("")) {
 
-			for (int lll = 0; lll < resultTab[0].toString().split(",").length; lll++) {
-				if (lll > 0)
+			for (int a = 0; a < resultTab[0].toString().split(",").length; a++) {
+				if (a > 0)
 					att = att.substring(att.indexOf("=,") + 2);
-
-				if (lll < resultTab[0].toString().split(",").length - 1) {
+				if (a < resultTab[0].toString().split(",").length - 1) {
 
 					result = result + "NULL, ";// resultTab[0];
 					resultUpdate = resultUpdate
@@ -1032,7 +814,7 @@ public class Individuals {
 											"=,",
 											"="
 													+ resultTab[0].toString()
-															.split(",")[lll])
+															.split(",")[a])
 							+ ",";
 				} else {
 					result = result + "NULL";// resultTab[0];
@@ -1042,7 +824,7 @@ public class Individuals {
 											"=,",
 											"="
 													+ resultTab[0].toString()
-															.split(",")[lll]);
+															.split(",")[a]);
 				}
 			}
 			resultTab = insertIntoData(i, attributesLocalTabBis,

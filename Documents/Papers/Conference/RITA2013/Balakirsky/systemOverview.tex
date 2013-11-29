@@ -60,7 +60,7 @@ More information on this portion of the ontology may be found in \cite{Balakirsk
 
 
 The second part of the ontology (known as States, Ordering constraints, Actions, and Predicates or SOAP) contains the high-level concept of an action and all of the concepts 
-that are required to support an action. In this case, a PDDL \cite{PDDL} action is being represented, and this action is defined
+that are required to support an action. In this case, a Planning Domain Definition Language (PDDL) \cite{PDDL} action is being represented, and this action is defined
  as an operator that causes one or more properties of an 
 instance to change. Before this action may be
 performed, certain preconditions must be satisfied, and after the action is performed, certain effects will take place. The action accepts parameters that specify the particular
@@ -87,7 +87,7 @@ An \class{ActionPredicate} represents these predicates. It has a unique name of 
 
 The third part of the ontology contains specific instances needed for a particular kitting domain. For example, it will contain the definition of the finished kits that may be
 constructed and specific information on the individual parts. One of the goals of this framework is to introduce additional agility into the kit building process. Therefore,
-partial information is accepted and even encouraged for this area of the ontology. For the example of a part shown in Figure \ref{fig:part}, information on the SKU, grasp points 
+partial information is accepted and even encouraged for this area of the ontology. For the example of a part shown in Figure \ref{fig:part}, information on the Stock Keeeping Unit (SKU), grasp points 
 (part of the ExternalShape or InternalShape), and name would be expected to be available at runtime. Information on the location of the part (PrimaryLocation) may not
 become valid until after a sensor processing system has identified and located the particular part.
 %

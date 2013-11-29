@@ -1,6 +1,6 @@
 \begin{figure}[!t!h!b!]
 \centering
-\includegraphics[width=10cm]{images/KnowledgeDrivenRobotics.pdf}
+\includegraphics[width=12cm]{images/KnowledgeDrivenRobotics.pdf}
 \caption{Knowledge Driven Design extensions -- In this figure, green shaded
   boxes with curved bottoms represent hand generated files while light blue
   shaded boxes with curved bottoms represent automatically created boxes.
@@ -9,7 +9,7 @@
 \end{figure}
 
 
-The knowledge driven methodology presented in this section is not intended to act as a stand-alone system architecture. Rather it is intended to be an extension to well developed hierarchical, deliberative architectures such as 4D/RCS (Real-time Control Systems)~\cite{Albus2000}. The overall knowledge driven methodology of the system is depicted in Figure~\ref{fig:methodology}. The figure is organized vertically by the representation that is used for the knowledge and horizontally by the classical sense-model-act paradigm of intelligent systems. The remainder of this section gives a brief description of each level of the hierarchy to help the reader understand the basic concepts implemented within the system architecture in order that the reader may better grasp the main effort described in this paper. The reader may find a more detailed description of each component and each level of the architecture in other publications~\cite{BALAKIRSKY.IROS.2012}.
+The knowledge driven methodology presented in this section is not intended to act as a stand-alone system architecture. Rather it is intended to be an extension to well-developed hierarchical, deliberative architectures such as 4D/RCS (Real-time Control Systems)~\cite{Albus2000}. The overall knowledge driven methodology of the system is depicted in Figure~\ref{fig:methodology}. The figure is organized vertically by the representation that is used for the knowledge and horizontally by the classical sense-model-act paradigm of intelligent systems. The remainder of this section gives a brief description of each level of the hierarchy to help the reader understand the basic concepts implemented within the system architecture in order that the reader may better grasp the main effort described in this paper. The reader may find a more detailed description of each component and each level of the architecture in other publications~\cite{BALAKIRSKY.IROS.2012}.
 
 \subsection{Domain Specific Information}
 \label{subsection:DSI}
@@ -18,16 +18,13 @@ On the vertical axis, knowledge begins with Domain Specific Information (DSI). D
 For the knowledge model, a scenario driven approach is taken where the DSI design begins with a domain expert creating one or more use cases and specific scenarios that describe the typical operation of the system. This includes information on items ranging from what actions and attributes are relevant, to what the necessary conditions (preconditions) are for an action to occur and what the likely results (effects) of the action are. The authors have chosen to encode this basic information in a formalism known as a state variable representation~\cite{NAU.2004}.
 
 
-% Based on the action description, objects in the environment that are relevant for system operation can be identified. For example, the action \textsf{take-part}, depicted in Figure 2, has a given robot place a kit tray onto a work table. The preconditions for this action are that the robot is holding a kit tray and there is a clear space on the table to place the tray. This is represented by the predicate expressions shown in Figure 2 that specify that the robot is holding the kit tray, the kit tray is located on the robot (actually in its  gripper), and the work table is empty. The expected effects of this action are that the kit tray is now located on the work table and the robot is no longer holding it. This is also represented by a series of predicates that are shown in Figure 2. Based on the preconditions and expected effects, the objects that are relevant to this action include the robot, the kit tray, and the work table. Aspects of these items may now be represented in the DSI. For example, that a
-kit tray has a location and may be held by the robot or placed on the work table.
-
 \subsection{Ontology}
 \label{subsection:ontology}
 The information encoded in the DSI is then organized into a domain
 independent representation.
 
 \begin{itemize}
-\item A base ontology (\textsf{OWL/XML Kitting})
+\item A Web Ontology Language (OWL)/Extensible Markup Language (XML) base ontology (\textsf{OWL/XML Kitting})
 contains all of the basic information that was determined to be needed
 during the evaluation of the use cases and scenarios. The knowledge is
 represented in a compact form with knowledge classes
@@ -72,7 +69,7 @@ information that is relevant to the end goal of the system. For the case of buil
 % The interaction of the MySQL database with the Connectors to Predicate Evaluation (in the Act level) is detailed in Section \ref{sec:sensor-1}.
 %
 % =======
-Since both the OWL and XML implementations of the knowledge representation are file based, real time information proved to be problematic. In order to solve this problem, an automatically generated \textsf{MySQL Database} \cite{MySQL} has been introduced as part of the knowledge representation. A description of the \textsf{MySQL Database} is given in the following subsection.
+Since both the OWL and XML implementations of the knowledge representation are file-based, real time information proved to be problematic. In order to solve this problem, an automatically generated \textsf{MySQL Database} \cite{MySQL} was introduced as part of the knowledge representation. A description of the \textsf{MySQL Database} is given in the following subsection.
 
 
 %
@@ -116,14 +113,14 @@ Aspects of the knowledge previously described are automatically extracted and en
 
 While the knowledge representation presented in this paper provides the \lq\lq{}slots\rq\rq{} necessary for representing dynamic information, the
 static file structure makes the utilization of these slots awkward. It is desirable to be able to represent the dynamic information in a dynamic database.
-For this reason, the authors have developed a technique to automatically generate tables for storing, and access functions
-for obtaining the data from the ontology in a \textsf{MySQL Database}.
+For this reason, the authors developed a technique to automatically generate tables for storing, and access functions
+for obtaining, the data from the ontology in a \textsf{MySQL Database}.
 
-Reading data from and to the \textsf{MySQL Database} instead of the ontology file offers the community easy access to a live data structure. Furthermore, it is more practical to modify the information stored in a database than if it was stored in an ontology, which in some cases, requires the deletion and re-creation of the whole file. A literature review reveals many efforts and methodologies that have been designed to produce SQL databases from ontologies. Our effort builds upon the work of Astrova \textit{et al.} \cite{Astrova2007}
+Reading data from and to the \textsf{MySQL Database} instead of the ontology file offers the community easy access to a live data structure. Furthermore, it is more practical to modify the information stored in a database than if it was stored in an ontology, which in some cases, requires the deletion and re-creation of the whole file. A literature review reveals many efforts and methodologies that were designed to produce SQL databases from ontologies. Our effort builds upon the work of Astrova \textit{et al.} \cite{Astrova2007}
 
-In addition to generating and filling the database tables, the authors have created tools that automatically generate a set of C{}\texttt{++} classes for reading and writing
+In addition to generating and filling the database tables, the authors created tools that automatically generate a set of C{}\texttt{++} classes for reading and writing
 information to the kitting \textsf{MySQL Database}. The choice of C{}\texttt{++} was a team preference and we believe that other object-oriented languages could have been used in this project.
 
 \subsection{Robot Language}
 \label{subsection:robot_language}
-Once a plan has been formulated, the knowledge is transformed into a representation that is optimized for use by a robotic system. The interpreter combines knowledge from the plan with knowledge from the \textsf{MySQL Database} to form a sequence of sequential actions that the robot controller is able to execute. The authors devised a canonical robot command language (CRCL) in which such lists can be written. The purpose of the CRCL is to provide generic commands that implement the functionality of typical industrial robots without being specific either to the language of the planning system that makes a plan or to the language used by a robot controller that executes a plan. 
+Once a plan has been formulated, the knowledge is transformed into a representation that is optimized for use by a robotic system. The interpreter combines knowledge from the plan with knowledge from the \textsf{MySQL Database} to form a set of sequential actions that the robot controller is able to execute. The authors devised a canonical robot command language (CRCL) in which such lists can be written. The purpose of the CRCL is to provide generic commands that implement the functionality of typical industrial robots without being specific either to the language of the planning system that makes a plan or to the language used by a robot controller that executes a plan. 

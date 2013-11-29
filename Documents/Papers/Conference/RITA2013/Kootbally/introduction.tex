@@ -8,26 +8,26 @@ balance~\cite{Jiao2000}.
 
 Applications for assembly robots have been primarily implemented in fixed and programmable automation. Fixed automation is a process using mechanized machinery
 to perform fixed and repetitive operations in order to produce a high volume of similar parts. Although fixed automation provides high efficiency at a low unit
-cost, drastic modifications of the machines are realized when parts need major changes or become too complicated in design. In programmable automation, products
+cost, drastic modifications of the machines are required when parts need major changes or become too complicated in design. In programmable automation, products
 are made in batch quantities ranging from several dozen to several thousand units at a time. However, each new batch requires long set up times to accommodate the
-new product style. The time, and therefore the cost, of developing applications for fixed and programmable automation is usually quite high. The challenge of expanding
+new product style. The time, and therefore the cost, of developing applications for fixed and programmable automation is usually quite high. The opportunity to expand
 the industrial use of robots is through agile and flexible automation where minimized setup times can lead to more output and generally better throughput.
 
 The effort presented in this paper describes an approach based on a simulated sensor system in an attempt to move towards an agile system. Tasking a sensor system
-to retrieve information on objects of interest should be performed in a timely manner before the robot carries out actions that involve these objects of interest.
+to retrieve information about objects of interest should be performed in a timely manner before the robot carries out actions that involve these objects of interest.
 Objects in a kitting workcell are likely susceptible to be moved by external agents, parts trays may be depleted, and objects of different types can be
 unintentionally mixed with other types. Consequently, the system should be able to detect any of the aforementioned cases by tasking the sensor system to
 retrieve pose estimations of objects of interest.
 
 Pose estimation is an important capability for grasping and manipulation. A wide variety of solutions have been proposed in order to extend the current structure
 of the systems to an agile system. Most of the efforts in the literature have focused primarily on solutions for robots whose mobility is restricted to the ground
-plane. Lysenkov \textit{et al.} \cite{Lysenkov-RSS-12} presented new algorithms for segmentation, pose estimation and recognition of transparent objects.
+plane. Lysenkov \textit{et al.} \cite{Lysenkov-RSS-12} presented new algorithms for segmentation, pose estimation, and recognition of transparent objects.
 Their system showed that a robot is able to grasp 80\% of known transparent objects with the proposed algorithm and this result is robust across non-specular
 backgrounds behind the objects. Dzitac and Mazid~\cite{Dzitac.ICARCV.2012} proposed a flexible and inexpensive object detection and localization method for
 pick-and-place robots based on the Xtion and Kinect. The authors relied on depth sensors to provide the robots with flexible and powerful means of locating objects,
 such as boxes, without the need to hard code the exact
 coordinates of the box in the robot program. Rusu \textit{et al.} \cite{RUSU.IROS.2010}  presented a novel 3D feature descriptor,
-the Viewpoint Feature Histogram (VFH), for object recognition and 6DOF pose identification for application where a priori segmentation is possible.
+the Viewpoint Feature Histogram (VFH), for object recognition and 6DOF pose identification for applications where \textit{a priori} segmentation is possible.
 
  The organization of the remainder of this paper is as follows. Section \ref{section:architecture} presents an overview of the knowledge driven
  methodology used in this effort. Section \ref{section:simulation} describes the simulation environment used for kitting applications. Section \ref{section:sensor}

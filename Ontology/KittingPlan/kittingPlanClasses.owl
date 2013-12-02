@@ -1,0 +1,1831 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(ktp:=<http://www.nist.gov/el/ontologies/kittingPlanClasses.owl#>)
+Prefix(ktw:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
+
+Ontology(<http://www.nist.gov/el/ontologies/kittingPlanClasses.owl>
+Import(<file:kittingWorkstationClasses.owl>)
+
+Annotation(rdfs:comment
+  "This kitting plan ontology models a plan for actions in a kitting
+      workstation. It is expected that most plans conforming to the 
+      model will be plans for building kits.
+      This ontology uses the following items from the kitting workstation
+      ontology:
+      DataThing
+      PhysicalLocation (and its derived subtypes)
+      Point
+      PositiveDecimal
+      Vector
+ 
+      The model includes:
+      - a tree-like plan structure of arbitrary length and depth
+      - a variety of methods of ordering the steps of the tree
+      - arithmetic variables
+      - boolean expressions
+      - arithmetic expressions
+      - actions specific to kitting
+      - a 'while' loop
+      - an If-ElseIf-Else structure
+ 
+      The appinfo entries in the model are solely for the benefit of the
+      xmlSchemaOwlPrinter, which needs to know the type of the named
+      objects.")
+Annotation(rdfs:comment
+  "owlPrefix=ktp")
+
+
+
+DatatypeDefinition(ktw:angleUnit 
+  DataOneOf("degree" "radian"))
+
+DatatypeDefinition(ktw:lengthUnit 
+  DataOneOf("meter" "millimeter" "inch"))
+
+DatatypeDefinition(ktw:positiveDecimal 
+  DatatypeRestriction(xsd:decimal xsd:minExclusive "0"^^xsd:decimal))
+
+DatatypeDefinition(ktw:weightUnit 
+  DataOneOf("kilogram" "gram" "milligram" "ounce" "pound"))
+
+
+
+Declaration(Class(ktp:ActionBase))
+
+AnnotationAssertion(rdfs:comment ktp:ActionBase
+  "ActionBase is derived from PlanElementBase.
+  An instance of ActionBase has the following:
+    .
+ 
+  ActionBase is the abstract base type that defines a single
+  action to be carried out.")
+
+SubClassOf(ktp:CreateKit ktp:ActionBase)
+SubClassOf(ktp:RobotActionBase ktp:ActionBase)
+SubClassOf(ktp:SensorActionBase ktp:ActionBase)
+DisjointUnion(ktp:ActionBase
+              ktp:CreateKit
+              ktp:RobotActionBase
+              ktp:SensorActionBase)
+
+
+
+Declaration(Class(ktp:ActionGroupBase))
+
+AnnotationAssertion(rdfs:comment ktp:ActionGroupBase
+  "ActionGroupBase is derived from PlanElementBase.
+  An instance of ActionGroupBase has the following:
+    .
+ 
+  ActionGroupBase is the abstract base type that defines an
+  action group. An action group consists of a control structure
+  and the plan elements to which the control structure applies.")
+
+SubClassOf(ktp:IfActionGroup ktp:ActionGroupBase)
+SubClassOf(ktp:OneOfActionGroup ktp:ActionGroupBase)
+SubClassOf(ktp:OrderedActionGroup ktp:ActionGroupBase)
+SubClassOf(ktp:PartiallyOrderedActionGroup ktp:ActionGroupBase)
+SubClassOf(ktp:SomeOfActionGroup ktp:ActionGroupBase)
+SubClassOf(ktp:UnorderedActionGroup ktp:ActionGroupBase)
+SubClassOf(ktp:WhileActionGroup ktp:ActionGroupBase)
+DisjointUnion(ktp:ActionGroupBase
+              ktp:IfActionGroup
+              ktp:OneOfActionGroup
+              ktp:OrderedActionGroup
+              ktp:PartiallyOrderedActionGroup
+              ktp:SomeOfActionGroup
+              ktp:UnorderedActionGroup
+              ktp:WhileActionGroup)
+
+
+
+Declaration(Class(ktp:AttachEndEffector))
+
+AnnotationAssertion(rdfs:comment ktp:AttachEndEffector
+  "AttachEndEffector is derived from RobotActionBase.
+  An instance of AttachEndEffector has the following:
+    RobotName
+    EndEffectorName
+    EndEffectorHolderName.
+ 
+  Immediately before an instance of AttachEndEffector is executed:
+  (1) The named robot must not have an end effector in its tool changer.
+  (2) The end effector must be located relative to the named
+      end effector holder.
+ 
+  As an instance of AttachEndEffector is executed:
+  If the tool changer is closed, the robot opens the tool changer.
+  The robot moves to a position relative to the tool holder at
+  which it can attach to the end effector. The robot closes the
+  tool changer so as to attach the end effector. The location of
+  the end effector changes from being relative to the end effector
+  holder to being relative to the robot. The robot withdraws the end
+  end effector from the tool holder a slight amount that is far
+  enough so that any end effector sensor on the end effector holder no
+  longer indicates that there is an end effector in the holder.")
+
+Declaration(DataProperty(ktp:hasAttachEndEffector_RobotName))
+DataPropertyDomain(ktp:hasAttachEndEffector_RobotName ktp:AttachEndEffector)
+DataPropertyRange(ktp:hasAttachEndEffector_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasAttachEndEffector_RobotName)
+EquivalentClasses(ktp:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasAttachEndEffector_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasAttachEndEffector_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasAttachEndEffector_EndEffectorName))
+DataPropertyDomain(ktp:hasAttachEndEffector_EndEffectorName ktp:AttachEndEffector)
+DataPropertyRange(ktp:hasAttachEndEffector_EndEffectorName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasAttachEndEffector_EndEffectorName)
+EquivalentClasses(ktp:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasAttachEndEffector_EndEffectorName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasAttachEndEffector_EndEffectorName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasAttachEndEffector_EndEffectorHolderName))
+DataPropertyDomain(ktp:hasAttachEndEffector_EndEffectorHolderName ktp:AttachEndEffector)
+DataPropertyRange(ktp:hasAttachEndEffector_EndEffectorHolderName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasAttachEndEffector_EndEffectorHolderName)
+EquivalentClasses(ktp:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasAttachEndEffector_EndEffectorHolderName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasAttachEndEffector_EndEffectorHolderName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:CreateKit))
+
+AnnotationAssertion(rdfs:comment ktp:CreateKit
+  "CreateKit is derived from ActionBase.
+  An instance of CreateKit has the following:
+    KitTrayName
+    KitName.
+ 
+  Immediately before an instance of CreateKit is executed:
+  (1) The named kit tray must not be in a kit.
+  (2) A kit with the given name must not exist.
+ 
+  As an instance of CreateKit is executed:
+  A kit with the given name is created at the location of the kit
+  tray, and the location of the kit tray becomes relative to the kit,
+  in the same place relative to the kitting workstation as before.
+  The location of any parts in the kit tray becomes relative to the
+  kit.")
+
+Declaration(DataProperty(ktp:hasCreateKit_KitTrayName))
+DataPropertyDomain(ktp:hasCreateKit_KitTrayName ktp:CreateKit)
+DataPropertyRange(ktp:hasCreateKit_KitTrayName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasCreateKit_KitTrayName)
+EquivalentClasses(ktp:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasCreateKit_KitTrayName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasCreateKit_KitTrayName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasCreateKit_KitName))
+DataPropertyDomain(ktp:hasCreateKit_KitName ktp:CreateKit)
+DataPropertyRange(ktp:hasCreateKit_KitName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasCreateKit_KitName)
+EquivalentClasses(ktp:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasCreateKit_KitName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasCreateKit_KitName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:DetachEndEffector))
+
+AnnotationAssertion(rdfs:comment ktp:DetachEndEffector
+  "DetachEndEffector is derived from RobotActionBase.
+  An instance of DetachEndEffector has the following:
+    RobotName
+    EndEffectorName
+    EndEffectorHolderName.
+ 
+  Immediately before an instance of DetachEndEffector is executed:
+  (1) The named robot must have the named end effector in its tool
+      changer.
+  (2) The end effector must be located relative to the robot.
+  (3) The end effector holder must be empty.
+ 
+  As an instance of DetachEndEffector is executed:
+  The robot moves to a position relative to the tool holder at which
+  it can detach from the end effector. The robot opens the tool
+  changer so as to detach the end effector. The location of the end
+  effector changes from being relative to the robot to being relative
+  to the end effector holder. The robot moves a small distance away
+  from the end effector holder.")
+
+Declaration(DataProperty(ktp:hasDetachEndEffector_RobotName))
+DataPropertyDomain(ktp:hasDetachEndEffector_RobotName ktp:DetachEndEffector)
+DataPropertyRange(ktp:hasDetachEndEffector_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasDetachEndEffector_RobotName)
+EquivalentClasses(ktp:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasDetachEndEffector_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasDetachEndEffector_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasDetachEndEffector_EndEffectorName))
+DataPropertyDomain(ktp:hasDetachEndEffector_EndEffectorName ktp:DetachEndEffector)
+DataPropertyRange(ktp:hasDetachEndEffector_EndEffectorName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasDetachEndEffector_EndEffectorName)
+EquivalentClasses(ktp:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasDetachEndEffector_EndEffectorName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasDetachEndEffector_EndEffectorName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasDetachEndEffector_EndEffectorHolderName))
+DataPropertyDomain(ktp:hasDetachEndEffector_EndEffectorHolderName ktp:DetachEndEffector)
+DataPropertyRange(ktp:hasDetachEndEffector_EndEffectorHolderName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasDetachEndEffector_EndEffectorHolderName)
+EquivalentClasses(ktp:DetachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasDetachEndEffector_EndEffectorHolderName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasDetachEndEffector_EndEffectorHolderName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:Else))
+
+AnnotationAssertion(rdfs:comment ktp:Else
+  "Else type represents the 'else' part of an If-ElseIf-Else
+  construct.
+  An instance of Else has the following:
+    Step.
+  Step is the plan element to execute.")
+
+Declaration(ObjectProperty(ktp:hasElse_Step))
+ObjectPropertyDomain(ktp:hasElse_Step ktp:Else)
+ObjectPropertyRange(ktp:hasElse_Step ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasElse_Step)
+FunctionalObjectProperty(ktp:hasElse_Step)
+EquivalentClasses(ktp:Else ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasElse_Step ktp:PlanElementBase)
+  ObjectAllValuesFrom (ktp:hasElse_Step ktp:PlanElementBase)))
+
+Declaration(ObjectProperty(ktp:hadByStep_Else))
+InverseObjectProperties(ktp:hasElse_Step
+                        ktp:hadByStep_Else)
+ObjectPropertyDomain(ktp:hadByStep_Else ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByStep_Else ktp:Else)
+
+
+
+Declaration(Class(ktp:IfActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:IfActionGroup
+  "IfActionGroup is derived from ActionGroupBase and
+  represents an If-ElseIf-Else construct with zero to many Else-Ifs
+  and an optional Else.
+  An instance of IfActionGroup has the following:
+    If
+    ElseIf (optional, multiple)
+    Else (optional).
+ 
+  If is a test to evaluate and the plan element to execute if the
+  test evaluates to true.
+ 
+  Each optional ElseIf is a test to evaluate and the plan
+  element to execute if the test evaluates to true.
+ 
+  The optional Else is a plan element to execute if none
+  of the If or ElseIf tests evaluates to true.
+ 
+  To execute an instance of IfActionGroup:
+  1. Evaluate the test in the If. If it evaluates to true,
+     execute the plan element in the If and return.
+ 
+  2. Otherwise, evaluate the test in the next ElseIf if there is one.
+     If it evaluates to true, execute the plan element in the ElseIf
+     and return. Repeat until either return occurs or there are no
+     more ElseIfs.
+ 
+  3. Otherwise, if there is an Else, execute the plan element in the
+     Else and return.
+ 
+  4. Otherwise, return.
+ 
+  It is possible that no plan element will be executed when an
+  instance of IfActionGroup is executed.")
+
+Declaration(ObjectProperty(ktp:hasIfActionGroup_If))
+ObjectPropertyDomain(ktp:hasIfActionGroup_If ktp:IfActionGroup)
+ObjectPropertyRange(ktp:hasIfActionGroup_If ktp:TestAndStep)
+InverseFunctionalObjectProperty(ktp:hasIfActionGroup_If)
+FunctionalObjectProperty(ktp:hasIfActionGroup_If)
+EquivalentClasses(ktp:IfActionGroup ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasIfActionGroup_If ktp:TestAndStep)
+  ObjectAllValuesFrom (ktp:hasIfActionGroup_If ktp:TestAndStep)))
+
+Declaration(ObjectProperty(ktp:hadByIf_IfActionGroup))
+InverseObjectProperties(ktp:hasIfActionGroup_If
+                        ktp:hadByIf_IfActionGroup)
+ObjectPropertyDomain(ktp:hadByIf_IfActionGroup ktp:TestAndStep)
+ObjectPropertyRange(ktp:hadByIf_IfActionGroup ktp:IfActionGroup)
+
+Declaration(ObjectProperty(ktp:hasIfActionGroup_ElseIf))
+ObjectPropertyDomain(ktp:hasIfActionGroup_ElseIf ktp:IfActionGroup)
+ObjectPropertyRange(ktp:hasIfActionGroup_ElseIf ktp:TestAndStep)
+InverseFunctionalObjectProperty(ktp:hasIfActionGroup_ElseIf)
+
+Declaration(ObjectProperty(ktp:hadByElseIf_IfActionGroup))
+InverseObjectProperties(ktp:hasIfActionGroup_ElseIf
+                        ktp:hadByElseIf_IfActionGroup)
+ObjectPropertyDomain(ktp:hadByElseIf_IfActionGroup ktp:TestAndStep)
+ObjectPropertyRange(ktp:hadByElseIf_IfActionGroup ktp:IfActionGroup)
+
+Declaration(ObjectProperty(ktp:hasIfActionGroup_Else))
+ObjectPropertyDomain(ktp:hasIfActionGroup_Else ktp:IfActionGroup)
+ObjectPropertyRange(ktp:hasIfActionGroup_Else ktp:Else)
+InverseFunctionalObjectProperty(ktp:hasIfActionGroup_Else)
+FunctionalObjectProperty(ktp:hasIfActionGroup_Else)
+
+Declaration(ObjectProperty(ktp:hadByElse_IfActionGroup))
+InverseObjectProperties(ktp:hasIfActionGroup_Else
+                        ktp:hadByElse_IfActionGroup)
+ObjectPropertyDomain(ktp:hadByElse_IfActionGroup ktp:Else)
+ObjectPropertyRange(ktp:hadByElse_IfActionGroup ktp:IfActionGroup)
+
+
+
+Declaration(Class(ktp:KittingPlan))
+
+AnnotationAssertion(rdfs:comment ktp:KittingPlan
+  "KittingPlan is derived from DataThing
+  An instance of KittingPlan has the following:
+    PlanId
+    PlanVersion
+    PlanDateAndTime
+    PlanAuthor
+    PlanDescription
+    Object (multiple)
+    Variable (optional, multiple)
+    PlanRoot.
+ 
+  The KittingPlan defines information about a kitting plan.
+ 
+  The PlanId identifies the plan. It would be a good idea to 
+  use a universally unique identifier instead of a NMTOKEN.
+ 
+  The PlanDescription is a natural language description of the plan.
+ 
+  Each object is the name of an object mentioned by name elsewhere in
+  the plan.
+ 
+  Each Variable is a numeric variable used in the plan.
+ 
+  The PlanRoot gives information about the activities to be carried
+  out in executing the kitting plan and how execution of the kitting
+  plan is to be controlled. Structurally, the PlanRoot is at the top
+  of an (upside down) plan tree of PlanElements. All PlanElement
+  instances occur within the tree. The PlanRoot consists of a control
+  structure and the plan elements to which the control structure
+  applies.")
+
+Declaration(DataProperty(ktp:hasKittingPlan_PlanId))
+DataPropertyDomain(ktp:hasKittingPlan_PlanId ktp:KittingPlan)
+DataPropertyRange(ktp:hasKittingPlan_PlanId xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasKittingPlan_PlanId)
+EquivalentClasses(ktp:KittingPlan ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasKittingPlan_PlanId xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasKittingPlan_PlanId xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasKittingPlan_PlanVersion))
+DataPropertyDomain(ktp:hasKittingPlan_PlanVersion ktp:KittingPlan)
+DataPropertyRange(ktp:hasKittingPlan_PlanVersion xsd:token)
+FunctionalDataProperty(ktp:hasKittingPlan_PlanVersion)
+EquivalentClasses(ktp:KittingPlan ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasKittingPlan_PlanVersion xsd:token)
+  DataAllValuesFrom (ktp:hasKittingPlan_PlanVersion xsd:token)))
+
+Declaration(DataProperty(ktp:hasKittingPlan_PlanDateAndTime))
+DataPropertyDomain(ktp:hasKittingPlan_PlanDateAndTime ktp:KittingPlan)
+DataPropertyRange(ktp:hasKittingPlan_PlanDateAndTime xsd:dateTime)
+FunctionalDataProperty(ktp:hasKittingPlan_PlanDateAndTime)
+EquivalentClasses(ktp:KittingPlan ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasKittingPlan_PlanDateAndTime xsd:dateTime)
+  DataAllValuesFrom (ktp:hasKittingPlan_PlanDateAndTime xsd:dateTime)))
+
+Declaration(DataProperty(ktp:hasKittingPlan_PlanAuthor))
+DataPropertyDomain(ktp:hasKittingPlan_PlanAuthor ktp:KittingPlan)
+DataPropertyRange(ktp:hasKittingPlan_PlanAuthor xsd:token)
+FunctionalDataProperty(ktp:hasKittingPlan_PlanAuthor)
+EquivalentClasses(ktp:KittingPlan ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasKittingPlan_PlanAuthor xsd:token)
+  DataAllValuesFrom (ktp:hasKittingPlan_PlanAuthor xsd:token)))
+
+Declaration(DataProperty(ktp:hasKittingPlan_PlanDescription))
+DataPropertyDomain(ktp:hasKittingPlan_PlanDescription ktp:KittingPlan)
+DataPropertyRange(ktp:hasKittingPlan_PlanDescription xsd:string)
+FunctionalDataProperty(ktp:hasKittingPlan_PlanDescription)
+EquivalentClasses(ktp:KittingPlan ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasKittingPlan_PlanDescription xsd:string)
+  DataAllValuesFrom (ktp:hasKittingPlan_PlanDescription xsd:string)))
+
+Declaration(DataProperty(ktp:hasKittingPlan_Object))
+DataPropertyDomain(ktp:hasKittingPlan_Object ktp:KittingPlan)
+DataPropertyRange(ktp:hasKittingPlan_Object xsd:ID)
+
+Declaration(ObjectProperty(ktp:hasKittingPlan_Variable))
+ObjectPropertyDomain(ktp:hasKittingPlan_Variable ktp:KittingPlan)
+ObjectPropertyRange(ktp:hasKittingPlan_Variable ktp:VariableDeclaration)
+InverseFunctionalObjectProperty(ktp:hasKittingPlan_Variable)
+
+Declaration(ObjectProperty(ktp:hadByVariable_KittingPlan))
+InverseObjectProperties(ktp:hasKittingPlan_Variable
+                        ktp:hadByVariable_KittingPlan)
+ObjectPropertyDomain(ktp:hadByVariable_KittingPlan ktp:VariableDeclaration)
+ObjectPropertyRange(ktp:hadByVariable_KittingPlan ktp:KittingPlan)
+
+Declaration(ObjectProperty(ktp:hasKittingPlan_PlanRoot))
+ObjectPropertyDomain(ktp:hasKittingPlan_PlanRoot ktp:KittingPlan)
+ObjectPropertyRange(ktp:hasKittingPlan_PlanRoot ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasKittingPlan_PlanRoot)
+FunctionalObjectProperty(ktp:hasKittingPlan_PlanRoot)
+EquivalentClasses(ktp:KittingPlan ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasKittingPlan_PlanRoot ktp:PlanElementBase)
+  ObjectAllValuesFrom (ktp:hasKittingPlan_PlanRoot ktp:PlanElementBase)))
+
+Declaration(ObjectProperty(ktp:hadByPlanRoot_KittingPlan))
+InverseObjectProperties(ktp:hasKittingPlan_PlanRoot
+                        ktp:hadByPlanRoot_KittingPlan)
+ObjectPropertyDomain(ktp:hadByPlanRoot_KittingPlan ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByPlanRoot_KittingPlan ktp:KittingPlan)
+
+
+
+Declaration(Class(ktp:LocatePart))
+
+AnnotationAssertion(rdfs:comment ktp:LocatePart
+  "LocatePart is derived from SensorActionBase.
+  An instance of LocatePart has the following:
+    PartName.
+ 
+  The LocatePart is an action that locates the specified
+  part. This may change the location information in the part.")
+
+Declaration(DataProperty(ktp:hasLocatePart_PartName))
+DataPropertyDomain(ktp:hasLocatePart_PartName ktp:LocatePart)
+DataPropertyRange(ktp:hasLocatePart_PartName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasLocatePart_PartName)
+EquivalentClasses(ktp:LocatePart ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasLocatePart_PartName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasLocatePart_PartName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:NumberedPlanElement))
+
+AnnotationAssertion(rdfs:comment ktp:NumberedPlanElement
+  "NumberedPlanElement is derived from DataThing.
+  An instance of NumberedPlanElement has the following:
+    SequenceNumber
+    PlanElement.
+ 
+  The NumberedPlanElement defines a single ordered plan element.
+ 
+  The SequenceNumber is a positive integer used in determining either
+  the order within a set of PlanElements in which a plan element
+  should be executed or which plan element in the set should be
+  executed.
+ 
+  The PlanElement is the plan element associated with the
+  SequenceNumber.")
+
+Declaration(DataProperty(ktp:hasNumberedPlanElement_SequenceNumber))
+DataPropertyDomain(ktp:hasNumberedPlanElement_SequenceNumber ktp:NumberedPlanElement)
+DataPropertyRange(ktp:hasNumberedPlanElement_SequenceNumber xsd:positiveInteger)
+FunctionalDataProperty(ktp:hasNumberedPlanElement_SequenceNumber)
+EquivalentClasses(ktp:NumberedPlanElement ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasNumberedPlanElement_SequenceNumber xsd:positiveInteger)
+  DataAllValuesFrom (ktp:hasNumberedPlanElement_SequenceNumber xsd:positiveInteger)))
+
+Declaration(ObjectProperty(ktp:hasNumberedPlanElement_PlanElement))
+ObjectPropertyDomain(ktp:hasNumberedPlanElement_PlanElement ktp:NumberedPlanElement)
+ObjectPropertyRange(ktp:hasNumberedPlanElement_PlanElement ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasNumberedPlanElement_PlanElement)
+FunctionalObjectProperty(ktp:hasNumberedPlanElement_PlanElement)
+EquivalentClasses(ktp:NumberedPlanElement ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasNumberedPlanElement_PlanElement ktp:PlanElementBase)
+  ObjectAllValuesFrom (ktp:hasNumberedPlanElement_PlanElement ktp:PlanElementBase)))
+
+Declaration(ObjectProperty(ktp:hadByPlanElement_NumberedPlanElement))
+InverseObjectProperties(ktp:hasNumberedPlanElement_PlanElement
+                        ktp:hadByPlanElement_NumberedPlanElement)
+ObjectPropertyDomain(ktp:hadByPlanElement_NumberedPlanElement ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByPlanElement_NumberedPlanElement ktp:NumberedPlanElement)
+
+
+
+Declaration(Class(ktp:OneOfActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:OneOfActionGroup
+  "OneOfActionGroup is derived from ActionGroupBase.
+  An instance of OneOfActionGroup has the following:
+    Step (multiple).
+ 
+  The OneOfActionGroup defines an action group for which exactly
+  one of the steps it contains must be executed. Any step in the list
+  will do. The SequenceNumbers of the Steps in an instance of
+  OneOfActionGroup are not required to be distinct. The
+  SequenceNumbers indicate a preference for which step is executed,
+  with 1 the most preferred, 2 the second most preferred, and so on.
+  Steps with the same SequenceNumber are equally preferred.
+ 
+  Each Step is a numbered plan element.")
+
+Declaration(ObjectProperty(ktp:hasOneOfActionGroup_Step))
+ObjectPropertyDomain(ktp:hasOneOfActionGroup_Step ktp:OneOfActionGroup)
+ObjectPropertyRange(ktp:hasOneOfActionGroup_Step ktp:NumberedPlanElement)
+InverseFunctionalObjectProperty(ktp:hasOneOfActionGroup_Step)
+
+Declaration(ObjectProperty(ktp:hadByStep_OneOfActionGroup))
+InverseObjectProperties(ktp:hasOneOfActionGroup_Step
+                        ktp:hadByStep_OneOfActionGroup)
+ObjectPropertyDomain(ktp:hadByStep_OneOfActionGroup ktp:NumberedPlanElement)
+ObjectPropertyRange(ktp:hadByStep_OneOfActionGroup ktp:OneOfActionGroup)
+
+
+
+Declaration(Class(ktp:OrderedActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:OrderedActionGroup
+  "OrderedActionGroup is derived from ActionGroupBase.
+  An instance of OrderedActionGroup has the following:
+    Step (multiple).
+ 
+  The OrderedActionGroup defines an action group for which the
+  all the steps it contains must be executed in order of increasing
+  sequence number. The SequenceNumbers of the Steps in an instance of
+  OrderedActionGroup must be present, must be assigned 1, 2, 3,
+  ..., and must be executed in that order.
+ 
+  Each Step is a numbered plan element.")
+
+Declaration(ObjectProperty(ktp:hasOrderedActionGroup_Step))
+ObjectPropertyDomain(ktp:hasOrderedActionGroup_Step ktp:OrderedActionGroup)
+ObjectPropertyRange(ktp:hasOrderedActionGroup_Step ktp:NumberedPlanElement)
+InverseFunctionalObjectProperty(ktp:hasOrderedActionGroup_Step)
+
+Declaration(ObjectProperty(ktp:hadByStep_OrderedActionGroup))
+InverseObjectProperties(ktp:hasOrderedActionGroup_Step
+                        ktp:hadByStep_OrderedActionGroup)
+ObjectPropertyDomain(ktp:hadByStep_OrderedActionGroup ktp:NumberedPlanElement)
+ObjectPropertyRange(ktp:hadByStep_OrderedActionGroup ktp:OrderedActionGroup)
+
+
+
+Declaration(Class(ktp:PartiallyOrderedActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:PartiallyOrderedActionGroup
+  "PartiallyOrderedActionGroup is derived from ActionGroupBase.
+  An instance of Partially OrderedActionGroup has the following
+  elements:
+    Step (multiple).
+ 
+  The PartiallyOrderedActionGroup defines an action group for
+  which all of the steps it contains should be executed, but each
+  step may be executed only after all of the predecessors of that
+  step have been executed. If more than one step meets that
+  condition, any order of executing those steps will work, and no
+  particular order is required by the plan. The SequenceNumbers of
+  the steps in an instance of PartiallyOrderedActionGroup must be
+  assigned 1, 2, 3, ... but usually will not be executed in that
+  order.
+ 
+  Each Step is a PlanElement with predecessors.")
+
+Declaration(ObjectProperty(ktp:hasPartiallyOrderedActionGroup_Step))
+ObjectPropertyDomain(ktp:hasPartiallyOrderedActionGroup_Step ktp:PartiallyOrderedActionGroup)
+ObjectPropertyRange(ktp:hasPartiallyOrderedActionGroup_Step ktp:StepWithPredecessors)
+InverseFunctionalObjectProperty(ktp:hasPartiallyOrderedActionGroup_Step)
+
+Declaration(ObjectProperty(ktp:hadByStep_PartiallyOrderedActionGroup))
+InverseObjectProperties(ktp:hasPartiallyOrderedActionGroup_Step
+                        ktp:hadByStep_PartiallyOrderedActionGroup)
+ObjectPropertyDomain(ktp:hadByStep_PartiallyOrderedActionGroup ktp:StepWithPredecessors)
+ObjectPropertyRange(ktp:hadByStep_PartiallyOrderedActionGroup ktp:PartiallyOrderedActionGroup)
+
+
+
+Declaration(Class(ktp:PlanElementBase))
+
+AnnotationAssertion(rdfs:comment ktp:PlanElementBase
+  "PlanElementBase is derived from DataThing.
+  An instance of PlanElementBase has the following:
+    .
+ 
+  PlanElementBase is the abstract base type for plan element
+  types.")
+
+SubClassOf(ktp:ActionBase ktp:PlanElementBase)
+SubClassOf(ktp:ActionGroupBase ktp:PlanElementBase)
+SubClassOf(ktp:VarSet ktp:PlanElementBase)
+DisjointUnion(ktp:PlanElementBase
+              ktp:ActionBase
+              ktp:ActionGroupBase
+              ktp:VarSet)
+
+
+
+Declaration(Class(ktp:PutKit))
+
+AnnotationAssertion(rdfs:comment ktp:PutKit
+  "PutKit is derived from RobotActionBase.
+  An instance of PutKit has the following:
+    RobotName
+    KitName
+    Location.
+ 
+  When an instance of PutKit is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit.
+  (3) The gripper must be closed.
+  (4) The location of the kit should be relative to the gripper.
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit. The location of the kit
+  changes so that the kit is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.")
+
+Declaration(DataProperty(ktp:hasPutKit_RobotName))
+DataPropertyDomain(ktp:hasPutKit_RobotName ktp:PutKit)
+DataPropertyRange(ktp:hasPutKit_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPutKit_RobotName)
+EquivalentClasses(ktp:PutKit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPutKit_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPutKit_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasPutKit_KitName))
+DataPropertyDomain(ktp:hasPutKit_KitName ktp:PutKit)
+DataPropertyRange(ktp:hasPutKit_KitName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPutKit_KitName)
+EquivalentClasses(ktp:PutKit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPutKit_KitName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPutKit_KitName xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(ktp:hasPutKit_Location))
+ObjectPropertyDomain(ktp:hasPutKit_Location ktp:PutKit)
+ObjectPropertyRange(ktp:hasPutKit_Location ktw:PhysicalLocation)
+InverseFunctionalObjectProperty(ktp:hasPutKit_Location)
+FunctionalObjectProperty(ktp:hasPutKit_Location)
+EquivalentClasses(ktp:PutKit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasPutKit_Location ktw:PhysicalLocation)
+  ObjectAllValuesFrom (ktp:hasPutKit_Location ktw:PhysicalLocation)))
+
+Declaration(ObjectProperty(ktp:hadByLocation_PutKit))
+InverseObjectProperties(ktp:hasPutKit_Location
+                        ktp:hadByLocation_PutKit)
+ObjectPropertyDomain(ktp:hadByLocation_PutKit ktw:PhysicalLocation)
+ObjectPropertyRange(ktp:hadByLocation_PutKit ktp:PutKit)
+
+
+
+Declaration(Class(ktp:PutKitTray))
+
+AnnotationAssertion(rdfs:comment ktp:PutKitTray
+  "PutKitTray is derived from RobotActionBase.
+  An instance of PutKitTray has the following:
+    RobotName
+    KitTrayName
+    Location.
+ 
+  When an instance of PutKitTray is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit tray.
+  (3) The gripper must be closed.
+  (4) The location of the kit tray should be relative to the gripper.
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit tray. The location of the kit tray
+  changes so that the kit tray is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.")
+
+Declaration(DataProperty(ktp:hasPutKitTray_RobotName))
+DataPropertyDomain(ktp:hasPutKitTray_RobotName ktp:PutKitTray)
+DataPropertyRange(ktp:hasPutKitTray_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPutKitTray_RobotName)
+EquivalentClasses(ktp:PutKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPutKitTray_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPutKitTray_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasPutKitTray_KitTrayName))
+DataPropertyDomain(ktp:hasPutKitTray_KitTrayName ktp:PutKitTray)
+DataPropertyRange(ktp:hasPutKitTray_KitTrayName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPutKitTray_KitTrayName)
+EquivalentClasses(ktp:PutKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPutKitTray_KitTrayName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPutKitTray_KitTrayName xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(ktp:hasPutKitTray_Location))
+ObjectPropertyDomain(ktp:hasPutKitTray_Location ktp:PutKitTray)
+ObjectPropertyRange(ktp:hasPutKitTray_Location ktw:PhysicalLocation)
+InverseFunctionalObjectProperty(ktp:hasPutKitTray_Location)
+FunctionalObjectProperty(ktp:hasPutKitTray_Location)
+EquivalentClasses(ktp:PutKitTray ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasPutKitTray_Location ktw:PhysicalLocation)
+  ObjectAllValuesFrom (ktp:hasPutKitTray_Location ktw:PhysicalLocation)))
+
+Declaration(ObjectProperty(ktp:hadByLocation_PutKitTray))
+InverseObjectProperties(ktp:hasPutKitTray_Location
+                        ktp:hadByLocation_PutKitTray)
+ObjectPropertyDomain(ktp:hadByLocation_PutKitTray ktw:PhysicalLocation)
+ObjectPropertyRange(ktp:hadByLocation_PutKitTray ktp:PutKitTray)
+
+
+
+Declaration(Class(ktp:PutPart))
+
+AnnotationAssertion(rdfs:comment ktp:PutPart
+  "PutPart is derived from RobotActionBase.
+  An instance of PutPart has the following:
+    RobotName
+    PartName
+    Location.
+ 
+  When an instance of PutPart is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named part.
+  (3) The gripper must be closed.
+  (4) The location of the part should be relative to the gripper.
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the part. The location of the part
+  changes so that the part is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.")
+
+Declaration(DataProperty(ktp:hasPutPart_RobotName))
+DataPropertyDomain(ktp:hasPutPart_RobotName ktp:PutPart)
+DataPropertyRange(ktp:hasPutPart_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPutPart_RobotName)
+EquivalentClasses(ktp:PutPart ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPutPart_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPutPart_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasPutPart_PartName))
+DataPropertyDomain(ktp:hasPutPart_PartName ktp:PutPart)
+DataPropertyRange(ktp:hasPutPart_PartName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPutPart_PartName)
+EquivalentClasses(ktp:PutPart ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPutPart_PartName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPutPart_PartName xsd:NMTOKEN)))
+
+Declaration(ObjectProperty(ktp:hasPutPart_Location))
+ObjectPropertyDomain(ktp:hasPutPart_Location ktp:PutPart)
+ObjectPropertyRange(ktp:hasPutPart_Location ktw:PhysicalLocation)
+InverseFunctionalObjectProperty(ktp:hasPutPart_Location)
+FunctionalObjectProperty(ktp:hasPutPart_Location)
+EquivalentClasses(ktp:PutPart ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasPutPart_Location ktw:PhysicalLocation)
+  ObjectAllValuesFrom (ktp:hasPutPart_Location ktw:PhysicalLocation)))
+
+Declaration(ObjectProperty(ktp:hadByLocation_PutPart))
+InverseObjectProperties(ktp:hasPutPart_Location
+                        ktp:hadByLocation_PutPart)
+ObjectPropertyDomain(ktp:hadByLocation_PutPart ktw:PhysicalLocation)
+ObjectPropertyRange(ktp:hadByLocation_PutPart ktp:PutPart)
+
+
+
+Declaration(Class(ktp:RobotActionBase))
+
+AnnotationAssertion(rdfs:comment ktp:RobotActionBase
+  "RobotActionBase is derived from ActionBase.
+  An instance of RobotActionBase has the following:
+    .
+ 
+  The RobotActionBase defines the base type for robot actions.")
+
+SubClassOf(ktp:AttachEndEffector ktp:RobotActionBase)
+SubClassOf(ktp:DetachEndEffector ktp:RobotActionBase)
+SubClassOf(ktp:PutKitTray ktp:RobotActionBase)
+SubClassOf(ktp:PutKit ktp:RobotActionBase)
+SubClassOf(ktp:PutPart ktp:RobotActionBase)
+SubClassOf(ktp:TakeKitTray ktp:RobotActionBase)
+SubClassOf(ktp:TakeKit ktp:RobotActionBase)
+SubClassOf(ktp:TakePart ktp:RobotActionBase)
+DisjointUnion(ktp:RobotActionBase
+              ktp:AttachEndEffector
+              ktp:DetachEndEffector
+              ktp:PutKitTray
+              ktp:PutKit
+              ktp:PutPart
+              ktp:TakeKitTray
+              ktp:TakeKit
+              ktp:TakePart)
+
+
+
+Declaration(Class(ktp:SensorActionBase))
+
+AnnotationAssertion(rdfs:comment ktp:SensorActionBase
+  "SensorActionBase is derived from ActionBase.
+  An instance of SensorActionBase has the following:
+    .
+ 
+  The SensorActionBase defines the base type for sensor actions.")
+
+SubClassOf(ktp:LocatePart ktp:SensorActionBase)
+
+
+
+Declaration(Class(ktp:SomeOfActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:SomeOfActionGroup
+  "SomeOfActionGroup is derived from ActionGroupBase.
+  An instance of SomeOfActionGroup has the following:
+    Step
+    NumberOfSteps.
+ 
+  The SomeOfActionGroup defines an action group for which a
+  specified number of the steps it contains must be executed; they
+  may be executed in any order.
+ 
+  Each Step is a plan element.
+ 
+  The NumberOfSteps is the number of steps from the Step
+  list to be executed. This must be at least one and must not be
+  larger than the number of items in the Step list.")
+
+Declaration(ObjectProperty(ktp:hasSomeOfActionGroup_Step))
+ObjectPropertyDomain(ktp:hasSomeOfActionGroup_Step ktp:SomeOfActionGroup)
+ObjectPropertyRange(ktp:hasSomeOfActionGroup_Step ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasSomeOfActionGroup_Step)
+
+Declaration(ObjectProperty(ktp:hadByStep_SomeOfActionGroup))
+InverseObjectProperties(ktp:hasSomeOfActionGroup_Step
+                        ktp:hadByStep_SomeOfActionGroup)
+ObjectPropertyDomain(ktp:hadByStep_SomeOfActionGroup ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByStep_SomeOfActionGroup ktp:SomeOfActionGroup)
+
+Declaration(DataProperty(ktp:hasSomeOfActionGroup_NumberOfSteps))
+DataPropertyDomain(ktp:hasSomeOfActionGroup_NumberOfSteps ktp:SomeOfActionGroup)
+DataPropertyRange(ktp:hasSomeOfActionGroup_NumberOfSteps xsd:positiveInteger)
+FunctionalDataProperty(ktp:hasSomeOfActionGroup_NumberOfSteps)
+EquivalentClasses(ktp:SomeOfActionGroup ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasSomeOfActionGroup_NumberOfSteps xsd:positiveInteger)
+  DataAllValuesFrom (ktp:hasSomeOfActionGroup_NumberOfSteps xsd:positiveInteger)))
+
+
+
+Declaration(Class(ktp:StepWithPredecessors))
+
+AnnotationAssertion(rdfs:comment ktp:StepWithPredecessors
+  "StepWithPredecessors is derived from DataThing
+  An instance of StepWithPredecessors has the following:
+    SequenceNumber
+    Predecessor (optional, multiple)
+    PlanElement.
+ 
+  The StepWithPredecessors defines information about a single
+  PlanElement that has predecessors.
+ 
+  Each optional Predecessor is the number of a step that must be
+  executed before this step is executed. Care should be taken that no
+  step has itself as a predecessor and that there are no loops of
+  predecessors, as when step 1 is a predecessor of step 2 and step 2
+  is a predecessor of step 1.
+ 
+  The PlanElement is a plan element to be executed.")
+
+Declaration(DataProperty(ktp:hasStepWithPredecessors_SequenceNumber))
+DataPropertyDomain(ktp:hasStepWithPredecessors_SequenceNumber ktp:StepWithPredecessors)
+DataPropertyRange(ktp:hasStepWithPredecessors_SequenceNumber xsd:positiveInteger)
+FunctionalDataProperty(ktp:hasStepWithPredecessors_SequenceNumber)
+EquivalentClasses(ktp:StepWithPredecessors ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasStepWithPredecessors_SequenceNumber xsd:positiveInteger)
+  DataAllValuesFrom (ktp:hasStepWithPredecessors_SequenceNumber xsd:positiveInteger)))
+
+Declaration(DataProperty(ktp:hasStepWithPredecessors_Predecessor))
+DataPropertyDomain(ktp:hasStepWithPredecessors_Predecessor ktp:StepWithPredecessors)
+DataPropertyRange(ktp:hasStepWithPredecessors_Predecessor xsd:positiveInteger)
+
+Declaration(ObjectProperty(ktp:hasStepWithPredecessors_PlanElement))
+ObjectPropertyDomain(ktp:hasStepWithPredecessors_PlanElement ktp:StepWithPredecessors)
+ObjectPropertyRange(ktp:hasStepWithPredecessors_PlanElement ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasStepWithPredecessors_PlanElement)
+FunctionalObjectProperty(ktp:hasStepWithPredecessors_PlanElement)
+EquivalentClasses(ktp:StepWithPredecessors ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasStepWithPredecessors_PlanElement ktp:PlanElementBase)
+  ObjectAllValuesFrom (ktp:hasStepWithPredecessors_PlanElement ktp:PlanElementBase)))
+
+Declaration(ObjectProperty(ktp:hadByPlanElement_StepWithPredecessors))
+InverseObjectProperties(ktp:hasStepWithPredecessors_PlanElement
+                        ktp:hadByPlanElement_StepWithPredecessors)
+ObjectPropertyDomain(ktp:hadByPlanElement_StepWithPredecessors ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByPlanElement_StepWithPredecessors ktp:StepWithPredecessors)
+
+
+
+Declaration(Class(ktp:TakeKit))
+
+AnnotationAssertion(rdfs:comment ktp:TakeKit
+  "TakeKit is derived from RobotActionBase.
+  An instance of TakeKit has the following:
+    RobotName
+    KitName.
+ 
+  Immediately before an instance of TakeKit is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+  As an instance of TakeKit is executed:
+  The robot moves to a position from which it may pick up the kit
+  and closes the gripper on the kit. The kit is not moved but
+  the location of the kit changes so that the kit is located
+  relative to the gripper.")
+
+Declaration(DataProperty(ktp:hasTakeKit_RobotName))
+DataPropertyDomain(ktp:hasTakeKit_RobotName ktp:TakeKit)
+DataPropertyRange(ktp:hasTakeKit_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasTakeKit_RobotName)
+EquivalentClasses(ktp:TakeKit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasTakeKit_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasTakeKit_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasTakeKit_KitName))
+DataPropertyDomain(ktp:hasTakeKit_KitName ktp:TakeKit)
+DataPropertyRange(ktp:hasTakeKit_KitName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasTakeKit_KitName)
+EquivalentClasses(ktp:TakeKit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasTakeKit_KitName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasTakeKit_KitName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:TakeKitTray))
+
+AnnotationAssertion(rdfs:comment ktp:TakeKitTray
+  "TakeKitTray is derived from RobotActionBase.
+  An instance of TakeKitTray has the following:
+    RobotName
+    KitTrayName.
+ 
+  Immediately before an instance of TakeKitTray is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit tray.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+  As an instance of TakeKitTray is executed:
+  The robot moves to a position from which it may pick up the kit tray
+  and closes the gripper on the kit tray. The kit tray is not moved but
+  the location of the kit tray changes so that the kit tray is located
+  relative to the gripper.")
+
+Declaration(DataProperty(ktp:hasTakeKitTray_RobotName))
+DataPropertyDomain(ktp:hasTakeKitTray_RobotName ktp:TakeKitTray)
+DataPropertyRange(ktp:hasTakeKitTray_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasTakeKitTray_RobotName)
+EquivalentClasses(ktp:TakeKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasTakeKitTray_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasTakeKitTray_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasTakeKitTray_KitTrayName))
+DataPropertyDomain(ktp:hasTakeKitTray_KitTrayName ktp:TakeKitTray)
+DataPropertyRange(ktp:hasTakeKitTray_KitTrayName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasTakeKitTray_KitTrayName)
+EquivalentClasses(ktp:TakeKitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasTakeKitTray_KitTrayName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasTakeKitTray_KitTrayName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:TakePart))
+
+AnnotationAssertion(rdfs:comment ktp:TakePart
+  "TakePart is derived from RobotActionBase.
+  An instance of TakePart has the following:
+    RobotName
+    PartName.
+ 
+  Immediately before an instance of TakePart is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named part.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+  As an instance of TakePart is executed:
+  The robot moves to a position from which it may pick up the part
+  and closes the gripper on the part. The part is not moved but
+  the location of the part changes so that the part is located
+  relative to the gripper.")
+
+Declaration(DataProperty(ktp:hasTakePart_RobotName))
+DataPropertyDomain(ktp:hasTakePart_RobotName ktp:TakePart)
+DataPropertyRange(ktp:hasTakePart_RobotName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasTakePart_RobotName)
+EquivalentClasses(ktp:TakePart ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasTakePart_RobotName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasTakePart_RobotName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasTakePart_PartName))
+DataPropertyDomain(ktp:hasTakePart_PartName ktp:TakePart)
+DataPropertyRange(ktp:hasTakePart_PartName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasTakePart_PartName)
+EquivalentClasses(ktp:TakePart ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasTakePart_PartName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasTakePart_PartName xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:TestAndStep))
+
+AnnotationAssertion(rdfs:comment ktp:TestAndStep
+  "TestAndStep represents a test to evaluate and a plan element
+  to execute if the test evaluates to true.
+  An instance of TestAndStep has the following:
+    Test
+    Step.
+ 
+  Test is a boolean expression to evaluate.
+  Step is the plan element to execute if the Test evaluates to true.")
+
+Declaration(ObjectProperty(ktp:hasTestAndStep_Test))
+ObjectPropertyDomain(ktp:hasTestAndStep_Test ktp:TestAndStep)
+ObjectPropertyRange(ktp:hasTestAndStep_Test ktp:BooleanExpression)
+InverseFunctionalObjectProperty(ktp:hasTestAndStep_Test)
+FunctionalObjectProperty(ktp:hasTestAndStep_Test)
+EquivalentClasses(ktp:TestAndStep ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasTestAndStep_Test ktp:BooleanExpression)
+  ObjectAllValuesFrom (ktp:hasTestAndStep_Test ktp:BooleanExpression)))
+
+Declaration(ObjectProperty(ktp:hadByTest_TestAndStep))
+InverseObjectProperties(ktp:hasTestAndStep_Test
+                        ktp:hadByTest_TestAndStep)
+ObjectPropertyDomain(ktp:hadByTest_TestAndStep ktp:BooleanExpression)
+ObjectPropertyRange(ktp:hadByTest_TestAndStep ktp:TestAndStep)
+
+Declaration(ObjectProperty(ktp:hasTestAndStep_Step))
+ObjectPropertyDomain(ktp:hasTestAndStep_Step ktp:TestAndStep)
+ObjectPropertyRange(ktp:hasTestAndStep_Step ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasTestAndStep_Step)
+FunctionalObjectProperty(ktp:hasTestAndStep_Step)
+EquivalentClasses(ktp:TestAndStep ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasTestAndStep_Step ktp:PlanElementBase)
+  ObjectAllValuesFrom (ktp:hasTestAndStep_Step ktp:PlanElementBase)))
+
+Declaration(ObjectProperty(ktp:hadByStep_TestAndStep))
+InverseObjectProperties(ktp:hasTestAndStep_Step
+                        ktp:hadByStep_TestAndStep)
+ObjectPropertyDomain(ktp:hadByStep_TestAndStep ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByStep_TestAndStep ktp:TestAndStep)
+
+
+
+Declaration(Class(ktp:UnorderedActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:UnorderedActionGroup
+  "UnorderedActionGroup is derived from ActionGroupBase.
+  An instance of UnorderedActionGroup has the following:
+    Step.
+ 
+  The UnorderedActionGroup defines an action group for which all
+  of the steps it contains should be executed, but any order of
+  executing them will work, and no particular order of execution is
+  required.
+ 
+  Each Step is a plan element to execute.")
+
+Declaration(ObjectProperty(ktp:hasUnorderedActionGroup_Step))
+ObjectPropertyDomain(ktp:hasUnorderedActionGroup_Step ktp:UnorderedActionGroup)
+ObjectPropertyRange(ktp:hasUnorderedActionGroup_Step ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasUnorderedActionGroup_Step)
+
+Declaration(ObjectProperty(ktp:hadByStep_UnorderedActionGroup))
+InverseObjectProperties(ktp:hasUnorderedActionGroup_Step
+                        ktp:hadByStep_UnorderedActionGroup)
+ObjectPropertyDomain(ktp:hadByStep_UnorderedActionGroup ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByStep_UnorderedActionGroup ktp:UnorderedActionGroup)
+
+
+
+Declaration(Class(ktp:WhileActionGroup))
+
+AnnotationAssertion(rdfs:comment ktp:WhileActionGroup
+  "WhileActionGroup represents a loop.
+  An instance of WhileActionGroup has the following:
+    Test
+    Step.
+ 
+  Test is a boolean expression to evaluate.
+  Step is a plan element to execute if the test evaluates to true.
+ 
+  To execute an instance of WhileActionGroup, evaluate the Test.
+  If the Test evaluates to true, execute the Step. Repeat evaluating
+  and executing as long as the Test evaluates to true. The first time
+  the Test evaluates to false, return.
+ 
+  If the Test evaluates to false the first time it is evaluated, the
+  Step is never executed.")
+
+Declaration(ObjectProperty(ktp:hasWhileActionGroup_Test))
+ObjectPropertyDomain(ktp:hasWhileActionGroup_Test ktp:WhileActionGroup)
+ObjectPropertyRange(ktp:hasWhileActionGroup_Test ktp:BooleanExpression)
+InverseFunctionalObjectProperty(ktp:hasWhileActionGroup_Test)
+FunctionalObjectProperty(ktp:hasWhileActionGroup_Test)
+EquivalentClasses(ktp:WhileActionGroup ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasWhileActionGroup_Test ktp:BooleanExpression)
+  ObjectAllValuesFrom (ktp:hasWhileActionGroup_Test ktp:BooleanExpression)))
+
+Declaration(ObjectProperty(ktp:hadByTest_WhileActionGroup))
+InverseObjectProperties(ktp:hasWhileActionGroup_Test
+                        ktp:hadByTest_WhileActionGroup)
+ObjectPropertyDomain(ktp:hadByTest_WhileActionGroup ktp:BooleanExpression)
+ObjectPropertyRange(ktp:hadByTest_WhileActionGroup ktp:WhileActionGroup)
+
+Declaration(ObjectProperty(ktp:hasWhileActionGroup_Step))
+ObjectPropertyDomain(ktp:hasWhileActionGroup_Step ktp:WhileActionGroup)
+ObjectPropertyRange(ktp:hasWhileActionGroup_Step ktp:PlanElementBase)
+InverseFunctionalObjectProperty(ktp:hasWhileActionGroup_Step)
+FunctionalObjectProperty(ktp:hasWhileActionGroup_Step)
+EquivalentClasses(ktp:WhileActionGroup ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasWhileActionGroup_Step ktp:PlanElementBase)
+  ObjectAllValuesFrom (ktp:hasWhileActionGroup_Step ktp:PlanElementBase)))
+
+Declaration(ObjectProperty(ktp:hadByStep_WhileActionGroup))
+InverseObjectProperties(ktp:hasWhileActionGroup_Step
+                        ktp:hadByStep_WhileActionGroup)
+ObjectPropertyDomain(ktp:hadByStep_WhileActionGroup ktp:PlanElementBase)
+ObjectPropertyRange(ktp:hadByStep_WhileActionGroup ktp:WhileActionGroup)
+
+
+
+Declaration(Class(ktp:And))
+
+AnnotationAssertion(rdfs:comment ktp:And
+  "And is derived from BinaryBooleanExpression.
+  An instance of And has the following:
+    B1 (inherited)
+    B2 (inherited).
+ 
+  B1 and B2 are two boolean expressions to be considered. The And
+  returns True if the value of B1 is True and the value of B2 is
+  True. Otherwise, it returns False.")
+
+
+
+Declaration(Class(ktp:ArithmeticComparisonBooleanExpression))
+
+AnnotationAssertion(rdfs:comment ktp:ArithmeticComparisonBooleanExpression
+  "ArithmeticComparisonBooleanExpression is an abstract type
+  derived from BooleanExpression representing an expression
+  with a value that is an xs:boolean. An instance of
+  ArithmeticComparisonBooleanExpression has the following:
+    A1
+    A2.
+ 
+  A1 and A2 are two arithmetic expressions to be compared.")
+
+SubClassOf(ktp:Equal ktp:ArithmeticComparisonBooleanExpression)
+SubClassOf(ktp:GreaterOrEqual ktp:ArithmeticComparisonBooleanExpression)
+SubClassOf(ktp:Greater ktp:ArithmeticComparisonBooleanExpression)
+SubClassOf(ktp:LessOrEqual ktp:ArithmeticComparisonBooleanExpression)
+SubClassOf(ktp:Less ktp:ArithmeticComparisonBooleanExpression)
+SubClassOf(ktp:NotEqual ktp:ArithmeticComparisonBooleanExpression)
+DisjointUnion(ktp:ArithmeticComparisonBooleanExpression
+              ktp:Equal
+              ktp:GreaterOrEqual
+              ktp:Greater
+              ktp:LessOrEqual
+              ktp:Less
+              ktp:NotEqual)
+
+Declaration(ObjectProperty(ktp:hasArithmeticComparisonBooleanExpression_A1))
+ObjectPropertyDomain(ktp:hasArithmeticComparisonBooleanExpression_A1 ktp:ArithmeticComparisonBooleanExpression)
+ObjectPropertyRange(ktp:hasArithmeticComparisonBooleanExpression_A1 ktp:ArithmeticExpression)
+InverseFunctionalObjectProperty(ktp:hasArithmeticComparisonBooleanExpression_A1)
+FunctionalObjectProperty(ktp:hasArithmeticComparisonBooleanExpression_A1)
+EquivalentClasses(ktp:ArithmeticComparisonBooleanExpression ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasArithmeticComparisonBooleanExpression_A1 ktp:ArithmeticExpression)
+  ObjectAllValuesFrom (ktp:hasArithmeticComparisonBooleanExpression_A1 ktp:ArithmeticExpression)))
+
+Declaration(ObjectProperty(ktp:hadByA1_ArithmeticComparisonBooleanExpression))
+InverseObjectProperties(ktp:hasArithmeticComparisonBooleanExpression_A1
+                        ktp:hadByA1_ArithmeticComparisonBooleanExpression)
+ObjectPropertyDomain(ktp:hadByA1_ArithmeticComparisonBooleanExpression ktp:ArithmeticExpression)
+ObjectPropertyRange(ktp:hadByA1_ArithmeticComparisonBooleanExpression ktp:ArithmeticComparisonBooleanExpression)
+
+Declaration(ObjectProperty(ktp:hasArithmeticComparisonBooleanExpression_A2))
+ObjectPropertyDomain(ktp:hasArithmeticComparisonBooleanExpression_A2 ktp:ArithmeticComparisonBooleanExpression)
+ObjectPropertyRange(ktp:hasArithmeticComparisonBooleanExpression_A2 ktp:ArithmeticExpression)
+InverseFunctionalObjectProperty(ktp:hasArithmeticComparisonBooleanExpression_A2)
+FunctionalObjectProperty(ktp:hasArithmeticComparisonBooleanExpression_A2)
+EquivalentClasses(ktp:ArithmeticComparisonBooleanExpression ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasArithmeticComparisonBooleanExpression_A2 ktp:ArithmeticExpression)
+  ObjectAllValuesFrom (ktp:hasArithmeticComparisonBooleanExpression_A2 ktp:ArithmeticExpression)))
+
+Declaration(ObjectProperty(ktp:hadByA2_ArithmeticComparisonBooleanExpression))
+InverseObjectProperties(ktp:hasArithmeticComparisonBooleanExpression_A2
+                        ktp:hadByA2_ArithmeticComparisonBooleanExpression)
+ObjectPropertyDomain(ktp:hadByA2_ArithmeticComparisonBooleanExpression ktp:ArithmeticExpression)
+ObjectPropertyRange(ktp:hadByA2_ArithmeticComparisonBooleanExpression ktp:ArithmeticComparisonBooleanExpression)
+
+
+
+Declaration(Class(ktp:ArithmeticExpression))
+
+AnnotationAssertion(rdfs:comment ktp:ArithmeticExpression
+  "ArithmeticExpression is an abstract type derived from
+  DataThing and representing an expression with a value that
+  is an xs:decimal.
+  An instance of ArithmeticExpression has the following:
+    .
+ 
+  ArithmeticExpression has the following derivation hierarchy:
+  DataThing
+  |-ArithmeticExpression
+    |-Decimal
+    |-BinaryArithmeticExpression
+    | |-Div
+    | |-Minus
+    | |-Mod
+    | |-Plus
+    | |-Times
+    |-Negate
+    |-PropVal
+    |-VarVal")
+
+SubClassOf(ktp:BinaryArithmeticExpression ktp:ArithmeticExpression)
+SubClassOf(ktp:Decimal ktp:ArithmeticExpression)
+SubClassOf(ktp:Negate ktp:ArithmeticExpression)
+SubClassOf(ktp:PropVal ktp:ArithmeticExpression)
+SubClassOf(ktp:VarVal ktp:ArithmeticExpression)
+DisjointUnion(ktp:ArithmeticExpression
+              ktp:BinaryArithmeticExpression
+              ktp:Decimal
+              ktp:Negate
+              ktp:PropVal
+              ktp:VarVal)
+
+
+
+Declaration(Class(ktp:BinaryArithmeticExpression))
+
+AnnotationAssertion(rdfs:comment ktp:BinaryArithmeticExpression
+  "BinaryArithmeticExpression is an abstract type derived from
+  ArithmeticExpression that represents an arithmetic operation
+  with two operands, both of which are ArithmeticExpression.
+  An instance of BinaryArithmeticExpression has the
+  following:
+    A1
+    A2.
+ 
+  A1 is the first arithmetic expression.
+  A2 is the second arithmetic expression.")
+
+SubClassOf(ktp:Div ktp:BinaryArithmeticExpression)
+SubClassOf(ktp:Minus ktp:BinaryArithmeticExpression)
+SubClassOf(ktp:Mod ktp:BinaryArithmeticExpression)
+SubClassOf(ktp:Plus ktp:BinaryArithmeticExpression)
+SubClassOf(ktp:Times ktp:BinaryArithmeticExpression)
+DisjointUnion(ktp:BinaryArithmeticExpression
+              ktp:Div
+              ktp:Minus
+              ktp:Mod
+              ktp:Plus
+              ktp:Times)
+
+Declaration(ObjectProperty(ktp:hasBinaryArithmeticExpression_A1))
+ObjectPropertyDomain(ktp:hasBinaryArithmeticExpression_A1 ktp:BinaryArithmeticExpression)
+ObjectPropertyRange(ktp:hasBinaryArithmeticExpression_A1 ktp:ArithmeticExpression)
+InverseFunctionalObjectProperty(ktp:hasBinaryArithmeticExpression_A1)
+FunctionalObjectProperty(ktp:hasBinaryArithmeticExpression_A1)
+EquivalentClasses(ktp:BinaryArithmeticExpression ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasBinaryArithmeticExpression_A1 ktp:ArithmeticExpression)
+  ObjectAllValuesFrom (ktp:hasBinaryArithmeticExpression_A1 ktp:ArithmeticExpression)))
+
+Declaration(ObjectProperty(ktp:hadByA1_BinaryArithmeticExpression))
+InverseObjectProperties(ktp:hasBinaryArithmeticExpression_A1
+                        ktp:hadByA1_BinaryArithmeticExpression)
+ObjectPropertyDomain(ktp:hadByA1_BinaryArithmeticExpression ktp:ArithmeticExpression)
+ObjectPropertyRange(ktp:hadByA1_BinaryArithmeticExpression ktp:BinaryArithmeticExpression)
+
+Declaration(ObjectProperty(ktp:hasBinaryArithmeticExpression_A2))
+ObjectPropertyDomain(ktp:hasBinaryArithmeticExpression_A2 ktp:BinaryArithmeticExpression)
+ObjectPropertyRange(ktp:hasBinaryArithmeticExpression_A2 ktp:ArithmeticExpression)
+InverseFunctionalObjectProperty(ktp:hasBinaryArithmeticExpression_A2)
+FunctionalObjectProperty(ktp:hasBinaryArithmeticExpression_A2)
+EquivalentClasses(ktp:BinaryArithmeticExpression ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasBinaryArithmeticExpression_A2 ktp:ArithmeticExpression)
+  ObjectAllValuesFrom (ktp:hasBinaryArithmeticExpression_A2 ktp:ArithmeticExpression)))
+
+Declaration(ObjectProperty(ktp:hadByA2_BinaryArithmeticExpression))
+InverseObjectProperties(ktp:hasBinaryArithmeticExpression_A2
+                        ktp:hadByA2_BinaryArithmeticExpression)
+ObjectPropertyDomain(ktp:hadByA2_BinaryArithmeticExpression ktp:ArithmeticExpression)
+ObjectPropertyRange(ktp:hadByA2_BinaryArithmeticExpression ktp:BinaryArithmeticExpression)
+
+
+
+Declaration(Class(ktp:BinaryBooleanExpression))
+
+AnnotationAssertion(rdfs:comment ktp:BinaryBooleanExpression
+  "BinaryBooleanExpression is an abstract type derived from
+  BooleanExpression that represents a boolean operation
+  with two operands, both of which are BooleanExpression.
+  An instance of BinaryBooleanExpression has the
+  following:
+    B1
+    B2.
+ 
+  B1 is the first boolean expression.
+  B2 is the second boolean expression.")
+
+SubClassOf(ktp:And ktp:BinaryBooleanExpression)
+SubClassOf(ktp:Or ktp:BinaryBooleanExpression)
+DisjointUnion(ktp:BinaryBooleanExpression
+              ktp:And
+              ktp:Or)
+
+Declaration(ObjectProperty(ktp:hasBinaryBooleanExpression_B1))
+ObjectPropertyDomain(ktp:hasBinaryBooleanExpression_B1 ktp:BinaryBooleanExpression)
+ObjectPropertyRange(ktp:hasBinaryBooleanExpression_B1 ktp:BooleanExpression)
+InverseFunctionalObjectProperty(ktp:hasBinaryBooleanExpression_B1)
+FunctionalObjectProperty(ktp:hasBinaryBooleanExpression_B1)
+EquivalentClasses(ktp:BinaryBooleanExpression ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasBinaryBooleanExpression_B1 ktp:BooleanExpression)
+  ObjectAllValuesFrom (ktp:hasBinaryBooleanExpression_B1 ktp:BooleanExpression)))
+
+Declaration(ObjectProperty(ktp:hadByB1_BinaryBooleanExpression))
+InverseObjectProperties(ktp:hasBinaryBooleanExpression_B1
+                        ktp:hadByB1_BinaryBooleanExpression)
+ObjectPropertyDomain(ktp:hadByB1_BinaryBooleanExpression ktp:BooleanExpression)
+ObjectPropertyRange(ktp:hadByB1_BinaryBooleanExpression ktp:BinaryBooleanExpression)
+
+Declaration(ObjectProperty(ktp:hasBinaryBooleanExpression_B2))
+ObjectPropertyDomain(ktp:hasBinaryBooleanExpression_B2 ktp:BinaryBooleanExpression)
+ObjectPropertyRange(ktp:hasBinaryBooleanExpression_B2 ktp:BooleanExpression)
+InverseFunctionalObjectProperty(ktp:hasBinaryBooleanExpression_B2)
+FunctionalObjectProperty(ktp:hasBinaryBooleanExpression_B2)
+EquivalentClasses(ktp:BinaryBooleanExpression ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasBinaryBooleanExpression_B2 ktp:BooleanExpression)
+  ObjectAllValuesFrom (ktp:hasBinaryBooleanExpression_B2 ktp:BooleanExpression)))
+
+Declaration(ObjectProperty(ktp:hadByB2_BinaryBooleanExpression))
+InverseObjectProperties(ktp:hasBinaryBooleanExpression_B2
+                        ktp:hadByB2_BinaryBooleanExpression)
+ObjectPropertyDomain(ktp:hadByB2_BinaryBooleanExpression ktp:BooleanExpression)
+ObjectPropertyRange(ktp:hadByB2_BinaryBooleanExpression ktp:BinaryBooleanExpression)
+
+
+
+Declaration(Class(ktp:BooleanExpression))
+
+AnnotationAssertion(rdfs:comment ktp:BooleanExpression
+  "BooleanExpression is an abstract type derived from
+	DataThing and representing an expression with a value that is
+  an xs:boolean (i.e., either True or False).
+  An instance of BooleanExpression has the following:
+    .
+ 
+  BooleanExpression has the following derivation hierarchy:
+  DataThing
+  |-BooleanExpression
+    |-ArithmeticComparisonBooleanExpression
+    | |-Equal
+    | |-GreaterOrEqual
+    | |-Greater
+    | |-LessOrEqual
+    | |-Less
+    | |-NotEqual
+    |-BooleanConstant
+    | |-True
+    | |-False
+    |-BinaryBooleanExpression
+    | |-And
+    | |-Or
+    |-Not")
+
+SubClassOf(ktp:ArithmeticComparisonBooleanExpression ktp:BooleanExpression)
+SubClassOf(ktp:BinaryBooleanExpression ktp:BooleanExpression)
+SubClassOf(ktp:BooleanConstant ktp:BooleanExpression)
+SubClassOf(ktp:Not ktp:BooleanExpression)
+DisjointUnion(ktp:BooleanExpression
+              ktp:ArithmeticComparisonBooleanExpression
+              ktp:BinaryBooleanExpression
+              ktp:BooleanConstant
+              ktp:Not)
+
+
+
+Declaration(Class(ktp:BooleanConstant))
+
+AnnotationAssertion(rdfs:comment ktp:BooleanConstant
+  "BooleanConstant is an abstract type derived from
+  BooleanExpression representing a constant boolean value
+  (i.e., either True or False). An instance of BooleanConstant
+  has the following:
+    .")
+
+SubClassOf(ktp:False ktp:BooleanConstant)
+SubClassOf(ktp:True ktp:BooleanConstant)
+DisjointUnion(ktp:BooleanConstant
+              ktp:False
+              ktp:True)
+
+
+
+Declaration(Class(ktp:Decimal))
+
+AnnotationAssertion(rdfs:comment ktp:Decimal
+  "Decimal is derived from ArithmeticExpression and
+  represents a constant number. An instance of Decimal has
+  the following:
+    A.
+ 
+  A is a number that is an xs:decimal.")
+
+Declaration(DataProperty(ktp:hasDecimal_A))
+DataPropertyDomain(ktp:hasDecimal_A ktp:Decimal)
+DataPropertyRange(ktp:hasDecimal_A xsd:decimal)
+FunctionalDataProperty(ktp:hasDecimal_A)
+EquivalentClasses(ktp:Decimal ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasDecimal_A xsd:decimal)
+  DataAllValuesFrom (ktp:hasDecimal_A xsd:decimal)))
+
+
+
+Declaration(Class(ktp:Div))
+
+AnnotationAssertion(rdfs:comment ktp:Div
+  "Div is derived from BinaryArithmeticExpression and
+  represents one number divided by another.
+  An instance of Div has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The value of an instance of Div is the value of A1 divided by
+  the value of A2. The value of A2 should not be zero.")
+
+
+
+Declaration(Class(ktp:Equal))
+
+AnnotationAssertion(rdfs:comment ktp:Equal
+  "Equal is derived from ArithmeticComparisonBooleanExpression.
+  An instance of Equal has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The Equal is an arithmetic comparison type. It returns a
+  boolean value of True if the value of arithmetic expression A1 is
+  equal to the value of arithmetic expression A2. Otherwise, it
+  returns False.")
+
+
+
+Declaration(Class(ktp:False))
+
+AnnotationAssertion(rdfs:comment ktp:False
+  "False is derived from BooleanConstant and represents
+  a boolean value of False.
+  An instance of False has the following:
+    .")
+
+
+
+Declaration(Class(ktp:GreaterOrEqual))
+
+AnnotationAssertion(rdfs:comment ktp:GreaterOrEqual
+  "GreaterOrEqual is derived from
+  ArithmeticComparisonBooleanExpression.
+  An instance of GreaterOrEqual has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The GreaterOrEqual is an arithmetic comparison type. It returns
+  a boolean value of True if the value of arithmetic expression A1 is
+  greater than or equal to the value of arithmetic expression A2.
+  Otherwise, it returns False.")
+
+
+
+Declaration(Class(ktp:Greater))
+
+AnnotationAssertion(rdfs:comment ktp:Greater
+  "Greater is derived from
+  ArithmeticComparisonBooleanExpression.
+  An instance of Greater has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The Greater is an arithmetic comparison type. It returns a
+  boolean value of True if the value of arithmetic expression A1 is
+  greater than the value of arithmetic expression A2. Otherwise, it
+  returns False.")
+
+
+
+Declaration(Class(ktp:LessOrEqual))
+
+AnnotationAssertion(rdfs:comment ktp:LessOrEqual
+  "LessOrEqual is derived from
+  ArithmeticComparisonBooleanExpression.
+  An instance of LessOrEqual has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The LessOrEqual is an arithmetic comparison type. It returns a
+  boolean value of True if the value of arithmetic expression A1 is
+  less than or equal to the value of arithmetic expression A2.
+  Otherwise, it returns False.")
+
+
+
+Declaration(Class(ktp:Less))
+
+AnnotationAssertion(rdfs:comment ktp:Less
+  "Less is derived from ArithmeticComparisonBooleanExpression.
+  An instance of Less has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The Less is an arithmetic comparison type. It returns a boolean
+  value of True if the value of arithmetic expression A1 is less than
+  the value of arithmetic expression A2. Otherwise, it returns False.")
+
+
+
+Declaration(Class(ktp:Minus))
+
+AnnotationAssertion(rdfs:comment ktp:Minus
+  "Minus is derived from BinaryArithmeticExpression and
+  represents one number subtracted from another.
+  An instance of Minus has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The value of an instance of Minus is the value of A1 minus the
+  value of A2.")
+
+
+
+Declaration(Class(ktp:Mod))
+
+AnnotationAssertion(rdfs:comment ktp:Mod
+  "Mod is derived from BinaryArithmeticExpression and
+  represents the remainder when one number is divided by another.
+  An instance of Mod has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The value of an instance of Mod is the remainder when the value
+  of A1 is divided by the value of A2. The value of A2 should not be
+  zero.")
+
+
+
+Declaration(Class(ktp:Negate))
+
+AnnotationAssertion(rdfs:comment ktp:Negate
+  "Negate is derived from ArithmeticExpression and represents
+  reversing the sign of the value of an arithmetic expression.
+  An instance of Negate has the following:
+    A.
+ 
+  A is the arithmetic expression whose value is to have its sign
+  reversed. The value of an instance of Negate is the value of
+  A multiplied by -1.")
+
+Declaration(ObjectProperty(ktp:hasNegate_A))
+ObjectPropertyDomain(ktp:hasNegate_A ktp:Negate)
+ObjectPropertyRange(ktp:hasNegate_A ktp:ArithmeticExpression)
+InverseFunctionalObjectProperty(ktp:hasNegate_A)
+FunctionalObjectProperty(ktp:hasNegate_A)
+EquivalentClasses(ktp:Negate ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasNegate_A ktp:ArithmeticExpression)
+  ObjectAllValuesFrom (ktp:hasNegate_A ktp:ArithmeticExpression)))
+
+Declaration(ObjectProperty(ktp:hadByA_Negate))
+InverseObjectProperties(ktp:hasNegate_A
+                        ktp:hadByA_Negate)
+ObjectPropertyDomain(ktp:hadByA_Negate ktp:ArithmeticExpression)
+ObjectPropertyRange(ktp:hadByA_Negate ktp:Negate)
+
+
+
+Declaration(Class(ktp:NotEqual))
+
+AnnotationAssertion(rdfs:comment ktp:NotEqual
+  "NotEqual is derived from ArithmeticComparisonBooleanExpression.
+  An instance of NotEqual has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The NotEqual is an arithmetic comparison type. It returns a
+  boolean value of True if the value of arithmetic expression A1 is
+  not equal to the value of arithmetic expression A2. Otherwise, it
+  returns False.")
+
+
+
+Declaration(Class(ktp:Not))
+
+AnnotationAssertion(rdfs:comment ktp:Not
+  "Not is derived from BooleanExpression.
+  An instance of Not has the following:
+    B.
+ 
+  B is a boolean expression to be negated. The Not returns True
+  if the value of B is False. Otherwise, it returns False.")
+
+Declaration(ObjectProperty(ktp:hasNot_B))
+ObjectPropertyDomain(ktp:hasNot_B ktp:Not)
+ObjectPropertyRange(ktp:hasNot_B ktp:BooleanExpression)
+InverseFunctionalObjectProperty(ktp:hasNot_B)
+FunctionalObjectProperty(ktp:hasNot_B)
+EquivalentClasses(ktp:Not ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasNot_B ktp:BooleanExpression)
+  ObjectAllValuesFrom (ktp:hasNot_B ktp:BooleanExpression)))
+
+Declaration(ObjectProperty(ktp:hadByB_Not))
+InverseObjectProperties(ktp:hasNot_B
+                        ktp:hadByB_Not)
+ObjectPropertyDomain(ktp:hadByB_Not ktp:BooleanExpression)
+ObjectPropertyRange(ktp:hadByB_Not ktp:Not)
+
+
+
+Declaration(Class(ktp:Or))
+
+AnnotationAssertion(rdfs:comment ktp:Or
+  "Or is derived from BinaryBooleanExpression.
+  An instance of Or has the following:
+    B1 (inherited)
+    B2 (inherited).
+ 
+  B1 and B2 are two boolean expressions to be considered. The Or
+  returns True (a) if the value of B1 is True and the value of B2 is
+  False, or (b) if the value of B2 is True and the value of B1 is
+  False, or (c) if both values are True. Otherwise, it returns False.")
+
+
+
+Declaration(Class(ktp:Plus))
+
+AnnotationAssertion(rdfs:comment ktp:Plus
+  "Plus is derived from BinaryArithmeticExpression and
+  represents one number added to another.
+  An instance of Plus has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The value of an instance of Plus is the value of A1 plus the
+  value of A2.")
+
+
+
+Declaration(Class(ktp:PropVal))
+
+AnnotationAssertion(rdfs:comment ktp:PropVal
+  "PropVal is derived from ArithmeticExpression and represents
+  the value of any numerical data property of any SolidObject
+  or DataThing.
+  An instance of PropVal has the following.
+    ThingName
+    Property.
+ 
+  ThingName is the name of an instance of DataThing or
+  SolidObject.
+ 
+  Property is the name of a numerical property of the identified
+  instance. The value of an instance of PropVal is the value
+  of the property.")
+
+Declaration(DataProperty(ktp:hasPropVal_ThingName))
+DataPropertyDomain(ktp:hasPropVal_ThingName ktp:PropVal)
+DataPropertyRange(ktp:hasPropVal_ThingName xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPropVal_ThingName)
+EquivalentClasses(ktp:PropVal ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPropVal_ThingName xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPropVal_ThingName xsd:NMTOKEN)))
+
+Declaration(DataProperty(ktp:hasPropVal_Property))
+DataPropertyDomain(ktp:hasPropVal_Property ktp:PropVal)
+DataPropertyRange(ktp:hasPropVal_Property xsd:NMTOKEN)
+FunctionalDataProperty(ktp:hasPropVal_Property)
+EquivalentClasses(ktp:PropVal ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasPropVal_Property xsd:NMTOKEN)
+  DataAllValuesFrom (ktp:hasPropVal_Property xsd:NMTOKEN)))
+
+
+
+Declaration(Class(ktp:Times))
+
+AnnotationAssertion(rdfs:comment ktp:Times
+  "Times is derived from BinaryArithmeticExpression and
+  represents one number multiplied by another.
+  An instance of Times has the following:
+    A1 (inherited)
+    A2 (inherited)
+    .
+ 
+  The value of an instance of Times is the value of A1 multiplied
+  by the value of A2.")
+
+
+
+Declaration(Class(ktp:True))
+
+AnnotationAssertion(rdfs:comment ktp:True
+  "True is derived from BooleanConstant and represents
+  a boolean value of True.
+  An instance of True has the following:
+    .")
+
+
+
+Declaration(Class(ktp:VariableDeclaration))
+
+AnnotationAssertion(rdfs:comment ktp:VariableDeclaration
+  "VariableDeclaration is derived from DataThing and
+  represents declaring a numerical variable whose value is
+  an xs:decimal.
+  An instance of VariableDeclaration has the following:
+    Val.
+ 
+  Val is the initial value of the variable. The value may be reset
+  using an instance of VarSet. The value may be used using an
+  instance of VarVal.")
+
+Declaration(DataProperty(ktp:hasVariableDeclaration_Val))
+DataPropertyDomain(ktp:hasVariableDeclaration_Val ktp:VariableDeclaration)
+DataPropertyRange(ktp:hasVariableDeclaration_Val xsd:decimal)
+FunctionalDataProperty(ktp:hasVariableDeclaration_Val)
+EquivalentClasses(ktp:VariableDeclaration ObjectIntersectionOf(
+  DataSomeValuesFrom(ktp:hasVariableDeclaration_Val xsd:decimal)
+  DataAllValuesFrom (ktp:hasVariableDeclaration_Val xsd:decimal)))
+
+
+
+Declaration(Class(ktp:VarVal))
+
+AnnotationAssertion(rdfs:comment ktp:VarVal
+  "VarVal is derived from ArithmeticExpression and represents
+  the value of a numerical variable.
+  An instance of VarVal has the following.
+    VarName.
+ 
+  VarName is the name of a variable created with the
+  VariableDeclaration. The value of an instance of VarVal is
+  the value of the variable at the time the variable is used (as in
+  standard programming languages).")
+
+
+Declaration(ObjectProperty(ktp:hasVarVal_Var))
+ObjectPropertyDomain(ktp:hasVarVal_Var ktp:VarVal)
+ObjectPropertyRange(ktp:hasVarVal_Var ktp:VariableDeclaration)
+FunctionalObjectProperty(ktp:hasVarVal_Var)
+EquivalentClasses(ktp:VarVal ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasVarVal_Var ktp:VariableDeclaration)
+  ObjectAllValuesFrom (ktp:hasVarVal_Var ktp:VariableDeclaration)))
+
+
+
+Declaration(Class(ktp:VarSet))
+
+AnnotationAssertion(rdfs:comment ktp:VarSet
+  "VarSet is derived from PlanElementBase and represents
+  the setting of a variable.
+  An instance of VarSet has the following:
+    Var
+    Val.
+ 
+  VarName is the name of a variable.
+ 
+  Val is the value to which the variable should be set.")
+
+
+Declaration(ObjectProperty(ktp:hasVarSet_Var))
+ObjectPropertyDomain(ktp:hasVarSet_Var ktp:VarSet)
+ObjectPropertyRange(ktp:hasVarSet_Var ktp:VariableDeclaration)
+FunctionalObjectProperty(ktp:hasVarSet_Var)
+EquivalentClasses(ktp:VarSet ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasVarSet_Var ktp:VariableDeclaration)
+  ObjectAllValuesFrom (ktp:hasVarSet_Var ktp:VariableDeclaration)))
+
+Declaration(ObjectProperty(ktp:hasVarSet_Val))
+ObjectPropertyDomain(ktp:hasVarSet_Val ktp:VarSet)
+ObjectPropertyRange(ktp:hasVarSet_Val ktp:ArithmeticExpression)
+InverseFunctionalObjectProperty(ktp:hasVarSet_Val)
+FunctionalObjectProperty(ktp:hasVarSet_Val)
+EquivalentClasses(ktp:VarSet ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktp:hasVarSet_Val ktp:ArithmeticExpression)
+  ObjectAllValuesFrom (ktp:hasVarSet_Val ktp:ArithmeticExpression)))
+
+Declaration(ObjectProperty(ktp:hadByVal_VarSet))
+InverseObjectProperties(ktp:hasVarSet_Val
+                        ktp:hadByVal_VarSet)
+ObjectPropertyDomain(ktp:hadByVal_VarSet ktp:ArithmeticExpression)
+ObjectPropertyRange(ktp:hadByVal_VarSet ktp:VarSet)
+
+DisjointClasses(ktw:DataThing
+                ktw:SolidObject)
+)

@@ -1,4 +1,4 @@
-README for the kittingPlan directory - last updated 2013Oct25
+README for the kittingPlan directory - last updated 2013Dec2
 
 The kittingPlan directory contains the following subdirectories:
 
@@ -21,7 +21,7 @@ found in the Ontology/Kitting directory of the repository.
 
 
 kittingPlanParser
-------------------------
+-----------------
 
 The kittingPlanParser may be used to check an XML instance file
 against the kittingPlan.xsd schema. The information content of the
@@ -56,7 +56,7 @@ kittingPlanParser.
 
 
 owlKittingPlanPrinter
-----------------------------
+---------------------
 
 The owlKittingPlanPrinter reads an XML kitting plan instance file
 corresponding to kittingPlan.xsd (the XML schema for kitting plans)
@@ -95,12 +95,11 @@ owlKittingPlanPrinter with a command of the form:
 where
 <xmlInst> = path to XML instance file to read
 <owlInst> = name of OWL instance file to write
-<owlClass> = name of OWL class file
 <uri> = URI base to use in header
 
 For example, the following command will print the OWL file plan_a2b1c1.owl
 
-bin/owlKittingPlanPrinter xmlInstanceFiles/plan_a2b1c1.xml plan_a2b1c1.owl kittingPlanClasses.owl http://www.nist.gov/el/ontologies
+bin/owlKittingPlanPrinter xmlInstanceFiles/plan_a2b1c1.xml plan_a2b1c1.owl http://www.nist.gov/el/ontologies
 
 The kittingPlan.lex and kittingPlan.y source code files
 used for the owlKittingPlanPrinter are the ones produced by the
@@ -118,8 +117,13 @@ owlKittingPlanPrinter.
 other
 -----
 
-The kittingPlanClasses.owl file in the owlFiles directory was generated
-automatically from kittingPlan.xsd by the xmlSchemaOwlClassGenerator.
+The kittingPlanClasses.owl and kittingWorkstationClasses.owl files in
+the owlFiles directory were generated automatically from kittingPlan.xsd
+and kittingWorkstation.xml by the xmlSchemaOwlClassGenerator.
+
+The kittingWorkstation.xml file in this directory differs from the
+version of that file in the xml/kittingWorkstation directory by having
+the KittingWorkstation root element commented out.
 
 In the source directory, the kittingPlanYACC.cc and
 kittingPlanYACC.cc files are produced automatically from

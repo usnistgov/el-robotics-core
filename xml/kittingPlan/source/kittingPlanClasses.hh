@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <list>
 #include "xmlSchemaInstance.hh"
+#include "kittingWorkstationClasses.hh"
 
 /*********************************************************************/
 
@@ -12,6 +13,7 @@ class KittingPlanFile;
 class ActionBaseType;
 class ActionGroupBaseType;
 class AndType;
+class AngleUnitType;
 class ArithmeticComparisonBooleanExpressionType;
 class ArithmeticExpressionType;
 class AttachEndEffectorType;
@@ -19,31 +21,56 @@ class BinaryArithmeticExpressionType;
 class BinaryBooleanExpressionType;
 class BooleanConstantType;
 class BooleanExpressionType;
+class BoxVolumeType;
+class BoxyShapeType;
 class CreateKitType;
+class CylindricalShapeType;
 class DataThingType;
 class DecimalType;
 class DetachEndEffectorType;
 class DivType;
 class ElseType;
+class EndEffectorChangingStationType;
+class EndEffectorHolderType;
+class EndEffectorType;
 class EqualType;
+class ExternalShapeType;
 class FalseType;
 class GreaterOrEqualType;
 class GreaterType;
+class GripperEffectorType;
+class HumanType;
 class IfActionGroupType;
+class InternalShapeType;
+class KitDesignType;
+class KitTrayType;
+class KitType;
 class KittingPlanType;
+class KittingWorkstationType;
+class LargeBoxWithEmptyKitTraysType;
+class LargeBoxWithKitsType;
+class LargeContainerType;
+class LengthUnitType;
 class LessOrEqualType;
 class LessType;
 class LocatePartType;
+class MechanicalComponentType;
 class MinusType;
 class ModType;
 class NegateType;
+class NoSkuObjectType;
 class NotEqualType;
 class NotType;
 class NumberedPlanElementType;
 class OneOfActionGroupType;
 class OrType;
 class OrderedActionGroupType;
+class PartRefAndPoseType;
+class PartType;
 class PartiallyOrderedActionGroupType;
+class PartsBinType;
+class PartsTrayType;
+class PartsVesselType;
 class PhysicalLocationType;
 class PlanElementBaseType;
 class PlusType;
@@ -61,9 +88,15 @@ class RelativeLocationInType;
 class RelativeLocationOnType;
 class RelativeLocationType;
 class RobotActionBaseType;
+class RobotType;
 class SensorActionBaseType;
+class ShapeDesignType;
+class SkuObjectType;
+class SlotType;
+class SolidObjectType;
 class SomeOfActionGroupType;
 class StepWithPredecessorsType;
+class StockKeepingUnitType;
 class TakeKitTrayType;
 class TakeKitType;
 class TakePartType;
@@ -71,11 +104,16 @@ class TestAndStepType;
 class TimesType;
 class TrueType;
 class UnorderedActionGroupType;
+class VacuumEffectorMultiCupType;
+class VacuumEffectorSingleCupType;
+class VacuumEffectorType;
 class VarSetType;
 class VarValType;
 class VariableDeclarationType;
 class VectorType;
+class WeightUnitType;
 class WhileActionGroupType;
+class WorkTableType;
 class XmlHeaderForKittingPlan;
 
 /*********************************************************************/
@@ -96,363 +134,6 @@ public:
   XmlVersion * version;
   XmlHeaderForKittingPlan * header;
   KittingPlanType * KittingPlan;
-};
-
-/*********************************************************************/
-
-class DataThingType :
-  public XmlSchemaInstanceBase
-{
-public:
-  DataThingType();
-  DataThingType(
-    XmlID * NameIn);
-  ~DataThingType();
-  void printSelf(FILE * outFile);
-
-  XmlID * Name;
-};
-
-/*********************************************************************/
-
-class ElseType :
-  public DataThingType
-{
-public:
-  ElseType();
-  ElseType(
-    XmlID * NameIn,
-    PlanElementBaseType * StepIn);
-  ~ElseType();
-  void printSelf(FILE * outFile);
-
-  PlanElementBaseType * Step;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class KittingPlanType :
-  public DataThingType
-{
-public:
-  KittingPlanType();
-  KittingPlanType(
-    XmlID * NameIn,
-    XmlNMTOKEN * PlanIdIn,
-    XmlToken * PlanVersionIn,
-    XmlDateTime * PlanDateAndTimeIn,
-    XmlToken * PlanAuthorIn,
-    XmlString * PlanDescriptionIn,
-    std::list<XmlNMTOKEN *> * ObjectIn,
-    std::list<VariableDeclarationType *> * VariableIn,
-    PlanElementBaseType * PlanRootIn);
-  ~KittingPlanType();
-  void printSelf(FILE * outFile);
-
-  XmlNMTOKEN * PlanId;
-  XmlToken * PlanVersion;
-  XmlDateTime * PlanDateAndTime;
-  XmlToken * PlanAuthor;
-  XmlString * PlanDescription;
-  std::list<XmlNMTOKEN *> * Object;
-  std::list<VariableDeclarationType *> * Variable;
-  PlanElementBaseType * PlanRoot;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class NumberedPlanElementType :
-  public DataThingType
-{
-public:
-  NumberedPlanElementType();
-  NumberedPlanElementType(
-    XmlID * NameIn,
-    XmlPositiveInteger * SequenceNumberIn,
-    PlanElementBaseType * PlanElementIn);
-  ~NumberedPlanElementType();
-  void printSelf(FILE * outFile);
-
-  XmlPositiveInteger * SequenceNumber;
-  PlanElementBaseType * PlanElement;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PhysicalLocationType :
-  public DataThingType
-{
-public:
-  PhysicalLocationType();
-  PhysicalLocationType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn);
-  ~PhysicalLocationType();
-  void printSelf(FILE * outFile);
-
-  XmlNMTOKEN * RefObjectName;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PlanElementBaseType :
-  public DataThingType
-{
-public:
-  PlanElementBaseType();
-  PlanElementBaseType(
-    XmlID * NameIn);
-  ~PlanElementBaseType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PointType :
-  public DataThingType
-{
-public:
-  PointType();
-  PointType(
-    XmlID * NameIn,
-    XmlDecimal * XIn,
-    XmlDecimal * YIn,
-    XmlDecimal * ZIn);
-  ~PointType();
-  void printSelf(FILE * outFile);
-
-  XmlDecimal * X;
-  XmlDecimal * Y;
-  XmlDecimal * Z;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PoseLocationType :
-  public PhysicalLocationType
-{
-public:
-  PoseLocationType();
-  PoseLocationType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    PointType * PointIn,
-    VectorType * XAxisIn,
-    VectorType * ZAxisIn,
-    PositiveDecimalType * PositionStandardDeviationIn,
-    PositiveDecimalType * OrientationStandardDeviationIn);
-  ~PoseLocationType();
-  void printSelf(FILE * outFile);
-
-  PointType * Point;
-  VectorType * XAxis;
-  VectorType * ZAxis;
-  PositiveDecimalType * PositionStandardDeviation;
-  PositiveDecimalType * OrientationStandardDeviation;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PoseOnlyLocationType :
-  public PoseLocationType
-{
-public:
-  PoseOnlyLocationType();
-  PoseOnlyLocationType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    PointType * PointIn,
-    VectorType * XAxisIn,
-    VectorType * ZAxisIn,
-    PositiveDecimalType * PositionStandardDeviationIn,
-    PositiveDecimalType * OrientationStandardDeviationIn);
-  ~PoseOnlyLocationType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PositiveDecimalType :
-  public XmlDecimal
-{
-public:
-  PositiveDecimalType();
-  PositiveDecimalType(
-    char * valIn);
-  ~PositiveDecimalType();
-  bool PositiveDecimalTypeIsBad();
-  void printSelf(FILE * outFile);
-};
-
-/*********************************************************************/
-
-class RelativeLocationType :
-  public PhysicalLocationType
-{
-public:
-  RelativeLocationType();
-  RelativeLocationType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    XmlString * DescriptionIn);
-  ~RelativeLocationType();
-  void printSelf(FILE * outFile);
-
-  XmlString * Description;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class StepWithPredecessorsType :
-  public DataThingType
-{
-public:
-  StepWithPredecessorsType();
-  StepWithPredecessorsType(
-    XmlID * NameIn,
-    XmlPositiveInteger * SequenceNumberIn,
-    std::list<XmlPositiveInteger *> * PredecessorIn,
-    PlanElementBaseType * PlanElementIn);
-  ~StepWithPredecessorsType();
-  void printSelf(FILE * outFile);
-
-  XmlPositiveInteger * SequenceNumber;
-  std::list<XmlPositiveInteger *> * Predecessor;
-  PlanElementBaseType * PlanElement;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class TestAndStepType :
-  public DataThingType
-{
-public:
-  TestAndStepType();
-  TestAndStepType(
-    XmlID * NameIn,
-    BooleanExpressionType * TestIn,
-    PlanElementBaseType * StepIn);
-  ~TestAndStepType();
-  void printSelf(FILE * outFile);
-
-  BooleanExpressionType * Test;
-  PlanElementBaseType * Step;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class VarSetType :
-  public PlanElementBaseType
-{
-public:
-  VarSetType();
-  VarSetType(
-    XmlID * NameIn,
-    XmlIDREF * VarNameIn,
-    ArithmeticExpressionType * ValIn);
-  ~VarSetType();
-  void printSelf(FILE * outFile);
-
-  XmlIDREF * VarName;
-  ArithmeticExpressionType * Val;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class VariableDeclarationType :
-  public DataThingType
-{
-public:
-  VariableDeclarationType();
-  VariableDeclarationType(
-    XmlID * NameIn,
-    XmlDecimal * ValIn);
-  ~VariableDeclarationType();
-  void printSelf(FILE * outFile);
-
-  XmlDecimal * Val;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class VectorType :
-  public DataThingType
-{
-public:
-  VectorType();
-  VectorType(
-    XmlID * NameIn,
-    XmlDecimal * IIn,
-    XmlDecimal * JIn,
-    XmlDecimal * KIn);
-  ~VectorType();
-  void printSelf(FILE * outFile);
-
-  XmlDecimal * I;
-  XmlDecimal * J;
-  XmlDecimal * K;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class ActionBaseType :
-  public PlanElementBaseType
-{
-public:
-  ActionBaseType();
-  ActionBaseType(
-    XmlID * NameIn);
-  ~ActionBaseType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class ActionGroupBaseType :
-  public PlanElementBaseType
-{
-public:
-  ActionGroupBaseType();
-  ActionGroupBaseType(
-    XmlID * NameIn);
-  ~ActionGroupBaseType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
 };
 
 /*********************************************************************/
@@ -509,26 +190,6 @@ public:
 
 /*********************************************************************/
 
-class CreateKitType :
-  public ActionBaseType
-{
-public:
-  CreateKitType();
-  CreateKitType(
-    XmlID * NameIn,
-    XmlNMTOKEN * KitTrayNameIn,
-    XmlNMTOKEN * KitNameIn);
-  ~CreateKitType();
-  void printSelf(FILE * outFile);
-
-  XmlNMTOKEN * KitTrayName;
-  XmlNMTOKEN * KitName;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class DecimalType :
   public ArithmeticExpressionType
 {
@@ -565,22 +226,50 @@ public:
 
 /*********************************************************************/
 
-class IfActionGroupType :
-  public ActionGroupBaseType
+class ElseType :
+  public DataThingType
 {
 public:
-  IfActionGroupType();
-  IfActionGroupType(
+  ElseType();
+  ElseType(
     XmlID * NameIn,
-    TestAndStepType * IfIn,
-    std::list<TestAndStepType *> * ElseIfIn,
-    ElseType * ElseIn);
-  ~IfActionGroupType();
+    PlanElementBaseType * StepIn);
+  ~ElseType();
   void printSelf(FILE * outFile);
 
-  TestAndStepType * If;
-  std::list<TestAndStepType *> * ElseIf;
-  ElseType * Else;
+  PlanElementBaseType * Step;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class KittingPlanType :
+  public DataThingType
+{
+public:
+  KittingPlanType();
+  KittingPlanType(
+    XmlID * NameIn,
+    XmlNMTOKEN * PlanIdIn,
+    XmlToken * PlanVersionIn,
+    XmlDateTime * PlanDateAndTimeIn,
+    XmlToken * PlanAuthorIn,
+    XmlString * PlanDescriptionIn,
+    std::list<XmlID *> * ObjectIn,
+    std::list<VariableDeclarationType *> * VariableIn,
+    PlanElementBaseType * PlanRootIn);
+  ~KittingPlanType();
+  void printSelf(FILE * outFile);
+
+  XmlNMTOKEN * PlanId;
+  XmlToken * PlanVersion;
+  XmlDateTime * PlanDateAndTime;
+  XmlToken * PlanAuthor;
+  XmlString * PlanDescription;
+  std::list<XmlID *> * Object;
+  std::list<VariableDeclarationType *> * Variable;
+  PlanElementBaseType * PlanRoot;
 
   bool printTypp;
 };
@@ -659,6 +348,450 @@ public:
 
 /*********************************************************************/
 
+class NumberedPlanElementType :
+  public DataThingType
+{
+public:
+  NumberedPlanElementType();
+  NumberedPlanElementType(
+    XmlID * NameIn,
+    XmlPositiveInteger * SequenceNumberIn,
+    PlanElementBaseType * PlanElementIn);
+  ~NumberedPlanElementType();
+  void printSelf(FILE * outFile);
+
+  XmlPositiveInteger * SequenceNumber;
+  PlanElementBaseType * PlanElement;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PlanElementBaseType :
+  public DataThingType
+{
+public:
+  PlanElementBaseType();
+  PlanElementBaseType(
+    XmlID * NameIn);
+  ~PlanElementBaseType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PlusType :
+  public BinaryArithmeticExpressionType
+{
+public:
+  PlusType();
+  PlusType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~PlusType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class PropValType :
+  public ArithmeticExpressionType
+{
+public:
+  PropValType();
+  PropValType(
+    XmlID * NameIn,
+    XmlNMTOKEN * ThingNameIn,
+    XmlNMTOKEN * PropertyIn);
+  ~PropValType();
+  void printSelf(FILE * outFile);
+
+  XmlNMTOKEN * ThingName;
+  XmlNMTOKEN * Property;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class StepWithPredecessorsType :
+  public DataThingType
+{
+public:
+  StepWithPredecessorsType();
+  StepWithPredecessorsType(
+    XmlID * NameIn,
+    XmlPositiveInteger * SequenceNumberIn,
+    std::list<XmlPositiveInteger *> * PredecessorIn,
+    PlanElementBaseType * PlanElementIn);
+  ~StepWithPredecessorsType();
+  void printSelf(FILE * outFile);
+
+  XmlPositiveInteger * SequenceNumber;
+  std::list<XmlPositiveInteger *> * Predecessor;
+  PlanElementBaseType * PlanElement;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class TestAndStepType :
+  public DataThingType
+{
+public:
+  TestAndStepType();
+  TestAndStepType(
+    XmlID * NameIn,
+    BooleanExpressionType * TestIn,
+    PlanElementBaseType * StepIn);
+  ~TestAndStepType();
+  void printSelf(FILE * outFile);
+
+  BooleanExpressionType * Test;
+  PlanElementBaseType * Step;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class TimesType :
+  public BinaryArithmeticExpressionType
+{
+public:
+  TimesType();
+  TimesType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~TimesType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class VarSetType :
+  public PlanElementBaseType
+{
+public:
+  VarSetType();
+  VarSetType(
+    XmlID * NameIn,
+    XmlIDREF * VarNameIn,
+    ArithmeticExpressionType * ValIn);
+  ~VarSetType();
+  void printSelf(FILE * outFile);
+
+  XmlIDREF * VarName;
+  ArithmeticExpressionType * Val;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class VarValType :
+  public ArithmeticExpressionType
+{
+public:
+  VarValType();
+  VarValType(
+    XmlID * NameIn,
+    XmlIDREF * VarNameIn);
+  ~VarValType();
+  void printSelf(FILE * outFile);
+
+  XmlIDREF * VarName;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class VariableDeclarationType :
+  public DataThingType
+{
+public:
+  VariableDeclarationType();
+  VariableDeclarationType(
+    XmlID * NameIn,
+    XmlDecimal * ValIn);
+  ~VariableDeclarationType();
+  void printSelf(FILE * outFile);
+
+  XmlDecimal * Val;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class ActionBaseType :
+  public PlanElementBaseType
+{
+public:
+  ActionBaseType();
+  ActionBaseType(
+    XmlID * NameIn);
+  ~ActionBaseType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class ActionGroupBaseType :
+  public PlanElementBaseType
+{
+public:
+  ActionGroupBaseType();
+  ActionGroupBaseType(
+    XmlID * NameIn);
+  ~ActionGroupBaseType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class ArithmeticComparisonBooleanExpressionType :
+  public BooleanExpressionType
+{
+public:
+  ArithmeticComparisonBooleanExpressionType();
+  ArithmeticComparisonBooleanExpressionType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~ArithmeticComparisonBooleanExpressionType();
+  void printSelf(FILE * outFile);
+
+  ArithmeticExpressionType * A1;
+  ArithmeticExpressionType * A2;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class BinaryBooleanExpressionType :
+  public BooleanExpressionType
+{
+public:
+  BinaryBooleanExpressionType();
+  BinaryBooleanExpressionType(
+    XmlID * NameIn,
+    BooleanExpressionType * B1In,
+    BooleanExpressionType * B2In);
+  ~BinaryBooleanExpressionType();
+  void printSelf(FILE * outFile);
+
+  BooleanExpressionType * B1;
+  BooleanExpressionType * B2;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class BooleanConstantType :
+  public BooleanExpressionType
+{
+public:
+  BooleanConstantType();
+  BooleanConstantType(
+    XmlID * NameIn);
+  ~BooleanConstantType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class CreateKitType :
+  public ActionBaseType
+{
+public:
+  CreateKitType();
+  CreateKitType(
+    XmlID * NameIn,
+    XmlNMTOKEN * KitTrayNameIn,
+    XmlNMTOKEN * KitNameIn);
+  ~CreateKitType();
+  void printSelf(FILE * outFile);
+
+  XmlNMTOKEN * KitTrayName;
+  XmlNMTOKEN * KitName;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class EqualType :
+  public ArithmeticComparisonBooleanExpressionType
+{
+public:
+  EqualType();
+  EqualType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~EqualType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class FalseType :
+  public BooleanConstantType
+{
+public:
+  FalseType();
+  FalseType(
+    XmlID * NameIn);
+  ~FalseType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class GreaterOrEqualType :
+  public ArithmeticComparisonBooleanExpressionType
+{
+public:
+  GreaterOrEqualType();
+  GreaterOrEqualType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~GreaterOrEqualType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class GreaterType :
+  public ArithmeticComparisonBooleanExpressionType
+{
+public:
+  GreaterType();
+  GreaterType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~GreaterType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class IfActionGroupType :
+  public ActionGroupBaseType
+{
+public:
+  IfActionGroupType();
+  IfActionGroupType(
+    XmlID * NameIn,
+    TestAndStepType * IfIn,
+    std::list<TestAndStepType *> * ElseIfIn,
+    ElseType * ElseIn);
+  ~IfActionGroupType();
+  void printSelf(FILE * outFile);
+
+  TestAndStepType * If;
+  std::list<TestAndStepType *> * ElseIf;
+  ElseType * Else;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class LessOrEqualType :
+  public ArithmeticComparisonBooleanExpressionType
+{
+public:
+  LessOrEqualType();
+  LessOrEqualType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~LessOrEqualType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class LessType :
+  public ArithmeticComparisonBooleanExpressionType
+{
+public:
+  LessType();
+  LessType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~LessType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class NotEqualType :
+  public ArithmeticComparisonBooleanExpressionType
+{
+public:
+  NotEqualType();
+  NotEqualType(
+    XmlID * NameIn,
+    ArithmeticExpressionType * A1In,
+    ArithmeticExpressionType * A2In);
+  ~NotEqualType();
+  void printSelf(FILE * outFile);
+
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
 class OneOfActionGroupType :
   public ActionGroupBaseType
 {
@@ -671,6 +804,24 @@ public:
   void printSelf(FILE * outFile);
 
   std::list<NumberedPlanElementType *> * Step;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class OrType :
+  public BinaryBooleanExpressionType
+{
+public:
+  OrType();
+  OrType(
+    XmlID * NameIn,
+    BooleanExpressionType * B1In,
+    BooleanExpressionType * B2In);
+  ~OrType();
+  void printSelf(FILE * outFile);
+
 
   bool printTypp;
 };
@@ -707,124 +858,6 @@ public:
   void printSelf(FILE * outFile);
 
   std::list<StepWithPredecessorsType *> * Step;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PlusType :
-  public BinaryArithmeticExpressionType
-{
-public:
-  PlusType();
-  PlusType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~PlusType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PoseLocationInType :
-  public PoseLocationType
-{
-public:
-  PoseLocationInType();
-  PoseLocationInType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    PointType * PointIn,
-    VectorType * XAxisIn,
-    VectorType * ZAxisIn,
-    PositiveDecimalType * PositionStandardDeviationIn,
-    PositiveDecimalType * OrientationStandardDeviationIn);
-  ~PoseLocationInType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PoseLocationOnType :
-  public PoseLocationType
-{
-public:
-  PoseLocationOnType();
-  PoseLocationOnType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    PointType * PointIn,
-    VectorType * XAxisIn,
-    VectorType * ZAxisIn,
-    PositiveDecimalType * PositionStandardDeviationIn,
-    PositiveDecimalType * OrientationStandardDeviationIn);
-  ~PoseLocationOnType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class PropValType :
-  public ArithmeticExpressionType
-{
-public:
-  PropValType();
-  PropValType(
-    XmlID * NameIn,
-    XmlNMTOKEN * ThingNameIn,
-    XmlNMTOKEN * PropertyIn);
-  ~PropValType();
-  void printSelf(FILE * outFile);
-
-  XmlNMTOKEN * ThingName;
-  XmlNMTOKEN * Property;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class RelativeLocationInType :
-  public RelativeLocationType
-{
-public:
-  RelativeLocationInType();
-  RelativeLocationInType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    XmlString * DescriptionIn);
-  ~RelativeLocationInType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class RelativeLocationOnType :
-  public RelativeLocationType
-{
-public:
-  RelativeLocationOnType();
-  RelativeLocationOnType(
-    XmlID * NameIn,
-    XmlNMTOKEN * RefObjectNameIn,
-    XmlString * DescriptionIn);
-  ~RelativeLocationOnType();
-  void printSelf(FILE * outFile);
-
 
   bool printTypp;
 };
@@ -943,16 +976,14 @@ public:
 
 /*********************************************************************/
 
-class TimesType :
-  public BinaryArithmeticExpressionType
+class TrueType :
+  public BooleanConstantType
 {
 public:
-  TimesType();
-  TimesType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~TimesType();
+  TrueType();
+  TrueType(
+    XmlID * NameIn);
+  ~TrueType();
   void printSelf(FILE * outFile);
 
 
@@ -979,24 +1010,6 @@ public:
 
 /*********************************************************************/
 
-class VarValType :
-  public ArithmeticExpressionType
-{
-public:
-  VarValType();
-  VarValType(
-    XmlID * NameIn,
-    XmlIDREF * VarNameIn);
-  ~VarValType();
-  void printSelf(FILE * outFile);
-
-  XmlIDREF * VarName;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class WhileActionGroupType :
   public ActionGroupBaseType
 {
@@ -1017,20 +1030,18 @@ public:
 
 /*********************************************************************/
 
-class ArithmeticComparisonBooleanExpressionType :
-  public BooleanExpressionType
+class AndType :
+  public BinaryBooleanExpressionType
 {
 public:
-  ArithmeticComparisonBooleanExpressionType();
-  ArithmeticComparisonBooleanExpressionType(
+  AndType();
+  AndType(
     XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~ArithmeticComparisonBooleanExpressionType();
+    BooleanExpressionType * B1In,
+    BooleanExpressionType * B2In);
+  ~AndType();
   void printSelf(FILE * outFile);
 
-  ArithmeticExpressionType * A1;
-  ArithmeticExpressionType * A2;
 
   bool printTypp;
 };
@@ -1059,42 +1070,6 @@ public:
 
 /*********************************************************************/
 
-class BinaryBooleanExpressionType :
-  public BooleanExpressionType
-{
-public:
-  BinaryBooleanExpressionType();
-  BinaryBooleanExpressionType(
-    XmlID * NameIn,
-    BooleanExpressionType * B1In,
-    BooleanExpressionType * B2In);
-  ~BinaryBooleanExpressionType();
-  void printSelf(FILE * outFile);
-
-  BooleanExpressionType * B1;
-  BooleanExpressionType * B2;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class BooleanConstantType :
-  public BooleanExpressionType
-{
-public:
-  BooleanConstantType();
-  BooleanConstantType(
-    XmlID * NameIn);
-  ~BooleanConstantType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class DetachEndEffectorType :
   public RobotActionBaseType
 {
@@ -1117,112 +1092,6 @@ public:
 
 /*********************************************************************/
 
-class EqualType :
-  public ArithmeticComparisonBooleanExpressionType
-{
-public:
-  EqualType();
-  EqualType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~EqualType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class FalseType :
-  public BooleanConstantType
-{
-public:
-  FalseType();
-  FalseType(
-    XmlID * NameIn);
-  ~FalseType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class GreaterOrEqualType :
-  public ArithmeticComparisonBooleanExpressionType
-{
-public:
-  GreaterOrEqualType();
-  GreaterOrEqualType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~GreaterOrEqualType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class GreaterType :
-  public ArithmeticComparisonBooleanExpressionType
-{
-public:
-  GreaterType();
-  GreaterType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~GreaterType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class LessOrEqualType :
-  public ArithmeticComparisonBooleanExpressionType
-{
-public:
-  LessOrEqualType();
-  LessOrEqualType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~LessOrEqualType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class LessType :
-  public ArithmeticComparisonBooleanExpressionType
-{
-public:
-  LessType();
-  LessType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~LessType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
 class LocatePartType :
   public SensorActionBaseType
 {
@@ -1235,42 +1104,6 @@ public:
   void printSelf(FILE * outFile);
 
   XmlNMTOKEN * PartName;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class NotEqualType :
-  public ArithmeticComparisonBooleanExpressionType
-{
-public:
-  NotEqualType();
-  NotEqualType(
-    XmlID * NameIn,
-    ArithmeticExpressionType * A1In,
-    ArithmeticExpressionType * A2In);
-  ~NotEqualType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class OrType :
-  public BinaryBooleanExpressionType
-{
-public:
-  OrType();
-  OrType(
-    XmlID * NameIn,
-    BooleanExpressionType * B1In,
-    BooleanExpressionType * B2In);
-  ~OrType();
-  void printSelf(FILE * outFile);
-
 
   bool printTypp;
 };
@@ -1337,40 +1170,6 @@ public:
   XmlNMTOKEN * RobotName;
   XmlNMTOKEN * PartName;
   PhysicalLocationType * Location;
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class TrueType :
-  public BooleanConstantType
-{
-public:
-  TrueType();
-  TrueType(
-    XmlID * NameIn);
-  ~TrueType();
-  void printSelf(FILE * outFile);
-
-
-  bool printTypp;
-};
-
-/*********************************************************************/
-
-class AndType :
-  public BinaryBooleanExpressionType
-{
-public:
-  AndType();
-  AndType(
-    XmlID * NameIn,
-    BooleanExpressionType * B1In,
-    BooleanExpressionType * B2In);
-  ~AndType();
-  void printSelf(FILE * outFile);
-
 
   bool printTypp;
 };

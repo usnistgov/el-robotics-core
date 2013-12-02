@@ -12,6 +12,7 @@
       <xs:documentation>
         Root element
       </xs:documentation>
+      <xs:documentation>owlPrefix=ktw</xs:documentation>
     </xs:annotation>
   </xs:element>
 

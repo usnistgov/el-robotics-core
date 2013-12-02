@@ -17,15 +17,15 @@ int main(       /* ARGUMENTS                                      */
   FILE * outFile;
   int n;          // for finding beginning of file name
 
-  if (argc != 5)
+  if (argc != 4)
     {
-      fprintf(stderr, "Usage: %s <xmlInst> <owlInst> <owlClass> <uri>\n",
+      fprintf(stderr, "Usage: %s <xmlInstance> <owlInstance> <uri>\n",
               argv[0]);
-      fprintf(stderr, "xmlInst = path to XML instance file to read\n");
-      fprintf(stderr, "owlInst = name of OWL instance file to write\n");
-      fprintf(stderr, "owlClass = name of OWL class file\n");
+      fprintf(stderr, "xmlInstance = path to XML instance file to read\n");
+      fprintf(stderr, "owlInstance = name of OWL instance file to write\n");
       fprintf(stderr, "uri = URI to put in header\n");
-      fprintf(stderr, "example: owlKittingPrinter data/goal.xml goal.owl kitClas.owl http://el/ontol\n");
+      fprintf(stderr, "example: %s data/abc.xml abc.owl http://ont\n",
+              argv[0]);
       exit(1);
     }
   n = (strlen(argv[1]) - 4);
@@ -48,9 +48,15 @@ int main(       /* ARGUMENTS                                      */
       fprintf(stderr, "unable to open file %s for writing\n", argv[2]);
       exit(1);
     }
-  printer.outFileName = argv[2];
-  printer.classFileName = argv[3];
-  printer.uri = argv[4];
+  fprintf(outFile,"Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\n"
+	  "Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\n"
+	  "Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n"
+	  "Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n"
+	  "Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n");
+  fprintf(outFile, "Prefix(:=<%s/%s#>)\n", argv[3], argv[2]);
+  fprintf(outFile, "Prefix(ktw:=<%s/kittingWorkstationClasses.owl#>)\n", argv[3]);
+  fprintf(outFile, "Ontology(<%s/%s>\n", argv[3], argv[2]);
+  fprintf(outFile, "Import(<file:kittingWorkstationClasses.owl>)\n");
   KittingWorkstationTree->printOwl(outFile);
   fclose(outFile);
   return 0;

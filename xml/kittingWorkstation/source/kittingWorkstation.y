@@ -6,7 +6,7 @@
 #ifdef OWL
 #include "owlKittingWorkstationClasses.hh"
 #else
-#include "kittingWorkstationClasses.hh"   // for kitting classes
+#include "kittingWorkstationClasses.hh"
 #endif
 
 #define YYERROR_VERBOSE

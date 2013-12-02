@@ -3,7 +3,7 @@ Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
 Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
 Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
+Prefix(ktw:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
 
 Ontology(<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl>
 
@@ -16,23 +16,23 @@ Annotation(rdfs:comment
 
 
 
-DatatypeDefinition(:angleUnit 
+DatatypeDefinition(ktw:angleUnit 
   DataOneOf("degree" "radian"))
 
-DatatypeDefinition(:lengthUnit 
+DatatypeDefinition(ktw:lengthUnit 
   DataOneOf("meter" "millimeter" "inch"))
 
-DatatypeDefinition(:positiveDecimal 
+DatatypeDefinition(ktw:positiveDecimal 
   DatatypeRestriction(xsd:decimal xsd:minExclusive "0"^^xsd:decimal))
 
-DatatypeDefinition(:weightUnit 
+DatatypeDefinition(ktw:weightUnit 
   DataOneOf("kilogram" "gram" "milligram" "ounce" "pound"))
 
 
 
-Declaration(Class(:BoxVolume))
+Declaration(Class(ktw:BoxVolume))
 
-AnnotationAssertion(rdfs:comment :BoxVolume
+AnnotationAssertion(rdfs:comment ktw:BoxVolume
   "BoxVolume is derived from DataThing.
   An instance of BoxVolume has the following:
     MaximumPoint
@@ -44,41 +44,41 @@ AnnotationAssertion(rdfs:comment :BoxVolume
   MinimumPoint has the minimum values of X, Y, and Z. The
   MaximumPoint has the maximum values of X, Y, and Z.")
 
-Declaration(ObjectProperty(:hasBoxVolume_MaximumPoint))
-ObjectPropertyDomain(:hasBoxVolume_MaximumPoint :BoxVolume)
-ObjectPropertyRange(:hasBoxVolume_MaximumPoint :Point)
-InverseFunctionalObjectProperty(:hasBoxVolume_MaximumPoint)
-FunctionalObjectProperty(:hasBoxVolume_MaximumPoint)
-EquivalentClasses(:BoxVolume ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasBoxVolume_MaximumPoint :Point)
-  ObjectAllValuesFrom (:hasBoxVolume_MaximumPoint :Point)))
+Declaration(ObjectProperty(ktw:hasBoxVolume_MaximumPoint))
+ObjectPropertyDomain(ktw:hasBoxVolume_MaximumPoint ktw:BoxVolume)
+ObjectPropertyRange(ktw:hasBoxVolume_MaximumPoint ktw:Point)
+InverseFunctionalObjectProperty(ktw:hasBoxVolume_MaximumPoint)
+FunctionalObjectProperty(ktw:hasBoxVolume_MaximumPoint)
+EquivalentClasses(ktw:BoxVolume ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasBoxVolume_MaximumPoint ktw:Point)
+  ObjectAllValuesFrom (ktw:hasBoxVolume_MaximumPoint ktw:Point)))
 
-Declaration(ObjectProperty(:hadByMaximumPoint_BoxVolume))
-InverseObjectProperties(:hasBoxVolume_MaximumPoint
-                        :hadByMaximumPoint_BoxVolume)
-ObjectPropertyDomain(:hadByMaximumPoint_BoxVolume :Point)
-ObjectPropertyRange(:hadByMaximumPoint_BoxVolume :BoxVolume)
+Declaration(ObjectProperty(ktw:hadByMaximumPoint_BoxVolume))
+InverseObjectProperties(ktw:hasBoxVolume_MaximumPoint
+                        ktw:hadByMaximumPoint_BoxVolume)
+ObjectPropertyDomain(ktw:hadByMaximumPoint_BoxVolume ktw:Point)
+ObjectPropertyRange(ktw:hadByMaximumPoint_BoxVolume ktw:BoxVolume)
 
-Declaration(ObjectProperty(:hasBoxVolume_MinimumPoint))
-ObjectPropertyDomain(:hasBoxVolume_MinimumPoint :BoxVolume)
-ObjectPropertyRange(:hasBoxVolume_MinimumPoint :Point)
-InverseFunctionalObjectProperty(:hasBoxVolume_MinimumPoint)
-FunctionalObjectProperty(:hasBoxVolume_MinimumPoint)
-EquivalentClasses(:BoxVolume ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasBoxVolume_MinimumPoint :Point)
-  ObjectAllValuesFrom (:hasBoxVolume_MinimumPoint :Point)))
+Declaration(ObjectProperty(ktw:hasBoxVolume_MinimumPoint))
+ObjectPropertyDomain(ktw:hasBoxVolume_MinimumPoint ktw:BoxVolume)
+ObjectPropertyRange(ktw:hasBoxVolume_MinimumPoint ktw:Point)
+InverseFunctionalObjectProperty(ktw:hasBoxVolume_MinimumPoint)
+FunctionalObjectProperty(ktw:hasBoxVolume_MinimumPoint)
+EquivalentClasses(ktw:BoxVolume ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasBoxVolume_MinimumPoint ktw:Point)
+  ObjectAllValuesFrom (ktw:hasBoxVolume_MinimumPoint ktw:Point)))
 
-Declaration(ObjectProperty(:hadByMinimumPoint_BoxVolume))
-InverseObjectProperties(:hasBoxVolume_MinimumPoint
-                        :hadByMinimumPoint_BoxVolume)
-ObjectPropertyDomain(:hadByMinimumPoint_BoxVolume :Point)
-ObjectPropertyRange(:hadByMinimumPoint_BoxVolume :BoxVolume)
+Declaration(ObjectProperty(ktw:hadByMinimumPoint_BoxVolume))
+InverseObjectProperties(ktw:hasBoxVolume_MinimumPoint
+                        ktw:hadByMinimumPoint_BoxVolume)
+ObjectPropertyDomain(ktw:hadByMinimumPoint_BoxVolume ktw:Point)
+ObjectPropertyRange(ktw:hadByMinimumPoint_BoxVolume ktw:BoxVolume)
 
 
 
-Declaration(Class(:BoxyShape))
+Declaration(Class(ktw:BoxyShape))
 
-AnnotationAssertion(rdfs:comment :BoxyShape
+AnnotationAssertion(rdfs:comment ktw:BoxyShape
   "BoxyShape is derived from InternalShape.
   An instance of BoxyShape has the following:
     Description (inherited)
@@ -98,43 +98,43 @@ AnnotationAssertion(rdfs:comment :BoxyShape
   the box (i.e. the side through which the +Z axis passes) exists and
   is closed. If HasTop is false, the box has no top.")
 
-Declaration(DataProperty(:hasBoxyShape_Length))
-DataPropertyDomain(:hasBoxyShape_Length :BoxyShape)
-DataPropertyRange(:hasBoxyShape_Length :positiveDecimal)
-FunctionalDataProperty(:hasBoxyShape_Length)
-EquivalentClasses(:BoxyShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasBoxyShape_Length :positiveDecimal)
-  DataAllValuesFrom (:hasBoxyShape_Length :positiveDecimal)))
+Declaration(DataProperty(ktw:hasBoxyShape_Length))
+DataPropertyDomain(ktw:hasBoxyShape_Length ktw:BoxyShape)
+DataPropertyRange(ktw:hasBoxyShape_Length ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasBoxyShape_Length)
+EquivalentClasses(ktw:BoxyShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasBoxyShape_Length ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasBoxyShape_Length ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasBoxyShape_Width))
-DataPropertyDomain(:hasBoxyShape_Width :BoxyShape)
-DataPropertyRange(:hasBoxyShape_Width :positiveDecimal)
-FunctionalDataProperty(:hasBoxyShape_Width)
-EquivalentClasses(:BoxyShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasBoxyShape_Width :positiveDecimal)
-  DataAllValuesFrom (:hasBoxyShape_Width :positiveDecimal)))
+Declaration(DataProperty(ktw:hasBoxyShape_Width))
+DataPropertyDomain(ktw:hasBoxyShape_Width ktw:BoxyShape)
+DataPropertyRange(ktw:hasBoxyShape_Width ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasBoxyShape_Width)
+EquivalentClasses(ktw:BoxyShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasBoxyShape_Width ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasBoxyShape_Width ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasBoxyShape_Height))
-DataPropertyDomain(:hasBoxyShape_Height :BoxyShape)
-DataPropertyRange(:hasBoxyShape_Height :positiveDecimal)
-FunctionalDataProperty(:hasBoxyShape_Height)
-EquivalentClasses(:BoxyShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasBoxyShape_Height :positiveDecimal)
-  DataAllValuesFrom (:hasBoxyShape_Height :positiveDecimal)))
+Declaration(DataProperty(ktw:hasBoxyShape_Height))
+DataPropertyDomain(ktw:hasBoxyShape_Height ktw:BoxyShape)
+DataPropertyRange(ktw:hasBoxyShape_Height ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasBoxyShape_Height)
+EquivalentClasses(ktw:BoxyShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasBoxyShape_Height ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasBoxyShape_Height ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasBoxyShape_HasTop))
-DataPropertyDomain(:hasBoxyShape_HasTop :BoxyShape)
-DataPropertyRange(:hasBoxyShape_HasTop xsd:boolean)
-FunctionalDataProperty(:hasBoxyShape_HasTop)
-EquivalentClasses(:BoxyShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasBoxyShape_HasTop xsd:boolean)
-  DataAllValuesFrom (:hasBoxyShape_HasTop xsd:boolean)))
+Declaration(DataProperty(ktw:hasBoxyShape_HasTop))
+DataPropertyDomain(ktw:hasBoxyShape_HasTop ktw:BoxyShape)
+DataPropertyRange(ktw:hasBoxyShape_HasTop xsd:boolean)
+FunctionalDataProperty(ktw:hasBoxyShape_HasTop)
+EquivalentClasses(ktw:BoxyShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasBoxyShape_HasTop xsd:boolean)
+  DataAllValuesFrom (ktw:hasBoxyShape_HasTop xsd:boolean)))
 
 
 
-Declaration(Class(:CylindricalShape))
+Declaration(Class(ktw:CylindricalShape))
 
-AnnotationAssertion(rdfs:comment :CylindricalShape
+AnnotationAssertion(rdfs:comment ktw:CylindricalShape
   "CylindricalShape is derived from InternalShape.
   An instance of CylindricalShape has the following:
     Description (inherited)
@@ -154,66 +154,66 @@ AnnotationAssertion(rdfs:comment :CylindricalShape
   cylinder (i.e. the side through which the +Z axis passes) exists
   and is closed. If HasTop is false, the cylinder has no top.")
 
-Declaration(DataProperty(:hasCylindricalShape_Diameter))
-DataPropertyDomain(:hasCylindricalShape_Diameter :CylindricalShape)
-DataPropertyRange(:hasCylindricalShape_Diameter :positiveDecimal)
-FunctionalDataProperty(:hasCylindricalShape_Diameter)
-EquivalentClasses(:CylindricalShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasCylindricalShape_Diameter :positiveDecimal)
-  DataAllValuesFrom (:hasCylindricalShape_Diameter :positiveDecimal)))
+Declaration(DataProperty(ktw:hasCylindricalShape_Diameter))
+DataPropertyDomain(ktw:hasCylindricalShape_Diameter ktw:CylindricalShape)
+DataPropertyRange(ktw:hasCylindricalShape_Diameter ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasCylindricalShape_Diameter)
+EquivalentClasses(ktw:CylindricalShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasCylindricalShape_Diameter ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasCylindricalShape_Diameter ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasCylindricalShape_Height))
-DataPropertyDomain(:hasCylindricalShape_Height :CylindricalShape)
-DataPropertyRange(:hasCylindricalShape_Height :positiveDecimal)
-FunctionalDataProperty(:hasCylindricalShape_Height)
-EquivalentClasses(:CylindricalShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasCylindricalShape_Height :positiveDecimal)
-  DataAllValuesFrom (:hasCylindricalShape_Height :positiveDecimal)))
+Declaration(DataProperty(ktw:hasCylindricalShape_Height))
+DataPropertyDomain(ktw:hasCylindricalShape_Height ktw:CylindricalShape)
+DataPropertyRange(ktw:hasCylindricalShape_Height ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasCylindricalShape_Height)
+EquivalentClasses(ktw:CylindricalShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasCylindricalShape_Height ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasCylindricalShape_Height ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasCylindricalShape_HasTop))
-DataPropertyDomain(:hasCylindricalShape_HasTop :CylindricalShape)
-DataPropertyRange(:hasCylindricalShape_HasTop xsd:boolean)
-FunctionalDataProperty(:hasCylindricalShape_HasTop)
-EquivalentClasses(:CylindricalShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasCylindricalShape_HasTop xsd:boolean)
-  DataAllValuesFrom (:hasCylindricalShape_HasTop xsd:boolean)))
+Declaration(DataProperty(ktw:hasCylindricalShape_HasTop))
+DataPropertyDomain(ktw:hasCylindricalShape_HasTop ktw:CylindricalShape)
+DataPropertyRange(ktw:hasCylindricalShape_HasTop xsd:boolean)
+FunctionalDataProperty(ktw:hasCylindricalShape_HasTop)
+EquivalentClasses(ktw:CylindricalShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasCylindricalShape_HasTop xsd:boolean)
+  DataAllValuesFrom (ktw:hasCylindricalShape_HasTop xsd:boolean)))
 
 
 
-Declaration(Class(:DataThing))
+Declaration(Class(ktw:DataThing))
 
-AnnotationAssertion(rdfs:comment :DataThing
+AnnotationAssertion(rdfs:comment ktw:DataThing
   "An instance of DataThing has the following:
     .
   DataThing is an abstract type from which more specific types
   of data thing are derived. That includes all complex data
   types such as Vector, PhysicalLocation, etc.")
 
-SubClassOf(:BoxVolume :DataThing)
-SubClassOf(:KitDesign :DataThing)
-SubClassOf(:PartRefAndPose :DataThing)
-SubClassOf(:PhysicalLocation :DataThing)
-SubClassOf(:Point :DataThing)
-SubClassOf(:ShapeDesign :DataThing)
-SubClassOf(:Slot :DataThing)
-SubClassOf(:StockKeepingUnit :DataThing)
-SubClassOf(:Vector :DataThing)
-DisjointUnion(:DataThing
-              :BoxVolume
-              :KitDesign
-              :PartRefAndPose
-              :PhysicalLocation
-              :Point
-              :ShapeDesign
-              :Slot
-              :StockKeepingUnit
-              :Vector)
+SubClassOf(ktw:BoxVolume ktw:DataThing)
+SubClassOf(ktw:KitDesign ktw:DataThing)
+SubClassOf(ktw:PartRefAndPose ktw:DataThing)
+SubClassOf(ktw:PhysicalLocation ktw:DataThing)
+SubClassOf(ktw:Point ktw:DataThing)
+SubClassOf(ktw:ShapeDesign ktw:DataThing)
+SubClassOf(ktw:Slot ktw:DataThing)
+SubClassOf(ktw:StockKeepingUnit ktw:DataThing)
+SubClassOf(ktw:Vector ktw:DataThing)
+DisjointUnion(ktw:DataThing
+              ktw:BoxVolume
+              ktw:KitDesign
+              ktw:PartRefAndPose
+              ktw:PhysicalLocation
+              ktw:Point
+              ktw:ShapeDesign
+              ktw:Slot
+              ktw:StockKeepingUnit
+              ktw:Vector)
 
 
 
-Declaration(Class(:EndEffector))
+Declaration(Class(ktw:EndEffector))
 
-AnnotationAssertion(rdfs:comment :EndEffector
+AnnotationAssertion(rdfs:comment ktw:EndEffector
   "EndEffector is derived from NoSkuObject.
   An instance of EndEffector has the following:
     PrimaryLocation (inherited)
@@ -234,53 +234,53 @@ AnnotationAssertion(rdfs:comment :EndEffector
   is either attached to the end of a robot arm or sitting in an
   EndEffectorHolder at an EndEffectorChangingStation.")
 
-SubClassOf(:GripperEffector :EndEffector)
-SubClassOf(:VacuumEffector :EndEffector)
-DisjointUnion(:EndEffector
-              :GripperEffector
-              :VacuumEffector)
+SubClassOf(ktw:GripperEffector ktw:EndEffector)
+SubClassOf(ktw:VacuumEffector ktw:EndEffector)
+DisjointUnion(ktw:EndEffector
+              ktw:GripperEffector
+              ktw:VacuumEffector)
 
-Declaration(DataProperty(:hasEndEffector_Description))
-DataPropertyDomain(:hasEndEffector_Description :EndEffector)
-DataPropertyRange(:hasEndEffector_Description xsd:string)
-FunctionalDataProperty(:hasEndEffector_Description)
-EquivalentClasses(:EndEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasEndEffector_Description xsd:string)
-  DataAllValuesFrom (:hasEndEffector_Description xsd:string)))
+Declaration(DataProperty(ktw:hasEndEffector_Description))
+DataPropertyDomain(ktw:hasEndEffector_Description ktw:EndEffector)
+DataPropertyRange(ktw:hasEndEffector_Description xsd:string)
+FunctionalDataProperty(ktw:hasEndEffector_Description)
+EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasEndEffector_Description xsd:string)
+  DataAllValuesFrom (ktw:hasEndEffector_Description xsd:string)))
 
-Declaration(DataProperty(:hasEndEffector_Weight))
-DataPropertyDomain(:hasEndEffector_Weight :EndEffector)
-DataPropertyRange(:hasEndEffector_Weight :positiveDecimal)
-FunctionalDataProperty(:hasEndEffector_Weight)
-EquivalentClasses(:EndEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasEndEffector_Weight :positiveDecimal)
-  DataAllValuesFrom (:hasEndEffector_Weight :positiveDecimal)))
+Declaration(DataProperty(ktw:hasEndEffector_Weight))
+DataPropertyDomain(ktw:hasEndEffector_Weight ktw:EndEffector)
+DataPropertyRange(ktw:hasEndEffector_Weight ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasEndEffector_Weight)
+EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasEndEffector_Weight ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasEndEffector_Weight ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasEndEffector_MaximumLoadWeight))
-DataPropertyDomain(:hasEndEffector_MaximumLoadWeight :EndEffector)
-DataPropertyRange(:hasEndEffector_MaximumLoadWeight :positiveDecimal)
-FunctionalDataProperty(:hasEndEffector_MaximumLoadWeight)
-EquivalentClasses(:EndEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasEndEffector_MaximumLoadWeight :positiveDecimal)
-  DataAllValuesFrom (:hasEndEffector_MaximumLoadWeight :positiveDecimal)))
+Declaration(DataProperty(ktw:hasEndEffector_MaximumLoadWeight))
+DataPropertyDomain(ktw:hasEndEffector_MaximumLoadWeight ktw:EndEffector)
+DataPropertyRange(ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasEndEffector_MaximumLoadWeight)
+EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)))
 
-Declaration(ObjectProperty(:hasEndEffector_HeldObject))
-ObjectPropertyDomain(:hasEndEffector_HeldObject :EndEffector)
-ObjectPropertyRange(:hasEndEffector_HeldObject :SolidObject)
-InverseFunctionalObjectProperty(:hasEndEffector_HeldObject)
-FunctionalObjectProperty(:hasEndEffector_HeldObject)
+Declaration(ObjectProperty(ktw:hasEndEffector_HeldObject))
+ObjectPropertyDomain(ktw:hasEndEffector_HeldObject ktw:EndEffector)
+ObjectPropertyRange(ktw:hasEndEffector_HeldObject ktw:SolidObject)
+InverseFunctionalObjectProperty(ktw:hasEndEffector_HeldObject)
+FunctionalObjectProperty(ktw:hasEndEffector_HeldObject)
 
-Declaration(ObjectProperty(:hadByHeldObject_EndEffector))
-InverseObjectProperties(:hasEndEffector_HeldObject
-                        :hadByHeldObject_EndEffector)
-ObjectPropertyDomain(:hadByHeldObject_EndEffector :SolidObject)
-ObjectPropertyRange(:hadByHeldObject_EndEffector :EndEffector)
+Declaration(ObjectProperty(ktw:hadByHeldObject_EndEffector))
+InverseObjectProperties(ktw:hasEndEffector_HeldObject
+                        ktw:hadByHeldObject_EndEffector)
+ObjectPropertyDomain(ktw:hadByHeldObject_EndEffector ktw:SolidObject)
+ObjectPropertyRange(ktw:hadByHeldObject_EndEffector ktw:EndEffector)
 
 
 
-Declaration(Class(:EndEffectorChangingStation))
+Declaration(Class(ktw:EndEffectorChangingStation))
 
-AnnotationAssertion(rdfs:comment :EndEffectorChangingStation
+AnnotationAssertion(rdfs:comment ktw:EndEffectorChangingStation
   "EndEffectorChangingStation is derived from NoSkuObject.
   An instance of EndEffectorChangingStation has the
   following:
@@ -298,37 +298,37 @@ AnnotationAssertion(rdfs:comment :EndEffectorChangingStation
   EndEffectorChangingStation may also be found from the shapes of
   the Base and the EndEffectorHolders and their relative positions.")
 
-Declaration(ObjectProperty(:hasEndEffectorChangingStation_Base))
-ObjectPropertyDomain(:hasEndEffectorChangingStation_Base :EndEffectorChangingStation)
-ObjectPropertyRange(:hasEndEffectorChangingStation_Base :MechanicalComponent)
-InverseFunctionalObjectProperty(:hasEndEffectorChangingStation_Base)
-FunctionalObjectProperty(:hasEndEffectorChangingStation_Base)
-EquivalentClasses(:EndEffectorChangingStation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasEndEffectorChangingStation_Base :MechanicalComponent)
-  ObjectAllValuesFrom (:hasEndEffectorChangingStation_Base :MechanicalComponent)))
+Declaration(ObjectProperty(ktw:hasEndEffectorChangingStation_Base))
+ObjectPropertyDomain(ktw:hasEndEffectorChangingStation_Base ktw:EndEffectorChangingStation)
+ObjectPropertyRange(ktw:hasEndEffectorChangingStation_Base ktw:MechanicalComponent)
+InverseFunctionalObjectProperty(ktw:hasEndEffectorChangingStation_Base)
+FunctionalObjectProperty(ktw:hasEndEffectorChangingStation_Base)
+EquivalentClasses(ktw:EndEffectorChangingStation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasEndEffectorChangingStation_Base ktw:MechanicalComponent)
+  ObjectAllValuesFrom (ktw:hasEndEffectorChangingStation_Base ktw:MechanicalComponent)))
 
-Declaration(ObjectProperty(:hadByBase_EndEffectorChangingStation))
-InverseObjectProperties(:hasEndEffectorChangingStation_Base
-                        :hadByBase_EndEffectorChangingStation)
-ObjectPropertyDomain(:hadByBase_EndEffectorChangingStation :MechanicalComponent)
-ObjectPropertyRange(:hadByBase_EndEffectorChangingStation :EndEffectorChangingStation)
+Declaration(ObjectProperty(ktw:hadByBase_EndEffectorChangingStation))
+InverseObjectProperties(ktw:hasEndEffectorChangingStation_Base
+                        ktw:hadByBase_EndEffectorChangingStation)
+ObjectPropertyDomain(ktw:hadByBase_EndEffectorChangingStation ktw:MechanicalComponent)
+ObjectPropertyRange(ktw:hadByBase_EndEffectorChangingStation ktw:EndEffectorChangingStation)
 
-Declaration(ObjectProperty(:hasEndEffectorChangingStation_EndEffectorHolder))
-ObjectPropertyDomain(:hasEndEffectorChangingStation_EndEffectorHolder :EndEffectorChangingStation)
-ObjectPropertyRange(:hasEndEffectorChangingStation_EndEffectorHolder :EndEffectorHolder)
-InverseFunctionalObjectProperty(:hasEndEffectorChangingStation_EndEffectorHolder)
+Declaration(ObjectProperty(ktw:hasEndEffectorChangingStation_EndEffectorHolder))
+ObjectPropertyDomain(ktw:hasEndEffectorChangingStation_EndEffectorHolder ktw:EndEffectorChangingStation)
+ObjectPropertyRange(ktw:hasEndEffectorChangingStation_EndEffectorHolder ktw:EndEffectorHolder)
+InverseFunctionalObjectProperty(ktw:hasEndEffectorChangingStation_EndEffectorHolder)
 
-Declaration(ObjectProperty(:hadByEndEffectorHolder_EndEffectorChangingStation))
-InverseObjectProperties(:hasEndEffectorChangingStation_EndEffectorHolder
-                        :hadByEndEffectorHolder_EndEffectorChangingStation)
-ObjectPropertyDomain(:hadByEndEffectorHolder_EndEffectorChangingStation :EndEffectorHolder)
-ObjectPropertyRange(:hadByEndEffectorHolder_EndEffectorChangingStation :EndEffectorChangingStation)
+Declaration(ObjectProperty(ktw:hadByEndEffectorHolder_EndEffectorChangingStation))
+InverseObjectProperties(ktw:hasEndEffectorChangingStation_EndEffectorHolder
+                        ktw:hadByEndEffectorHolder_EndEffectorChangingStation)
+ObjectPropertyDomain(ktw:hadByEndEffectorHolder_EndEffectorChangingStation ktw:EndEffectorHolder)
+ObjectPropertyRange(ktw:hadByEndEffectorHolder_EndEffectorChangingStation ktw:EndEffectorChangingStation)
 
 
 
-Declaration(Class(:EndEffectorHolder))
+Declaration(Class(ktw:EndEffectorHolder))
 
-AnnotationAssertion(rdfs:comment :EndEffectorHolder
+AnnotationAssertion(rdfs:comment ktw:EndEffectorHolder
   "EndEffectorHolder is derived from NoSkuObject.
   An instance of EndEffectorHolder has the following:
     PrimaryLocation (inherited)
@@ -340,23 +340,23 @@ AnnotationAssertion(rdfs:comment :EndEffectorHolder
   An EndEffectorHolder holds zero or one end effector and is part
   of an EndEffectorChangingStation.")
 
-Declaration(ObjectProperty(:hasEndEffectorHolder_EndEffector))
-ObjectPropertyDomain(:hasEndEffectorHolder_EndEffector :EndEffectorHolder)
-ObjectPropertyRange(:hasEndEffectorHolder_EndEffector :EndEffector)
-InverseFunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
-FunctionalObjectProperty(:hasEndEffectorHolder_EndEffector)
+Declaration(ObjectProperty(ktw:hasEndEffectorHolder_EndEffector))
+ObjectPropertyDomain(ktw:hasEndEffectorHolder_EndEffector ktw:EndEffectorHolder)
+ObjectPropertyRange(ktw:hasEndEffectorHolder_EndEffector ktw:EndEffector)
+InverseFunctionalObjectProperty(ktw:hasEndEffectorHolder_EndEffector)
+FunctionalObjectProperty(ktw:hasEndEffectorHolder_EndEffector)
 
-Declaration(ObjectProperty(:hadByEndEffector_EndEffectorHolder))
-InverseObjectProperties(:hasEndEffectorHolder_EndEffector
-                        :hadByEndEffector_EndEffectorHolder)
-ObjectPropertyDomain(:hadByEndEffector_EndEffectorHolder :EndEffector)
-ObjectPropertyRange(:hadByEndEffector_EndEffectorHolder :EndEffectorHolder)
+Declaration(ObjectProperty(ktw:hadByEndEffector_EndEffectorHolder))
+InverseObjectProperties(ktw:hasEndEffectorHolder_EndEffector
+                        ktw:hadByEndEffector_EndEffectorHolder)
+ObjectPropertyDomain(ktw:hadByEndEffector_EndEffectorHolder ktw:EndEffector)
+ObjectPropertyRange(ktw:hadByEndEffector_EndEffectorHolder ktw:EndEffectorHolder)
 
 
 
-Declaration(Class(:ExternalShape))
+Declaration(Class(ktw:ExternalShape))
 
-AnnotationAssertion(rdfs:comment :ExternalShape
+AnnotationAssertion(rdfs:comment ktw:ExternalShape
   "ExternalShape is derived from ShapeDesign.
   An instance of ExternalShape has the following:
     Description (inherited)
@@ -374,32 +374,32 @@ AnnotationAssertion(rdfs:comment :ExternalShape
   name of a model within the model file. The ModelName is necessary
   if the model file contains more than one model.")
 
-Declaration(DataProperty(:hasExternalShape_ModelFormatName))
-DataPropertyDomain(:hasExternalShape_ModelFormatName :ExternalShape)
-DataPropertyRange(:hasExternalShape_ModelFormatName xsd:string)
-FunctionalDataProperty(:hasExternalShape_ModelFormatName)
-EquivalentClasses(:ExternalShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasExternalShape_ModelFormatName xsd:string)
-  DataAllValuesFrom (:hasExternalShape_ModelFormatName xsd:string)))
+Declaration(DataProperty(ktw:hasExternalShape_ModelFormatName))
+DataPropertyDomain(ktw:hasExternalShape_ModelFormatName ktw:ExternalShape)
+DataPropertyRange(ktw:hasExternalShape_ModelFormatName xsd:string)
+FunctionalDataProperty(ktw:hasExternalShape_ModelFormatName)
+EquivalentClasses(ktw:ExternalShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasExternalShape_ModelFormatName xsd:string)
+  DataAllValuesFrom (ktw:hasExternalShape_ModelFormatName xsd:string)))
 
-Declaration(DataProperty(:hasExternalShape_ModelFileName))
-DataPropertyDomain(:hasExternalShape_ModelFileName :ExternalShape)
-DataPropertyRange(:hasExternalShape_ModelFileName xsd:string)
-FunctionalDataProperty(:hasExternalShape_ModelFileName)
-EquivalentClasses(:ExternalShape ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasExternalShape_ModelFileName xsd:string)
-  DataAllValuesFrom (:hasExternalShape_ModelFileName xsd:string)))
+Declaration(DataProperty(ktw:hasExternalShape_ModelFileName))
+DataPropertyDomain(ktw:hasExternalShape_ModelFileName ktw:ExternalShape)
+DataPropertyRange(ktw:hasExternalShape_ModelFileName xsd:string)
+FunctionalDataProperty(ktw:hasExternalShape_ModelFileName)
+EquivalentClasses(ktw:ExternalShape ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasExternalShape_ModelFileName xsd:string)
+  DataAllValuesFrom (ktw:hasExternalShape_ModelFileName xsd:string)))
 
-Declaration(DataProperty(:hasExternalShape_ModelName))
-DataPropertyDomain(:hasExternalShape_ModelName :ExternalShape)
-DataPropertyRange(:hasExternalShape_ModelName xsd:string)
-FunctionalDataProperty(:hasExternalShape_ModelName)
+Declaration(DataProperty(ktw:hasExternalShape_ModelName))
+DataPropertyDomain(ktw:hasExternalShape_ModelName ktw:ExternalShape)
+DataPropertyRange(ktw:hasExternalShape_ModelName xsd:string)
+FunctionalDataProperty(ktw:hasExternalShape_ModelName)
 
 
 
-Declaration(Class(:GripperEffector))
+Declaration(Class(ktw:GripperEffector))
 
-AnnotationAssertion(rdfs:comment :GripperEffector
+AnnotationAssertion(rdfs:comment ktw:GripperEffector
   "GripperEffector is derived from EndEffector.
   An instance of GripperEffector has the following:
     PrimaryLocation (inherited)
@@ -416,9 +416,9 @@ AnnotationAssertion(rdfs:comment :GripperEffector
 
 
 
-Declaration(Class(:Human))
+Declaration(Class(ktw:Human))
 
-AnnotationAssertion(rdfs:comment :Human
+AnnotationAssertion(rdfs:comment ktw:Human
   "Human is derived from NoSkuObject.
   An instance of Human has the following:
     PrimaryLocation (inherited)
@@ -432,9 +432,9 @@ AnnotationAssertion(rdfs:comment :Human
 
 
 
-Declaration(Class(:InternalShape))
+Declaration(Class(ktw:InternalShape))
 
-AnnotationAssertion(rdfs:comment :InternalShape
+AnnotationAssertion(rdfs:comment ktw:InternalShape
   "InternalShape is derived from ShapeDesign.
   An instance of InternalShape has the following:
     Description (inherited)
@@ -445,17 +445,17 @@ AnnotationAssertion(rdfs:comment :InternalShape
   instance file contain information about the appearance of the
   shape without referring to another file.")
 
-SubClassOf(:BoxyShape :InternalShape)
-SubClassOf(:CylindricalShape :InternalShape)
-DisjointUnion(:InternalShape
-              :BoxyShape
-              :CylindricalShape)
+SubClassOf(ktw:BoxyShape ktw:InternalShape)
+SubClassOf(ktw:CylindricalShape ktw:InternalShape)
+DisjointUnion(ktw:InternalShape
+              ktw:BoxyShape
+              ktw:CylindricalShape)
 
 
 
-Declaration(Class(:Kit))
+Declaration(Class(ktw:Kit))
 
-AnnotationAssertion(rdfs:comment :Kit
+AnnotationAssertion(rdfs:comment ktw:Kit
   "Kit is derived from NoSkuObject.
   An instance of Kit has the following:
     PrimaryLocation (inherited)
@@ -481,68 +481,68 @@ AnnotationAssertion(rdfs:comment :Kit
   its X and Z axes should be (1,0,0) and (0,0,1), respectively.")
 
 
-Declaration(ObjectProperty(:hasKit_Design))
-ObjectPropertyDomain(:hasKit_Design :Kit)
-ObjectPropertyRange(:hasKit_Design :KitDesign)
-FunctionalObjectProperty(:hasKit_Design)
-EquivalentClasses(:Kit ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasKit_Design :KitDesign)
-  ObjectAllValuesFrom (:hasKit_Design :KitDesign)))
+Declaration(ObjectProperty(ktw:hasKit_Design))
+ObjectPropertyDomain(ktw:hasKit_Design ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_Design ktw:KitDesign)
+FunctionalObjectProperty(ktw:hasKit_Design)
+EquivalentClasses(ktw:Kit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKit_Design ktw:KitDesign)
+  ObjectAllValuesFrom (ktw:hasKit_Design ktw:KitDesign)))
 
-HasKey(:KitTray (:hasSkuObject_Sku) (:hasKitTray_SerialNumber))
+HasKey(ktw:KitTray (ktw:hasSkuObject_Sku) (ktw:hasKitTray_SerialNumber))
 
-Declaration(ObjectProperty(:hasKit_KitTray))
-ObjectPropertyDomain(:hasKit_KitTray :Kit)
-ObjectPropertyRange(:hasKit_KitTray :KitTray)
-InverseFunctionalObjectProperty(:hasKit_KitTray)
-FunctionalObjectProperty(:hasKit_KitTray)
-EquivalentClasses(:Kit ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasKit_KitTray :KitTray)
-  ObjectAllValuesFrom (:hasKit_KitTray :KitTray)))
+Declaration(ObjectProperty(ktw:hasKit_KitTray))
+ObjectPropertyDomain(ktw:hasKit_KitTray ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_KitTray ktw:KitTray)
+InverseFunctionalObjectProperty(ktw:hasKit_KitTray)
+FunctionalObjectProperty(ktw:hasKit_KitTray)
+EquivalentClasses(ktw:Kit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKit_KitTray ktw:KitTray)
+  ObjectAllValuesFrom (ktw:hasKit_KitTray ktw:KitTray)))
 
-Declaration(ObjectProperty(:hadByKitTray_Kit))
-InverseObjectProperties(:hasKit_KitTray
-                        :hadByKitTray_Kit)
-ObjectPropertyDomain(:hadByKitTray_Kit :KitTray)
-ObjectPropertyRange(:hadByKitTray_Kit :Kit)
+Declaration(ObjectProperty(ktw:hadByKitTray_Kit))
+InverseObjectProperties(ktw:hasKit_KitTray
+                        ktw:hadByKitTray_Kit)
+ObjectPropertyDomain(ktw:hadByKitTray_Kit ktw:KitTray)
+ObjectPropertyRange(ktw:hadByKitTray_Kit ktw:Kit)
 
-HasKey(:Part (:hasSkuObject_Sku) (:hasPart_SerialNumber))
+HasKey(ktw:Part (ktw:hasSkuObject_Sku) (ktw:hasPart_SerialNumber))
 
-Declaration(ObjectProperty(:hasKit_Part))
-ObjectPropertyDomain(:hasKit_Part :Kit)
-ObjectPropertyRange(:hasKit_Part :Part)
-InverseFunctionalObjectProperty(:hasKit_Part)
+Declaration(ObjectProperty(ktw:hasKit_Part))
+ObjectPropertyDomain(ktw:hasKit_Part ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_Part ktw:Part)
+InverseFunctionalObjectProperty(ktw:hasKit_Part)
 
-Declaration(ObjectProperty(:hadByPart_Kit))
-InverseObjectProperties(:hasKit_Part
-                        :hadByPart_Kit)
-ObjectPropertyDomain(:hadByPart_Kit :Part)
-ObjectPropertyRange(:hadByPart_Kit :Kit)
+Declaration(ObjectProperty(ktw:hadByPart_Kit))
+InverseObjectProperties(ktw:hasKit_Part
+                        ktw:hadByPart_Kit)
+ObjectPropertyDomain(ktw:hadByPart_Kit ktw:Part)
+ObjectPropertyRange(ktw:hadByPart_Kit ktw:Kit)
 
-Declaration(ObjectProperty(:hasKit_Slot))
-ObjectPropertyDomain(:hasKit_Slot :Kit)
-ObjectPropertyRange(:hasKit_Slot :Slot)
-InverseFunctionalObjectProperty(:hasKit_Slot)
+Declaration(ObjectProperty(ktw:hasKit_Slot))
+ObjectPropertyDomain(ktw:hasKit_Slot ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_Slot ktw:Slot)
+InverseFunctionalObjectProperty(ktw:hasKit_Slot)
 
-Declaration(ObjectProperty(:hadBySlot_Kit))
-InverseObjectProperties(:hasKit_Slot
-                        :hadBySlot_Kit)
-ObjectPropertyDomain(:hadBySlot_Kit :Slot)
-ObjectPropertyRange(:hadBySlot_Kit :Kit)
+Declaration(ObjectProperty(ktw:hadBySlot_Kit))
+InverseObjectProperties(ktw:hasKit_Slot
+                        ktw:hadBySlot_Kit)
+ObjectPropertyDomain(ktw:hadBySlot_Kit ktw:Slot)
+ObjectPropertyRange(ktw:hadBySlot_Kit ktw:Kit)
 
-Declaration(DataProperty(:hasKit_Finished))
-DataPropertyDomain(:hasKit_Finished :Kit)
-DataPropertyRange(:hasKit_Finished xsd:boolean)
-FunctionalDataProperty(:hasKit_Finished)
-EquivalentClasses(:Kit ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasKit_Finished xsd:boolean)
-  DataAllValuesFrom (:hasKit_Finished xsd:boolean)))
+Declaration(DataProperty(ktw:hasKit_Finished))
+DataPropertyDomain(ktw:hasKit_Finished ktw:Kit)
+DataPropertyRange(ktw:hasKit_Finished xsd:boolean)
+FunctionalDataProperty(ktw:hasKit_Finished)
+EquivalentClasses(ktw:Kit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKit_Finished xsd:boolean)
+  DataAllValuesFrom (ktw:hasKit_Finished xsd:boolean)))
 
 
 
-Declaration(Class(:KitDesign))
+Declaration(Class(ktw:KitDesign))
 
-AnnotationAssertion(rdfs:comment :KitDesign
+AnnotationAssertion(rdfs:comment ktw:KitDesign
   "KitDesign is derived from DataThing.
   An instance of KitDesign has the following:
     KitTraySku
@@ -553,30 +553,30 @@ AnnotationAssertion(rdfs:comment :KitDesign
   coordinate system of the ShapeDesign of the tray.")
 
 
-Declaration(ObjectProperty(:hasKitDesign_KitTraySku))
-ObjectPropertyDomain(:hasKitDesign_KitTraySku :KitDesign)
-ObjectPropertyRange(:hasKitDesign_KitTraySku :StockKeepingUnit)
-FunctionalObjectProperty(:hasKitDesign_KitTraySku)
-EquivalentClasses(:KitDesign ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasKitDesign_KitTraySku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasKitDesign_KitTraySku :StockKeepingUnit)))
+Declaration(ObjectProperty(ktw:hasKitDesign_KitTraySku))
+ObjectPropertyDomain(ktw:hasKitDesign_KitTraySku ktw:KitDesign)
+ObjectPropertyRange(ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasKitDesign_KitTraySku)
+EquivalentClasses(ktw:KitDesign ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)))
 
-Declaration(ObjectProperty(:hasKitDesign_PartRefAndPose))
-ObjectPropertyDomain(:hasKitDesign_PartRefAndPose :KitDesign)
-ObjectPropertyRange(:hasKitDesign_PartRefAndPose :PartRefAndPose)
-InverseFunctionalObjectProperty(:hasKitDesign_PartRefAndPose)
+Declaration(ObjectProperty(ktw:hasKitDesign_PartRefAndPose))
+ObjectPropertyDomain(ktw:hasKitDesign_PartRefAndPose ktw:KitDesign)
+ObjectPropertyRange(ktw:hasKitDesign_PartRefAndPose ktw:PartRefAndPose)
+InverseFunctionalObjectProperty(ktw:hasKitDesign_PartRefAndPose)
 
-Declaration(ObjectProperty(:hadByPartRefAndPose_KitDesign))
-InverseObjectProperties(:hasKitDesign_PartRefAndPose
-                        :hadByPartRefAndPose_KitDesign)
-ObjectPropertyDomain(:hadByPartRefAndPose_KitDesign :PartRefAndPose)
-ObjectPropertyRange(:hadByPartRefAndPose_KitDesign :KitDesign)
+Declaration(ObjectProperty(ktw:hadByPartRefAndPose_KitDesign))
+InverseObjectProperties(ktw:hasKitDesign_PartRefAndPose
+                        ktw:hadByPartRefAndPose_KitDesign)
+ObjectPropertyDomain(ktw:hadByPartRefAndPose_KitDesign ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hadByPartRefAndPose_KitDesign ktw:KitDesign)
 
 
 
-Declaration(Class(:KittingWorkstation))
+Declaration(Class(ktw:KittingWorkstation))
 
-AnnotationAssertion(rdfs:comment :KittingWorkstation
+AnnotationAssertion(rdfs:comment ktw:KittingWorkstation
   "KittingWorkstation is derived from NoSkuObject.
   An instance of KittingWorkstation has the following:
     PrimaryLocation (inherited)
@@ -617,109 +617,109 @@ AnnotationAssertion(rdfs:comment :KittingWorkstation
   The location of each instance of KittingWorkstation should be given
   relative to itself in order to end the chain of relative locations.")
 
-Declaration(DataProperty(:hasKittingWorkstation_AngleUnit))
-DataPropertyDomain(:hasKittingWorkstation_AngleUnit :KittingWorkstation)
-DataPropertyRange(:hasKittingWorkstation_AngleUnit :angleUnit)
-FunctionalDataProperty(:hasKittingWorkstation_AngleUnit)
-EquivalentClasses(:KittingWorkstation ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasKittingWorkstation_AngleUnit :angleUnit)
-  DataAllValuesFrom (:hasKittingWorkstation_AngleUnit :angleUnit)))
+Declaration(DataProperty(ktw:hasKittingWorkstation_AngleUnit))
+DataPropertyDomain(ktw:hasKittingWorkstation_AngleUnit ktw:KittingWorkstation)
+DataPropertyRange(ktw:hasKittingWorkstation_AngleUnit ktw:angleUnit)
+FunctionalDataProperty(ktw:hasKittingWorkstation_AngleUnit)
+EquivalentClasses(ktw:KittingWorkstation ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKittingWorkstation_AngleUnit ktw:angleUnit)
+  DataAllValuesFrom (ktw:hasKittingWorkstation_AngleUnit ktw:angleUnit)))
 
-Declaration(ObjectProperty(:hasKittingWorkstation_ChangingStation))
-ObjectPropertyDomain(:hasKittingWorkstation_ChangingStation :KittingWorkstation)
-ObjectPropertyRange(:hasKittingWorkstation_ChangingStation :EndEffectorChangingStation)
-InverseFunctionalObjectProperty(:hasKittingWorkstation_ChangingStation)
-FunctionalObjectProperty(:hasKittingWorkstation_ChangingStation)
-EquivalentClasses(:KittingWorkstation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasKittingWorkstation_ChangingStation :EndEffectorChangingStation)
-  ObjectAllValuesFrom (:hasKittingWorkstation_ChangingStation :EndEffectorChangingStation)))
+Declaration(ObjectProperty(ktw:hasKittingWorkstation_ChangingStation))
+ObjectPropertyDomain(ktw:hasKittingWorkstation_ChangingStation ktw:KittingWorkstation)
+ObjectPropertyRange(ktw:hasKittingWorkstation_ChangingStation ktw:EndEffectorChangingStation)
+InverseFunctionalObjectProperty(ktw:hasKittingWorkstation_ChangingStation)
+FunctionalObjectProperty(ktw:hasKittingWorkstation_ChangingStation)
+EquivalentClasses(ktw:KittingWorkstation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKittingWorkstation_ChangingStation ktw:EndEffectorChangingStation)
+  ObjectAllValuesFrom (ktw:hasKittingWorkstation_ChangingStation ktw:EndEffectorChangingStation)))
 
-Declaration(ObjectProperty(:hadByChangingStation_KittingWorkstation))
-InverseObjectProperties(:hasKittingWorkstation_ChangingStation
-                        :hadByChangingStation_KittingWorkstation)
-ObjectPropertyDomain(:hadByChangingStation_KittingWorkstation :EndEffectorChangingStation)
-ObjectPropertyRange(:hadByChangingStation_KittingWorkstation :KittingWorkstation)
+Declaration(ObjectProperty(ktw:hadByChangingStation_KittingWorkstation))
+InverseObjectProperties(ktw:hasKittingWorkstation_ChangingStation
+                        ktw:hadByChangingStation_KittingWorkstation)
+ObjectPropertyDomain(ktw:hadByChangingStation_KittingWorkstation ktw:EndEffectorChangingStation)
+ObjectPropertyRange(ktw:hadByChangingStation_KittingWorkstation ktw:KittingWorkstation)
 
-Declaration(ObjectProperty(:hasKittingWorkstation_KitDesign))
-ObjectPropertyDomain(:hasKittingWorkstation_KitDesign :KittingWorkstation)
-ObjectPropertyRange(:hasKittingWorkstation_KitDesign :KitDesign)
-InverseFunctionalObjectProperty(:hasKittingWorkstation_KitDesign)
+Declaration(ObjectProperty(ktw:hasKittingWorkstation_KitDesign))
+ObjectPropertyDomain(ktw:hasKittingWorkstation_KitDesign ktw:KittingWorkstation)
+ObjectPropertyRange(ktw:hasKittingWorkstation_KitDesign ktw:KitDesign)
+InverseFunctionalObjectProperty(ktw:hasKittingWorkstation_KitDesign)
 
-Declaration(ObjectProperty(:hadByKitDesign_KittingWorkstation))
-InverseObjectProperties(:hasKittingWorkstation_KitDesign
-                        :hadByKitDesign_KittingWorkstation)
-ObjectPropertyDomain(:hadByKitDesign_KittingWorkstation :KitDesign)
-ObjectPropertyRange(:hadByKitDesign_KittingWorkstation :KittingWorkstation)
+Declaration(ObjectProperty(ktw:hadByKitDesign_KittingWorkstation))
+InverseObjectProperties(ktw:hasKittingWorkstation_KitDesign
+                        ktw:hadByKitDesign_KittingWorkstation)
+ObjectPropertyDomain(ktw:hadByKitDesign_KittingWorkstation ktw:KitDesign)
+ObjectPropertyRange(ktw:hadByKitDesign_KittingWorkstation ktw:KittingWorkstation)
 
-Declaration(DataProperty(:hasKittingWorkstation_LengthUnit))
-DataPropertyDomain(:hasKittingWorkstation_LengthUnit :KittingWorkstation)
-DataPropertyRange(:hasKittingWorkstation_LengthUnit :lengthUnit)
-FunctionalDataProperty(:hasKittingWorkstation_LengthUnit)
-EquivalentClasses(:KittingWorkstation ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasKittingWorkstation_LengthUnit :lengthUnit)
-  DataAllValuesFrom (:hasKittingWorkstation_LengthUnit :lengthUnit)))
+Declaration(DataProperty(ktw:hasKittingWorkstation_LengthUnit))
+DataPropertyDomain(ktw:hasKittingWorkstation_LengthUnit ktw:KittingWorkstation)
+DataPropertyRange(ktw:hasKittingWorkstation_LengthUnit ktw:lengthUnit)
+FunctionalDataProperty(ktw:hasKittingWorkstation_LengthUnit)
+EquivalentClasses(ktw:KittingWorkstation ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKittingWorkstation_LengthUnit ktw:lengthUnit)
+  DataAllValuesFrom (ktw:hasKittingWorkstation_LengthUnit ktw:lengthUnit)))
 
-Declaration(ObjectProperty(:hasKittingWorkstation_Object))
-ObjectPropertyDomain(:hasKittingWorkstation_Object :KittingWorkstation)
-ObjectPropertyRange(:hasKittingWorkstation_Object :SolidObject)
-InverseFunctionalObjectProperty(:hasKittingWorkstation_Object)
+Declaration(ObjectProperty(ktw:hasKittingWorkstation_Object))
+ObjectPropertyDomain(ktw:hasKittingWorkstation_Object ktw:KittingWorkstation)
+ObjectPropertyRange(ktw:hasKittingWorkstation_Object ktw:SolidObject)
+InverseFunctionalObjectProperty(ktw:hasKittingWorkstation_Object)
 
-Declaration(ObjectProperty(:hadByObject_KittingWorkstation))
-InverseObjectProperties(:hasKittingWorkstation_Object
-                        :hadByObject_KittingWorkstation)
-ObjectPropertyDomain(:hadByObject_KittingWorkstation :SolidObject)
-ObjectPropertyRange(:hadByObject_KittingWorkstation :KittingWorkstation)
+Declaration(ObjectProperty(ktw:hadByObject_KittingWorkstation))
+InverseObjectProperties(ktw:hasKittingWorkstation_Object
+                        ktw:hadByObject_KittingWorkstation)
+ObjectPropertyDomain(ktw:hadByObject_KittingWorkstation ktw:SolidObject)
+ObjectPropertyRange(ktw:hadByObject_KittingWorkstation ktw:KittingWorkstation)
 
-Declaration(ObjectProperty(:hasKittingWorkstation_OtherObstacle))
-ObjectPropertyDomain(:hasKittingWorkstation_OtherObstacle :KittingWorkstation)
-ObjectPropertyRange(:hasKittingWorkstation_OtherObstacle :BoxVolume)
-InverseFunctionalObjectProperty(:hasKittingWorkstation_OtherObstacle)
+Declaration(ObjectProperty(ktw:hasKittingWorkstation_OtherObstacle))
+ObjectPropertyDomain(ktw:hasKittingWorkstation_OtherObstacle ktw:KittingWorkstation)
+ObjectPropertyRange(ktw:hasKittingWorkstation_OtherObstacle ktw:BoxVolume)
+InverseFunctionalObjectProperty(ktw:hasKittingWorkstation_OtherObstacle)
 
-Declaration(ObjectProperty(:hadByOtherObstacle_KittingWorkstation))
-InverseObjectProperties(:hasKittingWorkstation_OtherObstacle
-                        :hadByOtherObstacle_KittingWorkstation)
-ObjectPropertyDomain(:hadByOtherObstacle_KittingWorkstation :BoxVolume)
-ObjectPropertyRange(:hadByOtherObstacle_KittingWorkstation :KittingWorkstation)
+Declaration(ObjectProperty(ktw:hadByOtherObstacle_KittingWorkstation))
+InverseObjectProperties(ktw:hasKittingWorkstation_OtherObstacle
+                        ktw:hadByOtherObstacle_KittingWorkstation)
+ObjectPropertyDomain(ktw:hadByOtherObstacle_KittingWorkstation ktw:BoxVolume)
+ObjectPropertyRange(ktw:hadByOtherObstacle_KittingWorkstation ktw:KittingWorkstation)
 
-Declaration(ObjectProperty(:hasKittingWorkstation_Robot))
-ObjectPropertyDomain(:hasKittingWorkstation_Robot :KittingWorkstation)
-ObjectPropertyRange(:hasKittingWorkstation_Robot :Robot)
-InverseFunctionalObjectProperty(:hasKittingWorkstation_Robot)
-FunctionalObjectProperty(:hasKittingWorkstation_Robot)
-EquivalentClasses(:KittingWorkstation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasKittingWorkstation_Robot :Robot)
-  ObjectAllValuesFrom (:hasKittingWorkstation_Robot :Robot)))
+Declaration(ObjectProperty(ktw:hasKittingWorkstation_Robot))
+ObjectPropertyDomain(ktw:hasKittingWorkstation_Robot ktw:KittingWorkstation)
+ObjectPropertyRange(ktw:hasKittingWorkstation_Robot ktw:Robot)
+InverseFunctionalObjectProperty(ktw:hasKittingWorkstation_Robot)
+FunctionalObjectProperty(ktw:hasKittingWorkstation_Robot)
+EquivalentClasses(ktw:KittingWorkstation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKittingWorkstation_Robot ktw:Robot)
+  ObjectAllValuesFrom (ktw:hasKittingWorkstation_Robot ktw:Robot)))
 
-Declaration(ObjectProperty(:hadByRobot_KittingWorkstation))
-InverseObjectProperties(:hasKittingWorkstation_Robot
-                        :hadByRobot_KittingWorkstation)
-ObjectPropertyDomain(:hadByRobot_KittingWorkstation :Robot)
-ObjectPropertyRange(:hadByRobot_KittingWorkstation :KittingWorkstation)
+Declaration(ObjectProperty(ktw:hadByRobot_KittingWorkstation))
+InverseObjectProperties(ktw:hasKittingWorkstation_Robot
+                        ktw:hadByRobot_KittingWorkstation)
+ObjectPropertyDomain(ktw:hadByRobot_KittingWorkstation ktw:Robot)
+ObjectPropertyRange(ktw:hadByRobot_KittingWorkstation ktw:KittingWorkstation)
 
-Declaration(ObjectProperty(:hasKittingWorkstation_Sku))
-ObjectPropertyDomain(:hasKittingWorkstation_Sku :KittingWorkstation)
-ObjectPropertyRange(:hasKittingWorkstation_Sku :StockKeepingUnit)
-InverseFunctionalObjectProperty(:hasKittingWorkstation_Sku)
+Declaration(ObjectProperty(ktw:hasKittingWorkstation_Sku))
+ObjectPropertyDomain(ktw:hasKittingWorkstation_Sku ktw:KittingWorkstation)
+ObjectPropertyRange(ktw:hasKittingWorkstation_Sku ktw:StockKeepingUnit)
+InverseFunctionalObjectProperty(ktw:hasKittingWorkstation_Sku)
 
-Declaration(ObjectProperty(:hadBySku_KittingWorkstation))
-InverseObjectProperties(:hasKittingWorkstation_Sku
-                        :hadBySku_KittingWorkstation)
-ObjectPropertyDomain(:hadBySku_KittingWorkstation :StockKeepingUnit)
-ObjectPropertyRange(:hadBySku_KittingWorkstation :KittingWorkstation)
+Declaration(ObjectProperty(ktw:hadBySku_KittingWorkstation))
+InverseObjectProperties(ktw:hasKittingWorkstation_Sku
+                        ktw:hadBySku_KittingWorkstation)
+ObjectPropertyDomain(ktw:hadBySku_KittingWorkstation ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hadBySku_KittingWorkstation ktw:KittingWorkstation)
 
-Declaration(DataProperty(:hasKittingWorkstation_WeightUnit))
-DataPropertyDomain(:hasKittingWorkstation_WeightUnit :KittingWorkstation)
-DataPropertyRange(:hasKittingWorkstation_WeightUnit :weightUnit)
-FunctionalDataProperty(:hasKittingWorkstation_WeightUnit)
-EquivalentClasses(:KittingWorkstation ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasKittingWorkstation_WeightUnit :weightUnit)
-  DataAllValuesFrom (:hasKittingWorkstation_WeightUnit :weightUnit)))
+Declaration(DataProperty(ktw:hasKittingWorkstation_WeightUnit))
+DataPropertyDomain(ktw:hasKittingWorkstation_WeightUnit ktw:KittingWorkstation)
+DataPropertyRange(ktw:hasKittingWorkstation_WeightUnit ktw:weightUnit)
+FunctionalDataProperty(ktw:hasKittingWorkstation_WeightUnit)
+EquivalentClasses(ktw:KittingWorkstation ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKittingWorkstation_WeightUnit ktw:weightUnit)
+  DataAllValuesFrom (ktw:hasKittingWorkstation_WeightUnit ktw:weightUnit)))
 
 
 
-Declaration(Class(:KitTray))
+Declaration(Class(ktw:KitTray))
 
-AnnotationAssertion(rdfs:comment :KitTray
+AnnotationAssertion(rdfs:comment ktw:KitTray
   "KitTray is derived from SkuObject.
   An instance of KitTray has the following:
     PrimaryLocation (inherited)
@@ -731,19 +731,19 @@ AnnotationAssertion(rdfs:comment :KitTray
   KitTray is designed to hold Parts with various SKUs in
   known positions.")
 
-Declaration(DataProperty(:hasKitTray_SerialNumber))
-DataPropertyDomain(:hasKitTray_SerialNumber :KitTray)
-DataPropertyRange(:hasKitTray_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(:hasKitTray_SerialNumber)
-EquivalentClasses(:KitTray ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasKitTray_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (:hasKitTray_SerialNumber xsd:NMTOKEN)))
+Declaration(DataProperty(ktw:hasKitTray_SerialNumber))
+DataPropertyDomain(ktw:hasKitTray_SerialNumber ktw:KitTray)
+DataPropertyRange(ktw:hasKitTray_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasKitTray_SerialNumber)
+EquivalentClasses(ktw:KitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKitTray_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasKitTray_SerialNumber xsd:NMTOKEN)))
 
 
 
-Declaration(Class(:LargeBoxWithEmptyKitTrays))
+Declaration(Class(ktw:LargeBoxWithEmptyKitTrays))
 
-AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
+AnnotationAssertion(rdfs:comment ktw:LargeBoxWithEmptyKitTrays
   "LargeBoxWithEmptyKitTrays is derived from NoSkuObject.
   An instance of LargeBoxWithEmptyKitTrays has the
   following:
@@ -762,39 +762,39 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithEmptyKitTrays
   LargeBoxWithEmptyKitTrays are intended to all be of the same
   SKU, although there is currently no formal requirement for that.")
 
-HasKey(:LargeContainer (:hasSkuObject_Sku) (:hasLargeContainer_SerialNumber))
+HasKey(ktw:LargeContainer (ktw:hasSkuObject_Sku) (ktw:hasLargeContainer_SerialNumber))
 
-Declaration(ObjectProperty(:hasLargeBoxWithEmptyKitTrays_LargeContainer))
-ObjectPropertyDomain(:hasLargeBoxWithEmptyKitTrays_LargeContainer :LargeBoxWithEmptyKitTrays)
-ObjectPropertyRange(:hasLargeBoxWithEmptyKitTrays_LargeContainer :LargeContainer)
-InverseFunctionalObjectProperty(:hasLargeBoxWithEmptyKitTrays_LargeContainer)
-FunctionalObjectProperty(:hasLargeBoxWithEmptyKitTrays_LargeContainer)
-EquivalentClasses(:LargeBoxWithEmptyKitTrays ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasLargeBoxWithEmptyKitTrays_LargeContainer :LargeContainer)
-  ObjectAllValuesFrom (:hasLargeBoxWithEmptyKitTrays_LargeContainer :LargeContainer)))
+Declaration(ObjectProperty(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer))
+ObjectPropertyDomain(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer ktw:LargeBoxWithEmptyKitTrays)
+ObjectPropertyRange(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer ktw:LargeContainer)
+InverseFunctionalObjectProperty(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer)
+FunctionalObjectProperty(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer)
+EquivalentClasses(ktw:LargeBoxWithEmptyKitTrays ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer ktw:LargeContainer)
+  ObjectAllValuesFrom (ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer ktw:LargeContainer)))
 
-Declaration(ObjectProperty(:hadByLargeContainer_LargeBoxWithEmptyKitTrays))
-InverseObjectProperties(:hasLargeBoxWithEmptyKitTrays_LargeContainer
-                        :hadByLargeContainer_LargeBoxWithEmptyKitTrays)
-ObjectPropertyDomain(:hadByLargeContainer_LargeBoxWithEmptyKitTrays :LargeContainer)
-ObjectPropertyRange(:hadByLargeContainer_LargeBoxWithEmptyKitTrays :LargeBoxWithEmptyKitTrays)
+Declaration(ObjectProperty(ktw:hadByLargeContainer_LargeBoxWithEmptyKitTrays))
+InverseObjectProperties(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer
+                        ktw:hadByLargeContainer_LargeBoxWithEmptyKitTrays)
+ObjectPropertyDomain(ktw:hadByLargeContainer_LargeBoxWithEmptyKitTrays ktw:LargeContainer)
+ObjectPropertyRange(ktw:hadByLargeContainer_LargeBoxWithEmptyKitTrays ktw:LargeBoxWithEmptyKitTrays)
 
-Declaration(ObjectProperty(:hasLargeBoxWithEmptyKitTrays_KitTray))
-ObjectPropertyDomain(:hasLargeBoxWithEmptyKitTrays_KitTray :LargeBoxWithEmptyKitTrays)
-ObjectPropertyRange(:hasLargeBoxWithEmptyKitTrays_KitTray :KitTray)
-InverseFunctionalObjectProperty(:hasLargeBoxWithEmptyKitTrays_KitTray)
+Declaration(ObjectProperty(ktw:hasLargeBoxWithEmptyKitTrays_KitTray))
+ObjectPropertyDomain(ktw:hasLargeBoxWithEmptyKitTrays_KitTray ktw:LargeBoxWithEmptyKitTrays)
+ObjectPropertyRange(ktw:hasLargeBoxWithEmptyKitTrays_KitTray ktw:KitTray)
+InverseFunctionalObjectProperty(ktw:hasLargeBoxWithEmptyKitTrays_KitTray)
 
-Declaration(ObjectProperty(:hadByKitTray_LargeBoxWithEmptyKitTrays))
-InverseObjectProperties(:hasLargeBoxWithEmptyKitTrays_KitTray
-                        :hadByKitTray_LargeBoxWithEmptyKitTrays)
-ObjectPropertyDomain(:hadByKitTray_LargeBoxWithEmptyKitTrays :KitTray)
-ObjectPropertyRange(:hadByKitTray_LargeBoxWithEmptyKitTrays :LargeBoxWithEmptyKitTrays)
+Declaration(ObjectProperty(ktw:hadByKitTray_LargeBoxWithEmptyKitTrays))
+InverseObjectProperties(ktw:hasLargeBoxWithEmptyKitTrays_KitTray
+                        ktw:hadByKitTray_LargeBoxWithEmptyKitTrays)
+ObjectPropertyDomain(ktw:hadByKitTray_LargeBoxWithEmptyKitTrays ktw:KitTray)
+ObjectPropertyRange(ktw:hadByKitTray_LargeBoxWithEmptyKitTrays ktw:LargeBoxWithEmptyKitTrays)
 
 
 
-Declaration(Class(:LargeBoxWithKits))
+Declaration(Class(ktw:LargeBoxWithKits))
 
-AnnotationAssertion(rdfs:comment :LargeBoxWithKits
+AnnotationAssertion(rdfs:comment ktw:LargeBoxWithKits
   "LargeBoxWithKits is derived from NoSkuObject.
   An instance of LargeBoxWithKits has the following:
     PrimaryLocation (inherited)
@@ -821,54 +821,54 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithKits
   the given design, but there is currently no formal constraint
   requiring that.")
 
-Declaration(ObjectProperty(:hasLargeBoxWithKits_LargeContainer))
-ObjectPropertyDomain(:hasLargeBoxWithKits_LargeContainer :LargeBoxWithKits)
-ObjectPropertyRange(:hasLargeBoxWithKits_LargeContainer :LargeContainer)
-InverseFunctionalObjectProperty(:hasLargeBoxWithKits_LargeContainer)
-FunctionalObjectProperty(:hasLargeBoxWithKits_LargeContainer)
-EquivalentClasses(:LargeBoxWithKits ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasLargeBoxWithKits_LargeContainer :LargeContainer)
-  ObjectAllValuesFrom (:hasLargeBoxWithKits_LargeContainer :LargeContainer)))
+Declaration(ObjectProperty(ktw:hasLargeBoxWithKits_LargeContainer))
+ObjectPropertyDomain(ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeBoxWithKits)
+ObjectPropertyRange(ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeContainer)
+InverseFunctionalObjectProperty(ktw:hasLargeBoxWithKits_LargeContainer)
+FunctionalObjectProperty(ktw:hasLargeBoxWithKits_LargeContainer)
+EquivalentClasses(ktw:LargeBoxWithKits ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeContainer)
+  ObjectAllValuesFrom (ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeContainer)))
 
-Declaration(ObjectProperty(:hadByLargeContainer_LargeBoxWithKits))
-InverseObjectProperties(:hasLargeBoxWithKits_LargeContainer
-                        :hadByLargeContainer_LargeBoxWithKits)
-ObjectPropertyDomain(:hadByLargeContainer_LargeBoxWithKits :LargeContainer)
-ObjectPropertyRange(:hadByLargeContainer_LargeBoxWithKits :LargeBoxWithKits)
+Declaration(ObjectProperty(ktw:hadByLargeContainer_LargeBoxWithKits))
+InverseObjectProperties(ktw:hasLargeBoxWithKits_LargeContainer
+                        ktw:hadByLargeContainer_LargeBoxWithKits)
+ObjectPropertyDomain(ktw:hadByLargeContainer_LargeBoxWithKits ktw:LargeContainer)
+ObjectPropertyRange(ktw:hadByLargeContainer_LargeBoxWithKits ktw:LargeBoxWithKits)
 
-Declaration(ObjectProperty(:hasLargeBoxWithKits_Kit))
-ObjectPropertyDomain(:hasLargeBoxWithKits_Kit :LargeBoxWithKits)
-ObjectPropertyRange(:hasLargeBoxWithKits_Kit :Kit)
-InverseFunctionalObjectProperty(:hasLargeBoxWithKits_Kit)
+Declaration(ObjectProperty(ktw:hasLargeBoxWithKits_Kit))
+ObjectPropertyDomain(ktw:hasLargeBoxWithKits_Kit ktw:LargeBoxWithKits)
+ObjectPropertyRange(ktw:hasLargeBoxWithKits_Kit ktw:Kit)
+InverseFunctionalObjectProperty(ktw:hasLargeBoxWithKits_Kit)
 
-Declaration(ObjectProperty(:hadByKit_LargeBoxWithKits))
-InverseObjectProperties(:hasLargeBoxWithKits_Kit
-                        :hadByKit_LargeBoxWithKits)
-ObjectPropertyDomain(:hadByKit_LargeBoxWithKits :Kit)
-ObjectPropertyRange(:hadByKit_LargeBoxWithKits :LargeBoxWithKits)
-
-
-Declaration(ObjectProperty(:hasLargeBoxWithKits_KitDesign))
-ObjectPropertyDomain(:hasLargeBoxWithKits_KitDesign :LargeBoxWithKits)
-ObjectPropertyRange(:hasLargeBoxWithKits_KitDesign :KitDesign)
-FunctionalObjectProperty(:hasLargeBoxWithKits_KitDesign)
-EquivalentClasses(:LargeBoxWithKits ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasLargeBoxWithKits_KitDesign :KitDesign)
-  ObjectAllValuesFrom (:hasLargeBoxWithKits_KitDesign :KitDesign)))
-
-Declaration(DataProperty(:hasLargeBoxWithKits_Capacity))
-DataPropertyDomain(:hasLargeBoxWithKits_Capacity :LargeBoxWithKits)
-DataPropertyRange(:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
-FunctionalDataProperty(:hasLargeBoxWithKits_Capacity)
-EquivalentClasses(:LargeBoxWithKits ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
-  DataAllValuesFrom (:hasLargeBoxWithKits_Capacity xsd:positiveInteger)))
+Declaration(ObjectProperty(ktw:hadByKit_LargeBoxWithKits))
+InverseObjectProperties(ktw:hasLargeBoxWithKits_Kit
+                        ktw:hadByKit_LargeBoxWithKits)
+ObjectPropertyDomain(ktw:hadByKit_LargeBoxWithKits ktw:Kit)
+ObjectPropertyRange(ktw:hadByKit_LargeBoxWithKits ktw:LargeBoxWithKits)
 
 
+Declaration(ObjectProperty(ktw:hasLargeBoxWithKits_KitDesign))
+ObjectPropertyDomain(ktw:hasLargeBoxWithKits_KitDesign ktw:LargeBoxWithKits)
+ObjectPropertyRange(ktw:hasLargeBoxWithKits_KitDesign ktw:KitDesign)
+FunctionalObjectProperty(ktw:hasLargeBoxWithKits_KitDesign)
+EquivalentClasses(ktw:LargeBoxWithKits ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasLargeBoxWithKits_KitDesign ktw:KitDesign)
+  ObjectAllValuesFrom (ktw:hasLargeBoxWithKits_KitDesign ktw:KitDesign)))
 
-Declaration(Class(:LargeContainer))
+Declaration(DataProperty(ktw:hasLargeBoxWithKits_Capacity))
+DataPropertyDomain(ktw:hasLargeBoxWithKits_Capacity ktw:LargeBoxWithKits)
+DataPropertyRange(ktw:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
+FunctionalDataProperty(ktw:hasLargeBoxWithKits_Capacity)
+EquivalentClasses(ktw:LargeBoxWithKits ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
+  DataAllValuesFrom (ktw:hasLargeBoxWithKits_Capacity xsd:positiveInteger)))
 
-AnnotationAssertion(rdfs:comment :LargeContainer
+
+
+Declaration(Class(ktw:LargeContainer))
+
+AnnotationAssertion(rdfs:comment ktw:LargeContainer
   "LargeContainer is derived from SkuObject.
   An instance of LargeContainer has the following:
     PrimaryLocation (inherited)
@@ -880,19 +880,19 @@ AnnotationAssertion(rdfs:comment :LargeContainer
   LargeContainer can hold one or more instances of a single type
   of tray, bin, or kit.")
 
-Declaration(DataProperty(:hasLargeContainer_SerialNumber))
-DataPropertyDomain(:hasLargeContainer_SerialNumber :LargeContainer)
-DataPropertyRange(:hasLargeContainer_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(:hasLargeContainer_SerialNumber)
-EquivalentClasses(:LargeContainer ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasLargeContainer_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (:hasLargeContainer_SerialNumber xsd:NMTOKEN)))
+Declaration(DataProperty(ktw:hasLargeContainer_SerialNumber))
+DataPropertyDomain(ktw:hasLargeContainer_SerialNumber ktw:LargeContainer)
+DataPropertyRange(ktw:hasLargeContainer_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasLargeContainer_SerialNumber)
+EquivalentClasses(ktw:LargeContainer ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasLargeContainer_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasLargeContainer_SerialNumber xsd:NMTOKEN)))
 
 
 
-Declaration(Class(:MechanicalComponent))
+Declaration(Class(ktw:MechanicalComponent))
 
-AnnotationAssertion(rdfs:comment :MechanicalComponent
+AnnotationAssertion(rdfs:comment ktw:MechanicalComponent
   "MechanicalComponent is derived from NoSkuObject.
   An instance of MechanicalComponent has the following:
     PrimaryLocation (inherited)
@@ -905,9 +905,9 @@ AnnotationAssertion(rdfs:comment :MechanicalComponent
 
 
 
-Declaration(Class(:NoSkuObject))
+Declaration(Class(ktw:NoSkuObject))
 
-AnnotationAssertion(rdfs:comment :NoSkuObject
+AnnotationAssertion(rdfs:comment ktw:NoSkuObject
   "NoSkuObject is derived from SolidObject.
   An instance NoSkuObject has the following:
     PrimaryLocation (inherited)
@@ -922,59 +922,59 @@ AnnotationAssertion(rdfs:comment :NoSkuObject
   also get its shape from the shape of the components and their
   relative positions.")
 
-SubClassOf(:EndEffectorChangingStation :NoSkuObject)
-SubClassOf(:EndEffectorHolder :NoSkuObject)
-SubClassOf(:EndEffector :NoSkuObject)
-SubClassOf(:Human :NoSkuObject)
-SubClassOf(:Kit :NoSkuObject)
-SubClassOf(:KittingWorkstation :NoSkuObject)
-SubClassOf(:LargeBoxWithEmptyKitTrays :NoSkuObject)
-SubClassOf(:LargeBoxWithKits :NoSkuObject)
-SubClassOf(:MechanicalComponent :NoSkuObject)
-SubClassOf(:Robot :NoSkuObject)
-SubClassOf(:WorkTable :NoSkuObject)
-DisjointUnion(:NoSkuObject
-              :EndEffectorChangingStation
-              :EndEffectorHolder
-              :EndEffector
-              :Human
-              :Kit
-              :KittingWorkstation
-              :LargeBoxWithEmptyKitTrays
-              :LargeBoxWithKits
-              :MechanicalComponent
-              :Robot
-              :WorkTable)
+SubClassOf(ktw:EndEffectorChangingStation ktw:NoSkuObject)
+SubClassOf(ktw:EndEffectorHolder ktw:NoSkuObject)
+SubClassOf(ktw:EndEffector ktw:NoSkuObject)
+SubClassOf(ktw:Human ktw:NoSkuObject)
+SubClassOf(ktw:Kit ktw:NoSkuObject)
+SubClassOf(ktw:KittingWorkstation ktw:NoSkuObject)
+SubClassOf(ktw:LargeBoxWithEmptyKitTrays ktw:NoSkuObject)
+SubClassOf(ktw:LargeBoxWithKits ktw:NoSkuObject)
+SubClassOf(ktw:MechanicalComponent ktw:NoSkuObject)
+SubClassOf(ktw:Robot ktw:NoSkuObject)
+SubClassOf(ktw:WorkTable ktw:NoSkuObject)
+DisjointUnion(ktw:NoSkuObject
+              ktw:EndEffectorChangingStation
+              ktw:EndEffectorHolder
+              ktw:EndEffector
+              ktw:Human
+              ktw:Kit
+              ktw:KittingWorkstation
+              ktw:LargeBoxWithEmptyKitTrays
+              ktw:LargeBoxWithKits
+              ktw:MechanicalComponent
+              ktw:Robot
+              ktw:WorkTable)
 
-Declaration(ObjectProperty(:hasNoSkuObject_InternalShape))
-ObjectPropertyDomain(:hasNoSkuObject_InternalShape :NoSkuObject)
-ObjectPropertyRange(:hasNoSkuObject_InternalShape :InternalShape)
-InverseFunctionalObjectProperty(:hasNoSkuObject_InternalShape)
-FunctionalObjectProperty(:hasNoSkuObject_InternalShape)
+Declaration(ObjectProperty(ktw:hasNoSkuObject_InternalShape))
+ObjectPropertyDomain(ktw:hasNoSkuObject_InternalShape ktw:NoSkuObject)
+ObjectPropertyRange(ktw:hasNoSkuObject_InternalShape ktw:InternalShape)
+InverseFunctionalObjectProperty(ktw:hasNoSkuObject_InternalShape)
+FunctionalObjectProperty(ktw:hasNoSkuObject_InternalShape)
 
-Declaration(ObjectProperty(:hadByInternalShape_NoSkuObject))
-InverseObjectProperties(:hasNoSkuObject_InternalShape
-                        :hadByInternalShape_NoSkuObject)
-ObjectPropertyDomain(:hadByInternalShape_NoSkuObject :InternalShape)
-ObjectPropertyRange(:hadByInternalShape_NoSkuObject :NoSkuObject)
+Declaration(ObjectProperty(ktw:hadByInternalShape_NoSkuObject))
+InverseObjectProperties(ktw:hasNoSkuObject_InternalShape
+                        ktw:hadByInternalShape_NoSkuObject)
+ObjectPropertyDomain(ktw:hadByInternalShape_NoSkuObject ktw:InternalShape)
+ObjectPropertyRange(ktw:hadByInternalShape_NoSkuObject ktw:NoSkuObject)
 
-Declaration(ObjectProperty(:hasNoSkuObject_ExternalShape))
-ObjectPropertyDomain(:hasNoSkuObject_ExternalShape :NoSkuObject)
-ObjectPropertyRange(:hasNoSkuObject_ExternalShape :ExternalShape)
-InverseFunctionalObjectProperty(:hasNoSkuObject_ExternalShape)
-FunctionalObjectProperty(:hasNoSkuObject_ExternalShape)
+Declaration(ObjectProperty(ktw:hasNoSkuObject_ExternalShape))
+ObjectPropertyDomain(ktw:hasNoSkuObject_ExternalShape ktw:NoSkuObject)
+ObjectPropertyRange(ktw:hasNoSkuObject_ExternalShape ktw:ExternalShape)
+InverseFunctionalObjectProperty(ktw:hasNoSkuObject_ExternalShape)
+FunctionalObjectProperty(ktw:hasNoSkuObject_ExternalShape)
 
-Declaration(ObjectProperty(:hadByExternalShape_NoSkuObject))
-InverseObjectProperties(:hasNoSkuObject_ExternalShape
-                        :hadByExternalShape_NoSkuObject)
-ObjectPropertyDomain(:hadByExternalShape_NoSkuObject :ExternalShape)
-ObjectPropertyRange(:hadByExternalShape_NoSkuObject :NoSkuObject)
+Declaration(ObjectProperty(ktw:hadByExternalShape_NoSkuObject))
+InverseObjectProperties(ktw:hasNoSkuObject_ExternalShape
+                        ktw:hadByExternalShape_NoSkuObject)
+ObjectPropertyDomain(ktw:hadByExternalShape_NoSkuObject ktw:ExternalShape)
+ObjectPropertyRange(ktw:hadByExternalShape_NoSkuObject ktw:NoSkuObject)
 
 
 
-Declaration(Class(:Part))
+Declaration(Class(ktw:Part))
 
-AnnotationAssertion(rdfs:comment :Part
+AnnotationAssertion(rdfs:comment ktw:Part
   "Part is derived from SkuObject.
   An instance of Part has the following:
     PrimaryLocation (inherited)
@@ -985,19 +985,19 @@ AnnotationAssertion(rdfs:comment :Part
   The Part represents a part.
   The Sku specifies the SKU for the part.")
 
-Declaration(DataProperty(:hasPart_SerialNumber))
-DataPropertyDomain(:hasPart_SerialNumber :Part)
-DataPropertyRange(:hasPart_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(:hasPart_SerialNumber)
-EquivalentClasses(:Part ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPart_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (:hasPart_SerialNumber xsd:NMTOKEN)))
+Declaration(DataProperty(ktw:hasPart_SerialNumber))
+DataPropertyDomain(ktw:hasPart_SerialNumber ktw:Part)
+DataPropertyRange(ktw:hasPart_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasPart_SerialNumber)
+EquivalentClasses(ktw:Part ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPart_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasPart_SerialNumber xsd:NMTOKEN)))
 
 
 
-Declaration(Class(:PartRefAndPose))
+Declaration(Class(ktw:PartRefAndPose))
 
-AnnotationAssertion(rdfs:comment :PartRefAndPose
+AnnotationAssertion(rdfs:comment ktw:PartRefAndPose
   "PartRefAndPose is derived from DataThing.
   An instance of PartRefAndPose has the following:
     Sku
@@ -1012,64 +1012,64 @@ AnnotationAssertion(rdfs:comment :PartRefAndPose
   relative to that coordinate system.")
 
 
-Declaration(ObjectProperty(:hasPartRefAndPose_Sku))
-ObjectPropertyDomain(:hasPartRefAndPose_Sku :PartRefAndPose)
-ObjectPropertyRange(:hasPartRefAndPose_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasPartRefAndPose_Sku)
-EquivalentClasses(:PartRefAndPose ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartRefAndPose_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasPartRefAndPose_Sku :StockKeepingUnit)))
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_Sku))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_Sku ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_Sku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_Sku)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_Sku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_Sku ktw:StockKeepingUnit)))
 
-Declaration(ObjectProperty(:hasPartRefAndPose_Point))
-ObjectPropertyDomain(:hasPartRefAndPose_Point :PartRefAndPose)
-ObjectPropertyRange(:hasPartRefAndPose_Point :Point)
-InverseFunctionalObjectProperty(:hasPartRefAndPose_Point)
-FunctionalObjectProperty(:hasPartRefAndPose_Point)
-EquivalentClasses(:PartRefAndPose ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartRefAndPose_Point :Point)
-  ObjectAllValuesFrom (:hasPartRefAndPose_Point :Point)))
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_Point))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_Point ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_Point ktw:Point)
+InverseFunctionalObjectProperty(ktw:hasPartRefAndPose_Point)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_Point)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_Point ktw:Point)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_Point ktw:Point)))
 
-Declaration(ObjectProperty(:hadByPoint_PartRefAndPose))
-InverseObjectProperties(:hasPartRefAndPose_Point
-                        :hadByPoint_PartRefAndPose)
-ObjectPropertyDomain(:hadByPoint_PartRefAndPose :Point)
-ObjectPropertyRange(:hadByPoint_PartRefAndPose :PartRefAndPose)
+Declaration(ObjectProperty(ktw:hadByPoint_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_Point
+                        ktw:hadByPoint_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadByPoint_PartRefAndPose ktw:Point)
+ObjectPropertyRange(ktw:hadByPoint_PartRefAndPose ktw:PartRefAndPose)
 
-Declaration(ObjectProperty(:hasPartRefAndPose_XAxis))
-ObjectPropertyDomain(:hasPartRefAndPose_XAxis :PartRefAndPose)
-ObjectPropertyRange(:hasPartRefAndPose_XAxis :Vector)
-InverseFunctionalObjectProperty(:hasPartRefAndPose_XAxis)
-FunctionalObjectProperty(:hasPartRefAndPose_XAxis)
-EquivalentClasses(:PartRefAndPose ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartRefAndPose_XAxis :Vector)
-  ObjectAllValuesFrom (:hasPartRefAndPose_XAxis :Vector)))
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_XAxis))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_XAxis ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_XAxis ktw:Vector)
+InverseFunctionalObjectProperty(ktw:hasPartRefAndPose_XAxis)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_XAxis)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_XAxis ktw:Vector)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_XAxis ktw:Vector)))
 
-Declaration(ObjectProperty(:hadByXAxis_PartRefAndPose))
-InverseObjectProperties(:hasPartRefAndPose_XAxis
-                        :hadByXAxis_PartRefAndPose)
-ObjectPropertyDomain(:hadByXAxis_PartRefAndPose :Vector)
-ObjectPropertyRange(:hadByXAxis_PartRefAndPose :PartRefAndPose)
+Declaration(ObjectProperty(ktw:hadByXAxis_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_XAxis
+                        ktw:hadByXAxis_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadByXAxis_PartRefAndPose ktw:Vector)
+ObjectPropertyRange(ktw:hadByXAxis_PartRefAndPose ktw:PartRefAndPose)
 
-Declaration(ObjectProperty(:hasPartRefAndPose_ZAxis))
-ObjectPropertyDomain(:hasPartRefAndPose_ZAxis :PartRefAndPose)
-ObjectPropertyRange(:hasPartRefAndPose_ZAxis :Vector)
-InverseFunctionalObjectProperty(:hasPartRefAndPose_ZAxis)
-FunctionalObjectProperty(:hasPartRefAndPose_ZAxis)
-EquivalentClasses(:PartRefAndPose ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartRefAndPose_ZAxis :Vector)
-  ObjectAllValuesFrom (:hasPartRefAndPose_ZAxis :Vector)))
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_ZAxis))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_ZAxis ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_ZAxis ktw:Vector)
+InverseFunctionalObjectProperty(ktw:hasPartRefAndPose_ZAxis)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_ZAxis)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_ZAxis ktw:Vector)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_ZAxis ktw:Vector)))
 
-Declaration(ObjectProperty(:hadByZAxis_PartRefAndPose))
-InverseObjectProperties(:hasPartRefAndPose_ZAxis
-                        :hadByZAxis_PartRefAndPose)
-ObjectPropertyDomain(:hadByZAxis_PartRefAndPose :Vector)
-ObjectPropertyRange(:hadByZAxis_PartRefAndPose :PartRefAndPose)
+Declaration(ObjectProperty(ktw:hadByZAxis_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_ZAxis
+                        ktw:hadByZAxis_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadByZAxis_PartRefAndPose ktw:Vector)
+ObjectPropertyRange(ktw:hadByZAxis_PartRefAndPose ktw:PartRefAndPose)
 
 
 
-Declaration(Class(:PartsBin))
+Declaration(Class(ktw:PartsBin))
 
-AnnotationAssertion(rdfs:comment :PartsBin
+AnnotationAssertion(rdfs:comment ktw:PartsBin
   "PartsBin is derived from PartsVessel.
   An instance of PartsBin has the following:
     PrimaryLocation (inherited)
@@ -1088,9 +1088,9 @@ AnnotationAssertion(rdfs:comment :PartsBin
 
 
 
-Declaration(Class(:PartsVessel))
+Declaration(Class(ktw:PartsVessel))
 
-AnnotationAssertion(rdfs:comment :PartsVessel
+AnnotationAssertion(rdfs:comment ktw:PartsVessel
   "PartsVessel is derived from SkuObject.
   An instance of PartsVessel has the following:
     PrimaryLocation (inherited)
@@ -1108,53 +1108,53 @@ AnnotationAssertion(rdfs:comment :PartsVessel
   specifies the SKU for the Parts in the PartsVessel. The value
   of PartQuantity should be the number of instances of Part.")
 
-SubClassOf(:PartsBin :PartsVessel)
-SubClassOf(:PartsTray :PartsVessel)
-DisjointUnion(:PartsVessel
-              :PartsBin
-              :PartsTray)
+SubClassOf(ktw:PartsBin ktw:PartsVessel)
+SubClassOf(ktw:PartsTray ktw:PartsVessel)
+DisjointUnion(ktw:PartsVessel
+              ktw:PartsBin
+              ktw:PartsTray)
 
-Declaration(DataProperty(:hasPartsVessel_SerialNumber))
-DataPropertyDomain(:hasPartsVessel_SerialNumber :PartsVessel)
-DataPropertyRange(:hasPartsVessel_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(:hasPartsVessel_SerialNumber)
-EquivalentClasses(:PartsVessel ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPartsVessel_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (:hasPartsVessel_SerialNumber xsd:NMTOKEN)))
-
-
-Declaration(ObjectProperty(:hasPartsVessel_PartSku))
-ObjectPropertyDomain(:hasPartsVessel_PartSku :PartsVessel)
-ObjectPropertyRange(:hasPartsVessel_PartSku :StockKeepingUnit)
-FunctionalObjectProperty(:hasPartsVessel_PartSku)
-EquivalentClasses(:PartsVessel ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPartsVessel_PartSku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasPartsVessel_PartSku :StockKeepingUnit)))
-
-Declaration(DataProperty(:hasPartsVessel_PartQuantity))
-DataPropertyDomain(:hasPartsVessel_PartQuantity :PartsVessel)
-DataPropertyRange(:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
-FunctionalDataProperty(:hasPartsVessel_PartQuantity)
-EquivalentClasses(:PartsVessel ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
-  DataAllValuesFrom (:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)))
-
-Declaration(ObjectProperty(:hasPartsVessel_Part))
-ObjectPropertyDomain(:hasPartsVessel_Part :PartsVessel)
-ObjectPropertyRange(:hasPartsVessel_Part :Part)
-InverseFunctionalObjectProperty(:hasPartsVessel_Part)
-
-Declaration(ObjectProperty(:hadByPart_PartsVessel))
-InverseObjectProperties(:hasPartsVessel_Part
-                        :hadByPart_PartsVessel)
-ObjectPropertyDomain(:hadByPart_PartsVessel :Part)
-ObjectPropertyRange(:hadByPart_PartsVessel :PartsVessel)
+Declaration(DataProperty(ktw:hasPartsVessel_SerialNumber))
+DataPropertyDomain(ktw:hasPartsVessel_SerialNumber ktw:PartsVessel)
+DataPropertyRange(ktw:hasPartsVessel_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasPartsVessel_SerialNumber)
+EquivalentClasses(ktw:PartsVessel ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPartsVessel_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasPartsVessel_SerialNumber xsd:NMTOKEN)))
 
 
+Declaration(ObjectProperty(ktw:hasPartsVessel_PartSku))
+ObjectPropertyDomain(ktw:hasPartsVessel_PartSku ktw:PartsVessel)
+ObjectPropertyRange(ktw:hasPartsVessel_PartSku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasPartsVessel_PartSku)
+EquivalentClasses(ktw:PartsVessel ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartsVessel_PartSku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasPartsVessel_PartSku ktw:StockKeepingUnit)))
 
-Declaration(Class(:PartsTray))
+Declaration(DataProperty(ktw:hasPartsVessel_PartQuantity))
+DataPropertyDomain(ktw:hasPartsVessel_PartQuantity ktw:PartsVessel)
+DataPropertyRange(ktw:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
+FunctionalDataProperty(ktw:hasPartsVessel_PartQuantity)
+EquivalentClasses(ktw:PartsVessel ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
+  DataAllValuesFrom (ktw:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)))
 
-AnnotationAssertion(rdfs:comment :PartsTray
+Declaration(ObjectProperty(ktw:hasPartsVessel_Part))
+ObjectPropertyDomain(ktw:hasPartsVessel_Part ktw:PartsVessel)
+ObjectPropertyRange(ktw:hasPartsVessel_Part ktw:Part)
+InverseFunctionalObjectProperty(ktw:hasPartsVessel_Part)
+
+Declaration(ObjectProperty(ktw:hadByPart_PartsVessel))
+InverseObjectProperties(ktw:hasPartsVessel_Part
+                        ktw:hadByPart_PartsVessel)
+ObjectPropertyDomain(ktw:hadByPart_PartsVessel ktw:Part)
+ObjectPropertyRange(ktw:hadByPart_PartsVessel ktw:PartsVessel)
+
+
+
+Declaration(Class(ktw:PartsTray))
+
+AnnotationAssertion(rdfs:comment ktw:PartsTray
   "PartsTray is derived from PartsVessel.
   An instance of PartsTray has the following:
     PrimaryLocation (inherited)
@@ -1173,9 +1173,9 @@ AnnotationAssertion(rdfs:comment :PartsTray
 
 
 
-Declaration(Class(:PhysicalLocation))
+Declaration(Class(ktw:PhysicalLocation))
 
-AnnotationAssertion(rdfs:comment :PhysicalLocation
+AnnotationAssertion(rdfs:comment ktw:PhysicalLocation
   "PhysicalLocation is derived from DataThing.
   An instance of PhysicalLocation has the following:
     RefObject
@@ -1187,31 +1187,31 @@ AnnotationAssertion(rdfs:comment :PhysicalLocation
   Timestamp represents the most recent date and time when the
   location was updated.")
 
-SubClassOf(:PoseLocation :PhysicalLocation)
-SubClassOf(:RelativeLocation :PhysicalLocation)
-DisjointUnion(:PhysicalLocation
-              :PoseLocation
-              :RelativeLocation)
+SubClassOf(ktw:PoseLocation ktw:PhysicalLocation)
+SubClassOf(ktw:RelativeLocation ktw:PhysicalLocation)
+DisjointUnion(ktw:PhysicalLocation
+              ktw:PoseLocation
+              ktw:RelativeLocation)
 
 
-Declaration(ObjectProperty(:hasPhysicalLocation_RefObject))
-ObjectPropertyDomain(:hasPhysicalLocation_RefObject :PhysicalLocation)
-ObjectPropertyRange(:hasPhysicalLocation_RefObject :SolidObject)
-FunctionalObjectProperty(:hasPhysicalLocation_RefObject)
-EquivalentClasses(:PhysicalLocation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPhysicalLocation_RefObject :SolidObject)
-  ObjectAllValuesFrom (:hasPhysicalLocation_RefObject :SolidObject)))
+Declaration(ObjectProperty(ktw:hasPhysicalLocation_RefObject))
+ObjectPropertyDomain(ktw:hasPhysicalLocation_RefObject ktw:PhysicalLocation)
+ObjectPropertyRange(ktw:hasPhysicalLocation_RefObject ktw:SolidObject)
+FunctionalObjectProperty(ktw:hasPhysicalLocation_RefObject)
+EquivalentClasses(ktw:PhysicalLocation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPhysicalLocation_RefObject ktw:SolidObject)
+  ObjectAllValuesFrom (ktw:hasPhysicalLocation_RefObject ktw:SolidObject)))
 
-Declaration(DataProperty(:hasPhysicalLocation_Timestamp))
-DataPropertyDomain(:hasPhysicalLocation_Timestamp :PhysicalLocation)
-DataPropertyRange(:hasPhysicalLocation_Timestamp xsd:dateTime)
-FunctionalDataProperty(:hasPhysicalLocation_Timestamp)
+Declaration(DataProperty(ktw:hasPhysicalLocation_Timestamp))
+DataPropertyDomain(ktw:hasPhysicalLocation_Timestamp ktw:PhysicalLocation)
+DataPropertyRange(ktw:hasPhysicalLocation_Timestamp xsd:dateTime)
+FunctionalDataProperty(ktw:hasPhysicalLocation_Timestamp)
 
 
 
-Declaration(Class(:Point))
+Declaration(Class(ktw:Point))
 
-AnnotationAssertion(rdfs:comment :Point
+AnnotationAssertion(rdfs:comment ktw:Point
   "Point is derived from DataThing.
   An instance of Point has the following:
     X
@@ -1220,35 +1220,35 @@ AnnotationAssertion(rdfs:comment :Point
  
   X, Y, and Z are the Cartesian coordinates of the Point.")
 
-Declaration(DataProperty(:hasPoint_X))
-DataPropertyDomain(:hasPoint_X :Point)
-DataPropertyRange(:hasPoint_X xsd:decimal)
-FunctionalDataProperty(:hasPoint_X)
-EquivalentClasses(:Point ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPoint_X xsd:decimal)
-  DataAllValuesFrom (:hasPoint_X xsd:decimal)))
+Declaration(DataProperty(ktw:hasPoint_X))
+DataPropertyDomain(ktw:hasPoint_X ktw:Point)
+DataPropertyRange(ktw:hasPoint_X xsd:decimal)
+FunctionalDataProperty(ktw:hasPoint_X)
+EquivalentClasses(ktw:Point ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPoint_X xsd:decimal)
+  DataAllValuesFrom (ktw:hasPoint_X xsd:decimal)))
 
-Declaration(DataProperty(:hasPoint_Y))
-DataPropertyDomain(:hasPoint_Y :Point)
-DataPropertyRange(:hasPoint_Y xsd:decimal)
-FunctionalDataProperty(:hasPoint_Y)
-EquivalentClasses(:Point ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPoint_Y xsd:decimal)
-  DataAllValuesFrom (:hasPoint_Y xsd:decimal)))
+Declaration(DataProperty(ktw:hasPoint_Y))
+DataPropertyDomain(ktw:hasPoint_Y ktw:Point)
+DataPropertyRange(ktw:hasPoint_Y xsd:decimal)
+FunctionalDataProperty(ktw:hasPoint_Y)
+EquivalentClasses(ktw:Point ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPoint_Y xsd:decimal)
+  DataAllValuesFrom (ktw:hasPoint_Y xsd:decimal)))
 
-Declaration(DataProperty(:hasPoint_Z))
-DataPropertyDomain(:hasPoint_Z :Point)
-DataPropertyRange(:hasPoint_Z xsd:decimal)
-FunctionalDataProperty(:hasPoint_Z)
-EquivalentClasses(:Point ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasPoint_Z xsd:decimal)
-  DataAllValuesFrom (:hasPoint_Z xsd:decimal)))
+Declaration(DataProperty(ktw:hasPoint_Z))
+DataPropertyDomain(ktw:hasPoint_Z ktw:Point)
+DataPropertyRange(ktw:hasPoint_Z xsd:decimal)
+FunctionalDataProperty(ktw:hasPoint_Z)
+EquivalentClasses(ktw:Point ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPoint_Z xsd:decimal)
+  DataAllValuesFrom (ktw:hasPoint_Z xsd:decimal)))
 
 
 
-Declaration(Class(:PoseLocation))
+Declaration(Class(ktw:PoseLocation))
 
-AnnotationAssertion(rdfs:comment :PoseLocation
+AnnotationAssertion(rdfs:comment ktw:PoseLocation
   "PoseLocation is derived from PhysicalLocation.
   An instance of PoseLocation has the following:
     RefObject (inherited)
@@ -1280,74 +1280,74 @@ AnnotationAssertion(rdfs:comment :PoseLocation
   The OrientationStandardDeviation is measured in the angle units
   being used.")
 
-SubClassOf(:PoseLocationIn :PoseLocation)
-SubClassOf(:PoseLocationOn :PoseLocation)
-SubClassOf(:PoseOnlyLocation :PoseLocation)
-DisjointUnion(:PoseLocation
-              :PoseLocationIn
-              :PoseLocationOn
-              :PoseOnlyLocation)
+SubClassOf(ktw:PoseLocationIn ktw:PoseLocation)
+SubClassOf(ktw:PoseLocationOn ktw:PoseLocation)
+SubClassOf(ktw:PoseOnlyLocation ktw:PoseLocation)
+DisjointUnion(ktw:PoseLocation
+              ktw:PoseLocationIn
+              ktw:PoseLocationOn
+              ktw:PoseOnlyLocation)
 
-Declaration(ObjectProperty(:hasPoseLocation_Point))
-ObjectPropertyDomain(:hasPoseLocation_Point :PoseLocation)
-ObjectPropertyRange(:hasPoseLocation_Point :Point)
-InverseFunctionalObjectProperty(:hasPoseLocation_Point)
-FunctionalObjectProperty(:hasPoseLocation_Point)
-EquivalentClasses(:PoseLocation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPoseLocation_Point :Point)
-  ObjectAllValuesFrom (:hasPoseLocation_Point :Point)))
+Declaration(ObjectProperty(ktw:hasPoseLocation_Point))
+ObjectPropertyDomain(ktw:hasPoseLocation_Point ktw:PoseLocation)
+ObjectPropertyRange(ktw:hasPoseLocation_Point ktw:Point)
+InverseFunctionalObjectProperty(ktw:hasPoseLocation_Point)
+FunctionalObjectProperty(ktw:hasPoseLocation_Point)
+EquivalentClasses(ktw:PoseLocation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPoseLocation_Point ktw:Point)
+  ObjectAllValuesFrom (ktw:hasPoseLocation_Point ktw:Point)))
 
-Declaration(ObjectProperty(:hadByPoint_PoseLocation))
-InverseObjectProperties(:hasPoseLocation_Point
-                        :hadByPoint_PoseLocation)
-ObjectPropertyDomain(:hadByPoint_PoseLocation :Point)
-ObjectPropertyRange(:hadByPoint_PoseLocation :PoseLocation)
+Declaration(ObjectProperty(ktw:hadByPoint_PoseLocation))
+InverseObjectProperties(ktw:hasPoseLocation_Point
+                        ktw:hadByPoint_PoseLocation)
+ObjectPropertyDomain(ktw:hadByPoint_PoseLocation ktw:Point)
+ObjectPropertyRange(ktw:hadByPoint_PoseLocation ktw:PoseLocation)
 
-Declaration(ObjectProperty(:hasPoseLocation_XAxis))
-ObjectPropertyDomain(:hasPoseLocation_XAxis :PoseLocation)
-ObjectPropertyRange(:hasPoseLocation_XAxis :Vector)
-InverseFunctionalObjectProperty(:hasPoseLocation_XAxis)
-FunctionalObjectProperty(:hasPoseLocation_XAxis)
-EquivalentClasses(:PoseLocation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPoseLocation_XAxis :Vector)
-  ObjectAllValuesFrom (:hasPoseLocation_XAxis :Vector)))
+Declaration(ObjectProperty(ktw:hasPoseLocation_XAxis))
+ObjectPropertyDomain(ktw:hasPoseLocation_XAxis ktw:PoseLocation)
+ObjectPropertyRange(ktw:hasPoseLocation_XAxis ktw:Vector)
+InverseFunctionalObjectProperty(ktw:hasPoseLocation_XAxis)
+FunctionalObjectProperty(ktw:hasPoseLocation_XAxis)
+EquivalentClasses(ktw:PoseLocation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPoseLocation_XAxis ktw:Vector)
+  ObjectAllValuesFrom (ktw:hasPoseLocation_XAxis ktw:Vector)))
 
-Declaration(ObjectProperty(:hadByXAxis_PoseLocation))
-InverseObjectProperties(:hasPoseLocation_XAxis
-                        :hadByXAxis_PoseLocation)
-ObjectPropertyDomain(:hadByXAxis_PoseLocation :Vector)
-ObjectPropertyRange(:hadByXAxis_PoseLocation :PoseLocation)
+Declaration(ObjectProperty(ktw:hadByXAxis_PoseLocation))
+InverseObjectProperties(ktw:hasPoseLocation_XAxis
+                        ktw:hadByXAxis_PoseLocation)
+ObjectPropertyDomain(ktw:hadByXAxis_PoseLocation ktw:Vector)
+ObjectPropertyRange(ktw:hadByXAxis_PoseLocation ktw:PoseLocation)
 
-Declaration(ObjectProperty(:hasPoseLocation_ZAxis))
-ObjectPropertyDomain(:hasPoseLocation_ZAxis :PoseLocation)
-ObjectPropertyRange(:hasPoseLocation_ZAxis :Vector)
-InverseFunctionalObjectProperty(:hasPoseLocation_ZAxis)
-FunctionalObjectProperty(:hasPoseLocation_ZAxis)
-EquivalentClasses(:PoseLocation ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasPoseLocation_ZAxis :Vector)
-  ObjectAllValuesFrom (:hasPoseLocation_ZAxis :Vector)))
+Declaration(ObjectProperty(ktw:hasPoseLocation_ZAxis))
+ObjectPropertyDomain(ktw:hasPoseLocation_ZAxis ktw:PoseLocation)
+ObjectPropertyRange(ktw:hasPoseLocation_ZAxis ktw:Vector)
+InverseFunctionalObjectProperty(ktw:hasPoseLocation_ZAxis)
+FunctionalObjectProperty(ktw:hasPoseLocation_ZAxis)
+EquivalentClasses(ktw:PoseLocation ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPoseLocation_ZAxis ktw:Vector)
+  ObjectAllValuesFrom (ktw:hasPoseLocation_ZAxis ktw:Vector)))
 
-Declaration(ObjectProperty(:hadByZAxis_PoseLocation))
-InverseObjectProperties(:hasPoseLocation_ZAxis
-                        :hadByZAxis_PoseLocation)
-ObjectPropertyDomain(:hadByZAxis_PoseLocation :Vector)
-ObjectPropertyRange(:hadByZAxis_PoseLocation :PoseLocation)
+Declaration(ObjectProperty(ktw:hadByZAxis_PoseLocation))
+InverseObjectProperties(ktw:hasPoseLocation_ZAxis
+                        ktw:hadByZAxis_PoseLocation)
+ObjectPropertyDomain(ktw:hadByZAxis_PoseLocation ktw:Vector)
+ObjectPropertyRange(ktw:hadByZAxis_PoseLocation ktw:PoseLocation)
 
-Declaration(DataProperty(:hasPoseLocation_PositionStandardDeviation))
-DataPropertyDomain(:hasPoseLocation_PositionStandardDeviation :PoseLocation)
-DataPropertyRange(:hasPoseLocation_PositionStandardDeviation :positiveDecimal)
-FunctionalDataProperty(:hasPoseLocation_PositionStandardDeviation)
+Declaration(DataProperty(ktw:hasPoseLocation_PositionStandardDeviation))
+DataPropertyDomain(ktw:hasPoseLocation_PositionStandardDeviation ktw:PoseLocation)
+DataPropertyRange(ktw:hasPoseLocation_PositionStandardDeviation ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasPoseLocation_PositionStandardDeviation)
 
-Declaration(DataProperty(:hasPoseLocation_OrientationStandardDeviation))
-DataPropertyDomain(:hasPoseLocation_OrientationStandardDeviation :PoseLocation)
-DataPropertyRange(:hasPoseLocation_OrientationStandardDeviation :positiveDecimal)
-FunctionalDataProperty(:hasPoseLocation_OrientationStandardDeviation)
+Declaration(DataProperty(ktw:hasPoseLocation_OrientationStandardDeviation))
+DataPropertyDomain(ktw:hasPoseLocation_OrientationStandardDeviation ktw:PoseLocation)
+DataPropertyRange(ktw:hasPoseLocation_OrientationStandardDeviation ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasPoseLocation_OrientationStandardDeviation)
 
 
 
-Declaration(Class(:PoseLocationIn))
+Declaration(Class(ktw:PoseLocationIn))
 
-AnnotationAssertion(rdfs:comment :PoseLocationIn
+AnnotationAssertion(rdfs:comment ktw:PoseLocationIn
   "PoseLocationIn is derived from PoseLocation.
   An instance of PoseLocationIn has the following:
     RefObject (inherited)
@@ -1364,9 +1364,9 @@ AnnotationAssertion(rdfs:comment :PoseLocationIn
 
 
 
-Declaration(Class(:PoseLocationOn))
+Declaration(Class(ktw:PoseLocationOn))
 
-AnnotationAssertion(rdfs:comment :PoseLocationOn
+AnnotationAssertion(rdfs:comment ktw:PoseLocationOn
   "PoseLocationOn is derived from PoseLocation.
   An instance of PoseLocationOn has the following:
     RefObject (inherited)
@@ -1383,9 +1383,9 @@ AnnotationAssertion(rdfs:comment :PoseLocationOn
 
 
 
-Declaration(Class(:PoseOnlyLocation))
+Declaration(Class(ktw:PoseOnlyLocation))
 
-AnnotationAssertion(rdfs:comment :PoseOnlyLocation
+AnnotationAssertion(rdfs:comment ktw:PoseOnlyLocation
   "PoseOnlyLocation is derived from PoseLocation.
   An instance of PoseOnlyLocation has the following:
     RefObject (inherited)
@@ -1402,9 +1402,9 @@ AnnotationAssertion(rdfs:comment :PoseOnlyLocation
 
 
 
-Declaration(Class(:RelativeLocation))
+Declaration(Class(ktw:RelativeLocation))
 
-AnnotationAssertion(rdfs:comment :RelativeLocation
+AnnotationAssertion(rdfs:comment ktw:RelativeLocation
   "RelativeLocation is derived from PhysicalLocation.
   An instance of RelativeLocation has a the following:
     RefObject (inherited)
@@ -1418,25 +1418,25 @@ AnnotationAssertion(rdfs:comment :RelativeLocation
   be used to describe the relative positions of the object and its
   reference object.")
 
-SubClassOf(:RelativeLocationIn :RelativeLocation)
-SubClassOf(:RelativeLocationOn :RelativeLocation)
-DisjointUnion(:RelativeLocation
-              :RelativeLocationIn
-              :RelativeLocationOn)
+SubClassOf(ktw:RelativeLocationIn ktw:RelativeLocation)
+SubClassOf(ktw:RelativeLocationOn ktw:RelativeLocation)
+DisjointUnion(ktw:RelativeLocation
+              ktw:RelativeLocationIn
+              ktw:RelativeLocationOn)
 
-Declaration(DataProperty(:hasRelativeLocation_Description))
-DataPropertyDomain(:hasRelativeLocation_Description :RelativeLocation)
-DataPropertyRange(:hasRelativeLocation_Description xsd:string)
-FunctionalDataProperty(:hasRelativeLocation_Description)
-EquivalentClasses(:RelativeLocation ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasRelativeLocation_Description xsd:string)
-  DataAllValuesFrom (:hasRelativeLocation_Description xsd:string)))
+Declaration(DataProperty(ktw:hasRelativeLocation_Description))
+DataPropertyDomain(ktw:hasRelativeLocation_Description ktw:RelativeLocation)
+DataPropertyRange(ktw:hasRelativeLocation_Description xsd:string)
+FunctionalDataProperty(ktw:hasRelativeLocation_Description)
+EquivalentClasses(ktw:RelativeLocation ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasRelativeLocation_Description xsd:string)
+  DataAllValuesFrom (ktw:hasRelativeLocation_Description xsd:string)))
 
 
 
-Declaration(Class(:RelativeLocationIn))
+Declaration(Class(ktw:RelativeLocationIn))
 
-AnnotationAssertion(rdfs:comment :RelativeLocationIn
+AnnotationAssertion(rdfs:comment ktw:RelativeLocationIn
   "RelativeLocationIn is derived from RelativeLocation.
   An instance of RelativeLocationIn has the following:
     RefObject (inherited)
@@ -1449,9 +1449,9 @@ AnnotationAssertion(rdfs:comment :RelativeLocationIn
 
 
 
-Declaration(Class(:RelativeLocationOn))
+Declaration(Class(ktw:RelativeLocationOn))
 
-AnnotationAssertion(rdfs:comment :RelativeLocationOn
+AnnotationAssertion(rdfs:comment ktw:RelativeLocationOn
   "RelativeLocationOn is derived from RelativeLocation.
   An instance of RelativeLocationOn has the following:
     RefObject (inherited)
@@ -1464,9 +1464,9 @@ AnnotationAssertion(rdfs:comment :RelativeLocationOn
 
 
 
-Declaration(Class(:Robot))
+Declaration(Class(ktw:Robot))
 
-AnnotationAssertion(rdfs:comment :Robot
+AnnotationAssertion(rdfs:comment ktw:Robot
   "Robot is derived from NoSkuObject.
   An instance of Robot has the following:
     PrimaryLocation (inherited)
@@ -1484,50 +1484,50 @@ AnnotationAssertion(rdfs:comment :Robot
   closed, etc.), ranges, velocities, and accelerations of each joint,
   etc.")
 
-Declaration(DataProperty(:hasRobot_Description))
-DataPropertyDomain(:hasRobot_Description :Robot)
-DataPropertyRange(:hasRobot_Description xsd:string)
-FunctionalDataProperty(:hasRobot_Description)
-EquivalentClasses(:Robot ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasRobot_Description xsd:string)
-  DataAllValuesFrom (:hasRobot_Description xsd:string)))
+Declaration(DataProperty(ktw:hasRobot_Description))
+DataPropertyDomain(ktw:hasRobot_Description ktw:Robot)
+DataPropertyRange(ktw:hasRobot_Description xsd:string)
+FunctionalDataProperty(ktw:hasRobot_Description)
+EquivalentClasses(ktw:Robot ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasRobot_Description xsd:string)
+  DataAllValuesFrom (ktw:hasRobot_Description xsd:string)))
 
-Declaration(ObjectProperty(:hasRobot_EndEffector))
-ObjectPropertyDomain(:hasRobot_EndEffector :Robot)
-ObjectPropertyRange(:hasRobot_EndEffector :EndEffector)
-InverseFunctionalObjectProperty(:hasRobot_EndEffector)
-FunctionalObjectProperty(:hasRobot_EndEffector)
+Declaration(ObjectProperty(ktw:hasRobot_EndEffector))
+ObjectPropertyDomain(ktw:hasRobot_EndEffector ktw:Robot)
+ObjectPropertyRange(ktw:hasRobot_EndEffector ktw:EndEffector)
+InverseFunctionalObjectProperty(ktw:hasRobot_EndEffector)
+FunctionalObjectProperty(ktw:hasRobot_EndEffector)
 
-Declaration(ObjectProperty(:hadByEndEffector_Robot))
-InverseObjectProperties(:hasRobot_EndEffector
-                        :hadByEndEffector_Robot)
-ObjectPropertyDomain(:hadByEndEffector_Robot :EndEffector)
-ObjectPropertyRange(:hadByEndEffector_Robot :Robot)
+Declaration(ObjectProperty(ktw:hadByEndEffector_Robot))
+InverseObjectProperties(ktw:hasRobot_EndEffector
+                        ktw:hadByEndEffector_Robot)
+ObjectPropertyDomain(ktw:hadByEndEffector_Robot ktw:EndEffector)
+ObjectPropertyRange(ktw:hadByEndEffector_Robot ktw:Robot)
 
-Declaration(DataProperty(:hasRobot_MaximumLoadWeight))
-DataPropertyDomain(:hasRobot_MaximumLoadWeight :Robot)
-DataPropertyRange(:hasRobot_MaximumLoadWeight :positiveDecimal)
-FunctionalDataProperty(:hasRobot_MaximumLoadWeight)
-EquivalentClasses(:Robot ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasRobot_MaximumLoadWeight :positiveDecimal)
-  DataAllValuesFrom (:hasRobot_MaximumLoadWeight :positiveDecimal)))
+Declaration(DataProperty(ktw:hasRobot_MaximumLoadWeight))
+DataPropertyDomain(ktw:hasRobot_MaximumLoadWeight ktw:Robot)
+DataPropertyRange(ktw:hasRobot_MaximumLoadWeight ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasRobot_MaximumLoadWeight)
+EquivalentClasses(ktw:Robot ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasRobot_MaximumLoadWeight ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasRobot_MaximumLoadWeight ktw:positiveDecimal)))
 
-Declaration(ObjectProperty(:hasRobot_WorkVolume))
-ObjectPropertyDomain(:hasRobot_WorkVolume :Robot)
-ObjectPropertyRange(:hasRobot_WorkVolume :BoxVolume)
-InverseFunctionalObjectProperty(:hasRobot_WorkVolume)
+Declaration(ObjectProperty(ktw:hasRobot_WorkVolume))
+ObjectPropertyDomain(ktw:hasRobot_WorkVolume ktw:Robot)
+ObjectPropertyRange(ktw:hasRobot_WorkVolume ktw:BoxVolume)
+InverseFunctionalObjectProperty(ktw:hasRobot_WorkVolume)
 
-Declaration(ObjectProperty(:hadByWorkVolume_Robot))
-InverseObjectProperties(:hasRobot_WorkVolume
-                        :hadByWorkVolume_Robot)
-ObjectPropertyDomain(:hadByWorkVolume_Robot :BoxVolume)
-ObjectPropertyRange(:hadByWorkVolume_Robot :Robot)
+Declaration(ObjectProperty(ktw:hadByWorkVolume_Robot))
+InverseObjectProperties(ktw:hasRobot_WorkVolume
+                        ktw:hadByWorkVolume_Robot)
+ObjectPropertyDomain(ktw:hadByWorkVolume_Robot ktw:BoxVolume)
+ObjectPropertyRange(ktw:hadByWorkVolume_Robot ktw:Robot)
 
 
 
-Declaration(Class(:ShapeDesign))
+Declaration(Class(ktw:ShapeDesign))
 
-AnnotationAssertion(rdfs:comment :ShapeDesign
+AnnotationAssertion(rdfs:comment ktw:ShapeDesign
   "ShapeDesign is derived from DataThing.
   An instance of ShapeDesign has the following:
     Description (optional)
@@ -1547,37 +1547,37 @@ AnnotationAssertion(rdfs:comment :ShapeDesign
   object having the shape and pointing away from the object. The
   GraspPose should not use the optional Timestamp.")
 
-SubClassOf(:ExternalShape :ShapeDesign)
-SubClassOf(:InternalShape :ShapeDesign)
-DisjointUnion(:ShapeDesign
-              :ExternalShape
-              :InternalShape)
+SubClassOf(ktw:ExternalShape ktw:ShapeDesign)
+SubClassOf(ktw:InternalShape ktw:ShapeDesign)
+DisjointUnion(ktw:ShapeDesign
+              ktw:ExternalShape
+              ktw:InternalShape)
 
-Declaration(DataProperty(:hasShapeDesign_Description))
-DataPropertyDomain(:hasShapeDesign_Description :ShapeDesign)
-DataPropertyRange(:hasShapeDesign_Description xsd:string)
-FunctionalDataProperty(:hasShapeDesign_Description)
-EquivalentClasses(:ShapeDesign ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasShapeDesign_Description xsd:string)
-  DataAllValuesFrom (:hasShapeDesign_Description xsd:string)))
+Declaration(DataProperty(ktw:hasShapeDesign_Description))
+DataPropertyDomain(ktw:hasShapeDesign_Description ktw:ShapeDesign)
+DataPropertyRange(ktw:hasShapeDesign_Description xsd:string)
+FunctionalDataProperty(ktw:hasShapeDesign_Description)
+EquivalentClasses(ktw:ShapeDesign ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasShapeDesign_Description xsd:string)
+  DataAllValuesFrom (ktw:hasShapeDesign_Description xsd:string)))
 
-Declaration(ObjectProperty(:hasShapeDesign_GraspPose))
-ObjectPropertyDomain(:hasShapeDesign_GraspPose :ShapeDesign)
-ObjectPropertyRange(:hasShapeDesign_GraspPose :PoseLocation)
-InverseFunctionalObjectProperty(:hasShapeDesign_GraspPose)
-FunctionalObjectProperty(:hasShapeDesign_GraspPose)
+Declaration(ObjectProperty(ktw:hasShapeDesign_GraspPose))
+ObjectPropertyDomain(ktw:hasShapeDesign_GraspPose ktw:ShapeDesign)
+ObjectPropertyRange(ktw:hasShapeDesign_GraspPose ktw:PoseLocation)
+InverseFunctionalObjectProperty(ktw:hasShapeDesign_GraspPose)
+FunctionalObjectProperty(ktw:hasShapeDesign_GraspPose)
 
-Declaration(ObjectProperty(:hadByGraspPose_ShapeDesign))
-InverseObjectProperties(:hasShapeDesign_GraspPose
-                        :hadByGraspPose_ShapeDesign)
-ObjectPropertyDomain(:hadByGraspPose_ShapeDesign :PoseLocation)
-ObjectPropertyRange(:hadByGraspPose_ShapeDesign :ShapeDesign)
+Declaration(ObjectProperty(ktw:hadByGraspPose_ShapeDesign))
+InverseObjectProperties(ktw:hasShapeDesign_GraspPose
+                        ktw:hadByGraspPose_ShapeDesign)
+ObjectPropertyDomain(ktw:hadByGraspPose_ShapeDesign ktw:PoseLocation)
+ObjectPropertyRange(ktw:hadByGraspPose_ShapeDesign ktw:ShapeDesign)
 
 
 
-Declaration(Class(:SkuObject))
+Declaration(Class(ktw:SkuObject))
 
-AnnotationAssertion(rdfs:comment :SkuObject
+AnnotationAssertion(rdfs:comment ktw:SkuObject
   "SkuObject is derived from SolidObject.
   An instance of SkuObject has the following:
     PrimaryLocation (inherited)
@@ -1589,30 +1589,30 @@ AnnotationAssertion(rdfs:comment :SkuObject
   stockkeeping unit. The shape of a SkuObject is specified by its
   stockkeeping unit.")
 
-SubClassOf(:KitTray :SkuObject)
-SubClassOf(:LargeContainer :SkuObject)
-SubClassOf(:Part :SkuObject)
-SubClassOf(:PartsVessel :SkuObject)
-DisjointUnion(:SkuObject
-              :KitTray
-              :LargeContainer
-              :Part
-              :PartsVessel)
+SubClassOf(ktw:KitTray ktw:SkuObject)
+SubClassOf(ktw:LargeContainer ktw:SkuObject)
+SubClassOf(ktw:Part ktw:SkuObject)
+SubClassOf(ktw:PartsVessel ktw:SkuObject)
+DisjointUnion(ktw:SkuObject
+              ktw:KitTray
+              ktw:LargeContainer
+              ktw:Part
+              ktw:PartsVessel)
 
 
-Declaration(ObjectProperty(:hasSkuObject_Sku))
-ObjectPropertyDomain(:hasSkuObject_Sku :SkuObject)
-ObjectPropertyRange(:hasSkuObject_Sku :StockKeepingUnit)
-FunctionalObjectProperty(:hasSkuObject_Sku)
-EquivalentClasses(:SkuObject ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasSkuObject_Sku :StockKeepingUnit)
-  ObjectAllValuesFrom (:hasSkuObject_Sku :StockKeepingUnit)))
+Declaration(ObjectProperty(ktw:hasSkuObject_Sku))
+ObjectPropertyDomain(ktw:hasSkuObject_Sku ktw:SkuObject)
+ObjectPropertyRange(ktw:hasSkuObject_Sku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasSkuObject_Sku)
+EquivalentClasses(ktw:SkuObject ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasSkuObject_Sku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasSkuObject_Sku ktw:StockKeepingUnit)))
 
 
 
-Declaration(Class(:Slot))
+Declaration(Class(ktw:Slot))
 
-AnnotationAssertion(rdfs:comment :Slot
+AnnotationAssertion(rdfs:comment ktw:Slot
   "Slot is derived from DataThing.
   An instance of Slot has the following:
     PartRefAndPose
@@ -1631,25 +1631,25 @@ AnnotationAssertion(rdfs:comment :Slot
   that means the slot is empty.")
 
 
-Declaration(ObjectProperty(:hasSlot_PartRefAndPose))
-ObjectPropertyDomain(:hasSlot_PartRefAndPose :Slot)
-ObjectPropertyRange(:hasSlot_PartRefAndPose :PartRefAndPose)
-FunctionalObjectProperty(:hasSlot_PartRefAndPose)
-EquivalentClasses(:Slot ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasSlot_PartRefAndPose :PartRefAndPose)
-  ObjectAllValuesFrom (:hasSlot_PartRefAndPose :PartRefAndPose)))
+Declaration(ObjectProperty(ktw:hasSlot_PartRefAndPose))
+ObjectPropertyDomain(ktw:hasSlot_PartRefAndPose ktw:Slot)
+ObjectPropertyRange(ktw:hasSlot_PartRefAndPose ktw:PartRefAndPose)
+FunctionalObjectProperty(ktw:hasSlot_PartRefAndPose)
+EquivalentClasses(ktw:Slot ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasSlot_PartRefAndPose ktw:PartRefAndPose)
+  ObjectAllValuesFrom (ktw:hasSlot_PartRefAndPose ktw:PartRefAndPose)))
 
 
-Declaration(ObjectProperty(:hasSlot_Part))
-ObjectPropertyDomain(:hasSlot_Part :Slot)
-ObjectPropertyRange(:hasSlot_Part :Part)
-FunctionalObjectProperty(:hasSlot_Part)
+Declaration(ObjectProperty(ktw:hasSlot_Part))
+ObjectPropertyDomain(ktw:hasSlot_Part ktw:Slot)
+ObjectPropertyRange(ktw:hasSlot_Part ktw:Part)
+FunctionalObjectProperty(ktw:hasSlot_Part)
 
 
 
-Declaration(Class(:SolidObject))
+Declaration(Class(ktw:SolidObject))
 
-AnnotationAssertion(rdfs:comment :SolidObject
+AnnotationAssertion(rdfs:comment ktw:SolidObject
   "An instance of SolidObject has the following:
     PrimaryLocation
     SecondaryLocations (optional, multiple)
@@ -1663,43 +1663,43 @@ AnnotationAssertion(rdfs:comment :SolidObject
   to itself, and all chains of primary location must end at the
   Workstation.")
 
-SubClassOf(:NoSkuObject :SolidObject)
-SubClassOf(:SkuObject :SolidObject)
-DisjointUnion(:SolidObject
-              :NoSkuObject
-              :SkuObject)
+SubClassOf(ktw:NoSkuObject ktw:SolidObject)
+SubClassOf(ktw:SkuObject ktw:SolidObject)
+DisjointUnion(ktw:SolidObject
+              ktw:NoSkuObject
+              ktw:SkuObject)
 
-Declaration(ObjectProperty(:hasSolidObject_PrimaryLocation))
-ObjectPropertyDomain(:hasSolidObject_PrimaryLocation :SolidObject)
-ObjectPropertyRange(:hasSolidObject_PrimaryLocation :PhysicalLocation)
-InverseFunctionalObjectProperty(:hasSolidObject_PrimaryLocation)
-FunctionalObjectProperty(:hasSolidObject_PrimaryLocation)
-EquivalentClasses(:SolidObject ObjectIntersectionOf(
-  ObjectSomeValuesFrom(:hasSolidObject_PrimaryLocation :PhysicalLocation)
-  ObjectAllValuesFrom (:hasSolidObject_PrimaryLocation :PhysicalLocation)))
+Declaration(ObjectProperty(ktw:hasSolidObject_PrimaryLocation))
+ObjectPropertyDomain(ktw:hasSolidObject_PrimaryLocation ktw:SolidObject)
+ObjectPropertyRange(ktw:hasSolidObject_PrimaryLocation ktw:PhysicalLocation)
+InverseFunctionalObjectProperty(ktw:hasSolidObject_PrimaryLocation)
+FunctionalObjectProperty(ktw:hasSolidObject_PrimaryLocation)
+EquivalentClasses(ktw:SolidObject ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasSolidObject_PrimaryLocation ktw:PhysicalLocation)
+  ObjectAllValuesFrom (ktw:hasSolidObject_PrimaryLocation ktw:PhysicalLocation)))
 
-Declaration(ObjectProperty(:hadByPrimaryLocation_SolidObject))
-InverseObjectProperties(:hasSolidObject_PrimaryLocation
-                        :hadByPrimaryLocation_SolidObject)
-ObjectPropertyDomain(:hadByPrimaryLocation_SolidObject :PhysicalLocation)
-ObjectPropertyRange(:hadByPrimaryLocation_SolidObject :SolidObject)
+Declaration(ObjectProperty(ktw:hadByPrimaryLocation_SolidObject))
+InverseObjectProperties(ktw:hasSolidObject_PrimaryLocation
+                        ktw:hadByPrimaryLocation_SolidObject)
+ObjectPropertyDomain(ktw:hadByPrimaryLocation_SolidObject ktw:PhysicalLocation)
+ObjectPropertyRange(ktw:hadByPrimaryLocation_SolidObject ktw:SolidObject)
 
-Declaration(ObjectProperty(:hasSolidObject_SecondaryLocation))
-ObjectPropertyDomain(:hasSolidObject_SecondaryLocation :SolidObject)
-ObjectPropertyRange(:hasSolidObject_SecondaryLocation :PhysicalLocation)
-InverseFunctionalObjectProperty(:hasSolidObject_SecondaryLocation)
+Declaration(ObjectProperty(ktw:hasSolidObject_SecondaryLocation))
+ObjectPropertyDomain(ktw:hasSolidObject_SecondaryLocation ktw:SolidObject)
+ObjectPropertyRange(ktw:hasSolidObject_SecondaryLocation ktw:PhysicalLocation)
+InverseFunctionalObjectProperty(ktw:hasSolidObject_SecondaryLocation)
 
-Declaration(ObjectProperty(:hadBySecondaryLocation_SolidObject))
-InverseObjectProperties(:hasSolidObject_SecondaryLocation
-                        :hadBySecondaryLocation_SolidObject)
-ObjectPropertyDomain(:hadBySecondaryLocation_SolidObject :PhysicalLocation)
-ObjectPropertyRange(:hadBySecondaryLocation_SolidObject :SolidObject)
+Declaration(ObjectProperty(ktw:hadBySecondaryLocation_SolidObject))
+InverseObjectProperties(ktw:hasSolidObject_SecondaryLocation
+                        ktw:hadBySecondaryLocation_SolidObject)
+ObjectPropertyDomain(ktw:hadBySecondaryLocation_SolidObject ktw:PhysicalLocation)
+ObjectPropertyRange(ktw:hadBySecondaryLocation_SolidObject ktw:SolidObject)
 
 
 
-Declaration(Class(:StockKeepingUnit))
+Declaration(Class(ktw:StockKeepingUnit))
 
-AnnotationAssertion(rdfs:comment :StockKeepingUnit
+AnnotationAssertion(rdfs:comment ktw:StockKeepingUnit
   "StockKeepingUnit is derived from DataThing.
   An instance of StockKeepingUnit has the following:
     Description
@@ -1715,56 +1715,56 @@ AnnotationAssertion(rdfs:comment :StockKeepingUnit
   given. The shapes are not required to represent the same shape, but
   they should not be inconsistent.")
 
-Declaration(DataProperty(:hasStockKeepingUnit_Description))
-DataPropertyDomain(:hasStockKeepingUnit_Description :StockKeepingUnit)
-DataPropertyRange(:hasStockKeepingUnit_Description xsd:string)
-FunctionalDataProperty(:hasStockKeepingUnit_Description)
-EquivalentClasses(:StockKeepingUnit ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasStockKeepingUnit_Description xsd:string)
-  DataAllValuesFrom (:hasStockKeepingUnit_Description xsd:string)))
+Declaration(DataProperty(ktw:hasStockKeepingUnit_Description))
+DataPropertyDomain(ktw:hasStockKeepingUnit_Description ktw:StockKeepingUnit)
+DataPropertyRange(ktw:hasStockKeepingUnit_Description xsd:string)
+FunctionalDataProperty(ktw:hasStockKeepingUnit_Description)
+EquivalentClasses(ktw:StockKeepingUnit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasStockKeepingUnit_Description xsd:string)
+  DataAllValuesFrom (ktw:hasStockKeepingUnit_Description xsd:string)))
 
-Declaration(ObjectProperty(:hasStockKeepingUnit_InternalShape))
-ObjectPropertyDomain(:hasStockKeepingUnit_InternalShape :StockKeepingUnit)
-ObjectPropertyRange(:hasStockKeepingUnit_InternalShape :InternalShape)
-InverseFunctionalObjectProperty(:hasStockKeepingUnit_InternalShape)
-FunctionalObjectProperty(:hasStockKeepingUnit_InternalShape)
+Declaration(ObjectProperty(ktw:hasStockKeepingUnit_InternalShape))
+ObjectPropertyDomain(ktw:hasStockKeepingUnit_InternalShape ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hasStockKeepingUnit_InternalShape ktw:InternalShape)
+InverseFunctionalObjectProperty(ktw:hasStockKeepingUnit_InternalShape)
+FunctionalObjectProperty(ktw:hasStockKeepingUnit_InternalShape)
 
-Declaration(ObjectProperty(:hadByInternalShape_StockKeepingUnit))
-InverseObjectProperties(:hasStockKeepingUnit_InternalShape
-                        :hadByInternalShape_StockKeepingUnit)
-ObjectPropertyDomain(:hadByInternalShape_StockKeepingUnit :InternalShape)
-ObjectPropertyRange(:hadByInternalShape_StockKeepingUnit :StockKeepingUnit)
+Declaration(ObjectProperty(ktw:hadByInternalShape_StockKeepingUnit))
+InverseObjectProperties(ktw:hasStockKeepingUnit_InternalShape
+                        ktw:hadByInternalShape_StockKeepingUnit)
+ObjectPropertyDomain(ktw:hadByInternalShape_StockKeepingUnit ktw:InternalShape)
+ObjectPropertyRange(ktw:hadByInternalShape_StockKeepingUnit ktw:StockKeepingUnit)
 
-Declaration(ObjectProperty(:hasStockKeepingUnit_ExternalShape))
-ObjectPropertyDomain(:hasStockKeepingUnit_ExternalShape :StockKeepingUnit)
-ObjectPropertyRange(:hasStockKeepingUnit_ExternalShape :ExternalShape)
-InverseFunctionalObjectProperty(:hasStockKeepingUnit_ExternalShape)
-FunctionalObjectProperty(:hasStockKeepingUnit_ExternalShape)
+Declaration(ObjectProperty(ktw:hasStockKeepingUnit_ExternalShape))
+ObjectPropertyDomain(ktw:hasStockKeepingUnit_ExternalShape ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hasStockKeepingUnit_ExternalShape ktw:ExternalShape)
+InverseFunctionalObjectProperty(ktw:hasStockKeepingUnit_ExternalShape)
+FunctionalObjectProperty(ktw:hasStockKeepingUnit_ExternalShape)
 
-Declaration(ObjectProperty(:hadByExternalShape_StockKeepingUnit))
-InverseObjectProperties(:hasStockKeepingUnit_ExternalShape
-                        :hadByExternalShape_StockKeepingUnit)
-ObjectPropertyDomain(:hadByExternalShape_StockKeepingUnit :ExternalShape)
-ObjectPropertyRange(:hadByExternalShape_StockKeepingUnit :StockKeepingUnit)
+Declaration(ObjectProperty(ktw:hadByExternalShape_StockKeepingUnit))
+InverseObjectProperties(ktw:hasStockKeepingUnit_ExternalShape
+                        ktw:hadByExternalShape_StockKeepingUnit)
+ObjectPropertyDomain(ktw:hadByExternalShape_StockKeepingUnit ktw:ExternalShape)
+ObjectPropertyRange(ktw:hadByExternalShape_StockKeepingUnit ktw:StockKeepingUnit)
 
-Declaration(DataProperty(:hasStockKeepingUnit_Weight))
-DataPropertyDomain(:hasStockKeepingUnit_Weight :StockKeepingUnit)
-DataPropertyRange(:hasStockKeepingUnit_Weight :positiveDecimal)
-FunctionalDataProperty(:hasStockKeepingUnit_Weight)
-EquivalentClasses(:StockKeepingUnit ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasStockKeepingUnit_Weight :positiveDecimal)
-  DataAllValuesFrom (:hasStockKeepingUnit_Weight :positiveDecimal)))
-
-
-Declaration(ObjectProperty(:hasStockKeepingUnit_EndEffector))
-ObjectPropertyDomain(:hasStockKeepingUnit_EndEffector :StockKeepingUnit)
-ObjectPropertyRange(:hasStockKeepingUnit_EndEffector :EndEffector)
+Declaration(DataProperty(ktw:hasStockKeepingUnit_Weight))
+DataPropertyDomain(ktw:hasStockKeepingUnit_Weight ktw:StockKeepingUnit)
+DataPropertyRange(ktw:hasStockKeepingUnit_Weight ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasStockKeepingUnit_Weight)
+EquivalentClasses(ktw:StockKeepingUnit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasStockKeepingUnit_Weight ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasStockKeepingUnit_Weight ktw:positiveDecimal)))
 
 
+Declaration(ObjectProperty(ktw:hasStockKeepingUnit_EndEffector))
+ObjectPropertyDomain(ktw:hasStockKeepingUnit_EndEffector ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hasStockKeepingUnit_EndEffector ktw:EndEffector)
 
-Declaration(Class(:VacuumEffector))
 
-AnnotationAssertion(rdfs:comment :VacuumEffector
+
+Declaration(Class(ktw:VacuumEffector))
+
+AnnotationAssertion(rdfs:comment ktw:VacuumEffector
   "VacuumEffector is derived from EndEffector.
   An instance of VacuumEffector has the following:
     PrimaryLocation (inherited)
@@ -1782,33 +1782,33 @@ AnnotationAssertion(rdfs:comment :VacuumEffector
   an object by putting a cup or cups against the object and applying
   a vacuum.")
 
-SubClassOf(:VacuumEffectorMultiCup :VacuumEffector)
-SubClassOf(:VacuumEffectorSingleCup :VacuumEffector)
-DisjointUnion(:VacuumEffector
-              :VacuumEffectorMultiCup
-              :VacuumEffectorSingleCup)
+SubClassOf(ktw:VacuumEffectorMultiCup ktw:VacuumEffector)
+SubClassOf(ktw:VacuumEffectorSingleCup ktw:VacuumEffector)
+DisjointUnion(ktw:VacuumEffector
+              ktw:VacuumEffectorMultiCup
+              ktw:VacuumEffectorSingleCup)
 
-Declaration(DataProperty(:hasVacuumEffector_CupDiameter))
-DataPropertyDomain(:hasVacuumEffector_CupDiameter :VacuumEffector)
-DataPropertyRange(:hasVacuumEffector_CupDiameter :positiveDecimal)
-FunctionalDataProperty(:hasVacuumEffector_CupDiameter)
-EquivalentClasses(:VacuumEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVacuumEffector_CupDiameter :positiveDecimal)
-  DataAllValuesFrom (:hasVacuumEffector_CupDiameter :positiveDecimal)))
+Declaration(DataProperty(ktw:hasVacuumEffector_CupDiameter))
+DataPropertyDomain(ktw:hasVacuumEffector_CupDiameter ktw:VacuumEffector)
+DataPropertyRange(ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasVacuumEffector_CupDiameter)
+EquivalentClasses(ktw:VacuumEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)))
 
-Declaration(DataProperty(:hasVacuumEffector_Length))
-DataPropertyDomain(:hasVacuumEffector_Length :VacuumEffector)
-DataPropertyRange(:hasVacuumEffector_Length :positiveDecimal)
-FunctionalDataProperty(:hasVacuumEffector_Length)
-EquivalentClasses(:VacuumEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVacuumEffector_Length :positiveDecimal)
-  DataAllValuesFrom (:hasVacuumEffector_Length :positiveDecimal)))
+Declaration(DataProperty(ktw:hasVacuumEffector_Length))
+DataPropertyDomain(ktw:hasVacuumEffector_Length ktw:VacuumEffector)
+DataPropertyRange(ktw:hasVacuumEffector_Length ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasVacuumEffector_Length)
+EquivalentClasses(ktw:VacuumEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVacuumEffector_Length ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasVacuumEffector_Length ktw:positiveDecimal)))
 
 
 
-Declaration(Class(:VacuumEffectorMultiCup))
+Declaration(Class(ktw:VacuumEffectorMultiCup))
 
-AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
+AnnotationAssertion(rdfs:comment ktw:VacuumEffectorMultiCup
   "VacuumEffectorMultiCup is derived from VacuumEffector. An
   instance of VacuumEffectorMultiCup has the following:
     PrimaryLocation (inherited)
@@ -1836,27 +1836,27 @@ AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
   Note that a square array can be represented easily as circular
   array.")
 
-Declaration(DataProperty(:hasVacuumEffectorMultiCup_ArrayNumber))
-DataPropertyDomain(:hasVacuumEffectorMultiCup_ArrayNumber :VacuumEffectorMultiCup)
-DataPropertyRange(:hasVacuumEffectorMultiCup_ArrayNumber xsd:positiveInteger)
-FunctionalDataProperty(:hasVacuumEffectorMultiCup_ArrayNumber)
-EquivalentClasses(:VacuumEffectorMultiCup ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVacuumEffectorMultiCup_ArrayNumber xsd:positiveInteger)
-  DataAllValuesFrom (:hasVacuumEffectorMultiCup_ArrayNumber xsd:positiveInteger)))
+Declaration(DataProperty(ktw:hasVacuumEffectorMultiCup_ArrayNumber))
+DataPropertyDomain(ktw:hasVacuumEffectorMultiCup_ArrayNumber ktw:VacuumEffectorMultiCup)
+DataPropertyRange(ktw:hasVacuumEffectorMultiCup_ArrayNumber xsd:positiveInteger)
+FunctionalDataProperty(ktw:hasVacuumEffectorMultiCup_ArrayNumber)
+EquivalentClasses(ktw:VacuumEffectorMultiCup ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVacuumEffectorMultiCup_ArrayNumber xsd:positiveInteger)
+  DataAllValuesFrom (ktw:hasVacuumEffectorMultiCup_ArrayNumber xsd:positiveInteger)))
 
-Declaration(DataProperty(:hasVacuumEffectorMultiCup_ArrayRadius))
-DataPropertyDomain(:hasVacuumEffectorMultiCup_ArrayRadius :VacuumEffectorMultiCup)
-DataPropertyRange(:hasVacuumEffectorMultiCup_ArrayRadius :positiveDecimal)
-FunctionalDataProperty(:hasVacuumEffectorMultiCup_ArrayRadius)
-EquivalentClasses(:VacuumEffectorMultiCup ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVacuumEffectorMultiCup_ArrayRadius :positiveDecimal)
-  DataAllValuesFrom (:hasVacuumEffectorMultiCup_ArrayRadius :positiveDecimal)))
+Declaration(DataProperty(ktw:hasVacuumEffectorMultiCup_ArrayRadius))
+DataPropertyDomain(ktw:hasVacuumEffectorMultiCup_ArrayRadius ktw:VacuumEffectorMultiCup)
+DataPropertyRange(ktw:hasVacuumEffectorMultiCup_ArrayRadius ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasVacuumEffectorMultiCup_ArrayRadius)
+EquivalentClasses(ktw:VacuumEffectorMultiCup ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVacuumEffectorMultiCup_ArrayRadius ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasVacuumEffectorMultiCup_ArrayRadius ktw:positiveDecimal)))
 
 
 
-Declaration(Class(:VacuumEffectorSingleCup))
+Declaration(Class(ktw:VacuumEffectorSingleCup))
 
-AnnotationAssertion(rdfs:comment :VacuumEffectorSingleCup
+AnnotationAssertion(rdfs:comment ktw:VacuumEffectorSingleCup
   "VacuumEffectorSingleCup is derived from VacuumEffector.
   An instance of KitTray has the following:
     PrimaryLocation (inherited)
@@ -1877,9 +1877,9 @@ AnnotationAssertion(rdfs:comment :VacuumEffectorSingleCup
 
 
 
-Declaration(Class(:Vector))
+Declaration(Class(ktw:Vector))
 
-AnnotationAssertion(rdfs:comment :Vector
+AnnotationAssertion(rdfs:comment ktw:Vector
   "Vector is derived from DataThing.
   An instance of Vector has the following:
     I
@@ -1889,35 +1889,35 @@ AnnotationAssertion(rdfs:comment :Vector
   I, J, and K represent the usual i, j, and k components of a 3D
   vector.")
 
-Declaration(DataProperty(:hasVector_I))
-DataPropertyDomain(:hasVector_I :Vector)
-DataPropertyRange(:hasVector_I xsd:decimal)
-FunctionalDataProperty(:hasVector_I)
-EquivalentClasses(:Vector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVector_I xsd:decimal)
-  DataAllValuesFrom (:hasVector_I xsd:decimal)))
+Declaration(DataProperty(ktw:hasVector_I))
+DataPropertyDomain(ktw:hasVector_I ktw:Vector)
+DataPropertyRange(ktw:hasVector_I xsd:decimal)
+FunctionalDataProperty(ktw:hasVector_I)
+EquivalentClasses(ktw:Vector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVector_I xsd:decimal)
+  DataAllValuesFrom (ktw:hasVector_I xsd:decimal)))
 
-Declaration(DataProperty(:hasVector_J))
-DataPropertyDomain(:hasVector_J :Vector)
-DataPropertyRange(:hasVector_J xsd:decimal)
-FunctionalDataProperty(:hasVector_J)
-EquivalentClasses(:Vector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVector_J xsd:decimal)
-  DataAllValuesFrom (:hasVector_J xsd:decimal)))
+Declaration(DataProperty(ktw:hasVector_J))
+DataPropertyDomain(ktw:hasVector_J ktw:Vector)
+DataPropertyRange(ktw:hasVector_J xsd:decimal)
+FunctionalDataProperty(ktw:hasVector_J)
+EquivalentClasses(ktw:Vector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVector_J xsd:decimal)
+  DataAllValuesFrom (ktw:hasVector_J xsd:decimal)))
 
-Declaration(DataProperty(:hasVector_K))
-DataPropertyDomain(:hasVector_K :Vector)
-DataPropertyRange(:hasVector_K xsd:decimal)
-FunctionalDataProperty(:hasVector_K)
-EquivalentClasses(:Vector ObjectIntersectionOf(
-  DataSomeValuesFrom(:hasVector_K xsd:decimal)
-  DataAllValuesFrom (:hasVector_K xsd:decimal)))
+Declaration(DataProperty(ktw:hasVector_K))
+DataPropertyDomain(ktw:hasVector_K ktw:Vector)
+DataPropertyRange(ktw:hasVector_K xsd:decimal)
+FunctionalDataProperty(ktw:hasVector_K)
+EquivalentClasses(ktw:Vector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVector_K xsd:decimal)
+  DataAllValuesFrom (ktw:hasVector_K xsd:decimal)))
 
 
 
-Declaration(Class(:WorkTable))
+Declaration(Class(ktw:WorkTable))
 
-AnnotationAssertion(rdfs:comment :WorkTable
+AnnotationAssertion(rdfs:comment ktw:WorkTable
   "WorkTable is derived from NoSkuObject.
   An instance of WorkTable has the following:
     PrimaryLocation (inherited)
@@ -1932,17 +1932,17 @@ AnnotationAssertion(rdfs:comment :WorkTable
   WorkTable. Typically, the shape of a WorkTable will be a
   BoxyShape, so that the table has Length, Width, and Height.")
 
-Declaration(ObjectProperty(:hasWorkTable_ObjectOnTable))
-ObjectPropertyDomain(:hasWorkTable_ObjectOnTable :WorkTable)
-ObjectPropertyRange(:hasWorkTable_ObjectOnTable :SolidObject)
-InverseFunctionalObjectProperty(:hasWorkTable_ObjectOnTable)
+Declaration(ObjectProperty(ktw:hasWorkTable_ObjectOnTable))
+ObjectPropertyDomain(ktw:hasWorkTable_ObjectOnTable ktw:WorkTable)
+ObjectPropertyRange(ktw:hasWorkTable_ObjectOnTable ktw:SolidObject)
+InverseFunctionalObjectProperty(ktw:hasWorkTable_ObjectOnTable)
 
-Declaration(ObjectProperty(:hadByObjectOnTable_WorkTable))
-InverseObjectProperties(:hasWorkTable_ObjectOnTable
-                        :hadByObjectOnTable_WorkTable)
-ObjectPropertyDomain(:hadByObjectOnTable_WorkTable :SolidObject)
-ObjectPropertyRange(:hadByObjectOnTable_WorkTable :WorkTable)
+Declaration(ObjectProperty(ktw:hadByObjectOnTable_WorkTable))
+InverseObjectProperties(ktw:hasWorkTable_ObjectOnTable
+                        ktw:hadByObjectOnTable_WorkTable)
+ObjectPropertyDomain(ktw:hadByObjectOnTable_WorkTable ktw:SolidObject)
+ObjectPropertyRange(ktw:hadByObjectOnTable_WorkTable ktw:WorkTable)
 
-DisjointClasses(:DataThing
-                :SolidObject)
+DisjointClasses(ktw:DataThing
+                ktw:SolidObject)
 )

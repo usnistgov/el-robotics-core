@@ -8,6 +8,7 @@
 #include <stdio.h>             // for printf, etc.
 #include <string.h>            // for strdup
 #include <stdlib.h>            // for exit
+#include <list>
 #include "xmlSchemaInstance.hh"
 
 class OwlInstancePrinter
@@ -17,8 +18,6 @@ public:
   ~OwlInstancePrinter() {}
   void endIndi(
     const char * aType,
-    FILE * outFile);
-  void printHeader(
     FILE * outFile);
   void printIndividuals(
     const char * typeName,
@@ -48,6 +47,11 @@ public:
     const char * property,
     XmlID * Name,
     XmlDecimal * val,
+    FILE * outFile);
+  void printXmlDoubleProp(
+    const char * property,
+    XmlID * Name,
+    XmlDouble * val,
     FILE * outFile);
   void printXmlIDProp(
     const char * property,
@@ -90,9 +94,6 @@ public:
     FILE * outFile);
 
   int depth;
-  char * uri;
-  char * outFileName;
-  char * classFileName;
 };
 
 /*********************************************************************/

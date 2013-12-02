@@ -54,6 +54,8 @@ class XmlComplexType;
 class XmlComplexTypeItem;
 class XmlCppBase;
 class XmlDocumentation;
+class XmlElementGroup;
+class XmlElementGroupRef;
 class XmlElementLocal;
 class XmlElementRefable;
 class XmlEnumeration;
@@ -234,7 +236,7 @@ This is the parent class for:
 XmlAny          - not implemented
 XmlChoice       - implemented
 XmlElementLocal - implemented
-XmlGroup        - not implemented
+XmlGroupRef     - implemented
 XmlSequence     - implemented
 
 Those may be used in an XmlChoice or an XmlSequence.
@@ -395,10 +397,10 @@ public:
 
 This is the parent class for:
 
-XmlAll      - not implemented
-XmlChoice   - implemented
-XmlGroup    - not implemented
-XmlSequence - implemented
+XmlAll          - not implemented
+XmlChoice       - implemented
+XmlElementGroup - implemented
+XmlSequence     - implemented
 
 */
 
@@ -542,7 +544,7 @@ XmlAttributeLonerRefable - implemented
 XmlComplexType           - implemented
 XmlElementRefable        - implemented
 XmlSimpleType            - implemented
-group                    - not implemented
+XmlElementGroup          - implemented
 notation                 - not implemented
 
 Each of those may be followed by zero to many annotations (backNotes).
@@ -1198,8 +1200,8 @@ Might split this into Local and Top subtypes.
 
 backNotes is inherited from XmlSchemaContent2.
 
-The newName, ccPrinted, hhPrinted, and extensions are for processing;
-they are not needed for representing a schema.
+The newName, ccPrinted, hhPrinted, owlPrefix, and extensions are for
+processing; they are not needed for representing a schema.
 
 When the item is an XmlOtherContent, any attributes are attached to
 that content (even if there is no choice or sequence).
@@ -1239,6 +1241,7 @@ public:
   char * newName;
   bool ccPrinted;
   bool hhPrinted;
+  char * owlPrefix;
   std::list<XmlComplexType *> * extensions;
 };
 
@@ -1267,6 +1270,92 @@ public:
   //language
 
   char * text;
+};
+
+/********************************************************************/
+
+/* class XmlElementGroup
+
+<group
+  id = ID
+  name = NCName
+  Content:annotation? (all | choice | sequence)
+</group>
+
+From section 3.7.2 of http://www.w3.org/TR/xmlschema-1
+
+all - not implemented
+choice - implemented
+sequence - implemented
+
+The sequence or choice may not have maxOccurs or minOccurs.
+The XmlChoSeqItem may not be an XmlElementGroup.
+
+*/
+
+class XmlElementGroup :
+  public XmlSchemaContent2
+{
+public:
+  XmlElementGroup();
+  XmlElementGroup(
+    char * idIn,
+    char * nameIn,
+    XmlAnnotation * frontNoteIn,
+    XmlChoSeqItem * itemIn);
+  ~XmlElementGroup();
+  void printSelf(FILE * outFile);
+
+  char * id;
+  char * name;
+
+  XmlAnnotation * frontNote;
+  XmlChoSeqItem * item;
+
+  char * newName;
+
+};
+
+/********************************************************************/
+
+/* class XmlElementGroupRef
+
+<group
+  id = ID
+  ref = NCName
+  maxOccurs = (nonNegativeInteger | unbounded)  : 1
+  minOccurs = nonNegativeInteger : 1
+  Content:annotation?
+</group>
+
+From section 3.7.2 of http://www.w3.org/TR/xmlschema-1
+
+This should have a newRef attribute (like newName).
+
+*/
+
+class XmlElementGroupRef :
+  public XmlChoSeqItem
+{
+public:
+  XmlElementGroupRef();
+  XmlElementGroupRef(
+    char * idIn,
+    char * nameIn,
+    int maxOccurs,
+    int minOccurs,
+    XmlAnnotation * frontNoteIn);
+
+  ~XmlElementGroupRef();
+  void printSelf(FILE * outFile);
+
+  char * id;
+  char * ref;
+  int maxOccurs;
+  int minOccurs;
+
+  XmlAnnotation * frontNote;
+
 };
 
 /********************************************************************/
@@ -1797,6 +1886,11 @@ public:
 ((group | all | choice | sequence)?,
               ((attribute | attributeGroup)*, anyAttribute?))
 
+element group ref  - implemented
+all                - not implemented
+choice             - implemented
+sequence           - implemented
+
 Base and any are optional. The attrib list may be empty.
 
 The newAttribs are not part of XML Schema. They are added for processing.
@@ -2118,8 +2212,8 @@ The item is not optional.
 
 backNotes is inherited from XmlSchemaContent2.
 
-The newName, ccPrinted, and hhPrinted are for processing; they are not
-needed for representing a schema.
+The newName, ccPrinted, hhPrinted, and owlPrefix are for processing;
+they are not needed for representing a schema.
 
 */
 
@@ -2149,6 +2243,7 @@ public:
   char * newName;
   bool ccPrinted;
   bool hhPrinted;
+  char * owlPrefix;
 };
 
 /********************************************************************/

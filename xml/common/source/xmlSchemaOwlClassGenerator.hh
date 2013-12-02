@@ -43,6 +43,11 @@ lists of the complex types are built in enterKids.
 "className", "nameBuffer", and "otherName" are all buffers that may be
 reused. They are used in various places.
 
+"owlPrefix" is the prefix for "this" xmlSchemaOwlPrinter. A tree of
+xmlSchemaOwlPrinters is created if there is more than one XML schema file
+in the input, one for each schema file. The OWL prefix must be given
+in a documentation node near the beginning of the XML schema file.
+
 "topElement" is a pointer to the root element of the schema. It is set
 in saveOwlSchemaContent2 and used in printOwlClassFile.
 
@@ -54,8 +59,11 @@ public:
   xmlSchemaOwlPrinter();
   ~xmlSchemaOwlPrinter();
 
-  void buildClasses(XmlSchema * schema);
+  void buildClasses();
+  void buildClassesIncluded();
   void buildDisjointClasses();
+  void checkName(char * fileName, char * bassNameWithPath,
+		 char * bassNameNoPath);
   void deNameName(char * name, char * buffer);
   void deTypeName(char * name, char * buffer);
   void enterClass(XmlType * aClass);
@@ -66,7 +74,10 @@ public:
   XmlSimpleType * findSimpleClass(char * name);
   void printOwlAnnotation(XmlAnnotation * annotation, FILE * outFile);
   void printOwlChoSeqItem(XmlChoSeqItem * item, FILE * outFile);
-  void printOwlClassFile(XmlSchema * schemaFile, char * URL, FILE * outFile);
+  void printOwlClassFile(char * URL, std::list<char *> * includeds,
+			 std::list<char *> * prefixes, FILE * outFile);
+  void printOwlClassFiles(char * URL, std::list<char *> * includeds,
+			  std::list<char *> * prefixes);
   void printOwlComplexContent(XmlComplexContent * complxCont, FILE * outFile);
   void printOwlComplexContentItem (XmlComplexContentItem * item,
 				   FILE * outFile);
@@ -76,8 +87,10 @@ public:
   void printOwlDocumentation(XmlDocumentation * doc, FILE * outFile);
   void printOwlElementLocal(XmlElementLocal * element, FILE * outFile);
   void printOwlElementLocalBuiltIn(XmlElementLocal * element, FILE * outFile);
-  void printOwlElementLocalComplex(XmlElementLocal * element, FILE * outFile);
-  void printOwlElementLocalData(XmlElementLocal * element, FILE * outFile);
+  void printOwlElementLocalComplex(XmlElementLocal * element,
+				   XmlComplexType * complx, FILE * outFile);
+  void printOwlElementLocalData(XmlElementLocal * element,
+				XmlSimpleType * simple, FILE * outFile);
   void printOwlElementLocalIDREF(XmlElementLocal * element, FILE * outFile);
   void printOwlElementRefable(XmlElementRefable * element, FILE * outFile);
   void printOwlEnumeration(XmlEnumeration * enumeration, FILE * outFile);
@@ -94,23 +107,34 @@ public:
   void printOwlPattern(XmlPattern * pattern, FILE * outFile);
   void printOwlRestriction(XmlRestrictionType * restrict,  FILE * outFile);
   void printOwlSchemaContent1(XmlSchemaContent1 * content1, FILE * outFile);
-  void printOwlSchemaHeader(XmlSchemaHeader * header, char * URL,
-			    FILE * outFile);
+  void printOwlSchemaHeader(char * URL, std::list<char *> * includeds,
+			    std::list<char *> * prefixes, FILE * outFile);
   void printOwlSequence(XmlSequence * sequence, FILE * outFile);
   void printOwlSimpleList(XmlSimpleList * aList, FILE * outFile);
   void printOwlSimpleRestriction(XmlSimpleRestriction * restrict,
 				 FILE * outFile);
   void printOwlSimpleType(XmlSimpleType * simple, FILE * outFile);
+  void processIncludes(std::list<char *> * includeds,
+		       std::list<char *> * prefixes);
+  void readSchema(char * fileName, bool isTop);
   void saveOwlSchemaContent2(XmlSchemaContent2 * content2);
 
-  std::list<XmlType *>        classes;
-  char                        className[NAMESIZE];
-  std::list<XmlComplexType *> complexTypes;
-  std::list<XmlComplexType *> disjointClasses;
-  char                        nameBuffer[NAMESIZE];
-  char                        otherName[NAMESIZE];
-  std::list<XmlSimpleType *>  simpleTypes;
-  XmlElementRefable *         topElement;
+  char                             baseNameNoPath[NAMESIZE];
+  char                             baseNameWithPath[NAMESIZE];
+  std::list<XmlType *>             classes;
+  std::list<XmlType *> *           classesMaster;
+  char                             className[NAMESIZE];
+  std::list<XmlComplexType *>      complexTypes;
+  std::list<XmlSchemaContent1 *> * contents1;
+  std::list<XmlSchemaContent2 *> * contents2;
+  std::list<XmlComplexType * >     disjointClasses;
+  std::list<char *>                includedSchemas;
+  char                             nameBuffer[NAMESIZE];
+  char                             otherName[NAMESIZE];
+  char *                           owlPrefix;
+  std::list<XmlSimpleType *>       simpleTypes;
+  std::list<xmlSchemaOwlPrinter *> subordinates;
+  XmlElementRefable *              topElement;
 };
 
 /********************************************************************/

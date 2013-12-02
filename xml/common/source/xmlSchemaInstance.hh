@@ -7,6 +7,8 @@
 #include <set>
 #include <string>
 
+#define NAMESIZE 200
+
 /*********************************************************************/
 
 class AttributePair;

@@ -1,9 +1,9 @@
-/* A Bison parser, made by GNU Bison 2.4.2.  */
+/* A Bison parser, made by GNU Bison 2.4.3.  */
 
 /* Skeleton interface for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
-   Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+   2009, 2010 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -89,26 +89,27 @@
      XSENUMERATION = 306,
      XSEXTENSION = 307,
      XSFIELD = 308,
-     XSINCLUDE = 309,
-     XSKEY = 310,
-     XSKEYREF = 311,
-     XSLENGTH = 312,
-     XSLIST = 313,
-     XSMAXEXCLUSIVE = 314,
-     XSMAXINCLUSIVE = 315,
-     XSMAXLENGTH = 316,
-     XSMINEXCLUSIVE = 317,
-     XSMININCLUSIVE = 318,
-     XSMINLENGTH = 319,
-     XSPATTERN = 320,
-     XSRESTRICTION = 321,
-     XSSCHEMA = 322,
-     XSSELECTOR = 323,
-     XSSEQUENCE = 324,
-     XSSIMPLECONTENT = 325,
-     XSSIMPLETYPE = 326,
-     XSUNIQUE = 327,
-     XMLVERSION = 328
+     XSGROUP = 309,
+     XSINCLUDE = 310,
+     XSKEY = 311,
+     XSKEYREF = 312,
+     XSLENGTH = 313,
+     XSLIST = 314,
+     XSMAXEXCLUSIVE = 315,
+     XSMAXINCLUSIVE = 316,
+     XSMAXLENGTH = 317,
+     XSMINEXCLUSIVE = 318,
+     XSMININCLUSIVE = 319,
+     XSMINLENGTH = 320,
+     XSPATTERN = 321,
+     XSRESTRICTION = 322,
+     XSSCHEMA = 323,
+     XSSELECTOR = 324,
+     XSSEQUENCE = 325,
+     XSSIMPLECONTENT = 326,
+     XSSIMPLETYPE = 327,
+     XSUNIQUE = 328,
+     XMLVERSION = 329
    };
 #endif
 
@@ -146,6 +147,8 @@ typedef union YYSTYPE
   XmlCppBase *                      cppBaseVal;
   XmlCppBase::formE                 formEVal;
   XmlDocumentation *                documentationVal;
+  XmlElementGroup *                 elementGroupVal;
+  XmlElementGroupRef *              elementGroupRefVal;
   XmlElementLocal *                 elementLocalVal;
   XmlElementRefable *               elementRefableVal;
   XmlEnumeration *                  enumerationVal;

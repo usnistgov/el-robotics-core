@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:geometry"
+  targetNamespace="urn:geometry"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+<!--  <xsd:include schemaLocation="PointAndVector.xsd"/>  -->
+<!--  <xsd:include schemaLocation="Circle.xsd"/>          -->
+<!-- The two includes above are circular to test the ability of  -->
+<!-- the generators to handle repeated includes. The includes    -->
+<!-- are OK in XMLSpy and in the generators but result in an     -->
+<!-- invalid C++ header file, so they are commented out.         -->
+
+  <xsd:annotation>
+    <xsd:documentation>
+      This is a schema with classes for round thing, point, and vector.
+    </xsd:documentation>
+    <xsd:documentation>owlPrefix=poi</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:complexType name="RoundThingType">
+    <xsd:annotation>
+      <xsd:documentation>
+        An instance of RoundThingType has Name, Center, and Radius.
+        It could be a circle or a sphere.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name"
+        type="xsd:ID"/>
+      <xsd:element name="Radius"
+        type="xsd:double"/>
+      <xsd:element name="Center"
+        type="PointType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PointType">
+    <xsd:annotation>
+      <xsd:documentation>
+        A PointType has Name, X, Y, and Z coordinates.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name"
+        type="xsd:ID"/>
+      <xsd:element name="X"
+        type="xsd:double"/>
+      <xsd:element name="Y"
+        type="xsd:double"/>
+      <xsd:element name="Z"
+        type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="VectorType">
+    <xsd:annotation>
+      <xsd:documentation>
+        A VectorType has Name, I, J, and K components.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name"
+        type="xsd:ID"/>
+      <xsd:element name="I"
+        type="xsd:double"/>
+      <xsd:element name="J"
+        type="xsd:double"/>
+      <xsd:element name="K"
+        type="xsd:double"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

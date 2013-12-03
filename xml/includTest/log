@@ -1,0 +1,81 @@
+cd xmlSchemas
+# see what is in the directory
+ls
+# use the xmlSchemaParser to check a schema
+../../common/bin/xmlSchemaParser geometrySchema3.xsd
+# see what is in the directory now (should be a copy of geometrySchema3.xsd)
+ls
+# compare the echoed schema with the original
+diff geometrySchema3.xsdecho geometrySchema3.xsd
+# get rid of the copy that was just made
+rm geometrySchema3.xsdecho
+
+
+# generate all the files needed by a geometrySchema3Parser
+../../common/bin/xmlInstanceParserGenerator -x geometrySchema3.xsd
+# see what is in the directory now (should be 9 new files)
+ls
+# move the new files into the source directory
+mv *.cc *.hh *.lex *.y ../source
+# move into the parent directory
+cd ..
+# make the XML instance file parser
+make bin/geometrySchema3Parser
+# check that the parser exists now
+ls bin
+# list the source directory to see that there are 3 new files
+ls source
+# go into the XML instance files directory to test the parser
+cd xmlInstanceFiles
+# test the parser
+../bin/geometrySchema3Parser geometryInstances.xml
+# see that an echoed file exists now
+ls
+# compare the echoed file with the original (number formats change)
+diff geometryInstances.xml  geometryInstances.xmlecho
+# get rid of the copy that was just made
+rm geometryInstances.xmlecho
+
+
+# go back into the xmlSchemas directory to generate the OWL class files
+cd ../xmlSchemas
+# run the OWL class generator
+../../common/bin/xmlSchemaOwlClassGenerator geometrySchema3.xsd http://www.nist.gov/el/ontologies
+# see that three .owl files have been generated
+ls
+# move the .owl files to the owlFiles directory
+mv *.owl ../owlFiles
+# change to the owlFiles directory
+cd ../owlFiles
+# use Protege to check the OWL files - your method of running Protege may differ
+/usr/local/Protege_4.1/Protege & 
+
+
+# go back into the xmlSchemas directory to generate additional C++ code
+# for the owlGeometrySchema3Printer.
+cd ../xmlSchemas
+# run the xml2owlGenerator
+../../common/bin/xml2owlGenerator geometrySchema3.xsd geometrySchema3
+# see that it has generated three new files
+ls -lrt
+# move the new files into the source directory (the .lex and .y files
+# generated earlier will be used for the 
+mv *.cc *.hh ../source
+# move into the parent directory
+cd ..
+# make the xml2owl translator for geometrySchema3
+make bin/owlGeometrySchema3Printer
+# check that the translator exists
+ls bin
+# change to the xmlInstanceFiles directory
+cd xmlInstanceFiles
+# run the translator to translate the geometryInstances.xml file to OWL
+../bin/owlGeometrySchema3Printer geometryInstances.xml geometryInstances.owl http://www.nist.gov/el/ontologies
+# check that the OWL file exists
+ls
+# move the new OWL file to the owlFiles directory
+mv geometryInstances.owl ../owlFiles
+# move into the owlFiles directory
+cd  ../owlFiles
+#use Protege to check the OWL file - your method of running Protege may differ
+/usr/local/Protege_4.1/Protege &

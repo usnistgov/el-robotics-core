@@ -1,0 +1,115 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(geo:=<http://www.nist.gov/el/ontologies/geometrySchema3Classes.owl#>)
+Prefix(cir:=<http://www.nist.gov/el/ontologies/CircleAndSphereClasses.owl#>)
+Prefix(poi:=<http://www.nist.gov/el/ontologies/PointAndVectorClasses.owl#>)
+
+Ontology(<http://www.nist.gov/el/ontologies/PointAndVectorClasses.owl>
+
+Annotation(rdfs:comment
+  "This is a schema with classes for round thing, point, and vector.")
+Annotation(rdfs:comment
+  "owlPrefix=poi")
+
+
+
+Declaration(Class(poi:RoundThing))
+
+AnnotationAssertion(rdfs:comment poi:RoundThing
+  "An instance of RoundThing has Name, Center, and Radius.
+  It could be a circle or a sphere.")
+
+SubClassOf(cir:Circle poi:RoundThing)
+SubClassOf(cir:Sphere poi:RoundThing)
+DisjointUnion(poi:RoundThing
+              cir:Circle
+              cir:Sphere)
+
+Declaration(DataProperty(poi:hasRoundThing_Radius))
+DataPropertyDomain(poi:hasRoundThing_Radius poi:RoundThing)
+DataPropertyRange(poi:hasRoundThing_Radius xsd:double)
+FunctionalDataProperty(poi:hasRoundThing_Radius)
+EquivalentClasses(poi:RoundThing ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasRoundThing_Radius xsd:double)
+  DataAllValuesFrom (poi:hasRoundThing_Radius xsd:double)))
+
+Declaration(ObjectProperty(poi:hasRoundThing_Center))
+ObjectPropertyDomain(poi:hasRoundThing_Center poi:RoundThing)
+ObjectPropertyRange(poi:hasRoundThing_Center poi:Point)
+InverseFunctionalObjectProperty(poi:hasRoundThing_Center)
+FunctionalObjectProperty(poi:hasRoundThing_Center)
+EquivalentClasses(poi:RoundThing ObjectIntersectionOf(
+  ObjectSomeValuesFrom(poi:hasRoundThing_Center poi:Point)
+  ObjectAllValuesFrom (poi:hasRoundThing_Center poi:Point)))
+
+Declaration(ObjectProperty(poi:hadByCenter_RoundThing))
+InverseObjectProperties(poi:hasRoundThing_Center
+                        poi:hadByCenter_RoundThing)
+ObjectPropertyDomain(poi:hadByCenter_RoundThing poi:Point)
+ObjectPropertyRange(poi:hadByCenter_RoundThing poi:RoundThing)
+
+
+
+Declaration(Class(poi:Point))
+
+AnnotationAssertion(rdfs:comment poi:Point
+  "A Point has Name, X, Y, and Z coordinates.")
+
+Declaration(DataProperty(poi:hasPoint_X))
+DataPropertyDomain(poi:hasPoint_X poi:Point)
+DataPropertyRange(poi:hasPoint_X xsd:double)
+FunctionalDataProperty(poi:hasPoint_X)
+EquivalentClasses(poi:Point ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasPoint_X xsd:double)
+  DataAllValuesFrom (poi:hasPoint_X xsd:double)))
+
+Declaration(DataProperty(poi:hasPoint_Y))
+DataPropertyDomain(poi:hasPoint_Y poi:Point)
+DataPropertyRange(poi:hasPoint_Y xsd:double)
+FunctionalDataProperty(poi:hasPoint_Y)
+EquivalentClasses(poi:Point ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasPoint_Y xsd:double)
+  DataAllValuesFrom (poi:hasPoint_Y xsd:double)))
+
+Declaration(DataProperty(poi:hasPoint_Z))
+DataPropertyDomain(poi:hasPoint_Z poi:Point)
+DataPropertyRange(poi:hasPoint_Z xsd:double)
+FunctionalDataProperty(poi:hasPoint_Z)
+EquivalentClasses(poi:Point ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasPoint_Z xsd:double)
+  DataAllValuesFrom (poi:hasPoint_Z xsd:double)))
+
+
+
+Declaration(Class(poi:Vector))
+
+AnnotationAssertion(rdfs:comment poi:Vector
+  "A Vector has Name, I, J, and K components.")
+
+Declaration(DataProperty(poi:hasVector_I))
+DataPropertyDomain(poi:hasVector_I poi:Vector)
+DataPropertyRange(poi:hasVector_I xsd:double)
+FunctionalDataProperty(poi:hasVector_I)
+EquivalentClasses(poi:Vector ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasVector_I xsd:double)
+  DataAllValuesFrom (poi:hasVector_I xsd:double)))
+
+Declaration(DataProperty(poi:hasVector_J))
+DataPropertyDomain(poi:hasVector_J poi:Vector)
+DataPropertyRange(poi:hasVector_J xsd:double)
+FunctionalDataProperty(poi:hasVector_J)
+EquivalentClasses(poi:Vector ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasVector_J xsd:double)
+  DataAllValuesFrom (poi:hasVector_J xsd:double)))
+
+Declaration(DataProperty(poi:hasVector_K))
+DataPropertyDomain(poi:hasVector_K poi:Vector)
+DataPropertyRange(poi:hasVector_K xsd:double)
+FunctionalDataProperty(poi:hasVector_K)
+EquivalentClasses(poi:Vector ObjectIntersectionOf(
+  DataSomeValuesFrom(poi:hasVector_K xsd:double)
+  DataAllValuesFrom (poi:hasVector_K xsd:double)))
+)

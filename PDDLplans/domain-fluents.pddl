@@ -84,6 +84,9 @@
 	;TRUE iff ?partstray is not empty		
 	(partstray-not-empty ?partstray - PartsTray)
 	
+	;TRUE iff ?partstray has ?part		
+	(partstray-has-part ?partstray - PartsTray ?part - Part)
+	
 	;TRUE iff ?endeffector is capable of holding ?kittray						
 	(endeffector-type-kittray ?endeffector - EndEffector ?kittray - KitTray)
 	
@@ -255,7 +258,8 @@
 		(robot-with-endeffector ?robot ?endeffector)
 		(endeffector-type-part ?endeffector ?part)
 		(found-part ?part ?partstray)
-		(partstray-not-empty ?partstray))
+		(partstray-not-empty ?partstray)
+		(partstray-has-part ?partstray ?part))
 	:effect 
 		(and  
 		(part-location-robot ?part ?robot) 

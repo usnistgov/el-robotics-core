@@ -93,18 +93,17 @@ such as XMLSpy to write an XML instance file corresponding to the
 soap.xsd schema and then run it through the
 owlSoapPrinter with a command of the form:
 
- bin/owlSoapPrinter <xmlInst> <owlInst> <owlClass> <uri>
+ bin/owlSoapPrinter <xmlInst> <owlInst> <uri>
 
 where
 <xmlInst> = path to XML instance file to read
 <owlInst> = name of OWL instance file to write
-<owlClass> = name of OWL class file
 <uri> = URI base to use in header
 
 For example, the following command will print the OWL file
 kittingInstancesGoal1.owl
 
-bin/owlSoapPrinter xmlInstanceFiles/kittingInstancesGoal1.xml kittingInstancesGoal1.owl soapClasses.owl http://www.nist.gov/el/ontologies
+bin/owlSoapPrinter xmlInstanceFiles/kittingInstancesGoal1.xml kittingInstancesGoal1.owl http://www.nist.gov/el/ontologies
 
 The soap.lex and soap.y source code files
 used for the owlSoapPrinter are the ones produced by the
@@ -122,7 +121,7 @@ owlSoapPrinter.
 other
 -----
 
-The kittingClasses.owl file in the owlFiles directory was generated
+The soapClasses.owl and kittingWorkstationClasses.owl files in the owlFiles directory was generated
 automatically from soap.xsd by the xmlSchemaOwlClassGenerator.
 
 In the source directory, the soapYACC.cc and

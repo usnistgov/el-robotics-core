@@ -1,3 +1,23 @@
+/*****************************************************************************
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
+
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
 #include <cstdio>
 #include <sstream>
 #include <string>
@@ -368,9 +388,45 @@ tf::Transform NavigationGoal::getGlobalGoalTransform(const tf::StampedTransform 
 	return globalGoalTransform;
 }
 /**
-	\brief rotate the goal by a fixed angle about a random axis
-	
-	The goal rotated is the original goal provided by the user. Subsequent calls to this method will continue to adjust the original goal (that is, the adjustments will not be composed).
+   \brief move the goal by a fixed amount along a random axis
+
+   The goal is translated from the current goal by a fixed amount on a random
+   axis. Subsequent calls to this method will continue to adjust the goal
+   (the goal adjustment is cumulative).
+*/
+#define SHIFT_AMOUNT -.02
+void NavigationGoal::nudgeGoalPosition()
+{
+  double which = ((double)rand())/RAND_MAX * 3.0;
+
+  if( which <=1. ) // shift x-axis
+    {
+      goalPosition = tf::Vector3(goalPosition.getX() + SHIFT_AMOUNT,
+				 goalPosition.getY(),
+				 goalPosition.getZ());
+      printf( "navigationGoal::nudgeGoalPosition:Shifting x axis\n" );
+    }
+  else if( which <=2. ) // shift y-axis
+    {
+      goalPosition = tf::Vector3(goalPosition.getX(),
+				 goalPosition.getY()+ SHIFT_AMOUNT,
+				 goalPosition.getZ());
+      printf( "navigationGoal::nudgeGoalPosition:Shifting y axis\n" );
+    }
+  else
+    {
+      goalPosition = tf::Vector3(goalPosition.getX(),
+				 goalPosition.getY(),
+				 goalPosition.getZ()+ SHIFT_AMOUNT);
+      printf( "navigationGoal::nudgeGoalPosition:Shifting z axis\n" );
+    }
+}
+/**
+   \brief rotate the goal by a fixed angle about a random axis
+   
+   The goal rotated is the original goal provided by the user. 
+   Subsequent calls to this method will continue to adjust the original goal 
+   (that is, the adjustments will not be composed).
 */
 void NavigationGoal::nudgeGoalOrientation()
 {

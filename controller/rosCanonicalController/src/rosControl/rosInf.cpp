@@ -1,3 +1,24 @@
+/*****************************************************************************
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
+
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
+
 #include "rosInf.hh"
 #include "robotDescription.hh"
 #include <stdio.h>
@@ -424,11 +445,21 @@ void RosInf::navigationFeedbackCallback (const arm_navigation_msgs::
 /** 
 	\brief called whenever an arm navigation goal is completed.
 	
-	If an arm navigation goal is completed succesfully, this method checks to see if there are any more goals in the queue, and begins executing the next one if there are.
+	If an arm navigation goal is completed succesfully, this method checks to 
+        see if there are any more goals in the queue, and begins executing the 
+        next one if there are.
 	
-	If an arm navigation goal was aborted, the callback increments the failure counter and tries to execute it again. If the failure counter exceeds \c MAX_NAVIGATION_FAILURES (defined in rosInf.hh), then the goal is removed from the queue and an error message is displayed. Currently, command execution continues even when this happens.
+	If an arm navigation goal was aborted, the callback increments the failure 
+	counter and tries to execute it again. If the failure counter exceeds 
+	\c MAX_NAVIGATION_FAILURES (defined in rosInf.hh), then the goal is 
+	removed from the queue and an error message is displayed. Currently, 
+	command execution continues even when this happens.
 	
-	If the \c LOG_FAILURES flag in rosInf.hh is set to \c true, then for each goal, the callback will open the local file \c datfile and append the number of attempts the arm took before succeeding in reaching the navigation goal, writing the value of \c MAX_NAVIGATION_FAILURES if navigation never completed succesfully. 
+	If the \c LOG_FAILURES flag in rosInf.hh is set to \c true, then for 
+	each goal, the callback will open the local file \c datfile and append 
+	the number of attempts the arm took before succeeding in reaching the 
+	navigation goal, writing the value of \c MAX_NAVIGATION_FAILURES if 
+	navigation never completed succesfully. 
 */
 #include <arm_navigation_msgs/convert_messages.h>
 void RosInf::navigationDoneCallback (const actionlib::
@@ -440,73 +471,76 @@ void RosInf::navigationDoneCallback (const actionlib::
   ROS_DEBUG ("Arm navigation goal complete: %s\n", state.toString ().c_str ());
   tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
   tf::Quaternion goalOrientation = armGoals.front ().getGoalOrientation();
-  //tf::Vector3 zAxis = tf::Vector3(0,0,1.0).rotate(goalOrientation.getAxis(), goalOrientation.getAngle());
-  if( state == actionlib::SimpleClientGoalState::ABORTED && result->error_code.val != arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS)
-  {
-    navigationFailureCount++;
-    //      btScalar roll, pitch, yaw;
-    //      btMatrix3x3(goalOrientation).getRPY(roll, pitch, yaw );
-
-    ROS_DEBUG ("Arm goal error code: %s on goal <%f %f %f> <%f %f %f %f>\n", 
-    arm_navigation_msgs::armNavigationErrorCodeToString(result->error_code).c_str (),
-    goalPosition.getX(), goalPosition.getY(), goalPosition.getZ(),
-  	      goalOrientation.x(), goalOrientation.y(), goalOrientation.z(), goalOrientation.w());
-    if(navigationFailureCount < MAX_NAVIGATION_FAILURES)
+  //tf::Vector3 zAxis = tf::Vector3(0,0,1.0).rotate(goalOrientation.getAxis(), 
+  //                                                goalOrientation.getAngle());
+  if( state == actionlib::SimpleClientGoalState::ABORTED && 
+      result->error_code.val != 
+      arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS)
     {
-    	if(NUDGE_FAILED_GOAL)
-    	{
-		  	NavigationGoal nudgedGoal = armGoals.front();
-		  	nudgedGoal.nudgeGoalOrientation();
-		  	armGoals[0] = nudgedGoal;
-    	}
-      ROS_DEBUG("RosInf: Arm navigation failed to find a solution after %d tries, retrying...", navigationFailureCount);
-      moveArmClient->sendGoal (armGoals.front ().getGoal (),
-      boost::bind (&RosInf::navigationDoneCallback,
-      this, _1, _2));
-      
-    } else {
-      
-      if(LOG_FAILURES) {
-        fp = fopen("datfile","a");
-        if(fp != NULL) {
-          fprintf(fp, "%d\n", navigationFailureCount);
-          fclose(fp);
-        }
-      }
-      
-      ROS_ERROR("RosInf: Arm navigation failed to complete properly. Normally this results in an exit, but for now we just record and move on.");
-      armGoals.pop_front ();
-      if (!armGoals.empty ())
-      {
-      navigationFailureCount = 0;
-      moveArmClient->sendGoal (armGoals.front ().getGoal (),
-        boost::bind (&RosInf::navigationDoneCallback,
-        this, _1, _2));
-      }
-      
-      //ROS_ERROR("RosInf: Arm navigation failed to complete properly.");
-      //exit(1);
+      navigationFailureCount++;
+      //      btScalar roll, pitch, yaw;
+      //      btMatrix3x3(goalOrientation).getRPY(roll, pitch, yaw );
+      ROS_DEBUG ("Arm goal error code: %s on goal <%f %f %f> <%f %f %f %f>\n", 
+		 arm_navigation_msgs::armNavigationErrorCodeToString(result->error_code).c_str (),
+		 goalPosition.getX(), goalPosition.getY(), goalPosition.getZ(),
+		 goalOrientation.x(), goalOrientation.y(), goalOrientation.z(), 
+		 goalOrientation.w());
+      if(navigationFailureCount < MAX_NAVIGATION_FAILURES)
+	{
+	  if(NUDGE_FAILED_GOAL)
+	    {
+	      NavigationGoal nudgedGoal = armGoals.front();
+	      //	      nudgedGoal.nudgeGoalOrientation();
+	      nudgedGoal.nudgeGoalPosition();
+	      armGoals[0] = nudgedGoal;
+	    }
+	  ROS_DEBUG("RosInf: Arm navigation failed to find a solution after %d tries, retrying...", 
+		    navigationFailureCount);
+	  moveArmClient->sendGoal (armGoals.front ().getGoal (),
+				   boost::bind (&RosInf::navigationDoneCallback,
+						this, _1, _2));
+	} 
+      else 
+	{
+	  if(LOG_FAILURES) {
+	    fp = fopen("datfile","a");
+	    if(fp != NULL) {
+	      fprintf(fp, "%d\n", navigationFailureCount);
+	      fclose(fp);
+	    }
+	  }
+	  ROS_ERROR("RosInf: Arm navigation failed to complete properly. Normally this results in an exit, but for now we just record and move on.");
+	  armGoals.pop_front ();
+	  if (!armGoals.empty ())
+	    {
+	      navigationFailureCount = 0;
+	      moveArmClient->sendGoal (armGoals.front ().getGoal (),
+				       boost::bind (&RosInf::navigationDoneCallback,
+						    this, _1, _2));
+	    }
+	  ROS_ERROR("RosInf: Arm navigation failed to complete properly.");
+	  exit(1);
+	}
     }
-  }
   else
-  {
-    tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
-    ROS_INFO ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
-    goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
-    if(LOG_FAILURES) {
-      fp = fopen("datfile","a");
+    {
+      tf::Vector3 goalPosition = armGoals.front().getGoalPosition();
+      ROS_INFO ("Arm goal succeeded on goal <%f %f %f> <f f f>\n", 
+		goalPosition.getX(), goalPosition.getY(), goalPosition.getZ());
+      if(LOG_FAILURES) {
+	fp = fopen("datfile","a");
         if(fp != NULL) {
           fprintf(fp, "%d\n",navigationFailureCount);
           fclose(fp);
         }
-    }
-    armGoals.pop_front ();
-    if (!armGoals.empty ())
-    {
-      navigationFailureCount = 0;
-      moveArmClient->sendGoal (armGoals.front ().getGoal (),
-        boost::bind (&RosInf::navigationDoneCallback,
-        this, _1, _2));
+      }
+      armGoals.pop_front ();
+      if (!armGoals.empty ())
+	{
+	  navigationFailureCount = 0;
+	  moveArmClient->sendGoal (armGoals.front ().getGoal (),
+				   boost::bind (&RosInf::navigationDoneCallback,
+						this, _1, _2));
       /*
       moveArmClient->sendGoal (armGoals.front ().getGoal (),
         boost::bind (&RosInf::navigationDoneCallback,
@@ -516,9 +550,10 @@ void RosInf::navigationDoneCallback (const actionlib::
         boost::bind (&RosInf::navigationFeedbackCallback,
         this, _1));
       */
+	}
     }
-  }
 }
+
 /**
 	\brief Adds an arm pose goal to the queue.
 	

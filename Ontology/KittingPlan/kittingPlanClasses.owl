@@ -1787,6 +1787,12 @@ EquivalentClasses(ktp:VarVal ObjectIntersectionOf(
   ObjectSomeValuesFrom(ktp:hasVarVal_Var ktp:VariableDeclaration)
   ObjectAllValuesFrom (ktp:hasVarVal_Var ktp:VariableDeclaration)))
 
+Declaration(ObjectProperty(ktp:hadByVar_VarVal))
+InverseObjectProperties(ktp:hasVarVal_Var
+                        ktp:hadByVar_VarVal)
+ObjectPropertyDomain(ktp:hadByVar_VarVal ktp:VariableDeclaration)
+ObjectPropertyRange(ktp:hadByVar_VarVal ktp:VarVal)
+
 
 
 Declaration(Class(ktp:VarSet))
@@ -1810,6 +1816,12 @@ FunctionalObjectProperty(ktp:hasVarSet_Var)
 EquivalentClasses(ktp:VarSet ObjectIntersectionOf(
   ObjectSomeValuesFrom(ktp:hasVarSet_Var ktp:VariableDeclaration)
   ObjectAllValuesFrom (ktp:hasVarSet_Var ktp:VariableDeclaration)))
+
+Declaration(ObjectProperty(ktp:hadByVar_VarSet))
+InverseObjectProperties(ktp:hasVarSet_Var
+                        ktp:hadByVar_VarSet)
+ObjectPropertyDomain(ktp:hadByVar_VarSet ktp:VariableDeclaration)
+ObjectPropertyRange(ktp:hadByVar_VarSet ktp:VarSet)
 
 Declaration(ObjectProperty(ktp:hasVarSet_Val))
 ObjectPropertyDomain(ktp:hasVarSet_Val ktp:VarSet)

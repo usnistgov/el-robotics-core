@@ -4061,6 +4061,8 @@ DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :part-location
                       "Part"^^xsd:NMTOKEN)
 DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :part-location-partstray_group1
                       "PartsTray"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
+                        :part-location-partstray_group1 :InContactWith)
 // 4 end soap:PredicateGroupElement
 //*****************************************
 
@@ -4325,6 +4327,38 @@ Declaration(NamedIndividual(:partstray-not-empty_group1))
 ClassAssertion(soap:PredicateGroupElement :partstray-not-empty_group1)
 DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :partstray-not-empty_group1
                       "PartsTray"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :partstray-not-empty_group1
+                      "Part"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
+                        :partstray-not-empty_group1 :UnderWithContact)
+// 4 end soap:PredicateGroupElement
+//*****************************************
+
+// 3 end soap:Predicate
+//*****************************************
+
+ObjectPropertyAssertion(soap:hasDomain_Predicate
+                        :kiting-domain :partstray-has-part)
+
+//*****************************************
+// 3 start soap:Predicate partstray-has-part
+Declaration(NamedIndividual(:partstray-has-part))
+ClassAssertion(soap:Predicate :partstray-has-part)
+DataPropertyAssertion(soap:hasPredicate_Description :partstray-has-part
+                      ";TRUE iff ?partstray has ?part"^^xsd:string)
+ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
+                        :partstray-has-part :partstray-has-part_group1)
+
+//*****************************************
+// 4 start soap:PredicateGroupElement partstray-has-part_group1
+Declaration(NamedIndividual(:partstray-has-part_group1))
+ClassAssertion(soap:PredicateGroupElement :partstray-has-part_group1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :partstray-has-part_group1
+                      "PartsTray"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :partstray-has-part_group1
+                      "Part"^^xsd:NMTOKEN)
+ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
+                        :partstray-has-part_group1 :UnderWithContact)
 // 4 end soap:PredicateGroupElement
 //*****************************************
 
@@ -4813,6 +4847,8 @@ ObjectPropertyAssertion(soap:hasPrecondition_Predicate
                         :take-part_precondition :found-part)
 ObjectPropertyAssertion(soap:hasPrecondition_Predicate
                         :take-part_precondition :partstray-not-empty)
+ObjectPropertyAssertion(soap:hasPrecondition_Predicate
+                        :take-part_precondition :partstray-has-part)
 // 4 end soap:Precondition
 //*****************************************
 
@@ -4831,6 +4867,8 @@ ObjectPropertyAssertion(soap:hasEffect_NotPredicate
                         :take-part_effect :part-location-partstray)
 ObjectPropertyAssertion(soap:hasEffect_NotPredicate
                         :take-part_effect :robot-empty)
+ObjectPropertyAssertion(soap:hasEffect_NotPredicate
+                        :take-part_effect :partstray-has-part)
 ObjectPropertyAssertion(soap:hasEffect_FunctionOperation
                         :take-part_effect :decrease-quantity-partstray)
 
@@ -5456,6 +5494,7 @@ DifferentIndividuals(
  :part-location-partstray_group1
  :part-location-robot_group1
  :part-location-robot_group2
+ :partstray-has-part_group1
  :partstray-not-empty_group1
  :robot-empty_group1
  :robot-holds-kit_group1
@@ -5493,6 +5532,7 @@ DifferentIndividuals(
  :part-location-kit
  :part-location-partstray
  :part-location-robot
+ :partstray-has-part
  :partstray-not-empty
  :robot-empty
  :robot-holds-kit

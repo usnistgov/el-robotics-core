@@ -1,0 +1,1407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:kitting"
+  targetNamespace="urn:kitting"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xs:include schemaLocation="kittingWorkstation.xsd"/>
+
+  <xs:annotation>
+    <xs:documentation>
+      This is a schema with classes for actions representation.
+    </xs:documentation>
+    <xs:documentation>owlPrefix=soap</xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="SOAP"
+    type="SOAPType">
+    <xs:annotation>
+      <xs:documentation>
+        This is a schema with classes for actions representation.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="SOAPType">
+    <xs:annotation>
+      <xs:documentation>
+	SOAPType is derived from DataThingType. 
+	
+	An instance of SOAPType has:
+	- A DomainType (optional) - A DomainType is mandatory in order to generate a PDDL domain file.
+	- At least 1 PredicateType
+	- 0 or multiple FunctionType
+	- At least 1 ActionType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="KittingWorkstation"
+            type="KittingWorkstationType"
+            minOccurs="1"/>
+          <xs:element name="Domain"
+            type="DomainType"
+            minOccurs="1"/>
+          <xs:element name="InContactWith"
+            type="InContactWithType"
+            minOccurs="1"/>
+          <xs:element name="UnderWithContact"
+            type="UnderWithContactType"
+            minOccurs="1"/>
+          <xs:element name="PartiallyIn"
+            type="PartiallyInType"
+            minOccurs="1"/>
+          <xs:element name="OnTopWithContact"
+            type="OnTopWithContactType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DomainType">
+    <xs:annotation>
+      <xs:documentation>
+      DomainType is derived from DataThingType.
+      
+A DomainType consists of the header of a PDDL domain file. A simple example of a header for a PDDL domain file is given below.
+  (define (domain kitting-domain)
+  (:requirements :strips :typing :action-costs :fluents)
+  (:types
+    EndEffector
+    EndEffectorHolder
+    Kit
+    KitTray
+    LargeBoxWithEmptyKitTrays 
+    LargeBoxWithKits
+    Part 
+    PartsTray 
+    EndEffectorChangingStation
+    Robot 
+    WorkTable)
+ 
+To represent a PDDL domain file, a DomainType consists of the following elements:
+  - Name: Name of the domain (inherited)
+  - Requirements: Because PDDL is a very general language and most planners support only a subset, 
+    domains may declare requirements. 
+    The requirements given in the above example are:
+      - :strips
+      - :typing
+      - :action-costs 
+      - :fluents
+  - VariableTypes: type of each variable used in the domain file.
+  - Predicate
+  - Function
+  - Action
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Requirement"
+            type="xs:NMTOKEN"
+            maxOccurs="unbounded"/>
+          <xs:element name="Variable"
+            type="xs:NMTOKEN"
+            maxOccurs="unbounded"/>
+          <xs:element name="Predicate"
+            type="PredicateType"
+            maxOccurs="unbounded"/>
+          <xs:element name="Function"
+            type="FunctionType"
+            maxOccurs="unbounded"/>
+          <xs:element name="AttachEndEffector"
+            type="AttachEndEffectorType"
+            minOccurs="1"/>
+          <xs:element name="CreateKit"
+            type="CreateKitType"
+            minOccurs="1"/>
+          <xs:element name="DetachEndEffector"
+            type="DetachEndEffectorType"
+            minOccurs="1"/>
+          <xs:element name="TakePart"
+            type="TakePartType"
+            minOccurs="1"/>
+          <xs:element name="TakeKit"
+            type="TakeKitType"
+            minOccurs="1"/>
+          <xs:element name="TakeKitTray"
+            type="TakeKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="PutPart"
+            type="PutPartType"
+            minOccurs="1"/>
+          <xs:element name="PutKit"
+            type="PutKitType"
+            minOccurs="1"/>
+          <xs:element name="PutKitTray"
+            type="PutKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        AttachEndEffectorType is derived from RobotActionBaseType.
+An instance of AttachEndEffectorType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - EndEffectorName
+  - EndEffectorHolderName
+  - Precondition
+  - Effect
+  
+Immediately before an instance of AttachEndEffectorType is executed:
+  (1) The named robot must not have an end effector in its tool changer.
+  (2) The end effector must be located relative to the named end effector holder.
+ 
+
+As an instance of AttachEndEffectorType is executed:
+If the tool changer is closed, the robot opens the tool changer.
+The robot moves to a position relative to the tool holder at
+which it can attach to the end effector. The robot closes the
+tool changer so as to attach the end effector. The location of
+the end effector changes from being relative to the end effector
+holder to being relative to the robot. The robot withdraws the end
+end effector from the tool holder a slight amount that is far
+enough so that any end effector sensor on the end effector holder no
+longer indicates that there is an end effector in the holder.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorHolderParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorChangingStationParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CreateKitType">
+    <xs:annotation>
+      <xs:documentation>
+	CreateKitType is derived from ActionBaseType.
+An instance of CreateKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - KitName
+  - KitTrayName
+  - WorkTableName
+  - Precondition
+  - Effect
+  
+  Immediately before an instance of CreateKitType is executed:
+    (1) The named kit tray must not be in a kit.
+    (2) A kit with the given name must not exist.
+    
+    As an instance of CreateKitType is executed:
+    A kit with the given name is created at the location of the kit
+    tray, and the location of the kit tray becomes relative to the kit,
+    in the same place relative to the kitting workstation as before.
+    The location of any parts in the kit tray becomes relative to the
+    kit.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="KitParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="KitTrayParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="WorkTableParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DetachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        DetachEndEffectorType is derived from RobotActionBaseType.
+        
+An instance of DetachEndEffectorType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - EndEffectorName
+  - EndEffectorHolderName
+  - EndEffectorChangingStationName
+  - Precondition
+  - Effect
+  
+Immediately before an instance of DetachEndEffectorType is executed:
+  (1) The named robot must have the named end effector in its tool
+  changer.
+  (2) The end effector must be located relative to the robot.
+  (3) The end effector holder must be empty.
+ 
+As an instance of DetachEndEffectorType is executed:
+The robot moves to a position relative to the tool holder at which
+it can detach from the end effector. The robot opens the tool
+changer so as to detach the end effector. The location of the end
+effector changes from being relative to the robot to being relative
+to the end effector holder. The robot moves a small distance away
+from the end effector holder.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorHolderParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorChangingStationParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakeKitType">
+    <xs:annotation>
+      <xs:documentation>
+        TakeKitType is derived from RobotActionBaseType.
+An instance of TakeKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakeKitType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakeKitType is executed:
+The robot moves to a position from which it may pick up the kit
+and closes the gripper on the kit. The kit is not moved but
+the location of the kit changes so that the kit is located
+relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="KitParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakeKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	TakeKitTrayType is derived from RobotActionBaseType.
+
+An instance of TakeKitTrayType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitTrayName
+  - LargeBoxWithEmptyKitTraysName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakeKitTrayType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named kit tray.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakeKitTrayType is executed:
+The robot moves to a position from which it may pick up the kit tray
+and closes the gripper on the kit tray. The kit tray is not moved but
+the location of the kit tray changes so that the kit tray is located
+relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="KitTrayParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="LargeBoxWithEmptyKitTraysParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakePartType">
+    <xs:annotation>
+      <xs:documentation>
+        TakePartType is derived from RobotActionBaseType.
+
+An instance of TakePartType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - PartName
+  - PartsTrayName
+  - EndEffectorName
+  - Precondition
+  - Effect
+ 
+Immediately before an instance of TakePartType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be appropriate for picking up the named part.
+  (3) The gripper must be empty.
+  (4) The gripper must be open.
+ 
+As an instance of TakePartType is executed:
+The robot moves to a position from which it may pick up the part
+and closes the gripper on the part. The part is not moved but
+the location of the part changes so that the part is located
+relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="PartParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="PartsTrayParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PutKitType">
+    <xs:annotation>
+      <xs:documentation>
+	PutKitType is derived from RobotActionBaseType.
+	
+An instance of PutKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitName
+  - LargeBoxWithKitsName
+  - Precondition
+  - Effect
+ 
+When an instance of PutKitType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit.
+  (3) The gripper must be closed.
+  (4) The location of the kit should be relative to the gripper.
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit. The location of the kit
+  changes so that the kit is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="KitParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="LargeBoxWithKitsParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PutKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        PutKitTrayType is derived from RobotActionBaseType.
+
+An instance of PutKitTrayType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - KitTrayName
+  - Precondition
+  - Effect
+ 
+When an instance of PutKitTrayType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named kit tray.
+  (3) The gripper must be closed.
+  (4) The location of the kit tray should be relative to the gripper. 
+  The robot moves to the specified location at which it opens the
+  gripper so as to release the kit tray. The location of the kit tray
+  changes so that the kit tray is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="KitTrayParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PutPartType">
+    <xs:annotation>
+      <xs:documentation>
+        PutPartType is derived from RobotActionBaseType.
+
+An instance of PutPartType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - RobotName
+  - PartName
+  - KitName
+  - PartsTrayName
+  - Precondition
+  - Effect
+ 
+When an instance of PutPartType is executed:
+  (1) The named robot must have a gripper in its tool changer.
+  (2) The gripper must be holding the named part.
+  (3) The gripper must be closed.
+  (4) The location of the part should be relative to the gripper.
+  The robot moves to the specified location at which it opens the 
+  gripper so as to release the part. The location of the part
+  changes so that the part is located as specified. The Location
+  may be a relative location or a pose location. The gripper is
+  open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="RobotParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="PartParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="KitParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="PartsTrayParameter"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Precondition"
+            type="PreconditionType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionType">
+    <xs:annotation>
+      <xs:documentation>
+	PreconditionType is derived from DataThingType.
+      
+An instance of PreconditionType specifies necessary conditions that must 
+be true in order for a RobotActionBaseType or ActionBaseType
+to be performed. It can consist of:
+  - At least one instance of PredicateType
+  - Optional instances of FunctionType
+  - Optional instances of ActionBaseFunctionBoolType
+
+An instance of PreconditionType belongs to one instance of RobotActionBaseType or ActionBaseType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="PredicateName"
+            type="xs:IDREF"
+            minOccurs="1"
+            maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>PredicateType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FunctionName"
+            type="xs:IDREF"
+            minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>FunctionType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FunctionOperation"
+            type="FunctionOperationType"
+            minOccurs="0"/>
+          <xs:element name="F1LessF2"
+            type="FunctionToFunctionLessType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1EqualF2"
+            type="FunctionToFunctionEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1GreaterOrEqualF2"
+            type="FunctionToFunctionGreaterOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1GreaterF2"
+            type="FunctionToFunctionGreaterType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1LessOrEqualF2"
+            type="FunctionToFunctionLessOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectType">
+    <xs:annotation>
+      <xs:documentation>
+	EffectType is derived from DataThingType.
+
+An instance of EffectType specifies the results that are anticipated to occur as a result of a RobotActionBaseType or ActionBaseType. 
+An instance of EffectType can consist of:
+  - At least one instance of PredicateType
+  - Optional instances of FunctionType
+  - Optional instances of ActionBaseFunctionBoolType
+	
+	
+	An instance of EffectType belongs to one instance of RobotActionBaseType or ActionBaseType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="PredicateName"
+            type="xs:IDREF"
+            minOccurs="0"
+            maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>PredicateType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotPredicateName"
+            type="xs:IDREF"
+            minOccurs="0"
+            maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>PredicateType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FunctionName"
+            type="xs:IDREF"
+            minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>FunctionType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FunctionOperation"
+            type="FunctionOperationType"
+            minOccurs="0"/>
+          <xs:element name="F1LessF2"
+            type="FunctionToFunctionLessType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1EqualF2"
+            type="FunctionToFunctionEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1GreaterOrEqualF2"
+            type="FunctionToFunctionGreaterOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1GreaterF2"
+            type="FunctionToFunctionGreaterType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+          <xs:element name="F1LessOrEqualF2"
+            type="FunctionToFunctionLessOrEqualType"
+            minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PredicateType">
+    <xs:annotation>
+      <xs:documentation>
+	PredicateType is derived from DataThingType.
+	
+        A predicate is used to specify a binary property of a single object, or a relationship between two objects. 
+	For example, the predicate (robot-empty ?robot) is true if only if the robot ?robot is not holding anything. 
+	The predicate (part-location-robot ?part ?robot) is true if only if the reference parameter ?part is being held by
+	the target parameter ?robot.
+	
+	An example of PredicateType is (robot-holds-kit ?robot - Robot ?kit - Kit), which consists of:
+	- Name: A unique name 'robot-holds-kit' (inherited)
+	
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="PredicateGroupElement"
+            type="PredicateGroupElementType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PredicateGroupElementType">
+    <xs:annotation>
+      <xs:documentation>
+        PredicateStateRelationGroupElementType is derived from DataThingType and consists of elements that constitute a PredicateType.
+        An instance of PredicateStateRelationGroupElementType has the following elements:
+	- Name (inherited)
+	- ReferenceName: Name of the reference parameter
+	- TargetName (optional): Name of the target parameter
+	- StateRelation: The state relation for the current PredicateType
+	
+	ReferenceName is the first parameter in the PredicateType’s parameter list and TargetName is 
+	the second parameter in the PredicateType’s parameter list. 
+	In the case where an PredicateType has only one parameter, it is assigned to the reference parameter.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="ReferenceName"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+          <xs:element name="TargetName"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>StateRelationType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionType">
+    <xs:annotation>
+      <xs:documentation>
+	FunctionType is derived from DataThingType.
+	An example of FunctionType is '(quantity-kit ?kit - Kit ?partstray - PartsTray)' which consists of:
+	- Name: A unique name 'quantity-kit' (inherited)
+	- ReferenceName: Name of the reference parameter 'kit'
+	- ReferenceParameterType: Type of the reference parameter 'Kit'
+	- TargetName: Name of the target parameter 'partstray'
+	- TargetParameterType: Type of the target parameter 'PartsTray'
+	The reference parameter is the first parameter in the FunctionType’s parameter list and the target parameter is the second parameter 
+	in the FunctionType’s parameter list. 
+	In the case where an FunctionType has only one parameter, it is assigned to the reference parameter.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ReferenceName"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+          <xs:element name="TargetName"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionOperationType">
+    <xs:annotation>
+      <xs:documentation>
+	FunctionOperationType is derived from DataThingType.
+	
+	A FunctionOperationType defines the change applied to an FunctionType.
+	An example of a FunctionOperationType is '(decrease (quantity-partstray ?partstray) 1)', which consists of:
+	- An FunctionType: '(quantity-partstray ?partstray)'
+	- An Expression that changes the value of an ActionBaseFunction: 'decrease'
+	- A Value used by the Expression to change the original value of an ActionBaseFunction: '1'
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>FunctionType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Expression"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Value"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionBoolType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionBoolType is an abstract type
+        derived from FunctionBooleanExpressionType representing an expression
+        with a value that is an xs:boolean. 
+	
+	FunctionToFunctionBoolType compares two functions.
+	
+	FunctionToFunctionBoolType has the following derivation hierarchy:
+	|-FunctionToFunctionBoolType
+          | |-FunctionToFunctionEqualType
+          | |-FunctionToFunctionGreaterOrEqualType
+          | |-FunctionToFunctionGreaterType
+          | |-FunctionToFunctionLessOrEqualType
+          | |-FunctionToFunctionLessType
+          | |-FunctionToFunctionNotEqualType
+	An instance of FunctionComparisonBooleanExpressionType has the following elements:
+          - Name (inherited)
+          - F1
+          - F2.
+ 
+        F1 and F2 are the results of two FunctionType to be compared, e.g., '(= (quantity-kit ?kit ?partstray) (capacity-kit ?kit ?partstray))'
+	checks if the result of the FunctionType '(quantity-kit ?kit ?partstray)' equals the result of the FunctionType '(capacity-kit ?kit ?partstray)'.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionBooleanExpressionType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>FunctionType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="F2Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>FunctionType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalBoolType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalBoolType is an abstract type
+        derived from FunctionBooleanExpressionType representing an expression
+        with a value that is an xs:boolean. 
+	FunctionToDecimalBoolType compares an FunctionType with a decimal.
+	
+	FunctionToDecimalBoolType has the following derivation hierarchy:
+	|-FunctionToDecimalBoolType
+          | |-FunctionToArithmeticEqualType
+          | |-FunctionToArithmeticGreaterOrEqualType
+          | |-FunctionToArithmeticGreaterType
+          | |-FunctionToArithmeticLessOrEqualType
+          | |-FunctionToArithmeticLessType
+          | |-FunctionToArithmeticNotEqualType
+	  
+	An instance of FunctionToDecimalBoolType has the following elements:
+          - Name (inherited)
+          - F1
+          - A1
+	  F1 is the result of an FunctionType and A1 is a xs:decimal.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionBooleanExpressionType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>FunctionType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="A1"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionBooleanExpressionType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionBooleanExpressionType is an abstract type derived from DataThingType and representing an expression with a value that is an xs:boolean 
+	(i.e., either True or False).
+	
+	An instance of FunctionBooleanExpressionType has the following elements:
+	
+	Name (inherited).
+        
+	FunctionBooleanExpressionType has the following derivation hierarchy:
+        DataThingType
+        |-FunctionBooleanExpressionType
+          |-FunctionToFunctionBoolType
+	  |-FunctionToDecimalBoolType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionEqualType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+	  
+	  The FunctionToFunctionEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of F1 is 
+	  equal to the value of F2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionGreaterOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionGreaterOrEqualType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionGreaterOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+	  
+	  The FunctionToFunctionGreaterOrEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of 
+	  F1 is greater than or equal to F2.
+	  Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionGreaterType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionGreaterType is derived from
+        FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionGreaterType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+          
+ 
+        The FunctionToFunctionGreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        greater than the value of F2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionLessOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionLessOrEqualType is derived from
+        FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionLessOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+          .
+ 
+        The FunctionToFunctionLessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        less than or equal to the value of F2.
+        Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionLessType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionLessType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionLessType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+
+ 
+        The FunctionToFunctionLessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of F1 is less than
+        the value of F2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalEqualType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+	  
+	  The FunctionToDecimalEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of F1 is 
+	  equal to the value of A1. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalGreaterOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalGreaterOrEqualType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalGreaterOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+	  
+	  The FunctionToDecimalGreaterOrEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of 
+	  F1 is greater than or equal to A1.
+	  Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalGreaterType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalGreaterType is derived from
+        FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalGreaterType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+          
+ 
+        The FunctionToFunctionGreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        greater than the value of A1. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalLessOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalLessOrEqualType is derived from
+        FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalLessOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+
+        The FunctionToDecimalLessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        less than or equal to the value of A1.
+        Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalLessType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalLessType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalLessType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          A1 (inherited)
+
+        The FunctionToDecimalLessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of F1 is less than
+        the value of A1. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	OrderingConstructType is derived from DataThingType.
+	An instance of OrderingConstructType has the following elements:
+	  Name
+	
+	OrderingConstructType has the following derivation hierarchy:
+	DataThingType
+	|-OrderingConstructType
+	  |-AnyOrderType
+	  |-CountType
+	  |-ExistType
+	  |-OrderedListType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AnyOrderOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	AnyOrderType is derived from OrderingConstructType.
+	AnyOrderType consists of:
+	- Name (inherited)
+	- One or multiple instances of CountType
+	- The position of AnyOrderType within an OrderedListType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="CountOrderingConstruct"
+            type="CountOrderingConstructType"/>
+          <xs:element name="PositionInOrderedList"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CountOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	CountType is derived from OrderingConstructType.
+	CountType consists of:
+	- Name (inherited)
+	- An PredicateType 
+	- The occurrence of PredicateType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="Predicate"
+            type="PredicateType"/>
+          <xs:element name="PredicateOccurrence"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ExistOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	ExistType is derived from OrderingConstructType.
+	ExistType consists of:
+	- Name (inherited)
+	- An PredicateType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="Predicate"
+            type="PredicateType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OrderedListOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	OrderedListType is derived from OrderingConstructType.
+	OrderedListType consists of:
+	- Name (inherited)
+	- An ExistType
+	- An AnyOrderType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="ExistOrderingConstruct"
+            type="ExistOrderingConstructType"/>
+          <xs:element name="AnyOrderOrderingConstruct"
+            type="AnyOrderOrderingConstructType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="StateRelationType">
+    <xs:annotation>
+      <xs:documentation>
+	StateRelationType is derived from DataThingType.
+	StateRelationType consists of:
+	- Name (inherited)
+	- StateRelationRCC8Set: a set of RCC8 relations
+	
+	StateRelationType has the following derivation hierarchy:
+	DataThingType
+	|-StateRelationType
+	  |-OnTopWithContactType
+	  |-InContactWithType
+	  |-PartiallyInType
+	  |-UnderWithContactType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="RCC8Set"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OnTopWithContactType">
+    <xs:annotation>
+      <xs:documentation>
+	OnTopWithContactType is derived from StateRelationType.
+	OnTopWithContactType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="StateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="InContactWithType">
+    <xs:annotation>
+      <xs:documentation>
+	InContactWithType is derived from StateRelationType.
+	InContactWithType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="StateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartiallyInType">
+    <xs:annotation>
+      <xs:documentation>
+	PartiallyInType is derived from StateRelationType.
+	PartiallyInType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="StateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UnderWithContactType">
+    <xs:annotation>
+      <xs:documentation>
+	UnderWithContactType is derived from StateRelationType.
+	UnderWithContactType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="StateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotActionBaseType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        RobotActionBaseType is derived from ActionBaseType.
+        An instance of RobotActionBaseType has the following elements:
+	- Name (inherited)
+ 
+        The RobotActionBaseType defines the base type for robot actions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ActionBaseType">
+    <xs:annotation>
+      <xs:documentation>
+	ActionBaseType is derived from DataThingType.
+
+An instance of ActionBaseType has the following elements:
+  - Name (inherited)
+	
+ActionBaseType is the abstract base type that defines a single action to be carried out.
+
+ActionBaseType has the following derivation hierarchy:
+|-ActionBaseType
+  | |- CreateKitType
+  | |- RobotActionBaseType
+    | |-AttachEndEffectorType
+    | |-DetachEndEffectorType
+    | |-PutKitType
+    | |-PutKitTrayType
+    | |-PutPartType
+    | |-TakeKitType
+    | |-TakeKitTrayType
+    | |-TakePart
+	 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

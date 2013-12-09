@@ -1557,6 +1557,7 @@ void xmlSchemaOwlPrinter::printOwlElementLocalIDREF( /* ARGUMENTS            */
 {
   XmlAppinfo * appinfo;
   char hasName[NAMESIZE];
+  char hadByName[NAMESIZE];
 
   if (element->frontNote &&
       element->frontNote->content &&
@@ -1585,6 +1586,17 @@ void xmlSchemaOwlPrinter::printOwlElementLocalIDREF( /* ARGUMENTS            */
 		      hasName, nameBuffer);
 	    }
 	}
+      snprintf(hadByName, NAMESIZE, "hadBy%s_%s", otherName, className);
+      fprintf(outFile, "\nDeclaration(ObjectProperty(%s:%s))\n",
+	      owlPrefix, hadByName);
+      fprintf(outFile, "InverseObjectProperties(%s:%s\n",
+	      owlPrefix, hasName);
+      fprintf(outFile, "                        %s:%s)\n",
+	      owlPrefix, hadByName);
+      fprintf(outFile, "ObjectPropertyDomain(%s:%s %s:%s)\n",
+	      owlPrefix, hadByName, complx->owlPrefix, nameBuffer);
+      fprintf(outFile, "ObjectPropertyRange(%s:%s %s:%s)\n",
+	      owlPrefix, hadByName, owlPrefix, className);
     }
   else
     {

@@ -46,6 +46,7 @@
       <xs:documentation>
         Root element of a kitting plan.
       </xs:documentation>
+      <xs:documentation>owlPrefix=ktw</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -2154,7 +2155,7 @@
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocation (inherited, optional, multiple)
-          SkuName (IDREF) (inherited)
+          SkuName (IDREF, inherited)
           SerialNumber.
  
         The SkuName (IDREF) specifies the SKU of the kit tray. A
@@ -2277,7 +2278,7 @@
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocation (inherited, optional, multiple)
-          SkuName (IDREF) (inherited)
+          SkuName (IDREF, inherited)
           SerialNumber.
  
         The SkuName (IDREF) specifies the SKU of the LargeContainerType. A
@@ -2328,14 +2329,14 @@
     <xs:annotation>
       <xs:documentation>
         NoSkuObjectType is derived from SolidObjectType.
-        An instance NoSkuObjectType has the following elements:
+        An instance of NoSkuObjectType has the following elements:
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocations (inherited, optional, multiple)
           InternalShape (optional)
           ExternalShape (optional).
  
-        A SkuObjectType is an abstract type from which more specific types
+        A NoSkuObjectType is an abstract type from which more specific types
         of solid object are derived. The InternalShape and ExternalShape
         are not required to represent the same shape, but they should not
         be inconsistent. If a NoSkuObjectType consists of components it may
@@ -2365,7 +2366,7 @@
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocation (inherited, optional, multiple)
-          SkuName (IDREF) (inherited)
+          SkuName (IDREF, inherited)
           SerialNumber.
  
         The PartType represents a part.
@@ -2428,9 +2429,9 @@
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocation (inherited, optional, multiple)
-          SkuName (IDREF) (inherited)
+          SkuName (IDREF, inherited)
           SerialNumber (inherited)
-          PartSkuName (IDREF) (inherited)
+          PartSkuName (IDREF, inherited)
           PartQuantity (inherited)
           Part (inherited, optional, multiple).
  
@@ -2455,7 +2456,7 @@
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocation (inherited, optional, multiple)
-          SkuName (IDREF) (inherited)
+          SkuName (IDREF, inherited)
           SerialNumber
           PartSkuName (IDREF)
           PartQuantity
@@ -2499,9 +2500,9 @@
           Name (inherited)
           PrimaryLocation (inherited)
           SecondaryLocation (inherited, optional, multiple)
-          SkuName (IDREF) (inherited)
+          SkuName (IDREF, inherited)
           SerialNumber (inherited)
-          PartSkuName (IDREF) (inherited)
+          PartSkuName (IDREF, inherited)
           PartQuantity (inherited)
           Part (inherited, optional, multiple).
  
@@ -2978,12 +2979,12 @@
           Weight
           EndEffectorName (IDREF, optional, multiple).
  
-        A StockKeepingUnitType is a description of a type of object. SKU is
-        an abbreviation for Stock Keeping Unit. Each EndEffectorName
-        (IDREF) identifies an instance of EndEffectorType that can handle
-        the SKU. One or both of InternalShape and ExternalShape must be
-        given. The shapes are not required to represent the same shape, but
-        they should not be inconsistent.
+        A StockKeepingUnitType is an object type description. SKU is an
+        abbreviation for Stock Keeping Unit. Each EndEffectorName (IDREF)
+        identifies an instance of EndEffectorType that can handle the SKU.
+        One or both of InternalShape and ExternalShape must be given. The
+        shapes are not required to represent the same shape, but they
+        should not be inconsistent.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -3060,8 +3061,8 @@
           Description (inherited)
           Weight (inherited)
           MaximumLoadWeight (inherited)
-          CupDiameter
-          Length
+          CupDiameter (inherited)
+          Length (inherited)
           ArrayNumber
           ArrayRadius.
  

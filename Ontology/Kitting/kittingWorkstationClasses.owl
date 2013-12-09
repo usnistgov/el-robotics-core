@@ -481,6 +481,7 @@ AnnotationAssertion(rdfs:comment :Kit
   its X and Z axes should be (1,0,0) and (0,0,1), respectively.")
 
 
+<<<<<<< HEAD
 Declaration(ObjectProperty(:hasKit_Design))
 ObjectPropertyDomain(:hasKit_Design :Kit)
 ObjectPropertyRange(:hasKit_Design :KitDesign)
@@ -543,6 +544,76 @@ EquivalentClasses(:Kit ObjectIntersectionOf(
 Declaration(Class(:KitDesign))
 
 AnnotationAssertion(rdfs:comment :KitDesign
+=======
+Declaration(ObjectProperty(ktw:hasKit_Design))
+ObjectPropertyDomain(ktw:hasKit_Design ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_Design ktw:KitDesign)
+FunctionalObjectProperty(ktw:hasKit_Design)
+EquivalentClasses(ktw:Kit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKit_Design ktw:KitDesign)
+  ObjectAllValuesFrom (ktw:hasKit_Design ktw:KitDesign)))
+
+Declaration(ObjectProperty(ktw:hadByDesign_Kit))
+InverseObjectProperties(ktw:hasKit_Design
+                        ktw:hadByDesign_Kit)
+ObjectPropertyDomain(ktw:hadByDesign_Kit ktw:KitDesign)
+ObjectPropertyRange(ktw:hadByDesign_Kit ktw:Kit)
+
+HasKey(ktw:KitTray (ktw:hasSkuObject_Sku) (ktw:hasKitTray_SerialNumber))
+
+Declaration(ObjectProperty(ktw:hasKit_KitTray))
+ObjectPropertyDomain(ktw:hasKit_KitTray ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_KitTray ktw:KitTray)
+InverseFunctionalObjectProperty(ktw:hasKit_KitTray)
+FunctionalObjectProperty(ktw:hasKit_KitTray)
+EquivalentClasses(ktw:Kit ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKit_KitTray ktw:KitTray)
+  ObjectAllValuesFrom (ktw:hasKit_KitTray ktw:KitTray)))
+
+Declaration(ObjectProperty(ktw:hadByKitTray_Kit))
+InverseObjectProperties(ktw:hasKit_KitTray
+                        ktw:hadByKitTray_Kit)
+ObjectPropertyDomain(ktw:hadByKitTray_Kit ktw:KitTray)
+ObjectPropertyRange(ktw:hadByKitTray_Kit ktw:Kit)
+
+HasKey(ktw:Part (ktw:hasSkuObject_Sku) (ktw:hasPart_SerialNumber))
+
+Declaration(ObjectProperty(ktw:hasKit_Part))
+ObjectPropertyDomain(ktw:hasKit_Part ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_Part ktw:Part)
+InverseFunctionalObjectProperty(ktw:hasKit_Part)
+
+Declaration(ObjectProperty(ktw:hadByPart_Kit))
+InverseObjectProperties(ktw:hasKit_Part
+                        ktw:hadByPart_Kit)
+ObjectPropertyDomain(ktw:hadByPart_Kit ktw:Part)
+ObjectPropertyRange(ktw:hadByPart_Kit ktw:Kit)
+
+Declaration(ObjectProperty(ktw:hasKit_Slot))
+ObjectPropertyDomain(ktw:hasKit_Slot ktw:Kit)
+ObjectPropertyRange(ktw:hasKit_Slot ktw:Slot)
+InverseFunctionalObjectProperty(ktw:hasKit_Slot)
+
+Declaration(ObjectProperty(ktw:hadBySlot_Kit))
+InverseObjectProperties(ktw:hasKit_Slot
+                        ktw:hadBySlot_Kit)
+ObjectPropertyDomain(ktw:hadBySlot_Kit ktw:Slot)
+ObjectPropertyRange(ktw:hadBySlot_Kit ktw:Kit)
+
+Declaration(DataProperty(ktw:hasKit_Finished))
+DataPropertyDomain(ktw:hasKit_Finished ktw:Kit)
+DataPropertyRange(ktw:hasKit_Finished xsd:boolean)
+FunctionalDataProperty(ktw:hasKit_Finished)
+EquivalentClasses(ktw:Kit ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKit_Finished xsd:boolean)
+  DataAllValuesFrom (ktw:hasKit_Finished xsd:boolean)))
+
+
+
+Declaration(Class(ktw:KitDesign))
+
+AnnotationAssertion(rdfs:comment ktw:KitDesign
+>>>>>>> 589fdc10c12a0e1a51780543a1df78083a3ac704
   "KitDesign is derived from DataThing.
   An instance of KitDesign has the following:
     KitTraySku
@@ -561,10 +632,23 @@ EquivalentClasses(:KitDesign ObjectIntersectionOf(
   ObjectSomeValuesFrom(:hasKitDesign_KitTraySku :StockKeepingUnit)
   ObjectAllValuesFrom (:hasKitDesign_KitTraySku :StockKeepingUnit)))
 
+<<<<<<< HEAD
 Declaration(ObjectProperty(:hasKitDesign_PartRefAndPose))
 ObjectPropertyDomain(:hasKitDesign_PartRefAndPose :KitDesign)
 ObjectPropertyRange(:hasKitDesign_PartRefAndPose :PartRefAndPose)
 InverseFunctionalObjectProperty(:hasKitDesign_PartRefAndPose)
+=======
+Declaration(ObjectProperty(ktw:hadByKitTraySku_KitDesign))
+InverseObjectProperties(ktw:hasKitDesign_KitTraySku
+                        ktw:hadByKitTraySku_KitDesign)
+ObjectPropertyDomain(ktw:hadByKitTraySku_KitDesign ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hadByKitTraySku_KitDesign ktw:KitDesign)
+
+Declaration(ObjectProperty(ktw:hasKitDesign_PartRefAndPose))
+ObjectPropertyDomain(ktw:hasKitDesign_PartRefAndPose ktw:KitDesign)
+ObjectPropertyRange(ktw:hasKitDesign_PartRefAndPose ktw:PartRefAndPose)
+InverseFunctionalObjectProperty(ktw:hasKitDesign_PartRefAndPose)
+>>>>>>> 589fdc10c12a0e1a51780543a1df78083a3ac704
 
 Declaration(ObjectProperty(:hadByPartRefAndPose_KitDesign))
 InverseObjectProperties(:hasKitDesign_PartRefAndPose
@@ -821,6 +905,7 @@ AnnotationAssertion(rdfs:comment :LargeBoxWithKits
   the given design, but there is currently no formal constraint
   requiring that.")
 
+<<<<<<< HEAD
 Declaration(ObjectProperty(:hasLargeBoxWithKits_LargeContainer))
 ObjectPropertyDomain(:hasLargeBoxWithKits_LargeContainer :LargeBoxWithKits)
 ObjectPropertyRange(:hasLargeBoxWithKits_LargeContainer :LargeContainer)
@@ -869,6 +954,62 @@ EquivalentClasses(:LargeBoxWithKits ObjectIntersectionOf(
 Declaration(Class(:LargeContainer))
 
 AnnotationAssertion(rdfs:comment :LargeContainer
+=======
+Declaration(ObjectProperty(ktw:hasLargeBoxWithKits_LargeContainer))
+ObjectPropertyDomain(ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeBoxWithKits)
+ObjectPropertyRange(ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeContainer)
+InverseFunctionalObjectProperty(ktw:hasLargeBoxWithKits_LargeContainer)
+FunctionalObjectProperty(ktw:hasLargeBoxWithKits_LargeContainer)
+EquivalentClasses(ktw:LargeBoxWithKits ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeContainer)
+  ObjectAllValuesFrom (ktw:hasLargeBoxWithKits_LargeContainer ktw:LargeContainer)))
+
+Declaration(ObjectProperty(ktw:hadByLargeContainer_LargeBoxWithKits))
+InverseObjectProperties(ktw:hasLargeBoxWithKits_LargeContainer
+                        ktw:hadByLargeContainer_LargeBoxWithKits)
+ObjectPropertyDomain(ktw:hadByLargeContainer_LargeBoxWithKits ktw:LargeContainer)
+ObjectPropertyRange(ktw:hadByLargeContainer_LargeBoxWithKits ktw:LargeBoxWithKits)
+
+Declaration(ObjectProperty(ktw:hasLargeBoxWithKits_Kit))
+ObjectPropertyDomain(ktw:hasLargeBoxWithKits_Kit ktw:LargeBoxWithKits)
+ObjectPropertyRange(ktw:hasLargeBoxWithKits_Kit ktw:Kit)
+InverseFunctionalObjectProperty(ktw:hasLargeBoxWithKits_Kit)
+
+Declaration(ObjectProperty(ktw:hadByKit_LargeBoxWithKits))
+InverseObjectProperties(ktw:hasLargeBoxWithKits_Kit
+                        ktw:hadByKit_LargeBoxWithKits)
+ObjectPropertyDomain(ktw:hadByKit_LargeBoxWithKits ktw:Kit)
+ObjectPropertyRange(ktw:hadByKit_LargeBoxWithKits ktw:LargeBoxWithKits)
+
+
+Declaration(ObjectProperty(ktw:hasLargeBoxWithKits_KitDesign))
+ObjectPropertyDomain(ktw:hasLargeBoxWithKits_KitDesign ktw:LargeBoxWithKits)
+ObjectPropertyRange(ktw:hasLargeBoxWithKits_KitDesign ktw:KitDesign)
+FunctionalObjectProperty(ktw:hasLargeBoxWithKits_KitDesign)
+EquivalentClasses(ktw:LargeBoxWithKits ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasLargeBoxWithKits_KitDesign ktw:KitDesign)
+  ObjectAllValuesFrom (ktw:hasLargeBoxWithKits_KitDesign ktw:KitDesign)))
+
+Declaration(ObjectProperty(ktw:hadByKitDesign_LargeBoxWithKits))
+InverseObjectProperties(ktw:hasLargeBoxWithKits_KitDesign
+                        ktw:hadByKitDesign_LargeBoxWithKits)
+ObjectPropertyDomain(ktw:hadByKitDesign_LargeBoxWithKits ktw:KitDesign)
+ObjectPropertyRange(ktw:hadByKitDesign_LargeBoxWithKits ktw:LargeBoxWithKits)
+
+Declaration(DataProperty(ktw:hasLargeBoxWithKits_Capacity))
+DataPropertyDomain(ktw:hasLargeBoxWithKits_Capacity ktw:LargeBoxWithKits)
+DataPropertyRange(ktw:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
+FunctionalDataProperty(ktw:hasLargeBoxWithKits_Capacity)
+EquivalentClasses(ktw:LargeBoxWithKits ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasLargeBoxWithKits_Capacity xsd:positiveInteger)
+  DataAllValuesFrom (ktw:hasLargeBoxWithKits_Capacity xsd:positiveInteger)))
+
+
+
+Declaration(Class(ktw:LargeContainer))
+
+AnnotationAssertion(rdfs:comment ktw:LargeContainer
+>>>>>>> 589fdc10c12a0e1a51780543a1df78083a3ac704
   "LargeContainer is derived from SkuObject.
   An instance of LargeContainer has the following:
     PrimaryLocation (inherited)
@@ -909,13 +1050,13 @@ Declaration(Class(:NoSkuObject))
 
 AnnotationAssertion(rdfs:comment :NoSkuObject
   "NoSkuObject is derived from SolidObject.
-  An instance NoSkuObject has the following:
+  An instance of NoSkuObject has the following:
     PrimaryLocation (inherited)
     SecondaryLocations (inherited, optional, multiple)
     InternalShape (optional)
     ExternalShape (optional).
  
-  A SkuObject is an abstract type from which more specific types
+  A NoSkuObject is an abstract type from which more specific types
   of solid object are derived. The InternalShape and ExternalShape
   are not required to represent the same shape, but they should not
   be inconsistent. If a NoSkuObject consists of components it may
@@ -1012,6 +1153,7 @@ AnnotationAssertion(rdfs:comment :PartRefAndPose
   relative to that coordinate system.")
 
 
+<<<<<<< HEAD
 Declaration(ObjectProperty(:hasPartRefAndPose_Sku))
 ObjectPropertyDomain(:hasPartRefAndPose_Sku :PartRefAndPose)
 ObjectPropertyRange(:hasPartRefAndPose_Sku :StockKeepingUnit)
@@ -1070,6 +1212,72 @@ ObjectPropertyRange(:hadByZAxis_PartRefAndPose :PartRefAndPose)
 Declaration(Class(:PartsBin))
 
 AnnotationAssertion(rdfs:comment :PartsBin
+=======
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_Sku))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_Sku ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_Sku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_Sku)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_Sku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_Sku ktw:StockKeepingUnit)))
+
+Declaration(ObjectProperty(ktw:hadBySku_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_Sku
+                        ktw:hadBySku_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadBySku_PartRefAndPose ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hadBySku_PartRefAndPose ktw:PartRefAndPose)
+
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_Point))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_Point ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_Point ktw:Point)
+InverseFunctionalObjectProperty(ktw:hasPartRefAndPose_Point)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_Point)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_Point ktw:Point)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_Point ktw:Point)))
+
+Declaration(ObjectProperty(ktw:hadByPoint_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_Point
+                        ktw:hadByPoint_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadByPoint_PartRefAndPose ktw:Point)
+ObjectPropertyRange(ktw:hadByPoint_PartRefAndPose ktw:PartRefAndPose)
+
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_XAxis))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_XAxis ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_XAxis ktw:Vector)
+InverseFunctionalObjectProperty(ktw:hasPartRefAndPose_XAxis)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_XAxis)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_XAxis ktw:Vector)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_XAxis ktw:Vector)))
+
+Declaration(ObjectProperty(ktw:hadByXAxis_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_XAxis
+                        ktw:hadByXAxis_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadByXAxis_PartRefAndPose ktw:Vector)
+ObjectPropertyRange(ktw:hadByXAxis_PartRefAndPose ktw:PartRefAndPose)
+
+Declaration(ObjectProperty(ktw:hasPartRefAndPose_ZAxis))
+ObjectPropertyDomain(ktw:hasPartRefAndPose_ZAxis ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hasPartRefAndPose_ZAxis ktw:Vector)
+InverseFunctionalObjectProperty(ktw:hasPartRefAndPose_ZAxis)
+FunctionalObjectProperty(ktw:hasPartRefAndPose_ZAxis)
+EquivalentClasses(ktw:PartRefAndPose ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartRefAndPose_ZAxis ktw:Vector)
+  ObjectAllValuesFrom (ktw:hasPartRefAndPose_ZAxis ktw:Vector)))
+
+Declaration(ObjectProperty(ktw:hadByZAxis_PartRefAndPose))
+InverseObjectProperties(ktw:hasPartRefAndPose_ZAxis
+                        ktw:hadByZAxis_PartRefAndPose)
+ObjectPropertyDomain(ktw:hadByZAxis_PartRefAndPose ktw:Vector)
+ObjectPropertyRange(ktw:hadByZAxis_PartRefAndPose ktw:PartRefAndPose)
+
+
+
+Declaration(Class(ktw:PartsBin))
+
+AnnotationAssertion(rdfs:comment ktw:PartsBin
+>>>>>>> 589fdc10c12a0e1a51780543a1df78083a3ac704
   "PartsBin is derived from PartsVessel.
   An instance of PartsBin has the following:
     PrimaryLocation (inherited)
@@ -1108,6 +1316,7 @@ AnnotationAssertion(rdfs:comment :PartsVessel
   specifies the SKU for the Parts in the PartsVessel. The value
   of PartQuantity should be the number of instances of Part.")
 
+<<<<<<< HEAD
 SubClassOf(:PartsBin :PartsVessel)
 SubClassOf(:PartsTray :PartsVessel)
 DisjointUnion(:PartsVessel
@@ -1155,6 +1364,61 @@ ObjectPropertyRange(:hadByPart_PartsVessel :PartsVessel)
 Declaration(Class(:PartsTray))
 
 AnnotationAssertion(rdfs:comment :PartsTray
+=======
+SubClassOf(ktw:PartsBin ktw:PartsVessel)
+SubClassOf(ktw:PartsTray ktw:PartsVessel)
+DisjointUnion(ktw:PartsVessel
+              ktw:PartsBin
+              ktw:PartsTray)
+
+Declaration(DataProperty(ktw:hasPartsVessel_SerialNumber))
+DataPropertyDomain(ktw:hasPartsVessel_SerialNumber ktw:PartsVessel)
+DataPropertyRange(ktw:hasPartsVessel_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasPartsVessel_SerialNumber)
+EquivalentClasses(ktw:PartsVessel ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPartsVessel_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasPartsVessel_SerialNumber xsd:NMTOKEN)))
+
+
+Declaration(ObjectProperty(ktw:hasPartsVessel_PartSku))
+ObjectPropertyDomain(ktw:hasPartsVessel_PartSku ktw:PartsVessel)
+ObjectPropertyRange(ktw:hasPartsVessel_PartSku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasPartsVessel_PartSku)
+EquivalentClasses(ktw:PartsVessel ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasPartsVessel_PartSku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasPartsVessel_PartSku ktw:StockKeepingUnit)))
+
+Declaration(ObjectProperty(ktw:hadByPartSku_PartsVessel))
+InverseObjectProperties(ktw:hasPartsVessel_PartSku
+                        ktw:hadByPartSku_PartsVessel)
+ObjectPropertyDomain(ktw:hadByPartSku_PartsVessel ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hadByPartSku_PartsVessel ktw:PartsVessel)
+
+Declaration(DataProperty(ktw:hasPartsVessel_PartQuantity))
+DataPropertyDomain(ktw:hasPartsVessel_PartQuantity ktw:PartsVessel)
+DataPropertyRange(ktw:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
+FunctionalDataProperty(ktw:hasPartsVessel_PartQuantity)
+EquivalentClasses(ktw:PartsVessel ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)
+  DataAllValuesFrom (ktw:hasPartsVessel_PartQuantity xsd:nonNegativeInteger)))
+
+Declaration(ObjectProperty(ktw:hasPartsVessel_Part))
+ObjectPropertyDomain(ktw:hasPartsVessel_Part ktw:PartsVessel)
+ObjectPropertyRange(ktw:hasPartsVessel_Part ktw:Part)
+InverseFunctionalObjectProperty(ktw:hasPartsVessel_Part)
+
+Declaration(ObjectProperty(ktw:hadByPart_PartsVessel))
+InverseObjectProperties(ktw:hasPartsVessel_Part
+                        ktw:hadByPart_PartsVessel)
+ObjectPropertyDomain(ktw:hadByPart_PartsVessel ktw:Part)
+ObjectPropertyRange(ktw:hadByPart_PartsVessel ktw:PartsVessel)
+
+
+
+Declaration(Class(ktw:PartsTray))
+
+AnnotationAssertion(rdfs:comment ktw:PartsTray
+>>>>>>> 589fdc10c12a0e1a51780543a1df78083a3ac704
   "PartsTray is derived from PartsVessel.
   An instance of PartsTray has the following:
     PrimaryLocation (inherited)
@@ -1202,10 +1466,23 @@ EquivalentClasses(:PhysicalLocation ObjectIntersectionOf(
   ObjectSomeValuesFrom(:hasPhysicalLocation_RefObject :SolidObject)
   ObjectAllValuesFrom (:hasPhysicalLocation_RefObject :SolidObject)))
 
+<<<<<<< HEAD
 Declaration(DataProperty(:hasPhysicalLocation_Timestamp))
 DataPropertyDomain(:hasPhysicalLocation_Timestamp :PhysicalLocation)
 DataPropertyRange(:hasPhysicalLocation_Timestamp xsd:dateTime)
 FunctionalDataProperty(:hasPhysicalLocation_Timestamp)
+=======
+Declaration(ObjectProperty(ktw:hadByRefObject_PhysicalLocation))
+InverseObjectProperties(ktw:hasPhysicalLocation_RefObject
+                        ktw:hadByRefObject_PhysicalLocation)
+ObjectPropertyDomain(ktw:hadByRefObject_PhysicalLocation ktw:SolidObject)
+ObjectPropertyRange(ktw:hadByRefObject_PhysicalLocation ktw:PhysicalLocation)
+
+Declaration(DataProperty(ktw:hasPhysicalLocation_Timestamp))
+DataPropertyDomain(ktw:hasPhysicalLocation_Timestamp ktw:PhysicalLocation)
+DataPropertyRange(ktw:hasPhysicalLocation_Timestamp xsd:dateTime)
+FunctionalDataProperty(ktw:hasPhysicalLocation_Timestamp)
+>>>>>>> 589fdc10c12a0e1a51780543a1df78083a3ac704
 
 
 
@@ -1608,6 +1885,12 @@ EquivalentClasses(:SkuObject ObjectIntersectionOf(
   ObjectSomeValuesFrom(:hasSkuObject_Sku :StockKeepingUnit)
   ObjectAllValuesFrom (:hasSkuObject_Sku :StockKeepingUnit)))
 
+Declaration(ObjectProperty(ktw:hadBySku_SkuObject))
+InverseObjectProperties(ktw:hasSkuObject_Sku
+                        ktw:hadBySku_SkuObject)
+ObjectPropertyDomain(ktw:hadBySku_SkuObject ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hadBySku_SkuObject ktw:SkuObject)
+
 
 
 Declaration(Class(:Slot))
@@ -1639,11 +1922,23 @@ EquivalentClasses(:Slot ObjectIntersectionOf(
   ObjectSomeValuesFrom(:hasSlot_PartRefAndPose :PartRefAndPose)
   ObjectAllValuesFrom (:hasSlot_PartRefAndPose :PartRefAndPose)))
 
+Declaration(ObjectProperty(ktw:hadByPartRefAndPose_Slot))
+InverseObjectProperties(ktw:hasSlot_PartRefAndPose
+                        ktw:hadByPartRefAndPose_Slot)
+ObjectPropertyDomain(ktw:hadByPartRefAndPose_Slot ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hadByPartRefAndPose_Slot ktw:Slot)
+
 
 Declaration(ObjectProperty(:hasSlot_Part))
 ObjectPropertyDomain(:hasSlot_Part :Slot)
 ObjectPropertyRange(:hasSlot_Part :Part)
 FunctionalObjectProperty(:hasSlot_Part)
+
+Declaration(ObjectProperty(ktw:hadByPart_Slot))
+InverseObjectProperties(ktw:hasSlot_Part
+                        ktw:hadByPart_Slot)
+ObjectPropertyDomain(ktw:hadByPart_Slot ktw:Part)
+ObjectPropertyRange(ktw:hadByPart_Slot ktw:Slot)
 
 
 
@@ -1708,12 +2003,12 @@ AnnotationAssertion(rdfs:comment :StockKeepingUnit
     Weight
     EndEffector (optional, multiple).
  
-  A StockKeepingUnit is a description of a type of object. SKU is
-  an abbreviation for Stock Keeping Unit. Each EndEffectorName
-  (IDREF) identifies an instance of EndEffector that can handle
-  the SKU. One or both of InternalShape and ExternalShape must be
-  given. The shapes are not required to represent the same shape, but
-  they should not be inconsistent.")
+  A StockKeepingUnit is an object type description. SKU is an
+  abbreviation for Stock Keeping Unit. Each EndEffector
+  identifies an instance of EndEffector that can handle the SKU.
+  One or both of InternalShape and ExternalShape must be given. The
+  shapes are not required to represent the same shape, but they
+  should not be inconsistent.")
 
 Declaration(DataProperty(:hasStockKeepingUnit_Description))
 DataPropertyDomain(:hasStockKeepingUnit_Description :StockKeepingUnit)
@@ -1759,6 +2054,12 @@ EquivalentClasses(:StockKeepingUnit ObjectIntersectionOf(
 Declaration(ObjectProperty(:hasStockKeepingUnit_EndEffector))
 ObjectPropertyDomain(:hasStockKeepingUnit_EndEffector :StockKeepingUnit)
 ObjectPropertyRange(:hasStockKeepingUnit_EndEffector :EndEffector)
+
+Declaration(ObjectProperty(ktw:hadByEndEffector_StockKeepingUnit))
+InverseObjectProperties(ktw:hasStockKeepingUnit_EndEffector
+                        ktw:hadByEndEffector_StockKeepingUnit)
+ObjectPropertyDomain(ktw:hadByEndEffector_StockKeepingUnit ktw:EndEffector)
+ObjectPropertyRange(ktw:hadByEndEffector_StockKeepingUnit ktw:StockKeepingUnit)
 
 
 
@@ -1818,8 +2119,8 @@ AnnotationAssertion(rdfs:comment :VacuumEffectorMultiCup
     Description (inherited)
     Weight (inherited)
     MaximumLoadWeight (inherited)
-    CupDiameter
-    Length
+    CupDiameter (inherited)
+    Length (inherited)
     ArrayNumber
     ArrayRadius.
  

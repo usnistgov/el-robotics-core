@@ -34,7 +34,7 @@ doPrefix.  The prefix in xmlns:XXX= is pulled out and returned as the
 value of XMLNSPREFIX. The string following targetNamespace= or
 xmlns:XXX= will probably have a colon in it, but we do not want to
 treat the part before or after the colon as a prefix, so strings following
-targetNamespace= and xmlns:XXX= are handled by going into the XMLNSP
+targetNamespace= and xmlns:XXX= are handled by going into the STRING
 mode. Other prefixes, which occur mainly in type names, are handled by
 returning the prefix as the value of XMLNSPREFIX and going into the
 PREFIXED mode.
@@ -117,7 +117,7 @@ W [ \t\n\r]*
 %x PATENUMVALUE
 %x PREFIXED
 %x STARTDOC
-%x XMLNSP
+%x STRING
 
 %%
 
@@ -187,7 +187,7 @@ W [ \t\n\r]*
                              BEGIN(INITIAL);
 			     return TERMINALSTRING;
                            }
-<XMLNSP>{W}\"[^\"]+\"      { ECH;
+<STRING>{W}\"[^\"]+\"      { ECH;
                              for (first = 0; yytext[first] != '"'; first++);
                              first++;
  			     for (n = first; yytext[n] != '"'; n++);
@@ -210,7 +210,7 @@ W [ \t\n\r]*
                                return doPrefix(yytext, STARTANNOTATION);
                              }
 
-{W}\"[^\"]+":"             { ECH;
+{W}\"[^:\"]+":"            { ECH;
                              for (first = 0; yytext[first] != '"'; first++);
                              first++;
  			     for (n = first; yytext[n] != ':'; n++);
@@ -236,16 +236,16 @@ W [ \t\n\r]*
 				  n++);
 			     yytext[n] = 0;
 			     yylval.sVal = strdup(yytext + first);
-                             BEGIN(XMLNSP);
+                             BEGIN(STRING);
 			     return XMLNSPREFIX;
 		           }
 {W}"xmlns"{W}"="           { ECH;
 			     yylval.sVal = 0;
-                             BEGIN(XMLNSP);
+                             BEGIN(STRING);
 			     return XMLNSPREFIX;
 		           }
 {W}"targetNamespace"{W}"=" { ECH;
-                             BEGIN(XMLNSP);
+                             BEGIN(STRING);
                              return TARGETNAMESPACE;
                            }
 {W}"abstract"{W}"="             { ECH; return ABSTRACT; }
@@ -276,7 +276,7 @@ W [ \t\n\r]*
                                   return VALUE;
                                 }
 {W}"version"{W}"="              { ECH; return VERSION; }
-{W}"xpath"{W}"="                { ECH; return XPATH; }
+{W}"xpath"{W}"="                { ECH; BEGIN(STRING); return XPATH; }
 
 "annotation"               { ECH; return XSANNOTATION; }
 "appinfo"                  { ECH; BEGIN(STARTDOC); return XSAPPINFO; }
@@ -290,6 +290,7 @@ W [ \t\n\r]*
 "enumeration"              { ECH; inPatEnum = 1; return XSENUMERATION; }
 "extension"                { ECH; return XSEXTENSION; }
 "field"                    { ECH; return XSFIELD; }
+"group"                    { ECH; return XSGROUP; }
 "include"                  { ECH; return XSINCLUDE; }
 "key"                      { ECH; return XSKEY; }
 "keyref"                   { ECH; return XSKEYREF; }

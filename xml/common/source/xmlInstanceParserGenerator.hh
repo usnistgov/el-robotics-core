@@ -358,6 +358,7 @@ public:
 
   void printNotTop();
   void printParser();
+  void printSelf();
   void printStarLine(FILE * file, bool before, bool after);
   void printTop();
 
@@ -392,11 +393,11 @@ public:
 All of the hasXXX attributes are used in printing the YACC file. XXX
 is an XML basic type. The values of all the hasXXX attributes are set
 to false in the generator constructor. The value of hasXXX is set to
-true if the XXX type is used in the XML file or in a file it
-includes. If the value is set to true when the YACC file is built, the
-YACC file needs an entry in each of three sections (union, types, and
-rules). Otherwise, those entries are not needed and bison will complain
-if they are included.
+true in one of the buildYACC functions if the XXX type is used in any
+XML file being processed. If the value is set to true when the YACC
+file is built, the YACC file needs an entry in each of three sections
+(union, types, and rules). Otherwise, those entries are not needed and
+bison will complain if they are included.
 
 attributeInfo
 attributeGroupRefables is list of all XmlAttributeGroupRefable in the schema
@@ -408,6 +409,7 @@ changeMap is a map from class names to change text
 className is handy buffer for class names (only)
 classBaseName is top->newName with initial caps
 classes is a list of all the XmlTypes in the schema (a class results from each)
+classesMaster is a list of all the XmlTypes in all the schemas
 contents1 is the list of XmlSchemaContent1 in the XML file
 contents2 is the list of XmlSchemaContent2 in the XML file
 dummyName is a dummy name needed for comparison
@@ -437,7 +439,7 @@ hhFile is the file pointer for the header file to write
 includedSchemas is a list of the names of included schemas
 lexFile is the file pointer for the Lex file to write
 moreIncludes is the list of added includes from the existing header file
-realTop is the actual top element
+subordinates is a list of subordinate generators (for some or all includes)
 top is an XmlElementLocal surrogate for the top element
 target is the name of the target namespace
 text
@@ -461,6 +463,7 @@ in only that header are written into the new header file.
   char                             className[NAMESIZE];
   char                             classBaseName[NAMESIZE];
   std::list<XmlType *> *           classes;
+  std::list<XmlType *> *           classesMaster;
   std::list<XmlSchemaContent1 *> * contents1;
   std::list<XmlSchemaContent2 *> * contents2;
   char *                           dummyName;
@@ -490,6 +493,7 @@ in only that header are written into the new header file.
   std::list<char *> *              includedSchemas;
   FILE *                           lexFile;
   std::list<char *> *              moreIncludes;
+  std::list<generator *>           subordinates;
   XmlElementLocal *                top;
   char *                           target;
   char                             text[TEXTSIZE];

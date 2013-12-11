@@ -942,6 +942,7 @@ XmlComplexType::XmlComplexType()
   newName = 0;
   ccPrinted = false;
   hhPrinted = false;
+  owlPrefix = 0;
   extensions = 0;
 }
 
@@ -964,6 +965,7 @@ XmlComplexType::XmlComplexType(
   newName = modifyName(name);
   ccPrinted = false;
   hhPrinted = false;
+  owlPrefix = 0;
   extensions = 0;
 }
 
@@ -1331,6 +1333,139 @@ bool XmlDocumentation::formatted()
 	}
     }
   return isFormatted;
+}
+
+/********************************************************************/
+
+/* XmlElementGroup
+
+*/
+
+XmlElementGroup::XmlElementGroup()
+{
+  id = 0;
+  name = 0;
+  frontNote = 0;
+  item = 0;
+}
+
+XmlElementGroup::XmlElementGroup(
+  char * idIn,
+  char * nameIn,
+  XmlAnnotation * frontNoteIn,
+  XmlChoSeqItem * itemIn)
+{
+  id = idIn;
+  name = nameIn;
+  frontNote = frontNoteIn;
+  item = itemIn;
+}
+
+XmlElementGroup::~XmlElementGroup() {}
+
+void XmlElementGroup::printSelf(FILE * outFile)
+{
+  doSpaces(0, outFile);
+  fprintf(outFile, "<%s:group", wg3Prefix);
+  if (name)
+    {
+      fprintf(outFile, " name=\"%s\"", name);
+    }
+  else
+    {
+      fprintf(stderr, "group must have name\n");
+      exit(1);
+    }
+  if (id)
+    fprintf(outFile, " id=\"%s\"", id);
+  doSpaces(+INDENT, outFile);
+  if (frontNote || item)
+    {
+      fprintf(outFile, ">\n");
+      if (frontNote)
+	frontNote->printSelf(outFile);
+      if (item)
+	{
+	  if (dynamic_cast<XmlElementGroup *>(item))
+	    {
+	      fprintf(stderr, "element group %s contains a group\n", name);
+	      exit(1);
+	    }
+	  item->printSelf(outFile);
+	}
+      doSpaces(-INDENT, outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</%s:group>\n", wg3Prefix);
+    }
+  else
+    {
+      fprintf(outFile, "/>\n");
+      doSpaces(-INDENT, outFile);
+    }
+}
+
+/********************************************************************/
+
+/* XmlElementGroupRef
+
+*/
+
+XmlElementGroupRef::XmlElementGroupRef()
+{
+  id = 0;
+  ref = 0;
+  frontNote = 0;
+  minOccurs = -2;
+  maxOccurs = -2;
+}
+
+XmlElementGroupRef::XmlElementGroupRef(
+  char * idIn,
+  char * refIn,
+  int maxOccursIn,
+  int minOccursIn,
+  XmlAnnotation * frontNoteIn)
+{
+  id = idIn;
+  ref = refIn;
+  maxOccurs = maxOccursIn;
+  minOccurs = minOccursIn;
+  frontNote = frontNoteIn;
+}
+
+XmlElementGroupRef::~XmlElementGroupRef() {}
+
+void XmlElementGroupRef::printSelf(FILE * outFile)
+{
+  doSpaces(0, outFile);
+  fprintf(outFile, "<%s:group", wg3Prefix);
+  if (ref)
+    {
+      fprintf(outFile, " ref=\"%s\"", ref);
+    }
+  else
+    {
+      fprintf(stderr, "element group reference must have ref\n");
+      exit(1);
+    }
+  if (id)
+    fprintf(outFile, " id=\"%s\"", id);
+  printMinOccurs(minOccurs, outFile);
+  printMaxOccurs(maxOccurs, outFile);
+  doSpaces(+INDENT, outFile);
+  if (frontNote)
+    {
+      fprintf(outFile, ">\n");
+      frontNote->printSelf(outFile);
+      doSpaces(-INDENT, outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</%s:group>\n", wg3Prefix);
+    }
+  else
+    {
+      fprintf(outFile, "/>\n");
+      doSpaces(-INDENT, outFile);
+    }
 }
 
 /********************************************************************/
@@ -3152,6 +3287,7 @@ XmlSimpleType::XmlSimpleType()
   newName = 0;
   ccPrinted = false;
   hhPrinted = false;
+  owlPrefix = 0;
 }
 
 XmlSimpleType::XmlSimpleType(
@@ -3171,6 +3307,7 @@ XmlSimpleType::XmlSimpleType(
   newName = modifyName(name);
   ccPrinted = false;
   hhPrinted = false;
+  owlPrefix = 0;
 }
 
 XmlSimpleType::~XmlSimpleType() {}

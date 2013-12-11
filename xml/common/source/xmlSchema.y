@@ -100,6 +100,10 @@ void doXmlComplexTypeAttributes(XmlComplexType * comp,
 				std::list<XmlAttribPair *> * atts);
 void doXmlDocumentationAttributes(XmlDocumentation * docu,
 				  std::list<XmlAttribPair *> * atts);
+void doXmlElementGroupAttributes(XmlElementGroup * group,
+				 std::list<XmlAttribPair *> * atts);
+void doXmlElementGroupRefAttributes(XmlElementGroupRef * group,
+				    std::list<XmlAttribPair *> * atts);
 void doXmlElementLocalAttributes(XmlElementLocal * elem,
 				 std::list<XmlAttribPair *> * atts);
 void doXmlElementRefableAttributes(XmlElementRefable * elem,
@@ -154,6 +158,7 @@ void doXmlUniqueAttributes(XmlUnique * unique,
 char lexMessage[80]; // for communication with xmlSchema.lex
 char commentString[40000]; // for communication with xmlSchema.lex
 XmlSchemaFile * xmlSchemaFile; // the parse tree
+char * globalOwlPrefix;
 static char errMessage[ERRSIZE];
 
 /*
@@ -219,6 +224,7 @@ static const char * attNames[] =
     "XSENUMERATION",
     "XSEXTENSION",
     "XSFIELD",
+    "XSGROUP",
     "XSINCLUDE",
     "XSKEY",
     "XSKEYREF",
@@ -244,54 +250,66 @@ static const char * attNames[] =
 
 /* checkXmlns
 
-This checks that the prefix in the first member of the prefixList,
-which is the prefix found on the first xmlns line of the schema
-(usually the third line of the schema file), is the same as the
-XmlCppBase::wg3Prefix, which gets set when the schema line (usually
-the second line of the file) gets read. If not, it prints an error
-message and exits.
+This checks that exactly one of the prefixes on the prefixList, is the
+same as the XmlCppBase::wg3Prefix and is the prefix for
+http://www.w3.org/2001/XMLSchema. It also checks that no other prefix
+is the prefix for http://www.w3.org/2001/XMLSchema. If there is any
+error, this prints an error message and exits.
 
-Then it checks that the location for the first prefix is 
-"http://www.w3.org/2001/XMLSchema"
-If not, it prints an error message and exits.
-
-If there are 2 entries in the prefixList, this sets the
-XmlCppBase::otherPrefix to the second prefix. It does not care what the
-prefix is as long as it is a char *.  A 0 pointer is OK.
-
-Otherwise, if there are more than 2 entries in the prefixList, this prints
-an error message and exits. At some point it would be good to enhance the
-system so it handles more xmlns's.
+The XmlCppBase::wg3Prefix (usually xs or xsd) gets set when the schema
+line (usually the second line of the file) gets read.
 
 */
 
 void checkXmlns(                      /* ARGUMENTS                   */
  std::list<XmlNsPair *> * prefixList) /* list of XmlNsPairs to check */
 {
+  
   char * prefix;
+  std::list<XmlNsPair *>::iterator iter;
+  bool foundWg3;
 
-  prefix = prefixList->front()->prefix;
-  if (strcmp(XmlCppBase::wg3Prefix, prefix))
+  foundWg3 = false;
+  for (iter = prefixList->begin(); iter != prefixList->end(); iter++)
+    {
+      prefix = (*iter)->prefix;
+      if (prefix && (strcmp(XmlCppBase::wg3Prefix, prefix) == 0))
+	{ // this prefix is the wg3Prefix
+	  if (foundWg3)
+	    { // the wg3Prefix was already found
+	      snprintf(errMessage, ERRSIZE, "wg3 prefix \"%s\" used twice",
+		       XmlCppBase::wg3Prefix);
+	      yyerror(errMessage);
+	    }
+	  else
+	    {
+	      foundWg3 = true;
+	      if (strcmp("http://www.w3.org/2001/XMLSchema", (*iter)->location))
+		{
+		  snprintf(errMessage, ERRSIZE,
+			   "xmlns location for xml schema must be\n"
+			   "http://www.w3.org/2001/XMLSchema but is %s",
+			   (*iter)->location);
+		  yyerror(errMessage);
+		}
+	    }
+	}
+      else if (strcmp("http://www.w3.org/2001/XMLSchema", (*iter)->location)
+	       == 0)
+	{
+	  snprintf(errMessage, ERRSIZE,
+		   "prefix for http://www.w3.org/2001/XMLSchema \n"
+		   "must be %s but is %s", XmlCppBase::wg3Prefix, prefix);
+	  yyerror(errMessage);
+	}
+    }
+  if (!foundWg3)
     {
       snprintf(errMessage, ERRSIZE,
-	      "xmlns suffix \"%s\" differs from schema prefix \"%s\"",
-	      prefix, XmlCppBase::wg3Prefix);
+	       "prefix %s for http://www.w3.org/2001/XMLSchema not found",
+	       XmlCppBase::wg3Prefix);
       yyerror(errMessage);
     }
-  if (strcmp("http://www.w3.org/2001/XMLSchema",
-	     prefixList->front()->location))
-    {
-      snprintf(errMessage, ERRSIZE, "xmlns location for xml schema must be\n"
-	       "http://www.w3.org/2001/XMLSchema but is %s",
-	       prefixList->front()->location);
-      yyerror(errMessage);
-    }
-  if (prefixList->size() == 2)
-    {
-      XmlCppBase::otherPrefix = prefixList->back()->prefix;
-    }
-  else if (prefixList->size() > 2)
-    yyerror("cannot handle more than 2 xmlns");
 }
 
 /********************************************************************/
@@ -841,6 +859,15 @@ void doXmlComplexRestrictionAttributes(
 
 /********************************************************************/
 
+/*
+
+In addition to checking the attributes of an XmlComplexType, this sets
+the value of owlPrefix of the XmlComplexType to the current value of
+the globalOwlPrefix, which may be the empty string ("") or a prefix
+with some characters.
+
+*/
+
 void doXmlComplexTypeAttributes(
  XmlComplexType * comp,
  std::list<XmlAttribPair *> * atts)
@@ -905,9 +932,27 @@ void doXmlComplexTypeAttributes(
 	  yyerror(errMessage);
 	}
     }
+  comp->owlPrefix = globalOwlPrefix;
 }
 
 /********************************************************************/
+
+/* doXmlDocumentationAttributes
+
+This checks the attributes of an XmlDocumentation and sets the
+globalOwlPrefix if it is the empty string and the XmlDocumentation
+has a value for it.
+
+The only attribute allowed for an XmlDocumentation is a SOURCE attribute.
+
+In addition to checking the attributes of an XmlDocumentation, this
+deals with an owlPrefix if one is given. If one is given, it should
+occur in a documentation node in an XmlAnnotation immediately
+following the schema header and be of the form
+<xs:documentation>owlPrefix=XXX</xs:documentation>, where XXX is
+the OWL prefix.
+
+*/
 
 void doXmlDocumentationAttributes(
  XmlDocumentation * docu,
@@ -928,8 +973,118 @@ void doXmlDocumentationAttributes(
 	  yyerror(errMessage);
 	}
     }
+  if ((globalOwlPrefix[0] == 0) && (strncmp(docu->text, "owlPrefix=", 10) == 0))
+    {
+      globalOwlPrefix = strdup(docu->text + 10);
+    }
 }
  
+/********************************************************************/
+
+/* doXmlElementGroupAttributes
+
+*/
+
+void doXmlElementGroupAttributes(
+ XmlElementGroup * group,
+ std::list<XmlAttribPair *> * atts)
+{
+  std::list<XmlAttribPair *>::iterator iter;
+  for (iter = atts->begin(); iter != atts->end(); iter++)
+    {
+      if ((*iter)->name == NAME)
+	{
+	  if (group->name)
+	    {
+	      snprintf(errMessage, ERRSIZE, "name used twice in element group");
+	      yyerror(errMessage);
+	    }
+	  group->name = (*iter)->val;
+	  group->newName = XmlCppBase::modifyName(group->name);
+	}
+      else if ((*iter)->name == ID)
+	{
+	  if (group->id)
+	    {
+	      snprintf(errMessage, ERRSIZE, "id used twice in element group");
+	      yyerror(errMessage);
+	    }
+	  group->id = (*iter)->val;
+	}
+      else
+	{
+	  snprintf(errMessage, ERRSIZE,
+		   "bad attribute name \"%s\" in element group",
+		   attNames[(*iter)->name - ABSTRACT]);
+	  yyerror(errMessage);
+	}
+    }
+}
+
+/********************************************************************/
+
+/* doXmlElementGroupRefAttributes
+
+*/
+
+void doXmlElementGroupRefAttributes(
+ XmlElementGroupRef * group,
+ std::list<XmlAttribPair *> * atts)
+{
+  std::list<XmlAttribPair *>::iterator iter;
+  for (iter = atts->begin(); iter != atts->end(); iter++)
+    {
+      if ((*iter)->name == REF)
+	{
+	  if (group->ref)
+	    {
+	      snprintf(errMessage, ERRSIZE, "name used twice in element group");
+	      yyerror(errMessage);
+	    }
+	  group->ref = (*iter)->val;
+	}
+      else if ((*iter)->name == ID)
+	{
+	  if (group->id)
+	    {
+	      snprintf(errMessage, ERRSIZE, "id used twice in element group");
+	      yyerror(errMessage);
+	    }
+	  group->id = (*iter)->val;
+	}
+      else if ((*iter)->name == MAXOCCURS)
+	{
+	  if (group->maxOccurs != -2)
+	    {
+	      snprintf(errMessage, ERRSIZE,
+		       "maxOccurs used twice in element group ref");
+	      yyerror(errMessage);
+	    }
+	  if (strcmp((*iter)->val, "unbounded") == 0)
+	    group->maxOccurs = -1;
+	  else
+	    group->maxOccurs = atoi((*iter)->val);
+	}
+      else if ((*iter)->name == MINOCCURS)
+	{
+	  if (group->minOccurs != -2)
+	    {
+	      snprintf(errMessage, ERRSIZE,
+		       "minOccurs used twice in element group ref");
+	      yyerror(errMessage);
+	    }
+	  group->minOccurs = atoi((*iter)->val);
+	}
+      else
+	{
+	  snprintf(errMessage, ERRSIZE,
+		   "bad attribute name \"%s\" in element group ref",
+		   attNames[(*iter)->name - ABSTRACT]);
+	  yyerror(errMessage);
+	}
+    }
+}
+
 /********************************************************************/
 
 /* doXmlElementLocalAttributes
@@ -2289,6 +2444,10 @@ instance of the XmlFinal class is built.
 This exits if name is missing. We are assuming all schemas are in venetian
 blind format, so no anonymous simple types may occur.
 
+This also sets the simple type's value of owlPrefix for the
+XmlSimpleType to the globalOwlPrefix, which may be the empty string
+("") or a prefix with some characters.
+
 */
 
 void doXmlSimpleTypeAttributes(
@@ -2403,6 +2562,7 @@ void doXmlSimpleTypeAttributes(
     }
   if (simp->name == 0)
     yyerror("name missing in simpleType");
+  simp->owlPrefix = globalOwlPrefix;
 }
 
 /********************************************************************/
@@ -2476,6 +2636,8 @@ void doXmlUniqueAttributes(
   XmlCppBase *                      cppBaseVal;
   XmlCppBase::formE                 formEVal;
   XmlDocumentation *                documentationVal;
+  XmlElementGroup *                 elementGroupVal;
+  XmlElementGroupRef *              elementGroupRefVal;
   XmlElementLocal *                 elementLocalVal;
   XmlElementRefable *               elementRefableVal;
   XmlEnumeration *                  enumerationVal;
@@ -2555,6 +2717,8 @@ void doXmlUniqueAttributes(
 %type <complexTypeVal>              xmlComplexType
 %type <complexTypeItemVal>          xmlComplexTypeItem
 %type <documentationVal>            xmlDocumentation
+%type <elementGroupVal>             xmlElementGroup
+%type <elementGroupRefVal>          xmlElementGroupRef
 %type <elementLocalVal>             xmlElementLocal
 %type <elementRefableVal>           xmlElementRefable
 %type <enumerationVal>              xmlEnumeration
@@ -2650,6 +2814,7 @@ void doXmlUniqueAttributes(
 %token <iVal> XSENUMERATION
 %token <iVal> XSEXTENSION
 %token <iVal> XSFIELD
+%token <iVal> XSGROUP
 %token <iVal> XSINCLUDE
 %token <iVal> XSKEY
 %token <iVal> XSKEYREF
@@ -2670,6 +2835,11 @@ void doXmlUniqueAttributes(
 %token <iVal> XSSIMPLETYPE
 %token <iVal> XSUNIQUE
 %token <iVal> XMLVERSION
+
+%initial-action
+{
+  globalOwlPrefix = strdup("");
+}
 
 %%
 
@@ -2955,6 +3125,7 @@ xmlAttributorList :
 
 xmlChoSeqItem :
 	  xmlChoice {$$ = $1;}
+	| xmlElementGroupRef {$$ = $1;}
 	| xmlElementLocal {$$ = $1;}
 	| xmlSequence {$$ = $1;}
 	;
@@ -3202,14 +3373,51 @@ xmlDocumentation :
 	  TERMINALSTRING
 	  STARTOUTITEM XSDOCUMENTATION ENDITEM
 	  {$$ = new XmlDocumentation();
-	   doXmlDocumentationAttributes($$, $3);
 	   $$->text = $5;
+	   doXmlDocumentationAttributes($$, $3);
 	  }
 	| STARTINITEM XSDOCUMENTATION attributePairList ENDITEM
 	  STARTOUTITEM XSDOCUMENTATION ENDITEM
 	  {$$ = new XmlDocumentation();
-	   doXmlDocumentationAttributes($$, $3);
 	   $$->text = strdup("");
+	   doXmlDocumentationAttributes($$, $3);
+	  }
+	;
+
+xmlElementGroup :
+	  STARTINITEM XSGROUP attributePairList ENDITEM
+	  xmlAnnotation xmlChoSeqItem
+          STARTOUTITEM XSGROUP ENDITEM
+	  {$$ = new XmlElementGroup();
+	   doXmlElementGroupAttributes($$, $3);
+	   $$->frontNote = $5;
+	   $$->item = $6;
+	  }
+	| STARTINITEM XSGROUP attributePairList ENDITEM
+	  xmlChoSeqItem
+          STARTOUTITEM XSGROUP ENDITEM
+	  {$$ = new XmlElementGroup();
+	   doXmlElementGroupAttributes($$, $3);
+	   $$->item = $5;
+	  }
+	;
+
+xmlElementGroupRef :
+	  STARTINITEM XSGROUP attributePairList ENDWHOLEITEM
+	  {$$ = new XmlElementGroupRef();
+	   doXmlElementGroupRefAttributes($$, $3);
+	  }
+	| STARTINITEM XSGROUP attributePairList ENDITEM
+          STARTOUTITEM XSGROUP ENDITEM
+	  {$$ = new XmlElementGroupRef();
+	   doXmlElementGroupRefAttributes($$, $3);
+	  }
+	| STARTINITEM XSGROUP attributePairList ENDITEM
+	  xmlAnnotation
+          STARTOUTITEM XSGROUP ENDITEM
+	  {$$ = new XmlElementGroupRef();
+	   doXmlElementGroupRefAttributes($$, $3);
+	   $$->frontNote = $5;
 	  }
 	;
 
@@ -3342,6 +3550,11 @@ xmlElementRefable :
 	   doXmlElementRefableAttributes($$, $3);
 	   $$->idConstraints = $5;
 	  }
+	| STARTINITEM XSELEMENT attributePairList ENDITEM
+          STARTOUTITEM XSELEMENT ENDITEM
+	  {$$ = new XmlElementRefable();
+	   doXmlElementRefableAttributes($$, $3);
+	  }
 	| STARTINITEM XSELEMENT attributePairList ENDWHOLEITEM
 	  {$$ = new XmlElementRefable();
 	   doXmlElementRefableAttributes($$, $3);
@@ -3350,6 +3563,11 @@ xmlElementRefable :
 
 xmlEnumeration :
 	  STARTINITEM XSENUMERATION attributePairList ENDWHOLEITEM
+	  {$$ = new XmlEnumeration();
+	   doXmlEnumerationAttributes($$, $3);
+	  }
+	| STARTINITEM XSENUMERATION attributePairList ENDITEM
+	  STARTOUTITEM XSENUMERATION ENDITEM
 	  {$$ = new XmlEnumeration();
 	   doXmlEnumerationAttributes($$, $3);
 	  }
@@ -3673,7 +3891,12 @@ xmlSchemaContent1List :
 	;
 
 xmlSchemaContent2 :
-	  xmlElementRefable {$$ = $1;}
+          xmlElementGroup {$$ = $1;}
+	| xmlElementGroup xmlAnnotationList
+	  {$$ = $1;
+	   $$->backNotes = $2;
+	  }
+	| xmlElementRefable {$$ = $1;}
 	| xmlElementRefable xmlAnnotationList
 	  {$$ = $1;
 	   $$->backNotes = $2;

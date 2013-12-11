@@ -10,6 +10,10 @@
 In this copy of xmlSchemaInstance.cc, the boost regex facility is not used.
 Hard-coded string format checkers are used instead.
 
+The handling of the various types of strings should be improved to deal
+correctly with the XML white space facets: preserve, replace, and collapse.
+Currently these are only partially handled correctly.
+
 */
 
 /*********************************************************************/
@@ -434,6 +438,13 @@ after calling the constructor with the valIn argument.
 The limitation on the size of IDs is probably not necessary, but it may be
 useful to the find and insert operations.
 
+A valid ID may have leading and/or trailing white space, but
+otherwise, the first non-space character must be a member of [a-zA-Z_]
+and other characters must be a member of [a-zA-Z0-9_.-].
+
+This is handling white space correctly. Leading white space (tab, space,
+10, 13) and trailing white space is removed.
+
 */
 
 XmlID::XmlID()
@@ -452,21 +463,68 @@ XmlID::XmlID()
 XmlID::XmlID(
  char * valIn)
 {
-  val = valIn; // automatic conversion
-  if ((int)val.size() > idSize)
+  int n;
+  int start;
+  int length;
+  static char buffer[NAMESIZE];
+
+  length = strlen(valIn);
+  if (length > NAMESIZE)
     {
-      fprintf(stderr, "the following ID value is too long: %s\n", val.c_str());
-      bad = true;
+      fprintf(stderr, "ID %s is too long", valIn);
+      exit(1);
     }
-  else if (allIDs.find(val) != allIDs.end())
+  strncpy(buffer, valIn, NAMESIZE);
+  for (start=0; ((buffer[start] == ' ') || (buffer[start] == '\t') ||
+                 (buffer[start] == 10)  || (buffer[start] == 13)); start++);
+  for (n = length - 1; ((buffer[n] == ' ') || (buffer[n] == '\t') ||
+		        (buffer[n] == 10)  || (buffer[n] == 13)); n--);
+  buffer[n+1] = 0;
+  if ((int)strlen(buffer + start) > idSize)
     {
-      fprintf(stderr, "ID value %s is already in use\n", val.c_str());
+      fprintf(stderr,
+	      "the ID %s is too long\n", buffer + start);
+      val = "";
       bad = true;
+      return;
     }
-  else
+  n = start;
+  if ((buffer[n] != '_') &&
+      ((buffer[n] < 'a') || (buffer[n] > 'z')) &&
+      ((buffer[n] < 'A') || (buffer[n] > 'Z')))
+    { // first non-white character is not allowed
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid ID\n", buffer + start);
+      return;
+    }
+  for (n++; ((buffer[n] == '_') ||
+	     (buffer[n] == '.') ||
+	     (buffer[n] == '-') ||
+	     ((buffer[n] >= 'a') && (buffer[n] <= 'z')) ||
+	     ((buffer[n] >= 'A') && (buffer[n] <= 'Z')) ||
+	     ((buffer[n] >= '0') && (buffer[n] <= '9'))); n++);
+  if (buffer[n])
+    { // buffer[n] should be 0 but isn't
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid ID\n", buffer + start);
+      return;
+    }
+   else
     {
-      bad = false;
-      allIDs.insert(val);
+      val = buffer + start; // automatic conversion
+      if (allIDs.find(val) != allIDs.end())
+	{
+	  fprintf(stderr, "ID value %s is already in use\n", val.c_str());
+	  val = "";
+	  bad = true;
+	}
+      else
+	{ // everything OK
+	  bad = false;
+	  allIDs.insert(val);
+	}
     }
 }
 
@@ -477,14 +535,34 @@ XmlID::~XmlID()
 
 bool XmlID::XmlIDIsBad()
 {
+  int n;
+
   if (bad)
     return true;
   else if ((int)val.size() > idSize)
     return true;
   else if (allIDs.find(val) == allIDs.end())
     return true;
-  else
-    return false;
+  else if ((val[0] != '_') &&
+	   ((val[0] < 'a') || (val[0] > 'z')) &&
+	   ((val[0] < 'A') || (val[0] > 'Z')))
+    { // first non-space non-tab is not allowed
+      val = "";
+      return true;
+    }
+  for (n=1; ((val[n] == '_') ||
+	     (val[n] == '.') ||
+	     (val[n] == '-') ||
+	     ((val[n] >= 'a') && (val[n] <= 'z')) ||
+	     ((val[n] >= 'A') && (val[n] <= 'Z')) ||
+	     ((val[n] >= '0') && (val[n] <= '9'))); n++);
+  for ( ; ((val[n] == ' ') || (val[n] == '\t')); n++);
+  if (val[n])
+    { // val[n] should be 0 but isn't
+      val = "";
+      return true;
+    }
+  return false;
 }
 
 void XmlID::printSelf(FILE * outFile)
@@ -534,18 +612,57 @@ XmlIDREF::XmlIDREF()
 XmlIDREF::XmlIDREF(
   char * valIn)
 {
-  val = valIn; // automatic conversion
-  if ((int)val.size() > idrefSize)
+  int n;
+  int start;
+  int length;
+  static char buffer[NAMESIZE];
+
+  length = strlen(valIn);
+  if (length > NAMESIZE)
     {
-      fprintf(stderr, "the following IDREF value is too long: %s\n",
-	      val.c_str());
+      fprintf(stderr, "IDREF %s is too long", valIn);
+      exit(1);
+    }
+  strncpy(buffer, valIn, NAMESIZE);
+  for (start=0; ((buffer[start] == ' ') || (buffer[start] == '\t') ||
+                 (buffer[start] == 10)  || (buffer[start] == 13)); start++);
+  for (n = length - 1; ((buffer[n] == ' ') || (buffer[n] == '\t') ||
+		        (buffer[n] == 10)  || (buffer[n] == 13)); n--);
+  buffer[n+1] = 0;
+  if ((int)strlen(buffer + start) > idrefSize)
+    {
+      fprintf(stderr,
+	      "the IDREF %s is too long\n", buffer + start);
+      val = "";
       bad = true;
+      return;
     }
-  else
-    {
-      bad = false;
-      allIDREFs.insert(val);
+  n = start;
+  if ((buffer[n] != '_') &&
+      ((buffer[n] < 'a') || (buffer[n] > 'z')) &&
+      ((buffer[n] < 'A') || (buffer[n] > 'Z')))
+    { // first non-white character is not allowed
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid IDREF\n", buffer + start);
+      return;
     }
+  for (n++; ((buffer[n] == '_') ||
+	     (buffer[n] == '.') ||
+	     (buffer[n] == '-') ||
+	     ((buffer[n] >= 'a') && (buffer[n] <= 'z')) ||
+	     ((buffer[n] >= 'A') && (buffer[n] <= 'Z')) ||
+	     ((buffer[n] >= '0') && (buffer[n] <= '9'))); n++);
+  if (buffer[n])
+    { // buffer[n] should be 0 but isn't
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid IDREF\n", buffer + start);
+      return;
+    }
+  val = buffer + start; // automatic conversion
+  bad = false;
+  allIDREFs.insert(val);
 }
 
 XmlIDREF::~XmlIDREF()
@@ -555,14 +672,34 @@ XmlIDREF::~XmlIDREF()
 
 bool XmlIDREF::XmlIDREFIsBad()
 {
+  int n;
+
   if (bad)
     return true;
   else if ((int)val.size() > idrefSize)
     return true;
   else if (allIDREFs.find(val) == allIDREFs.end())
     return true;
-  else
-    return false;
+  else if ((val[0] != '_') &&
+	   ((val[0] < 'a') || (val[0] > 'z')) &&
+	   ((val[0] < 'A') || (val[0] > 'Z')))
+    { // first non-space non-tab is not allowed
+      val = "";
+      return true;
+    }
+  for (n=1; ((val[n] == '_') ||
+	     (val[n] == '.') ||
+	     (val[n] == '-') ||
+	     ((val[n] >= 'a') && (val[n] <= 'z')) ||
+	     ((val[n] >= 'A') && (val[n] <= 'Z')) ||
+	     ((val[n] >= '0') && (val[n] <= '9'))); n++);
+  for ( ; ((val[n] == ' ') || (val[n] == '\t')); n++);
+  if (val[n])
+    { // val[n] should be 0 but isn't
+      val = "";
+      return true;
+    }
+  return false;
 }
 
 void XmlIDREF::printSelf(FILE * outFile)

@@ -1,3 +1,27 @@
+/********************************************************************/
+
+/*
+
+This is an xmlSchemaParser. It reads an XML schema file, checks the
+syntax of the file, builds an abstract syntax tree, and reprints the
+file from the tree.
+
+This does not process "include" directives, check references, or
+check xpaths.
+
+There is an option to save and print comments. The default is to
+delete comments.
+
+There are four options for printing documentation nodes:
+1. reprint them as is
+2. reprint them collapsing white space
+3. reprint them formatted
+4. remove them (and the annotation nodes in which they are embedded).
+The default is to reprint documentation as is.
+
+*/
+
+/********************************************************************/
 #include <stdio.h>   // fprintf
 #include <string.h>  // strlen
 #include <stdlib.h>  // exit

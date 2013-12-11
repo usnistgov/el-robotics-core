@@ -11,6 +11,9 @@
 
 /*
 
+WARNING!! - The documentation in this file is not up to date. Some of it
+may be incorrect.
+
 Idea for rebuilding the way the generator builds the YACC and Lex files
 
 Currently, the generator builds each part of the YACC file separately. In
@@ -29,77 +32,6 @@ may be better to go through the elementInfos once and handle all the
 items built from each elementInfo. The various types of item would be
 saved in lists of the specific item types. Nothing would be printed until
 the all the lists were complete.
-
-***************************************
-
-Idea for implementing complexContent restriction
-
-The restricted class derives from the base class of the restriction
-only by the addition of member functions that test whether the
-restriction is observed. These functions should certainly be run by
-the constructor; it is not clear at what other events they should run.
-
-***************************************
-
-Idea for implementing substitution groups.
-
-After parsing the schema, for each XmlElementRefable E with a
-substitution group, find the XmlElementRefable H that is the head of
-the group and add E to the substGroup list of H (need to add that to
-the XmlElementRefable class). Also check that the type of E is a
-subtype of the type of H. Where an elementLocal L has a ref (which
-must be an XmlElementRefable R), in the YACC file production for L,
-include a rule for each member of the substGroup of R (if there is
-one). The tokens in the YACC and Lex files should already be getting
-entered as a result of reading the elements. The printSelf function in
-the code file for an XmlElementRefable will need a separate block for each
-item in the substGroup.
-
-***************************************
-
-What I was doing on January 8, 2012:
-
-1. I was working on getting the generator to deal correctly with an
-XmlComplexType containing an XmlSimpleContent (call it a CS). A CS is
-always a basic or simple type extended by adding attributes. All the
-printers are done, but they need to be revised to work the way
-restrictions of XmlSimpleTypes work. Specifically, the argument to the
-constructor of the XmlComplexType that takes one argument should be a
-char * (not an instance of the base type), and the constructor should
-call the constructor for the base type. The YACC should call the
-constructor that takes a char *, check for badness, and then call
-the badAttributes function for the class.
-
-Need to get printTypp handled correctly in SimpleTypes derived from other
-SimpleTypes and CSs. The printing is handled correctly at both levels, but
-the value of printTypp is not always being set when it needs setting.
-See further discussion of this in printCppCodeSimpleExtend.
-
-***************************************
-
-Items from February 9, 2012 (when I was using the GenXMiller to process 
-kittingPlan.xsd)
-
-FIX - Check that this is using the newTyp, newBase, newName, etc. where
-they are needed. There are a lot of Extend->base that look like they
-should be extend->newBase. Build test case using a dash in name or
-base or type. XmlComplexExtension does not even have a newBase and needs
-one. It would be a good idea to change argument and local variable
-names to the newXxx form when they are supposed to be that. In some
-cases, both the newXxx and Xxx forms are needed.
-
-DO - Build a test case for correct handling of nested restrictions of
-built-in types, e.g., define PositiveDecimal as a restriction of xs:decimal
-and define SmallPositiveDecimal as restriction of PositiveDecimal.
-
-DO - Check that if prefixes are used for non-built-in types, there are no
-problems. Build test cases.
-
-DO - Build a test case in which an XML complexType is defined with no
-elements and no attributes and another XML complexType is defined with 
-attributes but no elements. 
-
-*****************************************
 
 FIX - For a complexType with a complexContent containing a choice, this
 handles only elements within the choice. If a choice item is
@@ -205,36 +137,33 @@ trigger putting a type into the YACC file.
 
 *****************************************
 
-FIX - The current implementation is not handling included files fully.
-Ref's in the including schema to global elements and global attributes
-defined in an included schema are not being handled. Also, ref's are
-currently handled correctly only within the top level file.
+Schema Includes
+---------------
 
-Also currently, only the top level schema file may include other
-schema files. This needs to be fixed so that a hierarchy of includes
-without cycles can be handled. It will be necessary to keep track of
-which files have been included so that they are not included multiple
-times. This is already being done but needs improving. Information about
-references and classes will need to be passed up the hierarchy. It will
-be necessary to avoid passing data up the hierarchy multiple times.
-For example if A includes B1 and B2, and they each include C.
+Any XML schema file may include other XML schema files. It is necessary to
+generate code for all directly or indirectly included files as well as
+for the top level file.
 
-The current modular approach is good when the XML schemas being used
-are arranged hierarchically, but XML schema allows cycles of includes.
-For example TypeA defined in schema file A may be used in schema file
-B, and TypeB defined in schema file B may be used in schema file A.
+The top level schema and each included schema has a C++ header file
+and a C++ code file generated for it. One YACC file and one Lex file
+are written if the top level schema has a root element. The YACC and
+Lex files must handle all items in all schemas. The YACC and Lex files
+are generated from the contents2 of the top level schema. At the time
+the YACC and Lex are generated, the top level contents2 contains all
+contents2 of all included included schemas. The way that the contents2
+lists are combined is described in the documentation of processIncludes.
 
-It would be good to add an option to the generator for processing the
-contents of multiple files connected by includes as if they were all
-in one file. The contents are already being collected that way since
-the YACC and Lex generators already behave that way.
+When the C++ code for an including schema is generated, the classes
+for its included schemas will be marked as having been processed
+(hhPrinted and ccPrinted will be true), so they will not be printed
+again in the header and code files for the including schema. This is
+implemented by making sure C++ code for included schemas is printed before
+code for an including schema. 
 
-Another included file problem is that if schema A includes schemas B and C,
-and C uses a type from B, that type is not being found when the classes
-for C are being generated. The result is the following error message, and
-the generator quits.
-     complex class not found in printCppCodePrintElement
-Of course, C should include B in this case.
+Each schema is read only once, regardless of which other schemas include
+it. The implementation handles circular includes and having the same
+file included multiple times. See the documentation of processIncludes
+for more details.
 
 *****************************************
 
@@ -976,29 +905,6 @@ describes some of the required coordination. When any code-writing section
 of the generator is changed, it may be necessary to change some or all of
 the other sections that deal with the same sort of item.
 
-Adding an XML built-in type
----------------------------
-
-To add an XML built-in type xs:bleep, both xmlInstanceParserGenerator.hh and xmlInstanceParserGenerator.cc
-must be edited extensively, as follows:
-
-In xmlInstanceParserGenerator.hh:
- 1. Add a declaration of the printYaccRulesBleep function.
- 2. Update the documentation of hasXXX by mentioning hasBleep.
- 3. Add a boolean attribute hasBleep in the generator class.
-
- In xmlInstanceParserGenerator.cc (this file)
- 1. Update the function call hierarchy in the documentation at the
-    start of the file to include printYaccRulesBleep.
- 2. Edit findCppTypeName to include handling bleep.
- 3. Edit findValName to include handling bleep.
- 4. Edit the generator::generator() constructor to set hasBleep=false.
- 5. Edit printCppCodeSimple to include handling bleep.
- 6. Edit printCppHeaderSimple to include handling bleep.
- 7. Write the printYaccRulesBleep function.
- 8. Edit printYaccRulesStart so it calls printYaccRulesBleep.
-
-
 Code appearance
 ----------------------------------------
 
@@ -1025,223 +931,6 @@ are constructed as a std::list of pairs of strings by many buildXXX
 functions. The string pairs are alphabetized and unduplicated.  Then the
 file is printed by printYaccXXX functions.
 
-Generator function call hierarchy
----------------------------------
-
-FIX - This is out of date.
-
-Calls to the following functions which are called by 11 or more other
-functions are omitted from the hierarchy:
-  allCaps
-  enterNamePair
-  findComplexClass
-  findCppTypeName
-  findSimpleClass
-  printStarLine
-
-main
- |--buildClasses
- |   |--enterAttributeGroupRefable
- |   |--enterAttributeLonerRefable
- |   |--enterClass
- |   |--enterElementInfo
- |   |--enterElementRefable
- |--printNotTop
- |   |--buildElementInfo (see printTop)
- |   |--printCppCode (see printTop)
- |   |--printCppHeader (see printTop)
- |--printTop
- |   |--buildElementInfo
- |   |   |--findElementRefable
- |   |--printCppCode
- |   |   |--printCppCodeEnd
- |   |   |--printCppCodeSchemaClasses
- |   |   |   |--printCppCodeComplex
- |   |   |   |   |--printCppCodeChoice
- |   |   |   |   |   |--printCppCodeBadAttributes
- |   |   |   |   |   |--printCppCodeChoiceConstructors
- |   |   |   |   |   |   |--printCppCodeAttributeSettings
- |   |   |   |   |   |   |--printCppCodeAttributeSettings0
- |   |   |   |   |   |   |--printCppHeaderAttributeArgs
- |   |   |   |   |   |--printCppCodeChoiceItems
- |   |   |   |   |   |--printCppCodePrintAttribs
- |   |   |   |   |   |--printCppHeaderAttributeSettings
- |   |   |   |   |--printCppCodeComplexExtend
- |   |   |   |   |   |--checkBaseArgs (recursive)
- |   |   |   |   |   |--enterKid
- |   |   |   |   |   |--printCppCodeAttributeSettings
- |   |   |   |   |   |--printCppCodeAttributeSettings0
- |   |   |   |   |   |--printCppCodeBadAttributes
- |   |   |   |   |   |--printCppCodeBaseArgs (recursive)
- |   |   |   |   |   |   |--printCppCodeAttributeArgs
- |   |   |   |   |   |   |--printCppCodeSequenceArgs
- |   |   |   |   |   |--printCppCodePrintAttribs
- |   |   |   |   |   |--printCppCodePrintItems
- |   |   |   |   |   |--printCppCodePrintLines (recursive)
- |   |   |   |   |   |   |--printCppCodePrintAttribs
- |   |   |   |   |   |   |--printCppCodePrintItems
- |   |   |   |   |   |--printCppCodeSequenceSettings
- |   |   |   |   |   |--printCppHeaderAttributeArgs
- |   |   |   |   |   |--printCppHeaderBaseArgs
- |   |   |   |   |   |   |--printCppHeaderAttributeArgs
- |   |   |   |   |   |   |--printCppHeaderSequenceArgs
- |   |   |   |   |   |--printCppHeaderSequenceArgs
- |   |   |   |   |--printCppCodeSequence
- |   |   |   |   |   |--printCppCodeAttributeSettings
- |   |   |   |   |   |--printCppCodeAttributeSettings0
- |   |   |   |   |   |--printCppCodeBadAttributes
- |   |   |   |   |   |--printCppCodePrintAttribs
- |   |   |   |   |   |--printCppCodePrintItems
- |   |   |   |   |   |   |--printCppCodePrintElement
- |   |   |   |   |   |       |--fitPrint
- |   |   |   |   |   |--printCppCodeSequenceSettings
- |   |   |   |   |   |--printCppHeaderAttributeArgs
- |   |   |   |   |   |--printCppHeaderSequenceArgs
- |   |   |   |   |--printCppCodeSimpleExtend
- |   |   |   |       |--printCppCodeAttributeSettings
- |   |   |   |       |--printCppCodeAttributeSettings0
- |   |   |   |       |--printCppCodePrintAttribs
- |   |   |   |       |--printCppHeaderAttributeArgs
- |   |   |   |       |--printCppHeaderBaseArgsSimple (recursive)
- |   |   |   |           |--printCppHeaderAttributeArgs
- |   |   |   |--printCppCodeSimple
- |   |   |       |--findRootXmlType
- |   |   |       |--isStringy
- |   |   |       |--printCppCodeRestrictSList
- |   |   |       |--printCppCodeRestrictNumber
- |   |   |       |--printCppCodeRestrictString
- |   |   |       |   |--printCppCodeRestrictEnum
- |   |   |       |   |--printCppCodeRestrictPattern
- |   |   |       |   |--printCppCodeRestrictPatternID
- |   |   |       |--printCppCodeSimpleList
- |   |   |--printCppCodeStart
- |   |--printCppHeader
- |   |   |--printCppHeaderEnd
- |   |   |--printCppHeaderSchemaClasses
- |   |   |   |--printCppHeaderSchemaClassesComplex
- |   |   |   |   |--printCppHeaderComplex
- |   |   |   |       |--printCppHeaderChoice
- |   |   |   |       |   |--printCppHeaderAttributeItems
- |   |   |   |       |   |--printCppHeaderChanges
- |   |   |   |       |   |--printCppHeaderChoiceConstructors
- |   |   |   |       |   |   |--printCppHeaderAttributeArgs
- |   |   |   |       |   |--printCppHeaderSequenceItems
- |   |   |   |       |   |--printCppHeaderUnionEnum
- |   |   |   |       |--printCppHeaderComplexExtend
- |   |   |   |       |   |--checkBaseArgs (recursive)
- |   |   |   |       |   |--printCppHeaderAttributeArgs
- |   |   |   |       |   |--printCppHeaderAttributeItems
- |   |   |   |       |   |--printCppHeaderBaseArgs (recursive)
- |   |   |   |       |   |   |--printCppHeaderAttributeArgs
- |   |   |   |       |   |   |--printCppHeaderSequenceArgs
- |   |   |   |       |   |--printCppHeaderChanges
- |   |   |   |       |   |--printCppHeaderSequenceArgs
- |   |   |   |       |   |--printCppHeaderSequenceItems
- |   |   |   |       |--printCppHeaderSequence
- |   |   |   |       |   |--printCppHeaderAttributeArgs
- |   |   |   |       |   |--printCppHeaderAttributeItems
- |   |   |   |       |   |--printCppHeaderChanges
- |   |   |   |       |   |--printCppHeaderSequenceArgs
- |   |   |   |       |   |--printCppHeaderSequenceItems
- |   |   |   |       |--printCppHeaderSimpleExtend
- |   |   |   |               |--checkBaseArgsSimple
- |   |   |   |               |--printCppHeaderBaseArgsSimple
- |   |   |   |               |--printCppHeaderChanges
- |   |   |   |--printCppHeaderSchemaClassesSimple
- |   |   |       |--printCppHeaderSimple
- |   |   |           |--findRootXmlType
- |   |   |           |--isStringy
- |   |   |           |--printCppHeaderChanges
- |   |   |           |--printCppHeaderRestrictSList
- |   |   |           |   |--checkListRestrictions
- |   |   |           |--printCppHeaderSimpleList
- |   |   |           |--printCppHeaderRestrictNumber
- |   |   |           |--printCppHeaderRestrictString
- |   |   |               |--printCppHeaderRestrictEnum
- |   |   |               |--printCppHeaderRestrictPattern
- |   |   |               |--printCppHeaderRestrictPatternID
- |   |   |--printCppHeaderStart
- |   |       |--printCppHeaderChanges
- |   |       |--printCppHeaderSchemaClassNames
- |   |           |--flattenAttributes (recursive)
- |   |               |--enterAttribute
- |   |               |--enterLoner
- |   |--printLex
- |   |   |--buildDescendants
- |   |   |   |--buildDescendantSet(recursive)
- |   |   |--buildExtensions
- |   |   |   |--buildSomeExtensions
- |   |   |       |--enterName
- |   |   |--printLexAttributeNames
- |   |   |--printLexElementNames
- |   |   |--printLexEnd
- |   |   |--printLexExtensions
- |   |   |--printLexStart
- |   |--printParser
- |   |--printYacc
- |       |--buildYaccRulesEnd
- |       |   |--buildYaccBasicRule
- |       |   |   |--setHas
- |       |   |--buildYaccComplexAnyRule
- |       |   |--buildYaccComplexElementRule
- |       |   |--buildYaccComplexExtRule
- |       |   |--buildYaccComplexTypeRule
- |       |   |   |--buildYaccChoiceRule
- |       |   |   |--buildYaccExtensionRule1
- |       |   |   |   |--buildYaccExtensionBaseArgs (recursive)
- |       |   |   |   |--buildYaccExtensionBaseItems (recursive)
- |       |   |   |   |--buildYaccExtensionSequenceItems
- |       |   |   |   |--hasAttribs
- |       |   |   |--buildYaccSequenceRule
- |       |   |       |--buildYaccSequenceArgs
- |       |   |       |--buildYaccSequenceItems
- |       |   |--buildYaccElementListRule
- |       |   |--buildYaccExtensionRules
- |       |   |   |--buildYaccExtensionRule2
- |       |   |       |--buildYaccExtensionBaseArgs (recursive)
- |       |   |       |--buildYaccExtensionBaseItems (recursive)
- |       |   |       |   |--buildYaccExtensionSequenceItems
- |       |   |       |--buildYaccExtensionSequenceItems
- |       |   |       |--hasAttribs
- |       |   |--buildYaccRestrictSListRule
- |       |   |   |--findRootXmlType (recursive)
- |       |   |   |--setHas
- |       |   |--buildYaccSimpleListRule
- |       |   |   |--setHas
- |       |   |--buildYaccSimpleRule
- |       |       |--findRootXmlType (recursive)
- |       |       |--setHas
- |       |--printYaccEnd
- |       |--printYaccRules
- |       |   |--printYaccRulesAttributeName
- |       |   |--printYaccRulesEnd
- |       |   |   |--printYaccRuleDefinition
- |       |   |--printYaccRulesStart
- |       |       |--printYaccRulesBasic
- |       |       |--printYaccRulesXmlVersion
- |       |--printYaccStart
- |       |--printYaccTokens
- |       |   |--printYaccAttributeTokens
- |       |   |--printYaccElementTokens
- |       |   |--printYaccExtensionTokens
- |       |--printYaccTypes
- |       |   |--printYaccTypeElements
- |       |       |--buildYaccTypeElementPairs
- |       |           |--buildYaccTypeExtensionPairs
- |       |--printYaccUnion
- |           |--printYaccUnionElements
- |           |--buildYaccUnionElementPairs
- |               |--buildYaccUnionExtensionPairs
- |               |--setHas
- |--processIncludes
- |   |--buildClassesIncluded
- |   |   |--enterClass
- |   |--printNotTop
- |   |--readSchema
- |--readOldHeader
- |--readSchema
- |--reviewChanges
- |--usageMessage
 
 */
 
@@ -1413,7 +1102,7 @@ void generator::buildClasses() /* NO ARGUMENTS */
       top = new XmlElementLocal;
       top->name = realTop->name;
       top->typ = realTop->typ;
-      top->typPrefix = XmlCppBase::otherPrefix;
+      top->typPrefix = 0;
       top->newName = XmlCppBase::modifyName(top->name);
       top->newTyp = XmlCppBase::modifyName(top->typ);
       enterElementInfo(new elementInfo(top, findComplexClass(top->newTyp), 0));
@@ -1440,20 +1129,6 @@ since all type definitions are required to be at the top level).
 An included XML schema in canonical form must not have an XmlElementRefable
 as the first entry in its contents2. This checks for that. XML schema
 itself might not have that restriction.
-
-After this function runs, in generator::processIncludes for the
-top-level generator, the classes std::list for the generator instance
-specific to the included file is merged into the classes std::list for the
-top-level xmlInstanceParserGenerator.
-
-Since C++ code for the classes in the included schemas will already
-have been printed when the C++ code for the classes in the including
-schema are printed, the hhPrinted attributes of the simple and complex
-types will be set to true. That will prevent the C++ code from being
-printed again.
-
-FIX - This needs to deal with XmlElementRefable, XmlAttributeLonerRefable,
-and XmlAttributeGroupRefable.
 
 */
 
@@ -4325,7 +4000,14 @@ void generator::checkListRestrictions(           /* ARGUMENTS    */
 Returned Value: none
 
 Called By:
+  generator::processIncludes
+  generator::readSchema
 
+This checks that the given fileName is not too long and ends with
+.xsd. If the name fails either check, this prints an error message and
+exits. If the name passes, this puts the base name (.xsd removed) with
+path into the bassNameWithPath buffer and puts the base name without
+path into the bassNameNoPath buffer.
 
 */
 
@@ -5136,8 +4818,9 @@ void generator::findAllAttributes(
 /* generator::findComplexClass
 
 Returned Value: XmlComplexType *
-  This looks through the classes and returns the class with the given name,
-  or null if it is not found.
+  This looks through the classesMaster (all classes from all included
+  schemas) and returns the class with the given name, or null if it is
+  not found.
 
 Called By:
   generator::buildClasses
@@ -5166,13 +4849,13 @@ XmlComplexType * generator::findComplexClass( /* ARGUMENTS             */
   std::list<XmlType *>::iterator iter;
   XmlComplexType * complx;
 
-  for (iter = classes->begin(); iter != classes->end(); iter++)
+  for (iter = classesMaster->begin(); iter != classesMaster->end(); iter++)
     {
       if ((complx = dynamic_cast<XmlComplexType *>(*iter)) &&
 	  (strcmp(name, complx->newName) == 0))
 	break;
     }
-  return ((iter == classes->end()) ? 0 : complx);
+  return ((iter == classesMaster->end()) ? 0 : complx);
 }
 
 /********************************************************************/
@@ -5305,7 +4988,9 @@ void generator::findRootXmlType( /* ARGUMENTS                               */
 /* generator::findSimpleClass
 
 Returned Value: XmlSimpleType *
-  This returns the simple class with the given name.
+  This looks through the classesMaster (all classes from all included
+  schemas) and returns the simple class with the given name, or null
+  if no such class is found.
 
 Called By:
   generator::buildElementInfo
@@ -5331,13 +5016,13 @@ XmlSimpleType * generator::findSimpleClass( /* ARGUMENTS             */
   std::list<XmlType *>::iterator iter;
   XmlSimpleType * simple;
 
-  for (iter = classes->begin(); iter != classes->end(); iter++)
+  for (iter = classesMaster->begin(); iter != classesMaster->end(); iter++)
     {
       if ((simple = dynamic_cast<XmlSimpleType *>(*iter)) &&
 	  (strcmp(name, simple->newName) == 0))
 	break;
     }
-  return ((iter == classes->end()) ? 0 : simple);
+  return ((iter == classesMaster->end()) ? 0 : simple);
 }
 
 /********************************************************************/
@@ -5537,7 +5222,6 @@ generator::generator() /* NO ARGUMENTS */
   elementInfos = new std::list<elementInfo *>;
   elementRefables = new std::map<std::string, XmlElementRefable *>;
   extensionInfos = new std::list<char *>;
-  includedSchemas = new std::list<char *>;
   hasBoolean = false;
   hasDate = false;
   hasDateTime = false;
@@ -5556,6 +5240,7 @@ generator::generator() /* NO ARGUMENTS */
   hasToken = false;
   hasUnsignedInt = false;
   hasUnsignedLong = false;
+  includedSchemas = new std::list<char *>;
   moreIncludes = new std::list<char *>;
   wholeFlag = false;
 }
@@ -5768,8 +5453,14 @@ This:
 5. calls buildClasses to find the items in the parse tree from which classes
    will be printed, which are the top-level complexTypes and the top-level
    simpleTypes. This also sets the "top" generator variable.
-6. calls either printTop (if "top" exists) or (printNotTop) if not.
+6. calls printSelf to print everything.
 7. calls reviewChanges to check that all header changes have been transcribed.
+
+FIX - maybe - This is reading at most one old header, whereas there may
+be several old headers when there are includes. This might be fixed by
+putting old headers in the same directory where new code is being
+written. The generator could check for an existing header of the given
+name before printing a new one.
 
 */
 
@@ -5822,18 +5513,12 @@ int main(       /* ARGUMENTS                                      */
     gen.readOldHeader(argv[headerIndex]);
   if (schemaIndex == 0)
     gen.usageMessage(argv[0]);
+  gen.classesMaster = gen.classes;
   gen.readSchema(argv[schemaIndex], true);
   includeds.push_back(gen.baseNameNoPath);
   gen.processIncludes(&includeds);
   gen.buildClasses();
-  if (gen.top)
-    {
-      strcpy(gen.classBaseName, gen.top->newName);
-      gen.classBaseName[0] = toupper(gen.classBaseName[0]);
-      gen.printTop();
-    }
-  else
-    gen.printNotTop();
+  gen.printSelf();
   gen.reviewChanges();
   return 0;
 }
@@ -6690,8 +6375,7 @@ void generator::printCppCodeEnd()
 	      "  fprintf(outFile, \"  xmlns=\\\"%s\\\"\\n\");\n", target);
     }
   fprintf(ccFile, "  fprintf(outFile,\n");
-  fprintf(ccFile, "          \"  xmlns:%s=\\\"http://www.w3.org/",
-	  (XmlCppBase::otherPrefix ? XmlCppBase::otherPrefix : "xsi"));
+  fprintf(ccFile, "          \"  xmlns:xsi=\\\"http://www.w3.org/");
   fprintf(ccFile, "2001/XMLSchema-instance\\\"\\n\");\n");
   fprintf(ccFile, "  location->printSelf(outFile);\n");
   fprintf(ccFile, "}\n");
@@ -6961,7 +6645,8 @@ void generator::printCppCodePrintElement( /* ARGUMENTS        */
 	   if (!complx)
 	     {
 	       fprintf(stderr,
-		       "complex class not found in printCppCodePrintElement");
+		  "complex class %s not found in printCppCodePrintElement\n",
+		       element->newTyp);
 	       exit(1);
 	     }
 	  fprintf(ccFile, "%sfprintf(outFile, \"<%s\");\n",
@@ -7912,9 +7597,7 @@ void generator::printCppCodeSimpleExtend( /* ARGUMENTS                        */
   fprintf(ccFile, "void %s::printSelf(FILE * outFile)\n", newName);
   fprintf(ccFile, "{\n");
   fprintf(ccFile, "  if (printTypp)\n");
-  fprintf(ccFile, "    fprintf(outFile, \" %s%stype=\\\"%s\\\"\");\n",
-	  (XmlCppBase::otherPrefix ? XmlCppBase::otherPrefix : ""),
-	  (XmlCppBase::otherPrefix ? ":" : ""), name);
+  fprintf(ccFile, "    fprintf(outFile, \" xsi:type=\\\"%s\\\"\");\n", name);
   printCppCodePrintAttribs(allAttributes);
   fprintf(ccFile, "  fprintf(outFile, \">\");\n");
   fprintf(ccFile, "  val->printSelf(outFile);\n");
@@ -8940,8 +8623,8 @@ It may be feasible to translate that into C++.
 
 B. It may be feasible to implement a pattern match check by transcribing
 the schema patterns into lex patterns in the lexer written by the
-xmlInstanceParserGenerator. For many XML schema patterns, the Lex pattern will be identical
-to the schema pattern.
+xmlInstanceParserGenerator. For many XML schema patterns, the Lex pattern
+will be identical to the schema pattern.
 1. In the YACC generated by the generator, define a token to represent
 an instance of the pattern.
 2. In the YACC generated by the generator, use the token in a production
@@ -10060,8 +9743,7 @@ void generator::printLexEnd() /* NO ARGUMENTS  */
       fprintf(lexFile, " {ECH; return XMLNSTARGET;}\n");
       fprintf(lexFile, "\n");
     }
-  fprintf(lexFile, "\"xmlns:%s\"{W}\"=\"{W}\"\\\"",
-	  (XmlCppBase::otherPrefix ? XmlCppBase::otherPrefix : "xsi"));
+  fprintf(lexFile, "\"xmlns:xsi\"{W}\"=\"{W}\"\\\"");
   fprintf(lexFile, "http://www.w3.org/2001/XMLSchema-instance\\\"\" {ECH;\n");
   fprintf(lexFile, 
 	  "                                           return XMLNSPREFIX;}\n");
@@ -10217,8 +9899,12 @@ void generator::printLexStart() /* NO ARGUMENTS  */
 "#define YY_NO_UNISTD_H\n"
 "#endif\n"
 "#include <string.h>          // for strdup\n");
-  fprintf(lexFile, "#include \"%sClasses.hh\" // for classes "
-	  "referenced in %sYACC.hh\n", baseNameNoPath, baseNameNoPath);
+  fprintf(lexFile, "#ifdef OWL\n");
+  fprintf(lexFile, "#include \"owl%c%sClasses.hh\"\n",
+	  toupper(baseNameNoPath[0]), baseNameNoPath+1);
+  fprintf(lexFile, "#else\n");
+  fprintf(lexFile, "#include \"%sClasses.hh\"\n", baseNameNoPath);
+  fprintf(lexFile, "#endif\n");
   fprintf(lexFile, "#include \"%sYACC.hh\"    // for tokens, yylval, etc.\n",
 	  baseNameNoPath);
   fprintf(lexFile, "\n");
@@ -10282,8 +9968,7 @@ void generator::printLexStart() /* NO ARGUMENTS  */
   if (target)
     {
       fprintf(lexFile,
-"\"%s:schemaLocation\"{W}\"=\"    {ECH; return SCHEMALOCATION;}\n",
-	      (XmlCppBase::otherPrefix ? XmlCppBase::otherPrefix : "xsi"));
+"\"xsi:schemaLocation\"{W}\"=\"    {ECH; return SCHEMALOCATION;}\n");
     }
   else
     {
@@ -10303,8 +9988,7 @@ void generator::printLexStart() /* NO ARGUMENTS  */
 Returned Value: none
 
 Called By:
-  main
-  generator::processIncludes
+  generator::printSelf
 
 This prints the C++ header and code files. It is called when there is
 no top-level element in the XML schema (which is normally if the schema
@@ -10390,6 +10074,43 @@ void generator::printParser() /* NO ARGUMENTS */
 
 /********************************************************************/
 
+/* generator::printSelf
+
+Returned Value: none
+
+Called By:
+  main
+  generator::printSelf (recursively)
+
+When called from main, this prints everything the generator is going
+to print. First it calls itself for all of its subordinate generators.
+Then it prints files with the same base name as itself. The
+subordinate generators need to print first in order that the classes
+they contain will be marked as having been printed and will,
+therefore, not be printed twice.
+
+*/
+
+void generator::printSelf()
+{
+  std::list<generator *>::iterator iter;
+  
+  for (iter = subordinates.begin(); iter != subordinates.end(); iter++)
+    { // OK if list empty
+      (*iter)->printSelf();
+    }
+  if (top)
+    {
+      strcpy(classBaseName, top->newName);
+      classBaseName[0] = toupper(classBaseName[0]);
+      printTop();
+    }
+  else
+    printNotTop();
+}
+
+/********************************************************************/
+
 /* generator::printStarLine
 
 Returned Value: none
@@ -10429,7 +10150,7 @@ void generator::printStarLine( /* ARGUMENTS                                  */
 
 Returned Value: none
 
-Called By: main
+Called By: printSelf
 
 This prints all five files. It is called when there is a top-level
 element in the XML schema.
@@ -10895,8 +10616,7 @@ void generator::printYaccRulesStart() /* NO ARGUMENTS  */
 "\n"
 "y_SchemaLocation :\n"
 "	  SCHEMALOCATION TERMINALSTRING\n"
-	  "	  {$$ = new SchemaLocation(\"%s\", $2, true);\n",
-	  (XmlCppBase::otherPrefix ? XmlCppBase::otherPrefix : "xsi"));
+	  "	  {$$ = new SchemaLocation(\"xsi\", $2, true);\n");
       fprintf(yaccFile,
 "	    if (strncmp(\"%s \", $2, %d))\n", target, 1+strlen(target));
       fprintf(yaccFile,
@@ -10912,8 +10632,7 @@ void generator::printYaccRulesStart() /* NO ARGUMENTS  */
 "\n"
 "y_SchemaLocation :\n"
 "	  SCHEMALOCATION TERMINALSTRING\n"
-	  "	  {$$ = new SchemaLocation(\"%s\", $2, false);\n",
-	  (XmlCppBase::otherPrefix ? XmlCppBase::otherPrefix : "xsi"));
+	  "	  {$$ = new SchemaLocation(\"xsi\", $2, false);\n");
     }
   fprintf(yaccFile,
 "	  }\n"
@@ -11035,8 +10754,12 @@ void generator::printYaccStart() /* NO ARGUMENTS  */
   fprintf(yaccFile, "#include <stdio.h>             // for stderr\n");
   fprintf(yaccFile, "#include <string.h>            // for strcat\n");
   fprintf(yaccFile, "#include <stdlib.h>            // for malloc, free\n");
-  fprintf(yaccFile, "#include \"%sClasses.hh\"   // for %s classes\n",
-	  baseNameNoPath, baseNameNoPath);
+  fprintf(yaccFile, "#ifdef OWL\n");
+  fprintf(yaccFile, "#include \"owl%c%sClasses.hh\"\n",
+	  toupper(baseNameNoPath[0]), baseNameNoPath+1);
+  fprintf(yaccFile, "#else\n");
+  fprintf(yaccFile, "#include \"%sClasses.hh\"\n", baseNameNoPath);
+  fprintf(yaccFile, "#endif\n");
   fprintf(yaccFile, "\n");
   fprintf(yaccFile, "#define YYERROR_VERBOSE\n");
   fprintf(yaccFile, "#define YYDEBUG 1\n");
@@ -11356,33 +11079,13 @@ Called By:
   main
   generator::processIncludes (recursively)
 
-This reads and processes any included XML schemas of an XML schema.
-Each included schema has C++ header and code generated, but no YACC or
-Lex. YACC and Lex files are written for the top level schema if it has
-a root element. The YACC and Lex files must handle the items in the
-included schemas, so the classes (XmlComplexContent and
-XmlSimpleContent) from the included schemas are appended to the
-classes (contents2) of the including schema. The YACC and Lex files
-are generated from the contents2 of the top level schema. This
-function calls itself recursively if necessary so it builds a tree of
-function calls each of which copies the classes for any included schemas
-into the class for the including schema. The end effect is that all the
-classes from all schemas included at any level end up being included in
-the classes for the top level schema. 
-
-When the C++ code for the including schema is generated, the classes
-for the included schemas will be marked as having been processed
-(hhPrinted and ccPrinted will be true), so they will not be printed
-again in the header and code files for the including schema.
-
-This also sets each has<basic type> flag (hasUnsignedInt, for example)
-of the top-level generator to true if any included XML schema has the
-flag set to true. This needs to be done after printNotTop has been
-called for the included schema since the value may be set to true in
-findCppTypeName, which runs when printNotTop calls printCppHeader, but
-is set to false before that. The flag is required so that the YACC
-file printer knows whether to print an entry for each basic type in
-the union, types, and productions sections of the YACC file.
+This reads and processes (but does not print from) all directly or
+indirectly included XML schemas of an XML schema. This function calls
+itself recursively if necessary so it builds a tree of function calls
+each of which copies the contents2 for any included schemas into the
+contents2 for the including schema. The end effect is that all the
+contents2 from all schemas included at any level end up being included
+in the contents2 for the top level schema.
 
 The includedSchemas std::list that belongs to the local generator has
 the base names (without paths or the .xsd suffix) of all the schema
@@ -11427,57 +11130,23 @@ void generator::processIncludes( /* ARGUMENTS                              */
 		break;
 	    }
 	  if (iter3 != includeds->end()) // already included
-	    continue;
+	    { // need to put name in includedSchemas
+	      includedSchemas->push_back(strdup(bassNameNoPath));
+	      continue;
+	    }
 	  gen = new generator;
+	  gen->classesMaster = classesMaster;
 	  gen->readSchema(incl->schemaLocation, false);
 	  includeds->push_back(gen->baseNameNoPath);
 	  includedSchemas->push_back(gen->baseNameNoPath);
 	  gen->processIncludes(includeds);
 	  gen->buildClassesIncluded();
-	  gen->printNotTop();
+	  subordinates.push_back(gen); // add gen to subordinates
 	  for (iter2 = gen->contents2->begin();
 	       iter2 != gen->contents2->end(); iter2++)
-	    {
+	    { // add contents of included file to current contents
 	      contents2->push_back(*iter2);
 	    }
-	  if (gen->hasBoolean)
-	    hasBoolean = true;
-	  if (gen->hasDate)
-	    hasDate = true;
-	  if (gen->hasDateTime)
-	    hasDateTime = true;
-	  if (gen->hasDecimal)
-	    hasDecimal = true;
-	  if (gen->hasDouble)
-	    hasDouble = true;
-	  if (gen->hasFloat)
-	    hasFloat = true;
-	  if (gen->hasID)
-	    hasID = true;
-	  if (gen->hasIDREF)
-	    hasIDREF = true;
-	  if (gen->hasInt)
-	    hasInt = true;
-	  if (gen->hasInteger)
-	    hasInteger = true;
-	  if (gen->hasNMTOKEN)
-	    hasNMTOKEN = true;
-	  if (gen->hasLong)
-	    hasLong = true;
-	  if (gen->hasNonNegativeInteger)
-	    hasNonNegativeInteger = true;
-	  if (gen->hasPositiveInteger)
-	    hasPositiveInteger = true;
-	  if (gen->hasString)
-	    hasString = true;
-	  if (gen->hasToken)
-	    hasToken = true;
-	  if (gen->hasUnsignedInt)
-	    hasUnsignedInt = true;
-	  if (gen->hasUnsignedLong)
-	    hasUnsignedLong = true;
-	  if (gen->wholeFlag)
-	    wholeFlag = true;
 	}
     }
 }

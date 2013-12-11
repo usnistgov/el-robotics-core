@@ -10,6 +10,16 @@
 /*********************************************************************/
 /*********************************************************************/
 
+/*
+
+This file contains domain-independent printing functions for printing
+OWL instance files.
+
+The functions assume that names used as %s arguments to printing functions
+include prefixes. The empty prefix is used for instances.
+
+*/
+
 /* OwlInstancePrinter::OwlInstancePrinter
 
 */
@@ -43,40 +53,6 @@ void OwlInstancePrinter::endIndi( /* ARGUMENTS          */
 {
   fprintf(outFile, "// %d end %s\n", --depth, aType);
   fprintf(outFile, "//*****************************************\n\n");
-}
-
-/*********************************************************************/
-
-/* OwlInstancePrinter::printHeader
-
-Returned Value: none
-
-This prints the header of the OWL instance file, for example:
-Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
-Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
-Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
-Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
-Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstancesGoal1.owl#>)
-Prefix(:=<http://www.nist.gov/el/ontologies/kittingClasses.owl#>)
-Ontology(<http://www.nist.gov/el/ontologies/kittingInstancesGoal1.owl>
-Import(<file:kittingClasses.owl>)
-
-*/
-
-void OwlInstancePrinter::printHeader(
- FILE * outFile)
-{
-  fprintf(outFile,
-"Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\n"
-"Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\n"
-"Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n"
-"Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n"
-"Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n");
-  fprintf(outFile, "Prefix(:=<%s/%s#>)\n", uri, outFileName);
-  fprintf(outFile, "Prefix(:=<%s/%s#>)\n", uri, classFileName);
-  fprintf(outFile, "Ontology(<%s/%s>\n", uri, outFileName);
-  fprintf(outFile, "Import(<file:%s>)\n", classFileName);
 }
 
 /*********************************************************************/
@@ -136,7 +112,7 @@ void OwlInstancePrinter::printObjProp( /* ARGUMENTS                         */
  XmlID * valName,              /* name of individual that is property value */
  FILE * outFile)               /* file to print in                          */
 {
-  fprintf(outFile, "ObjectPropertyAssertion(:%s\n", property);
+  fprintf(outFile, "ObjectPropertyAssertion(%s\n", property);
   fprintf(outFile, "                        :");
   Name->printSelf(outFile);
   fprintf(outFile, " :");
@@ -152,7 +128,7 @@ Returned Value: none
 
 This prints an ObjectPropertyAssertion of the form:
 
-ObjectPropertyAssertion(:hasOwnerType_ObjectType :ownerInstance :objectInstance)
+ObjectPropertyAssertion(pre:hasOwnerType_ObjType :ownerInstance :objInstance)
 
 This is used when the value object is referenced by name, not embedded.
 
@@ -164,7 +140,7 @@ void OwlInstancePrinter::printObjRefProp(/* ARGUMENTS                      */
  XmlIDREF * valName,          /* name of individual that is property value */
  FILE * outFile)              /* file to print in                          */
 {
-  fprintf(outFile, "ObjectPropertyAssertion(:%s\n", property);
+  fprintf(outFile, "ObjectPropertyAssertion(%s\n", property);
   fprintf(outFile, "                        :");
   Name->printSelf(outFile);
   fprintf(outFile, " :");
@@ -181,7 +157,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlBoolean, for example:
 
-DataPropertyAssertion(:isKit_Finished :kit_1 "true"^^xsd:boolean)
+DataPropertyAssertion(ktw:isKit_Finished :kit_1 "true"^^xsd:boolean)
 
 */
 
@@ -191,7 +167,7 @@ void OwlInstancePrinter::printXmlBooleanProp( /* ARGUMENTS                */
  XmlBoolean * val,                    /* value of property                */
  FILE * outFile)                      /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -208,7 +184,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlDateTime, for example:
 
-DataPropertyAssertion(:hasPoseLocation_Timestamp :pose_1
+DataPropertyAssertion(ktw:hasPoseLocation_Timestamp :pose_1
                       "2012-06-25T04:00:00-05:00"^^xsd:dateTime)
 
 */
@@ -219,7 +195,7 @@ void OwlInstancePrinter::printXmlDateTimeProp( /* ARGUMENTS                */
  XmlDateTime * val,                    /* value of property                */
  FILE * outFile)                       /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -236,7 +212,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlDecimal, for example:
 
-DataPropertyAssertion(:hasVector_K :empty_kit_tray_box_z_axis
+DataPropertyAssertion(ktw:hasVector_K :empty_kit_tray_box_z_axis
                       "1.000000"^^xsd:decimal)
 
 */
@@ -247,7 +223,38 @@ void OwlInstancePrinter::printXmlDecimalProp( /* ARGUMENTS                */
  XmlDecimal * val,                    /* value of property                */
  FILE * outFile)                      /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
+  Name->printSelf(outFile);
+  fprintf(outFile, "\n");
+  fprintf(outFile, "                      \"");
+  val->printSelf(outFile);
+  fprintf(outFile, "\"^^xsd:decimal)\n");
+}
+
+/*********************************************************************/
+
+/* OwlInstancePrinter::printXmlDoubleProp
+
+Returned Value: none
+
+This prints a DataPropertyAssertion when the type of data is an
+XmlDouble, for example:
+
+DataPropertyAssertion(ktw:hasVector_K :empty_kit_tray_box_z_axis
+                      "1.000000"^^xsd:decimal)
+
+OWL does not use the XML double type, so XmlDouble is converted by this
+function to xsd:decimal for printing OWL.
+
+*/
+
+void OwlInstancePrinter::printXmlDoubleProp( /* ARGUMENTS                 */
+ const char * property,               /* name of property                 */
+ XmlID * Name,                        /* name of individual with property */
+ XmlDouble * val,                     /* value of property                */
+ FILE * outFile)                      /* file to print in                 */
+{
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -264,7 +271,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlID, for example:
 
-DataPropertyAssertion(:hasEndEffector_Id :part_gripper
+DataPropertyAssertion(ktw:hasEndEffector_Id :part_gripper
                       "ThePartGripper"^^xsd:NMTOKEN)
 
 OWL does not include xsd:ID, so xsd:NMTOKEN is used.
@@ -277,7 +284,7 @@ void OwlInstancePrinter::printXmlIDProp(  /* ARGUMENTS                */
  XmlID * val,                     /* value of property                */
  FILE * outFile)                  /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -294,7 +301,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the XML type of data is an
 XmlIDREF, for example:
 
-DataPropertyAssertion(:hasLargeContainer_SkuRef :empty_kit_tray_box
+DataPropertyAssertion(ktw:hasLargeContainer_SkuRef :empty_kit_tray_box
                       "SkuIdKitBox"^^xsd:NMTOKEN)
 
 OWL does not include xsd:IDREF, so xsd:NMTOKEN is used.
@@ -307,7 +314,7 @@ void OwlInstancePrinter::printXmlIDREFProp( /* ARGUMENTS                */
  XmlIDREF * val,                    /* value of property                */
  FILE * outFile)                    /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -324,7 +331,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlNMTOKEN, for example:
 
-DataPropertyAssertion(:hasLargeContainer_SerialNumber :empty_kit_tray_box
+DataPropertyAssertion(ktw:hasLargeContainer_SerialNumber :empty_kit_tray_box
                       "4"^^xsd:NMTOKEN)
 
 */
@@ -335,7 +342,7 @@ void OwlInstancePrinter::printXmlNMTOKENProp( /* ARGUMENTS                */
  XmlNMTOKEN * val,                    /* value of property                */
  FILE * outFile)                      /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -352,7 +359,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlNonNegativeInteger, for example:
 
-DataPropertyAssertion(:hasPartsTray_Quantity :parts_tray_a
+DataPropertyAssertion(ktw:hasPartsTray_Quantity :parts_tray_a
                       "1"^^xsd:nonNegativeInteger)
 
 */
@@ -363,7 +370,7 @@ void OwlInstancePrinter::printXmlNonNegativeIntegerProp( /* ARGUMENTS       */
  XmlNonNegativeInteger * val,           /* value of property                */
  FILE * outFile)                        /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -383,7 +390,7 @@ Called By:
 This prints a DataPropertyAssertion when the type of data is an
 XmlPositiveInteger, for example:
 
-DataPropertyAssertion(:hasLargeBoxWithKits_Capacity :kit_box
+DataPropertyAssertion(ktw:hasLargeBoxWithKits_Capacity :kit_box
                       "8"^^xsd:positiveInteger)
 
 */
@@ -394,7 +401,7 @@ void OwlInstancePrinter::printXmlPositiveIntegerProp( /* ARGUMENTS       */
  XmlPositiveInteger * val,           /* value of property                */
  FILE * outFile)                     /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -411,7 +418,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlString, for example:
 
-DataPropertyAssertion(:hasEndEffector_Description :part_gripper
+DataPropertyAssertion(ktw:hasEndEffector_Description :part_gripper
                       "small single cup vacuum effector"^^xsd:string)
 
 */
@@ -422,7 +429,7 @@ void OwlInstancePrinter::printXmlStringProp(  /* ARGUMENTS                */
  XmlString * val,                     /* value of property                */
  FILE * outFile)                      /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -439,7 +446,7 @@ Returned Value: none
 This prints a DataPropertyAssertion when the type of data is an
 XmlToken, for example:
 
-DataPropertyAssertion(:hasLargeContainer_SerialNumber :empty_kit_tray_box
+DataPropertyAssertion(ktw:hasLargeContainer_SerialNumber :empty_kit_tray_box
                       "4"^^xsd:token)
 
 */
@@ -450,7 +457,7 @@ void OwlInstancePrinter::printXmlTokenProp(   /* ARGUMENTS                */
  XmlToken * val,                      /* value of property                */
  FILE * outFile)                      /* file to print in                 */
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -476,7 +483,7 @@ For example:
 // *****************************************
 // 3 start LargeBoxWithEmptyKitTrays empty_kit_tray_supply
 Declaration(NamedIndividual(:empty_kit_tray_supply))
-ClassAssertion(:LargeBoxWithEmptyKitTrays :empty_kit_tray_supply)
+ClassAssertion(ktw:LargeBoxWithEmptyKitTrays :empty_kit_tray_supply)
 
 This will be followed by a set of related statements concerning the
 named individual.
@@ -495,7 +502,7 @@ void OwlInstancePrinter::startIndi( /* ARGUMENTS           */
   fprintf(outFile, "Declaration(NamedIndividual(:");
   Name->printSelf(outFile);
   fprintf(outFile, "))\n");
-  fprintf(outFile, "ClassAssertion(:%s :", aType);
+  fprintf(outFile, "ClassAssertion(%s :", aType);
   Name->printSelf(outFile);
   fprintf(outFile, ")\n");
 }

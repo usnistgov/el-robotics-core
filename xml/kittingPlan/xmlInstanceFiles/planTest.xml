@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <KittingPlan
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../schema/kittingPlan.xsd">
+  xsi:noNamespaceSchemaLocation="../xmlSchemas/kittingPlan.xsd">
   <Name>test</Name>
   <PlanId>test.xml</PlanId>
   <PlanVersion>2013Sep16</PlanVersion>

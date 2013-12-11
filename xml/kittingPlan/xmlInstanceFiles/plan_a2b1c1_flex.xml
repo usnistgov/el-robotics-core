@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <KittingPlan
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../schema/kittingPlan.xsd">
+  xsi:noNamespaceSchemaLocation="../xmlSchemas/kittingPlan.xsd">
   <Name>plan_a2b1c1_flex</Name>
   <PlanId>plan_a2b1c1_flex.xml</PlanId>
   <PlanVersion>2013Sep16</PlanVersion>
@@ -16,6 +16,7 @@
     the way predecessors are assigned.
   </PlanDescription>
   <Object>finished_kit_receiver</Object>
+  <Object>kit_1</Object>
   <Object>kit_tray_1</Object>
   <Object>part_a_1</Object>
   <Object>part_a_2</Object>

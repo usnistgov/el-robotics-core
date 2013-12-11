@@ -15,20 +15,36 @@ extern OwlInstancePrinter printer;
 
 std::set<std::string> AndType::individuals;
 std::set<std::string> AttachEndEffectorType::individuals;
+std::set<std::string> BoxVolumeType::individuals;
+std::set<std::string> BoxyShapeType::individuals;
 std::set<std::string> CreateKitType::individuals;
+std::set<std::string> CylindricalShapeType::individuals;
 std::set<std::string> DecimalType::individuals;
 std::set<std::string> DetachEndEffectorType::individuals;
 std::set<std::string> DivType::individuals;
 std::set<std::string> ElseType::individuals;
+std::set<std::string> EndEffectorChangingStationType::individuals;
+std::set<std::string> EndEffectorHolderType::individuals;
 std::set<std::string> EqualType::individuals;
+std::set<std::string> ExternalShapeType::individuals;
 std::set<std::string> FalseType::individuals;
 std::set<std::string> GreaterOrEqualType::individuals;
 std::set<std::string> GreaterType::individuals;
+std::set<std::string> GripperEffectorType::individuals;
+std::set<std::string> HumanType::individuals;
 std::set<std::string> IfActionGroupType::individuals;
+std::set<std::string> KitDesignType::individuals;
+std::set<std::string> KitTrayType::individuals;
+std::set<std::string> KitType::individuals;
 std::set<std::string> KittingPlanType::individuals;
+std::set<std::string> KittingWorkstationType::individuals;
+std::set<std::string> LargeBoxWithEmptyKitTraysType::individuals;
+std::set<std::string> LargeBoxWithKitsType::individuals;
+std::set<std::string> LargeContainerType::individuals;
 std::set<std::string> LessOrEqualType::individuals;
 std::set<std::string> LessType::individuals;
 std::set<std::string> LocatePartType::individuals;
+std::set<std::string> MechanicalComponentType::individuals;
 std::set<std::string> MinusType::individuals;
 std::set<std::string> ModType::individuals;
 std::set<std::string> NegateType::individuals;
@@ -38,7 +54,11 @@ std::set<std::string> NumberedPlanElementType::individuals;
 std::set<std::string> OneOfActionGroupType::individuals;
 std::set<std::string> OrType::individuals;
 std::set<std::string> OrderedActionGroupType::individuals;
+std::set<std::string> PartRefAndPoseType::individuals;
+std::set<std::string> PartType::individuals;
 std::set<std::string> PartiallyOrderedActionGroupType::individuals;
+std::set<std::string> PartsBinType::individuals;
+std::set<std::string> PartsTrayType::individuals;
 std::set<std::string> PlusType::individuals;
 std::set<std::string> PointType::individuals;
 std::set<std::string> PoseLocationInType::individuals;
@@ -50,8 +70,11 @@ std::set<std::string> PutKitType::individuals;
 std::set<std::string> PutPartType::individuals;
 std::set<std::string> RelativeLocationInType::individuals;
 std::set<std::string> RelativeLocationOnType::individuals;
+std::set<std::string> RobotType::individuals;
+std::set<std::string> SlotType::individuals;
 std::set<std::string> SomeOfActionGroupType::individuals;
 std::set<std::string> StepWithPredecessorsType::individuals;
+std::set<std::string> StockKeepingUnitType::individuals;
 std::set<std::string> TakeKitTrayType::individuals;
 std::set<std::string> TakeKitType::individuals;
 std::set<std::string> TakePartType::individuals;
@@ -59,11 +82,14 @@ std::set<std::string> TestAndStepType::individuals;
 std::set<std::string> TimesType::individuals;
 std::set<std::string> TrueType::individuals;
 std::set<std::string> UnorderedActionGroupType::individuals;
+std::set<std::string> VacuumEffectorMultiCupType::individuals;
+std::set<std::string> VacuumEffectorSingleCupType::individuals;
 std::set<std::string> VarSetType::individuals;
 std::set<std::string> VarValType::individuals;
 std::set<std::string> VariableDeclarationType::individuals;
 std::set<std::string> VectorType::individuals;
 std::set<std::string> WhileActionGroupType::individuals;
+std::set<std::string> WorkTableType::individuals;
 
 /*********************************************************************/
 
@@ -88,162 +114,239 @@ KittingPlanFile::~KittingPlanFile() {}
 void KittingPlanFile::printOwl(FILE * outFile)
 {
   std::set<std::string>::iterator iter;
-  header->printOwl(outFile);
   KittingPlan->printOwl(outFile);
 
   if (AndType::individuals.size() > 1)
-    printer.printIndividuals("And",
+    printer.printIndividuals("ktp:And",
        &AndType::individuals, outFile);
   if (AttachEndEffectorType::individuals.size() > 1)
-    printer.printIndividuals("AttachEndEffector",
+    printer.printIndividuals("ktp:AttachEndEffector",
        &AttachEndEffectorType::individuals, outFile);
+  if (BoxVolumeType::individuals.size() > 1)
+    printer.printIndividuals("ktw:BoxVolume",
+       &BoxVolumeType::individuals, outFile);
+  if (BoxyShapeType::individuals.size() > 1)
+    printer.printIndividuals("ktw:BoxyShape",
+       &BoxyShapeType::individuals, outFile);
   if (CreateKitType::individuals.size() > 1)
-    printer.printIndividuals("CreateKit",
+    printer.printIndividuals("ktp:CreateKit",
        &CreateKitType::individuals, outFile);
+  if (CylindricalShapeType::individuals.size() > 1)
+    printer.printIndividuals("ktw:CylindricalShape",
+       &CylindricalShapeType::individuals, outFile);
   if (DecimalType::individuals.size() > 1)
-    printer.printIndividuals("Decimal",
+    printer.printIndividuals("ktp:Decimal",
        &DecimalType::individuals, outFile);
   if (DetachEndEffectorType::individuals.size() > 1)
-    printer.printIndividuals("DetachEndEffector",
+    printer.printIndividuals("ktp:DetachEndEffector",
        &DetachEndEffectorType::individuals, outFile);
   if (DivType::individuals.size() > 1)
-    printer.printIndividuals("Div",
+    printer.printIndividuals("ktp:Div",
        &DivType::individuals, outFile);
   if (ElseType::individuals.size() > 1)
-    printer.printIndividuals("Else",
+    printer.printIndividuals("ktp:Else",
        &ElseType::individuals, outFile);
+  if (EndEffectorChangingStationType::individuals.size() > 1)
+    printer.printIndividuals("ktw:EndEffectorChangingStation",
+       &EndEffectorChangingStationType::individuals, outFile);
+  if (EndEffectorHolderType::individuals.size() > 1)
+    printer.printIndividuals("ktw:EndEffectorHolder",
+       &EndEffectorHolderType::individuals, outFile);
   if (EqualType::individuals.size() > 1)
-    printer.printIndividuals("Equal",
+    printer.printIndividuals("ktp:Equal",
        &EqualType::individuals, outFile);
+  if (ExternalShapeType::individuals.size() > 1)
+    printer.printIndividuals("ktw:ExternalShape",
+       &ExternalShapeType::individuals, outFile);
   if (FalseType::individuals.size() > 1)
-    printer.printIndividuals("False",
+    printer.printIndividuals("ktp:False",
        &FalseType::individuals, outFile);
   if (GreaterOrEqualType::individuals.size() > 1)
-    printer.printIndividuals("GreaterOrEqual",
+    printer.printIndividuals("ktp:GreaterOrEqual",
        &GreaterOrEqualType::individuals, outFile);
   if (GreaterType::individuals.size() > 1)
-    printer.printIndividuals("Greater",
+    printer.printIndividuals("ktp:Greater",
        &GreaterType::individuals, outFile);
+  if (GripperEffectorType::individuals.size() > 1)
+    printer.printIndividuals("ktw:GripperEffector",
+       &GripperEffectorType::individuals, outFile);
+  if (HumanType::individuals.size() > 1)
+    printer.printIndividuals("ktw:Human",
+       &HumanType::individuals, outFile);
   if (IfActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("IfActionGroup",
+    printer.printIndividuals("ktp:IfActionGroup",
        &IfActionGroupType::individuals, outFile);
+  if (KitDesignType::individuals.size() > 1)
+    printer.printIndividuals("ktw:KitDesign",
+       &KitDesignType::individuals, outFile);
+  if (KitTrayType::individuals.size() > 1)
+    printer.printIndividuals("ktw:KitTray",
+       &KitTrayType::individuals, outFile);
+  if (KitType::individuals.size() > 1)
+    printer.printIndividuals("ktw:Kit",
+       &KitType::individuals, outFile);
   if (KittingPlanType::individuals.size() > 1)
-    printer.printIndividuals("KittingPlan",
+    printer.printIndividuals("ktp:KittingPlan",
        &KittingPlanType::individuals, outFile);
+  if (KittingWorkstationType::individuals.size() > 1)
+    printer.printIndividuals("ktw:KittingWorkstation",
+       &KittingWorkstationType::individuals, outFile);
+  if (LargeBoxWithEmptyKitTraysType::individuals.size() > 1)
+    printer.printIndividuals("ktw:LargeBoxWithEmptyKitTrays",
+       &LargeBoxWithEmptyKitTraysType::individuals, outFile);
+  if (LargeBoxWithKitsType::individuals.size() > 1)
+    printer.printIndividuals("ktw:LargeBoxWithKits",
+       &LargeBoxWithKitsType::individuals, outFile);
+  if (LargeContainerType::individuals.size() > 1)
+    printer.printIndividuals("ktw:LargeContainer",
+       &LargeContainerType::individuals, outFile);
   if (LessOrEqualType::individuals.size() > 1)
-    printer.printIndividuals("LessOrEqual",
+    printer.printIndividuals("ktp:LessOrEqual",
        &LessOrEqualType::individuals, outFile);
   if (LessType::individuals.size() > 1)
-    printer.printIndividuals("Less",
+    printer.printIndividuals("ktp:Less",
        &LessType::individuals, outFile);
   if (LocatePartType::individuals.size() > 1)
-    printer.printIndividuals("LocatePart",
+    printer.printIndividuals("ktp:LocatePart",
        &LocatePartType::individuals, outFile);
+  if (MechanicalComponentType::individuals.size() > 1)
+    printer.printIndividuals("ktw:MechanicalComponent",
+       &MechanicalComponentType::individuals, outFile);
   if (MinusType::individuals.size() > 1)
-    printer.printIndividuals("Minus",
+    printer.printIndividuals("ktp:Minus",
        &MinusType::individuals, outFile);
   if (ModType::individuals.size() > 1)
-    printer.printIndividuals("Mod",
+    printer.printIndividuals("ktp:Mod",
        &ModType::individuals, outFile);
   if (NegateType::individuals.size() > 1)
-    printer.printIndividuals("Negate",
+    printer.printIndividuals("ktp:Negate",
        &NegateType::individuals, outFile);
   if (NotEqualType::individuals.size() > 1)
-    printer.printIndividuals("NotEqual",
+    printer.printIndividuals("ktp:NotEqual",
        &NotEqualType::individuals, outFile);
   if (NotType::individuals.size() > 1)
-    printer.printIndividuals("Not",
+    printer.printIndividuals("ktp:Not",
        &NotType::individuals, outFile);
   if (NumberedPlanElementType::individuals.size() > 1)
-    printer.printIndividuals("NumberedPlanElement",
+    printer.printIndividuals("ktp:NumberedPlanElement",
        &NumberedPlanElementType::individuals, outFile);
   if (OneOfActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("OneOfActionGroup",
+    printer.printIndividuals("ktp:OneOfActionGroup",
        &OneOfActionGroupType::individuals, outFile);
   if (OrType::individuals.size() > 1)
-    printer.printIndividuals("Or",
+    printer.printIndividuals("ktp:Or",
        &OrType::individuals, outFile);
   if (OrderedActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("OrderedActionGroup",
+    printer.printIndividuals("ktp:OrderedActionGroup",
        &OrderedActionGroupType::individuals, outFile);
+  if (PartRefAndPoseType::individuals.size() > 1)
+    printer.printIndividuals("ktw:PartRefAndPose",
+       &PartRefAndPoseType::individuals, outFile);
+  if (PartType::individuals.size() > 1)
+    printer.printIndividuals("ktw:Part",
+       &PartType::individuals, outFile);
   if (PartiallyOrderedActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("PartiallyOrderedActionGroup",
+    printer.printIndividuals("ktp:PartiallyOrderedActionGroup",
        &PartiallyOrderedActionGroupType::individuals, outFile);
+  if (PartsBinType::individuals.size() > 1)
+    printer.printIndividuals("ktw:PartsBin",
+       &PartsBinType::individuals, outFile);
+  if (PartsTrayType::individuals.size() > 1)
+    printer.printIndividuals("ktw:PartsTray",
+       &PartsTrayType::individuals, outFile);
   if (PlusType::individuals.size() > 1)
-    printer.printIndividuals("Plus",
+    printer.printIndividuals("ktp:Plus",
        &PlusType::individuals, outFile);
   if (PointType::individuals.size() > 1)
-    printer.printIndividuals("Point",
+    printer.printIndividuals("ktw:Point",
        &PointType::individuals, outFile);
   if (PoseLocationInType::individuals.size() > 1)
-    printer.printIndividuals("PoseLocationIn",
+    printer.printIndividuals("ktw:PoseLocationIn",
        &PoseLocationInType::individuals, outFile);
   if (PoseLocationOnType::individuals.size() > 1)
-    printer.printIndividuals("PoseLocationOn",
+    printer.printIndividuals("ktw:PoseLocationOn",
        &PoseLocationOnType::individuals, outFile);
   if (PoseOnlyLocationType::individuals.size() > 1)
-    printer.printIndividuals("PoseOnlyLocation",
+    printer.printIndividuals("ktw:PoseOnlyLocation",
        &PoseOnlyLocationType::individuals, outFile);
   if (PropValType::individuals.size() > 1)
-    printer.printIndividuals("PropVal",
+    printer.printIndividuals("ktp:PropVal",
        &PropValType::individuals, outFile);
   if (PutKitTrayType::individuals.size() > 1)
-    printer.printIndividuals("PutKitTray",
+    printer.printIndividuals("ktp:PutKitTray",
        &PutKitTrayType::individuals, outFile);
   if (PutKitType::individuals.size() > 1)
-    printer.printIndividuals("PutKit",
+    printer.printIndividuals("ktp:PutKit",
        &PutKitType::individuals, outFile);
   if (PutPartType::individuals.size() > 1)
-    printer.printIndividuals("PutPart",
+    printer.printIndividuals("ktp:PutPart",
        &PutPartType::individuals, outFile);
   if (RelativeLocationInType::individuals.size() > 1)
-    printer.printIndividuals("RelativeLocationIn",
+    printer.printIndividuals("ktw:RelativeLocationIn",
        &RelativeLocationInType::individuals, outFile);
   if (RelativeLocationOnType::individuals.size() > 1)
-    printer.printIndividuals("RelativeLocationOn",
+    printer.printIndividuals("ktw:RelativeLocationOn",
        &RelativeLocationOnType::individuals, outFile);
+  if (RobotType::individuals.size() > 1)
+    printer.printIndividuals("ktw:Robot",
+       &RobotType::individuals, outFile);
+  if (SlotType::individuals.size() > 1)
+    printer.printIndividuals("ktw:Slot",
+       &SlotType::individuals, outFile);
   if (SomeOfActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("SomeOfActionGroup",
+    printer.printIndividuals("ktp:SomeOfActionGroup",
        &SomeOfActionGroupType::individuals, outFile);
   if (StepWithPredecessorsType::individuals.size() > 1)
-    printer.printIndividuals("StepWithPredecessors",
+    printer.printIndividuals("ktp:StepWithPredecessors",
        &StepWithPredecessorsType::individuals, outFile);
+  if (StockKeepingUnitType::individuals.size() > 1)
+    printer.printIndividuals("ktw:StockKeepingUnit",
+       &StockKeepingUnitType::individuals, outFile);
   if (TakeKitTrayType::individuals.size() > 1)
-    printer.printIndividuals("TakeKitTray",
+    printer.printIndividuals("ktp:TakeKitTray",
        &TakeKitTrayType::individuals, outFile);
   if (TakeKitType::individuals.size() > 1)
-    printer.printIndividuals("TakeKit",
+    printer.printIndividuals("ktp:TakeKit",
        &TakeKitType::individuals, outFile);
   if (TakePartType::individuals.size() > 1)
-    printer.printIndividuals("TakePart",
+    printer.printIndividuals("ktp:TakePart",
        &TakePartType::individuals, outFile);
   if (TestAndStepType::individuals.size() > 1)
-    printer.printIndividuals("TestAndStep",
+    printer.printIndividuals("ktp:TestAndStep",
        &TestAndStepType::individuals, outFile);
   if (TimesType::individuals.size() > 1)
-    printer.printIndividuals("Times",
+    printer.printIndividuals("ktp:Times",
        &TimesType::individuals, outFile);
   if (TrueType::individuals.size() > 1)
-    printer.printIndividuals("True",
+    printer.printIndividuals("ktp:True",
        &TrueType::individuals, outFile);
   if (UnorderedActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("UnorderedActionGroup",
+    printer.printIndividuals("ktp:UnorderedActionGroup",
        &UnorderedActionGroupType::individuals, outFile);
+  if (VacuumEffectorMultiCupType::individuals.size() > 1)
+    printer.printIndividuals("ktw:VacuumEffectorMultiCup",
+       &VacuumEffectorMultiCupType::individuals, outFile);
+  if (VacuumEffectorSingleCupType::individuals.size() > 1)
+    printer.printIndividuals("ktw:VacuumEffectorSingleCup",
+       &VacuumEffectorSingleCupType::individuals, outFile);
   if (VarSetType::individuals.size() > 1)
-    printer.printIndividuals("VarSet",
+    printer.printIndividuals("ktp:VarSet",
        &VarSetType::individuals, outFile);
   if (VarValType::individuals.size() > 1)
-    printer.printIndividuals("VarVal",
+    printer.printIndividuals("ktp:VarVal",
        &VarValType::individuals, outFile);
   if (VariableDeclarationType::individuals.size() > 1)
-    printer.printIndividuals("VariableDeclaration",
+    printer.printIndividuals("ktp:VariableDeclaration",
        &VariableDeclarationType::individuals, outFile);
   if (VectorType::individuals.size() > 1)
-    printer.printIndividuals("Vector",
+    printer.printIndividuals("ktw:Vector",
        &VectorType::individuals, outFile);
   if (WhileActionGroupType::individuals.size() > 1)
-    printer.printIndividuals("WhileActionGroup",
+    printer.printIndividuals("ktp:WhileActionGroup",
        &WhileActionGroupType::individuals, outFile);
+  if (WorkTableType::individuals.size() > 1)
+    printer.printIndividuals("ktw:WorkTable",
+       &WorkTableType::individuals, outFile);
 
   fprintf(outFile, ")\n");
 }
@@ -305,15 +408,66 @@ AndType::~AndType() {}
 
 void AndType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "And", outFile);
-  printer.printObjProp("hasBinaryBooleanExpression_B1",
+  printer.startIndi(Name, "ktp:And", outFile);
+  printer.printObjProp("ktp:hasBinaryBooleanExpression_B1",
                        Name, B1->Name, outFile);
   B1->printOwl(outFile);
-  printer.printObjProp("hasBinaryBooleanExpression_B2",
+  printer.printObjProp("ktp:hasBinaryBooleanExpression_B2",
                        Name, B2->Name, outFile);
   B2->printOwl(outFile);
-  printer.endIndi("And", outFile);
+  printer.endIndi("ktp:And", outFile);
   individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class AngleUnitType
+
+*/
+
+AngleUnitType::AngleUnitType() :
+  XmlNMTOKEN() {}
+
+AngleUnitType::AngleUnitType(
+ char * valIn) :
+  XmlNMTOKEN(valIn)
+{
+  if (!bad)
+    bad = (strcmp(val.c_str(), "degree") &&
+           strcmp(val.c_str(), "radian"));
+}
+
+AngleUnitType::~AngleUnitType() {}
+
+bool AngleUnitType::AngleUnitTypeIsBad()
+{
+  return (strcmp(val.c_str(), "degree") &&
+          strcmp(val.c_str(), "radian"));
+}
+
+void AngleUnitType::printOwl(FILE * outFile)
+{
+  if (AngleUnitTypeIsBad())
+    {
+      fprintf(stderr, "bad AngleUnitType value, ");
+      XmlNMTOKEN::printSelf(stderr);
+      fprintf(stderr, " exiting\n");
+      exit(1);
+    }
+  XmlNMTOKEN::printSelf(outFile);
+}
+
+void AngleUnitType::printProp(
+ const char * property,
+ XmlID * Name,
+ FILE * outFile)
+{
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
+  Name->printSelf(outFile);
+  fprintf(outFile, "\n");
+  fprintf(outFile, "                      \"");
+  printOwl(outFile);
+  fprintf(outFile, "\"^^xsd:NMTOKEN)\n");
 }
 
 /*********************************************************************/
@@ -379,14 +533,14 @@ AttachEndEffectorType::~AttachEndEffectorType() {}
 
 void AttachEndEffectorType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "AttachEndEffector", outFile);
-  printer.printXmlNMTOKENProp("hasAttachEndEffector_RobotName",
+  printer.startIndi(Name, "ktp:AttachEndEffector", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasAttachEndEffector_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasAttachEndEffector_EndEffectorName",
+  printer.printXmlNMTOKENProp("ktp:hasAttachEndEffector_EndEffectorName",
                               Name, EndEffectorName, outFile);
-  printer.printXmlNMTOKENProp("hasAttachEndEffector_EndEffectorHolderName",
+  printer.printXmlNMTOKENProp("ktp:hasAttachEndEffector_EndEffectorHolderName",
                               Name, EndEffectorHolderName, outFile);
-  printer.endIndi("AttachEndEffector", outFile);
+  printer.endIndi("ktp:AttachEndEffector", outFile);
   individuals.insert(Name->val);
 }
 
@@ -468,6 +622,92 @@ BooleanExpressionType::~BooleanExpressionType() {}
 
 /*********************************************************************/
 
+/* class BoxVolumeType
+
+*/
+
+BoxVolumeType::BoxVolumeType() {}
+
+BoxVolumeType::BoxVolumeType(
+ XmlID * NameIn,
+ PointType * MaximumPointIn,
+ PointType * MinimumPointIn) :
+  DataThingType(
+    NameIn)
+{
+  MaximumPoint = MaximumPointIn;
+  MinimumPoint = MinimumPointIn;
+}
+
+BoxVolumeType::~BoxVolumeType() {}
+
+void BoxVolumeType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:BoxVolume", outFile);
+  printer.printObjProp("ktw:hasBoxVolume_MaximumPoint",
+                       Name, MaximumPoint->Name, outFile);
+  MaximumPoint->printOwl(outFile);
+  printer.printObjProp("ktw:hasBoxVolume_MinimumPoint",
+                       Name, MinimumPoint->Name, outFile);
+  MinimumPoint->printOwl(outFile);
+  printer.endIndi("ktw:BoxVolume", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class BoxyShapeType
+
+*/
+
+BoxyShapeType::BoxyShapeType() {}
+
+BoxyShapeType::BoxyShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn,
+ PositiveDecimalType * LengthIn,
+ PositiveDecimalType * WidthIn,
+ PositiveDecimalType * HeightIn,
+ XmlBoolean * HasTopIn) :
+  InternalShapeType(
+    NameIn,
+    DescriptionIn,
+    GraspPoseIn)
+{
+  Length = LengthIn;
+  Width = WidthIn;
+  Height = HeightIn;
+  HasTop = HasTopIn;
+}
+
+BoxyShapeType::~BoxyShapeType() {}
+
+void BoxyShapeType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:BoxyShape", outFile);
+  printer.printXmlStringProp("ktw:hasShapeDesign_Description",
+                             Name, Description, outFile);
+  if (GraspPose)
+    {
+      printer.printObjProp("ktw:hasShapeDesign_GraspPose",
+                           Name, GraspPose->Name, outFile);
+      GraspPose->printOwl(outFile);
+    }
+  Length->printProp("ktw:hasBoxyShape_Length",
+                    Name, outFile);
+  Width->printProp("ktw:hasBoxyShape_Width",
+                   Name, outFile);
+  Height->printProp("ktw:hasBoxyShape_Height",
+                    Name, outFile);
+  printer.printXmlBooleanProp("ktw:hasBoxyShape_HasTop",
+                              Name, HasTop, outFile);
+  printer.endIndi("ktw:BoxyShape", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
 /* class CreateKitType
 
 */
@@ -489,12 +729,60 @@ CreateKitType::~CreateKitType() {}
 
 void CreateKitType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "CreateKit", outFile);
-  printer.printXmlNMTOKENProp("hasCreateKit_KitTrayName",
+  printer.startIndi(Name, "ktp:CreateKit", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasCreateKit_KitTrayName",
                               Name, KitTrayName, outFile);
-  printer.printXmlNMTOKENProp("hasCreateKit_KitName",
+  printer.printXmlNMTOKENProp("ktp:hasCreateKit_KitName",
                               Name, KitName, outFile);
-  printer.endIndi("CreateKit", outFile);
+  printer.endIndi("ktp:CreateKit", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class CylindricalShapeType
+
+*/
+
+CylindricalShapeType::CylindricalShapeType() {}
+
+CylindricalShapeType::CylindricalShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn,
+ PositiveDecimalType * DiameterIn,
+ PositiveDecimalType * HeightIn,
+ XmlBoolean * HasTopIn) :
+  InternalShapeType(
+    NameIn,
+    DescriptionIn,
+    GraspPoseIn)
+{
+  Diameter = DiameterIn;
+  Height = HeightIn;
+  HasTop = HasTopIn;
+}
+
+CylindricalShapeType::~CylindricalShapeType() {}
+
+void CylindricalShapeType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:CylindricalShape", outFile);
+  printer.printXmlStringProp("ktw:hasShapeDesign_Description",
+                             Name, Description, outFile);
+  if (GraspPose)
+    {
+      printer.printObjProp("ktw:hasShapeDesign_GraspPose",
+                           Name, GraspPose->Name, outFile);
+      GraspPose->printOwl(outFile);
+    }
+  Diameter->printProp("ktw:hasCylindricalShape_Diameter",
+                      Name, outFile);
+  Height->printProp("ktw:hasCylindricalShape_Height",
+                    Name, outFile);
+  printer.printXmlBooleanProp("ktw:hasCylindricalShape_HasTop",
+                              Name, HasTop, outFile);
+  printer.endIndi("ktw:CylindricalShape", outFile);
   individuals.insert(Name->val);
 }
 
@@ -535,10 +823,10 @@ DecimalType::~DecimalType() {}
 
 void DecimalType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Decimal", outFile);
-  printer.printXmlDecimalProp("hasDecimal_A",
+  printer.startIndi(Name, "ktp:Decimal", outFile);
+  printer.printXmlDecimalProp("ktp:hasDecimal_A",
                               Name, A, outFile);
-  printer.endIndi("Decimal", outFile);
+  printer.endIndi("ktp:Decimal", outFile);
   individuals.insert(Name->val);
 }
 
@@ -567,14 +855,14 @@ DetachEndEffectorType::~DetachEndEffectorType() {}
 
 void DetachEndEffectorType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "DetachEndEffector", outFile);
-  printer.printXmlNMTOKENProp("hasDetachEndEffector_RobotName",
+  printer.startIndi(Name, "ktp:DetachEndEffector", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasDetachEndEffector_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasDetachEndEffector_EndEffectorName",
+  printer.printXmlNMTOKENProp("ktp:hasDetachEndEffector_EndEffectorName",
                               Name, EndEffectorName, outFile);
-  printer.printXmlNMTOKENProp("hasDetachEndEffector_EndEffectorHolderName",
+  printer.printXmlNMTOKENProp("ktp:hasDetachEndEffector_EndEffectorHolderName",
                               Name, EndEffectorHolderName, outFile);
-  printer.endIndi("DetachEndEffector", outFile);
+  printer.endIndi("ktp:DetachEndEffector", outFile);
   individuals.insert(Name->val);
 }
 
@@ -601,14 +889,14 @@ DivType::~DivType() {}
 
 void DivType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Div", outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A1",
+  printer.startIndi(Name, "ktp:Div", outFile);
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A2",
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Div", outFile);
+  printer.endIndi("ktp:Div", outFile);
   individuals.insert(Name->val);
 }
 
@@ -633,13 +921,185 @@ ElseType::~ElseType() {}
 
 void ElseType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Else", outFile);
-  printer.printObjProp("hasElse_Step",
+  printer.startIndi(Name, "ktp:Else", outFile);
+  printer.printObjProp("ktp:hasElse_Step",
                        Name, Step->Name, outFile);
   Step->printOwl(outFile);
-  printer.endIndi("Else", outFile);
+  printer.endIndi("ktp:Else", outFile);
   individuals.insert(Name->val);
 }
+
+/*********************************************************************/
+
+/* class EndEffectorChangingStationType
+
+*/
+
+EndEffectorChangingStationType::EndEffectorChangingStationType() {}
+
+EndEffectorChangingStationType::EndEffectorChangingStationType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ MechanicalComponentType * BaseIn,
+ std::list<EndEffectorHolderType *> * EndEffectorHolderIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  Base = BaseIn;
+  EndEffectorHolder = EndEffectorHolderIn;
+}
+
+EndEffectorChangingStationType::~EndEffectorChangingStationType() {}
+
+void EndEffectorChangingStationType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:EndEffectorChangingStation", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printObjProp("ktw:hasEndEffectorChangingStation_Base",
+                       Name, Base->Name, outFile);
+  Base->printOwl(outFile);
+  {
+    std::list<EndEffectorHolderType *>::iterator iter;
+    for (iter = EndEffectorHolder->begin();
+         iter != EndEffectorHolder->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasEndEffectorChangingStation_EndEffectorHolder",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:EndEffectorChangingStation", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class EndEffectorHolderType
+
+*/
+
+EndEffectorHolderType::EndEffectorHolderType() {}
+
+EndEffectorHolderType::EndEffectorHolderType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ EndEffectorType * EndEffectorIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  EndEffector = EndEffectorIn;
+}
+
+EndEffectorHolderType::~EndEffectorHolderType() {}
+
+void EndEffectorHolderType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:EndEffectorHolder", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  if (EndEffector)
+    {
+      printer.printObjProp("ktw:hasEndEffectorHolder_EndEffector",
+                           Name, EndEffector->Name, outFile);
+      EndEffector->printOwl(outFile);
+    }
+  printer.endIndi("ktw:EndEffectorHolder", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class EndEffectorType
+
+*/
+
+EndEffectorType::EndEffectorType() {}
+
+EndEffectorType::EndEffectorType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlString * DescriptionIn,
+ PositiveDecimalType * WeightIn,
+ PositiveDecimalType * MaximumLoadWeightIn,
+ SolidObjectType * HeldObjectIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  Description = DescriptionIn;
+  Weight = WeightIn;
+  MaximumLoadWeight = MaximumLoadWeightIn;
+  HeldObject = HeldObjectIn;
+}
+
+EndEffectorType::~EndEffectorType() {}
 
 /*********************************************************************/
 
@@ -664,14 +1124,65 @@ EqualType::~EqualType() {}
 
 void EqualType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Equal", outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A1",
+  printer.startIndi(Name, "ktp:Equal", outFile);
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A2",
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Equal", outFile);
+  printer.endIndi("ktp:Equal", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class ExternalShapeType
+
+*/
+
+ExternalShapeType::ExternalShapeType() {}
+
+ExternalShapeType::ExternalShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn,
+ XmlString * ModelFormatNameIn,
+ XmlString * ModelFileNameIn,
+ XmlString * ModelNameIn) :
+  ShapeDesignType(
+    NameIn,
+    DescriptionIn,
+    GraspPoseIn)
+{
+  ModelFormatName = ModelFormatNameIn;
+  ModelFileName = ModelFileNameIn;
+  ModelName = ModelNameIn;
+}
+
+ExternalShapeType::~ExternalShapeType() {}
+
+void ExternalShapeType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:ExternalShape", outFile);
+  printer.printXmlStringProp("ktw:hasShapeDesign_Description",
+                             Name, Description, outFile);
+  if (GraspPose)
+    {
+      printer.printObjProp("ktw:hasShapeDesign_GraspPose",
+                           Name, GraspPose->Name, outFile);
+      GraspPose->printOwl(outFile);
+    }
+  printer.printXmlStringProp("ktw:hasExternalShape_ModelFormatName",
+                             Name, ModelFormatName, outFile);
+  printer.printXmlStringProp("ktw:hasExternalShape_ModelFileName",
+                             Name, ModelFileName, outFile);
+  if (ModelName)
+    {
+      printer.printXmlStringProp("ktw:hasExternalShape_ModelName",
+                                 Name, ModelName, outFile);
+    }
+  printer.endIndi("ktw:ExternalShape", outFile);
   individuals.insert(Name->val);
 }
 
@@ -694,8 +1205,8 @@ FalseType::~FalseType() {}
 
 void FalseType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "False", outFile);
-  printer.endIndi("False", outFile);
+  printer.startIndi(Name, "ktp:False", outFile);
+  printer.endIndi("ktp:False", outFile);
   individuals.insert(Name->val);
 }
 
@@ -722,14 +1233,14 @@ GreaterOrEqualType::~GreaterOrEqualType() {}
 
 void GreaterOrEqualType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "GreaterOrEqual", outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A1",
+  printer.startIndi(Name, "ktp:GreaterOrEqual", outFile);
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A2",
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("GreaterOrEqual", outFile);
+  printer.endIndi("ktp:GreaterOrEqual", outFile);
   individuals.insert(Name->val);
 }
 
@@ -756,14 +1267,148 @@ GreaterType::~GreaterType() {}
 
 void GreaterType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Greater", outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A1",
+  printer.startIndi(Name, "ktp:Greater", outFile);
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A2",
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Greater", outFile);
+  printer.endIndi("ktp:Greater", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class GripperEffectorType
+
+*/
+
+GripperEffectorType::GripperEffectorType() {}
+
+GripperEffectorType::GripperEffectorType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlString * DescriptionIn,
+ PositiveDecimalType * WeightIn,
+ PositiveDecimalType * MaximumLoadWeightIn,
+ SolidObjectType * HeldObjectIn) :
+  EndEffectorType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn,
+    DescriptionIn,
+    WeightIn,
+    MaximumLoadWeightIn,
+    HeldObjectIn)
+{
+}
+
+GripperEffectorType::~GripperEffectorType() {}
+
+void GripperEffectorType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:GripperEffector", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printXmlStringProp("ktw:hasEndEffector_Description",
+                             Name, Description, outFile);
+  Weight->printProp("ktw:hasEndEffector_Weight",
+                    Name, outFile);
+  MaximumLoadWeight->printProp("ktw:hasEndEffector_MaximumLoadWeight",
+                               Name, outFile);
+  if (HeldObject)
+    {
+      printer.printObjProp("ktw:hasEndEffector_HeldObject",
+                           Name, HeldObject->Name, outFile);
+      HeldObject->printOwl(outFile);
+    }
+  printer.endIndi("ktw:GripperEffector", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class HumanType
+
+*/
+
+HumanType::HumanType() {}
+
+HumanType::HumanType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+}
+
+HumanType::~HumanType() {}
+
+void HumanType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:Human", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.endIndi("ktw:Human", outFile);
   individuals.insert(Name->val);
 }
 
@@ -792,8 +1437,8 @@ IfActionGroupType::~IfActionGroupType() {}
 
 void IfActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "IfActionGroup", outFile);
-  printer.printObjProp("hasIfActionGroup_If",
+  printer.startIndi(Name, "ktp:IfActionGroup", outFile);
+  printer.printObjProp("ktp:hasIfActionGroup_If",
                        Name, If->Name, outFile);
   If->printOwl(outFile);
   {
@@ -801,18 +1446,222 @@ void IfActionGroupType::printOwl(FILE * outFile)
     for (iter = ElseIf->begin();
          iter != ElseIf->end(); iter++)
       {
-        printer.printObjProp("hasIfActionGroup_ElseIf",
+        printer.printObjProp("ktp:hasIfActionGroup_ElseIf",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
   if (Else)
     {
-      printer.printObjProp("hasIfActionGroup_Else",
+      printer.printObjProp("ktp:hasIfActionGroup_Else",
                            Name, Else->Name, outFile);
       Else->printOwl(outFile);
     }
-  printer.endIndi("IfActionGroup", outFile);
+  printer.endIndi("ktp:IfActionGroup", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class InternalShapeType
+
+*/
+
+InternalShapeType::InternalShapeType() {}
+
+InternalShapeType::InternalShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn) :
+  ShapeDesignType(
+    NameIn,
+    DescriptionIn,
+    GraspPoseIn)
+{
+}
+
+InternalShapeType::~InternalShapeType() {}
+
+/*********************************************************************/
+
+/* class KitDesignType
+
+*/
+
+KitDesignType::KitDesignType() {}
+
+KitDesignType::KitDesignType(
+ XmlID * NameIn,
+ XmlIDREF * KitTraySkuNameIn,
+ std::list<PartRefAndPoseType *> * PartRefAndPoseIn) :
+  DataThingType(
+    NameIn)
+{
+  KitTraySkuName = KitTraySkuNameIn;
+  PartRefAndPose = PartRefAndPoseIn;
+}
+
+KitDesignType::~KitDesignType() {}
+
+void KitDesignType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:KitDesign", outFile);
+  printer.printObjRefProp("ktw:hasKitDesign_KitTraySku",
+                          Name, KitTraySkuName, outFile);
+  {
+    std::list<PartRefAndPoseType *>::iterator iter;
+    for (iter = PartRefAndPose->begin();
+         iter != PartRefAndPose->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKitDesign_PartRefAndPose",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:KitDesign", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class KitTrayType
+
+*/
+
+KitTrayType::KitTrayType() {}
+
+KitTrayType::KitTrayType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn) :
+  SkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    SkuNameIn)
+{
+  SerialNumber = SerialNumberIn;
+}
+
+KitTrayType::~KitTrayType() {}
+
+void KitTrayType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:KitTray", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjRefProp("ktw:hasSkuObject_Sku",
+                          Name, SkuName, outFile);
+  printer.printXmlNMTOKENProp("ktw:hasKitTray_SerialNumber",
+                              Name, SerialNumber, outFile);
+  printer.endIndi("ktw:KitTray", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class KitType
+
+*/
+
+KitType::KitType() {}
+
+KitType::KitType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlIDREF * DesignNameIn,
+ KitTrayType * KitTrayIn,
+ std::list<PartType *> * PartIn,
+ std::list<SlotType *> * SlotIn,
+ XmlBoolean * FinishedIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  DesignName = DesignNameIn;
+  KitTray = KitTrayIn;
+  Part = PartIn;
+  Slot = SlotIn;
+  Finished = FinishedIn;
+}
+
+KitType::~KitType() {}
+
+void KitType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:Kit", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printObjRefProp("ktw:hasKit_Design",
+                          Name, DesignName, outFile);
+  printer.printObjProp("ktw:hasKit_KitTray",
+                       Name, KitTray->Name, outFile);
+  KitTray->printOwl(outFile);
+  {
+    std::list<PartType *>::iterator iter;
+    for (iter = Part->begin();
+         iter != Part->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKit_Part",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  {
+    std::list<SlotType *>::iterator iter;
+    for (iter = Slot->begin();
+         iter != Slot->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKit_Slot",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printXmlBooleanProp("ktw:hasKit_Finished",
+                              Name, Finished, outFile);
+  printer.endIndi("ktw:Kit", outFile);
   individuals.insert(Name->val);
 }
 
@@ -831,7 +1680,7 @@ KittingPlanType::KittingPlanType(
  XmlDateTime * PlanDateAndTimeIn,
  XmlToken * PlanAuthorIn,
  XmlString * PlanDescriptionIn,
- std::list<XmlNMTOKEN *> * ObjectIn,
+ std::list<XmlID *> * ObjectIn,
  std::list<VariableDeclarationType *> * VariableIn,
  PlanElementBaseType * PlanRootIn) :
   DataThingType(
@@ -851,24 +1700,24 @@ KittingPlanType::~KittingPlanType() {}
 
 void KittingPlanType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "KittingPlan", outFile);
-  printer.printXmlNMTOKENProp("hasKittingPlan_PlanId",
+  printer.startIndi(Name, "ktp:KittingPlan", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasKittingPlan_PlanId",
                               Name, PlanId, outFile);
-  printer.printXmlTokenProp("hasKittingPlan_PlanVersion",
+  printer.printXmlTokenProp("ktp:hasKittingPlan_PlanVersion",
                             Name, PlanVersion, outFile);
-  printer.printXmlDateTimeProp("hasKittingPlan_PlanDateAndTime",
+  printer.printXmlDateTimeProp("ktp:hasKittingPlan_PlanDateAndTime",
                                Name, PlanDateAndTime, outFile);
-  printer.printXmlTokenProp("hasKittingPlan_PlanAuthor",
+  printer.printXmlTokenProp("ktp:hasKittingPlan_PlanAuthor",
                             Name, PlanAuthor, outFile);
-  printer.printXmlStringProp("hasKittingPlan_PlanDescription",
+  printer.printXmlStringProp("ktp:hasKittingPlan_PlanDescription",
                              Name, PlanDescription, outFile);
   {
-    std::list<XmlNMTOKEN *>::iterator iter;
+    std::list<XmlID *>::iterator iter;
     for (iter = Object->begin();
         iter != Object->end(); iter++)
       {
-        printer.printXmlNMTOKENProp("hasKittingPlan_Object",
-                                    Name, *iter, outFile);
+        printer.printXmlIDProp("ktp:hasKittingPlan_Object",
+                               Name, *iter, outFile);
       }
   }
   {
@@ -876,16 +1725,401 @@ void KittingPlanType::printOwl(FILE * outFile)
     for (iter = Variable->begin();
          iter != Variable->end(); iter++)
       {
-        printer.printObjProp("hasKittingPlan_Variable",
+        printer.printObjProp("ktp:hasKittingPlan_Variable",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
-  printer.printObjProp("hasKittingPlan_PlanRoot",
+  printer.printObjProp("ktp:hasKittingPlan_PlanRoot",
                        Name, PlanRoot->Name, outFile);
   PlanRoot->printOwl(outFile);
-  printer.endIndi("KittingPlan", outFile);
+  printer.endIndi("ktp:KittingPlan", outFile);
   individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class KittingWorkstationType
+
+*/
+
+KittingWorkstationType::KittingWorkstationType() {}
+
+KittingWorkstationType::KittingWorkstationType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ AngleUnitType * AngleUnitIn,
+ EndEffectorChangingStationType * ChangingStationIn,
+ std::list<KitDesignType *> * KitDesignIn,
+ LengthUnitType * LengthUnitIn,
+ std::list<SolidObjectType *> * ObjectIn,
+ std::list<BoxVolumeType *> * OtherObstacleIn,
+ RobotType * RobotIn,
+ std::list<StockKeepingUnitType *> * SkuIn,
+ WeightUnitType * WeightUnitIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  AngleUnit = AngleUnitIn;
+  ChangingStation = ChangingStationIn;
+  KitDesign = KitDesignIn;
+  LengthUnit = LengthUnitIn;
+  Object = ObjectIn;
+  OtherObstacle = OtherObstacleIn;
+  Robot = RobotIn;
+  Sku = SkuIn;
+  WeightUnit = WeightUnitIn;
+}
+
+KittingWorkstationType::~KittingWorkstationType() {}
+
+void KittingWorkstationType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:KittingWorkstation", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  AngleUnit->printProp("ktw:hasKittingWorkstation_AngleUnit",
+                       Name, outFile);
+  printer.printObjProp("ktw:hasKittingWorkstation_ChangingStation",
+                       Name, ChangingStation->Name, outFile);
+  ChangingStation->printOwl(outFile);
+  {
+    std::list<KitDesignType *>::iterator iter;
+    for (iter = KitDesign->begin();
+         iter != KitDesign->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKittingWorkstation_KitDesign",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  LengthUnit->printProp("ktw:hasKittingWorkstation_LengthUnit",
+                        Name, outFile);
+  {
+    std::list<SolidObjectType *>::iterator iter;
+    for (iter = Object->begin();
+         iter != Object->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKittingWorkstation_Object",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  {
+    std::list<BoxVolumeType *>::iterator iter;
+    for (iter = OtherObstacle->begin();
+         iter != OtherObstacle->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKittingWorkstation_OtherObstacle",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjProp("ktw:hasKittingWorkstation_Robot",
+                       Name, Robot->Name, outFile);
+  Robot->printOwl(outFile);
+  {
+    std::list<StockKeepingUnitType *>::iterator iter;
+    for (iter = Sku->begin();
+         iter != Sku->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasKittingWorkstation_Sku",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  WeightUnit->printProp("ktw:hasKittingWorkstation_WeightUnit",
+                        Name, outFile);
+  printer.endIndi("ktw:KittingWorkstation", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class LargeBoxWithEmptyKitTraysType
+
+*/
+
+LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType() {}
+
+LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ LargeContainerType * LargeContainerIn,
+ std::list<KitTrayType *> * KitTrayIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  LargeContainer = LargeContainerIn;
+  KitTray = KitTrayIn;
+}
+
+LargeBoxWithEmptyKitTraysType::~LargeBoxWithEmptyKitTraysType() {}
+
+void LargeBoxWithEmptyKitTraysType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:LargeBoxWithEmptyKitTrays", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printObjProp("ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer",
+                       Name, LargeContainer->Name, outFile);
+  LargeContainer->printOwl(outFile);
+  {
+    std::list<KitTrayType *>::iterator iter;
+    for (iter = KitTray->begin();
+         iter != KitTray->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasLargeBoxWithEmptyKitTrays_KitTray",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:LargeBoxWithEmptyKitTrays", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class LargeBoxWithKitsType
+
+*/
+
+LargeBoxWithKitsType::LargeBoxWithKitsType() {}
+
+LargeBoxWithKitsType::LargeBoxWithKitsType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ LargeContainerType * LargeContainerIn,
+ std::list<KitType *> * KitIn,
+ XmlIDREF * KitDesignNameIn,
+ XmlPositiveInteger * CapacityIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  LargeContainer = LargeContainerIn;
+  Kit = KitIn;
+  KitDesignName = KitDesignNameIn;
+  Capacity = CapacityIn;
+}
+
+LargeBoxWithKitsType::~LargeBoxWithKitsType() {}
+
+void LargeBoxWithKitsType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:LargeBoxWithKits", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printObjProp("ktw:hasLargeBoxWithKits_LargeContainer",
+                       Name, LargeContainer->Name, outFile);
+  LargeContainer->printOwl(outFile);
+  {
+    std::list<KitType *>::iterator iter;
+    for (iter = Kit->begin();
+         iter != Kit->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasLargeBoxWithKits_Kit",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjRefProp("ktw:hasLargeBoxWithKits_KitDesign",
+                          Name, KitDesignName, outFile);
+  printer.printXmlPositiveIntegerProp("ktw:hasLargeBoxWithKits_Capacity",
+                                      Name, Capacity, outFile);
+  printer.endIndi("ktw:LargeBoxWithKits", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class LargeContainerType
+
+*/
+
+LargeContainerType::LargeContainerType() {}
+
+LargeContainerType::LargeContainerType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn) :
+  SkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    SkuNameIn)
+{
+  SerialNumber = SerialNumberIn;
+}
+
+LargeContainerType::~LargeContainerType() {}
+
+void LargeContainerType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:LargeContainer", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjRefProp("ktw:hasSkuObject_Sku",
+                          Name, SkuName, outFile);
+  printer.printXmlNMTOKENProp("ktw:hasLargeContainer_SerialNumber",
+                              Name, SerialNumber, outFile);
+  printer.endIndi("ktw:LargeContainer", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class LengthUnitType
+
+*/
+
+LengthUnitType::LengthUnitType() :
+  XmlNMTOKEN() {}
+
+LengthUnitType::LengthUnitType(
+ char * valIn) :
+  XmlNMTOKEN(valIn)
+{
+  if (!bad)
+    bad = (strcmp(val.c_str(), "meter") &&
+           strcmp(val.c_str(), "millimeter") &&
+           strcmp(val.c_str(), "inch"));
+}
+
+LengthUnitType::~LengthUnitType() {}
+
+bool LengthUnitType::LengthUnitTypeIsBad()
+{
+  return (strcmp(val.c_str(), "meter") &&
+          strcmp(val.c_str(), "millimeter") &&
+          strcmp(val.c_str(), "inch"));
+}
+
+void LengthUnitType::printOwl(FILE * outFile)
+{
+  if (LengthUnitTypeIsBad())
+    {
+      fprintf(stderr, "bad LengthUnitType value, ");
+      XmlNMTOKEN::printSelf(stderr);
+      fprintf(stderr, " exiting\n");
+      exit(1);
+    }
+  XmlNMTOKEN::printSelf(outFile);
+}
+
+void LengthUnitType::printProp(
+ const char * property,
+ XmlID * Name,
+ FILE * outFile)
+{
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
+  Name->printSelf(outFile);
+  fprintf(outFile, "\n");
+  fprintf(outFile, "                      \"");
+  printOwl(outFile);
+  fprintf(outFile, "\"^^xsd:NMTOKEN)\n");
 }
 
 /*********************************************************************/
@@ -911,14 +2145,14 @@ LessOrEqualType::~LessOrEqualType() {}
 
 void LessOrEqualType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "LessOrEqual", outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A1",
+  printer.startIndi(Name, "ktp:LessOrEqual", outFile);
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A2",
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("LessOrEqual", outFile);
+  printer.endIndi("ktp:LessOrEqual", outFile);
   individuals.insert(Name->val);
 }
 
@@ -945,14 +2179,14 @@ LessType::~LessType() {}
 
 void LessType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Less", outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A1",
+  printer.startIndi(Name, "ktp:Less", outFile);
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A2",
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Less", outFile);
+  printer.endIndi("ktp:Less", outFile);
   individuals.insert(Name->val);
 }
 
@@ -977,10 +2211,67 @@ LocatePartType::~LocatePartType() {}
 
 void LocatePartType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "LocatePart", outFile);
-  printer.printXmlNMTOKENProp("hasLocatePart_PartName",
+  printer.startIndi(Name, "ktp:LocatePart", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasLocatePart_PartName",
                               Name, PartName, outFile);
-  printer.endIndi("LocatePart", outFile);
+  printer.endIndi("ktp:LocatePart", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class MechanicalComponentType
+
+*/
+
+MechanicalComponentType::MechanicalComponentType() {}
+
+MechanicalComponentType::MechanicalComponentType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+}
+
+MechanicalComponentType::~MechanicalComponentType() {}
+
+void MechanicalComponentType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:MechanicalComponent", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.endIndi("ktw:MechanicalComponent", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1007,14 +2298,14 @@ MinusType::~MinusType() {}
 
 void MinusType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Minus", outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A1",
+  printer.startIndi(Name, "ktp:Minus", outFile);
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A2",
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Minus", outFile);
+  printer.endIndi("ktp:Minus", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1041,14 +2332,14 @@ ModType::~ModType() {}
 
 void ModType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Mod", outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A1",
+  printer.startIndi(Name, "ktp:Mod", outFile);
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A2",
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Mod", outFile);
+  printer.endIndi("ktp:Mod", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1073,13 +2364,38 @@ NegateType::~NegateType() {}
 
 void NegateType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Negate", outFile);
-  printer.printObjProp("hasNegate_A",
+  printer.startIndi(Name, "ktp:Negate", outFile);
+  printer.printObjProp("ktp:hasNegate_A",
                        Name, A->Name, outFile);
   A->printOwl(outFile);
-  printer.endIndi("Negate", outFile);
+  printer.endIndi("ktp:Negate", outFile);
   individuals.insert(Name->val);
 }
+
+/*********************************************************************/
+
+/* class NoSkuObjectType
+
+*/
+
+NoSkuObjectType::NoSkuObjectType() {}
+
+NoSkuObjectType::NoSkuObjectType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn) :
+  SolidObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn)
+{
+  InternalShape = InternalShapeIn;
+  ExternalShape = ExternalShapeIn;
+}
+
+NoSkuObjectType::~NoSkuObjectType() {}
 
 /*********************************************************************/
 
@@ -1104,14 +2420,14 @@ NotEqualType::~NotEqualType() {}
 
 void NotEqualType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "NotEqual", outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A1",
+  printer.startIndi(Name, "ktp:NotEqual", outFile);
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasArithmeticComparisonBooleanExpression_A2",
+  printer.printObjProp("ktp:hasArithmeticComparisonBooleanExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("NotEqual", outFile);
+  printer.endIndi("ktp:NotEqual", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1136,11 +2452,11 @@ NotType::~NotType() {}
 
 void NotType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Not", outFile);
-  printer.printObjProp("hasNot_B",
+  printer.startIndi(Name, "ktp:Not", outFile);
+  printer.printObjProp("ktp:hasNot_B",
                        Name, B->Name, outFile);
   B->printOwl(outFile);
-  printer.endIndi("Not", outFile);
+  printer.endIndi("ktp:Not", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1167,13 +2483,13 @@ NumberedPlanElementType::~NumberedPlanElementType() {}
 
 void NumberedPlanElementType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "NumberedPlanElement", outFile);
-  printer.printXmlPositiveIntegerProp("hasNumberedPlanElement_SequenceNumber",
+  printer.startIndi(Name, "ktp:NumberedPlanElement", outFile);
+  printer.printXmlPositiveIntegerProp("ktp:hasNumberedPlanElement_SequenceNumber",
                                       Name, SequenceNumber, outFile);
-  printer.printObjProp("hasNumberedPlanElement_PlanElement",
+  printer.printObjProp("ktp:hasNumberedPlanElement_PlanElement",
                        Name, PlanElement->Name, outFile);
   PlanElement->printOwl(outFile);
-  printer.endIndi("NumberedPlanElement", outFile);
+  printer.endIndi("ktp:NumberedPlanElement", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1198,18 +2514,18 @@ OneOfActionGroupType::~OneOfActionGroupType() {}
 
 void OneOfActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "OneOfActionGroup", outFile);
+  printer.startIndi(Name, "ktp:OneOfActionGroup", outFile);
   {
     std::list<NumberedPlanElementType *>::iterator iter;
     for (iter = Step->begin();
          iter != Step->end(); iter++)
       {
-        printer.printObjProp("hasOneOfActionGroup_Step",
+        printer.printObjProp("ktp:hasOneOfActionGroup_Step",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
-  printer.endIndi("OneOfActionGroup", outFile);
+  printer.endIndi("ktp:OneOfActionGroup", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1236,14 +2552,14 @@ OrType::~OrType() {}
 
 void OrType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Or", outFile);
-  printer.printObjProp("hasBinaryBooleanExpression_B1",
+  printer.startIndi(Name, "ktp:Or", outFile);
+  printer.printObjProp("ktp:hasBinaryBooleanExpression_B1",
                        Name, B1->Name, outFile);
   B1->printOwl(outFile);
-  printer.printObjProp("hasBinaryBooleanExpression_B2",
+  printer.printObjProp("ktp:hasBinaryBooleanExpression_B2",
                        Name, B2->Name, outFile);
   B2->printOwl(outFile);
-  printer.endIndi("Or", outFile);
+  printer.endIndi("ktp:Or", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1268,18 +2584,110 @@ OrderedActionGroupType::~OrderedActionGroupType() {}
 
 void OrderedActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "OrderedActionGroup", outFile);
+  printer.startIndi(Name, "ktp:OrderedActionGroup", outFile);
   {
     std::list<NumberedPlanElementType *>::iterator iter;
     for (iter = Step->begin();
          iter != Step->end(); iter++)
       {
-        printer.printObjProp("hasOrderedActionGroup_Step",
+        printer.printObjProp("ktp:hasOrderedActionGroup_Step",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
-  printer.endIndi("OrderedActionGroup", outFile);
+  printer.endIndi("ktp:OrderedActionGroup", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class PartRefAndPoseType
+
+*/
+
+PartRefAndPoseType::PartRefAndPoseType() {}
+
+PartRefAndPoseType::PartRefAndPoseType(
+ XmlID * NameIn,
+ XmlIDREF * SkuNameIn,
+ PointType * PointIn,
+ VectorType * XAxisIn,
+ VectorType * ZAxisIn) :
+  DataThingType(
+    NameIn)
+{
+  SkuName = SkuNameIn;
+  Point = PointIn;
+  XAxis = XAxisIn;
+  ZAxis = ZAxisIn;
+}
+
+PartRefAndPoseType::~PartRefAndPoseType() {}
+
+void PartRefAndPoseType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:PartRefAndPose", outFile);
+  printer.printObjRefProp("ktw:hasPartRefAndPose_Sku",
+                          Name, SkuName, outFile);
+  printer.printObjProp("ktw:hasPartRefAndPose_Point",
+                       Name, Point->Name, outFile);
+  Point->printOwl(outFile);
+  printer.printObjProp("ktw:hasPartRefAndPose_XAxis",
+                       Name, XAxis->Name, outFile);
+  XAxis->printOwl(outFile);
+  printer.printObjProp("ktw:hasPartRefAndPose_ZAxis",
+                       Name, ZAxis->Name, outFile);
+  ZAxis->printOwl(outFile);
+  printer.endIndi("ktw:PartRefAndPose", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class PartType
+
+*/
+
+PartType::PartType() {}
+
+PartType::PartType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn) :
+  SkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    SkuNameIn)
+{
+  SerialNumber = SerialNumberIn;
+}
+
+PartType::~PartType() {}
+
+void PartType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:Part", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjRefProp("ktw:hasSkuObject_Sku",
+                          Name, SkuName, outFile);
+  printer.printXmlNMTOKENProp("ktw:hasPart_SerialNumber",
+                              Name, SerialNumber, outFile);
+  printer.endIndi("ktw:Part", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1304,20 +2712,189 @@ PartiallyOrderedActionGroupType::~PartiallyOrderedActionGroupType() {}
 
 void PartiallyOrderedActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PartiallyOrderedActionGroup", outFile);
+  printer.startIndi(Name, "ktp:PartiallyOrderedActionGroup", outFile);
   {
     std::list<StepWithPredecessorsType *>::iterator iter;
     for (iter = Step->begin();
          iter != Step->end(); iter++)
       {
-        printer.printObjProp("hasPartiallyOrderedActionGroup_Step",
+        printer.printObjProp("ktp:hasPartiallyOrderedActionGroup_Step",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
-  printer.endIndi("PartiallyOrderedActionGroup", outFile);
+  printer.endIndi("ktp:PartiallyOrderedActionGroup", outFile);
   individuals.insert(Name->val);
 }
+
+/*********************************************************************/
+
+/* class PartsBinType
+
+*/
+
+PartsBinType::PartsBinType() {}
+
+PartsBinType::PartsBinType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn,
+ XmlIDREF * PartSkuNameIn,
+ XmlNonNegativeInteger * PartQuantityIn,
+ std::list<PartType *> * PartIn) :
+  PartsVesselType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    SkuNameIn,
+    SerialNumberIn,
+    PartSkuNameIn,
+    PartQuantityIn,
+    PartIn)
+{
+}
+
+PartsBinType::~PartsBinType() {}
+
+void PartsBinType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:PartsBin", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjRefProp("ktw:hasSkuObject_Sku",
+                          Name, SkuName, outFile);
+  printer.printXmlNMTOKENProp("ktw:hasPartsVessel_SerialNumber",
+                              Name, SerialNumber, outFile);
+  printer.printObjRefProp("ktw:hasPartsVessel_PartSku",
+                          Name, PartSkuName, outFile);
+  printer.printXmlNonNegativeIntegerProp("ktw:hasPartsVessel_PartQuantity",
+                                         Name, PartQuantity, outFile);
+  {
+    std::list<PartType *>::iterator iter;
+    for (iter = Part->begin();
+         iter != Part->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasPartsVessel_Part",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:PartsBin", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class PartsTrayType
+
+*/
+
+PartsTrayType::PartsTrayType() {}
+
+PartsTrayType::PartsTrayType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn,
+ XmlIDREF * PartSkuNameIn,
+ XmlNonNegativeInteger * PartQuantityIn,
+ std::list<PartType *> * PartIn) :
+  PartsVesselType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    SkuNameIn,
+    SerialNumberIn,
+    PartSkuNameIn,
+    PartQuantityIn,
+    PartIn)
+{
+}
+
+PartsTrayType::~PartsTrayType() {}
+
+void PartsTrayType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:PartsTray", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.printObjRefProp("ktw:hasSkuObject_Sku",
+                          Name, SkuName, outFile);
+  printer.printXmlNMTOKENProp("ktw:hasPartsVessel_SerialNumber",
+                              Name, SerialNumber, outFile);
+  printer.printObjRefProp("ktw:hasPartsVessel_PartSku",
+                          Name, PartSkuName, outFile);
+  printer.printXmlNonNegativeIntegerProp("ktw:hasPartsVessel_PartQuantity",
+                                         Name, PartQuantity, outFile);
+  {
+    std::list<PartType *>::iterator iter;
+    for (iter = Part->begin();
+         iter != Part->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasPartsVessel_Part",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:PartsTray", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class PartsVesselType
+
+*/
+
+PartsVesselType::PartsVesselType() {}
+
+PartsVesselType::PartsVesselType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn,
+ XmlIDREF * PartSkuNameIn,
+ XmlNonNegativeInteger * PartQuantityIn,
+ std::list<PartType *> * PartIn) :
+  SkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    SkuNameIn)
+{
+  SerialNumber = SerialNumberIn;
+  PartSkuName = PartSkuNameIn;
+  PartQuantity = PartQuantityIn;
+  Part = PartIn;
+}
+
+PartsVesselType::~PartsVesselType() {}
 
 /*********************************************************************/
 
@@ -1329,11 +2906,13 @@ PhysicalLocationType::PhysicalLocationType() {}
 
 PhysicalLocationType::PhysicalLocationType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn) :
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn) :
   DataThingType(
     NameIn)
 {
   RefObjectName = RefObjectNameIn;
+  Timestamp = TimestampIn;
 }
 
 PhysicalLocationType::~PhysicalLocationType() {}
@@ -1378,14 +2957,14 @@ PlusType::~PlusType() {}
 
 void PlusType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Plus", outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A1",
+  printer.startIndi(Name, "ktp:Plus", outFile);
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A2",
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Plus", outFile);
+  printer.endIndi("ktp:Plus", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1414,14 +2993,14 @@ PointType::~PointType() {}
 
 void PointType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Point", outFile);
-  printer.printXmlDecimalProp("hasPoint_X",
+  printer.startIndi(Name, "ktw:Point", outFile);
+  printer.printXmlDecimalProp("ktw:hasPoint_X",
                               Name, X, outFile);
-  printer.printXmlDecimalProp("hasPoint_Y",
+  printer.printXmlDecimalProp("ktw:hasPoint_Y",
                               Name, Y, outFile);
-  printer.printXmlDecimalProp("hasPoint_Z",
+  printer.printXmlDecimalProp("ktw:hasPoint_Z",
                               Name, Z, outFile);
-  printer.endIndi("Point", outFile);
+  printer.endIndi("ktw:Point", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1435,7 +3014,8 @@ PoseLocationInType::PoseLocationInType() {}
 
 PoseLocationInType::PoseLocationInType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
  VectorType * ZAxisIn,
@@ -1444,6 +3024,7 @@ PoseLocationInType::PoseLocationInType(
   PoseLocationType(
     NameIn,
     RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
     ZAxisIn,
@@ -1456,29 +3037,34 @@ PoseLocationInType::~PoseLocationInType() {}
 
 void PoseLocationInType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PoseLocationIn", outFile);
-  printer.printXmlNMTOKENProp("hasPhysicalLocation_RefObjectName",
-                              Name, RefObjectName, outFile);
-  printer.printObjProp("hasPoseLocation_Point",
+  printer.startIndi(Name, "ktw:PoseLocationIn", outFile);
+  printer.printObjRefProp("ktw:hasPhysicalLocation_RefObject",
+                          Name, RefObjectName, outFile);
+  if (Timestamp)
+    {
+      printer.printXmlDateTimeProp("ktw:hasPhysicalLocation_Timestamp",
+                                   Name, Timestamp, outFile);
+    }
+  printer.printObjProp("ktw:hasPoseLocation_Point",
                        Name, Point->Name, outFile);
   Point->printOwl(outFile);
-  printer.printObjProp("hasPoseLocation_XAxis",
+  printer.printObjProp("ktw:hasPoseLocation_XAxis",
                        Name, XAxis->Name, outFile);
   XAxis->printOwl(outFile);
-  printer.printObjProp("hasPoseLocation_ZAxis",
+  printer.printObjProp("ktw:hasPoseLocation_ZAxis",
                        Name, ZAxis->Name, outFile);
   ZAxis->printOwl(outFile);
   if (PositionStandardDeviation)
     {
-      PositionStandardDeviation->printProp("hasPoseLocation_PositionStandardDeviation",
+      PositionStandardDeviation->printProp("ktw:hasPoseLocation_PositionStandardDeviation",
                                            Name, outFile);
     }
   if (OrientationStandardDeviation)
     {
-      OrientationStandardDeviation->printProp("hasPoseLocation_OrientationStandardDeviation",
+      OrientationStandardDeviation->printProp("ktw:hasPoseLocation_OrientationStandardDeviation",
                                               Name, outFile);
     }
-  printer.endIndi("PoseLocationIn", outFile);
+  printer.endIndi("ktw:PoseLocationIn", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1492,7 +3078,8 @@ PoseLocationOnType::PoseLocationOnType() {}
 
 PoseLocationOnType::PoseLocationOnType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
  VectorType * ZAxisIn,
@@ -1501,6 +3088,7 @@ PoseLocationOnType::PoseLocationOnType(
   PoseLocationType(
     NameIn,
     RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
     ZAxisIn,
@@ -1513,29 +3101,34 @@ PoseLocationOnType::~PoseLocationOnType() {}
 
 void PoseLocationOnType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PoseLocationOn", outFile);
-  printer.printXmlNMTOKENProp("hasPhysicalLocation_RefObjectName",
-                              Name, RefObjectName, outFile);
-  printer.printObjProp("hasPoseLocation_Point",
+  printer.startIndi(Name, "ktw:PoseLocationOn", outFile);
+  printer.printObjRefProp("ktw:hasPhysicalLocation_RefObject",
+                          Name, RefObjectName, outFile);
+  if (Timestamp)
+    {
+      printer.printXmlDateTimeProp("ktw:hasPhysicalLocation_Timestamp",
+                                   Name, Timestamp, outFile);
+    }
+  printer.printObjProp("ktw:hasPoseLocation_Point",
                        Name, Point->Name, outFile);
   Point->printOwl(outFile);
-  printer.printObjProp("hasPoseLocation_XAxis",
+  printer.printObjProp("ktw:hasPoseLocation_XAxis",
                        Name, XAxis->Name, outFile);
   XAxis->printOwl(outFile);
-  printer.printObjProp("hasPoseLocation_ZAxis",
+  printer.printObjProp("ktw:hasPoseLocation_ZAxis",
                        Name, ZAxis->Name, outFile);
   ZAxis->printOwl(outFile);
   if (PositionStandardDeviation)
     {
-      PositionStandardDeviation->printProp("hasPoseLocation_PositionStandardDeviation",
+      PositionStandardDeviation->printProp("ktw:hasPoseLocation_PositionStandardDeviation",
                                            Name, outFile);
     }
   if (OrientationStandardDeviation)
     {
-      OrientationStandardDeviation->printProp("hasPoseLocation_OrientationStandardDeviation",
+      OrientationStandardDeviation->printProp("ktw:hasPoseLocation_OrientationStandardDeviation",
                                               Name, outFile);
     }
-  printer.endIndi("PoseLocationOn", outFile);
+  printer.endIndi("ktw:PoseLocationOn", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1549,7 +3142,8 @@ PoseLocationType::PoseLocationType() {}
 
 PoseLocationType::PoseLocationType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
  VectorType * ZAxisIn,
@@ -1557,7 +3151,8 @@ PoseLocationType::PoseLocationType(
  PositiveDecimalType * OrientationStandardDeviationIn) :
   PhysicalLocationType(
     NameIn,
-    RefObjectNameIn)
+    RefObjectNameIn,
+    TimestampIn)
 {
   Point = PointIn;
   XAxis = XAxisIn;
@@ -1578,7 +3173,8 @@ PoseOnlyLocationType::PoseOnlyLocationType() {}
 
 PoseOnlyLocationType::PoseOnlyLocationType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
  VectorType * ZAxisIn,
@@ -1587,6 +3183,7 @@ PoseOnlyLocationType::PoseOnlyLocationType(
   PoseLocationType(
     NameIn,
     RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
     ZAxisIn,
@@ -1599,29 +3196,34 @@ PoseOnlyLocationType::~PoseOnlyLocationType() {}
 
 void PoseOnlyLocationType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PoseOnlyLocation", outFile);
-  printer.printXmlNMTOKENProp("hasPhysicalLocation_RefObjectName",
-                              Name, RefObjectName, outFile);
-  printer.printObjProp("hasPoseLocation_Point",
+  printer.startIndi(Name, "ktw:PoseOnlyLocation", outFile);
+  printer.printObjRefProp("ktw:hasPhysicalLocation_RefObject",
+                          Name, RefObjectName, outFile);
+  if (Timestamp)
+    {
+      printer.printXmlDateTimeProp("ktw:hasPhysicalLocation_Timestamp",
+                                   Name, Timestamp, outFile);
+    }
+  printer.printObjProp("ktw:hasPoseLocation_Point",
                        Name, Point->Name, outFile);
   Point->printOwl(outFile);
-  printer.printObjProp("hasPoseLocation_XAxis",
+  printer.printObjProp("ktw:hasPoseLocation_XAxis",
                        Name, XAxis->Name, outFile);
   XAxis->printOwl(outFile);
-  printer.printObjProp("hasPoseLocation_ZAxis",
+  printer.printObjProp("ktw:hasPoseLocation_ZAxis",
                        Name, ZAxis->Name, outFile);
   ZAxis->printOwl(outFile);
   if (PositionStandardDeviation)
     {
-      PositionStandardDeviation->printProp("hasPoseLocation_PositionStandardDeviation",
+      PositionStandardDeviation->printProp("ktw:hasPoseLocation_PositionStandardDeviation",
                                            Name, outFile);
     }
   if (OrientationStandardDeviation)
     {
-      OrientationStandardDeviation->printProp("hasPoseLocation_OrientationStandardDeviation",
+      OrientationStandardDeviation->printProp("ktw:hasPoseLocation_OrientationStandardDeviation",
                                               Name, outFile);
     }
-  printer.endIndi("PoseOnlyLocation", outFile);
+  printer.endIndi("ktw:PoseOnlyLocation", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1667,7 +3269,7 @@ void PositiveDecimalType::printProp(
  XmlID * Name,
  FILE * outFile)
 {
-  fprintf(outFile, "DataPropertyAssertion(:%s :", property);
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
   Name->printSelf(outFile);
   fprintf(outFile, "\n");
   fprintf(outFile, "                      \"");
@@ -1698,12 +3300,12 @@ PropValType::~PropValType() {}
 
 void PropValType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PropVal", outFile);
-  printer.printXmlNMTOKENProp("hasPropVal_ThingName",
+  printer.startIndi(Name, "ktp:PropVal", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasPropVal_ThingName",
                               Name, ThingName, outFile);
-  printer.printXmlNMTOKENProp("hasPropVal_Property",
+  printer.printXmlNMTOKENProp("ktp:hasPropVal_Property",
                               Name, Property, outFile);
-  printer.endIndi("PropVal", outFile);
+  printer.endIndi("ktp:PropVal", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1732,15 +3334,15 @@ PutKitTrayType::~PutKitTrayType() {}
 
 void PutKitTrayType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PutKitTray", outFile);
-  printer.printXmlNMTOKENProp("hasPutKitTray_RobotName",
+  printer.startIndi(Name, "ktp:PutKitTray", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasPutKitTray_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasPutKitTray_KitTrayName",
+  printer.printXmlNMTOKENProp("ktp:hasPutKitTray_KitTrayName",
                               Name, KitTrayName, outFile);
-  printer.printObjProp("hasPutKitTray_Location",
+  printer.printObjProp("ktp:hasPutKitTray_Location",
                        Name, Location->Name, outFile);
   Location->printOwl(outFile);
-  printer.endIndi("PutKitTray", outFile);
+  printer.endIndi("ktp:PutKitTray", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1769,15 +3371,15 @@ PutKitType::~PutKitType() {}
 
 void PutKitType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PutKit", outFile);
-  printer.printXmlNMTOKENProp("hasPutKit_RobotName",
+  printer.startIndi(Name, "ktp:PutKit", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasPutKit_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasPutKit_KitName",
+  printer.printXmlNMTOKENProp("ktp:hasPutKit_KitName",
                               Name, KitName, outFile);
-  printer.printObjProp("hasPutKit_Location",
+  printer.printObjProp("ktp:hasPutKit_Location",
                        Name, Location->Name, outFile);
   Location->printOwl(outFile);
-  printer.endIndi("PutKit", outFile);
+  printer.endIndi("ktp:PutKit", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1806,15 +3408,15 @@ PutPartType::~PutPartType() {}
 
 void PutPartType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "PutPart", outFile);
-  printer.printXmlNMTOKENProp("hasPutPart_RobotName",
+  printer.startIndi(Name, "ktp:PutPart", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasPutPart_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasPutPart_PartName",
+  printer.printXmlNMTOKENProp("ktp:hasPutPart_PartName",
                               Name, PartName, outFile);
-  printer.printObjProp("hasPutPart_Location",
+  printer.printObjProp("ktp:hasPutPart_Location",
                        Name, Location->Name, outFile);
   Location->printOwl(outFile);
-  printer.endIndi("PutPart", outFile);
+  printer.endIndi("ktp:PutPart", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1828,11 +3430,13 @@ RelativeLocationInType::RelativeLocationInType() {}
 
 RelativeLocationInType::RelativeLocationInType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
     RefObjectNameIn,
+    TimestampIn,
     DescriptionIn)
 {
 }
@@ -1841,12 +3445,17 @@ RelativeLocationInType::~RelativeLocationInType() {}
 
 void RelativeLocationInType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "RelativeLocationIn", outFile);
-  printer.printXmlNMTOKENProp("hasPhysicalLocation_RefObjectName",
-                              Name, RefObjectName, outFile);
-  printer.printXmlStringProp("hasRelativeLocation_Description",
+  printer.startIndi(Name, "ktw:RelativeLocationIn", outFile);
+  printer.printObjRefProp("ktw:hasPhysicalLocation_RefObject",
+                          Name, RefObjectName, outFile);
+  if (Timestamp)
+    {
+      printer.printXmlDateTimeProp("ktw:hasPhysicalLocation_Timestamp",
+                                   Name, Timestamp, outFile);
+    }
+  printer.printXmlStringProp("ktw:hasRelativeLocation_Description",
                              Name, Description, outFile);
-  printer.endIndi("RelativeLocationIn", outFile);
+  printer.endIndi("ktw:RelativeLocationIn", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1860,11 +3469,13 @@ RelativeLocationOnType::RelativeLocationOnType() {}
 
 RelativeLocationOnType::RelativeLocationOnType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
     RefObjectNameIn,
+    TimestampIn,
     DescriptionIn)
 {
 }
@@ -1873,12 +3484,17 @@ RelativeLocationOnType::~RelativeLocationOnType() {}
 
 void RelativeLocationOnType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "RelativeLocationOn", outFile);
-  printer.printXmlNMTOKENProp("hasPhysicalLocation_RefObjectName",
-                              Name, RefObjectName, outFile);
-  printer.printXmlStringProp("hasRelativeLocation_Description",
+  printer.startIndi(Name, "ktw:RelativeLocationOn", outFile);
+  printer.printObjRefProp("ktw:hasPhysicalLocation_RefObject",
+                          Name, RefObjectName, outFile);
+  if (Timestamp)
+    {
+      printer.printXmlDateTimeProp("ktw:hasPhysicalLocation_Timestamp",
+                                   Name, Timestamp, outFile);
+    }
+  printer.printXmlStringProp("ktw:hasRelativeLocation_Description",
                              Name, Description, outFile);
-  printer.endIndi("RelativeLocationOn", outFile);
+  printer.endIndi("ktw:RelativeLocationOn", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1892,11 +3508,13 @@ RelativeLocationType::RelativeLocationType() {}
 
 RelativeLocationType::RelativeLocationType(
  XmlID * NameIn,
- XmlNMTOKEN * RefObjectNameIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   PhysicalLocationType(
     NameIn,
-    RefObjectNameIn)
+    RefObjectNameIn,
+    TimestampIn)
 {
   Description = DescriptionIn;
 }
@@ -1922,6 +3540,91 @@ RobotActionBaseType::~RobotActionBaseType() {}
 
 /*********************************************************************/
 
+/* class RobotType
+
+*/
+
+RobotType::RobotType() {}
+
+RobotType::RobotType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlString * DescriptionIn,
+ EndEffectorType * EndEffectorIn,
+ PositiveDecimalType * MaximumLoadWeightIn,
+ std::list<BoxVolumeType *> * WorkVolumeIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  Description = DescriptionIn;
+  EndEffector = EndEffectorIn;
+  MaximumLoadWeight = MaximumLoadWeightIn;
+  WorkVolume = WorkVolumeIn;
+}
+
+RobotType::~RobotType() {}
+
+void RobotType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:Robot", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printXmlStringProp("ktw:hasRobot_Description",
+                             Name, Description, outFile);
+  if (EndEffector)
+    {
+      printer.printObjProp("ktw:hasRobot_EndEffector",
+                           Name, EndEffector->Name, outFile);
+      EndEffector->printOwl(outFile);
+    }
+  MaximumLoadWeight->printProp("ktw:hasRobot_MaximumLoadWeight",
+                               Name, outFile);
+  {
+    std::list<BoxVolumeType *>::iterator iter;
+    for (iter = WorkVolume->begin();
+         iter != WorkVolume->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasRobot_WorkVolume",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:Robot", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
 /* class SensorActionBaseType
 
 */
@@ -1936,6 +3639,105 @@ SensorActionBaseType::SensorActionBaseType(
 }
 
 SensorActionBaseType::~SensorActionBaseType() {}
+
+/*********************************************************************/
+
+/* class ShapeDesignType
+
+*/
+
+ShapeDesignType::ShapeDesignType() {}
+
+ShapeDesignType::ShapeDesignType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn) :
+  DataThingType(
+    NameIn)
+{
+  Description = DescriptionIn;
+  GraspPose = GraspPoseIn;
+}
+
+ShapeDesignType::~ShapeDesignType() {}
+
+/*********************************************************************/
+
+/* class SkuObjectType
+
+*/
+
+SkuObjectType::SkuObjectType() {}
+
+SkuObjectType::SkuObjectType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn) :
+  SolidObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn)
+{
+  SkuName = SkuNameIn;
+}
+
+SkuObjectType::~SkuObjectType() {}
+
+/*********************************************************************/
+
+/* class SlotType
+
+*/
+
+SlotType::SlotType() {}
+
+SlotType::SlotType(
+ XmlID * NameIn,
+ XmlIDREF * PartRefAndPoseNameIn,
+ XmlIDREF * PartNameIn) :
+  DataThingType(
+    NameIn)
+{
+  PartRefAndPoseName = PartRefAndPoseNameIn;
+  PartName = PartNameIn;
+}
+
+SlotType::~SlotType() {}
+
+void SlotType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:Slot", outFile);
+  printer.printObjRefProp("ktw:hasSlot_PartRefAndPose",
+                          Name, PartRefAndPoseName, outFile);
+  if (PartName)
+    {
+      printer.printObjRefProp("ktw:hasSlot_Part",
+                              Name, PartName, outFile);
+    }
+  printer.endIndi("ktw:Slot", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class SolidObjectType
+
+*/
+
+SolidObjectType::SolidObjectType() {}
+
+SolidObjectType::SolidObjectType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn)
+{
+  Name = NameIn;
+  PrimaryLocation = PrimaryLocationIn;
+  SecondaryLocation = SecondaryLocationIn;
+}
+
+SolidObjectType::~SolidObjectType() {}
 
 /*********************************************************************/
 
@@ -1960,20 +3762,20 @@ SomeOfActionGroupType::~SomeOfActionGroupType() {}
 
 void SomeOfActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "SomeOfActionGroup", outFile);
+  printer.startIndi(Name, "ktp:SomeOfActionGroup", outFile);
   {
     std::list<PlanElementBaseType *>::iterator iter;
     for (iter = Step->begin();
          iter != Step->end(); iter++)
       {
-        printer.printObjProp("hasSomeOfActionGroup_Step",
+        printer.printObjProp("ktp:hasSomeOfActionGroup_Step",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
-  printer.printXmlPositiveIntegerProp("hasSomeOfActionGroup_NumberOfSteps",
+  printer.printXmlPositiveIntegerProp("ktp:hasSomeOfActionGroup_NumberOfSteps",
                                       Name, NumberOfSteps, outFile);
-  printer.endIndi("SomeOfActionGroup", outFile);
+  printer.endIndi("ktp:SomeOfActionGroup", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2002,22 +3804,81 @@ StepWithPredecessorsType::~StepWithPredecessorsType() {}
 
 void StepWithPredecessorsType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "StepWithPredecessors", outFile);
-  printer.printXmlPositiveIntegerProp("hasStepWithPredecessors_SequenceNumber",
+  printer.startIndi(Name, "ktp:StepWithPredecessors", outFile);
+  printer.printXmlPositiveIntegerProp("ktp:hasStepWithPredecessors_SequenceNumber",
                                       Name, SequenceNumber, outFile);
   {
     std::list<XmlPositiveInteger *>::iterator iter;
     for (iter = Predecessor->begin();
         iter != Predecessor->end(); iter++)
       {
-        printer.printXmlPositiveIntegerProp("hasStepWithPredecessors_Predecessor",
+        printer.printXmlPositiveIntegerProp("ktp:hasStepWithPredecessors_Predecessor",
                                             Name, *iter, outFile);
       }
   }
-  printer.printObjProp("hasStepWithPredecessors_PlanElement",
+  printer.printObjProp("ktp:hasStepWithPredecessors_PlanElement",
                        Name, PlanElement->Name, outFile);
   PlanElement->printOwl(outFile);
-  printer.endIndi("StepWithPredecessors", outFile);
+  printer.endIndi("ktp:StepWithPredecessors", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class StockKeepingUnitType
+
+*/
+
+StockKeepingUnitType::StockKeepingUnitType() {}
+
+StockKeepingUnitType::StockKeepingUnitType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ PositiveDecimalType * WeightIn,
+ std::list<XmlIDREF *> * EndEffectorNameIn) :
+  DataThingType(
+    NameIn)
+{
+  Description = DescriptionIn;
+  InternalShape = InternalShapeIn;
+  ExternalShape = ExternalShapeIn;
+  Weight = WeightIn;
+  EndEffectorName = EndEffectorNameIn;
+}
+
+StockKeepingUnitType::~StockKeepingUnitType() {}
+
+void StockKeepingUnitType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:StockKeepingUnit", outFile);
+  printer.printXmlStringProp("ktw:hasStockKeepingUnit_Description",
+                             Name, Description, outFile);
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasStockKeepingUnit_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasStockKeepingUnit_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  Weight->printProp("ktw:hasStockKeepingUnit_Weight",
+                    Name, outFile);
+  {
+    std::list<XmlIDREF *>::iterator iter;
+    for (iter = EndEffectorName->begin();
+         iter != EndEffectorName->end(); iter++)
+      {
+        printer.printObjRefProp("ktw:hasStockKeepingUnit_EndEffector",
+                                Name, *iter, outFile);
+      }
+  }
+  printer.endIndi("ktw:StockKeepingUnit", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2044,12 +3905,12 @@ TakeKitTrayType::~TakeKitTrayType() {}
 
 void TakeKitTrayType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "TakeKitTray", outFile);
-  printer.printXmlNMTOKENProp("hasTakeKitTray_RobotName",
+  printer.startIndi(Name, "ktp:TakeKitTray", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasTakeKitTray_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasTakeKitTray_KitTrayName",
+  printer.printXmlNMTOKENProp("ktp:hasTakeKitTray_KitTrayName",
                               Name, KitTrayName, outFile);
-  printer.endIndi("TakeKitTray", outFile);
+  printer.endIndi("ktp:TakeKitTray", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2076,12 +3937,12 @@ TakeKitType::~TakeKitType() {}
 
 void TakeKitType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "TakeKit", outFile);
-  printer.printXmlNMTOKENProp("hasTakeKit_RobotName",
+  printer.startIndi(Name, "ktp:TakeKit", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasTakeKit_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasTakeKit_KitName",
+  printer.printXmlNMTOKENProp("ktp:hasTakeKit_KitName",
                               Name, KitName, outFile);
-  printer.endIndi("TakeKit", outFile);
+  printer.endIndi("ktp:TakeKit", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2108,12 +3969,12 @@ TakePartType::~TakePartType() {}
 
 void TakePartType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "TakePart", outFile);
-  printer.printXmlNMTOKENProp("hasTakePart_RobotName",
+  printer.startIndi(Name, "ktp:TakePart", outFile);
+  printer.printXmlNMTOKENProp("ktp:hasTakePart_RobotName",
                               Name, RobotName, outFile);
-  printer.printXmlNMTOKENProp("hasTakePart_PartName",
+  printer.printXmlNMTOKENProp("ktp:hasTakePart_PartName",
                               Name, PartName, outFile);
-  printer.endIndi("TakePart", outFile);
+  printer.endIndi("ktp:TakePart", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2140,14 +4001,14 @@ TestAndStepType::~TestAndStepType() {}
 
 void TestAndStepType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "TestAndStep", outFile);
-  printer.printObjProp("hasTestAndStep_Test",
+  printer.startIndi(Name, "ktp:TestAndStep", outFile);
+  printer.printObjProp("ktp:hasTestAndStep_Test",
                        Name, Test->Name, outFile);
   Test->printOwl(outFile);
-  printer.printObjProp("hasTestAndStep_Step",
+  printer.printObjProp("ktp:hasTestAndStep_Step",
                        Name, Step->Name, outFile);
   Step->printOwl(outFile);
-  printer.endIndi("TestAndStep", outFile);
+  printer.endIndi("ktp:TestAndStep", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2174,14 +4035,14 @@ TimesType::~TimesType() {}
 
 void TimesType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Times", outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A1",
+  printer.startIndi(Name, "ktp:Times", outFile);
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A1",
                        Name, A1->Name, outFile);
   A1->printOwl(outFile);
-  printer.printObjProp("hasBinaryArithmeticExpression_A2",
+  printer.printObjProp("ktp:hasBinaryArithmeticExpression_A2",
                        Name, A2->Name, outFile);
   A2->printOwl(outFile);
-  printer.endIndi("Times", outFile);
+  printer.endIndi("ktp:Times", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2204,8 +4065,8 @@ TrueType::~TrueType() {}
 
 void TrueType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "True", outFile);
-  printer.endIndi("True", outFile);
+  printer.startIndi(Name, "ktp:True", outFile);
+  printer.endIndi("ktp:True", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2230,20 +4091,235 @@ UnorderedActionGroupType::~UnorderedActionGroupType() {}
 
 void UnorderedActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "UnorderedActionGroup", outFile);
+  printer.startIndi(Name, "ktp:UnorderedActionGroup", outFile);
   {
     std::list<PlanElementBaseType *>::iterator iter;
     for (iter = Step->begin();
          iter != Step->end(); iter++)
       {
-        printer.printObjProp("hasUnorderedActionGroup_Step",
+        printer.printObjProp("ktp:hasUnorderedActionGroup_Step",
                              Name, (*iter)->Name, outFile);
         (*iter)->printOwl(outFile);
       }
   }
-  printer.endIndi("UnorderedActionGroup", outFile);
+  printer.endIndi("ktp:UnorderedActionGroup", outFile);
   individuals.insert(Name->val);
 }
+
+/*********************************************************************/
+
+/* class VacuumEffectorMultiCupType
+
+*/
+
+VacuumEffectorMultiCupType::VacuumEffectorMultiCupType() {}
+
+VacuumEffectorMultiCupType::VacuumEffectorMultiCupType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlString * DescriptionIn,
+ PositiveDecimalType * WeightIn,
+ PositiveDecimalType * MaximumLoadWeightIn,
+ SolidObjectType * HeldObjectIn,
+ PositiveDecimalType * CupDiameterIn,
+ PositiveDecimalType * LengthIn,
+ XmlPositiveInteger * ArrayNumberIn,
+ PositiveDecimalType * ArrayRadiusIn) :
+  VacuumEffectorType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn,
+    DescriptionIn,
+    WeightIn,
+    MaximumLoadWeightIn,
+    HeldObjectIn,
+    CupDiameterIn,
+    LengthIn)
+{
+  ArrayNumber = ArrayNumberIn;
+  ArrayRadius = ArrayRadiusIn;
+}
+
+VacuumEffectorMultiCupType::~VacuumEffectorMultiCupType() {}
+
+void VacuumEffectorMultiCupType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:VacuumEffectorMultiCup", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printXmlStringProp("ktw:hasEndEffector_Description",
+                             Name, Description, outFile);
+  Weight->printProp("ktw:hasEndEffector_Weight",
+                    Name, outFile);
+  MaximumLoadWeight->printProp("ktw:hasEndEffector_MaximumLoadWeight",
+                               Name, outFile);
+  if (HeldObject)
+    {
+      printer.printObjProp("ktw:hasEndEffector_HeldObject",
+                           Name, HeldObject->Name, outFile);
+      HeldObject->printOwl(outFile);
+    }
+  CupDiameter->printProp("ktw:hasVacuumEffector_CupDiameter",
+                         Name, outFile);
+  Length->printProp("ktw:hasVacuumEffector_Length",
+                    Name, outFile);
+  printer.printXmlPositiveIntegerProp("ktw:hasVacuumEffectorMultiCup_ArrayNumber",
+                                      Name, ArrayNumber, outFile);
+  ArrayRadius->printProp("ktw:hasVacuumEffectorMultiCup_ArrayRadius",
+                         Name, outFile);
+  printer.endIndi("ktw:VacuumEffectorMultiCup", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class VacuumEffectorSingleCupType
+
+*/
+
+VacuumEffectorSingleCupType::VacuumEffectorSingleCupType() {}
+
+VacuumEffectorSingleCupType::VacuumEffectorSingleCupType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlString * DescriptionIn,
+ PositiveDecimalType * WeightIn,
+ PositiveDecimalType * MaximumLoadWeightIn,
+ SolidObjectType * HeldObjectIn,
+ PositiveDecimalType * CupDiameterIn,
+ PositiveDecimalType * LengthIn) :
+  VacuumEffectorType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn,
+    DescriptionIn,
+    WeightIn,
+    MaximumLoadWeightIn,
+    HeldObjectIn,
+    CupDiameterIn,
+    LengthIn)
+{
+}
+
+VacuumEffectorSingleCupType::~VacuumEffectorSingleCupType() {}
+
+void VacuumEffectorSingleCupType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:VacuumEffectorSingleCup", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  printer.printXmlStringProp("ktw:hasEndEffector_Description",
+                             Name, Description, outFile);
+  Weight->printProp("ktw:hasEndEffector_Weight",
+                    Name, outFile);
+  MaximumLoadWeight->printProp("ktw:hasEndEffector_MaximumLoadWeight",
+                               Name, outFile);
+  if (HeldObject)
+    {
+      printer.printObjProp("ktw:hasEndEffector_HeldObject",
+                           Name, HeldObject->Name, outFile);
+      HeldObject->printOwl(outFile);
+    }
+  CupDiameter->printProp("ktw:hasVacuumEffector_CupDiameter",
+                         Name, outFile);
+  Length->printProp("ktw:hasVacuumEffector_Length",
+                    Name, outFile);
+  printer.endIndi("ktw:VacuumEffectorSingleCup", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class VacuumEffectorType
+
+*/
+
+VacuumEffectorType::VacuumEffectorType() {}
+
+VacuumEffectorType::VacuumEffectorType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ XmlString * DescriptionIn,
+ PositiveDecimalType * WeightIn,
+ PositiveDecimalType * MaximumLoadWeightIn,
+ SolidObjectType * HeldObjectIn,
+ PositiveDecimalType * CupDiameterIn,
+ PositiveDecimalType * LengthIn) :
+  EndEffectorType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn,
+    DescriptionIn,
+    WeightIn,
+    MaximumLoadWeightIn,
+    HeldObjectIn)
+{
+  CupDiameter = CupDiameterIn;
+  Length = LengthIn;
+}
+
+VacuumEffectorType::~VacuumEffectorType() {}
 
 /*********************************************************************/
 
@@ -2268,13 +4344,13 @@ VarSetType::~VarSetType() {}
 
 void VarSetType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "VarSet", outFile);
-  printer.printObjRefProp("hasVarSet_Var",
+  printer.startIndi(Name, "ktp:VarSet", outFile);
+  printer.printObjRefProp("ktp:hasVarSet_Var",
                           Name, VarName, outFile);
-  printer.printObjProp("hasVarSet_Val",
+  printer.printObjProp("ktp:hasVarSet_Val",
                        Name, Val->Name, outFile);
   Val->printOwl(outFile);
-  printer.endIndi("VarSet", outFile);
+  printer.endIndi("ktp:VarSet", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2299,10 +4375,10 @@ VarValType::~VarValType() {}
 
 void VarValType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "VarVal", outFile);
-  printer.printObjRefProp("hasVarVal_Var",
+  printer.startIndi(Name, "ktp:VarVal", outFile);
+  printer.printObjRefProp("ktp:hasVarVal_Var",
                           Name, VarName, outFile);
-  printer.endIndi("VarVal", outFile);
+  printer.endIndi("ktp:VarVal", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2327,10 +4403,10 @@ VariableDeclarationType::~VariableDeclarationType() {}
 
 void VariableDeclarationType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "VariableDeclaration", outFile);
-  printer.printXmlDecimalProp("hasVariableDeclaration_Val",
+  printer.startIndi(Name, "ktp:VariableDeclaration", outFile);
+  printer.printXmlDecimalProp("ktp:hasVariableDeclaration_Val",
                               Name, Val, outFile);
-  printer.endIndi("VariableDeclaration", outFile);
+  printer.endIndi("ktp:VariableDeclaration", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2359,15 +4435,72 @@ VectorType::~VectorType() {}
 
 void VectorType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "Vector", outFile);
-  printer.printXmlDecimalProp("hasVector_I",
+  printer.startIndi(Name, "ktw:Vector", outFile);
+  printer.printXmlDecimalProp("ktw:hasVector_I",
                               Name, I, outFile);
-  printer.printXmlDecimalProp("hasVector_J",
+  printer.printXmlDecimalProp("ktw:hasVector_J",
                               Name, J, outFile);
-  printer.printXmlDecimalProp("hasVector_K",
+  printer.printXmlDecimalProp("ktw:hasVector_K",
                               Name, K, outFile);
-  printer.endIndi("Vector", outFile);
+  printer.endIndi("ktw:Vector", outFile);
   individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class WeightUnitType
+
+*/
+
+WeightUnitType::WeightUnitType() :
+  XmlNMTOKEN() {}
+
+WeightUnitType::WeightUnitType(
+ char * valIn) :
+  XmlNMTOKEN(valIn)
+{
+  if (!bad)
+    bad = (strcmp(val.c_str(), "kilogram") &&
+           strcmp(val.c_str(), "gram") &&
+           strcmp(val.c_str(), "milligram") &&
+           strcmp(val.c_str(), "ounce") &&
+           strcmp(val.c_str(), "pound"));
+}
+
+WeightUnitType::~WeightUnitType() {}
+
+bool WeightUnitType::WeightUnitTypeIsBad()
+{
+  return (strcmp(val.c_str(), "kilogram") &&
+          strcmp(val.c_str(), "gram") &&
+          strcmp(val.c_str(), "milligram") &&
+          strcmp(val.c_str(), "ounce") &&
+          strcmp(val.c_str(), "pound"));
+}
+
+void WeightUnitType::printOwl(FILE * outFile)
+{
+  if (WeightUnitTypeIsBad())
+    {
+      fprintf(stderr, "bad WeightUnitType value, ");
+      XmlNMTOKEN::printSelf(stderr);
+      fprintf(stderr, " exiting\n");
+      exit(1);
+    }
+  XmlNMTOKEN::printSelf(outFile);
+}
+
+void WeightUnitType::printProp(
+ const char * property,
+ XmlID * Name,
+ FILE * outFile)
+{
+  fprintf(outFile, "DataPropertyAssertion(%s :", property);
+  Name->printSelf(outFile);
+  fprintf(outFile, "\n");
+  fprintf(outFile, "                      \"");
+  printOwl(outFile);
+  fprintf(outFile, "\"^^xsd:NMTOKEN)\n");
 }
 
 /*********************************************************************/
@@ -2393,14 +4526,83 @@ WhileActionGroupType::~WhileActionGroupType() {}
 
 void WhileActionGroupType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "WhileActionGroup", outFile);
-  printer.printObjProp("hasWhileActionGroup_Test",
+  printer.startIndi(Name, "ktp:WhileActionGroup", outFile);
+  printer.printObjProp("ktp:hasWhileActionGroup_Test",
                        Name, Test->Name, outFile);
   Test->printOwl(outFile);
-  printer.printObjProp("hasWhileActionGroup_Step",
+  printer.printObjProp("ktp:hasWhileActionGroup_Step",
                        Name, Step->Name, outFile);
   Step->printOwl(outFile);
-  printer.endIndi("WhileActionGroup", outFile);
+  printer.endIndi("ktp:WhileActionGroup", outFile);
+  individuals.insert(Name->val);
+}
+
+/*********************************************************************/
+
+/* class WorkTableType
+
+*/
+
+WorkTableType::WorkTableType() {}
+
+WorkTableType::WorkTableType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
+ std::list<SolidObjectType *> * ObjectOnTableIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  ObjectOnTable = ObjectOnTableIn;
+}
+
+WorkTableType::~WorkTableType() {}
+
+void WorkTableType::printOwl(FILE * outFile)
+{
+  printer.startIndi(Name, "ktw:WorkTable", outFile);
+  printer.printObjProp("ktw:hasSolidObject_PrimaryLocation",
+                       Name, PrimaryLocation->Name, outFile);
+  PrimaryLocation->printOwl(outFile);
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin();
+         iter != SecondaryLocation->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasSolidObject_SecondaryLocation",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  if (InternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_InternalShape",
+                           Name, InternalShape->Name, outFile);
+      InternalShape->printOwl(outFile);
+    }
+  if (ExternalShape)
+    {
+      printer.printObjProp("ktw:hasNoSkuObject_ExternalShape",
+                           Name, ExternalShape->Name, outFile);
+      ExternalShape->printOwl(outFile);
+    }
+  {
+    std::list<SolidObjectType *>::iterator iter;
+    for (iter = ObjectOnTable->begin();
+         iter != ObjectOnTable->end(); iter++)
+      {
+        printer.printObjProp("ktw:hasWorkTable_ObjectOnTable",
+                             Name, (*iter)->Name, outFile);
+        (*iter)->printOwl(outFile);
+      }
+  }
+  printer.endIndi("ktw:WorkTable", outFile);
   individuals.insert(Name->val);
 }
 
@@ -2423,7 +4625,7 @@ XmlHeaderForKittingPlan::~XmlHeaderForKittingPlan() {}
 void XmlHeaderForKittingPlan::printOwl(
   FILE * outFile)
 {
-  printer.printHeader(outFile);
+
 }
 
 /*********************************************************************/

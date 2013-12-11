@@ -4,11 +4,13 @@ INCLUD = -I ../common/source
 
 bin/kittingPlanParser : ofiles/kittingPlanParser.o           \
                         ofiles/kittingPlanClasses.o          \
+                        ofiles/kittingWorkstationClasses.o   \
                         ofiles/kittingPlanLex.o              \
                         ofiles/kittingPlanYACC.o             \
                         ../common/ofiles/xmlSchemaInstance.o
 	$(LINLINK) -o $@ ofiles/kittingPlanParser.o           \
                          ofiles/kittingPlanClasses.o          \
+                         ofiles/kittingWorkstationClasses.o   \
                          ofiles/kittingPlanLex.o              \
                          ofiles/kittingPlanYACC.o             \
                          ../common/ofiles/xmlSchemaInstance.o
@@ -27,10 +29,14 @@ bin/owlKittingPlanPrinter : ofiles/owlKittingPlanPrinter.o        \
                          ../common/ofiles/xmlSchemaInstance.o
 
 ofiles/kittingPlanClasses.o : source/kittingPlanClasses.hh           \
-                              ../common/source/owlInstancePrinter.hh \
                               ../common/source/xmlSchemaInstance.hh  \
                               source/kittingPlanClasses.cc
 	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingPlanClasses.cc
+
+ofiles/kittingWorkstationClasses.o : source/kittingWorkstationClasses.hh   \
+                                     ../common/source/xmlSchemaInstance.hh \
+                                     source/kittingWorkstationClasses.cc
+	$(LINCOMPILE) -o $@ $(INCLUD) source/kittingWorkstationClasses.cc
 
 ofiles/kittingPlanLex.o : source/kittingPlanLex.cc  \
                           source/kittingPlanYACC.hh

@@ -1,9 +1,9 @@
-/* A Bison parser, made by GNU Bison 2.4.2.  */
+/* A Bison parser, made by GNU Bison 2.4.3.  */
 
 /* Skeleton interface for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
-   Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+   2009, 2010 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -55,163 +55,298 @@
      A2START = 272,
      AEND = 273,
      ASTART = 274,
-     B1END = 275,
-     B1START = 276,
-     B2END = 277,
-     B2START = 278,
-     BEND = 279,
-     BSTART = 280,
-     DESCRIPTIONEND = 281,
-     DESCRIPTIONSTART = 282,
-     ELSEIFEND = 283,
-     ELSEIFSTART = 284,
-     ELSEEND = 285,
-     ELSESTART = 286,
-     ENDEFFECTORHOLDERNAMEEND = 287,
-     ENDEFFECTORHOLDERNAMESTART = 288,
-     ENDEFFECTORNAMEEND = 289,
-     ENDEFFECTORNAMESTART = 290,
-     IEND = 291,
-     ISTART = 292,
-     IFEND = 293,
-     IFSTART = 294,
-     JEND = 295,
-     JSTART = 296,
-     KEND = 297,
-     KSTART = 298,
-     KITNAMEEND = 299,
-     KITNAMESTART = 300,
-     KITTRAYNAMEEND = 301,
-     KITTRAYNAMESTART = 302,
-     KITTINGPLANEND = 303,
-     KITTINGPLANSTART = 304,
-     LOCATIONEND = 305,
-     LOCATIONSTART = 306,
-     NAMEEND = 307,
-     NAMESTART = 308,
-     NUMBEROFSTEPSEND = 309,
-     NUMBEROFSTEPSSTART = 310,
-     OBJECTEND = 311,
-     OBJECTSTART = 312,
-     ORIENTATIONSTANDARDDEVIATIONEND = 313,
-     ORIENTATIONSTANDARDDEVIATIONSTART = 314,
-     PARTNAMEEND = 315,
-     PARTNAMESTART = 316,
-     PLANAUTHOREND = 317,
-     PLANAUTHORSTART = 318,
-     PLANDATEANDTIMEEND = 319,
-     PLANDATEANDTIMESTART = 320,
-     PLANDESCRIPTIONEND = 321,
-     PLANDESCRIPTIONSTART = 322,
-     PLANELEMENTEND = 323,
-     PLANELEMENTSTART = 324,
-     PLANIDEND = 325,
-     PLANIDSTART = 326,
-     PLANROOTEND = 327,
-     PLANROOTSTART = 328,
-     PLANVERSIONEND = 329,
-     PLANVERSIONSTART = 330,
-     POINTEND = 331,
-     POINTSTART = 332,
-     POSITIONSTANDARDDEVIATIONEND = 333,
-     POSITIONSTANDARDDEVIATIONSTART = 334,
-     PREDECESSOREND = 335,
-     PREDECESSORSTART = 336,
-     PROPERTYEND = 337,
-     PROPERTYSTART = 338,
-     REFOBJECTNAMEEND = 339,
-     REFOBJECTNAMESTART = 340,
-     ROBOTNAMEEND = 341,
-     ROBOTNAMESTART = 342,
-     SEQUENCENUMBEREND = 343,
-     SEQUENCENUMBERSTART = 344,
-     STEPEND = 345,
-     STEPSTART = 346,
-     TESTEND = 347,
-     TESTSTART = 348,
-     THINGNAMEEND = 349,
-     THINGNAMESTART = 350,
-     VALEND = 351,
-     VALSTART = 352,
-     VARNAMEEND = 353,
-     VARNAMESTART = 354,
-     VARIABLEEND = 355,
-     VARIABLESTART = 356,
-     XAXISEND = 357,
-     XAXISSTART = 358,
-     XEND = 359,
-     XSTART = 360,
-     YEND = 361,
-     YSTART = 362,
-     ZAXISEND = 363,
-     ZAXISSTART = 364,
-     ZEND = 365,
-     ZSTART = 366,
-     ACTIONBASETYPEDECL = 367,
-     ACTIONGROUPBASETYPEDECL = 368,
-     ANDTYPEDECL = 369,
-     ARITHMETICCOMPARISONBOOLEANEXPRESSIONTYPEDECL = 370,
-     ARITHMETICEXPRESSIONTYPEDECL = 371,
-     ATTACHENDEFFECTORTYPEDECL = 372,
-     BINARYARITHMETICEXPRESSIONTYPEDECL = 373,
-     BINARYBOOLEANEXPRESSIONTYPEDECL = 374,
-     BOOLEANCONSTANTTYPEDECL = 375,
-     BOOLEANEXPRESSIONTYPEDECL = 376,
-     CREATEKITTYPEDECL = 377,
-     DECIMALTYPEDECL = 378,
-     DETACHENDEFFECTORTYPEDECL = 379,
-     DIVTYPEDECL = 380,
-     ELSETYPEDECL = 381,
-     EQUALTYPEDECL = 382,
-     FALSETYPEDECL = 383,
-     GREATEROREQUALTYPEDECL = 384,
-     GREATERTYPEDECL = 385,
-     IFACTIONGROUPTYPEDECL = 386,
-     KITTINGPLANTYPEDECL = 387,
-     LESSOREQUALTYPEDECL = 388,
-     LESSTYPEDECL = 389,
-     LOCATEPARTTYPEDECL = 390,
-     MINUSTYPEDECL = 391,
-     MODTYPEDECL = 392,
-     NEGATETYPEDECL = 393,
-     NOTEQUALTYPEDECL = 394,
-     NOTTYPEDECL = 395,
-     NUMBEREDPLANELEMENTTYPEDECL = 396,
-     ONEOFACTIONGROUPTYPEDECL = 397,
-     ORTYPEDECL = 398,
-     ORDEREDACTIONGROUPTYPEDECL = 399,
-     PARTIALLYORDEREDACTIONGROUPTYPEDECL = 400,
-     PHYSICALLOCATIONTYPEDECL = 401,
-     PLANELEMENTBASETYPEDECL = 402,
-     PLUSTYPEDECL = 403,
-     POINTTYPEDECL = 404,
-     POSELOCATIONINTYPEDECL = 405,
-     POSELOCATIONONTYPEDECL = 406,
-     POSELOCATIONTYPEDECL = 407,
-     POSEONLYLOCATIONTYPEDECL = 408,
-     PROPVALTYPEDECL = 409,
-     PUTKITTRAYTYPEDECL = 410,
-     PUTKITTYPEDECL = 411,
-     PUTPARTTYPEDECL = 412,
-     RELATIVELOCATIONINTYPEDECL = 413,
-     RELATIVELOCATIONONTYPEDECL = 414,
-     RELATIVELOCATIONTYPEDECL = 415,
-     ROBOTACTIONBASETYPEDECL = 416,
-     SENSORACTIONBASETYPEDECL = 417,
-     SOMEOFACTIONGROUPTYPEDECL = 418,
-     STEPWITHPREDECESSORSTYPEDECL = 419,
-     TAKEKITTRAYTYPEDECL = 420,
-     TAKEKITTYPEDECL = 421,
-     TAKEPARTTYPEDECL = 422,
-     TESTANDSTEPTYPEDECL = 423,
-     TIMESTYPEDECL = 424,
-     TRUETYPEDECL = 425,
-     UNORDEREDACTIONGROUPTYPEDECL = 426,
-     VARSETTYPEDECL = 427,
-     VARVALTYPEDECL = 428,
-     VARIABLEDECLARATIONTYPEDECL = 429,
-     VECTORTYPEDECL = 430,
-     WHILEACTIONGROUPTYPEDECL = 431
+     ANGLEUNITEND = 275,
+     ANGLEUNITSTART = 276,
+     ARRAYNUMBEREND = 277,
+     ARRAYNUMBERSTART = 278,
+     ARRAYRADIUSEND = 279,
+     ARRAYRADIUSSTART = 280,
+     B1END = 281,
+     B1START = 282,
+     B2END = 283,
+     B2START = 284,
+     BEND = 285,
+     BSTART = 286,
+     BASEEND = 287,
+     BASESTART = 288,
+     CAPACITYEND = 289,
+     CAPACITYSTART = 290,
+     CHANGINGSTATIONEND = 291,
+     CHANGINGSTATIONSTART = 292,
+     CUPDIAMETEREND = 293,
+     CUPDIAMETERSTART = 294,
+     DESCRIPTIONEND = 295,
+     DESCRIPTIONSTART = 296,
+     DESIGNNAMEEND = 297,
+     DESIGNNAMESTART = 298,
+     DIAMETEREND = 299,
+     DIAMETERSTART = 300,
+     ELSEIFEND = 301,
+     ELSEIFSTART = 302,
+     ELSEEND = 303,
+     ELSESTART = 304,
+     ENDEFFECTORHOLDERNAMEEND = 305,
+     ENDEFFECTORHOLDERNAMESTART = 306,
+     ENDEFFECTORHOLDEREND = 307,
+     ENDEFFECTORHOLDERSTART = 308,
+     ENDEFFECTORNAMEEND = 309,
+     ENDEFFECTORNAMESTART = 310,
+     ENDEFFECTOREND = 311,
+     ENDEFFECTORSTART = 312,
+     EXTERNALSHAPEEND = 313,
+     EXTERNALSHAPESTART = 314,
+     FINISHEDEND = 315,
+     FINISHEDSTART = 316,
+     GRASPPOSEEND = 317,
+     GRASPPOSESTART = 318,
+     HASTOPEND = 319,
+     HASTOPSTART = 320,
+     HEIGHTEND = 321,
+     HEIGHTSTART = 322,
+     HELDOBJECTEND = 323,
+     HELDOBJECTSTART = 324,
+     IEND = 325,
+     ISTART = 326,
+     IFEND = 327,
+     IFSTART = 328,
+     INTERNALSHAPEEND = 329,
+     INTERNALSHAPESTART = 330,
+     JEND = 331,
+     JSTART = 332,
+     KEND = 333,
+     KSTART = 334,
+     KITDESIGNNAMEEND = 335,
+     KITDESIGNNAMESTART = 336,
+     KITDESIGNEND = 337,
+     KITDESIGNSTART = 338,
+     KITNAMEEND = 339,
+     KITNAMESTART = 340,
+     KITTRAYNAMEEND = 341,
+     KITTRAYNAMESTART = 342,
+     KITTRAYSKUNAMEEND = 343,
+     KITTRAYSKUNAMESTART = 344,
+     KITTRAYEND = 345,
+     KITTRAYSTART = 346,
+     KITEND = 347,
+     KITSTART = 348,
+     KITTINGPLANEND = 349,
+     KITTINGPLANSTART = 350,
+     LARGECONTAINEREND = 351,
+     LARGECONTAINERSTART = 352,
+     LENGTHUNITEND = 353,
+     LENGTHUNITSTART = 354,
+     LENGTHEND = 355,
+     LENGTHSTART = 356,
+     LOCATIONEND = 357,
+     LOCATIONSTART = 358,
+     MAXIMUMLOADWEIGHTEND = 359,
+     MAXIMUMLOADWEIGHTSTART = 360,
+     MAXIMUMPOINTEND = 361,
+     MAXIMUMPOINTSTART = 362,
+     MINIMUMPOINTEND = 363,
+     MINIMUMPOINTSTART = 364,
+     MODELFILENAMEEND = 365,
+     MODELFILENAMESTART = 366,
+     MODELFORMATNAMEEND = 367,
+     MODELFORMATNAMESTART = 368,
+     MODELNAMEEND = 369,
+     MODELNAMESTART = 370,
+     NAMEEND = 371,
+     NAMESTART = 372,
+     NUMBEROFSTEPSEND = 373,
+     NUMBEROFSTEPSSTART = 374,
+     OBJECTONTABLEEND = 375,
+     OBJECTONTABLESTART = 376,
+     OBJECTEND = 377,
+     OBJECTSTART = 378,
+     ORIENTATIONSTANDARDDEVIATIONEND = 379,
+     ORIENTATIONSTANDARDDEVIATIONSTART = 380,
+     OTHEROBSTACLEEND = 381,
+     OTHEROBSTACLESTART = 382,
+     PARTNAMEEND = 383,
+     PARTNAMESTART = 384,
+     PARTQUANTITYEND = 385,
+     PARTQUANTITYSTART = 386,
+     PARTREFANDPOSENAMEEND = 387,
+     PARTREFANDPOSENAMESTART = 388,
+     PARTREFANDPOSEEND = 389,
+     PARTREFANDPOSESTART = 390,
+     PARTSKUNAMEEND = 391,
+     PARTSKUNAMESTART = 392,
+     PARTEND = 393,
+     PARTSTART = 394,
+     PLANAUTHOREND = 395,
+     PLANAUTHORSTART = 396,
+     PLANDATEANDTIMEEND = 397,
+     PLANDATEANDTIMESTART = 398,
+     PLANDESCRIPTIONEND = 399,
+     PLANDESCRIPTIONSTART = 400,
+     PLANELEMENTEND = 401,
+     PLANELEMENTSTART = 402,
+     PLANIDEND = 403,
+     PLANIDSTART = 404,
+     PLANROOTEND = 405,
+     PLANROOTSTART = 406,
+     PLANVERSIONEND = 407,
+     PLANVERSIONSTART = 408,
+     POINTEND = 409,
+     POINTSTART = 410,
+     POSITIONSTANDARDDEVIATIONEND = 411,
+     POSITIONSTANDARDDEVIATIONSTART = 412,
+     PREDECESSOREND = 413,
+     PREDECESSORSTART = 414,
+     PRIMARYLOCATIONEND = 415,
+     PRIMARYLOCATIONSTART = 416,
+     PROPERTYEND = 417,
+     PROPERTYSTART = 418,
+     REFOBJECTNAMEEND = 419,
+     REFOBJECTNAMESTART = 420,
+     ROBOTNAMEEND = 421,
+     ROBOTNAMESTART = 422,
+     ROBOTEND = 423,
+     ROBOTSTART = 424,
+     SECONDARYLOCATIONEND = 425,
+     SECONDARYLOCATIONSTART = 426,
+     SEQUENCENUMBEREND = 427,
+     SEQUENCENUMBERSTART = 428,
+     SERIALNUMBEREND = 429,
+     SERIALNUMBERSTART = 430,
+     SKUNAMEEND = 431,
+     SKUNAMESTART = 432,
+     SKUEND = 433,
+     SKUSTART = 434,
+     SLOTEND = 435,
+     SLOTSTART = 436,
+     STEPEND = 437,
+     STEPSTART = 438,
+     TESTEND = 439,
+     TESTSTART = 440,
+     THINGNAMEEND = 441,
+     THINGNAMESTART = 442,
+     TIMESTAMPEND = 443,
+     TIMESTAMPSTART = 444,
+     VALEND = 445,
+     VALSTART = 446,
+     VARNAMEEND = 447,
+     VARNAMESTART = 448,
+     VARIABLEEND = 449,
+     VARIABLESTART = 450,
+     WEIGHTUNITEND = 451,
+     WEIGHTUNITSTART = 452,
+     WEIGHTEND = 453,
+     WEIGHTSTART = 454,
+     WIDTHEND = 455,
+     WIDTHSTART = 456,
+     WORKVOLUMEEND = 457,
+     WORKVOLUMESTART = 458,
+     XAXISEND = 459,
+     XAXISSTART = 460,
+     XEND = 461,
+     XSTART = 462,
+     YEND = 463,
+     YSTART = 464,
+     ZAXISEND = 465,
+     ZAXISSTART = 466,
+     ZEND = 467,
+     ZSTART = 468,
+     ACTIONBASETYPEDECL = 469,
+     ACTIONGROUPBASETYPEDECL = 470,
+     ANDTYPEDECL = 471,
+     ARITHMETICCOMPARISONBOOLEANEXPRESSIONTYPEDECL = 472,
+     ARITHMETICEXPRESSIONTYPEDECL = 473,
+     ATTACHENDEFFECTORTYPEDECL = 474,
+     BINARYARITHMETICEXPRESSIONTYPEDECL = 475,
+     BINARYBOOLEANEXPRESSIONTYPEDECL = 476,
+     BOOLEANCONSTANTTYPEDECL = 477,
+     BOOLEANEXPRESSIONTYPEDECL = 478,
+     BOXVOLUMETYPEDECL = 479,
+     BOXYSHAPETYPEDECL = 480,
+     CREATEKITTYPEDECL = 481,
+     CYLINDRICALSHAPETYPEDECL = 482,
+     DECIMALTYPEDECL = 483,
+     DETACHENDEFFECTORTYPEDECL = 484,
+     DIVTYPEDECL = 485,
+     ELSETYPEDECL = 486,
+     ENDEFFECTORCHANGINGSTATIONTYPEDECL = 487,
+     ENDEFFECTORHOLDERTYPEDECL = 488,
+     ENDEFFECTORTYPEDECL = 489,
+     EQUALTYPEDECL = 490,
+     EXTERNALSHAPETYPEDECL = 491,
+     FALSETYPEDECL = 492,
+     GREATEROREQUALTYPEDECL = 493,
+     GREATERTYPEDECL = 494,
+     GRIPPEREFFECTORTYPEDECL = 495,
+     HUMANTYPEDECL = 496,
+     IFACTIONGROUPTYPEDECL = 497,
+     INTERNALSHAPETYPEDECL = 498,
+     KITDESIGNTYPEDECL = 499,
+     KITTRAYTYPEDECL = 500,
+     KITTYPEDECL = 501,
+     KITTINGPLANTYPEDECL = 502,
+     KITTINGWORKSTATIONTYPEDECL = 503,
+     LARGEBOXWITHEMPTYKITTRAYSTYPEDECL = 504,
+     LARGEBOXWITHKITSTYPEDECL = 505,
+     LARGECONTAINERTYPEDECL = 506,
+     LESSOREQUALTYPEDECL = 507,
+     LESSTYPEDECL = 508,
+     LOCATEPARTTYPEDECL = 509,
+     MECHANICALCOMPONENTTYPEDECL = 510,
+     MINUSTYPEDECL = 511,
+     MODTYPEDECL = 512,
+     NEGATETYPEDECL = 513,
+     NOSKUOBJECTTYPEDECL = 514,
+     NOTEQUALTYPEDECL = 515,
+     NOTTYPEDECL = 516,
+     NUMBEREDPLANELEMENTTYPEDECL = 517,
+     ONEOFACTIONGROUPTYPEDECL = 518,
+     ORTYPEDECL = 519,
+     ORDEREDACTIONGROUPTYPEDECL = 520,
+     PARTREFANDPOSETYPEDECL = 521,
+     PARTTYPEDECL = 522,
+     PARTIALLYORDEREDACTIONGROUPTYPEDECL = 523,
+     PARTSBINTYPEDECL = 524,
+     PARTSTRAYTYPEDECL = 525,
+     PARTSVESSELTYPEDECL = 526,
+     PHYSICALLOCATIONTYPEDECL = 527,
+     PLANELEMENTBASETYPEDECL = 528,
+     PLUSTYPEDECL = 529,
+     POINTTYPEDECL = 530,
+     POSELOCATIONINTYPEDECL = 531,
+     POSELOCATIONONTYPEDECL = 532,
+     POSELOCATIONTYPEDECL = 533,
+     POSEONLYLOCATIONTYPEDECL = 534,
+     PROPVALTYPEDECL = 535,
+     PUTKITTRAYTYPEDECL = 536,
+     PUTKITTYPEDECL = 537,
+     PUTPARTTYPEDECL = 538,
+     RELATIVELOCATIONINTYPEDECL = 539,
+     RELATIVELOCATIONONTYPEDECL = 540,
+     RELATIVELOCATIONTYPEDECL = 541,
+     ROBOTACTIONBASETYPEDECL = 542,
+     ROBOTTYPEDECL = 543,
+     SENSORACTIONBASETYPEDECL = 544,
+     SHAPEDESIGNTYPEDECL = 545,
+     SKUOBJECTTYPEDECL = 546,
+     SLOTTYPEDECL = 547,
+     SOMEOFACTIONGROUPTYPEDECL = 548,
+     STEPWITHPREDECESSORSTYPEDECL = 549,
+     STOCKKEEPINGUNITTYPEDECL = 550,
+     TAKEKITTRAYTYPEDECL = 551,
+     TAKEKITTYPEDECL = 552,
+     TAKEPARTTYPEDECL = 553,
+     TESTANDSTEPTYPEDECL = 554,
+     TIMESTYPEDECL = 555,
+     TRUETYPEDECL = 556,
+     UNORDEREDACTIONGROUPTYPEDECL = 557,
+     VACUUMEFFECTORMULTICUPTYPEDECL = 558,
+     VACUUMEFFECTORSINGLECUPTYPEDECL = 559,
+     VACUUMEFFECTORTYPEDECL = 560,
+     VARSETTYPEDECL = 561,
+     VARVALTYPEDECL = 562,
+     VARIABLEDECLARATIONTYPEDECL = 563,
+     VECTORTYPEDECL = 564,
+     WHILEACTIONGROUPTYPEDECL = 565,
+     WORKTABLETYPEDECL = 566
    };
 #endif
 
@@ -227,11 +362,13 @@ typedef union YYSTYPE
   XmlVersion *                        XmlVersionVal;
   int *                               iVal;
   char *                              sVal;
+  XmlBoolean *                        XmlBooleanVal;
   XmlDateTime *                       XmlDateTimeVal;
   XmlDecimal *                        XmlDecimalVal;
   XmlID *                             XmlIDVal;
   XmlIDREF *                          XmlIDREFVal;
   XmlNMTOKEN *                        XmlNMTOKENVal;
+  XmlNonNegativeInteger *             XmlNonNegativeIntegerVal;
   XmlPositiveInteger *                XmlPositiveIntegerVal;
   XmlString *                         XmlStringVal;
   XmlToken *                          XmlTokenVal;
@@ -241,6 +378,7 @@ typedef union YYSTYPE
   ActionBaseType *                    ActionBaseTypeVal;
   ActionGroupBaseType *               ActionGroupBaseTypeVal;
   AndType *                           AndTypeVal;
+  AngleUnitType *                     AngleUnitTypeVal;
   ArithmeticComparisonBooleanExpressionType * ArithmeticComparisonBooleanExpressionTypeVal;
   ArithmeticExpressionType *          ArithmeticExpressionTypeVal;
   AttachEndEffectorType *             AttachEndEffectorTypeVal;
@@ -248,34 +386,75 @@ typedef union YYSTYPE
   BinaryBooleanExpressionType *       BinaryBooleanExpressionTypeVal;
   BooleanConstantType *               BooleanConstantTypeVal;
   BooleanExpressionType *             BooleanExpressionTypeVal;
+  BoxVolumeType *                     BoxVolumeTypeVal;
+  BoxyShapeType *                     BoxyShapeTypeVal;
   CreateKitType *                     CreateKitTypeVal;
+  CylindricalShapeType *              CylindricalShapeTypeVal;
   DecimalType *                       DecimalTypeVal;
   DetachEndEffectorType *             DetachEndEffectorTypeVal;
   DivType *                           DivTypeVal;
   ElseType *                          ElseTypeVal;
+  EndEffectorChangingStationType *    EndEffectorChangingStationTypeVal;
+  EndEffectorHolderType *             EndEffectorHolderTypeVal;
+  EndEffectorType *                   EndEffectorTypeVal;
   EqualType *                         EqualTypeVal;
+  ExternalShapeType *                 ExternalShapeTypeVal;
   FalseType *                         FalseTypeVal;
   GreaterOrEqualType *                GreaterOrEqualTypeVal;
   GreaterType *                       GreaterTypeVal;
+  GripperEffectorType *               GripperEffectorTypeVal;
+  HumanType *                         HumanTypeVal;
   IfActionGroupType *                 IfActionGroupTypeVal;
+  InternalShapeType *                 InternalShapeTypeVal;
+  KitDesignType *                     KitDesignTypeVal;
+  KitTrayType *                       KitTrayTypeVal;
+  KitType *                           KitTypeVal;
   KittingPlanType *                   KittingPlanTypeVal;
+  KittingWorkstationType *            KittingWorkstationTypeVal;
+  LargeBoxWithEmptyKitTraysType *     LargeBoxWithEmptyKitTraysTypeVal;
+  LargeBoxWithKitsType *              LargeBoxWithKitsTypeVal;
+  LargeContainerType *                LargeContainerTypeVal;
+  LengthUnitType *                    LengthUnitTypeVal;
   LessOrEqualType *                   LessOrEqualTypeVal;
   LessType *                          LessTypeVal;
+  std::list<BoxVolumeType *> *        ListBoxVolumeTypeVal;
+  std::list<EndEffectorHolderType *> * ListEndEffectorHolderTypeVal;
+  std::list<KitDesignType *> *        ListKitDesignTypeVal;
+  std::list<KitTrayType *> *          ListKitTrayTypeVal;
+  std::list<KitType *> *              ListKitTypeVal;
+  std::list<NumberedPlanElementType *> * ListNumberedPlanElementTypeVal;
+  std::list<PartRefAndPoseType *> *   ListPartRefAndPoseTypeVal;
+  std::list<PartType *> *             ListPartTypeVal;
+  std::list<PhysicalLocationType *> * ListPhysicalLocationTypeVal;
+  std::list<PlanElementBaseType *> *  ListPlanElementBaseTypeVal;
+  std::list<SlotType *> *             ListSlotTypeVal;
+  std::list<SolidObjectType *> *      ListSolidObjectTypeVal;
+  std::list<StepWithPredecessorsType *> * ListStepWithPredecessorsTypeVal;
+  std::list<StockKeepingUnitType *> * ListStockKeepingUnitTypeVal;
+  std::list<TestAndStepType *> *      ListTestAndStepTypeVal;
+  std::list<VariableDeclarationType *> * ListVariableDeclarationTypeVal;
+  std::list<XmlIDREF *> *             ListXmlIDREFVal;
+  std::list<XmlID *> *                ListXmlIDVal;
+  std::list<XmlPositiveInteger *> *   ListXmlPositiveIntegerVal;
   LocatePartType *                    LocatePartTypeVal;
+  MechanicalComponentType *           MechanicalComponentTypeVal;
   MinusType *                         MinusTypeVal;
   ModType *                           ModTypeVal;
-  std::list<XmlNMTOKEN *> *           NMTOKENListVal;
   NegateType *                        NegateTypeVal;
+  NoSkuObjectType *                   NoSkuObjectTypeVal;
   NotEqualType *                      NotEqualTypeVal;
   NotType *                           NotTypeVal;
-  std::list<NumberedPlanElementType *> * NumberedPlanElementTypeListVal;
   NumberedPlanElementType *           NumberedPlanElementTypeVal;
   OneOfActionGroupType *              OneOfActionGroupTypeVal;
   OrType *                            OrTypeVal;
   OrderedActionGroupType *            OrderedActionGroupTypeVal;
+  PartRefAndPoseType *                PartRefAndPoseTypeVal;
+  PartType *                          PartTypeVal;
   PartiallyOrderedActionGroupType *   PartiallyOrderedActionGroupTypeVal;
+  PartsBinType *                      PartsBinTypeVal;
+  PartsTrayType *                     PartsTrayTypeVal;
+  PartsVesselType *                   PartsVesselTypeVal;
   PhysicalLocationType *              PhysicalLocationTypeVal;
-  std::list<PlanElementBaseType *> *  PlanElementBaseTypeListVal;
   PlanElementBaseType *               PlanElementBaseTypeVal;
   PlusType *                          PlusTypeVal;
   PointType *                         PointTypeVal;
@@ -292,25 +471,31 @@ typedef union YYSTYPE
   RelativeLocationOnType *            RelativeLocationOnTypeVal;
   RelativeLocationType *              RelativeLocationTypeVal;
   RobotActionBaseType *               RobotActionBaseTypeVal;
+  RobotType *                         RobotTypeVal;
   SensorActionBaseType *              SensorActionBaseTypeVal;
+  SkuObjectType *                     SkuObjectTypeVal;
+  SlotType *                          SlotTypeVal;
+  SolidObjectType *                   SolidObjectTypeVal;
   SomeOfActionGroupType *             SomeOfActionGroupTypeVal;
-  std::list<StepWithPredecessorsType *> * StepWithPredecessorsTypeListVal;
   StepWithPredecessorsType *          StepWithPredecessorsTypeVal;
+  StockKeepingUnitType *              StockKeepingUnitTypeVal;
   TakeKitTrayType *                   TakeKitTrayTypeVal;
   TakeKitType *                       TakeKitTypeVal;
   TakePartType *                      TakePartTypeVal;
-  std::list<TestAndStepType *> *      TestAndStepTypeListVal;
   TestAndStepType *                   TestAndStepTypeVal;
   TimesType *                         TimesTypeVal;
   TrueType *                          TrueTypeVal;
   UnorderedActionGroupType *          UnorderedActionGroupTypeVal;
+  VacuumEffectorMultiCupType *        VacuumEffectorMultiCupTypeVal;
+  VacuumEffectorSingleCupType *       VacuumEffectorSingleCupTypeVal;
+  VacuumEffectorType *                VacuumEffectorTypeVal;
   VarSetType *                        VarSetTypeVal;
   VarValType *                        VarValTypeVal;
-  std::list<VariableDeclarationType *> * VariableDeclarationTypeListVal;
   VariableDeclarationType *           VariableDeclarationTypeVal;
   VectorType *                        VectorTypeVal;
+  WeightUnitType *                    WeightUnitTypeVal;
   WhileActionGroupType *              WhileActionGroupTypeVal;
-  std::list<XmlPositiveInteger *> *   positiveIntegerListVal;
+  WorkTableType *                     WorkTableTypeVal;
 
 
 

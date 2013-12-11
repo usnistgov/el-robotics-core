@@ -1,0 +1,190 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(:=<http://www.nist.gov/el/ontologies/geometryInstances.owl#>)
+Prefix(geo:=<http://www.nist.gov/el/ontologies/geometrySchema3Classes.owl#>)
+Prefix(cir:=<http://www.nist.gov/el/ontologies/CircleAndSphereClasses.owl#>)
+Prefix(poi:=<http://www.nist.gov/el/ontologies/PointAndVectorClasses.owl#>)
+Ontology(<http://www.nist.gov/el/ontologies/geometryInstances.owl>
+Import(<file:geometrySchema3Classes.owl>)
+
+//*****************************************
+// 1 start geo:CirclesAndSpheres CirclesAndSpheres1
+Declaration(NamedIndividual(:CirclesAndSpheres1))
+ClassAssertion(geo:CirclesAndSpheres :CirclesAndSpheres1)
+ObjectPropertyAssertion(geo:hasCirclesAndSpheres_CircleInstance
+                        :CirclesAndSpheres1 :Circle1)
+
+//*****************************************
+// 2 start cir:Circle Circle1
+Declaration(NamedIndividual(:Circle1))
+ClassAssertion(cir:Circle :Circle1)
+DataPropertyAssertion(poi:hasRoundThing_Radius :Circle1
+                      "5.500000"^^xsd:decimal)
+ObjectPropertyAssertion(poi:hasRoundThing_Center
+                        :Circle1 :Point1A)
+
+//*****************************************
+// 3 start poi:Point Point1A
+Declaration(NamedIndividual(:Point1A))
+ClassAssertion(poi:Point :Point1A)
+DataPropertyAssertion(poi:hasPoint_X :Point1A
+                      "1.100000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Y :Point1A
+                      "2.200000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Z :Point1A
+                      "3.300000"^^xsd:decimal)
+// 3 end poi:Point
+//*****************************************
+
+ObjectPropertyAssertion(cir:hasCircle_Normal
+                        :Circle1 :Vector1A)
+
+//*****************************************
+// 3 start poi:Vector Vector1A
+Declaration(NamedIndividual(:Vector1A))
+ClassAssertion(poi:Vector :Vector1A)
+DataPropertyAssertion(poi:hasVector_I :Vector1A
+                      "0.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasVector_J :Vector1A
+                      "0.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasVector_K :Vector1A
+                      "1.000000"^^xsd:decimal)
+// 3 end poi:Vector
+//*****************************************
+
+// 2 end cir:Circle
+//*****************************************
+
+ObjectPropertyAssertion(geo:hasCirclesAndSpheres_CircleInstance
+                        :CirclesAndSpheres1 :Circle2)
+
+//*****************************************
+// 2 start cir:Circle Circle2
+Declaration(NamedIndividual(:Circle2))
+ClassAssertion(cir:Circle :Circle2)
+DataPropertyAssertion(poi:hasRoundThing_Radius :Circle2
+                      "3.000000"^^xsd:decimal)
+ObjectPropertyAssertion(poi:hasRoundThing_Center
+                        :Circle2 :Point2A)
+
+//*****************************************
+// 3 start poi:Point Point2A
+Declaration(NamedIndividual(:Point2A))
+ClassAssertion(poi:Point :Point2A)
+DataPropertyAssertion(poi:hasPoint_X :Point2A
+                      "-1.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Y :Point2A
+                      "0.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Z :Point2A
+                      "1.000000"^^xsd:decimal)
+// 3 end poi:Point
+//*****************************************
+
+ObjectPropertyAssertion(cir:hasCircle_Normal
+                        :Circle2 :Vector1B)
+
+//*****************************************
+// 3 start poi:Vector Vector1B
+Declaration(NamedIndividual(:Vector1B))
+ClassAssertion(poi:Vector :Vector1B)
+DataPropertyAssertion(poi:hasVector_I :Vector1B
+                      "0.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasVector_J :Vector1B
+                      "0.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasVector_K :Vector1B
+                      "1.000000"^^xsd:decimal)
+// 3 end poi:Vector
+//*****************************************
+
+// 2 end cir:Circle
+//*****************************************
+
+ObjectPropertyAssertion(geo:hasCirclesAndSpheres_SphereInstance
+                        :CirclesAndSpheres1 :Sphere1)
+
+//*****************************************
+// 2 start cir:Sphere Sphere1
+Declaration(NamedIndividual(:Sphere1))
+ClassAssertion(cir:Sphere :Sphere1)
+DataPropertyAssertion(poi:hasRoundThing_Radius :Sphere1
+                      "5.500000"^^xsd:decimal)
+ObjectPropertyAssertion(poi:hasRoundThing_Center
+                        :Sphere1 :Point1B)
+
+//*****************************************
+// 3 start poi:Point Point1B
+Declaration(NamedIndividual(:Point1B))
+ClassAssertion(poi:Point :Point1B)
+DataPropertyAssertion(poi:hasPoint_X :Point1B
+                      "1.100000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Y :Point1B
+                      "2.200000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Z :Point1B
+                      "3.300000"^^xsd:decimal)
+// 3 end poi:Point
+//*****************************************
+
+// 2 end cir:Sphere
+//*****************************************
+
+ObjectPropertyAssertion(geo:hasCirclesAndSpheres_SphereInstance
+                        :CirclesAndSpheres1 :Sphere2)
+
+//*****************************************
+// 2 start cir:Sphere Sphere2
+Declaration(NamedIndividual(:Sphere2))
+ClassAssertion(cir:Sphere :Sphere2)
+DataPropertyAssertion(poi:hasRoundThing_Radius :Sphere2
+                      "0.650000"^^xsd:decimal)
+ObjectPropertyAssertion(poi:hasRoundThing_Center
+                        :Sphere2 :Point2B)
+
+//*****************************************
+// 3 start poi:Point Point2B
+Declaration(NamedIndividual(:Point2B))
+ClassAssertion(poi:Point :Point2B)
+DataPropertyAssertion(poi:hasPoint_X :Point2B
+                      "-1.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Y :Point2B
+                      "0.000000"^^xsd:decimal)
+DataPropertyAssertion(poi:hasPoint_Z :Point2B
+                      "1.000000"^^xsd:decimal)
+// 3 end poi:Point
+//*****************************************
+
+// 2 end cir:Sphere
+//*****************************************
+
+// 1 end geo:CirclesAndSpheres
+//*****************************************
+
+
+//*****************************************
+// cir:Circle individuals 
+DifferentIndividuals(
+ :Circle1
+ :Circle2)
+
+//*****************************************
+// poi:Point individuals 
+DifferentIndividuals(
+ :Point1A
+ :Point1B
+ :Point2A
+ :Point2B)
+
+//*****************************************
+// cir:Sphere individuals 
+DifferentIndividuals(
+ :Sphere1
+ :Sphere2)
+
+//*****************************************
+// poi:Vector individuals 
+DifferentIndividuals(
+ :Vector1A
+ :Vector1B)
+)

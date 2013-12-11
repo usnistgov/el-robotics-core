@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:geometry"
+  targetNamespace="urn:geometry"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xsd:include schemaLocation="CircleAndSphere.xsd"/>
+
+  <xsd:annotation>
+    <xsd:documentation>
+      A schema file with a top level element (so a data file can be made).
+      The include hierarchy has three levels. Three schema files are
+      involved, one in each level.
+   
+    </xsd:documentation>
+    <xsd:documentation>owlPrefix=geo</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="CirclesAndSpheres"
+    type="CirclesAndSpheresType"/>
+
+  <xsd:complexType name="CirclesAndSpheresType">
+    <xsd:sequence>
+      <xsd:element name="Name"
+        type="xsd:ID"/>
+      <xsd:element name="CircleInstance"
+        type="CircleType"
+        maxOccurs="unbounded"/>
+      <xsd:element name="SphereInstance"
+        type="SphereType"
+        maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:geometry"
+  targetNamespace="urn:geometry"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xsd:include schemaLocation="PointAndVector.xsd"/>
+
+  <xsd:annotation>
+    <xsd:documentation>
+      This is a schema with classes for circle and sphere.
+    </xsd:documentation>
+    <xsd:documentation>owlPrefix=cir</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:complexType name="CircleType">
+    <xsd:complexContent>
+      <xsd:extension base="RoundThingType">
+        <xsd:sequence>
+          <xsd:element name="Normal"
+            type="VectorType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="SphereType">
+    <xsd:complexContent>
+      <xsd:extension base="RoundThingType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

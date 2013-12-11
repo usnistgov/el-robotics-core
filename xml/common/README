@@ -1,14 +1,16 @@
 xml2owl README - last updated 2013Jan16
 
-This directory contains six executable utilities with the source code and
-object code. All of the executables are fast.
+This directory contains source code and a Makefile for six executable
+utilities. No executables or object code files are included. To make
+the object code and the executables give the following commands
+from this common directory.
 
-  xml2owlGenerator
-  xmlInstanceParserGenerator
-  xmlSchemaOwlClassGenerator
-  xmlSchemaParser
-  compactOwl
-  compareOwl
+  make bin/xml2owlGenerator
+  make bin/xmlInstanceParserGenerator
+  make bin/xmlSchemaOwlClassGenerator
+  make bin/xmlSchemaParser
+  make bin/compactOwl
+  make bin/compareOwl
 
 xml2owlGenerator
 ----------------
@@ -124,7 +126,7 @@ except that the .xsd suffix is replaced by .owl
 xmlSchemaParser
 ---------------
 
-The xmlSchemaParser reads an XML schema and reprints it if is
+The xmlSchemaParser reads an XML schema and reprints it if it is
 syntactically valid. The name of the output file is the same as the
 name of the input file with "echo" added. The xmlSchemaParser has an
 option for whether it saves and reprints comments. There are also

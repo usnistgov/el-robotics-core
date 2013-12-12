@@ -73,6 +73,11 @@ public class Individuals {
 	 */
 	private HashMap<String, Integer> nbInsert;
 	/**
+	 * \brief ID for a given instance. Map - Key: Type => Value : # of
+	 * insertion.
+	 */
+	private HashMap<String, Integer> id;
+	/**
 	 * \brief Attributes for a given table. \details <Table1 =>
 	 * <Attribute1,Attribute2,TableForeignKey/ForeignKey...>
 	 */
@@ -113,6 +118,7 @@ public class Individuals {
 		parent = new ArrayList<String>();
 		individuals = null;
 		nbInsert = new HashMap<String, Integer>();
+		id = new HashMap<String, Integer>();
 		individualsType = new HashMap<String, ArrayList<String>>();
 		addIndividuals(); // Extract the individuals of the ontology - Fill up
 		// the Individuals list
@@ -228,99 +234,35 @@ public class Individuals {
 					if (l != attributesTab.length - 1)
 						result = result + ", ";
 				}
-				if (value.getKey().toString()
-						.contains(attributesTab[l].substring(1))) {
-					// The attribute type = a xsd type
-					if (value.getValue().toString().contains("^")) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString()
-												.indexOf("^") - 1)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1)
-									+ "'";
+				if (value
+						.getKey()
+						.toString()
+						.endsWith(
+								SEPARATOR + attributesTab[l].substring(1) + ">")) {
+					if (isNumber(value
+							.getValue()
+							.toString()
+							.substring(
+									2,
+									value.getValue().toString().indexOf("^") - 1)))
+						result = result
+								+ value.getValue()
+										.toString()
+										.substring(
+												2,
+												value.getValue().toString()
+														.indexOf("^") - 1);
+					else
+						result = result
+								+ "'"
+								+ value.getValue()
+										.toString()
+										.substring(
+												2,
+												value.getValue().toString()
+														.indexOf("^") - 1)
+								+ "'";
 
-					}
-					// The attribute is a reference
-					else if (value.getValue().toString()
-							.contains(String.valueOf(SEPARATOR))) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										value.getValue().toString()
-												.lastIndexOf(SEPARATOR) + 1,
-										value.getValue().toString().length() - 2)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-					}
-					// The attribute is a part of an enumeration
-					else {
-
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString().length() - 2)))
-							result = result
-
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-
-					}
 					if (attributes.substring(2).contains(",")
 							&& l != attributesTab.length - 1)
 						result = result + ", ";
@@ -351,114 +293,25 @@ public class Individuals {
 		for (int l = 1; l < attributesTab.length; l++) {
 			for (Entry<OWLObjectPropertyExpression, Set<OWLIndividual>> value : valuesObject
 					.entrySet()) {
-				// There is only an ID and a name
 
-				if (attributesTab[l].endsWith("_NAME") && !name) {
-					result = result + "'" + individualsClean.get(i) + "'";
-					name = true;
-					if (l != attributesTab.length - 1)
-						result = result + ", ";
+				if (value
+						.getKey()
+						.toString()
+						.endsWith(
+								SEPARATOR + attributesTab[l].substring(1) + ">")) {
+					result = result
+							+ "'"
+							+ value.getValue()
+									.toString()
+									.substring(
+											value.getValue().toString()
+													.lastIndexOf(SEPARATOR) + 1,
+											value.getValue().toString()
+													.length() - 2) + "'";
 
-				}
-				if (value.getKey().toString()
-						.contains(attributesTab[l].substring(1))) {
-
-					// The attribute type = a xsd type
-
-					if (value.getValue().toString().contains("^")) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString()
-												.indexOf("^") - 1)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.indexOf("^") - 1)
-									+ "'";
-
-					} // The attribute is a reference
-
-					else if (value.getValue().toString()
-							.contains(String.valueOf(SEPARATOR))) {
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										value.getValue().toString()
-												.lastIndexOf(SEPARATOR) + 1,
-										value.getValue().toString().length() - 2)))
-							result = result
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													value.getValue()
-															.toString()
-															.lastIndexOf(
-																	SEPARATOR) + 1,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-
-					} else {
-						// The attribute is a part of an
-						// enumeration
-						if (isNumber(value
-								.getValue()
-								.toString()
-								.substring(
-										2,
-										value.getValue().toString().length() - 2)))
-							result = result
-
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2);
-						else
-							result = result
-									+ "'"
-									+ value.getValue()
-											.toString()
-											.substring(
-													2,
-													value.getValue().toString()
-															.length() - 2)
-									+ "'";
-
-					}
 					if (attributes.substring(2).contains(",")
 							&& l != attributesTab.length - 1)
 						result = result + ", ";
-
 				}
 			}
 
@@ -472,36 +325,56 @@ public class Individuals {
 	/**
 	 * \brief Add the data properties from other tables in the SQL script for a
 	 * given individual. \param i Position of the individual in the list. \param
-	 * l Position of the attribute in the tab. \param attributesTab Tab with all
+	 * l Position of the attribute in the tab. \param
+	 * k Position of the value in the set. \param attributesTab Tab with all
 	 * the attributes. \param name To know if the name is added in order to do
 	 * it only once. \return A tab with in position 0 the values corresponding
 	 * to the attributes and in position 1 if the name is added.
 	 */
-	public Object[] insertIntoDataForeign(int i, int l, String[] attributesTab,
-			boolean name) {
+	public Object[] insertIntoDataForeign(int i, int l, int k,
+			String[] attributesTab, boolean name) {
 		String result = "";
 
 		Map<OWLDataPropertyExpression, Set<OWLLiteral>> valuesData = individuals
 				.get(i).getDataPropertyValues(ontology);
-		if (valuesData.size() == 0 && !name) {
-			result = result + "'" + individualsClean.get(i) + "'";
-			name = true;
-		}
+		Map<OWLObjectPropertyExpression, Set<OWLIndividual>> valuesObject = individuals
+				.get(i).getObjectPropertyValues(ontology);
 
 		if (attributesTab[l].toString().endsWith("ID")) {
-			if (nbInsert.get(attributesTab[l].toString().substring(
-					attributesTab[l].toString().indexOf("/") + 1,
-					attributesTab[l].toString().length() - 2)) != null)
-				result = result
-						+ String.valueOf(nbInsert
-								.get(attributesTab[l].toString()
-										.substring(
-												attributesTab[l].toString()
-														.indexOf("/") + 1,
-												attributesTab[l].toString()
-														.length() - 2)) - 1);
-			else
-				result = result + 1;
+			if (id.get(individualsClean.get(i)) != null)
+				if (individualsType.get(individualsClean.get(i)).contains(
+						attributesTab[l].toString().substring(
+								attributesTab[l].toString().indexOf("/") + 1,
+								attributesTab[l].toString().length() - 2)))
+					result = result
+							+ String.valueOf(id.get(individualsClean.get(i)));
+				else
+					for (Entry<OWLObjectPropertyExpression, Set<OWLIndividual>> value : valuesObject
+							.entrySet()) {
+						if (value
+								.getKey()
+								.toString()
+								.endsWith(
+										SEPARATOR
+												+ attributesTab[l]
+														.trim()
+														.substring(
+																0,
+																attributesTab[l]
+																		.trim()
+																		.indexOf(
+																				"/"))
+												+ ">")) {
+							result = result
+									+ String.valueOf(id.get(value.getValue()
+											.toArray()[k].toString().substring(
+											value.getValue().toArray()[k]
+													.toString().lastIndexOf(
+															SEPARATOR) + 1,
+											value.getValue().toArray()[k]
+													.toString().length() - 1)));
+						}
+					}
 		}
 		for (Entry<OWLDataPropertyExpression, Set<OWLLiteral>> value : valuesData
 				.entrySet()) {
@@ -512,172 +385,40 @@ public class Individuals {
 				if (l != attributesTab.length - 1)
 					result = result + ", ";
 			}
-
 			if (value
 					.getKey()
 					.toString()
-					.contains(
-							attributesTab[l].toString()
-									.substring(
+					.endsWith(
+							SEPARATOR
+									+ attributesTab[l].toString().substring(
 											attributesTab[l].toString()
 													.indexOf("/") + 1,
 											attributesTab[l].toString()
-													.length()))) {
+													.length()) + ">")) {
 
 				// The attribute type = a xsd type
-				if (value.getValue().toString().contains("^")) {
-					if (isNumber(value
-							.getValue()
-							.toString()
-							.substring(
-									2,
-									value.getValue().toString().indexOf("^") - 1)))
-						result = result
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.indexOf("^") - 1);
-					else
-						result = result
-								+ "'"
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.indexOf("^") - 1)
-								+ "'";
-
-				} else if (value.getValue().toString()
-						.contains(String.valueOf(SEPARATOR))) {
-					if (isNumber(value
-							.getValue()
-							.toString()
-							.substring(
-									value.getValue().toString()
-											.lastIndexOf(SEPARATOR) + 1,
-									value.getValue().toString().length() - 2)))
-						result = result
-								+ value.getValue()
-										.toString()
-										.substring(
-												value.getValue().toString()
-														.lastIndexOf(SEPARATOR) + 1,
-												value.getValue().toString()
-														.length() - 2);
-					else
-						result = result
-								+ "'"
-								+ value.getValue()
-										.toString()
-										.substring(
-												value.getValue().toString()
-														.lastIndexOf(SEPARATOR) + 1,
-												value.getValue().toString()
-														.length() - 2) + "'";
-
-				} else {
-					if (isNumber(value
-							.getValue()
-							.toString()
-							.substring(2,
-									value.getValue().toString().length() - 2)))
-						result = result
-
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.length() - 2);
-					else
-						result = result
-								+ "'"
-								+ value.getValue()
-										.toString()
-										.substring(
-												2,
-												value.getValue().toString()
-														.length() - 2) + "'";
-
-				}
-				if (attributesTab[l]
+				if (isNumber(value
+						.getValue().toArray()[k]
 						.toString()
-						.substring(
-								attributesTab[l].toString().indexOf("/") + 1,
-								attributesTab[l].toString().length())
-						.contains(",")
-						&& l != attributesTab.length - 1)
-					result = result + ", ";
-
-			}
-		}
-		Object[] resultTab = new Object[2];
-		resultTab[0] = result;
-		resultTab[1] = name;
-		return resultTab;
-	}
-
-	/**
-	 * \brief Add the object properties from other tables in the SQL script for
-	 * a given individual. \param i Position of the individual in the list.
-	 * \param l Position of the attribute in the tab. \param attributesTab Tab
-	 * with all the attributes. \param name To know if the name is added in
-	 * order to do it only once. \return A tab with in position 0 the values
-	 * corresponding to the attributes and in position 1 if the name is added.
-	 */
-	public Object[] insertIntoObjectForeign(int i, int l,
-			String[] attributesTab, boolean name) {
-		String result = "";
-
-		Map<OWLObjectPropertyExpression, Set<OWLIndividual>> valuesObject = individuals
-				.get(i).getObjectPropertyValues(ontology);
-
-		for (Entry<OWLObjectPropertyExpression, Set<OWLIndividual>> value : valuesObject
-				.entrySet()) {
-			if (attributesTab[l].endsWith("_NAME") && !name) {
-				result = result + "'" + individualsClean.get(i) + "'";
-				name = true;
-				if (l != attributesTab.length - 1)
-					result = result + ", ";
-			}
-
-			if (value
-					.getKey()
-					.toString()
-					.contains(
-							attributesTab[l].toString()
-									.substring(
-											attributesTab[l].toString()
-													.indexOf("/") + 1,
-											attributesTab[l].toString()
-													.length()))) {
-
-				// The attribute is a reference
-				if (value.getValue().toString()
-						.contains(String.valueOf(SEPARATOR))) {
+						.substring(2,
+								value.getValue().toArray()[k].toString().indexOf("^") - 1)))
 					result = result
-							+ value.getValue()
+							+ value.getValue().toArray()[k]
 									.toString()
 									.substring(
-											value.getValue().toString()
-													.lastIndexOf(SEPARATOR) + 1,
-											value.getValue().toString()
-													.length());
-
-				} else {
+											1,
+											value.getValue().toArray()[k].toString()
+													.indexOf("^") - 1);
+				else
 					result = result
 							+ "'"
-							+ value.getValue()
+							+ value.getValue().toArray()[k]
 									.toString()
 									.substring(
-											2,
-											value.getValue().toString()
-													.length() - 2) + "'";
+											1,
+											value.getValue().toArray()[k].toString()
+													.indexOf("^") - 1) + "'";
 
-				}
 				if (attributesTab[l]
 						.toString()
 						.substring(
@@ -709,7 +450,6 @@ public class Individuals {
 			String attributesLocal = "";
 			String attributesRemote = "";
 			String[] attributesLocalTab;
-			String[] attributesRemoteTab;
 			if (individualsType.containsKey(individualsClean.get(i))) {
 				// IndividualType != owl:Thing
 				for (int j = 0; j < individualsType
@@ -748,125 +488,203 @@ public class Individuals {
 					}
 				}
 			}
+		}
+		for (int i = 0; i < individualsType.size(); i++) {
+			name = false;
+			String attributesRemote = "";
+			String[] attributesRemoteTab;
+			ArrayList<String> attributes;
 
-			// Association tables + xValue Tables
-			attributesRemoteTab = attributesRemote.split(",");
+			if (individualsType.containsKey(individualsClean.get(i))) {
+				// IndividualType != owl:Thing
+				for (int j = 0; j < individualsType
+						.get(individualsClean.get(i)).size(); j++) {
+					attributes = tables.get(individualsType.get(
+							individualsClean.get(i)).get(j));
+					// Split local (in his table) and remote (in another table)
+					// attributes
+					for (int k = 0; k < attributes.size(); k++) {
+						if (attributes.get(k).contains("/")) {
+							attributesRemote = attributesRemote + ", "
+									+ attributes.get(k);
+						}
+					}
 
-			ArrayList<Integer> temp;
-			HashMap<String, ArrayList<Integer>> remotePosition = new HashMap<String, ArrayList<Integer>>();
-			for (int c = 1; c < attributesRemoteTab.length; c++) {
-				if (remotePosition
-						.containsKey(attributesRemoteTab[c].toString()
-								.substring(
+					// Association tables + xValue Tables
+					attributesRemoteTab = attributesRemote.split(",");
+
+					ArrayList<Integer> temp;
+					HashMap<String, ArrayList<Integer>> remotePosition = new HashMap<String, ArrayList<Integer>>();
+					for (int c = 1; c < attributesRemoteTab.length; c++) {
+						if (remotePosition.containsKey(attributesRemoteTab[c]
+								.toString().substring(
 										1,
 										attributesRemoteTab[c].toString()
 												.indexOf("/")))) {
-					temp = remotePosition.get(attributesRemoteTab[c].toString()
-							.substring(
-									1,
-									attributesRemoteTab[c].toString().indexOf(
-											"/")));
-				} else {
-					temp = new ArrayList<Integer>();
-				}
-				temp.add(c);
-				remotePosition
-						.put(attributesRemoteTab[c].toString().substring(1,
-								attributesRemoteTab[c].toString().indexOf("/")),
-								temp);
-			}
-
-			if (!remotePosition.isEmpty()) {
-				for (Entry<String, ArrayList<Integer>> currentEntry : remotePosition
-						.entrySet()) {
-					Map<OWLObjectPropertyExpression, Set<OWLIndividual>> valuesObject = individuals
-							.get(i).getObjectPropertyValues(ontology);
-					Map<OWLDataPropertyExpression, Set<OWLLiteral>> valuesData = individuals
-							.get(i).getDataPropertyValues(ontology);
-					ArrayList<String> dataKeys = new ArrayList<String>();
-					ArrayList<String> objectKeys = new ArrayList<String>();
-					ArrayList<OWLDataPropertyExpression> valuesDataKeys = new ArrayList<OWLDataPropertyExpression>(
-							valuesData.keySet());
-					ArrayList<OWLObjectPropertyExpression> valuesObjectKeys = new ArrayList<OWLObjectPropertyExpression>(
-							valuesObject.keySet());
-					for (int a = 0; a < valuesDataKeys.size(); a++)
-						dataKeys.add(valuesDataKeys
-								.get(a)
-								.toString()
-								.substring(
-										valuesDataKeys.get(a).toString()
-												.indexOf(SEPARATOR) + 1,
-										valuesDataKeys.get(a).toString()
-												.length() - 1));
-
-					for (int a = 0; a < valuesObjectKeys.size(); a++)
-						objectKeys.add(valuesObjectKeys
-								.get(a)
-								.toString()
-								.substring(
-										valuesObjectKeys.get(a).toString()
-												.indexOf(SEPARATOR) + 1,
-										valuesObjectKeys.get(a).toString()
-												.length() - 1));
-					String table = currentEntry.getKey();
-					String tablebis = "";
-					if (table.length() > "Value".length())
-						tablebis = table.substring(0,
-								table.length() - "Value".length());
-					if (objectKeys.contains(table)
-							|| dataKeys.contains(tablebis)) {
-
-						ArrayList<Integer> value = currentEntry.getValue();
-						result = result + "INSERT INTO " + table + "\n(";
-
-						for (int v = 0; v < value.size(); v++) {
-							result = result
-									+ attributesRemoteTab[value.get(v)]
-											.toString()
-											.substring(
-													attributesRemoteTab[value
-															.get(v)].toString()
-															.indexOf("/") + 1,
-													attributesRemoteTab[value
-															.get(v)].toString()
-															.length());
-
-							if (v != value.size() - 1) {
-								result = result + ", ";
-
-							}
-
+							temp = remotePosition.get(attributesRemoteTab[c]
+									.toString().substring(
+											1,
+											attributesRemoteTab[c].toString()
+													.indexOf("/")));
+						} else {
+							temp = new ArrayList<Integer>();
 						}
+						temp.add(c);
+						remotePosition.put(
+								attributesRemoteTab[c].toString().substring(
+										1,
+										attributesRemoteTab[c].toString()
+												.indexOf("/")), temp);
+					}
 
-						result = result + ")\nVALUES(";
-						for (int v = 0; v < value.size(); v++) {
-							resultTab = insertIntoDataForeign(i, value.get(v),
-									attributesRemoteTab, name);
-							result = result + resultTab[0];
-							name = (Boolean) resultTab[1];
+					if (!remotePosition.isEmpty()) {
+						for (Entry<String, ArrayList<Integer>> currentEntry : remotePosition
+								.entrySet()) {
+							Map<OWLObjectPropertyExpression, Set<OWLIndividual>> valuesObject = individuals
+									.get(i).getObjectPropertyValues(ontology);
+							Map<OWLDataPropertyExpression, Set<OWLLiteral>> valuesData = individuals
+									.get(i).getDataPropertyValues(ontology);
+							ArrayList<String> dataKeys = new ArrayList<String>();
+							ArrayList<String> objectKeys = new ArrayList<String>();
+							ArrayList<OWLDataPropertyExpression> valuesDataKeys = new ArrayList<OWLDataPropertyExpression>(
+									valuesData.keySet());
+							ArrayList<OWLObjectPropertyExpression> valuesObjectKeys = new ArrayList<OWLObjectPropertyExpression>(
+									valuesObject.keySet());
+							for (int a = 0; a < valuesDataKeys.size(); a++)
+								dataKeys.add(valuesDataKeys
+										.get(a)
+										.toString()
+										.substring(
+												valuesDataKeys.get(a)
+														.toString()
+														.indexOf(SEPARATOR) + 1,
+												valuesDataKeys.get(a)
+														.toString().length() - 1));
 
-							if (((String) resultTab[0]).length() > 0
-									&& v != value.size() - 1) {
-								result = result + ", ";
+							for (int a = 0; a < valuesObjectKeys.size(); a++)
+								objectKeys
+										.add(valuesObjectKeys
+												.get(a)
+												.toString()
+												.substring(
+														valuesObjectKeys
+																.get(a)
+																.toString()
+																.indexOf(
+																		SEPARATOR) + 1,
+														valuesObjectKeys.get(a)
+																.toString()
+																.length() - 1));
+							String table = currentEntry.getKey();
+							String tablebis = "";
+							if (table.length() > "Value".length())
+								tablebis = table.substring(0, table.length()
+										- "Value".length());
+							// Association tables
+							if (objectKeys.contains(table)) {
+								for (int l = 0; l < valuesObject.get(
+										valuesObjectKeys.get(objectKeys
+												.indexOf(table))).size(); l++) {
+									ArrayList<Integer> value = currentEntry
+											.getValue();
+									result = result + "INSERT INTO " + table
+											+ "\n(";
+
+									for (int v = 0; v < value.size(); v++) {
+										result = result
+												+ attributesRemoteTab[value
+														.get(v)]
+														.toString()
+														.substring(
+																attributesRemoteTab[value
+																		.get(v)]
+																		.toString()
+																		.indexOf(
+																				"/") + 1,
+																attributesRemoteTab[value
+																		.get(v)]
+																		.toString()
+																		.length());
+
+										if (v != value.size() - 1) {
+											result = result + ", ";
+
+										}
+
+									}
+
+									result = result + ")\nVALUES(";
+									for (int v = 0; v < value.size(); v++) {
+										resultTab = insertIntoDataForeign(i,
+												value.get(v), l,
+												attributesRemoteTab, name);
+										result = result + resultTab[0];
+										name = (Boolean) resultTab[1];
+
+										if (((String) resultTab[0]).length() > 0
+												&& v != value.size() - 1) {
+											result = result + ", ";
+										}
+
+									}
+									result = result + ");\n\n";
+								}
 							}
+							// xValue
+							if (dataKeys.contains(tablebis)) {
+								for (int l = 0; l < valuesData.get(
+										valuesDataKeys.get(dataKeys
+												.indexOf(tablebis))).size(); l++) {
+									ArrayList<Integer> value = currentEntry
+											.getValue();
+									result = result + "INSERT INTO " + table
+											+ "\n(";
 
-							resultTab = insertIntoObjectForeign(i,
-									value.get(v), attributesRemoteTab, name);
-							result = result + resultTab[0];
-							name = (Boolean) resultTab[1];
+									for (int v = 0; v < value.size(); v++) {
+										result = result
+												+ attributesRemoteTab[value
+														.get(v)]
+														.toString()
+														.substring(
+																attributesRemoteTab[value
+																		.get(v)]
+																		.toString()
+																		.indexOf(
+																				"/") + 1,
+																attributesRemoteTab[value
+																		.get(v)]
+																		.toString()
+																		.length());
 
-							if (((String) resultTab[0]).length() > 0
-									&& v != value.size() - 1) {
-								result = result + ", ";
+										if (v != value.size() - 1) {
+											result = result + ", ";
+
+										}
+
+									}
+
+									result = result + ")\nVALUES(";
+									for (int v = 0; v < value.size(); v++) {
+										resultTab = insertIntoDataForeign(i,
+												value.get(v), l,
+												attributesRemoteTab, name);
+										result = result + resultTab[0];
+										name = (Boolean) resultTab[1];
+
+										if (((String) resultTab[0]).length() > 0
+												&& v != value.size() - 1) {
+											result = result + ", ";
+										}
+
+									}
+									result = result + ");\n\n";
+								}
 							}
-
 						}
-						result = result + ");\n\n";
 					}
 				}
 			}
 		}
-
 		return result;
 	}
 
@@ -911,10 +729,13 @@ public class Individuals {
 		}
 		int indice_max = 0;
 		if (parent.size() == 0) {
-			if (nbInsert.get(table) != null)
+			if (nbInsert.get(table) != null) {
 				nbInsert.put(table, nbInsert.get(table) + 1);
-			else
+				id.put(individualsClean.get(i), nbInsert.get(table));
+			} else {
 				nbInsert.put(table, 1);
+				id.put(individualsClean.get(i), 1);
+			}
 		} else if (nbInsert.get(parent.get(indice_max)) != null) {
 			int max = 0;
 			indice_max = 0;
@@ -923,15 +744,18 @@ public class Individuals {
 					indice_max = c;
 			}
 			nbInsert.put(table, nbInsert.get(parent.get(indice_max)) + 1);
-		} else
-			nbInsert.put(table, 1);
+			id.put(individualsClean.get(i),
+					nbInsert.get(parent.get(indice_max)));
 
+		} else {
+			nbInsert.put(table, 1);
+			id.put(individualsClean.get(i), 1);
+		}
 		Map<OWLDataPropertyExpression, Set<OWLLiteral>> valuesData = individuals
 				.get(i).getDataPropertyValues(ontology);
 		ArrayList<String> attributes = new ArrayList<String>();
 		ArrayList<String> dataKeys = new ArrayList<String>();
 		ArrayList<String> objectKeys = new ArrayList<String>();
-		//System.out.println(table + " " + individualsClean.get(i));
 		attributes = (ArrayList<String>) tables.get(table).clone();
 
 		ArrayList<OWLDataPropertyExpression> valuesDataKeys = new ArrayList<OWLDataPropertyExpression>(
@@ -985,11 +809,11 @@ public class Individuals {
 		result = result + "INSERT INTO " + table + "\n("
 				+ attributesLocalBis.substring(2) + ")\nVALUES(";
 		String att = "";
-		for (int lll = 0; lll < attributesLocalBis.substring(2).split(",").length; lll++) {
+		for (int a = 0; a < attributesLocalBis.substring(2).split(",").length; a++) {
 			if (objectKeys
-					.contains(attributesLocalBis.substring(2).split(",")[lll]
+					.contains(attributesLocalBis.substring(2).split(",")[a]
 							.replace(" ", ""))) {
-				att = att + attributesLocalBis.substring(2).split(",")[lll]
+				att = att + attributesLocalBis.substring(2).split(",")[a]
 						+ "=,";
 			}
 		}
@@ -999,6 +823,7 @@ public class Individuals {
 
 		if (superClassesClean.containsKey(table))
 			result = result + nbInsert.get(parent.get(indice_max)) + ", ";
+
 		// Adding data properties
 		resultTab = insertIntoData(i, attributesLocalTabBis,
 				attributesLocalBis, name);
@@ -1019,11 +844,10 @@ public class Individuals {
 			result = result + ", ";
 		if (!resultTab[0].equals("") && !att.equals("")) {
 
-			for (int lll = 0; lll < resultTab[0].toString().split(",").length; lll++) {
-				if (lll > 0)
+			for (int a = 0; a < resultTab[0].toString().split(",").length; a++) {
+				if (a > 0)
 					att = att.substring(att.indexOf("=,") + 2);
-
-				if (lll < resultTab[0].toString().split(",").length - 1) {
+				if (a < resultTab[0].toString().split(",").length - 1) {
 
 					result = result + "NULL, ";// resultTab[0];
 					resultUpdate = resultUpdate
@@ -1032,7 +856,7 @@ public class Individuals {
 											"=,",
 											"="
 													+ resultTab[0].toString()
-															.split(",")[lll])
+															.split(",")[a])
 							+ ",";
 				} else {
 					result = result + "NULL";// resultTab[0];
@@ -1042,7 +866,7 @@ public class Individuals {
 											"=,",
 											"="
 													+ resultTab[0].toString()
-															.split(",")[lll]);
+															.split(",")[a]);
 				}
 			}
 			resultTab = insertIntoData(i, attributesLocalTabBis,

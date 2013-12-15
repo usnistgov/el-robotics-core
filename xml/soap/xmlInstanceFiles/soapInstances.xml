@@ -1345,7 +1345,7 @@
     <WeightUnit>kilogram</WeightUnit>
   </KittingWorkstation>
   <Domain>
-    <Name>kiting-domain</Name>
+    <Name>kitting-domain</Name>
     <Requirement>strips</Requirement>
     <Requirement>typing</Requirement>
     <Requirement>action-costs</Requirement>
@@ -1484,7 +1484,7 @@
         <Name>part-location-partstray_group1</Name>
         <ReferenceName>Part</ReferenceName>
         <TargetName>PartsTray</TargetName>
-	<StateRelationName>InContactWith</StateRelationName>
+        <StateRelationName>InContactWith</StateRelationName>
       </PredicateGroupElement>
     </Predicate>
     <Predicate>
@@ -1577,18 +1577,18 @@
       <PredicateGroupElement>
         <Name>partstray-not-empty_group1</Name>
         <ReferenceName>PartsTray</ReferenceName>
-	<TargetName>Part</TargetName>
-	<StateRelationName>UnderWithContact</StateRelationName>
+        <TargetName>Part</TargetName>
+        <StateRelationName>UnderWithContact</StateRelationName>
       </PredicateGroupElement>
     </Predicate>
-        <Predicate>
+    <Predicate>
       <Name>partstray-has-part</Name>
       <Description>;TRUE iff ?partstray has ?part</Description>
       <PredicateGroupElement>
         <Name>partstray-has-part_group1</Name>
         <ReferenceName>PartsTray</ReferenceName>
-	<TargetName>Part</TargetName>
-	<StateRelationName>UnderWithContact</StateRelationName>
+        <TargetName>Part</TargetName>
+        <StateRelationName>UnderWithContact</StateRelationName>
       </PredicateGroupElement>
     </Predicate>
     <Predicate>
@@ -1769,7 +1769,7 @@
         <PredicateName>endeffector-type-part</PredicateName>
         <PredicateName>found-part</PredicateName>
         <PredicateName>partstray-not-empty</PredicateName>
-	<PredicateName>partstray-has-part</PredicateName>
+        <PredicateName>partstray-has-part</PredicateName>
       </Precondition>
       <Effect>
         <Name>take-part_effect</Name>
@@ -1777,7 +1777,7 @@
         <PredicateName>robot-holds-part</PredicateName>
         <NotPredicateName>part-location-partstray</NotPredicateName>
         <NotPredicateName>robot-empty</NotPredicateName>
-	<NotPredicateName>partstray-has-part</NotPredicateName>
+        <NotPredicateName>partstray-has-part</NotPredicateName>
         <FunctionOperation>
           <Name>decrease-quantity-partstray</Name>
           <FunctionName>quantity-partstray</FunctionName>

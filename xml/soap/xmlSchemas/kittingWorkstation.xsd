@@ -6,15 +6,6 @@
   attributeFormDefault="unqualified"
   version="2013Jan10D">
 
-  <xs:element name="KittingWorkstation"
-    type="KittingWorkstationType">
-    <xs:annotation>
-      <xs:documentation>
-        Root element
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
   <xs:annotation>
     <xs:documentation>
       This kitting ontology models a kitting workstation including objects

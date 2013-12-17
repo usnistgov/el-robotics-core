@@ -113,33 +113,10 @@ To represent a PDDL domain file, a DomainType consists of the following elements
           <xs:element name="Function"
             type="FunctionType"
             maxOccurs="unbounded"/>
-          <xs:element name="AttachEndEffector"
-            type="AttachEndEffectorType"
-            minOccurs="1"/>
-          <xs:element name="CreateKit"
-            type="CreateKitType"
-            minOccurs="1"/>
-          <xs:element name="DetachEndEffector"
-            type="DetachEndEffectorType"
-            minOccurs="1"/>
-          <xs:element name="TakePart"
-            type="TakePartType"
-            minOccurs="1"/>
-          <xs:element name="TakeKit"
-            type="TakeKitType"
-            minOccurs="1"/>
-          <xs:element name="TakeKitTray"
-            type="TakeKitTrayType"
-            minOccurs="1"/>
-          <xs:element name="PutPart"
-            type="PutPartType"
-            minOccurs="1"/>
-          <xs:element name="PutKit"
-            type="PutKitType"
-            minOccurs="1"/>
-          <xs:element name="PutKitTray"
-            type="PutKitTrayType"
-            minOccurs="1"/>
+          <xs:element name="Action"
+            type="ActionBaseType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

@@ -252,7 +252,7 @@ public class Types extends ClassGenerator {
 							// vector of objects
 							String s = sunit.substring(sunit.indexOf("<") + 1,
 									sunit.indexOf(">") - 1);
-							if (!include.contains(s + ".h"))
+							if (!include.equals(s + ".h"))
 								include = include + "\n #include \"" + s
 										+ ".h\"";
 						}
@@ -261,10 +261,12 @@ public class Types extends ClassGenerator {
 					// Class simple
 					if (sunit.endsWith("*"))
 						sunit = sunit.substring(0, sunit.length() - 1);
-					if (!include.contains(sunit + ".h"))
+					if (!include.equals(sunit + ".h"))
 						include = include + "\n #include \"" + sunit + ".h\"";
 				}
 			}
+		
+
 		include = include + "\n\n";
 		String constructor = className + "::" + className;
 		String paramConstruct = "(std::string name)";

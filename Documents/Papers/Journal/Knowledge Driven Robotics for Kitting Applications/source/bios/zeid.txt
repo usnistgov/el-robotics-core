@@ -1,0 +1,5 @@
+Dr. Zeid Kootbally is an Assistant Research Scientist with the Department of Mechanical Engineering at the University of Maryland, College Park. 
+He received a Ph.D. in Computer Science from the University of Burgundy for a dissertation on Moving Object Predictions in Dynamic Environments for Autonomous Ground Vehicles.
+Dr. Kootbally’s current research is focused on simulation-based planning and control for kit building in manufacturing environments. 
+The objective of this problem is to develop the measurement science and standards for planning and modeling by robots so that they 
+are able to be more quickly re-tasked and are more flexible and adaptive. 

@@ -46,7 +46,7 @@
 
 <KittingWorkstation
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../schema/kitting.xsd">
+  xsi:noNamespaceSchemaLocation="../xmlSchemas/kittingWorkstation.xsd">
   <Name>kitting_workstation_1</Name>
   <PrimaryLocation xsi:type="RelativeLocationInType">
     <Name>relative_location_in_1</Name>

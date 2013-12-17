@@ -13,18 +13,16 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(VERSION 2.6)
 message("In canonicalQueue directory")
 
-set(libcanonicalQueue_SOURCES commandParser.cpp ulapi.cpp controller.cpp canonicalMsg.cpp)
+set(libcanonicalQueue_SOURCES commandParser.cpp controller.cpp canonicalMsg.cpp)
 set(test_SOURCES test.cpp myController.cpp)
 set(commandParser_SOURCES commandParserMain.cpp myController.cpp)
 set(canonicalController_LIBS sqlKit pthread mysqlcppconn)
 
-include_directories(${IPMAS_DIR}/AutoGen)
-link_directories(${LIBRARY_OUTPUT_PATH})
-
 add_library(canonicalQueue STATIC ${libcanonicalQueue_SOURCES})
 add_executable(test ${test_SOURCES})
 add_executable(commandParser ${commandParser_SOURCES})
+link_directories(${LIBRARY_OUTPUT_PATH})
 
 #target_link_libraries(canonicalQueue ${canonicalController_LIBS})
-target_link_libraries(test canonicalQueue ${canonicalController_LIBS})
-target_link_libraries(commandParser canonicalQueue ${canonicalController_LIBS})
+target_link_libraries(test ipmasUtils canonicalQueue ${canonicalController_LIBS})
+target_link_libraries(commandParser ipmasUtils canonicalQueue ${canonicalController_LIBS})

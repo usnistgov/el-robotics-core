@@ -14,5 +14,7 @@ cmake_policy(VERSION 2.6)
 message("In controller directory")
 project(canonicalController)
 
+include_directories(${IPMAS_DIR}/AutoGen ${IPMAS_DIR}/utils )
+
 add_subdirectory(canonicalQueue)
 add_subdirectory(rosCanonicalController)

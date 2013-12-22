@@ -1364,116 +1364,140 @@
     <P_EffLocationEffHolder>
       <Name>endeffector-location-endeffectorholder</Name>
       <Description>TRUE iff ?endeffector is in ?endeffectorholder</Description>
+      <ReferenceParameter>EndEffector</ReferenceParameter>
+      <TargetParameter>EndEffectorHolder</TargetParameter>
       <G_EffLocationEffHolder>
         <Name>G_EffLocationEffHolder1</Name>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>Robot</TargetParameter>
+        <GroupReferenceParameter>Part</GroupReferenceParameter>
+        <GroupTargetParameter>Robot</GroupTargetParameter>
       </G_EffLocationEffHolder>
     </P_EffLocationEffHolder>
-    
     <P_RobotEmpty>
       <Name>robot-empty</Name>
       <Description>;TRUE iff ?robot is not holding anything</Description>
+      <ReferenceParameter>Robot</ReferenceParameter>
       <G_RobotEmpty>
         <Name>G_RobotEmpty1</Name>
-        <ReferenceParameter>Robot</ReferenceParameter>
+        <GroupReferenceParameter>Robot</GroupReferenceParameter>
         <StateRelationName>InContactWith</StateRelationName>
       </G_RobotEmpty>
     </P_RobotEmpty>
     <P_EffLocationRobot>
       <Name>endeffector-location-robot</Name>
       <Description>TRUE iff ?endeffector is attached to ?robot</Description>
+      <ReferenceParameter>EndEffector</ReferenceParameter>
+      <TargetParameter>Robot</TargetParameter>
       <G_EffLocationRobot>
         <Name>G_EffLocationRobot1</Name>
-        <ReferenceParameter>EndEffector</ReferenceParameter>
-        <TargetParameter>Robot</TargetParameter>
+        <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
+        <GroupTargetParameter>Robot</GroupTargetParameter>
       </G_EffLocationRobot>
     </P_EffLocationRobot>
     <P_RobotWithEff>
       <Name>robot-with-endeffector</Name>
       <Description>;TRUE iff ?robot is equipped with ?endeffector</Description>
+      <ReferenceParameter>Robot</ReferenceParameter>
+      <TargetParameter>EndEffector</TargetParameter>
       <G_RobotWithEff>
         <Name>G_RobotWithEff1</Name>
-        <ReferenceParameter>Robot</ReferenceParameter>
-        <TargetParameter>EndEffector</TargetParameter>
+        <GroupReferenceParameter>Robot</GroupReferenceParameter>
+        <GroupTargetParameter>EndEffector</GroupTargetParameter>
       </G_RobotWithEff>
     </P_RobotWithEff>
     <P_RobotWithNoEff>
       <Name>robot-with-no-endeffector</Name>
       <Description>;TRUE iff ?robot is not equipped with ?endeffector</Description>
+      <ReferenceParameter>Robot</ReferenceParameter>
       <G_RobotWithNoEff>
         <Name>G_RobotWithNoEff1</Name>
-        <ReferenceParameter>Robot</ReferenceParameter>
+        <GroupReferenceParameter>Robot</GroupReferenceParameter>
       </G_RobotWithNoEff>
     </P_RobotWithNoEff>
     <P_EffHolderLocationChStation>
       <Name>endeffectorholder-location-changing-station</Name>
       <Description>;TRUE iff ?endeffectorholder is in ?endeffectorchangingstation</Description>
+      <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
+      <TargetParameter>EndEffectorChangingStation</TargetParameter>
       <G_EffHolderLocationChStation>
         <Name>G_EffHolderLocationChStation1</Name>
-        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
-        <TargetParameter>EndEffectorChangingStation</TargetParameter>
+        <GroupReferenceParameter>EndEffectorHolder</GroupReferenceParameter>
+        <GroupTargetParameter>EndEffectorChangingStation</GroupTargetParameter>
       </G_EffHolderLocationChStation>
     </P_EffHolderLocationChStation>
     <P_EffHolderHoldsEff>
       <Name>endeffectorholder-holds-endeffector</Name>
       <Description>;TRUE iff ?endeffectorholder is holding endeffecor</Description>
+      <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
+      <TargetParameter>EndEffector</TargetParameter>
       <G_EffHolderHoldsEff>
         <Name>G_EffHolderHoldsEff1</Name>
-        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
-        <TargetParameter>EndEffector</TargetParameter>
+        <GroupReferenceParameter>EndEffectorHolder</GroupReferenceParameter>
+        <GroupTargetParameter>EndEffector</GroupTargetParameter>
       </G_EffHolderHoldsEff>
     </P_EffHolderHoldsEff>
     <P_ChStationHasEffHolder>
       <Name>endeffectorchangingstation-has-endeffectorholder</Name>
       <Description>;TRUE iff ?endeffectorchangingstation contains ?endeffectorholder</Description>
+      <ReferenceParameter>EndEffectorChangingStation</ReferenceParameter>
+      <TargetParameter>EndEffectorHolder</TargetParameter>
       <G_ChStationHasEffHolder>
         <Name>G_ChStationHasEffHolder1</Name>
-        <ReferenceParameter>EndEffectorChangingStation</ReferenceParameter>
-        <TargetParameter>EndEffectorHolder</TargetParameter>
+        <GroupReferenceParameter>EndEffectorChangingStation</GroupReferenceParameter>
+        <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
       </G_ChStationHasEffHolder>
     </P_ChStationHasEffHolder>
     <P_EffHolderEmpty>
       <Name>endeffectorholder-empty</Name>
       <Description>;TRUE iff ?endeffectorholder is empty (?endeffectorholder does not hold an endeffector)</Description>
+      <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
       <G_EffHolderEmpty>
         <Name>G_EffHolderEmpty1</Name>
-        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
+        <GroupReferenceParameter>EndEffectorHolder</GroupReferenceParameter>
       </G_EffHolderEmpty>
     </P_EffHolderEmpty>
     <P_OnWorktableKitTray>
       <Name>on-worktable-kittray</Name>
       <Description>;TRUE iff ?kittray is on ?worktable</Description>
+      <ReferenceParameter>WorkTable</ReferenceParameter>
+      <TargetParameter>KitTray</TargetParameter>
       <G_OnWorktableKitTray>
         <Name>G_OnWorktableKitTray1</Name>
-        <ReferenceParameter>Worktable</ReferenceParameter>
-        <TargetParameter>KitTray</TargetParameter>
+        <GroupReferenceParameter>Worktable</GroupReferenceParameter>
+        <GroupTargetParameter>KitTray</GroupTargetParameter>
       </G_OnWorktableKitTray>
     </P_OnWorktableKitTray>
     <P_OnWorktableKit>
       <Name>on-worktable-kit</Name>
       <Description>;TRUE iff ?kit is on ?worktable</Description>
+      <ReferenceParameter>WorkTable</ReferenceParameter>
+      <TargetParameter>Kit</TargetParameter>
       <G_OnWorktableKit>
         <Name>G_OnWorktableKit1</Name>
-        <ReferenceParameter>Worktable</ReferenceParameter>
-        <TargetParameter>Kit</TargetParameter>
+        <GroupReferenceParameter>Worktable</GroupReferenceParameter>
+        <GroupTargetParameter>Kit</GroupTargetParameter>
       </G_OnWorktableKit>
     </P_OnWorktableKit>
     <P_KitLocationWorktable>
       <Name>kit-location-worktable</Name>
       <Description>;TRUE iff ?kit is on ?worktable</Description>
+      <ReferenceParameter>Kit</ReferenceParameter>
+      <TargetParameter>WorkTable</TargetParameter>
       <G_KitLocationWorktable>
         <Name>G_KitLocationWorktable1</Name>
-        <ReferenceParameter>Kit</ReferenceParameter>
-        <TargetParameter>WorkTable</TargetParameter>
+        <GroupReferenceParameter>Kit</GroupReferenceParameter>
+        <GroupTargetParameter>WorkTable</GroupTargetParameter>
       </G_KitLocationWorktable>
     </P_KitLocationWorktable>
     <A_AttachEndEffector>
       <Name>attach_endeffector</Name>
       <RobotParameter>Robot</RobotParameter>
+      <RobotParameterPosition>1</RobotParameterPosition>
       <EndEffectorParameter>Part</EndEffectorParameter>
+      <EndEffectorParameterPosition>2</EndEffectorParameterPosition>
       <EndEffectorHolderParameter>PartsTray</EndEffectorHolderParameter>
+      <EndEffectorHolderParameterPosition>3</EndEffectorHolderParameterPosition>
       <EndEffectorChangingStationParameter>EndEffector</EndEffectorChangingStationParameter>
+      <EndEffectorChangingStationParameterPosition>4</EndEffectorChangingStationParameterPosition>
       <Precondition>
         <Name>precondition_attach_endeffector</Name>
         <EndEffectorLocationEndeffectorHolderName>endeffector-location-endeffectorholder</EndEffectorLocationEndeffectorHolderName>
@@ -1493,12 +1517,14 @@
         <NotRobotWithNoEndEffectorName>robot-with-no-endeffector</NotRobotWithNoEndEffectorName>
       </Effect>
     </A_AttachEndEffector>
-    
     <A_CreateKit>
       <Name>create_kit</Name>
       <KitParameter>Kit</KitParameter>
+      <KitParameterPosition>1</KitParameterPosition>
       <KitTrayParameter>KitTray</KitTrayParameter>
+      <KitTrayParameterPosition>2</KitTrayParameterPosition>
       <WorkTableParameter>WorkTable</WorkTableParameter>
+      <WorkTableParameterPosition>3</WorkTableParameterPosition>
       <Precondition>
         <Name>precondition_create_kit</Name>
         <OnWorktableKitTrayName>on-worktable-kittray</OnWorktableKitTrayName>
@@ -1511,7 +1537,6 @@
         <NotOnWorktableKitTrayName>on-worktable-kittray</NotOnWorktableKitTrayName>
       </Effect>
     </A_CreateKit>
-    
   </Domain>
   <InContactWith>
     <Name>InContactWith</Name>

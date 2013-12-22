@@ -275,7 +275,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -313,7 +313,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -330,7 +330,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -358,7 +358,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -375,7 +375,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -392,7 +392,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -420,7 +420,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -437,7 +437,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -454,7 +454,7 @@
     <xs:complexContent>
       <xs:extension base="PredicateGroupElementType">
         <xs:sequence>
-          <xs:element name="TargetParameter"
+          <xs:element name="GroupTargetParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>
@@ -650,10 +650,16 @@ An instance of CreateKitType has the following elements:
             minOccurs="0"/>
           <xs:element name="KitParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="KitParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="KitTrayParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="KitTrayParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="WorkTableParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="WorkTableParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="Precondition"
             type="PreconditionCreateKitType"
             minOccurs="1"/>
@@ -816,12 +822,20 @@ longer indicates that there is an end effector in the holder.
             minOccurs="0"/>
           <xs:element name="RobotParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="RobotParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="EndEffectorParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="EndEffectorHolderParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorHolderParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="EndEffectorChangingStationParameter"
             type="xs:NMTOKEN"/>
+          <xs:element name="EndEffectorChangingStationParameterPosition"
+            type="xs:positiveInteger"/>
           <xs:element name="Precondition"
             type="PreconditionAttachEndEffectorType"
             minOccurs="1"/>
@@ -960,6 +974,12 @@ An instance of EffectType can consist of:
           <xs:element name="Description"
             type="xs:string"
             minOccurs="0"/>
+          <xs:element name="ReferenceParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -983,7 +1003,7 @@ An instance of EffectType can consist of:
     <xs:complexContent>
       <xs:extension base="DataThingType">
         <xs:sequence>
-          <xs:element name="ReferenceParameter"
+          <xs:element name="GroupReferenceParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
         </xs:sequence>

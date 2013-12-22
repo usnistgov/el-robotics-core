@@ -402,13 +402,13 @@ Declaration(Class(soap:G_EffLocationEffHolder))
 AnnotationAssertion(rdfs:comment soap:G_EffLocationEffHolder
   "Definition of the group for the predicate endeffector-location-endeffectorholder")
 
-Declaration(DataProperty(soap:hasG_EffLocationEffHolder_TargetParameter))
-DataPropertyDomain(soap:hasG_EffLocationEffHolder_TargetParameter soap:G_EffLocationEffHolder)
-DataPropertyRange(soap:hasG_EffLocationEffHolder_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_EffLocationEffHolder_TargetParameter)
+Declaration(DataProperty(soap:hasG_EffLocationEffHolder_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_EffLocationEffHolder_GroupTargetParameter soap:G_EffLocationEffHolder)
+DataPropertyRange(soap:hasG_EffLocationEffHolder_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_EffLocationEffHolder_GroupTargetParameter)
 EquivalentClasses(soap:G_EffLocationEffHolder ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_EffLocationEffHolder_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_EffLocationEffHolder_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_EffLocationEffHolder_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_EffLocationEffHolder_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -439,13 +439,13 @@ Declaration(Class(soap:G_EffLocationRobot))
 AnnotationAssertion(rdfs:comment soap:G_EffLocationRobot
   "Definition of the group for the predicate endeffector-location-robot")
 
-Declaration(DataProperty(soap:hasG_EffLocationRobot_TargetParameter))
-DataPropertyDomain(soap:hasG_EffLocationRobot_TargetParameter soap:G_EffLocationRobot)
-DataPropertyRange(soap:hasG_EffLocationRobot_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_EffLocationRobot_TargetParameter)
+Declaration(DataProperty(soap:hasG_EffLocationRobot_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_EffLocationRobot_GroupTargetParameter soap:G_EffLocationRobot)
+DataPropertyRange(soap:hasG_EffLocationRobot_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_EffLocationRobot_GroupTargetParameter)
 EquivalentClasses(soap:G_EffLocationRobot ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_EffLocationRobot_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_EffLocationRobot_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_EffLocationRobot_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_EffLocationRobot_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -454,13 +454,13 @@ Declaration(Class(soap:G_RobotWithEff))
 AnnotationAssertion(rdfs:comment soap:G_RobotWithEff
   "Definition of the group for the predicate robot-with-endeffector")
 
-Declaration(DataProperty(soap:hasG_RobotWithEff_TargetParameter))
-DataPropertyDomain(soap:hasG_RobotWithEff_TargetParameter soap:G_RobotWithEff)
-DataPropertyRange(soap:hasG_RobotWithEff_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_RobotWithEff_TargetParameter)
+Declaration(DataProperty(soap:hasG_RobotWithEff_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_RobotWithEff_GroupTargetParameter soap:G_RobotWithEff)
+DataPropertyRange(soap:hasG_RobotWithEff_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_RobotWithEff_GroupTargetParameter)
 EquivalentClasses(soap:G_RobotWithEff ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_RobotWithEff_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_RobotWithEff_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_RobotWithEff_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_RobotWithEff_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -476,13 +476,13 @@ Declaration(Class(soap:G_EffHolderLocationChStation))
 AnnotationAssertion(rdfs:comment soap:G_EffHolderLocationChStation
   "Definition of the group for the predicate endeffectorholder-location-changing-station")
 
-Declaration(DataProperty(soap:hasG_EffHolderLocationChStation_TargetParameter))
-DataPropertyDomain(soap:hasG_EffHolderLocationChStation_TargetParameter soap:G_EffHolderLocationChStation)
-DataPropertyRange(soap:hasG_EffHolderLocationChStation_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_EffHolderLocationChStation_TargetParameter)
+Declaration(DataProperty(soap:hasG_EffHolderLocationChStation_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_EffHolderLocationChStation_GroupTargetParameter soap:G_EffHolderLocationChStation)
+DataPropertyRange(soap:hasG_EffHolderLocationChStation_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_EffHolderLocationChStation_GroupTargetParameter)
 EquivalentClasses(soap:G_EffHolderLocationChStation ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_EffHolderLocationChStation_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_EffHolderLocationChStation_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_EffHolderLocationChStation_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_EffHolderLocationChStation_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -491,13 +491,13 @@ Declaration(Class(soap:G_EffHolderHoldsEff))
 AnnotationAssertion(rdfs:comment soap:G_EffHolderHoldsEff
   "Definition of the group for the predicate endeffectorholder-holds-endeffector")
 
-Declaration(DataProperty(soap:hasG_EffHolderHoldsEff_TargetParameter))
-DataPropertyDomain(soap:hasG_EffHolderHoldsEff_TargetParameter soap:G_EffHolderHoldsEff)
-DataPropertyRange(soap:hasG_EffHolderHoldsEff_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_EffHolderHoldsEff_TargetParameter)
+Declaration(DataProperty(soap:hasG_EffHolderHoldsEff_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_EffHolderHoldsEff_GroupTargetParameter soap:G_EffHolderHoldsEff)
+DataPropertyRange(soap:hasG_EffHolderHoldsEff_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_EffHolderHoldsEff_GroupTargetParameter)
 EquivalentClasses(soap:G_EffHolderHoldsEff ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_EffHolderHoldsEff_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_EffHolderHoldsEff_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_EffHolderHoldsEff_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_EffHolderHoldsEff_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -506,13 +506,13 @@ Declaration(Class(soap:G_ChStationHasEffHolder))
 AnnotationAssertion(rdfs:comment soap:G_ChStationHasEffHolder
   "Definition of the group for the predicate endeffectorchangingstation-has-endeffectorholder")
 
-Declaration(DataProperty(soap:hasG_ChStationHasEffHolder_TargetParameter))
-DataPropertyDomain(soap:hasG_ChStationHasEffHolder_TargetParameter soap:G_ChStationHasEffHolder)
-DataPropertyRange(soap:hasG_ChStationHasEffHolder_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_ChStationHasEffHolder_TargetParameter)
+Declaration(DataProperty(soap:hasG_ChStationHasEffHolder_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_ChStationHasEffHolder_GroupTargetParameter soap:G_ChStationHasEffHolder)
+DataPropertyRange(soap:hasG_ChStationHasEffHolder_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_ChStationHasEffHolder_GroupTargetParameter)
 EquivalentClasses(soap:G_ChStationHasEffHolder ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_ChStationHasEffHolder_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_ChStationHasEffHolder_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_ChStationHasEffHolder_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_ChStationHasEffHolder_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -528,13 +528,13 @@ Declaration(Class(soap:G_OnWorktableKitTray))
 AnnotationAssertion(rdfs:comment soap:G_OnWorktableKitTray
   "Definition of the group for the predicate on-worktable-kittray")
 
-Declaration(DataProperty(soap:hasG_OnWorktableKitTray_TargetParameter))
-DataPropertyDomain(soap:hasG_OnWorktableKitTray_TargetParameter soap:G_OnWorktableKitTray)
-DataPropertyRange(soap:hasG_OnWorktableKitTray_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_OnWorktableKitTray_TargetParameter)
+Declaration(DataProperty(soap:hasG_OnWorktableKitTray_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_OnWorktableKitTray_GroupTargetParameter soap:G_OnWorktableKitTray)
+DataPropertyRange(soap:hasG_OnWorktableKitTray_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_OnWorktableKitTray_GroupTargetParameter)
 EquivalentClasses(soap:G_OnWorktableKitTray ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_OnWorktableKitTray_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_OnWorktableKitTray_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_OnWorktableKitTray_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_OnWorktableKitTray_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -543,13 +543,13 @@ Declaration(Class(soap:G_OnWorktableKit))
 AnnotationAssertion(rdfs:comment soap:G_OnWorktableKit
   "Definition of the group for the predicate on-worktable-kit")
 
-Declaration(DataProperty(soap:hasG_OnWorktableKit_TargetParameter))
-DataPropertyDomain(soap:hasG_OnWorktableKit_TargetParameter soap:G_OnWorktableKit)
-DataPropertyRange(soap:hasG_OnWorktableKit_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_OnWorktableKit_TargetParameter)
+Declaration(DataProperty(soap:hasG_OnWorktableKit_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_OnWorktableKit_GroupTargetParameter soap:G_OnWorktableKit)
+DataPropertyRange(soap:hasG_OnWorktableKit_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_OnWorktableKit_GroupTargetParameter)
 EquivalentClasses(soap:G_OnWorktableKit ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_OnWorktableKit_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_OnWorktableKit_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_OnWorktableKit_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_OnWorktableKit_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -558,13 +558,13 @@ Declaration(Class(soap:G_KitLocationWorktable))
 AnnotationAssertion(rdfs:comment soap:G_KitLocationWorktable
   "Definition of the group for the kit-location-worktable")
 
-Declaration(DataProperty(soap:hasG_KitLocationWorktable_TargetParameter))
-DataPropertyDomain(soap:hasG_KitLocationWorktable_TargetParameter soap:G_KitLocationWorktable)
-DataPropertyRange(soap:hasG_KitLocationWorktable_TargetParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasG_KitLocationWorktable_TargetParameter)
+Declaration(DataProperty(soap:hasG_KitLocationWorktable_GroupTargetParameter))
+DataPropertyDomain(soap:hasG_KitLocationWorktable_GroupTargetParameter soap:G_KitLocationWorktable)
+DataPropertyRange(soap:hasG_KitLocationWorktable_GroupTargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasG_KitLocationWorktable_GroupTargetParameter)
 EquivalentClasses(soap:G_KitLocationWorktable ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasG_KitLocationWorktable_TargetParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasG_KitLocationWorktable_TargetParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasG_KitLocationWorktable_GroupTargetParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasG_KitLocationWorktable_GroupTargetParameter xsd:NMTOKEN)))
 
 
 
@@ -949,6 +949,14 @@ EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasCreateKit_KitParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasCreateKit_KitParameter xsd:NMTOKEN)))
 
+Declaration(DataProperty(soap:hasCreateKit_KitParameterPosition))
+DataPropertyDomain(soap:hasCreateKit_KitParameterPosition soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_KitParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasCreateKit_KitParameterPosition)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCreateKit_KitParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasCreateKit_KitParameterPosition xsd:positiveInteger)))
+
 Declaration(DataProperty(soap:hasCreateKit_KitTrayParameter))
 DataPropertyDomain(soap:hasCreateKit_KitTrayParameter soap:CreateKit)
 DataPropertyRange(soap:hasCreateKit_KitTrayParameter xsd:NMTOKEN)
@@ -957,6 +965,14 @@ EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasCreateKit_KitTrayParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasCreateKit_KitTrayParameter xsd:NMTOKEN)))
 
+Declaration(DataProperty(soap:hasCreateKit_KitTrayParameterPosition))
+DataPropertyDomain(soap:hasCreateKit_KitTrayParameterPosition soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_KitTrayParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasCreateKit_KitTrayParameterPosition)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCreateKit_KitTrayParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasCreateKit_KitTrayParameterPosition xsd:positiveInteger)))
+
 Declaration(DataProperty(soap:hasCreateKit_WorkTableParameter))
 DataPropertyDomain(soap:hasCreateKit_WorkTableParameter soap:CreateKit)
 DataPropertyRange(soap:hasCreateKit_WorkTableParameter xsd:NMTOKEN)
@@ -964,6 +980,14 @@ FunctionalDataProperty(soap:hasCreateKit_WorkTableParameter)
 EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasCreateKit_WorkTableParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasCreateKit_WorkTableParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasCreateKit_WorkTableParameterPosition))
+DataPropertyDomain(soap:hasCreateKit_WorkTableParameterPosition soap:CreateKit)
+DataPropertyRange(soap:hasCreateKit_WorkTableParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasCreateKit_WorkTableParameterPosition)
+EquivalentClasses(soap:CreateKit ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasCreateKit_WorkTableParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasCreateKit_WorkTableParameterPosition xsd:positiveInteger)))
 
 Declaration(ObjectProperty(soap:hasCreateKit_Precondition))
 ObjectPropertyDomain(soap:hasCreateKit_Precondition soap:CreateKit)
@@ -1233,6 +1257,14 @@ EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasAttachEndEffector_RobotParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasAttachEndEffector_RobotParameter xsd:NMTOKEN)))
 
+Declaration(DataProperty(soap:hasAttachEndEffector_RobotParameterPosition))
+DataPropertyDomain(soap:hasAttachEndEffector_RobotParameterPosition soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_RobotParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasAttachEndEffector_RobotParameterPosition)
+EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasAttachEndEffector_RobotParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasAttachEndEffector_RobotParameterPosition xsd:positiveInteger)))
+
 Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorParameter))
 DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorParameter soap:AttachEndEffector)
 DataPropertyRange(soap:hasAttachEndEffector_EndEffectorParameter xsd:NMTOKEN)
@@ -1240,6 +1272,14 @@ FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorParameter)
 EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorParameterPosition))
+DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorParameterPosition soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_EndEffectorParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorParameterPosition)
+EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorParameterPosition xsd:positiveInteger)))
 
 Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorHolderParameter))
 DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorHolderParameter soap:AttachEndEffector)
@@ -1249,6 +1289,14 @@ EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorHolderParameter xsd:NMTOKEN)))
 
+Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorHolderParameterPosition))
+DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorHolderParameterPosition soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_EndEffectorHolderParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorHolderParameterPosition)
+EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorHolderParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorHolderParameterPosition xsd:positiveInteger)))
+
 Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorChangingStationParameter))
 DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorChangingStationParameter soap:AttachEndEffector)
 DataPropertyRange(soap:hasAttachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)
@@ -1256,6 +1304,14 @@ FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorChangingStationParam
 EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
   DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)
   DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorChangingStationParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasAttachEndEffector_EndEffectorChangingStationParameterPosition))
+DataPropertyDomain(soap:hasAttachEndEffector_EndEffectorChangingStationParameterPosition soap:AttachEndEffector)
+DataPropertyRange(soap:hasAttachEndEffector_EndEffectorChangingStationParameterPosition xsd:positiveInteger)
+FunctionalDataProperty(soap:hasAttachEndEffector_EndEffectorChangingStationParameterPosition)
+EquivalentClasses(soap:AttachEndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasAttachEndEffector_EndEffectorChangingStationParameterPosition xsd:positiveInteger)
+  DataAllValuesFrom (soap:hasAttachEndEffector_EndEffectorChangingStationParameterPosition xsd:positiveInteger)))
 
 Declaration(ObjectProperty(soap:hasAttachEndEffector_Precondition))
 ObjectPropertyDomain(soap:hasAttachEndEffector_Precondition soap:AttachEndEffector)
@@ -1533,6 +1589,19 @@ DataPropertyDomain(soap:hasPredicate_Description soap:Predicate)
 DataPropertyRange(soap:hasPredicate_Description xsd:string)
 FunctionalDataProperty(soap:hasPredicate_Description)
 
+Declaration(DataProperty(soap:hasPredicate_ReferenceParameter))
+DataPropertyDomain(soap:hasPredicate_ReferenceParameter soap:Predicate)
+DataPropertyRange(soap:hasPredicate_ReferenceParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPredicate_ReferenceParameter)
+EquivalentClasses(soap:Predicate ObjectIntersectionOf(
+  DataSomeValuesFrom(soap:hasPredicate_ReferenceParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPredicate_ReferenceParameter xsd:NMTOKEN)))
+
+Declaration(DataProperty(soap:hasPredicate_TargetParameter))
+DataPropertyDomain(soap:hasPredicate_TargetParameter soap:Predicate)
+DataPropertyRange(soap:hasPredicate_TargetParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPredicate_TargetParameter)
+
 
 
 Declaration(Class(soap:PredicateGroupElement))
@@ -1575,13 +1644,13 @@ DisjointUnion(soap:PredicateGroupElement
               soap:G_RobotWithEff
               soap:G_RobotWithNoEff)
 
-Declaration(DataProperty(soap:hasPredicateGroupElement_ReferenceParameter))
-DataPropertyDomain(soap:hasPredicateGroupElement_ReferenceParameter soap:PredicateGroupElement)
-DataPropertyRange(soap:hasPredicateGroupElement_ReferenceParameter xsd:NMTOKEN)
-FunctionalDataProperty(soap:hasPredicateGroupElement_ReferenceParameter)
+Declaration(DataProperty(soap:hasPredicateGroupElement_GroupReferenceParameter))
+DataPropertyDomain(soap:hasPredicateGroupElement_GroupReferenceParameter soap:PredicateGroupElement)
+DataPropertyRange(soap:hasPredicateGroupElement_GroupReferenceParameter xsd:NMTOKEN)
+FunctionalDataProperty(soap:hasPredicateGroupElement_GroupReferenceParameter)
 EquivalentClasses(soap:PredicateGroupElement ObjectIntersectionOf(
-  DataSomeValuesFrom(soap:hasPredicateGroupElement_ReferenceParameter xsd:NMTOKEN)
-  DataAllValuesFrom (soap:hasPredicateGroupElement_ReferenceParameter xsd:NMTOKEN)))
+  DataSomeValuesFrom(soap:hasPredicateGroupElement_GroupReferenceParameter xsd:NMTOKEN)
+  DataAllValuesFrom (soap:hasPredicateGroupElement_GroupReferenceParameter xsd:NMTOKEN)))
 
 
 

@@ -18,7 +18,12 @@
 /executor/Autotools/src/.deps/*.*
 /executor/Autotools/src/database/.deps/*.*
 /executor/Autotools/src/interpreter/.deps/*.*
-
+/xml/common/bin/compactOwl
+/xml/common/bin/compareOwl
+/xml/common/bin/xml2owlGenerator
+/xml/common/bin/xmlInstanceParserGenerator
+/xml/common/bin/xmlSchemaOwlClassGenerator
+/xml/common/bin/xmlSchemaParser
 *.sav
 *.lot
 /Documents/Manuals/Kitting-LaTeX/Sources/kitting.lof

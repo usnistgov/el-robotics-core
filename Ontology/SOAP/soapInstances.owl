@@ -3705,1494 +3705,420 @@ DataPropertyAssertion(soap:hasDomain_Variable :kitting-domain
                       "Robot"^^xsd:NMTOKEN)
 DataPropertyAssertion(soap:hasDomain_Variable :kitting-domain
                       "WorkTable"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :endeffector-location-robot)
-
-//*****************************************
-// 3 start soap:Predicate endeffector-location-robot
-Declaration(NamedIndividual(:endeffector-location-robot))
-ClassAssertion(soap:Predicate :endeffector-location-robot)
-DataPropertyAssertion(soap:hasPredicate_Description :endeffector-location-robot
-                      "TRUE iff ?endeffector is attached to ?robot"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffector-location-robot :endeffector-location-robot_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement endeffector-location-robot_group1
-Declaration(NamedIndividual(:endeffector-location-robot_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffector-location-robot_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffector-location-robot_group1
-                      "EndEffector"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffector-location-robot_group1
-                      "Robot"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
+ObjectPropertyAssertion(soap:hasDomain_P_EffLocationEffHolder
                         :kitting-domain :endeffector-location-endeffectorholder)
 
 //*****************************************
-// 3 start soap:Predicate endeffector-location-endeffectorholder
+// 3 start soap:EffLocationEffHolder endeffector-location-endeffectorholder
 Declaration(NamedIndividual(:endeffector-location-endeffectorholder))
-ClassAssertion(soap:Predicate :endeffector-location-endeffectorholder)
+ClassAssertion(soap:EffLocationEffHolder :endeffector-location-endeffectorholder)
 DataPropertyAssertion(soap:hasPredicate_Description :endeffector-location-endeffectorholder
                       "TRUE iff ?endeffector is in ?endeffectorholder"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffector-location-endeffectorholder :endeffector-location-endeffectorholder_group1)
+ObjectPropertyAssertion(soap:hasEffLocationEffHolder_G_EffLocationEffHolder
+                        :endeffector-location-endeffectorholder :G_EffLocationEffHolder1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffector-location-endeffectorholder_group1
-Declaration(NamedIndividual(:endeffector-location-endeffectorholder_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffector-location-endeffectorholder_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffector-location-endeffectorholder_group1
+// 4 start soap:G_EffLocationEffHolder G_EffLocationEffHolder1
+Declaration(NamedIndividual(:G_EffLocationEffHolder1))
+ClassAssertion(soap:G_EffLocationEffHolder :G_EffLocationEffHolder1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_EffLocationEffHolder1
                       "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffector-location-endeffectorholder_group1
+DataPropertyAssertion(soap:hasG_EffLocationEffHolder_TargetParameter :G_EffLocationEffHolder1
                       "Robot"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+// 4 end soap:G_EffLocationEffHolder
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:EffLocationEffHolder
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :robot-with-endeffector)
-
-//*****************************************
-// 3 start soap:Predicate robot-with-endeffector
-Declaration(NamedIndividual(:robot-with-endeffector))
-ClassAssertion(soap:Predicate :robot-with-endeffector)
-DataPropertyAssertion(soap:hasPredicate_Description :robot-with-endeffector
-                      ";TRUE iff ?robot is equipped with ?endeffector"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-with-endeffector :robot-with-endeffector_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement robot-with-endeffector_group1
-Declaration(NamedIndividual(:robot-with-endeffector_group1))
-ClassAssertion(soap:PredicateGroupElement :robot-with-endeffector_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-with-endeffector_group1
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :robot-with-endeffector_group1
-                      "EndEffector"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :robot-with-no-endeffector)
-
-//*****************************************
-// 3 start soap:Predicate robot-with-no-endeffector
-Declaration(NamedIndividual(:robot-with-no-endeffector))
-ClassAssertion(soap:Predicate :robot-with-no-endeffector)
-DataPropertyAssertion(soap:hasPredicate_Description :robot-with-no-endeffector
-                      ";TRUE iff ?robot is not equipped with ?endeffector"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-with-no-endeffector :robot-with-no-endeffector_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement robot-with-no-endeffector_group1
-Declaration(NamedIndividual(:robot-with-no-endeffector_group1))
-ClassAssertion(soap:PredicateGroupElement :robot-with-no-endeffector_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-with-no-endeffector_group1
-                      "Robot"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :on-worktable-kit)
-
-//*****************************************
-// 3 start soap:Predicate on-worktable-kit
-Declaration(NamedIndividual(:on-worktable-kit))
-ClassAssertion(soap:Predicate :on-worktable-kit)
-DataPropertyAssertion(soap:hasPredicate_Description :on-worktable-kit
-                      ";TRUE iff ?kit is on ?worktable"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :on-worktable-kit :on-worktable-kit_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement on-worktable-kit_group1
-Declaration(NamedIndividual(:on-worktable-kit_group1))
-ClassAssertion(soap:PredicateGroupElement :on-worktable-kit_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :on-worktable-kit_group1
-                      "Worktable"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :on-worktable-kit_group1
-                      "Kit"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :on-worktable-kittray)
-
-//*****************************************
-// 3 start soap:Predicate on-worktable-kittray
-Declaration(NamedIndividual(:on-worktable-kittray))
-ClassAssertion(soap:Predicate :on-worktable-kittray)
-DataPropertyAssertion(soap:hasPredicate_Description :on-worktable-kittray
-                      ";TRUE iff ?kittray is on ?worktable"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :on-worktable-kittray :on-worktable-kittray_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement on-worktable-kittray_group1
-Declaration(NamedIndividual(:on-worktable-kittray_group1))
-ClassAssertion(soap:PredicateGroupElement :on-worktable-kittray_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :on-worktable-kittray_group1
-                      "Worktable"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :on-worktable-kittray_group1
-                      "KitTray"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :worktable-empty)
-
-//*****************************************
-// 3 start soap:Predicate worktable-empty
-Declaration(NamedIndividual(:worktable-empty))
-ClassAssertion(soap:Predicate :worktable-empty)
-DataPropertyAssertion(soap:hasPredicate_Description :worktable-empty
-                      ";TRUE iff ?worktable is empty (nothing on top of it)"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :worktable-empty :worktable-empty_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement worktable-empty_group1
-Declaration(NamedIndividual(:worktable-empty_group1))
-ClassAssertion(soap:PredicateGroupElement :worktable-empty_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :worktable-empty_group1
-                      "Worktable"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :worktable-empty_group1 :InContactWith)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :kit-location-lbwk)
-
-//*****************************************
-// 3 start soap:Predicate kit-location-lbwk
-Declaration(NamedIndividual(:kit-location-lbwk))
-ClassAssertion(soap:Predicate :kit-location-lbwk)
-DataPropertyAssertion(soap:hasPredicate_Description :kit-location-lbwk
-                      ";TRUE iff ?kit is in ?largeboxwithkits"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :kit-location-lbwk :kit-location-lbwk_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement kit-location-lbwk_group1
-Declaration(NamedIndividual(:kit-location-lbwk_group1))
-ClassAssertion(soap:PredicateGroupElement :kit-location-lbwk_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :kit-location-lbwk_group1
-                      "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :kit-location-lbwk_group1
-                      "LargeBoxWithKits"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :kit-location-worktable)
-
-//*****************************************
-// 3 start soap:Predicate kit-location-worktable
-Declaration(NamedIndividual(:kit-location-worktable))
-ClassAssertion(soap:Predicate :kit-location-worktable)
-DataPropertyAssertion(soap:hasPredicate_Description :kit-location-worktable
-                      ";TRUE iff ?kit is on ?worktable"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :kit-location-worktable :kit-location-worktable_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement kit-location-worktable_group1
-Declaration(NamedIndividual(:kit-location-worktable_group1))
-ClassAssertion(soap:PredicateGroupElement :kit-location-worktable_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :kit-location-worktable_group1
-                      "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :kit-location-worktable_group1
-                      "WorkTable"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :kit-location-robot)
-
-//*****************************************
-// 3 start soap:Predicate kit-location-robot
-Declaration(NamedIndividual(:kit-location-robot))
-ClassAssertion(soap:Predicate :kit-location-robot)
-DataPropertyAssertion(soap:hasPredicate_Description :kit-location-robot
-                      ";TRUE iff ?kit is being held by ?robot"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :kit-location-robot :kit-location-robot_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement kit-location-robot_group1
-Declaration(NamedIndividual(:kit-location-robot_group1))
-ClassAssertion(soap:PredicateGroupElement :kit-location-robot_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :kit-location-robot_group1
-                      "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :kit-location-robot_group1
-                      "Robot"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :kittray-location-lbwekt)
-
-//*****************************************
-// 3 start soap:Predicate kittray-location-lbwekt
-Declaration(NamedIndividual(:kittray-location-lbwekt))
-ClassAssertion(soap:Predicate :kittray-location-lbwekt)
-DataPropertyAssertion(soap:hasPredicate_Description :kittray-location-lbwekt
-                      ";TRUE iff ?kittray is in ?largeboxwithemptykittrays"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :kittray-location-lbwekt :kittray-location-lbwekt_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement kittray-location-lbwekt_group1
-Declaration(NamedIndividual(:kittray-location-lbwekt_group1))
-ClassAssertion(soap:PredicateGroupElement :kittray-location-lbwekt_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :kittray-location-lbwekt_group1
-                      "KitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :kittray-location-lbwekt_group1
-                      "LargeBoxWithEmptyKitTrays"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :kittray-location-robot)
-
-//*****************************************
-// 3 start soap:Predicate kittray-location-robot
-Declaration(NamedIndividual(:kittray-location-robot))
-ClassAssertion(soap:Predicate :kittray-location-robot)
-DataPropertyAssertion(soap:hasPredicate_Description :kittray-location-robot
-                      ";TRUE iff ?kittray is being held by ?robot"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :kittray-location-robot :kittray-location-robot_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement kittray-location-robot_group1
-Declaration(NamedIndividual(:kittray-location-robot_group1))
-ClassAssertion(soap:PredicateGroupElement :kittray-location-robot_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :kittray-location-robot_group1
-                      "KitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :kittray-location-robot_group1
-                      "Robot"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :kittray-location-worktable)
-
-//*****************************************
-// 3 start soap:Predicate kittray-location-worktable
-Declaration(NamedIndividual(:kittray-location-worktable))
-ClassAssertion(soap:Predicate :kittray-location-worktable)
-DataPropertyAssertion(soap:hasPredicate_Description :kittray-location-worktable
-                      ";TRUE iff ?kittray is on ?worktable"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :kittray-location-worktable :kittray-location-worktable_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement kittray-location-worktable_group1
-Declaration(NamedIndividual(:kittray-location-worktable_group1))
-ClassAssertion(soap:PredicateGroupElement :kittray-location-worktable_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :kittray-location-worktable_group1
-                      "KitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :kittray-location-worktable_group1
-                      "WorkTable"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :part-location-partstray)
-
-//*****************************************
-// 3 start soap:Predicate part-location-partstray
-Declaration(NamedIndividual(:part-location-partstray))
-ClassAssertion(soap:Predicate :part-location-partstray)
-DataPropertyAssertion(soap:hasPredicate_Description :part-location-partstray
-                      ";TRUE iff ?part is in ?partstray"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :part-location-partstray :part-location-partstray_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement part-location-partstray_group1
-Declaration(NamedIndividual(:part-location-partstray_group1))
-ClassAssertion(soap:PredicateGroupElement :part-location-partstray_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :part-location-partstray_group1
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :part-location-partstray_group1
-                      "PartsTray"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :part-location-partstray_group1 :InContactWith)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :part-location-kit)
-
-//*****************************************
-// 3 start soap:Predicate part-location-kit
-Declaration(NamedIndividual(:part-location-kit))
-ClassAssertion(soap:Predicate :part-location-kit)
-DataPropertyAssertion(soap:hasPredicate_Description :part-location-kit
-                      ";TRUE iff ?part is in ?kit"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :part-location-kit :part-location-kit_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement part-location-kit_group1
-Declaration(NamedIndividual(:part-location-kit_group1))
-ClassAssertion(soap:PredicateGroupElement :part-location-kit_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :part-location-kit_group1
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :part-location-kit_group1
-                      "Kit"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :part-location-robot)
-
-//*****************************************
-// 3 start soap:Predicate part-location-robot
-Declaration(NamedIndividual(:part-location-robot))
-ClassAssertion(soap:Predicate :part-location-robot)
-DataPropertyAssertion(soap:hasPredicate_Description :part-location-robot
-                      ";TRUE iff ?part is being held by ?robot"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :part-location-robot :part-location-robot_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement part-location-robot_group1
-Declaration(NamedIndividual(:part-location-robot_group1))
-ClassAssertion(soap:PredicateGroupElement :part-location-robot_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :part-location-robot_group1
-                      "EndEffector"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :part-location-robot_group1
-                      "Part"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :part-location-robot_group1 :InContactWith)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :part-location-robot :part-location-robot_group2)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement part-location-robot_group2
-Declaration(NamedIndividual(:part-location-robot_group2))
-ClassAssertion(soap:PredicateGroupElement :part-location-robot_group2)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :part-location-robot_group2
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :part-location-robot_group2
-                      "EndEffector"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :part-location-robot_group2 :InContactWith)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :robot-holds-kittray)
-
-//*****************************************
-// 3 start soap:Predicate robot-holds-kittray
-Declaration(NamedIndividual(:robot-holds-kittray))
-ClassAssertion(soap:Predicate :robot-holds-kittray)
-DataPropertyAssertion(soap:hasPredicate_Description :robot-holds-kittray
-                      ";TRUE iff ?robot is holding ?kittray"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-holds-kittray :robot-holds-kittray_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement robot-holds-kittray_group1
-Declaration(NamedIndividual(:robot-holds-kittray_group1))
-ClassAssertion(soap:PredicateGroupElement :robot-holds-kittray_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-holds-kittray_group1
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :robot-holds-kittray_group1
-                      "KitTray"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :robot-holds-kit)
-
-//*****************************************
-// 3 start soap:Predicate robot-holds-kit
-Declaration(NamedIndividual(:robot-holds-kit))
-ClassAssertion(soap:Predicate :robot-holds-kit)
-DataPropertyAssertion(soap:hasPredicate_Description :robot-holds-kit
-                      ";TRUE iff ?robot is holding ?kit"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-holds-kit :robot-holds-kit_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement robot-holds-kit_group1
-Declaration(NamedIndividual(:robot-holds-kit_group1))
-ClassAssertion(soap:PredicateGroupElement :robot-holds-kit_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-holds-kit_group1
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :robot-holds-kit_group1
-                      "Kit"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :robot-holds-part)
-
-//*****************************************
-// 3 start soap:Predicate robot-holds-part
-Declaration(NamedIndividual(:robot-holds-part))
-ClassAssertion(soap:Predicate :robot-holds-part)
-DataPropertyAssertion(soap:hasPredicate_Description :robot-holds-part
-                      ";TRUE iff ?robot is holding ?part"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-holds-part :robot-holds-part_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement robot-holds-part_group1
-Declaration(NamedIndividual(:robot-holds-part_group1))
-ClassAssertion(soap:PredicateGroupElement :robot-holds-part_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-holds-part_group1
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :robot-holds-part_group1
-                      "EndEffector"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :robot-holds-part_group1 :InContactWith)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-holds-part :robot-holds-part_group2)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement robot-holds-part_group2
-Declaration(NamedIndividual(:robot-holds-part_group2))
-ClassAssertion(soap:PredicateGroupElement :robot-holds-part_group2)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-holds-part_group2
-                      "EndEffector"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :robot-holds-part_group2
-                      "Part"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :robot-holds-part_group2 :InContactWith)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
+ObjectPropertyAssertion(soap:hasDomain_P_RobotEmpty
                         :kitting-domain :robot-empty)
 
 //*****************************************
-// 3 start soap:Predicate robot-empty
+// 3 start soap:RobotEmpty robot-empty
 Declaration(NamedIndividual(:robot-empty))
-ClassAssertion(soap:Predicate :robot-empty)
+ClassAssertion(soap:RobotEmpty :robot-empty)
 DataPropertyAssertion(soap:hasPredicate_Description :robot-empty
                       ";TRUE iff ?robot is not holding anything"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :robot-empty :robot-empty_group1)
+ObjectPropertyAssertion(soap:hasRobotEmpty_G_RobotEmpty
+                        :robot-empty :G_RobotEmpty1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement robot-empty_group1
-Declaration(NamedIndividual(:robot-empty_group1))
-ClassAssertion(soap:PredicateGroupElement :robot-empty_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :robot-empty_group1
+// 4 start soap:G_RobotEmpty G_RobotEmpty1
+Declaration(NamedIndividual(:G_RobotEmpty1))
+ClassAssertion(soap:G_RobotEmpty :G_RobotEmpty1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_RobotEmpty1
                       "Robot"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :robot-empty_group1 :InContactWith)
-// 4 end soap:PredicateGroupElement
+ObjectPropertyAssertion(soap:hasG_RobotEmpty_StateRelation
+                        :G_RobotEmpty1 :InContactWith)
+// 4 end soap:G_RobotEmpty
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:RobotEmpty
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :lbwk-not-full)
+ObjectPropertyAssertion(soap:hasDomain_P_EffLocationRobot
+                        :kitting-domain :endeffector-location-robot)
 
 //*****************************************
-// 3 start soap:Predicate lbwk-not-full
-Declaration(NamedIndividual(:lbwk-not-full))
-ClassAssertion(soap:Predicate :lbwk-not-full)
-DataPropertyAssertion(soap:hasPredicate_Description :lbwk-not-full
-                      ";TRUE iff ?larboxwithkits is not full"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :lbwk-not-full :lbwk-not-full_group1)
+// 3 start soap:EffLocationRobot endeffector-location-robot
+Declaration(NamedIndividual(:endeffector-location-robot))
+ClassAssertion(soap:EffLocationRobot :endeffector-location-robot)
+DataPropertyAssertion(soap:hasPredicate_Description :endeffector-location-robot
+                      "TRUE iff ?endeffector is attached to ?robot"^^xsd:string)
+ObjectPropertyAssertion(soap:hasEffLocationRobot_G_EffLocationRobot
+                        :endeffector-location-robot :G_EffLocationRobot1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement lbwk-not-full_group1
-Declaration(NamedIndividual(:lbwk-not-full_group1))
-ClassAssertion(soap:PredicateGroupElement :lbwk-not-full_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :lbwk-not-full_group1
-                      "LargeBoxWithKits"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :lbwekt-not-empty)
-
-//*****************************************
-// 3 start soap:Predicate lbwekt-not-empty
-Declaration(NamedIndividual(:lbwekt-not-empty))
-ClassAssertion(soap:Predicate :lbwekt-not-empty)
-DataPropertyAssertion(soap:hasPredicate_Description :lbwekt-not-empty
-                      ";TRUE iff ?largeboxwithemptykittrays is not empty"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :lbwekt-not-empty :lbwekt-not-empty_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement lbwekt-not-empty_group1
-Declaration(NamedIndividual(:lbwekt-not-empty_group1))
-ClassAssertion(soap:PredicateGroupElement :lbwekt-not-empty_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :lbwekt-not-empty_group1
-                      "LargeBoxWithEmptyKitTrays"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :partstray-not-empty)
-
-//*****************************************
-// 3 start soap:Predicate partstray-not-empty
-Declaration(NamedIndividual(:partstray-not-empty))
-ClassAssertion(soap:Predicate :partstray-not-empty)
-DataPropertyAssertion(soap:hasPredicate_Description :partstray-not-empty
-                      ";TRUE iff ?partstray is not empty"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :partstray-not-empty :partstray-not-empty_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement partstray-not-empty_group1
-Declaration(NamedIndividual(:partstray-not-empty_group1))
-ClassAssertion(soap:PredicateGroupElement :partstray-not-empty_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :partstray-not-empty_group1
-                      "PartsTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :partstray-not-empty_group1
-                      "Part"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :partstray-not-empty_group1 :UnderWithContact)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :partstray-has-part)
-
-//*****************************************
-// 3 start soap:Predicate partstray-has-part
-Declaration(NamedIndividual(:partstray-has-part))
-ClassAssertion(soap:Predicate :partstray-has-part)
-DataPropertyAssertion(soap:hasPredicate_Description :partstray-has-part
-                      ";TRUE iff ?partstray has ?part"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :partstray-has-part :partstray-has-part_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement partstray-has-part_group1
-Declaration(NamedIndividual(:partstray-has-part_group1))
-ClassAssertion(soap:PredicateGroupElement :partstray-has-part_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :partstray-has-part_group1
-                      "PartsTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :partstray-has-part_group1
-                      "Part"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPredicateGroupElement_StateRelation
-                        :partstray-has-part_group1 :UnderWithContact)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :endeffector-type-kittray)
-
-//*****************************************
-// 3 start soap:Predicate endeffector-type-kittray
-Declaration(NamedIndividual(:endeffector-type-kittray))
-ClassAssertion(soap:Predicate :endeffector-type-kittray)
-DataPropertyAssertion(soap:hasPredicate_Description :endeffector-type-kittray
-                      ";TRUE iff ?endeffector is capable of holding ?kittray	"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffector-type-kittray :endeffector-type-kittray_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement endeffector-type-kittray_group1
-Declaration(NamedIndividual(:endeffector-type-kittray_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffector-type-kittray_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffector-type-kittray_group1
+// 4 start soap:G_EffLocationRobot G_EffLocationRobot1
+Declaration(NamedIndividual(:G_EffLocationRobot1))
+ClassAssertion(soap:G_EffLocationRobot :G_EffLocationRobot1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_EffLocationRobot1
                       "EndEffector"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffector-type-kittray_group1
-                      "KitTray"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+DataPropertyAssertion(soap:hasG_EffLocationRobot_TargetParameter :G_EffLocationRobot1
+                      "Robot"^^xsd:NMTOKEN)
+// 4 end soap:G_EffLocationRobot
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:EffLocationRobot
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :endeffector-type-kit)
+ObjectPropertyAssertion(soap:hasDomain_P_RobotWithEff
+                        :kitting-domain :robot-with-endeffector)
 
 //*****************************************
-// 3 start soap:Predicate endeffector-type-kit
-Declaration(NamedIndividual(:endeffector-type-kit))
-ClassAssertion(soap:Predicate :endeffector-type-kit)
-DataPropertyAssertion(soap:hasPredicate_Description :endeffector-type-kit
-                      ";TRUE iff ?endeffector is capable of holding ?kit"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffector-type-kit :endeffector-type-kit_group1)
+// 3 start soap:RobotWithEff robot-with-endeffector
+Declaration(NamedIndividual(:robot-with-endeffector))
+ClassAssertion(soap:RobotWithEff :robot-with-endeffector)
+DataPropertyAssertion(soap:hasPredicate_Description :robot-with-endeffector
+                      ";TRUE iff ?robot is equipped with ?endeffector"^^xsd:string)
+ObjectPropertyAssertion(soap:hasRobotWithEff_G_RobotWithEff
+                        :robot-with-endeffector :G_RobotWithEff1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffector-type-kit_group1
-Declaration(NamedIndividual(:endeffector-type-kit_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffector-type-kit_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffector-type-kit_group1
+// 4 start soap:G_RobotWithEff G_RobotWithEff1
+Declaration(NamedIndividual(:G_RobotWithEff1))
+ClassAssertion(soap:G_RobotWithEff :G_RobotWithEff1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_RobotWithEff1
+                      "Robot"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasG_RobotWithEff_TargetParameter :G_RobotWithEff1
                       "EndEffector"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffector-type-kit_group1
-                      "Kit"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+// 4 end soap:G_RobotWithEff
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:RobotWithEff
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :endeffector-type-part)
+ObjectPropertyAssertion(soap:hasDomain_P_RobotWithNoEff
+                        :kitting-domain :robot-with-no-endeffector)
 
 //*****************************************
-// 3 start soap:Predicate endeffector-type-part
-Declaration(NamedIndividual(:endeffector-type-part))
-ClassAssertion(soap:Predicate :endeffector-type-part)
-DataPropertyAssertion(soap:hasPredicate_Description :endeffector-type-part
-                      ";TRUE iff ?endeffecor is capable of holding ?part"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffector-type-part :endeffector-type-part_group1)
+// 3 start soap:RobotWithNoEff robot-with-no-endeffector
+Declaration(NamedIndividual(:robot-with-no-endeffector))
+ClassAssertion(soap:RobotWithNoEff :robot-with-no-endeffector)
+DataPropertyAssertion(soap:hasPredicate_Description :robot-with-no-endeffector
+                      ";TRUE iff ?robot is not equipped with ?endeffector"^^xsd:string)
+ObjectPropertyAssertion(soap:hasRobotWithNoEff_G_RobotWithNoEff
+                        :robot-with-no-endeffector :G_RobotWithNoEff1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffector-type-part_group1
-Declaration(NamedIndividual(:endeffector-type-part_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffector-type-part_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffector-type-part_group1
-                      "EndEffector"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffector-type-part_group1
-                      "Part"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+// 4 start soap:G_RobotWithNoEff G_RobotWithNoEff1
+Declaration(NamedIndividual(:G_RobotWithNoEff1))
+ClassAssertion(soap:G_RobotWithNoEff :G_RobotWithNoEff1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_RobotWithNoEff1
+                      "Robot"^^xsd:NMTOKEN)
+// 4 end soap:G_RobotWithNoEff
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:RobotWithNoEff
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
+ObjectPropertyAssertion(soap:hasDomain_P_EffHolderLocationChStation
+                        :kitting-domain :endeffectorholder-location-changing-station)
+
+//*****************************************
+// 3 start soap:EffHolderLocationChStation endeffectorholder-location-changing-station
+Declaration(NamedIndividual(:endeffectorholder-location-changing-station))
+ClassAssertion(soap:EffHolderLocationChStation :endeffectorholder-location-changing-station)
+DataPropertyAssertion(soap:hasPredicate_Description :endeffectorholder-location-changing-station
+                      ";TRUE iff ?endeffectorholder is in ?endeffectorchangingstation"^^xsd:string)
+ObjectPropertyAssertion(soap:hasEffHolderLocationChStation_G_EffHolderLocationChStation
+                        :endeffectorholder-location-changing-station :G_EffHolderLocationChStation1)
+
+//*****************************************
+// 4 start soap:G_EffHolderLocationChStation G_EffHolderLocationChStation1
+Declaration(NamedIndividual(:G_EffHolderLocationChStation1))
+ClassAssertion(soap:G_EffHolderLocationChStation :G_EffHolderLocationChStation1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_EffHolderLocationChStation1
+                      "EndEffectorHolder"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasG_EffHolderLocationChStation_TargetParameter :G_EffHolderLocationChStation1
+                      "EndEffectorChangingStation"^^xsd:NMTOKEN)
+// 4 end soap:G_EffHolderLocationChStation
+//*****************************************
+
+// 3 end soap:EffHolderLocationChStation
+//*****************************************
+
+ObjectPropertyAssertion(soap:hasDomain_P_EffHolderHoldsEff
                         :kitting-domain :endeffectorholder-holds-endeffector)
 
 //*****************************************
-// 3 start soap:Predicate endeffectorholder-holds-endeffector
+// 3 start soap:EffHolderHoldsEff endeffectorholder-holds-endeffector
 Declaration(NamedIndividual(:endeffectorholder-holds-endeffector))
-ClassAssertion(soap:Predicate :endeffectorholder-holds-endeffector)
+ClassAssertion(soap:EffHolderHoldsEff :endeffectorholder-holds-endeffector)
 DataPropertyAssertion(soap:hasPredicate_Description :endeffectorholder-holds-endeffector
                       ";TRUE iff ?endeffectorholder is holding endeffecor"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffectorholder-holds-endeffector :endeffectorholder-holds-endeffector_group1)
+ObjectPropertyAssertion(soap:hasEffHolderHoldsEff_G_EffHolderHoldsEff
+                        :endeffectorholder-holds-endeffector :G_EffHolderHoldsEff1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffectorholder-holds-endeffector_group1
-Declaration(NamedIndividual(:endeffectorholder-holds-endeffector_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffectorholder-holds-endeffector_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffectorholder-holds-endeffector_group1
+// 4 start soap:G_EffHolderHoldsEff G_EffHolderHoldsEff1
+Declaration(NamedIndividual(:G_EffHolderHoldsEff1))
+ClassAssertion(soap:G_EffHolderHoldsEff :G_EffHolderHoldsEff1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_EffHolderHoldsEff1
                       "EndEffectorHolder"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffectorholder-holds-endeffector_group1
+DataPropertyAssertion(soap:hasG_EffHolderHoldsEff_TargetParameter :G_EffHolderHoldsEff1
                       "EndEffector"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+// 4 end soap:G_EffHolderHoldsEff
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:EffHolderHoldsEff
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
+ObjectPropertyAssertion(soap:hasDomain_P_ChStationHasEffHolder
+                        :kitting-domain :endeffectorchangingstation-has-endeffectorholder)
+
+//*****************************************
+// 3 start soap:ChStationHasEffHolder endeffectorchangingstation-has-endeffectorholder
+Declaration(NamedIndividual(:endeffectorchangingstation-has-endeffectorholder))
+ClassAssertion(soap:ChStationHasEffHolder :endeffectorchangingstation-has-endeffectorholder)
+DataPropertyAssertion(soap:hasPredicate_Description :endeffectorchangingstation-has-endeffectorholder
+                      ";TRUE iff ?endeffectorchangingstation contains ?endeffectorholder"^^xsd:string)
+ObjectPropertyAssertion(soap:hasChStationHasEffHolder_G_ChStationHasEffHolder
+                        :endeffectorchangingstation-has-endeffectorholder :G_ChStationHasEffHolder1)
+
+//*****************************************
+// 4 start soap:G_ChStationHasEffHolder G_ChStationHasEffHolder1
+Declaration(NamedIndividual(:G_ChStationHasEffHolder1))
+ClassAssertion(soap:G_ChStationHasEffHolder :G_ChStationHasEffHolder1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_ChStationHasEffHolder1
+                      "EndEffectorChangingStation"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasG_ChStationHasEffHolder_TargetParameter :G_ChStationHasEffHolder1
+                      "EndEffectorHolder"^^xsd:NMTOKEN)
+// 4 end soap:G_ChStationHasEffHolder
+//*****************************************
+
+// 3 end soap:ChStationHasEffHolder
+//*****************************************
+
+ObjectPropertyAssertion(soap:hasDomain_P_EffHolderEmpty
                         :kitting-domain :endeffectorholder-empty)
 
 //*****************************************
-// 3 start soap:Predicate endeffectorholder-empty
+// 3 start soap:EffHolderEmpty endeffectorholder-empty
 Declaration(NamedIndividual(:endeffectorholder-empty))
-ClassAssertion(soap:Predicate :endeffectorholder-empty)
+ClassAssertion(soap:EffHolderEmpty :endeffectorholder-empty)
 DataPropertyAssertion(soap:hasPredicate_Description :endeffectorholder-empty
                       ";TRUE iff ?endeffectorholder is empty (?endeffectorholder does not hold an endeffector)"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffectorholder-empty :endeffectorholder-empty_group1)
+ObjectPropertyAssertion(soap:hasEffHolderEmpty_G_EffHolderEmpty
+                        :endeffectorholder-empty :G_EffHolderEmpty1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffectorholder-empty_group1
-Declaration(NamedIndividual(:endeffectorholder-empty_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffectorholder-empty_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffectorholder-empty_group1
+// 4 start soap:G_EffHolderEmpty G_EffHolderEmpty1
+Declaration(NamedIndividual(:G_EffHolderEmpty1))
+ClassAssertion(soap:G_EffHolderEmpty :G_EffHolderEmpty1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_EffHolderEmpty1
                       "EndEffectorHolder"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+// 4 end soap:G_EffHolderEmpty
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:EffHolderEmpty
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :endeffectorholder-location)
+ObjectPropertyAssertion(soap:hasDomain_P_OnWorktableKitTray
+                        :kitting-domain :on-worktable-kittray)
 
 //*****************************************
-// 3 start soap:Predicate endeffectorholder-location
-Declaration(NamedIndividual(:endeffectorholder-location))
-ClassAssertion(soap:Predicate :endeffectorholder-location)
-DataPropertyAssertion(soap:hasPredicate_Description :endeffectorholder-location
-                      ";TRUE iff ?endeffectorholder is in ?endeffectorchangingstation"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffectorholder-location :endeffectorholder-location_group1)
+// 3 start soap:OnWorktableKitTray on-worktable-kittray
+Declaration(NamedIndividual(:on-worktable-kittray))
+ClassAssertion(soap:OnWorktableKitTray :on-worktable-kittray)
+DataPropertyAssertion(soap:hasPredicate_Description :on-worktable-kittray
+                      ";TRUE iff ?kittray is on ?worktable"^^xsd:string)
+ObjectPropertyAssertion(soap:hasOnWorktableKitTray_G_OnWorktableKitTray
+                        :on-worktable-kittray :G_OnWorktableKitTray1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffectorholder-location_group1
-Declaration(NamedIndividual(:endeffectorholder-location_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffectorholder-location_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffectorholder-location_group1
-                      "EndEffectorHolder"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffectorholder-location_group1
-                      "EndEffectorChangingStation"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
+// 4 start soap:G_OnWorktableKitTray G_OnWorktableKitTray1
+Declaration(NamedIndividual(:G_OnWorktableKitTray1))
+ClassAssertion(soap:G_OnWorktableKitTray :G_OnWorktableKitTray1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_OnWorktableKitTray1
+                      "Worktable"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasG_OnWorktableKitTray_TargetParameter :G_OnWorktableKitTray1
+                      "KitTray"^^xsd:NMTOKEN)
+// 4 end soap:G_OnWorktableKitTray
 //*****************************************
 
-// 3 end soap:Predicate
+// 3 end soap:OnWorktableKitTray
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :endeffectorchangingstation-contains-endeffectorholder)
+ObjectPropertyAssertion(soap:hasDomain_P_OnWorktableKit
+                        :kitting-domain :on-worktable-kit)
 
 //*****************************************
-// 3 start soap:Predicate endeffectorchangingstation-contains-endeffectorholder
-Declaration(NamedIndividual(:endeffectorchangingstation-contains-endeffectorholder))
-ClassAssertion(soap:Predicate :endeffectorchangingstation-contains-endeffectorholder)
-DataPropertyAssertion(soap:hasPredicate_Description :endeffectorchangingstation-contains-endeffectorholder
-                      ";TRUE iff ?endeffectorchangingstation contains ?endeffectorholder"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :endeffectorchangingstation-contains-endeffectorholder :endeffectorchangingstation-contains-endeffectorholder_group1)
+// 3 start soap:OnWorktableKit on-worktable-kit
+Declaration(NamedIndividual(:on-worktable-kit))
+ClassAssertion(soap:OnWorktableKit :on-worktable-kit)
+DataPropertyAssertion(soap:hasPredicate_Description :on-worktable-kit
+                      ";TRUE iff ?kit is on ?worktable"^^xsd:string)
+ObjectPropertyAssertion(soap:hasOnWorktableKit_G_OnWorktableKit
+                        :on-worktable-kit :G_OnWorktableKit1)
 
 //*****************************************
-// 4 start soap:PredicateGroupElement endeffectorchangingstation-contains-endeffectorholder_group1
-Declaration(NamedIndividual(:endeffectorchangingstation-contains-endeffectorholder_group1))
-ClassAssertion(soap:PredicateGroupElement :endeffectorchangingstation-contains-endeffectorholder_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :endeffectorchangingstation-contains-endeffectorholder_group1
-                      "EndEffectorChangingStation"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :endeffectorchangingstation-contains-endeffectorholder_group1
-                      "EndEffectorHolder"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :found-part)
-
-//*****************************************
-// 3 start soap:Predicate found-part
-Declaration(NamedIndividual(:found-part))
-ClassAssertion(soap:Predicate :found-part)
-DataPropertyAssertion(soap:hasPredicate_Description :found-part
-                      ";TRUE if ?part is found in ?partstray"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :found-part :found-part_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement found-part_group1
-Declaration(NamedIndividual(:found-part_group1))
-ClassAssertion(soap:PredicateGroupElement :found-part_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :found-part_group1
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :found-part_group1
-                      "PartsTray"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Predicate
-                        :kitting-domain :origin-part)
-
-//*****************************************
-// 3 start soap:Predicate origin-part
-Declaration(NamedIndividual(:origin-part))
-ClassAssertion(soap:Predicate :origin-part)
-DataPropertyAssertion(soap:hasPredicate_Description :origin-part
-                      ";TRUE if ?part is from ?partstray"^^xsd:string)
-ObjectPropertyAssertion(soap:hasPredicate_PredicateGroupElement
-                        :origin-part :origin-part_group1)
-
-//*****************************************
-// 4 start soap:PredicateGroupElement origin-part_group1
-Declaration(NamedIndividual(:origin-part_group1))
-ClassAssertion(soap:PredicateGroupElement :origin-part_group1)
-DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceName :origin-part_group1
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPredicateGroupElement_TargetName :origin-part_group1
-                      "PartsTray"^^xsd:NMTOKEN)
-// 4 end soap:PredicateGroupElement
-//*****************************************
-
-// 3 end soap:Predicate
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Function
-                        :kitting-domain :quantity-partstray)
-
-//*****************************************
-// 3 start soap:Function quantity-partstray
-Declaration(NamedIndividual(:quantity-partstray))
-ClassAssertion(soap:Function :quantity-partstray)
-DataPropertyAssertion(soap:hasFunction_Description :quantity-partstray
-                      ";Quantity of parts in ?partstray (quantity set in the init section in the problem file)"^^xsd:string)
-DataPropertyAssertion(soap:hasFunction_ReferenceName :quantity-partstray
-                      "PartsTray"^^xsd:NMTOKEN)
-// 3 end soap:Function
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_Function
-                        :kitting-domain :quantity-kit)
-
-//*****************************************
-// 3 start soap:Function quantity-kit
-Declaration(NamedIndividual(:quantity-kit))
-ClassAssertion(soap:Function :quantity-kit)
-DataPropertyAssertion(soap:hasFunction_Description :quantity-kit
-                      ";Quantity of parts from ?partstray that is in ?kit"^^xsd:string)
-DataPropertyAssertion(soap:hasFunction_ReferenceName :quantity-kit
+// 4 start soap:G_OnWorktableKit G_OnWorktableKit1
+Declaration(NamedIndividual(:G_OnWorktableKit1))
+ClassAssertion(soap:G_OnWorktableKit :G_OnWorktableKit1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_OnWorktableKit1
+                      "Worktable"^^xsd:NMTOKEN)
+DataPropertyAssertion(soap:hasG_OnWorktableKit_TargetParameter :G_OnWorktableKit1
                       "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasFunction_TargetName :quantity-kit
-                      "PartsTray"^^xsd:NMTOKEN)
-// 3 end soap:Function
+// 4 end soap:G_OnWorktableKit
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_Function
-                        :kitting-domain :capacity-kit)
+// 3 end soap:OnWorktableKit
+//*****************************************
+
+ObjectPropertyAssertion(soap:hasDomain_P_KitLocationWorktable
+                        :kitting-domain :kit-location-worktable)
 
 //*****************************************
-// 3 start soap:Function capacity-kit
-Declaration(NamedIndividual(:capacity-kit))
-ClassAssertion(soap:Function :capacity-kit)
-DataPropertyAssertion(soap:hasFunction_Description :capacity-kit
-                      ";Quantity of parts in ?partstray (quantity set in the init section in the problem file)"^^xsd:string)
-DataPropertyAssertion(soap:hasFunction_ReferenceName :capacity-kit
+// 3 start soap:KitLocationWorktable kit-location-worktable
+Declaration(NamedIndividual(:kit-location-worktable))
+ClassAssertion(soap:KitLocationWorktable :kit-location-worktable)
+DataPropertyAssertion(soap:hasPredicate_Description :kit-location-worktable
+                      ";TRUE iff ?kit is on ?worktable"^^xsd:string)
+ObjectPropertyAssertion(soap:hasKitLocationWorktable_G_KitLocationWorktable
+                        :kit-location-worktable :G_KitLocationWorktable1)
+
+//*****************************************
+// 4 start soap:G_KitLocationWorktable G_KitLocationWorktable1
+Declaration(NamedIndividual(:G_KitLocationWorktable1))
+ClassAssertion(soap:G_KitLocationWorktable :G_KitLocationWorktable1)
+DataPropertyAssertion(soap:hasPredicateGroupElement_ReferenceParameter :G_KitLocationWorktable1
                       "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasFunction_TargetName :capacity-kit
-                      "PartsTray"^^xsd:NMTOKEN)
-// 3 end soap:Function
+DataPropertyAssertion(soap:hasG_KitLocationWorktable_TargetParameter :G_KitLocationWorktable1
+                      "WorkTable"^^xsd:NMTOKEN)
+// 4 end soap:G_KitLocationWorktable
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_AttachEndEffector
-                        :kitting-domain :attach-endeffector)
+// 3 end soap:KitLocationWorktable
+//*****************************************
+
+ObjectPropertyAssertion(soap:hasDomain_A_AttachEndEffector
+                        :kitting-domain :attach_endeffector)
 
 //*****************************************
-// 3 start soap:AttachEndEffector attach-endeffector
-Declaration(NamedIndividual(:attach-endeffector))
-ClassAssertion(soap:AttachEndEffector :attach-endeffector)
-DataPropertyAssertion(soap:hasAttachEndEffector_RobotParameter :attach-endeffector
+// 3 start soap:AttachEndEffector attach_endeffector
+Declaration(NamedIndividual(:attach_endeffector))
+ClassAssertion(soap:AttachEndEffector :attach_endeffector)
+DataPropertyAssertion(soap:hasAttachEndEffector_RobotParameter :attach_endeffector
                       "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasAttachEndEffector_EndEffectorParameter :attach-endeffector
+DataPropertyAssertion(soap:hasAttachEndEffector_EndEffectorParameter :attach_endeffector
                       "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasAttachEndEffector_EndEffectorHolderParameter :attach-endeffector
+DataPropertyAssertion(soap:hasAttachEndEffector_EndEffectorHolderParameter :attach_endeffector
                       "PartsTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasAttachEndEffector_EndEffectorChangingStationParameter :attach-endeffector
+DataPropertyAssertion(soap:hasAttachEndEffector_EndEffectorChangingStationParameter :attach_endeffector
                       "EndEffector"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(soap:hasAttachEndEffector_Precondition
-                        :attach-endeffector :attach-endeffector_precondition)
+                        :attach_endeffector :precondition_attach_endeffector)
 
 //*****************************************
-// 4 start soap:Precondition attach-endeffector_precondition
-Declaration(NamedIndividual(:attach-endeffector_precondition))
-ClassAssertion(soap:Precondition :attach-endeffector_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :attach-endeffector_precondition :endeffector-location-endeffectorholder)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :attach-endeffector_precondition :robot-with-no-endeffector)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :attach-endeffector_precondition :endeffectorholder-holds-endeffector)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :attach-endeffector_precondition :endeffectorholder-location)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :attach-endeffector_precondition :endeffectorchangingstation-contains-endeffectorholder)
-// 4 end soap:Precondition
+// 4 start soap:PreconditionAttachEndEffector precondition_attach_endeffector
+Declaration(NamedIndividual(:precondition_attach_endeffector))
+ClassAssertion(soap:PreconditionAttachEndEffector :precondition_attach_endeffector)
+ObjectPropertyAssertion(soap:hasPreconditionAttachEndEffector_EndEffectorLocationEndeffectorHolder
+                        :precondition_attach_endeffector :endeffector-location-endeffectorholder)
+ObjectPropertyAssertion(soap:hasPreconditionAttachEndEffector_RobotWithNoEndEffector
+                        :precondition_attach_endeffector :robot-with-no-endeffector)
+ObjectPropertyAssertion(soap:hasPreconditionAttachEndEffector_EndEffectorHolderHoldsEndEffector
+                        :precondition_attach_endeffector :endeffectorholder-holds-endeffector)
+ObjectPropertyAssertion(soap:hasPreconditionAttachEndEffector_EndEffectorHolderLocationChangingStation
+                        :precondition_attach_endeffector :endeffectorholder-location-changing-station)
+ObjectPropertyAssertion(soap:hasPreconditionAttachEndEffector_ChangingStationHasEffectorHolder
+                        :precondition_attach_endeffector :endeffectorchangingstation-has-endeffectorholder)
+// 4 end soap:PreconditionAttachEndEffector
 //*****************************************
 
 ObjectPropertyAssertion(soap:hasAttachEndEffector_Effect
-                        :attach-endeffector :attach-endeffector_effect)
+                        :attach_endeffector :effect_attach_endeffector)
 
 //*****************************************
-// 4 start soap:Effect attach-endeffector_effect
-Declaration(NamedIndividual(:attach-endeffector_effect))
-ClassAssertion(soap:Effect :attach-endeffector_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :attach-endeffector_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :attach-endeffector_effect :endeffector-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :attach-endeffector_effect :robot-with-endeffector)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :attach-endeffector_effect :endeffectorholder-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :attach-endeffector_effect :endeffector-location-endeffectorholder)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :attach-endeffector_effect :endeffectorholder-holds-endeffector)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :attach-endeffector_effect :robot-with-no-endeffector)
-// 4 end soap:Effect
+// 4 start soap:EffectAttachEndEffector effect_attach_endeffector
+Declaration(NamedIndividual(:effect_attach_endeffector))
+ClassAssertion(soap:EffectAttachEndEffector :effect_attach_endeffector)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_RobotEmpty
+                        :effect_attach_endeffector :robot-empty)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_EndEffectorLocationRobot
+                        :effect_attach_endeffector :endeffector-location-robot)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_RobotWithEndEffector
+                        :effect_attach_endeffector :robot-with-endeffector)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_EndEffectorHolderEmpty
+                        :effect_attach_endeffector :endeffectorholder-empty)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_NotEndEffectorLocationEndeffectorHolder
+                        :effect_attach_endeffector :endeffector-location-endeffectorholder)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_NotEndEffectorHolderHoldsEndEffector
+                        :effect_attach_endeffector :endeffectorholder-holds-endeffector)
+ObjectPropertyAssertion(soap:hasEffectAttachEndEffector_NotRobotWithNoEndEffector
+                        :effect_attach_endeffector :robot-with-no-endeffector)
+// 4 end soap:EffectAttachEndEffector
 //*****************************************
 
 // 3 end soap:AttachEndEffector
 //*****************************************
 
-ObjectPropertyAssertion(soap:hasDomain_CreateKit
-                        :kitting-domain :create-kit)
+ObjectPropertyAssertion(soap:hasDomain_A_CreateKit
+                        :kitting-domain :create_kit)
 
 //*****************************************
-// 3 start soap:CreateKit create-kit
-Declaration(NamedIndividual(:create-kit))
-ClassAssertion(soap:CreateKit :create-kit)
-DataPropertyAssertion(soap:hasCreateKit_KitParameter :create-kit
+// 3 start soap:CreateKit create_kit
+Declaration(NamedIndividual(:create_kit))
+ClassAssertion(soap:CreateKit :create_kit)
+DataPropertyAssertion(soap:hasCreateKit_KitParameter :create_kit
                       "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasCreateKit_KitTrayParameter :create-kit
+DataPropertyAssertion(soap:hasCreateKit_KitTrayParameter :create_kit
                       "KitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasCreateKit_WorkTableParameter :create-kit
+DataPropertyAssertion(soap:hasCreateKit_WorkTableParameter :create_kit
                       "WorkTable"^^xsd:NMTOKEN)
 ObjectPropertyAssertion(soap:hasCreateKit_Precondition
-                        :create-kit :create-kit_precondition)
+                        :create_kit :precondition_create_kit)
 
 //*****************************************
-// 4 start soap:Precondition create-kit_precondition
-Declaration(NamedIndividual(:create-kit_precondition))
-ClassAssertion(soap:Precondition :create-kit_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :create-kit_precondition :on-worktable-kittray)
-// 4 end soap:Precondition
+// 4 start soap:PreconditionCreateKit precondition_create_kit
+Declaration(NamedIndividual(:precondition_create_kit))
+ClassAssertion(soap:PreconditionCreateKit :precondition_create_kit)
+ObjectPropertyAssertion(soap:hasPreconditionCreateKit_OnWorktableKitTray
+                        :precondition_create_kit :on-worktable-kittray)
+// 4 end soap:PreconditionCreateKit
 //*****************************************
 
 ObjectPropertyAssertion(soap:hasCreateKit_Effect
-                        :create-kit :create-kit_effect)
+                        :create_kit :effect_create_kit)
 
 //*****************************************
-// 4 start soap:Effect create-kit_effect
-Declaration(NamedIndividual(:create-kit_effect))
-ClassAssertion(soap:Effect :create-kit_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :create-kit_effect :on-worktable-kit)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :create-kit_effect :kit-location-worktable)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :create-kit_effect :on-worktable-kittray)
-// 4 end soap:Effect
+// 4 start soap:EffectCreateKit effect_create_kit
+Declaration(NamedIndividual(:effect_create_kit))
+ClassAssertion(soap:EffectCreateKit :effect_create_kit)
+ObjectPropertyAssertion(soap:hasEffectCreateKit_OnWorktableKit
+                        :effect_create_kit :on-worktable-kit)
+ObjectPropertyAssertion(soap:hasEffectCreateKit_KitLocationWorktable
+                        :effect_create_kit :kit-location-worktable)
+ObjectPropertyAssertion(soap:hasEffectCreateKit_RobotWithEndEffector
+                        :effect_create_kit :robot-with-endeffector)
+ObjectPropertyAssertion(soap:hasEffectCreateKit_NotOnWorktableKitTray
+                        :effect_create_kit :on-worktable-kittray)
+// 4 end soap:EffectCreateKit
 //*****************************************
 
 // 3 end soap:CreateKit
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_DetachEndEffector
-                        :kitting-domain :detach-endeffector)
-
-//*****************************************
-// 3 start soap:DetachEndEffector detach-endeffector
-Declaration(NamedIndividual(:detach-endeffector))
-ClassAssertion(soap:DetachEndEffector :detach-endeffector)
-DataPropertyAssertion(soap:hasDetachEndEffector_RobotParameter :detach-endeffector
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasDetachEndEffector_EndEffectorParameter :detach-endeffector
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasDetachEndEffector_EndEffectorHolderParameter :detach-endeffector
-                      "PartsTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasDetachEndEffector_EndEffectorChangingStationParameter :detach-endeffector
-                      "EndEffector"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasDetachEndEffector_Precondition
-                        :detach-endeffector :detach-endeffector_precondition)
-
-//*****************************************
-// 4 start soap:Precondition detach-endeffector_precondition
-Declaration(NamedIndividual(:detach-endeffector_precondition))
-ClassAssertion(soap:Precondition :detach-endeffector_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :detach-endeffector_precondition :endeffector-location-robot)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :detach-endeffector_precondition :robot-with-endeffector)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :detach-endeffector_precondition :robot-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :detach-endeffector_precondition :endeffectorholder-location)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :detach-endeffector_precondition :endeffectorchangingstation-contains-endeffectorholder)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :detach-endeffector_precondition :endeffectorholder-empty)
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDetachEndEffector_Effect
-                        :detach-endeffector :detach-endeffector_effect)
-
-//*****************************************
-// 4 start soap:Effect detach-endeffector_effect
-Declaration(NamedIndividual(:detach-endeffector_effect))
-ClassAssertion(soap:Effect :detach-endeffector_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :detach-endeffector_effect :endeffector-location-endeffectorholder)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :detach-endeffector_effect :endeffectorholder-holds-endeffector)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :detach-endeffector_effect :robot-with-no-endeffector)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :detach-endeffector_effect :endeffector-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :detach-endeffector_effect :robot-with-endeffector)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :detach-endeffector_effect :endeffectorholder-empty)
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:DetachEndEffector
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_TakePart
-                        :kitting-domain :take-part)
-
-//*****************************************
-// 3 start soap:TakePart take-part
-Declaration(NamedIndividual(:take-part))
-ClassAssertion(soap:TakePart :take-part)
-DataPropertyAssertion(soap:hasTakePart_RobotParameter :take-part
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakePart_PartParameter :take-part
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakePart_PartsTrayParameter :take-part
-                      "PartsTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakePart_EndEffectorParameter :take-part
-                      "EndEffector"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasTakePart_Precondition
-                        :take-part :take-part_precondition)
-
-//*****************************************
-// 4 start soap:Precondition take-part_precondition
-Declaration(NamedIndividual(:take-part_precondition))
-ClassAssertion(soap:Precondition :take-part_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :part-location-partstray)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :endeffector-location-robot)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :robot-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :robot-with-endeffector)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :endeffector-type-part)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :found-part)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :partstray-not-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-part_precondition :partstray-has-part)
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasTakePart_Effect
-                        :take-part :take-part_effect)
-
-//*****************************************
-// 4 start soap:Effect take-part_effect
-Declaration(NamedIndividual(:take-part_effect))
-ClassAssertion(soap:Effect :take-part_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-part_effect :part-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-part_effect :robot-holds-part)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-part_effect :part-location-partstray)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-part_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-part_effect :partstray-has-part)
-ObjectPropertyAssertion(soap:hasEffect_FunctionOperation
-                        :take-part_effect :decrease-quantity-partstray)
-
-//*****************************************
-// 5 start soap:FunctionOperation decrease-quantity-partstray
-Declaration(NamedIndividual(:decrease-quantity-partstray))
-ClassAssertion(soap:FunctionOperation :decrease-quantity-partstray)
-ObjectPropertyAssertion(soap:hasFunctionOperation_Function
-                        :decrease-quantity-partstray :quantity-partstray)
-DataPropertyAssertion(soap:hasFunctionOperation_Expression :decrease-quantity-partstray
-                      "decrease"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasFunctionOperation_Value :decrease-quantity-partstray
-                      "1"^^xsd:positiveInteger)
-// 5 end soap:FunctionOperation
-//*****************************************
-
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:TakePart
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_TakeKit
-                        :kitting-domain :take-kit)
-
-//*****************************************
-// 3 start soap:TakeKit take-kit
-Declaration(NamedIndividual(:take-kit))
-ClassAssertion(soap:TakeKit :take-kit)
-DataPropertyAssertion(soap:hasTakeKit_RobotParameter :take-kit
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakeKit_KitParameter :take-kit
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakeKit_EndEffectorParameter :take-kit
-                      "EndEffector"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasTakeKit_Precondition
-                        :take-kit :take-kit_precondition)
-
-//*****************************************
-// 4 start soap:Precondition take-kit_precondition
-Declaration(NamedIndividual(:take-kit_precondition))
-ClassAssertion(soap:Precondition :take-kit_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kit_precondition :kit-location-worktable)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kit_precondition :robot-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kit_precondition :on-worktable-kit)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kit_precondition :robot-with-endeffector)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kit_precondition :endeffector-type-kit)
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasTakeKit_Effect
-                        :take-kit :take-kit_effect)
-
-//*****************************************
-// 4 start soap:Effect take-kit_effect
-Declaration(NamedIndividual(:take-kit_effect))
-ClassAssertion(soap:Effect :take-kit_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-kit_effect :kit-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-kit_effect :robot-holds-kit)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-kit_effect :worktable-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-kit_effect :kit-location-worktable)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-kit_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-kit_effect :on-worktable-kit)
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:TakeKit
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_TakeKitTray
-                        :kitting-domain :take-kittray)
-
-//*****************************************
-// 3 start soap:TakeKitTray take-kittray
-Declaration(NamedIndividual(:take-kittray))
-ClassAssertion(soap:TakeKitTray :take-kittray)
-DataPropertyAssertion(soap:hasTakeKitTray_RobotParameter :take-kittray
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakeKitTray_KitTrayParameter :take-kittray
-                      "KitTray"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakeKitTray_LargeBoxWithEmptyKitTraysParameter :take-kittray
-                      "LargeBoxWithEmptyKitTrays"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasTakeKitTray_EndEffectorParameter :take-kittray
-                      "EndEffector"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasTakeKitTray_Precondition
-                        :take-kittray :take-kittray_precondition)
-
-//*****************************************
-// 4 start soap:Precondition take-kittray_precondition
-Declaration(NamedIndividual(:take-kittray_precondition))
-ClassAssertion(soap:Precondition :take-kittray_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :robot-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :lbwekt-not-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :robot-with-endeffector)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :kittray-location-lbwekt)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :endeffector-location-robot)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :worktable-empty)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :take-kittray_precondition :endeffector-type-kittray)
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasTakeKitTray_Effect
-                        :take-kittray :take-kittray_effect)
-
-//*****************************************
-// 4 start soap:Effect take-kittray_effect
-Declaration(NamedIndividual(:take-kittray_effect))
-ClassAssertion(soap:Effect :take-kittray_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-kittray_effect :robot-holds-kittray)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :take-kittray_effect :kittray-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-kittray_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :take-kittray_effect :kittray-location-lbwekt)
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:TakeKitTray
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_PutPart
-                        :kitting-domain :put-part)
-
-//*****************************************
-// 3 start soap:PutPart put-part
-Declaration(NamedIndividual(:put-part))
-ClassAssertion(soap:PutPart :put-part)
-DataPropertyAssertion(soap:hasPutPart_RobotParameter :put-part
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPutPart_PartParameter :put-part
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPutPart_KitParameter :put-part
-                      "Kit"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPutPart_PartsTrayParameter :put-part
-                      "PartsTray"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPutPart_Precondition
-                        :put-part :put-part_precondition)
-
-//*****************************************
-// 4 start soap:Precondition put-part_precondition
-Declaration(NamedIndividual(:put-part_precondition))
-ClassAssertion(soap:Precondition :put-part_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-part_precondition :part-location-robot)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-part_precondition :robot-holds-part)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-part_precondition :on-worktable-kit)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-part_precondition :origin-part)
-ObjectPropertyAssertion(soap:hasPrecondition_F1LessF2
-                        :put-part_precondition :quantity-kit_To_capacity-kit_Less)
-
-//*****************************************
-// 5 start soap:FunctionToFunctionLess quantity-kit_To_capacity-kit_Less
-Declaration(NamedIndividual(:quantity-kit_To_capacity-kit_Less))
-ClassAssertion(soap:FunctionToFunctionLess :quantity-kit_To_capacity-kit_Less)
-ObjectPropertyAssertion(soap:hasFunctionToFunctionBool_F1
-                        :quantity-kit_To_capacity-kit_Less :quantity-kit)
-ObjectPropertyAssertion(soap:hasFunctionToFunctionBool_F2
-                        :quantity-kit_To_capacity-kit_Less :capacity-kit)
-// 5 end soap:FunctionToFunctionLess
-//*****************************************
-
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasPutPart_Effect
-                        :put-part :put-part_effect)
-
-//*****************************************
-// 4 start soap:Effect put-part_effect
-Declaration(NamedIndividual(:put-part_effect))
-ClassAssertion(soap:Effect :put-part_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-part_effect :part-location-kit)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-part_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-part_effect :part-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-part_effect :robot-holds-part)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-part_effect :found-part)
-ObjectPropertyAssertion(soap:hasEffect_FunctionOperation
-                        :put-part_effect :increase-quantity-kit)
-
-//*****************************************
-// 5 start soap:FunctionOperation increase-quantity-kit
-Declaration(NamedIndividual(:increase-quantity-kit))
-ClassAssertion(soap:FunctionOperation :increase-quantity-kit)
-ObjectPropertyAssertion(soap:hasFunctionOperation_Function
-                        :increase-quantity-kit :quantity-kit)
-DataPropertyAssertion(soap:hasFunctionOperation_Expression :increase-quantity-kit
-                      "increase"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasFunctionOperation_Value :increase-quantity-kit
-                      "1"^^xsd:positiveInteger)
-// 5 end soap:FunctionOperation
-//*****************************************
-
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:PutPart
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_PutKit
-                        :kitting-domain :put-kit)
-
-//*****************************************
-// 3 start soap:PutKit put-kit
-Declaration(NamedIndividual(:put-kit))
-ClassAssertion(soap:PutKit :put-kit)
-DataPropertyAssertion(soap:hasPutKit_RobotParameter :put-kit
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPutKit_KitParameter :put-kit
-                      "Part"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPutKit_LargeBoxWithKitsParameter :put-kit
-                      "Kit"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPutKit_Precondition
-                        :put-kit :put-kit_precondition)
-
-//*****************************************
-// 4 start soap:Precondition put-kit_precondition
-Declaration(NamedIndividual(:put-kit_precondition))
-ClassAssertion(soap:Precondition :put-kit_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-kit_precondition :kit-location-robot)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-kit_precondition :robot-holds-kit)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-kit_precondition :lbwk-not-full)
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasPutKit_Effect
-                        :put-kit :put-kit_effect)
-
-//*****************************************
-// 4 start soap:Effect put-kit_effect
-Declaration(NamedIndividual(:put-kit_effect))
-ClassAssertion(soap:Effect :put-kit_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-kit_effect :kit-location-lbwk)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-kit_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-kit_effect :kit-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-kit_effect :robot-holds-kit)
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:PutKit
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasDomain_PutKitTray
-                        :kitting-domain :put-kittray)
-
-//*****************************************
-// 3 start soap:PutKitTray put-kittray
-Declaration(NamedIndividual(:put-kittray))
-ClassAssertion(soap:PutKitTray :put-kittray)
-DataPropertyAssertion(soap:hasPutKitTray_RobotParameter :put-kittray
-                      "Robot"^^xsd:NMTOKEN)
-DataPropertyAssertion(soap:hasPutKitTray_KitTrayParameter :put-kittray
-                      "KitTray"^^xsd:NMTOKEN)
-ObjectPropertyAssertion(soap:hasPutKitTray_Precondition
-                        :put-kittray :put-kittray_precondition)
-
-//*****************************************
-// 4 start soap:Precondition put-kittray_precondition
-Declaration(NamedIndividual(:put-kittray_precondition))
-ClassAssertion(soap:Precondition :put-kittray_precondition)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-kittray_precondition :kittray-location-robot)
-ObjectPropertyAssertion(soap:hasPrecondition_Predicate
-                        :put-kittray_precondition :robot-holds-kittray)
-// 4 end soap:Precondition
-//*****************************************
-
-ObjectPropertyAssertion(soap:hasPutKitTray_Effect
-                        :put-kittray :put-kittray_effect)
-
-//*****************************************
-// 4 start soap:Effect put-kittray_effect
-Declaration(NamedIndividual(:put-kittray_effect))
-ClassAssertion(soap:Effect :put-kittray_effect)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-kittray_effect :kittray-location-worktable)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-kittray_effect :robot-empty)
-ObjectPropertyAssertion(soap:hasEffect_Predicate
-                        :put-kittray_effect :on-worktable-kittray)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-kittray_effect :kittray-location-robot)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-kittray_effect :robot-holds-kittray)
-ObjectPropertyAssertion(soap:hasEffect_NotPredicate
-                        :put-kittray_effect :worktable-empty)
-// 4 end soap:Effect
-//*****************************************
-
-// 3 end soap:PutKitTray
 //*****************************************
 
 // 2 end soap:Domain
@@ -5262,36 +4188,10 @@ DifferentIndividuals(
  :shape_parts_tray)
 
 //*****************************************
-// soap:Effect individuals 
-DifferentIndividuals(
- :attach-endeffector_effect
- :create-kit_effect
- :detach-endeffector_effect
- :put-kit_effect
- :put-kittray_effect
- :put-part_effect
- :take-kit_effect
- :take-kittray_effect
- :take-part_effect)
-
-//*****************************************
 // :EndEffectorHolder individuals 
 DifferentIndividuals(
  :part_gripper_holder
  :tray_gripper_holder)
-
-//*****************************************
-// soap:FunctionOperation individuals 
-DifferentIndividuals(
- :decrease-quantity-partstray
- :increase-quantity-kit)
-
-//*****************************************
-// soap:Function individuals 
-DifferentIndividuals(
- :capacity-kit
- :quantity-kit
- :quantity-partstray)
 
 //*****************************************
 // :KitDesign individuals 
@@ -5452,95 +4352,6 @@ DifferentIndividuals(
  :robot_pose
  :tray_gripper_holder_pose
  :work_table_pose)
-
-//*****************************************
-// soap:Precondition individuals 
-DifferentIndividuals(
- :attach-endeffector_precondition
- :create-kit_precondition
- :detach-endeffector_precondition
- :put-kit_precondition
- :put-kittray_precondition
- :put-part_precondition
- :take-kit_precondition
- :take-kittray_precondition
- :take-part_precondition)
-
-//*****************************************
-// soap:PredicateGroupElement individuals 
-DifferentIndividuals(
- :endeffector-location-endeffectorholder_group1
- :endeffector-location-robot_group1
- :endeffector-type-kit_group1
- :endeffector-type-kittray_group1
- :endeffector-type-part_group1
- :endeffectorchangingstation-contains-endeffectorholder_group1
- :endeffectorholder-empty_group1
- :endeffectorholder-holds-endeffector_group1
- :endeffectorholder-location_group1
- :found-part_group1
- :kit-location-lbwk_group1
- :kit-location-robot_group1
- :kit-location-worktable_group1
- :kittray-location-lbwekt_group1
- :kittray-location-robot_group1
- :kittray-location-worktable_group1
- :lbwekt-not-empty_group1
- :lbwk-not-full_group1
- :on-worktable-kit_group1
- :on-worktable-kittray_group1
- :origin-part_group1
- :part-location-kit_group1
- :part-location-partstray_group1
- :part-location-robot_group1
- :part-location-robot_group2
- :partstray-has-part_group1
- :partstray-not-empty_group1
- :robot-empty_group1
- :robot-holds-kit_group1
- :robot-holds-kittray_group1
- :robot-holds-part_group1
- :robot-holds-part_group2
- :robot-with-endeffector_group1
- :robot-with-no-endeffector_group1
- :worktable-empty_group1)
-
-//*****************************************
-// soap:Predicate individuals 
-DifferentIndividuals(
- :endeffector-location-endeffectorholder
- :endeffector-location-robot
- :endeffector-type-kit
- :endeffector-type-kittray
- :endeffector-type-part
- :endeffectorchangingstation-contains-endeffectorholder
- :endeffectorholder-empty
- :endeffectorholder-holds-endeffector
- :endeffectorholder-location
- :found-part
- :kit-location-lbwk
- :kit-location-robot
- :kit-location-worktable
- :kittray-location-lbwekt
- :kittray-location-robot
- :kittray-location-worktable
- :lbwekt-not-empty
- :lbwk-not-full
- :on-worktable-kit
- :on-worktable-kittray
- :origin-part
- :part-location-kit
- :part-location-partstray
- :part-location-robot
- :partstray-has-part
- :partstray-not-empty
- :robot-empty
- :robot-holds-kit
- :robot-holds-kittray
- :robot-holds-part
- :robot-with-endeffector
- :robot-with-no-endeffector
- :worktable-empty)
 
 //*****************************************
 // :StockKeepingUnit individuals 

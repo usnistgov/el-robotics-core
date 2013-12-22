@@ -1,3 +1,6 @@
+Before compiling and running the following tools for soap, the user should first compile 
+the executables in the common directory with 'make bin/<tool>'
+
 cd xmlSchemas
 #copy kittingWorkstation.xsd in this directory
 # see what is in the directory

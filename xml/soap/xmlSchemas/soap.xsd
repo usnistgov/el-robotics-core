@@ -62,6 +62,406 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="EffLocationEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffector-location-endeffectorholder
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_EffLocationEffHolder"
+            type="G_EffLocationEffHolderType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotEmptyType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate robot-empty
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_RobotEmpty"
+            type="G_RobotEmptyType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffLocationRobotType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffector-location-robot
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_EffLocationRobot"
+            type="G_EffLocationRobotType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotWithEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate robot-with-endeffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_RobotWithEff"
+            type="G_RobotWithEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotWithNoEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate robot-with-no-endeffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_RobotWithNoEff"
+            type="G_RobotWithNoEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffHolderLocationChStationType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffectorholder-location-changing-station
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_EffHolderLocationChStation"
+            type="G_EffHolderLocationChStationType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffHolderHoldsEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffectorholder-holds-endeffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_EffHolderHoldsEff"
+            type="G_EffHolderHoldsEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ChStationHasEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffectorchangingstation-has-endeffectorholder
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_ChStationHasEffHolder"
+            type="G_ChStationHasEffHolderType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffHolderEmptyType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffectorholder-empty
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_EffHolderEmpty"
+            type="G_EffHolderEmptyType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OnWorktableKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate on-worktable-kittray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_OnWorktableKitTray"
+            type="G_OnWorktableKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OnWorktableKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate on-worktable-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_OnWorktableKit"
+            type="G_OnWorktableKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitLocationWorktableType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kit-location-worktable
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateType">
+        <xs:sequence>
+          <xs:element name="G_KitLocationWorktable"
+            type="G_KitLocationWorktableType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_EffLocationEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endeffector-location-endeffectorholder
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_RobotEmptyType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate robot-empty
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>InContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_EffLocationRobotType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endeffector-location-robot
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_RobotWithEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate robot-with-endeffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_RobotWithNoEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate robot-with-no-endeffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_EffHolderLocationChStationType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endeffectorholder-location-changing-station
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_EffHolderHoldsEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endeffectorholder-holds-endeffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_ChStationHasEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endeffectorchangingstation-has-endeffectorholder
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_EffHolderEmptyType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endeffectorholder-empty
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_OnWorktableKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate on-worktable-kittray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_OnWorktableKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate on-worktable-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G_KitLocationWorktableType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the kit-location-worktable
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="DomainType">
     <xs:annotation>
       <xs:documentation>
@@ -107,71 +507,111 @@ To represent a PDDL domain file, a DomainType consists of the following elements
           <xs:element name="Variable"
             type="xs:NMTOKEN"
             maxOccurs="unbounded"/>
-          <xs:element name="Predicate"
-            type="PredicateType"
-            maxOccurs="unbounded"/>
-          <xs:element name="Function"
-            type="FunctionType"
-            maxOccurs="unbounded"/>
-          <xs:element name="Action"
-            type="ActionBaseType"
-            minOccurs="1"
-            maxOccurs="unbounded"/>
+          <xs:element name="P_EffLocationEffHolder"
+            type="EffLocationEffHolderType"
+            minOccurs="1"/>
+          <xs:element name="P_RobotEmpty"
+            type="RobotEmptyType"
+            minOccurs="1"/>
+          <xs:element name="P_EffLocationRobot"
+            type="EffLocationRobotType"
+            minOccurs="1"/>
+          <xs:element name="P_RobotWithEff"
+            type="RobotWithEffType"
+            minOccurs="1"/>
+          <xs:element name="P_RobotWithNoEff"
+            type="RobotWithNoEffType"
+            minOccurs="1"/>
+          <xs:element name="P_EffHolderLocationChStation"
+            type="EffHolderLocationChStationType"
+            minOccurs="1"/>
+          <xs:element name="P_EffHolderHoldsEff"
+            type="EffHolderHoldsEffType"
+            minOccurs="1"/>
+          <xs:element name="P_ChStationHasEffHolder"
+            type="ChStationHasEffHolderType"
+            minOccurs="1"/>
+          <xs:element name="P_EffHolderEmpty"
+            type="EffHolderEmptyType"
+            minOccurs="1"/>
+          <xs:element name="P_OnWorktableKitTray"
+            type="OnWorktableKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="P_OnWorktableKit"
+            type="OnWorktableKitType"
+            minOccurs="1"/>
+          <xs:element name="P_KitLocationWorktable"
+            type="KitLocationWorktableType"
+            minOccurs="1"/>
+          <xs:element name="A_AttachEndEffector"
+            type="AttachEndEffectorType"
+            minOccurs="1"/>
+          <xs:element name="A_CreateKit"
+            type="CreateKitType"
+            minOccurs="1"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="AttachEndEffectorType">
+  <xs:complexType name="PreconditionCreateKitType">
     <xs:annotation>
       <xs:documentation>
-        AttachEndEffectorType is derived from RobotActionBaseType.
-An instance of AttachEndEffectorType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - EndEffectorName
-  - EndEffectorHolderName
-  - Precondition
-  - Effect
-  
-Immediately before an instance of AttachEndEffectorType is executed:
-  (1) The named robot must not have an end effector in its tool changer.
-  (2) The end effector must be located relative to the named end effector holder.
- 
-
-As an instance of AttachEndEffectorType is executed:
-If the tool changer is closed, the robot opens the tool changer.
-The robot moves to a position relative to the tool holder at
-which it can attach to the end effector. The robot closes the
-tool changer so as to attach the end effector. The location of
-the end effector changes from being relative to the end effector
-holder to being relative to the robot. The robot withdraws the end
-end effector from the tool holder a slight amount that is far
-enough so that any end effector sensor on the end effector holder no
-longer indicates that there is an end effector in the holder.
+	Precondition for the action CreateKitType
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
+      <xs:extension base="PreconditionType">
         <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="EndEffectorParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="EndEffectorHolderParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="EndEffectorChangingStationParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
+          <xs:element name="OnWorktableKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>OnWorktableKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectCreateKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action CreateKitType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="OnWorktableKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>OnWorktableKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitLocationWorktableName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitLocationWorktableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotWithEndEffectorName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotWithEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotOnWorktableKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>OnWorktableKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -215,44 +655,157 @@ An instance of CreateKitType has the following elements:
           <xs:element name="WorkTableParameter"
             type="xs:NMTOKEN"/>
           <xs:element name="Precondition"
-            type="PreconditionType"
+            type="PreconditionCreateKitType"
             minOccurs="1"/>
           <xs:element name="Effect"
-            type="EffectType"
+            type="EffectCreateKitType"
             minOccurs="1"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="DetachEndEffectorType">
+  <xs:complexType name="PreconditionAttachEndEffectorType">
     <xs:annotation>
       <xs:documentation>
-        DetachEndEffectorType is derived from RobotActionBaseType.
-        
-An instance of DetachEndEffectorType has the following elements:
+	Precondition for the action AttachEndEffectorType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="EndEffectorLocationEndeffectorHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffLocationEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotWithNoEndEffectorName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotWithNoEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorHolderHoldsEndEffectorName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffHolderHoldsEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorHolderLocationChangingStationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffHolderLocationChStationType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ChangingStationHasEffectorHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ChStationHasEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectAttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action AttachEndEffectorType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="RobotEmptyName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotEmptyType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorLocationRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffLocationRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotWithEndEffectorName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotWithEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EndEffectorHolderEmptyName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffHolderEmptyType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEndEffectorLocationEndeffectorHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffLocationEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEndEffectorHolderHoldsEndEffectorName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EffHolderHoldsEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotRobotWithNoEndEffectorName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotWithNoEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        AttachEndEffectorType is derived from RobotActionBaseType.
+An instance of AttachEndEffectorType has the following elements:
   - Name (inherited)
   - Description (optional)
-  - RobotName
-  - EndEffectorName
-  - EndEffectorHolderName
-  - EndEffectorChangingStationName
-  - Precondition
-  - Effect
+  - RobotParameter: Robot
+  - EndEffectorParameter: EndEffector
+  - EndEffectorHolderParameter: EndEffectorHolder
+  - EndEffectorChangingStationParameter: EndEffectorChangingStation
+  - Precondition of type PreconditionAttachEndEffectorType
+  - Effect of type EffectAttachEndEffectorType
   
-Immediately before an instance of DetachEndEffectorType is executed:
-  (1) The named robot must have the named end effector in its tool
-  changer.
-  (2) The end effector must be located relative to the robot.
-  (3) The end effector holder must be empty.
+Immediately before an instance of AttachEndEffectorType is executed:
+  (1) The named robot must not have an end effector in its tool changer.
+  (2) The end effector must be located relative to the named end effector holder.
  
-As an instance of DetachEndEffectorType is executed:
-The robot moves to a position relative to the tool holder at which
-it can detach from the end effector. The robot opens the tool
-changer so as to detach the end effector. The location of the end
-effector changes from being relative to the robot to being relative
-to the end effector holder. The robot moves a small distance away
-from the end effector holder.
+
+As an instance of AttachEndEffectorType is executed:
+If the tool changer is closed, the robot opens the tool changer.
+The robot moves to a position relative to the tool holder at
+which it can attach to the end effector. The robot closes the
+tool changer so as to attach the end effector. The location of
+the end effector changes from being relative to the end effector
+holder to being relative to the robot. The robot withdraws the end
+end effector from the tool holder a slight amount that is far
+enough so that any end effector sensor on the end effector holder no
+longer indicates that there is an end effector in the holder.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -270,312 +823,10 @@ from the end effector holder.
           <xs:element name="EndEffectorChangingStationParameter"
             type="xs:NMTOKEN"/>
           <xs:element name="Precondition"
-            type="PreconditionType"
+            type="PreconditionAttachEndEffectorType"
             minOccurs="1"/>
           <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="TakeKitType">
-    <xs:annotation>
-      <xs:documentation>
-        TakeKitType is derived from RobotActionBaseType.
-An instance of TakeKitType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - KitName
-  - EndEffectorName
-  - Precondition
-  - Effect
- 
-Immediately before an instance of TakeKitType is executed:
-  (1) The named robot must have a gripper in its tool changer.
-  (2) The gripper must be appropriate for picking up the named kit.
-  (3) The gripper must be empty.
-  (4) The gripper must be open.
- 
-As an instance of TakeKitType is executed:
-The robot moves to a position from which it may pick up the kit
-and closes the gripper on the kit. The kit is not moved but
-the location of the kit changes so that the kit is located
-relative to the gripper.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
-        <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="KitParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="EndEffectorParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="TakeKitTrayType">
-    <xs:annotation>
-      <xs:documentation>
-	TakeKitTrayType is derived from RobotActionBaseType.
-
-An instance of TakeKitTrayType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - KitTrayName
-  - LargeBoxWithEmptyKitTraysName
-  - EndEffectorName
-  - Precondition
-  - Effect
- 
-Immediately before an instance of TakeKitTrayType is executed:
-  (1) The named robot must have a gripper in its tool changer.
-  (2) The gripper must be appropriate for picking up the named kit tray.
-  (3) The gripper must be empty.
-  (4) The gripper must be open.
- 
-As an instance of TakeKitTrayType is executed:
-The robot moves to a position from which it may pick up the kit tray
-and closes the gripper on the kit tray. The kit tray is not moved but
-the location of the kit tray changes so that the kit tray is located
-relative to the gripper.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
-        <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="KitTrayParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="LargeBoxWithEmptyKitTraysParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="EndEffectorParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="TakePartType">
-    <xs:annotation>
-      <xs:documentation>
-        TakePartType is derived from RobotActionBaseType.
-
-An instance of TakePartType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - PartName
-  - PartsTrayName
-  - EndEffectorName
-  - Precondition
-  - Effect
- 
-Immediately before an instance of TakePartType is executed:
-  (1) The named robot must have a gripper in its tool changer.
-  (2) The gripper must be appropriate for picking up the named part.
-  (3) The gripper must be empty.
-  (4) The gripper must be open.
- 
-As an instance of TakePartType is executed:
-The robot moves to a position from which it may pick up the part
-and closes the gripper on the part. The part is not moved but
-the location of the part changes so that the part is located
-relative to the gripper.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
-        <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="PartParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="PartsTrayParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="EndEffectorParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="PutKitType">
-    <xs:annotation>
-      <xs:documentation>
-	PutKitType is derived from RobotActionBaseType.
-	
-An instance of PutKitType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - KitName
-  - LargeBoxWithKitsName
-  - Precondition
-  - Effect
- 
-When an instance of PutKitType is executed:
-  (1) The named robot must have a gripper in its tool changer.
-  (2) The gripper must be holding the named kit.
-  (3) The gripper must be closed.
-  (4) The location of the kit should be relative to the gripper.
-  The robot moves to the specified location at which it opens the
-  gripper so as to release the kit. The location of the kit
-  changes so that the kit is located as specified. The Location
-  may be a relative location or a pose location. The gripper is
-  open and not holding anything after the action is complete.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
-        <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="KitParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="LargeBoxWithKitsParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="PutKitTrayType">
-    <xs:annotation>
-      <xs:documentation>
-        PutKitTrayType is derived from RobotActionBaseType.
-
-An instance of PutKitTrayType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - KitTrayName
-  - Precondition
-  - Effect
- 
-When an instance of PutKitTrayType is executed:
-  (1) The named robot must have a gripper in its tool changer.
-  (2) The gripper must be holding the named kit tray.
-  (3) The gripper must be closed.
-  (4) The location of the kit tray should be relative to the gripper. 
-  The robot moves to the specified location at which it opens the
-  gripper so as to release the kit tray. The location of the kit tray
-  changes so that the kit tray is located as specified. The Location
-  may be a relative location or a pose location. The gripper is
-  open and not holding anything after the action is complete.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
-        <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="KitTrayParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
-            minOccurs="1"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="PutPartType">
-    <xs:annotation>
-      <xs:documentation>
-        PutPartType is derived from RobotActionBaseType.
-
-An instance of PutPartType has the following elements:
-  - Name (inherited)
-  - Description (optional)
-  - RobotName
-  - PartName
-  - KitName
-  - PartsTrayName
-  - Precondition
-  - Effect
- 
-When an instance of PutPartType is executed:
-  (1) The named robot must have a gripper in its tool changer.
-  (2) The gripper must be holding the named part.
-  (3) The gripper must be closed.
-  (4) The location of the part should be relative to the gripper.
-  The robot moves to the specified location at which it opens the 
-  gripper so as to release the part. The location of the part
-  changes so that the part is located as specified. The Location
-  may be a relative location or a pose location. The gripper is
-  open and not holding anything after the action is complete.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="RobotActionBaseType">
-        <xs:sequence>
-          <xs:element name="Description"
-            type="xs:string"
-            minOccurs="0"/>
-          <xs:element name="RobotParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="PartParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="KitParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="PartsTrayParameter"
-            type="xs:NMTOKEN"/>
-          <xs:element name="Precondition"
-            type="PreconditionType"
-            minOccurs="1"/>
-          <xs:element name="Effect"
-            type="EffectType"
+            type="EffectAttachEndEffectorType"
             minOccurs="1"/>
         </xs:sequence>
       </xs:extension>
@@ -600,14 +851,6 @@ An instance of PreconditionType belongs to one instance of RobotActionBaseType o
     <xs:complexContent>
       <xs:extension base="DataThingType">
         <xs:sequence>
-          <xs:element name="PredicateName"
-            type="xs:IDREF"
-            minOccurs="1"
-            maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>PredicateType</xs:appinfo>
-            </xs:annotation>
-          </xs:element>
           <xs:element name="FunctionName"
             type="xs:IDREF"
             minOccurs="0">
@@ -661,22 +904,6 @@ An instance of EffectType can consist of:
     <xs:complexContent>
       <xs:extension base="DataThingType">
         <xs:sequence>
-          <xs:element name="PredicateName"
-            type="xs:IDREF"
-            minOccurs="0"
-            maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>PredicateType</xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element name="NotPredicateName"
-            type="xs:IDREF"
-            minOccurs="0"
-            maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>PredicateType</xs:appinfo>
-            </xs:annotation>
-          </xs:element>
           <xs:element name="FunctionName"
             type="xs:IDREF"
             minOccurs="0">
@@ -723,7 +950,7 @@ An instance of EffectType can consist of:
 	the target parameter ?robot.
 	
 	An example of PredicateType is (robot-holds-kit ?robot - Robot ?kit - Kit), which consists of:
-	- Name: A unique name 'robot-holds-kit' (inherited)
+	- Name: A unique name (inherited). 'robot-holds-kit' in this example.
 	
       </xs:documentation>
     </xs:annotation>
@@ -733,10 +960,6 @@ An instance of EffectType can consist of:
           <xs:element name="Description"
             type="xs:string"
             minOccurs="0"/>
-          <xs:element name="PredicateGroupElement"
-            type="PredicateGroupElementType"
-            minOccurs="1"
-            maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -760,19 +983,9 @@ An instance of EffectType can consist of:
     <xs:complexContent>
       <xs:extension base="DataThingType">
         <xs:sequence>
-          <xs:element name="ReferenceName"
+          <xs:element name="ReferenceParameter"
             type="xs:NMTOKEN"
             minOccurs="1"/>
-          <xs:element name="TargetName"
-            type="xs:NMTOKEN"
-            minOccurs="0"/>
-          <xs:element name="StateRelationName"
-            type="xs:IDREF"
-            minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>StateRelationType</xs:appinfo>
-            </xs:annotation>
-          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1335,8 +1548,7 @@ An instance of EffectType can consist of:
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="RobotActionBaseType"
-    abstract="true">
+  <xs:complexType name="RobotActionBaseType">
     <xs:annotation>
       <xs:documentation>
         RobotActionBaseType is derived from ActionBaseType.

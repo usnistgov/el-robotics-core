@@ -15,19 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\kittingLex.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\kittingYACC.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\canonicalMsgView.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\commandParser.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\kittingClassesView.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\kittingViewer.cc">
@@ -54,6 +45,15 @@
     <ClCompile Include="..\..\xmlSchemaInstance.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\kittingWorkstationClassesView.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\kittingWorkstationLex.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\kittingWorkstationYACC.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Pose.h">
@@ -67,9 +67,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\kittingClassesView.hh">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="..\..\canonicalMsg.hh">
       <Filter>Header Files</Filter>
     </None>
@@ -82,9 +79,6 @@
     <None Include="..\..\xmlSchemaInstance.hh">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="..\..\kittingYACC.hh">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="..\..\mouse.hh">
       <Filter>Header Files</Filter>
     </None>
@@ -95,6 +89,12 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\..\view.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\kittingWorkstationClassesView.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\kittingWorkstationYACC.hh">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

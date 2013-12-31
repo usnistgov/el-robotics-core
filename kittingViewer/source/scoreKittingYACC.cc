@@ -1496,7 +1496,7 @@ yyreduce:
 
   case 4:
 
-    {(yyval.SchemaLocationVal) = new SchemaLocation("xsi", (yyvsp[(2) - (2)].sVal));
+    {(yyval.SchemaLocationVal) = new SchemaLocation("xsi", (yyvsp[(2) - (2)].sVal), true);
 	    if (strncmp("urn:Kitting ", (yyvsp[(2) - (2)].sVal), 12))
 	      {
 		fprintf(stderr,

@@ -14,8 +14,12 @@ This ignores white space outside of meaningful strings of characters.
 #define YY_NO_UNISTD_H
 #endif
 #include <string.h>          // for strdup
-#include "kittingClasses.hh" // for classes referenced in kittingYACC.hh
-#include "kittingYACC.hh"    // for tokens, yylval, etc.
+#ifdef VIEWER
+#include "kittingWorkstationClassesView.hh"
+#else
+#include "kittingWorkstationClasses.hh"
+#endif
+#include "kittingWorkstationYACC.hh"    // for tokens, yylval, etc.
 
 #ifndef NO_ECHO
 #define ECHO_IT 1
@@ -68,7 +72,7 @@ W [ \t\n\r]*
 "encoding"{W}"="              {ECH; return ENCODING;}
 "?>"                          {ECH; return ENDVERSION;}
 "<?"                          {ECH; return STARTVERSION;}
-"xsi:schemaLocation"{W}"="    {ECH; return SCHEMALOCATION;}
+"xsi:noNamespaceSchemaLocation"{W}"=" {ECH; return SCHEMALOCATION;}
 "xml"[ \t]+"version"{W}"="    {ECH; return XMLVERSION;}
 
 "</"{W}"AngleUnit"{W}">"      {ECH; return ANGLEUNITEND;}
@@ -89,8 +93,10 @@ W [ \t\n\r]*
 "<"{W}"Description"           {ECH; return DESCRIPTIONSTART;}
 "</"{W}"DesignName"{W}">"     {ECH; return DESIGNNAMEEND;}
 "<"{W}"DesignName"            {ECH; return DESIGNNAMESTART;}
-"</"{W}"EndEffectorHolders"{W}">" {ECH; return ENDEFFECTORHOLDERSEND;}
-"<"{W}"EndEffectorHolders"    {ECH; return ENDEFFECTORHOLDERSSTART;}
+"</"{W}"Diameter"{W}">"       {ECH; return DIAMETEREND;}
+"<"{W}"Diameter"              {ECH; return DIAMETERSTART;}
+"</"{W}"EndEffectorHolder"{W}">" {ECH; return ENDEFFECTORHOLDEREND;}
+"<"{W}"EndEffectorHolder"     {ECH; return ENDEFFECTORHOLDERSTART;}
 "</"{W}"EndEffectorName"{W}">" {ECH; return ENDEFFECTORNAMEEND;}
 "<"{W}"EndEffectorName"       {ECH; return ENDEFFECTORNAMESTART;}
 "</"{W}"EndEffector"{W}">"    {ECH; return ENDEFFECTOREND;}
@@ -121,8 +127,8 @@ W [ \t\n\r]*
 "<"{W}"KitDesign"             {ECH; return KITDESIGNSTART;}
 "</"{W}"KitTraySkuName"{W}">" {ECH; return KITTRAYSKUNAMEEND;}
 "<"{W}"KitTraySkuName"        {ECH; return KITTRAYSKUNAMESTART;}
-"</"{W}"KitTrays"{W}">"       {ECH; return KITTRAYSEND;}
-"<"{W}"KitTrays"              {ECH; return KITTRAYSSTART;}
+"</"{W}"KitTray"{W}">"        {ECH; return KITTRAYEND;}
+"<"{W}"KitTray"               {ECH; return KITTRAYSTART;}
 "</"{W}"Kit"{W}">"            {ECH; return KITEND;}
 "<"{W}"Kit"                   {ECH; return KITSTART;}
 "</"{W}"KittingWorkstation"{W}">" {ECH; return KITTINGWORKSTATIONEND;}
@@ -141,56 +147,60 @@ W [ \t\n\r]*
 "<"{W}"MinimumPoint"          {ECH; return MINIMUMPOINTSTART;}
 "</"{W}"ModelFileName"{W}">"  {ECH; return MODELFILENAMEEND;}
 "<"{W}"ModelFileName"         {ECH; return MODELFILENAMESTART;}
+"</"{W}"ModelFormatName"{W}">" {ECH; return MODELFORMATNAMEEND;}
+"<"{W}"ModelFormatName"       {ECH; return MODELFORMATNAMESTART;}
 "</"{W}"ModelName"{W}">"      {ECH; return MODELNAMEEND;}
 "<"{W}"ModelName"             {ECH; return MODELNAMESTART;}
-"</"{W}"ModelTypeName"{W}">"  {ECH; return MODELTYPENAMEEND;}
-"<"{W}"ModelTypeName"         {ECH; return MODELTYPENAMESTART;}
 "</"{W}"Name"{W}">"           {ECH; return NAMEEND;}
 "<"{W}"Name"                  {ECH; return NAMESTART;}
+"</"{W}"ObjectOnTable"{W}">"  {ECH; return OBJECTONTABLEEND;}
+"<"{W}"ObjectOnTable"         {ECH; return OBJECTONTABLESTART;}
 "</"{W}"Object"{W}">"         {ECH; return OBJECTEND;}
 "<"{W}"Object"                {ECH; return OBJECTSTART;}
+"</"{W}"OrientationStandardDeviation"{W}">" {ECH; return ORIENTATIONSTANDARDDEVIATIONEND;}
+"<"{W}"OrientationStandardDeviation" {ECH; return ORIENTATIONSTANDARDDEVIATIONSTART;}
 "</"{W}"OtherObstacle"{W}">"  {ECH; return OTHEROBSTACLEEND;}
 "<"{W}"OtherObstacle"         {ECH; return OTHEROBSTACLESTART;}
+"</"{W}"PartName"{W}">"       {ECH; return PARTNAMEEND;}
+"<"{W}"PartName"              {ECH; return PARTNAMESTART;}
 "</"{W}"PartQuantity"{W}">"   {ECH; return PARTQUANTITYEND;}
 "<"{W}"PartQuantity"          {ECH; return PARTQUANTITYSTART;}
+"</"{W}"PartRefAndPoseName"{W}">" {ECH; return PARTREFANDPOSENAMEEND;}
+"<"{W}"PartRefAndPoseName"    {ECH; return PARTREFANDPOSENAMESTART;}
 "</"{W}"PartRefAndPose"{W}">" {ECH; return PARTREFANDPOSEEND;}
 "<"{W}"PartRefAndPose"        {ECH; return PARTREFANDPOSESTART;}
 "</"{W}"PartSkuName"{W}">"    {ECH; return PARTSKUNAMEEND;}
 "<"{W}"PartSkuName"           {ECH; return PARTSKUNAMESTART;}
 "</"{W}"Part"{W}">"           {ECH; return PARTEND;}
 "<"{W}"Part"                  {ECH; return PARTSTART;}
-"</"{W}"PartsTray"{W}">"      {ECH; return PARTSTRAYEND;}
-"<"{W}"PartsTray"             {ECH; return PARTSTRAYSTART;}
 "</"{W}"Point"{W}">"          {ECH; return POINTEND;}
 "<"{W}"Point"                 {ECH; return POINTSTART;}
+"</"{W}"PositionStandardDeviation"{W}">" {ECH; return POSITIONSTANDARDDEVIATIONEND;}
+"<"{W}"PositionStandardDeviation" {ECH; return POSITIONSTANDARDDEVIATIONSTART;}
 "</"{W}"PrimaryLocation"{W}">" {ECH; return PRIMARYLOCATIONEND;}
 "<"{W}"PrimaryLocation"       {ECH; return PRIMARYLOCATIONSTART;}
-"</"{W}"RefObject"{W}">"      {ECH; return REFOBJECTEND;}
-"<"{W}"RefObject"             {ECH; return REFOBJECTSTART;}
+"</"{W}"RefObjectName"{W}">"  {ECH; return REFOBJECTNAMEEND;}
+"<"{W}"RefObjectName"         {ECH; return REFOBJECTNAMESTART;}
 "</"{W}"Robot"{W}">"          {ECH; return ROBOTEND;}
 "<"{W}"Robot"                 {ECH; return ROBOTSTART;}
 "</"{W}"SecondaryLocation"{W}">" {ECH; return SECONDARYLOCATIONEND;}
 "<"{W}"SecondaryLocation"     {ECH; return SECONDARYLOCATIONSTART;}
 "</"{W}"SerialNumber"{W}">"   {ECH; return SERIALNUMBEREND;}
 "<"{W}"SerialNumber"          {ECH; return SERIALNUMBERSTART;}
-"</"{W}"Shape"{W}">"          {ECH; return SHAPEEND;}
-"<"{W}"Shape"                 {ECH; return SHAPESTART;}
 "</"{W}"SkuName"{W}">"        {ECH; return SKUNAMEEND;}
 "<"{W}"SkuName"               {ECH; return SKUNAMESTART;}
 "</"{W}"Sku"{W}">"            {ECH; return SKUEND;}
 "<"{W}"Sku"                   {ECH; return SKUSTART;}
-"</"{W}"SolidObject"{W}">"    {ECH; return SOLIDOBJECTEND;}
-"<"{W}"SolidObject"           {ECH; return SOLIDOBJECTSTART;}
-"</"{W}"Tray"{W}">"           {ECH; return TRAYEND;}
-"<"{W}"Tray"                  {ECH; return TRAYSTART;}
+"</"{W}"Slot"{W}">"           {ECH; return SLOTEND;}
+"<"{W}"Slot"                  {ECH; return SLOTSTART;}
+"</"{W}"Timestamp"{W}">"      {ECH; return TIMESTAMPEND;}
+"<"{W}"Timestamp"             {ECH; return TIMESTAMPSTART;}
 "</"{W}"WeightUnit"{W}">"     {ECH; return WEIGHTUNITEND;}
 "<"{W}"WeightUnit"            {ECH; return WEIGHTUNITSTART;}
 "</"{W}"Weight"{W}">"         {ECH; return WEIGHTEND;}
 "<"{W}"Weight"                {ECH; return WEIGHTSTART;}
 "</"{W}"Width"{W}">"          {ECH; return WIDTHEND;}
 "<"{W}"Width"                 {ECH; return WIDTHSTART;}
-"</"{W}"WorkTable"{W}">"      {ECH; return WORKTABLEEND;}
-"<"{W}"WorkTable"             {ECH; return WORKTABLESTART;}
 "</"{W}"WorkVolume"{W}">"     {ECH; return WORKVOLUMEEND;}
 "<"{W}"WorkVolume"            {ECH; return WORKVOLUMESTART;}
 "</"{W}"XAxis"{W}">"          {ECH; return XAXISEND;}
@@ -205,12 +215,12 @@ W [ \t\n\r]*
 "<"{W}"Z"                     {ECH; return ZSTART;}
 
 {W}"xsi:type"{W}"="{W}"\"BoxyShapeType\""  { ECH; return BOXYSHAPETYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"CylindricalShapeType\""  { ECH; return CYLINDRICALSHAPETYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorChangingStationType\""  { ECH; return ENDEFFECTORCHANGINGSTATIONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorHolderType\""  { ECH; return ENDEFFECTORHOLDERTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"EndEffectorType\""  { ECH; return ENDEFFECTORTYPEDECL; }
-{W}"xsi:type"{W}"="{W}"\"ExternalShapeType\""  { ECH; return EXTERNALSHAPETYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"GripperEffectorType\""  { ECH; return GRIPPEREFFECTORTYPEDECL; }
-{W}"xsi:type"{W}"="{W}"\"InternalShapeType\""  { ECH; return INTERNALSHAPETYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"HumanType\""  { ECH; return HUMANTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"KitTrayType\""  { ECH; return KITTRAYTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"KitType\""  { ECH; return KITTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"KittingWorkstationType\""  { ECH; return KITTINGWORKSTATIONTYPEDECL; }
@@ -218,10 +228,11 @@ W [ \t\n\r]*
 {W}"xsi:type"{W}"="{W}"\"LargeBoxWithKitsType\""  { ECH; return LARGEBOXWITHKITSTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"LargeContainerType\""  { ECH; return LARGECONTAINERTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"MechanicalComponentType\""  { ECH; return MECHANICALCOMPONENTTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"NoSkuObjectType\""  { ECH; return NOSKUOBJECTTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PartType\""  { ECH; return PARTTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PartsBinType\""  { ECH; return PARTSBINTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PartsTrayType\""  { ECH; return PARTSTRAYTYPEDECL; }
-{W}"xsi:type"{W}"="{W}"\"PartsTrayWithPartsType\""  { ECH; return PARTSTRAYWITHPARTSTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"PartsVesselType\""  { ECH; return PARTSVESSELTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PoseLocationInType\""  { ECH; return POSELOCATIONINTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PoseLocationOnType\""  { ECH; return POSELOCATIONONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"PoseLocationType\""  { ECH; return POSELOCATIONTYPEDECL; }
@@ -230,12 +241,11 @@ W [ \t\n\r]*
 {W}"xsi:type"{W}"="{W}"\"RelativeLocationOnType\""  { ECH; return RELATIVELOCATIONONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"RelativeLocationType\""  { ECH; return RELATIVELOCATIONTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"RobotType\""  { ECH; return ROBOTTYPEDECL; }
+{W}"xsi:type"{W}"="{W}"\"SkuObjectType\""  { ECH; return SKUOBJECTTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"VacuumEffectorMultiCupType\""  { ECH; return VACUUMEFFECTORMULTICUPTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"VacuumEffectorSingleCupType\""  { ECH; return VACUUMEFFECTORSINGLECUPTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"VacuumEffectorType\""  { ECH; return VACUUMEFFECTORTYPEDECL; }
 {W}"xsi:type"{W}"="{W}"\"WorkTableType\""  { ECH; return WORKTABLETYPEDECL; }
-
-"xmlns"{W}"="{W}"\"urn:kitting\"" {ECH; return XMLNSTARGET;}
 
 "xmlns:xsi"{W}"="{W}"\"http://www.w3.org/2001/XMLSchema-instance\"" {ECH;
                                            return XMLNSPREFIX;}

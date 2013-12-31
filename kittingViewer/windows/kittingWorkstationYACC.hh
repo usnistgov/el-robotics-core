@@ -67,158 +67,169 @@
      DESCRIPTIONSTART = 284,
      DESIGNNAMEEND = 285,
      DESIGNNAMESTART = 286,
-     ENDEFFECTORHOLDERSEND = 287,
-     ENDEFFECTORHOLDERSSTART = 288,
-     ENDEFFECTORNAMEEND = 289,
-     ENDEFFECTORNAMESTART = 290,
-     ENDEFFECTOREND = 291,
-     ENDEFFECTORSTART = 292,
-     EXTERNALSHAPEEND = 293,
-     EXTERNALSHAPESTART = 294,
-     FINISHEDEND = 295,
-     FINISHEDSTART = 296,
-     GRASPPOSEEND = 297,
-     GRASPPOSESTART = 298,
-     HASTOPEND = 299,
-     HASTOPSTART = 300,
-     HEIGHTEND = 301,
-     HEIGHTSTART = 302,
-     HELDOBJECTEND = 303,
-     HELDOBJECTSTART = 304,
-     IEND = 305,
-     ISTART = 306,
-     INTERNALSHAPEEND = 307,
-     INTERNALSHAPESTART = 308,
-     JEND = 309,
-     JSTART = 310,
-     KEND = 311,
-     KSTART = 312,
-     KITDESIGNNAMEEND = 313,
-     KITDESIGNNAMESTART = 314,
-     KITDESIGNEND = 315,
-     KITDESIGNSTART = 316,
-     KITTRAYSKUNAMEEND = 317,
-     KITTRAYSKUNAMESTART = 318,
-     KITTRAYSEND = 319,
-     KITTRAYSSTART = 320,
-     KITEND = 321,
-     KITSTART = 322,
-     KITTINGWORKSTATIONEND = 323,
-     KITTINGWORKSTATIONSTART = 324,
-     LARGECONTAINEREND = 325,
-     LARGECONTAINERSTART = 326,
-     LENGTHUNITEND = 327,
-     LENGTHUNITSTART = 328,
-     LENGTHEND = 329,
-     LENGTHSTART = 330,
-     MAXIMUMLOADWEIGHTEND = 331,
-     MAXIMUMLOADWEIGHTSTART = 332,
-     MAXIMUMPOINTEND = 333,
-     MAXIMUMPOINTSTART = 334,
-     MINIMUMPOINTEND = 335,
-     MINIMUMPOINTSTART = 336,
-     MODELFILENAMEEND = 337,
-     MODELFILENAMESTART = 338,
-     MODELNAMEEND = 339,
-     MODELNAMESTART = 340,
-     MODELTYPENAMEEND = 341,
-     MODELTYPENAMESTART = 342,
-     NAMEEND = 343,
-     NAMESTART = 344,
-     OBJECTEND = 345,
-     OBJECTSTART = 346,
-     OTHEROBSTACLEEND = 347,
-     OTHEROBSTACLESTART = 348,
-     PARTQUANTITYEND = 349,
-     PARTQUANTITYSTART = 350,
-     PARTREFANDPOSEEND = 351,
-     PARTREFANDPOSESTART = 352,
-     PARTSKUNAMEEND = 353,
-     PARTSKUNAMESTART = 354,
-     PARTEND = 355,
-     PARTSTART = 356,
-     PARTSTRAYEND = 357,
-     PARTSTRAYSTART = 358,
-     POINTEND = 359,
-     POINTSTART = 360,
-     PRIMARYLOCATIONEND = 361,
-     PRIMARYLOCATIONSTART = 362,
-     REFOBJECTEND = 363,
-     REFOBJECTSTART = 364,
-     ROBOTEND = 365,
-     ROBOTSTART = 366,
-     SECONDARYLOCATIONEND = 367,
-     SECONDARYLOCATIONSTART = 368,
-     SERIALNUMBEREND = 369,
-     SERIALNUMBERSTART = 370,
-     SHAPEEND = 371,
-     SHAPESTART = 372,
-     SKUNAMEEND = 373,
-     SKUNAMESTART = 374,
-     SKUEND = 375,
-     SKUSTART = 376,
-     SOLIDOBJECTEND = 377,
-     SOLIDOBJECTSTART = 378,
-     TRAYEND = 379,
-     TRAYSTART = 380,
-     WEIGHTUNITEND = 381,
-     WEIGHTUNITSTART = 382,
-     WEIGHTEND = 383,
-     WEIGHTSTART = 384,
-     WIDTHEND = 385,
-     WIDTHSTART = 386,
-     WORKTABLEEND = 387,
-     WORKTABLESTART = 388,
-     WORKVOLUMEEND = 389,
-     WORKVOLUMESTART = 390,
-     XAXISEND = 391,
-     XAXISSTART = 392,
-     XEND = 393,
-     XSTART = 394,
-     YEND = 395,
-     YSTART = 396,
-     ZAXISEND = 397,
-     ZAXISSTART = 398,
-     ZEND = 399,
-     ZSTART = 400,
-     BOXVOLUMETYPEDECL = 401,
-     BOXYSHAPETYPEDECL = 402,
-     ENDEFFECTORCHANGINGSTATIONTYPEDECL = 403,
-     ENDEFFECTORHOLDERTYPEDECL = 404,
-     ENDEFFECTORTYPEDECL = 405,
-     EXTERNALSHAPETYPEDECL = 406,
-     GRIPPEREFFECTORTYPEDECL = 407,
-     INTERNALSHAPETYPEDECL = 408,
-     KITDESIGNTYPEDECL = 409,
-     KITTRAYTYPEDECL = 410,
-     KITTYPEDECL = 411,
-     KITTINGWORKSTATIONTYPEDECL = 412,
-     LARGEBOXWITHEMPTYKITTRAYSTYPEDECL = 413,
-     LARGEBOXWITHKITSTYPEDECL = 414,
-     LARGECONTAINERTYPEDECL = 415,
-     MECHANICALCOMPONENTTYPEDECL = 416,
-     PARTREFANDPOSETYPEDECL = 417,
-     PARTTYPEDECL = 418,
-     PARTSBINTYPEDECL = 419,
-     PARTSTRAYTYPEDECL = 420,
-     PARTSTRAYWITHPARTSTYPEDECL = 421,
-     PHYSICALLOCATIONTYPEDECL = 422,
-     POINTTYPEDECL = 423,
-     POSELOCATIONINTYPEDECL = 424,
-     POSELOCATIONONTYPEDECL = 425,
-     POSELOCATIONTYPEDECL = 426,
-     POSEONLYLOCATIONTYPEDECL = 427,
-     RELATIVELOCATIONINTYPEDECL = 428,
-     RELATIVELOCATIONONTYPEDECL = 429,
-     RELATIVELOCATIONTYPEDECL = 430,
-     ROBOTTYPEDECL = 431,
-     SHAPEDESIGNTYPEDECL = 432,
-     STOCKKEEPINGUNITTYPEDECL = 433,
-     VACUUMEFFECTORMULTICUPTYPEDECL = 434,
-     VACUUMEFFECTORSINGLECUPTYPEDECL = 435,
-     VACUUMEFFECTORTYPEDECL = 436,
-     VECTORTYPEDECL = 437,
-     WORKTABLETYPEDECL = 438
+     DIAMETEREND = 287,
+     DIAMETERSTART = 288,
+     ENDEFFECTORHOLDEREND = 289,
+     ENDEFFECTORHOLDERSTART = 290,
+     ENDEFFECTORNAMEEND = 291,
+     ENDEFFECTORNAMESTART = 292,
+     ENDEFFECTOREND = 293,
+     ENDEFFECTORSTART = 294,
+     EXTERNALSHAPEEND = 295,
+     EXTERNALSHAPESTART = 296,
+     FINISHEDEND = 297,
+     FINISHEDSTART = 298,
+     GRASPPOSEEND = 299,
+     GRASPPOSESTART = 300,
+     HASTOPEND = 301,
+     HASTOPSTART = 302,
+     HEIGHTEND = 303,
+     HEIGHTSTART = 304,
+     HELDOBJECTEND = 305,
+     HELDOBJECTSTART = 306,
+     IEND = 307,
+     ISTART = 308,
+     INTERNALSHAPEEND = 309,
+     INTERNALSHAPESTART = 310,
+     JEND = 311,
+     JSTART = 312,
+     KEND = 313,
+     KSTART = 314,
+     KITDESIGNNAMEEND = 315,
+     KITDESIGNNAMESTART = 316,
+     KITDESIGNEND = 317,
+     KITDESIGNSTART = 318,
+     KITTRAYSKUNAMEEND = 319,
+     KITTRAYSKUNAMESTART = 320,
+     KITTRAYEND = 321,
+     KITTRAYSTART = 322,
+     KITEND = 323,
+     KITSTART = 324,
+     KITTINGWORKSTATIONEND = 325,
+     KITTINGWORKSTATIONSTART = 326,
+     LARGECONTAINEREND = 327,
+     LARGECONTAINERSTART = 328,
+     LENGTHUNITEND = 329,
+     LENGTHUNITSTART = 330,
+     LENGTHEND = 331,
+     LENGTHSTART = 332,
+     MAXIMUMLOADWEIGHTEND = 333,
+     MAXIMUMLOADWEIGHTSTART = 334,
+     MAXIMUMPOINTEND = 335,
+     MAXIMUMPOINTSTART = 336,
+     MINIMUMPOINTEND = 337,
+     MINIMUMPOINTSTART = 338,
+     MODELFILENAMEEND = 339,
+     MODELFILENAMESTART = 340,
+     MODELFORMATNAMEEND = 341,
+     MODELFORMATNAMESTART = 342,
+     MODELNAMEEND = 343,
+     MODELNAMESTART = 344,
+     NAMEEND = 345,
+     NAMESTART = 346,
+     OBJECTONTABLEEND = 347,
+     OBJECTONTABLESTART = 348,
+     OBJECTEND = 349,
+     OBJECTSTART = 350,
+     ORIENTATIONSTANDARDDEVIATIONEND = 351,
+     ORIENTATIONSTANDARDDEVIATIONSTART = 352,
+     OTHEROBSTACLEEND = 353,
+     OTHEROBSTACLESTART = 354,
+     PARTNAMEEND = 355,
+     PARTNAMESTART = 356,
+     PARTQUANTITYEND = 357,
+     PARTQUANTITYSTART = 358,
+     PARTREFANDPOSENAMEEND = 359,
+     PARTREFANDPOSENAMESTART = 360,
+     PARTREFANDPOSEEND = 361,
+     PARTREFANDPOSESTART = 362,
+     PARTSKUNAMEEND = 363,
+     PARTSKUNAMESTART = 364,
+     PARTEND = 365,
+     PARTSTART = 366,
+     POINTEND = 367,
+     POINTSTART = 368,
+     POSITIONSTANDARDDEVIATIONEND = 369,
+     POSITIONSTANDARDDEVIATIONSTART = 370,
+     PRIMARYLOCATIONEND = 371,
+     PRIMARYLOCATIONSTART = 372,
+     REFOBJECTNAMEEND = 373,
+     REFOBJECTNAMESTART = 374,
+     ROBOTEND = 375,
+     ROBOTSTART = 376,
+     SECONDARYLOCATIONEND = 377,
+     SECONDARYLOCATIONSTART = 378,
+     SERIALNUMBEREND = 379,
+     SERIALNUMBERSTART = 380,
+     SKUNAMEEND = 381,
+     SKUNAMESTART = 382,
+     SKUEND = 383,
+     SKUSTART = 384,
+     SLOTEND = 385,
+     SLOTSTART = 386,
+     TIMESTAMPEND = 387,
+     TIMESTAMPSTART = 388,
+     WEIGHTUNITEND = 389,
+     WEIGHTUNITSTART = 390,
+     WEIGHTEND = 391,
+     WEIGHTSTART = 392,
+     WIDTHEND = 393,
+     WIDTHSTART = 394,
+     WORKVOLUMEEND = 395,
+     WORKVOLUMESTART = 396,
+     XAXISEND = 397,
+     XAXISSTART = 398,
+     XEND = 399,
+     XSTART = 400,
+     YEND = 401,
+     YSTART = 402,
+     ZAXISEND = 403,
+     ZAXISSTART = 404,
+     ZEND = 405,
+     ZSTART = 406,
+     BOXVOLUMETYPEDECL = 407,
+     BOXYSHAPETYPEDECL = 408,
+     CYLINDRICALSHAPETYPEDECL = 409,
+     ENDEFFECTORCHANGINGSTATIONTYPEDECL = 410,
+     ENDEFFECTORHOLDERTYPEDECL = 411,
+     ENDEFFECTORTYPEDECL = 412,
+     EXTERNALSHAPETYPEDECL = 413,
+     GRIPPEREFFECTORTYPEDECL = 414,
+     HUMANTYPEDECL = 415,
+     INTERNALSHAPETYPEDECL = 416,
+     KITDESIGNTYPEDECL = 417,
+     KITTRAYTYPEDECL = 418,
+     KITTYPEDECL = 419,
+     KITTINGWORKSTATIONTYPEDECL = 420,
+     LARGEBOXWITHEMPTYKITTRAYSTYPEDECL = 421,
+     LARGEBOXWITHKITSTYPEDECL = 422,
+     LARGECONTAINERTYPEDECL = 423,
+     MECHANICALCOMPONENTTYPEDECL = 424,
+     NOSKUOBJECTTYPEDECL = 425,
+     PARTREFANDPOSETYPEDECL = 426,
+     PARTTYPEDECL = 427,
+     PARTSBINTYPEDECL = 428,
+     PARTSTRAYTYPEDECL = 429,
+     PARTSVESSELTYPEDECL = 430,
+     PHYSICALLOCATIONTYPEDECL = 431,
+     POINTTYPEDECL = 432,
+     POSELOCATIONINTYPEDECL = 433,
+     POSELOCATIONONTYPEDECL = 434,
+     POSELOCATIONTYPEDECL = 435,
+     POSEONLYLOCATIONTYPEDECL = 436,
+     RELATIVELOCATIONINTYPEDECL = 437,
+     RELATIVELOCATIONONTYPEDECL = 438,
+     RELATIVELOCATIONTYPEDECL = 439,
+     ROBOTTYPEDECL = 440,
+     SHAPEDESIGNTYPEDECL = 441,
+     SKUOBJECTTYPEDECL = 442,
+     SLOTTYPEDECL = 443,
+     STOCKKEEPINGUNITTYPEDECL = 444,
+     VACUUMEFFECTORMULTICUPTYPEDECL = 445,
+     VACUUMEFFECTORSINGLECUPTYPEDECL = 446,
+     VACUUMEFFECTORTYPEDECL = 447,
+     VECTORTYPEDECL = 448,
+     WORKTABLETYPEDECL = 449
    };
 #endif
 
@@ -235,6 +246,7 @@ typedef union YYSTYPE
   int *                               iVal;
   char *                              sVal;
   XmlBoolean *                        XmlBooleanVal;
+  XmlDateTime *                       XmlDateTimeVal;
   XmlDecimal *                        XmlDecimalVal;
   XmlID *                             XmlIDVal;
   XmlIDREF *                          XmlIDREFVal;
@@ -246,37 +258,43 @@ typedef union YYSTYPE
   KittingWorkstationFile *            KittingWorkstationFileVal;
 
   AngleUnitType *                     AngleUnitTypeVal;
-  std::list<BoxVolumeType *> *        BoxVolumeTypeListVal;
   BoxVolumeType *                     BoxVolumeTypeVal;
   BoxyShapeType *                     BoxyShapeTypeVal;
+  CylindricalShapeType *              CylindricalShapeTypeVal;
   EndEffectorChangingStationType *    EndEffectorChangingStationTypeVal;
-  std::list<EndEffectorHolderType *> * EndEffectorHolderTypeListVal;
   EndEffectorHolderType *             EndEffectorHolderTypeVal;
   EndEffectorType *                   EndEffectorTypeVal;
   ExternalShapeType *                 ExternalShapeTypeVal;
   GripperEffectorType *               GripperEffectorTypeVal;
-  std::list<XmlIDREF *> *             IDREFListVal;
+  HumanType *                         HumanTypeVal;
   InternalShapeType *                 InternalShapeTypeVal;
-  std::list<KitDesignType *> *        KitDesignTypeListVal;
   KitDesignType *                     KitDesignTypeVal;
-  std::list<KitTrayType *> *          KitTrayTypeListVal;
   KitTrayType *                       KitTrayTypeVal;
-  std::list<KitType *> *              KitTypeListVal;
   KitType *                           KitTypeVal;
   KittingWorkstationType *            KittingWorkstationTypeVal;
   LargeBoxWithEmptyKitTraysType *     LargeBoxWithEmptyKitTraysTypeVal;
   LargeBoxWithKitsType *              LargeBoxWithKitsTypeVal;
   LargeContainerType *                LargeContainerTypeVal;
   LengthUnitType *                    LengthUnitTypeVal;
+  std::list<BoxVolumeType *> *        ListBoxVolumeTypeVal;
+  std::list<EndEffectorHolderType *> * ListEndEffectorHolderTypeVal;
+  std::list<KitDesignType *> *        ListKitDesignTypeVal;
+  std::list<KitTrayType *> *          ListKitTrayTypeVal;
+  std::list<KitType *> *              ListKitTypeVal;
+  std::list<PartRefAndPoseType *> *   ListPartRefAndPoseTypeVal;
+  std::list<PartType *> *             ListPartTypeVal;
+  std::list<PhysicalLocationType *> * ListPhysicalLocationTypeVal;
+  std::list<SlotType *> *             ListSlotTypeVal;
+  std::list<SolidObjectType *> *      ListSolidObjectTypeVal;
+  std::list<StockKeepingUnitType *> * ListStockKeepingUnitTypeVal;
+  std::list<XmlIDREF *> *             ListXmlIDREFVal;
   MechanicalComponentType *           MechanicalComponentTypeVal;
-  std::list<PartRefAndPoseType *> *   PartRefAndPoseTypeListVal;
+  NoSkuObjectType *                   NoSkuObjectTypeVal;
   PartRefAndPoseType *                PartRefAndPoseTypeVal;
-  std::list<PartType *> *             PartTypeListVal;
   PartType *                          PartTypeVal;
   PartsBinType *                      PartsBinTypeVal;
   PartsTrayType *                     PartsTrayTypeVal;
-  PartsTrayWithPartsType *            PartsTrayWithPartsTypeVal;
-  std::list<PhysicalLocationType *> * PhysicalLocationTypeListVal;
+  PartsVesselType *                   PartsVesselTypeVal;
   PhysicalLocationType *              PhysicalLocationTypeVal;
   PointType *                         PointTypeVal;
   PoseLocationInType *                PoseLocationInTypeVal;
@@ -288,10 +306,9 @@ typedef union YYSTYPE
   RelativeLocationOnType *            RelativeLocationOnTypeVal;
   RelativeLocationType *              RelativeLocationTypeVal;
   RobotType *                         RobotTypeVal;
-  ShapeDesignType *                   ShapeDesignTypeVal;
-  std::list<SolidObjectType *> *      SolidObjectTypeListVal;
+  SkuObjectType *                     SkuObjectTypeVal;
+  SlotType *                          SlotTypeVal;
   SolidObjectType *                   SolidObjectTypeVal;
-  std::list<StockKeepingUnitType *> * StockKeepingUnitTypeListVal;
   StockKeepingUnitType *              StockKeepingUnitTypeVal;
   VacuumEffectorMultiCupType *        VacuumEffectorMultiCupTypeVal;
   VacuumEffectorSingleCupType *       VacuumEffectorSingleCupTypeVal;

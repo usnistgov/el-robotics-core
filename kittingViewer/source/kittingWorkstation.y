@@ -3,11 +3,11 @@
 #include <stdio.h>             // for stderr
 #include <string.h>            // for strcat
 #include <stdlib.h>            // for malloc, free
-#ifdef VIEWER                    // added by hand
-#include "kittingClassesView.hh" // for kitting classes in viewer, added by hand
-#else                            // added by hand
-#include "kittingClasses.hh"     // for kitting classes in parser
-#endif                           // added by hand
+#ifdef VIEWER
+#include "kittingWorkstationClassesView.hh"
+#else
+#include "kittingWorkstationClasses.hh"
+#endif
 
 #define YYERROR_VERBOSE
 #define YYDEBUG 1
@@ -29,6 +29,7 @@ int yyerror(const char * s);
   int *                               iVal;
   char *                              sVal;
   XmlBoolean *                        XmlBooleanVal;
+  XmlDateTime *                       XmlDateTimeVal;
   XmlDecimal *                        XmlDecimalVal;
   XmlID *                             XmlIDVal;
   XmlIDREF *                          XmlIDREFVal;
@@ -40,37 +41,43 @@ int yyerror(const char * s);
   KittingWorkstationFile *            KittingWorkstationFileVal;
 
   AngleUnitType *                     AngleUnitTypeVal;
-  std::list<BoxVolumeType *> *        BoxVolumeTypeListVal;
   BoxVolumeType *                     BoxVolumeTypeVal;
   BoxyShapeType *                     BoxyShapeTypeVal;
+  CylindricalShapeType *              CylindricalShapeTypeVal;
   EndEffectorChangingStationType *    EndEffectorChangingStationTypeVal;
-  std::list<EndEffectorHolderType *> * EndEffectorHolderTypeListVal;
   EndEffectorHolderType *             EndEffectorHolderTypeVal;
   EndEffectorType *                   EndEffectorTypeVal;
   ExternalShapeType *                 ExternalShapeTypeVal;
   GripperEffectorType *               GripperEffectorTypeVal;
-  std::list<XmlIDREF *> *             IDREFListVal;
+  HumanType *                         HumanTypeVal;
   InternalShapeType *                 InternalShapeTypeVal;
-  std::list<KitDesignType *> *        KitDesignTypeListVal;
   KitDesignType *                     KitDesignTypeVal;
-  std::list<KitTrayType *> *          KitTrayTypeListVal;
   KitTrayType *                       KitTrayTypeVal;
-  std::list<KitType *> *              KitTypeListVal;
   KitType *                           KitTypeVal;
   KittingWorkstationType *            KittingWorkstationTypeVal;
   LargeBoxWithEmptyKitTraysType *     LargeBoxWithEmptyKitTraysTypeVal;
   LargeBoxWithKitsType *              LargeBoxWithKitsTypeVal;
   LargeContainerType *                LargeContainerTypeVal;
   LengthUnitType *                    LengthUnitTypeVal;
+  std::list<BoxVolumeType *> *        ListBoxVolumeTypeVal;
+  std::list<EndEffectorHolderType *> * ListEndEffectorHolderTypeVal;
+  std::list<KitDesignType *> *        ListKitDesignTypeVal;
+  std::list<KitTrayType *> *          ListKitTrayTypeVal;
+  std::list<KitType *> *              ListKitTypeVal;
+  std::list<PartRefAndPoseType *> *   ListPartRefAndPoseTypeVal;
+  std::list<PartType *> *             ListPartTypeVal;
+  std::list<PhysicalLocationType *> * ListPhysicalLocationTypeVal;
+  std::list<SlotType *> *             ListSlotTypeVal;
+  std::list<SolidObjectType *> *      ListSolidObjectTypeVal;
+  std::list<StockKeepingUnitType *> * ListStockKeepingUnitTypeVal;
+  std::list<XmlIDREF *> *             ListXmlIDREFVal;
   MechanicalComponentType *           MechanicalComponentTypeVal;
-  std::list<PartRefAndPoseType *> *   PartRefAndPoseTypeListVal;
+  NoSkuObjectType *                   NoSkuObjectTypeVal;
   PartRefAndPoseType *                PartRefAndPoseTypeVal;
-  std::list<PartType *> *             PartTypeListVal;
   PartType *                          PartTypeVal;
   PartsBinType *                      PartsBinTypeVal;
   PartsTrayType *                     PartsTrayTypeVal;
-  PartsTrayWithPartsType *            PartsTrayWithPartsTypeVal;
-  std::list<PhysicalLocationType *> * PhysicalLocationTypeListVal;
+  PartsVesselType *                   PartsVesselTypeVal;
   PhysicalLocationType *              PhysicalLocationTypeVal;
   PointType *                         PointTypeVal;
   PoseLocationInType *                PoseLocationInTypeVal;
@@ -82,10 +89,9 @@ int yyerror(const char * s);
   RelativeLocationOnType *            RelativeLocationOnTypeVal;
   RelativeLocationType *              RelativeLocationTypeVal;
   RobotType *                         RobotTypeVal;
-  ShapeDesignType *                   ShapeDesignTypeVal;
-  std::list<SolidObjectType *> *      SolidObjectTypeListVal;
+  SkuObjectType *                     SkuObjectTypeVal;
+  SlotType *                          SlotTypeVal;
   SolidObjectType *                   SolidObjectTypeVal;
-  std::list<StockKeepingUnitType *> * StockKeepingUnitTypeListVal;
   StockKeepingUnitType *              StockKeepingUnitTypeVal;
   VacuumEffectorMultiCupType *        VacuumEffectorMultiCupTypeVal;
   VacuumEffectorSingleCupType *       VacuumEffectorSingleCupTypeVal;
@@ -100,6 +106,7 @@ int yyerror(const char * s);
 %type <XmlVersionVal>                 y_XmlVersion
 %type <KittingWorkstationFileVal>     y_KittingWorkstationFile
 %type <XmlBooleanVal>                 y_XmlBoolean
+%type <XmlDateTimeVal>                y_XmlDateTime
 %type <XmlDecimalVal>                 y_XmlDecimal
 %type <XmlIDVal>                      y_XmlID
 %type <XmlIDREFVal>                   y_XmlIDREF
@@ -118,12 +125,11 @@ int yyerror(const char * s);
 %type <PositiveDecimalTypeVal>        y_CupDiameter_PositiveDecimalType
 %type <XmlStringVal>                  y_Description_XmlString
 %type <XmlIDREFVal>                   y_DesignName_XmlIDREF
+%type <PositiveDecimalTypeVal>        y_Diameter_PositiveDecimalType
 %type <EndEffectorChangingStationTypeVal> y_EndEffectorChangingStationType
 %type <EndEffectorHolderTypeVal>      y_EndEffectorHolderType
-%type <EndEffectorHolderTypeVal>      y_EndEffectorHolders_EndEffectorHolderType_u
-%type <EndEffectorHolderTypeListVal>  y_EndEffectorHolders_EndEffectorHolderType_uList
+%type <EndEffectorHolderTypeVal>      y_EndEffectorHolder_EndEffectorHolderType_u
 %type <XmlIDREFVal>                   y_EndEffectorName_XmlIDREF_0_u
-%type <IDREFListVal>                  y_EndEffectorName_XmlIDREF_0_uList
 %type <EndEffectorTypeVal>            y_EndEffectorTypeAny
 %type <EndEffectorTypeVal>            y_EndEffector_EndEffectorType_0
 %type <ExternalShapeTypeVal>          y_ExternalShapeType
@@ -141,80 +147,85 @@ int yyerror(const char * s);
 %type <XmlIDREFVal>                   y_KitDesignName_XmlIDREF
 %type <KitDesignTypeVal>              y_KitDesignType
 %type <KitDesignTypeVal>              y_KitDesign_KitDesignType_u
-%type <KitDesignTypeListVal>          y_KitDesign_KitDesignType_uList
 %type <XmlIDREFVal>                   y_KitTraySkuName_XmlIDREF
 %type <KitTrayTypeVal>                y_KitTrayType
-%type <KitTrayTypeVal>                y_KitTrays_KitTrayType_0_u
-%type <KitTrayTypeListVal>            y_KitTrays_KitTrayType_0_uList
+%type <KitTrayTypeVal>                y_KitTray_KitTrayType
+%type <KitTrayTypeVal>                y_KitTray_KitTrayType_0_u
 %type <KitTypeVal>                    y_KitType
 %type <KitTypeVal>                    y_Kit_KitType_0_u
-%type <KitTypeListVal>                y_Kit_KitType_0_uList
 %type <KittingWorkstationTypeVal>     y_KittingWorkstationType
 %type <LargeContainerTypeVal>         y_LargeContainerType
 %type <LargeContainerTypeVal>         y_LargeContainer_LargeContainerType
 %type <LengthUnitTypeVal>             y_LengthUnit_LengthUnitType
 %type <PositiveDecimalTypeVal>        y_Length_PositiveDecimalType
+%type <ListEndEffectorHolderTypeVal>  y_ListEndEffectorHolder_EndEffectorHolderType_u
+%type <ListXmlIDREFVal>               y_ListEndEffectorName_XmlIDREF_0_u
+%type <ListKitDesignTypeVal>          y_ListKitDesign_KitDesignType_u
+%type <ListKitTrayTypeVal>            y_ListKitTray_KitTrayType_0_u
+%type <ListKitTypeVal>                y_ListKit_KitType_0_u
+%type <ListSolidObjectTypeVal>        y_ListObjectOnTable_SolidObjectType_0_u
+%type <ListSolidObjectTypeVal>        y_ListObject_SolidObjectType_u
+%type <ListBoxVolumeTypeVal>          y_ListOtherObstacle_BoxVolumeType_0_u
+%type <ListPartRefAndPoseTypeVal>     y_ListPartRefAndPose_PartRefAndPoseType_u
+%type <ListPartTypeVal>               y_ListPart_PartType_0_u
+%type <ListPhysicalLocationTypeVal>   y_ListSecondaryLocation_PhysicalLocationType_0_u
+%type <ListStockKeepingUnitTypeVal>   y_ListSku_StockKeepingUnitType_u
+%type <ListSlotTypeVal>               y_ListSlot_SlotType_0_u
+%type <ListBoxVolumeTypeVal>          y_ListWorkVolume_BoxVolumeType_u
 %type <PositiveDecimalTypeVal>        y_MaximumLoadWeight_PositiveDecimalType
 %type <PointTypeVal>                  y_MaximumPoint_PointType
 %type <MechanicalComponentTypeVal>    y_MechanicalComponentType
 %type <PointTypeVal>                  y_MinimumPoint_PointType
 %type <XmlStringVal>                  y_ModelFileName_XmlString
+%type <XmlStringVal>                  y_ModelFormatName_XmlString
 %type <XmlStringVal>                  y_ModelName_XmlString_0
-%type <XmlStringVal>                  y_ModelTypeName_XmlString
 %type <XmlIDVal>                      y_Name_XmlID
+%type <SolidObjectTypeVal>            y_ObjectOnTable_SolidObjectType_0_u
 %type <SolidObjectTypeVal>            y_Object_SolidObjectType_u
-%type <SolidObjectTypeListVal>        y_Object_SolidObjectType_uList
+%type <PositiveDecimalTypeVal>        y_OrientationStandardDeviation_PositiveDecimalType_0
 %type <BoxVolumeTypeVal>              y_OtherObstacle_BoxVolumeType_0_u
-%type <BoxVolumeTypeListVal>          y_OtherObstacle_BoxVolumeType_0_uList
+%type <XmlIDREFVal>                   y_PartName_XmlIDREF_0
 %type <XmlNonNegativeIntegerVal>      y_PartQuantity_XmlNonNegativeInteger
+%type <XmlIDREFVal>                   y_PartRefAndPoseName_XmlIDREF
 %type <PartRefAndPoseTypeVal>         y_PartRefAndPoseType
 %type <PartRefAndPoseTypeVal>         y_PartRefAndPose_PartRefAndPoseType_u
-%type <PartRefAndPoseTypeListVal>     y_PartRefAndPose_PartRefAndPoseType_uList
 %type <XmlIDREFVal>                   y_PartSkuName_XmlIDREF
 %type <PartTypeVal>                   y_PartType
 %type <PartTypeVal>                   y_Part_PartType_0_u
-%type <PartTypeListVal>               y_Part_PartType_0_uList
-%type <PartsTrayTypeVal>              y_PartsTrayType
-%type <PartsTrayTypeVal>              y_PartsTray_PartsTrayType
 %type <PhysicalLocationTypeVal>       y_PhysicalLocationTypeAny
 %type <PointTypeVal>                  y_PointType
 %type <PointTypeVal>                  y_Point_PointType
 %type <PoseLocationTypeVal>           y_PoseLocationTypeAny
+%type <PositiveDecimalTypeVal>        y_PositionStandardDeviation_PositiveDecimalType_0
 %type <PhysicalLocationTypeVal>       y_PrimaryLocation_PhysicalLocationType
-%type <XmlIDREFVal>                   y_RefObject_XmlIDREF
+%type <XmlIDREFVal>                   y_RefObjectName_XmlIDREF
 %type <RobotTypeVal>                  y_RobotType
 %type <RobotTypeVal>                  y_Robot_RobotType
 %type <PhysicalLocationTypeVal>       y_SecondaryLocation_PhysicalLocationType_0_u
-%type <PhysicalLocationTypeListVal>   y_SecondaryLocation_PhysicalLocationType_0_uList
 %type <XmlNMTOKENVal>                 y_SerialNumber_XmlNMTOKEN
-%type <ShapeDesignTypeVal>            y_ShapeDesignTypeAny
-%type <ShapeDesignTypeVal>            y_Shape_ShapeDesignType
 %type <XmlIDREFVal>                   y_SkuName_XmlIDREF
 %type <StockKeepingUnitTypeVal>       y_Sku_StockKeepingUnitType_u
-%type <StockKeepingUnitTypeListVal>   y_Sku_StockKeepingUnitType_uList
+%type <SlotTypeVal>                   y_SlotType
+%type <SlotTypeVal>                   y_Slot_SlotType_0_u
 %type <SolidObjectTypeVal>            y_SolidObjectTypeAny
-%type <SolidObjectTypeVal>            y_SolidObject_SolidObjectType_0_u
-%type <SolidObjectTypeListVal>        y_SolidObject_SolidObjectType_0_uList
 %type <StockKeepingUnitTypeVal>       y_StockKeepingUnitType
-%type <KitTrayTypeVal>                y_Tray_KitTrayType
+%type <XmlDateTimeVal>                y_Timestamp_XmlDateTime_0
 %type <VectorTypeVal>                 y_VectorType
 %type <WeightUnitTypeVal>             y_WeightUnit_WeightUnitType
 %type <PositiveDecimalTypeVal>        y_Weight_PositiveDecimalType
 %type <PositiveDecimalTypeVal>        y_Width_PositiveDecimalType
-%type <WorkTableTypeVal>              y_WorkTableType
-%type <WorkTableTypeVal>              y_WorkTable_WorkTableType
 %type <BoxVolumeTypeVal>              y_WorkVolume_BoxVolumeType_u
-%type <BoxVolumeTypeListVal>          y_WorkVolume_BoxVolumeType_uList
 %type <VectorTypeVal>                 y_XAxis_VectorType
 %type <XmlDecimalVal>                 y_X_XmlDecimal
 %type <XmlDecimalVal>                 y_Y_XmlDecimal
 %type <VectorTypeVal>                 y_ZAxis_VectorType
 %type <XmlDecimalVal>                 y_Z_XmlDecimal
 %type <BoxyShapeTypeVal>              y_x_BoxyShapeType
+%type <CylindricalShapeTypeVal>       y_x_CylindricalShapeType
 %type <EndEffectorChangingStationTypeVal> y_x_EndEffectorChangingStationType
 %type <EndEffectorHolderTypeVal>      y_x_EndEffectorHolderType
-%type <ExternalShapeTypeVal>          y_x_ExternalShapeType
 %type <GripperEffectorTypeVal>        y_x_GripperEffectorType
+%type <HumanTypeVal>                  y_x_HumanType
 %type <KitTrayTypeVal>                y_x_KitTrayType
 %type <KitTypeVal>                    y_x_KitType
 %type <KittingWorkstationTypeVal>     y_x_KittingWorkstationType
@@ -225,7 +236,6 @@ int yyerror(const char * s);
 %type <PartTypeVal>                   y_x_PartType
 %type <PartsBinTypeVal>               y_x_PartsBinType
 %type <PartsTrayTypeVal>              y_x_PartsTrayType
-%type <PartsTrayWithPartsTypeVal>     y_x_PartsTrayWithPartsType
 %type <PoseLocationInTypeVal>         y_x_PoseLocationInType
 %type <PoseLocationOnTypeVal>         y_x_PoseLocationOnType
 %type <PoseOnlyLocationTypeVal>       y_x_PoseOnlyLocationType
@@ -266,8 +276,10 @@ int yyerror(const char * s);
 %token <iVal> DESCRIPTIONSTART
 %token <iVal> DESIGNNAMEEND
 %token <iVal> DESIGNNAMESTART
-%token <iVal> ENDEFFECTORHOLDERSEND
-%token <iVal> ENDEFFECTORHOLDERSSTART
+%token <iVal> DIAMETEREND
+%token <iVal> DIAMETERSTART
+%token <iVal> ENDEFFECTORHOLDEREND
+%token <iVal> ENDEFFECTORHOLDERSTART
 %token <iVal> ENDEFFECTORNAMEEND
 %token <iVal> ENDEFFECTORNAMESTART
 %token <iVal> ENDEFFECTOREND
@@ -298,8 +310,8 @@ int yyerror(const char * s);
 %token <iVal> KITDESIGNSTART
 %token <iVal> KITTRAYSKUNAMEEND
 %token <iVal> KITTRAYSKUNAMESTART
-%token <iVal> KITTRAYSEND
-%token <iVal> KITTRAYSSTART
+%token <iVal> KITTRAYEND
+%token <iVal> KITTRAYSTART
 %token <iVal> KITEND
 %token <iVal> KITSTART
 %token <iVal> KITTINGWORKSTATIONEND
@@ -318,56 +330,60 @@ int yyerror(const char * s);
 %token <iVal> MINIMUMPOINTSTART
 %token <iVal> MODELFILENAMEEND
 %token <iVal> MODELFILENAMESTART
+%token <iVal> MODELFORMATNAMEEND
+%token <iVal> MODELFORMATNAMESTART
 %token <iVal> MODELNAMEEND
 %token <iVal> MODELNAMESTART
-%token <iVal> MODELTYPENAMEEND
-%token <iVal> MODELTYPENAMESTART
 %token <iVal> NAMEEND
 %token <iVal> NAMESTART
+%token <iVal> OBJECTONTABLEEND
+%token <iVal> OBJECTONTABLESTART
 %token <iVal> OBJECTEND
 %token <iVal> OBJECTSTART
+%token <iVal> ORIENTATIONSTANDARDDEVIATIONEND
+%token <iVal> ORIENTATIONSTANDARDDEVIATIONSTART
 %token <iVal> OTHEROBSTACLEEND
 %token <iVal> OTHEROBSTACLESTART
+%token <iVal> PARTNAMEEND
+%token <iVal> PARTNAMESTART
 %token <iVal> PARTQUANTITYEND
 %token <iVal> PARTQUANTITYSTART
+%token <iVal> PARTREFANDPOSENAMEEND
+%token <iVal> PARTREFANDPOSENAMESTART
 %token <iVal> PARTREFANDPOSEEND
 %token <iVal> PARTREFANDPOSESTART
 %token <iVal> PARTSKUNAMEEND
 %token <iVal> PARTSKUNAMESTART
 %token <iVal> PARTEND
 %token <iVal> PARTSTART
-%token <iVal> PARTSTRAYEND
-%token <iVal> PARTSTRAYSTART
 %token <iVal> POINTEND
 %token <iVal> POINTSTART
+%token <iVal> POSITIONSTANDARDDEVIATIONEND
+%token <iVal> POSITIONSTANDARDDEVIATIONSTART
 %token <iVal> PRIMARYLOCATIONEND
 %token <iVal> PRIMARYLOCATIONSTART
-%token <iVal> REFOBJECTEND
-%token <iVal> REFOBJECTSTART
+%token <iVal> REFOBJECTNAMEEND
+%token <iVal> REFOBJECTNAMESTART
 %token <iVal> ROBOTEND
 %token <iVal> ROBOTSTART
 %token <iVal> SECONDARYLOCATIONEND
 %token <iVal> SECONDARYLOCATIONSTART
 %token <iVal> SERIALNUMBEREND
 %token <iVal> SERIALNUMBERSTART
-%token <iVal> SHAPEEND
-%token <iVal> SHAPESTART
 %token <iVal> SKUNAMEEND
 %token <iVal> SKUNAMESTART
 %token <iVal> SKUEND
 %token <iVal> SKUSTART
-%token <iVal> SOLIDOBJECTEND
-%token <iVal> SOLIDOBJECTSTART
-%token <iVal> TRAYEND
-%token <iVal> TRAYSTART
+%token <iVal> SLOTEND
+%token <iVal> SLOTSTART
+%token <iVal> TIMESTAMPEND
+%token <iVal> TIMESTAMPSTART
 %token <iVal> WEIGHTUNITEND
 %token <iVal> WEIGHTUNITSTART
 %token <iVal> WEIGHTEND
 %token <iVal> WEIGHTSTART
 %token <iVal> WIDTHEND
 %token <iVal> WIDTHSTART
-%token <iVal> WORKTABLEEND
-%token <iVal> WORKTABLESTART
 %token <iVal> WORKVOLUMEEND
 %token <iVal> WORKVOLUMESTART
 %token <iVal> XAXISEND
@@ -384,11 +400,13 @@ int yyerror(const char * s);
 
 %token <iVal> BOXVOLUMETYPEDECL
 %token <iVal> BOXYSHAPETYPEDECL
+%token <iVal> CYLINDRICALSHAPETYPEDECL
 %token <iVal> ENDEFFECTORCHANGINGSTATIONTYPEDECL
 %token <iVal> ENDEFFECTORHOLDERTYPEDECL
 %token <iVal> ENDEFFECTORTYPEDECL
 %token <iVal> EXTERNALSHAPETYPEDECL
 %token <iVal> GRIPPEREFFECTORTYPEDECL
+%token <iVal> HUMANTYPEDECL
 %token <iVal> INTERNALSHAPETYPEDECL
 %token <iVal> KITDESIGNTYPEDECL
 %token <iVal> KITTRAYTYPEDECL
@@ -398,11 +416,12 @@ int yyerror(const char * s);
 %token <iVal> LARGEBOXWITHKITSTYPEDECL
 %token <iVal> LARGECONTAINERTYPEDECL
 %token <iVal> MECHANICALCOMPONENTTYPEDECL
+%token <iVal> NOSKUOBJECTTYPEDECL
 %token <iVal> PARTREFANDPOSETYPEDECL
 %token <iVal> PARTTYPEDECL
 %token <iVal> PARTSBINTYPEDECL
 %token <iVal> PARTSTRAYTYPEDECL
-%token <iVal> PARTSTRAYWITHPARTSTYPEDECL
+%token <iVal> PARTSVESSELTYPEDECL
 %token <iVal> PHYSICALLOCATIONTYPEDECL
 %token <iVal> POINTTYPEDECL
 %token <iVal> POSELOCATIONINTYPEDECL
@@ -414,6 +433,8 @@ int yyerror(const char * s);
 %token <iVal> RELATIVELOCATIONTYPEDECL
 %token <iVal> ROBOTTYPEDECL
 %token <iVal> SHAPEDESIGNTYPEDECL
+%token <iVal> SKUOBJECTTYPEDECL
+%token <iVal> SLOTTYPEDECL
 %token <iVal> STOCKKEEPINGUNITTYPEDECL
 %token <iVal> VACUUMEFFECTORMULTICUPTYPEDECL
 %token <iVal> VACUUMEFFECTORSINGLECUPTYPEDECL
@@ -434,19 +455,13 @@ y_KittingWorkstationFile :
 	;
 
 y_XmlHeaderForKittingWorkstation:
-	  XMLNSTARGET XMLNSPREFIX y_SchemaLocation
-	  {$$ = new XmlHeaderForKittingWorkstation($3);}
+	  XMLNSPREFIX y_SchemaLocation
+	  {$$ = new XmlHeaderForKittingWorkstation($2);}
 	;
 
 y_SchemaLocation :
 	  SCHEMALOCATION TERMINALSTRING
-	  {$$ = new SchemaLocation("xsi", $2);
-	    if (strncmp("urn:kitting ", $2, 12))
-	      {
-		fprintf(stderr,
-	           "wrong targetNamespace in schema location %s\n", $2);
-		exit(1);
-	      }
+	  {$$ = new SchemaLocation("xsi", $2, false);
 	  }
 	;
 
@@ -455,6 +470,14 @@ y_XmlBoolean :
 	  {$$ = new XmlBoolean($1);
 	   if ($$->bad)
 	     yyerror("bad XmlBoolean");
+	  }
+	;
+
+y_XmlDateTime :
+	  DATASTRING
+	  {$$ = new XmlDateTime($1);
+	   if ($$->bad)
+	     yyerror("bad XmlDateTime");
 	  }
 	;
 
@@ -597,53 +620,43 @@ y_DesignName_XmlIDREF :
 	  {$$ = $4;}
 	;
 
+y_Diameter_PositiveDecimalType :
+	  DIAMETERSTART ENDITEM {yyReadData = 1;} DATASTRING DIAMETEREND
+	  {$$ = new PositiveDecimalType($4);
+	   if ($$->bad)
+	     yyerror("bad Diameter value");
+	  }
+	;
+
 y_EndEffectorChangingStationType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
 	  y_Base_MechanicalComponentType
-	  y_EndEffectorHolders_EndEffectorHolderType_uList
+	  y_ListEndEffectorHolder_EndEffectorHolderType_u
 	  {$$ = new EndEffectorChangingStationType($2, $3, $4, $5, $6, $7, $8);}
 	;
 
 y_EndEffectorHolderType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
 	  y_EndEffector_EndEffectorType_0
 	  {$$ = new EndEffectorHolderType($2, $3, $4, $5, $6, $7);}
 	;
 
-y_EndEffectorHolders_EndEffectorHolderType_u :
-	  ENDEFFECTORHOLDERSSTART y_EndEffectorHolderType
-	  ENDEFFECTORHOLDERSEND
+y_EndEffectorHolder_EndEffectorHolderType_u :
+	  ENDEFFECTORHOLDERSTART y_EndEffectorHolderType
+	  ENDEFFECTORHOLDEREND
 	  {$$ = $2;}
-	;
-
-y_EndEffectorHolders_EndEffectorHolderType_uList :
-	  y_EndEffectorHolders_EndEffectorHolderType_u
-	  {$$ = new std::list<EndEffectorHolderType *>;
-	   $$->push_back($1);}
-	| y_EndEffectorHolders_EndEffectorHolderType_uList
-	  y_EndEffectorHolders_EndEffectorHolderType_u
-	  {$$ = $1;
-	   $$->push_back($2);}
 	;
 
 y_EndEffectorName_XmlIDREF_0_u :
 	  ENDEFFECTORNAMESTART ENDITEM {yyReadData = 1;} y_XmlIDREF
 	  ENDEFFECTORNAMEEND
 	  {$$ = $4;}
-	;
-
-y_EndEffectorName_XmlIDREF_0_uList :
-	  /* empty */
-	  {$$ = new std::list<XmlIDREF *>;}
-	| y_EndEffectorName_XmlIDREF_0_uList y_EndEffectorName_XmlIDREF_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
 	;
 
 y_EndEffectorTypeAny :
@@ -664,7 +677,7 @@ y_EndEffector_EndEffectorType_0 :
 
 y_ExternalShapeType :
 	   ENDITEM y_Name_XmlID y_Description_XmlString
-	  y_GraspPose_PoseLocationType_0 y_ModelTypeName_XmlString
+	  y_GraspPose_PoseLocationType_0 y_ModelFormatName_XmlString
 	  y_ModelFileName_XmlString y_ModelName_XmlString_0
 	  {$$ = new ExternalShapeType($2, $3, $4, $5, $6, $7);}
 	;
@@ -716,6 +729,8 @@ y_I_XmlDecimal :
 y_InternalShapeTypeAny :
 	  y_x_BoxyShapeType
 	  {$$ = $1;}
+	| y_x_CylindricalShapeType
+	  {$$ = $1;}
 	;
 
 y_InternalShape_InternalShapeType_0 :
@@ -743,22 +758,13 @@ y_KitDesignName_XmlIDREF :
 
 y_KitDesignType :
 	   ENDITEM y_Name_XmlID y_KitTraySkuName_XmlIDREF
-	  y_PartRefAndPose_PartRefAndPoseType_uList
+	  y_ListPartRefAndPose_PartRefAndPoseType_u
 	  {$$ = new KitDesignType($2, $3, $4);}
 	;
 
 y_KitDesign_KitDesignType_u :
 	  KITDESIGNSTART y_KitDesignType KITDESIGNEND
 	  {$$ = $2;}
-	;
-
-y_KitDesign_KitDesignType_uList :
-	  y_KitDesign_KitDesignType_u
-	  {$$ = new std::list<KitDesignType *>;
-	   $$->push_back($1);}
-	| y_KitDesign_KitDesignType_uList y_KitDesign_KitDesignType_u
-	  {$$ = $1;
-	   $$->push_back($2);}
 	;
 
 y_KitTraySkuName_XmlIDREF :
@@ -769,33 +775,29 @@ y_KitTraySkuName_XmlIDREF :
 
 y_KitTrayType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new KitTrayType($2, $3, $4, $5, $6, $7, $8);}
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new KitTrayType($2, $3, $4, $5, $6);}
 	;
 
-y_KitTrays_KitTrayType_0_u :
-	  KITTRAYSSTART y_KitTrayType KITTRAYSEND
+y_KitTray_KitTrayType :
+	  KITTRAYSTART y_KitTrayType KITTRAYEND
 	  {$$ = $2;}
 	;
 
-y_KitTrays_KitTrayType_0_uList :
-	  /* empty */
-	  {$$ = new std::list<KitTrayType *>;}
-	| y_KitTrays_KitTrayType_0_uList y_KitTrays_KitTrayType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
+y_KitTray_KitTrayType_0_u :
+	  KITTRAYSTART y_KitTrayType KITTRAYEND
+	  {$$ = $2;}
 	;
 
 y_KitType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_DesignName_XmlIDREF
-	  y_Tray_KitTrayType y_Part_PartType_0_uList y_Finished_XmlBoolean
-	  {$$ = new KitType($2, $3, $4, $5, $6, $7, $8, $9, $10);}
+	  y_KitTray_KitTrayType y_ListPart_PartType_0_u
+	  y_ListSlot_SlotType_0_u y_Finished_XmlBoolean
+	  {$$ = new KitType($2, $3, $4, $5, $6, $7, $8, $9, $10, $11);}
 	;
 
 y_Kit_KitType_0_u :
@@ -803,35 +805,24 @@ y_Kit_KitType_0_u :
 	  {$$ = $2;}
 	;
 
-y_Kit_KitType_0_uList :
-	  /* empty */
-	  {$$ = new std::list<KitType *>;}
-	| y_Kit_KitType_0_uList y_Kit_KitType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
-	;
-
 y_KittingWorkstationType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_AngleUnit_AngleUnitType
 	  y_ChangingStation_EndEffectorChangingStationType
-	  y_KitDesign_KitDesignType_uList y_LengthUnit_LengthUnitType
-	  y_Object_SolidObjectType_uList
-	  y_OtherObstacle_BoxVolumeType_0_uList y_Robot_RobotType
-	  y_Sku_StockKeepingUnitType_uList y_WeightUnit_WeightUnitType
-	  y_WorkTable_WorkTableType
-	  {$$ = new KittingWorkstationType($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);}
+	  y_ListKitDesign_KitDesignType_u y_LengthUnit_LengthUnitType
+	  y_ListObject_SolidObjectType_u
+	  y_ListOtherObstacle_BoxVolumeType_0_u y_Robot_RobotType
+	  y_ListSku_StockKeepingUnitType_u y_WeightUnit_WeightUnitType
+	  {$$ = new KittingWorkstationType($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);}
 	;
 
 y_LargeContainerType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new LargeContainerType($2, $3, $4, $5, $6, $7, $8);}
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new LargeContainerType($2, $3, $4, $5, $6);}
 	;
 
 y_LargeContainer_LargeContainerType :
@@ -856,6 +847,129 @@ y_Length_PositiveDecimalType :
 	  }
 	;
 
+y_ListEndEffectorHolder_EndEffectorHolderType_u :
+	  y_EndEffectorHolder_EndEffectorHolderType_u
+	  {$$ = new std::list<EndEffectorHolderType *>;
+	   $$->push_back($1);}
+	| y_ListEndEffectorHolder_EndEffectorHolderType_u
+	  y_EndEffectorHolder_EndEffectorHolderType_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListEndEffectorName_XmlIDREF_0_u :
+	  /* empty */
+	  {$$ = new std::list<XmlIDREF *>;}
+	| y_ListEndEffectorName_XmlIDREF_0_u y_EndEffectorName_XmlIDREF_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListKitDesign_KitDesignType_u :
+	  y_KitDesign_KitDesignType_u
+	  {$$ = new std::list<KitDesignType *>;
+	   $$->push_back($1);}
+	| y_ListKitDesign_KitDesignType_u y_KitDesign_KitDesignType_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListKitTray_KitTrayType_0_u :
+	  /* empty */
+	  {$$ = new std::list<KitTrayType *>;}
+	| y_ListKitTray_KitTrayType_0_u y_KitTray_KitTrayType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListKit_KitType_0_u :
+	  /* empty */
+	  {$$ = new std::list<KitType *>;}
+	| y_ListKit_KitType_0_u y_Kit_KitType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListObjectOnTable_SolidObjectType_0_u :
+	  /* empty */
+	  {$$ = new std::list<SolidObjectType *>;}
+	| y_ListObjectOnTable_SolidObjectType_0_u
+	  y_ObjectOnTable_SolidObjectType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListObject_SolidObjectType_u :
+	  y_ListObject_SolidObjectType_u y_Object_SolidObjectType_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	| y_Object_SolidObjectType_u
+	  {$$ = new std::list<SolidObjectType *>;
+	   $$->push_back($1);}
+	;
+
+y_ListOtherObstacle_BoxVolumeType_0_u :
+	  /* empty */
+	  {$$ = new std::list<BoxVolumeType *>;}
+	| y_ListOtherObstacle_BoxVolumeType_0_u
+	  y_OtherObstacle_BoxVolumeType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListPartRefAndPose_PartRefAndPoseType_u :
+	  y_ListPartRefAndPose_PartRefAndPoseType_u
+	  y_PartRefAndPose_PartRefAndPoseType_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	| y_PartRefAndPose_PartRefAndPoseType_u
+	  {$$ = new std::list<PartRefAndPoseType *>;
+	   $$->push_back($1);}
+	;
+
+y_ListPart_PartType_0_u :
+	  /* empty */
+	  {$$ = new std::list<PartType *>;}
+	| y_ListPart_PartType_0_u y_Part_PartType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListSecondaryLocation_PhysicalLocationType_0_u :
+	  /* empty */
+	  {$$ = new std::list<PhysicalLocationType *>;}
+	| y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SecondaryLocation_PhysicalLocationType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListSku_StockKeepingUnitType_u :
+	  y_ListSku_StockKeepingUnitType_u y_Sku_StockKeepingUnitType_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	| y_Sku_StockKeepingUnitType_u
+	  {$$ = new std::list<StockKeepingUnitType *>;
+	   $$->push_back($1);}
+	;
+
+y_ListSlot_SlotType_0_u :
+	  /* empty */
+	  {$$ = new std::list<SlotType *>;}
+	| y_ListSlot_SlotType_0_u y_Slot_SlotType_0_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	;
+
+y_ListWorkVolume_BoxVolumeType_u :
+	  y_ListWorkVolume_BoxVolumeType_u y_WorkVolume_BoxVolumeType_u
+	  {$$ = $1;
+	   $$->push_back($2);}
+	| y_WorkVolume_BoxVolumeType_u
+	  {$$ = new std::list<BoxVolumeType *>;
+	   $$->push_back($1);}
+	;
+
 y_MaximumLoadWeight_PositiveDecimalType :
 	  MAXIMUMLOADWEIGHTSTART ENDITEM {yyReadData = 1;} DATASTRING
 	  MAXIMUMLOADWEIGHTEND
@@ -872,7 +986,7 @@ y_MaximumPoint_PointType :
 
 y_MechanicalComponentType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
 	  {$$ = new MechanicalComponentType($2, $3, $4, $5, $6);}
@@ -889,16 +1003,16 @@ y_ModelFileName_XmlString :
 	  {$$ = $4;}
 	;
 
+y_ModelFormatName_XmlString :
+	  MODELFORMATNAMESTART ENDITEM {yyReadData = 1;} y_XmlString
+	  MODELFORMATNAMEEND
+	  {$$ = $4;}
+	;
+
 y_ModelName_XmlString_0 :
 	  /* empty */
 	  {$$ = 0;}
 	| MODELNAMESTART ENDITEM {yyReadData = 1;} y_XmlString MODELNAMEEND
-	  {$$ = $4;}
-	;
-
-y_ModelTypeName_XmlString :
-	  MODELTYPENAMESTART ENDITEM {yyReadData = 1;} y_XmlString
-	  MODELTYPENAMEEND
 	  {$$ = $4;}
 	;
 
@@ -907,18 +1021,25 @@ y_Name_XmlID :
 	  {$$ = $4;}
 	;
 
+y_ObjectOnTable_SolidObjectType_0_u :
+	  OBJECTONTABLESTART y_SolidObjectTypeAny OBJECTONTABLEEND
+	  {$$ = $2;}
+	;
+
 y_Object_SolidObjectType_u :
 	  OBJECTSTART y_SolidObjectTypeAny OBJECTEND
 	  {$$ = $2;}
 	;
 
-y_Object_SolidObjectType_uList :
-	  y_Object_SolidObjectType_u
-	  {$$ = new std::list<SolidObjectType *>;
-	   $$->push_back($1);}
-	| y_Object_SolidObjectType_uList y_Object_SolidObjectType_u
-	  {$$ = $1;
-	   $$->push_back($2);}
+y_OrientationStandardDeviation_PositiveDecimalType_0 :
+	  /* empty */
+	  {$$ = 0;}
+	| ORIENTATIONSTANDARDDEVIATIONSTART ENDITEM {yyReadData = 1;}
+	  DATASTRING ORIENTATIONSTANDARDDEVIATIONEND
+	  {$$ = new PositiveDecimalType($4);
+	   if ($$->bad)
+	     yyerror("bad OrientationStandardDeviation value");
+	  }
 	;
 
 y_OtherObstacle_BoxVolumeType_0_u :
@@ -926,18 +1047,22 @@ y_OtherObstacle_BoxVolumeType_0_u :
 	  {$$ = $2;}
 	;
 
-y_OtherObstacle_BoxVolumeType_0_uList :
+y_PartName_XmlIDREF_0 :
 	  /* empty */
-	  {$$ = new std::list<BoxVolumeType *>;}
-	| y_OtherObstacle_BoxVolumeType_0_uList
-	  y_OtherObstacle_BoxVolumeType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
+	  {$$ = 0;}
+	| PARTNAMESTART ENDITEM {yyReadData = 1;} y_XmlIDREF PARTNAMEEND
+	  {$$ = $4;}
 	;
 
 y_PartQuantity_XmlNonNegativeInteger :
 	  PARTQUANTITYSTART ENDITEM {yyReadData = 1;}
 	  y_XmlNonNegativeInteger PARTQUANTITYEND
+	  {$$ = $4;}
+	;
+
+y_PartRefAndPoseName_XmlIDREF :
+	  PARTREFANDPOSENAMESTART ENDITEM {yyReadData = 1;} y_XmlIDREF
+	  PARTREFANDPOSENAMEEND
 	  {$$ = $4;}
 	;
 
@@ -952,16 +1077,6 @@ y_PartRefAndPose_PartRefAndPoseType_u :
 	  {$$ = $2;}
 	;
 
-y_PartRefAndPose_PartRefAndPoseType_uList :
-	  y_PartRefAndPose_PartRefAndPoseType_u
-	  {$$ = new std::list<PartRefAndPoseType *>;
-	   $$->push_back($1);}
-	| y_PartRefAndPose_PartRefAndPoseType_uList
-	  y_PartRefAndPose_PartRefAndPoseType_u
-	  {$$ = $1;
-	   $$->push_back($2);}
-	;
-
 y_PartSkuName_XmlIDREF :
 	  PARTSKUNAMESTART ENDITEM {yyReadData = 1;} y_XmlIDREF
 	  PARTSKUNAMEEND
@@ -970,37 +1085,13 @@ y_PartSkuName_XmlIDREF :
 
 y_PartType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new PartType($2, $3, $4, $5, $6, $7, $8);}
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new PartType($2, $3, $4, $5, $6);}
 	;
 
 y_Part_PartType_0_u :
 	  PARTSTART y_PartType PARTEND
-	  {$$ = $2;}
-	;
-
-y_Part_PartType_0_uList :
-	  /* empty */
-	  {$$ = new std::list<PartType *>;}
-	| y_Part_PartType_0_uList y_Part_PartType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
-	;
-
-y_PartsTrayType :
-	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new PartsTrayType($2, $3, $4, $5, $6, $7, $8);}
-	;
-
-y_PartsTray_PartsTrayType :
-	  PARTSTRAYSTART y_PartsTrayType PARTSTRAYEND
 	  {$$ = $2;}
 	;
 
@@ -1037,24 +1128,36 @@ y_PoseLocationTypeAny :
 	  {$$ = $1;}
 	;
 
+y_PositionStandardDeviation_PositiveDecimalType_0 :
+	  /* empty */
+	  {$$ = 0;}
+	| POSITIONSTANDARDDEVIATIONSTART ENDITEM {yyReadData = 1;}
+	  DATASTRING POSITIONSTANDARDDEVIATIONEND
+	  {$$ = new PositiveDecimalType($4);
+	   if ($$->bad)
+	     yyerror("bad PositionStandardDeviation value");
+	  }
+	;
+
 y_PrimaryLocation_PhysicalLocationType :
 	  PRIMARYLOCATIONSTART y_PhysicalLocationTypeAny PRIMARYLOCATIONEND
 	  {$$ = $2;}
 	;
 
-y_RefObject_XmlIDREF :
-	  REFOBJECTSTART ENDITEM {yyReadData = 1;} y_XmlIDREF REFOBJECTEND
+y_RefObjectName_XmlIDREF :
+	  REFOBJECTNAMESTART ENDITEM {yyReadData = 1;} y_XmlIDREF
+	  REFOBJECTNAMEEND
 	  {$$ = $4;}
 	;
 
 y_RobotType :
 	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
 	  y_EndEffector_EndEffectorType_0
 	  y_MaximumLoadWeight_PositiveDecimalType
-	  y_WorkVolume_BoxVolumeType_uList
+	  y_ListWorkVolume_BoxVolumeType_u
 	  {$$ = new RobotType($2, $3, $4, $5, $6, $7, $8, $9, $10);}
 	;
 
@@ -1069,31 +1172,10 @@ y_SecondaryLocation_PhysicalLocationType_0_u :
 	  {$$ = $2;}
 	;
 
-y_SecondaryLocation_PhysicalLocationType_0_uList :
-	  /* empty */
-	  {$$ = new std::list<PhysicalLocationType *>;}
-	| y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_SecondaryLocation_PhysicalLocationType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
-	;
-
 y_SerialNumber_XmlNMTOKEN :
 	  SERIALNUMBERSTART ENDITEM {yyReadData = 1;} y_XmlNMTOKEN
 	  SERIALNUMBEREND
 	  {$$ = $4;}
-	;
-
-y_ShapeDesignTypeAny :
-	  y_x_BoxyShapeType
-	  {$$ = $1;}
-	| y_x_ExternalShapeType
-	  {$$ = $1;}
-	;
-
-y_Shape_ShapeDesignType :
-	  SHAPESTART y_ShapeDesignTypeAny SHAPEEND
-	  {$$ = $2;}
 	;
 
 y_SkuName_XmlIDREF :
@@ -1106,13 +1188,15 @@ y_Sku_StockKeepingUnitType_u :
 	  {$$ = $2;}
 	;
 
-y_Sku_StockKeepingUnitType_uList :
-	  y_Sku_StockKeepingUnitType_u
-	  {$$ = new std::list<StockKeepingUnitType *>;
-	   $$->push_back($1);}
-	| y_Sku_StockKeepingUnitType_uList y_Sku_StockKeepingUnitType_u
-	  {$$ = $1;
-	   $$->push_back($2);}
+y_SlotType :
+	   ENDITEM y_Name_XmlID y_PartRefAndPoseName_XmlIDREF
+	  y_PartName_XmlIDREF_0
+	  {$$ = new SlotType($2, $3, $4);}
+	;
+
+y_Slot_SlotType_0_u :
+	  SLOTSTART y_SlotType SLOTEND
+	  {$$ = $2;}
 	;
 
 y_SolidObjectTypeAny :
@@ -1121,6 +1205,8 @@ y_SolidObjectTypeAny :
 	| y_x_EndEffectorHolderType
 	  {$$ = $1;}
 	| y_x_GripperEffectorType
+	  {$$ = $1;}
+	| y_x_HumanType
 	  {$$ = $1;}
 	| y_x_KitTrayType
 	  {$$ = $1;}
@@ -1142,8 +1228,6 @@ y_SolidObjectTypeAny :
 	  {$$ = $1;}
 	| y_x_PartsTrayType
 	  {$$ = $1;}
-	| y_x_PartsTrayWithPartsType
-	  {$$ = $1;}
 	| y_x_RobotType
 	  {$$ = $1;}
 	| y_x_VacuumEffectorMultiCupType
@@ -1154,30 +1238,20 @@ y_SolidObjectTypeAny :
 	  {$$ = $1;}
 	;
 
-y_SolidObject_SolidObjectType_0_u :
-	  SOLIDOBJECTSTART y_SolidObjectTypeAny SOLIDOBJECTEND
-	  {$$ = $2;}
-	;
-
-y_SolidObject_SolidObjectType_0_uList :
-	  /* empty */
-	  {$$ = new std::list<SolidObjectType *>;}
-	| y_SolidObject_SolidObjectType_0_uList
-	  y_SolidObject_SolidObjectType_0_u
-	  {$$ = $1;
-	   $$->push_back($2);}
-	;
-
 y_StockKeepingUnitType :
 	   ENDITEM y_Name_XmlID y_Description_XmlString
-	  y_Shape_ShapeDesignType y_Weight_PositiveDecimalType
-	  y_EndEffectorName_XmlIDREF_0_uList
-	  {$$ = new StockKeepingUnitType($2, $3, $4, $5, $6);}
+	  y_InternalShape_InternalShapeType_0
+	  y_ExternalShape_ExternalShapeType_0 y_Weight_PositiveDecimalType
+	  y_ListEndEffectorName_XmlIDREF_0_u
+	  {$$ = new StockKeepingUnitType($2, $3, $4, $5, $6, $7);}
 	;
 
-y_Tray_KitTrayType :
-	  TRAYSTART y_KitTrayType TRAYEND
-	  {$$ = $2;}
+y_Timestamp_XmlDateTime_0 :
+	  /* empty */
+	  {$$ = 0;}
+	| TIMESTAMPSTART ENDITEM {yyReadData = 1;} y_XmlDateTime
+	  TIMESTAMPEND
+	  {$$ = $4;}
 	;
 
 y_VectorType :
@@ -1211,32 +1285,9 @@ y_Width_PositiveDecimalType :
 	  }
 	;
 
-y_WorkTableType :
-	   ENDITEM y_Name_XmlID y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0
-	  y_SolidObject_SolidObjectType_0_uList
-	  {$$ = new WorkTableType($2, $3, $4, $5, $6, $7);}
-	;
-
-y_WorkTable_WorkTableType :
-	  WORKTABLESTART y_WorkTableType WORKTABLEEND
-	  {$$ = $2;}
-	;
-
 y_WorkVolume_BoxVolumeType_u :
 	  WORKVOLUMESTART y_BoxVolumeType WORKVOLUMEEND
 	  {$$ = $2;}
-	;
-
-y_WorkVolume_BoxVolumeType_uList :
-	  y_WorkVolume_BoxVolumeType_u
-	  {$$ = new std::list<BoxVolumeType *>;
-	   $$->push_back($1);}
-	| y_WorkVolume_BoxVolumeType_uList y_WorkVolume_BoxVolumeType_u
-	  {$$ = $1;
-	   $$->push_back($2);}
 	;
 
 y_XAxis_VectorType :
@@ -1274,14 +1325,24 @@ y_x_BoxyShapeType :
 	  }
 	;
 
+y_x_CylindricalShapeType :
+	  CYLINDRICALSHAPETYPEDECL ENDITEM y_Name_XmlID
+	  y_Description_XmlString y_GraspPose_PoseLocationType_0
+	  y_Diameter_PositiveDecimalType y_Height_PositiveDecimalType
+	  y_HasTop_XmlBoolean
+	  {$$ = new CylindricalShapeType($3, $4, $5, $6, $7, $8);
+	   $$->printTypp = true;
+	  }
+	;
+
 y_x_EndEffectorChangingStationType :
 	  ENDEFFECTORCHANGINGSTATIONTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
 	  y_Base_MechanicalComponentType
-	  y_EndEffectorHolders_EndEffectorHolderType_uList
+	  y_ListEndEffectorHolder_EndEffectorHolderType_u
 	  {$$ = new EndEffectorChangingStationType($3, $4, $5, $6, $7, $8, $9);
 	   $$->printTypp = true;
 	  }
@@ -1290,7 +1351,7 @@ y_x_EndEffectorChangingStationType :
 y_x_EndEffectorHolderType :
 	  ENDEFFECTORHOLDERTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
 	  y_EndEffector_EndEffectorType_0
@@ -1299,20 +1360,10 @@ y_x_EndEffectorHolderType :
 	  }
 	;
 
-y_x_ExternalShapeType :
-	  EXTERNALSHAPETYPEDECL ENDITEM y_Name_XmlID
-	  y_Description_XmlString y_GraspPose_PoseLocationType_0
-	  y_ModelTypeName_XmlString y_ModelFileName_XmlString
-	  y_ModelName_XmlString_0
-	  {$$ = new ExternalShapeType($3, $4, $5, $6, $7, $8);
-	   $$->printTypp = true;
-	  }
-	;
-
 y_x_GripperEffectorType :
 	  GRIPPEREFFECTORTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
 	  y_Weight_PositiveDecimalType
@@ -1323,14 +1374,23 @@ y_x_GripperEffectorType :
 	  }
 	;
 
+y_x_HumanType :
+	  HUMANTYPEDECL ENDITEM y_Name_XmlID
+	  y_PrimaryLocation_PhysicalLocationType
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_InternalShape_InternalShapeType_0
+	  y_ExternalShape_ExternalShapeType_0
+	  {$$ = new HumanType($3, $4, $5, $6, $7);
+	   $$->printTypp = true;
+	  }
+	;
+
 y_x_KitTrayType :
 	  KITTRAYTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new KitTrayType($3, $4, $5, $6, $7, $8, $9);
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new KitTrayType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1338,11 +1398,12 @@ y_x_KitTrayType :
 y_x_KitType :
 	  KITTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_DesignName_XmlIDREF
-	  y_Tray_KitTrayType y_Part_PartType_0_uList y_Finished_XmlBoolean
-	  {$$ = new KitType($3, $4, $5, $6, $7, $8, $9, $10, $11);
+	  y_KitTray_KitTrayType y_ListPart_PartType_0_u
+	  y_ListSlot_SlotType_0_u y_Finished_XmlBoolean
+	  {$$ = new KitType($3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1350,16 +1411,15 @@ y_x_KitType :
 y_x_KittingWorkstationType :
 	  KITTINGWORKSTATIONTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_AngleUnit_AngleUnitType
 	  y_ChangingStation_EndEffectorChangingStationType
-	  y_KitDesign_KitDesignType_uList y_LengthUnit_LengthUnitType
-	  y_Object_SolidObjectType_uList
-	  y_OtherObstacle_BoxVolumeType_0_uList y_Robot_RobotType
-	  y_Sku_StockKeepingUnitType_uList y_WeightUnit_WeightUnitType
-	  y_WorkTable_WorkTableType
-	  {$$ = new KittingWorkstationType($3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17);
+	  y_ListKitDesign_KitDesignType_u y_LengthUnit_LengthUnitType
+	  y_ListObject_SolidObjectType_u
+	  y_ListOtherObstacle_BoxVolumeType_0_u y_Robot_RobotType
+	  y_ListSku_StockKeepingUnitType_u y_WeightUnit_WeightUnitType
+	  {$$ = new KittingWorkstationType($3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1367,11 +1427,10 @@ y_x_KittingWorkstationType :
 y_x_LargeBoxWithEmptyKitTraysType :
 	  LARGEBOXWITHEMPTYKITTRAYSTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
-	  y_LargeContainer_LargeContainerType
-	  y_KitTrays_KitTrayType_0_uList
+	  y_LargeContainer_LargeContainerType y_ListKitTray_KitTrayType_0_u
 	  {$$ = new LargeBoxWithEmptyKitTraysType($3, $4, $5, $6, $7, $8, $9);
 	   $$->printTypp = true;
 	  }
@@ -1380,10 +1439,10 @@ y_x_LargeBoxWithEmptyKitTraysType :
 y_x_LargeBoxWithKitsType :
 	  LARGEBOXWITHKITSTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
-	  y_LargeContainer_LargeContainerType y_Kit_KitType_0_uList
+	  y_LargeContainer_LargeContainerType y_ListKit_KitType_0_u
 	  y_KitDesignName_XmlIDREF y_Capacity_XmlPositiveInteger
 	  {$$ = new LargeBoxWithKitsType($3, $4, $5, $6, $7, $8, $9, $10, $11);
 	   $$->printTypp = true;
@@ -1393,11 +1452,9 @@ y_x_LargeBoxWithKitsType :
 y_x_LargeContainerType :
 	  LARGECONTAINERTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new LargeContainerType($3, $4, $5, $6, $7, $8, $9);
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new LargeContainerType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1405,7 +1462,7 @@ y_x_LargeContainerType :
 y_x_MechanicalComponentType :
 	  MECHANICALCOMPONENTTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
 	  {$$ = new MechanicalComponentType($3, $4, $5, $6, $7);
@@ -1416,11 +1473,9 @@ y_x_MechanicalComponentType :
 y_x_PartType :
 	  PARTTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new PartType($3, $4, $5, $6, $7, $8, $9);
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  {$$ = new PartType($3, $4, $5, $6, $7);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1428,12 +1483,11 @@ y_x_PartType :
 y_x_PartsBinType :
 	  PARTSBINTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN y_PartSkuName_XmlIDREF
-	  y_PartQuantity_XmlNonNegativeInteger
-	  {$$ = new PartsBinType($3, $4, $5, $6, $7, $8, $9, $10, $11);
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  y_PartSkuName_XmlIDREF y_PartQuantity_XmlNonNegativeInteger
+	  y_ListPart_PartType_0_u
+	  {$$ = new PartsBinType($3, $4, $5, $6, $7, $8, $9, $10);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1441,64 +1495,62 @@ y_x_PartsBinType :
 y_x_PartsTrayType :
 	  PARTSTRAYTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_SkuName_XmlIDREF
-	  y_SerialNumber_XmlNMTOKEN
-	  {$$ = new PartsTrayType($3, $4, $5, $6, $7, $8, $9);
-	   $$->printTypp = true;
-	  }
-	;
-
-y_x_PartsTrayWithPartsType :
-	  PARTSTRAYWITHPARTSTYPEDECL ENDITEM y_Name_XmlID
-	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
-	  y_InternalShape_InternalShapeType_0
-	  y_ExternalShape_ExternalShapeType_0 y_PartsTray_PartsTrayType
-	  y_Part_PartType_0_uList
-	  {$$ = new PartsTrayWithPartsType($3, $4, $5, $6, $7, $8, $9);
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
+	  y_SkuName_XmlIDREF y_SerialNumber_XmlNMTOKEN
+	  y_PartSkuName_XmlIDREF y_PartQuantity_XmlNonNegativeInteger
+	  y_ListPart_PartType_0_u
+	  {$$ = new PartsTrayType($3, $4, $5, $6, $7, $8, $9, $10);
 	   $$->printTypp = true;
 	  }
 	;
 
 y_x_PoseLocationInType :
-	  POSELOCATIONINTYPEDECL ENDITEM y_Name_XmlID y_RefObject_XmlIDREF
+	  POSELOCATIONINTYPEDECL ENDITEM y_Name_XmlID
+	  y_RefObjectName_XmlIDREF y_Timestamp_XmlDateTime_0
 	  y_Point_PointType y_XAxis_VectorType y_ZAxis_VectorType
-	  {$$ = new PoseLocationInType($3, $4, $5, $6, $7);
+	  y_PositionStandardDeviation_PositiveDecimalType_0
+	  y_OrientationStandardDeviation_PositiveDecimalType_0
+	  {$$ = new PoseLocationInType($3, $4, $5, $6, $7, $8, $9, $10);
 	   $$->printTypp = true;
 	  }
 	;
 
 y_x_PoseLocationOnType :
-	  POSELOCATIONONTYPEDECL ENDITEM y_Name_XmlID y_RefObject_XmlIDREF
+	  POSELOCATIONONTYPEDECL ENDITEM y_Name_XmlID
+	  y_RefObjectName_XmlIDREF y_Timestamp_XmlDateTime_0
 	  y_Point_PointType y_XAxis_VectorType y_ZAxis_VectorType
-	  {$$ = new PoseLocationOnType($3, $4, $5, $6, $7);
+	  y_PositionStandardDeviation_PositiveDecimalType_0
+	  y_OrientationStandardDeviation_PositiveDecimalType_0
+	  {$$ = new PoseLocationOnType($3, $4, $5, $6, $7, $8, $9, $10);
 	   $$->printTypp = true;
 	  }
 	;
 
 y_x_PoseOnlyLocationType :
 	  POSEONLYLOCATIONTYPEDECL ENDITEM y_Name_XmlID
-	  y_RefObject_XmlIDREF y_Point_PointType y_XAxis_VectorType
-	  y_ZAxis_VectorType
-	  {$$ = new PoseOnlyLocationType($3, $4, $5, $6, $7);
+	  y_RefObjectName_XmlIDREF y_Timestamp_XmlDateTime_0
+	  y_Point_PointType y_XAxis_VectorType y_ZAxis_VectorType
+	  y_PositionStandardDeviation_PositiveDecimalType_0
+	  y_OrientationStandardDeviation_PositiveDecimalType_0
+	  {$$ = new PoseOnlyLocationType($3, $4, $5, $6, $7, $8, $9, $10);
 	   $$->printTypp = true;
 	  }
 	;
 
 y_x_RelativeLocationInType :
 	  RELATIVELOCATIONINTYPEDECL ENDITEM y_Name_XmlID
-	  y_RefObject_XmlIDREF y_Description_XmlString
-	  {$$ = new RelativeLocationInType($3, $4, $5);
+	  y_RefObjectName_XmlIDREF y_Timestamp_XmlDateTime_0
+	  y_Description_XmlString
+	  {$$ = new RelativeLocationInType($3, $4, $5, $6);
 	   $$->printTypp = true;
 	  }
 	;
 
 y_x_RelativeLocationOnType :
 	  RELATIVELOCATIONONTYPEDECL ENDITEM y_Name_XmlID
-	  y_RefObject_XmlIDREF y_Description_XmlString
-	  {$$ = new RelativeLocationOnType($3, $4, $5);
+	  y_RefObjectName_XmlIDREF y_Timestamp_XmlDateTime_0
+	  y_Description_XmlString
+	  {$$ = new RelativeLocationOnType($3, $4, $5, $6);
 	   $$->printTypp = true;
 	  }
 	;
@@ -1506,12 +1558,12 @@ y_x_RelativeLocationOnType :
 y_x_RobotType :
 	  ROBOTTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
 	  y_EndEffector_EndEffectorType_0
 	  y_MaximumLoadWeight_PositiveDecimalType
-	  y_WorkVolume_BoxVolumeType_uList
+	  y_ListWorkVolume_BoxVolumeType_u
 	  {$$ = new RobotType($3, $4, $5, $6, $7, $8, $9, $10, $11);
 	   $$->printTypp = true;
 	  }
@@ -1520,7 +1572,7 @@ y_x_RobotType :
 y_x_VacuumEffectorMultiCupType :
 	  VACUUMEFFECTORMULTICUPTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
 	  y_Weight_PositiveDecimalType
@@ -1536,7 +1588,7 @@ y_x_VacuumEffectorMultiCupType :
 y_x_VacuumEffectorSingleCupType :
 	  VACUUMEFFECTORSINGLECUPTYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0 y_Description_XmlString
 	  y_Weight_PositiveDecimalType
@@ -1551,10 +1603,10 @@ y_x_VacuumEffectorSingleCupType :
 y_x_WorkTableType :
 	  WORKTABLETYPEDECL ENDITEM y_Name_XmlID
 	  y_PrimaryLocation_PhysicalLocationType
-	  y_SecondaryLocation_PhysicalLocationType_0_uList
+	  y_ListSecondaryLocation_PhysicalLocationType_0_u
 	  y_InternalShape_InternalShapeType_0
 	  y_ExternalShape_ExternalShapeType_0
-	  y_SolidObject_SolidObjectType_0_uList
+	  y_ListObjectOnTable_SolidObjectType_0_u
 	  {$$ = new WorkTableType($3, $4, $5, $6, $7, $8);
 	   $$->printTypp = true;
 	  }

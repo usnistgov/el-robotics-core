@@ -2,11 +2,9 @@
 
 /*
 
-This is a version of kittingClasses.cc for use with the kittingViewer.
-It was made by first using the GenXMiller generator to generate
-kittingClasses.cc, and then editing that file by hand. The printSelf
-functions in this file are unchanged from those in kittingClasses.cc
-and are not used by the kittingViewer (so they could be deleted).
+This is a version of kittingWorkstationClasses.cc for use with the
+kittingViewer. The printSelf functions should be deleted since they
+are obsolete and unused.
 
 1. The six lists and a map immediately below and commands that populate them
 (found in the constructors) are added.
@@ -27,8 +25,9 @@ and are not used by the kittingViewer (so they could be deleted).
 #include <stdlib.h>            // for exit
 #include <list>
 #include "xmlSchemaInstance.hh"
-#include "kittingClassesView.hh"
+#include "kittingWorkstationClassesView.hh"
 #include "kittingViewer.hh"
+#define strncpy strncpy_s
 
 #define INDENT 2
 
@@ -36,6 +35,7 @@ and are not used by the kittingViewer (so they could be deleted).
 /*********************************************************************/
 
 std::list<BoxyShapeType *> BoxyShapeType::allBoxys;
+std::list<CylindricalShapeType *> CylindricalShapeType::allCyls;
 std::list<KitType *> KitType::allKits;
 std::list<VacuumEffectorMultiCupType *> VacuumEffectorMultiCupType::allMulti;
 std::list<PointType *> PointType::allPoints;
@@ -237,6 +237,79 @@ void BoxyShapeType::convertUnits(
 
 /*********************************************************************/
 
+/* class CylindricalShapeType
+
+*/
+
+CylindricalShapeType::CylindricalShapeType() {}
+
+CylindricalShapeType::CylindricalShapeType(
+ XmlID * NameIn,
+ XmlString * DescriptionIn,
+ PoseLocationType * GraspPoseIn,
+ PositiveDecimalType * DiameterIn,
+ PositiveDecimalType * HeightIn,
+ XmlBoolean * HasTopIn) :
+  InternalShapeType(
+    NameIn,
+    DescriptionIn,
+    GraspPoseIn)
+{
+  Diameter = DiameterIn;
+  Height = HeightIn;
+  HasTop = HasTopIn;
+  printTypp = false;
+  allCyls.push_back(this);
+}
+
+CylindricalShapeType::~CylindricalShapeType() {}
+
+void CylindricalShapeType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"CylindricalShapeType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Description>");
+  Description->printSelf(outFile);
+  fprintf(outFile, "</Description>\n");
+  if (GraspPose)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<GraspPose");
+      GraspPose->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</GraspPose>\n");
+    }
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Diameter>");
+  Diameter->printSelf(outFile);
+  fprintf(outFile, "</Diameter>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Height>");
+  Height->printSelf(outFile);
+  fprintf(outFile, "</Height>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<HasTop>");
+  HasTop->printSelf(outFile);
+  fprintf(outFile, "</HasTop>\n");
+  doSpaces(-INDENT, outFile);
+}
+
+void CylindricalShapeType::convertUnits(
+ double lengthFactor)
+{
+  Diameter->val *= lengthFactor;
+  Height->val *= lengthFactor;
+}
+
+/*********************************************************************/
+
 /* class DataThingType
 
 */
@@ -277,8 +350,8 @@ EndEffectorChangingStationType::EndEffectorChangingStationType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  MechanicalComponentType * BaseIn,
- std::list<EndEffectorHolderType *> * EndEffectorHoldersIn) :
-  SolidObjectType(
+ std::list<EndEffectorHolderType *> * EndEffectorHolderIn) :
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -286,7 +359,7 @@ EndEffectorChangingStationType::EndEffectorChangingStationType(
     ExternalShapeIn)
 {
   Base = BaseIn;
-  EndEffectorHolders = EndEffectorHoldersIn;
+  EndEffectorHolder = EndEffectorHolderIn;
   printTypp = false;
 }
 
@@ -342,14 +415,14 @@ void EndEffectorChangingStationType::printSelf(FILE * outFile)
   fprintf(outFile, "</Base>\n");
   {
     std::list<EndEffectorHolderType *>::iterator iter;
-    for (iter = EndEffectorHolders->begin();
-	 iter != EndEffectorHolders->end(); iter++)
+    for (iter = EndEffectorHolder->begin();
+	 iter != EndEffectorHolder->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<EndEffectorHolders");
+        fprintf(outFile, "<EndEffectorHolder");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</EndEffectorHolders>\n");
+        fprintf(outFile, "</EndEffectorHolder>\n");
       }
   }
   doSpaces(-INDENT, outFile);
@@ -370,7 +443,7 @@ EndEffectorHolderType::EndEffectorHolderType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  EndEffectorType * EndEffectorIn) :
-  SolidObjectType(
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -454,7 +527,7 @@ EndEffectorType::EndEffectorType(
  PositiveDecimalType * WeightIn,
  PositiveDecimalType * MaximumLoadWeightIn,
  SolidObjectType * HeldObjectIn) :
-  SolidObjectType(
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -547,7 +620,7 @@ ExternalShapeType::ExternalShapeType(
  XmlID * NameIn,
  XmlString * DescriptionIn,
  PoseLocationType * GraspPoseIn,
- XmlString * ModelTypeNameIn,
+ XmlString * ModelFormatNameIn,
  XmlString * ModelFileNameIn,
  XmlString * ModelNameIn) :
   ShapeDesignType(
@@ -555,7 +628,7 @@ ExternalShapeType::ExternalShapeType(
     DescriptionIn,
     GraspPoseIn)
 {
-  ModelTypeName = ModelTypeNameIn;
+  ModelFormatName = ModelFormatNameIn;
   ModelFileName = ModelFileNameIn;
   ModelName = ModelNameIn;
   printTypp = false;
@@ -586,9 +659,9 @@ void ExternalShapeType::printSelf(FILE * outFile)
       fprintf(outFile, "</GraspPose>\n");
     }
   doSpaces(0, outFile);
-  fprintf(outFile, "<ModelTypeName>");
-  ModelTypeName->printSelf(outFile);
-  fprintf(outFile, "</ModelTypeName>\n");
+  fprintf(outFile, "<ModelFormatName>");
+  ModelFormatName->printSelf(outFile);
+  fprintf(outFile, "</ModelFormatName>\n");
   doSpaces(0, outFile);
   fprintf(outFile, "<ModelFileName>");
   ModelFileName->printSelf(outFile);
@@ -704,6 +777,77 @@ void GripperEffectorType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class HumanType
+
+*/
+
+HumanType::HumanType() {}
+
+HumanType::HumanType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn) :
+  NoSkuObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn,
+    InternalShapeIn,
+    ExternalShapeIn)
+{
+  printTypp = false;
+}
+
+HumanType::~HumanType() {}
+
+void HumanType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"HumanType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PrimaryLocation");
+  PrimaryLocation->printSelf(outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "</PrimaryLocation>\n");
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin(); iter != SecondaryLocation->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<SecondaryLocation");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</SecondaryLocation>\n");
+      }
+  }
+  if (InternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<InternalShape");
+      InternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</InternalShape>\n");
+    }
+  if (ExternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<ExternalShape");
+      ExternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</ExternalShape>\n");
+    }
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
 /* class InternalShapeType
 
 */
@@ -811,18 +955,14 @@ KitTrayType::KitTrayType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
-  SolidObjectType(
+  SkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
-    InternalShapeIn,
-    ExternalShapeIn)
+    SkuNameIn)
 {
-  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -855,22 +995,6 @@ void KitTrayType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -897,10 +1021,11 @@ KitType::KitType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  XmlIDREF * DesignNameIn,
- KitTrayType * TrayIn,
+ KitTrayType * KitTrayIn,
  std::list<PartType *> * PartIn,
+ std::list<SlotType *> * SlotIn,
  XmlBoolean * FinishedIn) :
-  SolidObjectType(
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -908,8 +1033,9 @@ KitType::KitType(
     ExternalShapeIn)
 {
   DesignName = DesignNameIn;
-  Tray = TrayIn;
+  KitTray = KitTrayIn;
   Part = PartIn;
+  Slot = SlotIn;
   Finished = FinishedIn;
   printTypp = false;
   allKits.push_back(this);
@@ -964,10 +1090,10 @@ void KitType::printSelf(FILE * outFile)
   DesignName->printSelf(outFile);
   fprintf(outFile, "</DesignName>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<Tray");
-  Tray->printSelf(outFile);
+  fprintf(outFile, "<KitTray");
+  KitTray->printSelf(outFile);
   doSpaces(0, outFile);
-  fprintf(outFile, "</Tray>\n");
+  fprintf(outFile, "</KitTray>\n");
   {
     std::list<PartType *>::iterator iter;
     for (iter = Part->begin(); iter != Part->end(); iter++)
@@ -977,6 +1103,17 @@ void KitType::printSelf(FILE * outFile)
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
         fprintf(outFile, "</Part>\n");
+      }
+  }
+  {
+    std::list<SlotType *>::iterator iter;
+    for (iter = Slot->begin(); iter != Slot->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<Slot");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</Slot>\n");
       }
   }
   doSpaces(0, outFile);
@@ -990,7 +1127,7 @@ void KitType::printSelf(FILE * outFile)
 
 /* class KittingWorkstationType
 
-See documentation of this class in kittingClassesView.hh.
+See documentation of this class in kittingWorkstationClassesView.hh.
 
 */
 
@@ -1010,9 +1147,8 @@ KittingWorkstationType::KittingWorkstationType(
  std::list<BoxVolumeType *> * OtherObstacleIn,
  RobotType * RobotIn,
  std::list<StockKeepingUnitType *> * SkuIn,
- WeightUnitType * WeightUnitIn,
- WorkTableType * WorkTableIn) :
-  SolidObjectType(
+ WeightUnitType * WeightUnitIn) :
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -1028,10 +1164,10 @@ KittingWorkstationType::KittingWorkstationType(
   Robot = RobotIn;
   Sku = SkuIn;
   WeightUnit = WeightUnitIn;
-  WorkTable = WorkTableIn;
   printTypp = false;
   
   allBoxys = BoxyShapeType::allBoxys;
+  allCyls = CylindricalShapeType::allCyls;
   allIDs = XmlID::allIDs;
   allIDREFs = XmlIDREF::allIDREFs;
   allKits = KitType::allKits;
@@ -1153,10 +1289,6 @@ void KittingWorkstationType::printSelf(FILE * outFile)
   WeightUnit->printSelf(outFile);
   fprintf(outFile, "</WeightUnit>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<WorkTable");
-  WorkTable->printSelf(outFile);
-  doSpaces(0, outFile);
-  fprintf(outFile, "</WorkTable>\n");
   doSpaces(-INDENT, outFile);
 }
 
@@ -1180,6 +1312,7 @@ void KittingWorkstationType::convertUnits(
 {
   std::list<PointType *>::iterator pointIter;
   std::list<BoxyShapeType *>::iterator boxyIter;
+  std::list<CylindricalShapeType *>::iterator cylIter;
   std::list<StockKeepingUnitType *>::iterator skuIter;
   std::list<VacuumEffectorMultiCupType *>::iterator multiIter;
   std::list<VacuumEffectorSingleCupType *>::iterator singlIter;
@@ -1368,6 +1501,8 @@ void KittingWorkstationType::convertUnits(
     (*pointIter)->convertUnits(KittingViewer::lengthFactor);
   for (boxyIter = allBoxys.begin(); boxyIter != allBoxys.end(); boxyIter++)
     (*boxyIter)->convertUnits(KittingViewer::lengthFactor);
+  for (cylIter = allCyls.begin(); cylIter != allCyls.end(); cylIter++)
+    (*cylIter)->convertUnits(KittingViewer::lengthFactor);
   for (skuIter = allSkus.begin(); skuIter != allSkus.end(); skuIter++)
     (*skuIter)->convertUnits(KittingViewer::weightFactor);
   for (multiIter = allMulti.begin(); multiIter != allMulti.end(); multiIter++)
@@ -1393,8 +1528,8 @@ LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
  LargeContainerType * LargeContainerIn,
- std::list<KitTrayType *> * KitTraysIn) :
-  SolidObjectType(
+ std::list<KitTrayType *> * KitTrayIn) :
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -1402,7 +1537,7 @@ LargeBoxWithEmptyKitTraysType::LargeBoxWithEmptyKitTraysType(
     ExternalShapeIn)
 {
   LargeContainer = LargeContainerIn;
-  KitTrays = KitTraysIn;
+  KitTray = KitTrayIn;
   printTypp = false;
 }
 
@@ -1457,13 +1592,13 @@ void LargeBoxWithEmptyKitTraysType::printSelf(FILE * outFile)
   fprintf(outFile, "</LargeContainer>\n");
   {
     std::list<KitTrayType *>::iterator iter;
-    for (iter = KitTrays->begin(); iter != KitTrays->end(); iter++)
+    for (iter = KitTray->begin(); iter != KitTray->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<KitTrays");
+        fprintf(outFile, "<KitTray");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</KitTrays>\n");
+        fprintf(outFile, "</KitTray>\n");
       }
   }
   doSpaces(-INDENT, outFile);
@@ -1487,7 +1622,7 @@ LargeBoxWithKitsType::LargeBoxWithKitsType(
  std::list<KitType *> * KitIn,
  XmlIDREF * KitDesignNameIn,
  XmlPositiveInteger * CapacityIn) :
-  SolidObjectType(
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -1584,18 +1719,14 @@ LargeContainerType::LargeContainerType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
-  SolidObjectType(
+  SkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
-    InternalShapeIn,
-    ExternalShapeIn)
+    SkuNameIn)
 {
-  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1628,22 +1759,6 @@ void LargeContainerType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -1709,7 +1824,7 @@ MechanicalComponentType::MechanicalComponentType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn) :
-  SolidObjectType(
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -1725,6 +1840,77 @@ void MechanicalComponentType::printSelf(FILE * outFile)
 {
   if (printTypp)
     fprintf(outFile, " xsi:type=\"MechanicalComponentType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PrimaryLocation");
+  PrimaryLocation->printSelf(outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "</PrimaryLocation>\n");
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin(); iter != SecondaryLocation->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<SecondaryLocation");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</SecondaryLocation>\n");
+      }
+  }
+  if (InternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<InternalShape");
+      InternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</InternalShape>\n");
+    }
+  if (ExternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<ExternalShape");
+      ExternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</ExternalShape>\n");
+    }
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
+/* class NoSkuObjectType
+
+*/
+
+NoSkuObjectType::NoSkuObjectType() {}
+
+NoSkuObjectType::NoSkuObjectType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn) :
+  SolidObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn)
+{
+  InternalShape = InternalShapeIn;
+  ExternalShape = ExternalShapeIn;
+  printTypp = false;
+}
+
+NoSkuObjectType::~NoSkuObjectType() {}
+
+void NoSkuObjectType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"NoSkuObjectType\"");
   fprintf(outFile, ">\n");
   doSpaces(+INDENT, outFile);
   doSpaces(0, outFile);
@@ -1836,18 +2022,14 @@ PartType::PartType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn) :
-  SolidObjectType(
+  SkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
-    InternalShapeIn,
-    ExternalShapeIn)
+    SkuNameIn)
 {
-  SkuName = SkuNameIn;
   SerialNumber = SerialNumberIn;
   printTypp = false;
 }
@@ -1880,22 +2062,6 @@ void PartType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -1919,23 +2085,21 @@ PartsBinType::PartsBinType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn,
  XmlIDREF * SkuNameIn,
  XmlNMTOKEN * SerialNumberIn,
  XmlIDREF * PartSkuNameIn,
- XmlNonNegativeInteger * PartQuantityIn) :
-  SolidObjectType(
+ XmlNonNegativeInteger * PartQuantityIn,
+ std::list<PartType *> * PartIn) :
+  PartsVesselType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
-    InternalShapeIn,
-    ExternalShapeIn)
+    SkuNameIn,
+    SerialNumberIn,
+    PartSkuNameIn,
+    PartQuantityIn,
+    PartIn)
 {
-  SkuName = SkuNameIn;
-  SerialNumber = SerialNumberIn;
-  PartSkuName = PartSkuNameIn;
-  PartQuantity = PartQuantityIn;
   printTypp = false;
 }
 
@@ -1967,22 +2131,6 @@ void PartsBinType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -1999,6 +2147,17 @@ void PartsBinType::printSelf(FILE * outFile)
   fprintf(outFile, "<PartQuantity>");
   PartQuantity->printSelf(outFile);
   fprintf(outFile, "</PartQuantity>\n");
+  {
+    std::list<PartType *>::iterator iter;
+    for (iter = Part->begin(); iter != Part->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<Part");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</Part>\n");
+      }
+  }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2014,19 +2173,21 @@ PartsTrayType::PartsTrayType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn,
  XmlIDREF * SkuNameIn,
- XmlNMTOKEN * SerialNumberIn) :
-  SolidObjectType(
+ XmlNMTOKEN * SerialNumberIn,
+ XmlIDREF * PartSkuNameIn,
+ XmlNonNegativeInteger * PartQuantityIn,
+ std::list<PartType *> * PartIn) :
+  PartsVesselType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
-    InternalShapeIn,
-    ExternalShapeIn)
+    SkuNameIn,
+    SerialNumberIn,
+    PartSkuNameIn,
+    PartQuantityIn,
+    PartIn)
 {
-  SkuName = SkuNameIn;
-  SerialNumber = SerialNumberIn;
   printTypp = false;
 }
 
@@ -2058,22 +2219,6 @@ void PartsTrayType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(0, outFile);
   fprintf(outFile, "<SkuName>");
   SkuName->printSelf(outFile);
@@ -2082,43 +2227,64 @@ void PartsTrayType::printSelf(FILE * outFile)
   fprintf(outFile, "<SerialNumber>");
   SerialNumber->printSelf(outFile);
   fprintf(outFile, "</SerialNumber>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PartSkuName>");
+  PartSkuName->printSelf(outFile);
+  fprintf(outFile, "</PartSkuName>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PartQuantity>");
+  PartQuantity->printSelf(outFile);
+  fprintf(outFile, "</PartQuantity>\n");
+  {
+    std::list<PartType *>::iterator iter;
+    for (iter = Part->begin(); iter != Part->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<Part");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</Part>\n");
+      }
+  }
   doSpaces(-INDENT, outFile);
 }
 
 /*********************************************************************/
 
-/* class PartsTrayWithPartsType
+/* class PartsVesselType
 
 */
 
-PartsTrayWithPartsType::PartsTrayWithPartsType() {}
+PartsVesselType::PartsVesselType() {}
 
-PartsTrayWithPartsType::PartsTrayWithPartsType(
+PartsVesselType::PartsVesselType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn,
- PartsTrayType * PartsTrayIn,
+ XmlIDREF * SkuNameIn,
+ XmlNMTOKEN * SerialNumberIn,
+ XmlIDREF * PartSkuNameIn,
+ XmlNonNegativeInteger * PartQuantityIn,
  std::list<PartType *> * PartIn) :
-  SolidObjectType(
+  SkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
-    InternalShapeIn,
-    ExternalShapeIn)
+    SkuNameIn)
 {
-  PartsTray = PartsTrayIn;
+  SerialNumber = SerialNumberIn;
+  PartSkuName = PartSkuNameIn;
+  PartQuantity = PartQuantityIn;
   Part = PartIn;
   printTypp = false;
 }
 
-PartsTrayWithPartsType::~PartsTrayWithPartsType() {}
+PartsVesselType::~PartsVesselType() {}
 
-void PartsTrayWithPartsType::printSelf(FILE * outFile)
+void PartsVesselType::printSelf(FILE * outFile)
 {
   if (printTypp)
-    fprintf(outFile, " xsi:type=\"PartsTrayWithPartsType\"");
+    fprintf(outFile, " xsi:type=\"PartsVesselType\"");
   fprintf(outFile, ">\n");
   doSpaces(+INDENT, outFile);
   doSpaces(0, outFile);
@@ -2141,27 +2307,22 @@ void PartsTrayWithPartsType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(0, outFile);
-  fprintf(outFile, "<PartsTray");
-  PartsTray->printSelf(outFile);
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "</PartsTray>\n");
+  fprintf(outFile, "<SerialNumber>");
+  SerialNumber->printSelf(outFile);
+  fprintf(outFile, "</SerialNumber>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PartSkuName>");
+  PartSkuName->printSelf(outFile);
+  fprintf(outFile, "</PartSkuName>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PartQuantity>");
+  PartQuantity->printSelf(outFile);
+  fprintf(outFile, "</PartQuantity>\n");
   {
     std::list<PartType *>::iterator iter;
     for (iter = Part->begin(); iter != Part->end(); iter++)
@@ -2186,11 +2347,13 @@ PhysicalLocationType::PhysicalLocationType() {}
 
 PhysicalLocationType::PhysicalLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn) :
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn) :
   DataThingType(
     NameIn)
 {
-  RefObject = RefObjectIn;
+  RefObjectName = RefObjectNameIn;
+  Timestamp = TimestampIn;
   printTypp = false;
 }
 
@@ -2207,9 +2370,16 @@ void PhysicalLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2281,16 +2451,22 @@ PoseLocationInType::PoseLocationInType() {}
 
 PoseLocationInType::PoseLocationInType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PoseLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
-    ZAxisIn)
+    ZAxisIn,
+    PositionStandardDeviationIn,
+    OrientationStandardDeviationIn)
 {
   printTypp = false;
 }
@@ -2308,9 +2484,16 @@ void PoseLocationInType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2326,6 +2509,20 @@ void PoseLocationInType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2339,16 +2536,22 @@ PoseLocationOnType::PoseLocationOnType() {}
 
 PoseLocationOnType::PoseLocationOnType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PoseLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
-    ZAxisIn)
+    ZAxisIn,
+    PositionStandardDeviationIn,
+    OrientationStandardDeviationIn)
 {
   printTypp = false;
 }
@@ -2366,9 +2569,16 @@ void PoseLocationOnType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2384,6 +2594,20 @@ void PoseLocationOnType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2391,19 +2615,25 @@ void PoseLocationOnType::printSelf(FILE * outFile)
 
 /* class PoseLocationType
 
-The constructor normalizes the XAxis and ZAxis vectors and checks that
-they are orthogonal by checking that the the cross product has a
-length close to 1. 
+The constructor taking no arguments creates a default pose in the
+usual location with a null Name and a null refObjectName. The origin
+and axes are created with "new", so this may leak memory.
 
-If the length of an axis vector is zero  or the vectors are not orthogonal,
-this prints an error message and exits.
+The constructor taking arguments normalizes the XAxis and ZAxis
+vectors and checks that they are orthogonal by checking that the the
+cross product has a length close to 1. If the length of an axis vector
+is zero or the vectors are not orthogonal, this prints an error
+message and exits.
+
+The destructor is not destructing the point or axes. It might be good
+to make the destructor do that.
 
 */
 
 PoseLocationType::PoseLocationType()
 { // details added, was {}
   Name = 0;
-  RefObject = 0;
+  RefObjectName = 0;
   Point = new PointType(0, new XmlDecimal(0.0),
 			new XmlDecimal(0.0), new XmlDecimal(0.0));
   XAxis = new VectorType(0, new XmlDecimal(1.0),
@@ -2414,17 +2644,23 @@ PoseLocationType::PoseLocationType()
 
 PoseLocationType::PoseLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PhysicalLocationType(
     NameIn,
-    RefObjectIn)
+    RefObjectNameIn,
+    TimestampIn)
 {
   Point = PointIn;
   XAxis = XAxisIn;
   ZAxis = ZAxisIn;
+  PositionStandardDeviation = PositionStandardDeviationIn;
+  OrientationStandardDeviation = OrientationStandardDeviationIn;
   XAxis->normalize();
   ZAxis->normalize();
   double xi = XAxis->I->val;
@@ -2460,9 +2696,16 @@ void PoseLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2478,6 +2721,20 @@ void PoseLocationType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2491,16 +2748,22 @@ PoseOnlyLocationType::PoseOnlyLocationType() {}
 
 PoseOnlyLocationType::PoseOnlyLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  PointType * PointIn,
  VectorType * XAxisIn,
- VectorType * ZAxisIn) :
+ VectorType * ZAxisIn,
+ PositiveDecimalType * PositionStandardDeviationIn,
+ PositiveDecimalType * OrientationStandardDeviationIn) :
   PoseLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     PointIn,
     XAxisIn,
-    ZAxisIn)
+    ZAxisIn,
+    PositionStandardDeviationIn,
+    OrientationStandardDeviationIn)
 {
   printTypp = false;
 }
@@ -2518,9 +2781,16 @@ void PoseOnlyLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Point");
   Point->printSelf(outFile);
@@ -2536,6 +2806,20 @@ void PoseOnlyLocationType::printSelf(FILE * outFile)
   ZAxis->printSelf(outFile);
   doSpaces(0, outFile);
   fprintf(outFile, "</ZAxis>\n");
+  if (PositionStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PositionStandardDeviation>");
+      PositionStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</PositionStandardDeviation>\n");
+    }
+  if (OrientationStandardDeviation)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<OrientationStandardDeviation>");
+      OrientationStandardDeviation->printSelf(outFile);
+      fprintf(outFile, "</OrientationStandardDeviation>\n");
+    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2586,11 +2870,13 @@ RelativeLocationInType::RelativeLocationInType() {}
 
 RelativeLocationInType::RelativeLocationInType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     DescriptionIn)
 {
   printTypp = false;
@@ -2609,9 +2895,16 @@ void RelativeLocationInType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
@@ -2629,11 +2922,13 @@ RelativeLocationOnType::RelativeLocationOnType() {}
 
 RelativeLocationOnType::RelativeLocationOnType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   RelativeLocationType(
     NameIn,
-    RefObjectIn,
+    RefObjectNameIn,
+    TimestampIn,
     DescriptionIn)
 {
   printTypp = false;
@@ -2652,9 +2947,16 @@ void RelativeLocationOnType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
@@ -2672,11 +2974,13 @@ RelativeLocationType::RelativeLocationType() {}
 
 RelativeLocationType::RelativeLocationType(
  XmlID * NameIn,
- XmlIDREF * RefObjectIn,
+ XmlIDREF * RefObjectNameIn,
+ XmlDateTime * TimestampIn,
  XmlString * DescriptionIn) :
   PhysicalLocationType(
     NameIn,
-    RefObjectIn)
+    RefObjectNameIn,
+    TimestampIn)
 {
   Description = DescriptionIn;
   printTypp = false;
@@ -2695,9 +2999,16 @@ void RelativeLocationType::printSelf(FILE * outFile)
   Name->printSelf(outFile);
   fprintf(outFile, "</Name>\n");
   doSpaces(0, outFile);
-  fprintf(outFile, "<RefObject>");
-  RefObject->printSelf(outFile);
-  fprintf(outFile, "</RefObject>\n");
+  fprintf(outFile, "<RefObjectName>");
+  RefObjectName->printSelf(outFile);
+  fprintf(outFile, "</RefObjectName>\n");
+  if (Timestamp)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<Timestamp>");
+      Timestamp->printSelf(outFile);
+      fprintf(outFile, "</Timestamp>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
@@ -2723,7 +3034,7 @@ RobotType::RobotType(
  EndEffectorType * EndEffectorIn,
  PositiveDecimalType * MaximumLoadWeightIn,
  std::list<BoxVolumeType *> * WorkVolumeIn) :
-  SolidObjectType(
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
@@ -2860,6 +3171,109 @@ void ShapeDesignType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class SkuObjectType
+
+*/
+
+SkuObjectType::SkuObjectType() {}
+
+SkuObjectType::SkuObjectType(
+ XmlID * NameIn,
+ PhysicalLocationType * PrimaryLocationIn,
+ std::list<PhysicalLocationType *> * SecondaryLocationIn,
+ XmlIDREF * SkuNameIn) :
+  SolidObjectType(
+    NameIn,
+    PrimaryLocationIn,
+    SecondaryLocationIn)
+{
+  SkuName = SkuNameIn;
+  printTypp = false;
+}
+
+SkuObjectType::~SkuObjectType() {}
+
+void SkuObjectType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"SkuObjectType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PrimaryLocation");
+  PrimaryLocation->printSelf(outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "</PrimaryLocation>\n");
+  {
+    std::list<PhysicalLocationType *>::iterator iter;
+    for (iter = SecondaryLocation->begin(); iter != SecondaryLocation->end(); iter++)
+      {
+        doSpaces(0, outFile);
+        fprintf(outFile, "<SecondaryLocation");
+        (*iter)->printSelf(outFile);
+        doSpaces(0, outFile);
+        fprintf(outFile, "</SecondaryLocation>\n");
+      }
+  }
+  doSpaces(0, outFile);
+  fprintf(outFile, "<SkuName>");
+  SkuName->printSelf(outFile);
+  fprintf(outFile, "</SkuName>\n");
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
+/* class SlotType
+
+*/
+
+SlotType::SlotType() {}
+
+SlotType::SlotType(
+ XmlID * NameIn,
+ XmlIDREF * PartRefAndPoseNameIn,
+ XmlIDREF * PartNameIn) :
+  DataThingType(
+    NameIn)
+{
+  PartRefAndPoseName = PartRefAndPoseNameIn;
+  PartName = PartNameIn;
+  printTypp = false;
+}
+
+SlotType::~SlotType() {}
+
+void SlotType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"SlotType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<Name>");
+  Name->printSelf(outFile);
+  fprintf(outFile, "</Name>\n");
+  doSpaces(0, outFile);
+  fprintf(outFile, "<PartRefAndPoseName>");
+  PartRefAndPoseName->printSelf(outFile);
+  fprintf(outFile, "</PartRefAndPoseName>\n");
+  if (PartName)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<PartName>");
+      PartName->printSelf(outFile);
+      fprintf(outFile, "</PartName>\n");
+    }
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
 /* class SolidObjectType
 
 The objectMap is not being checked for duplicates because the Name is an
@@ -2872,17 +3286,12 @@ SolidObjectType::SolidObjectType() {}
 SolidObjectType::SolidObjectType(
  XmlID * NameIn,
  PhysicalLocationType * PrimaryLocationIn,
- std::list<PhysicalLocationType *> * SecondaryLocationIn,
- InternalShapeType * InternalShapeIn,
- ExternalShapeType * ExternalShapeIn)
+ std::list<PhysicalLocationType *> * SecondaryLocationIn)
 {
   Name = NameIn;
   PrimaryLocation = PrimaryLocationIn;
   SecondaryLocation = SecondaryLocationIn;
-  InternalShape = InternalShapeIn;
-  ExternalShape = ExternalShapeIn;
   objectMap.insert(std::pair<std::string, SolidObjectType *>(Name->val, this));
-  sku = 0;
   refThing = 0;
 }
 
@@ -2913,22 +3322,6 @@ void SolidObjectType::printSelf(FILE * outFile)
         fprintf(outFile, "</SecondaryLocation>\n");
       }
   }
-  if (InternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<InternalShape");
-      InternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</InternalShape>\n");
-    }
-  if (ExternalShape)
-    {
-      doSpaces(0, outFile);
-      fprintf(outFile, "<ExternalShape");
-      ExternalShape->printSelf(outFile);
-      doSpaces(0, outFile);
-      fprintf(outFile, "</ExternalShape>\n");
-    }
   doSpaces(-INDENT, outFile);
 }
 
@@ -2943,14 +3336,16 @@ StockKeepingUnitType::StockKeepingUnitType() {}
 StockKeepingUnitType::StockKeepingUnitType(
  XmlID * NameIn,
  XmlString * DescriptionIn,
- ShapeDesignType * ShapeIn,
+ InternalShapeType * InternalShapeIn,
+ ExternalShapeType * ExternalShapeIn,
  PositiveDecimalType * WeightIn,
  std::list<XmlIDREF *> * EndEffectorNameIn) :
   DataThingType(
     NameIn)
 {
   Description = DescriptionIn;
-  Shape = ShapeIn;
+  InternalShape = InternalShapeIn;
+  ExternalShape = ExternalShapeIn;
   Weight = WeightIn;
   EndEffectorName = EndEffectorNameIn;
   printTypp = false;
@@ -2974,11 +3369,22 @@ void StockKeepingUnitType::printSelf(FILE * outFile)
   fprintf(outFile, "<Description>");
   Description->printSelf(outFile);
   fprintf(outFile, "</Description>\n");
-  doSpaces(0, outFile);
-  fprintf(outFile, "<Shape");
-  Shape->printSelf(outFile);
-  doSpaces(0, outFile);
-  fprintf(outFile, "</Shape>\n");
+  if (InternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<InternalShape");
+      InternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</InternalShape>\n");
+    }
+  if (ExternalShape)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<ExternalShape");
+      ExternalShape->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</ExternalShape>\n");
+    }
   doSpaces(0, outFile);
   fprintf(outFile, "<Weight>");
   Weight->printSelf(outFile);
@@ -3040,7 +3446,7 @@ VacuumEffectorMultiCupType::VacuumEffectorMultiCupType(
   ArrayNumber = ArrayNumberIn;
   ArrayRadius = ArrayRadiusIn;
   printTypp = false;
-  allMulti.push_back(this);
+  allMulti.push_back(this);     // added
 }
 
 VacuumEffectorMultiCupType::~VacuumEffectorMultiCupType() {}
@@ -3501,15 +3907,15 @@ WorkTableType::WorkTableType(
  std::list<PhysicalLocationType *> * SecondaryLocationIn,
  InternalShapeType * InternalShapeIn,
  ExternalShapeType * ExternalShapeIn,
- std::list<SolidObjectType *> * SolidObjectIn) :
-  SolidObjectType(
+ std::list<SolidObjectType *> * ObjectOnTableIn) :
+  NoSkuObjectType(
     NameIn,
     PrimaryLocationIn,
     SecondaryLocationIn,
     InternalShapeIn,
     ExternalShapeIn)
 {
-  SolidObject = SolidObjectIn;
+  ObjectOnTable = ObjectOnTableIn;
   printTypp = false;
 }
 
@@ -3559,13 +3965,13 @@ void WorkTableType::printSelf(FILE * outFile)
     }
   {
     std::list<SolidObjectType *>::iterator iter;
-    for (iter = SolidObject->begin(); iter != SolidObject->end(); iter++)
+    for (iter = ObjectOnTable->begin(); iter != ObjectOnTable->end(); iter++)
       {
         doSpaces(0, outFile);
-        fprintf(outFile, "<SolidObject");
+        fprintf(outFile, "<ObjectOnTable");
         (*iter)->printSelf(outFile);
         doSpaces(0, outFile);
-        fprintf(outFile, "</SolidObject>\n");
+        fprintf(outFile, "</ObjectOnTable>\n");
       }
   }
   doSpaces(-INDENT, outFile);
@@ -3586,7 +3992,6 @@ XmlHeaderForKittingWorkstation::~XmlHeaderForKittingWorkstation() {}
 void XmlHeaderForKittingWorkstation::printSelf(
   FILE * outFile)
 {
-  fprintf(outFile, "  xmlns=\"urn:kitting\"\n");
   fprintf(outFile,
           "  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
   location->printSelf(outFile);

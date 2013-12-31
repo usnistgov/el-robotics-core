@@ -10,6 +10,10 @@
 In this copy of xmlSchemaInstance.cc, the boost regex facility is not used.
 Hard-coded string format checkers are used instead.
 
+The handling of the various types of strings should be improved to deal
+correctly with the XML white space facets: preserve, replace, and collapse.
+Currently these are only partially handled correctly.
+
 */
 
 /*********************************************************************/
@@ -84,17 +88,28 @@ SchemaLocation::SchemaLocation() {}
 
 SchemaLocation::SchemaLocation(
   char * prefixIn,
-  char * locationIn)
+  char * locationIn,
+  bool hasNamespaceIn)
 {
   prefix = prefixIn;
   location = locationIn;
+  hasNamespace = hasNamespaceIn;
 }
 
 SchemaLocation::~SchemaLocation() {}
 
 void SchemaLocation::printSelf(FILE * outFile)
 {
-  fprintf(outFile, "  %s:schemaLocation=\"%s\"", prefix, location);
+  if (hasNamespace)
+    {
+      fprintf(outFile, "  %s:schemaLocation=\"%s\"",
+	      prefix, location);
+    }
+  else
+    {
+      fprintf(outFile, "  %s:noNamespaceSchemaLocation=\"%s\"",
+	      prefix, location);
+    }
 }
 
 /*********************************************************************/
@@ -423,6 +438,13 @@ after calling the constructor with the valIn argument.
 The limitation on the size of IDs is probably not necessary, but it may be
 useful to the find and insert operations.
 
+A valid ID may have leading and/or trailing white space, but
+otherwise, the first non-space character must be a member of [a-zA-Z_]
+and other characters must be a member of [a-zA-Z0-9_.-].
+
+This is handling white space correctly. Leading white space (tab, space,
+10, 13) and trailing white space is removed.
+
 */
 
 XmlID::XmlID()
@@ -441,21 +463,68 @@ XmlID::XmlID()
 XmlID::XmlID(
  char * valIn)
 {
-  val = valIn; // automatic conversion
-  if ((int)val.size() > idSize)
+  int n;
+  int start;
+  int length;
+  static char buffer[NAMESIZE];
+
+  length = strlen(valIn);
+  if (length > NAMESIZE)
     {
-      fprintf(stderr, "the following ID value is too long: %s\n", val.c_str());
-      bad = true;
+      fprintf(stderr, "ID %s is too long", valIn);
+      exit(1);
     }
-  else if (allIDs.find(val) != allIDs.end())
+  strncpy(buffer, valIn, NAMESIZE);
+  for (start=0; ((buffer[start] == ' ') || (buffer[start] == '\t') ||
+                 (buffer[start] == 10)  || (buffer[start] == 13)); start++);
+  for (n = length - 1; ((buffer[n] == ' ') || (buffer[n] == '\t') ||
+		        (buffer[n] == 10)  || (buffer[n] == 13)); n--);
+  buffer[n+1] = 0;
+  if ((int)strlen(buffer + start) > idSize)
     {
-      fprintf(stderr, "ID value %s is already in use\n", val.c_str());
+      fprintf(stderr,
+	      "the ID %s is too long\n", buffer + start);
+      val = "";
       bad = true;
+      return;
     }
-  else
+  n = start;
+  if ((buffer[n] != '_') &&
+      ((buffer[n] < 'a') || (buffer[n] > 'z')) &&
+      ((buffer[n] < 'A') || (buffer[n] > 'Z')))
+    { // first non-white character is not allowed
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid ID\n", buffer + start);
+      return;
+    }
+  for (n++; ((buffer[n] == '_') ||
+	     (buffer[n] == '.') ||
+	     (buffer[n] == '-') ||
+	     ((buffer[n] >= 'a') && (buffer[n] <= 'z')) ||
+	     ((buffer[n] >= 'A') && (buffer[n] <= 'Z')) ||
+	     ((buffer[n] >= '0') && (buffer[n] <= '9'))); n++);
+  if (buffer[n])
+    { // buffer[n] should be 0 but isn't
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid ID\n", buffer + start);
+      return;
+    }
+   else
     {
-      bad = false;
-      allIDs.insert(val);
+      val = buffer + start; // automatic conversion
+      if (allIDs.find(val) != allIDs.end())
+	{
+	  fprintf(stderr, "ID value %s is already in use\n", val.c_str());
+	  val = "";
+	  bad = true;
+	}
+      else
+	{ // everything OK
+	  bad = false;
+	  allIDs.insert(val);
+	}
     }
 }
 
@@ -466,14 +535,34 @@ XmlID::~XmlID()
 
 bool XmlID::XmlIDIsBad()
 {
+  int n;
+
   if (bad)
     return true;
   else if ((int)val.size() > idSize)
     return true;
   else if (allIDs.find(val) == allIDs.end())
     return true;
-  else
-    return false;
+  else if ((val[0] != '_') &&
+	   ((val[0] < 'a') || (val[0] > 'z')) &&
+	   ((val[0] < 'A') || (val[0] > 'Z')))
+    { // first non-space non-tab is not allowed
+      val = "";
+      return true;
+    }
+  for (n=1; ((val[n] == '_') ||
+	     (val[n] == '.') ||
+	     (val[n] == '-') ||
+	     ((val[n] >= 'a') && (val[n] <= 'z')) ||
+	     ((val[n] >= 'A') && (val[n] <= 'Z')) ||
+	     ((val[n] >= '0') && (val[n] <= '9'))); n++);
+  for ( ; ((val[n] == ' ') || (val[n] == '\t')); n++);
+  if (val[n])
+    { // val[n] should be 0 but isn't
+      val = "";
+      return true;
+    }
+  return false;
 }
 
 void XmlID::printSelf(FILE * outFile)
@@ -523,18 +612,57 @@ XmlIDREF::XmlIDREF()
 XmlIDREF::XmlIDREF(
   char * valIn)
 {
-  val = valIn; // automatic conversion
-  if ((int)val.size() > idrefSize)
+  int n;
+  int start;
+  int length;
+  static char buffer[NAMESIZE];
+
+  length = strlen(valIn);
+  if (length > NAMESIZE)
     {
-      fprintf(stderr, "the following IDREF value is too long: %s\n",
-	      val.c_str());
+      fprintf(stderr, "IDREF %s is too long", valIn);
+      exit(1);
+    }
+  strncpy(buffer, valIn, NAMESIZE);
+  for (start=0; ((buffer[start] == ' ') || (buffer[start] == '\t') ||
+                 (buffer[start] == 10)  || (buffer[start] == 13)); start++);
+  for (n = length - 1; ((buffer[n] == ' ') || (buffer[n] == '\t') ||
+		        (buffer[n] == 10)  || (buffer[n] == 13)); n--);
+  buffer[n+1] = 0;
+  if ((int)strlen(buffer + start) > idrefSize)
+    {
+      fprintf(stderr,
+	      "the IDREF %s is too long\n", buffer + start);
+      val = "";
       bad = true;
+      return;
     }
-  else
-    {
-      bad = false;
-      allIDREFs.insert(val);
+  n = start;
+  if ((buffer[n] != '_') &&
+      ((buffer[n] < 'a') || (buffer[n] > 'z')) &&
+      ((buffer[n] < 'A') || (buffer[n] > 'Z')))
+    { // first non-white character is not allowed
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid IDREF\n", buffer + start);
+      return;
     }
+  for (n++; ((buffer[n] == '_') ||
+	     (buffer[n] == '.') ||
+	     (buffer[n] == '-') ||
+	     ((buffer[n] >= 'a') && (buffer[n] <= 'z')) ||
+	     ((buffer[n] >= 'A') && (buffer[n] <= 'Z')) ||
+	     ((buffer[n] >= '0') && (buffer[n] <= '9'))); n++);
+  if (buffer[n])
+    { // buffer[n] should be 0 but isn't
+      val = "";
+      bad = true;
+      fprintf(stderr, "%s is not a valid IDREF\n", buffer + start);
+      return;
+    }
+  val = buffer + start; // automatic conversion
+  bad = false;
+  allIDREFs.insert(val);
 }
 
 XmlIDREF::~XmlIDREF()
@@ -544,14 +672,34 @@ XmlIDREF::~XmlIDREF()
 
 bool XmlIDREF::XmlIDREFIsBad()
 {
+  int n;
+
   if (bad)
     return true;
   else if ((int)val.size() > idrefSize)
     return true;
   else if (allIDREFs.find(val) == allIDREFs.end())
     return true;
-  else
-    return false;
+  else if ((val[0] != '_') &&
+	   ((val[0] < 'a') || (val[0] > 'z')) &&
+	   ((val[0] < 'A') || (val[0] > 'Z')))
+    { // first non-space non-tab is not allowed
+      val = "";
+      return true;
+    }
+  for (n=1; ((val[n] == '_') ||
+	     (val[n] == '.') ||
+	     (val[n] == '-') ||
+	     ((val[n] >= 'a') && (val[n] <= 'z')) ||
+	     ((val[n] >= 'A') && (val[n] <= 'Z')) ||
+	     ((val[n] >= '0') && (val[n] <= '9'))); n++);
+  for ( ; ((val[n] == ' ') || (val[n] == '\t')); n++);
+  if (val[n])
+    { // val[n] should be 0 but isn't
+      val = "";
+      return true;
+    }
+  return false;
 }
 
 void XmlIDREF::printSelf(FILE * outFile)
@@ -590,6 +738,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -667,6 +816,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -744,6 +894,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -821,7 +972,8 @@ If so, val is set to valIn and bad is set to false.
 If not, val is set to the empty string and bad is set to true.
 
 A valid NMTOKEN may have leading and/or trailing spaces and tabs, but
-otherwise, it must be a member of [a-zA-Z0-9:_.-].
+otherwise, it must be a member of [a-zA-Z0-9:_.-]+.
+boost::regex("^[a-zA-Z0-9:_.-]+$"
 
 */
 
@@ -912,6 +1064,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more  spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If that checks, it is checked that the value is not negative.
@@ -1002,6 +1155,7 @@ The constructor that takes an argument checks that valIn consists of
 2. an optional plus or minus sign followed by
 3. a string of one or more digits followed by
 4. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[+-]?[0-9]+[ \t]*$"
 
 If that checks, it is checked that sscanf can read the number.
 If that checks, it is checked that the value is positive.
@@ -1145,6 +1299,75 @@ void XmlString::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class XmlToken
+
+This is a class for handling XML basic type token.
+
+In the constructor that takes a char array, white space at the front
+and back of the char array is removed if there is any, and substrings
+of white space inside the char array are replaced by a single space.
+
+*/
+
+XmlToken::XmlToken()
+{
+  val = "";
+  bad = true;
+}
+
+XmlToken::XmlToken(
+  char * valIn)
+{
+  char * buffer;
+  int n;
+  int m;
+
+  buffer = new char[strlen(valIn) + 1];
+  strcpy(buffer, valIn);
+  for (n = 0; ((buffer[n] == 9)  || (buffer[n] == 10) ||
+	       (buffer[n] == 13) || (buffer[n] == 32)); n++);
+  for (m = 0; buffer[n]; n++)
+    {
+      if ((buffer[n] == 9)  || (buffer[n] == 10) ||
+	  (buffer[n] == 13) || (buffer[n] == 32))
+	{
+	  buffer[m++] = 32;
+	  for (n++; ((buffer[n] == 9)  || (buffer[n] == 10) ||
+		  (buffer[n] == 13) || (buffer[n] == 32)); n++);
+	  n--;
+	}
+      else
+	{
+	  buffer[m++] = buffer[n];
+	}
+    }
+  buffer[m] = 0;
+  if (buffer[m-1] == 32)
+    (buffer[m-1] = 0);
+  val = buffer; // automatic conversion
+  bad = false;
+  delete buffer;
+}
+
+XmlToken::~XmlToken() {}
+
+bool XmlToken::XmlTokenIsBad()
+{
+  return bad;
+}
+
+void XmlToken::printSelf(FILE * outFile)
+{
+  if (XmlTokenIsBad())
+    {
+      fprintf(stderr, "token value is bad\n");
+      exit(1);
+    }
+  fprintf(outFile, "%s", val.c_str());
+}
+
+/*********************************************************************/
+
 /* class XmlUnsignedInt
 
 This is a class for handling XML basic type unsignedInt.
@@ -1153,6 +1376,7 @@ The constructor that takes an argument checks that valIn consists of
 1. a sequence of zero or more spaces and tabs followed by
 2. a string of one or more digits followed by
 3. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[0-9]+[ \t]*$"
 
 If that checks, sscanf is called to read the number.
 If all checks pass, bad is set to false and val is set to the number read.
@@ -1227,6 +1451,7 @@ The constructor that takes an argument checks that valIn consists of
 1. a sequence of zero or more spaces and tabs followed by
 2. a string of one or more digits followed by
 3. a sequence of zero or more spaces and tabs
+boost::regex("^[ \t]*[0-9]+[ \t]*$"
 
 If that checks, sscanf is called to read the number.
 If all checks pass, bad is set to false and val is set to the number read.

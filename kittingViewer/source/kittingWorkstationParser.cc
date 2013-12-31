@@ -1,7 +1,7 @@
 #include <stdio.h>   // fprintf
 #include <string.h>  // strlen
 #include <stdlib.h>  // exit
-#include "kittingClasses.hh"
+#include "kittingWorkstationClasses.hh"
 
 extern KittingWorkstationFile * KittingWorkstationTree;
 extern FILE * yyin;

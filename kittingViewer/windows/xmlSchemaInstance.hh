@@ -7,6 +7,8 @@
 #include <set>
 #include <string>
 
+#define NAMESIZE 200
+
 /*********************************************************************/
 
 class AttributePair;
@@ -66,12 +68,14 @@ public:
   SchemaLocation();
   SchemaLocation(
     char * prefixIn,
-    char * locationIn);
+    char * locationIn,
+    bool hasNamespaceIn);
   ~SchemaLocation();
   void printSelf(FILE * outFile);
 
   char * prefix;
   char * location;
+  bool hasNamespace;
 };
 
 /*********************************************************************/
@@ -440,6 +444,32 @@ public:
   ~XmlString();
   void printSelf(FILE * outFile);
   bool XmlStringIsBad();
+
+  std::string val;
+  bool bad;
+};
+
+/*********************************************************************/
+
+/* class XmlToken
+
+This is a class for handling XML basic type token.
+A token is a string with no white space at the front or back, and
+all white space substrings inside reduced to a single space.
+White space is 9, 10, 13 and 32 (tab, linefeed, carriage return, space).
+
+*/
+
+class XmlToken :
+  public XmlSchemaInstanceBase
+{
+public:
+  XmlToken();
+  XmlToken(
+    char * valIn);
+  ~XmlToken();
+  void printSelf(FILE * outFile);
+  bool XmlTokenIsBad();
 
   std::string val;
   bool bad;

@@ -13,9 +13,9 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(VERSION 2.6)
 message("In utils directory")
 
-set(libipmasUtils_SOURCES ulapi.cpp)
+set(libipmasUtils_SOURCES src/ulapi.cpp
+                          src/recurseLocation.cpp)
 
-#include_directories(${IPMAS_DIR}/AutoGen)
 #link_directories(${LIBRARY_OUTPUT_PATH})
 
 add_library(ipmasUtils STATIC ${libipmasUtils_SOURCES})

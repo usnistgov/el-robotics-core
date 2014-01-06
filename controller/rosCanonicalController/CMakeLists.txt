@@ -34,7 +34,7 @@ SET(librosControl_SOURCES src/rosControl/rosInf.cpp
 SET(roscontroller_LIBS ipmasUtils canonicalQueue rosControl pthread sqlKit mysqlcppconn)
 
 link_directories(${LIBRARY_OUTPUT_PATH})
-include_directories(${CONTROLLER_DIRECTORY}/canonicalQueue)
+include_directories(${CONTROLLER_DIRECTORY}/canonicalQueue/include)
 
 rosbuild_add_library(rosControl STATIC ${librosControl_SOURCES})
 

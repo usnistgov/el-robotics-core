@@ -31,11 +31,11 @@
 
 #include <string>
 #include <stdio.h> // printf
-#include "database/DAO.h"
-#include "database/KitTray.h"
-#include "database/Part.h"
-#include "database/PartsTray.h"
-#include "database/Kit.h"
+#include "DAO.h"
+#include "KitTray.h"
+#include "Part.h"
+#include "PartsTray.h"
+#include "Kit.h"
 #include "recurseLocation.h"
 #include "kitTrayModel.h"
 #include "partModel.h"

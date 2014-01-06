@@ -36,12 +36,12 @@ This may also be seen in the dataTest.cpp file.
 
 #include <vector>
 #include <string>
-#include "database/Part.h"
-#include "database/Point.h"
-#include "database/PoseLocation.h"
-#include "database/PhysicalLocation.h"
-#include "database/SolidObject.h"
-#include "database/Vector.h"
+#include "Part.h"
+#include "Point.h"
+#include "PoseLocation.h"
+#include "PhysicalLocation.h"
+#include "SolidObject.h"
+#include "Vector.h"
 
 class Frame{
  public:

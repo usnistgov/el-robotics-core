@@ -20,10 +20,10 @@
 
 #include <string>
 #include <stdio.h> // printf
-#include "database/DAO.h"
-#include "database/Slot.h"
-#include "database/PhysicalLocation.h"
-#include "database/Part.h"
+#include "DAO.h"
+#include "Slot.h"
+#include "PhysicalLocation.h"
+#include "Part.h"
 
 int main(int argc, char *argv[])
 {

@@ -13,9 +13,10 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(VERSION 2.6)
 message("In canonicalQueue directory")
 
-set(libcanonicalQueue_SOURCES commandParser.cpp controller.cpp canonicalMsg.cpp)
-set(test_SOURCES test.cpp myController.cpp)
-set(commandParser_SOURCES commandParserMain.cpp myController.cpp)
+include_directories(./include)
+set(libcanonicalQueue_SOURCES ./src/commandParser.cpp ./src/controller.cpp ./src/canonicalMsg.cpp)
+set(test_SOURCES ./src/test.cpp ./src/myController.cpp)
+set(commandParser_SOURCES ./src/commandParserMain.cpp ./src/myController.cpp)
 set(canonicalController_LIBS sqlKit pthread mysqlcppconn)
 
 add_library(canonicalQueue STATIC ${libcanonicalQueue_SOURCES})

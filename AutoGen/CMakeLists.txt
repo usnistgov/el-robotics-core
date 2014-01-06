@@ -14,16 +14,21 @@ message("In AutoGen directory")
 
 project(AutoGen)
 set(OWL_FILE ${IPMAS_DIR}/Ontology/Kitting/kittingClasses.owl)
-file(GLOB libsqlKit_SOURCES "*.cpp")
-include_directories(database)
+set(AutoGen_DIR ${IPMAS_DIR}/AutoGen/src)
+file(GLOB libsqlKit_SOURCES "./src/*.cpp")
+#file(GLOB libsqlKit_INCLUDES "./database/*.hh")
+include_directories(${IPMAS_DIR}/AutoGen)
 
-add_custom_command(OUTPUT genSrc.cpp
-                   COMMAND java -jar ${IPMAS_DIR}/Generator/generator_no_gui.jar -owl ${OWL_FILE} -cpp ./
-                   COMMAND mv *.h database
-                   COMMAND touch genSrc.cpp
+set (addfiles ${libsqlKit_SOURCES})
+#set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${addfiles})
+
+add_custom_command(OUTPUT ${AutoGen_DIR}/genSrc.cpp
+                   COMMAND java -jar ${IPMAS_DIR}/Generator/generator_no_gui.jar -owl ${OWL_FILE} -cpp ${AutoGen_DIR}
+                   COMMAND mv ${AutoGen_DIR}/*.h database
+                   COMMAND touch ${AutoGen_DIR}/genSrc.cpp
 		   COMMAND echo //////////////////////////////////////////////////////
 		   COMMAND echo "NEW FILES ADDED IN AUTOGEN DIRECTORY. RERUN CMAKE!!!"
 		   COMMAND echo //////////////////////////////////////////////////////
                    MAIN_DEPENDENCY ${OWL_FILE}
 		   COMMENT "Generate .cpp and .hh files from ontoloyg")
-add_library(sqlKit STATIC ${libsqlKit_SOURCES} genSrc.cpp)
+add_library(sqlKit STATIC ${libsqlKit_SOURCES} ${AutoGen_DIR}/genSrc.cpp)

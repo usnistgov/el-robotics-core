@@ -19,10 +19,7 @@ set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
 
 SET(objectGen_SOURCES
     src/objectGen.cpp 
-    src/partModel.cpp 
     src/usarSimInf.cpp 
-    src/kitTrayModel.cpp 
-    src/partsTrayModel.cpp 
     src/genericModel.cpp)
 
 SET(objectGen_LIBS sqlKit ipmasUtils pthread mysqlcppconn )

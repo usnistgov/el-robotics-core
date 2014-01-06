@@ -37,10 +37,8 @@
 #include "PartsTray.h"
 #include "Kit.h"
 #include "recurseLocation.h"
-#include "kitTrayModel.h"
-#include "partModel.h"
-#include "partsTrayModel.h"
 #include "usarSimInf.h"
+#include "genericModel.h"
 
 /* define flags for population */
 #define POPULATE_PART_TRAY 0x1
@@ -60,9 +58,6 @@ int main(int argc, char *argv[])
   Part *testPart = new Part(myPart);;
   PartsTray *partsTray = new PartsTray(myPart);
   RecurseLocation recurseLocation;
-  KitTrayModel kitTrayModel;
-  PartModel partModel;
-  PartsTrayModel partsTrayModel;
   std::string USARModel;
   std::map<std::string, std::vector<std::string> > results;
   DAO* dao = new DAO("Part");
@@ -95,9 +90,10 @@ int main(int argc, char *argv[])
 	  printf( "Unknown option `-%c`.\n", optopt);
 	else
 	  printf( "Unknown option character `\\x%x`.\n", optopt );
-	printf( "Usage: %s -d -t -h <host> -o <flags>, d: debug mode, ", argv[0]);
-	printf( "o: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts");
-	printf( "t: objects are temporary, h: use usarSim host <host>\n");
+	printf( "Usage: %s -d -t -h <host> -o <flags>\n", argv[0]);
+	printf( "\td: debug mode\n" );
+	printf( "\to: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts)\n");
+	printf( "\tt: objects are temporary\n\th: use usarSim host <host>\n");
 	return 1;
       default:
 	return 1;
@@ -116,8 +112,7 @@ int main(int argc, char *argv[])
 	  myPart = results["_NAME"][i];
 	  //      testPart  = new Part(myPart);
 	  partsTray->get(myPart);
-	  partsTrayModel.setPartsTray(partsTray);
-	  USARModel = partsTrayModel.getModel();
+	  USARModel = GenericModel::getModel(dynamic_cast<SolidObject*>(partsTray));
 	  /*
 	    printf( "partsTrayid for %s is %d with serial %s and model \"%s\"\n", 
 	    myPart.c_str(), partsTray->getPartsTrayID(),
@@ -151,8 +146,8 @@ int main(int argc, char *argv[])
 	  kitTray = kit->gethasKit_KitTray();
 	  kitTray->get(kitTray->getname());
 	  // end of change
-	  kitTrayModel.setKitTray(kitTray);
-	  USARModel = kitTrayModel.getModel();
+	  USARModel = GenericModel::getModel(dynamic_cast<SolidObject*>(kitTray));
+
 	  /*
 	    printf( "kitTrayid for %s is %d with serial %s and model \"%s\"\n", 
 	    myPart.c_str(), kitTray->getKitTrayID(),
@@ -181,8 +176,7 @@ int main(int argc, char *argv[])
 	  myPart = results["_NAME"][i];
 	  //      testPart  = new Part(myPart);
 	  testPart->get(myPart);
-	  partModel.setPart(testPart);
-	  USARModel = partModel.getModel();
+	  USARModel = GenericModel::getModel(dynamic_cast<SolidObject*>(testPart));
 	  /*
 	    printf( "partid for %s is %d with serial %s and model \"%s\"\n", 
 	    myPart.c_str(), testPart->getPartID(),

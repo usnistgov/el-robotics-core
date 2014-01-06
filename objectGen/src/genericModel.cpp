@@ -23,6 +23,19 @@
 GenericModel::GenericModel()
 {
 }
+std::string GenericModel::getModel(SolidObject *object)
+{
+  SkuObject *skuObject = new SkuObject("foo");
+  StockKeepingUnit *sku;
+  std::string retString;
+
+  skuObject->get(object->getname());
+  sku = skuObject->gethasSkuObject_Sku();
+
+  retString = getModel(sku);
+  delete skuObject;
+  return retString;
+}
 
 std::string GenericModel::getModel(StockKeepingUnit *sku)
 {
@@ -54,6 +67,5 @@ std::string GenericModel::getModel(StockKeepingUnit *sku)
       //      printf( "%s is not an external shape\n", sku->getname().c_str() );
     }
 
-  delete externalShape;
   return modelName;
 }

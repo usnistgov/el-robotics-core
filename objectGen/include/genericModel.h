@@ -1,15 +1,18 @@
 #ifndef __genericModel
 #define __genericModel
-#include "database/ShapeDesign.h"
-#include "database/StockKeepingUnit.h"
-#include "database/ExternalShape.h"
+#include "ExternalShape.h"
+#include "ShapeDesign.h"
+#include "SkuObject.h"
+#include "SolidObject.h"
+#include "StockKeepingUnit.h"
 #include <stdio.h> // printf
 #include <string>
 
 class GenericModel{
  public:
   GenericModel();
-  std::string getModel(StockKeepingUnit *sku);
+  static std::string getModel(StockKeepingUnit *sku);
+  static std::string getModel(SolidObject *object);
 };
 
 #endif

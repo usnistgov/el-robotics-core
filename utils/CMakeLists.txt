@@ -14,7 +14,8 @@ cmake_policy(VERSION 2.6)
 message("In utils directory")
 
 set(libipmasUtils_SOURCES src/ulapi.cpp
-                          src/recurseLocation.cpp)
+                          src/recurseLocation.cpp
+			  src/genericModel.cpp)
 
 #link_directories(${LIBRARY_OUTPUT_PATH})
 

@@ -8,19 +8,20 @@
 #--  pursuant to the copyright license under the clause at DFARS
 #--  252.227-7013 (October 1988).
 #------------------------------------------------------------------------------
-
 cmake_minimum_required(VERSION 2.6)
 cmake_policy(VERSION 2.6)
-message("In utils directory")
+message("In USARTruth directory")
+project(USARTruth)
+include_directories(${IPMAS_DIR}/AutoGen ${IPMAS_DIR}/utils ${IPMAS_DIR}/objectGen/include)
 
-set(libipmasUtils_SOURCES src/ulapi.cpp
-                          src/recurseLocation.cpp
-			  src/genericModel.cpp
-			  src/USARTruth.cpp
-			  src/parseUtils.cpp
-			  )
+set(LIBRARY_OUTPUT_PATH ${IPMAS_DIR}/lib)
+set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
 
-#link_directories(${LIBRARY_OUTPUT_PATH})
+SET(USARTest_SOURCES
+  ./src/USARTest.cpp)
 
-add_library(ipmasUtils STATIC ${libipmasUtils_SOURCES})
+SET(USARTest_LIBS ipmasUtils pthread)
 
+add_executable(USARTest ${USARTest_SOURCES})
+link_directories(${LIBRARY_OUTPUT_PATH})
+target_link_libraries(USARTest ${USARTest_LIBS})

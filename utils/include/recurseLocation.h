@@ -42,6 +42,9 @@ This may also be seen in the dataTest.cpp file.
 #include "PhysicalLocation.h"
 #include "SolidObject.h"
 #include "Vector.h"
+#include "genericModel.h"
+#include "sensorReturn.hh"
+#include "USARTruth.hh"
 
 class Frame{
  public:
@@ -51,6 +54,8 @@ class Frame{
   std::string pointName;
   std::string xAxisName;
   std::string zAxisName;
+  SensorReturn sensorReturn; // provides location of object in world coordinates
+                             // if available
 
   void clear();
   std::vector<double> computeYAxis();
@@ -66,7 +71,9 @@ class Frame{
 class RecLoc{
  public:
   std::string solidObjectName;
+  std::string solidObjectType;
   std::string primaryLocationName;
+  SensorReturn sensorReturn;
   Frame frame;
   void getRollPitchYaw(double *roll, double *pitch, double *yaw);
   void setRollPitchYaw(double roll, double pitch, double yaw);
@@ -75,11 +82,15 @@ class RecLoc{
 
 class RecurseLocation{
  private:
+  void cleanup();
   std::vector<RecLoc>recLoc;
   RecLoc globalLoc;
-  void cleanup();
+  USARTruth usarTruth;
+  int sensorConnected;
+  std::string sensorHost;
  public:
   RecurseLocation();
+  void sensorConnect(std::string sensorHostName);
   void addRecLoc(RecLoc *recLocToAdd);
   void clear();
   int computeGlobalLoc();

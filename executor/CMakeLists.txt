@@ -31,7 +31,7 @@ SET(libExecutor_SOURCES src/CanonicalRobotCommand.cpp
 			src/IniFile.cpp
 			src/DatabaseUpdate.cpp)
 
-SET(executor_LIBS Executor ipmasUtils sqlKit mysqlcppconn)
+SET(executor_LIBS Executor ipmasUtils sqlKit pthread mysqlcppconn)
 
 link_directories(${LIBRARY_OUTPUT_PATH})
 include_directories(${IPMAS_DIR}/executor/include)

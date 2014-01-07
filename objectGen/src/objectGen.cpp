@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
       }
 
   UsarSimInf usarsim(connectToUSARSim, usarsimHost);
-
+  recurseLocation.sensorConnect(usarsimHost);
   attributes.push_back("_NAME");
 
   // get the name of all of the partstrays

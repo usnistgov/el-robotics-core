@@ -240,6 +240,13 @@ void RecLoc::setRollPitchYaw(double roll, double pitch, double yaw)
 RecurseLocation::RecurseLocation()
 {
   initGlobalLoc();
+  sensorConnected = 0;
+}
+
+void RecurseLocation::sensorConnect(std::string hostName)
+{
+  sensorHost = hostName;
+  sensorConnected = 1;
 }
 
 /*!
@@ -332,14 +339,26 @@ int RecurseLocation::recurse(SolidObject *solidObject)
   Point *mypoint;
   Vector *vectorXAxis, *vectorZAxis;
   double doubleValue;
-
+ 
   myrecLoc.solidObjectName = solidObject->getname();
   if( solidObject->getname() == "kitting_workstation_1" )
     {
       //      delete poseLocation;
+      myrecLoc.solidObjectType = "KittingWorkstation";
+      myrecLoc.sensorReturn.valid = 0;
+      printf( "End of chain\n" );      
       return 0;
     }
   solidObject->get(solidObject->getname());
+  myrecLoc.solidObjectType = GenericModel::getModel(solidObject);
+  if( sensorConnected )
+    myrecLoc.sensorReturn = usarTruth.getTruth(myrecLoc.solidObjectType,
+					       myrecLoc.solidObjectName);
+  else
+    myrecLoc.sensorReturn.valid = 0;
+  printf( "Model chain: object: %s of type: %s\n", 
+	  myrecLoc.solidObjectName.c_str(),
+	  myrecLoc.solidObjectType.c_str());
 
   physicalLocation = solidObject->gethasSolidObject_PrimaryLocation();
   physicalLocation->get(physicalLocation->getname());
@@ -380,7 +399,8 @@ int RecurseLocation::recurse(SolidObject *solidObject)
   if (recurse( physicalLocation->gethasPhysicalLocation_RefObject()) == 0 )
     {
             delete poseLocation;
-      return 0;
+	    //	    printf( "End of chain\n" );
+	    return 0;
     }
   return 1;
 }

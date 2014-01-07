@@ -31,7 +31,8 @@ std::string GenericModel::getModel(SolidObject *object)
 
   skuObject->get(object->getname());
   sku = skuObject->gethasSkuObject_Sku();
-
+  if( sku == NULL )
+    return "Unknown model";
   retString = getModel(sku);
   delete skuObject;
   return retString;

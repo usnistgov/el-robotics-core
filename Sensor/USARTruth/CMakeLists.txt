@@ -20,7 +20,7 @@ set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
 SET(USARTest_SOURCES
   ./src/USARTest.cpp)
 
-SET(USARTest_LIBS ipmasUtils pthread)
+SET(USARTest_LIBS sqlKit ipmasUtils pthread mysqlcppconn)
 
 add_executable(USARTest ${USARTest_SOURCES})
 link_directories(${LIBRARY_OUTPUT_PATH})

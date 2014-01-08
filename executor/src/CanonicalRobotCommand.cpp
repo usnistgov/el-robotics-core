@@ -188,21 +188,21 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
 
   // from the grasp pose, get the point
   point = graspPose->gethasPoseLocation_Point();
-  located_frame.setPointName(point->getname());
-  point->get(located_frame.pointName);
-  located_frame.setPoint(point->gethasPoint_X(), point->gethasPoint_Y(), point->gethasPoint_Z());
+  located_frame.pose.setPointName(point->getname());
+  point->get(located_frame.pose.pointName);
+  located_frame.pose.setPoint(point->gethasPoint_X(), point->gethasPoint_Y(), point->gethasPoint_Z());
 
   // from the grasp pose, get the XAxis vector
   myVector = graspPose->gethasPoseLocation_XAxis();
-  located_frame.setXAxisName(myVector->getname());
-  myVector->get(located_frame.xAxisName);
-  located_frame.setXAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
+  located_frame.pose.setXAxisName(myVector->getname());
+  myVector->get(located_frame.pose.xAxisName);
+  located_frame.pose.setXAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
 
   // from the grasp pose, get the ZAxis vector
   myVector = graspPose->gethasPoseLocation_ZAxis();
-  located_frame.setZAxisName(myVector->getname());
-  myVector->get(located_frame.zAxisName);
-  located_frame.setZAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
+  located_frame.pose.setZAxisName(myVector->getname());
+  myVector->get(located_frame.pose.zAxisName);
+  located_frame.pose.setZAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
   return;
 }
 
@@ -338,7 +338,7 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   slot->get(located_slot);
 
   recLoc=getPartGoalLocation(solidObject->getname(), slot->getname());
-  canon_put_part(recLoc.frame.pointXYZ, recLoc.frame.xAxis, recLoc.frame.zAxis);
+  canon_put_part(recLoc.frame.pose.pointXYZ, recLoc.frame.pose.xAxis, recLoc.frame.pose.zAxis);
   effect_put_part( robot->getname(), located_slot, solidObject->getname() );
 
   // clean up
@@ -414,7 +414,7 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
     }
   recLoc = getPartLocation( located_part, located_frame );
 			
-  canon_take_part(recLoc.frame.pointXYZ, recLoc.frame.xAxis, recLoc.frame.zAxis);
+  canon_take_part(recLoc.frame.pose.pointXYZ, recLoc.frame.pose.xAxis, recLoc.frame.pose.zAxis);
   effect_take_part( robotName, located_part, located_frame );
   // part is now taken, so clear located part
   located_part = "";
@@ -483,22 +483,22 @@ void CanonicalRobotCommand::effect_put_part( string robotName, string slotName, 
   partRefAndPose->get(partRefAndPose->getname());
   mypoint = partRefAndPose->gethasPartRefAndPose_Point();
   mypoint->get(mypoint->getname());
-  frame.setPointName(mypoint->getname());
-  frame.setPoint( mypoint->gethasPoint_X(),
+  frame.pose.setPointName(mypoint->getname());
+  frame.pose.setPoint( mypoint->gethasPoint_X(),
 		  mypoint->gethasPoint_Y(),
 		  mypoint->gethasPoint_Z());
 
   vector = partRefAndPose->gethasPartRefAndPose_XAxis();
   vector->get(vector->getname());
-  frame.setXAxisName(vector->getname());
-  frame.setXAxis(vector->gethasVector_I(),
+  frame.pose.setXAxisName(vector->getname());
+  frame.pose.setXAxis(vector->gethasVector_I(),
 		 vector->gethasVector_J(),
 		 vector->gethasVector_K());
 
   vector = partRefAndPose->gethasPartRefAndPose_ZAxis();
   vector->get(vector->getname());
-  frame.setZAxisName(vector->getname());
-  frame.setZAxis(vector->gethasVector_I(),
+  frame.pose.setZAxisName(vector->getname());
+  frame.pose.setZAxis(vector->gethasVector_I(),
 		 vector->gethasVector_J(),
 		 vector->gethasVector_K());
   kit = slot->gethadBySlot_Kit();  
@@ -858,26 +858,26 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   poseLocation->get(physicalLocation->getname());
   mypoint = poseLocation->gethasPoseLocation_Point();
   mypoint->get(mypoint->getname());
-  recLoc.frame.setPointName(mypoint->getname());
-  recLoc.frame.setPoint( mypoint->gethasPoint_X(),
+  recLoc.frame.pose.setPointName(mypoint->getname());
+  recLoc.frame.pose.setPoint( mypoint->gethasPoint_X(),
 			 mypoint->gethasPoint_Y(),
 			 mypoint->gethasPoint_Z());
 
   vectorXAxis = poseLocation->gethasPoseLocation_XAxis();
   vectorXAxis->get(vectorXAxis->getname());
-  recLoc.frame.setXAxisName(vectorXAxis->getname());
-  recLoc.frame.setXAxis(vectorXAxis->gethasVector_I(),
+  recLoc.frame.pose.setXAxisName(vectorXAxis->getname());
+  recLoc.frame.pose.setXAxis(vectorXAxis->gethasVector_I(),
 			vectorXAxis->gethasVector_J(),
 			vectorXAxis->gethasVector_K());
 
   vectorZAxis = poseLocation->gethasPoseLocation_ZAxis();
   vectorZAxis->get(vectorZAxis->getname());
-  recLoc.frame.setZAxisName(vectorZAxis->getname());
-  recLoc.frame.setZAxis(vectorZAxis->gethasVector_I(),
+  recLoc.frame.pose.setZAxisName(vectorZAxis->getname());
+  recLoc.frame.pose.setZAxis(vectorZAxis->gethasVector_I(),
 			vectorZAxis->gethasVector_J(),
 			vectorZAxis->gethasVector_K());
   // invert frame
-  recLoc.frame = recLoc.frame.invert();
+  recLoc.frame.pose = recLoc.frame.pose.invert();
 
   // add to transform
   recurseLocation.addRecLoc(&recLoc);
@@ -891,22 +891,22 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   partRefAndPose->get(partRefAndPose->getname());
   mypoint = partRefAndPose->gethasPartRefAndPose_Point();
   mypoint->get(mypoint->getname());
-  recLoc.frame.setPointName(mypoint->getname());
-  recLoc.frame.setPoint( mypoint->gethasPoint_X(),
+  recLoc.frame.pose.setPointName(mypoint->getname());
+  recLoc.frame.pose.setPoint( mypoint->gethasPoint_X(),
 			 mypoint->gethasPoint_Y(),
 			 mypoint->gethasPoint_Z());
 
   vectorXAxis = partRefAndPose->gethasPartRefAndPose_XAxis();
   vectorXAxis->get(vectorXAxis->getname());
-  recLoc.frame.setXAxisName(vectorXAxis->getname());
-  recLoc.frame.setXAxis(vectorXAxis->gethasVector_I(),
+  recLoc.frame.pose.setXAxisName(vectorXAxis->getname());
+  recLoc.frame.pose.setXAxis(vectorXAxis->gethasVector_I(),
 			vectorXAxis->gethasVector_J(),
 			vectorXAxis->gethasVector_K());
 
   vectorZAxis = partRefAndPose->gethasPartRefAndPose_ZAxis();
   vectorZAxis->get(vectorZAxis->getname());
-  recLoc.frame.setZAxisName(vectorZAxis->getname());
-  recLoc.frame.setZAxis(vectorZAxis->gethasVector_I(),
+  recLoc.frame.pose.setZAxisName(vectorZAxis->getname());
+  recLoc.frame.pose.setZAxis(vectorZAxis->gethasVector_I(),
 			vectorZAxis->gethasVector_J(),
 			vectorZAxis->gethasVector_K());
   // add to transform

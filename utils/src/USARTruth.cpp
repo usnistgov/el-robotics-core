@@ -108,9 +108,7 @@ SensorReturn USARTruth::handle_message(const char *message)
 	  if (nextptr == ptr)
 	    break;
 	  ptr = nextptr;
-	  newTruth.point[0] = dbl[0];
-	  newTruth.point[1] = dbl[1];
-	  newTruth.point[2] = dbl[2];
+	  newTruth.pose.setPoint(dbl[0], -dbl[1], -dbl[2]); // swap axis (rotation about x)
 	}
 
       else if (!strcmp(token, "Rotation")) 
@@ -119,9 +117,7 @@ SensorReturn USARTruth::handle_message(const char *message)
 	  if (nextptr == ptr)
 	    break;
 	  ptr = nextptr;
-	  newTruth.rot[0] = dbl[0];
-	  newTruth.rot[1] = dbl[1];
-	  newTruth.rot[2] = dbl[2];
+	  newTruth.pose.setRollPitchYaw(dbl[0], dbl[1], dbl[2]);
 	}
 
       else if (!strcmp(token, "Bone")) 
@@ -157,11 +153,16 @@ SensorReturn USARTruth::handle_message(const char *message)
 SensorReturn USARTruth::getTruth(std::string className, std::string instanceName)
 {
   int numBytes;
-
-  //  std::string stringOut = "{name " + instanceName + "}\r\n";
-  //  std::string stringOut = "{class USARPhysObj.partc} {name part_c_6}\r\n";
   std::string stringOut = "{class " + className + "} {name " +
     instanceName + "}\r\n";
+  if (!initialized)
+    {
+      SensorReturn sensorReturn;
+      if (debug )
+	fprintf(stderr, "USARTruth::getTruth: not initialized\n");
+      sensorReturn.valid = 0;
+      return sensorReturn;
+    }
   numBytes =
     ulapi_socket_write(socketID, stringOut.c_str(),
 		       stringOut.length());
@@ -213,9 +214,8 @@ SensorReturn USARTruth::readUSARTruth()
 	  if (found != std::string::npos) 
 	    {
 	      if (debug)
-		printf
-		  ("USARTruth: going to handle message with string: %s\n",
-		   truthString.c_str());
+		printf("USARTruth: going to handle message with string: %s\n",
+		       truthString.c_str());
 	      return handle_message(truthString.c_str());
 	    }
 	}

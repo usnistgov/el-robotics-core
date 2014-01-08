@@ -15,16 +15,8 @@ cmake_install.cmake
 *.bbl
 *.o
 *.a
-/Documents/Manuals/Interpreter/LaTeX-Source/executor.lof
-/Documents/Manuals/Interpreter/LaTeX-Source/interpreter.tex.sav
-/Documents/Manuals/Interpreter/LaTeX-Source/executor.ps
-/executor/Autotools/autom4te.cache/*.*
-/executor/Autotools/src/.deps/*.*
-/executor/Autotools/src/database/.deps/*.*
-/executor/Autotools/src/interpreter/.deps/*.*
-
 *.sav
 *.lot
-/Documents/Manuals/Kitting-LaTeX/Sources/kitting.lof
 *.spl
+bin
 /.project

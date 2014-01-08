@@ -35,6 +35,7 @@ This may also be seen in the dataTest.cpp file.
 */
 
 #include <vector>
+#include <stdio.h>
 #include <string>
 #include "Part.h"
 #include "Point.h"
@@ -43,29 +44,16 @@ This may also be seen in the dataTest.cpp file.
 #include "SolidObject.h"
 #include "Vector.h"
 #include "genericModel.h"
+#include "poseInfo.hh"
 #include "sensorReturn.hh"
 #include "USARTruth.hh"
 
 class Frame{
  public:
-  std::vector<double>pointXYZ;
-  std::vector<double>xAxis;
-  std::vector<double>zAxis;
-  std::string pointName;
-  std::string xAxisName;
-  std::string zAxisName;
-  SensorReturn sensorReturn; // provides location of object in world coordinates
+  PoseInfo pose;
+  //  SensorReturn sensorReturn; // provides location of object in world coordinates
                              // if available
-
   void clear();
-  std::vector<double> computeYAxis();
-  void setPoint(double x, double y, double z);
-  void setPointName(std::string pointNameIn);
-  void setXAxis(double x, double y, double z);
-  void setXAxisName(std::string xAxisNameIn);
-  void setZAxis(double x, double y, double z);
-  void setZAxisName(std::string zAxisNameIn);
-  Frame invert();
 };
 
 class RecLoc{
@@ -75,8 +63,6 @@ class RecLoc{
   std::string primaryLocationName;
   SensorReturn sensorReturn;
   Frame frame;
-  void getRollPitchYaw(double *roll, double *pitch, double *yaw);
-  void setRollPitchYaw(double roll, double pitch, double yaw);
   void clear();
 };
 
@@ -87,17 +73,16 @@ class RecurseLocation{
   RecLoc globalLoc;
   USARTruth usarTruth;
   int sensorConnected;
-  std::string sensorHost;
  public:
   RecurseLocation();
-  void sensorConnect(std::string sensorHostName);
+  void sensorConnect(std::string sensorHostName, ulapi_integer portIn=3989);
   void addRecLoc(RecLoc *recLocToAdd);
   void clear();
   int computeGlobalLoc();
   RecLoc getGlobalLoc();
   void initGlobalLoc();
-  void poseProduct( RecLoc * poseToSet, RecLoc * pose1, RecLoc * pose2);
-  void printMe(int verbosity);
+  void poseProduct( PoseInfo * poseToSet, PoseInfo * pose1, PoseInfo * pose2);
+  void printMe(int verbosity, std::string prefix="");
   int recurse(SolidObject *solidObject);
 };
 #endif

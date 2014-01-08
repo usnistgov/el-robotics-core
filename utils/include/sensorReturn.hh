@@ -18,6 +18,8 @@
 #ifndef __sensorReturn
 #define __sensorReturn
 
+#include "poseInfo.hh"
+
 class SensorReturn{
 public:
   SensorReturn(){ valid = 0;};
@@ -25,8 +27,7 @@ public:
   std::string name;
   std::string objectClass;
   double time;
-  double point[3];
-  double rot[3];
+  PoseInfo pose;
   double bone[6]; // only used by USARSim
 };
 

@@ -91,20 +91,20 @@ int UsarSimInf::placeObject( std::string className, std::string name,
     name + 
     "}{Location ";
 
-  converter << where.frame.pointXYZ[0];
+  converter << where.frame.pose.pointXYZ[0];
   output += converter.str() + ", ";
 
   converter.str(std::string());
-  converter << -where.frame.pointXYZ[1]; // swap axis (rotation about x)
+  converter << -where.frame.pose.pointXYZ[1]; // swap axis (rotation about x)
   //  converter << where.frame.pointXYZ[1];
   output += converter.str() + ", ";
 
   converter.str(std::string());
-  converter << -where.frame.pointXYZ[2]; // swap axis (rotation about x)
+  converter << -where.frame.pose.pointXYZ[2]; // swap axis (rotation about x)
   //  converter << where.frame.pointXYZ[2];
   output += converter.str() + "}{Rotation  ";
 
-  where.getRollPitchYaw(&roll, &pitch, &yaw);
+  where.frame.pose.getRollPitchYaw(&roll, &pitch, &yaw);
   converter.str(std::string());
   converter << roll;
   output += converter.str() + ", ";

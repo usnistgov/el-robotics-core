@@ -21,29 +21,50 @@
 #include <string>
 #include <stdio.h>		// printf
 #include "USARTruth.hh"
+#include "SolidObject.h"
+//#include "genericModel.h"
+#include "recurseLocation.h"
+
 int main(int argc, char *argv[])
 {
   SensorReturn truthValue;
   USARTruth usarTruth;
+  std::string objectClass = "USARPhysObj.PartC";
+  std::string objectName = "part_c_6";
+  std::string host = "10.108.21.213";
+  ulapi_integer port = 3989;
+  SolidObject *object = new SolidObject(objectName);
+  RecurseLocation recurseLocation;
 
-  usarTruth.connect("10.108.21.213", 3989);
-
-  usarTruth.setDebug(0);
-  //  truthValue = usarTruth.getTruth("USARPhysObj.partc", "part_c_5");
-  truthValue = usarTruth.getTruth("USARPhysObj.partc", "part_c_6");
+  usarTruth.connect(host, port);
+  usarTruth.setDebug(1);
+  truthValue = usarTruth.getTruth(objectClass, objectName);
   if( truthValue.valid )
     {
-      printf( "Value returned for %s:%s\n",
+      printf( "Value returned for direct call to getTruth %s:%s\n",
 	      truthValue.objectClass.c_str(), truthValue.name.c_str());
-      printf( "\tTime: %f\n \tPoint: <%f %f %f>\n \tRot: <%f %f %f>\n",
+      printf( "\tTime: %f\n \tPoint: <%f %f %f>\n\txAxis:%s <%f %f %f>\n\tzAxis:%s <%f %f %f>\n",
 	      truthValue.time,
-	      truthValue.point[0],
-	      truthValue.point[1],
-	      truthValue.point[2],
-	      truthValue.rot[0],
-	      truthValue.rot[1],
-	      truthValue.rot[2]);
+	      truthValue.pose.pointXYZ[0],
+	      truthValue.pose.pointXYZ[1],
+	      truthValue.pose.pointXYZ[2],
+	      truthValue.pose.xAxisName.c_str(),
+	      truthValue.pose.xAxis[0],
+	      truthValue.pose.xAxis[1],
+	      truthValue.pose.xAxis[2],
+	      truthValue.pose.zAxisName.c_str(),
+	      truthValue.pose.zAxis[0],
+	      truthValue.pose.zAxis[1],
+	      truthValue.pose.zAxis[2] );
     }
   else
-    printf( "no valid data returned\n" );
+    printf( "no valid data returned for direct call to getTruth\n" );
+  recurseLocation.sensorConnect(host);
+  object->get(objectName);
+  //  USARModel = GenericModel::getModel(solidObject);
+  recurseLocation.clear();
+  recurseLocation.recurse(object);
+  recurseLocation.computeGlobalLoc();
+  recurseLocation.printMe(1);
+
 }

@@ -18,6 +18,7 @@ set(libipmasUtils_SOURCES src/ulapi.cpp
 			  src/genericModel.cpp
 			  src/USARTruth.cpp
 			  src/parseUtils.cpp
+			  src/poseInfo.cpp
 			  )
 
 #link_directories(${LIBRARY_OUTPUT_PATH})

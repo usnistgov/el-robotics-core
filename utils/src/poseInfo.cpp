@@ -47,6 +47,41 @@ PoseInfo PoseInfo::invert()
   return inverse;
 }
 
+std::string PoseInfo::getPointName()
+{
+  return pointName;
+}
+
+std::string PoseInfo::getXAxisName()
+{
+  return xAxisName;
+}
+
+std::string PoseInfo::getZAxisName()
+{
+  return zAxisName;
+}
+
+std::vector<double> PoseInfo::getPoint()
+{
+  return pointXYZ;
+}
+
+double PoseInfo::getPointX()
+{
+  return pointXYZ[0];
+}
+
+double PoseInfo::getPointY()
+{
+  return pointXYZ[1];
+}
+
+double PoseInfo::getPointZ()
+{
+  return pointXYZ[2];
+}
+
 void PoseInfo::setPoint( double x, double y, double z )
 {
   pointXYZ.clear();
@@ -83,6 +118,26 @@ std::vector<double> PoseInfo::computeYAxis()
   return yAxis;
 }
 
+std::vector<double> PoseInfo::getXAxis()
+{
+  return xAxis;
+}
+
+double PoseInfo::getXAxisI()
+{
+  return xAxis[0];
+}
+
+double PoseInfo::getXAxisJ()
+{
+  return xAxis[1];
+}
+
+double PoseInfo::getXAxisK()
+{
+  return xAxis[2];
+}
+
 void PoseInfo::setXAxis( double x, double y, double z )
 {
   xAxis.clear();
@@ -94,6 +149,26 @@ void PoseInfo::setXAxis( double x, double y, double z )
 void PoseInfo::setXAxisName( std::string xAxisNameIn)
 {
   xAxisName = xAxisNameIn;
+}
+
+std::vector<double> PoseInfo::getZAxis()
+{
+  return zAxis;
+}
+
+double PoseInfo::getZAxisI()
+{
+  return zAxis[0];
+}
+
+double PoseInfo::getZAxisJ()
+{
+  return zAxis[1];
+}
+
+double PoseInfo::getZAxisK()
+{
+  return zAxis[2];
 }
 
 void PoseInfo::setZAxis( double x, double y, double z )

@@ -98,6 +98,12 @@ int RecurseLocation::computeGlobalLoc()
 {
   std::vector<RecLoc>tempLoc;
   PoseInfo tempPose;
+  Point *mypoint;
+  Vector *vectorXAxis, *vectorZAxis;
+
+  mypoint = new Point("foo");
+  vectorXAxis = new Vector("foo1");
+  vectorZAxis = new Vector("foo2");
 
   // if nothing in recLoc, then nothing to do
   if( recLoc.size() <= 0 )
@@ -106,12 +112,37 @@ int RecurseLocation::computeGlobalLoc()
   //copy recLoc vector, preserving the order (local first, global last)
   for( unsigned int i=0; i<recLoc.size()-1; i++)
     {
-      tempPose = recLoc[i+1].sensorReturn.pose.invert();
-      poseProduct( &(recLoc[i].sensorReturn.pose), 
-		   &tempPose,
-		   &(recLoc[i].sensorReturn.pose));
+      if( recLoc[i+1].sensorReturn.valid && recLoc[i].sensorReturn.valid )
+	{
+	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
+	  poseProduct( &(recLoc[i].sensorReturn.pose), 
+		       &tempPose,
+		       &(recLoc[i].sensorReturn.pose));
+	  // need to set point and vector tables
+	  mypoint->get(recLoc[i].frame.pose.getPointName());
+	  mypoint->sethasPoint_X(recLoc[i].sensorReturn.pose.getPointX());
+	  mypoint->sethasPoint_Y(recLoc[i].sensorReturn.pose.getPointY());
+	  mypoint->sethasPoint_Z(recLoc[i].sensorReturn.pose.getPointZ());
+	  mypoint->set(recLoc[i].frame.pose.getPointName());
+
+	  vectorXAxis->get(recLoc[i].frame.pose.getXAxisName());
+	  vectorXAxis->sethasVector_I(recLoc[i].sensorReturn.pose.getXAxisI());
+	  vectorXAxis->sethasVector_J(recLoc[i].sensorReturn.pose.getXAxisJ());
+	  vectorXAxis->sethasVector_K(recLoc[i].sensorReturn.pose.getXAxisK());
+	  vectorXAxis->set(recLoc[i].frame.pose.getXAxisName());
+
+	  vectorZAxis->get(recLoc[i].frame.pose.getZAxisName());
+	  vectorZAxis->sethasVector_I(recLoc[i].sensorReturn.pose.getZAxisI());
+	  vectorZAxis->sethasVector_J(recLoc[i].sensorReturn.pose.getZAxisJ());
+	  vectorZAxis->sethasVector_K(recLoc[i].sensorReturn.pose.getZAxisK());
+	  vectorZAxis->set(recLoc[i].frame.pose.getZAxisName());
+	}
       tempLoc.push_back(recLoc[i]);
     }
+  delete mypoint;
+  delete vectorXAxis;
+  delete vectorZAxis;
+  
   tempLoc.push_back(recLoc[recLoc.size()-1]);
 
   globalLoc = tempLoc.back();
@@ -296,33 +327,33 @@ void RecurseLocation::poseProduct(
  PoseInfo * pose2)
 {
   std::vector<double>yAxis;
-  double x1i = pose1->xAxis[0];
-  double x1j = pose1->xAxis[1];
-  double x1k = pose1->xAxis[2];
+  double x1i = pose1->getXAxisI();
+  double x1j = pose1->getXAxisJ();
+  double x1k = pose1->getXAxisK();
   double y1i;
   double y1j;
   double y1k;
-  double z1i = pose1->zAxis[0];
-  double z1j = pose1->zAxis[1];
-  double z1k = pose1->zAxis[2];
+  double z1i = pose1->getZAxisI();
+  double z1j = pose1->getZAxisJ();
+  double z1k = pose1->getZAxisK();
 
-  double x2i = pose2->xAxis[0];
-  double x2j = pose2->xAxis[1];
-  double x2k = pose2->xAxis[2];
+  double x2i = pose2->getXAxisI();
+  double x2j = pose2->getXAxisJ();
+  double x2k = pose2->getXAxisK();
   //  double y2i;
   //  double y2j;
   //  double y2k;
-  double z2i = pose2->zAxis[0];
-  double z2j = pose2->zAxis[1];
-  double z2k = pose2->zAxis[2];
+  double z2i = pose2->getZAxisI();
+  double z2j = pose2->getZAxisJ();
+  double z2k = pose2->getZAxisK();
 
-  double o1x = pose1->pointXYZ[0];
-  double o1y = pose1->pointXYZ[1];
-  double o1z = pose1->pointXYZ[2];
+  double o1x = pose1->getPointX();
+  double o1y = pose1->getPointY();
+  double o1z = pose1->getPointZ();
 
-  double o2x = pose2->pointXYZ[0];
-  double o2y = pose2->pointXYZ[1];
-  double o2z = pose2->pointXYZ[2];
+  double o2x = pose2->getPointX();
+  double o2y = pose2->getPointY();
+  double o2z = pose2->getPointZ();
   
   yAxis = pose1->computeYAxis();
   y1i = yAxis[0];
@@ -335,13 +366,13 @@ void RecurseLocation::poseProduct(
   //  y2j = yAxis[1];
   //  y2k = yAxis[2];
 
-  poseToSet->xAxis[0] = ((x1i * x2i) + (y1i * x2j) + (z1i * x2k));
-  poseToSet->xAxis[1] = ((x1j * x2i) + (y1j * x2j) + (z1j * x2k));
-  poseToSet->xAxis[2] = ((x1k * x2i) + (y1k * x2j) + (z1k * x2k));
-  poseToSet->zAxis[0] = ((x1i * z2i) + (y1i * z2j) + (z1i * z2k));
-  poseToSet->zAxis[1] = ((x1j * z2i) + (y1j * z2j) + (z1j * z2k));
-  poseToSet->zAxis[2] = ((x1k * z2i) + (y1k * z2j) + (z1k * z2k));
-  poseToSet->pointXYZ[0] = ((x1i * o2x) + (y1i * o2y) + (z1i * o2z) + o1x);
-  poseToSet->pointXYZ[1] = ((x1j * o2x) + (y1j * o2y) + (z1j * o2z) + o1y);
-  poseToSet->pointXYZ[2] = ((x1k * o2x) + (y1k * o2y) + (z1k * o2z) + o1z);
+  poseToSet->setXAxis( ((x1i * x2i) + (y1i * x2j) + (z1i * x2k)),
+		       ((x1j * x2i) + (y1j * x2j) + (z1j * x2k)),
+		       ((x1k * x2i) + (y1k * x2j) + (z1k * x2k)) );
+  poseToSet->setZAxis( ((x1i * z2i) + (y1i * z2j) + (z1i * z2k)),
+		       ((x1j * z2i) + (y1j * z2j) + (z1j * z2k)),
+		       ((x1k * z2i) + (y1k * z2j) + (z1k * z2k)) );
+  poseToSet->setPoint( ((x1i * o2x) + (y1i * o2y) + (z1i * o2z) + o1x), 
+		       ((x1j * o2x) + (y1j * o2y) + (z1j * o2z) + o1y),
+		       ((x1k * o2x) + (y1k * o2y) + (z1k * o2z) + o1z) );
 }

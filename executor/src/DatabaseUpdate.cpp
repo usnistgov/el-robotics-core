@@ -54,23 +54,23 @@ void DatabaseUpdate::graspByRobot( std::string robotName, std::string solidObjec
   poseLocation->get(physicalLocation->getname());
   mypoint = poseLocation->gethasPoseLocation_Point();
   mypoint->get(mypoint->getname());
-  mypoint->sethasPoint_X(referenceFrame.pose.pointXYZ[0]);
-  mypoint->sethasPoint_Y(referenceFrame.pose.pointXYZ[1]);
-  mypoint->sethasPoint_Z(referenceFrame.pose.pointXYZ[2]);
+  mypoint->sethasPoint_X(referenceFrame.pose.getPointX());
+  mypoint->sethasPoint_Y(referenceFrame.pose.getPointY());
+  mypoint->sethasPoint_Z(referenceFrame.pose.getPointZ());
 
   // set xAxis values
   vectorXAxis = poseLocation->gethasPoseLocation_XAxis();
   vectorXAxis->get(vectorXAxis->getname());
-  vectorXAxis->sethasVector_I(referenceFrame.pose.xAxis[0]);
-  vectorXAxis->sethasVector_J(referenceFrame.pose.xAxis[1]);
-  vectorXAxis->sethasVector_K(referenceFrame.pose.xAxis[2]);
+  vectorXAxis->sethasVector_I(referenceFrame.pose.getXAxisI());
+  vectorXAxis->sethasVector_J(referenceFrame.pose.getXAxisJ());
+  vectorXAxis->sethasVector_K(referenceFrame.pose.getXAxisK());
 
   // set zAxis values
   vectorZAxis = poseLocation->gethasPoseLocation_ZAxis();
   vectorZAxis->get(vectorZAxis->getname());
-  vectorZAxis->sethasVector_I(referenceFrame.pose.zAxis[0]);
-  vectorZAxis->sethasVector_J(referenceFrame.pose.zAxis[1]);
-  vectorZAxis->sethasVector_K(referenceFrame.pose.zAxis[2]);
+  vectorZAxis->sethasVector_I(referenceFrame.pose.getZAxisI());
+  vectorZAxis->sethasVector_J(referenceFrame.pose.getZAxisJ());
+  vectorZAxis->sethasVector_K(referenceFrame.pose.getZAxisK());
 
 
   // write objects back to database

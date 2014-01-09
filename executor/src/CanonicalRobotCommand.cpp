@@ -189,19 +189,19 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
   // from the grasp pose, get the point
   point = graspPose->gethasPoseLocation_Point();
   located_frame.pose.setPointName(point->getname());
-  point->get(located_frame.pose.pointName);
+  point->get(located_frame.pose.getPointName());
   located_frame.pose.setPoint(point->gethasPoint_X(), point->gethasPoint_Y(), point->gethasPoint_Z());
 
   // from the grasp pose, get the XAxis vector
   myVector = graspPose->gethasPoseLocation_XAxis();
   located_frame.pose.setXAxisName(myVector->getname());
-  myVector->get(located_frame.pose.xAxisName);
+  myVector->get(located_frame.pose.getXAxisName());
   located_frame.pose.setXAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
 
   // from the grasp pose, get the ZAxis vector
   myVector = graspPose->gethasPoseLocation_ZAxis();
   located_frame.pose.setZAxisName(myVector->getname());
-  myVector->get(located_frame.pose.zAxisName);
+  myVector->get(located_frame.pose.getZAxisName());
   located_frame.pose.setZAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
   return;
 }
@@ -338,7 +338,7 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   slot->get(located_slot);
 
   recLoc=getPartGoalLocation(solidObject->getname(), slot->getname());
-  canon_put_part(recLoc.frame.pose.pointXYZ, recLoc.frame.pose.xAxis, recLoc.frame.pose.zAxis);
+  canon_put_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), recLoc.frame.pose.getZAxis());
   effect_put_part( robot->getname(), located_slot, solidObject->getname() );
 
   // clean up
@@ -414,7 +414,7 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
     }
   recLoc = getPartLocation( located_part, located_frame );
 			
-  canon_take_part(recLoc.frame.pose.pointXYZ, recLoc.frame.pose.xAxis, recLoc.frame.pose.zAxis);
+  canon_take_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), recLoc.frame.pose.getZAxis());
   effect_take_part( robotName, located_part, located_frame );
   // part is now taken, so clear located part
   located_part = "";

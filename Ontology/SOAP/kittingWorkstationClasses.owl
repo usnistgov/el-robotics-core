@@ -191,6 +191,7 @@ AnnotationAssertion(rdfs:comment :DataThing
   types such as Vector, PhysicalLocation, etc.")
 
 SubClassOf(soap:ActionBase :DataThing)
+SubClassOf(soap:ActionParameterSet :DataThing)
 SubClassOf(:BoxVolume :DataThing)
 SubClassOf(soap:Domain :DataThing)
 SubClassOf(soap:Effect :DataThing)
@@ -198,13 +199,17 @@ SubClassOf(soap:FunctionBooleanExpression :DataThing)
 SubClassOf(soap:FunctionOperation :DataThing)
 SubClassOf(soap:Function :DataThing)
 SubClassOf(:KitDesign :DataThing)
+SubClassOf(soap:NegativePredicateSet :DataThing)
+SubClassOf(soap:NegativePredicate :DataThing)
 SubClassOf(soap:OrderingConstruct :DataThing)
 SubClassOf(:PartRefAndPose :DataThing)
 SubClassOf(:PhysicalLocation :DataThing)
 SubClassOf(:Point :DataThing)
+SubClassOf(soap:PositivePredicateSet :DataThing)
+SubClassOf(soap:PositivePredicate :DataThing)
 SubClassOf(soap:Precondition :DataThing)
+SubClassOf(soap:PredicateGroupElementOR :DataThing)
 SubClassOf(soap:PredicateGroupElement :DataThing)
-SubClassOf(soap:Predicate :DataThing)
 SubClassOf(soap:SOAP :DataThing)
 SubClassOf(:ShapeDesign :DataThing)
 SubClassOf(:Slot :DataThing)
@@ -213,6 +218,7 @@ SubClassOf(:StockKeepingUnit :DataThing)
 SubClassOf(:Vector :DataThing)
 DisjointUnion(:DataThing
               soap:ActionBase
+              soap:ActionParameterSet
               :BoxVolume
               soap:Domain
               soap:Effect
@@ -220,13 +226,17 @@ DisjointUnion(:DataThing
               soap:FunctionOperation
               soap:Function
               :KitDesign
+              soap:NegativePredicateSet
+              soap:NegativePredicate
               soap:OrderingConstruct
               :PartRefAndPose
               :PhysicalLocation
               :Point
+              soap:PositivePredicateSet
+              soap:PositivePredicate
               soap:Precondition
+              soap:PredicateGroupElementOR
               soap:PredicateGroupElement
-              soap:Predicate
               soap:SOAP
               :ShapeDesign
               :Slot

@@ -11,6 +11,7 @@ defined for each attribute of each XmlComplexType.
 
 #define NAMESIZE 200
 #define TEXTSIZE 2000
+#define BIGSIZE  20000
 
 #include <string>
 
@@ -496,7 +497,7 @@ in only that header are written into the new header file.
   std::list<generator *>           subordinates;
   XmlElementLocal *                top;
   char *                           target;
-  char                             text[TEXTSIZE];
+  char                             text[BIGSIZE];
   bool                             wholeFlag;
   FILE *                           yaccFile;
   char *                           yyprefix;

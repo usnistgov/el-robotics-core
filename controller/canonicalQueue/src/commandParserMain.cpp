@@ -18,6 +18,15 @@
  Modifications to the code have been made by Georgia Tech Research Institute
  and these modifications are subject to the copyright shown above
  *****************************************************************************/
+/*!
+  \file   commandParserMain.cpp
+  \brief  Provides a sample implementation of the controller
+  This class will handle the queued messages and print out strings telling about
+  the processing. This is sample code only!
+
+*/
+
+
 #include <stdlib.h>         // exit
 #include <sys/time.h>
 #include <signal.h>

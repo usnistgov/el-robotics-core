@@ -53,6 +53,7 @@ private:
   std::deque<StatusMsg> statusQueue;
   std::deque<CanonicalMsg *> currentMsgQueue;
   int queue_length;
+  std::string sensorHostName;
   void processMsg(CanonicalMsg *canonicalPt, void* sendTo);
   CanonicalMsg* getMsg(CanonicalMsg *msgIn);
   void *statusMsgMutex;

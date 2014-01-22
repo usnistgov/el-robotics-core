@@ -36,19 +36,54 @@
 /*!
   @brief Constructor
  */
-CanonicalRobotCommand::CanonicalRobotCommand(FileOperator *fileoperator) {
-	m_safe_z = 0.25;
-	m_dwell = 0.05;
-	m_file_operator = fileoperator;
-	located_part = ""; // clear out located part to show that one has not been found
-	located_slot = ""; // clear out located slot to show that one has not been found
-	located_frame.clear(); // clear out located frame to show that one has not been found
-	dao = new DAO("PartsTrayWithParts");
+CanonicalRobotCommand::CanonicalRobotCommand()
+{
+  m_file_operator = NULL;
+  m_controller = NULL;
+  m_safe_z = 0.25;
+  m_dwell = 0.05;
+  located_part = ""; // clear out located part to show that 
+  // one has not been found
+  located_slot = ""; // clear out located slot to show that 
+  // one has not been found
+  located_frame.clear(); // clear out located frame to show 
+  // that one has not been found
+  dao = new DAO("PartsTrayWithParts");
 }
+
 /*!
   @brief Auto-generated destructor stub
  */
 CanonicalRobotCommand::~CanonicalRobotCommand() {
+}
+
+/*! 
+  @brief Set the controller to use for action execution
+
+  Commands will be queued in the controllers low-priority action queue
+  for execution. The return status of each command will be verified
+  before executing the next command.
+
+  @param controller The controller to send actions to.
+*/
+void CanonicalRobotCommand::setController( Controller *controller,
+					   std::string sensorHostName)
+{
+  m_controller = controller;
+  // connect to sensor system if possible
+  recurseLocation.sensorConnect(sensorHostName);
+}
+
+/*!
+  @brief Set the FileOperator use if writing to a file
+
+  Commands will be written to the given file.
+
+  @param 
+*/
+void CanonicalRobotCommand::setFileOperator(FileOperator *fileoperator) 
+{
+  m_file_operator = fileoperator;
 }
 
 /*!
@@ -59,26 +94,40 @@ CanonicalRobotCommand::~CanonicalRobotCommand() {
   @param kittingplan Instance of KittingPlan
  */
 void CanonicalRobotCommand::actionInterpreter(string action_name,
-		vector<string> paramList,
-		KittingPlan *kittingplan){
+					      vector<string> paramList,
+					      KittingPlan *kittingplan)
+{
 
-	if(action_name == "attach-endeffector")	     attach_eff(paramList, kittingplan);
-	else if(action_name == "create-kit")         create_kit(paramList, kittingplan);
-	else if(action_name == "look-for-part")      look_for_part(paramList, kittingplan);
-	else if(action_name == "look-for-slot"){
-	  if( !look_for_slot(paramList, kittingplan) ){
-	    printf( "Could not find slot. Don't know what to do\n" );
-	    exit(1);
-	  }
+  if(action_name == "attach-endeffector")	     
+    attach_eff(paramList, kittingplan);
+  else if(action_name == "create-kit")         
+    create_kit(paramList, kittingplan);
+  else if(action_name == "look-for-part")      
+    look_for_part(paramList, kittingplan);
+  else if(action_name == "look-for-slot")
+    {
+      if( !look_for_slot(paramList, kittingplan) )
+	{
+	  printf( "Could not find slot. Don't know what to do\n" );
+	  exit(1);
 	}
-	else if(action_name == "put-kit")            put_kit(paramList);
-	else if(action_name == "put-kittray") 	     put_kit_tray(paramList);
-	else if(action_name == "put-part")           put_part(paramList, kittingplan);
-	else if(action_name == "remove-endeffector") remove_eff(paramList);
-	else if(action_name == "take-kit")           take_kit(paramList);
-	else if(action_name == "take-kittray")       take_kit_tray(paramList);
-	else if(action_name == "take-part")          take_part(paramList, kittingplan);
-	else printf( "unknown pddl action of %s\n", action_name.c_str() );
+    }
+  else if(action_name == "put-kit")            
+    put_kit(paramList);
+  else if(action_name == "put-kittray")
+    put_kit_tray(paramList);
+  else if(action_name == "put-part")           
+    put_part(paramList, kittingplan);
+  else if(action_name == "remove-endeffector") 
+    remove_eff(paramList);
+  else if(action_name == "take-kit")           
+    take_kit(paramList);
+  else if(action_name == "take-kittray")       
+    take_kit_tray(paramList);
+  else if(action_name == "take-part")          
+    take_part(paramList, kittingplan);
+  else 
+    printf( "unknown pddl action of %s\n", action_name.c_str() );
 }
 
 /*!
@@ -87,7 +136,8 @@ void CanonicalRobotCommand::actionInterpreter(string action_name,
   @param kittingplan Instance of KittingPlan
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>attach-eff</b> is implemented in ROS/USARSim
  */
-void CanonicalRobotCommand::attach_eff(vector<string> paramList,KittingPlan *kittingplan){
+void CanonicalRobotCommand::attach_eff(vector<string> paramList,
+				       KittingPlan *kittingplan){
 }
 
 /*!
@@ -116,7 +166,7 @@ void CanonicalRobotCommand::create_kit(vector<string> paramList, KittingPlan *ki
 		m_file_operator->stripSpace(type);
 
 		if (!strcmp(type.c_str(),"Kit")){
-			//cout <<"Message (\"create kit " << paramList[i] <<"\")"<< endl;
+		  //cout <<"Message (\"create kit " << paramList[i] <<"\")"<< endl;
 		}
 
 		if (!strcmp(type.c_str(),"KitTray")){
@@ -190,19 +240,25 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
   point = graspPose->gethasPoseLocation_Point();
   located_frame.pose.setPointName(point->getname());
   point->get(located_frame.pose.getPointName());
-  located_frame.pose.setPoint(point->gethasPoint_X(), point->gethasPoint_Y(), point->gethasPoint_Z());
+  located_frame.pose.setPoint(point->gethasPoint_X(), 
+			      point->gethasPoint_Y(), 
+			      point->gethasPoint_Z());
 
   // from the grasp pose, get the XAxis vector
   myVector = graspPose->gethasPoseLocation_XAxis();
   located_frame.pose.setXAxisName(myVector->getname());
   myVector->get(located_frame.pose.getXAxisName());
-  located_frame.pose.setXAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
+  located_frame.pose.setXAxis(myVector->gethasVector_I(), 
+			      myVector->gethasVector_J(), 
+			      myVector->gethasVector_K());
 
   // from the grasp pose, get the ZAxis vector
   myVector = graspPose->gethasPoseLocation_ZAxis();
   located_frame.pose.setZAxisName(myVector->getname());
   myVector->get(located_frame.pose.getZAxisName());
-  located_frame.pose.setZAxis(myVector->gethasVector_I(), myVector->gethasVector_J(), myVector->gethasVector_K());
+  located_frame.pose.setZAxis(myVector->gethasVector_I(), 
+			      myVector->gethasVector_J(), 
+			      myVector->gethasVector_K());
   return;
 }
 
@@ -212,7 +268,8 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
   @return true - found slot, false - could not find slot
   (example: <b>look-for-slot</b> robot_1 part_c_1 kit_1 Work_table_1)
 */
-bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, KittingPlan *kittingplan){
+bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, 
+					  KittingPlan *kittingplan){
   int listLength;
   Kit *kit;
   string partName;
@@ -270,7 +327,8 @@ bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, KittingPlan 
 	  return true;
 	}
     }
-  printf( "Could not find slot for part %s with SKU %s\n", partName.c_str(), skuName.c_str() );
+  printf( "Could not find slot for part %s with SKU %s\n", partName.c_str(), 
+	  skuName.c_str() );
   return false;
 }
 
@@ -301,7 +359,8 @@ void CanonicalRobotCommand::put_kit_tray(vector<string> paramList){
   (example: <b>put-part</b> robot_1 part_c_1 kit_1 Work_table_1)
   @param kittingplan Instance of KittingPlan
 */
-void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kittingplan){
+void CanonicalRobotCommand::put_part(vector<string> paramList, 
+				     KittingPlan *kittingplan){
   FileOperator *fileop = new FileOperator;
   int listLength;
   //  stringstream ss;//create a stringstream
@@ -338,7 +397,8 @@ void CanonicalRobotCommand::put_part(vector<string> paramList, KittingPlan *kitt
   slot->get(located_slot);
 
   recLoc=getPartGoalLocation(solidObject->getname(), slot->getname());
-  canon_put_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), recLoc.frame.pose.getZAxis());
+  canon_put_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), 
+		 recLoc.frame.pose.getZAxis());
   effect_put_part( robot->getname(), located_slot, solidObject->getname() );
 
   // clean up
@@ -382,7 +442,8 @@ void CanonicalRobotCommand::take_kit_tray(vector<string> paramList){
   @param kittingplan Instance of KittingPlan
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-part</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kittingplan){
+void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kittingplan)
+{
   //FileOperator *fileop = new FileOperator;
   int listLength;
   listLength=(int)paramList.size();
@@ -390,16 +451,17 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
   RecLoc recLoc;
   string partName, robotName;
 
-  for (vector<string>::size_type i = 0; i < listLength; i++){
-    string type;
-    type=kittingplan->matchParamType(paramList[i]);
-    m_file_operator->stripSpace(type);
+  for (vector<string>::size_type i = 0; i < listLength; i++)
+    {
+      string type;
+      type=kittingplan->matchParamType(paramList[i]);
+      m_file_operator->stripSpace(type);
 
-    if (!strcmp(type.c_str(),"Part"))
-      partName = paramList[i];
-    else if (!strcmp(type.c_str(),"Robot"))
-      robotName = paramList[i];
-  }
+      if (!strcmp(type.c_str(),"Part"))
+	partName = paramList[i];
+      else if (!strcmp(type.c_str(),"Robot"))
+	robotName = paramList[i];
+    }
 
   ss << partName;//add number to the stream
   string s_paramlist = ss.str();
@@ -414,7 +476,8 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
     }
   recLoc = getPartLocation( located_part, located_frame );
 			
-  canon_take_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), recLoc.frame.pose.getZAxis());
+  canon_take_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), 
+		  recLoc.frame.pose.getZAxis());
   effect_take_part( robotName, located_part, located_frame );
   // part is now taken, so clear located part
   located_part = "";
@@ -428,7 +491,8 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
   @param z_axis Z axis used by the robot to put the part in the kit
   @param x_axis X axis used by the robot to put the part in the kit
 */
-void CanonicalRobotCommand::canon_put_part(vector<double> xyz, vector<double> x_axis, 
+void CanonicalRobotCommand::canon_put_part(vector<double> xyz, 
+					   vector<double> x_axis, 
 					   vector<double> z_axis){
 
   double part_point_x = xyz.at(0);
@@ -441,6 +505,7 @@ void CanonicalRobotCommand::canon_put_part(vector<double> xyz, vector<double> x_
   print_dwell(m_dwell);
   print_opengripper();
   print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
+  // wait for command to finish
 }
 
 /*!
@@ -449,8 +514,10 @@ void CanonicalRobotCommand::canon_put_part(vector<double> xyz, vector<double> x_
   @param z_axis Z axis used by the robot to take the part from the parts tray
   @param x_axis X axis used by the robot to take the part from the parts tray
 */
-void CanonicalRobotCommand::canon_take_part(vector<double> xyz, vector<double> x_axis, 
-					    vector<double> z_axis){
+void CanonicalRobotCommand::canon_take_part(vector<double> xyz, 
+					    vector<double> x_axis, 
+					    vector<double> z_axis)
+{
 
   double part_point_x = xyz.at(0);
   double part_point_y = xyz.at(1);
@@ -556,7 +623,8 @@ int CanonicalRobotCommand::precondition_take_part(){
   </ul>
   @param kittingplan Instance of KittingPlan
 */
-void CanonicalRobotCommand::interpretPlan(KittingPlan *kittingplan){
+void CanonicalRobotCommand::interpretPlan(KittingPlan *kittingplan)
+{
   int nbAction=0;
   string action(""), actionName("");
   vector<string> paramName;
@@ -566,15 +634,17 @@ void CanonicalRobotCommand::interpretPlan(KittingPlan *kittingplan){
   print_initcannon();
   print_opengripper();
 
-  for (vector< vector<string> >::size_type u = 0; u < kittingplan->m_actionParamList.size(); u++) {
-    actionName=kittingplan->m_actionParamList[u][0];
-    nbAction++;
-    for (vector<string>::size_type v = 1; v < kittingplan->m_actionParamList[u].size(); v++) {
-      paramName.push_back(kittingplan->m_actionParamList[u][v]);
+  for (vector< vector<string> >::size_type u = 0; u < kittingplan->m_actionParamList.size(); u++) 
+    {
+      actionName=kittingplan->m_actionParamList[u][0];
+      nbAction++;
+      for (vector<string>::size_type v = 1; v < kittingplan->m_actionParamList[u].size(); v++) 
+	{
+	  paramName.push_back(kittingplan->m_actionParamList[u][v]);
+	}
+      actionInterpreter(actionName, paramName, kittingplan);
+      paramName.clear();
     }
-    actionInterpreter(actionName, paramName, kittingplan);
-    paramName.clear();
-  }
   print_endcannon(2);
 }
 
@@ -681,7 +751,6 @@ PartsTrayLocStruct CanonicalRobotCommand::getPartsTrayLocation(string part_tray_
 RecLoc CanonicalRobotCommand::getPartLocation(string part_name, Frame grasp_frame){
   double x,y,z;
   PartLocStruct partloc;
-  RecurseLocation recurseLocation;
   RecLoc recLoc;
   Part *part = new Part(part_name);
 
@@ -717,7 +786,6 @@ string CanonicalRobotCommand::getPartInstance(string part_name)
 
   double doubleValue;
   PartLocStruct partloc;
-  RecurseLocation recurseLocation;
   Part *part = new Part(part_name);
   std::vector<Part*> availableParts;
   Point *point;
@@ -847,9 +915,9 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   Vector *vectorXAxis, *vectorZAxis;
   double doubleValue;
   Slot *slot;
-  RecurseLocation recurseLocation;
   RecLoc recLoc;
 
+  recurseLocation.clear();
   /* compute the inverse transform to get grasp (0,0,0) wrt part */
   solidObject->get(part_name);
   physicalLocation = solidObject->gethasSolidObject_PrimaryLocation();
@@ -934,25 +1002,24 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
 
   Close the gripper.
  */
-void CanonicalRobotCommand::print_closegripper(){
-	//FileOperator *fileop = new FileOperator;
-	string message = "CloseGripper () \n";
-	m_file_operator->writeData(message);
-	//cout << message;
+void CanonicalRobotCommand::print_closegripper()
+{
+  processCRCL( "CloseGripper () \n" );
+  //  m_file_operator->writeData(message);
 }
 
 /*!
   @brief The <b>Dwell</b> command
   @param time Stay motionless for the given amount of @a time in seconds
  */
-void CanonicalRobotCommand::print_dwell(double time){
-	//FileOperator *fileop = new FileOperator;
-	stringstream ss;//create a stringstream
+void CanonicalRobotCommand::print_dwell(double time)
+{
+  stringstream ss;//create a stringstream
 
-	ss << time;//add number to the stream
-	string s_time = ss.str();
-	string message = "Dwell ("+ s_time +")\n";
-	m_file_operator->writeData(message);
+  ss << time;//add number to the stream
+  string s_time = ss.str();
+  processCRCL( "Dwell ("+ s_time +")\n" );
+  //  m_file_operator->writeData(message);
 }
 
 /*!
@@ -971,13 +1038,12 @@ void CanonicalRobotCommand::print_dwell(double time){
   @param reason Reason used to indicate if the execution of a plan has been completed or not
  */
 void CanonicalRobotCommand::print_endcannon(int reason){
-	//FileOperator *fileop = new FileOperator;
-	stringstream ss;//create a stringstream
+  stringstream ss;//create a stringstream
 
-	ss << reason;//add number to the stream
-	string s_reason = ss.str();
-	string message = "EndCanon (" + s_reason + ") \n";
-	m_file_operator->writeData(message);
+  ss << reason;//add number to the stream
+  string s_reason = ss.str();
+  processCRCL( "EndCanon (" + s_reason + ") \n" );
+  //  m_file_operator->writeData(message);
 }
 
 /*!
@@ -987,13 +1053,12 @@ void CanonicalRobotCommand::print_endcannon(int reason){
   are set to the default units. This command will normally be given when
   the plan interpreter opens a plan to be executed.
   Added first move to command to set robot arm in known location
- */
+*/
 void CanonicalRobotCommand::print_initcannon(){
-	//FileOperator *fileop = new FileOperator;
-	string message = "InitCanon () \n";
-	m_file_operator->writeData(message);
-	message = "MoveTo({{0, 0, 0.5}, {0, 0, -1}, {1, 0, 0}})\n";
-	m_file_operator->writeData(message);
+    processCRCL( "InitCanon () \n" );
+  //  m_file_operator->writeData(message);
+  //  message = "MoveTo({{0, 0, 0.5}, {0, 0, -1}, {1, 0, 0}})\n";
+  //  m_file_operator->writeData(message);
 }
 
 /*!
@@ -1018,77 +1083,95 @@ void CanonicalRobotCommand::print_initcannon(){
   @param x_axis vector containing the pointing direction of the forward axis (unit vector)
   @param z_axis vector containing the pointing direction of the up axis (unit vector)
 
- */
-void CanonicalRobotCommand::print_moveto(double point_x, double point_y, double point_z, 
-		vector<double> x_axis, vector<double> z_axis){
+*/
+void CanonicalRobotCommand::print_moveto(double point_x, double point_y, 
+					 double point_z, vector<double> x_axis,
+					 vector<double> z_axis)
+{
+  stringstream ss;
+  string s_part_point_x, s_part_point_y, s_part_point_z;
+  string s_part_z_axis_i, s_part_z_axis_j, s_part_z_axis_k;
+  string s_part_x_axis_i, s_part_x_axis_j, s_part_x_axis_k;
 
-	stringstream ss;
-	string s_part_point_x, s_part_point_y, s_part_point_z;
-	string s_part_z_axis_i, s_part_z_axis_j, s_part_z_axis_k;
-	string s_part_x_axis_i, s_part_x_axis_j, s_part_x_axis_k;
+  ss << point_x;
+  ss >> s_part_point_x;
+  ss.str("");
+  ss.clear();
 
-	ss << point_x;
-	ss >> s_part_point_x;
-	ss.str("");
-	ss.clear();
+  ss << point_y;
+  ss >> s_part_point_y;
+  ss.str("");
+  ss.clear();
 
-	ss << point_y;
-	ss >> s_part_point_y;
-	ss.str("");
-	ss.clear();
+  ss << point_z;
+  ss >> s_part_point_z;
+  ss.str("");
+  ss.clear();
 
-	ss << point_z;
-	ss >> s_part_point_z;
-	ss.str("");
-	ss.clear();
+  ss << z_axis.at(0);
+  ss >> s_part_z_axis_i;
+  ss.str("");
+  ss.clear();
 
-	ss << z_axis.at(0);
-	ss >> s_part_z_axis_i;
-	ss.str("");
-	ss.clear();
+  ss << z_axis.at(1);
+  ss >> s_part_z_axis_j;
+  ss.str("");
+  ss.clear();
 
-	ss << z_axis.at(1);
-	ss >> s_part_z_axis_j;
-	ss.str("");
-	ss.clear();
+  ss << z_axis.at(2);
+  ss >> s_part_z_axis_k;
+  ss.str("");
+  ss.clear();
 
-	ss << z_axis.at(2);
-	ss >> s_part_z_axis_k;
-	ss.str("");
-	ss.clear();
+  ss << x_axis.at(0);
+  ss >> s_part_x_axis_i;
+  ss.str("");
+  ss.clear();
 
-	ss << x_axis.at(0);
-	ss >> s_part_x_axis_i;
-	ss.str("");
-	ss.clear();
+  ss << x_axis.at(1);
+  ss >> s_part_x_axis_j;
+  ss.str("");
+  ss.clear();
 
-	ss << x_axis.at(1);
-	ss >> s_part_x_axis_j;
-	ss.str("");
-	ss.clear();
+  ss << x_axis.at(2);
+  ss >> s_part_x_axis_k;
+  ss.str("");
+  ss.clear();
 
-	ss << x_axis.at(2);
-	ss >> s_part_x_axis_k;
-	ss.str("");
-	ss.clear();
+  processCRCL( "MoveTo({{" + s_part_point_x +", " + 
+	       s_part_point_y + ", " + s_part_point_z+"}, " +
+	       "{" + s_part_z_axis_i + ", " + s_part_z_axis_j + 
+	       ", " + s_part_z_axis_k +"}, " +
+	       "{"+ s_part_x_axis_i +", " + s_part_x_axis_j + ", " + 
+	       s_part_x_axis_k +"}})\n" );
 
-	string message = "MoveTo({{" + s_part_point_x +", " + s_part_point_y + ", " + s_part_point_z+"}, " +
-			"{" + s_part_z_axis_i + ", " + s_part_z_axis_j + ", " + s_part_z_axis_k +"}, " +
-			"{"+ s_part_x_axis_i +", " + s_part_x_axis_j + ", " + s_part_x_axis_k +"}})\n";
-
-	m_file_operator->writeData(message);
+  //  m_file_operator->writeData(message);
 }
 
 /*!
   @brief The <b>OpenGripper</b> command
 
   Open the gripper.
- */
+*/
 void CanonicalRobotCommand::print_opengripper(){
-	//FileOperator *fileop = new FileOperator;
-	string message = "OpenGripper () \n";
-	m_file_operator->writeData(message);
+    processCRCL( "OpenGripper () \n" );
+  //  m_file_operator->writeData(message);
 }
 
+/*!
+  @brief Deals with execution of command
+  @param commandStr - String to process
 
+  This will either send the command to the controller for execution
+  or will write it out to file. The behavior is controlled with the
+  m_file_operator class variable that is set at instance creationtime. 
+  If m_file_operator != NULL, then the command is written to file.
+*/
+void CanonicalRobotCommand::processCRCL( string commandStr )
+{
+  if( m_file_operator != NULL )
+    m_file_operator->writeData(commandStr);
+  else
+    cout << commandStr;
+}
 

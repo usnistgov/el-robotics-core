@@ -22,7 +22,7 @@
   \file   myController.cc
   \brief  Provides a sample implementation of the controller
   This class will handle the queued messages and print out strings telling about
-  the processing
+  the processing. This is sample code only!
 
   \author Stephen Balakirsky
   \date   05/31/2012

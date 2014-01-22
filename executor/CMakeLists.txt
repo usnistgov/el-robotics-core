@@ -34,7 +34,7 @@ SET(libExecutor_SOURCES src/CanonicalRobotCommand.cpp
 SET(executor_LIBS Executor ipmasUtils sqlKit pthread mysqlcppconn)
 
 link_directories(${LIBRARY_OUTPUT_PATH})
-include_directories(${IPMAS_DIR}/executor/include)
+include_directories(${IPMAS_DIR}/executor/include ${IPMAS_DIR}/controller/canonicalQueue/include)
 
 add_library(Executor STATIC ${libExecutor_SOURCES})
 

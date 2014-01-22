@@ -16,3 +16,4 @@ project(canonicalController)
 
 add_subdirectory(canonicalQueue)
 add_subdirectory(rosCanonicalController)
+

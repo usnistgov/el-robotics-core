@@ -349,64 +349,64 @@ src/canonicalController.s:
 .PHONY : src/canonicalController.s
 
 # target to build an object file
-src/rosControl/navigationGoal.o:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/navigationGoal.o
-.PHONY : src/rosControl/navigationGoal.o
+src/navigationGoal.o:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/navigationGoal.o
+.PHONY : src/navigationGoal.o
 
 # target to preprocess a source file
-src/rosControl/navigationGoal.i:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/navigationGoal.i
-.PHONY : src/rosControl/navigationGoal.i
+src/navigationGoal.i:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/navigationGoal.i
+.PHONY : src/navigationGoal.i
 
 # target to generate assembly for a file
-src/rosControl/navigationGoal.s:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/navigationGoal.s
-.PHONY : src/rosControl/navigationGoal.s
+src/navigationGoal.s:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/navigationGoal.s
+.PHONY : src/navigationGoal.s
 
 # target to build an object file
-src/rosControl/robotDescription.o:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/robotDescription.o
-.PHONY : src/rosControl/robotDescription.o
+src/robotDescription.o:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/robotDescription.o
+.PHONY : src/robotDescription.o
 
 # target to preprocess a source file
-src/rosControl/robotDescription.i:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/robotDescription.i
-.PHONY : src/rosControl/robotDescription.i
+src/robotDescription.i:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/robotDescription.i
+.PHONY : src/robotDescription.i
 
 # target to generate assembly for a file
-src/rosControl/robotDescription.s:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/robotDescription.s
-.PHONY : src/rosControl/robotDescription.s
+src/robotDescription.s:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/robotDescription.s
+.PHONY : src/robotDescription.s
 
 # target to build an object file
-src/rosControl/rosController.o:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/rosController.o
-.PHONY : src/rosControl/rosController.o
+src/rosController.o:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosController.o
+.PHONY : src/rosController.o
 
 # target to preprocess a source file
-src/rosControl/rosController.i:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/rosController.i
-.PHONY : src/rosControl/rosController.i
+src/rosController.i:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosController.i
+.PHONY : src/rosController.i
 
 # target to generate assembly for a file
-src/rosControl/rosController.s:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/rosController.s
-.PHONY : src/rosControl/rosController.s
+src/rosController.s:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosController.s
+.PHONY : src/rosController.s
 
 # target to build an object file
-src/rosControl/rosInf.o:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/rosInf.o
-.PHONY : src/rosControl/rosInf.o
+src/rosInf.o:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosInf.o
+.PHONY : src/rosInf.o
 
 # target to preprocess a source file
-src/rosControl/rosInf.i:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/rosInf.i
-.PHONY : src/rosControl/rosInf.i
+src/rosInf.i:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosInf.i
+.PHONY : src/rosInf.i
 
 # target to generate assembly for a file
-src/rosControl/rosInf.s:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosControl/rosInf.s
-.PHONY : src/rosControl/rosInf.s
+src/rosInf.s:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosControl.dir/build.make controller/rosCanonicalController/CMakeFiles/rosControl.dir/src/rosInf.s
+.PHONY : src/rosInf.s
 
 # Help Target
 help:
@@ -436,18 +436,18 @@ help:
 	@echo "... src/canonicalController.o"
 	@echo "... src/canonicalController.i"
 	@echo "... src/canonicalController.s"
-	@echo "... src/rosControl/navigationGoal.o"
-	@echo "... src/rosControl/navigationGoal.i"
-	@echo "... src/rosControl/navigationGoal.s"
-	@echo "... src/rosControl/robotDescription.o"
-	@echo "... src/rosControl/robotDescription.i"
-	@echo "... src/rosControl/robotDescription.s"
-	@echo "... src/rosControl/rosController.o"
-	@echo "... src/rosControl/rosController.i"
-	@echo "... src/rosControl/rosController.s"
-	@echo "... src/rosControl/rosInf.o"
-	@echo "... src/rosControl/rosInf.i"
-	@echo "... src/rosControl/rosInf.s"
+	@echo "... src/navigationGoal.o"
+	@echo "... src/navigationGoal.i"
+	@echo "... src/navigationGoal.s"
+	@echo "... src/robotDescription.o"
+	@echo "... src/robotDescription.i"
+	@echo "... src/robotDescription.s"
+	@echo "... src/rosController.o"
+	@echo "... src/rosController.i"
+	@echo "... src/rosController.s"
+	@echo "... src/rosInf.o"
+	@echo "... src/rosInf.i"
+	@echo "... src/rosInf.s"
 .PHONY : help
 
 

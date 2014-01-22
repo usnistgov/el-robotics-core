@@ -60,67 +60,79 @@
 #include<sys/types.h>
 #include <errno.h>
 
+// other classes needed
+#include "controller.hh"
 
 class CanonicalRobotCommand {
 public:
-	CanonicalRobotCommand(FileOperator *fileoperator);
-	virtual ~CanonicalRobotCommand();
+  CanonicalRobotCommand();
+  virtual ~CanonicalRobotCommand();
 
-	void actionInterpreter(string action,vector<string> paramName,KittingPlan *kittingplan);
-	void interpretPlan(KittingPlan *kittingplan);
+  /* output options */
+  void setController(Controller *controller, std::string sensorHostName);
+  void setFileOperator(FileOperator *fileoperator);
 
-	/* generate canonical robot command language commands from PDDL */
-	void canon_put_part(vector<double> xyz, vector<double> z_axis, vector<double> x_axis);
-	void canon_take_part(vector<double> xyz, vector<double> z_axis, vector<double> x_axis);
+  void actionInterpreter(string action,vector<string> paramName,
+			 KittingPlan *kittingplan);
+  void interpretPlan(KittingPlan *kittingplan);
 
-	/* examine the effects of PDDL actions */
-	void effect_put_part(string robot, string slot, string part);
-	void effect_take_part(string robot, string part, Frame graspFrame);
+  /* generate canonical robot command language commands from PDDL */
+  void canon_put_part(vector<double> xyz, vector<double> z_axis, 
+		      vector<double> x_axis);
+  void canon_take_part(vector<double> xyz, vector<double> z_axis, 
+		       vector<double> x_axis);
 
-	/* examine the PDDL preconditions */
-	int precondition_put_part();
-	int precondition_take_part();
+  /* examine the effects of PDDL actions */
+  void effect_put_part(string robot, string slot, string part);
+  void effect_take_part(string robot, string part, Frame graspFrame);
 
-	/* methods to process pddl actions */
-	void attach_eff(vector<string> paramList,KittingPlan *kittingplan);
-	void create_kit(vector<string> paramList, KittingPlan *kittingplan);
-	void look_for_part(vector<string> paramList, KittingPlan *kittingplan);
-	bool look_for_slot(vector<string> paramList, KittingPlan *kittingplan);
-	void put_kit(vector<string> paramList);
-	void put_kit_tray(vector<string> paramList);
-	void put_part(vector<string> paramList,KittingPlan *kittingplan);
-	void remove_eff(vector<string> paramList);
-	void take_kit(vector<string> paramList);
-	void take_kit_tray(vector<string> paramList);
-	void take_part(vector<string> paramList,KittingPlan *kittingplan);
+  /* examine the PDDL preconditions */
+  int precondition_put_part();
+  int precondition_take_part();
 
-	RecLoc getPartGoalLocation(string part_name, string slotLocation);
-	void sql_put_part(string partName, string goalRefObject);
+  /* methods to process pddl actions */
+  void attach_eff(vector<string> paramList,KittingPlan *kittingplan);
+  void create_kit(vector<string> paramList, KittingPlan *kittingplan);
+  void look_for_part(vector<string> paramList, KittingPlan *kittingplan);
+  bool look_for_slot(vector<string> paramList, KittingPlan *kittingplan);
+  void put_kit(vector<string> paramList);
+  void put_kit_tray(vector<string> paramList);
+  void put_part(vector<string> paramList,KittingPlan *kittingplan);
+  void remove_eff(vector<string> paramList);
+  void take_kit(vector<string> paramList);
+  void take_kit_tray(vector<string> paramList);
+  void take_part(vector<string> paramList,KittingPlan *kittingplan);
 
-	//Point* getRobotPoseLocation(string robotName);
+  RecLoc getPartGoalLocation(string part_name, string slotLocation);
+  void sql_put_part(string partName, string goalRefObject);
+
+  //Point* getRobotPoseLocation(string robotName);
 
 private:
-	KitTrayLocStruct getKitTrayLocation(string kit_tray_name);
-	PartsTrayLocStruct getPartsTrayLocation(string parts_tray_name);
+  KitTrayLocStruct getKitTrayLocation(string kit_tray_name);
+  PartsTrayLocStruct getPartsTrayLocation(string parts_tray_name);
 
-	RecLoc getPartLocation(string part_name, Frame grasp_frame);
-	string getPartInstance(string part_name);
-	void print_closegripper();
-	void print_dwell(double time);
-	void print_endcannon(int id);
-	void print_initcannon();
-	void print_moveto(double x, double y, double z, vector<double> z_axis, 
-			vector<double> x_axis);
-	void print_opengripper();
+  RecLoc getPartLocation(string part_name, Frame grasp_frame);
+  string getPartInstance(string part_name);
+  void print_closegripper();
+  void print_dwell(double time);
+  void print_endcannon(int id);
+  void print_initcannon();
+  void print_moveto(double x, double y, double z, vector<double> z_axis, 
+		    vector<double> x_axis);
+  void print_opengripper();
+  void processCRCL( string input );
 
-	double m_safe_z;
-	double m_dwell;
-	string m_kit_tray;
-	FileOperator* m_file_operator;
-	Frame located_frame; // grasp frame to use for located part
-	string located_part; // part located by look_for_part command
-	string located_slot; // slot located by look_for_slot command
-	DAO* dao;
+  Controller *m_controller;
+  double m_safe_z;
+  double m_dwell;
+  string m_kit_tray;
+  FileOperator* m_file_operator;
+  Frame located_frame; // grasp frame to use for located part
+  RecurseLocation recurseLocation;
+  string located_part; // part located by look_for_part command
+  string located_slot; // slot located by look_for_slot command
+  DAO* dao;
 };
 
 #endif /* CANONICALROBOTCOMMAND_H_ */

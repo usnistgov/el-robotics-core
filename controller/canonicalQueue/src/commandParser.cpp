@@ -66,7 +66,8 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	  text = buffer;
 	  ctrl->queueMsgLow(new MessageMsg(text));
 	}
-      else if (readPoseLocationArgCommand("MoveStraightTo", length, readHere, &poseLocation))
+      else if (readPoseLocationArgCommand("MoveStraightTo", length, readHere, 
+					  &poseLocation))
 	{
 	  ctrl->queueMsgLow(new MoveStraightToMsg(poseLocation));
 	}
@@ -74,7 +75,8 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	{
 	  ctrl->queueMsgLow(new MoveThroughToMsg(poseLocations, intVal));
 	}
-      else if (readPoseLocationArgCommand("MoveTo", length, readHere, &poseLocation))
+      else if (readPoseLocationArgCommand("MoveTo", length, readHere, 
+					  &poseLocation))
 	{
 	  ctrl->queueMsgLow(new MoveToMsg(poseLocation));
 	}
@@ -150,7 +152,8 @@ int CommandParser::readCommandFile( /* ARGUMENTS   */
 	{
 	  ctrl->queueMsgLow(new SetRelativeSpeedMsg(doubleVal));
 	}
-	  else if (readStringArgCommand("StartObjectScan", length, readHere, buffer))
+	  else if (readStringArgCommand("StartObjectScan", length, readHere, 
+					buffer))
 	{
 	  text = buffer;
 	  ctrl->queueMsgLow(new StartObjectScanMsg(text));

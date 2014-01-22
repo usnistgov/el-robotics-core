@@ -16,7 +16,6 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 SET(ROSBUILD_DONT_REDEFINE_PROJECT TRUE)
 rosbuild_init()
-#set(LIBRARY_OUTPUT_PATH ../../../lib)
 set(LIBRARY_OUTPUT_PATH ${IPMAS_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
 
@@ -24,10 +23,10 @@ set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
 get_filename_component(CONTROLLER_DIRECTORY ${PROJECT_SOURCE_DIR} PATH)
 get_filename_component(IPMAS_DIRECTORY ${CONTROLLER_DIRECTORY} PATH)
 
-SET(librosControl_SOURCES src/rosControl/rosInf.cpp
-                       src/rosControl/navigationGoal.cpp
-                       src/rosControl/rosController.cpp
-                       src/rosControl/robotDescription.cpp)
+SET(librosControl_SOURCES src/rosInf.cpp
+                       src/navigationGoal.cpp
+                       src/rosController.cpp
+                       src/robotDescription.cpp)
 
 #SET(binPickup_SOURCES src/binPickup/scanPattern.cpp src/binPickup/scanPickup.cpp)
 
@@ -39,6 +38,4 @@ include_directories(${CONTROLLER_DIRECTORY}/canonicalQueue/include)
 rosbuild_add_library(rosControl STATIC ${librosControl_SOURCES})
 
 rosbuild_add_executable(rosCanonicalController src/canonicalController.cpp)
-
-#target_link_libraries(rosControl pthread sqlKit mysqlcppconn)
 target_link_libraries(rosCanonicalController ${roscontroller_LIBS})

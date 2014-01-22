@@ -23,10 +23,10 @@
 //#include <stdlib.h>
 #include <string>
 #include "ulapi.hh"
-#include "parseUtils.hh"
 #include "sensorReturn.hh"
 
 #define USARTruth_Delimeter "\n"
+#define MAX_TOKEN_LEN 1024
 
 class USARTruth{
 private:
@@ -44,5 +44,13 @@ public:
   int connect(std::string hostNameIn="localhost", ulapi_integer portIn=3989);
   void setDebug(int debugLevel);
   SensorReturn getTruth( std::string className, std::string instanceName );
+  // string parsing utilities
+  const char *getKey(const char *msg, char *key);
+  const char *getValue(const char *msg, char *value);
+  const char *expect(const char *expectString, const char *msg);
+  const char *getInteger(const char *msg, int *intValue);
+  const char *getDouble(const char *msg, double *dblValue);
+  const char *getVector(const char *msg, double *dblArray, int length);
+  const char *getBone(const char *msg, double *dblArray);
 };
 #endif

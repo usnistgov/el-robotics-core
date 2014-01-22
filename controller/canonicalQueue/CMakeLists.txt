@@ -15,15 +15,11 @@ message("In canonicalQueue directory")
 
 include_directories(./include)
 set(libcanonicalQueue_SOURCES ./src/commandParser.cpp ./src/controller.cpp ./src/canonicalMsg.cpp)
-set(test_SOURCES ./src/test.cpp ./src/myController.cpp)
-set(commandParser_SOURCES ./src/commandParserMain.cpp ./src/myController.cpp)
+set(commandParserTest_SOURCES ./src/commandParserMain.cpp ./src/myController.cpp)
 set(canonicalController_LIBS sqlKit pthread mysqlcppconn)
 
 add_library(canonicalQueue STATIC ${libcanonicalQueue_SOURCES})
-add_executable(test ${test_SOURCES})
-add_executable(commandParser ${commandParser_SOURCES})
+add_executable(commandParserTest ${commandParserTest_SOURCES})
 link_directories(${LIBRARY_OUTPUT_PATH})
 
-#target_link_libraries(canonicalQueue ${canonicalController_LIBS})
-target_link_libraries(test ipmasUtils canonicalQueue ${canonicalController_LIBS})
-target_link_libraries(commandParser ipmasUtils canonicalQueue ${canonicalController_LIBS})
+target_link_libraries(commandParserTest ipmasUtils canonicalQueue ${canonicalController_LIBS})

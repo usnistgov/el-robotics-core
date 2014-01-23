@@ -75,6 +75,33 @@
 % \biboptions{}
 
 \usepackage{url}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{moreverb}                    % for boxedboxedverbatim
+\usepackage{array}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{mdwlist}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{fancyvrb}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\renewcommand{\theFancyVerbLine}{%
+\textcolor{Black}{\scriptsize%
+\arabic{FancyVerbLine}.}}
+
+\newenvironment{mylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\small}
+{\end{list}}
+
+\newenvironment{mytinylisting}
+{\begin{list}{}{\setlength{\leftmargin}{1em}}\item\tiny\bfseries}
+{\end{list}}
 %% \usepackage{listings} %% Break lines within verbatim
 
 \journal{Advanced Engineering Informatics}
@@ -190,10 +217,8 @@ Early in its existence, the ORA group made a commitment to use OWL (Web
 Ontology Language) for its models. As the authors used OWL, difficulties
 arose as described in section \ref{xsdlAndOWL}. The nature of the models
 being built lent itself to a more structured object model approach of the
-sort used in languages such as EXPRESS [\citenum{express}], C++ classes
-[\citenum{c++}], and XML Schema Definition Language (XSDL)
-[\citenum{xmlSchema0}], [\citenum{xmlSchema1}], [\citenum{xmlSchema2}],
-[\citenum{definitive}]. It was decided to use XSDL as the language for
+sort used in languages such as EXPRESS \cite{express}, C++ classes \cite{c++}, and XML Schema Definition Language (XSDL)
+\cite{xmlSchema0,xmlSchema1,xmlSchema2,definitive}. It was decided to use XSDL as the language for
 initial modeling in the KDPM project and to produce OWL models from the
 XSDL models. One author had already had experience with XSDL and was
 building C++ software tools for manipulating XML schemas and instance
@@ -201,24 +226,18 @@ files. To make the translation work easier and more reliable, additional
 C++ tools were built for that purpose.
 
 Much research has been devoted to translating XML into OWL. A
-comparison between existing utilities can be found in
-[\citenum{albarrak}], [\citenum{bedini}],
-[\citenum{yahia}]. Nevertheless, existing software has many
-limitations. In some cases, the software converts only XML Schema
-[\citenum{tsinaraki}] or requires an existing OWL ontology
-[\citenum{rodriguez}]. The majority of tools incorporate information
-from either XML schema files or XML instance files, but not both
-[\citenum{bohring}], [\citenum{garcia}], [\citenum{ghawi}].  This
+comparison between existing utilities can be found in \cite{albarrak,bedini,yahia}. Nevertheless, existing software has many
+limitations. In some cases, the software converts only XML Schema \cite{tsinaraki} or requires an existing OWL ontology \cite{rodriguez}. The majority of tools incorporate information
+from either XML schema files or XML instance files, but not both \cite{bohring,garcia,ghawi}.  This
 precludes the creation of accurate OWL instances from XML instances
 that conform to an XML schema.  Additionally, existing utilities do
 not scale well with input size or complexity, either requiring human
-verification and restructuring of the converted file [\citenum{ghawi}]
+verification and restructuring of the converted file \cite{ghawi}
 or limiting the potential complexity of XML schema files by only
-analyzing a single schema at a time [\citenum{garcia}]. Finally, most
-tools are implemented using mappings encoded in XML stylesheets
-[\citenum{thuy}], [\citenum{yahia}], [\citenum{ontmalizer}], which
+analyzing a single schema at a time \cite{garcia}. Finally, most
+tools are implemented using mappings encoded in XML stylesheets \cite{thuy,yahia,ontmalizer}, which
 seem to scale in exponential time with the length of the converted
-document [\citenum{bohring}].  For all of these reasons, a different,
+document \cite{bohring}.  For all of these reasons, a different,
 scalable approach is needed.
 
 The remainder of this paper focuses on the tools and how the translation
@@ -326,14 +345,12 @@ file, but there is still only one Lex file, one YACC file, and one main
 program file.
 
 After the xmlInstanceParserGenerator has finished running, further
-processing builds a Domain Instance XML Parser. The flex Lex processor
-[\citenum{lexAndYacc}], [\citenum{flex}] is used to generate the C++ file
-domainLex.cc automatically from domain.lex. The Bison YACC processor
-[\citenum{yacc}], [\citenum{lexAndYacc}] is used to generate domainYACC.cc
+processing builds a Domain Instance XML Parser. The flex Lex processor \cite{lexAndYacc,flex} is used to generate the C++ file
+domainLex.cc automatically from domain.lex. The Bison YACC processor \cite{yacc,lexAndYacc} is used to generate domainYACC.cc
 and domainYACC.hh automatically from domain.y. The four (or more) .cc files
 are then compiled and linked in the usual way, i.e. by using a Makefile in
 any operating system that uses standard Makefiles or by using Visual Studio
-for MS Windows [\citenum{msC++}]. As described in Section IV, an additional
+for MS Windows \cite{msC++}. As described in Section IV, an additional
 object file is also linked in.
 
 In comparison with commercially available code generation tools, and good
@@ -506,10 +523,8 @@ XML instance files in subsection \ref{xmlInstanceFiles}, OWL models in
 subsection \ref{owlClassModel}, and OWL instance files in subsection
 \ref{owlInstanceFiles}. The descriptions of languages and file formats are
 sufficient only to support the explanation of translations. Full
-descriptions may be found for XSDL in [\citenum{xmlSchema0}],
-[\citenum{xmlSchema1}], [\citenum{xmlSchema2}], and [\citenum{definitive}],
-for XML in [\citenum{xml}], and for OWL in [\citenum{owlPrimer}],
-[\citenum{protege}], and [\citenum{owlSpecification}]. XSDL and OWL
+descriptions may be found for XSDL in \cite{xmlSchema0,xmlSchema1,xmlSchema2,definitive},
+for XML in \cite{xml}, and for OWL in \cite{owlPrimer,protege,owlSpecification}. XSDL and OWL
 versions of the same small complete model are shown in subsections
 \ref{xmlSchemas} and \ref{owlClassModel}. XML and OWL versions of the same
 small instance file conforming to the model are shown in subsections
@@ -533,29 +548,34 @@ includes built-in data types such as {\tt ID}, {\tt integer}, and {\tt
 two dimensional {\tt Line} might be modeled in XSDL using {\tt PointType}
 and {\tt VectorType}.
 
-\begin{verbatim}
+
+
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},numbers=left, numbersep=1pt]
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xs:schema
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema 
+  xmlns:xs="http://www/w3/org/2001/XMLSchema"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified">
-
-  <xs:element name="Line"
+  
+  <xs:element name="Line" 
     type="LineType">
     <xs:annotation>
       <xs:documentation>
-        Root element
+	Root element
       </xs:documentation>
-      <xs:documentation>owlPrefix=ax</xs:documentation>
+      <xs:documentation>
+	owlPrefix=ax
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <xs:complexType name="BaseType"
-    abstract="true">
+  abstract="true">
     <xs:sequence>
       <xs:element name="Name"
-        type="xs:ID"/>
+      type="xs:ID"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -564,9 +584,9 @@ and {\tt VectorType}.
       <xs:extension base="BaseType">
         <xs:sequence>
           <xs:element name="Point"
-            type="PointType"/>
+          type="PointType"/>
           <xs:element name="Vector"
-            type="VectorType"/>
+          type="VectorType"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -577,9 +597,9 @@ and {\tt VectorType}.
       <xs:extension base="BaseType">
         <xs:sequence>
           <xs:element name="X"
-            type="xs:decimal"/>
+          type="xs:decimal"/>
           <xs:element name="Y"
-            type="xs:decimal"/>
+          type="xs:decimal"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -590,16 +610,19 @@ and {\tt VectorType}.
       <xs:extension base="BaseType">
         <xs:sequence>
           <xs:element name="X"
-            type="xs:decimal"/>
+          type="xs:decimal"/>
           <xs:element name="Y"
-            type="xs:decimal"/>
+          type="xs:decimal"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
 </xs:schema>
-\end{verbatim}
+\end{Verbatim}
+\captionof{figure}{test1}
+\label{test1}
+\end{mylisting}
+
 
 The four type {\tt name}s in the file above are {\tt BaseType}, {\tt
   LineType}, {\tt PointType}, and {\tt VectorType}.
@@ -706,18 +729,24 @@ follow.
     element} will be the name of an instance of {\tt KitDesignType},
   presumably to be found in a list of designs given elsewhere in the model.
 
-\begin{verbatim}
-<xs:complexType name=”KitType”>
+
+
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},numbers=left, numbersep=1pt]
+<xs:complexType name=``KitType''>
   ...
-  <xs:element name=”DesignName”
-    type=”xs:IDREF”
+  <xs:element name=``DesignName``
+    type=''xs:IDREF''>
     <xs:annotation>
       <xs:appinfo>KitDesignType</xs:appinfo>
     <xs:annotation>
   </xs:element>
   ...
-</xs:complexType
-\end{verbatim}
+</xs:complexType>
+\end{Verbatim}
+\captionof{figure}{test2}
+\label{test2}
+\end{mylisting}
 
 \item [Other items not handled] The following XSDL constructs are not
   usefully handled by the translation tools: {\tt choice}, {\tt fixed},
@@ -747,7 +776,8 @@ The following line1.xml XML instance file conforms to the line.xsd XML {\tt
 the instance file (e.g., {\tt <Point>}). The line1.xml file models a line
 that passes through the origin and lies on the Y axis.
 
-\begin{verbatim}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},numbers=left, numbersep=1pt]
 <?xml version="1.0" encoding="UTF-8"?>
 <Line
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -764,7 +794,10 @@ that passes through the origin and lies on the Y axis.
     <Y>1</Y>
   </Vector>
 </Line>
-\end{verbatim}
+\end{Verbatim}
+\captionof{figure}{test3}
+\label{test3}
+\end{mylisting}
 
 In XSDL, there is a rule that a valid instance of a {\tt complexType} must
 have valid instances of the required {\tt element}s of the type in the
@@ -797,7 +830,8 @@ beginning of the {\tt ontology} name {\tt
 argument to the xmlSchemaOwlClassGenerator. The generator adds $\cdots${\tt
   Classes.owl} to the end -- where $\cdots$ is {\tt line} in this case.
 
-\begin{verbatim}
+  \begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},numbers=left, numbersep=1pt]
 Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
 Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
@@ -884,7 +918,10 @@ EquivalentClasses(ax:Vector ObjectIntersectionOf(
   DataSomeValuesFrom(ax:hasVector_Y xsd:decimal)
   DataAllValuesFrom (ax:hasVector_Y xsd:decimal)))
 )
-\end{verbatim}
+\end{Verbatim}
+\captionof{figure}{test4}
+\label{test4}
+\end{mylisting}
 
 For each XSDL type defined in the XML {\tt schema} an equivalent OWL type
 is declared in the OWL {\tt ontology} that is generated by the Class
@@ -1019,7 +1056,8 @@ was produced by owlLinePrinter, an instance translator produced
 automatically from line.xsd by the xml2owlGenerator. The line1.xml file was
 used as input to the owlLinePrinter.
 
-\begin{verbatim}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},numbers=left, numbersep=1pt]
 Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
 Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
 Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
@@ -1064,7 +1102,11 @@ DataPropertyAssertion(ax:hasVector_Y :Vector_1
 // 1 end ax:Line
 //*****************************************
 )
-\end{verbatim}
+\end{Verbatim}
+\captionof{figure}{test5}
+\label{test5}
+\end{mylisting}
+
 
 The first five lines of line1.owl are the same boilerplate used for
 lineClasses.owl.
@@ -1111,8 +1153,7 @@ explicitly made disjoint in either a {\tt disjointClasses} statement or a
 \subsection{OWL problems obviated by using the translation tools}
 \label{problemsGone}
 
-A number of features of OWL [\citenum{owlPrimer}],
-[\citenum{owlSpecification}] and Prot\'eg\'e [\citenum{protege}], the main
+A number of features of OWL \cite{owlPrimer,owlSpecification} and Prot\'eg\'e \cite{protege}, the main
 tool available for building OWL {\tt ontology}s, make it impractical to
 build OWL models and instance files directly. The primary reason for this
 is that user errors in spelling the names of {\tt NamedIndividual}s,
@@ -1150,9 +1191,8 @@ prefix, no error will be signaled, even though the OWL spec says explicitly
 that this is not allowed.
 
 Some of these issues can be detected, and research aimed at developing
-better OWL consistency checkers is ongoing [\citenum{owlIntegrity}],
-[\citenum{moreOwlIntegrity}]. One utility, Pellet, offers some support
-for advanced reasoning and debugging [\citenum{pellet}]. In our tests,
+better OWL consistency checkers is ongoing \cite{owlIntegrity,moreOwlIntegrity}. One utility, Pellet, offers some support
+for advanced reasoning and debugging \cite{pellet}. In our tests,
 the Pellet command line linter was able to detect spelling errors
 within OWL, but Pellet was unable to detect a missing statement.
 Further, Pellet seems to support OWL XML syntax, but was unable to

@@ -21,6 +21,16 @@
 
 #include "poseInfo.hh"
 /*!
+  @brief Constructor
+*/
+PoseInfo::PoseInfo()
+{
+  setPoint(0,0,0);
+  setXAxis(0,0,0);
+  setZAxis(0,0,0);
+}
+
+/*!
   @brief Invert the frame transform
   @return The inverted frame
  */

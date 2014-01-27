@@ -23,7 +23,7 @@
 #include "Tools.hh"
 #include <vector>
 #include <map>
-#include "Operator.hh"
+#include "FileOperator.hh"
 
 #ifndef KITTINGPLAN_H_
 #define KITTINGPLAN_H_

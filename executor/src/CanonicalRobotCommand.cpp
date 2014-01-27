@@ -75,7 +75,7 @@ void CanonicalRobotCommand::setController( Controller *controller,
 }
 
 /*!
-  @brief Set the FileOperator use if writing to a file
+  @brief Set the FileOperator if writing to a file
 
   Commands will be written to the given file.
 

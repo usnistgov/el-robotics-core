@@ -25,7 +25,7 @@ set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
 #get_filename_component(IPMAS_DIRECTORY ${CONTROLLER_DIRECTORY} PATH)
 
 SET(libExecutor_SOURCES src/CanonicalRobotCommand.cpp
-                        src/Operator.cpp
+                        src/FileOperator.cpp
 			src/KittingPlan.cpp
 			src/KittingPDDLProblem.cpp
 			src/IniFile.cpp

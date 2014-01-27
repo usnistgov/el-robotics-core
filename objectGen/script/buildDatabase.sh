@@ -2,6 +2,8 @@
 
 #run this script to create a database from the kittingInstances.owl file in one step
 #mysql environment variables must be set in order for this to work
+# note that due to the -sql ./ in the java line, this script must be run in the same
+# directory as the owl file! This should be fixed!
 
 IPMAS_DIRECTORY=../../
 

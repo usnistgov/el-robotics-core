@@ -21,7 +21,7 @@
 /*!
  *	\file		objectGen.cpp
  *	\brief 		Read mysql database and populate usarsim with objects
- *      Usage: -d -t -h <host>, d: debug mode, t: objects are temporary, 
+ *      Usage: -d -t -h <host> -o <objects>, d: debug mode, t: objects are temporary, 
  *	        o: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts,
  *              h: use usarSim host <host>
  *	\author		Stephen Balakirsky, GTRI
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
       }
 
   UsarSimInf usarsim(connectToUSARSim, usarsimHost);
-  recurseLocation.sensorConnect(usarsimHost);
+  //  recurseLocation.sensorConnect(usarsimHost); object generation does not require this!
   attributes.push_back("_NAME");
 
   // get the name of all of the partstrays
@@ -110,7 +110,6 @@ int main(int argc, char *argv[])
       for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
 	{
 	  myPart = results["_NAME"][i];
-	  //      testPart  = new Part(myPart);
 	  partsTray->get(myPart);
 	  USARModel = GenericModel::getModel(dynamic_cast<SolidObject*>(partsTray));
 	  /*
@@ -122,11 +121,10 @@ int main(int argc, char *argv[])
 	  recurseLocation.clear();
 	  recurseLocation.recurse(partsTray);
 	  recurseLocation.computeGlobalLoc();
-	  //      recurseLocation.printMe(0);
+	  if( connectToUSARSim == 0 )
+	    recurseLocation.printMe(1);
 	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
 			       permanent );
-	  //      delete testPart;
-	  //      sleep(1);
 	}
     }
   // get the name of all of the kitTrays
@@ -135,17 +133,13 @@ int main(int argc, char *argv[])
   if(POPULATE_KIT_TRAY&populateFlags)
     {
       results = dao->getAll(attributes, "Kit");
-      //  for(int i=0; (int) i<results["_NAME"].size();i++)
-      for(unsigned int i=0; i<1;i++)
+      for(int i=0; (int) i<results["_NAME"].size();i++)
+	//      for(unsigned int i=0; i<1;i++)
 	{
 	  myPart = results["_NAME"][i];
-	  //      testPart  = new Part(myPart);
 	  kit->get(myPart);
-	  //      kitTray->get(myPart);
-	  // change
 	  kitTray = kit->gethasKit_KitTray();
 	  kitTray->get(kitTray->getname());
-	  // end of change
 	  USARModel = GenericModel::getModel(dynamic_cast<SolidObject*>(kitTray));
 
 	  /*
@@ -155,16 +149,12 @@ int main(int argc, char *argv[])
 	    USARModel.c_str());
 	  */
 	  recurseLocation.clear();
-	  //      recurseLocation.recurse(kitTray);
-	  // change
 	  recurseLocation.recurse(kit);
-	  // end of change
 	  recurseLocation.computeGlobalLoc();
-	  //      recurseLocation.printMe(0);
+	  if( connectToUSARSim == 0 )
+	    recurseLocation.printMe(1);
 	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
 			       permanent);
-	  //      delete testPart;
-	  //      sleep(1);
 	}
     }
   // get the name of all of the parts
@@ -186,7 +176,8 @@ int main(int argc, char *argv[])
 	  recurseLocation.clear();
 	  recurseLocation.recurse(testPart);
 	  recurseLocation.computeGlobalLoc();
-	  //      recurseLocation.printMe(0);
+	  if( connectToUSARSim == 0 )
+	    recurseLocation.printMe(1);
 	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
 			       permanent);
 	  //      delete testPart;

@@ -27,7 +27,7 @@
 #include <config.h>
 #endif
 
-#include "Operator.hh"
+#include "FileOperator.hh"
 #include "KittingPlan.hh"
 #include "KittingPDDLProblem.hh"
 #include "Tools.hh"

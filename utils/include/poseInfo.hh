@@ -29,6 +29,7 @@ private:
   std::vector<double>zAxis;
 
 public:
+  PoseInfo();
   void clear();
   std::vector<double> computeYAxis();
   std::string getPointName();

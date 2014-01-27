@@ -152,6 +152,20 @@ ROSBUILD_gensrv_lisp/fast:
 .PHONY : ROSBUILD_gensrv_lisp/fast
 
 # Convenience name for target.
+controller/rosCanonicalController/CMakeFiles/canonicalController.dir/rule:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f CMakeFiles/Makefile2 controller/rosCanonicalController/CMakeFiles/canonicalController.dir/rule
+.PHONY : controller/rosCanonicalController/CMakeFiles/canonicalController.dir/rule
+
+# Convenience name for target.
+canonicalController: controller/rosCanonicalController/CMakeFiles/canonicalController.dir/rule
+.PHONY : canonicalController
+
+# fast build rule for target.
+canonicalController/fast:
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/canonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/canonicalController.dir/build
+.PHONY : canonicalController/fast
+
+# Convenience name for target.
 controller/rosCanonicalController/CMakeFiles/clean-test-results.dir/rule:
 	cd /home/stephen/projects/ipmas && $(MAKE) -f CMakeFiles/Makefile2 controller/rosCanonicalController/CMakeFiles/clean-test-results.dir/rule
 .PHONY : controller/rosCanonicalController/CMakeFiles/clean-test-results.dir/rule
@@ -164,20 +178,6 @@ clean-test-results: controller/rosCanonicalController/CMakeFiles/clean-test-resu
 clean-test-results/fast:
 	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/clean-test-results.dir/build.make controller/rosCanonicalController/CMakeFiles/clean-test-results.dir/build
 .PHONY : clean-test-results/fast
-
-# Convenience name for target.
-controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/rule:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f CMakeFiles/Makefile2 controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/rule
-.PHONY : controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/rule
-
-# Convenience name for target.
-rosCanonicalController: controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/rule
-.PHONY : rosCanonicalController
-
-# fast build rule for target.
-rosCanonicalController/fast:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/build
-.PHONY : rosCanonicalController/fast
 
 # Convenience name for target.
 controller/rosCanonicalController/CMakeFiles/rosControl.dir/rule:
@@ -335,17 +335,17 @@ tests/fast:
 
 # target to build an object file
 src/canonicalController.o:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/src/canonicalController.o
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/canonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/canonicalController.dir/src/canonicalController.o
 .PHONY : src/canonicalController.o
 
 # target to preprocess a source file
 src/canonicalController.i:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/src/canonicalController.i
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/canonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/canonicalController.dir/src/canonicalController.i
 .PHONY : src/canonicalController.i
 
 # target to generate assembly for a file
 src/canonicalController.s:
-	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/rosCanonicalController.dir/src/canonicalController.s
+	cd /home/stephen/projects/ipmas && $(MAKE) -f controller/rosCanonicalController/CMakeFiles/canonicalController.dir/build.make controller/rosCanonicalController/CMakeFiles/canonicalController.dir/src/canonicalController.s
 .PHONY : src/canonicalController.s
 
 # target to build an object file
@@ -418,10 +418,10 @@ help:
 	@echo "... ROSBUILD_genmsg_lisp"
 	@echo "... ROSBUILD_gensrv_cpp"
 	@echo "... ROSBUILD_gensrv_lisp"
+	@echo "... canonicalController"
 	@echo "... clean-test-results"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... rosCanonicalController"
 	@echo "... rosControl"
 	@echo "... rosbuild_precompile"
 	@echo "... rosbuild_premsgsrvgen"

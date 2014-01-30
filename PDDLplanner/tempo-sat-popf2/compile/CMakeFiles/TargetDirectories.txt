@@ -1,0 +1,10 @@
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/VALfiles/CMakeFiles/Inst.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/POPF2Common.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/POPF3Common.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/VALfiles/parsing/CMakeFiles/ParsePDDL.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/StochasticPOPF2Common.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/doc.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/doxygenpopf.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/popf2-clp.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/popf2-clp-stochastic.dir
+/home/zeid/Documents/workspace/pddlplanner/tempo-sat-popf2/compile/popf2/CMakeFiles/popf3-clp.dir

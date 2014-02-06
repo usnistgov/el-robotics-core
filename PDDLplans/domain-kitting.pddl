@@ -1,397 +1,357 @@
-    (define (domain kitting-domain)
-	   (:requirements :strips :typing :derived-predicates :action-costs :fluents :equality)
-	    (:types 
-		    EndEffector
-		    EndEffectorHolder 
-		    Kit 
-		    KitTray
-		    LargeBoxWithEmptyKitTrays 
-		    LargeBoxWithKits
-		    Part 
-		    PartsTray 
-		    EndEffectorChangingStation
-		    Robot 
-		    StockKeepingUnit
-		    WorkTable)
+(define (domain kitting-domain)
+	(:requirements :action-costs :derived-predicates :equality :fluents :strips :typing)
+	(:types 
+		EndEffector
+		EndEffectorChangingStation
+		EndEffectorHolder
+		Kit
+		KitTray
+		LargeBoxWithEmptyKitTrays
+		LargeBoxWithKits
+		Part
+		PartsTray
+		Robot
+		StockKeepingUnit
+		WorkTable)
+	(:predicates
+		;?part is held by ?endeffector
+		(part-has-physicalLocation-refObject-endEffector ?part - Part ?endeffector - EndEffector)
 
-    (:predicates
-	    ; ?kit exists
-	    (isExist-Kit ?kit - Kit)
-	    
-	    ; ?part has ?sku
-	    (hasPart-SkuObject-Sku ?part - Part ?sku - StockKeepingUnit)
-	    
-	    ; ?kit has ?kittray
-	    (hasKit-KitTray ?kit - Kit ?kittray - KitTray)
-	    
-	    ; ?kittray has ?sku
-	    (hasKitTray-SkuObject-Sku ?kittray - KitTray ?sku - StockKeepingUnit)
-	    
-	    ; ?endeffector is attached to ?robot
-	    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector - EndEffector ?robot - Robot)	
-		    
-	    ; ?endeffector is in ?endeffectorholder
-	    (hasEndEffector-PhysicalLocation-RefObject-EndEffectorHolder ?endeffector - EndEffector ?endeffectorholder - EndEffectorHolder)
+		;?partsTray contains ?part
+		(partsVessel-has-part ?partstray - PartsTray ?part - Part)
 
-	    ;TRUE iff ?robot is equipped with ?endeffector
-	    (hasRobot-EndEffector ?robot - Robot ?endeffector - EndEffector)				
-		    
-	    ;TRUE iff ?robot is not equipped with ?endeffector
-	    (hasRobot-No-EndEffector ?robot - Robot)						
-		    
-	    ;TRUE iff ?kit is on ?worktable		
-	    (hasWorkTable-ObjectOnTable-Kit ?worktable - WorkTable ?kit - Kit)
-		    
-	    ;TRUE iff ?kittray is on ?worktable
-	    (hasWorkTable-ObjectOnTable-KitTray ?worktable - WorkTable ?kittray - KitTray)	
-	    
-	    
-	    ;TRUE iff ?worktable is empty (nothing on top of it)
-	    (hasWorkTable-ObjectOnTable-None ?worktable - WorkTable)
-	    
-	    
-	    ;TRUE iff ?kit is in ?largeboxwithkits	
-	    (hasKit-PhysicalLocation-RefObject-LBWK ?kit - Kit ?largeboxwithkits - LargeBoxWithKits)
-	    
-	    ;TRUE iff ?kit is on ?worktable
-	    (hasKit-PhysicalLocation-RefObject-WorkTable ?kit - Kit ?worktable - WorkTable)
-	    
-	    ;?kit is held by ?endeffector		
-	    (hasKit-PhysicalLocation-RefObject-EndEffector ?kit - Kit ?endeffector - EndEffector)
-	    
-	    ;TRUE iff ?kittray is in ?largeboxwithemptykittrays
-	    (hasKitTray-PhysicalLocation-RefObject-LBWEKT ?kittray - KitTray ?lbwekt - LargeBoxWithEmptyKitTrays)	
+		;?part has ?sku
+		(part-has-skuObject-sku ?part - Part ?stockkeepingunit - StockKeepingUnit)
 
-	    ;TRUE iff ?kittray is being held by ?robot
-	    (hasKitTray-PhysicalLocation-RefObject-EndEffector ?kittray - KitTray ?endeffector - EndEffector)
-	    
-	    (hasKitTray-PhysicalLocation-RefObject-Kit ?kittray - KitTray ?kit - Kit)
-	    
-	    ;TRUE iff ?kittray is on ?worktable
-	    (hasKitTray-PhysicalLocation-RefObject-WorkTable ?kittray - KitTray ?worktable - WorkTable)
-	    
-	    ;TRUE iff ?part is in ?partstray
-	    (hasPart-PhysicalLocation-RefObject-PartsTray ?part - Part ?partstray - PartsTray)					
-	    
-	    ;TRUE iff ?part is in ?kit
-	    (hasPart-PhysicalLocation-RefObject-Kit ?part - Part ?kit - Kit)			
-		    
-	    ;TRUE iff ?part is being held by ?robot
-	    (hasPart-PhysicalLocation-RefObject-EndEffector ?part - Part ?endeffector - EndEffector)	
-	    
-	    ;TRUE iff ?robot is holding ?kittray
-	    (hasEndEffector-HeldObject-KitTray ?endeffector - EndEffector ?kittray - KitTray)
+		;?robot has no end effector
+		(robot-has-no-endEffector ?robot - Robot)
 
-	    ;TRUE iff ?robot is holding ?kit
-	    (hasEndEffector-HeldObject-Kit ?endeffector - EndEffector ?kit - Kit)				
-		    
-	    ;TRUE iff ?robot is holding ?part
-	    (hasEndEffector-HeldObject-Part ?endeffector - EndEffector ?part - Part)					
-			    
-	    ;TRUE iff ?robot is equipped with an endeffector and the endeffector is not holding anything
-	    (hasEndEffector-HeldObject-None ?endeffector - EndEffector)
-	    
-	    (hasLBWK-Kit ?larboxwithkits - LargeBoxWithKits ?kit - Kit)	
+		;?endeffector is holding ?kit
+		(endEffector-has-heldObject-kit ?endeffector - EndEffector ?kit - Kit)
 
-	    
-	    ;TRUE iff ?partstray has ?part		
-	    (hasPartsVessel-Part ?partstray - PartsTray ?part - Part)
-	    
-	    ;TRUE iff ?endeffector is capable of holding ?kittray						
-	    (hasEndEffector-For-Sku-KitTray ?endeffector - EndEffector ?sku - StockKeepingUnit)
+		;?worktable has nothing on top of it
+		(workTable-has-no-objectOnTable ?worktable - WorkTable)
 
-	    ;TRUE iff ?endeffector is capable of holding ?part
-	    (hasEndEffector-For-Sku-Part ?endeffector - EndEffector ?sku - StockKeepingUnit)
+		;?kittray is held by ?endeffector
+		(kitTray-has-physicalLocation-refObject-endEffector ?kittray - KitTray ?endeffector - EndEffector)
 
-	    ;TRUE iff ?endeffectorholder is holding endeffector				
-	    (hasEndEffectorHolder-EndEffector ?endeffectorholder - EndEffectorHolder ?endeffector - EndEffector)	
+		;?endeffectorholder is holding ?endeffector
+		(endEffectorHolder-has-endEffector ?endeffectorholder - EndEffectorHolder ?endeffector - EndEffector)
 
-	    ;TRUE iff ?endeffectorholder is empty (?endeffectorholder does not hold an endeffector)		
-	    (hasEndEffectorHolder-EndEffector-None ?endeffectorholder - EndEffectorHolder)
+		;?endEffector is for handling kit trays that have ?sku
+		(endEffector-is-for-kitTraySKU ?endeffector - EndEffector ?stockkeepingunit - StockKeepingUnit)
 
-	    ;TRUE iff ?endeffectorholder is in ?endeffectorchangingstation		
-	    (hasEndEffectorHolder-PhysicalLocation-RefObject-ChangingStation ?endeffectorholder - EndEffectorHolder ?changingstation - EndEffectorChangingStation)	
+		;?part is in ?partsTray
+		(part-has-physicalLocation-refObject-partsTray ?part - Part ?partstray - PartsTray)
 
-	    ;TRUE iff ?endeffectorchangingstation contains ?endeffectorholder
-	    (hasEndEffectorChangingStation-EndEffectorHolder ?changingstation - EndEffectorChangingStation ?endeffectorholder - EndEffectorHolder)	
+		;?kittray is on ?worktable
+		(kitTray-has-physicalLocation-refObject-workTable ?kittray - KitTray ?worktable - WorkTable)
 
-	    ;TRUE if ?part is found in ?partstray
-	    (found-part ?part - Part)
-    )
+		;?endEffector is for handling parts that have ?sku
+		(endEffector-is-for-partSKU ?endeffector - EndEffector ?stockkeepingunit - StockKeepingUnit)
 
-    ;Functions are used to manipulate numbers
-    (:functions 
+		;?endeffector is located in ?endEffectorHolder
+		(endEffector-has-physicalLocation-refObject-endEffectorHolder ?endeffector - EndEffector ?endeffectorholder - EndEffectorHolder)
 
-	    (quantity-of-parts-in-partstray ?partstray - PartsTray)
-	    (quantity-of-parts-in-kit ?sku - StockKeepingUnit ?kit - Kit)
-	    (quantity-of-kittrays-in-lbwekt ?lbwekt - LargeBoxWithEmptyKitTrays)
-	    (quantity-of-kits-in-lbwk ?lbwk - LargeBoxWithKits)
-	    (current-quantity-kit ?kit - Kit)
-	    (final-quantity-kit ?kit - Kit)
-	    (capacity-of-parts-in-kit ?partsku - StockKeepingUnit ?kit - Kit)
-	    (capacity-of-kits-in-lbwk ?lbwk - LargeBoxWithKits)
-	    (part-found-flag)
-    )
+		;?kit has ?kittray
+		(kit-has-kitTray ?kit - Kit ?kittray - KitTray)
 
-    ;Take the KitTray ?kittray from the LargeBoxWithEmptyKitTrays ?lbwekt
-    ; ?robot must have an effector attached to it that can handle kit trays
-    (:action Take-KitTray
-	    :parameters(
-		    ?robot - Robot 
-		    ?kittray - KitTray 
-		    ?lbwekt - LargeBoxWithEmptyKitTrays 
-		    ?endeffector - EndEffector 
-		    ?sku - StockKeepingUnit)
-	    :precondition(and 
-		    (> (quantity-of-kittrays-in-lbwekt ?lbwekt) 0)
-		    (hasEndEffector-HeldObject-None ?endeffector)
-		    (hasEndEffector-For-Sku-KitTray ?endeffector ?sku)
-		    (hasRobot-EndEffector ?robot ?endeffector) 					
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot)		
-		    (hasKitTray-SkuObject-Sku ?kittray ?sku)
-		    (hasKitTray-PhysicalLocation-RefObject-LBWEKT ?kittray ?lbwekt) 			
-		    )				; objects with ?sku can be handled by ?endeffector
-	    :effect(and 
-		    (decrease (quantity-of-kittrays-in-lbwekt ?lbwekt) 1)
-		    (hasEndEffector-HeldObject-KitTray ?endeffector ?kittray) 				
-		    (hasKitTray-PhysicalLocation-RefObject-EndEffector ?kittray ?endeffector) 	
-		    (not (hasEndEffector-HeldObject-None ?endeffector)) 				
-		    (not (hasKitTray-PhysicalLocation-RefObject-LBWEKT ?kittray ?lbwekt)))		
-    )
-			    
+		;?lbwk contains ?kit
+		(lbwk-has-kit ?largeboxwithkits - LargeBoxWithKits ?kit - Kit)
 
-    ; Put a KitTray on a WorkTable
-    (:action Place-KitTray
-	    :parameters(
-		    ?robot - Robot
-		    ?kittray - KitTray 
-		    ?worktable - WorkTable
-		    ?endeffector - EndEffector)
-	    :precondition 
-		    (and
-		    (hasEndEffector-HeldObject-KitTray ?endeffector ?kittray)
-		    (hasKitTray-PhysicalLocation-RefObject-EndEffector ?kittray ?endeffector)
-		    (hasRobot-EndEffector ?robot ?endeffector)
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot))
-	    :effect(and 
-		    (not(hasKitTray-PhysicalLocation-RefObject-EndEffector ?kittray ?endeffector)) 
-		    (not(hasEndEffector-HeldObject-KitTray ?endeffector ?kittray)) 
-		    (hasKitTray-PhysicalLocation-RefObject-WorkTable ?kittray ?worktable) 
-		    (hasEndEffector-HeldObject-None ?endeffector) 
-		    (hasWorkTable-ObjectOnTable-KitTray ?worktable ?kittray))
-    )
-    
-        ; Create a Kit from a KitTray		
-    (:action Create-Kit
-	    :parameters(
-		    ?kit - Kit 
-		    ?kittray - KitTray
-		    ?worktable - WorkTable)
-	    :precondition 
-		    (and 
-		    (hasWorkTable-ObjectOnTable-KitTray ?worktable ?kittray)
-		    (hasKitTray-PhysicalLocation-RefObject-WorkTable ?kittray ?worktable)
-		    (hasKit-KitTray ?kit ?kittray)
-		    )
-	    :effect 
-		    (and 
-		    (hasWorkTable-ObjectOnTable-Kit ?worktable ?kit) 
-		    (hasKit-PhysicalLocation-RefObject-WorkTable ?kit ?worktable)
-		    (not  (hasWorkTable-ObjectOnTable-KitTray ?worktable ?kittray))
-		    (not (hasKitTray-PhysicalLocation-RefObject-WorkTable ?kittray ?worktable))
-		    (isExist-Kit ?kit))
-    )
+		;?worktable has ?kit on top of it
+		(workTable-has-objectOnTable-kit ?worktable - WorkTable ?kit - Kit)
 
-    ; Take a Kit from the WorkTable
-    (:action Take-Kit
-	    :parameters(
-		    ?robot - Robot 
-		    ?kit - Kit 
-		    ?kittray - KitTray
-		    ?worktable - WorkTable 
-		    ?sku - StockKeepingUnit
-		    ?endeffector - EndEffector)
-	    :precondition 
-		    (and  
-		    (= (current-quantity-kit ?kit) (final-quantity-kit ?kit))
-		    (hasEndEffector-HeldObject-None ?endeffector) 					; ?endeffector is not holding anything
-		    (hasRobot-EndEffector ?robot ?endeffector) 					; ?robot has ?endeffector on
-		    (hasKitTray-SkuObject-Sku ?kittray ?sku)
-		    (hasEndEffector-For-Sku-KitTray ?endeffector ?sku)
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot)		; ?endeffector is attached to ?robot
-		    (isExist-Kit ?kit)
-		    (hasKit-KitTray ?kit ?kittray))
-	    :effect 
-		    (and 
-		    (hasKit-PhysicalLocation-RefObject-EndEffector ?kit ?endeffector)
-		    (hasEndEffector-HeldObject-Kit ?endeffector ?kit) 
-		    (not (hasKit-PhysicalLocation-RefObject-WorkTable ?kit ?worktable)) 
-		    (not (hasEndEffector-HeldObject-None ?endeffector) )
-		    (not (hasWorkTable-ObjectOnTable-Kit ?worktable ?kit)))
-    )
-			    
-    ; Put a Kit in a LargeBoxWithKits
-    (:action Place-Kit
-		    :parameters(
-			    ?robot - Robot 
-			    ?kit - Kit 
-			    ?endeffector - EndEffector
-			    ?lbwk - LargeBoxWithKits)	
-		    :precondition 
-		      (and  
-		      (< (quantity-of-kits-in-lbwk ?lbwk) (capacity-of-kits-in-lbwk ?lbwk))
-		      (hasEndEffector-HeldObject-Kit ?endeffector ?kit)
-		      (hasKit-PhysicalLocation-RefObject-EndEffector ?kit ?endeffector)
-		      (hasRobot-EndEffector ?robot ?endeffector)
-		      (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot)  
-		      )
-		    :effect 
-		      (and  
-		      (not (isExist-Kit ?kit))
-		      (hasLBWK-Kit ?lbwk ?kit)
-		      (increase (quantity-of-kits-in-lbwk ?lbwk) 1)
-		      (hasKit-PhysicalLocation-RefObject-LBWK ?kit ?lbwk)
-		      (hasEndEffector-HeldObject-None ?endeffector)
-		      (not (hasKit-PhysicalLocation-RefObject-EndEffector ?kit ?endeffector))
-		      (not (hasEndEffector-HeldObject-Kit ?endeffector ?kit))
-		      )
-	    )
+		;?worktable has ?kitTray on top of it
+		(workTable-has-objectOnTable-kitTray ?worktable - WorkTable ?kittray - KitTray)
 
-	    
-    ; Looking for a Part given a StockKeepingUnit
-    (:action Look-For-Part
-	    :parameters(
-		    ?robot - Robot 
-		    ?part - Part
-		    ?partsku - StockKeepingUnit
-		    ?endeffectorsku - StockKeepingUnit
-		    ?kit - Kit 
-		    ?endeffector - EndEffector)
-	    :precondition(and
-		    (> (part-found-flag) 0)
-		    (isExist-Kit ?kit)
-		    (hasEndEffector-For-Sku-Part ?endeffector ?partsku)
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot) 
-		    (hasRobot-EndEffector ?robot ?endeffector) 
-		    (hasEndEffector-HeldObject-None ?endeffector) 
-		    (hasPart-SkuObject-Sku ?part ?partsku))
-	    :effect(and
-	    (found-part ?part)
-	    (decrease (part-found-flag) 1)
-	    )
-    )
+		;?endeffector is attached to ?robot
+		(endEffector-has-physicalLocation-refObject-robot ?endeffector - EndEffector ?robot - Robot)
 
-    ; Take a Part from a PartsTray
-    (:action Take-Part
-	    :parameters(
-		    ?robot - Robot 
-		    ?part - Part 
-		    ?partsku - StockKeepingUnit
-		    ?partstray - PartsTray 
-		    ?endeffector - EndEffector 
-		    ?kit - Kit)
-	    :precondition 
-		    (and  
-		    (isExist-Kit ?kit)
-		    (hasPart-SkuObject-Sku ?part ?partsku)
-		    (hasEndEffector-For-Sku-Part ?endeffector ?partsku)
-		    (hasPart-PhysicalLocation-RefObject-PartsTray ?part ?partstray) 
-		    (hasPartsVessel-Part ?partstray ?part)
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot) 
-		    (hasRobot-EndEffector ?robot ?endeffector) 
-		    (hasEndEffector-HeldObject-None ?endeffector)
-		    (found-part ?part)
-		    (> (quantity-of-parts-in-partstray ?partstray) 0)
-		    )
-	    :effect 
-		    (and  
-		    (hasPart-PhysicalLocation-RefObject-EndEffector ?part ?endeffector) 
-		    (hasEndEffector-HeldObject-Part ?endeffector ?part)
-		    (not (hasPart-PhysicalLocation-RefObject-PartsTray ?part ?partstray))
-		    (decrease (quantity-of-parts-in-partstray ?partstray) 1)
-		    (not (hasEndEffector-HeldObject-None ?endeffector)))
-    )
+		;?part is found
+		(part-is-found ?part - Part)
 
+		;?kittray is located in ?lbwekt
+		(kitTray-has-physicalLocation-refObject-lbwekt ?kittray - KitTray ?largeboxwithemptykittrays - LargeBoxWithEmptyKitTrays)
 
-    ; Put a Part in a Kit			
-    (:action Place-Part
-	    :parameters(
-		    ?robot - Robot 
-		    ?part - Part 
-		    ?partsku - StockKeepingUnit
-		    ?kit - Kit  
-		    ?endeffector - EndEffector
-		    ?worktable - WorkTable
-		    ?partstray - PartsTray)
-	    :precondition 
-		    (and  
-		      (hasRobot-EndEffector ?robot ?endeffector)
-		      (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot)  
-		    (hasPart-PhysicalLocation-RefObject-EndEffector ?part ?endeffector) 
-		    (hasEndEffector-HeldObject-Part ?endeffector ?part) 
-		    (isExist-Kit ?kit)
-		    (hasPart-SkuObject-Sku ?part ?partsku)
-		    (< (quantity-of-parts-in-kit ?partsku ?kit) (capacity-of-parts-in-kit ?partsku ?kit))
-		    )
-	    :effect 
-		    (and  
-		    (increase (current-quantity-kit ?kit) 1)
-		    (not (hasPart-PhysicalLocation-RefObject-EndEffector ?part ?endeffector))
-		    (not (hasEndEffector-HeldObject-Part ?endeffector ?part))
-		    (hasPart-PhysicalLocation-RefObject-Kit ?part ?kit)
-		    (increase (part-found-flag) 1)
-		    (increase (quantity-of-parts-in-kit ?partsku ?kit) 1)
-		    (hasEndEffector-HeldObject-None ?endeffector))
-    )
+		;?kit is on ?worktable
+		(kit-has-physicalLocation-refObject-workTable ?kit - Kit ?worktable - WorkTable)
 
-    ; Attach an EndEffector to a Robot		
-    (:action Attach-EndEffector
-	    :parameters(
-		    ?robot - Robot 
-		    ?endeffector - EndEffector 
-		    ?endeffectorholder - EndEffectorHolder
-		    ?changingstation - EndEffectorChangingStation)
-	    :precondition 
-		    (and  
-		    (hasEndEffector-PhysicalLocation-RefObject-EndEffectorHolder ?endeffector ?endeffectorholder) 						
-		    (hasEndEffectorHolder-EndEffector  ?endeffectorholder ?endeffector)
-		    (hasRobot-No-EndEffector ?robot)
-		    (hasEndEffectorHolder-PhysicalLocation-RefObject-ChangingStation ?endeffectorholder ?changingstation)
-		    (hasEndEffectorChangingStation-EndEffectorHolder ?changingstation ?endeffectorholder)	
-    )		
-	    :effect 
-		    (and  
-		    (hasEndEffector-HeldObject-None ?endeffector)			
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot) 			
-		    (hasRobot-EndEffector ?robot ?endeffector)			
-		    (not (hasEndEffector-PhysicalLocation-RefObject-EndEffectorHolder ?endeffector ?endeffectorholder)) 	
-		    (not (hasEndEffectorHolder-EndEffector ?endeffectorholder ?endeffector)) 	
-		    (not (hasRobot-No-EndEffector ?robot)))		
-    )
+		;?kittray has ?sku
+		(kitTray-has-skuObject-sku ?kittray - KitTray ?stockkeepingunit - StockKeepingUnit)
 
+		;?changingstation contains ?endeffectorholder
+		(endEffectorChangingStation-has-endEffectorHolder ?endeffectorchangingstation - EndEffectorChangingStation ?endeffectorholder - EndEffectorHolder)
 
-    ; Remove an EndEffector from a Robot
-    (:action Detach-EndEffector
-	    :parameters(
-		    ?robot - Robot 
-		    ?endeffector - EndEffector 
-		    ?endeffectorholder - EndEffectorHolder
-		    ?changingstation - EndEffectorChangingStation)
-	    :precondition 
-		    (and  
-		    (hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot) 
-		    (hasRobot-EndEffector ?robot ?endeffector) 
-		    (hasEndEffector-HeldObject-None ?endeffector)
-		    (hasEndEffectorHolder-PhysicalLocation-RefObject-ChangingStation ?endeffectorholder ?changingstation)
-		    (hasEndEffectorChangingStation-EndEffectorHolder ?changingstation ?endeffectorholder))
-	    :effect 
-		    (and
-		    (not(hasEndEffector-PhysicalLocation-RefObject-Robot ?endeffector ?robot))
-		    (not(hasRobot-EndEffector ?robot ?endeffector))
-		    (hasEndEffector-PhysicalLocation-RefObject-EndEffectorHolder ?endeffector ?endeffectorholder)
-		    (hasEndEffectorHolder-EndEffector  ?endeffectorholder ?endeffector)
-		    (hasRobot-No-EndEffector ?robot))
-    )
+		;?kittray is related to ?kit
+		(kitTray-has-physicalLocation-refObject-kit ?kittray - KitTray ?kit - Kit)
 
+		;?kit is located in ?lbwk
+		(kit-has-physicalLocation-refObject-lbwk ?kit - Kit ?largeboxwithkits - LargeBoxWithKits)
 
-    )
+		;?endeffector is not holding any object
+		(endEffector-has-no-heldObject ?endeffector - EndEffector)
+
+		;?kit exists
+		(kit-exists ?kit - Kit)
+
+		;?part is in ?kit
+		(part-has-physicalLocation-refObject-kit ?part - Part ?kit - Kit)
+
+		;?endeffector is holding ?kittray
+		(endEffector-has-heldObject-kitTray ?endeffector - EndEffector ?kittray - KitTray)
+
+		;?endeffector is holding ?part
+		(endEffector-has-heldObject-part ?endeffector - EndEffector ?part - Part)
+
+		;?endeffectorholder is located in ?changingstation
+		(endEffectorHolder-has-physicalLocation-refObject-changingStation ?endeffectorholder - EndEffectorHolder ?endeffectorchangingstation - EndEffectorChangingStation)
+
+		;?kit is held by ?endeffector
+		(kit-has-physicalLocation-refObject-endEffector ?kit - Kit ?endeffector - EndEffector)
+
+		;?robot is equipped with ?endeffector
+		(robot-has-endEffector ?robot - Robot ?endeffector - EndEffector)
+	);End of the predicates section
+	(:functions
+		;capacity of kits that ?lbwk can have
+		(capacity-of-kits-in-lbwk ?largeboxwithkits - LargeBoxWithKits)
+
+		;quantity of kits in ?lbwk
+		(quantity-of-kits-in-lbwk ?largeboxwithkits - LargeBoxWithKits)
+
+		;flag set to 0 when a part is not found and to 1 when a part is found
+		(part-found-flag)
+
+		;capacity of parts of a certain ?sku that ?kit can have
+		(capacity-of-parts-in-kit ?stockkeepingunit - StockKeepingUnit ?kit - Kit)
+
+		;current quantity of parts in ?kit
+		(current-quantity-of-parts-in-kit ?kit - Kit)
+
+		;quantity of parts in ?partsTray
+		(quantity-of-parts-in-partstray ?partstray - PartsTray)
+
+		;quantity of kit trays in ?lbwekt
+		(quantity-of-kittrays-in-lbwekt ?largeboxwithemptykittrays - LargeBoxWithEmptyKitTrays)
+
+		;quantity of parts with ?sku in ?kit
+		(quantity-of-parts-in-kit ?stockkeepingunit - StockKeepingUnit ?kit - Kit)
+
+		;final quantity of parts in ?kit
+		(final-quantity-of-parts-in-kit ?kit - Kit)
+	);End of the functions section
+
+	(:action detach-endEffector
+		:parameters(
+			?robot - Robot
+			?endeffector - EndEffector
+			?endeffectorholder - EndEffectorHolder
+			?endeffectorchangingstation - EndEffectorChangingStation)
+		:precondition(and
+			(endEffector-has-no-heldObject ?endeffector)
+			(endEffectorChangingStation-has-endEffectorHolder ?endeffectorchangingstation ?endeffectorholder)
+			(endEffectorHolder-has-physicalLocation-refObject-changingStation ?endeffectorholder ?endeffectorchangingstation)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot)
+			(robot-has-endEffector ?robot ?endeffector))
+		:effect(and
+			(endEffectorHolder-has-endEffector ?endeffectorholder ?endeffector)
+			(not(robot-has-endEffector ?robot ?endeffector))
+			(endEffector-has-physicalLocation-refObject-endEffectorHolder ?endeffector ?endeffectorholder)
+			(robot-has-no-endEffector ?robot)
+			(not(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot)))
+	)
+	(:action take-part
+		:parameters(
+			?robot - Robot
+			?part - Part
+			?stockkeepingunit - StockKeepingUnit
+			?partstray - PartsTray
+			?endeffector - EndEffector
+			?kit - Kit)
+		:precondition(and
+			(> (quantity-of-parts-in-partstray ?partstray) 0.000000)
+			(endEffector-is-for-partSKU ?endeffector ?stockkeepingunit)
+			(endEffector-has-no-heldObject ?endeffector)
+			(part-is-found ?part)
+			(kit-exists ?kit)
+			(robot-has-endEffector ?robot ?endeffector)
+			(part-has-physicalLocation-refObject-partsTray ?part ?partstray)
+			(partsVessel-has-part ?partstray ?part)
+			(part-has-skuObject-sku ?part ?stockkeepingunit)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot))
+		:effect(and
+			(decrease (quantity-of-parts-in-partstray ?partstray) 1)
+			(not(endEffector-has-no-heldObject ?endeffector))
+			(part-has-physicalLocation-refObject-endEffector ?part ?endeffector)
+			(not(part-has-physicalLocation-refObject-partsTray ?part ?partstray))
+			(endEffector-has-heldObject-part ?endeffector ?part))
+	)
+	(:action take-kitTray
+		:parameters(
+			?robot - Robot
+			?kittray - KitTray
+			?largeboxwithemptykittrays - LargeBoxWithEmptyKitTrays
+			?endeffector - EndEffector
+			?stockkeepingunit - StockKeepingUnit)
+		:precondition(and
+			(> (quantity-of-kittrays-in-lbwekt ?largeboxwithemptykittrays) 0.000000)
+			(endEffector-is-for-kitTraySKU ?endeffector ?stockkeepingunit)
+			(robot-has-endEffector ?robot ?endeffector)
+			(endEffector-has-no-heldObject ?endeffector)
+			(kitTray-has-physicalLocation-refObject-lbwekt ?kittray ?largeboxwithemptykittrays)
+			(kitTray-has-skuObject-sku ?kittray ?stockkeepingunit)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot))
+		:effect(and
+			(decrease (quantity-of-kittrays-in-lbwekt ?largeboxwithemptykittrays) 1)
+			(not(kitTray-has-physicalLocation-refObject-lbwekt ?kittray ?largeboxwithemptykittrays))
+			(kitTray-has-physicalLocation-refObject-endEffector ?kittray ?endeffector)
+			(endEffector-has-heldObject-kitTray ?endeffector ?kittray)
+			(not(endEffector-has-no-heldObject ?endeffector)))
+	)
+	(:action place-kitTray
+		:parameters(
+			?robot - Robot
+			?kittray - KitTray
+			?worktable - WorkTable
+			?endeffector - EndEffector)
+		:precondition(and
+			(robot-has-endEffector ?robot ?endeffector)
+			(endEffector-has-heldObject-kitTray ?endeffector ?kittray)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot)
+			(kitTray-has-physicalLocation-refObject-endEffector ?kittray ?endeffector))
+		:effect(and
+			(kitTray-has-physicalLocation-refObject-workTable ?kittray ?worktable)
+			(not(kitTray-has-physicalLocation-refObject-endEffector ?kittray ?endeffector))
+			(not(endEffector-has-heldObject-kitTray ?endeffector ?kittray))
+			(endEffector-has-no-heldObject ?endeffector)
+			(workTable-has-objectOnTable-kitTray ?worktable ?kittray))
+	)
+	(:action create-kit
+		:parameters(
+			?kit - Kit
+			?kittray - KitTray
+			?worktable - WorkTable)
+		:precondition(and
+			(kit-has-kitTray ?kit ?kittray)
+			(workTable-has-objectOnTable-kitTray ?worktable ?kittray)
+			(kitTray-has-physicalLocation-refObject-kit ?kittray ?kit)
+			(kitTray-has-physicalLocation-refObject-workTable ?kittray ?worktable))
+		:effect(and
+			(not(workTable-has-objectOnTable-kitTray ?worktable ?kittray))
+			(workTable-has-objectOnTable-kit ?worktable ?kit)
+			(kit-has-physicalLocation-refObject-workTable ?kit ?worktable)
+			(not(kitTray-has-physicalLocation-refObject-workTable ?kittray ?worktable))
+			(kit-exists ?kit))
+	)
+	(:action attach-endEffector
+		:parameters(
+			?robot - Robot
+			?endeffector - EndEffector
+			?endeffectorholder - EndEffectorHolder
+			?endeffectorchangingstation - EndEffectorChangingStation)
+		:precondition(and
+			(endEffectorHolder-has-endEffector ?endeffectorholder ?endeffector)
+			(endEffectorChangingStation-has-endEffectorHolder ?endeffectorchangingstation ?endeffectorholder)
+			(endEffectorHolder-has-physicalLocation-refObject-changingStation ?endeffectorholder ?endeffectorchangingstation)
+			(endEffector-has-physicalLocation-refObject-endEffectorHolder ?endeffector ?endeffectorholder)
+			(robot-has-no-endEffector ?robot))
+		:effect(and
+			(not(endEffector-has-physicalLocation-refObject-endEffectorHolder ?endeffector ?endeffectorholder))
+			(not(endEffectorHolder-has-endEffector ?endeffectorholder ?endeffector))
+			(not(robot-has-no-endEffector ?robot))
+			(robot-has-endEffector ?robot ?endeffector)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot)
+			(endEffector-has-no-heldObject ?endeffector))
+	)
+	(:action place-kit
+		:parameters(
+			?robot - Robot
+			?kit - Kit
+			?endeffector - EndEffector
+			?largeboxwithkits - LargeBoxWithKits)
+		:precondition(and
+			(< (quantity-of-kits-in-lbwk ?largeboxwithkits)  (capacity-of-kits-in-lbwk ?largeboxwithkits) )
+			(kit-has-physicalLocation-refObject-endEffector ?kit ?endeffector)
+			(robot-has-endEffector ?robot ?endeffector)
+			(endEffector-has-heldObject-kit ?endeffector ?kit)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot))
+		:effect(and
+			(increase (quantity-of-kits-in-lbwk ?largeboxwithkits) 1)
+			(not(endEffector-has-heldObject-kit ?endeffector ?kit))
+			(endEffector-has-no-heldObject ?endeffector)
+			(not(kit-exists ?kit))
+			(kit-has-physicalLocation-refObject-lbwk ?kit ?largeboxwithkits)
+			(not(kit-has-physicalLocation-refObject-endEffector ?kit ?endeffector))
+			(lbwk-has-kit ?largeboxwithkits ?kit))
+	)
+	(:action place-part
+		:parameters(
+			?robot - Robot
+			?part - Part
+			?stockkeepingunit - StockKeepingUnit
+			?kit - Kit
+			?endeffector - EndEffector
+			?worktable - WorkTable
+			?partstray - PartsTray)
+		:precondition(and
+			(< (quantity-of-parts-in-kit ?stockkeepingunit ?kit)  (capacity-of-parts-in-kit ?stockkeepingunit ?kit) )
+			(part-has-skuObject-sku ?part ?stockkeepingunit)
+			(part-has-physicalLocation-refObject-endEffector ?part ?endeffector)
+			(endEffector-has-heldObject-part ?endeffector ?part)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot)
+			(robot-has-endEffector ?robot ?endeffector)
+			(kit-exists ?kit))
+		:effect(and
+			(increase (current-quantity-of-parts-in-kit ?kit) 1)
+			(increase (quantity-of-parts-in-kit ?stockkeepingunit ?kit) 1)
+			(increase (part-found-flag) 1)
+			(not(endEffector-has-heldObject-part ?endeffector ?part))
+			(not(part-has-physicalLocation-refObject-endEffector ?part ?endeffector))
+			(part-has-physicalLocation-refObject-kit ?part ?kit)
+			(endEffector-has-no-heldObject ?endeffector))
+	)
+	(:action look-for-part
+		:parameters(
+			?robot - Robot
+			?part - Part
+			?stockkeepingunit - StockKeepingUnit
+			?kit - Kit
+			?endeffector - EndEffector)
+		:precondition(and
+			(> (part-found-flag) 0.000000)
+			(endEffector-is-for-partSKU ?endeffector ?stockkeepingunit)
+			(endEffector-has-no-heldObject ?endeffector)
+			(part-has-skuObject-sku ?part ?stockkeepingunit)
+			(kit-exists ?kit)
+			(robot-has-endEffector ?robot ?endeffector)
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot))
+		:effect(and
+			(decrease (part-found-flag) 1)
+			(part-is-found ?part))
+	)
+	(:action take-kit
+		:parameters(
+			?robot - Robot
+			?kit - Kit
+			?kittray - KitTray
+			?worktable - WorkTable
+			?stockkeepingunit - StockKeepingUnit
+			?endeffector - EndEffector)
+		:precondition(and
+			(= (current-quantity-of-parts-in-kit ?kit)  (final-quantity-of-parts-in-kit ?kit) )
+			(endEffector-has-physicalLocation-refObject-robot ?endeffector ?robot)
+			(kit-has-kitTray ?kit ?kittray)
+			(endEffector-is-for-kitTraySKU ?endeffector ?stockkeepingunit)
+			(robot-has-endEffector ?robot ?endeffector)
+			(kitTray-has-skuObject-sku ?kittray ?stockkeepingunit)
+			(endEffector-has-no-heldObject ?endeffector)
+			(kit-exists ?kit))
+		:effect(and
+			(not(workTable-has-objectOnTable-kit ?worktable ?kit))
+			(not(kit-has-physicalLocation-refObject-workTable ?kit ?worktable))
+			(not(endEffector-has-no-heldObject ?endeffector))
+			(endEffector-has-heldObject-kit ?endeffector ?kit)
+			(kit-has-physicalLocation-refObject-endEffector ?kit ?endeffector))
+	)
+)

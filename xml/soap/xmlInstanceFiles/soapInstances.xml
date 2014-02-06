@@ -1348,8 +1348,10 @@
     <Name>kitting-domain</Name>
     <Requirement>strips</Requirement>
     <Requirement>typing</Requirement>
+    <Requirement>derived-predicates</Requirement>
     <Requirement>action-costs</Requirement>
     <Requirement>fluents</Requirement>
+    <Requirement>equality</Requirement>
     <Variable>EndEffector</Variable>
     <Variable>EndEffectorHolder</Variable>
     <Variable>Kit</Variable>
@@ -1361,1084 +1363,1133 @@
     <Variable>EndEffectorChangingStation</Variable>
     <Variable>Robot</Variable>
     <Variable>WorkTable</Variable>
+    <Variable>StockKeepingUnit</Variable>
     <PositivePredicateSet>
-      <Name>positive_predicate_set</Name>
-      <EEffLocEEffHolder>
-        <Name>endeffector-location-endeffectorholder</Name>
-        <Description>TRUE iff ?endeffector is in ?endeffectorholder</Description>
+      <Name>positive-predicates</Name>
+      <EEffHasKitTray>
+        <Name>endEffector-has-heldObject-kitTray</Name>
+        <Description>;?endeffector is holding ?kittray</Description>
         <ReferenceParameter>EndEffector</ReferenceParameter>
-        <TargetParameter>EndEffectorHolder</TargetParameter>
-        <GroupEEffLocEEffHolder>
-          <Name>group_eff_loc_effholder</Name>
-          <SubGroup_1>
-            <Name>group_eff_loc_effholder_1</Name>
-            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
-            <StateRelationName>PartiallyIn</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>group_eff_loc_effholder_2</Name>
-            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
-            <StateRelationName>ContainedIn</StateRelationName>
-          </SubGroup_2>
-        </GroupEEffLocEEffHolder>
-      </EEffLocEEffHolder>
-      <RobotEmpty>
-        <Name>robot-empty</Name>
-        <Description>;TRUE iff ?robot is not holding anything</Description>
-        <ReferenceParameter>Robot</ReferenceParameter>
-        <GroupRobotEmpty>
-          <Name>group_robot_empty</Name>
-          <SubGroup_1>
-            <Name>subgroup_robot_empty_1</Name>
-            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-            <GroupTargetParameter>Robot</GroupTargetParameter>
-            <StateRelationName>InContactWith</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>subgroup_robot_empty_2</Name>
-            <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffector</GroupTargetParameter>
-            <StateRelationName>NotUnderWithContact</StateRelationName>
-          </SubGroup_2>
-        </GroupRobotEmpty>
-      </RobotEmpty>
-      <EEffLocRobot>
-        <Name>endeffector-location-robot</Name>
-        <Description>;TRUE iff ?endeffector is in ?endeffectorholder</Description>
-        <ReferenceParameter>EndEffector</ReferenceParameter>
-        <TargetParameter>Robot</TargetParameter>
-        <GroupEEffLocRobot>
-          <Name>group_endeffector_location_robot</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupEEffLocRobot>
-      </EEffLocRobot>
-      <RobotWithEEff>
-        <Name>robot-with-endeffector</Name>
-        <Description>;TRUE iff ?robot is equipped with ?endeffector</Description>
-        <ReferenceParameter>Robot</ReferenceParameter>
-        <TargetParameter>EndEffector</TargetParameter>
-        <GroupRobotWithEEff>
-          <Name>group_robot_with_endeffector</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupRobotWithEEff>
-      </RobotWithEEff>
-      <RobotWithNoEEff>
-        <Name>robot-with-no-endeffector</Name>
-        <Description>;TRUE iff ?robot is equipped with ?endeffector</Description>
-        <ReferenceParameter>Robot</ReferenceParameter>
-        <GroupRobotWithNoEEff>
-          <Name>group_robot_with_no_endeffector</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>NotInContactWith</StateRelationName>
-        </GroupRobotWithNoEEff>
-      </RobotWithNoEEff>
-      <EEffHolderLocChStation>
-        <Name>endeffectorholder-location-changing-station</Name>
-        <Description>;TRUE iff ?endeffectorholder is in ?endeffectorchangingstation</Description>
-        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
-        <TargetParameter>EndEffectorChangingStation</TargetParameter>
-        <GroupEEffHolderLocChStation>
-          <Name>group_endeffectorholder-location-changing-station</Name>
-          <GroupReferenceParameter>EndEffectorHolder</GroupReferenceParameter>
-          <GroupTargetParameter>EndEffectorChangingStation</GroupTargetParameter>
-          <StateRelationName>NotInContactWith</StateRelationName>
-        </GroupEEffHolderLocChStation>
-      </EEffHolderLocChStation>
-      <EEffHolderHoldsEEff>
-        <Name>endeffectorholder-holds-endeffector</Name>
-        <Description>;TRUE iff ?endeffectorholder is holding endeffecor</Description>
-        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
-        <TargetParameter>EndEffector</TargetParameter>
-        <GroupEEffHolderHoldsEEff>
-          <Name>group_endeffectorholder-holds-endeffector</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
-          <StateRelationName>ContainedIn</StateRelationName>
-        </GroupEEffHolderHoldsEEff>
-      </EEffHolderHoldsEEff>
-      <ChStationHasEEffHolder>
-        <Name>endeffectorchangingstation-has-endeffectorholder</Name>
-        <Description>;TRUE iff ?endeffectorholder is holding endeffecor</Description>
-        <ReferenceParameter>EndEffectorChangingStation</ReferenceParameter>
-        <TargetParameter>EndEffectorHolder</TargetParameter>
-        <GroupChStationHasEEffHolder>
-          <Name>group_endeffectorchangingstation-has-endeffectorholder</Name>
-          <GroupReferenceParameter>EndEffectorChangingStation</GroupReferenceParameter>
-          <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupChStationHasEEffHolder>
-      </ChStationHasEEffHolder>
-      <EEffHolderEmpty>
-        <Name>endeffectorholder-empty</Name>
-        <Description>;TRUE iff ?endeffectorholder is empty (?endeffectorholder does not hold an endeffector)</Description>
-        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
-        <GroupEEffHolderEmpty>
-          <Name>group_endeffectorholder-empty</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
-          <StateRelationName>NotContainedIn</StateRelationName>
-        </GroupEEffHolderEmpty>
-      </EEffHolderEmpty>
-      <OnWorktableKitTray>
-        <Name>on-worktable-kittray</Name>
-        <Description>;TRUE iff ?kittray is on ?worktable</Description>
-        <ReferenceParameter>WorkTable</ReferenceParameter>
         <TargetParameter>KitTray</TargetParameter>
-        <GroupOnWorktableKitTray>
-          <Name>group_on-worktable-kittray</Name>
-          <GroupReferenceParameter>WorkTable</GroupReferenceParameter>
-          <GroupTargetParameter>KitTray</GroupTargetParameter>
-          <StateRelationName>UnderWithContact</StateRelationName>
-        </GroupOnWorktableKitTray>
-      </OnWorktableKitTray>
-      <OnWorktableKit>
-        <Name>on-worktable-kit</Name>
-        <Description>;TRUE iff ?kit is on ?worktable</Description>
-        <ReferenceParameter>WorkTable</ReferenceParameter>
-        <TargetParameter>Kit</TargetParameter>
-        <GroupOnWorktableKit>
-          <Name>group_on-worktable-kit</Name>
-          <GroupReferenceParameter>WorkTable</GroupReferenceParameter>
-          <GroupTargetParameter>Kit</GroupTargetParameter>
-          <StateRelationName>UnderWithContact</StateRelationName>
-        </GroupOnWorktableKit>
-      </OnWorktableKit>
-      <KitLocWorkTable>
-        <Name>kit-location-worktable</Name>
-        <Description>;TRUE iff ?kit is on ?worktable</Description>
-        <ReferenceParameter>Kit</ReferenceParameter>
-        <TargetParameter>WorkTable</TargetParameter>
-        <GroupKitLocWorktable>
-          <Name>group_kit-location-worktable</Name>
-          <GroupReferenceParameter>Kit</GroupReferenceParameter>
-          <GroupTargetParameter>WorkTable</GroupTargetParameter>
-          <StateRelationName>OnTopWithContact</StateRelationName>
-        </GroupKitLocWorktable>
-      </KitLocWorkTable>
-      <KitLocLBWK>
-        <Name>kit-location-lbwk</Name>
-        <Description>;TRUE iff ?kit is in ?largeboxwithkits</Description>
-        <ReferenceParameter>Kit</ReferenceParameter>
-        <TargetParameter>LargeBoxWithKits</TargetParameter>
-        <GroupKitLocLBWK>
-          <Name>group_kit-location-lbwk</Name>
+        <Group_1>
+          <Name>G1_endEffector-has-heldObject-kitTray</Name>
           <SubGroup_1>
-            <Name>subgroup_kit-location-lbwk_1</Name>
-            <GroupReferenceParameter>Kit</GroupReferenceParameter>
-            <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
-            <StateRelationName>PartiallyIn</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>subgroup_kit-location-lbwk_2</Name>
-            <GroupReferenceParameter>Kit</GroupReferenceParameter>
-            <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
-            <StateRelationName>ContainedIn</StateRelationName>
-          </SubGroup_2>
-        </GroupKitLocLBWK>
-      </KitLocLBWK>
-      <PartLocPartsTray>
-        <Name>part-location-partstray</Name>
-        <Description>;TRUE iff ?part is in ?partstray</Description>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>PartsTray</TargetParameter>
-        <GroupPartLocPartsTray>
-          <Name>group_part-location-partstray</Name>
-          <SubGroup_1>
-            <Name>subgroup_part-location-partstray_1</Name>
-            <GroupReferenceParameter>Part</GroupReferenceParameter>
-            <GroupTargetParameter>PartsTray</GroupTargetParameter>
-            <StateRelationName>PartiallyIn</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>subgroup_part-location-partstray_2</Name>
-            <GroupReferenceParameter>Part</GroupReferenceParameter>
-            <GroupTargetParameter>PartsTray</GroupTargetParameter>
-            <StateRelationName>ContainedIn</StateRelationName>
-          </SubGroup_2>
-        </GroupPartLocPartsTray>
-      </PartLocPartsTray>
-      <PartLocKit>
-        <Name>part-location-kit</Name>
-        <Description>;TRUE iff ?part is in ?kit</Description>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>Kit</TargetParameter>
-        <GroupPartLocKit>
-          <Name>group_part-location-kit</Name>
-          <SubGroup_1>
-            <Name>subgroup_part-location-kit_1</Name>
-            <GroupReferenceParameter>Part</GroupReferenceParameter>
-            <GroupTargetParameter>Kit</GroupTargetParameter>
-            <StateRelationName>PartiallyIn</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>subgroup_part-location-kit_2</Name>
-            <GroupReferenceParameter>Part</GroupReferenceParameter>
-            <GroupTargetParameter>Kit</GroupTargetParameter>
-            <StateRelationName>ContainedIn</StateRelationName>
-          </SubGroup_2>
-        </GroupPartLocKit>
-      </PartLocKit>
-      <PartLocRobot>
-        <Name>part-location-robot</Name>
-        <Description>;TRUE iff ?part is being held by ?robot</Description>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>Robot</TargetParameter>
-        <GroupPartLocRobot_1>
-          <Name>group_part-location-robot_1</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupPartLocRobot_1>
-        <GroupPartLocRobot_2>
-          <Name>group_part-location-robot_2</Name>
-          <SubGroup_1>
-            <Name>subgroup_part-location-robot_1</Name>
-            <GroupReferenceParameter>Part</GroupReferenceParameter>
+            <Name>SG1_endEffector-has-heldObject-kitTray</Name>
+            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
             <GroupTargetParameter>EndEffector</GroupTargetParameter>
             <StateRelationName>PartiallyIn</StateRelationName>
           </SubGroup_1>
           <SubGroup_2>
-            <Name>subgroup_part-location-robot_2</Name>
-            <GroupReferenceParameter>Part</GroupReferenceParameter>
+            <Name>SG2_endEffector-has-heldObject-kitTray</Name>
+            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
             <GroupTargetParameter>EndEffector</GroupTargetParameter>
             <StateRelationName>ContainedIn</StateRelationName>
           </SubGroup_2>
-        </GroupPartLocRobot_2>
-        <GroupPartLocRobot_3>
-          <Name>group_part-location-robot_3</Name>
+        </Group_1>
+        <Group_2>
+          <Name>G2_endEffector-has-heldObject-kitTray</Name>
           <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
-          <GroupTargetParameter>Part</GroupTargetParameter>
+          <GroupTargetParameter>KitTray</GroupTargetParameter>
           <StateRelationName>NotUnderWithContact</StateRelationName>
-        </GroupPartLocRobot_3>
-      </PartLocRobot>
-      <RobotHoldsPart>
-        <Name>robot-holds-part</Name>
-        <Description>;TRUE iff ?part is being held by ?robot</Description>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>Robot</TargetParameter>
-        <GroupRobotHoldsPart_1>
-          <Name>group_robot-holds-part_1</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupRobotHoldsPart_1>
-        <GroupRobotHoldsPart_2>
-          <Name>group_robot-holds-part_2</Name>
+        </Group_2>
+      </EEffHasKitTray>
+      <EEffHasKit>
+        <Name>endEffector-has-heldObject-kit</Name>
+        <Description>;?endeffector is holding ?kit</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
+        <TargetParameter>Kit</TargetParameter>
+        <Group_1>
+          <Name>G1_endEffector-has-heldObject-kit</Name>
+          <SubGroup_1>
+            <Name>SG1_endEffector-has-heldObject-kit</Name>
+            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffector</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_endEffector-has-heldObject-kit</Name>
+            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffector</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+        <Group_2>
+          <Name>G2_endEffector-has-heldObject-kit</Name>
+          <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
+          <GroupTargetParameter>KitTray</GroupTargetParameter>
+          <StateRelationName>NotUnderWithContact</StateRelationName>
+        </Group_2>
+      </EEffHasKit>
+      <EEffHasPart>
+        <Name>endEffector-has-heldObject-part</Name>
+        <Description>;?endeffector is holding ?part</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
+        <TargetParameter>Part</TargetParameter>
+        <Group_1>
+          <Name>G1_endEffector-has-heldObject-part</Name>
           <GroupReferenceParameter>Part</GroupReferenceParameter>
           <GroupTargetParameter>EndEffector</GroupTargetParameter>
           <StateRelationName>UnderWithContact</StateRelationName>
-        </GroupRobotHoldsPart_2>
-        <GroupRobotHoldsPart_3>
-          <Name>group_robot-holds-part_3</Name>
+        </Group_1>
+        <Group_2>
+          <Name>G2_endEffector-has-heldObject-part</Name>
           <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
           <GroupTargetParameter>Part</GroupTargetParameter>
           <StateRelationName>NotUnderWithContact</StateRelationName>
-        </GroupRobotHoldsPart_3>
-      </RobotHoldsPart>
-      <LBWKNotFull>
-        <Name>lbwk-not-full</Name>
-        <Description>;TRUE iff ?larboxwithkits is not full</Description>
-        <ReferenceParameter>LargeBoxWithKits</ReferenceParameter>
-        <GroupLargeBoxWithKitsNotFull>
-          <Name>group_lbwk-not-full</Name>
-          <GroupReferenceParameter>Kit</GroupReferenceParameter>
-          <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
-          <StateRelationName>ContainedInLBWK</StateRelationName>
-        </GroupLargeBoxWithKitsNotFull>
-      </LBWKNotFull>
-      <PartsTrayNotEmpty>
-        <Name>partstray-not-empty</Name>
-        <Description>;TRUE iff ?larboxwithkits is not full</Description>
-        <ReferenceParameter>PartsTray</ReferenceParameter>
-        <GroupPartsTrayNotEmpty>
-          <Name>group_partstray-not-empty</Name>
-          <GroupReferenceParameter>Part</GroupReferenceParameter>
-          <GroupTargetParameter>PartsTray</GroupTargetParameter>
-          <StateRelationName>ContainedIn</StateRelationName>
-        </GroupPartsTrayNotEmpty>
-      </PartsTrayNotEmpty>
-      <PartsTrayHasPart>
-        <Name>partstray-has-part</Name>
-        <Description>;TRUE iff ?partstray has ?part</Description>
-        <ReferenceParameter>PartsTray</ReferenceParameter>
-        <TargetParameter>Part</TargetParameter>
-        <GroupPartsTrayHasPart>
-          <Name>group_partstray-has-part</Name>
-          <GroupReferenceParameter>Part</GroupReferenceParameter>
-          <GroupTargetParameter>PartsTray</GroupTargetParameter>
-          <StateRelationName>ContainedIn</StateRelationName>
-        </GroupPartsTrayHasPart>
-      </PartsTrayHasPart>
-      <KitTrayLocLBWEKT>
-        <Name>kittray-location-lbwekt</Name>
-        <Description>;TRUE iff ?kittray is in ?largeboxwithemptykittrays</Description>
-        <ReferenceParameter>KitTray</ReferenceParameter>
-        <TargetParameter>LargeBoxWithEmptyKitTrays</TargetParameter>
-        <GroupKitTrayLocLBWEKT>
-          <Name>group_kittray-location-lbwekt</Name>
-          <GroupReferenceParameter>KitTray</GroupReferenceParameter>
-          <GroupTargetParameter>LargeBoxWithEmptyKitTrays</GroupTargetParameter>
-          <StateRelationName>ContainedIn</StateRelationName>
-        </GroupKitTrayLocLBWEKT>
-      </KitTrayLocLBWEKT>
-      <LBWEKTNotEmpty>
-        <Name>lbwekt-not-empty</Name>
-        <Description>;TRUE iff ?largeboxwithemptykittrays is not empty</Description>
-        <ReferenceParameter>LargeBoxWithEmptyKitTrays</ReferenceParameter>
-        <GroupLBWEKTNotEmpty>
-          <Name>group_lbwekt-not-empty</Name>
-          <GroupReferenceParameter>Kit</GroupReferenceParameter>
-          <GroupTargetParameter>LargeBoxWithEmptyKitTrays</GroupTargetParameter>
-          <StateRelationName>ContainedIn</StateRelationName>
-        </GroupLBWEKTNotEmpty>
-      </LBWEKTNotEmpty>
-      <WorkTableEmpty>
-        <Name>worktable-empty</Name>
-        <Description>;TRUE iff ?worktable is empty (nothing on top of it)</Description>
-        <ReferenceParameter>WorkTable</ReferenceParameter>
-        <GroupWorkTableEmpty>
-          <Name>group_worktable-empty</Name>
+        </Group_2>
+      </EEffHasPart>
+      <EEffHasNoObject>
+        <Name>endEffector-has-no-heldObject</Name>
+        <Description>;?endeffector is not holding any object</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
+        <Group_1>
+          <Name>G1_endEffector-has-no-heldObject</Name>
           <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
-          <GroupTargetParameter>WorkTable</GroupTargetParameter>
-          <StateRelationName>NotOnTopWithContact</StateRelationName>
-        </GroupWorkTableEmpty>
-      </WorkTableEmpty>
-      <EEffForKitTray>
-        <Name>endeffector-type-kittray</Name>
-        <Description>;TRUE iff ?endeffector is capable of holding ?kittray</Description>
-        <ReferenceParameter>EndEffector</ReferenceParameter>
-        <TargetParameter>KitTray</TargetParameter>
-      </EEffForKitTray>
-      <EEffForKit>
-        <Name>endeffector-type-kit</Name>
-        <Description>;TRUE iff ?endeffector is capable of holding ?kit</Description>
-        <ReferenceParameter>EndEffector</ReferenceParameter>
-        <TargetParameter>Kit</TargetParameter>
-      </EEffForKit>
-      <EEffForPart>
-        <Name>endeffector-type-part</Name>
-        <Description>;TRUE iff ?endeffector is capable of holding ?part</Description>
-        <ReferenceParameter>EndEffector</ReferenceParameter>
-        <TargetParameter>Part</TargetParameter>
-      </EEffForPart>
-      <FoundPart>
-        <Name>found-part</Name>
-        <Description>;TRUE if ?part is found in ?partstray</Description>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>PartsTray</TargetParameter>
-      </FoundPart>
-      <OriginPart>
-        <Name>origin-part</Name>
-        <Description>;TRUE if ?part is from ?partstray</Description>
-        <ReferenceParameter>Part</ReferenceParameter>
-        <TargetParameter>PartsTray</TargetParameter>
-      </OriginPart>
-      <KitTrayLocRobot>
-        <Name>kittray-location-robot</Name>
-        <Description>;TRUE iff ?kittray is being held by ?robot</Description>
-        <ReferenceParameter>KitTray</ReferenceParameter>
-        <TargetParameter>Robot</TargetParameter>
-        <GroupKitTrayLocRobot_1>
-          <Name>group_kittray-location-robot_1</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupKitTrayLocRobot_1>
-        <GroupKitTrayLocRobot_2>
-          <Name>group_kittray-location-robot_2</Name>
-          <SubGroup_1>
-            <Name>subgroup_kittray-location-robot_1</Name>
-            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffector</GroupTargetParameter>
-            <StateRelationName>PartiallyIn</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>subgroup_kittray-location-robot_2</Name>
-            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffector</GroupTargetParameter>
-            <StateRelationName>ContainedIn</StateRelationName>
-          </SubGroup_2>
-        </GroupKitTrayLocRobot_2>
-        <GroupKitTrayLocRobot_3>
-          <Name>group_kittray-location-robot_3</Name>
-          <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
-          <GroupTargetParameter>KitTray</GroupTargetParameter>
+          <GroupTargetParameter>EndEffector</GroupTargetParameter>
           <StateRelationName>NotUnderWithContact</StateRelationName>
-        </GroupKitTrayLocRobot_3>
-      </KitTrayLocRobot>
-      <KitLocRobot>
-        <Name>kit-location-robot</Name>
-        <Description>;TRUE iff ?kit is being held by ?robot</Description>
-        <ReferenceParameter>Kit</ReferenceParameter>
+        </Group_1>
+      </EEffHasNoObject>
+      <EEffHasRefObjectRobot>
+        <Name>endEffector-has-physicalLocation-refObject-robot</Name>
+        <Description>;?endeffector is attached to ?robot</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
         <TargetParameter>Robot</TargetParameter>
-        <GroupKitLocRobot_1>
-          <Name>group_kit-location-robot_1</Name>
+        <Group_1>
+          <Name>G1_endEffector-has-physicalLocation-refObject-robot</Name>
           <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
           <GroupTargetParameter>Robot</GroupTargetParameter>
           <StateRelationName>InContactWith</StateRelationName>
-        </GroupKitLocRobot_1>
-        <GroupKitLocRobot_2>
-          <Name>group_kit-location-robot_2</Name>
+        </Group_1>
+      </EEffHasRefObjectRobot>
+      <EEffHasRefObjectEEffHolder>
+        <Name>endEffector-has-physicalLocation-refObject-endEffectorHolder</Name>
+        <Description>;?endeffector is located in ?endEffectorHolder</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
+        <TargetParameter>EndEffectorHolder</TargetParameter>
+        <Group_1>
+          <Name>G1_endEffector-has-physicalLocation-refObject-endEffectorHolder</Name>
           <SubGroup_1>
-            <Name>subgroup_kit-location-robot_1</Name>
+            <Name>SG1_endEffector-has-physicalLocation-refObject-endEffectorHolder</Name>
+            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_endEffector-has-physicalLocation-refObject-endEffectorHolder</Name>
+            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+      </EEffHasRefObjectEEffHolder>
+      <EEffIsForKitTraySKU>
+        <Name>endEffector-is-for-kitTraySKU</Name>
+        <Description>;?endEffector is for handling kit trays that have ?sku</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
+        <TargetParameter>StockKeepingUnit</TargetParameter>
+      </EEffIsForKitTraySKU>
+      <EEffIsForPartSKU>
+        <Name>endEffector-is-for-partSKU</Name>
+        <Description>;?endEffector is for handling parts that have ?sku</Description>
+        <ReferenceParameter>EndEffector</ReferenceParameter>
+        <TargetParameter>StockKeepingUnit</TargetParameter>
+      </EEffIsForPartSKU>
+      <ChStationHasEEffHolder>
+        <Name>endEffectorChangingStation-has-endEffectorHolder</Name>
+        <Description>;?changingstation contains ?endeffectorholder</Description>
+        <ReferenceParameter>EndEffectorChangingStation</ReferenceParameter>
+        <TargetParameter>EndEffectorHolder</TargetParameter>
+        <Group_1>
+          <Name>G1_endEffectorChangingStation-has-endEffectorHolder</Name>
+          <GroupReferenceParameter>EndEffectorChangingStation</GroupReferenceParameter>
+          <GroupTargetParameter>EndEffector</GroupTargetParameter>
+          <StateRelationName>InContactWith</StateRelationName>
+        </Group_1>
+      </ChStationHasEEffHolder>
+      <EEffHolderHasEEff>
+        <Name>endEffectorHolder-has-endEffector</Name>
+        <Description>;?endeffectorholder is holding ?endeffector</Description>
+        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
+        <TargetParameter>EndEffector</TargetParameter>
+        <Group_1>
+          <Name>G1_endEffectorHolder-has-endEffector</Name>
+          <SubGroup_1>
+            <Name>SG1_endEffectorHolder-has-endEffector</Name>
+            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_endEffectorHolder-has-endEffector</Name>
+            <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffectorHolder</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+      </EEffHolderHasEEff>
+      <EEffHolderHasRefObjectChStation>
+        <Name>endEffectorHolder-has-physicalLocation-refObject-changingStation</Name>
+        <Description>;?endeffectorholder is located in ?changingstation</Description>
+        <ReferenceParameter>EndEffectorHolder</ReferenceParameter>
+        <TargetParameter>EndEffectorChangingStation</TargetParameter>
+        <Group_1>
+          <Name>G1_endEffectorHolder-has-physicalLocation-refObject-changingStation</Name>
+          <GroupReferenceParameter>EndEffectorHolder</GroupReferenceParameter>
+          <GroupTargetParameter>EndEffectorChangingStation</GroupTargetParameter>
+          <StateRelationName>InContactWith</StateRelationName>
+        </Group_1>
+      </EEffHolderHasRefObjectChStation>
+      <KitExists>
+        <Name>kit-exists</Name>
+        <Description>;?kit exists</Description>
+        <ReferenceParameter>Kit</ReferenceParameter>
+      </KitExists>
+      <KitHasKitTray>
+        <Name>kit-has-kitTray</Name>
+        <Description>;?kit has ?kittray</Description>
+        <ReferenceParameter>Kit</ReferenceParameter>
+        <TargetParameter>KitTray</TargetParameter>
+      </KitHasKitTray>
+      <KitHasRefObjectLBWK>
+        <Name>kit-has-physicalLocation-refObject-lbwk</Name>
+        <Description>;?kit is located in ?lbwk</Description>
+        <ReferenceParameter>Kit</ReferenceParameter>
+        <TargetParameter>LargeBoxWithKits</TargetParameter>
+        <Group_1>
+          <Name>G1_kit-has-physicalLocation-refObject-lbwk</Name>
+          <SubGroup_1>
+            <Name>SG1_kit-has-physicalLocation-refObject-lbwk</Name>
+            <GroupReferenceParameter>Kit</GroupReferenceParameter>
+            <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_kit-has-physicalLocation-refObject-lbwk</Name>
+            <GroupReferenceParameter>Kit</GroupReferenceParameter>
+            <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+      </KitHasRefObjectLBWK>
+      <KitHasRefObjectWorkTable>
+        <Name>kit-has-physicalLocation-refObject-workTable</Name>
+        <Description>;?kit is on ?worktable</Description>
+        <ReferenceParameter>Kit</ReferenceParameter>
+        <TargetParameter>WorkTable</TargetParameter>
+        <Group_1>
+          <Name>G1_kit-has-physicalLocation-refObject-workTable</Name>
+          <GroupReferenceParameter>Kit</GroupReferenceParameter>
+          <GroupTargetParameter>WorkTable</GroupTargetParameter>
+          <StateRelationName>OnTopWithContact</StateRelationName>
+        </Group_1>
+      </KitHasRefObjectWorkTable>
+      <KitHasRefObjectEEff>
+        <Name>kit-has-physicalLocation-refObject-endEffector</Name>
+        <Description>;?kit is held by ?endeffector</Description>
+        <ReferenceParameter>Kit</ReferenceParameter>
+        <TargetParameter>EndEffector</TargetParameter>
+        <Group_1>
+          <Name>G1_kit-has-physicalLocation-refObject-endEffector</Name>
+          <SubGroup_1>
+            <Name>SG1_kit-has-physicalLocation-refObject-endEffector</Name>
             <GroupReferenceParameter>Kit</GroupReferenceParameter>
             <GroupTargetParameter>EndEffector</GroupTargetParameter>
             <StateRelationName>PartiallyIn</StateRelationName>
           </SubGroup_1>
           <SubGroup_2>
-            <Name>subgroup_kit-location-robot_2</Name>
+            <Name>SG2_kit-has-physicalLocation-refObject-endEffector</Name>
             <GroupReferenceParameter>Kit</GroupReferenceParameter>
             <GroupTargetParameter>EndEffector</GroupTargetParameter>
             <StateRelationName>ContainedIn</StateRelationName>
           </SubGroup_2>
-        </GroupKitLocRobot_2>
-        <GroupKitLocRobot_3>
-          <Name>group_kit-location-robot_3</Name>
+        </Group_1>
+        <Group_2>
+          <Name>G2_kit-has-physicalLocation-refObject-endEffector</Name>
           <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
           <GroupTargetParameter>Kit</GroupTargetParameter>
           <StateRelationName>NotUnderWithContact</StateRelationName>
-        </GroupKitLocRobot_3>
-      </KitLocRobot>
-      <KitTrayLocWorkTable>
-        <Name>kittray-location-worktable</Name>
-        <Description>;TRUE iff ?kittray is on ?worktable</Description>
+        </Group_2>
+      </KitHasRefObjectEEff>
+      <KitTrayHasSKUObjectSKU>
+        <Name>kitTray-has-skuObject-sku</Name>
+        <Description>;?kittray has ?sku</Description>
+        <ReferenceParameter>KitTray</ReferenceParameter>
+        <TargetParameter>StockKeepingUnit</TargetParameter>
+      </KitTrayHasSKUObjectSKU>
+      <KitTrayHasRefObjectLBWEKT>
+        <Name>kitTray-has-physicalLocation-refObject-lbwekt</Name>
+        <Description>;?kittray is located in ?lbwekt</Description>
+        <ReferenceParameter>KitTray</ReferenceParameter>
+        <TargetParameter>LargeBoxWithEmptyKitTrays</TargetParameter>
+        <Group_1>
+          <Name>G1_kitTray-has-physicalLocation-refObject-lbwekt</Name>
+          <GroupReferenceParameter>KitTray</GroupReferenceParameter>
+          <GroupTargetParameter>LargeBoxWithEmptyKitTrays</GroupTargetParameter>
+          <StateRelationName>ContainedIn</StateRelationName>
+        </Group_1>
+      </KitTrayHasRefObjectLBWEKT>
+      <KitTrayHasRefObjectEEff>
+        <Name>kitTray-has-physicalLocation-refObject-endEffector</Name>
+        <Description>;?kittray is held by ?endeffector</Description>
+        <ReferenceParameter>KitTray</ReferenceParameter>
+        <TargetParameter>EndEffector</TargetParameter>
+        <Group_1>
+          <Name>G1_kitTray-has-physicalLocation-refObject-endEffector</Name>
+          <SubGroup_1>
+            <Name>SG1_kitTray-has-physicalLocation-refObject-endEffector</Name>
+            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffector</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_kitTray-has-physicalLocation-refObject-endEffector</Name>
+            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
+            <GroupTargetParameter>EndEffector</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+        <Group_2>
+          <Name>G2_kitTray-has-physicalLocation-refObject-endEffector</Name>
+          <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
+          <GroupTargetParameter>KitTray</GroupTargetParameter>
+          <StateRelationName>NotUnderWithContact</StateRelationName>
+        </Group_2>
+      </KitTrayHasRefObjectEEff>
+      <KitTrayHasRefObjectKit>
+        <Name>kitTray-has-physicalLocation-refObject-kit</Name>
+        <Description>;?kittray is related to ?kit</Description>
+        <ReferenceParameter>KitTray</ReferenceParameter>
+        <TargetParameter>Kit</TargetParameter>
+      </KitTrayHasRefObjectKit>
+      <KitTrayHasRefObjectWorkTable>
+        <Name>kitTray-has-physicalLocation-refObject-workTable</Name>
+        <Description>;?kittray is on ?worktable</Description>
         <ReferenceParameter>KitTray</ReferenceParameter>
         <TargetParameter>WorkTable</TargetParameter>
-        <GroupKitTrayLocWorkTable>
-          <Name>group_kittray-location-worktable</Name>
+        <Group_1>
+          <Name>G1_kitTray-has-physicalLocation-refObject-workTable</Name>
           <GroupReferenceParameter>KitTray</GroupReferenceParameter>
           <GroupTargetParameter>WorkTable</GroupTargetParameter>
           <StateRelationName>OnTopWithContact</StateRelationName>
-        </GroupKitTrayLocWorkTable>
-      </KitTrayLocWorkTable>
-      <RobotHoldsKitTray>
-        <Name>robot-holds-kittray</Name>
-        <Description>;TRUE iff ?robot is holding ?kittray</Description>
-        <ReferenceParameter>Robot</ReferenceParameter>
-        <TargetParameter>KitTray</TargetParameter>
-        <GroupRobotHoldsKitTray_1>
-          <Name>group_robot-holds-kittray_1</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupRobotHoldsKitTray_1>
-        <GroupRobotHoldsKitTray_2>
-          <Name>group_robot-holds-kittray_2</Name>
-          <SubGroup_1>
-            <Name>subgroup_robot-holds-kittray_1</Name>
-            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffector</GroupTargetParameter>
-            <StateRelationName>PartiallyIn</StateRelationName>
-          </SubGroup_1>
-          <SubGroup_2>
-            <Name>subgroup_robot-holds-kittray_2</Name>
-            <GroupReferenceParameter>KitTray</GroupReferenceParameter>
-            <GroupTargetParameter>EndEffector</GroupTargetParameter>
-            <StateRelationName>ContainedIn</StateRelationName>
-          </SubGroup_2>
-        </GroupRobotHoldsKitTray_2>
-        <GroupRobotHoldsKitTray_3>
-          <Name>group_robot-holds-kittray_3</Name>
-          <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
-          <GroupTargetParameter>KitTray</GroupTargetParameter>
-          <StateRelationName>NotUnderWithContact</StateRelationName>
-        </GroupRobotHoldsKitTray_3>
-      </RobotHoldsKitTray>
-      <RobotHoldsKit>
-        <Name>robot-holds-kit</Name>
-        <Description>;TRUE iff ?robot is holding ?kit</Description>
-        <ReferenceParameter>Robot</ReferenceParameter>
+        </Group_1>
+      </KitTrayHasRefObjectWorkTable>
+      <LBWKHasKit>
+        <Name>lbwk-has-kit</Name>
+        <Description>;?lbwk contains ?kit</Description>
+        <ReferenceParameter>LargeBoxWithKits</ReferenceParameter>
         <TargetParameter>Kit</TargetParameter>
-        <GroupRobotHoldsKit_1>
-          <Name>group_robot-holds-kit_1</Name>
-          <GroupReferenceParameter>EndEffector</GroupReferenceParameter>
-          <GroupTargetParameter>Robot</GroupTargetParameter>
-          <StateRelationName>InContactWith</StateRelationName>
-        </GroupRobotHoldsKit_1>
-        <GroupRobotHoldsKit_2>
-          <Name>group_robot-holds-kit_2</Name>
+        <Group_1>
+          <Name>G1_lbwk-has-kit</Name>
           <SubGroup_1>
-            <Name>subgroup_robot-holds-kit_1</Name>
+            <Name>SG1_lbwk-has-kit</Name>
             <GroupReferenceParameter>Kit</GroupReferenceParameter>
+            <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_lbwk-has-kit</Name>
+            <GroupReferenceParameter>Kit</GroupReferenceParameter>
+            <GroupTargetParameter>LargeBoxWithKits</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+      </LBWKHasKit>
+      <PartHasSKUObjectSKU>
+        <Name>part-has-skuObject-sku</Name>
+        <Description>;?part has ?sku</Description>
+        <ReferenceParameter>Part</ReferenceParameter>
+        <TargetParameter>StockKeepingUnit</TargetParameter>
+      </PartHasSKUObjectSKU>
+      <PartHasRefObjectPartsTray>
+        <Name>part-has-physicalLocation-refObject-partsTray</Name>
+        <Description>;?part is in ?partsTray</Description>
+        <ReferenceParameter>Part</ReferenceParameter>
+        <TargetParameter>PartsTray</TargetParameter>
+        <Group_1>
+          <Name>G1_part-has-physicalLocation-refObject-partsTray</Name>
+          <SubGroup_1>
+            <Name>SG1_part-has-physicalLocation-refObject-partsTray</Name>
+            <GroupReferenceParameter>Part</GroupReferenceParameter>
+            <GroupTargetParameter>PartsTray</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_part-has-physicalLocation-refObject-partsTray</Name>
+            <GroupReferenceParameter>Part</GroupReferenceParameter>
+            <GroupTargetParameter>PartsTray</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+      </PartHasRefObjectPartsTray>
+      <PartHasRefObjectKit>
+        <Name>part-has-physicalLocation-refObject-kit</Name>
+        <Description>;?part is in ?kit</Description>
+        <ReferenceParameter>Part</ReferenceParameter>
+        <TargetParameter>Kit</TargetParameter>
+        <Group_1>
+          <Name>G1_part-has-physicalLocation-refObject-kit</Name>
+          <SubGroup_1>
+            <Name>SG1_part-has-physicalLocation-refObject-kit</Name>
+            <GroupReferenceParameter>Part</GroupReferenceParameter>
+            <GroupTargetParameter>Kit</GroupTargetParameter>
+            <StateRelationName>PartiallyIn</StateRelationName>
+          </SubGroup_1>
+          <SubGroup_2>
+            <Name>SG2_part-has-physicalLocation-refObject-kit</Name>
+            <GroupReferenceParameter>Part</GroupReferenceParameter>
+            <GroupTargetParameter>Kit</GroupTargetParameter>
+            <StateRelationName>ContainedIn</StateRelationName>
+          </SubGroup_2>
+        </Group_1>
+      </PartHasRefObjectKit>
+      <PartHasRefObjectEEff>
+        <Name>part-has-physicalLocation-refObject-endEffector</Name>
+        <Description>;?part is held by ?endeffector</Description>
+        <ReferenceParameter>Part</ReferenceParameter>
+        <TargetParameter>EndEffector</TargetParameter>
+        <Group_1>
+          <Name>G1_part-has-physicalLocation-refObject-endEffector</Name>
+          <SubGroup_1>
+            <Name>SG1_part-has-physicalLocation-refObject-endEffector</Name>
+            <GroupReferenceParameter>Part</GroupReferenceParameter>
             <GroupTargetParameter>EndEffector</GroupTargetParameter>
             <StateRelationName>PartiallyIn</StateRelationName>
           </SubGroup_1>
           <SubGroup_2>
-            <Name>subgroup_robot-holds-kit_2</Name>
-            <GroupReferenceParameter>Kit</GroupReferenceParameter>
+            <Name>SG2_part-has-physicalLocation-refObject-endEffector</Name>
+            <GroupReferenceParameter>Part</GroupReferenceParameter>
             <GroupTargetParameter>EndEffector</GroupTargetParameter>
             <StateRelationName>ContainedIn</StateRelationName>
           </SubGroup_2>
-        </GroupRobotHoldsKit_2>
-        <GroupRobotHoldsKit_3>
-          <Name>group_robot-holds-kit_3</Name>
-          <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
-          <GroupTargetParameter>Kit</GroupTargetParameter>
+        </Group_1>
+        <Group_2>
+          <Name>G2_part-has-physicalLocation-refObject-endEffector</Name>
+          <GroupReferenceParameter>Part</GroupReferenceParameter>
+          <GroupTargetParameter>SolidObject</GroupTargetParameter>
           <StateRelationName>NotUnderWithContact</StateRelationName>
-        </GroupRobotHoldsKit_3>
-      </RobotHoldsKit>
+        </Group_2>
+      </PartHasRefObjectEEff>
+      <PartFound>
+        <Name>part-is-found</Name>
+        <Description>;?part is found</Description>
+        <ReferenceParameter>Part</ReferenceParameter>
+      </PartFound>
+      <PartsVesselHasPart>
+        <Name>partsVessel-has-part</Name>
+        <Description>;?partsTray contains ?part</Description>
+        <ReferenceParameter>PartsTray</ReferenceParameter>
+        <TargetParameter>Part</TargetParameter>
+        <Group_1>
+          <Name>G1_partsVessel-has-part</Name>
+          <GroupReferenceParameter>Part</GroupReferenceParameter>
+          <GroupTargetParameter>PartsTray</GroupTargetParameter>
+          <StateRelationName>ContainedIn</StateRelationName>
+        </Group_1>
+      </PartsVesselHasPart>
+      <RobotHasEEff>
+        <Name>robot-has-endEffector</Name>
+        <Description>;?robot is equipped with ?endeffector</Description>
+        <ReferenceParameter>Robot</ReferenceParameter>
+        <TargetParameter>EndEffector</TargetParameter>
+        <Group_1>
+          <Name>G1_robot-has-endEffector</Name>
+          <GroupReferenceParameter>Robot</GroupReferenceParameter>
+          <GroupTargetParameter>EndEffector</GroupTargetParameter>
+          <StateRelationName>InContactWith</StateRelationName>
+        </Group_1>
+      </RobotHasEEff>
+      <RobotHasNoEEff>
+        <Name>robot-has-no-endEffector</Name>
+        <Description>;?robot has no end effector</Description>
+        <ReferenceParameter>Robot</ReferenceParameter>
+        <Group_1>
+          <Name>G1_robot-has-no-endEffector</Name>
+          <GroupReferenceParameter>Robot</GroupReferenceParameter>
+          <GroupTargetParameter>EndEffector</GroupTargetParameter>
+          <StateRelationName>NotInContactWith</StateRelationName>
+        </Group_1>
+      </RobotHasNoEEff>
+      <WorkTableHasObjectOnTableKit>
+        <Name>workTable-has-objectOnTable-kit</Name>
+        <Description>;?worktable has ?kit on top of it</Description>
+        <ReferenceParameter>WorkTable</ReferenceParameter>
+        <TargetParameter>Kit</TargetParameter>
+        <Group_1>
+          <Name>G1_workTable-has-objectOnTable-kit</Name>
+          <GroupReferenceParameter>Kit</GroupReferenceParameter>
+          <GroupTargetParameter>WorkTable</GroupTargetParameter>
+          <StateRelationName>OnTopWithContact</StateRelationName>
+        </Group_1>
+      </WorkTableHasObjectOnTableKit>
+      <WorkTableHasObjectOnTableKitTray>
+        <Name>workTable-has-objectOnTable-kitTray</Name>
+        <Description>;?worktable has ?kitTray on top of it</Description>
+        <ReferenceParameter>WorkTable</ReferenceParameter>
+        <TargetParameter>KitTray</TargetParameter>
+        <Group_1>
+          <Name>G1_workTable-has-objectOnTable-kitTray</Name>
+          <GroupReferenceParameter>WorkTable</GroupReferenceParameter>
+          <GroupTargetParameter>KitTray</GroupTargetParameter>
+          <StateRelationName>UnderWithContact</StateRelationName>
+        </Group_1>
+      </WorkTableHasObjectOnTableKitTray>
+      <WorkTableHasNoObjectOnTable>
+        <Name>workTable-has-no-objectOnTable</Name>
+        <Description>;?worktable has nothing on top of it</Description>
+        <ReferenceParameter>WorkTable</ReferenceParameter>
+        <Group_1>
+          <Name>G1_workTable-has-no-objectOnTable</Name>
+          <GroupReferenceParameter>SolidObject</GroupReferenceParameter>
+          <GroupTargetParameter>WorkTable</GroupTargetParameter>
+          <StateRelationName>NotOnTopWithContact</StateRelationName>
+        </Group_1>
+      </WorkTableHasNoObjectOnTable>
     </PositivePredicateSet>
     <NegativePredicateSet>
-      <Name>negative_predicate_set</Name>
-      <NotEEffLocEEffHolder>
-        <Name>not-endeffector-location-endeffectorholder</Name>
-        <PositivePredicateName>endeffector-location-endeffectorholder</PositivePredicateName>
-      </NotEEffLocEEffHolder>
-      <NotRobotEmpty>
-        <Name>not-robot-empty</Name>
-        <PositivePredicateName>robot-empty</PositivePredicateName>
-      </NotRobotEmpty>
-      <NotEEffLocRobot>
-        <Name>not-endeffector-location-robot</Name>
-        <PositivePredicateName>endeffector-location-robot</PositivePredicateName>
-      </NotEEffLocRobot>
-      <NotRobotWithEEff>
-        <Name>not-robot-with-endeffector</Name>
-        <PositivePredicateName>robot-with-endeffector</PositivePredicateName>
-      </NotRobotWithEEff>
-      <NotRobotWithNoEEff>
-        <Name>not-robot-with-no-endeffector</Name>
-        <PositivePredicateName>robot-with-no-endeffector</PositivePredicateName>
-      </NotRobotWithNoEEff>
-      <NotEEffHolderLocChStation>
-        <Name>not-endeffectorholder-location-changing-station</Name>
-        <PositivePredicateName>endeffectorholder-location-changing-station</PositivePredicateName>
-      </NotEEffHolderLocChStation>
-      <NotEEffHolderHoldsEEff>
-        <Name>not-endeffectorholder-holds-endeffector</Name>
-        <PositivePredicateName>endeffectorholder-holds-endeffector</PositivePredicateName>
-      </NotEEffHolderHoldsEEff>
-      <NotEEffHolderEmpty>
-        <Name>not-endeffectorholder-empty</Name>
-        <PositivePredicateName>endeffectorholder-empty</PositivePredicateName>
-      </NotEEffHolderEmpty>
-      <NotChStationHasEEffHolder>
-        <Name>not-endeffectorchangingstation-has-endeffectorholder</Name>
-        <PositivePredicateName>endeffectorchangingstation-has-endeffectorholder</PositivePredicateName>
-      </NotChStationHasEEffHolder>
-      <NotOnWorktableKitTray>
-        <Name>not-on-worktable-kittray</Name>
-        <PositivePredicateName>on-worktable-kittray</PositivePredicateName>
-      </NotOnWorktableKitTray>
-      <NotOnWorktableKit>
-        <Name>not-on-worktable-kit</Name>
-        <PositivePredicateName>on-worktable-kit</PositivePredicateName>
-      </NotOnWorktableKit>
-      <NotKitLocWorkTable>
-        <Name>not-kit-location-worktable</Name>
-        <PositivePredicateName>kit-location-worktable</PositivePredicateName>
-      </NotKitLocWorkTable>
-      <NotKitLocLBWK>
-        <Name>not-kit-location-lbwk</Name>
-        <PositivePredicateName>kit-location-lbwk</PositivePredicateName>
-      </NotKitLocLBWK>
-      <NotPartLocPartsTray>
-        <Name>not-part-location-partstray</Name>
-        <PositivePredicateName>part-location-partstray</PositivePredicateName>
-      </NotPartLocPartsTray>
-      <NotPartLocKit>
-        <Name>not-part-location-kit</Name>
-        <PositivePredicateName>part-location-kit</PositivePredicateName>
-      </NotPartLocKit>
-      <NotPartLocRobot>
-        <Name>not-part-location-robot</Name>
-        <PositivePredicateName>part-location-robot</PositivePredicateName>
-      </NotPartLocRobot>
-      <NotRobotHoldsPart>
-        <Name>not-robot-holds-part</Name>
-        <PositivePredicateName>robot-holds-part</PositivePredicateName>
-      </NotRobotHoldsPart>
-      <NotLBWKNotFull>
-        <Name>not-lbwk-not-full</Name>
-        <PositivePredicateName>lbwk-not-full</PositivePredicateName>
-      </NotLBWKNotFull>
-      <NotPartsTrayNotEmpty>
-        <Name>not-partstray-not-empty</Name>
-        <PositivePredicateName>partstray-not-empty</PositivePredicateName>
-      </NotPartsTrayNotEmpty>
-      <NotPartsTrayHasPart>
-        <Name>not-partstray-has-part</Name>
-        <PositivePredicateName>partstray-has-part</PositivePredicateName>
-      </NotPartsTrayHasPart>
-      <NotKitTrayLocLBWEKT>
-        <Name>not-kittray-location-lbwekt</Name>
-        <PositivePredicateName>kittray-location-lbwekt</PositivePredicateName>
-      </NotKitTrayLocLBWEKT>
-      <NotWorkTableEmpty>
-        <Name>not-worktable-empty</Name>
-        <PositivePredicateName>worktable-empty</PositivePredicateName>
-      </NotWorkTableEmpty>
-      <NotFoundPart>
-        <Name>not-found-part</Name>
-        <PositivePredicateName>found-part</PositivePredicateName>
-      </NotFoundPart>
-      <NotKitTrayLocRobot>
-        <Name>not-kittray-location-robot</Name>
-        <PositivePredicateName>kittray-location-robot</PositivePredicateName>
-      </NotKitTrayLocRobot>
-      <NotKitLocRobot>
-        <Name>not-kit-location-robot</Name>
-        <PositivePredicateName>kit-location-robot</PositivePredicateName>
-      </NotKitLocRobot>
-      <NotKitTrayLocWorkTable>
-        <Name>not-kittray-location-worktable</Name>
-        <PositivePredicateName>kittray-location-worktable</PositivePredicateName>
-      </NotKitTrayLocWorkTable>
-      <NotRobotHoldsKitTray>
-        <Name>not-robot-holds-kittray</Name>
-        <PositivePredicateName>robot-holds-kittray</PositivePredicateName>
-      </NotRobotHoldsKitTray>
-      <NotRobotHoldsKit>
-        <Name>not-robot-holds-kit</Name>
-        <PositivePredicateName>robot-holds-kit</PositivePredicateName>
-      </NotRobotHoldsKit>
+      <Name>negative-predicates</Name>
+      <NotEEffHasKitTray>
+        <Name>not-endEffector-has-heldObject-kitTray</Name>
+        <PositivePredicateName>endEffector-has-heldObject-kitTray</PositivePredicateName>
+      </NotEEffHasKitTray>
+      <NotEEffHasKit>
+        <Name>not-endEffector-has-heldObject-kit</Name>
+        <PositivePredicateName>endEffector-has-heldObject-kit</PositivePredicateName>
+      </NotEEffHasKit>
+      <NotEEffHasPart>
+        <Name>not-endEffector-has-heldObject-part</Name>
+        <PositivePredicateName>endEffector-has-heldObject-part</PositivePredicateName>
+      </NotEEffHasPart>
+      <NotEEffHasNoObject>
+        <Name>not-endEffector-has-no-heldObject</Name>
+        <PositivePredicateName>endEffector-has-no-heldObject</PositivePredicateName>
+      </NotEEffHasNoObject>
+      <NotEEffHasRefObjectRobot>
+        <Name>not-endEffector-has-physicalLocation-refObject-robot</Name>
+        <PositivePredicateName>endEffector-has-physicalLocation-refObject-robot</PositivePredicateName>
+      </NotEEffHasRefObjectRobot>
+      <NotEEffHasRefObjectEEffHolder>
+        <Name>not-endEffector-has-physicalLocation-refObject-endEffectorHolder</Name>
+        <PositivePredicateName>endEffector-has-physicalLocation-refObject-endEffectorHolder</PositivePredicateName>
+      </NotEEffHasRefObjectEEffHolder>
+      <NotEEffHolderHasEEff>
+        <Name>not-endEffectorHolder-has-endEffector</Name>
+        <PositivePredicateName>endEffectorHolder-has-endEffector</PositivePredicateName>
+      </NotEEffHolderHasEEff>
+      <NotKitExists>
+        <Name>not-kit-exists</Name>
+        <PositivePredicateName>kit-exists</PositivePredicateName>
+      </NotKitExists>
+      <NotKitHasRefObjectEEff>
+        <Name>not-kit-has-physicalLocation-refObject-endEffector</Name>
+        <PositivePredicateName>kit-has-physicalLocation-refObject-endEffector</PositivePredicateName>
+      </NotKitHasRefObjectEEff>
+      <NotKitHasRefObjectWorkTable>
+        <Name>not-kit-has-physicalLocation-refObject-workTable</Name>
+        <PositivePredicateName>kit-has-physicalLocation-refObject-workTable</PositivePredicateName>
+      </NotKitHasRefObjectWorkTable>
+      <NotKitTrayHasRefObjectLBWEKT>
+        <Name>not-kitTray-has-physicalLocation-refObject-lbwekt</Name>
+        <PositivePredicateName>kitTray-has-physicalLocation-refObject-lbwekt</PositivePredicateName>
+      </NotKitTrayHasRefObjectLBWEKT>
+      <NotKitTrayHasRefObjectEEff>
+        <Name>not-kitTray-has-physicalLocation-refObject-endEffector</Name>
+        <PositivePredicateName>kitTray-has-physicalLocation-refObject-endEffector</PositivePredicateName>
+      </NotKitTrayHasRefObjectEEff>
+      <NotKitTrayHasRefObjectKit>
+        <Name>not-kitTray-has-physicalLocation-refObject-kit</Name>
+        <PositivePredicateName>kitTray-has-physicalLocation-refObject-kit</PositivePredicateName>
+      </NotKitTrayHasRefObjectKit>
+      <NotPartHasRefObjectPartsTray>
+        <Name>not-part-has-physicalLocation-refObject-partsTray</Name>
+        <PositivePredicateName>part-has-physicalLocation-refObject-partsTray</PositivePredicateName>
+      </NotPartHasRefObjectPartsTray>
+      <NotPartHasRefObjectEEff>
+        <Name>not-part-has-physicalLocation-refObject-endEffector</Name>
+        <PositivePredicateName>part-has-physicalLocation-refObject-endEffector</PositivePredicateName>
+      </NotPartHasRefObjectEEff>
+      <NotRobotHasEEff>
+        <Name>not-robot-has-endEffector</Name>
+        <PositivePredicateName>robot-has-endEffector</PositivePredicateName>
+      </NotRobotHasEEff>
+      <NotRobotHasNoEEff>
+        <Name>not-robot-has-no-endEffector</Name>
+        <PositivePredicateName>robot-has-no-endEffector</PositivePredicateName>
+      </NotRobotHasNoEEff>
+      <NotWorkTableHasObjectOnTableKit>
+        <Name>not-workTable-has-objectOnTable-kit</Name>
+        <PositivePredicateName>workTable-has-objectOnTable-kit</PositivePredicateName>
+      </NotWorkTableHasObjectOnTableKit>
+      <NotWorkTableHasObjectOnTableKitTray>
+        <Name>not-workTable-has-objectOnTable-kitTray</Name>
+        <PositivePredicateName>workTable-has-objectOnTable-kitTray</PositivePredicateName>
+      </NotWorkTableHasObjectOnTableKitTray>
+      
+      <NotKitTrayHasRefObjectWorkTable>
+        <Name>not-kitTray-has-physicalLocation-refObject-workTable</Name>
+        <PositivePredicateName>kitTray-has-physicalLocation-refObject-workTable</PositivePredicateName>
+      </NotKitTrayHasRefObjectWorkTable>
     </NegativePredicateSet>
-    <QuantityPartsTray>
-      <Name>quantity-partstray</Name>
-      <Description>;Quantity of parts in ?partstray (quantity set in the init section in the problem file)</Description>
+    <QuantityOfPartsInPartsTray>
+      <Name>quantity-of-parts-in-partstray</Name>
+      <Description>;quantity of parts in ?partsTray</Description>
       <ReferenceParameter>PartsTray</ReferenceParameter>
-    </QuantityPartsTray>
-    <QuantityPartsInKit>
-      <Name>quantity-kit</Name>
-      <Description>;Quantity of parts from ?partstray that is in ?kit</Description>
+    </QuantityOfPartsInPartsTray>
+    <QuantityOfPartsInKit>
+      <Name>quantity-of-parts-in-kit</Name>
+      <Description>;quantity of parts with ?sku in ?kit</Description>
+      <ReferenceParameter>StockKeepingUnit</ReferenceParameter>
+      <TargetParameter>Kit</TargetParameter>
+    </QuantityOfPartsInKit>
+    <QuantityOfKitTraysInLBWEKT>
+      <Name>quantity-of-kittrays-in-lbwekt</Name>
+      <Description>;quantity of kit trays in ?lbwekt</Description>
+      <ReferenceParameter>LargeBoxWithEmptyKitTrays</ReferenceParameter>
+    </QuantityOfKitTraysInLBWEKT>
+    <QuantityOfKitsInLBWK>
+      <Name>quantity-of-kits-in-lbwk</Name>
+      <Description>;quantity of kits in ?lbwk</Description>
+      <ReferenceParameter>LargeBoxWithKits</ReferenceParameter>
+    </QuantityOfKitsInLBWK>
+    <CurrentQuantityOfPartsInKit>
+      <Name>current-quantity-of-parts-in-kit</Name>
+      <Description>;current quantity of parts in ?kit</Description>
       <ReferenceParameter>Kit</ReferenceParameter>
-      <TargetParameter>PartsTray</TargetParameter>
-    </QuantityPartsInKit>
-    <CapacityKit>
-      <Name>capacity-kit</Name>
-      <Description>;TRUE if capacity of a kit is equal to the quantity of parts tray</Description>
+    </CurrentQuantityOfPartsInKit>
+    <FinalQuantityOfPartsInKit>
+      <Name>final-quantity-of-parts-in-kit</Name>
+      <Description>;final quantity of parts in ?kit</Description>
       <ReferenceParameter>Kit</ReferenceParameter>
-      <TargetParameter>PartsTray</TargetParameter>
-    </CapacityKit>
-    <AttachEndEffector>
-      <Name>attach-endeffector</Name>
-      <ActionParameterSet>
-        <Name>attach-endeffector_robot</Name>
-        <ActionParameter>Robot</ActionParameter>
-        <ActionParameterPosition>1</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>attach-endeffector_endeffector</Name>
-        <ActionParameter>EndEffector</ActionParameter>
-        <ActionParameterPosition>2</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>attach-endeffector_endeffectorholder</Name>
-        <ActionParameter>EndEffectorHolder</ActionParameter>
-        <ActionParameterPosition>3</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>attach-endeffector_endeffectorchangingstation</Name>
-        <ActionParameter>EndEffectorChangingStation</ActionParameter>
-        <ActionParameterPosition>4</ActionParameterPosition>
-      </ActionParameterSet>
-      <Precondition>
-        <Name>precondition_attach-endeffector</Name>
-        <EEffLocEEffHolderName>endeffector-location-endeffectorholder</EEffLocEEffHolderName>
-        <RobotWithNoEEffName>robot-with-no-endeffector</RobotWithNoEEffName>
-        <EEffHolderHoldsEEffName>endeffectorholder-holds-endeffector</EEffHolderHoldsEEffName>
-        <EEffHolderLocChStationName>endeffectorholder-location-changing-station</EEffHolderLocChStationName>
-        <ChStationHasEffHolderName>endeffectorchangingstation-has-endeffectorholder</ChStationHasEffHolderName>
-      </Precondition>
-      <Effect>
-        <Name>effect_attach-endeffector</Name>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <EEffLocRobotName>endeffector-location-robot</EEffLocRobotName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <EEffHolderEmptyName>endeffectorholder-empty</EEffHolderEmptyName>
-        <NotEEffLocEEffHolderName>not-endeffector-location-endeffectorholder</NotEEffLocEEffHolderName>
-        <NotEEffHolderHoldsEEffName>not-endeffectorholder-holds-endeffector</NotEEffHolderHoldsEEffName>
-        <NotRobotWithNoEEffName>not-robot-with-no-endeffector</NotRobotWithNoEEffName>
-      </Effect>
-    </AttachEndEffector>
-    <RemoveEndEffector>
-      <Name>remove-endeffector</Name>
-      <ActionParameterSet>
-        <Name>remove-endeffector_robot</Name>
-        <ActionParameter>Robot</ActionParameter>
-        <ActionParameterPosition>1</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>remove-endeffector_endeffector</Name>
-        <ActionParameter>EndEffector</ActionParameter>
-        <ActionParameterPosition>2</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>remove-endeffector_endeffectorholder</Name>
-        <ActionParameter>EndEffectorHolder</ActionParameter>
-        <ActionParameterPosition>3</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>remove-endeffector_endeffectorchangingstation</Name>
-        <ActionParameter>EndEffectorChangingStation</ActionParameter>
-        <ActionParameterPosition>4</ActionParameterPosition>
-      </ActionParameterSet>
-      <Precondition>
-        <Name>precondition_remove-endeffector</Name>
-        <EEffLocRobotName>endeffector-location-robot</EEffLocRobotName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <EEffHolderLocChStationName>endeffectorholder-location-changing-station</EEffHolderLocChStationName>
-        <ChStationHasEEffHolderName>endeffectorchangingstation-has-endeffectorholder</ChStationHasEEffHolderName>
-        <EEffHolderEmptyName>endeffectorholder-empty</EEffHolderEmptyName>
-      </Precondition>
-      <Effect>
-        <Name>effect_remove-endeffector</Name>
-        <EEffLocEEffHolderName>endeffector-location-endeffectorholder</EEffLocEEffHolderName>
-        <EEffHolderHoldsEEffName>endeffectorholder-holds-endeffector</EEffHolderHoldsEEffName>
-        <RobotWithNoEEffName>robot-with-no-endeffector</RobotWithNoEEffName>
-        <NotEEffLocRobotName>not-endeffector-location-robot</NotEEffLocRobotName>
-        <NotRobotWithEEffName>not-robot-with-endeffector</NotRobotWithEEffName>
-        <NotEEffHolderEmptyName>not-endeffectorholder-empty</NotEEffHolderEmptyName>
-      </Effect>
-    </RemoveEndEffector>
-    <CreateKit>
-      <Name>create-kit</Name>
-      <ActionParameterSet>
-        <Name>create-kit_kit</Name>
-        <ActionParameter>Kit</ActionParameter>
-        <ActionParameterPosition>1</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>create-kit_kittray</Name>
-        <ActionParameter>KitTray</ActionParameter>
-        <ActionParameterPosition>2</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>create-kit_worktable</Name>
-        <ActionParameter>WorkTable</ActionParameter>
-        <ActionParameterPosition>3</ActionParameterPosition>
-      </ActionParameterSet>
-      <Precondition>
-        <Name>create-kit_precondition</Name>
-        <OnWorktableKitTrayName>on-worktable-kittray</OnWorktableKitTrayName>
-      </Precondition>
-      <Effect>
-        <Name>create-kit_effect</Name>
-        <OnWorktableKitName>on-worktable-kit</OnWorktableKitName>
-        <KitLocWorktableName>kit-location-worktable</KitLocWorktableName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <NotOnWorktableKitTrayName>not-on-worktable-kittray</NotOnWorktableKitTrayName>
-      </Effect>
-    </CreateKit>
+    </FinalQuantityOfPartsInKit>
+    <CapacityOfPartsInKit>
+      <Name>capacity-of-parts-in-kit</Name>
+      <Description>;capacity of parts of a certain ?sku that ?kit can have</Description>
+      <ReferenceParameter>StockKeepingUnit</ReferenceParameter>
+      <TargetParameter>Kit</TargetParameter>
+    </CapacityOfPartsInKit>
+    <CapacityOfKitsInLBWK>
+      <Name>capacity-of-kits-in-lbwk</Name>
+      <Description>;capacity of kits that ?lbwk can have</Description>
+      <ReferenceParameter>LargeBoxWithKits</ReferenceParameter>
+    </CapacityOfKitsInLBWK>
+    <PartFoundFlag>
+      <Name>part-found-flag</Name>
+      <Description>;flag set to 0 when a part is not found and to 1 when a part is found</Description>
+    </PartFoundFlag>
+    
+
     <TakeKitTray>
-      <Name>take-kittray</Name>
+      <Name>take-kitTray</Name>
+      <Description>;Take a KitTray from a LargeBoxWithEmptyKitTrays</Description>
       <ActionParameterSet>
-        <Name>take-kittray_robot</Name>
+        <Name>robot-TakeKitTray</Name>
         <ActionParameter>Robot</ActionParameter>
         <ActionParameterPosition>1</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-kittray_kittray</Name>
+        <Name>kitTray-TakeKitTray</Name>
         <ActionParameter>KitTray</ActionParameter>
         <ActionParameterPosition>2</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-kittray_lbwekt</Name>
+        <Name>lbwekt-TakeKitTray</Name>
         <ActionParameter>LargeBoxWithEmptyKitTrays</ActionParameter>
         <ActionParameterPosition>3</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-kittray_endeffector</Name>
+        <Name>endEffector-TakeKitTray</Name>
         <ActionParameter>EndEffector</ActionParameter>
         <ActionParameterPosition>4</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-kittray_worktable</Name>
-        <ActionParameter>WorkTable</ActionParameter>
+        <Name>sku-TakeKitTray</Name>
+        <ActionParameter>StockKeepingUnit</ActionParameter>
         <ActionParameterPosition>5</ActionParameterPosition>
       </ActionParameterSet>
       <Precondition>
-        <Name>take-kittray_precondition</Name>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <LBWEKTNotEmptyName>lbwekt-not-empty</LBWEKTNotEmptyName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <KitTrayLocLBWEKTName>kittray-location-lbwekt</KitTrayLocLBWEKTName>
-        <EEffLocRobotName>endeffector-location-robot</EEffLocRobotName>
-        <WorkTableEmptyName>worktable-empty</WorkTableEmptyName>
-        <EEffForKitTrayName>endeffector-type-kittray</EEffForKitTrayName>
+        <Name>precondition-TakeKitTray</Name>
+        <F2DGreaterTakeKitTray>
+          <Name>f2d-TakeKitTray</Name>
+          <DecimalNumber>0.000000</DecimalNumber>
+          <F1Name>quantity-of-kittrays-in-lbwekt</F1Name>
+        </F2DGreaterTakeKitTray>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <EEffIsForKitTraySKUName>endEffector-is-for-kitTraySKU</EEffIsForKitTraySKUName>
+        <EEffHasRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRobotName>
+        <KitTrayHasSKUObjectSKUName>kitTray-has-skuObject-sku</KitTrayHasSKUObjectSKUName>
+        <KitTrayHasRefObjectLBWEKTName>kitTray-has-physicalLocation-refObject-lbwekt</KitTrayHasRefObjectLBWEKTName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
       </Precondition>
       <Effect>
-        <Name>take-kittray_effect</Name>
-        <RobotHoldsKitTrayName>robot-holds-kittray</RobotHoldsKitTrayName>
-        <KitTrayLocRobotName>kittray-location-robot</KitTrayLocRobotName>
-        <NotRobotEmptyName>not-robot-empty</NotRobotEmptyName>
-        <NotKitTrayLocLBWEKTName>not-kittray-location-lbwekt</NotKitTrayLocLBWEKTName>
+        <Name>effect-TakeKitTray</Name>
+        <FODecreaseTakeKitTray>
+          <Name>decrease-TakeKitTray</Name>
+          <Expression>decrease</Expression>
+          <Value>1</Value>
+          <FunctionName>quantity-of-kittrays-in-lbwekt</FunctionName>
+        </FODecreaseTakeKitTray>
+        <EEffHasKitTrayName>endEffector-has-heldObject-kitTray</EEffHasKitTrayName>
+        <KitTrayHasRefObjectEEffName>kitTray-has-physicalLocation-refObject-endEffector</KitTrayHasRefObjectEEffName>
+        <NotEEffHasNoObjectName>not-endEffector-has-no-heldObject</NotEEffHasNoObjectName>
+        <NotKitTrayHasRefObjectLBWEKTName>not-kitTray-has-physicalLocation-refObject-lbwekt</NotKitTrayHasRefObjectLBWEKTName>
       </Effect>
     </TakeKitTray>
-    <PutKitTray>
-      <Name>put-kittray</Name>
+    <PlaceKitTray>
+      <Name>place-kitTray</Name>
+      <Description>;Place a KitTray on a WorkTable</Description>
       <ActionParameterSet>
-        <Name>put-kittray_robot</Name>
+        <Name>robot-PlaceKitTray</Name>
         <ActionParameter>Robot</ActionParameter>
         <ActionParameterPosition>1</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-kittray_kittray</Name>
+        <Name>kitTray-PlaceKitTray</Name>
         <ActionParameter>KitTray</ActionParameter>
         <ActionParameterPosition>2</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-kittray_worktable</Name>
-        <ActionParameter>WorkTable</ActionParameter>
-        <ActionParameterPosition>3</ActionParameterPosition>
-      </ActionParameterSet>
-      <Precondition>
-        <Name>put-kittray_precondition</Name>
-        <KitTrayLocRobotName>kit-location-robot</KitTrayLocRobotName>
-        <RobotHoldsKitTrayName>robot-holds-kittray</RobotHoldsKitTrayName>
-        <WorkTableEmptyName>worktable-empty</WorkTableEmptyName>
-      </Precondition>
-      <Effect>
-        <Name>put-kittray_effect</Name>
-        <NotKitTrayLocRobotName>not-kit-location-robot</NotKitTrayLocRobotName>
-        <NotRobotHoldsKitTrayName>not-robot-holds-kittray</NotRobotHoldsKitTrayName>
-        <NotWorkTableEmptyName>not-worktable-empty</NotWorkTableEmptyName>
-        <KitTrayLocWorkTableName>kittray-location-worktable</KitTrayLocWorkTableName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <OnWorktableKitTrayName>on-worktable-kittray</OnWorktableKitTrayName>
-      </Effect>
-    </PutKitTray>
-    <TakeKit>
-      <Name>take-kit</Name>
-      <ActionParameterSet>
-        <Name>take-kit_robot</Name>
-        <ActionParameter>Robot</ActionParameter>
-        <ActionParameterPosition>1</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>take-kit_kit</Name>
-        <ActionParameter>Kit</ActionParameter>
-        <ActionParameterPosition>2</ActionParameterPosition>
-      </ActionParameterSet>
-      <ActionParameterSet>
-        <Name>take-kit_worktable</Name>
+        <Name>workTable-PlaceKitTray</Name>
         <ActionParameter>WorkTable</ActionParameter>
         <ActionParameterPosition>3</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-kit_endeffector</Name>
+        <Name>endEffector-PlaceKitTray</Name>
         <ActionParameter>EndEffector</ActionParameter>
         <ActionParameterPosition>4</ActionParameterPosition>
       </ActionParameterSet>
       <Precondition>
-        <Name>take-kit_precondition</Name>
-        <KitLocWorktableName>kit-location-worktable</KitLocWorktableName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <OnWorktableKitName>on-worktable-kit</OnWorktableKitName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <EEffForKitName>endeffector-type-kit</EEffForKitName>
+        <Name>precondition-PlaceKitTray</Name>
+        <EEffHasKitTrayName>endEffector-has-heldObject-kitTray</EEffHasKitTrayName>
+        <KitTrayHasRefObjectEEffName>kitTray-has-physicalLocation-refObject-endEffector</KitTrayHasRefObjectEEffName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
       </Precondition>
       <Effect>
-        <Name>take-kit_effect</Name>
-        <KitLocRobotName>kit-location-robot</KitLocRobotName>
-        <RobotHoldsKitName>robot-holds-kit</RobotHoldsKitName>
-        <WorkTableEmptyName>worktable-empty</WorkTableEmptyName>
-        <NotKitLocWorktableName>not-kit-location-worktable</NotKitLocWorktableName>
-        <NotRobotEmptyName>not-robot-empty</NotRobotEmptyName>
-        <NotOnWorktableKitName>not-on-worktable-kit</NotOnWorktableKitName>
+        <Name>effect-PlaceKitTray</Name>
+        <NotKitTrayHasRefObjectEEffName>not-kitTray-has-physicalLocation-refObject-endEffector</NotKitTrayHasRefObjectEEffName>
+        <NotEEffHasKitTrayName>not-endEffector-has-heldObject-kitTray</NotEEffHasKitTrayName>
+        <KitTrayHasRefObjectWorkTableName>kitTray-has-physicalLocation-refObject-workTable</KitTrayHasRefObjectWorkTableName>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <WorkTableHasObjectOnTableKitTrayName>workTable-has-objectOnTable-kitTray</WorkTableHasObjectOnTableKitTrayName>
       </Effect>
-    </TakeKit>
-    <PutKit>
-      <Name>put-kit</Name>
+    </PlaceKitTray>
+        <CreateKit>
+      <Name>create-kit</Name>
+      <Description>;Create a Kit from a KitTray</Description>
       <ActionParameterSet>
-        <Name>put-kit_robot</Name>
-        <ActionParameter>Robot</ActionParameter>
+        <Name>kit-CreateKit</Name>
+        <ActionParameter>Kit</ActionParameter>
         <ActionParameterPosition>1</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-kit_kit</Name>
-        <ActionParameter>Kit</ActionParameter>
+        <Name>kitTray-CreateKit</Name>
+        <ActionParameter>KitTray</ActionParameter>
         <ActionParameterPosition>2</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-kit_lbwk</Name>
-        <ActionParameter>LargeBoxWithKits</ActionParameter>
+        <Name>workTable-CreateKit</Name>
+        <ActionParameter>WorkTable</ActionParameter>
         <ActionParameterPosition>3</ActionParameterPosition>
       </ActionParameterSet>
       <Precondition>
-        <Name>put-kit_precondition</Name>
-        <KitLocRobotName>kit-location-robot</KitLocRobotName>
-        <RobotHoldsKitName>robot-holds-kit</RobotHoldsKitName>
-        <LBWKNotFullName>lbwk-not-full</LBWKNotFullName>
+        <Name>precondition-CreateKit</Name>
+        <WorkTableHasObjectOnTableKitTrayName>workTable-has-objectOnTable-kitTray</WorkTableHasObjectOnTableKitTrayName>
+        <KitTrayHasRefObjectWorkTableName>kitTray-has-physicalLocation-refObject-workTable</KitTrayHasRefObjectWorkTableName>
+        <KitHasKitTrayName>kit-has-kitTray</KitHasKitTrayName>
+        <KitTrayHasRefObjectKitName>kitTray-has-physicalLocation-refObject-kit</KitTrayHasRefObjectKitName>
       </Precondition>
       <Effect>
-        <Name>put-kit_effect</Name>
-        <KitLocLBWKName>kit-location-lbwk</KitLocLBWKName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <NotKitLocRobotName>not-kit-location-robot</NotKitLocRobotName>
-        <NotRobotHoldsKitName>not-robot-holds-kit</NotRobotHoldsKitName>
+        <Name>effect-CreateKit</Name>
+        <WorkTableHasObjectOnTableKitName>workTable-has-objectOnTable-kit</WorkTableHasObjectOnTableKitName>
+        <KitHasRefObjectWorkTableName>kit-has-physicalLocation-refObject-workTable</KitHasRefObjectWorkTableName>
+        <NotWorkTableHasObjectOnTableKitTrayName>not-workTable-has-objectOnTable-kitTray</NotWorkTableHasObjectOnTableKitTrayName>
+        <NotKitTrayHasRefObjectWorkTableName>not-kitTray-has-physicalLocation-refObject-workTable</NotKitTrayHasRefObjectWorkTableName>
+        <KitExistsName>kit-exists</KitExistsName>
       </Effect>
-    </PutKit>
-    <LookForPart>
-      <Name>look-for-part</Name>
+    </CreateKit>
+    <TakeKit>
+      <Name>take-kit</Name>
+      <Description>;Take a Kit from a WorkTable</Description>
       <ActionParameterSet>
-        <Name>look-for-part_robot</Name>
+        <Name>robot-TakeKit</Name>
         <ActionParameter>Robot</ActionParameter>
         <ActionParameterPosition>1</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>look-for-part_part</Name>
-        <ActionParameter>Part</ActionParameter>
+        <Name>kit-TakeKit</Name>
+        <ActionParameter>Kit</ActionParameter>
         <ActionParameterPosition>2</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>look-for-part_partstray</Name>
-        <ActionParameter>PartsTray</ActionParameter>
+        <Name>kitTray-TakeKit</Name>
+        <ActionParameter>KitTray</ActionParameter>
         <ActionParameterPosition>3</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>look-for-part_kit</Name>
-        <ActionParameter>Kit</ActionParameter>
+        <Name>workTable-TakeKit</Name>
+        <ActionParameter>WorkTable</ActionParameter>
         <ActionParameterPosition>4</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>look-for-part_worktable</Name>
-        <ActionParameter>WorkTable</ActionParameter>
+        <Name>sku-TakeKit</Name>
+        <ActionParameter>StockKeepingUnit</ActionParameter>
         <ActionParameterPosition>5</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>look-for-part_endeffector</Name>
+        <Name>endEffector-TakeKit</Name>
         <ActionParameter>EndEffector</ActionParameter>
         <ActionParameterPosition>6</ActionParameterPosition>
       </ActionParameterSet>
       <Precondition>
-        <Name>look-for-part_precondition</Name>
-        <EEffLocRobotName>endeffector-location-robot</EEffLocRobotName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <OnWorktableKitName>on-worktable-kit</OnWorktableKitName>
-        <PartLocPartsTrayName>part-location-partstray</PartLocPartsTrayName>
-        <KitLocWorktableName>kit-location-worktable</KitLocWorktableName>
-        <EEffForPartName>endeffector-type-part</EEffForPartName>
-        <PartsTrayNotEmptyName>partstray-not-empty</PartsTrayNotEmptyName>
+        <Name>precondition-TakeKit</Name>
+        <F2FEqualTakeKit>
+          <Name>f2f-TakeKit</Name>
+          <F1Name>current-quantity-of-parts-in-kit</F1Name>
+          <F2Name>final-quantity-of-parts-in-kit</F2Name>
+        </F2FEqualTakeKit>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <KitTrayHasSKUObjectSKUName>kitTray-has-skuObject-sku</KitTrayHasSKUObjectSKUName>
+        <EEffIsForKitTraySKUName>endEffector-is-for-kitTraySKU</EEffIsForKitTraySKUName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+        <KitExistsName>kit-exists</KitExistsName>
+        <KitHasKitTrayName>kit-has-kitTray</KitHasKitTrayName>
       </Precondition>
       <Effect>
-        <Name>look-for-part_effect</Name>
-        <FoundPartName>found-part</FoundPartName>
+        <Name>effect-TakeKit</Name>
+        <KitHasRefObjectEEffName>kit-has-physicalLocation-refObject-endEffector</KitHasRefObjectEEffName>
+        <EEffHasKitName>endEffector-has-heldObject-kit</EEffHasKitName>
+        <NotKitHasRefObjectWorkTableName>not-kit-has-physicalLocation-refObject-workTable</NotKitHasRefObjectWorkTableName>
+        <NotEEffHasNoObjectName>not-endEffector-has-no-heldObject</NotEEffHasNoObjectName>
+        <NotWorkTableHasObjectOnTableKitName>not-workTable-has-objectOnTable-kit</NotWorkTableHasObjectOnTableKitName>
+      </Effect>
+    </TakeKit>
+    <PlaceKit>
+      <Name>place-kit</Name>
+      <Description>;Place a Kit in a LargeBoxWithKits</Description>
+      <ActionParameterSet>
+        <Name>robot-PlaceKit</Name>
+        <ActionParameter>Robot</ActionParameter>
+        <ActionParameterPosition>1</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>kit-PlaceKit</Name>
+        <ActionParameter>Kit</ActionParameter>
+        <ActionParameterPosition>2</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffector-PlaceKit</Name>
+        <ActionParameter>EndEffector</ActionParameter>
+        <ActionParameterPosition>3</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>lbwk-PlaceKit</Name>
+        <ActionParameter>LargeBoxWithKits</ActionParameter>
+        <ActionParameterPosition>4</ActionParameterPosition>
+      </ActionParameterSet>
+      <Precondition>
+        <Name>precondition-PlaceKit</Name>
+        <F2FLessPlaceKit>
+          <Name>f2f-PlaceKit</Name>
+          <F1Name>quantity-of-kits-in-lbwk</F1Name>
+          <F2Name>capacity-of-kits-in-lbwk</F2Name>
+        </F2FLessPlaceKit>
+        <EEffHasKitName>endEffector-has-heldObject-kit</EEffHasKitName>
+        <KitHasRefObjectEEffName>kit-has-physicalLocation-refObject-endEffector</KitHasRefObjectEEffName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+      </Precondition>
+      <Effect>
+        <Name>effect-PlaceKit</Name>
+        <NotKitExistsName>not-kit-exists</NotKitExistsName>
+        <LBWKHasKitName>lbwk-has-kit</LBWKHasKitName>
+        <FOIncreasePlaceKit>
+          <Name>increase-take-kitTray</Name>
+          <Expression>increase</Expression>
+          <Value>1</Value>
+          <FunctionName>quantity-of-kits-in-lbwk</FunctionName>
+        </FOIncreasePlaceKit>
+        <KitHasRefObjectLBWKName>kit-has-physicalLocation-refObject-lbwk</KitHasRefObjectLBWKName>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <NotKitHasRefObjectEEffName>not-kit-has-physicalLocation-refObject-endEffector</NotKitHasRefObjectEEffName>
+        <NotEEffHasKitName>not-endEffector-has-heldObject-kit</NotEEffHasKitName>
+      </Effect>
+    </PlaceKit>
+    <LookForPart>
+      <Name>look-for-part</Name>
+      <Description>;Looking for a Part given a StockKeepingUnit</Description>
+      <ActionParameterSet>
+        <Name>robot-LookForPart</Name>
+        <ActionParameter>Robot</ActionParameter>
+        <ActionParameterPosition>1</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>part-LookForPart</Name>
+        <ActionParameter>Part</ActionParameter>
+        <ActionParameterPosition>2</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>partSku-LookForPart</Name>
+        <ActionParameter>StockKeepingUnit</ActionParameter>
+        <ActionParameterPosition>3</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>kit-LookForPart</Name>
+        <ActionParameter>Kit</ActionParameter>
+        <ActionParameterPosition>4</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffector-LookForPart</Name>
+        <ActionParameter>EndEffector</ActionParameter>
+        <ActionParameterPosition>5</ActionParameterPosition>
+      </ActionParameterSet>
+      <Precondition>
+        <Name>precondition-LookForPart</Name>
+        <F2DGreaterLookForPart>
+          <Name>f2d-LookForPart</Name>
+          <DecimalNumber>0.000000</DecimalNumber>
+          <F1Name>part-found-flag</F1Name>
+        </F2DGreaterLookForPart>
+        <KitExistsName>kit-exists</KitExistsName>
+        <EEffIsForPartSKUName>endEffector-is-for-partSKU</EEffIsForPartSKUName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <PartHasSKUObjectSKUName>part-has-skuObject-sku</PartHasSKUObjectSKUName>
+      </Precondition>
+      <Effect>
+        <Name>effect-LookForPart</Name>
+        <PartFoundName>part-is-found</PartFoundName>
+        <DecreaseLookForPart>
+          <Name>decrease-LookForPart</Name>
+          <Expression>decrease</Expression>
+          <Value>1</Value>
+          <FunctionName>part-found-flag</FunctionName>
+        </DecreaseLookForPart>
       </Effect>
     </LookForPart>
     <TakePart>
       <Name>take-part</Name>
+      <Description>;Take a Part from a PartsTray</Description>
       <ActionParameterSet>
-        <Name>take-part_robot</Name>
+        <Name>robot-TakePart</Name>
         <ActionParameter>Robot</ActionParameter>
         <ActionParameterPosition>1</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-part_part</Name>
+        <Name>part-TakePart</Name>
         <ActionParameter>Part</ActionParameter>
         <ActionParameterPosition>2</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-part_partstray</Name>
-        <ActionParameter>PartsTray</ActionParameter>
+        <Name>partSku-TakePart</Name>
+        <ActionParameter>StockKeepingUnit</ActionParameter>
         <ActionParameterPosition>3</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-part_endeffector</Name>
-        <ActionParameter>EndEffector</ActionParameter>
+        <Name>partsTray-TakePart</Name>
+        <ActionParameter>PartsTray</ActionParameter>
         <ActionParameterPosition>4</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-part_worktable</Name>
-        <ActionParameter>WorkTable</ActionParameter>
+        <Name>endEffector-TakePart</Name>
+        <ActionParameter>EndEffector</ActionParameter>
         <ActionParameterPosition>5</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>take-part_kit</Name>
+        <Name>kit-TakePart</Name>
         <ActionParameter>Kit</ActionParameter>
         <ActionParameterPosition>6</ActionParameterPosition>
       </ActionParameterSet>
       <Precondition>
-        <Name>take-part_precondition</Name>
-        <PartLocPartsTrayName>part-location-partstray</PartLocPartsTrayName>
-        <EEffLocRobotName>endeffector-location-robot</EEffLocRobotName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <RobotWithEEffName>robot-with-endeffector</RobotWithEEffName>
-        <OnWorktableKitName>on-worktable-kit</OnWorktableKitName>
-        <KitLocWorktableName>kit-location-worktable</KitLocWorktableName>
-        <EEffForPartName>endeffector-type-part</EEffForPartName>
-        <FoundPartName>found-part</FoundPartName>
-        <PartsTrayNotEmptyName>partstray-not-empty</PartsTrayNotEmptyName>
-        <PartsTrayHasPartName>partstray-has-part</PartsTrayHasPartName>
+        <Name>precondition-TakePart</Name>
+        <KitExistsName>kit-exists</KitExistsName>
+        <PartHasSKUObjectSKUName>part-has-skuObject-sku</PartHasSKUObjectSKUName>
+        <EEffIsForPartSKUName>endEffector-is-for-partSKU</EEffIsForPartSKUName>
+        <PartHasRefObjectPartsTrayName>part-has-physicalLocation-refObject-partsTray</PartHasRefObjectPartsTrayName>
+        <PartsVesselHasPartName>partsVessel-has-part</PartsVesselHasPartName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <PartFoundName>part-is-found</PartFoundName>
+        <F2DGreaterTakePart>
+          <Name>f2d-TakePart</Name>
+          <DecimalNumber>0.000000</DecimalNumber>
+          <F1Name>quantity-of-parts-in-partstray</F1Name>
+        </F2DGreaterTakePart>
       </Precondition>
       <Effect>
-        <Name>take-part_effect</Name>
-        <PartLocRobotName>part-location-robot</PartLocRobotName>
-        <RobotHoldsPartName>robot-holds-part</RobotHoldsPartName>
-        <NotPartLocPartsTrayName>not-part-location-partstray</NotPartLocPartsTrayName>
-        <NotRobotEmptyName>not-robot-empty</NotRobotEmptyName>
+        <Name>effect-TakePart</Name>
+        <PartHasRefObjectEEffName>part-has-physicalLocation-refObject-endEffector</PartHasRefObjectEEffName>
+        <EEffHasPartName>endEffector-has-heldObject-part</EEffHasPartName>
+        <NotPartHasRefObjectPartsTrayName>not-part-has-physicalLocation-refObject-partsTray</NotPartHasRefObjectPartsTrayName>
         <DecreaseTakePart>
-          <Name>decrease_take-part</Name>
+          <Name>decrease-TakePart</Name>
           <Expression>decrease</Expression>
           <Value>1</Value>
-          <FunctionName>quantity-partstray</FunctionName>
+          <FunctionName>quantity-of-parts-in-partstray</FunctionName>
         </DecreaseTakePart>
+        <NotEEffHasNoObjectName>not-endEffector-has-no-heldObject</NotEEffHasNoObjectName>
       </Effect>
     </TakePart>
-    <PutPart>
-      <Name>put-part</Name>
+    <PlacePart>
+      <Name>place-part</Name>
+      <Description>;Place a Part in a Kit</Description>
       <ActionParameterSet>
-        <Name>put-part_robot</Name>
+        <Name>robot-PlacePart</Name>
         <ActionParameter>Robot</ActionParameter>
         <ActionParameterPosition>1</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-part_part</Name>
+        <Name>part-PlacePart</Name>
         <ActionParameter>Part</ActionParameter>
         <ActionParameterPosition>2</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-part_kit</Name>
-        <ActionParameter>Kit</ActionParameter>
+        <Name>partSku-PlacePart</Name>
+        <ActionParameter>StockKeepingUnit</ActionParameter>
         <ActionParameterPosition>3</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-part_worktable</Name>
-        <ActionParameter>WorkTable</ActionParameter>
+        <Name>kit-PlacePart</Name>
+        <ActionParameter>Kit</ActionParameter>
         <ActionParameterPosition>4</ActionParameterPosition>
       </ActionParameterSet>
       <ActionParameterSet>
-        <Name>put-part_partstray</Name>
-        <ActionParameter>PartsTray</ActionParameter>
+        <Name>endEffector-PlacePart</Name>
+        <ActionParameter>EndEffector</ActionParameter>
         <ActionParameterPosition>5</ActionParameterPosition>
       </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>workTable-PlacePart</Name>
+        <ActionParameter>WorkTable</ActionParameter>
+        <ActionParameterPosition>6</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>partsTray-PlacePart</Name>
+        <ActionParameter>PartsTray</ActionParameter>
+        <ActionParameterPosition>7</ActionParameterPosition>
+      </ActionParameterSet>
       <Precondition>
-        <Name>put-part_precondition</Name>
-        <PartLocRobotName>part-location-robot</PartLocRobotName>
-        <RobotHoldsPartName>robot-holds-part</RobotHoldsPartName>
-        <OnWorktableKitName>on-worktable-kit</OnWorktableKitName>
-        <OriginPartName>origin-part</OriginPartName>
-        <KitLocWorktableName>kit-location-worktable</KitLocWorktableName>
-        <QuantityLessThanCapacity>
-          <Name>put-part_quantity-less-than-capacity</Name>
-          <F1Name>quantity-kit</F1Name>
-          <F2Name>capacity-kit</F2Name>
-        </QuantityLessThanCapacity>
+        <Name>precondition-PlacePart</Name>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+        <PartHasRefObjectEEffName>part-has-physicalLocation-refObject-endEffector</PartHasRefObjectEEffName>
+        <EEffHasPartName>endEffector-has-heldObject-part</EEffHasPartName>
+        <KitExistsName>kit-exists</KitExistsName>
+        <PartHasSKUObjectSKUName>part-has-skuObject-sku</PartHasSKUObjectSKUName>
+        <F2FPlacePart>
+          <Name>f2fPlacePart</Name>
+          <F1Name>quantity-of-parts-in-kit</F1Name>
+          <F2Name>capacity-of-parts-in-kit</F2Name>
+        </F2FPlacePart>
       </Precondition>
       <Effect>
-        <Name>put-part_effect</Name>
-        <PartLocKitName>part-location-kit</PartLocKitName>
-        <RobotEmptyName>robot-empty</RobotEmptyName>
-        <NotPartLocRobotName>not-part-location-robot</NotPartLocRobotName>
-        <NotRobotHoldsPartName>not-robot-holds-part</NotRobotHoldsPartName>
-        <NotFoundPartName>not-found-part</NotFoundPartName>
-        <IncreasePutPart>
-          <Name>increase_put-part</Name>
+        <Name>effect-PlacePart</Name>
+        <IncreasePlacePart>
+          <Name>increase-PlacePart</Name>
           <Expression>increase</Expression>
           <Value>1</Value>
-          <FunctionName>quantity-partstray</FunctionName>
-        </IncreasePutPart>
+          <FunctionName>current-quantity-of-parts-in-kit</FunctionName>
+        </IncreasePlacePart>
+        <IncreasePlacePart2>
+          <Name>increase-PlacePart2</Name>
+          <Expression>increase</Expression>
+          <Value>1</Value>
+          <FunctionName>part-found-flag</FunctionName>
+        </IncreasePlacePart2>
+        <IncreasePlacePart3>
+          <Name>increase-PlacePart3</Name>
+          <Expression>increase</Expression>
+          <Value>1</Value>
+          <FunctionName>quantity-of-parts-in-kit</FunctionName>
+        </IncreasePlacePart3>
+        <NotPartHasRefObjectEEffName>not-part-has-physicalLocation-refObject-endEffector</NotPartHasRefObjectEEffName>
+        <NotEEffHasPartName>not-endEffector-has-heldObject-part</NotEEffHasPartName>
+        <PartHasRefObjectKitName>part-has-physicalLocation-refObject-kit</PartHasRefObjectKitName>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
       </Effect>
-    </PutPart>
+    </PlacePart>
+    <AttachEndEffector>
+      <Name>attach-endEffector</Name>
+      <Description>;Attach an EndEffector to a Robot</Description>
+      <ActionParameterSet>
+        <Name>robot-AttachEndEffector</Name>
+        <ActionParameter>Robot</ActionParameter>
+        <ActionParameterPosition>1</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffector-AttachEndEffector</Name>
+        <ActionParameter>EndEffector</ActionParameter>
+        <ActionParameterPosition>2</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffectorHolder-AttachEndEffector</Name>
+        <ActionParameter>EndEffectorHolder</ActionParameter>
+        <ActionParameterPosition>3</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffectorChangingStation-AttachEndEffector</Name>
+        <ActionParameter>EndEffectorChangingStation</ActionParameter>
+        <ActionParameterPosition>4</ActionParameterPosition>
+      </ActionParameterSet>
+      <Precondition>
+        <Name>precondition-AttachEndEffector</Name>
+        <EEffHasRefObjectEEffHolderName>endEffector-has-physicalLocation-refObject-endEffectorHolder</EEffHasRefObjectEEffHolderName>
+        <EEffHolderHasEEffName>endEffectorHolder-has-endEffector</EEffHolderHasEEffName>
+        <RobotHasNoEEffName>robot-has-no-endEffector</RobotHasNoEEffName>
+        <EEffHolderHasRefObjectChStationName>endEffectorHolder-has-physicalLocation-refObject-changingStation</EEffHolderHasRefObjectChStationName>
+        <ChStationHasEEffHolderName>endEffectorChangingStation-has-endEffectorHolder</ChStationHasEEffHolderName>
+      </Precondition>
+      <Effect>
+        <Name>effect-AttachEndEffector</Name>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <NotEEffHasRefObjectEEffHolderName>not-endEffector-has-physicalLocation-refObject-endEffectorHolder</NotEEffHasRefObjectEEffHolderName>
+        <NotEEffHolderHasEEffName>not-endEffectorHolder-has-endEffector</NotEEffHolderHasEEffName>
+        <NotRobotHasNoEEffName>not-robot-has-no-endEffector</NotRobotHasNoEEffName>
+      </Effect>
+    </AttachEndEffector>
+    <DetachEndEffector>
+      <Name>detach-endEffector</Name>
+      <Description>;Detach an EndEffector from a Robot</Description>
+      <ActionParameterSet>
+        <Name>robot-DetachEndEffector</Name>
+        <ActionParameter>Robot</ActionParameter>
+        <ActionParameterPosition>1</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffector-DetachEndEffector</Name>
+        <ActionParameter>EndEffector</ActionParameter>
+        <ActionParameterPosition>2</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffectorHolder-DetachEndEffector</Name>
+        <ActionParameter>EndEffectorHolder</ActionParameter>
+        <ActionParameterPosition>3</ActionParameterPosition>
+      </ActionParameterSet>
+      <ActionParameterSet>
+        <Name>endEffectorChangingStation-DetachEndEffector</Name>
+        <ActionParameter>EndEffectorChangingStation</ActionParameter>
+        <ActionParameterPosition>4</ActionParameterPosition>
+      </ActionParameterSet>
+      <Precondition>
+        <Name>precondition-DetachEndEffector</Name>
+        <EEffHasRefObjectRobotName>endEffector-has-physicalLocation-refObject-robot</EEffHasRefObjectRobotName>
+        <RobotHasEEffName>robot-has-endEffector</RobotHasEEffName>
+        <EEffHasNoObjectName>endEffector-has-no-heldObject</EEffHasNoObjectName>
+        <EEffHolderHasRefObjectChStationName>endEffectorHolder-has-physicalLocation-refObject-changingStation</EEffHolderHasRefObjectChStationName>
+        <ChStationHasEEffHolderName>endEffectorChangingStation-has-endEffectorHolder</ChStationHasEEffHolderName>
+      </Precondition>
+      <Effect>
+        <Name>effect-DetachEndEffector</Name>
+        <NotEEffHasRefObjectRobotName>not-endEffector-has-physicalLocation-refObject-robot</NotEEffHasRefObjectRobotName>
+        <NotRobotHasEEffName>not-robot-has-endEffector</NotRobotHasEEffName>
+        <EEffHasRefObjectEEffHolderName>endEffector-has-physicalLocation-refObject-endEffectorHolder</EEffHasRefObjectEEffHolderName>
+        <EEffHolderHasEEffName>endEffectorHolder-has-endEffector</EEffHolderHasEEffName>
+        <RobotHasNoEEffName>robot-has-no-endEffector</RobotHasNoEEffName>
+      </Effect>
+    </DetachEndEffector>
   </Domain>
   <InContactWith>
     <Name>InContactWith</Name>

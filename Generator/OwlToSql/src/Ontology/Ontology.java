@@ -103,6 +103,10 @@ public class Ontology {
 	/**
 	 * \brief Instance of Tables.
 	 */
+	private Triggers trig;
+	/**
+	 * \brief Instance of Tables.
+	 */
 	private Tables tables;
 	/**
 	 * \brief Ontology Manager - Used to load the ontology.
@@ -160,6 +164,7 @@ public class Ontology {
 				superClassesClean, op.getObjectPropertyInverse());
 		ind = new Individuals(tables.getTables(), ontology, pathSave,
 				superClassesClean);
+		trig = new Triggers(tables.getTables(), ontology, pathSave);
 	}
 
 	/**

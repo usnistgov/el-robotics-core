@@ -77,7 +77,7 @@ unix_ulapi_shm_new (ulapi_id key, ulapi_integer size)
   shm->id = shmget ((key_t) key, (int) size, IPC_CREAT | 0666);
   if (-1 == shm->id)
     {
-      printf ("shmget");
+      //      printf ("shmget");
       free (shm);
       return NULL;
     }
@@ -85,7 +85,7 @@ unix_ulapi_shm_new (ulapi_id key, ulapi_integer size)
   shm->addr = shmat (shm->id, NULL, 0);
   if ((void *) -1 == shm->addr)
     {
-      printf ("shmat");
+      //      printf ("shmat");
       free (shm);
       return NULL;
     }
@@ -164,7 +164,7 @@ ulapi_socket_get_client_id (ulapi_integer port, const char *hostname)
 
   if (NULL == (ent = gethostbyname (hostname)))
     {
-      printf ("gethostbyname");
+      //      printf ("gethostbyname");
       return -1;
     }
   in_a = (struct in_addr *) ent->h_addr_list[0];
@@ -176,7 +176,7 @@ ulapi_socket_get_client_id (ulapi_integer port, const char *hostname)
 
   if (-1 == (socket_fd = socket (PF_INET, SOCK_STREAM, 0)))
     {
-      printf ("socket");
+      //      printf ("socket");
       return -1;
     }
 
@@ -184,7 +184,7 @@ ulapi_socket_get_client_id (ulapi_integer port, const char *hostname)
 		     (struct sockaddr *) &server_addr,
 		     sizeof (struct sockaddr_in)))
     {
-      printf ("connect");
+      //      printf ("connect");
       close (socket_fd);
       return -1;
     }
@@ -220,9 +220,10 @@ ulapi_mutex_new (ulapi_integer startAvailable)
       if( !startAvailable )
 	{
 	  ulapi_mutex_take(mutex);
-	  printf( "ulapi: mutex starting locked\n" );
+	  //	  printf( "ulapi: mutex starting locked\n" );
 	}
-      printf( "ulapi: mutex starting unlocked\n" );
+      //      else
+      //      printf( "ulapi: mutex starting unlocked\n" );
       return (void *) mutex;
     }
   /* else got an error, so free the mutex and return null */

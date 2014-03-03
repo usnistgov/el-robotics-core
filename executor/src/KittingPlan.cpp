@@ -1,14 +1,23 @@
 /*****************************************************************************
+------------------------------------------------------------------------------
+--  Copyright 2012-2014
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
+
  DISCLAIMER:
- This software was produced by the National Institute of Standards
+ This software was originally produced by the National Institute of Standards
  and Technology (NIST), an agency of the U.S. government, and by statute is
- not subject to copyright in the United States.  Recipients of this software
- assume all responsibility associated with its operation, modification,
- maintenance, and subsequent redistribution.
+ not subject to copyright in the United States.  
 
- See NIST Administration Manual 4.09.07 b and Appendix I.
- *****************************************************************************/
-
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+*****************************************************************************/
 #include "KittingPlan.hh"
 #include <stdio.h>
 #include <string.h>
@@ -23,6 +32,15 @@ KittingPlan::KittingPlan() {
  @brief Auto-generated destructor stub
  */
 KittingPlan::~KittingPlan() {
+}
+
+/*!
+  @brief Clear vectors for new plan to be created
+*/
+void KittingPlan::clearPlan()
+{
+  m_actionParamList.clear();
+  m_paramList.clear();
 }
 
 /*!
@@ -42,7 +60,7 @@ KittingPlan::~KittingPlan() {
 void KittingPlan::parsePlanInstance(const char* filename) {
 
 	ifstream inputfile;
-	//FileOperator *fileop = new FileOperator;
+
 	inputfile.open(filename);
 
 	if( inputfile.fail() )
@@ -58,7 +76,6 @@ void KittingPlan::parsePlanInstance(const char* filename) {
 		  parseLinePlanInstance(line);
 		}
 	inputfile.close();
-	//fileop->readVectorOfVector(m_actionParamList);
 }
 
 /*!
@@ -83,10 +100,10 @@ The action name and parameters are put in a map <name,vector<string>>
 void KittingPlan::parseLinePlanInstance(string action) {
 	string simpAction;
 	vector<string> vectTemp;
-	FileOperator *fileop = new FileOperator;
+
 	if( action.length() <=0 )return;
-	simpAction = fileop->removeParentheses(action);
-	vectTemp = fileop->splitString(simpAction);
+	simpAction = FileOperator::removeParentheses(action);
+	vectTemp = FileOperator::splitString(simpAction);
 	m_actionParamList.push_back(vectTemp);
 }
 
@@ -103,14 +120,13 @@ void KittingPlan::parseLinePlanInstance(string action) {
  </ul>
  */
 void KittingPlan::storeParam() {
-	FileOperator *fileop = new FileOperator;
 
 	for (vector<vector<string> >::size_type u = 0; u < m_actionParamList.size(); u++) {
 		for (vector<string>::size_type v = 1; v < m_actionParamList[u].size(); v++) {
 			m_paramList.push_back(m_actionParamList[u][v]);
 		}
 	}
-	fileop->removeDuplicates(m_paramList);
+	FileOperator::removeDuplicates(m_paramList);
 }
 
 /*!

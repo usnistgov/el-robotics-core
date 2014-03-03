@@ -38,7 +38,7 @@ class Controller
 public:
   Controller();
   ~Controller();
-  itimerval cmdStatusCheck(StatusMsg &status, void *rosCtrl);
+  itimerval ctrlStatusCheck(StatusMsg &status, void *rosCtrl);
   int queueMsgLow( CanonicalMsg *msgIn );
   int queueMsgHigh( CanonicalMsg *msgIn );
   int queueMsgStatus( StatusMsg *statusOut );

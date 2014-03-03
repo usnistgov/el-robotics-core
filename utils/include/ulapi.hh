@@ -10,7 +10,7 @@
 */
 
 /*!
-  \file ulapi.h
+  \file ulapi.hh
 
   \brief Declarations of the user-level application programming interface,
   ULAPI, for portable communication between user-level processes and 

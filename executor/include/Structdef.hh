@@ -9,7 +9,7 @@
   See NIST Administration Manual 4.09.07 b and Appendix I.
 *****************************************************************************/
 /*!
- *	\file   Structdef.h
+ *	\file   Structdef.hh
  *	\brief  Structures used to define the location for different structures
  *	\author <a href="http://www.nist.gov/el/isd/ks/kootbally.cfm">Zeid Kootbally</a> \a zeid.kootbally\@nist.gov
  *	\date   May 17, 2012
@@ -20,7 +20,7 @@
 
 
 /*!
-* \struct PartLocStruct Structdef.h
+* \struct PartLocStruct Structdef.hh
 * \brief Represents a part location
 * \var PartLocStruct::point
 * Member \a point contains the coordinates of the part

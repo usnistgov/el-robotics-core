@@ -10,7 +10,7 @@
 */
 
 /*!
-  \file view.cc
+  \file viewKitting.cc
 
   \brief Graphics functions for kittingViewer. Uses OpenGL.
   \code CVS Status:

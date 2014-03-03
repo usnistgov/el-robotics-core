@@ -92,40 +92,43 @@ void CanonicalRobotCommand::setFileOperator(FileOperator *fileoperator)
   @param action_name Action from the plan
   @param paramList List of parameters for the action @a action_name
   @param kittingplan Instance of KittingPlan
+  @param phase enum of PDDLPhase that dictates if we are processing action or effect
  */
 void CanonicalRobotCommand::actionInterpreter(string action_name,
 					      vector<string> paramList,
-					      KittingPlan *kittingplan)
+					      KittingPlan *kittingplan,
+					      PDDLPhase phase)
 {
-
+  printf( "CanonicalRobotCommand::actionInterpreter: action %s phase %d\n",
+	  action_name.c_str(), phase );
   if(action_name == "attach-endeffector")	     
-    attach_eff(paramList, kittingplan);
+    attach_eff(paramList, kittingplan, phase);
   else if(action_name == "create-kit")         
-    create_kit(paramList, kittingplan);
+    create_kit(paramList, kittingplan, phase);
   else if(action_name == "look-for-part")      
-    look_for_part(paramList, kittingplan);
+    look_for_part(paramList, kittingplan, phase);
   else if(action_name == "look-for-slot")
     {
-      if( !look_for_slot(paramList, kittingplan) )
+      if( !look_for_slot(paramList, kittingplan, phase) )
 	{
 	  printf( "Could not find slot. Don't know what to do\n" );
 	  exit(1);
 	}
     }
   else if(action_name == "put-kit")            
-    put_kit(paramList);
+    put_kit(paramList, phase);
   else if(action_name == "put-kittray")
-    put_kit_tray(paramList);
+    put_kit_tray(paramList, phase);
   else if(action_name == "put-part")           
-    put_part(paramList, kittingplan);
+    put_part(paramList, kittingplan, phase);
   else if(action_name == "remove-endeffector") 
-    remove_eff(paramList);
+    remove_eff(paramList, phase);
   else if(action_name == "take-kit")           
-    take_kit(paramList);
+    take_kit(paramList, phase);
   else if(action_name == "take-kittray")       
-    take_kit_tray(paramList);
+    take_kit_tray(paramList, phase);
   else if(action_name == "take-part")          
-    take_part(paramList, kittingplan);
+    take_part(paramList, kittingplan, phase);
   else 
     printf( "unknown pddl action of %s\n", action_name.c_str() );
 }
@@ -137,7 +140,8 @@ void CanonicalRobotCommand::actionInterpreter(string action_name,
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>attach-eff</b> is implemented in ROS/USARSim
  */
 void CanonicalRobotCommand::attach_eff(vector<string> paramList,
-				       KittingPlan *kittingplan){
+				       KittingPlan *kittingplan, PDDLPhase phase)
+{
 }
 
 /*!
@@ -155,25 +159,31 @@ void CanonicalRobotCommand::attach_eff(vector<string> paramList,
   </ul>
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>create-kit</b> is implemented
  */
-void CanonicalRobotCommand::create_kit(vector<string> paramList, KittingPlan *kittingplan){
-	//FileOperator *fileop = new FileOperator;
-	int listLength;
-	listLength=(int)paramList.size();
+void CanonicalRobotCommand::create_kit(vector<string> paramList, 
+				       KittingPlan *kittingplan, PDDLPhase phase)
+{
+  int listLength;
+  listLength=(int)paramList.size();
 
-	for (vector<string>::size_type i = 0; i < listLength; i++){
-		string type;
-		type=kittingplan->matchParamType(paramList[i]);
-		m_file_operator->stripSpace(type);
+  if (phase == EFFECT)
+    return;
+  for (vector<string>::size_type i = 0; i < listLength; i++)
+    {
+      string type;
+      type=kittingplan->matchParamType(paramList[i]);
+      FileOperator::stripSpace(type);
 
-		if (!strcmp(type.c_str(),"Kit")){
-		  //cout <<"Message (\"create kit " << paramList[i] <<"\")"<< endl;
-		}
-
-		if (!strcmp(type.c_str(),"KitTray")){
-			//cout <<"Message (\"kit tray " << paramList[i] <<"\")"<< endl;
-			m_kit_tray=paramList[i];
-		}
+      if (!strcmp(type.c_str(),"Kit"))
+	{
+	  //cout <<"Message (\"create kit " << paramList[i] <<"\")"<< endl;
 	}
+
+      if (!strcmp(type.c_str(),"KitTray"))
+	{
+	  //cout <<"Message (\"kit tray " << paramList[i] <<"\")"<< endl;
+	  m_kit_tray=paramList[i];
+	}
+    }
 }
 
 /*!
@@ -181,7 +191,9 @@ void CanonicalRobotCommand::create_kit(vector<string> paramList, KittingPlan *ki
   @param paramList List of parameters for the action <b>look-for-part</b>
   (example: <b>look-for-part</b> robot_1 part_c_1 partstray_a kit_1 Work_table_1 end_eff_1)
  */
-void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan *kittingplan){
+void CanonicalRobotCommand::look_for_part(vector<string> paramList, 
+					  KittingPlan *kittingplan, PDDLPhase phase)
+{
   int listLength;
   SkuObject *skuObject = new SkuObject("foo");
   StockKeepingUnit *sku;
@@ -192,23 +204,28 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
   Part *part = new Part(located_part);
   bool found = false;
 
+  if (phase == EFFECT)
+    return;
   listLength=(int)paramList.size();
 
-  for (vector<string>::size_type i = 0; i < listLength; i++){
-    string type;
-    type=kittingplan->matchParamType(paramList[i]);
-    m_file_operator->stripSpace(type);
+  for (vector<string>::size_type i = 0; i < listLength; i++)
+    {
+      string type;
+      type=kittingplan->matchParamType(paramList[i]);
+      m_file_operator->stripSpace(type);
     
-    if (!strcmp(type.c_str(),"Part")){
-      //      printf( "Looking for part %s\n", paramList[i].c_str() );
-      located_part = getPartInstance(paramList[i]);
-      if( located_part == "" ) // no part found
+      if (!strcmp(type.c_str(),"Part"))
 	{
-	  printf( "Could not find part! Don't know what to do!\n" );
-	  exit(1);
+	  //      printf( "Looking for part %s\n", paramList[i].c_str() );
+	  located_part = getPartInstance(paramList[i]);
+	  processCRCL( "Message (\"Looking for part " + located_part +"\")\n" );
+	  if( located_part == "" ) // no part found
+	    {
+	      printf( "Could not find part! Don't know what to do!\n" );
+	      exit(1);
+	    }
+	  break;
 	}
-      break;
-    }
   }
 
   /* get grasp location */
@@ -269,7 +286,8 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList, KittingPlan 
   (example: <b>look-for-slot</b> robot_1 part_c_1 kit_1 Work_table_1)
 */
 bool CanonicalRobotCommand::look_for_slot(vector<string> paramList, 
-					  KittingPlan *kittingplan){
+					  KittingPlan *kittingplan, PDDLPhase phase)
+{
   int listLength;
   Kit *kit;
   string partName;
@@ -285,34 +303,36 @@ bool CanonicalRobotCommand::look_for_slot(vector<string> paramList,
   Point *point;
   Vector *myVector;
 
+  if (phase == EFFECT)
+    return true;
   listLength=(int)paramList.size();
 
-  for (vector<string>::size_type i = 0; i < listLength; i++){
-    string type;
-    type=kittingplan->matchParamType(paramList[i]);
-    m_file_operator->stripSpace(type);
+  for (vector<string>::size_type i = 0; i < listLength; i++)
+    {
+      string type;
+      type=kittingplan->matchParamType(paramList[i]);
+      m_file_operator->stripSpace(type);
     
-    if (!strcmp(type.c_str(),"Part"))
-      {
-	partName = paramList[i];
-	part = new Part(partName);
-	part->get(partName);
-	skuObject->get(part->getname());
-	sku = skuObject->gethasSkuObject_Sku();
-	skuName = sku->getname();
-	/*
-	printf( "Looking for slot for part %s with sku: %s\n", 
-		partName.c_str(),
-		skuName.c_str());
-	*/
-      }
-    else if (!strcmp(type.c_str(),"Kit")){
-      {
-	//	printf( "Looking for slot in kit %s\n", paramList[i].c_str() );
-	kitName = paramList[i];
-      }
+      if (!strcmp(type.c_str(),"Part"))
+	{
+	  partName = paramList[i];
+	  part = new Part(partName);
+	  part->get(partName);
+	  skuObject->get(part->getname());
+	  sku = skuObject->gethasSkuObject_Sku();
+	  skuName = sku->getname();
+	  /*
+	    printf( "Looking for slot for part %s with sku: %s\n", 
+	    partName.c_str(),
+	    skuName.c_str());
+	  */
+	}
+      else if (!strcmp(type.c_str(),"Kit"))
+	{
+	  //	printf( "Looking for slot in kit %s\n", paramList[i].c_str() );
+	  kitName = paramList[i];
+	}
     }
-  }
 
   /* get slots from kit */
   kit = new Kit(kitName);
@@ -338,7 +358,8 @@ bool CanonicalRobotCommand::look_for_slot(vector<string> paramList,
   @param paramList List of parameters for the action <b>put-kit</b>
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>put-kit</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::put_kit(vector<string> paramList){
+void CanonicalRobotCommand::put_kit(vector<string> paramList, PDDLPhase phase)
+{
   //cout <<endl;
   //cout <<"Message (\"put kit\")"<< endl;
 }
@@ -348,7 +369,8 @@ void CanonicalRobotCommand::put_kit(vector<string> paramList){
   @param paramList List of parameters for the action <b>put-kit-tray</b>
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>put-kit-tray</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::put_kit_tray(vector<string> paramList){
+void CanonicalRobotCommand::put_kit_tray(vector<string> paramList, PDDLPhase phase)
+{
   //cout <<endl;
   //cout <<"Message (\"put kit tray\")"<< endl;
 }
@@ -360,8 +382,9 @@ void CanonicalRobotCommand::put_kit_tray(vector<string> paramList){
   @param kittingplan Instance of KittingPlan
 */
 void CanonicalRobotCommand::put_part(vector<string> paramList, 
-				     KittingPlan *kittingplan){
-  FileOperator *fileop = new FileOperator;
+				     KittingPlan *kittingplan,
+				     PDDLPhase phase)
+{
   int listLength;
   //  stringstream ss;//create a stringstream
   string type;//, partName;
@@ -374,35 +397,42 @@ void CanonicalRobotCommand::put_part(vector<string> paramList,
 
   listLength=(int)paramList.size();  
 
-  for (vector<string>::size_type i = 0; i < listLength; i++){
-    type=kittingplan->matchParamType(paramList[i]);
-    fileop->stripSpace(type);
-    if (!strcmp(type.c_str(),"Robot"))
-      {
-	robot = new Robot(paramList[i]);
-	robot->get(paramList[i]);
-      }
-    /*
-    else if (!strcmp(type.c_str(),"Part"))
-      partName = paramList[i];
-    */
-  }
+  for (vector<string>::size_type i = 0; i < listLength; i++)
+    {
+      type=kittingplan->matchParamType(paramList[i]);
+      FileOperator::stripSpace(type);
+      if (!strcmp(type.c_str(),"Robot"))
+	{
+	  robot = new Robot(paramList[i]);
+	  robot->get(paramList[i]);
+	}
+      /*
+	else if (!strcmp(type.c_str(),"Part"))
+	partName = paramList[i];
+      */
+    }
   /* compute the part being held */
   // get the end effector
   endEffector = robot->gethadByEndEffector_Robot();
   endEffector->get(endEffector->getname());
   // get what is being held
   solidObject = endEffector->gethasEndEffector_HeldObject();
-  // get the slot
-  slot->get(located_slot);
+  if (phase == ACTION)
+    {
+      // get the slot
+      slot->get(located_slot);
 
-  recLoc=getPartGoalLocation(solidObject->getname(), slot->getname());
-  canon_put_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), 
-		 recLoc.frame.pose.getZAxis());
-  effect_put_part( robot->getname(), located_slot, solidObject->getname() );
+      recLoc=getPartGoalLocation(solidObject->getname(), slot->getname());
+      canon_put_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), 
+		     recLoc.frame.pose.getZAxis());
+    }
+  else if (phase == EFFECT)
+    {
+      effect_put_part( robot->getname(), located_slot, solidObject->getname() );
 
-  // clean up
-  located_slot = "";
+      // clean up
+      located_slot = "";
+    }
   if( robot != NULL )
     delete robot;
 }
@@ -412,7 +442,8 @@ void CanonicalRobotCommand::put_part(vector<string> paramList,
   @param paramList List of parameters for the action <b>remove-eff</b>
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>remove-eff</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::remove_eff(vector<string> paramList){
+void CanonicalRobotCommand::remove_eff(vector<string> paramList, PDDLPhase phase)
+{
 }
 
 /*!
@@ -420,7 +451,8 @@ void CanonicalRobotCommand::remove_eff(vector<string> paramList){
   @param paramList List of parameters for the action <b>take-kit</b>
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-kit</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::take_kit(vector<string> paramList){
+void CanonicalRobotCommand::take_kit(vector<string> paramList, PDDLPhase phase)
+{
   //cout <<endl;
   //cout <<"Message (\"take kit\")"<< endl;
 }
@@ -431,7 +463,8 @@ void CanonicalRobotCommand::take_kit(vector<string> paramList){
   @param kittingplan Instance of KittingPlan
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-kit-tray</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::take_kit_tray(vector<string> paramList){
+void CanonicalRobotCommand::take_kit_tray(vector<string> paramList, PDDLPhase phase)
+{
   //cout <<endl;
   //cout <<"Message (\"take kit tray\")"<< endl;
 }
@@ -442,9 +475,10 @@ void CanonicalRobotCommand::take_kit_tray(vector<string> paramList){
   @param kittingplan Instance of KittingPlan
   @todo This function will be written once the <b>Canonical Robot Command</b> for the action <b>take-part</b> is implemented in ROS/USARSim
 */
-void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kittingplan)
+void CanonicalRobotCommand::take_part(vector<string> paramList, 
+				      KittingPlan *kittingplan,
+				      PDDLPhase phase)
 {
-  //FileOperator *fileop = new FileOperator;
   int listLength;
   listLength=(int)paramList.size();
   stringstream ss;//create a stringstream
@@ -462,25 +496,30 @@ void CanonicalRobotCommand::take_part(vector<string> paramList, KittingPlan *kit
       else if (!strcmp(type.c_str(),"Robot"))
 	robotName = paramList[i];
     }
-
-  ss << partName;//add number to the stream
-  string s_paramlist = ss.str();
-  string message = "\nMessage (\"take part " + s_paramlist +"\")\n";
-  m_file_operator->writeData(message);
-
-  // cout <<"Message (\"take part " << paramList[i] <<"\")"<< endl;
-  if( located_part == "" )
+  if (phase == ACTION)
     {
-      printf( "did not call look_for_part before take_part!\n");
-      located_part = partName;
-    }
-  recLoc = getPartLocation( located_part, located_frame );
+      ss << partName;//add number to the stream
+      string s_paramlist = ss.str();
+      processCRCL( "Message (\"take part " + s_paramlist +"\")\n" );
+      //  m_file_operator->writeData(message);
+
+      // cout <<"Message (\"take part " << paramList[i] <<"\")"<< endl;
+      if( located_part == "" )
+	{
+	  printf( "did not call look_for_part before take_part!\n");
+	  located_part = partName;
+	}
+      recLoc = getPartLocation( located_part, located_frame );
 			
-  canon_take_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), 
-		  recLoc.frame.pose.getZAxis());
-  effect_take_part( robotName, located_part, located_frame );
-  // part is now taken, so clear located part
-  located_part = "";
+      canon_take_part(recLoc.frame.pose.getPoint(), recLoc.frame.pose.getXAxis(), 
+		      recLoc.frame.pose.getZAxis());
+    }
+  else if (phase == EFFECT)
+    {
+      effect_take_part( robotName, located_part, located_frame );
+      // part is now taken, so clear located part
+      located_part = "";
+    }
   return;
 }
 
@@ -499,6 +538,7 @@ void CanonicalRobotCommand::canon_put_part(vector<double> xyz,
   double part_point_y = xyz.at(1);
   double part_point_z = xyz.at(2);
 
+  //  commandsCRCL.clear();
   print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
   print_dwell(m_dwell);
   print_moveto(part_point_x, part_point_y, part_point_z, x_axis, z_axis);
@@ -523,6 +563,7 @@ void CanonicalRobotCommand::canon_take_part(vector<double> xyz,
   double part_point_y = xyz.at(1);
   double part_point_z = xyz.at(2);
 
+  //  commandsCRCL.clear();
   print_moveto(part_point_x, part_point_y, m_safe_z, x_axis, z_axis);
   print_dwell(m_dwell);
   print_moveto(part_point_x, part_point_y, part_point_z, x_axis, z_axis);
@@ -612,6 +653,65 @@ int CanonicalRobotCommand::precondition_take_part(){
 }
 
 /*!
+  @brief Step 1 of interpretPlan
+
+  The three routines of initializePlan, stepPlan, and finalizePlan
+  take the place of the interpretPlan routine. This allow us to
+  step through the plan one PDDL action at a time and interact with
+  the robot.
+
+  This routine justs opens the file and sends out basic initialization
+  commands.
+
+  @param kittingplan Instance of KittingPlan
+*/
+void CanonicalRobotCommand::initializePlan(KittingPlan *kittingplan)
+{
+  if( m_file_operator != NULL )
+    m_file_operator->createOutputFile();
+
+  printf( "CanonicalRobotCommand::initializePlan called\n" );
+  print_initcannon();
+  print_opengripper();
+}
+
+/*
+  decompose a single step of the plan
+  @return 1 on success, 0 on failure
+*/
+int CanonicalRobotCommand::stepPlan(KittingPlan *kittingplan, PDDLPhase phase)
+{
+  string action(""), actionName("");
+  vector<string> paramName;
+
+  if( kittingplan->m_actionParamList.size() < 1 )
+    return 0;
+
+  actionName=kittingplan->m_actionParamList[0][0];
+  if( phase == ACTION )
+    printf( "CanonicalRobotCommand::stepPlan: %s is next PDDL action to execute\n", 
+	    actionName.c_str() );
+  for (vector<string>::size_type v = 1; 
+       v < kittingplan->m_actionParamList[0].size(); v++) 
+    {
+      paramName.push_back(kittingplan->m_actionParamList[0][v]);
+    }
+  if( phase == ACTION || phase == EFFECT )
+    {
+      actionInterpreter(actionName, paramName, kittingplan, phase);
+      if( phase == EFFECT )
+	kittingplan->m_actionParamList.erase(kittingplan->m_actionParamList.begin());
+    }
+  else
+    printf( "CanonicalRobotCommand::stepPlan: unknown phase\n");
+}
+
+void CanonicalRobotCommand::finalizePlan(KittingPlan *kittingplan)
+{
+  print_endcannon(2); 
+}
+
+/*!
   @brief Read the plan stored in KittingPlan::m_actionParamList and interpret each action
   The different steps are:
   <ul>
@@ -625,27 +725,31 @@ int CanonicalRobotCommand::precondition_take_part(){
 */
 void CanonicalRobotCommand::interpretPlan(KittingPlan *kittingplan)
 {
-  int nbAction=0;
   string action(""), actionName("");
   vector<string> paramName;
-  //FileOperator *fileop = new FileOperator;
-  m_file_operator->createOutputFile();
+
+  if( m_file_operator != NULL )
+    m_file_operator->createOutputFile();
 
   print_initcannon();
   print_opengripper();
 
-  for (vector< vector<string> >::size_type u = 0; u < kittingplan->m_actionParamList.size(); u++) 
+  for (vector< vector<string> >::size_type u = 0; 
+       u < kittingplan->m_actionParamList.size(); u++) 
     {
       actionName=kittingplan->m_actionParamList[u][0];
-      nbAction++;
-      for (vector<string>::size_type v = 1; v < kittingplan->m_actionParamList[u].size(); v++) 
+      for (vector<string>::size_type v = 1; 
+	   v < kittingplan->m_actionParamList[u].size(); v++) 
 	{
 	  paramName.push_back(kittingplan->m_actionParamList[u][v]);
 	}
-      actionInterpreter(actionName, paramName, kittingplan);
+      actionInterpreter(actionName, paramName, kittingplan, ACTION);
+      actionInterpreter(actionName, paramName, kittingplan, EFFECT);
+      // this is where we should execute actions and check for results
+      // did action work?
       paramName.clear();
     }
-  print_endcannon(2);
+  print_endcannon(2); 
 }
 
 /*!
@@ -1172,6 +1276,21 @@ void CanonicalRobotCommand::processCRCL( string commandStr )
   if( m_file_operator != NULL )
     m_file_operator->writeData(commandStr);
   else
-    cout << commandStr;
+    cout << "CanonicalRobotCommand.cpp::processCRCL: " << commandStr;
+
+  // need to push onto CRCL stack for this command
+  commandsCRCL.push_back(commandStr);
 }
 
+std::string CanonicalRobotCommand::getNextCRCL()
+{
+  std::string retString;
+  if( commandsCRCL.size() > 0 )
+    {
+      retString = commandsCRCL[0];
+      commandsCRCL.erase(commandsCRCL.begin());
+      return retString;
+    }
+  else
+    return "";
+}

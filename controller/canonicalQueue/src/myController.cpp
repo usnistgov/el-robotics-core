@@ -19,7 +19,7 @@
  and these modifications are subject to the copyright shown above
 *****************************************************************************/
 /*!
-  \file   myController.cc
+  \file   myController.cpp
   \brief  Provides a sample implementation of the controller
   This class will handle the queued messages and print out strings telling about
   the processing. This is sample code only!

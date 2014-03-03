@@ -1,14 +1,23 @@
 /*****************************************************************************
-  DISCLAIMER:
-  This software was produced by the National Institute of Standards
-  and Technology (NIST), an agency of the U.S. government, and by statute is
-  not subject to copyright in the United States.  Recipients of this software
-  assume all responsibility associated with its operation, modification,
-  maintenance, and subsequent redistribution.
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
 
-  See NIST Administration Manual 4.09.07 b and Appendix I.
-*****************************************************************************/
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
 
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
 /*!
  *  \brief     Class for the Kitting PDDL Problem
  *  \details   This class is used to manipulate the Kitting PDDL Problem File
@@ -34,18 +43,21 @@
 
 class KittingPDDLProblem {
 public:
-	//-- Member Function
-	KittingPDDLProblem();
-	virtual ~KittingPDDLProblem();
-	void parsePDDLProblem(const char* filename, KittingPlan *kittingplan);
-	map<string,int> findParam(string myString, vector<string> myVector);
-	void findParamType(std::ifstream &inputfile,map<string,int> myMap, KittingPlan *kittingplan);
-	//-- Member Data
-	//map<string,string> m_ParamTypeList;
-	/*!< \brief Contains the parameters found in the PDDL Problem File (#PDDL_PROBLEM) and their type.
-	 *
-	 *  For example: <<robot_1 Robot> <kit_tray_1 KitTray>>
-	 * */
+  //-- Member Function
+  KittingPDDLProblem();
+  virtual ~KittingPDDLProblem();
+  int readFluents(const char* filename);
+  void parsePDDLProblem(KittingPlan *kittingplan);
+  map<string,int> findParam(vector<string> myVector);
+  void findParamType(map<string,int> myMap, KittingPlan *kittingplan);
+  //-- Member Data
+  //map<string,string> m_ParamTypeList;
+  /*!< \brief Contains the parameters found in the PDDL Problem File (#PDDL_PROBLEM) and their type.
+   *
+   *  For example: <<robot_1 Robot> <kit_tray_1 KitTray>>
+   * */
+private:
+  string fluents;
 };
 
 #endif /* KITTINGPDDLPROBLEM_H_ */

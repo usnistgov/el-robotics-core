@@ -19,7 +19,7 @@
  and these modifications are subject to the copyright shown above
 *****************************************************************************/
 /*!
-  \file   controller.cc
+  \file   controller.cpp
   \brief  Provide a generic class to base executor controller modules off of.
   This class will provide routines to queue and dequeue commands as well as virtual functions
   for items such as emergency conditions and command handlers.
@@ -60,111 +60,152 @@ void Controller::setVerbosity( int verbosityIn )
 /*
  * check the status of the ROS system and see if command is finished
  */
-itimerval Controller::cmdStatusCheck(StatusMsg &statusMsg, void *rosCtrl)
+itimerval Controller::ctrlStatusCheck(StatusMsg &statusMsg, void *rosCtrl)
 {
   itimerval resetTime;
   CanonicalMsg *currentCmd = currentMsgQueue.front();
   statusReturn status;
 
+  if( currentMsgQueue.size() <= 0 )
+    {
+      CanonicalHdr canonicalHdr;
+      canonicalHdr.msgID = -1;
+      canonicalHdr.time = 0;
+      printf( "controller.cpp::cmdStatusCheck: no ros command!\n" );
+      //      status = CmdComplete;
+      status = SystemWorking;
+      statusMsg.setHeader(canonicalHdr);
+      statusMsg.setStatus(status);
+      resetTime.it_value.tv_sec = 1;
+      resetTime.it_value.tv_usec = 0;
+      return resetTime;
+    }
   statusMsg.setHeader(currentCmd->getHeader());
   if (dynamic_cast<CloseGripperMsg *>(currentCmd))
     {
       status = dynamic_cast<CloseGripperMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message closeGripper from currentMsgQueue\n");
     }
   else if (dynamic_cast<CloseToolChangerMsg *>(currentCmd))
     {
       status = dynamic_cast<CloseToolChangerMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message from closeToolChange currentMsgQueue\n");
     }
   else if (dynamic_cast<DwellMsg *>(currentCmd))
     {
       status = dynamic_cast<DwellMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message dwell from currentMsgQueue\n");
     }
   else if (dynamic_cast<EndCanonMsg *>(currentCmd))
     {
       status = dynamic_cast<EndCanonMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message endCanon from currentMsgQueue\n");
     }
   else if (dynamic_cast<InitCanonMsg *>(currentCmd))
     {
       status = dynamic_cast<InitCanonMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message initcanon from currentMsgQueue\n");
     }
   else if (dynamic_cast<MessageMsg *>(currentCmd))
     {
       status = dynamic_cast<MessageMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message Message from currentMsgQueue\n");
     }
   else if (dynamic_cast<MoveStraightToMsg *>(currentCmd))
     {
       status = dynamic_cast<MoveStraightToMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message MoveStraightTo from currentMsgQueue\n");
     }
   else if (dynamic_cast<MoveThroughToMsg *>(currentCmd))
     {
       status = dynamic_cast<MoveThroughToMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message MoveThroughtTo from currentMsgQueue\n");
     }
   else if (dynamic_cast<MoveToMsg *>(currentCmd))
     {
       status = dynamic_cast<MoveToMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message MoveTo from currentMsgQueue\n");
     }
   else if (dynamic_cast<OpenGripperMsg *>(currentCmd))
     {
       status = dynamic_cast<OpenGripperMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message OpenGripper from currentMsgQueue\n");
     }
   else if (dynamic_cast<OpenToolChangerMsg *>(currentCmd))
     {
       status = dynamic_cast<OpenToolChangerMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message OpenToolChanger from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetAbsoluteAccelerationMsg *>(currentCmd))
     {
       status = dynamic_cast<SetAbsoluteAccelerationMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetAbsoluteAcceleration from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetAbsoluteSpeedMsg *>(currentCmd))
     {
       status = dynamic_cast<SetAbsoluteSpeedMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetAbsoluteSpeed from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetAngleUnitsMsg *>(currentCmd))
     {
       status = dynamic_cast<SetAngleUnitsMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetAngleUnits from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetEndAngleToleranceMsg *>(currentCmd))
     {
       status = dynamic_cast<SetEndAngleToleranceMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetEndAngleTolerance from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetEndPointToleranceMsg *>(currentCmd))
     {
       status = dynamic_cast<SetEndPointToleranceMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetEndPointTolerance from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetIntermediatePointToleranceMsg *>(currentCmd))
     {
       status = dynamic_cast<SetIntermediatePointToleranceMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetIntermediatePointTolerance from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetLengthUnitsMsg *>(currentCmd))
     {
       status = dynamic_cast<SetLengthUnitsMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetLengthUnits from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetRelativeAccelerationMsg *>(currentCmd))
     {
-      status = dynamic_cast<SetRelativeSpeedMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      status = dynamic_cast<SetRelativeAccelerationMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetRelativeAcceleration from currentMsgQueue\n");
     }
   else if (dynamic_cast<SetRelativeSpeedMsg *>(currentCmd))
     {
       status = dynamic_cast<SetRelativeSpeedMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message SetRelativeSpeed from currentMsgQueue\n");
     }
   else if (dynamic_cast<StartObjectScanMsg *>(currentCmd))
     {
       status = dynamic_cast<StartObjectScanMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message StartObjectScan from currentMsgQueue\n");
     }
   else if (dynamic_cast<StopMotionMsg *>(currentCmd))
     {
       status = dynamic_cast<StopMotionMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message STopMotion from currentMsgQueue\n");
     }
   else if (dynamic_cast<StopObjectScanMsg *>(currentCmd))
     {
       status = dynamic_cast<StopObjectScanMsg *>(currentCmd)->timer(&resetTime, rosCtrl);
+      printf( "controller::dequeueMsgLow: popping message StopObjectScan from currentMsgQueue\n");
     }
   else
     {
       printf( "controller.cpp:: Error: unknown message for status check\n" );
+      printf( "controller::dequeueMsgLow: not popping message from currentMsgQueue\n");
     }
+  /*
   if( resetTime.it_value.tv_sec <= 0 && resetTime.it_value.tv_usec <= 0 )
     currentMsgQueue.clear();
+  */
+  currentMsgQueue.erase(currentMsgQueue.begin());
   statusMsg.setStatus(status);
   return resetTime;
 }
@@ -177,7 +218,8 @@ int Controller::queueMsgLow(CanonicalMsg *msgIn)
   CanonicalMsg* msgPtr = getMsg(msgIn);
   if(msgPtr == NULL)
     return 0;
-  //  printf( "controller.cpp: queueing message low\n" );
+  printf( "controller.cpp: queueing message low of id: %d\n",
+	  msgPtr->getMsgID());
   ulapi_mutex_give(lowHighMsgMutex);
   cmdQueueLow.push_back(msgPtr);
   return msgPtr->getMsgID();
@@ -202,9 +244,9 @@ int Controller::queueMsgHigh(CanonicalMsg *msgIn)
 }
 int Controller::queueMsgStatus( StatusMsg *msgIn )
 {
-  statusQueue.push_back(*msgIn);
   if(msgIn == NULL)
     return 0;
+  statusQueue.push_back(*msgIn);
   ulapi_mutex_give(statusMsgMutex);
   return 1;
 }
@@ -235,6 +277,7 @@ CanonicalMsg* Controller::getMsg( CanonicalMsg *msgIn )
   StopObjectScanMsg *stopObjectScanMsgPt;
 
   msgIn->setHeader();
+
   if (dynamic_cast<CloseGripperMsg *>(msgIn))
     {
       closeGripperMsgPt = new CloseGripperMsg();
@@ -401,6 +444,7 @@ void Controller::dequeueMsgHigh(void* sendTo, int wait)
       canonicalMsg = cmdQueueHigh.front();
       if(canonicalMsg == NULL)
 	return;
+      printf( "controller::dequeueMsgHigh: pushing message on currentMsgQueue\n");
       currentMsgQueue.push_back(canonicalMsg);
       processMsg(canonicalMsg, sendTo);
       cmdQueueHigh.pop_front();
@@ -436,6 +480,7 @@ void Controller::dequeueMsgLow(void* sendTo, int wait)
       canonicalMsg = cmdQueueLow.front();
       if(canonicalMsg == NULL)
 	return;
+      printf( "controller::dequeueMsgLow: pushing message on currentMsgQueue\n");
       currentMsgQueue.push_back(canonicalMsg);
       processMsg(canonicalMsg, sendTo);
       cmdQueueLow.pop_front();
@@ -458,8 +503,9 @@ StatusMsg Controller::dequeueMsgStatus(int wait)
 
   if(wait)
     {
-      if(statusQueue.empty()) // need to wait
+      while(statusQueue.empty()) // need to wait
 	{
+	  printf( "controller::dequeueMsgStatus: taking statusMsgMutex\n" );
 	  ulapi_mutex_take(statusMsgMutex); // take mutex
 	}
     }

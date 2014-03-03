@@ -11,7 +11,8 @@
 
 /*!
   \mainpage
-  The interpreter reads a plan file \ref PLAN_INSTANCE and generate a text file that contains Canonical Robot Commands.
+  The interpreter reads a plan file \ref PLAN_INSTANCE and generate a text 
+  file that contains Canonical Robot Commands.
 
 
 
@@ -19,8 +20,6 @@
   \author <a href="http://www.nist.gov/el/isd/ks/kramer.cfm">Tom Kramer</a> \a kramer\@cme.nist.gov
   \author <a href="http://www.nist.gov/el/isd/ks/balakirsky.cfm">Stephen Balakirsky</a> \a stephen.balakirsky\@nist.gov
   \author Anthony Pietromartire \a pietromartire.anthony\@nist.gov
-  <br><a href="http://www.nist.gov/index.html">National Institute of Standards and Technology</a>
-  <br><a href="http://www.nist.gov/el/isd/">Intelligent Systems Division</a>
 */
 
 #ifdef HAVE_CONFIG_H
@@ -128,7 +127,8 @@ int main(int argc, const char* argv[]) {
 
   kittingplan->parsePlanInstance(plan_file.c_str());
   kittingplan->storeParam();
-  kittingProb->parsePDDLProblem(problem_file.c_str(), kittingplan);
+  kittingProb->readFluents(problem_file.c_str());
+  kittingProb->parsePDDLProblem(kittingplan);
   canonicalRobotCommand->interpretPlan(kittingplan);
 
   delete kittingplan;

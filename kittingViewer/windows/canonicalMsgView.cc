@@ -9,7 +9,7 @@
   See NIST Administration Manual 4.09.07 b and Appendix I. 
 *****************************************************************************/
 /*!
-  \file   viewerCanonicalMsg.cc
+  \file   canonicalMsgView.cc
   \brief  copies the text of canonical robot commands into the commandString
           array of the KittingViewer.
   \author Tom Kramer

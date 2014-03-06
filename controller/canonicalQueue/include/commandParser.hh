@@ -1,3 +1,23 @@
+/*****************************************************************************
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
+
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
 #ifndef COMMANDPARSER_HH
 #define COMMANDPARSER_HH
 
@@ -10,22 +30,25 @@
 
 class CommandParser
 {
- public:
-  static int  readCommandFile(FILE * inFile,
-			      Controller *ctrl );
-  static int  readDoubleArgCommand(const char * commandName, int length,
-				   char * line, double * doubleVal);
-  static int  readIntArgCommand(const char * commandName, int length,
-				char * line, int * intVal);
-  static int  readMoveThroughTo(char * lineIn, PoseLocation *** poseLocations,
-				int * poseLocationCount, FILE * inFile);
-  static int  readNoArgCommand(const char * commandName,  int length,
-			       char * line);
-  static int  readPoseLocation(char * lineIn, PoseLocation * poseLocation, int * chars);
-  static int  readPoseLocationArgCommand(const char * commandName,  int length,
+public:
+  CommandParser(Controller *ctrlIn);
+  int  readCommandFile(FILE * inFile);
+  int queueCommand(std::string command);
+  int readDoubleArgCommand(const char * commandName, int length,
+			   char * line, double * doubleVal);
+  int readIntArgCommand(const char * commandName, int length,
+			char * line, int * intVal);
+  int readMoveThroughTo(char * lineIn, PoseLocation *** poseLocations,
+			int * poseLocationCount, FILE * inFile);
+  int readNoArgCommand(const char * commandName,  int length,
+		       char * line);
+  int readPoseLocation(char * lineIn, PoseLocation * poseLocation, int * chars);
+  int readPoseLocationArgCommand(const char * commandName,  int length,
 				 char * line, PoseLocation ** poseLocation);
-  static int  readStringArgCommand(const char * commandName, int length,
-				   char * line, char * buffer);
-  			   
+  int readStringArgCommand(const char * commandName, int length,
+			   char * line, char * buffer);
+private:
+  int poseNumber; // global counter for pose number.
+  Controller *ctrl; // ros controllerine
 };
 #endif //COMMANDPARSER_HH

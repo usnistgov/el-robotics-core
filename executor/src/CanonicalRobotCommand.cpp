@@ -99,8 +99,10 @@ void CanonicalRobotCommand::actionInterpreter(string action_name,
 					      KittingPlan *kittingplan,
 					      PDDLPhase phase)
 {
+  /*
   printf( "CanonicalRobotCommand::actionInterpreter: action %s phase %d\n",
 	  action_name.c_str(), phase );
+  */
   if(action_name == "attach-endeffector")	     
     attach_eff(paramList, kittingplan, phase);
   else if(action_name == "create-kit")         
@@ -276,6 +278,9 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList,
   located_frame.pose.setZAxis(myVector->gethasVector_I(), 
 			      myVector->gethasVector_J(), 
 			      myVector->gethasVector_K());
+  /* need to get the part location in order to update the mySQL database */
+  getPartLocation( located_part, located_frame );
+
   return;
 }
 
@@ -688,9 +693,9 @@ int CanonicalRobotCommand::stepPlan(KittingPlan *kittingplan, PDDLPhase phase)
     return 0;
 
   actionName=kittingplan->m_actionParamList[0][0];
-  if( phase == ACTION )
-    printf( "CanonicalRobotCommand::stepPlan: %s is next PDDL action to execute\n", 
-	    actionName.c_str() );
+  printf( "CanonicalRobotCommand::stepPlan: %s is next PDDL action to execute in phase %d\n", 
+	  actionName.c_str(), phase );
+  //  if( phase == ACTION )
   for (vector<string>::size_type v = 1; 
        v < kittingplan->m_actionParamList[0].size(); v++) 
     {
@@ -941,65 +946,8 @@ string CanonicalRobotCommand::getPartInstance(string part_name)
   printf( "found %d parts in tray. Specific part %s\n", 
 	  (int)availableParts.size(),
 	  availableParts.at(0)->getname().c_str());
+
   return availableParts.at(0)->getname();
-
-  /*
-  // from sku, get shape
-  shapeDesign = sku->gethasStockKeepingUnit_Shape();
-  shapeDesign->get(shapeDesign->getname());
-
-  // from shape design, get grasp pose
-  graspPose = shapeDesign->gethadByGraspPose_ShapeDesign();
-  graspPose->get(graspPose->getname());
-  recLoc.clear();
-
-  // from the grasp pose, get the point
-  point = graspPose->gethasPoseLocation_Point();
-  recLoc.posePointName = point->getname();
-  point->get(recLoc.posePointName);
-  doubleValue = point->gethasPoint_X();
-  recLoc.pointXYZ.push_back(doubleValue);
-  doubleValue = point->gethasPoint_Y();
-  recLoc.pointXYZ.push_back(doubleValue);
-  doubleValue = point->gethasPoint_Z();
-  recLoc.pointXYZ.push_back(doubleValue);
-
-  // from the grasp pose, get the XAxis vector
-  vector = graspPose->gethasPoseLocation_XAxis();
-  recLoc.xAxisName = vector->getname();
-  vector->get(recLoc.xAxisName);
-  doubleValue = vector->gethasVector_I();
-  recLoc.xAxis.push_back(doubleValue);
-  doubleValue = vector->gethasVector_J();
-  recLoc.xAxis.push_back(doubleValue);
-  doubleValue = vector->gethasVector_K();
-  recLoc.xAxis.push_back(doubleValue);
-
-  // from the grasp pose, get the ZAxis vector
-  vector = graspPose->gethasPoseLocation_ZAxis();
-  recLoc.zAxisName = vector->getname();
-  vector->get(recLoc.zAxisName);
-  doubleValue = vector->gethasVector_I();
-  recLoc.zAxis.push_back(doubleValue);
-  doubleValue = vector->gethasVector_J();
-  recLoc.zAxis.push_back(doubleValue);
-  doubleValue = vector->gethasVector_K();
-  recLoc.zAxis.push_back(doubleValue);
-
-  // add grasp to transform
-  recurseLocation.addRecLoc(&recLoc);
-  recLoc.clear();
-  */
-  /* now get location of part */
-  /*
-    recurseLocation.recurse(availableParts[0]);
-    recurseLocation.computeGlobalLoc();
-    recurseLocation.printMe(0);
-    recLoc = recurseLocation.getGlobalLoc();
-
-    //  delete part;
-    return recLoc;
-  */
 }
 
 /*!

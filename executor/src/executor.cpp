@@ -10,7 +10,6 @@
 *****************************************************************************/
 
 /*!
-  \mainpage
   The interpreter reads a plan file \ref PLAN_INSTANCE and generate a text 
   file that contains Canonical Robot Commands.
 

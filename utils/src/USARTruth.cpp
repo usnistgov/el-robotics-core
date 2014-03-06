@@ -108,7 +108,7 @@ SensorReturn USARTruth::handle_message(const char *message)
 	  if (nextptr == ptr)
 	    break;
 	  ptr = nextptr;
-	  newTruth.pose.setPoint(dbl[0], -dbl[1], -dbl[2]); // swap axis (rotation about x)
+	  newTruth.pose.setPoint(dbl[0], -dbl[1], -dbl[2]); // do I need to swap axis for rotation about x (-y, -z)?
 	}
 
       else if (!strcmp(token, "Rotation")) 

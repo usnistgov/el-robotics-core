@@ -1,10 +1,218 @@
+/*****************************************************************************
+------------------------------------------------------------------------------
+--  Copyright 2012-2013
+--  Georgia Tech Research Institute
+--  505 10th Street
+--  Atlanta, Georgia 30332
+--
+--  This material may be reproduced by or for the U.S. Government
+--  pursuant to the copyright license under the clause at DFARS
+--  252.227-7013 (October 1988).
+------------------------------------------------------------------------------
+
+ DISCLAIMER:
+ This software was originally produced by the National Institute of Standards
+ and Technology (NIST), an agency of the U.S. government, and by statute is
+ not subject to copyright in the United States.  
+
+ Modifications to the code have been made by Georgia Tech Research Institute
+ and these modifications are subject to the copyright shown above
+ *****************************************************************************/
 #include <string.h>         // strncmp
 #include <ctype.h>          // isalpha
 #include "commandParser.hh"
 
-int poseNumber; // global counter for pose number.
+CommandParser::CommandParser(Controller *ctrlIn)
+{
+  poseNumber = 0;
+  ctrl = ctrlIn;
+}
 
 /********************************************************************/
+/*
+  CommandParser::queueCommand
+  @return 0 on empty line, 1 on successful queue
+ */
+int CommandParser::queueCommand(std::string stringIn)
+{
+  char lineIn[TEXTSIZE];
+  char buffer[TEXTSIZE];
+  char * readHere;
+  double doubleVal;
+  PoseLocation * poseLocation;
+  PoseLocation ** poseLocations;
+  int intVal;
+  std::string text;
+  int length;
+  int returnVal = 1;
+
+  //  printf( "\n\ncommandParser::queueCommand: %s\n\n", stringIn.c_str());
+  sprintf(lineIn, stringIn.c_str(), TEXTSIZE);
+  for (length = 0; ((lineIn[length] == ' ') || (lineIn[length] == '\t'));
+       length++);
+  readHere = (lineIn + length);
+  if ((*readHere == 10) || (*readHere == 13)) // allow blank lines
+    return 0;
+
+  for (length = 0; isalpha(readHere[length]); length++);
+  if (readNoArgCommand("CloseGripper", length, readHere))
+    {
+      //      printf( "commandParser::queueCommand: queuing CloseGripper\n");
+      ctrl->queueMsgLow(new CloseGripperMsg);
+    }
+  else if (readNoArgCommand("CloseToolChanger", length, readHere))
+    {
+      //      printf( "commandParser::queueCommand: queuing CloseToolChanger\n");
+      ctrl->queueMsgLow(new CloseToolChangerMsg);
+    }
+  else if (readDoubleArgCommand("Dwell", length, readHere, &doubleVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing Dwell\n");
+      ctrl->queueMsgLow(new DwellMsg(doubleVal));
+    }
+  else if (readIntArgCommand("EndCanon", length, readHere, &intVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing EndCanon\n");
+      ctrl->queueMsgLow(new EndCanonMsg(intVal));
+    }
+  else if (readNoArgCommand("InitCanon", length, readHere))
+    {
+      //      printf( "commandParser::queueCommand: queuing InitCanon\n");
+      ctrl->queueMsgLow(new InitCanonMsg());
+    }
+  else if (readStringArgCommand("Message", length, readHere, buffer))
+    {
+      text = buffer;
+      //      printf( "commandParser::queueCommand: queuing Message\n");
+      ctrl->queueMsgLow(new MessageMsg(text));
+    }
+  else if (readPoseLocationArgCommand("MoveStraightTo", length, readHere, 
+				      &poseLocation))
+    {
+      //      printf( "commandParser::queueCommand: queuing MoveStraightTo\n");
+      ctrl->queueMsgLow(new MoveStraightToMsg(poseLocation));
+    }
+  /* MoveThroughtTo not yet supported
+  else if (readMoveThroughTo(lineIn, &poseLocations, &intVal, inFile))
+    {
+      ctrl->queueMsgLow(new MoveThroughToMsg(poseLocations, intVal));
+    }
+  */
+  else if (readPoseLocationArgCommand("MoveTo", length, readHere, 
+				      &poseLocation))
+    {
+      //      printf( "commandParser::queueCommand: queuing MoveTo\n");
+      ctrl->queueMsgLow(new MoveToMsg(poseLocation));
+    }
+  else if (readNoArgCommand("OpenGripper", length, readHere))
+    {
+      //      printf( "commandParser::queueCommand: queuing OpenGripper\n");
+      ctrl->queueMsgLow(new OpenGripperMsg);
+    }
+  else if (readNoArgCommand("OpenToolChanger", length, readHere))
+    {
+      //      printf( "commandParser::queueCommand: queuing OpenToolChanger\n");
+      ctrl->queueMsgLow(new OpenToolChangerMsg);
+    }
+  else if (readDoubleArgCommand("SetAbsoluteAcceleration", length, 
+				readHere, &doubleVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing SetAbsoluteAcceleration\n");
+      ctrl->queueMsgLow(new SetAbsoluteAccelerationMsg(doubleVal));
+    }
+  else if (readDoubleArgCommand("SetAbsoluteSpeed", length,
+				readHere, &doubleVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing SetAbsoluteSpeed\n");
+      ctrl->queueMsgLow(new SetAbsoluteSpeedMsg(doubleVal));
+    }
+  else if (readStringArgCommand("SetAngleUnits", length, readHere, buffer))
+    {
+      if ((strcmp(buffer, "radian")) &&
+	  (strcmp(buffer, "degree")))
+	{
+	  fprintf(stderr, "angle unit must be radian or degree; ignoring input\n");
+	  returnVal = 0;
+	}
+      else
+	{
+	  text = buffer;
+	  //	  printf( "commandParser::queueCommand: queuing SetAngleUnits\n");
+	  ctrl->queueMsgLow(new SetAngleUnitsMsg(text));
+	}
+    }
+  else if (readDoubleArgCommand("SetEndAngleTolerance", length, 
+				readHere, &doubleVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing SetEndAngleTolerance\n");
+      ctrl->queueMsgLow(new SetEndAngleToleranceMsg(doubleVal));
+    }
+  else if (readDoubleArgCommand("SetEndPointTolerance", length, 
+				readHere, &doubleVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing SetEndPointTolerance\n");
+      ctrl->queueMsgLow(new SetEndPointToleranceMsg(doubleVal));
+    }
+  else if (readDoubleArgCommand("SetIntermediatePointTolerance", length, 
+				readHere, &doubleVal))
+    {
+      //      printf( "commandParser::queueCommand: queuing SetIntermediatePointTolerance\n");
+      ctrl->queueMsgLow (new SetIntermediatePointToleranceMsg(doubleVal));
+    }
+  else if (readStringArgCommand("SetLengthUnits", length, readHere, buffer))
+    {
+      if ((strcmp(buffer, "inch")) &&
+	  (strcmp(buffer, "mm")) &&
+	  (strcmp(buffer, "meter")))
+	{
+	  fprintf(stderr, "length unit must be inch, mm, or meter; ignoring input\n");
+	  returnVal = 0;
+	}
+      else
+	{
+	  text = buffer;
+	  //	  printf( "commandParser::queueCommand: queuing SetLengthUnits\n");
+	  ctrl->queueMsgLow(new SetLengthUnitsMsg(text));
+	}	  
+    }
+  else if (readDoubleArgCommand("SetRelativeAcceleration", length, 
+				readHere, &doubleVal))
+    {
+      ctrl->queueMsgLow(new SetRelativeAccelerationMsg(doubleVal));
+      //      printf( "commandParser::queueCommand: queuing SetRelativeAcceleration\n");
+    }
+  else if (readDoubleArgCommand("SetRelativeSpeed", length, 
+				readHere, &doubleVal))
+    {
+      ctrl->queueMsgLow(new SetRelativeSpeedMsg(doubleVal));
+      //      printf( "commandParser::queueCommand: queuing SetRelativeSpeedMsg\n");
+    }
+  else if (readStringArgCommand("StartObjectScan", length, readHere, 
+				buffer))
+    {
+      text = buffer;
+      ctrl->queueMsgLow(new StartObjectScanMsg(text));
+      //      printf( "commandParser::queueCommand: queuing SetObjectScanMsg\n");
+    }
+  else if (readIntArgCommand("StopMotion", length, readHere, &intVal))
+    {
+      ctrl->queueMsgLow(new StopMotionMsg(intVal));
+      //      printf( "commandParser::queueCommand: queuing StopMotion\n");
+    }
+  else if (readNoArgCommand("StopObjectScan", length, readHere))
+    {
+      ctrl->queueMsgLow(new StopObjectScanMsg);
+      //      printf( "commandParser::queueCommand: queuing StopObjectScan\n");
+    }
+  else
+    {
+      fprintf(stderr, "unknown command (shown below) "
+	      "in CommandParser::readCommandFile\n");
+      fprintf(stderr, "%s", lineIn);
+      returnVal = 0;
+    }
+  return returnVal;
+}
 
 /* CommandParser::readCommandFile
 
@@ -16,169 +224,23 @@ Called By:  CommandParser::init
 */
 
 int CommandParser::readCommandFile( /* ARGUMENTS   */
- FILE * inFile,
- Controller * ctrl )
+				   FILE * inFile)
 {
   char lineIn[TEXTSIZE];
-  char buffer[TEXTSIZE];
-  char * readHere;
-  double doubleVal;
-  PoseLocation * poseLocation;
-  PoseLocation ** poseLocations;
-  int intVal;
-  std::string text;
-  int returnVal = 0;
-  int length;
+  int returnVal;
 
-  poseNumber = 0;
   for (; fgets(lineIn, TEXTSIZE, inFile); )
     {
-      for (length = 0;
-	   ((lineIn[length] == ' ') || (lineIn[length] == '\t'));
-	   length++);
-      readHere = (lineIn + length);
-      if ((*readHere == 10) || (*readHere == 13)) // allow blank lines
-	continue;
-      for (length = 0; isalpha(readHere[length]); length++);
-      if (readNoArgCommand("CloseGripper", length, readHere))
-	{
-	  ctrl->queueMsgLow(new CloseGripperMsg);
-	}
-      else if (readNoArgCommand("CloseToolChanger", length, readHere))
-	{
-	  ctrl->queueMsgLow(new CloseToolChangerMsg);
-	}
-      else if (readDoubleArgCommand("Dwell", length, readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new DwellMsg(doubleVal));
-	}
-      else if (readIntArgCommand("EndCanon", length, readHere, &intVal))
-	{
-	  ctrl->queueMsgLow(new EndCanonMsg(intVal));
-	  return returnVal;
-	}
-      else if (readNoArgCommand("InitCanon", length, readHere))
-	{
-	  ctrl->queueMsgLow(new InitCanonMsg);
-	}
-      else if (readStringArgCommand("Message", length, readHere, buffer))
-	{
-	  text = buffer;
-	  ctrl->queueMsgLow(new MessageMsg(text));
-	}
-      else if (readPoseLocationArgCommand("MoveStraightTo", length, readHere, 
-					  &poseLocation))
-	{
-	  ctrl->queueMsgLow(new MoveStraightToMsg(poseLocation));
-	}
-      else if (readMoveThroughTo(lineIn, &poseLocations, &intVal, inFile))
-	{
-	  ctrl->queueMsgLow(new MoveThroughToMsg(poseLocations, intVal));
-	}
-      else if (readPoseLocationArgCommand("MoveTo", length, readHere, 
-					  &poseLocation))
-	{
-	  ctrl->queueMsgLow(new MoveToMsg(poseLocation));
-	}
-      else if (readNoArgCommand("OpenGripper", length, readHere))
-	{
-	  ctrl->queueMsgLow(new OpenGripperMsg);
-	}
-      else if (readNoArgCommand("OpenToolChanger", length, readHere))
-	{
-	  ctrl->queueMsgLow(new OpenToolChangerMsg);
-	}
-      else if (readDoubleArgCommand("SetAbsoluteAcceleration", length, 
-				    readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new SetAbsoluteAccelerationMsg(doubleVal));
-	}
-      else if (readDoubleArgCommand("SetAbsoluteSpeed", length,
-				    readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new SetAbsoluteSpeedMsg(doubleVal));
-	}
-      else if (readStringArgCommand("SetAngleUnits", length, readHere, buffer))
-	{
-	  if ((strcmp(buffer, "radian")) &&
-	      (strcmp(buffer, "degree")))
-	    {
-	      fprintf(stderr, "angle unit must be radian or degree\n");
-	      returnVal = 1;
-	    }
-	  else
-	    {
-	      text = buffer;
-	      ctrl->queueMsgLow(new SetAngleUnitsMsg(text));
-	    }
-	}
-      else if (readDoubleArgCommand("SetEndAngleTolerance", length, 
-			       readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new SetEndAngleToleranceMsg(doubleVal));
-	}
-      else if (readDoubleArgCommand("SetEndPointTolerance", length, 
-				    readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new SetEndPointToleranceMsg(doubleVal));
-	}
-      else if (readDoubleArgCommand("SetIntermediatePointTolerance", length, 
-				    readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow (new SetIntermediatePointToleranceMsg(doubleVal));
-	}
-      else if (readStringArgCommand("SetLengthUnits", length, readHere, buffer))
-	{
-	  if ((strcmp(buffer, "inch")) &&
-	      (strcmp(buffer, "mm")) &&
-	      (strcmp(buffer, "meter")))
-	    {
-	      fprintf(stderr, "length unit must be inch, mm, or meter\n");
-	      returnVal = 1;
-	    }
-	  else
-	    {
-	      text = buffer;
-	      ctrl->queueMsgLow(new SetLengthUnitsMsg(text));
-	    }	  
-	}
-      else if (readDoubleArgCommand("SetRelativeAcceleration", length, 
-				    readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new SetRelativeAccelerationMsg(doubleVal));
-	}
-      else if (readDoubleArgCommand("SetRelativeSpeed", length, 
-				    readHere, &doubleVal))
-	{
-	  ctrl->queueMsgLow(new SetRelativeSpeedMsg(doubleVal));
-	}
-	  else if (readStringArgCommand("StartObjectScan", length, readHere, 
-					buffer))
-	{
-	  text = buffer;
-	  ctrl->queueMsgLow(new StartObjectScanMsg(text));
-	}
-      else if (readIntArgCommand("StopMotion", length, readHere, &intVal))
-	{
-	  ctrl->queueMsgLow(new StopMotionMsg(intVal));
-	}
-	  else if (readNoArgCommand("StopObjectScan", length, readHere))
-	{
-	  ctrl->queueMsgLow(new StopObjectScanMsg);
-	}
-      else
-	{
-	  fprintf(stderr, "unknown command (shown below) "
-		  "in CommandParser::readCommandFile\n");
-	  fprintf(stderr, "%s", lineIn);
-	  returnVal = 1;
-	}
+      returnVal = queueCommand(lineIn);
     }
   // don't leave if stdin
   if( inFile == stdin )
-    readCommandFile(inFile, ctrl);
+    readCommandFile(inFile);
   printf( "commandParser leaving file read loop\n" );
-  return returnVal;
+  if( returnVal )
+    return 0;
+  else
+    return 1;
 }
 
 /********************************************************************/
@@ -470,11 +532,13 @@ int CommandParser::readStringArgCommand(
  char * buffer)
 {
   char junk[TEXTSIZE];
+  int retValue;
 
-  junk[0] = 0;
-  return ((strncmp(line, commandName, length) == 0) &&
-	  (sscanf(line+length, " ( \"%[^\"]\" ) %s",
-		  buffer, junk) == 1) && (junk[0] == 0));
+  retValue = (strncmp(line, commandName, length) == 0) &&
+    (sscanf(line+length, " ( \"%[^\"]\" ) %s",
+	    buffer, junk) == 1) && (junk[0] == 0);
+  //  printf( "CommandParser::readStringArgCommand: %d\n", retValue );
+  return retValue;
 }
 
 /********************************************************************/

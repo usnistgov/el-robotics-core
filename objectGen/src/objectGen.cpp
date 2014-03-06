@@ -36,14 +36,16 @@
 #include "Part.h"
 #include "PartsTray.h"
 #include "Kit.h"
+#include "WorkTable.h"
 #include "recurseLocation.h"
 #include "usarSimInf.h"
 #include "genericModel.h"
 
 /* define flags for population */
-#define POPULATE_PART_TRAY 0x1
-#define POPULATE_KIT_TRAY  0x2
-#define POPULATE_PARTS     0x4
+#define POPULATE_PART_TRAY  0x1
+#define POPULATE_KIT_TRAY   0x2
+#define POPULATE_PARTS      0x4
+#define POPULATE_WORK_TABLE 0x8
 
 int main(int argc, char *argv[])
 {
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
   Kit *kit = new Kit(myPart);
   Part *testPart = new Part(myPart);;
   PartsTray *partsTray = new PartsTray(myPart);
+  WorkTable *workTable = new WorkTable(myPart);
   RecurseLocation recurseLocation;
   std::string USARModel;
   std::map<std::string, std::vector<std::string> > results;
@@ -92,7 +95,7 @@ int main(int argc, char *argv[])
 	  printf( "Unknown option character `\\x%x`.\n", optopt );
 	printf( "Usage: %s -d -t -h <host> -o <flags>\n", argv[0]);
 	printf( "\td: debug mode\n" );
-	printf( "\to: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts)\n");
+	printf( "\to: binary flags for what to populate (1=partstrays, 2=kitTrays, 4=parts, 8=worktables)\n");
 	printf( "\tt: objects are temporary\n\th: use usarSim host <host>\n");
 	return 1;
       default:
@@ -102,6 +105,27 @@ int main(int argc, char *argv[])
   UsarSimInf usarsim(connectToUSARSim, usarsimHost);
   //  recurseLocation.sensorConnect(usarsimHost); object generation does not require this!
   attributes.push_back("_NAME");
+
+  // get the name of all of the worktables
+  if(POPULATE_WORK_TABLE&populateFlags)
+    {
+      results = dao->getAll(attributes, "WorkTable");
+      for(unsigned int i=0; (int) i<results["_NAME"].size();i++)
+	{
+	  myPart = results["_NAME"][i];
+	  workTable->get(myPart);
+	  //	  USARModel = GenericModel::getModel(dynamic_cast<SolidObject*>(workTable));
+	  USARModel = "USARPhysObj.gear";
+	  recurseLocation.clear();
+	  recurseLocation.recurse(workTable);
+	  recurseLocation.computeGlobalLoc();
+	  if( connectToUSARSim == 0 )
+	    recurseLocation.printMe(1);
+	  usarsim.placeObject( USARModel, myPart, recurseLocation.getGlobalLoc(),
+			       permanent );
+	}
+    }
+
 
   // get the name of all of the partstrays
   if(POPULATE_PART_TRAY&populateFlags)

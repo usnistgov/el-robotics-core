@@ -63,6 +63,13 @@
 // other classes needed
 #include "controller.hh"
 
+typedef enum 
+  {
+    PRECONDITION = 0,
+    ACTION,
+    EFFECT
+  }PDDLPhase;
+
 class CanonicalRobotCommand {
 public:
   CanonicalRobotCommand();
@@ -73,8 +80,16 @@ public:
   void setFileOperator(FileOperator *fileoperator);
 
   void actionInterpreter(string action,vector<string> paramName,
-			 KittingPlan *kittingplan);
+			 KittingPlan *kittingplan, PDDLPhase phase);
+  /* plan interpretation actions
+     can either use initialize, step, finalize in sequence or
+     interpret all by itself. CRCL commands may be retrieved with getNextCRCL
+  */
+  void initializePlan(KittingPlan *kittingplan);
+  int stepPlan(KittingPlan *kittingplan, PDDLPhase phase);
+  void finalizePlan(KittingPlan *kittingplan);
   void interpretPlan(KittingPlan *kittingplan);
+  std::string getNextCRCL();
 
   /* generate canonical robot command language commands from PDDL */
   void canon_put_part(vector<double> xyz, vector<double> z_axis, 
@@ -91,17 +106,17 @@ public:
   int precondition_take_part();
 
   /* methods to process pddl actions */
-  void attach_eff(vector<string> paramList,KittingPlan *kittingplan);
-  void create_kit(vector<string> paramList, KittingPlan *kittingplan);
-  void look_for_part(vector<string> paramList, KittingPlan *kittingplan);
-  bool look_for_slot(vector<string> paramList, KittingPlan *kittingplan);
-  void put_kit(vector<string> paramList);
-  void put_kit_tray(vector<string> paramList);
-  void put_part(vector<string> paramList,KittingPlan *kittingplan);
-  void remove_eff(vector<string> paramList);
-  void take_kit(vector<string> paramList);
-  void take_kit_tray(vector<string> paramList);
-  void take_part(vector<string> paramList,KittingPlan *kittingplan);
+  void attach_eff(vector<string> paramList,KittingPlan *kittingplan, PDDLPhase phase);
+  void create_kit(vector<string> paramList, KittingPlan *kittingplan, PDDLPhase phase);
+  void look_for_part(vector<string> paramList, KittingPlan *kittingplan, PDDLPhase phase);
+  bool look_for_slot(vector<string> paramList, KittingPlan *kittingplan, PDDLPhase phase);
+  void put_kit(vector<string> paramList, PDDLPhase phase);
+  void put_kit_tray(vector<string> paramList, PDDLPhase phase);
+  void put_part(vector<string> paramList,KittingPlan *kittingplan, PDDLPhase phase);
+  void remove_eff(vector<string> paramList, PDDLPhase phase);
+  void take_kit(vector<string> paramList, PDDLPhase phase);
+  void take_kit_tray(vector<string> paramList, PDDLPhase phase);
+  void take_part(vector<string> paramList,KittingPlan *kittingplan, PDDLPhase phase);
 
   RecLoc getPartGoalLocation(string part_name, string slotLocation);
   void sql_put_part(string partName, string goalRefObject);
@@ -133,6 +148,7 @@ private:
   string located_part; // part located by look_for_part command
   string located_slot; // slot located by look_for_slot command
   DAO* dao;
+  vector<string> commandsCRCL;
 };
 
 #endif /* CANONICALROBOTCOMMAND_H_ */

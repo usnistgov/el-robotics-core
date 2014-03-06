@@ -43,7 +43,7 @@ void cmdStatusCheck(int sig)
   StatusMsg errReturn;
   void *trash;
 
-  timeToWait = ctrl->cmdStatusCheck(errReturn, trash);
+  timeToWait = ctrl->ctrlStatusCheck(errReturn, trash);
   if( timeToWait.it_value.tv_sec <= 0 && timeToWait.it_value.tv_usec <= 0 )
     ctrl->queueMsgStatus(&errReturn);
   else
@@ -90,7 +90,9 @@ int main(
  char * argv[])
 {
   FILE * inFile;
-  CommandParser parser; // from commandParser.hh
+
+  ctrl = new Controller();
+  CommandParser parser(ctrl); // from commandParser.hh
   std::list<CanonicalMsg *> commands; //commands read from file
   void *dequeueTask = NULL;
   ulapi_integer result;
@@ -101,7 +103,6 @@ int main(
   // set up signal handler for command status checking
   sigaction (SIGALRM, &action, NULL);
 
-  ctrl = new Controller();
   // this code uses the ULAPI library to provide portability
   // between different operating systems and architectures
   if (ULAPI_OK != ulapi_init (UL_USE_DEFAULT))
@@ -123,7 +124,7 @@ int main(
     }
 
   // read commands, parse, and place in queue
-  if (parser.readCommandFile(inFile, ctrl))
+  if (parser.readCommandFile(inFile))
     exit(1);
   fclose(inFile);
   

@@ -44,6 +44,7 @@ PoseInfo PoseInfo::invert()
   inverse.setXAxis(this->xAxis[0], yAxis[0], this->zAxis[0]);
   inverse.setZAxis(this->xAxis[2], yAxis[2], this->zAxis[2]);
   
+  /*
   pointx = -(this->xAxis[0]*this->pointXYZ[0] + 
 	     yAxis[0]*this->pointXYZ[1] + 
 	     this->zAxis[0]*this->pointXYZ[2]);
@@ -53,6 +54,17 @@ PoseInfo PoseInfo::invert()
   pointz = -(this->xAxis[2]*this->pointXYZ[0] + 
 	     yAxis[2]*this->pointXYZ[1] + 
 	     this->zAxis[2]*this->pointXYZ[2]);
+  */
+  pointx = -(this->xAxis[0]*this->pointXYZ[0] + 
+	     this->xAxis[1]*this->pointXYZ[1] + 
+	     this->xAxis[2]*this->pointXYZ[2]);
+  pointy = -(yAxis[0]*this->pointXYZ[0] +
+             yAxis[1]*this->pointXYZ[1] + 
+             yAxis[2]*this->pointXYZ[2]);
+  pointz = -(this->zAxis[0]*this->pointXYZ[0] + 
+	     this->zAxis[1]*this->pointXYZ[1] + 
+	     this->zAxis[2]*this->pointXYZ[2]);
+  
   inverse.setPoint(pointx, pointy, pointz);
   return inverse;
 }

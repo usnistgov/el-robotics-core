@@ -1,0 +1,10 @@
+\mainpage Agile Manufacturing for Assembly Operations
+This code is a collection of programs that is designed to
+transform knowledge from ontologies into real-time databases
+that may be used for assembly operations in dynamic environments
+and situations. Code includes tools for data conversion and
+manipulation, interfaces to ROS and USARSim, as well as
+PDDL planning code and executors that tie the entire system togeter.
+
+This codebase is jointly developed by Georgia Tech Research Institute
+and the National Institute of Standards and Technology.

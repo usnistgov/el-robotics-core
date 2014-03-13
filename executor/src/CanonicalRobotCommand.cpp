@@ -278,6 +278,7 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList,
   located_frame.pose.setZAxis(myVector->gethasVector_I(), 
 			      myVector->gethasVector_J(), 
 			      myVector->gethasVector_K());
+  located_frame.pose.printMe(1,"CanonicalRobotCommand::look_for_part: located_frame ");
   /* need to get the part location in order to update the mySQL database */
   getPartLocation( located_part, located_frame );
 
@@ -677,7 +678,10 @@ void CanonicalRobotCommand::initializePlan(KittingPlan *kittingplan)
 
   printf( "CanonicalRobotCommand::initializePlan called\n" );
   print_initcannon();
+  print_closegripper();
+  print_dwell(m_dwell);
   print_opengripper();
+  print_dwell(m_dwell);
 }
 
 /*
@@ -863,12 +867,25 @@ RecLoc CanonicalRobotCommand::getPartLocation(string part_name, Frame grasp_fram
   RecLoc recLoc;
   Part *part = new Part(part_name);
 
+  printf( "CanonicalRobotCommand::getPartLocation: grasp_frame is <%lf %lf %lf> <%lf %lf %lf> <%lf %lf %lf>\n",
+	  grasp_frame.pose.getPointX(),
+	  grasp_frame.pose.getPointY(),
+	  grasp_frame.pose.getPointZ(),
+	  grasp_frame.pose.getXAxisI(),
+	  grasp_frame.pose.getXAxisJ(),
+	  grasp_frame.pose.getXAxisK(),
+	  grasp_frame.pose.getZAxisI(),
+	  grasp_frame.pose.getZAxisJ(),
+	  grasp_frame.pose.getZAxisK());
+
   part->get(part_name);
   recurseLocation.clear();
 
   // add grasp to transform
+  //  printf( "CanonicalRobotCommand::getPartLocation: skipping grasp frame for now\n" );
   recLoc.frame = grasp_frame;
   recurseLocation.addRecLoc(&recLoc);
+
   recLoc.clear();
 
   /* now get location of part */
@@ -963,6 +980,7 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   PhysicalLocation *physicalLocation;
   PartRefAndPose *partRefAndPose;
   Kit* kit;
+  KitTray *kitTray;
   Point *mypoint;
   Vector *vectorXAxis, *vectorZAxis;
   double doubleValue;
@@ -1002,8 +1020,8 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   // add to transform
   recurseLocation.addRecLoc(&recLoc);
 
-  /* since part and slot are same frame, we can now add the slot frame to kit transform
-     to the transform chain */
+  /* since part and slot are same frame, we can now add the 
+     slot frame to kit transform to the transform chain */
   recLoc.clear();
   slot = new Slot(slot_location);
   slot->get(slot_location);
@@ -1032,9 +1050,16 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   // add to transform
   recurseLocation.addRecLoc(&recLoc);
 
-  /* now recurse on kit */ 
+  /* the sensors can see the kit tray, not the artificial
+     construct that a kit is. So, we will need to get the
+     kit tray and recurse on it.
+  /todo decide on how to work kit vs. kit tray relationship
+  */
   kit = slot->gethadBySlot_Kit();
   kit->get(kit->getname());
+  //  kitTray = kit->gethasKit_KitTray();
+  //  kitTray->get(kitTray->getname());
+  //  recurseLocation.recurse(kitTray);
   recurseLocation.recurse(kit);
   recurseLocation.computeGlobalLoc();
   /*

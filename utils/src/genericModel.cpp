@@ -27,46 +27,59 @@ std::string GenericModel::getModel(SolidObject *object)
 {
   SkuObject *skuObject = new SkuObject("foo");
   StockKeepingUnit *sku;
+  NoSkuObject *noSku = new NoSkuObject("foo");
   std::string retString;
-
+  
   skuObject->get(object->getname());
   sku = skuObject->gethasSkuObject_Sku();
   if( sku == NULL )
-    return "Unknown model";
-  retString = getModel(sku);
+    {
+      noSku->get(object->getname());
+      retString = getModel(noSku);
+    }
+  else 
+    retString = getModel(sku);
   delete skuObject;
+  delete noSku;
   return retString;
 }
 
 std::string GenericModel::getModel(StockKeepingUnit *sku)
 {
   std::string modelName;
-  ShapeDesign *shapeDesign;
   ExternalShape *externalShape;
 
   sku->get(sku->getname());
-
-
   externalShape = sku->gethadByExternalShape_StockKeepingUnit();
+  modelName = getModel( externalShape );
+  return modelName;
+}
+
+std::string GenericModel::getModel(NoSkuObject *noSku)
+{
+  std::string modelName;
+  ExternalShape *externalShape;
+
+  noSku->get(noSku->getname());
+
+  externalShape = noSku->gethadByExternalShape_NoSkuObject();
+  modelName = getModel( externalShape );
+  return modelName;
+}
+
+std::string GenericModel::getModel(ExternalShape *externalShape)
+{
+  std::string modelName = "Unknown_model";
+
+  if( externalShape == NULL )
+    return modelName;
+
   if( externalShape->getExternalShapeID() > 0 )
     {
-      /*
-      printf( "%s has external model\n", sku->getname().c_str() );
-      printf( "external model type: %s name: %s model file name: %s\n",
-	      externalShape->gethasExternalShape_ModelTypeName().c_str(),
-	      externalShape->gethasExternalShape_ModelName().c_str(),
-	      externalShape->gethasExternalShape_ModelFileName().c_str() );
-      */
       externalShape->get(externalShape->getname());
       modelName = externalShape->gethasExternalShape_ModelFileName() +
 	std::string (".") + 
 	externalShape->gethasExternalShape_ModelName();
     }
-  else
-    {
-      modelName = "USARPhysObj.Unknown";
-      //      printf( "%s is not an external shape\n", sku->getname().c_str() );
-    }
-
   return modelName;
 }

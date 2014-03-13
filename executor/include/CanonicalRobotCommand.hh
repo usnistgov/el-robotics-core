@@ -38,6 +38,7 @@
 #include "database/DAO.h"
 #include "database/KitDesign.h"
 #include "database/Kit.h"
+#include "database/KitTray.h"
 #include "database/Part.h"
 #include "database/PartRefAndPose.h"
 #include "database/PartsTray.h"

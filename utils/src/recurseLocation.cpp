@@ -72,6 +72,7 @@ void RecurseLocation::sensorConnect(std::string hostName, ulapi_integer port)
 void RecurseLocation::addRecLoc(RecLoc *recLocToAdd)
 {
   recLoc.push_back(*recLocToAdd);
+  printf( "recurseLocation::addRecLoc: pushed to position %d\n", (int)recLoc.size() );
 }
 
 /*!
@@ -97,7 +98,7 @@ void RecurseLocation::clear()
 int RecurseLocation::computeGlobalLoc()
 {
   std::vector<RecLoc>tempLoc;
-  PoseInfo tempPose;
+  PoseInfo tempPose, tempPose2, tempPose3;
   Point *mypoint;
   Vector *vectorXAxis, *vectorZAxis;
 
@@ -110,6 +111,9 @@ int RecurseLocation::computeGlobalLoc()
     return 0;
 
   //copy recLoc vector, preserving the order (local first, global last)
+  /* note that object i is located w.r.t. object i+1; object i's
+     point's reference object is object i+1
+  */
   for( unsigned int i=0; i<recLoc.size()-1; i++)
     {
       printf( "recurseLocation::computeGlobalLoc:Checking values for %s and %s\n",
@@ -117,50 +121,111 @@ int RecurseLocation::computeGlobalLoc()
 	      recLoc[i+1].frame.pose.getPointName().c_str());
       if( recLoc[i+1].sensorReturn.valid && recLoc[i].sensorReturn.valid )
 	{
+	  /* if both sensor returns are valid, then we have sensed locations
+	     in world coordinates for both the object (at location i) and object's
+	     relative object (at location i+1). Therefore, we can reset object i's 
+	     offsets and coordinate frame to actual values by translating the object
+	     and rotating it by the difference of the rotations. This may be done
+	     by setting the rotation matrix and then taking the inverse
+	     of the pose at i+1 multiplied by the location of i
+	  */
+
+	  /* test code */
+	  /*
+	  recLoc[i+1].sensorReturn.pose.setRollPitchYaw(0,0,6.003);
+	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
+	  poseProduct( &(recLoc[i+1].sensorReturn.pose), &tempPose,
+		       &(recLoc[i+1].sensorReturn.pose));
+	  recLoc[i+i].sensorReturn.pose.printMe(1, "recurseLocation:: this should be 0 " );
+	  exit(1);
+
+	  /* end of test */
 	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
 	  poseProduct( &(recLoc[i].sensorReturn.pose), 
 		       &tempPose,
 		       &(recLoc[i].sensorReturn.pose));
 	  // need to set point and vector tables
-	  printf( "recurseLocation::computeGlobalLoc:Setting location of point %s to %f %f %f\n",
-		  recLoc[i].frame.pose.getPointName().c_str(),
-		  recLoc[i].sensorReturn.pose.getPointX(),
-		  recLoc[i].sensorReturn.pose.getPointY(),
-		  recLoc[i].sensorReturn.pose.getPointZ());
+	  recLoc[i].sensorReturn.pose.printMe(1, "recurseLocation::computeGlobalLoc:(i,i+1)Setting location of point ");
 	  mypoint->get(recLoc[i].frame.pose.getPointName());
 	  mypoint->sethasPoint_X(recLoc[i].sensorReturn.pose.getPointX());
 	  mypoint->sethasPoint_Y(recLoc[i].sensorReturn.pose.getPointY());
 	  mypoint->sethasPoint_Z(recLoc[i].sensorReturn.pose.getPointZ());
 	  mypoint->set(recLoc[i].frame.pose.getPointName());
 
-	  printf( "\trecurseLocation::computeGlobalLoc:Setting XAxis %s to %f %f %f\n",
-		  recLoc[i].frame.pose.getXAxisName().c_str(),
-		  recLoc[i].sensorReturn.pose.getXAxisI(),
-		  recLoc[i].sensorReturn.pose.getXAxisJ(),
-		  recLoc[i].sensorReturn.pose.getXAxisK());
 	  vectorXAxis->get(recLoc[i].frame.pose.getXAxisName());
 	  vectorXAxis->sethasVector_I(recLoc[i].sensorReturn.pose.getXAxisI());
 	  vectorXAxis->sethasVector_J(recLoc[i].sensorReturn.pose.getXAxisJ());
 	  vectorXAxis->sethasVector_K(recLoc[i].sensorReturn.pose.getXAxisK());
 	  vectorXAxis->set(recLoc[i].frame.pose.getXAxisName());
 
-	  printf( "\trecurseLocation::computeGlobalLoc:Setting ZAxis %s to %f %f %f\n",
-		  recLoc[i].frame.pose.getZAxisName().c_str(),
-		  recLoc[i].sensorReturn.pose.getZAxisI(),
-		  recLoc[i].sensorReturn.pose.getZAxisJ(),
-		  recLoc[i].sensorReturn.pose.getZAxisK());
 	  vectorZAxis->get(recLoc[i].frame.pose.getZAxisName());
 	  vectorZAxis->sethasVector_I(recLoc[i].sensorReturn.pose.getZAxisI());
 	  vectorZAxis->sethasVector_J(recLoc[i].sensorReturn.pose.getZAxisJ());
 	  vectorZAxis->sethasVector_K(recLoc[i].sensorReturn.pose.getZAxisK());
 	  vectorZAxis->set(recLoc[i].frame.pose.getZAxisName());
 	}
-      else if( !recLoc[i+1].sensorReturn.valid )
-	printf("recurseLocation::computeGlobalLoc: object %s not valid from USARSim\n",
-	       recLoc[i+1].sensorReturn.name.c_str());
       else if(recLoc[i].sensorReturn.valid )
-	printf("recurseLocation::computeGlobalLoc: object %s not valid from USARSim\n",
-	       recLoc[i].sensorReturn.name.c_str());
+	{
+	  /* since i is valid and i+1 is not, we can assume that
+	     to object at i+i is fixed to the world and can't move.
+	     We can still reset the relationship between i and its
+	     relative frame using the coordinate frame that is fixed 
+	     to the world. Note that this only works if object i+1's 
+	     coordinate frame is in global coordinates 
+	     (i.e. the kitting workstation)
+	  */
+	  tempPose = recLoc[i+1].frame.pose.invert();
+	  poseProduct( &(recLoc[i].sensorReturn.pose), 
+		       &tempPose,
+		       &(recLoc[i].sensorReturn.pose));
+	  // need to set point and vector tables
+	  recLoc[i].sensorReturn.pose.printMe(1, "recurseLocation::computeGlobalLoc:(i)Setting location of point ");
+	  mypoint->get(recLoc[i].frame.pose.getPointName());
+	  mypoint->sethasPoint_X(recLoc[i].sensorReturn.pose.getPointX());
+	  mypoint->sethasPoint_Y(recLoc[i].sensorReturn.pose.getPointY());
+	  mypoint->sethasPoint_Z(recLoc[i].sensorReturn.pose.getPointZ());
+	  mypoint->set(recLoc[i].frame.pose.getPointName());
+
+	  vectorXAxis->get(recLoc[i].frame.pose.getXAxisName());
+	  vectorXAxis->sethasVector_I(recLoc[i].sensorReturn.pose.getXAxisI());
+	  vectorXAxis->sethasVector_J(recLoc[i].sensorReturn.pose.getXAxisJ());
+	  vectorXAxis->sethasVector_K(recLoc[i].sensorReturn.pose.getXAxisK());
+	  vectorXAxis->set(recLoc[i].frame.pose.getXAxisName());
+
+	  vectorZAxis->get(recLoc[i].frame.pose.getZAxisName());
+	  vectorZAxis->sethasVector_I(recLoc[i].sensorReturn.pose.getZAxisI());
+	  vectorZAxis->sethasVector_J(recLoc[i].sensorReturn.pose.getZAxisJ());
+	  vectorZAxis->sethasVector_K(recLoc[i].sensorReturn.pose.getZAxisK());
+	  vectorZAxis->set(recLoc[i].frame.pose.getZAxisName());
+	}
+      /*
+      else if(recLoc[i+1].sensorReturn.valid )
+	{
+	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
+	  poseProduct( &(recLoc[i].frame.pose), 
+		       &tempPose,
+		       &(recLoc[i].frame.pose));
+	  // need to set point and vector tables
+	  recLoc[i].frame.pose.printMe(1, "recurseLocation::computeGlobalLoc:(i+1)Setting location of point ");
+	  mypoint->get(recLoc[i].frame.pose.getPointName());
+	  mypoint->sethasPoint_X(recLoc[i].frame.pose.getPointX());
+	  mypoint->sethasPoint_Y(recLoc[i].frame.pose.getPointY());
+	  mypoint->sethasPoint_Z(recLoc[i].frame.pose.getPointZ());
+	  mypoint->set(recLoc[i].frame.pose.getPointName());
+
+	  vectorXAxis->get(recLoc[i].frame.pose.getXAxisName());
+	  vectorXAxis->sethasVector_I(recLoc[i].frame.pose.getXAxisI());
+	  vectorXAxis->sethasVector_J(recLoc[i].frame.pose.getXAxisJ());
+	  vectorXAxis->sethasVector_K(recLoc[i].frame.pose.getXAxisK());
+	  vectorXAxis->set(recLoc[i].frame.pose.getXAxisName());
+
+	  vectorZAxis->get(recLoc[i].frame.pose.getZAxisName());
+	  vectorZAxis->sethasVector_I(recLoc[i].frame.pose.getZAxisI());
+	  vectorZAxis->sethasVector_J(recLoc[i].frame.pose.getZAxisJ());
+	  vectorZAxis->sethasVector_K(recLoc[i].frame.pose.getZAxisK());
+	  vectorZAxis->set(recLoc[i].frame.pose.getZAxisName());
+	}
+      */
       tempLoc.push_back(recLoc[i]);
     }
   delete mypoint;
@@ -207,6 +272,7 @@ void RecurseLocation::initGlobalLoc()
 /*!
  @brief Build the recursive chain of locations
  Builds a chain of locations ending at "kitting_workstation_1"
+\todo Fix the way that the chain ends in kitting_workstation_1
  @param solidObject Object that you are trying to find the position of
  @return 1 still working, 0 done
  */
@@ -222,26 +288,36 @@ int RecurseLocation::recurse(SolidObject *solidObject)
   myrecLoc.solidObjectName = solidObject->getname();
   if( solidObject->getname() == "kitting_workstation_1" )
     {
-      //      delete poseLocation;
       myrecLoc.solidObjectType = "KittingWorkstation";
       myrecLoc.sensorReturn.valid = 0;
-      //      printf( "End of chain\n" );      
+      myrecLoc.frame.pose.setPointName("kitting_workstation_1_point");
+      myrecLoc.frame.pose.setPoint(0, 0, 0);
+      myrecLoc.frame.pose.setXAxisName("kitting_workstation_1_x_axis");
+      myrecLoc.frame.pose.setXAxis(1,0,0);
+      myrecLoc.frame.pose.setZAxisName("kitting_workstation_1_z_axis");
+      myrecLoc.frame.pose.setZAxis(0,0,1);
+      recLoc.push_back(myrecLoc);
       return 0;
     }
   solidObject->get(solidObject->getname());
   myrecLoc.solidObjectType = GenericModel::getModel(solidObject);
   double roll, pitch, yaw;
-  if( sensorConnected )
+  if( sensorConnected && myrecLoc.solidObjectType != "Unknown_model" )
     {
       myrecLoc.sensorReturn = usarTruth.getTruth(myrecLoc.solidObjectType,
 						 myrecLoc.solidObjectName);
-      myrecLoc.sensorReturn.pose.getRollPitchYaw(&roll, &pitch, &yaw);
-      printf( "recurseLocation::recurse: %s <x y z> = <%f %f %f> <r p y> = <%f %f %f>\n",
-	      myrecLoc.sensorReturn.name.c_str(),
-	      myrecLoc.sensorReturn.pose.getPointX(),
-	      myrecLoc.sensorReturn.pose.getPointY(),
-	      myrecLoc.sensorReturn.pose.getPointZ(),
-	      roll, pitch, yaw );
+      if( myrecLoc.sensorReturn.valid )
+	{
+	  myrecLoc.sensorReturn.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+	  printf( "recurseLocation::recurse: %s <x y z> = <%f %f %f> <r p y> = <%f %f %f>\n",
+		  myrecLoc.sensorReturn.name.c_str(),
+		  myrecLoc.sensorReturn.pose.getPointX(),
+		  myrecLoc.sensorReturn.pose.getPointY(),
+		  myrecLoc.sensorReturn.pose.getPointZ(),
+		  roll, pitch, yaw );
+	}
+      else
+	printf( "recurseLocation::recurse: invalid return from USARSim\n" );
     }
   else
     myrecLoc.sensorReturn.valid = 0;
@@ -271,7 +347,6 @@ int RecurseLocation::recurse(SolidObject *solidObject)
 			  mypoint->gethasPoint_Y(),
 			  mypoint->gethasPoint_Z());
 
-  //    printf( "past issue\n" );
   vectorXAxis = poseLocation->gethasPoseLocation_XAxis();
   vectorXAxis->get(vectorXAxis->getname());
   myrecLoc.frame.pose.setXAxisName(vectorXAxis->getname());
@@ -287,6 +362,7 @@ int RecurseLocation::recurse(SolidObject *solidObject)
 			  vectorZAxis->gethasVector_K());
 
   recLoc.push_back(myrecLoc);
+  printf( "recurseLocation::recurse: pushed to position %d\n", (int)recLoc.size());
   if (recurse( physicalLocation->gethasPhysicalLocation_RefObject()) == 0)
     {
             delete poseLocation;
@@ -388,7 +464,9 @@ void RecurseLocation::poseProduct(
   double o2x = pose2->getPointX();
   double o2y = pose2->getPointY();
   double o2z = pose2->getPointZ();
-  
+
+  pose1->printMe(1, "recurseLocation::poseProduct: computing product arg 1 ");
+  pose2->printMe(1, "recurseLocation::poseProduct: computing product arg 2 ");
   yAxis = pose1->computeYAxis();
   y1i = yAxis[0];
   y1j = yAxis[1];

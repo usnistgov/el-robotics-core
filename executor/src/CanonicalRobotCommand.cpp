@@ -678,8 +678,6 @@ void CanonicalRobotCommand::initializePlan(KittingPlan *kittingplan)
 
   printf( "CanonicalRobotCommand::initializePlan called\n" );
   print_initcannon();
-  print_closegripper();
-  print_dwell(m_dwell);
   print_opengripper();
   print_dwell(m_dwell);
 }
@@ -741,7 +739,6 @@ void CanonicalRobotCommand::interpretPlan(KittingPlan *kittingplan)
     m_file_operator->createOutputFile();
 
   print_initcannon();
-  print_opengripper();
 
   for (vector< vector<string> >::size_type u = 0; 
        u < kittingplan->m_actionParamList.size(); u++) 

@@ -20,6 +20,103 @@
  */
 
 #include "poseInfo.hh"
+
+Orientation::Orientation()
+{
+  valid = false;
+  roll = 0;
+  pitch = 0;
+  yaw = 0;
+}
+
+Orientation::Orientation(double rollIn, double pitchIn, double yawIn, bool fromSensorIn)
+{
+  sensed = fromSensorIn;
+  valid = true;
+  roll = rollIn;
+  pitch = pitchIn;
+  yaw = yawIn;
+}
+
+/*! updates the orientatio values as follows:
+  If from SENSOR and SENSOR already exists, then error
+  If from SENSOR and ground truth exists (but SENSOR does not) then perform SENSOR - current
+  If from SENSOR or GROUNDTRUTH and prior not valid then set directly
+
+  returns true on success, false on failure
+*/
+bool Orientation::updateRPY(double rollIn, double pitchIn, double yawIn, OrientUpdateType update)
+
+{
+  if( update == SENSOR )
+    {
+      if( isSensed() )
+	return false;
+      else
+	if( isValid() )
+	  {
+	    roll = rollIn - roll;
+	    pitch = pitchIn - pitch;
+	    yaw = yawIn - yaw;
+	  }
+	else
+	  {
+	    roll = rollIn;
+	    pitch = pitchIn;
+	    yaw = yawIn;
+	  }
+      sensed = true;
+    }
+  else
+    {
+      if( isValid() )
+	{
+	  roll = rollIn + roll;
+	  pitch = pitchIn + pitch;
+	  yaw = yawIn + yaw;
+	}
+      else
+	  {
+	    roll = rollIn;
+	    pitch = pitchIn;
+	    yaw = yawIn;
+	  }	
+      valid = true;
+    }
+  printf("poseInfo::setRPY: setting orientation to %f %f %f\n",
+	 roll, pitch, yaw);
+  return true;
+}
+
+bool Orientation::isSensed()
+{
+  if( valid )
+    return sensed;
+  else
+    return false;
+}
+
+bool Orientation::isValid()
+{
+  return valid;
+}
+  
+bool Orientation::getRPY(double *rollOut, double *pitchOut, double *yawOut)
+{
+  if( !valid )
+    return false;
+  
+  *rollOut = roll;
+  *pitchOut = pitch;
+  *yawOut = yaw;
+  return true;
+}
+
+void Orientation::clear()
+{
+  valid = 0;
+}
+
 /*!
   @brief Constructor
 */
@@ -216,6 +313,21 @@ void PoseInfo::clear()
   zAxis.clear();
 }
 
+void Orientation::printMe(int verbosity, std::string prefix)
+{
+  
+  if( verbosity > 0 )
+    {
+      printf("%s RPY: <%f %f %f> sensed: %d gndTruth: %d\n",
+	     prefix.c_str(),
+	     roll,
+	     pitch,
+	     yaw,
+	     sensed,
+	     valid);
+    }
+}
+
 /*!
  @brief Retreive the roll, pitch, and yaw from the pose.
  This function utilizes the forward and up vectors to compute
@@ -284,6 +396,15 @@ void PoseInfo::getRollPitchYaw(double *roll, double *pitch, double *yaw)
     else if (*roll >= 2*M_PI)
       *roll -= 2*M_PI;
     }
+
+void PoseInfo::setRollPitchYaw(Orientation orient)
+{
+  double roll, pitch, yaw;
+  if( orient.getRPY(&roll, &pitch, &yaw) )
+    setRollPitchYaw(roll, pitch, yaw);
+  else
+    printf( "poseInfo::setRollPitchYaw: unable to set RPY, orient not valid\n" );
+}
 
 void PoseInfo::setRollPitchYaw(double roll, double pitch, double yaw)
 {

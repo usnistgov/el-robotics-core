@@ -101,6 +101,8 @@ int RecurseLocation::computeGlobalLoc()
   PoseInfo tempPose, tempPose2, tempPose3;
   Point *mypoint;
   Vector *vectorXAxis, *vectorZAxis;
+  Orientation finalOrient;
+  double roll, pitch, yaw;
 
   mypoint = new Point("foo");
   vectorXAxis = new Vector("foo1");
@@ -114,8 +116,19 @@ int RecurseLocation::computeGlobalLoc()
   /* note that object i is located w.r.t. object i+1; object i's
      point's reference object is object i+1
   */
+  finalOrient.clear();
   for( unsigned int i=0; i<recLoc.size()-1; i++)
     {
+      if( recLoc[i].sensorReturn.valid )
+	{
+	  recLoc[i].sensorReturn.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+	  finalOrient.updateRPY(roll, pitch, -yaw, SENSOR);
+	}
+      else
+	{
+	  recLoc[i].frame.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+	  finalOrient.updateRPY(roll, pitch, yaw, GNDTRUTH);
+	}
       printf( "recurseLocation::computeGlobalLoc:Checking values for %s and %s\n",
 	      recLoc[i].frame.pose.getPointName().c_str(),
 	      recLoc[i+1].frame.pose.getPointName().c_str());
@@ -129,17 +142,6 @@ int RecurseLocation::computeGlobalLoc()
 	     by setting the rotation matrix and then taking the inverse
 	     of the pose at i+1 multiplied by the location of i
 	  */
-
-	  /* test code */
-	  /*
-	  recLoc[i+1].sensorReturn.pose.setRollPitchYaw(0,0,6.003);
-	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
-	  poseProduct( &(recLoc[i+1].sensorReturn.pose), &tempPose,
-		       &(recLoc[i+1].sensorReturn.pose));
-	  recLoc[i+i].sensorReturn.pose.printMe(1, "recurseLocation:: this should be 0 " );
-	  exit(1);
-
-	  /* end of test */
 	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
 	  poseProduct( &(recLoc[i].sensorReturn.pose), 
 		       &tempPose,
@@ -199,35 +201,22 @@ int RecurseLocation::computeGlobalLoc()
 	  vectorZAxis->set(recLoc[i].frame.pose.getZAxisName());
 	}
       /*
-      else if(recLoc[i+1].sensorReturn.valid )
-	{
-	  tempPose = recLoc[i+1].sensorReturn.pose.invert();
-	  poseProduct( &(recLoc[i].frame.pose), 
-		       &tempPose,
-		       &(recLoc[i].frame.pose));
-	  // need to set point and vector tables
-	  recLoc[i].frame.pose.printMe(1, "recurseLocation::computeGlobalLoc:(i+1)Setting location of point ");
-	  mypoint->get(recLoc[i].frame.pose.getPointName());
-	  mypoint->sethasPoint_X(recLoc[i].frame.pose.getPointX());
-	  mypoint->sethasPoint_Y(recLoc[i].frame.pose.getPointY());
-	  mypoint->sethasPoint_Z(recLoc[i].frame.pose.getPointZ());
-	  mypoint->set(recLoc[i].frame.pose.getPointName());
-
-	  vectorXAxis->get(recLoc[i].frame.pose.getXAxisName());
-	  vectorXAxis->sethasVector_I(recLoc[i].frame.pose.getXAxisI());
-	  vectorXAxis->sethasVector_J(recLoc[i].frame.pose.getXAxisJ());
-	  vectorXAxis->sethasVector_K(recLoc[i].frame.pose.getXAxisK());
-	  vectorXAxis->set(recLoc[i].frame.pose.getXAxisName());
-
-	  vectorZAxis->get(recLoc[i].frame.pose.getZAxisName());
-	  vectorZAxis->sethasVector_I(recLoc[i].frame.pose.getZAxisI());
-	  vectorZAxis->sethasVector_J(recLoc[i].frame.pose.getZAxisJ());
-	  vectorZAxis->sethasVector_K(recLoc[i].frame.pose.getZAxisK());
-	  vectorZAxis->set(recLoc[i].frame.pose.getZAxisName());
-	}
+      if( recLoc[i].orient.isSensed() && !finalOrient.isValid())
+	finalOrient = recLoc[i].orient;
       */
       tempLoc.push_back(recLoc[i]);
     }
+  if( recLoc[recLoc.size()-1].sensorReturn.valid )
+    {
+      recLoc[recLoc.size()-1].sensorReturn.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+      finalOrient.updateRPY(roll, pitch, -yaw, SENSOR);
+    }
+  else
+    {
+      recLoc[recLoc.size()-1].frame.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+      finalOrient.updateRPY(roll, pitch, yaw, GNDTRUTH);
+    }
+  finalOrient.printMe(1, "recurseLocation:: final orientation: ");
   delete mypoint;
   delete vectorXAxis;
   delete vectorZAxis;
@@ -241,6 +230,8 @@ int RecurseLocation::computeGlobalLoc()
       poseProduct( &(globalLoc.frame.pose), &(globalLoc.frame.pose), &(tempLoc.back().frame.pose) );
       tempLoc.pop_back();
     }
+  globalLoc.frame.pose.setRollPitchYaw(finalOrient);
+  globalLoc.frame.pose.printMe(1, "recurseLocation::computeGlobalLoc: set orientation " ); 
   return 1;
 }
 
@@ -306,18 +297,6 @@ int RecurseLocation::recurse(SolidObject *solidObject)
     {
       myrecLoc.sensorReturn = usarTruth.getTruth(myrecLoc.solidObjectType,
 						 myrecLoc.solidObjectName);
-      if( myrecLoc.sensorReturn.valid )
-	{
-	  myrecLoc.sensorReturn.pose.getRollPitchYaw(&roll, &pitch, &yaw);
-	  printf( "recurseLocation::recurse: %s <x y z> = <%f %f %f> <r p y> = <%f %f %f>\n",
-		  myrecLoc.sensorReturn.name.c_str(),
-		  myrecLoc.sensorReturn.pose.getPointX(),
-		  myrecLoc.sensorReturn.pose.getPointY(),
-		  myrecLoc.sensorReturn.pose.getPointZ(),
-		  roll, pitch, yaw );
-	}
-      else
-	printf( "recurseLocation::recurse: invalid return from USARSim\n" );
     }
   else
     myrecLoc.sensorReturn.valid = 0;
@@ -360,6 +339,26 @@ int RecurseLocation::recurse(SolidObject *solidObject)
   myrecLoc.frame.pose.setZAxis(vectorZAxis->gethasVector_I(),
 			  vectorZAxis->gethasVector_J(),
 			  vectorZAxis->gethasVector_K());
+  if( myrecLoc.sensorReturn.valid )
+    {
+      if( myrecLoc.sensorReturn.valid )
+	{
+	  myrecLoc.sensorReturn.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+	      
+	  printf( "recurseLocation::recurse: %s <x y z> = <%f %f %f> <r p y> = <%f %f %f>\n",
+		  myrecLoc.sensorReturn.name.c_str(),
+		  myrecLoc.sensorReturn.pose.getPointX(),
+		  myrecLoc.sensorReturn.pose.getPointY(),
+		  myrecLoc.sensorReturn.pose.getPointZ(),
+		  roll, pitch, yaw );
+	}
+      else
+	printf( "recurseLocation::recurse: invalid return from USARSim\n" );
+    }
+  else
+    {
+      myrecLoc.frame.pose.getRollPitchYaw(&roll, &pitch, &yaw);
+    }
 
   recLoc.push_back(myrecLoc);
   printf( "recurseLocation::recurse: pushed to position %d\n", (int)recLoc.size());
@@ -465,8 +464,8 @@ void RecurseLocation::poseProduct(
   double o2y = pose2->getPointY();
   double o2z = pose2->getPointZ();
 
-  pose1->printMe(1, "recurseLocation::poseProduct: computing product arg 1 ");
-  pose2->printMe(1, "recurseLocation::poseProduct: computing product arg 2 ");
+  //  pose1->printMe(1, "recurseLocation::poseProduct: computing product arg 1 ");
+  //  pose2->printMe(1, "recurseLocation::poseProduct: computing product arg 2 ");
   yAxis = pose1->computeYAxis();
   y1i = yAxis[0];
   y1j = yAxis[1];

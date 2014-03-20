@@ -20,14 +20,12 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -75,16 +73,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files\freeglut\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>R:\mxproj\ipmas\people\kramer\kittingViewer\windows</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\canonicalMsgView.cc" />
     <ClCompile Include="..\..\commandParser.cc" />
-    <ClCompile Include="..\..\kittingClassesView.cc" />
-    <ClCompile Include="..\..\kittingLex.cc" />
     <ClCompile Include="..\..\kittingViewer.cc" />
-    <ClCompile Include="..\..\kittingYACC.cc" />
+    <ClCompile Include="..\..\kittingWorkstationClassesView.cc" />
+    <ClCompile Include="..\..\kittingWorkstationLex.cc" />
+    <ClCompile Include="..\..\kittingWorkstationYACC.cc" />
     <ClCompile Include="..\..\mouse.cc" />
     <ClCompile Include="..\..\Pose.cc" />
     <ClCompile Include="..\..\scoreKittingClasses.cc" />
@@ -103,9 +101,9 @@
   <ItemGroup>
     <None Include="..\..\canonicalMsg.hh" />
     <None Include="..\..\commandParser.hh" />
-    <None Include="..\..\kittingClassesView.hh" />
     <None Include="..\..\kittingViewer.hh" />
-    <None Include="..\..\kittingYACC.hh" />
+    <None Include="..\..\kittingWorkstationClassesView.hh" />
+    <None Include="..\..\kittingWorkstationYACC.hh" />
     <None Include="..\..\mouse.hh" />
     <None Include="..\..\scoreKittingClasses.hh" />
     <None Include="..\..\scoreKittingYACC.hh" />

@@ -1,0 +1,127 @@
+README for the kittingPlan directory - last updated 2013Oct25
+
+The kittingPlan directory contains the following subdirectories:
+
+      bin
+        kittingPlanParser
+           (parses XML kitting plan instance files)
+        owlKittingPlanPrinter
+           (translates XML kitting plan instance files to OWL)
+      ofiles (object files compiled from .cc files)
+      owlFiles (OWL class file and instance files for kitting plans)
+      source (.cc .hh .lex .y files)
+      xmlInstanceFiles (XML instance files for kitting plans)
+      xmlSchemas (XML schema for kitting plans)
+  
+The kittingPlanParser and the owlKittingPlanPrinter are very fast.
+
+In the IPMAS repository, the owlFiles directory is empty except for a
+list of the names of files that should be there. Those files may be
+found in the Ontology/Kitting directory of the repository.
+
+
+kittingPlanParser
+------------------------
+
+The kittingPlanParser may be used to check an XML instance file
+against the kittingPlan.xsd schema. The information content of the
+schema is hard-coded into the kittingPlanParser. If there is any error
+in the XML instance file, the kittingPlanParser prints a message and
+quits. If there is no error, the input file is echoed by printing an
+output file whose name is the same as that of the input file with
+"echo" appended. To run the kittingPlanParser, give a command of the
+form:
+
+   bin/kittingPlanParser [XML kitting instance file in]
+
+For example, the command
+
+   bin/kittingPlanParser xmlInstanceFiles/plan_a2b1c1.xml
+
+will read kittingInstances.xml and write kittingInstances.xmlecho. If
+the format of an input file differs from the format used for printing
+the output file, the two files will differ, but only in format. If the
+two formats are the same, the files will be identical.
+
+The owlKittingPlanPrinter makes the same checks as the
+kittingPlanParser, so there is no need to use the
+kittingPlanParser if the objective is to generate owl.
+
+All of the source code for the kittingPlanParser that is
+specific to kitting plans was generated automatically by the
+xmlInstanceParserGenerator. The domain-independent file
+../common/ofiles/xmlSchemaInstance.o is linked into the
+kittingPlanParser.
+
+
+
+owlKittingPlanPrinter
+----------------------------
+
+The owlKittingPlanPrinter reads an XML kitting plan instance file
+corresponding to kittingPlan.xsd (the XML schema for kitting plans)
+and writes an OWL instance file corresponding to kittingPlanClasses.owl
+(the OWL class file for kitting plans). The kittingPlan.xsd file
+contains the same conceptual model as the kittingPlanClasses.owl file, but
+in a different language.
+
+The owlKittingPlanPrinter is useful because there is no OWL tool that
+will help generate an OWL instance file and check the file adequately
+against an OWL class file. That is because OWL uses an open world
+model in which anything not explicitly or implicitly illegal is
+allowed. Hence many things that are errors to the writer of the
+instance file are not OWL errors. For example, if the name of an
+instance is misspelled, OWL will assume that there is a new instance
+that has not been explicitly declared as such, which is OK in OWL. If
+a reference to an instance name is misspelled in an XML instance file
+corresponding to the kitting.xsd schema, that will be caught
+automatically by the owlKittingPlanPrinter (and other readily
+available XML tools). Several other types of error will not be caught
+by OWL tools but will not be made or will be detected if the
+owlKittingPlanPrinter is used.
+
+Another OWL problem that disappears in XML is that in OWL, there is no
+distinction between an instance file and a class file. An instance file can
+modify classes intentionally or accidentally. In XML there is no way an
+instance file can modify a model.
+
+To use the owlPrinter, use a text editor such as emacs or an XML tool
+such as XMLSpy to write an XML instance file corresponding to the
+kittingPlan.xsd schema and then run it through the
+owlKittingPlanPrinter with a command of the form:
+
+ bin/owlKittingPlanPrinter <xmlInst> <owlInst> <owlClass> <uri>
+
+where
+<xmlInst> = path to XML instance file to read
+<owlInst> = name of OWL instance file to write
+<owlClass> = name of OWL class file
+<uri> = URI base to use in header
+
+For example, the following command will print the OWL file plan_a2b1c1.owl
+
+bin/owlKittingPlanPrinter xmlInstanceFiles/plan_a2b1c1.xml plan_a2b1c1.owl kittingPlanClasses.owl http://www.nist.gov/el/ontologies
+
+The kittingPlan.lex and kittingPlan.y source code files
+used for the owlKittingPlanPrinter are the ones produced by the
+xmlInstanceParserGenerator for the kittingPlanParser, but the
+.cc files produced from them are compiled with a different flag. The
+rest of the source code for the owlKittingPlanPrinter that is
+specific to kitting plans was generated automatically by the
+xml2owlGenerator. The domain independent files
+../common/ofiles/owlInstancePrinter.o and
+../common/ofiles/xmlSchemaInstance.o are also linked into the
+owlKittingPlanPrinter.
+
+
+
+other
+-----
+
+The kittingPlanClasses.owl file in the owlFiles directory was generated
+automatically from kittingPlan.xsd by the xmlSchemaOwlClassGenerator.
+
+In the source directory, the kittingPlanYACC.cc and
+kittingPlanYACC.cc files are produced automatically from
+kittingPlan.y by bison. The kittingPlanLex.cc file
+is produced automatically from kittingPlan.lex by flex.

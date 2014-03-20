@@ -3,43 +3,43 @@ LINLINK = /usr/bin/g++ -v
 GLUT_LIBS = -lglut  -lSM -lICE -lXmu -lXi  -lGLU -lGL
 //GLUT_LIBS = -lglut -lGLU -lGL
 
-bin/kittingParser : ofiles/kittingParser.o    \
-                    ofiles/kittingYACC.o      \
-                    ofiles/kittingLex.o       \
-                    ofiles/kittingClasses.o   \
-                    ofiles/xmlSchemaInstance.o
-	$(LINLINK) -o $@ ofiles/kittingParser.o  \
-                      ofiles/kittingYACC.o       \
-                      ofiles/kittingLex.o        \
-                      ofiles/kittingClasses.o    \
+bin/kittingWorkstationParser : ofiles/kittingWorkstationParser.o   \
+                               ofiles/kittingWorkstationYACC.o     \
+                               ofiles/kittingWorkstationLex.o      \
+                               ofiles/kittingWorkstationClasses.o  \
+                               ofiles/xmlSchemaInstance.o
+	$(LINLINK) -o $@ ofiles/kittingWorkstationParser.o  \
+                      ofiles/kittingWorkstationYACC.o       \
+                      ofiles/kittingWorkstationLex.o        \
+                      ofiles/kittingWorkstationClasses.o    \
                       ofiles/xmlSchemaInstance.o
 
-bin/kittingViewer: ofiles/commandParser.o      \
-                   ofiles/canonicalMsgView.o   \
-                   ofiles/mouse.o              \
-                   ofiles/kittingViewer.o      \
-                   ofiles/viewKitting.o        \
-                   ofiles/kittingClassesView.o \
-                   ofiles/kittingLexView.o     \
-                   ofiles/kittingYACCView.o    \
-                   ofiles/Pose.o               \
-                   ofiles/scoreKittingClasses.o \
-                   ofiles/scoreKittingLex.o    \
-                   ofiles/scoreKittingYACC.o   \
+bin/kittingViewer: ofiles/commandParser.o                 \
+                   ofiles/canonicalMsgView.o              \
+                   ofiles/mouse.o                         \
+                   ofiles/kittingViewer.o                 \
+                   ofiles/viewKitting.o                   \
+                   ofiles/kittingWorkstationClassesView.o \
+                   ofiles/kittingWorkstationLexView.o     \
+                   ofiles/kittingWorkstationYACCView.o    \
+                   ofiles/Pose.o                          \
+                   ofiles/scoreKittingClasses.o           \
+                   ofiles/scoreKittingLex.o               \
+                   ofiles/scoreKittingYACC.o              \
                    ofiles/xmlSchemaInstance.o
-	$(LINLINK) -o $@ ofiles/commandParser.o       \
-                         ofiles/kittingViewer.o       \
-                         ofiles/canonicalMsgView.o    \
-                         ofiles/mouse.o               \
-                         ofiles/viewKitting.o         \
-                         ofiles/kittingClassesView.o  \
-                         ofiles/kittingLexView.o      \
-                         ofiles/kittingYACCView.o     \
-                         ofiles/Pose.o                \
-                         ofiles/scoreKittingClasses.o \
-                         ofiles/scoreKittingLex.o     \
-                         ofiles/scoreKittingYACC.o    \
-                         ofiles/xmlSchemaInstance.o   \
+	$(LINLINK) -o $@ ofiles/commandParser.o                  \
+                         ofiles/kittingViewer.o                  \
+                         ofiles/canonicalMsgView.o               \
+                         ofiles/mouse.o                          \
+                         ofiles/viewKitting.o                    \
+                         ofiles/kittingWorkstationClassesView.o  \
+                         ofiles/kittingWorkstationLexView.o      \
+                         ofiles/kittingWorkstationYACCView.o     \
+                         ofiles/Pose.o                           \
+                         ofiles/scoreKittingClasses.o            \
+                         ofiles/scoreKittingLex.o                \
+                         ofiles/scoreKittingYACC.o               \
+                         ofiles/xmlSchemaInstance.o              \
                          $(GLUT_LIBS)
 
 bin/commandParser: ofiles/commandParserMain.o       \
@@ -76,52 +76,52 @@ ofiles/commandParserMain.o: source/commandParser.hh \
                             source/commandParserMain.cc
 	$(LINCOMPILE) -o $@ source/commandParserMain.cc
 
-ofiles/kittingClasses.o : source/kittingClasses.hh     \
-                          source/kittingYACC.hh        \
-                          source/xmlSchemaInstance.hh  \
-                          source/kittingClasses.cc
-	$(LINCOMPILE) -o $@ source/kittingClasses.cc
-
-ofiles/kittingClassesView.o : source/kittingClassesView.hh \
-                              source/kittingYACC.hh        \
-                              source/xmlSchemaInstance.hh  \
-                              source/kittingClassesView.cc
-	$(LINCOMPILE) -o $@ source/kittingClassesView.cc
-
-ofiles/kittingLex.o : source/kittingLex.cc \
-                      source/kittingYACC.hh
-	$(LINCOMPILE) -o $@  -DNO_ECHO source/kittingLex.cc
-
-ofiles/kittingLexView.o : source/kittingLex.cc        \
-                          source/kittingYACC.hh       \
+ofiles/kittingWorkstationClasses.o : source/kittingWorkstationClasses.hh \
+                          source/kittingWorkstationYACC.hh               \
+                          source/kittingWorkstationClasses.cc            \
                           source/xmlSchemaInstance.hh
-	$(LINCOMPILE) -o $@ -DNO_ECHO -DVIEWER source/kittingLex.cc
+	$(LINCOMPILE) -o $@ source/kittingWorkstationClasses.cc
 
-ofiles/kittingParser.o : source/kittingClasses.hh    \
-                         source/kittingParser.cc     \
-                         source/xmlSchemaInstance.hh
-	$(LINCOMPILE) -o $@ source/kittingParser.cc
+ofiles/kittingWorkstationClassesView.o: source/kittingWorkstationClassesView.hh\
+                                        source/kittingWorkstationYACC.hh       \
+                                        source/kittingWorkstationClassesView.cc\
+                                        source/xmlSchemaInstance.hh
+	$(LINCOMPILE) -o $@ source/kittingWorkstationClassesView.cc
 
-ofiles/kittingViewer.o: source/canonicalMsg.hh       \
-                        source/kittingClassesView.hh \
-                        source/commandParser.hh      \
-                        source/kittingViewer.cc      \
-                        source/kittingViewer.hh      \
-                        source/view.hh               \
+ofiles/kittingWorkstationLex.o : source/kittingWorkstationLex.cc \
+                                 source/kittingWorkstationYACC.hh
+	$(LINCOMPILE) -o $@ source/kittingWorkstationLex.cc
+
+ofiles/kittingWorkstationLexView.o : source/kittingWorkstationLex.cc  \
+                                     source/kittingWorkstationYACC.hh \
+                                     source/xmlSchemaInstance.hh
+	$(LINCOMPILE) -o $@ -DNO_ECHO -DVIEWER source/kittingWorkstationLex.cc
+
+ofiles/kittingWorkstationParser.o : source/kittingWorkstationClasses.hh \
+                                    source/kittingWorkstationParser.cc  \
+                                    source/xmlSchemaInstance.hh
+	$(LINCOMPILE) -o $@ source/kittingWorkstationParser.cc
+
+ofiles/kittingViewer.o: source/canonicalMsg.hh                  \
+                        source/kittingWorkstationClassesView.hh \
+                        source/commandParser.hh                 \
+                        source/kittingViewer.cc                 \
+                        source/kittingViewer.hh                 \
+                        source/view.hh                          \
                         source/xmlSchemaInstance.hh
 	$(LINCOMPILE) -o $@ source/kittingViewer.cc
 
-ofiles/kittingYACC.o : source/kittingYACC.hh        \
-                       source/kittingClassesView.hh \
-                       source/xmlSchemaInstance.hh  \
-                       source/kittingYACC.cc
-	$(LINCOMPILE) -o $@ source/kittingYACC.cc
+ofiles/kittingWorkstationYACC.o : source/kittingWorkstationYACC.hh    \
+                                  source/kittingWorkstationClasses.hh \
+                                  source/kittingWorkstationYACC.cc    \
+                                  source/xmlSchemaInstance.hh
+	$(LINCOMPILE) -o $@ source/kittingWorkstationYACC.cc
 
-ofiles/kittingYACCView.o : source/kittingYACC.hh        \
-                           source/kittingClassesView.hh \
-                           source/xmlSchemaInstance.hh  \
-                           source/kittingYACC.cc
-	$(LINCOMPILE) -o $@ -DVIEWER source/kittingYACC.cc
+ofiles/kittingWorkstationYACCView.o : source/kittingWorkstationYACC.hh        \
+                                      source/kittingWorkstationClassesView.hh \
+                                      source/kittingWorkstationYACC.cc        \
+                                      source/xmlSchemaInstance.hh
+	$(LINCOMPILE) -o $@ -DVIEWER source/kittingWorkstationYACC.cc
 
 ofiles/mouse.o:  source/mouse.cc  \
                  source/mouse.hh
@@ -157,25 +157,29 @@ ofiles/viewKitting.o: source/viewKitting.cc \
 	$(LINCOMPILE) -o $@ source/viewKitting.cc
 
 ofiles/xmlSchemaInstance.o : source/xmlSchemaInstance.cc \
-                          source/xmlSchemaInstance.hh
+                             source/xmlSchemaInstance.hh
 	$(LINCOMPILE) -o $@ source/xmlSchemaInstance.cc
 
-source/kittingLex.cc : source/kitting.lex
-	flex -L -t source/kitting.lex > source/kittingLex.cc
+source/kittingWorkstationLex.cc : source/kittingWorkstation.lex
+	flex -L -t source/kittingWorkstation.lex > source/kittingWorkstationLex.cc
 
-source/kittingYACC.cc: source/kitting.y
-	bison -d -l -o $@ source/kitting.y
+source/kittingWorkstationYACC.cc: source/kittingWorkstation.y
+	bison -d -l -o $@ source/kittingWorkstation.y
 
-# After regenerating kittingYACC.cc or kittingLex.cc, remember to change
+source/kittingWorkstationYACC.hh: source/kittingWorkstation.y
+	bison -d -l -o $@ source/kittingWorkstation.y
 
-# #include "kittingClasses.hh"   // for kitting classes
+# After regenerating kittingWorkstationYACC.cc or kittingWorkstationLex.cc,
+# remember to change
+
+# #include "kittingWorkstationClasses.hh"   // for kitting classes
 
 # to
 
 # #ifdef VIEWER
-# #include "kittingClassesView.hh"   // for kitting classes
+# #include "kittingWorkstationClassesView.hh"   // for kitting classes
 # #else
-# #include "kittingClasses.hh"   // for kitting classes
+# #include "kittingWorkstationClasses.hh"   // for kitting classes
 # #endif
 
 source/scoreKittingLex.cc : source/scoreKitting.lex

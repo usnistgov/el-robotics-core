@@ -1,0 +1,1 @@
+kittingViewer\Release\kittingViewer.exe -c ..\commandFiles\commands1 -i ..\xmlInstanceFiles\kittingInstancesInit1.xml -g ..\xmlInstanceFiles\kittingInstancesGoal1.xml -e false

@@ -32,7 +32,7 @@ initialized in that file.
 #include <list>
 #include <map>
 #include "canonicalMsg.hh"
-#include "kittingClassesView.hh"
+#include "kittingWorkstationClassesView.hh"
 #include "scoreKittingClasses.hh"
 
 class KittingViewer
@@ -60,6 +60,8 @@ class KittingViewer
   static void drawBoxyShape(BoxyShapeType * boxy, col color,
 		   PoseLocationType * pose);
   static void drawChangingStation(EndEffectorChangingStationType * station);
+  static void drawCylindricalShape(CylindricalShapeType * cyli, col color,
+		   PoseLocationType * pose);
   static void drawMetricsAndSettings(int height);
   static void drawRobot();
   static void drawSingleCupGripper(col color, double x, double y, double z,
@@ -102,9 +104,12 @@ class KittingViewer
 		  VectorIJK zAxis, int n);
   static void findAngleAndAxleZ(VectorIJK zAxisA, VectorIJK zAxisB, int n);
   static double findDistance(SolidObjectType * object);
-  static SolidObjectType * findGripped(double X, double Y, double Z);
+  static SolidObjectType * findGripped(double X, double Y, double Z,
+		  PoseLocationType * pose);
   static KitType * findKitWithTray(
                   std::string trayName, std::list<KitType *> * allKits);
+  static void findPickupPose(PoseLocationType * pose, 
+		  SkuObjectType * skuObject);
   static PoseLocationType * findPrimaryPose(SolidObjectType * solid);
   static PoseLocationType * findSecondaryPose(SolidObjectType * solid);
   static SolidObjectType * findSurface(double x, double y, double z,
@@ -123,7 +128,7 @@ class KittingViewer
   static void init();
   static void initData();
   static void insertBox(col boxColor, double minX, double minY, double minZ,
-			double maxX, double maxY, double maxZ, bool solid);
+		  double maxX, double maxY, double maxZ, bool solid);
   static void insertBoxTransformed(col boxColor, double pointX, double pointY,
 		  double pointZ, double length, double width, double height,
                   double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
@@ -131,7 +136,7 @@ class KittingViewer
   static void insertConeTransformed(col color, double pointX, double pointY,
 		  double pointZ, double radius1, double radius2, double height,
 		  double xAxisX, double xAxisY, double xAxisZ, double zAxisX,
-                  double zAxisY, double zAxisZ);
+		  double zAxisY, double zAxisZ, bool hasBottom, bool hasTop);
   static void insertDiskTransformed(col color, double pointX, double pointY,
 		  double pointZ, double radius, double xAxisX, double xAxisY,
                   double xAxisZ, double zAxisX, double zAxisY, double zAxisZ);
@@ -139,8 +144,9 @@ class KittingViewer
   static void makeGreenColor(col * color);
   static void makeRedColor(col * color);
   static void makeLocationMaps();
+  static void poseInverse(PoseLocationType * inverse, PoseLocationType * pose);
   static void poseProduct(PoseLocationType * poseToSet,
-			  PoseLocationType * pose1, PoseLocationType * pose2);
+		  PoseLocationType * pose1, PoseLocationType * pose2);
   static void printInstructions();
   static void putInDefaultPosition(PoseLocationType * pose);
   static void putInOtherPosition(
@@ -155,15 +161,20 @@ class KittingViewer
                   std::map<std::string, SolidObjectType *> allSolids);
   static void redraw();
   static void releaseObject(VacuumEffectorSingleCupType * single,
-			    SolidObjectType * solid);
-  static void relocateTray(PartsTrayWithPartsType * supply);
+		  SolidObjectType * solid);
   static void resetPositions(double xi, double xj, double xk,
-			     double zi, double zj, double zk);
+		  double zi, double zj, double zk);
   static void resetViewer();
   static VectorIJK rotate(VectorIJK vec, VectorIJK axle, double theta);
   static void runAgain();
+  static bool sameVectorIJK(VectorIJK vec1, VectorIJK vec2);
+  static bool sameVectorType(VectorType * vec1, VectorType * vec2);
+  static void setBoxyLimits(BoxyShapeType * boxy, double * length,
+		  double * width, double * height);
   static void setColorAndSku(SolidObjectType * object,
-			     std::list<StockKeepingUnitType *> * Skus);
+		  std::list<StockKeepingUnitType *> * Skus);
+  static void setCyliLimits(CylindricalShapeType * cyli,
+		  double * radius, double * height);
   static void setExecuteFlag(bool setting);
   static void setLocationsAndColors(
                   std::map<std::string, SolidObjectType *> allSolids);
@@ -173,7 +184,7 @@ class KittingViewer
 		  std::map<std::string, SolidObjectType *> allSolids);
   static bool solidIsMovable(SolidObjectType * solid);
   static void updateWorkstationPosition(SolidObjectType * object,
-					PoseLocationType * parentPose);
+		  PoseLocationType * parentPose);
   static void usageMessage(char * command);
   static double valuate(valueFunctionType * fun, double val);
 

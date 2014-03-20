@@ -13,18 +13,16 @@ selecting critical objects of interest that are tagged with predicted locations 
 also known as focus of attention, is guided by
 the Executor process with knowledge obtained from preconditions and effects of planned actions.
 Actual algorithm development for pose and object detection is an active research area, and is beyond the scope of this article. 
-
 For our purposes, 
 we have assumed the use of a high-quality
-system that is capable of recognizing a limited variety of items in a controlled environment and then determining the item's pose. This is accomplished through
-simulation by using the Unified System for Automation and Robot Simulation (USARSim) \cite{Balakirsky2007}. As described in Section \ref{sect:future}, 
-we intend to relax this assumption in the near future.
+system that is capable of recognizing a limited variety of items in a controlled environment and then determining each item's pose. 
+%This is accomplished through simulation by using the Unified System for Automation and Robot Simulation (USARSim) \cite{Balakirsky2007}. As described in Section \ref{sect:future}, we intend to relax this assumption in the near future.
 %
 \begin{figure}[htb!]
 \begin{center}
 \includegraphics[width=8.5cm]{images/RITAWorldModel.pdf}
 \caption{System World Model - The world model contains a Reasoning section that is based on an ontology shown in green,
-a Planning section that is based on a Planning Domain Definition Language (PDDL) specification shown in blue, and an Execution section that is based on a dynamic database (MySQL) shown in orange.}
+a Planning section that is based on a Planning Domain Definition Language (PDDL) specification shown in blue, and an Execution section that is based on a relational database (MySQL) shown in orange.}
 \label{fig:WorldModel}
 \end{center}
 \end{figure}
@@ -39,23 +37,22 @@ this section.
 \subsubsection{Ontology --}
 \label{sect:Ontology}
 The reasoning portion of the world model is designed to contain all of the information needed to reason over and solve complex manufacturing
-problems. The knowledge is represented in a Web Ontology Language (OWL) ontology that is structured in three parts. The first part of the ontology is an upper ontology
-that contains generic information and classes that are needed for the domain of kit building. 
-
-This area of the ontology contains information on basic elements such as a ``point" which is defined as a class that contains a name 
-and a three-dimensional quantity, as well as complex types such as a ``part'', which is
-shown in Figure \ref{fig:part}, and
-contains elements such as a the part's shape, stock keeping unit (SKU) number, and location. This information is utilized to create parameters for the Planning World
-Model and the skeleton tables for the MySQL database of the Execution World Model.
+problems. The knowledge is represented in a Web Ontology Language (OWL) ontology that is structured in three parts. The first part of the ontology contains generic information and classes that are needed for the domain of kit building. 
 %
 \begin{figure}[htb!]
 \begin{center}
-\includegraphics[width=8.5cm]{images/Part.jpg}
-\caption{Description of the PartType class that is designed to contain both static and dynamic information about particular parts.}
+\includegraphics[width=8.5cm]{images/PartSKUV2.jpg}
+\caption{Description of the PartType class that is designed to contain both static and dynamic information about particular parts and the StockKeepingUnitType class that contains static information about classes of parts.}
 \label{fig:part}
 \end{center}
 \end{figure}
 %
+This area of the ontology contains information on basic elements such as a ``point" which is defined as a class that contains a name 
+and a three-dimensional quantity, as well as complex types such as a ``part'', which is
+shown in Figure \ref{fig:part}, and
+contains elements such as the part's location and a name that references a stock keeping unit. The stock keeping unit contains static information on classes of parts such as the part's shape, weight, and the end effector that should be used for grasping the part. This information is utilized to create parameters for the Planning World
+Model and the skeleton tables for the MySQL database of the Execution World Model.
+
 Both static and dynamic information is represented in this
 ontology and is automatically transitioned into the Planning and Execution areas of the world model. During system
 operation,  dynamic information is updated in the Execution World Model.
@@ -63,7 +60,7 @@ More information on this portion of the ontology may be found in \cite{Balakirsk
 
 
 The second part of the ontology (known as States, Ordering constraints, Actions, and Predicates or SOAP) contains the high-level concept of an action and all of the concepts 
-that are required to support an action. In this case, a Planning Domain Definition Language (PDDL) \cite{PDDL} action is being represented, and this action is defined
+that are required to support an action. In this case, a PDDL \cite{PDDL} action is being represented, and this action is defined
  as an operator that causes one or more properties of an 
 instance to change. Before this action may be
 performed, certain preconditions must be satisfied, and after the action is performed, certain effects will take place. The action accepts parameters that specify the particular
@@ -80,7 +77,7 @@ enumerated list shown below.
 %
 \item \class{ActionPredicate} -- A predicate is used to specify a binary property of a single object, or a relationship between two objects. For example, the predicate \texttt{(robot-empty ?robot)} is true if the robot \texttt{?robot} is not holding anything. The predicate \texttt{(part-location-robot ?part ?robot)} is true only if the reference parameter \texttt{?part} is being held by the target parameter \texttt{?robot}.
 
-An \class{ActionPredicate} represents these predicates. It has a unique name of type \texttt{string}, a reference parameter and a target parameter. The reference parameter is the first parameter in the predicate's parameter list and the target parameter is the second parameter in the predicate's parameter list. An \class{ActionPredicate} cannot have more than two parameters due to the inherent definition of predicates. In the case where an \class{ActionPredicate} has only one parameter, it is assigned to the reference parameter. 
+An \class{ActionPredicate} represents these predicates. It has a unique name of type \texttt{string}, a reference parameter and an optional target parameter. The reference parameter is the first parameter in the predicate's parameter list and the target parameter is the second parameter in the predicate's parameter list. An \class{ActionPredicate} cannot have more than two parameters due to the inherent definition of predicates. In the case where an \class{ActionPredicate} has only one parameter, it is assigned to the reference parameter. 
 %
 \item \class{ActionFunction} -- In version 3 of the PDDL language, it is possible to use numeric functions that contain one or two parameters. For example, the function \texttt{(quantity-partstray ?partstray - PartsTray)} will return the number of parts that are contained in the parts tray \texttt{?partstray}, and the function
 \texttt{(quantity-kit ?kit - Kit ?partstray - PartsTray)} will return the number of parts from parts tray \texttt{?partstray} that are currently in the kit \texttt{?kit}. The class \class{ActionFunction} is used to represent these functions. It has a unique name  of type \texttt{string} along with a reference parameter and a target parameter. The same rules apply to the definition and use of these two types of parameters as defined for \class{ActionPredicate}.
@@ -95,7 +92,7 @@ partial information is accepted and even encouraged for this area of the ontolog
 become valid until after a sensor processing system has identified and located the particular part.
 %
 \subsubsection{Planning --}
-The Planning Domain Definition Language (PDDL)  is an attempt by the domain independent planning community to formulate a standard language for planning. A community of planning researchers has been producing planning systems that comply with this formalism since the first International Planning Competition held in 1998. This competition series
+PDDL  is an attempt by the domain independent planning community to formulate a standard language for planning. A community of planning researchers has been producing planning systems that comply with this formalism since the first International Planning Competition held in 1998. This competition series
 continues today, with the seventh competition being held in 2011. PDDL is constantly adding extensions to the base language in order to represent more expressive problem domains. The representation in the world model is based on PDDL Version 3.
 
 By placing the knowledge in a PDDL representation, the use of an entire family of open source planning systems such as the forward-chaining partial-order planning system from Coles et al. \cite{Coles.ICAPS.2010}
@@ -110,9 +107,9 @@ a standard PDDL domain and PDDL problem files. Any of the family of PDDL Version
 run on these files to create the static plan instance file. A representation of this plan may be stored in the ontology for future use.
 %
 \subsubsection{Execution --}
-The execution world model is also built automatically from the ontology. This world model consists of a MySQL database and C\texttt{++} and Java
+The execution world model is also built automatically from the ontology. This world model consists of a MySQL database and C\texttt{++} 
 interfaces that provide for easy access to the data. The table skeletons are generated from the kitting ontology, and the tables are initially populated
-with information from the initial and goal condition files. During plan execution, the Executor guides the sensor processing system
+with information from the initial condition file. During plan execution, the Executor guides the sensor processing system
 in updating the information in 
 this section of the world model. All of the data structures encoded in the ontology are included in this representation. 
 %An example 
@@ -122,7 +119,7 @@ this section of the world model. All of the data structures encoded in the ontol
 \label{subsection:Act}
 The actions that take place in the kitting work cell are coordinated by the Executor as illustrated in Figure \ref{fig:SenseModelAct}.  The Executor
 reads PDDL actions as input and outputs a standardized set of low-level robot commands encoded in a language developed at the National Institute of Standards
-and Technology (NIST) known as the  Canonical Robotic Control Language \cite{Balakirsky2012-1}. 
+and Technology (NIST) known as the  Canonical Robotic Command Language (CRCL) \cite{Balakirsky2012-1}. 
 
 Before and after each high-level command
 is executed, the Executor sends focus of attention information into the sensor processing system. This allows the sensor processing system to compute

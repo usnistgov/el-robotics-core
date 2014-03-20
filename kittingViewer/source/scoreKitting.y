@@ -126,7 +126,7 @@ y_XmlHeaderForScoreKitting:
 
 y_SchemaLocation :
 	  SCHEMALOCATION TERMINALSTRING
-	  {$$ = new SchemaLocation("xsi", $2);
+	  {$$ = new SchemaLocation("xsi", $2, true);
 	    if (strncmp("urn:Kitting ", $2, 12))
 	      {
 		fprintf(stderr,

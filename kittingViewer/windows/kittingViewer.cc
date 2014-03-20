@@ -48,8 +48,7 @@ revert to white the next time the g key is pressed.
 5. Check moves against robot work volume.
 
 6. Add destroying LargeBoxWithEmptyKitTrays when last kit tray is
-removed (similar to the way PartsTrayWithParts is destroyed when the last
-part is removed).
+removed.
 
 7. Add creating LargeBoxWithKits when the first kit is put into a
 large box (similar to the way a Kit is created when the first part is
@@ -59,18 +58,15 @@ put into the kit tray).
 
 9. Use a graphical user interface for editing the scoring file.
 
-10. Use grasp point information in deciding whether a close gripper command
-results in an object being held by the gripper.
+10. Use shape data from an external file (identified by an ExternalShape).
 
-11. Use shape data from an external file (identified by an ExternalShape).
+11. Expand functionality to include collision checking. Use a solid modeler.
 
-12. Expand functionality to include collision checking. Use a solid modeler.
+12. Implement other gripper types and geometries.
 
-13. Implement other gripper types and geometries.
+13. Make the graphics fancier (lighting, textures, etc.)
 
-14. Make the graphics fancier (lighting, textures, etc.)
-
-15. Give some credit in the metrics when an object has the correct secondary
+14. Give some credit in the metrics when an object has the correct secondary
 location (i.e. is at the correct place in the workstation) even if the
 primary location is incorrect. Currently there is no credit for that.
 
@@ -286,8 +282,7 @@ against the list of locations for items of that name. It is an error
 if a nearly identical location is not on the list. If a nearly
 identical location is on the list, it is removed from the list.
 
-This method does not deal with LargeBoxWithEmptyKitTrays, LargeBoxWithKits,
-or PartsTrayWithParts.
+This method does not deal with LargeBoxWithEmptyKitTrays or LargeBoxWithKits.
 
 Changing the Speed of Animation
 -------------------------------
@@ -321,10 +316,6 @@ is TINYVAL, also a #define in this file. It is currently set to 0.0001.
 
 */
 
-#define _USE_MATH_DEFINES
-#define _CRT_SECURE_NO_DEPRECATE
-
-#include <cmath>
 #include <stdlib.h>         // exit
 #include <stdio.h>          // fgets
 #include <map>              // map
@@ -334,7 +325,7 @@ is TINYVAL, also a #define in this file. It is currently set to 0.0001.
 #include <math.h>           // sqrt
 #include <string>
 #include "kittingViewer.hh"
-#include "kittingClassesView.hh"
+#include "kittingWorkstationClassesView.hh"
 #include "view.hh"
 #include "canonicalMsg.hh"
 #include "commandParser.hh"
@@ -346,7 +337,6 @@ is TINYVAL, also a #define in this file. It is currently set to 0.0001.
 // TINYVAL is for checking components of unit vectors
 #define TINYDISTANCE 0.2
 // TINYDISTANCE is two tenths of a millimeter
-#define strdup _strdup
 
 /********************************************************************/
 
@@ -483,7 +473,7 @@ void KittingViewer::adjustKitLocation( /*  ARGUMENTS                     */
 	   refSolid->refFor.remove(kit);
 	   parent->refFor.push_back(kit);
 	   kit->refThing = parent;
-	   kitPrimaryPose->RefObject->val = parent->Name->val;
+	   kitPrimaryPose->RefObjectName->val = parent->Name->val;
 	 }
        else
 	 {
@@ -502,18 +492,7 @@ Called By: KittingViewer::releaseObject
 
 Let R be a short name for the refSolid and let parent be the refThing of R.
 
-A. If R is a PartsTray
-A1. If parent is a PartsTrayWithParts,
-   Then, make the refThing (and the refObject) of the part be parent rather
-   than R, since that is convention for Parts in a PartsTrayWithParts.
-A2. [not implemented] Otherwise, if there is a PartsTrayWithParts in the
-   goalModel that has a PartsTray with the same name as R:
-A2a. Create a PartsTrayWithParts with that name in the nowModel,
-A2b. Put the PartsTrayWithParts where R is.
-A2c. Put R in the PartsTrayWithParts.
-A2d. Do the same things as in A1.  
-
-B. Otherwise, if R is a KitTray
+A. If R is a KitTray
 B1. If parent is a Kit,
    Then, make the refThing (and the refObject) of the part be parent rather
    than R, since that is convention for Parts in Kits.
@@ -530,28 +509,15 @@ void KittingViewer::adjustPartLocation( /*  ARGUMENTS                      */
    SolidObjectType * parent;    // new refThing for part
 
    parent = refSolid->refThing;
-   if (dynamic_cast<PartsTrayType *>(refSolid))
-     {
-       if (dynamic_cast<PartsTrayWithPartsType *>(parent))
-	 {
-	   refSolid->refFor.remove(part);
-	   parent->refFor.push_back(part);
-	   part->refThing = parent;
-	   partPrimaryPose->RefObject->val = parent->Name->val;
-	 }
-       else
-	 {
-	   
-	 }
-     }
-   else if (dynamic_cast<KitTrayType *>(refSolid))
+
+   if (dynamic_cast<KitTrayType *>(refSolid))
      {
        if (dynamic_cast<KitType *>(parent))
 	 {
 	   refSolid->refFor.remove(part);
 	   parent->refFor.push_back(part);
 	   part->refThing = parent;
-	   partPrimaryPose->RefObject->val = parent->Name->val;
+	   partPrimaryPose->RefObjectName->val = parent->Name->val;
 	 }
        else
 	 {
@@ -577,7 +543,6 @@ If the goalObject is any of:
  LargeContainerType (SkuName)
  PartType (SkuName)
  PartsTrayType (SkuName)
- PartsTrayWithPartsType
 then its location is compared with that of the object of the same name
 (nowObject) in the nowModel.
 
@@ -729,19 +694,6 @@ void KittingViewer::checkLocation( /* ARGUMENTS                             */
       else
 	checkLocationUnique(goalObject, nowObject);
     }
-  else if (dynamic_cast<PartsTrayWithPartsType *>(goalObject))
-    {
-      if (dynamic_cast<PartsTrayWithPartsType *>(nowObject) == 0)
-	{
-	  snprintf(commandString[0], TEXTSIZE,
-		   "Error: goal object %s is a parts tray with parts but "
-		   "current object %s is not", goalObject->Name->val.c_str(),
-		   goalObject->Name->val.c_str());
-	  locationErrors++;
-	  return;      
-	}
-      checkLocationUnique(goalObject, nowObject);
-    }
   else if (dynamic_cast<LargeBoxWithKitsType *>(goalObject))
     {
       if (dynamic_cast<LargeBoxWithKitsType *>(nowObject) == 0)
@@ -853,7 +805,8 @@ void KittingViewer::checkLocationIdentical(      /* ARGUMENTS            */
   for (ator = locations->begin(); ator != locations->end(); ator++)
     {
       goalLocation = *ator;
-      if ((actualLocation->RefObject->val == goalLocation->RefObject->val) &&
+      if ((actualLocation->RefObjectName->val == 
+	   goalLocation->RefObjectName->val) &&
 	  checkPointAndAxes(goalLocation->Point, actualLocation->Point,
 			    goalLocation->XAxis, actualLocation->XAxis,
 			    goalLocation->ZAxis, actualLocation->ZAxis, 0))
@@ -892,14 +845,14 @@ void KittingViewer::checkLocationUnique( /*  ARGUMENTS                   */
 
   goalLocation = findPrimaryPose(goalObject);
   actualLocation = findPrimaryPose(nowObject);
-  if (goalLocation->RefObject->val != actualLocation->RefObject->val)
+  if (goalLocation->RefObjectName->val != actualLocation->RefObjectName->val)
     {
       snprintf(commandString[0], TEXTSIZE,
-	       "Error: refObject %s of goal object %s differs from "
-	       "refObject %s of current object %s",
-	       goalLocation->RefObject->val.c_str(),
+	       "Error: refObjectName %s of goal object %s differs from "
+	       "refObjectName %s of current object %s",
+	       goalLocation->RefObjectName->val.c_str(),
 	       goalObject->Name->val.c_str(),
-	       actualLocation->RefObject->val.c_str(),
+	       actualLocation->RefObjectName->val.c_str(),
 	       goalObject->Name->val.c_str());
       locationErrors++;
       return;
@@ -925,7 +878,9 @@ Returned Value: bool
   is not null, this will also print an error message describing the
   first difference found and increase locationErrors by 1.
 
-Called By:  KittingViewer::checkLocationUnique
+Called By:
+  KittingViewer::checkLocationIdentical
+  KittingViewer::checkLocationUnique
 
 */
 
@@ -954,9 +909,7 @@ bool KittingViewer::checkPointAndAxes( /*  ARGUMENTS                      */
 	}
       return false;
     }
-  if ((fabs(actualXAxis->I->val - goalXAxis->I->val) > TINYVAL) ||
-      (fabs(actualXAxis->J->val - goalXAxis->J->val) > TINYVAL) ||
-      (fabs(actualXAxis->K->val - goalXAxis->K->val) > TINYVAL))
+  if (!sameVectorType(actualXAxis, goalXAxis))
     {
       if (name)
 	{
@@ -970,9 +923,7 @@ bool KittingViewer::checkPointAndAxes( /*  ARGUMENTS                      */
 	}
       return false;
     }
-  if ((fabs(actualZAxis->I->val - goalZAxis->I->val) > TINYVAL) ||
-      (fabs(actualZAxis->J->val - goalZAxis->J->val) > TINYVAL) ||
-      (fabs(actualZAxis->K->val - goalZAxis->K->val) > TINYVAL))
+  if (!sameVectorType(actualZAxis, goalZAxis))
     {
       if (name)
 	{
@@ -995,7 +946,11 @@ bool KittingViewer::checkPointAndAxes( /*  ARGUMENTS                      */
 
 Returned Value: none
 
-Called By: KittingViewer::init
+Called By:
+  KittingViewer::readBuiltFile
+  KittingViewer::readGoalFile
+  KittingViewer::readInitFile
+  KittingViewer::resetViewer
 
 This empties all the lists of items that are built during parsing.
 These lists are static class attributes. This function is called
@@ -1009,6 +964,7 @@ that runs before parsing is finished).
 void KittingViewer::clearLists() /* NO ARGUMENTS */
 {
   BoxyShapeType::allBoxys.clear();
+  CylindricalShapeType::allCyls.clear();
   XmlID::allIDs.clear();
   XmlIDREF::allIDREFs.clear();
   KitType::allKits.clear();
@@ -1090,7 +1046,7 @@ of the valuate function.
 In the descriptions that follow, a basic object is a movable object
 that is not a composite object and is not the robot. Gripper, Part,
 PartTray, KitTray, and LargeContainer are basic. Kit, LargeBoxWithKits,
-LargeBoxWithEmptyKitTrays, and PartsTrayWithParts are not basic.
+and LargeBoxWithEmptyKitTrays are not basic.
 
 The rightStuffValue is [(the number of objects in the goal file placed
 correctly so far) minus (the number of objects in the goal file placed
@@ -1333,13 +1289,13 @@ void KittingViewer::createKit( /* ARGUMENTS                   */
   newPose = new PoseLocationType();
   newPose->Name =
     new XmlID((char *)kitWithTray->PrimaryLocation->Name->val.c_str());
-  newPose->RefObject = new XmlIDREF((char *)parent->Name->val.c_str());
+  newPose->RefObjectName = new XmlIDREF((char *)parent->Name->val.c_str());
   putInOtherPosition(newPose, trayPrimaryPose);
   newKit =
     new KitType(new XmlID((char *)kitWithTray->Name->val.c_str()),
 		newPose, new std::list<PhysicalLocationType *>, 0, 0,
 		new XmlIDREF((char *)kitWithTray->DesignName->val.c_str()),
-		tray, new std::list<PartType *>, 
+		tray, new std::list<PartType *>, new std::list<SlotType *>,
 		new XmlBoolean((char *)"false"));
   newKit->refThing = parent;
   newKit->refFor.push_back(part);
@@ -1348,12 +1304,12 @@ void KittingViewer::createKit( /* ARGUMENTS                   */
   nowModel->allKits.push_back(newKit);
   nowModel->allSolids.insert
     (std::pair<std::string, SolidObjectType *>(newKit->Name->val, newKit));
-  trayPrimaryPose->RefObject->val = newKit->Name->val;
+  trayPrimaryPose->RefObjectName->val = newKit->Name->val;
   putInDefaultPosition(trayPrimaryPose);
   tray->refThing = newKit;
   tray->refFor.remove(part);
   part->refThing = newKit;
-  partPrimaryPose->RefObject->val = newKit->Name->val;
+  partPrimaryPose->RefObjectName->val = newKit->Name->val;
   parent->refFor.push_back(newKit);
   parent->refFor.remove(tray);
 }
@@ -1366,7 +1322,8 @@ Returned Value: none
 
 Called By: KittingViewer::drawSolidObject
 
-A boxy shape has its location point in the middle of the bottom.
+This draws a boxy shape. A boxy shape has its location point in the
+middle of the bottom.
 
 */
 
@@ -1389,9 +1346,10 @@ void KittingViewer::drawBoxyShape( /* ARGUMENTS                         */
 
 Returned Value: none
 
-Called By:  KittingViewer::drawWorkstation
+Called By:  KittingViewer::drawSolidObject
 
-This is drawing the base and end effector holders of the changing station.
+This draws an end effector changing station.
+It draws the base and end effector holders of the changing station.
 
 */
 
@@ -1402,9 +1360,38 @@ void KittingViewer::drawChangingStation(   /* ARGUMENTS                */
 
   station->Base->color = station->color;
   drawSolidObject(station->Base);
-  for (iter = station->EndEffectorHolders->begin();
-       iter != station->EndEffectorHolders->end(); iter++)
+  for (iter = station->EndEffectorHolder->begin();
+       iter != station->EndEffectorHolder->end(); iter++)
     drawSolidObject(*iter);
+}
+
+/********************************************************************/
+
+/* KittingViewer::drawCylindricalShape
+
+Returned Value: none
+
+Called By: KittingViewer::drawSolidObject
+
+This draws a cylindrical shape. A cylindrical shape has its location
+point in the middle of the bottom.
+
+*/
+
+void KittingViewer::drawCylindricalShape( /* ARGUMENTS                      */
+ CylindricalShapeType * cyli,   /* cylindrical shape to draw                */
+ col color,                     /* color to draw with                       */
+ PoseLocationType * pose)       /* pose of cylindrical shape in workstation */
+{
+  double radius;
+
+  radius = (cyli->Diameter->val / 2.0);
+  insertConeTransformed(color,
+	    pose->Point->X->val, pose->Point->Y->val, pose->Point->Z->val,
+	    radius, radius, cyli->Height->val,
+	    pose->XAxis->I->val, pose->XAxis->J->val, pose->XAxis->K->val,
+	    pose->ZAxis->I->val, pose->ZAxis->J->val, pose->ZAxis->K->val,
+	    true, cyli->HasTop->val);
 }
 
 /********************************************************************/
@@ -1580,7 +1567,7 @@ void KittingViewer::drawMetricsAndSettings( /* ARGUMENTS                 */
 
 Returned Value: none
 
-Called By:  KittingViewer::drawWorkstation
+Called By:  KittingViewer::drawSolidObject
 
 This draws the robot in the kitting workstation. The robot is shown as
 a gantry robot with its vertical supports at the sides of the
@@ -1675,12 +1662,11 @@ void KittingViewer::drawSingleCupGripper(/* ARGUMENTS */
  double zJ,        /* J component of gripper Z axis   */
  double zK)        /* K component of gripper Z axis   */
 {
-  insertDiskTransformed(color, x, y, z, cupRadius, xI, xJ, xK, zI, zJ, zK);
   insertConeTransformed(color, x, y, z, cupRadius, (cupRadius / 4.0),
-			length, xI, xJ, xK, zI, zJ, zK);
+			length, xI, xJ, xK, zI, zJ, zK, false, true);
   insertConeTransformed(color, (x + (length * zI)), (y + (length * zJ)),
 			(z + (length * zK)), cupRadius, (cupRadius / 4.0),
-			0.0, xI, xJ, xK, zI, zJ, zK);
+			0.0, xI, xJ, xK, zI, zJ, zK, false, false);
 }
 
 /********************************************************************/
@@ -1706,8 +1692,11 @@ order in which objects are drawn.
 void KittingViewer::drawSolidObject(/* ARGUMENTS            */
  SolidObjectType * object)          /* solid object to draw */
 {
-  PoseLocationType * pose;    // pose of object in workstation
-  BoxyShapeType * boxy;       // shape to draw if object shape is boxy
+  PoseLocationType * pose;        // pose of object in workstation
+  BoxyShapeType * boxy;           // shape to draw if object shape is boxy
+  CylindricalShapeType * cyli;    // shape to draw if object shape is boxy
+  SkuObjectType * skuObject;      // used if object is of SkuObjectType
+  NoSkuObjectType * noSkuObject;  // used if object is of NoSkuObjectType
   std::list<SolidObjectType *>::iterator iter;
 
   for (iter = object->refFor.begin(); iter != object->refFor.end(); iter++)
@@ -1715,22 +1704,75 @@ void KittingViewer::drawSolidObject(/* ARGUMENTS            */
   pose = findSecondaryPose(object);
   if (dynamic_cast<RobotType *>(object))
     drawRobot();
-  else if (dynamic_cast<KitTrayType *>(object)        ||
-	   dynamic_cast<LargeContainerType *>(object) ||
-	   dynamic_cast<PartsTrayType *>(object)      ||
-	   dynamic_cast<PartType *>(object))
+  else if ((skuObject = dynamic_cast<SkuObjectType *>(object)))
     {
-      if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)))
-	drawBoxyShape(boxy, object->sku->color, pose);
+      if (skuObject->sku->InternalShape)
+	{
+	  if ((boxy = dynamic_cast<BoxyShapeType *>
+	       (skuObject->sku->InternalShape)))
+	    {
+	      drawBoxyShape(boxy, skuObject->sku->color, pose);
+	    }
+	  else if ((cyli = dynamic_cast<CylindricalShapeType *>
+		    (skuObject->sku->InternalShape)))
+	    {
+	      drawCylindricalShape(cyli, skuObject->sku->color, pose);
+	    }
+	  else
+	    {
+	      fprintf(stderr, "bad internal shape type in drawSolidObject\n");
+	      exit(1);
+	    }
+	}
+      else if (skuObject->sku->ExternalShape)
+	{
+	  fprintf(stderr, "Warning: external shape not drawn\n");
+	}
+      else
+	{
+	  fprintf(stderr, "Warning: solid has no shape\n");
+	}
     }
-  else if (object->InternalShape &&
-	   dynamic_cast<BoxyShapeType *>(object->InternalShape))
-    drawBoxyShape(dynamic_cast<BoxyShapeType *>(object->InternalShape),
-		  object->color, pose);
-  else if (dynamic_cast<EndEffectorChangingStationType *>(object))
-    drawChangingStation(dynamic_cast<EndEffectorChangingStationType *>(object));
-  else if (dynamic_cast<VacuumEffectorType *>(object))
-    drawVacuumGripper(dynamic_cast<VacuumEffectorType *>(object), pose);
+  else if ((noSkuObject = dynamic_cast<NoSkuObjectType *>(object)))
+    {
+      if (dynamic_cast<EndEffectorChangingStationType *>(noSkuObject))
+	drawChangingStation(dynamic_cast<EndEffectorChangingStationType *>
+			    (noSkuObject));
+      else if (noSkuObject->InternalShape)
+	{
+	  if ((boxy = dynamic_cast<BoxyShapeType *>
+	       (noSkuObject->InternalShape)))
+	    {
+	      drawBoxyShape(boxy, noSkuObject->color, pose);
+	    }
+	  else if ((cyli = dynamic_cast<CylindricalShapeType *>
+		    (noSkuObject->InternalShape)))
+	    {
+	      drawCylindricalShape(cyli, noSkuObject->color, pose);
+	    }
+	  else
+	    {
+	      fprintf(stderr, "bad internal shape type in drawSolidObject\n");
+	      exit(1);
+	    }
+	}
+      else if (dynamic_cast<VacuumEffectorType *>(object))
+	drawVacuumGripper(dynamic_cast<VacuumEffectorType *>(object), pose);
+      else if (dynamic_cast<KittingWorkstationType *>(noSkuObject));
+      else if (dynamic_cast<LargeBoxWithEmptyKitTraysType *>(noSkuObject));
+      else if (dynamic_cast<LargeBoxWithKitsType *>(noSkuObject));
+      else if (dynamic_cast<KitType *>(noSkuObject));
+      else
+	{
+	  fprintf(stderr, "Warning: not drawing %s\n",
+		  noSkuObject->Name->val.c_str());
+	}
+    }
+  else
+    {
+      fprintf(stderr, "bad solid type in drawSolidObject\n");
+      exit(1);
+    }
 }
 
 /********************************************************************/
@@ -1959,44 +2001,38 @@ void KittingViewer::enhancePoses() /* NO ARGUMENTS */
 	  qDist = hypot3((qBx - qAx), (qBy - qAy), (qBz - qAz));
 	  qTime = ((robotSpeed == 0.0) ? (10 * qDist / robotMaxSpeed) :
 		   (qDist / robotSpeed));
-	  if ((fabs(poseA->zAxis.i - poseB->zAxis.i) > TINYVAL) ||
-	      (fabs(poseA->zAxis.j - poseB->zAxis.j) > TINYVAL) ||
-	      (fabs(poseA->zAxis.k - poseB->zAxis.k) > TINYVAL))
-	    {
-	      findAngleAndAxleZ(poseA->zAxis, poseB->zAxis, n);
-	      zTime = anglesZ[n]/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
-	      newXAxis = rotate(poseA->xAxis, axlesZ[n], anglesZ[n]);
-	      if ((fabs(newXAxis.i - poseB->xAxis.i) > TINYVAL) ||
-		  (fabs(newXAxis.j - poseB->xAxis.j) > TINYVAL) ||
-		  (fabs(newXAxis.k - poseB->xAxis.k) > TINYVAL))
-		{
-		  newZAxis = rotate(poseA->zAxis, axlesZ[n], anglesZ[n]);
-		  findAngleX(newXAxis, poseB->xAxis, newZAxis, n);
-		  xTime =
-		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
-		}
-	      else
-		{
-		  xTime = 0.0;
-		  anglesX[n] = 0.0;		  
-		}
-	    }
-	  else
+	  if (sameVectorIJK(poseA->zAxis, poseB->zAxis))
 	    {
 	      zTime = 0.0;
 	      anglesZ[n] = 0.0;
-	      if ((fabs(poseA->xAxis.i - poseB->xAxis.i) > TINYVAL) ||
-		  (fabs(poseA->xAxis.j - poseB->xAxis.j) > TINYVAL) ||
-		  (fabs(poseA->xAxis.k - poseB->xAxis.k) > TINYVAL))
+	      if (sameVectorIJK(poseA->xAxis, poseB->xAxis))
+		{
+		  xTime = 0.0;
+		  anglesX[n] = 0.0;
+		}
+	      else
 		{
 		  findAngleX(poseA->xAxis, poseB->xAxis, poseA->zAxis, n);
 		  xTime =
 		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
 		}
-	      else
+	    }
+	  else
+	    {
+	      findAngleAndAxleZ(poseA->zAxis, poseB->zAxis, n);
+	      zTime = anglesZ[n]/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
+	      newXAxis = rotate(poseA->xAxis, axlesZ[n], anglesZ[n]);
+	      if (sameVectorIJK(newXAxis, poseB->xAxis))
 		{
 		  xTime = 0.0;
-		  anglesX[n] = 0.0;
+		  anglesX[n] = 0.0;		  
+		}
+	      else
+		{
+		  newZAxis = rotate(poseA->zAxis, axlesZ[n], anglesZ[n]);
+		  findAngleX(newXAxis, poseB->xAxis, newZAxis, n);
+		  xTime =
+		    fabs(anglesX[n])/(GRIPPERDEFAULTMAXROTATE * robotRelSpeed);
 		}
 	    }
 	}
@@ -2125,45 +2161,31 @@ Details: If all of the following hold:
 3A. There is a parts tray or kit tray with a topless boxy shape
     such that the gripper cup is within 0.1 mm of the bottom of the
     tray and is within 1 mm of the XY location of the origin of the tray. OR
-3B. There is a part with a boxy shape with top such that the gripper cup
-    is within 0.1 mm of the top of the part and is within 1 mm of the XY
-    location of the middle of the top of the part.
+3B. There is a part with a boxy or cylindrical shape with top such that
+    the gripper cup is within 0.1 mm of the top of the part and is within
+    1 mm of the XY location of the pick-up point of the part. The pick-up
+    point of a part is the point of the grasp pose in workstation
+    coordinates if the part has a grasp pose; otherwise, it is the middle
+    of the top of the part.
 4. The gripper is able to pick up that type of part or tray.
-5. The Z axis of the gripper is 0,0,-1 and the Z axis of the object is 0,0,1.
-6. The gripper is open (implying the gripper is not holding anything).
+5. The Z axis of the gripper is very close to 0,0,-1.
+6. The pick-up Z axis of the object is very close to 0,0,1.
+   The pick-up Z axis of an object is the Z axis of its grasp pose in
+   workstation coordinates if the object has a grasp pose; otherwise,
+   it is the Z axis of the object in workstation coordinates.
+7. The gripper is open (implying the gripper is not holding anything).
 
 Then the gripper will attach to an object. Call it B.
  - if 3B above occurred, then B is a part
- - if 3A above occurred with a parts tray in a parts tray with parts,
-   then B is the parts tray with parts.
- - if 3A above occurred with a parts tray not in a parts tray with parts,
-   then B is the parts tray.
+ - if 3A above occurred with a parts tray, then B is the parts tray.
  - if 3A above occurred with a kit tray in a kit, then B is the kit.
  - if 3A above occurred with a kit tray not in a kit, then B is the kit tray.
 
 
-Call the primary location of B P. Then the RefObject of P becomes the
-gripper, and its relative pose is changed. The before I and J
-components of the Z axis of B are known to be zero in workstation
-coordinates, and the before I and J components of the Z axis of the
-gripper are also 0 in workstation coordinates, so the after I and J
-components of the Z axis of P are set to 0 in gripper coordinates. The
-before K component of the Z axis of the gripper is -1 in workstation
-coordinates and the before K component of the Z axis of B is 1 in
-workstation coordinates, so the after K component of the Z axis of P
-is set to -1 in gripper coordinates.
-
-If B is a part, the Z value of the point of P is set to the length of
-the gripper plus the height of the part (since the part is gripped at
-the top). If B is a not a part, the Z value is set to the length of the
-gripper (since the tray is gripped on the upper surface of the bottom
-of the tray).
-
-This is checking that the X axis of the gripper is 1,0,0 in
-workstation coordinates, so the after X axis of P in gripper
-coordinates is set to the negative of the before X axis of B in
-workstation coordinates. It will be necessary to deal with the X axis
-of the gripper if the gripper is rotated in any way.
+Let P be the primary location of B. The RefObject of P becomes the
+gripper. The point and vector of P are found by calling poseProduct
+using the location of the workstation in gripper coordinates and the
+location of B in workstation coordinates.
 
 The gripper is closed as long as the robot is holding the gripper
 regardless of anything else.
@@ -2175,20 +2197,26 @@ Might add checking that:
    tray or part with 1 mm clearance.
 Since the gripper is known to be able to pick up the Sku of which the part
 or tray in 3A or 3B is an instance, item 1 is presumably covered (unless
-B is a kit or parts tray with parts, since then it will be heavier than
-its tray) and item 3 is sort of covered.
+B is a kit, since then it will be heavier than its tray) and item 3 is sort
+of covered.
 
-This is checking whether the gripper can handle a kit or parts tray
-with parts by checking whether its tray can be handled. The middle of
-the tray should be left open so that the gripper can grip it there.
+This is checking whether the gripper can handle a kit by checking
+whether it can handle its tray. This is directly checking whether the
+gripper can handle a parts tray. The middle of the kit tray or parts
+tray should be left open so that the gripper can grip it there.
 
 This does not reset the location of B in workstation coordinates (the
 first secondary location of B). That is not necessary since it will be
 reset before drawing.
 
-IMPROVE - Improve the destructor for PartsTrayWithPartsType. Currently
-when one of those is deleted, it is orphaning everything hanging from
-it, hence leaking memory. Need to delete those things also.
+This is not adjusting either the PartQuantity or the Part list
+of a PartsTray. Keeping track of what parts are in a PartsTray is
+handled without using those elements.
+
+In the call to findGripped, this function is finding the pickup pose
+of B in workstation coordinates but this function is not currently
+using that pose. The Z axis of the pickup pose is required in
+findGripped to be very close to 0,0,1.
 
 */
 
@@ -2197,13 +2225,15 @@ void KittingViewer::executeCloseGripperCommand() /* NO ARGUMENTS  */
   VacuumEffectorSingleCupType * single;
   PoseLocationType * singlePose;
   PoseLocationType * solidPose;
+  PoseLocationType * solidPose2;
   SolidObjectType * solid;
   PartType * part;
-  BoxyShapeType * boxy;
-  PartsTrayWithPartsType * supply;
   StockKeepingUnitType * testSku;
   KitType * kit;
-  PartsTrayWithPartsType * withParts;
+  KitTrayType * kitTray;
+  PartsTrayType * partsTray;
+  static PoseLocationType pickupPose;
+  static PoseLocationType singleInverse; // workstation pose in gripper coords
 
   if (nowModel->Robot->EndEffector == 0)
     {
@@ -2226,54 +2256,31 @@ void KittingViewer::executeCloseGripperCommand() /* NO ARGUMENTS  */
   else if ((single = dynamic_cast<VacuumEffectorSingleCupType *>
 	    (nowModel->Robot->EndEffector)))
     {
-      solid = findGripped(nowX, nowY, nowZ);
-      if (solid)
+      solid = findGripped(nowX, nowY, nowZ, &pickupPose);
+      if (solid) // 0 unless KitType, PartType, PartsTrayType, or KitTrayType
 	{
 	  singlePose = findSecondaryPose(single);
-	  solidPose = findPrimaryPose(solid);
-	  part = dynamic_cast<PartType *>(solid);
-	  testSku = ((kit = dynamic_cast<KitType *>(solid)) ? kit->Tray->sku :
-		     (withParts =
-		      dynamic_cast<PartsTrayWithPartsType *>(solid)) ?
-		     withParts->PartsTray->sku : solid->sku);
+	  solidPose = findPrimaryPose(solid); // never 0
+	  solidPose2 = findSecondaryPose(solid); // never 0
+	  testSku = ((part = dynamic_cast<PartType *>(solid)) ?
+		     part->sku :
+		     (kit = dynamic_cast<KitType *>(solid)) ?
+		     kit->KitTray->sku :
+		     (partsTray = dynamic_cast<PartsTrayType *>(solid)) ?
+		     partsTray->sku : 
+		     (kitTray = dynamic_cast<KitTrayType *>(solid)) ?
+		     kitTray->sku : 0);
 	}
       if (solid &&
-	  solidPose &&
 	  gripperCanHandleSku(single->Name, testSku) &&
-	  (singlePose->XAxis->I->val == 1.0) &&
-	  (singlePose->XAxis->J->val == 0.0) &&
-	  (singlePose->XAxis->K->val == 0.0) &&
 	  (singlePose->ZAxis->I->val == 0.0) &&
 	  (singlePose->ZAxis->J->val == 0.0) &&
 	  (singlePose->ZAxis->K->val == -1.0))
 	{
+	  poseInverse(&singleInverse, singlePose);
+	  poseProduct(solidPose, &singleInverse, solidPose2);
 	  solid->refThing->refFor.remove(solid);
-	  solidPose->RefObject->val = single->Name->val;
-	  solidPose->Point->X->val = 0;
-	  solidPose->Point->Y->val = 0;
-	  solidPose->Point->Z->val = single->Length->val;
-	  if (part)
-	    {
-	      boxy = dynamic_cast<BoxyShapeType *>(part->sku->Shape);
-	      if (boxy)
-		solidPose->Point->Z->val += boxy->Height->val;
-	      else
-		{
-		  fprintf(stderr, "cannot handle non-boxy part\n");
-		  exit(1);
-		}
-	      if ((supply =
-		   dynamic_cast<PartsTrayWithPartsType *>(solid->refThing)) &&
-		  (supply->refFor.size() == 1)) // supply still has tray
-		{
-		  relocateTray(supply);
-		  delete supply;
-		}
-	    }
-	  solidPose->ZAxis->I->val = 0.0;
-	  solidPose->ZAxis->J->val = 0.0;
-	  solidPose->ZAxis->K->val = -1.0;
-	  solidPose->XAxis->J->val *= -1.0;
+	  solidPose->RefObjectName->val = single->Name->val;
 	  solid->refThing = single;
 	  single->refFor.push_back(solid);
 	}
@@ -2290,7 +2297,6 @@ void KittingViewer::executeCloseGripperCommand() /* NO ARGUMENTS  */
 }
 
 /********************************************************************/
-
 /* KittingViewer::executeCloseToolChangerCommand
 
 Returned Value: none
@@ -2376,7 +2382,7 @@ void KittingViewer::executeCloseToolChangerCommand() /* NO ARGUMENTS  */
       vacEffector->refThing = nowModel->Robot;
       nowModel->Robot->refFor.push_back(vacEffector);
       nowZ -= vacEffector->Length->val;
-      pose->RefObject->val = nowModel->Robot->Name->val;
+      pose->RefObjectName->val = nowModel->Robot->Name->val;
       pose->XAxis->I->val = 1.0;
       pose->XAxis->J->val = 0.0;
       pose->XAxis->K->val = 0.0;
@@ -2395,7 +2401,7 @@ void KittingViewer::executeCloseToolChangerCommand() /* NO ARGUMENTS  */
 
 Returned Value: none
 
-Called By: KittingViewer::redraw
+Called By: KittingViewer::handleExecute
 
 All workstation state changes are handled by the functions in this
 file. The "process" functions (defined in canonicalMsgView.cc) just
@@ -2864,7 +2870,7 @@ void KittingViewer::executeOpenToolChangerCommand() /* NO ARGUMENTS */
 	  holder->refFor.push_back(vacEffector);
 	  holder->EndEffector = vacEffector;
 	  pose = findPrimaryPose(vacEffector);
-	  pose->RefObject->val = holder->Name->val;
+	  pose->RefObjectName->val = holder->Name->val;
 	  pose->Point->X->val = 0;
 	  pose->Point->Y->val = 0;
 	  pose->Point->Z->val = 0;
@@ -3312,7 +3318,7 @@ void KittingViewer::findAngleAndAxleZ( /* ARGUMENTS             */
   if ((fabs(zAxisA.i + zAxisB.i) < TINYVAL) &&
       (fabs(zAxisA.j + zAxisB.j) < TINYVAL) &&
       (fabs(zAxisA.k + zAxisB.k) < TINYVAL))
-    {
+    { // angle is 180 degrees
       anglesZ[n] = M_PI;
       if ((fabs(zAxisA.i) < TINYVAL) && (fabs(zAxisA.j) < TINYVAL))
 	{
@@ -3421,7 +3427,7 @@ double KittingViewer::findDistance( /* ARGUMENTS                           */
 
 Returned Value: SolidObjectType
   This may return a null pointer or a pointer to a part, a parts tray,
-  a kit tray, a kit, or a parts tray with parts.
+  a kit tray, or a kit.
 
 Called By: KittingViewer::executeCloseGripperCommand
 
@@ -3431,83 +3437,69 @@ Otherwise, a 0 pointer is returned. The X, Y, and Z arguments identify
 a point P.
 
 1. B is a part, a parts tray, or a kit tray.
-2. The shape of B is a BoxyShape.
-3. In kittingWorkstation coordinates, the Z axis of B is 0,0,1.
-4A. If B is a part, the shape has a top.
-4B. If B is a tray, the shape has no top.
-5A. If B is a part, the point argument is within tolerance of
-    the top of the part.
-5B. If B is a tray, P is within tolerance of the bottom
-    of the tray (assumes the tray bottom has no thickness - yuck).
-6. P is within 1 millimeter in X and Y from the origin of B
-   (the origin of a boxy shape is in the middle of the bottom). This is
-   required so that that there will be little torque on a gripper that lifts
-   B and so that it will be easy to determine if the gripper fits B.
+2. A pickup pose for B can be found. If found, it is in workstation
+   coordinates. If not found, the kitting viewer exits.
+3. The Z axis of the pickup pose is very close to 0,0,1.
+4. The Z value of P is within tolerance of the Z value of the origin of
+   the pickup pose.
+5. The X and Y values of P are within 1 millimeter of the X and Y values
+   of the origin of the pickup pose.
 
 Returned pointer rules:
 1. If B is a kit tray
 1A. If the refThing of B is a kit K, then a pointer to K is returned.
 1B. Otherwise, a pointer to B is returned.
-2. If B is a parts tray
-2A. If the refThing of B is a parts tray with parts T, then a pointer
-    to T is returned.
-2B. Otherwise, a pointer to B is returned.
+2. If B is a parts tray, a pointer to B is returned.
 3. If B is a part, a pointer to B is returned.
+
+If a non-zero pointer is returned, the pickup pose will have been set
+to the grasp pose in workstation coordinates of the solid pointed at.
+
+This never returns a large container. A skuObject that passes all the
+tests before the final type test may be a large container.
 
 */
 
 SolidObjectType * KittingViewer::findGripped( /* ARGUMENTS                   */
  double X,                                    /* X value of point to look at */
  double Y,                                    /* Y value of point to look at */
- double Z)                                    /* Z value of point to look at */
+ double Z,                                    /* Z value of point to look at */
+ PoseLocationType * pose)                     /* pickup pose to set          */ 
 {
-  SolidObjectType * object;
+  SkuObjectType * skuObject;
+  PartType * part;
+  PartsTrayType * partsTray;
+  KitTrayType * kitTray;
   std::map<std::string, SolidObjectType *>::iterator iter;
-  PoseLocationType * pose;
-  BoxyShapeType * boxy;
 
   for (iter = nowModel->allSolids.begin();
        iter != nowModel->allSolids.end(); iter++)
     {
-      object = iter->second;
-      pose = findSecondaryPose(object);
-      if ((fabs(X - pose->Point->X->val) > 1)       ||
-	  (fabs(Y - pose->Point->Y->val) > 1)       ||
-	  (fabs(pose->ZAxis->I->val) > TINYVAL)     ||
-	  (fabs(pose->ZAxis->J->val) > TINYVAL)     ||
+      skuObject = dynamic_cast< SkuObjectType *>(iter->second);
+      if (skuObject == 0)
+	continue;
+      findPickupPose(pose, skuObject);
+      if ((fabs(X - pose->Point->X->val) > 1)         ||
+	  (fabs(Y - pose->Point->Y->val) > 1)         ||
+	  (fabs(Z - pose->Point->Z->val) > tolerance) ||
+	  (fabs(pose->ZAxis->I->val) > TINYVAL)       ||
+	  (fabs(pose->ZAxis->J->val) > TINYVAL)       ||
 	  (fabs(pose->ZAxis->K->val - 1) > TINYVAL))
 	continue;
-      if (dynamic_cast<PartType *>(object))
+      if ((part = dynamic_cast<PartType *>(skuObject)))
 	{
-	  if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)) &&
-	      (boxy->HasTop->val == true) &&
-	      (fabs((pose->Point->Z->val + boxy->Height->val) - Z) <
-	       tolerance))
-		return object;
+	  return part;
 	}
-      else if (dynamic_cast<PartsTrayType *>(object))
+      else if ((partsTray = dynamic_cast<PartsTrayType *>(skuObject)))
 	{
-	  if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)) &&
-	      (boxy->HasTop->val == false) &&
-	      (fabs(pose->Point->Z->val - Z) < tolerance))
-	    {
-	      if (dynamic_cast<PartsTrayWithPartsType *>(object->refThing))
-		return object->refThing;
-	      else
-		return object;
-	    }
+	  return partsTray;
 	}
-      else if (dynamic_cast<KitTrayType *>(object))
+      else if ((kitTray = dynamic_cast<KitTrayType *>(skuObject)))
 	{
-	  if ((boxy = dynamic_cast<BoxyShapeType *>(object->sku->Shape)) &&
-	      (boxy->HasTop->val == false) &&
-	      (fabs(pose->Point->Z->val - Z) < tolerance))
-	    {
-	      if (dynamic_cast<KitType *>(object->refThing))
-		return object->refThing;
-	      else
-		return object;
-	    }
+	  if (dynamic_cast<KitType *>(kitTray->refThing))
+	    return kitTray->refThing;
+	  else
+	    return kitTray;
 	}
     }
   return 0;
@@ -3535,10 +3527,103 @@ KitType * KittingViewer::findKitWithTray( /* ARGUMENTS                 */
 
   for (iter = allKits->begin(); iter != allKits->end(); iter++)
     {
-      if ((*iter)->Tray->Name->val == trayName)
+      if ((*iter)->KitTray->Name->val == trayName)
 	return *iter;
     }
   return 0;
+}
+
+/********************************************************************/
+
+/* KittingViewer::findPickupPose
+
+Returned Value: none
+
+Called By:
+
+This sets the pose to the pose in workstation coordinates from which
+the skuObject can be picked up.
+
+The SKU of the skuObject must have an internal shape or this prints
+an error message and exits.
+
+If the skuObject has a grasp pose, the pose is set to the grasp pose
+converted to workstation coordinates.
+
+Otherwise, if the shape of the skuObject is a boxy or cylindrical
+shape: if it has a top, the pose is put at the top of the object in
+the same orientation as the coordinate system of the skuObject;
+otherwise, the pose is put in the same place as the coordinate system
+of the skuObject.
+
+Otherwise, this prints an error message and exits.
+
+*/
+
+void KittingViewer::findPickupPose(
+ PoseLocationType * pose,
+ SkuObjectType * skuObject)
+{
+  BoxyShapeType * boxy;
+  CylindricalShapeType * cyli;
+  PoseLocationType * objectPose;
+  PoseLocationType * graspPose;
+  double height;
+  double i;
+  double j;
+  double k;
+
+  if (skuObject->sku->InternalShape == 0)
+    {
+      fprintf(stderr, "%s has no internal shape in findPickupPose\n",
+	      skuObject->Name->val.c_str());
+      exit(1);
+    }
+  objectPose = findSecondaryPose(skuObject);
+  if ((graspPose = skuObject->sku->InternalShape->GraspPose))
+    {
+      poseProduct(pose, objectPose, graspPose);
+    }
+  else if ((boxy =
+	    dynamic_cast<BoxyShapeType *>(skuObject->sku->InternalShape)))
+    {
+      height = (boxy->HasTop->val ? boxy->Height->val : 0);
+      i = objectPose->ZAxis->I->val;
+      j = objectPose->ZAxis->J->val;
+      k = objectPose->ZAxis->K->val;
+      pose->Point->X->val = (objectPose->Point->X->val + (i * height));
+      pose->Point->Y->val = (objectPose->Point->Y->val + (j * height));
+      pose->Point->Z->val = (objectPose->Point->Z->val + (k * height));
+      pose->XAxis->I->val = objectPose->XAxis->I->val;
+      pose->XAxis->J->val = objectPose->XAxis->J->val;
+      pose->XAxis->K->val = objectPose->XAxis->K->val;
+      pose->ZAxis->I->val = i;
+      pose->ZAxis->J->val = j;
+      pose->ZAxis->K->val = k;
+    }
+  else if ((cyli = dynamic_cast<CylindricalShapeType *>
+	    (skuObject->sku->InternalShape)))
+    {
+      height = (cyli->HasTop->val ? cyli->Height->val : 0);
+      i = objectPose->ZAxis->I->val;
+      j = objectPose->ZAxis->J->val;
+      k = objectPose->ZAxis->K->val;
+      pose->Point->X->val = (objectPose->Point->X->val + (i * height));
+      pose->Point->Y->val = (objectPose->Point->Y->val + (j * height));
+      pose->Point->Z->val = (objectPose->Point->Z->val + (k * height));
+      pose->XAxis->I->val = objectPose->XAxis->I->val;
+      pose->XAxis->J->val = objectPose->XAxis->J->val;
+      pose->XAxis->K->val = objectPose->XAxis->K->val;
+      pose->ZAxis->I->val = i;
+      pose->ZAxis->J->val = j;
+      pose->ZAxis->K->val = k;
+    }
+  else
+    {
+      fprintf(stderr, "%s has unknown shape in findPickupPose\n",
+	      skuObject->Name->val.c_str());
+      exit(1);
+    }
 }
 
 /********************************************************************/
@@ -3548,16 +3633,16 @@ KitType * KittingViewer::findKitWithTray( /* ARGUMENTS                 */
 Returned Value: PoseLocationType *
 
 Called By:
+  KittingViewer::checkLocationIdentical
   KittingViewer::checkLocationUnique
   KittingViewer::createKit
-  KittingViewer::drawRobot
   KittingViewer::drawWorkstation
   KittingViewer::executeCloseGripperCommand
   KittingViewer::executeCloseToolChangerCommand
   KittingViewer::executeOpenToolChangerCommand
   KittingViewer::initData
+  KittingViewer::makeLocationMaps
   KittingViewer::releaseObject
-  KittingViewer::relocateTray
   KittingViewer::resetPositions
   KittingViewer::updateWorkstationPosition
 
@@ -3591,6 +3676,7 @@ Called By:
   KittingViewer::drawSolidObject
   KittingViewer::executeCloseGripperCommand
   KittingViewer::executeOpenToolChangerCommand
+  KittingViewer::findDistance
   KittingViewer::findGripped
   KittingViewer::findToolHolder
   KittingViewer::findSurface
@@ -3662,8 +3748,7 @@ StockKeepingUnitType * KittingViewer::findSku( /* ARGUMENTS           */
 
 Returned Value: std::string *
 
-Called By:
-  KittingViewer::makeLocationMaps
+Called By:  KittingViewer::makeLocationMaps
 
 */
 
@@ -3694,30 +3779,32 @@ called object such that the given xyz point is somewhere on a
 horizontal upward-facing surface of the object. object must be the
 work table, a part, a parts tray, a kit tray, or a large container. If
 there is no such object, this returns 0. The upward-facing surface is
-the top for a work table or part. The upward-facing surface is the
-bottom for a kit tray, a parts tray, or a large container.
+the top of the object if it has a top and is the bottom if not.
 
 This works by going through allSolids of the now model, calling each
-one "test" and seeing if the conditions described above for object are met.
-There may be more than one qualifying test since the bottoms of
-objects currently have zero thickness.
-When there is more than one qualifying test, object is picked as follows
+one "test" and seeing if the conditions described above for object are
+met. It does not return until all solids have been tested. There may
+be more than one qualifying test since the bottoms of objects
+currently have zero thickness. object is picked as follows
 
-- If "solid" is a part, test1 is a tray, and test2 is the worktable,
-  object is set to the tray.
+- If object has not yet been set and test qualifies, then object is set
+  to test.
 
-- If "solid" is a kit, test1 is a kit tray (the kit's own kit tray will
-  qualify), and test2 is a large container, object is set to the large
-  container.
+- If "solid" is a part, object has already been set to a worktable,
+  and test is a parts tray or kit tray that qualifies, then object is
+  reset to the tray.
 
-- Otherwise, object is set to whichever qualifying object is found first.
-  It may be useful to have additional special cases.
+- If "solid" is a kit, object has already been set to a kit tray
+  (the kit's own kit tray will qualify), and test is a large container,
+  then object is reset to the large container.
 
 The offsets are set to the offsets from the point in the location of
 the object to the given xyz point.
 
 The actual check on the Z value is that z is within tolerance of
 a surface.
+
+This deals with cylindrical parts, but other returnable objects must be boxy.
 
 */
 
@@ -3730,11 +3817,16 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
  double * yOffset,  /* Y offset from object location to point, object coords */
  double * zOffset)  /* Z offset from object location to point, object coords */
 {
-  SolidObjectType * object;
-  SolidObjectType * test;
+  SolidObjectType * object; // object to return
+  SolidObjectType * test;   // object to test
+  PartType * part;
+  KitTrayType * kitTray;
+  PartsTrayType * partsTray;
+  LargeContainerType * container;
   std::map<std::string, SolidObjectType *>::iterator iter;
   PoseLocationType * pose;
   BoxyShapeType * boxy;
+  CylindricalShapeType * cyli;
   WorkTableType * table;
   double xi;               // I component of pose X axis in workstation coords
   double xj;               // J component of pose X axis in workstation coords
@@ -3742,6 +3834,7 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
   double vj;               // Y offset in workstation coords
   double length;           // length of target rectangle
   double width;            // width of target rectangle
+  double radius;           // radius of target circle
   double height;           // height of target object
   double xOff;             // test X offset
   double yOff;             // test Y offset
@@ -3750,6 +3843,8 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
   for (iter = nowModel->allSolids.begin();
        iter != nowModel->allSolids.end(); iter++)
     {
+      boxy = 0;
+      cyli = 0;
       test = iter->second;
       // don't locate the solid with respect to itself
       if (test == solid)
@@ -3761,87 +3856,101 @@ SolidObjectType * KittingViewer::findSurface( /* ARGUMENTS                   */
 	  (fabs(pose->ZAxis->K->val - 1) > TINYVAL))
 	continue;
       // find length, width, and height
-      if (dynamic_cast<PartType *>(test))
+      if ((part = dynamic_cast<PartType *>(test)))
 	{
-	  boxy = dynamic_cast<BoxyShapeType *>(test->sku->Shape);
-	  if ((!boxy) || (boxy->HasTop->val == false))
+	  if (part->sku->InternalShape == 0)
 	    continue;
-	  length = boxy->Length->val;
-	  width  = boxy->Width->val;
-	  height = boxy->Height->val;
+	  if ((boxy = dynamic_cast<BoxyShapeType *>
+	       (part->sku->InternalShape)))
+	    setBoxyLimits(boxy, &length, &width, &height);
+	  else if ((cyli = dynamic_cast<CylindricalShapeType *>
+		    (part->sku->InternalShape)))
+	    setCyliLimits(cyli, &radius, &height);
 	}
-      else if (dynamic_cast<PartsTrayType *>(test) ||
-	       dynamic_cast<KitTrayType *>(test))
+      else if ((partsTray = dynamic_cast<PartsTrayType *>(test)))
 	{
-	  boxy = dynamic_cast<BoxyShapeType *>(test->sku->Shape);
-	  if ((!boxy) || (boxy->HasTop->val == true))
+	  if (partsTray->sku->InternalShape == 0)
 	    continue;
-	  length = boxy->Length->val;
-	  width  = boxy->Width->val;
-	  height = 0;
+	  if ((boxy = dynamic_cast<BoxyShapeType *>
+	       (partsTray->sku->InternalShape)))
+	    setBoxyLimits(boxy, &length, &width, &height);
+	}
+      else if ((kitTray = dynamic_cast<KitTrayType *>(test)))
+	{
+	  if (kitTray->sku->InternalShape == 0)
+	    continue;
+	  if ((boxy = dynamic_cast<BoxyShapeType *>
+	       (kitTray->sku->InternalShape)))
+	    setBoxyLimits(boxy, &length, &width, &height);
 	}
       else if ((table = dynamic_cast<WorkTableType *>(test)))
 	{
 	  if (table->InternalShape == 0)
 	    continue;
-	  boxy = dynamic_cast<BoxyShapeType *>(table->InternalShape);
-	  if ((!boxy) || (boxy->HasTop->val == false))
-	    continue;
-	  length = boxy->Length->val;
-	  width  = boxy->Width->val;
-	  height = boxy->Height->val;
+	  if ((boxy = dynamic_cast<BoxyShapeType *>(table->InternalShape)))
+	    setBoxyLimits(boxy, &length, &width, &height);
 	}
-      else if (dynamic_cast<LargeContainerType *>(test))
+      else if ((container = dynamic_cast<LargeContainerType *>(test)))
 	{
-	  boxy = dynamic_cast<BoxyShapeType *>(test->sku->Shape);
-	  if ((!boxy) || (boxy->HasTop->val == true))
+	  if (container->sku->InternalShape == 0)
 	    continue;
-	  length = boxy->Length->val;
-	  width  = boxy->Width->val;
-	  height = 0;
+	  if ((boxy = dynamic_cast<BoxyShapeType *>
+	       (container->sku->InternalShape)))
+	    setBoxyLimits(boxy, &length, &width, &height);
 	}
       else
 	continue;
       // check height
       if (fabs((pose->Point->Z->val + height) - Z) > tolerance)
 	continue;
-      // check that point is inside test rectangle
       vi = (X - pose->Point->X->val);
       vj = (Y - pose->Point->Y->val);
       xi = pose->XAxis->I->val;
       xj = pose->XAxis->J->val;
       xOff = ((vi * xi) + (vj * xj));
       yOff = ((xi * vj) - (vi * xj));
-      if ((fabs(xOff) < (length / 2.0)) &&
-	  (fabs(yOff) < (width / 2.0)))
+      if (boxy)
+	{ // check that point is inside test rectangle
+	  if ((fabs(xOff) > (length / 2.0)) ||
+	      (fabs(yOff) > (width / 2.0)))
+	    continue;
+	}
+      else if (cyli)
+	{ // check that point is inside test circle
+	  if (((xOff * xOff) + (yOff * yOff)) > (radius * radius))
+	    continue;
+	}
+      else
 	{
-	  if (object == 0)
-	    {
-	      *xOffset = xOff;
-	      *yOffset = yOff;
-	      *zOffset = height;
-	      object = test;
-	    }
-	  else if (dynamic_cast<PartType *>(solid) &&
-		   dynamic_cast<WorkTableType *>(object) &&
-		   (dynamic_cast<PartsTrayType *>(test) ||
-		    dynamic_cast<KitTrayType *>(test)))
-	    {
-	      *xOffset = xOff;
-	      *yOffset = yOff;
-	      *zOffset = height;
-	      object = test;
-	    }
-	  else if (dynamic_cast<KitType *>(solid) &&
-		   dynamic_cast<KitTrayType *>(object) &&
-		   dynamic_cast<LargeContainerType *>(test))
-
-	    {
-	      *xOffset = xOff;
-	      *yOffset = yOff;
-	      *zOffset = height;
-	      object = test;
-	    }	   
+	  fprintf(stderr, "Bug in findSurface\n");
+	  exit(1);
+	}
+      if (object == 0)
+	{ // object set to first qualifying test
+	  *xOffset = xOff;
+	  *yOffset = yOff;
+	  *zOffset = height;
+	  object = test;
+	}
+      else if (dynamic_cast<PartType *>(solid) &&
+	       dynamic_cast<WorkTableType *>(object) &&
+	       (dynamic_cast<PartsTrayType *>(test) ||
+		dynamic_cast<KitTrayType *>(test)))
+	{ // part put on work table previously, parts tray currently
+	  *xOffset = xOff;
+	  *yOffset = yOff;
+	  *zOffset = height;
+	  object = test;
+	}
+      else if (dynamic_cast<KitType *>(solid) &&
+	       dynamic_cast<KitTrayType *>(object) &&
+	       dynamic_cast<LargeContainerType *>(test))
+	
+	{ // kit put on kit tray previously, large container currently
+	  *xOffset = xOff;
+	  *yOffset = yOff;
+	  *zOffset = height;
+	  object = test;
 	}
     }
   return object;
@@ -3871,7 +3980,7 @@ EndEffectorHolderType * KittingViewer::findToolHolder( /* ARGUMENTS        */
   std::list<EndEffectorHolderType *>::iterator iter;
   PoseLocationType * pose;
 
-  holders = nowModel->ChangingStation->EndEffectorHolders;
+  holders = nowModel->ChangingStation->EndEffectorHolder;
   for (iter = holders->begin(); iter != holders->end(); iter++)
     {
       pose = findSecondaryPose(*iter);
@@ -4181,7 +4290,9 @@ double KittingViewer::hypot3( /* ARGUMENTS   */
 
 Returned Value: none
 
-Called By: main
+Called By:
+  void KittingViewer::runAgain
+  main
 
 This initializes the kittingViewer. Specifically:
  - sets up the initModel:
@@ -4486,7 +4597,7 @@ void KittingViewer::insertBoxTransformed( /* ARGUMENTS                       */
  double zAxisY,                /* Y coordinate of direction of height of box */
  double zAxisZ,                /* Z coordinate of direction of height of box */
  bool hasTop,                  /* true=box has top, false=no top             */
- bool solid)                   /* true = faces and edges, false = edges only */
+ bool solid)                   /* true = faces and edges, false = faces only */
 {
   static GLubyte allIndices[] = {4,5,6,7, 1,2,6,5, 0,1,5,4,
 				 0,3,2,1, 0,4,7,3, 2,3,7,6};
@@ -4559,9 +4670,11 @@ void KittingViewer::insertBoxTransformed( /* ARGUMENTS                       */
 
 Returned Value: none
 
-Called By:  KittingViewer::drawSingleCupGripper
+Called By:
+  KittingViewer::drawCylindricalShape
+  KittingViewer::drawSingleCupGripper
 
-This may be used for drawing cones, cylinders, and annuluses. The
+This may be used for drawing truncated cones, cylinders, and annuluses. The
 point used for locating the surface is in the center of the bottom. The
 axis of the surface is the zAxis vector. The xAxis and zAxis vectors here
 are assumed to be normalized. For a cylinder, radius1 = radius2. For an
@@ -4597,8 +4710,9 @@ void KittingViewer::insertConeTransformed( /* ARGUMENTS                  */
  double xAxisZ,           /* Z coordinate of direction of X axis of cone */
  double zAxisX,           /* X coordinate of direction of Z axis of cone */
  double zAxisY,           /* Y coordinate of direction of Z axis of cone */
- double zAxisZ)           /* Z coordinate of direction of Z axis of cone */
-//bool hasTop,            /* true=cone has top, false=no top             */
+ double zAxisZ,           /* Z coordinate of direction of Z axis of cone */
+ bool hasBottom,          /* true=cone has bottom, false=no bottom       */
+ bool hasTop)             /* true=cone has top, false=no top             */
 {
   int n;
 
@@ -4607,10 +4721,16 @@ void KittingViewer::insertConeTransformed( /* ARGUMENTS                  */
      10,12,13,11,  12,14,15,13,  14,16,17,15,  16,18,19,17,  18,20,21,19,
      20,22,23,21,  22,24,25,23,  24,26,27,25,  26,28,29,27,  28,30,31,29,
      30, 0, 1,31};
-  static GLubyte topIndices[] =
+  static GLubyte topEdgeIndices[] =
     {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31};
-  static GLubyte bottomIndices[] =
+  static GLubyte bottomEdgeIndices[] =
     {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
+  static GLubyte topFaceIndices[] =
+    {1, 3,29,31,  3, 5,27,29,   5, 7,25,27,  7, 9,23,25,
+     9,11,21,23,  11,13,19,21, 13,15,17,19};
+  static GLubyte bottomFaceIndices[] =
+    {0, 2,28,30,  2, 4,26,28,   4, 6,24,26,  6, 8,22,24,
+     8,10,20,22,  10,12,19,20, 12,14,16,18};
   static GLfloat vertices[96] = {0};
   static GLfloat matrix[] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
   static GLfloat r1;
@@ -4708,10 +4828,14 @@ void KittingViewer::insertConeTransformed( /* ARGUMENTS                  */
   glColor3f(color.r, color.g, color.b);
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   glDrawElements(GL_QUADS, 64, GL_UNSIGNED_BYTE, allIndices);
+  if (hasBottom)
+    glDrawElements(GL_QUADS, 32, GL_UNSIGNED_BYTE, bottomFaceIndices);
+  if (hasTop)
+    glDrawElements(GL_QUADS, 32, GL_UNSIGNED_BYTE, topFaceIndices);
   glColor3f((0.5f * color.r), (0.5f * color.g), (0.5f * color.b));
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  glDrawElements(GL_LINE_LOOP, 16, GL_UNSIGNED_BYTE, topIndices);
-  glDrawElements(GL_LINE_LOOP, 16, GL_UNSIGNED_BYTE, bottomIndices);
+  glDrawElements(GL_LINE_LOOP, 16, GL_UNSIGNED_BYTE, topEdgeIndices);
+  glDrawElements(GL_LINE_LOOP, 16, GL_UNSIGNED_BYTE, bottomEdgeIndices);
   glPopMatrix();
 }
 
@@ -4721,7 +4845,8 @@ void KittingViewer::insertConeTransformed( /* ARGUMENTS                  */
 
 Returned Value: none
 
-Called By:  KittingViewer::drawSingleCupGripper
+Called By:
+  KittingViewer::drawSingleCupGripper
 
 This makes a 16-sided disk using seven quadrilaterals. The location point
 of the disk is in the center. The axis of the disk is the Z axis.
@@ -5107,6 +5232,69 @@ void KittingViewer::makeLocationMaps()  /* NO ARGUMENTS */
 
 /********************************************************************/
 
+/* KittingViewer::poseInverse
+
+Returned Value: none
+
+Called By:  KittingViewer::??
+
+This computes and sets the Point, XAxis, and ZAxis for inverse as the
+inverse of pose, treating both poses as homogeneous matrices, and
+assuming the XAxis and ZAxis of pose are normalized. A set of Y axis
+values are calculated for pose as an intermediate step, but those
+values are not saved.
+
+inverse may point to the same pose as pose since all the data in pose
+is recorded separately before any data is written into inverse, and
+the values placed into inverse are calculated from the separate
+recorded data.
+
+*/
+
+void KittingViewer::poseInverse( /* ARGUMENTS                    */
+ PoseLocationType * inverse,     /* pose to set                  */
+ PoseLocationType * pose)        /* pose to find the inverse for */
+{
+  
+  double xi = pose->XAxis->I->val;
+  double xj = pose->XAxis->J->val;
+  double xk = pose->XAxis->K->val;
+  double yi;
+  double yj;
+  double yk;
+  double zi = pose->ZAxis->I->val;
+  double zj = pose->ZAxis->J->val;
+  double zk = pose->ZAxis->K->val;
+  double ox = pose->Point->X->val;
+  double oy = pose->Point->Y->val;
+  double oz = pose->Point->Z->val;
+  
+  yi = ((zj * xk) - (xj * zk));
+  yj = ((zk * xi) - (xk * zi));
+  yk = ((zi * xj) - (xi * zj));
+
+  inverse->XAxis->I->val = xi;
+  inverse->XAxis->I->bad = false;
+  inverse->XAxis->J->val = yi;
+  inverse->XAxis->J->bad = false;
+  inverse->XAxis->K->val = zi;
+  inverse->XAxis->K->bad = false;
+  inverse->ZAxis->I->val = xk;
+  inverse->ZAxis->I->bad = false;
+  inverse->ZAxis->J->val = yk;
+  inverse->ZAxis->J->bad = false;
+  inverse->ZAxis->K->val = zk;
+  inverse->ZAxis->K->bad = false;
+  inverse->Point->X->val = -((xi * ox) + (xj * oy) + (xk * oz));
+  inverse->Point->X->bad = false;
+  inverse->Point->Y->val = -((yi * ox) + (yj * oy) + (yk * oz));
+  inverse->Point->Y->bad = false;
+  inverse->Point->Z->val = -((zi * ox) + (zj * oy) + (zk * oz));
+  inverse->Point->Z->bad = false;
+}
+
+/********************************************************************/
+
 /* KittingViewer::poseProduct
 
 Returned Value: none
@@ -5125,6 +5313,12 @@ This may be used, for example, as follows.
 poseToSet = pose of kid object in workstation coordinates
 pose1     = pose of parent object in workstation coordinates
 pose2     = pose of kid object in parent coordinates
+
+or
+
+poseToSet = pose of object in gripper coordinates
+pose1     = pose of workstation in gripper coordinates
+pose2     = pose of object in workstation coordinates
 
 poseToSet may point to the same pose as pose1 or pose2 since all the data
 in pose1 and pose2 is recorded separately before any data is written into
@@ -5457,6 +5651,7 @@ void KittingViewer::readCommandFile() /* NO ARGUMENTS */
 	      commandFile);
       exit(1);
     }
+  commands.clear();
   CommandParser::readCommandFile(inFile, &commands);
   fclose(inFile);
   printf("Command file read\n");
@@ -5570,7 +5765,7 @@ void KittingViewer::readScoringFile( /* ARGUMENTS                        */
       scoreKittingTree =
 	new ScoreKittingFile
 	(new XmlVersion(false),
-	 new XmlHeaderForScoreKitting (new SchemaLocation(0,0)),
+	 new XmlHeaderForScoreKitting (new SchemaLocation(0, 0, false)),
 	 new scoreKittingType
 	 (new factorValueOptType(new XmlBoolean("false"),
 				 new XmlUnsignedInt("1"), 0),
@@ -5594,7 +5789,7 @@ void KittingViewer::readScoringFile( /* ARGUMENTS                        */
       scoreKittingTree =
 	new ScoreKittingFile
 	(new XmlVersion(false),
-	 new XmlHeaderForScoreKitting (new SchemaLocation(0,0)),
+	 new XmlHeaderForScoreKitting (new SchemaLocation(0, 0, false)),
 	 new scoreKittingType
 	 (new factorValueOptType(new XmlBoolean("true"),
 				 new XmlUnsignedInt("1"), 0),
@@ -5722,11 +5917,10 @@ void KittingViewer::releaseObject(     /*  ARGUMENTS                  */
   double refXJ;       // J component of refSolid X axis in workstation coords
   
   solidSecondaryPose = findSecondaryPose(solid); // never 0
-  solidPrimaryPose = findPrimaryPose(solid);
+  solidPrimaryPose = findPrimaryPose(solid);  // never 0
   
   single->refFor.remove(solid);
-  if (solidPrimaryPose &&
-      (refSolid = findSurface(solidSecondaryPose->Point->X->val,
+  if ((refSolid = findSurface(solidSecondaryPose->Point->X->val,
 			      solidSecondaryPose->Point->Y->val,
 			      solidSecondaryPose->Point->Z->val,
 			      solid, &xOffset, &yOffset, &zOffset)))
@@ -5738,7 +5932,7 @@ void KittingViewer::releaseObject(     /*  ARGUMENTS                  */
       solidXJ = solidSecondaryPose->XAxis->J->val;
       solid->refThing = refSolid;
       refSolid->refFor.push_back(solid);
-      solidPrimaryPose->RefObject->val = refSolid->Name->val;
+      solidPrimaryPose->RefObjectName->val = refSolid->Name->val;
       solidPrimaryPose->Point->X->val = xOffset;
       solidPrimaryPose->Point->Y->val = yOffset;
       solidPrimaryPose->Point->Z->val = zOffset;
@@ -5753,7 +5947,8 @@ void KittingViewer::releaseObject(     /*  ARGUMENTS                  */
     {
       solid->refThing = nowModel;
       nowModel->refFor.push_back(solid);
-      solidPrimaryPose->RefObject->val = solidSecondaryPose->RefObject->val;
+      solidPrimaryPose->RefObjectName->val = 
+	solidSecondaryPose->RefObjectName->val;
       solidPrimaryPose->Point->X->val = solidSecondaryPose->Point->X->val;
       solidPrimaryPose->Point->Y->val = solidSecondaryPose->Point->Y->val;
       solidPrimaryPose->Point->Z->val = solidSecondaryPose->Point->Z->val;
@@ -5766,13 +5961,15 @@ void KittingViewer::releaseObject(     /*  ARGUMENTS                  */
     }
   if (dynamic_cast<PartType *>(solid))
     {
-      adjustPartLocation(dynamic_cast<PartType *>(solid),
-			 refSolid, solidPrimaryPose);
+      if (refSolid)
+	adjustPartLocation(dynamic_cast<PartType *>(solid),
+			   refSolid, solidPrimaryPose);
     }
   else if (dynamic_cast<KitType *>(solid))
     {
-      adjustKitLocation(dynamic_cast<KitType *>(solid),
-			refSolid, solidPrimaryPose);
+      if (refSolid)
+	adjustKitLocation(dynamic_cast<KitType *>(solid),
+			  refSolid, solidPrimaryPose);
     }
   else if (dynamic_cast<PartsTrayType *>(solid));
   else if (dynamic_cast<KitTrayType *>(solid));
@@ -5782,54 +5979,6 @@ void KittingViewer::releaseObject(     /*  ARGUMENTS                  */
 	      "Bug in releaseObject; object %s released not liftable\n",
 	      solid->Name->val.c_str());
     }
-}
-
-/********************************************************************/
-
-/* KittingViewer::relocateTray
-
-Returned Value: none
-
-Called By: KittingViewer::executeCloseGripperCommand
-
-When this is called, a portion of the location chain looks like
-
-    something --> supply --> tray
-
-This cuts the supply out of the chain so that when the function is done
-the chain is:
-
-    something --> tray
-
-The tray is in the same place with respect to the something as the supply,
-so the details for the supply location are copied into the tray location.
-
-*/
-
-void KittingViewer::relocateTray( /*  ARGUMENTS                   */
- PartsTrayWithPartsType * supply) /* empty part supply to cut out */
-{
-  PartsTrayType * tray;
-  PoseLocationType * trayPose;
-  PoseLocationType * supplyPose;
-
-  tray = supply->PartsTray;
-  supply->refThing->refFor.push_back(tray);
-  tray->refThing = supply->refThing;
-  supply->refThing->refFor.remove(supply);
-  nowModel->allSolids.erase(supply->Name->val);
-  trayPose = findPrimaryPose(tray);
-  supplyPose = findPrimaryPose(supply);
-  trayPose->RefObject->val = supplyPose->RefObject->val;
-  trayPose->Point->X->val = supplyPose->Point->X->val;
-  trayPose->Point->Y->val = supplyPose->Point->Y->val;
-  trayPose->Point->Z->val = supplyPose->Point->Z->val;
-  trayPose->XAxis->I->val = supplyPose->XAxis->I->val;
-  trayPose->XAxis->J->val = supplyPose->XAxis->J->val;
-  trayPose->XAxis->K->val = supplyPose->XAxis->K->val;
-  trayPose->ZAxis->I->val = supplyPose->ZAxis->I->val;
-  trayPose->ZAxis->J->val = supplyPose->ZAxis->J->val;
-  trayPose->ZAxis->K->val = supplyPose->ZAxis->K->val;
 }
 
 /********************************************************************/
@@ -5910,8 +6059,6 @@ void KittingViewer::resetPositions( /*  ARGUMENTS                   */
 Returned Value: none
 
 Called By: KittingViewer::runAgain
-
-void KittingViewer::resetViewer
 
 This resets the kittingViewer model so that a simulation can be run over
 again. The destructors this calls currently do not delete the components
@@ -6024,18 +6171,69 @@ void KittingViewer::runAgain() /* NO ARGUMENTS */
 
 /********************************************************************/
 
-/* KittingViewer::setExecuteFlag
+/* KittingViewer::sameVectorIJK
 
-Returned Value: none
+Returned Value: bool
+If all three components of the two vectors are nearly equal this returns true.
+Otherwise, it returns false.
 
-Called By: keyboard (in viewKitting.cc)
+Called By:
 
 */
 
-void KittingViewer::setExecuteFlag( /* ARGUMENTS                             */
- bool setting)                      /* true=execute next command, false=wait */
+bool KittingViewer::sameVectorIJK(
+ VectorIJK vec1,
+ VectorIJK vec2)
 {
-  executeFlag = setting;
+  return ((fabs(vec1.i - vec2.i) < TINYVAL) &&
+	  (fabs(vec1.j - vec2.j) < TINYVAL) &&
+	  (fabs(vec1.k - vec2.k) < TINYVAL));
+}
+
+/********************************************************************/
+
+/* KittingViewer::sameVectorType
+
+Returned Value: bool
+If all three components of the two vectors are nearly equal this returns true.
+Otherwise, it returns false.
+
+Called By:
+
+*/
+
+bool KittingViewer::sameVectorType(
+ VectorType * vec1,
+ VectorType * vec2)
+{
+  return ((fabs(vec1->I->val - vec2->I->val) < TINYVAL) &&
+	  (fabs(vec1->J->val - vec2->J->val) < TINYVAL) &&
+	  (fabs(vec1->K->val - vec2->K->val) < TINYVAL));
+}
+
+/********************************************************************/
+
+/* KittingViewer::setBoxyLimits
+
+Returned Value: none
+
+Called By: findSurface
+
+This sets the length to the length of the boxy shape, the width to the
+width of the boxy shape, and the height to the height of the boxy shape
+if it has a top or to zero if not.
+
+*/
+
+void KittingViewer::setBoxyLimits( /* ARGUMENTS                     */
+ BoxyShapeType * boxy,             /* boxy shape to get values from */
+ double * length,                  /* length set here               */
+ double * width,                   /* width set here                */
+ double * height)                  /* height set here               */
+{
+  *length = boxy->Length->val;
+  *width  = boxy->Width->val;
+  *height = (boxy->HasTop->val ? boxy->Height->val : 0);
 }
 
 /********************************************************************/
@@ -6080,41 +6278,69 @@ void KittingViewer::setColorAndSku(        /* ARGUMENTS                     */
  std::list<StockKeepingUnitType *> * Skus) /* all SKUs in nowModel          */
 {
   XmlIDREF * skuName;
-  KitTrayType * kitTray;
-  PartsTrayType * partsTray;
-  LargeContainerType * largeContainer;
-  PartType * part;
+  SkuObjectType * skuObject;
   StockKeepingUnitType * sku;
 
   if ((dynamic_cast<WorkTableType *>(object)) ||
       (dynamic_cast<EndEffectorChangingStationType *>(object)) ||
       (dynamic_cast<EndEffectorHolderType *>(object)))
     makeBlueColor(&(object->color));
-  else if (dynamic_cast<PartsBinType *>(object))
-    makeGreenColor(&(object->color));
-  else if ((((kitTray = dynamic_cast<KitTrayType *>(object))) &&
-	    ((skuName = kitTray->SkuName))) ||
-	   (((partsTray = dynamic_cast<PartsTrayType *>(object))) &&
-	    ((skuName = partsTray->SkuName))) ||
-	   (((largeContainer = dynamic_cast<LargeContainerType *>(object))) &&
-	    ((skuName = largeContainer->SkuName))) ||
-	   (((part = dynamic_cast<PartType *>(object))) &&
-	    ((skuName = part->SkuName))))
+  else if ((skuObject = dynamic_cast<SkuObjectType *>(object)))
     {
+      skuName = skuObject->SkuName;
       sku = findSku(skuName, Skus); // never null
-      object->sku = sku;
+      skuObject->sku = sku;
       if (sku->color.g > 0.0f)
-	object->color = sku->color;
+	skuObject->color = sku->color;
       else
 	{
-	  makeGreenColor(&(object->color));
-	  sku->color = object->color;
+	  makeGreenColor(&(skuObject->color));
+	  sku->color = skuObject->color;
 	}
     }
   else if (dynamic_cast<EndEffectorType *>(object))
     makeRedColor(&(object->color));
   else if (dynamic_cast<RobotType *>(object))
     makeRedColor(&(object->color));
+}
+
+/********************************************************************/
+
+/* KittingViewer::setCyliLimits
+
+Returned Value: none
+
+Called By: findSurface
+
+This sets the radius to half the diameter of the cylindrical shape and
+the height to the height of the cylindrical shape if it has a top or
+to zero if not.
+
+*/
+
+void KittingViewer::setCyliLimits( /* ARGUMENTS                            */
+ CylindricalShapeType * cyli,      /* cylindrical shape to get values from */
+ double * radius,                  /* radius set here                      */
+ double * height)                  /* height set here                      */
+{
+  *radius = (cyli->Diameter->val / 2.0);
+  *height = (cyli->HasTop->val ? cyli->Height->val : 0);
+}
+
+/********************************************************************/
+
+/* KittingViewer::setExecuteFlag
+
+Returned Value: none
+
+Called By: keyboard (in viewKitting.cc)
+
+*/
+
+void KittingViewer::setExecuteFlag( /* ARGUMENTS                             */
+ bool setting)                      /* true=execute next command, false=wait */
+{
+  executeFlag = setting;
 }
 
 /********************************************************************/
@@ -6240,7 +6466,7 @@ void KittingViewer::setNetTransform(                /* ARGUMENTS            */
   static PointType point(0, &px, &py, &pz);
   static VectorType xAxis(0, &xi, &xj, &xk);
   static VectorType zAxis(0, &zi, &zj, &zk);
-  static PoseLocationType idler(0, 0, &point, &xAxis, &zAxis); // see above
+  static PoseLocationType idler(0, 0, 0, &point, &xAxis, &zAxis, 0, 0);
   int n; // use int since size_T not working normally with % (mod)
 
   if (locationStack->size() == 0)
@@ -6351,7 +6577,7 @@ void KittingViewer::setWorkstationLocation(          /* ARGUMENTS        */
   PoseLocationType * newPose;
   
   locationStack.push_front(object->PrimaryLocation);
-  ref = object->PrimaryLocation->RefObject;
+  ref = object->PrimaryLocation->RefObjectName;
   refObjectName = ref->val;
   iter = allSolids.find(refObjectName);
   refThing = iter->second;
@@ -6360,13 +6586,13 @@ void KittingViewer::setWorkstationLocation(          /* ARGUMENTS        */
   while (dynamic_cast<KittingWorkstationType *>(refThing) == 0)
     {
       locationStack.push_front(refThing->PrimaryLocation);
-      ref = refThing->PrimaryLocation->RefObject;
+      ref = refThing->PrimaryLocation->RefObjectName;
       refObjectName = ref->val;
       iter = allSolids.find(refObjectName);
       refThing = iter->second;
     }
   newPose = new PoseLocationType();
-  newPose->RefObject = ref;
+  newPose->RefObjectName = ref;
   setNetTransform(newPose, &locationStack);
   object->SecondaryLocation->push_front(newPose);
 }
@@ -6378,7 +6604,11 @@ void KittingViewer::setWorkstationLocation(          /* ARGUMENTS        */
 Returned Value: none
 
 Called By:
+  KittingViewer::countMovableObjects
   KittingViewer::handleExecute
+
+This returns true if solid is movable by the robot, which is the case
+only for the types listed in the function.
 
 */
 
@@ -6389,7 +6619,6 @@ bool KittingViewer::solidIsMovable( /* ARGUMENTS                */
 	  dynamic_cast<KitType *>(solid)                       ||
 	  dynamic_cast<KitTrayType *>(solid)                   ||
 	  dynamic_cast<PartsTrayType *>(solid)                 ||
-	  dynamic_cast<PartsTrayWithPartsType *>(solid)        ||
 	  dynamic_cast<LargeBoxWithKitsType *>(solid)          ||
 	  dynamic_cast<LargeBoxWithEmptyKitTraysType *>(solid) ||
 	  dynamic_cast<LargeContainerType *>(solid));

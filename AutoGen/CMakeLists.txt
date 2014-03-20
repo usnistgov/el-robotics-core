@@ -13,7 +13,7 @@ cmake_policy(VERSION 2.6)
 message("In AutoGen directory")
 
 project(AutoGen)
-set(OWL_FILE ${IPMAS_DIR}/Ontology/Kitting/kittingClasses.owl)
+set(OWL_FILE ${IPMAS_DIR}/Ontology/Kitting/kittingWorkstationClasses.owl)
 set(AutoGen_DIR ${IPMAS_DIR}/AutoGen/src)
 file(GLOB libsqlKit_SOURCES "./src/*.cpp")
 #file(GLOB libsqlKit_INCLUDES "./database/*.hh")

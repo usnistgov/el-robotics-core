@@ -242,7 +242,7 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList,
   shapeDesign = (ShapeDesign*)sku->gethasStockKeepingUnit_InternalShape();
   if( shapeDesign == NULL ) // check for external shape
     {
-      shapeDesign = (ShapeDesign*)sku->gethadByExternalShape_StockKeepingUnit();
+      shapeDesign = (ShapeDesign*)sku->gethasStockKeepingUnit_ExternalShape();
       if( shapeDesign == NULL )
 	{
 	  return;
@@ -251,7 +251,7 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList,
   shapeDesign->get(shapeDesign->getname());
 
   // from shape design, get grasp pose
-  graspPose = shapeDesign->gethadByGraspPose_ShapeDesign();
+  graspPose = shapeDesign->gethasShapeDesign_GraspPose();
   graspPose->get(graspPose->getname());
   located_frame.clear();
 
@@ -422,7 +422,7 @@ void CanonicalRobotCommand::put_part(vector<string> paramList,
   endEffector = robot->gethadByEndEffector_Robot();
   endEffector->get(endEffector->getname());
   // get what is being held
-  solidObject = endEffector->gethasEndEffector_HeldObject();
+  solidObject = endEffector->gethadByHeldObject_EndEffector();
   if (phase == ACTION)
     {
       // get the slot

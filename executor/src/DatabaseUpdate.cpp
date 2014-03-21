@@ -41,7 +41,7 @@ void DatabaseUpdate::graspByRobot( std::string robotName, std::string solidObjec
   // get gripper being used by robot and set held object
   endEffector = robot->gethadByEndEffector_Robot();
   endEffector->get(endEffector->getname());
-  endEffector->sethasEndEffector_HeldObject(solidObject);
+  endEffector->sethadByHeldObject_EndEffector(solidObject);
   std::cout << "Effector " << endEffector->getname() << " holding " <<
     solidObject->getname() << std::endl;
 
@@ -141,7 +141,7 @@ void DatabaseUpdate::releaseByRobot( std::string robotName, std::string solidObj
   // clear what is being held
   endEffector = robot->gethadByEndEffector_Robot();
   endEffector->get(endEffector->getname());
-  endEffector->sethasEndEffector_HeldObject(NULL);
+  endEffector->sethadByHeldObject_EndEffector(NULL);
   endEffector->set(endEffector->getname());
 
   // get partRefAndPose from slot and set new reference object and 

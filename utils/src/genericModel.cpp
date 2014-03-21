@@ -50,7 +50,7 @@ std::string GenericModel::getModel(StockKeepingUnit *sku)
   ExternalShape *externalShape;
 
   sku->get(sku->getname());
-  externalShape = sku->gethadByExternalShape_StockKeepingUnit();
+  externalShape = sku->gethasStockKeepingUnit_ExternalShape();
   modelName = getModel( externalShape );
   return modelName;
 }
@@ -62,7 +62,7 @@ std::string GenericModel::getModel(NoSkuObject *noSku)
 
   noSku->get(noSku->getname());
 
-  externalShape = noSku->gethadByExternalShape_NoSkuObject();
+  externalShape = noSku->gethasNoSkuObject_ExternalShape();
   modelName = getModel( externalShape );
   return modelName;
 }

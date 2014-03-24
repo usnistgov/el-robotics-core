@@ -279,7 +279,11 @@ int main (int argc, char* argv[])
 	  kittingplan->parseLinePlanInstance(line);
 	}
       kittingplan->storeParam();
-      kittingProb->readFluents(fluentsFile.c_str());
+      if( !kittingProb->readFluents(fluentsFile.c_str()))
+	{
+	  printf( "canonicalController:: error from readFluents, exiting!\n");
+	  exit(1);
+	}
       kittingProb->parsePDDLProblem(kittingplan);
       //      canonicalRobotCommand->interpretPlan(kittingplan);
       canonicalRobotCommand->initializePlan(kittingplan);

@@ -195,7 +195,7 @@ AnnotationAssertion(rdfs:comment ktw:DataThing
 SubClassOf(ktp:ArithmeticExpression ktw:DataThing)
 SubClassOf(ktp:BooleanExpression ktw:DataThing)
 SubClassOf(ktw:BoxVolume ktw:DataThing)
-SubClassOf(ktp:Else ktw:DataThing)
+//SubClassOf(ktp:Else ktw:DataThing)
 SubClassOf(ktw:KitDesign ktw:DataThing)
 SubClassOf(ktp:KittingPlan ktw:DataThing)
 SubClassOf(ktp:NumberedPlanElement ktw:DataThing)
@@ -214,7 +214,7 @@ DisjointUnion(ktw:DataThing
               ktp:ArithmeticExpression
               ktp:BooleanExpression
               ktw:BoxVolume
-              ktp:Else
+//              ktp:Else
               ktw:KitDesign
               ktp:KittingPlan
               ktp:NumberedPlanElement

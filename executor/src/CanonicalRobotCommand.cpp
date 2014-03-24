@@ -205,6 +205,7 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList,
   Vector *myVector;
   Part *part = new Part(located_part);
   bool found = false;
+  string type;
 
   if (phase == EFFECT)
     return;
@@ -212,7 +213,7 @@ void CanonicalRobotCommand::look_for_part(vector<string> paramList,
 
   for (vector<string>::size_type i = 0; i < listLength; i++)
     {
-      string type;
+      //      type=kittingplan->matchParamType(paramList[i]);
       type=kittingplan->matchParamType(paramList[i]);
       m_file_operator->stripSpace(type);
     
@@ -423,6 +424,11 @@ void CanonicalRobotCommand::put_part(vector<string> paramList,
   endEffector->get(endEffector->getname());
   // get what is being held
   solidObject = endEffector->gethadByHeldObject_EndEffector();
+  if( solidObject == NULL ) // robot must have dropped the part!
+    {
+      printf( "CanonicalRobotCommand:: robot not holding anything and it should be!\n" );
+      exit(1);
+    }
   if (phase == ACTION)
     {
       // get the slot

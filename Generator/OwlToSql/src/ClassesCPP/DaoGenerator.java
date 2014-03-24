@@ -1324,10 +1324,10 @@ public class DaoGenerator {
 		setGlobal+="										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
 		setGlobal+="												\"/\") + 1) + \"=\" + data[\"name\"];\n";
 		setGlobal+= "				query\n";
-		setGlobal+= "						= query + \" WHERE _NAME='\"\n";
+		setGlobal+= "						= query + \" WHERE _NAME=\"\n";
 		setGlobal+="								+ data[DAO::getSqlQueriesObjectSingle[className.back()][i].substr(\n";
 		setGlobal+="										DAO::getSqlQueriesObjectSingle[className.back()][i].find(\n";
-		setGlobal+= "												\"/\") + 1)] + \"'\";\n";
+		setGlobal+= "												\"/\") + 1)];\n";
 		setGlobal+= "					stmt->execute(query);\n";
 		setGlobal+= "			}\n";
 		setGlobal+= "			delete (stmt);\n";

@@ -16,3 +16,10 @@ no debug:
 cmake . 
 debug information:
 cmake . -DCMAKE_BUILD_TYPE=Debug
+
+NOTE:
+You will need to run the following commands to build the system
+1) cmake (see above for parameters)
+2) make (will tell you that new files have been added)
+3) cmake (see above for parameters)
+4) make

@@ -199,12 +199,12 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ElseType">
+  <xs:complexType name="ElseDoType">
     <xs:annotation>
       <xs:documentation>
-        Else type represents the 'else' part of an If-ElseIf-Else
+        ElseDo type represents the 'else' part of an If-ElseIf-Else
         construct.
-        An instance of ElseType has the following elements:
+        An instance of ElseDoType has the following elements:
           Name (inherited)
           Step.
 
@@ -231,7 +231,7 @@
           Name (inherited)
           If
           ElseIf (optional, multiple)
-          Else (optional).
+          ElseDo (optional).
  
         If is a test to evaluate and the plan element to execute if the
         test evaluates to true.
@@ -239,7 +239,7 @@
         Each optional ElseIf is a test to evaluate and the plan
         element to execute if the test evaluates to true.
  
-        The optional Else is a plan element to execute if none
+        The optional ElseDo is a plan element to execute if none
         of the If or ElseIf tests evaluates to true.
  
         To execute an instance of IfActionGroupType:
@@ -251,8 +251,8 @@
            and return. Repeat until either return occurs or there are no
            more ElseIfs.
  
-        3. Otherwise, if there is an Else, execute the plan element in the
-           Else and return.
+        3. Otherwise, if there is an ElseDo, execute the plan element
+        in the ElseDo and return.
  
         4. Otherwise, return.
  
@@ -270,8 +270,8 @@
             type="TestAndStepType"
             minOccurs="0"
             maxOccurs="unbounded"/>
-          <xs:element name="Else"
-            type="ElseType"
+          <xs:element name="ElseDo"
+            type="ElseDoType"
             minOccurs="0"/>
         </xs:sequence>
       </xs:extension>

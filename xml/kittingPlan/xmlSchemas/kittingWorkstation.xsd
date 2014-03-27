@@ -4,18 +4,17 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
-  version="2013Jan10D">
-<!--
+  version="2014Mar26">
+
   <xs:element name="KittingWorkstation"
     type="KittingWorkstationType">
     <xs:annotation>
       <xs:documentation>
         Root element
       </xs:documentation>
-      <xs:documentation>owlPrefix=ktw</xs:documentation>
     </xs:annotation>
   </xs:element>
--->
+
   <xs:annotation>
     <xs:documentation>
       This kitting ontology models a kitting workstation including objects
@@ -405,25 +404,11 @@
             </xs:annotation>
           </xs:element>
           <xs:element name="KitTray"
-            type="KitTrayType">
-
-            <xs:key name="KitTrayKey">
-              <xs:selector xpath="."/>
-              <xs:field xpath="SkuName"/>
-              <xs:field xpath="SerialNumber"/>
-            </xs:key>
-          </xs:element>
+            type="KitTrayType"/>
           <xs:element name="Part"
             type="PartType"
             minOccurs="0"
-            maxOccurs="unbounded">
-
-            <xs:key name="PartKey">
-              <xs:selector xpath="."/>
-              <xs:field xpath="SkuName"/>
-              <xs:field xpath="SerialNumber"/>
-            </xs:key>
-          </xs:element>
+            maxOccurs="unbounded"/>
           <xs:element name="Slot"
             type="SlotType"
             minOccurs="0"
@@ -568,6 +553,22 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:element name="KitTray"
+    type="KitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        This element exists only to carry the KitTrayKey. It is not
+        used elsewhere in the model.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:key name="KitTrayKey">
+      <xs:selector xpath="."/>
+      <xs:field xpath="SkuName"/>
+      <xs:field xpath="SerialNumber"/>
+    </xs:key>
+  </xs:element>
+
   <xs:complexType name="LargeBoxWithEmptyKitTraysType">
     <xs:annotation>
       <xs:documentation>
@@ -595,14 +596,7 @@
       <xs:extension base="NoSkuObjectType">
         <xs:sequence>
           <xs:element name="LargeContainer"
-            type="LargeContainerType">
-
-            <xs:key name="LargeContainerKey">
-              <xs:selector xpath="."/>
-              <xs:field xpath="SkuName"/>
-              <xs:field xpath="SerialNumber"/>
-            </xs:key>
-          </xs:element>
+            type="LargeContainerType"/>
           <xs:element name="KitTray"
             type="KitTrayType"
             minOccurs="0"
@@ -691,6 +685,22 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:element name="LargeContainer"
+    type="LargeContainerType">
+    <xs:annotation>
+      <xs:documentation>
+        This element exists only to carry the LargeContainerKey. It is
+        not used elsewhere in the model.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:key name="LargeContainerKey">
+      <xs:selector xpath="."/>
+      <xs:field xpath="SkuName"/>
+      <xs:field xpath="SerialNumber"/>
+    </xs:key>
+  </xs:element>
+
   <xs:simpleType name="LengthUnitType">
     <xs:restriction base="xs:NMTOKEN">
       <xs:enumeration value="meter"/>
@@ -777,6 +787,22 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:element name="Part"
+    type="PartType">
+    <xs:annotation>
+      <xs:documentation>
+        This element exists only to carry the PartKey. It is not
+        used elsewhere in the model.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:key name="PartKey">
+      <xs:selector xpath="."/>
+      <xs:field xpath="SkuName"/>
+      <xs:field xpath="SerialNumber"/>
+    </xs:key>
+  </xs:element>
 
   <xs:complexType name="PartRefAndPoseType">
     <xs:annotation>
@@ -1046,9 +1072,9 @@
           PositionStandardDeviation (inherited, optional)
           OrientationStandardDeviation (inherited, optional).
  
-        A PoseLocationInType indicates that the object is inside
-        the location-parent. The notion of 'inside' is vague and might be
-        made more precise.
+        A PoseLocationInType indicates that the object is inside the
+        RefObject. The notion of 'inside' is vague and might be made
+        more precise.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -1070,8 +1096,8 @@
           PositionStandardDeviation (inherited, optional)
           OrientationStandardDeviation (inherited, optional).
  
-        A PoseLocationOnType indicates that the Object is on top of the
-        location-parent. The notion of 'on top of' is vague and might be
+        A PoseLocationOnType indicates that the Object is on top of
+        the RefObject. The notion of 'on top of' is vague and might be
         made more precise.
       </xs:documentation>
     </xs:annotation>

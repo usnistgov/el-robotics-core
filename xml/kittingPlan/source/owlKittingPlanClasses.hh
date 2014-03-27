@@ -28,7 +28,7 @@ class DataThingType;
 class DecimalType;
 class DetachEndEffectorType;
 class DivType;
-class ElseType;
+class ElseDoType;
 class EndEffectorChangingStationType;
 class EndEffectorHolderType;
 class EndEffectorType;
@@ -169,15 +169,15 @@ public:
 
 /*********************************************************************/
 
-class ElseType :
+class ElseDoType :
   public DataThingType
 {
 public:
-  ElseType();
-  ElseType(
+  ElseDoType();
+  ElseDoType(
     XmlID * NameIn,
     PlanElementBaseType * StepIn);
-  ~ElseType();
+  ~ElseDoType();
   void printOwl(FILE * outFile);
 
   PlanElementBaseType * Step;
@@ -842,13 +842,13 @@ public:
     XmlID * NameIn,
     TestAndStepType * IfIn,
     std::list<TestAndStepType *> * ElseIfIn,
-    ElseType * ElseIn);
+    ElseDoType * ElseDoIn);
   ~IfActionGroupType();
   void printOwl(FILE * outFile);
 
   TestAndStepType * If;
   std::list<TestAndStepType *> * ElseIf;
-  ElseType * Else;
+  ElseDoType * ElseDo;
   static std::set<std::string> individuals;
 
   bool printTypp;

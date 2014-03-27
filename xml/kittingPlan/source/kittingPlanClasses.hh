@@ -13,7 +13,6 @@ class KittingPlanFile;
 class ActionBaseType;
 class ActionGroupBaseType;
 class AndType;
-class AngleUnitType;
 class ArithmeticComparisonBooleanExpressionType;
 class ArithmeticExpressionType;
 class AttachEndEffectorType;
@@ -21,82 +20,40 @@ class BinaryArithmeticExpressionType;
 class BinaryBooleanExpressionType;
 class BooleanConstantType;
 class BooleanExpressionType;
-class BoxVolumeType;
-class BoxyShapeType;
 class CreateKitType;
-class CylindricalShapeType;
-class DataThingType;
 class DecimalType;
 class DetachEndEffectorType;
 class DivType;
-class ElseType;
-class EndEffectorChangingStationType;
-class EndEffectorHolderType;
-class EndEffectorType;
+class ElseDoType;
 class EqualType;
-class ExternalShapeType;
 class FalseType;
 class GreaterOrEqualType;
 class GreaterType;
-class GripperEffectorType;
-class HumanType;
 class IfActionGroupType;
-class InternalShapeType;
-class KitDesignType;
-class KitTrayType;
-class KitType;
 class KittingPlanType;
-class KittingWorkstationType;
-class LargeBoxWithEmptyKitTraysType;
-class LargeBoxWithKitsType;
-class LargeContainerType;
-class LengthUnitType;
 class LessOrEqualType;
 class LessType;
 class LocatePartType;
-class MechanicalComponentType;
 class MinusType;
 class ModType;
 class NegateType;
-class NoSkuObjectType;
 class NotEqualType;
 class NotType;
 class NumberedPlanElementType;
 class OneOfActionGroupType;
 class OrType;
 class OrderedActionGroupType;
-class PartRefAndPoseType;
-class PartType;
 class PartiallyOrderedActionGroupType;
-class PartsBinType;
-class PartsTrayType;
-class PartsVesselType;
-class PhysicalLocationType;
 class PlanElementBaseType;
 class PlusType;
-class PointType;
-class PoseLocationInType;
-class PoseLocationOnType;
-class PoseLocationType;
-class PoseOnlyLocationType;
-class PositiveDecimalType;
 class PropValType;
 class PutKitTrayType;
 class PutKitType;
 class PutPartType;
-class RelativeLocationInType;
-class RelativeLocationOnType;
-class RelativeLocationType;
 class RobotActionBaseType;
-class RobotType;
 class SensorActionBaseType;
-class ShapeDesignType;
-class SkuObjectType;
-class SlotType;
-class SolidObjectType;
 class SomeOfActionGroupType;
 class StepWithPredecessorsType;
-class StockKeepingUnitType;
 class TakeKitTrayType;
 class TakeKitType;
 class TakePartType;
@@ -104,16 +61,10 @@ class TestAndStepType;
 class TimesType;
 class TrueType;
 class UnorderedActionGroupType;
-class VacuumEffectorMultiCupType;
-class VacuumEffectorSingleCupType;
-class VacuumEffectorType;
 class VarSetType;
 class VarValType;
 class VariableDeclarationType;
-class VectorType;
-class WeightUnitType;
 class WhileActionGroupType;
-class WorkTableType;
 class XmlHeaderForKittingPlan;
 
 /*********************************************************************/
@@ -226,15 +177,15 @@ public:
 
 /*********************************************************************/
 
-class ElseType :
+class ElseDoType :
   public DataThingType
 {
 public:
-  ElseType();
-  ElseType(
+  ElseDoType();
+  ElseDoType(
     XmlID * NameIn,
     PlanElementBaseType * StepIn);
-  ~ElseType();
+  ~ElseDoType();
   void printSelf(FILE * outFile);
 
   PlanElementBaseType * Step;
@@ -725,13 +676,13 @@ public:
     XmlID * NameIn,
     TestAndStepType * IfIn,
     std::list<TestAndStepType *> * ElseIfIn,
-    ElseType * ElseIn);
+    ElseDoType * ElseDoIn);
   ~IfActionGroupType();
   void printSelf(FILE * outFile);
 
   TestAndStepType * If;
   std::list<TestAndStepType *> * ElseIf;
-  ElseType * Else;
+  ElseDoType * ElseDo;
 
   bool printTypp;
 };

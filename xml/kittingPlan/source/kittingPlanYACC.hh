@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.4.3.  */
+/* A Bison parser, made by GNU Bison 2.5.  */
 
-/* Skeleton interface for Bison's Yacc-like parsers in C
+/* Bison interface for Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2009, 2010 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2011 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -81,10 +80,10 @@
      DESIGNNAMESTART = 298,
      DIAMETEREND = 299,
      DIAMETERSTART = 300,
-     ELSEIFEND = 301,
-     ELSEIFSTART = 302,
-     ELSEEND = 303,
-     ELSESTART = 304,
+     ELSEDOEND = 301,
+     ELSEDOSTART = 302,
+     ELSEIFEND = 303,
+     ELSEIFSTART = 304,
      ENDEFFECTORHOLDERNAMEEND = 305,
      ENDEFFECTORHOLDERNAMESTART = 306,
      ENDEFFECTORHOLDEREND = 307,
@@ -266,7 +265,7 @@
      DECIMALTYPEDECL = 483,
      DETACHENDEFFECTORTYPEDECL = 484,
      DIVTYPEDECL = 485,
-     ELSETYPEDECL = 486,
+     ELSEDOTYPEDECL = 486,
      ENDEFFECTORCHANGINGSTATIONTYPEDECL = 487,
      ENDEFFECTORHOLDERTYPEDECL = 488,
      ENDEFFECTORTYPEDECL = 489,
@@ -393,7 +392,7 @@ typedef union YYSTYPE
   DecimalType *                       DecimalTypeVal;
   DetachEndEffectorType *             DetachEndEffectorTypeVal;
   DivType *                           DivTypeVal;
-  ElseType *                          ElseTypeVal;
+  ElseDoType *                        ElseDoTypeVal;
   EndEffectorChangingStationType *    EndEffectorChangingStationTypeVal;
   EndEffectorHolderType *             EndEffectorHolderTypeVal;
   EndEffectorType *                   EndEffectorTypeVal;

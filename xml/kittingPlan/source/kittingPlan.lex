@@ -107,10 +107,10 @@ W [ \t\n\r]*
 "<"{W}"DesignName"            {ECH; return DESIGNNAMESTART;}
 "</"{W}"Diameter"{W}">"       {ECH; return DIAMETEREND;}
 "<"{W}"Diameter"              {ECH; return DIAMETERSTART;}
+"</"{W}"ElseDo"{W}">"         {ECH; return ELSEDOEND;}
+"<"{W}"ElseDo"                {ECH; return ELSEDOSTART;}
 "</"{W}"ElseIf"{W}">"         {ECH; return ELSEIFEND;}
 "<"{W}"ElseIf"                {ECH; return ELSEIFSTART;}
-"</"{W}"Else"{W}">"           {ECH; return ELSEEND;}
-"<"{W}"Else"                  {ECH; return ELSESTART;}
 "</"{W}"EndEffectorHolderName"{W}">" {ECH; return ENDEFFECTORHOLDERNAMEEND;}
 "<"{W}"EndEffectorHolderName" {ECH; return ENDEFFECTORHOLDERNAMESTART;}
 "</"{W}"EndEffectorHolder"{W}">" {ECH; return ENDEFFECTORHOLDEREND;}

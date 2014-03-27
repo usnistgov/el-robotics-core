@@ -114,6 +114,44 @@ void SchemaLocation::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class XmlAnyURI
+
+This is a class for handling XML basic type anyURI. 
+
+*/
+
+XmlAnyURI::XmlAnyURI()
+{
+  val = "";
+  bad = true;
+}
+
+XmlAnyURI::XmlAnyURI(
+  char * valIn)
+{
+  val = valIn; // automatic conversion
+  bad = false;
+}
+
+XmlAnyURI::~XmlAnyURI() {}
+
+bool XmlAnyURI::XmlAnyURIIsBad()
+{
+  return bad;
+}
+
+void XmlAnyURI::printSelf(FILE * outFile)
+{
+  if (XmlAnyURIIsBad())
+    {
+      fprintf(stderr, "anyURI value is bad\n");
+      exit(1);
+    }
+  fprintf(outFile, "%s", val.c_str());
+}
+
+/*********************************************************************/
+
 /* class XmlBoolean
 
 This is a class for handling XML basic type boolean.

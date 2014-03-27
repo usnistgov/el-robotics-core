@@ -112,7 +112,9 @@ public:
 
   enum intSize {shorty, plain, longy};
 
+  void abbreviateNames();
   void allCaps(char * lowerName, char * upperName);
+  void buildChoice(XmlChoice * choice, XmlElementRefable * refable);
   void buildClasses();
   void buildClassesIncluded();
   void buildDescendants();
@@ -120,6 +122,10 @@ public:
 			  std::list<XmlComplexType *> * descends, bool isTop);
   void buildElementInfo();
   void buildExtensions();
+  void buildMockChoice(XmlChoice * choice, XmlElementLocal * mockElement,
+		       char * baseName);
+  void buildMockSequence(XmlSequence * choice, XmlElementLocal * mockElement,
+			 char * baseName);
   void buildSomeExtensions(XmlComplexType * typ);
 
   void buildYaccBasicRule(char * prodName, char * elementName, char * typ,
@@ -127,21 +133,23 @@ public:
 			  std::list<namePair *> * endRules);
   void buildYaccChoiceRule(XmlChoice * choice, char * name,
 			   std::list<namePair *> * endRules);
+  void buildYaccChoiceItemRule(XmlElementLocal * element, char * name,
+			       char * prodName,
+			       std::list<namePair *> * endRules);
   void buildYaccComplexAnyRule(char * typ,
 			       std::list<XmlComplexType *> * extensions,
 			       std::list<namePair *> * endRules);
   void buildYaccComplexElementRule(XmlComplexType * complx,
                                    char * prodName, char * elementName, 
-				   bool emptyOk,
+				   bool emptyOk, bool mock, 
 				   std::list<namePair *> * endRules);
   void buildYaccComplexExtRule(char * prodName, char * elementName,
 			       char * typ, bool emptyOk,
 			       std::list<namePair *> * endRules);
   void buildYaccComplexTypeRule(XmlComplexType * complx,
 				std::list<namePair *> * endRules);
-  void buildYaccElementListRule(char * prodName, char * elementName,
-				char * typ, bool emptyOk, int maxSize,
-				std::list<namePair *> * endRules);
+  void buildYaccElementListRule(char * prodName, XmlElementLocal * element,
+				char * typ, std::list<namePair *> * endRules);
   void buildYaccEmptyRule(char * newName,
 			  std::list<XmlAttributeLoner *> * attribs,
 			  std::list<namePair *> * endRules);
@@ -226,6 +234,7 @@ public:
   XmlComplexType * findComplexClass(char * name);
   void findCppTypeName(char * wg3TypeName, char * cppTypeName);
   void findRootXmlType(XmlSimpleType * simple, char * rootXmlTypeName);
+  void findRootXmlTypeComplex(XmlComplexType * complx, char * rootXmlTypeName);
   XmlSimpleType * findSimpleClass(char * name);
   XmlElementRefable * findElementRefable(char * name);
   void fitPrint(FILE * aFile, char * buffer, int length, int tooBig);
@@ -344,7 +353,8 @@ public:
   void printCppHeaderSequenceItems(std::list<XmlChoSeqItem *> * items);
   void printCppHeaderSimple(XmlSimpleType * simple);
   void printCppHeaderSimpleExtend(XmlSimpleContentExtension * extend,
-				  char * newName);
+				  char * newName,
+			      std::list<XmlAttributeLoner *> * allAttributes);
   void printCppHeaderSimpleList(char * newName,
 				char * typePrefix, char * newItemType);
   void printCppHeaderStart();
@@ -385,6 +395,7 @@ public:
   void processIncludes(std::list<char *> * includeds);
   void readOldHeader(char * headerName);
   void readSchema(char * fileName, bool isTop);
+  void replaceSubstitutionGroups();
   void reviewChanges();
   void setHas(char * prefix, char * typeName);
   void usageMessage(char * command);
@@ -415,8 +426,10 @@ contents1 is the list of XmlSchemaContent1 in the XML file
 contents2 is the list of XmlSchemaContent2 in the XML file
 dummyName is a dummy name needed for comparison
 elementInfos
-elementRefables is a list of all the XmlElementRefable in the schema
+elementRefables points to a list of XmlElementRefables for this generator
+elementRefablesMaster points to a system-wide list of all XmlElementRefables
 extensionInfos
+hasAnyURI  - see above
 hasBoolean - see above
 hasDate - see above
 hasDateTime - see above
@@ -439,6 +452,7 @@ headerName is the name of the existing header file to read
 hhFile is the file pointer for the header file to write
 includedSchemas is a list of the names of included schemas
 lexFile is the file pointer for the Lex file to write
+mockCount is a pointer to a system-wide mock counter
 moreIncludes is the list of added includes from the existing header file
 subordinates is a list of subordinate generators (for some or all includes)
 top is an XmlElementLocal surrogate for the top element
@@ -470,7 +484,9 @@ in only that header are written into the new header file.
   char *                           dummyName;
   std::list<elementInfo *> *       elementInfos;
   std::map<std::string, XmlElementRefable *> * elementRefables;
+  std::map<std::string, XmlElementRefable *> * elementRefablesMaster;
   std::list<char *> *              extensionInfos;
+  bool                             hasAnyURI;
   bool                             hasBoolean;
   bool                             hasDate;
   bool                             hasDateTime;
@@ -493,6 +509,7 @@ in only that header are written into the new header file.
   FILE *                           hhFile;
   std::list<char *> *              includedSchemas;
   FILE *                           lexFile;
+  int *                            mockCount;
   std::list<char *> *              moreIncludes;
   std::list<generator *>           subordinates;
   XmlElementLocal *                top;

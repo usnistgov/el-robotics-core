@@ -131,17 +131,15 @@ This goes through the contents2 list of the most recently read schema.
 For each item on the list:
 1. If the item is a complex type or simple type, it is placed on the
    classes list.
-2. If the item is the first item and is an XmlElementRefable, it is
-   handled as described below.
-3. If the item is not the first item and is an XmlElementRefable, or if
-   the item is an XmlAttributeLoner, or if the item is an XmlAttributeGroup,
-   this prints an error message and exits.
+2. If the item is the first item and is an XmlElementRefable, it must
+   have a non-zero typ and must have a zero typeDef. This checks for
+   that. If the check fails, this prints an error message and exits.
+3. If the item is not the first item and is an XmlElementRefable, this
+   prints a warning message say the XmlElementRefable is being ignored.
+4. If the item is an XmlAttributeLoner, or if the item is an
+   XmlAttributeGroup, this prints an error message and exits.
 
 The classes are the top-level complexTypes and the top-level simpleTypes.
-
-The top level element (which must be XmlElementRefable) must have a
-non-zero typ and must have a zero typeDef. This checks for that. If the
-check fails, this prints an error message and exits.
 
 */
 
@@ -182,11 +180,14 @@ void xml2owlGenerator::buildClasses( /* ARGUMENTS                          */
 	{
 	  enterClass(simple);
 	}
-      else if (((dynamic_cast<XmlElementRefable *>(*iter)))        ||
-	       ((dynamic_cast<XmlAttributeLonerRefable *>(*iter))) ||
+      else if ((dynamic_cast<XmlElementRefable *>(*iter)))
+	{
+	  fprintf(stderr, "ignoring global element in buildClasses\n");
+	}
+      else if (((dynamic_cast<XmlAttributeLonerRefable *>(*iter))) ||
 	       ((dynamic_cast<XmlAttributeGroupRefable *>(*iter))))
 	{
-	  fprintf(stderr, "cannot handle refables in buildClasses\n");
+	  fprintf(stderr, "cannot handle global attribute in buildClasses\n");
 	  exit(1);
 	}
       else

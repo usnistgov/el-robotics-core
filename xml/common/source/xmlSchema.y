@@ -1254,7 +1254,7 @@ void doXmlElementLocalAttributes(
     }
   if (elem->ref && (elem->defalt ||
 		    elem->fixed  ||
-		    elem->form  ||
+		    elem->form   ||
 		    elem->typ    ||
 		    elem->name   ||
 		    (elem->nillable && (elem->nillable == XmlCppBase::yes))))
@@ -1265,6 +1265,8 @@ void doXmlElementLocalAttributes(
     }
   if (elem->defalt && elem->fixed)
     yyerror("XML local element may not have both default and fixed");
+  elem->needList = ((elem->minOccurs > 1)  || (elem->maxOccurs == -1) ||
+		    (elem->maxOccurs == 0) || (elem->maxOccurs > 1));
 }
 
 /********************************************************************/

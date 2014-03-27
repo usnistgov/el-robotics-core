@@ -1,12 +1,12 @@
-LINCOMPILE = /usr/bin/g++ -c -v -g -Wall
-LINLINK = /usr/bin/g++ -v
+LINCOMPILE = /usr/bin/g++-4.6 -c -v -g -Wall
+LINLINK = /usr/bin/g++-4.6 -v
 INCLUD = -I ../source
 
 bin/compactOwl : source/compactOwl.cc
-	/usr/bin/g++ -v -g -Wall -o $@ source/compactOwl.cc
+	/usr/bin/g++-4.6 -v -g -Wall -o $@ source/compactOwl.cc
 
 bin/compareOwl : source/compareOwl.cc
-	/usr/bin/g++ -v -g -Wall -o $@ source/compareOwl.cc
+	/usr/bin/g++-4.6 -v -g -Wall -o $@ source/compareOwl.cc
 
 bin/xmlInstanceParserGenerator : ofiles/xmlInstanceParserGenerator.o \
                                  ofiles/xmlSchemaYACC.o              \

@@ -5,27 +5,37 @@
 
 /* class xmlSchemaOwlPrinter
 
+An instance of the xmlSchemaOwlPrinter is made for each schema in a
+set of schemas being processed. Each xmlSchemaOwlPrinter has its own
+set of C++ attributes. However, the complexClassesAll pointer is
+used to point to a single list for the entire set of schemas.
+Similarly for the simpleClassesAll pointer.
+
 Documentation of class functions is given in xmlSchemaOwlClassGenerator.cc.
 Documentation of data members of this class follows.
 
-"classes" is a list of all the XmlTypes in the schema (a class results
-from each). It is kept in alphabetical order by class name. It is
-built in buildClasses shortly after the input schema is parsed.
-It is used in buildDisjointClasses, enterKids, findComplexClass,
-and findSimpleClass.
+"complexClasses" is a list of all the XmlComplexTypes in the schema
+for the xmlSchemaOwlPrinter (an OWL class results from each). It is
+kept in alphabetical order by class name. It is built by calls to
+enterComplexClass in buildClasses. It is used in printOwlClassFile.
 
-"complexTypes" is a list of all the complex XmlTypes in the schema.
-The order in which it is kept is not significant, but it is kept in
-the order in which complex types occur in the schema. It is built in
-saveOwlSchemaContent2.
+"complexClassesAll" is a list of all the XmlComplexTypes in all
+schemas in the set. It is kept in alphabetical order by class name. It
+is built by calls to enterComplexClass in buildClasses. It is used in
+buildDisjointClasses, enterKids, and findComplexClass.
 
 "disjointClasses" is a list of all complex classes in the schema that
 are not derived from a parent class.
 
-"simpleTypes" is a list of all the simple XmlTypes in the schema.
-The order in which it is kept is not significant, but it is kept in
-the order in which simple types occur in the schema. It is built in
-saveOwlSchemaContent2.
+"simpleClasses" is a list of all the XmlSimpleTypes in the schema for
+the xmlSchemaOwlPrinter (an OWL class results from each). It is kept
+in alphabetical order by class name. It is built by calls to
+enterComplexClass in buildClasses. It is used in printOwlClassFile.
+
+"simpleClassesAll" is a list of all the XmlSimpleTypes in the schema
+for the xmlSchemaOwlPrinter (an OWL class results from each). It is
+kept in alphabetical order by class name. It is built by calls to
+enterComplexClass in buildClasses. It is used in findSimpleClass.
 
 OWL allows any object to belong to many unrelated classes, whereas in
 XML schema, an object belongs to at most one thread of derived
@@ -59,18 +69,18 @@ public:
   xmlSchemaOwlPrinter();
   ~xmlSchemaOwlPrinter();
 
-  void buildClasses();
-  void buildClassesIncluded();
+  void buildClasses(bool isTop);
   void buildDisjointClasses();
   void checkName(char * fileName, char * bassNameWithPath,
 		 char * bassNameNoPath);
   void deNameName(char * name, char * buffer);
   void deTypeName(char * name, char * buffer);
-  void enterClass(XmlType * aClass);
+  void enterComplexClass(XmlComplexType * complx);
   void enterKid(XmlComplexType * parent, XmlComplexType * kid);
   void enterKids();
+  void enterSimpleClass(XmlSimpleType * simple);
   XmlComplexType * findComplexClass(char * name);
-  char * findHasName(char * haser, char * elementName);
+  XmlComplexType * findHaser(XmlComplexType * complx, char * elementName);
   XmlSimpleType * findSimpleClass(char * name);
   void printOwlAnnotation(XmlAnnotation * annotation, FILE * outFile);
   void printOwlChoSeqItem(XmlChoSeqItem * item, FILE * outFile);
@@ -94,8 +104,10 @@ public:
   void printOwlElementLocalIDREF(XmlElementLocal * element, FILE * outFile);
   void printOwlElementRefable(XmlElementRefable * element, FILE * outFile);
   void printOwlEnumeration(XmlEnumeration * enumeration, FILE * outFile);
-  void printOwlIdConstraint(XmlIdConstraint * constraint, char * elementName,
-			    FILE * outFile);
+  void printOwlIdConstraint(XmlIdConstraint * constraint, char * owlClassName,
+			    XmlComplexType * complx, FILE * outFile);
+  void printOwlIdConstraints(std::list<XmlIdConstraint *> * idConstraints,
+			     char * typeName, FILE * outFile);
   void printOwlMaxExclusive(XmlMaxExclusive * maxExclusive, FILE * outFile);
   void printOwlMaxInclusive(XmlMaxInclusive * maxInclusive, FILE * outFile);
   void printOwlMaxLength(XmlMaxLength * maxLength, FILE * outFile);
@@ -117,14 +129,12 @@ public:
   void processIncludes(std::list<char *> * includeds,
 		       std::list<char *> * prefixes);
   void readSchema(char * fileName, bool isTop);
-  void saveOwlSchemaContent2(XmlSchemaContent2 * content2);
 
   char                             baseNameNoPath[NAMESIZE];
   char                             baseNameWithPath[NAMESIZE];
-  std::list<XmlType *>             classes;
-  std::list<XmlType *> *           classesMaster;
+  std::list<XmlComplexType *>      complexClasses;
+  std::list<XmlComplexType *> *    complexClassesAll;
   char                             className[NAMESIZE];
-  std::list<XmlComplexType *>      complexTypes;
   std::list<XmlSchemaContent1 *> * contents1;
   std::list<XmlSchemaContent2 *> * contents2;
   std::list<XmlComplexType * >     disjointClasses;
@@ -132,7 +142,9 @@ public:
   char                             nameBuffer[NAMESIZE];
   char                             otherName[NAMESIZE];
   char *                           owlPrefix;
-  std::list<XmlSimpleType *>       simpleTypes;
+  std::list<XmlElementRefable *>   refables;
+  std::list<XmlSimpleType *>       simpleClasses;
+  std::list<XmlSimpleType *> *     simpleClassesAll;
   std::list<xmlSchemaOwlPrinter *> subordinates;
   XmlElementRefable *              topElement;
 };

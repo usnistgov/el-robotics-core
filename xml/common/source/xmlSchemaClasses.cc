@@ -1,7 +1,7 @@
 #include "xmlSchemaClasses.hh"
 #include <stdio.h>             // for printf, etc.
 #include <string.h>            // for strdup
-#include <ctype.h>             // isalpha
+#include <ctype.h>             // isalpha, isalnum
 #include <stdlib.h>            // for exit
 
 #define INDENT 2
@@ -55,8 +55,27 @@ Called By: constructors that take arguments for:
   XmlSimpleRestriction        - newBase
   XmlSimpleType               - newName
 
+For names:
+1. XSDL
+- The first character must be a letter.
+- Each other characters may be a letter, digit, dash, underscore, or period.
+
+2. C++
+- The first character must be a letter or an underscore.
+- Each other character must be a letter, digit, or underscore.
+
+This implements the following conversions and checks.
+
 If the first character is not a letter, this prints an error message
 and exits.
+
+If any other character is not a letter, digit, dash, underscore, or period,
+this prints an error message and exits.
+
+If there is no error, all characters are kept the same, except that dashes
+and periods are changed to underscores, so that the newXXX is acceptable
+in C++. This may produce name conflicts, but that is not likely.
+
 
 */
 
@@ -78,6 +97,17 @@ char * XmlCppBase::modifyName( /* ARGUMENTS                 */
 	{
 	  buffer[n] = '_';
 	  change = true;
+	}
+      else if (name[n] == '.')
+	{
+	  buffer[n] = '_';
+	  change = true;
+	}
+      else if (name[n] == '_');
+      else if (!isalnum(name[n]))
+	{
+	  fprintf(stderr, "illegal character %c in name %s\n", name[n], name);
+	  exit(1);
 	}
       else
 	buffer[n] = name[n];
@@ -1476,8 +1506,6 @@ PrintSelf is printing both name and ref on the first line. Normally,
 only one will actually appear on that line, since normally, only one
 of the two will be used.
 
-FIX - Add idConstraints to printSelf.
-
 */
 
 XmlElementLocal::XmlElementLocal()
@@ -1496,6 +1524,8 @@ XmlElementLocal::XmlElementLocal()
   frontNote = 0;
   typeDef = 0;
   idConstraints = 0;
+  mock = false;
+  needList = false;
   newName = 0;
   newTyp = 0;
   prodBase = 0;
@@ -1531,6 +1561,8 @@ XmlElementLocal::XmlElementLocal(
   frontNote = frontNoteIn;
   typeDef = typeDefIn;
   idConstraints = idConstraintsIn;
+  mock = false;
+  needList = false;
   newName = modifyName(name);
   newTyp = modifyName(typ);
   prodBase = 0;
@@ -1676,6 +1708,7 @@ XmlElementRefable::XmlElementRefable()
   backNotes = 0;
   typeDef = 0;
   idConstraints = 0;
+  mock = false;
   newName = 0;
   newTyp = 0;
   prodBase = 0;
@@ -1709,6 +1742,7 @@ XmlElementRefable::XmlElementRefable(
   backNotes = backNotesIn;
   typeDef = typeDefIn;
   idConstraints = idConstraintsIn;
+  mock = false;
   newName = modifyName(name);
   newTyp = modifyName(typ);
   prodBase = 0;

@@ -29,6 +29,7 @@ class XmlNonNegativeInteger;
 class XmlPositiveInteger;
 class XmlSchemaInstanceBase;
 class XmlString;
+class XmlToken;
 class XmlUnsignedInt;
 class XmlUnsignedLong;
 class XmlVersion;
@@ -76,6 +77,30 @@ public:
   char * prefix;
   char * location;
   bool hasNamespace;
+};
+
+/*********************************************************************/
+
+/* class XmlAnyURI
+
+This is a class for handling XML basic type anyURI. It is being
+treated the same as the XML basic type string.
+
+*/
+
+class XmlAnyURI :
+  public XmlSchemaInstanceBase
+{
+public:
+  XmlAnyURI();
+  XmlAnyURI(
+    char * valIn);
+  ~XmlAnyURI();
+  void printSelf(FILE * outFile);
+  bool XmlAnyURIIsBad();
+
+  std::string val;
+  bool bad;
 };
 
 /*********************************************************************/

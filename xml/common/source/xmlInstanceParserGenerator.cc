@@ -8,194 +8,68 @@
 
   See NIST Administration Manual 4.09.07 b and Appendix I. 
 *****************************************************************************/
-
 /*
 
-WARNING!! - The documentation in this file is not up to date. Some of it
-may be incorrect.
+2014Mar4
 
-Idea for rebuilding the way the generator builds the YACC and Lex files
+Try the ALSO item below first. It should be simple to test.
 
-Currently, the generator builds each part of the YACC file separately. In
-most cases, this is done by going through the elementInfos list. The
-elementInfos list is processed again for printing Lex.
-The elementInfos are processed in:
- buildExtensions
- buildYaccRulesEnd
- buildYaccTypeElementPairs
- buildYaccUnionElementPairs
- printLexElementNames
- printYaccElementTokens
+Working on debugging. When processing QMPlans.xsd from QIF V1.0, the
+generator has bugs that cause errors when compiling the C++ files
+and errors when using bison to process the YACC files.
 
-This results in making the same sorts of decisions multiple times. It
-may be better to go through the elementInfos once and handle all the
-items built from each elementInfo. The various types of item would be
-saved in lists of the specific item types. Nothing would be printed until
-the all the lists were complete.
+Successfully compiled:
 
-FIX - For a complexType with a complexContent containing a choice, this
-handles only elements within the choice. If a choice item is
-found that is not an element (e.g., a sequence), this will print:
-      printCppHeaderUnionEnum cannot handle non-element
-The generator will continue to run, but the code that is generated will
-not handle the choice correctly.
+CharacteristicTypesClasses.o
+FeatureTypesClasses.o
+MeasurementResourcesTypesClasses.o
+QIFTypesClasses.o
+PrimitiveTypesClasses.o
+TraceabilityClasses.o
+UnitsClasses.o
 
-An example of a choice with a non-element inside is shown below.
-This is an XML idiom meaning A or B or (A and B). The problem
-is that the sequence inside the choice is not handled.
+Was working on compiling ProductTypesClasses.o.
+The code has the following problems.
 
-There does no known alternative for the idiom. Note that the idiom
-does not work if the order of the elements of the sequence is reversed.
+ProductTypesClasses.cc:540
 
-  <xs:complexType name="CoordinateSystemByValueType">
-    <xs:complexContent>
-      <xs:extension base="CoordinateSystemBaseType">
-        <xs:choice>
-          <xs:sequence>
-            <xs:element name="ActualTransform"
-              type="TransformMatrixType"/>
-            <xs:element name="NominalTransform"
-              type="TransformMatrixType"
-              minOccurs="0"/>
-          </xs:sequence>
-          <xs:element name="NominalTransform"
-            type="TransformMatrixType"/>
-        </xs:choice>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
+AssemblyGeometryDefinitionsType::AssemblyGeometryDefinitionsType(
+ QIFIdType * idIn,
+ QIFReferenceType * AssemblyDefinitionIdIn,
+ AssemblyGeometr_1032_Type * AssemblyGeometr_1032In) :
+  ProductGeometryDefinitionsBaseType(
+    idIn)
 
-*****************************************
+error: no matching function for call to 
+ProductGeometryDefinitionsBaseType(QIFIdType * idIn)
 
-FIX - (this is very similar to the preceding problem)
+A correct call would be
+ProductGeometryDefinitionsBaseType(
+ QIFIdType * idIn,
+ std::list<ProductGeometryDefinitionsBaseTypeChoicePair *> * pairsIn);
 
-For a complexType with a complexContent containing a sequence, this
-handles only elements within the sequence. If a sequence item is
-found that is not an element (e.g., a choice), this will print:
-      printCppHeaderSequenceArgs cannot handle non-element
-      printCppHeaderSequenceItems cannot handle non-element
-The generator will continue to run, but the code that is generated will
-not handle the sequence correctly.
+The parent, ProductGeometryDefinitionsBaseType has a choice (P) of
+various types of Part model. The child AssemblyGeometryDefinitionsType
+has an additional choice (A) of various types of assembly model.
 
-Here is an example
+The ProductGeometryDefinitionsBaseType constructor is called from the
+AssemblyGeometryDefinitionsType constructor shown above.
+In the AssemblyGeometryDefinitionsType, the list for choice P is missing
+entirely. In the constructor for the parent type,
+ProductGeometryDefinitionsBaseType, there is a list for choice P, but
+there is no mock element. It looks like the choice processing for
+ProductGeometryDefinitionsBaseType should be putting in the the mock
+element for choice P. 
 
-  <xs:complexType name="ScaleType">
-    <xs:sequence>
-      <xs:element name="Origin"
-        type="PointType"/>
-      <xs:choice>
-        <xs:element name="UniformScale"
-          type="UniformScaleType"/>
-        <xs:element name="RadialDifferentialScale"
-          type="RadialDifferentialScaleType"/>
-        <xs:element name="AxialDifferentialScale"
-          type="AxialDifferentialScaleType"/>
-      </xs:choice>
-    </xs:sequence>
-  </xs:complexType>
+ALSO
 
-One way to fix this might be to create a virtual type for the choice and
-a virtual element. The YACC would include a production for the virtual
-type and for the virtual element. The virtual type definition would be
-normal, but the rule for virtual element would not include start and end
-tags. The class for the virtual type would be normal. For the example
-above, the generator would act almost as if it were as follows.
-
-  <xs:complexType name="ScaleType">
-    <xs:sequence>
-      <xs:element name="Origin"
-        type="PointType"/>
-      <xs:elementVirtual name="ScaleType_Choice"
-        type="ScaleType_CType"/>
-    </xs:sequence>
-  </xs:complexType>
-      
-
-  <xs:complexType name="ScaleType_CType">
-    <xs:choice>
-      <xs:element name="UniformScale"
-        type="UniformScaleType"/>
-      <xs:element name="RadialDifferentialScale"
-        type="RadialDifferentialScaleType"/>
-      <xs:element name="AxialDifferentialScale"
-        type="AxialDifferentialScaleType"/>
-    </xs:choice>
-  </xs:complexType>
-
-Keeping names straight may be a problem since there may be more than one
-choice in a sequence.
-
-If this works, a similar method for a sequence inside a choice should work.
-
-*****************************************
-
-FIX - The data type entries in the YACC file that is generated are not used
-if the data types are used only for attribute values since the attribute
-values are not parsed (they just come in as strings). When bison runs, it
-flags them as useless. Change so that being an attribute value does not
-trigger putting a type into the YACC file.
-
-*****************************************
-
-Schema Includes
----------------
-
-Any XML schema file may include other XML schema files. It is necessary to
-generate code for all directly or indirectly included files as well as
-for the top level file.
-
-The top level schema and each included schema has a C++ header file
-and a C++ code file generated for it. One YACC file and one Lex file
-are written if the top level schema has a root element. The YACC and
-Lex files must handle all items in all schemas. The YACC and Lex files
-are generated from the contents2 of the top level schema. At the time
-the YACC and Lex are generated, the top level contents2 contains all
-contents2 of all included included schemas. The way that the contents2
-lists are combined is described in the documentation of processIncludes.
-
-When the C++ code for an including schema is generated, the classes
-for its included schemas will be marked as having been processed
-(hhPrinted and ccPrinted will be true), so they will not be printed
-again in the header and code files for the including schema. This is
-implemented by making sure C++ code for included schemas is printed before
-code for an including schema. 
-
-Each schema is read only once, regardless of which other schemas include
-it. The implementation handles circular includes and having the same
-file included multiple times. See the documentation of processIncludes
-for more details.
-
-*****************************************
-
-Lists
------
-
-Specific terminology is used in the documentation to
-distinguish among four types of list:
-1. occurence list - oList (for multiple occurrences of an element)
-2. XML simpleList - sList
-3. lists in C++ code - std::list
-4. lists in YACC - YACC list
-
-To avoid confusion, sequences of lines in a file (such as the class
-declarations that appear at the beginning of a header file) are not
-called lists.
-
-For oLists, a std::list of the type of the element is being
-constructed, rather than creating a type for the element and building
-a list of that.  This is consistent through the C++ files and the YACC
-file that are generated. There does not appear to be any down side to
-handling oLists that way. For sLists also, a std::list of the type of
-the element is being constructed.
-
-Names related to sLists and oLists have list are of the form
-ListXXX.  For example, a line from the YACC union might be:
-  std::list<XmlInteger *> *           ListXmlIntegerVal;
-and a line from the list of %type might be
-  %type <ListXmlIntegerVal>           y_ListIntElement_XmlInteger_u
-
-
-*****************************************
+It looks like it would be straightforward to have classes and classesMaster
+be handled the same way as elementRefables and elementRefablesMaster. That
+is, the classesMaster should be separate from the classes for the top level
+schema, not the same thing (which it currently is). That way, it will not
+be necessary to have the booleans hhPrinted and ccPrinted indicating whether
+code has been printed a class. The YACC and Lex would be generated from
+classesMaster. processIncludes can be simplified if this is done.
 
 What this does
 --------------
@@ -204,14 +78,14 @@ This reads an XML schema file Xxx.xsd in canonical format and stores the
 meaning of the contents of the file in a parse tree in terms of the
 xmlSchemaClasses. Then it uses the parse tree for writing the following
 files (in the same directory as Xxx.xsd):
-1. Xxx.hh - a C++ header file defining classes to represent data files
+1. Xxx.hh - a C++ header file defining classes to represent instance files
    corresponding to the schema.
 2. Xxx.cc - a C++ code file implementing the classes
-3. Xxx.y - a YACC file for parsing a data file corresponding to the schema
-   and storing the data in terms of the C++ classes.
+3. Xxx.y - a YACC file for parsing an instance file corresponding to the
+   schema and storing the data in terms of the C++ classes.
 4. Xxx.lex - a Lex file containing the lexical scanner used by Xxx.y
 5. XxxParser.cc - a C++ file containing a main function that reads, stores,
-   and reprints an XML data file corresponding to the schema.
+   and reprints an XML instance file corresponding to the schema.
 
 If the XML schema includes other XML schemas files with the same
 namespace, this also generates C++ header and code files for those
@@ -243,11 +117,6 @@ be widely useful in its current form.
 All code produced by the generator is human-readable, and human-editable
 (if the human knows C++, YACC, and Lex).
 
-Patterns (regular expressions describing allowed strings) are handled for
-ID and IDREF. The generator generates code to check that data files use
-correct patterns. This is done using the boost regular expression tester.
-Patterns for other types of strings are not yet implemented.
-
 Limitations
 -----------
 
@@ -255,7 +124,7 @@ The generator handles only schemas in canonical form. A schema in
 canonical form has all of its type definitions at the top level. This
 is not a major limitation because almost any XML schema can be easily
 reduced to canonical form, and the canonical schema will handle
-exactly the same data files as the original schema.
+exactly the same instance files as the original schema.
 
 The generator does not distinguish adequately between names that are
 the same except for the use of upper and lower case (Ohno and OhNo,
@@ -269,7 +138,7 @@ a dash and the other contains an underscore (oh-no and oh_no, for example).
 
 This does not implement all of XML. The XML schema classes and schema
 parser can handle most of XML. Items not implemented in the classes and
-parser include the following (there may be a few more):
+parser include the following:
 
 1. xs:all
 
@@ -277,85 +146,209 @@ parser include the following (there may be a few more):
 
 3. anyAttribute
 
-4. xs:appinfo
+4. xs:import
 
-5. xs:field (with xpath)
+5. xs:notation
 
-6. xs:group
+6. xs:redefine
 
-7. xs:import
+7. restriction types: fractionDigits, totalDigits, whiteSpace
 
-8. xs:key
+8. xs:union
 
-9. xs:keyref (with refer)
-
-10. xs:notation
-
-11. xs:redefine
-
-12. restriction types: fractionDigits, totalDigits, whiteSpace
-
-13. xs:selector (with xpath)
-
-14. xs:union
-
-15. xs:unique
-
-16. wildcards
-
-17. substitution groups
-
-18. abstract elements
+9. wildcards
 
 The generator implements much but not all of what can be handled by the
 XML schema classes and the XML schema parser. Of course the generator does
-not handle the items listed above. Parsable items not implemented in the
-generator include the following (there may be a few more, but not many).
-In general, if the generator encounters any of these, it prints a "cannot
-handle" message and exits.
+not handle the items listed above; if any of them is included in a schema
+the parser prints a parse error message and exits. Parsable items not
+implemented in the generator include the following (there may be a few more,
+but not many). In general, if the generator encounters any of these, it
+either prints a "cannot handle" message and exits or silently ignores them.
 
-1. Simple content of a complex type (restriction and extension
-   of a simple type) is not handled. Restriction of a simple type is
-   handled, however.
+1. Restriction of a simple type with attributes is not handled. A "cannot
+   handle" message is printed, and the generator exits.
 
 2. final, etc. (limitations on extensions and other derivations of types)
 
-3. Many XML basic data types are not recognized, and some, such as date,
+3. Some XML basic data types are not recognized, and some, such as date,
    and dateTime are not checked. Date and dateTime are represented as
    unstructured strings in C++.
 
-4. substitutionGroup is not handled.
-   Since substitutionGroups are defined at the element level,
-   not at the type level, they are probably best modeled as unions.
-   Although the types of substitutable elements must be subtypes of the
-   type of the element being replaced, different subsets of subtypes
-   might be used in different substitution groups.
-
-5. XmlComplexRestriction is not handled. A "cannot handle" message is
+4. XmlComplexRestriction is not handled. A "cannot handle" message is
    printed, and the generator exits.
 
-6. Attributes with XmlChoice are not handled. A "cannot handle" message
+5. Attributes with XmlChoice are not handled. A "cannot handle" message
    is printed, and the generator exits.
 
-7. In an XmlComplexExtension with a sequence, items in the sequence that
-   are not XmlElementLocal are not handled. A "cannot handle" message
-   is printed, and the generator exits.
+6. Any restrictions on strings other than enumeration and pattern are
+   not handled. A "cannot handle" message is printed, and the generator
+   exits.
 
-8. In an XmlSequence, items that are not XmlElementLocal are not handled.
-   In particular, XmlChoice and XmlSequence are not handled.
-   A "cannot handle" message is printed, and the generator exits.
-
-9. In an XmlChoice, only items that are XmlElementLocal can be handled.
-   In particular XmlChoice and XmlSequence are not handled.
-   A "cannot handle" message is printed, and the generator exits.
-
-10. Any restrictions on strings other than enumeration and pattern are
-   not handled.
+7. xs:key, xs:unique, and xs:keyref and their contents (xs:field,
+   xs:selector) are read and ignored. 
 
 All names are constructed in an intuitive way so that humans can deal
 with them, and the generator works hard to avoid naming conflicts, but
 the names produced by the generator are not guaranteed to be free of
 conflicts.
+
+Choice or Sequence in Choice or Sequence
+----------------------------------------
+
+Sequences and choices may contain element, sequences, and choices.
+
+Here is an example of a choice in a sequence.
+
+  <xs:complexType name="ShirtType">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="number"
+          type="xs:integer"
+          minOccurs="0"/>
+        <xs:element name="name"
+          type="xs:string"
+          minOccurs="0"/>
+      </xs:choice>
+      <xs:element name="size"
+        type="SizeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+This is handled in the generator's internal model of the complexType
+(that is built when the schema is read) by creating a mock type and a
+mock element for the choice and replacing the choice with the mock
+element. After the changes, the internal model of the example is what
+it would be if the following had been in the schema. 
+
+  <xs:complexType name="ShirtType">
+    <xs:sequence>
+      <xs:element name="ShirtType_1001"
+        type="ShirtType_1001_Type"/>
+      <xs:element name="size"
+        type="SizeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ShirtType_1001_Type"
+    <xs:choice>
+      <xs:element name="number"
+        type="xs:integer"
+        minOccurs="0"/>
+      <xs:element name="name"
+        type="xs:string"
+        minOccurs="0"/>
+    </xs:choice>
+  </xs:complexType>
+
+However, both the ShirtType_1001 element and the ShirtType_1001_Type
+complexType have been marked with a "mock" boolean flag set to true.
+When the C++ code, Lex code, and YACC code are generated for the
+instance file parser, the mock is checked and the code is written to
+do the right thing for reading and writing instance files conforming
+to the original schema. The number 1001 in the names above is the
+value of a master counter for uses of mock. The counter starts at 1001
+and is incremented each time a new set of mock items is built. The
+mock type and the mock element that uses it both use the same number.
+
+A sequence inside a choice or another sequence is handled similarly by
+defining a type containing the inner sequence and replacing the
+inner sequence with a mock element in the outer sequence or choice.
+The type of the mock element is the new type. The new type does not
+need to be marked as being mock.
+
+The creation of mock items occurs in buildElementInfo before anything
+is printed. buildElementInfo works by going through the classes list
+from front to back.  The class for each mock type that is created is
+added at the end of the end of the classes list during the process of
+going through the list. Hence, each of the mock classes is also processed.
+The effect is to recursively dig into any nests of choices and sequences.
+When buildElementInfo has finished executing, no nesting remains, and
+mock elements appear in the places where there were nested sequences
+and choices.
+
+The following generator functions were written or modified to implement this:
+   buildElementInfo
+   buildMockChoice
+   buildMockSequence
+   buildYaccChoiceRule
+   buildYaccComplexElementRule
+   buildYaccRulesEnd
+   main
+   printCppCodeChoice
+   printCppCodePrintElement
+   printLexElementNames
+   processIncludes
+
+
+Schema Includes
+---------------
+
+Any XML schema file may include other XML schema files. It is necessary to
+generate code for all directly or indirectly included files as well as
+for the top level file.
+
+The top level schema and each included schema has a C++ header file
+and a C++ code file generated for it. One YACC file and one Lex file
+are written if the top level schema has a root element. The YACC and
+Lex files must handle all items in all schemas. The YACC and Lex files
+are generated from the contents2 of the top level schema. At the time
+the YACC and Lex are generated, the top level contents2 contains all
+contents2 of all included included schemas. The way that the contents2
+lists are combined is described in the documentation of processIncludes.
+
+When the C++ code for an including schema is generated, the classes
+for its included schemas will be marked as having been processed
+(hhPrinted and ccPrinted will be true), so they will not be printed
+again in the header and code files for the including schema. This is
+implemented by making sure C++ code for included schemas is printed before
+code for an including schema. 
+
+Each schema is read only once, regardless of which other schemas include
+it. The implementation handles circular includes and having the same
+file included multiple times. See the documentation of processIncludes
+for more details.
+
+
+Lists
+-----
+
+Specific terminology is used in the documentation to
+distinguish among four types of list:
+1. occurence list - oList (for multiple occurrences of an element)
+2. XML simpleList - sList
+3. lists in C++ code - std::list
+4. lists in YACC - YACC list
+
+To avoid confusion, sequences of lines in a file (such as the class
+declarations that appear at the beginning of a header file) are not
+called lists.
+
+For oLists, a std::list of the type of the element is being
+constructed, rather than creating a type for the element and building
+a list of that.  This is consistent through the C++ files and the YACC
+file that are generated. There does not appear to be any down side to
+handling oLists that way. For sLists also, a std::list of the type of
+the element is being constructed.
+
+Names related to sLists and oLists are of the form
+ListXXX.  For example, a line from the YACC union might be:
+  std::list<XmlInteger *> *           ListXmlIntegerVal;
+and a line from the list of %type might be
+  %type <ListXmlIntegerVal>           y_ListIntElement_XmlInteger_u
+
+
+Patterns
+--------
+
+Patterns (regular expressions describing allowed strings) are handled for
+xs:string, xs:token, xs:ID, xs:IDREF, and xs:NMTOKEN. The generator
+generates code to check that instance files use correct patterns. This is
+done using the boost regular expression tester. Patterns for other types
+of strings are not yet implemented. Patterns for numbers are allowed but
+code is not written to implement them. It would probably be possible
+to use the same sort of code for checking patterns for numbers as is
+used for checking patterns for strings.
 
 
 Function names in this file
@@ -377,8 +370,8 @@ Functions whose names start with "print" print text into files.
 Naming in generated files
 -------------------------
 
-If an XML name is used in constructing a C++ or YACC name, any dashes are
-changed to underscores.
+If an XML name is used in constructing a C++ or YACC name, any dashes or
+periods are changed to underscores.
 
 XML element names are not necessarily unique in a schema. Any given element
 name may be used by more than one XmlElementLocal.  This will happen
@@ -391,20 +384,20 @@ Type name prefixes in XML schemas
 ---------------------------------
 
 If a schema uses a prefix for names in the targetNamespace, then the same
-prefix must be used for all names that are not basic. In data files
+prefix must be used for all names that are not basic. In instance files
 corresponding to the schema, that same prefix must be used on the
 line identifying the XMLSchema-instance and on the line giving the
 schemaLocation.
 
 If a schema does not use a prefix for names in the targetNamespace, then no
-prefix must be used for all names that are not basic. In data files
+prefix must be used for all names that are not basic. In instance files
 corresponding to the schema, the prefix "xsi" must be used on the
 line identifying the XMLSchema-instance and on the line giving the
 schemaLocation.
 
 The rules just described work with XMLSpy. In XMLSpy, if there is no
 prefix in the schema, then no prefix must be used for all names that are
-not basic, and in data files corresponding to the schema, the same prefix
+not basic, and in instance files corresponding to the schema, the same prefix
 must be used on the line identifying the XMLSchema-instance and on the line
 giving the schemaLocation, but it does not matter what the prefix is.
 
@@ -425,35 +418,34 @@ not a problem.
   YACC production names
   ~~~~~~~~~~~~~~~~~~~~~  
 
-All YACC production names produced by the generator start with y_ .  The
-YACC production name for an XML element name is made by appending (1) y_
-(2) the element name (3) an underscore, and (4) the element's type name. If
-the element is optional or may occur more than once, suffixes may be
-added. Since it is possible that two elements may have the same name and
-type and one has minOccurs="0" while the other does not, a _0 suffix is
-used if minOccurs="0". Since two otherwise identical elements may have
-different maxOccurs limitations, a suffix of _N (where N is the value of
-maxOccurs) or _u (to indicate an unbounded number of occurrences) is used
-if a maxOccurs is given.
+All YACC production names produced by the generator are of the following
+form. In the notation [] means optional and <prodBase> is as defined 
+in enterElementInfo.  Other characters are literal:
 
-The production name for an element (minus the y_ prefix) is built
-in enterElementInfo and stored in the prodBase attribute of the
-C++ XmlElementLocal class.
+  y_[x_][List]<prodBase>[_Check]
 
-If XML type X is an extension of type T, and T is the type of an
-element E, then the generator will build a YACC production for X that
-starts with an XML type declaration (since one is needed in order to
-use X with E in an XML data file). If X is also used directly as the
-type of some other element F, then the generator will also build a
+When [x_] is used - If XML type X is an extension of type T, and T is
+the type of an element E, then the generator will build a YACC production
+for X that starts with an XML type declaration (since one is needed in
+order to use X with E in an XML instance file). If X is also used directly
+as the type of some other element F, then the generator will also build a
 YACC production for X that does not include the type declaration. If
 the two built productions have the same left-hand side, they will be
 combined into one production with two definitions when the YACC file
-printer prints them. This would cause the parser to allow an XML data
+printer prints them. This would cause the parser to allow an XML instance
 file to use a type X without a type declaration as the value of E,
 which should not be allowed. To avoid this, different names are used
 for the two productions for X. The production for X used in an
 extension whose parent type is the type of an element has the prefix
-y_x_ while all other productions have the prefix y_ .
+y_x_ .
+
+When [List] is used - If needList for an element is true, the List
+prefix is used.
+
+When [_Check] is used - If needList for an element is true. A production
+providing a place to check the size of the std:list against maxOccurs and
+minOccurs of the element may be needed. If that production is needed, its
+name ends in _Check.
 
   YACC type names
   ~~~~~~~~~~~~~~~
@@ -489,12 +481,16 @@ section.
 file is an XmlElementRefable. If the first entry is an element, it is
 parsed as an XmlElementRefable but gets special treatment.
 
-2. A map of XmlElementRefables, elementRefables, is an attribute of the
-xmlInstanceParserGenerator. The map is accessed by the element name.
+2. A std::map named elementRefables of XmlElementRefables in each XML
+schema file is built in the generator for the file. In addition, a std::map
+named elementRefablesMaster of XmlElementRefables for the entire set of XML
+schema files being processed is built. The maps are accessed
+by the element name.
 
-3. The elementRefables map is populated in buildClasses after the schema
-has been parsed. It contains every XmlElementRefable. buildClasses calls
-enterElementRefable to put XmlElementRefables into the elementRefables map.
+3. The elementRefables and elementRefablesMaster std::maps for a generator
+are populated in buildClasses or buildClassesIncluded after all schema
+files have been parsed. buildClasses and buildClassesIncluded call
+enterElementRefable to put XmlElementRefables into the maps.
 
 4. When buildElementInfo runs, if an elementLocal has a ref,
 (i) findElementRefable is called to find the ref in the elementRefables,
@@ -520,10 +516,11 @@ Then in the generator, the C++ model of the XmlElementLocal is revised to
 be the same as if the schema had the following instead:
 
       <xs:element name="SignificantDigits"
-                  type="xs:integer"/>
+        type="xs:integer"/>
 
 This approach will not work when key/keyref pairs are embedded in ref'd
-elements. Key and keyref are not currently implemented.
+elements. Generating code to check Key and keyref is not currently
+implemented.
 
 Handling optional elements
 ----------------------
@@ -548,7 +545,7 @@ of XML elements as follows. Suppose the XML name of the XmlComplexType is XXX.
 
 1. A C++ class named XXX is created to represent the XmlComplexType.
 It has a C++ attribute named pairs, which is a std::list of pointers
-to XXXEnumVals.  It may have other C++ attributes which are pointers
+to XXXChoicePairs.  It may have other C++ attributes which are pointers
 to the C++ equivalents of XML attributes.
 
 2. A union named XXXVal is defined. Each line of the union represents
@@ -556,11 +553,11 @@ one of the elements of the XmlChoice. The names in the union are the
 names of the elements. The types in the union are the C++ equivalents
 of the types of the elements.
 
-3. A class named XXXEnumVal is defined. It has two attributes. One is named
+3. A class named XXXChoicePair is defined. It has two attributes. One is named
 XXXType and its value is a whichOne. The other is named XXXValue and its
 value is an XXXVal.
 
-4. An enum named whichOne is defined in the XXXEnumVal class. The values of
+4. An enum named whichOne is defined in the XXXChoicePair class. The values of
 the enum are made by appending E to the names of the elements.
 
 If the XML type of an XML element is XXX, then the C++ type of the
@@ -570,8 +567,7 @@ The XXX class has the pairs attribute defined as a std::list because
 if maxOccurs for the XmlChoice is unbounded or greater than 1, a
 std::list is required. If maxOccurs is 1 or is not given (which means
 maxOccurs is 1), there is no problem; The std::list length is just
-1. If minOccurs is 0, the std::list is empty CHECK THIS - MAYBE THERE
-IS NO LIST.
+1. If maxOccurs is 0, the std::list is empty.
 
 If an XML choice and the elements in it both have maxOccurs greater than
 one, parsing an instance in YACC may be ambiguous. This has not been
@@ -621,7 +617,7 @@ attributes, namely:
 2. Refs may be nested in both single attributes and attribute groups
    (i.e., an attribute ref may name an attribute that has an attribute ref).
 
-3. In an XML data file, attributes may be given in any order.
+3. In an XML instance file, attributes may be given in any order.
 
 XML attributes are modeled in the C++ classes by having each XML attribute
 be a separate C++ attribute.
@@ -647,17 +643,17 @@ represented by copying in its newAttribs. C++ generation for an
 attribute owner does not take place until its newAttribs std::list has
 been built. During C++ generation, the newAttribs std::list is used.
 
-Item 3 above makes it difficult to generate a data file parser.
+Item 3 above makes it difficult to generate an instance file parser.
 Fortunately, all attribute values are strings. This makes it feasible
 to define the AttributePair class, which is simply (1) an int that
 represents the attribute name and (2) a string that represents the
-value. All attributes are given one after the other in the data file,
-so the data file parser handles them by first making a std::list of
+value. All attributes are given one after the other in the instance file,
+so the instance file parser handles them by first making a std::list of
 AttributePairs, second making an instance of the class that has null
 pointers for all the attributes, and third calling a checking function
 belonging to the instance.  The checking function checks that the
 attribute names and values are all legitimate and inserts the values
-in the instance. Printing attributes into data files is not a problem.
+in the instance. Printing attributes into instance files is not a problem.
 
 Handling built in XML data types
 --------------------------------
@@ -761,10 +757,6 @@ get checked before anything is printed. During file parsing, the YACC
 parser calls yyerror (which exits) if "bad" is true after the constructor
 is called.
 
-FIX - Simple extensions (which add XML attributes) are not handled by
-inheritance, so a mix of restriction and extension of a list type will
-probably not work.
-
 Dealing with instances ending in />
 -----------------------------------
 
@@ -830,11 +822,11 @@ In the in-line documentation of functions with names that include
 of a YACC file, which is usually the largest section of a YACC file,
 is a set of rules. Here is an example of a YACC rule.
 
-y_Person_PersonType_uList :
+y_ListPerson_PersonType_u :
 	  y_Person_PersonType_u
 	  {$$ = new std::list<PersonType *>;
 	   $$->push_back($1);}
-	| y_Person_PersonType_uList y_Person_PersonType_u
+	| y_ListPerson_PersonType_u y_Person_PersonType_u
 	  {$$ = $1;
 	   $$->push_back($2);}
 	;
@@ -931,6 +923,49 @@ are constructed as a std::list of pairs of strings by many buildXXX
 functions. The string pairs are alphabetized and unduplicated.  Then the
 file is printed by printYaccXXX functions.
 
+FIX
+----------------------------------------
+
+FIX - Simple extensions (which add XML attributes) are not handled by
+inheritance, so a mix of restriction and extension of a list type will
+probably not work.
+
+FIX - The data type entries in the YACC file that is generated are not used
+if the data types are used only for attribute values since the attribute
+values are not parsed (they just come in as strings). When bison runs, it
+flags them as useless. Change so that being an attribute value does not
+trigger putting a type into the YACC file.
+
+FIX - If two elements have names that differ only in the case of one
+or more letters in the name, duplicate %tokens will be entered in the
+%tokens section of the YACC file, since the tokens are made by putting
+the names of elements in elementInfos into upper case letters. This
+might be dealt with by using case insensitive comparison for ordering
+in enterElementInfo and for comparing element names of adjacent
+elementInfos in printYaccElementTokens.
+
+Maybe make changes
+----------------------------------------
+
+Idea for rebuilding the way the generator builds the YACC and Lex files
+
+Currently, the generator builds each part of the YACC file separately. In
+most cases, this is done by going through the elementInfos list. The
+elementInfos list is processed again for printing Lex.
+The elementInfos are processed in:
+ buildExtensions
+ buildYaccRulesEnd
+ buildYaccTypeElementPairs
+ buildYaccUnionElementPairs
+ enterElementInfo (puts elementInfo into elementInfos)
+ printLexElementNames
+ printYaccElementTokens
+
+This results in making the same sorts of decisions multiple times. It
+may be better to go through the elementInfos once and handle all the
+items built from each elementInfo. The various types of item would be
+saved in lists of the specific item types. Nothing would be printed until
+the all the lists were complete.
 
 */
 
@@ -957,6 +992,51 @@ extern int yyparse();
 
 int XmlSchemaFile::printDoc = 0;
 bool XmlSchemaFile::printComments = false;
+
+/********************************************************************/
+
+/* generator::abbreviateNames
+
+Returned Value: none
+
+Called By: printTop
+
+If the length of a prodBase in an elementInfo is more than 35, this
+abbreviates the name in place by printing the mockCount over the
+prodBase characters starting in the 31st place and then ending the string.
+
+This could be a problem if the mockCount ever exceeds 5 characters,
+but that is very unlikely with the current mockCount starting value of
+1001; 998999 mockCount values would have to have been used.
+
+Before being abbreviated, the prodBase names are unique. Since each
+mockCount value is used only once, the abbreviated names are also unique.
+
+*/
+
+void generator::abbreviateNames()
+{
+  std::list<elementInfo *>::iterator iter;
+  char * prodBase;
+
+  for (iter = elementInfos->begin(); iter != elementInfos->end(); iter++)
+    {
+      prodBase = (*iter)->element->prodBase;
+      if (prodBase)
+	{
+	  if (strlen(prodBase) > 35)
+	    {
+	      snprintf(prodBase+30, 5, "%d", *mockCount);
+	      (*mockCount)++;
+	    }
+	}
+      else
+	{
+	  fprintf(stderr, "prodBase missing from elementInfo\n");
+	  exit(1);
+	}
+    }
+}
 
 /********************************************************************/
 
@@ -1003,6 +1083,49 @@ void generator::allCaps( /* ARGUMENTS                         */
 
 /********************************************************************/
 
+/* generator::buildChoice
+
+Returned Value: none
+
+Called By: generator::replaceSubstitutionGroups
+
+This builds an XmlChoice whose elements are XmlElementLocals corresponding
+to the XmlElementRefables in the substitutes of the refable. The mock of
+the XmlChoice is set to false since there is an element whose type is the
+choice. The XmlChoice is put at the end of the classes.
+
+The type of the refable might be a basic type, in which case the typPrefix
+of the refable will be xs, but the type is being changed to a choice, so
+the typPrefix is set to 0 (null).
+
+FIX - Need to include an XmlElementLocal corresponding to the refable
+if the element is not abstract and its type is not abstract.
+
+*/
+
+void generator::buildChoice(  /* ARGUMENTS                                  */
+ XmlChoice * choice,          /* the choice to build                        */
+ XmlElementRefable * refable) /* refable to use substitutes from for choice */
+{
+  std::list<XmlElementRefable *>::iterator iter;
+  XmlElementLocal * element;
+
+  refable->typPrefix = 0;
+  choice->items = new std::list<XmlChoSeqItem *>;
+  choice->mock = true;
+  for (iter = refable->substitutes.begin();
+       iter != refable->substitutes.end(); iter++)
+    {
+      element = new XmlElementLocal();
+      choice->items->push_back(element);
+      element->name = (*iter)->name;
+      element->newName = (*iter)->newName;
+      element->typ = (*iter)->typ;
+      element->newTyp = (*iter)->typ;
+    }
+}
+
+/********************************************************************/
 /* generator::buildClasses
 
 Returned Value: none
@@ -1037,6 +1160,10 @@ top that is a pointer to an XmlElementLocal, which is built here. Top has
 the same name, newName, type, and typPrefix as the top-level element.  An
 elementInfo is built here using top and entered into the elementInfos. Top
 is used at several places in the code.
+
+FIX - This is not handling nested substitutionGroups. If refable R2 is
+in the substitutes of refable R1 and R2 has substitutes, then R2's
+substitutes should be added to R1's substitutes.
 
 */
 
@@ -1126,10 +1253,6 @@ The classes that get added are the top-level complexTypes and the
 top-level simpleTypes from the included schema (which is all of them
 since all type definitions are required to be at the top level).
 
-An included XML schema in canonical form must not have an XmlElementRefable
-as the first entry in its contents2. This checks for that. XML schema
-itself might not have that restriction.
-
 */
 
 void generator::buildClassesIncluded() /* NO ARGUMENTS */
@@ -1137,15 +1260,9 @@ void generator::buildClassesIncluded() /* NO ARGUMENTS */
   std::list<XmlSchemaContent2 *>::iterator iter;
   XmlComplexType * complx;
   XmlSimpleType * simple;
+  XmlElementRefable * elementRefable;
   
-
-  if (dynamic_cast<XmlElementRefable *>(contents2->front()))
-    {
-      fprintf(stderr, "included schema must not have a top element\n");
-      exit(1);
-    }
-  else
-    top = 0;
+  top = 0;
   for (iter = contents2->begin(); iter != contents2->end(); iter++)
     {
       if ((complx = dynamic_cast<XmlComplexType *>(*iter)))
@@ -1155,6 +1272,16 @@ void generator::buildClassesIncluded() /* NO ARGUMENTS */
       else if ((simple = dynamic_cast<XmlSimpleType *>(*iter)))
 	{
 	  enterClass(simple);
+	}
+      else if ((elementRefable = dynamic_cast<XmlElementRefable *>(*iter)))
+	{
+	  enterElementRefable(elementRefable);
+	  if (elementRefable->typeDef || (elementRefable->typ == 0))
+	    {
+	      fprintf(stderr,
+		      "top level element must have a typ and no typeDef\n");
+	      exit(1);
+	    }
 	}
     }
 }
@@ -1275,16 +1402,38 @@ YACC files, it might be feasible to start at the top element, trace
 down the tree of elements that actually get used, and build the
 elementInfos that way.
 
-In the case of an XmlComplexType with an XmlOtherContent item, currently,
-only XmlSequence and XmlChoice are handled by the parser. XmlGroup and
-XmlAll have not been defined. The parser will return an error if a
-schema contains them, so it is not necessary to check for them here.
+In the case of an XmlComplexType with an XmlOtherContent item,
+currently, only XmlSequence and XmlChoice are handled by the parser.
+The other two types of XmlOtherContent are XmlElementGroupRef and
+XmlAll. An XmlElementGroupRef cannot be handled. If it is used, this
+prints an error message and exits. XmlAll has not been defined in the
+xmlSchemaClasses. The parser will return an error if a schema contains
+them, so it is not necessary to check for XmlAll here.
+
+In the case of am XmlComplexExtension whose item is a choice, the item
+is replaced by a sequence whose items is a std::list<XmlChoSeqItem *>
+containing only the choice. When that list is processed further down in
+the function, a mock choice element and type will be built.
+
+In the case of an element E that uses ref R:
+1. The name of E is changed to the name of R.
+2. The newName of E is already set to the newName of R (in the parser).
+3. The newTyp of E is changed to the newTyp of R.
+4. The typPrefix of E is changed to the typPrefix of R.
+5. The mock of E is changed to the mock of R.
+   
+If mock of R is true, that indicates that R used to be an element at
+the head of a substitution group, but has been changed to be an
+element with a choice among the substitutes. Changing the mock of E to
+true will cause the parser to look for the elements of the choice and
+will cause printSelf to print one of the choice elements.
 
 */
 
 void generator::buildElementInfo()/* NO ARGUMENTS */
 {
   XmlComplexType * complx;
+  XmlComplexType * complx2;
   XmlSimpleType * simple;
   XmlOtherContent * other;
   XmlComplexContent * comp;
@@ -1315,6 +1464,14 @@ void generator::buildElementInfo()/* NO ARGUMENTS */
 		{
 		  if ((sequence = dynamic_cast<XmlSequence *>(extend->item)))
 		    items = sequence->items;
+		  else if ((choice = dynamic_cast<XmlChoice *>(extend->item)))
+		    {
+		      items = new std::list<XmlChoSeqItem *>;
+		      items->push_back(choice);
+		      sequence = new XmlSequence();
+		      extend->item = sequence;
+		      sequence->items = items;
+		    }
 		}
 	      else if ((dynamic_cast<XmlComplexRestriction *>(comp->item)))
 		{
@@ -1345,9 +1502,11 @@ void generator::buildElementInfo()/* NO ARGUMENTS */
 			      exit(1);
 			    }
 			  elementLocal->name = elementLocal->ref;
-			  //elementLocal->newName is already set
+			  // elementLocal->newName is already set to
+                          // modifyName(elementLocal->ref)
 			  elementLocal->newTyp = elementRef->newTyp;
 			  elementLocal->typPrefix = elementRef->typPrefix;
+			  elementLocal->mock = elementRef->mock;
 			}
 		      else
 			{
@@ -1363,11 +1522,30 @@ void generator::buildElementInfo()/* NO ARGUMENTS */
 			      elementLocal->name);
 		      exit(1);
 		    }
-		  complx = findComplexClass(elementLocal->newTyp);
+		  complx2 = findComplexClass(elementLocal->newTyp);
 		  simple = findSimpleClass(elementLocal->newTyp);
 		  enterElementInfo
-		    (new elementInfo (elementLocal, complx, simple));
+		    (new elementInfo (elementLocal, complx2, simple));
 		}
+	      else if ((choice = dynamic_cast<XmlChoice *>(*ator)))
+		{
+		  elementLocal = new XmlElementLocal();
+		  buildMockChoice(choice, elementLocal, complx->newName);
+		  *ator = elementLocal;
+		}
+	      else if ((sequence = dynamic_cast<XmlSequence *>(*ator)))
+		{
+		  elementLocal = new XmlElementLocal();
+		  buildMockSequence(sequence, elementLocal, complx->newName);
+		  *ator = elementLocal;
+		}
+	      else if (dynamic_cast<XmlElementGroupRef *>(*ator))
+		{
+		  fprintf(stderr, "buildElementInfo cannot handle"
+			  " element group reference\n");
+		  exit(1);
+		}
+
 	    }
 	}
     }
@@ -1397,6 +1575,175 @@ void generator::buildExtensions() /* NO ARGUMENTS */
 	buildSomeExtensions((*iter)->complexType);
     }
 }
+
+/********************************************************************/
+
+/* generator::buildMockChoice
+
+Returned Value: none
+
+Called By: generator::buildElementInfo
+
+This makes a complexType called choiceType:
+1. The name and newName are set to xxx_n_Type where xxx is the
+   given baseName, and n is the current value of the global mockCount.
+2. The item is set to a new XmlOtherContent whose base is the given choice.
+
+This also adds information to the given mockElement:
+1. The name and newName of are set to xxx_n where xxx is the
+   given baseName, and n is the current value of the global mockCount.
+2. type is set to xxx_n_Type
+3. mock is set to true.
+
+An elementInfo is entered into elementInfos for the mockElement.
+
+The choiceType is put at the end of the classes list so that its
+elements will be processed. This function is called while classes are
+being processed, so it is necessary to put new classes at the end of
+the classes list, not in alphabetical order. When the new class is
+processed, if it has choices or sequences, they will be processed in
+recursive fashion.
+
+The baseName should be the newName of the parent type of the choice.
+
+To prevent names from becoming too long, this uses only the first 15
+characters of the baseName. 
+
+The classesMaster may end up with two entries for the choiceType
+class, since the classes are added to the classesMaster. The
+classesMaster is used only for searching for classes, so this should
+not make a problem.
+
+*/
+
+void generator::buildMockChoice( /* ARGUMENTS                                */
+ XmlChoice * choice,             /* choice from which to make complexType    */
+ XmlElementLocal * mockElement,  /* mock element - type will be choiceType   */
+ char * baseName)                /* base of names of choice type and element */
+{
+  char typeName[NAMESIZE];
+  char elementName[NAMESIZE];
+  XmlComplexType * choiceType;
+  XmlOtherContent * other;
+
+  if (strlen(baseName) > 15)
+    {
+      snprintf(typeName, 16, "%s", baseName);
+      snprintf(typeName+15, (NAMESIZE - 15), "_%d_Type", *mockCount);
+      snprintf(elementName, 16, "%s", baseName);
+      snprintf(elementName+15, (NAMESIZE - 15), "_%d", *mockCount);
+    }
+  else
+    {
+      snprintf(typeName, NAMESIZE, "%s_%d_Type", baseName, *mockCount);
+      snprintf(elementName, NAMESIZE, "%s_%d", baseName, *mockCount);
+    }
+  choice->mock = true;
+  choiceType = new XmlComplexType();
+  choiceType->name = strdup(typeName);
+  choiceType->newName = choiceType->name;
+  other = new XmlOtherContent();
+  choiceType->item = other;
+  other->base = choice;
+  classes->push_back(choiceType);
+  if (classes != classesMaster)
+    classesMaster->push_back(choiceType);
+  
+  mockElement->typ = choiceType->name;
+  mockElement->newTyp = mockElement->typ;
+  mockElement->name = strdup(elementName);
+  mockElement->newName = mockElement->name;
+  mockElement->mock = true;
+  enterElementInfo(new elementInfo (mockElement, choiceType, 0));
+
+  (*mockCount)++;
+}
+
+
+/********************************************************************/
+
+/* generator::buildMockSequence
+
+Returned Value: none
+
+Called By: generator::buildElementInfo
+
+This makes a complexType called sequenceType:
+1. The name and newName are set to xxx_n_Type where xxx is the
+   given baseName, and n is the current value of the global mockCount.
+2. The item is set to a new XmlOtherContent whose base is the given sequence.
+
+This also adds information to the given mockElement:
+1. The name and newName of are set to xxx_n where xxx is the
+   given baseName, and n is the current value of the global mockCount.
+2. type is set to xxx_n_Type
+3. mock is set to true.
+
+An elementInfo is entered into elementInfos for the mockElement.
+
+The sequenceType is put at the end of the classes list so that its
+elements will be processed. This function is called while classes are
+being processed, so it is necessary to put new classes at the end of
+the classes list, not in alphabetical order. When the new class is
+processed, if it has choices or sequences, they will be processed in
+recursive fashion.
+
+The baseName should be the newName of the parent type of the sequence.
+
+To prevent names from becoming too long, this uses only the first 15
+characters of the baseName. 
+
+The classesMaster may end up with two entries for the sequenceType
+class, since the classes are added to the classesMaster. The
+classesMaster is used only for searching for classes, so this should
+not make a problem.
+
+Unlike choice, the sequence does not need a mock C++ attribute.
+
+*/
+
+void generator::buildMockSequence( /* ARGUMENTS                              */
+ XmlSequence * sequence,         /* sequence from which to make complexType  */
+ XmlElementLocal * mockElement,  /* mock element - type will be sequenceType */
+ char * baseName)                /* base of names of sequence type & element */
+{
+  char typeName[NAMESIZE];
+  char elementName[NAMESIZE];
+  XmlComplexType * sequenceType;
+  XmlOtherContent * other;
+
+  if (strlen(baseName) > 15)
+    {
+      snprintf(typeName, 16, "%s", baseName);
+      snprintf(typeName+15, (NAMESIZE - 15), "_%d_Type", *mockCount);
+      snprintf(elementName, 16, "%s", baseName);
+      snprintf(elementName+15, (NAMESIZE - 15), "_%d", *mockCount);
+    }
+  else
+    {
+      snprintf(typeName, NAMESIZE, "%s_%d_Type", baseName, *mockCount);
+      snprintf(elementName, NAMESIZE, "%s_%d", baseName, *mockCount);
+    }
+  sequenceType = new XmlComplexType();
+  sequenceType->name = strdup(typeName);
+  sequenceType->newName = sequenceType->name;
+  other = new XmlOtherContent();
+  sequenceType->item = other;
+  other->base = sequence;
+  classes->push_back(sequenceType);
+  if (classes != classesMaster)
+    classesMaster->push_back(sequenceType);
+  
+  mockElement->typ = sequenceType->name;
+  mockElement->newTyp = mockElement->typ;
+  mockElement->name = strdup(elementName);
+  mockElement->newName = mockElement->name;
+  mockElement->mock = true;
+  enterElementInfo(new elementInfo (mockElement, sequenceType, 0));
+
+  (*mockCount)++;
+}
+
 
 /********************************************************************/
 
@@ -1492,41 +1839,58 @@ production. In the C++ classes, a YACC list holder class is defined that
 has a printSelf function.
 
 Example: This might build namePairs for y_CustomItemsType, from which
-the following is printed:
+the following is printed. The list holder here is y_CustomItemsType.
+The size of the list may be checked in the list holder.
 
-y_CustomItemsTypeEnumVal :
+y_CustomItemsTypeChoicePair :
 	  y_DoubleItem_DoubleItemType
-	  {$$ = new CustomItemsTypeEnumVal();
-	   $$->CustomItemsTypeType = CustomItemsTypeEnumVal::DoubleItemE;
+	  {$$ = new CustomItemsTypeChoicePair();
+	   $$->CustomItemsTypeType = CustomItemsTypeChoicePair::DoubleItemE;
 	   $$->CustomItemsTypeValue.DoubleItem = $1;
 	  }
 	| y_IntItem_IntItemType
-	  {$$ = new CustomItemsTypeEnumVal();
-	   $$->CustomItemsTypeType = CustomItemsTypeEnumVal::IntItemE;
+	  {$$ = new CustomItemsTypeChoicePair();
+	   $$->CustomItemsTypeType = CustomItemsTypeChoicePair::IntItemE;
 	   $$->CustomItemsTypeValue.IntItem = $1;
 	  }
 	| y_StringItem_StringItemType
-	  {$$ = new CustomItemsTypeEnumVal();
-	   $$->CustomItemsTypeType = CustomItemsTypeEnumVal::StringItemE;
+	  {$$ = new CustomItemsTypeChoicePair();
+	   $$->CustomItemsTypeType = CustomItemsTypeChoicePair::StringItemE;
 	   $$->CustomItemsTypeValue.StringItem = $1;
 	  }
 	;
 
-y_ListCustomItemsTypeEnumVal :
-	  y_CustomItemsTypeEnumVal
-	  {$$ = new std::list<CustomItemsTypeEnumVal *>;
+y_ListCustomItemsTypeChoicePair :
+	  y_CustomItemsTypeChoicePair
+	  {$$ = new std::list<CustomItemsTypeChoicePair *>;
 	   $$->push_back($1);
 	  }
-	| y_ListCustomItemsTypeEnumVal y_CustomItemsTypeEnumVal
+	| y_ListCustomItemsTypeChoicePair y_CustomItemsTypeChoicePair
 	  {$$ = $1;
 	   $$->push_back($2);
 	  }
 	;
 
 y_CustomItemsType :
-	  ENDITEM y_ListCustomItemsTypeEnumVal
-	  {$$ = new CustomItemsType($2);}
+	  ENDITEM y_ListCustomItemsTypeChoicePair
+	  {$$ = new CustomItemsType($2);
+           if ($2->size() > 3)
+             yyerror("only 3 choices are allowed");
+           if ($2->size() < 1)
+             yyerror("at least 1 choice is required");
+          }
 	;
+
+The rule for recognizing a mock choice differs from the rule for
+recognizing a real choice because in an instance file, the real choice
+will be preceded by an element name followed by possibly some
+attribute values followed by ENDITEM (which is ">"). The ENDITEM part
+of that is first thing in the rule for a real choice. The mock choice
+will not have the ENDITEM.
+
+When this is called the process of un-nesting choices and sequences
+will have resulted in all items in the choice being elements, so the
+check for non-elements should never find one.
 
 FIX - This is not currently handling attributes of the parent of the choice.
 
@@ -1541,11 +1905,21 @@ void generator::buildYaccChoiceRule( /* ARGUMENTS                      */
   std::list<XmlChoSeqItem *> * items;
   std::list<XmlChoSeqItem *>::iterator iter;
   XmlElementLocal * element;
+  int maxi;
+  int mini;
   int n;
   
-
+  maxi = ((choice->maxOccurs < -1) ? 1 : choice->maxOccurs);
+  mini = ((choice->minOccurs <  0) ? 1 : choice->minOccurs);
+  if ((maxi != -1) && (maxi < mini))
+    {
+      fprintf(stderr,
+	      "maxOccurs, %d, must not be less than minOccurs, %d\n",
+	      maxi, mini);
+      exit(1);
+    }
   items = choice->items;
-  sprintf(prodName, "%sEnumVal", name);
+  sprintf(prodName, "%sChoicePair", name);
   for (iter = items->begin(); iter != items->end(); iter++)
     {
       element = dynamic_cast<XmlElementLocal *>(*iter);
@@ -1554,38 +1928,120 @@ void generator::buildYaccChoiceRule( /* ARGUMENTS                      */
 	  fprintf(stderr, "choice item must be an element\n");
 	  exit(1);
 	}
-      if ((element->maxOccurs == -1) ||
-	  (element->maxOccurs == 0) ||
-	  (element->maxOccurs > 1))
-	{
-	  n = sprintf(text, "y_List%s%c", element->prodBase, 13);
-	}
-      else
-	n = sprintf(text, "y_%s%c", element->prodBase, 13);
-      n += sprintf(text+n, "\t  {$$ = new %sEnumVal();\n", name);
-      n += sprintf(text+n, "\t   $$->%sType = %sEnumVal::%sE;\n",
-		   name, name, element->newName);
-      n += sprintf(text+n, "\t   $$->%sValue.%s = $1;\n",
-		   name, element->newName);
-      sprintf(text+n, "\t  }\n");
-      enterNamePair(strdup(prodName), strdup(text), endRules);
+      buildYaccChoiceItemRule(element, name, prodName, endRules);
     }
-
-  sprintf(prodName, "%sEnumValList", name);
-  n = sprintf(text, "y_%sEnumVal%c", name, 13);
-  n += sprintf(text+n, "\t  {$$ = new std::list<%sEnumVal *>;\n", name);
+  sprintf(prodName, "List%sChoicePair", name);
+  n = sprintf(text, "y_%sChoicePair%c", name, 13);
+  n += sprintf(text+n, "\t  {$$ = new std::list<%sChoicePair *>;\n", name);
   n += sprintf(text+n, "\t   $$->push_back($1);\n");
   sprintf(text+n, "\t  }\n");
   enterNamePair(strdup(prodName), strdup(text), endRules);
-  n = sprintf(text, "y_%sEnumValList y_%sEnumVal%c", name, name, 13);
+  n = sprintf(text, "y_List%sChoicePair y_%sChoicePair%c", name, name, 13);
   n += sprintf(text+n, "\t  {$$ = $1;\n");
   n += sprintf(text+n, "\t   $$->push_back($2);\n");
   sprintf(text+n, "\t  }\n");
   enterNamePair(strdup(prodName), strdup(text), endRules);
 
+  if (choice->mock)
+    {
+      n = sprintf(text, "y_List%sChoicePair%c", name, 13);
+      n += sprintf(text+n, "\t  {$$ = new %s($1);\n", name);
+      if (maxi != -1)
+	{
+	  n += sprintf(text+n, "\t   if ($1->size() > %d)\n", maxi);
+	  n += sprintf(text+n,
+		       "\t     %serror(\"only %d choice%s allowed\");\n",
+		       yyprefix, maxi, ((maxi > 1) ? "s are" : " is"));
+	}
+      n += sprintf(text+n, "\t   if ($1->size() < %d)\n", mini);
+    }
+  else
+    {
+      n = sprintf(text, "ENDITEM y_List%sChoicePair%c", name, 13);
+      n += sprintf(text+n, "\t  {$$ = new %s($2);\n", name);
+      if (maxi != -1)
+	{
+	  n += sprintf(text+n, "\t   if ($2->size() > %d)\n", maxi);
+	  n += sprintf(text+n,
+		       "\t     %serror(\"only %d choice%s allowed\");\n",
+		       yyprefix, maxi, ((maxi > 1) ? "s are" : " is"));
+	}
+      n += sprintf(text+n, "\t   if ($2->size() < %d)\n", mini);
+    }
+  n += sprintf(text+n, "\t     %serror(\"at least %d choice%s required\");\n",
+	       yyprefix, mini, ((mini > 1) ? "s are" : " is"));
+  sprintf(text+n, "\t  }\n");
   sprintf(prodName, "%s", name);
-  n = sprintf(text, "ENDITEM y_%sEnumValList%c", name, 13);
-  n += sprintf(text+n, "\t  {$$ = new %s($2);}\n", name);
+  enterNamePair(strdup(prodName), strdup(text), endRules);
+}
+
+/********************************************************************/
+
+/* generator::buildYaccChoiceItemRule
+
+Returned Value: none
+
+Called By: generator::buildYaccChoiceRule
+
+This builds a YACC production that recognizes an element or a list of
+elements with the same name in a choice and makes a new ChoicePair
+with what it recognizes. If a maximum number of occurrences of the
+element has been specified that is not 1 (in which case a list will
+have been used), this also writes code that checks the maximum and
+minimum number of elements in the list.
+
+This does not allow choice items to be optional (i.e., have minOccurs
+be zero) since that will cause ambiguous parsing, which is not allowed.
+
+*/
+
+void generator::buildYaccChoiceItemRule( /* ARGUMENTS                      */
+ XmlElementLocal * element,              /* element to write rule for      */
+ char * name,                            /* newName of complex with choice */
+ char * prodName,                        /* production name of rule        */
+ std::list<namePair *> * endRules)       /*  rules to build                */
+{
+  int maxi;
+  int mini;
+  int n;
+
+  maxi = ((element->maxOccurs < -1) ? 1 : element->maxOccurs);
+  mini = ((element->minOccurs <  0) ? 1 : element->minOccurs);
+  if ((maxi != -1) && (maxi < mini))
+    {
+      fprintf(stderr,
+	      "maxOccurs, %d, must not be less than minOccurs, %d\n",
+	      maxi, mini);
+      exit(1);
+    }
+  if (mini == 0)
+    {
+      fprintf(stderr, "choice item may not be optional\n");
+      exit(1);
+    }
+  if (element->needList)
+    {
+      n = sprintf(text, "y_List%s%s%c", element->prodBase,
+		  (((maxi != 1) || (mini > 1)) ? "_Check" : ""), 13);
+    }
+  else
+    n = sprintf(text, "y_%s%c", element->prodBase, 13);
+  n += sprintf(text+n, "\t  {$$ = new %sChoicePair();\n", name);
+  n += sprintf(text+n, "\t   $$->%sType = %sChoicePair::%sE;\n",
+	       name, name, element->newName);
+  n += sprintf(text+n, "\t   $$->%sValue.%s = $1;\n",
+	       name, element->newName);
+  if (maxi != 1)
+    {
+      n += sprintf(text+n, "\t   if ($1->size() > %d)\n", maxi);
+      n += sprintf(text+n, "\t     yyerror(\"only %d %ss are allowed\");\n",
+		   maxi, element->newName);
+      n += sprintf(text+n, "\t   if ($1->size() < %d)\n", mini);
+      n += sprintf(text+n,
+		   "\t     yyerror(\"at least %d %ss are required\");\n",
+		   mini, element->newName);
+    }
+  sprintf(text+n, "\t  }\n");
   enterNamePair(strdup(prodName), strdup(text), endRules);
 }
 
@@ -1681,10 +2137,6 @@ XmlComplexType. If the element may be omitted (i.e., minOccurs = 0),
 a second name pair is built that sets the return value to a null
 pointer.
 
-If the XmlComplexType is an XmlChoice, this writes a rule that
-looks for a ListHolder production. In addition, for an XmlChoice,
-different items are expected for a top element and a non-top element.
-
 If the type of the element has XmlOtherContent but neither a sequence
 nor a choice, so that an instance may not have an end tag, for example
 <Gizmo id="ID1"/>, then this also builds a namePair for a rule that
@@ -1701,12 +2153,11 @@ y_Company_CompanyType :
 Example 2 - This might build two namePairs for a non-top element from
 which is printed:
 
-y_CustomPackageData_CustomItemsType_0 :
+y_AltAddress_UK_Address_0 :
 	  / * empty * /
 	  {$$ = 0;}
-	| CUSTOMPACKAGEDATASTART y_CustomItemsTypeListHolder
-	  CUSTOMPACKAGEDATAEND
-	  {$$ = $3;}
+	| ALTADDRESSSTART y_UK_Address ALTADDRESSEND
+	  {$$ = $2;}
 	;
 
 Example 3 - This might build two namePairs for a non-top element from
@@ -1726,6 +2177,7 @@ void generator::buildYaccComplexElementRule( /* ARGUMENTS                  */
  char * prodName,                     /* name of production without y_     */
  char * elementName,                  /* newName of element                */
  bool emptyOk,                        /* true=list may be empty, false=not */
+ bool mock,                           /* true=mock element, false=not      */
  std::list<namePair *> * endRules)    /* rules to build                    */
 {
   static char buffer[NAMESIZE];
@@ -1739,9 +2191,17 @@ void generator::buildYaccComplexElementRule( /* ARGUMENTS                  */
       enterNamePair(strdup(prodName), strdup(text), endRules);
     }
   allCaps(elementName, buffer);
-  n = sprintf(text, "%sSTART y_%s %sEND%c",
-	      buffer, complx->newName, buffer, 13);
-  sprintf(text+n, "\t  {$$ = $2;}\n");
+  if (mock)
+    {
+      n = sprintf(text, "y_%s%c", complx->newName, 13);
+      sprintf(text+n, "\t  {$$ = $1;}\n");
+    }
+  else
+    {
+      n = sprintf(text, "%sSTART y_%s %sEND%c",
+		  buffer, complx->newName, buffer, 13);
+      sprintf(text+n, "\t  {$$ = $2;}\n");
+    }
   enterNamePair(strdup(prodName), strdup(text), endRules);
   if ((other = dynamic_cast<XmlOtherContent *>(complx->item)) &&
       (dynamic_cast<XmlSequence *>(other->base) == 0) &&
@@ -1826,8 +2286,8 @@ The item in the XmlComplexType may be
  - an XmlComplexContent (which is usually an extension)
  - an XmlSimpleContent
 
-An XmlOtherContent may have no sequence or choice. This will be the
-case if (1) it is something like Stop, which requires nothing
+An XmlOtherContent is allowed to have no sequence or choice. This will
+be the case if (1) it is something like Stop, which requires nothing
 further or (2) it is an abstract parent type with no elements.
 
 FIX - Implement attributes with choice. This will not be simple.
@@ -1902,31 +2362,42 @@ Returned Value: none
 
 Called By: generator::buildYaccRulesEnd
 
-This builds two namePairs for representing a rule for an
-XmlElementLocal (element) that can occur more than once. If the
-element is optional, the std::list will not be null but it may be
-empty.
+This builds:
 
-If the maxSize of an oList is positive, this includes a check that the
-std::list is not too big.
+1. two namePairs for representing a rule for an XmlElementLocal
+(element) that can occur more than once. If the element is optional,
+the std::list will not be null but it may be empty.
+
+2. If needed, one namePair for representing a rule that checks the
+size of the list against its minOccurs and maxOccurs. The minOccurs
+check is not generated if minOccurs is 0 or 1. In the case of minOccurs
+being 1, a parse error will be given if the element does not occur.
+The maxOccurs check is not included if maxOccurs is unbounded.
 
 Example 1 - For an element "Nicknames" that may occur zero times and may not
 occur more than 3 times, this might build pairs from which the following
-rule is printed. (The rule does not have the extra spaces in / * and * /
-but they are needed here since this is a C++ comment.):
+rules are printed. (The empty rule does not have the extra spaces in
+/ * and * / but they are needed here since this is a C++ comment.):
 
-y_ListNickname_XmlString_0_3 :
+y_ListNickname_XmlString_2_3 :
 	  / * empty * /
 	  {$$ = new std::list<char *>;}
-	| y_ListNickname_XmlString_0_3 y_Nickname_XmlString_0_3
+	| y_ListNickname_XmlString_2_3 y_Nickname_XmlString_2_3
 	  {$$ = $1;
-	   if ($$->size() > 2)
-	     yyerror("Too many entries in Nickname_XmlString_0_3 list");
 	   $$->push_back($2);}
 	;
 
+y_ListNickname_XmlString_3_Check :
+          y_ListNickname_XmlString_2_3
+          {$$ = $1;
+           if ($1->size() > 3)
+             yyerror("must not be more than 3 Nicknames");
+           if ($1->size() < 2)
+	      yyerror("must be at least 2 Nicknames");
+          }
+
 Example 2 - For an element "Person" that must occur at least once and
-may occur any number of times, this might built pairs from which the
+may occur any number of times, this might build pairs from which the
 following rule is printed:
 
 y_ListPerson_PersonType_u :
@@ -1938,20 +2409,24 @@ y_ListPerson_PersonType_u :
 	   $$->push_back($2);}
 	;
 
+The _Check suffix used here is also used in buildYaccSequenceItems.
+
 */
 
 void generator::buildYaccElementListRule( /* ARGUMENTS                     */
- char * prodName,                  /* name of production without y_        */
- char * elementName,               /* newName of element                   */
- char * typ,                       /* name of type of element              */
- bool emptyOk,                     /* true=list may be empty, false=not    */
- int maxSize,                      /* if positive, largest the list may be */
- std::list<namePair *> * endRules) /* rules to build                       */
+ char * prodName,                         /* name of production without y_ */
+ XmlElementLocal * element,               /* element to make list rule for */
+ char * typ,                              /* name of type of element       */
+ std::list<namePair *> * endRules)        /* rules to build                */
 {
   static char buffer[NAMESIZE];
   int n;
+  int mini;
+  int maxi;
 
-  if (emptyOk)
+  mini = ((element->minOccurs < 0) ? 1 : element->minOccurs);
+  maxi = ((element->maxOccurs < -1) ? 1 : element->maxOccurs);
+  if ((mini == 0) || (maxi == 0))
     {
       sprintf(buffer, "List%s", prodName);
       n = sprintf(text, "/* empty */%c", 13);
@@ -1968,15 +2443,33 @@ void generator::buildYaccElementListRule( /* ARGUMENTS                     */
     }
   n = sprintf(text, "y_%s y_%s%c", buffer, prodName, 13);
   n += sprintf(text+n, "\t  {$$ = $1;\n");
-  if (maxSize > 1)
-    {
-      n += sprintf(text+n, "\t   if ($$->size() > %d)\n", (maxSize - 1));
-      n += sprintf(text+n,
-		   "\t     %serror(\"Too many entries in %s list\");\n",
-		   yyprefix, prodName);
-    }
   sprintf(text+n, "\t   $$->push_back($2);}\n");
   enterNamePair(strdup(buffer), strdup(text), endRules);
+  if ((mini > 1) || (maxi != -1))
+    {
+      sprintf(buffer, "List%s_Check", prodName);
+      n = sprintf(text, "y_List%s%c", prodName, 13);
+      n += sprintf(text+n, "\t  {$$ = $1;\n");
+      if (maxi != -1)
+	{
+	  n += sprintf(text+n,
+		       "\t   if ($1->size() > %d)\n", maxi);
+	  n += sprintf(text+n,
+		       "\t     yyerror(\"must not be more than %d", maxi);
+	  n += sprintf(text+n," %s%s\");\n", element->name,
+		       ((maxi > 1) ? "s" : ""));
+	}
+      if (mini > 1)
+	{
+	  n += sprintf(text+n,
+		       "\t   if ($1->size() < %d)\n", mini);
+	  n += sprintf(text+n,
+		       "\t     yyerror(\"must be at least %d %ss\");\n",
+		       mini, element->name);
+	}
+      sprintf(text+n, "\t  }\n");
+      enterNamePair(strdup(buffer), strdup(text), endRules);
+    }
 }
 
 /********************************************************************/
@@ -1989,7 +2482,7 @@ Called By: buildYaccComplexTypeRule
 
 This builds two namePairs representing a rule for an XmlComplexType containing
 nothing except possibly XML attributes. Two namePairs are needed because
-either of the following two forms might occur in a data file.
+either of the following two forms might occur in an instance file.
 
       <Gizmo id="ID1"/>
 
@@ -2451,6 +2944,11 @@ following in the text array used in printing the rule for US_Address:
 
 y_Zip y_State
 
+If the sequence contains anything other than an element, this prints an
+error message and exits. However, that should never happen since when
+this is called, any choice or sequence will have been replaced by a
+mock element.
+
 */
 
 void generator::buildYaccExtensionSequenceItems( /* ARGUMENTS              */
@@ -2467,11 +2965,9 @@ void generator::buildYaccExtensionSequenceItems( /* ARGUMENTS              */
 	{
 	  fprintf(stderr,
 	     "buildYaccExtensionSequenceItems cannot handle non-element\n");
-	  continue;
+	  exit(1);
 	}
-      if ((element->maxOccurs == -1) ||
-	  (element->maxOccurs == 0) ||
-	  (element->maxOccurs > 1))
+      if (element->needList)
 	{
 	  *n += sprintf((text + *n), " y_List%s", element->prodBase);
 	}
@@ -2509,7 +3005,7 @@ This would build six namePairs from which the following four rules are
 printed. In two cases, two name pairs for the same left side are
 combined in one rule. Note that AllowedOrientationsBase does not appear.
 
-y_AllowedOrientationsList :
+y_ListAllowedOrientations :
 	  y_ListBoxOrientType
 	  {$$ = new AllowedOrientationsList($1);
 	   if ($$->bad)
@@ -2517,11 +3013,11 @@ y_AllowedOrientationsList :
 	  }
 	;
 
-y_AllowedOrientations_AllowedOrientationsList_0 :
+y_ListAllowedOrientations_AllowedOrientations_0 :
 	  / * empty * /
 	  {$$ = 0;}
 	| ALLOWEDORIENTATIONSSTART  ENDITEM {yyReadDataList = 1;}
-          y_AllowedOrientationsList ALLOWEDORIENTATIONSEND
+          y_ListAllowedOrientations ALLOWEDORIENTATIONSEND
 	  {$$ = $4;}
 	;
 
@@ -2633,9 +3129,10 @@ Returned Value: none
 
 Called By: generator::printYacc
 
-This generates one or more namePairs representing rules and stores
-them in the endRules in alphabetical order by name1. The left hand
-sides of the rules are the same as the right-hand sides of the type
+This goes throught the elementInfos. For each elementInfo, it
+generates one or more namePairs representing rules and stores them in
+the endRules in alphabetical order by name1. The left hand sides of
+the rules are the same as the right-hand sides of the type
 declarations generated in buildYaccTypeElementPairs, and this function
 is very similar to that one.
 
@@ -2696,7 +3193,7 @@ checks for duplicates, so no duplicates will get into the typePairs.
 No rule should be built for the top element, since the rule for XXXFile
 is used instead. FIX - Currently, this is checking for the top element
 only when it has a complex type or a basic type; a check should be made
-in other cases as well. 
+if it has simple type as well. 
 
 */
 
@@ -2715,6 +3212,7 @@ void generator::buildYaccRulesEnd( /* ARGUMENTS       */
   static char ignore[NAMESIZE];            // buffer req'd in isRestrictedList
   static char itemTypePrefix[NAMESIZE];    // buffer for list item type prefix
   static char itemTypeName[NAMESIZE];      // buffer for list item type name
+
   for (iter = elementInfos->begin(); iter != elementInfos->end(); iter++)
     {
       element = (*iter)->element;
@@ -2723,30 +3221,26 @@ void generator::buildYaccRulesEnd( /* ARGUMENTS       */
       isBasic = (element->typPrefix &&
 		 (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
       prodBase = element->prodBase;
-      if ((element->maxOccurs == -1) || (element->maxOccurs > 1))
-	{ // multiple elements are allowed, need list
+      if (element->needList)
+	{ // zero or many elements are allowed
 	  if (isBasic)
 	    {
 	      findCppTypeName(element->newTyp, typeName);
 	      buildYaccBasicRule(prodBase, element->newName, element->newTyp,
 				 false, endRules);
-	      buildYaccElementListRule(prodBase, element->newName, typeName,
-				       (element->minOccurs == 0),
-				       element->maxOccurs, endRules);
+	      buildYaccElementListRule(prodBase, element, typeName, endRules);
 	    }
 	  else if (complx)
 	    {
 	      if (complx->abstract != XmlCppBase::yes)
 		{
 		  buildYaccComplexElementRule(complx, prodBase,
-					      element->newName,
-					      false, endRules);
+					      element->newName, false,
+					      element->mock, endRules);
 		  buildYaccComplexTypeRule(complx, endRules);
 		}
-	      buildYaccElementListRule(prodBase, element->newName,
-				       element->newTyp,
-				       (element->minOccurs == 0),
-				       element->maxOccurs, endRules);
+	      buildYaccElementListRule(prodBase, element,
+				       element->newTyp, endRules);
 	      if (complx->extensions)
 		{
 		  buildYaccComplexExtRule(prodBase, element->newName,
@@ -2760,10 +3254,8 @@ void generator::buildYaccRulesEnd( /* ARGUMENTS       */
 	    {
 	      buildYaccSimpleRule(prodBase, element->newName,
 				  element->newTyp, simple, false, endRules);
-	      buildYaccElementListRule(prodBase, element->newName,
-				       element->newTyp,
-				       (element->minOccurs == 0),
-				       element->maxOccurs, endRules);
+	      buildYaccElementListRule(prodBase, element,
+				       element->newTyp, endRules);
 	    }
 	  else
 	    {
@@ -2796,7 +3288,7 @@ void generator::buildYaccRulesEnd( /* ARGUMENTS       */
 		  buildYaccComplexElementRule(complx, prodBase,
 					      element->newName,
 					      (element->minOccurs == 0),
-					      endRules);
+					      element->mock, endRules);
 		}
 	    }
 	  else if (simple)
@@ -2892,8 +3384,10 @@ zero, or is greater than 1, an oList is needed. In this case the name
 that is printed is "y_" followed by "List", followed by the prodBase of
 the element.
 
-This is not handling XmlChoice or XmlSequence in a sequence.
-This expects that an XmlChoice will only occur in an XmlComplexType.
+This prints an error message and exits if an XmlChoice or XmlSequence
+appears in a sequence. However, this should never happen since when
+this is called, any choice or sequence will have been replaced by a
+mock element.
 
 */
 
@@ -2913,11 +3407,11 @@ void generator::buildYaccSequenceItems(  /* ARGUMENTS             */
     {
       if ((element = dynamic_cast<XmlElementLocal *>(*iter)))
 	{
-	  if ((element->maxOccurs == -1) ||
-	      (element->maxOccurs == 0) ||
-	      (element->maxOccurs > 1))
+	  if (element->needList)
 	    {
-	      *n += sprintf((text + *n), " y_List%s", element->prodBase);
+	      *n += sprintf((text + *n), " y_List%s%s", element->prodBase,
+			    (((element->minOccurs > 1) ||
+			      (element->maxOccurs != -1)) ? "_Check" : ""));
 	    }
 	  else
 	    {
@@ -2959,7 +3453,7 @@ Example 1 - For the type of the top-level element, this might build
 the namePair from which is printed:
 
 y_CompanyType :
-	  ENDITEM y_ListNickname_string_0_3 y_Address_AddressType
+	  ENDITEM y_ListNickname_string_0_3_Check y_Address_AddressType
 	  y_ListPerson_PersonType_u
 	  {$$ = new CompanyType($2, $3, $4);}
 	;
@@ -3030,8 +3524,8 @@ Called By: generator::buildYaccComplexTypeRule
 This builds a namePair representing a rule for an XmlComplexType with
 SimpleContent.
 
-FIX - See notes for January 8 at beginning. The YACC rule should be looking
-for a DATASTRING and passing it to the constructor.
+FIX - See notes on simple extension at beginning. The YACC rule should
+be looking for a DATASTRING and passing it to the constructor.
 
 */
 
@@ -3278,7 +3772,8 @@ For that pair, the following line will eventually be printed in the YACC file:
 
 For an oList (maxOccurs is -1 or greater than 1), a pair for the oList
 and a pair for the type of item in the oList are entered into the
-typePairs.
+typePairs. Also for an oList, unless minOccurs is 1 and maxOccurs is
+unbounded, a pair for checking the size of the oList is entered.
 
 */
 
@@ -3292,7 +3787,6 @@ void generator::buildYaccTypeElementPairs( /* ARGUMENTS                  */
   XmlSimpleType * simple;
   XmlElementLocal * element;
   bool isBasic;
-  bool needsList;
 
   for (iter = elementInfos->begin(); iter != elementInfos->end(); iter++)
     {
@@ -3301,23 +3795,22 @@ void generator::buildYaccTypeElementPairs( /* ARGUMENTS                  */
       simple = (*iter)->simpleType;
       isBasic = (element->typPrefix &&
 		 (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
-      needsList = ((element->maxOccurs == -1) ||
-		   (element->maxOccurs == 0) ||
-		   (element->maxOccurs > 1));
       if (isBasic)
 	{
-	  buildYaccTypeElementPairsBasic(typePairs, element, needsList,
+	  buildYaccTypeElementPairsBasic(typePairs, element, element->needList,
 					 valName, prodName);
 	}
       else if (complx)
 	{
 	  buildYaccTypeElementPairsComplex(complx, typePairs, element,
-					   needsList, valName, prodName);
+					   element->needList, valName,
+					   prodName);
 	}
       else if (simple)
 	{
 	  buildYaccTypeElementPairsSimple(simple, typePairs, element,
-					  needsList, valName, prodName);
+					  element->needList, valName,
+					  prodName);
 	}
       else
 	{
@@ -3355,6 +3848,11 @@ void generator::buildYaccTypeElementPairsBasic(/* ARGUMENTS                  */
       sprintf(prodName, "List%s", element->prodBase);
       sprintf(valName, "List%s", typeName);
       enterNamePair(strdup(prodName), strdup(valName), typePairs);
+      if ((element->minOccurs > 1) || (element->maxOccurs != -1))
+	{
+	  sprintf(prodName, "List%s_Check", element->prodBase);
+	  enterNamePair(strdup(prodName), strdup(valName), typePairs);
+	}
     }
 }
 
@@ -3406,11 +3904,11 @@ void generator::buildYaccTypeElementPairsComplex(/* ARGUMENTS                 */
       enterNamePair(strdup(complx->newName), strdup(valName), typePairs);
       if (element != top) // YACC production for top is XXXFile
 	enterNamePair(strdup(element->prodBase), strdup(valName), typePairs);
-      sprintf(valName, "%sEnumValList", complx->newName);
-      sprintf(prodName, "%sEnumValList", complx->newName);
+      sprintf(valName, "List%sChoicePair", complx->newName);
+      sprintf(prodName, "List%sChoicePair", complx->newName);
       enterNamePair(strdup(prodName), strdup(valName), typePairs);
-      sprintf(valName, "%sEnumVal", complx->newName);
-      sprintf(prodName, "%sEnumVal", complx->newName);
+      sprintf(valName, "%sChoicePair", complx->newName);
+      sprintf(prodName, "%sChoicePair", complx->newName);
       enterNamePair(strdup(prodName), strdup(valName), typePairs);
     }
   else
@@ -3433,6 +3931,11 @@ void generator::buildYaccTypeElementPairsComplex(/* ARGUMENTS                 */
       sprintf(prodName, "List%s", element->prodBase);
       sprintf(valName, "List%s", complx->newName);
       enterNamePair(strdup(prodName), strdup(valName), typePairs);
+      if ((element->minOccurs > 1) || (element->maxOccurs != -1))
+	{
+	  sprintf(prodName, "List%s_Check", element->prodBase);
+	  enterNamePair(strdup(prodName), strdup(valName), typePairs);
+	}
     }
   if (complx->extensions)
     {
@@ -3490,6 +3993,11 @@ void generator::buildYaccTypeElementPairsSimple(/* ARGUMENTS                 */
       sprintf(prodName, "List%s", element->prodBase);
       sprintf(valName, "List%s", simple->newName);
       enterNamePair(strdup(prodName), strdup(valName), typePairs);
+      if ((element->minOccurs > 1) || (element->maxOccurs != -1))
+	{
+	  sprintf(prodName, "List%s_Check", element->prodBase);
+	  enterNamePair(strdup(prodName), strdup(valName), typePairs);
+	}
     }
   if (dynamic_cast<XmlSimpleRestriction *>(simple->item) &&
       isRestrictedSList(simple, buffer, sListItemPrefix,
@@ -3590,7 +4098,7 @@ are complex types, a namePair for each extension of the type is also entered.
 
 Example - A call to this function might build two namePairs
 from which is printed:
-  std::list<PersonType *> *           PersonListVal;
+  std::list<PersonType *> *           ListPersonTypeVal;
   PersonType *                        PersonTypeVal;
 
 Elements that occur exactly once are handled in the second half of the
@@ -3612,9 +4120,6 @@ Printing lines of the union for XML basic types is handled
 separately. If a basic type is the type of an element or a std::list
 item, setHas is called (here and/or elsewhere) so that a namePair will
 be printed for that basic type.
-
-
-FIX -
 
 FIX - This is not handling an element that may occur multiple times if the
 type is sList.
@@ -3640,10 +4145,8 @@ void generator::buildYaccUnionElementPairs( /* ARGUMENTS                    */
       element = (*iter)->element;
       isBasic = (element->typPrefix &&
 		 (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
-      if ((element->maxOccurs == -1) ||  // unbounded
-	  (element->maxOccurs > 1) ||    // some positive integer more than 1
-	  (element->maxOccurs == 0))     // cannot occur
-	{ // multiple elements are allowed, need list
+      if (element->needList)
+	{ // zero or many elements are allowed
 	  if (isBasic)
 	    {
 	      setHas(XmlCppBase::wg3Prefix, element->newTyp);
@@ -3682,11 +4185,12 @@ void generator::buildYaccUnionElementPairs( /* ARGUMENTS                    */
 	      if ((other = dynamic_cast<XmlOtherContent *>(complx->item)) &&
 		  (choice =  dynamic_cast<XmlChoice *>(other->base)))
 		{
-		  sprintf(valName, "%sEnumValListVal", complx->newName);
-		  sprintf(cppName, "std::list<%sEnumVal *>", complx->newName);
+		  sprintf(valName, "List%sChoicePairVal", complx->newName);
+		  sprintf(cppName, "std::list<%sChoicePair *>",
+			  complx->newName);
 		  enterNamePair(strdup(valName), strdup(cppName), unionPairs);
-		  sprintf(valName, "%sEnumValVal", complx->newName);
-		  sprintf(cppName, "%sEnumVal", complx->newName);
+		  sprintf(valName, "%sChoicePairVal", complx->newName);
+		  sprintf(cppName, "%sChoicePair", complx->newName);
 		  enterNamePair(strdup(valName), strdup(cppName), unionPairs);
 		}
 	      sprintf(valName, "%sVal", complx->newName);
@@ -4050,11 +4554,11 @@ Returned Value: none
 Called By:
   generator::printCppHeaderRestrictNumber
 
-This goes through the restrictions on an sList of numbers and
-checks that there are not two XmlMaxExclusive restrictions, two
-XmlMinExclusive restrictions, two XmlMaxInclusive restrictions, or two
-XmlMinInclusive restrictions. It also checks that there are no other
-types of restrictions.
+This goes through the restrictions on an sList of numbers and checks
+that there are not two XmlMaxExclusive restrictions, two
+XmlMinExclusive restrictions, two XmlMaxInclusive restrictions, two
+XmlMinInclusive restrictions, or two pattern restrictions. It also
+checks that there are no other types of restrictions.
 
 If an error is found, this prints an error message and exits.
 
@@ -4067,6 +4571,7 @@ void generator::checkNumberRestrictions(         /* ARGUMENTS    */
   XmlMaxInclusive * maxIn = 0;
   XmlMinExclusive * minEx = 0;
   XmlMinInclusive * minIn = 0;
+  XmlPattern * pat = 0;
   std::list<XmlRestrictionType *>::iterator iter;
   
   for (iter = restrictions->begin(); iter != restrictions->end(); iter++)
@@ -4101,6 +4606,14 @@ void generator::checkNumberRestrictions(         /* ARGUMENTS    */
 	{
 	  fprintf(stderr,
 		  "number must not have two minInclusive restrictions\n");
+	  exit(1);
+	}
+      else if ((pat == 0) &&
+	       (pat = dynamic_cast<XmlPattern *>(*iter)));
+      else if ((pat = dynamic_cast<XmlPattern *>(*iter)))
+	{
+	  fprintf(stderr,
+		  "number must not have two pattern restrictions\n");
 	  exit(1);
 	}
       else
@@ -4358,36 +4871,52 @@ Called By:
   generator::buildClasses
   generator::buildElementInfo
 
-This assigns a prodBase name to each element that arrives in an elementInfo,
-which is normally all elements in the schema.
+This assigns a prodBase name to each element that arrives in an
+elementInfo, which is normally all elements in the schema. This may
+produce annoyingly long prodBase names. Names more than 65 characters
+long will cause an error when YACC is generated, so if the methods
+described here make a prodBase more than 35 characters long, the
+prodBase will later be abbreviated in abbreviateNames.
 
 The prodBase name has two to four parts. In general, it has the form A_B_C_D
 
 A is the newName of the element.
 B is the newName of the type of the element.
-_C is used only if the element is optional, in which case C is a zero.
-_D is used only if the element is an oList (may occur zero times or more
-   than once). If the oList is unbounded, D is u. Otherwise, D is the 
-   upper limit on the size of the oList.
+_C is used iff
+   (1) _D is used, or
+   (2) the element may occur zero times, or
+   (3) the element may occur more than once.
+   The value of C is the number of times the element may occur.
+_D is used iff the element may occur zero times or more
+   than once.
+   The value of D is u if the number of occurrences is unbounded.
+   Otherwise, the value of D is that number.
 
 For example, if the newName of the element is foo, the newName of the
-type of the element is bar, the element is optional, and it may occur
-at most three times, the prodBase name will be foo_bar_0_3.
+type of the element is bar, the element is optional (may occur 0
+times), and the element may occur at most 3 times, the prodBase
+name will be foo_bar_0_3.
+
+With the same name and type as above, if the number of occurrences of the
+element is constrained to be 1, the prodBase name would be foo_bar.
 
 The prodBase name is used in:
-  buildYaccChoiceRule
+  buildYaccChoiceItemRule
   buildYaccExtensionSequenceItems
+  buildYaccRestrictSListRule
   buildYaccRulesEnd
   buildYaccSequenceItems
   buildYaccTypeElementPairs
-
-The name foo_bar_0 is not ambiguous (it is the name of an optional
-element that can appear at most once), since the name will be foo_bar_0_0.
-if the element can appear at most zero times.
+  buildYaccTypeElementPairsComplex
+  buildYaccTypeElementPairsSimple
 
 If an info with the same prodBase name is not already on the elementInfos
 std::list, this inserts the info in the elementInfos std::list in
-alphabetical order (by element name and then type name).
+alphabetical order (by element name and then type name). If there is
+an info on the list with the same prodBase, the element's prodBase is
+set to the prodBase of the one on the list so that if the prodBase of
+the one on the list is abbreviated (by abbreviateNames), the element's
+prodBase will still be identical.
 
 The info argument may be a duplicate of an elementInfo already on the
 std::list for two reasons.
@@ -4403,9 +4932,6 @@ Any particular element name may be used in more than one place in an
 XML schema, so the names of the elements in the elementInfos may not be
 unique. Thus, there may be several entries in elementInfos with the
 same element name.
-
-If both minOccurs and maxOccurs are zero, that is handled by using
-a std::list. The std::list will be required to have no elements.
 
 Recall that (1) for minOccurs, a negative value means no value was given,
 so the actual value is the default value, one, and (2) for maxOccurs,
@@ -4425,12 +4951,6 @@ that happens, compiler errors will occur, so it won't sneak through.
 
 This prints an error message and exits if the maximum of the number of
 times the element can occur is less than the minimum.
-
-This is not distinguishing names based on the minimum number of times
-the element may occur (unless it is zero) because the YACC rules that
-get generated do not include a minimum size test. The rules do include
-a maximum size test.
-
 
 */
 
@@ -4462,29 +4982,37 @@ void generator::enterElementInfo( /* ARGUMENTS                            */
   else if (info->simpleType)
     n = sprintf(prodBase, "%s_%s",
 		element->newName, info->simpleType->newName);
-  else
-    { // basic XML type
+  else // if basic XML type
+    {
       findCppTypeName(element->newTyp, typName);
       n = sprintf(prodBase, "%s_%s", element->newName, typName);
     }
-  if (mini == 0)
-    { // optional, so add _0 suffix
+
+  if (maxi != 1)
+    { // need suffixes indicating minimum and maximum
+      n += sprintf(prodBase+n, "_%d", mini); // use _N suffix for minimum
+      if (maxi == -1)
+	{ // unbounded occurrences, so use _u suffix
+	  sprintf(prodBase+n, "_u");
+	}
+      else
+	{ // bounded list, so use _N suffix for maximum
+	  sprintf(prodBase+n, "_%d", maxi);
+	}
+    }
+  else if (mini != 1 )
+    { // no suffix for maximum, but need suffix for minimum; use _N suffix
       n += sprintf(prodBase+n, "_0");
-    }
-  if (maxi == -1)
-    { // unbounded list, so add _u suffix
-      sprintf(prodBase+n, "_u");
-    }
-  else if ((maxi > 1) || (maxi == 0))
-    { // list with a maximum size, so add _N suffix (N is max size)
-      sprintf(prodBase+n, "_%d", maxi);
     }
   element->prodBase = strdup(prodBase);
   for (iter = elementInfos->begin(); iter != elementInfos->end(); iter++)
     {
       val = strcmp(element->prodBase, (*iter)->element->prodBase);
       if (val == 0)
-	return; // already processed this element or one just like it
+	{
+	  element->prodBase = (*iter)->element->prodBase;
+	  return; // already processed this element or one just like it
+	}
       if (val <= 0)
 	{
 	  elementInfos->insert(iter, info);
@@ -4503,10 +5031,37 @@ void generator::enterElementInfo( /* ARGUMENTS                            */
 
 Returned Value: none
 
-Called By:  generator::buildClasses
+Called By:
+  generator::buildClasses
+  generator::buildClassesIncluded
 
-This makes the elementRefables std::list, derived from the contents2 of the
-schema.
+This:
+1. makes the elementRefables std::map for a generator, derived from
+the contents2 of the XML schema the generator is processing.
+2. makes the elementRefablesMaster std::map containing all
+XmlElementRefable's.
+3. builds the substitutes list of each of the XmlElementRefable's.
+
+This is called for each of the XmlElementRefable's. It checks the refable
+against each of the elementRefables already in the elementRefablesMaster
+map. If the name of elementRefable B is in the subsitutionGroup of
+element refable D, B is added to the substitutes of D.
+
+In order that mock classes for a substitution group will be created in
+the "classes" for the XML schema in which the substitution group
+occurs (which happens when replaceSubstitutionGroups runs). The
+refable being processed is added to the elementRefables for the generator
+as well as to the elementRefablesMaster.
+
+FIX - This works without error the way it is, but it is inefficient
+because it will be called more than once for each XmlElementRefable R
+in each subordinate schema file. That is because it is called with R
+as the argument by both buildClasses and buildClassesIncluded.
+buildClasses goes through the contents2 of the top level schema file,
+which has had the contents2s of all the subordinate schema files
+appended to it. Before that happens, buildClassesIncluded will have
+gone through the contents2 of the subordinate schema and called this
+with argument R.
 
 */
 
@@ -4515,15 +5070,29 @@ void generator::enterElementRefable(  /* ARGUMENTS            */
 {
   static std::map<std::string, XmlElementRefable *>::iterator iter;
 
-  iter = elementRefables->find(refable->name);
-  if (iter == elementRefables->end())
-    (*elementRefables)[refable->name] = refable;
-  else
+  for (iter = elementRefablesMaster->begin();
+       iter != elementRefablesMaster->end(); iter++)
     {
-      fprintf(stderr, "duplicate reference element name %s. Exiting\n",
-	      refable->newName);
-      exit(1);
+      if (iter->first == refable->newName)
+	{
+	  //fprintf(stderr, "duplicate reference element name %s. Exiting\n",
+	  //	  refable->newName);
+	  //exit(1);
+	  continue;
+	}
+      if (iter->second->substitutionGroup &&
+	  (strcmp(iter->second->substitutionGroup, refable->newName) == 0))
+	{
+	  refable->substitutes.push_back(iter->second);
+	}
+      if (refable->substitutionGroup &&
+	  (strcmp(refable->substitutionGroup, iter->second->newName) == 0))
+	{
+	  iter->second->substitutes.push_back(refable);
+	}
     }
+  (*elementRefablesMaster)[refable->newName] = refable;
+  (*elementRefables)[refable->newName] = refable;
 }
 
 /********************************************************************/
@@ -4713,11 +5282,11 @@ Called By:
   generator::printCppCodeComplex
 
 This finds the attributes of an XmlComplexType and all of its
-ancestors and puts them in the allAttributes std::list. If an attribute
-occurs in a restriction, it must restrict an existing attribute and
-have the same name as an attribute in an ancestor. In this case the
-attribute in the restriction will replace the attribute in the
-ancestor in the allAttributes std::list.
+ancestors and puts them in the allAttributes std::list in alphabetical
+order. If an attribute occurs in a restriction, it must restrict an
+existing attribute and have the same name as an attribute in an
+ancestor. In this case the attribute in the restriction will replace
+the attribute in the ancestor in the allAttributes std::list.
 
 */
 
@@ -4912,6 +5481,8 @@ Returned Value: XmlElementRefable *
 
 Called By: generator::buildElementInfo
 
+Why is this not looking in elementRefablesMaster?
+
 */
 
 XmlElementRefable * generator::findElementRefable( /* ARGUMENTS               */
@@ -4921,6 +5492,67 @@ XmlElementRefable * generator::findElementRefable( /* ARGUMENTS               */
 
   iter = elementRefables->find(name);
   return ((iter == elementRefables->end()) ? 0 : iter->second);
+}
+
+/********************************************************************/
+
+/* generator::findRootXmlTypeComplex
+
+Returned Value: none
+
+Called By: printCppCodeSimpleExtend
+
+This finds the XML root type of an XmlComplexType complx whose root
+type is a basic type. This is possible iff the item in complx is an
+XmlSimpleContent. Thus, this function should not be called unless it
+is known that the item in complx is an XmlSimpleContent whose item is
+an XmlSimpleContentExtension.
+
+*/
+
+void generator::findRootXmlTypeComplex( /* ARGUMENTS                        */
+ XmlComplexType * complx,       /* complex type for which to find root type */
+ char * rootXmlTypeName)        /* array in which to put the answer         */
+{
+  XmlSimpleContentExtension * extend;
+  XmlSimpleContent * content;
+  XmlSimpleType * simple;
+  XmlComplexType * comp;
+
+  if ((content = dynamic_cast<XmlSimpleContent *>(complx->item)))
+    {
+      if ((extend = dynamic_cast<XmlSimpleContentExtension *>(content->item)))
+	{
+	  if (extend->basePrefix &&
+	      (strcmp(extend->basePrefix, XmlCppBase::wg3Prefix) == 0))
+	    {
+	      strcpy(rootXmlTypeName, extend->base);
+	    }
+	  else if ((simple = findSimpleClass(extend->newBase)))
+	    {
+	      findRootXmlType(simple, rootXmlTypeName);
+	    }
+	  else if ((comp = findComplexClass(extend->newBase)))
+	    {
+	      findRootXmlTypeComplex(comp, rootXmlTypeName);
+	    }
+	  else
+	    {
+	      fprintf(stderr, "bad extension type in findRootXmlTypeComplex\n");
+	      exit(1);
+	    }
+	}
+      else if ((dynamic_cast<XmlSimpleContentRestriction *>(content->item)))
+	{
+	  fprintf(stderr, "cannot handle restriction of complex type\n");
+	  exit(1);
+	}
+    }
+  else
+    {
+      fprintf(stderr, "findRootXmlTypeComplex should not have been called\n");
+      exit(1);
+    }
 }
 
 /********************************************************************/
@@ -4936,11 +5568,17 @@ Called By:
   generator::printCppCodeSimple
   generator::printCppHeaderSimple
 
-If "simple" is an sList, this finds the XML root type of the type that
-is listed. If "simple" is a restriction, this finds the XML root type
-of simple.  In either case, it puts the name of the XML root type into the
-rootXmlTypeName array. It calls itself recursively if necessary to handle a
-restriction of a restriction.
+This finds the XML root type of an XmlSimpleType, "simple".
+
+If the item in "simple" is an sList, this finds the XML root type of
+the type that is listed.
+
+If the item in "simple" is an XmlSimpleRestriction, this finds the XML
+root type of simple.
+
+In either case, it puts the name of the XML root type into the
+rootXmlTypeName array. It calls itself recursively if necessary to
+handle a restriction of a restriction.
 
 */
 
@@ -5216,11 +5854,20 @@ generator::generator() /* NO ARGUMENTS */
   attributeInfo = new std::list<char *>;
   attributeLonerRefables = new std::map<std::string,XmlAttributeLonerRefable *>;
   attributeGroupRefables = new std::map<std::string,XmlAttributeGroupRefable *>;
+  // baseNameNoPath is a buffer
+  // baseNameWithPath is a buffer
+  ccFile = 0;
   changeMap = new std::map<std::string, std::list<char *> *>;
+  // className is a buffer
+  // classBaseName is a buffer
   classes = new std::list<XmlType *>;
+  classesMaster = 0;
+  contents1 = 0;
+  contents2 = 0;
   dummyName = strdup("_");
   elementInfos = new std::list<elementInfo *>;
   elementRefables = new std::map<std::string, XmlElementRefable *>;
+  elementRefablesMaster = 0;
   extensionInfos = new std::list<char *>;
   hasBoolean = false;
   hasDate = false;
@@ -5240,9 +5887,19 @@ generator::generator() /* NO ARGUMENTS */
   hasToken = false;
   hasUnsignedInt = false;
   hasUnsignedLong = false;
+  headerName = 0;
+  hhFile = 0;
   includedSchemas = new std::list<char *>;
+  lexFile = 0;
+  mockCount = 0;
   moreIncludes = new std::list<char *>;
+  // subordinates is a local list
+  top = 0;
+  target = 0;
+  // text is a buffer
   wholeFlag = false;
+  yaccFile = 0;
+  yyprefix = 0;
 }
 
 /********************************************************************/
@@ -5418,7 +6075,9 @@ Called By:
 bool generator::isStringy(char * typeName)
 {
   return ((strcmp(typeName, "XmlString") == 0)  ||
+	  (strcmp(typeName, "XmlAnyURI") == 0)  ||
 	  (strcmp(typeName, "XmlNMTOKEN") == 0) ||
+	  (strcmp(typeName, "XmlToken") == 0)   ||
 	  (strcmp(typeName, "XmlID") == 0)      ||
 	  (strcmp(typeName, "XmlIDREF") == 0));
 }
@@ -5469,10 +6128,12 @@ int main(       /* ARGUMENTS                                      */
  char * argv[]) /* array of executable name and command arguments */
 {
   generator gen;
+  std::map<std::string, XmlElementRefable *> elementRefablesMaster;
   std::list<char *> includeds; // list of included schema names
   int schemaIndex = 0;
   int headerIndex = 0;
   int prefixIndex = 0;
+  int mockCount = 1001;
   int n;
 
   if ((argc != 3) && (argc != 5) && (argc != 7))
@@ -5514,10 +6175,13 @@ int main(       /* ARGUMENTS                                      */
   if (schemaIndex == 0)
     gen.usageMessage(argv[0]);
   gen.classesMaster = gen.classes;
+  gen.mockCount = &mockCount;
   gen.readSchema(argv[schemaIndex], true);
   includeds.push_back(gen.baseNameNoPath);
+  gen.elementRefablesMaster = &elementRefablesMaster;
   gen.processIncludes(&includeds);
   gen.buildClasses();
+  gen.replaceSubstitutionGroups();
   gen.printSelf();
   gen.reviewChanges();
   return 0;
@@ -5860,6 +6524,9 @@ from an XmlChoice.
 
 See the discussion of choice at the beginning of this file.
 
+FIX - This is not dealing with minOccurs or maxOccurs of the choice.
+     Add tests for list size in constructor and printSelf.
+
 */
 
 void generator::printCppCodeChoice(        /* ARGUMENTS                      */
@@ -5869,7 +6536,7 @@ void generator::printCppCodeChoice(        /* ARGUMENTS                      */
 {
   static char className[NAMESIZE];
 
-  sprintf(className, "%sEnumVal", newName);
+  sprintf(className, "%sChoicePair", newName);
   fprintf(ccFile, "%s::%s() {}\n", className, className);
   fprintf(ccFile, "\n");
   fprintf(ccFile, "%s::%s(\n", className, className);
@@ -5896,14 +6563,20 @@ void generator::printCppCodeChoice(        /* ARGUMENTS                      */
   fprintf(ccFile, "  std::list<%s *>::iterator iter;\n", className);
   fprintf(ccFile, "\n");
   printCppCodePrintAttribs(attribs);
-  fprintf(ccFile, "  fprintf(outFile, \">\\n\");\n");
-  fprintf(ccFile, "  doSpaces(+INDENT, outFile);\n");
+  if (choice->mock == false)
+    {
+      fprintf(ccFile, "  fprintf(outFile, \">\\n\");\n");
+      fprintf(ccFile, "  doSpaces(+INDENT, outFile);\n");
+    }
   fprintf(ccFile,
 	  "  for (iter = pairs->begin(); iter != pairs->end(); iter++)\n");
   fprintf(ccFile, "    {\n");
   fprintf(ccFile, "      (*iter)->printSelf(outFile);\n");
   fprintf(ccFile, "    }\n");
-  fprintf(ccFile, "  doSpaces(-INDENT, outFile);\n");
+  if (choice->mock == false)
+    {
+      fprintf(ccFile, "  doSpaces(-INDENT, outFile);\n");
+    }
   fprintf(ccFile, "}\n");
   //if (attribs && attribs->size())
   //  printCppCodeBadAttributes(attribs, newName, 0);
@@ -5928,7 +6601,7 @@ This prints 2 or 3 constructors for a class derived from an XmlChoice.
 void generator::printCppCodeChoiceConstructors( /* ARGUMENTS                 */
  char * newName,                           /* name for class                 */
  std::list<XmlAttributeLoner *> * attribs, /* flattened attributes of choice */
- char * className)                         /* name for EnumVal class         */
+ char * className)                         /* name for ChoicePair class      */
 {
   int comma = 0;
 
@@ -6021,6 +6694,12 @@ void generator::printCppCodeChoiceItems(/* ARGUMENTS                         */
     {
       if ((element = dynamic_cast<XmlElementLocal *>(*iter)))
 	{
+	  if (element->minOccurs == 0)
+	    {
+	      fprintf(stderr,
+		      "element in choice must not have minOccurs of 0\n");
+	      exit(1);
+	    }
 	  isBasic = (element->typPrefix &&
 		     (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
 	  if (!isBasic)
@@ -6033,9 +6712,8 @@ void generator::printCppCodeChoiceItems(/* ARGUMENTS                         */
 		  ((*iter != items->front()) ? "else " : ""),
 		  newName, element->newName);
 	  fprintf(ccFile, "    {\n");
-
-	  if ((element->maxOccurs == -1) || (element->maxOccurs > 1))
-	    { // is list
+	  if (element->needList)
+	    { // zero or many elements are allowed
 	      if (isBasic)
 		findCppTypeName(element->newTyp, cppType);
 	      else
@@ -6054,16 +6732,16 @@ void generator::printCppCodeChoiceItems(/* ARGUMENTS                         */
 	      fprintf(ccFile, "          doSpaces(0, outFile);\n");
 	      if (simple || isBasic)
 		{
-		  fprintf(ccFile, "      fprintf(outFile, \"<%s>\");\n",
+		  fprintf(ccFile, "          fprintf(outFile, \"<%s>\");\n",
 			  element->newName);
-		  fprintf(ccFile, "      (*iter)->printSelf(outFile);\n");
+		  fprintf(ccFile, "          (*iter)->printSelf(outFile);\n");
 		}
 	      else if (complx)
 		{
-		  fprintf(ccFile, "      fprintf(outFile, \"<%s\");\n",
+		  fprintf(ccFile, "          fprintf(outFile, \"<%s\");\n",
 			  element->newName);
-		  fprintf(ccFile, "      (*iter)->printSelf(outFile);\n");
-		  fprintf(ccFile, "      doSpaces(0, outFile);\n");
+		  fprintf(ccFile, "          (*iter)->printSelf(outFile);\n");
+		  fprintf(ccFile, "          doSpaces(0, outFile);\n");
 		}
 	      fprintf(ccFile, "          fprintf(outFile, \"</%s>\\n\");\n",
 		      element->newName);
@@ -6215,9 +6893,9 @@ extension is derived. This is accomplished by calling printCppHeaderBaseArgs.
 
 There is some trickiness in having the printSelf function this prints
 determine whether or not to print a declaration of the type. A type
-declaration is needed in the XML data file if the type of the element
+declaration is needed in the XML instance file if the type of the element
 being printed was declared as a parent type of the extension, but no
-type declaration is needed in the XML data file if the type of the
+type declaration is needed in the XML instance file if the type of the
 element being printed is the extension type. To deal with this, the
 C++ class for every extension type has a boolean printTypp
 attribute (that class is printed by printCppHeaderComplexExtend). A type
@@ -6501,8 +7179,6 @@ Note that nothing is printed if maxOccurs is zero. If an element has
 attributes, they are printed by the printSelf function of the class for
 the type of the element.
 
-This is also entering an elementInfo in the elementInfos std::list.
-
 Example 1. For a non-optional SimpleType, this function might print
 the following segment of code. The segment of code prints one line.
 
@@ -6559,6 +7235,9 @@ that doSpaces is not called a second time.
 
 The segment of code above might print:
     <LinearUnits unitName="inch">25.400000</LinearUnits>
+
+FIX - add code to handle mock for list.
+
 */
 
 void generator::printCppCodePrintElement( /* ARGUMENTS        */
@@ -6580,8 +7259,8 @@ void generator::printCppCodePrintElement( /* ARGUMENTS        */
   simple = findSimpleClass(element->newTyp);
   isBasic = (element->typPrefix &&
 	     (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
-  if ((element->maxOccurs == -1) || (element->maxOccurs > 1))
-    { // multiple elements are allowed, need list, (-1 means unbounded)
+  if (element->needList)
+    {  // zero or many elements are allowed
       fprintf(ccFile, "  {\n");
       if (simple || isBasic)
 	{
@@ -6621,8 +7300,8 @@ void generator::printCppCodePrintElement( /* ARGUMENTS        */
 	}
       fprintf(ccFile, "  }\n");
     }
-  else if ((element->maxOccurs == 1) || (element->maxOccurs < -1))
-    { // only one element allowed
+  else  // only one element allowed
+    {
       if (element->minOccurs == 0)
 	{ // element is optional and may be 0
 	  fprintf(ccFile, "  if (%s)\n", element->newName);
@@ -6631,33 +7310,57 @@ void generator::printCppCodePrintElement( /* ARGUMENTS        */
 	}
       else
 	space = space2;
-      fprintf(ccFile, "%sdoSpaces(0, outFile);\n", space);
-      if (simple || isBasic)
+      if (element->mock)
 	{
-	  fprintf(ccFile, "%sfprintf(outFile, \"<%s>\");\n",
-		  space, element->name);
-	  fprintf(ccFile, "%s%s->printSelf(outFile);\n",
-		  space, element->newName);
+	  if (simple || isBasic)
+	    {
+	      fprintf(ccFile, "%s%s->printSelf(outFile);\n",
+		      space, element->newName);
+	    }
+	  else
+	    {
+	      complx = findComplexClass(element->newTyp);
+	      if (!complx)
+		{
+		  fprintf(stderr,
+			  "complex class %s not found in"
+			  " printCppCodePrintElement\n", element->newTyp);
+		  exit(1);
+		}
+	      fprintf(ccFile, "%s%s->printSelf(outFile);\n",
+		      space, element->newName);
+	    }
 	}
       else
 	{
-	  complx = findComplexClass(element->newTyp);
-	   if (!complx)
-	     {
-	       fprintf(stderr,
-		  "complex class %s not found in printCppCodePrintElement\n",
-		       element->newTyp);
-	       exit(1);
-	     }
-	  fprintf(ccFile, "%sfprintf(outFile, \"<%s\");\n",
+	  fprintf(ccFile, "%sdoSpaces(0, outFile);\n", space);
+	  if (simple || isBasic)
+	    {
+	      fprintf(ccFile, "%sfprintf(outFile, \"<%s>\");\n",
+		      space, element->name);
+	      fprintf(ccFile, "%s%s->printSelf(outFile);\n",
+		      space, element->newName);
+	    }
+	  else
+	    {
+	      complx = findComplexClass(element->newTyp);
+	      if (!complx)
+		{
+		  fprintf(stderr,
+			  "complex class %s not found in "
+			  "printCppCodePrintElement\n", element->newTyp);
+		  exit(1);
+		}
+	      fprintf(ccFile, "%sfprintf(outFile, \"<%s\");\n",
+		      space, element->name);
+	      fprintf(ccFile, "%s%s->printSelf(outFile);\n",
+		      space, element->newName);
+	      if (!dynamic_cast<XmlSimpleContent *>(complx->item))
+		fprintf(ccFile, "%sdoSpaces(0, outFile);\n", space);
+	    }
+	  fprintf(ccFile, "%sfprintf(outFile, \"</%s>\\n\");\n",
 		  space, element->name);
-	  fprintf(ccFile, "%s%s->printSelf(outFile);\n",
-		  space, element->newName);
-	  if (!dynamic_cast<XmlSimpleContent *>(complx->item))
-	    fprintf(ccFile, "%sdoSpaces(0, outFile);\n", space);
 	}
-      fprintf(ccFile, "%sfprintf(outFile, \"</%s>\\n\");\n",
-	      space, element->name);
       if (element->minOccurs == 0)
 	fprintf(ccFile, "    }\n");
     }
@@ -6969,6 +7672,11 @@ unsignedShort
 
 The restrictions std::list should not be null, but it may be empty.
 
+This implements checks for maxExclusive, minExclusive, maxInclusive,
+and minInclusive. It also allows but does not implement pattern.
+If any other type of restriction occurs, this prints an error message
+and exits.
+
 */
 
 void generator::printCppCodeRestrictNumber(      /* ARGUMENTS                */
@@ -7012,6 +7720,10 @@ void generator::printCppCodeRestrictNumber(      /* ARGUMENTS                */
 	    {
 	      fprintf(ccFile, "(val < %s)", minIn->value);
 	    }
+	  else if (dynamic_cast<XmlPattern *>(*iter))
+	    {
+	      fprintf(ccFile, "false");
+	    }
 	  else
 	    {
 	      fprintf(stderr, "bad integer restriction type\n");
@@ -7052,6 +7764,10 @@ void generator::printCppCodeRestrictNumber(      /* ARGUMENTS                */
 	    {
 	      fprintf(ccFile, "(val < %s)", minIn->value);
 	    }
+	  else if (dynamic_cast<XmlPattern *>(*iter))
+	    {
+	      fprintf(ccFile, "false");
+	    }
 	  else
 	    {
 	      fprintf(stderr, "bad integer restriction type\n");
@@ -7086,8 +7802,8 @@ Called By:  generator::printCppCodeRestrictString
 
 This prints in the C++ code file the implementation of a class derived
 from an XmlSimpleRestriction that (1) has a rootType that is one of
-the XML built in stringy types (string, NMTOKEN, ID, or IDREF) and (2)
-has a single restriction that is a pattern. The XML schema pattern is
+the XML built in stringy types (string, token, NMTOKEN, ID, or IDREF) and
+(2) has a single restriction that is a pattern. The XML schema pattern is
 put into a C++ string representing a pattern that the boost regular
 expression routines can handle. Boost uses Perl regular expressions,
 and XML patterns are almost identical.
@@ -7197,7 +7913,7 @@ Called By: generator::printCppCodeSimple
 The restrictions std::list should not be null, but it may be empty.
 
 This is called if the rootType of the newName class is a string
-type (xs:ID, xs:IDREF, xs:string, xs:NMTOKEN).
+type (xs:ID, xs:IDREF, xs:string, xs:NMTOKEN, xs:token).
 
 Currently, the only restrictions handled are either (1) enumerations
 or (2) single pattern restrictions.
@@ -7361,6 +8077,11 @@ value of comma will be 1 if an argument has been printed previously,
 and in this case a comma, a newline, and the argument are printed. If
 this prints one or more arguments, the value of comma is set to 1.
 
+If any of the sequence items is not an element, this prints an error
+message and exits. However, at the time this is called, all sequence
+items that are choice or sequence will have been replace by mock
+elements, so the error should never occur.
+
 */
 
 void generator::printCppCodeSequenceArgs( /* ARGUMENTS                     */
@@ -7397,7 +8118,7 @@ Called By:
   generator::printCppCodeSequence
 
 This prints in the C++ code file the statements of the body of the
-constructor taking argument, all of which are of the form:
+constructor taking arguments, all of which are of the form:
  foo = fooIn;
 
 */
@@ -7500,13 +8221,22 @@ Returned Value: none
 
 Called By: generator::printCppCodeComplex
 
-This prints in the C++ code file the implementation of a class derived from
-an XmlSimpleExtension.
+This prints in the C++ code file the C++ implementation of a complex
+class whose item is an XmlSimpleContentExtension. That type of
+extension adds or restricts XSDL attributes. Every
+XmlSimpleContentExtension has a value that is a basic type and is put
+into a C++ attribute called val. An XmlSimpleContentExtension and its
+ancestors cannot have any elements.
 
-It prints the definitions of 1 or 2 constructors.
-1. A constructor taking no arguments.
-2. If the extension has attributes or any part of its base has attributes,
-   a constructor taking arguments corresponding to the attributes.
+It prints the definitions of 2 or 3 constructors.
+1. A constructor taking no arguments that sets val to and all other
+   C++ attributes (if any) to 0.
+2. A constructor taking a val argument that sets val to the incoming
+   value and sets all other C++ attributes (if any) to 0.
+3. If there are any XSDL attributes (from the extension or its base),
+   a constructor taking a valIn argument and arguments corresponding
+   to the XSDL attributes and sets val and all C++ attributes to their
+   incoming values.
 
 The arguments to the constructor taking all C++ attributes must include
 the names of all the C++ attributes of the base type from which the
@@ -7514,9 +8244,9 @@ extension is derived. This is accomplished by calling printCppHeaderBaseArgs.
 
 There is some trickiness in having the printSelf function this prints
 determine whether or not to print a declaration of the type. A type
-declaration is needed in the XML data file if the type of the element
+declaration is needed in the XML instance file if the type of the element
 being printed was declared as a parent type of the extension, but no
-type declaration is needed in the XML data file if the type of the
+type declaration is needed in the XML instance file if the type of the
 element being printed is the extension type. To deal with this, the
 C++ class for every extension type has a boolean printTypp
 attribute (that class is printed by printCppHeaderComplexExtend). A type
@@ -7536,26 +8266,51 @@ XMLSpy allows all of those types of extension and restriction.
 A complex content complex type may not extend a simple content complex
 type in any way.
 
-FIX - See notes for January 8 at beginning.
+For an extension of an XML basic type, findCppTypeName is called to
+find the C++ type of the value.
+
+For an extension of a simple type, findRootXmlType is called to find
+the XML type of the value, and then findCppTypeName is called to find
+the C++ type of the value.
+
+For an extension of a complex type, findRootXmlTypeComplex is called
+to find the XML type of the value, and then findCppTypeName is called
+to find the C++ type of the value.
+
+FIX - If the base type is a simple restriction, this is not writing code
+to check the restrictions.
+
+FIX - This is not handling restrictions of XSDL attributes.
 
 */
 
 void generator::printCppCodeSimpleExtend( /* ARGUMENTS                        */
- XmlSimpleContentExtension * extend,  /* extension to print class for         */
+ XmlSimpleContentExtension * extend,  /* extension from which to print class  */
  char * newName,                      /* newName of type containing extension */
  char * name,                         /* name of type containing extension    */
  std::list<XmlAttributeLoner *> * allAttributes) /* all attributes            */
 {
+  XmlComplexType * complx;
+  XmlSimpleType * simple;
   int comma = 0;
   bool isBasic;
-  static char typeName[TEXTSIZE];
+  static char rootXmlTypeName[TEXTSIZE];
+  static char cppTypeName[TEXTSIZE];
 
   isBasic = (extend->basePrefix &&
 	     (strcmp(extend->basePrefix, XmlCppBase::wg3Prefix) == 0));
   if (isBasic)
-    findCppTypeName(extend->base, typeName);
-  else if (findSimpleClass(extend->base));
-  else if (findComplexClass(extend->base));
+    findCppTypeName(extend->base, cppTypeName);
+  else if ((simple = findSimpleClass(extend->base)))
+    {
+      findRootXmlType(simple, rootXmlTypeName);
+      findCppTypeName(rootXmlTypeName, cppTypeName);
+    }
+  else if ((complx = findComplexClass(extend->base)))
+    {
+      findRootXmlTypeComplex(complx, rootXmlTypeName);
+      findCppTypeName(rootXmlTypeName, cppTypeName);
+    }
   else
     {
       fprintf(stderr, "base type %s not found in printCppCodeSimpleExtend\n",
@@ -7570,7 +8325,7 @@ void generator::printCppCodeSimpleExtend( /* ARGUMENTS                        */
   fprintf(ccFile, "\n");
 
   fprintf(ccFile, "%s::%s(\n", newName, newName);
-  fprintf(hhFile, " %s * valIn)\n", typeName);
+  fprintf(hhFile, " %s * valIn)\n", cppTypeName);
   fprintf(ccFile, "{\n");
   printCppCodeAttributeSettings0(allAttributes);
   fprintf(ccFile, "  val = valIn;\n");
@@ -7584,7 +8339,7 @@ void generator::printCppCodeSimpleExtend( /* ARGUMENTS                        */
       fprintf(ccFile, "%s::%s(", newName, newName);
       printCppHeaderAttributeArgs(allAttributes, &comma, "");
       fprintf(hhFile, ",\n");
-      fprintf(hhFile, " %s * valIn)\n", typeName);
+      fprintf(hhFile, " %s * valIn)\n", cppTypeName);
       fprintf(ccFile, "{\n");
       printCppCodeAttributeSettings(allAttributes);
       fprintf(ccFile, "  val = valIn;\n");
@@ -8161,7 +8916,7 @@ void generator::printCppHeaderChoice(      /* ARGUMENTS                      */
   fprintf(hhFile, "};\n");
   fprintf(hhFile, "\n");
 
-  sprintf(className, "%sEnumVal", newName);
+  sprintf(className, "%sChoicePair", newName);
   fprintf(hhFile, "class %s :\n", className);
   fprintf(hhFile, "  public %s\n", XMLSCHEMAINSTANCEBASE);
   fprintf(hhFile, "{\n");
@@ -8259,7 +9014,9 @@ void generator::printCppHeaderComplex( /* ARGUMENTS                         */
   XmlSimpleContentExtension * simpExtend;
   XmlSequence * sequence;
   XmlChoice * choice;
+  std::list<XmlAttributeLoner *> allAttributes;
 
+  findAllAttributes(complx, &allAttributes);
   if ((other = dynamic_cast<XmlOtherContent *>(complx->item)))
     {
       if ((sequence = dynamic_cast<XmlSequence *>(other->base)))
@@ -8287,7 +9044,7 @@ void generator::printCppHeaderComplex( /* ARGUMENTS                         */
   else if ((simp = dynamic_cast<XmlSimpleContent *>(complx->item)))
     {
       if ((simpExtend = dynamic_cast<XmlSimpleContentExtension *>(simp->item)))
-	printCppHeaderSimpleExtend(simpExtend, complx->newName);
+	printCppHeaderSimpleExtend(simpExtend, complx->newName, &allAttributes);
       else if ((dynamic_cast<XmlSimpleContentRestriction *>(comp->item)))
 	{
 	  fprintf(stderr, "cannot handle simple content restriction\n");
@@ -8322,7 +9079,7 @@ It prints the declarations of 1, 2, or 3 constructors.
 2. If the extension has a sequence or any part of its base has a sequence,
    a constructor taking arguments corresponding to the sequence items.
 3. If the extension has attributes or any part of its base has attributes,
-   a constructor taking argument corresponding to the attributes and any
+   a constructor taking arguments corresponding to the attributes and any
    sequence items.
 
 The sequence variable is the elements added to the type by the extension.
@@ -8330,6 +9087,12 @@ The sequence variable is the elements added to the type by the extension.
 The arguments to the constructor taking all C++ attributes must include
 the names of all the C++ attributes of the base type from which the
 extension is derived. This is accomplished by calling printCppHeaderBaseArgs.
+
+If the item in the extension is a choice, this prints an error message and
+exits. However, at the time this is called, a choice in an extension
+will first have been put inside a sequence, so the error should never occur.
+(The choice in the sequence will also have been replaced by a mock element
+using a mock type that is a choice, but that is not relevant in this function.)
 
 */
 
@@ -8673,7 +9436,7 @@ Called By: generator::printCppHeaderSimple
 The restrictions std::list may not be null, but it may be empty.
 
 This is called if the root type of the newName class is a string
-type (xs:ID, xs:IDREF, xs:string, xs:NMTOKEN).
+type (xs:ID, xs:IDREF, xs:string, xs:NMTOKEN, xs:token).
 
 Currently, the only restrictions handled are either (1) enumerations
 or (2) single pattern restrictions.
@@ -8933,7 +9696,7 @@ Then a flattened version of the attributes std::list is made and stored as the
 If any bad type is found, an error message is printed and this exits.
 
 If a class is an XmlComplexType with XmlOtherContent that is a choice,
-this prints an XXXEnumVal class name in the classes std::list.
+this prints an XXXChoicePair class name in the classes std::list.
 
 If an XmlComplexRestriction or XmlSimpleContentRestriction is found, this
 prints a "cannot handle" message and exits.
@@ -8942,7 +9705,6 @@ prints a "cannot handle" message and exits.
 
 void generator::printCppHeaderSchemaClassNames() /* NO ARGUMENTS */
 {
-  static char buffer[NAMESIZE];
   XmlComplexType * complx;
   XmlComplexContent * cont;
   XmlSimpleContent * simp;
@@ -8956,8 +9718,8 @@ void generator::printCppHeaderSchemaClassNames() /* NO ARGUMENTS */
     {
       if ((complx = dynamic_cast<XmlComplexType *>(*iter)))
 	{
-	  strcpy(buffer, complx->newName);
-	  fprintf(hhFile, "class %s;\n", buffer);
+	  if (!complx->hhPrinted)
+	    fprintf(hhFile, "class %s;\n", complx->newName);
 	  if ((other = dynamic_cast<XmlOtherContent *>(complx->item)))
 	    {
 	      if (other->attribs && other->attribs->size())
@@ -8967,7 +9729,8 @@ void generator::printCppHeaderSchemaClassNames() /* NO ARGUMENTS */
 		}
 	      if (dynamic_cast<XmlChoice *>(other->base))
 		{
-		  fprintf(hhFile, "class %sEnumVal;\n", buffer);
+		  if (!complx->hhPrinted)
+		    fprintf(hhFile, "class %sChoicePair;\n", complx->newName);
 		}
 	    }
 	  else if ((cont = dynamic_cast<XmlComplexContent *>(complx->item)))
@@ -9026,8 +9789,8 @@ void generator::printCppHeaderSchemaClassNames() /* NO ARGUMENTS */
 	}
       else if ((simple = dynamic_cast<XmlSimpleType *>(*iter)))
 	{
-	  strcpy(buffer, simple->newName);
-	  fprintf(hhFile, "class %s;\n", buffer);
+	  if (!simple->hhPrinted)
+	    fprintf(hhFile, "class %s;\n", simple->newName);
 	}
       else
 	{
@@ -9126,6 +9889,11 @@ XmlSimpleType, then the type of the argument is the name of the type.
 This function works only if each element has a typ (i.e., only if the
 schema is in canonical form).
 
+If any of the items is not an element, this prints an error message and
+exits. However, at the time this is called all items that are choice or
+sequence will have been replaced by mock elements, so the error should
+never occur.
+
 */
 
 void generator::printCppHeaderSequenceArgs( /* ARGUMENTS                     */
@@ -9144,8 +9912,8 @@ void generator::printCppHeaderSequenceArgs( /* ARGUMENTS                     */
 	{
 	  isBasic = (element->typPrefix &&
 		     (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
-	  if ((element->maxOccurs == -1) || (element->maxOccurs > 1))
-	    { // multiple elements are allowed, need list
+	  if (element->needList)
+	    { // zero or many elements are allowed
 	      if (element->newTyp)
 		{
 		  fprintf(hhFile, "%s\n", (*comma ? "," : ""));
@@ -9163,8 +9931,8 @@ void generator::printCppHeaderSequenceArgs( /* ARGUMENTS                     */
 		  *comma = 1;
 		}
 	    }
-	  else if ((element->maxOccurs == 1) || (element->maxOccurs < -1))
-	    { // only one element allowed
+	  else // only one element allowed
+	    {
 	      if (element->newTyp)
 		{
 		  fprintf(hhFile, "%s\n", (*comma ? "," : ""));
@@ -9182,12 +9950,12 @@ void generator::printCppHeaderSequenceArgs( /* ARGUMENTS                     */
 		  *comma = 1;
 		}
 	    }
-	  else; // maxOccurs is 0, so print nothing
 	}
       else
 	{
 	  fprintf(stderr,
 		  "printCppHeaderSequenceArgs cannot handle non-element\n");
+	  exit(1);
 	}
     }
 }
@@ -9209,6 +9977,11 @@ class contains an XML schema sequence.
 If the type of an element in the sequence is an XmlComplexType or an
 an XmlSimpleType, then the type of the attribute is the name of the type.
 
+If any of the items is not an element, this prints an error message and
+exits. However, at the time this is called all items that are choice or
+sequence will have been replaced by mock elements, so the error should
+never occur.
+
 */
 
 void generator::printCppHeaderSequenceItems( /* ARGUMENTS              */
@@ -9225,8 +9998,8 @@ void generator::printCppHeaderSequenceItems( /* ARGUMENTS              */
 	{
 	  isBasic = (element->typPrefix &&
 		     (strcmp(element->typPrefix, XmlCppBase::wg3Prefix) == 0));
-	  if ((element->maxOccurs == -1) || (element->maxOccurs > 1))
-	    { // multiple elements are allowed, need list
+	  if (element->needList)
+	    { // zero or many elements are allowed
 	      if (element->newTyp)
 		{
 		  if (isBasic)
@@ -9242,8 +10015,8 @@ void generator::printCppHeaderSequenceItems( /* ARGUMENTS              */
 		    }
 		}
 	    }
-	  else if ((element->maxOccurs == 1) || (element->maxOccurs < -1))
-	    { // only one element allowed
+	  else // only one element allowed
+	    {
 	      if (element->newTyp)
 		{
 		  if (isBasic)
@@ -9264,7 +10037,7 @@ void generator::printCppHeaderSequenceItems( /* ARGUMENTS              */
 	{
 	  fprintf(stderr,
 		  "printCppHeaderSequenceItems cannot handle non-element\n");
-	  
+	  exit(1);
 	}
     }
 }
@@ -9376,80 +10149,81 @@ Returned Value: none
 Called By: generator::printCppHeaderComplex
 
 This prints in the C++ header file the declaration of a C++ class
-representing an XmlSimpleContentExtension (in an XmlComplexType) of an
-XML simple or complex class. An XmlSimpleContentExtension and its ancestors
-cannot have any elements.
+representing a complex class whose item is an
+XmlSimpleContentExtension. That type of extension adds or restricts
+XSDL attributes. Every XmlSimpleContentExtension has a value that is a
+basic type and is put into a C++ attribute called val. An
+XmlSimpleContentExtension and its ancestors cannot have any elements.
 
-It is assumed here that an XmlSimpleContentExtension can extend a basic
-type, an XmlSimpleType, or an XmlComplexType with an XmlSimpleContent.
-This may be the intent of the XML schema spec; it is hard to tell by
-reading the spec. XMLSpy allows all of those.
-
-In order to determine whether to print a constructor taking arguments, this
-first determines whether "extend" has any attributes. If not, and the
-base type of "extend" is not basic, this calls checkBaseArgsSimple to
-determine if there are any attributes.
-
-If there are any attributes, the declaration of the constructor taking
-arguments is printed. To print the arguments, first a call is made to
-printCppHeaderBaseArgsSimple, then arguments are printed for any
-attributes of "extend".
+See the documentation of printCppCodeSimpleExtend. This declares the
+constructors that are defined there. 
 
 The declarations for the C++ attributes representing any XML attributes
 are also printed.
 
-FIX - See notes for January 8 at beginning.
-
 */
 
-void generator::printCppHeaderSimpleExtend( /* ARGUMENTS               */
- XmlSimpleContentExtension * extend,        /* item to print class for */
- char * newName)                            /* newName of complex type */
+void generator::printCppHeaderSimpleExtend( /* ARGUMENTS                      */
+ XmlSimpleContentExtension * extend,  /* extension from which to print class  */
+ char * newName,                      /* newName of type containing extension */
+ std::list<XmlAttributeLoner *> * allAttributes) /* all attributes            */
 {
+  XmlComplexType * complx;
+  XmlSimpleType * simple;
   int comma;
   int hasAttributes;
-  static char typeName[NAMESIZE];
   bool isBasic;
+  static char rootXmlTypeName[TEXTSIZE];
+  static char cppTypeName[NAMESIZE];
 
+  isBasic = (extend->basePrefix &&
+	     (strcmp(extend->basePrefix, XmlCppBase::wg3Prefix) == 0));
+  if (isBasic)
+    findCppTypeName(extend->base, cppTypeName);
+  else if ((simple = findSimpleClass(extend->base)))
+    {
+      findRootXmlType(simple, rootXmlTypeName);
+      findCppTypeName(rootXmlTypeName, cppTypeName);
+    }
+  else if ((complx = findComplexClass(extend->base)))
+    {
+      findRootXmlTypeComplex(complx, rootXmlTypeName);
+      findCppTypeName(rootXmlTypeName, cppTypeName);
+    }
+  else
+    {
+      fprintf(stderr, "base type %s not found in printCppHeaderSimpleExtend\n",
+	      extend->base);
+      exit(1);
+    }
   fprintf(hhFile, "class %s :\n", newName);
-  fprintf(hhFile, "  public %s\n", XMLSCHEMAINSTANCEBASE);
+  fprintf(hhFile, "  public %s\n",
+	  (isBasic ? XMLSCHEMAINSTANCEBASE : extend->base));
   fprintf(hhFile, "{\n");
   fprintf(hhFile, "public:\n");
   fprintf(hhFile, "  %s();\n", newName);
   fprintf(hhFile, "  %s(\n", newName);
-  isBasic = (extend->basePrefix &&
-	     (strcmp(extend->basePrefix, XmlCppBase::wg3Prefix) == 0));
-  if (isBasic)
-    {
-      findCppTypeName(extend->base, typeName);
-      fprintf(hhFile, "    %s * valIn);\n", typeName);
-    }
+  fprintf(hhFile, "    %s * valIn);\n", cppTypeName);
   hasAttributes = ((extend->attribs && extend->attribs->size()) ? 1 : 0);
   if (hasAttributes == 0)
     checkBaseArgsSimple(extend->base, extend->basePrefix, &hasAttributes);
-  if (hasAttributes)
+  if (allAttributes->size())
     {
       comma = 0;
       fprintf(hhFile, "  %s(", newName);
-      printCppHeaderBaseArgsSimple(extend->base,
-				   extend->basePrefix, &comma, "   ");
-      printCppHeaderAttributeArgs(extend->newAttribs, &comma, "   ");
-      if (isBasic)
-	{
-	  fprintf(hhFile, ",\n");
-	  fprintf(hhFile, "    %s * valIn", typeName);
-	}
-      fprintf(hhFile, ");\n");
+      printCppHeaderAttributeArgs(allAttributes, &comma, "   ");
+      fprintf(hhFile, ",\n");
+      fprintf(hhFile, "    %s * valIn);\n", cppTypeName);
     }
   fprintf(hhFile, "  ~%s();\n", newName);
   fprintf(hhFile, "  void printSelf(FILE * outFile);\n");
   printCppHeaderAttributeItems(extend->newAttribs, hasAttributes);
   if (isBasic)
     {
-      fprintf(hhFile, "  %s * val;\n", typeName);
+      fprintf(hhFile, "  %s * val;\n", cppTypeName);
+      fprintf(hhFile, "\n");
+      fprintf(hhFile, "  bool printTypp;\n");
     }
-  fprintf(hhFile, "\n");
-  fprintf(hhFile, "  bool printTypp;\n");
   printCppHeaderChanges(newName);
   fprintf(hhFile, "};\n");
 }
@@ -9686,6 +10460,8 @@ void generator::printLexElementNames() /* NO ARGUMENTS  */
   currentName = dummyName;
   for (iter = elementInfos->begin(); iter != elementInfos->end(); iter++)
     {
+      if ((*iter)->element->mock)
+	continue;
       if (strcmp((*iter)->element->newName, currentName) == 0)
 	continue;
       else
@@ -9796,9 +10572,9 @@ an item such as:
 
 Items like that are needed when an XmlElementLocal has a type that is
 the parent type of one or more extensions. In the example above,
-Address is the parent type of UK-Address. If a data file uses a
-UK-Address, where the schema specifies Address as the type, the data file
-must include <... xsi:type="UK-Address">.  The lex file must
+Address is the parent type of UK-Address. If a instance file uses a
+UK-Address, where the schema specifies Address as the type, the instance
+file must include <... xsi:type="UK-Address">.  The lex file must
 be able to recognize that as the start of a UK-Address.
 
 Getting the required information in place for printing these items is a
@@ -9857,7 +10633,7 @@ several items that Windows does not like. In order to make the .cc file
 compilable on Windows, this prints a 7-line #ifdef WIN32 section.
 
 If the schema has a target namespace:
-The schema location specification of an XML data file must be:
+The schema location specification of an XML instance file must be:
     <prefix>:schemaLocation="<targetNamespace> <location>"
 where <prefix> is the prefix specified in the schema for the
 targetNamespace, <targetNamespace> is the name of the targetNamespace,
@@ -9870,7 +10646,7 @@ the name of the targetNamespace. SCHEMALOCATION does not need to have
 a string value; it just has an integer token value.
 
 Otherwise (i.e. the schema does not have a target namespace):
-The schema location specification of an XML data file must be:
+The schema location specification of an XML instance file must be:
     xsi:noNamespaceSchemaLocation="<location>"
 where <location> is the location of the schema. This function writes
 lines in the lex file that look for the xsi:noNamespaceSchemaLocation=
@@ -10164,7 +10940,7 @@ because
 (2) buildDescendants cannot be called until printCppCodePrintLines has
     entered all the kids of each XmlComplexType
 (3) buildExtensions cannot be called until elementInfos has been
-    built, which happens when printCppCodePrintItems executes
+    built, which happens when buildElementInfo executes
 (4) buildDescendants must be called before printYacc
 
 Also, printYacc must be called before printLex because the wholeFlag may
@@ -10179,6 +10955,7 @@ void generator::printTop()
   printCppCode();
   buildDescendants();
   buildExtensions();
+  abbreviateNames();
   printYacc();
   printLex();
   printParser();
@@ -10254,10 +11031,12 @@ Returned Value: none
 
 Called By: generator::printYaccTokens
 
-This prints in the YACC file token declarations for elements.
+This prints in the YACC file START and END token declarations for elements.
 It is possible for the same element name to be used for more than
 one elementInfo; only one elementInfo with any given element name
 is used for printing in the YACC tokens.
+
+This skips mock elements since START and END tokens are not used for them.
 
 */
 
@@ -10272,8 +11051,9 @@ void generator::printYaccElementTokens() /* NO ARGUMENTS  */
     {
       if (strcmp((*iter)->element->newName, currentName) == 0)
 	continue;
-      else
-	currentName = (*iter)->element->newName;
+      if ((*iter)->element->mock)
+	continue;
+      currentName = (*iter)->element->newName;
       allCaps(currentName, buffer);
       fprintf(yaccFile, "%%token <iVal> %sEND\n", buffer);
       fprintf(yaccFile, "%%token <iVal> %sSTART\n", buffer);
@@ -10452,6 +11232,32 @@ void generator::printYaccRulesAttributeName() /* NO ARGUMENTS  */
 
 /********************************************************************/
 
+/* generator::printYaccRulesBasic
+
+Returned Value: none
+
+Called By: generator::printYaccRulesStart
+
+This prints a YACC rule that reads an XML string.
+
+*/
+
+void generator::printYaccRulesBasic( /*  ARGUMENTS  */
+ const char * name)                  /* name of class for basic type */
+{
+  fprintf(yaccFile,
+"\n"
+"y_%s :\n"
+"	  DATASTRING\n"
+"	  {$$ = new %s($1);\n"
+"	   if ($$->bad)\n"
+"	     %serror(\"bad %s\");\n"
+"	  }\n"
+	  "	;\n", name, name, yyprefix, name);
+}
+
+/********************************************************************/
+
 /* generator::printYaccRulesEnd
 
 Returned Value: none
@@ -10618,7 +11424,8 @@ void generator::printYaccRulesStart() /* NO ARGUMENTS  */
 "	  SCHEMALOCATION TERMINALSTRING\n"
 	  "	  {$$ = new SchemaLocation(\"xsi\", $2, true);\n");
       fprintf(yaccFile,
-"	    if (strncmp(\"%s \", $2, %d))\n", target, 1+strlen(target));
+	      "	    if (strncmp(\"%s \", $2, %d))\n",
+	      target, (int)(1+strlen(target)));
       fprintf(yaccFile,
 "	      {\n"
 "		fprintf(stderr,\n"
@@ -10637,6 +11444,9 @@ void generator::printYaccRulesStart() /* NO ARGUMENTS  */
   fprintf(yaccFile,
 "	  }\n"
 "	;\n");
+
+  if (hasAnyURI)
+    printYaccRulesBasic("XmlAnyURI");
   if (hasBoolean)
     printYaccRulesBasic("XmlBoolean");
   if (hasDate)
@@ -10674,32 +11484,6 @@ void generator::printYaccRulesStart() /* NO ARGUMENTS  */
   if (hasUnsignedLong)
     printYaccRulesBasic("XmlUnsignedLong");
   printYaccRulesXmlVersion();
-}
-
-/********************************************************************/
-
-/* generator::printYaccRulesBasic
-
-Returned Value: none
-
-Called By: generator::printYaccRulesStart
-
-This prints a YACC rule that reads an XML string.
-
-*/
-
-void generator::printYaccRulesBasic( /*  ARGUMENTS  */
- const char * name)                  /* name of class for basic type */
-{
-  fprintf(yaccFile,
-"\n"
-"y_%s :\n"
-"	  DATASTRING\n"
-"	  {$$ = new %s($1);\n"
-"	   if ($$->bad)\n"
-"	     %serror(\"bad %s\");\n"
-"	  }\n"
-	  "	;\n", name, name, yyprefix, name);
 }
 
 /********************************************************************/
@@ -10851,6 +11635,9 @@ void generator::printYaccTypes() /* NO ARGUMENTS  */
   for (; numChars < 38; numChars++)
     fprintf(yaccFile, " ");
   fprintf(yaccFile, "y_%sFile\n", classBaseName);
+  if (hasAnyURI)
+    fprintf(yaccFile,
+	    "%%type <XmlAnyURIVal>                  y_XmlAnyURI\n");
   if (hasBoolean)
     fprintf(yaccFile,
 	    "%%type <XmlBooleanVal>                 y_XmlBoolean\n");
@@ -10977,6 +11764,9 @@ void generator::printYaccUnion() /* NO ARGUMENTS  */
 	  "  int *                               iVal;\n");
   fprintf(yaccFile,
 	  "  char *                              sVal;\n");
+  if (hasAnyURI)
+    fprintf(yaccFile,
+	    "  XmlAnyURI *                         XmlAnyURIVal;\n");
   if (hasBoolean)
     fprintf(yaccFile,
 	    "  XmlBoolean *                        XmlBooleanVal;\n");
@@ -11082,28 +11872,67 @@ Called By:
 This reads and processes (but does not print from) all directly or
 indirectly included XML schemas of an XML schema. This function calls
 itself recursively if necessary so it builds a tree of function calls
-each of which copies the contents2 for any included schemas into the
-contents2 for the including schema. The end effect is that all the
-contents2 from all schemas included at any level end up being included
-in the contents2 for the top level schema.
+each of which copies the contents2 for any included schemas that were
+not previously read into the contents2 for the including schema. The
+end effect is that all the contents2 from all schemas included at any
+level end up being included in the contents2 for the top level schema.
+
+Since each schema file is read only once, if a schema file F is
+xs:included by more than one other schema file (say schema files A, C,
+and D), the contents2 for F will be part of the contents2 of only one
+of those other schema files (whichever one is processed first - say
+A). The generators for those other schemas (C and D) will not have
+access to the classes of F through their own contents2s. However, when
+it is time to print code, those other classes will need to get
+information about the classes of F. To deal with this, the
+findComplexClass and findSimpleClass functions (which access
+information about a named class) look in the classesMaster list, which
+is the classes list for the schema at the top of the hierarchy. Every
+generator in the hierarchy of generators has a pointer to this
+classesMaster list. Using a classesMaster list works but is not an
+ideal solution because it may give a generator access to information
+not included by the schema for the generator.
+
+The two hierarchies below are an example. The one on the left
+represents a hierarchy of xs:includes. The one on the right represents
+a generator hierarchy that might result from those xs:includes.
+Capital letters represent schema files on the left and generators on
+the right. On the left, any given schema file may be named in several
+xs:includes. On the right, there is only one generator per schema file.
+
+
+         T                  T
+        / \                / \
+       /   \              /   \
+      A     B            A     B
+     / \   / \          / \     \
+    F   C C   D        F   C     D
+        | |   |
+        F F   F
 
 The includedSchemas std::list that belongs to the local generator has
-the base names (without paths or the .xsd suffix) of all the schema
-files included by the generator for the specific schema file to which
-the current call to processIncludes belongs. This is needed to
+the base names (without directory paths or the .xsd suffix) of all the
+schema files included by the generator for the specific schema file to
+which the current call to processIncludes belongs. This is needed to
 construct the C++ includes that go in the header file for the schema.
+For example, in the hierarchy above on the left, the includedSchema
+std::list for B would consist of the names of C and D.
 
 The global includeds std::list is a list of the base names of all the
-schema files that have already been included from anywhere in the
-graph of includes. If a file already on the list is encountered again,
-it is not processed. Thus, this handles circular includes (e.g. schema
-file A includes schema file B and schema file B includes schema file
-A).
+schema files that have already been xs:included from anywhere in the
+hierarchy of xs:includes. If a file already on the list is encountered
+again, it is not processed. For example, if A is processed before B,
+then C will also be processed before B, and C will be on the includeds
+list when B is processed, so B will not call for C to be processed.
+
+This method of dealing with xs:includes handles circular includes
+(e.g. schema file A includes schema file B and schema file B includes
+schema file A) as well as multiple includes of the same file.
 
 The method of using includedSchemas and includeds has the weakness
 that if two schema files are included that differ and are on different
-paths but have the same base name, only one of them will be processed,
-resulting in a failure of some sort later.
+directory paths but have the same file name, only one of them will be
+processed, resulting in a failure of some sort later.
 
 */
 
@@ -11136,11 +11965,14 @@ void generator::processIncludes( /* ARGUMENTS                              */
 	    }
 	  gen = new generator;
 	  gen->classesMaster = classesMaster;
+	  gen->elementRefablesMaster = elementRefablesMaster;
+	  gen->mockCount = mockCount;
 	  gen->readSchema(incl->schemaLocation, false);
 	  includeds->push_back(gen->baseNameNoPath);
 	  includedSchemas->push_back(gen->baseNameNoPath);
 	  gen->processIncludes(includeds);
 	  gen->buildClassesIncluded();
+	  gen->replaceSubstitutionGroups();
 	  subordinates.push_back(gen); // add gen to subordinates
 	  for (iter2 = gen->contents2->begin();
 	       iter2 != gen->contents2->end(); iter2++)
@@ -11407,6 +12239,57 @@ void generator::readSchema( /* ARGUMENTS                                      */
 
 /********************************************************************/
 
+/* generator::replaceSubstitutionGroups
+
+Returned Value: none
+
+Called By: main
+
+This looks through the elementRefables. If an XmlElementRefable is the
+head of a substitution group (indicated by a non-zero size of the
+substitutes list) and has not yet been processed (indicated by mock
+being false), this changes the element so that its type is a choice
+containing copies of the members of the substitution group and sets
+its mock to true.
+
+*/
+
+void generator::replaceSubstitutionGroups()
+{
+  static std::map<std::string, XmlElementRefable *>::iterator iter;
+  XmlChoice * choice;
+  XmlComplexType * choiceType;
+  XmlOtherContent * other;
+  char name[NAMESIZE];
+  XmlElementRefable * refable;
+
+  for (iter = elementRefables->begin(); iter != elementRefables->end(); iter++)
+    {
+      refable = iter->second;
+      if (refable->substitutes.size() && (refable->mock == false))
+	{
+	  choice = new XmlChoice();
+	  choiceType = new XmlComplexType();
+	  other = new XmlOtherContent();
+	  snprintf(name, NAMESIZE, "%s_%d_Type", refable->newName, *mockCount);
+	  choiceType->name = strdup(name);
+	  choiceType->newName = choiceType->name;
+	  choiceType->item = other;
+	  other->base = choice;
+	  buildChoice(choice, iter->second);
+	  refable->typ = choiceType->newName;
+	  refable->newTyp = choiceType->newName;
+	  refable->mock = true;
+	  classes->push_back(choiceType);
+	  (*mockCount)++;
+	  if (classes != classesMaster)
+	    classesMaster->push_back(choiceType);
+	}
+    }
+}
+
+/********************************************************************/
+
 /* generator::reviewChanges
 
 Returned Value: none
@@ -11466,17 +12349,19 @@ void generator::setHas( /* ARGUMENTS            */
 {
   if (prefix && (prefix == XmlCppBase::wg3Prefix))
     {
-      if (strcmp(typeName, "boolean")==0)
+      if (strcmp(typeName, "anyURI") == 0)
+	hasAnyURI = true;
+      else if (strcmp(typeName, "boolean") == 0)
 	hasBoolean = true;
-      else if (strcmp(typeName, "date")==0)
+      else if (strcmp(typeName, "date") == 0)
 	hasDate = true;
-      else if (strcmp(typeName, "dateTime")==0)
+      else if (strcmp(typeName, "dateTime") == 0)
 	hasDateTime = true;
-      else if (strcmp(typeName, "decimal")==0)
+      else if (strcmp(typeName, "decimal") == 0)
 	hasDecimal = true;
-      else if (strcmp(typeName, "double")==0)
+      else if (strcmp(typeName, "double") == 0)
 	hasDouble = true;
-      else if (strcmp(typeName, "float")==0)
+      else if (strcmp(typeName, "float") == 0)
 	hasFloat = true;
       else if (strcmp(typeName, "ID") == 0)
 	hasID = true;

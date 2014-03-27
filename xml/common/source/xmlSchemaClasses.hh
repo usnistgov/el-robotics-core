@@ -38,6 +38,7 @@ to allow comments to be saved and reprinted easily.
 
 class XmlAnnotation;
 class XmlAnnoType;
+class XmlAppinfo;
 class XmlAttributor;
 class XmlAttribPair;
 class XmlAttributeLoner;
@@ -189,7 +190,7 @@ public:
 This is the parent class for:
 
 XmlDocumentation - implemented
-XmlAppInfo       - implemented
+XmlAppinfo       - implemented
 
 Those are the two types of content in an Annotation.
 
@@ -233,11 +234,11 @@ public:
 
 This is the parent class for:
 
-XmlAny          - not implemented
-XmlChoice       - implemented
-XmlElementLocal - implemented
-XmlGroupRef     - implemented
-XmlSequence     - implemented
+XmlAny             - not implemented
+XmlChoice          - implemented
+XmlElementLocal    - implemented
+XmlElementGroupRef - implemented
+XmlSequence        - implemented
 
 Those may be used in an XmlChoice or an XmlSequence.
 
@@ -397,10 +398,10 @@ public:
 
 This is the parent class for:
 
-XmlAll          - not implemented
-XmlChoice       - implemented
-XmlElementGroup - implemented
-XmlSequence     - implemented
+XmlAll             - not implemented
+XmlChoice          - implemented
+XmlElementGroupRef - implemented
+XmlSequence        - implemented
 
 */
 
@@ -1019,6 +1020,8 @@ public:
   
   XmlAnnotation * frontNote;
   std::list<XmlChoSeqItem *> * items;
+
+  bool mock;      // added, true if choice is in a mock complexType
 };
 
 /********************************************************************/
@@ -1335,6 +1338,7 @@ This should have a newRef attribute (like newName).
 */
 
 class XmlElementGroupRef :
+  public XmlOtherContentBase,
   public XmlChoSeqItem
 {
 public:
@@ -1395,10 +1399,28 @@ For minOccurs, any negative value (use -2) means no minOccurs was given.
 XML content includes frontNote, typeDef, and idConstraint. Everything else
 is an XML attribute. All XML attributes and XML content are optional.
 
-The newName and newTyp are needed for getting rid of dashes in
-names (by substituting underscores), so that if the names get used
-in C++ identifiers, they are legal. The newName, newTyp, and prodBase
-are not needed to represent an XML schema but are needed for processing.
+The mock, needList, newName, newTyp, and prodBase are not needed to
+represent an XML schema but are needed for processing.
+
+mock - This boolean is set to false in the constructor. It should be
+false unless the element is created during processing (not by reading
+a file) and is not intended to be printed as an element, in which case
+it is set to true.
+
+needList - This boolean is set to false in the constructor. It should
+be set to true during processing if a list of occurrences of the
+element should be created. That is whenever any of the following
+occur.
+ maxOccurs is unbounded
+ maxOccurs is 0
+ maxOccurs is greater than 1
+ minOccurs is greater than 1
+
+newName and newTyp - These are needed for getting rid of dashes and
+periods in XSDL names (by substituting underscores), so that if the
+names get used in C++ identifiers, they are legal.
+
+prod
 
 The newName is derived from the name if there is a name. Otherwise,
 the newName is derived from the ref.
@@ -1451,9 +1473,11 @@ public:
   XmlType * typeDef;
   std::list<XmlIdConstraint *> * idConstraints;
 
-  char * newName;
-  char * newTyp;
-  char * prodBase;
+  bool mock;        // added - see above
+  bool needList;    // added - see above
+  char * newName;   // added - see above
+  char * newTyp;    // added - see above
+  char * prodBase;  // added - see above
 };
 
 /********************************************************************/
@@ -1489,6 +1513,17 @@ as the value is false.
    abstract
    final
    substitutionGroup
+
+The mock, needList, newName, newTyp, and prodBase are not needed to
+represent an XML schema but are needed for processing.
+
+mock - This boolean is set to false in the constructor. It should be
+false unless the element is changed during processing and is not
+intended to be printed as an element, in which case it will be set to true
+at some point during processing.
+
+The substitutes are other XmlElementRefables whose substitutionGroup is
+this XmlElementRefable. It is empty when first constructed.
 
 */
 
@@ -1530,9 +1565,11 @@ public:
   XmlType * typeDef;
   std::list<XmlIdConstraint *> * idConstraints;
 
-  char * newName;
-  char * newTyp;
-  char * prodBase;
+  bool mock;                                  // added - see above
+  char * newName;                             // added
+  char * newTyp;                              // added
+  char * prodBase;                            // added
+  std::list<XmlElementRefable *> substitutes; // added - see above
 };
 
 /********************************************************************/

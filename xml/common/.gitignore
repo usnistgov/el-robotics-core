@@ -1,0 +1,6 @@
+source/compactOwl.cc
+source/patternLex.cc
+source/patternYACC.hh
+source/xmlSchemaLex.cc
+source/xmlSchemaYACC.cc
+source/xmlSchemaYACC.hh

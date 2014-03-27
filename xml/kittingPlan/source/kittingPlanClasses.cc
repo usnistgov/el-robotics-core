@@ -600,13 +600,13 @@ void DivType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
-/* class ElseType
+/* class ElseDoType
 
 */
 
-ElseType::ElseType() {}
+ElseDoType::ElseDoType() {}
 
-ElseType::ElseType(
+ElseDoType::ElseDoType(
  XmlID * NameIn,
  PlanElementBaseType * StepIn) :
   DataThingType(
@@ -616,12 +616,12 @@ ElseType::ElseType(
   printTypp = false;
 }
 
-ElseType::~ElseType() {}
+ElseDoType::~ElseDoType() {}
 
-void ElseType::printSelf(FILE * outFile)
+void ElseDoType::printSelf(FILE * outFile)
 {
   if (printTypp)
-    fprintf(outFile, " xsi:type=\"ElseType\"");
+    fprintf(outFile, " xsi:type=\"ElseDoType\"");
   fprintf(outFile, ">\n");
   doSpaces(+INDENT, outFile);
   doSpaces(0, outFile);
@@ -814,13 +814,13 @@ IfActionGroupType::IfActionGroupType(
  XmlID * NameIn,
  TestAndStepType * IfIn,
  std::list<TestAndStepType *> * ElseIfIn,
- ElseType * ElseIn) :
+ ElseDoType * ElseDoIn) :
   ActionGroupBaseType(
     NameIn)
 {
   If = IfIn;
   ElseIf = ElseIfIn;
-  Else = ElseIn;
+  ElseDo = ElseDoIn;
   printTypp = false;
 }
 
@@ -852,13 +852,13 @@ void IfActionGroupType::printSelf(FILE * outFile)
         fprintf(outFile, "</ElseIf>\n");
       }
   }
-  if (Else)
+  if (ElseDo)
     {
       doSpaces(0, outFile);
-      fprintf(outFile, "<Else");
-      Else->printSelf(outFile);
+      fprintf(outFile, "<ElseDo");
+      ElseDo->printSelf(outFile);
       doSpaces(0, outFile);
-      fprintf(outFile, "</Else>\n");
+      fprintf(outFile, "</ElseDo>\n");
     }
   doSpaces(-INDENT, outFile);
 }

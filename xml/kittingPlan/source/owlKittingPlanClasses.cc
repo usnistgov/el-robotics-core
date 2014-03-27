@@ -22,7 +22,7 @@ std::set<std::string> CylindricalShapeType::individuals;
 std::set<std::string> DecimalType::individuals;
 std::set<std::string> DetachEndEffectorType::individuals;
 std::set<std::string> DivType::individuals;
-std::set<std::string> ElseType::individuals;
+std::set<std::string> ElseDoType::individuals;
 std::set<std::string> EndEffectorChangingStationType::individuals;
 std::set<std::string> EndEffectorHolderType::individuals;
 std::set<std::string> EqualType::individuals;
@@ -143,9 +143,9 @@ void KittingPlanFile::printOwl(FILE * outFile)
   if (DivType::individuals.size() > 1)
     printer.printIndividuals("ktp:Div",
        &DivType::individuals, outFile);
-  if (ElseType::individuals.size() > 1)
-    printer.printIndividuals("ktp:Else",
-       &ElseType::individuals, outFile);
+  if (ElseDoType::individuals.size() > 1)
+    printer.printIndividuals("ktp:ElseDo",
+       &ElseDoType::individuals, outFile);
   if (EndEffectorChangingStationType::individuals.size() > 1)
     printer.printIndividuals("ktw:EndEffectorChangingStation",
        &EndEffectorChangingStationType::individuals, outFile);
@@ -902,13 +902,13 @@ void DivType::printOwl(FILE * outFile)
 
 /*********************************************************************/
 
-/* class ElseType
+/* class ElseDoType
 
 */
 
-ElseType::ElseType() {}
+ElseDoType::ElseDoType() {}
 
-ElseType::ElseType(
+ElseDoType::ElseDoType(
  XmlID * NameIn,
  PlanElementBaseType * StepIn) :
   DataThingType(
@@ -917,15 +917,15 @@ ElseType::ElseType(
   Step = StepIn;
 }
 
-ElseType::~ElseType() {}
+ElseDoType::~ElseDoType() {}
 
-void ElseType::printOwl(FILE * outFile)
+void ElseDoType::printOwl(FILE * outFile)
 {
-  printer.startIndi(Name, "ktp:Else", outFile);
-  printer.printObjProp("ktp:hasElse_Step",
+  printer.startIndi(Name, "ktp:ElseDo", outFile);
+  printer.printObjProp("ktp:hasElseDo_Step",
                        Name, Step->Name, outFile);
   Step->printOwl(outFile);
-  printer.endIndi("ktp:Else", outFile);
+  printer.endIndi("ktp:ElseDo", outFile);
   individuals.insert(Name->val);
 }
 
@@ -1424,13 +1424,13 @@ IfActionGroupType::IfActionGroupType(
  XmlID * NameIn,
  TestAndStepType * IfIn,
  std::list<TestAndStepType *> * ElseIfIn,
- ElseType * ElseIn) :
+ ElseDoType * ElseDoIn) :
   ActionGroupBaseType(
     NameIn)
 {
   If = IfIn;
   ElseIf = ElseIfIn;
-  Else = ElseIn;
+  ElseDo = ElseDoIn;
 }
 
 IfActionGroupType::~IfActionGroupType() {}
@@ -1451,11 +1451,11 @@ void IfActionGroupType::printOwl(FILE * outFile)
         (*iter)->printOwl(outFile);
       }
   }
-  if (Else)
+  if (ElseDo)
     {
-      printer.printObjProp("ktp:hasIfActionGroup_Else",
-                           Name, Else->Name, outFile);
-      Else->printOwl(outFile);
+      printer.printObjProp("ktp:hasIfActionGroup_ElseDo",
+                           Name, ElseDo->Name, outFile);
+      ElseDo->printOwl(outFile);
     }
   printer.endIndi("ktp:IfActionGroup", outFile);
   individuals.insert(Name->val);

@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.4.3.  */
+/* A Bison parser, made by GNU Bison 2.5.  */
 
-/* Skeleton implementation for Bison's Yacc-like parsers in C
+/* Bison implementation for Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2009, 2010 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2011 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.3"
+#define YYBISON_VERSION "2.5"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -159,10 +158,10 @@ int yyerror(const char * s);
      DESIGNNAMESTART = 298,
      DIAMETEREND = 299,
      DIAMETERSTART = 300,
-     ELSEIFEND = 301,
-     ELSEIFSTART = 302,
-     ELSEEND = 303,
-     ELSESTART = 304,
+     ELSEDOEND = 301,
+     ELSEDOSTART = 302,
+     ELSEIFEND = 303,
+     ELSEIFSTART = 304,
      ENDEFFECTORHOLDERNAMEEND = 305,
      ENDEFFECTORHOLDERNAMESTART = 306,
      ENDEFFECTORHOLDEREND = 307,
@@ -344,7 +343,7 @@ int yyerror(const char * s);
      DECIMALTYPEDECL = 483,
      DETACHENDEFFECTORTYPEDECL = 484,
      DIVTYPEDECL = 485,
-     ELSETYPEDECL = 486,
+     ELSEDOTYPEDECL = 486,
      ENDEFFECTORCHANGINGSTATIONTYPEDECL = 487,
      ENDEFFECTORHOLDERTYPEDECL = 488,
      ENDEFFECTORTYPEDECL = 489,
@@ -471,7 +470,7 @@ typedef union YYSTYPE
   DecimalType *                       DecimalTypeVal;
   DetachEndEffectorType *             DetachEndEffectorTypeVal;
   DivType *                           DivTypeVal;
-  ElseType *                          ElseTypeVal;
+  ElseDoType *                        ElseDoTypeVal;
   EndEffectorChangingStationType *    EndEffectorChangingStationTypeVal;
   EndEffectorHolderType *             EndEffectorHolderTypeVal;
   EndEffectorType *                   EndEffectorTypeVal;
@@ -689,11 +688,11 @@ YYID (yyi)
 #    define alloca _alloca
 #   else
 #    define YYSTACK_ALLOC alloca
-#    if ! defined _ALLOCA_H && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
+#    if ! defined _ALLOCA_H && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 #     include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#     ifndef _STDLIB_H
-#      define _STDLIB_H 1
+#     ifndef EXIT_SUCCESS
+#      define EXIT_SUCCESS 0
 #     endif
 #    endif
 #   endif
@@ -716,24 +715,24 @@ YYID (yyi)
 #  ifndef YYSTACK_ALLOC_MAXIMUM
 #   define YYSTACK_ALLOC_MAXIMUM YYSIZE_MAXIMUM
 #  endif
-#  if (defined __cplusplus && ! defined _STDLIB_H \
+#  if (defined __cplusplus && ! defined EXIT_SUCCESS \
        && ! ((defined YYMALLOC || defined malloc) \
 	     && (defined YYFREE || defined free)))
 #   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   ifndef _STDLIB_H
-#    define _STDLIB_H 1
+#   ifndef EXIT_SUCCESS
+#    define EXIT_SUCCESS 0
 #   endif
 #  endif
 #  ifndef YYMALLOC
 #   define YYMALLOC malloc
-#   if ! defined malloc && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
+#   if ! defined malloc && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 void *malloc (YYSIZE_T); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 #  ifndef YYFREE
 #   define YYFREE free
-#   if ! defined free && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
+#   if ! defined free && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
@@ -762,23 +761,7 @@ union yyalloc
      ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
-/* Copy COUNT objects from FROM to TO.  The source and destination do
-   not overlap.  */
-# ifndef YYCOPY
-#  if defined __GNUC__ && 1 < __GNUC__
-#   define YYCOPY(To, From, Count) \
-      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
-#  else
-#   define YYCOPY(To, From, Count)		\
-      do					\
-	{					\
-	  YYSIZE_T yyi;				\
-	  for (yyi = 0; yyi < (Count); yyi++)	\
-	    (To)[yyi] = (From)[yyi];		\
-	}					\
-      while (YYID (0))
-#  endif
-# endif
+# define YYCOPY_NEEDED 1
 
 /* Relocate STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
@@ -798,10 +781,30 @@ union yyalloc
 
 #endif
 
+#if defined YYCOPY_NEEDED && YYCOPY_NEEDED
+/* Copy COUNT objects from FROM to TO.  The source and destination do
+   not overlap.  */
+# ifndef YYCOPY
+#  if defined __GNUC__ && 1 < __GNUC__
+#   define YYCOPY(To, From, Count) \
+      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
+#  else
+#   define YYCOPY(To, From, Count)		\
+      do					\
+	{					\
+	  YYSIZE_T yyi;				\
+	  for (yyi = 0; yyi < (Count); yyi++)	\
+	    (To)[yyi] = (From)[yyi];		\
+	}					\
+      while (YYID (0))
+#  endif
+# endif
+#endif /* !YYCOPY_NEEDED */
+
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   413
+#define YYLAST   415
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  312
@@ -890,7 +893,7 @@ static const yytype_uint16 yyprhs[] =
       25,    27,    29,    31,    36,    43,    47,    51,    55,    56,
       62,    64,    66,    68,    70,    72,    74,    76,    78,    80,
       84,    88,    92,    94,    96,    98,   100,   102,   104,   106,
-     108,   110,   112,   114,   115,   121,   125,   129,   130,   134,
+     108,   110,   112,   114,   115,   121,   125,   126,   130,   134,
      135,   141,   142,   148,   149,   155,   159,   160,   166,   167,
      173,   174,   180,   181,   187,   198,   199,   202,   205,   207,
      208,   211,   214,   216,   219,   221,   224,   226,   227,   230,
@@ -925,15 +928,15 @@ static const yytype_int16 yyrhs[] =
       30,    -1,   430,    -1,   436,    -1,   437,    -1,   438,    -1,
      439,    -1,   441,    -1,   442,    -1,   447,    -1,   448,    -1,
      450,    -1,   468,    -1,    -1,    41,     6,   336,   322,    40,
-      -1,    47,   408,    46,    -1,     6,   364,   405,    -1,    -1,
-      49,   338,    48,    -1,    -1,    51,     6,   341,   320,    50,
+      -1,     6,   364,   405,    -1,    -1,    47,   337,    46,    -1,
+      49,   408,    48,    -1,    -1,    51,     6,   341,   320,    50,
       -1,    -1,    55,     6,   343,   320,    54,    -1,    -1,    71,
        6,   345,   317,    70,    -1,    73,   408,    72,    -1,    -1,
       77,     6,   348,   317,    76,    -1,    -1,    79,     6,   350,
      317,    78,    -1,    -1,    85,     6,   352,   320,    84,    -1,
       -1,    87,     6,   354,   320,    86,    -1,     6,   364,   384,
      387,   378,   376,   380,   357,   362,   386,    -1,    -1,   356,
-     337,    -1,   357,   369,    -1,   369,    -1,    -1,   358,   393,
+     339,    -1,   357,   369,    -1,   369,    -1,    -1,   358,   393,
       -1,   359,   404,    -1,   404,    -1,   360,   406,    -1,   406,
       -1,   361,   407,    -1,   407,    -1,    -1,   362,   420,    -1,
      103,   375,   102,    -1,    -1,   117,     6,   365,   318,   116,
@@ -971,7 +974,7 @@ static const yytype_int16 yyrhs[] =
      364,   399,   342,   340,    -1,   230,     6,   364,   325,   326,
       -1,   235,     6,   364,   325,   326,    -1,   237,     6,   364,
       -1,   238,     6,   364,   325,   326,    -1,   239,     6,   364,
-     325,   326,    -1,   242,     6,   364,   346,   356,   339,    -1,
+     325,   326,    -1,   242,     6,   364,   346,   356,   338,    -1,
      252,     6,   364,   325,   326,    -1,   253,     6,   364,   325,
      326,    -1,   254,     6,   364,   373,    -1,   256,     6,   364,
      325,   326,    -1,   257,     6,   364,   325,   326,    -1,   258,
@@ -1002,7 +1005,7 @@ static const yytype_uint16 yyrline[] =
      798,   806,   814,   822,   827,   838,   843,   848,   853,   853,
      866,   868,   870,   872,   874,   876,   878,   880,   882,   902,
      907,   912,   922,   924,   926,   928,   930,   932,   934,   936,
-     938,   940,   942,   974,   974,   994,   999,  1005,  1006,  1021,
+     938,   940,   942,   974,   974,   994,  1000,  1001,  1006,  1021,
     1021,  1048,  1048,  1116,  1116,  1121,  1140,  1140,  1145,  1145,
     1167,  1167,  1172,  1172,  1216,  1255,  1256,  1323,  1326,  1360,
     1361,  1394,  1398,  1404,  1407,  1413,  1417,  1424,  1425,  1441,
@@ -1016,10 +1019,10 @@ static const yytype_uint16 yyrline[] =
     1883,  1890,  1891,  1891,  1897,  1902,  1902,  1907,  1907,  1912,
     1917,  1922,  1958,  1963,  1963,  1968,  1968,  1973,  1978,  1978,
     1983,  1991,  2010,  2028,  2035,  2044,  2077,  2085,  2092,  2100,
-    2133,  2215,  2223,  2231,  2249,  2257,  2265,  2272,  2280,  2287,
-    2295,  2303,  2321,  2353,  2361,  2372,  2383,  2394,  2402,  2410,
-    2418,  2426,  2435,  2458,  2467,  2475,  2483,  2491,  2499,  2506,
-    2545,  2553,  2560
+    2132,  2214,  2222,  2230,  2248,  2256,  2264,  2271,  2279,  2286,
+    2294,  2302,  2320,  2350,  2358,  2369,  2380,  2391,  2399,  2407,
+    2415,  2423,  2432,  2455,  2464,  2472,  2480,  2488,  2496,  2503,
+    2540,  2548,  2555
 };
 #endif
 
@@ -1038,7 +1041,7 @@ static const char *const yytname[] =
   "CHANGINGSTATIONEND", "CHANGINGSTATIONSTART", "CUPDIAMETEREND",
   "CUPDIAMETERSTART", "DESCRIPTIONEND", "DESCRIPTIONSTART",
   "DESIGNNAMEEND", "DESIGNNAMESTART", "DIAMETEREND", "DIAMETERSTART",
-  "ELSEIFEND", "ELSEIFSTART", "ELSEEND", "ELSESTART",
+  "ELSEDOEND", "ELSEDOSTART", "ELSEIFEND", "ELSEIFSTART",
   "ENDEFFECTORHOLDERNAMEEND", "ENDEFFECTORHOLDERNAMESTART",
   "ENDEFFECTORHOLDEREND", "ENDEFFECTORHOLDERSTART", "ENDEFFECTORNAMEEND",
   "ENDEFFECTORNAMESTART", "ENDEFFECTOREND", "ENDEFFECTORSTART",
@@ -1091,7 +1094,7 @@ static const char *const yytname[] =
   "BOOLEANCONSTANTTYPEDECL", "BOOLEANEXPRESSIONTYPEDECL",
   "BOXVOLUMETYPEDECL", "BOXYSHAPETYPEDECL", "CREATEKITTYPEDECL",
   "CYLINDRICALSHAPETYPEDECL", "DECIMALTYPEDECL",
-  "DETACHENDEFFECTORTYPEDECL", "DIVTYPEDECL", "ELSETYPEDECL",
+  "DETACHENDEFFECTORTYPEDECL", "DIVTYPEDECL", "ELSEDOTYPEDECL",
   "ENDEFFECTORCHANGINGSTATIONTYPEDECL", "ENDEFFECTORHOLDERTYPEDECL",
   "ENDEFFECTORTYPEDECL", "EQUALTYPEDECL", "EXTERNALSHAPETYPEDECL",
   "FALSETYPEDECL", "GREATEROREQUALTYPEDECL", "GREATERTYPEDECL",
@@ -1130,38 +1133,38 @@ static const char *const yytname[] =
   "y_A_XmlDecimal", "$@1", "y_ArithmeticExpressionTypeAny",
   "y_B1_BooleanExpressionType", "y_B2_BooleanExpressionType",
   "y_B_BooleanExpressionType", "y_BooleanExpressionTypeAny",
-  "y_Description_XmlString", "$@7", "y_ElseIf_TestAndStepType_0_u",
-  "y_ElseType", "y_Else_ElseType_0", "y_EndEffectorHolderName_XmlNMTOKEN",
-  "$@10", "y_EndEffectorName_XmlNMTOKEN", "$@12", "y_I_XmlDecimal", "$@16",
+  "y_Description_XmlString", "$@7", "y_ElseDoType",
+  "y_ElseDo_ElseDoType_0", "y_ElseIf_TestAndStepType_0_u",
+  "y_EndEffectorHolderName_XmlNMTOKEN", "$@10",
+  "y_EndEffectorName_XmlNMTOKEN", "$@12", "y_I_XmlDecimal", "$@16",
   "y_If_TestAndStepType", "y_J_XmlDecimal", "$@17", "y_K_XmlDecimal",
   "$@18", "y_KitName_XmlNMTOKEN", "$@20", "y_KitTrayName_XmlNMTOKEN",
   "$@21", "y_KittingPlanType", "y_ListElseIf_TestAndStepType_0_u",
-  "y_ListObject_XmlID_u", "y_ListPredecessor_XmlPositiveInteger_0_u",
-  "y_ListStep_NumberedPlanElementType_u",
-  "y_ListStep_PlanElementBaseType_u",
-  "y_ListStep_StepWithPredecessorsType_u",
-  "y_ListVariable_VariableDeclarationType_0_u",
+  "y_ListObject_XmlID_1_u", "y_ListPredecessor_XmlPositiveInteger_0_u",
+  "y_ListStep_NumberedPlanElementType_1_u",
+  "y_ListStep_PlanElementBaseType_1_u",
+  "y_ListStep_StepWithPredecessorsType_1_u",
+  "y_ListVariable_VariableDeclarationTy1009",
   "y_Location_PhysicalLocationType", "y_Name_XmlID", "$@29",
   "y_NumberOfSteps_XmlPositiveInteger", "$@30",
-  "y_NumberedPlanElementType", "y_Object_XmlID_u", "$@31",
-  "y_OrientationStandardDeviation_PositiveDecimalType_0", "$@32",
-  "y_PartName_XmlNMTOKEN", "$@34", "y_PhysicalLocationTypeAny",
-  "y_PlanAuthor_XmlToken", "$@38", "y_PlanDateAndTime_XmlDateTime", "$@39",
-  "y_PlanDescription_XmlString", "$@40", "y_PlanElementBaseTypeAny",
-  "y_PlanElement_PlanElementBaseType", "y_PlanId_XmlNMTOKEN", "$@41",
-  "y_PlanRoot_PlanElementBaseType", "y_PlanVersion_XmlToken", "$@42",
-  "y_PointType", "y_Point_PointType",
-  "y_PositionStandardDeviation_PositiveDecimalType_0", "$@43",
+  "y_NumberedPlanElementType", "y_Object_XmlID_1_u", "$@31",
+  "y_OrientationStandardDeviation_P1004", "$@32", "y_PartName_XmlNMTOKEN",
+  "$@34", "y_PhysicalLocationTypeAny", "y_PlanAuthor_XmlToken", "$@38",
+  "y_PlanDateAndTime_XmlDateTime", "$@39", "y_PlanDescription_XmlString",
+  "$@40", "y_PlanElementBaseTypeAny", "y_PlanElement_PlanElementBaseType",
+  "y_PlanId_XmlNMTOKEN", "$@41", "y_PlanRoot_PlanElementBaseType",
+  "y_PlanVersion_XmlToken", "$@42", "y_PointType", "y_Point_PointType",
+  "y_PositionStandardDeviation_Posi1006", "$@43",
   "y_Predecessor_XmlPositiveInteger_0_u", "$@44", "y_Property_XmlNMTOKEN",
   "$@45", "y_RefObjectName_XmlIDREF", "$@46", "y_RobotName_XmlNMTOKEN",
   "$@47", "y_SequenceNumber_XmlPositiveInteger", "$@48",
-  "y_StepWithPredecessorsType", "y_Step_NumberedPlanElementType_u",
-  "y_Step_PlanElementBaseType", "y_Step_PlanElementBaseType_u",
-  "y_Step_StepWithPredecessorsType_u", "y_TestAndStepType",
+  "y_StepWithPredecessorsType", "y_Step_NumberedPlanElementType_1_u",
+  "y_Step_PlanElementBaseType", "y_Step_PlanElementBaseType_1_u",
+  "y_Step_StepWithPredecessorsType_1_u", "y_TestAndStepType",
   "y_Test_BooleanExpressionType", "y_ThingName_XmlNMTOKEN", "$@51",
   "y_Timestamp_XmlDateTime_0", "$@52", "y_Val_ArithmeticExpressionType",
   "y_Val_XmlDecimal", "$@53", "y_VarName_XmlIDREF", "$@54",
-  "y_VariableDeclarationType", "y_Variable_VariableDeclarationType_0_u",
+  "y_VariableDeclarationType", "y_Variable_VariableDeclarationTy1009",
   "y_VectorType", "y_XAxis_VectorType", "y_X_XmlDecimal", "$@58",
   "y_Y_XmlDecimal", "$@59", "y_ZAxis_VectorType", "y_Z_XmlDecimal", "$@60",
   "y_x_AndType", "y_x_AttachEndEffectorType", "y_x_CreateKitType",
@@ -1229,7 +1232,7 @@ static const yytype_uint16 yyr1[] =
      321,   322,   323,   324,   324,   325,   326,   327,   329,   328,
      330,   330,   330,   330,   330,   330,   330,   330,   330,   331,
      332,   333,   334,   334,   334,   334,   334,   334,   334,   334,
-     334,   334,   334,   336,   335,   337,   338,   339,   339,   341,
+     334,   334,   334,   336,   335,   337,   338,   338,   339,   341,
      340,   343,   342,   345,   344,   346,   348,   347,   350,   349,
      352,   351,   354,   353,   355,   356,   356,   357,   357,   358,
      358,   359,   359,   360,   360,   361,   361,   362,   362,   363,
@@ -1256,7 +1259,7 @@ static const yytype_uint8 yyr2[] =
        1,     1,     1,     4,     6,     3,     3,     3,     0,     5,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     3,
        3,     3,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     0,     5,     3,     3,     0,     3,     0,
+       1,     1,     1,     0,     5,     3,     0,     3,     3,     0,
        5,     0,     5,     0,     5,     3,     0,     5,     0,     5,
        0,     5,     0,     5,    10,     0,     2,     2,     1,     0,
        2,     2,     1,     2,     1,     2,     1,     0,     2,     3,
@@ -1276,8 +1279,8 @@ static const yytype_uint8 yyr2[] =
        5,     4,     5
 };
 
-/* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
-   STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
+/* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
+   Performed when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
@@ -1300,13 +1303,13 @@ static const yytype_uint8 yydefact[] =
       65,     0,   183,     0,   189,    72,   191,     0,   192,    76,
        0,     0,     0,     0,     0,    74,     0,     0,     0,   209,
        0,     0,     0,     0,   155,   138,     0,     0,    62,     0,
-     172,     0,     0,     0,    47,    90,     0,     0,    71,     0,
+     172,     0,     0,     0,    46,    90,     0,     0,    71,     0,
        0,    75,     0,     0,     0,     0,     0,   203,    73,   204,
      205,   206,   157,     0,   210,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,     0,   212,
        0,     0,    51,     0,   171,     0,    60,   174,     0,    55,
-       0,     0,    66,   180,     0,     0,   143,     0,   146,     0,
+       0,     0,   180,    66,     0,     0,   143,     0,   146,     0,
      198,   199,   200,   145,    82,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,    20,    21,    22,    23,
       24,    25,    26,    27,    28,     0,     0,     0,     0,     0,
@@ -1316,11 +1319,11 @@ static const yytype_uint8 yydefact[] =
       93,    94,    95,    96,     0,     8,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,   154,     0,     0,   177,
        0,     0,     0,     0,     0,     0,     0,   208,   144,   156,
-     139,     0,     0,    63,     0,   147,    45,     0,    48,    91,
+     139,     0,     0,    63,     0,   147,     0,    47,    48,    91,
      140,     0,    84,     0,     0,     0,     0,     0,     0,    79,
       10,     0,   158,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,   188,     0,    52,     0,    61,    46,     0,     0,
+       0,     0,   188,     0,    52,     0,    61,    45,     0,     0,
        0,   142,    70,     0,     0,     0,     0,     0,    83,     0,
      173,     0,     0,     0,     0,   186,     0,     0,     0,     0,
      211,     0,     0,   170,     0,     0,   176,   178,   179,   181,
@@ -1346,7 +1349,7 @@ static const yytype_int16 yydefgoto[] =
 {
       -1,     2,     9,    13,    51,   299,    30,   326,    37,   371,
       65,    44,     3,   385,   426,   415,   410,   468,   275,   383,
-     423,   392,   226,   482,   510,   252,   308,   253,   244,   352,
+     423,   392,   226,   482,   510,   307,   252,   253,   244,   352,
      187,   301,   527,   547,   160,   541,   557,   550,   565,   190,
      304,   157,   245,    15,   194,    55,   363,   164,   174,   168,
       61,   260,    19,    25,   207,   324,   197,    56,    66,   531,
@@ -1368,80 +1371,80 @@ static const yytype_int16 yydefgoto[] =
 #define YYPACT_NINF -446
 static const yytype_int16 yypact[] =
 {
-      27,    36,    58,   -34,    63,  -446,    66,    43,    72,    81,
+      24,    28,    67,   -47,    70,  -446,    66,    78,    79,    85,
       86,  -446,    96,  -446,    -6,    22,   116,  -446,   148,     6,
     -446,  -446,  -446,   150,     4,   154,  -446,   153,    17,  -446,
       50,   160,  -446,   167,    33,  -446,  -446,    38,   183,  -446,
-     184,    46,  -446,  -446,    40,   192,  -446,   193,    77,  -446,
-    -446,    60,   183,  -446,   197,    77,  -446,  -446,    64,   201,
+     184,    46,  -446,  -446,    40,   193,  -446,   194,    76,  -446,
+    -446,    60,   183,  -446,   197,    76,  -446,  -446,    64,   201,
     -446,  -124,  -446,  -446,  -446,    62,   154,  -189,   202,  -446,
-    -446,  -446,    85,   203,   204,   205,   206,   207,   208,   209,
-     210,   220,   221,   222,   223,   224,   225,   226,   227,   228,
-     229,    87,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
+    -446,  -446,    87,   204,   205,   206,   207,   208,   209,   210,
+     220,   221,   222,   223,   224,   225,   226,   227,   228,   229,
+     230,    57,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
     -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
-      -6,    42,  -446,    -6,    -6,    -6,    -6,    -6,    -6,    -6,
+      -6,    43,  -446,    -6,    -6,    -6,    -6,    -6,    -6,    -6,
       -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,
-      -6,  -446,    47,  -446,    73,   152,    73,   168,   113,    61,
-      61,    65,    73,    73,    73,    68,    73,    73,    73,    68,
-      52,    67,   237,  -446,   240,   194,   241,   174,   194,   247,
-    -446,   254,  -446,   255,    61,  -446,    61,   256,    65,  -446,
-     152,   174,   113,  -189,   -95,  -446,   152,   174,   113,    68,
-     257,    74,  -113,    84,  -446,  -446,   258,   217,  -446,   263,
+      -6,  -446,    47,  -446,    72,   155,    72,   168,   111,    61,
+      61,    63,    72,    72,    72,    65,    72,    72,    72,    65,
+      52,    58,   241,  -446,   243,   196,   246,   174,   196,   247,
+    -446,   254,  -446,   255,    61,  -446,    61,   256,    63,  -446,
+     155,   174,   111,  -189,   -95,  -446,   155,   174,   111,    65,
+     257,    73,  -113,    82,  -446,  -446,   261,   217,  -446,   263,
     -446,   217,    -6,   198,    48,  -446,    -6,    89,  -446,    -6,
       90,  -446,   170,   170,   170,    92,   269,  -446,  -446,  -446,
     -446,  -446,  -446,  -202,  -446,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   103,  -446,  -446,  -446,
     -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -189,  -446,
-     284,   160,  -446,   283,  -446,   160,  -446,  -446,    67,  -446,
-     247,   285,  -446,  -446,   160,   117,  -446,   117,  -446,  -217,
+     284,   160,  -446,   283,  -446,   160,  -446,  -446,    58,  -446,
+     285,   247,  -446,  -446,   160,   117,  -446,   117,  -446,  -216,
     -446,  -446,  -446,  -446,  -446,   288,   287,   289,   290,   291,
      292,   293,   294,   295,   296,   104,  -446,  -446,  -446,  -446,
     -446,  -446,  -446,  -446,  -446,    -6,    -6,    -6,    -6,    -6,
       -6,    -6,    -6,    -6,    -6,    -6,  -446,   121,  -446,   114,
-     139,   160,  -446,   230,   160,    84,   260,    -6,   259,   180,
-     303,   163,  -446,   305,   306,   307,   308,   309,   215,  -446,
+     139,   160,  -446,   231,   160,    82,    -6,   260,   259,   180,
+     303,   163,  -446,   305,   306,   307,   308,   309,   214,  -446,
     -446,  -446,  -446,  -446,   314,  -446,   127,    -6,    -6,    -6,
       -6,    -6,    -6,    -6,    -6,    -6,  -446,   297,   310,  -446,
      310,   310,   310,   310,   310,   298,   297,  -446,  -446,  -446,
-    -446,   266,   160,  -446,   238,  -446,  -446,    84,  -446,  -446,
-    -446,  -189,  -446,  -115,    -6,    -6,    -6,    -6,    -6,  -446,
-    -446,   212,  -446,   302,   310,   310,   310,   304,   310,   140,
+    -446,   266,   160,  -446,   237,  -446,    82,  -446,  -446,  -446,
+    -446,  -189,  -446,  -116,    -6,    -6,    -6,    -6,    -6,  -446,
+    -446,   212,  -446,   304,   310,   310,   310,   312,   310,   135,
      310,    52,  -113,   299,  -202,   315,   315,   315,   315,   315,
-     315,  -113,  -446,   299,  -446,   281,  -446,  -446,   314,   187,
-     320,  -446,  -446,   169,   169,   169,   169,   169,  -446,   329,
-    -446,   315,   315,   315,  -202,  -446,   315,   330,   175,   315,
+     315,  -113,  -446,   299,  -446,   286,  -446,  -446,   314,   181,
+     320,  -446,  -446,   169,   169,   169,   169,   169,  -446,   327,
+    -446,   315,   315,   315,  -202,  -446,   315,   329,   175,   315,
     -446,   311,  -113,  -446,   325,  -202,  -446,  -446,  -446,  -446,
-    -446,  -446,   312,  -446,  -446,   171,  -446,  -446,   334,   155,
-     155,   155,   155,   155,  -446,  -446,  -446,  -446,   323,  -446,
+    -446,  -446,   313,  -446,  -446,   172,  -446,  -446,   334,   152,
+     152,   152,   152,   152,  -446,  -446,  -446,  -446,   324,  -446,
     -446,   339,  -446,  -446,  -446,   318,  -446,   331,  -446,  -446,
-     314,  -446,   342,   195,   195,   195,   313,   313,   284,  -446,
+     314,  -446,   342,   195,   195,   195,   316,   316,   284,  -446,
      160,  -446,  -446,  -446,   191,   288,  -446,   345,   147,   147,
-     147,   347,  -446,  -446,   337,   172,   160,  -446,   196,   192,
-      -6,   211,   350,   146,   146,   146,  -446,  -446,  -446,   199,
-    -446,   176,   156,  -446,    -6,   158,   350,   213,   213,   213,
-     201,  -446,  -446,   353,   157,   300,  -446,   159,   361,   243,
-     243,   243,   332,  -446,   367,   161,   369,   301,  -446,  -446,
+     147,   347,  -446,  -446,   336,   173,   160,  -446,   192,   193,
+      -6,   211,   349,   149,   149,   149,  -446,  -446,  -446,   199,
+    -446,   176,   151,  -446,    -6,   158,   349,   213,   213,   213,
+     201,  -446,  -446,   357,   157,   300,  -446,   159,   361,   248,
+     248,   248,   328,  -446,   366,   161,   369,   301,  -446,  -446,
      370,  -446,  -446,  -446,  -446,   284,  -446,   371,  -446,  -446,
-     373,   316,   377,  -446,   177,   284,  -446,   284,  -446,   376,
-    -446,   231,   380,  -446,   178,   284,   319,   284,  -446,  -446,
-     261,  -446,   179,  -446,   317,   284,  -446,  -446,  -446,   321,
+     373,   302,   378,  -446,   177,   284,  -446,   284,  -446,   379,
+    -446,   232,   380,  -446,   178,   284,   317,   284,  -446,  -446,
+     265,  -446,   179,  -446,   319,   284,  -446,  -446,  -446,   321,
     -446
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -446,  -446,  -446,  -446,   -99,  -445,   322,   -83,  -220,  -396,
-    -114,   346,  -446,  -213,  -218,  -446,  -446,  -446,  -362,    51,
-       7,  -446,  -353,   -66,  -446,  -446,  -446,  -446,   214,  -446,
-     244,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -138,
-    -446,  -119,  -446,  -446,  -446,  -446,  -446,   264,   262,  -446,
+    -446,  -446,  -446,  -446,   -99,  -445,   326,   -82,  -220,  -396,
+    -114,   346,  -446,  -213,  -218,  -446,  -446,  -446,  -355,    51,
+       7,  -446,  -347,   -66,  -446,  -446,  -446,  -446,   215,  -446,
+     244,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -139,
+    -446,  -134,  -446,  -446,  -446,  -446,  -446,   264,   258,  -446,
     -446,   -89,  -110,  -446,  -446,  -446,  -446,   348,  -446,  -402,
-    -446,   -87,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
-    -172,    44,  -446,  -446,  -446,  -446,  -446,  -446,  -327,  -363,
-    -446,  -446,  -446,  -446,  -446,  -271,  -446,  -101,  -446,   149,
-    -446,  -446,   -65,  -274,  -104,   242,   162,   165,  -446,  -446,
-    -299,  -446,  -446,  -446,  -446,    28,  -446,  -446,  -446,   -98,
+    -446,  -120,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
+    -172,    42,  -446,  -446,  -446,  -446,  -446,  -446,  -327,  -363,
+    -446,  -446,  -446,  -446,  -446,  -271,  -446,   -97,  -446,   156,
+    -446,  -446,   -65,  -283,  -117,   240,   164,   162,  -446,  -446,
+    -299,  -446,  -446,  -446,  -446,    30,  -446,  -446,  -446,   -94,
     -330,  -446,  -446,  -446,  -446,  -342,  -446,  -446,  -446,  -446,
     -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
     -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,  -446,
@@ -1452,21 +1455,20 @@ static const yytype_int16 yypgoto[] =
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
-   number is the opposite.  If zero, do what YYDEFACT says.
-   If YYTABLE_NINF, syntax error.  */
+   number is the opposite.  If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -1
 static const yytype_uint16 yytable[] =
 {
      132,   205,   435,   134,   135,   136,   137,   138,   139,   140,
      141,   142,   143,   144,   145,   146,   147,   148,   149,   150,
-     151,   300,   424,   484,   206,   303,   266,    67,   267,   421,
-      73,   355,   361,   203,   309,   158,     1,    74,   432,   210,
-      75,   170,   171,   172,   400,   176,   177,   178,    10,     4,
-      11,   202,   448,    76,   268,   269,   270,   209,     5,   313,
-     314,     6,   315,   457,   474,    77,   297,   316,   317,   455,
-     208,    68,   271,     7,    78,   208,    79,     8,   272,    80,
-      12,   351,   248,   397,   354,   204,   255,    14,   173,   257,
-     544,   211,    81,    82,    83,   250,    16,   251,   273,   198,
+     151,   300,   355,   484,   206,   303,   266,    67,   267,   424,
+      73,   361,   203,     1,   309,   421,   202,    74,   210,   158,
+      75,     4,   209,   400,   432,   170,   171,   172,     6,   176,
+     177,   178,   204,    76,   268,   269,   270,   208,   211,   448,
+     313,   314,   208,   315,   474,    77,   297,     5,   316,   317,
+     457,    68,   271,   397,    78,   455,    79,     8,   272,    80,
+       7,   351,   248,    10,   354,    11,   255,    12,   173,   257,
+     544,    14,    81,    82,    83,   250,    16,   251,   273,   198,
      554,   198,   556,   215,    84,   274,    17,    85,    86,    87,
      562,    18,   564,    88,   261,   262,    20,    89,   532,   533,
      569,    90,   216,    21,   217,   218,   219,   386,   387,   388,
@@ -1476,43 +1478,49 @@ static const yytype_uint16 yytable[] =
       33,   411,   412,   413,    36,   416,    35,   419,   427,   428,
      429,   430,   431,    39,    40,   337,   338,   339,   340,   341,
      342,   343,   344,   345,   346,   347,    42,    43,   225,   399,
-      46,    47,    49,   445,   446,   447,    50,   357,   449,    53,
-      54,   453,    57,    60,    63,    64,    71,   112,   110,   113,
-     114,   115,   116,   117,   118,   119,   120,   373,   374,   375,
-     376,   377,   378,   379,   380,   381,   121,   122,   123,   124,
-     125,   126,   127,   128,   129,   130,   133,   131,   152,   156,
-     154,   159,   161,   184,   163,   180,   185,   188,   167,   186,
-     485,   173,   182,   192,   403,   404,   405,   406,   407,   189,
-     195,   196,   199,   212,   242,   213,   499,   238,   243,   246,
+      46,    47,    49,   445,   446,   447,   356,    50,   449,    54,
+      53,   453,    57,    60,    63,    64,    71,   131,   110,   112,
+     113,   114,   115,   116,   117,   118,   119,   373,   374,   375,
+     376,   377,   378,   379,   380,   381,   120,   121,   122,   123,
+     124,   125,   126,   127,   128,   129,   130,   133,   152,   154,
+     161,   159,   156,   182,   163,   180,   167,   184,   173,   185,
+     485,   186,   188,   192,   403,   404,   405,   406,   407,   189,
+     195,   196,   199,   212,   213,   238,   499,   242,   243,   246,
      249,   256,   258,   259,   263,   264,   285,   286,   287,   288,
      289,   290,   291,   292,   293,   294,   295,   296,   298,   302,
-     310,   307,   325,   327,   336,   328,   329,   330,   331,   332,
-     333,   334,   335,   348,   349,   350,   356,   358,   359,   360,
-     361,   364,   365,   366,   367,   368,   353,   369,   370,   372,
-     394,   409,   396,   414,   382,   384,   437,   417,   422,   391,
-     408,   434,   425,   436,   438,   444,   450,   454,   451,   456,
-     461,   469,   458,   459,   462,   471,   472,   473,   476,   487,
-     477,   490,   492,   496,   481,   497,   504,   506,   498,   523,
-     500,   511,   516,   513,   512,   503,   524,   529,   530,   528,
-     518,   526,   534,   536,   537,   539,   543,   546,   540,   548,
-     502,   551,   558,   553,   560,   566,   561,   559,    72,   563,
-     501,   567,   488,   568,   515,   549,   522,   393,    58,   570,
-     433,   483,   191,    62,   166,   247,   312,   401,   517,   420,
-     201,   179,   306,   305
+     310,   306,   325,   327,   336,   328,   329,   330,   331,   332,
+     333,   334,   335,   348,   349,   350,   357,   358,   359,   360,
+     361,   364,   365,   366,   367,   368,   369,   353,   370,   372,
+     394,   396,   417,   409,   382,   384,   437,   436,   422,   391,
+     408,   414,   425,   444,   438,   450,   434,   454,   451,   456,
+     461,   462,   469,   458,   459,   471,   472,   473,   476,   487,
+     477,   490,   492,   496,   497,   504,   500,   481,   513,   498,
+     506,   511,   516,   523,   512,   503,   524,   529,   534,   528,
+     518,   526,   536,   530,   537,   539,   543,   546,   540,   548,
+     502,   549,   551,   553,   560,   558,   561,   563,   559,   566,
+     501,   567,    72,   488,   515,   568,   522,   393,    58,   570,
+     433,   483,   191,    62,   166,   401,   247,   179,   201,     0,
+     305,   420,   517,   312,     0,   308
 };
 
-static const yytype_uint16 yycheck[] =
+#define yypact_value_is_default(yystate) \
+  ((yystate) == (-446))
+
+#define yytable_value_is_error(yytable_value) \
+  YYID (0)
+
+static const yytype_int16 yycheck[] =
 {
      110,   173,   398,   113,   114,   115,   116,   117,   118,   119,
      120,   121,   122,   123,   124,   125,   126,   127,   128,   129,
-     130,   241,   384,   468,   119,   245,   228,   151,   230,   382,
-     219,   305,   147,   171,   254,   136,     9,   226,   391,   177,
-     229,   142,   143,   144,   159,   146,   147,   148,     5,    13,
-       7,   170,   414,   242,   256,   257,   258,   176,     0,   276,
-     277,    95,   279,   425,   460,   254,   238,   284,   285,   422,
-     174,   195,   274,    10,   263,   179,   265,    11,   280,   268,
-       8,   301,   192,   357,   304,   172,   196,     6,   183,   199,
-     535,   178,   281,   282,   283,    47,    10,    49,   300,   164,
+     130,   241,   305,   468,   119,   245,   228,   151,   230,   384,
+     219,   147,   171,     9,   254,   382,   170,   226,   177,   136,
+     229,    13,   176,   159,   391,   142,   143,   144,    95,   146,
+     147,   148,   172,   242,   256,   257,   258,   174,   178,   414,
+     276,   277,   179,   279,   460,   254,   238,     0,   284,   285,
+     425,   195,   274,   356,   263,   422,   265,    11,   280,   268,
+      10,   301,   192,     5,   304,     7,   196,     8,   183,   199,
+     535,     6,   281,   282,   283,    47,    10,    49,   300,   164,
      545,   166,   547,   216,   293,   307,    10,   296,   297,   298,
      555,   117,   557,   302,   203,   204,    94,   306,   520,   521,
      565,   310,   235,     7,   237,   238,   239,   340,   341,   342,
@@ -1522,29 +1530,29 @@ static const yytype_uint16 yycheck[] =
      143,   374,   375,   376,     4,   378,   116,   380,   386,   387,
      388,   389,   390,     6,   141,   285,   286,   287,   288,   289,
      290,   291,   292,   293,   294,   295,   148,     4,   301,   361,
-       6,   145,   152,   411,   412,   413,     4,   307,   416,     6,
-     123,   419,   142,     6,   140,     4,   144,   122,     6,     6,
+       6,   145,   152,   411,   412,   413,   306,     4,   416,   123,
+       6,   419,   142,     6,   140,     4,   144,   150,     6,   122,
        6,     6,     6,     6,     6,     6,     6,   327,   328,   329,
      330,   331,   332,   333,   334,   335,     6,     6,     6,     6,
-       6,     6,     6,     6,     6,     6,   194,   150,   191,    87,
-     167,    73,   129,     6,   183,   193,     6,     6,   183,    55,
-     470,   183,   185,     6,   364,   365,   366,   367,   368,    85,
-       6,     6,     6,     6,     6,   191,   486,   183,    51,     6,
+       6,     6,     6,     6,     6,     6,     6,   194,   191,   167,
+     129,    73,    87,   185,   183,   193,   183,     6,   183,     6,
+     470,    55,     6,     6,   364,   365,   366,   367,   368,    85,
+       6,     6,     6,     6,   191,   183,   486,     6,    51,     6,
       72,   182,   182,   103,   182,     6,     6,     6,     6,     6,
        6,     6,     6,     6,     6,     6,     6,   184,     4,     6,
      173,     6,     4,     6,   190,     6,     6,     6,     6,     6,
        6,     6,     6,   182,   190,   166,    46,    48,   128,     6,
-     147,     6,     6,     6,     6,     6,    86,   102,     4,   192,
-      54,    19,    84,    19,    27,    15,     6,   187,    29,    31,
-     118,    50,    17,   146,   165,     6,     6,    26,   163,    14,
-       6,    18,    30,   172,   189,     6,    28,    16,     6,   158,
-     155,     6,   205,     6,    41,    18,     6,   211,   186,     6,
-     164,   162,   204,   207,   188,   154,   209,     6,   125,   210,
-     157,    71,    40,     6,   213,     6,     6,     6,    77,     6,
-     490,     4,     6,   206,     4,   124,   208,   156,    66,    70,
-     489,   212,   475,    76,   504,    79,   510,   346,    52,    78,
-     393,   467,   158,    55,   140,   191,   257,   363,   506,   381,
-     168,   149,   250,   248
+     147,     6,     6,     6,     6,     6,   102,    86,     4,   192,
+      54,    84,   187,    19,    27,    15,     6,   146,    29,    31,
+     118,    19,    17,     6,   165,     6,    50,    26,   163,    14,
+       6,   189,    18,    30,   172,     6,    28,    16,     6,   158,
+     155,     6,   205,     6,    18,     6,   164,    41,   207,   186,
+     211,   162,   204,     6,   188,   154,   209,     6,    40,   210,
+     157,    71,     6,   125,   213,     6,     6,     6,    77,     6,
+     490,    79,     4,   206,     4,     6,   208,    70,   156,   124,
+     489,   212,    66,   475,   504,    76,   510,   346,    52,    78,
+     393,   467,   158,    55,   140,   363,   191,   149,   168,    -1,
+     248,   381,   506,   257,    -1,   251
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -1576,17 +1584,17 @@ static const yytype_uint16 yystos[] =
      252,   253,   260,   261,   264,   301,   334,   430,   436,   437,
      438,   439,   441,   442,   447,   448,   450,   468,   183,   405,
      416,   400,     6,    51,   340,   354,     6,   340,   364,    72,
-      47,    49,   337,   339,   374,   364,   182,   364,   182,   103,
+      47,    49,   338,   339,   374,   364,   182,   364,   182,   103,
      363,   363,   363,   182,     6,   418,   228,   230,   256,   257,
      258,   274,   280,   300,   307,   330,   433,   435,   444,   445,
      446,   453,   457,   467,   471,     6,     6,     6,     6,     6,
        6,     6,     6,     6,     6,     6,   184,   382,     4,   317,
-     320,   343,     6,   320,   352,   409,   408,     6,   338,   320,
+     320,   343,     6,   320,   352,   409,     6,   337,   408,   320,
      173,   401,   401,   276,   277,   279,   284,   285,   375,   454,
      455,   456,   461,   462,   367,     4,   319,     6,     6,     6,
        6,     6,     6,     6,     6,     6,   190,   364,   364,   364,
      364,   364,   364,   364,   364,   364,   364,   364,   182,   190,
-     166,   320,   341,    86,   320,   405,    46,   364,    48,   128,
+     166,   320,   341,    86,   320,   405,   364,    46,    48,   128,
        6,   147,   383,   358,     6,     6,     6,     6,     6,   102,
        4,   321,   192,   364,   364,   364,   364,   364,   364,   364,
      364,   364,    27,   331,    15,   325,   325,   325,   325,   325,
@@ -1644,7 +1652,6 @@ do								\
     {								\
       yychar = (Token);						\
       yylval = (Value);						\
-      yytoken = YYTRANSLATE (yychar);				\
       YYPOPSTACK (1);						\
       goto yybackup;						\
     }								\
@@ -1686,19 +1693,10 @@ while (YYID (0))
 #endif
 
 
-/* YY_LOCATION_PRINT -- Print the location on the stream.
-   This macro was not mandated originally: define only if we know
-   we won't break user code: when these are the locations we know.  */
+/* This macro is provided for backward compatibility. */
 
 #ifndef YY_LOCATION_PRINT
-# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
-#  define YY_LOCATION_PRINT(File, Loc)			\
-     fprintf (File, "%d.%d-%d.%d",			\
-	      (Loc).first_line, (Loc).first_column,	\
-	      (Loc).last_line,  (Loc).last_column)
-# else
-#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-# endif
+# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 #endif
 
 
@@ -1890,7 +1888,6 @@ int yydebug;
 # define YYMAXDEPTH 10000
 #endif
 
-
 
 #if YYERROR_VERBOSE
 
@@ -1993,115 +1990,142 @@ yytnamerr (char *yyres, const char *yystr)
 }
 # endif
 
-/* Copy into YYRESULT an error message about the unexpected token
-   YYCHAR while in state YYSTATE.  Return the number of bytes copied,
-   including the terminating null byte.  If YYRESULT is null, do not
-   copy anything; just return the number of bytes that would be
-   copied.  As a special case, return 0 if an ordinary "syntax error"
-   message will do.  Return YYSIZE_MAXIMUM if overflow occurs during
-   size calculation.  */
-static YYSIZE_T
-yysyntax_error (char *yyresult, int yystate, int yychar)
+/* Copy into *YYMSG, which is of size *YYMSG_ALLOC, an error message
+   about the unexpected token YYTOKEN for the state stack whose top is
+   YYSSP.
+
+   Return 0 if *YYMSG was successfully written.  Return 1 if *YYMSG is
+   not large enough to hold the message.  In that case, also set
+   *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
+   required number of bytes is too large to store.  */
+static int
+yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+                yytype_int16 *yyssp, int yytoken)
 {
-  int yyn = yypact[yystate];
+  YYSIZE_T yysize0 = yytnamerr (0, yytname[yytoken]);
+  YYSIZE_T yysize = yysize0;
+  YYSIZE_T yysize1;
+  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+  /* Internationalized format string. */
+  const char *yyformat = 0;
+  /* Arguments of yyformat. */
+  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  /* Number of reported tokens (one for the "unexpected", one per
+     "expected"). */
+  int yycount = 0;
 
-  if (! (YYPACT_NINF < yyn && yyn <= YYLAST))
-    return 0;
-  else
+  /* There are many possibilities here to consider:
+     - Assume YYFAIL is not used.  It's too flawed to consider.  See
+       <http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html>
+       for details.  YYERROR is fine as it does not invoke this
+       function.
+     - If this state is a consistent state with a default action, then
+       the only way this function was invoked is if the default action
+       is an error action.  In that case, don't check for expected
+       tokens because there are none.
+     - The only way there can be no lookahead present (in yychar) is if
+       this state is a consistent state with a default action.  Thus,
+       detecting the absence of a lookahead is sufficient to determine
+       that there is no unexpected or expected token to report.  In that
+       case, just report a simple "syntax error".
+     - Don't assume there isn't a lookahead just because this state is a
+       consistent state with a default action.  There might have been a
+       previous inconsistent state, consistent state with a non-default
+       action, or user semantic action that manipulated yychar.
+     - Of course, the expected token list depends on states to have
+       correct lookahead information, and it depends on the parser not
+       to perform extra reductions after fetching a lookahead from the
+       scanner and before detecting a syntax error.  Thus, state merging
+       (from LALR or IELR) and default reductions corrupt the expected
+       token list.  However, the list is correct for canonical LR with
+       one exception: it will still contain any token that will not be
+       accepted due to an error action in a later state.
+  */
+  if (yytoken != YYEMPTY)
     {
-      int yytype = YYTRANSLATE (yychar);
-      YYSIZE_T yysize0 = yytnamerr (0, yytname[yytype]);
-      YYSIZE_T yysize = yysize0;
-      YYSIZE_T yysize1;
-      int yysize_overflow = 0;
-      enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-      char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-      int yyx;
+      int yyn = yypact[*yyssp];
+      yyarg[yycount++] = yytname[yytoken];
+      if (!yypact_value_is_default (yyn))
+        {
+          /* Start YYX at -YYN if negative to avoid negative indexes in
+             YYCHECK.  In other words, skip the first -YYN actions for
+             this state because they are default actions.  */
+          int yyxbegin = yyn < 0 ? -yyn : 0;
+          /* Stay within bounds of both yycheck and yytname.  */
+          int yychecklim = YYLAST - yyn + 1;
+          int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+          int yyx;
 
-# if 0
-      /* This is so xgettext sees the translatable formats that are
-	 constructed on the fly.  */
-      YY_("syntax error, unexpected %s");
-      YY_("syntax error, unexpected %s, expecting %s");
-      YY_("syntax error, unexpected %s, expecting %s or %s");
-      YY_("syntax error, unexpected %s, expecting %s or %s or %s");
-      YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s");
-# endif
-      char *yyfmt;
-      char const *yyf;
-      static char const yyunexpected[] = "syntax error, unexpected %s";
-      static char const yyexpecting[] = ", expecting %s";
-      static char const yyor[] = " or %s";
-      char yyformat[sizeof yyunexpected
-		    + sizeof yyexpecting - 1
-		    + ((YYERROR_VERBOSE_ARGS_MAXIMUM - 2)
-		       * (sizeof yyor - 1))];
-      char const *yyprefix = yyexpecting;
-
-      /* Start YYX at -YYN if negative to avoid negative indexes in
-	 YYCHECK.  */
-      int yyxbegin = yyn < 0 ? -yyn : 0;
-
-      /* Stay within bounds of both yycheck and yytname.  */
-      int yychecklim = YYLAST - yyn + 1;
-      int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-      int yycount = 1;
-
-      yyarg[0] = yytname[yytype];
-      yyfmt = yystpcpy (yyformat, yyunexpected);
-
-      for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-	if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	  {
-	    if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-	      {
-		yycount = 1;
-		yysize = yysize0;
-		yyformat[sizeof yyunexpected - 1] = '\0';
-		break;
-	      }
-	    yyarg[yycount++] = yytname[yyx];
-	    yysize1 = yysize + yytnamerr (0, yytname[yyx]);
-	    yysize_overflow |= (yysize1 < yysize);
-	    yysize = yysize1;
-	    yyfmt = yystpcpy (yyfmt, yyprefix);
-	    yyprefix = yyor;
-	  }
-
-      yyf = YY_(yyformat);
-      yysize1 = yysize + yystrlen (yyf);
-      yysize_overflow |= (yysize1 < yysize);
-      yysize = yysize1;
-
-      if (yysize_overflow)
-	return YYSIZE_MAXIMUM;
-
-      if (yyresult)
-	{
-	  /* Avoid sprintf, as that infringes on the user's name space.
-	     Don't have undefined behavior even if the translation
-	     produced a string with the wrong number of "%s"s.  */
-	  char *yyp = yyresult;
-	  int yyi = 0;
-	  while ((*yyp = *yyf) != '\0')
-	    {
-	      if (*yyp == '%' && yyf[1] == 's' && yyi < yycount)
-		{
-		  yyp += yytnamerr (yyp, yyarg[yyi++]);
-		  yyf += 2;
-		}
-	      else
-		{
-		  yyp++;
-		  yyf++;
-		}
-	    }
-	}
-      return yysize;
+          for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+            if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR
+                && !yytable_value_is_error (yytable[yyx + yyn]))
+              {
+                if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+                  {
+                    yycount = 1;
+                    yysize = yysize0;
+                    break;
+                  }
+                yyarg[yycount++] = yytname[yyx];
+                yysize1 = yysize + yytnamerr (0, yytname[yyx]);
+                if (! (yysize <= yysize1
+                       && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+                  return 2;
+                yysize = yysize1;
+              }
+        }
     }
+
+  switch (yycount)
+    {
+# define YYCASE_(N, S)                      \
+      case N:                               \
+        yyformat = S;                       \
+      break
+      YYCASE_(0, YY_("syntax error"));
+      YYCASE_(1, YY_("syntax error, unexpected %s"));
+      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
+      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+# undef YYCASE_
+    }
+
+  yysize1 = yysize + yystrlen (yyformat);
+  if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+    return 2;
+  yysize = yysize1;
+
+  if (*yymsg_alloc < yysize)
+    {
+      *yymsg_alloc = 2 * yysize;
+      if (! (yysize <= *yymsg_alloc
+             && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
+        *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
+      return 1;
+    }
+
+  /* Avoid sprintf, as that infringes on the user's name space.
+     Don't have undefined behavior even if the translation
+     produced a string with the wrong number of "%s"s.  */
+  {
+    char *yyp = *yymsg;
+    int yyi = 0;
+    while ((*yyp = *yyformat) != '\0')
+      if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount)
+        {
+          yyp += yytnamerr (yyp, yyarg[yyi++]);
+          yyformat += 2;
+        }
+      else
+        {
+          yyp++;
+          yyformat++;
+        }
+  }
+  return 0;
 }
 #endif /* YYERROR_VERBOSE */
-
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -2134,6 +2158,7 @@ yydestruct (yymsg, yytype, yyvaluep)
     }
 }
 
+
 /* Prevent warnings from -Wmissing-prototypes.  */
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
@@ -2160,10 +2185,9 @@ YYSTYPE yylval;
 int yynerrs;
 
 
-
-/*-------------------------.
-| yyparse or yypush_parse.  |
-`-------------------------*/
+/*----------.
+| yyparse.  |
+`----------*/
 
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
@@ -2187,8 +2211,6 @@ yyparse ()
 #endif
 #endif
 {
-
-
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
@@ -2343,7 +2365,7 @@ yybackup:
 
   /* First try to decide what to do without reference to lookahead token.  */
   yyn = yypact[yystate];
-  if (yyn == YYPACT_NINF)
+  if (yypact_value_is_default (yyn))
     goto yydefault;
 
   /* Not known => get a lookahead token if don't already have one.  */
@@ -2374,8 +2396,8 @@ yybackup:
   yyn = yytable[yyn];
   if (yyn <= 0)
     {
-      if (yyn == 0 || yyn == YYTABLE_NINF)
-	goto yyerrlab;
+      if (yytable_value_is_error (yyn))
+        goto yyerrlab;
       yyn = -yyn;
       goto yyreduce;
     }
@@ -2434,18 +2456,18 @@ yyreduce:
 	   KittingPlanTree = (yyval.KittingPlanFileVal);
 	   if (XmlIDREF::idMissing())
 	     yyerror("xs:ID missing for xs:IDREF");
-	  ;}
+	  }
     break;
 
   case 3:
 
-    {(yyval.XmlHeaderForKittingPlanVal) = new XmlHeaderForKittingPlan((yyvsp[(2) - (2)].SchemaLocationVal));;}
+    {(yyval.XmlHeaderForKittingPlanVal) = new XmlHeaderForKittingPlan((yyvsp[(2) - (2)].SchemaLocationVal));}
     break;
 
   case 4:
 
     {(yyval.SchemaLocationVal) = new SchemaLocation("xsi", (yyvsp[(2) - (2)].sVal), false);
-	  ;}
+	  }
     break;
 
   case 5:
@@ -2453,7 +2475,7 @@ yyreduce:
     {(yyval.XmlDateTimeVal) = new XmlDateTime((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlDateTimeVal)->bad)
 	     yyerror("bad XmlDateTime");
-	  ;}
+	  }
     break;
 
   case 6:
@@ -2461,7 +2483,7 @@ yyreduce:
     {(yyval.XmlDecimalVal) = new XmlDecimal((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlDecimalVal)->bad)
 	     yyerror("bad XmlDecimal");
-	  ;}
+	  }
     break;
 
   case 7:
@@ -2469,7 +2491,7 @@ yyreduce:
     {(yyval.XmlIDVal) = new XmlID((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlIDVal)->bad)
 	     yyerror("bad XmlID");
-	  ;}
+	  }
     break;
 
   case 8:
@@ -2477,7 +2499,7 @@ yyreduce:
     {(yyval.XmlIDREFVal) = new XmlIDREF((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlIDREFVal)->bad)
 	     yyerror("bad XmlIDREF");
-	  ;}
+	  }
     break;
 
   case 9:
@@ -2485,7 +2507,7 @@ yyreduce:
     {(yyval.XmlNMTOKENVal) = new XmlNMTOKEN((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlNMTOKENVal)->bad)
 	     yyerror("bad XmlNMTOKEN");
-	  ;}
+	  }
     break;
 
   case 10:
@@ -2493,7 +2515,7 @@ yyreduce:
     {(yyval.XmlPositiveIntegerVal) = new XmlPositiveInteger((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlPositiveIntegerVal)->bad)
 	     yyerror("bad XmlPositiveInteger");
-	  ;}
+	  }
     break;
 
   case 11:
@@ -2501,7 +2523,7 @@ yyreduce:
     {(yyval.XmlStringVal) = new XmlString((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlStringVal)->bad)
 	     yyerror("bad XmlString");
-	  ;}
+	  }
     break;
 
   case 12:
@@ -2509,7 +2531,7 @@ yyreduce:
     {(yyval.XmlTokenVal) = new XmlToken((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlTokenVal)->bad)
 	     yyerror("bad XmlToken");
-	  ;}
+	  }
     break;
 
   case 13:
@@ -2517,7 +2539,7 @@ yyreduce:
     {(yyval.XmlVersionVal) = new XmlVersion(false);
 	   if (strcmp((yyvsp[(3) - (4)].sVal), "1.0"))
 	     yyerror("version number must be 1.0");
-	  ;}
+	  }
     break;
 
   case 14:
@@ -2527,388 +2549,388 @@ yyreduce:
 	     yyerror("version number must be 1.0");
 	   else if (strcmp((yyvsp[(5) - (6)].sVal), "UTF-8"))
 	     yyerror("encoding must be UTF-8");
-	  ;}
+	  }
     break;
 
   case 15:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);}
     break;
 
   case 16:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);}
     break;
 
   case 17:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);}
     break;
 
   case 18:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 19:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 20:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].DecimalTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].DecimalTypeVal);}
     break;
 
   case 21:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].DivTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].DivTypeVal);}
     break;
 
   case 22:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].MinusTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].MinusTypeVal);}
     break;
 
   case 23:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].ModTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].ModTypeVal);}
     break;
 
   case 24:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].NegateTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].NegateTypeVal);}
     break;
 
   case 25:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].PlusTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].PlusTypeVal);}
     break;
 
   case 26:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].PropValTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].PropValTypeVal);}
     break;
 
   case 27:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].TimesTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].TimesTypeVal);}
     break;
 
   case 28:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].VarValTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(1) - (1)].VarValTypeVal);}
     break;
 
   case 29:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);}
     break;
 
   case 30:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);}
     break;
 
   case 31:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);}
     break;
 
   case 32:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].AndTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].AndTypeVal);}
     break;
 
   case 33:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].EqualTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].EqualTypeVal);}
     break;
 
   case 34:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].FalseTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].FalseTypeVal);}
     break;
 
   case 35:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].GreaterOrEqualTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].GreaterOrEqualTypeVal);}
     break;
 
   case 36:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].GreaterTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].GreaterTypeVal);}
     break;
 
   case 37:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].LessOrEqualTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].LessOrEqualTypeVal);}
     break;
 
   case 38:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].LessTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].LessTypeVal);}
     break;
 
   case 39:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].NotEqualTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].NotEqualTypeVal);}
     break;
 
   case 40:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].NotTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].NotTypeVal);}
     break;
 
   case 41:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].OrTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].OrTypeVal);}
     break;
 
   case 42:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].TrueTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(1) - (1)].TrueTypeVal);}
     break;
 
   case 43:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 44:
 
-    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);;}
+    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);}
     break;
 
   case 45:
 
-    {(yyval.TestAndStepTypeVal) = (yyvsp[(2) - (3)].TestAndStepTypeVal);;}
+    {(yyval.ElseDoTypeVal) = new ElseDoType((yyvsp[(2) - (3)].XmlIDVal), (yyvsp[(3) - (3)].PlanElementBaseTypeVal));}
     break;
 
   case 46:
 
-    {(yyval.ElseTypeVal) = new ElseType((yyvsp[(2) - (3)].XmlIDVal), (yyvsp[(3) - (3)].PlanElementBaseTypeVal));;}
+    {(yyval.ElseDoTypeVal) = 0;}
     break;
 
   case 47:
 
-    {(yyval.ElseTypeVal) = 0;;}
+    {(yyval.ElseDoTypeVal) = (yyvsp[(2) - (3)].ElseDoTypeVal);}
     break;
 
   case 48:
 
-    {(yyval.ElseTypeVal) = (yyvsp[(2) - (3)].ElseTypeVal);;}
+    {(yyval.TestAndStepTypeVal) = (yyvsp[(2) - (3)].TestAndStepTypeVal);}
     break;
 
   case 49:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 50:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 51:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 52:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 53:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 54:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 55:
 
-    {(yyval.TestAndStepTypeVal) = (yyvsp[(2) - (3)].TestAndStepTypeVal);;}
+    {(yyval.TestAndStepTypeVal) = (yyvsp[(2) - (3)].TestAndStepTypeVal);}
     break;
 
   case 56:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 57:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 58:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 59:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 60:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 61:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 62:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 63:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 64:
 
-    {(yyval.KittingPlanTypeVal) = new KittingPlanType((yyvsp[(2) - (10)].XmlIDVal), (yyvsp[(3) - (10)].XmlNMTOKENVal), (yyvsp[(4) - (10)].XmlTokenVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].XmlTokenVal), (yyvsp[(7) - (10)].XmlStringVal), (yyvsp[(8) - (10)].ListXmlIDVal), (yyvsp[(9) - (10)].ListVariableDeclarationTypeVal), (yyvsp[(10) - (10)].PlanElementBaseTypeVal));;}
+    {(yyval.KittingPlanTypeVal) = new KittingPlanType((yyvsp[(2) - (10)].XmlIDVal), (yyvsp[(3) - (10)].XmlNMTOKENVal), (yyvsp[(4) - (10)].XmlTokenVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].XmlTokenVal), (yyvsp[(7) - (10)].XmlStringVal), (yyvsp[(8) - (10)].ListXmlIDVal), (yyvsp[(9) - (10)].ListVariableDeclarationTypeVal), (yyvsp[(10) - (10)].PlanElementBaseTypeVal));}
     break;
 
   case 65:
 
-    {(yyval.ListTestAndStepTypeVal) = new std::list<TestAndStepType *>;;}
+    {(yyval.ListTestAndStepTypeVal) = new std::list<TestAndStepType *>;}
     break;
 
   case 66:
 
     {(yyval.ListTestAndStepTypeVal) = (yyvsp[(1) - (2)].ListTestAndStepTypeVal);
-	   (yyval.ListTestAndStepTypeVal)->push_back((yyvsp[(2) - (2)].TestAndStepTypeVal));;}
+	   (yyval.ListTestAndStepTypeVal)->push_back((yyvsp[(2) - (2)].TestAndStepTypeVal));}
     break;
 
   case 67:
 
     {(yyval.ListXmlIDVal) = (yyvsp[(1) - (2)].ListXmlIDVal);
-	   (yyval.ListXmlIDVal)->push_back((yyvsp[(2) - (2)].XmlIDVal));;}
+	   (yyval.ListXmlIDVal)->push_back((yyvsp[(2) - (2)].XmlIDVal));}
     break;
 
   case 68:
 
     {(yyval.ListXmlIDVal) = new std::list<XmlID *>;
-	   (yyval.ListXmlIDVal)->push_back((yyvsp[(1) - (1)].XmlIDVal));;}
+	   (yyval.ListXmlIDVal)->push_back((yyvsp[(1) - (1)].XmlIDVal));}
     break;
 
   case 69:
 
-    {(yyval.ListXmlPositiveIntegerVal) = new std::list<XmlPositiveInteger *>;;}
+    {(yyval.ListXmlPositiveIntegerVal) = new std::list<XmlPositiveInteger *>;}
     break;
 
   case 70:
 
     {(yyval.ListXmlPositiveIntegerVal) = (yyvsp[(1) - (2)].ListXmlPositiveIntegerVal);
-	   (yyval.ListXmlPositiveIntegerVal)->push_back((yyvsp[(2) - (2)].XmlPositiveIntegerVal));;}
+	   (yyval.ListXmlPositiveIntegerVal)->push_back((yyvsp[(2) - (2)].XmlPositiveIntegerVal));}
     break;
 
   case 71:
 
     {(yyval.ListNumberedPlanElementTypeVal) = (yyvsp[(1) - (2)].ListNumberedPlanElementTypeVal);
-	   (yyval.ListNumberedPlanElementTypeVal)->push_back((yyvsp[(2) - (2)].NumberedPlanElementTypeVal));;}
+	   (yyval.ListNumberedPlanElementTypeVal)->push_back((yyvsp[(2) - (2)].NumberedPlanElementTypeVal));}
     break;
 
   case 72:
 
     {(yyval.ListNumberedPlanElementTypeVal) = new std::list<NumberedPlanElementType *>;
-	   (yyval.ListNumberedPlanElementTypeVal)->push_back((yyvsp[(1) - (1)].NumberedPlanElementTypeVal));;}
+	   (yyval.ListNumberedPlanElementTypeVal)->push_back((yyvsp[(1) - (1)].NumberedPlanElementTypeVal));}
     break;
 
   case 73:
 
     {(yyval.ListPlanElementBaseTypeVal) = (yyvsp[(1) - (2)].ListPlanElementBaseTypeVal);
-	   (yyval.ListPlanElementBaseTypeVal)->push_back((yyvsp[(2) - (2)].PlanElementBaseTypeVal));;}
+	   (yyval.ListPlanElementBaseTypeVal)->push_back((yyvsp[(2) - (2)].PlanElementBaseTypeVal));}
     break;
 
   case 74:
 
     {(yyval.ListPlanElementBaseTypeVal) = new std::list<PlanElementBaseType *>;
-	   (yyval.ListPlanElementBaseTypeVal)->push_back((yyvsp[(1) - (1)].PlanElementBaseTypeVal));;}
+	   (yyval.ListPlanElementBaseTypeVal)->push_back((yyvsp[(1) - (1)].PlanElementBaseTypeVal));}
     break;
 
   case 75:
 
     {(yyval.ListStepWithPredecessorsTypeVal) = (yyvsp[(1) - (2)].ListStepWithPredecessorsTypeVal);
-	   (yyval.ListStepWithPredecessorsTypeVal)->push_back((yyvsp[(2) - (2)].StepWithPredecessorsTypeVal));;}
+	   (yyval.ListStepWithPredecessorsTypeVal)->push_back((yyvsp[(2) - (2)].StepWithPredecessorsTypeVal));}
     break;
 
   case 76:
 
     {(yyval.ListStepWithPredecessorsTypeVal) = new std::list<StepWithPredecessorsType *>;
-	   (yyval.ListStepWithPredecessorsTypeVal)->push_back((yyvsp[(1) - (1)].StepWithPredecessorsTypeVal));;}
+	   (yyval.ListStepWithPredecessorsTypeVal)->push_back((yyvsp[(1) - (1)].StepWithPredecessorsTypeVal));}
     break;
 
   case 77:
 
-    {(yyval.ListVariableDeclarationTypeVal) = new std::list<VariableDeclarationType *>;;}
+    {(yyval.ListVariableDeclarationTypeVal) = new std::list<VariableDeclarationType *>;}
     break;
 
   case 78:
 
     {(yyval.ListVariableDeclarationTypeVal) = (yyvsp[(1) - (2)].ListVariableDeclarationTypeVal);
-	   (yyval.ListVariableDeclarationTypeVal)->push_back((yyvsp[(2) - (2)].VariableDeclarationTypeVal));;}
+	   (yyval.ListVariableDeclarationTypeVal)->push_back((yyvsp[(2) - (2)].VariableDeclarationTypeVal));}
     break;
 
   case 79:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(2) - (3)].PhysicalLocationTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(2) - (3)].PhysicalLocationTypeVal);}
     break;
 
   case 80:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 81:
 
-    {(yyval.XmlIDVal) = (yyvsp[(4) - (5)].XmlIDVal);;}
+    {(yyval.XmlIDVal) = (yyvsp[(4) - (5)].XmlIDVal);}
     break;
 
   case 82:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 83:
 
-    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);;}
+    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);}
     break;
 
   case 84:
 
-    {(yyval.NumberedPlanElementTypeVal) = new NumberedPlanElementType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].XmlPositiveIntegerVal), (yyvsp[(4) - (4)].PlanElementBaseTypeVal));;}
+    {(yyval.NumberedPlanElementTypeVal) = new NumberedPlanElementType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].XmlPositiveIntegerVal), (yyvsp[(4) - (4)].PlanElementBaseTypeVal));}
     break;
 
   case 85:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 86:
 
-    {(yyval.XmlIDVal) = (yyvsp[(4) - (5)].XmlIDVal);;}
+    {(yyval.XmlIDVal) = (yyvsp[(4) - (5)].XmlIDVal);}
     break;
 
   case 87:
 
-    {(yyval.PositiveDecimalTypeVal) = 0;;}
+    {(yyval.PositiveDecimalTypeVal) = 0;}
     break;
 
   case 88:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 89:
@@ -2916,212 +2938,212 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad OrientationStandardDeviation value");
-	  ;}
+	  }
     break;
 
   case 90:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 91:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 92:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationInTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationInTypeVal);}
     break;
 
   case 93:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationOnTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationOnTypeVal);}
     break;
 
   case 94:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseOnlyLocationTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseOnlyLocationTypeVal);}
     break;
 
   case 95:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationInTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationInTypeVal);}
     break;
 
   case 96:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationOnTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationOnTypeVal);}
     break;
 
   case 97:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 98:
 
-    {(yyval.XmlTokenVal) = (yyvsp[(4) - (5)].XmlTokenVal);;}
+    {(yyval.XmlTokenVal) = (yyvsp[(4) - (5)].XmlTokenVal);}
     break;
 
   case 99:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 100:
 
-    {(yyval.XmlDateTimeVal) = (yyvsp[(4) - (5)].XmlDateTimeVal);;}
+    {(yyval.XmlDateTimeVal) = (yyvsp[(4) - (5)].XmlDateTimeVal);}
     break;
 
   case 101:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 102:
 
-    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);;}
+    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);}
     break;
 
   case 103:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].AttachEndEffectorTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].AttachEndEffectorTypeVal);}
     break;
 
   case 104:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].CreateKitTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].CreateKitTypeVal);}
     break;
 
   case 105:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].DetachEndEffectorTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].DetachEndEffectorTypeVal);}
     break;
 
   case 106:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].IfActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].IfActionGroupTypeVal);}
     break;
 
   case 107:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].LocatePartTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].LocatePartTypeVal);}
     break;
 
   case 108:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].OneOfActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].OneOfActionGroupTypeVal);}
     break;
 
   case 109:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].OrderedActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].OrderedActionGroupTypeVal);}
     break;
 
   case 110:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PartiallyOrderedActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PartiallyOrderedActionGroupTypeVal);}
     break;
 
   case 111:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PutKitTrayTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PutKitTrayTypeVal);}
     break;
 
   case 112:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PutKitTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PutKitTypeVal);}
     break;
 
   case 113:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PutPartTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].PutPartTypeVal);}
     break;
 
   case 114:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].SomeOfActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].SomeOfActionGroupTypeVal);}
     break;
 
   case 115:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].TakeKitTrayTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].TakeKitTrayTypeVal);}
     break;
 
   case 116:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].TakeKitTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].TakeKitTypeVal);}
     break;
 
   case 117:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].TakePartTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].TakePartTypeVal);}
     break;
 
   case 118:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].UnorderedActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].UnorderedActionGroupTypeVal);}
     break;
 
   case 119:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].VarSetTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].VarSetTypeVal);}
     break;
 
   case 120:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].WhileActionGroupTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(1) - (1)].WhileActionGroupTypeVal);}
     break;
 
   case 121:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);}
     break;
 
   case 122:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 123:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 124:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);}
     break;
 
   case 125:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 126:
 
-    {(yyval.XmlTokenVal) = (yyvsp[(4) - (5)].XmlTokenVal);;}
+    {(yyval.XmlTokenVal) = (yyvsp[(4) - (5)].XmlTokenVal);}
     break;
 
   case 127:
 
-    {(yyval.PointTypeVal) = new PointType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));;}
+    {(yyval.PointTypeVal) = new PointType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));}
     break;
 
   case 128:
 
-    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);;}
+    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);}
     break;
 
   case 129:
 
-    {(yyval.PositiveDecimalTypeVal) = 0;;}
+    {(yyval.PositiveDecimalTypeVal) = 0;}
     break;
 
   case 130:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 131:
@@ -3129,504 +3151,515 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad PositionStandardDeviation value");
-	  ;}
+	  }
     break;
 
   case 132:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 133:
 
-    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);;}
+    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);}
     break;
 
   case 134:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 135:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 136:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 137:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 138:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 139:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 140:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 141:
 
-    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);;}
+    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);}
     break;
 
   case 142:
 
-    {(yyval.StepWithPredecessorsTypeVal) = new StepWithPredecessorsType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlPositiveIntegerVal), (yyvsp[(4) - (5)].ListXmlPositiveIntegerVal), (yyvsp[(5) - (5)].PlanElementBaseTypeVal));;}
+    {(yyval.StepWithPredecessorsTypeVal) = new StepWithPredecessorsType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlPositiveIntegerVal), (yyvsp[(4) - (5)].ListXmlPositiveIntegerVal), (yyvsp[(5) - (5)].PlanElementBaseTypeVal));}
     break;
 
   case 143:
 
-    {(yyval.NumberedPlanElementTypeVal) = (yyvsp[(2) - (3)].NumberedPlanElementTypeVal);;}
+    {(yyval.NumberedPlanElementTypeVal) = (yyvsp[(2) - (3)].NumberedPlanElementTypeVal);}
     break;
 
   case 144:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);}
     break;
 
   case 145:
 
-    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);;}
+    {(yyval.PlanElementBaseTypeVal) = (yyvsp[(2) - (3)].PlanElementBaseTypeVal);}
     break;
 
   case 146:
 
-    {(yyval.StepWithPredecessorsTypeVal) = (yyvsp[(2) - (3)].StepWithPredecessorsTypeVal);;}
+    {(yyval.StepWithPredecessorsTypeVal) = (yyvsp[(2) - (3)].StepWithPredecessorsTypeVal);}
     break;
 
   case 147:
 
-    {(yyval.TestAndStepTypeVal) = new TestAndStepType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].BooleanExpressionTypeVal), (yyvsp[(4) - (4)].PlanElementBaseTypeVal));;}
+    {(yyval.TestAndStepTypeVal) = new TestAndStepType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].BooleanExpressionTypeVal), (yyvsp[(4) - (4)].PlanElementBaseTypeVal));}
     break;
 
   case 148:
 
-    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);;}
+    {(yyval.BooleanExpressionTypeVal) = (yyvsp[(2) - (3)].BooleanExpressionTypeVal);}
     break;
 
   case 149:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 150:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 151:
 
-    {(yyval.XmlDateTimeVal) = 0;;}
+    {(yyval.XmlDateTimeVal) = 0;}
     break;
 
   case 152:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 153:
 
-    {(yyval.XmlDateTimeVal) = (yyvsp[(4) - (5)].XmlDateTimeVal);;}
+    {(yyval.XmlDateTimeVal) = (yyvsp[(4) - (5)].XmlDateTimeVal);}
     break;
 
   case 154:
 
-    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);;}
+    {(yyval.ArithmeticExpressionTypeVal) = (yyvsp[(2) - (3)].ArithmeticExpressionTypeVal);}
     break;
 
   case 155:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 156:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 157:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 158:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 159:
 
-    {(yyval.VariableDeclarationTypeVal) = new VariableDeclarationType((yyvsp[(2) - (3)].XmlIDVal), (yyvsp[(3) - (3)].XmlDecimalVal));;}
+    {(yyval.VariableDeclarationTypeVal) = new VariableDeclarationType((yyvsp[(2) - (3)].XmlIDVal), (yyvsp[(3) - (3)].XmlDecimalVal));}
     break;
 
   case 160:
 
-    {(yyval.VariableDeclarationTypeVal) = (yyvsp[(2) - (3)].VariableDeclarationTypeVal);;}
+    {(yyval.VariableDeclarationTypeVal) = (yyvsp[(2) - (3)].VariableDeclarationTypeVal);}
     break;
 
   case 161:
 
-    {(yyval.VectorTypeVal) = new VectorType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));;}
+    {(yyval.VectorTypeVal) = new VectorType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));}
     break;
 
   case 162:
 
-    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);;}
+    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);}
     break;
 
   case 163:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 164:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 165:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 166:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 167:
 
-    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);;}
+    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);}
     break;
 
   case 168:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 169:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 170:
 
     {(yyval.AndTypeVal) = new AndType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].BooleanExpressionTypeVal), (yyvsp[(5) - (5)].BooleanExpressionTypeVal));
 	   (yyval.AndTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 171:
 
     {(yyval.AttachEndEffectorTypeVal) = new AttachEndEffectorType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlNMTOKENVal), (yyvsp[(5) - (6)].XmlNMTOKENVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));
 	   (yyval.AttachEndEffectorTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 172:
 
     {(yyval.CreateKitTypeVal) = new CreateKitType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].XmlNMTOKENVal), (yyvsp[(5) - (5)].XmlNMTOKENVal));
 	   (yyval.CreateKitTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 173:
 
     {(yyval.DecimalTypeVal) = new DecimalType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].XmlDecimalVal));
 	   (yyval.DecimalTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 174:
 
     {(yyval.DetachEndEffectorTypeVal) = new DetachEndEffectorType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlNMTOKENVal), (yyvsp[(5) - (6)].XmlNMTOKENVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));
 	   (yyval.DetachEndEffectorTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 175:
 
     {(yyval.DivTypeVal) = new DivType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.DivTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 176:
 
     {(yyval.EqualTypeVal) = new EqualType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.EqualTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 177:
 
     {(yyval.FalseTypeVal) = new FalseType((yyvsp[(3) - (3)].XmlIDVal));
 	   (yyval.FalseTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 178:
 
     {(yyval.GreaterOrEqualTypeVal) = new GreaterOrEqualType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.GreaterOrEqualTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 179:
 
     {(yyval.GreaterTypeVal) = new GreaterType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.GreaterTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 180:
 
-    {(yyval.IfActionGroupTypeVal) = new IfActionGroupType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].TestAndStepTypeVal), (yyvsp[(5) - (6)].ListTestAndStepTypeVal), (yyvsp[(6) - (6)].ElseTypeVal));
+    {(yyval.IfActionGroupTypeVal) = new IfActionGroupType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].TestAndStepTypeVal), (yyvsp[(5) - (6)].ListTestAndStepTypeVal), (yyvsp[(6) - (6)].ElseDoTypeVal));
 	   (yyval.IfActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 181:
 
     {(yyval.LessOrEqualTypeVal) = new LessOrEqualType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.LessOrEqualTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 182:
 
     {(yyval.LessTypeVal) = new LessType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.LessTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 183:
 
     {(yyval.LocatePartTypeVal) = new LocatePartType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].XmlNMTOKENVal));
 	   (yyval.LocatePartTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 184:
 
     {(yyval.MinusTypeVal) = new MinusType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.MinusTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 185:
 
     {(yyval.ModTypeVal) = new ModType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.ModTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 186:
 
     {(yyval.NegateTypeVal) = new NegateType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].ArithmeticExpressionTypeVal));
 	   (yyval.NegateTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 187:
 
     {(yyval.NotEqualTypeVal) = new NotEqualType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.NotEqualTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 188:
 
     {(yyval.NotTypeVal) = new NotType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].BooleanExpressionTypeVal));
 	   (yyval.NotTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 189:
 
     {(yyval.OneOfActionGroupTypeVal) = new OneOfActionGroupType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].ListNumberedPlanElementTypeVal));
 	   (yyval.OneOfActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 190:
 
     {(yyval.OrTypeVal) = new OrType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].BooleanExpressionTypeVal), (yyvsp[(5) - (5)].BooleanExpressionTypeVal));
 	   (yyval.OrTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 191:
 
     {(yyval.OrderedActionGroupTypeVal) = new OrderedActionGroupType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].ListNumberedPlanElementTypeVal));
 	   (yyval.OrderedActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 192:
 
     {(yyval.PartiallyOrderedActionGroupTypeVal) = new PartiallyOrderedActionGroupType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].ListStepWithPredecessorsTypeVal));
 	   (yyval.PartiallyOrderedActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 193:
 
     {(yyval.PlusTypeVal) = new PlusType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.PlusTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 194:
 
     {(yyval.PoseLocationInTypeVal) = new PoseLocationInType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].XmlIDREFVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].PointTypeVal), (yyvsp[(7) - (10)].VectorTypeVal), (yyvsp[(8) - (10)].VectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].PositiveDecimalTypeVal));
 	   (yyval.PoseLocationInTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 195:
 
     {(yyval.PoseLocationOnTypeVal) = new PoseLocationOnType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].XmlIDREFVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].PointTypeVal), (yyvsp[(7) - (10)].VectorTypeVal), (yyvsp[(8) - (10)].VectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].PositiveDecimalTypeVal));
 	   (yyval.PoseLocationOnTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 196:
 
     {(yyval.PoseOnlyLocationTypeVal) = new PoseOnlyLocationType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].XmlIDREFVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].PointTypeVal), (yyvsp[(7) - (10)].VectorTypeVal), (yyvsp[(8) - (10)].VectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].PositiveDecimalTypeVal));
 	   (yyval.PoseOnlyLocationTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 197:
 
     {(yyval.PropValTypeVal) = new PropValType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].XmlNMTOKENVal), (yyvsp[(5) - (5)].XmlNMTOKENVal));
 	   (yyval.PropValTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 198:
 
     {(yyval.PutKitTrayTypeVal) = new PutKitTrayType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlNMTOKENVal), (yyvsp[(5) - (6)].XmlNMTOKENVal), (yyvsp[(6) - (6)].PhysicalLocationTypeVal));
 	   (yyval.PutKitTrayTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 199:
 
     {(yyval.PutKitTypeVal) = new PutKitType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlNMTOKENVal), (yyvsp[(5) - (6)].XmlNMTOKENVal), (yyvsp[(6) - (6)].PhysicalLocationTypeVal));
 	   (yyval.PutKitTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 200:
 
     {(yyval.PutPartTypeVal) = new PutPartType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlNMTOKENVal), (yyvsp[(5) - (6)].XmlNMTOKENVal), (yyvsp[(6) - (6)].PhysicalLocationTypeVal));
 	   (yyval.PutPartTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 201:
 
     {(yyval.RelativeLocationInTypeVal) = new RelativeLocationInType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlIDREFVal), (yyvsp[(5) - (6)].XmlDateTimeVal), (yyvsp[(6) - (6)].XmlStringVal));
 	   (yyval.RelativeLocationInTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 202:
 
     {(yyval.RelativeLocationOnTypeVal) = new RelativeLocationOnType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlIDREFVal), (yyvsp[(5) - (6)].XmlDateTimeVal), (yyvsp[(6) - (6)].XmlStringVal));
 	   (yyval.RelativeLocationOnTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 203:
 
     {(yyval.SomeOfActionGroupTypeVal) = new SomeOfActionGroupType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ListPlanElementBaseTypeVal), (yyvsp[(5) - (5)].XmlPositiveIntegerVal));
 	   (yyval.SomeOfActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 204:
 
     {(yyval.TakeKitTrayTypeVal) = new TakeKitTrayType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].XmlNMTOKENVal), (yyvsp[(5) - (5)].XmlNMTOKENVal));
 	   (yyval.TakeKitTrayTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 205:
 
     {(yyval.TakeKitTypeVal) = new TakeKitType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].XmlNMTOKENVal), (yyvsp[(5) - (5)].XmlNMTOKENVal));
 	   (yyval.TakeKitTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 206:
 
     {(yyval.TakePartTypeVal) = new TakePartType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].XmlNMTOKENVal), (yyvsp[(5) - (5)].XmlNMTOKENVal));
 	   (yyval.TakePartTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 207:
 
     {(yyval.TimesTypeVal) = new TimesType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].ArithmeticExpressionTypeVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.TimesTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 208:
 
     {(yyval.TrueTypeVal) = new TrueType((yyvsp[(3) - (3)].XmlIDVal));
 	   (yyval.TrueTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 209:
 
     {(yyval.UnorderedActionGroupTypeVal) = new UnorderedActionGroupType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].ListPlanElementBaseTypeVal));
 	   (yyval.UnorderedActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 210:
 
     {(yyval.VarSetTypeVal) = new VarSetType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].XmlIDREFVal), (yyvsp[(5) - (5)].ArithmeticExpressionTypeVal));
 	   (yyval.VarSetTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 211:
 
     {(yyval.VarValTypeVal) = new VarValType((yyvsp[(3) - (4)].XmlIDVal), (yyvsp[(4) - (4)].XmlIDREFVal));
 	   (yyval.VarValTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 212:
 
     {(yyval.WhileActionGroupTypeVal) = new WhileActionGroupType((yyvsp[(3) - (5)].XmlIDVal), (yyvsp[(4) - (5)].BooleanExpressionTypeVal), (yyvsp[(5) - (5)].PlanElementBaseTypeVal));
 	   (yyval.WhileActionGroupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
 
 
       default: break;
     }
+  /* User semantic actions sometimes alter yychar, and that requires
+     that yytoken be updated with the new translation.  We take the
+     approach of translating immediately before every use of yytoken.
+     One alternative is translating here after every semantic action,
+     but that translation would be missed if the semantic action invokes
+     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or
+     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an
+     incorrect destructor might then be invoked immediately.  In the
+     case of YYERROR or YYBACKUP, subsequent parser actions might lead
+     to an incorrect destructor call or verbose syntax error message
+     before the lookahead is translated.  */
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
 
   YYPOPSTACK (yylen);
@@ -3654,6 +3687,10 @@ yyreduce:
 | yyerrlab -- here on detecting error |
 `------------------------------------*/
 yyerrlab:
+  /* Make sure we have latest lookahead translation.  See comments at
+     user semantic actions for why this is necessary.  */
+  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
+
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
@@ -3661,37 +3698,36 @@ yyerrlab:
 #if ! YYERROR_VERBOSE
       yyerror (YY_("syntax error"));
 #else
+# define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
+                                        yyssp, yytoken)
       {
-	YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
-	if (yymsg_alloc < yysize && yymsg_alloc < YYSTACK_ALLOC_MAXIMUM)
-	  {
-	    YYSIZE_T yyalloc = 2 * yysize;
-	    if (! (yysize <= yyalloc && yyalloc <= YYSTACK_ALLOC_MAXIMUM))
-	      yyalloc = YYSTACK_ALLOC_MAXIMUM;
-	    if (yymsg != yymsgbuf)
-	      YYSTACK_FREE (yymsg);
-	    yymsg = (char *) YYSTACK_ALLOC (yyalloc);
-	    if (yymsg)
-	      yymsg_alloc = yyalloc;
-	    else
-	      {
-		yymsg = yymsgbuf;
-		yymsg_alloc = sizeof yymsgbuf;
-	      }
-	  }
-
-	if (0 < yysize && yysize <= yymsg_alloc)
-	  {
-	    (void) yysyntax_error (yymsg, yystate, yychar);
-	    yyerror (yymsg);
-	  }
-	else
-	  {
-	    yyerror (YY_("syntax error"));
-	    if (yysize != 0)
-	      goto yyexhaustedlab;
-	  }
+        char const *yymsgp = YY_("syntax error");
+        int yysyntax_error_status;
+        yysyntax_error_status = YYSYNTAX_ERROR;
+        if (yysyntax_error_status == 0)
+          yymsgp = yymsg;
+        else if (yysyntax_error_status == 1)
+          {
+            if (yymsg != yymsgbuf)
+              YYSTACK_FREE (yymsg);
+            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
+            if (!yymsg)
+              {
+                yymsg = yymsgbuf;
+                yymsg_alloc = sizeof yymsgbuf;
+                yysyntax_error_status = 2;
+              }
+            else
+              {
+                yysyntax_error_status = YYSYNTAX_ERROR;
+                yymsgp = yymsg;
+              }
+          }
+        yyerror (yymsgp);
+        if (yysyntax_error_status == 2)
+          goto yyexhaustedlab;
       }
+# undef YYSYNTAX_ERROR
 #endif
     }
 
@@ -3750,7 +3786,7 @@ yyerrlab1:
   for (;;)
     {
       yyn = yypact[yystate];
-      if (yyn != YYPACT_NINF)
+      if (!yypact_value_is_default (yyn))
 	{
 	  yyn += YYTERROR;
 	  if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
@@ -3809,8 +3845,13 @@ yyexhaustedlab:
 
 yyreturn:
   if (yychar != YYEMPTY)
-     yydestruct ("Cleanup: discarding lookahead",
-		 yytoken, &yylval);
+    {
+      /* Make sure we have latest lookahead translation.  See comments at
+         user semantic actions for why this is necessary.  */
+      yytoken = YYTRANSLATE (yychar);
+      yydestruct ("Cleanup: discarding lookahead",
+                  yytoken, &yylval);
+    }
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
   YYPOPSTACK (yylen);

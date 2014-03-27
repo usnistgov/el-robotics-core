@@ -1,5 +1,5 @@
-LINCOMPILE = /usr/bin/g++ -c -v -g -Wall
-LINLINK = /usr/bin/g++ -v 
+LINCOMPILE = /usr/bin/g++-4.6 -c -v -g -Wall
+LINLINK = /usr/bin/g++-4.6 -v 
 INCLUD = -I ../common/source
 
 bin/kittingWorkstationParser : ofiles/kittingWorkstationParser.o   \

@@ -1,7 +1,7 @@
 /*********************************************************************/
 
-#ifndef KITTING_OWL_HH
-#define KITTING_OWL_HH
+#ifndef KITTINGWORKSTATION_OWL_HH
+#define KITTINGWORKSTATION_OWL_HH
 #include <stdio.h>
 #include <list>
 #include "xmlSchemaInstance.hh"
@@ -1226,4 +1226,4 @@ public:
 
 /*********************************************************************/
 
-#endif // KITTING_OWL_HH
+#endif // KITTINGWORKSTATION_OWL_HH

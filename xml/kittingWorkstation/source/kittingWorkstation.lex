@@ -17,7 +17,7 @@ This ignores white space outside of meaningful strings of characters.
 #ifdef OWL
 #include "owlKittingWorkstationClasses.hh"
 #else
-#include "kittingWorkstationClasses.hh" // for classes ref'd in kittingYACC.hh
+#include "kittingWorkstationClasses.hh"
 #endif
 #include "kittingWorkstationYACC.hh"    // for tokens, yylval, etc.
 

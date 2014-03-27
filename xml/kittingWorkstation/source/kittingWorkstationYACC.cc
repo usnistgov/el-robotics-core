@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.4.3.  */
+/* A Bison parser, made by GNU Bison 2.5.  */
 
-/* Skeleton implementation for Bison's Yacc-like parsers in C
+/* Bison implementation for Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2009, 2010 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2011 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.3"
+#define YYBISON_VERSION "2.5"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -74,7 +73,7 @@
 #ifdef OWL
 #include "owlKittingWorkstationClasses.hh"
 #else
-#include "kittingWorkstationClasses.hh"   // for kitting classes
+#include "kittingWorkstationClasses.hh"
 #endif
 
 #define YYERROR_VERBOSE
@@ -509,11 +508,11 @@ YYID (yyi)
 #    define alloca _alloca
 #   else
 #    define YYSTACK_ALLOC alloca
-#    if ! defined _ALLOCA_H && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
+#    if ! defined _ALLOCA_H && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 #     include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#     ifndef _STDLIB_H
-#      define _STDLIB_H 1
+#     ifndef EXIT_SUCCESS
+#      define EXIT_SUCCESS 0
 #     endif
 #    endif
 #   endif
@@ -536,24 +535,24 @@ YYID (yyi)
 #  ifndef YYSTACK_ALLOC_MAXIMUM
 #   define YYSTACK_ALLOC_MAXIMUM YYSIZE_MAXIMUM
 #  endif
-#  if (defined __cplusplus && ! defined _STDLIB_H \
+#  if (defined __cplusplus && ! defined EXIT_SUCCESS \
        && ! ((defined YYMALLOC || defined malloc) \
 	     && (defined YYFREE || defined free)))
 #   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   ifndef _STDLIB_H
-#    define _STDLIB_H 1
+#   ifndef EXIT_SUCCESS
+#    define EXIT_SUCCESS 0
 #   endif
 #  endif
 #  ifndef YYMALLOC
 #   define YYMALLOC malloc
-#   if ! defined malloc && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
+#   if ! defined malloc && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 void *malloc (YYSIZE_T); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 #  ifndef YYFREE
 #   define YYFREE free
-#   if ! defined free && ! defined _STDLIB_H && (defined __STDC__ || defined __C99__FUNC__ \
+#   if ! defined free && ! defined EXIT_SUCCESS && (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
@@ -582,23 +581,7 @@ union yyalloc
      ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
-/* Copy COUNT objects from FROM to TO.  The source and destination do
-   not overlap.  */
-# ifndef YYCOPY
-#  if defined __GNUC__ && 1 < __GNUC__
-#   define YYCOPY(To, From, Count) \
-      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
-#  else
-#   define YYCOPY(To, From, Count)		\
-      do					\
-	{					\
-	  YYSIZE_T yyi;				\
-	  for (yyi = 0; yyi < (Count); yyi++)	\
-	    (To)[yyi] = (From)[yyi];		\
-	}					\
-      while (YYID (0))
-#  endif
-# endif
+# define YYCOPY_NEEDED 1
 
 /* Relocate STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
@@ -617,6 +600,26 @@ union yyalloc
     while (YYID (0))
 
 #endif
+
+#if defined YYCOPY_NEEDED && YYCOPY_NEEDED
+/* Copy COUNT objects from FROM to TO.  The source and destination do
+   not overlap.  */
+# ifndef YYCOPY
+#  if defined __GNUC__ && 1 < __GNUC__
+#   define YYCOPY(To, From, Count) \
+      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
+#  else
+#   define YYCOPY(To, From, Count)		\
+      do					\
+	{					\
+	  YYSIZE_T yyi;				\
+	  for (yyi = 0; yyi < (Count); yyi++)	\
+	    (To)[yyi] = (From)[yyi];		\
+	}					\
+      while (YYID (0))
+#  endif
+# endif
+#endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
@@ -847,9 +850,9 @@ static const yytype_uint16 yyrline[] =
     1217,  1219,  1221,  1223,  1225,  1227,  1229,  1231,  1233,  1235,
     1237,  1242,  1251,  1252,  1252,  1258,  1264,  1264,  1273,  1273,
     1281,  1281,  1289,  1294,  1299,  1299,  1304,  1304,  1309,  1314,
-    1314,  1319,  1329,  1339,  1352,  1364,  1378,  1389,  1399,  1412,
-    1428,  1440,  1453,  1463,  1474,  1484,  1496,  1508,  1519,  1530,
-    1541,  1550,  1559,  1573,  1589,  1604
+    1314,  1319,  1329,  1339,  1352,  1364,  1377,  1388,  1398,  1411,
+    1427,  1439,  1452,  1462,  1473,  1483,  1494,  1505,  1516,  1527,
+    1538,  1547,  1556,  1570,  1585,  1599
 };
 #endif
 
@@ -925,64 +928,61 @@ static const char *const yytname[] =
   "y_ArrayRadius_PositiveDecimalType", "$@3",
   "y_Base_MechanicalComponentType", "y_BoxVolumeType",
   "y_Capacity_XmlPositiveInteger", "$@4",
-  "y_ChangingStation_EndEffectorChangingStationType",
+  "y_ChangingStation_EndEffectorCha1001",
   "y_CupDiameter_PositiveDecimalType", "$@5", "y_Description_XmlString",
   "$@6", "y_DesignName_XmlIDREF", "$@7", "y_Diameter_PositiveDecimalType",
   "$@8", "y_EndEffectorChangingStationType", "y_EndEffectorHolderType",
-  "y_EndEffectorHolder_EndEffectorHolderType_u",
-  "y_EndEffectorName_XmlIDREF_0_u", "$@9", "y_EndEffectorTypeAny",
-  "y_EndEffector_EndEffectorType_0", "y_ExternalShapeType",
-  "y_ExternalShape_ExternalShapeType_0", "y_Finished_XmlBoolean", "$@10",
-  "y_GraspPose_PoseLocationType_0", "y_HasTop_XmlBoolean", "$@11",
-  "y_Height_PositiveDecimalType", "$@12", "y_HeldObject_SolidObjectType_0",
-  "y_I_XmlDecimal", "$@13", "y_InternalShapeTypeAny",
-  "y_InternalShape_InternalShapeType_0", "y_J_XmlDecimal", "$@14",
-  "y_K_XmlDecimal", "$@15", "y_KitDesignName_XmlIDREF", "$@16",
-  "y_KitDesignType", "y_KitDesign_KitDesignType_u",
-  "y_KitTraySkuName_XmlIDREF", "$@17", "y_KitTrayType",
-  "y_KitTray_KitTrayType", "y_KitTray_KitTrayType_0_u", "y_KitType",
-  "y_Kit_KitType_0_u", "y_KittingWorkstationType", "y_LargeContainerType",
-  "y_LargeContainer_LargeContainerType", "y_LengthUnit_LengthUnitType",
-  "$@18", "y_Length_PositiveDecimalType", "$@19",
-  "y_ListEndEffectorHolder_EndEffectorHolderType_u",
-  "y_ListEndEffectorName_XmlIDREF_0_u", "y_ListKitDesign_KitDesignType_u",
-  "y_ListKitTray_KitTrayType_0_u", "y_ListKit_KitType_0_u",
-  "y_ListObjectOnTable_SolidObjectType_0_u",
-  "y_ListObject_SolidObjectType_u",
+  "y_EndEffectorHolder_EndEffectorH1002", "y_EndEffectorName_XmlIDREF_0_u",
+  "$@9", "y_EndEffectorTypeAny", "y_EndEffector_EndEffectorType_0",
+  "y_ExternalShapeType", "y_ExternalShape_ExternalShapeType_0",
+  "y_Finished_XmlBoolean", "$@10", "y_GraspPose_PoseLocationType_0",
+  "y_HasTop_XmlBoolean", "$@11", "y_Height_PositiveDecimalType", "$@12",
+  "y_HeldObject_SolidObjectType_0", "y_I_XmlDecimal", "$@13",
+  "y_InternalShapeTypeAny", "y_InternalShape_InternalShapeType_0",
+  "y_J_XmlDecimal", "$@14", "y_K_XmlDecimal", "$@15",
+  "y_KitDesignName_XmlIDREF", "$@16", "y_KitDesignType",
+  "y_KitDesign_KitDesignType_1_u", "y_KitTraySkuName_XmlIDREF", "$@17",
+  "y_KitTrayType", "y_KitTray_KitTrayType", "y_KitTray_KitTrayType_0_u",
+  "y_KitType", "y_Kit_KitType_0_u", "y_KittingWorkstationType",
+  "y_LargeContainerType", "y_LargeContainer_LargeContainerType",
+  "y_LengthUnit_LengthUnitType", "$@18", "y_Length_PositiveDecimalType",
+  "$@19", "y_ListEndEffectorHolder_EndEffectorH1002",
+  "y_ListEndEffectorName_XmlIDREF_0_u",
+  "y_ListKitDesign_KitDesignType_1_u", "y_ListKitTray_KitTrayType_0_u",
+  "y_ListKit_KitType_0_u", "y_ListObjectOnTable_SolidObjectType_0_u",
+  "y_ListObject_SolidObjectType_1_u",
   "y_ListOtherObstacle_BoxVolumeType_0_u",
-  "y_ListPartRefAndPose_PartRefAndPoseType_u", "y_ListPart_PartType_0_u",
-  "y_ListSecondaryLocation_PhysicalLocationType_0_u",
-  "y_ListSku_StockKeepingUnitType_u", "y_ListSlot_SlotType_0_u",
-  "y_ListWorkVolume_BoxVolumeType_u",
-  "y_MaximumLoadWeight_PositiveDecimalType", "$@20",
+  "y_ListPartRefAndPose_PartRefAndPoseT1006", "y_ListPart_PartType_0_u",
+  "y_ListSecondaryLocation_PhysicalLoca1009",
+  "y_ListSku_StockKeepingUnitType_1_u", "y_ListSlot_SlotType_0_u",
+  "y_ListWorkVolume_BoxVolumeType_1_u",
+  "y_MaximumLoadWeight_PositiveDeci1004", "$@20",
   "y_MaximumPoint_PointType", "y_MechanicalComponentType",
   "y_MinimumPoint_PointType", "y_ModelFileName_XmlString", "$@21",
   "y_ModelFormatName_XmlString", "$@22", "y_ModelName_XmlString_0", "$@23",
   "y_Name_XmlID", "$@24", "y_ObjectOnTable_SolidObjectType_0_u",
-  "y_Object_SolidObjectType_u",
-  "y_OrientationStandardDeviation_PositiveDecimalType_0", "$@25",
-  "y_OtherObstacle_BoxVolumeType_0_u", "y_PartName_XmlIDREF_0", "$@26",
-  "y_PartQuantity_XmlNonNegativeInteger", "$@27",
+  "y_Object_SolidObjectType_1_u", "y_OrientationStandardDeviation_P1005",
+  "$@25", "y_OtherObstacle_BoxVolumeType_0_u", "y_PartName_XmlIDREF_0",
+  "$@26", "y_PartQuantity_XmlNonNegativeInteger", "$@27",
   "y_PartRefAndPoseName_XmlIDREF", "$@28", "y_PartRefAndPoseType",
-  "y_PartRefAndPose_PartRefAndPoseType_u", "y_PartSkuName_XmlIDREF",
-  "$@29", "y_PartType", "y_Part_PartType_0_u", "y_PhysicalLocationTypeAny",
+  "y_PartRefAndPose_PartRefAndPoseT1006", "y_PartSkuName_XmlIDREF", "$@29",
+  "y_PartType", "y_Part_PartType_0_u", "y_PhysicalLocationTypeAny",
   "y_PointType", "y_Point_PointType", "y_PoseLocationTypeAny",
-  "y_PositionStandardDeviation_PositiveDecimalType_0", "$@30",
-  "y_PrimaryLocation_PhysicalLocationType", "y_RefObjectName_XmlIDREF",
+  "y_PositionStandardDeviation_Posi1007", "$@30",
+  "y_PrimaryLocation_PhysicalLocati1008", "y_RefObjectName_XmlIDREF",
   "$@31", "y_RobotType", "y_Robot_RobotType",
-  "y_SecondaryLocation_PhysicalLocationType_0_u",
-  "y_SerialNumber_XmlNMTOKEN", "$@32", "y_SkuName_XmlIDREF", "$@33",
-  "y_Sku_StockKeepingUnitType_u", "y_SlotType", "y_Slot_SlotType_0_u",
-  "y_SolidObjectTypeAny", "y_StockKeepingUnitType",
-  "y_Timestamp_XmlDateTime_0", "$@34", "y_VectorType",
-  "y_WeightUnit_WeightUnitType", "$@35", "y_Weight_PositiveDecimalType",
-  "$@36", "y_Width_PositiveDecimalType", "$@37",
-  "y_WorkVolume_BoxVolumeType_u", "y_XAxis_VectorType", "y_X_XmlDecimal",
-  "$@38", "y_Y_XmlDecimal", "$@39", "y_ZAxis_VectorType", "y_Z_XmlDecimal",
-  "$@40", "y_x_BoxyShapeType", "y_x_CylindricalShapeType",
-  "y_x_EndEffectorChangingStationType", "y_x_EndEffectorHolderType",
-  "y_x_GripperEffectorType", "y_x_HumanType", "y_x_KitTrayType",
-  "y_x_KitType", "y_x_KittingWorkstationType",
+  "y_SecondaryLocation_PhysicalLoca1009", "y_SerialNumber_XmlNMTOKEN",
+  "$@32", "y_SkuName_XmlIDREF", "$@33", "y_Sku_StockKeepingUnitType_1_u",
+  "y_SlotType", "y_Slot_SlotType_0_u", "y_SolidObjectTypeAny",
+  "y_StockKeepingUnitType", "y_Timestamp_XmlDateTime_0", "$@34",
+  "y_VectorType", "y_WeightUnit_WeightUnitType", "$@35",
+  "y_Weight_PositiveDecimalType", "$@36", "y_Width_PositiveDecimalType",
+  "$@37", "y_WorkVolume_BoxVolumeType_1_u", "y_XAxis_VectorType",
+  "y_X_XmlDecimal", "$@38", "y_Y_XmlDecimal", "$@39", "y_ZAxis_VectorType",
+  "y_Z_XmlDecimal", "$@40", "y_x_BoxyShapeType",
+  "y_x_CylindricalShapeType", "y_x_EndEffectorChangingStationType",
+  "y_x_EndEffectorHolderType", "y_x_GripperEffectorType", "y_x_HumanType",
+  "y_x_KitTrayType", "y_x_KitType", "y_x_KittingWorkstationType",
   "y_x_LargeBoxWithEmptyKitTraysType", "y_x_LargeBoxWithKitsType",
   "y_x_LargeContainerType", "y_x_MechanicalComponentType", "y_x_PartType",
   "y_x_PartsBinType", "y_x_PartsTrayType", "y_x_PoseLocationInType",
@@ -1079,8 +1079,8 @@ static const yytype_uint8 yyr2[] =
        6,     6,    11,    15,    13,     8
 };
 
-/* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
-   STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
+/* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
+   Performed when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
@@ -1287,8 +1287,7 @@ static const yytype_int16 yypgoto[] =
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
-   number is the opposite.  If zero, do what YYDEFACT says.
-   If YYTABLE_NINF, syntax error.  */
+   number is the opposite.  If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -1
 static const yytype_uint16 yytable[] =
 {
@@ -1355,6 +1354,12 @@ static const yytype_uint16 yytable[] =
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      667
 };
+
+#define yypact_value_is_default(yystate) \
+  ((yystate) == (-560))
+
+#define yytable_value_is_error(yytable_value) \
+  YYID (0)
 
 static const yytype_int16 yycheck[] =
 {
@@ -1533,7 +1538,6 @@ do								\
     {								\
       yychar = (Token);						\
       yylval = (Value);						\
-      yytoken = YYTRANSLATE (yychar);				\
       YYPOPSTACK (1);						\
       goto yybackup;						\
     }								\
@@ -1575,19 +1579,10 @@ while (YYID (0))
 #endif
 
 
-/* YY_LOCATION_PRINT -- Print the location on the stream.
-   This macro was not mandated originally: define only if we know
-   we won't break user code: when these are the locations we know.  */
+/* This macro is provided for backward compatibility. */
 
 #ifndef YY_LOCATION_PRINT
-# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
-#  define YY_LOCATION_PRINT(File, Loc)			\
-     fprintf (File, "%d.%d-%d.%d",			\
-	      (Loc).first_line, (Loc).first_column,	\
-	      (Loc).last_line,  (Loc).last_column)
-# else
-#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-# endif
+# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 #endif
 
 
@@ -1779,7 +1774,6 @@ int yydebug;
 # define YYMAXDEPTH 10000
 #endif
 
-
 
 #if YYERROR_VERBOSE
 
@@ -1882,115 +1876,142 @@ yytnamerr (char *yyres, const char *yystr)
 }
 # endif
 
-/* Copy into YYRESULT an error message about the unexpected token
-   YYCHAR while in state YYSTATE.  Return the number of bytes copied,
-   including the terminating null byte.  If YYRESULT is null, do not
-   copy anything; just return the number of bytes that would be
-   copied.  As a special case, return 0 if an ordinary "syntax error"
-   message will do.  Return YYSIZE_MAXIMUM if overflow occurs during
-   size calculation.  */
-static YYSIZE_T
-yysyntax_error (char *yyresult, int yystate, int yychar)
+/* Copy into *YYMSG, which is of size *YYMSG_ALLOC, an error message
+   about the unexpected token YYTOKEN for the state stack whose top is
+   YYSSP.
+
+   Return 0 if *YYMSG was successfully written.  Return 1 if *YYMSG is
+   not large enough to hold the message.  In that case, also set
+   *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
+   required number of bytes is too large to store.  */
+static int
+yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+                yytype_int16 *yyssp, int yytoken)
 {
-  int yyn = yypact[yystate];
+  YYSIZE_T yysize0 = yytnamerr (0, yytname[yytoken]);
+  YYSIZE_T yysize = yysize0;
+  YYSIZE_T yysize1;
+  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+  /* Internationalized format string. */
+  const char *yyformat = 0;
+  /* Arguments of yyformat. */
+  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  /* Number of reported tokens (one for the "unexpected", one per
+     "expected"). */
+  int yycount = 0;
 
-  if (! (YYPACT_NINF < yyn && yyn <= YYLAST))
-    return 0;
-  else
+  /* There are many possibilities here to consider:
+     - Assume YYFAIL is not used.  It's too flawed to consider.  See
+       <http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html>
+       for details.  YYERROR is fine as it does not invoke this
+       function.
+     - If this state is a consistent state with a default action, then
+       the only way this function was invoked is if the default action
+       is an error action.  In that case, don't check for expected
+       tokens because there are none.
+     - The only way there can be no lookahead present (in yychar) is if
+       this state is a consistent state with a default action.  Thus,
+       detecting the absence of a lookahead is sufficient to determine
+       that there is no unexpected or expected token to report.  In that
+       case, just report a simple "syntax error".
+     - Don't assume there isn't a lookahead just because this state is a
+       consistent state with a default action.  There might have been a
+       previous inconsistent state, consistent state with a non-default
+       action, or user semantic action that manipulated yychar.
+     - Of course, the expected token list depends on states to have
+       correct lookahead information, and it depends on the parser not
+       to perform extra reductions after fetching a lookahead from the
+       scanner and before detecting a syntax error.  Thus, state merging
+       (from LALR or IELR) and default reductions corrupt the expected
+       token list.  However, the list is correct for canonical LR with
+       one exception: it will still contain any token that will not be
+       accepted due to an error action in a later state.
+  */
+  if (yytoken != YYEMPTY)
     {
-      int yytype = YYTRANSLATE (yychar);
-      YYSIZE_T yysize0 = yytnamerr (0, yytname[yytype]);
-      YYSIZE_T yysize = yysize0;
-      YYSIZE_T yysize1;
-      int yysize_overflow = 0;
-      enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-      char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-      int yyx;
+      int yyn = yypact[*yyssp];
+      yyarg[yycount++] = yytname[yytoken];
+      if (!yypact_value_is_default (yyn))
+        {
+          /* Start YYX at -YYN if negative to avoid negative indexes in
+             YYCHECK.  In other words, skip the first -YYN actions for
+             this state because they are default actions.  */
+          int yyxbegin = yyn < 0 ? -yyn : 0;
+          /* Stay within bounds of both yycheck and yytname.  */
+          int yychecklim = YYLAST - yyn + 1;
+          int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+          int yyx;
 
-# if 0
-      /* This is so xgettext sees the translatable formats that are
-	 constructed on the fly.  */
-      YY_("syntax error, unexpected %s");
-      YY_("syntax error, unexpected %s, expecting %s");
-      YY_("syntax error, unexpected %s, expecting %s or %s");
-      YY_("syntax error, unexpected %s, expecting %s or %s or %s");
-      YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s");
-# endif
-      char *yyfmt;
-      char const *yyf;
-      static char const yyunexpected[] = "syntax error, unexpected %s";
-      static char const yyexpecting[] = ", expecting %s";
-      static char const yyor[] = " or %s";
-      char yyformat[sizeof yyunexpected
-		    + sizeof yyexpecting - 1
-		    + ((YYERROR_VERBOSE_ARGS_MAXIMUM - 2)
-		       * (sizeof yyor - 1))];
-      char const *yyprefix = yyexpecting;
-
-      /* Start YYX at -YYN if negative to avoid negative indexes in
-	 YYCHECK.  */
-      int yyxbegin = yyn < 0 ? -yyn : 0;
-
-      /* Stay within bounds of both yycheck and yytname.  */
-      int yychecklim = YYLAST - yyn + 1;
-      int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-      int yycount = 1;
-
-      yyarg[0] = yytname[yytype];
-      yyfmt = yystpcpy (yyformat, yyunexpected);
-
-      for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-	if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	  {
-	    if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-	      {
-		yycount = 1;
-		yysize = yysize0;
-		yyformat[sizeof yyunexpected - 1] = '\0';
-		break;
-	      }
-	    yyarg[yycount++] = yytname[yyx];
-	    yysize1 = yysize + yytnamerr (0, yytname[yyx]);
-	    yysize_overflow |= (yysize1 < yysize);
-	    yysize = yysize1;
-	    yyfmt = yystpcpy (yyfmt, yyprefix);
-	    yyprefix = yyor;
-	  }
-
-      yyf = YY_(yyformat);
-      yysize1 = yysize + yystrlen (yyf);
-      yysize_overflow |= (yysize1 < yysize);
-      yysize = yysize1;
-
-      if (yysize_overflow)
-	return YYSIZE_MAXIMUM;
-
-      if (yyresult)
-	{
-	  /* Avoid sprintf, as that infringes on the user's name space.
-	     Don't have undefined behavior even if the translation
-	     produced a string with the wrong number of "%s"s.  */
-	  char *yyp = yyresult;
-	  int yyi = 0;
-	  while ((*yyp = *yyf) != '\0')
-	    {
-	      if (*yyp == '%' && yyf[1] == 's' && yyi < yycount)
-		{
-		  yyp += yytnamerr (yyp, yyarg[yyi++]);
-		  yyf += 2;
-		}
-	      else
-		{
-		  yyp++;
-		  yyf++;
-		}
-	    }
-	}
-      return yysize;
+          for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+            if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR
+                && !yytable_value_is_error (yytable[yyx + yyn]))
+              {
+                if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+                  {
+                    yycount = 1;
+                    yysize = yysize0;
+                    break;
+                  }
+                yyarg[yycount++] = yytname[yyx];
+                yysize1 = yysize + yytnamerr (0, yytname[yyx]);
+                if (! (yysize <= yysize1
+                       && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+                  return 2;
+                yysize = yysize1;
+              }
+        }
     }
+
+  switch (yycount)
+    {
+# define YYCASE_(N, S)                      \
+      case N:                               \
+        yyformat = S;                       \
+      break
+      YYCASE_(0, YY_("syntax error"));
+      YYCASE_(1, YY_("syntax error, unexpected %s"));
+      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
+      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+# undef YYCASE_
+    }
+
+  yysize1 = yysize + yystrlen (yyformat);
+  if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+    return 2;
+  yysize = yysize1;
+
+  if (*yymsg_alloc < yysize)
+    {
+      *yymsg_alloc = 2 * yysize;
+      if (! (yysize <= *yymsg_alloc
+             && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
+        *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
+      return 1;
+    }
+
+  /* Avoid sprintf, as that infringes on the user's name space.
+     Don't have undefined behavior even if the translation
+     produced a string with the wrong number of "%s"s.  */
+  {
+    char *yyp = *yymsg;
+    int yyi = 0;
+    while ((*yyp = *yyformat) != '\0')
+      if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount)
+        {
+          yyp += yytnamerr (yyp, yyarg[yyi++]);
+          yyformat += 2;
+        }
+      else
+        {
+          yyp++;
+          yyformat++;
+        }
+  }
+  return 0;
 }
 #endif /* YYERROR_VERBOSE */
-
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -2023,6 +2044,7 @@ yydestruct (yymsg, yytype, yyvaluep)
     }
 }
 
+
 /* Prevent warnings from -Wmissing-prototypes.  */
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
@@ -2049,10 +2071,9 @@ YYSTYPE yylval;
 int yynerrs;
 
 
-
-/*-------------------------.
-| yyparse or yypush_parse.  |
-`-------------------------*/
+/*----------.
+| yyparse.  |
+`----------*/
 
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
@@ -2076,8 +2097,6 @@ yyparse ()
 #endif
 #endif
 {
-
-
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
@@ -2232,7 +2251,7 @@ yybackup:
 
   /* First try to decide what to do without reference to lookahead token.  */
   yyn = yypact[yystate];
-  if (yyn == YYPACT_NINF)
+  if (yypact_value_is_default (yyn))
     goto yydefault;
 
   /* Not known => get a lookahead token if don't already have one.  */
@@ -2263,8 +2282,8 @@ yybackup:
   yyn = yytable[yyn];
   if (yyn <= 0)
     {
-      if (yyn == 0 || yyn == YYTABLE_NINF)
-	goto yyerrlab;
+      if (yytable_value_is_error (yyn))
+        goto yyerrlab;
       yyn = -yyn;
       goto yyreduce;
     }
@@ -2323,18 +2342,18 @@ yyreduce:
 	   KittingWorkstationTree = (yyval.KittingWorkstationFileVal);
 	   if (XmlIDREF::idMissing())
 	     yyerror("xs:ID missing for xs:IDREF");
-	  ;}
+	  }
     break;
 
   case 3:
 
-    {(yyval.XmlHeaderForKittingWorkstationVal) = new XmlHeaderForKittingWorkstation((yyvsp[(2) - (2)].SchemaLocationVal));;}
+    {(yyval.XmlHeaderForKittingWorkstationVal) = new XmlHeaderForKittingWorkstation((yyvsp[(2) - (2)].SchemaLocationVal));}
     break;
 
   case 4:
 
     {(yyval.SchemaLocationVal) = new SchemaLocation("xsi", (yyvsp[(2) - (2)].sVal), false);
-	  ;}
+	  }
     break;
 
   case 5:
@@ -2342,7 +2361,7 @@ yyreduce:
     {(yyval.XmlBooleanVal) = new XmlBoolean((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlBooleanVal)->bad)
 	     yyerror("bad XmlBoolean");
-	  ;}
+	  }
     break;
 
   case 6:
@@ -2350,7 +2369,7 @@ yyreduce:
     {(yyval.XmlDateTimeVal) = new XmlDateTime((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlDateTimeVal)->bad)
 	     yyerror("bad XmlDateTime");
-	  ;}
+	  }
     break;
 
   case 7:
@@ -2358,7 +2377,7 @@ yyreduce:
     {(yyval.XmlDecimalVal) = new XmlDecimal((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlDecimalVal)->bad)
 	     yyerror("bad XmlDecimal");
-	  ;}
+	  }
     break;
 
   case 8:
@@ -2366,7 +2385,7 @@ yyreduce:
     {(yyval.XmlIDVal) = new XmlID((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlIDVal)->bad)
 	     yyerror("bad XmlID");
-	  ;}
+	  }
     break;
 
   case 9:
@@ -2374,7 +2393,7 @@ yyreduce:
     {(yyval.XmlIDREFVal) = new XmlIDREF((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlIDREFVal)->bad)
 	     yyerror("bad XmlIDREF");
-	  ;}
+	  }
     break;
 
   case 10:
@@ -2382,7 +2401,7 @@ yyreduce:
     {(yyval.XmlNMTOKENVal) = new XmlNMTOKEN((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlNMTOKENVal)->bad)
 	     yyerror("bad XmlNMTOKEN");
-	  ;}
+	  }
     break;
 
   case 11:
@@ -2390,7 +2409,7 @@ yyreduce:
     {(yyval.XmlNonNegativeIntegerVal) = new XmlNonNegativeInteger((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlNonNegativeIntegerVal)->bad)
 	     yyerror("bad XmlNonNegativeInteger");
-	  ;}
+	  }
     break;
 
   case 12:
@@ -2398,7 +2417,7 @@ yyreduce:
     {(yyval.XmlPositiveIntegerVal) = new XmlPositiveInteger((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlPositiveIntegerVal)->bad)
 	     yyerror("bad XmlPositiveInteger");
-	  ;}
+	  }
     break;
 
   case 13:
@@ -2406,7 +2425,7 @@ yyreduce:
     {(yyval.XmlStringVal) = new XmlString((yyvsp[(1) - (1)].sVal));
 	   if ((yyval.XmlStringVal)->bad)
 	     yyerror("bad XmlString");
-	  ;}
+	  }
     break;
 
   case 14:
@@ -2414,7 +2433,7 @@ yyreduce:
     {(yyval.XmlVersionVal) = new XmlVersion(false);
 	   if (strcmp((yyvsp[(3) - (4)].sVal), "1.0"))
 	     yyerror("version number must be 1.0");
-	  ;}
+	  }
     break;
 
   case 15:
@@ -2424,12 +2443,12 @@ yyreduce:
 	     yyerror("version number must be 1.0");
 	   else if (strcmp((yyvsp[(5) - (6)].sVal), "UTF-8"))
 	     yyerror("encoding must be UTF-8");
-	  ;}
+	  }
     break;
 
   case 16:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 17:
@@ -2437,22 +2456,22 @@ yyreduce:
     {(yyval.AngleUnitTypeVal) = new AngleUnitType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.AngleUnitTypeVal)->bad)
 	     yyerror("bad AngleUnit value");
-	  ;}
+	  }
     break;
 
   case 18:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 19:
 
-    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);;}
+    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);}
     break;
 
   case 20:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 21:
@@ -2460,37 +2479,37 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad ArrayRadius value");
-	  ;}
+	  }
     break;
 
   case 22:
 
-    {(yyval.MechanicalComponentTypeVal) = (yyvsp[(2) - (3)].MechanicalComponentTypeVal);;}
+    {(yyval.MechanicalComponentTypeVal) = (yyvsp[(2) - (3)].MechanicalComponentTypeVal);}
     break;
 
   case 23:
 
-    {(yyval.BoxVolumeTypeVal) = new BoxVolumeType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].PointTypeVal), (yyvsp[(4) - (4)].PointTypeVal));;}
+    {(yyval.BoxVolumeTypeVal) = new BoxVolumeType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].PointTypeVal), (yyvsp[(4) - (4)].PointTypeVal));}
     break;
 
   case 24:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 25:
 
-    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);;}
+    {(yyval.XmlPositiveIntegerVal) = (yyvsp[(4) - (5)].XmlPositiveIntegerVal);}
     break;
 
   case 26:
 
-    {(yyval.EndEffectorChangingStationTypeVal) = (yyvsp[(2) - (3)].EndEffectorChangingStationTypeVal);;}
+    {(yyval.EndEffectorChangingStationTypeVal) = (yyvsp[(2) - (3)].EndEffectorChangingStationTypeVal);}
     break;
 
   case 27:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 28:
@@ -2498,32 +2517,32 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad CupDiameter value");
-	  ;}
+	  }
     break;
 
   case 29:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 30:
 
-    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);;}
+    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);}
     break;
 
   case 31:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 32:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 33:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 34:
@@ -2531,107 +2550,107 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad Diameter value");
-	  ;}
+	  }
     break;
 
   case 35:
 
-    {(yyval.EndEffectorChangingStationTypeVal) = new EndEffectorChangingStationType((yyvsp[(2) - (8)].XmlIDVal), (yyvsp[(3) - (8)].PhysicalLocationTypeVal), (yyvsp[(4) - (8)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (8)].InternalShapeTypeVal), (yyvsp[(6) - (8)].ExternalShapeTypeVal), (yyvsp[(7) - (8)].MechanicalComponentTypeVal), (yyvsp[(8) - (8)].ListEndEffectorHolderTypeVal));;}
+    {(yyval.EndEffectorChangingStationTypeVal) = new EndEffectorChangingStationType((yyvsp[(2) - (8)].XmlIDVal), (yyvsp[(3) - (8)].PhysicalLocationTypeVal), (yyvsp[(4) - (8)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (8)].InternalShapeTypeVal), (yyvsp[(6) - (8)].ExternalShapeTypeVal), (yyvsp[(7) - (8)].MechanicalComponentTypeVal), (yyvsp[(8) - (8)].ListEndEffectorHolderTypeVal));}
     break;
 
   case 36:
 
-    {(yyval.EndEffectorHolderTypeVal) = new EndEffectorHolderType((yyvsp[(2) - (7)].XmlIDVal), (yyvsp[(3) - (7)].PhysicalLocationTypeVal), (yyvsp[(4) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (7)].InternalShapeTypeVal), (yyvsp[(6) - (7)].ExternalShapeTypeVal), (yyvsp[(7) - (7)].EndEffectorTypeVal));;}
+    {(yyval.EndEffectorHolderTypeVal) = new EndEffectorHolderType((yyvsp[(2) - (7)].XmlIDVal), (yyvsp[(3) - (7)].PhysicalLocationTypeVal), (yyvsp[(4) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (7)].InternalShapeTypeVal), (yyvsp[(6) - (7)].ExternalShapeTypeVal), (yyvsp[(7) - (7)].EndEffectorTypeVal));}
     break;
 
   case 37:
 
-    {(yyval.EndEffectorHolderTypeVal) = (yyvsp[(2) - (3)].EndEffectorHolderTypeVal);;}
+    {(yyval.EndEffectorHolderTypeVal) = (yyvsp[(2) - (3)].EndEffectorHolderTypeVal);}
     break;
 
   case 38:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 39:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 40:
 
-    {(yyval.EndEffectorTypeVal) = (yyvsp[(1) - (1)].GripperEffectorTypeVal);;}
+    {(yyval.EndEffectorTypeVal) = (yyvsp[(1) - (1)].GripperEffectorTypeVal);}
     break;
 
   case 41:
 
-    {(yyval.EndEffectorTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorMultiCupTypeVal);;}
+    {(yyval.EndEffectorTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorMultiCupTypeVal);}
     break;
 
   case 42:
 
-    {(yyval.EndEffectorTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorSingleCupTypeVal);;}
+    {(yyval.EndEffectorTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorSingleCupTypeVal);}
     break;
 
   case 43:
 
-    {(yyval.EndEffectorTypeVal) = 0;;}
+    {(yyval.EndEffectorTypeVal) = 0;}
     break;
 
   case 44:
 
-    {(yyval.EndEffectorTypeVal) = (yyvsp[(2) - (3)].EndEffectorTypeVal);;}
+    {(yyval.EndEffectorTypeVal) = (yyvsp[(2) - (3)].EndEffectorTypeVal);}
     break;
 
   case 45:
 
-    {(yyval.ExternalShapeTypeVal) = new ExternalShapeType((yyvsp[(2) - (7)].XmlIDVal), (yyvsp[(3) - (7)].XmlStringVal), (yyvsp[(4) - (7)].PoseLocationTypeVal), (yyvsp[(5) - (7)].XmlStringVal), (yyvsp[(6) - (7)].XmlStringVal), (yyvsp[(7) - (7)].XmlStringVal));;}
+    {(yyval.ExternalShapeTypeVal) = new ExternalShapeType((yyvsp[(2) - (7)].XmlIDVal), (yyvsp[(3) - (7)].XmlStringVal), (yyvsp[(4) - (7)].PoseLocationTypeVal), (yyvsp[(5) - (7)].XmlStringVal), (yyvsp[(6) - (7)].XmlStringVal), (yyvsp[(7) - (7)].XmlStringVal));}
     break;
 
   case 46:
 
-    {(yyval.ExternalShapeTypeVal) = 0;;}
+    {(yyval.ExternalShapeTypeVal) = 0;}
     break;
 
   case 47:
 
-    {(yyval.ExternalShapeTypeVal) = (yyvsp[(2) - (3)].ExternalShapeTypeVal);;}
+    {(yyval.ExternalShapeTypeVal) = (yyvsp[(2) - (3)].ExternalShapeTypeVal);}
     break;
 
   case 48:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 49:
 
-    {(yyval.XmlBooleanVal) = (yyvsp[(4) - (5)].XmlBooleanVal);;}
+    {(yyval.XmlBooleanVal) = (yyvsp[(4) - (5)].XmlBooleanVal);}
     break;
 
   case 50:
 
-    {(yyval.PoseLocationTypeVal) = 0;;}
+    {(yyval.PoseLocationTypeVal) = 0;}
     break;
 
   case 51:
 
-    {(yyval.PoseLocationTypeVal) = (yyvsp[(2) - (3)].PoseLocationTypeVal);;}
+    {(yyval.PoseLocationTypeVal) = (yyvsp[(2) - (3)].PoseLocationTypeVal);}
     break;
 
   case 52:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 53:
 
-    {(yyval.XmlBooleanVal) = (yyvsp[(4) - (5)].XmlBooleanVal);;}
+    {(yyval.XmlBooleanVal) = (yyvsp[(4) - (5)].XmlBooleanVal);}
     break;
 
   case 54:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 55:
@@ -2639,142 +2658,142 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad Height value");
-	  ;}
+	  }
     break;
 
   case 56:
 
-    {(yyval.SolidObjectTypeVal) = 0;;}
+    {(yyval.SolidObjectTypeVal) = 0;}
     break;
 
   case 57:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(2) - (3)].SolidObjectTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(2) - (3)].SolidObjectTypeVal);}
     break;
 
   case 58:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 59:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 60:
 
-    {(yyval.InternalShapeTypeVal) = (yyvsp[(1) - (1)].BoxyShapeTypeVal);;}
+    {(yyval.InternalShapeTypeVal) = (yyvsp[(1) - (1)].BoxyShapeTypeVal);}
     break;
 
   case 61:
 
-    {(yyval.InternalShapeTypeVal) = (yyvsp[(1) - (1)].CylindricalShapeTypeVal);;}
+    {(yyval.InternalShapeTypeVal) = (yyvsp[(1) - (1)].CylindricalShapeTypeVal);}
     break;
 
   case 62:
 
-    {(yyval.InternalShapeTypeVal) = 0;;}
+    {(yyval.InternalShapeTypeVal) = 0;}
     break;
 
   case 63:
 
-    {(yyval.InternalShapeTypeVal) = (yyvsp[(2) - (3)].InternalShapeTypeVal);;}
+    {(yyval.InternalShapeTypeVal) = (yyvsp[(2) - (3)].InternalShapeTypeVal);}
     break;
 
   case 64:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 65:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 66:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 67:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 68:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 69:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 70:
 
-    {(yyval.KitDesignTypeVal) = new KitDesignType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].XmlIDREFVal), (yyvsp[(4) - (4)].ListPartRefAndPoseTypeVal));;}
+    {(yyval.KitDesignTypeVal) = new KitDesignType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].XmlIDREFVal), (yyvsp[(4) - (4)].ListPartRefAndPoseTypeVal));}
     break;
 
   case 71:
 
-    {(yyval.KitDesignTypeVal) = (yyvsp[(2) - (3)].KitDesignTypeVal);;}
+    {(yyval.KitDesignTypeVal) = (yyvsp[(2) - (3)].KitDesignTypeVal);}
     break;
 
   case 72:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 73:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 74:
 
-    {(yyval.KitTrayTypeVal) = new KitTrayType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].XmlIDREFVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));;}
+    {(yyval.KitTrayTypeVal) = new KitTrayType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].XmlIDREFVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));}
     break;
 
   case 75:
 
-    {(yyval.KitTrayTypeVal) = (yyvsp[(2) - (3)].KitTrayTypeVal);;}
+    {(yyval.KitTrayTypeVal) = (yyvsp[(2) - (3)].KitTrayTypeVal);}
     break;
 
   case 76:
 
-    {(yyval.KitTrayTypeVal) = (yyvsp[(2) - (3)].KitTrayTypeVal);;}
+    {(yyval.KitTrayTypeVal) = (yyvsp[(2) - (3)].KitTrayTypeVal);}
     break;
 
   case 77:
 
-    {(yyval.KitTypeVal) = new KitType((yyvsp[(2) - (11)].XmlIDVal), (yyvsp[(3) - (11)].PhysicalLocationTypeVal), (yyvsp[(4) - (11)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (11)].InternalShapeTypeVal), (yyvsp[(6) - (11)].ExternalShapeTypeVal), (yyvsp[(7) - (11)].XmlIDREFVal), (yyvsp[(8) - (11)].KitTrayTypeVal), (yyvsp[(9) - (11)].ListPartTypeVal), (yyvsp[(10) - (11)].ListSlotTypeVal), (yyvsp[(11) - (11)].XmlBooleanVal));;}
+    {(yyval.KitTypeVal) = new KitType((yyvsp[(2) - (11)].XmlIDVal), (yyvsp[(3) - (11)].PhysicalLocationTypeVal), (yyvsp[(4) - (11)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (11)].InternalShapeTypeVal), (yyvsp[(6) - (11)].ExternalShapeTypeVal), (yyvsp[(7) - (11)].XmlIDREFVal), (yyvsp[(8) - (11)].KitTrayTypeVal), (yyvsp[(9) - (11)].ListPartTypeVal), (yyvsp[(10) - (11)].ListSlotTypeVal), (yyvsp[(11) - (11)].XmlBooleanVal));}
     break;
 
   case 78:
 
-    {(yyval.KitTypeVal) = (yyvsp[(2) - (3)].KitTypeVal);;}
+    {(yyval.KitTypeVal) = (yyvsp[(2) - (3)].KitTypeVal);}
     break;
 
   case 79:
 
-    {(yyval.KittingWorkstationTypeVal) = new KittingWorkstationType((yyvsp[(2) - (15)].XmlIDVal), (yyvsp[(3) - (15)].PhysicalLocationTypeVal), (yyvsp[(4) - (15)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (15)].InternalShapeTypeVal), (yyvsp[(6) - (15)].ExternalShapeTypeVal), (yyvsp[(7) - (15)].AngleUnitTypeVal), (yyvsp[(8) - (15)].EndEffectorChangingStationTypeVal), (yyvsp[(9) - (15)].ListKitDesignTypeVal), (yyvsp[(10) - (15)].LengthUnitTypeVal), (yyvsp[(11) - (15)].ListSolidObjectTypeVal), (yyvsp[(12) - (15)].ListBoxVolumeTypeVal), (yyvsp[(13) - (15)].RobotTypeVal), (yyvsp[(14) - (15)].ListStockKeepingUnitTypeVal), (yyvsp[(15) - (15)].WeightUnitTypeVal));;}
+    {(yyval.KittingWorkstationTypeVal) = new KittingWorkstationType((yyvsp[(2) - (15)].XmlIDVal), (yyvsp[(3) - (15)].PhysicalLocationTypeVal), (yyvsp[(4) - (15)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (15)].InternalShapeTypeVal), (yyvsp[(6) - (15)].ExternalShapeTypeVal), (yyvsp[(7) - (15)].AngleUnitTypeVal), (yyvsp[(8) - (15)].EndEffectorChangingStationTypeVal), (yyvsp[(9) - (15)].ListKitDesignTypeVal), (yyvsp[(10) - (15)].LengthUnitTypeVal), (yyvsp[(11) - (15)].ListSolidObjectTypeVal), (yyvsp[(12) - (15)].ListBoxVolumeTypeVal), (yyvsp[(13) - (15)].RobotTypeVal), (yyvsp[(14) - (15)].ListStockKeepingUnitTypeVal), (yyvsp[(15) - (15)].WeightUnitTypeVal));}
     break;
 
   case 80:
 
-    {(yyval.LargeContainerTypeVal) = new LargeContainerType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].XmlIDREFVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));;}
+    {(yyval.LargeContainerTypeVal) = new LargeContainerType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].XmlIDREFVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));}
     break;
 
   case 81:
 
-    {(yyval.LargeContainerTypeVal) = (yyvsp[(2) - (3)].LargeContainerTypeVal);;}
+    {(yyval.LargeContainerTypeVal) = (yyvsp[(2) - (3)].LargeContainerTypeVal);}
     break;
 
   case 82:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 83:
@@ -2782,12 +2801,12 @@ yyreduce:
     {(yyval.LengthUnitTypeVal) = new LengthUnitType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.LengthUnitTypeVal)->bad)
 	     yyerror("bad LengthUnit value");
-	  ;}
+	  }
     break;
 
   case 84:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 85:
@@ -2795,172 +2814,172 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad Length value");
-	  ;}
+	  }
     break;
 
   case 86:
 
     {(yyval.ListEndEffectorHolderTypeVal) = new std::list<EndEffectorHolderType *>;
-	   (yyval.ListEndEffectorHolderTypeVal)->push_back((yyvsp[(1) - (1)].EndEffectorHolderTypeVal));;}
+	   (yyval.ListEndEffectorHolderTypeVal)->push_back((yyvsp[(1) - (1)].EndEffectorHolderTypeVal));}
     break;
 
   case 87:
 
     {(yyval.ListEndEffectorHolderTypeVal) = (yyvsp[(1) - (2)].ListEndEffectorHolderTypeVal);
-	   (yyval.ListEndEffectorHolderTypeVal)->push_back((yyvsp[(2) - (2)].EndEffectorHolderTypeVal));;}
+	   (yyval.ListEndEffectorHolderTypeVal)->push_back((yyvsp[(2) - (2)].EndEffectorHolderTypeVal));}
     break;
 
   case 88:
 
-    {(yyval.ListXmlIDREFVal) = new std::list<XmlIDREF *>;;}
+    {(yyval.ListXmlIDREFVal) = new std::list<XmlIDREF *>;}
     break;
 
   case 89:
 
     {(yyval.ListXmlIDREFVal) = (yyvsp[(1) - (2)].ListXmlIDREFVal);
-	   (yyval.ListXmlIDREFVal)->push_back((yyvsp[(2) - (2)].XmlIDREFVal));;}
+	   (yyval.ListXmlIDREFVal)->push_back((yyvsp[(2) - (2)].XmlIDREFVal));}
     break;
 
   case 90:
 
     {(yyval.ListKitDesignTypeVal) = new std::list<KitDesignType *>;
-	   (yyval.ListKitDesignTypeVal)->push_back((yyvsp[(1) - (1)].KitDesignTypeVal));;}
+	   (yyval.ListKitDesignTypeVal)->push_back((yyvsp[(1) - (1)].KitDesignTypeVal));}
     break;
 
   case 91:
 
     {(yyval.ListKitDesignTypeVal) = (yyvsp[(1) - (2)].ListKitDesignTypeVal);
-	   (yyval.ListKitDesignTypeVal)->push_back((yyvsp[(2) - (2)].KitDesignTypeVal));;}
+	   (yyval.ListKitDesignTypeVal)->push_back((yyvsp[(2) - (2)].KitDesignTypeVal));}
     break;
 
   case 92:
 
-    {(yyval.ListKitTrayTypeVal) = new std::list<KitTrayType *>;;}
+    {(yyval.ListKitTrayTypeVal) = new std::list<KitTrayType *>;}
     break;
 
   case 93:
 
     {(yyval.ListKitTrayTypeVal) = (yyvsp[(1) - (2)].ListKitTrayTypeVal);
-	   (yyval.ListKitTrayTypeVal)->push_back((yyvsp[(2) - (2)].KitTrayTypeVal));;}
+	   (yyval.ListKitTrayTypeVal)->push_back((yyvsp[(2) - (2)].KitTrayTypeVal));}
     break;
 
   case 94:
 
-    {(yyval.ListKitTypeVal) = new std::list<KitType *>;;}
+    {(yyval.ListKitTypeVal) = new std::list<KitType *>;}
     break;
 
   case 95:
 
     {(yyval.ListKitTypeVal) = (yyvsp[(1) - (2)].ListKitTypeVal);
-	   (yyval.ListKitTypeVal)->push_back((yyvsp[(2) - (2)].KitTypeVal));;}
+	   (yyval.ListKitTypeVal)->push_back((yyvsp[(2) - (2)].KitTypeVal));}
     break;
 
   case 96:
 
-    {(yyval.ListSolidObjectTypeVal) = new std::list<SolidObjectType *>;;}
+    {(yyval.ListSolidObjectTypeVal) = new std::list<SolidObjectType *>;}
     break;
 
   case 97:
 
     {(yyval.ListSolidObjectTypeVal) = (yyvsp[(1) - (2)].ListSolidObjectTypeVal);
-	   (yyval.ListSolidObjectTypeVal)->push_back((yyvsp[(2) - (2)].SolidObjectTypeVal));;}
+	   (yyval.ListSolidObjectTypeVal)->push_back((yyvsp[(2) - (2)].SolidObjectTypeVal));}
     break;
 
   case 98:
 
     {(yyval.ListSolidObjectTypeVal) = (yyvsp[(1) - (2)].ListSolidObjectTypeVal);
-	   (yyval.ListSolidObjectTypeVal)->push_back((yyvsp[(2) - (2)].SolidObjectTypeVal));;}
+	   (yyval.ListSolidObjectTypeVal)->push_back((yyvsp[(2) - (2)].SolidObjectTypeVal));}
     break;
 
   case 99:
 
     {(yyval.ListSolidObjectTypeVal) = new std::list<SolidObjectType *>;
-	   (yyval.ListSolidObjectTypeVal)->push_back((yyvsp[(1) - (1)].SolidObjectTypeVal));;}
+	   (yyval.ListSolidObjectTypeVal)->push_back((yyvsp[(1) - (1)].SolidObjectTypeVal));}
     break;
 
   case 100:
 
-    {(yyval.ListBoxVolumeTypeVal) = new std::list<BoxVolumeType *>;;}
+    {(yyval.ListBoxVolumeTypeVal) = new std::list<BoxVolumeType *>;}
     break;
 
   case 101:
 
     {(yyval.ListBoxVolumeTypeVal) = (yyvsp[(1) - (2)].ListBoxVolumeTypeVal);
-	   (yyval.ListBoxVolumeTypeVal)->push_back((yyvsp[(2) - (2)].BoxVolumeTypeVal));;}
+	   (yyval.ListBoxVolumeTypeVal)->push_back((yyvsp[(2) - (2)].BoxVolumeTypeVal));}
     break;
 
   case 102:
 
     {(yyval.ListPartRefAndPoseTypeVal) = (yyvsp[(1) - (2)].ListPartRefAndPoseTypeVal);
-	   (yyval.ListPartRefAndPoseTypeVal)->push_back((yyvsp[(2) - (2)].PartRefAndPoseTypeVal));;}
+	   (yyval.ListPartRefAndPoseTypeVal)->push_back((yyvsp[(2) - (2)].PartRefAndPoseTypeVal));}
     break;
 
   case 103:
 
     {(yyval.ListPartRefAndPoseTypeVal) = new std::list<PartRefAndPoseType *>;
-	   (yyval.ListPartRefAndPoseTypeVal)->push_back((yyvsp[(1) - (1)].PartRefAndPoseTypeVal));;}
+	   (yyval.ListPartRefAndPoseTypeVal)->push_back((yyvsp[(1) - (1)].PartRefAndPoseTypeVal));}
     break;
 
   case 104:
 
-    {(yyval.ListPartTypeVal) = new std::list<PartType *>;;}
+    {(yyval.ListPartTypeVal) = new std::list<PartType *>;}
     break;
 
   case 105:
 
     {(yyval.ListPartTypeVal) = (yyvsp[(1) - (2)].ListPartTypeVal);
-	   (yyval.ListPartTypeVal)->push_back((yyvsp[(2) - (2)].PartTypeVal));;}
+	   (yyval.ListPartTypeVal)->push_back((yyvsp[(2) - (2)].PartTypeVal));}
     break;
 
   case 106:
 
-    {(yyval.ListPhysicalLocationTypeVal) = new std::list<PhysicalLocationType *>;;}
+    {(yyval.ListPhysicalLocationTypeVal) = new std::list<PhysicalLocationType *>;}
     break;
 
   case 107:
 
     {(yyval.ListPhysicalLocationTypeVal) = (yyvsp[(1) - (2)].ListPhysicalLocationTypeVal);
-	   (yyval.ListPhysicalLocationTypeVal)->push_back((yyvsp[(2) - (2)].PhysicalLocationTypeVal));;}
+	   (yyval.ListPhysicalLocationTypeVal)->push_back((yyvsp[(2) - (2)].PhysicalLocationTypeVal));}
     break;
 
   case 108:
 
     {(yyval.ListStockKeepingUnitTypeVal) = (yyvsp[(1) - (2)].ListStockKeepingUnitTypeVal);
-	   (yyval.ListStockKeepingUnitTypeVal)->push_back((yyvsp[(2) - (2)].StockKeepingUnitTypeVal));;}
+	   (yyval.ListStockKeepingUnitTypeVal)->push_back((yyvsp[(2) - (2)].StockKeepingUnitTypeVal));}
     break;
 
   case 109:
 
     {(yyval.ListStockKeepingUnitTypeVal) = new std::list<StockKeepingUnitType *>;
-	   (yyval.ListStockKeepingUnitTypeVal)->push_back((yyvsp[(1) - (1)].StockKeepingUnitTypeVal));;}
+	   (yyval.ListStockKeepingUnitTypeVal)->push_back((yyvsp[(1) - (1)].StockKeepingUnitTypeVal));}
     break;
 
   case 110:
 
-    {(yyval.ListSlotTypeVal) = new std::list<SlotType *>;;}
+    {(yyval.ListSlotTypeVal) = new std::list<SlotType *>;}
     break;
 
   case 111:
 
     {(yyval.ListSlotTypeVal) = (yyvsp[(1) - (2)].ListSlotTypeVal);
-	   (yyval.ListSlotTypeVal)->push_back((yyvsp[(2) - (2)].SlotTypeVal));;}
+	   (yyval.ListSlotTypeVal)->push_back((yyvsp[(2) - (2)].SlotTypeVal));}
     break;
 
   case 112:
 
     {(yyval.ListBoxVolumeTypeVal) = (yyvsp[(1) - (2)].ListBoxVolumeTypeVal);
-	   (yyval.ListBoxVolumeTypeVal)->push_back((yyvsp[(2) - (2)].BoxVolumeTypeVal));;}
+	   (yyval.ListBoxVolumeTypeVal)->push_back((yyvsp[(2) - (2)].BoxVolumeTypeVal));}
     break;
 
   case 113:
 
     {(yyval.ListBoxVolumeTypeVal) = new std::list<BoxVolumeType *>;
-	   (yyval.ListBoxVolumeTypeVal)->push_back((yyvsp[(1) - (1)].BoxVolumeTypeVal));;}
+	   (yyval.ListBoxVolumeTypeVal)->push_back((yyvsp[(1) - (1)].BoxVolumeTypeVal));}
     break;
 
   case 114:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 115:
@@ -2968,87 +2987,87 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad MaximumLoadWeight value");
-	  ;}
+	  }
     break;
 
   case 116:
 
-    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);;}
+    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);}
     break;
 
   case 117:
 
-    {(yyval.MechanicalComponentTypeVal) = new MechanicalComponentType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].InternalShapeTypeVal), (yyvsp[(6) - (6)].ExternalShapeTypeVal));;}
+    {(yyval.MechanicalComponentTypeVal) = new MechanicalComponentType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].InternalShapeTypeVal), (yyvsp[(6) - (6)].ExternalShapeTypeVal));}
     break;
 
   case 118:
 
-    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);;}
+    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);}
     break;
 
   case 119:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 120:
 
-    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);;}
+    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);}
     break;
 
   case 121:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 122:
 
-    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);;}
+    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);}
     break;
 
   case 123:
 
-    {(yyval.XmlStringVal) = 0;;}
+    {(yyval.XmlStringVal) = 0;}
     break;
 
   case 124:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 125:
 
-    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);;}
+    {(yyval.XmlStringVal) = (yyvsp[(4) - (5)].XmlStringVal);}
     break;
 
   case 126:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 127:
 
-    {(yyval.XmlIDVal) = (yyvsp[(4) - (5)].XmlIDVal);;}
+    {(yyval.XmlIDVal) = (yyvsp[(4) - (5)].XmlIDVal);}
     break;
 
   case 128:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(2) - (3)].SolidObjectTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(2) - (3)].SolidObjectTypeVal);}
     break;
 
   case 129:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(2) - (3)].SolidObjectTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(2) - (3)].SolidObjectTypeVal);}
     break;
 
   case 130:
 
-    {(yyval.PositiveDecimalTypeVal) = 0;;}
+    {(yyval.PositiveDecimalTypeVal) = 0;}
     break;
 
   case 131:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 132:
@@ -3056,137 +3075,137 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad OrientationStandardDeviation value");
-	  ;}
+	  }
     break;
 
   case 133:
 
-    {(yyval.BoxVolumeTypeVal) = (yyvsp[(2) - (3)].BoxVolumeTypeVal);;}
+    {(yyval.BoxVolumeTypeVal) = (yyvsp[(2) - (3)].BoxVolumeTypeVal);}
     break;
 
   case 134:
 
-    {(yyval.XmlIDREFVal) = 0;;}
+    {(yyval.XmlIDREFVal) = 0;}
     break;
 
   case 135:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 136:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 137:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 138:
 
-    {(yyval.XmlNonNegativeIntegerVal) = (yyvsp[(4) - (5)].XmlNonNegativeIntegerVal);;}
+    {(yyval.XmlNonNegativeIntegerVal) = (yyvsp[(4) - (5)].XmlNonNegativeIntegerVal);}
     break;
 
   case 139:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 140:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 141:
 
-    {(yyval.PartRefAndPoseTypeVal) = new PartRefAndPoseType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].XmlIDREFVal), (yyvsp[(4) - (6)].PointTypeVal), (yyvsp[(5) - (6)].VectorTypeVal), (yyvsp[(6) - (6)].VectorTypeVal));;}
+    {(yyval.PartRefAndPoseTypeVal) = new PartRefAndPoseType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].XmlIDREFVal), (yyvsp[(4) - (6)].PointTypeVal), (yyvsp[(5) - (6)].VectorTypeVal), (yyvsp[(6) - (6)].VectorTypeVal));}
     break;
 
   case 142:
 
-    {(yyval.PartRefAndPoseTypeVal) = (yyvsp[(2) - (3)].PartRefAndPoseTypeVal);;}
+    {(yyval.PartRefAndPoseTypeVal) = (yyvsp[(2) - (3)].PartRefAndPoseTypeVal);}
     break;
 
   case 143:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 144:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 145:
 
-    {(yyval.PartTypeVal) = new PartType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].XmlIDREFVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));;}
+    {(yyval.PartTypeVal) = new PartType((yyvsp[(2) - (6)].XmlIDVal), (yyvsp[(3) - (6)].PhysicalLocationTypeVal), (yyvsp[(4) - (6)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (6)].XmlIDREFVal), (yyvsp[(6) - (6)].XmlNMTOKENVal));}
     break;
 
   case 146:
 
-    {(yyval.PartTypeVal) = (yyvsp[(2) - (3)].PartTypeVal);;}
+    {(yyval.PartTypeVal) = (yyvsp[(2) - (3)].PartTypeVal);}
     break;
 
   case 147:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationInTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationInTypeVal);}
     break;
 
   case 148:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationOnTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationOnTypeVal);}
     break;
 
   case 149:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseOnlyLocationTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].PoseOnlyLocationTypeVal);}
     break;
 
   case 150:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationInTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationInTypeVal);}
     break;
 
   case 151:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationOnTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(1) - (1)].RelativeLocationOnTypeVal);}
     break;
 
   case 152:
 
-    {(yyval.PointTypeVal) = new PointType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));;}
+    {(yyval.PointTypeVal) = new PointType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));}
     break;
 
   case 153:
 
-    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);;}
+    {(yyval.PointTypeVal) = (yyvsp[(2) - (3)].PointTypeVal);}
     break;
 
   case 154:
 
-    {(yyval.PoseLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationInTypeVal);;}
+    {(yyval.PoseLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationInTypeVal);}
     break;
 
   case 155:
 
-    {(yyval.PoseLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationOnTypeVal);;}
+    {(yyval.PoseLocationTypeVal) = (yyvsp[(1) - (1)].PoseLocationOnTypeVal);}
     break;
 
   case 156:
 
-    {(yyval.PoseLocationTypeVal) = (yyvsp[(1) - (1)].PoseOnlyLocationTypeVal);;}
+    {(yyval.PoseLocationTypeVal) = (yyvsp[(1) - (1)].PoseOnlyLocationTypeVal);}
     break;
 
   case 157:
 
-    {(yyval.PositiveDecimalTypeVal) = 0;;}
+    {(yyval.PositiveDecimalTypeVal) = 0;}
     break;
 
   case 158:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 159:
@@ -3194,192 +3213,192 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad PositionStandardDeviation value");
-	  ;}
+	  }
     break;
 
   case 160:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(2) - (3)].PhysicalLocationTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(2) - (3)].PhysicalLocationTypeVal);}
     break;
 
   case 161:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 162:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 163:
 
-    {(yyval.RobotTypeVal) = new RobotType((yyvsp[(2) - (10)].XmlIDVal), (yyvsp[(3) - (10)].PhysicalLocationTypeVal), (yyvsp[(4) - (10)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (10)].InternalShapeTypeVal), (yyvsp[(6) - (10)].ExternalShapeTypeVal), (yyvsp[(7) - (10)].XmlStringVal), (yyvsp[(8) - (10)].EndEffectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].ListBoxVolumeTypeVal));;}
+    {(yyval.RobotTypeVal) = new RobotType((yyvsp[(2) - (10)].XmlIDVal), (yyvsp[(3) - (10)].PhysicalLocationTypeVal), (yyvsp[(4) - (10)].ListPhysicalLocationTypeVal), (yyvsp[(5) - (10)].InternalShapeTypeVal), (yyvsp[(6) - (10)].ExternalShapeTypeVal), (yyvsp[(7) - (10)].XmlStringVal), (yyvsp[(8) - (10)].EndEffectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].ListBoxVolumeTypeVal));}
     break;
 
   case 164:
 
-    {(yyval.RobotTypeVal) = (yyvsp[(2) - (3)].RobotTypeVal);;}
+    {(yyval.RobotTypeVal) = (yyvsp[(2) - (3)].RobotTypeVal);}
     break;
 
   case 165:
 
-    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(2) - (3)].PhysicalLocationTypeVal);;}
+    {(yyval.PhysicalLocationTypeVal) = (yyvsp[(2) - (3)].PhysicalLocationTypeVal);}
     break;
 
   case 166:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 167:
 
-    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);;}
+    {(yyval.XmlNMTOKENVal) = (yyvsp[(4) - (5)].XmlNMTOKENVal);}
     break;
 
   case 168:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 169:
 
-    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);;}
+    {(yyval.XmlIDREFVal) = (yyvsp[(4) - (5)].XmlIDREFVal);}
     break;
 
   case 170:
 
-    {(yyval.StockKeepingUnitTypeVal) = (yyvsp[(2) - (3)].StockKeepingUnitTypeVal);;}
+    {(yyval.StockKeepingUnitTypeVal) = (yyvsp[(2) - (3)].StockKeepingUnitTypeVal);}
     break;
 
   case 171:
 
-    {(yyval.SlotTypeVal) = new SlotType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].XmlIDREFVal), (yyvsp[(4) - (4)].XmlIDREFVal));;}
+    {(yyval.SlotTypeVal) = new SlotType((yyvsp[(2) - (4)].XmlIDVal), (yyvsp[(3) - (4)].XmlIDREFVal), (yyvsp[(4) - (4)].XmlIDREFVal));}
     break;
 
   case 172:
 
-    {(yyval.SlotTypeVal) = (yyvsp[(2) - (3)].SlotTypeVal);;}
+    {(yyval.SlotTypeVal) = (yyvsp[(2) - (3)].SlotTypeVal);}
     break;
 
   case 173:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].EndEffectorChangingStationTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].EndEffectorChangingStationTypeVal);}
     break;
 
   case 174:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].EndEffectorHolderTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].EndEffectorHolderTypeVal);}
     break;
 
   case 175:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].GripperEffectorTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].GripperEffectorTypeVal);}
     break;
 
   case 176:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].HumanTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].HumanTypeVal);}
     break;
 
   case 177:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].KitTrayTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].KitTrayTypeVal);}
     break;
 
   case 178:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].KitTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].KitTypeVal);}
     break;
 
   case 179:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].KittingWorkstationTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].KittingWorkstationTypeVal);}
     break;
 
   case 180:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].LargeBoxWithEmptyKitTraysTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].LargeBoxWithEmptyKitTraysTypeVal);}
     break;
 
   case 181:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].LargeBoxWithKitsTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].LargeBoxWithKitsTypeVal);}
     break;
 
   case 182:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].LargeContainerTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].LargeContainerTypeVal);}
     break;
 
   case 183:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].MechanicalComponentTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].MechanicalComponentTypeVal);}
     break;
 
   case 184:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].PartTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].PartTypeVal);}
     break;
 
   case 185:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].PartsBinTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].PartsBinTypeVal);}
     break;
 
   case 186:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].PartsTrayTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].PartsTrayTypeVal);}
     break;
 
   case 187:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].RobotTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].RobotTypeVal);}
     break;
 
   case 188:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorMultiCupTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorMultiCupTypeVal);}
     break;
 
   case 189:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorSingleCupTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].VacuumEffectorSingleCupTypeVal);}
     break;
 
   case 190:
 
-    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].WorkTableTypeVal);;}
+    {(yyval.SolidObjectTypeVal) = (yyvsp[(1) - (1)].WorkTableTypeVal);}
     break;
 
   case 191:
 
-    {(yyval.StockKeepingUnitTypeVal) = new StockKeepingUnitType((yyvsp[(2) - (7)].XmlIDVal), (yyvsp[(3) - (7)].XmlStringVal), (yyvsp[(4) - (7)].InternalShapeTypeVal), (yyvsp[(5) - (7)].ExternalShapeTypeVal), (yyvsp[(6) - (7)].PositiveDecimalTypeVal), (yyvsp[(7) - (7)].ListXmlIDREFVal));;}
+    {(yyval.StockKeepingUnitTypeVal) = new StockKeepingUnitType((yyvsp[(2) - (7)].XmlIDVal), (yyvsp[(3) - (7)].XmlStringVal), (yyvsp[(4) - (7)].InternalShapeTypeVal), (yyvsp[(5) - (7)].ExternalShapeTypeVal), (yyvsp[(6) - (7)].PositiveDecimalTypeVal), (yyvsp[(7) - (7)].ListXmlIDREFVal));}
     break;
 
   case 192:
 
-    {(yyval.XmlDateTimeVal) = 0;;}
+    {(yyval.XmlDateTimeVal) = 0;}
     break;
 
   case 193:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 194:
 
-    {(yyval.XmlDateTimeVal) = (yyvsp[(4) - (5)].XmlDateTimeVal);;}
+    {(yyval.XmlDateTimeVal) = (yyvsp[(4) - (5)].XmlDateTimeVal);}
     break;
 
   case 195:
 
-    {(yyval.VectorTypeVal) = new VectorType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));;}
+    {(yyval.VectorTypeVal) = new VectorType((yyvsp[(2) - (5)].XmlIDVal), (yyvsp[(3) - (5)].XmlDecimalVal), (yyvsp[(4) - (5)].XmlDecimalVal), (yyvsp[(5) - (5)].XmlDecimalVal));}
     break;
 
   case 196:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 197:
@@ -3387,12 +3406,12 @@ yyreduce:
     {(yyval.WeightUnitTypeVal) = new WeightUnitType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.WeightUnitTypeVal)->bad)
 	     yyerror("bad WeightUnit value");
-	  ;}
+	  }
     break;
 
   case 198:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 199:
@@ -3400,12 +3419,12 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad Weight value");
-	  ;}
+	  }
     break;
 
   case 200:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 201:
@@ -3413,233 +3432,244 @@ yyreduce:
     {(yyval.PositiveDecimalTypeVal) = new PositiveDecimalType((yyvsp[(4) - (5)].sVal));
 	   if ((yyval.PositiveDecimalTypeVal)->bad)
 	     yyerror("bad Width value");
-	  ;}
+	  }
     break;
 
   case 202:
 
-    {(yyval.BoxVolumeTypeVal) = (yyvsp[(2) - (3)].BoxVolumeTypeVal);;}
+    {(yyval.BoxVolumeTypeVal) = (yyvsp[(2) - (3)].BoxVolumeTypeVal);}
     break;
 
   case 203:
 
-    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);;}
+    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);}
     break;
 
   case 204:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 205:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 206:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 207:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 208:
 
-    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);;}
+    {(yyval.VectorTypeVal) = (yyvsp[(2) - (3)].VectorTypeVal);}
     break;
 
   case 209:
 
-    {yyReadData = 1;;}
+    {yyReadData = 1;}
     break;
 
   case 210:
 
-    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);;}
+    {(yyval.XmlDecimalVal) = (yyvsp[(4) - (5)].XmlDecimalVal);}
     break;
 
   case 211:
 
     {(yyval.BoxyShapeTypeVal) = new BoxyShapeType((yyvsp[(3) - (9)].XmlIDVal), (yyvsp[(4) - (9)].XmlStringVal), (yyvsp[(5) - (9)].PoseLocationTypeVal), (yyvsp[(6) - (9)].PositiveDecimalTypeVal), (yyvsp[(7) - (9)].PositiveDecimalTypeVal), (yyvsp[(8) - (9)].PositiveDecimalTypeVal), (yyvsp[(9) - (9)].XmlBooleanVal));
 	   (yyval.BoxyShapeTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 212:
 
     {(yyval.CylindricalShapeTypeVal) = new CylindricalShapeType((yyvsp[(3) - (8)].XmlIDVal), (yyvsp[(4) - (8)].XmlStringVal), (yyvsp[(5) - (8)].PoseLocationTypeVal), (yyvsp[(6) - (8)].PositiveDecimalTypeVal), (yyvsp[(7) - (8)].PositiveDecimalTypeVal), (yyvsp[(8) - (8)].XmlBooleanVal));
 	   (yyval.CylindricalShapeTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 213:
 
     {(yyval.EndEffectorChangingStationTypeVal) = new EndEffectorChangingStationType((yyvsp[(3) - (9)].XmlIDVal), (yyvsp[(4) - (9)].PhysicalLocationTypeVal), (yyvsp[(5) - (9)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (9)].InternalShapeTypeVal), (yyvsp[(7) - (9)].ExternalShapeTypeVal), (yyvsp[(8) - (9)].MechanicalComponentTypeVal), (yyvsp[(9) - (9)].ListEndEffectorHolderTypeVal));
 	   (yyval.EndEffectorChangingStationTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 214:
 
     {(yyval.EndEffectorHolderTypeVal) = new EndEffectorHolderType((yyvsp[(3) - (8)].XmlIDVal), (yyvsp[(4) - (8)].PhysicalLocationTypeVal), (yyvsp[(5) - (8)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (8)].InternalShapeTypeVal), (yyvsp[(7) - (8)].ExternalShapeTypeVal), (yyvsp[(8) - (8)].EndEffectorTypeVal));
 	   (yyval.EndEffectorHolderTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 215:
 
     {(yyval.GripperEffectorTypeVal) = new GripperEffectorType((yyvsp[(3) - (11)].XmlIDVal), (yyvsp[(4) - (11)].PhysicalLocationTypeVal), (yyvsp[(5) - (11)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (11)].InternalShapeTypeVal), (yyvsp[(7) - (11)].ExternalShapeTypeVal), (yyvsp[(8) - (11)].XmlStringVal), (yyvsp[(9) - (11)].PositiveDecimalTypeVal), (yyvsp[(10) - (11)].PositiveDecimalTypeVal), (yyvsp[(11) - (11)].SolidObjectTypeVal));
 	   (yyval.GripperEffectorTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 216:
 
     {(yyval.HumanTypeVal) = new HumanType((yyvsp[(3) - (7)].XmlIDVal), (yyvsp[(4) - (7)].PhysicalLocationTypeVal), (yyvsp[(5) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (7)].InternalShapeTypeVal), (yyvsp[(7) - (7)].ExternalShapeTypeVal));
 	   (yyval.HumanTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 217:
 
     {(yyval.KitTrayTypeVal) = new KitTrayType((yyvsp[(3) - (7)].XmlIDVal), (yyvsp[(4) - (7)].PhysicalLocationTypeVal), (yyvsp[(5) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (7)].XmlIDREFVal), (yyvsp[(7) - (7)].XmlNMTOKENVal));
 	   (yyval.KitTrayTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 218:
 
     {(yyval.KitTypeVal) = new KitType((yyvsp[(3) - (12)].XmlIDVal), (yyvsp[(4) - (12)].PhysicalLocationTypeVal), (yyvsp[(5) - (12)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (12)].InternalShapeTypeVal), (yyvsp[(7) - (12)].ExternalShapeTypeVal), (yyvsp[(8) - (12)].XmlIDREFVal), (yyvsp[(9) - (12)].KitTrayTypeVal), (yyvsp[(10) - (12)].ListPartTypeVal), (yyvsp[(11) - (12)].ListSlotTypeVal), (yyvsp[(12) - (12)].XmlBooleanVal));
 	   (yyval.KitTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 219:
 
     {(yyval.KittingWorkstationTypeVal) = new KittingWorkstationType((yyvsp[(3) - (16)].XmlIDVal), (yyvsp[(4) - (16)].PhysicalLocationTypeVal), (yyvsp[(5) - (16)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (16)].InternalShapeTypeVal), (yyvsp[(7) - (16)].ExternalShapeTypeVal), (yyvsp[(8) - (16)].AngleUnitTypeVal), (yyvsp[(9) - (16)].EndEffectorChangingStationTypeVal), (yyvsp[(10) - (16)].ListKitDesignTypeVal), (yyvsp[(11) - (16)].LengthUnitTypeVal), (yyvsp[(12) - (16)].ListSolidObjectTypeVal), (yyvsp[(13) - (16)].ListBoxVolumeTypeVal), (yyvsp[(14) - (16)].RobotTypeVal), (yyvsp[(15) - (16)].ListStockKeepingUnitTypeVal), (yyvsp[(16) - (16)].WeightUnitTypeVal));
 	   (yyval.KittingWorkstationTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 220:
 
     {(yyval.LargeBoxWithEmptyKitTraysTypeVal) = new LargeBoxWithEmptyKitTraysType((yyvsp[(3) - (9)].XmlIDVal), (yyvsp[(4) - (9)].PhysicalLocationTypeVal), (yyvsp[(5) - (9)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (9)].InternalShapeTypeVal), (yyvsp[(7) - (9)].ExternalShapeTypeVal), (yyvsp[(8) - (9)].LargeContainerTypeVal), (yyvsp[(9) - (9)].ListKitTrayTypeVal));
 	   (yyval.LargeBoxWithEmptyKitTraysTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 221:
 
     {(yyval.LargeBoxWithKitsTypeVal) = new LargeBoxWithKitsType((yyvsp[(3) - (11)].XmlIDVal), (yyvsp[(4) - (11)].PhysicalLocationTypeVal), (yyvsp[(5) - (11)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (11)].InternalShapeTypeVal), (yyvsp[(7) - (11)].ExternalShapeTypeVal), (yyvsp[(8) - (11)].LargeContainerTypeVal), (yyvsp[(9) - (11)].ListKitTypeVal), (yyvsp[(10) - (11)].XmlIDREFVal), (yyvsp[(11) - (11)].XmlPositiveIntegerVal));
 	   (yyval.LargeBoxWithKitsTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 222:
 
     {(yyval.LargeContainerTypeVal) = new LargeContainerType((yyvsp[(3) - (7)].XmlIDVal), (yyvsp[(4) - (7)].PhysicalLocationTypeVal), (yyvsp[(5) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (7)].XmlIDREFVal), (yyvsp[(7) - (7)].XmlNMTOKENVal));
 	   (yyval.LargeContainerTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 223:
 
     {(yyval.MechanicalComponentTypeVal) = new MechanicalComponentType((yyvsp[(3) - (7)].XmlIDVal), (yyvsp[(4) - (7)].PhysicalLocationTypeVal), (yyvsp[(5) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (7)].InternalShapeTypeVal), (yyvsp[(7) - (7)].ExternalShapeTypeVal));
 	   (yyval.MechanicalComponentTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 224:
 
     {(yyval.PartTypeVal) = new PartType((yyvsp[(3) - (7)].XmlIDVal), (yyvsp[(4) - (7)].PhysicalLocationTypeVal), (yyvsp[(5) - (7)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (7)].XmlIDREFVal), (yyvsp[(7) - (7)].XmlNMTOKENVal));
 	   (yyval.PartTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 225:
 
     {(yyval.PartsBinTypeVal) = new PartsBinType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].PhysicalLocationTypeVal), (yyvsp[(5) - (10)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (10)].XmlIDREFVal), (yyvsp[(7) - (10)].XmlNMTOKENVal), (yyvsp[(8) - (10)].XmlIDREFVal), (yyvsp[(9) - (10)].XmlNonNegativeIntegerVal), (yyvsp[(10) - (10)].ListPartTypeVal));
 	   (yyval.PartsBinTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 226:
 
     {(yyval.PartsTrayTypeVal) = new PartsTrayType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].PhysicalLocationTypeVal), (yyvsp[(5) - (10)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (10)].XmlIDREFVal), (yyvsp[(7) - (10)].XmlNMTOKENVal), (yyvsp[(8) - (10)].XmlIDREFVal), (yyvsp[(9) - (10)].XmlNonNegativeIntegerVal), (yyvsp[(10) - (10)].ListPartTypeVal));
 	   (yyval.PartsTrayTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 227:
 
     {(yyval.PoseLocationInTypeVal) = new PoseLocationInType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].XmlIDREFVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].PointTypeVal), (yyvsp[(7) - (10)].VectorTypeVal), (yyvsp[(8) - (10)].VectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].PositiveDecimalTypeVal));
 	   (yyval.PoseLocationInTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 228:
 
     {(yyval.PoseLocationOnTypeVal) = new PoseLocationOnType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].XmlIDREFVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].PointTypeVal), (yyvsp[(7) - (10)].VectorTypeVal), (yyvsp[(8) - (10)].VectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].PositiveDecimalTypeVal));
 	   (yyval.PoseLocationOnTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 229:
 
     {(yyval.PoseOnlyLocationTypeVal) = new PoseOnlyLocationType((yyvsp[(3) - (10)].XmlIDVal), (yyvsp[(4) - (10)].XmlIDREFVal), (yyvsp[(5) - (10)].XmlDateTimeVal), (yyvsp[(6) - (10)].PointTypeVal), (yyvsp[(7) - (10)].VectorTypeVal), (yyvsp[(8) - (10)].VectorTypeVal), (yyvsp[(9) - (10)].PositiveDecimalTypeVal), (yyvsp[(10) - (10)].PositiveDecimalTypeVal));
 	   (yyval.PoseOnlyLocationTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 230:
 
     {(yyval.RelativeLocationInTypeVal) = new RelativeLocationInType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlIDREFVal), (yyvsp[(5) - (6)].XmlDateTimeVal), (yyvsp[(6) - (6)].XmlStringVal));
 	   (yyval.RelativeLocationInTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 231:
 
     {(yyval.RelativeLocationOnTypeVal) = new RelativeLocationOnType((yyvsp[(3) - (6)].XmlIDVal), (yyvsp[(4) - (6)].XmlIDREFVal), (yyvsp[(5) - (6)].XmlDateTimeVal), (yyvsp[(6) - (6)].XmlStringVal));
 	   (yyval.RelativeLocationOnTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 232:
 
     {(yyval.RobotTypeVal) = new RobotType((yyvsp[(3) - (11)].XmlIDVal), (yyvsp[(4) - (11)].PhysicalLocationTypeVal), (yyvsp[(5) - (11)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (11)].InternalShapeTypeVal), (yyvsp[(7) - (11)].ExternalShapeTypeVal), (yyvsp[(8) - (11)].XmlStringVal), (yyvsp[(9) - (11)].EndEffectorTypeVal), (yyvsp[(10) - (11)].PositiveDecimalTypeVal), (yyvsp[(11) - (11)].ListBoxVolumeTypeVal));
 	   (yyval.RobotTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 233:
 
     {(yyval.VacuumEffectorMultiCupTypeVal) = new VacuumEffectorMultiCupType((yyvsp[(3) - (15)].XmlIDVal), (yyvsp[(4) - (15)].PhysicalLocationTypeVal), (yyvsp[(5) - (15)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (15)].InternalShapeTypeVal), (yyvsp[(7) - (15)].ExternalShapeTypeVal), (yyvsp[(8) - (15)].XmlStringVal), (yyvsp[(9) - (15)].PositiveDecimalTypeVal), (yyvsp[(10) - (15)].PositiveDecimalTypeVal), (yyvsp[(11) - (15)].SolidObjectTypeVal), (yyvsp[(12) - (15)].PositiveDecimalTypeVal), (yyvsp[(13) - (15)].PositiveDecimalTypeVal), (yyvsp[(14) - (15)].XmlPositiveIntegerVal), (yyvsp[(15) - (15)].PositiveDecimalTypeVal));
 	   (yyval.VacuumEffectorMultiCupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 234:
 
     {(yyval.VacuumEffectorSingleCupTypeVal) = new VacuumEffectorSingleCupType((yyvsp[(3) - (13)].XmlIDVal), (yyvsp[(4) - (13)].PhysicalLocationTypeVal), (yyvsp[(5) - (13)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (13)].InternalShapeTypeVal), (yyvsp[(7) - (13)].ExternalShapeTypeVal), (yyvsp[(8) - (13)].XmlStringVal), (yyvsp[(9) - (13)].PositiveDecimalTypeVal), (yyvsp[(10) - (13)].PositiveDecimalTypeVal), (yyvsp[(11) - (13)].SolidObjectTypeVal), (yyvsp[(12) - (13)].PositiveDecimalTypeVal), (yyvsp[(13) - (13)].PositiveDecimalTypeVal));
 	   (yyval.VacuumEffectorSingleCupTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
   case 235:
 
     {(yyval.WorkTableTypeVal) = new WorkTableType((yyvsp[(3) - (8)].XmlIDVal), (yyvsp[(4) - (8)].PhysicalLocationTypeVal), (yyvsp[(5) - (8)].ListPhysicalLocationTypeVal), (yyvsp[(6) - (8)].InternalShapeTypeVal), (yyvsp[(7) - (8)].ExternalShapeTypeVal), (yyvsp[(8) - (8)].ListSolidObjectTypeVal));
 	   (yyval.WorkTableTypeVal)->printTypp = true;
-	  ;}
+	  }
     break;
 
 
 
       default: break;
     }
+  /* User semantic actions sometimes alter yychar, and that requires
+     that yytoken be updated with the new translation.  We take the
+     approach of translating immediately before every use of yytoken.
+     One alternative is translating here after every semantic action,
+     but that translation would be missed if the semantic action invokes
+     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or
+     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an
+     incorrect destructor might then be invoked immediately.  In the
+     case of YYERROR or YYBACKUP, subsequent parser actions might lead
+     to an incorrect destructor call or verbose syntax error message
+     before the lookahead is translated.  */
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
 
   YYPOPSTACK (yylen);
@@ -3667,6 +3697,10 @@ yyreduce:
 | yyerrlab -- here on detecting error |
 `------------------------------------*/
 yyerrlab:
+  /* Make sure we have latest lookahead translation.  See comments at
+     user semantic actions for why this is necessary.  */
+  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
+
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
@@ -3674,37 +3708,36 @@ yyerrlab:
 #if ! YYERROR_VERBOSE
       yyerror (YY_("syntax error"));
 #else
+# define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
+                                        yyssp, yytoken)
       {
-	YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
-	if (yymsg_alloc < yysize && yymsg_alloc < YYSTACK_ALLOC_MAXIMUM)
-	  {
-	    YYSIZE_T yyalloc = 2 * yysize;
-	    if (! (yysize <= yyalloc && yyalloc <= YYSTACK_ALLOC_MAXIMUM))
-	      yyalloc = YYSTACK_ALLOC_MAXIMUM;
-	    if (yymsg != yymsgbuf)
-	      YYSTACK_FREE (yymsg);
-	    yymsg = (char *) YYSTACK_ALLOC (yyalloc);
-	    if (yymsg)
-	      yymsg_alloc = yyalloc;
-	    else
-	      {
-		yymsg = yymsgbuf;
-		yymsg_alloc = sizeof yymsgbuf;
-	      }
-	  }
-
-	if (0 < yysize && yysize <= yymsg_alloc)
-	  {
-	    (void) yysyntax_error (yymsg, yystate, yychar);
-	    yyerror (yymsg);
-	  }
-	else
-	  {
-	    yyerror (YY_("syntax error"));
-	    if (yysize != 0)
-	      goto yyexhaustedlab;
-	  }
+        char const *yymsgp = YY_("syntax error");
+        int yysyntax_error_status;
+        yysyntax_error_status = YYSYNTAX_ERROR;
+        if (yysyntax_error_status == 0)
+          yymsgp = yymsg;
+        else if (yysyntax_error_status == 1)
+          {
+            if (yymsg != yymsgbuf)
+              YYSTACK_FREE (yymsg);
+            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
+            if (!yymsg)
+              {
+                yymsg = yymsgbuf;
+                yymsg_alloc = sizeof yymsgbuf;
+                yysyntax_error_status = 2;
+              }
+            else
+              {
+                yysyntax_error_status = YYSYNTAX_ERROR;
+                yymsgp = yymsg;
+              }
+          }
+        yyerror (yymsgp);
+        if (yysyntax_error_status == 2)
+          goto yyexhaustedlab;
       }
+# undef YYSYNTAX_ERROR
 #endif
     }
 
@@ -3763,7 +3796,7 @@ yyerrlab1:
   for (;;)
     {
       yyn = yypact[yystate];
-      if (yyn != YYPACT_NINF)
+      if (!yypact_value_is_default (yyn))
 	{
 	  yyn += YYTERROR;
 	  if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
@@ -3822,8 +3855,13 @@ yyexhaustedlab:
 
 yyreturn:
   if (yychar != YYEMPTY)
-     yydestruct ("Cleanup: discarding lookahead",
-		 yytoken, &yylval);
+    {
+      /* Make sure we have latest lookahead translation.  See comments at
+         user semantic actions for why this is necessary.  */
+      yytoken = YYTRANSLATE (yychar);
+      yydestruct ("Cleanup: discarding lookahead",
+                  yytoken, &yylval);
+    }
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
   YYPOPSTACK (yylen);

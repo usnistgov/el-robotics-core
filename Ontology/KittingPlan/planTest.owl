@@ -43,7 +43,7 @@ DataPropertyAssertion(ktp:hasKittingPlan_PlanDescription :test
       VarSetType
       WhileActionGroupType (control structure)
     The plan also has implicit instances of:
-      ElseType
+      ElseDoType
       KittingPlanType
       NumberedPlanElementType
       StepWithPredecessorsType
@@ -270,14 +270,14 @@ DataPropertyAssertion(ktp:hasTakePart_PartName :take_part_a_1_3
 // 4 end ktp:TestAndStep
 //*****************************************
 
-ObjectPropertyAssertion(ktp:hasIfActionGroup_Else
+ObjectPropertyAssertion(ktp:hasIfActionGroup_ElseDo
                         :if_group_1 :else_1)
 
 //*****************************************
-// 4 start ktp:Else else_1
+// 4 start ktp:ElseDo else_1
 Declaration(NamedIndividual(:else_1))
-ClassAssertion(ktp:Else :else_1)
-ObjectPropertyAssertion(ktp:hasElse_Step
+ClassAssertion(ktp:ElseDo :else_1)
+ObjectPropertyAssertion(ktp:hasElseDo_Step
                         :else_1 :take_part_a_1_4)
 
 //*****************************************
@@ -291,7 +291,7 @@ DataPropertyAssertion(ktp:hasTakePart_PartName :take_part_a_1_4
 // 5 end ktp:TakePart
 //*****************************************
 
-// 4 end ktp:Else
+// 4 end ktp:ElseDo
 //*****************************************
 
 // 3 end ktp:IfActionGroup

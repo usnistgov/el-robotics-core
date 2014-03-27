@@ -8,14 +8,11 @@ Prefix(ktw:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
 
 Ontology(<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl>
 
-Annotation(rdfs:comment
-  "This kitting ontology models a kitting workstation including objects
-      in the workstation and data associated with the workstation. The
-      ontology assumes coordinate systems are right handed. For objects
-      such as trays or a robot with a preferred orientation with respect to
-      gravity, the Z axis points up (opposite the pull of gravity).")
-Annotation(rdfs:comment
-  "owlPrefix=ktw")
+HasKey(ktw:KitTray (ktw:hasSkuObject_Sku) (ktw:hasKitTray_SerialNumber))
+
+HasKey(ktw:LargeContainer (ktw:hasSkuObject_Sku) (ktw:hasLargeContainer_SerialNumber))
+
+HasKey(ktw:Part (ktw:hasSkuObject_Sku) (ktw:hasPart_SerialNumber))
 
 
 
@@ -195,7 +192,7 @@ AnnotationAssertion(rdfs:comment ktw:DataThing
 SubClassOf(ktp:ArithmeticExpression ktw:DataThing)
 SubClassOf(ktp:BooleanExpression ktw:DataThing)
 SubClassOf(ktw:BoxVolume ktw:DataThing)
-//SubClassOf(ktp:Else ktw:DataThing)
+SubClassOf(ktp:ElseDo ktw:DataThing)
 SubClassOf(ktw:KitDesign ktw:DataThing)
 SubClassOf(ktp:KittingPlan ktw:DataThing)
 SubClassOf(ktp:NumberedPlanElement ktw:DataThing)
@@ -214,7 +211,7 @@ DisjointUnion(ktw:DataThing
               ktp:ArithmeticExpression
               ktp:BooleanExpression
               ktw:BoxVolume
-//              ktp:Else
+              ktp:ElseDo
               ktw:KitDesign
               ktp:KittingPlan
               ktp:NumberedPlanElement
@@ -229,73 +226,6 @@ DisjointUnion(ktw:DataThing
               ktp:TestAndStep
               ktp:VariableDeclaration
               ktw:Vector)
-
-
-
-Declaration(Class(ktw:EndEffector))
-
-AnnotationAssertion(rdfs:comment ktw:EndEffector
-  "EndEffector is derived from NoSkuObject.
-  An instance of EndEffector has the following:
-    PrimaryLocation (inherited)
-    SecondaryLocation (inherited, optional, multiple)
-    InternalShape (inherited, optional)
-    ExternalShape (inherited, optional)
-    Description
-    Weight
-    MaximumLoadWeight
-    HeldObject (optional).
- 
-  EndEffector is an abstract type from which more specific types
-  of end effector are derived. An EndEffector is an end effector
-  for a robot. The optional HeldObject is for the object being held
-  by the end effector, if the end effector is holding an object.
-  Every EndEffector is either a GripperEffector or a
-  VacuumEffector. Every EndEffector in a KittingWorkstation
-  is either attached to the end of a robot arm or sitting in an
-  EndEffectorHolder at an EndEffectorChangingStation.")
-
-SubClassOf(ktw:GripperEffector ktw:EndEffector)
-SubClassOf(ktw:VacuumEffector ktw:EndEffector)
-DisjointUnion(ktw:EndEffector
-              ktw:GripperEffector
-              ktw:VacuumEffector)
-
-Declaration(DataProperty(ktw:hasEndEffector_Description))
-DataPropertyDomain(ktw:hasEndEffector_Description ktw:EndEffector)
-DataPropertyRange(ktw:hasEndEffector_Description xsd:string)
-FunctionalDataProperty(ktw:hasEndEffector_Description)
-EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasEndEffector_Description xsd:string)
-  DataAllValuesFrom (ktw:hasEndEffector_Description xsd:string)))
-
-Declaration(DataProperty(ktw:hasEndEffector_Weight))
-DataPropertyDomain(ktw:hasEndEffector_Weight ktw:EndEffector)
-DataPropertyRange(ktw:hasEndEffector_Weight ktw:positiveDecimal)
-FunctionalDataProperty(ktw:hasEndEffector_Weight)
-EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasEndEffector_Weight ktw:positiveDecimal)
-  DataAllValuesFrom (ktw:hasEndEffector_Weight ktw:positiveDecimal)))
-
-Declaration(DataProperty(ktw:hasEndEffector_MaximumLoadWeight))
-DataPropertyDomain(ktw:hasEndEffector_MaximumLoadWeight ktw:EndEffector)
-DataPropertyRange(ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)
-FunctionalDataProperty(ktw:hasEndEffector_MaximumLoadWeight)
-EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)
-  DataAllValuesFrom (ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)))
-
-Declaration(ObjectProperty(ktw:hasEndEffector_HeldObject))
-ObjectPropertyDomain(ktw:hasEndEffector_HeldObject ktw:EndEffector)
-ObjectPropertyRange(ktw:hasEndEffector_HeldObject ktw:SolidObject)
-InverseFunctionalObjectProperty(ktw:hasEndEffector_HeldObject)
-FunctionalObjectProperty(ktw:hasEndEffector_HeldObject)
-
-Declaration(ObjectProperty(ktw:hadByHeldObject_EndEffector))
-InverseObjectProperties(ktw:hasEndEffector_HeldObject
-                        ktw:hadByHeldObject_EndEffector)
-ObjectPropertyDomain(ktw:hadByHeldObject_EndEffector ktw:SolidObject)
-ObjectPropertyRange(ktw:hadByHeldObject_EndEffector ktw:EndEffector)
 
 
 
@@ -372,6 +302,73 @@ InverseObjectProperties(ktw:hasEndEffectorHolder_EndEffector
                         ktw:hadByEndEffector_EndEffectorHolder)
 ObjectPropertyDomain(ktw:hadByEndEffector_EndEffectorHolder ktw:EndEffector)
 ObjectPropertyRange(ktw:hadByEndEffector_EndEffectorHolder ktw:EndEffectorHolder)
+
+
+
+Declaration(Class(ktw:EndEffector))
+
+AnnotationAssertion(rdfs:comment ktw:EndEffector
+  "EndEffector is derived from NoSkuObject.
+  An instance of EndEffector has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description
+    Weight
+    MaximumLoadWeight
+    HeldObject (optional).
+ 
+  EndEffector is an abstract type from which more specific types
+  of end effector are derived. An EndEffector is an end effector
+  for a robot. The optional HeldObject is for the object being held
+  by the end effector, if the end effector is holding an object.
+  Every EndEffector is either a GripperEffector or a
+  VacuumEffector. Every EndEffector in a KittingWorkstation
+  is either attached to the end of a robot arm or sitting in an
+  EndEffectorHolder at an EndEffectorChangingStation.")
+
+SubClassOf(ktw:GripperEffector ktw:EndEffector)
+SubClassOf(ktw:VacuumEffector ktw:EndEffector)
+DisjointUnion(ktw:EndEffector
+              ktw:GripperEffector
+              ktw:VacuumEffector)
+
+Declaration(DataProperty(ktw:hasEndEffector_Description))
+DataPropertyDomain(ktw:hasEndEffector_Description ktw:EndEffector)
+DataPropertyRange(ktw:hasEndEffector_Description xsd:string)
+FunctionalDataProperty(ktw:hasEndEffector_Description)
+EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasEndEffector_Description xsd:string)
+  DataAllValuesFrom (ktw:hasEndEffector_Description xsd:string)))
+
+Declaration(DataProperty(ktw:hasEndEffector_Weight))
+DataPropertyDomain(ktw:hasEndEffector_Weight ktw:EndEffector)
+DataPropertyRange(ktw:hasEndEffector_Weight ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasEndEffector_Weight)
+EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasEndEffector_Weight ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasEndEffector_Weight ktw:positiveDecimal)))
+
+Declaration(DataProperty(ktw:hasEndEffector_MaximumLoadWeight))
+DataPropertyDomain(ktw:hasEndEffector_MaximumLoadWeight ktw:EndEffector)
+DataPropertyRange(ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasEndEffector_MaximumLoadWeight)
+EquivalentClasses(ktw:EndEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasEndEffector_MaximumLoadWeight ktw:positiveDecimal)))
+
+Declaration(ObjectProperty(ktw:hasEndEffector_HeldObject))
+ObjectPropertyDomain(ktw:hasEndEffector_HeldObject ktw:EndEffector)
+ObjectPropertyRange(ktw:hasEndEffector_HeldObject ktw:SolidObject)
+InverseFunctionalObjectProperty(ktw:hasEndEffector_HeldObject)
+FunctionalObjectProperty(ktw:hasEndEffector_HeldObject)
+
+Declaration(ObjectProperty(ktw:hadByHeldObject_EndEffector))
+InverseObjectProperties(ktw:hasEndEffector_HeldObject
+                        ktw:hadByHeldObject_EndEffector)
+ObjectPropertyDomain(ktw:hadByHeldObject_EndEffector ktw:SolidObject)
+ObjectPropertyRange(ktw:hadByHeldObject_EndEffector ktw:EndEffector)
 
 
 
@@ -474,6 +471,70 @@ DisjointUnion(ktw:InternalShape
 
 
 
+Declaration(Class(ktw:KitDesign))
+
+AnnotationAssertion(rdfs:comment ktw:KitDesign
+  "KitDesign is derived from DataThing.
+  An instance of KitDesign has the following:
+    KitTraySku
+    PartRefAndPose (multiple).
+ 
+  The KitTraySku identifies a type of kit tray. The Pose
+  in a PartRefAndPose is the location of the part relative to the
+  coordinate system of the ShapeDesign of the tray.")
+
+
+Declaration(ObjectProperty(ktw:hasKitDesign_KitTraySku))
+ObjectPropertyDomain(ktw:hasKitDesign_KitTraySku ktw:KitDesign)
+ObjectPropertyRange(ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)
+FunctionalObjectProperty(ktw:hasKitDesign_KitTraySku)
+EquivalentClasses(ktw:KitDesign ObjectIntersectionOf(
+  ObjectSomeValuesFrom(ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)
+  ObjectAllValuesFrom (ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)))
+
+Declaration(ObjectProperty(ktw:hadByKitTraySku_KitDesign))
+InverseObjectProperties(ktw:hasKitDesign_KitTraySku
+                        ktw:hadByKitTraySku_KitDesign)
+ObjectPropertyDomain(ktw:hadByKitTraySku_KitDesign ktw:StockKeepingUnit)
+ObjectPropertyRange(ktw:hadByKitTraySku_KitDesign ktw:KitDesign)
+
+Declaration(ObjectProperty(ktw:hasKitDesign_PartRefAndPose))
+ObjectPropertyDomain(ktw:hasKitDesign_PartRefAndPose ktw:KitDesign)
+ObjectPropertyRange(ktw:hasKitDesign_PartRefAndPose ktw:PartRefAndPose)
+InverseFunctionalObjectProperty(ktw:hasKitDesign_PartRefAndPose)
+
+Declaration(ObjectProperty(ktw:hadByPartRefAndPose_KitDesign))
+InverseObjectProperties(ktw:hasKitDesign_PartRefAndPose
+                        ktw:hadByPartRefAndPose_KitDesign)
+ObjectPropertyDomain(ktw:hadByPartRefAndPose_KitDesign ktw:PartRefAndPose)
+ObjectPropertyRange(ktw:hadByPartRefAndPose_KitDesign ktw:KitDesign)
+
+
+
+Declaration(Class(ktw:KitTray))
+
+AnnotationAssertion(rdfs:comment ktw:KitTray
+  "KitTray is derived from SkuObject.
+  An instance of KitTray has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber.
+ 
+  The Sku specifies the SKU of the kit tray. A
+  KitTray is designed to hold Parts with various SKUs in
+  known positions.")
+
+Declaration(DataProperty(ktw:hasKitTray_SerialNumber))
+DataPropertyDomain(ktw:hasKitTray_SerialNumber ktw:KitTray)
+DataPropertyRange(ktw:hasKitTray_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasKitTray_SerialNumber)
+EquivalentClasses(ktw:KitTray ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasKitTray_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasKitTray_SerialNumber xsd:NMTOKEN)))
+
+
+
 Declaration(Class(ktw:Kit))
 
 AnnotationAssertion(rdfs:comment ktw:Kit
@@ -516,8 +577,6 @@ InverseObjectProperties(ktw:hasKit_Design
 ObjectPropertyDomain(ktw:hadByDesign_Kit ktw:KitDesign)
 ObjectPropertyRange(ktw:hadByDesign_Kit ktw:Kit)
 
-HasKey(ktw:KitTray (ktw:hasSkuObject_Sku) (ktw:hasKitTray_SerialNumber))
-
 Declaration(ObjectProperty(ktw:hasKit_KitTray))
 ObjectPropertyDomain(ktw:hasKit_KitTray ktw:Kit)
 ObjectPropertyRange(ktw:hasKit_KitTray ktw:KitTray)
@@ -532,8 +591,6 @@ InverseObjectProperties(ktw:hasKit_KitTray
                         ktw:hadByKitTray_Kit)
 ObjectPropertyDomain(ktw:hadByKitTray_Kit ktw:KitTray)
 ObjectPropertyRange(ktw:hadByKitTray_Kit ktw:Kit)
-
-HasKey(ktw:Part (ktw:hasSkuObject_Sku) (ktw:hasPart_SerialNumber))
 
 Declaration(ObjectProperty(ktw:hasKit_Part))
 ObjectPropertyDomain(ktw:hasKit_Part ktw:Kit)
@@ -564,46 +621,6 @@ FunctionalDataProperty(ktw:hasKit_Finished)
 EquivalentClasses(ktw:Kit ObjectIntersectionOf(
   DataSomeValuesFrom(ktw:hasKit_Finished xsd:boolean)
   DataAllValuesFrom (ktw:hasKit_Finished xsd:boolean)))
-
-
-
-Declaration(Class(ktw:KitDesign))
-
-AnnotationAssertion(rdfs:comment ktw:KitDesign
-  "KitDesign is derived from DataThing.
-  An instance of KitDesign has the following:
-    KitTraySku
-    PartRefAndPose (multiple).
- 
-  The KitTraySku identifies a type of kit tray. The Pose
-  in a PartRefAndPose is the location of the part relative to the
-  coordinate system of the ShapeDesign of the tray.")
-
-
-Declaration(ObjectProperty(ktw:hasKitDesign_KitTraySku))
-ObjectPropertyDomain(ktw:hasKitDesign_KitTraySku ktw:KitDesign)
-ObjectPropertyRange(ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)
-FunctionalObjectProperty(ktw:hasKitDesign_KitTraySku)
-EquivalentClasses(ktw:KitDesign ObjectIntersectionOf(
-  ObjectSomeValuesFrom(ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)
-  ObjectAllValuesFrom (ktw:hasKitDesign_KitTraySku ktw:StockKeepingUnit)))
-
-Declaration(ObjectProperty(ktw:hadByKitTraySku_KitDesign))
-InverseObjectProperties(ktw:hasKitDesign_KitTraySku
-                        ktw:hadByKitTraySku_KitDesign)
-ObjectPropertyDomain(ktw:hadByKitTraySku_KitDesign ktw:StockKeepingUnit)
-ObjectPropertyRange(ktw:hadByKitTraySku_KitDesign ktw:KitDesign)
-
-Declaration(ObjectProperty(ktw:hasKitDesign_PartRefAndPose))
-ObjectPropertyDomain(ktw:hasKitDesign_PartRefAndPose ktw:KitDesign)
-ObjectPropertyRange(ktw:hasKitDesign_PartRefAndPose ktw:PartRefAndPose)
-InverseFunctionalObjectProperty(ktw:hasKitDesign_PartRefAndPose)
-
-Declaration(ObjectProperty(ktw:hadByPartRefAndPose_KitDesign))
-InverseObjectProperties(ktw:hasKitDesign_PartRefAndPose
-                        ktw:hadByPartRefAndPose_KitDesign)
-ObjectPropertyDomain(ktw:hadByPartRefAndPose_KitDesign ktw:PartRefAndPose)
-ObjectPropertyRange(ktw:hadByPartRefAndPose_KitDesign ktw:KitDesign)
 
 
 
@@ -750,30 +767,6 @@ EquivalentClasses(ktw:KittingWorkstation ObjectIntersectionOf(
 
 
 
-Declaration(Class(ktw:KitTray))
-
-AnnotationAssertion(rdfs:comment ktw:KitTray
-  "KitTray is derived from SkuObject.
-  An instance of KitTray has the following:
-    PrimaryLocation (inherited)
-    SecondaryLocation (inherited, optional, multiple)
-    Sku (inherited)
-    SerialNumber.
- 
-  The Sku specifies the SKU of the kit tray. A
-  KitTray is designed to hold Parts with various SKUs in
-  known positions.")
-
-Declaration(DataProperty(ktw:hasKitTray_SerialNumber))
-DataPropertyDomain(ktw:hasKitTray_SerialNumber ktw:KitTray)
-DataPropertyRange(ktw:hasKitTray_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(ktw:hasKitTray_SerialNumber)
-EquivalentClasses(ktw:KitTray ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasKitTray_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (ktw:hasKitTray_SerialNumber xsd:NMTOKEN)))
-
-
-
 Declaration(Class(ktw:LargeBoxWithEmptyKitTrays))
 
 AnnotationAssertion(rdfs:comment ktw:LargeBoxWithEmptyKitTrays
@@ -794,8 +787,6 @@ AnnotationAssertion(rdfs:comment ktw:LargeBoxWithEmptyKitTrays
   is relative to the LargeContainer. The KitTrays in a
   LargeBoxWithEmptyKitTrays are intended to all be of the same
   SKU, although there is currently no formal requirement for that.")
-
-HasKey(ktw:LargeContainer (ktw:hasSkuObject_Sku) (ktw:hasLargeContainer_SerialNumber))
 
 Declaration(ObjectProperty(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer))
 ObjectPropertyDomain(ktw:hasLargeBoxWithEmptyKitTrays_LargeContainer ktw:LargeBoxWithEmptyKitTrays)
@@ -1011,29 +1002,6 @@ ObjectPropertyRange(ktw:hadByExternalShape_NoSkuObject ktw:NoSkuObject)
 
 
 
-Declaration(Class(ktw:Part))
-
-AnnotationAssertion(rdfs:comment ktw:Part
-  "Part is derived from SkuObject.
-  An instance of Part has the following:
-    PrimaryLocation (inherited)
-    SecondaryLocation (inherited, optional, multiple)
-    Sku (inherited)
-    SerialNumber.
- 
-  The Part represents a part.
-  The Sku specifies the SKU for the part.")
-
-Declaration(DataProperty(ktw:hasPart_SerialNumber))
-DataPropertyDomain(ktw:hasPart_SerialNumber ktw:Part)
-DataPropertyRange(ktw:hasPart_SerialNumber xsd:NMTOKEN)
-FunctionalDataProperty(ktw:hasPart_SerialNumber)
-EquivalentClasses(ktw:Part ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasPart_SerialNumber xsd:NMTOKEN)
-  DataAllValuesFrom (ktw:hasPart_SerialNumber xsd:NMTOKEN)))
-
-
-
 Declaration(Class(ktw:PartRefAndPose))
 
 AnnotationAssertion(rdfs:comment ktw:PartRefAndPose
@@ -1112,6 +1080,29 @@ ObjectPropertyRange(ktw:hadByZAxis_PartRefAndPose ktw:PartRefAndPose)
 
 
 
+Declaration(Class(ktw:Part))
+
+AnnotationAssertion(rdfs:comment ktw:Part
+  "Part is derived from SkuObject.
+  An instance of Part has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber.
+ 
+  The Part represents a part.
+  The Sku specifies the SKU for the part.")
+
+Declaration(DataProperty(ktw:hasPart_SerialNumber))
+DataPropertyDomain(ktw:hasPart_SerialNumber ktw:Part)
+DataPropertyRange(ktw:hasPart_SerialNumber xsd:NMTOKEN)
+FunctionalDataProperty(ktw:hasPart_SerialNumber)
+EquivalentClasses(ktw:Part ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasPart_SerialNumber xsd:NMTOKEN)
+  DataAllValuesFrom (ktw:hasPart_SerialNumber xsd:NMTOKEN)))
+
+
+
 Declaration(Class(ktw:PartsBin))
 
 AnnotationAssertion(rdfs:comment ktw:PartsBin
@@ -1130,6 +1121,27 @@ AnnotationAssertion(rdfs:comment ktw:PartsBin
   same SKU (PartSku)in unknown random positions. Each
   Part in the tray should be listed explictly and have a
   RelativeLocationIn with the bin as its RefObject.")
+
+
+
+Declaration(Class(ktw:PartsTray))
+
+AnnotationAssertion(rdfs:comment ktw:PartsTray
+  "PartsTray is derived from PartsVessel.
+  An instance of PartsTray has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    Sku (inherited)
+    SerialNumber (inherited)
+    PartSku (inherited)
+    PartQuantity (inherited)
+    Part (inherited, optional, multiple).
+ 
+  The Sku specifies the SKU of the PartsTray. A
+  PartsTray holds a number of Parts (PartQuantity) with the
+  same SKU (PartSku) in known positions. Each Part in
+  the tray should be listed explictly and have a PoseLocation with
+  the parts tray as its RefObject.")
 
 
 
@@ -1200,27 +1212,6 @@ InverseObjectProperties(ktw:hasPartsVessel_Part
                         ktw:hadByPart_PartsVessel)
 ObjectPropertyDomain(ktw:hadByPart_PartsVessel ktw:Part)
 ObjectPropertyRange(ktw:hadByPart_PartsVessel ktw:PartsVessel)
-
-
-
-Declaration(Class(ktw:PartsTray))
-
-AnnotationAssertion(rdfs:comment ktw:PartsTray
-  "PartsTray is derived from PartsVessel.
-  An instance of PartsTray has the following:
-    PrimaryLocation (inherited)
-    SecondaryLocation (inherited, optional, multiple)
-    Sku (inherited)
-    SerialNumber (inherited)
-    PartSku (inherited)
-    PartQuantity (inherited)
-    Part (inherited, optional, multiple).
- 
-  The Sku specifies the SKU of the PartsTray. A
-  PartsTray holds a number of Parts (PartQuantity) with the
-  same SKU (PartSku) in known positions. Each Part in
-  the tray should be listed explictly and have a PoseLocation with
-  the parts tray as its RefObject.")
 
 
 
@@ -1300,6 +1291,44 @@ FunctionalDataProperty(ktw:hasPoint_Z)
 EquivalentClasses(ktw:Point ObjectIntersectionOf(
   DataSomeValuesFrom(ktw:hasPoint_Z xsd:decimal)
   DataAllValuesFrom (ktw:hasPoint_Z xsd:decimal)))
+
+
+
+Declaration(Class(ktw:PoseLocationIn))
+
+AnnotationAssertion(rdfs:comment ktw:PoseLocationIn
+  "PoseLocationIn is derived from PoseLocation.
+  An instance of PoseLocationIn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional).
+    Point (inherited)
+    XAxis (inherited)
+    ZAxis  (inherited)
+    PositionStandardDeviation (inherited, optional)
+    OrientationStandardDeviation (inherited, optional).
+ 
+  A PoseLocationIn indicates that the object is inside the
+  RefObject. The notion of 'inside' is vague and might be made
+  more precise.")
+
+
+
+Declaration(Class(ktw:PoseLocationOn))
+
+AnnotationAssertion(rdfs:comment ktw:PoseLocationOn
+  "PoseLocationOn is derived from PoseLocation.
+  An instance of PoseLocationOn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional).
+    Point (inherited)
+    XAxis (inherited)
+    ZAxis  (inherited)
+    PositionStandardDeviation (inherited, optional)
+    OrientationStandardDeviation (inherited, optional).
+ 
+  A PoseLocationOn indicates that the Object is on top of
+  the RefObject. The notion of 'on top of' is vague and might be
+  made more precise.")
 
 
 
@@ -1402,44 +1431,6 @@ FunctionalDataProperty(ktw:hasPoseLocation_OrientationStandardDeviation)
 
 
 
-Declaration(Class(ktw:PoseLocationIn))
-
-AnnotationAssertion(rdfs:comment ktw:PoseLocationIn
-  "PoseLocationIn is derived from PoseLocation.
-  An instance of PoseLocationIn has the following:
-    RefObject (inherited)
-    Timestamp (inherited, optional).
-    Point (inherited)
-    XAxis (inherited)
-    ZAxis  (inherited)
-    PositionStandardDeviation (inherited, optional)
-    OrientationStandardDeviation (inherited, optional).
- 
-  A PoseLocationIn indicates that the object is inside
-  the location-parent. The notion of 'inside' is vague and might be
-  made more precise.")
-
-
-
-Declaration(Class(ktw:PoseLocationOn))
-
-AnnotationAssertion(rdfs:comment ktw:PoseLocationOn
-  "PoseLocationOn is derived from PoseLocation.
-  An instance of PoseLocationOn has the following:
-    RefObject (inherited)
-    Timestamp (inherited, optional).
-    Point (inherited)
-    XAxis (inherited)
-    ZAxis  (inherited)
-    PositionStandardDeviation (inherited, optional)
-    OrientationStandardDeviation (inherited, optional).
- 
-  A PoseLocationOn indicates that the Object is on top of the
-  location-parent. The notion of 'on top of' is vague and might be
-  made more precise.")
-
-
-
 Declaration(Class(ktw:PoseOnlyLocation))
 
 AnnotationAssertion(rdfs:comment ktw:PoseOnlyLocation
@@ -1456,6 +1447,36 @@ AnnotationAssertion(rdfs:comment ktw:PoseOnlyLocation
   An object located by a PoseOnlyLocation may or may not be
   inside or on top of the reference object of the
   PoseOnlyLocation.")
+
+
+
+Declaration(Class(ktw:RelativeLocationIn))
+
+AnnotationAssertion(rdfs:comment ktw:RelativeLocationIn
+  "RelativeLocationIn is derived from RelativeLocation.
+  An instance of RelativeLocationIn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional)
+    Description (inherited).
+ 
+  A RelativeLocationIn indicates that the SolidObject that
+  has the RelativeLocation is in the RefObject. The notion of
+  'in' is vague and might be made more precise.")
+
+
+
+Declaration(Class(ktw:RelativeLocationOn))
+
+AnnotationAssertion(rdfs:comment ktw:RelativeLocationOn
+  "RelativeLocationOn is derived from RelativeLocation.
+  An instance of RelativeLocationOn has the following:
+    RefObject (inherited)
+    Timestamp (inherited, optional)
+    Description (inherited).
+ 
+  A RelativeLocationOn indicates that the SolidObject that
+  has the RelativeLocation is on top of the the RefObject. The
+  notion of 'on top of' is vague and might be made more precise.")
 
 
 
@@ -1488,36 +1509,6 @@ FunctionalDataProperty(ktw:hasRelativeLocation_Description)
 EquivalentClasses(ktw:RelativeLocation ObjectIntersectionOf(
   DataSomeValuesFrom(ktw:hasRelativeLocation_Description xsd:string)
   DataAllValuesFrom (ktw:hasRelativeLocation_Description xsd:string)))
-
-
-
-Declaration(Class(ktw:RelativeLocationIn))
-
-AnnotationAssertion(rdfs:comment ktw:RelativeLocationIn
-  "RelativeLocationIn is derived from RelativeLocation.
-  An instance of RelativeLocationIn has the following:
-    RefObject (inherited)
-    Timestamp (inherited, optional)
-    Description (inherited).
- 
-  A RelativeLocationIn indicates that the SolidObject that
-  has the RelativeLocation is in the RefObject. The notion of
-  'in' is vague and might be made more precise.")
-
-
-
-Declaration(Class(ktw:RelativeLocationOn))
-
-AnnotationAssertion(rdfs:comment ktw:RelativeLocationOn
-  "RelativeLocationOn is derived from RelativeLocation.
-  An instance of RelativeLocationOn has the following:
-    RefObject (inherited)
-    Timestamp (inherited, optional)
-    Description (inherited).
- 
-  A RelativeLocationOn indicates that the SolidObject that
-  has the RelativeLocation is on top of the the RefObject. The
-  notion of 'on top of' is vague and might be made more precise.")
 
 
 
@@ -1843,50 +1834,6 @@ ObjectPropertyRange(ktw:hadByEndEffector_StockKeepingUnit ktw:StockKeepingUnit)
 
 
 
-Declaration(Class(ktw:VacuumEffector))
-
-AnnotationAssertion(rdfs:comment ktw:VacuumEffector
-  "VacuumEffector is derived from EndEffector.
-  An instance of VacuumEffector has the following:
-    PrimaryLocation (inherited)
-    SecondaryLocation (inherited, optional, multiple)
-    InternalShape (inherited, optional)
-    ExternalShape (inherited, optional)
-    Description (inherited)
-    Weight (inherited)
-    MaximumLoadWeight (inherited)
-    CupDiameter
-    Length.
- 
-  VacuumEffector is an abstract type from which more specific
-  types of VacuumEffector are derived. A VacuumEffector holds
-  an object by putting a cup or cups against the object and applying
-  a vacuum.")
-
-SubClassOf(ktw:VacuumEffectorMultiCup ktw:VacuumEffector)
-SubClassOf(ktw:VacuumEffectorSingleCup ktw:VacuumEffector)
-DisjointUnion(ktw:VacuumEffector
-              ktw:VacuumEffectorMultiCup
-              ktw:VacuumEffectorSingleCup)
-
-Declaration(DataProperty(ktw:hasVacuumEffector_CupDiameter))
-DataPropertyDomain(ktw:hasVacuumEffector_CupDiameter ktw:VacuumEffector)
-DataPropertyRange(ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)
-FunctionalDataProperty(ktw:hasVacuumEffector_CupDiameter)
-EquivalentClasses(ktw:VacuumEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)
-  DataAllValuesFrom (ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)))
-
-Declaration(DataProperty(ktw:hasVacuumEffector_Length))
-DataPropertyDomain(ktw:hasVacuumEffector_Length ktw:VacuumEffector)
-DataPropertyRange(ktw:hasVacuumEffector_Length ktw:positiveDecimal)
-FunctionalDataProperty(ktw:hasVacuumEffector_Length)
-EquivalentClasses(ktw:VacuumEffector ObjectIntersectionOf(
-  DataSomeValuesFrom(ktw:hasVacuumEffector_Length ktw:positiveDecimal)
-  DataAllValuesFrom (ktw:hasVacuumEffector_Length ktw:positiveDecimal)))
-
-
-
 Declaration(Class(ktw:VacuumEffectorMultiCup))
 
 AnnotationAssertion(rdfs:comment ktw:VacuumEffectorMultiCup
@@ -1955,6 +1902,50 @@ AnnotationAssertion(rdfs:comment ktw:VacuumEffectorSingleCup
   coordinate system of the VacuumEffectorSingleCup. The Z axis of
   the coordinate system is the axis of that circle, and the length of
   the VacuumEffector is measured along that axis.")
+
+
+
+Declaration(Class(ktw:VacuumEffector))
+
+AnnotationAssertion(rdfs:comment ktw:VacuumEffector
+  "VacuumEffector is derived from EndEffector.
+  An instance of VacuumEffector has the following:
+    PrimaryLocation (inherited)
+    SecondaryLocation (inherited, optional, multiple)
+    InternalShape (inherited, optional)
+    ExternalShape (inherited, optional)
+    Description (inherited)
+    Weight (inherited)
+    MaximumLoadWeight (inherited)
+    CupDiameter
+    Length.
+ 
+  VacuumEffector is an abstract type from which more specific
+  types of VacuumEffector are derived. A VacuumEffector holds
+  an object by putting a cup or cups against the object and applying
+  a vacuum.")
+
+SubClassOf(ktw:VacuumEffectorMultiCup ktw:VacuumEffector)
+SubClassOf(ktw:VacuumEffectorSingleCup ktw:VacuumEffector)
+DisjointUnion(ktw:VacuumEffector
+              ktw:VacuumEffectorMultiCup
+              ktw:VacuumEffectorSingleCup)
+
+Declaration(DataProperty(ktw:hasVacuumEffector_CupDiameter))
+DataPropertyDomain(ktw:hasVacuumEffector_CupDiameter ktw:VacuumEffector)
+DataPropertyRange(ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasVacuumEffector_CupDiameter)
+EquivalentClasses(ktw:VacuumEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasVacuumEffector_CupDiameter ktw:positiveDecimal)))
+
+Declaration(DataProperty(ktw:hasVacuumEffector_Length))
+DataPropertyDomain(ktw:hasVacuumEffector_Length ktw:VacuumEffector)
+DataPropertyRange(ktw:hasVacuumEffector_Length ktw:positiveDecimal)
+FunctionalDataProperty(ktw:hasVacuumEffector_Length)
+EquivalentClasses(ktw:VacuumEffector ObjectIntersectionOf(
+  DataSomeValuesFrom(ktw:hasVacuumEffector_Length ktw:positiveDecimal)
+  DataAllValuesFrom (ktw:hasVacuumEffector_Length ktw:positiveDecimal)))
 
 
 

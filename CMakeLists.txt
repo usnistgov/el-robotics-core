@@ -37,5 +37,6 @@ add_subdirectory(controller)
 add_subdirectory(executor)
 add_subdirectory(Sensor/USARTruth)
 add_subdirectory(test)
+add_subdirectory(xml)
 #add_subdirectory(objectGen/GUI)
 

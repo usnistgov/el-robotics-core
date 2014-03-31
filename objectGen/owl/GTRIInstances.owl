@@ -7,7 +7,7 @@ Prefix(:=<http://www.nist.gov/el/ontologies/kittingInstancesExternalShape.owl#>)
 Prefix(ktw:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
 
 Ontology(<http://www.gatech.edu/ontologies/GTRIInstances.owl>
-Import(<file:/home/stephen/projects/ipmas/Ontology/KittingPlan/kittingWorkstationClasses.owl>)
+Import(<file:/home/stephen/projects/ipmas/Ontology/Kitting/kittingWorkstationClasses.owl>)
 
 // SubClassOf(:ExternalShape :ShapeDesign)
 Declaration(NamedIndividual(:box_volume_1))

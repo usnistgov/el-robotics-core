@@ -1,4 +1,4 @@
-README for the kittingWorkstation directory - last updated 2013Oct25
+README for the kittingWorkstation directory - last updated 2013Dec2
 
 The kittingWorkstation (formerly called kitting) directory contains the
 following subdirectories:
@@ -93,18 +93,17 @@ such as XMLSpy to write an XML instance file corresponding to the
 kittingWorkstation.xsd schema and then run it through the
 owlKittingWorkstationPrinter with a command of the form:
 
- bin/owlKittingWorkstationPrinter <xmlInst> <owlInst> <owlClass> <uri>
+ bin/owlKittingWorkstationPrinter <xmlInstance> <owlInstance> <uri>
 
 where
-<xmlInst> = path to XML instance file to read
-<owlInst> = name of OWL instance file to write
-<owlClass> = name of OWL class file
+<xmlInstance> = path to XML instance file to read
+<owlInstance> = name of OWL instance file to write
 <uri> = URI base to use in header
 
 For example, the following command will print the OWL file
 kittingInstancesGoal1.owl
 
-bin/owlKittingWorkstationPrinter xmlInstanceFiles/kittingInstancesGoal1.xml kittingInstancesGoal1.owl kittingWorkstationClasses.owl http://www.nist.gov/el/ontologies
+bin/owlKittingWorkstationPrinter xmlInstanceFiles/kittingInstancesGoal1.xml kittingInstancesGoal1.owl http://www.nist.gov/el/ontologies
 
 The kittingWorkstation.lex and kittingWorkstation.y source code files
 used for the owlKittingWorkstationPrinter are the ones produced by the

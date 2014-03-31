@@ -14,3 +14,4 @@ message("In xml directory")
 project(testMe)
 
 add_subdirectory(common)
+add_subdirectory(kittingWorkstation)

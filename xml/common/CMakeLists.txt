@@ -61,52 +61,30 @@ add_executable(compreOwl ${compareOwl_SOURCES})
 
 link_directories(${LIBRARY_OUTPUT_PATH})
 
-# add_custom_target(compactOwlGen echo "Creating compactOwl.cc")
-# add_custom_target(patternLexGen echo "Creating patternLex.cc")
-# add_custom_target(xmlSchemaLexGen echo "Creating xmlSchemaLex.cc")
-
 add_custom_command(
-#  SOURCE source/compactOwl.lex
   COMMAND echo "Running flex on compactOwl.cc"
   COMMAND flex -L -o source/compactOwl.cc source/compactOwl.lex
-#  ARGS -L -o source/compactOwl.cc
-#  TARGET compactOwlGen
   DEPENDS source/compactOwl.lex
   OUTPUT source/compactOwl.cc)
 
 add_custom_command(
-#  SOURCE source/pattern.lex
   COMMAND echo "Running flex on patternLex.cc"
   COMMAND flex -L -Pyyre -o source/patternLex.cc source/pattern.lex
-#  ARGS -L -Pyyre -o source/patternLex.cc
-#  TARGET patternLexGen
   DEPENDS source/patternYACC.cc source/pattern.lex
   OUTPUT source/patternLex.cc)
 
 add_custom_command(
-#  SOURCE source/xmlSchema.lex
-  COMMAND echo "Running flex on xmlSchemaLex.cc"
   COMMAND flex -L -o source/xmlSchemaLex.cc source/xmlSchema.lex
-#  ARGS -L -o source/xmlSchemaLex.cc
-#  TARGET xmlSchemaLexGen
-  COMMAND echo "Done Running flex on xmlSchemaLex.cc"
   DEPENDS source/xmlSchema.lex source/xmlSchemaYACC.cc source/xmlSchemaClasses.hh
   OUTPUT source/xmlSchemaLex.cc)
 
 add_custom_command(
-#  SOURCE source/pattern.y
-  COMMAND echo "Running bison on pattern.y"
   COMMAND bison -d -l -p yyre -o source/patternYACC.cc source/pattern.y
-#  ARGS -d -l -p yyre -o source/patternYACC.cc
-#  TARGET patternLexGen
   DEPENDS source/pattern.y
   OUTPUT source/patternYACC.cc)
 
 add_custom_command(
-#  SOURCE source/xmlSchema.y
   COMMAND bison -d -l -o source/xmlSchemaYACC.cc source/xmlSchema.y
-#  ARGS -d -l -p yyre -o source/xmlSchemaYACC.cc
-#  TARGET xmlSchemaLexGen
   OUTPUT source/xmlSchemaYACC.cc
   DEPENDS source/xmlSchema.y source/xmlSchemaClasses.hh)
 

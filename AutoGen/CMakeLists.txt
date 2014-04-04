@@ -23,12 +23,14 @@ set (addfiles ${libsqlKit_SOURCES})
 #set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${addfiles})
 
 add_custom_command(OUTPUT ${AutoGen_DIR}/genSrc.cpp
-                   COMMAND java -jar ${IPMAS_DIR}/Generator/generator_no_gui.jar -owl ${OWL_FILE} -cpp ${AutoGen_DIR}
-                   COMMAND mv ${AutoGen_DIR}/*.h database
-                   COMMAND touch ${AutoGen_DIR}/genSrc.cpp
-		   COMMAND echo //////////////////////////////////////////////////////
-		   COMMAND echo "NEW FILES ADDED IN AUTOGEN DIRECTORY. RERUN CMAKE!!!"
-		   COMMAND echo //////////////////////////////////////////////////////
-                   MAIN_DEPENDENCY ${OWL_FILE}
-		   COMMENT "Generate .cpp and .hh files from ontoloyg")
+                 COMMAND java -jar ${IPMAS_DIR}/Generator/generator_no_gui.jar -owl ${OWL_FILE} -cpp ${AutoGen_DIR}
+                 COMMAND mv ${AutoGen_DIR}/*.h database
+                 COMMAND touch ${AutoGen_DIR}/genSrc.cpp
+		 COMMAND echo //////////////////////////////////////////////////////
+		 COMMAND echo "NEW FILES ADDED IN AUTOGEN DIRECTORY. RERUN CMAKE!!!"
+		 COMMAND echo //////////////////////////////////////////////////////
+                 MAIN_DEPENDENCY ${OWL_FILE}
+		 COMMENT "Generate .cpp and .hh files from ontoloyg"
+#		 message( FATAL_ERROR "CMake will now exit." )
+		 )
 add_library(sqlKit STATIC ${libsqlKit_SOURCES} ${AutoGen_DIR}/genSrc.cpp)

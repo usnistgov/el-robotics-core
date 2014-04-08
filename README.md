@@ -5,4 +5,3 @@ Core message descriptions and supporting library code for the EL robotics projec
 
 Tested with an edit and push using Tortoise Git on Windows. 
 
-Testing another edit via Git for Windows. 

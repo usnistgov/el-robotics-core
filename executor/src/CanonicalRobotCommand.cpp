@@ -994,6 +994,12 @@ RecLoc CanonicalRobotCommand::getPartGoalLocation(string part_name, string slot_
   /* compute the inverse transform to get grasp (0,0,0) wrt part */
   solidObject->get(part_name);
   physicalLocation = solidObject->gethasSolidObject_PrimaryLocation();
+  if( physicalLocation == NULL )
+    {
+      printf( "CanonicalRobotCommand::getPartGoalLocation: unable to find location of part %s\n",
+	      part_name.c_str());
+      exit(1);
+    }
   physicalLocation->get(physicalLocation->getname());
 
   poseLocation->get(physicalLocation->getname());

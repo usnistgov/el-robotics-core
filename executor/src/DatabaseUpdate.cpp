@@ -38,9 +38,15 @@ void DatabaseUpdate::graspByRobot( std::string robotName, std::string solidObjec
   robot->get(robotName);
   solidObject->get(solidObjectName);
 
-  // get gripper being used by robot and set held object
+  // get gripper being used by robot
   endEffector = robot->gethadByEndEffector_Robot();
   endEffector->get(endEffector->getname());
+
+  // delete any item that is currently being held
+  endEffector->sethadByHeldObject_EndEffector(NULL);
+  endEffector->set(endEffector->getname()); // write to database
+
+  // set held object
   endEffector->sethadByHeldObject_EndEffector(solidObject);
   std::cout << "Effector " << endEffector->getname() << " holding " <<
     solidObject->getname() << std::endl;

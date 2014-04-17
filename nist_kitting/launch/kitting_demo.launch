@@ -1,0 +1,17 @@
+<!--
+    If you set the namespace to "kitting demo", running other programs
+    via rosrun should set the namespace accordingly, e.g.,
+    
+    export ROS_NAMESPACE=/kitting_demo && rosrun nist_kitting kitting_sh 
+-->
+
+<launch>
+
+<!-- group ns="kitting_demo" -->
+<group>
+  <node pkg="nist_kitting" name="emove" type="kitting_emove_node"/>
+  <node pkg="nist_kitting" name="task" type="kitting_task_node"/>
+  <node pkg="nist_kitting" name="ws" type="kitting_ws_node"/>
+</group>
+
+</launch>

@@ -229,12 +229,12 @@ int get_host_address(void)
 
 int socket_read(int id, char *buf, int len)
 {
-  return read(id, buf, len);
+  return recv(id, buf, len, 0);
 }
 
 int socket_write(int id, const char *buf, int len)
 {
-  return write(id, buf, len);
+  return send(id, buf, len, 0);
 }
 
 int socket_close(int id)

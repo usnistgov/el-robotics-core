@@ -158,9 +158,11 @@ int socket_get_connection_id(int socket_fd)
 #ifndef WIN32
   fd_set rfds;
   int retval;
+  unsigned int client_len;
+#else
+  int client_len;
 #endif
   struct sockaddr_in client_addr;
-  int client_len;
   int client_fd;
 
 #ifndef WIN32

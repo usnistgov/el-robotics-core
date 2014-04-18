@@ -100,13 +100,15 @@ DEPENDS readline
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(nist_kitting src/crcl.cpp src/msg_types.cpp)
+add_library(nist_kitting src/crcl.cpp src/msg_types.cpp src/socket_utils.cpp)
 
 ## Declare a cpp executable
 add_executable(kitting_ws_node src/kitting_ws.cpp)
 add_executable(kitting_task_node src/kitting_task.cpp)
 add_executable(kitting_emove_node src/kitting_emove.cpp)
 add_executable(kitting_sh src/kitting_sh.cpp)
+add_executable(socket_server src/socket_server.cpp)
+add_executable(socket_client src/socket_client.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -120,6 +122,8 @@ target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
+target_link_libraries(socket_server nist_kitting ${catkin_LIBRARIES})
+target_link_libraries(socket_client nist_kitting ${catkin_LIBRARIES})
 
 #############
 ## Install ##

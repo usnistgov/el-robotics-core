@@ -21,7 +21,8 @@
 #include <sys/stat.h>
 
 static WSADATA wsaData;
-#define WINSTART return WSAStartup(MAKEWORD(2,2), &wsaData) ? -1 : 0
+static int iResult;
+#define WINSTART iResult = WSAStartup(MAKEWORD(2,2), &wsaData); if (iResult !=0) return -1
 
 #else 
 
@@ -154,12 +155,15 @@ int socket_get_server_id(int port)
 
 int socket_get_connection_id(int socket_fd)
 {
+#ifndef WIN32
   fd_set rfds;
-  struct sockaddr_in client_addr;
-  unsigned int client_len;
-  int client_fd;
   int retval;
+#endif
+  struct sockaddr_in client_addr;
+  int client_len;
+  int client_fd;
 
+#ifndef WIN32
   do {
     FD_ZERO(&rfds);
     FD_SET(socket_fd, &rfds);
@@ -171,6 +175,7 @@ int socket_get_connection_id(int socket_fd)
     perror("select");
     return -1;
   }
+#endif
 
   memset(&client_addr, 0, sizeof(struct sockaddr_in));
   client_len = sizeof(struct sockaddr_in);

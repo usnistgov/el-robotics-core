@@ -7,7 +7,6 @@
 #include <readline/history.h>	// using_history
 
 #include "ros/ros.h"
-#include "nist_kitting/crcl.h"
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/ws_cmd.h"
 #include "nist_kitting/ws_stat.h"
@@ -218,9 +217,6 @@ int main(int argc, char **argv)
   nist_kitting::emove_cmd emove_cmd;
   nist_kitting::prim_robot_cmd prim_robot_cmd;
 
-  retval = crcl_init();
-  if (retval != 0) return retval;
-  
   switch (target) {
   case TARGET_TASK:
     pub = nh.advertise<nist_kitting::task_cmd>(KITTING_TASK_CMD_TOPIC, TOPIC_QUEUE_LEN);

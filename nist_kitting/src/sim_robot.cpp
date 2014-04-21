@@ -4,6 +4,85 @@
 #include <string.h>
 #include <ctype.h>
 #include "nist_kitting/socket_utils.h"
+#include "nist_kitting/crcl.h"
+#include "nist_kitting/crcl_robot.h"
+
+class Sim_Robot : public CRCL_Robot {
+ public:
+  Sim_Robot();			// see below
+  ~Sim_Robot() {};
+
+  CanonReturn Couple (char *targetID) {};
+  CanonReturn Dwell (int *events, double *params, int numEvents) {};
+  CanonReturn EndCanon (int reason) {};
+  CanonReturn InitCanon () {};
+  CanonReturn Message (char *message) {};
+  CanonReturn MoveStraightTo (robotPose pose); // see below
+  CanonReturn MoveThroughTo (robotPose *poses,
+			     int numPoses,
+			     robotPose *accelerations = NULL,
+			     robotPose *speeds = NULL,
+			     robotPose *tolerances = NULL) {};
+  CanonReturn Decouple (char *targetID) {};
+  CanonReturn GetRobotAxes (robotAxes *axes) {};
+  CanonReturn GetRobotPose (robotPose *pose); // see below
+  CanonReturn MoveAttractor (robotPose pose) {};
+  CanonReturn MoveToAxisTarget (robotAxes axes) {};
+  CanonReturn RunProgram (char *programName, CRCLProgramParams params) {};
+  CanonReturn SetAbsoluteAcceleration (double acceleration) {};
+  CanonReturn SetAbsoluteSpeed (double speed) {};
+  CanonReturn SetAngleUnits (char *unitName) {};
+  CanonReturn SetAxialSpeeds (double *speeds) {};
+  CanonReturn SetAxialUnits (char **unitNames) {};
+  CanonReturn SetEndPoseTolerance (robotPose tolerance) {};
+  CanonReturn SetIntermediatePoseTolerance (robotPose *tolerances) {};
+  CanonReturn SetLengthUnits (char *unitName) {};
+  CanonReturn SetParameter (char *paramName, void *paramVal) {};
+  CanonReturn SetTool (double percent) {};
+  CanonReturn SetRelativeSpeed (double percent) {};
+  CanonReturn StopMotion (int condition); // see below
+
+  CanonReturn SetRobotPose(robotPose pose); // see below
+private:
+  robotPose simPose;
+};
+
+Sim_Robot::Sim_Robot()
+{
+  simPose.position.x = 0;
+  simPose.position.y = 0;
+  simPose.position.z = 0;
+
+  simPose.orientation.x = 0;
+  simPose.orientation.y = 0;
+  simPose.orientation.z = 0;
+  simPose.orientation.w = 1;
+}
+
+CanonReturn Sim_Robot::MoveStraightTo(robotPose pose)
+{
+  simPose = pose;
+  return CANON_OK;
+}
+
+CanonReturn Sim_Robot::GetRobotPose (robotPose *pose)
+{
+  *pose = simPose;
+  return CANON_OK;
+}
+
+CanonReturn Sim_Robot::SetRobotPose (robotPose pose)
+{
+  simPose = pose;
+  return CANON_OK;
+}
+
+CanonReturn Sim_Robot::StopMotion(int condition = 2)
+{
+  return CANON_OK;
+}
+
+static Sim_Robot simRobot;
 
 /*
   Socket command protocol is null-terminated ASCII strings:
@@ -34,7 +113,6 @@ static int handle_message(char *inbuf, int inbuf_len, int client_id)
   static char *cmdbuf = (char *) malloc(cmdbuf_len);
   static int serial_number;
   static enum {DONE, EXEC, ERROR} status = DONE;
-  static double x, y, z, qx, qy, qz, qw;
   char *inptr;
   int outchars;
   int i1;
@@ -46,18 +124,24 @@ static int handle_message(char *inbuf, int inbuf_len, int client_id)
 
 #define DO_STATUS_STRING						\
   while (true) {							\
+    robotPose r;							\
+    simRobot.GetRobotPose(&r);						\
     outchars =								\
       snprintf(outbuf, outbuf_len, "%d %s %f %f %f %f %f %f %f",	\
 	       serial_number,						\
 	       DONE == status ? "DONE" :				\
 	       EXEC == status ? "EXEC" : "ERROR",			\
-	       x, y, z, qx, qy, qz, qw);				\
+	       r.position.x, r.position.y, r.position.z,		\
+	       r.orientation.x, r.orientation.y,			\
+	       r.orientation.z, r.orientation.w);			\
     if (outchars < outbuf_len) break;					\
     outbuf_len = 2 * outchars;						\
     outbuf = (char *) realloc(outbuf, outbuf_len);			\
   }
 
   if ('?' == inptr[0]) {
+    robotPose r;
+    simRobot.GetRobotPose(&r);
     DO_STATUS_STRING;
     socket_write(client_id, outbuf, strlen(outbuf) + 1);
     return 0;
@@ -77,6 +161,10 @@ static int handle_message(char *inbuf, int inbuf_len, int client_id)
   if (! strncmp(inptr, "MOVETO ", strlen("MOVETO "))) {
     if (7 == sscanf(inptr, "%*s %lf %lf %lf %lf %lf %lf %lf",
 		    &d1, &d2, &d3, &d4, &d5, &d6, &d7)) {
+      robotPose p;
+      p.position.x = d1, p.position.y = d2, p.position.z = d3;
+      p.orientation.x = d4, p.orientation.y = d5, p.orientation.z = d6, p.orientation.w = d7;
+      simRobot.SetRobotPose(p);
       status = DONE;
     } else {
       status = ERROR;
@@ -91,21 +179,17 @@ int main(int argc, char *argv[])
 {
   enum {BUFFERLEN = 256};
   char inbuf[BUFFERLEN];
-  int port;
+  int port = PRIM_ROBOT_PORT;
   int socket_id;
   int client_id;
   int nchars;
 
-  if (argc < 2) {
-    fprintf(stderr, "need a port number\n");
-    return 1;
-  }
-
-  port = atoi(argv[1]);
-
-  if (port < 0) {
+  if (argc == 2) {
+    port = atoi(argv[1]);
+    if (port < 0) {
     fprintf(stderr, "port must be a positive integer\n");
     return 1;
+    }
   }
 
   socket_id = socket_get_server_id(port);

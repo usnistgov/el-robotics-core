@@ -8,11 +8,11 @@
 
 #include <ros/ros.h>
 
-#include "nist_kitting/crcl.h"
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/prim_robot_cmd.h"
 #include "nist_kitting/prim_robot_stat.h"
 #include "nist_kitting/socket_utils.h"
+#include "nist_kitting/crcl_robot.h"
 
 #define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_prim_robot"
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
   int option;
   int ival;
   double dval;
-  int port;
+  int port = PRIM_ROBOT_PORT;
   int socket_id;
   nist_kitting::prim_robot_stat prim_robot_stat_buf;
 
@@ -205,9 +205,6 @@ int main(int argc, char **argv)
 
   prim_robot_cmd_sub = nh.subscribe(KITTING_PRIM_ROBOT_CMD_TOPIC, TOPIC_QUEUE_LEN, prim_robot_cmd_callback);
   prim_robot_stat_pub = nh.advertise<nist_kitting::prim_robot_stat>(KITTING_PRIM_ROBOT_STAT_TOPIC, TOPIC_QUEUE_LEN);
-
-  retval = crcl_init();
-  if (retval != 0) return retval;
 
   // stuff a NOP command
   prim_robot_stat_buf.stat.type = prim_robot_cmd_buf.cmd.type = KITTING_NOP;

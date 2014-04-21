@@ -105,7 +105,7 @@ DEPENDS readline
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(nist_kitting src/crcl.cpp src/msg_types.cpp src/socket_utils.cpp)
+add_library(nist_kitting src/msg_types.cpp src/socket_utils.cpp)
 
 ## Declare a cpp executable
 add_executable(kitting_ws_node src/kitting_ws.cpp)

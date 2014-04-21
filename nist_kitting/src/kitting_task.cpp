@@ -8,7 +8,6 @@
 
 #include <ros/ros.h>
 
-#include "nist_kitting/crcl.h"
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/task_cmd.h"
 #include "nist_kitting/task_stat.h"
@@ -180,9 +179,6 @@ int main(int argc, char **argv)
   emove_stat_sub = nh.subscribe(KITTING_EMOVE_STAT_TOPIC, TOPIC_QUEUE_LEN, emove_stat_callback);
   task_stat_pub = nh.advertise<nist_kitting::task_stat>(KITTING_TASK_STAT_TOPIC, TOPIC_QUEUE_LEN);
   emove_cmd_pub = nh.advertise<nist_kitting::emove_cmd>(KITTING_EMOVE_CMD_TOPIC, TOPIC_QUEUE_LEN);
-
-  retval = crcl_init();
-  if (retval != 0) return retval;
 
   // stuff a NOP command
   task_stat_buf.stat.type = task_cmd_buf.cmd.type = KITTING_NOP;

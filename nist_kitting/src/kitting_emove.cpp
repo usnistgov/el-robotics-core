@@ -12,6 +12,8 @@
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/emove_cmd.h"
 #include "nist_kitting/emove_stat.h"
+#include "nist_kitting/prim_robot_cmd.h"
+#include "nist_kitting/prim_robot_stat.h"
 
 #define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_emove"
@@ -20,6 +22,7 @@
 static int debug = 0;
 
 static nist_kitting::emove_cmd emove_cmd_buf;
+static nist_kitting::prim_robot_stat prim_robot_stat_buf;
 
 static void emove_cmd_callback(const nist_kitting::emove_cmd::ConstPtr& msg)
 {
@@ -27,6 +30,13 @@ static void emove_cmd_callback(const nist_kitting::emove_cmd::ConstPtr& msg)
 
   if (debug) ROS_INFO("Got %s (%d)", kitting_cmd_to_string(emove_cmd_buf.cmd.type), (int) emove_cmd_buf.cmd.serial_number);
 }
+
+static void prim_robot_stat_callback(const nist_kitting::prim_robot_stat::ConstPtr& msg)
+{
+  prim_robot_stat_buf = *msg;
+}
+
+static int prim_robot_cmd_serial_number = 18;
 
 static void do_cmd_kitting_nop(nist_kitting::emove_stat &emove_stat)
 {
@@ -37,19 +47,25 @@ static void do_cmd_kitting_nop(nist_kitting::emove_stat &emove_stat)
   // else S0
 }
 
-static void do_cmd_kitting_init(nist_kitting::emove_stat &emove_stat)
+static void do_cmd_kitting_init(nist_kitting::emove_stat &emove_stat, ros::Publisher &prim_robot_cmd_pub, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
-  static double dcount;
+  nist_kitting::prim_robot_cmd prim_robot_cmd;
 
   if (emove_stat.stat.state == RCS_STATE_NEW_COMMAND) {
+    prim_robot_cmd.cmd.type = KITTING_INIT;
+    prim_robot_cmd.cmd.serial_number = ++prim_robot_cmd_serial_number;
+    prim_robot_cmd_pub.publish(prim_robot_cmd);
     emove_stat.stat.state = RCS_STATE_S1;
     emove_stat.stat.status = RCS_STATUS_EXEC;
-    dcount = 3;			// take 3 seconds to fake an init
   } else if (emove_stat.stat.state == RCS_STATE_S1) {
-    dcount -= emove_stat.stat.period;
-    if (--dcount <= 0) {
-      emove_stat.stat.state = RCS_STATE_S0;
-      emove_stat.stat.status = RCS_STATUS_DONE;
+    if (prim_robot_stat.stat.serial_number == prim_robot_cmd_serial_number) {
+      if (prim_robot_stat.stat.status == RCS_STATUS_DONE) {
+	emove_stat.stat.state = RCS_STATE_S0;
+	emove_stat.stat.status = RCS_STATUS_DONE;
+      } else if (prim_robot_stat.stat.status == RCS_STATUS_ERROR) {
+	emove_stat.stat.state = RCS_STATE_S0;
+	emove_stat.stat.status = RCS_STATUS_ERROR;
+      }
     }
   }
   // else S0
@@ -156,11 +172,15 @@ int main(int argc, char **argv)
 
   ros::NodeHandle nh;
   ros::Subscriber emove_cmd_sub;
+  ros::Subscriber prim_robot_stat_sub;
   ros::Publisher emove_stat_pub;
+  ros::Publisher prim_robot_cmd_pub;
   ros::Rate loop_rate(1.0 / emove_stat_buf.stat.period);
 
   emove_cmd_sub = nh.subscribe(KITTING_EMOVE_CMD_TOPIC, TOPIC_QUEUE_LEN, emove_cmd_callback);
+  prim_robot_stat_sub = nh.subscribe(KITTING_PRIM_ROBOT_STAT_TOPIC, TOPIC_QUEUE_LEN, prim_robot_stat_callback);
   emove_stat_pub = nh.advertise<nist_kitting::emove_stat>(KITTING_EMOVE_STAT_TOPIC, TOPIC_QUEUE_LEN);
+  prim_robot_cmd_pub = nh.advertise<nist_kitting::prim_robot_cmd>(KITTING_PRIM_ROBOT_CMD_TOPIC, TOPIC_QUEUE_LEN);
 
   retval = crcl_init();
   if (retval != 0) return retval;
@@ -194,7 +214,7 @@ int main(int argc, char **argv)
       do_cmd_kitting_nop(emove_stat_buf);
       break;
     case KITTING_INIT:
-      do_cmd_kitting_init(emove_stat_buf);
+      do_cmd_kitting_init(emove_stat_buf, prim_robot_cmd_pub, prim_robot_stat_buf);
       break;
     case KITTING_HALT:
       do_cmd_halt(emove_stat_buf);

@@ -59,6 +59,11 @@ add_message_files(DIRECTORY msg
   emove_cmd.msg
   emove_move.msg
   emove_stat.msg
+  prim_robot_cmd.msg
+  prim_robot_moveto.msg
+  prim_robot_close_gripper.msg
+  prim_robot_open_gripper.msg
+  prim_robot_stat.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -106,6 +111,7 @@ add_library(nist_kitting src/crcl.cpp src/msg_types.cpp src/socket_utils.cpp)
 add_executable(kitting_ws_node src/kitting_ws.cpp)
 add_executable(kitting_task_node src/kitting_task.cpp)
 add_executable(kitting_emove_node src/kitting_emove.cpp)
+add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 add_executable(kitting_sh src/kitting_sh.cpp)
 add_executable(socket_server src/socket_server.cpp)
 add_executable(socket_client src/socket_client.cpp)
@@ -115,12 +121,14 @@ add_executable(socket_client src/socket_client.cpp)
 add_dependencies(kitting_ws_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_task_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_emove_node nist_kitting_generate_messages_cpp)
+add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_sh nist_kitting_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})
+target_link_libraries(kitting_prim_robot_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(socket_server nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(socket_client nist_kitting ${catkin_LIBRARIES})

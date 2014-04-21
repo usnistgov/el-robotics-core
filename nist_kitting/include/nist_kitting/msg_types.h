@@ -10,6 +10,8 @@
 #define KITTING_TASK_STAT_TOPIC "kitting_task_stat"
 #define KITTING_EMOVE_CMD_TOPIC "kitting_emove_cmd"
 #define KITTING_EMOVE_STAT_TOPIC "kitting_emove_stat"
+#define KITTING_PRIM_ROBOT_CMD_TOPIC "kitting_prim_robot_cmd"
+#define KITTING_PRIM_ROBOT_STAT_TOPIC "kitting_prim_robot_stat"
 
 #define TOPIC_QUEUE_LEN 0
 
@@ -24,6 +26,9 @@ enum {
   KITTING_EMOVE_MOVE,
   KITTING_EMOVE_RELEASE,
   KITTING_EMOVE_DEPART,
+  KITTING_PRIM_ROBOT_MOVETO,
+  KITTING_PRIM_ROBOT_OPEN_GRIPPER,
+  KITTING_PRIM_ROBOT_CLOSE_GRIPPER,
   /*  */
 };
 

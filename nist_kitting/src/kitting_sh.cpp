@@ -15,6 +15,8 @@
 #include "nist_kitting/task_stat.h"
 #include "nist_kitting/emove_cmd.h"
 #include "nist_kitting/emove_stat.h"
+#include "nist_kitting/prim_robot_cmd.h"
+#include "nist_kitting/prim_robot_stat.h"
 
 #define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kittingsh"
@@ -22,6 +24,7 @@
 static nist_kitting::ws_stat ws_stat_buf;
 static nist_kitting::task_stat task_stat_buf;
 static nist_kitting::emove_stat emove_stat_buf;
+static nist_kitting::prim_robot_stat prim_robot_stat_buf;
 
 static void ws_stat_callback(const nist_kitting::ws_stat::ConstPtr& msg)
 {
@@ -36,6 +39,11 @@ static void task_stat_callback(const nist_kitting::task_stat::ConstPtr& msg)
 static void emove_stat_callback(const nist_kitting::emove_stat::ConstPtr& msg)
 {
   emove_stat_buf = *msg;
+}
+
+static void prim_robot_stat_callback(const nist_kitting::prim_robot_stat::ConstPtr& msg)
+{
+  prim_robot_stat_buf = *msg;
 }
 
 static void print_ws_stat()
@@ -74,6 +82,18 @@ static void print_emove_stat()
   printf("duration:      %f\n", emove_stat_buf.stat.duration);
 }
 
+static void print_prim_robot_stat()
+{
+  printf("type:          %s\n", kitting_cmd_to_string(prim_robot_stat_buf.stat.type));
+  printf("serial_number: %d\n", (int) prim_robot_stat_buf.stat.serial_number);
+  printf("state:         %s\n", rcs_state_to_string(prim_robot_stat_buf.stat.state));
+  printf("status:        %s\n", rcs_status_to_string(prim_robot_stat_buf.stat.status));
+  printf("heartbeat:     %d\n", prim_robot_stat_buf.stat.heartbeat);
+  printf("period:        %f\n", prim_robot_stat_buf.stat.period);
+  printf("cycle:         %f\n", prim_robot_stat_buf.stat.cycle);
+  printf("duration:      %f\n", prim_robot_stat_buf.stat.duration);
+}
+
 // find all of 'a' in 'b', and following chars of 'b' are space or 0
 static int strwcmp(const char *a, const char *b)
 {
@@ -91,9 +111,9 @@ static int strwcmp(const char *a, const char *b)
 static void print_help()
 {
   printf("Usage: <args> {-- <ROS args>}\n");
-  printf("  -h               : print this help>\n");
-  printf("  -n <name>        : set the node name\n");
-  printf("  =t ws|task|emove : target the specified node\n");
+  printf("  -h                  : print this help>\n");
+  printf("  -n <name>           : set the node name\n");
+  printf("  =t ws|task|emove|pr : target the specified node\n");
 }
 
 int main(int argc, char **argv)
@@ -102,13 +122,14 @@ int main(int argc, char **argv)
   char **ros_argv;
   char node_name[NODE_NAME_LEN] = NODE_NAME_DEFAULT;
   int debug = 0;
-  enum {TARGET_WS, TARGET_TASK, TARGET_EMOVE} target = TARGET_WS;
+  enum {TARGET_WS, TARGET_TASK, TARGET_EMOVE, TARGET_PRIM_ROBOT} target = TARGET_WS;
   int retval;
   int option;
 #define PROMPT_LEN 80
   char prompt[PROMPT_LEN];
   char *line;
   char *ptr;
+  double d1, d2, d3, d4, d5, d6;
 
   opterr = 0;
   while (true) {
@@ -134,6 +155,8 @@ int main(int argc, char **argv)
 	target = TARGET_TASK;
       } else if (! strcmp(optarg, "emove")) {
 	target = TARGET_EMOVE;
+      } else if (! strcmp(optarg, "pr")) {
+	target = TARGET_PRIM_ROBOT;
       } else {
 	fprintf(stderr, "invalid target: %s\n", optarg);
 	return 1;
@@ -193,6 +216,7 @@ int main(int argc, char **argv)
   nist_kitting::ws_cmd ws_cmd;
   nist_kitting::task_cmd task_cmd;
   nist_kitting::emove_cmd emove_cmd;
+  nist_kitting::prim_robot_cmd prim_robot_cmd;
 
   retval = crcl_init();
   if (retval != 0) return retval;
@@ -207,6 +231,11 @@ int main(int argc, char **argv)
     pub = nh.advertise<nist_kitting::emove_cmd>(KITTING_EMOVE_CMD_TOPIC, TOPIC_QUEUE_LEN);
     sub = nh.subscribe(KITTING_EMOVE_STAT_TOPIC, TOPIC_QUEUE_LEN, emove_stat_callback);
     sprintf(prompt, "emove> ");
+    break;
+  case TARGET_PRIM_ROBOT:
+    pub = nh.advertise<nist_kitting::prim_robot_cmd>(KITTING_PRIM_ROBOT_CMD_TOPIC, TOPIC_QUEUE_LEN);
+    sub = nh.subscribe(KITTING_PRIM_ROBOT_STAT_TOPIC, TOPIC_QUEUE_LEN, prim_robot_stat_callback);
+    sprintf(prompt, "pr> ");
     break;
   default:
     // catch anything else and set to TARGET_WS
@@ -228,6 +257,9 @@ int main(int argc, char **argv)
       break;
     case TARGET_EMOVE:
       sprintf(prompt, "emove> ");
+      break;
+    case TARGET_PRIM_ROBOT:
+      sprintf(prompt, "pr> ");
       break;
     default:
       target = TARGET_WS;
@@ -254,6 +286,8 @@ int main(int argc, char **argv)
 	print_task_stat();
       } else if (target == TARGET_EMOVE) {
 	print_emove_stat();
+      } else if (target == TARGET_PRIM_ROBOT) {
+	print_prim_robot_stat();
       } else {
 	printf("no target node selected\n");
       }
@@ -284,6 +318,13 @@ int main(int argc, char **argv)
 	target = TARGET_EMOVE;
 	sprintf(prompt, "emove> ");
       }
+    } else if (TRY("pr")) {
+      if (target != TARGET_PRIM_ROBOT) {
+	pub = nh.advertise<nist_kitting::prim_robot_cmd>(KITTING_PRIM_ROBOT_CMD_TOPIC, TOPIC_QUEUE_LEN);
+	sub = nh.subscribe(KITTING_PRIM_ROBOT_STAT_TOPIC, TOPIC_QUEUE_LEN, prim_robot_stat_callback);
+	target = TARGET_PRIM_ROBOT;
+	sprintf(prompt, "pr> ");
+      }
     } else if (TRY("move")) {
       switch (target) {
       case TARGET_TASK:
@@ -298,6 +339,26 @@ int main(int argc, char **argv)
 	  pub.publish(task_cmd);
 	} else {
 	  printf("need a location name\n");
+	}
+	break;
+      default:
+	break;
+      } // switch (target) for "move"
+    } else if (TRY("moveto")) {
+      switch (target) {
+      case TARGET_PRIM_ROBOT:
+	// skip over command and white space to get args
+	while ((! isspace(*ptr)) && (0 != *ptr)) ptr++;
+	while (isspace(*ptr)) ptr++;
+	if (1 == sscanf(ptr, "%lf", &d1)) {
+	  prim_robot_cmd.cmd.type = KITTING_PRIM_ROBOT_MOVETO;
+	  prim_robot_cmd.moveto.pose.position.x = d1;
+	  // FIXME -- get the rest, use RPY, convert to quaternion, ...
+	  prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
+	  prim_robot_cmd.cmd.serial_number++; // make it a new one
+	  pub.publish(prim_robot_cmd);
+	} else {
+	  printf("need X (Y Z R P W)\n");
 	}
 	break;
       default:
@@ -323,6 +384,12 @@ int main(int argc, char **argv)
 	emove_cmd.cmd.serial_number++; // make it a new one
 	pub.publish(emove_cmd);
 	break;
+      case TARGET_PRIM_ROBOT:
+	prim_robot_cmd.cmd.type = KITTING_INIT;
+	prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
+	prim_robot_cmd.cmd.serial_number++; // make it a new one
+	pub.publish(prim_robot_cmd);
+	break;
       default:
 	break;
       } // switch (target) for "init"
@@ -345,6 +412,12 @@ int main(int argc, char **argv)
 	emove_cmd.cmd.serial_number = emove_stat_buf.stat.serial_number;
 	emove_cmd.cmd.serial_number++; // make it a new one
 	pub.publish(emove_cmd);
+	break;
+      case TARGET_PRIM_ROBOT:
+	prim_robot_cmd.cmd.type = KITTING_HALT;
+	prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
+	prim_robot_cmd.cmd.serial_number++; // make it a new one
+	pub.publish(prim_robot_cmd);
 	break;
       default:
 	break;

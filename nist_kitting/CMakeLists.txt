@@ -115,6 +115,7 @@ add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 add_executable(kitting_sh src/kitting_sh.cpp)
 add_executable(socket_server src/socket_server.cpp)
 add_executable(socket_client src/socket_client.cpp)
+add_executable(sim_robot src/sim_robot.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -132,6 +133,7 @@ target_link_libraries(kitting_prim_robot_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(socket_server nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(socket_client nist_kitting ${catkin_LIBRARIES})
+target_link_libraries(sim_robot nist_kitting ${catkin_LIBRARIES})
 
 #############
 ## Install ##

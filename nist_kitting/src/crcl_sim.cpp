@@ -5,9 +5,9 @@
 #include <ctype.h>
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/crcl.h"
-#include "nist_kitting/sim_robot.h"
+#include "nist_kitting/crcl_sim.h"
 
-Sim_Robot::Sim_Robot()
+CRCL_Sim::CRCL_Sim()
 {
   simPose.position.x = 0;
   simPose.position.y = 0;
@@ -21,7 +21,7 @@ Sim_Robot::Sim_Robot()
 
 extern "C" void sleep(int secs); // FIXME
 
-CanonReturn Sim_Robot::MoveStraightTo(robotPose pose)
+CanonReturn CRCL_Sim::MoveStraightTo(robotPose pose)
 {
   simPose = pose;
 
@@ -30,7 +30,7 @@ CanonReturn Sim_Robot::MoveStraightTo(robotPose pose)
   return CANON_SUCCESS;
 }
 
-CanonReturn Sim_Robot::GetRobotPose (robotPose *pose)
+CanonReturn CRCL_Sim::GetRobotPose (robotPose *pose)
 {
   *pose = simPose;
   return CANON_SUCCESS;

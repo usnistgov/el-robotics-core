@@ -3,14 +3,13 @@
 
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
 #include "crcl_robot.h"
-#include "crcl_client.h"
 
 #define HOST_DEFAULT "localhost"
 #define PORT_DEFAULT 1234
 
 class CRCL_Client : public CRCL_Robot {
  public:
-  CRCL_Client();		// see below
+  CRCL_Client();
   ~CRCL_Client() {};
 
   CanonReturn Couple (char *targetID) {};
@@ -45,7 +44,7 @@ class CRCL_Client : public CRCL_Robot {
 
   // extensions
 
-  CRCL_Client(char *host, int port);
+  CRCL_Client(const char *host, int port);
 
 private:
   int socket_id;

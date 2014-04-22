@@ -6,9 +6,9 @@
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/socket_utils.h"
 #include "nist_kitting/crcl.h"
-#include "nist_kitting/sim_robot.h"
+#include "nist_kitting/crcl_sim.h"
 
-static int handle_message(char *inbuf, int inbuf_len, int client_id, Sim_Robot &robot)
+static int handle_message(char *inbuf, int inbuf_len, int client_id, CRCL_Sim &robot)
 {
   enum {OUTBUF_LEN = 256};
   char outbuf[OUTBUF_LEN];
@@ -45,7 +45,7 @@ static int handle_message(char *inbuf, int inbuf_len, int client_id, Sim_Robot &
 
 int main(int argc, char *argv[])
 {
-  Sim_Robot robot;
+  CRCL_Sim robot;
   enum {BUFFERLEN = 256};
   char inbuf[BUFFERLEN];
   int port = PRIM_ROBOT_PORT;

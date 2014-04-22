@@ -11,10 +11,10 @@
 
 CRCL_Client::CRCL_Client()
 {
-  CRCL_Client((char *) HOST_DEFAULT, PORT_DEFAULT);
+  CRCL_Client(HOST_DEFAULT, PORT_DEFAULT);
 }
 
-CRCL_Client::CRCL_Client(char *host, int port)
+CRCL_Client::CRCL_Client(const char *host, int port)
 {
   socket_id = socket_get_client_id(port, host);
   if (socket_id < 0) {

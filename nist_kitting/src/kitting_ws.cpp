@@ -79,14 +79,14 @@ static void do_cmd_halt(nist_kitting::ws_stat &ws_stat)
   // else S0
 }
 
-static void do_cmd_kitting_ws_assemble_kit(std::string name, nist_kitting::ws_stat &ws_stat)
+static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, nist_kitting::ws_stat &ws_stat)
 {
   if (ws_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     ws_stat.stat.state = RCS_STATE_S1;
     ws_stat.stat.status = RCS_STATUS_EXEC;
-    if (debug) ROS_INFO("Assembling kit %s", name.c_str());
+    if (debug) ROS_INFO("Assembling kit %s, quantity %d", cmd.name.c_str(), (int) cmd.quantity);
   } else if (ws_stat.stat.state == RCS_STATE_S1) {
-    if (debug) ROS_INFO("Assembled kit %s", name.c_str());
+    if (debug) ROS_INFO("Assembled kit %s", cmd.name.c_str());
     ws_stat.stat.state = RCS_STATE_S0;
     ws_stat.stat.status = RCS_STATUS_DONE;
   }
@@ -215,7 +215,7 @@ int main(int argc, char **argv)
       do_cmd_halt(ws_stat_buf);
       break;
     case KITTING_WS_ASSEMBLE_KIT:
-      do_cmd_kitting_ws_assemble_kit(ws_cmd_buf.assemble_kit.name, ws_stat_buf);
+      do_cmd_kitting_ws_assemble_kit(ws_cmd_buf.assemble_kit, ws_stat_buf);
       break;
     default:
       // unrecognized command -- FIXME

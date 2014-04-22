@@ -4,10 +4,10 @@
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
 #include "crcl_robot.h"		/* CRCL_Robot */
 
-class Sim_Robot : public CRCL_Robot {
+class CRCL_Sim : public CRCL_Robot {
  public:
-  Sim_Robot();
-  ~Sim_Robot() {};
+  CRCL_Sim();
+  ~CRCL_Sim() {};
 
   CanonReturn Couple (char *targetID) {};
   CanonReturn Dwell (int *events, double *params, int numEvents) {};

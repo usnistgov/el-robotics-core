@@ -2,8 +2,9 @@
 #define CRCL_H
 
 typedef enum {
-  CANON_OK = 0,
-  CANON_ERROR,
+  CANON_SUCCESS = 0,
+  CANON_FAILURE = 1,
+  CANON_REJECT = 2
 } CanonReturn;
 
 typedef int CRCLProgramParams;

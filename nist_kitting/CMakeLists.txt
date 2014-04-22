@@ -105,7 +105,7 @@ DEPENDS readline
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(nist_kitting src/msg_types.cpp src/socket_utils.cpp)
+add_library(nist_kitting src/msg_types.cpp src/socket_utils.cpp src/crcl_client.cpp src/sim_robot.cpp)
 
 ## Declare a cpp executable
 add_executable(kitting_ws_node src/kitting_ws.cpp)
@@ -115,7 +115,7 @@ add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 add_executable(kitting_sh src/kitting_sh.cpp)
 add_executable(socket_server src/socket_server.cpp)
 add_executable(socket_client src/socket_client.cpp)
-add_executable(sim_robot src/sim_robot.cpp)
+add_executable(crcl_server src/crcl_server.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -133,7 +133,7 @@ target_link_libraries(kitting_prim_robot_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(socket_server nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(socket_client nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(sim_robot nist_kitting ${catkin_LIBRARIES})
+target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -163,7 +163,7 @@ target_link_libraries(sim_robot nist_kitting ${catkin_LIBRARIES})
 #   PATTERN ".svn" EXCLUDE
 # )
 
-## Mark other files for installation (e.g. launch and bag files, etc.)
+## Mark other files for installation (e.sg. launch and bag files, etc.)
 # install(FILES
 #   # myfile1
 #   # myfile2

@@ -1,19 +1,20 @@
-#ifndef CRCL_ROBOT_H
-#define CRCL_ROBOT_H
+#ifndef SIM_ROBOT_H
+#define SIM_ROBOT_H
 
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
+#include "crcl_robot.h"		/* CRCL_Robot */
 
-class CRCL_Robot {
+class Sim_Robot : public CRCL_Robot {
  public:
-  CRCL_Robot() {};
-  ~CRCL_Robot() {};
+  Sim_Robot();
+  ~Sim_Robot() {};
 
   CanonReturn Couple (char *targetID) {};
   CanonReturn Dwell (int *events, double *params, int numEvents) {};
   CanonReturn EndCanon (int reason) {};
   CanonReturn InitCanon () {};
   CanonReturn Message (char *message) {};
-  CanonReturn MoveStraightTo (robotPose pose) {};
+  CanonReturn MoveStraightTo (robotPose pose);
   CanonReturn MoveThroughTo (robotPose *poses,
 			     int numPoses,
 			     robotPose *accelerations = NULL,
@@ -21,7 +22,7 @@ class CRCL_Robot {
 			     robotPose *tolerances = NULL) {};
   CanonReturn Decouple (char *targetID) {};
   CanonReturn GetRobotAxes (robotAxes *axes) {};
-  CanonReturn GetRobotPose (robotPose *pose) {};
+  CanonReturn GetRobotPose (robotPose *pose);
   CanonReturn MoveAttractor (robotPose pose) {};
   CanonReturn MoveToAxisTarget (robotAxes axes) {};
   CanonReturn RunProgram (char *programName, CRCLProgramParams params) {};
@@ -36,8 +37,11 @@ class CRCL_Robot {
   CanonReturn SetParameter (char *paramName, void *paramVal) {};
   CanonReturn SetTool (double percent) {};
   CanonReturn SetRelativeSpeed (double percent) {};
-  CanonReturn StopMotion (int condition) {};
+  CanonReturn StopMotion (int condition);
+
+private:
+  robotPose simPose;
 };
 
-#endif	/* CRCL_ROBOT_H */
+#endif	/* SIM_ROBOT_H */
 

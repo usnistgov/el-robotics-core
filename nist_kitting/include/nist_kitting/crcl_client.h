@@ -1,19 +1,24 @@
-#ifndef CRCL_ROBOT_H
-#define CRCL_ROBOT_H
+#ifndef CRCL_CLIENT_H
+#define CRCL_CLIENT_H
 
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
+#include "crcl_robot.h"
+#include "crcl_client.h"
 
-class CRCL_Robot {
+#define HOST_DEFAULT "localhost"
+#define PORT_DEFAULT 1234
+
+class CRCL_Client : public CRCL_Robot {
  public:
-  CRCL_Robot() {};
-  ~CRCL_Robot() {};
+  CRCL_Client();		// see below
+  ~CRCL_Client() {};
 
   CanonReturn Couple (char *targetID) {};
   CanonReturn Dwell (int *events, double *params, int numEvents) {};
   CanonReturn EndCanon (int reason) {};
   CanonReturn InitCanon () {};
   CanonReturn Message (char *message) {};
-  CanonReturn MoveStraightTo (robotPose pose) {};
+  CanonReturn MoveStraightTo (robotPose pose);
   CanonReturn MoveThroughTo (robotPose *poses,
 			     int numPoses,
 			     robotPose *accelerations = NULL,
@@ -37,7 +42,14 @@ class CRCL_Robot {
   CanonReturn SetTool (double percent) {};
   CanonReturn SetRelativeSpeed (double percent) {};
   CanonReturn StopMotion (int condition) {};
+
+  // extensions
+
+  CRCL_Client(char *host, int port);
+
+private:
+  int socket_id;
 };
 
-#endif	/* CRCL_ROBOT_H */
+#endif	/* CRCL_CLIENT_H */
 

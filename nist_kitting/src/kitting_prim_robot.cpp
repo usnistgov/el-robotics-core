@@ -11,16 +11,15 @@
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/prim_robot_cmd.h"
 #include "nist_kitting/prim_robot_stat.h"
-#include "nist_kitting/socket_utils.h"
-#include "nist_kitting/crcl_robot.h"
+#include "nist_kitting/crcl.h"
+#include "nist_kitting/crcl_client.h"
 
 #define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_prim_robot"
-#define PERIOD_DEFAULT 0.05
-
-// the socket server connected to the robot hardware
 #define HOST_NAME_LEN 80
 #define HOST_NAME_DEFAULT "localhost"
+#define PORT_DEFAULT 1234
+#define PERIOD_DEFAULT 0.05
 
 static int debug = 0;
 
@@ -69,34 +68,31 @@ static void do_cmd_halt(nist_kitting::prim_robot_stat &prim_robot_stat)
   // else S0
 }
 
-static void do_cmd_kitting_prim_robot_moveto(geometry_msgs::Pose &pose, int socket_id, nist_kitting::prim_robot_stat &prim_robot_stat)
+static void do_cmd_kitting_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
-  enum {BUFFERLEN = 256};
-  char inbuf[BUFFERLEN];
-  char outbuf[BUFFERLEN];
-  int nchars;
-
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
-    socket_snprintf(outbuf, sizeof(outbuf),
-		    "MOVETO(%f,%f,%f,%f,%f,%f,%f)", 
-		    pose.position.x, pose.position.y, pose.position.z,
-		    pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w);
-    nchars = socket_write(socket_id, outbuf, strlen(outbuf) + 1);
     if (debug) ROS_INFO("Moving to %f ...\n", pose.position.x);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
-    nchars = socket_read(socket_id, inbuf, sizeof(inbuf) - 1);
-    if (-1 == nchars || 0 == nchars) {
-      prim_robot_stat.stat.state = RCS_STATE_S0;
-      prim_robot_stat.stat.status = RCS_STATUS_ERROR;
-    } else {
-      inbuf[nchars] = 0;
-      if (debug) ROS_INFO("%s", inbuf);
-      // FIXME -- use a real ack message
-      prim_robot_stat.stat.state = RCS_STATE_S0;
+    robotPose rp;
+    rp.position.x = pose.position.x;
+    rp.position.y = pose.position.y;
+    rp.position.z = pose.position.z;
+    rp.orientation.x = pose.orientation.x;
+    rp.orientation.y = pose.orientation.y;
+    rp.orientation.z = pose.orientation.z;
+    rp.orientation.w = pose.orientation.w;
+    CanonReturn result;
+    result = client.MoveStraightTo(rp);
+    if (CANON_SUCCESS == result) {
       prim_robot_stat.stat.status = RCS_STATUS_DONE;
+    } else if (CANON_FAILURE == result) {
+      prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+    } else if (CANON_REJECT == result) {
+      prim_robot_stat.stat.status = RCS_STATUS_ERROR;
     }
+    prim_robot_stat.stat.state = RCS_STATE_S0;
   }
   // else S0
 }
@@ -123,12 +119,11 @@ int main(int argc, char **argv)
   char **ros_argv;
   char node_name[NODE_NAME_LEN] = NODE_NAME_DEFAULT;
   char host_name[HOST_NAME_LEN] = HOST_NAME_DEFAULT;
+  int port = PORT_DEFAULT;
   int retval;
   int option;
   int ival;
   double dval;
-  int port = PRIM_ROBOT_PORT;
-  int socket_id;
   nist_kitting::prim_robot_stat prim_robot_stat_buf;
 
   prim_robot_stat_buf.stat.period = PERIOD_DEFAULT;
@@ -214,13 +209,7 @@ int main(int argc, char **argv)
   prim_robot_stat_buf.stat.heartbeat = 0;
 
   // connect to host robot controller
-
-  socket_id = socket_get_client_id(port, host_name);
-  if (socket_id < 0) {
-    fprintf(stderr, "can't connect to %s:%d\n", host_name, (int) port);
-    return 1;
-  }
-  if (debug) ROS_INFO("connected to %s:%d", host_name, (int) port);
+  CRCL_Client client(host_name, port);
 
   signal(SIGINT, quit);
 
@@ -250,7 +239,7 @@ int main(int argc, char **argv)
       do_cmd_halt(prim_robot_stat_buf);
       break;
     case KITTING_PRIM_ROBOT_MOVETO:
-      do_cmd_kitting_prim_robot_moveto(prim_robot_cmd_buf.moveto.pose, socket_id, prim_robot_stat_buf);
+      do_cmd_kitting_prim_robot_moveto(prim_robot_cmd_buf.moveto.pose, client, prim_robot_stat_buf);
       break;
     default:
       // unrecognized command -- FIXME

@@ -6,7 +6,8 @@
 #include <readline/readline.h>	// readline
 #include <readline/history.h>	// using_history
 
-#include "ros/ros.h"
+#include <ros/ros.h>
+
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/ws_cmd.h"
 #include "nist_kitting/ws_stat.h"
@@ -132,7 +133,7 @@ int main(int argc, char **argv)
   char prompt[PROMPT_LEN];
   char *line;
   char *ptr;
-  double d1, d2, d3, d4, d5, d6;
+  double d1, d2, d3, d4, d5, d6, d7;
 
   opterr = 0;
   while (true) {
@@ -350,10 +351,16 @@ int main(int argc, char **argv)
 	// skip over command and white space to get args
 	while ((! isspace(*ptr)) && (0 != *ptr)) ptr++;
 	while (isspace(*ptr)) ptr++;
-	if (1 == sscanf(ptr, "%lf", &d1)) {
+	if (7 == sscanf(ptr, "%lf %lf %lf %lf %lf %lf %lf",
+			&d1, &d2, &d3, &d4, &d5, &d6, &d7)) {
 	  prim_robot_cmd.cmd.type = KITTING_PRIM_ROBOT_MOVETO;
 	  prim_robot_cmd.moveto.pose.position.x = d1;
-	  // FIXME -- get the rest, use RPY, convert to quaternion, ...
+	  prim_robot_cmd.moveto.pose.position.y = d2;
+	  prim_robot_cmd.moveto.pose.position.z = d3;
+	  prim_robot_cmd.moveto.pose.orientation.x = d4;
+	  prim_robot_cmd.moveto.pose.orientation.y = d5;
+	  prim_robot_cmd.moveto.pose.orientation.z = d6;
+	  prim_robot_cmd.moveto.pose.orientation.w = d7;
 	  prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
 	  prim_robot_cmd.cmd.serial_number++; // make it a new one
 	  pub.publish(prim_robot_cmd);

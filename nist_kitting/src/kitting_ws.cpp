@@ -9,6 +9,7 @@
 #include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
+#include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/ws_cmd.h"
 #include "nist_kitting/ws_stat.h"
 #include "nist_kitting/task_cmd.h"

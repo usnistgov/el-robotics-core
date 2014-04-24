@@ -1,6 +1,8 @@
 #ifndef SIM_ROBOT_H
 #define SIM_ROBOT_H
 
+#include <boost/thread/mutex.hpp> /* mutex */
+
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
 #include "crcl_robot.h"		/* CRCL_Robot */
 
@@ -48,6 +50,7 @@ class CRCL_Sim : public CRCL_Robot {
   double getPeriod();
 
 private:
+  boost::mutex mutex;
   robotPose simPose;
   double absoluteSpeed;
   double period;

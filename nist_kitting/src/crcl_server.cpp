@@ -31,7 +31,10 @@ static void MoveStraightTo(const char *inbuf, int cmd_client_id)
     p.orientation.x = d4, p.orientation.y = d5;
     p.orientation.z = d6, p.orientation.w = d7;
 
-    if (debug) printf("MoveStraightTo %f ...\n", (double) p.position.x);
+    if (debug) printf("MoveStraightTo %f %f %f ...\n",
+		      p.position.x, 
+		      p.position.y,
+		      p.position.z);
 
     result = robot.MoveStraightTo(p);
   } else {
@@ -46,8 +49,8 @@ static void MoveStraightTo(const char *inbuf, int cmd_client_id)
   socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
 }
 
-/*
-  Principles of Operation:
+/*!
+  \defgroup CRCL_SERVER The CRCL Server
 
   The CRCL server has an instance of some CRCL_Robot, like a CRCL_Sim
   simulated robot. That's hand-coded now, but we could have a set of

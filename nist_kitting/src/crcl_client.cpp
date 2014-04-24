@@ -65,11 +65,7 @@ CanonReturn CRCL_Client::MoveStraightTo(robotPose pose)
   return setResult(inbuf);
 }
 
-/*
-  FIXME
-  We should mutex the socket write + read to prevent mixing between
-  simultaneous calls to the "get" functions
-*/
+#define LOCKIT boost::mutex::scoped_lock lock(mutex)
 
 CanonReturn CRCL_Client::GetRobotPose (robotPose *pose)
 {
@@ -81,9 +77,11 @@ CanonReturn CRCL_Client::GetRobotPose (robotPose *pose)
 
   socket_snprintf(outbuf, sizeof(outbuf), "GetRobotPose");
 
-  nchars = socket_write(stat_socket_id, outbuf, strlen(outbuf) + 1);
-
-  nchars = socket_read(stat_socket_id, inbuf, sizeof(inbuf) - 1);
+  {
+    LOCKIT;
+    nchars = socket_write(stat_socket_id, outbuf, strlen(outbuf) + 1);
+    nchars = socket_read(stat_socket_id, inbuf, sizeof(inbuf) - 1);
+  }
 
   if (! strncmp(inbuf, "Success", strlen("Success"))) {
     if (7 == sscanf(inbuf, "%*s %*s %lf %lf %lf %lf %lf %lf %lf",

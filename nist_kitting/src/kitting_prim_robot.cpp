@@ -11,6 +11,7 @@
 #include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
+#include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/prim_robot_cmd.h"
 #include "nist_kitting/prim_robot_stat.h"
 #include "nist_kitting/crcl.h"
@@ -102,12 +103,16 @@ static geometry_msgs::Pose crclToRos(robotPose pose)
 
 static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
-  static boost::thread *thr;
+  static boost::thread *thr = NULL;
 
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     robotPose rp;
     if (debug) ROS_INFO("Moving to %f ...", pose.position.x);
     rp = rosToCrcl(pose);
+    if (NULL != thr) {
+      thr->interrupt();
+      delete thr;
+    }
     thr = new boost::thread(&CRCL_Client::MoveStraightTo, &client, rp);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
@@ -302,7 +307,10 @@ int main(int argc, char **argv)
     end = etime();
     prim_robot_stat_buf.stat.duration = etime() - start;
     if (clientPoseThr->timed_join(boost::get_system_time())) {
-      if (debug) printf("GetRobotPose: %f ...\n", (double) clientPose.position.x);
+      if (debug) printf("GetRobotPose: %f %f %f ...\n",
+			clientPose.position.x,
+			clientPose.position.y,
+			clientPose.position.z);
       if (client.getResult() == CANON_SUCCESS) prim_robot_stat_buf.pose = crclToRos(clientPose);
       // start a new one
       delete clientPoseThr;

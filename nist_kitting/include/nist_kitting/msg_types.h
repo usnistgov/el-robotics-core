@@ -59,7 +59,4 @@ extern char *kitting_cmd_to_string(int s);
 extern char *rcs_state_to_string(int s);
 extern char *rcs_status_to_string(int s);
 
-extern double etime();
-extern void esleep(double secs);
-
 #endif /* MSG_TYPES_H */

@@ -1,12 +1,15 @@
-#include <stdio.h>		/* stdin, stderr */
-#include <stddef.h>		/* NULL, sizeof */
-#include <stdlib.h>		/* atoi, alloc */
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
 #include <float.h>
 
+#include <boost/thread/mutex.hpp>
+
 #include "nist_kitting/msg_types.h"
+#include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/crcl.h"
 #include "nist_kitting/crcl_sim.h"
 
@@ -48,36 +51,49 @@ static double robotPoseDiff(robotPose &p1, robotPose &p2)
 	      SQ(p1.position.z - p2.position.z));
 }
 
+#define LOCKIT boost::mutex::scoped_lock lock(mutex)
+
 CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
 {
+  robotPose here;
   double dist;
   double time;
   double xincr, yincr, zincr;
   double tfrac;
 
-  dist = robotPoseDiff(end, simPose);
+  {
+    LOCKIT;
+    here = simPose;
+  }
+
+  dist = robotPoseDiff(end, here);
 
   if (absoluteSpeed < FLT_MIN) time = FLT_MAX;
   else time = dist / absoluteSpeed;
 
   if (time < period) {
+    LOCKIT;
     simPose = end;
     return result = CANON_SUCCESS;
   }
 
   tfrac = period / time;
-  xincr = (end.position.x - simPose.position.x) * tfrac;
-  yincr = (end.position.y - simPose.position.y) * tfrac;
-  zincr = (end.position.z - simPose.position.z) * tfrac;
+  xincr = (end.position.x - here.position.x) * tfrac;
+  yincr = (end.position.y - here.position.y) * tfrac;
+  zincr = (end.position.z - here.position.z) * tfrac;
   time += etime();
 
   while (etime() < time) {
-    simPose.position.x += xincr;
-    simPose.position.y += xincr;
-    simPose.position.z += xincr;
-
+    {
+      LOCKIT;
+      simPose.position.x += xincr;
+      simPose.position.y += xincr;
+      simPose.position.z += xincr;
+    }
     esleep(period < FLT_MIN ? 1 : period);
   }
+
+  LOCKIT;
   simPose = end;
 
   return result = CANON_SUCCESS;
@@ -85,6 +101,7 @@ CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
 
 CanonReturn CRCL_Sim::GetRobotPose (robotPose *pose)
 {
+  LOCKIT;
   *pose = simPose;
 
   return result = CANON_SUCCESS;

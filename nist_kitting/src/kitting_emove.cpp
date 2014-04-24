@@ -9,6 +9,7 @@
 #include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
+#include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/emove_cmd.h"
 #include "nist_kitting/emove_stat.h"
 #include "nist_kitting/prim_robot_cmd.h"

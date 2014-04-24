@@ -1,6 +1,8 @@
 #ifndef CRCL_CLIENT_H
 #define CRCL_CLIENT_H
 
+#include <boost/thread/mutex.hpp> /* mutex */
+
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
 #include "crcl_robot.h"
 
@@ -51,6 +53,7 @@ class CRCL_Client : public CRCL_Robot {
   CanonReturn getResult();
 
 private:
+  boost::mutex mutex;
   int cmd_socket_id;
   int stat_socket_id;
   bool connected;

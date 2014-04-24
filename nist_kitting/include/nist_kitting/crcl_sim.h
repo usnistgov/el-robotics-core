@@ -4,9 +4,12 @@
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
 #include "crcl_robot.h"		/* CRCL_Robot */
 
+#define CRCL_SIM_PERIOD_DEFAULT 0.100 /* seconds per simulation period */
+
 class CRCL_Sim : public CRCL_Robot {
  public:
   CRCL_Sim();
+  CRCL_Sim(double period);
   ~CRCL_Sim() {};
 
   CanonReturn Couple (char *targetID) {};
@@ -27,7 +30,7 @@ class CRCL_Sim : public CRCL_Robot {
   CanonReturn MoveToAxisTarget (robotAxes axes) {};
   CanonReturn RunProgram (char *programName, CRCLProgramParams params) {};
   CanonReturn SetAbsoluteAcceleration (double acceleration) {};
-  CanonReturn SetAbsoluteSpeed (double speed) {};
+  CanonReturn SetAbsoluteSpeed (double speed);
   CanonReturn SetAngleUnits (char *unitName) {};
   CanonReturn SetAxialSpeeds (double *speeds) {};
   CanonReturn SetAxialUnits (char **unitNames) {};
@@ -39,8 +42,15 @@ class CRCL_Sim : public CRCL_Robot {
   CanonReturn SetRelativeSpeed (double percent) {};
   CanonReturn StopMotion (int condition);
 
+  // extensions
+
+  double setPeriod(double period);
+  double getPeriod();
+
 private:
   robotPose simPose;
+  double absoluteSpeed;
+  double period;
 };
 
 #endif	/* SIM_ROBOT_H */

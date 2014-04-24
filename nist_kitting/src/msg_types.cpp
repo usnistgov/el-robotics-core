@@ -1,10 +1,15 @@
-#include <stdio.h>
+#include <stdio.h>		// sprintf
+
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/thread.hpp> 
+
 #include "nist_kitting/msg_types.h"
 
 char *kitting_cmd_to_string(int s)
 {
-  enum { BUFLEN = 80 };
-  static char buf[BUFLEN];	/* warning-- not reentrant */
+  enum { BUFLEN = 80 };		// make 
+  static char buf[BUFLEN];	// warning -- not reentrant
 
   if (s == KITTING_NOP) sprintf(buf, "Nop");
   else if (s == KITTING_INIT) sprintf(buf, "Init");
@@ -16,6 +21,9 @@ char *kitting_cmd_to_string(int s)
   else if (s == KITTING_EMOVE_MOVE) sprintf(buf, "EmoveMove");
   else if (s == KITTING_EMOVE_RELEASE) sprintf(buf, "EmoveRelease");
   else if (s == KITTING_EMOVE_DEPART) sprintf(buf, "EmoveDepart");
+  else if (s == KITTING_PRIM_ROBOT_MOVETO) sprintf(buf, "PrimRobotMoveTo");
+  else if (s == KITTING_PRIM_ROBOT_OPEN_GRIPPER) sprintf(buf, "PrimRobotOpenGripper");
+  else if (s == KITTING_PRIM_ROBOT_CLOSE_GRIPPER) sprintf(buf, "PrimRobotCloseGripper");
   else sprintf(buf, "?");
 
   return buf;
@@ -47,12 +55,17 @@ char *rcs_status_to_string(int s)
   return buf;
 }
 
-#include <boost/date_time/posix_time/posix_time.hpp>
-using namespace boost::posix_time;
-
 extern double etime()
 {
+  using namespace boost::posix_time;
+
   time_duration t = microsec_clock::local_time() - ptime(min_date_time);
   return 1.0e-6 * t.total_microseconds();
 }
 
+#define ROUND(x) ((x) >= 0.0 ? (int) ((x) + 0.5) : (int) ((x) - 0.5))
+
+extern void esleep(double secs)
+{
+  boost::this_thread::sleep(boost::posix_time::microseconds(ROUND(secs * 1e6)));
+}

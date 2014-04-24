@@ -13,8 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS system thread)
-
+find_package(Boost REQUIRED COMPONENTS system filesystem date_time thread)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -61,6 +60,7 @@ add_message_files(DIRECTORY msg
   emove_stat.msg
   prim_robot_cmd.msg
   prim_robot_moveto.msg
+  prim_robot_set_abs_speed.msg
   prim_robot_close_gripper.msg
   prim_robot_open_gripper.msg
   prim_robot_stat.msg
@@ -89,10 +89,10 @@ generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES nist_kitting
-#  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
-DEPENDS readline
+  INCLUDE_DIRS include
+  LIBRARIES ${PROJECT_NAME}
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+  DEPENDS boost
 )
 
 ###########
@@ -105,7 +105,7 @@ DEPENDS readline
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(nist_kitting src/msg_types.cpp src/socket_utils.cpp src/crcl_client.cpp src/crcl_sim.cpp)
+add_library(${PROJECT_NAME} src/msg_types.cpp src/socket_utils.cpp src/crcl_client.cpp src/crcl_sim.cpp)
 
 ## Declare a cpp executable
 add_executable(kitting_ws_node src/kitting_ws.cpp)
@@ -126,6 +126,10 @@ add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_sh nist_kitting_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+)
 target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})

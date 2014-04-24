@@ -91,6 +91,10 @@ static void print_prim_robot_stat()
   printf("period:        %f\n", prim_robot_stat_buf.stat.period);
   printf("cycle:         %f\n", prim_robot_stat_buf.stat.cycle);
   printf("duration:      %f\n", prim_robot_stat_buf.stat.duration);
+  printf("pose:          %f %f %f ...\n", 
+	 prim_robot_stat_buf.pose.position.x,
+	 prim_robot_stat_buf.pose.position.y,
+	 prim_robot_stat_buf.pose.position.z);
 }
 
 // find all of 'a' in 'b', and following chars of 'b' are space or 0

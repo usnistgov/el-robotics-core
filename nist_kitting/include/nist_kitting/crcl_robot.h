@@ -37,6 +37,13 @@ class CRCL_Robot {
   CanonReturn SetTool (double percent) {};
   CanonReturn SetRelativeSpeed (double percent) {};
   CanonReturn StopMotion (int condition) {};
+
+  // gets the last result
+  CanonReturn getResult() {return result;};
+
+ protected:
+  // where methods store their results, if spawned
+  CanonReturn result;
 };
 
 #endif	/* CRCL_ROBOT_H */

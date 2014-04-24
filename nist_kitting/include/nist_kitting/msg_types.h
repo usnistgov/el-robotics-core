@@ -60,8 +60,6 @@ extern char *rcs_state_to_string(int s);
 extern char *rcs_status_to_string(int s);
 
 extern double etime();
-
-/* the TCP port for the Prim robot server */
-#define PRIM_ROBOT_PORT 1234
+extern void esleep(double secs);
 
 #endif /* MSG_TYPES_H */

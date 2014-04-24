@@ -9,6 +9,7 @@
 
 <!-- group ns="kitting_demo" -->
 <group>
+  <node pkg="nist_kitting" name="crcl_server" type="crcl_server"/>
   <node pkg="nist_kitting" name="prim_robot" type="kitting_prim_robot_node"/>
   <node pkg="nist_kitting" name="emove" type="kitting_emove_node"/>
   <node pkg="nist_kitting" name="task" type="kitting_task_node"/>

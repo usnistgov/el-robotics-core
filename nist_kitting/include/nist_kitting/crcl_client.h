@@ -4,8 +4,9 @@
 #include "crcl.h"		/* robotPose, robotAxes, CRCLProgramParams */
 #include "crcl_robot.h"
 
-#define HOST_DEFAULT "localhost"
-#define PORT_DEFAULT 1234
+#define CRCL_CLIENT_HOST_DEFAULT "localhost"
+#define CRCL_CLIENT_CMD_PORT_DEFAULT 1234
+#define CRCL_CLIENT_STAT_PORT_DEFAULT 1235
 
 class CRCL_Client : public CRCL_Robot {
  public:
@@ -25,12 +26,12 @@ class CRCL_Client : public CRCL_Robot {
 			     robotPose *tolerances = NULL) {};
   CanonReturn Decouple (char *targetID) {};
   CanonReturn GetRobotAxes (robotAxes *axes) {};
-  CanonReturn GetRobotPose (robotPose *pose) {};
+  CanonReturn GetRobotPose (robotPose *pose);
   CanonReturn MoveAttractor (robotPose pose) {};
   CanonReturn MoveToAxisTarget (robotAxes axes) {};
   CanonReturn RunProgram (char *programName, CRCLProgramParams params) {};
   CanonReturn SetAbsoluteAcceleration (double acceleration) {};
-  CanonReturn SetAbsoluteSpeed (double speed) {};
+  CanonReturn SetAbsoluteSpeed (double speed);
   CanonReturn SetAngleUnits (char *unitName) {};
   CanonReturn SetAxialSpeeds (double *speeds) {};
   CanonReturn SetAxialUnits (char **unitNames) {};
@@ -44,10 +45,16 @@ class CRCL_Client : public CRCL_Robot {
 
   // extensions
 
-  CRCL_Client(const char *host, int port);
+  CRCL_Client(const char *host, int cmd_port, int stat_port);
+  bool isConnected();
+  CanonReturn setResult(const char *str);
+  CanonReturn getResult();
 
 private:
-  int socket_id;
+  int cmd_socket_id;
+  int stat_socket_id;
+  bool connected;
+  CanonReturn result;
 };
 
 #endif	/* CRCL_CLIENT_H */

@@ -3,7 +3,6 @@
 #include <stdlib.h>		/* atoi, alloc */
 #include <string.h>
 #include <ctype.h>
-#include <getopt.h>
 
 #include <boost/thread/thread.hpp>
 

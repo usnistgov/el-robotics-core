@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include <getopt.h>
 #include <ctype.h>
 #include <readline/readline.h>	// readline
 #include <readline/history.h>	// using_history

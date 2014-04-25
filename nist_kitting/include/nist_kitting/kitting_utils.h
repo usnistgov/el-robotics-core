@@ -71,6 +71,8 @@ extern void esleep(double secs);
 
 #ifdef WIN32
 
+#define snprintf sprintf_s
+
 #ifdef __cplusplus
 extern "C" {
 #if 0

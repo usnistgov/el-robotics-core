@@ -6,6 +6,7 @@
 
 #include <boost/thread/thread.hpp>
 
+#include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/socket_utils.h"
 #include "nist_kitting/crcl.h"

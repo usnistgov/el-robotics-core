@@ -460,7 +460,7 @@ start:
 	}
 
 	if ((optchar = (int)*place++) == (int)':' ||
-	    (oli = strchr(options, optchar)) == NULL) {
+	    (oli = (char *) strchr(options, optchar)) == NULL) {
 		/*
 		 * If the user didn't specify '-' as an option,
 		 * assume it means -1 as POSIX specifies.

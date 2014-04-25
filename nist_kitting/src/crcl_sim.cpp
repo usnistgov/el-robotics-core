@@ -29,6 +29,10 @@ CRCL_Sim::CRCL_Sim()
   period = CRCL_SIM_PERIOD_DEFAULT;
 }
 
+CRCL_Sim::~CRCL_Sim()
+{
+}
+
 double CRCL_Sim::setPeriod(double p)
 {
   period = p;
@@ -96,6 +100,13 @@ CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
   LOCKIT;
   simPose = end;
 
+  return result = CANON_SUCCESS;
+}
+
+CanonReturn CRCL_Sim::StopMotion(int condition)
+{
+  // any other move command will have been interrupted by now,
+  // so just return OK
   return result = CANON_SUCCESS;
 }
 

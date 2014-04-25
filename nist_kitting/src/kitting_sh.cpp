@@ -132,6 +132,7 @@ int main(int argc, char **argv)
   char prompt[PROMPT_LEN];
   char *line;
   char *ptr;
+  int i1;
   double d1, d2, d3, d4, d5, d6, d7;
 
   opterr = 0;
@@ -348,9 +349,7 @@ int main(int argc, char **argv)
       switch (target) {
       case TARGET_PRIM_ROBOT:
 	// skip over command and white space to get args
-	while ((! isspace(*ptr)) && (0 != *ptr)) ptr++;
-	while (isspace(*ptr)) ptr++;
-	if (7 == sscanf(ptr, "%lf %lf %lf %lf %lf %lf %lf",
+	if (7 == sscanf(ptr, "%*s %lf %lf %lf %lf %lf %lf %lf",
 			&d1, &d2, &d3, &d4, &d5, &d6, &d7)) {
 	  prim_robot_cmd.cmd.type = KITTING_PRIM_ROBOT_MOVETO;
 	  prim_robot_cmd.moveto.pose.position.x = d1;
@@ -369,7 +368,19 @@ int main(int argc, char **argv)
 	break;
       default:
 	break;
-      } // switch (target) for "move"
+      } // switch (target) for "moveto"
+    } else if (TRY("stop")) {
+      switch (target) {
+      case TARGET_PRIM_ROBOT:
+	if (1 == sscanf(ptr, "%*s %d", &i1)) prim_robot_cmd.stop.condition = i1;
+	else prim_robot_cmd.stop.condition = 0;
+	prim_robot_cmd.cmd.type = KITTING_PRIM_ROBOT_STOP;
+	prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
+	prim_robot_cmd.cmd.serial_number++;
+	pub.publish(prim_robot_cmd);
+      default:
+	break;
+      } // switch (target) for "stop"
     } else if (TRY("init")) {
       switch (target) {
       case TARGET_WS:

@@ -49,6 +49,28 @@ static void MoveStraightTo(const char *inbuf, int cmd_client_id)
   socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
 }
 
+static void StopMotion(const char *inbuf, int cmd_client_id)
+{
+  int i1;
+  CanonReturn result;
+  enum {OUTBUF_LEN = 256};
+  char outbuf[OUTBUF_LEN];
+
+  if (1 == sscanf(inbuf, "%*s %d", &i1)) {
+    if (debug) printf("StopMotion %d\n", i1);
+    result = robot.StopMotion(i1);
+  } else {
+    result = CANON_REJECT;
+  }
+
+  snprintf(outbuf, sizeof(outbuf) - 1,
+	   "%s StopMotion",
+	   CANON_SUCCESS == result ? "Success" :
+	   CANON_FAILURE == result ? "Failure" : "Reject");
+  outbuf[sizeof(outbuf) - 1] = 0;
+  socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
+}
+
 /*!
   \defgroup CRCL_SERVER The CRCL Server
 
@@ -230,6 +252,12 @@ int main(int argc, char *argv[])
 	  delete cmdExecThr;
 	}
 	cmdExecThr = new boost::thread(MoveStraightTo, inbuf, cmd_client_id);
+      } else if (! strncmp(inbuf, "StopMotion", strlen("StopMotion"))) {
+	if (NULL != cmdExecThr) {
+	  cmdExecThr->interrupt();
+	  delete cmdExecThr;
+	}
+	cmdExecThr = new boost::thread(StopMotion, inbuf, cmd_client_id);
       } else if (! strncmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed"))) {
 	if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
 	  result = robot.SetAbsoluteSpeed(d1);

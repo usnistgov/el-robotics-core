@@ -18,6 +18,7 @@ char *kitting_cmd_to_string(int s)
   else if (s == KITTING_EMOVE_RELEASE) sprintf(buf, "EmoveRelease");
   else if (s == KITTING_EMOVE_DEPART) sprintf(buf, "EmoveDepart");
   else if (s == KITTING_PRIM_ROBOT_MOVETO) sprintf(buf, "PrimRobotMoveTo");
+  else if (s == KITTING_PRIM_ROBOT_STOP) sprintf(buf, "PrimRobotStop");
   else if (s == KITTING_PRIM_ROBOT_OPEN_GRIPPER) sprintf(buf, "PrimRobotOpenGripper");
   else if (s == KITTING_PRIM_ROBOT_CLOSE_GRIPPER) sprintf(buf, "PrimRobotCloseGripper");
   else sprintf(buf, "?");

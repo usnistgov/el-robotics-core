@@ -100,25 +100,56 @@ static geometry_msgs::Pose crclToRos(robotPose pose)
   return rp;
 }
 
+static boost::thread *cmdExecThr = NULL;
+
 static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
-  static boost::thread *thr = NULL;
 
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     robotPose rp;
     if (debug) ROS_INFO("Moving to %f ...", pose.position.x);
     rp = rosToCrcl(pose);
-    if (NULL != thr) {
-      thr->interrupt();
-      delete thr;
+    if (NULL != cmdExecThr) {
+      cmdExecThr->interrupt();
+      delete cmdExecThr;
     }
-    thr = new boost::thread(&CRCL_Client::MoveStraightTo, &client, rp);
+    cmdExecThr = new boost::thread(&CRCL_Client::MoveStraightTo, &client, rp);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
-    if (thr->timed_join(boost::get_system_time())) {
-      delete thr;
+    if (cmdExecThr->timed_join(boost::get_system_time())) {
+      delete cmdExecThr;
+      result = client.getResult();
+      if (CANON_SUCCESS == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_DONE;
+      } else if (CANON_FAILURE == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      } else if (CANON_REJECT == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      }
+      prim_robot_stat.stat.state = RCS_STATE_S0;
+    } // else keep waiting
+  }
+  // else S0
+}
+
+static void do_cmd_prim_robot_stop(int condition, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+{
+  static boost::thread *thr = NULL;
+
+  if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
+    if (NULL != cmdExecThr) {
+      cmdExecThr->interrupt();
+      delete cmdExecThr;
+    }
+    cmdExecThr = new boost::thread(&CRCL_Client::StopMotion, &client, condition);
+    prim_robot_stat.stat.state = RCS_STATE_S1;
+    prim_robot_stat.stat.status = RCS_STATUS_EXEC;
+  } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
+    CanonReturn result;
+    if (cmdExecThr->timed_join(boost::get_system_time())) {
+      delete cmdExecThr;
       result = client.getResult();
       if (CANON_SUCCESS == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
@@ -296,6 +327,8 @@ int main(int argc, char **argv)
       break;
     case KITTING_PRIM_ROBOT_MOVETO:
       do_cmd_prim_robot_moveto(prim_robot_cmd_buf.moveto.pose, client, prim_robot_stat_buf);
+    case KITTING_PRIM_ROBOT_STOP:
+      do_cmd_prim_robot_stop(prim_robot_cmd_buf.stop.condition, client, prim_robot_stat_buf);
       break;
     default:
       // unrecognized command -- FIXME

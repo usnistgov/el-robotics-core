@@ -60,6 +60,7 @@ add_message_files(DIRECTORY msg
   emove_stat.msg
   prim_robot_cmd.msg
   prim_robot_moveto.msg
+  prim_robot_stop.msg
   prim_robot_set_abs_speed.msg
   prim_robot_close_gripper.msg
   prim_robot_open_gripper.msg

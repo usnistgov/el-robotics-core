@@ -17,7 +17,11 @@ CRCL_Client::CRCL_Client(const char *host, int cmd_port, int stat_port)
   if (cmd_socket_id < 0) return;
 
   stat_socket_id = socket_get_client_id(stat_port, host);
-  if (stat_socket_id < 0) return;
+  if (stat_socket_id < 0) {
+    socket_close(cmd_socket_id);
+    cmd_socket_id = -1;
+    return;
+  }
 
   connected = true;
 }
@@ -25,6 +29,12 @@ CRCL_Client::CRCL_Client(const char *host, int cmd_port, int stat_port)
 CRCL_Client::CRCL_Client()
 {
   CRCL_Client(CRCL_CLIENT_HOST_DEFAULT, CRCL_CLIENT_CMD_PORT_DEFAULT, CRCL_CLIENT_STAT_PORT_DEFAULT);
+}
+
+CRCL_Client::~CRCL_Client()
+{
+  if (cmd_socket_id >= 0) socket_close(cmd_socket_id);
+  if (stat_socket_id >= 0) socket_close(stat_socket_id);
 }
 
 CanonReturn CRCL_Client::setResult(const char *str)
@@ -57,6 +67,22 @@ CanonReturn CRCL_Client::MoveStraightTo(robotPose pose)
 		  pose.position.x, pose.position.y, pose.position.z,
 		  pose.orientation.x, pose.orientation.y,
 		  pose.orientation.z, pose.orientation.w);
+
+  nchars = socket_write(cmd_socket_id, outbuf, strlen(outbuf) + 1);
+
+  nchars = socket_read(cmd_socket_id, inbuf, sizeof(inbuf) - 1);
+
+  return setResult(inbuf);
+}
+
+CanonReturn CRCL_Client::StopMotion (int condition)
+{
+  enum {BUFFERLEN = 256};
+  char inbuf[BUFFERLEN];
+  char outbuf[BUFFERLEN];
+  int nchars;
+
+  socket_snprintf(outbuf, sizeof(outbuf), "StopMotion %d", condition);
 
   nchars = socket_write(cmd_socket_id, outbuf, strlen(outbuf) + 1);
 

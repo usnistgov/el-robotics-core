@@ -2,12 +2,21 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_server", "socket_server\socket_server.vcxproj", "{74670A97-1265-4E23-98AE-88A6871A6366}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE2B7B0-C058-4FC3-BC2D-0193567FC353} = {5EE2B7B0-C058-4FC3-BC2D-0193567FC353}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_client", "socket_client\socket_client.vcxproj", "{CCB28286-B59F-4654-B93A-3720C806A225}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE2B7B0-C058-4FC3-BC2D-0193567FC353} = {5EE2B7B0-C058-4FC3-BC2D-0193567FC353}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nist_kitting", "nist_kitting\nist_kitting.vcxproj", "{5EE2B7B0-C058-4FC3-BC2D-0193567FC353}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crcl_server", "crcl_server\crcl_server.vcxproj", "{1592EDAD-17A2-4A74-8F3C-ABBFD311E034}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE2B7B0-C058-4FC3-BC2D-0193567FC353} = {5EE2B7B0-C058-4FC3-BC2D-0193567FC353}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

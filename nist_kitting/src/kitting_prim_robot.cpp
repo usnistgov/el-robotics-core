@@ -136,14 +136,68 @@ static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &cli
 
 static void do_cmd_prim_robot_stop(int condition, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
-  static boost::thread *thr = NULL;
-
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
       cmdExecThr->interrupt();
       delete cmdExecThr;
     }
     cmdExecThr = new boost::thread(&CRCL_Client::StopMotion, &client, condition);
+    prim_robot_stat.stat.state = RCS_STATE_S1;
+    prim_robot_stat.stat.status = RCS_STATUS_EXEC;
+  } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
+    CanonReturn result;
+    if (cmdExecThr->timed_join(boost::get_system_time())) {
+      delete cmdExecThr;
+      result = client.getResult();
+      if (CANON_SUCCESS == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_DONE;
+      } else if (CANON_FAILURE == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      } else if (CANON_REJECT == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      }
+      prim_robot_stat.stat.state = RCS_STATE_S0;
+    } // else keep waiting
+  }
+  // else S0
+}
+
+static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+{
+  if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
+    if (NULL != cmdExecThr) {
+      cmdExecThr->interrupt();
+      delete cmdExecThr;
+    }
+    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 1);
+    prim_robot_stat.stat.state = RCS_STATE_S1;
+    prim_robot_stat.stat.status = RCS_STATUS_EXEC;
+  } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
+    CanonReturn result;
+    if (cmdExecThr->timed_join(boost::get_system_time())) {
+      delete cmdExecThr;
+      result = client.getResult();
+      if (CANON_SUCCESS == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_DONE;
+      } else if (CANON_FAILURE == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      } else if (CANON_REJECT == result) {
+	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      }
+      prim_robot_stat.stat.state = RCS_STATE_S0;
+    } // else keep waiting
+  }
+  // else S0
+}
+
+static void do_cmd_prim_robot_close_gripper(CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+{
+  if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
+    if (NULL != cmdExecThr) {
+      cmdExecThr->interrupt();
+      delete cmdExecThr;
+    }
+    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 0);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -196,6 +250,8 @@ int main(int argc, char **argv)
   nist_kitting::prim_robot_stat prim_robot_stat_buf;
 
   prim_robot_stat_buf.stat.period = PERIOD_DEFAULT;
+  prim_robot_stat_buf.gripper.closed = false;
+  prim_robot_stat_buf.gripper.value = 0;
 
   opterr = 0;
   while (true) {
@@ -330,8 +386,14 @@ int main(int argc, char **argv)
     case KITTING_PRIM_ROBOT_STOP:
       do_cmd_prim_robot_stop(prim_robot_cmd_buf.stop.condition, client, prim_robot_stat_buf);
       break;
+    case KITTING_PRIM_ROBOT_OPEN_GRIPPER:
+      do_cmd_prim_robot_open_gripper(client, prim_robot_stat_buf);
+      break;
+    case KITTING_PRIM_ROBOT_CLOSE_GRIPPER:
+      do_cmd_prim_robot_close_gripper(client, prim_robot_stat_buf);
+      break;
     default:
-      // unrecognized command -- FIXME
+      if (debug) printf("unrecognized command: %s\n", kitting_cmd_to_string(prim_robot_cmd_buf.cmd.type));
       break;
     }
 

@@ -91,6 +91,22 @@ CanonReturn CRCL_Client::StopMotion (int condition)
   return setResult(inbuf);
 }
 
+CanonReturn CRCL_Client::SetTool (double percent)
+{
+  enum {BUFFERLEN = 256};
+  char inbuf[BUFFERLEN];
+  char outbuf[BUFFERLEN];
+  int nchars;
+
+  socket_snprintf(outbuf, sizeof(outbuf), "SetTool %f", percent);
+
+  nchars = socket_write(cmd_socket_id, outbuf, strlen(outbuf) + 1);
+
+  nchars = socket_read(cmd_socket_id, inbuf, sizeof(inbuf) - 1);
+
+  return setResult(inbuf);
+}
+
 #define LOCKIT boost::mutex::scoped_lock lock(mutex)
 
 CanonReturn CRCL_Client::GetRobotPose (robotPose *pose)

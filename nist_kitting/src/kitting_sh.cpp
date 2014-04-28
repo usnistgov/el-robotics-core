@@ -95,6 +95,7 @@ static void print_prim_robot_stat()
 	 prim_robot_stat_buf.pose.position.x,
 	 prim_robot_stat_buf.pose.position.y,
 	 prim_robot_stat_buf.pose.position.z);
+  printf("gripper:       %s %f\n", prim_robot_stat_buf.gripper.closed ? "closed" : "open", prim_robot_stat_buf.gripper.value);
 }
 
 // find all of 'a' in 'b', and following chars of 'b' are space or 0
@@ -368,7 +369,7 @@ int main(int argc, char **argv)
 	break;
       default:
 	break;
-      } // switch (target) for "moveto"
+      }
     } else if (TRY("stop")) {
       switch (target) {
       case TARGET_PRIM_ROBOT:
@@ -380,7 +381,27 @@ int main(int argc, char **argv)
 	pub.publish(prim_robot_cmd);
       default:
 	break;
-      } // switch (target) for "stop"
+      }
+    } else if (TRY("open")) {
+      switch (target) {
+      case TARGET_PRIM_ROBOT:
+	prim_robot_cmd.cmd.type = KITTING_PRIM_ROBOT_OPEN_GRIPPER;
+	prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
+	prim_robot_cmd.cmd.serial_number++;
+	pub.publish(prim_robot_cmd);
+      default:
+	break;
+      }
+    } else if (TRY("close")) {
+      switch (target) {
+      case TARGET_PRIM_ROBOT:
+	prim_robot_cmd.cmd.type = KITTING_PRIM_ROBOT_CLOSE_GRIPPER;
+	prim_robot_cmd.cmd.serial_number = prim_robot_stat_buf.stat.serial_number;
+	prim_robot_cmd.cmd.serial_number++;
+	pub.publish(prim_robot_cmd);
+      default:
+	break;
+      }
     } else if (TRY("init")) {
       switch (target) {
       case TARGET_WS:

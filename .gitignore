@@ -1,2 +1,4 @@
 # Emacs backup files
 *.~*~
+nist_kitting/doc/html
+nist_kitting/doc/manifest.yaml

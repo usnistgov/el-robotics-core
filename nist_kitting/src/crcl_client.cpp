@@ -9,6 +9,8 @@
 #include "nist_kitting/crcl_robot.h"
 #include "nist_kitting/crcl_client.h"
 
+static bool debug = true;
+
 CRCL_Client::CRCL_Client(const char *host, int cmd_port, int stat_port)
 {
   connected = false;
@@ -23,6 +25,10 @@ CRCL_Client::CRCL_Client(const char *host, int cmd_port, int stat_port)
     return;
   }
 
+  cmdResult = CANON_SUCCESS;
+  statResult = CANON_SUCCESS;
+  cmdDoneFlag = true;
+  statDoneFlag = true;
   connected = true;
 }
 
@@ -37,22 +43,60 @@ CRCL_Client::~CRCL_Client()
   if (stat_socket_id >= 0) socket_close(stat_socket_id);
 }
 
-CanonReturn CRCL_Client::setResult(const char *str)
+CanonReturn CRCL_Client::setCmdResult(const char *str)
 {
   if (! strncmp(str, "Success", strlen("Success"))) {
-    return CANON_SUCCESS;
+    return cmdResult = CANON_SUCCESS;
   } else if (! strncmp(str, "Failure", strlen("Failure"))) {
-    return CANON_FAILURE;
+    return cmdResult = CANON_FAILURE;
   } else if (! strncmp(str, "Reject", strlen("Reject"))) {
-    return CANON_REJECT;
+    return cmdResult = CANON_REJECT;
   } else {
-    return CANON_REJECT;
+    return cmdResult = CANON_REJECT;
   }
 }
 
-CanonReturn CRCL_Client::getResult()
+CanonReturn CRCL_Client::getCmdResult()
 {
-  return result;
+  return cmdResult;
+}
+
+CanonReturn CRCL_Client::setStatResult(const char *str)
+{
+  if (! strncmp(str, "Success", strlen("Success"))) {
+    return statResult = CANON_SUCCESS;
+  } else if (! strncmp(str, "Failure", strlen("Failure"))) {
+    return statResult = CANON_FAILURE;
+  } else if (! strncmp(str, "Reject", strlen("Reject"))) {
+    return cmdResult = CANON_REJECT;
+  } else {
+    return statResult = CANON_REJECT;
+  }
+}
+
+CanonReturn CRCL_Client::getStatResult()
+{
+  return statResult;
+}
+
+void CRCL_Client::startCmd()
+{
+  cmdDoneFlag = false;
+}
+
+bool CRCL_Client::cmdDone()
+{
+  return cmdDoneFlag;
+}
+
+void CRCL_Client::startStat()
+{
+  statDoneFlag = false;
+}
+
+bool CRCL_Client::statDone()
+{
+  return statDoneFlag;
 }
 
 CanonReturn CRCL_Client::MoveStraightTo(robotPose pose)
@@ -72,7 +116,10 @@ CanonReturn CRCL_Client::MoveStraightTo(robotPose pose)
 
   nchars = socket_read(cmd_socket_id, inbuf, sizeof(inbuf) - 1);
 
-  return setResult(inbuf);
+  if (debug) printf("MoveStraightTo done\n");
+  
+  cmdDoneFlag = true;
+  return setCmdResult(inbuf);
 }
 
 CanonReturn CRCL_Client::StopMotion (int condition)
@@ -88,7 +135,8 @@ CanonReturn CRCL_Client::StopMotion (int condition)
 
   nchars = socket_read(cmd_socket_id, inbuf, sizeof(inbuf) - 1);
 
-  return setResult(inbuf);
+  cmdDoneFlag = true;
+  return setCmdResult(inbuf);
 }
 
 CanonReturn CRCL_Client::SetTool (double percent)
@@ -104,7 +152,8 @@ CanonReturn CRCL_Client::SetTool (double percent)
 
   nchars = socket_read(cmd_socket_id, inbuf, sizeof(inbuf) - 1);
 
-  return setResult(inbuf);
+  cmdDoneFlag = true;
+  return setCmdResult(inbuf);
 }
 
 #define LOCKIT boost::mutex::scoped_lock lock(mutex)
@@ -116,6 +165,7 @@ CanonReturn CRCL_Client::GetRobotPose (robotPose *pose)
   char outbuf[BUFFERLEN];
   int nchars;
   double d1, d2, d3, d4, d5, d6, d7;
+  CanonReturn result = CANON_FAILURE;
 
   socket_snprintf(outbuf, sizeof(outbuf), "GetRobotPose");
 
@@ -125,17 +175,17 @@ CanonReturn CRCL_Client::GetRobotPose (robotPose *pose)
     nchars = socket_read(stat_socket_id, inbuf, sizeof(inbuf) - 1);
   }
 
-  if (! strncmp(inbuf, "Success", strlen("Success"))) {
+  if (CANON_SUCCESS == setStatResult(inbuf)) {
     if (7 == sscanf(inbuf, "%*s %*s %lf %lf %lf %lf %lf %lf %lf",
 		    &d1, &d2, &d3, &d4, &d5, &d6, &d7)) {
       pose->position.x = d1, pose->position.y = d2, pose->position.z = d3;
       pose->orientation.x = d4, pose->orientation.y = d5;
       pose->orientation.z = d6, pose->orientation.w = d7;
-      return result = CANON_SUCCESS;
     }
   }
-  // else failure
-  return result = CANON_FAILURE;
+
+  statDoneFlag = true;
+  return statResult;
 }
 
 CanonReturn CRCL_Client::SetAbsoluteSpeed(double speed)
@@ -151,7 +201,8 @@ CanonReturn CRCL_Client::SetAbsoluteSpeed(double speed)
 
   nchars = socket_read(cmd_socket_id, inbuf, sizeof(inbuf) - 1);
 
-  return setResult(inbuf);
+  cmdDoneFlag = true;
+  return setCmdResult(inbuf);
 }
 
 bool CRCL_Client::isConnected()

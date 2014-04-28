@@ -47,6 +47,30 @@ static void MoveStraightTo(const char *inbuf, int cmd_client_id)
 	   CANON_FAILURE == result ? "Failure" : "Reject");
   outbuf[sizeof(outbuf) - 1] = 0;
   socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
+
+  if (debug) printf("MoveStraightTo done\n");
+}
+
+static void SetTool(const char *inbuf, int cmd_client_id)
+{
+  double d1;
+  CanonReturn result;
+  enum {OUTBUF_LEN = 256};
+  char outbuf[OUTBUF_LEN];
+
+  if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
+    if (debug) printf("SetTool %f\n", d1);
+    result = robot.SetTool(d1);
+  } else {
+    result = CANON_REJECT;
+  }
+
+  snprintf(outbuf, sizeof(outbuf) - 1,
+	   "%s SetTool",
+	   CANON_SUCCESS == result ? "Success" :
+	   CANON_FAILURE == result ? "Failure" : "Reject");
+  outbuf[sizeof(outbuf) - 1] = 0;
+  socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
 }
 
 static void StopMotion(const char *inbuf, int cmd_client_id)
@@ -132,7 +156,7 @@ void status_handler_thread_code(int stat_port)
       if (0 == nchars) {
 	break;
       }
-      if (debug) printf("status request: ``%s''\n", inbuf);
+      // if (debug) printf("status request: ``%s''\n", inbuf);
 
       // handle status request
       if (! strncmp(inbuf, "GetRobotPose", strlen("GetRobotPose"))) {
@@ -146,7 +170,7 @@ void status_handler_thread_code(int stat_port)
 		 p.orientation.x, p.orientation.y,
 		 p.orientation.z, p.orientation.w);
 	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
-	if (debug) printf("wrote ``%s''\n", outbuf);
+	// if (debug) printf("wrote ``%s''\n", outbuf);
       } else {
 	fprintf(stderr, "invalid client status request: ``%s''\n", inbuf);
       }
@@ -245,17 +269,25 @@ int main(int argc, char *argv[])
       if (debug) printf("client command: ``%s''\n", inbuf);
 
       // handle commands
-
       if (! strncmp(inbuf, "MoveStraightTo", strlen("MoveStraightTo"))) {
 	if (NULL != cmdExecThr) {
 	  cmdExecThr->interrupt();
 	  delete cmdExecThr;
+	  cmdExecThr = NULL;
 	}
 	cmdExecThr = new boost::thread(MoveStraightTo, inbuf, cmd_client_id);
+      } else if (! strncmp(inbuf, "SetTool", strlen("SetTool"))) {
+	if (NULL != cmdExecThr) {
+	  cmdExecThr->interrupt();
+	  delete cmdExecThr;
+	  cmdExecThr = NULL;
+	}
+	cmdExecThr = new boost::thread(SetTool, inbuf, cmd_client_id);
       } else if (! strncmp(inbuf, "StopMotion", strlen("StopMotion"))) {
 	if (NULL != cmdExecThr) {
 	  cmdExecThr->interrupt();
 	  delete cmdExecThr;
+	  cmdExecThr = NULL;
 	}
 	cmdExecThr = new boost::thread(StopMotion, inbuf, cmd_client_id);
       } else if (! strncmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed"))) {

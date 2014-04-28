@@ -112,21 +112,26 @@ static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &cli
     if (NULL != cmdExecThr) {
       cmdExecThr->interrupt();
       delete cmdExecThr;
+      cmdExecThr = NULL;
     }
+    client.startCmd();
     cmdExecThr = new boost::thread(&CRCL_Client::MoveStraightTo, &client, rp);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
-    if (cmdExecThr->timed_join(boost::get_system_time())) {
+    if (client.cmdDone()) {
       delete cmdExecThr;
-      result = client.getResult();
+      cmdExecThr = NULL;
+      result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
       } else if (CANON_FAILURE == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
       } else if (CANON_REJECT == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
+      } else {
+	if (debug) printf("bad result from client: %d\n", result);
       }
       prim_robot_stat.stat.state = RCS_STATE_S0;
     } // else keep waiting
@@ -140,15 +145,18 @@ static void do_cmd_prim_robot_stop(int condition, CRCL_Client &client, nist_kitt
     if (NULL != cmdExecThr) {
       cmdExecThr->interrupt();
       delete cmdExecThr;
+      cmdExecThr = NULL;
     }
+    client.startCmd();
     cmdExecThr = new boost::thread(&CRCL_Client::StopMotion, &client, condition);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
-    if (cmdExecThr->timed_join(boost::get_system_time())) {
+    if (client.cmdDone()) {
       delete cmdExecThr;
-      result = client.getResult();
+      cmdExecThr = NULL;
+      result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
       } else if (CANON_FAILURE == result) {
@@ -168,16 +176,21 @@ static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::pr
     if (NULL != cmdExecThr) {
       cmdExecThr->interrupt();
       delete cmdExecThr;
+      cmdExecThr = NULL;
     }
+    client.startCmd();
     cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 1);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
-    if (cmdExecThr->timed_join(boost::get_system_time())) {
+    if (client.cmdDone()) {
       delete cmdExecThr;
-      result = client.getResult();
+      cmdExecThr = NULL;
+      result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
+	prim_robot_stat.gripper.closed = false;
+	prim_robot_stat.gripper.value = 0;
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
       } else if (CANON_FAILURE == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
@@ -196,16 +209,21 @@ static void do_cmd_prim_robot_close_gripper(CRCL_Client &client, nist_kitting::p
     if (NULL != cmdExecThr) {
       cmdExecThr->interrupt();
       delete cmdExecThr;
+      cmdExecThr = NULL;
     }
+    client.startCmd();
     cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 0);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
-    if (cmdExecThr->timed_join(boost::get_system_time())) {
+    if (client.cmdDone()) {
       delete cmdExecThr;
-      result = client.getResult();
+      cmdExecThr = NULL;
+      result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
+	prim_robot_stat.gripper.closed = true;
+	prim_robot_stat.gripper.value = 1;
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
       } else if (CANON_FAILURE == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
@@ -352,6 +370,7 @@ int main(int argc, char **argv)
   }
 
   robotPose clientPose;
+  client.startStat();
   boost::thread *clientPoseThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
 
   signal(SIGINT, quit);
@@ -397,19 +416,24 @@ int main(int argc, char **argv)
       break;
     }
 
+    if (client.statDone()) {
+      if (CANON_SUCCESS == client.getStatResult()) {
+	prim_robot_stat_buf.pose = crclToRos(clientPose);
+	if (debug) printf("GetRobotPose: %f %f %f ...\n",
+			  clientPose.position.x,
+			  clientPose.position.y,
+			  clientPose.position.z);
+      }
+      // start a new one
+      delete clientPoseThr;
+      client.startStat();
+      clientPoseThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
+    }
+
     prim_robot_stat_buf.stat.heartbeat++;
     end = etime();
     prim_robot_stat_buf.stat.duration = etime() - start;
-    if (clientPoseThr->timed_join(boost::get_system_time())) {
-      if (debug) printf("GetRobotPose: %f %f %f ...\n",
-			clientPose.position.x,
-			clientPose.position.y,
-			clientPose.position.z);
-      if (client.getResult() == CANON_SUCCESS) prim_robot_stat_buf.pose = crclToRos(clientPose);
-      // start a new one
-      delete clientPoseThr;
-      clientPoseThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
-    }
+
     prim_robot_stat_pub.publish(prim_robot_stat_buf);
 
     loop_rate.sleep();

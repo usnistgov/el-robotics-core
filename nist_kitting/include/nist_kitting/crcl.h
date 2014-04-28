@@ -4,7 +4,7 @@
 typedef enum {
   CANON_SUCCESS = 0,
   CANON_FAILURE = 1,
-  CANON_REJECT = 2
+  CANON_REJECT = 2,
 } CanonReturn;
 
 typedef int CRCLProgramParams;

@@ -53,6 +53,7 @@ private:
   boost::mutex mutex;
   robotPose simPose;
   double absoluteSpeed;
+  double toolSetting;
   double period;
 };
 

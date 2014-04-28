@@ -25,6 +25,7 @@ CRCL_Sim::CRCL_Sim()
   simPose.orientation.w = 1;
 
   absoluteSpeed = 1;
+  toolSetting = 0;
 
   period = CRCL_SIM_PERIOD_DEFAULT;
 }
@@ -103,10 +104,18 @@ CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
   return result = CANON_SUCCESS;
 }
 
+CanonReturn CRCL_Sim::SetTool(double percent)
+{
+  toolSetting = percent;
+
+  return result = CANON_SUCCESS;
+}
+
 CanonReturn CRCL_Sim::StopMotion(int condition)
 {
   // any other move command will have been interrupted by now,
   // so just return OK
+
   return result = CANON_SUCCESS;
 }
 

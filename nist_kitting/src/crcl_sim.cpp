@@ -106,6 +106,40 @@ CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
 
 CanonReturn CRCL_Sim::SetTool(double percent)
 {
+#define PERCENT_PER_SEC 33
+  double here;
+  double dist;
+  double time;
+  double incr;
+  double tfrac;
+
+  {
+    LOCKIT;
+    here = toolSetting;
+  }
+
+  dist = percent - here;
+  time = fabs(dist) / PERCENT_PER_SEC;
+
+  if (time < period) {
+    LOCKIT;
+    toolSetting = percent;
+    return result = CANON_SUCCESS;
+  }
+
+  tfrac = period / time;
+  incr = dist * tfrac;
+  time += etime();
+
+  while (etime() < time) {
+    {
+      LOCKIT;
+      toolSetting += incr;
+    }
+    esleep(period < FLT_MIN ? 1 : period);
+  }
+
+  LOCKIT;
   toolSetting = percent;
 
   return result = CANON_SUCCESS;
@@ -123,6 +157,20 @@ CanonReturn CRCL_Sim::GetRobotPose (robotPose *pose)
 {
   LOCKIT;
   *pose = simPose;
+
+  return result = CANON_SUCCESS;
+}
+
+CanonReturn CRCL_Sim::GetRobotAxes (robotAxes *axes)
+{
+  LOCKIT;
+  // so trivial
+  axes->axis[0] = simPose.position.x * 2;
+  axes->axis[1] = simPose.position.y * 0.5;
+  axes->axis[2] = -simPose.position.z;
+  axes->axis[3] = simPose.orientation.x * 10;
+  axes->axis[4] = simPose.orientation.y * 20;
+  axes->axis[5] = simPose.orientation.z * 30;
 
   return result = CANON_SUCCESS;
 }

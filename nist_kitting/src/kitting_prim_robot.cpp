@@ -179,7 +179,7 @@ static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::pr
       cmdExecThr = NULL;
     }
     client.startCmd();
-    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 1);
+    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 90.0);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -189,8 +189,8 @@ static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::pr
       cmdExecThr = NULL;
       result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
+	// FIXME -- set this, and 'value', from a status message
 	prim_robot_stat.gripper.closed = false;
-	prim_robot_stat.gripper.value = 0;
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
       } else if (CANON_FAILURE == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
@@ -212,7 +212,7 @@ static void do_cmd_prim_robot_close_gripper(CRCL_Client &client, nist_kitting::p
       cmdExecThr = NULL;
     }
     client.startCmd();
-    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 0);
+    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 10.0);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -223,7 +223,7 @@ static void do_cmd_prim_robot_close_gripper(CRCL_Client &client, nist_kitting::p
       result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
 	prim_robot_stat.gripper.closed = true;
-	prim_robot_stat.gripper.value = 1;
+	// FIXME -- set this, and 'value', from a status message
 	prim_robot_stat.stat.status = RCS_STATUS_DONE;
       } else if (CANON_FAILURE == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
@@ -369,9 +369,16 @@ int main(int argc, char **argv)
     return 1;
   }
 
+  bool do_client_pose = true;
   robotPose clientPose;
+  robotAxes clientAxes;
+  boost::thread *clientStatThr = NULL;
+
   client.startStat();
-  boost::thread *clientPoseThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
+  if (do_client_pose)
+    clientStatThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
+  else
+    clientStatThr = new boost::thread(&CRCL_Client::GetRobotAxes, &client, &clientAxes);
 
   signal(SIGINT, quit);
 
@@ -416,18 +423,43 @@ int main(int argc, char **argv)
       break;
     }
 
+    /*
+      Get status from the robot. Here we are just sending requests for
+      position, but there are other things, like tool settings, that
+      we should get. Rather than a bunch of different messages that we
+      would need to cycle through one by one, consider one for
+      everything.
+    */
     if (client.statDone()) {
       if (CANON_SUCCESS == client.getStatResult()) {
-	prim_robot_stat_buf.pose = crclToRos(clientPose);
-	if (debug) printf("GetRobotPose: %f %f %f ...\n",
-			  clientPose.position.x,
-			  clientPose.position.y,
-			  clientPose.position.z);
+	if (do_client_pose) {
+	  prim_robot_stat_buf.pose = crclToRos(clientPose);
+	  if (debug) printf("GetRobotPose: %f %f %f ...\n",
+			    clientPose.position.x,
+			    clientPose.position.y,
+			    clientPose.position.z);
+	} else {
+	  // FIXME -- get the actual number from stat somewhere, loop it
+	  prim_robot_stat_buf.axes.axis[0] = clientAxes.axis[0];
+	  prim_robot_stat_buf.axes.axis[1] = clientAxes.axis[1];
+	  prim_robot_stat_buf.axes.axis[2] = clientAxes.axis[2];
+	  prim_robot_stat_buf.axes.axis[3] = clientAxes.axis[3];
+	  prim_robot_stat_buf.axes.axis[4] = clientAxes.axis[4];
+	  prim_robot_stat_buf.axes.axis[5] = clientAxes.axis[5];
+	  if (debug) printf("GetRobotAxes: %f %f %f ...\n",
+			    clientAxes.axis[0], 
+			    clientAxes.axis[1], 
+			    clientAxes.axis[2]);
+	}
       }
       // start a new one
-      delete clientPoseThr;
+      delete clientStatThr;
       client.startStat();
-      clientPoseThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
+      do_client_pose = ! do_client_pose;
+      if (do_client_pose) 
+	clientStatThr = new boost::thread(&CRCL_Client::GetRobotPose, &client, &clientPose);
+      else
+	clientStatThr = new boost::thread(&CRCL_Client::GetRobotAxes, &client, &clientAxes);
     }
 
     prim_robot_stat_buf.stat.heartbeat++;

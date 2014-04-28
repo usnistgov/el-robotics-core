@@ -65,6 +65,7 @@ add_message_files(DIRECTORY msg
   prim_robot_close_gripper.msg
   prim_robot_open_gripper.msg
   prim_robot_stat.msg
+  axes.msg
   gripper_stat.msg
 )
 

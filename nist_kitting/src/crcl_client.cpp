@@ -188,6 +188,43 @@ CanonReturn CRCL_Client::GetRobotPose (robotPose *pose)
   return statResult;
 }
 
+CanonReturn CRCL_Client::GetRobotAxes (robotAxes *axes)
+{
+  enum {BUFFERLEN = 256};
+  char inbuf[BUFFERLEN];
+  char outbuf[BUFFERLEN];
+  int nchars;
+  double d1, d2, d3, d4, d5, d6; // FIXME -- handle variable number of axes
+  CanonReturn result = CANON_FAILURE;
+
+  socket_snprintf(outbuf, sizeof(outbuf), "GetRobotAxes");
+
+  {
+    LOCKIT;
+    nchars = socket_write(stat_socket_id, outbuf, strlen(outbuf) + 1);
+    nchars = socket_read(stat_socket_id, inbuf, sizeof(inbuf) - 1);
+  }
+
+  if (CANON_SUCCESS == setStatResult(inbuf)) {
+    if (6 == sscanf(inbuf, "%*s %*s %lf %lf %lf %lf %lf %lf",
+		    &d1, &d2, &d3, &d4, &d5, &d6)) {
+      axes->axis[0] = d1, axes->axis[1] = d2, axes->axis[2] = d3,
+	axes->axis[3] = d4, axes->axis[4] = d5, axes->axis[5] = d6;
+    }
+  }
+
+  statDoneFlag = true;
+  return statResult;
+}
+
+CanonReturn CRCL_Client::GetStatus (robotAxes *axes, robotPose *pose, double percent)
+{
+  statDoneFlag = true;
+  statResult = CANON_SUCCESS;
+
+  return statResult;
+}
+
 CanonReturn CRCL_Client::SetAbsoluteSpeed(double speed)
 {
   enum {BUFFERLEN = 256};

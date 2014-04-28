@@ -57,6 +57,7 @@ class CRCL_Client : public CRCL_Robot {
   bool cmdDone();
   void startStat();
   bool statDone();
+  CanonReturn GetStatus (robotAxes *axes, robotPose *pose, double percent);
 
 private:
   boost::mutex mutex;

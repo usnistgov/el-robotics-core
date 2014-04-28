@@ -171,6 +171,17 @@ void status_handler_thread_code(int stat_port)
 		 p.orientation.z, p.orientation.w);
 	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
 	// if (debug) printf("wrote ``%s''\n", outbuf);
+      } else if (! strncmp(inbuf, "GetRobotAxes", strlen("GetRobotAxes"))) {
+	robotAxes a;
+	result = robot.GetRobotAxes(&a);
+	snprintf(outbuf, sizeof(outbuf) - 1,
+		 "%s GetRobotPose %f %f %f %f %f %f",
+		 CANON_SUCCESS == result ? "Success" :
+		 CANON_FAILURE == result ? "Failure" : "Reject",
+		 a.axis[0], a.axis[1], a.axis[2],
+		 a.axis[3], a.axis[4], a.axis[5]);
+	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
+	// if (debug) printf("wrote ``%s''\n", outbuf);
       } else {
 	fprintf(stderr, "invalid client status request: ``%s''\n", inbuf);
       }

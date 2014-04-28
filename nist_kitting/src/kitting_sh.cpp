@@ -95,6 +95,10 @@ static void print_prim_robot_stat()
 	 prim_robot_stat_buf.pose.position.x,
 	 prim_robot_stat_buf.pose.position.y,
 	 prim_robot_stat_buf.pose.position.z);
+  printf("axes:          %f %f %f ...\n", 
+	 prim_robot_stat_buf.axes.axis[0],
+	 prim_robot_stat_buf.axes.axis[1],
+	 prim_robot_stat_buf.axes.axis[2]);
   printf("gripper:       %s %f\n", prim_robot_stat_buf.gripper.closed ? "closed" : "open", prim_robot_stat_buf.gripper.value);
 }
 

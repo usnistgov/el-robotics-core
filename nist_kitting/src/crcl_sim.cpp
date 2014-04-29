@@ -79,7 +79,7 @@ CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
   if (time < period) {
     LOCKIT;
     simPose = end;
-    return result = CANON_SUCCESS;
+    return CANON_SUCCESS;
   }
 
   tfrac = period / time;
@@ -101,7 +101,7 @@ CanonReturn CRCL_Sim::MoveStraightTo(robotPose end)
   LOCKIT;
   simPose = end;
 
-  return result = CANON_SUCCESS;
+  return CANON_SUCCESS;
 }
 
 CanonReturn CRCL_Sim::SetTool(double percent)
@@ -124,7 +124,7 @@ CanonReturn CRCL_Sim::SetTool(double percent)
   if (time < period) {
     LOCKIT;
     toolSetting = percent;
-    return result = CANON_SUCCESS;
+    return CANON_SUCCESS;
   }
 
   tfrac = period / time;
@@ -142,7 +142,7 @@ CanonReturn CRCL_Sim::SetTool(double percent)
   LOCKIT;
   toolSetting = percent;
 
-  return result = CANON_SUCCESS;
+  return CANON_SUCCESS;
 }
 
 CanonReturn CRCL_Sim::StopMotion(int condition)
@@ -150,7 +150,7 @@ CanonReturn CRCL_Sim::StopMotion(int condition)
   // any other move command will have been interrupted by now,
   // so just return OK
 
-  return result = CANON_SUCCESS;
+  return CANON_SUCCESS;
 }
 
 CanonReturn CRCL_Sim::GetRobotPose (robotPose *pose)
@@ -158,7 +158,7 @@ CanonReturn CRCL_Sim::GetRobotPose (robotPose *pose)
   LOCKIT;
   *pose = simPose;
 
-  return result = CANON_SUCCESS;
+  return CANON_SUCCESS;
 }
 
 CanonReturn CRCL_Sim::GetRobotAxes (robotAxes *axes)
@@ -172,7 +172,24 @@ CanonReturn CRCL_Sim::GetRobotAxes (robotAxes *axes)
   axes->axis[4] = simPose.orientation.y * 20;
   axes->axis[5] = simPose.orientation.z * 30;
 
-  return result = CANON_SUCCESS;
+  return CANON_SUCCESS;
+}
+
+CanonReturn CRCL_Sim::GetTool (double *percent)
+{
+  LOCKIT;
+  *percent = toolSetting;
+
+  return CANON_SUCCESS;
+}
+
+CanonReturn CRCL_Sim::GetStatus (robotPose *pose, robotAxes *axes, double *percent)
+{
+  GetRobotPose(pose);
+  GetRobotAxes(axes);
+  GetTool(percent);
+
+  return CANON_SUCCESS;
 }
 
 CanonReturn CRCL_Sim::SetAbsoluteSpeed(double speed)
@@ -181,5 +198,5 @@ CanonReturn CRCL_Sim::SetAbsoluteSpeed(double speed)
 
   absoluteSpeed = speed;
 
-  return result = CANON_SUCCESS;
+  return CANON_SUCCESS;
 }

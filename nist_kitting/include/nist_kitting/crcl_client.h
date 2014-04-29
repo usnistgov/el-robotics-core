@@ -48,18 +48,19 @@ class CRCL_Client : public CRCL_Robot {
   // extensions
 
   CRCL_Client(const char *host, int cmd_port, int stat_port);
+  CanonReturn GetTool (double *percent);
+  CanonReturn GetStatus (robotPose *pose, robotAxes *axes, double *percent);
+
   bool isConnected();
-  CanonReturn setCmdResult(const char *str);
   CanonReturn getCmdResult();
-  CanonReturn setStatResult(const char *str);
   CanonReturn getStatResult();
   void startCmd();
   bool cmdDone();
   void startStat();
   bool statDone();
-  CanonReturn GetStatus (robotAxes *axes, robotPose *pose, double percent);
 
 private:
+
   boost::mutex mutex;
   int cmd_socket_id;
   int stat_socket_id;
@@ -68,6 +69,9 @@ private:
   CanonReturn statResult;
   bool cmdDoneFlag;
   bool statDoneFlag;
+
+  CanonReturn setCmdResult(const char *str);
+  CanonReturn setStatResult(const char *str);
 };
 
 #endif	/* CRCL_CLIENT_H */

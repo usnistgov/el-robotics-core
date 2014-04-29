@@ -22,7 +22,7 @@ typedef struct {
   robotOrientation orientation;
 } robotPose;
 
-#define ROBOT_AXES_MAX 8	/* FIXME -- how can we get the actual number? */
+#define ROBOT_AXES_MAX 8	/* ISSUE -- how can we get the actual number? */
 
 typedef struct {
   double axis[ROBOT_AXES_MAX];

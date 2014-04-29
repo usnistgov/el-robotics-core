@@ -217,11 +217,90 @@ CanonReturn CRCL_Client::GetRobotAxes (robotAxes *axes)
   return statResult;
 }
 
-CanonReturn CRCL_Client::GetStatus (robotAxes *axes, robotPose *pose, double percent)
+CanonReturn CRCL_Client::GetTool (double *percent)
 {
-  statDoneFlag = true;
-  statResult = CANON_SUCCESS;
+  enum {BUFFERLEN = 256};
+  char inbuf[BUFFERLEN];
+  char outbuf[BUFFERLEN];
+  int nchars;
+  double d1;
+  CanonReturn result = CANON_FAILURE;
 
+  socket_snprintf(outbuf, sizeof(outbuf), "GetTool");
+
+  {
+    LOCKIT;
+    nchars = socket_write(stat_socket_id, outbuf, strlen(outbuf) + 1);
+    nchars = socket_read(stat_socket_id, inbuf, sizeof(inbuf) - 1);
+  }
+
+  if (CANON_SUCCESS == setStatResult(inbuf)) {
+    if (1 == sscanf(inbuf, "%*s %*s %lf", &d1)) {
+      *percent = d1;
+    }
+  }
+
+  statDoneFlag = true;
+  return statResult;
+}
+
+CanonReturn CRCL_Client::GetStatus (robotPose *pose, robotAxes *axes, double *percent)
+{
+  enum {BUFFERLEN = 256};
+  char inbuf[BUFFERLEN];
+  char outbuf[BUFFERLEN];
+  int nchars;
+  char *nptr;
+  char *endptr;
+  double d1;
+
+  socket_snprintf(outbuf, sizeof(outbuf), "GetStatus");
+
+  {
+    LOCKIT;
+    nchars = socket_write(stat_socket_id, outbuf, strlen(outbuf) + 1);
+    nchars = socket_read(stat_socket_id, inbuf, sizeof(inbuf) - 1);
+  }
+
+  statResult = CANON_FAILURE;
+
+  nptr = inbuf;
+  if (! strncmp(nptr, "Success GetStatus", strlen("Success GetStatus"))) {
+    nptr += strlen("Success GetStatus");
+
+    while (true) {
+#define MOVEDOWN(VAL)				\
+      d1 = strtod(nptr, &endptr);		\
+      if (endptr == nptr) break;		\
+      VAL = d1;					\
+      nptr = endptr;
+
+      MOVEDOWN(pose->position.x);
+      MOVEDOWN(pose->position.y);
+      MOVEDOWN(pose->position.z);
+      MOVEDOWN(pose->orientation.x);
+      MOVEDOWN(pose->orientation.y);
+      MOVEDOWN(pose->orientation.z);
+      MOVEDOWN(pose->orientation.w);
+
+      // FIXME -- we should loop on the number of axes, soon to be added
+      MOVEDOWN(axes->axis[0]);
+      MOVEDOWN(axes->axis[1]);
+      MOVEDOWN(axes->axis[2]);
+      MOVEDOWN(axes->axis[3]);
+      MOVEDOWN(axes->axis[4]);
+      MOVEDOWN(axes->axis[5]);
+
+      MOVEDOWN(*percent);
+
+      // if we got here, we got it all
+      statResult = CANON_SUCCESS;
+    }
+  } else {
+    statResult = CANON_FAILURE;
+  }
+
+  statDoneFlag = true;
   return statResult;
 }
 

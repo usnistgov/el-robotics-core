@@ -94,15 +94,9 @@ class CRCL_Robot {
   CanonReturn SetLengthUnits (char *unitName) {};
   CanonReturn SetParameter (char *paramName, void *paramVal) {};
   CanonReturn SetTool (double percent) {};
+  // consider a GetTool (double *percent) method
   CanonReturn SetRelativeSpeed (double percent) {};
   CanonReturn StopMotion (int condition) {};
-
-  // gets the last result
-  CanonReturn getResult() {return result;};
-
- protected:
-  // where methods store their results, if spawned
-  CanonReturn result;
 };
 
 #endif	/* CRCL_ROBOT_H */

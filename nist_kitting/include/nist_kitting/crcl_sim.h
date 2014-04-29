@@ -46,6 +46,8 @@ class CRCL_Sim : public CRCL_Robot {
 
   // extensions
 
+  CanonReturn GetTool (double *percent);
+  CanonReturn GetStatus (robotPose *pose, robotAxes *axes, double *percent);
   double setPeriod(double period);
   double getPeriod();
 

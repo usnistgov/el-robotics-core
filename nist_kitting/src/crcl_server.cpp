@@ -132,7 +132,7 @@ void status_handler_thread_code(int stat_port)
   char inbuf[INBUF_LEN];
   char outbuf[OUTBUF_LEN];
   int nchars;
-  CanonReturn result;
+  CanonReturn result = CANON_REJECT;
 
   stat_socket_id = socket_get_server_id(stat_port);
   if (stat_socket_id < 0) {
@@ -187,6 +187,23 @@ void status_handler_thread_code(int stat_port)
 		 "%s GetTool %f",
 		 CANON_SUCCESS == result ? "Success" :
 		 CANON_FAILURE == result ? "Failure" : "Reject", d);
+	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
+      } else if (! strncmp(inbuf, "GetStatus", strlen("GetStatus"))) {
+	robotPose p;
+	robotAxes a;
+	double t;
+	result = robot.GetRobotPose(&p);
+	if (CANON_SUCCESS == result) result = robot.GetRobotAxes(&a);
+	if (CANON_SUCCESS == result) result = robot.GetTool(&t);
+	snprintf(outbuf, sizeof(outbuf) - 1,
+		 "%s GetStatus %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
+		 CANON_SUCCESS == result ? "Success" :
+		 CANON_FAILURE == result ? "Failure" : "Reject",
+		 p.position.x, p.position.y, p.position.z,
+		 p.orientation.x, p.orientation.y,
+		 p.orientation.z, p.orientation.w,
+		 a.axis[0], a.axis[1], a.axis[2],
+		 a.axis[3], a.axis[4], a.axis[5], t);
 	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
       } else {
 	fprintf(stderr, "invalid client status request: ``%s''\n", inbuf);

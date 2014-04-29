@@ -267,8 +267,7 @@ CanonReturn CRCL_Client::GetStatus (robotPose *pose, robotAxes *axes, double *pe
   nptr = inbuf;
   if (! strncmp(nptr, "Success GetStatus", strlen("Success GetStatus"))) {
     nptr += strlen("Success GetStatus");
-
-    while (true) {
+    while (true) {		// use a break-able scope as a clean 'goto'
 #define MOVEDOWN(VAL)				\
       d1 = strtod(nptr, &endptr);		\
       if (endptr == nptr) break;		\
@@ -295,7 +294,8 @@ CanonReturn CRCL_Client::GetStatus (robotPose *pose, robotAxes *axes, double *pe
 
       // if we got here, we got it all
       statResult = CANON_SUCCESS;
-    }
+      break;			// we're done with the one pass
+    } // while (true)
   } else {
     statResult = CANON_FAILURE;
   }

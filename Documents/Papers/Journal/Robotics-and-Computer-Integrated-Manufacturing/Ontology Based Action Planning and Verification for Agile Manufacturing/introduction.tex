@@ -1,0 +1,64 @@
+\section{Introduction}
+Many of today's robotic arms are capable of obtaining
+sub-millimeter accuracy and repeatability \cite{RobotAccuracy}. However these
+same systems lack
+the sensors and processing necessary to provide a representation of
+the work cell in which they reside or of the parts that they are working
+with. In fact, according to the International Federation of Robotics (IFR),
+over 95\% of all robots in use do not have a sensor in the outer feedback loop.
+They rely on fixtures to allow them to be robust in the presence of 
+uncertainty \cite{WorldRobot}. This leads to
+systems that are taught or programmed to provide specific patterns of motion in
+structured work cells over long production runs. 
+
+Just-in-time manufacturing and small
+batch processing requires changes in the manufacturing process on a batch-by-batch
+or item-by-item basis. This leads to a reduction in the number of cycles
+that a particular pattern of motion is useful and increases the 
+percentage of time necessary for robot teaching or programming over actual cell operation.
+This teaching/programming time requires that the 
+cell be taken off-line which greatly impacts productivity.
+For small batch processors or other customers who must frequently change their line configuration, 
+this frequent downtime and lack of adaptability may be unacceptable.
+
+The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group has taken the 
+first steps in creating a knowledge repository that will
+allow greater intelligence to be resident on robotic platforms.
+It is anticipated that proper applicaton of this intelligence
+will lead to more agile and flexible robotic systems. The 
+Industrial Subgroup of this working group has applied 
+this infrastructure to 
+create a sample kit building
+system.  Kit building may be viewed as a simple, but relevant
+manufacturing process. 
+
+Balakirsky et al. \cite{Balakirsky2013} describe a kitting 
+system that
+allows greater flexibility and agility by utilizing a
+Planning Domain Definition Language (PDDL) \cite{PDDL} planning
+system to dynamically alter the system's operation in order
+to adapt to variations in its anticipated work flow. The system
+does not require {\it a priori} information on part locations (i.e
+fixturing is not required) and is able to build new kit varieties
+without altering the robot's programming. While this body of
+work makes great strides in removing the need to teach/program
+the robot between production runs, all of the PDDL predicates and
+actions must still be programmed/taught. 
+
+This means that any
+modification to the production process that requires a new
+PDDL predicate or action will still require that the production 
+line be brought down for programming/teaching. The next logical step
+in adding agility to robotic production is to remove this 
+programming/teaching step when new actions and predicates
+are required by the system. This article describes new work
+that has been performed that removes the need to program
+the robot for new predicates and actions. The sample domain of kit building is utilized
+to demonstrate this work.
+
+The organization of the remainder of this paper is as follows.
+Section \ref{sect:PDDL} provides an overview of the PDDL language. 
+Section \ref{sect:operation} discusses the detailed operation of cell, and Section \ref{sect:knowledge} discusses the knowledge representation and
+the ontology. Finally, Section \ref{sect:future} presents
+conclusions and future work.
+%

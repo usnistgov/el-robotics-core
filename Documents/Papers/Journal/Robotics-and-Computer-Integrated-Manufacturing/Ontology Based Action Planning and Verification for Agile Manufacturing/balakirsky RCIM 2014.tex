@@ -1,0 +1,122 @@
+% LaTex file for Stephen Balakirsky's Robotics and 
+% Computer Integrated Manufacturing 2014 submission
+%
+\documentclass[review]{elsarticle}
+
+\usepackage{lineno,hyperref}
+
+%
+% my additional packages
+\usepackage{graphicx}
+\usepackage{multirow,array}
+\usepackage{rotating} % for sideways
+\usepackage{amsmath}
+\usepackage{amsthm}
+%\usepackage{algorithm2e}
+\usepackage[linesnumbered, boxed, figure]{algorithm2e}
+%
+% zeid's definitions
+\newcommand{\class}[1] {\textit{#1}}
+\newcommand{\const}[1] {$\mathit{#1}$}
+\newcommand{\objvar}[1] {$\mathsf{#1}$}
+\newcommand{\stvar}[1] {\textsf{#1}}
+%
+%
+%
+\modulolinenumbers[5]
+
+\journal{Journal of Robotics-and-Computer-Integrated-Manufacturing}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Ontology Based Action Planning and Verification for Agile Manufacturing}
+
+%% Group authors per affiliation:
+\author{Stephen Balakirsky}
+\address{Georgia Tech Research Institute, Atlanta, GA 30332, USA}
+\cortext[mycorrespondingauthor]{Corresponding author}
+\ead{stephen.balakirsky@gtri.gatech.edu}
+
+\begin{abstract}
+Many of today's robotic work cells are unable to adapt to even small changes in tasking without significant reprogramming. 
+This results in downtime for production
+lines anytime a change to a product or procedure must be made. This article examines a novel 
+knowledge-driven system that 
+provides added agility by removing the programming burden for new activities from the robot 
+and placing it in the knowledge representation. The system is able to automatically 
+recognize and adapt to changes in its work-flow and dynamically change assignment details. 
+The system also provides for 
+action verification and
+late binding of action parameters, 
+thus providing flexibility by allowing plans 
+to adapt to production errors and changing environmental conditions. The key feature of this system is its knowledge base that 
+contains the necessary 
+relationships and representations to allow for
+adaptation. This article presents the ontology that stores this knowledge as well as the 
+overall system architecture. 
+The manufacturing domain of kit construction is examined as a sample test environment. 
+\end{abstract}
+
+\begin{keyword}
+\texttt{knowledge driven system, adaptive planning, manufacturing, ontology, robotics, Planning Domain Definition Language}
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+%
+%\usepackage{makeidx}  % allows for indexgeneration
+%
+%
+%
+\input{introduction}
+\input{pddl}
+\input{systemOperation}
+\input{knowledgeRepresentation}
+\input{conclusions}
+%
+%
+
+
+
+%
+% ---- Bibliography ----
+%
+%\bibliographystyle{plain}
+\bibliography{ontology}
+\end{document}

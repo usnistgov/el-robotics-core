@@ -15,9 +15,9 @@
 #ifndef ISD_ROBOT_H
 #define ISD_ROBOT_H
 
-#include "../../types.h"
-#include "../../portable.h"
-#include "../../Libraries/Reporter/reporter.h"
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
 #include <vector>
 
 #include "Robotiq.h"

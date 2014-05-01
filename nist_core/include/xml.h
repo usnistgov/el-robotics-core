@@ -16,18 +16,18 @@
 #ifndef XML_H
 #define XML_H
 
-#include "..\..\portable.h"
-#include "..\..\types.h"
+#include "portable.h"
+#include "types.h"
 #include "xmlTypes.h"
-#include "..\Reporter\reporter.h"
+#include "reporter.h"
 
 //#include "abb.h"
 //#include "abb2.h"
-#include "appOptions.h"
+//#include "appOptions.h"
 //#include "asm.h"
-#include "mailman.h"
-#include "surgery.h"
-#include "Kuka_LWR.h"
+//#include "mailman.h"
+//#include "surgery.h"
+#include "Kuka_LWR_XML.h"
 
 using namespace Reporter;
 

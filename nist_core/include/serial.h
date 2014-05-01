@@ -19,9 +19,9 @@
 #include <conio.h>
 */
 
-#include "..\Reporter\reporter.h"
-#include "../../portable.h"
-#include "../../types.h"
+#include "reporter.h"
+#include "portable.h"
+#include "types.h"
 
 using namespace Reporter;
 

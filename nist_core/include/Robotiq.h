@@ -15,11 +15,11 @@
 #ifndef ROBOTIQ_H
 #define ROBOTIQ_H
 
-#include "../../types.h"
-#include "../../portable.h"
-#include "../../Libraries/Reporter/reporter.h"
-#include "../../Libraries/SockNet/socknet.h"
-#include "../../Libraries/Robotiq/RobotiqGripper.h"
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
+#include "socknet.h"
+#include "RobotiqGripper.h"
 
 using namespace std;
 using namespace Reporter;

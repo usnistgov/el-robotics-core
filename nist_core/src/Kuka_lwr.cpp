@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Kuka_lwr.h"
-#include "../XML/xml.h"
+#include "xml.h"
 #include <fstream>
 
 //#define STATIC_ //! Uncomment this line if you want to hard code the serial port (debugging purposes only)

@@ -24,9 +24,9 @@ using namespace std;
 //template class LIBRARY_API Xml::XmlParse<Xml::ABBParse>;
 //template class LIBRARY_API Xml::XmlParse<Xml::ABB2Parse>;
 //template class LIBRARY_API Xml::XmlParse<Xml::ASMParse>;
-template class LIBRARY_API Xml::XmlParse<Xml::MailmanParse>;
-template class LIBRARY_API Xml::XmlParse<Xml::optionParse>;
-template class LIBRARY_API Xml::XmlParse<Xml::SurgeryParse>;
+//template class LIBRARY_API Xml::XmlParse<Xml::MailmanParse>;
+//template class LIBRARY_API Xml::XmlParse<Xml::optionParse>;
+//template class LIBRARY_API Xml::XmlParse<Xml::SurgeryParse>;
 template class LIBRARY_API Xml::XmlParse<Xml::KukaLWRParse>;
 
 namespace Xml

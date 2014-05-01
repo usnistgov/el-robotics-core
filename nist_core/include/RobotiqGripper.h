@@ -1,10 +1,10 @@
 
 #include <bitset>
 #include <iostream>
-#include "../../types.h"
-#include "../../portable.h"
-#include "../../Libraries/Reporter/reporter.h"
-#include "../../Libraries/SockNet/socknet.h"
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
+#include "socknet.h"
 
 using std::bitset;
 using namespace std;

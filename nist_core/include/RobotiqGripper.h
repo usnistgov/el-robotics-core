@@ -55,7 +55,6 @@ class LIBRARY_API RobotiqGripper {
 	void sendCommand();
  
   private: 
-	Logger *logger_;
 
 	bool log;
 

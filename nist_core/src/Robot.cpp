@@ -16,27 +16,32 @@
 
 using namespace std;
 
+//#include "BasicRobot.h"
+#include "Robotiq.h"
+#include "Kuka_lwr.h"
+#include "Schunk_SDH.h"
+#include "DemoHack.h"
+//#include "Universal_UR10.h" //! TODO
+
 //! Explicit instantiations
+//template class LIBRARY_API Robot::CRCL_Robot<Robot::BasicRobot>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::DemoHack>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::Schunk_SDH>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::Robotiq>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::Kuka_LWR>;
 //template class LIBRARY_API Robot::CRCL_Robot<Robot::Universal_UR10>;
 
-
 namespace Robot
 {
-  template <class T> LIBRARY_API CRCL_Robot<T>::CRCL_Robot (Logger *logger, char * initPath) :
-    logger_(logger)
+  template <class T> LIBRARY_API CRCL_Robot<T>::CRCL_Robot (char * initPath)
   {
-    robInterface_ = new T(logger, initPath);
+    robInterface_ = new T(initPath);
   }
 
 
   template <class T> LIBRARY_API CRCL_Robot<T>::~CRCL_Robot ()
   {
     delete robInterface_;
-    logger_ = NULL;
   }
 
 
@@ -204,12 +209,4 @@ namespace Robot
   {
 		return robInterface_->StopMotion (condition);
 	}
-
-
-  template <class T> LIBRARY_API void CRCL_Robot<T>::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 } // Robot

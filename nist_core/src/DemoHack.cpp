@@ -18,11 +18,10 @@ using namespace std;
 
 namespace Robot
 {
-  LIBRARY_API DemoHack::DemoHack (Logger *logger, char * initPath) :
-    logger_(logger)
+  LIBRARY_API DemoHack::DemoHack (char * initPath)
   {
-    arm_ = new robotArm (logger, initPath);
-    hand_ = new robotHand (logger, initPath);
+    arm_ = new robotArm (initPath);
+    hand_ = new robotHand (initPath);
   }
 
 
@@ -245,12 +244,5 @@ namespace Robot
     }
     return SUCCESS;
   }
-  
 
-  LIBRARY_API void DemoHack::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 } // Robot

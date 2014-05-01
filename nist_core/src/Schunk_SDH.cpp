@@ -18,8 +18,7 @@ using namespace std;
 
 namespace Robot
 {
-  LIBRARY_API Schunk_SDH::Schunk_SDH (Logger *logger, char * initPath) :
-    logger_(logger)
+  LIBRARY_API Schunk_SDH::Schunk_SDH (char * initPath)
   {
   }
 
@@ -185,11 +184,4 @@ namespace Robot
     return SUCCESS;
   }
   
-
-  LIBRARY_API void Schunk_SDH::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 } // Robot

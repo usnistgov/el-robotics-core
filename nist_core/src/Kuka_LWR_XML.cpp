@@ -22,11 +22,9 @@ namespace Xml
 {
 
   LIBRARY_API KukaLWRParse::KukaLWRParse (serialStruct *serdata,
-                                          networkStruct *sockdata,
-                                          Logger *logPtr) :
+                                          networkStruct *sockdata) :
     serdata_(serdata),
-    sockdata_(sockdata),
-    logger_(logPtr)
+    sockdata_(sockdata)
   {
   }
 
@@ -35,7 +33,6 @@ namespace Xml
   {
     serdata_ = NULL;
     sockdata_ = NULL;
-    logger_ = NULL;
   }
 
 
@@ -95,7 +92,7 @@ namespace Xml
     } // try
     catch (...)
     {
-      exception ("XML:Kuka_LWR startElement", "Unknown error");
+      //! Unknown error
       flag = false;
     }
 
@@ -129,11 +126,4 @@ namespace Xml
     return true;
   }
 
-
-  LIBRARY_API void KukaLWRParse::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 }

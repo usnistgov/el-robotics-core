@@ -20,13 +20,17 @@
 
 //#define NOISY
 
+#ifdef NOISY
+#include <iostream>
+using namespace std;
+#endif
+
 namespace Network
 {
   //! *************************************************************************
   //!                       SERIAL COMMUNICATION METHODS
   //! *************************************************************************
-  LIBRARY_API serial::serial (networkSettings *settings, Logger *logPtr) :
-    logger_(logPtr)
+  LIBRARY_API serial::serial (networkSettings *settings)
   {
   }
 
@@ -45,7 +49,7 @@ namespace Network
     {
       ReadFile (serialData.serial, buffer, REQUEST_MSG_SIZE, &dwBytes, NULL);
 #ifdef NOISY
-      logger_->log (buffer);
+      cout << buffer << endl;
 #endif
     } while (dwBytes == 0);
 
@@ -73,13 +77,13 @@ namespace Network
     if (serialData.connected)
     {
 #ifdef NOISY
-      logger_->log (buffer);
+      cout << buffer << endl;
 #endif
       resp = WriteFile (serialData.serial, buffer, strlen(buffer) + 1, &dwBytes, NULL);
     }
     else
     {
-      logger_->error ("serial::sendData Not connected");
+      //! Not connected
       return false;
     }
 
@@ -123,7 +127,7 @@ namespace Network
     //! Initialize serial port
     if (serialData.serial == INVALID_HANDLE_VALUE)
     {
-      exception ("serial::attach", "Could not connect to serial port");
+      //! Could not connect to serial port
       return false;
     }
 
@@ -137,7 +141,7 @@ namespace Network
     //! Initialize COM port
     if (!SetCommState (serialData.serial, &serialData.dcb))
     {
-      exception ("serial::attach", "Could not set up COM port");
+      //! Could not set up COM port
       return false;
     }
 
@@ -153,7 +157,7 @@ namespace Network
     //! Check if timeouts setup is valid
     if (!SetCommTimeouts (serialData.serial, &CommTimeouts))
     {
-      exception ("serial::attach", "Unable to configure timeouts");
+      //! Unable to configure timeouts
       return false;
     }
 
@@ -168,11 +172,4 @@ namespace Network
     serialData.connected = false;
   }
 
-
-  LIBRARY_API void serial::exception (char *where, const char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 }

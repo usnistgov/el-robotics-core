@@ -17,20 +17,12 @@
 
 #include "types.h"
 #include "portable.h"
-#include "reporter.h"
-#include <vector>
-
-#include "Robotiq.h"
-#include "Kuka_lwr.h"
-#include "Schunk_SDH.h"
-#include "DemoHack.h"
-//#include "Universal_UR10.h" //! TODO
 
 using namespace std;
-using namespace Reporter;
 
 namespace Robot
 {
+
   //! @ingroup Robot
   //!
   //! @brief Common template interface for the various robot subtypes
@@ -41,10 +33,9 @@ namespace Robot
 
     //! @brief Default constructor
     //!
-    //! @param logger   Pointer to the common application logger
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    CRCL_Robot (Logger *logger, char *initPath);
+    CRCL_Robot (char *initPath);
 
     //! @brief Default destructor
     //!
@@ -322,22 +313,9 @@ namespace Robot
     CanonReturn StopMotion (int condition = 2);
 
   private:
-
-    //! @brief Pointer to the parent application logger to record state and error messages
-    //!
-    Logger *logger_;
-
     //! @brief Interface object for the different supported robots
     //!
     T *robInterface_;
-
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, char *what);
-
   }; // CRCL_Robot
 } // Robot
 

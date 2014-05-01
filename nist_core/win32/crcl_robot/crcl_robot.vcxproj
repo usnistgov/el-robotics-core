@@ -124,7 +124,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>../Release/reporter.lib;../Release/serial.lib;../../Release/socknet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../../Release/crcl_robot.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>../Release/crcl_robot.pdb</ProgramDatabaseFile>
@@ -145,7 +145,6 @@
     <ClInclude Include="..\..\include\Kuka_lwr.h" />
     <ClInclude Include="..\..\include\Kuka_LWR_XML.h" />
     <ClInclude Include="..\..\include\portable.h" />
-    <ClInclude Include="..\..\include\reporter.h" />
     <ClInclude Include="..\..\include\Robot.h" />
     <ClInclude Include="..\..\include\Robotiq.h" />
     <ClInclude Include="..\..\include\RobotiqGripper.h" />
@@ -161,7 +160,6 @@
     <ClCompile Include="..\..\src\DemoHack.cpp" />
     <ClCompile Include="..\..\src\Kuka_lwr.cpp" />
     <ClCompile Include="..\..\src\Kuka_LWR_XML.cpp" />
-    <ClCompile Include="..\..\src\Logger.cpp" />
     <ClCompile Include="..\..\src\Robot.cpp" />
     <ClCompile Include="..\..\src\Robotiq.cpp" />
     <ClCompile Include="..\..\src\RobotiqGripper.cpp" />

@@ -146,7 +146,7 @@ namespace Network
     //! @param rep      Pointer to the reporter class owned by the parent
     //!                 process
     //!
-    serial (networkSettings *settings, Logger *logPtr);
+    serial (networkSettings *settings);
 
     //! @brief Default destructor
     //!
@@ -224,16 +224,6 @@ namespace Network
 
   private:
 
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, const char *what);
-
-    //! @brief Local pointer to the common log writer from the parent application
-    //!
-    Logger *logger_;
   };
 }
 

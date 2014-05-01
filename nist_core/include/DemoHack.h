@@ -40,10 +40,9 @@ namespace Robot
 
     //! @brief Default constructor
     //!
-    //! @param logger   Pointer to the common application logger
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    DemoHack (Logger *logger, char *initPath);
+    DemoHack (char *initPath);
 
     //! @brief Default destructor
     //!
@@ -325,10 +324,6 @@ namespace Robot
     CanonReturn v1;
     CanonReturn v2;
 
-    //! @brief Pointer to the parent application logger to record state and error messages
-    //!
-    Logger *logger_;
-
     //! @brief Pointer to the robot arm
     //!
     robotArm *arm_;
@@ -336,13 +331,6 @@ namespace Robot
     //! @brief Pointer to the robot hand
     //!
     robotHand *hand_;   
-
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, char *what);
   }; // DemoHack
 
 } // namespace Robot

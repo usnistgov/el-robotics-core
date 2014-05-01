@@ -32,9 +32,8 @@ namespace Network
   //!                              SOCKET METHODS
   //! *************************************************************************
   
-	LIBRARY_API socketNet::socketNet (networkSettings *settings, Logger *logPtr) :
-    settings_(settings),
-    logger_(logPtr)
+	LIBRARY_API socketNet::socketNet (networkSettings *settings) :
+    settings_(settings)
   {
   }
 
@@ -92,7 +91,6 @@ namespace Network
           nRead == WSANOTINITIALISED || nRead == WSAENOTSOCK)
       {
         //! Check for error from read()
-        exception ("socketNet::getData", "error reading");
         sprintf (b2, "read %d", nRead);
         perror (b2);
 
@@ -492,11 +490,4 @@ namespace Network
 	return true;
   }
 
-
-  LIBRARY_API void socketNet::exception (char *where, const char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 }

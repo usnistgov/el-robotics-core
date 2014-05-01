@@ -19,8 +19,7 @@ using namespace std;
 
 namespace Robot
 {
-  LIBRARY_API Shell::Shell (Logger *logger, char * initPath) :
-    logger_(logger)
+  LIBRARY_API Shell::Shell (char * initPath) 
   {
   }
 
@@ -186,11 +185,4 @@ namespace Robot
     return SUCCESS;
   }
   
-
-  LIBRARY_API void Shell::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 } // Robot

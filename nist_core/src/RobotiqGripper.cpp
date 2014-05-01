@@ -83,7 +83,7 @@ namespace RobotiqGripper
 	  nS.sP = 502;
 	  settings.globalRunServer = true;
 	  nS.address ="192.168.1.11";
-	  sN = new Network::socketNet(&settings, logger_);
+	  sN = new Network::socketNet(&settings);
 	  sN->attach(nS);
 
 	  if (!nS.connected)

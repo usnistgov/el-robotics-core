@@ -36,9 +36,8 @@ namespace Xml
     //!
     //! @param serdata  Pointer to a serial connection structure
     //! @param sockdata Pointer to a socket connection structure
-    //! @param logPtr   Pointer to the common logger
     //!
-    KukaLWRParse (serialStruct *serdata, networkStruct *sockdata, Logger *logPtr);
+    KukaLWRParse (serialStruct *serdata, networkStruct *sockdata);
 
     //! @brief Default destructor
     //!
@@ -87,17 +86,7 @@ namespace Xml
     //!
     networkStruct *sockdata_;
 
-    //! @brief TODO
-    //!
-    Logger *logger_;
-
-    //! @brief Display an error message
-    //!
-    //! @parm where The location where the error occurred
-    //! @param what The error type
-    //!
-    void exception (char *where, char *what);
-  }; // ABBParse
+  }; // KukaLWRParse
 } // XML
 
 #endif

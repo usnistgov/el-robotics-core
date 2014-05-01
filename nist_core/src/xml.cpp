@@ -31,9 +31,8 @@ template class LIBRARY_API Xml::XmlParse<Xml::KukaLWRParse>;
 
 namespace Xml
 {
-  template <class T> XmlParse<T>::XmlParse (T *strctr, Logger *logPtr) :
-    xmlData_(strctr),
-    logger_(logPtr)
+  template <class T> XmlParse<T>::XmlParse (T *strctr) :
+    xmlData_(strctr)
   {
   }
 
@@ -41,7 +40,6 @@ namespace Xml
   template <class T> XmlParse<T>::~XmlParse ()
   {
     xmlData_ = NULL;
-    logger_ = NULL;
   }
 
 
@@ -119,9 +117,10 @@ namespace Xml
 
           if (marker >= (strLength - 1))
           {
-            //! Ill-formed XML string (end encountered before closing tags
-            exception ("XML:parse", "End of string buffer reached before closing tags 1");
-            exception ("XML:parse", line.c_str());
+            //! Ill-formed XML string (end encountered before closing tags)
+            cout << line.c_str() << endl;
+//            exception ("XML:parse", "End of string buffer reached before closing tags 1");
+//            exception ("XML:parse", line.c_str());
             error = true;
             break;
           }
@@ -151,9 +150,10 @@ namespace Xml
           }
           if (marker > (strLength - 1))
           {
-            //! Ill-formed XML string (end encountered before closing tags
-            exception ("XML:parse", "End of string buffer reached before closing tags 2");
-            exception ("XML:parse", line.c_str());
+            //! Ill-formed XML string (end encountered before closing tags)
+//            exception ("XML:parse", "End of string buffer reached before closing tags 2");
+//            exception ("XML:parse", line.c_str());
+            cout << line.c_str() << endl;
             error = true;
             break;
           }
@@ -232,8 +232,9 @@ namespace Xml
             if (marker > (strLength - 1))
             {
               //! Ill-formed XML string (end encountered before closing tags
-              exception ("XML:parse", "End of string buffer reached before closing tags 3");
-              exception ("XML:parse", line.c_str());
+//              exception ("XML:parse", "End of string buffer reached before closing tags 3");
+//              exception ("XML:parse", line.c_str());
+              cout << line.c_str() << endl;
               error = true;
               break;
             } // if (marker > (strLength - 1))
@@ -346,8 +347,9 @@ namespace Xml
             if (marker >= (strLength - 1))
             {
               //! Ill-formed XML string (end encountered before closing tags
-              exception ("XML:parse", "End of string buffer reached before closing tags 4");
-              exception ("XML:parse", line.c_str());
+//              exception ("XML:parse", "End of string buffer reached before closing tags 4");
+//              exception ("XML:parse", line.c_str());
+              cout << line.c_str() << endl;
               error = true;
               break;
             }
@@ -393,23 +395,18 @@ namespace Xml
     } // try
     catch (...)
     {
-      exception ("XML:parse", "unknown exception");
-      exception ("XML:parse", line.c_str());
+      //! Unknown exception
+//      exception ("XML:parse", "unknown exception");
+      cout << line.c_str() << endl;
+//      exception ("XML:parse", line.c_str());
       return false;
     }
 
     if (error)
     {
-      exception ("XML:parse", "exiting with error");
+      //! Exiting with error
     }
     return state;
   }
 
-
-  template <class T> void XmlParse<T>::exception (char *where, const char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 } // XML

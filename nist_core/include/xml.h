@@ -44,9 +44,8 @@ namespace Xml
     //! @brief Constructor
     //!
     //! @param strctr TODO
-    //! @param logPtr TODO
     //!
-    XmlParse (T *strctr, Logger *logPtr);
+    XmlParse (T *strctr);
 
     //! @brief Destructor
     //!
@@ -82,20 +81,9 @@ namespace Xml
     //!
     bool characters (const std::vector<std::string>& ch);
 
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, const char *what);
-
     //! @brief The schema structure being populated by the XML parser
     //!
     T *xmlData_;
-
-    //! @brief TODO
-    //!
-    Logger *logger_;
 
   }; // XmlParse
 } // Xml namespace

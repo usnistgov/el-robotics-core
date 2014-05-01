@@ -23,15 +23,14 @@ using namespace Xml;
 
 namespace Robot
 {
-  LIBRARY_API Kuka_LWR::Kuka_LWR (Logger *logger, char *initPath) :
-    logger_(logger),
+  LIBRARY_API Kuka_LWR::Kuka_LWR (char *initPath) :
     acceptCRCL_(false)
   {
     mssgBuffer_ = new char[REQUEST_MSG_SIZE];
 
     //! XML parser 
-    KukaLWRParse kp(&serialData_, &socketData_, logger_);
-    XmlParse<KukaLWRParse> xml(&kp, logger_);
+    KukaLWRParse kp(&serialData_, &socketData_);
+    XmlParse<KukaLWRParse> xml(&kp);
     ifstream in;
     char buffer[256];
     
@@ -58,14 +57,14 @@ namespace Robot
     //! Create socket/serial connection
     if (serialUsed_)
     {
-      serial_ = new serial (NULL, logger_);
+      serial_ = new serial (NULL);
       if (serial_->attach(serialData_))
       {
-        logger_->log ("Kuka LWR:  connected");
+        //! Connected
       }
       else
       {
-        logger_->log ("Kuka LWR:  failed to connect");
+        //! Failed to connect
       }
     }
     else
@@ -82,7 +81,6 @@ namespace Robot
   {
     delete [] mssgBuffer_;
     delete [] feedback_;
-    logger_ = NULL;
   }
 
 
@@ -226,7 +224,7 @@ namespace Robot
       status &= (MoveTo (poses[x]) == SUCCESS);
       if (!status)
       {
-        logger_->error ("Kuka_LWR:MoveThroughTo Error when executing multi move");
+        //! Error when executing multi move
         return FAILURE;
       }
     }
@@ -611,7 +609,7 @@ namespace Robot
 
     if (!state)
     {
-      logger_->error("Invalid arguments to generate move");
+      //! Invalid arguments generating move
       return false;
     }
 
@@ -776,11 +774,4 @@ namespace Robot
     return true;
   }
 
-
-  LIBRARY_API void Kuka_LWR::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
 } // Robot

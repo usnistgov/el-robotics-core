@@ -34,10 +34,9 @@ namespace Robot
 
     //! @brief Default constructor
     //!
-    //! @param logger   Pointer to the common application logger
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    Schunk_SDH (Logger *logger, char * initPath);
+    Schunk_SDH (char * initPath);
 
     //! @brief Default destructor
     //!
@@ -315,16 +314,6 @@ namespace Robot
 
   private:
 
-    //! @brief Pointer to the parent application logger to record state and error messages
-    //!
-    Logger *logger_;
-
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, char *what);
   }; // Schunk_SDH
 
 } // namespace Robot

@@ -16,15 +16,13 @@
 
 namespace Robot
 {
-  LIBRARY_API Robotiq::Robotiq (Logger *logger, char * initPath) :
-   logger_(logger)
+  LIBRARY_API Robotiq::Robotiq (char * initPath)
   {
 	 iqGrip = new RobotiqGripper::RobotiqGripper();
   }
 
   LIBRARY_API Robotiq::~Robotiq ()
   {
-    logger_ = NULL;
   }
 
   LIBRARY_API CanonReturn Robotiq::SetTool (double percent)
@@ -270,13 +268,4 @@ namespace Robot
     return SUCCESS;
   }
   
-
-  LIBRARY_API void Robotiq::exception (char *where, char *what)
-  {
-    static char message[1024];
-    sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
-  }
-
-
 } // Robot

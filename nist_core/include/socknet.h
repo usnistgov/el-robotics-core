@@ -106,10 +106,8 @@ namespace Network
     //!
     //! @param settings Pointer to the system settings structure owned by the
     //!                 parent process
-    //! @param rep      Pointer to the reporter class owned by the parent
-    //!                 process
     //!
-    socketNet (networkSettings *settings, Logger *logPtr);
+    socketNet (networkSettings *settings);
 
     //! @brief Destructor
     //!
@@ -190,18 +188,6 @@ namespace Network
     void closeConnection (networkStruct& socket);
 
   private:
-
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, const char *what);
-
-    //! @brief TODO
-    //!
-    Logger *logger_;
-
     //! @brief Shared pointer to system settings
     //!
     networkSettings *settings_;

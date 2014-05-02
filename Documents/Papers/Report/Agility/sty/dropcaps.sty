@@ -1,0 +1,130 @@
+%%
+%%        Style-option `dropcaps' for use with LaTeX v2.09
+%%
+\def\fileversion{0.30}
+\def\filedate{13 Sep 1993}
+\def\docdate{\filedate}
+%%
+%% Copyright (C) 1993 by Fred J. Lauwers, fred@dutspf.tudelft.nl .
+%% All rights reserved. 
+%%
+%% THANKS
+%%   Jeremy Gibbons
+%%
+%% DESCRIPTION:
+%%   dropcaps.sty contains a macro for dropping caps in LaTeX.
+%%
+%% INSTALLATION:
+%%   Put this file where your TeX looks for inputs, 
+%%   under the name dropcaps.sty.
+%%
+%% DOCUMENTATION:
+%%   dropcaps.tex
+%%
+%% COPYING:
+%%   Copying of part or all of this file is allowed under the following
+%%   conditions only:
+%%   (1) You may freely distribute unchanged copies of the file. Please
+%%       include the documentation when you do so.
+%%   (2) You may modify a renamed copy of the file, but only for personal
+%%       use or use within an organization.
+%%   (3) You may copy fragments from the file, for personal use or for
+%%       distribution, as long as credit is given where credit is due.
+%%
+%%   You are NOT ALLOWED to take money for the distribution or use of
+%%   this file or modified versions or fragments thereof, except for
+%%   a nominal charge for copying etc.
+%%
+\typeout{\space\space Style option: 'dropcaps' v\fileversion \space\space 
+  <\filedate> \space\space (FJL)}%
+
+\font\fredfont=cmbxsl10
+\def\fred{F\kern-.25em\j\kern-.1emL}
+
+\def\yes{y }\def\no{n }\newif\ifdvips
+\message{*** Are you using Rokicki's DVIPS [y/n] ? }
+\read-1 to \answer
+\ifx\answer\yes\dvipstrue
+\else\dvipsfalse\fi
+
+\newcount\bigscale
+\ifdvips\typeout{*** Good choice.}%
+%
+%   DVIPS users
+%
+\newcount\wantedcount\newcount\actualcount%
+\newdimen\actualheight%
+\def\findsize#1#2{%
+\bigscale=1000%
+\font\BIG=#1 scaled \bigscale%
+\setbox0=\hbox{\BIG #2\/}%
+\actualheight=\ht0%
+\typeout{*** Needed height: \the\wantedheight, 
+ \space Unscaled height: \the\actualheight}%
+\wantedcount=\wantedheight \actualcount=\actualheight%
+\advance\actualcount by 50%
+\divide\actualcount by 100%
+\multiply\wantedcount by 10%
+\divide\wantedcount by \actualcount%
+\font\BIG=#1 scaled \wantedcount%
+\setbox0=\hbox{\BIG #2\/}%
+\bigscale=\wantedcount%
+}
+\else\typeout{*** OK, prepare for bad output...}%
+%
+%   non-DVIPS users
+%
+\def\nextmagstep#1#2#3{%
+\bigscale=#3%
+\font\BIG=#1 scaled \bigscale%
+\setbox0=\hbox{\BIG #2\/}}%
+\def\findsize#1#2{%
+\typeout{***  Needed height: \the\wantedheight}%
+\nextmagstep{#1}{#2}{\magstep0}%
+\ifdim\ht0<\wantedheight%
+\nextmagstep{#1}{#2}{\magstephalf}%
+\ifdim\ht0<\wantedheight%
+\nextmagstep{#1}{#2}{\magstep1}%
+\ifdim\ht0<\wantedheight%
+\nextmagstep{#1}{#2}{\magstep2}%
+\ifdim\ht0<\wantedheight%
+\nextmagstep{#1}{#2}{\magstep3}%
+\ifdim\ht0<\wantedheight%
+\nextmagstep{#1}{#2}{\magstep4}%
+\ifdim\ht0<\wantedheight%
+\nextmagstep{#1}{#2}{\magstep5}%
+\fi\fi\fi\fi\fi\fi%
+}\fi
+
+\newcount\down
+\newdimen\saveunitlength
+\newdimen\wantedheight
+\def\bigdrop#1#2#3#4{%
+\saveunitlength=\unitlength%
+\unitlength=\baselineskip%
+\setbox1=\hbox{\the\font I}%
+\wantedheight=#2\baselineskip \advance\wantedheight by -\baselineskip%
+\advance\wantedheight by \ht1% 
+\findsize{#3}{#4}%
+\advance\wantedheight by -\ht0%                 only for typeout...
+\typeout{***  #3 scaled \the\bigscale \space ==> height: 
+  \the\ht0 \space (error: \the\wantedheight).}%
+\hangindent=\wd0 \advance\hangindent by #1%
+\hangafter=-#2%
+\ifdim\dp0>0.25\baselineskip%            0pt ?
+ \typeout{*** extra line(s) indented: non-zero depth: \the\dp0}
+ \loop\ifdim\dp0>\baselineskip
+  \advance\baselineskip by \baselineskip
+  \advance\hangafter by -1
+ \repeat
+ \advance\hangafter by -1
+ \baselineskip=\unitlength
+\fi%
+\noindent%
+\down=-#2 \advance\down by 1%
+\begin{picture}(0,0)%
+\put(0,\down){\makebox(0,0)[br]{\box0}}%
+\end{picture}%
+\unitlength=\saveunitlength}
+
+\endinput

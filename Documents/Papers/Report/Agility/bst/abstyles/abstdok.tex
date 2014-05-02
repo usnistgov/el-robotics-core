@@ -1,0 +1,483 @@
+								%-*-LaTeX-*-
+\documentstyle[twoside,german,a4c]{article}
+\pagestyle{headings}
+\frenchspacing
+\setlength{\doublerulesep}{0pt}
+
+\title{Neue \BibTeX-Style-Files: Die {\em adaptable family}}
+\author{Hans-Hermann Bode\thanks{Postanschrift: Arbeitsgruppe Systemforschung,
+  Universit"at Osnabr"uck, Artilleriestra"se 34, D-W-4500 Osnabr"uck; e-mail:
+  {\tt hhbode@dosuni1.bitnet}.}}
+\date{08. April 1992}
+
+\newcommand{\BibTeX}{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+%-----------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+%\tableofcontents
+%\listoffigures
+%\listoftables
+
+\begin{abstract}\footnotesize
+  Es wird eine neue Familie von \BibTeX-Style-Files vorgestellt, die von den
+  Standard-Style-Files abgeleitet ist und sich durch nachtr"agliche
+  Anpa"sbarkeit von Layout und F"ullw"ortern seitens des Benutzers oder der
+  Benutzerin\footnote{Im folgenden gilt die Fu"snote auf Seite~v von Knuths
+  fundamentalem Werk~\cite{art1} sinngem"a"s.} auszeichnet. Das Paket
+  umfa"st neben den eigentlichen Stilen Dateien mit Definitionen, die
+  automatisch eine englische oder deutsche Bibliographie mit ausgeschriebenen
+  oder abgek"urzten F"ullw"ortern erzeugen und au"serdem die volle
+  Kompatibilit"at bestehender \BibTeX-Datenbanken zu den neuen Stilen sowie
+  umgekehrt die Vertr"aglichkeit neuer Datenbanken zu den alten Stilen
+  herstellen.
+\end{abstract}
+
+%-----------------------------------------------------------------------------
+
+Mit {\BibTeX} steht dem \LaTeX- wie dem plain-\TeX-Anwender ein
+au"serordentlich leistungsf"ahiges Werkzeug zur Verf"ugung, um
+Bibliographien zu Artikeln, Berichten, B"uchern und {\em literate
+programs\/} zu erstellen. Mu"ste man fr"uher m"uhsam alle zitierten
+Literaturstellen zusammensuchen, alle Angaben -- oft immer wieder dieselben
+-- per Hand eintippen (m"oglichst, ohne Fehler bei Seitenangaben,
+Bandnummern, Jahreszahlen usw.~zu machen) und sich schlie"slich auch noch um
+Layout-Fragen k"ummern, so beschr"ankt sich diese Arbeit mit {\BibTeX} auf
+die einmalige Eingabe der bibliographischen Informationen in eine
+Literaturdatenbank und das Aufrufen von \verb|\cite|-Kommandos mit einem
+Schl"ussel f"ur das zu zitierende Werk. {\BibTeX} stellt dann die
+Literaturliste zusammen und sorgt auch f"ur ein konsistentes Aussehen
+derselben.
+
+{\BibTeX} ist "`offizieller"' Bestandteil des \LaTeX-Makropakets und von
+Lamport in~\cite{latex} beschrieben, eine deutsche Fassung findet man etwa
+bei Kopka~\cite{kopka-einf}. Dar"uberhinaus erlaubt das zur
+Standard-\BibTeX-Distribution geh"orige Makropaket {\tt btxmac.tex} auch die
+Verwendung unter plain-\TeX\, und zwar mit der gleichen
+Benutzerschnittstelle (dieses Makropaket ist auch mit dem {\tt WEB}-System
+f"ur strukturierte Dokumentation kompatibel, so da"s \BibTeX\ auch beim {\em
+literate programming\/} eingesetzt werden kann). Oren Patashnik, der Autor
+des \BibTeX-Programms, legt mit~\cite{bibtex-doc} ein Manual f"ur
+\BibTeX-Benutzer vor, das im Gegensatz zu den zuvor genannten Stellen die
+jeweils aktuelle Version dokumentiert und das in einer Datei {\tt
+btxdoc.tex} jeder \BibTeX-Implementation beigegeben sein sollte. Die
+Kenntnis wenigstens einer der angegebenen Quellen wird hier vorausgesetzt
+und nicht weiter auf allgemeine Grundlagen der Benutzung von {\BibTeX}
+eingegangen.
+
+Das Schlu"skapitel von Patashniks Manual -- herausgegeben als separates
+Dokument~\cite{bibtex-hak} -- beschreibt M"oglichkeiten der Erzeugung von
+Style-Files, die das Layout der Bibliographie bestimmen. Vier solcher
+Style-Files ({\tt plain}, {\tt unsrt}, {\tt alpha} und {\tt abbrv}) geh"oren
+zum Standardumfang von {\BibTeX}. Weitere Styles -- wie {\tt siam}, {\tt
+ieeetr} oder {\tt apalike} -- wurden von Patashnik u.\,a.~erstellt, in
+erster Linie, um den Anforderungen bestimmter Zeitschriftenherausgeber zu
+entsprechen. Die Erzeugung von solchen Styles, auch wenn es nur um relativ
+geringf"ugige Ab"anderungen vorhandener Stile geht, ist allerdings ein recht
+m"uhsamer Vorgang (man mu"s Programme in einer Spezialsprache mit
+Postfixnotation schreiben), der die meisten {\BibTeX}-Anwender "uberfordern
+d"urfte. Aus diesem Grund entstand die {\em adaptable family}, die eine
+einfache Anpassung an pers"onliche oder fremde Vorstellungen erlaubt.
+
+\section*{Die Styles} %-------------------------------------------------------
+
+\begin{table}\small\centering
+  \caption{\sf "Ubersicht der Stile mit ihren Attributen.\strut}
+  \label{tab:stile}
+  \medskip
+  \begin{tabular}{lcccccc}
+    \hline\hline
+    Stil & numerisch & sortiert & initial & klein & kurz & titellos\\
+    \hline
+    {\tt aplain}  & ja   & ja   & nein & ja & nein & nein\\
+    {\tt aunsrt}  & ja   & nein & nein & ja & nein & nein\\
+    {\tt aalpha}  & nein & ja   & nein & ja & nein & nein\\
+    {\tt aabbrv}  & ja   & ja   & ja   & ja & ja   & nein\\
+    {\tt anotit}  & ja   & ja   & ja   & ja & ja   & ja\\
+    {\tt aunsnot} & ja   & nein & ja   & ja & ja   & ja\\
+    \hline\hline
+  \end{tabular}
+\end{table}
+
+Das grunds"atzliche Aussehen der Bibliographie wird auch bei den anpa"sbaren
+Versionen durch den jeweiligen, im \verb|\bibliographystyle| der \TeX-Quelle
+gew"ahlten Stil festgelegt. Dieser bestimmt im wesentlichen, welche
+Informationen "uberhaupt auszugeben sind und in welcher Reihenfolge diese
+angeordnet werden sollen; dar"uber hinaus sind f"ur jeden Stil eine Reihe von
+festen, unver"anderlichen Merkmalen vorgegeben, die in Tabelle~\ref{tab:stile}
+f"ur die sechs Stile der {\em adaptable family\/} zusammengefa"st sind.
+
+Alle Stile bis auf {\tt aalpha} erzeugen numerische Marken zur Kennzeichnung
+der Zitate ("`[1]"', "`[2]"' usw.), w"ahrend {\tt aalpha} die Marken
+alphanumerisch, i.\,allg.~aus K"urzeln f"ur die Autorennamen und
+Erscheinungsjahr, zusammensetzt (z.\,B.~"`[knu73]"'). Bei {\tt aunsrt} und
+{\tt aunsnot} erscheint die Bibliographie in der Reihenfolge der Zitate, bei
+den anderen Stilen wird sie nach Autorennamen, Erscheinungsjahren
+usw.~sortiert. Das Attribut "`initial"' zeigt an, ob die Vornamen der
+Autoren abgek"urzt werden oder nicht; das erstere ist der Fall f"ur {\tt
+aabbrv}, {\tt anotit} und {\tt aunsnot}, die zudem im Unterschied zu den
+"ubrigen Stilen als "`kurz"' gekennzeichnet sind (die Bedeutung dieses
+Attributs wird im n"achsten Abschnitt erkl"art). Alle Stile setzen
+Gro"sbuchstaben, die in Titeln von Zeitschriftenartikeln -- sofern diese
+"uberhaupt ausgegeben werden -- vorkommen und nicht am Satzanfang stehen, in
+Kleinschreibung um (Attribut "`klein"'); dies ist zwar f"ur deutsche Titel
+nicht geeignet, l"a"st sich aber leicht unterdr"ucken (s.~die Er"orterung am
+Ende dieses Artikels). Schlie"slich zeichnen sich die Stile {\tt anotit} und
+{\tt aunsnot} dadurch aus, da"s die Titel von Zeitschriftenartikeln
+unterdr"uckt werden, wie es etwa in der physikalischen Literatur
+durchg"angig "ublich ist.
+
+Insgesamt entsprechen die Stile {\tt aplain}, {\tt aunsrt}, {\tt aalpha} und
+{\tt aabbrv} -- wie auch aus der Namensgebung hervorgeht -- den vier
+Standardstilen von \BibTeX\ (Patashniks {\em plain family\/}), w"ahrend {\tt
+anotit} und {\tt aunsnot} hinzugef"ugt wurden, um eine L"ucke zu schlie"sen.
+
+\section*{Anpassung von Layout und F"ullw"ortern} %---------------------------
+
+Die Anpassung der {\tt a}-Stile erfolgt durch Definition bestimmter
+\TeX-Makros; andererseits funktionieren die Stile nicht, wenn diese Makros
+undefiniert sind. Die Definition geschieht zweckm"a"sigerweise "uber ein
+\verb|@PREAMBLE|-Kommando, das sich in einer der bibliographischen
+Datenbanken befindet (vgl.~das n"achste Kapitel). Die {\tt a}-Styles
+definieren einen Schalter \verb|abfull|, der in Abh"angigkeit davon, ob es
+sich um einen "`Kurzstil"' handelt oder nicht (s.~Tab.~\ref{tab:stile}), den
+Wert \verb|false| oder \verb|true| bekommt. So k"onnen sich die Makros
+automatisch darauf einstellen, F"ullw"orter abzuk"urzen oder voll
+auszuschreiben.
+
+\begin{table}\small\centering
+  \caption{\sf Zusammenstellung der verwendeten Makros.\strut}
+  \label{tab:makros}
+  \medskip
+  \begin{tabular}{lp{8cm}}
+    \hline\hline
+    Makroname         & Bedeutung\\
+    \hline
+    \verb|\abtype|    & Definiert die Schriftauszeichnung einzelner Felder
+                        eines Bibliographieeintrags.\\
+    \verb|\abphrase|  & Legt die F"ullw"orter fest.\\
+    \verb|\abmonth|   & Enth"alt die Monatsnamen.\\
+    \verb|\abedition| & Stellt Bezeichnungen f"ur Auflagen eines Buches zur
+                        Verf"ugung ("`Erste"', "`Zweite"', "`Dritte"' usw.).\\
+    \verb|\abchapter| & Gibt Namen f"ur bestimmte Segmente eines
+                        Schriftst"ucks zur"uck ("`Abschnitt"', "`Absatz"',
+                        "`Anhang"' oder "`Teil"').\\
+    \hline\hline
+  \end{tabular}
+\end{table}
+
+Die fraglichen Makros sind in Tab.~\ref{tab:makros} zusammengestellt. Alle
+Makronamen beginnen mit {\tt ab}. W"ahrend \verb|\abtype| f"ur die
+Schriftauszeichnung verantworlich ist, haben alle anderen Makros mit
+F"ullw"ortern zu tun und erlauben sprachspezifische Anpassungen sowie
+Unterscheidung zwischen "`Kurz-"' und "`Vollstilen"'. Es folgen detaillierte
+Beschreibungen der Makros mit ihren Parametern.
+
+\subsection*{{\tt abtype}}
+
+\begin{table}\small\centering
+  \caption{\sf Der erste Parameter von {\tt abtype}.\strut}\label{tab:abtype}
+  \medskip
+  \begin{tabular}{rp{5cm}}
+    \hline\hline
+    Code & Bedeutung\\
+    \hline
+      0  & Namen von Autoren und Editoren\\
+      1  & Titel von B"uchern und Reihen\\
+      2  & Zeitschriftentitel\\
+      3  & Bandnummern von Zeitschriften\\
+      4  & Heftnummern von Zeitschriften\\
+      5  & Datumsangaben\\
+    \hline\hline
+  \end{tabular}
+\end{table}
+
+Die Layoutsteuerung wird "uber das Makro \verb|\abtype| vorgenommen. Die {\tt
+a}-Stile schreiben die meisten Felder eines Eintrags indirekt "uber einen
+Aufruf von \verb|\abtype| in die Bibliographie, wobei zwei Argumente
+"ubergeben werden: eine Codenummer f"ur die Art des Feldes und der in das
+Feld einzutragende Text. Dieser kann dann vom Makro beliebig formatiert
+zur"uckgegeben werden.  Die Codewerte f"ur den ersten Parameter von
+\verb|\abtype| findet man in Tab.~\ref{tab:abtype}.
+
+Durch eine Definition der Form
+\begin{verbatim}
+\def\abtype##1##2{%
+\ifcase##1{\sc##2}\or"`##2"'\or{\em##2\/}\or{\bf##2}\or%
+(##2)\or(##2)\else##2\fi}}
+\end{verbatim}
+also erreichte man beispielweise, da"s Autorennamen in {\sc Kapit"alchen},
+Buchtitel in "`Anf"uhrungszeichen"' und Zeitschriftentitel {\em kursiv\/}
+gesetzt werden und da"s Bandnummern von Zeitschriften {\bf fett} erscheinen,
+w"ahrend Heftnummern ebenso wie Datumsangaben geklammert werden.
+Vorsichtshalber wurde noch eine \verb|\else|-Klausel angef"ugt, die bewirkt,
+da"s bei Aufruf des Makros mit einem undefinierten Codewert das zweite
+Argument unformatiert zur"uckgegeben wird (f"ur die Original-{\tt a}-Stile
+w"are dies nicht erforderlich).
+
+\subsection*{{\tt abphrase}}
+
+\begin{table}\small\centering
+  \caption{\sf Der Parameter von {\tt abphrase}.\strut}\label{tab:abphrase}
+  \medskip
+  \begin{tabular}{rp{9.5cm}}
+    \hline\hline
+    Code & Bedeutung\\
+    \hline
+      0  & Bindewort zwischen zwei oder vor dem letzten Namen einer Liste
+           ("`und"')\\
+      1  & Satzzeichen vor dem letzten Bindewort einer Namensliste (im
+           Deutschen nichts, im Englischen ein Komma)\\
+      2  & Ersatz f"ur Namen von Mitautoren und Mitherausgebern ("`u.\,a."' oder
+           "`et~al."')\\
+      3  & Bezeichnung f"ur mehrere Herausgeber (z.\,B.~"`Editoren"')\\
+      4  & Bezeichnung f"ur einen Herausgeber ("`Editor"')\\
+      5  & Wort nach der Bandnummer einer Reihe oder Kreuzreferenz ("`aus"')\\
+      6  & Wort nach der Ausgabennummer einer Reihe ("`in"')\\
+      7  & Wort vor Querverweisen auf B"ucher, Artikel usw.~("`In"')\\
+      8  & Wort vor einer Bandnummer mitten im Satz ("`volume"' auf
+           Englisch, aber "`Band"' auf Deutsch)\\
+      9  & dto.~am Satzanfang ("`Volume"' bzw.~erneut "`Band"')\\
+     10  & Wort vor einer Reihennummer mitten im Satz ("`Nummer"')\\
+     11  & dto. am Satzanfang (im Deutschen dasselbe)\\
+     12  & Wort hinter einer Auf"|lagennummer ("`Auf"|lage"')\\
+     13  & Wort vor mehreren Seitennummern ("`Seiten"')\\
+     14  & Wort vor einer einzelnen Seitennummer ("`Seite"')\\
+     15  & Wort vor einer Kapitelnummer ("`Kapitel"')\\
+     16  & Bezeichnung f"ur einen Forschungsbericht ("`Technical Report"')\\
+     17  & Bezeichnung f"ur eine Diplomarbeit ("`Master's thesis"')\\
+     18  & Bezeichnung f"ur eine Doktorarbeit ("`PhD Thesis"')\\
+    \hline\hline
+  \end{tabular}
+\end{table}
+
+Der gr"o"ste Teil der F"ullw"orter wird durch \verb|\abphrase| abgedeckt.
+Das Makro hat einen Parameter, der wieder eine Codenummer darstellt.
+Die vorkommenden Werte zeigt Tab.~\ref{tab:abphrase}.
+
+Ein Beispiel f"ur eine geeignete Definition von \verb|\abphrase| mit
+ausgeschriebenen, deutschen F"ullw"ortern w"are:
+\begin{verbatim}
+\def\abphrase##1{%
+\ifcase##1{ und }\or{}\or{ und andere}\or%
+{ (Herausgeber)}\or{ (Herausgeber)}\or%
+{ aus }\or{ in }\or{In }\or%
+{Band}\or{Band}\or{Nummer}\or{Nummer}\or%
+{ Auf"|lage}\or{Seiten}\or{Seite}\or{Kapitel}\or%
+{Bericht}\or{Diplomarbeit}\or{Dissertation}\fi}
+\end{verbatim}
+
+\subsection*{{\tt abmonth}}
+
+Einfacher als die vorangegangenen Makros ist \verb|\abmonth|: Es wird mit
+einer Zahl zwischen 1~und~12 als Argument aufgerufen und sollte die
+Bezeichnung f"ur den entsprechenden Monat zur"uckgeben; also etwa
+\begin{verbatim}
+\def\abmonth##1{\ifcase##1\or Januar\or Februar\or M"arz\or
+  April\or Mai\or Juni\or Juli\or August\or September\or
+  Oktober\or November\or Dezember\fi}
+\end{verbatim}
+Man beachte, da"s vor \verb|Januar| bereits ein \verb|\or| stehen mu"s, da
+dieser Monat den Code~1 hat und nicht~0. Desweiteren gilt, da"s die
+Definition von \verb|\abmonth| nur dann einen Effekt hat, wenn in den
+Bibliographiedatenbanken von den vordefinierten Strings {\tt jan}, {\tt
+feb}, \dots, {\tt dec} Gebrauch gemacht wird -- es sei denn, man ruft das
+Makro direkt auf, wovon man jedoch im Hinblick auf m"ogliche
+Kompatibilit"atsprobleme mit anderen Styles oder zuk"unftigen Versionen der
+anpa"sbaren Stile Abstand nehmen sollte.
+
+\subsection*{{\tt abedition}}
+
+Ein weiteres Makro mit einem numerischen Wert als Parameter ist
+\verb|\abedition|. Die "ubergebene Zahl bezeichnet eine Auf"|lagennummer und
+es sollte ein entsprechender String zur"uckgegeben werden, z.\,B.:
+\begin{verbatim}
+\def\abedition##1{\ifcase##1\or Erste\or Zweite\or Dritte\or
+  Vierte\or F"unfte\or Sechste\or Siebte\or Achte\or
+  Neunte\or Zehnte\else?\fi}
+\end{verbatim}
+In den anpa"sbaren Stilen existieren vordefinierte Strings {\tt first}, {\tt
+second}, \dots, {\tt tenth}, die man aus den gleichen Gr"unden wie oben f"ur
+das {\tt EDITION}-Feld der Bibliographieeintr"age verwenden sollte. Ein
+Problem ergibt sich, wenn eine Auflagennummer gr"o"ser als~10 ben"otigt
+wird; in diesem Fall sollte man das Makro entsprechend erweitern und
+zus"atzliche Strings durch {\tt @STRING}-Kommandos definieren.
+
+\subsection*{{\tt abchapter}}
+
+Schlie"slich ist noch ein Makro mit einem Code zwischen 0~und~3 f"ur
+Bezeichnungen verschiedener Segmente eines Dokuments zu definieren. Die
+Bedeutung ergibt sich unmittelbar aus dem Beispiel
+\begin{verbatim}
+\def\abchapter##1{\ifcase##1Abschnitt\or Absatz\or
+Anhang\or Teil\fi}
+\end{verbatim}
+Auch f"ur den Aufruf dieses Makros gibt es vordefinierte Strings, die man in
+den Datenbanken tunlichst benutzen sollte; sie hei"sen {\tt section}, {\tt
+paragraph}, {\tt appendix} und {\tt part} und sind gedacht f"ur den Einsatz
+im {\tt TYPE}-Feld mancher Eintr"age, mit welchem sich das {\tt
+CHAPTER}-Feld umwidmen l"a"st.
+
+\section*{Benutzungshinweise} %-----------------------------------------------
+
+Zum Gl"uck braucht man die im letzten Kapitel vorgestellten Makros nicht
+selbst einzugeben, sie sind vielmehr bereits in der Datei {\tt
+apreamble.tex} enthalten, die zum Lieferumfang des Pakets geh"ort. Sie
+stellt in Abh"angigkeit vom \verb|abfull|-Schalter ausgeschriebene oder
+abgek"urzte F"ullw"orter zur Verf"ugung.  Mehr noch, diese Datei enth"alt
+neben den deutschen F"ullw"ortern auch "aquivalente Definitionen in
+englischer Sprache. Die Auswahl zwischen den beiden Sprachversionen wird
+automatisch getroffen, und zwar nach folgenden Kriterien:
+\begin{itemize}
+  \item Ist das Makropaket {\tt german.sty} {\em nicht\/} geladen, wird die
+englische Version genommen.
+  \item Wird dagegen festgestellt, da"s {\tt german.sty} eingelesen wurde,
+h"angt die Sprachauswahl vom eingestellten \verb|\language|-Wert ab:
+  \begin{itemize}
+    \item Ist dieser gleich \verb|\german| oder \verb|\austrian|, wird die
+  deutsche Version gew"ahlt.
+    \item In allen anderen F"allen ist es wieder die englische.
+  \end{itemize}
+\end{itemize}
+Auf diese Weise sollten zumindest alle diejenigen zufriedengestellt sein,
+die entweder nur englische Dokumente verfassen oder unter Benutzung von {\tt
+german.sty} sowohl englische als auch deutsche Texte schreiben. Nat"urlich
+steht es jedem frei, {\tt apreamble.tex} um zus"atzliche Sprachen zu
+erweitern oder die mittels \verb|\abtype| vorgenommenen Formatierungen nach
+eigenem Gutd"unken abzu"andern.
+
+Damit der oben vorgestellte Mechanismus zur Sprachauswahl funktioniert, mu"s
+die Datei {\tt german.sty} -- wenn "uberhaupt -- {\em vor\/} {\tt
+apreamble.tex} eingelesen werden. Dies sollte im Zusammenhang mit \LaTeX\
+kein Problem darstellen, da \verb|german| f"ur gew"ohnlich als
+Dokumentstiloption verwendet wird. Wie oben erw"ahnt l"a"st sich \BibTeX\
+aber auch mit plain-\TeX\ nutzen, wenn das Makropaket {\tt btxmac.tex}
+eingebunden wird; hier ist dann sicherzustellen, da"s der Befehl
+\verb|\input german.sty| vor \verb|\input apreamble| (bzw., wie im n"achsten
+Absatz erl"autert, vor \verb|\bibliography{...}|) erscheint. Alle zur {\em
+adaptable family\/} geh"origen Makros sind "ubrigens so abgefa"st, da"s sie
+sowohl mit \LaTeX\ als auch mit plain-\TeX\ funktionieren; insbesondere
+vertragen sie sich auch mit dem {\tt WEB}-System f"ur strukturierte
+Dokumentation.
+
+Weiterhin ist es nat"urlich erforderlich, da"s {\tt apreamble.tex} vor der
+eigentlichen Bibliographie eingelesen wird; auch daf"ur steht eine implizite
+L"osung bereit. Es ist ohnehin vorteilhaft, wenn man eine oder mehrere {\tt
+bib}-Dateien mit allgemeinen Definitionen (haupts"achlich
+\verb|@STRING|-Kommandos) anlegt und diese stets am Anfang der
+\verb|\bibliography|-Liste aufz"ahlt. Zum Lieferumfang der {\em adaptable
+family\/} geh"oren zwei solche Dateien, {\tt jourfull.bib} und {\tt
+jourabbr.bib}, die Namen f"ur Zeitschriften -- einmal in ausgeschriebener
+und zum anderen in abgek"urzter Form -- definieren, und zwar gerade die,
+welche in den Standard-Bibliographiestilen (der {\em plain family\/})
+bereits vordefiniert sind\footnote{Der Autor der {\em adaptable family\/}
+war der Meinung, da"s die Auswahl dieser Zeitschriften zu speziell auf ein
+Fach bezogen ist, und hat die Definitionen daher in seinen Stildateien
+weggelassen. Unter Benutzung dieser beiden Dateien ist jedoch die volle
+Kompatibilit"at von Datenbanken, die f"ur die Standardstile erstellt wurden,
+zu den anpa"sbaren Stilen gew"ahrleistet.}. Beide Dateien laden {\tt
+apreamble.tex} automatisch am Anfang der Bibliographie. Alles, was man zur
+Nutzung der anpa"sbaren Stile -- abgesehen vom eventuellen Laden von {\tt
+btxmac} -- innerhalb eines Dokuments zu tun hat, beschr"ankt sich somit auf
+zwei Kommandos, die typischerweise so aussehen:
+\begin{verbatim}
+\bibliography{jourfull,user1,user2,user3}\bibliographystyle{aplain}
+\end{verbatim}
+Dabei sind \verb|user1|, \verb|user2| und \verb|user3| irgendwelche
+Benutzerdatenbanken, \verb|jourfull| kann nat"urlich auch durch
+\verb|jourabbr| ersetzt werden (mu"s aber immer am Anfang der Liste stehen!)
+und statt \verb|aplain| kann selbstverst"andlich ein beliebiger anderer
+anpa"sbarer Stil verwendet werden. Es ist zu betonen, da"s die Auswahl
+"`ausgeschriebene oder abgek"urzte Zeitschriftennamen"' nicht vom
+Bibliographiestil bestimmt wird, sondern durch Angabe von \verb|jourfull|
+oder \verb|jourabbr| erfolgt.
+
+Au"serdem definieren die beiden Dateien {\tt jourfull.bib} und {\tt
+jourabbr.bib} Strings namens \verb|ifger|, \verb|else| und \verb|fi|, die es
+auf einfache Weise erm"oglichen, innerhalb der Datenbanken bei einzelnen
+Feldern von der automatischen Sprachauswahl zu profitieren. Beispielsweise
+k"onnte damit das \verb|NOTE|-Feld eines Eintrags etwa folgendes enthalten:
+\begin{verbatim}
+ifger # "Wird demn{\"a}chst erscheinen." # else # "To be published." # fi
+\end{verbatim}
+Wie man unschwer erkennt, handelt es sich um eine bedingte Anweisung:
+\verb|ifger| sorgt daf"ur, da"s der nachstehende Text ausgegeben wird, wenn
+die automatische Sprachauswahl sich f"ur "`deutsch"' entschieden hat,
+\verb|else| leitet die Alternative f"ur den gegenteiligen Fall ein und
+\verb|fi| schlie"st die ganze Konstruktion ab. Der Operator~\verb|#|
+verkettet die einzelnen Teile zu einem von \TeX\ interpretierbaren
+Gesamtstring.
+
+Gelegentlich mag es vorkommen, da"s man die neuen, auf die {\em adaptable
+family\/} zugeschnittenen Datenbanken mit einem der Standardstile verwenden
+will. Dies st"o"st auf Schwierigkeiten, da die anpa"sbaren Stile einige
+zus"atzliche Strings definieren, von denen man sicherlich Gebrauch gemacht
+hat (genauer: machen sollte). Es steht aber eine Datei {\tt acompat.bib} zur
+Verf"ugung, die alle zus"atzlichen Strings nachtr"aglich definiert. Bindet
+man diese noch vor {\tt jourfull.bib} oder {\tt jourabbr.bib} (die man f"ur
+die oben beschriebenen Mechanismen weiterhin braucht) in die
+\verb|\bibliography|-Liste ein, so steht einer Nutzung der Standardstile
+etwa in der Form
+\begin{verbatim}
+\bibliography{acompat,jourfull,user1,user2,user3}\bibliographystyle{plain}
+\end{verbatim}
+nichts mehr im Wege. Nat"urlich funktioniert die automatische Sprachauswahl
+jetzt nicht mehr bei den F"ull"-w"or"-tern, sondern nur noch bei den
+"`handgemachten"' \verb|ifger|-Konstruktionen.
+
+Abschlie"send noch eine Anmerkung zur Gro"s-/Kleinschreibung von
+Zeitschriftentiteln. Die Stile der {\em plain family\/} setzen solche stets
+in Kleinschreibung um; so wird z.\,B. aus
+\begin{verbatim}
+TITLE="A Horror Story about Integration Methods"
+\end{verbatim}
+die Titelangabe "`A horror story about integration methods"'. Es wurde
+verschiedentlich die Meinung vertreten, da"s ein deutscher Bibliographiestil
+diese Umsetzung abschalten sollte, da sie f"ur deutsche Titel nicht ad"aquat
+ist. Der Autor der {\em adaptable family\/} schlie"st sich dieser Meinung
+nicht an (und hat die Umsetzung daher beibehalten): Gro"s-/Kleinschreibung
+von Zeitschriftentiteln ist nicht eine Frage der Sprache, in der das
+Dokument gesetzt ist, sondern eine Funktion der Sprache des Titels selbst.
+So sollte die Eingabe
+\begin{verbatim}
+TITLE="Graphische Sprachelemente in ALGOL 68"
+\end{verbatim}
+{\em immer\/} zu der Ausgabe "`Graphische Sprachelemente in ALGOL~68"'
+f"uhren -- auch in einem englischen Dokument; ebensowenig ist etwas dagegen
+einzuwenden, wenn im obigen Beispiel mit dem englischen Titel die Umsetzung
+auch in einem deutschen Dokument stattfindet.
+
+Es ist also {\em bei den einzelnen Titelangaben\/} daf"ur zu sorgen, da"s die
+Umsetzung ggf.~verhindert wird. Dies ist aber -- bei den Standard- wie bei
+den anpa"sbaren Stilen -- leicht m"oglich, wie im
+\BibTeX-Manual~\cite{bibtex-doc} beschrieben wird: Man schlie"se den
+gesamten Titel in ein zus"atzliches Paar geschweifter Klammern ein. Also
+bewirkt
+\begin{verbatim}
+TITLE="{Graphische Sprachelemente in ALGOL 68}"
+\end{verbatim}
+genau das Gew"unschte (die G"ansef"u"schen z"ahlen als "au"seres Klammerpaar
+und k"onnten auch durch geschweifte Klammern ersetzt werden, die
+zus"atzlichen Klammern sind aber trotzdem erforderlich). Statt dessen
+k"onnte man auch nur die gro"szuschreibenden W"orter oder Buchstaben
+klammern, z.\,B.
+\begin{verbatim}
+TITLE="{G}raphische {S}prachelemente in {ALGOL} 68"
+\end{verbatim}
+Diese Technik wendet man manchmal auch in englischen Titeln an, etwa in
+\begin{verbatim}
+TITLE="Stiff {ODE} Solvers: A Review of Current and Coming Attractions"
+\end{verbatim}
+so da"s sich der Titel "`Stiff ODE solvers: A review of current and coming
+attractions"' ergibt (das Wort nach dem Doppelpunkt bleibt ohne besondere
+Ma"snahme gro"sgeschrieben).
+
+%-----------------------------------------------------------------------------
+
+\footnotesize\bibliography{jfull,inf}\bibliographystyle{aplain}
+%\addcontentsline{toc}{section}{\refname}
+
+\end{document}

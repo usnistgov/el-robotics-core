@@ -1,0 +1,37 @@
+                           ASTRON.BST
+
+        A BibTeX style for astronomical journals, for use with
+                          BibTeX 0.99c.
+
+
+
+This distribution contains the following files:
+
+       astron.bst       The BibTeX style for Astronomical Journals
+       astron.sty       The associated LaTeX style
+
+       astdoc.tex       LaTeX source of the documentation
+       astdoc.bib       + related files
+       astdoc.aux
+       astdoc.bbl
+       astdoc.toc
+
+       example.tex      LaTeX file with example citations
+       example.bib      Example of a bibliographic database
+
+       mnemonic.bib     Supporting files
+       template.bib
+
+       README           This file
+
+To prepare the LaTeX documentation on the ASTRON bibliography style,
+run LaTeX on ASTDOC.TEX. If you have copied all ASTDOC files and the
+ASTRON style files onto your computer, you will need only one run to
+get a DVI file with all cross references in place.
+
+*** BUG REPORT ***
+
+A major bug has been reported: the UUCP mail address in the
+documentation and in the copyright header of the various files
+should NOT read:    l42@nikhef.nikhefh.nl
+but it SHOULD read: l42@nikhefh.nikhef.nl

@@ -1,0 +1,110 @@
+% Author: Toon Verwaest
+%modified 2006 by Carlos Gershenson
+
+
+
+\gdef\@promotortitle{Rapporteurs} \gdef\@advisortitle{Examinateur}
+\gdef\@promotor{Set promotor} \gdef\@advisors{Set advisors}
+\gdef\@faculty{Faculty of Science} \gdef\@department{Department of
+Computer Science and Applied Computer Science}
+\gdef\@reason{\centering Dissertation for the degree of Computer
+Science}
+
+\gdef\@encadranttitle{Encadrant} \gdef\@directeurtitle{Directeur}
+\gdef\@encadrants{Set encadrants}
+
+\newenvironment{multiline}{\verbatim}{\verbatim}%
+
+\def\promotor#1{\gdef\@promotor{#1}}
+\def\advisors#1{\gdef\@advisors{#1}}
+\def\faculty#1{\gdef\@faculty{#1}}
+\def\department#1{\gdef\@department{#1}}
+\def\reason#1{\gdef\@reason{#1}}
+\def\advisortitle#1{\gdef\@advisortitle{#1}}
+\def\promotortitle#1{\gdef\@promotortitle{#1}}
+
+\def\maketitlepage{
+\begin{titlepage}
+\enlargethispage*{1000pt}
+
+\vspace*{-36.6mm}{
+  \hspace*{-24.75mm}{
+
+  }
+}
+
+\arrayrulecolor{OrangeRed}
+
+\vspace*{-2.5mm}{
+  \hspace*{-3.5mm}{
+    \begin{tabular}{l|l}
+
+                    % Faculty
+      & \parbox[t]{200pt}{\normalsize{\parbox[t]{200pt}{\@faculty}}\\
+                                        % Department
+                          \footnotesize{\parbox[t]{200pt}{\@department}}
+        } \\
+
+        \rule{0pt}{85mm}
+
+      & \rule{6pt}{0mm}
+                % Title
+          \huge{\parbox[b]{400pt}{\@title}}\\
+          \rule{0pt}{5mm}\\
+
+      \cline{2-2}
+
+      \rule{0pt}{14mm}
+
+      & \rule{6pt}{0mm}
+
+      \begin{tabular}{l}
+      % Reason
+      \rule{0pt}{7mm}\LARGE{\parbox[t]{400pt}{\centering
+      {\fontfamily{calligra}\selectfont \textbf{{\color{Black}{\@reason}}}}}}\\
+      % Author
+      \rule{0pt}{7mm}\huge{\parbox[t]{400pt}{\centering
+      \textbf{\@author}}}\\
+      \rule{0pt}{5mm}\Large{\parbox[t]{400pt}{\centering
+      %{\textit{Pour obtenir le grade de}}}}\\
+      {\fontfamily{calligra}\selectfont \textbf{{\color{Black}{Pour obtenir le grade de}}}}}}\\
+      \rule{0pt}{5mm}\huge{\parbox[t]{400pt}{\centering
+      \textbf{Docteur de l'Universit\'e}}}\\
+       %\rule{0pt}{0mm}\LARGE{\parbox[t]{400pt}{\centering}}\\
+      \end{tabular}\\
+
+      \cline{2-2}
+      & \rule{6pt}{0mm}
+      \begin{tabular}{rl}
+          \rule{0pt}{10mm}\\ %Modifie l'espace entre le Jury et la ligne horizontale
+
+                      % Promotor(s)
+          \large & \parbox[t]{350pt}{
+
+          \begin{tabular}{lll}
+          Craig SCHLENOFF & Encadrant & National Institute of Standards and Technology\\
+          Sebti FOUFOU & Directeur de th\`ese & Universit\'e de Bourgogne\\
+          Professeur SHARIAT & Rapporteur & 1\\
+          Professeur ZERHOUNI & Rapporteur & 2\\
+          Examinateur1 & Examinateur & 1\\
+          Examinateur2 & Examinateur & 2\\
+          Examinateur3 & Examinateur & 3\\
+          Invite1 & Invit\'e & 1\\
+          Invite2 & Invit\'e & 2\\
+          \end{tabular}
+          }\\
+          &\\
+        %              % Advisor(s)
+        %  \large \@advisortitle: & \parbox[t]{350pt}{ \@advisors}\\
+        \end{tabular} \\
+      \rule{0pt}{40mm} \\
+
+        % Date
+      & \rule{6pt}{0mm} \begin{tabular}{llr}
+          \small{\@date} & \rule{170pt}{0mm} & \includegraphics[width=40.5mm,height=25.25mm]{Figures/bourgogne}
+        \end{tabular}
+    \end{tabular}
+  }
+} \arrayrulecolor{black}
+\end{titlepage}
+}

@@ -1,0 +1,30 @@
+% This is A4C.TEX, a TeX macro file for WEB written by Hans-Hermann Bode
+% (HHBODE@DOSUNI1.BITNET), that sets up a page layout appropriate for DIN-A4
+% paper sheets (210 mm x 297 mm).
+%
+% The text is horizontally centered with margins of 2 cm left and right.
+%
+% It is assumed, that the DVI driver sets margins of 1 in left and top.
+%
+% Version	Date		Author	Comment
+% 1.00		08 Sep 1991	H2B	First version
+% 1.00a		28 Sep 1991	H2B	Correction: missing setpage included
+
+\pagewidth21cm				% full paper
+\fullpageheight29.7cm
+
+\hoffset2cm				% left margin
+\pageshift0cm				% additionally for odd-numbered pages
+\voffset2cm				% top margin
+
+\advance\pagewidth by-2\hoffset		% minus margins
+\advance\pagewidth by-2\pageshift	% minus extra margins
+\advance\fullpageheight by-2\voffset	% minus margins
+
+\pageheight\fullpageheight		% full text
+\advance\pageheight by-0.3in		% minus header
+
+\advance\hoffset by-1in			% compensate the driver margins
+\advance\voffset by-1in
+
+\setpage				% tell TeX new dimensions

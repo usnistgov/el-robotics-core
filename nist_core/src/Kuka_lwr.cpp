@@ -653,7 +653,7 @@ namespace Robot
 
   LIBRARY_API bool Kuka_LWR::generateTool (char mode, double value)
   {
-    if (!(mode == 'B' || mode == 'A') || (value > 1.0f || value < 0.0f))
+    if (!(mode == 'B' || mode == 'A'  || mode == 'S') || (value > 1.0f || value < 0.0f))
     {
       //! Value must be between 0 and 1
       return false;

@@ -3,7 +3,6 @@
 #include <iostream>
 #include "types.h"
 #include "portable.h"
-#include "reporter.h"
 #include "socknet.h"
 
 using std::bitset;
@@ -53,8 +52,11 @@ class LIBRARY_API RobotiqGripper {
 	void ConvertBinaryToHex(bitset<8>);
 
 	void sendCommand();
+
+  void getStatusRegisters();
  
   private: 
+	Logger *logger_;
 
 	bool log;
 
@@ -98,8 +100,6 @@ class LIBRARY_API RobotiqGripper {
 	void writeHex(string, int [], int);
 
 	void getCommandAck();
-
-	void getStatusRegisters();
 
 	void writeStatus();
 

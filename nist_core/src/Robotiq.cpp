@@ -18,7 +18,7 @@ namespace Robot
 {
   LIBRARY_API Robotiq::Robotiq (char * initPath)
   {
-	 iqGrip = new RobotiqGripper::RobotiqGripper();
+   iqGrip = new RobotiqGripper::RobotiqGripper();
   }
 
   LIBRARY_API Robotiq::~Robotiq ()
@@ -161,86 +161,89 @@ namespace Robot
   }
 
 
-  LIBRARY_API CanonReturn Robotiq::SetParameter (char *paramName, void *paramVal)
+ LIBRARY_API CanonReturn Robotiq::SetParameter (char *paramName, void *paramVal)
   {
     int *temp_int = (int*) paramVal;
 
-	if ((strcmp (paramName, "ACTIVATE") == 0))
-	{
-       iqGrip->setParameter(1, *temp_int);
-	}
+    if ((strcmp (paramName, "ACTIVATE") == 0))
+    {
+      iqGrip->setParameter(1, *temp_int);
+    }
     else if (strcmp (paramName, "GRIP_TYPE") == 0)
     {
-	  iqGrip->setParameter(2, *temp_int);
+      iqGrip->setParameter(2, *temp_int);
     }
     else if (strcmp (paramName, "AUTO_CENTER") == 0)
     {
       iqGrip->setParameter(4, *temp_int);
     }
-	else if (strcmp (paramName, "AUTO_RELEASE") == 0)
+    else if (strcmp (paramName, "AUTO_RELEASE") == 0)
     {
       iqGrip->setParameter(5, *temp_int);
     }
-	else if (strcmp (paramName, "ADVANCED_CONTROL") == 0)
+    else if (strcmp (paramName, "ADVANCED_CONTROL") == 0)
     {
       iqGrip->setParameter(6, *temp_int);
     }
-	else if (strcmp (paramName, "SCISSOR_CONTROL") == 0)
+    else if (strcmp (paramName, "SCISSOR_CONTROL") == 0)
     {
       iqGrip->setParameter(7, *temp_int);
     }
-	else if (strcmp (paramName, "POSITION_FINGER_A") == 0)
+    else if (strcmp (paramName, "POSITION_FINGER_A") == 0)
     {
       iqGrip->setPositionFingerA(*temp_int);
     }
-	else if (strcmp (paramName, "SPEED_FINGER_A") == 0)
+    else if (strcmp (paramName, "SPEED_FINGER_A") == 0)
     {
       iqGrip->setSpeedFingerA(*temp_int);
     }
-	else if (strcmp (paramName, "FORCE_FINGER_A") == 0)
+    else if (strcmp (paramName, "FORCE_FINGER_A") == 0)
     {
       iqGrip->setForceFingerA(*temp_int);
     }
-	else if (strcmp (paramName, "POSITION_FINGER_B") == 0)
+    else if (strcmp (paramName, "POSITION_FINGER_B") == 0)
     {
       iqGrip->setPositionFingerB(*temp_int);
     }
-	else if (strcmp (paramName, "SPEED_FINGER_B") == 0)
+    else if (strcmp (paramName, "SPEED_FINGER_B") == 0)
     {
       iqGrip->setSpeedFingerB(*temp_int);
     }
-	else if (strcmp (paramName, "FORCE_FINGER_B") == 0)
+    else if (strcmp (paramName, "FORCE_FINGER_B") == 0)
     {
       iqGrip->setForceFingerB(*temp_int);
     }
-	else if (strcmp (paramName, "POSITION_FINGER_C") == 0)
+    else if (strcmp (paramName, "POSITION_FINGER_C") == 0)
     {
       iqGrip->setPositionFingerC(*temp_int);
     }
-	else if (strcmp (paramName, "SPEED_FINGER_C") == 0)
+    else if (strcmp (paramName, "SPEED_FINGER_C") == 0)
     {
       iqGrip->setSpeedFingerC(*temp_int);
     }
-	else if (strcmp (paramName, "FORCE_FINGER_C") == 0)
+    else if (strcmp (paramName, "FORCE_FINGER_C") == 0)
     {
       iqGrip->setForceFingerC(*temp_int);
     }
-	else if (strcmp (paramName, "POSITION_SCISSOR") == 0)
+    else if (strcmp (paramName, "POSITION_SCISSOR") == 0)
     {
-	  cout << "setting PositionScissor = " << temp_int << endl;
       iqGrip->setPositionScissor(*temp_int);
     }
-	else if (strcmp (paramName, "SPEED_SCISSOR") == 0)
+    else if (strcmp (paramName, "SPEED_SCISSOR") == 0)
     {
       iqGrip->setSpeedScissor(*temp_int);
     }
-	else if (strcmp (paramName, "FORCE_SCISSOR") == 0)
+    else if (strcmp (paramName, "FORCE_SCISSOR") == 0)
     {
       iqGrip->setForceScissor(*temp_int);
     }
-	else if (strcmp (paramName, "GRIP") == 0)
+    else if (strcmp (paramName, "GRIP") == 0)
     {
       iqGrip->setGrip(*temp_int);
+    }
+    else if (strcmp (paramName, "STATUS") == 0)
+    {
+      iqGrip->getStatusRegisters();
     }
     else
     {

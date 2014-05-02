@@ -197,12 +197,16 @@ namespace RobotiqGripper
 	int LIBRARY_API RobotiqGripper::setGrip(int param)
 	{
 		int status = 0;
+    getStatusRegisters();
+    writeStatus();
+
 		if(param == 1){ //grasp
 
-			PrevFingerA = PosFingerA;
-			PrevFingerB = PosFingerB;
-			PrevFingerC = PosFingerC;
-			PrevScissor = PosScissor;
+      
+			PrevFingerA = ReqEcho_PosFingerA;
+			PrevFingerB = ReqEcho_PosFingerB;
+			PrevFingerC = ReqEcho_PosFingerC;
+			PrevScissor = ReqEcho_PosScissor;
 
 			//writeStatus();
 
@@ -220,53 +224,48 @@ namespace RobotiqGripper
 			   if (gDTA == 3 && gDTB == 3 && gDTC == 3)
 			   {
 				   status = 3;
-				   getStatusRegisters();
-				   return status;
+           getStatusRegisters();
+           writeStatus();
 				   break;
 			   }
 			   else if (gDTA == 2 && gDTB == 2 && gDTC == 2)
 			   {
 				   status = 2;
-				   getStatusRegisters();
-				   return status;
+          
 				   break;
 			   }
 
 			   currentTime = clock();
 			   time = (currentTime-startTime)/(double) CLOCKS_PER_SEC;
-			   cout << "clock tick = " << currentTime << endl;
-			   cout << "time = " << time << endl;
+			  
 			   if (time > 5) 
 			   {
-			       return status;
+			     status = 0;
 				   break;
 			   }
 			}
 
             return status;
 		}
-		else if(param == 2){ //release
+    else 
+    { //release
+      cout << "release: " << PrevFingerA << " " << PrevFingerB << " " << PrevFingerC << endl;
+
 			setPositionFingerA(PrevFingerA);
 			setPositionFingerB(PrevFingerB);
 			setPositionFingerC(PrevFingerC);
 			setPositionScissor(PrevScissor);
 			setParameter(3,1);
 			sendCommand();
-			while (true)
-	        {
-			   getStatusRegisters();
-			   if (gDTA == 3 && gDTB == 3 && gDTC == 3)
-			   {
-				   status = 3;
-				   break;
-			   }
+			while (gDTA != 3 && gDTB != 3 && gDTC != 3)
+	    {
+			  getStatusRegisters();
 			}
+      getStatusRegisters();
+      writeStatus();
 		}
-		else
-		{
-			return 0;
-		}
-		return 0;
+		
+		return status;
 	}
 
 	void LIBRARY_API RobotiqGripper::setParameter(int param, int val) //just action request, add Gripper Options Byte1
@@ -481,7 +480,7 @@ namespace RobotiqGripper
 		  else if(!object_status.test(6) && object_status.test(7)) gDTS = 2;
 		  else  gDTS = 3;
 
-		  cout << gDTA << " " << gDTB << " " << gDTC  << endl;
+		  //cout << gDTA << " " << gDTB << " " << gDTC  << endl;
 
 		  if (gDTA == 1 && gDTB == 1 && gDTC == 1) graspedOnClose = true;
 		  else graspedOnClose = false;

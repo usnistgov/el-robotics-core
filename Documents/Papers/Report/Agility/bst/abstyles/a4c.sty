@@ -1,0 +1,27 @@
+% This is A4C.STY, a LaTeX style file written by Hans-Hermann Bode
+% (HHBODE@DOSUNI1.BITNET), that sets up a page layout appropriate for DIN-A4
+% paper sheets (210 mm x 297 mm).
+%
+% The text is horizontally centered with margins of 2 cm left and right.
+%
+% It is assumed, that the DVI driver sets margins of 1 in left and top.
+%
+% Version	Date		Author	Comment
+% 1.00		08 Sep 1991	H2B	First version
+
+\textwidth21cm				% full paper
+\textheight29.7cm
+
+\oddsidemargin2cm			% margins
+\evensidemargin\oddsidemargin
+\topmargin2cm
+
+\addtolength{\textwidth}{-\oddsidemargin}  % odd/left or even/right margin
+\addtolength{\textwidth}{-\evensidemargin} % odd/right or even/left margin
+\addtolength{\textheight}{-2\topmargin}	   % top and bottom margin
+\addtolength{\textheight}{-\headheight}
+\addtolength{\textheight}{-\headsep}
+\addtolength{\textheight}{-\footskip}
+
+\hoffset-1in				% compensate the driver margins
+\voffset-1in

@@ -1,0 +1,41 @@
+\documentclass[letter,11pt,twoside]{book}
+\input{header}
+
+
+%\input {Fonts/EileenBl.fd}
+\begin{document}
+
+%\include{Chapters/title}
+\include{sty/titlepage}
+\pagenumbering{roman} %\cleardoublepage
+%\include{Chapters/abstract-english}
+%\cleardoublepage
+%\include{Chapters/abstract-french}
+%\cleardoublepage
+%\include{Chapters/acknowledgment}
+%\cleardoublepage
+%\include{Chapters/dedication}
+%\cleardoublepage
+\include{Chapters/contents}
+\pagenumbering{arabic}
+%\cleardoublepage
+%\include{Chapters/abbreviations}
+%\cleardoublepage
+
+\include{Chapters/INTRODUCTION}
+\include{Chapters/PRICE}
+\include{Chapters/DOWNS}
+\include{Chapters/KOOTBALLY}
+%\include{Chapters/ch2-state-of-the-art}
+%\include{Chapters/ch3-Simulation}
+%\include{Chapters/ch4-Prediction}
+%\include{Chapters/ch5-Integration-LT-ST}
+%\include{Chapters/ch6-SA}
+\include{Chapters/CONCLUSION}
+\include{Chapters/refs} % References
+%\listoftables
+%\setcounter{lofdepth}{2} \listoffigures
+%\include{Chapters/subjindx} % subject index
+%\include{Chapters/authindx} % author index
+
+\end{document}

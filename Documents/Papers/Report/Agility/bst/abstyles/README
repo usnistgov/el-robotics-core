@@ -1,0 +1,140 @@
+								-*-Text-*-
+This is the BibTeX `adaptable' family of style files, version 1.10 as of
+April 1992, derived from the `plain' family by Hans-Hermann Bode. It allows
+setting of certain style parameters and definition of phrases without
+changing the style files, thus a multiple-language support is provided and
+the user may adapt the bibliography layout to his or her requirements within
+some limits.
+
+Send suggestions and bug reports to HHBODE@DOSUNI1.BITNET.
+
+This directory contains the following files:
+
+./README	this file
+./btxabst.doc	master file for creating the bst files
+./aplain.bst	adaptable style, `plain' version
+./aabbrv.bst	adaptable style, `abbreviated' version
+./aunsrt.bst	adaptable style, `unsorted' version
+./aalpha.bst	adaptable style, `alphanumeric' version
+./anotit.bst	adaptable style, `no titles' version
+./aunsnot.bst	adaptable style, `unsorted/no titles' version
+./apreambl.doc	preamble file, documentation
+./apreambl.tex	preamble file, to be input at the beginning of the bibliography
+./jourabbr.bib	journal names, abbreviated version
+./jourfull.bib	journal names, full version
+./acompat.bib	compatibility definitions for use with standard styles
+./abstdok.tex	documentation of the adaptable family (in German)
+./abstdok.bbl	bibliography for abstdok
+./a4c.sty	definition of length parameters for DIN-A4 paper, LaTeX version
+./a4c.tex	definition of length parameters for DIN-A4 paper, WEB version
+./docmac.doc	documentation of documentation macros (indeed!)
+./docmac.tex	documentation macros
+
+*** Installation -------------------------------------------------------------
+
+To get a working adaptable-styles system you have to copy the following
+files into special directories.
+
+-- Copy all *.bst files into a directory where BibTeX looks for style files.
+This will usually be a directory in the TEXINPUT(S) path, i.e., in the same
+path where TeX looks for its input files.
+
+-- Copy apreambl.tex into a directory where TeX looks for its input files,
+see above.
+
+-- Copy all *.bib files into a directory where BibTeX looks for bibliography
+databases. This will usually be a directory in the BIBINPUT(S) path.
+
+Optionally, you may copy a4c.* and docmac.tex into a directory in the
+TEXINPUT(S) path. These files will be needed when printing the
+documentation; they may be useful, however, for other applications as well.
+
+*** Printing the documentation -----------------------------------------------
+
+The main documentation is a LaTeX source in abstdok.tex. Run LaTeX on this
+file twice (for resolving cross references) and make sure that apreambl.tex,
+abstdok.bbl, and a4c.sty can be loaded. In addition, the file german.sty is
+required; it is not included in this distribution, since you should be able
+to get it from every good TeX server (at least in Germany). The style file
+a4c.sty will set up length parameters so that the document will come out
+centered with margins of 2 cm on each side of a DIN-A4 sheet; if this
+doesn't fit to your paper format, you may want to edit this file first.
+Unfortunately, this documentation is written in German (which is due to the
+fact that European people sometimes get nostalgic and switch to their native
+language); if you feel the need to translate this into English, don't
+hesitate to do so (and send me the file, so I can include it into the next
+distribution).
+
+The definition of the adaptable parameters is discussed in apreambl.doc (in
+English, yes). Run this through TeX (not LaTeX, and don't forget the .doc
+extension!) and make sure that a4c.tex and docmac.tex can be loaded. The
+file a4c.tex corresponds to a4c.sty above, and docmac.tex contains macros
+for typesetting a WEB-style documentation. In fact, apreambl.tex is derived
+from apreambl.doc by means of Joachim Schrod's MAKEPROG system, which is a
+general documentation tool much similar to the WEB system of structured
+documentation; docmac.tex is an enhancement of MAKEPROG's macro package
+progdoc.tex which makes the documentation layout more ``WEB-like''. If you
+want to change some of the adaptable parameters, the best way to do it is to
+get MAKEPROG (it should be available from the same source as the adaptable
+style files) and write a changefile to apreambl.doc. Then there is a good
+chance that you can apply your changes to future versions of this
+distribution without major modifications. Moreover, you can use MAKEPROG and
+docmac.tex for your own developments, it's worth a try! (In this case you may
+want to look at docmac's documentation: just run TeX on docmac.doc and make
+sure that docmac.tex is loadable.)
+
+Further documentation is provided in plain-text form in the files
+jourabbr.bib, jourfull.bib, and acompat.bib. You may want to edit the first
+two of them to add more journal names or other general stuff that should be
+defined at the beginning of your bibliographies.
+
+*** Usage hints (VERY brief) -------------------------------------------------
+
+It is assumed that you are familiar with the BibTeX philosophy and the
+standard style files, so here is a short description what you have to do in
+addition to use the adaptable styles.
+
+Choose one of the styles aplain, aabbrv, aunsrt, aalpha, anotit, or aunsnot
+(the first four are the adaptable versions of the corresponding standard
+styles, anotit is like aabbrv but omits titles of articles and some other
+redundant information, aunsnot is like anotit but doesn't sort the
+bibliography) and put a statement like
+
+  \bibliographystyle{aplain}
+
+somewhere into your document.
+
+Make sure that apreambl.tex is input before the \bibliography command is
+executed. The easiest way to do so is to include jourfull or jourabbr at the
+beginning of your \bibliography list. The file apreambl.tex carries out all
+parameter settings and switches between `full' and `abbreviated' as well as
+English and German versions of phrases automatically. The version it selects
+depends on the bibliography style and on the fact whether german.sty is
+loaded or not. The databases jourfull.bib and jourabbr.bib will load
+apreambl.tex and, furthermore, will define all strings that are lacking in
+the adaptable styles in comparison with the standard styles; hence, with
+this files you can use your old databases without changes, and---as
+mentioned above---this is the right place to add your own general
+definitions. So, a typical \bibliography command should look like
+
+  \bibliography{jourfull,user1,user2,user3}
+
+where user1, user2, and user3 are your private bibliography databases.
+
+If you ever feel the need to use one of the standard styles again, your
+databases---due to the use of special features of the adaptable styles---may
+not be compatible any more. The compatibility can be restored by means of
+acompat.bib, which defines all additional strings of the adaptable styles
+and should be included at the very beginning of the \bibliography list, e.g.,
+
+  \bibliography{acompat,jourfull,user1,user2,user3}\bibliographystyle{plain}
+
+Of course, acompat is not required for use with the adaptable styles alone.
+
+*** Correction ---------------------------------------------------------------
+
+In parts of the documentation, the files apreambl.doc and apreambl.tex are
+referred to as apreamble.doc and apreamble.tex. The names were shortened to
+avoid difficulties with some operating systems with low-length file names.
+
+									--H2B

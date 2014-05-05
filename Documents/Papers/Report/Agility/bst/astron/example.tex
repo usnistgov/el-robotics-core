@@ -1,0 +1,50 @@
+\documentstyle[astron]{article}
+
+\title{Citation Examples}
+\author{S. J. Hogeveen}
+
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+
+This file gives examples of citations as they can be made with the
+`{\tt astron}' bibliography style.
+To see how citations are made, you should look at the source text of
+this example: {\tt example.tex}.
+The bibliography database that goes with this example is: {\tt example.bib}.
+To get everything right, you must: 1.~run LaTeX on {\tt example.tex},
+2.~run BibTeX on {\tt example}, 3.~run LaTeX on {\tt example},
+4.~run LaTeX on {\tt example}.
+
+\section*{Citations}
+
+You can make full and short citations.
+A full citation is used if the author's name is not part of the running text,
+like in: `Due to general relativistic effects \cite{einstein}, light of a
+star will \ldots'.
+A short (year only) citation is used if the name of the author {\sl is\/} part
+of the running text, like in: `Einstein \cite*{einstein} has shown that
+light of a star that passes the sun will \ldots'.
+
+You can also (short) cite more references in one \verb|\cite| or \verb|\cite*|
+call, {\sl and\/} add an optional note, like in: `As many authors have shown
+\cite[but not necessarily in this order]{einstein,burkhardt,chandrasekhar,%
+pannekoek,pringle:ibs}.
+% Note that no white spaces are left between the citation labels and the commas.
+% If you do leave blanks, BibTeX will complain.
+Here is what happens if you cite two (or more) publications of the same author
+which appeared in the same year: \cite{kuip:ds1,kuip:ds2}.
+The \verb|\cite*| form of the same citations yields: Kuiper
+\cite*{kuip:ds1,kuip:ds2}.
+
+Finally, we invoke the entire database to be entered in the list of references
+with a \verb|\nocite{*}| call \nocite{*}.
+Note that the \verb|\nocite| command is not replaced by {\it key\/}
+information.
+
+\bibliography{mnemonic,example}
+\bibliographystyle{astron}
+
+\end{document}
+

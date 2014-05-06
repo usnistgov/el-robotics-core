@@ -17,14 +17,17 @@
 
 #include "types.h"
 #include "portable.h"
+<<<<<<< HEAD
 #include "reporter.h"
+=======
+>>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
 #include "socknet.h"
 #include "RobotiqGripper.h"
 
 using namespace std;
 using namespace Reporter;
 
-namespace Robot
+namespace Robot 
 {
   //! @ingroup Robot
   //!
@@ -33,13 +36,11 @@ namespace Robot
   class LIBRARY_API Robotiq
   {
   public:
-
     //! @brief Default constructor
     //!
-    //! @param logger   Pointer to the common application logger
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    Robotiq (Logger *logger, char *initPath);
+    Robotiq (char *initPath);
 
     //! @brief Default destructor
     //!
@@ -317,18 +318,7 @@ namespace Robot
 
   private:
 
-    //! @brief Pointer to the parent application logger to record state and error messages
-    //!
-    Logger *logger_;
-
 	RobotiqGripper::RobotiqGripper *iqGrip;
-
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, char *what);
 
   }; // Robotiq
 

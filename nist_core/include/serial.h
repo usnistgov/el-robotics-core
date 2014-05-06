@@ -22,6 +22,7 @@
 #include "reporter.h"
 #include "portable.h"
 #include "types.h"
+<<<<<<< HEAD
 
 /* FMP */
 #define EVENPARITY 0
@@ -48,6 +49,8 @@ typedef struct {
     int WriteTotalTimeoutConstant;
 } COMMTIMEOUTS;
 /* FMP */
+=======
+>>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
 
 using namespace Reporter;
 
@@ -172,7 +175,7 @@ namespace Network
     //! @param rep      Pointer to the reporter class owned by the parent
     //!                 process
     //!
-    serial (networkSettings *settings, Logger *logPtr);
+    serial (networkSettings *settings);
 
     //! @brief Default destructor
     //!
@@ -250,6 +253,7 @@ namespace Network
 
   private:
 
+<<<<<<< HEAD
     //! @brief Display an error message
     //!
     //! @param where The location where the error occurred
@@ -260,6 +264,8 @@ namespace Network
     //! @brief Local pointer to the common log writer from the parent application
     //!
     Logger *logger_;
+=======
+>>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
   };
 }
 

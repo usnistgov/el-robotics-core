@@ -17,7 +17,10 @@
 
 #include "types.h"
 #include "portable.h"
+<<<<<<< HEAD
 #include "reporter.h"
+=======
+>>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
 #include "serial.h"
 #include "socknet.h"
 #include <vector>
@@ -36,13 +39,11 @@ namespace Robot
   class LIBRARY_API Kuka_LWR
   {
   public:
-
     //! @brief Default constructor
     //!
-    //! @param logger   Pointer to the common application logger
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    Kuka_LWR (Logger *logger, char *initPath);
+    Kuka_LWR (char *initPath);
 
     //! @brief Default destructor
     //!
@@ -319,11 +320,6 @@ namespace Robot
     CanonReturn StopMotion (int condition = 2);
 
   private:
-
-    //! @brief Pointer to the parent application logger to record state and error messages
-    //!
-    Logger *logger_;
-
     //! @brief Whether or not we are using socket communications for message passing with the robot
     //!
     bool serialUsed_;
@@ -408,13 +404,6 @@ namespace Robot
     //! @brief Store data from robot in mssgBuffer_ using whatever communication protocol is defined
     //!
     bool get ();
-
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (char *where, char *what);
   }; // Kuka_LWR
 
 } // namespace Robot

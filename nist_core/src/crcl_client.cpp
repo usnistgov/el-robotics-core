@@ -7,7 +7,6 @@
 #include <boost/asio.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "nist_core/socket_utils.h"
 #include "nist_core/crcl.h"
 #include "nist_core/crcl_robot.h"
 #include "nist_core/crcl_client.h"

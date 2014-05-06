@@ -20,20 +20,24 @@
 #ifndef network_h
 #define network_h
 
-<<<<<<< HEAD
-// #include <conio.h>
-=======
+#include <Windows.h>
 #include <conio.h>
->>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
+
+#include "nist_core\crcl.h"
+#include "nist_core\nist_core.h"
+/*
 #include "reporter.h"
 #include "portable.h"
 #include "types.h"
 
 using namespace Reporter;
+*/
 
-#ifndef WIN32
-typedef int SOCKET;
-#endif
+#define SERVER_MAX_CONNECTIONS 8      //! max clients connected at a time 
+#define REQUEST_MSG_SIZE       8192   //! max size of request message
+#define BASE_CONNECTION_PORT   3000   //! default connection port
+#define ERROR_F                -1     //! error signal
+
 
 //! @brief Connection information for networking
 //!
@@ -97,6 +101,52 @@ struct LIBRARY_API networkStruct
     serverAddress = new char[16];
   }
 };
+
+
+//! @brief State setting variables for the server
+//!
+struct LIBRARY_API networkSettings
+{
+  //! @brief Whether we are currently connected
+  //!
+  bool connected;
+
+  //! @brief Whether the server is currently running
+  //!
+  bool globalRunServer;
+
+  //! @brief Whether a disconnect request has been issued
+  //!
+  bool disconnectRequest;
+
+  //! @brief Internal debugging string
+  //!
+  char globalString[1024];
+
+  //! @brief Internal debugging socket string
+  //!
+  char sockString[1024];
+
+  //! @brief Run process flag
+  //!
+  unsigned short runFlag;
+
+  //! @brief Whether or not to commit the GSI logs to disk
+  //!
+  bool log;
+
+  //! @brief Default settings constructor
+  //!
+  networkSettings  () : 
+    connected(false),
+    globalRunServer(false),
+    log(false),
+    disconnectRequest(false)
+  {
+  }
+};
+
+
 
 
 

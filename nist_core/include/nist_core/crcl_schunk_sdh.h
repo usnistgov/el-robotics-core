@@ -2,34 +2,38 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        Shell.h
+//  Workfile:        Schunk_SDH.h
 //  Revision:        1.0 - 13 March, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  Empty robot interface class header file.  Create a local copy of this file
-//  for a new robot interface.
+//  Schunk SDH interface declarations.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef SCHUNK_SDH_H
+#define SCHUNK_SDH_H
 
+/*
 #include "types.h"
 #include "portable.h"
 #include "reporter.h"
 
 using namespace std;
 using namespace Reporter;
+*/
 
-namespace Robot
+#include "nist_core\nist_core.h"
+#include "nist_core\crcl.h"
+
+namespace crcl_robot
 {
   //! @ingroup Robot
   //!
-  //! @brief CRCL shell interface
+  //! @brief CRCL interface for the Schunk dexterous hand
   //!
-  class LIBRARY_API Shell
+  class LIBRARY_API CrclSchunkSDH
   {
   public:
 
@@ -37,11 +41,11 @@ namespace Robot
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    Shell (char *initPath);
+    CrclSchunkSDH (char * initPath);
 
     //! @brief Default destructor
     //!
-    ~Shell ();
+    ~CrclSchunkSDH ();
 
     //! @brief Dock with a specified target object
     //!
@@ -120,9 +124,9 @@ namespace Robot
     //!
     CanonReturn MoveThroughTo (robotPose *poses,
                                int numPoses,
-                               robotPose *accelerations = NULL,
-                               robotPose *speeds = NULL,
-                               robotPose *tolerances = NULL);
+                               robotPose *accelerations,
+                               robotPose *speeds,
+                               robotPose *tolerances);
 
     //! @brief Move the controlled pose along any convenient trajectory from the current pose to the
     //!        target pose, and then stop.
@@ -315,8 +319,8 @@ namespace Robot
 
   private:
 
-  }; // Shell
+  }; // CrclSchunkSDH
 
-} // namespace Robot
+} // namespace crcl_robot
 
 #endif

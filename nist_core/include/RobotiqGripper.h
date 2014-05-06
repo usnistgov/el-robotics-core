@@ -67,7 +67,8 @@ class LIBRARY_API RobotiqGripper {
 	char commandRegister[43];
 	int ackCommand[12];
 	char statusRegister[12];
-	int ackStatus[24];
+	//int ackStatus[24]; // original
+  int ackStatus[128];
 
 	int	ReqEcho_PosFingerA, ReqEcho_PosFingerB, ReqEcho_PosFingerC, ReqEcho_PosScissor, gripperMode;
 	int PosFingerA, PosFingerB, PosFingerC, PosScissor;

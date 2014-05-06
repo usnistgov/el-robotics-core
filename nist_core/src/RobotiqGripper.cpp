@@ -45,6 +45,13 @@ namespace RobotiqGripper
 	  setParameter(1,0);  //Reset Gripper
 	  
 	  setParameter(1,1);  //Activate Gripper
+
+    getStatusRegisters();
+
+    PrevFingerA = ReqEcho_PosFingerA;
+		PrevFingerB = ReqEcho_PosFingerB;
+		PrevFingerC = ReqEcho_PosFingerC;
+		PrevScissor = ReqEcho_PosScissor;
 	  
 	  /*setParameter(2,1);  //Wide
 	 
@@ -204,13 +211,13 @@ namespace RobotiqGripper
 
       
 			PrevFingerA = ReqEcho_PosFingerA;
-			PrevFingerB = ReqEcho_PosFingerB;
+			PrevFingerB = 30; //ReqEcho_PosFingerC;
 			PrevFingerC = ReqEcho_PosFingerC;
 			PrevScissor = ReqEcho_PosScissor;
 
 			//writeStatus();
 
-			setParameter(3,1);
+			setParameter(3,1); //GoTo
 			sendCommand();
 
 			clock_t startTime = clock();
@@ -245,6 +252,7 @@ namespace RobotiqGripper
 			   }
 			}
 
+            cout << "save: " << PrevFingerA << " " << PrevFingerB << " " << PrevFingerC << endl;
             return status;
 		}
     else 

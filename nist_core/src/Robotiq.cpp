@@ -27,6 +27,8 @@ namespace Robot
 
   LIBRARY_API CanonReturn Robotiq::SetTool (double percent)
   {
+    int param = (percent >= 0.5f) ? 2 : 1;
+    iqGrip->setGrip(param);
     return SUCCESS;
   }
 

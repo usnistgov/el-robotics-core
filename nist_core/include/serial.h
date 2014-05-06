@@ -19,9 +19,35 @@
 #include <conio.h>
 */
 
-#include "..\Reporter\reporter.h"
-#include "../../portable.h"
-#include "../../types.h"
+#include "reporter.h"
+#include "portable.h"
+#include "types.h"
+
+/* FMP */
+#define EVENPARITY 0
+#define ONESTOPBIT 1
+
+typedef struct {
+  int DCBlength;
+  int BaudRate;
+  int ByteSize;
+  int Parity;
+  int StopBits;
+} DCB;
+
+#define GetCommState(a,b) 0
+#define SetCommState(a,b) 0
+#define GetCommTimeouts(a,b) 0
+#define SetCommTimeouts(a,b) 0
+
+typedef struct {
+    int ReadIntervalTimeout;  
+    int ReadTotalTimeoutMultiplier;  
+    int ReadTotalTimeoutConstant;    
+    int WriteTotalTimeoutMultiplier;  
+    int WriteTotalTimeoutConstant;
+} COMMTIMEOUTS;
+/* FMP */
 
 using namespace Reporter;
 
@@ -229,7 +255,7 @@ namespace Network
     //! @param where The location where the error occurred
     //! @param what  The error type
     //!
-    void exception (char *where, const char *what);
+    void exception (const char *where, const char *what);
 
     //! @brief Local pointer to the common log writer from the parent application
     //!

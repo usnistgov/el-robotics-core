@@ -15,9 +15,9 @@
 #ifndef SCHUNK_SDH_H
 #define SCHUNK_SDH_H
 
-#include "../../types.h"
-#include "../../portable.h"
-#include "../../Libraries/Reporter/reporter.h"
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
 
 using namespace std;
 using namespace Reporter;

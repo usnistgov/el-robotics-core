@@ -1,2 +1,2 @@
 Header header
-nist_kitting/rcs_stat stat
+nist_core/rcs_stat stat

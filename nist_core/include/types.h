@@ -23,8 +23,14 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <io.h>
+// FMP
+// #include <io.h>
 #include "portable.h"
+
+// FMP
+#ifndef WIN32
+typedef void *HANDLE;
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /**************************** data structures ********************************/
@@ -324,6 +330,7 @@ struct robotStruct
 
   //! @brief Mutex for protecting against access violations
   //!
+
   HANDLE robotMutex;
 
   //! @breif Default constructor
@@ -600,7 +607,6 @@ struct GAGene
   }
 };
 
-
 //! @brief Results of the application process
 //!
 struct LIBRARY_API GAResult
@@ -832,7 +838,11 @@ struct GAComm
     curOutAvg = 0.0f;
     curOutStdev = 0.0f;
 
+#ifdef WIN32
     commMutex = CreateMutex (NULL, false, NULL);
+#else
+    commMutex = NULL;		/* FMP */
+#endif
   };
 
   //! @brief Default destructor

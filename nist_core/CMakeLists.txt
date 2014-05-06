@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-project(nist_kitting)
+project(nist_core)
 
 set(ROS_BUILD_TYPE Debug)
 
@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   genmsg
-  nist_core
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,23 +50,9 @@ find_package(Boost REQUIRED COMPONENTS system filesystem date_time thread)
 ## Generate messages in the 'msg' folder
 add_message_files(DIRECTORY msg
   FILES 
-  ws_cmd.msg
-  ws_stat.msg
-  ws_assemble_kit.msg
-  task_cmd.msg
-  task_move_object.msg
-  task_stat.msg
-  emove_cmd.msg
-  emove_move.msg
-  emove_stat.msg
-  prim_robot_cmd.msg
-  prim_robot_moveto.msg
-  prim_robot_stop.msg
-  prim_robot_set_abs_speed.msg
-  prim_robot_close_gripper.msg
-  prim_robot_open_gripper.msg
-  prim_robot_stat.msg
-  gripper_stat.msg
+  rcs_cmd.msg
+  rcs_stat.msg
+  axes.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -81,7 +66,7 @@ add_message_files(DIRECTORY msg
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(DEPENDENCIES std_msgs geometry_msgs nist_core)
+generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 
 ###################################
 ## catkin specific configuration ##
@@ -109,39 +94,21 @@ catkin_package(
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(${PROJECT_NAME} src/msg_types.cpp src/kitting_utils.cpp src/socket_utils.cpp src/crcl_client.cpp src/crcl_sim.cpp)
+add_library(${PROJECT_NAME} src/nist_core.cpp src/crcl.cpp src/crcl_robot.cpp src/crcl_client.cpp src/crcl_sim_robot.cpp)
 
 ## Declare a cpp executable
-add_executable(kitting_ws_node src/kitting_ws.cpp)
-add_executable(kitting_task_node src/kitting_task.cpp)
-add_executable(kitting_emove_node src/kitting_emove.cpp)
-add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
-add_executable(kitting_sh src/kitting_sh.cpp)
-add_executable(socket_server src/socket_server.cpp)
-add_executable(socket_client src/socket_client.cpp)
-add_executable(crcl_server src/crcl_server.cpp)
+add_executable(crcl_robot_test src/crcl_robot_test.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(kitting_ws_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_task_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_emove_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_sh nist_kitting_generate_messages_cpp)
+add_dependencies(crcl_robot_test nist_core_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
-target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_prim_robot_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
-target_link_libraries(socket_server nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(socket_client nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
+target_link_libraries(crcl_robot_test nist_core ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -158,7 +125,7 @@ target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS nist_kitting nist_kitting_node
+# install(TARGETS nist_core nist_core_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -183,7 +150,7 @@ target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_nist_kitting.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_nist_core.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

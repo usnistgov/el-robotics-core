@@ -4,54 +4,58 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <boost/thread/thread.hpp>
+#include <boost/bind.hpp>
+#include <boost/smart_ptr.hpp>
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
 
-#include "nist_kitting/kitting_utils.h"
-#include "nist_kitting/msg_types.h"
-#include "nist_kitting/socket_utils.h"
-#include "nist_kitting/crcl.h"
-#include "nist_kitting/crcl_client.h"
-#include "nist_kitting/crcl_sim.h"
+#include <nist_core/nist_core.h>
+#include <nist_core/crcl.h>
+#include <nist_core/crcl_client.h>
+#include <nist_core/crcl_sim_robot.h>
+
+using boost::asio::ip::tcp;
+
+typedef boost::shared_ptr<tcp::socket> socket_ptr;
 
 static bool debug = false;
 
-static CRCL_Sim robot;
+using namespace crcl_robot;
 
-static void MoveStraightTo(const char *inbuf, int cmd_client_id)
+static CrclSimRobot robot;
+
+static void MoveStraightTo(const char *inbuf, socket_ptr sock)
 {
-  double d1, d2, d3, d4, d5, d6, d7;
+  double d1, d2, d3, d4, d5, d6;
   robotPose p;
   CanonReturn result;
   enum {OUTBUF_LEN = 256};
   char outbuf[OUTBUF_LEN];
 
-  if (7 == sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf %lf",
-		  &d1, &d2, &d3, &d4, &d5, &d6, &d7)) {
-    p.position.x = d1, p.position.y = d2, p.position.z = d3;
-    p.orientation.x = d4, p.orientation.y = d5;
-    p.orientation.z = d6, p.orientation.w = d7;
+  if (6 == sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf",
+		  &d1, &d2, &d3, &d4, &d5, &d6)) {
+    p.x = d1, p.y = d2, p.z = d3;
+    p.xrot = d4, p.yrot = d5, p.zrot = d6;
 
     if (debug) printf("MoveStraightTo %f %f %f ...\n",
-		      p.position.x, 
-		      p.position.y,
-		      p.position.z);
+		      p.x, p.y, p.z);
 
     result = robot.MoveStraightTo(p);
   } else {
     result = CANON_REJECT;
   }
 
-  snprintf(outbuf, sizeof(outbuf) - 1,
+  snprintf(outbuf, sizeof(outbuf)-1,
 	   "%s MoveStraightTo",
 	   CANON_SUCCESS == result ? "Success" :
 	   CANON_FAILURE == result ? "Failure" : "Reject");
-  outbuf[sizeof(outbuf) - 1] = 0;
-  socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
+  outbuf[sizeof(outbuf)-1] = 0;
+  boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
 
   if (debug) printf("MoveStraightTo done\n");
 }
 
-static void SetTool(const char *inbuf, int cmd_client_id)
+static void SetTool(const char *inbuf, socket_ptr sock)
 {
   double d1;
   CanonReturn result;
@@ -65,15 +69,17 @@ static void SetTool(const char *inbuf, int cmd_client_id)
     result = CANON_REJECT;
   }
 
-  snprintf(outbuf, sizeof(outbuf) - 1,
+  snprintf(outbuf, sizeof(outbuf)-1,
 	   "%s SetTool",
 	   CANON_SUCCESS == result ? "Success" :
 	   CANON_FAILURE == result ? "Failure" : "Reject");
-  outbuf[sizeof(outbuf) - 1] = 0;
-  socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
+  outbuf[sizeof(outbuf)-1] = 0;
+  boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
+
+  if (debug) printf("SetTool done\n");
 }
 
-static void StopMotion(const char *inbuf, int cmd_client_id)
+static void StopMotion(const char *inbuf, socket_ptr sock)
 {
   int i1;
   CanonReturn result;
@@ -87,12 +93,14 @@ static void StopMotion(const char *inbuf, int cmd_client_id)
     result = CANON_REJECT;
   }
 
-  snprintf(outbuf, sizeof(outbuf) - 1,
+  snprintf(outbuf, sizeof(outbuf)-1,
 	   "%s StopMotion",
 	   CANON_SUCCESS == result ? "Success" :
 	   CANON_FAILURE == result ? "Failure" : "Reject");
-  outbuf[sizeof(outbuf) - 1] = 0;
-  socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
+  outbuf[sizeof(outbuf)-1] = 0;
+  boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
+
+  if (debug) printf("StopMotion done\n");
 }
 
 /*!
@@ -124,70 +132,51 @@ static void StopMotion(const char *inbuf, int cmd_client_id)
   status requested.
 */
 
-void status_handler_thread_code(int stat_port)
+void stat_session(socket_ptr sock)
 {
-  int stat_socket_id;
-  int stat_client_id;
-  enum {INBUF_LEN = 256, OUTBUF_LEN = 256};
-  char inbuf[INBUF_LEN];
-  char outbuf[OUTBUF_LEN];
-  int nchars;
-  CanonReturn result = CANON_REJECT;
-
-  stat_socket_id = socket_get_server_id(stat_port);
-  if (stat_socket_id < 0) {
-    fprintf(stderr, "can't serve status port %d\n", (int) stat_port);
-    exit(1);
-  }
-
-  while (true) {
-    if (debug) printf("waiting for status connection on port %d...\n", (int) stat_port);
-    stat_client_id = socket_get_connection_id(stat_socket_id);
-    if (stat_client_id < 0) {
-      break;
-    }
-    if (debug) printf("status client connected\n");
-
+  try {
     while (true) {
-      nchars = socket_read(stat_client_id, inbuf, sizeof(inbuf));
-      if (-1 == nchars) {
-	break;
-      }
-      if (0 == nchars) {
-	break;
-      }
-      // if (debug) printf("status request: ``%s''\n", inbuf);
+#define INBUF_LEN 256
+#define OUTBUF_LEN 256
+      char inbuf[INBUF_LEN];
+      char outbuf[OUTBUF_LEN];
+      boost::system::error_code error;
+      size_t length;
+      CanonReturn result;
 
-      // handle status request
+      length = sock->read_some(boost::asio::buffer(inbuf), error);
+
+      if (boost::asio::error::eof == error) break;
+      else if (error) throw boost::system::system_error(error);
+
+      // else handle status request
       if (! strncmp(inbuf, "GetRobotPose", strlen("GetRobotPose"))) {
 	robotPose p;
 	result = robot.GetRobotPose(&p);
-	snprintf(outbuf, sizeof(outbuf) - 1,
-		 "%s GetRobotPose %f %f %f %f %f %f %f",
+	snprintf(outbuf, sizeof(outbuf)-1,
+		 "%s GetRobotPose %f %f %f %f %f %f",
 		 CANON_SUCCESS == result ? "Success" :
 		 CANON_FAILURE == result ? "Failure" : "Reject",
-		 p.position.x, p.position.y, p.position.z,
-		 p.orientation.x, p.orientation.y,
-		 p.orientation.z, p.orientation.w);
-	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
+		 p.x, p.y, p.z, p.xrot, p.yrot, p.zrot);
+	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
       } else if (! strncmp(inbuf, "GetRobotAxes", strlen("GetRobotAxes"))) {
 	robotAxes a;
 	result = robot.GetRobotAxes(&a);
-	snprintf(outbuf, sizeof(outbuf) - 1,
+	snprintf(outbuf, sizeof(outbuf)-1,
 		 "%s GetRobotAxes %f %f %f %f %f %f",
 		 CANON_SUCCESS == result ? "Success" :
 		 CANON_FAILURE == result ? "Failure" : "Reject",
 		 a.axis[0], a.axis[1], a.axis[2],
 		 a.axis[3], a.axis[4], a.axis[5]);
-	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
+	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
       } else if (! strncmp(inbuf, "GetTool", strlen("GetTool"))) {
 	double d;
 	result = robot.GetTool(&d);
-	snprintf(outbuf, sizeof(outbuf) - 1,
+	snprintf(outbuf, sizeof(outbuf)-1,
 		 "%s GetTool %f",
 		 CANON_SUCCESS == result ? "Success" :
 		 CANON_FAILURE == result ? "Failure" : "Reject", d);
-	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
+	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
       } else if (! strncmp(inbuf, "GetStatus", strlen("GetStatus"))) {
 	robotPose p;
 	robotAxes a;
@@ -195,28 +184,101 @@ void status_handler_thread_code(int stat_port)
 	result = robot.GetRobotPose(&p);
 	if (CANON_SUCCESS == result) result = robot.GetRobotAxes(&a);
 	if (CANON_SUCCESS == result) result = robot.GetTool(&t);
-	snprintf(outbuf, sizeof(outbuf) - 1,
-		 "%s GetStatus %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
+	snprintf(outbuf, sizeof(outbuf)-1,
+		 "%s GetStatus %f %f %f %f %f %f %f %f %f %f %f %f %f",
 		 CANON_SUCCESS == result ? "Success" :
 		 CANON_FAILURE == result ? "Failure" : "Reject",
-		 p.position.x, p.position.y, p.position.z,
-		 p.orientation.x, p.orientation.y,
-		 p.orientation.z, p.orientation.w,
+		 p.x, p.y, p.z,
+		 p.xrot, p.yrot, p.zrot,
 		 a.axis[0], a.axis[1], a.axis[2],
 		 a.axis[3], a.axis[4], a.axis[5], t);
-	socket_write(stat_client_id, outbuf, strlen(outbuf) + 1);
+	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
       } else {
 	fprintf(stderr, "invalid client status request: ``%s''\n", inbuf);
+	snprintf(outbuf, sizeof(outbuf)-1, "Reject %s", inbuf);
+	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
       }
-    } // while (true) socket read loop
+    } // while (true)
+  } catch (std::exception& e) {
+    std::cerr << "Exception in thread: " << e.what() << "\n";
+  }
+}
 
-    socket_close(stat_client_id);
-    if (debug) printf("status client disconnected\n");
-  } // while (true) client connect loop
+static void cmd_session(socket_ptr sock)
+{
+  boost::thread *cmd_exec_thr;
 
-  socket_close(stat_socket_id);
+  try {
+    while (true) {
+#define INBUF_LEN 256
+#define OUTBUF_LEN 256
+      char inbuf[INBUF_LEN];
+      char outbuf[OUTBUF_LEN];
+      boost::system::error_code error;
+      size_t length;
+      CanonReturn result;
+      double d1;
 
-  return;
+      length = sock->read_some(boost::asio::buffer(inbuf), error);
+
+      if (boost::asio::error::eof == error) break;
+      else if (error) throw boost::system::system_error(error);
+
+      if (debug) printf("client command: ``%s''\n", inbuf);
+
+      // handle commands
+      if (! strncmp(inbuf, "MoveStraightTo", strlen("MoveStraightTo"))) {
+	if (NULL != cmd_exec_thr) {
+	  cmd_exec_thr->interrupt();
+	  delete cmd_exec_thr;
+	  cmd_exec_thr = NULL;
+	}
+	cmd_exec_thr = new boost::thread(MoveStraightTo, inbuf, sock);
+      } else if (! strncmp(inbuf, "SetTool", strlen("SetTool"))) {
+	if (NULL != cmd_exec_thr) {
+	  cmd_exec_thr->interrupt();
+	  delete cmd_exec_thr;
+	  cmd_exec_thr = NULL;
+	}
+	cmd_exec_thr = new boost::thread(SetTool, inbuf, sock);
+      } else if (! strncmp(inbuf, "StopMotion", strlen("StopMotion"))) {
+	if (NULL != cmd_exec_thr) {
+	  cmd_exec_thr->interrupt();
+	  delete cmd_exec_thr;
+	  cmd_exec_thr = NULL;
+	}
+	cmd_exec_thr = new boost::thread(StopMotion, inbuf, sock);
+      } else if (! strncmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed"))) {
+	if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
+	  result = robot.SetAbsoluteSpeed(d1);
+	} else {
+	  fprintf(stderr, "invalid arguments: ``%s''\n", inbuf);
+	  result = CANON_REJECT;
+	}
+	snprintf(outbuf, sizeof(outbuf)-1,
+		 "%s SetAbsoluteSpeed",
+		 CANON_SUCCESS == result ? "Success" :
+		 CANON_FAILURE == result ? "Failure" : "Reject");
+	outbuf[sizeof(outbuf)-1] = 0;
+	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
+      } else {
+	fprintf(stderr, "unknown command: ``%s''\n", inbuf);
+      }
+    } // while (true)
+  } catch (std::exception& e) {
+    std::cerr << "Exception in thread: " << e.what() << "\n";
+  }
+}
+
+static void server(boost::asio::io_service *io_service, int port, void (*session)(socket_ptr))
+{
+  tcp::acceptor a(*io_service, tcp::endpoint(tcp::v4(), port));
+
+  while (true) {
+    socket_ptr sock(new tcp::socket(*io_service));
+    a.accept(*sock);
+    boost::thread t(boost::bind(session, sock));
+  }
 }
 
 /*
@@ -230,16 +292,8 @@ int main(int argc, char *argv[])
   int ival;
   int cmd_port = CRCL_CLIENT_CMD_PORT_DEFAULT;
   int stat_port = CRCL_CLIENT_STAT_PORT_DEFAULT;
-  int cmd_socket_id;
-  int cmd_client_id;
-  enum {INBUF_LEN = 256, OUTBUF_LEN = 256};
-  char inbuf[INBUF_LEN];
-  char outbuf[OUTBUF_LEN];
-  int nchars;
-  double d1;
-  CanonReturn result;
-  boost::thread *cmdExecThr = NULL;
-  boost::thread *statExecThr = NULL;
+  boost::thread *stat_exec_thr = NULL;
+  boost::asio::io_service io_service;
 
   opterr = 0;
   while (true) {
@@ -274,77 +328,10 @@ int main(int argc, char *argv[])
   }   // while (true) for getopt
 
   // spawn status server thread
-  statExecThr = new boost::thread(status_handler_thread_code, stat_port);
+  stat_exec_thr = new boost::thread(server, &io_service, stat_port, stat_session);
 
-  // run command server thread here, spawning command handlers
-
-  cmd_socket_id = socket_get_server_id(cmd_port);
-  if (cmd_socket_id < 0) {
-    fprintf(stderr, "can't serve command port %d\n", (int) cmd_port);
-    return 1;
-  }
-
-  while (true) {
-    if (debug) printf("waiting for command connection on port %d...\n", (int) cmd_port);
-    cmd_client_id = socket_get_connection_id(cmd_socket_id);
-    if (cmd_client_id < 0) {
-      break;
-    }
-    if (debug) printf("client command connection on port\n", (int) cmd_port);
-
-    while (true) {
-      nchars = socket_read(cmd_client_id, inbuf, sizeof(inbuf));
-      if (-1 == nchars) {
-	break;
-      }
-      if (0 == nchars) {
-	break;
-      }
-      if (debug) printf("client command: ``%s''\n", inbuf);
-
-      // handle commands
-      if (! strncmp(inbuf, "MoveStraightTo", strlen("MoveStraightTo"))) {
-	if (NULL != cmdExecThr) {
-	  cmdExecThr->interrupt();
-	  delete cmdExecThr;
-	  cmdExecThr = NULL;
-	}
-	cmdExecThr = new boost::thread(MoveStraightTo, inbuf, cmd_client_id);
-      } else if (! strncmp(inbuf, "SetTool", strlen("SetTool"))) {
-	if (NULL != cmdExecThr) {
-	  cmdExecThr->interrupt();
-	  delete cmdExecThr;
-	  cmdExecThr = NULL;
-	}
-	cmdExecThr = new boost::thread(SetTool, inbuf, cmd_client_id);
-      } else if (! strncmp(inbuf, "StopMotion", strlen("StopMotion"))) {
-	if (NULL != cmdExecThr) {
-	  cmdExecThr->interrupt();
-	  delete cmdExecThr;
-	  cmdExecThr = NULL;
-	}
-	cmdExecThr = new boost::thread(StopMotion, inbuf, cmd_client_id);
-      } else if (! strncmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed"))) {
-	if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
-	  result = robot.SetAbsoluteSpeed(d1);
-	} else {
-	  fprintf(stderr, "invalid arguments: ``%s''\n", inbuf);
-	  result = CANON_REJECT;
-	}
-	snprintf(outbuf, sizeof(outbuf) - 1,
-		 "%s SetAbsoluteSpeed",
-		 CANON_SUCCESS == result ? "Success" :
-		 CANON_FAILURE == result ? "Failure" : "Reject");
-	outbuf[sizeof(outbuf) - 1] = 0;
-	socket_write(cmd_client_id, outbuf, strlen(outbuf) + 1);
-      } else {
-	fprintf(stderr, "unknown command: ``%s''\n", inbuf);
-      } // if command ...
-    } // while (true) socket read loop
-
-    socket_close(cmd_client_id);
-    if (debug) printf("closed %d\n", cmd_client_id);
-  } // while (true) socket connect loop
+  // run command server here, spawning command handlers
+  server(&io_service, cmd_port, cmd_session);
 
   return 0;
 }

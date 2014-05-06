@@ -25,8 +25,7 @@ namespace Network
   //! *************************************************************************
   //!                       SERIAL COMMUNICATION METHODS
   //! *************************************************************************
-  LIBRARY_API serial::serial (networkSettings *settings, Logger *logPtr) :
-    logger_(logPtr)
+  LIBRARY_API serial::serial ()
   {
   }
 
@@ -169,7 +168,7 @@ namespace Network
   }
 
 
-  LIBRARY_API void serial::exception (char *where, const char *what)
+  LIBRARY_API void serial::exception (const char *where, const char *what)
   {
     static char message[1024];
     sprintf (message, "Exception in \" %s \" : %s", where, what);

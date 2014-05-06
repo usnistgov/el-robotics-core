@@ -21,7 +21,9 @@
 #define _WINSOCKAPI_
 
 #include <stdio.h>
+#ifdef WIN32			// FMP
 #include <winsock2.h>
+#endif
 #include "socknet.h"
 
 //#define NOISY

@@ -16,10 +16,10 @@
 #ifndef XML_H
 #define XML_H
 
-#include "..\..\portable.h"
-#include "..\..\types.h"
+#include "portable.h"
+#include "types.h"
 #include "xmlTypes.h"
-#include "..\Reporter\reporter.h"
+#include "reporter.h"
 
 //#include "abb.h"
 //#include "abb2.h"

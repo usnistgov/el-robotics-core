@@ -13,8 +13,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+// FMP
+#include <string.h>		// strcmp
+#include <stdlib.h>		// atoi
 
-#include "Kuka_LWR.h"
+#include "Kuka_LWR_XML.h"	// FMP
 
 using namespace std;
 

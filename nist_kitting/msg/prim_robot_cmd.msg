@@ -1,5 +1,5 @@
 Header header
-nist_kitting/rcs_cmd cmd
+nist_core/rcs_cmd cmd
 nist_kitting/prim_robot_moveto moveto
 nist_kitting/prim_robot_stop stop
 nist_kitting/prim_robot_set_abs_speed speed

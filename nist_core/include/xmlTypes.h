@@ -16,8 +16,8 @@
 #ifndef XML_TYPES_H
 #define XML_TYPES_H
 
-#include "..\..\portable.h"
-#include "..\..\types.h"
+#include "portable.h"
+#include "types.h"
 
 //! @brief Inner-tag parameter attributes (ex <tag name="val">)
 //!

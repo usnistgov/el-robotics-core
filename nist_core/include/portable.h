@@ -18,13 +18,41 @@
 #ifndef PORTABLE_H
 #define PORTABLE_H
 
+#define LARGE_INTEGER long
+#define LONGLONG long long
+
 #include <time.h>
 
 //! Define the library import/export 
+#ifdef WIN32			/* FMP */
+
 #ifdef LIBRARY_IMPORTS
 #define LIBRARY_API __declspec(dllimport)
 #else
 #define LIBRARY_API __declspec(dllexport)
+#endif
+
+#else
+
+#define LIBRARY_API		/* FMP */
+typedef void *HANDLE;
+typedef short int DWORD;
+
+#define CreateMutex(a,b,c) NULL
+
+#include <limits.h>
+#define INFINITE INT_MAX
+#define INVALID_HANDLE_VALUE ((void *) -1)
+
+#define WaitForSingleObject(x,y)
+#define ReleaseMutex(x)
+
+#define Sleep(x)
+#define ReadFile(a,b,c,d,e) 0
+#define WriteFile(a,b,c,d,e) 0
+#define CreateFile(a,b,c,d,e,f,g) 0
+#define CloseHandle(a) 0
+
 #endif
 
 #ifdef WIN32
@@ -196,7 +224,9 @@ public:
   //!
   ~timer ()
   {
+#ifdef WIN32			/* FMP */
     timeEndPeriod (1);
+#endif
   };
 
   //! @brief Start the timer if it isn't already running, otherwise
@@ -306,13 +336,17 @@ public:
       restart ();
       while (elapsedTime () < ms)
       {
+#ifdef WIN32
         Sleep (1);
+#endif
       }
       stop ();
     }
     else
     {
+#ifdef WIN32
       Sleep ((DWORD)ms);
+#endif
     }
   };
 

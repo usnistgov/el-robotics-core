@@ -16,9 +16,9 @@
 #ifndef DEMOHACK_H
 #define DEMOHACK_H
 
-#include "../../types.h"
-#include "../../portable.h"
-#include "../../Libraries/Reporter/reporter.h"
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
 #include "Kuka_lwr.h"
 #include "Robotiq.h"
 

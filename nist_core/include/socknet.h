@@ -20,12 +20,16 @@
 #ifndef network_h
 #define network_h
 
-#include <conio.h>
-#include "..\Reporter\reporter.h"
-#include "../../portable.h"
-#include "../../types.h"
+// #include <conio.h>
+#include "reporter.h"
+#include "portable.h"
+#include "types.h"
 
 using namespace Reporter;
+
+#ifndef WIN32
+typedef int SOCKET;
+#endif
 
 //! @brief Connection information for networking
 //!

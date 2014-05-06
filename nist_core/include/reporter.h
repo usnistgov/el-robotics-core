@@ -18,9 +18,9 @@
 #ifndef REPORTER_H
 #define REPORTER_H
 
-#include "..\..\portable.h"
+#include "portable.h"
 #include <fstream>
-#include <windows.h>
+// #include <windows.h>
 #include <vector>
 
 #ifdef WIN32

@@ -16,12 +16,12 @@
 #ifndef KUKA_LWR_XML_H
 #define KUKA_LWR_XML_H
 
-#include "..\..\portable.h"
-#include "..\..\types.h"
+#include "portable.h"
+#include "types.h"
 #include "xmlTypes.h"
-#include "..\Reporter\reporter.h"
-#include "..\Serial\serial.h"
-#include "..\SockNet\socknet.h"
+#include "reporter.h"
+#include "serial.h"
+#include "socknet.h"
 
 using namespace Reporter;
 

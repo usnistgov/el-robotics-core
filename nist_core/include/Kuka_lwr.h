@@ -15,11 +15,11 @@
 #ifndef KUKA_LWR_H
 #define KUKA_LWR_H
 
-#include "../../types.h"
-#include "../../portable.h"
-#include "../../Libraries/Reporter/reporter.h"
-#include "../../Libraries/Serial/serial.h"
-#include "../../Libraries/SockNet/socknet.h"
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
+#include "serial.h"
+#include "socknet.h"
 #include <vector>
 #include <sstream>
 

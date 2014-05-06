@@ -8,13 +8,15 @@
 #include <boost/thread/thread.hpp>
 
 #include <ros/ros.h>
+#include <ros/console.h>
+
+#include <nist_core/crcl.h>
+#include <nist_core/crcl_client.h>
 
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/prim_robot_cmd.h"
 #include "nist_kitting/prim_robot_stat.h"
-#include "nist_kitting/crcl.h"
-#include "nist_kitting/crcl_client.h"
 
 #define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_prim_robot"
@@ -31,7 +33,7 @@ static void prim_robot_cmd_callback(const nist_kitting::prim_robot_cmd::ConstPtr
 {
   prim_robot_cmd_buf = *msg;
 
-  if (debug) ROS_INFO("Got %s (%d)", kitting_cmd_to_string(prim_robot_cmd_buf.cmd.type), (int) prim_robot_cmd_buf.cmd.serial_number);
+  if (debug) ROS_DEBUG("Got %s (%d)", kitting_cmd_to_string(prim_robot_cmd_buf.cmd.type), (int) prim_robot_cmd_buf.cmd.serial_number);
 }
 
 static void do_cmd_kitting_nop(nist_kitting::prim_robot_stat &prim_robot_stat)
@@ -74,13 +76,13 @@ static robotPose rosToCrcl(geometry_msgs::Pose &pose)
 {
   robotPose rp;
 
-  rp.position.x = pose.position.x;
-  rp.position.y = pose.position.y;
-  rp.position.z = pose.position.z;
-  rp.orientation.x = pose.orientation.x;
-  rp.orientation.y = pose.orientation.y;
-  rp.orientation.z = pose.orientation.z;
-  rp.orientation.w = pose.orientation.w;
+  rp.x = pose.position.x;
+  rp.y = pose.position.y;
+  rp.z = pose.position.z;
+  // FIXME -- ROS poses use quaternions
+  rp.xrot = pose.orientation.x;
+  rp.yrot = pose.orientation.y;
+  rp.zrot = pose.orientation.z;
 
   return rp;
 }
@@ -89,25 +91,28 @@ static geometry_msgs::Pose crclToRos(robotPose pose)
 {
   geometry_msgs::Pose rp;
 
-  rp.position.x = pose.position.x;
-  rp.position.y = pose.position.y;
-  rp.position.z = pose.position.z;
-  rp.orientation.x = pose.orientation.x;
-  rp.orientation.y = pose.orientation.y;
-  rp.orientation.z = pose.orientation.z;
-  rp.orientation.w = pose.orientation.w;
+  rp.position.x = pose.x;
+  rp.position.y = pose.y;
+  rp.position.z = pose.z;
+  // FIXES -- ROS poses use quaternions
+  rp.orientation.x = pose.xrot;
+  rp.orientation.y = pose.yrot;
+  rp.orientation.z = pose.zrot;
+  rp.orientation.w = 1;
 
   return rp;
 }
 
 static boost::thread *cmdExecThr = NULL;
 
-static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+using namespace crcl_robot;
+
+static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
 
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     robotPose rp;
-    if (debug) ROS_INFO("Moving to %f ...", pose.position.x);
+    if (debug) ROS_DEBUG("Moving to %.2f ...", pose.position.x);
     rp = rosToCrcl(pose);
     if (NULL != cmdExecThr) {
       cmdExecThr->interrupt();
@@ -115,7 +120,7 @@ static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &cli
       cmdExecThr = NULL;
     }
     client.startCmd();
-    cmdExecThr = new boost::thread(&CRCL_Client::MoveStraightTo, &client, rp);
+    cmdExecThr = new boost::thread(&CrclClient::MoveStraightTo, &client, rp);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -131,7 +136,7 @@ static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &cli
       } else if (CANON_REJECT == result) {
 	prim_robot_stat.stat.status = RCS_STATUS_ERROR;
       } else {
-	if (debug) printf("bad result from client: %d\n", result);
+	if (debug) ROS_DEBUG("Bad result from client: %d", result);
       }
       prim_robot_stat.stat.state = RCS_STATE_S0;
     } // else keep waiting
@@ -139,7 +144,7 @@ static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CRCL_Client &cli
   // else S0
 }
 
-static void do_cmd_prim_robot_stop(int condition, CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+static void do_cmd_prim_robot_stop(int condition, CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
@@ -148,7 +153,7 @@ static void do_cmd_prim_robot_stop(int condition, CRCL_Client &client, nist_kitt
       cmdExecThr = NULL;
     }
     client.startCmd();
-    cmdExecThr = new boost::thread(&CRCL_Client::StopMotion, &client, condition);
+    cmdExecThr = new boost::thread(&CrclClient::StopMotion, &client, condition);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -170,7 +175,7 @@ static void do_cmd_prim_robot_stop(int condition, CRCL_Client &client, nist_kitt
   // else S0
 }
 
-static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+static void do_cmd_prim_robot_open_gripper(CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
@@ -179,7 +184,7 @@ static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::pr
       cmdExecThr = NULL;
     }
     client.startCmd();
-    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 90.0);
+    cmdExecThr = new boost::thread(&CrclClient::SetTool, &client, 90.0);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -203,7 +208,7 @@ static void do_cmd_prim_robot_open_gripper(CRCL_Client &client, nist_kitting::pr
   // else S0
 }
 
-static void do_cmd_prim_robot_close_gripper(CRCL_Client &client, nist_kitting::prim_robot_stat &prim_robot_stat)
+static void do_cmd_prim_robot_close_gripper(CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
@@ -212,7 +217,7 @@ static void do_cmd_prim_robot_close_gripper(CRCL_Client &client, nist_kitting::p
       cmdExecThr = NULL;
     }
     client.startCmd();
-    cmdExecThr = new boost::thread(&CRCL_Client::SetTool, &client, 10.0);
+    cmdExecThr = new boost::thread(&CrclClient::SetTool, &client, 10.0);
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
@@ -281,7 +286,7 @@ int main(int argc, char **argv)
     case 'n':
       // first check for valid name
       if (optarg[0] == '-') {
-	fprintf(stderr, "invalid node name: %s\n", optarg);
+	ROS_INFO("Invalid node name: %s\n", optarg);
 	return 1;
       }
       strncpy(node_name, optarg, NODE_NAME_LEN-1);
@@ -291,7 +296,7 @@ int main(int argc, char **argv)
     case 'p':
       dval = atof(optarg);
       if (dval < FLT_EPSILON) {
-	fprintf(stderr, "bad value for period: %s\n", optarg);
+	ROS_INFO("Bad value for period: %s\n", optarg);
 	return 1;
       }
       prim_robot_stat_buf.stat.period = dval;
@@ -305,7 +310,7 @@ int main(int argc, char **argv)
     case 'c':
       ival = atoi(optarg);
       if (ival < 0) {
-	fprintf(stderr, "bad value for command port: %s\n", optarg);
+	ROS_INFO("Bad value for command port: %s\n", optarg);
 	return 1;
       }
       cmd_port = ival;
@@ -314,7 +319,7 @@ int main(int argc, char **argv)
     case 's':
       ival = atoi(optarg);
       if (ival < 0) {
-	fprintf(stderr, "bad value for status port: %s\n", optarg);
+	ROS_INFO("Bad value for status port: %s\n", optarg);
 	return 1;
       }
       stat_port = ival;
@@ -330,7 +335,7 @@ int main(int argc, char **argv)
       break;
 
     case ':':
-      fprintf(stderr, "missing value for -%c\n", optopt);
+      ROS_INFO("Missing value for -%c\n", optopt);
       return 1;
       break;
 
@@ -362,10 +367,10 @@ int main(int argc, char **argv)
   prim_robot_stat_buf.stat.heartbeat = 0;
 
   // connect to host robot controller
-  CRCL_Client client(host_name, cmd_port, stat_port);
+  CrclClient client(host_name, cmd_port, stat_port);
 
   if (! client.isConnected()) {
-    fprintf(stderr, "can't connect to CRCL server %s on ports %d, %d\n", host_name, cmd_port, stat_port);
+    ROS_INFO("Can't connect to CRCL server %s on ports %d, %d\n", host_name, cmd_port, stat_port);
     return 1;
   }
 
@@ -375,7 +380,7 @@ int main(int argc, char **argv)
   boost::thread *clientStatThr = NULL;
 
   client.startStat();
-  clientStatThr = new boost::thread(&CRCL_Client::GetStatus, &client, &clientPose, &clientAxes, &toolSetting);
+  clientStatThr = new boost::thread(&CrclClient::GetStatus, &client, &clientPose, &clientAxes, &toolSetting);
 
   signal(SIGINT, quit);
 
@@ -416,11 +421,12 @@ int main(int argc, char **argv)
       do_cmd_prim_robot_close_gripper(client, prim_robot_stat_buf);
       break;
     default:
-      if (debug) printf("unrecognized command: %s\n", kitting_cmd_to_string(prim_robot_cmd_buf.cmd.type));
+      if (debug) ROS_DEBUG("Unrecognized command: %s", kitting_cmd_to_string(prim_robot_cmd_buf.cmd.type));
       break;
     }
 
     if (client.statDone()) {
+      if (debug) printf("statDone\n");
       if (CANON_SUCCESS == client.getStatResult()) {
 	prim_robot_stat_buf.pose = crclToRos(clientPose);
 	//
@@ -432,19 +438,19 @@ int main(int argc, char **argv)
 	prim_robot_stat_buf.axes.axis[5] = clientAxes.axis[5];
 	//
 	prim_robot_stat_buf.gripper.value = toolSetting;
-	if (debug) printf("GetStat: %f %f %f ... %f %f %f ... %f\n",
-			  clientPose.position.x,
-			  clientPose.position.y,
-			  clientPose.position.z,
-			  clientAxes.axis[0],
-			  clientAxes.axis[1],
-			  clientAxes.axis[2],
-			  toolSetting);
+	if (debug) ROS_DEBUG("GetStat: %.2f %.2f ... %.2f %.2f ... %.2f",
+			     clientPose.x,
+			     clientPose.y,
+			     clientPose.z,
+			     clientAxes.axis[0],
+			     clientAxes.axis[1],
+			     clientAxes.axis[2],
+			     toolSetting);
       }
       // start a new one
       delete clientStatThr;
       client.startStat();
-      clientStatThr = new boost::thread(&CRCL_Client::GetStatus, &client, &clientPose, &clientAxes, &toolSetting);
+      clientStatThr = new boost::thread(&CrclClient::GetStatus, &client, &clientPose, &clientAxes, &toolSetting);
     } // client.statDone()
 
     prim_robot_stat_buf.stat.heartbeat++;

@@ -16,13 +16,14 @@
 
 using namespace std;
 
+#if 0				// FMP
 //! Explicit instantiations
 template class LIBRARY_API Robot::CRCL_Robot<Robot::DemoHack>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::Schunk_SDH>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::Robotiq>;
 template class LIBRARY_API Robot::CRCL_Robot<Robot::Kuka_LWR>;
 //template class LIBRARY_API Robot::CRCL_Robot<Robot::Universal_UR10>;
-
+#endif
 
 namespace Robot
 {

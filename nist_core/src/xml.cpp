@@ -15,8 +15,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "xml.h"
+#include <stdio.h>
 #include <iostream>
+
+#include "nist_core/xml.h"
 
 using namespace std;
 
@@ -24,16 +26,19 @@ using namespace std;
 //template class LIBRARY_API Xml::XmlParse<Xml::ABBParse>;
 //template class LIBRARY_API Xml::XmlParse<Xml::ABB2Parse>;
 //template class LIBRARY_API Xml::XmlParse<Xml::ASMParse>;
+
+// FMP
+#if 0
 template class LIBRARY_API Xml::XmlParse<Xml::MailmanParse>;
 template class LIBRARY_API Xml::XmlParse<Xml::optionParse>;
 template class LIBRARY_API Xml::XmlParse<Xml::SurgeryParse>;
 template class LIBRARY_API Xml::XmlParse<Xml::KukaLWRParse>;
+#endif
 
 namespace Xml
 {
-  template <class T> XmlParse<T>::XmlParse (T *strctr, Logger *logPtr) :
-    xmlData_(strctr),
-    logger_(logPtr)
+  template <class T> XmlParse<T>::XmlParse (T *strctr) : // FMP no logger
+    xmlData_(strctr)
   {
   }
 
@@ -41,7 +46,6 @@ namespace Xml
   template <class T> XmlParse<T>::~XmlParse ()
   {
     xmlData_ = NULL;
-    logger_ = NULL;
   }
 
 
@@ -410,6 +414,5 @@ namespace Xml
   {
     static char message[1024];
     sprintf (message, "Exception in \" %s \" : %s", where, what);
-    logger_->error (message);
   }
 } // XML

@@ -41,6 +41,16 @@
 
 static ulapi_integer ulapi_debug_level = 0;
 
+ulapi_result ulapi_init(void)
+{
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_exit(void)
+{
+  return ULAPI_OK;
+}
+
 #define PERROR(x) if (ulapi_debug_level & ULAPI_DEBUG_ERROR) perror(x)
 
 /*

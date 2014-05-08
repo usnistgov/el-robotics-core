@@ -152,6 +152,8 @@ extern ulapi_prio ulapi_prio_next_lower(ulapi_prio prio);
 
 #ifdef WIN32
 
+#include <windows.h>
+
 typedef struct {
   HANDLE hThread;
   DWORD dwThreadId;

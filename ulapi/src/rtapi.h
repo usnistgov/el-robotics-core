@@ -134,6 +134,7 @@ extern void rtapi_exit(void);
 
 #ifdef WIN32
 
+#include "ulapi.h"	/* ulapi_task_struct */
 typedef ulapi_task_struct rtapi_task_struct;
 
 #else

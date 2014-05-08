@@ -229,7 +229,7 @@ rtapi_result rtapi_task_clear(rtapi_task_struct *task)
 
 rtapi_result rtapi_task_delete(rtapi_task_struct *task)
 {
-  return ULAPI_OK == ulapi_task_delete(task) ? RTAPI_ERROR;
+  return ULAPI_OK == ulapi_task_delete(task) ? RTAPI_OK : RTAPI_ERROR;
 }
 
 rtapi_result

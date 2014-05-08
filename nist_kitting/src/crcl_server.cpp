@@ -22,7 +22,7 @@ static bool debug = false;
 
 using namespace crcl_robot;
 
-static CrclSimRobot robot;
+static CrclRobot<CrclSimRobot> robot;
 
 static void MoveStraightTo(const char *inbuf, socket_ptr sock)
 {

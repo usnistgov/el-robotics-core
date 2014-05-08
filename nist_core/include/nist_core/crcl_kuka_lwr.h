@@ -2,45 +2,51 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        Schunk_SDH.h
+//  Workfile:        Kuka_lwr.h
 //  Revision:        1.0 - 13 March, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  Schunk SDH interface declarations.
+//  KUKA LWR 4+ interface declarations.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef SCHUNK_SDH_H
-#define SCHUNK_SDH_H
+#ifndef KUKA_LWR_H
+#define KUKA_LWR_H
 
-#include "types.h"
-#include "portable.h"
-#include "reporter.h"
+#include "nist_core\nist_core.h"
+#include "nist_core\crcl.h"
+
+#pragma warning (disable: 4251)
+
+#include "serial.h"
+#include "socknet.h"
+
+#include <vector>
+#include <sstream>
 
 using namespace std;
-using namespace Reporter;
+using namespace Network;
 
-namespace Robot
+namespace crcl_robot
 {
   //! @ingroup Robot
   //!
-  //! @brief CRCL interface for the Schunk dexterous hand
+  //! @brief CRCL interface for the Kuka lightweight robot
   //!
-  class LIBRARY_API Schunk_SDH
+  class LIBRARY_API CrclKukaLWR
   {
   public:
-
     //! @brief Default constructor
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    Schunk_SDH (char * initPath);
+    CrclKukaLWR (char *initPath);
 
     //! @brief Default destructor
     //!
-    ~Schunk_SDH ();
+    ~CrclKukaLWR ();
 
     //! @brief Dock with a specified target object
     //!
@@ -261,7 +267,7 @@ namespace Robot
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
     CanonReturn SetLengthUnits (char *unitName);
-
+    
     //! @brief Set a robot-specific parameter (handling of parameter type casting to be handled by the
     //!        robot interface)
     //!
@@ -313,9 +319,92 @@ namespace Robot
     CanonReturn StopMotion (int condition = 2);
 
   private:
+    //! @brief Whether or not we are using socket communications for message passing with the robot
+    //!
+    bool serialUsed_;
 
-  }; // Schunk_SDH
+    //! @brief Handle for serial communications
+    //!
+    serial *serial_;
 
-} // namespace Robot
+    //! @brief Serial connection information
+    //!
+    serialStruct serialData_;
+
+    //! @brief Socket connection information
+    //!
+    networkStruct socketData_;
+
+    //! @brief Whether or not the robot should accept CRCL commands
+    //!
+    bool acceptCRCL_;
+
+    //! @brief Variable for motion generation to be sent to the robot arm
+    //!
+    stringstream moveMe_;
+    
+    //! @brief Temporary variable for storing intermediate string values
+    //!
+    stringstream tempString_;
+
+    //! @brief Message buffer for serial and socket communications
+    //!
+    char *mssgBuffer_;
+
+    //! @brief Returned data from the robot
+    //!
+    double *feedback_;
+
+    double defaultSpeed_;
+    double axial;
+
+    vector<string> *tempData_;
+
+    //! @brief Generate a motion command for the Kuka LWR
+    //!
+    //! @param moveType  Specify the movement type, either PTP ('P') or LIN ('L')
+    //! @param posType   Specify the position type, either cartesian ('C') or angular ('A')
+    //! @param deltaType Specify the motion delta, either absolute ('A') or relative ('R')
+    //! @param input     Vector of 6 position values (note that J3 of the robot is E1, and is thus not
+    //!                  used here for angular motion commands)
+    //!
+    //! @return True if motion string generation was successful, false otherwise
+    //!
+    bool generateMove (char moveType, char posType, char deltaType, vector<double> &input);
+
+    //! @brief Generate a feedback request for the Kuka LWR
+    //!
+    //! @param retType Specify the return value, either Cartesian position ('C'), joint position ('A')
+    //!                force values ('F'), torque values ('T'), or timestamp ('S')
+    //!
+    //! @return True if feedback string generation was successful, false otherwise
+    //!
+    bool generateFeedback (char retType);
+
+    //! @brief TODO
+    //!
+    //! @return True if parsing action was successful, false otherwise
+    //!
+    bool parseFeedback ();
+
+    //! @brief Generate a tool activation request for the KUKA LWR
+    //!
+    //! @param mode  Specify the mode of actuation of the robot output: binary (B) or analog (A)
+    //! @param value Specify the value of the robot output
+    //!
+    //! @return True if tool actuation string generation was successful, false otherwise
+    //!
+    bool generateTool (char mode, double value);
+
+    //! @brief Send content of moveMe_ to robot using whatever communication protocol is defined.  
+    //!
+    bool send ();
+
+    //! @brief Store data from robot in mssgBuffer_ using whatever communication protocol is defined
+    //!
+    bool get ();
+  }; // CrclKukaLWR
+
+} // namespace crcl_robot
 
 #endif

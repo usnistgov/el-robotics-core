@@ -2,43 +2,34 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        Robot.h
-//  Revision:        1.0 - 11 March, 2014
+//  Workfile:        Shell.h
+//  Revision:        1.0 - 13 March, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  Robot interface declarations.
+//  Empty robot interface class header file.  Create a local copy of this file
+//  for a new robot interface.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef ISD_ROBOT_H
-#define ISD_ROBOT_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #include "types.h"
 #include "portable.h"
-<<<<<<< HEAD
 #include "reporter.h"
-#include <vector>
-
-#include "Robotiq.h"
-#include "Kuka_lwr.h"
-#include "Schunk_SDH.h"
-#include "DemoHack.h"
-//#include "Universal_UR10.h" //! TODO
-=======
->>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
 
 using namespace std;
+using namespace Reporter;
 
 namespace Robot
 {
-
   //! @ingroup Robot
   //!
-  //! @brief Common template interface for the various robot subtypes
+  //! @brief CRCL shell interface
   //!
-  template <class T> class LIBRARY_API CRCL_Robot
+  class LIBRARY_API Shell
   {
   public:
 
@@ -46,11 +37,11 @@ namespace Robot
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    CRCL_Robot (char *initPath);
+    Shell (char *initPath);
 
     //! @brief Default destructor
     //!
-    ~CRCL_Robot ();
+    ~Shell ();
 
     //! @brief Dock with a specified target object
     //!
@@ -293,10 +284,9 @@ namespace Robot
     //!
     CanonReturn SetRelativeAcceleration (double percent);
 
-    //! @brief Set the attached tool to a defined output rate.
+    //! @brief Set the attached tool to a defined output rate
     //!
-    //! @param percent The desired output rate for the robot's tool as a percentage of maximum output.
-    //!                If using a gripper, 0 is all the way open, 1 is all the way closed.
+    //! @param percent The desired output rate for the robot's tool as a percentage of maximum output
     //!
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
@@ -324,10 +314,9 @@ namespace Robot
     CanonReturn StopMotion (int condition = 2);
 
   private:
-    //! @brief Interface object for the different supported robots
-    //!
-    T *robInterface_;
-  }; // CRCL_Robot
-} // Robot
+
+  }; // Shell
+
+} // namespace Robot
 
 #endif

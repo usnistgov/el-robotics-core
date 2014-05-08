@@ -2,49 +2,50 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        Robotiq.h
-//  Revision:        1.0 - 13 March, 2014
+//  Workfile:        DemoHack.h
+//  Revision:        1.0 - 08 April, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  Robotiq interface declarations.
+//  Cobbled-together interface for the Kuka LWR + Robotiq gripper for the ISD
+//  kitting demonstration.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef ROBOTIQ_H
-#define ROBOTIQ_H
+#ifndef CRCL_DEMOHACK_H
+#define CRCL_DEMOHACK_H
 
-#include "types.h"
-#include "portable.h"
-<<<<<<< HEAD
-#include "reporter.h"
-=======
->>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
-#include "socknet.h"
-#include "RobotiqGripper.h"
+#include "nist_core/crcl.h"
+#include "nist_core/crcl_kuka_lwr.h"
+#include "nist_core/crcl_robotiq.h"
+
+#pragma warning (disable: 4251)
 
 using namespace std;
-using namespace Reporter;
 
-namespace Robot 
+typedef crcl_robot::CrclKukaLWR robotArm;
+typedef crcl_robot::CrclRobotiq robotHand;
+
+namespace crcl_robot
 {
-  //! @ingroup Robot
+  //! @ingroup crcl_robot
   //!
-  //! @brief CRCL interface for the Robotiq robotic hand
+  //! @brief CRCL shell interface
   //!
-  class LIBRARY_API Robotiq
+  class LIBRARY_API CrclDemoHack
   {
   public:
+
     //! @brief Default constructor
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    Robotiq (char *initPath);
+    CrclDemoHack (char *initPath);
 
     //! @brief Default destructor
     //!
-    ~Robotiq ();
+    ~CrclDemoHack ();
 
     //! @brief Dock with a specified target object
     //!
@@ -318,9 +319,18 @@ namespace Robot
 
   private:
 
-	RobotiqGripper::RobotiqGripper *iqGrip;
+    //! @brief Temporary holding variables for status returns.  v1 = arm, v2 = hand
+    CanonReturn v1;
+    CanonReturn v2;
 
-  }; // Robotiq
+    //! @brief Pointer to the robot arm
+    //!
+    robotArm *arm_;
+
+    //! @brief Pointer to the robot hand
+    //!
+    robotHand *hand_;   
+  }; // DemoHack
 
 } // namespace Robot
 

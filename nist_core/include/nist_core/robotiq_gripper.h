@@ -1,13 +1,12 @@
 
 #include <bitset>
 #include <iostream>
-#include "types.h"
-#include "portable.h"
-<<<<<<< HEAD
-#include "reporter.h"
-=======
->>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
-#include "socknet.h"
+
+#include "nist_core\nist_core.h"
+#include "nist_core\crcl.h"
+#include "nist_core\socknet.h"
+
+#pragma warning (disable: 4251)
 
 using std::bitset;
 using namespace std;
@@ -60,8 +59,6 @@ class LIBRARY_API RobotiqGripper {
   void getStatusRegisters();
  
   private: 
-	Logger *logger_;
-
 	bool log;
 
 	networkSettings settings;

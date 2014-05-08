@@ -2,51 +2,44 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        DemoHack.h
-//  Revision:        1.0 - 08 April, 2014
+//  Workfile:        Robotiq.h
+//  Revision:        1.0 - 13 March, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  Cobbled-together interface for the Kuka LWR + Robotiq gripper for the ISD
-//  kitting demonstration.
+//  Robotiq interface declarations.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef DEMOHACK_H
-#define DEMOHACK_H
+#ifndef CRCL_ROBOTIQ_H
+#define CRCL_ROBOTIQ_H
 
-#include "types.h"
-#include "portable.h"
-#include "reporter.h"
-#include "Kuka_lwr.h"
-#include "Robotiq.h"
+#include "nist_core\nist_core.h"
+#include "nist_core\crcl.h"
+#include "nist_core\socknet.h"
+#include "nist_core\robotiq_gripper.h"
 
 using namespace std;
-using namespace Reporter;
 
-typedef Robot::Kuka_LWR robotArm;
-typedef Robot::Robotiq robotHand;
-
-namespace Robot
+namespace crcl_robot 
 {
-  //! @ingroup Robot
+  //! @ingroup crcl_robot
   //!
-  //! @brief CRCL shell interface
+  //! @brief CRCL interface for the Robotiq robotic hand
   //!
-  class LIBRARY_API DemoHack
+  class LIBRARY_API CrclRobotiq
   {
   public:
-
     //! @brief Default constructor
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    DemoHack (char *initPath);
+    CrclRobotiq (char *initPath);
 
     //! @brief Default destructor
     //!
-    ~DemoHack ();
+    ~CrclRobotiq ();
 
     //! @brief Dock with a specified target object
     //!
@@ -320,19 +313,10 @@ namespace Robot
 
   private:
 
-    //! @brief Temporary holding variables for status returns.  v1 = arm, v2 = hand
-    CanonReturn v1;
-    CanonReturn v2;
+	RobotiqGripper::RobotiqGripper *iqGrip;
 
-    //! @brief Pointer to the robot arm
-    //!
-    robotArm *arm_;
+  }; // CrclRobotiq
 
-    //! @brief Pointer to the robot hand
-    //!
-    robotHand *hand_;   
-  }; // DemoHack
-
-} // namespace Robot
+} // namespace crcl_robot
 
 #endif

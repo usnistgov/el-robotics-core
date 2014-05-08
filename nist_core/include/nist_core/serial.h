@@ -15,44 +15,20 @@
 #ifndef serial_h
 #define serial_h
 
-/*
-#include <conio.h>
-*/
+#include <windows.h>
 
-#include "reporter.h"
-#include "portable.h"
-#include "types.h"
-<<<<<<< HEAD
+#include "nist_core\nist_core.h"
+#include "nist_core\crcl.h"
 
-/* FMP */
-#define EVENPARITY 0
-#define ONESTOPBIT 1
+#include <cstdio>
 
-typedef struct {
-  int DCBlength;
-  int BaudRate;
-  int ByteSize;
-  int Parity;
-  int StopBits;
-} DCB;
+#pragma warning (disable: 4996)
 
-#define GetCommState(a,b) 0
-#define SetCommState(a,b) 0
-#define GetCommTimeouts(a,b) 0
-#define SetCommTimeouts(a,b) 0
+#define SERVER_MAX_CONNECTIONS 8      //! max clients connected at a time 
+#define REQUEST_MSG_SIZE       8192   //! max size of request message
+#define BASE_CONNECTION_PORT   3000   //! default connection port
+#define ERROR_F                -1     //! error signal
 
-typedef struct {
-    int ReadIntervalTimeout;  
-    int ReadTotalTimeoutMultiplier;  
-    int ReadTotalTimeoutConstant;    
-    int WriteTotalTimeoutMultiplier;  
-    int WriteTotalTimeoutConstant;
-} COMMTIMEOUTS;
-/* FMP */
-=======
->>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
-
-using namespace Reporter;
 
 //! @brief Connection information for networking
 //!
@@ -171,11 +147,7 @@ namespace Network
 
     //! @brief Constructor
     //!
-    //! @param settings (Not used with serial connection)
-    //! @param rep      Pointer to the reporter class owned by the parent
-    //!                 process
-    //!
-    serial (networkSettings *settings);
+    serial ();
 
     //! @brief Default destructor
     //!
@@ -253,19 +225,6 @@ namespace Network
 
   private:
 
-<<<<<<< HEAD
-    //! @brief Display an error message
-    //!
-    //! @param where The location where the error occurred
-    //! @param what  The error type
-    //!
-    void exception (const char *where, const char *what);
-
-    //! @brief Local pointer to the common log writer from the parent application
-    //!
-    Logger *logger_;
-=======
->>>>>>> a10c4a171ad417e95d6824ead9dacbd857bfa1ae
   };
 }
 

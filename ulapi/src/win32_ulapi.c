@@ -138,16 +138,6 @@ ulapi_result ulapi_app_wait(void)
   }
 }
 
-ulapi_result ulapi_init(ulapi_integer sel)
-{
-  return ULAPI_OK;
-}
-
-ulapi_result ulapi_exit(void)
-{
-  return ULAPI_OK;
-}
-
 ulapi_integer ulapi_to_argv(const char *src, char ***argv)
 {
   char *cpy;
@@ -293,7 +283,12 @@ ulapi_task_struct *ulapi_task_new(void)
 
   ts = (ulapi_task_struct *) malloc(sizeof(ulapi_task_struct));
 
-  return ulapi_task_init(ts);
+  if (ULAPI_OK != ulapi_task_init(ts)) {
+	  free(ts);
+	  ts = NULL;
+  }
+
+  return ts;
 }
 
 ulapi_result ulapi_task_clear(ulapi_task_struct *task)
@@ -304,7 +299,7 @@ ulapi_result ulapi_task_clear(ulapi_task_struct *task)
     }
   }
   
-  return ULAPI_OK:
+  return ULAPI_OK;
 }
 
 ulapi_result ulapi_task_delete(ulapi_task_struct *task)

@@ -1933,6 +1933,7 @@
       </ModelFileName>
     </ExternalShape>
     <Weight>0.200000</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
    <Sku>
     <Name>stock_keeping_unit_medium_gear</Name>
@@ -1953,6 +1954,7 @@
       </ModelFileName>
     </ExternalShape>
     <Weight>0.150000</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
   <Sku>
     <Name>stock_keeping_unit_small_gear</Name>
@@ -1973,6 +1975,7 @@
       </ModelFileName>
     </ExternalShape>
     <Weight>0.100000</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
   <Sku>
     <Name>stock_keeping_unit_washer</Name>
@@ -1993,6 +1996,7 @@
       </ModelFileName>
     </ExternalShape>
     <Weight>0.001</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
   <Sku>
     <Name>stock_keeping_unit_shaft</Name>
@@ -2013,6 +2017,7 @@
       </ModelFileName>
     </ExternalShape>
     <Weight>0.005</Weight>
+    <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
   <Sku>
     <Name>stock_keeping_unit_kit_box</Name>

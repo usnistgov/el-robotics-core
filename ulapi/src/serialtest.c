@@ -7,11 +7,12 @@ static void task_code(void *serial)
   enum {BUFFERLEN = 80};
   char buffer[BUFFERLEN];
   int nchars;
+  int t;
 
   for (;;) {
     nchars = ulapi_serial_read(serial, buffer, sizeof(buffer)-1);
     if (nchars > 0) {
-      printf("%s", buffer);
+      for (t = 0; t < nchars; t++) fputc(buffer[t], stdout);
       fflush(stdout);
     } else break;
   }

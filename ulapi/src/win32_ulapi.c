@@ -1314,7 +1314,7 @@ ulapi_result ulapi_fd_open(const char *path, void *id)
 		      0, 
 		      NULL, 
 		      OPEN_EXISTING, 
-		      FILE_ATTRIBUTE_NORMAL, 
+		      0, 
 		      NULL);
 
   if (handle == INVALID_HANDLE_VALUE) return ULAPI_ERROR;
@@ -1369,7 +1369,7 @@ void ulapi_fd_drain(void *id)
 
 ulapi_result ulapi_fd_close(void *id)
 {
-  CloseHandle(*((HANDLE* ) id));
+  CloseHandle(*((HANDLE *) id));
   
   return ULAPI_OK;
 }
@@ -1389,7 +1389,20 @@ ulapi_result ulapi_serial_delete(void *id)
 
 ulapi_result ulapi_serial_open(const char *port, void *id)
 {
-  return ulapi_fd_open(port, id);
+	ulapi_result retval;
+	COMMTIMEOUTS ct;
+
+	ct.ReadIntervalTimeout = 50;
+	ct.ReadTotalTimeoutMultiplier = 50;
+	ct.ReadTotalTimeoutConstant = 50;
+	ct.WriteTotalTimeoutMultiplier = 50;
+	ct.WriteTotalTimeoutConstant = 50;
+
+	retval = ulapi_fd_open(port, id);
+	if (ULAPI_OK != retval) return retval;
+	SetCommTimeouts(*((HANDLE *) id), &ct);
+
+	return retval;
 }
 
 static int to_cbr(int baud)
@@ -1444,8 +1457,8 @@ ulapi_result ulapi_serial_baud(void *id, int baud)
   dcb.DCBlength = sizeof(DCB);
   GetCommState(handle, &dcb);
   dcb.BaudRate = cbr;
-  dcb.ByteSize = 8;
-  dcb.Parity = EVENPARITY;
+  dcb.ByteSize = DATABITS_8;
+  dcb.Parity = PARITY_NONE;
   dcb.StopBits = ONESTOPBIT;
 
   if (! SetCommState(handle, &dcb)) return ULAPI_ERROR;

@@ -11,10 +11,12 @@ static void task_code(void *serial)
 
   for (;;) {
     nchars = ulapi_serial_read(serial, buffer, sizeof(buffer)-1);
-    if (nchars > 0) {
+	if (nchars < 0) break;
+	else if (nchars == 0) printf("nothing\n");
+    else {
       for (t = 0; t < nchars; t++) fputc(buffer[t], stdout);
-      fflush(stdout);
-    } else break;
+	  fflush(stdout);
+	}
   }
 
   printf("done\n");

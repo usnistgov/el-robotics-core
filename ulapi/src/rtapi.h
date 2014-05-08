@@ -132,26 +132,44 @@ extern rtapi_result rtapi_clock_get_interval(rtapi_integer start_secs,
 */
 extern void rtapi_exit(void);
 
+#ifdef WIN32
+
+typedef ulapi_task_struct rtapi_task_struct;
+
+#else
+
+#ifdef HAVE_RTAI
+#include <rtai_sched.h>		/* RT_TASK */
+typedef RT_TASK rtapi_task_struct;
+#else
+#include <pthread.h>		/* pthread_t */
+typedef pthread_t rtapi_task_struct;
+#endif
+
+#endif
+
 /*!
   Allocates space for a platform-specific data structure that holds
   the task information. Pass this to the \a rtapi_task_ functions.
 */
-extern void *rtapi_task_new(void);
-extern rtapi_result rtapi_task_delete(void *task);
+extern rtapi_result rtapi_task_init(rtapi_task_struct *task);
+extern rtapi_task_struct *rtapi_task_new(void);
+extern rtapi_result rtapi_task_clear(rtapi_task_struct *task);
+extern rtapi_result rtapi_task_delete(rtapi_task_struct *task);
 
 typedef void (*rtapi_task_code)(void *code);
 
-extern rtapi_result rtapi_task_start(void *task,
+extern rtapi_result rtapi_task_start(rtapi_task_struct *task,
 				     void (*taskcode)(void *),
 				     void *taskarg,
 				     rtapi_prio prio,
 				     rtapi_integer stacksize,
 				     rtapi_integer period_nsec,
 				     rtapi_flag uses_fp);
-extern rtapi_result rtapi_task_stop(void *task);
-extern rtapi_result rtapi_task_pause(void *task);
-extern rtapi_result rtapi_task_resume(void *task);
-extern rtapi_result rtapi_task_set_period(void *task,
+extern rtapi_result rtapi_task_stop(rtapi_task_struct *task);
+extern rtapi_result rtapi_task_pause(rtapi_task_struct *task);
+extern rtapi_result rtapi_task_resume(rtapi_task_struct *task);
+extern rtapi_result rtapi_task_set_period(rtapi_task_struct *task,
 					  rtapi_integer period_nsec);
 
 /*!
@@ -161,9 +179,8 @@ extern rtapi_result rtapi_task_set_period(void *task,
   there is still stack to spare, 0 if the stack was overrwritten, or
   -1 if the stack check is irrelevant on this platform.
  */
-extern rtapi_integer rtapi_task_stack_check(void *task);
+extern rtapi_integer rtapi_task_stack_check(rtapi_task_struct *task);
 
-extern rtapi_result rtapi_task_init(void);
 extern rtapi_result rtapi_self_set_period(rtapi_integer period_nsec);
 extern rtapi_result rtapi_wait(rtapi_integer period_nsec);
 extern rtapi_result rtapi_task_exit(void);

@@ -173,14 +173,36 @@ rtapi_result rtapi_clock_get_interval(rtapi_integer start_secs,
   return RTAPI_OK;
 }
 
-void * rtapi_task_new(void)
+rtapi_result rtapi_task_init(rtapi_task_struct *task)
 {
-  return malloc(sizeof(pthread_t));
+  if (0 != pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL)) return RTAPI_ERROR;
+  if (0 != pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL)) return RTAPI_ERROR;
+
+  return RTAPI_OK;
 }
 
-rtapi_result rtapi_task_delete(void *task)
+rtapi_task_struct *rtapi_task_new(void)
 {
-  if (NULL != task) free(task);
+  rtapi_task_struct *ptr = (rtapi_task_struct *) malloc(sizeof(rtapi_task_struct));
+  if (RTAPI_OK != rtapi_task_init(ptr)) {
+    free(ptr);
+    ptr = NULL;
+  }
+
+  return ptr;
+}
+
+extern rtapi_result rtapi_task_clear(rtapi_task_struct *task)
+{
+  return RTAPI_OK;
+}
+
+rtapi_result rtapi_task_delete(rtapi_task_struct *task)
+{
+  if (NULL != task) {
+    rtapi_task_clear(task);
+    free(task);
+  }
 
   return RTAPI_OK;
 }
@@ -188,7 +210,7 @@ rtapi_result rtapi_task_delete(void *task)
 typedef void *(*pthread_task_code)(void *);
 
 rtapi_result
-rtapi_task_start(void *task,
+rtapi_task_start(rtapi_task_struct *task,
 		 void (*taskcode)(void *),
 		 void *taskarg,
 		 rtapi_prio prio,
@@ -210,31 +232,23 @@ rtapi_task_start(void *task,
   return RTAPI_OK;
 }
 
-rtapi_result rtapi_task_stop(void *task)
+rtapi_result rtapi_task_stop(rtapi_task_struct *task)
 {
   return (pthread_cancel(*((pthread_t *) task)) == 0 ? RTAPI_OK : RTAPI_ERROR);
 }
 
-rtapi_result rtapi_task_pause(void *task)
+rtapi_result rtapi_task_pause(rtapi_task_struct *task)
 {
   return RTAPI_OK;
 }
 
-rtapi_result rtapi_task_resume(void *task)
+rtapi_result rtapi_task_resume(rtapi_task_struct *task)
 {
   return RTAPI_OK;
 }
 
-rtapi_result rtapi_task_set_period(void *task, rtapi_integer period_nsec)
+rtapi_result rtapi_task_set_period(rtapi_task_struct *task, rtapi_integer period_nsec)
 {
-  return RTAPI_OK;
-}
-
-rtapi_result rtapi_task_init(void)
-{
-  if (0 != pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL)) return RTAPI_ERROR;
-  if (0 != pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL)) return RTAPI_ERROR;
-
   return RTAPI_OK;
 }
 
@@ -263,7 +277,7 @@ rtapi_result rtapi_task_exit(void)
   return RTAPI_OK;
 }
 
-rtapi_integer rtapi_task_stack_check(void *task)
+rtapi_integer rtapi_task_stack_check(rtapi_task_struct *task)
 {
   return -1;			/* irrelevant on this platform */
 }

@@ -212,18 +212,28 @@ rtapi_result rtapi_clock_get_interval(rtapi_integer start_secs,
   return RTAPI_OK;
 }
 
-void *rtapi_task_new(void)
+rtapi_result rtapi_task_init(rtapi_task_struct *task)
+{
+  return ULAPI_OK == ulapi_task_init(task) ? RTAPI_OK : RTAPI_ERROR;
+}
+
+rtapi_task_struct *rtapi_task_new(void)
 {
   return ulapi_task_new();
 }
 
-rtapi_result rtapi_task_delete(void *task)
+rtapi_result rtapi_task_clear(rtapi_task_struct *task)
 {
-  return ulapi_task_delete(task);
+  return ulapi_task_clear(task);
+}
+
+rtapi_result rtapi_task_delete(rtapi_task_struct *task)
+{
+  return ULAPI_OK == ulapi_task_delete(task) ? RTAPI_ERROR;
 }
 
 rtapi_result
-rtapi_task_start(void *task,
+rtapi_task_start(rtapi_task_struct *task,
 		 void (*taskcode)(void *),
 		 void *taskarg,
 		 rtapi_prio prio,
@@ -231,37 +241,31 @@ rtapi_task_start(void *task,
 		 rtapi_integer period_nsec, 
 		 rtapi_flag uses_fp)
 {
-  return ulapi_task_start(task, taskcode, taskarg, prio, period_nsec);
+  return ULAPI_OK == ulapi_task_start(task, taskcode, taskarg, prio, period_nsec) ? RTAPI_OK : RTAPI_ERROR;
 }
 
 rtapi_result
-rtapi_task_stop(void *task)
+rtapi_task_stop(rtapi_task_struct *task)
 {
   return ulapi_task_stop(task);
 }
 
 rtapi_result
-rtapi_task_pause(void *task)
+rtapi_task_pause(rtapi_task_struct *task)
 {
   return ulapi_task_pause(task);
 }
 
 rtapi_result
-rtapi_task_resume(void *task)
+rtapi_task_resume(rtapi_task_struct *task)
 {
   return ulapi_task_resume(task);
 }
 
 rtapi_result
-rtapi_task_set_period(void *task, rtapi_integer period_nsec)
+rtapi_task_set_period(rtapi_task_struct *task, rtapi_integer period_nsec)
 {
   return ulapi_task_set_period(task, period_nsec);
-}
-
-rtapi_result
-rtapi_task_init(void)
-{
-  return ulapi_task_init();
 }
 
 rtapi_result
@@ -284,7 +288,7 @@ rtapi_task_exit(void)
 }
 
 rtapi_integer
-rtapi_task_stack_check(void *task)
+rtapi_task_stack_check(rtapi_task_struct *task)
 {
   return -1;			/* irrelevant on this platform */
 }

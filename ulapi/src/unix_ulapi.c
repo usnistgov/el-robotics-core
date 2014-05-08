@@ -242,14 +242,40 @@ ulapi_prio ulapi_prio_next_lower(ulapi_prio prio)
   return prio + 1;
 }
 
-void * ulapi_task_new(void)
+ulapi_result ulapi_task_init(ulapi_task_struct *task)
 {
-  return malloc(sizeof(pthread_t));
+  int policy;
+  struct sched_param sched_param;
+
+  if (0 != pthread_getschedparam(pthread_self(), &policy, &sched_param)) return ULAPI_ERROR;
+  if (0 != pthread_setschedparam(pthread_self(), SCHED_OTHER, &sched_param)) return ULAPI_ERROR;
+  if (0 != pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL)) return ULAPI_ERROR;
+  if (0 != pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL)) return ULAPI_ERROR;
+
+  return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_delete(void *task)
+ulapi_task_struct *ulapi_task_new(void)
 {
-  if (NULL != task) free(task);
+  ulapi_task_struct *ts = malloc(sizeof(ulapi_task_struct));
+  if (NULL == ts) return NULL;
+
+  (void) ulapi_task_init(ts);
+  return ts;
+}
+
+ulapi_result ulapi_task_clear(ulapi_task_struct *task)
+{
+  /* nothing need be done */
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_task_delete(ulapi_task_struct *task)
+{
+  if (NULL != task) {
+    (void) ulapi_task_clear(task);
+    free(task);
+  }
 
   return ULAPI_OK;
 }
@@ -257,7 +283,7 @@ ulapi_result ulapi_task_delete(void *task)
 typedef void *(*pthread_task_code)(void *);
 
 ulapi_result
-ulapi_task_start(void *task,
+ulapi_task_start(ulapi_task_struct *task,
 		 void (*taskcode)(void *),
 		 void *taskarg,
 		 ulapi_prio prio,
@@ -274,36 +300,23 @@ ulapi_task_start(void *task,
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_stop(void *task)
+ulapi_result ulapi_task_stop(ulapi_task_struct *task)
 {
-  return (pthread_cancel(*((pthread_t *) task)) == 0 ? ULAPI_OK : ULAPI_ERROR);
+  return (pthread_cancel(*((ulapi_task_struct *) task)) == 0 ? ULAPI_OK : ULAPI_ERROR);
 }
 
-ulapi_result ulapi_task_pause(void *task)
+ulapi_result ulapi_task_pause(ulapi_task_struct *task)
 {
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_resume(void *task)
+ulapi_result ulapi_task_resume(ulapi_task_struct *task)
 {
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_set_period(void *task, ulapi_integer period_nsec)
+ulapi_result ulapi_task_set_period(ulapi_task_struct *task, ulapi_integer period_nsec)
 {
-  return ULAPI_OK;
-}
-
-ulapi_result ulapi_task_init(void)
-{
-  int policy;
-  struct sched_param sched_param;
-
-  if (0 != pthread_getschedparam(pthread_self(), &policy, &sched_param)) return ULAPI_ERROR;
-  if (0 != pthread_setschedparam(pthread_self(), SCHED_OTHER, &sched_param)) return ULAPI_ERROR;
-  if (0 != pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL)) return ULAPI_ERROR;
-  if (0 != pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL)) return ULAPI_ERROR;
-
   return ULAPI_OK;
 }
 
@@ -334,12 +347,12 @@ void ulapi_task_exit(ulapi_integer retval)
   pthread_exit((void *) p);	/* so casting won't raise a size warning */
 }
 
-ulapi_result ulapi_task_join(void *task, ulapi_integer *retptr)
+ulapi_result ulapi_task_join(ulapi_task_struct *task, ulapi_integer *retptr)
 {
   ulapi_integer retval;
   int ret;
 
-  ret = pthread_join(*((pthread_t *) task), (void **) &retval);
+  ret = pthread_join(*((ulapi_task_struct *) task), (void **) &retval);
 
   if (0 == ret) {
     if (NULL != retptr) {

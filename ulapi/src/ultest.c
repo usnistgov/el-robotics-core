@@ -127,7 +127,7 @@ static ulapi_result test_cond(ulapi_integer c)
 {
   ulapi_integer t;
   void *cond_wait_task[NUM_WAITERS];
-  void *cond_signal_task;
+  ulapi_task_struct cond_signal_task;
   void *mutex;
   void *cond;
   cond_wait_args *cond_wait_args_ptr;
@@ -166,20 +166,19 @@ static ulapi_result test_cond(ulapi_integer c)
     ulapi_task_start(cond_wait_task[t], cond_wait_code, cond_wait_args_ptr, ulapi_prio_lowest(), 0);
   }
 
-  cond_signal_task = ulapi_task_new();
-  if (NULL == cond_signal_task) {
-    ulapi_print("can't allocate signal task\n");
+  if (ULAPI_OK != ulapi_task_init(&cond_signal_task)) {
+    ulapi_print("can't initialize signal task\n");
     return ULAPI_ERROR;    
   }
 
   cond_signal_args_ptr = malloc(sizeof(cond_signal_args));
   cond_signal_args_ptr->mutex = mutex;
   cond_signal_args_ptr->cond = cond;
-  ulapi_task_start(cond_signal_task, cond_signal_code, cond_signal_args_ptr, ulapi_prio_lowest(), 0);
+  ulapi_task_start(&cond_signal_task, cond_signal_code, cond_signal_args_ptr, ulapi_prio_lowest(), 0);
 
-  ulapi_task_join(cond_signal_task, &ret);
+  ulapi_task_join(&cond_signal_task, &ret);
   if (ret != COND_SIGNAL_RETVAL) ulapi_print("cond_signal_task value incorrect: %d != %d\n", (int) ret, COND_SIGNAL_RETVAL);
-  ulapi_task_delete(cond_signal_task);
+  ulapi_task_clear(&cond_signal_task);
 
   for (t = 0; t < NUM_WAITERS; t++) {
     ulapi_task_join(cond_wait_task[t], &ret);

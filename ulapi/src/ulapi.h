@@ -149,22 +149,38 @@ extern ulapi_prio ulapi_prio_next_lower(ulapi_prio prio);
   Allocates space for a platform-specific data structure that holds
   the task information. Pass this to the \a ulapi_task_ functions.
 */
-extern void *ulapi_task_new(void);
-extern ulapi_result ulapi_task_delete(void *task);
+
+#ifdef WIN32
+
+typedef struct {
+  HANDLE hThread;
+  DWORD dwThreadId;
+} ulapi_task_struct;
+
+#else
+
+#include <pthread.h>		/* pthread_t */
+typedef pthread_t ulapi_task_struct;
+
+#endif
+
+extern ulapi_result ulapi_task_init(ulapi_task_struct *task);
+extern ulapi_task_struct *ulapi_task_new(void);
+extern ulapi_result ulapi_task_clear(ulapi_task_struct *);
+extern ulapi_result ulapi_task_delete(ulapi_task_struct *task);
 
 typedef void (*ulapi_task_code)(void *);
 
-extern ulapi_result ulapi_task_start(void *task,
+extern ulapi_result ulapi_task_start(ulapi_task_struct *task,
 				     void (*taskcode)(void *),
 				     void *taskarg,
 				     ulapi_prio prio,
 				     ulapi_integer period_nsec);
 
-extern ulapi_result ulapi_task_stop(void *task);
-extern ulapi_result ulapi_task_pause(void *task);
-extern ulapi_result ulapi_task_resume(void *task);
-extern ulapi_result ulapi_task_set_period(void *task, ulapi_integer period_nsec);
-extern ulapi_result ulapi_task_init(void);
+extern ulapi_result ulapi_task_stop(ulapi_task_struct *);
+extern ulapi_result ulapi_task_pause(ulapi_task_struct *);
+extern ulapi_result ulapi_task_resume(ulapi_task_struct *);
+extern ulapi_result ulapi_task_set_period(ulapi_task_struct *, ulapi_integer period_nsec);
 extern ulapi_result ulapi_self_set_period(ulapi_integer period_nsec);
 extern ulapi_result ulapi_wait(ulapi_integer period_nsec);
 
@@ -178,7 +194,7 @@ extern void ulapi_task_exit(ulapi_integer retval);
   Suspends the caller until the \a task has exited, copying that task's
   exit value into \a retval if \a retval is not NULL.
 */
-extern ulapi_result ulapi_task_join(void *task, ulapi_integer *retval);
+extern ulapi_result ulapi_task_join(ulapi_task_struct *, ulapi_integer *retval);
 extern ulapi_integer ulapi_task_id(void);
 
 /*!

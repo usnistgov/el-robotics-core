@@ -277,43 +277,53 @@ ulapi_prio ulapi_prio_next_lower(ulapi_prio prio)
   return newprio;
 }
 
-typedef struct {
-  HANDLE hThread;
-  DWORD dwThreadId;
-} win32_task_struct;
-
-void *ulapi_task_new(void)
+ulapi_result ulapi_task_init(ulapi_task_struct *task)
 {
-  win32_task_struct * ts;
+  if (NULL == task) return ULAPI_ERROR;
 
-  ts = (win32_task_struct *) malloc(sizeof(win32_task_struct));
-  if (NULL != ts) {
-    ts->hThread = NULL;
-    ts->dwThreadId = 0;
-  }
+  task->hThread = NULL;
+  task->dwThreadId = 0;
 
-  return ts;
+  return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_delete(void *task)
+ulapi_task_struct *ulapi_task_new(void)
+{
+  ulapi_task_struct *ts;
+
+  ts = (ulapi_task_struct *) malloc(sizeof(ulapi_task_struct));
+
+  return ulapi_task_init(ts);
+}
+
+ulapi_result ulapi_task_clear(ulapi_task_struct *task)
 {
   if (NULL != task) {
-    if (NULL != ((win32_task_struct *) task)->hThread) {
-      CloseHandle(((win32_task_struct *) task)->hThread);
+    if (NULL != task->hThread) {
+      CloseHandle(task->hThread);
     }
+  }
+  
+  return ULAPI_OK:
+}
+
+ulapi_result ulapi_task_delete(ulapi_task_struct *task)
+{
+  if (NULL != task) {
+    (void) ulapi_task_clear(task);
     free(task);
   }
 
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_start(void *task,
+ulapi_result ulapi_task_start(ulapi_task_struct *task,
 		 void (*taskcode)(void *),
 		 void *taskarg,
 		 ulapi_prio prio,
 		 ulapi_integer period_nsec)
 {
-  win32_task_struct * ts = task;
+  ulapi_task_struct * ts = task;
   DWORD dwCreationFlags;
 
   if (NULL == ts) return ULAPI_ERROR;
@@ -348,36 +358,30 @@ ulapi_result ulapi_task_start(void *task,
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_stop(void *task)
+ulapi_result ulapi_task_stop(ulapi_task_struct *task)
 {
   return ulapi_task_pause(task);
 }
 
-ulapi_result ulapi_task_pause(void *task)
+ulapi_result ulapi_task_pause(ulapi_task_struct *task)
 {
-  if (-1 == SuspendThread(((win32_task_struct *) task)->hThread)) {
+  if (-1 == SuspendThread(task->hThread)) {
     return ULAPI_ERROR;
   }
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_resume(void *task)
+ulapi_result ulapi_task_resume(ulapi_task_struct *task)
 {
-  if (-1 == ResumeThread(((win32_task_struct *) task)->hThread)) {
+  if (-1 == ResumeThread(task->hThread)) {
     return ULAPI_ERROR;
   }
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_task_set_period(void *task, ulapi_integer period_nsec)
+ulapi_result ulapi_task_set_period(ulapi_task_struct *task, ulapi_integer period_nsec)
 {
   /* nothing to do in the task */
-  return ULAPI_OK;
-}
-
-ulapi_result ulapi_task_init(void)
-{
-  /* nothing need be done in the task thread */
   return ULAPI_OK;
 }
 
@@ -403,17 +407,17 @@ void ulapi_task_exit(ulapi_integer retval)
   ExitThread(retval);
 }
 
-ulapi_result ulapi_task_join(void *task, ulapi_integer *retptr)
+ulapi_result ulapi_task_join(ulapi_task_struct *task, ulapi_integer *retptr)
 {
   DWORD dw;
   int ret;
 
-  if (WAIT_FAILED == WaitForSingleObject(((win32_task_struct *) task)->hThread, INFINITE)) {
+  if (WAIT_FAILED == WaitForSingleObject(task->hThread, INFINITE)) {
     return ULAPI_ERROR;
   }
 
   if (NULL != retptr) {
-	ret = GetExitCodeThread(((win32_task_struct *) task)->hThread, &dw);
+	ret = GetExitCodeThread(task->hThread, &dw);
     if (0 == ret) {
       return ULAPI_ERROR;
     }

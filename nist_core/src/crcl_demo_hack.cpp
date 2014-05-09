@@ -12,7 +12,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "nist_core\crcl_demo_hack.h"
+#include "nist_core/crcl_demo_hack.h"
 
 using namespace std;
 

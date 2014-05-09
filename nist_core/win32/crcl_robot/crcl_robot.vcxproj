@@ -21,7 +21,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -71,14 +71,14 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\include;C:\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\..\;C:\boost\</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ulapilib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../Debug/crcl_robot.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -89,7 +89,8 @@
       </DataExecutionPrevention>
       <ImportLibrary>../Debug/crcl_robot.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>..\Debug;C:\boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Debug;..\..\..\..\Debug;C:\boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -153,7 +154,6 @@
     <ClInclude Include="..\..\include\nist_core\nist_core.h" />
     <ClInclude Include="..\..\include\nist_core\robotiq_gripper.h" />
     <ClInclude Include="..\..\include\nist_core\serial.h" />
-    <ClInclude Include="..\..\include\nist_core\socknet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\crcl.cpp" />
@@ -167,7 +167,6 @@
     <ClCompile Include="..\..\src\nist_core.cpp" />
     <ClCompile Include="..\..\src\robotiq_gripper.cpp" />
     <ClCompile Include="..\..\src\serial.cpp" />
-    <ClCompile Include="..\..\src\socknet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,7 +12,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "nist_core\crcl_schunk_sdh.h"
+#include "nist_core/crcl_schunk_sdh.h"
 
 using namespace std;
 

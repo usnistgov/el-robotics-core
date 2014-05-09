@@ -12,17 +12,51 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "nist_core\crcl_robotiq.h"
+#include "nist_core/crcl_robotiq.h"
+
 
 namespace crcl_robot
 {
+  DWORD __stdcall livemanThread (LPVOID param)
+  {
+    //! Explicitly cast your shared data back from a void* to the proper structure
+    keepalive *ka = (keepalive*)param;
+    int val;
+
+    while (ka->runThread)
+    {
+
+      ((CrclRobotiq*)ka->rob)->SetParameter("STATUS", &val);
+
+      //! Don't slam your processor!  You don't need to poll at full speed.
+      Sleep (5000);
+    } // while (true)
+    return 1;
+  }
+
+
+
   LIBRARY_API CrclRobotiq::CrclRobotiq (char * initPath)
   {
-   iqGrip = new RobotiqGripper::RobotiqGripper();
+    iqGrip = new RobotiqGripper::RobotiqGripper();
+
+    ka_.runThread = true;
+    ka_.rob = this;
+
+    ka_.handle = CreateMutex (NULL, false, NULL);
+    //! Create thread
+    CreateThread (NULL,           //! Default security attributes
+                  0,              //! Use default stack size?
+                  livemanThread,  //! Thread function
+                  &ka_,            //! Parameter to thread function
+                  0,              //! Use default creation flags?
+                  &threadID_);    //! Thread identifier
   }
 
   LIBRARY_API CrclRobotiq::~CrclRobotiq ()
   {
+    ka_.runThread = false;
+    delete [] iqGrip;
   }
 
   LIBRARY_API CanonReturn CrclRobotiq::SetTool (double percent)
@@ -167,6 +201,9 @@ namespace crcl_robot
   {
     int *temp_int = (int*) paramVal;
 
+          WaitForSingleObject (ka_.handle, INFINITE);
+      
+
     if ((strcmp (paramName, "ACTIVATE") == 0))
     {
       iqGrip->setParameter(1, *temp_int);
@@ -251,6 +288,7 @@ namespace crcl_robot
     {
       return CANON_FAILURE;
     }
+    ReleaseMutex (ka_.handle);
 
     return CANON_SUCCESS;
   }

@@ -15,8 +15,8 @@
 #ifndef CRCL_ROBOT_H
 #define CRCL_ROBOT_H
 
-#include "nist_core\nist_core.h"
-#include "nist_core\crcl.h"
+#include "nist_core/nist_core.h"
+#include "nist_core/crcl.h"
 
 using namespace std;
 

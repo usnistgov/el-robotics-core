@@ -2,9 +2,10 @@
 #include <bitset>
 #include <iostream>
 
-#include "nist_core\nist_core.h"
-#include "nist_core\crcl.h"
-#include "nist_core\socknet.h"
+#include "ulapi/src/ulapi.h"
+#include "nist_core/nist_core.h"
+#include "nist_core/crcl.h"
+//#include "nist_core/socknet.h"
 
 #pragma warning (disable: 4251)
 
@@ -61,9 +62,10 @@ class LIBRARY_API RobotiqGripper {
   private: 
 	bool log;
 
-	networkSettings settings;
-	networkStruct nS;
-	Network::socketNet * sN;
+//	networkSettings settings;
+//	networkStruct nS;
+//	Network::socketNet * sN;
+  ulapi_integer clientID_;
 
 	char commandRegister[43];
 	int ackCommand[12];
@@ -92,7 +94,7 @@ class LIBRARY_API RobotiqGripper {
 	  SCISSOR_CONTROL=7
 	};
 
-	char inbuffer[REQUEST_MSG_SIZE];
+	char inbuffer[8192];
 	  int option;
 
 	void connectRobotiq();

@@ -24,8 +24,8 @@ using namespace std;
 using namespace Reporter;
 */
 
-#include "nist_core\nist_core.h"
-#include "nist_core\crcl.h"
+#include "nist_core/nist_core.h"
+#include "nist_core/crcl.h"
 
 namespace crcl_robot
 {

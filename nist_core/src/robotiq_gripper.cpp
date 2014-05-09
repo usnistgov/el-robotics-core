@@ -1,4 +1,4 @@
-#include "nist_core\robotiq_gripper.h"
+#include "nist_core/robotiq_gripper.h"
 #include <string.h>
 #include <iostream>
 #include <iomanip>
@@ -87,16 +87,21 @@ namespace RobotiqGripper
 
 	void LIBRARY_API RobotiqGripper::connectRobotiq()
     {
+      /*
 	  nS.sP = 502;
 	  settings.globalRunServer = true;
 	  nS.address ="192.168.1.11";
 	  sN = new Network::socketNet(&settings);
 	  sN->attach(nS);
+    */
+    
+    clientID_ = ulapi_socket_get_client_id (502, "192.168.1.11");
 
-	  if (!nS.connected)
-      {
-        cout << "no connection" << endl;
-      }
+	  //if (!nS.connected)
+    if (clientID_ < 0)
+    {
+      cout << "no connection" << endl;
+    }
 	  else
 	  {
 	    cout << "connection success" << endl;
@@ -407,18 +412,24 @@ namespace RobotiqGripper
 
 	void LIBRARY_API RobotiqGripper::sendCommand()
 	{
+    int sent = ulapi_socket_write(clientID_, commandRegister, 43);
+    /*
 	  sN->sendData(commandRegister, nS, 43);
+    */
 	  getCommandAck();
 	  getStatusRegisters();
 	}
 
 	void LIBRARY_API RobotiqGripper::getCommandAck()
 	{
-	  while (!sN->dataWaiting (nS)){Sleep (50);}
+//	  while (!sN->dataWaiting (nS)){Sleep (50);}
 	  
-      if (sN->getData (inbuffer, nS))
+      int get;
+      get = ulapi_socket_read(clientID_, inbuffer, 8192);
+      //if (sN->getData (inbuffer, nS))
       {
-		  for (int x = 0; x < nS.bytesRead; ++x)
+	//	  for (int x = 0; x < nS.bytesRead; ++x)
+      for (int x = 0; x < get; ++x)
 		  {
 			  ackCommand[x] = (int)inbuffer[x];
 			  ackCommand[x] = (ackCommand[x] < 0)?(ackCommand[x]+256):(ackCommand[x]);
@@ -429,13 +440,16 @@ namespace RobotiqGripper
 	void LIBRARY_API RobotiqGripper::getStatusRegisters()
 	{
 	  Sleep(200);
-	  sN->sendData(statusRegister, nS, 12);
+    int sent = ulapi_socket_write(clientID_, statusRegister, 12), get;
+//	  sN->sendData(statusRegister, nS, 12);
 
-	  while (!sN->dataWaiting (nS)){Sleep (50);}
+//	  while (!sN->dataWaiting (nS)){Sleep (50);}
 	  
-      if (sN->getData (inbuffer, nS))
+      get = ulapi_socket_read (clientID_, inbuffer, 8192);
+//      if (sN->getData (inbuffer, nS))
       {
-		  for (int i = 0; i < nS.bytesRead; ++i)
+//		  for (int i = 0; i < nS.bytesRead; ++i)
+      for (int i = 0; i < get; ++i)
 		  {
 			  ackStatus[i] = (int)inbuffer[i];
 			  ackStatus[i] = (ackStatus[i] < 0)?(ackStatus[i]+256):(ackStatus[i]);

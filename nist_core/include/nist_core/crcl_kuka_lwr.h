@@ -15,13 +15,12 @@
 #ifndef KUKA_LWR_H
 #define KUKA_LWR_H
 
-#include "nist_core\nist_core.h"
-#include "nist_core\crcl.h"
+#include "nist_core/nist_core.h"
+#include "nist_core/crcl.h"
 
 #pragma warning (disable: 4251)
 
 #include "serial.h"
-#include "socknet.h"
 
 #include <vector>
 #include <sstream>
@@ -333,7 +332,7 @@ namespace crcl_robot
 
     //! @brief Socket connection information
     //!
-    networkStruct socketData_;
+//    networkStruct socketData_;
 
     //! @brief Whether or not the robot should accept CRCL commands
     //!

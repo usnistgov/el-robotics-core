@@ -15,15 +15,21 @@
 #ifndef CRCL_ROBOTIQ_H
 #define CRCL_ROBOTIQ_H
 
-#include "nist_core\nist_core.h"
-#include "nist_core\crcl.h"
-#include "nist_core\socknet.h"
-#include "nist_core\robotiq_gripper.h"
+#include "nist_core/nist_core.h"
+#include "nist_core/crcl.h"
+#include "nist_core/robotiq_gripper.h"
 
 using namespace std;
 
 namespace crcl_robot 
 {
+  struct LIBRARY_API keepalive
+  {
+    void *handle;
+    bool runThread;
+    void *rob;
+  };
+
   //! @ingroup crcl_robot
   //!
   //! @brief CRCL interface for the Robotiq robotic hand
@@ -313,7 +319,12 @@ namespace crcl_robot
 
   private:
 
-	RobotiqGripper::RobotiqGripper *iqGrip;
+    
+    unsigned long threadID_;
+
+    keepalive ka_;
+
+    RobotiqGripper::RobotiqGripper *iqGrip;
 
   }; // CrclRobotiq
 

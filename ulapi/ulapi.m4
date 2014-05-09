@@ -271,15 +271,17 @@ AC_DEFUN([ACX_DL],
 dnl put HAVE_DLFCN_H in config/config.h
 	[AC_CHECK_HEADERS([dlfcn.h])]
 dnl put -ldl in default link line, and then set a custom variable
-	[AC_SEARCH_LIBS([dlopen], [dl], have_dl_libs=yes)]
+	[AC_SEARCH_LIBS([dlopen], [dl], , no_dl=yes)]
 dnl check the custom variable, and add some CFLAGS for compiling shared objs
-	if test x$have_dl_libs = xyes ; then
-	DL_CFLAGS="-shared -fPIC"
-	else
+	if test x$no_dl = xyes ; then
+	[AC_DEFINE(NO_DL,
+		1, [Define non-zero if you are missing dl libraries.])]
 	DL_CFLAGS=""
+	else
+	DL_CFLAGS="-shared -fPIC"
 	fi
 	[AC_SUBST(DL_CFLAGS)]
-	[AM_CONDITIONAL(HAVE_DL, test x$have_dl_libs = xyes)]
+	[AM_CONDITIONAL(NO_DL, test x$no_dl = xyes)]
 )
 
 AC_DEFUN([ACX_TIME],
@@ -292,12 +294,21 @@ dnl put HAVE_CLOCK_GETTIME in config.h
 	fi
 )
 
+AC_DEFUN([ACX_GETOPT],
+	[AC_CHECK_HEADERS([getopt.h],,need_getopt=yes)]
+	if test x$need_getopt = xyes ; then
+dnl put NEED_GETOPT in config.h
+	[AC_DEFINE(NEED_GETOPT,
+		1, [Define non-zero if you need ulapi to provide getopt.])]
+	fi
+)
+
 AC_DEFUN([ACX_PRE_ULAPI],
-	[AC_CHECK_HEADERS([unistd.h])]
 	[ACX_PTHREAD]
 	[ACX_RTAI]
 	[ACX_DL]
 	[ACX_TIME]
+	[ACX_GETOPT]
 )
 
 AC_DEFUN([ACX_ULAPI],

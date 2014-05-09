@@ -65,10 +65,3 @@ int rtapi_app_main(RTAPI_APP_ARGS_DECL)
 
   return rtapi_app_wait();
 }
-
-void rtapi_app_exit(void)
-{
-  if (DEBUG) rtapi_print("gohal stopped\n");
-
-  return;
-}

@@ -160,12 +160,7 @@ module_param(name, int, 0)
   should give this name to its entry point.
  */
 #define rtapi_app_main main
-
-/*!
-  The exit point for the main application. Your application should give
-  this name to the code to be called upon exit.
- */
-extern void rtapi_app_exit(void);
+#define rtapi_app_exit exit
 
 /*!
   The main application should call this before any RTAPI functions.

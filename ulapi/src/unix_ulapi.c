@@ -10,13 +10,7 @@
 */
 
 /*!
-  \file unix_ulapi_common.c
-
-  \brief For those functions that differ between ULAPI interfaces to
-  Unix or RTAI, this selects which particular ULAPI implementation to
-  call, allowing dynamic switching between them. It also provides
-  all the functions that are the same for each, so that code isn't
-  duplicated.
+  \file unix_ulapi.c
 */
 
 /*
@@ -28,6 +22,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
 #include "ulapi.h"		/* these decls */
 #include <stddef.h>		/* NULL */
 #include <stdlib.h>		/* malloc */
@@ -51,7 +46,7 @@
 #include <netdb.h>		/* gethostbyname */
 #include <arpa/inet.h>		/* inet_addr */
 #include <sys/stat.h>		/* struct stat */
-#ifdef HAVE_DLFCN_H
+#ifndef NO_DL
 #include <dlfcn.h>
 #endif
 #include "serial.h"
@@ -1340,7 +1335,24 @@ ulapi_serial_close(void *id)
   return ulapi_fd_close(id);
 }
 
-#ifdef HAVE_DLFCN_H
+#ifdef NO_DL
+
+void *ulapi_dl_open(const char *objname, char *errstr, int errlen)
+{
+  return NULL;
+}
+
+void ulapi_dl_close(void *handle)
+{
+  return;
+}
+
+void *ulapi_dl_sym(void *handle, const char *name, char *errstr, int errlen)
+{
+  return NULL;
+}
+
+#else
 
 void *ulapi_dl_open(const char *objname, char *errstr, int errlen)
 {

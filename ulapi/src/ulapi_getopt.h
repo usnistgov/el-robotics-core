@@ -2,9 +2,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#else
+#ifdef NEED_GETOPT
 
 /*
  * Copyright (c) 2002 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -113,4 +111,8 @@ extern int getopt_long(int nargc, char * const * nargv, const char * options, co
 
 #endif /* ULAPI_GETOPT_H */
 
-#endif	/* ! HAVE_UNISTD_H */
+#else
+
+#include <getopt.h>
+
+#endif	/* NEED_GETOPT */

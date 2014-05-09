@@ -24,7 +24,8 @@ serial_CFLAGS = -DMAIN
 serial_LDADD = -L../lib -lulapi @PTHREAD_LIBS@ @RTAI_LIBS@
 serial_DEPENDENCIES = ../lib/libulapi.a
 
-if HAVE_DL
+if NO_DL
+else
 
 bin_PROGRAMS += dltest dlfuncs.so
 

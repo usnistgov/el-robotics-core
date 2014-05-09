@@ -527,11 +527,6 @@ rtapi_result rtapi_sem_take(void * sem)
   return semtake(*((int *) sem)) == 0 ? RTAPI_OK : RTAPI_ERROR;
 }
 
-/* The following are from rtapi_app.h, which we don't include here
-   since it's only to be included by the main translation unit */
-
-extern void rtapi_app_exit(void);
-
 int rtapi_argc;
 char ** rtapi_argv;
 
@@ -540,8 +535,6 @@ rtapi_result rtapi_app_init(int argc, char ** argv)
   struct timeval start, end, diff;
   struct timespec ts;
   int t;
-
-  atexit(rtapi_app_exit);
 
   /* copy argc and argv for use by tasks when they init */
   rtapi_argc = argc;

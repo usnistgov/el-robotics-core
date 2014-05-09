@@ -2,7 +2,9 @@
 #include "config.h"
 #endif
 
-#ifndef HAVE_UNISTD_H
+#ifdef NEED_GETOPT
+
+#error WHY ARE WE COMPILING ULAPI_GETOPT.C?
 
 /*
  * Copyright (c) 2002 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -547,7 +549,6 @@ getopt_long_only(int nargc, char * const * nargv, const char * options, const st
 	    FLAG_PERMUTE|FLAG_LONGONLY));
 }
 
-
 #ifdef __cplusplus
 #if 0
 {
@@ -555,4 +556,6 @@ getopt_long_only(int nargc, char * const * nargv, const char * options, const st
 }
 #endif
 
-#endif	/* ! HAVE_UNISTD_H */
+/* else we have getopt, so don't put any code for it here */
+
+#endif	/* NEED_GETOPT */

@@ -2,6 +2,10 @@
 #include "config.h"
 #endif
 
+#ifdef WIN32
+#define NEED_GETOPT
+#endif
+
 #ifdef NEED_GETOPT
 
 /*

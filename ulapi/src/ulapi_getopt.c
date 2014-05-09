@@ -2,9 +2,11 @@
 #include "config.h"
 #endif
 
-#ifdef NEED_GETOPT
+#ifdef WIN32
+#define NEED_GETOPT
+#endif
 
-#error WHY ARE WE COMPILING ULAPI_GETOPT.C?
+#ifdef NEED_GETOPT
 
 /*
  * Copyright (c) 2002 Todd C. Miller <Todd.Miller@courtesan.com>

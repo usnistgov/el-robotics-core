@@ -7,6 +7,8 @@
 
 #include <ros/ros.h>
 
+#include <ulapi.h>
+
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/task_cmd.h"
@@ -189,11 +191,11 @@ int main(int argc, char **argv)
 
   signal(SIGINT, quit);
 
-  double start, end, last_start = etime() - task_stat_buf.stat.period;
+  double start, end, last_start = ulapi_time() - task_stat_buf.stat.period;
 
   while (true) {
     ros::spinOnce();
-    start = etime();
+    start = ulapi_time();
     task_stat_buf.stat.cycle = start - last_start;
     last_start = start;
 
@@ -224,8 +226,8 @@ int main(int argc, char **argv)
 
     task_stat_buf.stat.heartbeat++;
 
-    end = etime();
-    task_stat_buf.stat.duration = etime() - start;
+    end = ulapi_time();
+    task_stat_buf.stat.duration = ulapi_time() - start;
 
     task_stat_pub.publish(task_stat_buf);
 

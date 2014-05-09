@@ -105,14 +105,17 @@ include_directories(${ulapi_INCLUDE_DIRS})
 add_library(${PROJECT_NAME} src/nist_core.cpp src/crcl.cpp src/crcl_robot.cpp src/crcl_client.cpp src/crcl_sim_robot.cpp)
 
 ## Declare a cpp executable
-# add_executable(crcl_robot_test src/crcl_robot_test.cpp)
+add_executable(ulapi_test src/ulapi_test.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(crcl_robot_test nist_core_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
+
 target_link_libraries(nist_core ${catkin_LIBRARIES})
+
+target_link_libraries(ulapi_test ${ulapi_LIBRARIES})
 
 #############
 ## Install ##

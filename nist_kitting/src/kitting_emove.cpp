@@ -7,6 +7,8 @@
 
 #include <ros/ros.h>
 
+#include <ulapi.h>
+
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/emove_cmd.h"
@@ -190,11 +192,11 @@ int main(int argc, char **argv)
 
   signal(SIGINT, quit);
 
-  double start, end, last_start = etime() - emove_stat_buf.stat.period;
+  double start, end, last_start = ulapi_time() - emove_stat_buf.stat.period;
 
   while (true) {
     ros::spinOnce();
-    start = etime();
+    start = ulapi_time();
     emove_stat_buf.stat.cycle = start - last_start;
     last_start = start;
 
@@ -225,8 +227,8 @@ int main(int argc, char **argv)
 
     emove_stat_buf.stat.heartbeat++;
 
-    end = etime();
-    emove_stat_buf.stat.duration = etime() - start;
+    end = ulapi_time();
+    emove_stat_buf.stat.duration = ulapi_time() - start;
 
     emove_stat_pub.publish(emove_stat_buf);
 

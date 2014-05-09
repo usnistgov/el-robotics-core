@@ -1,0 +1,32 @@
+git <command> --dry-run
+    Runs the command in a dry run, showing you what would be done.
+
+git commit .
+    Does a commit for the files in this directory and below.
+
+git commit -a
+
+    Does a 'git add' and commit for everything that has been changed
+    in the repository.
+
+git status .
+    Shows the status of files in the current directory and below.
+    
+git diff --stat 
+
+    Shows the files that would be changed, e.g., 
+
+ nist_core/include/nist_core/crcl_kuka_lwr.h   |    6 ++--
+ nist_core/include/nist_core/crcl_robot.h      |    8 +++--
+ nist_core/include/nist_core/crcl_robotiq.h    |   10 +++---
+ nist_core/include/nist_core/crcl_schunk_sdh.h |    6 ++--
+ nist_core/include/nist_core/crcl_sim_robot.h  |    2 +-
+ nist_core/include/nist_core/nist_core.h       |    6 ++++
+ nist_core/include/nist_core/robotiq_gripper.h |    8 ++---
+ nist_core/include/nist_core/serial.h          |   10 ++++--
+ nist_core/include/nist_core/socknet.h         |   10 ++++--
+ nist_core/src/crcl_robot.cpp                  |    5 +++
+ nist_core/src/crcl_sim_robot.cpp              |   44 ++++++++++++++-----------
+ nist_core/src/nist_core.cpp                   |    4 +++
+ 12 files changed, 74 insertions(+), 45 deletions(-)
+

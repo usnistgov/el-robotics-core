@@ -16,7 +16,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS system filesystem date_time thread)
+# find_package(Boost REQUIRED COMPONENTS system filesystem date_time thread)
+
+find_package(ulapi)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -79,9 +81,9 @@ generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES nist_core
   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
-  DEPENDS boost
+  # DEPENDS boost
 )
 
 ###########
@@ -91,7 +93,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+include_directories(
+  include 
+  # ${Boost_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
+
+include_directories(${ulapi_INCLUDE_DIRS})
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME} src/nist_core.cpp src/crcl.cpp src/crcl_robot.cpp src/crcl_client.cpp src/crcl_sim_robot.cpp)
@@ -104,11 +112,7 @@ add_library(${PROJECT_NAME} src/nist_core.cpp src/crcl.cpp src/crcl_robot.cpp sr
 # add_dependencies(crcl_robot_test nist_core_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-)
-# target_link_libraries(crcl_robot_test nist_core ${catkin_LIBRARIES})
+target_link_libraries(nist_core ${catkin_LIBRARIES})
 
 #############
 ## Install ##

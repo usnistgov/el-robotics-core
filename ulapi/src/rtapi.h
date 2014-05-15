@@ -85,7 +85,9 @@ typedef char rtapi_flag;
 
 enum {
   RTAPI_OK = 0,
-  RTAPI_ERROR = 1
+  RTAPI_ERROR,
+  RTAPI_IMPL_ERROR,
+  RTAPI_BAD_ARGS
 };
 
 /*
@@ -140,11 +142,18 @@ typedef ulapi_task_struct rtapi_task_struct;
 #else
 
 #ifdef HAVE_RTAI
+
 #include <rtai_sched.h>		/* RT_TASK */
+
 typedef RT_TASK rtapi_task_struct;
+
 #else
+
 #include <pthread.h>		/* pthread_t */
+
 typedef pthread_t rtapi_task_struct;
+typedef pthread_mutex_t rtapi_mutex_struct;
+
 #endif
 
 #endif
@@ -202,6 +211,10 @@ extern void *rtapi_shm_addr(void *shm);
  */
 extern rtapi_result rtapi_shm_delete(void *shm);
 
+extern void *rtapi_rtm_new(rtapi_id key, rtapi_integer size);
+extern void *rtapi_rtm_addr(void *shm);
+extern rtapi_result rtapi_rtm_delete(void *shm);
+
 extern void rtapi_print(const char *fmt, ...);
 
 extern void rtapi_outb(char byte, rtapi_id port);
@@ -213,24 +226,27 @@ extern rtapi_result rtapi_interrupt_free_handler(rtapi_id irq);
 extern rtapi_result rtapi_interrupt_enable(rtapi_id irq);
 extern rtapi_result rtapi_interrupt_disable(rtapi_id irq);
 
+extern rtapi_result rtapi_mutex_init(rtapi_mutex_struct *mutex, rtapi_id key);
 /*!
   Returns a pointer to an implementation-defined structure that
   is passed to the other mutex functions, or NULL if no mutex can
   be created.
 */
-extern void *rtapi_mutex_new(rtapi_id key);
+extern rtapi_mutex_struct *rtapi_mutex_new(rtapi_id key);
+
+extern rtapi_result rtapi_mutex_clear(rtapi_mutex_struct *mutex);
 
 /*! Deletes the mutex. */
-extern rtapi_result rtapi_mutex_delete(void *mutex);
+extern rtapi_result rtapi_mutex_delete(rtapi_mutex_struct *mutex);
 
 /*! Releases the mutex, signifying that the associated shared resource 
   is now free for another task to take. */
-extern rtapi_result rtapi_mutex_give(void *mutex);
+extern rtapi_result rtapi_mutex_give(rtapi_mutex_struct *mutex);
 
 /*! Takes the mutex, signifying that the associated shared resource
   will now be used by the task. If the mutex is already taken, this
   blocks the caller until the mutex is given. */
-extern rtapi_result rtapi_mutex_take(void *mutex);
+extern rtapi_result rtapi_mutex_take(rtapi_mutex_struct *mutex);
 
 extern void *rtapi_sem_new(rtapi_id key);
 extern rtapi_result rtapi_sem_delete(void *sem);

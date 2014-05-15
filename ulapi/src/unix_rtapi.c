@@ -17,12 +17,6 @@
   realtime behavior.
 */
 
-/*
-  Some of these functions are implemented exactly the same way, with
-  slightly different names, in unix_ulapi_common.c. If you change them
-  here, change them there.
-*/
-
 #include <stdio.h>		/* vprintf() */
 #include <stddef.h>		/* NULL */
 #include <stdlib.h>		/* malloc(), sizeof(), atexit(), strtol() */
@@ -371,16 +365,26 @@ rtapi_result rtapi_interrupt_disable(rtapi_id irq)
   return RTAPI_OK;
 }
 
-void * rtapi_mutex_new(rtapi_id key)
+rtapi_result rtapi_mutex_init(rtapi_mutex_struct *mutex, rtapi_id key)
 {
-  pthread_mutex_t * mutex;
-  pthread_mutexattr_t attr;
+  if (0 == pthread_mutex_init(mutex, NULL)) {
+    (void) pthread_mutex_unlock(mutex);
+    return RTAPI_OK;
+  }
+  return RTAPI_ERROR;
+}
 
-  mutex = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
-  if (NULL == (void *) mutex) return NULL;
+rtapi_mutex_struct *rtapi_mutex_new(rtapi_id key)
+{
+  rtapi_mutex_struct *mutex;
 
-  if (0 == pthread_mutexattr_init(&attr)) {
-    return (void *) mutex;
+  mutex = (rtapi_mutex_struct *) malloc(sizeof(rtapi_mutex_struct));
+  if (NULL == mutex) return NULL;
+
+  /* initialize mutex to default attributes, and give it */
+  if (0 == pthread_mutex_init(mutex, NULL)) {
+    (void) pthread_mutex_unlock(mutex);
+    return mutex;
   }
   /* else got an error, so free the mutex and return null */
 
@@ -388,9 +392,16 @@ void * rtapi_mutex_new(rtapi_id key)
   return NULL;
 }
 
-rtapi_result rtapi_mutex_delete(void * mutex)
+rtapi_result rtapi_mutex_clear(rtapi_mutex_struct *mutex)
 {
-  if (NULL == (void *) mutex) return RTAPI_ERROR;
+  (void) pthread_mutex_destroy((pthread_mutex_t *) mutex);
+
+  return RTAPI_OK;
+}
+
+rtapi_result rtapi_mutex_delete(rtapi_mutex_struct *mutex)
+{
+  if (NULL == mutex) return RTAPI_ERROR;
 
   (void) pthread_mutex_destroy((pthread_mutex_t *) mutex);
   free(mutex);
@@ -398,12 +409,12 @@ rtapi_result rtapi_mutex_delete(void * mutex)
   return RTAPI_OK;
 }
 
-rtapi_result rtapi_mutex_give(void * mutex)
+rtapi_result rtapi_mutex_give(rtapi_mutex_struct *mutex)
 {
   return (0 == pthread_mutex_unlock((pthread_mutex_t *) mutex) ? RTAPI_OK : RTAPI_ERROR);
 }
 
-rtapi_result rtapi_mutex_take(void * mutex)
+rtapi_result rtapi_mutex_take(rtapi_mutex_struct *mutex)
 {
   return (0 == pthread_mutex_lock((pthread_mutex_t *) mutex) ? RTAPI_OK : RTAPI_ERROR);
 }

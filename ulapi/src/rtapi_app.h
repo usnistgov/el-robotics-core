@@ -160,7 +160,6 @@ module_param(name, int, 0)
   should give this name to its entry point.
  */
 #define rtapi_app_main main
-#define rtapi_app_exit exit
 
 /*!
   The main application should call this before any RTAPI functions.

@@ -370,22 +370,27 @@ rtapi_result rtapi_interrupt_disable(rtapi_id irq)
   return RTAPI_OK;
 }
 
-void *rtapi_mutex_new(rtapi_id key)
+rtapi_result rtapi_mutex_init(rtapi_mutex_struct *mutex, rtapi_id key)
+{
+  return ulapi_mutex_init(mutex, key);
+}
+
+rtapi_mutex_struct *rtapi_mutex_new(rtapi_id key)
 {
   return ulapi_mutex_new(key);
 }
 
-rtapi_result rtapi_mutex_delete(void *mutex)
+rtapi_result rtapi_mutex_delete(rtapi_mutex_struct *mutex)
 {
   return ulapi_mutex_delete(mutex);
 }
 
-rtapi_result rtapi_mutex_give(void *mutex)
+rtapi_result rtapi_mutex_give(rtapi_mutex_struct *mutex)
 {
   return ulapi_mutex_give(mutex);
 }
 
-rtapi_result rtapi_mutex_take(void *mutex)
+rtapi_result rtapi_mutex_take(rtapi_mutex_struct *mutex)
 {
   return ulapi_mutex_take(mutex);
 } 

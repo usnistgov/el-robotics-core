@@ -569,10 +569,10 @@ ulapi_result ulapi_mutex_init(ulapi_mutex_struct *mutex, ulapi_id key)
 
 ulapi_mutex_struct *ulapi_mutex_new(ulapi_id key)
 {
-  ulapi__mutex_struct *mutex;
+  ulapi_mutex_struct *mutex;
   HANDLE hMutex;
 
-  mutex = (ulapi__mutex_struct *) malloc(sizeof(ulapi_mutex_struct));
+  mutex = (ulapi_mutex_struct *) malloc(sizeof(ulapi_mutex_struct));
   if (NULL == mutex) {
     return NULL;
   }
@@ -591,14 +591,14 @@ ulapi_mutex_struct *ulapi_mutex_new(ulapi_id key)
   return mutex;
 }
 
-ulapi_result ulapi_mutex_clear(ulapi_mutex *mutex)
+ulapi_result ulapi_mutex_clear(ulapi_mutex_struct *mutex)
 {
   CloseHandle(mutex->hMutex);
 
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_mutex_delete(void *mutex)
+ulapi_result ulapi_mutex_delete(ulapi_mutex_struct *mutex)
 {
   if (NULL == mutex) return ULAPI_ERROR;
 
@@ -608,7 +608,7 @@ ulapi_result ulapi_mutex_delete(void *mutex)
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_mutex_give(void *mutex)
+ulapi_result ulapi_mutex_give(ulapi_mutex_struct *mutex)
 {
   BOOL retval;
 
@@ -617,7 +617,7 @@ ulapi_result ulapi_mutex_give(void *mutex)
   return retval ? ULAPI_OK : ULAPI_ERROR;
 }
 
-ulapi_result ulapi_mutex_take(void *mutex)
+ulapi_result ulapi_mutex_take(ulapi_mutex_struct *mutex)
 {
   DWORD retval;
 

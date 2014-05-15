@@ -138,6 +138,7 @@ extern void rtapi_exit(void);
 
 #include "ulapi.h"	/* ulapi_task_struct */
 typedef ulapi_task_struct rtapi_task_struct;
+typedef ulapi_mutex_struct rtapi_mutex_struct;
 
 #else
 

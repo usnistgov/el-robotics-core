@@ -1,7 +1,7 @@
 #ifndef CRCL_SIM_ROBOT_H
 #define CRCL_SIM_ROBOT_H
 
-#include <boost/thread/mutex.hpp> /* mutex */
+#include <ulapi.h>
 
 #include "nist_core/nist_core.h" /* LIBRARY_API */
 #include "nist_core/crcl.h" /* robotPose, robotAxes, CRCLProgramParams */
@@ -13,7 +13,7 @@ namespace crcl_robot {
 
   class LIBRARY_API CrclSimRobot {
   public:
-    CrclSimRobot();
+    CrclSimRobot(char *init_path);
     CrclSimRobot(double period);
     ~CrclSimRobot();
 
@@ -49,14 +49,14 @@ namespace crcl_robot {
     CanonReturn StopMotion (int condition);
 
     // extensions
-
     CanonReturn GetTool (double *percent);
     CanonReturn GetStatus (robotPose *pose, robotAxes *axes, double *percent);
     double setPeriod(double period);
     double getPeriod();
 
   private:
-    boost::mutex mutex;
+
+    ulapi_mutex_struct mutex;
     robotPose simPose;
     double relativeSpeed;
     double absoluteSpeed;

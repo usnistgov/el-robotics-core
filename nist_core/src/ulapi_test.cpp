@@ -17,14 +17,14 @@ struct shared_struct {
 };
 
 struct args_struct {
-  void *mutex;
+  ulapi_mutex_struct *mutex;
   void *sem;
   shared_struct *shared;
 };
 
 static void writer(args_struct *args)
 {
-  void *mutex = args->mutex;
+  ulapi_mutex_struct *mutex = args->mutex;
   void *sem = args->sem;
   shared_struct *shared = args->shared;
   delete args;
@@ -48,7 +48,7 @@ static void writer(args_struct *args)
 
 static void reader(args_struct *args)
 {
-  void *mutex = args->mutex;
+  ulapi_mutex_struct *mutex = args->mutex;
   void *sem = args->sem;
   shared_struct *shared = args->shared;
   delete args;
@@ -78,15 +78,14 @@ int main(int argc, char *argv[])
   args_struct *args_ptr;
   ulapi_task_struct writer_task;
   ulapi_task_struct reader_task;
-  void *mutex;
+  ulapi_mutex_struct mutex;
   void *sem;
   void *shm;
   shared_struct *shared_ptr;
   int writer_ret;
   int reader_ret;
 
-  mutex = ulapi_mutex_new(MUTEX_KEY);
-  if (NULL == mutex) {
+  if (ULAPI_OK != ulapi_mutex_init(&mutex, MUTEX_KEY)) {
     cerr << "Can't create mutex for key " << MUTEX_KEY << endl;
     return 1;
   }
@@ -107,7 +106,7 @@ int main(int argc, char *argv[])
   ulapi_task_init(&writer_task);
 
   args_ptr = new args_struct;
-  args_ptr->mutex = mutex;
+  args_ptr->mutex = &mutex;
   args_ptr->sem = sem;
   args_ptr->shared = shared_ptr;
 
@@ -121,7 +120,7 @@ int main(int argc, char *argv[])
 
   // reuse this pointer, since the writer will be deleting it by now
   args_ptr = new args_struct;
-  args_ptr->mutex = mutex;
+  args_ptr->mutex = &mutex;
   args_ptr->sem = sem;
   args_ptr->shared = shared_ptr;
 

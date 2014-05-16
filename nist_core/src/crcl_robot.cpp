@@ -16,6 +16,8 @@
 
 using namespace std;
 
+#if 0
+
 #include "nist_core/crcl_robotiq.h"
 #include "nist_core/crcl_kuka_lwr.h"
 #include "nist_core/crcl_schunk_sdh.h"
@@ -28,6 +30,8 @@ template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclDemoHack>;
 template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclSchunkSDH>;
 template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclRobotiq>;
 template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclKukaLWR>;
+
+#endif
 
 namespace crcl_robot
 {

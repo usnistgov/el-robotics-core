@@ -1,8 +1,7 @@
 #ifndef CRCL_CLIENT_H
 #define CRCL_CLIENT_H
 
-#include <boost/thread/mutex.hpp> /* mutex */
-#include <boost/asio.hpp>
+#include <ulapi.h>		/* ulapi_mutex_struct */
 
 #include "nist_core/crcl.h" /* robotPose, robotAxes, CRCLProgramParams */
 #include "nist_core/crcl_robot.h"
@@ -51,10 +50,11 @@ namespace crcl_robot {
 
     // extensions
 
-    CrclClient(const char *host, int cmd_port, int stat_port);
     CanonReturn GetTool (double *percent);
     CanonReturn GetStatus (robotPose *pose, robotAxes *axes, double *percent);
 
+    bool connect(const char *host, int cmd_port, int stat_port);
+    bool connect();
     bool isConnected();
     CanonReturn getCmdResult();
     CanonReturn getStatResult();
@@ -65,10 +65,9 @@ namespace crcl_robot {
 
   private:
 
-    boost::mutex mutex;
-    boost::asio::io_service io_service;
-    boost::asio::ip::tcp::socket *cmd_socket;
-    boost::asio::ip::tcp::socket *stat_socket;
+    ulapi_mutex_struct mutex;
+    int cmd_socket;
+    int stat_socket;
     bool connected;
     CanonReturn cmdResult;
     CanonReturn statResult;

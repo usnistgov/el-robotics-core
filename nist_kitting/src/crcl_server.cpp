@@ -4,104 +4,25 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <boost/bind.hpp>
-#include <boost/smart_ptr.hpp>
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
+#include <ulapi.h>
 
 #include <nist_core/nist_core.h>
 #include <nist_core/crcl.h>
 #include <nist_core/crcl_client.h>
+#include <nist_core/crcl_robot.h>
 #include <nist_core/crcl_sim_robot.h>
-
-using boost::asio::ip::tcp;
-
-typedef boost::shared_ptr<tcp::socket> socket_ptr;
 
 static bool debug = false;
 
 using namespace crcl_robot;
 
-static CrclRobot<CrclSimRobot> robot;
+#undef DO_TEMPLATES
 
-static void MoveStraightTo(const char *inbuf, socket_ptr sock)
-{
-  double d1, d2, d3, d4, d5, d6;
-  robotPose p;
-  CanonReturn result;
-  enum {OUTBUF_LEN = 256};
-  char outbuf[OUTBUF_LEN];
-
-  if (6 == sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf",
-		  &d1, &d2, &d3, &d4, &d5, &d6)) {
-    p.x = d1, p.y = d2, p.z = d3;
-    p.xrot = d4, p.yrot = d5, p.zrot = d6;
-
-    if (debug) printf("MoveStraightTo %f %f %f ...\n",
-		      p.x, p.y, p.z);
-
-    result = robot.MoveStraightTo(p);
-  } else {
-    result = CANON_REJECT;
-  }
-
-  snprintf(outbuf, sizeof(outbuf)-1,
-	   "%s MoveStraightTo",
-	   CANON_SUCCESS == result ? "Success" :
-	   CANON_FAILURE == result ? "Failure" : "Reject");
-  outbuf[sizeof(outbuf)-1] = 0;
-  boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-
-  if (debug) printf("MoveStraightTo done\n");
-}
-
-static void SetTool(const char *inbuf, socket_ptr sock)
-{
-  double d1;
-  CanonReturn result;
-  enum {OUTBUF_LEN = 256};
-  char outbuf[OUTBUF_LEN];
-
-  if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
-    if (debug) printf("SetTool %f\n", d1);
-    result = robot.SetTool(d1);
-  } else {
-    result = CANON_REJECT;
-  }
-
-  snprintf(outbuf, sizeof(outbuf)-1,
-	   "%s SetTool",
-	   CANON_SUCCESS == result ? "Success" :
-	   CANON_FAILURE == result ? "Failure" : "Reject");
-  outbuf[sizeof(outbuf)-1] = 0;
-  boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-
-  if (debug) printf("SetTool done\n");
-}
-
-static void StopMotion(const char *inbuf, socket_ptr sock)
-{
-  int i1;
-  CanonReturn result;
-  enum {OUTBUF_LEN = 256};
-  char outbuf[OUTBUF_LEN];
-
-  if (1 == sscanf(inbuf, "%*s %d", &i1)) {
-    if (debug) printf("StopMotion %d\n", i1);
-    result = robot.StopMotion(i1);
-  } else {
-    result = CANON_REJECT;
-  }
-
-  snprintf(outbuf, sizeof(outbuf)-1,
-	   "%s StopMotion",
-	   CANON_SUCCESS == result ? "Success" :
-	   CANON_FAILURE == result ? "Failure" : "Reject");
-  outbuf[sizeof(outbuf)-1] = 0;
-  boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-
-  if (debug) printf("StopMotion done\n");
-}
+#ifdef DO_TEMPLATES
+static CrclRobot<CrclSimRobot> robot("");
+#else
+static CrclSimRobot robot("");
+#endif
 
 /*!
   \defgroup CRCL_SERVER The CRCL Server
@@ -132,153 +53,180 @@ static void StopMotion(const char *inbuf, socket_ptr sock)
   status requested.
 */
 
-void stat_session(socket_ptr sock)
+struct stat_thread_args {
+  int stat_server_id;
+};
+
+void stat_thread_code(stat_thread_args *args)
 {
-  try {
-    while (true) {
-#define INBUF_LEN 256
-#define OUTBUF_LEN 256
-      char inbuf[INBUF_LEN];
-      char outbuf[OUTBUF_LEN];
-      boost::system::error_code error;
-      size_t length;
-      CanonReturn result;
+  int stat_server_id = args->stat_server_id;
+  int stat_connection_id;
 
-      length = sock->read_some(boost::asio::buffer(inbuf), error);
-
-      if (boost::asio::error::eof == error) break;
-      else if (error) throw boost::system::system_error(error);
-
-      // else handle status request
-      if (! strncmp(inbuf, "GetRobotPose", strlen("GetRobotPose"))) {
-	robotPose p;
-	result = robot.GetRobotPose(&p);
-	snprintf(outbuf, sizeof(outbuf)-1,
-		 "%s GetRobotPose %f %f %f %f %f %f",
-		 CANON_SUCCESS == result ? "Success" :
-		 CANON_FAILURE == result ? "Failure" : "Reject",
-		 p.x, p.y, p.z, p.xrot, p.yrot, p.zrot);
-	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      } else if (! strncmp(inbuf, "GetRobotAxes", strlen("GetRobotAxes"))) {
-	robotAxes a;
-	result = robot.GetRobotAxes(&a);
-	snprintf(outbuf, sizeof(outbuf)-1,
-		 "%s GetRobotAxes %f %f %f %f %f %f",
-		 CANON_SUCCESS == result ? "Success" :
-		 CANON_FAILURE == result ? "Failure" : "Reject",
-		 a.axis[0], a.axis[1], a.axis[2],
-		 a.axis[3], a.axis[4], a.axis[5]);
-	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      } else if (! strncmp(inbuf, "GetTool", strlen("GetTool"))) {
-	double d;
-	result = robot.GetTool(&d);
-	snprintf(outbuf, sizeof(outbuf)-1,
-		 "%s GetTool %f",
-		 CANON_SUCCESS == result ? "Success" :
-		 CANON_FAILURE == result ? "Failure" : "Reject", d);
-	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      } else if (! strncmp(inbuf, "GetStatus", strlen("GetStatus"))) {
-	robotPose p;
-	robotAxes a;
-	double t;
-	result = robot.GetRobotPose(&p);
-	if (CANON_SUCCESS == result) result = robot.GetRobotAxes(&a);
-	if (CANON_SUCCESS == result) result = robot.GetTool(&t);
-	snprintf(outbuf, sizeof(outbuf)-1,
-		 "%s GetStatus %f %f %f %f %f %f %f %f %f %f %f %f %f",
-		 CANON_SUCCESS == result ? "Success" :
-		 CANON_FAILURE == result ? "Failure" : "Reject",
-		 p.x, p.y, p.z,
-		 p.xrot, p.yrot, p.zrot,
-		 a.axis[0], a.axis[1], a.axis[2],
-		 a.axis[3], a.axis[4], a.axis[5], t);
-	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      } else {
-	fprintf(stderr, "invalid client status request: ``%s''\n", inbuf);
-	snprintf(outbuf, sizeof(outbuf)-1, "Reject %s", inbuf);
-	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      }
-    } // while (true)
-  } catch (std::exception& e) {
-    std::cerr << "Exception in thread: " << e.what() << "\n";
+  if (debug) printf("waiting for status client connection...\n");
+  stat_connection_id = ulapi_socket_get_connection_id(stat_server_id);
+  if (stat_connection_id < 0) {
+    fprintf(stderr, "can't get status client connecton\n");
+    return;
   }
-}
-
-static void cmd_session(socket_ptr sock)
-{
-  boost::thread *cmd_exec_thr;
-
-  try {
-    while (true) {
-#define INBUF_LEN 256
-#define OUTBUF_LEN 256
-      char inbuf[INBUF_LEN];
-      char outbuf[OUTBUF_LEN];
-      boost::system::error_code error;
-      size_t length;
-      CanonReturn result;
-      double d1;
-
-      length = sock->read_some(boost::asio::buffer(inbuf), error);
-
-      if (boost::asio::error::eof == error) break;
-      else if (error) throw boost::system::system_error(error);
-
-      if (debug) printf("client command: ``%s''\n", inbuf);
-
-      // handle commands
-      if (! strncmp(inbuf, "MoveStraightTo", strlen("MoveStraightTo"))) {
-	if (NULL != cmd_exec_thr) {
-	  cmd_exec_thr->interrupt();
-	  delete cmd_exec_thr;
-	  cmd_exec_thr = NULL;
-	}
-	cmd_exec_thr = new boost::thread(MoveStraightTo, inbuf, sock);
-      } else if (! strncmp(inbuf, "SetTool", strlen("SetTool"))) {
-	if (NULL != cmd_exec_thr) {
-	  cmd_exec_thr->interrupt();
-	  delete cmd_exec_thr;
-	  cmd_exec_thr = NULL;
-	}
-	cmd_exec_thr = new boost::thread(SetTool, inbuf, sock);
-      } else if (! strncmp(inbuf, "StopMotion", strlen("StopMotion"))) {
-	if (NULL != cmd_exec_thr) {
-	  cmd_exec_thr->interrupt();
-	  delete cmd_exec_thr;
-	  cmd_exec_thr = NULL;
-	}
-	cmd_exec_thr = new boost::thread(StopMotion, inbuf, sock);
-      } else if (! strncmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed"))) {
-	if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
-	  result = robot.SetAbsoluteSpeed(d1);
-	} else {
-	  fprintf(stderr, "invalid arguments: ``%s''\n", inbuf);
-	  result = CANON_REJECT;
-	}
-	snprintf(outbuf, sizeof(outbuf)-1,
-		 "%s SetAbsoluteSpeed",
-		 CANON_SUCCESS == result ? "Success" :
-		 CANON_FAILURE == result ? "Failure" : "Reject");
-	outbuf[sizeof(outbuf)-1] = 0;
-	boost::asio::write(*sock, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      } else {
-	fprintf(stderr, "unknown command: ``%s''\n", inbuf);
-      }
-    } // while (true)
-  } catch (std::exception& e) {
-    std::cerr << "Exception in thread: " << e.what() << "\n";
-  }
-}
-
-static void server(boost::asio::io_service *io_service, int port, void (*session)(socket_ptr))
-{
-  tcp::acceptor a(*io_service, tcp::endpoint(tcp::v4(), port));
+  if (debug) printf("got a status client connection on id %d\n", stat_connection_id);
 
   while (true) {
-    socket_ptr sock(new tcp::socket(*io_service));
-    a.accept(*sock);
-    boost::thread t(boost::bind(session, sock));
+    enum {INBUF_LEN = 256};
+    enum {OUTBUF_LEN = 256};
+    char inbuf[INBUF_LEN];
+    char outbuf[OUTBUF_LEN];
+    int nchars;
+    CanonReturn result;
+
+    nchars = ulapi_socket_read(stat_connection_id, inbuf, sizeof(inbuf)-1);
+    inbuf[sizeof(inbuf)-1] = 0;
+
+    if (nchars <= 0) {
+      if (debug) printf("status client disconnected\n");
+      break;
+    }
+
+    if (! strncmp(inbuf, "GetRobotPose", strlen("GetRobotPose"))) {
+      robotPose p;
+      result = robot.GetRobotPose(&p);
+      snprintf(outbuf, sizeof(outbuf)-1,
+	       "%s GetRobotPose %f %f %f %f %f %f",
+	       CANON_SUCCESS == result ? "Success" :
+	       CANON_FAILURE == result ? "Failure" : "Reject",
+	       p.x, p.y, p.z, p.xrot, p.yrot, p.zrot);
+      ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf)+1);
+    } else if (! strncmp(inbuf, "GetRobotAxes", strlen("GetRobotAxes"))) {
+      robotAxes a;
+      result = robot.GetRobotAxes(&a);
+      snprintf(outbuf, sizeof(outbuf)-1,
+	       "%s GetRobotAxes %f %f %f %f %f %f",
+	       CANON_SUCCESS == result ? "Success" :
+	       CANON_FAILURE == result ? "Failure" : "Reject",
+	       a.axis[0], a.axis[1], a.axis[2],
+	       a.axis[3], a.axis[4], a.axis[5]);
+      ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf)+1);
+    } else if (! strncmp(inbuf, "GetTool", strlen("GetTool"))) {
+      double d;
+      result = robot.GetTool(&d);
+      snprintf(outbuf, sizeof(outbuf)-1,
+	       "%s GetTool %f",
+	       CANON_SUCCESS == result ? "Success" :
+	       CANON_FAILURE == result ? "Failure" : "Reject", d);
+      ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf)+1);
+    } else if (! strncmp(inbuf, "GetStatus", strlen("GetStatus"))) {
+      robotPose p;
+      robotAxes a;
+      double t;
+      result = robot.GetRobotPose(&p);
+      if (CANON_SUCCESS == result) result = robot.GetRobotAxes(&a);
+      if (CANON_SUCCESS == result) result = robot.GetTool(&t);
+      snprintf(outbuf, sizeof(outbuf)-1,
+	       "%s GetStatus %f %f %f %f %f %f %f %f %f %f %f %f %f",
+	       CANON_SUCCESS == result ? "Success" :
+	       CANON_FAILURE == result ? "Failure" : "Reject",
+	       p.x, p.y, p.z,
+	       p.xrot, p.yrot, p.zrot,
+	       a.axis[0], a.axis[1], a.axis[2],
+	       a.axis[3], a.axis[4], a.axis[5], t);
+      ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf)+1);
+    } else if (0 == *inbuf) {
+      // empty command, the client probably disconnected
+    } else {
+      fprintf(stderr, "invalid client status request: ``%s''\n", inbuf);
+      snprintf(outbuf, sizeof(outbuf)-1, "Reject %s", inbuf);
+      ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf)+1);
+    }
+  } // while (true)
+
+  if (debug) printf("status handler done\n");
+
+  return;
+}
+
+struct cmd_thread_args {
+  int cmd_connection_id;
+  const char *inbuf;
+};
+
+static void MoveStraightTo(cmd_thread_args *args)
+{
+  int cmd_connection_id = args->cmd_connection_id;
+  const char *inbuf = args->inbuf;
+  double d1, d2, d3, d4, d5, d6;
+  robotPose p;
+  CanonReturn result;
+  char outbuf[256];
+
+  if (6 == sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf",
+		  &d1, &d2, &d3, &d4, &d5, &d6)) {
+    p.x = d1, p.y = d2, p.z = d3;
+    p.xrot = d4, p.yrot = d5, p.zrot = d6;
+    if (debug) printf("MoveStraightTo %f %f %f ...\n", p.x, p.y, p.z);
+    result = robot.MoveStraightTo(p);
+  } else {
+    result = CANON_REJECT;
   }
+
+  snprintf(outbuf, sizeof(outbuf)-1,
+	   "%s MoveStraightTo",
+	   CANON_SUCCESS == result ? "Success" :
+	   CANON_FAILURE == result ? "Failure" : "Reject");
+  outbuf[sizeof(outbuf)-1] = 0;
+  ulapi_socket_write(cmd_connection_id, outbuf, strlen(outbuf)+1);
+
+  if (debug) printf("MoveStraightTo done\n");
+}
+
+static void SetTool(cmd_thread_args *args)
+{
+  int cmd_connection_id = args->cmd_connection_id;
+  const char *inbuf = args->inbuf;
+  double d1;
+  CanonReturn result;
+  enum {OUTBUF_LEN = 256};
+  char outbuf[OUTBUF_LEN];
+
+  if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
+    if (debug) printf("SetTool %f\n", d1);
+    result = robot.SetTool(d1);
+  } else {
+    result = CANON_REJECT;
+  }
+
+  snprintf(outbuf, sizeof(outbuf)-1,
+	   "%s SetTool",
+	   CANON_SUCCESS == result ? "Success" :
+	   CANON_FAILURE == result ? "Failure" : "Reject");
+  outbuf[sizeof(outbuf)-1] = 0;
+  ulapi_socket_write(cmd_connection_id, outbuf, strlen(outbuf)+1);
+
+  if (debug) printf("SetTool done\n");
+}
+
+static void StopMotion(cmd_thread_args *args)
+{
+  int cmd_connection_id = args->cmd_connection_id;
+  const char *inbuf = args->inbuf;
+  int i1;
+  CanonReturn result;
+  enum {OUTBUF_LEN = 256};
+  char outbuf[OUTBUF_LEN];
+
+  if (1 == sscanf(inbuf, "%*s %d", &i1)) {
+    if (debug) printf("StopMotion %d\n", i1);
+    result = robot.StopMotion(i1);
+  } else {
+    result = CANON_REJECT;
+  }
+
+  snprintf(outbuf, sizeof(outbuf)-1,
+	   "%s StopMotion",
+	   CANON_SUCCESS == result ? "Success" :
+	   CANON_FAILURE == result ? "Failure" : "Reject");
+  outbuf[sizeof(outbuf)-1] = 0;
+  ulapi_socket_write(cmd_connection_id, outbuf, strlen(outbuf)+1);
+
+  if (debug) printf("StopMotion done\n");
 }
 
 /*
@@ -292,8 +240,14 @@ int main(int argc, char *argv[])
   int ival;
   int cmd_port = CRCL_CLIENT_CMD_PORT_DEFAULT;
   int stat_port = CRCL_CLIENT_STAT_PORT_DEFAULT;
-  boost::thread *stat_exec_thr = NULL;
-  boost::asio::io_service io_service;
+  int stat_server_id;
+  int stat_connection_id;
+  int cmd_server_id;
+  int cmd_connection_id;
+  int nchars;
+  ulapi_task_struct stat_thread;
+  stat_thread_args stat_args;
+  int taskret;
 
   opterr = 0;
   while (true) {
@@ -327,11 +281,115 @@ int main(int argc, char *argv[])
     } // switch (option)
   }   // while (true) for getopt
 
-  // spawn status server thread
-  stat_exec_thr = new boost::thread(server, &io_service, stat_port, stat_session);
+  // set up two servers, one for status and one for commands
 
-  // run command server here, spawning command handlers
-  server(&io_service, cmd_port, cmd_session);
+  stat_server_id = ulapi_socket_get_server_id(stat_port);
+  if (stat_server_id < 0) {
+    fprintf(stderr, "can't serve status port %d\n", stat_port);
+    return 1;
+  }
+  if (debug) printf("serving status port %d\n", stat_port);
+
+  cmd_server_id = ulapi_socket_get_server_id(cmd_port);
+  if (cmd_server_id < 0) {
+    fprintf(stderr, "can't serve command port %d\n", (int) cmd_port);
+    return 1;
+  }
+  if (debug) printf("serving command port %d\n", (int) cmd_port);
+
+  // main connection loop
+  while (true) {
+
+    // spawn status server thread
+    ulapi_task_init(&stat_thread);
+    stat_args.stat_server_id = stat_server_id;
+    ulapi_task_start(&stat_thread, reinterpret_cast<ulapi_task_code>(stat_thread_code), reinterpret_cast<void *>(&stat_args), ulapi_prio_highest(), 0);
+
+    // get a command client connection
+    if (debug) printf("waiting for command client connection...\n");
+    cmd_connection_id = ulapi_socket_get_connection_id(cmd_server_id);
+    if (cmd_connection_id < 0) {
+      fprintf(stderr, "can't get command client connecton\n");
+      return 1;
+    }
+    if (debug) printf("got a command client connection on id %d\n", stat_connection_id);
+
+    // run the command handler here
+    while (true) {
+#define INBUF_LEN 256
+#define OUTBUF_LEN 256
+      char inbuf[INBUF_LEN];
+      char outbuf[OUTBUF_LEN];
+      int nchars;
+      ulapi_task_struct *cmd_thr = NULL;
+      cmd_thread_args cmd_args;
+      CanonReturn result;
+      double d1;
+
+      cmd_args.inbuf = inbuf;
+      cmd_args.cmd_connection_id = cmd_connection_id;
+
+      nchars = ulapi_socket_read(cmd_connection_id, inbuf, sizeof(inbuf)-1);
+      inbuf[sizeof(inbuf)-1] = 0;
+
+      if (nchars <= 0) {
+	if (debug) printf("command client disconnected\n");
+	break;
+      }
+
+      if (debug) printf("client command: ``%s'' (%d)\n", inbuf, nchars);
+
+      // handle commands
+      if (! strncmp(inbuf, "MoveStraightTo", strlen("MoveStraightTo"))) {
+	if (NULL != cmd_thr) {
+	  ulapi_task_stop(cmd_thr);
+	  ulapi_task_delete(cmd_thr);
+	  ulapi_task_delete(cmd_thr);
+	}
+	cmd_thr = ulapi_task_new();
+	ulapi_task_start(cmd_thr, reinterpret_cast<ulapi_task_code>(MoveStraightTo), reinterpret_cast<void *>(&cmd_args), ulapi_prio_highest(), 0);
+      } else if (! strncmp(inbuf, "SetTool", strlen("SetTool"))) {
+	if (NULL != cmd_thr) {
+	  ulapi_task_stop(cmd_thr);
+	  ulapi_task_delete(cmd_thr);
+	  ulapi_task_delete(cmd_thr);
+	}
+	cmd_thr = ulapi_task_new();
+	ulapi_task_start(cmd_thr, reinterpret_cast<ulapi_task_code>(SetTool), reinterpret_cast<void *>(&cmd_args), ulapi_prio_highest(), 0);
+      } else if (! strncmp(inbuf, "StopMotion", strlen("StopMotion"))) {
+	if (NULL != cmd_thr) {
+	  ulapi_task_stop(cmd_thr);
+	  ulapi_task_delete(cmd_thr);
+	  ulapi_task_delete(cmd_thr);
+	}
+	cmd_thr = ulapi_task_new();
+	ulapi_task_start(cmd_thr, reinterpret_cast<ulapi_task_code>(StopMotion), reinterpret_cast<void *>(&cmd_args), ulapi_prio_highest(), 0);
+      } else if (! strncmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed"))) {
+	// handle this one directly -- it's quick
+	if (1 == sscanf(inbuf, "%*s %lf", &d1)) {
+	  result = robot.SetAbsoluteSpeed(d1);
+	} else {
+	  fprintf(stderr, "invalid arguments: ``%s''\n", inbuf);
+	  result = CANON_REJECT;
+	}
+	snprintf(outbuf, sizeof(outbuf)-1,
+		 "%s SetAbsoluteSpeed",
+		 CANON_SUCCESS == result ? "Success" :
+		 CANON_FAILURE == result ? "Failure" : "Reject");
+	outbuf[sizeof(outbuf)-1] = 0;
+	// FIXME -- need to mutex this with the other command threads
+	ulapi_socket_write(cmd_connection_id, outbuf, strlen(outbuf)+1);
+      } else if (0 == *inbuf) {
+	// empty command, client probably disconnected
+      } else {
+	fprintf(stderr, "invalid client command request: ``%s''\n", inbuf);
+      }
+    } // while (true)
+
+    if (debug) printf("command handler done\n");
+    ulapi_task_join(&stat_thread, &taskret);
+
+  } // while (true) for main connection loop
 
   return 0;
 }

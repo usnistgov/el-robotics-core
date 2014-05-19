@@ -6,7 +6,7 @@
 #include <math.h>
 #include <float.h>
 
-#include <boost/thread/mutex.hpp>
+#include <ulapi.h>
 
 #include "nist_core/nist_core.h"
 #include "nist_core/crcl.h"
@@ -14,8 +14,10 @@
 
 namespace crcl_robot {
 
-  LIBRARY_API CrclSimRobot::CrclSimRobot()
+  LIBRARY_API CrclSimRobot::CrclSimRobot(char *init_path)
   {
+    ulapi_mutex_init(&mutex, 1);
+
     simPose.x = 0;
     simPose.y = 0;
     simPose.z = 0;
@@ -56,7 +58,8 @@ namespace crcl_robot {
 		SQ(p1.z - p2.z));
   }
 
-#define LOCKIT boost::mutex::scoped_lock lock(mutex)
+#define LOCKIT ulapi_mutex_take(&mutex)
+#define UNLOCKIT ulapi_mutex_give(&mutex)
 
   LIBRARY_API CanonReturn CrclSimRobot::MoveStraightTo(robotPose end)
   {
@@ -66,10 +69,9 @@ namespace crcl_robot {
     double xincr, yincr, zincr;
     double tfrac;
 
-    {
-      LOCKIT;
-      here = simPose;
-    }
+    LOCKIT;
+    here = simPose;
+    UNLOCKIT;
 
     dist = robotPoseDiff(end, here);
 
@@ -79,6 +81,7 @@ namespace crcl_robot {
     if (time < period) {
       LOCKIT;
       simPose = end;
+      UNLOCKIT;
       return CANON_SUCCESS;
     }
 
@@ -86,20 +89,20 @@ namespace crcl_robot {
     xincr = (end.x - here.x) * tfrac;
     yincr = (end.y - here.y) * tfrac;
     zincr = (end.z - here.z) * tfrac;
-    time += etime();
+    time += ulapi_time();
 
-    while (etime() < time) {
-      {
-	LOCKIT;
-	simPose.x += xincr;
-	simPose.y += xincr;
-	simPose.z += xincr;
-      }
-      esleep(period < FLT_MIN ? 1 : period);
+    while (ulapi_time() < time) {
+      LOCKIT;
+      simPose.x += xincr;
+      simPose.y += xincr;
+      simPose.z += xincr;
+      UNLOCKIT;
+      ulapi_sleep(period < FLT_MIN ? 1 : period);
     }
 
     LOCKIT;
     simPose = end;
+    UNLOCKIT;
 
     return CANON_SUCCESS;
   }
@@ -113,10 +116,9 @@ namespace crcl_robot {
     double incr;
     double tfrac;
 
-    {
-      LOCKIT;
-      here = toolSetting;
-    }
+    LOCKIT;
+    here = toolSetting;
+    UNLOCKIT;
 
     dist = percent - here;
     time = fabs(dist) / PERCENT_PER_SEC;
@@ -124,23 +126,24 @@ namespace crcl_robot {
     if (time < period) {
       LOCKIT;
       toolSetting = percent;
+      UNLOCKIT;
       return CANON_SUCCESS;
     }
 
     tfrac = period / time;
     incr = dist * tfrac;
-    time += etime();
+    time += ulapi_time();
 
-    while (etime() < time) {
-      {
-	LOCKIT;
-	toolSetting += incr;
-      }
-      esleep(period < FLT_MIN ? 1 : period);
+    while (ulapi_time() < time) {
+      LOCKIT;
+      toolSetting += incr;
+      UNLOCKIT;
+      ulapi_sleep(period < FLT_MIN ? 1 : period);
     }
 
     LOCKIT;
     toolSetting = percent;
+    UNLOCKIT;
 
     return CANON_SUCCESS;
   }
@@ -157,6 +160,7 @@ namespace crcl_robot {
   {
     LOCKIT;
     *pose = simPose;
+    UNLOCKIT;
 
     return CANON_SUCCESS;
   }
@@ -171,6 +175,7 @@ namespace crcl_robot {
     axes->axis[3] = simPose.xrot * 10;
     axes->axis[4] = simPose.yrot * 20;
     axes->axis[5] = simPose.zrot * 30;
+    UNLOCKIT;
 
     return CANON_SUCCESS;
   }
@@ -179,6 +184,7 @@ namespace crcl_robot {
   {
     LOCKIT;
     *percent = toolSetting;
+    UNLOCKIT;
 
     return CANON_SUCCESS;
   }

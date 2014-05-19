@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include <signal.h>
 #include <string.h>
 #include <float.h>
+#include <signal.h>
 
-#include <boost/thread/thread.hpp>
+#include <ulapi.h>
 
 #include <ros/ros.h>
 #include <ros/console.h>
@@ -17,6 +17,8 @@
 #include "nist_kitting/kitting_utils.h"
 #include "nist_kitting/prim_robot_cmd.h"
 #include "nist_kitting/prim_robot_stat.h"
+
+using namespace std;
 
 #define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_prim_robot"
@@ -103,30 +105,78 @@ static geometry_msgs::Pose crclToRos(robotPose pose)
   return rp;
 }
 
-static boost::thread *cmdExecThr = NULL;
-
 using namespace crcl_robot;
+
+struct moveto_task_args {
+  CrclClient *client;
+  robotPose pose;
+};
+
+static void moveto_task_code(moveto_task_args *args)
+{
+  CrclClient *client = args->client;
+  robotPose pose = args->pose;
+  delete args;
+
+  client->MoveStraightTo(pose);
+}
+
+struct stop_task_args {
+  CrclClient *client;
+  int condition;
+};
+
+static void stop_task_code(stop_task_args *args)
+{
+  CrclClient *client = args->client;
+  int condition = args->condition;
+  delete args;
+
+  client->StopMotion(condition);
+}
+
+struct set_tool_task_args {
+  CrclClient *client;
+  double percent;
+};
+
+static void set_tool_task_code(set_tool_task_args *args)
+{
+  CrclClient *client = args->client;
+  double percent = args->percent;
+  delete args;
+
+  client->SetTool(percent);
+}
+
+static ulapi_task_struct *cmdExecThr = NULL;
 
 static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
+  moveto_task_args *args;
 
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     robotPose rp;
     if (debug) ROS_DEBUG("Moving to %.2f ...", pose.position.x);
     rp = rosToCrcl(pose);
     if (NULL != cmdExecThr) {
-      cmdExecThr->interrupt();
-      delete cmdExecThr;
-      cmdExecThr = NULL;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
     }
+    cmdExecThr = ulapi_task_new();
     client.startCmd();
-    cmdExecThr = new boost::thread(&CrclClient::MoveStraightTo, &client, rp);
+
+    args = new moveto_task_args;
+    args->client = &client, args->pose = rp;
+    ulapi_task_start(cmdExecThr, reinterpret_cast<ulapi_task_code>(moveto_task_code), reinterpret_cast<void *>(args), ulapi_prio_highest(), 0);
+
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
     if (client.cmdDone()) {
-      delete cmdExecThr;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
       cmdExecThr = NULL;
       result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
@@ -146,20 +196,27 @@ static void do_cmd_prim_robot_moveto(geometry_msgs::Pose &pose, CrclClient &clie
 
 static void do_cmd_prim_robot_stop(int condition, CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
+  stop_task_args *args;
+
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
-      cmdExecThr->interrupt();
-      delete cmdExecThr;
-      cmdExecThr = NULL;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
     }
+    cmdExecThr = ulapi_task_new();
     client.startCmd();
-    cmdExecThr = new boost::thread(&CrclClient::StopMotion, &client, condition);
+
+    args = new stop_task_args;
+    args->client = &client, args->condition = condition;
+    ulapi_task_start(cmdExecThr, reinterpret_cast<ulapi_task_code>(stop_task_code), reinterpret_cast<void *>(args), ulapi_prio_highest(), 0);
+
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
     if (client.cmdDone()) {
-      delete cmdExecThr;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
       cmdExecThr = NULL;
       result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
@@ -177,20 +234,28 @@ static void do_cmd_prim_robot_stop(int condition, CrclClient &client, nist_kitti
 
 static void do_cmd_prim_robot_open_gripper(CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
+  set_tool_task_args *args;
+
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
-      cmdExecThr->interrupt();
-      delete cmdExecThr;
-      cmdExecThr = NULL;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
     }
+    cmdExecThr = ulapi_task_new();
     client.startCmd();
-    cmdExecThr = new boost::thread(&CrclClient::SetTool, &client, 90.0);
+
+    args = new set_tool_task_args;
+    args->client = &client;
+    args->percent = 0;
+    ulapi_task_start(cmdExecThr, reinterpret_cast<ulapi_task_code>(set_tool_task_code), reinterpret_cast<void *>(args), ulapi_prio_highest(), 0);
+
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
     if (client.cmdDone()) {
-      delete cmdExecThr;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
       cmdExecThr = NULL;
       result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
@@ -210,20 +275,28 @@ static void do_cmd_prim_robot_open_gripper(CrclClient &client, nist_kitting::pri
 
 static void do_cmd_prim_robot_close_gripper(CrclClient &client, nist_kitting::prim_robot_stat &prim_robot_stat)
 {
+  set_tool_task_args *args;
+
   if (prim_robot_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (NULL != cmdExecThr) {
-      cmdExecThr->interrupt();
-      delete cmdExecThr;
-      cmdExecThr = NULL;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
     }
+    cmdExecThr = ulapi_task_new();
     client.startCmd();
-    cmdExecThr = new boost::thread(&CrclClient::SetTool, &client, 10.0);
+
+    args = new set_tool_task_args;
+    args->client = &client;
+    args->percent = 100;
+    ulapi_task_start(cmdExecThr, reinterpret_cast<ulapi_task_code>(set_tool_task_code), reinterpret_cast<void *>(args), ulapi_prio_highest(), 0);
+
     prim_robot_stat.stat.state = RCS_STATE_S1;
     prim_robot_stat.stat.status = RCS_STATUS_EXEC;
   } else if (prim_robot_stat.stat.state == RCS_STATE_S1) {
     CanonReturn result;
     if (client.cmdDone()) {
-      delete cmdExecThr;
+      ulapi_task_stop(cmdExecThr);
+      ulapi_task_delete(cmdExecThr);
       cmdExecThr = NULL;
       result = client.getCmdResult();
       if (CANON_SUCCESS == result) {
@@ -241,6 +314,23 @@ static void do_cmd_prim_robot_close_gripper(CrclClient &client, nist_kitting::pr
   // else S0
 }
 
+struct client_stat_task_args {
+  CrclClient *client_ptr;
+  robotPose *pose_ptr;
+  robotAxes *axes_ptr;
+  double *tool_setting_ptr;
+};
+
+static void client_stat_task_code(client_stat_task_args *args)
+{
+  CrclClient *client = args->client_ptr;
+  robotPose *pose_ptr = args->pose_ptr;
+  robotAxes *axes_ptr = args->axes_ptr;
+  double *tool_setting_ptr = args->tool_setting_ptr;
+
+  client->GetStatus(pose_ptr, axes_ptr, tool_setting_ptr);
+}
+
 static void print_help()
 {
   printf("Usage: <args> {-- <ROS args>}\n");
@@ -255,7 +345,7 @@ static void print_help()
 
 static void quit(int sig)
 {
-  exit(0);
+  exit(sig);
 }
 
 int main(int argc, char **argv)
@@ -286,7 +376,7 @@ int main(int argc, char **argv)
     case 'n':
       // first check for valid name
       if (optarg[0] == '-') {
-	ROS_INFO("Invalid node name: %s\n", optarg);
+	fprintf(stderr, "Invalid node name: %s\n", optarg);
 	return 1;
       }
       strncpy(node_name, optarg, NODE_NAME_LEN-1);
@@ -296,7 +386,7 @@ int main(int argc, char **argv)
     case 'p':
       dval = atof(optarg);
       if (dval < FLT_EPSILON) {
-	ROS_INFO("Bad value for period: %s\n", optarg);
+	fprintf(stderr, "Bad value for period: %s\n", optarg);
 	return 1;
       }
       prim_robot_stat_buf.stat.period = dval;
@@ -310,7 +400,7 @@ int main(int argc, char **argv)
     case 'c':
       ival = atoi(optarg);
       if (ival < 0) {
-	ROS_INFO("Bad value for command port: %s\n", optarg);
+	fprintf(stderr, "Bad value for command port: %s\n", optarg);
 	return 1;
       }
       cmd_port = ival;
@@ -319,7 +409,7 @@ int main(int argc, char **argv)
     case 's':
       ival = atoi(optarg);
       if (ival < 0) {
-	ROS_INFO("Bad value for status port: %s\n", optarg);
+	fprintf(stderr, "Bad value for status port: %s\n", optarg);
 	return 1;
       }
       stat_port = ival;
@@ -335,12 +425,12 @@ int main(int argc, char **argv)
       break;
 
     case ':':
-      ROS_INFO("Missing value for -%c\n", optopt);
+      fprintf(stderr, "Missing value for -%c\n", optopt);
       return 1;
       break;
 
     default:
-      fprintf (stderr, "unrecognized option -%c\n", optopt);
+      fprintf(stderr, "unrecognized option -%c\n", optopt);
       return 1;
       break;
     }
@@ -349,7 +439,14 @@ int main(int argc, char **argv)
   // pass everything after a '--' separator to ROS
   ros_argc = argc - optind;
   ros_argv = &argv[optind];
-  ros::init(ros_argc, ros_argv, node_name);
+
+  try {
+    ros::init(ros_argc, ros_argv, node_name);
+  }
+  catch (...) {
+    cerr << "ros::init(): general exception" << endl;
+    return 1;
+  }
 
   ros::NodeHandle nh;
   ros::Subscriber prim_robot_cmd_sub;
@@ -367,28 +464,32 @@ int main(int argc, char **argv)
   prim_robot_stat_buf.stat.heartbeat = 0;
 
   // connect to host robot controller
-  CrclClient client(host_name, cmd_port, stat_port);
-
-  if (! client.isConnected()) {
-    ROS_INFO("Can't connect to CRCL server %s on ports %d, %d\n", host_name, cmd_port, stat_port);
+  CrclClient client;
+  if (! client.connect(host_name, cmd_port, stat_port)) {
+    ROS_INFO("Can't connect to CRCL server %s on ports %d, %d", host_name, cmd_port, stat_port);
     return 1;
   }
 
   robotPose clientPose;
   robotAxes clientAxes;
   double toolSetting;
-  boost::thread *clientStatThr = NULL;
+  client_stat_task_args args;
+  ulapi_task_struct *clientStatThr;
+
+  // these are constant, so no need to new/delete the args each time
+  args.client_ptr = &client, args.pose_ptr = &clientPose, args.axes_ptr = &clientAxes, args.tool_setting_ptr = &toolSetting;
 
   client.startStat();
-  clientStatThr = new boost::thread(&CrclClient::GetStatus, &client, &clientPose, &clientAxes, &toolSetting);
+  clientStatThr = ulapi_task_new();
+  ulapi_task_start(clientStatThr, reinterpret_cast<ulapi_task_code>(client_stat_task_code), reinterpret_cast<void *>(&args), ulapi_prio_highest(), 0);
+
+  double start, end, last_start = ulapi_time() - prim_robot_stat_buf.stat.period;
 
   signal(SIGINT, quit);
 
-  double start, end, last_start = etime() - prim_robot_stat_buf.stat.period;
-
   while (true) {
     ros::spinOnce();
-    start = etime();
+    start = ulapi_time();
     prim_robot_stat_buf.stat.cycle = start - last_start;
     last_start = start;
 
@@ -426,7 +527,7 @@ int main(int argc, char **argv)
     }
 
     if (client.statDone()) {
-      if (debug) printf("statDone\n");
+      if (debug) ROS_DEBUG("statDone\n");
       if (CANON_SUCCESS == client.getStatResult()) {
 	prim_robot_stat_buf.pose = crclToRos(clientPose);
 	//
@@ -448,14 +549,17 @@ int main(int argc, char **argv)
 			     toolSetting);
       }
       // start a new one
-      delete clientStatThr;
+      ulapi_task_stop(clientStatThr);
+      ulapi_task_delete(clientStatThr);
+
       client.startStat();
-      clientStatThr = new boost::thread(&CrclClient::GetStatus, &client, &clientPose, &clientAxes, &toolSetting);
+      clientStatThr = ulapi_task_new();
+      ulapi_task_start(clientStatThr, reinterpret_cast<ulapi_task_code>(client_stat_task_code), reinterpret_cast<void *>(&args), ulapi_prio_highest(), 0);
     } // client.statDone()
 
     prim_robot_stat_buf.stat.heartbeat++;
-    end = etime();
-    prim_robot_stat_buf.stat.duration = etime() - start;
+    end = ulapi_time();
+    prim_robot_stat_buf.stat.duration = ulapi_time() - start;
 
     prim_robot_stat_pub.publish(prim_robot_stat_buf);
 

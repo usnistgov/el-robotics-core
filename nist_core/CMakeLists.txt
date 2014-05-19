@@ -113,7 +113,8 @@ add_executable(ulapi_test src/ulapi_test.cpp)
 
 ## Specify libraries to link a library or executable target against
 
-target_link_libraries(nist_core ${catkin_LIBRARIES})
+target_link_libraries(nist_core ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+add_dependencies(nist_core nist_core_generate_messages_cpp)
 
 target_link_libraries(ulapi_test ${ulapi_LIBRARIES})
 

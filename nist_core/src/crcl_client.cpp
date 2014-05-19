@@ -4,8 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <boost/asio.hpp>
-#include <boost/lexical_cast.hpp>
+#include <ulapi.h>
 
 #include "nist_core/crcl.h"
 #include "nist_core/crcl_robot.h"
@@ -13,31 +12,18 @@
 
 namespace crcl_robot {
 
-  LIBRARY_API CrclClient::CrclClient(const char *host, int cmd_port, int stat_port)
+  LIBRARY_API CrclClient::CrclClient()
   {
-    cmd_socket = new boost::asio::ip::tcp::socket(io_service);
-    stat_socket = new boost::asio::ip::tcp::socket(io_service);
+    ulapi_mutex_init(&mutex, 1);
 
-    boost::asio::ip::tcp::resolver resolver(io_service);
-
-    boost::asio::ip::tcp::resolver::query cmd_query(boost::asio::ip::tcp::v4(), host, boost::lexical_cast<std::string>(cmd_port));
-    boost::asio::ip::tcp::resolver::iterator iterator = resolver.resolve(cmd_query);
-    cmd_socket->connect(*iterator);
-
-    boost::asio::ip::tcp::resolver::query stat_query(boost::asio::ip::tcp::v4(), host, boost::lexical_cast<std::string>(stat_port));
-    iterator = resolver.resolve(stat_query);
-    stat_socket->connect(*iterator);
+    cmd_socket = -1;
+    stat_socket = -1;
 
     cmdResult = CANON_SUCCESS;
     statResult = CANON_SUCCESS;
     cmdDoneFlag = true;
     statDoneFlag = true;
-    connected = true;
-  }
-
-  LIBRARY_API CrclClient::CrclClient()
-  {
-    CrclClient(CRCL_CLIENT_HOST_DEFAULT, CRCL_CLIENT_CMD_PORT_DEFAULT, CRCL_CLIENT_STAT_PORT_DEFAULT);
+    connected = false;
   }
 
   LIBRARY_API CrclClient::~CrclClient()
@@ -112,14 +98,8 @@ namespace crcl_robot {
 		    pose.x, pose.y, pose.z,
 		    pose.xrot, pose.yrot, pose.zrot);
 
-    try {
-      boost::asio::write(*cmd_socket, boost::asio::buffer(outbuf, strlen(outbuf)+1));
-      cmd_socket->read_some(boost::asio::buffer(inbuf));
-    } catch (std::exception &e) {
-      cmdResult = CANON_FAILURE;
-      cmdDoneFlag = true;
-      return cmdResult;
-    }
+    ulapi_socket_write(cmd_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(cmd_socket, inbuf, sizeof(inbuf)-1);
   
     cmdDoneFlag = true;
     return setCmdResult(inbuf);
@@ -134,14 +114,8 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "StopMotion %d", condition);
 
-    try {
-      boost::asio::write(*cmd_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-      cmd_socket->read_some(boost::asio::buffer(inbuf));
-    } catch (std::exception &e) {
-      cmdResult = CANON_FAILURE;
-      cmdDoneFlag = true;
-      return cmdResult;
-    }
+    ulapi_socket_write(cmd_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(cmd_socket, inbuf, sizeof(inbuf)-1);
 
     cmdDoneFlag = true;
     return setCmdResult(inbuf);
@@ -156,14 +130,8 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "SetTool %f", percent);
 
-    try {
-      boost::asio::write(*cmd_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-      cmd_socket->read_some(boost::asio::buffer(inbuf));
-    } catch (std::exception &e) {
-      cmdResult = CANON_FAILURE;
-      cmdDoneFlag = true;
-      return cmdResult;
-    }
+    ulapi_socket_write(cmd_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(cmd_socket, inbuf, sizeof(inbuf)-1);
 
     cmdDoneFlag = true;
     return setCmdResult(inbuf);
@@ -178,20 +146,15 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "SetAbsoluteSpeed %f", speed);
 
-    try {
-      boost::asio::write(*cmd_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-      cmd_socket->read_some(boost::asio::buffer(inbuf));
-    } catch (std::exception &e) {
-      cmdResult = CANON_FAILURE;
-      cmdDoneFlag = true;
-      return cmdResult;
-    }
-
+    ulapi_socket_write(cmd_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(cmd_socket, inbuf, sizeof(inbuf)-1);
+  
     cmdDoneFlag = true;
     return setCmdResult(inbuf);
   }
 
-#define LOCKIT boost::mutex::scoped_lock lock(mutex)
+#define LOCKIT ulapi_mutex_take(&mutex)
+#define UNLOCKIT ulapi_mutex_give(&mutex)
 
   LIBRARY_API CanonReturn CrclClient::GetRobotPose (robotPose *pose)
   {
@@ -204,17 +167,10 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "GetRobotPose");
 
-    {
-      LOCKIT;
-      try {
-	boost::asio::write(*stat_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-	stat_socket->read_some(boost::asio::buffer(inbuf));
-      } catch (std::exception &e) {
-	statResult = CANON_FAILURE;
-	statDoneFlag = true;
-	return statResult;
-      }
-    }
+    LOCKIT;
+    ulapi_socket_write(stat_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(stat_socket, inbuf, sizeof(inbuf)-1);
+    UNLOCKIT;
 
     if (CANON_SUCCESS == setStatResult(inbuf)) {
       if (6 == sscanf(inbuf, "%*s %*s %lf %lf %lf %lf %lf %lf",
@@ -239,17 +195,10 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "GetRobotAxes");
 
-    {
-      LOCKIT;
-      try {
-	boost::asio::write(*stat_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-	stat_socket->read_some(boost::asio::buffer(inbuf));
-      } catch (std::exception &e) {
-	statResult = CANON_FAILURE;
-	statDoneFlag = true;
-	return statResult;
-      }
-    }
+    LOCKIT;
+    ulapi_socket_write(stat_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(stat_socket, inbuf, sizeof(inbuf)-1);
+    UNLOCKIT;
 
     if (CANON_SUCCESS == setStatResult(inbuf)) {
       if (6 == sscanf(inbuf, "%*s %*s %lf %lf %lf %lf %lf %lf",
@@ -274,17 +223,10 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "GetTool");
 
-    {
-      LOCKIT;
-      try {
-	boost::asio::write(*stat_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-	stat_socket->read_some(boost::asio::buffer(inbuf));
-      } catch (std::exception &e) {
-	statResult = CANON_FAILURE;
-	statDoneFlag = true;
-	return statResult;
-      }
-    }
+    LOCKIT;
+    ulapi_socket_write(stat_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(stat_socket, inbuf, sizeof(inbuf)-1);
+    UNLOCKIT;
 
     if (CANON_SUCCESS == setStatResult(inbuf)) {
       if (1 == sscanf(inbuf, "%*s %*s %lf", &d1)) {
@@ -308,17 +250,10 @@ namespace crcl_robot {
 
     snprintf(outbuf, sizeof(outbuf), "GetStatus");
 
-    {
-      LOCKIT;
-      try {
-	boost::asio::write(*stat_socket, boost::asio::buffer(outbuf, sizeof(outbuf)));
-	stat_socket->read_some(boost::asio::buffer(inbuf));
-      } catch (std::exception &e) {
-	statResult = CANON_FAILURE;
-	statDoneFlag = true;
-	return statResult;
-      }
-    }
+    LOCKIT;
+    ulapi_socket_write(stat_socket, outbuf, strlen(outbuf)+1);
+    ulapi_socket_read(stat_socket, inbuf, sizeof(inbuf)-1);
+    UNLOCKIT;
 
     nptr = inbuf;
     if (! strncmp(nptr, "Success GetStatus", strlen("Success GetStatus"))) {
@@ -357,6 +292,36 @@ namespace crcl_robot {
 
     statDoneFlag = true;
     return statResult;
+  }
+
+  bool LIBRARY_API CrclClient::connect(const char *host, int cmd_port, int stat_port)
+  {
+    cmd_socket = -1;
+    stat_socket = -1;
+    connected = false;
+
+    cmd_socket = ulapi_socket_get_client_id(cmd_port, host);
+    if (cmd_socket < 0) {
+      cmd_socket = -1;
+      return false;
+    }
+
+    stat_socket = ulapi_socket_get_client_id(stat_port, host);
+    if (stat_socket < 0) {
+      stat_socket = -1;
+      ulapi_socket_close(cmd_socket);
+      cmd_socket = -1;
+      return false;
+    }
+
+    connected = true;
+
+    return true;
+  }
+
+  bool LIBRARY_API CrclClient::connect()
+  {
+    return connect(CRCL_CLIENT_HOST_DEFAULT, CRCL_CLIENT_CMD_PORT_DEFAULT, CRCL_CLIENT_STAT_PORT_DEFAULT);
   }
 
   LIBRARY_API bool CrclClient::isConnected()

@@ -95,7 +95,8 @@ namespace RobotiqGripper
 	  sN->attach(nS);
     */
     
-    clientID_ = ulapi_socket_get_client_id (502, "192.168.1.11");
+//    clientID_ = ulapi_socket_get_client_id (502, "192.168.1.11");
+      clientID_ = ulapi_socket_get_client_id (502, "169.254.152.11");
 
 	  //if (!nS.connected)
     if (clientID_ < 0)

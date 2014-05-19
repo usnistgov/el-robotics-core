@@ -550,16 +550,29 @@ ulapi_result ulapi_process_wait(void *proc, ulapi_integer *result)
   return ULAPI_ERROR;
 }
 
-typedef struct {
-  HANDLE hMutex;
-} win32_mutex_struct;
-
-void *ulapi_mutex_new(ulapi_id key)
+ulapi_result ulapi_mutex_init(ulapi_mutex_struct *mutex, ulapi_id key)
 {
-  win32_mutex_struct * mutex;
   HANDLE hMutex;
 
-  mutex = (win32_mutex_struct *) malloc(sizeof(win32_mutex_struct));
+  hMutex = CreateMutex(NULL,	/* default security attributes */
+		       FALSE,	/* initially not owned */
+		       NULL);	/* unnamed mutex */
+
+  if (NULL == hMutex) {
+    return ULAPI_ERROR;
+  }
+
+  mutex->hMutex = hMutex;
+
+  return ULAPI_OK;
+}
+
+ulapi_mutex_struct *ulapi_mutex_new(ulapi_id key)
+{
+  ulapi_mutex_struct *mutex;
+  HANDLE hMutex;
+
+  mutex = (ulapi_mutex_struct *) malloc(sizeof(ulapi_mutex_struct));
   if (NULL == mutex) {
     return NULL;
   }
@@ -578,31 +591,37 @@ void *ulapi_mutex_new(ulapi_id key)
   return mutex;
 }
 
-ulapi_result ulapi_mutex_delete(void *mutex)
+ulapi_result ulapi_mutex_clear(ulapi_mutex_struct *mutex)
+{
+  CloseHandle(mutex->hMutex);
+
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_mutex_delete(ulapi_mutex_struct *mutex)
 {
   if (NULL == mutex) return ULAPI_ERROR;
 
-  CloseHandle(((win32_mutex_struct *) mutex)->hMutex);
+  CloseHandle(mutex->hMutex);
   free(mutex);
 
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_mutex_give(void *mutex)
+ulapi_result ulapi_mutex_give(ulapi_mutex_struct *mutex)
 {
   BOOL retval;
 
-  retval = ReleaseMutex(((win32_mutex_struct *) mutex)->hMutex);
+  retval = ReleaseMutex(mutex->hMutex);
 
   return retval ? ULAPI_OK : ULAPI_ERROR;
 }
 
-ulapi_result ulapi_mutex_take(void *mutex)
+ulapi_result ulapi_mutex_take(ulapi_mutex_struct *mutex)
 {
   DWORD retval;
 
-  retval = WaitForSingleObject(((win32_mutex_struct *) mutex)->hMutex,
-			       INFINITE);
+  retval = WaitForSingleObject(mutex->hMutex, INFINITE);
 
   return retval == WAIT_OBJECT_0 ? ULAPI_OK : ULAPI_ERROR;
 } 

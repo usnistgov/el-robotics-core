@@ -159,10 +159,17 @@ typedef struct {
   DWORD dwThreadId;
 } ulapi_task_struct;
 
+typedef struct {
+  HANDLE hMutex;
+} ulapi_mutex_struct;
+
 #else
 
 #include <pthread.h>		/* pthread_t */
+
 typedef pthread_t ulapi_task_struct;
+
+typedef pthread_mutex_t ulapi_mutex_struct;
 
 #endif
 
@@ -217,24 +224,31 @@ extern ulapi_result ulapi_process_stop(void *proc);
 extern ulapi_integer ulapi_process_done(void *proc, ulapi_integer *result);
 extern ulapi_result ulapi_process_wait(void *proc, ulapi_integer *result);
 
+/*! Initializes a mutex with the key provided. */
+extern ulapi_result ulapi_mutex_init(ulapi_mutex_struct *mutex, ulapi_id key);
+
 /*!
   Returns a pointer to an implementation-defined structure that
   is passed to the other mutex functions, or NULL if no mutex can
   be created.
 */
-extern void *ulapi_mutex_new(ulapi_id key);
+extern ulapi_mutex_struct *ulapi_mutex_new(ulapi_id key);
+
+/*! Removes the resources associated with this mutex, but leaves the mutex
+  valid for other tasks that may be using it. */
+ulapi_result ulapi_mutex_clear(ulapi_mutex_struct *mutex);
 
 /*! Deletes the mutex. */
-extern ulapi_result ulapi_mutex_delete(void *mutex);
+extern ulapi_result ulapi_mutex_delete(ulapi_mutex_struct *mutex);
 
 /*| Releases the mutex, signifying that the associated shared resource 
   is now free for another task to take. */
-extern ulapi_result ulapi_mutex_give(void *mutex);
+extern ulapi_result ulapi_mutex_give(ulapi_mutex_struct *mutex);
 
 /*! Takes the mutex, signifying that the associated shared resource
   will now be used by the task. If the mutex is already taken, this
   blocks the caller until the mutex is given. */
-extern ulapi_result ulapi_mutex_take(void *mutex);
+extern ulapi_result ulapi_mutex_take(ulapi_mutex_struct *mutex);
 
 extern void *ulapi_sem_new(ulapi_id key);
 extern ulapi_result ulapi_sem_delete(void *sem);

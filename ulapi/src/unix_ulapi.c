@@ -255,7 +255,11 @@ ulapi_task_struct *ulapi_task_new(void)
   ulapi_task_struct *ts = malloc(sizeof(ulapi_task_struct));
   if (NULL == ts) return NULL;
 
-  (void) ulapi_task_init(ts);
+  if (ULAPI_OK != ulapi_task_init(ts)) {
+    free(ts);
+    ts = NULL;
+  }
+
   return ts;
 }
 
@@ -518,17 +522,27 @@ ulapi_result ulapi_process_wait(void *proc, ulapi_integer *result)
   return ULAPI_ERROR;
 }
 
-void * ulapi_mutex_new(ulapi_id key)
+ulapi_result ulapi_mutex_init(ulapi_mutex_struct *mutex, ulapi_id key)
 {
-  pthread_mutex_t * mutex;
+  /* initialize mutex to default attributes, and give it */
+  if (0 == pthread_mutex_init(mutex, NULL)) {
+    (void) pthread_mutex_unlock(mutex);
+    return ULAPI_OK;
+  }
+  return ULAPI_ERROR;
+}
 
-  mutex = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
-  if (NULL == (void *) mutex) return NULL;
+ulapi_mutex_struct *ulapi_mutex_new(ulapi_id key)
+{
+  ulapi_mutex_struct *mutex;
+
+  mutex = (ulapi_mutex_struct *) malloc(sizeof(ulapi_mutex_struct));
+  if (NULL == mutex) return NULL;
 
   /* initialize mutex to default attributes, and give it */
   if (0 == pthread_mutex_init(mutex, NULL)) {
     (void) pthread_mutex_unlock(mutex);
-    return (void *) mutex;
+    return mutex;
   }
   /* else got an error, so free the mutex and return null */
 
@@ -536,9 +550,16 @@ void * ulapi_mutex_new(ulapi_id key)
   return NULL;
 }
 
-ulapi_result ulapi_mutex_delete(void * mutex)
+ulapi_result ulapi_mutex_clear(ulapi_mutex_struct *mutex)
 {
-  if (NULL == (void *) mutex) return ULAPI_ERROR;
+  (void) pthread_mutex_destroy((pthread_mutex_t *) mutex);
+
+  return ULAPI_OK;
+}
+
+ulapi_result ulapi_mutex_delete(ulapi_mutex_struct *mutex)
+{
+  if (NULL == mutex) return ULAPI_ERROR;
 
   (void) pthread_mutex_destroy((pthread_mutex_t *) mutex);
   free(mutex);
@@ -546,12 +567,12 @@ ulapi_result ulapi_mutex_delete(void * mutex)
   return ULAPI_OK;
 }
 
-ulapi_result ulapi_mutex_give(void * mutex)
+ulapi_result ulapi_mutex_give(ulapi_mutex_struct *mutex)
 {
   return (0 == pthread_mutex_unlock((pthread_mutex_t *) mutex) ? ULAPI_OK : ULAPI_ERROR);
 }
 
-ulapi_result ulapi_mutex_take(void * mutex)
+ulapi_result ulapi_mutex_take(ulapi_mutex_struct *mutex)
 {
   return (0 == pthread_mutex_lock((pthread_mutex_t *) mutex) ? ULAPI_OK : ULAPI_ERROR);
 }

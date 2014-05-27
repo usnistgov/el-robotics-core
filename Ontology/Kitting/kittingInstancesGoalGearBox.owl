@@ -4914,7 +4914,7 @@ DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_GearBox_top_st
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_GearBox_top_stl
                       "
-        ../stlFiles/top_course_3474.stl
+        stlFiles/top_course_3474A.stl
       "^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
@@ -4967,9 +4967,7 @@ DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_GearBox_base_stl
 DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_GearBox_base_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_GearBox_base_stl
-                      "
-        ../stlFiles/base_course_4894.stl
-      "^^xsd:string)
+                      "stlFiles/base_course_4894A.stl"^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
 
@@ -5020,7 +5018,7 @@ DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_large_gear_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_large_gear_stl
                       "
-        ../stlFiles/large_gear_course_2148.stl
+        stlFiles/large_gear_course_2148A.stl
       "^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
@@ -5072,7 +5070,7 @@ DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_medium_gear_st
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_medium_gear_stl
                       "
-        ../stlFiles/medium_gear_course_2068.stl
+        stlFiles/medium_gear_course_2068A.stl
       "^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
@@ -5124,7 +5122,7 @@ DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_small_gear_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_small_gear_stl
                       "
-        ../stlFiles/small_gear_course_1864.stl
+        stlFiles/small_gear_course_1864A.stl
       "^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
@@ -5176,7 +5174,7 @@ DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_washer_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_washer_stl
                       "
-        ../stlFiles/washer_course_272.stl
+        stlFiles/washer_course_272A.stl
       "^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
@@ -5228,7 +5226,7 @@ DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_shaft_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_shaft_stl
                       "
-        ../stlFiles/shaft_course_68.stl
+        stlFiles/shaft_course_68A.stl
       "^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************

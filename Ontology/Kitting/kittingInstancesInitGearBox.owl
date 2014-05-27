@@ -1587,9 +1587,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:GearBox_base_1_point))
 ClassAssertion(ktw:Point :GearBox_base_1_point)
 DataPropertyAssertion(ktw:hasPoint_X :GearBox_base_1_point
-                      "-110.000000"^^xsd:decimal)
+                      "-160.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :GearBox_base_1_point
-                      "0.000000"^^xsd:decimal)
+                      "-95.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :GearBox_base_1_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -1619,11 +1619,11 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_ZAxis
 Declaration(NamedIndividual(:GearBox_base_1_z_axis))
 ClassAssertion(ktw:Vector :GearBox_base_1_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :GearBox_base_1_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :GearBox_base_1_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :GearBox_base_1_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -1661,9 +1661,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:GearBox_base_2_point))
 ClassAssertion(ktw:Point :GearBox_base_2_point)
 DataPropertyAssertion(ktw:hasPoint_X :GearBox_base_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-50.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :GearBox_base_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-95.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :GearBox_base_2_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -1693,11 +1693,11 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_ZAxis
 Declaration(NamedIndividual(:GearBox_base_2_z_axis))
 ClassAssertion(ktw:Vector :GearBox_base_2_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :GearBox_base_2_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :GearBox_base_2_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :GearBox_base_2_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -1735,9 +1735,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:GearBox_base_3_point))
 ClassAssertion(ktw:Point :GearBox_base_3_point)
 DataPropertyAssertion(ktw:hasPoint_X :GearBox_base_3_point
-                      "110.000000"^^xsd:decimal)
+                      "60.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :GearBox_base_3_point
-                      "0.000000"^^xsd:decimal)
+                      "-95.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :GearBox_base_3_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -1767,11 +1767,11 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_ZAxis
 Declaration(NamedIndividual(:GearBox_base_3_z_axis))
 ClassAssertion(ktw:Vector :GearBox_base_3_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :GearBox_base_3_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :GearBox_base_3_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :GearBox_base_3_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -1887,9 +1887,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:GearBox_top_1_point))
 ClassAssertion(ktw:Point :GearBox_top_1_point)
 DataPropertyAssertion(ktw:hasPoint_X :GearBox_top_1_point
-                      "-110.000000"^^xsd:decimal)
+                      "-160.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :GearBox_top_1_point
-                      "0.000000"^^xsd:decimal)
+                      "-100.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :GearBox_top_1_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -1919,11 +1919,11 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_ZAxis
 Declaration(NamedIndividual(:GearBox_top_1_z_axis))
 ClassAssertion(ktw:Vector :GearBox_top_1_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :GearBox_top_1_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :GearBox_top_1_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :GearBox_top_1_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -1961,9 +1961,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:GearBox_top_2_point))
 ClassAssertion(ktw:Point :GearBox_top_2_point)
 DataPropertyAssertion(ktw:hasPoint_X :GearBox_top_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-50.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :GearBox_top_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-100.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :GearBox_top_2_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -1993,11 +1993,11 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_ZAxis
 Declaration(NamedIndividual(:GearBox_top_2_z_axis))
 ClassAssertion(ktw:Vector :GearBox_top_2_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :GearBox_top_2_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :GearBox_top_2_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :GearBox_top_2_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2035,9 +2035,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:GearBox_top_3_point))
 ClassAssertion(ktw:Point :GearBox_top_3_point)
 DataPropertyAssertion(ktw:hasPoint_X :GearBox_top_3_point
-                      "110.000000"^^xsd:decimal)
+                      "60.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :GearBox_top_3_point
-                      "0.000000"^^xsd:decimal)
+                      "-100.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :GearBox_top_3_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2067,11 +2067,11 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_ZAxis
 Declaration(NamedIndividual(:GearBox_top_3_z_axis))
 ClassAssertion(ktw:Vector :GearBox_top_3_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :GearBox_top_3_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :GearBox_top_3_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :GearBox_top_3_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2187,9 +2187,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:large_gear_1_point))
 ClassAssertion(ktw:Point :large_gear_1_point)
 DataPropertyAssertion(ktw:hasPoint_X :large_gear_1_point
-                      "-90.000000"^^xsd:decimal)
+                      "-125.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :large_gear_1_point
-                      "0.000000"^^xsd:decimal)
+                      "40.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :large_gear_1_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2221,9 +2221,9 @@ ClassAssertion(ktw:Vector :large_gear_1_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :large_gear_1_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :large_gear_1_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :large_gear_1_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2261,9 +2261,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:large_gear_2_point))
 ClassAssertion(ktw:Point :large_gear_2_point)
 DataPropertyAssertion(ktw:hasPoint_X :large_gear_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-40.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :large_gear_2_point
-                      "0.000000"^^xsd:decimal)
+                      "40.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :large_gear_2_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2295,9 +2295,9 @@ ClassAssertion(ktw:Vector :large_gear_2_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :large_gear_2_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :large_gear_2_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :large_gear_2_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2335,9 +2335,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:large_gear_3_point))
 ClassAssertion(ktw:Point :large_gear_3_point)
 DataPropertyAssertion(ktw:hasPoint_X :large_gear_3_point
-                      "90.000000"^^xsd:decimal)
+                      "45.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :large_gear_3_point
-                      "0.000000"^^xsd:decimal)
+                      "40.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :large_gear_3_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2351,9 +2351,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_XAxis
 Declaration(NamedIndividual(:large_gear_3_x_axis))
 ClassAssertion(ktw:Vector :large_gear_3_x_axis)
 DataPropertyAssertion(ktw:hasVector_I :large_gear_3_x_axis
-                      "0.000000"^^xsd:decimal)
-DataPropertyAssertion(ktw:hasVector_J :large_gear_3_x_axis
                       "1.000000"^^xsd:decimal)
+DataPropertyAssertion(ktw:hasVector_J :large_gear_3_x_axis
+                      "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :large_gear_3_x_axis
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
@@ -2369,9 +2369,9 @@ ClassAssertion(ktw:Vector :large_gear_3_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :large_gear_3_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :large_gear_3_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :large_gear_3_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2487,9 +2487,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:medium_gear_1_point))
 ClassAssertion(ktw:Point :medium_gear_1_point)
 DataPropertyAssertion(ktw:hasPoint_X :medium_gear_1_point
-                      "-90.000000"^^xsd:decimal)
+                      "-105.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :medium_gear_1_point
-                      "0.000000"^^xsd:decimal)
+                      "30.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :medium_gear_1_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2521,9 +2521,9 @@ ClassAssertion(ktw:Vector :medium_1_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :medium_1_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :medium_1_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :medium_1_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2561,9 +2561,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:medium_gear_2_point))
 ClassAssertion(ktw:Point :medium_gear_2_point)
 DataPropertyAssertion(ktw:hasPoint_X :medium_gear_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-25.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :medium_gear_2_point
-                      "0.000000"^^xsd:decimal)
+                      "30.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :medium_gear_2_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2595,9 +2595,9 @@ ClassAssertion(ktw:Vector :medium_gear_2_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :medium_gear_2_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :medium_gear_2_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :medium_gear_2_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2635,9 +2635,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:medium_gear_3_point))
 ClassAssertion(ktw:Point :medium_gear_3_point)
 DataPropertyAssertion(ktw:hasPoint_X :medium_gear_3_point
-                      "90.000000"^^xsd:decimal)
+                      "55.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :medium_gear_3_point
-                      "0.000000"^^xsd:decimal)
+                      "30.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :medium_gear_3_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2651,9 +2651,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_XAxis
 Declaration(NamedIndividual(:medium_gear_3_x_axis))
 ClassAssertion(ktw:Vector :medium_gear_3_x_axis)
 DataPropertyAssertion(ktw:hasVector_I :medium_gear_3_x_axis
-                      "0.000000"^^xsd:decimal)
-DataPropertyAssertion(ktw:hasVector_J :medium_gear_3_x_axis
                       "1.000000"^^xsd:decimal)
+DataPropertyAssertion(ktw:hasVector_J :medium_gear_3_x_axis
+                      "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :medium_gear_3_x_axis
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
@@ -2669,9 +2669,9 @@ ClassAssertion(ktw:Vector :medium_gear_3_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :medium_gear_3_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :medium_gear_3_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :medium_gear_3_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2787,9 +2787,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:small_gear_1_point))
 ClassAssertion(ktw:Point :small_gear_1_point)
 DataPropertyAssertion(ktw:hasPoint_X :small_gear_1_point
-                      "-90.000000"^^xsd:decimal)
+                      "-110.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :small_gear_1_point
-                      "0.000000"^^xsd:decimal)
+                      "21.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :small_gear_1_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2821,9 +2821,9 @@ ClassAssertion(ktw:Vector :small_1_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :small_1_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :small_1_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :small_1_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2861,9 +2861,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:small_gear_2_point))
 ClassAssertion(ktw:Point :small_gear_2_point)
 DataPropertyAssertion(ktw:hasPoint_X :small_gear_2_point
-                      "0.000000"^^xsd:decimal)
+                      "-20.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :small_gear_2_point
-                      "0.000000"^^xsd:decimal)
+                      "21.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :small_gear_2_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2895,9 +2895,9 @@ ClassAssertion(ktw:Vector :small_gear_2_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :small_gear_2_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :small_gear_2_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :small_gear_2_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -2935,9 +2935,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_Point
 Declaration(NamedIndividual(:small_gear_3_point))
 ClassAssertion(ktw:Point :small_gear_3_point)
 DataPropertyAssertion(ktw:hasPoint_X :small_gear_3_point
-                      "90.000000"^^xsd:decimal)
+                      "70.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Y :small_gear_3_point
-                      "0.000000"^^xsd:decimal)
+                      "21.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasPoint_Z :small_gear_3_point
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Point
@@ -2951,9 +2951,9 @@ ObjectPropertyAssertion(ktw:hasPoseLocation_XAxis
 Declaration(NamedIndividual(:small_gear_3_x_axis))
 ClassAssertion(ktw:Vector :small_gear_3_x_axis)
 DataPropertyAssertion(ktw:hasVector_I :small_gear_3_x_axis
-                      "0.000000"^^xsd:decimal)
-DataPropertyAssertion(ktw:hasVector_J :small_gear_3_x_axis
                       "1.000000"^^xsd:decimal)
+DataPropertyAssertion(ktw:hasVector_J :small_gear_3_x_axis
+                      "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :small_gear_3_x_axis
                       "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
@@ -2969,9 +2969,9 @@ ClassAssertion(ktw:Vector :small_gear_3_z_axis)
 DataPropertyAssertion(ktw:hasVector_I :small_gear_3_z_axis
                       "0.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_J :small_gear_3_z_axis
-                      "0.000000"^^xsd:decimal)
+                      "-1.000000"^^xsd:decimal)
 DataPropertyAssertion(ktw:hasVector_K :small_gear_3_z_axis
-                      "1.000000"^^xsd:decimal)
+                      "0.000000"^^xsd:decimal)
 // 5 end ktw:Vector
 //*****************************************
 
@@ -4839,9 +4839,7 @@ DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_GearBox_top_stl
 DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_GearBox_top_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_GearBox_top_stl
-                      "
-        ../stlFiles/top_course_3474.stl
-      "^^xsd:string)
+                      "stlFiles/top_course_3474A.stl"^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
 
@@ -4893,9 +4891,7 @@ DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_GearBox_base_stl
 DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_GearBox_base_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_GearBox_base_stl
-                      "
-        ../stlFiles/base_course_4894.stl
-      "^^xsd:string)
+                      "stlFiles/base_course_4894A.stl"^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
 
@@ -4945,9 +4941,7 @@ DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_large_gear_stl
 DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_large_gear_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_large_gear_stl
-                      "
-        ../stlFiles/large_gear_course_2148.stl
-      "^^xsd:string)
+                      "stlFiles/large_gear_course_2148A.stl"^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
 
@@ -4997,9 +4991,7 @@ DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_medium_gear_stl
 DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_medium_gear_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_medium_gear_stl
-                      "
-        ../stlFiles/medium_gear_course_2068.stl
-      "^^xsd:string)
+                      "stlFiles/medium_gear_course_2068A.stl"^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
 
@@ -5049,9 +5041,7 @@ DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_small_gear_stl
 DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_small_gear_stl
                       "STL"^^xsd:string)
 DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_small_gear_stl
-                      "
-        ../stlFiles/small_gear_course_1864.stl
-      "^^xsd:string)
+                      "stlFiles/small_gear_course_1864A.stl"^^xsd:string)
 // 3 end ktw:ExternalShape
 //*****************************************
 
@@ -5089,24 +5079,6 @@ DataPropertyAssertion(ktw:hasCylindricalShape_HasTop :shape_washer
 // 3 end ktw:CylindricalShape
 //*****************************************
 
-ObjectPropertyAssertion(ktw:hasStockKeepingUnit_ExternalShape
-                        :stock_keeping_unit_washer :shape_washer_stl)
-
-//*****************************************
-// 3 start ktw:ExternalShape shape_washer_stl
-Declaration(NamedIndividual(:shape_washer_stl))
-ClassAssertion(ktw:ExternalShape :shape_washer_stl)
-DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_washer_stl
-                      "stl file with shape of washer"^^xsd:string)
-DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_washer_stl
-                      "STL"^^xsd:string)
-DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_washer_stl
-                      "
-        ../stlFiles/washer_course_272.stl
-      "^^xsd:string)
-// 3 end ktw:ExternalShape
-//*****************************************
-
 DataPropertyAssertion(ktw:hasStockKeepingUnit_Weight :stock_keeping_unit_washer
                       "0.001000"^^xsd:decimal)
 ObjectPropertyAssertion(ktw:hasStockKeepingUnit_EndEffector
@@ -5139,24 +5111,6 @@ DataPropertyAssertion(ktw:hasCylindricalShape_Height :shape_shaft
 DataPropertyAssertion(ktw:hasCylindricalShape_HasTop :shape_shaft
                       "true"^^xsd:boolean)
 // 3 end ktw:CylindricalShape
-//*****************************************
-
-ObjectPropertyAssertion(ktw:hasStockKeepingUnit_ExternalShape
-                        :stock_keeping_unit_shaft :shape_shaft_stl)
-
-//*****************************************
-// 3 start ktw:ExternalShape shape_shaft_stl
-Declaration(NamedIndividual(:shape_shaft_stl))
-ClassAssertion(ktw:ExternalShape :shape_shaft_stl)
-DataPropertyAssertion(ktw:hasShapeDesign_Description :shape_shaft_stl
-                      "stl file with shape of shaft"^^xsd:string)
-DataPropertyAssertion(ktw:hasExternalShape_ModelFormatName :shape_shaft_stl
-                      "STL"^^xsd:string)
-DataPropertyAssertion(ktw:hasExternalShape_ModelFileName :shape_shaft_stl
-                      "
-        ../stlFiles/shaft_course_68.stl
-      "^^xsd:string)
-// 3 end ktw:ExternalShape
 //*****************************************
 
 DataPropertyAssertion(ktw:hasStockKeepingUnit_Weight :stock_keeping_unit_shaft
@@ -5357,9 +5311,7 @@ DifferentIndividuals(
  :shape_GearBox_top_stl
  :shape_large_gear_stl
  :shape_medium_gear_stl
- :shape_shaft_stl
- :shape_small_gear_stl
- :shape_washer_stl)
+ :shape_small_gear_stl)
 
 //*****************************************
 // ktw:LargeContainer individuals 

@@ -4,10 +4,10 @@ that they have been moved to ipmas/Ontology/Kitting.
 kittingInstancesExternalShape.owl
 kittingInstancesGoal1.owl
 kittingInstancesGoal2.owl
-kittingInstancesGoalGearBox.xml
+kittingInstancesGoalGearBox.owl
 kittingInstancesGrasp.owl
 kittingInstancesInit1.owl
 kittingInstancesInit2.owl
 kittingInstancesInit3.owl
-kittingInstancesInitGearBox.xml
+kittingInstancesInitGearBox.owl
 kittingWorkstationClasses.owl

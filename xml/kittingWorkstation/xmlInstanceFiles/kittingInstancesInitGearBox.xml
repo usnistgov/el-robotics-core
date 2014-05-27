@@ -663,8 +663,8 @@
         <RefObjectName>GearBox_base_tray</RefObjectName>
         <Point>
           <Name>GearBox_base_1_point</Name>
-          <X>-110</X>
-          <Y>0</Y>
+          <X>-160</X>
+          <Y>-95</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -675,9 +675,9 @@
         </XAxis>
         <ZAxis>
           <Name>GearBox_base_1_z_axis</Name>
-          <I>0.000000</I>
+          <I>1.000000</I>
           <J>0.000000</J>
-          <K>1.000000</K>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_GearBox_base</SkuName>
@@ -690,8 +690,8 @@
         <RefObjectName>GearBox_base_tray</RefObjectName>
         <Point>
           <Name>GearBox_base_2_point</Name>
-          <X>0</X>
-          <Y>0</Y>
+          <X>-50</X>
+          <Y>-95</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -702,9 +702,9 @@
         </XAxis>
         <ZAxis>
           <Name>GearBox_base_2_z_axis</Name>
-          <I>0.000000</I>
+          <I>1.000000</I>
           <J>0.000000</J>
-          <K>1.000000</K>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_GearBox_base</SkuName>
@@ -717,8 +717,8 @@
         <RefObjectName>GearBox_base_tray</RefObjectName>
         <Point>
           <Name>GearBox_base_3_point</Name>
-          <X>110</X>
-          <Y>0</Y>
+          <X>60</X>
+          <Y>-95</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -729,9 +729,9 @@
         </XAxis>
         <ZAxis>
           <Name>GearBox_base_3_z_axis</Name>
-          <I>0.000000</I>
+          <I>1.000000</I>
           <J>0.000000</J>
-          <K>1.000000</K>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_GearBox_base</SkuName>
@@ -775,8 +775,8 @@
         <RefObjectName>GearBox_top_tray</RefObjectName>
         <Point>
           <Name>GearBox_top_1_point</Name>
-          <X>-110</X>
-          <Y>0</Y>
+          <X>-160</X>
+          <Y>-100</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -787,9 +787,9 @@
         </XAxis>
         <ZAxis>
           <Name>GearBox_top_1_z_axis</Name>
-          <I>0.000000</I>
+          <I>1.000000</I>
           <J>0.000000</J>
-          <K>1.000000</K>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_GearBox_top</SkuName>
@@ -802,8 +802,8 @@
         <RefObjectName>GearBox_top_tray</RefObjectName>
         <Point>
           <Name>GearBox_top_2_point</Name>
-          <X>0</X>
-          <Y>0</Y>
+          <X>-50</X>
+          <Y>-100</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -814,9 +814,9 @@
         </XAxis>
         <ZAxis>
           <Name>GearBox_top_2_z_axis</Name>
-          <I>0.000000</I>
+          <I>1.000000</I>
           <J>0.000000</J>
-          <K>1.000000</K>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_GearBox_top</SkuName>
@@ -829,8 +829,8 @@
         <RefObjectName>GearBox_top_tray</RefObjectName>
         <Point>
           <Name>GearBox_top_3_point</Name>
-          <X>110</X>
-          <Y>0</Y>
+          <X>60</X>
+          <Y>-100</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -841,9 +841,9 @@
         </XAxis>
         <ZAxis>
           <Name>GearBox_top_3_z_axis</Name>
-          <I>0.000000</I>
+          <I>1.000000</I>
           <J>0.000000</J>
-          <K>1.000000</K>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_GearBox_top</SkuName>
@@ -885,8 +885,8 @@
         <RefObjectName>large_gear_tray</RefObjectName>
         <Point>
           <Name>large_gear_1_point</Name>
-          <X>-90</X>
-          <Y>0</Y>
+          <X>-125</X>
+          <Y>40</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -898,8 +898,8 @@
         <ZAxis>
           <Name>large_gear_1_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_large_gear</SkuName>
@@ -912,8 +912,8 @@
         <RefObjectName>large_gear_tray</RefObjectName>
         <Point>
           <Name>large_gear_2_point</Name>
-          <X>0</X>
-          <Y>0</Y>
+          <X>-40</X>
+          <Y>40</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -925,8 +925,8 @@
         <ZAxis>
           <Name>large_gear_2_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_large_gear</SkuName>
@@ -939,21 +939,21 @@
         <RefObjectName>large_gear_tray</RefObjectName>
         <Point>
           <Name>large_gear_3_point</Name>
-          <X>90</X>
-          <Y>0</Y>
+          <X>45</X>
+          <Y>40</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
           <Name>large_gear_3_x_axis</Name>
-          <I>0.000000</I>
-          <J>1.000000</J>
+          <I>1.000000</I>
+          <J>0.000000</J>
           <K>0.000000</K>
         </XAxis>
         <ZAxis>
           <Name>large_gear_3_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_large_gear</SkuName>
@@ -995,8 +995,8 @@
         <RefObjectName>medium_gear_tray</RefObjectName>
         <Point>
           <Name>medium_gear_1_point</Name>
-          <X>-90</X>
-          <Y>0</Y>
+          <X>-105</X>
+          <Y>30</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -1008,8 +1008,8 @@
         <ZAxis>
           <Name>medium_1_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_medium_gear</SkuName>
@@ -1022,8 +1022,8 @@
         <RefObjectName>medium_gear_tray</RefObjectName>
         <Point>
           <Name>medium_gear_2_point</Name>
-          <X>0</X>
-          <Y>0</Y>
+          <X>-25</X>
+          <Y>30</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -1035,8 +1035,8 @@
         <ZAxis>
           <Name>medium_gear_2_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_medium_gear</SkuName>
@@ -1049,21 +1049,21 @@
         <RefObjectName>medium_gear_tray</RefObjectName>
         <Point>
           <Name>medium_gear_3_point</Name>
-          <X>90</X>
-          <Y>0</Y>
+          <X>55</X>
+          <Y>30</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
           <Name>medium_gear_3_x_axis</Name>
-          <I>0.000000</I>
-          <J>1.000000</J>
+          <I>1.000000</I>
+          <J>0.000000</J>
           <K>0.000000</K>
         </XAxis>
         <ZAxis>
           <Name>medium_gear_3_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_medium_gear</SkuName>
@@ -1105,8 +1105,8 @@
         <RefObjectName>small_gear_tray</RefObjectName>
         <Point>
           <Name>small_gear_1_point</Name>
-          <X>-90</X>
-          <Y>0</Y>
+          <X>-110</X>
+          <Y>21</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -1118,8 +1118,8 @@
         <ZAxis>
           <Name>small_1_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_small_gear</SkuName>
@@ -1132,8 +1132,8 @@
         <RefObjectName>small_gear_tray</RefObjectName>
         <Point>
           <Name>small_gear_2_point</Name>
-          <X>0</X>
-          <Y>0</Y>
+          <X>-20</X>
+          <Y>21</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
@@ -1145,8 +1145,8 @@
         <ZAxis>
           <Name>small_gear_2_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_small_gear</SkuName>
@@ -1159,21 +1159,21 @@
         <RefObjectName>small_gear_tray</RefObjectName>
         <Point>
           <Name>small_gear_3_point</Name>
-          <X>90</X>
-          <Y>0</Y>
+          <X>70</X>
+          <Y>21</Y>
           <Z>0</Z>
         </Point>
         <XAxis>
           <Name>small_gear_3_x_axis</Name>
-          <I>0.000000</I>
-          <J>1.000000</J>
+          <I>1.000000</I>
+          <J>0.000000</J>
           <K>0.000000</K>
         </XAxis>
         <ZAxis>
           <Name>small_gear_3_z_axis</Name>
           <I>0.000000</I>
-          <J>0.000000</J>
-          <K>1.000000</K>
+          <J>-1.000000</J>
+          <K>0.000000</K>
         </ZAxis>
       </PrimaryLocation>
       <SkuName>stock_keeping_unit_small_gear</SkuName>
@@ -1858,9 +1858,7 @@
       <Name>shape_GearBox_top_stl</Name>
       <Description>stl file with shape of top of GearBox</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/top_course_3474.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/top_course_3474A.stl</ModelFileName>
     </ExternalShape>
     <Weight>0.050000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -1880,9 +1878,7 @@
       <Name>shape_GearBox_base_stl</Name>
       <Description>stl file with shape of base of GearBox</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/base_course_4894.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/base_course_4894A.stl</ModelFileName>
     </ExternalShape>
     <Weight>0.050000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -1901,9 +1897,7 @@
       <Name>shape_large_gear_stl</Name>
       <Description>stl file with shape of large gear</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/large_gear_course_2148.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/large_gear_course_2148A.stl</ModelFileName>
     </ExternalShape>
     <Weight>0.200000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -1922,9 +1916,7 @@
       <Name>shape_medium_gear_stl</Name>
       <Description>stl file with shape of medium gear</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/medium_gear_course_2068.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/medium_gear_course_2068A.stl</ModelFileName>
     </ExternalShape>
     <Weight>0.150000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -1943,9 +1935,7 @@
       <Name>shape_small_gear_stl</Name>
       <Description>stl file with shape of small gear</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/small_gear_course_1864.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/small_gear_course_1864A.stl</ModelFileName>
     </ExternalShape>
     <Weight>0.100000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -1960,14 +1950,14 @@
       <Height>0.343</Height>
       <HasTop>true</HasTop>
     </InternalShape>
+<!--
     <ExternalShape>
       <Name>shape_washer_stl</Name>
       <Description>stl file with shape of washer</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/washer_course_272.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/washer_course_272A.stl</ModelFileName>
     </ExternalShape>
+-->
     <Weight>0.001</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>
@@ -1981,14 +1971,14 @@
       <Height>34.239</Height>
       <HasTop>true</HasTop>
     </InternalShape>
+<!--
     <ExternalShape>
       <Name>shape_shaft_stl</Name>
       <Description>stl file with shape of shaft</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/shaft_course_68.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/shaft_course_68A.stl</ModelFileName>
     </ExternalShape>
+-->
     <Weight>0.005</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
   </Sku>

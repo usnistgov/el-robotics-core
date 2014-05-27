@@ -1886,7 +1886,7 @@
       <Description>stl file with shape of top of GearBox</Description>
       <ModelFormatName>STL</ModelFormatName>
       <ModelFileName>
-        ../stlFiles/top_course_3474.stl
+        stlFiles/top_course_3474A.stl
       </ModelFileName>
     </ExternalShape>
     <Weight>0.050000</Weight>
@@ -1907,9 +1907,7 @@
       <Name>shape_GearBox_base_stl</Name>
       <Description>stl file with shape of base of GearBox</Description>
       <ModelFormatName>STL</ModelFormatName>
-      <ModelFileName>
-        ../stlFiles/base_course_4894.stl
-      </ModelFileName>
+      <ModelFileName>stlFiles/base_course_4894A.stl</ModelFileName>
     </ExternalShape>
     <Weight>0.050000</Weight>
     <EndEffectorName>part_gripper</EndEffectorName>
@@ -1929,7 +1927,7 @@
       <Description>stl file with shape of large gear</Description>
       <ModelFormatName>STL</ModelFormatName>
       <ModelFileName>
-        ../stlFiles/large_gear_course_2148.stl
+        stlFiles/large_gear_course_2148A.stl
       </ModelFileName>
     </ExternalShape>
     <Weight>0.200000</Weight>
@@ -1950,7 +1948,7 @@
       <Description>stl file with shape of medium gear</Description>
       <ModelFormatName>STL</ModelFormatName>
       <ModelFileName>
-        ../stlFiles/medium_gear_course_2068.stl
+        stlFiles/medium_gear_course_2068A.stl
       </ModelFileName>
     </ExternalShape>
     <Weight>0.150000</Weight>
@@ -1971,7 +1969,7 @@
       <Description>stl file with shape of small gear</Description>
       <ModelFormatName>STL</ModelFormatName>
       <ModelFileName>
-        ../stlFiles/small_gear_course_1864.stl
+        stlFiles/small_gear_course_1864A.stl
       </ModelFileName>
     </ExternalShape>
     <Weight>0.100000</Weight>
@@ -1992,7 +1990,7 @@
       <Description>stl file with shape of washer</Description>
       <ModelFormatName>STL</ModelFormatName>
       <ModelFileName>
-        ../stlFiles/washer_course_272.stl
+        stlFiles/washer_course_272A.stl
       </ModelFileName>
     </ExternalShape>
     <Weight>0.001</Weight>
@@ -2013,7 +2011,7 @@
       <Description>stl file with shape of shaft</Description>
       <ModelFormatName>STL</ModelFormatName>
       <ModelFileName>
-        ../stlFiles/shaft_course_68.stl
+        stlFiles/shaft_course_68A.stl
       </ModelFileName>
     </ExternalShape>
     <Weight>0.005</Weight>

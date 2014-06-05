@@ -67,10 +67,12 @@ int main(int argc, char * argv[])
   ulapi_task_start(task, task_code, serial, ulapi_prio_lowest(), 0);
 
   while (! feof(stdin)) {
+	int retval;
     printf("> ");
     fflush(stdout);
     if (NULL == fgets(buffer, BUFFERLEN, stdin)) break;
-    ulapi_serial_write(serial, buffer, strlen(buffer));
+    retval = ulapi_serial_write(serial, buffer, strlen(buffer));
+	printf("return: %d\n", retval);
   }
 
   return 0;

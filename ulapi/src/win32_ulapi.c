@@ -1411,11 +1411,11 @@ ulapi_result ulapi_serial_open(const char *port, void *id)
 	ulapi_result retval;
 	COMMTIMEOUTS ct;
 
-	ct.ReadIntervalTimeout = 50;
-	ct.ReadTotalTimeoutMultiplier = 50;
-	ct.ReadTotalTimeoutConstant = 50;
-	ct.WriteTotalTimeoutMultiplier = 50;
-	ct.WriteTotalTimeoutConstant = 50;
+	ct.ReadIntervalTimeout = 1;
+	ct.ReadTotalTimeoutMultiplier = 1;
+	ct.ReadTotalTimeoutConstant = 0;
+	ct.WriteTotalTimeoutMultiplier = 1;
+	ct.WriteTotalTimeoutConstant = 0;
 
 	retval = ulapi_fd_open(port, id);
 	if (ULAPI_OK != retval) return retval;
@@ -1472,6 +1472,10 @@ ulapi_result ulapi_serial_baud(void *id, int baud)
   HANDLE handle = *((HANDLE *) id);
   int cbr = to_cbr(baud);
   DCB dcb;
+  COMMTIMEOUTS ct;
+  int msPerByte;
+
+  if (baud <= 0) return ULAPI_ERROR;
 
   dcb.DCBlength = sizeof(DCB);
   GetCommState(handle, &dcb);
@@ -1481,6 +1485,14 @@ ulapi_result ulapi_serial_baud(void *id, int baud)
   dcb.StopBits = ONESTOPBIT;
 
   if (! SetCommState(handle, &dcb)) return ULAPI_ERROR;
+
+  msPerByte = 9000 / baud + 1; // 8 data, 1 stop = 9
+  ct.ReadIntervalTimeout = msPerByte;
+  ct.ReadTotalTimeoutMultiplier = msPerByte;
+  ct.ReadTotalTimeoutConstant = 0;
+  ct.WriteTotalTimeoutMultiplier = msPerByte;
+  ct.WriteTotalTimeoutConstant = 0;
+  SetCommTimeouts(*((HANDLE *) id), &ct);
 
   return ULAPI_OK;
 }

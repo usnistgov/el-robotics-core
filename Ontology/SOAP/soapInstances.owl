@@ -7,7 +7,7 @@ Prefix(:=<http://www.nist.gov/el/ontologies/soapInstances.owl#>)
 Prefix(soap:=<http://www.nist.gov/el/ontologies/soapClasses.owl#>)
 Prefix(:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
 Ontology(<http://www.nist.gov/el/ontologies/soapInstances.owl>
-Import(<file:soapClasses.owl>)
+Import(<file:/home/chris/Documents/ipmas/Ontology/SOAP/soapClasses.owl>)
 
 //*****************************************
 // 1 start soap:SOAP soap

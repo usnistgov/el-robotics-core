@@ -1,0 +1,113 @@
+:predicates
+
+(partsVessel-has-part ?partstray - PartsTray ?part - Part)
+∀ Part : ( hadByPart_PartsVessel ∈ PartsVessel/_NAME ) print hadByPart_PartsVessel _NAME
+
+(part-has-physicalLocation-refObject-endEffector ?part - Part ?endeffector - EndEffector)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ Part/_NAME ) && ( hasPhysicalLocation_RefObject ∈ EndEffector/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(part-has-skuObject-sku ?part - Part ?stockkeepingunit - StockKeepingUnit)
+∀ SkuObject : ( _NAME ∈ Part/_NAME ) print _NAME hasSkuObject_Sku
+
+(robot-has-no-endEffector ?robot - Robot)
+∀ Robot : ( _NAME ! ∈ EndEffector/hadByEndEffector_Robot ) print _NAME
+
+(endEffector-has-heldObject-kit ?endeffector - EndEffector ?kit - Kit)
+∀ SolidObject : ( ∃ hadByHeldObject_EndEffector ) && ( _NAME ∈ Kit/_NAME ) print hadByHeldObject_EndEffector _NAME
+
+(kitTray-has-physicalLocation-refObject-endEffector ?kittray - KitTray ?endeffector - EndEffector)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ KitTray/_NAME ) && ( hasPhysicalLocation_RefObject ∈ EndEffector/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(endEffectorHolder-has-endEffector ?endeffectorholder - EndEffectorHolder ?endeffector - EndEffector)
+∀ EndEffectorHolder : ( ∃ hasEndEffectorHolder_EndEffector ) print _NAME hasEndEffectorHolder_EndEffector
+
+(part-has-physicalLocation-refObject-partsTray ?part - Part ?partstray - PartsTray)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ Part/_NAME ) && ( hasPhysicalLocation_RefObject ∈ PartsTray/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kitTray-has-physicalLocation-refObject-workTable ?kittray - KitTray ?worktable - WorkTable)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ KitTray/_NAME ) && ( hasPhysicalLocation_RefObject ∈ WorkTable/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(endEffector-has-physicalLocation-refObject-endEffectorHolder ?endeffector - EndEffector ?endeffectorholder - EndEffectorHolder)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ EndEffector/_NAME ) && ( hasPhysicalLocation_RefObject ∈ EndEffectorHolder/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kit-has-kitTray ?kit - Kit ?kittray - KitTray)
+∀ Kit : ( ∃ hasKit_KitTray ) print _NAME hasKit_KitTray
+
+(lbwk-has-kit ?largeboxwithkits - LargeBoxWithKits ?kit - Kit)
+∀ Kit : ( ∃ hadByKit_LargeBoxWithKits ) print hadByKit_LargeBoxWithKits _NAME
+
+(workTable-has-objectOnTable-kit ?worktable - WorkTable ?kit - Kit)
+∀ SolidObject : ( ∃ hadByObjectOnTable_WorkTable ) && ( _NAME ∈ Kit/_NAME ) print hadByObjectOnTable_WorkTable _NAME
+
+(workTable-has-objectOnTable-kitTray ?worktable - WorkTable ?kittray - KitTray)
+∀ SolidObject : ( ∃ hadByObjectOnTable_WorkTable ) && ( _NAME ∈ KitTray/_NAME ) print hadByObjectOnTable_WorkTable _NAME
+
+(workTable-has-no-objectOnTable ?worktable - WorkTable)
+∀ WorkTable : ( _NAME ! ∈ SolidObject/hadByObjectOnTable_WorkTable ) print _NAME
+
+(endEffector-has-physicalLocation-refObject-robot ?endeffector - EndEffector ?robot - Robot)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ EndEffector/_NAME ) && ( hasPhysicalLocation_RefObject ∈ Robot/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kitTray-has-physicalLocation-refObject-lbwekt ?kittray - KitTray ?largeboxwithemptykittrays - LargeBoxWithEmptyKitTrays)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ KitTray/_NAME ) && ( hasPhysicalLocation_RefObject ∈ LargeBoxWithKits/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kit-has-physicalLocation-refObject-workTable ?kit - Kit ?worktable - WorkTable)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ Kit/_NAME ) && ( hasPhysicalLocation_RefObject ∈ WorkTable/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kitTray-has-skuObject-sku ?kittray - KitTray ?stockkeepingunit - StockKeepingUnit)
+∀ SkuObject : ( _NAME ∈ KitTray/_NAME ) print _NAME hasSkuObject_Sku
+
+(endEffectorChangingStation-has-endEffectorHolder ?endeffectorchangingstation - EndEffectorChangingStation ?endeffectorholder - EndEffectorHolder)
+∀ EndEffectorHolder print hadByEndEffectorHolder_EndEffectorChangingStation _NAME
+
+(kitTray-has-physicalLocation-refObject-kit ?kittray - KitTray ?kit - Kit)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ KitTray/_NAME ) && ( hasPhysicalLocation_RefObject ∈ Kit/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kit-has-physicalLocation-refObject-lbwk ?kit - Kit ?largeboxwithkits - LargeBoxWithKits)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ Kit/_NAME ) && ( hasPhysicalLocation_RefObject ∈ LargeBoxWithKits/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(endEffector-has-no-heldObject ?endeffector - EndEffector)
+∀ EndEffector : ( _NAME ! ∈ SolidObject/hadByHeldObject_EndEffector ) print _NAME
+
+(kit-exists ?kit - Kit)
+∀ Kit print _NAME
+
+(part-has-physicalLocation-refObject-kit ?part - Part ?kit - Kit)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ Part/_NAME ) && ( hasPhysicalLocation_RefObject ∈ Kit/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(endEffector-has-heldObject-kitTray ?endeffector - EndEffector ?kittray - KitTray)
+∀ SolidObject : ( ∃ hadByHeldObject_EndEffector ) && ( _NAME ∈ KitTray/_NAME ) print hadByHeldObject_EndEffector _NAME
+
+(endEffector-has-heldObject-part ?endeffector - EndEffector ?part - Part)
+∀ SolidObject : ( ∃ hadByHeldObject_EndEffector ) && ( _NAME ∈ Part/_NAME ) print hadByHeldObject_EndEffector _NAME
+
+(endEffectorHolder-has-physicalLocation-refObject-changingStation ?endeffectorholder - EndEffectorHolder ?endeffectorchangingstation - EndEffectorChangingStation)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ EndEffectorHolder/_NAME ) && ( hasPhysicalLocation_RefObject ∈ EndEffectorChangingStation/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(kit-has-physicalLocation-refObject-endEffector ?kit - Kit ?endeffector - EndEffector)
+∀ PhysicalLocation : ( _NAME > SolidObject/hasSolidObject_PrimaryLocation : SolidObject/_NAME ∈ Kit/_NAME ) && ( hasPhysicalLocation_RefObject ∈ EndEffector/_NAME ) print SolidObject/_NAME hasPhysicalLocation_RefObject
+
+(robot-has-endEffector ?robot - Robot ?endeffector - EndEffector)
+∀ EndEffector : ∃ hadByEndEffector_Robot print hadByEndEffector_Robot _NAME
+
+:functions
+
+(capacity-of-kits-in-lbwk ?largeboxwithkits - LargeBoxWithKits)
+∀ LargeBoxWithKits print _NAME hasLargeBoxWithKits_Capacity
+
+(quantity-of-kits-in-lbwk ?largeboxwithkits - LargeBoxWithKits)
+∀ LargeBoxWithKits ∑ Kit/hadByKit_LargeBoxWithKits print _NAME ∑
+
+(current-quantity-of-parts-in-kit ?kit - Kit)
+∀ Kit ∑ Part/hadByPart_Kit print _NAME ∑
+
+(quantity-of-parts-in-partstray ?partstray - PartsTray)
+∀ PartsTray ∑ Part/hadByPart_PartsVessel print _NAME ∑
+
+(quantity-of-kittrays-in-lbwekt ?largeboxwithemptykittrays - LargeBoxWithEmptyKitTrays)
+∀ LargeBoxWithEmptyKitTrays ∑ KitTray/hadByKitTray_LargeBoxWithEmptyKitTrays print _NAME ∑
+
+(quantity-of-parts-in-kit ?stockkeepingunit - StockKeepingUnit ?kit - Kit)
+∀ Kit ∀ SkuObject ∑ ( SkuObject/_NAME > Part/_NAME : Part/hadByPart_Kit = Kit/_NAME ) print SkuObject/hasSkuObject_Sku Kit/_NAME ∑
+
+:end

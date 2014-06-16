@@ -7,7 +7,7 @@ Prefix(soap:=<http://www.nist.gov/el/ontologies/soapClasses.owl#>)
 Prefix(:=<http://www.nist.gov/el/ontologies/kittingWorkstationClasses.owl#>)
 
 Ontology(<http://www.nist.gov/el/ontologies/soapClasses.owl>
-Import(<file:kittingWorkstationClasses.owl>)
+Import(<file:/home/chris/Documents/ipmas/Ontology/SOAP/kittingWorkstationClasses.owl>)
 
 Annotation(rdfs:comment
   "This is a schema with classes for actions representation.")

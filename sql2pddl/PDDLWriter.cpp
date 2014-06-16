@@ -103,7 +103,8 @@ void PDDLWriter::parseAndWriteInit(std::ofstream& problemFile, std::ifstream& ol
 }
 
 /**
- * @brief Doxygen comments here
+ * @brief Writes the header and object section of the new problem file by copying it
+ * from the original problem file - lists of objects are updated from database
  */
 void PDDLWriter::writeObjectSection(std::ofstream& outFile, std::ifstream& referenceFile){
 	std::string line;
@@ -133,6 +134,10 @@ void PDDLWriter::writeObjectSection(std::ofstream& outFile, std::ifstream& refer
 	outFile << "\t)" << std::endl;
 }
 
+/**
+ * @brief Writes the goal section of the new problem file by copying it directly
+ * from the original problem file
+ */
 void PDDLWriter::writeGoalSection(std::ofstream& outFile, std::ifstream& referenceFile){
 	std::string line;
 	referenceFile.clear();
@@ -391,7 +396,6 @@ std::vector<std::vector<std::string> > PDDLWriter::evaluateFunctions(std::vector
 		}
 	}
 	else{
-		// ∀ Kit ∀ SkuObject ∑ ( SkuObject/_NAME > Part/_NAME : Part/hadByPart_Kit = Kit/_NAME ) print SkuObject/hasSkuObject_Sku Kit/_NAME ∑
 
 		objects = getSetOfObjectNames(new DAO(tokens.at(1)), tokens.at(1), "_NAME");
 

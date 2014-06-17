@@ -150,6 +150,13 @@ void PDDLWriter::writeGoalSection(std::ofstream& outFile, std::ifstream& referen
 	}
 }
 
+/**
+ * @brief Fills columns 2D vector with predicate-related information from database,
+ * by calling a query method then a recursive filtering method
+ *
+ * @param line a line of text from the input file
+ * @param tables list of all the tables that could be called by that particular line
+ */
 std::vector<std::vector<std::string> > PDDLWriter::parseAndFetchPredicateData(std::string line, std::vector<std::string> tables){
 	std::vector<std::vector<std::string> > results;
 
@@ -167,6 +174,13 @@ std::vector<std::vector<std::string> > PDDLWriter::parseAndFetchPredicateData(st
 	return results;
 }
 
+/**
+ * @brief Fills columns 2D vector with function related information from database.
+ * Currently it parses the input line, retrieves a map of acquisition objects, and calls a helper function
+ *
+ * @param line a line of text from the input file
+ * @param tables list of all the tables that could be called by that particular line
+ */
 std::vector<std::vector<std::string> > PDDLWriter::parseAndFetchFunctionData(std::string line, std::vector<std::string> tables){
 	std::vector<std::vector<std::string> > results;
 	std::vector<std::string> tokens = split(line,' ');
@@ -179,6 +193,15 @@ std::vector<std::vector<std::string> > PDDLWriter::parseAndFetchFunctionData(std
 	return results;
 }
 
+/**
+ * @brief For predicates, we use the conditional statements in the input lines to filter out and remove entries
+ *
+ * @param tokens the input line, broken up into individual strings
+ * @param raw The list of unfiltered results, except if the line contains a >, in which case it is empty
+ * @param begin Index of the first token that should be considered - used for recursion
+ * @param end Index of hte last token that should be considered - used for recursion
+ * @param fetchers A map from the name of a table to the DAO needed to get data from that table
+ */
 std::vector<std::vector<std::string> > PDDLWriter::filterTable(std::vector<std::string> tokens, std::vector<std::vector<std::string> > raw, unsigned int begin, unsigned int end, std::map<std::string,DAO*> fetchers){
 	std::vector<std::vector<std::string> > filtered = raw;
 	std::vector<std::vector<std::string> > complement;
@@ -207,6 +230,7 @@ std::vector<std::vector<std::string> > PDDLWriter::filterTable(std::vector<std::
 		if(current.compare("∃") == 0){
 			filterBy = match(attributesToPrint,tokens.at(i+1));
 			for(unsigned int j = filtered.at(filterBy).size()-1; j!= UINT_MAX;--j){
+				// for all entries, if the specified attribute is null, remove it from each list
 				if(filtered.at(filterBy).at(j).compare("") == 0){
 					for(unsigned int k = 0; k < filtered.size(); k++){
 						filtered.at(k).erase(filtered.at(k).begin() + j);
@@ -222,6 +246,7 @@ std::vector<std::vector<std::string> > PDDLWriter::filterTable(std::vector<std::
 			if(tokens.at(i-1).compare("!") == 0){
 				wantComplement = 1;
 			}
+			// if an exclamation mark exists, it is the token behind the membership operator
 			if(wantComplement){
 				filterBy = match(attributesToPrint,tokens.at(i-2));
 			}
@@ -237,7 +262,6 @@ std::vector<std::vector<std::string> > PDDLWriter::filterTable(std::vector<std::
 				if(match(targets,filtered.at(filterBy).at(j)) == -1){
 					// remove entry in each column
 					for(unsigned int k = 0; k < filtered.size(); k++){
-						// not sure if this preserves the order - may use front-insert
 						complement.at(k).push_back(filtered.at(k).at(j));
 					}
 					for(unsigned int k = 0; k < filtered.size(); k++){
@@ -435,6 +459,9 @@ std::vector<std::vector<std::string> > PDDLWriter::evaluateFunctions(std::vector
 	return results;
 }
 
+/**
+ * @brief Creates map between all table names that exist in input lines and DAOs that can get data from them
+ */
 std::map<std::string,DAO*> PDDLWriter::retrieveDAOs(std::vector<std::string> args, std::vector<std::string> tables){
 	std::map<std::string,DAO*> daos;
 	std::string stripped;
@@ -458,6 +485,13 @@ std::map<std::string,DAO*> PDDLWriter::retrieveDAOs(std::vector<std::string> arg
 	return daos;
 }
 
+/**
+ * @brief Creates map between two attributes in database
+ *
+ * @param fetchers map from the name of a table to the DAO needed to get data from that table
+ * @param path1 string containing attribute that will be key of pairs inserted into map
+ * @param path2 string containing attribute that will be value of pairs inserted into map
+ */
 std::map<std::string, std::string> PDDLWriter::createMap(std::map<std::string, DAO*> fetchers, std::string path1, std::string path2){
 	std::map<std::string, std::string> myMap;
 	std::map<std::string, std::vector<std::string> > rawGet;

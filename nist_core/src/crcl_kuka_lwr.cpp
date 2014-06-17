@@ -15,6 +15,7 @@
 #include "nist_core/crcl_kuka_lwr.h"
 #include <fstream>
 
+//#define OLDWAY
 //#define STATIC_ //! Uncomment this line if you want to hard code the serial port (debugging purposes only)
 
 using namespace std;
@@ -24,8 +25,9 @@ namespace crcl_robot
   LIBRARY_API CrclKukaLWR::CrclKukaLWR (char *initPath) :
     acceptCRCL_(false)
   {
-    mssgBuffer_ = new char[REQUEST_MSG_SIZE];
+    mssgBuffer_ = new char[8192];
     int val;
+    ulapi_init();
 
 #ifndef STATIC_
     //! Open configuration file
@@ -36,11 +38,51 @@ namespace crcl_robot
 
       if (val == 1)
       {
+        in >> val;
+        serialUsed_ = true;
+#ifdef OLDWAY
         serialData_.defined = true;
-        in >> val;
         serialData_.setChannel(val);
+#else
+        if (NULL == (serialID_ = ulapi_serial_new()))
+        {
+          printf ("\nCannot create serial object\n");
+        }
+        sprintf (COMChannel_, "COM%d", val);
+        printf (COMChannel_);
+        if (ulapi_serial_open(COMChannel_, serialID_) == ULAPI_OK)
+        {
+          printf ("\nOkay\n");
+        }
+        else
+        {
+          printf ("\nNope\n");
+        }
+#endif
+
         in >> val;
+
+#ifdef OLDWAY
         serialData_.setBaud(val);
+#else
+        if (ulapi_serial_baud(serialID_, val) == ULAPI_OK)
+        {
+          printf ("\nOkay\n");
+        }
+        else
+        {
+          printf ("\nNope\n");
+        }
+
+        if (ulapi_serial_set_blocking(serialID_) == ULAPI_OK)
+        {
+          printf ("\nOkay\n");
+        }
+        else
+        {
+          printf ("\nNope\n");
+        }
+#endif
       }
       else if (val == 2)
       {
@@ -51,7 +93,6 @@ namespace crcl_robot
     {
       //! Error: must define initialization path
     }
-    serialUsed_ = serialData_.defined;
 #else
     bool test;
     test = serialData_.setBaud (57600);
@@ -62,6 +103,7 @@ namespace crcl_robot
     //! Create socket/serial connection
     if (serialUsed_)
     {
+#ifdef OLDWAY
       serial_ = new serial ();
       if (serial_->attach(serialData_))
       {
@@ -71,6 +113,7 @@ namespace crcl_robot
       {
         //! Failed to connect
       }
+#endif
     }
     else
     {
@@ -86,6 +129,11 @@ namespace crcl_robot
   {
     delete [] mssgBuffer_;
     delete [] feedback_;
+    if (serialUsed_)
+    {
+      ulapi_serial_close(serialID_);
+      ulapi_serial_delete(serialID_);
+    }
   }
 
 
@@ -712,11 +760,18 @@ namespace crcl_robot
 
   LIBRARY_API bool CrclKukaLWR::send ()
   {
+    int x;
       //! Send message to robot via serial
       if (serialUsed_)
       {
-        //! Send message
+#ifdef OLDWAY
         return serial_->sendData (moveMe_.str().c_str(), serialData_);
+#else
+        printf ("Sending message %s\n", moveMe_.str().c_str());
+        x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str()) + 1);
+        printf ("%i\n", x);
+        return true;
+#endif
       }
       else
       {
@@ -725,11 +780,20 @@ namespace crcl_robot
       }
   }
 
+
   LIBRARY_API bool CrclKukaLWR::get ()
   {
+    int x = 0;
     if (serialUsed_)
     {
+#ifdef OLDWAY
       return serial_->getData (mssgBuffer_, serialData_);
+#else
+      printf ("getting feedback...\n");
+      x = ulapi_serial_read(serialID_, mssgBuffer_, 8192);
+      printf ("%d read\n", x);
+      return true;
+#endif
     }
     else
     {

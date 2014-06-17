@@ -180,7 +180,7 @@ namespace Network
     //!
     //! @return True if data was read successfully, False otherwise
     //!
-    bool getData (char* buffer, serialStruct conn);
+    bool getData (char* buffer, serialStruct conn, int bytes = -1);
 
     //! @brief Read raw bytes from an open serial connection (Not currently implemented)
     //!

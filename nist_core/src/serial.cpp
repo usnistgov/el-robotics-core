@@ -43,14 +43,21 @@ namespace Network
 
 
   //! Note:  this function blocks
-  LIBRARY_API bool serial::getData (char *buffer, serialStruct serialData)
+  LIBRARY_API bool serial::getData (char *buffer, serialStruct serialData, int bytes)
   {
     DWORD dwBytes;
     do
     {
-      ReadFile (serialData.serial, buffer, REQUEST_MSG_SIZE, &dwBytes, NULL);
+      if (bytes < 0)
+      {
+        ReadFile (serialData.serial, buffer, REQUEST_MSG_SIZE, &dwBytes, NULL);
+      }
+      else
+      {
+        ReadFile (serialData.serial, buffer, bytes, &dwBytes, NULL);
+      }
 #ifdef NOISY
-      cout << buffer << endl;
+      logger_->log (buffer);
 #endif
     } while (dwBytes == 0);
 

@@ -15,18 +15,19 @@
 #ifndef KUKA_LWR_H
 #define KUKA_LWR_H
 
+#include "ulapi.h"
 #include "nist_core/nist_core.h"
 #include "nist_core/crcl.h"
 
 #pragma warning (disable: 4251)
 
-#include "serial.h"
+//#include "serial.h"
 
 #include <vector>
 #include <sstream>
 
 using namespace std;
-using namespace Network;
+//using namespace Network;
 
 namespace crcl_robot
 {
@@ -321,14 +322,16 @@ namespace crcl_robot
     //! @brief Whether or not we are using socket communications for message passing with the robot
     //!
     bool serialUsed_;
+    char COMChannel_[5];
+    void *serialID_;
 
     //! @brief Handle for serial communications
     //!
-    serial *serial_;
+//    serial *serial_;
 
     //! @brief Serial connection information
     //!
-    serialStruct serialData_;
+//    serialStruct serialData_;
 
     //! @brief Socket connection information
     //!

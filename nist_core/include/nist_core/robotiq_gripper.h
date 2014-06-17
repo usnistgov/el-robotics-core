@@ -2,7 +2,7 @@
 #include <bitset>
 #include <iostream>
 
-#include "ulapi/src/ulapi.h"
+#include "ulapi.h"
 #include "nist_core/nist_core.h"
 #include "nist_core/crcl.h"
 //#include "nist_core/socknet.h"

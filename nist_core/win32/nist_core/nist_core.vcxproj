@@ -13,9 +13,23 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\crcl.cpp" />
     <ClCompile Include="..\..\src\crcl_client.cpp" />
+    <ClCompile Include="..\..\src\crcl_demo_hack.cpp" />
+    <ClCompile Include="..\..\src\crcl_kuka_lwr.cpp" />
     <ClCompile Include="..\..\src\crcl_robot.cpp" />
+    <ClCompile Include="..\..\src\crcl_robotiq.cpp" />
+    <ClCompile Include="..\..\src\crcl_schunk_sdh.cpp" />
     <ClCompile Include="..\..\src\crcl_sim_robot.cpp" />
+    <ClCompile Include="..\..\src\crcl_universal.cpp" />
     <ClCompile Include="..\..\src\nist_core.cpp" />
+    <ClCompile Include="..\..\src\robotiq_gripper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\nist_core\crcl_demo_hack.h" />
+    <ClInclude Include="..\..\include\nist_core\crcl_kuka_lwr.h" />
+    <ClInclude Include="..\..\include\nist_core\crcl_robotiq.h" />
+    <ClInclude Include="..\..\include\nist_core\crcl_schunk_sdh.h" />
+    <ClInclude Include="..\..\include\nist_core\crcl_universal.h" />
+    <ClInclude Include="..\..\include\nist_core\robotiq_gripper.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ABAEDC09-C3D7-4256-A7B6-19D63702D6F6}</ProjectGuid>
@@ -52,7 +66,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\nist_core\include;..\..\..\ulapi\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\nist_core\include;..\..\..\nist_core\include\nist_core;..\..\..\ulapi\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

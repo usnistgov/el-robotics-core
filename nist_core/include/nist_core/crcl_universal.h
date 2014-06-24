@@ -2,18 +2,18 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        crcl_kuka_lwr.h
-//  Revision:        1.0 - 13 March, 2014
+//  Workfile:        crcl_universal.h
+//  Revision:        1.0 - 24 June, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  KUKA LWR 4+ interface declarations.
+//  Universal Robot UR10 interface declarations.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef KUKA_LWR_H
-#define KUKA_LWR_H
+#ifndef UNIVERSAL_ROBOT
+#define UNIVERSAL_ROBOT
 
 #include "ulapi.h"
 #include "nist_core/nist_core.h"
@@ -25,6 +25,7 @@
 #include <sstream>
 
 using namespace std;
+//using namespace Network;
 
 namespace crcl_robot
 {
@@ -32,18 +33,18 @@ namespace crcl_robot
   //!
   //! @brief CRCL interface for the Kuka lightweight robot
   //!
-  class LIBRARY_API CrclKukaLWR
+  class LIBRARY_API CrclUniversal
   {
   public:
     //! @brief Default constructor
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    CrclKukaLWR (char *initPath);
+    CrclUniversal (char *initPath);
 
     //! @brief Default destructor
     //!
-    ~CrclKukaLWR ();
+    ~CrclUniversal ();
 
     //! @brief Dock with a specified target object
     //!
@@ -342,47 +343,6 @@ namespace crcl_robot
     //!
     double *feedback_;
 
-    double defaultSpeed_;
-    double axial;
-
-    vector<string> *tempData_;
-
-    //! @brief Generate a motion command for the Kuka LWR
-    //!
-    //! @param moveType  Specify the movement type, either PTP ('P'), LIN ('L'), or force control ('F')
-    //! @param posType   Specify the position type, either cartesian ('C') or angular ('A')
-    //! @param deltaType Specify the motion delta, either absolute ('A') or relative ('R')
-    //! @param input     Vector of 6 position values (note that J3 of the robot is E1, and is thus not
-    //!                  used here for angular motion commands)
-    //!
-    //! @return True if motion string generation was successful, false otherwise
-    //!
-    bool generateMove (char moveType, char posType, char deltaType, vector<double> &input);
-
-    //! @brief Generate a feedback request for the Kuka LWR
-    //!
-    //! @param retType Specify the return value, either Cartesian position ('C'), joint position ('A')
-    //!                force values ('F'), torque values ('T'), or timestamp ('S')
-    //!
-    //! @return True if feedback string generation was successful, false otherwise
-    //!
-    bool generateFeedback (char retType);
-
-    //! @brief TODO
-    //!
-    //! @return True if parsing action was successful, false otherwise
-    //!
-    bool parseFeedback ();
-
-    //! @brief Generate a tool activation request for the KUKA LWR
-    //!
-    //! @param mode  Specify the mode of actuation of the robot output: binary (B) or analog (A)
-    //! @param value Specify the value of the robot output
-    //!
-    //! @return True if tool actuation string generation was successful, false otherwise
-    //!
-    bool generateTool (char mode, double value);
-
     //! @brief Send content of moveMe_ to robot using whatever communication protocol is defined.  
     //!
     bool send ();
@@ -390,7 +350,7 @@ namespace crcl_robot
     //! @brief Store data from robot in mssgBuffer_ using whatever communication protocol is defined
     //!
     bool get ();
-  }; // CrclKukaLWR
+  }; // CrclUniversal
 
 } // namespace crcl_robot
 

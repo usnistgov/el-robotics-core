@@ -2,8 +2,9 @@
 //
 //  Original System: ISD CRCL
 //  Subsystem:       Robot Interface
-//  Workfile:        CrclKukaLWR.cpp
+//  Workfile:        crcl_kuka_lwr.cpp
 //  Revision:        1.0 - 13 March, 2014
+//                   1.1 - 16 June, 2014   Updated to use ulapi serial drivers
 //  Author:          J. Marvel
 //
 //  Description
@@ -15,7 +16,6 @@
 #include "nist_core/crcl_kuka_lwr.h"
 #include <fstream>
 
-//#define OLDWAY
 //#define STATIC_ //! Uncomment this line if you want to hard code the serial port (debugging purposes only)
 
 using namespace std;
@@ -38,12 +38,10 @@ namespace crcl_robot
 
       if (val == 1)
       {
+        //! Use serial
         in >> val;
         serialUsed_ = true;
-#ifdef OLDWAY
-        serialData_.defined = true;
-        serialData_.setChannel(val);
-#else
+
         if (NULL == (serialID_ = ulapi_serial_new()))
         {
           printf ("\nCannot create serial object\n");
@@ -58,13 +56,10 @@ namespace crcl_robot
         {
           printf ("\nNope\n");
         }
-#endif
+
 
         in >> val;
 
-#ifdef OLDWAY
-        serialData_.setBaud(val);
-#else
         if (ulapi_serial_baud(serialID_, val) == ULAPI_OK)
         {
           printf ("\nOkay\n");
@@ -82,10 +77,10 @@ namespace crcl_robot
         {
           printf ("\nNope\n");
         }
-#endif
-      }
+      } // if (val == 1)
       else if (val == 2)
       {
+        //! Use TCP
         //! TODO
       }
     } // if (initPath != NULL)
@@ -99,26 +94,6 @@ namespace crcl_robot
     test &= serialData_.setChannel (1);
     serialUsed_ = true;
 #endif
-
-    //! Create socket/serial connection
-    if (serialUsed_)
-    {
-#ifdef OLDWAY
-      serial_ = new serial ();
-      if (serial_->attach(serialData_))
-      {
-        //! Connected
-      }
-      else
-      {
-        //! Failed to connect
-      }
-#endif
-    }
-    else
-    {
-      //! TODO:  Socket communication
-    }
 
     feedback_ = new double[6];
     tempData_ = new vector<string>(6, " ");
@@ -454,8 +429,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! TODO
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -515,10 +491,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! Construct message
-    //! TODO
 
-    return CANON_SUCCESS;
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -528,10 +503,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! Construct message
-    //! TODO
 
-    return CANON_SUCCESS;
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 //  ("degree" or "radian")
@@ -541,10 +515,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! Construct message
-    //! TODO
 
-    return CANON_SUCCESS;
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -554,8 +527,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! TODO
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -565,7 +539,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -575,7 +551,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -591,8 +569,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //("inch," "mm," and "meter")
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -602,8 +581,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! TODO
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -613,8 +593,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! TODO
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -624,7 +605,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
 
 
@@ -634,8 +617,9 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
-    //! TODO
-    return CANON_SUCCESS;
+
+    //! Not yet implemented
+    return CANON_REJECT;
   }
   
 
@@ -650,7 +634,7 @@ namespace crcl_robot
 
     //! Check validity of inputs...
     //!   Check movement type
-    state &= (moveType == 'P' || moveType == 'L');
+    state &= (moveType == 'P' || moveType == 'L' || moveType == 'F');
     //!   Check position type
     state &= (posType == 'C' || posType == 'A');
     //!   Check absolute or relative motion
@@ -669,6 +653,12 @@ namespace crcl_robot
     //! Clear variables
     moveMe_.str(string());
     tempString_.str(string());
+
+    if (moveType == 'F')
+    {
+      //! Overwrite any attempt to do joint angle force motion
+      posType = 'C';
+    }
 
     moveMe_ << moveType << posType << deltaType;
 
@@ -764,14 +754,10 @@ namespace crcl_robot
       //! Send message to robot via serial
       if (serialUsed_)
       {
-#ifdef OLDWAY
-        return serial_->sendData (moveMe_.str().c_str(), serialData_);
-#else
         printf ("Sending message %s\n", moveMe_.str().c_str());
         x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str()) + 1);
         printf ("%i\n", x);
         return true;
-#endif
       }
       else
       {
@@ -786,14 +772,10 @@ namespace crcl_robot
     int x = 0;
     if (serialUsed_)
     {
-#ifdef OLDWAY
-      return serial_->getData (mssgBuffer_, serialData_);
-#else
       printf ("getting feedback...\n");
       x = ulapi_serial_read(serialID_, mssgBuffer_, 8192);
       printf ("%d read\n", x);
       return true;
-#endif
     }
     else
     {

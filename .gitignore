@@ -2,3 +2,6 @@
 *.~*~
 nist_kitting/doc/html
 nist_kitting/doc/manifest.yaml
+# CMakefile generated files
+CMakeFiles
+CMakeCache.txt

@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+  version="2014Jul2">
+
+  <xs:element name="CRCLProgram"
+    type="CRCLProgramType">
+    <xs:annotation>
+      <xs:documentation>
+        Root element
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:annotation>
+    <xs:documentation>
+      This ontology models a program written in the canonical robot
+      command language (CRCL).
+
+      The robot model on which the CRCL commands are based has a
+      controlled point and orientation. When the robot has a gripper
+      attached to the end of the arm, the controlled point is at the
+      end of the gripper, the controlled ZAxis is the axis of the
+      gripper that extends through the end point of the arm, and the
+      controlled XAxis is the axis of the gripper perpendicular to the
+      ZAxis. When no gripper is attached to the end of the arm, the
+      controlled point is at the end of the arm at the point at which
+      the origin of a gripper coordinate system would be located if a
+      gripper were attached (i.e., the tool changer point), the ZAxis
+      is the axis of the final segment of the arm extending away from
+      the arm, and the XAxis is perpendicular to the ZAxis. Attaching
+      or detaching a gripper changes the controlled point. The speed,
+      and acceleration that are the subject of CRCL commands apply to
+      the controlled point. The positions (Poses) that are the subject
+      of CRCL commands apply to the controlled point and orientation.
+    </xs:documentation>
+    <xs:documentation>owlPrefix=crcl</xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="AngleUnitType">
+    <xs:annotation>
+      <xs:documentation>
+        AngleUnitType gives the angle units that may be used in an
+        instance of the SetAngleUnits command.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="degree"/>
+      <xs:enumeration value="radian"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="CloseGripperType">
+    <xs:annotation>
+      <xs:documentation>
+          CloseGripperType is derived from MiddleCommandType. 
+          An instance of CloseGripperType has no elements:
+
+          After an instance of CloseGripperType is executed, it is
+          understood that if an object was with the gripping area of
+          the gripper, the gripper will be holding that object.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CloseToolChangerType">
+    <xs:annotation>
+      <xs:documentation>
+          CloseToolChangerType is derived from MiddleCommandType. 
+          An instance of CloseToolChangerType has no elements:
+
+          After an instance of CloseToolChangerType is executed, it is
+          understood that if the tool changer was in position to
+          acquire a gripper, the gripper will be mounted on the robot.
+          In that case, the controlled point will change.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CRCLCommandType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        CRCLCommandType is an abstract type from which all other
+        CRCL commands are derived.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+
+  <xs:complexType name="CRCLProgramType">
+    <xs:annotation>
+      <xs:documentation>
+        CRCLProgramType defines a CRCL program as a sequence of CRCL
+        commands. The CRCL commands in an instance of CRCLProgramType
+        must be executed in the order given.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="InitCanon"
+        type="InitCanonType"/>
+      <xs:choice
+        maxOccurs="unbounded">
+        <xs:element name="CloseGripper"
+          type="CloseGripperType"/>
+        <xs:element name="CloseToolChanger"
+          type="CloseToolChangerType"/>
+        <xs:element name="Dwell"
+          type="DwellType"/>
+        <xs:element name="Message"
+          type="MessageType"/>
+        <xs:element name="MoveStraightTo"
+          type="MoveStraightToType"/>
+        <xs:element name="MoveThroughTo"
+          type="MoveThroughToType"/>
+        <xs:element name="OpenGripper"
+          type="OpenGripperType"/>
+        <xs:element name="OpenToolChanger"
+          type="OpenToolChangerType"/>
+        <xs:element name="SetAbsoluteAcceleration"
+          type="SetAbsoluteAccelerationType"/>
+        <xs:element name="SetAbsoluteSpeed"
+          type="SetAbsoluteSpeedType"/>
+        <xs:element name="SetAngleUnits"
+          type="SetAngleUnitsType"/>
+        <xs:element name="SetEndAngleTolerance"
+          type="SetEndAngleToleranceType"/>
+        <xs:element name="SetEndPointTolerance"
+          type="SetEndPointToleranceType"/>
+        <xs:element name="SetIntermediatePointTolerance"
+          type="SetIntermediatePointToleranceType"/>
+        <xs:element name="SetLengthUnits"
+          type="SetLengthUnitsType"/>
+        <xs:element name="SetRelativeAcceleration"
+          type="SetRelativeAccelerationType"/>
+        <xs:element name="SetRelativeSpeed"
+          type="SetRelativeSpeedType"/>
+      </xs:choice>
+      <xs:element name="EndCanon"
+        type="EndCanonType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DwellType">
+    <xs:annotation>
+      <xs:documentation>
+        DwellType is derived from MiddleCommandType.
+        An instance of DwellType has the following elements:
+          DwellTime.
+
+        The DwellTime is an amount of time, in seconds, that the robot
+        should wait before executing the next command.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="DwellTime"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EndCanonType">
+    <xs:annotation>
+      <xs:documentation>
+        EndCanonType is derived from CRCLCommandType.
+        An instance of EndCanonType has no elements.
+
+        An instance of EndCanonType is used to indicate that the robot
+        should not execute any further CRCL commands other than an
+        instance of InitCanonType until an InitCanonType command is
+        received. Other robot-specific actions may be taken in
+        preparation for shutting down.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="CRCLCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="InitCanonType">
+    <xs:annotation>
+      <xs:documentation>
+        InitCanonType is derived from CRCLCommandType.
+        An instance of InitCanonType has no elements.
+
+        An instance of InitCanonType is used to indicate that the
+        robot should be prepared to execute further canonical robot
+        commands. When a robot is ready to execute commands, the first
+        CRCL command it should be sent is an instance of
+        InitCanonType. Any CRCL commands received before an instance
+        of InitCanonType must not be executed. Other robot-specific
+        actions may be taken in preparation for executing CRCL
+        commands.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="CRCLCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="LengthUnitType">
+    <xs:annotation>
+      <xs:documentation>
+        LengthUnitType gives the length units that may be used in an
+        instance of the SetLengthUnits command.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="meter"/>
+      <xs:enumeration value="millimeter"/>
+      <xs:enumeration value="inch"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="MessageType">
+    <xs:annotation>
+      <xs:documentation>
+        MessageType is derived from MiddleCommandType.
+        An instance of MessageType has the following elements:
+          Message.
+
+        Message is a string that should be displayed by the robot
+        controller.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Message"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MiddleCommandType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        MiddleCommandType is derived from CRCLCommandType.
+        MiddleCommandType has no elements.
+
+        MiddleCommandType is the parent type of specific CRCL command
+        types that may be used in a CRCL program after InitCanon and
+        before EndCanon. Only derived types of MiddleCommandType may
+        be instantiated.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="CRCLCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MoveStraightToType">
+    <xs:annotation>
+      <xs:documentation>
+        MoveStraightToType is derived from MiddleCommandType.
+        An instance of MoveStraightToType has the following elements:
+          EndPosition.
+
+        EndPosition is a Pose to which the robot will move in a
+        straight line. The final pose must be within the tolerances
+        set by SetEndAngleToleranceType and SetEndPointToleranceType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="EndPosition"
+            type="PoseType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MoveThroughToType">
+    <xs:annotation>
+      <xs:documentation>
+          MoveThroughToType is derived from MiddleCommandType. 
+          An instance of MoveThroughToType has the following elements:
+            Waypoint (multiple)
+            NumPositions.
+
+          Each Waypoint before the last is a Pose that the robot
+          should move through. The last Waypoint is the Pose the robot
+          should be in after the command is fully executed.
+          NumPositions is the number of instances of the Waypoint
+          element. The robot must pass each point before the last
+          within the tolerance established by the most recently
+          executed instance of SetIntermediatePointToleranceType.
+          The speed and acceleration to use are set by other CRCL
+          commands. The final pose must be within the tolerances
+          set by SetEndAngleToleranceType and SetEndPointToleranceType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Waypoint"
+            type="PoseType"
+            maxOccurs="unbounded"/>
+          <xs:element name="NumPositions"
+            type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OpenGripperType">
+    <xs:annotation>
+      <xs:documentation>
+          OpenGripperType is derived from MiddleCommandType. 
+          An instance of OpenGripperType has no elements:
+
+          After an instance of OpenGripperType is executed, it
+          is understood that if the gripper was holding some object,
+          the gripper will no longer be holding that object.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OpenToolChangerType">
+    <xs:annotation>
+      <xs:documentation>
+          OpenToolChangerType is derived from MiddleCommandType. 
+          An instance of OpenToolChangerType has no elements:
+
+          After an instance of OpenToolChangerType is executed, it is
+          understood that if a gripper was mounted on the robot, the
+          gripper is no longer mounted on the robot. In that case,
+          the controlled point will change.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PointType">
+    <xs:annotation>
+      <xs:documentation>
+        An instance of PointType has the following elements:
+          X
+          Y
+          Z.
+ 
+        X, Y, and Z are the Cartesian coordinates of the Point.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="X"
+        type="xs:decimal"/>
+      <xs:element name="Y"
+        type="xs:decimal"/>
+      <xs:element name="Z"
+        type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PoseType">
+    <xs:annotation>
+      <xs:documentation>
+        An instance of PoseType has the following elements:
+          Point
+          ZAxis
+          XAxis.
+ 
+        PoseType gives the location and orientation of an object in
+        a reference coordinate system. The Point locates the origin of the
+        coordinate system of the object in the reference coordinate
+        system. The ZAxis and XAxis give the orientation of the
+        coordinate system of the object in the reference coordinate
+        system.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Point"
+        type="PointType"/>
+      <xs:element name="ZAxis"
+        type="VectorType"/>
+      <xs:element name="XAxis"
+        type="VectorType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetAbsoluteAccelerationType">
+    <xs:annotation>
+      <xs:documentation>
+        SetAbsoluteAccelerationType is derived from MiddleCommandType.
+        An instance of SetAbsoluteAccelerationType has the following
+        elements:
+          Acceleration.
+
+        Acceleration is a real number that represents the target
+        acceleration for the robot, in current length units per second
+        per second.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Acceleration"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetAbsoluteSpeedType">
+    <xs:annotation>
+      <xs:documentation>
+        SetAbsoluteSpeedType is derived from MiddleCommandType.
+        An instance of SetAbsoluteSpeedType has the following
+         elements:
+           Speed.
+
+        Speed is a real number that represents the target speed
+        for the robot, in current length units per second.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Speed"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetAngleUnitsType">
+    <xs:annotation>
+      <xs:documentation>
+        SetAngleUnits is derived from MiddleCommandType.
+        An instance of SetAngleUnits has the following elements:
+          UnitName.
+
+        UnitName is a string that can be only the literals "radian" or
+        "degree". This tells the robot that all further instructions
+        received pertaining to angles will implicitly be in the unit
+        provided.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="UnitName"
+            type="AngleUnitType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetEndAngleToleranceType">
+    <xs:annotation>
+      <xs:documentation>
+        SetEndAngleToleranceType is derived from MiddleCommandType.
+        An instance of SetEndAngleToleranceType has the following
+        elements:
+          Tolerance.
+
+        Tolerance is a real number representing an angle in current
+        angle units that indicates to the robot the precision with
+        which it must reach its end orientation. The angle is an upper
+        limit on the angle through which an actual coordinate system
+        must rotate about a single axis in order to make its axes
+        parallel to the corresponding axes of a nominal coordinate
+        system. It is always possible to find such a single axis.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Tolerance"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetEndPointToleranceType">
+    <xs:annotation>
+      <xs:documentation>
+        SetEndpointToleranceType is derived from MiddleCommandType.
+        An instance of SetEndPointToleranceType  has the following
+        elements:
+          Tolerance.
+
+        Tolerance is a real number representing a distance in current
+        length units that indicates to the robot the precision with
+        which it must reach its end location.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Tolerance"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetIntermediatePointToleranceType">
+    <xs:annotation>
+      <xs:documentation>
+      SetIntermediatePointToleranceType is derived from MiddleCommandType.
+        An instance of SetIntermediatePointToleranceType has the
+        following elements:
+          Tolerance.
+
+      Tolerance is a real number representing a distance in current
+      length units that indicates to the robot the precision with
+      which it must reach each intermediate waypoint.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Tolerance"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetLengthUnitsType">
+    <xs:annotation>
+      <xs:documentation>
+        SetLengthUnitsType is derived from MiddleCommandType.
+        An instance of SetLengthUnitsType has the following elements:
+           UnitName.
+
+        UnitName is a string that can be only the literals "meter",
+        "millimeter", or "inch". This tells the robot that all further
+        instructions pertaining to position or its derivatives received
+        will implicitly be in the unit provided.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="UnitName"
+            type="LengthUnitType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetRelativeAccelerationType">
+    <xs:annotation>
+      <xs:documentation>
+         SetRelativeAccelerationType is derived from MiddleCommandType.
+         An instance of SetRelativeAccelerationType has the following
+         elements:
+           Percent.
+        
+        Percent is a real number that represents the percent of the
+        robot's maximum acceleration that it should use.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Percent"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SetRelativeSpeedType">
+    <xs:annotation>
+      <xs:documentation>
+        SetRelativeSpeedType is derived from MiddleCommandType.
+        An instance of SetRelativeSpeedType has the following elements:
+          Percent.
+
+        Percent is a real number that represents the percent of the
+        robot's maximum speed that it should use.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="Percent"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VectorType">
+    <xs:annotation>
+      <xs:documentation>
+        An instance of VectorType has the following elements:
+          I
+          J
+          K.
+ 
+        I, J, and K represent the usual i, j, and k components of a 3D
+        vector.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="I"
+        type="xs:decimal"/>
+      <xs:element name="J"
+        type="xs:decimal"/>
+      <xs:element name="K"
+        type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

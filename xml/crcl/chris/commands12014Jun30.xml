@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Program xmlns="http://nist.gov/CRCL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nist.gov/CRCL CRCLTemplate.xsd">
+	<Message xsi:type="InitCanon"/>
+	<Message xsi:type="SetLengthUnits">
+		<unitName>meter</unitName>
+	</Message>
+	<Message xsi:type="SetAbsoluteSpeed">
+		<speed>1.0</speed>
+	</Message>
+	<Message xsi:type="SetRelativeAcceleration">
+		<percent>80.0</percent>
+	</Message>
+	<Message xsi:type="SetEndPointTolerance">
+		<tolerance>0.002</tolerance>
+	</Message>
+	<Message xsi:type="SetIntermediatePointTolerance">
+		<tolerance>0.01</tolerance>
+	</Message>
+	<Message xsi:type="OpenGripper"/>
+	
+	<Message xsi:type="MoveThroughTo">
+		<Waypoint>
+			<Location>
+				<x-comp>1.5</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>1</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<Waypoint>
+			<Location>
+				<x-comp>1.5</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>0.0001</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<numPositions>2</numPositions>
+	</Message>
+	<Message xsi:type="CloseGripper"/>
+	<Message xsi:type="MoveThroughTo">
+		<Waypoint>
+			<Location>
+				<x-comp>1.5</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>1</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<Waypoint>
+			<Location>
+				<x-comp>4</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>1</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<Waypoint>
+			<Location>
+				<x-comp>4</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>0.5001</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<numPositions>3</numPositions>
+	</Message>
+	<Message xsi:type="OpenGripper"/>
+	<Message xsi:type="MoveThroughTo">
+		<Waypoint>
+			<Location>
+				<x-comp>4</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>1</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<Waypoint>
+			<Location>
+				<x-comp>8.25</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>1</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<Waypoint>
+			<Location>
+				<x-comp>8.25</x-comp>
+				<y-comp>1</y-comp>
+				<z-comp>0.4</z-comp>
+			</Location>
+			<Z-orientation>
+				<x-comp>0</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>-1</z-comp>
+			</Z-orientation>
+			<X-orientation>
+				<x-comp>1</x-comp>
+				<y-comp>0</y-comp>
+				<z-comp>0</z-comp>
+			</X-orientation>
+		</Waypoint>
+		<numPositions>3</numPositions>
+	</Message>
+	
+	
+	<Message xsi:type="EndCanon">
+		<reason>2</reason>
+	</Message>
+</Program>

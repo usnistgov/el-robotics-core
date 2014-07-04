@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 sp1 (x64) (http://www.altova.com) by Jennifer Peyton (private) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://nist.gov/CRCL" targetNamespace="http://nist.gov/CRCL" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Program">
+		<xs:annotation>
+			<xs:documentation>
+			Root element, containing a series of commands for the robot. It first executes whatever commands are needed to initialize the robot, performs a series of instructions, then ceases operation.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="InitCommand" type="InitCanon"/>
+				<xs:element name="Command" type="CommandType" maxOccurs="unbounded"/>
+				<xs:element name="EndCommand" type="EndCanon"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="CommandType"/>
+	<xs:complexType name="InitCanon"/>
+	<xs:complexType name="EndCanon">
+			<xs:annotation>
+				<xs:documentation>
+				An instance of an EndCanon class returns an exit status integer that encodes the success or failure of the previous program. 
+				</xs:documentation>
+			</xs:annotation>
+		<xs:sequence>
+			<xs:element name="exitStatus" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Vector">
+		<xs:sequence>
+			<xs:element name="I" type="xs:decimal"/>
+			<xs:element name="J" type="xs:decimal"/>
+			<xs:element name="K" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Point">
+		<xs:sequence>
+			<xs:element name="X" type="xs:decimal"/>
+			<xs:element name="Y" type="xs:decimal"/>
+			<xs:element name="Z" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Pose">
+		<xs:annotation>
+			<xs:documentation>
+			A Pose has a set of three coordinates in the base coordinate system. Its orientation relative to that system is determined by the Z and X orientation vectors. The Y vector can be determined by crossing Z and X. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Location" type="Point"/>
+			<xs:element name="Z-orientation" type="Vector"/>
+			<xs:element name="X-orientation" type="Vector"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Dwell">
+				<xs:annotation>
+					<xs:documentation>
+					The Dwell command is derived from CommandType. Its only field is an amount of time, in seconds, that the robot should wait before executing the next command.
+					</xs:documentation>
+			</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="DwellTime" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CloseGripper">
+		<xs:complexContent>
+			<xs:extension base="CommandType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CloseToolChanger">
+		<xs:complexContent>
+			<xs:extension base="CommandType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OpenGripper">
+		<xs:complexContent>
+			<xs:extension base="CommandType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OpenToolChanger">
+		<xs:complexContent>
+			<xs:extension base="CommandType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PassString">
+		<xs:annotation>
+			<xs:documentation>
+			The PassString command is derived from CommandType. Its only field is a string that is passed from the controller to the robot.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="contents" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MoveStraightTo">
+		<xs:annotation>
+			<xs:documentation>
+			The MoveStraightTo command is derived from CommandType. Its only field is a Pose that the robot will move in a straight line to. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="EndPosition" type="Pose"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MoveThroughTo">
+		<xs:annotation>
+			<xs:documentation>
+			The MoveThroughTo command is derived from CommandType. It has two fields:
+			1. Waypoint array, which contains the various Poses that the robot should move through
+			2. numPositions, which is the size of the above array
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="Waypoint" type="Pose" maxOccurs="unbounded"/>
+					<xs:element name="numPositions" type="xs:integer"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetAbsoluteAcceleration">
+		<xs:annotation>
+			<xs:documentation>
+			The SetAbsoluteAcceleration command is derived from CommandType. Its only field is a real number that represents the target acceleration for the robot, in [length unit of choice/s^2]
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="acceleration" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetAbsoluteSpeed">
+		<xs:annotation>
+			<xs:documentation>
+			The SetAbsoluteSpeed command is derived from CommandType. Its only field is a real number that represents the target speed for the robot, in [length unit of choice/s]
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="speed" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetRelativeAcceleration">
+		<xs:annotation>
+			<xs:documentation>
+			The SetRelativeAcceleration command is derived from CommandType. Its only field is a real number that represents the percent of the robot's maximum acceleration that it should obtain.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="percent" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetRelativeSpeed">
+		<xs:annotation>
+			<xs:documentation>
+			The SetRelativeSpeed command is derived from CommandType. Its only field is a real number that represents the percent of the robot's maximum speed that it should obtain.
+			</xs:documentation>
+		</xs:annotation>	
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="percent" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetLengthUnits">
+		<xs:annotation>
+			<xs:documentation>
+			The SetLengthUnits command is derived from CommandType. Its field is a string that can be only the literals "meter", "millimeter", or "inch". This tells the robot that all further instructions pertaining to position or its derivatives received will implicitly be in the unit provided.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="unitName">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="meter"/>
+								<xs:enumeration value="millimeter"/>
+								<xs:enumeration value="inch"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetAngleUnits">
+		<xs:annotation>
+			<xs:documentation>
+			The SetAngleUnits command is derived from CommandType. Its field is a string that can be only the literals "radian" or "degree". This tells the robot that all further instructions received pertaining to angles will implicitly be in the unit provided.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="unitName">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="degree"/>
+								<xs:enumeration value="radian"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetEndAngleTolerance">
+		<xs:annotation>
+			<xs:documentation>
+			The SetEndAngleTolerance command is derived from CommandType. Its field is a real number that indicates to the robot the precision with which it must reach its end orientation.  
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="tolerance" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetEndPointTolerance">
+		<xs:annotation>
+			<xs:documentation>
+			The SetEndAngleTolerance command is derived from CommandType. Its field is a real number that indicates to the robot the precision with which it must reach its end location. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="tolerance" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetIntermediatePointTolerance">
+		<xs:annotation>
+			<xs:documentation>
+			The SetEndAngleTolerance command is derived from CommandType. Its field is a real number that indicates to the robot the precision with which it must reach each intermediate waypoint.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="tolerance" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Unreadable">
+		<xs:annotation>
+			<xs:documentation>
+			The Unreadable command is derived from CommandType. This command is issued when the controller cannot parse a command into the robot's native language, so it includes it as this command's field for debugging reasons.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CommandType">
+				<xs:sequence>
+					<xs:element name="debugText" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

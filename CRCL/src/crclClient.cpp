@@ -67,19 +67,27 @@ int main(int argc, char *argv[])
       msgOut = "InitCanon";
       ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
       printf( "crclClient writing: %s\n", msgOut.c_str());
-      sleep(1);
+      sleep(2);
       msgOut = "MoveTo 1. 2. 3. 4. 5. 6.";
       ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
       printf( "crclClient writing: %s\n", msgOut.c_str());
-      sleep(1);
+      sleep(2);
+      msgOut = "Dwell 1";
+      ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
+      printf( "crclClient writing: %s\n", msgOut.c_str());
+      sleep(2);
       msgOut = "MoveTo 7. 8. 9. 10. 11. 12.";
       ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
       printf( "crclClient writing: %s\n", msgOut.c_str());
-      sleep(1);
+      sleep(2);
+      msgOut = "Dwell 4";
+      ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
+      printf( "crclClient writing: %s\n", msgOut.c_str());
+      sleep(2);
       msgOut = "EndCanon";
       ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
       printf( "crclClient writing: %s\n", msgOut.c_str());
-      sleep(1);
+      sleep(2);
       cycleBlock->wait();
     }
 }

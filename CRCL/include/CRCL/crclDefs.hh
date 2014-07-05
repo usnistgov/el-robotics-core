@@ -36,7 +36,7 @@ typedef enum
   {
     CRCL_ERROR = -1,
     CRCL_UNINITIALIZED = 0,
-    CRCL_INITITIALIZED
+    CRCL_INITIALIZED
   }CRCLState;
 
 typedef enum
@@ -50,6 +50,7 @@ typedef enum
 typedef struct
 {
   CRCLCmd cmd;
+  CRCLCmdStatus status;
   union
   {
     double absAcc;
@@ -63,7 +64,6 @@ typedef struct
 {
   CRCLCmdUnion currentCmd;
   CRCLState currentState;
-  CRCLCmdStatus currentStatus;
   double cycleTime;
   double maxAccel;
   double maxVel;

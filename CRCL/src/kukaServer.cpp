@@ -35,57 +35,187 @@
 #include "CRCL/crclDefs.hh"
 
 ////////////////////////////////////////////////////////
-void crclDwell(CRCLStatus *status)
+void crclCmdUnionCopyDone(CRCLCmdUnion *from, CRCLCmdUnion *to)
 {
-  printf( "Received dwell\n");
+  to->cmd = from->cmd;
+  to->status = from->status;
+  switch( from->cmd )
+    {
+    case CRCL_NOOP:
+      break;
+    case CRCL_DWELL:
+      to->dwell = from->dwell;
+      break;
+    case CRCL_END_CANON:
+      break;
+    case CRCL_INIT_CANON:
+      break;
+    case CRCL_MOVE_TO:
+      to->pose = from->pose;
+      break;
+    case CRCL_SET_ABSOLUTE_ACC:
+      to->absAcc = from->absAcc;
+      break;
+    case CRCL_SET_ABSOLUTE_SPEED:
+      to->absSpeed = from->absSpeed;
+      break;
+    case CRCL_STOP_MOTION:
+      break;
+    case CRCL_UNKNOWN:
+      break;
+    default:
+      printf( "Unknown CRCLCmdUnion to copy\n");
+      break;
+    }
+  from->status = CRCL_DONE;
 }
 
 ////////////////////////////////////////////////////////
-void crclEndCanon(CRCLStatus *status)
+void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  static int doneCounter = 0;
+
+  if( status->currentCmd.cmd != CRCL_DWELL )
+    {
+      printf( "Bad command type %d to crclDwell\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      printf( "Received dwell\n");
+      doneCounter = (int)(status->currentCmd.dwell/status->cycleTime);
+      status->currentCmd.status = CRCL_WORKING;
+    }
+  else if( status->currentCmd.status == CRCL_ABORT )
+    {
+      printf( "Aborting dwell with %f left\n", doneCounter*status->cycleTime);
+      doneCounter = 0;
+      crclCmdUnionCopyDone(nextCmd, &status->currentCmd );
+    }
+
+  // decrement counter and see if done
+  doneCounter--;
+  if( doneCounter <=0 )
+    {
+      status->currentCmd.status = CRCL_DONE;
+      printf( "Dwell done\n" );
+    }
+}
+
+////////////////////////////////////////////////////////
+void crclEndCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received end canon\n");
+  status->currentCmd.status = CRCL_DONE;
+  status->currentState = CRCL_UNINITIALIZED;
 }
 
 ////////////////////////////////////////////////////////
-void crclInitCanon(CRCLStatus *status)
+void crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received init canon\n");
+  status->currentCmd.status = CRCL_DONE;
+  status->currentState = CRCL_INITIALIZED;
 }
 
 ////////////////////////////////////////////////////////
-void crclMoveTo(CRCLStatus *status)
+void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  printf( "Received move to\n");
+  static int motionQueueLength = 0; // temp variable for example
+
+  if( status->currentCmd.cmd != CRCL_MOVE_TO )
+    {
+      printf( "Bad command type %d to crclMoveTo\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      /* load motion queue with decomposed motion that is
+	 divided by the cycletime (status->cycleTime)
+      */
+      printf( "Received move to\n");
+      status->currentCmd.status = CRCL_WORKING;
+      motionQueueLength = 2;
+    }
+  else if( status->currentCmd.status == CRCL_ABORT )
+    {
+      /* clear motion queue and compute new trajectory
+	 that brings us to zero velocity as quickly
+	 as possible. This will be recomputed each
+         cycle 
+      */
+      printf( "Aborting moveTo\n");
+    }
+  // if items left in motion queue send them
+  if( motionQueueLength > 0 )
+    motionQueueLength--;
+  // if no items left, then we are done.
+  else if( motionQueueLength <=0 )
+    {
+      if( status->currentCmd.status == CRCL_ABORT )
+	crclCmdUnionCopyDone(nextCmd, &status->currentCmd );
+      else
+	status->currentCmd.status = CRCL_DONE;
+    }
 }
 
 ////////////////////////////////////////////////////////
-void crclNoop(CRCLStatus *status)
+void crclNoop(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received noop\n");
+  status->currentCmd.status = CRCL_DONE;
 }
 
 ////////////////////////////////////////////////////////
-void crclSetAbsoluteAcc(CRCLStatus *status)
+void crclSetAbsoluteAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
+  if( status->currentCmd.cmd != CRCL_SET_ABSOLUTE_ACC )
+    {
+      printf( "Bad command type %d to crclSetAbsoluteAcc\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
   printf( "Received set absolute acc\n");
+  status->maxAccel = status->currentCmd.absAcc;
+  status->currentCmd.status = CRCL_DONE;
 }
 
 ////////////////////////////////////////////////////////
-void crclSetAbsoluteSpeed(CRCLStatus *status)
+void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
+  if( status->currentCmd.cmd != CRCL_SET_ABSOLUTE_SPEED )
+    {
+      printf( "Bad command type %d to crclSetAbsoluteSpeed\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
   printf( "Received set absolute speed\n");
+  status->maxVel = status->currentCmd.absSpeed;
+  status->currentCmd.status = CRCL_DONE;
 }
 
 ////////////////////////////////////////////////////////
-void crclStopMotion(CRCLStatus *status)
+void crclStopMotion(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received stop\n");
+  status->currentCmd.status = CRCL_DONE;
 }
 
 ////////////////////////////////////////////////////////
-void crclUnknown(CRCLStatus *status)
+void crclUnknown(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received unknown\n");
+  status->currentCmd.status = CRCL_DONE;
 }
 
 ////////////////////////////////////////////////////////
@@ -179,6 +309,7 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
       printf("error from parser %s\n", inbuf );
       nextCmd->cmd = CRCL_UNKNOWN;
     }
+  nextCmd->status = CRCL_NEW_CMD;
 }
 
 ////////////////////////////////////////////////////////
@@ -199,8 +330,8 @@ int main(int argc, char *argv[])
   CRCLCmdUnion nextCmd;
 
   status.currentCmd.cmd = CRCL_NOOP;
+  status.currentCmd.status = CRCL_DONE;
   status.currentState = CRCL_UNINITIALIZED;
-  status.currentStatus = CRCL_DONE;
   status.cycleTime = DEFAULT_CYCLE;
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
@@ -276,9 +407,9 @@ int main(int argc, char *argv[])
       else if( nchars > 0 )
 	{
 	printf( "Message: %s\n", inbuf );
-	if( status.currentStatus != CRCL_DONE )
+	if( status.currentCmd.status != CRCL_DONE )
 	  {
-	    status.currentStatus = CRCL_ABORT;
+	    status.currentCmd.status = CRCL_ABORT;
 	    parseCmd(inbuf, &nextCmd);
 	  }
 	else
@@ -294,35 +425,35 @@ int main(int argc, char *argv[])
       switch( status.currentCmd.cmd )
 	{
 	case CRCL_NOOP:
-	  crclNoop(&status);
+	  crclNoop(&status, &nextCmd);
 	  break;
 	case CRCL_DWELL:
-	  crclDwell(&status);
+	  crclDwell(&status, &nextCmd);
 	  break;
 	case CRCL_END_CANON:
-	  crclEndCanon(&status);
+	  crclEndCanon(&status, &nextCmd);
 	  break;
 	case CRCL_INIT_CANON:
-	  crclInitCanon(&status);
+	  crclInitCanon(&status, &nextCmd);
 	  break;
 	case CRCL_MOVE_TO:
-	  crclMoveTo(&status);
+	  crclMoveTo(&status, &nextCmd);
 	  break;
 	case CRCL_SET_ABSOLUTE_ACC:
-	  crclSetAbsoluteAcc(&status);
+	  crclSetAbsoluteAcc(&status, &nextCmd);
 	  break;
 	case CRCL_SET_ABSOLUTE_SPEED:
-	  crclSetAbsoluteSpeed(&status);
+	  crclSetAbsoluteSpeed(&status, &nextCmd);
 	  break;
 	case CRCL_STOP_MOTION:
-	  crclStopMotion(&status);
+	  crclStopMotion(&status, &nextCmd);
 	  break;
 	case CRCL_UNKNOWN:
-	  crclUnknown(&status);
+	  crclUnknown(&status, &nextCmd);
 	  break;
 	default:
 	  printf("kukaServer:: unknown cmd received %d\n", status.currentCmd.cmd);
-	  crclUnknown(&status);
+	  crclUnknown(&status, &nextCmd);
 	  break;
 	}
       /*

@@ -34,6 +34,7 @@
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 #include "CRCL/crclUtils.hh"
+#include "CRCL/canonicalMsg.hh"
 
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
@@ -101,6 +102,16 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     }
   if( status->currentCmd.status == CRCL_NEW_CMD )
     {
+
+      status->currentCmd.pose.x = trajectory[0].x;
+      status->currentCmd.pose.y = trajectory[0].y;
+      status->currentCmd.pose.z = trajectory[0].z;
+      status->currentCmd.pose.xrot = trajectory[0].roll;
+      status->currentCmd.pose.yrot = trajectory[0].pitch;
+      status->currentCmd.pose.zrot = trajectory[0].yaw;
+      trajectory.erase(trajectory.begin());
+
+
       /* load motion queue with decomposed motion that is
 	 divided by the cycletime (status->cycleTime)
       */

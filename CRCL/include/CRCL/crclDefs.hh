@@ -16,8 +16,8 @@
 
 #define CRCL_CMD_PORT_DEFAULT 1234
 #define KUKA_PORT 6008
-#define DEFAULT_FROM_KUKA "/home/stephen/projects/el-robotics-core/CRCL/FromKRC.xml"
-#define DEFAULT_TO_KUKA "/home/stephen/projects/el-robotics-core/CRCL/ToKRC.xml"
+#define DEFAULT_FROM_KUKA "/home/kevin/Documents/el-robotics-core/CRCL/FromKRC.xml"
+#define DEFAULT_TO_KUKA "/home/kevin/Documents/el-robotics-core/CRCL/ToKRC.xml"
 #define KUKA_DEFAULT_CYCLE .15
 #define KUKA_DEFAULT_MAX_ACCEL 5
 #define KUKA_DEFAULT_MAX_VEL 10

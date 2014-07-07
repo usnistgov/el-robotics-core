@@ -39,9 +39,9 @@ add_library(nist_kitting
   )
 
 ## Declare a cpp executable
-add_executable(crcl_server src/crcl_server.cpp 
-  ../nist_core/src/crcl_sim_robot.cpp
-)
+## add_executable(crcl_server src/crcl_server.cpp 
+##  ../nist_core/src/crcl_sim_robot.cpp
+## )
 add_executable(kukaServer src/kukaServer.cpp src/kukaThread.cpp src/crclUtils.cpp)
 add_executable(kukaRobot src/kukaRobot.cpp)
 add_executable(crclClient src/crclClient.cpp)
@@ -51,7 +51,7 @@ target_link_libraries(
   ${catkin_LIBRARIES}
   # ${Boost_LIBRARIES}
 )
-target_link_libraries(crcl_server nist_kitting pthread dl)
+#target_link_libraries(crcl_server nist_kitting pthread dl)
 target_link_libraries(kukaServer nist_kitting pthread dl tinyxml)
 target_link_libraries(kukaRobot nist_kitting pthread dl tinyxml)
 target_link_libraries(crclClient nist_kitting pthread dl tinyxml)

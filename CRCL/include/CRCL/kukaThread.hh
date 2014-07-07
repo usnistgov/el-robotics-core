@@ -18,7 +18,6 @@
 #include "nist_core/crcl.h"
 #include <tinyxml.h>
 #include "CRCL/crclDefs.hh"
-#define DEFAULT_CYCLE .15
 typedef struct
 {
   double cartesian[6];
@@ -38,7 +37,7 @@ class KukaThread
 public:
   KukaThread(const char *toKukaXML = DEFAULT_TO_KUKA, 
 	     const char *fromKukaXML = DEFAULT_TO_KUKA,
-	     double cycleTimeIn = DEFAULT_CYCLE);
+	     double cycleTimeIn = KUKA_DEFAULT_CYCLE);
   void threadStart(KukaThreadArgs *argsIn);
 private:
   KukaThreadArgs *args;

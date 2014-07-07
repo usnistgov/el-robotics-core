@@ -33,42 +33,7 @@
 #include "CRCL/timer.hh"
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
-
-////////////////////////////////////////////////////////
-void crclCmdUnionCopyDone(CRCLCmdUnion *from, CRCLCmdUnion *to)
-{
-  to->cmd = from->cmd;
-  to->status = from->status;
-  switch( from->cmd )
-    {
-    case CRCL_NOOP:
-      break;
-    case CRCL_DWELL:
-      to->dwell = from->dwell;
-      break;
-    case CRCL_END_CANON:
-      break;
-    case CRCL_INIT_CANON:
-      break;
-    case CRCL_MOVE_TO:
-      to->pose = from->pose;
-      break;
-    case CRCL_SET_ABSOLUTE_ACC:
-      to->absAcc = from->absAcc;
-      break;
-    case CRCL_SET_ABSOLUTE_SPEED:
-      to->absSpeed = from->absSpeed;
-      break;
-    case CRCL_STOP_MOTION:
-      break;
-    case CRCL_UNKNOWN:
-      break;
-    default:
-      printf( "Unknown CRCLCmdUnion to copy\n");
-      break;
-    }
-  from->status = CRCL_DONE;
-}
+#include "CRCL/crclUtils.hh"
 
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
@@ -93,7 +58,7 @@ void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     {
       printf( "Aborting dwell with %f left\n", doneCounter*status->cycleTime);
       doneCounter = 0;
-      crclCmdUnionCopyDone(nextCmd, &status->currentCmd );
+      crclCmdUnionCopy(nextCmd, &status->currentCmd, true );
     }
 
   // decrement counter and see if done
@@ -159,7 +124,7 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   else if( motionQueueLength <=0 )
     {
       if( status->currentCmd.status == CRCL_ABORT )
-	crclCmdUnionCopyDone(nextCmd, &status->currentCmd );
+	crclCmdUnionCopy(nextCmd, &status->currentCmd, true );
       else
 	status->currentCmd.status = CRCL_DONE;
     }
@@ -316,7 +281,7 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 int main(int argc, char *argv[])
 {
   ulapi_integer result;
-  RCS_TIMER *cycleBlock = new RCS_TIMER(DEFAULT_CYCLE);
+  RCS_TIMER *cycleBlock = new RCS_TIMER(KUKA_DEFAULT_CYCLE);
   int option;
   int ival;
   int cmd_port = CRCL_CMD_PORT_DEFAULT;
@@ -332,7 +297,9 @@ int main(int argc, char *argv[])
   status.currentCmd.cmd = CRCL_NOOP;
   status.currentCmd.status = CRCL_DONE;
   status.currentState = CRCL_UNINITIALIZED;
-  status.cycleTime = DEFAULT_CYCLE;
+  status.cycleTime = KUKA_DEFAULT_CYCLE;
+  status.maxAccel = KUKA_DEFAULT_MAX_ACCEL;
+  status.maxVel = KUKA_DEFAULT_MAX_VEL;
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
   while (true) 

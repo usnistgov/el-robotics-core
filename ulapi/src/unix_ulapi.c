@@ -1156,7 +1156,7 @@ ulapi_socket_read(ulapi_integer id,
 		  char *buf,
 		  ulapi_integer len)
 {
-  return read(id, buf, len);
+  return recv(id, buf, len, 0);
 }
 
 ulapi_integer
@@ -1164,7 +1164,7 @@ ulapi_socket_write(ulapi_integer id,
 		   const char *buf,
 		   ulapi_integer len)
 {
-  return write(id, buf, len);
+  return send(id, buf, len, 0);
 }
 
 ulapi_result

@@ -44,10 +44,12 @@ int main(int argc, char *argv[])
   TiXmlHandle toSendHandle(&kukaStatus);
   TiXmlElement *cartesianStatus;
   TiXmlElement *cartesianUpdate;
+  TiXmlElement *IPOCUpdate;
   int nchars;
   TiXmlElement *cartesian;
   int debug = 0;
   int option;
+  int counter = 0;
 
   while (true) 
     {
@@ -93,14 +95,21 @@ int main(int argc, char *argv[])
       std::string str;
       enum {INBUF_LEN = 2048};
       char inbuf[INBUF_LEN];
+      std::ostringstream s;
       cartesianStatus =
 	toSendHandle.FirstChild("Rob").FirstChild("Dat").Child(1).ToElement();
+      IPOCUpdate = toSendHandle.FirstChild("Rob").FirstChild("Dat").Child(9).ToElement();
       cartesianStatus->SetDoubleAttribute("X", myPose.x); 
       cartesianStatus->SetDoubleAttribute ("Y", myPose.y);
       cartesianStatus->SetDoubleAttribute ("Z", myPose.z);
       cartesianStatus->SetDoubleAttribute ("A", myPose.xrot);
       cartesianStatus->SetDoubleAttribute ("B", myPose.yrot);
       cartesianStatus->SetDoubleAttribute ("C", myPose.zrot);
+      s << counter++;
+      s << '\0';
+      TiXmlText *text = new TiXmlText((s.str()).c_str());
+      IPOCUpdate->Clear();
+      IPOCUpdate->LinkEndChild(text);
       //      kukaStatus.Print();
       str << kukaStatus;
       ulapi_socket_write(kukaConnection, str.c_str(), str.length());

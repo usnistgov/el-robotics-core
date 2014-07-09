@@ -73,7 +73,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     char inbuf[INBUF_LEN];
     std::string stringToKuka;
     int nchars;
-    std::string krcIPOC;
+    TiXmlElement krcIPOC("trash");
 
     nchars = ulapi_socket_read(kukaConnection, inbuf, sizeof(inbuf)-1);
     if (nchars <= 0) 
@@ -86,9 +86,10 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
 
     ulapi_mutex_take(&args->poseCorrectionMutex);
     krcIPOC = setStatus(inbuf);
+    //    printf("krcIPOC: %s\n", krcIPOC.c_str());
     stringToKuka = setCorrections(krcIPOC);
     zeroCorrections();
-    //    printf( "New message\n%s\n", stringToKuka.c_str());
+    printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), stringToKuka.length());
     ulapi_mutex_give(&args->poseCorrectionMutex);
     kukaThreadBlock->wait();
@@ -105,7 +106,7 @@ void KukaThread::zeroCorrections()
   args->poseCorrection.zrot = 0;
 }
 
-std::string KukaThread::setCorrections(std::string krcIPOC)
+std::string KukaThread::setCorrections(TiXmlElement krcIPOC)
 {
   TiXmlHandle kukaCmdHandle (&toKuka);
   std::string returnString;
@@ -122,7 +123,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(3).ToElement();
   cmdIPOC =
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(6).ToElement();
-  *cmdIPOC = krcIPOC.c_str();
+  *cmdIPOC = krcIPOC;
   cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
   cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
   cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);
@@ -156,7 +157,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
 /* this routine returns the IPOC value from the message
  * The IPOC identifies the request. The response must have the same IPOC value.
  */
-std::string KukaThread::setStatus(char *buf)
+TiXmlElement KukaThread::setStatus(char *buf)
 {
   TiXmlElement *cartesian;
   TiXmlElement *joint;
@@ -201,5 +202,5 @@ std::string KukaThread::setStatus(char *buf)
 	    args->currentState.cartesian[3],
 	    args->currentState.cartesian[4],
 	    args->currentState.cartesian[5]);
-  return krcIPOC->GetText();
+  return *krcIPOC;
 }

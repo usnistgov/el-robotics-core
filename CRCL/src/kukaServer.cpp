@@ -22,6 +22,9 @@
 #include <stdlib.h>		/* atoi, alloc */
 #include <string>
 #include <ctype.h>
+#include <iostream>
+#include <math.h>
+#include <numeric>
 
 #include <ulapi.h>
 
@@ -34,7 +37,7 @@
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 #include "CRCL/crclUtils.hh"
-#include "CRCL/canonicalMsg.hh"
+#include "CRCL/currentLocation.hh"
 
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
@@ -88,9 +91,13 @@ void crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
-void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd, KukaThreadArgs *setPoint)
 {
   static int motionQueueLength = 0; // temp variable for example
+  static CurrentLocation maker;
+  static vector<SingleLocation> movementTrajectory;
+  static int index = 0;
+  double sum;
 
   if( status->currentCmd.cmd != CRCL_MOVE_TO )
     {
@@ -103,24 +110,40 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   if( status->currentCmd.status == CRCL_NEW_CMD )
     {
 
-      status->currentCmd.pose.x = trajectory[0].x;
-      status->currentCmd.pose.y = trajectory[0].y;
-      status->currentCmd.pose.z = trajectory[0].z;
-      status->currentCmd.pose.xrot = trajectory[0].roll;
-      status->currentCmd.pose.yrot = trajectory[0].pitch;
-      status->currentCmd.pose.zrot = trajectory[0].yaw;
-      trajectory.erase(trajectory.begin());
+      maker.x = setPoint->currentState.cartesian[0];
+      maker.y = setPoint->currentState.cartesian[1];
+      maker.z = setPoint->currentState.cartesian[2];
+      maker.roll = setPoint->currentState.cartesian[3];
+      maker.pitch = setPoint->currentState.cartesian[4];
+      maker.yaw = setPoint->currentState.cartesian[5];
 
+      movementTrajectory = maker.makeTrajectory( status->currentCmd.pose.x, status->currentCmd.pose.y, status->currentCmd.pose.z, 
+        status->currentCmd.pose.xrot, status->currentCmd.pose.yrot, status->currentCmd.pose.zrot, status->maxVel, status->maxAccel);
 
       /* load motion queue with decomposed motion that is
 	 divided by the cycletime (status->cycleTime)
       */
+
       printf( "Received move to\n");
       status->currentCmd.status = CRCL_WORKING;
-      motionQueueLength = 2;
+      motionQueueLength = movementTrajectory.size();
+
     }
   else if( status->currentCmd.status == CRCL_ABORT )
     {
+      //double xFinal = ((0 - pow(((movementTrajectory[index-1].x - movementTrajectory[index-2].x) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].x;
+      //double yFinal = ((0 - pow(((movementTrajectory[index-1].y - movementTrajectory[index-2].y) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].y;
+      //double zFinal = ((0 - pow(((movementTrajectory[index-1].z - movementTrajectory[index-2].z) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].z;
+      //double rollFinal = ((0 - pow(((movementTrajectory[index-1].roll - movementTrajectory[index-2].roll) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].roll;
+      //double pitchFinal = ((0 - pow(((movementTrajectory[index-1].pitch - movementTrajectory[index-2].pitch) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].pitch;
+      //double yawFinal = ((0 - pow(((movementTrajectory[index-1].yaw - movementTrajectory[index-2].yaw) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].yaw;
+
+      //movementTrajectory.clear();
+
+      //movementTrajectory = maker.makeTrajectory(xFinal, yFinal, zFinal, rollFinal, pitchFinal, yawFinal, status->maxVel, status->maxAccel);
+
+      //motionQueueLength = movementTrajectory.size();
+      //index = 0;
       /* clear motion queue and compute new trajectory
 	 that brings us to zero velocity as quickly
 	 as possible. This will be recomputed each
@@ -129,10 +152,26 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       printf( "Aborting moveTo\n");
     }
   // if items left in motion queue send them
-  if( motionQueueLength > 0 )
-    motionQueueLength--;
+  if( (index +1) != motionQueueLength)
+  {
+
+
+      ulapi_mutex_take(&setPoint->poseCorrectionMutex);
+      setPoint->poseCorrection.x += movementTrajectory[index].x;
+      setPoint->poseCorrection.y += movementTrajectory[index].y;
+      setPoint->poseCorrection.z += movementTrajectory[index].z;
+      setPoint->poseCorrection.xrot += movementTrajectory[index].roll;
+      setPoint->poseCorrection.yrot += movementTrajectory[index].pitch;
+      setPoint->poseCorrection.zrot += movementTrajectory[index].yaw;
+      ulapi_mutex_give(&setPoint->poseCorrectionMutex);
+
+      maker.setPositions(movementTrajectory[index].x, movementTrajectory[index].y, movementTrajectory[index].z,
+        movementTrajectory[index].roll, movementTrajectory[index].pitch, movementTrajectory[index].yaw);
+
+      index++;
+  }
   // if no items left, then we are done.
-  else if( motionQueueLength <=0 )
+  else if( (index+1) == motionQueueLength )
     {
       if( status->currentCmd.status == CRCL_ABORT )
 	crclCmdUnionCopy(nextCmd, &status->currentCmd, true );
@@ -415,7 +454,7 @@ int main(int argc, char *argv[])
 	  crclInitCanon(&status, &nextCmd);
 	  break;
 	case CRCL_MOVE_TO:
-	  crclMoveTo(&status, &nextCmd);
+	  crclMoveTo(&status, &nextCmd, &kukaThreadArgs);
 	  break;
 	case CRCL_SET_ABSOLUTE_ACC:
 	  crclSetAbsoluteAcc(&status, &nextCmd);

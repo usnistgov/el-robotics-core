@@ -86,9 +86,10 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
 
     ulapi_mutex_take(&args->poseCorrectionMutex);
     krcIPOC = setStatus(inbuf);
+    //    printf("krcIPOC: %s\n", krcIPOC.c_str());
     stringToKuka = setCorrections(krcIPOC);
     zeroCorrections();
-    //    printf( "New message\n%s\n", stringToKuka.c_str());
+    //printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), stringToKuka.length());
     ulapi_mutex_give(&args->poseCorrectionMutex);
     kukaThreadBlock->wait();
@@ -122,7 +123,9 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(3).ToElement();
   cmdIPOC =
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(6).ToElement();
-  *cmdIPOC = krcIPOC.c_str();
+  cmdIPOC->Clear();
+  TiXmlText *text = new TiXmlText(krcIPOC.c_str());
+  cmdIPOC->LinkEndChild(text);
   cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
   cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
   cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);

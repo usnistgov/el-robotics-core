@@ -315,30 +315,6 @@ src/_timer.c.s:
 	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/src/_timer.c.s
 .PHONY : src/_timer.c.s
 
-src/canonicalMsg.o: src/canonicalMsg.cpp.o
-.PHONY : src/canonicalMsg.o
-
-# target to build an object file
-src/canonicalMsg.cpp.o:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/canonicalMsg.cpp.o
-.PHONY : src/canonicalMsg.cpp.o
-
-src/canonicalMsg.i: src/canonicalMsg.cpp.i
-.PHONY : src/canonicalMsg.i
-
-# target to preprocess a source file
-src/canonicalMsg.cpp.i:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/canonicalMsg.cpp.i
-.PHONY : src/canonicalMsg.cpp.i
-
-src/canonicalMsg.s: src/canonicalMsg.cpp.s
-.PHONY : src/canonicalMsg.s
-
-# target to generate assembly for a file
-src/canonicalMsg.cpp.s:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/canonicalMsg.cpp.s
-.PHONY : src/canonicalMsg.cpp.s
-
 src/crclClient.o: src/crclClient.cpp.o
 .PHONY : src/crclClient.o
 
@@ -483,30 +459,6 @@ src/kukaThread.cpp.s:
 	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/kukaThread.cpp.s
 .PHONY : src/kukaThread.cpp.s
 
-src/poseInfo.o: src/poseInfo.cpp.o
-.PHONY : src/poseInfo.o
-
-# target to build an object file
-src/poseInfo.cpp.o:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/poseInfo.cpp.o
-.PHONY : src/poseInfo.cpp.o
-
-src/poseInfo.i: src/poseInfo.cpp.i
-.PHONY : src/poseInfo.i
-
-# target to preprocess a source file
-src/poseInfo.cpp.i:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/poseInfo.cpp.i
-.PHONY : src/poseInfo.cpp.i
-
-src/poseInfo.s: src/poseInfo.cpp.s
-.PHONY : src/poseInfo.s
-
-# target to generate assembly for a file
-src/poseInfo.cpp.s:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/poseInfo.cpp.s
-.PHONY : src/poseInfo.cpp.s
-
 src/singleLocation.o: src/singleLocation.cpp.o
 .PHONY : src/singleLocation.o
 
@@ -588,9 +540,6 @@ help:
 	@echo "... src/_timer.o"
 	@echo "... src/_timer.i"
 	@echo "... src/_timer.s"
-	@echo "... src/canonicalMsg.o"
-	@echo "... src/canonicalMsg.i"
-	@echo "... src/canonicalMsg.s"
 	@echo "... src/crclClient.o"
 	@echo "... src/crclClient.i"
 	@echo "... src/crclClient.s"
@@ -609,9 +558,6 @@ help:
 	@echo "... src/kukaThread.o"
 	@echo "... src/kukaThread.i"
 	@echo "... src/kukaThread.s"
-	@echo "... src/poseInfo.o"
-	@echo "... src/poseInfo.i"
-	@echo "... src/poseInfo.s"
 	@echo "... src/singleLocation.o"
 	@echo "... src/singleLocation.i"
 	@echo "... src/singleLocation.s"

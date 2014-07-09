@@ -45,8 +45,8 @@ private:
   TiXmlDocument toKuka;
   TiXmlDocument fromKuka;
   RCS_TIMER *kukaThreadBlock;
-  TiXmlElement setStatus(char *buf);
-  std::string setCorrections(TiXmlElement krcIOPC);
+  std::string setStatus(char *buf);
+  std::string setCorrections(std::string krcIOPC);
   void zeroCorrections();
 };
 #endif

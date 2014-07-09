@@ -73,7 +73,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     char inbuf[INBUF_LEN];
     std::string stringToKuka;
     int nchars;
-    TiXmlElement krcIPOC("trash");
+    std::string krcIPOC;
 
     nchars = ulapi_socket_read(kukaConnection, inbuf, sizeof(inbuf)-1);
     if (nchars <= 0) 
@@ -106,7 +106,7 @@ void KukaThread::zeroCorrections()
   args->poseCorrection.zrot = 0;
 }
 
-std::string KukaThread::setCorrections(TiXmlElement krcIPOC)
+std::string KukaThread::setCorrections(std::string krcIPOC)
 {
   TiXmlHandle kukaCmdHandle (&toKuka);
   std::string returnString;
@@ -123,7 +123,9 @@ std::string KukaThread::setCorrections(TiXmlElement krcIPOC)
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(3).ToElement();
   cmdIPOC =
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(6).ToElement();
-  *cmdIPOC = krcIPOC;
+  cmdIPOC->Clear();
+  TiXmlText *text = new TiXmlText(krcIPOC.c_str());
+  cmdIPOC->LinkEndChild(text);
   cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
   cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
   cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);
@@ -157,7 +159,7 @@ std::string KukaThread::setCorrections(TiXmlElement krcIPOC)
 /* this routine returns the IPOC value from the message
  * The IPOC identifies the request. The response must have the same IPOC value.
  */
-TiXmlElement KukaThread::setStatus(char *buf)
+std::string KukaThread::setStatus(char *buf)
 {
   TiXmlElement *cartesian;
   TiXmlElement *joint;
@@ -202,5 +204,5 @@ TiXmlElement KukaThread::setStatus(char *buf)
 	    args->currentState.cartesian[3],
 	    args->currentState.cartesian[4],
 	    args->currentState.cartesian[5]);
-  return *krcIPOC;
+  return krcIPOC->GetText();
 }

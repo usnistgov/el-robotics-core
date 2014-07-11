@@ -1,15 +1,21 @@
 \section{Introduction}
 Many of today's robotic arms are capable of obtaining
-sub-millimeter accuracy and repeatability \cite{RobotAccuracy}. However these
+sub-millimeter accuracy and repeatability. Robots such as the
+Fanuc LR Mate 200\textit{i}D claim $\pm$ 0.02 mm repeatability
+\cite{Fanuc200iD} which has been verified in various publicly
+viewable experiments \cite{RobotAccuracy} \cite{RobotAccuracy2}.
+However, these
 same systems lack
 the sensors and processing necessary to provide a representation of
 the work cell in which they reside or of the parts that they are working
 with. In fact, according to the International Federation of Robotics (IFR),
 over 95\% of all robots in use do not have a sensor in the outer feedback loop.
 They rely on fixtures to allow them to be robust in the presence of 
-uncertainty \cite{WorldRobot}. This leads to
+uncertainty \cite{WorldRobot}. This lack of sensing in the outer feedback loop leads to
 systems that are taught or programmed to provide specific patterns of motion in
-structured work cells over long production runs. 
+structured work cells over long production runs. These systems are unable
+to detect that environmental changes have occurred, and are therefore unable
+to modify their behavior to provide continued correct operation. 
 
 Just-in-time manufacturing and small
 batch processing requires changes in the manufacturing process on a batch-by-batch
@@ -21,11 +27,23 @@ cell be taken off-line which greatly impacts productivity.
 For small batch processors or other customers who must frequently change their line configuration, 
 this frequent downtime and lack of adaptability may be unacceptable.
 
-The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group has taken the 
+Research aimed at increasing a robot's knowledge and intelligence has been performed 
+to address some of these issues. 
+It is anticipated that proper application of this intelligence
+will lead to more agile and flexible robotic systems. Both Huckaby et al.
+\cite{Huckaby2012} and Pfrommer et al. \cite{Pfrommer2013} have examined the enumeration
+of basic robotic skills that may be dynamically combined to achieve production goals.
+The EU-funded RObot control for Skilled ExecuTion of Tasks in natural interaction with
+humans (ROSETTA) \cite{Patel2012} and Skill-Based Inspection and Assembly for 
+Reconfigurable Automation Systems (SIARAS) \cite{Stenmark2013} have proposed 
+distributed knowledge
+stores that contain representations of robotic knowledge and skills. The focus of these
+programs is to simplify interaction between the user and the robotized automation system.
+
+The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group \cite{schlenoff2012} has also taken the 
 first steps in creating a knowledge repository that will
 allow greater intelligence to be resident on robotic platforms.
-It is anticipated that proper applicaton of this intelligence
-will lead to more agile and flexible robotic systems. The 
+The 
 Industrial Subgroup of this working group has applied 
 this infrastructure to 
 create a sample kit building
@@ -33,7 +51,7 @@ system.  Kit building may be viewed as a simple, but relevant
 manufacturing process. 
 
 Balakirsky et al. \cite{Balakirsky2013} describe a kitting 
-system that
+system based on the IEEE knowledge framework that
 allows greater flexibility and agility by utilizing a
 Planning Domain Definition Language (PDDL) \cite{PDDL} planning
 system to dynamically alter the system's operation in order
@@ -51,14 +69,20 @@ PDDL predicate or action will still require that the production
 line be brought down for programming/teaching. The next logical step
 in adding agility to robotic production is to remove this 
 programming/teaching step when new actions and predicates
-are required by the system. This article describes new work
-that has been performed that removes the need to program
+are required by the system. 
+This body of work examines utilizing a basis set of robotic
+primitive actions to enumerate new robotic skills and the
+enhancement of the IEEE ontology to store those skills in a reusable
+knowledge store. This removes the need to program
 the robot for new predicates and actions. The sample domain of kit building is utilized
 to demonstrate this work.
 
 The organization of the remainder of this paper is as follows.
-Section \ref{sect:PDDL} provides an overview of the PDDL language. 
-Section \ref{sect:operation} discusses the detailed operation of cell, and Section \ref{sect:knowledge} discusses the knowledge representation and
+Section \ref{sect:PDDL} provides an overview of the PDDL language and
+a discussion of how PDDL is integrated into the ontology. 
+Section \ref{sect:operation} discusses the detailed operation of cell
+and presents the system's architecture, and Section 
+\ref{sect:knowledge} discusses the knowledge representation and
 the ontology. Finally, Section \ref{sect:future} presents
 conclusions and future work.
 %

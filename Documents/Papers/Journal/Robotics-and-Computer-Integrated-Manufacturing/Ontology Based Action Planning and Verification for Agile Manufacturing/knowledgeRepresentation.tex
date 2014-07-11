@@ -52,7 +52,7 @@ expressions. For example, the predicate expression:
 \textit{stockkeepingunit}),
 \label{equation:endEffector-has-heldObject}
 \end{gather}
-is designed to verify that the robot's end-effector is holding the correct lass of part. It may be decomposed into the compound expression: 
+is designed to verify that the robot's end-effector is holding the correct class of part. It may be decomposed into the compound expression: 
 \begin{gather}
 \textbf{matchSKU}(\textbf{In-Contact-With}(\textit{endeffector}), stockkeepingunit)
 \label{equation:matchSKU}
@@ -92,7 +92,7 @@ RCC-8 consists of eight possible relations (hence RCC-8) that include
 measurable region-to-region relationships such as
 Tangential Proper Part (TPP) and Externally Connected (EC). 
 
-In order to represent these relations in all three dimensions for 
+To represent these relations in all three dimensions for 
 industrial domains, RCC-8 has been extended to a three-dimensional space 
 by applying it along all three planes (x-y, x-z, y-z) and by including 
 cardinal direction relations ``+'' and ``-''. In our example of
@@ -156,7 +156,7 @@ reprogramming the cell. In addition, these PDDL actions and predicates are indep
 of the actual cell's implementation and product vendors. As long as the cell supports the
 full set of primitives, it is capable of carrying out the operations without programming.
 
-In order to translate PDDL predicates and actions into robot cell commands, 
+To translate PDDL predicates and actions into robot cell commands, 
 the executor needs to have an
 understanding of how the predicates and actions are composed. Since this information is
 designed to not be hard-coded on the robot, it must be accessible to the running system.

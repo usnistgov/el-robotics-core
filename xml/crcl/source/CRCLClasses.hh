@@ -22,6 +22,7 @@ class MessageType;
 class MiddleCommandType;
 class MoveStraightToType;
 class MoveThroughToType;
+class MoveToType;
 class OpenGripperType;
 class OpenToolChangerType;
 class PointType;
@@ -193,6 +194,23 @@ public:
 
   std::list<PoseType *> * Waypoint;
   XmlInteger * NumPositions;
+
+  bool printTypp;
+};
+
+/*********************************************************************/
+
+class MoveToType :
+  public MiddleCommandType
+{
+public:
+  MoveToType();
+  MoveToType(
+    PoseType * EndPositionIn);
+  ~MoveToType();
+  void printSelf(FILE * outFile);
+
+  PoseType * EndPosition;
 
   bool printTypp;
 };
@@ -445,6 +463,7 @@ union CRCLProgramType_1001_TypeVal
   MessageType * Message;
   MoveStraightToType * MoveStraightTo;
   MoveThroughToType * MoveThroughTo;
+  MoveToType * MoveTo;
   OpenGripperType * OpenGripper;
   OpenToolChangerType * OpenToolChanger;
   SetAbsoluteAccelerationType * SetAbsoluteAcceleration;
@@ -469,6 +488,7 @@ public:
     MessageE,
     MoveStraightToE,
     MoveThroughToE,
+    MoveToE,
     OpenGripperE,
     OpenToolChangerE,
     SetAbsoluteAccelerationE,

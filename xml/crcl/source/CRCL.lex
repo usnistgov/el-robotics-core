@@ -105,6 +105,8 @@ W [ \t\n\r]*
 "<"{W}"MoveStraightTo"        {ECH; return MOVESTRAIGHTTOSTART;}
 "</"{W}"MoveThroughTo"{W}">"  {ECH; return MOVETHROUGHTOEND;}
 "<"{W}"MoveThroughTo"         {ECH; return MOVETHROUGHTOSTART;}
+"</"{W}"MoveTo"{W}">"         {ECH; return MOVETOEND;}
+"<"{W}"MoveTo"                {ECH; return MOVETOSTART;}
 "</"{W}"NumPositions"{W}">"   {ECH; return NUMPOSITIONSEND;}
 "<"{W}"NumPositions"          {ECH; return NUMPOSITIONSSTART;}
 "</"{W}"OpenGripper"{W}">"    {ECH; return OPENGRIPPEREND;}

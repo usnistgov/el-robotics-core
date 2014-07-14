@@ -88,10 +88,10 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     krcIPOC = setStatus(inbuf);
     //    printf("krcIPOC: %s\n", krcIPOC.c_str());
     stringToKuka = setCorrections(krcIPOC);
+    ulapi_mutex_give(&args->poseCorrectionMutex);
     zeroCorrections();
     printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), stringToKuka.length());
-    ulapi_mutex_give(&args->poseCorrectionMutex);
     kukaThreadBlock->wait();
     }
 }

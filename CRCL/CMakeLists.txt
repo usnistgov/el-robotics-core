@@ -42,7 +42,7 @@ add_library(nist_kitting
 ## add_executable(crcl_server src/crcl_server.cpp 
 ##  ../nist_core/src/crcl_sim_robot.cpp
 ## )
-add_executable(kukaServer src/kukaServer.cpp src/kukaThread.cpp src/crclUtils.cpp src/currentLocation.cpp src/singleLocation.cpp) 
+add_executable(kukaServer src/kukaServer.cpp src/kukaThread.cpp src/crclUtils.cpp src/trajectoryMaker.cpp src/singleLocation.cpp) 
 add_executable(kukaRobot src/kukaRobot.cpp)
 add_executable(crclClient src/crclClient.cpp)
 ## Specify libraries to link a library or executable target against

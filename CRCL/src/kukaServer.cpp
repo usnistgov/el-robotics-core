@@ -37,7 +37,7 @@
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 #include "CRCL/crclUtils.hh"
-#include "CRCL/currentLocation.hh"
+#include "CRCL/trajectoryMaker.hh"
 
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
@@ -94,10 +94,16 @@ void crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd, KukaThreadArgs *setPoint)
 {
   static int motionQueueLength = 0; // temp variable for example
-  static CurrentLocation maker;
+  static TrajectoryMaker trajectoryMaker;
   static vector<SingleLocation> movementTrajectory;
   static int index = 0;
+  vector<double> values;
+  SingleLocation singlePoint;
+  double max_change = 0;
+  double max_value = 0;
   double sum;
+  int counter = 0;
+  vector<bool> signs; //True = +, False = -
 
   if( status->currentCmd.cmd != CRCL_MOVE_TO )
     {
@@ -110,14 +116,16 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd, KukaThreadArgs *setPo
   if( status->currentCmd.status == CRCL_NEW_CMD )
     {
 
-      maker.x = setPoint->currentState.cartesian[0];
-      maker.y = setPoint->currentState.cartesian[1];
-      maker.z = setPoint->currentState.cartesian[2];
-      maker.roll = setPoint->currentState.cartesian[3];
-      maker.pitch = setPoint->currentState.cartesian[4];
-      maker.yaw = setPoint->currentState.cartesian[5];
+      movementTrajectory.clear();
 
-      movementTrajectory = maker.makeTrajectory( status->currentCmd.pose.x, status->currentCmd.pose.y, status->currentCmd.pose.z, 
+      trajectoryMaker.x = setPoint->currentState.cartesian[0];
+      trajectoryMaker.y = setPoint->currentState.cartesian[1];
+      trajectoryMaker.z = setPoint->currentState.cartesian[2];
+      trajectoryMaker.roll = setPoint->currentState.cartesian[3];
+      trajectoryMaker.pitch = setPoint->currentState.cartesian[4];
+      trajectoryMaker.yaw = setPoint->currentState.cartesian[5];
+
+      movementTrajectory = trajectoryMaker.makeTrajectory( status->currentCmd.pose.x, status->currentCmd.pose.y, status->currentCmd.pose.z, 
         status->currentCmd.pose.xrot, status->currentCmd.pose.yrot, status->currentCmd.pose.zrot, status->maxVel, status->maxAccel);
 
       /* load motion queue with decomposed motion that is
@@ -127,23 +135,80 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd, KukaThreadArgs *setPo
       printf( "Received move to\n");
       status->currentCmd.status = CRCL_WORKING;
       motionQueueLength = movementTrajectory.size();
-
+      index = 0;
     }
   else if( status->currentCmd.status == CRCL_ABORT )
     {
-      //double xFinal = ((0 - pow(((movementTrajectory[index-1].x - movementTrajectory[index-2].x) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].x;
-      //double yFinal = ((0 - pow(((movementTrajectory[index-1].y - movementTrajectory[index-2].y) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].y;
-      //double zFinal = ((0 - pow(((movementTrajectory[index-1].z - movementTrajectory[index-2].z) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].z;
-      //double rollFinal = ((0 - pow(((movementTrajectory[index-1].roll - movementTrajectory[index-2].roll) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].roll;
-      //double pitchFinal = ((0 - pow(((movementTrajectory[index-1].pitch - movementTrajectory[index-2].pitch) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].pitch;
-      //double yawFinal = ((0 - pow(((movementTrajectory[index-1].yaw - movementTrajectory[index-2].yaw) / KUKA_DEFAULT_CYCLE),2)) / (2 * status->maxAccel)) + movementTrajectory[index-1].yaw;
 
-      //movementTrajectory.clear();
+      index--;
 
-      //movementTrajectory = maker.makeTrajectory(xFinal, yFinal, zFinal, rollFinal, pitchFinal, yawFinal, status->maxVel, status->maxAccel);
+      while (counter == 0)
+      {
+        values.push_back(movementTrajectory[index].x);
+        values.push_back(movementTrajectory[index].y);
+        values.push_back(movementTrajectory[index].z);
+        values.push_back(movementTrajectory[index].roll);
+        values.push_back(movementTrajectory[index].pitch);
+        values.push_back(movementTrajectory[index].yaw);
 
-      //motionQueueLength = movementTrajectory.size();
-      //index = 0;
+        if (values[0] < 0) signs.push_back(false);
+          else signs.push_back(true);
+        if (values[1] < 0) signs.push_back(false);
+          else signs.push_back(true);
+        if (values[2] < 0) signs.push_back(false);
+          else signs.push_back(true);
+        if (values[3] < 0) signs.push_back(false);
+          else signs.push_back(true);
+        if (values[4] < 0) signs.push_back(false);
+          else signs.push_back(true);
+        if (values[5] < 0) signs.push_back(false);
+          else signs.push_back(true);
+
+        counter = 1;
+      }
+
+      movementTrajectory.clear();
+      motionQueueLength = 0;
+
+      max_value = values[0];
+
+      for (int i = 1; i < values.size(); i++)
+      {
+        if (abs(values[i]) > max_value) max_value = abs(values[i]);
+      }
+
+      max_change = max_value * 0.1;
+
+      singlePoint.x = abs(movementTrajectory[index].x) - ((abs(movementTrajectory[index].x) / max_value) * max_change);
+      singlePoint.y = abs(movementTrajectory[index].y) - ((abs(movementTrajectory[index].y) / max_value) * max_change);
+      singlePoint.z = abs(movementTrajectory[index].z) - ((abs(movementTrajectory[index].z) / max_value) * max_change);
+      singlePoint.roll = abs(movementTrajectory[index].roll) - ((abs(movementTrajectory[index].roll) / max_value) * max_change);
+      singlePoint.pitch = abs(movementTrajectory[index].pitch) - ((abs(movementTrajectory[index].pitch) / max_value) * max_change);
+      singlePoint.yaw = abs(movementTrajectory[index].yaw) - ((abs(movementTrajectory[index].yaw) / max_value) * max_change);
+
+
+      if (singlePoint.x <= 0.0001) singlePoint.x = 0;
+      if (singlePoint.y <= 0.0001) singlePoint.y = 0;
+      if (singlePoint.z <= 0.0001) singlePoint.z = 0;
+      if (singlePoint.roll <= 0.0001) singlePoint.roll = 0;
+      if (singlePoint.pitch <= 0.0001) singlePoint.pitch = 0;
+      if (singlePoint.yaw <= 0.0001) singlePoint.yaw = 0;
+
+      if (signs[0] == false) singlePoint.x = singlePoint.x * -1;
+      if (signs[1] == false) singlePoint.y = singlePoint.y * -1;
+      if (signs[2] == false) singlePoint.z = singlePoint.z * -1;
+      if (signs[3] == false) singlePoint.roll = singlePoint.roll * -1;
+      if (signs[4] == false) singlePoint.pitch = singlePoint.pitch * -1;
+      if (signs[5] == false) singlePoint.yaw = singlePoint.yaw * -1;
+
+      movementTrajectory.push_back(singlePoint);
+      index = 0;
+
+      if (singlePoint.x == 0 && singlePoint.y == 0 && singlePoint.z == 0 && singlePoint.roll == 0 && singlePoint.pitch == 0 && singlePoint.yaw == 0)
+      {
+        motionQueueLength = 1;
+      }
+
       /* clear motion queue and compute new trajectory
 	 that brings us to zero velocity as quickly
 	 as possible. This will be recomputed each
@@ -155,7 +220,6 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd, KukaThreadArgs *setPo
   if( (index +1) != motionQueueLength)
   {
 
-
       ulapi_mutex_take(&setPoint->poseCorrectionMutex);
       setPoint->poseCorrection.x += movementTrajectory[index].x;
       setPoint->poseCorrection.y += movementTrajectory[index].y;
@@ -165,8 +229,15 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd, KukaThreadArgs *setPo
       setPoint->poseCorrection.zrot += movementTrajectory[index].yaw;
       ulapi_mutex_give(&setPoint->poseCorrectionMutex);
 
-      maker.setPositions(movementTrajectory[index].x, movementTrajectory[index].y, movementTrajectory[index].z,
+      trajectoryMaker.setPositions(movementTrajectory[index].x, movementTrajectory[index].y, movementTrajectory[index].z,
         movementTrajectory[index].roll, movementTrajectory[index].pitch, movementTrajectory[index].yaw);
+
+      setPoint->currentState.cartesian[0] += setPoint->poseCorrection.x;
+      setPoint->currentState.cartesian[1] += setPoint->poseCorrection.y;
+      setPoint->currentState.cartesian[2] += setPoint->poseCorrection.z;
+      setPoint->currentState.cartesian[3] += setPoint->poseCorrection.xrot;
+      setPoint->currentState.cartesian[4] += setPoint->poseCorrection.yrot;
+      setPoint->currentState.cartesian[5] += setPoint->poseCorrection.zrot;
 
       index++;
   }

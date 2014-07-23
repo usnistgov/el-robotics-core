@@ -363,30 +363,6 @@ src/crclUtils.cpp.s:
 	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/crclUtils.cpp.s
 .PHONY : src/crclUtils.cpp.s
 
-src/currentLocation.o: src/currentLocation.cpp.o
-.PHONY : src/currentLocation.o
-
-# target to build an object file
-src/currentLocation.cpp.o:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/currentLocation.cpp.o
-.PHONY : src/currentLocation.cpp.o
-
-src/currentLocation.i: src/currentLocation.cpp.i
-.PHONY : src/currentLocation.i
-
-# target to preprocess a source file
-src/currentLocation.cpp.i:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/currentLocation.cpp.i
-.PHONY : src/currentLocation.cpp.i
-
-src/currentLocation.s: src/currentLocation.cpp.s
-.PHONY : src/currentLocation.s
-
-# target to generate assembly for a file
-src/currentLocation.cpp.s:
-	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/currentLocation.cpp.s
-.PHONY : src/currentLocation.cpp.s
-
 src/kukaRobot.o: src/kukaRobot.cpp.o
 .PHONY : src/kukaRobot.o
 
@@ -507,6 +483,30 @@ src/timer.cc.s:
 	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/src/timer.cc.s
 .PHONY : src/timer.cc.s
 
+src/trajectoryMaker.o: src/trajectoryMaker.cpp.o
+.PHONY : src/trajectoryMaker.o
+
+# target to build an object file
+src/trajectoryMaker.cpp.o:
+	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/trajectoryMaker.cpp.o
+.PHONY : src/trajectoryMaker.cpp.o
+
+src/trajectoryMaker.i: src/trajectoryMaker.cpp.i
+.PHONY : src/trajectoryMaker.i
+
+# target to preprocess a source file
+src/trajectoryMaker.cpp.i:
+	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/trajectoryMaker.cpp.i
+.PHONY : src/trajectoryMaker.cpp.i
+
+src/trajectoryMaker.s: src/trajectoryMaker.cpp.s
+.PHONY : src/trajectoryMaker.s
+
+# target to generate assembly for a file
+src/trajectoryMaker.cpp.s:
+	$(MAKE) -f CMakeFiles/kukaServer.dir/build.make CMakeFiles/kukaServer.dir/src/trajectoryMaker.cpp.s
+.PHONY : src/trajectoryMaker.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -546,9 +546,6 @@ help:
 	@echo "... src/crclUtils.o"
 	@echo "... src/crclUtils.i"
 	@echo "... src/crclUtils.s"
-	@echo "... src/currentLocation.o"
-	@echo "... src/currentLocation.i"
-	@echo "... src/currentLocation.s"
 	@echo "... src/kukaRobot.o"
 	@echo "... src/kukaRobot.i"
 	@echo "... src/kukaRobot.s"
@@ -564,6 +561,9 @@ help:
 	@echo "... src/timer.o"
 	@echo "... src/timer.i"
 	@echo "... src/timer.s"
+	@echo "... src/trajectoryMaker.o"
+	@echo "... src/trajectoryMaker.i"
+	@echo "... src/trajectoryMaker.s"
 .PHONY : help
 
 

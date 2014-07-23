@@ -748,6 +748,80 @@ namespace crcl_robot
   }
 
 
+  LIBRARY_API bool CrclKukaLWR::generateParameter (char paramType, char subType, vector<double> &input)
+  {
+    size_t found;
+    int j = 0, currLength = 0;
+    
+    switch (paramType)
+    {
+    case 'A':
+      //! JAM:  TODO
+      if (subType == 'A')
+      {
+      }
+      else if (subType == 'R')
+      {
+      }
+      else
+      {
+        return false;
+      }
+      break;
+    case 'S':
+      if (subType == 'A')
+      {
+        if (input[0] > 2.0 || input[0] < 0.0)
+        {
+          return false;
+        }
+      }
+      else if (subType == 'R')
+      {
+        if (input[0] > 100 || input[0] < 0)
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+
+      moveMe_.str (string());
+      moveMe_ << 'V' << paramType << subType << " ";
+
+      tempString_.str(string());
+      tempString_ << input[0];
+
+      //! If number is an integer, add a decimal point
+      found = tempString_.str().find('.');
+      if (found == string::npos)
+      {
+        tempString_ << ".";
+      }
+
+      //! Add trailing 0s to decimal to create 10-char number string
+      tempString_.seekg (0, ios::end);
+      currLength = (int) tempString_.tellg ();
+
+      for (j = currLength; j < 10; ++j)
+      {
+        tempString_ << "0";
+      }
+
+      moveMe_ << tempString_ << " 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000";
+
+      break;
+    default:
+      return false;
+    }
+    
+    return true;
+  }
+
+
+
   LIBRARY_API bool CrclKukaLWR::send ()
   {
     int x;

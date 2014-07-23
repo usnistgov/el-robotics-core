@@ -20,7 +20,7 @@ using namespace std;
 #include "nist_core/crcl_kuka_lwr.h"
 #include "nist_core/crcl_schunk_sdh.h"
 #include "nist_core/crcl_demo_hack.h"
-//#include "Universal_UR10.h" //! TODO
+#include "nist_core/crcl_universal.h"
 
 //! Explicit instantiations
 //template class LIBRARY_API Robot::CrclRobot<Robot::BasicRobot>;
@@ -28,6 +28,7 @@ template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclDemoHack>;
 template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclSchunkSDH>;
 template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclRobotiq>;
 template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclKukaLWR>;
+template class LIBRARY_API crcl_robot::CrclRobot<crcl_robot::CrclUniversal>;
 
 namespace crcl_robot
 {

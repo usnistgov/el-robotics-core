@@ -17,40 +17,31 @@
 
 namespace crcl_robot
 {
-  DWORD __stdcall livemanThread (LPVOID param)
+  void livemanThread (void *param)
   {
-    //! Explicitly cast your shared data back from a void* to the proper structure
     keepalive *ka = (keepalive*)param;
     int val;
 
     while (ka->runThread)
     {
-
       ((CrclRobotiq*)ka->rob)->SetParameter("STATUS", &val);
 
       //! Don't slam your processor!  You don't need to poll at full speed.
       Sleep (5000);
-    } // while (true)
-    return 1;
+    }
+    return;
   }
-
-
 
   LIBRARY_API CrclRobotiq::CrclRobotiq (char * initPath)
   {
     iqGrip = new RobotiqGripper::RobotiqGripper();
 
-    ka_.runThread = true;
+    task = ulapi_task_new();
+    ka_.handle = ulapi_mutex_new(99);
     ka_.rob = this;
+    ka_.runThread = true;
 
-    ka_.handle = CreateMutex (NULL, false, NULL);
-    //! Create thread
-    CreateThread (NULL,           //! Default security attributes
-                  0,              //! Use default stack size?
-                  livemanThread,  //! Thread function
-                  &ka_,            //! Parameter to thread function
-                  0,              //! Use default creation flags?
-                  &threadID_);    //! Thread identifier
+    ulapi_task_start((ulapi_task_struct*)task, livemanThread, &ka_, ulapi_prio_lowest(), 0);
   }
 
   LIBRARY_API CrclRobotiq::~CrclRobotiq ()
@@ -201,8 +192,8 @@ namespace crcl_robot
   {
     int *temp_int = (int*) paramVal;
 
-          WaitForSingleObject (ka_.handle, INFINITE);
-      
+    //WaitForSingleObject (ka_.handle, INFINITE);
+    ulapi_mutex_take(ka_.handle);
 
     if ((strcmp (paramName, "ACTIVATE") == 0))
     {
@@ -288,7 +279,8 @@ namespace crcl_robot
     {
       return CANON_FAILURE;
     }
-    ReleaseMutex (ka_.handle);
+    //ReleaseMutex (ka_.handle);
+    ulapi_mutex_give(ka_.handle);
 
     return CANON_SUCCESS;
   }

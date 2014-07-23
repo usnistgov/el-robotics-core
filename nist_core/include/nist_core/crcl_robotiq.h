@@ -25,7 +25,7 @@ namespace crcl_robot
 {
   struct LIBRARY_API keepalive
   {
-    void *handle;
+    ulapi_mutex_struct *handle;
     bool runThread;
     void *rob;
   };
@@ -319,7 +319,7 @@ namespace crcl_robot
 
   private:
 
-    
+    void *task;
     unsigned long threadID_;
 
     keepalive ka_;

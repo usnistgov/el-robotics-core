@@ -383,6 +383,20 @@ namespace crcl_robot
     //!
     bool generateTool (char mode, double value);
 
+    //! @brief Generate a parameter set request for the KUKA LWR
+    //!
+    //! @param paramType Specify the parameter to set, see notes for valid parameters
+    //! @param subType   Specify the subparameter (if applicable)
+    //! @param input     Vector of N values to which the parameters will be set
+    //!
+    //! @return True if parameter was set successfully, false otherwise
+    //!
+    //! @note Valid parameters(subparameters) include:
+    //!   A(A,R) - Set the acceleration(absolute, relative)
+    //!   S(A,R) - Set the speed(absolute, relative)
+    //!
+    bool generateParameter (char paramType, char subtype, vector<double> &input);
+
     //! @brief Send content of moveMe_ to robot using whatever communication protocol is defined.  
     //!
     bool send ();

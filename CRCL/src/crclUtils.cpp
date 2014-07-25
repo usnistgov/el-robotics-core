@@ -50,6 +50,9 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
     case CRCL_SET_ABSOLUTE_SPEED:
       to->absSpeed = from->absSpeed;
       break;
+    case CRCL_SET_GRIPPER:
+      to->gripperPos = from->gripperPos;
+      break;
     case CRCL_STOP_MOTION:
       break;
     case CRCL_UNKNOWN:

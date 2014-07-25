@@ -26,7 +26,7 @@ KukaThread::KukaThread(const char *toKukaXML,
 		       const char *fromKukaXML, 
 		       double cycleTimeIn)
 {
-  debug = 1;
+  debug = 0;
   kukaThreadBlock = new RCS_TIMER(cycleTimeIn);
   if( !toKuka.LoadFile(toKukaXML))
     {
@@ -90,7 +90,8 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     stringToKuka = setCorrections(krcIPOC);
     ulapi_mutex_give(&args->poseCorrectionMutex);
     zeroCorrections();
-    printf( "New message\n%s\n", stringToKuka.c_str());
+    if(debug)
+      printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), stringToKuka.length());
     kukaThreadBlock->wait();
     }

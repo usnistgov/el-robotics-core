@@ -17,12 +17,14 @@ set(CRCL_DIR ${PROJECT_SOURCE_DIR})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
+add_subdirectory(schunk_powercube_driver)
 include_directories(
   include
   # ${Boost_INCLUDE_DIRS}
   ../ulapi/src
   ../nist_core/include
   ../nist_kitting/include
+  ./schunk_powercube_driver/schunk_libm5api/include
   )
 
 ## Declare a cpp library
@@ -52,6 +54,6 @@ target_link_libraries(
   # ${Boost_LIBRARIES}
 )
 target_link_libraries(crcl_server nist_kitting pthread dl)
-target_link_libraries(kukaServer nist_kitting pthread dl tinyxml)
+target_link_libraries(kukaServer nist_kitting pthread dl tinyxml m5api)
 target_link_libraries(kukaRobot nist_kitting pthread dl tinyxml)
 target_link_libraries(crclClient nist_kitting pthread dl tinyxml)

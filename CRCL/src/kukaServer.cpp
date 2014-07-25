@@ -18,6 +18,7 @@
  *      \copyright      Georgia Tech Research Institute
  */
 #include <stdio.h>		/* stdin, stderr */
+#include <math.h>               /* fabs */
 #include <stddef.h>		/* NULL, sizeof */
 #include <stdlib.h>		/* atoi, alloc */
 #include <string>
@@ -34,6 +35,11 @@
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 #include "CRCL/crclUtils.hh"
+#include "schunk_libm5api/m5apiw32.h"
+
+////////////////////////////////////////////////////////
+// globals
+int usePowerCube;
 
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
@@ -58,7 +64,11 @@ void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     {
       printf( "Aborting dwell with %f left\n", doneCounter*status->cycleTime);
       doneCounter = 0;
-      crclCmdUnionCopy(nextCmd, &status->currentCmd, true );
+      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
+	{
+	  printf( "error from copy of new command\n");
+	  exit(1);
+	}
     }
 
   // decrement counter and see if done
@@ -81,9 +91,53 @@ void crclEndCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 ////////////////////////////////////////////////////////
 void crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  printf( "Received init canon\n");
-  status->currentCmd.status = CRCL_DONE;
-  status->currentState = CRCL_INITIALIZED;
+  int gripperReturn;
+
+  if( status->currentCmd.cmd != CRCL_INIT_CANON )
+    {
+      printf( "Bad command type %d to crclInitCanon\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      printf( "Received init canon\n");
+      status->currentCmd.status = CRCL_WORKING;
+      if( usePowerCube )
+	{
+	  gripperReturn = PCube_homeModule( status->gripStatus.device, status->gripStatus.modId );
+	}
+    }
+  else if( status->currentCmd.status == CRCL_ABORT )
+    {
+      printf( "Aborting Init\n");
+      if( usePowerCube )
+	gripperReturn = PCube_haltModule( status->gripStatus.device, status->gripStatus.modId );
+      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
+	{
+	  printf( "error from copy of new command\n");
+	  exit(1);
+	}
+    }
+  else if( status->currentCmd.status == CRCL_WORKING )
+    if( usePowerCube )
+      {
+	printf( "gripper position: %f\n", status->gripStatus.position);
+	gripperReturn = PCube_waitForHomeEnd(status->gripStatus.device, status->gripStatus.modId, 0);
+	PCube_getPos(status->gripStatus.device, status->gripStatus.modId, &status->gripStatus.position);
+	if( gripperReturn == 0 )
+	  {
+	    status->currentCmd.status = CRCL_DONE;
+	    status->currentState = CRCL_INITIALIZED;
+	  }
+      }
+    else
+      {
+	status->currentCmd.status = CRCL_DONE;
+	status->currentState = CRCL_INITIALIZED;
+      }
 }
 
 ////////////////////////////////////////////////////////
@@ -124,7 +178,13 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   else if( motionQueueLength <=0 )
     {
       if( status->currentCmd.status == CRCL_ABORT )
-	crclCmdUnionCopy(nextCmd, &status->currentCmd, true );
+	{
+	  if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
+	    {
+	      printf( "error from copy of new command\n");
+	      exit(1);
+	    }
+	}
       else
 	status->currentCmd.status = CRCL_DONE;
     }
@@ -167,6 +227,66 @@ void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   printf( "Received set absolute speed\n");
   status->maxVel = status->currentCmd.absSpeed;
   status->currentCmd.status = CRCL_DONE;
+}
+
+////////////////////////////////////////////////////////
+void crclSetGripper(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  if( status->currentCmd.cmd != CRCL_SET_GRIPPER )
+    {
+      printf( "Bad command type %d to crclSetGripper\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      printf( "Received set gripper with position %f\n", status->currentCmd.gripperPos);
+      status->currentCmd.status = CRCL_WORKING;
+      if( usePowerCube )
+	{
+	  /*
+	  PCube_movePos( status->gripStatus.device, status->gripStatus.modId, 
+			 status->currentCmd.gripperPos );
+	  */
+	  PCube_moveRamp( status->gripStatus.device, status->gripStatus.modId, 
+			  status->currentCmd.gripperPos, 1, 1 );
+	}
+    }
+  else if( status->currentCmd.status == CRCL_ABORT )
+    {
+      printf( "Aborting CRCL_SET_GRIPPER\n");
+      if( usePowerCube )
+	{
+	  PCube_haltModule( status->gripStatus.device, status->gripStatus.modId );
+	  PCube_resetModule( status->gripStatus.device, status->gripStatus.modId );
+	}
+      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
+	{
+	  printf( "error from copy of new command\n");
+	  exit(1);
+	}
+    }
+  else if( status->currentCmd.status == CRCL_WORKING )
+    {
+      if( usePowerCube )
+	{
+	  PCube_getPos(status->gripStatus.device, status->gripStatus.modId, &status->gripStatus.position);
+	  printf( "gripper position: %f\n", status->gripStatus.position);
+	  if( fabs((status->gripStatus.position - status->currentCmd.gripperPos)) < 0.01 )
+	    {
+	      printf("Finished move\n");
+	      status->currentCmd.status = CRCL_DONE;
+	    }
+	  else
+	    printf( "Gripper error: %f\n", fabs(status->gripStatus.position - status->currentCmd.gripperPos));
+	}
+      else
+	{
+	  status->currentCmd.status = CRCL_DONE;
+	}
+    }
 }
 
 ////////////////////////////////////////////////////////
@@ -264,6 +384,12 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 	retValue = 0;
       nextCmd->cmd = CRCL_SET_ABSOLUTE_SPEED;
     }
+  else if( !strncasecmp(inbuf, "SetGripper", strlen("SetGripper")))
+    {
+      if( sscanf(inbuf, "%*s %lf", &nextCmd->gripperPos) != 1)
+	retValue = 0;
+      nextCmd->cmd = CRCL_SET_GRIPPER;
+    }
   else if( !strncasecmp(inbuf, "StopMotion", strlen("StopMotion")))
     {
       nextCmd->cmd = CRCL_STOP_MOTION;
@@ -293,7 +419,17 @@ int main(int argc, char *argv[])
   int cmdConnection;
   CRCLStatus status;
   CRCLCmdUnion nextCmd;
+  // variables for gripper
+  int gripperDev = 0;
+  char pInitString[] = "RS232:1,9600";
+  int gripperReturn;
+  int deviceMap[MAX_MODULES];
+  unsigned long serialNum;
+  unsigned char moduleType;
+  unsigned short moduleOS;
+  unsigned long state;
 
+  usePowerCube = false;
   status.currentCmd.cmd = CRCL_NOOP;
   status.currentCmd.status = CRCL_DONE;
   status.currentState = CRCL_UNINITIALIZED;
@@ -304,7 +440,7 @@ int main(int argc, char *argv[])
   opterr = 0;
   while (true) 
     {
-      option = getopt(argc, argv, ":c:s:dh:");
+      option = getopt(argc, argv, ":c:gs:dh:");
       if (option == -1) break;
       switch (option) 
 	{
@@ -320,6 +456,9 @@ int main(int argc, char *argv[])
 	  */
 	case 'd':
 	  debug = 1;
+	  break;
+	case 'g':
+	  usePowerCube = true;
 	  break;
 	case 'h':
 	  host = optarg;
@@ -347,6 +486,33 @@ int main(int argc, char *argv[])
 		   reinterpret_cast<ulapi_task_code>(kukaThread), 
 		   reinterpret_cast<void*>(&kukaThreadArgs), 
 		   ulapi_prio_highest(), 0);
+  // initialize gripper
+  if( usePowerCube )
+    {
+      PCube_setDllDebug(1, 0, 0);
+      printf("Attempting to open device: %s\n", pInitString);
+      gripperReturn = PCube_openDevice( &gripperDev, pInitString );
+      if( gripperReturn != 0 )
+	{
+	  printf("Unable to open device: %s. Error %d\n", pInitString, gripperReturn);
+	  return -1;
+	}
+      gripperReturn = PCube_getModuleIdMap( gripperDev, deviceMap );
+      gripperReturn = PCube_getModuleSerialNo( gripperDev, deviceMap[0], &serialNum );
+      gripperReturn = PCube_getModuleType( gripperDev, deviceMap[0], &moduleType );
+      gripperReturn = PCube_getModuleVersion( gripperDev, deviceMap[0], &moduleOS );
+      gripperReturn = PCube_getModuleState( gripperDev, deviceMap[0], &state );
+      status.gripStatus.device = gripperDev;
+      status.gripStatus.modId = deviceMap[0];
+      
+      std::string typeStr = (moduleType == TYPEID_MOD_ROTARY) ? "ROTARY" : "LINEAR";
+      printf("\nModule %d\n", deviceMap[0]);
+      printf("\tSerial #:         %lu\n", serialNum);
+      printf("\tModule Type:      %s\n", typeStr.c_str());
+      printf("\tSoftware Version: %d\n", moduleOS);
+      printf("\tModule State:     0x%lux\n", state);
+    }
+
   // start up server for incoming commands
   cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
   while( cmdConnection < 0 )
@@ -411,6 +577,9 @@ int main(int argc, char *argv[])
 	  break;
 	case CRCL_SET_ABSOLUTE_SPEED:
 	  crclSetAbsoluteSpeed(&status, &nextCmd);
+	  break;
+	case CRCL_SET_GRIPPER:
+	  crclSetGripper(&status, &nextCmd);
 	  break;
 	case CRCL_STOP_MOTION:
 	  crclStopMotion(&status, &nextCmd);

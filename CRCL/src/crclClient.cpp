@@ -21,6 +21,7 @@
 #include <stdio.h>		/* stdin, stderr */
 #include <stddef.h>		/* NULL, sizeof */
 #include <stdlib.h>		/* atoi, alloc */
+#include <iostream>
 #include <string>
 #include <ctype.h>
 
@@ -35,17 +36,21 @@ int main(int argc, char *argv[])
   int debug = 1;
   int option;
   int cmdConnection;
+  int script = 1;
   std::string msgOut;
   RCS_TIMER *cycleBlock = new RCS_TIMER(2.);
 
   while (true) 
     {
-      option = getopt(argc, argv, ":d");
+      option = getopt(argc, argv, ":cd");
       if (option == -1) break;
       switch (option) 
 	{
 	case 'd':
 	  debug = 1;
+	  break;
+	case 'c':
+	  script = 0;
 	  break;
 	case ':':
 	  fprintf(stderr, "missing value for -%c\n", optopt);
@@ -62,6 +67,15 @@ int main(int argc, char *argv[])
 					     "localhost");
   if( cmdConnection < 0 )
     return -1;
+  if( !script )
+    {
+      for(;;)
+	{
+	  getline(std::cin, msgOut);
+	  ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
+	  printf( "Sent: %s\n", msgOut.c_str());
+	}
+    }
   for(int i=0; i<1; i++ )
     {
       msgOut = "InitCanon";

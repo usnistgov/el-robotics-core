@@ -31,6 +31,7 @@ typedef enum
     CRCL_MOVE_TO,
     CRCL_SET_ABSOLUTE_ACC,
     CRCL_SET_ABSOLUTE_SPEED,
+    CRCL_SET_GRIPPER,
     CRCL_STOP_MOTION,
     CRCL_UNKNOWN
   }CRCLCmd;
@@ -59,14 +60,23 @@ typedef struct
     double absAcc;
     double absSpeed;
     double dwell;
+    double gripperPos;
     robotPose pose;
   };
 }CRCLCmdUnion;
 
 typedef struct
 {
+  int device;
+  int modId;
+  float position;
+}GripperStatus;
+
+typedef struct
+{
   CRCLCmdUnion currentCmd;
   CRCLState currentState;
+  GripperStatus gripStatus;
   double cycleTime;
   double maxAccel;
   double maxVel;

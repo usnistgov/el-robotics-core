@@ -14,8 +14,14 @@ debug information:
 cmake . -DCMAKE_BUILD_TYPE=Debug
 
 NOTE:
-You will need to run the following commands to build the system
-1) cmake (see above for parameters)
-2) make (will tell you that new files have been added)
-3) cmake (see above for parameters)
-4) make
+This code is designed to use the Schunk powercube gripper. This is
+a USB serial device that uses the Prolific USB-to-Serial controller.
+If using Oracle VirtualBox to control this device, you must enable
+the USB filters in the settings menu for the virtual machine.
+To do this, Right-click on the virtual machine when the machine is not
+running and edit the USB devices.
+
+The USB port will not be read/write for all users as configured. To configure,
+copy the file 80-serial.rules from the etc director (./etc from this directory)
+to the /etc/udev/rules.d/ directory. Then 
+restart the udev daemon with the command: sudo udevadm trigger

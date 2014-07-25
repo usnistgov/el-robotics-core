@@ -1,0 +1,4 @@
+#
+# Give world read/write access to ttyS* and ttyUSB* serial devices
+#
+KERNEL=="tty[A-Z]*", GROUP="uucp", MODE="0666"

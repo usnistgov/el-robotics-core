@@ -79,12 +79,12 @@ int main(int argc, char *argv[])
   if( kukaConnection < 0 )
     return -1;
 
-  myPose.x = 0.1;
-  myPose.y = 0.2;
-  myPose.z = 0.3;
-  myPose.xrot = 0.4;
-  myPose.yrot = 0.5;
-  myPose.zrot = 0.6;
+  myPose.x = 0.0;
+  myPose.y = 0.0;
+  myPose.z = 0.0;
+  myPose.xrot = 0.0;
+  myPose.yrot = 0.0;
+  myPose.zrot = 0.0;
 
   while(true)
     {

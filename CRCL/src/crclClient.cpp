@@ -74,23 +74,23 @@ int main(int argc, char *argv[])
       //printf( "crclClient writing: %s\n", msgOut.c_str());
       // //sleep(2);
 
-      // Start Here.
+      // // Start Here.
+      // msgOut = "MoveTo 0. 0. 0. -170. 0. 0.";
+      // ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
+      // printf( "crclClient writing: %s\n", msgOut.c_str());
+      // sleep(1000);
+
+      // msgOut = "MoveTo -111. -425. 48. 178. -2. 90.";
+      // ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
+      // printf( "crclClient writing: %s\n", msgOut.c_str());
+      // sleep(11);
+
+      // //**84T-2**
+
       // msgOut = "MoveTo 200. -300. 400. 178. -2. 90.";
       // ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
       // printf( "crclClient writing: %s\n", msgOut.c_str());
-      // sleep(10);
-
-      msgOut = "MoveTo -111. -425. 48. 178. -2. 90.";
-      ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
-      printf( "crclClient writing: %s\n", msgOut.c_str());
-      sleep(11);
-
-      //**84T-2**
-
-      msgOut = "MoveTo 200. -300. 400. 178. -2. 90.";
-      ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
-      printf( "crclClient writing: %s\n", msgOut.c_str());
-      sleep(11);
+      // sleep(11);
 
       msgOut = "MoveTo 200. 352. 400. 178. -2. 90.";
       ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());

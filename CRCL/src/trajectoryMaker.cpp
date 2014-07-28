@@ -383,6 +383,15 @@
 		roll += correctionRoll;
 		pitch += correctionPitch;
 		yaw += correctionYaw;
+
+		if (roll >= 180) roll = -180;
+		else if (roll <= -180) roll = 180;
+		if (pitch >= 180) pitch = -180;
+		else if (pitch <= -180) pitch = 180;
+		if (yaw >= 180) yaw = -180;
+		else if (yaw <= -180) yaw = 180;
+
+
 	}
 
 	//! A member function that takes eight double arguments and returns a vector of SingleLocation.

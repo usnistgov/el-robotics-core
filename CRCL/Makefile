@@ -35,19 +35,22 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kevin/Documents/el-robotics-core/CRCL
+CMAKE_SOURCE_DIR = /home/gtrirobot/el-robotics-core/CRCL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kevin/Documents/el-robotics-core/CRCL
+CMAKE_BINARY_DIR = /home/gtrirobot/el-robotics-core/CRCL
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/usr/bin/cmake -i .
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -66,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Documents/el-robotics-core/CRCL/CMakeFiles /home/kevin/Documents/el-robotics-core/CRCL/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gtrirobot/el-robotics-core/CRCL/CMakeFiles /home/gtrirobot/el-robotics-core/CRCL/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Documents/el-robotics-core/CRCL/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gtrirobot/el-robotics-core/CRCL/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -147,149 +150,149 @@ nist_kitting/fast:
 	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/build
 .PHONY : nist_kitting/fast
 
-home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.o: home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.o
-.PHONY : home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.o
+home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.o: home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.o
+.PHONY : home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.o
 
 # target to build an object file
-home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.o:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.o
-.PHONY : home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.o
+home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.o:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.o
+.PHONY : home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.o
 
-home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.i: home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.i
-.PHONY : home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.i
+home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.i: home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.i
+.PHONY : home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.i
 
 # target to preprocess a source file
-home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.i:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.i
-.PHONY : home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.i
+home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.i:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.i
+.PHONY : home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.i
 
-home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.s: home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.s
-.PHONY : home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.s
+home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.s: home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.s
+.PHONY : home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.s
 
 # target to generate assembly for a file
-home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.s:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.s
-.PHONY : home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.cpp.s
+home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.s:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.s
+.PHONY : home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.cpp.s
 
-home/kevin/Documents/el-robotics-core/ulapi/src/inifile.o: home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/inifile.o
+home/gtrirobot/el-robotics-core/ulapi/src/inifile.o: home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/inifile.o
 
 # target to build an object file
-home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.o:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.o
+home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.o:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.o
 
-home/kevin/Documents/el-robotics-core/ulapi/src/inifile.i: home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/inifile.i
+home/gtrirobot/el-robotics-core/ulapi/src/inifile.i: home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/inifile.i
 
 # target to preprocess a source file
-home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.i:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.i
+home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.i:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.i
 
-home/kevin/Documents/el-robotics-core/ulapi/src/inifile.s: home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/inifile.s
+home/gtrirobot/el-robotics-core/ulapi/src/inifile.s: home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/inifile.s
 
 # target to generate assembly for a file
-home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.s:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/inifile.c.s
+home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.s:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/inifile.c.s
 
-home/kevin/Documents/el-robotics-core/ulapi/src/serial.o: home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/serial.o
+home/gtrirobot/el-robotics-core/ulapi/src/serial.o: home/gtrirobot/el-robotics-core/ulapi/src/serial.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/serial.o
 
 # target to build an object file
-home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.o:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.o
+home/gtrirobot/el-robotics-core/ulapi/src/serial.c.o:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/serial.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/serial.c.o
 
-home/kevin/Documents/el-robotics-core/ulapi/src/serial.i: home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/serial.i
+home/gtrirobot/el-robotics-core/ulapi/src/serial.i: home/gtrirobot/el-robotics-core/ulapi/src/serial.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/serial.i
 
 # target to preprocess a source file
-home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.i:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.i
+home/gtrirobot/el-robotics-core/ulapi/src/serial.c.i:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/serial.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/serial.c.i
 
-home/kevin/Documents/el-robotics-core/ulapi/src/serial.s: home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/serial.s
+home/gtrirobot/el-robotics-core/ulapi/src/serial.s: home/gtrirobot/el-robotics-core/ulapi/src/serial.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/serial.s
 
 # target to generate assembly for a file
-home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.s:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/serial.c.s
+home/gtrirobot/el-robotics-core/ulapi/src/serial.c.s:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/serial.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/serial.c.s
 
-home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.o: home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.o
+home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.o: home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.o
 
 # target to build an object file
-home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.o:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.o
+home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.o:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.o
 
-home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.i: home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.i
+home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.i: home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.i
 
 # target to preprocess a source file
-home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.i:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.i
+home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.i:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.i
 
-home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.s: home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.s
+home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.s: home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.s
 
 # target to generate assembly for a file
-home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.s:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.c.s
+home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.s:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.c.s
 
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.o: home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.o
+home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.o: home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.o
 
 # target to build an object file
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.o:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.o
+home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.o:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.o
 
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.i: home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.i
+home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.i: home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.i
 
 # target to preprocess a source file
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.i:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.i
+home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.i:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.i
 
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.s: home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.s
+home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.s: home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.s
 
 # target to generate assembly for a file
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.s:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.c.s
+home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.s:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.c.s
 
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.o: home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.o
+home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.o: home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.o
 
 # target to build an object file
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.o:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.o
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.o
+home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.o:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.o
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.o
 
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.i: home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.i
+home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.i: home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.i
 
 # target to preprocess a source file
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.i:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.i
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.i
+home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.i:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.i
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.i
 
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.s: home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.s
+home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.s: home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.s
 
 # target to generate assembly for a file
-home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.s:
-	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.s
-.PHONY : home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.c.s
+home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.s:
+	$(MAKE) -f CMakeFiles/nist_kitting.dir/build.make CMakeFiles/nist_kitting.dir/home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.s
+.PHONY : home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.c.s
 
 src/_timer.o: src/_timer.c.o
 .PHONY : src/_timer.o
@@ -519,24 +522,24 @@ help:
 	@echo "... kukaServer"
 	@echo "... nist_kitting"
 	@echo "... rebuild_cache"
-	@echo "... home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.o"
-	@echo "... home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.i"
-	@echo "... home/kevin/Documents/el-robotics-core/nist_kitting/src/msg_types.s"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/inifile.o"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/inifile.i"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/inifile.s"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/serial.o"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/serial.i"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/serial.s"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.o"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.i"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/ulapi_getopt.s"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.o"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.i"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/unix_rtapi.s"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.o"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.i"
-	@echo "... home/kevin/Documents/el-robotics-core/ulapi/src/unix_ulapi.s"
+	@echo "... home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.o"
+	@echo "... home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.i"
+	@echo "... home/gtrirobot/el-robotics-core/nist_kitting/src/msg_types.s"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/inifile.o"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/inifile.i"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/inifile.s"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/serial.o"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/serial.i"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/serial.s"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.o"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.i"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/ulapi_getopt.s"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.o"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.i"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/unix_rtapi.s"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.o"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.i"
+	@echo "... home/gtrirobot/el-robotics-core/ulapi/src/unix_ulapi.s"
 	@echo "... src/_timer.o"
 	@echo "... src/_timer.i"
 	@echo "... src/_timer.s"

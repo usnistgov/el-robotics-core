@@ -129,9 +129,9 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
   cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
   cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);
-  cartesianCmd->SetDoubleAttribute("A", args->poseCorrection.xrot);
+  cartesianCmd->SetDoubleAttribute("A", args->poseCorrection.zrot);
   cartesianCmd->SetDoubleAttribute("B", args->poseCorrection.yrot);
-  cartesianCmd->SetDoubleAttribute("C", args->poseCorrection.zrot);
+  cartesianCmd->SetDoubleAttribute("C", args->poseCorrection.xrot);
   jointCmd->SetDoubleAttribute("A1", 0);
   jointCmd->SetDoubleAttribute("A2", 0);
   jointCmd->SetDoubleAttribute("A3", 0);
@@ -181,9 +181,9 @@ std::string KukaThread::setStatus(char *buf)
   cartesian->QueryDoubleAttribute("X", &(args->currentState.cartesian[0]));
   cartesian->QueryDoubleAttribute("Y", &(args->currentState.cartesian[1]));
   cartesian->QueryDoubleAttribute("Z", &(args->currentState.cartesian[2]));
-  cartesian->QueryDoubleAttribute("A", &(args->currentState.cartesian[3]));
+  cartesian->QueryDoubleAttribute("A", &(args->currentState.cartesian[5]));
   cartesian->QueryDoubleAttribute("B", &(args->currentState.cartesian[4]));
-  cartesian->QueryDoubleAttribute("C", &(args->currentState.cartesian[5]));
+  cartesian->QueryDoubleAttribute("C", &(args->currentState.cartesian[3]));
   joint->Attribute("A1", &(args->currentState.joint[0]));
   joint->Attribute("A2", &(args->currentState.joint[1]));
   joint->Attribute("A3", &(args->currentState.joint[2]));

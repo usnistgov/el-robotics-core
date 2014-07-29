@@ -41,15 +41,15 @@ add_library(nist_kitting
   )
 
 ## Declare a cpp executable
-add_executable(kukaServer src/kukaServer.cpp src/kukaThread.cpp src/crclUtils.cpp)
+add_executable(kukaServer src/kukaServer.cpp src/kukaThread.cpp src/crclUtils.cpp src/trajectoryMaker.cpp src/kukaThreadArgs.cpp)
 add_executable(kukaRobot src/kukaRobot.cpp)
+add_executable(crclClient src/crclClient.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   nist_kitting
   ${catkin_LIBRARIES}
   # ${Boost_LIBRARIES}
 )
-target_link_libraries(crcl_server nist_kitting pthread dl)
 target_link_libraries(kukaServer nist_kitting pthread dl tinyxml m5api)
 target_link_libraries(kukaRobot nist_kitting pthread dl tinyxml)
 target_link_libraries(crclClient nist_kitting pthread dl tinyxml)

@@ -10,29 +10,25 @@
 --  252.227-7013 (October 1988).
 ------------------------------------------------------------------------------
 *****************************************************************************/
-#ifndef __kukaThread
-#define __kukaThread
-
-#include <ulapi.h>
-#include "CRCL/timer.hh"
+/*!
+ *	\file		kukaThreadArgs.cpp
+ *	\brief 		Argument class for Kuka robot
+ *	\class		KukaThreadArgs
+ *	\author		Stephen Balakirsky, GTRI
+ *	\date		July 02, 2014
+ *      \copyright      Georgia Tech Research Institute
+ */
 #include "CRCL/kukaThreadArgs.hh"
-#include <tinyxml.h>
-#include "CRCL/crclDefs.hh"
-class KukaThread
+
+void KukaThreadArgs::addPose(const robotPose rhs)
 {
-public:
-  KukaThread(const char *toKukaXML = DEFAULT_TO_KUKA, 
-	     const char *fromKukaXML = DEFAULT_TO_KUKA,
-	     double cycleTimeIn = KUKA_DEFAULT_CYCLE);
-  void threadStart(KukaThreadArgs *argsIn);
-private:
-  KukaThreadArgs *args;
-  int debug;
-  TiXmlDocument toKuka;
-  TiXmlDocument fromKuka;
-  RCS_TIMER *kukaThreadBlock;
-  std::string setStatus(char *buf);
-  std::string setCorrections(std::string krcIOPC);
-  void zeroCorrections();
-};
-#endif
+  ulapi_mutex_take(&poseCorrectionMutex);
+  poseCorrection.x += rhs.x;
+  poseCorrection.y += rhs.y;
+  poseCorrection.z += rhs.z;
+  poseCorrection.xrot += rhs.xrot;
+  poseCorrection.yrot += rhs.yrot;
+  poseCorrection.zrot += rhs.zrot;
+  ulapi_mutex_give(&poseCorrectionMutex);
+  return;
+}

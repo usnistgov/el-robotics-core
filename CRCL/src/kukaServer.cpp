@@ -35,11 +35,13 @@
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 #include "CRCL/crclUtils.hh"
+#include "CRCL/trajectoryMaker.hh"
 #include "schunk_libm5api/m5apiw32.h"
 
 ////////////////////////////////////////////////////////
 // globals
 int usePowerCube;
+int debug;
 
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
@@ -141,9 +143,16 @@ void crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
-void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  static int motionQueueLength = 0; // temp variable for example
+  static int index = 0;
+  static TrajectoryMaker trajectoryMaker;
+  static vector<robotPose> movementTrajectory;
+  vector<double> values;
+  vector<bool> signs; //True = +, False = -
+  robotPose singlePoint;
+  double max_value, max_change;
+  robotPose retValue;
 
   if( status->currentCmd.cmd != CRCL_MOVE_TO )
     {
@@ -151,7 +160,13 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	      status->currentCmd.cmd );
       status->currentCmd.status = CRCL_DONE;
       status->currentState = CRCL_ERROR;
-      return;
+      retValue.x = 0;
+      retValue.y = 0;
+      retValue.z = 0;
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+      return retValue;
     }
   if( status->currentCmd.status == CRCL_NEW_CMD )
     {
@@ -159,8 +174,26 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	 divided by the cycletime (status->cycleTime)
       */
       printf( "Received move to\n");
+      movementTrajectory.clear();
+      trajectoryMaker.setCurrent(status->robotStatus.pose);
+
+      movementTrajectory = trajectoryMaker.makeTrajectory(status->currentCmd.pose,
+							  status->maxVel, 
+							  status->maxAccel);
       status->currentCmd.status = CRCL_WORKING;
-      motionQueueLength = 2;
+      if( debug )
+	{
+	  for( int ii=0; ii<movementTrajectory.size(); ii++ )
+	    printf( "<%f %f %f> <%f %f %f>\n",
+		    movementTrajectory[ii].x,
+		    movementTrajectory[ii].y,
+		    movementTrajectory[ii].z,
+		    movementTrajectory[ii].xrot,
+		    movementTrajectory[ii].yrot,
+		    movementTrajectory[ii].zrot);
+		    
+	}
+      index = 0;
     }
   else if( status->currentCmd.status == CRCL_ABORT )
     {
@@ -169,13 +202,35 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	 as possible. This will be recomputed each
          cycle 
       */
+      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
+	{
+	  printf( "error from copy of new command\n");
+	  exit(1);
+	}
+      movementTrajectory.clear();
+      index = 0;
+      /* clear motion queue and compute new trajectory
+	 that brings us to zero velocity as quickly
+	 as possible. This will be recomputed each
+         cycle 
+      */
       printf( "Aborting moveTo\n");
     }
   // if items left in motion queue send them
-  if( motionQueueLength > 0 )
-    motionQueueLength--;
+  if(index < movementTrajectory.size())
+    {
+      /* corrections are offsets to current position. However,
+	 it may occur that the corrections have not yet been sent
+	 to the robot. Therefore, the corrections must be added to the current
+	 values. Once sent, these are zeroed out by the kuka thread.
+	 This addition occurs in the calling routine.
+      */
+      printf( "Index: %d trajectory size: %ld\n", index, 
+	      movementTrajectory.size());
+      return movementTrajectory[index++];
+    }
   // if no items left, then we are done.
-  else if( motionQueueLength <=0 )
+  else if( index >= movementTrajectory.size()  )
     {
       if( status->currentCmd.status == CRCL_ABORT )
 	{
@@ -186,7 +241,17 @@ void crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	    }
 	}
       else
-	status->currentCmd.status = CRCL_DONE;
+	{
+	  status->currentCmd.status = CRCL_DONE;
+	  
+	  retValue.x = 0;
+	  retValue.y = 0;
+	  retValue.z = 0;
+	  retValue.xrot = 0;
+	  retValue.yrot = 0;
+	  retValue.zrot = 0;
+	  return retValue;
+	}
     }
 }
 
@@ -412,7 +477,6 @@ int main(int argc, char *argv[])
   int ival;
   int cmd_port = CRCL_CMD_PORT_DEFAULT;
   //  int stat_port = CRCL_CLIENT_STAT_PORT_DEFAULT;
-  int debug = true;
   std::string host = "localhost";
   KukaThreadArgs kukaThreadArgs;
   ulapi_task_struct kukaTask;
@@ -429,6 +493,7 @@ int main(int argc, char *argv[])
   unsigned short moduleOS;
   unsigned long state;
 
+  debug = true;
   usePowerCube = false;
   status.currentCmd.cmd = CRCL_NOOP;
   status.currentCmd.status = CRCL_DONE;
@@ -570,7 +635,7 @@ int main(int argc, char *argv[])
 	  crclInitCanon(&status, &nextCmd);
 	  break;
 	case CRCL_MOVE_TO:
-	  crclMoveTo(&status, &nextCmd);
+	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
 	  break;
 	case CRCL_SET_ABSOLUTE_ACC:
 	  crclSetAbsoluteAcc(&status, &nextCmd);
@@ -592,9 +657,18 @@ int main(int argc, char *argv[])
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	}
+      /* set status information for robot */
+      ulapi_mutex_take(&kukaThreadArgs.poseCorrectionMutex);
+      status.robotStatus.pose.x = kukaThreadArgs.currentState.cartesian[0];
+      status.robotStatus.pose.y = kukaThreadArgs.currentState.cartesian[1];
+      status.robotStatus.pose.z = kukaThreadArgs.currentState.cartesian[2];
+      status.robotStatus.pose.xrot = kukaThreadArgs.currentState.cartesian[3];
+      status.robotStatus.pose.yrot = kukaThreadArgs.currentState.cartesian[4];
+      status.robotStatus.pose.zrot = kukaThreadArgs.currentState.cartesian[5];
+      ulapi_mutex_give(&kukaThreadArgs.poseCorrectionMutex);
       /*
       printf( "kukaServer::Timer loop %d\n", i );
-      ulapi_mutex_take(&kukaThreadArgs.poseCorrectionMutex);
+      /*
       kukaThreadArgs.poseCorrection.x = i;
       kukaThreadArgs.poseCorrection.y = i + .1;
       kukaThreadArgs.poseCorrection.z = i + .2;

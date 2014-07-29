@@ -10,29 +10,25 @@
 --  252.227-7013 (October 1988).
 ------------------------------------------------------------------------------
 *****************************************************************************/
-#ifndef __kukaThread
-#define __kukaThread
+#ifndef __kukaThreadArgs
+#define __kukaThreadArgs
 
 #include <ulapi.h>
-#include "CRCL/timer.hh"
-#include "CRCL/kukaThreadArgs.hh"
-#include <tinyxml.h>
-#include "CRCL/crclDefs.hh"
-class KukaThread
+#include "nist_core/crcl.h"
+
+typedef struct
+{
+  double cartesian[6];
+  double joint[6];
+  double external[6];
+}KukaState;
+
+class KukaThreadArgs
 {
 public:
-  KukaThread(const char *toKukaXML = DEFAULT_TO_KUKA, 
-	     const char *fromKukaXML = DEFAULT_TO_KUKA,
-	     double cycleTimeIn = KUKA_DEFAULT_CYCLE);
-  void threadStart(KukaThreadArgs *argsIn);
-private:
-  KukaThreadArgs *args;
-  int debug;
-  TiXmlDocument toKuka;
-  TiXmlDocument fromKuka;
-  RCS_TIMER *kukaThreadBlock;
-  std::string setStatus(char *buf);
-  std::string setCorrections(std::string krcIOPC);
-  void zeroCorrections();
+  ulapi_mutex_struct poseCorrectionMutex;
+  robotPose poseCorrection;
+  KukaState currentState;
+  void addPose(robotPose poseIn);
 };
 #endif

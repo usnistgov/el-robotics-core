@@ -24,6 +24,7 @@ public:
   KukaThread(const char *toKukaXML = DEFAULT_TO_KUKA, 
 	     const char *fromKukaXML = DEFAULT_TO_KUKA,
 	     double cycleTimeIn = KUKA_DEFAULT_CYCLE);
+  void setDebug(int debugLevel);
   void threadStart(KukaThreadArgs *argsIn);
 private:
   KukaThreadArgs *args;

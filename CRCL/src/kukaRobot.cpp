@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 {
   robotPose myPose, poseIn;
   int kukaConnection;
-  RCS_TIMER *cycleBlock = new RCS_TIMER(.25);
+  RCS_TIMER *cycleBlock = new RCS_TIMER(KUKA_DEFAULT_CYCLE);
   TiXmlDocument kukaStatus;
   TiXmlHandle toSendHandle(&kukaStatus);
   TiXmlElement *cartesianStatus;
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
       myPose.yrot += poseIn.yrot;
       myPose.zrot += poseIn.zrot;
       if(debug)
-      printf( "kukaRobot Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\n\n",
+      printf( "kukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
 	      myPose.x,
 	      myPose.y,
 	      myPose.z,

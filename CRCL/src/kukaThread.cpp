@@ -26,7 +26,7 @@ KukaThread::KukaThread(const char *toKukaXML,
 		       const char *fromKukaXML, 
 		       double cycleTimeIn)
 {
-  debug = 1;
+  debug = 0;
   kukaThreadBlock = new RCS_TIMER(cycleTimeIn);
   if( !toKuka.LoadFile(toKukaXML))
     {
@@ -95,6 +95,12 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), stringToKuka.length());
     kukaThreadBlock->wait();
     }
+}
+
+void KukaThread::setDebug(int debugLevel)
+{
+  debug = debugLevel;
+  printf( "kukaThread:: seting debug to %d\n", debug );
 }
 
 void KukaThread::zeroCorrections()

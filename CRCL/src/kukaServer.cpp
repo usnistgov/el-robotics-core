@@ -177,11 +177,9 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       movementTrajectory.clear();
       trajectoryMaker.setCurrent(status->robotStatus.pose);
 
-      movementTrajectory = trajectoryMaker.makeTrajectory(status->currentCmd.pose,
-							  status->maxVel, 
-							  status->maxAccel);
+      movementTrajectory = trajectoryMaker.makeTrajectory(status);
       status->currentCmd.status = CRCL_WORKING;
-      if( debug )
+      //      if( debug )
 	{
 	  for( int ii=0; ii<movementTrajectory.size(); ii++ )
 	    printf( "<%f %f %f> <%f %f %f>\n",
@@ -225,8 +223,6 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	 values. Once sent, these are zeroed out by the kuka thread.
 	 This addition occurs in the calling routine.
       */
-      printf( "Index: %d trajectory size: %ld\n", index, 
-	      movementTrajectory.size());
       return movementTrajectory[index++];
     }
   // if no items left, then we are done.
@@ -258,8 +254,20 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 ////////////////////////////////////////////////////////
 void crclNoop(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  printf( "Received noop\n");
-  status->currentCmd.status = CRCL_DONE;
+  if( status->currentCmd.cmd != CRCL_NOOP )
+    {
+      printf( "Bad command type %d to crclNoop\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      return;
+    }
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      printf( "Received NoOp cmd\n");
+      status->currentCmd.status = CRCL_WORKING;
+      status->currentCmd.status = CRCL_DONE;
+    }
 }
 
 ////////////////////////////////////////////////////////
@@ -399,6 +407,7 @@ int getCmdConnection(int port)
 void kukaThread(KukaThreadArgs *args)
 {
   KukaThread *myKuka = new KukaThread();
+  myKuka->setDebug(debug);
   myKuka->threadStart(args);
 }
 
@@ -493,7 +502,7 @@ int main(int argc, char *argv[])
   unsigned short moduleOS;
   unsigned long state;
 
-  debug = true;
+  debug = 0;
   usePowerCube = false;
   status.currentCmd.cmd = CRCL_NOOP;
   status.currentCmd.status = CRCL_DONE;
@@ -679,9 +688,9 @@ int main(int argc, char *argv[])
 	      kukaThreadArgs.currentState.cartesian[0],
 	      kukaThreadArgs.currentState.cartesian[1],
 	      kukaThreadArgs.currentState.cartesian[2],
-	      kukaThreadArgs.currentState.cartesian[3],
+	      kukaThreadArgs.currentState.cartesian[5],
 	      kukaThreadArgs.currentState.cartesian[4],
-	      kukaThreadArgs.currentState.cartesian[5]);
+	      kukaThreadArgs.currentState.cartesian[3]);
       ulapi_mutex_give(&kukaThreadArgs.poseCorrectionMutex);
       */
       cycleBlock->wait();

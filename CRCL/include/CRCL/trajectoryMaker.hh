@@ -18,41 +18,33 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
-#include "nist_core/crcl.h"
+#include "CRCL/crclDefs.hh"
 
 class TrajectoryMaker
 {
 private:
   std::vector<double> makePositionVector(double start, double end, 
-				    double maxSpeed, double acc);
-  std::vector<double> makeTimeVector(double length);
+				    CRCLStatus *parameters);
   std::vector<robotPose> manipulateVector(std::vector<double> vX, 
 					  std::vector<double> vY, 
 					  std::vector<double> vZ, 
 					  std::vector<double> vRoll, 
 					  std::vector<double> vPitch, 
 					  std::vector<double> vYaw,
-				     double maxEndTime);
-  std::vector<double> interpolate(std::vector<double> realVector, 
-				  std::vector<double> timeVector,
-				  double maxEndTime);
-  double maxTime(std::vector<double> vX, std::vector<double> vY, 
+					  int maxSize);
+  int maxVectorSize(std::vector<double> vX, std::vector<double> vY, 
 		 std::vector<double> vZ, 
 		 std::vector<double> vRoll, std::vector<double> vPitch, 
 		 std::vector<double> vYaw);
-  std::vector<double> changeToCorrection(std::vector<double> vectorIn);
-  std::vector<double> goBackwards(std::vector<double> vectorIn);
-
 public:
   robotPose current;
-  double maxSpeed; /*!< The maximum velocity of the Robot.*/
-  double acceleration; /*!< The acceleration of the Robot.*/
-  std::vector<bool> backwards; /*!< States whether positions are changing in positive or negative direction. */
-  int counter; /*!< counter for the backwards vector.*/
   TrajectoryMaker();
-  std::vector<robotPose> makeTrajectory(robotPose goal, 
-					double maxSpeed, double acc);
+  double makeRamp(CRCLStatus *parameters);
+  std::vector<robotPose> makeTrajectory(CRCLStatus *parameters);
   void setCurrent(robotPose current); /*!< Set the current position. */
+private:
+  std::vector<double>ramp; /*!< Ramp up or down to maximum velocity */
+  double rampLength; /*!< The distance traveled over the ramp */
 };
 
 #endif

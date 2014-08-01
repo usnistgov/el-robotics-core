@@ -398,6 +398,7 @@ int getCmdConnection(int port)
       return -1;
     }
   //  if(debug) 
+  ulapi_socket_set_nonblocking(cmdConnection);
   printf("kukaServer: got a status client connection on id %d\n", 
 	 cmdConnection);
   return cmdConnection;
@@ -595,7 +596,6 @@ int main(int argc, char *argv[])
       cycleBlock->wait();
       cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
     }
-  ulapi_socket_set_nonblocking(cmdConnection);
   //  for(int i=0; i<10; i++)
   while(true)
     {
@@ -607,9 +607,15 @@ int main(int argc, char *argv[])
       inbuf[nchars] = '\0';
       if(nchars == 0) 
 	{
-	  if(debug) printf("kukaServer::status client disconnected %d\n",
-			   nchars);
-	  break;
+	  printf("kukaServer::status client disconnected %d\n",
+		 nchars);
+	  cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
+	  while( cmdConnection < 0 )
+	    {
+	      printf( "kukaServer:Bad client connection, retrying...\n" );
+	      cycleBlock->wait();
+	      cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
+	    }
 	}
       else if( nchars > 0 )
 	{
@@ -675,24 +681,6 @@ int main(int argc, char *argv[])
       status.robotStatus.pose.yrot = kukaThreadArgs.currentState.cartesian[4];
       status.robotStatus.pose.zrot = kukaThreadArgs.currentState.cartesian[5];
       ulapi_mutex_give(&kukaThreadArgs.poseCorrectionMutex);
-      /*
-      printf( "kukaServer::Timer loop %d\n", i );
-      /*
-      kukaThreadArgs.poseCorrection.x = i;
-      kukaThreadArgs.poseCorrection.y = i + .1;
-      kukaThreadArgs.poseCorrection.z = i + .2;
-      kukaThreadArgs.poseCorrection.xrot = i + .3;
-      kukaThreadArgs.poseCorrection.yrot = i + .4;
-      kukaThreadArgs.poseCorrection.zrot = i + .5;
-      printf( "\x1b[31mkukaServer status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-	      kukaThreadArgs.currentState.cartesian[0],
-	      kukaThreadArgs.currentState.cartesian[1],
-	      kukaThreadArgs.currentState.cartesian[2],
-	      kukaThreadArgs.currentState.cartesian[5],
-	      kukaThreadArgs.currentState.cartesian[4],
-	      kukaThreadArgs.currentState.cartesian[3]);
-      ulapi_mutex_give(&kukaThreadArgs.poseCorrectionMutex);
-      */
       cycleBlock->wait();
     }
   sleep(1);

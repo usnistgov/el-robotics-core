@@ -92,7 +92,8 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     ulapi_mutex_give(&args->poseCorrectionMutex);
     if(debug)
       printf( "New message\n%s\n", stringToKuka.c_str());
-    ulapi_socket_write(kukaConnection, stringToKuka.c_str(), stringToKuka.length());
+    ulapi_socket_write(kukaConnection, stringToKuka.c_str(), 
+		       stringToKuka.length());
     kukaThreadBlock->wait();
     }
 }

@@ -44,8 +44,8 @@ std::vector<double> TrajectoryMaker::makePositionVector(double start,
   bool reverse = false;
   std::vector<double> displacements;
   std::vector<double> currentRamp;
-  double currentRampLength = 0;
-  double totalDisplacement = 0;
+  double currentRampLength;
+  double totalDisplacement;
   double displacementRemaining;
   int counter;
 
@@ -53,49 +53,65 @@ std::vector<double> TrajectoryMaker::makePositionVector(double start,
   if(start > end) reverse = true;
 
   counter = 0;
-  while( distanceToMove > 2.*currentRampLength && counter < ramp.size())
+  currentRamp.clear();
+  currentRampLength = 0;
+  while( (distanceToMove > 2.*(currentRampLength+ramp[counter])) && 
+	  (counter < ramp.size()))
     {
       currentRamp.push_back(ramp[counter]);
       currentRampLength += ramp[counter];
       counter++;
     }
-  // copy ramp to beginning of new vector
-  for( counter=0; counter<currentRamp.size(); counter++ )
-    {
-      displacements.push_back(currentRamp[counter]);
-      totalDisplacement += currentRamp[counter];
-    }
-  // do I need to add max velocity segments?
-  while( (totalDisplacement + currentRamp.back()) <= 
-	 (distanceToMove-currentRampLength) )
-    {
-      displacements.push_back(currentRamp.back());
-      totalDisplacement += currentRamp.back();
-    }
 
-  // add deceleration
-  displacementRemaining = distanceToMove - 
-    (totalDisplacement + currentRampLength);
-  for( counter=currentRamp.size()-1; counter>=0; counter-- )
+  // copy ramp to beginning of new vector
+  totalDisplacement = 0;
+  displacements.clear();
+  if( currentRamp.size() > 0)
     {
-      displacements.push_back(currentRamp[counter]);
-      totalDisplacement += currentRamp[counter];
-      while( displacementRemaining >= currentRamp[counter] )
+      for( counter=0; counter<currentRamp.size(); counter++ )
 	{
-	  /*
-	    printf( "Current Ramp: %lf remaining: %lf diff: %lf\n",
-	    currentRamp[counter], displacementRemaining,
-	    displacementRemaining = currentRamp[counter]);
-	  */
+	  displacements.push_back(currentRamp[counter]);
+	  totalDisplacement += displacements.back();
+	}
+      // do I need to add max velocity segments?
+      while( (totalDisplacement + currentRamp.back()) <= 
+	     (distanceToMove-currentRampLength) )
+	{
+	  displacements.push_back(currentRamp.back());
+	  totalDisplacement += currentRamp.back();
+	}
+
+      // add deceleration
+      displacementRemaining = distanceToMove - 
+	(totalDisplacement + currentRampLength);
+
+      for( counter=currentRamp.size()-1; counter>=0; counter-- )
+	{
 	  displacements.push_back(currentRamp[counter]);
 	  totalDisplacement += currentRamp[counter];
-	  displacementRemaining -= currentRamp[counter];
+	  while( displacementRemaining >= currentRamp[counter] )
+	    {
+	      /*
+		printf( "Current Ramp: %lf remaining: %lf diff: %lf\n",
+		currentRamp[counter], displacementRemaining,
+		displacementRemaining = currentRamp[counter]);
+	      */
+	      displacements.push_back(currentRamp[counter]);
+	      totalDisplacement += currentRamp[counter];
+	      displacementRemaining -= currentRamp[counter];
+	    }
 	}
     }
-  printf( "Total displacement: %lf distance to move: %lf diff: %lf\n",
+  if( totalDisplacement < distanceToMove )
+    {
+      displacements.push_back(distanceToMove-totalDisplacement);
+      totalDisplacement += displacements.back();
+    }
+  printf( "Total displacement: %lf distance to move: %lf diff: %lf remain: %lf\n",
 	  totalDisplacement, distanceToMove, 
-	  fabs(totalDisplacement-distanceToMove));
-
+	  fabs(totalDisplacement-distanceToMove),
+	  displacementRemaining);
+  
   // reverse if necessary
   if( reverse )
     {
@@ -244,8 +260,10 @@ double TrajectoryMaker::makeRamp(CRCLStatus *parameters)
       currentVelocity += parameters->maxAccel * parameters->cycleTime;
     }
   printf( "Ramp distance is: %lf\n", totalDistance);
+  /*
   for( int ii=0; ii<ramp.size(); ii++)
     printf("ramp[%d]:%lf\n", ii, ramp[ii]);
+  */
   return totalDistance;
 }
 	
@@ -262,6 +280,7 @@ double TrajectoryMaker::makeRamp(CRCLStatus *parameters)
 std::vector<robotPose> TrajectoryMaker::makeTrajectory(CRCLStatus *parameters)
 {
   std::vector<double> vX, vY, vZ, vRoll, vPitch, vYaw;
+  std::vector<robotPose> result;
 
   rampLength = makeRamp(parameters);
   vX = makePositionVector(current.x, parameters->currentCmd.pose.x, 
@@ -278,7 +297,18 @@ std::vector<robotPose> TrajectoryMaker::makeTrajectory(CRCLStatus *parameters)
 			    parameters);
 
   int maxSize = maxVectorSize(vX, vY, vZ, vRoll, vPitch, vYaw);
-  std::vector<robotPose> result = manipulateVector(vX, vY, vZ, vRoll, 
-					      vPitch, vYaw, maxSize);
+  if( maxSize > 0 )
+    result = manipulateVector(vX, vY, vZ, vRoll, vPitch, vYaw, maxSize);
+  else
+    {
+      robotPose tempPose;
+      tempPose.x = 0;
+      tempPose.y = 0;
+      tempPose.z = 0;
+      tempPose.xrot = 0;
+      tempPose.yrot = 0;
+      tempPose.zrot = 0;
+      result.push_back(tempPose);
+    }
   return result;
 }

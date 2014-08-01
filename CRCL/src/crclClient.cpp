@@ -31,6 +31,13 @@
 #include "nist_core/crcl.h"
 #include "CRCL/crclDefs.hh"
 
+/********************************
+Good Points 
+MoveTo 300 0 125 180 0 0
+
+
+**********************************//
+
 int main(int argc, char *argv[])
 {
   int debug = 1;

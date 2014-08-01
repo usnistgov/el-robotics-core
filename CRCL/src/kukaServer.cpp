@@ -180,6 +180,7 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       movementTrajectory = trajectoryMaker.makeTrajectory(status);
       status->currentCmd.status = CRCL_WORKING;
       //      if( debug )
+      if(0)
 	{
 	  for( int ii=0; ii<movementTrajectory.size(); ii++ )
 	    printf( "<%f %f %f> <%f %f %f>\n",
@@ -297,9 +298,12 @@ void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       status->currentState = CRCL_ERROR;
       return;
     }
-  printf( "Received set absolute speed\n");
-  status->maxVel = status->currentCmd.absSpeed;
-  status->currentCmd.status = CRCL_DONE;
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      printf( "Received set absolute speed\n");
+      status->maxVel = status->currentCmd.absSpeed;
+      status->currentCmd.status = CRCL_DONE;
+    }
 }
 
 ////////////////////////////////////////////////////////

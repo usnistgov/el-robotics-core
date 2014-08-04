@@ -49,6 +49,7 @@ int yyerror(const char * s);
   MessageType *                       MessageTypeVal;
   MoveStraightToType *                MoveStraightToTypeVal;
   MoveThroughToType *                 MoveThroughToTypeVal;
+  MoveToType *                        MoveToTypeVal;
   OpenGripperType *                   OpenGripperTypeVal;
   OpenToolChangerType *               OpenToolChangerTypeVal;
   PointType *                         PointTypeVal;
@@ -106,6 +107,8 @@ int yyerror(const char * s);
 %type <MoveStraightToTypeVal>         y_MoveStraightTo_MoveStraightToType
 %type <MoveThroughToTypeVal>          y_MoveThroughToType
 %type <MoveThroughToTypeVal>          y_MoveThroughTo_MoveThroughToType
+%type <MoveToTypeVal>                 y_MoveToType
+%type <MoveToTypeVal>                 y_MoveTo_MoveToType
 %type <XmlIntegerVal>                 y_NumPositions_XmlInteger
 %type <OpenGripperTypeVal>            y_OpenGripperType
 %type <OpenGripperTypeVal>            y_OpenGripperType_Whole
@@ -190,6 +193,8 @@ int yyerror(const char * s);
 %token <iVal> MOVESTRAIGHTTOSTART
 %token <iVal> MOVETHROUGHTOEND
 %token <iVal> MOVETHROUGHTOSTART
+%token <iVal> MOVETOEND
+%token <iVal> MOVETOSTART
 %token <iVal> NUMPOSITIONSEND
 %token <iVal> NUMPOSITIONSSTART
 %token <iVal> OPENGRIPPEREND
@@ -247,6 +252,7 @@ int yyerror(const char * s);
 %token <iVal> MIDDLECOMMANDTYPEDECL
 %token <iVal> MOVESTRAIGHTTOTYPEDECL
 %token <iVal> MOVETHROUGHTOTYPEDECL
+%token <iVal> MOVETOTYPEDECL
 %token <iVal> OPENGRIPPERTYPEDECL
 %token <iVal> OPENTOOLCHANGERTYPEDECL
 %token <iVal> SETABSOLUTEACCELERATIONTYPEDECL
@@ -377,6 +383,11 @@ y_CRCLProgramType_1001_TypeChoicePair :
 	  {$$ = new CRCLProgramType_1001_TypeChoicePair();
 	   $$->CRCLProgramType_1001_TypeType = CRCLProgramType_1001_TypeChoicePair::MoveThroughToE;
 	   $$->CRCLProgramType_1001_TypeValue.MoveThroughTo = $1;
+	  }
+	| y_MoveTo_MoveToType
+	  {$$ = new CRCLProgramType_1001_TypeChoicePair();
+	   $$->CRCLProgramType_1001_TypeType = CRCLProgramType_1001_TypeChoicePair::MoveToE;
+	   $$->CRCLProgramType_1001_TypeValue.MoveTo = $1;
 	  }
 	| y_OpenGripper_OpenGripperType
 	  {$$ = new CRCLProgramType_1001_TypeChoicePair();
@@ -592,6 +603,16 @@ y_MoveThroughToType :
 
 y_MoveThroughTo_MoveThroughToType :
 	  MOVETHROUGHTOSTART y_MoveThroughToType MOVETHROUGHTOEND
+	  {$$ = $2;}
+	;
+
+y_MoveToType :
+	   ENDITEM y_EndPosition_PoseType
+	  {$$ = new MoveToType($2);}
+	;
+
+y_MoveTo_MoveToType :
+	  MOVETOSTART y_MoveToType MOVETOEND
 	  {$$ = $2;}
 	;
 

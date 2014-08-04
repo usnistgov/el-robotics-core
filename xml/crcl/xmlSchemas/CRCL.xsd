@@ -121,6 +121,8 @@
           type="MoveStraightToType"/>
         <xs:element name="MoveThroughTo"
           type="MoveThroughToType"/>
+        <xs:element name="MoveTo"
+          type="MoveToType"/>
         <xs:element name="OpenGripper"
           type="OpenGripperType"/>
         <xs:element name="OpenToolChanger"
@@ -312,6 +314,29 @@
             maxOccurs="unbounded"/>
           <xs:element name="NumPositions"
             type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MoveToType">
+    <xs:annotation>
+      <xs:documentation>
+        MoveToType is derived from MiddleCommandType.
+        An instance of MoveStraightToType has the following elements:
+          EndPosition.
+
+        EndPosition is a Pose to which the robot will move. Any convenient
+        trajectory from the starting pose to the EndPosition may be used.
+        The final pose must be within the tolerances set by
+        SetEndAngleToleranceType and SetEndPointToleranceType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="MiddleCommandType">
+        <xs:sequence>
+          <xs:element name="EndPosition"
+            type="PoseType"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

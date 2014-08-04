@@ -392,6 +392,38 @@ void MoveThroughToType::printSelf(FILE * outFile)
 
 /*********************************************************************/
 
+/* class MoveToType
+
+*/
+
+MoveToType::MoveToType() {}
+
+MoveToType::MoveToType(
+ PoseType * EndPositionIn) :
+  MiddleCommandType()
+{
+  EndPosition = EndPositionIn;
+  printTypp = false;
+}
+
+MoveToType::~MoveToType() {}
+
+void MoveToType::printSelf(FILE * outFile)
+{
+  if (printTypp)
+    fprintf(outFile, " xsi:type=\"MoveToType\"");
+  fprintf(outFile, ">\n");
+  doSpaces(+INDENT, outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "<EndPosition");
+  EndPosition->printSelf(outFile);
+  doSpaces(0, outFile);
+  fprintf(outFile, "</EndPosition>\n");
+  doSpaces(-INDENT, outFile);
+}
+
+/*********************************************************************/
+
 /* class OpenGripperType
 
 */
@@ -886,6 +918,14 @@ void CRCLProgramType_1001_TypeChoicePair::printSelf(FILE * outFile)
       CRCLProgramType_1001_TypeValue.MoveThroughTo->printSelf(outFile);
       doSpaces(0, outFile);
       fprintf(outFile, "</MoveThroughTo>\n");
+    }
+  else if (CRCLProgramType_1001_TypeType == MoveToE)
+    {
+      doSpaces(0, outFile);
+      fprintf(outFile, "<MoveTo");
+      CRCLProgramType_1001_TypeValue.MoveTo->printSelf(outFile);
+      doSpaces(0, outFile);
+      fprintf(outFile, "</MoveTo>\n");
     }
   else if (CRCLProgramType_1001_TypeType == OpenGripperE)
     {

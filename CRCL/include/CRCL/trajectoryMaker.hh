@@ -23,8 +23,7 @@
 class TrajectoryMaker
 {
 private:
-  std::vector<double> makePositionVector(double start, double end, 
-				    CRCLStatus *parameters);
+  std::vector<double> makePositionVector(double start, double end); 
   std::vector<robotPose> manipulateVector(std::vector<double> vX, 
 					  std::vector<double> vY, 
 					  std::vector<double> vZ, 
@@ -40,7 +39,7 @@ public:
   robotPose current;
   TrajectoryMaker();
   double makeRamp(CRCLStatus *parameters);
-  std::vector<robotPose> makeTrajectory(CRCLStatus *parameters);
+  std::vector<robotPose> makeTrajectory(CRCLStatus *parameters, robotPose pose);
   void setCurrent(robotPose current); /*!< Set the current position. */
 private:
   std::vector<double>ramp; /*!< Ramp up or down to maximum velocity */

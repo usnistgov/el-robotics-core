@@ -135,24 +135,48 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   cmdIPOC->Clear();
   TiXmlText *text = new TiXmlText(krcIPOC.c_str());
   cmdIPOC->LinkEndChild(text);
-  cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
-  cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
-  cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);
-  cartesianCmd->SetDoubleAttribute("A", args->poseCorrection.zrot);
-  cartesianCmd->SetDoubleAttribute("B", args->poseCorrection.yrot);
-  cartesianCmd->SetDoubleAttribute("C", args->poseCorrection.xrot);
-  jointCmd->SetDoubleAttribute("A1", 0);
-  jointCmd->SetDoubleAttribute("A2", 0);
-  jointCmd->SetDoubleAttribute("A3", 0);
-  jointCmd->SetDoubleAttribute("A4", 0);
-  jointCmd->SetDoubleAttribute("A5", 0);
-  jointCmd->SetDoubleAttribute("A6", 0);
-  externalCmd->SetDoubleAttribute("E1", 0); 
-  externalCmd->SetDoubleAttribute("E2", 0);
-  externalCmd->SetDoubleAttribute("E3", 0);
-  externalCmd->SetDoubleAttribute("E4", 0);
-  externalCmd->SetDoubleAttribute("E5", 0);
-  externalCmd->SetDoubleAttribute("E6", 0);
+  if( args->getCartesianMove() )
+    {
+      cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
+      cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
+      cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);
+      cartesianCmd->SetDoubleAttribute("A", args->poseCorrection.zrot);
+      cartesianCmd->SetDoubleAttribute("B", args->poseCorrection.yrot);
+      cartesianCmd->SetDoubleAttribute("C", args->poseCorrection.xrot);
+      jointCmd->SetDoubleAttribute("A1", 0);
+      jointCmd->SetDoubleAttribute("A2", 0);
+      jointCmd->SetDoubleAttribute("A3", 0);
+      jointCmd->SetDoubleAttribute("A4", 0);
+      jointCmd->SetDoubleAttribute("A5", 0);
+      jointCmd->SetDoubleAttribute("A6", 0);
+      externalCmd->SetDoubleAttribute("E1", 0); 
+      externalCmd->SetDoubleAttribute("E2", 0);
+      externalCmd->SetDoubleAttribute("E3", 0);
+      externalCmd->SetDoubleAttribute("E4", 0);
+      externalCmd->SetDoubleAttribute("E5", 0);
+      externalCmd->SetDoubleAttribute("E6", 0);
+    }
+  else
+    {
+      cartesianCmd->SetDoubleAttribute("X", 0.);
+      cartesianCmd->SetDoubleAttribute("Y", 0.);
+      cartesianCmd->SetDoubleAttribute("Z", 0.);
+      cartesianCmd->SetDoubleAttribute("A", 0.);
+      cartesianCmd->SetDoubleAttribute("B", 0.);
+      cartesianCmd->SetDoubleAttribute("C", 0.);
+      jointCmd->SetDoubleAttribute("A1", args->poseCorrection.x);
+      jointCmd->SetDoubleAttribute("A2", args->poseCorrection.y);
+      jointCmd->SetDoubleAttribute("A3", args->poseCorrection.z);
+      jointCmd->SetDoubleAttribute("A4", args->poseCorrection.xrot);
+      jointCmd->SetDoubleAttribute("A5", args->poseCorrection.yrot);
+      jointCmd->SetDoubleAttribute("A6", args->poseCorrection.zrot);
+      externalCmd->SetDoubleAttribute("E1", 0); 
+      externalCmd->SetDoubleAttribute("E2", 0);
+      externalCmd->SetDoubleAttribute("E3", 0);
+      externalCmd->SetDoubleAttribute("E4", 0);
+      externalCmd->SetDoubleAttribute("E5", 0);
+      externalCmd->SetDoubleAttribute("E6", 0);
+    }
   returnString << toKuka;
   if(debug)
     printf( "\x1b[32mkukaThread corrections sent: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",

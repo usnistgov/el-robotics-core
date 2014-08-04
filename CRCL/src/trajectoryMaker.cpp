@@ -37,8 +37,7 @@
                 cycleTime milliseconds.
 **/
 std::vector<double> TrajectoryMaker::makePositionVector(double start, 
-							double end, 
-							CRCLStatus *parameters)
+							double end) 
 {
   double distanceToMove;
   bool reverse = false;
@@ -277,24 +276,19 @@ double TrajectoryMaker::makeRamp(CRCLStatus *parameters)
    \return The vector of robot positions (robotPose) that represents 
    the movement trajectory.
 **/
-std::vector<robotPose> TrajectoryMaker::makeTrajectory(CRCLStatus *parameters)
+std::vector<robotPose> TrajectoryMaker::makeTrajectory(CRCLStatus *parameters,
+						       robotPose pose)
 {
   std::vector<double> vX, vY, vZ, vRoll, vPitch, vYaw;
   std::vector<robotPose> result;
 
   rampLength = makeRamp(parameters);
-  vX = makePositionVector(current.x, parameters->currentCmd.pose.x, 
-			  parameters);
-  vY = makePositionVector(current.y, parameters->currentCmd.pose.y, 
-			  parameters);
-  vZ = makePositionVector(current.z, parameters->currentCmd.pose.z, 
-			  parameters);
-  vRoll = makePositionVector(current.xrot, parameters->currentCmd.pose.xrot, 
-			     parameters);
-  vPitch = makePositionVector(current.yrot, parameters->currentCmd.pose.yrot, 
-			      parameters);
-  vYaw = makePositionVector(current.zrot, parameters->currentCmd.pose.zrot, 
-			    parameters);
+  vX = makePositionVector(current.x, pose.x); 
+  vY = makePositionVector(current.y, pose.y); 
+  vZ = makePositionVector(current.z, pose.z); 
+  vRoll = makePositionVector(current.xrot, pose.xrot); 
+  vPitch = makePositionVector(current.yrot, pose.yrot); 
+  vYaw = makePositionVector(current.zrot, pose.zrot); 
 
   int maxSize = maxVectorSize(vX, vY, vZ, vRoll, vPitch, vYaw);
   if( maxSize > 0 )

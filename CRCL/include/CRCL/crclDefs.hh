@@ -24,6 +24,13 @@
 #define KUKA_DEFAULT_MAX_ACCEL 40
 #define KUKA_DEFAULT_MAX_VEL 75
 
+#define HOME_JOINT1 0.
+#define HOME_JOINT2 0.
+#define HOME_JOINT3 0.
+#define HOME_JOINT4 0.
+#define HOME_JOINT5 0.
+#define HOME_JOINT6 0.
+
 typedef enum
   {
     CRCL_NOOP = 0,

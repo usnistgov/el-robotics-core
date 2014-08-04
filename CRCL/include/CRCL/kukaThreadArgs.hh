@@ -25,7 +25,12 @@ typedef struct
 
 class KukaThreadArgs
 {
+private:
+  bool cartesianMove;
 public:
+  bool getCartesianMove();
+  void setCartesianMove();
+  void setJointMove();
   ulapi_mutex_struct poseCorrectionMutex;
   robotPose poseCorrection;
   KukaState currentState;

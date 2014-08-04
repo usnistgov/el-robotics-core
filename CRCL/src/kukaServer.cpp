@@ -91,70 +91,27 @@ void crclEndCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
-void crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
-{
-  int gripperReturn;
-
-  if( status->currentCmd.cmd != CRCL_INIT_CANON )
-    {
-      printf( "Bad command type %d to crclInitCanon\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
-      return;
-    }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
-    {
-      printf( "Received init canon\n");
-      status->currentCmd.status = CRCL_WORKING;
-      if( usePowerCube )
-	{
-	  gripperReturn = PCube_homeModule( status->gripStatus.device, status->gripStatus.modId );
-	}
-    }
-  else if( status->currentCmd.status == CRCL_ABORT )
-    {
-      printf( "Aborting Init\n");
-      if( usePowerCube )
-	gripperReturn = PCube_haltModule( status->gripStatus.device, status->gripStatus.modId );
-      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
-	{
-	  printf( "error from copy of new command\n");
-	  exit(1);
-	}
-    }
-  else if( status->currentCmd.status == CRCL_WORKING )
-    if( usePowerCube )
-      {
-	printf( "gripper position: %f\n", status->gripStatus.position);
-	gripperReturn = PCube_waitForHomeEnd(status->gripStatus.device, status->gripStatus.modId, 0);
-	PCube_getPos(status->gripStatus.device, status->gripStatus.modId, &status->gripStatus.position);
-	if( gripperReturn == 0 )
-	  {
-	    status->currentCmd.status = CRCL_DONE;
-	    status->currentState = CRCL_INITIALIZED;
-	  }
-      }
-    else
-      {
-	status->currentCmd.status = CRCL_DONE;
-	status->currentState = CRCL_INITIALIZED;
-      }
-}
-
-////////////////////////////////////////////////////////
 robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   static int index = 0;
   static TrajectoryMaker trajectoryMaker;
   static vector<robotPose> movementTrajectory;
-  vector<double> values;
-  vector<bool> signs; //True = +, False = -
-  robotPose singlePoint;
-  double max_value, max_change;
-  robotPose retValue;
+  robotPose retValue, goalValue;
 
-  if( status->currentCmd.cmd != CRCL_MOVE_TO )
+  if( status->currentCmd.cmd == CRCL_MOVE_TO )
+    {
+      goalValue = status->currentCmd.pose;
+    }
+  else if( status->currentCmd.cmd == CRCL_INIT_CANON )
+    {
+      goalValue.x = HOME_JOINT1;
+      goalValue.y = HOME_JOINT2;
+      goalValue.z = HOME_JOINT3;
+      goalValue.xrot = HOME_JOINT4;
+      goalValue.yrot = HOME_JOINT5;
+      goalValue.zrot = HOME_JOINT6;
+    }
+  else
     {
       printf( "Bad command type %d to crclMoveTo\n", 
 	      status->currentCmd.cmd );
@@ -177,7 +134,7 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       movementTrajectory.clear();
       trajectoryMaker.setCurrent(status->robotStatus.pose);
 
-      movementTrajectory = trajectoryMaker.makeTrajectory(status);
+      movementTrajectory = trajectoryMaker.makeTrajectory(status, goalValue);
       status->currentCmd.status = CRCL_WORKING;
       //      if( debug )
       if(0)
@@ -250,6 +207,93 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	  return retValue;
 	}
     }
+}
+
+////////////////////////////////////////////////////////
+/*!
+  Note that this method calls the crclMoveTo method in order
+  to set the arm at its home position
+ */
+robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  int gripperReturn;
+  robotPose retValue;
+
+  if( status->currentCmd.cmd != CRCL_INIT_CANON )
+    {
+      printf( "Bad command type %d to crclInitCanon\n", 
+	      status->currentCmd.cmd );
+      status->currentCmd.status = CRCL_DONE;
+      status->currentState = CRCL_ERROR;
+      retValue.x = 0;
+      retValue.y = 0;
+      retValue.z = 0;
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+      return retValue;
+    }
+  if( status->currentCmd.status == CRCL_NEW_CMD )
+    {
+      printf( "Received init canon\n");
+      //      status->currentCmd.status = CRCL_WORKING;
+      // home robot arm
+      retValue = crclMoveTo( status, nextCmd );
+
+      // home gripper
+      if( usePowerCube )
+	{
+	  gripperReturn = PCube_homeModule( status->gripStatus.device, 
+					    status->gripStatus.modId );
+	}
+    }
+  else if( status->currentCmd.status == CRCL_ABORT )
+    {
+      printf( "Aborting Init\n");
+      if( usePowerCube )
+	gripperReturn = PCube_haltModule( status->gripStatus.device, 
+					  status->gripStatus.modId );
+      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
+	{
+	  printf( "error from copy of new command\n");
+	  exit(1);
+	}
+    }
+  else if( status->currentCmd.status == CRCL_WORKING )
+    {
+      // home robot arm
+      retValue = crclMoveTo( status, nextCmd );
+
+      // home gripper
+      if( usePowerCube )
+	{
+	  printf( "gripper position: %f\n", status->gripStatus.position);
+	  gripperReturn = PCube_waitForHomeEnd(status->gripStatus.device, 
+					       status->gripStatus.modId, 0);
+	  PCube_getPos(status->gripStatus.device, status->gripStatus.modId, 
+		       &status->gripStatus.position);
+	  if( gripperReturn == 0 && status->currentCmd.status == CRCL_DONE)
+	    {
+	      status->currentState = CRCL_INITIALIZED;
+	    }
+	  else
+	    status->currentCmd.status = CRCL_WORKING;
+	}
+      else if(status->currentCmd.status == CRCL_DONE)
+	{
+	status->currentState = CRCL_INITIALIZED;
+	}
+    }
+  else
+    {
+      retValue.x = 0;
+      retValue.y = 0;
+      retValue.z = 0;
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+    }
+  return retValue;
 }
 
 ////////////////////////////////////////////////////////
@@ -613,6 +657,7 @@ int main(int argc, char *argv[])
 	{
 	  printf("kukaServer::status client disconnected %d\n",
 		 nchars);
+	  ulapi_socket_close(cmdConnection);
 	  cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
 	  while( cmdConnection < 0 )
 	    {
@@ -651,9 +696,11 @@ int main(int argc, char *argv[])
 	  crclEndCanon(&status, &nextCmd);
 	  break;
 	case CRCL_INIT_CANON:
-	  crclInitCanon(&status, &nextCmd);
+	  kukaThreadArgs.setJointMove();
+	  kukaThreadArgs.addPose(crclInitCanon(&status, &nextCmd));
 	  break;
 	case CRCL_MOVE_TO:
+	  kukaThreadArgs.setCartesianMove();
 	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
 	  break;
 	case CRCL_SET_ABSOLUTE_ACC:

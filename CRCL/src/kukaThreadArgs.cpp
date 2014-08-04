@@ -19,7 +19,6 @@
  *      \copyright      Georgia Tech Research Institute
  */
 #include "CRCL/kukaThreadArgs.hh"
-
 void KukaThreadArgs::addPose(const robotPose rhs)
 {
   ulapi_mutex_take(&poseCorrectionMutex);
@@ -31,4 +30,19 @@ void KukaThreadArgs::addPose(const robotPose rhs)
   poseCorrection.zrot += rhs.zrot;
   ulapi_mutex_give(&poseCorrectionMutex);
   return;
+}
+
+bool KukaThreadArgs::getCartesianMove()
+{
+  return cartesianMove;
+}
+
+void KukaThreadArgs::setCartesianMove()
+{
+  cartesianMove = true;
+}
+
+void KukaThreadArgs::setJointMove()
+{
+  cartesianMove = false;
 }

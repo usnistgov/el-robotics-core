@@ -143,8 +143,8 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 
       movementTrajectory = trajectoryMaker.makeTrajectory(status, goalValue);
       status->currentCmd.status = CRCL_WORKING;
-      if( debug )
-      //      if(0)
+      //      if( debug )
+      if(1)
 	{
 	  printf( "Moving Cart from: <%f %f %f> <%f %f %f> to <%f %f %f <%f %f %f>\n",
 		  status->robotStatus.pose.x,

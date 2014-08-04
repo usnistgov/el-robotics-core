@@ -164,12 +164,12 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       cartesianCmd->SetDoubleAttribute("A", 0.);
       cartesianCmd->SetDoubleAttribute("B", 0.);
       cartesianCmd->SetDoubleAttribute("C", 0.);
-      jointCmd->SetDoubleAttribute("A1", args->poseCorrection.x);
-      jointCmd->SetDoubleAttribute("A2", args->poseCorrection.y);
-      jointCmd->SetDoubleAttribute("A3", args->poseCorrection.z);
-      jointCmd->SetDoubleAttribute("A4", args->poseCorrection.xrot);
-      jointCmd->SetDoubleAttribute("A5", args->poseCorrection.yrot);
-      jointCmd->SetDoubleAttribute("A6", args->poseCorrection.zrot);
+      jointCmd->SetDoubleAttribute("A1", 50.*args->poseCorrection.x);
+      jointCmd->SetDoubleAttribute("A2", 50.*args->poseCorrection.y);
+      jointCmd->SetDoubleAttribute("A3", 50.*args->poseCorrection.z);
+      jointCmd->SetDoubleAttribute("A4", 50.*args->poseCorrection.xrot);
+      jointCmd->SetDoubleAttribute("A5", 50.*args->poseCorrection.yrot);
+      jointCmd->SetDoubleAttribute("A6", 50.*args->poseCorrection.zrot);
       externalCmd->SetDoubleAttribute("E1", 0); 
       externalCmd->SetDoubleAttribute("E2", 0);
       externalCmd->SetDoubleAttribute("E3", 0);
@@ -258,6 +258,13 @@ std::string KukaThread::setStatus(char *buf)
 		  args->currentState.joint[3],
 		  args->currentState.joint[4],
 		  args->currentState.joint[5]);
+	  printf( "\x1b[32mkukaThread Read External Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+		  args->currentState.external[0],
+		  args->currentState.external[1],
+		  args->currentState.external[2],
+		  args->currentState.external[3],
+		  args->currentState.external[4],
+		  args->currentState.external[5]);
 	}
     }
   return krcIPOC->GetText();

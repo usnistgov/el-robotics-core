@@ -21,15 +21,17 @@
 #define DEFAULT_FROM_KUKA "/home/gtrirobot/el-robotics-core/CRCL/FromKRC.xml"
 #define DEFAULT_TO_KUKA "/home/gtrirobot/el-robotics-core/CRCL/ToKRC.xml"
 #define KUKA_DEFAULT_CYCLE .01
-#define KUKA_DEFAULT_MAX_ACCEL 40
-#define KUKA_DEFAULT_MAX_VEL 75
+//#define KUKA_DEFAULT_MAX_ACCEL 40
+//#define KUKA_DEFAULT_MAX_VEL 75
+#define KUKA_DEFAULT_MAX_ACCEL 10
+#define KUKA_DEFAULT_MAX_VEL 20
 
 #define HOME_JOINT1 0.
-#define HOME_JOINT2 0.
-#define HOME_JOINT3 0.
-#define HOME_JOINT4 0.
+#define HOME_JOINT2 -40.
+#define HOME_JOINT3 129.
+#define HOME_JOINT4 85.
 #define HOME_JOINT5 0.
-#define HOME_JOINT6 0.
+#define HOME_JOINT6 87.
 
 typedef enum
   {

@@ -100,10 +100,18 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 
   if( status->currentCmd.cmd == CRCL_MOVE_TO )
     {
+      trajectoryMaker.setCurrent(status->robotStatus.pose);
       goalValue = status->currentCmd.pose;
     }
   else if( status->currentCmd.cmd == CRCL_INIT_CANON )
     {
+      goalValue.x = status->robotStatus.joint[0];
+      goalValue.y = status->robotStatus.joint[1];
+      goalValue.z = status->robotStatus.joint[2];
+      goalValue.xrot = status->robotStatus.joint[3];
+      goalValue.yrot = status->robotStatus.joint[4];
+      goalValue.zrot = status->robotStatus.joint[5];
+      trajectoryMaker.setCurrent(goalValue);
       goalValue.x = HOME_JOINT1;
       goalValue.y = HOME_JOINT2;
       goalValue.z = HOME_JOINT3;
@@ -132,13 +140,39 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       */
       printf( "Received move to\n");
       movementTrajectory.clear();
-      trajectoryMaker.setCurrent(status->robotStatus.pose);
 
       movementTrajectory = trajectoryMaker.makeTrajectory(status, goalValue);
       status->currentCmd.status = CRCL_WORKING;
-      //      if( debug )
-      if(0)
+      if( debug )
+      //      if(0)
 	{
+	  printf( "Moving Cart from: <%f %f %f> <%f %f %f> to <%f %f %f <%f %f %f>\n",
+		  status->robotStatus.pose.x,
+		  status->robotStatus.pose.y,
+		  status->robotStatus.pose.z,
+		  status->robotStatus.pose.xrot,
+		  status->robotStatus.pose.yrot,
+		  status->robotStatus.pose.zrot,
+		  goalValue.x,
+		  goalValue.y,
+		  goalValue.z,
+		  goalValue.xrot,
+		  goalValue.yrot,
+		  goalValue.zrot);
+	  printf( "Moving Joint from: <%f %f %f> <%f %f %f> to <%f %f %f <%f %f %f>\n",
+		  status->robotStatus.joint[0],
+		  status->robotStatus.joint[1],
+		  status->robotStatus.joint[2],
+		  status->robotStatus.joint[3],
+		  status->robotStatus.joint[4],
+		  status->robotStatus.joint[5],
+		  goalValue.x,
+		  goalValue.y,
+		  goalValue.z,
+		  goalValue.xrot,
+		  goalValue.yrot,
+		  goalValue.zrot);
+	  /*
 	  for( int ii=0; ii<movementTrajectory.size(); ii++ )
 	    printf( "<%f %f %f> <%f %f %f>\n",
 		    movementTrajectory[ii].x,
@@ -147,6 +181,7 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 		    movementTrajectory[ii].xrot,
 		    movementTrajectory[ii].yrot,
 		    movementTrajectory[ii].zrot);
+	  */
 		    
 	}
       index = 0;
@@ -464,6 +499,7 @@ void kukaThread(KukaThreadArgs *args)
 int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 {
   int retValue = 1;
+  double newDouble;
 
   if( !strncasecmp(inbuf, "Dwell", strlen("Dwell")))
     {
@@ -731,6 +767,12 @@ int main(int argc, char *argv[])
       status.robotStatus.pose.xrot = kukaThreadArgs.currentState.cartesian[3];
       status.robotStatus.pose.yrot = kukaThreadArgs.currentState.cartesian[4];
       status.robotStatus.pose.zrot = kukaThreadArgs.currentState.cartesian[5];
+      status.robotStatus.joint[0] = kukaThreadArgs.currentState.joint[0];
+      status.robotStatus.joint[1] = kukaThreadArgs.currentState.joint[1];
+      status.robotStatus.joint[2] = kukaThreadArgs.currentState.joint[2];
+      status.robotStatus.joint[3] = kukaThreadArgs.currentState.joint[3];
+      status.robotStatus.joint[4] = kukaThreadArgs.currentState.joint[4];
+      status.robotStatus.joint[5] = kukaThreadArgs.currentState.joint[5];
       ulapi_mutex_give(&kukaThreadArgs.poseCorrectionMutex);
       cycleBlock->wait();
     }

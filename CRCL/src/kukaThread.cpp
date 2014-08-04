@@ -217,6 +217,14 @@ std::string KukaThread::setStatus(char *buf)
   cartesian->QueryDoubleAttribute("A", &(args->currentState.cartesian[5]));
   cartesian->QueryDoubleAttribute("B", &(args->currentState.cartesian[4]));
   cartesian->QueryDoubleAttribute("C", &(args->currentState.cartesian[3]));
+  /*
+  if( args->currentState.cartesian[3] < 0 ) // make 0 - 360
+    args->currentState.cartesian[3] = 360 + args->currentState.cartesian[3];
+  if( args->currentState.cartesian[4] < 0 ) // make 0 - 360
+    args->currentState.cartesian[4] = 360 + args->currentState.cartesian[4];
+  if( args->currentState.cartesian[5] < 0 ) // make 0 - 360
+    args->currentState.cartesian[5] = 360 + args->currentState.cartesian[5];
+  */
   joint->Attribute("A1", &(args->currentState.joint[0]));
   joint->Attribute("A2", &(args->currentState.joint[1]));
   joint->Attribute("A3", &(args->currentState.joint[2]));
@@ -230,12 +238,27 @@ std::string KukaThread::setStatus(char *buf)
   external->Attribute("E5", &(args->currentState.external[4]));
   external->Attribute("E6", &(args->currentState.external[5]));
   if( debug )
-    printf( "\x1b[32mkukaThread Read Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-	    args->currentState.cartesian[0],
-	    args->currentState.cartesian[1],
-	    args->currentState.cartesian[2],
-	    args->currentState.cartesian[3],
-	    args->currentState.cartesian[4],
-	    args->currentState.cartesian[5]);
+    {
+      if( args->getCartesianMove() )
+	{
+	  printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+		  args->currentState.cartesian[0],
+		  args->currentState.cartesian[1],
+		  args->currentState.cartesian[2],
+		  args->currentState.cartesian[3],
+		  args->currentState.cartesian[4],
+		  args->currentState.cartesian[5]);
+	}
+      else
+	{
+	  printf( "\x1b[32mkukaThread Read Joint Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+		  args->currentState.joint[0],
+		  args->currentState.joint[1],
+		  args->currentState.joint[2],
+		  args->currentState.joint[3],
+		  args->currentState.joint[4],
+		  args->currentState.joint[5]);
+	}
+    }
   return krcIPOC->GetText();
 }

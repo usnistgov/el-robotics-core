@@ -24,14 +24,23 @@
 //#define KUKA_DEFAULT_MAX_ACCEL 40
 //#define KUKA_DEFAULT_MAX_VEL 75
 #define KUKA_DEFAULT_MAX_ACCEL 20
-#define KUKA_DEFAULT_MAX_VEL 5
+#define KUKA_DEFAULT_MAX_VEL 15
 
+/*
 #define HOME_JOINT1 0.
 #define HOME_JOINT2 -40.
 #define HOME_JOINT3 129.
 #define HOME_JOINT4 85.
 #define HOME_JOINT5 0.
 #define HOME_JOINT6 87.
+*/
+// new home positions as of 8/5
+#define HOME_JOINT1 0.
+#define HOME_JOINT2 -60.
+#define HOME_JOINT3 125.
+#define HOME_JOINT4 -5.
+#define HOME_JOINT5 23.
+#define HOME_JOINT6 184.
 
 typedef enum
   {
@@ -39,6 +48,7 @@ typedef enum
     CRCL_DWELL,
     CRCL_END_CANON,
     CRCL_INIT_CANON,
+    CRCL_MOVE_JOINT,
     CRCL_MOVE_TO,
     CRCL_SET_ABSOLUTE_ACC,
     CRCL_SET_ABSOLUTE_SPEED,
@@ -72,6 +82,7 @@ typedef struct
     double absSpeed;
     double dwell;
     double gripperPos;
+    double joints[6];
     robotPose pose;
   };
 }CRCLCmdUnion;

@@ -33,8 +33,12 @@
 
 /********************************
 Good Points 
+Home position is: 417. 10. 267. 179. -3. -97.
+Position over left of table is: 85. -50. 120. 0. 21. -95.
 MoveTo 300 0 125 179 0 0  // safe position
-MoveTo -111 -425 125 179 0 0 // 84T-2
+MoveTo -111 -425 215 -179 0 0 // 84T-2
+MoveTo 188. -349. 48. -178. 0. 0. // 60T-3
+
 MoveTo 200. 351. 125 179 0 0 // PK-2
 
 

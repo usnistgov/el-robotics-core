@@ -27,6 +27,8 @@ public:
   void setDebug(int debugLevel);
   void threadStart(KukaThreadArgs *argsIn);
 private:
+  double jointMotorScale[6]; //bizarre numbers needed by KR5-6
+  double cmdMotorScale[6];
   KukaThreadArgs *args;
   int debug;
   TiXmlDocument toKuka;

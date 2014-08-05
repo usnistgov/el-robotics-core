@@ -119,6 +119,22 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       goalValue.yrot = HOME_JOINT5;
       goalValue.zrot = HOME_JOINT6;
     }
+ else if( status->currentCmd.cmd == CRCL_MOVE_JOINT )
+    {
+      goalValue.x = status->robotStatus.joint[0];
+      goalValue.y = status->robotStatus.joint[1];
+      goalValue.z = status->robotStatus.joint[2];
+      goalValue.xrot = status->robotStatus.joint[3];
+      goalValue.yrot = status->robotStatus.joint[4];
+      goalValue.zrot = status->robotStatus.joint[5];
+      trajectoryMaker.setCurrent(goalValue);
+      goalValue.x = status->currentCmd.joints[0];
+      goalValue.y = status->currentCmd.joints[1];
+      goalValue.z = status->currentCmd.joints[2];
+      goalValue.xrot = status->currentCmd.joints[3];
+      goalValue.yrot = status->currentCmd.joints[4];
+      goalValue.zrot = status->currentCmd.joints[5];
+    }
   else
     {
       printf( "Bad command type %d to crclMoveTo\n", 
@@ -527,6 +543,18 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 		 &nextCmd->pose.zrot) != 6)
 	retValue = 0;
     }
+  else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")))
+    {
+      nextCmd->cmd = CRCL_MOVE_JOINT;
+      if( sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf",
+		 &nextCmd->joints[0],
+		 &nextCmd->joints[1],
+		 &nextCmd->joints[2],
+		 &nextCmd->joints[3],
+		 &nextCmd->joints[4],
+		 &nextCmd->joints[5]) != 6)
+	retValue = 0;
+    }
   else if( !strncasecmp(inbuf, "Noop", strlen("Noop")))
     {
       nextCmd->cmd = CRCL_NOOP;
@@ -586,6 +614,7 @@ int main(int argc, char *argv[])
   unsigned char moduleType;
   unsigned short moduleOS;
   unsigned long state;
+  KukaState currentState;
 
   debug = 0;
   usePowerCube = false;
@@ -739,6 +768,10 @@ int main(int argc, char *argv[])
 	  kukaThreadArgs.setCartesianMove();
 	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
 	  break;
+	case CRCL_MOVE_JOINT:
+	  kukaThreadArgs.setJointMove();
+	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
+	  break;
 	case CRCL_SET_ABSOLUTE_ACC:
 	  crclSetAbsoluteAcc(&status, &nextCmd);
 	  break;
@@ -760,20 +793,19 @@ int main(int argc, char *argv[])
 	  break;
 	}
       /* set status information for robot */
-      ulapi_mutex_take(&kukaThreadArgs.poseCorrectionMutex);
-      status.robotStatus.pose.x = kukaThreadArgs.currentState.cartesian[0];
-      status.robotStatus.pose.y = kukaThreadArgs.currentState.cartesian[1];
-      status.robotStatus.pose.z = kukaThreadArgs.currentState.cartesian[2];
-      status.robotStatus.pose.xrot = kukaThreadArgs.currentState.cartesian[3];
-      status.robotStatus.pose.yrot = kukaThreadArgs.currentState.cartesian[4];
-      status.robotStatus.pose.zrot = kukaThreadArgs.currentState.cartesian[5];
-      status.robotStatus.joint[0] = kukaThreadArgs.currentState.joint[0];
-      status.robotStatus.joint[1] = kukaThreadArgs.currentState.joint[1];
-      status.robotStatus.joint[2] = kukaThreadArgs.currentState.joint[2];
-      status.robotStatus.joint[3] = kukaThreadArgs.currentState.joint[3];
-      status.robotStatus.joint[4] = kukaThreadArgs.currentState.joint[4];
-      status.robotStatus.joint[5] = kukaThreadArgs.currentState.joint[5];
-      ulapi_mutex_give(&kukaThreadArgs.poseCorrectionMutex);
+      currentState = kukaThreadArgs.getCurrentState();
+      status.robotStatus.pose.x = currentState.cartesian[0];
+      status.robotStatus.pose.y = currentState.cartesian[1];
+      status.robotStatus.pose.z = currentState.cartesian[2];
+      status.robotStatus.pose.xrot = currentState.cartesian[3];
+      status.robotStatus.pose.yrot = currentState.cartesian[4];
+      status.robotStatus.pose.zrot = currentState.cartesian[5];
+      status.robotStatus.joint[0] = currentState.joint[0];
+      status.robotStatus.joint[1] = currentState.joint[1];
+      status.robotStatus.joint[2] = currentState.joint[2];
+      status.robotStatus.joint[3] = currentState.joint[3];
+      status.robotStatus.joint[4] = currentState.joint[4];
+      status.robotStatus.joint[5] = currentState.joint[5];
       cycleBlock->wait();
     }
   sleep(1);

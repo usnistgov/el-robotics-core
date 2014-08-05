@@ -19,6 +19,7 @@
  *      \copyright      Georgia Tech Research Institute
  */
 #include <stdio.h>
+#include <math.h>
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 
@@ -38,6 +39,19 @@ KukaThread::KukaThread(const char *toKukaXML,
       printf( "kukaThread:: fatal error on load of %s\n", toKukaXML);
       exit(1);
     }
+  jointMotorScale[0] = 80.;
+  jointMotorScale[1] = 100.;
+  jointMotorScale[2] = 80.;
+  jointMotorScale[3] = 80.;
+  jointMotorScale[4] = 80.;
+  jointMotorScale[5] = 40.5;
+
+  cmdMotorScale[0] = 1.4;
+  cmdMotorScale[1] = 1.74;
+  cmdMotorScale[2] = 1.4;
+  cmdMotorScale[3] = 1.4;
+  cmdMotorScale[4] = 1.4;
+  cmdMotorScale[5] = 0.87;
 }
 
 void KukaThread::threadStart(KukaThreadArgs *argsIn)
@@ -46,7 +60,6 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
   int kukaConnection;
   
   args = argsIn;
-  ulapi_mutex_init(&args->poseCorrectionMutex, 1);  
   kukaServer = ulapi_socket_get_server_id(KUKA_PORT);
   if (kukaServer < 0) 
     {
@@ -65,8 +78,6 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     printf("kukaThread: got a status client connection on id %d\n", 
 	   kukaConnection);
 
-  ulapi_mutex_give(&args->poseCorrectionMutex);
-
   while(true)
     {
     enum {INBUF_LEN = 2048};
@@ -84,12 +95,10 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     else
       inbuf[nchars] = '\0';
 
-    ulapi_mutex_take(&args->poseCorrectionMutex);
     krcIPOC = setStatus(inbuf);
     //    printf("krcIPOC: %s\n", krcIPOC.c_str());
     stringToKuka = setCorrections(krcIPOC);
     zeroCorrections();
-    ulapi_mutex_give(&args->poseCorrectionMutex);
     //    if(debug)
     if(0)
       printf( "New message\n%s\n", stringToKuka.c_str());
@@ -107,12 +116,14 @@ void KukaThread::setDebug(int debugLevel)
 
 void KukaThread::zeroCorrections()
 {
-  args->poseCorrection.x = 0;
-  args->poseCorrection.y = 0;
-  args->poseCorrection.z = 0;
-  args->poseCorrection.xrot = 0;
-  args->poseCorrection.yrot = 0;
-  args->poseCorrection.zrot = 0;
+  robotPose poseCorrection;
+  poseCorrection.x = 0;
+  poseCorrection.y = 0;
+  poseCorrection.z = 0;
+  poseCorrection.xrot = 0;
+  poseCorrection.yrot = 0;
+  poseCorrection.zrot = 0;
+  args->setPoseCorrection(&poseCorrection);
 }
 
 std::string KukaThread::setCorrections(std::string krcIPOC)
@@ -123,7 +134,12 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   TiXmlElement *jointCmd;
   TiXmlElement *externalCmd;
   TiXmlElement *cmdIPOC;
+  robotPose poseCorrection;
+  KukaState currentState;
 
+  poseCorrection = args->getPoseCorrection();
+  currentState = args->getCurrentState();
+  
   cartesianCmd =
     kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(1).ToElement();
   jointCmd =
@@ -137,12 +153,12 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   cmdIPOC->LinkEndChild(text);
   if( args->getCartesianMove() )
     {
-      cartesianCmd->SetDoubleAttribute("X", args->poseCorrection.x);
-      cartesianCmd->SetDoubleAttribute("Y", args->poseCorrection.y);
-      cartesianCmd->SetDoubleAttribute("Z", args->poseCorrection.z);
-      cartesianCmd->SetDoubleAttribute("A", args->poseCorrection.zrot);
-      cartesianCmd->SetDoubleAttribute("B", args->poseCorrection.yrot);
-      cartesianCmd->SetDoubleAttribute("C", args->poseCorrection.xrot);
+      cartesianCmd->SetDoubleAttribute("X", poseCorrection.x);
+      cartesianCmd->SetDoubleAttribute("Y", poseCorrection.y);
+      cartesianCmd->SetDoubleAttribute("Z", poseCorrection.z);
+      cartesianCmd->SetDoubleAttribute("A", poseCorrection.zrot);
+      cartesianCmd->SetDoubleAttribute("B", poseCorrection.yrot);
+      cartesianCmd->SetDoubleAttribute("C", poseCorrection.xrot);
       jointCmd->SetDoubleAttribute("A1", 0);
       jointCmd->SetDoubleAttribute("A2", 0);
       jointCmd->SetDoubleAttribute("A3", 0);
@@ -164,12 +180,18 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       cartesianCmd->SetDoubleAttribute("A", 0.);
       cartesianCmd->SetDoubleAttribute("B", 0.);
       cartesianCmd->SetDoubleAttribute("C", 0.);
-      jointCmd->SetDoubleAttribute("A1", 50.*args->poseCorrection.x);
-      jointCmd->SetDoubleAttribute("A2", 50.*args->poseCorrection.y);
-      jointCmd->SetDoubleAttribute("A3", 50.*args->poseCorrection.z);
-      jointCmd->SetDoubleAttribute("A4", 50.*args->poseCorrection.xrot);
-      jointCmd->SetDoubleAttribute("A5", 50.*args->poseCorrection.yrot);
-      jointCmd->SetDoubleAttribute("A6", 50.*args->poseCorrection.zrot);
+      jointCmd->SetDoubleAttribute("A1", jointMotorScale[0] / cmdMotorScale[0] *
+				   poseCorrection.x);
+      jointCmd->SetDoubleAttribute("A2", jointMotorScale[1] / cmdMotorScale[1] *
+				   poseCorrection.y);
+      jointCmd->SetDoubleAttribute("A3", jointMotorScale[2] / cmdMotorScale[2] *
+				   poseCorrection.z);
+      jointCmd->SetDoubleAttribute("A4", jointMotorScale[3] / cmdMotorScale[3] *
+				   poseCorrection.xrot);
+      jointCmd->SetDoubleAttribute("A5", jointMotorScale[4] / cmdMotorScale[4] *
+				   poseCorrection.yrot);
+      jointCmd->SetDoubleAttribute("A6", jointMotorScale[5] / cmdMotorScale[5] *
+				   poseCorrection.zrot);
       externalCmd->SetDoubleAttribute("E1", 0); 
       externalCmd->SetDoubleAttribute("E2", 0);
       externalCmd->SetDoubleAttribute("E3", 0);
@@ -179,13 +201,36 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
     }
   returnString << toKuka;
   if(debug)
-    printf( "\x1b[32mkukaThread corrections sent: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-	    args->poseCorrection.x,
-	    args->poseCorrection.y,
-	    args->poseCorrection.z,
-	    args->poseCorrection.xrot,
-	    args->poseCorrection.yrot,
-	    args->poseCorrection.zrot);
+    {
+      printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+	      currentState.cartesian[0],
+	      currentState.cartesian[1],
+	      currentState.cartesian[2],
+	      currentState.cartesian[3],
+	      currentState.cartesian[4],
+	      currentState.cartesian[5]);
+      printf( "\x1b[32mkukaThread Read Joint Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+	      currentState.joint[0],
+	      currentState.joint[1],
+	      currentState.joint[2],
+	      currentState.joint[3],
+	      currentState.joint[4],
+	      currentState.joint[5]);
+      printf( "\x1b[32mkukaThread Read External Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+	      currentState.external[0],
+	      currentState.external[1],
+	      currentState.external[2],
+	      currentState.external[3],
+	      currentState.external[4],
+	      currentState.external[5]);
+      printf( "\x1b[32mkukaThread corrections sent: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\x1b[0m\n",
+	      poseCorrection.x,
+	      poseCorrection.y,
+	      poseCorrection.z,
+	      poseCorrection.xrot,
+	      poseCorrection.yrot,
+	      poseCorrection.zrot);
+    }
   return returnString;
 }
 
@@ -200,8 +245,11 @@ std::string KukaThread::setStatus(char *buf)
   TiXmlElement *krcIPOC;
   TiXmlDocument statusIn;
   TiXmlHandle kukaStatusHandle(&statusIn);
-  //  printf( "%s\n\n", buf );
+  KukaState kukaState;
+
   statusIn.Parse(buf);
+  
+  kukaState = args->getCurrentState();
   cartesian =
     kukaStatusHandle.FirstChild("Rob").FirstChild("Dat").Child(1).ToElement();
   joint =
@@ -211,61 +259,32 @@ std::string KukaThread::setStatus(char *buf)
   krcIPOC =
     kukaStatusHandle.FirstChild("Rob").FirstChild("Dat").Child(9).ToElement();
 
-  cartesian->QueryDoubleAttribute("X", &(args->currentState.cartesian[0]));
-  cartesian->QueryDoubleAttribute("Y", &(args->currentState.cartesian[1]));
-  cartesian->QueryDoubleAttribute("Z", &(args->currentState.cartesian[2]));
-  cartesian->QueryDoubleAttribute("A", &(args->currentState.cartesian[5]));
-  cartesian->QueryDoubleAttribute("B", &(args->currentState.cartesian[4]));
-  cartesian->QueryDoubleAttribute("C", &(args->currentState.cartesian[3]));
+  cartesian->QueryDoubleAttribute("X", &(kukaState.cartesian[0]));
+  cartesian->QueryDoubleAttribute("Y", &(kukaState.cartesian[1]));
+  cartesian->QueryDoubleAttribute("Z", &(kukaState.cartesian[2]));
+  cartesian->QueryDoubleAttribute("A", &(kukaState.cartesian[5]));
+  cartesian->QueryDoubleAttribute("B", &(kukaState.cartesian[4]));
+  cartesian->QueryDoubleAttribute("C", &(kukaState.cartesian[3]));
   /*
-  if( args->currentState.cartesian[3] < 0 ) // make 0 - 360
-    args->currentState.cartesian[3] = 360 + args->currentState.cartesian[3];
-  if( args->currentState.cartesian[4] < 0 ) // make 0 - 360
-    args->currentState.cartesian[4] = 360 + args->currentState.cartesian[4];
-  if( args->currentState.cartesian[5] < 0 ) // make 0 - 360
-    args->currentState.cartesian[5] = 360 + args->currentState.cartesian[5];
+  if( kukaState.cartesian[3] < 0 ) // make 0 - 360
+    kukaState.cartesian[3] = 360 + kukaState.cartesian[3];
+  if( kukaState.cartesian[4] < 0 ) // make 0 - 360
+    kukaState.cartesian[4] = 360 + kukaState.cartesian[4];
+  if( kukaState.cartesian[5] < 0 ) // make 0 - 360
+    kukaState.cartesian[5] = 360 + kukaState.cartesian[5];
   */
-  joint->Attribute("A1", &(args->currentState.joint[0]));
-  joint->Attribute("A2", &(args->currentState.joint[1]));
-  joint->Attribute("A3", &(args->currentState.joint[2]));
-  joint->Attribute("A4", &(args->currentState.joint[3]));
-  joint->Attribute("A5", &(args->currentState.joint[4]));
-  joint->Attribute("A6", &(args->currentState.joint[5]));
-  external->Attribute("E1", &(args->currentState.external[0]));
-  external->Attribute("E2", &(args->currentState.external[1]));
-  external->Attribute("E3", &(args->currentState.external[2]));
-  external->Attribute("E4", &(args->currentState.external[3]));
-  external->Attribute("E5", &(args->currentState.external[4]));
-  external->Attribute("E6", &(args->currentState.external[5]));
-  if( debug )
-    {
-      if( args->getCartesianMove() )
-	{
-	  printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-		  args->currentState.cartesian[0],
-		  args->currentState.cartesian[1],
-		  args->currentState.cartesian[2],
-		  args->currentState.cartesian[3],
-		  args->currentState.cartesian[4],
-		  args->currentState.cartesian[5]);
-	}
-      else
-	{
-	  printf( "\x1b[32mkukaThread Read Joint Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-		  args->currentState.joint[0],
-		  args->currentState.joint[1],
-		  args->currentState.joint[2],
-		  args->currentState.joint[3],
-		  args->currentState.joint[4],
-		  args->currentState.joint[5]);
-	  printf( "\x1b[32mkukaThread Read External Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-		  args->currentState.external[0],
-		  args->currentState.external[1],
-		  args->currentState.external[2],
-		  args->currentState.external[3],
-		  args->currentState.external[4],
-		  args->currentState.external[5]);
-	}
-    }
+  joint->Attribute("A1", &(kukaState.joint[0]));
+  joint->Attribute("A2", &(kukaState.joint[1]));
+  joint->Attribute("A3", &(kukaState.joint[2]));
+  joint->Attribute("A4", &(kukaState.joint[3]));
+  joint->Attribute("A5", &(kukaState.joint[4]));
+  joint->Attribute("A6", &(kukaState.joint[5]));
+  external->Attribute("E1", &(kukaState.external[0]));
+  external->Attribute("E2", &(kukaState.external[1]));
+  external->Attribute("E3", &(kukaState.external[2]));
+  external->Attribute("E4", &(kukaState.external[3]));
+  external->Attribute("E5", &(kukaState.external[4]));
+  external->Attribute("E6", &(kukaState.external[5]));
+  args->setCurrentState(&kukaState);
   return krcIPOC->GetText();
 }

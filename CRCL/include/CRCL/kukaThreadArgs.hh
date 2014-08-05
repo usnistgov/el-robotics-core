@@ -27,13 +27,18 @@ class KukaThreadArgs
 {
 private:
   bool cartesianMove;
-public:
-  bool getCartesianMove();
-  void setCartesianMove();
-  void setJointMove();
   ulapi_mutex_struct poseCorrectionMutex;
   robotPose poseCorrection;
   KukaState currentState;
+public:
+  KukaThreadArgs();
   void addPose(robotPose poseIn);
+  bool getCartesianMove();
+  KukaState getCurrentState();
+  robotPose getPoseCorrection();
+  void setCartesianMove();
+  void setCurrentState(KukaState *stateIn);
+  void setJointMove();
+  void setPoseCorrection(robotPose *poseCorrectionIn);
 };
 #endif

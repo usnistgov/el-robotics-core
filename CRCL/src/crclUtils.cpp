@@ -66,3 +66,63 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
   return true;
 }
 
+std::string getCRCLCmdString(CRCLCmd input)
+{
+  switch( input )
+    {
+    case CRCL_NOOP:
+      return "CRCL_NOOP";
+      break;
+    case CRCL_DWELL:
+      return "CRCL_DWELL";
+      break;
+    case CRCL_END_CANON:
+      return "CRCL_END_CANON";
+      break;
+    case CRCL_INIT_CANON:
+      return "CRCL_INIT_CANON";
+      break;
+    case CRCL_MOVE_JOINT:
+      return "CRCL_MOVE_JOINT";
+      break;
+    case CRCL_MOVE_TO:
+      return "CRCL_MOVE_TO";
+      break;
+    case CRCL_SET_ABSOLUTE_ACC:
+      return "CRCL_SET_ABSOLUTE_ACC";
+      break;
+    case CRCL_SET_ABSOLUTE_SPEED:
+      return "CRCL_SET_ABSOLUTE_SPEED";
+      break;
+    case CRCL_SET_GRIPPER:
+      return "CRCL_SET_GRIPPER";
+      break;
+    case CRCL_STOP_MOTION:
+      return "CRCL_STOP_MOTION";
+      break;
+    case CRCL_UNKNOWN:
+      return "CRCL_UNKNOWN";
+      break;
+    default:
+      return "Should not be here in crclUtils\n";
+    }
+}
+
+std::string getCRCLStatusString(CRCLCmdStatus input)
+{
+  switch( input )
+    {
+    case CRCL_DONE:
+      return "CRCL_DONE";
+      break;
+    case CRCL_ABORT:
+      return "CRCL_ABORT";
+      break;
+    case CRCL_NEW_CMD:
+      return "CRCL_NEW_CMD";
+      break;
+    case CRCL_WORKING:
+      return "CRCL_WORKING";
+      break;
+    }
+}

@@ -19,7 +19,10 @@
  */
 #ifndef __crclUtils
 #define __crclUtils
+#include <string>
 #include "CRCL/crclDefs.hh"
 bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone);
+std::string getCRCLCmdString(CRCLCmd input);
+std::string getCRCLStatusString(CRCLCmdStatus input);
 #endif
 

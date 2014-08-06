@@ -30,6 +30,9 @@
 #include "CRCL/timer.hh"
 #include "nist_core/crcl.h"
 #include "CRCL/crclDefs.hh"
+#include "CRCL/statusThread.hh"
+
+int debug;
 
 /********************************
 Good Points 
@@ -43,16 +46,26 @@ MoveTo 200. 351. 125 179 0 0 // PK-2
 
 
 **********************************/
+void statusThread(CRCLStatus *args)
+{
+  StatusThread *myStatus = new StatusThread(0); // 0 makes this a client
+  myStatus->setDebug(debug);
+  myStatus->threadStart(args);
+}
 
 int main(int argc, char *argv[])
 {
-  int debug = 1;
   int option;
   int cmdConnection;
   int script = 1;
   std::string msgOut;
   RCS_TIMER *cycleBlock = new RCS_TIMER(2.);
+  CRCLStatus status;
+  ulapi_task_struct statusTask;
+  RobotStatus robotStatus;
+  GripperStatus gripperStatus;
 
+  debug = 1;
   while (true) 
     {
       option = getopt(argc, argv, ":cd");
@@ -76,17 +89,49 @@ int main(int argc, char *argv[])
 	} // switch (option)
     }   // while (true) for getopt
 
+  // this code uses the ULAPI library to provide portability
+  // between different operating systems and architectures
+  if (ULAPI_OK != ulapi_init())
+    {
+      printf ("crclClient:: can't initialize ulapi");
+      return 1;
+    }
   cmdConnection = ulapi_socket_get_client_id(CRCL_CMD_PORT_DEFAULT, 
 					     "localhost");
-  if( cmdConnection < 0 )
+  if(cmdConnection < 0)
     return -1;
-  if( !script )
+
+  // start status thread
+  ulapi_task_init(&statusTask);
+  ulapi_task_start(&statusTask, 
+		   reinterpret_cast<ulapi_task_code>(statusThread), 
+		   reinterpret_cast<void*>(&status), 
+		   ulapi_prio_lowest(), 0);
+  if(!script)
     {
       for(;;)
 	{
 	  getline(std::cin, msgOut);
 	  ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
 	  printf( "Sent: %s\n", msgOut.c_str());
+	  gripperStatus = status.getGripperStatus();
+	  robotStatus = status.getRobotStatus();
+	  printf( "Status Cmd: %s Status: %s\n", 
+		  getCRCLCmdString((status.getCurrentCmd()).cmd).c_str(),
+		  getCRCLStatusString(status.getCurrentStatus()).c_str());
+	  printf( "\x1b[32mCart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+		  robotStatus.pose.x, robotStatus.pose.y, robotStatus.pose.z,
+		  robotStatus.pose.xrot, robotStatus.pose.yrot, 
+		  robotStatus.pose.zrot);
+	  printf( "\x1b[32mJoint Status: <%4.1f, %4.1f, %4.1f> <%4.1f, %4.1f, %4.1f>\x1b[0m\n",
+		  robotStatus.joint[0],
+		  robotStatus.joint[1],
+		  robotStatus.joint[2],
+		  robotStatus.joint[3],
+		  robotStatus.joint[4],
+		  robotStatus.joint[5]);
+		  
+
 	}
     }
   for(int i=0; i<1; i++ )

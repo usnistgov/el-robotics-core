@@ -33,6 +33,7 @@
 #include <nist_core/crcl_sim_robot.h>
 #include "CRCL/timer.hh"
 #include "CRCL/kukaThread.hh"
+#include "CRCL/statusThread.hh"
 #include "CRCL/crclDefs.hh"
 #include "CRCL/crclUtils.hh"
 #include "CRCL/trajectoryMaker.hh"
@@ -48,36 +49,34 @@ void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   static int doneCounter = 0;
 
-  if( status->currentCmd.cmd != CRCL_DWELL )
+  if( (status->getCurrentCmd()).cmd != CRCL_DWELL )
     {
       printf( "Bad command type %d to crclDwell\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       return;
     }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
       printf( "Received dwell\n");
-      doneCounter = (int)(status->currentCmd.dwell/status->cycleTime);
-      status->currentCmd.status = CRCL_WORKING;
+      doneCounter = (int)((status->getCurrentCmd()).dwell/
+			  status->getCycleTime());
+      status->setCurrentStatus(CRCL_WORKING);
     }
-  else if( status->currentCmd.status == CRCL_ABORT )
+  else if( (status->getCurrentCmd()).status == CRCL_ABORT )
     {
-      printf( "Aborting dwell with %f left\n", doneCounter*status->cycleTime);
+      printf( "Aborting dwell with %f left\n", doneCounter*
+	      status->getCycleTime());
       doneCounter = 0;
-      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
-	{
-	  printf( "error from copy of new command\n");
-	  exit(1);
-	}
+      status->setCurrentCmd(nextCmd);
     }
 
   // decrement counter and see if done
   doneCounter--;
   if( doneCounter <=0 )
     {
-      status->currentCmd.status = CRCL_DONE;
+      status->setCurrentStatus(CRCL_DONE);
       printf( "Dwell done\n" );
     }
 }
@@ -86,8 +85,8 @@ void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 void crclEndCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received end canon\n");
-  status->currentCmd.status = CRCL_DONE;
-  status->currentState = CRCL_UNINITIALIZED;
+  status->setCurrentStatus(CRCL_DONE);
+  status->setCurrentState(CRCL_UNINITIALIZED);
 }
 
 ////////////////////////////////////////////////////////
@@ -98,19 +97,19 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   static vector<robotPose> movementTrajectory;
   robotPose retValue, goalValue;
 
-  if( status->currentCmd.cmd == CRCL_MOVE_TO )
+  if( (status->getCurrentCmd()).cmd == CRCL_MOVE_TO )
     {
-      trajectoryMaker.setCurrent(status->robotStatus.pose);
-      goalValue = status->currentCmd.pose;
+      trajectoryMaker.setCurrent((status->getRobotStatus()).pose);
+      goalValue = (status->getCurrentCmd()).pose;
     }
-  else if( status->currentCmd.cmd == CRCL_INIT_CANON )
+  else if( (status->getCurrentCmd()).cmd == CRCL_INIT_CANON )
     {
-      goalValue.x = status->robotStatus.joint[0];
-      goalValue.y = status->robotStatus.joint[1];
-      goalValue.z = status->robotStatus.joint[2];
-      goalValue.xrot = status->robotStatus.joint[3];
-      goalValue.yrot = status->robotStatus.joint[4];
-      goalValue.zrot = status->robotStatus.joint[5];
+      goalValue.x = (status->getRobotStatus()).joint[0];
+      goalValue.y = (status->getRobotStatus()).joint[1];
+      goalValue.z = (status->getRobotStatus()).joint[2];
+      goalValue.xrot = (status->getRobotStatus()).joint[3];
+      goalValue.yrot = (status->getRobotStatus()).joint[4];
+      goalValue.zrot = (status->getRobotStatus()).joint[5];
       trajectoryMaker.setCurrent(goalValue);
       goalValue.x = HOME_JOINT1;
       goalValue.y = HOME_JOINT2;
@@ -119,28 +118,28 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       goalValue.yrot = HOME_JOINT5;
       goalValue.zrot = HOME_JOINT6;
     }
- else if( status->currentCmd.cmd == CRCL_MOVE_JOINT )
+  else if( (status->getCurrentCmd()).cmd == CRCL_MOVE_JOINT )
     {
-      goalValue.x = status->robotStatus.joint[0];
-      goalValue.y = status->robotStatus.joint[1];
-      goalValue.z = status->robotStatus.joint[2];
-      goalValue.xrot = status->robotStatus.joint[3];
-      goalValue.yrot = status->robotStatus.joint[4];
-      goalValue.zrot = status->robotStatus.joint[5];
+      goalValue.x = (status->getRobotStatus()).joint[0];
+      goalValue.y = (status->getRobotStatus()).joint[1];
+      goalValue.z = (status->getRobotStatus()).joint[2];
+      goalValue.xrot = (status->getRobotStatus()).joint[3];
+      goalValue.yrot = (status->getRobotStatus()).joint[4];
+      goalValue.zrot = (status->getRobotStatus()).joint[5];
       trajectoryMaker.setCurrent(goalValue);
-      goalValue.x = status->currentCmd.joints[0];
-      goalValue.y = status->currentCmd.joints[1];
-      goalValue.z = status->currentCmd.joints[2];
-      goalValue.xrot = status->currentCmd.joints[3];
-      goalValue.yrot = status->currentCmd.joints[4];
-      goalValue.zrot = status->currentCmd.joints[5];
+      goalValue.x = (status->getCurrentCmd()).joints[0];
+      goalValue.y = (status->getCurrentCmd()).joints[1];
+      goalValue.z = (status->getCurrentCmd()).joints[2];
+      goalValue.xrot = (status->getCurrentCmd()).joints[3];
+      goalValue.yrot = (status->getCurrentCmd()).joints[4];
+      goalValue.zrot = (status->getCurrentCmd()).joints[5];
     }
   else
     {
       printf( "Bad command type %d to crclMoveTo\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       retValue.x = 0;
       retValue.y = 0;
       retValue.z = 0;
@@ -149,7 +148,7 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       retValue.zrot = 0;
       return retValue;
     }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
       /* load motion queue with decomposed motion that is
 	 divided by the cycletime (status->cycleTime)
@@ -158,17 +157,17 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       movementTrajectory.clear();
 
       movementTrajectory = trajectoryMaker.makeTrajectory(status, goalValue);
-      status->currentCmd.status = CRCL_WORKING;
+      status->setCurrentStatus(CRCL_WORKING);
       //      if( debug )
       if(1)
 	{
 	  printf( "Moving Cart from: <%f %f %f> <%f %f %f> to <%f %f %f <%f %f %f>\n",
-		  status->robotStatus.pose.x,
-		  status->robotStatus.pose.y,
-		  status->robotStatus.pose.z,
-		  status->robotStatus.pose.xrot,
-		  status->robotStatus.pose.yrot,
-		  status->robotStatus.pose.zrot,
+		  (status->getRobotStatus()).pose.x,
+		  (status->getRobotStatus()).pose.y,
+		  (status->getRobotStatus()).pose.z,
+		  (status->getRobotStatus()).pose.xrot,
+		  (status->getRobotStatus()).pose.yrot,
+		  (status->getRobotStatus()).pose.zrot,
 		  goalValue.x,
 		  goalValue.y,
 		  goalValue.z,
@@ -176,12 +175,12 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 		  goalValue.yrot,
 		  goalValue.zrot);
 	  printf( "Moving Joint from: <%f %f %f> <%f %f %f> to <%f %f %f <%f %f %f>\n",
-		  status->robotStatus.joint[0],
-		  status->robotStatus.joint[1],
-		  status->robotStatus.joint[2],
-		  status->robotStatus.joint[3],
-		  status->robotStatus.joint[4],
-		  status->robotStatus.joint[5],
+		  (status->getRobotStatus()).joint[0],
+		  (status->getRobotStatus()).joint[1],
+		  (status->getRobotStatus()).joint[2],
+		  (status->getRobotStatus()).joint[3],
+		  (status->getRobotStatus()).joint[4],
+		  (status->getRobotStatus()).joint[5],
 		  goalValue.x,
 		  goalValue.y,
 		  goalValue.z,
@@ -202,18 +201,14 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	}
       index = 0;
     }
-  else if( status->currentCmd.status == CRCL_ABORT )
+  else if( (status->getCurrentCmd()).status == CRCL_ABORT )
     {
       /* clear motion queue and compute new trajectory
 	 that brings us to zero velocity as quickly
 	 as possible. This will be recomputed each
          cycle 
       */
-      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
-	{
-	  printf( "error from copy of new command\n");
-	  exit(1);
-	}
+      status->setCurrentCmd(nextCmd);
       movementTrajectory.clear();
       index = 0;
       /* clear motion queue and compute new trajectory
@@ -237,17 +232,13 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   // if no items left, then we are done.
   else if( index >= movementTrajectory.size()  )
     {
-      if( status->currentCmd.status == CRCL_ABORT )
+      if( (status->getCurrentCmd()).status == CRCL_ABORT )
 	{
-	  if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
-	    {
-	      printf( "error from copy of new command\n");
-	      exit(1);
-	    }
+	  status->setCurrentCmd(nextCmd);
 	}
       else
 	{
-	  status->currentCmd.status = CRCL_DONE;
+	  status->setCurrentStatus(CRCL_DONE);
 	  
 	  retValue.x = 0;
 	  retValue.y = 0;
@@ -269,13 +260,14 @@ robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   int gripperReturn;
   robotPose retValue;
+  GripperStatus gripperStatus;
 
-  if( status->currentCmd.cmd != CRCL_INIT_CANON )
+  if( (status->getCurrentCmd()).cmd != CRCL_INIT_CANON )
     {
       printf( "Bad command type %d to crclInitCanon\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       retValue.x = 0;
       retValue.y = 0;
       retValue.z = 0;
@@ -284,33 +276,33 @@ robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       retValue.zrot = 0;
       return retValue;
     }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
       printf( "Received init canon\n");
-      //      status->currentCmd.status = CRCL_WORKING;
+      //      status->setCurrentStatus(CRCL_WORKING);
       // home robot arm
       retValue = crclMoveTo( status, nextCmd );
 
       // home gripper
       if( usePowerCube )
 	{
-	  gripperReturn = PCube_homeModule( status->gripStatus.device, 
-					    status->gripStatus.modId );
+	  gripperStatus = status->getGripperStatus();
+	  gripperReturn = PCube_homeModule( gripperStatus.device, 
+					    gripperStatus.modId );
 	}
     }
-  else if( status->currentCmd.status == CRCL_ABORT )
+  else if( (status->getCurrentCmd()).status == CRCL_ABORT )
     {
       printf( "Aborting Init\n");
       if( usePowerCube )
-	gripperReturn = PCube_haltModule( status->gripStatus.device, 
-					  status->gripStatus.modId );
-      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
 	{
-	  printf( "error from copy of new command\n");
-	  exit(1);
+	  gripperStatus = status->getGripperStatus();
+	  gripperReturn = PCube_haltModule( gripperStatus.device, 
+					    gripperStatus.modId );
 	}
+      status->setCurrentCmd(nextCmd);
     }
-  else if( status->currentCmd.status == CRCL_WORKING )
+  else if( (status->getCurrentCmd()).status == CRCL_WORKING )
     {
       // home robot arm
       retValue = crclMoveTo( status, nextCmd );
@@ -318,21 +310,24 @@ robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       // home gripper
       if( usePowerCube )
 	{
-	  printf( "gripper position: %f\n", status->gripStatus.position);
-	  gripperReturn = PCube_waitForHomeEnd(status->gripStatus.device, 
-					       status->gripStatus.modId, 0);
-	  PCube_getPos(status->gripStatus.device, status->gripStatus.modId, 
-		       &status->gripStatus.position);
-	  if( gripperReturn == 0 && status->currentCmd.status == CRCL_DONE)
+	  gripperStatus = status->getGripperStatus();
+	  gripperReturn = PCube_waitForHomeEnd(gripperStatus.device, 
+					       gripperStatus.modId, 0);
+	  PCube_getPos(gripperStatus.device, gripperStatus.modId, 
+		       &(gripperStatus.position));
+	  status->setGripperStatus(gripperStatus);
+	  if( gripperReturn == 0 && 
+	      (status->getCurrentCmd()).status == CRCL_DONE)
 	    {
-	      status->currentState = CRCL_INITIALIZED;
+	      status->setCurrentState(CRCL_INITIALIZED);
 	    }
 	  else
-	    status->currentCmd.status = CRCL_WORKING;
+	    status->setCurrentStatus(CRCL_WORKING);
+	  printf( "gripper position: %f\n", gripperStatus.position);
 	}
-      else if(status->currentCmd.status == CRCL_DONE)
+      else if((status->getCurrentCmd()).status == CRCL_DONE)
 	{
-	status->currentState = CRCL_INITIALIZED;
+	  status->setCurrentState(CRCL_INITIALIZED);
 	}
     }
   else
@@ -350,113 +345,115 @@ robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 ////////////////////////////////////////////////////////
 void crclNoop(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  if( status->currentCmd.cmd != CRCL_NOOP )
+  if( (status->getCurrentCmd()).cmd != CRCL_NOOP )
     {
       printf( "Bad command type %d to crclNoop\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       return;
     }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
       printf( "Received NoOp cmd\n");
-      status->currentCmd.status = CRCL_WORKING;
-      status->currentCmd.status = CRCL_DONE;
+      status->setCurrentStatus(CRCL_DONE);
     }
 }
 
 ////////////////////////////////////////////////////////
 void crclSetAbsoluteAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  if( status->currentCmd.cmd != CRCL_SET_ABSOLUTE_ACC )
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_ABSOLUTE_ACC )
     {
       printf( "Bad command type %d to crclSetAbsoluteAcc\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       return;
     }
   printf( "Received set absolute acc\n");
-  status->maxAccel = status->currentCmd.absAcc;
-  status->currentCmd.status = CRCL_DONE;
+  status->setMaxAccel((status->getCurrentCmd()).absAcc);
+  status->setCurrentStatus(CRCL_DONE);
 }
 
 ////////////////////////////////////////////////////////
 void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  if( status->currentCmd.cmd != CRCL_SET_ABSOLUTE_SPEED )
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_ABSOLUTE_SPEED )
     {
       printf( "Bad command type %d to crclSetAbsoluteSpeed\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       return;
     }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
       printf( "Received set absolute speed\n");
-      status->maxVel = status->currentCmd.absSpeed;
-      status->currentCmd.status = CRCL_DONE;
+      status->setMaxVel((status->getCurrentCmd()).absSpeed);
+      status->setCurrentStatus(CRCL_DONE);
     }
 }
 
 ////////////////////////////////////////////////////////
 void crclSetGripper(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  if( status->currentCmd.cmd != CRCL_SET_GRIPPER )
+  GripperStatus gripperStatus;
+
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_GRIPPER )
     {
       printf( "Bad command type %d to crclSetGripper\n", 
-	      status->currentCmd.cmd );
-      status->currentCmd.status = CRCL_DONE;
-      status->currentState = CRCL_ERROR;
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
       return;
     }
-  if( status->currentCmd.status == CRCL_NEW_CMD )
+  gripperStatus = status->getGripperStatus();
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
-      printf( "Received set gripper with position %f\n", status->currentCmd.gripperPos);
-      status->currentCmd.status = CRCL_WORKING;
+      printf( "Received set gripper with position %f\n", (status->getCurrentCmd()).gripperPos);
+      status->setCurrentStatus(CRCL_WORKING);
       if( usePowerCube )
 	{
 	  /*
-	  PCube_movePos( status->gripStatus.device, status->gripStatus.modId, 
-			 status->currentCmd.gripperPos );
+	  PCube_movePos( gripperStatus.device, gripperStatus.modId, 
+			 (status->getCurrentCmd()).gripperPos );
 	  */
-	  PCube_moveRamp( status->gripStatus.device, status->gripStatus.modId, 
-			  status->currentCmd.gripperPos, 1, 1 );
+	  PCube_moveRamp( gripperStatus.device, gripperStatus.modId, 
+			  (status->getCurrentCmd()).gripperPos, 1, 1 );
 	}
     }
-  else if( status->currentCmd.status == CRCL_ABORT )
+  else if( (status->getCurrentCmd()).status == CRCL_ABORT )
     {
       printf( "Aborting CRCL_SET_GRIPPER\n");
       if( usePowerCube )
 	{
-	  PCube_haltModule( status->gripStatus.device, status->gripStatus.modId );
-	  PCube_resetModule( status->gripStatus.device, status->gripStatus.modId );
+	  PCube_haltModule( gripperStatus.device, gripperStatus.modId );
+	  PCube_resetModule( gripperStatus.device, gripperStatus.modId );
 	}
-      if( crclCmdUnionCopy(nextCmd, &status->currentCmd, true ) != true )
-	{
-	  printf( "error from copy of new command\n");
-	  exit(1);
-	}
+      status->setCurrentCmd(nextCmd);
     }
-  else if( status->currentCmd.status == CRCL_WORKING )
+  else if( (status->getCurrentCmd()).status == CRCL_WORKING )
     {
       if( usePowerCube )
 	{
-	  PCube_getPos(status->gripStatus.device, status->gripStatus.modId, &status->gripStatus.position);
-	  printf( "gripper position: %f\n", status->gripStatus.position);
-	  if( fabs((status->gripStatus.position - status->currentCmd.gripperPos)) < 0.01 )
+	  PCube_getPos(gripperStatus.device, gripperStatus.modId, 
+		       &(gripperStatus.position));
+	  status->setGripperStatus(gripperStatus);
+	  printf( "gripper position: %f\n", gripperStatus.position);
+	  if( fabs((gripperStatus.position - 
+		    (status->getCurrentCmd()).gripperPos)) < 0.01 )
 	    {
 	      printf("Finished move\n");
-	      status->currentCmd.status = CRCL_DONE;
+	      status->setCurrentStatus(CRCL_DONE);
 	    }
 	  else
-	    printf( "Gripper error: %f\n", fabs(status->gripStatus.position - status->currentCmd.gripperPos));
+	    printf( "Gripper error: %f\n", fabs(gripperStatus.position -
+						(status->getCurrentCmd()).gripperPos));
 	}
       else
 	{
-	  status->currentCmd.status = CRCL_DONE;
+	  status->setCurrentStatus(CRCL_DONE);
 	}
     }
 }
@@ -465,14 +462,14 @@ void crclSetGripper(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 void crclStopMotion(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received stop\n");
-  status->currentCmd.status = CRCL_DONE;
+  status->setCurrentStatus(CRCL_DONE);
 }
 
 ////////////////////////////////////////////////////////
 void crclUnknown(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   printf( "Received unknown\n");
-  status->currentCmd.status = CRCL_DONE;
+  status->setCurrentStatus(CRCL_DONE);
 }
 
 ////////////////////////////////////////////////////////
@@ -513,6 +510,14 @@ void kukaThread(KukaThreadArgs *args)
   KukaThread *myKuka = new KukaThread();
   myKuka->setDebug(debug);
   myKuka->threadStart(args);
+}
+
+////////////////////////////////////////////////////////
+void statusThread(CRCLStatus *args)
+{
+  StatusThread *myStatus = new StatusThread(1); // 1 makes this a server
+  myStatus->setDebug(debug);
+  myStatus->threadStart(args);
 }
 
 ////////////////////////////////////////////////////////
@@ -605,10 +610,11 @@ int main(int argc, char *argv[])
   //  int stat_port = CRCL_CLIENT_STAT_PORT_DEFAULT;
   std::string host = "localhost";
   KukaThreadArgs kukaThreadArgs;
-  ulapi_task_struct kukaTask;
+  ulapi_task_struct kukaTask, statusTask;
   int cmdConnection;
   CRCLStatus status;
   CRCLCmdUnion nextCmd;
+  CRCLCmdUnion tempCmd;
   // variables for gripper
   int gripperDev = 0;
   char pInitString[] = "RS232:1,9600";
@@ -620,15 +626,11 @@ int main(int argc, char *argv[])
   unsigned long state;
   KukaState currentState;
   int cmdServer;
+  GripperStatus gripperStatus;
+  RobotStatus robotStatus;
 
   debug = 0;
   usePowerCube = false;
-  status.currentCmd.cmd = CRCL_NOOP;
-  status.currentCmd.status = CRCL_DONE;
-  status.currentState = CRCL_UNINITIALIZED;
-  status.cycleTime = KUKA_DEFAULT_CYCLE;
-  status.maxAccel = KUKA_DEFAULT_MAX_ACCEL;
-  status.maxVel = KUKA_DEFAULT_MAX_VEL;
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
   while (true) 
@@ -674,11 +676,20 @@ int main(int argc, char *argv[])
       printf ("kukaServer:: can't initialize ulapi");
       return 1;
     }
+
+  // start kuka robot thread
   ulapi_task_init(&kukaTask);
   ulapi_task_start(&kukaTask, 
 		   reinterpret_cast<ulapi_task_code>(kukaThread), 
 		   reinterpret_cast<void*>(&kukaThreadArgs), 
 		   ulapi_prio_highest(), 0);
+  // start status thread
+  ulapi_task_init(&statusTask);
+  ulapi_task_start(&statusTask, 
+		   reinterpret_cast<ulapi_task_code>(statusThread), 
+		   reinterpret_cast<void*>(&status), 
+		   ulapi_prio_lowest(), 0);
+
   // initialize gripper
   if( usePowerCube )
     {
@@ -695,8 +706,9 @@ int main(int argc, char *argv[])
       gripperReturn = PCube_getModuleType( gripperDev, deviceMap[0], &moduleType );
       gripperReturn = PCube_getModuleVersion( gripperDev, deviceMap[0], &moduleOS );
       gripperReturn = PCube_getModuleState( gripperDev, deviceMap[0], &state );
-      status.gripStatus.device = gripperDev;
-      status.gripStatus.modId = deviceMap[0];
+      gripperStatus.device = gripperDev;
+      gripperStatus.modId = deviceMap[0];
+      status.setGripperStatus(gripperStatus);
       
       std::string typeStr = (moduleType == TYPEID_MOD_ROTARY) ? "ROTARY" : "LINEAR";
       printf("\nModule %d\n", deviceMap[0]);
@@ -737,17 +749,22 @@ int main(int argc, char *argv[])
 	      cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT, 
 					       cmdServer);
 	    }
+	  tempCmd.cmd = CRCL_NOOP;
+	  status.setCurrentCmd(&tempCmd);
 	}
       else if( nchars > 0 )
 	{
 	printf( "Message: %s\n", inbuf );
-	if( status.currentCmd.status != CRCL_DONE )
+	if( (status.getCurrentCmd()).status != CRCL_DONE )
 	  {
-	    status.currentCmd.status = CRCL_ABORT;
+	    status.setCurrentStatus(CRCL_ABORT);
 	    parseCmd(inbuf, &nextCmd);
 	  }
 	else
-	  parseCmd(inbuf, &status.currentCmd);
+	  {
+	    parseCmd(inbuf, &tempCmd);
+	    status.setCurrentCmd(&tempCmd);
+	  }
 	}
       //      else if(nchars == -1 )
       //	printf( "no message read\n" );
@@ -756,7 +773,7 @@ int main(int argc, char *argv[])
 	  printf("kukaServer:: strange return from socket, nchars: %d\n", nchars);
 	  break;
 	}
-      switch( status.currentCmd.cmd )
+      switch( (status.getCurrentCmd()).cmd )
 	{
 	case CRCL_NOOP:
 	  crclNoop(&status, &nextCmd);
@@ -795,24 +812,26 @@ int main(int argc, char *argv[])
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	default:
-	  printf("kukaServer:: unknown cmd received %d\n", status.currentCmd.cmd);
+	  printf("kukaServer:: unknown cmd received %d\n", 
+		 (status.getCurrentCmd()).cmd);
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	}
       /* set status information for robot */
       currentState = kukaThreadArgs.getCurrentState();
-      status.robotStatus.pose.x = currentState.cartesian[0];
-      status.robotStatus.pose.y = currentState.cartesian[1];
-      status.robotStatus.pose.z = currentState.cartesian[2];
-      status.robotStatus.pose.xrot = currentState.cartesian[3];
-      status.robotStatus.pose.yrot = currentState.cartesian[4];
-      status.robotStatus.pose.zrot = currentState.cartesian[5];
-      status.robotStatus.joint[0] = currentState.joint[0];
-      status.robotStatus.joint[1] = currentState.joint[1];
-      status.robotStatus.joint[2] = currentState.joint[2];
-      status.robotStatus.joint[3] = currentState.joint[3];
-      status.robotStatus.joint[4] = currentState.joint[4];
-      status.robotStatus.joint[5] = currentState.joint[5];
+      robotStatus.pose.x = currentState.cartesian[0];
+      robotStatus.pose.y = currentState.cartesian[1];
+      robotStatus.pose.z = currentState.cartesian[2];
+      robotStatus.pose.xrot = currentState.cartesian[3];
+      robotStatus.pose.yrot = currentState.cartesian[4];
+      robotStatus.pose.zrot = currentState.cartesian[5];
+      robotStatus.joint[0] = currentState.joint[0];
+      robotStatus.joint[1] = currentState.joint[1];
+      robotStatus.joint[2] = currentState.joint[2];
+      robotStatus.joint[3] = currentState.joint[3];
+      robotStatus.joint[4] = currentState.joint[4];
+      robotStatus.joint[5] = currentState.joint[5];
+      status.setRobotStatus(robotStatus);
       cycleBlock->wait();
     }
   sleep(1);

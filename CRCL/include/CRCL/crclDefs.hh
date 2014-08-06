@@ -15,6 +15,7 @@
 #include "nist_core/crcl.h"
 
 #define CRCL_CMD_PORT_DEFAULT 1234
+#define CRCL_STATUS_PORT_DEFAULT 1235
 #define KUKA_PORT 6008
 //#define DEFAULT_FROM_KUKA "/home/stephen/projects/el-robotics-core/CRCL/FromKRC.xml"
 //#define DEFAULT_TO_KUKA "/home/stephen/projects/el-robotics-core/CRCL/ToKRC.xml"
@@ -23,18 +24,9 @@
 #define KUKA_DEFAULT_CYCLE .01
 //#define KUKA_DEFAULT_MAX_ACCEL 40
 //#define KUKA_DEFAULT_MAX_VEL 75
-#define KUKA_DEFAULT_MAX_ACCEL 20
-#define KUKA_DEFAULT_MAX_VEL 15
+#define KUKA_DEFAULT_CART_MAX_ACCEL 20
+#define KUKA_DEFAULT_CART_MAX_VEL 15
 
-/*
-#define HOME_JOINT1 0.
-#define HOME_JOINT2 -40.
-#define HOME_JOINT3 129.
-#define HOME_JOINT4 85.
-#define HOME_JOINT5 0.
-#define HOME_JOINT6 87.
-*/
-// new home positions as of 8/5
 #define HOME_JOINT1 0.
 #define HOME_JOINT2 -60.
 #define HOME_JOINT3 125.
@@ -99,16 +91,5 @@ typedef struct
   robotPose pose;
   double joint[6];
 }RobotStatus;
-
-typedef struct
-{
-  CRCLCmdUnion currentCmd;
-  CRCLState currentState;
-  GripperStatus gripStatus;
-  RobotStatus robotStatus;
-  double cycleTime;
-  double maxAccel;
-  double maxVel;
-}CRCLStatus;
 
 #endif

@@ -19,6 +19,7 @@
 #include <cmath>
 #include <algorithm>
 #include "CRCL/crclDefs.hh"
+#include "CRCL/crclStatus.hh"
 
 class TrajectoryMaker
 {

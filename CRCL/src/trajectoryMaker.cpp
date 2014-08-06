@@ -246,17 +246,18 @@ TrajectoryMaker::TrajectoryMaker()
 double TrajectoryMaker::makeRamp(CRCLStatus *parameters)
 {
   double traverseIncrement;
-  double currentVelocity = parameters->maxAccel * parameters->cycleTime;
+  double currentVelocity = parameters->getMaxAccel() * 
+    parameters->getCycleTime();
   double totalDistance = 0;
 
   ramp.clear();
   
-  while( currentVelocity < parameters->maxVel )
+  while( currentVelocity < parameters->getMaxVel() )
     {
-      traverseIncrement = currentVelocity * parameters->cycleTime;
+      traverseIncrement = currentVelocity * parameters->getCycleTime();
       ramp.push_back(traverseIncrement);
       totalDistance += traverseIncrement;
-      currentVelocity += parameters->maxAccel * parameters->cycleTime;
+      currentVelocity += parameters->getMaxAccel() * parameters->getCycleTime();
     }
   printf( "Ramp distance is: %lf\n", totalDistance);
   /*

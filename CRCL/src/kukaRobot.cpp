@@ -54,6 +54,21 @@ int main(int argc, char *argv[])
   int debug = 0;
   int option;
   int counter = 0;
+  double jointMotorScale[6], cmdMotorScale[6];
+
+  jointMotorScale[0] = 80.;
+  jointMotorScale[1] = 100.;
+  jointMotorScale[2] = 80.;
+  jointMotorScale[3] = 80.;
+  jointMotorScale[4] = 80.;
+  jointMotorScale[5] = 40.5;
+
+  cmdMotorScale[0] = 1.4;
+  cmdMotorScale[1] = 1.74;
+  cmdMotorScale[2] = 1.4;
+  cmdMotorScale[3] = 1.4;
+  cmdMotorScale[4] = 1.4;
+  cmdMotorScale[5] = 0.87;
 
   while (true) 
     {
@@ -165,7 +180,7 @@ int main(int argc, char *argv[])
       myPose.yrot += poseIn.yrot;
       myPose.zrot += poseIn.zrot;
       for( int i=0; i<6; i++ )
-	myJoints[i] += jointsIn[i];
+	myJoints[i] += jointsIn[i] * cmdMotorScale[i] / jointMotorScale[i];
       if(debug)
       printf( "kukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
 	      myPose.x,

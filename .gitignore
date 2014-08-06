@@ -1,9 +1,12 @@
 # Emacs backup files
 *.~
 *~
+*.a
 nist_kitting/doc/html
 nist_kitting/doc/manifest.yaml
 # CMakefile generated files
+cmake_install.cmake
+Makefile
 CMakeFiles
 CMakeCache.txt
 CRCL/bin/*

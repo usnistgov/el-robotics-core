@@ -1,0 +1,27 @@
+This is the GIT repository for the CRCL interface
+Please contact Stephen Balakirsky (stephen.balakirsky@gtri.gatech.edu)
+404-407-8547.
+for more information.
+
+To build the project, use:
+cmake .
+make
+
+for cmake,
+no debug:
+cmake . 
+debug information:
+cmake . -DCMAKE_BUILD_TYPE=Debug
+
+NOTE:
+This code is designed to use the Schunk powercube gripper. This is
+a USB serial device that uses the Prolific USB-to-Serial controller.
+If using Oracle VirtualBox to control this device, you must enable
+the USB filters in the settings menu for the virtual machine.
+To do this, Right-click on the virtual machine when the machine is not
+running and edit the USB devices.
+
+The USB port will not be read/write for all users as configured. To configure,
+copy the file 80-serial.rules from the etc director (./etc from this directory)
+to the /etc/udev/rules.d/ directory. Then 
+restart the udev daemon with the command: sudo udevadm trigger

@@ -27,6 +27,7 @@ public:
   void setDebug(int debugLevel);
   void threadStart(KukaThreadArgs *argsIn);
 private:
+  void connectRobot();
   double jointMotorScale[6]; //bizarre numbers needed by KR5-6
   double cmdMotorScale[6];
   KukaThreadArgs *args;
@@ -37,5 +38,7 @@ private:
   std::string setStatus(char *buf);
   std::string setCorrections(std::string krcIOPC);
   void zeroCorrections();
+  int kukaServer;
+  int kukaConnection;
 };
 #endif

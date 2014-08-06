@@ -52,15 +52,14 @@ KukaThread::KukaThread(const char *toKukaXML,
   cmdMotorScale[3] = 1.4;
   cmdMotorScale[4] = 1.4;
   cmdMotorScale[5] = 0.87;
+
+  kukaServer = -1;
 }
 
-void KukaThread::threadStart(KukaThreadArgs *argsIn)
+void KukaThread::connectRobot()
 {
-  int kukaServer;
-  int kukaConnection;
-  
-  args = argsIn;
-  kukaServer = ulapi_socket_get_server_id(KUKA_PORT);
+  if( kukaServer < 0 )
+    kukaServer = ulapi_socket_get_server_id(KUKA_PORT);
   if (kukaServer < 0) 
     {
       fprintf(stderr, "kukaThread: can't serve kuka port %d\n", KUKA_PORT);
@@ -77,7 +76,13 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
   if(debug) 
     printf("kukaThread: got a status client connection on id %d\n", 
 	   kukaConnection);
+}
 
+void KukaThread::threadStart(KukaThreadArgs *argsIn)
+{
+  args = argsIn;
+
+  connectRobot();
   while(true)
     {
     enum {INBUF_LEN = 2048};
@@ -90,7 +95,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     if (nchars <= 0) 
       {
 	if(debug) printf("kukaThread::status client disconnected\n");
-	break;
+	connectRobot();
       }
     else
       inbuf[nchars] = '\0';

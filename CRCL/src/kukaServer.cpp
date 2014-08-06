@@ -476,17 +476,21 @@ void crclUnknown(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
-int getCmdConnection(int port)
+int getCmdConnection(int port, int &cmdServer)
 {
-  int cmdServer;
+  static bool firstTime = true;
   int cmdConnection;
   
-  cmdServer = ulapi_socket_get_server_id(port);
-  if (cmdServer < 0) 
+  if( firstTime )
     {
-      fprintf(stderr, "kukaServer: can't serve kuka port %d\n", 
-	      port);
-      return -1;
+      cmdServer = ulapi_socket_get_server_id(port);
+      if (cmdServer < 0) 
+	{
+	  fprintf(stderr, "kukaServer: can't serve kuka port %d\n", 
+		  port);
+	  return -1;
+	}
+      firstTime = false;
     }
   //  if(debug)
   printf("kukaServer: serving cmd port %d, waiting...\n", port);
@@ -615,6 +619,7 @@ int main(int argc, char *argv[])
   unsigned short moduleOS;
   unsigned long state;
   KukaState currentState;
+  int cmdServer;
 
   debug = 0;
   usePowerCube = false;
@@ -702,12 +707,12 @@ int main(int argc, char *argv[])
     }
 
   // start up server for incoming commands
-  cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
+  cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT, cmdServer);
   while( cmdConnection < 0 )
     {
       printf( "kukaServer:Bad client connection, retrying...\n" );
       cycleBlock->wait();
-      cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
+      cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT, cmdServer);
     }
   //  for(int i=0; i<10; i++)
   while(true)
@@ -723,12 +728,14 @@ int main(int argc, char *argv[])
 	  printf("kukaServer::status client disconnected %d\n",
 		 nchars);
 	  ulapi_socket_close(cmdConnection);
-	  cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
+	  cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT, 
+					   cmdServer);
 	  while( cmdConnection < 0 )
 	    {
 	      printf( "kukaServer:Bad client connection, retrying...\n" );
 	      cycleBlock->wait();
-	      cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT);
+	      cmdConnection = getCmdConnection(CRCL_CMD_PORT_DEFAULT, 
+					       cmdServer);
 	    }
 	}
       else if( nchars > 0 )

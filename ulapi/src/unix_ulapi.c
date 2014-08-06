@@ -1164,7 +1164,7 @@ ulapi_socket_write(ulapi_integer id,
 		   const char *buf,
 		   ulapi_integer len)
 {
-  return send(id, buf, len, 0);
+  return send(id, buf, len, MSG_NOSIGNAL);
 }
 
 ulapi_result

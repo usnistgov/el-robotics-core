@@ -37,6 +37,8 @@
 
 int main(int argc, char *argv[])
 {
+  double myJoints[6] = {1,2,3,4,5,6};
+  double jointsIn[6];
   robotPose myPose, poseIn;
   int kukaConnection;
   RCS_TIMER *cycleBlock = new RCS_TIMER(KUKA_DEFAULT_CYCLE);
@@ -44,6 +46,8 @@ int main(int argc, char *argv[])
   TiXmlHandle toSendHandle(&kukaStatus);
   TiXmlElement *cartesianStatus;
   TiXmlElement *cartesianUpdate;
+  TiXmlElement *jointStatus;
+  TiXmlElement *jointUpdate;
   TiXmlElement *IPOCUpdate;
   int nchars;
   TiXmlElement *cartesian;
@@ -98,13 +102,23 @@ int main(int argc, char *argv[])
       std::ostringstream s;
       cartesianStatus =
 	toSendHandle.FirstChild("Rob").FirstChild("Dat").Child(1).ToElement();
-      IPOCUpdate = toSendHandle.FirstChild("Rob").FirstChild("Dat").Child(9).ToElement();
+      IPOCUpdate = toSendHandle.FirstChild("Rob").FirstChild("Dat").Child(9).
+	ToElement();
+      jointStatus =
+	toSendHandle.FirstChild("Rob").FirstChild("Dat").Child(3).ToElement();
       cartesianStatus->SetDoubleAttribute("X", myPose.x); 
       cartesianStatus->SetDoubleAttribute ("Y", myPose.y);
       cartesianStatus->SetDoubleAttribute ("Z", myPose.z);
       cartesianStatus->SetDoubleAttribute ("A", myPose.xrot);
       cartesianStatus->SetDoubleAttribute ("B", myPose.yrot);
       cartesianStatus->SetDoubleAttribute ("C", myPose.zrot);
+      jointStatus->SetDoubleAttribute("A1", myJoints[0]);
+      jointStatus->SetDoubleAttribute("A2", myJoints[1]);
+      jointStatus->SetDoubleAttribute("A3", myJoints[2]);
+      jointStatus->SetDoubleAttribute("A4", myJoints[3]);
+      jointStatus->SetDoubleAttribute("A5", myJoints[4]);
+      jointStatus->SetDoubleAttribute("A6", myJoints[5]);
+
       s << counter++;
       s << '\0';
       TiXmlText *text = new TiXmlText((s.str()).c_str());
@@ -129,18 +143,29 @@ int main(int argc, char *argv[])
       cartesianUpdate =
 	correctionsHandle.FirstChild("Sen").FirstChild("Dat").
 	Child(1).ToElement();
-      cartesianUpdate->QueryDoubleAttribute ("X", &(poseIn.x));
-      cartesianUpdate->QueryDoubleAttribute ("Y", &(poseIn.y));
-      cartesianUpdate->QueryDoubleAttribute ("Z", &(poseIn.z));
-      cartesianUpdate->QueryDoubleAttribute ("A", &(poseIn.xrot));
-      cartesianUpdate->QueryDoubleAttribute ("B", &(poseIn.yrot));
-      cartesianUpdate->QueryDoubleAttribute ("C", &(poseIn.zrot));
+      jointUpdate =
+	correctionsHandle.FirstChild("Sen").FirstChild("Dat").
+	Child(2).ToElement();
+      cartesianUpdate->QueryDoubleAttribute("X", &(poseIn.x));
+      cartesianUpdate->QueryDoubleAttribute("Y", &(poseIn.y));
+      cartesianUpdate->QueryDoubleAttribute("Z", &(poseIn.z));
+      cartesianUpdate->QueryDoubleAttribute("A", &(poseIn.xrot));
+      cartesianUpdate->QueryDoubleAttribute("B", &(poseIn.yrot));
+      cartesianUpdate->QueryDoubleAttribute("C", &(poseIn.zrot));
+      jointUpdate->QueryDoubleAttribute("A1", &(jointsIn[0]));
+      jointUpdate->QueryDoubleAttribute("A2", &(jointsIn[1]));
+      jointUpdate->QueryDoubleAttribute("A2", &(jointsIn[2]));
+      jointUpdate->QueryDoubleAttribute("A4", &(jointsIn[3]));
+      jointUpdate->QueryDoubleAttribute("A5", &(jointsIn[4]));
+      jointUpdate->QueryDoubleAttribute("A6", &(jointsIn[5]));
       myPose.x += poseIn.x;
       myPose.y += poseIn.y;
       myPose.z += poseIn.z;
       myPose.xrot += poseIn.xrot;
       myPose.yrot += poseIn.yrot;
       myPose.zrot += poseIn.zrot;
+      for( int i=0; i<6; i++ )
+	myJoints[i] += jointsIn[i];
       if(debug)
       printf( "kukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
 	      myPose.x,

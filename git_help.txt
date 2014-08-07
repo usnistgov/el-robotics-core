@@ -17,7 +17,7 @@ git status .
 # merge a single file: 
 git checkout A
 git checkout --patch B f
-
+# also consider 'git cherry-pick'
     
 git diff --stat 
 

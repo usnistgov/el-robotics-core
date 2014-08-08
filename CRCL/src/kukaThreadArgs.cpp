@@ -73,9 +73,11 @@ robotPose KukaThreadArgs::getPoseCorrection()
   return retValue;
 }
 
-void KukaThreadArgs::setCartesianMove()
+void KukaThreadArgs::setCartesianMove(CRCLStatus *status)
 {
   cartesianMove = true;
+  status->setMaxAccel(status->getMaxAccel(MOVE_CARTESIAN), MOVE_DEFAULT);
+  status->setMaxVel(status->getMaxVel(MOVE_CARTESIAN), MOVE_DEFAULT);
 }
 
 void KukaThreadArgs::setCurrentState(KukaState *stateIn)
@@ -85,9 +87,11 @@ void KukaThreadArgs::setCurrentState(KukaState *stateIn)
   ulapi_mutex_give(&poseCorrectionMutex);
 }
 
-void KukaThreadArgs::setJointMove()
+void KukaThreadArgs::setJointMove(CRCLStatus *status)
 {
   cartesianMove = false;
+  status->setMaxAccel(status->getMaxAccel(MOVE_JOINT), MOVE_DEFAULT);
+  status->setMaxVel(status->getMaxVel(MOVE_JOINT), MOVE_DEFAULT);
 }
 
 void KukaThreadArgs::setPoseCorrection(robotPose *poseCorrectionIn)

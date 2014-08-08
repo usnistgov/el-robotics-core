@@ -23,7 +23,10 @@
 #include <stdlib.h>		/* atoi, alloc */
 #include <iostream>
 #include <string>
+#include <iostream>
+#include <fstream>
 #include <ctype.h>
+#include <math.h>
 
 #include <ulapi.h>
 
@@ -53,22 +56,29 @@ void statusThread(CRCLStatus *args)
   myStatus->threadStart(args);
 }
 
+#define buffSize 1024
 int main(int argc, char *argv[])
 {
+  bool done;
   int option;
   int cmdConnection;
   int script = 1;
-  std::string msgOut;
-  RCS_TIMER *cycleBlock = new RCS_TIMER(2.);
+  char msgOut[buffSize];
+  RCS_TIMER *cycleBlock = new RCS_TIMER(KUKA_DEFAULT_CYCLE);
   CRCLStatus status;
   ulapi_task_struct statusTask;
   RobotStatus robotStatus;
   GripperStatus gripperStatus;
+  bool useFile = false;
+  char *fileName;
+  std::ifstream inFile;
+  std::istream *inputSource;
+  float counter = 0;
 
   debug = 1;
   while (true) 
     {
-      option = getopt(argc, argv, ":cd");
+      option = getopt(argc, argv, ":cdf:");
       if (option == -1) break;
       switch (option) 
 	{
@@ -77,6 +87,11 @@ int main(int argc, char *argv[])
 	  break;
 	case 'c':
 	  script = 0;
+	  break;
+	case 'f':
+	  script = 0;
+	  useFile = true;
+	  fileName = optarg;
 	  break;
 	case ':':
 	  fprintf(stderr, "missing value for -%c\n", optopt);
@@ -109,35 +124,61 @@ int main(int argc, char *argv[])
 		   ulapi_prio_lowest(), 0);
   if(!script)
     {
-      for(;;)
+      if( useFile )
 	{
-	  getline(std::cin, msgOut);
-	  ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
-	  printf( "Sent: %s\n", msgOut.c_str());
-	  gripperStatus = status.getGripperStatus();
-	  robotStatus = status.getRobotStatus();
-	  printf( "Status Cmd: %s Status: %s\n", 
-		  getCRCLCmdString((status.getCurrentCmd()).cmd).c_str(),
-		  getCRCLStatusString(status.getCurrentStatus()).c_str());
-	  printf( "\x1b[32mCart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
-		  robotStatus.pose.x, robotStatus.pose.y, robotStatus.pose.z,
-		  robotStatus.pose.xrot, robotStatus.pose.yrot, 
-		  robotStatus.pose.zrot);
-	  printf( "\x1b[32mJoint Status: <%4.1f, %4.1f, %4.1f> <%4.1f, %4.1f, %4.1f>\x1b[0m\n",
-		  robotStatus.joint[0],
-		  robotStatus.joint[1],
-		  robotStatus.joint[2],
-		  robotStatus.joint[3],
-		  robotStatus.joint[4],
-		  robotStatus.joint[5]);
-		  
-
+	  inFile.open(fileName);
+	  inputSource = &inFile;
+	  if( !inputSource->good() )
+	    {
+	      printf( "unable to open %s\n", fileName );
+	      exit(1);
+	    }
+	}
+      else
+	inputSource = &std::cin;
+      while(inputSource->good())
+	{
+	  inputSource->getline(msgOut, buffSize);
+	  if( msgOut[0] == ' ' || msgOut[0] == '/' )
+	    continue;
+	  ulapi_socket_write(cmdConnection, msgOut, strlen(msgOut));
+	  printf( "Sent: %s\n", msgOut);
+	  done = false;
+	  cycleBlock->wait();
+	  while( !done )
+	    {
+	      cycleBlock->wait();
+	      gripperStatus = status.getGripperStatus();
+	      robotStatus = status.getRobotStatus();
+	      if( !useFile || status.getCurrentStatus()==CRCL_DONE )
+		done = true;
+	      //	      printf( "Fmod: %f\n", fmod(counter, 100.));
+	      if( fmod(counter++, 100.)==0 || done )
+		{
+		  printf( "Status Cmd: %s Status: %s\n", 
+			  getCRCLCmdString((status.getCurrentCmd()).cmd).c_str(),
+			  getCRCLStatusString(status.getCurrentStatus()).c_str());
+		  printf( "\x1b[32mCart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+			  robotStatus.pose.x, robotStatus.pose.y, 
+			  robotStatus.pose.z,
+			  robotStatus.pose.xrot, robotStatus.pose.yrot, 
+			  robotStatus.pose.zrot);
+		  printf( "\x1b[32mJoint Status: <%4.1f, %4.1f, %4.1f> <%4.1f, %4.1f, %4.1f>\x1b[0m\n",
+			  robotStatus.joint[0],
+			  robotStatus.joint[1],
+			  robotStatus.joint[2],
+			  robotStatus.joint[3],
+			  robotStatus.joint[4],
+			  robotStatus.joint[5]);
+		}
+	    }
 	}
     }
   for(int i=0; i<1; i++ )
     {
-      msgOut = "InitCanon";
-      ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
+      ulapi_strncpy(msgOut, "InitCanon", strlen("InitCanon"));
+      ulapi_socket_write(cmdConnection, msgOut, strlen(msgOut));
+      /*
       printf( "crclClient writing: %s\n", msgOut.c_str());
       sleep(2);
       msgOut = "MoveTo 1. 2. 3. 4. 5. 6.";
@@ -160,6 +201,7 @@ int main(int argc, char *argv[])
       ulapi_socket_write(cmdConnection, msgOut.c_str(), msgOut.length());
       printf( "crclClient writing: %s\n", msgOut.c_str());
       sleep(2);
+      */
       cycleBlock->wait();
     }
 }

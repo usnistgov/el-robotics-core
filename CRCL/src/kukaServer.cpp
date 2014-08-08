@@ -361,27 +361,12 @@ void crclNoop(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
-void crclSetAbsoluteAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+void crclSetMaxAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  if( (status->getCurrentCmd()).cmd != CRCL_SET_ABSOLUTE_ACC )
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_MAX_CART_ACC  ||
+      (status->getCurrentCmd()).cmd != CRCL_SET_MAX_JOINT_ACC )
     {
-      printf( "Bad command type %d to crclSetAbsoluteAcc\n", 
-	      (status->getCurrentCmd()).cmd );
-      status->setCurrentStatus(CRCL_DONE);
-      status->setCurrentState(CRCL_ERROR);
-      return;
-    }
-  printf( "Received set absolute acc\n");
-  status->setMaxAccel((status->getCurrentCmd()).absAcc);
-  status->setCurrentStatus(CRCL_DONE);
-}
-
-////////////////////////////////////////////////////////
-void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
-{
-  if( (status->getCurrentCmd()).cmd != CRCL_SET_ABSOLUTE_SPEED )
-    {
-      printf( "Bad command type %d to crclSetAbsoluteSpeed\n", 
+      printf( "Bad command type %d to crclSetMaxAcc\n", 
 	      (status->getCurrentCmd()).cmd );
       status->setCurrentStatus(CRCL_DONE);
       status->setCurrentState(CRCL_ERROR);
@@ -389,8 +374,44 @@ void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     }
   if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
-      printf( "Received set absolute speed\n");
-      status->setMaxVel((status->getCurrentCmd()).absSpeed);
+      if( (status->getCurrentCmd()).cmd == CRCL_SET_MAX_CART_ACC )
+	{
+	  printf( "Received set max cartesian acc\n");
+	  status->setMaxAccel((status->getCurrentCmd()).absAcc, MOVE_CARTESIAN);
+	}
+      else
+	{
+	  printf( "Received set max joint acc\n");
+	  status->setMaxAccel((status->getCurrentCmd()).absAcc, MOVE_JOINT);
+	}
+      status->setCurrentStatus(CRCL_DONE);
+    }
+}
+
+////////////////////////////////////////////////////////
+void crclSetMaxSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_MAX_CART_SPEED  ||
+      (status->getCurrentCmd()).cmd != CRCL_SET_MAX_JOINT_SPEED )
+    {
+      printf( "Bad command type %d to crclSetMaxSpeed\n", 
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
+      return;
+    }
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      if( (status->getCurrentCmd()).cmd == CRCL_SET_MAX_CART_SPEED )
+	{
+	  printf( "Received set max cartesian vel\n");
+	  status->setMaxVel((status->getCurrentCmd()).absSpeed, MOVE_CARTESIAN);
+	}
+      else
+	{
+	  printf( "Received set max joint Vel\n");
+	  status->setMaxVel((status->getCurrentCmd()).absSpeed, MOVE_JOINT);
+	}
       status->setCurrentStatus(CRCL_DONE);
     }
 }
@@ -568,17 +589,29 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
     {
       nextCmd->cmd = CRCL_NOOP;
     }
-  else if( !strncasecmp(inbuf, "SetAbsoluteAcc", strlen("SetAbsoluteAcc")))
+  else if( !strncasecmp(inbuf, "SetMaxCartAcc", strlen("SetMaxCartAcc")))
     {
       if( sscanf(inbuf, "%*s %lf", &nextCmd->absAcc) != 1)
 	retValue = 0;
-      nextCmd->cmd = CRCL_SET_ABSOLUTE_ACC;
+      nextCmd->cmd = CRCL_SET_MAX_CART_ACC;
     }
-  else if( !strncasecmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed")))
+  else if( !strncasecmp(inbuf, "SetMaxCartSpeed", strlen("SetMaxCartSpeed")))
     {
       if( sscanf(inbuf, "%*s %lf", &nextCmd->absSpeed) != 1)
 	retValue = 0;
-      nextCmd->cmd = CRCL_SET_ABSOLUTE_SPEED;
+      nextCmd->cmd = CRCL_SET_MAX_CART_SPEED;
+    }
+  else if( !strncasecmp(inbuf, "SetMaxJointAcc", strlen("SetMaxJointAcc")))
+    {
+      if( sscanf(inbuf, "%*s %lf", &nextCmd->absAcc) != 1)
+	retValue = 0;
+      nextCmd->cmd = CRCL_SET_MAX_JOINT_ACC;
+    }
+  else if( !strncasecmp(inbuf, "SetMaxJointSpeed", strlen("SetMaxJointSpeed")))
+    {
+      if( sscanf(inbuf, "%*s %lf", &nextCmd->absSpeed) != 1)
+	retValue = 0;
+      nextCmd->cmd = CRCL_SET_MAX_JOINT_SPEED;
     }
   else if( !strncasecmp(inbuf, "SetGripper", strlen("SetGripper")))
     {
@@ -785,22 +818,28 @@ int main(int argc, char *argv[])
 	  crclEndCanon(&status, &nextCmd);
 	  break;
 	case CRCL_INIT_CANON:
-	  kukaThreadArgs.setJointMove();
+	  kukaThreadArgs.setJointMove(&status);
 	  kukaThreadArgs.addPose(crclInitCanon(&status, &nextCmd));
 	  break;
 	case CRCL_MOVE_TO:
-	  kukaThreadArgs.setCartesianMove();
+	  kukaThreadArgs.setCartesianMove(&status);
 	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
 	  break;
 	case CRCL_MOVE_JOINT:
-	  kukaThreadArgs.setJointMove();
+	  kukaThreadArgs.setJointMove(&status);
 	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
 	  break;
-	case CRCL_SET_ABSOLUTE_ACC:
-	  crclSetAbsoluteAcc(&status, &nextCmd);
+	case CRCL_SET_MAX_CART_ACC:
+	  crclSetMaxAcc(&status, &nextCmd);
 	  break;
-	case CRCL_SET_ABSOLUTE_SPEED:
-	  crclSetAbsoluteSpeed(&status, &nextCmd);
+	case CRCL_SET_MAX_CART_SPEED:
+	  crclSetMaxSpeed(&status, &nextCmd);
+	  break;
+	case CRCL_SET_MAX_JOINT_ACC:
+	  crclSetMaxAcc(&status, &nextCmd);
+	  break;
+	case CRCL_SET_MAX_JOINT_SPEED:
+	  crclSetMaxSpeed(&status, &nextCmd);
 	  break;
 	case CRCL_SET_GRIPPER:
 	  crclSetGripper(&status, &nextCmd);

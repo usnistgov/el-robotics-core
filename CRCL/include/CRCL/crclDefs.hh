@@ -21,7 +21,7 @@
 //#define DEFAULT_TO_KUKA "/home/stephen/projects/el-robotics-core/CRCL/ToKRC.xml"
 #define DEFAULT_FROM_KUKA "/home/gtrirobot/el-robotics-core/CRCL/FromKRC.xml"
 #define DEFAULT_TO_KUKA "/home/gtrirobot/el-robotics-core/CRCL/ToKRC.xml"
-#define KUKA_DEFAULT_CYCLE .01
+#define KUKA_DEFAULT_CYCLE .012
 //#define KUKA_DEFAULT_MAX_ACCEL 40
 //#define KUKA_DEFAULT_MAX_VEL 75
 

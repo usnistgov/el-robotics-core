@@ -30,7 +30,7 @@ CRCLStatus::CRCLStatus()
   currentCmd.cmd = CRCL_NOOP;
   currentCmd.status = CRCL_DONE;
   currentState = CRCL_UNINITIALIZED;
-  cycleTime = KUKA_DEFAULT_CYCLE;
+  cycleTime = DEFAULT_LOOP_CYCLE;
   maxAccel[MOVE_DEFAULT] = 0;
   maxVel[MOVE_DEFAULT] = 0;
   maxAccel[MOVE_CARTESIAN] = KUKA_DEFAULT_CART_MAX_ACCEL;

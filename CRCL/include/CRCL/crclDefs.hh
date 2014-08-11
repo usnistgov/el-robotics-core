@@ -21,13 +21,16 @@
 //#define DEFAULT_TO_KUKA "/home/stephen/projects/el-robotics-core/CRCL/ToKRC.xml"
 #define DEFAULT_FROM_KUKA "/home/gtrirobot/el-robotics-core/CRCL/FromKRC.xml"
 #define DEFAULT_TO_KUKA "/home/gtrirobot/el-robotics-core/CRCL/ToKRC.xml"
-// 12 msec cycle time.
-#define KUKA_DEFAULT_CYCLE .012
+// communications with the KUKA is done at the KUKA_DEFAULT_CYCLE
+// it should be a 12 msec cycle time. (0.012)
+#define KUKA_DEFAULT_CYCLE 0.010
+// computations for velocity profiles are done at DEFAULT_LOOP_CYCLE
+#define DEFAULT_LOOP_CYCLE 0.010
 //#define KUKA_DEFAULT_MAX_ACCEL 40
 //#define KUKA_DEFAULT_MAX_VEL 75
 
 #define KUKA_DEFAULT_CART_MAX_ACCEL 20
-#define KUKA_DEFAULT_CART_MAX_VEL 15
+#define KUKA_DEFAULT_CART_MAX_VEL 20
 #define KUKA_DEFAULT_JOINT_MAX_ACCEL 20
 #define KUKA_DEFAULT_JOINT_MAX_VEL 15
 

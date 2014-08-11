@@ -63,12 +63,21 @@ KukaState KukaThreadArgs::getCurrentState()
   return retValue;
 }
 
-robotPose KukaThreadArgs::getPoseCorrection()
+robotPose KukaThreadArgs::getPoseCorrection(int zeroValues)
 {
   robotPose retValue;
 
   ulapi_mutex_take(&poseCorrectionMutex);
   retValue = poseCorrection;
+  if( zeroValues )
+    {
+      poseCorrection.x = 0;
+      poseCorrection.y = 0;
+      poseCorrection.z = 0;
+      poseCorrection.xrot = 0;
+      poseCorrection.yrot = 0;
+      poseCorrection.zrot = 0;
+    }
   ulapi_mutex_give(&poseCorrectionMutex);
   return retValue;
 }
@@ -94,7 +103,18 @@ void KukaThreadArgs::setJointMove(CRCLStatus *status)
   status->setMaxVel(status->getMaxVel(MOVE_JOINT), MOVE_DEFAULT);
 }
 
-void KukaThreadArgs::setPoseCorrection(robotPose *poseCorrectionIn)
+void KukaThreadArgs::setPoseCorrection(robotPose poseCorrectionIn)
 {
-  poseCorrection = *poseCorrectionIn;
+  ulapi_mutex_take(&poseCorrectionMutex);
+  /*
+  printf("Current PoseCorrection: <%f %f %f> New: <%f %f %f>\n",
+	 poseCorrection.x,
+	 poseCorrection.y,
+	 poseCorrection.z,
+	 poseCorrectionIn.x,
+	 poseCorrectionIn.y,
+	 poseCorrectionIn.z);
+  */
+  poseCorrection = poseCorrectionIn;
+  ulapi_mutex_give(&poseCorrectionMutex);
 }

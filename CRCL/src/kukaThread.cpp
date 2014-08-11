@@ -103,7 +103,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     krcIPOC = setStatus(inbuf);
     //    printf("krcIPOC: %s\n", krcIPOC.c_str());
     stringToKuka = setCorrections(krcIPOC);
-    zeroCorrections();
+    //    zeroCorrections();
     //    if(debug)
     if(0)
       printf( "New message\n%s\n", stringToKuka.c_str());
@@ -128,7 +128,7 @@ void KukaThread::zeroCorrections()
   poseCorrection.xrot = 0;
   poseCorrection.yrot = 0;
   poseCorrection.zrot = 0;
-  args->setPoseCorrection(&poseCorrection);
+  args->setPoseCorrection(poseCorrection);
 }
 
 std::string KukaThread::setCorrections(std::string krcIPOC)
@@ -142,7 +142,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   robotPose poseCorrection;
   KukaState currentState;
 
-  poseCorrection = args->getPoseCorrection();
+  poseCorrection = args->getPoseCorrection(1); //zero after read
   currentState = args->getCurrentState();
   
   cartesianCmd =
@@ -192,7 +192,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       poseCorrection.z *= jointMotorScale[2]/cmdMotorScale[2];
       poseCorrection.xrot *= jointMotorScale[3]/cmdMotorScale[3];
       poseCorrection.yrot *= jointMotorScale[4]/cmdMotorScale[4];
-      poseCorrection.zrot *= jointMotorScale[5]/cmdMotorScale[5];
+      poseCorrection.zrot *= jointMotorScale[5]/cmdMotorScale[5];// *1.25;
       cartesianCmd->SetDoubleAttribute("X", 0.);
       cartesianCmd->SetDoubleAttribute("Y", 0.);
       cartesianCmd->SetDoubleAttribute("Z", 0.);
@@ -214,7 +214,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
     }
   returnString << toKuka;
   //  if(debug)
-  if(1)
+  if(0)
     {
       printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
 	      currentState.cartesian[0],

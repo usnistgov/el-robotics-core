@@ -44,6 +44,165 @@
 int usePowerCube;
 int debug;
 
+
+
+////////////////////////////////////////////////////////
+#define MAX_MOVE 0.2
+#define SMALL_MOVE 0.1
+#define GOOD_ENOUGH 0.02
+robotPose crclTestTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  robotPose retValue;
+  RobotStatus robotStatus;
+  static int sendMe = 0;
+  CRCLCmdUnion currentCmd;
+  int done = 1;
+
+  if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO )
+    {
+      printf( "Bad command type %d to crclTestTo\n", 
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
+      retValue.x = 0;
+      retValue.y = 0;
+      retValue.z = 0;
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+      return retValue;
+    }
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      status->setCurrentStatus(CRCL_WORKING);
+    }
+  else if( (status->getCurrentCmd()).status == CRCL_WORKING )
+    {
+      if( sendMe++ == 1 )
+	{
+	  sendMe = 0;
+	  //	  printf( "\n\n" );
+	}
+      else
+	{
+	  /*
+	  printf( "Status: <%f %f %f>\n",
+		  robotStatus.pose.x,
+		  robotStatus.pose.y,
+		  robotStatus.pose.z);
+	  */
+	  retValue.x = 0;
+	  retValue.y = 0;
+	  retValue.z = 0;
+	  retValue.xrot = 0;
+	  retValue.yrot = 0;
+	  retValue.zrot = 0;
+	  return retValue;
+	}
+      robotStatus = status->getRobotStatus();
+      currentCmd = status->getCurrentCmd();
+
+      if( fabs(robotStatus.pose.x - currentCmd.pose.x) > MAX_MOVE )
+	{
+	  done = 0;
+	  if( robotStatus.pose.x > currentCmd.pose.x )
+	    retValue.x = -MAX_MOVE;
+	  else
+	    retValue.x = MAX_MOVE;
+	}
+      else if( fabs(robotStatus.pose.x - currentCmd.pose.x) > SMALL_MOVE )
+	{
+	  done = 0;
+	  if( robotStatus.pose.x > currentCmd.pose.x )
+	    retValue.x = -SMALL_MOVE;
+	  else
+	    retValue.x = SMALL_MOVE;
+	}
+      else if( fabs(robotStatus.pose.x - currentCmd.pose.x) > GOOD_ENOUGH )
+	{
+	  retValue.x = currentCmd.pose.x - robotStatus.pose.x;
+	  //	  done = 0;
+	}
+      else
+	  retValue.x = 0;
+
+      if( fabs(robotStatus.pose.y - currentCmd.pose.y) > MAX_MOVE )
+	{
+	  done = 0;
+	  if( robotStatus.pose.y > currentCmd.pose.y )
+	    retValue.y = -MAX_MOVE;
+	  else
+	    retValue.y = MAX_MOVE;
+	}
+      else if( fabs(robotStatus.pose.y - currentCmd.pose.y) > SMALL_MOVE )
+	{
+	  done = 0;
+	  if( robotStatus.pose.y > currentCmd.pose.y )
+	    retValue.y = -SMALL_MOVE;
+	  else
+	    retValue.y = SMALL_MOVE;
+	}
+      else if( fabs(robotStatus.pose.y - currentCmd.pose.y) > GOOD_ENOUGH )
+	{
+	  retValue.y = currentCmd.pose.y - robotStatus.pose.y;
+	  //	  done = 0;
+	}
+      else
+	  retValue.y = 0;
+
+      if( fabs(robotStatus.pose.z - currentCmd.pose.z) > MAX_MOVE )
+	{
+	  done = 0;
+	  if( robotStatus.pose.z > currentCmd.pose.z )
+	    retValue.z = -MAX_MOVE;
+	  else
+	    retValue.z = MAX_MOVE;
+	}
+      else if( fabs(robotStatus.pose.z - currentCmd.pose.z) > SMALL_MOVE )
+	{
+	  done = 0;
+	  if( robotStatus.pose.z > currentCmd.pose.z )
+	    retValue.z = -SMALL_MOVE;
+	  else
+	    retValue.z = SMALL_MOVE;
+	}
+      else if( fabs(robotStatus.pose.z - currentCmd.pose.z) > GOOD_ENOUGH )
+	{
+	  retValue.z = currentCmd.pose.z - robotStatus.pose.z;
+	  //	  done = 0;
+	}
+      else
+	  retValue.z = 0;
+
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+      if( done )
+	status->setCurrentStatus(CRCL_DONE);	
+
+      /*
+      printf( "Status: <%f> Goal: <%f> Correction: <%f>\n",
+	      robotStatus.pose.x,
+	      currentCmd.pose.x,
+	      retValue.x);
+      */
+      return retValue;
+    }
+  else
+    status->setCurrentStatus(CRCL_DONE);
+  retValue.x = 0;
+  retValue.y = 0;
+  retValue.z = 0;
+  retValue.xrot = 0;
+  retValue.yrot = 0;
+  retValue.zrot = 0;
+  return retValue;
+}
+
+
+
+
+
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
@@ -222,7 +381,8 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       printf( "Aborting moveTo\n");
     }
   // if items left in motion queue send them
-  if(index < movementTrajectory.size())
+  if(index < movementTrajectory.size() && 
+     (status->getCurrentCmd()).status == CRCL_WORKING)
     {
       /* corrections are offsets to current position. However,
 	 it may occur that the corrections have not yet been sent
@@ -326,7 +486,8 @@ robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	    }
 	  else
 	    status->setCurrentStatus(CRCL_WORKING);
-	  printf( "gripper position: %f\n", gripperStatus.position);
+	  if(debug)
+	    printf( "gripper position: %f\n", gripperStatus.position);
 	}
       else if((status->getCurrentCmd()).status == CRCL_DONE)
 	{
@@ -464,7 +625,8 @@ void crclSetGripper(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	  PCube_getPos(gripperStatus.device, gripperStatus.modId, 
 		       &(gripperStatus.position));
 	  status->setGripperStatus(gripperStatus);
-	  printf( "gripper position: %f\n", gripperStatus.position);
+	  if(debug)
+	    printf( "gripper position: %f\n", gripperStatus.position);
 	  if( fabs((gripperStatus.position - 
 		    (status->getCurrentCmd()).gripperPos)) < 0.01 )
 	    {
@@ -830,7 +992,10 @@ int main(int argc, char *argv[])
 	  break;
 	case CRCL_MOVE_TO:
 	  kukaThreadArgs.setCartesianMove(&status);
-	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
+	  // temp code
+	  //	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
+	  kukaThreadArgs.setPoseCorrection(crclTestTo(&status, &nextCmd));
+	  // end of temp
 	  break;
 	case CRCL_MOVE_JOINT:
 	  kukaThreadArgs.setJointMove(&status);
@@ -886,3 +1051,5 @@ int main(int argc, char *argv[])
   else
     printf( "Error from kukaThread\n" );
 }
+
+

@@ -36,10 +36,10 @@ public:
   void addPose(robotPose poseIn);
   bool getCartesianMove();
   KukaState getCurrentState();
-  robotPose getPoseCorrection();
+  robotPose getPoseCorrection(int zeroValues);
   void setCartesianMove(CRCLStatus *status);
   void setCurrentState(KukaState *stateIn);
   void setJointMove(CRCLStatus *status);
-  void setPoseCorrection(robotPose *poseCorrectionIn);
+  void setPoseCorrection(robotPose poseCorrectionIn);
 };
 #endif

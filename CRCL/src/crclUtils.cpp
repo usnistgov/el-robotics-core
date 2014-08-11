@@ -18,6 +18,7 @@
  *      \copyright      Georgia Tech Research Institute
  */
 ////////////////////////////////////////////////////////
+#include <stdio.h>
 #include "CRCL/crclUtils.hh"
 
 /* Copies one CRCLCmdUnion to another and sets the status done flag is necessary
@@ -40,6 +41,10 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
     case CRCL_END_CANON:
       break;
     case CRCL_INIT_CANON:
+      break;
+    case CRCL_MOVE_JOINT:
+      for( int ii=0; ii<ROBOT_DOF; ii++ )
+	to->joints[ii] = from->joints[ii];
       break;
     case CRCL_MOVE_TO:
       to->pose = from->pose;
@@ -64,6 +69,8 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
     case CRCL_UNKNOWN:
       break;
     default:
+      printf( "No method for copying %s in method crclCmdUnionCopy\n",
+	      getCRCLCmdString(from->cmd).c_str());
       return false;
       break;
     }

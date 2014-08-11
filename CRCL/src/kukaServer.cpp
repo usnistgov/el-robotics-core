@@ -97,44 +97,9 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   static vector<robotPose> movementTrajectory;
   robotPose retValue, goalValue;
 
-  if( (status->getCurrentCmd()).cmd == CRCL_MOVE_TO )
-    {
-      trajectoryMaker.setCurrent((status->getRobotStatus()).pose);
-      goalValue = (status->getCurrentCmd()).pose;
-    }
-  else if( (status->getCurrentCmd()).cmd == CRCL_INIT_CANON )
-    {
-      goalValue.x = (status->getRobotStatus()).joint[0];
-      goalValue.y = (status->getRobotStatus()).joint[1];
-      goalValue.z = (status->getRobotStatus()).joint[2];
-      goalValue.xrot = (status->getRobotStatus()).joint[3];
-      goalValue.yrot = (status->getRobotStatus()).joint[4];
-      goalValue.zrot = (status->getRobotStatus()).joint[5];
-      trajectoryMaker.setCurrent(goalValue);
-      goalValue.x = HOME_JOINT1;
-      goalValue.y = HOME_JOINT2;
-      goalValue.z = HOME_JOINT3;
-      goalValue.xrot = HOME_JOINT4;
-      goalValue.yrot = HOME_JOINT5;
-      goalValue.zrot = HOME_JOINT6;
-    }
-  else if( (status->getCurrentCmd()).cmd == CRCL_MOVE_JOINT )
-    {
-      goalValue.x = (status->getRobotStatus()).joint[0];
-      goalValue.y = (status->getRobotStatus()).joint[1];
-      goalValue.z = (status->getRobotStatus()).joint[2];
-      goalValue.xrot = (status->getRobotStatus()).joint[3];
-      goalValue.yrot = (status->getRobotStatus()).joint[4];
-      goalValue.zrot = (status->getRobotStatus()).joint[5];
-      trajectoryMaker.setCurrent(goalValue);
-      goalValue.x = (status->getCurrentCmd()).joints[0];
-      goalValue.y = (status->getCurrentCmd()).joints[1];
-      goalValue.z = (status->getCurrentCmd()).joints[2];
-      goalValue.xrot = (status->getCurrentCmd()).joints[3];
-      goalValue.yrot = (status->getCurrentCmd()).joints[4];
-      goalValue.zrot = (status->getCurrentCmd()).joints[5];
-    }
-  else
+  if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO &&
+      (status->getCurrentCmd()).cmd != CRCL_MOVE_JOINT &&
+      (status->getCurrentCmd()).cmd != CRCL_INIT_CANON )
     {
       printf( "Bad command type %d to crclMoveTo\n", 
 	      (status->getCurrentCmd()).cmd );
@@ -150,6 +115,44 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     }
   if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
+      if( (status->getCurrentCmd()).cmd == CRCL_MOVE_TO )
+	{
+	  trajectoryMaker.setCurrent((status->getRobotStatus()).pose);
+	  goalValue = (status->getCurrentCmd()).pose;
+	}
+      else if( (status->getCurrentCmd()).cmd == CRCL_INIT_CANON )
+	{
+	  goalValue.x = (status->getRobotStatus()).joint[0];
+	  goalValue.y = (status->getRobotStatus()).joint[1];
+	  goalValue.z = (status->getRobotStatus()).joint[2];
+	  goalValue.xrot = (status->getRobotStatus()).joint[3];
+	  goalValue.yrot = (status->getRobotStatus()).joint[4];
+	  goalValue.zrot = (status->getRobotStatus()).joint[5];
+	  trajectoryMaker.setCurrent(goalValue);
+	  goalValue.x = HOME_JOINT1;
+	  goalValue.y = HOME_JOINT2;
+	  goalValue.z = HOME_JOINT3;
+	  goalValue.xrot = HOME_JOINT4;
+	  goalValue.yrot = HOME_JOINT5;
+	  goalValue.zrot = HOME_JOINT6;
+	}
+      else if( (status->getCurrentCmd()).cmd == CRCL_MOVE_JOINT )
+	{
+	  goalValue.x = (status->getRobotStatus()).joint[0];
+	  goalValue.y = (status->getRobotStatus()).joint[1];
+	  goalValue.z = (status->getRobotStatus()).joint[2];
+	  goalValue.xrot = (status->getRobotStatus()).joint[3];
+	  goalValue.yrot = (status->getRobotStatus()).joint[4];
+	  goalValue.zrot = (status->getRobotStatus()).joint[5];
+	  trajectoryMaker.setCurrent(goalValue);
+	  goalValue.x = (status->getCurrentCmd()).joints[0];
+	  goalValue.y = (status->getCurrentCmd()).joints[1];
+	  goalValue.z = (status->getCurrentCmd()).joints[2];
+	  goalValue.xrot = (status->getCurrentCmd()).joints[3];
+	  goalValue.yrot = (status->getCurrentCmd()).joints[4];
+	  goalValue.zrot = (status->getCurrentCmd()).joints[5];
+	}
+
       /* load motion queue with decomposed motion that is
 	 divided by the cycletime (status->cycleTime)
       */
@@ -489,8 +492,11 @@ void crclStopMotion(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 ////////////////////////////////////////////////////////
 void crclUnknown(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  printf( "Received unknown\n");
-  status->setCurrentStatus(CRCL_DONE);
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      printf( "Received unknown\n");
+      status->setCurrentStatus(CRCL_DONE);
+    }
 }
 
 ////////////////////////////////////////////////////////
@@ -851,8 +857,6 @@ int main(int argc, char *argv[])
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	default:
-	  printf("kukaServer:: unknown cmd received %d\n", 
-		 (status.getCurrentCmd()).cmd);
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	}

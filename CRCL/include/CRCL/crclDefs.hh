@@ -91,10 +91,11 @@ typedef struct
   float position;
 }GripperStatus;
 
+#define ROBOT_DOF 6
 typedef struct
 {
   robotPose pose;
-  double joint[6];
+  double joint[ROBOT_DOF];
 }RobotStatus;
 
 #endif

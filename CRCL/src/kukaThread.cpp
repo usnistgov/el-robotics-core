@@ -105,7 +105,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     stringToKuka = setCorrections(krcIPOC);
     zeroCorrections();
     //    if(debug)
-    if(0)
+    if(1)
       printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), 
 		       stringToKuka.length());
@@ -161,9 +161,16 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       cartesianCmd->SetDoubleAttribute("X", poseCorrection.x);
       cartesianCmd->SetDoubleAttribute("Y", poseCorrection.y);
       cartesianCmd->SetDoubleAttribute("Z", poseCorrection.z);
+      /* debug
       cartesianCmd->SetDoubleAttribute("A", poseCorrection.zrot);
       cartesianCmd->SetDoubleAttribute("B", poseCorrection.yrot);
       cartesianCmd->SetDoubleAttribute("C", poseCorrection.xrot);
+      */
+      cartesianCmd->SetDoubleAttribute("A", 0);
+      cartesianCmd->SetDoubleAttribute("B", 0);
+      cartesianCmd->SetDoubleAttribute("C", 0);
+
+      // end of debug
       jointCmd->SetDoubleAttribute("A1", 0);
       jointCmd->SetDoubleAttribute("A2", 0);
       jointCmd->SetDoubleAttribute("A3", 0);
@@ -270,14 +277,16 @@ std::string KukaThread::setStatus(char *buf)
   cartesian->QueryDoubleAttribute("A", &(kukaState.cartesian[5]));
   cartesian->QueryDoubleAttribute("B", &(kukaState.cartesian[4]));
   cartesian->QueryDoubleAttribute("C", &(kukaState.cartesian[3]));
-  /*
-  if( kukaState.cartesian[3] < 0 ) // make 0 - 360
+
+  if( kukaState.cartesian[3] < 0 ) // make roll 0 - 360
     kukaState.cartesian[3] = 360 + kukaState.cartesian[3];
+  /*
   if( kukaState.cartesian[4] < 0 ) // make 0 - 360
     kukaState.cartesian[4] = 360 + kukaState.cartesian[4];
-  if( kukaState.cartesian[5] < 0 ) // make 0 - 360
+  if( kukaState.cartesian[5] < 0 ) // make yaw 0 - 360
     kukaState.cartesian[5] = 360 + kukaState.cartesian[5];
   */
+
   joint->Attribute("A1", &(kukaState.joint[0]));
   joint->Attribute("A2", &(kukaState.joint[1]));
   joint->Attribute("A3", &(kukaState.joint[2]));

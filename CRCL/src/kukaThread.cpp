@@ -105,7 +105,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
     stringToKuka = setCorrections(krcIPOC);
     zeroCorrections();
     //    if(debug)
-    if(1)
+    if(0)
       printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), 
 		       stringToKuka.length());
@@ -186,24 +186,25 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
     }
   else
     {
+      // set weird scales
+      poseCorrection.x *= jointMotorScale[0]/cmdMotorScale[0];
+      poseCorrection.y *= jointMotorScale[1]/cmdMotorScale[1];
+      poseCorrection.z *= jointMotorScale[2]/cmdMotorScale[2];
+      poseCorrection.xrot *= jointMotorScale[3]/cmdMotorScale[3];
+      poseCorrection.yrot *= jointMotorScale[4]/cmdMotorScale[4];
+      poseCorrection.zrot *= jointMotorScale[5]/cmdMotorScale[5];
       cartesianCmd->SetDoubleAttribute("X", 0.);
       cartesianCmd->SetDoubleAttribute("Y", 0.);
       cartesianCmd->SetDoubleAttribute("Z", 0.);
       cartesianCmd->SetDoubleAttribute("A", 0.);
       cartesianCmd->SetDoubleAttribute("B", 0.);
       cartesianCmd->SetDoubleAttribute("C", 0.);
-      jointCmd->SetDoubleAttribute("A1", jointMotorScale[0] / cmdMotorScale[0] *
-				   poseCorrection.x);
-      jointCmd->SetDoubleAttribute("A2", jointMotorScale[1] / cmdMotorScale[1] *
-				   poseCorrection.y);
-      jointCmd->SetDoubleAttribute("A3", jointMotorScale[2] / cmdMotorScale[2] *
-				   poseCorrection.z);
-      jointCmd->SetDoubleAttribute("A4", jointMotorScale[3] / cmdMotorScale[3] *
-				   poseCorrection.xrot);
-      jointCmd->SetDoubleAttribute("A5", jointMotorScale[4] / cmdMotorScale[4] *
-				   poseCorrection.yrot);
-      jointCmd->SetDoubleAttribute("A6", jointMotorScale[5] / cmdMotorScale[5] *
-				   poseCorrection.zrot);
+      jointCmd->SetDoubleAttribute("A1", poseCorrection.x);
+      jointCmd->SetDoubleAttribute("A2", poseCorrection.y);
+      jointCmd->SetDoubleAttribute("A3", poseCorrection.z);
+      jointCmd->SetDoubleAttribute("A4", poseCorrection.xrot);
+      jointCmd->SetDoubleAttribute("A5", poseCorrection.yrot);
+      jointCmd->SetDoubleAttribute("A6", poseCorrection.zrot);
       externalCmd->SetDoubleAttribute("E1", 0); 
       externalCmd->SetDoubleAttribute("E2", 0);
       externalCmd->SetDoubleAttribute("E3", 0);
@@ -212,7 +213,8 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       externalCmd->SetDoubleAttribute("E6", 0);
     }
   returnString << toKuka;
-  if(debug)
+  //  if(debug)
+  if(1)
     {
       printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
 	      currentState.cartesian[0],

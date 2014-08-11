@@ -579,7 +579,8 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 		 &nextCmd->pose.zrot) != 6)
 	retValue = 0;
     }
-  else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")))
+  else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")) ||
+	   !strncasecmp(inbuf, "MoveJoints", strlen("MoveJoints")) )
     {
       nextCmd->cmd = CRCL_MOVE_JOINT;
       if( sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf",

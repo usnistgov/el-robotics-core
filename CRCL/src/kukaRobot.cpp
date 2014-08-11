@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 	inbuf[nchars] = '\0';
 	}
       kukaCorrections.Parse(inbuf);
-      //      kukaCorrections.Print();
+      if(debug) kukaCorrections.Print();
       cartesianUpdate =
 	correctionsHandle.FirstChild("Sen").FirstChild("Dat").
 	Child(1).ToElement();
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
       cartesianUpdate->QueryDoubleAttribute("C", &(poseIn.zrot));
       jointUpdate->QueryDoubleAttribute("A1", &(jointsIn[0]));
       jointUpdate->QueryDoubleAttribute("A2", &(jointsIn[1]));
-      jointUpdate->QueryDoubleAttribute("A2", &(jointsIn[2]));
+      jointUpdate->QueryDoubleAttribute("A3", &(jointsIn[2]));
       jointUpdate->QueryDoubleAttribute("A4", &(jointsIn[3]));
       jointUpdate->QueryDoubleAttribute("A5", &(jointsIn[4]));
       jointUpdate->QueryDoubleAttribute("A6", &(jointsIn[5]));
@@ -180,9 +180,13 @@ int main(int argc, char *argv[])
       myPose.yrot += poseIn.yrot;
       myPose.zrot += poseIn.zrot;
       for( int i=0; i<ROBOT_DOF; i++ )
-	myJoints[i] += jointsIn[i] * cmdMotorScale[i] / jointMotorScale[i];
+	{
+	  myJoints[i] += jointsIn[i] * cmdMotorScale[i] / jointMotorScale[i];
+	  if( debug )
+	    printf( "J%d <%lf %lf> ", i+1, myJoints[i], jointsIn[i] );
+	}
       if(debug)
-      printf( "kukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
+      printf( "\nkukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
 	      myPose.x,
 	      myPose.y,
 	      myPose.z,

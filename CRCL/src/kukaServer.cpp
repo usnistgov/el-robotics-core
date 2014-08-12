@@ -46,21 +46,39 @@ int debug;
 
 
 
-////////////////////////////////////////////////////////
+#define P_GAIN 0.50
 #define MAX_MOVE 0.2
-#define SMALL_MOVE 0.1
-#define GOOD_ENOUGH 0.02
-robotPose crclTestTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+#define GOOD_ENOUGH 0.01
+////////////////////////////////////////////////////////
+double pCtrlEngine( double statusVal, double cmdVal, int &done )
+{
+  double retValue;
+  double distance;
+  
+  distance = fabs(statusVal - cmdVal);
+  retValue = min(P_GAIN*distance, MAX_MOVE);
+  if( statusVal > cmdVal )
+    retValue *= -1;
+  if( distance > GOOD_ENOUGH )
+    done = 0;
+  else
+    retValue = 0;
+  return retValue;
+}
+
+////////////////////////////////////////////////////////
+robotPose crclPCtrl(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   robotPose retValue;
   RobotStatus robotStatus;
   static int sendMe = 0;
   CRCLCmdUnion currentCmd;
   int done = 1;
+  double distance;
 
   if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO )
     {
-      printf( "Bad command type %d to crclTestTo\n", 
+      printf( "Bad command type %d to crclPCtrl\n", 
 	      (status->getCurrentCmd()).cmd );
       status->setCurrentStatus(CRCL_DONE);
       status->setCurrentState(CRCL_ERROR);
@@ -78,7 +96,7 @@ robotPose crclTestTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     }
   else if( (status->getCurrentCmd()).status == CRCL_WORKING )
     {
-      if( sendMe++ == 1 )
+      if( sendMe++ == 0 )
 	{
 	  sendMe = 0;
 	  //	  printf( "\n\n" );
@@ -102,78 +120,21 @@ robotPose crclTestTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       robotStatus = status->getRobotStatus();
       currentCmd = status->getCurrentCmd();
 
-      if( fabs(robotStatus.pose.x - currentCmd.pose.x) > MAX_MOVE )
-	{
-	  done = 0;
-	  if( robotStatus.pose.x > currentCmd.pose.x )
-	    retValue.x = -MAX_MOVE;
-	  else
-	    retValue.x = MAX_MOVE;
-	}
-      else if( fabs(robotStatus.pose.x - currentCmd.pose.x) > SMALL_MOVE )
-	{
-	  done = 0;
-	  if( robotStatus.pose.x > currentCmd.pose.x )
-	    retValue.x = -SMALL_MOVE;
-	  else
-	    retValue.x = SMALL_MOVE;
-	}
-      else if( fabs(robotStatus.pose.x - currentCmd.pose.x) > GOOD_ENOUGH )
-	{
-	  retValue.x = currentCmd.pose.x - robotStatus.pose.x;
-	  //	  done = 0;
-	}
-      else
-	  retValue.x = 0;
+      retValue.x = pCtrlEngine(robotStatus.pose.x, 
+			       currentCmd.pose.x, done );
+      retValue.y = pCtrlEngine(robotStatus.pose.y, 
+			       currentCmd.pose.y, done );
+      retValue.z = pCtrlEngine(robotStatus.pose.z, 
+			       currentCmd.pose.z, done );
 
-      if( fabs(robotStatus.pose.y - currentCmd.pose.y) > MAX_MOVE )
-	{
-	  done = 0;
-	  if( robotStatus.pose.y > currentCmd.pose.y )
-	    retValue.y = -MAX_MOVE;
-	  else
-	    retValue.y = MAX_MOVE;
-	}
-      else if( fabs(robotStatus.pose.y - currentCmd.pose.y) > SMALL_MOVE )
-	{
-	  done = 0;
-	  if( robotStatus.pose.y > currentCmd.pose.y )
-	    retValue.y = -SMALL_MOVE;
-	  else
-	    retValue.y = SMALL_MOVE;
-	}
-      else if( fabs(robotStatus.pose.y - currentCmd.pose.y) > GOOD_ENOUGH )
-	{
-	  retValue.y = currentCmd.pose.y - robotStatus.pose.y;
-	  //	  done = 0;
-	}
-      else
-	  retValue.y = 0;
-
-      if( fabs(robotStatus.pose.z - currentCmd.pose.z) > MAX_MOVE )
-	{
-	  done = 0;
-	  if( robotStatus.pose.z > currentCmd.pose.z )
-	    retValue.z = -MAX_MOVE;
-	  else
-	    retValue.z = MAX_MOVE;
-	}
-      else if( fabs(robotStatus.pose.z - currentCmd.pose.z) > SMALL_MOVE )
-	{
-	  done = 0;
-	  if( robotStatus.pose.z > currentCmd.pose.z )
-	    retValue.z = -SMALL_MOVE;
-	  else
-	    retValue.z = SMALL_MOVE;
-	}
-      else if( fabs(robotStatus.pose.z - currentCmd.pose.z) > GOOD_ENOUGH )
-	{
-	  retValue.z = currentCmd.pose.z - robotStatus.pose.z;
-	  //	  done = 0;
-	}
-      else
-	  retValue.z = 0;
-
+      /*
+      retValue.xrot = pCtrlEngine(robotStatus.pose.xrot, 
+			       currentCmd.pose.xrot, done );
+      retValue.yrot = pCtrlEngine(robotStatus.pose.yrot, 
+			       currentCmd.pose.yrot, done );
+      retValue.zrot = pCtrlEngine(robotStatus.pose.zrot, 
+			       currentCmd.pose.zrot, done );
+      */
       retValue.xrot = 0;
       retValue.yrot = 0;
       retValue.zrot = 0;
@@ -994,7 +955,7 @@ int main(int argc, char *argv[])
 	  kukaThreadArgs.setCartesianMove(&status);
 	  // temp code
 	  //	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
-	  kukaThreadArgs.setPoseCorrection(crclTestTo(&status, &nextCmd));
+	  kukaThreadArgs.setPoseCorrection(crclPCtrl(&status, &nextCmd));
 	  // end of temp
 	  break;
 	case CRCL_MOVE_JOINT:

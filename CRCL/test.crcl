@@ -1,21 +1,24 @@
 InitCanon
 // Open Gripper
 SetGripper 0.025
-// Move to safe position
-MoveJoint 86.75 -60. 125. -2.75 25.5 -0.75
-// Move to above 60T-1
+// Move to safe position (25, -414, 259, 178, 0, 90)
+MoveJoint 86.75 -60. 125. -2.75 25.5 -0.75 
+// Move to above 60T-1 
 MoveTo 110 -430 210 179 0 90
 // Move to grasp 60T-1
-MoveTo 110 -430 200 179 0 90
+MoveTo 110 -430 201 179 0 90
 // grab gear
-SetGripper 0.0391
+SetGripper 0.014
 // Move to above 60T-1
 MoveTo 110 -430 210 179 0 90
-// Move to safe position
+// Move to safe position (22, 415, 259, 178, 0, 90)
 MoveJoint -86.75 -60. 125. -2.75 25.5 -0.75
 // Move above PK-3
-MoveTo 186 433 205 179 0 90
+// MoveTo 186 433 210 179 0 90
+MoveTo 186 415 259 178 0 90
+MoveTo 186 433 259 178 0 90
+MoveTo 186 433 210 178 0 90
 // Move to Pk-3
-MoveTo 186 433 205 179 0 90
+MoveTo 186 433 201 179 0 90
 // release part
 SetGripper 0.025

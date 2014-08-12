@@ -45,10 +45,10 @@ int usePowerCube;
 int debug;
 
 
-
-#define P_GAIN 0.50
+// was .2 and .1
+#define P_GAIN 0.05
 #define MAX_MOVE 0.2
-#define GOOD_ENOUGH 0.01
+#define GOOD_ENOUGH 0.05
 ////////////////////////////////////////////////////////
 double pCtrlEngine( double statusVal, double cmdVal, int &done )
 {
@@ -141,12 +141,11 @@ robotPose crclPCtrl(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       if( done )
 	status->setCurrentStatus(CRCL_DONE);	
 
-      /*
-      printf( "Status: <%f> Goal: <%f> Correction: <%f>\n",
-	      robotStatus.pose.x,
-	      currentCmd.pose.x,
-	      retValue.x);
-      */
+      printf( "Corrections: <%f %f %f>\n",
+	      retValue.x,
+	      retValue.y,
+	      retValue.z);
+
       return retValue;
     }
   else

@@ -37,9 +37,9 @@
 #define HOME_JOINT1 0.
 #define HOME_JOINT2 -60.
 #define HOME_JOINT3 125.
-#define HOME_JOINT4 -5.
-#define HOME_JOINT5 23.
-#define HOME_JOINT6 184.
+#define HOME_JOINT4 -2.75
+#define HOME_JOINT5 25.5
+#define HOME_JOINT6 -0.75
 
 typedef enum
   {

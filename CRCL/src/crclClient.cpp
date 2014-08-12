@@ -144,7 +144,11 @@ int main(int argc, char *argv[])
 	  ulapi_socket_write(cmdConnection, msgOut, strlen(msgOut));
 	  printf( "Sent: %s\n", msgOut);
 	  done = false;
-	  cycleBlock->wait();
+	  if(useFile)
+	    {
+	      for(int ii=0; ii<5; ii++)
+		cycleBlock->wait();
+	    }
 	  while( !done )
 	    {
 	      cycleBlock->wait();

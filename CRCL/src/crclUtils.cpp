@@ -18,6 +18,7 @@
  *      \copyright      Georgia Tech Research Institute
  */
 ////////////////////////////////////////////////////////
+#include <stdio.h>
 #include "CRCL/crclUtils.hh"
 
 /* Copies one CRCLCmdUnion to another and sets the status done flag is necessary
@@ -41,13 +42,23 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
       break;
     case CRCL_INIT_CANON:
       break;
+    case CRCL_MOVE_JOINT:
+      for( int ii=0; ii<ROBOT_DOF; ii++ )
+	to->joints[ii] = from->joints[ii];
+      break;
     case CRCL_MOVE_TO:
       to->pose = from->pose;
       break;
-    case CRCL_SET_ABSOLUTE_ACC:
+    case CRCL_SET_MAX_CART_ACC:
       to->absAcc = from->absAcc;
       break;
-    case CRCL_SET_ABSOLUTE_SPEED:
+    case CRCL_SET_MAX_CART_SPEED:
+      to->absSpeed = from->absSpeed;
+      break;
+    case CRCL_SET_MAX_JOINT_ACC:
+      to->absAcc = from->absAcc;
+      break;
+    case CRCL_SET_MAX_JOINT_SPEED:
       to->absSpeed = from->absSpeed;
       break;
     case CRCL_SET_GRIPPER:
@@ -58,6 +69,8 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
     case CRCL_UNKNOWN:
       break;
     default:
+      printf( "No method for copying %s in method crclCmdUnionCopy\n",
+	      getCRCLCmdString(from->cmd).c_str());
       return false;
       break;
     }
@@ -88,11 +101,17 @@ std::string getCRCLCmdString(CRCLCmd input)
     case CRCL_MOVE_TO:
       return "CRCL_MOVE_TO";
       break;
-    case CRCL_SET_ABSOLUTE_ACC:
-      return "CRCL_SET_ABSOLUTE_ACC";
+    case CRCL_SET_MAX_CART_ACC:
+      return "CRCL_SET_MAX_CART_ACC";
       break;
-    case CRCL_SET_ABSOLUTE_SPEED:
-      return "CRCL_SET_ABSOLUTE_SPEED";
+    case CRCL_SET_MAX_CART_SPEED:
+      return "CRCL_SET_MAX_CART_SPEED";
+      break;
+    case CRCL_SET_MAX_JOINT_ACC:
+      return "CRCL_SET_MAX_CART_ACC";
+      break;
+    case CRCL_SET_MAX_JOINT_SPEED:
+      return "CRCL_SET_MAX_CART_SPEED";
       break;
     case CRCL_SET_GRIPPER:
       return "CRCL_SET_GRIPPER";

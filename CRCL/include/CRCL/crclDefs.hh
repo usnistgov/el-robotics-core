@@ -21,18 +21,25 @@
 //#define DEFAULT_TO_KUKA "/home/stephen/projects/el-robotics-core/CRCL/ToKRC.xml"
 #define DEFAULT_FROM_KUKA "/home/gtrirobot/el-robotics-core/CRCL/FromKRC.xml"
 #define DEFAULT_TO_KUKA "/home/gtrirobot/el-robotics-core/CRCL/ToKRC.xml"
-#define KUKA_DEFAULT_CYCLE .01
+// communications with the KUKA is done at the KUKA_DEFAULT_CYCLE
+// it should be a 12 msec cycle time. (0.012)
+#define KUKA_DEFAULT_CYCLE 0.010
+// computations for velocity profiles are done at DEFAULT_LOOP_CYCLE
+#define DEFAULT_LOOP_CYCLE 0.010
 //#define KUKA_DEFAULT_MAX_ACCEL 40
 //#define KUKA_DEFAULT_MAX_VEL 75
+
 #define KUKA_DEFAULT_CART_MAX_ACCEL 20
-#define KUKA_DEFAULT_CART_MAX_VEL 15
+#define KUKA_DEFAULT_CART_MAX_VEL 20
+#define KUKA_DEFAULT_JOINT_MAX_ACCEL 20
+#define KUKA_DEFAULT_JOINT_MAX_VEL 15
 
 #define HOME_JOINT1 0.
 #define HOME_JOINT2 -60.
 #define HOME_JOINT3 125.
-#define HOME_JOINT4 -5.
-#define HOME_JOINT5 23.
-#define HOME_JOINT6 184.
+#define HOME_JOINT4 -2.75
+#define HOME_JOINT5 25.5
+#define HOME_JOINT6 -0.75
 
 typedef enum
   {
@@ -42,8 +49,10 @@ typedef enum
     CRCL_INIT_CANON,
     CRCL_MOVE_JOINT,
     CRCL_MOVE_TO,
-    CRCL_SET_ABSOLUTE_ACC,
-    CRCL_SET_ABSOLUTE_SPEED,
+    CRCL_SET_MAX_CART_ACC,
+    CRCL_SET_MAX_CART_SPEED,
+    CRCL_SET_MAX_JOINT_ACC,
+    CRCL_SET_MAX_JOINT_SPEED,
     CRCL_SET_GRIPPER,
     CRCL_STOP_MOTION,
     CRCL_UNKNOWN
@@ -86,10 +95,11 @@ typedef struct
   float position;
 }GripperStatus;
 
+#define ROBOT_DOF 6
 typedef struct
 {
   robotPose pose;
-  double joint[6];
+  double joint[ROBOT_DOF];
 }RobotStatus;
 
 #endif

@@ -37,8 +37,8 @@
 
 int main(int argc, char *argv[])
 {
-  double myJoints[6] = {1,2,3,4,5,6};
-  double jointsIn[6];
+  double myJoints[ROBOT_DOF] = {1,2,3,4,5,6};
+  double jointsIn[ROBOT_DOF];
   robotPose myPose, poseIn;
   int kukaConnection;
   RCS_TIMER *cycleBlock = new RCS_TIMER(KUKA_DEFAULT_CYCLE);
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
   int debug = 0;
   int option;
   int counter = 0;
-  double jointMotorScale[6], cmdMotorScale[6];
+  double jointMotorScale[ROBOT_DOF], cmdMotorScale[ROBOT_DOF];
 
   jointMotorScale[0] = 80.;
   jointMotorScale[1] = 100.;
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 	inbuf[nchars] = '\0';
 	}
       kukaCorrections.Parse(inbuf);
-      //      kukaCorrections.Print();
+      if(debug) kukaCorrections.Print();
       cartesianUpdate =
 	correctionsHandle.FirstChild("Sen").FirstChild("Dat").
 	Child(1).ToElement();
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
       cartesianUpdate->QueryDoubleAttribute("C", &(poseIn.zrot));
       jointUpdate->QueryDoubleAttribute("A1", &(jointsIn[0]));
       jointUpdate->QueryDoubleAttribute("A2", &(jointsIn[1]));
-      jointUpdate->QueryDoubleAttribute("A2", &(jointsIn[2]));
+      jointUpdate->QueryDoubleAttribute("A3", &(jointsIn[2]));
       jointUpdate->QueryDoubleAttribute("A4", &(jointsIn[3]));
       jointUpdate->QueryDoubleAttribute("A5", &(jointsIn[4]));
       jointUpdate->QueryDoubleAttribute("A6", &(jointsIn[5]));
@@ -179,10 +179,14 @@ int main(int argc, char *argv[])
       myPose.xrot += poseIn.xrot;
       myPose.yrot += poseIn.yrot;
       myPose.zrot += poseIn.zrot;
-      for( int i=0; i<6; i++ )
-	myJoints[i] += jointsIn[i] * cmdMotorScale[i] / jointMotorScale[i];
+      for( int i=0; i<ROBOT_DOF; i++ )
+	{
+	  myJoints[i] += jointsIn[i] * cmdMotorScale[i] / jointMotorScale[i];
+	  if( debug )
+	    printf( "J%d <%lf %lf> ", i+1, myJoints[i], jointsIn[i] );
+	}
       if(debug)
-      printf( "kukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
+      printf( "\nkukaRobot Status: <%4.2f, %4.2f, %4.2f> <%4.2f, %4.2f, %4.2f>\n\n",
 	      myPose.x,
 	      myPose.y,
 	      myPose.z,

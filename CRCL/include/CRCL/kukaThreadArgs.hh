@@ -15,6 +15,7 @@
 
 #include <ulapi.h>
 #include "nist_core/crcl.h"
+#include "CRCL/crclStatus.hh"
 
 typedef struct
 {
@@ -35,10 +36,10 @@ public:
   void addPose(robotPose poseIn);
   bool getCartesianMove();
   KukaState getCurrentState();
-  robotPose getPoseCorrection();
-  void setCartesianMove();
+  robotPose getPoseCorrection(int zeroValues);
+  void setCartesianMove(CRCLStatus *status);
   void setCurrentState(KukaState *stateIn);
-  void setJointMove();
-  void setPoseCorrection(robotPose *poseCorrectionIn);
+  void setJointMove(CRCLStatus *status);
+  void setPoseCorrection(robotPose poseCorrectionIn);
 };
 #endif

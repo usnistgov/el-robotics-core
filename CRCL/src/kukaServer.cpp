@@ -44,6 +44,125 @@
 int usePowerCube;
 int debug;
 
+
+// was .2 and .1
+#define P_GAIN 0.05
+#define MAX_MOVE 0.2
+#define GOOD_ENOUGH 0.05
+////////////////////////////////////////////////////////
+double pCtrlEngine( double statusVal, double cmdVal, int &done )
+{
+  double retValue;
+  double distance;
+  
+  distance = fabs(statusVal - cmdVal);
+  retValue = min(P_GAIN*distance, MAX_MOVE);
+  if( statusVal > cmdVal )
+    retValue *= -1;
+  if( distance > GOOD_ENOUGH )
+    done = 0;
+  else
+    retValue = 0;
+  return retValue;
+}
+
+////////////////////////////////////////////////////////
+robotPose crclPCtrl(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  robotPose retValue;
+  RobotStatus robotStatus;
+  static int sendMe = 0;
+  CRCLCmdUnion currentCmd;
+  int done = 1;
+  double distance;
+
+  if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO )
+    {
+      printf( "Bad command type %d to crclPCtrl\n", 
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
+      retValue.x = 0;
+      retValue.y = 0;
+      retValue.z = 0;
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+      return retValue;
+    }
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      status->setCurrentStatus(CRCL_WORKING);
+    }
+  else if( (status->getCurrentCmd()).status == CRCL_WORKING )
+    {
+      if( sendMe++ == 0 )
+	{
+	  sendMe = 0;
+	  //	  printf( "\n\n" );
+	}
+      else
+	{
+	  /*
+	  printf( "Status: <%f %f %f>\n",
+		  robotStatus.pose.x,
+		  robotStatus.pose.y,
+		  robotStatus.pose.z);
+	  */
+	  retValue.x = 0;
+	  retValue.y = 0;
+	  retValue.z = 0;
+	  retValue.xrot = 0;
+	  retValue.yrot = 0;
+	  retValue.zrot = 0;
+	  return retValue;
+	}
+      robotStatus = status->getRobotStatus();
+      currentCmd = status->getCurrentCmd();
+
+      retValue.x = pCtrlEngine(robotStatus.pose.x, 
+			       currentCmd.pose.x, done );
+      retValue.y = pCtrlEngine(robotStatus.pose.y, 
+			       currentCmd.pose.y, done );
+      retValue.z = pCtrlEngine(robotStatus.pose.z, 
+			       currentCmd.pose.z, done );
+
+      /*
+      retValue.xrot = pCtrlEngine(robotStatus.pose.xrot, 
+			       currentCmd.pose.xrot, done );
+      retValue.yrot = pCtrlEngine(robotStatus.pose.yrot, 
+			       currentCmd.pose.yrot, done );
+      retValue.zrot = pCtrlEngine(robotStatus.pose.zrot, 
+			       currentCmd.pose.zrot, done );
+      */
+      retValue.xrot = 0;
+      retValue.yrot = 0;
+      retValue.zrot = 0;
+      if( done )
+	status->setCurrentStatus(CRCL_DONE);	
+
+      printf( "Corrections: <%f %f %f>\n",
+	      retValue.x,
+	      retValue.y,
+	      retValue.z);
+
+      return retValue;
+    }
+  else
+    status->setCurrentStatus(CRCL_DONE);
+  retValue.x = 0;
+  retValue.y = 0;
+  retValue.z = 0;
+  retValue.xrot = 0;
+  retValue.yrot = 0;
+  retValue.zrot = 0;
+  return retValue;
+}
+
+
+
+
+
 ////////////////////////////////////////////////////////
 void crclDwell(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
@@ -97,44 +216,9 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   static vector<robotPose> movementTrajectory;
   robotPose retValue, goalValue;
 
-  if( (status->getCurrentCmd()).cmd == CRCL_MOVE_TO )
-    {
-      trajectoryMaker.setCurrent((status->getRobotStatus()).pose);
-      goalValue = (status->getCurrentCmd()).pose;
-    }
-  else if( (status->getCurrentCmd()).cmd == CRCL_INIT_CANON )
-    {
-      goalValue.x = (status->getRobotStatus()).joint[0];
-      goalValue.y = (status->getRobotStatus()).joint[1];
-      goalValue.z = (status->getRobotStatus()).joint[2];
-      goalValue.xrot = (status->getRobotStatus()).joint[3];
-      goalValue.yrot = (status->getRobotStatus()).joint[4];
-      goalValue.zrot = (status->getRobotStatus()).joint[5];
-      trajectoryMaker.setCurrent(goalValue);
-      goalValue.x = HOME_JOINT1;
-      goalValue.y = HOME_JOINT2;
-      goalValue.z = HOME_JOINT3;
-      goalValue.xrot = HOME_JOINT4;
-      goalValue.yrot = HOME_JOINT5;
-      goalValue.zrot = HOME_JOINT6;
-    }
-  else if( (status->getCurrentCmd()).cmd == CRCL_MOVE_JOINT )
-    {
-      goalValue.x = (status->getRobotStatus()).joint[0];
-      goalValue.y = (status->getRobotStatus()).joint[1];
-      goalValue.z = (status->getRobotStatus()).joint[2];
-      goalValue.xrot = (status->getRobotStatus()).joint[3];
-      goalValue.yrot = (status->getRobotStatus()).joint[4];
-      goalValue.zrot = (status->getRobotStatus()).joint[5];
-      trajectoryMaker.setCurrent(goalValue);
-      goalValue.x = (status->getCurrentCmd()).joints[0];
-      goalValue.y = (status->getCurrentCmd()).joints[1];
-      goalValue.z = (status->getCurrentCmd()).joints[2];
-      goalValue.xrot = (status->getCurrentCmd()).joints[3];
-      goalValue.yrot = (status->getCurrentCmd()).joints[4];
-      goalValue.zrot = (status->getCurrentCmd()).joints[5];
-    }
-  else
+  if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO &&
+      (status->getCurrentCmd()).cmd != CRCL_MOVE_JOINT &&
+      (status->getCurrentCmd()).cmd != CRCL_INIT_CANON )
     {
       printf( "Bad command type %d to crclMoveTo\n", 
 	      (status->getCurrentCmd()).cmd );
@@ -150,6 +234,44 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     }
   if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
+      if( (status->getCurrentCmd()).cmd == CRCL_MOVE_TO )
+	{
+	  trajectoryMaker.setCurrent((status->getRobotStatus()).pose);
+	  goalValue = (status->getCurrentCmd()).pose;
+	}
+      else if( (status->getCurrentCmd()).cmd == CRCL_INIT_CANON )
+	{
+	  goalValue.x = (status->getRobotStatus()).joint[0];
+	  goalValue.y = (status->getRobotStatus()).joint[1];
+	  goalValue.z = (status->getRobotStatus()).joint[2];
+	  goalValue.xrot = (status->getRobotStatus()).joint[3];
+	  goalValue.yrot = (status->getRobotStatus()).joint[4];
+	  goalValue.zrot = (status->getRobotStatus()).joint[5];
+	  trajectoryMaker.setCurrent(goalValue);
+	  goalValue.x = HOME_JOINT1;
+	  goalValue.y = HOME_JOINT2;
+	  goalValue.z = HOME_JOINT3;
+	  goalValue.xrot = HOME_JOINT4;
+	  goalValue.yrot = HOME_JOINT5;
+	  goalValue.zrot = HOME_JOINT6;
+	}
+      else if( (status->getCurrentCmd()).cmd == CRCL_MOVE_JOINT )
+	{
+	  goalValue.x = (status->getRobotStatus()).joint[0];
+	  goalValue.y = (status->getRobotStatus()).joint[1];
+	  goalValue.z = (status->getRobotStatus()).joint[2];
+	  goalValue.xrot = (status->getRobotStatus()).joint[3];
+	  goalValue.yrot = (status->getRobotStatus()).joint[4];
+	  goalValue.zrot = (status->getRobotStatus()).joint[5];
+	  trajectoryMaker.setCurrent(goalValue);
+	  goalValue.x = (status->getCurrentCmd()).joints[0];
+	  goalValue.y = (status->getCurrentCmd()).joints[1];
+	  goalValue.z = (status->getCurrentCmd()).joints[2];
+	  goalValue.xrot = (status->getCurrentCmd()).joints[3];
+	  goalValue.yrot = (status->getCurrentCmd()).joints[4];
+	  goalValue.zrot = (status->getCurrentCmd()).joints[5];
+	}
+
       /* load motion queue with decomposed motion that is
 	 divided by the cycletime (status->cycleTime)
       */
@@ -219,7 +341,8 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       printf( "Aborting moveTo\n");
     }
   // if items left in motion queue send them
-  if(index < movementTrajectory.size())
+  if(index < movementTrajectory.size() && 
+     (status->getCurrentCmd()).status == CRCL_WORKING)
     {
       /* corrections are offsets to current position. However,
 	 it may occur that the corrections have not yet been sent
@@ -323,7 +446,8 @@ robotPose crclInitCanon(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	    }
 	  else
 	    status->setCurrentStatus(CRCL_WORKING);
-	  printf( "gripper position: %f\n", gripperStatus.position);
+	  if(debug)
+	    printf( "gripper position: %f\n", gripperStatus.position);
 	}
       else if((status->getCurrentCmd()).status == CRCL_DONE)
 	{
@@ -361,27 +485,12 @@ void crclNoop(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
-void crclSetAbsoluteAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+void crclSetMaxAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  if( (status->getCurrentCmd()).cmd != CRCL_SET_ABSOLUTE_ACC )
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_MAX_CART_ACC  ||
+      (status->getCurrentCmd()).cmd != CRCL_SET_MAX_JOINT_ACC )
     {
-      printf( "Bad command type %d to crclSetAbsoluteAcc\n", 
-	      (status->getCurrentCmd()).cmd );
-      status->setCurrentStatus(CRCL_DONE);
-      status->setCurrentState(CRCL_ERROR);
-      return;
-    }
-  printf( "Received set absolute acc\n");
-  status->setMaxAccel((status->getCurrentCmd()).absAcc);
-  status->setCurrentStatus(CRCL_DONE);
-}
-
-////////////////////////////////////////////////////////
-void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
-{
-  if( (status->getCurrentCmd()).cmd != CRCL_SET_ABSOLUTE_SPEED )
-    {
-      printf( "Bad command type %d to crclSetAbsoluteSpeed\n", 
+      printf( "Bad command type %d to crclSetMaxAcc\n", 
 	      (status->getCurrentCmd()).cmd );
       status->setCurrentStatus(CRCL_DONE);
       status->setCurrentState(CRCL_ERROR);
@@ -389,8 +498,44 @@ void crclSetAbsoluteSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     }
   if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
-      printf( "Received set absolute speed\n");
-      status->setMaxVel((status->getCurrentCmd()).absSpeed);
+      if( (status->getCurrentCmd()).cmd == CRCL_SET_MAX_CART_ACC )
+	{
+	  printf( "Received set max cartesian acc\n");
+	  status->setMaxAccel((status->getCurrentCmd()).absAcc, MOVE_CARTESIAN);
+	}
+      else
+	{
+	  printf( "Received set max joint acc\n");
+	  status->setMaxAccel((status->getCurrentCmd()).absAcc, MOVE_JOINT);
+	}
+      status->setCurrentStatus(CRCL_DONE);
+    }
+}
+
+////////////////////////////////////////////////////////
+void crclSetMaxSpeed(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_MAX_CART_SPEED  ||
+      (status->getCurrentCmd()).cmd != CRCL_SET_MAX_JOINT_SPEED )
+    {
+      printf( "Bad command type %d to crclSetMaxSpeed\n", 
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
+      return;
+    }
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      if( (status->getCurrentCmd()).cmd == CRCL_SET_MAX_CART_SPEED )
+	{
+	  printf( "Received set max cartesian vel\n");
+	  status->setMaxVel((status->getCurrentCmd()).absSpeed, MOVE_CARTESIAN);
+	}
+      else
+	{
+	  printf( "Received set max joint Vel\n");
+	  status->setMaxVel((status->getCurrentCmd()).absSpeed, MOVE_JOINT);
+	}
       status->setCurrentStatus(CRCL_DONE);
     }
 }
@@ -440,7 +585,8 @@ void crclSetGripper(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	  PCube_getPos(gripperStatus.device, gripperStatus.modId, 
 		       &(gripperStatus.position));
 	  status->setGripperStatus(gripperStatus);
-	  printf( "gripper position: %f\n", gripperStatus.position);
+	  if(debug)
+	    printf( "gripper position: %f\n", gripperStatus.position);
 	  if( fabs((gripperStatus.position - 
 		    (status->getCurrentCmd()).gripperPos)) < 0.01 )
 	    {
@@ -468,8 +614,11 @@ void crclStopMotion(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 ////////////////////////////////////////////////////////
 void crclUnknown(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
-  printf( "Received unknown\n");
-  status->setCurrentStatus(CRCL_DONE);
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      printf( "Received unknown\n");
+      status->setCurrentStatus(CRCL_DONE);
+    }
 }
 
 ////////////////////////////////////////////////////////
@@ -552,7 +701,8 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 		 &nextCmd->pose.zrot) != 6)
 	retValue = 0;
     }
-  else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")))
+  else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")) ||
+	   !strncasecmp(inbuf, "MoveJoints", strlen("MoveJoints")) )
     {
       nextCmd->cmd = CRCL_MOVE_JOINT;
       if( sscanf(inbuf, "%*s %lf %lf %lf %lf %lf %lf",
@@ -568,17 +718,29 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
     {
       nextCmd->cmd = CRCL_NOOP;
     }
-  else if( !strncasecmp(inbuf, "SetAbsoluteAcc", strlen("SetAbsoluteAcc")))
+  else if( !strncasecmp(inbuf, "SetMaxCartAcc", strlen("SetMaxCartAcc")))
     {
       if( sscanf(inbuf, "%*s %lf", &nextCmd->absAcc) != 1)
 	retValue = 0;
-      nextCmd->cmd = CRCL_SET_ABSOLUTE_ACC;
+      nextCmd->cmd = CRCL_SET_MAX_CART_ACC;
     }
-  else if( !strncasecmp(inbuf, "SetAbsoluteSpeed", strlen("SetAbsoluteSpeed")))
+  else if( !strncasecmp(inbuf, "SetMaxCartSpeed", strlen("SetMaxCartSpeed")))
     {
       if( sscanf(inbuf, "%*s %lf", &nextCmd->absSpeed) != 1)
 	retValue = 0;
-      nextCmd->cmd = CRCL_SET_ABSOLUTE_SPEED;
+      nextCmd->cmd = CRCL_SET_MAX_CART_SPEED;
+    }
+  else if( !strncasecmp(inbuf, "SetMaxJointAcc", strlen("SetMaxJointAcc")))
+    {
+      if( sscanf(inbuf, "%*s %lf", &nextCmd->absAcc) != 1)
+	retValue = 0;
+      nextCmd->cmd = CRCL_SET_MAX_JOINT_ACC;
+    }
+  else if( !strncasecmp(inbuf, "SetMaxJointSpeed", strlen("SetMaxJointSpeed")))
+    {
+      if( sscanf(inbuf, "%*s %lf", &nextCmd->absSpeed) != 1)
+	retValue = 0;
+      nextCmd->cmd = CRCL_SET_MAX_JOINT_SPEED;
     }
   else if( !strncasecmp(inbuf, "SetGripper", strlen("SetGripper")))
     {
@@ -785,22 +947,31 @@ int main(int argc, char *argv[])
 	  crclEndCanon(&status, &nextCmd);
 	  break;
 	case CRCL_INIT_CANON:
-	  kukaThreadArgs.setJointMove();
+	  kukaThreadArgs.setJointMove(&status);
 	  kukaThreadArgs.addPose(crclInitCanon(&status, &nextCmd));
 	  break;
 	case CRCL_MOVE_TO:
-	  kukaThreadArgs.setCartesianMove();
-	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
+	  kukaThreadArgs.setCartesianMove(&status);
+	  // temp code
+	  //	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
+	  kukaThreadArgs.setPoseCorrection(crclPCtrl(&status, &nextCmd));
+	  // end of temp
 	  break;
 	case CRCL_MOVE_JOINT:
-	  kukaThreadArgs.setJointMove();
+	  kukaThreadArgs.setJointMove(&status);
 	  kukaThreadArgs.addPose(crclMoveTo(&status, &nextCmd));
 	  break;
-	case CRCL_SET_ABSOLUTE_ACC:
-	  crclSetAbsoluteAcc(&status, &nextCmd);
+	case CRCL_SET_MAX_CART_ACC:
+	  crclSetMaxAcc(&status, &nextCmd);
 	  break;
-	case CRCL_SET_ABSOLUTE_SPEED:
-	  crclSetAbsoluteSpeed(&status, &nextCmd);
+	case CRCL_SET_MAX_CART_SPEED:
+	  crclSetMaxSpeed(&status, &nextCmd);
+	  break;
+	case CRCL_SET_MAX_JOINT_ACC:
+	  crclSetMaxAcc(&status, &nextCmd);
+	  break;
+	case CRCL_SET_MAX_JOINT_SPEED:
+	  crclSetMaxSpeed(&status, &nextCmd);
 	  break;
 	case CRCL_SET_GRIPPER:
 	  crclSetGripper(&status, &nextCmd);
@@ -812,8 +983,6 @@ int main(int argc, char *argv[])
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	default:
-	  printf("kukaServer:: unknown cmd received %d\n", 
-		 (status.getCurrentCmd()).cmd);
 	  crclUnknown(&status, &nextCmd);
 	  break;
 	}
@@ -842,3 +1011,5 @@ int main(int argc, char *argv[])
   else
     printf( "Error from kukaThread\n" );
 }
+
+

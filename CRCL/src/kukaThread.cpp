@@ -109,7 +109,7 @@ void KukaThread::threadStart(KukaThreadArgs *argsIn)
       printf( "New message\n%s\n", stringToKuka.c_str());
     ulapi_socket_write(kukaConnection, stringToKuka.c_str(), 
 		       stringToKuka.length());
-    kukaThreadBlock->wait();
+    //    kukaThreadBlock->wait();
     }
 }
 

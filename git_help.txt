@@ -13,6 +13,9 @@ git commit -a
 
 git status .
     Shows the status of files in the current directory and below.
+    
+git push origin frederickproctor
+    Pushes a new branch 'frederickproctor' up to GitHub
 
 # merge a single file: 
 git checkout A

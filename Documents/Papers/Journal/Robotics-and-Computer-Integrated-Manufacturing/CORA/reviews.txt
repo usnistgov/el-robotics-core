@@ -1,0 +1,35 @@
+Reviewers' comments:
+
+Reviewer #1: The authors describe an ongoing effort that extends well known ontologies to allow knowledge representation standards for robot and humans.
+The work described in this paper is very well presented and documented. The reader clearly understands the motivation behind the changes the author made since the first version of CORA. The extensions added to CORA are relevant to the robotics and automation area.
+
+Issues:
+-More figures are welcome to make it easier for the reader
+-Moreover, Section 8. needs to be organized in subsections
+-Although the work is clearly described, the paper consists of many grammatical errors
+-Some minor inconsistencies are also present in the paper (e.g., sub-ontology vs. subontology). The authors sometimes will use one version and the other version other times
+Other inconsistencies reside in the fonts used by the authors:
+-The font used for Robotics and Automation in the abstract is different than the one used at line 14
+
+-Other minor issues:
+ -ORA is defined but not ORA WG at line 19
+ -Robotics and Automation at line 20 is already defined at line 14
+ -line 142 is a duplicate of line 123
+ -line 170 needs to be rewritten
+ -grammatical errors at line 207, 208, 476, 507, 568, etc
+ -Reference [1] appears twice in the Reference section
+
+These are only an excerpt of errors that appear in the paper. The authors need to rectify all the errors present in the paper. It is in the interest of the authors to address these issues for a better quality paper.
+
+
+
+
+Reviewer #2: It's not clear what the overall goal of this paper's contribution is supposed to be. The specific contributions of CORAX and Operational Modes/Robot Parts to CORA should be strong extensions to CORA, but the authors fail to clearly justify these changes. Discussion about how these changes are beneficial would make this article stronger. Examples of before/after changes: Old CORA breaks down => New CORA is successful in describing scenario. Section 4 begins to describe this scenario using the kitting task.
+
+Section 5.3 only provides definitions for the terms "artificial system" and "interaction". It should include more explanation of how these concepts fit into CORAX.
+
+The description of design in section 5.1 is excellent, particularly the "the cat is on the mat" phrase in two languages.
+
+The usage of "roles" to define the robot's mode of operation and the act of being a "robot-part" are excellent. This is a great way to describe how an object might change over time: by changing its role.
+
+There are many small grammar mistakes and typos throughout the document.

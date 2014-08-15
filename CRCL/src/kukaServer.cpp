@@ -46,9 +46,9 @@ int debug;
 
 
 // was .2 and .1
-#define P_GAIN 0.05
+#define P_GAIN 0.03
 #define MAX_MOVE 0.2
-#define GOOD_ENOUGH 0.05
+#define GOOD_ENOUGH 0.08
 ////////////////////////////////////////////////////////
 double pCtrlEngine( double statusVal, double cmdVal, int &done )
 {

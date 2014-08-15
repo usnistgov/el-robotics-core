@@ -32,13 +32,19 @@ private:
   robotPose poseCorrection;
   KukaState currentState;
 public:
+  double jointMotorScale[6]; //bizarre numbers needed by KR5-6
+  double cmdMotorScale[6];
   KukaThreadArgs();
   void addPose(robotPose poseIn);
   bool getCartesianMove();
   KukaState getCurrentState();
   robotPose getPoseCorrection(int zeroValues);
   void setCartesianMove(CRCLStatus *status);
+  void setCmdMotorScale(double d1, double d2, double d3,
+			  double d4, double d5, double d6);
   void setCurrentState(KukaState *stateIn);
+  void setJointMotorScale(double d1, double d2, double d3,
+			  double d4, double d5, double d6);
   void setJointMove(CRCLStatus *status);
   void setPoseCorrection(robotPose poseCorrectionIn);
 };

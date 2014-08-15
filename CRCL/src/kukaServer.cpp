@@ -792,6 +792,8 @@ int main(int argc, char *argv[])
   RobotStatus robotStatus;
 
   debug = 0;
+  kukaThreadArgs.setJointMotorScale(80.,100.,80.,80.,80.,40.5);
+  kukaThreadArgs.setCmdMotorScale(1.4,1.74,1.4,1.4,1.4,0.87);
   usePowerCube = false;
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
@@ -804,6 +806,18 @@ int main(int argc, char *argv[])
 	case 'c':
 	  ival = atoi(optarg);
 	  cmd_port = ival;
+	  break;
+	case 's':
+	  if( atoi(optarg) ) // turn on corrections
+	    {
+	      kukaThreadArgs.setJointMotorScale(80.,100.,80.,80.,80.,40.5);
+	      kukaThreadArgs.setCmdMotorScale(1.4,1.74,1.4,1.4,1.4,0.87);
+	    }
+	  else
+	    {
+	      kukaThreadArgs.setJointMotorScale(1.,1.,1.,1.,1.,1.);
+	      kukaThreadArgs.setCmdMotorScale(1.,1.,1.,1.,1.,1.);
+	    }
 	  break;
 	  /*
 	case 's':

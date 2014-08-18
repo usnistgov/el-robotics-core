@@ -38,5 +38,6 @@ add_subdirectory(executor)
 add_subdirectory(Sensor/USARTruth)
 add_subdirectory(test)
 add_subdirectory(xml)
+#add_subdirectory(Kuka)
 #add_subdirectory(objectGen/GUI)
 

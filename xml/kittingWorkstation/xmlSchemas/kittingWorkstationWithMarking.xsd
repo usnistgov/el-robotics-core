@@ -723,48 +723,80 @@
 			<xs:enumeration value="inch"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="MarkingLayoutType">
+		<xs:annotation>
+			<xs:documentation>
+			MarkingLayoutType is derived from DataThingType.
+			An instance of MarkingLayoutType has the following elements:
+			 Name (inherited)
+			 Point
+			 XAxis
+			 YAxis
+			
+			The MarkingLayoutType represents the coordinate system of a marking.
+			The coordinate system of the marking is placed in
+			the coordinate system of a shape as given by the Point, XAxis and
+			YAxis.  The scale of the XAxis and YAxis vectors (which
+			are not required to be unit vectors) represents the scale of the
+			markings along those axes. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DataThingType">
+				<xs:sequence>
+					<xs:element name="Point" type="PointType"/>
+					<xs:element name="XAxis" type="VectorType"/>
+					<xs:element name="YAxis" type="VectorType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MarkingModelType">
+		<xs:annotation>
+			<xs:documentation>
+			MarkingModelType is derived from DataThingType.
+			An instance of MarkingModelType has the following elements:
+			 Name (inherited)
+			 MarkingFormatName
+             MarkingFileName
+             MarkingName (optional).
+ 			
+ 			The marking consists of a format name; e.g. JPEG, a marking
+			file name; i.e., where the particular marking file is stored, and a
+			marking name, i.e., the specific marking if a storage file contains
+			multiple markings.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DataThingType">
+				<xs:sequence>
+					<xs:element name="MarkingFormatName" type="xs:string"/>
+					<xs:element name="MarkingFileName" type="xs:string"/>
+					<xs:element name="MarkingName" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="MarkingType">
 		<xs:annotation>
 			<xs:documentation>
         MarkingType is derived from DataThingType.
         An instance of MarkingType has the following elements:
           Name (inherited)
-          Point
-          Scaled XAxis
-          Scaled YAxis
-          Marking Information (multiple).
-			  Marking Format Name - the format of the marking
-			  Marking File Name - the file containing one or more markings
-			  Marking Name - The specific marking from the file.
-
-        A MarkingType is an egraved or printed image on a SKUObject.
-        The marking is displayed on an XY Cartesian
-        coordinate system. The coordinate system of the marking is
-        placed in the coordinate system of a shape as given by the Point,
-        XAxis and YAxis. The scale of the x and y vectors (no longer unit vectors) 
-        represents the scale of the marking. 
-        The marking consists of a format name; e.g.
-		JPEG, a marking file name; i.e. where the particular marking is stored,
-		and a marking name, i.e. the specific marking if a storage file contains
-		multiple marking.
-
-        Might define RGBColorType as three xs:decimal and add an RGBColor
-        element here.
+ 
+		A MarkingType is an engraved or printed
+        image on a shape. The marking is displayed on an XY Cartesian
+        coordinate system as defined by the MarkingLayout. The actual
+        marking is defined by the MarkingModel.
+        Might define RGBColorType as three
+        xs:decimal and add an RGBColor element here.
       </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="DataThingType">
 				<xs:sequence>
-					<xs:sequence>
-						<xs:element name="Point" type="PointType"/>
-						<xs:element name="XAxis" type="VectorType"/>
-						<xs:element name="YAxis" type="VectorType"/>
-					</xs:sequence>
-					<xs:sequence>
-						<xs:element name="MarkingFormatName" type="xs:string"/>
-						<xs:element name="MarkingFileName" type="xs:string"/>
-						<xs:element name="MarkingName" type="xs:string" minOccurs="0"/>
-					</xs:sequence>
+					<xs:element name="MarkingLayout" type="MarkingLayoutType"/>
+					<xs:element name="MarkingModel" type="MarkingModelType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1661,7 +1693,7 @@
           MaximumLoadWeight (inherited)
           CupDiameter (inherited)
           Length (inherited).
- 
+
         A VacuumEffectorSingleCupType has one cup. The center of the wide
         end of the cup (which is a circle) is at the origin of the
         coordinate system of the VacuumEffectorSingleCupType. The Z axis of
@@ -1683,19 +1715,17 @@
           GraspPose (optional).
 
         The VacuumEffectorSingleName identifies a single cup vaccum
-        effector that can handle an object of a given shape. The
-        GraspPose element is a pose from which an object of a given
-        ShapeDesignType can be grasped by a single cup vacuum
-        effector. The pose is relative to the coordinate system of the
-        ShapeDesignType (so that the value of the RefObjectName of the
-        pose is irrelevant, as long as it is the name of a
-        SolidObject). The Point in the pose is the point at which a
-        gripper should make contact with the shape. The ZAxis of the
-        pose may be used to indicate a direction for aligning the
-        ZAxis of the gripper (parallel or antiparallel) and is usually
-        normal to the object having the shape and pointing away from
-        the object. The GraspPose should not use the optional
-        Timestamp.
+        effector that can handle an object of a given shape. The GraspPose
+        element is a pose from which an object of a given ShapeDesignType
+        can be grasped by a single cup vacuum effector. The pose is
+        relative to the coordinate system of the ShapeDesignType (so that
+        the value of the RefObjectName of the pose is irrelevant, as long
+        as it is the name of a SolidObject). The Point in the pose is the
+        point at which a gripper should make contact with the shape. The
+        ZAxis of the pose may be used to indicate a direction for aligning
+        the ZAxis of the gripper (parallel or antiparallel) and is usually
+        normal to the object having the shape and pointing away from the
+        object. The GraspPose should not use the optional Timestamp.
       </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>

@@ -199,8 +199,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       externalCmd->SetDoubleAttribute("E6", 0);
     }
   returnString << toKuka;
-  //  if(debug)
-  if(0)
+  if(debug)
     {
       printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
 	      currentState.cartesian[0],
@@ -231,6 +230,8 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
 	      poseCorrection.yrot,
 	      poseCorrection.zrot);
     }
+  //  printf( "\n<%lf> Returnstring: %s\n", poseCorrection.zrot, 
+  //	  returnString.c_str() );
   return returnString;
 }
 

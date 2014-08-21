@@ -13,15 +13,16 @@
 #ifndef __kukaThreadArgs
 #define __kukaThreadArgs
 
+#include <CRCL/crclDefs.hh>
 #include <ulapi.h>
 #include "nist_core/crcl.h"
 #include "CRCL/crclStatus.hh"
 
 typedef struct
 {
-  double cartesian[6];
-  double joint[6];
-  double external[6];
+  double cartesian[ROBOT_DOF];
+  double joint[ROBOT_DOF];
+  double external[ROBOT_DOF];
 }KukaState;
 
 class KukaThreadArgs
@@ -32,8 +33,8 @@ private:
   robotPose poseCorrection;
   KukaState currentState;
 public:
-  double jointMotorScale[6]; //bizarre numbers needed by KR5-6
-  double cmdMotorScale[6];
+  double jointMotorScale[ROBOT_DOF]; //bizarre numbers needed by KR5-6
+  double cmdMotorScale[ROBOT_DOF];
   KukaThreadArgs();
   void addPose(robotPose poseIn);
   bool getCartesianMove();

@@ -18,6 +18,7 @@
  *	\date		July 02, 2014
  *      \copyright      Georgia Tech Research Institute
  */
+#include <cstdlib> // exit()
 #include "CRCL/kukaThreadArgs.hh"
 
 KukaThreadArgs::KukaThreadArgs()

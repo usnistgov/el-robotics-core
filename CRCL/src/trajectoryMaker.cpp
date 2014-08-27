@@ -106,10 +106,10 @@ std::vector<double> TrajectoryMaker::makePositionVector(double start,
       displacements.push_back(distanceToMove-totalDisplacement);
       totalDisplacement += displacements.back();
     }
-  printf( "Total displacement: %lf distance to move: %lf diff: %lf remain: %lf\n",
-	  totalDisplacement, distanceToMove, 
-	  fabs(totalDisplacement-distanceToMove),
-	  displacementRemaining);
+  //  printf( "Total displacement: %lf distance to move: %lf diff: %lf remain: %lf\n",
+  //	  totalDisplacement, distanceToMove, 
+  //	  fabs(totalDisplacement-distanceToMove),
+  //	  displacementRemaining);
   
   // reverse if necessary
   if( reverse )

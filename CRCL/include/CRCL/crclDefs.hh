@@ -14,6 +14,7 @@
 #define __crclPortDefs
 #include "nist_core/crcl.h"
 
+#define ROBOT_DOF 6
 #define CRCL_CMD_PORT_DEFAULT 1234
 #define CRCL_STATUS_PORT_DEFAULT 1235
 #define KUKA_PORT 6008
@@ -34,7 +35,7 @@
 #define KUKA_DEFAULT_JOINT_MAX_ACCEL 20
 #define KUKA_DEFAULT_JOINT_MAX_VEL 15
 
-#define HOME_JOINT1 0.
+#define HOME_JOINT1 86.75
 #define HOME_JOINT2 -60.
 #define HOME_JOINT3 125.
 #define HOME_JOINT4 -2.75
@@ -95,7 +96,6 @@ typedef struct
   float position;
 }GripperStatus;
 
-#define ROBOT_DOF 6
 typedef struct
 {
   robotPose pose;

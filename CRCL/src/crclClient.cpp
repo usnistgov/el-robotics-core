@@ -162,12 +162,12 @@ int main(int argc, char *argv[])
 		  printf( "Status Cmd: %s Status: %s\n", 
 			  getCRCLCmdString((status.getCurrentCmd()).cmd).c_str(),
 			  getCRCLStatusString(status.getCurrentStatus()).c_str());
-		  printf( "\x1b[32mCart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
+		  printf( "\x1b[32mCart Status: <%3.4f, %3.4f, %3.4f> <%3.4f, %3.4f, %3.4f>\x1b[0m\n",
 			  robotStatus.pose.x, robotStatus.pose.y, 
 			  robotStatus.pose.z,
 			  robotStatus.pose.xrot, robotStatus.pose.yrot, 
 			  robotStatus.pose.zrot);
-		  printf( "\x1b[32mJoint Status: <%4.1f, %4.1f, %4.1f> <%4.1f, %4.1f, %4.1f>\x1b[0m\n",
+		  printf( "\x1b[32mJoint Status: <%4.2f %4.2f %4.2f %4.2f %4.2f %4.2f>\x1b[0m\n",
 			  robotStatus.joint[0],
 			  robotStatus.joint[1],
 			  robotStatus.joint[2],

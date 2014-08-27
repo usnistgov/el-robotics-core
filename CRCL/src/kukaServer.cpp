@@ -23,6 +23,7 @@
 #include <stdlib.h>		/* atoi, alloc */
 #include <string>
 #include <ctype.h>
+#include <unistd.h>             /* sleep */
 
 #include <ulapi.h>
 
@@ -46,9 +47,9 @@ int debug;
 
 
 // was .2 and .1
-#define P_GAIN 0.05
+#define P_GAIN 0.03
 #define MAX_MOVE 0.2
-#define GOOD_ENOUGH 0.05
+#define GOOD_ENOUGH 0.08
 ////////////////////////////////////////////////////////
 double pCtrlEngine( double statusVal, double cmdVal, int &done )
 {
@@ -140,12 +141,6 @@ robotPose crclPCtrl(CRCLStatus *status, CRCLCmdUnion *nextCmd)
       retValue.zrot = 0;
       if( done )
 	status->setCurrentStatus(CRCL_DONE);	
-
-      printf( "Corrections: <%f %f %f>\n",
-	      retValue.x,
-	      retValue.y,
-	      retValue.z);
-
       return retValue;
     }
   else
@@ -280,8 +275,7 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 
       movementTrajectory = trajectoryMaker.makeTrajectory(status, goalValue);
       status->setCurrentStatus(CRCL_WORKING);
-      //      if( debug )
-      if(1)
+      if( debug )
 	{
 	  printf( "Moving Cart from: <%f %f %f> <%f %f %f> to <%f %f %f <%f %f %f>\n",
 		  (status->getRobotStatus()).pose.x,
@@ -309,7 +303,6 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 		  goalValue.xrot,
 		  goalValue.yrot,
 		  goalValue.zrot);
-	  /*
 	  for( int ii=0; ii<movementTrajectory.size(); ii++ )
 	    printf( "<%f %f %f> <%f %f %f>\n",
 		    movementTrajectory[ii].x,
@@ -318,8 +311,6 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 		    movementTrajectory[ii].xrot,
 		    movementTrajectory[ii].yrot,
 		    movementTrajectory[ii].zrot);
-	  */
-		    
 	}
       index = 0;
     }
@@ -792,6 +783,8 @@ int main(int argc, char *argv[])
   RobotStatus robotStatus;
 
   debug = 0;
+  kukaThreadArgs.setJointMotorScale(80., 100., 80., 80., 80., 40.5);
+  kukaThreadArgs.setCmdMotorScale(1.4, 1.74, 1.4, 1.4, 1.4, 0.87);
   usePowerCube = false;
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
@@ -804,6 +797,18 @@ int main(int argc, char *argv[])
 	case 'c':
 	  ival = atoi(optarg);
 	  cmd_port = ival;
+	  break;
+	case 's':
+	  if( atoi(optarg) ) // turn on corrections
+	    {
+	      kukaThreadArgs.setJointMotorScale(80., 100., 80., 80., 80., 40.5);
+	      kukaThreadArgs.setCmdMotorScale(1.4, 1.74, 1.4, 1.4, 1.4, 0.87);
+	    }
+	  else
+	    {
+	      kukaThreadArgs.setJointMotorScale(1., 1., 1., 1., 1., 1.);
+	      kukaThreadArgs.setCmdMotorScale(1., 1., 1., 1., 1., 1.);
+	    }
 	  break;
 	  /*
 	case 's':
@@ -896,7 +901,6 @@ int main(int argc, char *argv[])
       int nchars;
 
       nchars = ulapi_socket_read(cmdConnection, inbuf, sizeof(inbuf)-1);
-      inbuf[nchars] = '\0';
       if(nchars == 0) 
 	{
 	  printf("kukaServer::status client disconnected %d\n",
@@ -916,23 +920,25 @@ int main(int argc, char *argv[])
 	}
       else if( nchars > 0 )
 	{
-	printf( "Message: %s\n", inbuf );
-	if( (status.getCurrentCmd()).status != CRCL_DONE )
-	  {
-	    status.setCurrentStatus(CRCL_ABORT);
-	    parseCmd(inbuf, &nextCmd);
-	  }
-	else
-	  {
-	    parseCmd(inbuf, &tempCmd);
-	    status.setCurrentCmd(&tempCmd);
-	  }
+	  inbuf[nchars] = '\0';
+	  printf( "Message[%d]: %s\n", nchars, inbuf );
+	  if( (status.getCurrentCmd()).status != CRCL_DONE )
+	    {
+	      status.setCurrentStatus(CRCL_ABORT);
+	      parseCmd(inbuf, &nextCmd);
+	    }
+	  else
+	    {
+	      parseCmd(inbuf, &tempCmd);
+	      status.setCurrentCmd(&tempCmd);
+	    }
 	}
       //      else if(nchars == -1 )
       //	printf( "no message read\n" );
       else if( nchars < -1)
 	{
-	  printf("kukaServer:: strange return from socket, nchars: %d\n", nchars);
+	  printf("kukaServer:: strange return from socket, nchars: %d\n", 
+		 nchars);
 	  break;
 	}
       switch( (status.getCurrentCmd()).cmd )

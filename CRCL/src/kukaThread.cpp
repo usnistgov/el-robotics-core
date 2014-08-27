@@ -39,20 +39,6 @@ KukaThread::KukaThread(const char *toKukaXML,
       printf( "kukaThread:: fatal error on load of %s\n", toKukaXML);
       exit(1);
     }
-  jointMotorScale[0] = 80.;
-  jointMotorScale[1] = 100.;
-  jointMotorScale[2] = 80.;
-  jointMotorScale[3] = 80.;
-  jointMotorScale[4] = 80.;
-  jointMotorScale[5] = 40.5;
-
-  cmdMotorScale[0] = 1.4;
-  cmdMotorScale[1] = 1.74;
-  cmdMotorScale[2] = 1.4;
-  cmdMotorScale[3] = 1.4;
-  cmdMotorScale[4] = 1.4;
-  cmdMotorScale[5] = 0.87;
-
   kukaServer = -1;
 }
 
@@ -187,12 +173,12 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   else
     {
       // set weird scales
-      poseCorrection.x *= jointMotorScale[0]/cmdMotorScale[0];
-      poseCorrection.y *= jointMotorScale[1]/cmdMotorScale[1];
-      poseCorrection.z *= jointMotorScale[2]/cmdMotorScale[2];
-      poseCorrection.xrot *= jointMotorScale[3]/cmdMotorScale[3];
-      poseCorrection.yrot *= jointMotorScale[4]/cmdMotorScale[4];
-      poseCorrection.zrot *= jointMotorScale[5]/cmdMotorScale[5];// *1.25;
+      poseCorrection.x *= args->jointMotorScale[0]/args->cmdMotorScale[0];
+      poseCorrection.y *= args->jointMotorScale[1]/args->cmdMotorScale[1];
+      poseCorrection.z *= args->jointMotorScale[2]/args->cmdMotorScale[2];
+      poseCorrection.xrot *= args->jointMotorScale[3]/args->cmdMotorScale[3];
+      poseCorrection.yrot *= args->jointMotorScale[4]/args->cmdMotorScale[4];
+      poseCorrection.zrot *= args->jointMotorScale[5]/args->cmdMotorScale[5];
       cartesianCmd->SetDoubleAttribute("X", 0.);
       cartesianCmd->SetDoubleAttribute("Y", 0.);
       cartesianCmd->SetDoubleAttribute("Z", 0.);
@@ -213,8 +199,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       externalCmd->SetDoubleAttribute("E6", 0);
     }
   returnString << toKuka;
-  //  if(debug)
-  if(0)
+  if(debug)
     {
       printf( "\x1b[32mkukaThread Read Cart Status: <%3.1f, %3.1f, %3.1f> <%3.1f, %3.1f, %3.1f>\x1b[0m\n",
 	      currentState.cartesian[0],
@@ -245,6 +230,8 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
 	      poseCorrection.yrot,
 	      poseCorrection.zrot);
     }
+  //  printf( "\n<%lf> Returnstring: %s\n", poseCorrection.zrot, 
+  //	  returnString.c_str() );
   return returnString;
 }
 

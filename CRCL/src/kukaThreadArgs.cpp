@@ -18,6 +18,7 @@
  *	\date		July 02, 2014
  *      \copyright      Georgia Tech Research Institute
  */
+#include <cstdlib> // exit()
 #include "CRCL/kukaThreadArgs.hh"
 
 KukaThreadArgs::KukaThreadArgs()
@@ -89,11 +90,33 @@ void KukaThreadArgs::setCartesianMove(CRCLStatus *status)
   status->setMaxVel(status->getMaxVel(MOVE_CARTESIAN), MOVE_DEFAULT);
 }
 
+void KukaThreadArgs::setCmdMotorScale(double d1, double d2, double d3,
+				      double d4, double d5, double d6)
+{
+  cmdMotorScale[0] = d1;
+  cmdMotorScale[1] = d2;
+  cmdMotorScale[2] = d3;
+  cmdMotorScale[3] = d4;
+  cmdMotorScale[4] = d5;
+  cmdMotorScale[5] = d6;
+}
+
 void KukaThreadArgs::setCurrentState(KukaState *stateIn)
 {
   ulapi_mutex_take(&poseCorrectionMutex);
   currentState = *stateIn;
   ulapi_mutex_give(&poseCorrectionMutex);
+}
+
+void KukaThreadArgs::setJointMotorScale(double d1, double d2, double d3,
+					double d4, double d5, double d6)
+{
+  jointMotorScale[0] = d1;
+  jointMotorScale[1] = d2;
+  jointMotorScale[2] = d3;
+  jointMotorScale[3] = d4;
+  jointMotorScale[4] = d5;
+  jointMotorScale[5] = d6;
 }
 
 void KukaThreadArgs::setJointMove(CRCLStatus *status)

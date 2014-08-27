@@ -1,0 +1,23 @@
+InitCanon
+// Open Gripper
+SetGripper 0.020
+// Move to above 36T-1 
+MoveTo 181.25 -302.46 210 178 0 90
+// Move to grasp 36T-1 
+MoveTo 181.25 -302.46 200 178 0 90
+// grab gear
+SetGripper 0.014
+// Move to above 36T-1 
+MoveTo 181.25 -302.46 210 178 0 90
+
+// Move to above PK-1
+MoveTo 182.93 -443.75 210 178 0 90
+// Place part in PK-1
+MoveTo 182.93 -443.75 202.22 178 0 90
+// Open Gripper
+SetGripper 0.020
+// Move above PK-1
+MoveTo 182.93 -443.75 210 178 0 90
+// Go Home
+MoveTo 25.59 -415.11 260 178 0 90
+

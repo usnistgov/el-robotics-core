@@ -8,14 +8,17 @@
 #--  pursuant to the copyright license under the clause at DFARS
 #--  252.227-7013 (October 1988).
 #------------------------------------------------------------------------------
-
 cmake_minimum_required(VERSION 2.6)
 cmake_policy(VERSION 2.6)
 
-project(CRCL)
+PROJECT(CRCL)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 set(CRCL_DIR ${PROJECT_SOURCE_DIR})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+find_package(TinyXML REQUIRED)
 
 add_subdirectory(schunk_powercube_driver)
 include_directories(

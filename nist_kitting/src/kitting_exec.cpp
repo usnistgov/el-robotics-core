@@ -20,11 +20,10 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <float.h>
+#include <ctype.h>
 #include <ulapi.h>
 
 static  bool debug;
-static  int port;
-static double period;
 
 typedef struct {
   ulapi_task_struct *task;
@@ -38,8 +37,12 @@ void server_code(void *args)
   ulapi_integer client_id;
   double period;
   int nchars;
-  enum {BUFFERLEN = 80};
+  enum {BUFFERLEN = 256};
   char inbuf[BUFFERLEN];
+  int ival;
+  int serial_number;
+  char *ptr;
+  void *process;
 
   task = ((server_args *) args)->task;
   client_id = ((server_args *) args)->id;
@@ -54,7 +57,41 @@ void server_code(void *args)
     if (0 == nchars) {
       break;
     }
+
+    // FIXME -- add parsing and handling of INIT, HALT, and RUN
     printf("got %d chars: ``%s''\n", nchars, inbuf);
+    if (1 == ulapi_sscanf(inbuf, "%i", &ival)) {
+      ptr = inbuf;
+      while (isspace(*ptr)) ptr++; // skip whitespace
+      while (!isspace(*ptr) && (0 != *ptr)) ptr++; // skip the number
+      while (isspace(*ptr)) ptr++; // skip whitespace
+      printf("handling ``%s''\n", ptr);
+      if (! strncmp(ptr, "INIT", strlen("INIT"))) {
+	printf("INIT\n");
+	serial_number = ival;
+      } else if (! strncmp(ptr, "HALT", strlen("HALT"))) {
+	printf("HALT\n");
+	serial_number = ival;
+      } else if (! strncmp(ptr, "RUN", strlen("RUN"))) {
+	ptr += strlen("RUN");	     // skip over the RUN
+	while (isspace(*ptr)) ptr++; // skip whitespace
+	process = ulapi_process_new();
+	if (ULAPI_OK == ulapi_process_start(process, ptr)) {
+	  printf("starting ``%s''\n", ptr);
+	  serial_number = ival;
+	} else {
+	  printf("can't start process\n");
+	}
+      } else {
+	printf("unknown command\n");
+      }
+    } else {
+      printf("can't parse it\n");
+    }
+    
+
+    // FIXME -- do this periodically, regardless of chars received,
+    // as a new thread for this particular thread
     ulapi_socket_write(client_id, inbuf, nchars);
   }
 

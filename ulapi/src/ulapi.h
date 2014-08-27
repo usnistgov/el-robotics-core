@@ -215,7 +215,7 @@ extern void *ulapi_process_new(void);
 */
 extern ulapi_result ulapi_process_delete(void *proc);
 /*!
-  Executes the program in \a path with \a args argument string.
+  Executes the program and its args as in the \a path string.
   \a proc is the already-created handle from ulapi_process_new.
  */
 extern ulapi_result ulapi_process_start(void *proc, char *path);

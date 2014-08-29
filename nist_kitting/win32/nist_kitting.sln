@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crcl_server", "crcl_server\
 		{5EE2B7B0-C058-4FC3-BC2D-0193567FC353} = {5EE2B7B0-C058-4FC3-BC2D-0193567FC353}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kitting_exec", "kitting_exec\kitting_exec.vcxproj", "{92280543-361F-438C-AB26-11847E07B9F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +24,10 @@ Global
 		{1592EDAD-17A2-4A74-8F3C-ABBFD311E034}.Debug|Win32.Build.0 = Debug|Win32
 		{1592EDAD-17A2-4A74-8F3C-ABBFD311E034}.Release|Win32.ActiveCfg = Release|Win32
 		{1592EDAD-17A2-4A74-8F3C-ABBFD311E034}.Release|Win32.Build.0 = Release|Win32
+		{92280543-361F-438C-AB26-11847E07B9F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{92280543-361F-438C-AB26-11847E07B9F3}.Debug|Win32.Build.0 = Debug|Win32
+		{92280543-361F-438C-AB26-11847E07B9F3}.Release|Win32.ActiveCfg = Release|Win32
+		{92280543-361F-438C-AB26-11847E07B9F3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

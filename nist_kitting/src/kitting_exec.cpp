@@ -23,17 +23,50 @@
 #include <ctype.h>
 #include <ulapi.h>
 
-static  bool debug;
+static bool debug;
 
 typedef struct {
-  ulapi_task_struct *task;
-  ulapi_integer id;
+  ulapi_task_struct *server_task;
+  ulapi_integer client_id;
   double period;
 } server_args;
 
+typedef enum {INIT, RUN, HALT} command_type;
+
+typedef struct {
+  ulapi_task_struct *status_task;
+  ulapi_integer client_id;
+  double period;
+  int serial_number;
+  command_type command;
+  void *process;
+} status_args;
+
+void status_code(void *args)
+{
+  status_args *status = reinterpret_cast<status_args *>(args);
+  int heartbeat = 0;
+  enum {BUFFERLEN = 256};
+  char outbuf[BUFFERLEN];
+  int nchars;
+
+  printf("%d\n", status->client_id);
+
+  for (;;) {
+    ulapi_snprintf(outbuf, sizeof(outbuf), "%d %d", heartbeat, status->command);
+    outbuf[sizeof(outbuf)-1] = 0;
+    nchars = ulapi_socket_write(status->client_id, outbuf, strlen(outbuf)+1);
+    if (nchars < 0) break;
+    heartbeat++;
+    ulapi_wait(status->period * 1e9);
+  }
+
+  return;
+}
+
 void server_code(void *args)
 {
-  ulapi_task_struct *task;
+  ulapi_task_struct *server_task;
   ulapi_integer client_id;
   double period;
   int nchars;
@@ -42,12 +75,31 @@ void server_code(void *args)
   int ival;
   int serial_number;
   char *ptr;
+  ulapi_task_struct *status_task;
+  status_args status;
   void *process;
 
-  task = ((server_args *) args)->task;
-  client_id = ((server_args *) args)->id;
+  server_task = ((server_args *) args)->server_task;
+  client_id = ((server_args *) args)->client_id;
   period = ((server_args *) args)->period;
   free(args);
+
+  /*
+    FIXME -- spawn a task that writes status periodically, and checks
+    the executing status of the process, updates the heartbeat, etc.
+    That thread will need to share the serial number, the command, and
+    the process pointer. These will get updated by this thread, so they
+    need to be shared pointers and probably mutexed. 
+   */
+
+  status.status_task = ulapi_task_new();
+  status.client_id = client_id;
+  status.period = period;
+  status.serial_number = 1;
+  status.command = INIT;
+  status.process = NULL;	// this will be filled in after RUNs below
+  status_task = ulapi_task_new();
+  ulapi_task_start(status_task, status_code, &status, ulapi_prio_lowest(), 0);
 
   for (;;) {
     nchars = ulapi_socket_read(client_id, inbuf, sizeof(inbuf));
@@ -79,6 +131,10 @@ void server_code(void *args)
 	if (ULAPI_OK == ulapi_process_start(process, ptr)) {
 	  printf("starting ``%s''\n", ptr);
 	  serial_number = ival;
+	  // FIXME -- mutex these maybe
+	  status.serial_number = serial_number;
+	  status.command = RUN;
+	  status.process = process;
 	} else {
 	  printf("can't start process\n");
 	}
@@ -88,18 +144,13 @@ void server_code(void *args)
     } else {
       printf("can't parse it\n");
     }
-    
-
-    // FIXME -- do this periodically, regardless of chars received,
-    // as a new thread for this particular thread
-    ulapi_socket_write(client_id, inbuf, nchars);
   }
 
   ulapi_socket_close(client_id);
 
   printf("server thread done, closed %d\n", client_id);
 
-  ulapi_task_delete(task);
+  ulapi_task_delete(server_task);
 
   return;
 }
@@ -117,10 +168,10 @@ int main(int argc, char *argv[])
   int ival;
   double dval;
   int port;
-  double period;
+  double period = 1;
   ulapi_integer socket_id;
   ulapi_integer client_id;
-  ulapi_task_struct *task;
+  ulapi_task_struct *server_task;
   server_args *server_args_ptr;
 
   opterr = 0;
@@ -185,13 +236,13 @@ int main(int argc, char *argv[])
     }
     printf("got one on fd %d\n", client_id);
 
-    task = ulapi_task_new();
+    server_task = ulapi_task_new();
 
     server_args_ptr = reinterpret_cast<server_args *>(malloc(sizeof(server_args)));
-    server_args_ptr->task = task;
-    server_args_ptr->id = client_id;
+    server_args_ptr->server_task = server_task;
+    server_args_ptr->client_id = client_id;
     server_args_ptr->period = period;
-    ulapi_task_start(task, server_code, server_args_ptr, ulapi_prio_lowest(), 0);
+    ulapi_task_start(server_task, server_code, server_args_ptr, ulapi_prio_lowest(), 0);
   }
 
   return 0;

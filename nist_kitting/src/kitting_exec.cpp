@@ -31,8 +31,8 @@ typedef struct {
   double period;
 } server_args;
 
-typedef enum {INIT, RUN, HALT} command_type;
-typedef enum {DONE, EXEC, ERROR} exec_type;
+typedef enum {CMD_INIT, CMD_RUN, CMD_HALT} command_type;
+typedef enum {EXEC_DONE, EXEC_EXEC, EXEC_ERROR} exec_type;
 
 typedef struct {
   ulapi_task_struct *status_task;
@@ -58,23 +58,23 @@ void status_code(void *args)
   if (debug) printf("%d\n", status->client_id);
 
   for (;;) {
-    if (INIT == status->command) {
+    if (CMD_INIT == status->command) {
       if (NULL != status->process) {
 	ulapi_process_stop(status->process);
 	status->process = NULL;
       }
-      status->exec = DONE;
-    } else if (HALT == status->command) {
+      status->exec = EXEC_DONE;
+    } else if (CMD_HALT == status->command) {
       if (NULL != status->process) {
 	ulapi_process_stop(status->process);
 	status->process = NULL;
       }
-      status->exec = DONE;
-    } else if (RUN == status->command) {
+      status->exec = EXEC_DONE;
+    } else if (CMD_RUN == status->command) {
       if (NULL != status->process) {
 	if (ulapi_process_done(status->process, &result)) {
 	  if (0 == result) {
-	    status->exec = (result ? ERROR :  DONE);
+	    status->exec = (result ? EXEC_ERROR :  EXEC_DONE);
 	  }
 	  status->process = NULL;
 	} else {
@@ -91,12 +91,12 @@ void status_code(void *args)
     */
     ulapi_snprintf(outbuf, sizeof(outbuf), "%d %s %s %d",
 		   status->serial_number,
-		   INIT == status->command ? "INIT" :
-		   RUN == status->command ? "RUN" :
-		   HALT == status->command ? "HALT" : "?",
-		   DONE == status->exec ? "DONE" :
-		   EXEC == status->exec ? "EXEC" :
-		   ERROR == status->exec ? "ERROR" : "?",
+		   CMD_INIT == status->command ? "INIT" :
+		   CMD_RUN == status->command ? "RUN" :
+		   CMD_HALT == status->command ? "HALT" : "?",
+		   EXEC_DONE == status->exec ? "DONE" :
+		   EXEC_EXEC == status->exec ? "EXEC" :
+		   EXEC_ERROR == status->exec ? "ERROR" : "?",
 		   status->heartbeat);
     outbuf[sizeof(outbuf)-1] = 0;
     nchars = ulapi_socket_write(status->client_id, outbuf, strlen(outbuf)+1);
@@ -133,7 +133,7 @@ void server_code(void *args)
   status.client_id = client_id;
   status.period = period;
   status.serial_number = 1;
-  status.command = INIT;
+  status.command = CMD_INIT;
   status.process = NULL;	// this will be filled in after RUNs below
   status_task = ulapi_task_new();
   ulapi_task_start(status_task, status_code, &status, ulapi_prio_lowest(), 0);
@@ -159,13 +159,13 @@ void server_code(void *args)
       if (! strncmp(ptr, "INIT", strlen("INIT"))) {
 	if (debug) printf("INIT\n");
 	status.serial_number = ival;
-	status.command = INIT;
-	status.exec = EXEC;
+	status.command = CMD_INIT;
+	status.exec = EXEC_EXEC;
       } else if (! strncmp(ptr, "HALT", strlen("HALT"))) {
 	if (debug) printf("HALT\n");
 	status.serial_number = ival;
-	status.command = HALT;
-	status.exec = EXEC;
+	status.command = CMD_HALT;
+	status.exec = EXEC_EXEC;
       } else if (! strncmp(ptr, "RUN", strlen("RUN"))) {
 	ptr += strlen("RUN");	     // skip over the RUN
 	while (isspace(*ptr)) ptr++; // skip whitespace
@@ -173,8 +173,8 @@ void server_code(void *args)
 	if (ULAPI_OK == ulapi_process_start(process, ptr)) {
 	  if (debug) printf("starting ``%s''\n", ptr);
 	  status.serial_number = ival;
-	  status.command = RUN;
-	  status.exec = EXEC;
+	  status.command = CMD_RUN;
+	  status.exec = EXEC_EXEC;
 	  status.process = process;
 	} else {
 	  printf("can't start process\n");

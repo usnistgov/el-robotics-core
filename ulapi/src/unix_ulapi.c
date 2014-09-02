@@ -456,7 +456,7 @@ ulapi_result ulapi_process_stop(void *proc)
 {
   if (NULL == proc) return ULAPI_ERROR;
 
-  kill(((ulapi_process_struct *) proc)->pid, SIGINT);
+  kill(((ulapi_process_struct *) proc)->pid, SIGKILL);
 
   return ULAPI_OK;
 }

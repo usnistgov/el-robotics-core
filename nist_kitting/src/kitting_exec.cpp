@@ -32,6 +32,7 @@ typedef struct {
 } server_args;
 
 typedef enum {INIT, RUN, HALT} command_type;
+typedef enum {DONE, EXEC, ERROR} exec_type;
 
 typedef struct {
   ulapi_task_struct *status_task;
@@ -39,27 +40,70 @@ typedef struct {
   double period;
   int serial_number;
   command_type command;
+  exec_type exec;
+  int heartbeat;
   void *process;
 } status_args;
 
 void status_code(void *args)
 {
   status_args *status = reinterpret_cast<status_args *>(args);
-  int heartbeat = 0;
+  ulapi_integer result;
   enum {BUFFERLEN = 256};
   char outbuf[BUFFERLEN];
   int nchars;
 
-  printf("%d\n", status->client_id);
+  status->heartbeat = 0;
+
+  if (debug) printf("%d\n", status->client_id);
 
   for (;;) {
-    ulapi_snprintf(outbuf, sizeof(outbuf), "%d %d", heartbeat, status->command);
+    if (INIT == status->command) {
+      if (NULL != status->process) {
+	ulapi_process_stop(status->process);
+	status->process = NULL;
+      }
+      status->exec = DONE;
+    } else if (HALT == status->command) {
+      if (NULL != status->process) {
+	ulapi_process_stop(status->process);
+	status->process = NULL;
+      }
+      status->exec = DONE;
+    } else if (RUN == status->command) {
+      if (NULL != status->process) {
+	if (ulapi_process_done(status->process, &result)) {
+	  if (0 == result) {
+	    status->exec = (result ? ERROR :  DONE);
+	  }
+	  status->process = NULL;
+	} else {
+	}
+      } else {
+	// unknown command
+      }
+    }
+
+    /*
+      A string something like:
+      123 INIT DONE
+      456 RUN EXEC
+    */
+    ulapi_snprintf(outbuf, sizeof(outbuf), "%d %s %s %d",
+		   status->serial_number,
+		   INIT == status->command ? "INIT" :
+		   RUN == status->command ? "RUN" :
+		   HALT == status->command ? "HALT" : "?",
+		   DONE == status->exec ? "DONE" :
+		   EXEC == status->exec ? "EXEC" :
+		   ERROR == status->exec ? "ERROR" : "?",
+		   status->heartbeat);
     outbuf[sizeof(outbuf)-1] = 0;
     nchars = ulapi_socket_write(status->client_id, outbuf, strlen(outbuf)+1);
     if (nchars < 0) break;
-    heartbeat++;
+    status->heartbeat++;
     ulapi_wait(status->period * 1e9);
-  }
+  } // for (;;)
 
   return;
 }
@@ -73,25 +117,18 @@ void server_code(void *args)
   enum {BUFFERLEN = 256};
   char inbuf[BUFFERLEN];
   int ival;
-  int serial_number;
   char *ptr;
   ulapi_task_struct *status_task;
   status_args status;
   void *process;
 
+  // copy in our args
   server_task = ((server_args *) args)->server_task;
   client_id = ((server_args *) args)->client_id;
   period = ((server_args *) args)->period;
   free(args);
 
-  /*
-    FIXME -- spawn a task that writes status periodically, and checks
-    the executing status of the process, updates the heartbeat, etc.
-    That thread will need to share the serial number, the command, and
-    the process pointer. These will get updated by this thread, so they
-    need to be shared pointers and probably mutexed. 
-   */
-
+  // start a status task for this connection
   status.status_task = ulapi_task_new();
   status.client_id = client_id;
   status.period = period;
@@ -101,6 +138,7 @@ void server_code(void *args)
   status_task = ulapi_task_new();
   ulapi_task_start(status_task, status_code, &status, ulapi_prio_lowest(), 0);
 
+  // read commands for this connection
   for (;;) {
     nchars = ulapi_socket_read(client_id, inbuf, sizeof(inbuf));
     if (-1 == nchars) {
@@ -110,8 +148,8 @@ void server_code(void *args)
       break;
     }
 
-    // FIXME -- add parsing and handling of INIT, HALT, and RUN
-    printf("got %d chars: ``%s''\n", nchars, inbuf);
+    if (debug) printf("got %d chars: ``%s''\n", nchars, inbuf);
+
     if (1 == ulapi_sscanf(inbuf, "%i", &ival)) {
       ptr = inbuf;
       while (isspace(*ptr)) ptr++; // skip whitespace
@@ -119,21 +157,24 @@ void server_code(void *args)
       while (isspace(*ptr)) ptr++; // skip whitespace
       printf("handling ``%s''\n", ptr);
       if (! strncmp(ptr, "INIT", strlen("INIT"))) {
-	printf("INIT\n");
-	serial_number = ival;
+	if (debug) printf("INIT\n");
+	status.serial_number = ival;
+	status.command = INIT;
+	status.exec = EXEC;
       } else if (! strncmp(ptr, "HALT", strlen("HALT"))) {
-	printf("HALT\n");
-	serial_number = ival;
+	if (debug) printf("HALT\n");
+	status.serial_number = ival;
+	status.command = HALT;
+	status.exec = EXEC;
       } else if (! strncmp(ptr, "RUN", strlen("RUN"))) {
 	ptr += strlen("RUN");	     // skip over the RUN
 	while (isspace(*ptr)) ptr++; // skip whitespace
 	process = ulapi_process_new();
 	if (ULAPI_OK == ulapi_process_start(process, ptr)) {
-	  printf("starting ``%s''\n", ptr);
-	  serial_number = ival;
-	  // FIXME -- mutex these maybe
-	  status.serial_number = serial_number;
+	  if (debug) printf("starting ``%s''\n", ptr);
+	  status.serial_number = ival;
 	  status.command = RUN;
+	  status.exec = EXEC;
 	  status.process = process;
 	} else {
 	  printf("can't start process\n");
@@ -157,8 +198,10 @@ void server_code(void *args)
 
 static void print_help()
 {
+  printf("-p <port>     set TCP port to serve\n");
+  printf("-t <time>     set period in seconds\n");
+  printf("-h            print help\n");
   printf("-d            turn debug on\n");
-  printf("-p <period>   set period in seconds\n");
 }
 
 int main(int argc, char *argv[])

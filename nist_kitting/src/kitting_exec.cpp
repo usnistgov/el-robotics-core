@@ -52,6 +52,7 @@ void status_code(void *args)
   enum {BUFFERLEN = 256};
   char outbuf[BUFFERLEN];
   int nchars;
+  int retval;
 
   status->heartbeat = 0;
 
@@ -60,7 +61,8 @@ void status_code(void *args)
   for (;;) {
     if (CMD_INIT == status->command) {
       if (NULL != status->process) {
-	ulapi_process_stop(status->process);
+	retval = ulapi_process_stop(status->process);
+  if (debug && (ULAPI_OK != retval)) printf("can't stop process\n");
 	status->process = NULL;
       }
       status->exec = EXEC_DONE;

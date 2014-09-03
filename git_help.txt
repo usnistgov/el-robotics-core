@@ -37,3 +37,41 @@ git diff --stat
  nist_core/src/nist_core.cpp                   |    4 +++
  12 files changed, 74 insertions(+), 45 deletions(-)
 
+#
+# Create a branch on the remote
+#
+
+First, you create your branch locally:
+
+git checkout -b your_branch
+
+The remote branch is automatically created when you push it to the
+remote server. So when you feel ready for it, you can just do:
+
+git push <remote-name> <branch-name>
+
+Where <remote-name> is typically origin, the name which git gives to
+the remote you cloned from. Your colleagues would then just pull that
+branch, and it's automatically created locally.
+
+Note however that formally, the format is:
+
+git push <remote-name> <local-branch-name>:<remote-branch-name>
+
+But when you omit one, it assumes both branch names are the
+same. Having said this, as a word of caution, do not make the critical
+mistake of specifying only :<remote-branch-name> (with the colon), or
+the remote branch will be deleted!
+
+So that a subsequent git pull will know what to do, you might instead
+want to use:
+
+git push -u <remote-name> <branch-name>
+
+The -u option sets up an upstream branch.
+
+#
+# Delete a branch on the remote
+#
+
+git push origin --delete <branch name>

@@ -1,8 +1,5 @@
 This is the help file for git.
 
-git <command> --dry-run
-    Runs the command in a dry run, showing you what would be done.
-
 git commit .
     Does a commit for the files in this directory and below.
 

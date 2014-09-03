@@ -502,9 +502,11 @@ ulapi_result ulapi_process_start(void *proc, char *path)
 
 ulapi_result ulapi_process_stop(void *proc)
 {
-  TerminateProcess(((win32_process_struct *) proc)->hProcess, 1);
+  int retval;
+ 
+  retval = TerminateProcess(((win32_process_struct *) proc)->hProcess, 1);
   
-  return ULAPI_OK;
+  return retval ? ULAPI_OK : ULAPI_ERROR;
 }
 
 ulapi_integer ulapi_process_done(void *proc, ulapi_integer *result)

@@ -105,6 +105,8 @@ void status_code(void *args)
     ulapi_wait(status->period * 1e9);
   } // for (;;)
 
+  ulapi_task_exit(0);
+
   return;
 }
 
@@ -187,11 +189,16 @@ void server_code(void *args)
     }
   }
 
+  ulapi_task_stop(status_task);
+  ulapi_task_delete(status_task);
+
   ulapi_socket_close(client_id);
 
   printf("server thread done, closed %d\n", client_id);
 
   ulapi_task_delete(server_task);
+
+  ulapi_task_exit(0);
 
   return;
 }

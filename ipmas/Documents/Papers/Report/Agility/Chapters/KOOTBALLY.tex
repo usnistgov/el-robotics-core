@@ -1,0 +1,527 @@
+
+
+%%--------------------------------%
+\Chapter{Robot Agility Metrics}
+\label{chapter:KOOTBALLY}
+%%--------------------------------%
+
+Effectively measuring, analyzing, and improving manufacturing metrics is not a simple task. While there are certain metrics that work well for specific areas of a manufacturing system, multiple combinations of metric indicators are often required to ensure that a larger objective will be met. Therefore, the design and the tasks of the manufacturing system need to be carefully analyzed. It is often said that what gets measured gets done.
+
+Evans and Messina~\cite{Evans.2001} analyzed the importance of defining universally accepted performance metrics for intelligent systems. The analysis outlines current efforts to develop standardized testing and evaluation strategies. The authors also discuss the need for industry accepted metrics for inter-comparison of results and to avoid duplication of work.  Falco \etal~\cite{Falco.NISTIR.2013} held a workshop to address the application of dexterous robot technologies to meet the application needs of small batch production, and to promote the greater theme of applying dexterous robotics toward flexible manufacturing. The development of metrics to measure dexterity was one of the main topic of the workshop. The aforementioned authors extend a challenge to the research community to actively work towards the process of developing standard metrics. As new technologies emerge, performance metrics and associated test methodologies are needed to unify research efforts, characterize the state of technology, and to provide a means for end-users to evaluate the capabilities of robotic assembly systems.
+
+This section discusses the metrics from a literature review that are used to assess the agility performance of manufacturing assembly systems. Our review shows that the only common terms found in the different versions for agile assembly consist of manufacturing facilities to possess a high degree of flexibility, enabling mass customization of production. Mass customization is the capability of a firm to offer high product variety, high overall volume and at the same time, low cost and fast delivery.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metrics at the High Level of Manufacturing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In manufacturing, each major goal typically requires multiple metrics. The list of metrics that appear in this section are grouped together relating to specific higher-level goals and objectives.
+\subsection{Manufacturing Cycle Time}
+The time it takes to do one repetition of any particular task typically measured from "Start to Start" the starting point of one product's processing in a specified machine or operation until the start of another similar product's processing in the same machine or process.
+
+Cycle time is commonly categorized into:
+\begin{itemize}
+\item Manual Cycle Time: The time loading, unloading, flipping/turning parts, adding components to parts while still in the same machine/process.
+\item Machine Cycle Time: The processing time of the machine working on a part.
+\item Auto Cycle Time: The time a machine runs un-aided (automatically) without manual intervention.
+\item Overall Cycle Time: The complete time it takes to produce a single unit. This term is generally used when speaking of a single machine or process.
+\item Total Cycle Time: This includes all machines, processes, and classes of cycle time through which a product must pass to become a finished product. This is not lead time, but it does help in determining it.
+\end{itemize}
+\subsection{Time to Make Changeovers}
+Measures the speed or time it takes to switch a manufacturing line or plant
+from making one product over to making a different product.
+
+\begin{quote}
+Reducing changeover time is like adding capacity, increasing profitability and
+can help most manufacturers gain a competitive edge. Image a pit crew changing
+the tires on a race car. Team members pride themselves on reducing changeover
+by even tenths of a second because it means that their driver is on the road faster
+and in a better position to win. The same philosophy applies to manufacturing
+the quicker you are producing the next scheduled product, the more competitive
+you are~\cite{changeover-time-website}.
+\end{quote}
+By reducing or eliminating part-specific tooling, changeover times are driven as close to zero as possible.
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Efficiency}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Efficiency is a measurement (usually measured as a percentage) of the actual output to the standard output expected. Efficiency for assembly systems measures how well productivity is performing relative to existing standards. Metrics to measure efficiency os assembly systems are described below.
+%\subsection{Assembly Configuration}
+%To achieve efficiency, production facilities must be arranged so as to serve the mission of each plant. The main factor that determines this mission, and hence the arrangement of the production facilities, is product type, whereby different types of products to be manufactured require different arrangements of the production facilities. The quantity of parts or product we wish to produce has a significant influence on production equipment arrangement. Production quantity refers to the number of units of a given part or product produced on an annual basis. Three ranges can be calculated based upon production quantity, Q. Low production (Q = 1 to 100 units) e.g. aircraft or ships; medium production (Q = 100 to10,000 units) e.g. buses or stents; and high production (Q = 10,000 to millions of units produced) e.g. cars or paper clips. Depending on product-type these arbitrary boundaries between production quantities may shift.
+%\subsection{Material Handling Transportation System}
+
+\subsubsection{Production System}
+Manufacturing companies use metrics to measure and manage their production
+systems. Later we will see how automation can be used to improve these
+metrics. Metrics may be developed and applied to the system, and upon
+feedback of metric data, various administrative decisions can be made to
+improve the system. In this section we look at some key measures that can, with
+relative ease, be captured from an operational production system.
+
+\paragraph{Time to Assemble a Product}
+Modelling, Implementation and Application of a Flexible
+Manufacturing Cell
+
+\paragraph{Throughput}
+Throughput characterizes the production volume and is an important measure of assembly system performance. Due to the randomness in production (machine breakdowns, random processing times, etc.), the number of parts produced by a production system is a random variable~\cite{Li.2009}. Often, this measure is normalised as the production rate (the average number of parts produced by the last machine in the production system per unit of time) or line efficiency.
+
+Li \textit{et al.}~\cite{Li.2009} presented reviews of recent advances and future research topics in manufacturing throughput analysis of production systems with unreliable machines and finite buffer capacities. Colledani \& Tolio~\cite{Colledani.2005} presented a decomposition based methods for analyzing manufacturing system throughput in designing configuration and reconfiguration of producing drums for washing machines. The proposed method has been used to support the reconfiguration of a real system producing washing machines. In particular, the line producing drums for washing machines has been considered. Li \& Huang~\cite{Li.2004} presented a throughput analysis methods for multiple product lines with split and merge.
+
+\paragraph{Production Rate}
+Production rate is defined as the number of work units completed per hour and is calculated as follows:
+
+\begin{equation}
+R_p = \frac{60}{T_p}
+\end{equation}
+
+Where $T_p$ is the average production time per unit ($T_p$) calculated using equation~\ref{formula:tp}
+\begin{equation}
+\label{formula:tp}
+T_p = \frac{T_b}{Q}
+\end{equation}
+where $T_b$ is the batch processing time and $Q$ is the batch quantity. $T_b$ is calculated as follows:
+\begin{equation}
+T_b = T_{su}+Q\times T_c
+\end{equation}
+where $T_{su}$ is the set-up time to prepare for the batch, $T_c$ is the cycle time for each unit, and $Q$ is as before. $T-c$ is calculated as follows:
+\begin{equation}
+T_c = T_{o}+T_h+T_{th}
+\end{equation}
+where $T_o$ is the time of the actual processing or assembly operation; $T_h$ is the handling time; and $T_{th}$ is the tool handling time.
+
+%In order to determine the production rate, the time a work unit spends being processed or assembled its cycle time) must be calculated first.
+\paragraph{Production Capacity}
+Production capacity is defined as the maximum rate of output that a production facility is able to produce under a given set of assumed operating conditions. Production capacity ($PC$) is calculated using equation~\ref{formula:PC}.
+\begin{equation}
+\label{formula:PC}
+PC = n\times S_w\times H_{sh}\times R_p
+\end{equation}
+where $n$ is the number of machines or work centres in the facility; $S_w$ is the number of work shifts per week; $H_{sh}$ is the number of hours a work centre operates per shift; and $R_p$ is the average production rate. When the number of operations required in the processing sequence is considered, the production capacity is computed as follows:
+\begin{equation}
+PC = \frac{n\times S_w\times H_{sh}\times R_p}{n_o}
+\end{equation}
+where $n_o$ is the number of processing operations that the work part undergoes.
+
+\paragraph{Utilization}
+Utilization ($U$) compares the actual plant production against its potential plant capacity. Utilization is computed as follows:
+\begin{equation}
+U=\frac{Q}{PC}
+\end{equation}
+where $Q$ is the total production quantity produced by the facility during a given time period and $PC$ is the production capacity over the same period.
+\paragraph{Availability}
+Availability examines the machine time differences between failures and repairs. Availability ($A$) is computed as follows:
+
+\begin{equation}
+A=MTBF-\frac{MTTR}{MTBF}
+\end{equation}
+where $MTBF$ is mean time between failures and $MTTR$ is mean time to repair.
+
+\paragraph{Manufacturing Lead Time}
+Manufacturing lead time ($MLT$) is the total time required to process a certain part or product through the plant. It includes all lost time (production equipment failures, delays, rework, storage time, etc). $MLT$ is calculated as follows:
+\begin{equation}
+MLT_j=\sum\limits_{i-1}^{n_{oj}}(T_{suji}+Q_{j}T_{cji}+T_{noji})
+\end{equation}
+where $MLT_j$ is the manufacturing lead time for part or product $j$; $T_{suji}$ is the set-up time for operation $i$; $Q_j$ is the quantity of part or product $j$ in the batch being processed; $T_{cji}$ is the operation cycle time for operation $i$; $T_{noji}$ is the non-operation time associated with operation $i$; $n_o$ is the number of operations through which the work must pass; and $j$ is the part or product.
+
+\paragraph{Work-in-process}
+Work-in-process ($WIP$) assesses the quantity of parts or products in the factory that are undergoing processes, or waiting to be processes. $WIP$ is calculated as follows:
+\begin{equation}
+WIP=\frac{A\times U\times PC\times MLT}{S_w\times H_{sh}}
+\end{equation}
+where $A$ is availability; $U$ is utilization; $PC$ is the production capacity of the facility; $MLT$ is the manufacturing lead time; $S_w$ is the number of shifts per week; and $H_{sh}$ is the hours per shift.
+
+%\subsection{Throughput}
+
+
+
+
+
+\subsection{Overall Equipment Effectiveness (OEE)}
+Overall Equipment Effectiveness (OEE) is a multi-dimensional metric. OEE is a multiplier of Availability$\times$Performance$\times$Quality, and it can be used to indicate the overall effectiveness of a piece of production equipment, or an entire production line. The goals of OEE are threefold~\cite{Eckstrom.WhitePaper}.
+\begin{enumerate}
+\item Maximize production Availability by minimizing Down Time.
+\begin{itemize}
+\item Down Time Loss is a function of breakdowns in equipment and tooling,
+setup time, adjustments, material shortages, operator shortages and warm-up time.
+\end{itemize}
+\item Maximize Performance by minimizing Speed Loss.
+\begin{itemize}
+\item Speed Loss
+is due to slowing lines or complete stops caused by obstructed product flow, jams, misfeeds,
+blocked sensors, equipment wear and operator inefficiency.
+\end{itemize}
+\item Maximize Fully Productive Time by minimizing Quality Loss.
+\begin{itemize}
+\item Quality Loss is a function of rejects,
+scrap and rework caused by factors such as incorrect assembly, in-process damage and in-process expiration. OEE defines Quality as the ratio of Fully Productive Time to Net Operating
+Time (Fully Productive Time is Net Operating Time less Quality Loss).
+\end{itemize}
+\end{enumerate}
+
+\section{Metrics at the Assembly Level of Manufacturing}
+The increased number of new models and variants have forced manufacturing enterprises to meet the demands of a diversified customer base by producing products in a short development cycle, yielding low cost, high quality, and sufficient quantity. Modern manufacturing enterprises have two alternatives to face the aforementioned situation. The first one is to use manufacturing plants with excess capacity and stock of products in inventory to smooth fluctuations in demand. The second one is to use and increase the flexibility of their manufacturing plants to deal with the production volume and variety. While the use of flexibility generates the complexity of its implementation, it still is the preferred solution. Chryssolouris~\cite{Chryssolouris.2005} identified manufacturing flexibility as an important attribute to overcome the increased number of new models and variants from customized demands. Flexibility, however needs to be defined in a quantified fashion before being considered in the decision making process.
+%
+%
+%Manufacturing enterprises have two basic alternatives to face the problem of a variable and customised demand. The first one is to build manufacturing plants with excess capacity and stock of products in inventory to smooth ﬂuctuations in demand, and the second one is to increase the ﬂexibility of their manufacturing plants to deal with the production volume and variety.
+\subsection{Agility Vs. Flexibility}
+There is an extensive amount of research in the open literature discussing agile and flexible manufacturing philosophies. It is obvious that agile manufacturing is often confused with flexible manufacturing. This section attempts to describe the differences and relations between these two notions.
+
+\begin{itemize}
+\item Flexibility and Agility are Fundamentally Different: Shewchuk~\cite{Shewchuk.1998} indicates that flexibility and agility are fundamentally different. In his studies, the author describes flexibility as the ability to change a manufacturing system from within, whereas agility refers to the ability to change a manufacturing system from the outside, i.e., externally. This difference between these two notions was adopted in Daghestani's study~\cite{Daghestani.1998} in order to model an agile manufacturing environment. Daghestani points out that a flexible manufacturing system (FMS) is very flexible for what it was designed to do. This includes changes which can be made from within the system, such as changing between pallet and fixture types the system can accommodate, changing tools at magazines, etc. However, FMSs are rarely agile since they are extremely rigid systems which take a lot of time and effort to change (i.e., from the outside) once they are in place and running.
+\item Agility as a Combination of Speed and Flexibility: Agility is often perceived as combination of speed and flexibility. Gunasekaran~\cite{Gunasekaran.1998} defines agile manufacturing as the capability to survive and prosper in a competitive environment of continuous and unpredictable change by reacting quickly and effectively to changing markets, driven by customer-designed products and services. To be able to respond effectively to changing customer needs in a volatile marketplace
+means being able to handle variety and introduce new products quickly. Lindbergh~\cite{Lindbergh.1990} and Sharafi \& Zhang~\cite{Sharafi.1999} mentioned that agility consists of flexibility and speed. Essentially, an organisation must be able to \emph{respond flexibly} and \emph{respond speedily}~\cite{Breu.2002}. Conboy \& Fitzgerald~\cite{Conboy.2004} identified terms such as \emph{speed}~\cite{Tan.1998}, \emph{quick}~\cite{DeVor.1995,Kusak.1997,Upton.1994,Yusuf.1999}, \emph{rapid}~\cite{Hong.1996}, and \emph{fast}~\cite{Zain.2003} occur in most definitions of agility.
+\item Agility as an Extension of Flexibility: Several authors view agility as an extension of flexibility. Wadhwa \& Rao~\cite{Wadhwa.2003} consider flexibility as an expedience to the efforts in dealing with change. They distinguish change into two types: stochastic (uncertainty related) and deterministic (certainty related). This finally leads to their conclusion of the
+difference between the concepts of flexibility and agility as the
+former responses to predictable changes, while the later responses
+to unpredictable changes, that is, \emph{Flexible changes are responses to known situations where the procedures are already in place to manage the change. Agility extends the capability of flexibility by requiring the ability to respond to unpredictable changes to well defined conditions before it can extend its capabilities to responding to unforseen changes. From this perspective, flexibility is a prerequisite to become agile.}
+\end{itemize}
+
+
+A literature review shows that flexibility objectives at the assembly level have been reported to be material handling flexibility, routing flexibility, product flexibility, operation flexibility, and failure flexibility~\cite{Wiendahl.2007,Parker.1999,Diffner.2011}
+
+\subsection{Material Handling Flexibility}
+%\paragraph{Material Handling Flexibility --}
+
+\emph{Flexibility of a material handling system is its ability to move different part types efficiently for proper positioning and processing through the manufacturing facility it serves}~\cite{Sethi.1990}.
+
+Material handling flexibility is defined as the ability of a material handling system to move different part types effectively through the manufacturing facility. This includes: loading and unloading parts, inter-machine transportation and storage of parts under various conditions. Material handling flexibility might increase machine availability and reduce throughput times~\cite{Diffner.2011}. Efficient material handling is needed for less congestion, timely delivery and reduced idle time of machines due to non-availability or accumulation of materials at workstations. Safe handling of materials is important in a plant as it reduces wastage, breakage, loss and scrapes etc. Having a flexible material handling system increases availability of machines and thus their utilization and reduces throughput times. According to Tompkins \textit{et al.}~\cite{Tompkins.book}, about 20 to 50 \% of the total production cost is spent on material handling. In addition, all the complexity of manufacturing is passed on to the material handling system.
+
+One material handling technology addressing the needs for robotic assembly systems is automated guided vehicles (AGVs). AGVs belong to a class of highly flexible, intelligent, and versatile material handling systems used to transport materials from various loading locations to various unloading locations throughout the facility. The different types of AGVs found in the literature are towing vehicles, unit load transporters, pallet trucks, forklift trucks, light-load transporters, and assembly line vehicles.
+
+\paragraph{Metrics Assessment Material Handling Flexibility --}
+Performance measurements of material handling in a manufacturing system can be classified based on the production performance and on the vehicle performance.
+
+\begin{itemize}
+\item Production performance:
+\begin{itemize}
+\item Tsourveloudis \& Phillis~\cite{Tsourveloudis.1998} used a fuzzy logic approach to measure material handling flexibility. The parameters used to assess the material handling flexibility of a manufacturing system are:
+    \begin{itemize}
+    \item Rerouting factor which indicates the ability of a
+material handing system to change travel paths automatically
+or with small setup delay and cost. Rerouting
+ability is a necessary property for the establishment of
+routing flexibility.
+    \item Variety of loads which a material handling system
+carries such as workpieces, tools, jigs, fixtures etc. It
+is restricted by the volume, dimension, and weight
+requirements of the load.
+    \item Transfer speed which is associated with the weight
+and geometry of products, as well as the frequency of
+transportation.
+\item Number of connected elements such as machines
+and buffers.
+    \end{itemize}
+\item Dai \textit{et al.}~\cite{Dai.IJMAT.2009} did a performance comparison between a free-ranging flexible material handling system (FMHS) and a fixed-track system. The results showed free-ranging FMHS considerably improving the performance of a manufacturing system when compared to the free-track system. The different metrics used to demonstrate the superiority of the free-ranging FMHS are listed as follows:
+    \begin{itemize}
+    \item Manufacturing cycle efficiency ($\mathtt{MCE}$) is a traditional measure of the manufacturing process. $\mathtt{MCE}$ is defined as the ratio of the time in actual production and setup process over the total time in the production area~\cite{Fogarty.1992}. The higher the ratio, the higher the percentage of time spent in the workstations.
+        \item Value added efficiency ($\mathtt{VAE}$) measures the percentage of time added to a product during the production process. $\mathtt{VAE}$ is defined as the ratio of total run time to the total manufacturing time~\cite{Fogarty.1992}.
+        \item Work in process ($\mathtt{WIP}$) is defined as the inventory between the start and end points of a product routing and is commonly used as a criteria to assess manufacturing systems~\cite{Fogarty.1992,VISWANADHAM.Book.1993}. It has significant effect on the inventory cost and the capability of flexible and quickly responding to customers' requirements.
+        \item Average time in the system ($\mathtt{AVT}$)~\cite{SAAD.IMS.1998} is the long-term average time of a part spent in the system from entering the loading station to departing the unloading station. This can be used to measure the speed of the response to a new order.
+        \item Throughput quantity ($\mathtt{TH}$), which is often simply referred to as throughput or production volume, is the number of jobs completed in a given period of time. This can also be called production rate~\cite{Beamon.1998,Egbelu.1984}. According to Little's Law, the relationship of $\mathtt{TH}$, $\mathtt{WIP}$, and the cycle time ($\mathtt{CT}$) is defined as:
+            \item Workstation utilization is defined as the fraction of actual operating time to the total available time~\cite{VISWANADHAM.Book.1993}. It reflects the average efficiency of the workstations being used in the production line. In the apparel industry, the order size is relatively small. Different products often require different sequence of production processes.
+            \item Total transportation distance is the most frequently used criteria for evaluating material handling systems~\cite{Kim.2005}. It is defined as the weighted sum of material flow distances between different workstations or departments. The minimum material flow distance is valuable for enhancing the utilization of the entire system, reducing the throughput time, and the $\mathtt{WIP}$. The authors defined the total transportation distance for both the free-ranging FMHS and the fixed-track system.
+                \end{itemize}
+\end{itemize}
+\item Vehicle performance:
+\begin{itemize}
+ \item Total average loaded travel distance: This is the average distance traveled by an AGV when it is loaded.
+ \item Total average empty travel distance: This is the average distance traveled by an AGV when it is empty.
+ \item Number of deliveries required per hour.
+ \item Loading and unloading time.
+ \item The total time per delivery per vehicle.
+ \item Number of deliveries per vehicle per hour.
+\end{itemize}
+\end{itemize}
+
+Automated material handling can also reduce workplace injuries by limiting the number of potential incidents.
+
+\subsection{Routing Flexibility}
+\emph{Routing flexibility of a manufacturing system is its ability to produce a part by alternate routes through the system}~\cite{Sethi.1990}.
+
+Alternate routes in this definition refers to the use of different machines, different operations, or different sequences of operations. Routing flexibility is different from the material handling flexibility, which is the property of a specific component of the system. Routing flexibility allows for efficient scheduling of parts by better balancing of machine loads. Furthermore, it allows the system to continue producing a given set of part types, perhaps at a reduced rate, when unanticipated events such as machine breakdowns, late receipt of tools, a preemptive order of parts, or the discovery of a defective part occur. Thus, it contributes toward the strategic need of meeting customer delivery times.
+
+ \paragraph{Metrics Assessment Routing Flexibility --}
+For Tsourveloudis \& Phillis~\cite{Tsourveloudis.1998}, routing flexibility is an inherent property of the manufacturing system and it expresses its ability to respond to unanticipated internal changes and variations. The authors are mainly motivated by the fact that arises routing flexibility arises the existence of interchangeable machines, capable of performing similar operations. The ability to handle breakdowns, which is the main characteristic of routing flexibility, exists if each operation can be performed on more than one machines. to substitute for another. The authors designed a fuzzy approach to measure the routing flexibility of a system by using
+\begin{itemize}
+\item Operation commonality which expresses the number of common operations that a group of machines can perform in order to produce a set of parts.
+\item Substitutability which is defined as the ability of a system to reroute and reschedule jobs effectively under failure conditions. The substitution index may also be used to characterize some built-in capabilities of the system as for example, real-time scheduling or available transportation links. Substitutability is associated with the material handling system and the layout of the machines.
+\end{itemize}
+In their comparison between routing flexibility and machine flexibility, Tsubone \& Horikawa~\cite{Tsubone.1999} used the following parameters to assess the performance of a manufacturing flexibility for routing flexibility and machine flexibility:
+    \begin{itemize}
+    \item Machine breakdown rate: The machine breakdown rate, $MR$, is defined as the ratio of the total time of machine breakdown to the available working time, as follows:
+    \begin{equation}
+    MR=\sum\limits_{m=1}^{M}\frac{MBT_m}{M\times H_1}
+    \end{equation}
+    where $MBT_m$ is the actual total time of machine breakdown for machine $m$ and $H_1$ is the available working time in the shop under the assumption that each machine has
+no flexibility.
+    \item Duration of machine breakdown: Duration of machine breakdown, $MC$, is defined as the ratio of the mean machine breakdown time to the mean operation time, as follows:
+        \begin{equation}
+    MC=\frac{\beta}{\alpha}
+    \end{equation}
+    where $\alpha$ is the mean operation time and $\beta$ is the mean machine breakdown time.
+    \end{itemize}
+
+Joseph \& Sridharan~\cite{Joseph.2011} evaluated the routing flexibility for producing individual part types in terms of measures such as routing efficiency, routing versatility, routing variety and routing flexibility.
+\begin{itemize}
+    \item Routing efficiency: Throughput time or flow time of a part can be considered as a comprehensive measure of routing efficiency. Determination of routing efficiency of a route involves comparing the flow time of the route with the minimum flow time in the set of routes.
+
+     \item Routing versatility: Routing versatility implies that the more the number of routes available for producing a part, the more the flexibility of the system is. Furthermore, the greater the similarity of performance outcomes of the routes set, the more flexible is the system.
+
+     \item Routing variety: Routing variety is defined as the difference among the routes of producing a specific part. Generally, the greater the differences among the routes, the higher the degree of variety and hence the higher the degree of flexibility. The difference between two routes can be calculated as the ratio of the number of different machines visited to the total number of machines visited in the two alternative routes.
+     \item Routing flexibility of the system: The routing flexibility ($RF$) of the system in producing $k$ part types is obtained as
+        \begin{equation}
+        RF=\frac{1}{k}\sum\nolimits_{j=1}^{k}E_j\times R_j\times D_j
+        \end{equation}
+        where $E_j$ is routing efficiency on producing part type $j$, $R_j$ is routing versatility of the system in producing part type $j$, and $D_j$ is the total difference of the routes set for part type $j$.
+     \end{itemize}
+
+Hoshino \textit{et al.}~\cite{Hoshino.2008} developed a flexible and agile multi-robot manufacturing system with AGVs and product-processing robots for fluctuating low-volume and high-mix
+demands. The system aimed at addressing the problem of workload balancing. Workload balancing is required when new orders are received from customer demands thus leading to unpredictable fluctuations. The authors used the system operation time (h) and the system utilization ($\frac{total\ operation\ time\ of\ each\ robot}{system\ operation\ time}$) as the performance metrics to show the efficiency and superiority of their system over a simple manufacturing system.
+
+\subsection{Product Flexibility}
+\emph{Product flexibility entails the ability to manufacture multiple products on the same capacity, and the ability to reallocate capacity between products in response to realized demand.}~\cite{Goyal.2011}.
+
+In order to satisfy a wide range of customer demands, manufacturing facilities need to
+change their output to accommodate a variety of products by producing several different products
+simultaneously within a given period. The manufacturing system must have the capability of changing the production in two phases, that is in the short term and in the long term. In the short term, the manufacturing system must be able to integrate product mix flexibility response (quickly change among the current variety of product at low cost). In the long term, the manufacturing system must be able to integrate product mix flexibility range (ability to change the product range). The flexibility range indicates how much a system can change, and the flexibility response indicates how easily the system can change~\cite{Slack.1980}. Therefore, the product mix
+range flexibility can be measured by identifying the number of products that the manufacturing system can produce~\cite{BROWNE.1984,Muramatsu.1985,Sethi.1990}. The product mix flexibility response however can be expressed as the time to change from one product
+to another.
+
+
+Robots that are equipped with dexterous manipulators are of paramount importance to address challenges in next-generation automation where high-mix, low-volume parts production needs fast changeover and reprogramming in order to stay efficient. Dexterous manipulation will allow for grasping a great variety of objects with different shapes in any number of orientations quickly, adeptly, and decisively~\cite{Falco.NISTIR.2013}. Bicchi~\cite{Bicchi.2000}suggested that dexterous manipulation is the capability of changing the position and orientation of the manipulated object from a given reference configuration to a different one within the hand workspace. Okamura\etal\cite{Okamura.2000}  generalizes the definition further, describing dexterity as a cooperative
+manipulation between multiple manipulators, or fingers, cooperate to grasp and manipulate objects, implying that manipulators with simple end effectors alone are not capable of dexterous manipulation. Ma \& Dollar~\cite{MA.2011} pointed out that dexterity needs to be differentiate from general manipulation. Dexterity in the literature is associated to anthropocentrism where precision manipulation tasks are performed between fingertips and other small finger-like appendages. The authors, however, discussed a more generalized task and object-centric definitions of dexterity by focusing on systems' kinematic and dynamic capabilities.
+
+\paragraph{Metrics Assessment Product Mix Flexibility Response --}
+The quickness of the changeover is a key issue in establishing the measure of product mix flexibility response. Some of the efforts measuring product mix flexibility response are described below.
+\begin{itemize}
+    \item An effective measure of the product mix flexibility response must incorporate factors that indicate the difference between two products~\cite{Das.1993}. The authors used the degree of distinction between products, and the proportion of time required for changeover. Since their study focused on assembled products, the distinction between two products is measured as a function of the number of assembly components used in the two products.
+    \item Tsourveloudis \& Philis~\cite{Tsourveloudis.1998} developed a fuzzy framework to measure the product flexibility of a manufacturing plant. The different metrics involved in the proposed framework are:
+        \begin{itemize}
+            \item Part variety is associated with the number of new products the manufacturing system is capable of producing in a time period without major investments in machinery and it takes into account all variations of the physical and technical characteristics of the products.
+            \item Changeover effort in time and cost that is required for preparations in order to produce a new product mix.
+            \item Part commonality refers to the number of common parts used in the assembly of a final product. It measures the ability of introducing new products fast and economically and also indicates the differences between two parts.
+        \end{itemize}
+\end{itemize}
+
+\paragraph{Metrics Assessment Dexterous Manipulation --}
+
+Many efforts in the literature proposed analytical measures of dexterity index. The dexterity index is a measure of a manipulator to achieve different orientations for each point within the workspace. For instance, Pond \& Carretero~\cite{Pond.2011} determined the dexterous workspace size of a particular manipulator and studied the influence of architectural parameters on the dexterous workspace volume. The authors used the constrained dimensionally homogeneous Jacobian matrices where the matrices are dimensionally consistent and are constrained. Other efforts used the condition number of manipulator's Jacobian matrix mapping actuator velocities to end effector velocities~\cite{Gosselin.2009,BADESCU.2004}. More analytical measures for dexterity index can be found in~\cite{Elkady.2010}.
+
+The National Institute of Standards and Technology (NIST) produced a report based on an industry workshop~\cite{Falco.NISTIR.2013}. The workshop featured presentations from consumers of dexterous robotics, next-generation dexterous robot manufacturers, and dexterous robot hand technology. The goals of the workshop were to address the application of dexterous robot technologies to meet the application needs of small batch production, and to promote the greater theme of applying dexterous robotics toward flexible manufacturing. The different panelists articulated their idea on how to increase dexterity for assembly. Some of these ideas are:
+
+\begin{itemize}
+\item Reducing the weight of robotic hands to improve the robot's payload limitations.
+\item Increasing the modularity of robotic hands so that interchangeable hands can handle different classes of part geometry.
+\item Integrating force sensing technology directly into robot joints, as opposed to the use of force transducers attached to a tool flange.
+\item Adding sensors to grippers (in terms of pneumatic grippers) to achieve capabilities such as force control, thus leading the development of intelligent gripping for examination, flexibility, and adaptation.
+\item Developing reactive grasping or perception that will communicate to the robot the size and shape of an object.
+\end{itemize}
+
+The report showed that there is a gap between the demand for dexterity and the available solutions to provide mode dexterous arms and hands. Moreover, all the panelists noted the lack of metrics for current technologies to measure dexterity. A rudimentary set of metrics were identified during the workshop that can be used to measure dexterity. Performance requirements of robotic hands were described in terms of position and force control as well as actuation speed. A panelist defined the elements of dexterity as coordination and agility. To apply metrics to coordination, any test of dexterity should include cooperative tasks where both arms work together. The agility for a given robot is the ability to reach the greatest possible volume with the greatest number of orientations and configurations. Another panelist suggested the level of dexterity may also be evaluated according to the number and types of applications that a particular robot is capable of supporting or performing. The most meaningful unit to measure dexterity is the cost savings that it can provide.
+
+\subparagraph{Metrics Assessment Force Control --}
+Marvel \& Falco~\cite{Marvel.NISTIR.2012} described the current state of force-controlled mechanical assembly, and highlights key robot technologies and force control algorithms and presented the metrics for force control and force-based assembly.
+\begin{itemize}
+\item Force Control Metrics -- Force control algorithms provide a means of physically interacting with the world while limiting the potential for damaging either the objects within it or to the robot itself. This goal cannot be achieved if the robot's actions are not tightly controlled. As such, one of the largest overlying themes of robot performance evaluation is that of stability. 
+\begin{itemize}
+\item Settle stability is the time taken by the system to settle. The time to settle is the time necessary for the robot to settle such as it maintains a consistent contact force with a surface.
+\item Obstruction stability measures the stability of the robot when an immovable object keeps the robot tool from reaching the goal state.
+\item Control switch stability measures the stability of a robot when switching between control structures. This metric indicates the system ability to handle force and position errors.
+\item Surface cohesion (Force Profiles) measures the ability of a robot to maintain constant surface contact during an application (such as paint removal). Other metrics include the speed at which the robot moves along a surface while maintaining force stability.
+    \item Incurred force limitations measures the ability of a robot applying force that does not exceed defined limits.
+\end{itemize}
+\item Force-based assembly metrics consist of metrics used for assembly optimization.
+\begin{itemize}
+\item Assembly time measures the automation efficacy and describes the required time to complete assembly tasks.
+\item Success rate represents the number of successful assemblies which is a useful metric for system throughput and stability.
+\item Incurred (maximum/average) force measures the ability of a robot to sense and quickly react to forces (depending on the type of material being used).
+\end{itemize}
+\end{itemize}
+%
+%
+%
+%\subparagraph{Grasping Quality --}
+%\subparagraph{Force Control --}
+%\subparagraph{Analytical Measurements --}
+%\subparagraph{Cost --}
+%When trying to benchmark dexterity, the most meaningful unit to measure is the cost savings that it can provide. It would be useful to define dexterity in the context of manufacturing so that robot and component providers have a target to aim for.
+
+%The National Institute of Standards and Technology (NIST) organized an industry workshop in conjunction with the 2013 Automate and ProMat trade shows~\cite{Falco.NISTIR.2013}. The workshop featured presentations from consumers of dexterous robotics, next-generation dexterous robot manufacturers, and dexterous robot hand technology. The goal of the workshop was to address the application of dexterous robot technologies. Robots that are equipped with dexterous manipulators are of paramount importance to address challenges in next-generation automation. These challenges include the ability to grasp, in a dynamic environment, a great variety of objects with different shapes in any number of orientations quickly, adeptly, and decisively. The systems must incorporate force and tactile sensing to make grasping adjustments on the fly and to mimic the human's capability to feel their way into a box with a flexibility that is "blind to shape". Dexterous manipulation in this context is defined as \emph{an area of robotics in which multiple manipulators, or fingers, cooperate to grasp and manipulate objects}~\cite{Okamura.2000}.
+%
+%Three technical sessions were held at the workshop. Summarized discussions for three sessions are given below.
+%\begin{itemize}
+%\item Industry perspective on dexterous manipulation: To the question "what metrics exist for evaluating technologies, and what are the methods for evaluation?", the panel concluded that current methods for evaluating technologies are very much empirical with significant trial and error.
+%\item Robotic hands:
+%\item Dexterous arms:
+%\end{itemize}
+%
+%Report from the workshop was produced by NIST and showed that there are currently no standards in place either for academia or for manufacturing in the area of robotic hand performance and grasping. Moreover, the report shows that is currently not possible to classify the metrics of dexterity. It was suggested during the workshop that the volume of reachability (such as the one described in~\cite{}) and the number and types of applications that a particular robot is capable of supporting or performing can be used to evaluate the level of dexterity.
+
+\subsection{Operation Flexibility}
+\emph{Operation flexibility of a part refers to its ability to be produced in different ways}~\cite{Sethi.1990}.
+
+
+
+Operation flexibility is a property of the part, and means that the part can be produced
+with alternate process plans, where a process plan means a sequence of operations required
+to produce the part. An alternative process plan may be obtained by either an interchange
+or a substitution of certain operations by others. Thus, a part that permits operations to
+be performed in alternate orders or using different operations in an interchangeable fashion would possess operation flexibility.
+
+%\section{Quality}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Quality of manufactured products is a important problem for
+%manufacturers. Koren \textit{et al.}~\cite{Koren.1998} define quality as the deviation of a dimension from design intent. In other words, quality is measured in terms of closeness to design specification of certain key product characteristics.
+%
+%\subsection{Assembly Process Quality}
+%The quality of an assembly process can be divided into two different quality measures, which are product quality and processing quality.
+%%\subsubsection{Product Quality}
+%The product quality can be assimilated to the product not satisfying the quality standards determined by the company~\cite{Park.1987}.
+%
+%The different factors that can affect product quality:
+%\begin{itemize}
+%\item Set-up: Assembly processes are repeatable and consistent during the manufacture of the same product. It is important that the first set-up is correct and conforms to the specifications. A wrong set-up could produce an important amount of manufactured products. The initial set-up has to be checked by carrying out the first-piece inspection.
+%\item Machines and tools: There is a necessity to perform periodic checks on machines and tools since they are prone to changes from time to time, thus leading to defects.
+%\item Operator: The results of some processes depend on the skill and attention of an operator. In these situations, it is important to decide the operator's working methods at the manufacture planning stage.
+%\item Materials: The materials delivered to an assembly line need to conform to the demands set by the material specification. To assure a proper quality level, inspections of the material are needed. Having a close cooperation and relationship with the supplier can also affect the quality level. Failures connected to the parts used in assembly can result from wrong part, damaged part assembled, part missing, incorrect assembled part, dirt or contamination, or part defect caused by the part mating action. The quality of materials is a measure of the percentage of good quality materials coming into the manufacturing process from a given supplier.
+%\end{itemize}
+%%\subsubsection{Processing Quality}
+
+
+\paragraph{Metrics Assessment Operation Flexibility --}
+According to Sethi \textit{et al.}, the operation flexibility of a part can be measured by the number of different processing plans for its fabrication~\cite{Sethi.1990}.
+
+Kumar~\cite{Kumar.1988} decomposed the operations entropy into entropies within and between operations and entropies within and between groups of operations. This measure has been used to determine the next operation to be performed on a part by using the principle of least reduction of flexibility.
+
+Some theoretical measures have been explored to evaluate assembly sequences under different contexts. For example, Sanderson \& Homem de Mello~\cite{SANDERSON.1987} used the And/Or graph approach to represent feasible assembly/disassembly sequences and a function based on parts entropy measures as evaluation criteria for search in the And/Or graph space. Park \textit{et al.}~\cite{PARK.1991} described the evaluation criteria based on four evaluation functions to minimize the chances of assembly failures caused by spatial errors of parts and assembly equipment. Bonneville \textit{et al.}~\cite{BONNEVILLE.1995} presented a genetic algorithm that uses the assembly trees as models for the plans to encode them in chromosomes. The liaisons graph and the geometric constraints of the model are then used to evaluate the assembly operations. Su\'{a}rez and Lee~\cite{SUAREZ.1997} proposed a statistical measure of an assembly cost index to evaluate the assembly sequences in order to determine the optimal one.
+
+The quality of an assembly process plan impacts the quality of the product. Process quality is the ability of the assembly process to assemble products without defects~\cite{Park.1987}. Koren \textit{et al.}~\cite{Koren.1998} define quality as the deviation of a dimension from design intent. In other words, quality is measured in terms of closeness to design specification of certain key product characteristics.
+
+Kramer \textit{et al.}~\cite{Kramer.2013} developed a configurable scoring system that uses five factors combined as specified by a scoring file
+to compute the score of the plan. The scoring system allows one to compare the quality of different plans. The scoring system uses the following five factors combined as specified by a scoring file to compute the score. The factors and the score are recomputed after each movable goal object is checked.
+    \begin{itemize}
+\item \small \sf Right Stuff \rm \normalsize -- The Right Stuff value, $R$,
+  is a measure of achieving goal positions. Let $G$ be the number of
+  objects in the goal file placed correctly so far, $B$ be the number of
+  objects in the goal file placed incorrectly so far, and $N$ be the number
+  of objects in the goal file checked so far. Then $R = (G - B) / N$. If
+  $R$ is less than zero, it is set to zero.
+
+\item \small \sf Command Execution \rm \normalsize -- The Command Execution
+  value, $C$, is the fraction of all commands in the command file that were
+  executed correctly. This factor does not change during the second phase
+  of operation. Let $K$ be the total number of commands
+  executed successfully and $E$ be the number of errors that are not
+  location errors. Then $C = \frac{K}{(K + E)} $.
+
+\item \small \sf Distance \rm \normalsize -- The Distance value, $D$ is a
+  measure of efficiency of robot motion in terms of distance. Let $J$ be
+  the total distance moved from initial position to goal position by all
+  basic goal objects that have been checked so far, $L$ be the total
+  distance moved by the robot, and $F$ be the fraction of movable objects
+  that have been checked so far. Then $D = \frac{(2 \times J)}{(L \times F)} $. If
+  $D$ is greater than 1, it is set to 1. The numerator, $(2 \times J)$ is a
+  crude measure of a short distance to move the robot in order to move the
+  objects that have been moved so far to their goal positions.
+
+\item \small \sf Time \rm \normalsize -- The Time value, $T$ is a measure
+  of efficiency of robot motion in terms of time. The teleport time, $P$,
+  is a crude measure of a fast time for moving the objects that have been
+  moved so far to their goal positions. Let $J$ and $F$ be as in the
+  preceding item, and let $Q$ be the maximum speed of the robot. Then
+  $P = \frac{(2 \times J)}{Q}$. Let $H$ be the total execution time.
+  Then $T =\frac{P}{(H \times F)}$. If $T$ is greater than 1, it is set to 1.
+
+\item \small \sf Useless Commands \rm \normalsize -- The Useless Command
+  factor is the value of the useless commands metric. This factor does not
+  change during the second phase of Kitting Viewer operation.
+    \end{itemize}
+
+The scoring file, as prepared by a user, designates each of the five
+factors as being either multiplicative or additive. For additive factors, a
+weight may be assigned in the file. For each factor, a valuation function
+may be assigned. A valuation function takes a raw factor with an arbitrary
+range and produces a number between 0 and 1. The final stage of producing
+a score combines numbers between 0 and 1. If a raw factor (useless
+commands, for example) is not necessarily between 0 and 1, a valuation
+function must be assigned to that factor. If a raw factor is always between
+0 and 1 (right stuff, for example), a valuation function may be assigned,
+but is not required.
+
+The scoring system is designed so that the score it produces is always
+between 0 and 100.
+
+Each factor is designated as additive or multiplicative. A factor
+value $V_i$ between 0 and 1 is found for each additive factor and a
+factor value $U_i$ between 0 and 1 is found for each multiplicative
+factor. Each additive factor is assigned a non-negative weight $W_i$. An
+additive score $S_a$ is produced by multiplying each additive value by
+its weight, adding the products together, and dividing by the sum of the
+weights. If there are no additive factors or their weights are all
+zero, $S_a = 1$.
+\[
+S_a = \frac{(V_1\times W_1)+(V_2\times W_2)+\cdots + (V_n\times W_n)}{W_1+W_2+\cdots+W_n}
+\]
+The value of $S_a$ will be between 0 and 1 since all the components of the
+equation are positive and the largest the numerator can be is the size
+of the denominator.
+
+Then the total score $S$ is found by finding the product of $S_a$, 100, and
+all the multiplicative factors.
+
+$S = (100\times S_a\times U_1\times U_2\times\cdots \times U_m)$
+
+\subsection{Failure Flexibility}
+A failure occurs when an error affects the service delivered from a system in any way. An error is the difference between what is specified and what is actually there and occurs when the observed behavior conflicts with the desired behavior of the system~\cite{Odrey.1995}. Kokkinaki \& Valavani~\cite{Kokkinaki.1996} define errors as manifestations of faults. A fault is the original source of an error, such as a broken air pressure valve or assembly part out of tolerances, which may led to an error directly or indirectly.
+An example of failure is a gripper not functioning properly that will prevent a part from being accurately positioned during production. Because of this, the part could not be properly positioned and results in a bad assembly. The gripper is the fault that generated the errors and failures. The error is a positional error (the undesired state) and the failure is the wrong assembly (a service that could not be delivered). Other instances of error during production can be split in two groups. The first group of errors deals with physical faults such as breakdowns, misalignements, incorrect parts and tooling. The second group of errors deals with non-physical faults such as shortage of parts or missing  tool.
+
+%Failure flexibility is incident oriented and aims for a fast reaction in the assembly system.
+Failures can directly lead to production quality deterioration in automated manufacturing assembly systems and failure flexibility aims for a fast reaction in the assembly system. Bad quality of a manufactured product directly affects the function of the product and can increase the cost of the manufacturing system. When detected earlier, a failure that is addressed before the defective product gets out of the door can increase the cost of producing the same product by between 4 and 6 times the original cost. These costs include the cost of scrapping or reworking materials. If the product is being delivered or in the possession of the customer, the cost can easily run up to 150 times or more of the original cost. These additional costs are incurred due to recalls, warranty claims, liability, fines, sanctions, and loss of customers.
+
+Failure recovery consists of the execution of a sequence of operations in order to recover from a failure situation. \emph{A failure recovery is successful when the planned recovery operations are completely executed, allowing to resume execution of the nominal plan}~\cite{SeabraLopes.1999}.  \emph{Unsuccessful recovery may happen due either to the application of an incorrect recovery strategy, given the initial failure diagnosis, or to errors in the initial diagnosis itself}~\cite{SeabraLopes.1999}.
+
+
+
+
+
+
+
+\paragraph{Metrics Assessment Failure Flexibility --}
+%The major problem to face in the domain of failure
+%recovery is concerned with the search complexity
+%involved in real-world planning. A robot has limited time
+%to plan and recover from a situation.
+
+Fox \textit{et al.}~\cite{Fox.2006} discussed plan replanning and plan repair when differences are detected between the expected and actual context of execution during plan execution in real environments. The authors define plan repair as the work of adapting an existing plan to a new context while perturbing the original plan as little as possible. Replanning is defined as the work of generating a new plan from scratch. Plan repair and replanning are compared using three different metrics: the speed of plan production (CPU time), the plan quality, and the plan stability (relative distances between the original plan and the new plan produced by repair and by replanning).
+Seabra Lopes~\cite{SeabraLopes.1999} introduced learning at the task planning and failure recovery level to enable an assembly system to make decisions in the time scale of the normal
+execution of the task. The author showed that if some unexpected problem arises and records exist about problems of the same kind, the problem can be solved with no significant increase of the total time to complete the task.
+Leighton \textit{et al.}~\cite{Leighton.2011} used a Petri Net Model to assemble geometric figure. The authors used the percentage of faults to assembly a product as one of the metrics to measure the performance of their assembly flexible cell.
+
+Kannan \& Parker~\cite{Kannan.2006}  developed metrics to measure fault-tolerance within the context of system performance in multi-robot teams. Although not particularly applied to manufacturing systems, the metrics discussed by the authors may be used to measure the performance of multi-robot teams on manufacturing shop floors. The authors pointed out that traditional engineering methods addressing fault tolerance deal with reliability and availability. Reliability is defined as the probability that a device will perform its required function under stated conditions for a specific period of time. Reliability  metrics mainly consist of the mean time between failure (MTBF). Other metrics used for evaluation include the mean time to repair (MTTR) and availability. These metrics are defined below.
+\begin{itemize}
+\item The mean time between failure (MTBF) provides a rough estimate of how long one can expect to use a robot without encountering failures. MTBF is computed as follows:
+    \begin{equation}
+    MTBF=\frac{T}{R}
+    \end{equation}
+    where $T$ is the total time a robot was in use and $R$ is the number of failures. If 10 devices are tested for 500 hours. During the test 2 failures occur. The estimate of the MTBF is: $MTBF=\frac{10\times 500}{2}=$2,500 hours / failure.
+\item The mean time to repair ($MTTR$) represents the average time required to repair a failed component or device. In an operational system, repair generally means replacing a failed hardware part. $MTTR$ is computed as follows:
+    \begin{equation}
+    MTTR=\frac{TR}{NR}
+    \end{equation}
+    where $TR$ is the total time spent repairing and $NR$ is the number of repairs.
+%\item Average downtime is the average amount of time between the occurrence of the failure and the completion of the repair that ﬁxed it.
+\item Availability measures the impact of failure on an application or project and is computed as follows:
+\begin{equation}
+Availability=\frac{MTBF}{MTTR+MTBF}\times 100 \%
+\end{equation}
+\end{itemize}
+
+Robustness can be used to assess the failure flexibility of a system. Kannan \& Parker~\cite{Kannan.2006} described robustness as the ability of the system to identify and recover from faults. The authors measured the robustness of individual tasks assigned to multi-robot teams. Robustness of a control system was described by Pinto-Leit\~{a}o \& Restivo~\cite{Leitao.2004} as the capability to remain working correctly and relatively stable, even in presence of disturbances. The degree of robustness is measured by introducing possible errors (as many as possible) in the system and then verifying if the control system could still work properly. The degree of robustness is given by $\frac{nP}{nT}\times 100 \%$, where $nP$ is the number of tests passed and $nT$ is the total number of tests.

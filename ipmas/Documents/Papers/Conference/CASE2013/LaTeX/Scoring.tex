@@ -1,0 +1,86 @@
+The Kitting Viewer has a configurable scoring system that uses the
+following five factors combined as specified by a scoring file to compute
+the score. The factors and the score are recomputed after each movable goal
+object is checked.
+
+\begin{itemize}
+
+\item \small \sf Right Stuff \rm \normalsize -- The Right Stuff value, $R$,
+  is a measure of achieving goal positions. Let $G$ be the number of
+  objects in the goal file placed correctly so far, $B$ be the number of
+  objects in the goal file placed incorrectly so far, and $N$ be the number
+  of objects in the goal file checked so far. Then $R = (G - B) / N$. If
+  $R$ is less than zero, it is set to zero.
+
+\item \small \sf Command Execution \rm \normalsize -- The Command Execution
+  value, $C$, is the fraction of all commands in the command file that were
+  executed correctly. This factor does not change during the second phase
+  of Kitting Viewer operation. Let $K$ be the total number of commands
+  executed successfully and $E$ be the number of errors that are not
+  location errors. Then $C = K / (K + E)$.
+
+\item \small \sf Distance \rm \normalsize -- The Distance value, $D$ is a
+  measure of efficiency of robot motion in terms of distance. Let $J$ be
+  the total distance moved from initial position to goal position by all
+  basic goal objects that have been checked so far, $L$ be the total
+  distance moved by the robot, and $F$ be the fraction of movable objects
+  that have been checked so far. Then $D = (2 \times J) / (L \times F)$. If
+  $D$ is greater than 1, it is set to 1. The numerator, $(2 \times J)$ is a
+  crude measure of a short distance to move the robot in order to move the
+  objects that have been moved so far to their goal positions.
+
+\item \small \sf Time \rm \normalsize -- The Time value, $T$ is a measure
+  of efficiency of robot motion in terms of time. The teleport time, $P$,
+  is a crude measure of a fast time for moving the objects that have been
+  moved so far to their goal positions. Let $J$ and $F$ be as in the
+  preceding item, and let $Q$ be the maximum speed of the robot. Then
+  $P = (2 \times J) / Q$. Let $H$ be the total execution time.
+  Then $T = P / (H \times F)$. If $T$ is greater than 1, it is set to 1.
+
+\item \small \sf Useless Commands \rm \normalsize -- The Useless Command
+  factor is the value of the useless commands metric. This factor does not
+  change during the second phase of Kitting Viewer operation.
+
+\end{itemize}
+
+A scoring file used in the Kitting Viewer is an XML data file conforming to
+the scoreKitting.xsd XML schema file. C++ classes and a parser for scoring
+files were generated automatically using the code generator mentioned
+earlier.
+
+The scoring file, as prepared by a user, designates each of the five
+factors as being either multiplicative or additive. For additive factors, a
+weight may be assigned in the file. For each factor, a valuation function
+may be assigned. A valuation function takes a raw factor with an arbitrary
+range and produces a number between 0 and 1. The final stage of producing
+a score combines numbers between 0 and 1. If a raw factor (useless
+commands, for example) is not necessarily between 0 and 1, a valuation
+function must be assigned to that factor. If a raw factor is always between
+0 and 1 (right stuff, for example), a valuation function may be assigned,
+but is not required.
+
+The scoring system is designed so that the score it produces is always
+between 0 and 100.
+
+Each factor is designated as additive or multiplicative. A factor
+value $V_i$ between 0 and 1 is found for each additive factor and a
+factor value $U_i$ between 0 and 1 is found for each multiplicative
+factor. Each additive factor is assigned a non-negative weight $W_i$. An
+additive score $S_a$ is produced by multiplying each additive value by
+its weight, adding the products together, and dividing by the sum of the
+weights. If there are no additive factors or their weights are all
+zero, $S_a = 1$.
+\[
+S_a = \frac{(V_1\times W_1)+(V_2\times W_2)+\cdots + (V_n\times W_n)}{W_1+W_2+\cdots+W_n}
+\]
+The value of $S_a$ will be between 0 and 1 since all the components of the
+equation are positive and the largest the numerator can be is the size
+of the denominator.
+
+Then the total score $S$ is found by finding the product of $S_a$, 100, and
+all the multiplicative factors.
+
+$S = (100\times S_a\times U_1\times U_2\times\cdots \times U_m)$
+
+
+

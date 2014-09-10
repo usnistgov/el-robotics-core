@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_classes_c_p_p_1_1_dao_generator.html#afecf1a252b2260a52d872afdbd7cffdc" title="Method used to generate the Select queries." alt="" coords="335,5,617,35"/>
+<area shape="rect" id="node5" href="$class_classes_c_p_p_1_1_dao_generator.html#a8cf53076ae7d1c6032e3c8a85747dddf" title="Generate the queries used to interact with the DB." alt="" coords="667,5,952,35"/>
+<area shape="rect" id="node7" href="$class_classes_c_p_p_1_1_dao_generator.html#aef6508498c44300406cd431b8a1c934d" title="Retrieve the super classes for a given one." alt="" coords="1000,5,1243,35"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_gui.html#aa803177c18d790a882ffcbae64b7ebbf" title="Constructor." alt="" coords="128,59,195,88"/>
+<area shape="rect" id="node5" href="$class_gui.html#a8625b72e14c540c8aaef92127a14fca7" title="Generate the C++ classes." alt="" coords="252,5,396,35"/>
+<area shape="rect" id="node7" href="$class_gui.html#a8a2287b6f261d3a0316cee677a2c156f" title="Generate the C++ Connection files." alt="" coords="243,59,405,88"/>
+<area shape="rect" id="node9" href="$class_gui.html#a328763db8d277612d5855a8ee4894cb1" title="Generate the DAO files." alt="" coords="264,112,384,141"/>
+</map>

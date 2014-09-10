@@ -1,0 +1,8 @@
+1. How to install/rebuild from source:
+	- run make. Ensure that the library ../lib/libsqlKit.a exists - if it does not, make sure that DAO.cpp and Connection.cpp are compiled into it when created
+
+2. How to run: 
+	- you may need to add or change your environment variables including MySqlDefaultHost, MySqlDefaultPassword, MySqlDefaultSchema, and MySqlDefaultUser
+	- type "sql2pddl [mapping.txt] [old_problem_file] [new_problem_file]", replacing the strings in square brackets with the relevant files 
+
+See Doxygen documentation files for more information on the format required for the input files

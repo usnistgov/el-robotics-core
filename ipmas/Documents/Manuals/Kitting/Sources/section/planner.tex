@@ -1,0 +1,68 @@
+\section{Planner}\label{section:planner}
+This section describes the steps to install and run a planner on the PDDL domain and problem files in order to generate a plan. The planner uses a forward-chaining partial-order planning~\cite{Coles.ICAPS.2010}.
+
+\subsection{Requirements}
+The planner requires:
+\begin{itemize}
+\item \texttt{cmake}
+\item The CBC mixed integer programming solver (\url{https://projects.coin-or.org/Cbc/})
+\item \texttt{perl}, \texttt{bison} and \texttt{flex} to build the parser
+\end{itemize}
+
+These are packaged with most Linux distributions - on Ubuntu/Debian, the following should suffice:\\
+
+\texttt{sudo apt-get install cmake coinor-libcbc-dev coinor-libclp-dev \textbackslash \\coinor-libcoinutils-dev bison flex}
+
+\subsection{Download and Install CBC}
+The CBC source code can be retrieved in two ways:
+
+\begin{enumerate}
+\item Local copy: \texttt{ipmas/planner/coin-Cbc.tar.gz}
+\item SVN: \footnotesize{\texttt{svn co https://projects.coin-or.org/svn/Cbc/stable/2.8 coin-Cbc}}
+\end{enumerate}
+
+If CBC is retrieved using option 1, unzip \texttt{coin-Cbc.tar.gz} to generate the \texttt{coin-Cbc} directory.\\ 
+
+Perform the following steps.
+\begin{itemize}
+\item \texttt{cd coin-Cbc}
+\item \texttt{./configure -C}: Runs a configure script that generates the make file.
+\item \texttt{make}: Builds the Cbc library and executable program.
+\item \texttt{make test}: Builds and runs the Cbc unit test program.
+\item \texttt{make install}: Installs libraries, executables and header files in directories \texttt{coin-Cbc/lib}, \texttt{coin-Cbc/bin} and \texttt{coin-Cbc/include}.
+\end{itemize}
+
+\subsection{Compile the Planner}
+The planner can be found at \texttt{ipmas/planner/popf2-11jun2011.tar.bz2}. Unzip \texttt{popf2-11jun2011.tar.bz2} to get the \texttt{tempo-sat-popf2} directory, then:
+\begin{itemize}
+\item cd \texttt{tempo-sat-popf2}
+\item \texttt{./build}
+\end{itemize}
+
+New files and directories are created in the \texttt{tempo-sat-popf2/compile/} directory. However, the executable is not generated at this point and errors should be displayed. To fix this, open \texttt{tempo-sat-popf2/compile/CMakeCache.txt} in a text editor and edit the following lines. Note that \texttt{<path>} is the absolute path that leads to the \texttt{coin-Cbc} directory.
+
+
+\begin{itemize}
+\item \textbf{line 24}: \texttt{CBC\_INCLUDES:PATH=<path>/include}
+\item \textbf{line 33}: \texttt{CGL\_INCLUDES:PATH=<path>/include}
+\item \textbf{line 36}: \texttt{CGL\_LIBRARIES:FILEPATH=/usr/lib/libCgl.so.0}
+\item \textbf{line 39}: \texttt{CLP\_INCLUDES:PATH=<path>/include}
+\item \textbf{line 186}: \texttt{COINUTILS\_INCLUDES:PATH=<path>/include}
+\item \textbf{line 230}: \texttt{OSICLP\_LIBRARIES:FILEPATH=/usr/lib/libOsiClp.so.0}
+\item \textbf{line 233}: \texttt{OSI\_INCLUDES:PATH=<path>/include}
+\item \textbf{line 236}: \texttt{OSI\_LIBRARIES:FILEPATH=/usr/lib/libOsi.so.0}
+\end{itemize}
+
+Recompile the planner:\\
+\texttt{./build}
+
+
+\subsection{Run the Planner}
+To run the planner, the path to the PDDL domain and problem files should be identified. The format of the PDDL files must be \texttt{.pddl}. The following command run the planner on the PDDL files.
+
+\begin{itemize}
+\item \texttt{./plan <domain> <problem> <solution>}
+\end{itemize}
+
+
+Where \texttt{<domain>} and \texttt{<problem>} are the paths that point to the PDDL domain and problem files, respectively.\\\texttt{<solution>} is the output file that will contain the plan.

@@ -1,0 +1,2 @@
+/usr/bin/ar cr libParsePDDL.a  CMakeFiles/ParsePDDL.dir/pddl+.o CMakeFiles/ParsePDDL.dir/ptree.o CMakeFiles/ParsePDDL.dir/DebugWriteController.o
+/usr/bin/ranlib libParsePDDL.a

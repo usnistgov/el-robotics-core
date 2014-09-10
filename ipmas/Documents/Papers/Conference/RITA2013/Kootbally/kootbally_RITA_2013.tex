@@ -1,0 +1,135 @@
+% LaTex file for Stephen Balakirsky's RITA 2014 submission
+%
+\documentclass{llncs}
+%
+\usepackage{makeidx}  % allows for indexgeneration
+%
+% my additional packages
+\usepackage{graphicx}
+%\usepackage{multirow,array}
+%\usepackage{rotating} % for sideways
+\usepackage{amsmath}
+\usepackage{fancyvrb}
+\usepackage{subfigure}
+\usepackage{tikz}
+%\usepackage{algorithm2e}
+\usepackage[linesnumbered, boxed, figure]{algorithm2e}
+%
+% zeid's definitions
+\newcommand{\class}[1] {\textit{#1}}
+\newcommand{\const}[1] {$\mathit{#1}$}
+\newcommand{\objvar}[1] {$\mathsf{#1}$}
+\newcommand{\stvar}[1] {\textsf{#1}}
+\newcommand{\constsmall}[1] {\small $\mathit{#1}$}
+\newcommand{\stvarsmall}[1] {\small {\textsf{#1}}}
+\newcommand{\op}[1] {\textsl{#1}}
+\newcommand{\opsmall}[1] {\small {\textsl{#1}}}
+\newcommand{\nil} {\textit{nil}\ }
+\newcommand{\app}[1] {\textit{#1}}
+\newcommand{\file}[1] {\textsf{#1}}
+\newcommand*\mycirc[1]{%
+  \begin{tikzpicture}
+    \node[draw,circle,inner sep=0.5pt] {#1};
+  \end{tikzpicture}}
+%
+%
+\begin{document}
+%
+\frontmatter          % for the preliminaries
+%
+\pagestyle{headings}  % switches on printing of running heads
+\addtocmark{Hamiltonian Mechanics} % additional mark in the TOC
+%
+%
+\mainmatter              % start of the contributions
+%
+%\title{Development of a Canonical Sensor Command/Response Language for Industrial Kit Building Applications}
+\title{A Simulated Sensor-based Approach for Kit Building Applications}
+%
+\titlerunning{Agile Manufacturing}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Zeid Kootbally\inst{1}, Craig Schlenoff\inst{2}, Teddy Weisman\inst{3}, Stephen Balakirsky\inst{4}, Thomas Kramer\inst{5}, and Anthony Pietromartire\inst{2}}
+
+%
+\authorrunning{Zeid Kootbally et al.} % abbreviated author list (for running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+\tocauthor{Zeid Kootbally, Craig Schlenoff, Teddy Weisman, Stephen Balakirsky, and Anthony Pietromartire}
+%
+\institute{
+University of Maryland, College Park, MD 20740, USA,\\
+\email{zeid.kootbally@nist.gov},\\ WWW home page:
+\texttt{www.nist.gov/el/isd/ks/kootbally.cfm}
+\and
+Intelligent Systems Division, National Institute of Standards and Technology, Gaithersburg, MD, USA,\\
+\email{craig.schlenoff@nist.gov, anthony.pietromartire@nist.gov},\\
+WWW home page:
+\texttt{www.nist.gov/el/smartcyber.cfm}
+\and
+Yale University, New Haven, CT 06520,\\
+\email{tjweisman@gmail.com}
+\and
+Georgia Tech Research Institute, Atlanta, GA 30332, USA,\\
+\email{stephen.balakirsky@gtri.gatech.edu},\\
+WWW home page:
+\texttt{unmannedsystems.gtri.gatech.edu}
+\and
+Department of Mechanical Engineering, Catholic University of America, Washington, DC, USA,\\
+\email{thomas.kramer@nist.gov},\\
+WWW home page:
+\texttt{http://www.nist.gov/el/isd/ks/kramer.cfm}
+}
+
+\maketitle              % typeset the title of the contribution
+
+
+
+%
+% ---- Sections ----
+%
+%---------------------------%
+\input{abstract}
+%---------------------------%
+\section{Introduction}
+\input{introduction}
+%---------------------------%
+\section{Knowledge Driven Methodology}\label{section:architecture}
+\input{architecture}
+
+%---------------------------%
+\section{Simulation Environment}\label{section:simulation}
+\input{simulation}
+
+%\input{sensor}
+%---------------------------%
+\section{System Operation}\label{section:sensor}
+\input{sensor}
+
+%---------------------------%
+\section{Conclusions and Future Work}\label{section:conclusions}
+\input{conclusions}
+
+%---------------------------%
+\section{NIST Disclaimer}
+\input{disclaimer}
+
+%---------------------------%
+\section{Acknowledgement}
+\input{acknowledgement}
+%
+% ---- Bibliography ----
+%
+\bibliographystyle{plain}
+\bibliography{rita2013}
+\clearpage
+\addtocmark[2]{Author Index} % additional numbered TOC entry
+\renewcommand{\indexname}{Author Index}
+\printindex
+\clearpage
+\addtocmark[2]{Subject Index} % additional numbered TOC entry
+\markboth{Subject Index}{Subject Index}
+\renewcommand{\indexname}{Subject Index}
+%\input{subjidx.ind}
+\end{document}

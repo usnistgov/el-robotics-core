@@ -1,0 +1,102 @@
+% LaTex file for Stephen Balakirsky's Robotics and 
+% Computer Integrated Manufacturing 2014 submission
+%
+\documentclass[review]{elsarticle}
+
+\usepackage{lineno,hyperref}
+
+%
+% my additional packages
+\usepackage{graphicx}
+\usepackage{multirow,array}
+\usepackage{rotating} % for sideways
+\usepackage{amsmath}
+\usepackage{amsthm}
+%\usepackage{algorithm2e}
+\usepackage[linesnumbered, boxed, figure]{algorithm2e}
+%
+% zeid's definitions
+\newcommand{\class}[1] {\textit{#1}}
+\newcommand{\const}[1] {$\mathit{#1}$}
+\newcommand{\objvar}[1] {$\mathsf{#1}$}
+\newcommand{\stvar}[1] {\textsf{#1}}
+%
+%
+%
+\modulolinenumbers[5]
+
+\journal{Journal of Robotics-and-Computer-Integrated-Manufacturing}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Preface: Special Issue on Knowledge Driven Robotics and Manufacturing}
+
+%% Group authors per affiliation:
+\author{Stephen Balakirsky}
+\address{Georgia Tech Research Institute, Atlanta, GA 30332, USA}
+\cortext[mycorrespondingauthor]{Corresponding author}
+\ead{stephen.balakirsky@gtri.gatech.edu}
+
+\author{Craig Schlenoff}
+\address{National Institute of Standards and Technology, Gaithersburg, MD 20899, USA}
+
+\author{Edson Pretes}
+\address{Universidade Federal do Rio Grande do Sol, Porto Alegre, Rio Grande do Sul, Brazil}
+
+\end{frontmatter}
+
+\linenumbers
+
+%
+%\usepackage{makeidx}  % allows for indexgeneration
+%
+%
+%
+\input{introduction}
+\input{Synopsis}
+\input{Acknowledgement}
+%
+%
+
+
+
+%
+% ---- Bibliography ----
+%
+%\bibliographystyle{plain}
+%\bibliography{ontology}
+\end{document}

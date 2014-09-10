@@ -1,0 +1,13 @@
+This owlFiles directory would contain the following OWL files, except
+that they have been moved to ipmas/Ontology/Kitting.
+
+kittingInstancesExternalShape.owl
+kittingInstancesGoal1.owl
+kittingInstancesGoal2.owl
+kittingInstancesGoalGearBox.owl
+kittingInstancesGrasp.owl
+kittingInstancesInit1.owl
+kittingInstancesInit2.owl
+kittingInstancesInit3.owl
+kittingInstancesInitGearBox.owl
+kittingWorkstationClasses.owl

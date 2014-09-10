@@ -1,0 +1,8 @@
+genSrc.cpp
+*.sql
+CMakeFiles
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+src/*.cpp
+database/*.hh

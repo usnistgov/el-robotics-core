@@ -1,0 +1,40 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(geo:=<http://www.nist.gov/el/ontologies/geometrySchema3Classes.owl#>)
+Prefix(cir:=<http://www.nist.gov/el/ontologies/CircleAndSphereClasses.owl#>)
+Prefix(poi:=<http://www.nist.gov/el/ontologies/PointAndVectorClasses.owl#>)
+
+Ontology(<http://www.nist.gov/el/ontologies/CircleAndSphereClasses.owl>
+Import(<file:PointAndVectorClasses.owl>)
+
+Annotation(rdfs:comment
+  "This is a schema with classes for circle and sphere.")
+Annotation(rdfs:comment
+  "owlPrefix=cir")
+
+
+
+Declaration(Class(cir:Circle))
+
+Declaration(ObjectProperty(cir:hasCircle_Normal))
+ObjectPropertyDomain(cir:hasCircle_Normal cir:Circle)
+ObjectPropertyRange(cir:hasCircle_Normal poi:Vector)
+InverseFunctionalObjectProperty(cir:hasCircle_Normal)
+FunctionalObjectProperty(cir:hasCircle_Normal)
+EquivalentClasses(cir:Circle ObjectIntersectionOf(
+  ObjectSomeValuesFrom(cir:hasCircle_Normal poi:Vector)
+  ObjectAllValuesFrom (cir:hasCircle_Normal poi:Vector)))
+
+Declaration(ObjectProperty(cir:hadByNormal_Circle))
+InverseObjectProperties(cir:hasCircle_Normal
+                        cir:hadByNormal_Circle)
+ObjectPropertyDomain(cir:hadByNormal_Circle poi:Vector)
+ObjectPropertyRange(cir:hadByNormal_Circle cir:Circle)
+
+
+
+Declaration(Class(cir:Sphere))
+)

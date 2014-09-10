@@ -1,0 +1,5393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:kitting"
+  targetNamespace="urn:kitting"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xs:include schemaLocation="kittingWorkstation.xsd"/>
+
+  <xs:annotation>
+    <xs:documentation>
+      This is a schema with classes for actions representation.
+    </xs:documentation>
+    <xs:documentation>owlPrefix=soap</xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="SOAP"
+    type="SOAPType">
+    <xs:annotation>
+      <xs:documentation>
+        This is a schema with classes for actions representation.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="SOAPType">
+    <xs:annotation>
+      <xs:documentation>
+	SOAPType is derived from DataThingType. 
+	
+	An instance of SOAPType has:
+	- KittingWorkstationType: data coming from kittingWorkstation.xml and using kittingWorkstation.xsd
+	- DomainType: elements that need to be represented in a PDDL domain file.
+	- PositiveStateRelationType: elements describing positive state relations
+	- NegativeStateRelationType: elements describing negative state relations.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="KittingWorkstation"
+            type="KittingWorkstationType"
+            minOccurs="1"/>
+          <xs:element name="Domain"
+            type="DomainType"
+            minOccurs="1"/>
+          <xs:element name="InContactWith"
+            type="InContactWithType"
+            minOccurs="1"/>
+          <xs:element name="UnderWithContact"
+            type="UnderWithContactType"
+            minOccurs="1"/>
+          <xs:element name="PartiallyIn"
+            type="PartiallyInType"
+            minOccurs="1"/>
+          <xs:element name="OnTopWithContact"
+            type="OnTopWithContactType"
+            minOccurs="1"/>
+          <xs:element name="ContainedIn"
+            type="ContainedInType"
+            minOccurs="1"/>
+          <xs:element name="ContainedInLBWK"
+            type="ContainedInLBWKType"
+            minOccurs="1"/>
+          <xs:element name="OnTopOf"
+            type="OnTopOfType"
+            minOccurs="1"/>
+          <xs:element name="Under"
+            type="UnderType"
+            minOccurs="1"/>
+          <xs:element name="PartiallyInAndInContactWith"
+            type="PartiallyInAndInContactWithType"
+            minOccurs="1"/>
+          <xs:element name="NotInContactWith"
+            type="NotInContactWithType"
+            minOccurs="1"/>
+          <xs:element name="NotUnderWithContact"
+            type="NotUnderWithContactType"
+            minOccurs="1"/>
+          <xs:element name="NotOnTopWithContact"
+            type="NotOnTopWithContactType"
+            minOccurs="1"/>
+          <xs:element name="NotContainedIn"
+            type="NotContainedInType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-has-heldObject-kitTray
+	(Partially-In(KitTray, EndEffector) OR Contained-In(KitTray, EndEffector)) AND (not(Under-With-Contact(SolidObject,KitTray)))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="Group_2"
+            type="G2_EEffHasKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHasKitTrayType is derived from NegativePredicateType.
+	NotEEffHasKitTrayType is the negation of EEffHasKitTrayType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-has-heldObject-kit
+	Since a kit has a kit tray for reference object, the groups for endEffector-has-heldObject-kit are the same as endEffector-has-heldObject-kitTray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="Group_2"
+            type="G2_EEffHasKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the first group for the predicate endEffector-has-heldObject-kitTray.
+	(Partially-In(kittray, endeffector) OR Contained-In(kittray, endeffector)
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_EEffHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_EEffHasKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_EEffHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(kittray, endeffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_EEffHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(kittray, endeffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G2_EEffHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	(not(Under-With-Contact(SolidObject,KitTray)))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotUnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHasKitType is derived from NegativePredicateType.
+	NotEEffHasKitType is the negation of EEffHasKitType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHasPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-has-heldObject-part
+	Under-With-Contact(Part, EndEffector) AND not (Under-With-Contact(SolidObject, Part))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHasPartType"
+            minOccurs="1"/>
+          <xs:element name="Group_2"
+            type="G2_EEffHasPartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHasPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Under-With-Contact(Part, EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>UnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G2_EEffHasPartType">
+    <xs:annotation>
+      <xs:documentation>
+	not (Under-With-Contact(SolidObject, Part))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotUnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHasPartType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHasPartType is derived from NegativePredicateType.
+	NotEEffHasPartType is the negation of EEffHasPartType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasPartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHasNoObjectType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-has-no-heldObject
+	not (Under-With-Contact(SolidObject, EndEffector))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHasNoObjectType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHasNoObjectType">
+    <xs:annotation>
+      <xs:documentation>
+	not (Under-With-Contact(SolidObject, EndEffector))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotUnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHasNoObjectType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHasNoObjectType is derived from NegativePredicateType.
+	NotEEffHasNoObjectType is the negation of EEffHasNoObjectType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHasRefObjectRobotType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-has-physicalLocation-refObject-robot
+	In-Contact-With(EndEffector,Robot)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHasRefObjectRobotType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHasRefObjectRobotType">
+    <xs:annotation>
+      <xs:documentation>
+	In-Contact-With(EndEffector,Robot)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>InContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHasRefObjectRobotType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHasRefObjectRobotType is derived from NegativePredicateType.
+	NotEEffHasRefObjectRobotType is the negation of EEffHasRefObjectRobotType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-has-physicalLocation-refObject-endEffectorHolder and endEffectorHolder-has-endEffector
+	Partially-In(endeffector, endeffectorholder) OR Contained-In(endeffector, endeffectorholder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHasEEffHolderType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicates endEffector-has-physicalLocation-refObject-endEffectorHolder and endEffectorHolder-has-endEffector
+	Partially-In(endeffector, endeffectorholder) OR Contained-In(endeffector, endeffectorholder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_EEffHasEEffHolderType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_EEffHasEEffHolderType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_EEffHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(EndEffector,EndEffectorHolder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_EEffHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(EndEffector,EndEffectorHolder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHasEEffHolderType is derived from NegativePredicateType.
+	NotEEffHasEEffHolderType is the negation of EEffHasEEffHolderType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffIsForKitTraySKUType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-is-for-kitTraySKU
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffIsForPartSKUType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffector-is-for-partSKU
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ChStationHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endeffectorchangingstation-has-endeffectorholder
+	In-Contact-With(EndEffectorChangingStation,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_ChStationHasEEffHolderType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_ChStationHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	In-Contact-With(EndEffectorChangingStation,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>InContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHolderHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffectorHolder-has-endEffector
+	Partially-In(endeffector, endeffectorholder) OR Contained-In(endeffector, endeffectorholder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHolderHasEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHolderHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate endEffectorHolder-has-endEffector
+	Partially-In(endeffector, endeffectorholder) OR Contained-In(endeffector, endeffectorholder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_EEffHolderHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_EEffHolderHasEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_EEffHolderHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(endeffector, endeffectorholder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_EEffHolderHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(endeffector, endeffectorholder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EEffHHasChStationType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate endEffectorHolder-has-physicalLocation-refObject-changingStation
+	In-Contact-With(EndEffectorChangingStation,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_EEffHHasChStationType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_EEffHHasChStationType">
+    <xs:annotation>
+      <xs:documentation>
+	In-Contact-With(EndEffectorChangingStation,EndEffectorHolder)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>InContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitExistsType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kit-exists
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitExistsType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitExistsType is derived from NegativePredicateType.
+	NotKitExistsType is the negation of KitExistsType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kit-has-kitTray
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitHasRefObjectLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kit-has-physicalLocation-refObject-lbwk
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_KitHasRefObjectLBWKType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_KitHasRefObjectLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate kit-has-physicalLocation-refObject-lbwk and lbwk-has-kit
+	Partially-In(kit, lbwk) OR Contained-In(kit,lbwk)
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_KitHasRefObjectLBWKType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_KitHasRefObjectLBWKType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_KitHasRefObjectLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(kit, lbwk)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_KitHasRefObjectLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(kit,lbwk)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitHasRefObjectWorkTableType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kit-has-physicalLocation-refObject-workTable
+	On-Top-With-Contact(Kit,WorkTable)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_KitHasRefObjectWorkTableType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_KitHasRefObjectWorkTableType">
+    <xs:annotation>
+      <xs:documentation>
+	On-Top-With-Contact(Kit,WorkTable)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>OnTopWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitHasWorkTableType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitHasWorkTableType is derived from NegativePredicateType.
+	NotKitHasWorkTableType is the negation of KitHasRefObjectWorkTableType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectWorkTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kit-has-physicalLocation-refObject-endEffector
+	
+	(Partially-In(kit,endeffector) OR Contained-In(kit, endeffector)) and not(Under-And-In-Contact-With(SolidObject,kit))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_KitHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="Group_2"
+            type="G2_KitHasRefObjectEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_KitHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the second group for the predicate kit-has-physicalLocation-refObject-endEffector
+	(Partially-In(kit,endeffector) OR Contained-In(kit, endeffector)) and not(Under-And-In-Contact-With(SolidObject,kit))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_KitHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_KitHasRefObjectEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_KitHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(kit,endeffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_KitHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(kit, endeffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G2_KitHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	not(Under-And-In-Contact-With(SolidObject,kit))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotUnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitHasRefObjectEEffType is derived from NegativePredicateType.
+	NotKitHasRefObjectEEffType is the negation of KitHasRefObjectEEffType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitHasRefObjectWorkTableType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitHasRefObjectWorkTableType is derived from NegativePredicateType.
+	NotKitHasRefObjectWorkTableType is the negation of KitHasRefObjectWorkTableType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectWorkTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitTrayHasSKUObjectSKUType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kitTray-has-skuObject-sku
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitTrayHasRefObjectLBWEKTType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kitTray-has-physicalLocation-refObject-lbwekt
+	Contained-In(KitTray,LBWEKT)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_KitTrayHasRefObjectLBWEKTType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_KitTrayHasRefObjectLBWEKTType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(KitTray,LBWEKT)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitTrayHasLBWEKTType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitTrayHasLBWEKTType is derived from NegativePredicateType.
+	NotKitTrayHasLBWEKTType is the negation of KitTrayHasRefObjectLBWEKTType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectLBWEKTType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitTrayHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kitTray-has-physicalLocation-refObject-endEffector
+	(Partially-In(KitTray, EndEffector) OR Contained-In(KitTray, EndEffector)) AND not(Under-And-In-Contact-With(SolidObject,KitTray))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_KitTrayHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="Group_2"
+            type="G2_KitTrayHasRefObjectEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_KitTrayHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the first group for the predicate kittray-location-robot
+	(Partially-In(KitTray, EndEffector) OR Contained-In(KitTray, EndEffector))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_KitTrayHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_KitTrayHasRefObjectEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_KitTrayHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(KitTray, EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_KitTrayHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(KitTray, EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G2_KitTrayHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	not(Under-And-In-Contact-With(SolidObject,KitTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotUnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitTrayHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitTrayHasEEffType is derived from NegativePredicateType.
+	NotKitTrayHasEEffType is the negation of KitTrayHasRefObjectEEffType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KitTrayHasRefObjectKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kitTray-has-physicalLocation-refObject-kit
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitTrayHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitTrayHasKitType is derived from NegativePredicateType.
+	NotKitTrayHasKitType is the negation of KitTrayHasRefObjectKitType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KTrayHasRefObjectWTableType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate kitTray-has-physicalLocation-refObject-workTable
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_KTrayHasRefObjectWTableType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_KTrayHasRefObjectWTableType">
+    <xs:annotation>
+      <xs:documentation>
+	On-Top-With-Contact(KitTray,WorkTable)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>OnTopWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LBWKHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate lbwk-has-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_LBWKHasKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_LBWKHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate lbwk-has-kit
+	Partially-In(kit, lbwk) OR Contained-In(kit,lbwk)
+
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_LBWKHasKitType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_LBWKHasKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_LBWKHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(kit, lbwk)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_LBWKHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(kit,lbwk)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartHasSKUObjectSKUType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate part-has-skuObject-sku
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartHasRefObjectPartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate part-has-physicalLocation-refObject-partsTray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_PartHasRefObjectPartsTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_PartHasRefObjectPartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the predicate part-has-physicalLocation-refObject-partsTray
+	Partially-In(Part,PartsTray) OR Contained-In(Part,PartsTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_PartHasRefObjectPartsTrayType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_PartHasRefObjectPartsTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_PartHasRefObjectPartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(Part,PartsTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_PartHasRefObjectPartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(Part,PartsTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotPartHasPartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	NotPartHasPartsTrayType is derived from NegativePredicateType.
+	NotPartHasPartsTrayType is the negation of PartHasRefObjectPartsTrayType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasRefObjectPartsTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartHasRefObjectKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate part-has-physicalLocation-refObject-kit 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_PartHasRefObjectKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_PartHasRefObjectKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the group for the part-has-physicalLocation-refObject-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_PartHasRefObjectKitType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_PartHasRefObjectKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_PartHasRefObjectKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(Part,Kit)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_PartHasRefObjectKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(Part,Kit)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate part-has-physicalLocation-refObject-endEffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_PartHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="Group_2"
+            type="G2_PartHasRefObjectEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_PartHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the second group for the predicate part-location-robot
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementORType">
+        <xs:sequence>
+          <xs:element name="SubGroup_1"
+            type="SG1_PartHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="SubGroup_2"
+            type="SG2_PartHasRefObjectEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG1_PartHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Partially-In(Part,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartiallyInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SG2_PartHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(Part,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G2_PartHasRefObjectEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Not-Under-With-Contact(Part,SolidObject)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotUnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotPartHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	NotPartHasEEffType is derived from NegativePredicateType.
+	NotPartHasEEffType is the negation of PartHasRefObjectEEffType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartFoundType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate part-is-found
+	No state relations associated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartsVesselHasPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate partsVessel-has-part
+	Contained-In(Part,PartsTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_PartsVesselHasPartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_PartsVesselHasPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Contained-In(Part,PartsTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate robot-has-endEffector
+	In-Contact-With(Robot,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_RobotHasEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_RobotHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	In-Contact-With(Robot,EndEffector)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>InContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotRobotHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	NotRobotHasEEffType is derived from NegativePredicateType.
+	NotRobotHasEEffType is the negation of RobotHasEEffType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotHasNoEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate robot-has-no-endEffector
+	not(In-Contact-With(Robot,EndEffector))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_RobotHasNoEEffType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_RobotHasNoEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	not(In-Contact-With(Robot,EndEffector))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotInContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotRobotHasNoEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	NotRobotHasNoEEffType is derived from NegativePredicateType.
+	NotRobotHasNoEEffType is the negation of RobotHasNoEEffType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasNoEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="WorkTableHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the workTable-has-objectOnTable-kit
+	Under-With-Contact(WorkTable,Kit)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_WorkTableHasKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_WorkTableHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Under-With-Contact(WorkTable,Kit)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>UnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotWorkTableHasKitType">
+    <xs:annotation>
+      <xs:documentation>
+	NotWorkTableHasKitType is derived from NegativePredicateType.
+	NotWorkTableHasKitType is the negation of WorkTableHasKitType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>WorkTableHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="WorkTableHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate workTable-has-objectOnTable-kitTray
+	On-Top-With-Contact(KitTray,WorkTable)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_WorkTableHasKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_WorkTableHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Under-With-Contact(WorkTable,KitTray)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>UnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotWorkTableHasKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	NotWorkTableHasKitTrayType is derived from NegativePredicateType.
+	NotWorkTableHasKitTrayType is the negation of WorkTableHasKitTrayType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>WorkTableHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="WorkTableHasNoObjectOnTableType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate workTable-has-no-objectOnTable
+	not(On-Top-With-Contact(SolidObject,WorkTable))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="G1_WorkTableHasNoObjectOnTableType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="G1_WorkTableHasNoObjectOnTableType">
+    <xs:annotation>
+      <xs:documentation>
+	not(On-Top-With-Contact(SolidObject,WorkTable))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotOnTopWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotEEffHolderHasEEffType">
+    <xs:annotation>
+      <xs:documentation>
+	NotEEffHolderHasEEffType is derived from NegativePredicateType.
+	NotEEffHolderHasEEffType is the negation of EEffHolderHasEEffType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHolderHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotChStationHasEEffHolderType">
+    <xs:annotation>
+      <xs:documentation>
+	NotChStationHasEEffHolderType is derived from NegativePredicateType.
+	NotChStationHasEEffHolderType is the negation of ChStationHasEEffHolderType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ChStationHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKitHasRefObjectLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKitHasRefObjectLBWKType is derived from NegativePredicateType.
+	NotKitHasRefObjectLBWKType is the negation of KitHasRefObjectLBWKType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectLBWKType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LBWKNotFullType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate lbwk-not-full
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType">
+        <xs:sequence>
+          <xs:element name="Group_1"
+            type="GroupLBWKNotFullType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotLBWKNotFullType">
+    <xs:annotation>
+      <xs:documentation>
+	NotLBWKNotFullType is derived from NegativePredicateType.
+	NotLBWKNotFullType is the negation of LBWKNotFullType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>LBWKNotFullType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GroupLBWKNotFullType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the first group for the predicate lbwk-not-full
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PredicateGroupElementType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInLBWKType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FoundPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate found-part
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotFoundPartType">
+    <xs:annotation>
+      <xs:documentation>
+	NotFoundPartType is derived from NegativePredicateType.
+	NotFoundPartType is the negation of FoundPartType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>FoundPartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OriginPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the predicate origin-part
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositivePredicateType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotKTrayHasRefObjectWTableType">
+    <xs:annotation>
+      <xs:documentation>
+	NotKTrayHasRefObjectWTableType is derived from NegativePredicateType.
+	NotKTrayHasRefObjectWTableType is the negation of KTrayHasRefObjectWTableType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativePredicateType">
+        <xs:sequence>
+          <xs:element name="PositivePredicateName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KTrayHasRefObjectWTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QuantityOfPartsInPartsTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function quantity-of-parts-in-partstray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QuantityOfPartsInKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function quantity-of-parts-in-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QuantityOfKitTraysInLBWEKTType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function quantity-of-kittrays-in-lbwekt
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QuantityOfKitsInLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function quantity-of-kits-in-lbwk
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CurrentQuantityOfPartsInKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function current-quantity-of-parts-in-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FinalQuantityOfPartsInKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function final-quantity-of-parts-in-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CapacityOfPartsInKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function capacity-of-parts-in-kit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CapacityOfKitsInLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function capacity-of-kits-in-lbwk
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartFoundFlagType">
+    <xs:annotation>
+      <xs:documentation>
+	Definition of the function part-found-flag
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DomainType">
+    <xs:annotation>
+      <xs:documentation>
+      DomainType is derived from DataThingType.
+      
+A DomainType consists of the header of a PDDL domain file. A simple example of a header for a PDDL domain file is given below.
+  (define (domain kitting-domain)
+  (:requirements :strips :typing :action-costs :fluents)
+  (:types
+    EndEffector
+    EndEffectorHolder
+    Kit
+    KitTray
+    LBWEKT 
+    LBWK
+    Part 
+    PartsTray 
+    EndEffectorChangingStation
+    Robot 
+    WorkTable)
+ 
+To represent a PDDL domain file, a DomainType consists of the following elements:
+  - Name: Name of the domain (inherited)
+  - Requirements: Because PDDL is a very general language and most planners support only a subset, 
+    domains may declare requirements. 
+    The requirements given in the above example are:
+      - :strips
+      - :typing
+      - :action-costs 
+      - :fluents
+  - Variables: type of each variable used in the domain file.
+  - PositivePredicateSetType: a set of positive predicates.
+  - NegativePredicateSetType: a set of negative predicates.
+  - FunctionType: list of all functions used in the domain.
+  - ActionBaseType: list of all actions used in the domain.
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Requirement"
+            type="xs:NMTOKEN"
+            maxOccurs="unbounded"/>
+          <xs:element name="Variable"
+            type="xs:NMTOKEN"
+            maxOccurs="unbounded"/>
+          <xs:element name="PositivePredicateSet"
+            type="PositivePredicateSetType"
+            minOccurs="1"/>
+          <xs:element name="NegativePredicateSet"
+            type="NegativePredicateSetType"
+            minOccurs="1"/>
+          <xs:element name="QuantityOfPartsInPartsTray"
+            type="QuantityOfPartsInPartsTrayType"
+            minOccurs="1"/>
+          <xs:element name="QuantityOfPartsInKit"
+            type="QuantityOfPartsInKitType"
+            minOccurs="1"/>
+          <xs:element name="QuantityOfKitTraysInLBWEKT"
+            type="QuantityOfKitTraysInLBWEKTType"
+            minOccurs="1"/>
+          <xs:element name="QuantityOfKitsInLBWK"
+            type="QuantityOfKitsInLBWKType"
+            minOccurs="1"/>
+          <xs:element name="CurrentQuantityOfPartsInKit"
+            type="CurrentQuantityOfPartsInKitType"
+            minOccurs="1"/>
+          <xs:element name="FinalQuantityOfPartsInKit"
+            type="FinalQuantityOfPartsInKitType"
+            minOccurs="1"/>
+          <xs:element name="CapacityOfPartsInKit"
+            type="CapacityOfPartsInKitType"
+            minOccurs="1"/>
+          <xs:element name="CapacityOfKitsInLBWK"
+            type="CapacityOfKitsInLBWKType"
+            minOccurs="1"/>
+          <xs:element name="PartFoundFlag"
+            type="PartFoundFlagType"
+            minOccurs="1"/>
+          <xs:element name="TakeKitTray"
+            type="TakeKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="PlaceKitTray"
+            type="PlaceKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="CreateKit"
+            type="CreateKitType"
+            minOccurs="1"/>
+          <xs:element name="TakeKit"
+            type="TakeKitType"
+            minOccurs="1"/>
+          <xs:element name="PlaceKit"
+            type="PlaceKitType"
+            minOccurs="1"/>
+          <xs:element name="LookForPart"
+            type="LookForPartType"
+            minOccurs="1"/>
+          <xs:element name="TakePart"
+            type="TakePartType"
+            minOccurs="1"/>
+          <xs:element name="PlacePart"
+            type="PlacePartType"
+            minOccurs="1"/>
+          <xs:element name="AttachEndEffector"
+            type="AttachEndEffectorType"
+            minOccurs="1"/>
+          <xs:element name="DetachEndEffector"
+            type="DetachEndEffectorType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PositivePredicateSetType">
+    <xs:annotation>
+      <xs:documentation>
+      PositivePredicateSetType is derived from DataThingType.
+      PositivePredicateSetType is a set of positive predicates.
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="EEffHasKitTray"
+            type="EEffHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasKit"
+            type="EEffHasKitType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasPart"
+            type="EEffHasPartType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasNoObject"
+            type="EEffHasNoObjectType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasRefObjectRobot"
+            type="EEffHasRefObjectRobotType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasRefObjectEEffHolder"
+            type="EEffHasEEffHolderType"
+            minOccurs="1"/>
+          <xs:element name="EEffIsForKitTraySKU"
+            type="EEffIsForKitTraySKUType"
+            minOccurs="1"/>
+          <xs:element name="EEffIsForPartSKU"
+            type="EEffIsForPartSKUType"
+            minOccurs="1"/>
+          <xs:element name="ChStationHasEEffHolder"
+            type="ChStationHasEEffHolderType"
+            minOccurs="1"/>
+          <xs:element name="EEffHolderHasEEff"
+            type="EEffHolderHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="EEffHolderHasRefObjectChStation"
+            type="EEffHHasChStationType"
+            minOccurs="1"/>
+          <xs:element name="KitExists"
+            type="KitExistsType"
+            minOccurs="1"/>
+          <xs:element name="KitHasKitTray"
+            type="KitHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="KitHasRefObjectLBWK"
+            type="KitHasRefObjectLBWKType"
+            minOccurs="1"/>
+          <xs:element name="KitHasRefObjectWorkTable"
+            type="KitHasRefObjectWorkTableType"
+            minOccurs="0"/>
+          <xs:element name="KitHasRefObjectEEff"
+            type="KitHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="KitTrayHasSKUObjectSKU"
+            type="KitTrayHasSKUObjectSKUType"
+            minOccurs="1"/>
+          <xs:element name="KitTrayHasRefObjectLBWEKT"
+            type="KitTrayHasRefObjectLBWEKTType"
+            minOccurs="1"/>
+          <xs:element name="KitTrayHasRefObjectEEff"
+            type="KitTrayHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="KitTrayHasRefObjectKit"
+            type="KitTrayHasRefObjectKitType"
+            minOccurs="1"/>
+          <xs:element name="KitTrayHasRefObjectWorkTable"
+            type="KTrayHasRefObjectWTableType"
+            minOccurs="1"/>
+          <xs:element name="LBWKHasKit"
+            type="LBWKHasKitType"
+            minOccurs="1"/>
+          <xs:element name="PartHasSKUObjectSKU"
+            type="PartHasSKUObjectSKUType"
+            minOccurs="1"/>
+          <xs:element name="PartHasRefObjectPartsTray"
+            type="PartHasRefObjectPartsTrayType"
+            minOccurs="1"/>
+          <xs:element name="PartHasRefObjectKit"
+            type="PartHasRefObjectKitType"
+            minOccurs="1"/>
+          <xs:element name="PartHasRefObjectEEff"
+            type="PartHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="PartFound"
+            type="PartFoundType"
+            minOccurs="1"/>
+          <xs:element name="PartsVesselHasPart"
+            type="PartsVesselHasPartType"
+            minOccurs="1"/>
+          <xs:element name="RobotHasEEff"
+            type="RobotHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="RobotHasNoEEff"
+            type="RobotHasNoEEffType"
+            minOccurs="1"/>
+          <xs:element name="WorkTableHasObjectOnTableKit"
+            type="WorkTableHasKitType"
+            minOccurs="1"/>
+          <xs:element name="WorkTableHasObjectOnTableKitTray"
+            type="WorkTableHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="WorkTableHasNoObjectOnTable"
+            type="WorkTableHasNoObjectOnTableType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NegativePredicateSetType">
+    <xs:annotation>
+      <xs:documentation>
+      NegativePredicateSetType is derived from DataThingType.
+      NegativePredicateSetType is a set of negative predicates.
+
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="NotEEffHasKitTray"
+            type="NotEEffHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHasKit"
+            type="NotEEffHasKitType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHasPart"
+            type="NotEEffHasPartType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHasNoObject"
+            type="NotEEffHasNoObjectType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHasRefObjectRobot"
+            type="NotEEffHasRefObjectRobotType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHasRefObjectEEffHolder"
+            type="NotEEffHasEEffHolderType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHolderHasEEff"
+            type="NotEEffHolderHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="NotKitExists"
+            type="NotKitExistsType"
+            minOccurs="1"/>
+          <xs:element name="NotKitHasRefObjectEEff"
+            type="NotKitHasRefObjectEEffType"
+            minOccurs="1"/>
+          <xs:element name="NotKitHasRefObjectWorkTable"
+            type="NotKitHasRefObjectWorkTableType"
+            minOccurs="1"/>
+          <xs:element name="NotKitTrayHasRefObjectLBWEKT"
+            type="NotKitTrayHasLBWEKTType"
+            minOccurs="1"/>
+          <xs:element name="NotKitTrayHasRefObjectEEff"
+            type="NotKitTrayHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="NotKitTrayHasRefObjectKit"
+            type="NotKitTrayHasKitType"
+            minOccurs="1"/>
+          <xs:element name="NotPartHasRefObjectPartsTray"
+            type="NotPartHasPartsTrayType"
+            minOccurs="1"/>
+          <xs:element name="NotPartHasRefObjectEEff"
+            type="NotPartHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="NotRobotHasEEff"
+            type="NotRobotHasEEffType"
+            minOccurs="1"/>
+          <xs:element name="NotRobotHasNoEEff"
+            type="NotRobotHasNoEEffType"
+            minOccurs="1"/>
+          <xs:element name="NotWorkTableHasObjectOnTableKit"
+            type="NotWorkTableHasKitType"
+            minOccurs="1"/>
+          <xs:element name="NotWorkTableHasObjectOnTableKitTray"
+            type="NotWorkTableHasKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="NotKitTrayHasRefObjectWorkTable"
+            type="NotKTrayHasRefObjectWTableType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PositiveStateRelationType">
+    <xs:annotation>
+      <xs:documentation>
+      PositiveStateRelationType is derived from StateRelationType.
+      
+      A PositiveStateRelationType consists of positive state relations.
+      PositiveStateRelationType has the following derivation hierarchy:
+      | |- PositiveStateRelationType
+	| |-InContactWithType
+	| |-UnderWithContactType
+	| |-PartiallyInType
+	| |-OnTopWithContactType
+	| |-ContainedInType
+	| |-ContainedInLBWKType    
+	| |-OnTopOfType   
+	| |-UnderType   
+	| |-PartiallyInAndInContactWithType 
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="StateRelationType">
+        <xs:sequence>
+          <xs:element name="RCC8Set"
+            type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NegativeStateRelationType">
+    <xs:annotation>
+      <xs:documentation>
+      NegativeStateRelationType is derived from StateRelationType.
+      
+      A NegativeStateRelationType consists of negative state relations.
+      NegativeStateRelationType has the following derivation hierarchy:
+      | |- NegativeStateRelationType
+	| |-NotInContactWithType
+	| |-NotUnderWithContactType
+	| |-NotOnTopWithContactType
+	| |-NotContainedInType
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="StateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="StateRelationType">
+    <xs:annotation>
+      <xs:documentation>
+      StateRelationType is derived from DataThingType.
+      
+      A StateRelationType consists of PositiveStateRelationType and NegativeStateRelationType.
+      StateRelationType has the following derivation hierarchy:
+      |-StateRelationType
+	| |- PositiveStateRelationType
+	  | |-InContactWithType
+	  | |-UnderWithContactType
+	  | |-PartiallyInType
+	  | |-OnTopWithContactType
+	  | |-ContainedInType
+	  | |-ContainedInLBWKType    
+	  | |-OnTopOfType   
+	  | |-UnderType   
+	  | |-PartiallyInAndInContactWithType 
+	| |- NegativeStateRelationType
+	  | |-NotInContactWithType
+	  | |-NotUnderWithContactType
+	  | |-NotOnTopWithContactType
+	  | |-NotContainedInType
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionAttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action AttachEndEffectorType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="EEffHasRefObjectEEffHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHolderHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHolderHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasNoEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasNoEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHolderHasRefObjectChStationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHHasChStationType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ChStationHasEEffHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ChStationHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectAttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action AttachEndEffectorType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHasRefObjectEEffHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHolderHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHolderHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotRobotHasNoEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotRobotHasNoEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AttachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+        AttachEndEffectorType is derived from RobotActionBaseType.
+	An instance of AttachEndEffectorType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - ActionParameterSet: A set of parameters and their position in the list of parameters for AttachEndEffectorType
+  - Precondition: preconditions for the action AttachEndEffectorType
+  - Effect: effects for the action AttachEndEffectorType
+  
+Immediately before an instance of AttachEndEffectorType is executed:
+  (1) The named robot must not have an end effector in its tool changer.
+  (2) The end effector must be located relative to the named end effector holder.
+  
+  As an instance of AttachEndEffectorType is executed:
+  If the tool changer is closed, the robot opens the tool changer.
+  The robot moves to a position relative to the tool holder at
+  which it can attach to the end effector. The robot closes the
+  tool changer so as to attach the end effector. The location of
+  the end effector changes from being relative to the end effector
+  holder to being relative to the robot. The robot withdraws the end
+  end effector from the tool holder a slight amount that is far
+  enough so that any end effector sensor on the end effector holder no
+  longer indicates that there is an end effector in the holder.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionAttachEndEffectorType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectAttachEndEffectorType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionCreateKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action CreateKitType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="WorkTableHasObjectOnTableKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>WorkTableHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasRefObjectWorkTableName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectWorkTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitHasKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasRefObjectKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectCreateKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action CreateKitType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="WorkTableHasObjectOnTableKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>WorkTableHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitHasRefObjectWorkTableName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectWorkTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotWorkTableHasObjectOnTableKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotWorkTableHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotKitTrayHasRefObjectWorkTableName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotKTrayHasRefObjectWTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitExistsName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CreateKitType">
+    <xs:annotation>
+      <xs:documentation>
+        CreateKitType is derived from ActionBaseType.
+	An instance of CreateKitType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - ActionParameterSet: A set of parameters and their position in the list of parameters for CreateKitType
+  - Precondition: preconditions for the action CreateKitType
+  - Effect: effects for the action CreateKitType
+  
+  Immediately before an instance of CreateKitType is executed:
+    (1) The named kit tray must not be in a kit.
+    (2) A kit with the given name must not exist.
+    
+    As an instance of CreateKitType is executed:
+    A kit with the given name is created at the location of the kit
+    tray, and the location of the kit tray becomes relative to the kit,
+    in the same place relative to the kitting workstation as before.
+    The location of any parts in the kit tray becomes relative to the
+    kit.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionCreateKitType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectCreateKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="F2DGreaterTakeKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	(> (quantity-of-kittrays-in-lbwekt ?lbwekt) 0)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalGreaterType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfKitTraysInLBWEKTType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionTakeKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action TakeKitTray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="F2DGreaterTakeKitTray"
+            type="F2DGreaterTakeKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffIsForKitTraySKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffIsForKitTraySKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasSKUObjectSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasSKUObjectSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasRefObjectLBWEKTName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectLBWEKTType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FOTakeKitTrayEffectType">
+    <xs:annotation>
+      <xs:documentation>(decrease (quantity-of-kittrays-in-lbwekt ?lbwekt) 1)</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfKitTraysInLBWEKTType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectTakeKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action TakeKitTray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="FODecreaseTakeKitTray"
+            type="FOTakeKitTrayEffectType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotKitTrayHasRefObjectLBWEKTName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotKitTrayHasLBWEKTType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakeKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+        TakeKitTrayType is derived from RobotActionBaseType.
+	An instance of TakeKitTrayType has the following elements:
+  - Name (inherited)
+  - Description (optional)
+  - ActionParameterSet: A set of parameters and their position in the list of parameters for TakeKitTrayType
+  - Precondition: preconditions for the action TakeKitTrayType
+  - Effect: effects for the action TakeKitTrayType
+  
+   Immediately before an instance of TakeKitTrayType is executed:
+	(1) The quantity of kit trays in the large box of empty kit trays has to be greater than 0.
+        (2) The gripper must be empty.
+	(3) The gripper must handle kit trays with a specific SKU.
+	(4) The named robot must have a gripper in its tool changer.
+	(5) The gripper must be attached to the robot.
+	(6) The kit tray must be in the large box of empty kit trays.
+ 
+        As an instance of TakeKitTrayType is executed:
+        The robot moves to a position from which it may pick up the kit tray
+        and closes the gripper on the kit tray. The kit tray is not moved but
+        the location of the kit tray changes so that the kit tray is located
+        relative to the gripper.
+	
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionTakeKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectTakeKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionPlaceKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action PutKitTray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="EEffHasKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectPlaceKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action PutKitTray
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="NotKitTrayHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotKitTrayHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHasKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasRefObjectWorkTableName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectWorkTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="WorkTableHasObjectOnTableKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>WorkTableHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PlaceKitTrayType">
+    <xs:annotation>
+      <xs:documentation>
+	PlaceKitTrayType is derived from RobotActionBaseType.
+	An instance of PlaceKitTrayType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for PlaceKitTrayType
+	- Precondition: preconditions for the action PlaceKitTrayType
+	- Effect: effects for the action PlaceKitTrayType
+  
+        When an instance of PlaceKitTrayType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be holding the named kit tray.
+        (3) The gripper must be closed.
+        (4) The location of the kit tray should be relative to the gripper.
+        The robot moves to the specified location at which it opens the
+        gripper so as to release the kit tray. The location of the kit tray
+        changes so that the kit tray is located as specified. The Location
+        may be a relative location or a pose location. The gripper is
+        open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionPlaceKitTrayType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectPlaceKitTrayType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="F2FEqualTakeKitType">
+    <xs:annotation>
+      <xs:documentation>
+	(= (current-quantity-of-parts-in-kit ?kit) (final-quantity-of-parts-in-kit ?kit))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionEqualType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>CurrentQuantityOfPartsInKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="F2Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>FinalQuantityOfPartsInKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionTakeKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action TakeKit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="F2FEqualTakeKit"
+            type="F2FEqualTakeKitType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitTrayHasSKUObjectSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitTrayHasSKUObjectSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffIsForKitTraySKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffIsForKitTraySKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitExistsName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitHasKitTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasKitTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectTakeKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action TakeKit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="KitHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotKitHasRefObjectWorkTableName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotKitHasRefObjectWorkTableType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotWorkTableHasObjectOnTableKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotWorkTableHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakeKitType">
+    <xs:annotation>
+      <xs:documentation>
+	TakeKitType is derived from RobotActionBaseType.
+	An instance of TakeKitType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for TakeKitType
+	- Precondition: preconditions for the action TakeKitType
+	- Effect: effects for the action TakeKitType
+	
+	Immediately before an instance of TakeKitType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be appropriate for picking up the named kit.
+        (3) The gripper must be empty.
+        (4) The gripper must be open.
+ 
+        As an instance of TakeKitType is executed:
+        The robot moves to a position from which it may pick up the kit
+        and closes the gripper on the kit. The kit is not moved but
+        the location of the kit changes so that the kit is located
+        relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionTakeKitType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectTakeKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FOIncreasePlaceKitType">
+    <xs:annotation>
+      <xs:documentation>(increase (quantity-of-kits-in-lbwk ?lbwk) 1)</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfKitsInLBWKType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="F2FLessPlaceKitType">
+    <xs:annotation>
+      <xs:documentation>
+	(less (quantity-of-kits-in-lbwk ?lbwk) (capacity-of-kits-in-lbwk ?lbwk))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionLessType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfKitsInLBWKType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="F2Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>CapacityOfKitsInLBWKType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionPlaceKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action PutKit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="F2FLessPlaceKit"
+            type="F2FLessPlaceKitType"
+            minOccurs="1"/>
+          <xs:element name="EEffHasKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectPlaceKitType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action PutKit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="NotKitExistsName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotKitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="LBWKHasKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>LBWKHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FOIncreasePlaceKit"
+            type="FOIncreasePlaceKitType"
+            minOccurs="1"/>
+          <xs:element name="KitHasRefObjectLBWKName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitHasRefObjectLBWKType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotKitHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotKitHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHasKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PlaceKitType">
+    <xs:annotation>
+      <xs:documentation>
+	PlaceKitType is derived from RobotActionBaseType.
+	An instance of PlaceKitType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for PlaceKitType
+	- Precondition: preconditions for the action PlaceKitType
+	- Effect: effects for the action PlaceKitType
+	
+	When an instance of PlaceKitType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be holding the named kit.
+        (3) The gripper must be closed.
+        (4) The location of the kit should be relative to the gripper.
+        The robot moves to the specified location at which it opens the
+        gripper so as to release the kit. The location of the kit
+        changes so that the kit is located as specified. The Location
+        may be a relative location or a pose location. The gripper is
+        open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionPlaceKitType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectPlaceKitType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="F2DGreaterLookForPartType">
+    <xs:annotation>
+      <xs:documentation>
+	(greater (part-found-flag) 0)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalGreaterType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartFoundFlagType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionLookForPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action PutKit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="F2DGreaterLookForPart"
+            type="F2DGreaterLookForPartType"
+            minOccurs="1"/>
+          <xs:element name="KitExistsName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffIsForPartSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffIsForPartSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartHasSKUObjectSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasSKUObjectSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DecreaseLookForPartType">
+    <xs:annotation>
+      <xs:documentation>(decrease (part-found-flag) 1)</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartFoundFlagType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectLookForPartType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action PutKit
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="PartFoundName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartFoundType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="DecreaseLookForPart"
+            type="DecreaseLookForPartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LookForPartType">
+    <xs:annotation>
+      <xs:documentation>
+	LookForPartType is derived from RobotActionBaseType.
+	An instance of LookForPartType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for LookForPartType
+	- Precondition: preconditions for the action LookForPartType
+	- Effect: effects for the action LookForPartType
+	
+	LookForPartType is used by the planner to look for a part of a certain type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionLookForPartType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectLookForPartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="F2DGreaterTakePartType">
+    <xs:annotation>
+      <xs:documentation>
+	(greater (quantity-of-parts-in-partstray ?partstray) 0)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalGreaterType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfPartsInPartsTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionTakePartType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action TakePart
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="KitExistsName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartHasSKUObjectSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasSKUObjectSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffIsForPartSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffIsForPartSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartHasRefObjectPartsTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasRefObjectPartsTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartsVesselHasPartName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartsVesselHasPartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartFoundName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartFoundType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="F2DGreaterTakePart"
+            type="F2DGreaterTakePartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DecreaseTakePartType">
+    <xs:annotation>
+      <xs:documentation>(decrease (quantity-of-parts-in-partstray ?partstray) 1)</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfPartsInPartsTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectTakePartType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action TakePart
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="PartHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasPartName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasPartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotPartHasRefObjectPartsTrayName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotPartHasPartsTrayType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="DecreaseTakePart"
+            type="DecreaseTakePartType"
+            minOccurs="1"/>
+          <xs:element name="NotEEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TakePartType">
+    <xs:annotation>
+      <xs:documentation>
+	TakePartType is derived from RobotActionBaseType.
+	An instance of TakePartType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for TakePartType
+	- Precondition: preconditions for the action TakePartType
+	- Effect: effects for the action TakePartType
+	
+	 Immediately before an instance of TakePartType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be appropriate for picking up the named part.
+        (3) The gripper must be empty.
+        (4) The gripper must be open.
+ 
+        As an instance of TakePartType is executed:
+        The robot moves to a position from which it may pick up the part
+        and closes the gripper on the part. The part is not moved but
+        the location of the part changes so that the part is located
+        relative to the gripper.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionTakePartType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectTakePartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="F2FPlacePartType">
+    <xs:annotation>
+      <xs:documentation>
+(less (quantity-of-parts-in-kit ?partsku ?kit) (capacity-of-parts-in-kit ?partsku ?kit))
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionLessType">
+        <xs:sequence>
+          <xs:element name="F1Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfPartsInKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="F2Name"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>CapacityOfPartsInKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionPlacePartType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action PutPart
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasRefObjectEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasPartName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasPartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="KitExistsName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>KitExistsType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartHasSKUObjectSKUName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasSKUObjectSKUType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="F2FPlacePart"
+            type="F2FPlacePartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IncreasePlacePartType">
+    <xs:annotation>
+      <xs:documentation>
+	(increase (current-quantity-of-parts-in-kit ?kit) 1)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfPartsInKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IncreasePlacePart2Type">
+    <xs:annotation>
+      <xs:documentation>
+	(increase (part-found-flag) 1)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>PartFoundFlagType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IncreasePlacePart3Type">
+    <xs:annotation>
+      <xs:documentation>
+	(increase (quantity-of-parts-in-kit ?partsku ?kit) 1)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionOperationType">
+        <xs:sequence>
+          <xs:element name="FunctionName"
+            type="xs:IDREF">
+            <xs:annotation>
+              <xs:appinfo>QuantityOfPartsInKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectPlacePartType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action PutPart
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="IncreasePlacePart"
+            type="IncreasePlacePartType"
+            minOccurs="1"/>
+          <xs:element name="IncreasePlacePart2"
+            type="IncreasePlacePart2Type"
+            minOccurs="1"/>
+          <xs:element name="IncreasePlacePart3"
+            type="IncreasePlacePart3Type"
+            minOccurs="1"/>
+          <xs:element name="NotPartHasRefObjectEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotPartHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotEEffHasPartName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasPartType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="PartHasRefObjectKitName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>PartHasRefObjectKitType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PlacePartType">
+    <xs:annotation>
+      <xs:documentation>
+	PlacePartType is derived from RobotActionBaseType.
+	An instance of PlacePartType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for PlacePartType
+	- Precondition: preconditions for the action PlacePartType
+	- Effect: effects for the action PlacePartType
+	
+	When an instance of PlacePartType is executed:
+        (1) The named robot must have a gripper in its tool changer.
+        (2) The gripper must be holding the named part.
+        (3) The gripper must be closed.
+        (4) The location of the part should be relative to the gripper.
+        The robot moves to the specified location at which it opens the
+        gripper so as to release the part. The location of the part
+        changes so that the part is located as specified. The Location
+        may be a relative location or a pose location. The gripper is
+        open and not holding anything after the action is complete.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionPlacePartType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectPlacePartType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionDetachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+	Precondition for the action RemoveEndEffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PreconditionType">
+        <xs:sequence>
+          <xs:element name="EEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasNoObjectName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasNoObjectType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHolderHasRefObjectChStationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHHasChStationType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ChStationHasEEffHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ChStationHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectDetachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+	Effect for the action RemoveEndEffector
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="EffectType">
+        <xs:sequence>
+          <xs:element name="NotEEffHasRefObjectRobotName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotEEffHasRefObjectRobotType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NotRobotHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>NotRobotHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHasRefObjectEEffHolderName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHasEEffHolderType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="EEffHolderHasEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>EEffHolderHasEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="RobotHasNoEEffName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>RobotHasNoEEffType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DetachEndEffectorType">
+    <xs:annotation>
+      <xs:documentation>
+	DetachEndEffectorType is derived from RobotActionBaseType.
+	An instance of DetachEndEffectorType has the following elements:
+	- Name (inherited)
+	- Description (optional)
+	- ActionParameterSet: A set of parameters and their position in the list of parameters for DetachEndEffectorType
+	- Precondition: preconditions for the action DetachEndEffectorType
+	- Effect: effects for the action DetachEndEffectorType
+	
+	 Immediately before an instance of DetachEndEffectorType is executed:
+        (1) The named robot must have the named end effector in its tool
+            changer.
+        (2) The end effector must be located relative to the robot.
+        (3) The end effector holder must be empty.
+ 
+        As an instance of DetachEndEffectorType is executed:
+        The robot moves to a position relative to the tool holder at which
+        it can detach from the end effector. The robot opens the tool
+        changer so as to detach the end effector. The location of the end
+        effector changes from being relative to the robot to being relative
+        to the end effector holder. The robot moves a small distance away
+        from the end effector holder.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RobotActionBaseType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ActionParameterSet"
+            type="ActionParameterSetType"
+            minOccurs="1"
+            maxOccurs="unbounded"/>
+          <xs:element name="Precondition"
+            type="PreconditionDetachEndEffectorType"
+            minOccurs="1"/>
+          <xs:element name="Effect"
+            type="EffectDetachEndEffectorType"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PreconditionType">
+    <xs:annotation>
+      <xs:documentation>
+	PreconditionType is derived from DataThingType.
+      
+An instance of PreconditionType specifies necessary conditions that must 
+be true in order for a RobotActionBaseType or ActionBaseType
+to be performed. It can consist of:
+  - At least one instance of PositivePredicateType
+  - Optional instances of FunctionType
+  - Optional instances of ActionBaseFunctionBoolType
+
+An instance of PreconditionType belongs to one instance of RobotActionBaseType or ActionBaseType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EffectType">
+    <xs:annotation>
+      <xs:documentation>
+	EffectType is derived from DataThingType.
+
+An instance of EffectType specifies the results that are anticipated to occur as a result of a RobotActionBaseType or ActionBaseType. 
+An instance of EffectType can consist of:
+  - At least one instance of PositivePredicateType
+  - Optional instances of FunctionType
+  - Optional instances of ActionBaseFunctionBoolType
+	
+	
+	An instance of EffectType belongs to one instance of RobotActionBaseType or ActionBaseType.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PositivePredicateType">
+    <xs:annotation>
+      <xs:documentation>
+	PositivePredicateType is derived from DataThingType.
+	
+        A predicate is used to specify a binary property of a single object, or a relationship between two objects. 
+	For example, the predicate (robot-empty ?robot) is true if only if the robot ?robot is not holding anything. 
+	The predicate (part-location-robot ?part ?robot) is true if only if the reference parameter ?part is being held by
+	the target parameter ?robot.
+	
+	An example of PositivePredicateType is (robot-holds-kit ?robot - Robot ?kit - Kit), which consists of:
+	- Name: A unique name (inherited). 'robot-holds-kit' in this example.
+	
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ReferenceParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NegativePredicateType">
+    <xs:annotation>
+      <xs:documentation>
+	NegativePredicateType is derived from DataThingType.
+	
+        A NegativePredicateType is the negation of a PositivePredicateType.
+	
+	An example of NegativePredicateType is not(robot-holds-kit) and consists of:
+	- Name: A unique name (inherited). 
+	- Description (optional): An optional description of the negative predicate.
+	- PositivePredicate: The PositivePredicateType for which the NegativePredicateType is the negative predicate.
+	
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ActionParameterSetType">
+    <xs:annotation>
+      <xs:documentation>
+	ActionParameterSetType is derived from DataThingType.
+	
+        An ActionParameterSetType consists of a parameter and its position in the list of parameters for an ActionBaseType.
+	
+	An ActionParameterSetType consists of:
+	- Name: A unique name (inherited).
+	- ActionParameter: The type of parameter, e.g., Robot, Part, etc.
+	- ActionParameterPosition: The position of the parameter within the list of parameters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="ActionParameter"
+            type="xs:NMTOKEN"
+            minOccurs="1"/>
+          <xs:element name="ActionParameterPosition"
+            type="xs:positiveInteger"
+            minOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PredicateGroupElementType">
+    <xs:annotation>
+      <xs:documentation>
+        PredicateGroupElementType is derived from DataThingType and consists of elements that constitute a PositivePredicateType.
+        An instance of PredicateGroupElementType consists of
+	- Name (inherited)
+	- GroupReferenceParameter: Name of the the reference parameter for the group
+	- GroupTargetParameter (optional): Name of the target parameter for the group
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="GroupReferenceParameter"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+          <xs:element name="GroupTargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PredicateGroupElementORType">
+    <xs:annotation>
+      <xs:documentation>
+        PredicateGroupElementORType is derived from DataThingType and consists of elements of PredicateGroupElementType that are linked with the mathematical expression OR.
+	- Name (inherited)
+	- At least two PredicateGroupElementType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionType">
+    <xs:annotation>
+      <xs:documentation>
+	FunctionType is derived from DataThingType.
+	An example of FunctionType is '(quantity-kit ?kit - Kit ?partstray - PartsTray)' which consists of:
+	- Name: A unique name 'quantity-kit' (inherited)
+	- Description: A description of the function (optional).
+	- ReferenceParameter: Name of the reference parameter 'kit'
+	- TargetParameter: Name of the target parameter 'partstray'
+	The reference parameter is the first parameter in the FunctionType’s parameter list and the target parameter is the second parameter 
+	in the FunctionType’s parameter list. 
+	In the case where an FunctionType has only one parameter, it is assigned to the reference parameter.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Description"
+            type="xs:string"
+            minOccurs="0"/>
+          <xs:element name="ReferenceParameter"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+          <xs:element name="TargetParameter"
+            type="xs:NMTOKEN"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionOperationType">
+    <xs:annotation>
+      <xs:documentation>
+	FunctionOperationType is derived from DataThingType.
+	
+	A FunctionOperationType defines a numerical change applied to a FunctionType.
+	An example of a FunctionOperationType is '(decrease (quantity-partstray ?partstray) 1)', which consists of:
+	- Name (inherited)
+	- FunctionType: '(quantity-partstray ?partstray)'
+	- Expression that changes the numerical value of an FunctionType: 'decrease'
+	- Value used by the Expression to change the original value of an ActionBaseFunction: '1'
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType">
+        <xs:sequence>
+          <xs:element name="Expression"
+            type="xs:NMTOKEN"/>
+          <xs:element name="Value"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionBoolType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionBoolType is an abstract type
+        derived from FunctionBooleanExpressionType representing an expression
+        with a value that is an xs:boolean. 
+	
+	FunctionToFunctionBoolType compares two functions.
+	
+	FunctionToFunctionBoolType has the following derivation hierarchy:
+	|-FunctionToFunctionBoolType
+          | |-FunctionToFunctionEqualType
+          | |-FunctionToFunctionGreaterOrEqualType
+          | |-FunctionToFunctionGreaterType
+          | |-FunctionToFunctionLessOrEqualType
+          | |-FunctionToFunctionLessType
+          | |-FunctionToFunctionNotEqualType
+	An instance of FunctionComparisonBooleanExpressionType has the following elements:
+          - Name (inherited)
+          - F1
+          - F2.
+ 
+        F1 and F2 are the results of two FunctionType to be compared, e.g., '(= (quantity-kit ?kit ?partstray) (capacity-kit ?kit ?partstray))'
+	checks if the result of the FunctionType '(quantity-kit ?kit ?partstray)' equals the result of the FunctionType '(capacity-kit ?kit ?partstray)'.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionBooleanExpressionType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalBoolType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalBoolType is an abstract type
+        derived from FunctionBooleanExpressionType representing an expression
+        with a value that is an xs:boolean. 
+	FunctionToDecimalBoolType compares an FunctionType with a decimal.
+	
+	FunctionToDecimalBoolType has the following derivation hierarchy:
+	|-FunctionToDecimalBoolType
+          | |-FunctionToArithmeticEqualType
+          | |-FunctionToArithmeticGreaterOrEqualType
+          | |-FunctionToDecimalGreaterType
+          | |-FunctionToArithmeticLessOrEqualType
+          | |-FunctionToArithmeticLessType
+          | |-FunctionToArithmeticNotEqualType
+	  
+	An instance of FunctionToDecimalBoolType has the following elements:
+          - Name (inherited)
+          - F1
+          - A1
+	  F1 is the result of an FunctionType and A1 is a xs:decimal.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionBooleanExpressionType">
+        <xs:sequence>
+          <xs:element name="DecimalNumber"
+            type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionBooleanExpressionType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionBooleanExpressionType is an abstract type derived from DataThingType and representing an expression with a value that is an xs:boolean 
+	(i.e., either True or False).
+	
+	An instance of FunctionBooleanExpressionType has the following elements:
+	
+	Name (inherited).
+        
+	FunctionBooleanExpressionType has the following derivation hierarchy:
+        DataThingType
+        |-FunctionBooleanExpressionType
+          |-FunctionToFunctionBoolType
+	  |-FunctionToDecimalBoolType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionEqualType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionEqualType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- F2 (inherited)
+	  
+	  The FunctionToFunctionEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of F1 is 
+	  equal to the value of F2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionGreaterOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionGreaterOrEqualType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionGreaterOrEqualType has the following elements:
+          Name (inherited)
+          F1 (inherited)
+          F2 (inherited)
+	  
+	  The FunctionToFunctionGreaterOrEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of 
+	  F1 is greater than or equal to F2.
+	  Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionGreaterType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionGreaterType is derived from
+        FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionGreaterType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- F2 (inherited)
+          
+ 
+        The FunctionToFunctionGreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        greater than the value of F2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionLessOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionLessOrEqualType is derived from
+        FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionLessOrEqualType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- F2 (inherited)
+          .
+ 
+        The FunctionToFunctionLessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        less than or equal to the value of F2.
+        Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToFunctionLessType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToFunctionLessType is derived from FunctionToFunctionBoolType.
+        An instance of FunctionToFunctionLessType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- F2 (inherited)
+
+ 
+        The FunctionToFunctionLessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of F1 is less than
+        the value of F2. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToFunctionBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalEqualType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalEqualType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- A1 (inherited)
+	  
+	  The FunctionToDecimalEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of F1 is 
+	  equal to the value of A1. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalGreaterOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalGreaterOrEqualType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalGreaterOrEqualType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- A1 (inherited)
+	  
+	  The FunctionToDecimalGreaterOrEqualType is an arithmetic comparison type. It returns a boolean value of True if the value of 
+	  F1 is greater than or equal to A1.
+	  Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalGreaterType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalGreaterType is derived from
+        FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalGreaterType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- A1 (inherited)
+          
+ 
+        The FunctionToFunctionGreaterType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        greater than the value of A1. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalLessOrEqualType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalLessOrEqualType is derived from
+        FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalLessOrEqualType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- A1 (inherited)
+
+        The FunctionToDecimalLessOrEqualType is an arithmetic comparison type. It returns a
+        boolean value of True if the value of F1 is
+        less than or equal to the value of A1.
+        Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FunctionToDecimalLessType">
+    <xs:annotation>
+      <xs:documentation>
+        FunctionToDecimalLessType is derived from FunctionToDecimalBoolType.
+        An instance of FunctionToDecimalLessType has the following elements:
+	- Name (inherited)
+	- F1 (inherited)
+	- A1 (inherited)
+
+        The FunctionToDecimalLessType is an arithmetic comparison type. It returns a boolean
+        value of True if the value of F1 is less than
+        the value of A1. Otherwise, it returns False.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="FunctionToDecimalBoolType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	OrderingConstructType is derived from DataThingType.
+	An instance of OrderingConstructType has the following elements:
+	  Name
+	
+	OrderingConstructType has the following derivation hierarchy:
+	DataThingType
+	|-OrderingConstructType
+	  |-AnyOrderType
+	  |-CountType
+	  |-ExistType
+	  |-OrderedListType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AnyOrderOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	AnyOrderType is derived from OrderingConstructType.
+	AnyOrderType consists of:
+	- Name (inherited)
+	- One or multiple instances of CountType
+	- The position of AnyOrderType within an OrderedListType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="CountOrderingConstruct"
+            type="CountOrderingConstructType"/>
+          <xs:element name="PositionInOrderedList"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CountOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	CountType is derived from OrderingConstructType.
+	CountType consists of:
+	- Name (inherited)
+	- An PositivePredicateType 
+	- The occurrence of PositivePredicateType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="Predicate"
+            type="PositivePredicateType"/>
+          <xs:element name="PredicateOccurrence"
+            type="xs:positiveInteger"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ExistOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	ExistType is derived from OrderingConstructType.
+	ExistType consists of:
+	- Name (inherited)
+	- An PositivePredicateType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="Predicate"
+            type="PositivePredicateType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OrderedListOrderingConstructType">
+    <xs:annotation>
+      <xs:documentation>
+	OrderedListType is derived from OrderingConstructType.
+	OrderedListType consists of:
+	- Name (inherited)
+	- An ExistType
+	- An AnyOrderType
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="OrderingConstructType">
+        <xs:sequence>
+          <xs:element name="ExistOrderingConstruct"
+            type="ExistOrderingConstructType"/>
+          <xs:element name="AnyOrderOrderingConstruct"
+            type="AnyOrderOrderingConstructType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="InContactWithType">
+    <xs:annotation>
+      <xs:documentation>
+	InContactWithType is derived from PositiveStateRelationType.
+	InContactWithType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UnderWithContactType">
+    <xs:annotation>
+      <xs:documentation>
+	UnderWithContactType is derived from PositiveStateRelationType.
+	UnderWithContactType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartiallyInType">
+    <xs:annotation>
+      <xs:documentation>
+	PartiallyInType is derived from PositiveStateRelationType.
+	PartiallyInType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OnTopWithContactType">
+    <xs:annotation>
+      <xs:documentation>
+	OnTopWithContactType is derived from PositiveStateRelationType.
+	OnTopWithContactType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ContainedInType">
+    <xs:annotation>
+      <xs:documentation>
+	ContainedInType is derived from PositiveStateRelationType.
+	ContainedInType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OnTopOfType">
+    <xs:annotation>
+      <xs:documentation>
+	OnTopOfType is derived from PositiveStateRelationType.
+	OnTopOfType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UnderType">
+    <xs:annotation>
+      <xs:documentation>
+	UnderType is derived from PositiveStateRelationType.
+	UnderType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ContainedInLBWKType">
+    <xs:annotation>
+      <xs:documentation>
+	ContainedInLBWKType is derived from PositiveStateRelationType.
+	ContainedInLBWKType was specially created for the predicate LBWKNotFullType.
+	It is based on the state relation ContainedInType to which we added the RCC8 relation 'not(Z-TPP)'.
+	ContainedInLBWKType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartiallyInAndInContactWithType">
+    <xs:annotation>
+      <xs:documentation>
+	PartiallyInAndInContactWithType is derived from PositiveStateRelationType.
+	PartiallyInAndInContactWithType consists of:
+	- Name (inherited)
+	- RCC8Set (inherited)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="PositiveStateRelationType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotInContactWithType">
+    <xs:annotation>
+      <xs:documentation>
+	NotInContactWithType is derived from NegativeStateRelationType.
+	NotInContactWithType is the negative state relation of ContainedInType.
+	NotInContactWithType consists of:
+	- Name (inherited)
+	- StateRelationName: the state relation for which NotInContactWithType is the negative state relation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativeStateRelationType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>InContactWithType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotUnderWithContactType">
+    <xs:annotation>
+      <xs:documentation>
+	NotUnderWithContactType is derived from NegativeStateRelationType.
+	NotUnderWithContactType is the negative state relation of ContainedInType.
+	NotUnderWithContactType consists of:
+	- Name (inherited)
+	- StateRelationName: the state relation for which NotUnderWithContactType is the negative state relation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativeStateRelationType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>UnderWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotOnTopWithContactType">
+    <xs:annotation>
+      <xs:documentation>
+	NotOnTopWithContactType is derived from NegativeStateRelationType.
+	NotOnTopWithContactType is the negative state relation of ContainedInType.
+	NotOnTopWithContactType consists of:
+	- Name (inherited)
+	- StateRelationName: the state relation for which NotOnTopWithContactType is the negative state relation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativeStateRelationType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>OnTopWithContactType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NotContainedInType">
+    <xs:annotation>
+      <xs:documentation>
+	NotContainedInType is derived from NegativeStateRelationType.
+	NotContainedInType is the negative state relation of ContainedInType.
+	NotContainedInType consists of:
+	- Name (inherited)
+	- StateRelationName: the state relation for which NotContainedInType is the negative state relation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="NegativeStateRelationType">
+        <xs:sequence>
+          <xs:element name="StateRelationName"
+            type="xs:IDREF"
+            minOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>ContainedInType</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RobotActionBaseType">
+    <xs:annotation>
+      <xs:documentation>
+        RobotActionBaseType is derived from ActionBaseType.
+        An instance of RobotActionBaseType has the following elements:
+	- Name (inherited)
+ 
+        The RobotActionBaseType defines the base type for robot actions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ActionBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ActionBaseType">
+    <xs:annotation>
+      <xs:documentation>
+	ActionBaseType is derived from DataThingType.
+
+An instance of ActionBaseType has the following elements:
+  - Name (inherited)
+	
+ActionBaseType is the abstract base type that defines a single action to be carried out.
+
+ActionBaseType has the following derivation hierarchy:
+|-ActionBaseType
+  | |- CreateKitType
+  | |- RobotActionBaseType
+    | |-AttachEndEffectorType
+    | |-DetachEndEffectorType
+    | |-PlaceKitType
+    | |-PlaceKitTrayType
+    | |-PlacePartType
+    | |-TakeKitType
+    | |-TakeKitTrayType
+    | |-TakePart
+	 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="DataThingType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

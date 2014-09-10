@@ -1,0 +1,252 @@
+The purpose of this section is to illustrate the various knowledge representations, depicted in Figure~\ref{fig:ProcessDataFlow}, and the flow from one knowledge representation to the next.
+
+\subsection{State Variable Representation}
+
+In the example, the \class{Robot} has to build a kit that contains two \class{Parts} of type A, one \class{Part} of type B and one \class{Part} of type C. The kitting process is completed once the kit is placed in the \class{LargeBoxWithKits}. Section \ref{subsect:PDDL_Domain_File} details the steps that build the PDDL domain file while Section~\ref{subsect:PDDL_Problem_File} discusses the process that builds the PDDL problem file.
+
+The state variable representation defines the necessary parameters for the PDDL domain and problem files. The PDDL domain file contains predicates, characterized by state variable symbols, and actions. The PDDL problem file contains the objects present in the problem instance, characterized by constant variable symbols, the initial state $s_0$ description and the goal state $s_G$.
+
+\paragraph{Constant Variable Symbols}
+The kitting domain proposed for the example contains a \class{Robot} \const{robot\_1}, a \class{KitTray} \const{kit\_tray\_1}, a \class{LargeBoxWithEmptyKitTrays} \const{empty\_kit\_tray\_supply}, a \class{LargeBoxWithKits} \const{finished\_kit\_receiver}, a \class{WorkTable} \const{work\_table\_1}, three \class{PartsTrays} \const{part\_a\_tray}, \const{part\_b\_tray}, and \const{part\_c\_tray}, four \class{Parts} \const{part\_a\_1}, \const{part\_a\_2}, \const{part\_b\_1}, and \const{part\_c\_1}, two \class{VacuumEffectorSingleCup} \const{part\_gripper} and \const{tray\_gripper}, and two  \class{EndEffectorHolders} \const{part\_gripper\_holder} and \const{tray\_gripper\_holder}. Since a \class{Kit} is by definition a \class{KitTray} that contains \class{Parts}, the kitting domain also contains a constant variable symbol \const{kit\_1} from \class{Kit}.
+
+\paragraph{State Variable Symbols}
+The state variable symbols for this example are the ones defined in Section \ref{subsubsect:State_Variable_Symbols}.
+
+%\paragraph{Rigid Relations}
+\begin{comment}
+As stated in section \ref{subsubsect:Rigid_Relation}, the kitting domain has two rigid relations: \stvar{efftype} and \stvar{effhtype}. In the proposed example, the \class{EndEffector} \const{eff_1} can hold \class{KitTrays} and \class{KitInstances}, while the \class{EndEffector} \const{eff_1} can hold \class{Parts}. \stvar{efftype} can be stated as follows: \stvar{efftype}(\const{eff_1})=\{\const{kt_1},\const{kins_1}\} and \stvar{efftype}(\const{eff_1})=\{\const{part_{A-1}},\const{part_{A-2}},\const{part_{B}},\const{part_{C}}\}. In the same way, the \class{EndEffectorHolder} \const{effh_1} can hold the \class{EndEffector} \const{eff_1}, while the \class{EndEffectorHolder} \const{effh_2} can hold the \class{EndEffector} \const{eff_2}. \stvar{effhtype} can be stated as follows: \stvar{effhtype}(\const{effh_1})=\{\const{eff_1}\} and \stvar{effhtype}(\const{effh_2})=\{\const{eff_2}\}.
+\end{comment}
+%As stated in section \ref{subsubsect:Rigid_Relation}, the kitting domain has two rigid relations: \stvar{efftype} and \stvar{effhtype} that can be stated as follows: \stvar{efftype}(\const{eff_1})=\{\const{part_{A-1}},\const{part_{A-2}},\const{part_{B}},\const{part_{C}}\} and \stvar{efftype}(\const{eff_2})=\{\const{kt_1},\const{kins_1}\}. In the same way, \stvar{effhtype} can be stated as follows: \stvar{effhtype}(\const{effh_1})=\{\const{eff_1}\} and \stvar{effhtype}(\const{effh_2})=\{\const{eff_2}\}.
+
+\paragraph{Initial State}
+The initial state $s_0$ can be represented by the set of state variable symbols depicted in Table~\ref{table:initial}.
+%$s_0$=\{\stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{effloc}(\const{eff_1})=\const{effh_1}, \stvar{effloc}(\const{eff_2})=\const{effh_2}, \stvar{isptempty}(\const{pt_A})=0, \stvar{isptempty}(\const{pt_B})=0, \stvar{isptempty}(\const{pt_C})=0, \stvar{onworktable}(\const{wtable})=\textit{nil}, \stvar{islbwektempty}(\const{lbwekt_1})=0, \stvar{islbwkfull}(\const{lbwk_1})=0, \stvar{partloc}(\const{part_{A-1}})=\const{pt_A}, \stvar{partloc}(\const{part_{A-2}})=\const{pt_A}, \stvar{partloc}(\const{part_{B}})=\const{pt_B}, \stvar{partloc}(\const{part_{C}})=\const{pt_C}, \stvar{ktloc}(\const{kt_1})=\const{lbwekt_1}\}.
+
+
+\begin{table}[t!h!]
+\caption{Initial State $s_0$}
+\centering
+\begin{tabular}{|l|}
+  \hline
+  \stvar{r-no-eff}(\const{robot\_1})\\ \stvar{kittrayloc}(\const{robot\_1},\const{empty\_kit\_tray\_supply}) \\
+  \stvar{lbwekt-not-empty}(\const{empty\_kit\_tray\_supply}) \\ \stvar{partloc}(\const{part\_a\_1},\const{part\_a\_tray}) \\
+  \stvar{lbwek-not-full}(\const{finished\_kit\_receiver}) \\ \stvar{partloc}(\const{part\_a\_2},\const{part\_a\_tray}) \\
+  \stvar{part-tray-not-empty}(\const{part\_a\_tray}) \\ \stvar{partloc}(\const{part\_b\_1},\const{part\_b\_tray}) \\
+  \stvar{part-tray-not-empty}(\const{part\_b\_tray}) \\ \stvar{partloc}(\const{part\_c\_1},\const{part\_c\_tray}) \\
+  \stvar{part-tray-not-empty}(\const{part\_c\_tray}) \\ \stvar{efftype}(\const{part\_gripper},\const{part\_a\_1}) \\
+  \stvar{eff-location}(\const{part\_gripper},\const{part\_gripper\_holder}) \\ \stvar{efftype}(\const{part\_gripper},\const{part\_a\_2}) \\
+  \stvar{effloc}(\const{tray\_gripper},\const{tray\_gripper\_holder}) \\ \stvar{efftype}(\const{part\_gripper},\const{part\_b\_1}) \\
+  \stvar{effhhold-eff}(\const{part\_gripper\_holder},\const{part\_gripper}) \\ \stvar{efftype}(\const{part\_gripper},\const{part\_c\_1}) \\
+  \stvar{effhhold-eff}(\const{tray\_gripper\_holder},\const{tray\_gripper}) \\ \stvar{efftype}(\const{tray\_gripper},\const{kit\_tray\_1}) \\
+  \stvar{worktable-empty}(\const{work\_table\_1}) \\ \stvar{efftype}(\const{tray\_gripper},\const{kit\_1})\\
+  \hline
+\end{tabular}
+\vspace{-.15in}
+\label{table:initial}
+\end{table}
+
+
+\paragraph{Goal State}
+
+The goal state $s_G$ can be represented by the set of state variable symbols depicted in Table~\ref{table:final}.
+%$s_g$ =\{\stvar{partloc}(\const{part_{C}})=\const{kins_1}, \stvar{partloc}(\const{part_{B}})=\const{kins_1}, \stvar{partloc}(\const{part_{A-2}})=\const{kins_1}, \stvar{partloc}(\const{part_{A-1}})=\const{kins_1},   \stvar{kinsloc}(\const{kins_1})=\const{lbwk_1}\}.
+\begin{table}[t!h!]
+\caption{Goal State $s_G$}
+\centering
+\begin{tabular}{|l|l|}
+  \hline
+  \stvar{partloc}(\const{part\_a\_1},\const{kit\_1})\\
+  \stvar{partloc}(\const{part\_a\_2},\const{kit\_1})\\
+  \stvar{partloc}(\const{part\_b\_1},\const{kit\_1})\\
+  \stvar{partloc}(\const{part\_c\_1},\const{kit\_1})\\
+  \stvar{kitloc}(\const{kit\_1},\const{finished\_kit\_receiver})\\
+  \hline
+\end{tabular}
+\vspace{-.10in}
+\label{table:final}
+\end{table}
+
+%\paragraph{Action}
+%Among the eight planning operators introduced in Section \ref{subsect:Planning_Operators}, only the planning operator \op{take-kit-tray}(\const{r},\const{kt},\const{lbwekt},\const{eff},\const{wtable}) is discussed in this example. By substituting the object variable symbols described in the definition of the planning operator \op{take-kit-tray} with the constant variable symbols defined in this example, the following action is produced:
+%
+%\begin{itemize}
+%\item \op{take-kt}(\const{r_1},\const{kt_1},\const{lbwekt_1},\const{eff_2}): The \class{Robot} \const{r_1} equipped with the \class{EndEffector} \const{eff_2} picks up the \class{KitTray} \const{kt_1} from the \class{LargeBoxWithEmptyKitTrays} \const{lbwekt_1}.
+%\begin{itemize}
+%\item precond: \stvar{ktloc}(\const{kt_1})=\const{lbwekt_1}, \stvar{rhold}(\const{r_1})=\textit{nil}, \stvar{reff}(\const{r_1})=\const{eff_2}, \stvar{effloc}(\const{eff_1})=\const{r_1}, \stvar{islbwektempty}(\const{lbwekt_1})=0
+%\item effects: \stvar{ktloc}(\const{kt_1})$\leftarrow$\const{r_1}, \stvar{rhold}(\const{r_1})$\leftarrow$\const{kt_1}
+%\end{itemize}
+%\end{itemize}
+
+
+
+
+\subsection{Process for the PDDL Domain File}
+\label{subsect:PDDL_Domain_File}
+Once the state variable representation is defined, an OWL-S process specification and OWL ontology is built. This must be constructed by hand from the information in the SVR as described in Section \ref{subsect:Ontology}. For this example, the specific action  \op{take-kit-tray}'s encoding into OWL-S will be discussed.
+
+\subsubsection{OWL-S Representation}
+Once the action is specified in the SVR, we can use that information to create an OWL-S process. We are modeling the action as a process and including information about its data inputs and outputs, the preconditions that have to be true for it to be performed, and the result that will be true after the process is executed. In our example, the process is an atomic process because it only involves a single interaction and consists of only one step. If it were a more complex process that involved multiple sub-actions, it would be modeled by an OWL-S composite process.
+
+In the SVR, the preconditions clearly map to the OWL-S preconditions.
+%These can be represented in languages such as KIF \cite{KIF} (Knowledge Interchange Format), SPARQL \cite{SPARQL} (SPARQL Protocol and RDF Query Language), or SWRL \cite{SWRL-W3C} (Semantic Web Rule Language).
+The rules point to classes and instances in the ontology that model the concepts of kit tray (\const{kt}), a set of large box with empty kit trays (\const{lbwekt}), a robot (\const{r}), and a robot end effector (\const{eff}). The SVR effects map to the OWL-S results and are also represented in one of the rules languages above. In the case of the \op{take-kt} action, the result would specify that the location of the kit tray is no longer in a fixed location and is now in the robot end effector.
+
+Though not explicitly represented in the SVR, data inputs and outputs are an important part of the OWL-S representation and can be inferred from the SVR. Specifically, it needs to know which robot is performing the action (\const{robot\_1}), which kit tray needs to be picked up (\const{kit\_tray\_1}), which end effector is on the robot (\const{tray\_gripper}), and from which box the robot needs to pick up the kit tray (\const{empty\_kit\_tray\_supply}). The output of this action would be a Boolean stating whether the action was completed successfully or not.
+
+\begin{figure}[h!]
+%\begin{center}
+\centering
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
+(define (domain kitting-domain)
+    (:requirements :strips :typing)
+    (:types
+        Robot
+        KitTray
+        LargeBoxWithEmptyKitTrays
+        ...)
+    (:predicates
+        (rhold-empty ?r - Robot)
+        (kittrayloc ?kt - KitTray ?r - Robot)		
+        ...)
+    (:action take-kit-tray
+        :parameters(
+            ?r - Robot
+            ?kt - KitTray
+            ?lbwekt - LargeBoxWithEmptyKitTrays
+            ...)
+        :precondition(and (
+            rhold-empty ?r)
+            (lbwekt-not-empty ?lbwekt)
+            ...)
+        :effect(and
+            (rhold ?r ?kt)
+            (not (kittrayloc ?kt ?lbwekt))
+            ...))
+...)
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\caption{Excerpt of the PDDL domain file for kitting.\label{fig:domainfile}}
+%\end{center}
+\vspace{-.15in}
+\end{figure}
+
+%\begin{figure}[h!]
+%%\begin{center}
+%\centering
+%\begin{minipage}{.5\paperwidth}
+%\begin{mylisting}
+%\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
+%(define (domain kitting-domain)
+% (:requirements :strips :typing)
+% (:types part parttray kittray kitinstance worktable
+%  largeboxwithkits largeboxwithemptykittrays robot
+%  endeffector ...)
+% (:predicates
+%  (effloc ?eff - endeffector ?r - robot
+%   ?effh - endeffectorholder)
+%  (efftype ?effh - endeffectorholder ?eff - endeffector)
+%   ...  )
+% (:action take-kt
+%  :parameters (?r - robot ?kt - kittray
+%   ?lbwekt - largeboxwithemptykittrays
+%   ?eff - endeffector)
+%  :precondition (and (rhold ?robot ?nil)
+%     (ktloc ?kittray ?largeboxwithemptykittrays)
+%     (reff ?robot ?endeffector)
+%     (effloc ?kittray ?robot)
+%     (not (islbwektempty (?largeboxwithemptykittrays))))
+%  :effect (and (ktloc ?kittray ?robot)
+%          (rhold ?robot ?kittray))  )
+%\end{Verbatim}
+%\end{mylisting}
+%\end{minipage}
+%\caption{Excerpt of the PDDL domain file for kitting.\label{fig:domainfile}}
+%%\end{center}
+%\vspace{-.15in}
+%\end{figure}
+
+\subsubsection{PDDL Domain File}
+An external tool is used to generate the PDDL Domain File from the OWL/OWL-S representation. Due to space constraints, only an excerpt of the PDDL domain file is displayed in Figure \ref{fig:domainfile}.
+
+\subsection{Process for the PDDL Problem File}
+\label{subsect:PDDL_Problem_File}
+The PDDL problem file is generated by a chain of data conversions that take the SVR through an OWL representation to the PDDL representation.
+\subsubsection{OWL Representation}
+The OWL instance files shown in Figure \ref{fig:ProcessDataFlow} are derived from the SVR initial and goal states ($s_0$, $s_G$). These files contain
+specific instances of the classes that have been previously defined in the OWL ontology. Two specific instance files are required for the representation with
+both files containing the same class structures. The difference between the two is that in the \const{InitFile} the specific properties of the instantiated
+classes represent the initial state of the domain, and in the \const{GoalFile} the specific properties of the instantiated classes represent the goal state
+of the domain.
+\begin{figure}[h!]
+%\begin{center}
+\centering
+\begin{minipage}{.5\paperwidth}
+\begin{mylisting}
+\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
+(define (problem kitting-problem)
+    (:domain kitting-domain)
+    (:objects
+        robot_1 - Robot
+        work_table_1 - WorkTable
+        part_gripper - VacuumEffectorSingleCup
+        part_gripper_holder - EndEffectorHolder
+        ...)
+    (:init
+        (r-no-eff robot_1)			
+        (effloc part_gripper part_gripper_holder)
+        (worktable-empty work_table_1)
+        ...)
+    (:goal
+        (and
+        (partloc part_a_1 kit_1)
+        (partloc part_b_1 kit_1)
+        ...)))
+\end{Verbatim}
+\end{mylisting}
+\end{minipage}
+\caption{Excerpt of the PDDL problem file for kitting.\label{fig:problemfile}}
+%\end{center}
+
+\end{figure}
+
+%\begin{figure}[h!]
+%%\begin{center}
+%\centering
+%\begin{minipage}{.5\paperwidth}
+%\begin{mylisting}
+%\begin{Verbatim}[commandchars=\\\{\},commandchars=+\[\],fontsize=\scriptsize,numbersep=3pt]
+%(define (problem kitting-problem)
+% (:requirements :strips :typing)
+% (:domain kitting-domain)
+% (:objects r1 kt1 lbwekt1 lbwk1 wtable ptA ptB ptC
+%  partA-1 partA-2 partB partC eff1 eff2 effh1
+%  effh2 kins1)
+% (:init  (rhold r1 nil) (effloc eff1 effh1)
+%  (effloc eff2 effh2) (not (isptempty ptA))
+%  (not (isptempty ptB)) (not (isptempty ptC))
+%  (onworktable wtable nil) (not (islbwektempty lbwekt1))
+%  (not (islbwkfull lbwk1)), (partloc partA-1 ptA)
+%  (partloc partA-2 ptA) (partloc partB ptB)
+%  (partloc partC ptC) (ktloc kt1 lbwekt1))
+% (:goal (and (partloc partA-1 kins1)
+%  (partloc partA-2 kins1) (partloc partB kins1)
+%  (partloc partC kins1) (kinsloc kins1 lbwk1)))
+%\end{Verbatim}
+%\end{mylisting}
+%\end{minipage}
+%\caption{Excerpt of the PDDL problem file for kitting.\label{fig:problemfile}}
+%%\end{center}
+%\end{figure}
+
+\subsubsection{PDDL Problem File}
+The PDDL file is once again automatically generated. An excerpt of the PDDL problem file is shown in Figure \ref{fig:problemfile}. This file
+contains the required sections of objects, initial conditions, and goal conditions.
+
+\subsubsection{PDDL File Processing}
+Once the PDDL files have been generated, a wide variety of planners exist that could be used to generate a PDDL solution file. In our particular implementation, we are utilizing a variant of the classical FF system by Hoffmann and Nebel \cite{Hoffmann2001}.
+
+
+

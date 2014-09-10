@@ -1,0 +1,8 @@
+This owlFiles directory would contain the following OWL files, except
+that they have been moved to ipmas/Ontology/KittingPlan.
+
+kittingPlanClasses.owl
+kittingWorkstationClasses.owl
+plan_a2b1c1_flex.owl
+plan_a2b1c1.owl
+planTest.owl

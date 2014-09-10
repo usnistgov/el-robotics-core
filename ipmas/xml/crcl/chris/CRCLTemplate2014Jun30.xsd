@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 sp1 (x64) (http://www.altova.com) by Jennifer Peyton (private) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://nist.gov/CRCL" targetNamespace="http://nist.gov/CRCL" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Program">
+    <xs:annotation>
+      <xs:documentation>Root element</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Message" type="MessageType" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="MessageType">
+    <xs:sequence>
+      <xs:element name="MsgID" type="xs:ID" minOccurs="0"/>
+      <xs:element name="MsgSentTime" type="xs:dateTime" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Vector">
+    <xs:sequence>
+      <xs:element name="x-comp" type="xs:double"/>
+      <xs:element name="y-comp" type="xs:double"/>
+      <xs:element name="z-comp" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Position">
+    <xs:sequence>
+      <xs:element name="Location" type="Vector"/>
+      <xs:element name="Z-orientation" type="Vector"/>
+      <xs:element name="X-orientation" type="Vector"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Dwell">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="DwellTime" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CloseGripper">
+    <xs:complexContent>
+      <xs:extension base="MessageType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CloseToolChanger">
+    <xs:complexContent>
+      <xs:extension base="MessageType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenGripper">
+    <xs:complexContent>
+      <xs:extension base="MessageType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenToolChanger">
+    <xs:complexContent>
+      <xs:extension base="MessageType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="InitCanon">
+    <xs:complexContent>
+      <xs:extension base="MessageType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EndCanon">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="reason" type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PassString">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="contents" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MoveStraightTo">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="EndPosition" type="Position"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MoveThroughTo">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="Waypoint" type="Position" maxOccurs="unbounded"/>
+          <xs:element name="numPositions" type="xs:integer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetAbsoluteAcceleration">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="acceleration" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetAbsoluteSpeed">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="speed" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetRelativeAcceleration">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="percent" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetRelativeSpeed">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="percent" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetLengthUnits">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="unitName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetAngleUnits">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="unitName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetEndAngleTolerance">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="tolerance" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetEndPointTolerance">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="tolerance" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetIntermediatePointTolerance">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="tolerance" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Unreadable">
+    <xs:complexContent>
+      <xs:extension base="MessageType">
+        <xs:sequence>
+          <xs:element name="command" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,20 @@
+generator_no_gui.jar usage:
+
+./generator_no_gui.jar -owl owlInputFile [-sql sql_output_directory|-cpp cpp_output_directory]
+
+where:
+  owlInputFile: relative or absolute path to the .owl file to use to generate the code
+  sql_output_directory: relative or absolute path to the directory to place the generated .sql files
+  cpp_output_directory: relative or absolute path to the directory to place the generated .cpp, .h, and .sql files
+
+If the -sql option is used, only the owlCreateTable.sql and owlInsertInto.sql files are generated. If the -cpp option is used, then the .cpp and .h files will be created, with the .sql files in the same directory. Exactly one of these options should be specified.
+
+
+-----BUILD INSTRUCTIONS-----
+
+To build the GUI or command-line source generators:
+1. Run Eclipse
+2. Select "New Java Project", uncheck "use default location", and use the OwlToSql directory as the location.
+3. Add HermiT.jar and org.semanticweb.HermiT.jar to the new project libraries
+4. Run GUI.jar or CommandLine.jar from inside Eclipse
+5. Select File->Export and export either launch configuration as a runnable jar

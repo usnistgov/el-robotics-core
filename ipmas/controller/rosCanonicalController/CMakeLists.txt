@@ -1,0 +1,43 @@
+#------------------------------------------------------------------------------
+#--  Copyright 2012-2013
+#--  Georgia Tech Research Institute
+#--  505 10th Street
+#--  Atlanta, Georgia 30332
+#--
+#--  This material may be reproduced by or for the U.S. Government
+#--  pursuant to the copyright license under the clause at DFARS
+#--  252.227-7013 (October 1988).
+#------------------------------------------------------------------------------
+cmake_minimum_required(VERSION 2.6)
+cmake_policy(VERSION 2.6)
+message("In rosCanonicalController directory")
+project(rosCanonicalController)
+include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+
+SET(ROSBUILD_DONT_REDEFINE_PROJECT TRUE)
+rosbuild_init()
+set(LIBRARY_OUTPUT_PATH ${IPMAS_DIR}/lib)
+set(EXECUTABLE_OUTPUT_PATH ${IPMAS_DIR}/bin)
+
+#to get ROS to understand that it's not in the root cmake directory
+get_filename_component(CONTROLLER_DIRECTORY ${PROJECT_SOURCE_DIR} PATH)
+get_filename_component(IPMAS_DIRECTORY ${CONTROLLER_DIRECTORY} PATH)
+
+SET(librosControl_SOURCES src/rosInf.cpp
+                       src/navigationGoal.cpp
+                       src/rosController.cpp
+                       src/robotDescription.cpp)
+
+#SET(binPickup_SOURCES src/binPickup/scanPattern.cpp src/binPickup/scanPickup.cpp)
+
+SET(roscontroller_LIBS ipmasUtils canonicalQueue rosControl pthread sqlKit mysqlcppconn)
+
+link_directories(${LIBRARY_OUTPUT_PATH})
+include_directories(${CONTROLLER_DIRECTORY}/canonicalQueue/include ${IPMAS_DIR}/executor/include)
+
+rosbuild_add_library(rosControl STATIC ${librosControl_SOURCES})
+
+rosbuild_add_executable(canonicalController src/canonicalController.cpp)
+
+SET(canonicalController_LIBS ${roscontroller_LIBS} Executor ipmasUtils sqlKit pthread mysqlcppconn)
+target_link_libraries(canonicalController ${canonicalController_LIBS})

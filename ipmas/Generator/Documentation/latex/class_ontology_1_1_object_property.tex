@@ -1,0 +1,722 @@
+\hypertarget{class_ontology_1_1_object_property}{
+\section{Ontology.ObjectProperty Class Reference}
+\label{class_ontology_1_1_object_property}\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+}
+
+
+Class for the object properties.  
+
+
+
+
+Collaboration diagram for Ontology.ObjectProperty:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ontology_1_1_object_property_ab113f5a8abdfb074959b82ac5f85e8cc}{ObjectProperty} (ArrayList$<$ OWLClass $>$ c, ArrayList$<$ String $>$ cc, OWLOntology ont)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a85c5c789eed6571f9e425accc67520a9}{addInverse} ()
+\begin{DoxyCompactList}\small\item\em List all the inverse properties for each object properties. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a80ef920f9be2281be7739ca58b5c56ce}{addObjectProperties} ()
+\begin{DoxyCompactList}\small\item\em List all the object properties for each class. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_object_property_a3ae4855b888f0c57e9e2b671077a6f81}{
+void \hyperlink{class_ontology_1_1_object_property_a3ae4855b888f0c57e9e2b671077a6f81}{cleanObjectProperties} ()}
+\label{class_ontology_1_1_object_property_a3ae4855b888f0c57e9e2b671077a6f81}
+
+\begin{DoxyCompactList}\small\item\em Delete the url before the name of the property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a3702e401dd6bda37cbdc5b47ec920d97}{singleValuedObjectProperties} ()
+\begin{DoxyCompactList}\small\item\em Precise which properties are single valued. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_af41f2735c1ae3439a2b376a5f15dc2bb}{requiredValueObjectProperties} ()
+\begin{DoxyCompactList}\small\item\em Precise which properties are required. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a350adfd0db702a93b9bd34f8a1fb7191}{addTypes} ()
+\begin{DoxyCompactList}\small\item\em List all the ranges for each object properties. \end{DoxyCompactList}\item 
+HashMap$<$ OWLClassExpression, ArrayList$<$ OWLObjectProperty $>$ $>$ \hyperlink{class_ontology_1_1_object_property_aa583fe754c2ae3404cb76908b9668f99}{getObjectProperties} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_aefe14841afb0de33eb77f22a2419dd7a}{setObjectProperties} (HashMap$<$ OWLClassExpression, ArrayList$<$ OWLObjectProperty $>$$>$ \hyperlink{class_ontology_1_1_object_property_a887a6b686410445bba4c74fa0b650168}{objectProperties})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_object_property_a13b3fc665acd7a791d690f5c0e54ba42}{getObjectPropertiesClean} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a4d961fb974ca5fdde5ebf02d7f6b9a29}{setObjectPropertiesClean} (ArrayList$<$ ArrayList$<$ String $>$$>$ \hyperlink{class_ontology_1_1_object_property_afed9e7e803a7a9a541d1057936b2edaf}{objectPropertiesClean})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_af141c1f8e25d7f61b025d79873da48a8}{getObjectSingleValued} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_aa6077c196fa7e1d6a13f2414be7309dd}{setObjectSingleValued} (HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_ae17f30505dd7960fa544de3063ccdb10}{objectSingleValued})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_a48e78e0e75309e9761299fd5c30ad194}{getObjectRequired} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a9b1c17a2276ae9ec42dcf98da9fd4208}{setObjectRequired} (HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_a1bb591de60f79ef7fc2f194c93dcff92}{objectRequired})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_object_property_a5ae8ddb994a32655414511adec6a8dbb}{getClasses} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a935cc971e4c56212fd10ddbc3d81d8bb}{setClasses} (ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_object_property_a0fb4e9a0cfa7cb785880cd19764cb80c}{classes})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_object_property_a32263c437748315c900e2c5226d00323}{getClassesClean} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a69db404679dc64a382ab8cbcb495f1d1}{setClassesClean} (ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_object_property_aa8e9d767788209520016911f53bb0f58}{classesClean})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+OWLOntology \hyperlink{class_ontology_1_1_object_property_a10e0f7c4bb0d6143e73ad04d9af4b812}{getOntology} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_ab2d33c749bee1769bed4e8f17600ecaa}{setOntology} (OWLOntology \hyperlink{class_ontology_1_1_object_property_a29d4ef0f8ba3a809b35cc36b6863f122}{ontology})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_object_property_a837c1581c09bfb4d570299c4efd18274}{getObjectPropertyRanges} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a12b5bd5f4c3b4f5c7e1351dfe22f9943}{setObjectPropertyRanges} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_ontology_1_1_object_property_a7e8b47c59b8d708d2ab5a02058a795f1}{objectPropertyRanges})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_ae457b9895d2c5cdc31951e9c560ff8b1}{getObjectPropertyInverse} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_object_property_a9cbadf04fc676d19227968f6c6c535d3}{setObjectPropertyInverse} (HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_a363cd9e611554fbad7c3efbc48621715}{objectPropertyInverse})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static char \hyperlink{class_ontology_1_1_object_property_af0df7386e5b60907bd8ac938541dc0ad}{getSeparator} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_object_property_a0fb4e9a0cfa7cb785880cd19764cb80c}{
+ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_object_property_a0fb4e9a0cfa7cb785880cd19764cb80c}{classes}}
+\label{class_ontology_1_1_object_property_a0fb4e9a0cfa7cb785880cd19764cb80c}
+
+\begin{DoxyCompactList}\small\item\em List of classes in the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_object_property_aa8e9d767788209520016911f53bb0f58}{
+ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_object_property_aa8e9d767788209520016911f53bb0f58}{classesClean}}
+\label{class_ontology_1_1_object_property_aa8e9d767788209520016911f53bb0f58}
+
+\begin{DoxyCompactList}\small\item\em List of classes without the url before their name. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_object_property_a29d4ef0f8ba3a809b35cc36b6863f122}{
+OWLOntology \hyperlink{class_ontology_1_1_object_property_a29d4ef0f8ba3a809b35cc36b6863f122}{ontology}}
+\label{class_ontology_1_1_object_property_a29d4ef0f8ba3a809b35cc36b6863f122}
+
+\begin{DoxyCompactList}\small\item\em Our ontology. \end{DoxyCompactList}\item 
+HashMap$<$ OWLClassExpression, ArrayList$<$ OWLObjectProperty $>$ $>$ \hyperlink{class_ontology_1_1_object_property_a887a6b686410445bba4c74fa0b650168}{objectProperties}
+\begin{DoxyCompactList}\small\item\em List of the object properties in the ontology. \end{DoxyCompactList}\item 
+ArrayList$<$ ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_object_property_afed9e7e803a7a9a541d1057936b2edaf}{objectPropertiesClean}
+\begin{DoxyCompactList}\small\item\em List of the object properties without the URL before their name in the ontology. \end{DoxyCompactList}\item 
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_ae17f30505dd7960fa544de3063ccdb10}{objectSingleValued}
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if a object property is single or multi valued. \end{DoxyCompactList}\item 
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_a1bb591de60f79ef7fc2f194c93dcff92}{objectRequired}
+\begin{DoxyCompactList}\small\item\em Map -\/ Used to know if an object property is required or optional valued. \end{DoxyCompactList}\item 
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_object_property_a7e8b47c59b8d708d2ab5a02058a795f1}{objectPropertyRanges}
+\begin{DoxyCompactList}\small\item\em List of the ranges for a given object property. \end{DoxyCompactList}\item 
+HashMap$<$ String, String $>$ \hyperlink{class_ontology_1_1_object_property_a363cd9e611554fbad7c3efbc48621715}{objectPropertyInverse}
+\begin{DoxyCompactList}\small\item\em List of the inverse properties for a given one. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_object_property_a5dfce9e2a7d22062cc427276507e578c}{
+static final char \hyperlink{class_ontology_1_1_object_property_a5dfce9e2a7d22062cc427276507e578c}{SEPARATOR} = '\#'}
+\label{class_ontology_1_1_object_property_a5dfce9e2a7d22062cc427276507e578c}
+
+\begin{DoxyCompactList}\small\item\em Separator between URL and the class' name in the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the object properties. 
+
+This class is used to manipulate the object properties contained in the ontology 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ontology_1_1_object_property_ab113f5a8abdfb074959b82ac5f85e8cc}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!ObjectProperty@{ObjectProperty}}
+\index{ObjectProperty@{ObjectProperty}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{ObjectProperty}]{\setlength{\rightskip}{0pt plus 5cm}Ontology.ObjectProperty.ObjectProperty (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ OWLClass $>$}]{c, }
+\item[{ArrayList$<$ String $>$}]{cc, }
+\item[{OWLOntology}]{ont}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_ab113f5a8abdfb074959b82ac5f85e8cc}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_ontology_1_1_object_property}{ObjectProperty} class. 
+\begin{DoxyParams}{Parameters}
+{\em c} & List of the classes. \\
+\hline
+{\em cc} & List of the classes cleaned. \\
+\hline
+{\em ont} & Our ontology. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_ab113f5a8abdfb074959b82ac5f85e8cc_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ontology_1_1_object_property_a85c5c789eed6571f9e425accc67520a9}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!addInverse@{addInverse}}
+\index{addInverse@{addInverse}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{addInverse}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.addInverse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a85c5c789eed6571f9e425accc67520a9}
+
+
+List all the inverse properties for each object properties. 
+
+Fill the objectPropertyInverse map 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a85c5c789eed6571f9e425accc67520a9_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a80ef920f9be2281be7739ca58b5c56ce}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!addObjectProperties@{addObjectProperties}}
+\index{addObjectProperties@{addObjectProperties}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{addObjectProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.addObjectProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a80ef920f9be2281be7739ca58b5c56ce}
+
+
+List all the object properties for each class. 
+
+Fill the objectProperties map 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a80ef920f9be2281be7739ca58b5c56ce_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a350adfd0db702a93b9bd34f8a1fb7191}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!addTypes@{addTypes}}
+\index{addTypes@{addTypes}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{addTypes}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.addTypes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a350adfd0db702a93b9bd34f8a1fb7191}
+
+
+List all the ranges for each object properties. 
+
+Fill the objectPropertyRanges list 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a350adfd0db702a93b9bd34f8a1fb7191_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a5ae8ddb994a32655414511adec6a8dbb}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getClasses@{getClasses}}
+\index{getClasses@{getClasses}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getClasses}]{\setlength{\rightskip}{0pt plus 5cm}ArrayList$<$OWLClass$>$ Ontology.ObjectProperty.getClasses (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a5ae8ddb994a32655414511adec6a8dbb}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+classes 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_object_property_a32263c437748315c900e2c5226d00323}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getClassesClean@{getClassesClean}}
+\index{getClassesClean@{getClassesClean}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}ArrayList$<$String$>$ Ontology.ObjectProperty.getClassesClean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a32263c437748315c900e2c5226d00323}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+classesClean 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_object_property_aa583fe754c2ae3404cb76908b9668f99}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getObjectProperties@{getObjectProperties}}
+\index{getObjectProperties@{getObjectProperties}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getObjectProperties}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$OWLClassExpression, ArrayList$<$OWLObjectProperty$>$ $>$ Ontology.ObjectProperty.getObjectProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_aa583fe754c2ae3404cb76908b9668f99}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+objectProperties 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_object_property_a13b3fc665acd7a791d690f5c0e54ba42}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getObjectPropertiesClean@{getObjectPropertiesClean}}
+\index{getObjectPropertiesClean@{getObjectPropertiesClean}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getObjectPropertiesClean}]{\setlength{\rightskip}{0pt plus 5cm}ArrayList$<$ArrayList$<$String$>$ $>$ Ontology.ObjectProperty.getObjectPropertiesClean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a13b3fc665acd7a791d690f5c0e54ba42}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+objectPropertiesClean 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a13b3fc665acd7a791d690f5c0e54ba42_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_ae457b9895d2c5cdc31951e9c560ff8b1}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getObjectPropertyInverse@{getObjectPropertyInverse}}
+\index{getObjectPropertyInverse@{getObjectPropertyInverse}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getObjectPropertyInverse}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, String$>$ Ontology.ObjectProperty.getObjectPropertyInverse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_ae457b9895d2c5cdc31951e9c560ff8b1}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+objectPropertyInverse 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_ae457b9895d2c5cdc31951e9c560ff8b1_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a837c1581c09bfb4d570299c4efd18274}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getObjectPropertyRanges@{getObjectPropertyRanges}}
+\index{getObjectPropertyRanges@{getObjectPropertyRanges}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getObjectPropertyRanges}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, ArrayList$<$String$>$ $>$ Ontology.ObjectProperty.getObjectPropertyRanges (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a837c1581c09bfb4d570299c4efd18274}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+objectPropertyRanges 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a837c1581c09bfb4d570299c4efd18274_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a48e78e0e75309e9761299fd5c30ad194}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getObjectRequired@{getObjectRequired}}
+\index{getObjectRequired@{getObjectRequired}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getObjectRequired}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, String$>$ Ontology.ObjectProperty.getObjectRequired (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a48e78e0e75309e9761299fd5c30ad194}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+objectRequired 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a48e78e0e75309e9761299fd5c30ad194_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_af141c1f8e25d7f61b025d79873da48a8}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getObjectSingleValued@{getObjectSingleValued}}
+\index{getObjectSingleValued@{getObjectSingleValued}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getObjectSingleValued}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, String$>$ Ontology.ObjectProperty.getObjectSingleValued (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_af141c1f8e25d7f61b025d79873da48a8}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+objectSingleValued 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_af141c1f8e25d7f61b025d79873da48a8_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a10e0f7c4bb0d6143e73ad04d9af4b812}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getOntology@{getOntology}}
+\index{getOntology@{getOntology}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getOntology}]{\setlength{\rightskip}{0pt plus 5cm}OWLOntology Ontology.ObjectProperty.getOntology (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a10e0f7c4bb0d6143e73ad04d9af4b812}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+ontology 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_object_property_af0df7386e5b60907bd8ac938541dc0ad}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!getSeparator@{getSeparator}}
+\index{getSeparator@{getSeparator}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{getSeparator}]{\setlength{\rightskip}{0pt plus 5cm}static char Ontology.ObjectProperty.getSeparator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{class_ontology_1_1_object_property_af0df7386e5b60907bd8ac938541dc0ad}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+SEPARATOR 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_object_property_af41f2735c1ae3439a2b376a5f15dc2bb}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!requiredValueObjectProperties@{requiredValueObjectProperties}}
+\index{requiredValueObjectProperties@{requiredValueObjectProperties}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{requiredValueObjectProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.requiredValueObjectProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_af41f2735c1ae3439a2b376a5f15dc2bb}
+
+
+Precise which properties are required. 
+
+Fill the objectRequired map. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_af41f2735c1ae3439a2b376a5f15dc2bb_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_object_property_a935cc971e4c56212fd10ddbc3d81d8bb}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setClasses@{setClasses}}
+\index{setClasses@{setClasses}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setClasses}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setClasses (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ OWLClass $>$}]{classes}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a935cc971e4c56212fd10ddbc3d81d8bb}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em classes} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_a69db404679dc64a382ab8cbcb495f1d1}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setClassesClean@{setClassesClean}}
+\index{setClassesClean@{setClassesClean}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setClassesClean (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ String $>$}]{classesClean}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a69db404679dc64a382ab8cbcb495f1d1}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em classesClean} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_aefe14841afb0de33eb77f22a2419dd7a}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setObjectProperties@{setObjectProperties}}
+\index{setObjectProperties@{setObjectProperties}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setObjectProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setObjectProperties (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ OWLClassExpression, ArrayList$<$ OWLObjectProperty $>$$>$}]{objectProperties}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_aefe14841afb0de33eb77f22a2419dd7a}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objectProperties} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_a4d961fb974ca5fdde5ebf02d7f6b9a29}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setObjectPropertiesClean@{setObjectPropertiesClean}}
+\index{setObjectPropertiesClean@{setObjectPropertiesClean}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setObjectPropertiesClean}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setObjectPropertiesClean (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ ArrayList$<$ String $>$$>$}]{objectPropertiesClean}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a4d961fb974ca5fdde5ebf02d7f6b9a29}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objectPropertiesClean} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_a9cbadf04fc676d19227968f6c6c535d3}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setObjectPropertyInverse@{setObjectPropertyInverse}}
+\index{setObjectPropertyInverse@{setObjectPropertyInverse}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setObjectPropertyInverse}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setObjectPropertyInverse (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, String $>$}]{objectPropertyInverse}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a9cbadf04fc676d19227968f6c6c535d3}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objectPropertyInverse} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_a12b5bd5f4c3b4f5c7e1351dfe22f9943}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setObjectPropertyRanges@{setObjectPropertyRanges}}
+\index{setObjectPropertyRanges@{setObjectPropertyRanges}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setObjectPropertyRanges}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setObjectPropertyRanges (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{objectPropertyRanges}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a12b5bd5f4c3b4f5c7e1351dfe22f9943}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objectPropertyRanges} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_a9b1c17a2276ae9ec42dcf98da9fd4208}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setObjectRequired@{setObjectRequired}}
+\index{setObjectRequired@{setObjectRequired}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setObjectRequired}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setObjectRequired (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, String $>$}]{objectRequired}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a9b1c17a2276ae9ec42dcf98da9fd4208}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objectRequired} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_aa6077c196fa7e1d6a13f2414be7309dd}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setObjectSingleValued@{setObjectSingleValued}}
+\index{setObjectSingleValued@{setObjectSingleValued}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setObjectSingleValued}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setObjectSingleValued (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, String $>$}]{objectSingleValued}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_aa6077c196fa7e1d6a13f2414be7309dd}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objectSingleValued} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_ab2d33c749bee1769bed4e8f17600ecaa}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!setOntology@{setOntology}}
+\index{setOntology@{setOntology}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{setOntology}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.setOntology (
+\begin{DoxyParamCaption}
+\item[{OWLOntology}]{ontology}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_ab2d33c749bee1769bed4e8f17600ecaa}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ontology} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_object_property_a3702e401dd6bda37cbdc5b47ec920d97}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!singleValuedObjectProperties@{singleValuedObjectProperties}}
+\index{singleValuedObjectProperties@{singleValuedObjectProperties}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{singleValuedObjectProperties}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.ObjectProperty.singleValuedObjectProperties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_object_property_a3702e401dd6bda37cbdc5b47ec920d97}
+
+
+Precise which properties are single valued. 
+
+Fill the objectSingleValued map. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_object_property_a3702e401dd6bda37cbdc5b47ec920d97_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ontology_1_1_object_property_a887a6b686410445bba4c74fa0b650168}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!objectProperties@{objectProperties}}
+\index{objectProperties@{objectProperties}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{objectProperties}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$OWLClassExpression, ArrayList$<$OWLObjectProperty$>$ $>$ {\bf Ontology.ObjectProperty.objectProperties}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_object_property_a887a6b686410445bba4c74fa0b650168}
+
+
+List of the object properties in the ontology. 
+
+$<$$<$Classe1, ObjectPropertyName1,ObjectPropertyName2$>$ \hypertarget{class_ontology_1_1_object_property_afed9e7e803a7a9a541d1057936b2edaf}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!objectPropertiesClean@{objectPropertiesClean}}
+\index{objectPropertiesClean@{objectPropertiesClean}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{objectPropertiesClean}]{\setlength{\rightskip}{0pt plus 5cm}ArrayList$<$ArrayList$<$String$>$ $>$ {\bf Ontology.ObjectProperty.objectPropertiesClean}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_object_property_afed9e7e803a7a9a541d1057936b2edaf}
+
+
+List of the object properties without the URL before their name in the ontology. 
+
+$<$$<$Classe1, ObjectPropertyName1,ObjectPropertyName2$>$ \hypertarget{class_ontology_1_1_object_property_a363cd9e611554fbad7c3efbc48621715}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!objectPropertyInverse@{objectPropertyInverse}}
+\index{objectPropertyInverse@{objectPropertyInverse}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{objectPropertyInverse}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, String$>$ {\bf Ontology.ObjectProperty.objectPropertyInverse}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_object_property_a363cd9e611554fbad7c3efbc48621715}
+
+
+List of the inverse properties for a given one. 
+
+property =$>$ inverse \hypertarget{class_ontology_1_1_object_property_a7e8b47c59b8d708d2ab5a02058a795f1}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!objectPropertyRanges@{objectPropertyRanges}}
+\index{objectPropertyRanges@{objectPropertyRanges}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{objectPropertyRanges}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, ArrayList$<$String$>$ $>$ {\bf Ontology.ObjectProperty.objectPropertyRanges}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_object_property_a7e8b47c59b8d708d2ab5a02058a795f1}
+
+
+List of the ranges for a given object property. 
+
+$<$$<$ObjectPropertyName1,Range1,Range2...,$<$ObjectName2,Range1,Range2...$>$$>$ \hypertarget{class_ontology_1_1_object_property_a1bb591de60f79ef7fc2f194c93dcff92}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!objectRequired@{objectRequired}}
+\index{objectRequired@{objectRequired}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{objectRequired}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, String$>$ {\bf Ontology.ObjectProperty.objectRequired}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_object_property_a1bb591de60f79ef7fc2f194c93dcff92}
+
+
+Map -\/ Used to know if an object property is required or optional valued. 
+
+ObjectPropertyName =$>$ true or false \hypertarget{class_ontology_1_1_object_property_ae17f30505dd7960fa544de3063ccdb10}{
+\index{Ontology::ObjectProperty@{Ontology::ObjectProperty}!objectSingleValued@{objectSingleValued}}
+\index{objectSingleValued@{objectSingleValued}!Ontology::ObjectProperty@{Ontology::ObjectProperty}}
+\subsubsection[{objectSingleValued}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, String$>$ {\bf Ontology.ObjectProperty.objectSingleValued}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_object_property_ae17f30505dd7960fa544de3063ccdb10}
+
+
+Map -\/ Used to know if a object property is single or multi valued. 
+
+ObjectPropertyName =$>$ true or false 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/Ontology/\hyperlink{_object_property_8java}{ObjectProperty.java}\end{DoxyCompactItemize}

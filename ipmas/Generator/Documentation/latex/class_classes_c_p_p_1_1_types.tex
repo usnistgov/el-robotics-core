@@ -1,0 +1,149 @@
+\hypertarget{class_classes_c_p_p_1_1_types}{
+\section{ClassesCPP.Types Class Reference}
+\label{class_classes_c_p_p_1_1_types}\index{ClassesCPP::Types@{ClassesCPP::Types}}
+}
+
+
+Class for the C++ types.  
+
+
+
+
+Inheritance diagram for ClassesCPP.Types:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_classes_c_p_p_1_1_types__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ClassesCPP.Types:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_classes_c_p_p_1_1_types__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_classes_c_p_p_1_1_types_af19f9a134ceb87c04e0ba86548b601c3}{Types} (String \hyperlink{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{className})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_types_abfdc4a64038a42567aab3a5d97a12ae4}{generateHeader} (String \hyperlink{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{className}, ArrayList$<$ String $>$ classParentName, ArrayList$<$ String $>$ attributes, ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}{unit})
+\begin{DoxyCompactList}\small\item\em Generate the header file for a given type. \end{DoxyCompactList}\item 
+String \hyperlink{class_classes_c_p_p_1_1_types_a6f5cdda584a6edcb4b573d693b8bb5fc}{generateCpp} (String \hyperlink{class_classes_c_p_p_1_1_class_generator_afdefd7e06ee9c818e2d3d367bed59bc1}{className}, ArrayList$<$ String $>$ classParentName, ArrayList$<$ String $>$ attributes, ArrayList$<$ String $>$ \hyperlink{class_classes_c_p_p_1_1_class_generator_ae42121bfdd264575455ea05f08180020}{unit})
+\begin{DoxyCompactList}\small\item\em Generate the C++ file for a given type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the C++ types. 
+
+This class is used to generate the C++ files based on the info in the ontology 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_classes_c_p_p_1_1_types_af19f9a134ceb87c04e0ba86548b601c3}{
+\index{ClassesCPP::Types@{ClassesCPP::Types}!Types@{Types}}
+\index{Types@{Types}!ClassesCPP::Types@{ClassesCPP::Types}}
+\subsubsection[{Types}]{\setlength{\rightskip}{0pt plus 5cm}ClassesCPP.Types.Types (
+\begin{DoxyParamCaption}
+\item[{String}]{className}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_types_af19f9a134ceb87c04e0ba86548b601c3}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_classes_c_p_p_1_1_types}{Types} class. 
+\begin{DoxyParams}{Parameters}
+{\em className} & Name of the class. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_classes_c_p_p_1_1_types_af19f9a134ceb87c04e0ba86548b601c3_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_classes_c_p_p_1_1_types_a6f5cdda584a6edcb4b573d693b8bb5fc}{
+\index{ClassesCPP::Types@{ClassesCPP::Types}!generateCpp@{generateCpp}}
+\index{generateCpp@{generateCpp}!ClassesCPP::Types@{ClassesCPP::Types}}
+\subsubsection[{generateCpp}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.Types.generateCpp (
+\begin{DoxyParamCaption}
+\item[{String}]{className, }
+\item[{ArrayList$<$ String $>$}]{classParentName, }
+\item[{ArrayList$<$ String $>$}]{attributes, }
+\item[{ArrayList$<$ String $>$}]{unit}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_types_a6f5cdda584a6edcb4b573d693b8bb5fc}
+
+
+Generate the C++ file for a given type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em className} & Name of the class. \\
+\hline
+{\em classParentName} & List of the super classes. \\
+\hline
+{\em attributes} & List of the attributes. \\
+\hline
+{\em unit} & List of the units of the attributes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with the whole C++ file 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_classes_c_p_p_1_1_class_generator_a2b803f00feba61f46791357d5f255502}{ClassesCPP.ClassGenerator}.
+
+\hypertarget{class_classes_c_p_p_1_1_types_abfdc4a64038a42567aab3a5d97a12ae4}{
+\index{ClassesCPP::Types@{ClassesCPP::Types}!generateHeader@{generateHeader}}
+\index{generateHeader@{generateHeader}!ClassesCPP::Types@{ClassesCPP::Types}}
+\subsubsection[{generateHeader}]{\setlength{\rightskip}{0pt plus 5cm}String ClassesCPP.Types.generateHeader (
+\begin{DoxyParamCaption}
+\item[{String}]{className, }
+\item[{ArrayList$<$ String $>$}]{classParentName, }
+\item[{ArrayList$<$ String $>$}]{attributes, }
+\item[{ArrayList$<$ String $>$}]{unit}
+\end{DoxyParamCaption}
+)}}
+\label{class_classes_c_p_p_1_1_types_abfdc4a64038a42567aab3a5d97a12ae4}
+
+
+Generate the header file for a given type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em className} & Name of the class. \\
+\hline
+{\em classParentName} & List of the super classes. \\
+\hline
+{\em attributes} & List of the attributes. \\
+\hline
+{\em unit} & List of the units of the attributes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A String with the whole header 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_classes_c_p_p_1_1_class_generator_a7536fe332f0ad4b4a2c2e88afcb481c9}{ClassesCPP.ClassGenerator}.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/ClassesCPP/\hyperlink{_types_8java}{Types.java}\end{DoxyCompactItemize}

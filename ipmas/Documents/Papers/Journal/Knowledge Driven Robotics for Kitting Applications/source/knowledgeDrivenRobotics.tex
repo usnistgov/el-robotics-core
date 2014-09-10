@@ -1,0 +1,266 @@
+%% This file  is based off of `elsarticle-template-1a-num.tex',
+\documentclass[preprint,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+\usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+\usepackage{fancyvrb}
+%\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amsmath}%%% -- Added by Zeid to use \begin{gather}...\end{gather}
+\usepackage{rotating}%%% -- Added by Zeid for tabular
+\usepackage{multirow}%%% -- Added by Zeid for tabular
+%% The amsthm package provides extended theorem environments
+ \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+
+\newcommand{\class}[1] {\textsf{#1}}
+\newcommand{\onto}[1] {\textsl{#1}}
+\newcommand{\process}[1] {\textmd{#1}}
+\newcommand{\stvar}[1] {\textsf{#1}}
+\journal{Robotics and Automation}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{Knowledge Driven Robotics for Kitting Applications}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[NIST]{Stephen Balakirsky}
+\author[NIST,UMD]{Zeid Kootbally}
+\author[CATHU,NIST]{Thomas Kramer}
+\author[NIST]{Anthony Pietromartire}
+\author[NIST]{Craig Schlenoff}
+\author[UMD]{Satyandra Gupta}
+
+\address[CATHU]{Catholic University of America, Washington, DC, USA}
+\address[NIST]{National Institute of Standards and Technology, Gaithersburg, MD USA}
+\address[UMD]{University of Maryland, College Park, MD, USA}
+
+\begin{abstract}
+%% Text of abstract
+This article presents a newly developed knowledge methodology and model that was designed to support 
+the IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working Group. 
+This methodology and model allows for the creation of systems that 
+demonstrate flexibility, agility, and the ability to be rapidly re-tasked. 
+The methodology and model will be illustrated through a case study in the area of robotic kit building.
+Through this case study, the knowledge model will be presented, and automatic
+tools for optimizing the knowledge representation for planning systems and execution
+systems will be discussed.
+\end{abstract}
+
+\begin{keyword}
+Ontology \sep Robotics \sep Manufacturing \sep Knowledge Representation
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% main text
+\section{Introduction}
+\label{sect:introduction}
+Today's state-of-the-art industrial robots are capable of sub-millimeter movement accuracy \cite{RobotAccuracy}.
+However, they are often programmed by an operator using crude positional controls from a teach pendent. 
+Reprogramming these robots when their task is altered requires that the robot cell be taken off-line for a
+human-led teaching period.  For small batch processors or other customers who must frequently change
+their line configuration, this frequent down time may be unacceptable. 
+The robotic systems of tomorrow
+need to be capable, flexible, and agile.  These systems need to perform their duties at least 
+as well as human counterparts, be quickly re-tasked to other operations,
+and cope with a wide variety of unexpected environmental and operational changes. 
+To be successful, these systems need to combine domain expertise,
+knowledge of their own skills and limitations, and both semantic and geometric environmental information.
+
+The IEEE Robotics and Automation Society's Ontologies for Robotics and Automation Working group is 
+striving to create an overall ontology and
+associated methodology for knowledge representation and reasoning that will address these 
+knowledge needs. As part of the
+Industrial Subgroup of the IEEE Working Group, the authors are examining a novel 
+architecture that allows for the combination of the static
+aspects of the ontology with dynamic sensor processing. This enables the construction of a robotic 
+system that 
+is able to cope with environmental and task changes
+without operator intervention.
+
+This article presents the first steps in the formation of a formal knowledge model and implementation methodology
+that is being developed by the industrial subgroup
+of the IEEE Working Group. The knowledge model will eventually allow for the compact representation
+of the world knowledge required to successfully plan for and carry out a variety of industrial applications. Currently,
+the model has been focused on automated kit building.
+The methodology presents sample techniques that demonstrate how this knowledge can by transformed
+into representations that are optimized for planning systems and robotic operations. When possible,
+these transformations are accomplished in an automated fashion, without the need for intervention from
+the user. In addition, sensor processing is utilized to provide late-binding of detailed information
+about the environment to the control process. This allows for generalized plans that reside in the knowledge
+model to adapt to a changing environment.
+
+The knowledge methodology/model proposed in this article is not designed to act as a stand-alone
+system architecture. Rather it is intended to be an extension to well developed hierarchical, 
+deliberative architectures such as 4D/RCS \cite{Albus2000}. The proposed methodology relies on the robotic system
+to be able to carry out
+specific robot motions such as Cartesian moves, avoid collisions, and pick up objects. 
+The knowledge methodology/model proposed in this paper is designed to work in conjunction with the existing
+robotic architecture to allow the system to be more agile, flexible, and easily re-tasked.
+
+% In order to become accepted in industrial applications, tomorrow\rq{}s systems will need to do more. 
+% They will have to demonstrate flexibility through the
+% elimination of hand-tuned parameters. They will need to demonstrate agility through the 
+% ability to cope with rapidly changing situations and task requirements,
+% and they will need to be able to be rapidly re-tasked in order to adapt 
+% to new tasking quickly and efficiently. The  industrial subgroup of the
+% Ontologies for Robotics and Automation Working group is striving to demonstrate 
+% that the inclusion of knowledge in the form of an ontology
+% will allow robotic systems to progress to this next level.
+
+The organization of the remainder of this paper is as follows: Section \ref{Sect:Kitting} describes the domain of kit building
+which is a simple, but still practically useful manufacturing/assembly domain.
+Section \ref{Sect:Methodology} presents an overview of the knowledge driven methodology that
+has been developed for this effort.  Section \ref{Sect:Ontology} describes our knowledge model for the kitting
+domain. Finally, Section \ref{Sect:Conclusion} presents conclusions and
+future work.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Industrial Kitting}
+\label{Sect:Kitting}
+\input{kitting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Design Methodology}
+\label{Sect:Methodology}
+\input{Architecture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Knowledge Model}
+\label{Sect:Ontology}
+\input{Ontology}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Implementation}
+%\label{Sect:Implementation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\label{Sect:Conclusion}
+\input{conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+
+\bibliographystyle{model1a-num-names}
+\bibliography{elsevier}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1a-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-1a-num.tex'.

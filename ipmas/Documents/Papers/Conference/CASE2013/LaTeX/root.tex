@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
+                                                          % if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+                                                          % paper
+
+\IEEEoverridecommandlockouts                              % This command is only
+                                                          % needed if you want to
+                                                          % use the \thanks command
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+
+
+% The following packages can be found on http:\\www.ctan.org
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{moreverb}                    % for boxedboxedverbatim
+\usepackage{array}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{mdwlist}
+\usepackage{enumerate}
+\usepackage{fancyvrb}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\title{\LARGE \bf
+Performance Evaluation of Knowledge-based Kitting via Simulation
+}
+\author{Thomas Kramer$^{1}$, Zeid Kootbally$^{2}$, Stephen Balakirsky$^{3}$, Craig Schlenoff$^{4}$, Anthony Pietromartire$^{4}$, \\ and Satyandra Gupta$^{5}$% <-this % stops a space
+%\thanks{*This work was not supported by any organization}% <-this % stops a space
+\thanks{$^{1}$T. Kramer is with the Department of Mechanical Engineering, Catholic University of America, Washington, DC, USA
+        {\tt\small thomas.kramer@nist.gov}}%
+\thanks{$^{2}$Z. Kootbally is with the Department of Mechanical Engineering, University of Maryland, College Park, MD, USA
+        {\tt\small zeid.kootbally@nist.gov}}
+\thanks{$^{3}$S. Balakirsky is with the Georgia Tech Research Institute, Atlanta, GA
+{\tt\small stephen.balakirsky@gtri.gatech.edu}}%}
+\thanks{$^{4}$C. Schlenoff and A. Pietromartire are with the Intelligent Systems Division,
+National Institute of Standards and Technology, Gaithersburg, MD, USA
+{\tt\small craig.schlenoff@nist.gov \& pietromartire.anthony@nist.gov}}%}
+\thanks{$^{5}$S. Gupta is with the Maryland Robotics Center, University of Maryland,
+College Park, MD, USA
+        {\tt\small skgupta@umd.edu}}%
+}
+
+
+\begin{document}
+
+
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+The IEEE Robotics and Automation Society's (RAS) Ontologies for Robotics
+and Automation Working Group is dedicated to developing a knowledge representation for robotics and automation. As part
+of this working group, the Industrial Robots sub-group is tasked with
+studying industrial applications of the knowledge representation. One of
+the first areas of interest for this subgroup is the area of kit building
+or kitting. This is a process that brings parts that will be used in
+assembly operations together in a kit and then moves the kit to the area where the parts are used in the final assembly. It is
+anticipated that utilization of the knowledge representation will allow for
+the development of higher performing kitting systems. While our previous
+efforts were aimed at designing the basis for performance methods and metrics that may be utilized to
+determine the performance of kitting systems, this paper presents a system
+that evaluates the performance of kitting systems through simulation using
+specific metrics.
+
+\end{abstract}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+%zeid: 0.5-1 page: Industrial kitting, test methods and metrics for
+% assembly from the literature review.
+%Suggestion to Zeid - reference the NISTIR as a place to see the canonical
+%robot commands and as a place to see a broader discussion of test methods
+%for evaluating plans and plan execution.
+\label{sect:Introduction}
+\input{Introduction}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{DESIGN METHODOLOGY}
+%zeid: 0.5-1 page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{KNOWLEDGE DRIVEN METHODOLOGY}
+\label{sect:knowledge_driven_methodology}
+\input{Knowledge}
+%zeid: 0.5-1 page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{KITTING VIEWER}
+%Tom - 1 page
+%currently about 2.2 pages
+\label{sect:KittingViewer}
+\input{KittingViewer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{TEST METHODS AND METRICS}
+%Tom - 1 page
+%currently about 1.0 page
+\label{sect:Metrics}
+\input{Metrics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{SCORING}
+%Tom: 1 page
+%currently about 0.7 page
+\label{sect:Scoring}
+\input{Scoring}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addtolength{\textheight}{-4cm}
+ % This command serves to balance the column lengths
+ % on the last page of dthe document manually. It shortens
+ % the textheight of the last page by a suitable amount.
+ % This command does not take effect until the next page
+ % so it should come on the page before the last. Make
+ % sure that you do not shorten the textheight too much.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{CONCLUSIONS AND FUTURE WORK}
+%zeid: 0.5 page
+%currently about 0.2 page
+\label{sect:Conclusions}
+\input{Conclusions}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{kitting}
+
+
+
+
+\end{document}

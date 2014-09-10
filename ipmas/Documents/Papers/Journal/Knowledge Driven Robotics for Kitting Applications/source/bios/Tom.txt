@@ -1,0 +1,3 @@
+Thomas Kramer received his Bachelors degree (1965) with high honors in Physics from Swarthmore College and his Masters (1968) and PhD (1971) degrees in mathematics from Duke University. He is a Guest Researcher in the Intelligent Systems Division at the National Institute of Standards and Technology, where he has worked since 1984. His research interests include automated reasoning, automated generation of computer programs, automated planning, and automated manufacturing. He has helped develop manufacturing standards, including STEP, DMIS,
+I++DME, and QIF. He is a member of Phi Beta Kappa and the American
+Mathematical Society. He has authored or co-authored over 80 papers and reports and one book.

@@ -1,0 +1,30 @@
+A few more general issues emerged on my behalf:
+- added a few comments inline with \Tamas{}.
+Moreover:
+-  In  the  footed on the front page, I'd only use the initials of the
+authors to make it less crowded.
+-  the citation/numbering of the references is weird: neither IEEE nor
+Harvard format.
+-  I  know  it's  a  long  discussion,  but  again  I want to call you
+attention  to the inconsistency with the ISO 8373: there exist "robot"
+"robot  system"  and "robotic device", the latter of which are systems
+that  are  somehow not meeting the "robot" criteria. NOW: we introduce
+here  the  term "robotic system" in the same meaning that ISO's "robot
+system". I think it will only create confusion.
+-  I  tried to introduce italic for all key terms and expressions when
+they  first  appear.  We  might  consider using italic all the way for
+"concepts" "definitions", "notions" etc.
+- My biggest concern is: we are proposing the use of teleoperation and
+remote    control   in   different   senses.   I   believe   that   is
+counter-intuitive,  and  goes  against  the general practice, thus we
+will  see big problems implementing it! For 90% of the researchers (in
+my  perception)  these are synonyms. I understand form the description
+the intended difference, yet I'd strongly recommend to use a different
+term, e.g. "shared control" for the more autonomous case.
+-  Az  for  automated  robots:  what  about  partial adaptation to the
+environment?  Pre-coded,  case-by-case  adaptivity?  With  a  rule-base
+system, it can already be very complex.
+-  We  should  separate  Discussion from Future Work. A few paragraphs
+should  be  added  as  "Concluding  remarks",  how  CORA  and CORAX is
+supposed  to serve the community in the future. Then, the current last
+section could be a proper "Future Work".

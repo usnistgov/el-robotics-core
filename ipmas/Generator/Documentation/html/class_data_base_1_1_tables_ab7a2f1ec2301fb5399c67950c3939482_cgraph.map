@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_data_base_1_1_tables.html#a0cc659b39257e547f1c5857fe2ba9b0a" title="Give the attributes for a given table." alt="" coords="220,5,401,35"/>
+<area shape="rect" id="node5" href="$class_data_base_1_1_tables.html#ac35eb49002e26a8066cee9d139512562" title="Generate the foreign keys constraints." alt="" coords="216,59,405,88"/>
+<area shape="rect" id="node7" href="$class_data_base_1_1_tables.html#ac3402b9a61ee3f4d40cb9eb4680213e0" title="Save the sql script on the disk." alt="" coords="233,112,388,141"/>
+</map>

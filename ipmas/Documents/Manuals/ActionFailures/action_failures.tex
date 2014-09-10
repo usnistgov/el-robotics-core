@@ -1,0 +1,32 @@
+\documentclass[letter,12pt,oneside]{article}
+\input{header}
+
+
+%\input {Fonts/EileenBl.fd}
+\begin{document}
+
+\include{Section/title}
+\pagenumbering{roman}
+%\cleardoublepage
+
+\include{Section/contents}
+\pagenumbering{arabic}
+%\cleardoublepage
+%\include{Chapters/abbreviations}
+%\cleardoublepage
+\setcounter{lofdepth}{2}
+\listoffigures
+\include{Section/introduction}
+\include{Section/task1}
+\include{Section/task2}
+\include{Section/task3}
+\include{Section/task4}
+%\include{Section/task5}
+
+%\include{Section/task4}
+\include{Section/references} % References
+%\listoftables
+
+
+
+\end{document}

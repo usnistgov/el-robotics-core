@@ -1,0 +1,115 @@
+The Kitting Viewer embodies a test method for comparing the performance of
+different kitting planning systems. It may be used to compare different
+plans for building kits in which each plan to be compared has the same
+initial and goal states. The plans are an ordered sequence of actions for a
+robot to perform specified in terms of the CRCL.
+
+The following metrics currently implemented in the Kitting Viewer are
+evaluated in the first phase of KittingViewer operation at the end of each
+CRCL command, with cumulative values.
+
+\begin{itemize}
+
+\item \small \sf Action Commands Executed Successfully \rm \normalsize --
+the number of action commands that have been executed successfully so far.
+An action command is any command that takes time to execute.
+
+\item \small \sf Other Commands Executed Successfully \rm \normalsize --
+the number of commands that are not action commands that have been executed
+successfully so far -- mostly setting commands. Executing these commands is
+assumed to take a negligible amount of time.
+
+\item \small \sf Total Robot Distance Moved \rm \normalsize -- the total
+distance that the tool tip has moved so far. This is calculated as the
+total of the distances between points in the move commands, taken in order
+(and starting at the place where the controlled point is located
+initially). The value is updated as each point is reached, not
+continuously.
+
+\item \small \sf Total Execution Time \rm \normalsize -- the total time
+taken so far by executing action commands. In the Kitting Viewer, this does
+not include any time that may elapse between when one command finishes
+execution and when the user tells the system to execute another command.
+The total execution time is meant to be very close to the actual amount of
+time that would be taken by the system without user intervention.
+
+\item \small \sf Range Errors \rm \normalsize -- the number of times a
+command tries to set a parameter to a value that is out of the allowed
+range of the parameter.
+
+\item \small \sf Parse Errors \rm \normalsize -- the number of lines in
+the CRCL command file that cause an error in the command file
+parser.
+
+\item \small \sf Command Sequence Errors \rm \normalsize -- the number of
+commands that are out of sequence. An InitCanon command is out of sequence
+if it is not the first command in the file. An EndCanon command is out of
+sequence if it is not the last command in the file. Other commands are out
+of sequence if they occur before InitCanon or after EndCanon.
+
+\item \small \sf Gripper Use Errors \rm \normalsize -- the number of
+OpenGripper and CloseGripper commands that cannot be executed because the
+robot is not holding a gripper.
+
+\item \small \sf Tool Change Errors \rm \normalsize -- the number of
+OpenToolChanger and CloseToolChanger commands that cannot be executed. For
+example, it is an error to attempt to execute either command anywhere but
+at a tool holder.
+
+\item \small \sf Total Errors \rm \normalsize -- the sum of the Range
+Errors, Parse Errors, Command Sequence Errors, Gripper Use Errors, and Tool
+Change Errors.
+
+\item \small \sf Useless Commands Executed \rm \normalsize -- the number
+of commands executed that do not change the state of the workstation. For
+example, executing a CloseGripper command when the gripper is already
+closed does not change the state of the workstation. Such commands have no
+effect, so they are useless. They are not counted as errors, but the
+scoring system may penalize executing them.
+
+\end{itemize}
+
+After all commands have been executed, in the second phase of operation,
+the Kitting Viewer goes through the goal objects one at a time and
+evaluates the following metrics cumulatively. Metrics from the first
+phase continue to be displayed, but except for Total Errors, are not
+changed.
+
+\begin{itemize}
+
+\item \small \sf Objects Located Correctly \rm \normalsize -- the number of
+  movable goal objects checked so far that were moved from their initial
+  location to the correct goal location.
+
+\item \small \sf Object Location Errors \rm \normalsize -- the number of
+  movable goal objects checked so far whose final position is not the one
+  given in the goal file.
+
+\item \small \sf Total Basic Goal Object Distance Moved \rm \normalsize --
+  the total net distance moved from initial location to final location by
+  movable basic goal objects checked so far. A movable basic goal object is
+  a movable solid object in the goal file that cannot be decomposed into
+  other solid objects. For example, a Part is a basic object, but a Kit is
+  not (since it may be decomposed into a KitTray and Parts).
+
+\item \small \sf Total Errors \rm \normalsize -- the number of Total Errors
+  from the first phase plus the number of Object Location Errors for
+  movable goal objects checked so far.
+
+\item \small \sf Score \rm \normalsize -- the score so far, as described in
+  Section \ref{sect:Scoring}.
+
+\end{itemize}
+
+Because the CRCL commands include only primitive commands such as
+OpenGripper, CloseGripper, and Move and does not include task commands such
+as PickUpObject and MoveObject, the metrics do not include any measures of
+success or failure at picking up objects or moving them. For example, if
+the robot moves to a suitable position for picking up an object and closes
+the gripper, but the gripper is not suitable for picking up the object, the
+object is not picked up, but no error is recorded. In such cases, an error
+will almost certainly be found later in the position of the object that was
+not moved; in addition, the scoring system is likely to penalize the wasted
+motion.
+
+

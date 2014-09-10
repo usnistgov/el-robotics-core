@@ -1,0 +1,19 @@
+<package>
+  <description brief="sqlToCollision">
+
+     sqlToCollision
+
+  </description>
+  <author>Teddy Weisman</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/sqlToCollision</url>
+  <depend package="roscpp" />
+  <depend package="arm_navigation_msgs" />
+  <depend package="planning_environment" />
+  <depend package="visualization_msgs" />
+  <depend package="tf" />
+  
+</package>
+
+

@@ -1,0 +1,12 @@
+\section{Introduction}
+
+This document describes the different ideas that will need to be implemented to represent and identify action failures during the execution of kitting tasks by a robotic arm. In our kitting domain, PDDL (Planning Domain Definition Language) actions, predicates, and initial and goal states are used by a planner to generate a plan that contains a sequence of PDDL actions to perform in order to build a kit. During the execution of the plan, the interpreter, from the execution module, acquires information on the location of different objects in the workstation. 
+
+
+In order to represent and identify failures during kitting, the following modules need to be implemented:
+\begin{enumerate}
+ \item Representation of PDDL actions in the ontology (Section~\ref{task1})
+\item Representation of Failures associated to actions (Section~\ref{task2})
+\item Representation of predicates with state relations (Section~\ref{task3})
+\item Update of the MySQL database (Section~\ref{task4})
+\end{enumerate}

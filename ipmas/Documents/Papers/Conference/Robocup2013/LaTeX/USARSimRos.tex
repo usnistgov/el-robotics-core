@@ -1,0 +1,108 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%% asme2e.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Template for producing ASME-format articles using LaTeX            %
+% Written by   Harry H. Cheng                                        %
+%              Integration Engineering Laboratory                    %
+%              Department of Mechanical and Aeronautical Engineering %
+%              University of California                              %
+%              Davis, CA 95616                                       %
+%              Tel: (530) 752-5020 (office)                          %
+%                   (530) 752-1028 (lab)                             %
+%              Fax: (530) 752-4158                                   %
+%              Email: hhcheng@ucdavis.edu                            %
+%              WWW:   http://iel.ucdavis.edu/people/cheng.html       %
+%              May 7, 1994                                           %
+% Modified: February 16, 2001 by Harry H. Cheng                      %
+% Modified: January  01, 2003 by Geoffrey R. Shiflett                %
+% Use at your own risk, send complaints to /dev/null                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% use twocolumn and 10pt options with the asme2e format
+\documentclass{llncs}
+\usepackage[]{epsfig,graphicx,epstopdf,subfigure}
+\usepackage{flushend}
+\usepackage{comment}
+\usepackage{url}
+\urlstyle{same}
+
+
+%% The class has several options
+%  onecolumn/twocolumn - format for one or two columns per page
+%  10pt/11pt/12pt - use 10, 11, or 12 point font
+%  oneside/twoside - format for oneside/twosided printing
+%  final/draft - format for final/draft copy
+%  cleanfoot - take out copyright info in footer leave page number
+%  cleanhead - take out the conference banner on the title page
+%  titlepage/notitlepage - put in titlepage or leave out titlepage
+%
+%% The default is oneside, onecolumn, 10pt, final
+
+%%% You need to remove 'DRAFT: ' in the title for the final submitted version.
+\title{Enabling codesharing in Rescue Simulation \\with USARSim/ROS}
+
+%%% first author
+
+
+%%% second author
+%%% remove the following entry for single author papers
+%%% add more entries for additional authors
+\author{Zeid Kootbally
+    \affiliation{Department of Mechanical Engineering\\
+	University of Maryland\\
+	College Park, Maryland, 20742\\
+	Email: zeid.kootbally@nist.gov
+    }
+}
+\author{Stephen Balakirsky\thanks{Address all correspondence to this author.}
+    \affiliation{
+	Intelligent Systems Division\\
+	National Institute of Standards and Technology\\
+	Gaithersburg, Maryland 20899\\
+    Email: stephen.balakirsky@nist.gov
+    }	
+}
+\author{Teddy Weisman}
+
+\author{Zeid Kootbally\inst{1} \and Stephen Balakirsky\inst{2} \and Arnoud Visser\inst{3}}
+\institute{Department of Mechanical Engineering,  University of Maryland
+\and Georgia Tech Research Institute, Atlanta, Georgia 
+\and Intelligent Systems Laboratory Amsterdam, Universiteit van Amsterdam}
+
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{abstract}
+\input{introduction}
+\input{background}
+\input{interface}
+%\input{setup}
+\input{conclusion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The bibliography is stored in an external database file
+% in the BibTeX format (file_name.bib).  The bibliography is
+% created by the following command and it will appear in this
+% position in the document. You may, of course, create your
+% own bibliography by using thebibliography environment as in
+%
+% \begin{thebibliography}{12}
+% ...
+% \bibitem{itemreference} D. E. Knudsen.
+% {\em 1966 World Bnus Almanac.}
+% {Permafrost Press, Novosibirsk.}
+% ...
+% \end{thebibliography}
+
+% Here's where you specify the bibliography database file.
+% The full file name of the bibliography database for this
+% article is asme2e.bib. The name for your database is up
+% to you.
+\bibliographystyle{splncs03}
+\bibliography{references}
+
+% 8 pages for special track of RoboCup
+
+\end{document}

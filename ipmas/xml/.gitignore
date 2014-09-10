@@ -1,0 +1,14 @@
+common/source/compactOwl.cc
+common/source/patternLex.cc
+common/source/patternYACC.hh
+common/source/xmlSchemaLex.cc
+common/source/xmlSchemaYACC.cc
+common/source/xmlSchemaYACC.hh
+common/source/patternYACC.cc
+common/source/xmlSchemaOwlYACC.cc
+common/source/xmlSchemaOwlYACC.hh
+
+kittingWorkstation/source/*.cc
+kittingWorkstation/source/*.hh
+kittingWorkstation/source/*.lex
+kittingWorkstation/source/*.y

@@ -1,0 +1,50 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(geo:=<http://www.nist.gov/el/ontologies/geometrySchema3Classes.owl#>)
+Prefix(cir:=<http://www.nist.gov/el/ontologies/CircleAndSphereClasses.owl#>)
+Prefix(poi:=<http://www.nist.gov/el/ontologies/PointAndVectorClasses.owl#>)
+
+Ontology(<http://www.nist.gov/el/ontologies/geometrySchema3Classes.owl>
+Import(<file:CircleAndSphereClasses.owl>)
+
+Annotation(rdfs:comment
+  "A schema file with a top level element (so a data file can be made).
+      The include hierarchy has three levels. Three schema files are
+      involved, one in each level.")
+Annotation(rdfs:comment
+  "owlPrefix=geo")
+
+
+
+Declaration(Class(geo:CirclesAndSpheres))
+
+Declaration(ObjectProperty(geo:hasCirclesAndSpheres_CircleInstance))
+ObjectPropertyDomain(geo:hasCirclesAndSpheres_CircleInstance geo:CirclesAndSpheres)
+ObjectPropertyRange(geo:hasCirclesAndSpheres_CircleInstance cir:Circle)
+InverseFunctionalObjectProperty(geo:hasCirclesAndSpheres_CircleInstance)
+
+Declaration(ObjectProperty(geo:hadByCircleInstance_CirclesAndSpheres))
+InverseObjectProperties(geo:hasCirclesAndSpheres_CircleInstance
+                        geo:hadByCircleInstance_CirclesAndSpheres)
+ObjectPropertyDomain(geo:hadByCircleInstance_CirclesAndSpheres cir:Circle)
+ObjectPropertyRange(geo:hadByCircleInstance_CirclesAndSpheres geo:CirclesAndSpheres)
+
+Declaration(ObjectProperty(geo:hasCirclesAndSpheres_SphereInstance))
+ObjectPropertyDomain(geo:hasCirclesAndSpheres_SphereInstance geo:CirclesAndSpheres)
+ObjectPropertyRange(geo:hasCirclesAndSpheres_SphereInstance cir:Sphere)
+InverseFunctionalObjectProperty(geo:hasCirclesAndSpheres_SphereInstance)
+
+Declaration(ObjectProperty(geo:hadBySphereInstance_CirclesAndSpheres))
+InverseObjectProperties(geo:hasCirclesAndSpheres_SphereInstance
+                        geo:hadBySphereInstance_CirclesAndSpheres)
+ObjectPropertyDomain(geo:hadBySphereInstance_CirclesAndSpheres cir:Sphere)
+ObjectPropertyRange(geo:hadBySphereInstance_CirclesAndSpheres geo:CirclesAndSpheres)
+
+DisjointClasses(geo:CirclesAndSpheres
+                poi:Point
+                poi:RoundThing
+                poi:Vector)
+)

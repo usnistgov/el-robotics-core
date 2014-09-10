@@ -1,0 +1,76 @@
+According to the ASTM International \cite[p. vii]{ASTM99}, a test method is a
+definitive procedure that produces a test result. It is the authors' desire to develop repeatable test methods that will
+lead to a better understanding of what it means to have an ``agile" and ``flexible" planning system and metrics that
+will allow for the measurement of a system's agility and flexibility. We have chosen to begin our study
+with the domain of kit building since it is a greatly simplified, but still practically useful manufacturing/assembly domain. However,
+even in the domain of kit building, a large amount of variance  must be accounted for. For
+example, will parts be rigid or flexible? Will a vacuum effector, or a parallel jaw mechanism, or a fingered
+gripper be utilized for part picking? Will parts be picked from a tray or a bin? What aspects of the
+process will be stressed to demonstrate flexibility and agility?
+
+In keeping with the ideas of reduced complexity and repeatability, we will strive to come up with test methods that stress
+the system's agility and not the system's robotic configuration or abilities. As such, we make the following assumptions:
+\begin{itemize}
+	\item All of the contents of the kit will be rigid objects.
+	\item All of the rigid objects are of simple shape (rectilinear) and have a flat surface for a top.
+	\item A vacuum effector is utilized for handling the parts.
+	\item All of the parts will be located in a well-defined parts tray. This will allow for repeatable experiments in terms of part placement.
+	\item All of the part's initial and final positions will be within the reach of the robot.
+	\item There are no obstacles located within the robot's reachable volume.
+\end{itemize}
+
+\subsection{Test Requirements}
+The test methods themselves are designed as a series of tests that have increasing complexity. It is assumed that the tests will be performed
+in order, and that a system that is not capable of performing test {\it n} will fail all subsequent tests as well. For all of the tests,
+the initial condition of the world and the goal kit configurations are provided as XML and/or OWL files conforming with the IEEE RAS Ontologies
+for Robotics and Automation Working Group's kitting knowledge representation. The planning system is required to produce an output that
+will construct the required kit(s) from the initial condition. All of the commands must be in the form of CRCL, and the system
+is allowed to submit new plans that respond to environmental changes.
+
+The parts supply consists of one or more trays of raw materials and
+the kit tray is a flat container with separators between locations for individual parts. The part supply trays may be auto-filling (e.g.,
+a single location that is continuously fed with a part) or limited quantity trays. Test methods may be configured to require end-of-tool
+changes for the picking of various parts.
+
+\subsection{Basic Kit}
+The first test method is the construction of a single basic kit. The kit will contain two or more different types of parts. The design of the
+kit and parts supply will be known before the test begins. The actual location of the kit tray and parts supplies will not be known before
+runtime. The locations and orientations (yaw) of the kit and parts supplies will be varied during consecutive runs of the test method.
+The planning system is required to submit a single CRCL formatted plan that will construct the given kit. It is assumed that all
+actions are successful and that there are no execution errors.
+Each kit construction will be evaluated by our standard metrics as described in Section \ref{sect:Metrics}.
+This test method will evaluate the following aspects of agility and flexibility:
+\begin{itemize}
+	\item Ability to correctly build a specific predefined kit.
+	\item Agility in terms of part tray and kit placement. This will show that exact fixturing is not necessary for the construction
+	of a kit.
+\end{itemize}
+
+It should be noted that if the robot is capable of supporting tool changing, different end-of-arm tooling may be required for grasping
+the various parts required for this test.
+
+
+\subsection{New Variety of Basic Kit}
+This test provides the system with a never before seen kit variation. The variation will be delivered in the previously
+mentioned IEEE RAS OWL/XML format. In addition to the standard kit construction metrics, the time from the receipt
+of the new kit configuration to the start of first construction will be recorded. The amount of down-time for the
+cell will also be noted. This test will measure the agility of the robot cell in coping with new kit varieties.
+
+\subsection{Basic Kit, Multiple Varieties}
+This test builds on the previous test by requiring the construction of two or more kit varieties in a pseudo-random ordering.
+The kit configurations will be known before the start of the test.
+This test method will evaluate the following additional aspects of agility and flexibility:
+\begin{itemize}
+	\item Ability to correctly build several kits with varying part placements without manual intervention.
+	This will demonstrate agility in terms of kit layout and contents.
+	\item Ability to manipulate items of varying size and weight. This test method will require the workcell
+	to move empty kit trays from storage to a construction location and then to move finished kits to
+	a bin of finished kits.
+	\item If the robot is capable of supporting tool changing, different end-of-arm tooling may be required for
+	kit manipulation.
+\end{itemize}
+
+\subsection{Construction Errors}
+This test will evaluate the system's ability to recover from predictable error conditions. These conditions will include
+dropped parts and parts with detected defects. It is expected that the planning systems will interrupt the
+execution of the kit build in order to provide updated plans to cope with the unexpected events. 

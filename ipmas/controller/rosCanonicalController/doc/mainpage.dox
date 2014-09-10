@@ -1,0 +1,67 @@
+/**
+\mainpage
+\htmlinclude manifest.html
+
+The \b rosCanonicalController is a package of ROS nodes that use Canonical Robot Command Language files to control a simulated robot via the ROS interface to USARSim (USARSimROS).
+
+<!-- 
+Provide an overview of your package.
+-->
+
+The package consists of three ROS nodes: the command-line rosCanonicalController and binPickup nodes, and the controlGUI node.
+
+\section nodes Available Nodes
+
+<!--
+Provide links to specific auto-generated API documentation within your
+package that is of particular interest to a reader. Doxygen will
+document pretty much every part of your code, so do your best here to
+point the reader to the actual API.
+
+If your codebase is fairly large or has different sets of APIs, you
+should use the doxygen 'group' tag to keep these APIs together. For
+example, the roscpp documentation has 'libros' group.
+-->
+
+\subsection rosCanonicalController rosCanonicalController
+This node is launched with the name of a CRCL file as an optional argument. If a filename is specified, the node reads in the CRCL file, executes the commands, and exits. If no file is specified, the node accepts CRCL commands on stdio.
+
+The source for this node can be found in canonicalController.cpp.
+
+\subsection binPickup binPickup:
+This node is intended to be used in conjuction with the USARSim Object Sensor. The node runs a predefined sequence of CRCL commands to scan a bin full of objects to collect their 6DOF poses. It then generates a new CRCL file with commands to pick up and put down the objects detected by the sensor. In the meantime, the controller continually attempts to read this new file, executing it as soon as it exists and deleting it as soon as the commands have been read.
+
+The source for this node can be found in scanPickup.cpp.
+
+\subsection controlGUI controlGUI:
+This node uses the Qt framework to create a GUI window that can execute CRCL commands. Commands can be entered one line at a time into the window, or loaded from an external file (the "save command history" option is not operational).
+
+In addition, this window provides an interface for controlling end effectors independently of the CRCL command queue, by directly publishing to the ROS end effector command topics. Controlling effectors in this way is \b not recommended; the interface is intended purely as a way to simulate effector misbehavior.
+
+The source for this node can be found in the src/controlGUI directory.
+
+\section rosControl The rosControl Library
+Each of the nodes above uses the rosControl library, which is built from the following components:
+
+\subsection navigationGoal NavigationGoal
+This class consists of an arm_navigation_msgs::MoveArmGoal message, and functions for initializing and manipulating it. When NavigationGoal::getGoal() is called, before returning the MoveArmGoal message, the object checks the current state of the arm to convert the goal pose to the correct coordinate frame (since poses may be given to the arm either globally or locally).
+
+\subsection effectorController
+An EffectorController contains the publisher, subscriber, and state data for a single effector (gripper or toolchanger).
+
+\subsection rosInf RosInf
+RosInf is the direct interface to ROS and contains publishers, subscribers, action servers, callbacks, and state data, as well as public methods for robot control (addArmGoal, stopMotion, setEffectorGoal, etc.) and a function to check if a command is currently operating (checkCommandDone).
+RosInf contains a vector of EffectorControllers, and a deque of NavigationGoals (used to handle a MoveThroughTo message).
+
+It also has an object sensor callback, used to write the "output_commands.txt" file, which has the canonical commands to move to an object, close the gripper, and move it to a certain location depending on what type of object it is (these locations are hard-coded into the callback).
+
+\subsection rosController rosController
+rosController.cpp contains the implementations of each of the different CanonicalMsg::process() functions, for handling a message. The sendTo pointer is cast to RosInf *.
+
+\subsection robotDescription RobotDescription
+The RobotDescription namespace had helper functions for reading arm navigation information from ROS parameters. It reads the name of the actuator to control and the names of the tip/base links of the arm from the robot_description_planning/groups parameter, and reads the joints to control from the robot_description parameter (parsed as an URDF). 
+
+\section dependencies Dependencies
+
+This package depends on the Controller and sqlKit libraries (both included in the IPMAS project), as well as pthread and mysqlcppconn. 
+*/

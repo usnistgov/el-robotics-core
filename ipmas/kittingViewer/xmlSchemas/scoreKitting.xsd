@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="urn:Kitting"
+  targetNamespace="urn:Kitting"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified">
+
+  <xs:element name="scoreKitting"
+    type="xsi:scoreKittingType">
+    <xs:annotation>
+      <xs:documentation>
+        The scoreKitting root element models a configuration file
+        to be used in calculating a combined score for an as-planned
+        kitting session.
+      </xs:documentation>
+      <xs:documentation>
+        Five factors are provided, named in the elements of the
+        scoreKittingType.  Each factor is designated as additive or
+        multiplicative. Each factor has a weight and may or may not have
+        a valueFunction.
+
+        The configuration file is used by an evaluation system as follows. 
+
+        The metric finding system will provide a raw value for each factor.
+        If a factor has a valueFunction, the evaluator will use the
+        valueFunction to convert the raw value to a processed value
+        between 0 and 1. If a factor does not have a valueFunction,
+        the raw value must be between 0 and 1, and the processed value will
+        be the raw value. Let the processed values for additive factors
+        be V1, V2, ... Vn and let the processed values for multiplicative
+        factors be U1, U2, ... Um.
+
+        Each additive factor is assigned a non-negative weight Wi by the
+        configuration file. An additive score Sa will be produced by
+        the evaluation system by multiplying each additive value by
+        its weight, adding the products together, and dividing by the
+        sum of the weights. If there are no additive factors, Sa = 1.
+
+        Sa = (((V1xW1) + (V2xW2) ... + (VnxWn)) / (W1 + W2 + ... + Wn))
+
+        The value of Sa will be between 0 and 1 since all the components
+        of the equation are non-negative and the largest value the
+        numerator can have is the value of the denominator.
+
+        The total score S will be found by finding the product of
+        Sa, 100, and the values of all the multiplicative factors.
+        This will produce an overall score between 0 and 100.
+
+        S = (100 x Sa x U1 x U2 ... x Um)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="scoreKittingType">
+    <xs:annotation>
+      <xs:documentation>
+        The scoreKittingType gives the factors to use in generating
+        a total score and the weight and optional value function for
+        each factor.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="rightStuff"
+        type = "xsi:factorValueOptType">
+        <xs:annotation>
+          <xs:documentation>
+            The rightStuff element is a measure of whether the goal objects
+	    are in the right place. The raw value is [(the number of
+	    objects in the goal file placed correctly) minus (the number of
+	    objects in the goal file placed incorrectly)] divided by [the
+	    number of objects in the goal file]. The raw value may be at
+	    most 1. If the value is less than zero, it will be set to zero.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="commandExecution"
+        type = "xsi:factorValueOptType">
+        <xs:annotation>
+          <xs:documentation>
+            The commandExecution element is a measure of the correctness of
+            executing commands. The raw value is the fraction of all
+            commands in the command file that were executed correctly. That
+            is [(the total number of commands executed successfully)
+            divided by (the total number of commands executed successfully
+            plus total errors)]. The divisor is the total number of
+            commands in the command file, since each command may either be
+            executed successfully or lead to one error. The raw value may
+            be at most 1 and is never less than zero.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance"
+        type = "xsi:factorValueOptType">
+        <xs:annotation>
+          <xs:documentation>
+            The distance element is a measure of distance efficiency. The
+            raw value is [(the total distance moved from initial position
+            to goal position by all goal objects that were also initial
+            objects) divided by (the total distance moved by the robot)].
+            The raw value will be between 0 and 1 and is unlikely ever to
+            be close to 1.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="time"
+        type = "xsi:factorValueOptType">
+        <xs:annotation>
+          <xs:documentation>
+            The time element is a measure of distance efficiency. The raw
+            value is [(the lower bound time) divided by (the total
+            execution time)]. The lower bound time is [(the total distance
+            moved from initial position to goal position by all goal
+            objects that were also initial objects) divided by (the robot
+            maximum speed)]. The raw value will be between 0 and 1 and is
+            unlikely ever to be close to 1.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="uselessCommands"
+        type = "xsi:factorValueReqType">
+        <xs:annotation>
+          <xs:documentation>
+            The uselessCommands element is a measure of executing commands
+            that have no effect. The raw value is the number of useless
+            commands executed. A valueFunction is required for this.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="factorType"
+    abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        The factorType is the parent type for factors. It specifies
+        whether the factor is additive or multiplicative and what the
+        weight is.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="isAdditive"
+        type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>
+            The isAdditive specifies whether the factor is additive or
+            multiplicative. If isAdditive is true, the factor is an
+            additive factor. Otherwise (isAdditive is false), the factor is
+            a multiplicative factor.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="weight"
+        type="xs:unsignedInt">
+        <xs:annotation>
+          <xs:documentation>
+            The weight element is the weight of the factor.
+
+            If the weight is zero, the factor is not used in determining
+            the score. 
+
+            If the weight is not zero and the factor is additive, it is
+            the weight to be given to the factor.
+
+            If the weight is not zero and the factor is multiplicative,
+            the factor is used multiplicatively but the weight is not
+            used.
+
+            Since scores are normalized, non-negative integers are suitable
+            for weights. Fine differences in effective weight may be
+            implemented by using large integers.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="factorValueOptType">
+    <xs:annotation>
+      <xs:documentation>
+        The factorValueOptType is a factor with an optional value function.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="xsi:factorType">
+        <xs:sequence>
+          <xs:element name="valueFunction"
+            type="xsi:valueFunctionType"
+            minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                The optional valueFunction element is a value function for
+                the factor. The minOccurs="0" makes it optional.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="factorValueReqType">
+    <xs:annotation>
+      <xs:documentation>
+        The factorValueReqType is a factor with a required value function.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="xsi:factorType">
+        <xs:sequence>
+          <xs:element name="valueFunction"
+            type = "xsi:valueFunctionType">
+            <xs:annotation>
+              <xs:documentation>
+                The valueFunction element is a value function for the
+                factor.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="valueFunctionType">
+    <xs:annotation>
+      <xs:documentation>
+        The valueFunctionType is a function that takes a numerical input
+        value and produces an output value between 0 and 1.
+
+        The parameters of a valueFunction are:
+        bestValue (call it B)
+        width (call it W)
+        taper (call it D)
+        taperSide ("plus", "minus", or "both")
+
+        a. If taper side is "both"
+          Inside a distance W/2 from B, the output value is 1.
+          Outside a distance D + W/2 from B, the output value is 0.
+          In between, the value ramps up or down linearly between 0 and 1.
+
+          The graphical form of a valueFunction in this case is trapezoidal.
+
+        b. If taper side is "minus":
+          W is not used in evaluating the valueFunction.
+          On the plus side of B, the output value is 1.
+          On the minus side of B-D, the output value is 0.
+          In between, the value ramps up linearly from 0 to 1.
+
+          The graphical form of a valueFunction in this case is like a
+          flat-sided S curve.
+
+        c. If taper side is "plus":
+          W is not used in evaluating the valueFunction.
+          On the minus side of B, the output value is 1.
+          On the plus side of B+D, the output value is 0.
+          In between, the value ramps down linearly from 1 to 0.
+
+          The graphical form of a valueFunction in this case is like a
+          backwards flat-sided S curve.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="bestValue"
+        type = "xs:double">
+        <xs:annotation>
+          <xs:documentation>
+            The bestValue element is the most desirable value.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="width"
+        type = "xsi:nonNegativeReal">
+        <xs:annotation>
+          <xs:documentation>
+            The width element is the width of the sweet spot.
+            It is used only if the value of taperSide is "both".
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="taper"
+        type = "xsi:nonNegativeReal">
+        <xs:annotation>
+          <xs:documentation>
+            The taper element is the size of the interval in which tapering
+            occurs.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="taperSide"
+        type = "xsi:taperSideType">
+        <xs:annotation>
+          <xs:documentation>
+            The taperSide element indicates where the function tapers to
+            zero and is one of "plus", "minus" or "both".
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="nonNegativeReal">
+    <xs:annotation>
+      <xs:documentation>
+        The nonNegativeReal type is a non-negative double.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0.0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="taperSideType">
+    <xs:annotation>
+      <xs:documentation>
+        The taperSideType enumerates values that describe how a value
+        function tapers.
+      </xs:documentation>
+    </xs:annotation>
+   <xs:restriction base="xs:string">
+      <xs:enumeration value="plus"/>
+      <xs:enumeration value="minus"/>
+      <xs:enumeration value="both"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

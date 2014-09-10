@@ -1,0 +1,984 @@
+\hypertarget{class_ontology_1_1_ontology}{
+\section{Ontology.Ontology Class Reference}
+\label{class_ontology_1_1_ontology}\index{Ontology::Ontology@{Ontology::Ontology}}
+}
+
+
+Class for the ontology.  
+
+
+
+
+Collaboration diagram for Ontology.Ontology:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ontology_1_1_ontology_a4b295f699ded2490f28a7ef27e7d10a8}{Ontology} (String p, String p2)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_acfa7d8a40bd1dc8e06abfa55b19ac993}{
+void \hyperlink{class_ontology_1_1_ontology_acfa7d8a40bd1dc8e06abfa55b19ac993}{loadFromFile} ()}
+\label{class_ontology_1_1_ontology_acfa7d8a40bd1dc8e06abfa55b19ac993}
+
+\begin{DoxyCompactList}\small\item\em Load the ontology from a file. \end{DoxyCompactList}\item 
+OWLDatatype \hyperlink{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28}{getDataPropertyType} (String unit)
+\begin{DoxyCompactList}\small\item\em Give the owl IRI for the value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58}{updateObjectPropertyValue} (String instance, String oldValue, String newValue, String oProp)
+\begin{DoxyCompactList}\small\item\em Update value of an object property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed}{addObjectPropertyValue} (String instance, String value, String oProp)
+\begin{DoxyCompactList}\small\item\em Add a value of an object property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c}{delObjectPropertyValue} (String instance, String value, String oProp)
+\begin{DoxyCompactList}\small\item\em Delete value of an object property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c}{updateDataPropertyValue} (String instance, String oldValue, String newValue, String dProp)
+\begin{DoxyCompactList}\small\item\em Update value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e}{addDataPropertyValue} (String instance, String value, String dProp)
+\begin{DoxyCompactList}\small\item\em Add a value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d}{delDataPropertyValue} (String instance, String value, String dProp)
+\begin{DoxyCompactList}\small\item\em Delete value of a data property. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a814db63a721741ed45084cbba0a322ba}{addIndividual} (String name, String type)
+\begin{DoxyCompactList}\small\item\em Add an individual into the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a6f61430c49fe037a18b5267c02d1923a}{
+void \hyperlink{class_ontology_1_1_ontology_a6f61430c49fe037a18b5267c02d1923a}{loadFromURL} ()}
+\label{class_ontology_1_1_ontology_a6f61430c49fe037a18b5267c02d1923a}
+
+\begin{DoxyCompactList}\small\item\em Load the ontology from an URL. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a0b354cebd902e4cde66d5407e8e353ca}{addClasses} ()
+\begin{DoxyCompactList}\small\item\em List all the classes. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6}{addSuperClasses} ()
+\begin{DoxyCompactList}\small\item\em List all the super classes. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a8290f5c9dd5e48694ab41c029edb8e47}{
+void \hyperlink{class_ontology_1_1_ontology_a8290f5c9dd5e48694ab41c029edb8e47}{cleanClasses} ()}
+\label{class_ontology_1_1_ontology_a8290f5c9dd5e48694ab41c029edb8e47}
+
+\begin{DoxyCompactList}\small\item\em Delete the url before the name of the classes. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_adfbd3af5b4506c74edbed5416e588ee6}{
+void \hyperlink{class_ontology_1_1_ontology_adfbd3af5b4506c74edbed5416e588ee6}{cleanSuperClasses} ()}
+\label{class_ontology_1_1_ontology_adfbd3af5b4506c74edbed5416e588ee6}
+
+\begin{DoxyCompactList}\small\item\em Delete the url before the name of the super classes. \end{DoxyCompactList}\item 
+String \hyperlink{class_ontology_1_1_ontology_ae9cfbb719718be8b33769084b0ba7e0b}{getPath} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_abb3b2c84c1859839c6977b00dbd9e02a}{setPath} (String \hyperlink{class_ontology_1_1_ontology_a70b39a7517df023757f3dd3a652cf879}{path})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+OWLOntology \hyperlink{class_ontology_1_1_ontology_a99b88c305a00321e13f8e83009d15c5c}{getOntology} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a348ff8de8e4faee52779aa5f808bd73f}{setOntology} (OWLOntology \hyperlink{class_ontology_1_1_ontology_a0fe57c961d9d32854e141a7908f513f0}{ontology})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+OWLOntologyManager \hyperlink{class_ontology_1_1_ontology_ad667d0984a9104d1d52b6cd60126632f}{getManager} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a802994698b3a28c8ad6e31f2c02299cf}{setManager} (OWLOntologyManager \hyperlink{class_ontology_1_1_ontology_a23f7c60be021e9813bc3b004166b12d1}{manager})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_ontology_a02dbe350e5c6c59c8a27dff7f3a643d7}{getClasses} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_ab9d088ebcfd87b648bacd0053f402158}{setClasses} (ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_ontology_a60484a66d42244f83c944d7fd7f67fcf}{classes})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_ontology_a1cad18775a94610a7c563dfcdbfe7ab5}{getClassesClean} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_ab2984f2e5d7012029fd6d98d1447433a}{setClassesClean} (ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_ontology_a35b7af950c4bd1f698fcf18cb38f4e02}{classesClean})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+HashMap$<$ OWLClass, ArrayList$<$ OWLClassExpression $>$ $>$ \hyperlink{class_ontology_1_1_ontology_a1e791e04e11967cadc062b5c23344980}{getSuperclasses} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a54171d4f7b19e9743391140af5a328af}{setSuperclasses} (HashMap$<$ OWLClass, ArrayList$<$ OWLClassExpression $>$$>$ \hyperlink{class_ontology_1_1_ontology_a0a5224da294ff4af352081031305f799}{superclasses})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_ontology_a351af5bb1b50f3c68f9ea90b05e035a5}{getSuperClassesClean} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a5049c446369c5eeae5ddf4bf50b91c70}{setSuperClassesClean} (HashMap$<$ String, ArrayList$<$ String $>$$>$ \hyperlink{class_ontology_1_1_ontology_a08165d8cd889ef937321671134aae060}{superClassesClean})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+\hyperlink{class_ontology_1_1_data_property}{DataProperty} \hyperlink{class_ontology_1_1_ontology_a6c1ca29036227388e2fc511ac99912ab}{getDp} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_abdf172609e0c8eef8efc262f56651e9b}{setDp} (\hyperlink{class_ontology_1_1_data_property}{DataProperty} \hyperlink{class_ontology_1_1_ontology_afdac590abc686bcdddc5e0d28fdf4e03}{dp})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+\hyperlink{class_ontology_1_1_object_property}{ObjectProperty} \hyperlink{class_ontology_1_1_ontology_a67cfdf87287132b02865e2fb8075bb92}{getOp} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_ad3c83bd52d36cfcd0d2b295109b228af}{setOp} (\hyperlink{class_ontology_1_1_object_property}{ObjectProperty} \hyperlink{class_ontology_1_1_ontology_a27524c8041d723d37ac70249157a8047}{op})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+Tables \hyperlink{class_ontology_1_1_ontology_a4c4235bf4ca9017abfcca1bc004831aa}{getTables} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_a3fbb5f03b9feb3b984c72be7e48e7830}{setTables} (Tables \hyperlink{class_ontology_1_1_ontology_abf6ad8e362e7c57b8fad20f688765dac}{tables})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\item 
+Individuals \hyperlink{class_ontology_1_1_ontology_a48a2d9c2ab89d1039f508c7deaee5b19}{getInd} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\item 
+void \hyperlink{class_ontology_1_1_ontology_ae4544b6a354a59abc8d92b5ed77365ef}{setInd} (Individuals \hyperlink{class_ontology_1_1_ontology_af8d92920b83a12fa85e86c9b8b606c2e}{ind})
+\begin{DoxyCompactList}\small\item\em Simple setter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static char \hyperlink{class_ontology_1_1_ontology_adffaab20a43bbfbac43402980e47076a}{getSeparator} ()
+\begin{DoxyCompactList}\small\item\em Simple getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_ontology_a70b39a7517df023757f3dd3a652cf879}{
+String \hyperlink{class_ontology_1_1_ontology_a70b39a7517df023757f3dd3a652cf879}{path}}
+\label{class_ontology_1_1_ontology_a70b39a7517df023757f3dd3a652cf879}
+
+\begin{DoxyCompactList}\small\item\em Path of the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_acb67cc36c8a7bc93003a6abc64fff2d2}{
+String \hyperlink{class_ontology_1_1_ontology_acb67cc36c8a7bc93003a6abc64fff2d2}{pathSave}}
+\label{class_ontology_1_1_ontology_acb67cc36c8a7bc93003a6abc64fff2d2}
+
+\begin{DoxyCompactList}\small\item\em Where we are going to save the file. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a0fe57c961d9d32854e141a7908f513f0}{
+OWLOntology \hyperlink{class_ontology_1_1_ontology_a0fe57c961d9d32854e141a7908f513f0}{ontology}}
+\label{class_ontology_1_1_ontology_a0fe57c961d9d32854e141a7908f513f0}
+
+\begin{DoxyCompactList}\small\item\em Our ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_afdac590abc686bcdddc5e0d28fdf4e03}{
+\hyperlink{class_ontology_1_1_data_property}{DataProperty} \hyperlink{class_ontology_1_1_ontology_afdac590abc686bcdddc5e0d28fdf4e03}{dp}}
+\label{class_ontology_1_1_ontology_afdac590abc686bcdddc5e0d28fdf4e03}
+
+\begin{DoxyCompactList}\small\item\em Instance of \hyperlink{class_ontology_1_1_data_property}{DataProperty}. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a27524c8041d723d37ac70249157a8047}{
+\hyperlink{class_ontology_1_1_object_property}{ObjectProperty} \hyperlink{class_ontology_1_1_ontology_a27524c8041d723d37ac70249157a8047}{op}}
+\label{class_ontology_1_1_ontology_a27524c8041d723d37ac70249157a8047}
+
+\begin{DoxyCompactList}\small\item\em Instance of \hyperlink{class_ontology_1_1_object_property}{ObjectProperty}. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_af8d92920b83a12fa85e86c9b8b606c2e}{
+Individuals \hyperlink{class_ontology_1_1_ontology_af8d92920b83a12fa85e86c9b8b606c2e}{ind}}
+\label{class_ontology_1_1_ontology_af8d92920b83a12fa85e86c9b8b606c2e}
+
+\begin{DoxyCompactList}\small\item\em Instance of Individuals. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_abf6ad8e362e7c57b8fad20f688765dac}{
+Tables \hyperlink{class_ontology_1_1_ontology_abf6ad8e362e7c57b8fad20f688765dac}{tables}}
+\label{class_ontology_1_1_ontology_abf6ad8e362e7c57b8fad20f688765dac}
+
+\begin{DoxyCompactList}\small\item\em Instance of Tables. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a23f7c60be021e9813bc3b004166b12d1}{
+OWLOntologyManager \hyperlink{class_ontology_1_1_ontology_a23f7c60be021e9813bc3b004166b12d1}{manager}}
+\label{class_ontology_1_1_ontology_a23f7c60be021e9813bc3b004166b12d1}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_ontology_1_1_ontology}{Ontology} Manager -\/ Used to load the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a60484a66d42244f83c944d7fd7f67fcf}{
+ArrayList$<$ OWLClass $>$ \hyperlink{class_ontology_1_1_ontology_a60484a66d42244f83c944d7fd7f67fcf}{classes}}
+\label{class_ontology_1_1_ontology_a60484a66d42244f83c944d7fd7f67fcf}
+
+\begin{DoxyCompactList}\small\item\em List of classes in the ontology. \end{DoxyCompactList}\item 
+\hypertarget{class_ontology_1_1_ontology_a35b7af950c4bd1f698fcf18cb38f4e02}{
+ArrayList$<$ String $>$ \hyperlink{class_ontology_1_1_ontology_a35b7af950c4bd1f698fcf18cb38f4e02}{classesClean}}
+\label{class_ontology_1_1_ontology_a35b7af950c4bd1f698fcf18cb38f4e02}
+
+\begin{DoxyCompactList}\small\item\em List of classes without the URL before their name. \end{DoxyCompactList}\item 
+HashMap$<$ OWLClass, ArrayList$<$ OWLClassExpression $>$ $>$ \hyperlink{class_ontology_1_1_ontology_a0a5224da294ff4af352081031305f799}{superclasses}
+\begin{DoxyCompactList}\small\item\em List of the super classes in the ontology. \end{DoxyCompactList}\item 
+HashMap$<$ String, ArrayList$<$ String $>$ $>$ \hyperlink{class_ontology_1_1_ontology_a08165d8cd889ef937321671134aae060}{superClassesClean}
+\begin{DoxyCompactList}\small\item\em List of the super classes without the URL before their name in the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_ontology_1_1_ontology_a29aacc9f40d4659c925e80641995a561}{
+static final char \hyperlink{class_ontology_1_1_ontology_a29aacc9f40d4659c925e80641995a561}{SEPARATOR} = '\#'}
+\label{class_ontology_1_1_ontology_a29aacc9f40d4659c925e80641995a561}
+
+\begin{DoxyCompactList}\small\item\em Separator between URL and the class' name in the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for the ontology. 
+
+This class is used to manipulate the ontology and extract the data in it. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ontology_1_1_ontology_a4b295f699ded2490f28a7ef27e7d10a8}{
+\index{Ontology::Ontology@{Ontology::Ontology}!Ontology@{Ontology}}
+\index{Ontology@{Ontology}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{Ontology}]{\setlength{\rightskip}{0pt plus 5cm}Ontology.Ontology.Ontology (
+\begin{DoxyParamCaption}
+\item[{String}]{p, }
+\item[{String}]{p2}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a4b295f699ded2490f28a7ef27e7d10a8}
+
+
+Constructor. 
+
+Constructor of the \hyperlink{class_ontology_1_1_ontology}{Ontology} class. 
+\begin{DoxyParams}{Parameters}
+{\em p} & Path of the ontology. \\
+\hline
+{\em p2} & Path where we are going to save the sql files. \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a4b295f699ded2490f28a7ef27e7d10a8_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ontology_1_1_ontology_a0b354cebd902e4cde66d5407e8e353ca}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addClasses@{addClasses}}
+\index{addClasses@{addClasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addClasses}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addClasses (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a0b354cebd902e4cde66d5407e8e353ca}
+
+
+List all the classes. 
+
+Fill the classes list. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a0b354cebd902e4cde66d5407e8e353ca_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addDataPropertyValue@{addDataPropertyValue}}
+\index{addDataPropertyValue@{addDataPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addDataPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addDataPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{dProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e}
+
+
+Add a value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em dProp} & name of the data property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a63a9f169a40e2e134e9d1b6ae0c9623e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a814db63a721741ed45084cbba0a322ba}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addIndividual@{addIndividual}}
+\index{addIndividual@{addIndividual}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addIndividual}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addIndividual (
+\begin{DoxyParamCaption}
+\item[{String}]{name, }
+\item[{String}]{type}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a814db63a721741ed45084cbba0a322ba}
+
+
+Add an individual into the ontology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of the indivudual. \\
+\hline
+{\em type} & class of the individual \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addObjectPropertyValue@{addObjectPropertyValue}}
+\index{addObjectPropertyValue@{addObjectPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addObjectPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addObjectPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{oProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed}
+
+
+Add a value of an object property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em oProp} & name of the object property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a701a9c979927464fc11ad0fa16a547ed_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6}{
+\index{Ontology::Ontology@{Ontology::Ontology}!addSuperClasses@{addSuperClasses}}
+\index{addSuperClasses@{addSuperClasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{addSuperClasses}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.addSuperClasses (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6}
+
+
+List all the super classes. 
+
+Fill the superclasses list. 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a7028d98e45511b5dbab527e311dd24a6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d}{
+\index{Ontology::Ontology@{Ontology::Ontology}!delDataPropertyValue@{delDataPropertyValue}}
+\index{delDataPropertyValue@{delDataPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{delDataPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.delDataPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{dProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d}
+
+
+Delete value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em dProp} & name of the data property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a27eb6537f5520169dbcf6a8fd2360b5d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c}{
+\index{Ontology::Ontology@{Ontology::Ontology}!delObjectPropertyValue@{delObjectPropertyValue}}
+\index{delObjectPropertyValue@{delObjectPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{delObjectPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.delObjectPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{value, }
+\item[{String}]{oProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c}
+
+
+Delete value of an object property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned. \\
+\hline
+{\em value} & new value \\
+\hline
+{\em oProp} & name of the object property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a7e646f95cb6d1f369c37f642d27dbc6c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a02dbe350e5c6c59c8a27dff7f3a643d7}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getClasses@{getClasses}}
+\index{getClasses@{getClasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getClasses}]{\setlength{\rightskip}{0pt plus 5cm}ArrayList$<$OWLClass$>$ Ontology.Ontology.getClasses (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a02dbe350e5c6c59c8a27dff7f3a643d7}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+classes 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a1cad18775a94610a7c563dfcdbfe7ab5}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getClassesClean@{getClassesClean}}
+\index{getClassesClean@{getClassesClean}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}ArrayList$<$String$>$ Ontology.Ontology.getClassesClean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a1cad18775a94610a7c563dfcdbfe7ab5}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+classesClean 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getDataPropertyType@{getDataPropertyType}}
+\index{getDataPropertyType@{getDataPropertyType}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getDataPropertyType}]{\setlength{\rightskip}{0pt plus 5cm}OWLDatatype Ontology.Ontology.getDataPropertyType (
+\begin{DoxyParamCaption}
+\item[{String}]{unit}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28}
+
+
+Give the owl IRI for the value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit} & unit of the value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+IRI of the unit. 
+\end{DoxyReturn}
+
+
+Here is the caller graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_af49e735496a324a580a621944b522d28_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a6c1ca29036227388e2fc511ac99912ab}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getDp@{getDp}}
+\index{getDp@{getDp}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getDp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataProperty} Ontology.Ontology.getDp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a6c1ca29036227388e2fc511ac99912ab}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+dp 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a48a2d9c2ab89d1039f508c7deaee5b19}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getInd@{getInd}}
+\index{getInd@{getInd}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getInd}]{\setlength{\rightskip}{0pt plus 5cm}Individuals Ontology.Ontology.getInd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a48a2d9c2ab89d1039f508c7deaee5b19}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+ind 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_ad667d0984a9104d1d52b6cd60126632f}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getManager@{getManager}}
+\index{getManager@{getManager}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getManager}]{\setlength{\rightskip}{0pt plus 5cm}OWLOntologyManager Ontology.Ontology.getManager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_ad667d0984a9104d1d52b6cd60126632f}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+manager 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a99b88c305a00321e13f8e83009d15c5c}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getOntology@{getOntology}}
+\index{getOntology@{getOntology}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getOntology}]{\setlength{\rightskip}{0pt plus 5cm}OWLOntology Ontology.Ontology.getOntology (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a99b88c305a00321e13f8e83009d15c5c}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+ontology 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a67cfdf87287132b02865e2fb8075bb92}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getOp@{getOp}}
+\index{getOp@{getOp}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getOp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ObjectProperty} Ontology.Ontology.getOp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a67cfdf87287132b02865e2fb8075bb92}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+op 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_ae9cfbb719718be8b33769084b0ba7e0b}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getPath@{getPath}}
+\index{getPath@{getPath}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getPath}]{\setlength{\rightskip}{0pt plus 5cm}String Ontology.Ontology.getPath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_ae9cfbb719718be8b33769084b0ba7e0b}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+path 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_adffaab20a43bbfbac43402980e47076a}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getSeparator@{getSeparator}}
+\index{getSeparator@{getSeparator}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getSeparator}]{\setlength{\rightskip}{0pt plus 5cm}static char Ontology.Ontology.getSeparator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{class_ontology_1_1_ontology_adffaab20a43bbfbac43402980e47076a}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+SEPARATOR 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a1e791e04e11967cadc062b5c23344980}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getSuperclasses@{getSuperclasses}}
+\index{getSuperclasses@{getSuperclasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getSuperclasses}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$OWLClass, ArrayList$<$OWLClassExpression$>$ $>$ Ontology.Ontology.getSuperclasses (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a1e791e04e11967cadc062b5c23344980}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+superclasses 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a351af5bb1b50f3c68f9ea90b05e035a5}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getSuperClassesClean@{getSuperClassesClean}}
+\index{getSuperClassesClean@{getSuperClassesClean}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getSuperClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, ArrayList$<$String$>$ $>$ Ontology.Ontology.getSuperClassesClean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a351af5bb1b50f3c68f9ea90b05e035a5}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+superClassesClean 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_a4c4235bf4ca9017abfcca1bc004831aa}{
+\index{Ontology::Ontology@{Ontology::Ontology}!getTables@{getTables}}
+\index{getTables@{getTables}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{getTables}]{\setlength{\rightskip}{0pt plus 5cm}Tables Ontology.Ontology.getTables (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a4c4235bf4ca9017abfcca1bc004831aa}
+
+
+Simple getter. 
+
+\begin{DoxyReturn}{Returns}
+tables 
+\end{DoxyReturn}
+\hypertarget{class_ontology_1_1_ontology_ab9d088ebcfd87b648bacd0053f402158}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setClasses@{setClasses}}
+\index{setClasses@{setClasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setClasses}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setClasses (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ OWLClass $>$}]{classes}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_ab9d088ebcfd87b648bacd0053f402158}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em classes} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_ab2984f2e5d7012029fd6d98d1447433a}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setClassesClean@{setClassesClean}}
+\index{setClassesClean@{setClassesClean}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setClassesClean (
+\begin{DoxyParamCaption}
+\item[{ArrayList$<$ String $>$}]{classesClean}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_ab2984f2e5d7012029fd6d98d1447433a}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em classesClean} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_abdf172609e0c8eef8efc262f56651e9b}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setDp@{setDp}}
+\index{setDp@{setDp}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setDp}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setDp (
+\begin{DoxyParamCaption}
+\item[{{\bf DataProperty}}]{dp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_abdf172609e0c8eef8efc262f56651e9b}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dp} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_ae4544b6a354a59abc8d92b5ed77365ef}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setInd@{setInd}}
+\index{setInd@{setInd}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setInd}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setInd (
+\begin{DoxyParamCaption}
+\item[{Individuals}]{ind}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_ae4544b6a354a59abc8d92b5ed77365ef}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ind} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a802994698b3a28c8ad6e31f2c02299cf}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setManager@{setManager}}
+\index{setManager@{setManager}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setManager}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setManager (
+\begin{DoxyParamCaption}
+\item[{OWLOntologyManager}]{manager}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a802994698b3a28c8ad6e31f2c02299cf}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a348ff8de8e4faee52779aa5f808bd73f}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setOntology@{setOntology}}
+\index{setOntology@{setOntology}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setOntology}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setOntology (
+\begin{DoxyParamCaption}
+\item[{OWLOntology}]{ontology}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a348ff8de8e4faee52779aa5f808bd73f}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ontology} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_ad3c83bd52d36cfcd0d2b295109b228af}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setOp@{setOp}}
+\index{setOp@{setOp}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setOp}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setOp (
+\begin{DoxyParamCaption}
+\item[{{\bf ObjectProperty}}]{op}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_ad3c83bd52d36cfcd0d2b295109b228af}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em op} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_abb3b2c84c1859839c6977b00dbd9e02a}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setPath@{setPath}}
+\index{setPath@{setPath}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setPath}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setPath (
+\begin{DoxyParamCaption}
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_abb3b2c84c1859839c6977b00dbd9e02a}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a54171d4f7b19e9743391140af5a328af}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setSuperclasses@{setSuperclasses}}
+\index{setSuperclasses@{setSuperclasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setSuperclasses}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setSuperclasses (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ OWLClass, ArrayList$<$ OWLClassExpression $>$$>$}]{superclasses}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a54171d4f7b19e9743391140af5a328af}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em superclasses} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a5049c446369c5eeae5ddf4bf50b91c70}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setSuperClassesClean@{setSuperClassesClean}}
+\index{setSuperClassesClean@{setSuperClassesClean}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setSuperClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setSuperClassesClean (
+\begin{DoxyParamCaption}
+\item[{HashMap$<$ String, ArrayList$<$ String $>$$>$}]{superClassesClean}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a5049c446369c5eeae5ddf4bf50b91c70}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em superClassesClean} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a3fbb5f03b9feb3b984c72be7e48e7830}{
+\index{Ontology::Ontology@{Ontology::Ontology}!setTables@{setTables}}
+\index{setTables@{setTables}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{setTables}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.setTables (
+\begin{DoxyParamCaption}
+\item[{Tables}]{tables}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a3fbb5f03b9feb3b984c72be7e48e7830}
+
+
+Simple setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tables} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c}{
+\index{Ontology::Ontology@{Ontology::Ontology}!updateDataPropertyValue@{updateDataPropertyValue}}
+\index{updateDataPropertyValue@{updateDataPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{updateDataPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.updateDataPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{oldValue, }
+\item[{String}]{newValue, }
+\item[{String}]{dProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c}
+
+
+Update value of a data property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned.\\
+\hline
+{\em oldValue} & old value \\
+\hline
+{\em newValue} & new value \\
+\hline
+{\em dProp} & name of the data property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a05b30edf0ceb3ffae3e28dc9f53c4e8c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58}{
+\index{Ontology::Ontology@{Ontology::Ontology}!updateObjectPropertyValue@{updateObjectPropertyValue}}
+\index{updateObjectPropertyValue@{updateObjectPropertyValue}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{updateObjectPropertyValue}]{\setlength{\rightskip}{0pt plus 5cm}void Ontology.Ontology.updateObjectPropertyValue (
+\begin{DoxyParamCaption}
+\item[{String}]{instance, }
+\item[{String}]{oldValue, }
+\item[{String}]{newValue, }
+\item[{String}]{oProp}
+\end{DoxyParamCaption}
+)}}
+\label{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58}
+
+
+Update value of an object property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em instance} & name of the entity concerned.\\
+\hline
+{\em oldValue} & old value \\
+\hline
+{\em newValue} & new value \\
+\hline
+{\em oProp} & name of the object property \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_ontology_1_1_ontology_a0b4bb6f4edb76d65953fed6f32d2df58_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ontology_1_1_ontology_a0a5224da294ff4af352081031305f799}{
+\index{Ontology::Ontology@{Ontology::Ontology}!superclasses@{superclasses}}
+\index{superclasses@{superclasses}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{superclasses}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$OWLClass, ArrayList$<$OWLClassExpression$>$ $>$ {\bf Ontology.Ontology.superclasses}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_ontology_a0a5224da294ff4af352081031305f799}
+
+
+List of the super classes in the ontology. 
+
+Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ \hypertarget{class_ontology_1_1_ontology_a08165d8cd889ef937321671134aae060}{
+\index{Ontology::Ontology@{Ontology::Ontology}!superClassesClean@{superClassesClean}}
+\index{superClassesClean@{superClassesClean}!Ontology::Ontology@{Ontology::Ontology}}
+\subsubsection[{superClassesClean}]{\setlength{\rightskip}{0pt plus 5cm}HashMap$<$String, ArrayList$<$String$>$ $>$ {\bf Ontology.Ontology.superClassesClean}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_ontology_1_1_ontology_a08165d8cd889ef937321671134aae060}
+
+
+List of the super classes without the URL before their name in the ontology. 
+
+Classe1=$<$SuperClasse1,SuperClasse2$>$,Classe2=$<$SuperClasse1,SuperClasse2$>$ 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/home/pna1/workspace/OwlToSql/src/Ontology/\hyperlink{_ontology_8java}{Ontology.java}\end{DoxyCompactItemize}

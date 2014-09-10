@@ -44,6 +44,7 @@
 // globals
 int usePowerCube;
 int debug;
+double safeOffset;
 
 
 // was .2 and .1
@@ -585,7 +586,7 @@ void crclSetGripper(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	      status->setCurrentStatus(CRCL_DONE);
 	    }
 	  else
-	    printf( "Gripper error: %f\n", fabs(gripperStatus.position -
+	    printf( "Gripper delta: %f\n", fabs(gripperStatus.position -
 						(status->getCurrentCmd()).gripperPos));
 	}
       else
@@ -665,6 +666,7 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 {
   int retValue = 1;
   double newDouble;
+  static double lengthUnit = 1;
 
   if( !strncasecmp(inbuf, "Dwell", strlen("Dwell")))
     {
@@ -680,6 +682,11 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
     {
       nextCmd->cmd = CRCL_INIT_CANON;
     }
+  else if( !strncasecmp(inbuf, "SetLengthUnits", strlen("SetLenghtUnits")))
+    {
+      if( sscanf(inbuf, "%*s %lf", &lengthUnit ) != 1)
+	retValue = 0;
+    }
   else if( !strncasecmp(inbuf, "MoveTo", strlen("MoveTo")))
     {
       nextCmd->cmd = CRCL_MOVE_TO;
@@ -691,6 +698,20 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 		 &nextCmd->pose.yrot,
 		 &nextCmd->pose.zrot) != 6)
 	retValue = 0;
+      // expecting mm as units
+      nextCmd->pose.x *= lengthUnit;
+      nextCmd->pose.y *= lengthUnit;
+      nextCmd->pose.z *= lengthUnit + safeOffset;
+      nextCmd->pose.xrot *= 180./M_PI;
+      nextCmd->pose.yrot *= 180./M_PI;
+      nextCmd->pose.zrot *= 180./M_PI;
+      printf( "Moving to: <%lf %lf %lf> <%lf %lf %lf>\n",
+	      nextCmd->pose.x,
+	      nextCmd->pose.y,
+	      nextCmd->pose.z,
+	      nextCmd->pose.xrot,
+	      nextCmd->pose.yrot,
+	      nextCmd->pose.zrot);
     }
   else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")) ||
 	   !strncasecmp(inbuf, "MoveJoints", strlen("MoveJoints")) )
@@ -788,9 +809,11 @@ int main(int argc, char *argv[])
   usePowerCube = false;
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
+  safeOffset = 0;
+
   while (true) 
     {
-      option = getopt(argc, argv, ":c:gs:dh:");
+      option = getopt(argc, argv, ":c:gk:dh:s");
       if (option == -1) break;
       switch (option) 
 	{
@@ -798,7 +821,7 @@ int main(int argc, char *argv[])
 	  ival = atoi(optarg);
 	  cmd_port = ival;
 	  break;
-	case 's':
+	case 'k':
 	  if( atoi(optarg) ) // turn on corrections
 	    {
 	      kukaThreadArgs.setJointMotorScale(80., 100., 80., 80., 80., 40.5);
@@ -810,6 +833,9 @@ int main(int argc, char *argv[])
 	      kukaThreadArgs.setCmdMotorScale(1., 1., 1., 1., 1., 1.);
 	    }
 	  break;
+	  case 's':
+	    safeOffset = 20;
+	    break;
 	  /*
 	case 's':
 	  ival = atoi(optarg);
@@ -981,6 +1007,10 @@ int main(int argc, char *argv[])
 	  break;
 	case CRCL_SET_GRIPPER:
 	  crclSetGripper(&status, &nextCmd);
+	  break;
+	case CRCL_SET_LENGTH_UNITS:
+	  //	  crclSetLengthUnits(&status, &nextCmd);
+	  crclNoop(&status, &nextCmd);
 	  break;
 	case CRCL_STOP_MOTION:
 	  crclStopMotion(&status, &nextCmd);

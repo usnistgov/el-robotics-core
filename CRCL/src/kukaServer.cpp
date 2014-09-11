@@ -77,6 +77,7 @@ robotPose crclPCtrl(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   CRCLCmdUnion currentCmd;
   int done = 1;
   double distance;
+  UnitStatus unitStatus;
 
   if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO )
     {
@@ -95,6 +96,16 @@ robotPose crclPCtrl(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
     {
       status->setCurrentStatus(CRCL_WORKING);
+      currentCmd = status->getCurrentCmd();
+      unitStatus = status->getUnitStatus();
+      // expecting mm as units
+      currentCmd.pose.x *= unitStatus.lengthMult;
+      currentCmd.pose.y *= unitStatus.lengthMult;
+      currentCmd.pose.z *= unitStatus.lengthMult;
+      currentCmd.pose.xrot *= unitStatus.angleMult;
+      currentCmd.pose.yrot *= unitStatus.angleMult;
+      currentCmd.pose.zrot *= unitStatus.angleMult;
+      status->setCurrentCmd(&currentCmd);
     }
   else if( (status->getCurrentCmd()).status == CRCL_WORKING )
     {
@@ -237,12 +248,12 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	  goalValue = (status->getCurrentCmd()).pose;
 	  unitStatus = status->getUnitStatus();
 	  // expecting mm as units
-	  goalValue.x *= unitStatus.lengthUnit;
-	  goalValue.y *= unitStatus.lengthUnit;
-	  goalValue.z *= unitStatus.lengthUnit;
-	  goalValue.xrot *= unitStatus.angleUnit;
-	  goalValue.yrot *= unitStatus.angleUnit;
-	  goalValue.zrot *= unitStatus.angleUnit;
+	  goalValue.x *= unitStatus.lengthMult;
+	  goalValue.y *= unitStatus.lengthMult;
+	  goalValue.z *= unitStatus.lengthMult;
+	  goalValue.xrot *= unitStatus.angleMult;
+	  goalValue.yrot *= unitStatus.angleMult;
+	  goalValue.zrot *= unitStatus.angleMult;
 	  printf( "kukaThreadArgs:: Moving to: <%lf %lf %lf> <%lf %lf %lf>\n",
 		  goalValue.x,
 		  goalValue.y,
@@ -536,7 +547,7 @@ void crclSetLengthUnits(CRCLStatus *status, CRCLCmdUnion *nextCmd)
     {
       printf( "Received SetLengthUnits cmd\n");
       status->setCurrentStatus(CRCL_DONE);
-      status->getUnitStatus();
+      unitStatus = status->getUnitStatus();
       unitStatus.lengthUnit = (status->getCurrentCmd()).lengthUnit;
       switch(unitStatus.lengthUnit)
 	{
@@ -908,6 +919,7 @@ int main(int argc, char *argv[])
   int cmdServer;
   GripperStatus gripperStatus;
   RobotStatus robotStatus;
+  UnitStatus unitStatus;
 
   debug = 0;
   kukaThreadArgs.setJointMotorScale(80., 100., 80., 80., 80., 40.5);
@@ -916,6 +928,11 @@ int main(int argc, char *argv[])
   nextCmd.cmd = CRCL_NOOP;
   opterr = 0;
   safeOffset = 0;
+  unitStatus.angleUnit = CRCL_DEGREE;
+  unitStatus.lengthUnit = CRCL_MILLIMETER;
+  unitStatus.lengthMult = 1.;
+  unitStatus.angleMult = 1.;
+  status.setUnitStatus(unitStatus);
 
   while (true) 
     {

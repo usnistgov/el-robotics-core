@@ -64,6 +64,12 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
     case CRCL_SET_GRIPPER:
       to->gripperPos = from->gripperPos;
       break;
+    case CRCL_SET_ANGLE_UNITS:
+      to->lengthUnit = from->lengthUnit;
+      break;
+    case CRCL_SET_LENGTH_UNITS:
+      to->lengthUnit = from->lengthUnit;
+      break;
     case CRCL_STOP_MOTION:
       break;
     case CRCL_UNKNOWN:
@@ -115,6 +121,12 @@ std::string getCRCLCmdString(CRCLCmd input)
       break;
     case CRCL_SET_GRIPPER:
       return "CRCL_SET_GRIPPER";
+      break;
+    case CRCL_SET_ANGLE_UNITS:
+      return "CRCL_SET_ANGLE_UNITS";
+	break;
+    case CRCL_SET_LENGTH_UNITS:
+      return "CRCL_SET_LENGTH_UNITS";
       break;
     case CRCL_STOP_MOTION:
       return "CRCL_STOP_MOTION";

@@ -36,6 +36,7 @@ public:
   double getMaxAccel(MovementType mType);
   double getMaxVel(MovementType mType);
   RobotStatus getRobotStatus();
+  UnitStatus getUnitStatus();
   void setCurrentCmd(CRCLCmdUnion *cmdIn);
   void setCurrentState(CRCLState state);
   void setCurrentStatus(CRCLCmdStatus status);
@@ -43,12 +44,14 @@ public:
   void setMaxAccel(double accelIn, MovementType mType);
   void setMaxVel(double velIn, MovementType mType);
   void setRobotStatus(RobotStatus status);
+  void setUnitStatus(UnitStatus status);
 private:
   ulapi_mutex_struct statusMutex;
   CRCLCmdUnion currentCmd;
   CRCLState currentState;
   GripperStatus gripStatus;
   RobotStatus robotStatus;
+  UnitStatus unitStatus;
   double cycleTime;
   double maxAccel[3];
   double maxVel[3];

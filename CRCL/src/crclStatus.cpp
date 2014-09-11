@@ -38,7 +38,11 @@ CRCLStatus::CRCLStatus()
   maxAccel[MOVE_JOINT] = KUKA_DEFAULT_JOINT_MAX_ACCEL;
   maxVel[MOVE_JOINT] = KUKA_DEFAULT_JOINT_MAX_VEL;
 
-
+  // set up default units
+  unitStatus.angleUnit = CRCL_DEGREE;
+  unitStatus.lengthUnit = CRCL_MILLIMETER; 
+  unitStatus.angleMult = 1;
+  unitStatus.lengthMult = 1;
   ulapi_mutex_give(&statusMutex);
 }
 
@@ -121,6 +125,16 @@ RobotStatus CRCLStatus::getRobotStatus()
   return retValue;
 }
 
+UnitStatus CRCLStatus::getUnitStatus()
+{
+  UnitStatus retValue;
+
+  ulapi_mutex_take(&statusMutex);
+  retValue = unitStatus;
+  ulapi_mutex_give(&statusMutex);
+  return retValue;
+}
+
 void CRCLStatus::setCurrentCmd(CRCLCmdUnion *cmdIn)
 {
   ulapi_mutex_take(&statusMutex);
@@ -145,6 +159,13 @@ void CRCLStatus::setGripperStatus(GripperStatus status)
 {
   ulapi_mutex_take(&statusMutex);
   gripStatus = status;
+  ulapi_mutex_give(&statusMutex);
+}
+
+void CRCLStatus::setUnitStatus(UnitStatus status)
+{
+  ulapi_mutex_take(&statusMutex);
+  unitStatus = status;
   ulapi_mutex_give(&statusMutex);
 }
 

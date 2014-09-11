@@ -211,6 +211,7 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
   static TrajectoryMaker trajectoryMaker;
   static vector<robotPose> movementTrajectory;
   robotPose retValue, goalValue;
+  UnitStatus unitStatus;
 
   if( (status->getCurrentCmd()).cmd != CRCL_MOVE_TO &&
       (status->getCurrentCmd()).cmd != CRCL_MOVE_JOINT &&
@@ -234,7 +235,22 @@ robotPose crclMoveTo(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 	{
 	  trajectoryMaker.setCurrent((status->getRobotStatus()).pose);
 	  goalValue = (status->getCurrentCmd()).pose;
-	}
+	  unitStatus = status->getUnitStatus();
+	  // expecting mm as units
+	  goalValue.x *= unitStatus.lengthUnit;
+	  goalValue.y *= unitStatus.lengthUnit;
+	  goalValue.z *= unitStatus.lengthUnit;
+	  goalValue.xrot *= unitStatus.angleUnit;
+	  goalValue.yrot *= unitStatus.angleUnit;
+	  goalValue.zrot *= unitStatus.angleUnit;
+	  printf( "kukaThreadArgs:: Moving to: <%lf %lf %lf> <%lf %lf %lf>\n",
+		  goalValue.x,
+		  goalValue.y,
+		  goalValue.z,
+		  goalValue.xrot,
+		  goalValue.yrot,
+		  goalValue.zrot);
+  	}
       else if( (status->getCurrentCmd()).cmd == CRCL_INIT_CANON )
 	{
 	  goalValue.x = (status->getRobotStatus()).joint[0];
@@ -477,6 +493,79 @@ void crclNoop(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 }
 
 ////////////////////////////////////////////////////////
+void crclSetAngleUnits(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  UnitStatus unitStatus;
+
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_ANGLE_UNITS )
+    {
+      printf( "Bad command type %d to crclSetAngleUnits\n", 
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
+      return;
+    }
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      printf( "Received SetAngleUnits cmd\n");
+      unitStatus = status->getUnitStatus();
+      status->setCurrentStatus(CRCL_DONE);
+      unitStatus.angleUnit = (status->getCurrentCmd()).angleUnit;
+      if( unitStatus.angleUnit == CRCL_RADIAN )
+	unitStatus.angleMult = 180./M_PI;
+      else
+	unitStatus.angleMult = 1.;
+      status->setUnitStatus(unitStatus);
+    }
+}
+
+////////////////////////////////////////////////////////
+void crclSetLengthUnits(CRCLStatus *status, CRCLCmdUnion *nextCmd)
+{
+  UnitStatus unitStatus;
+
+  if( (status->getCurrentCmd()).cmd != CRCL_SET_LENGTH_UNITS )
+    {
+      printf( "Bad command type %d to crclSetLengthUnits\n", 
+	      (status->getCurrentCmd()).cmd );
+      status->setCurrentStatus(CRCL_DONE);
+      status->setCurrentState(CRCL_ERROR);
+      return;
+    }
+  if( (status->getCurrentCmd()).status == CRCL_NEW_CMD )
+    {
+      printf( "Received SetLengthUnits cmd\n");
+      status->setCurrentStatus(CRCL_DONE);
+      status->getUnitStatus();
+      unitStatus.lengthUnit = (status->getCurrentCmd()).lengthUnit;
+      switch(unitStatus.lengthUnit)
+	{
+	case CRCL_METER:
+	  unitStatus.lengthMult = 1000.;
+	  break;
+	case CRCL_CENTIMETER:
+	  unitStatus.lengthMult = 100.;
+	  break;
+	case CRCL_MILLIMETER:
+	  unitStatus.lengthMult = 1.;
+	  break;
+	case CRCL_INCH:
+	  unitStatus.lengthMult = 25.4;
+	  break;
+	case CRCL_FOOT:
+	  unitStatus.lengthMult = 304.8;
+	  break;
+	default:
+	  printf( "Bad length unit to crclSetLengthUnits, bad!\n");
+	  exit(1);
+	  break;
+	}
+      status->setUnitStatus(unitStatus);
+    }
+}
+
+
+////////////////////////////////////////////////////////
 void crclSetMaxAcc(CRCLStatus *status, CRCLCmdUnion *nextCmd)
 {
   if( (status->getCurrentCmd()).cmd != CRCL_SET_MAX_CART_ACC  ||
@@ -666,7 +755,7 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 {
   int retValue = 1;
   double newDouble;
-  static double lengthUnit = 1;
+  string unitType(200, ' ');
 
   if( !strncasecmp(inbuf, "Dwell", strlen("Dwell")))
     {
@@ -684,7 +773,37 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
     }
   else if( !strncasecmp(inbuf, "SetLengthUnits", strlen("SetLenghtUnits")))
     {
-      if( sscanf(inbuf, "%*s %lf", &lengthUnit ) != 1)
+      nextCmd->cmd = CRCL_SET_LENGTH_UNITS;
+      if( sscanf(inbuf, "%*s %s", &unitType[0]) != 1)
+	retValue = 0;
+      if( !strncasecmp(unitType.c_str(), "Meter", strlen("Meter") ))
+	  nextCmd->lengthUnit = CRCL_METER;
+      else if( !strncasecmp(unitType.c_str(), "Centimeter", 
+			    strlen("Centimeter") ))
+	nextCmd->lengthUnit = CRCL_CENTIMETER;
+      else if( !strncasecmp(unitType.c_str(), "Millimeter", 
+			    strlen("Millimeter") ))
+	nextCmd->lengthUnit = CRCL_MILLIMETER;
+      else if( !strncasecmp(unitType.c_str(), "Inch", 
+			    strlen("Inch") ))
+	nextCmd->lengthUnit = CRCL_INCH;
+      else if( !strncasecmp(unitType.c_str(), "Foot", 
+			    strlen("Foot") ))
+	nextCmd->lengthUnit = CRCL_FOOT;
+      else
+	retValue = 0;
+    }
+  else if( !strncasecmp(inbuf, "SetAngleUnits", strlen("SetAngleUnits")))
+    {
+      nextCmd->cmd = CRCL_SET_ANGLE_UNITS;
+      if( sscanf(inbuf, "%*s %s", &unitType[0] ) != 1)
+	retValue = 0;
+      if( !strncasecmp(unitType.c_str(), "Degree", strlen("Degree") ))
+	  nextCmd->angleUnit = CRCL_DEGREE;
+      else if( !strncasecmp(unitType.c_str(), "Radian", 
+			    strlen("Radian") ))
+	nextCmd->angleUnit = CRCL_RADIAN;
+      else
 	retValue = 0;
     }
   else if( !strncasecmp(inbuf, "MoveTo", strlen("MoveTo")))
@@ -698,20 +817,7 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
 		 &nextCmd->pose.yrot,
 		 &nextCmd->pose.zrot) != 6)
 	retValue = 0;
-      // expecting mm as units
-      nextCmd->pose.x *= lengthUnit;
-      nextCmd->pose.y *= lengthUnit;
-      nextCmd->pose.z *= lengthUnit + safeOffset;
-      nextCmd->pose.xrot *= 180./M_PI;
-      nextCmd->pose.yrot *= 180./M_PI;
-      nextCmd->pose.zrot *= 180./M_PI;
-      printf( "Moving to: <%lf %lf %lf> <%lf %lf %lf>\n",
-	      nextCmd->pose.x,
-	      nextCmd->pose.y,
-	      nextCmd->pose.z,
-	      nextCmd->pose.xrot,
-	      nextCmd->pose.yrot,
-	      nextCmd->pose.zrot);
+
     }
   else if( !strncasecmp(inbuf, "MoveJoint", strlen("MoveJoint")) ||
 	   !strncasecmp(inbuf, "MoveJoints", strlen("MoveJoints")) )
@@ -1008,9 +1114,11 @@ int main(int argc, char *argv[])
 	case CRCL_SET_GRIPPER:
 	  crclSetGripper(&status, &nextCmd);
 	  break;
+	case CRCL_SET_ANGLE_UNITS:
+	  crclSetAngleUnits(&status, &nextCmd);
+	  break;
 	case CRCL_SET_LENGTH_UNITS:
-	  //	  crclSetLengthUnits(&status, &nextCmd);
-	  crclNoop(&status, &nextCmd);
+	  crclSetLengthUnits(&status, &nextCmd);
 	  break;
 	case CRCL_STOP_MOTION:
 	  crclStopMotion(&status, &nextCmd);

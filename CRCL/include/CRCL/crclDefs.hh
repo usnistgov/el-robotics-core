@@ -55,10 +55,26 @@ typedef enum
     CRCL_SET_MAX_JOINT_ACC,
     CRCL_SET_MAX_JOINT_SPEED,
     CRCL_SET_GRIPPER,
+    CRCL_SET_ANGLE_UNITS,
     CRCL_SET_LENGTH_UNITS,
     CRCL_STOP_MOTION,
     CRCL_UNKNOWN
   }CRCLCmd;
+
+typedef enum
+  {
+    CRCL_METER,
+    CRCL_CENTIMETER,
+    CRCL_MILLIMETER,
+    CRCL_INCH,
+    CRCL_FOOT
+  }CRCLLengthUnit;
+
+typedef enum
+  {
+    CRCL_RADIAN,
+    CRCL_DEGREE
+  }CRCLAngleUnit;
 
 typedef enum
   {
@@ -87,6 +103,8 @@ typedef struct
     double gripperPos;
     double joints[6];
     robotPose pose;
+    CRCLAngleUnit angleUnit;
+    CRCLLengthUnit lengthUnit;
   };
 }CRCLCmdUnion;
 
@@ -102,5 +120,13 @@ typedef struct
   robotPose pose;
   double joint[ROBOT_DOF];
 }RobotStatus;
+
+typedef struct
+{
+  CRCLAngleUnit angleUnit;
+  CRCLLengthUnit lengthUnit;
+  double angleMult;
+  double lengthMult;
+}UnitStatus;
 
 #endif

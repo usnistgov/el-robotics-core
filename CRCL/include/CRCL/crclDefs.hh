@@ -13,6 +13,7 @@
 #ifndef __crclPortDefs
 #define __crclPortDefs
 #include "nist_core/crcl.h"
+#include <string>
 
 #define ROBOT_DOF 6
 #define CRCL_CMD_PORT_DEFAULT 1234
@@ -42,6 +43,9 @@
 #define HOME_JOINT5 25.5
 #define HOME_JOINT6 -0.75
 
+const std::string KUKA_TOOL_CHANGER_LOCKED_DIO = "22";    // 0b00010110;
+const std::string KUKA_TOOL_CHANGER_UNLOCKED_DIO = "25";  // 0b00011001";
+
 typedef enum
   {
     CRCL_NOOP = 0,
@@ -58,6 +62,8 @@ typedef enum
     CRCL_SET_ANGLE_UNITS,
     CRCL_SET_LENGTH_UNITS,
     CRCL_STOP_MOTION,
+    CRCL_OPEN_TOOL_CHANGER,
+    CRCL_CLOSE_TOOL_CHANGER,
     CRCL_UNKNOWN
   }CRCLCmd;
 
@@ -97,6 +103,7 @@ typedef struct
   CRCLCmdStatus status;
   union
   {
+    bool changerOpen;
     double absAcc;
     double absSpeed;
     double dwell;
@@ -112,7 +119,10 @@ typedef struct
 {
   int device;
   int modId;
+  unsigned long stateFlags;
   float position;
+  float velocity;
+  float current;
 }GripperStatus;
 
 typedef struct

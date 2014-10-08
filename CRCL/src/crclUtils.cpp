@@ -72,6 +72,12 @@ bool crclCmdUnionCopy(CRCLCmdUnion *from, CRCLCmdUnion *to, bool setDone)
       break;
     case CRCL_STOP_MOTION:
       break;
+    case CRCL_OPEN_TOOL_CHANGER:
+      to->changerOpen = from->changerOpen;
+      break;
+    case CRCL_CLOSE_TOOL_CHANGER:
+      to->changerOpen = from->changerOpen;
+      break;
     case CRCL_UNKNOWN:
       break;
     default:
@@ -124,12 +130,18 @@ std::string getCRCLCmdString(CRCLCmd input)
       break;
     case CRCL_SET_ANGLE_UNITS:
       return "CRCL_SET_ANGLE_UNITS";
-	break;
+      break;
     case CRCL_SET_LENGTH_UNITS:
       return "CRCL_SET_LENGTH_UNITS";
       break;
     case CRCL_STOP_MOTION:
       return "CRCL_STOP_MOTION";
+      break;
+    case CRCL_OPEN_TOOL_CHANGER:
+      return "CRCL_OPEN_TOOL_CHANGER";
+      break;
+    case CRCL_CLOSE_TOOL_CHANGER:
+      return "CRCL_CLOSE_TOOL_CHANGER";
       break;
     case CRCL_UNKNOWN:
       return "CRCL_UNKNOWN";
@@ -145,15 +157,13 @@ std::string getCRCLStatusString(CRCLCmdStatus input)
     {
     case CRCL_DONE:
       return "CRCL_DONE";
-      break;
     case CRCL_ABORT:
       return "CRCL_ABORT";
-      break;
     case CRCL_NEW_CMD:
       return "CRCL_NEW_CMD";
-      break;
     case CRCL_WORKING:
       return "CRCL_WORKING";
-      break;
+    default:
+      return "";
     }
 }

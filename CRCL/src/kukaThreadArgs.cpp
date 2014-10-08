@@ -27,6 +27,8 @@ KukaThreadArgs::KukaThreadArgs()
   ulapi_mutex_give(&poseCorrectionMutex);
 
   ulapi_mutex_take(&poseCorrectionMutex);
+  this->lockToolChanger = true;
+
   poseCorrection.x = 0;
   poseCorrection.y = 0;
   poseCorrection.z = 0;
@@ -139,5 +141,12 @@ void KukaThreadArgs::setPoseCorrection(robotPose poseCorrectionIn)
 	 poseCorrectionIn.z);
   */
   poseCorrection = poseCorrectionIn;
+  ulapi_mutex_give(&poseCorrectionMutex);
+}
+
+void KukaThreadArgs::setToolChangerLocked(bool state)
+{
+  ulapi_mutex_take(&poseCorrectionMutex);
+  lockToolChanger = state;
   ulapi_mutex_give(&poseCorrectionMutex);
 }

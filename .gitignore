@@ -2,6 +2,9 @@
 *.~
 *~
 *.a
+*.cbp
+*.swp
+*.user
 nist_kitting/doc/html
 nist_kitting/doc/manifest.yaml
 # CMakefile generated files

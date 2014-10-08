@@ -881,6 +881,16 @@ int parseCmd(char *inbuf, CRCLCmdUnion *nextCmd)
     {
       nextCmd->cmd = CRCL_STOP_MOTION;
     }
+  else if( !strncasecmp(inbuf, "OpenToolChanger", strlen("OpenToolChanger")))
+    {
+      nextCmd->cmd = CRCL_OPEN_TOOL_CHANGER;
+	  nextCmd->changerOpen = true;
+    }
+  else if( !strncasecmp(inbuf, "CloseToolChanger", strlen("CloseToolChanger")))
+    {
+      nextCmd->cmd = CRCL_CLOSE_TOOL_CHANGER;
+	  nextCmd->changerOpen = false;
+    }
   
   else
     {
@@ -1139,6 +1149,16 @@ int main(int argc, char *argv[])
 	  break;
 	case CRCL_STOP_MOTION:
 	  crclStopMotion(&status, &nextCmd);
+	  break;
+	case CRCL_OPEN_TOOL_CHANGER:
+	  kukaThreadArgs.setToolChangerLocked(false);
+	  status.setCurrentStatus(CRCL_NEW_CMD);
+	  status.setCurrentCmd(&nextCmd);
+	  break;
+	case CRCL_CLOSE_TOOL_CHANGER:
+	  kukaThreadArgs.setToolChangerLocked(true);
+	  status.setCurrentStatus(CRCL_NEW_CMD);
+	  status.setCurrentCmd(&nextCmd);
 	  break;
 	case CRCL_UNKNOWN:
 	  crclUnknown(&status, &nextCmd);

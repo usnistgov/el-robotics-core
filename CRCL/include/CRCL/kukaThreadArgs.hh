@@ -20,6 +20,7 @@
 
 typedef struct
 {
+  bool toolChangerLocked;
   double cartesian[ROBOT_DOF];
   double joint[ROBOT_DOF];
   double external[ROBOT_DOF];
@@ -33,6 +34,7 @@ private:
   robotPose poseCorrection;
   KukaState currentState;
 public:
+  bool lockToolChanger;
   double jointMotorScale[ROBOT_DOF]; //bizarre numbers needed by KR5-6
   double cmdMotorScale[ROBOT_DOF];
   KukaThreadArgs();
@@ -48,5 +50,6 @@ public:
 			  double d4, double d5, double d6);
   void setJointMove(CRCLStatus *status);
   void setPoseCorrection(robotPose poseCorrectionIn);
+  void setToolChangerLocked(bool state);
 };
 #endif

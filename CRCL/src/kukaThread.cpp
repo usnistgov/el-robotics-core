@@ -20,6 +20,7 @@
  */
 #include <stdio.h>
 #include <math.h>
+#include <sstream>
 #include "CRCL/kukaThread.hh"
 #include "CRCL/crclDefs.hh"
 
@@ -124,6 +125,7 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   TiXmlElement *cartesianCmd;
   TiXmlElement *jointCmd;
   TiXmlElement *externalCmd;
+  TiXmlElement *dioCmd;
   TiXmlElement *cmdIPOC;
   robotPose poseCorrection;
   KukaState currentState;
@@ -132,13 +134,15 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
   currentState = args->getCurrentState();
   
   cartesianCmd =
-    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(1).ToElement();
+    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").FirstChild("RKorr").ToElement();
   jointCmd =
-    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(2).ToElement();
+    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").FirstChild("AKorr").ToElement();
   externalCmd =
-    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(3).ToElement();
+    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").FirstChild("EKorr").ToElement();
+  dioCmd =
+    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").FirstChild("DiO").ToElement();
   cmdIPOC =
-    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").Child(6).ToElement();
+    kukaCmdHandle.FirstChild("Sen").FirstChild("Dat").FirstChild("IPOC").ToElement();
   cmdIPOC->Clear();
   TiXmlText *text = new TiXmlText(krcIPOC.c_str());
   cmdIPOC->LinkEndChild(text);
@@ -198,6 +202,15 @@ std::string KukaThread::setCorrections(std::string krcIPOC)
       externalCmd->SetDoubleAttribute("E5", 0);
       externalCmd->SetDoubleAttribute("E6", 0);
     }
+  std::string dioState = args->lockToolChanger ? KUKA_TOOL_CHANGER_LOCKED_DIO : KUKA_TOOL_CHANGER_UNLOCKED_DIO;
+  TiXmlText * dioText = dioCmd->FirstChild()->ToText();
+  dioText->SetValue(dioState);
+  if (!args->lockToolChanger)
+  {
+	  int i = 0;
+  }
+//  std::cerr << dioState << std::endl;
+
   returnString << toKuka;
   if(debug)
     {
@@ -288,6 +301,9 @@ std::string KukaThread::setStatus(char *buf)
   external->Attribute("E4", &(kukaState.external[3]));
   external->Attribute("E5", &(kukaState.external[4]));
   external->Attribute("E6", &(kukaState.external[5]));
+
+  kukaState.toolChangerLocked = args->lockToolChanger;
+
   args->setCurrentState(&kukaState);
   return krcIPOC->GetText();
 }

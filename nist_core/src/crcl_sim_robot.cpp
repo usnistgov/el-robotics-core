@@ -6,11 +6,24 @@
 #include <math.h>
 #include <float.h>
 
+#include <sstream>
+#include <string>
+
 #include <ulapi.h>
 
 #include "nist_core/nist_core.h"
 #include "nist_core/crcl.h"
 #include "nist_core/crcl_sim_robot.h"
+
+/*
+  Testing into simulator using a socket for move messages.
+*/
+#undef TESTING
+#ifdef TESTING
+static int port = 52336;
+static char host[] = "speedy";
+static int socket_client_fd = -1;
+#endif
 
 namespace crcl_robot {
 
@@ -30,10 +43,22 @@ namespace crcl_robot {
     toolSetting = 0;
 
     period = CRCL_SIM_PERIOD_DEFAULT;
+
+#ifdef TESTING
+    // Testing socket into robot simulator
+    printf("connecting to %s on %d\n", host, port);
+    socket_client_fd = ulapi_socket_get_client_id(port, host);
+    printf("got %d\n", socket_client_fd);
+#endif
   }
 
   LIBRARY_API CrclSimRobot::~CrclSimRobot()
   {
+#ifdef TESTING
+    // More testing
+    if (socket_client_fd >= 0) ulapi_socket_close(socket_client_fd);
+    socket_client_fd = -1;
+#endif
   }
 
   LIBRARY_API double CrclSimRobot::setPeriod(double p)
@@ -72,6 +97,22 @@ namespace crcl_robot {
     LOCKIT;
     here = simPose;
     UNLOCKIT;
+
+#ifdef TESTING
+    // Testing -- convert pose to joints, send to simulator
+
+    std::ostringstream buffer;
+    buffer << end.x << " ";
+    buffer << end.y << " ";
+    buffer << end.z << " ";
+    buffer << 0.1 << " ";
+    buffer << 0.3 << "\n";
+
+    printf("%s\n", (buffer.str()).c_str());
+    if (socket_client_fd >= 0) {
+      ulapi_socket_write(socket_client_fd, (buffer.str()).c_str(), strlen((buffer.str()).c_str()));
+    }
+#endif
 
     dist = robotPoseDiff(end, here);
 

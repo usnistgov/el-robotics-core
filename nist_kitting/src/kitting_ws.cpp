@@ -81,6 +81,13 @@ static void do_cmd_halt(nist_kitting::ws_stat &ws_stat)
   // else S0
 }
 
+/*!
+  \defgroup ASSEMBLE_KIT The Workstation Assemble Kit Command
+
+  The Workstation Controller (WS) combines both WS and Task functions,
+  and the planning part of Emove.
+*/
+
 static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, nist_kitting::ws_stat &ws_stat)
 {
   if (ws_stat.stat.state == RCS_STATE_NEW_COMMAND) {

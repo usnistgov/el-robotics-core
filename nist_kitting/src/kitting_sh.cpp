@@ -368,7 +368,7 @@ int main(int argc, char **argv)
 	  prim_robot_cmd.cmd.serial_number++; // make it a new one
 	  pub.publish(prim_robot_cmd);
 	} else {
-	  printf("need X Y Z Qx Qy Qz Qw\n");
+	  printf("need X (Y Z R P W)\n");
 	}
 	break;
       default:

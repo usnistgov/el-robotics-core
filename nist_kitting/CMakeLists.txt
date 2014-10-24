@@ -129,6 +129,7 @@ add_executable(kitting_exec src/kitting_exec.cpp)
 add_executable(crcl_server src/crcl_server.cpp)
 
 add_executable(cognex_sim src/cognex_sim.cpp)
+add_executable(simple_message_sim src/simple_message_sim.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -155,6 +156,7 @@ target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_exec nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 
 target_link_libraries(cognex_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(simple_message_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 
 #############
 ## Install ##

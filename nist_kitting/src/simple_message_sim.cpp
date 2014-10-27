@@ -14,7 +14,7 @@
 #include <stdio.h>		// stdin, stderr 
 #include <stddef.h>		// NULL, sizeof, size_t 
 #include <stdlib.h>		// atoi, atof 
-#include <string.h>		// memcpy 
+#include <ctype.h>		// isspace
 
 #include <ulapi.h>
 
@@ -65,10 +65,7 @@ static void joint_message_connection_thread_code(joint_message_connection_thread
     ulapi_mutex_take(&robot_mutex);
     for (int t = 0; t < JOINT_MAX; t++) {
       float p;
-      if (! reqmsg.get_pos(&p, t)) {
-	printf("beep\n");
-	break;
-      }
+      if (! reqmsg.get_pos(&p, t)) break;
       the_robot.set_robot_pos(p, t);
     }
     ulapi_mutex_give(&robot_mutex);
@@ -304,14 +301,86 @@ int main(int argc, char *argv[])
   joint_state_server_args.period = period;
   ulapi_task_start(&joint_state_server_thread, reinterpret_cast<ulapi_task_code>(joint_state_server_thread_code), reinterpret_cast<void *>(&joint_state_server_args), ulapi_prio_highest(), 0);
 
-  // we in the foreground read input and update the robot model as needed
+  /*
+    In the foreground we read input and update the robot state.
+
+    Things you can type, where <#> is the joint number, 1 .. max
+
+    <blank line> : prints out the current robot state
+    set <#> pos | pmin | pmax | vmax : sets the joint's position or limits
+    get <#> : prints the joint state
+  */
+
   while (true) {
-    if (NULL == fgets(inbuf, sizeof(inbuf)-1, stdin)) {
-      // closed input
+    char *ptr;
+    int num;
+    float fval;
+    bool bret;
+    printf("> ");
+    fflush(stdout);
+    if (NULL == fgets(inbuf, sizeof(inbuf)-1, stdin)) break;
+    inbuf[sizeof(inbuf)-1] = 0;
+    ptr = inbuf;
+    while (isspace(*ptr)) ptr++;
+    if (0 == *ptr) {		// blank line
+      ulapi_mutex_take(&robot_mutex);
+      the_robot.print_robot_info();
+      ulapi_mutex_give(&robot_mutex);
+    } else if ('q' == *ptr) {
       break;
+    } else if (! strncmp(ptr, "set", strlen("set"))) {
+      ptr += strlen("set ");
+      if (1 == sscanf(ptr, "%i", &num)) {
+	while ((! isspace(*ptr)) && (0 != ptr)) ptr++;
+	while (isspace(*ptr)) ptr++;
+	if (0 == *ptr) {
+	  printf("need pos or limit to set\n");
+	} else if (! strncmp(ptr, "pos", strlen("pos"))) {
+	  ptr += strlen("pos ");
+	  if (1 == sscanf(ptr, "%f", &fval)) {
+	    ulapi_mutex_take(&robot_mutex);
+	    bret = the_robot.set_robot_pos(fval, num-1);
+	    ulapi_mutex_give(&robot_mutex);
+	    if (! bret) {
+	      printf("can't set joint %d pos to %f\n", num, fval);
+	    }
+	  } else {
+	    printf("need a joint position\n");
+	  }
+	} else if (! strncmp(ptr, "pmin", strlen("pmin"))) {
+	  ptr += strlen("pmin ");
+	  if (1 == sscanf(ptr, "%f", &fval)) {
+	    ulapi_mutex_take(&robot_mutex);
+	    bret = the_robot.set_robot_pmin(fval, num-1);
+	    ulapi_mutex_give(&robot_mutex);
+	    if (! bret) {
+	      printf("can't set joint %d pmin to %f\n", num, fval);
+	    }
+	  } else {
+	    printf("need a joint min position\n");
+	  }
+	} else if (! strncmp(ptr, "pmax", strlen("pmax"))) {
+	  ptr += strlen("pmax ");
+	  if (1 == sscanf(ptr, "%f", &fval)) {
+	    ulapi_mutex_take(&robot_mutex);
+	    bret = the_robot.set_robot_pmax(fval, num-1);
+	    ulapi_mutex_give(&robot_mutex);
+	    if (! bret) {
+	      printf("can't set joint %d pmax to %f\n", num, fval);
+	    }
+	  } else {
+	    printf("need a joint max position\n");
+	  }
+	} else {
+	  printf("bad option for set: %s", inbuf);
+	}
+      } else {
+	printf("bad value for joint number: %s", inbuf);
+      }
+    } else {
+      printf("?: ``%s''\n", ptr);
     }
-    // FIXME -- add handing of robot info through the terminal
-  }
+  } // while (true)
 
   return 0;
 }

@@ -31,14 +31,31 @@ struct joint_info {
     printf("%sPos Max:  %f\n", prefix, pmax);
     printf("%sVelocity: %f\n", prefix, vel);
     printf("%sVel Max:  %f\n", prefix, vmax);
-  };
+  }
 
   float get_pos() {
     return pos;
-  };
+  }
   void set_pos(float _pos) {
-    pos = _pos;			/* FIXME -- clamp it to min, max */
-  };
+    if (_pos < pmin) pos = pmin;
+    else if (_pos > pmax) pos = pmax;
+    else pos = _pos;
+  }
+
+  float get_pmin() {
+    return pmin;
+  }
+  void set_pmin(float _pmin) {
+    pmin = _pmin;
+  }
+
+  float get_pmax() {
+    return pmax;
+  }
+
+  void set_pmax(float _pmax) {
+    pmax = _pmax;
+  }
 };
 
 struct robot_info {
@@ -48,7 +65,7 @@ struct robot_info {
 
   robot_info(unsigned int j = JOINT_MAX) {
     joints = j;
-  };
+  }
 
   void print_robot_info(const char *prefix = "") {
     for (int t = 0; t < joints; t++) {
@@ -57,15 +74,39 @@ struct robot_info {
     }
   }
 
+  bool set_robot_pos(float pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return false;
+    joint[index].set_pos(pos);
+    return true;
+  }
+
   bool get_robot_pos(float *pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return false;
     *pos = joint[index].get_pos();
     return true;
   }
 
-  bool set_robot_pos(float pos, int index) {
+  bool set_robot_pmin(float pmin, int index) {
     if (index < 0 || index >= JOINT_MAX) return false;
-    joint[index].set_pos(pos);
+    joint[index].set_pmin(pmin);
+    return true;
+  }
+
+  bool get_robot_pmin(float *pmin, int index) {
+    if (index < 0 || index >= JOINT_MAX) return false;
+    *pmin = joint[index].get_pmin();
+    return true;
+  }
+
+  bool set_robot_pmax(float pmax, int index) {
+    if (index < 0 || index >= JOINT_MAX) return false;
+    joint[index].set_pmax(pmax);
+    return true;
+  }
+
+  bool get_robot_pmax(float *pmax, int index) {
+    if (index < 0 || index >= JOINT_MAX) return false;
+    *pmax = joint[index].get_pmax();
     return true;
   }
 };
@@ -147,7 +188,7 @@ struct joint_request_message {
     for (int t = 0; t < JOINT_MAX; t++) {
       joints[t] = 0;
     }
-  };
+  }
 
   void print_joint_request(const char *prefix = "") {
     printf("%sLength:     %d\n", prefix, (int) length);
@@ -160,7 +201,7 @@ struct joint_request_message {
       printf(" %f", joints[t]);
     }
     printf("\n");
-  };
+  }
 
   void read_joint_request(char *inbuf) {
     char *ptr = inbuf;
@@ -175,11 +216,11 @@ struct joint_request_message {
     memcpy(&seq_number, ptr, sizeof(seq_number));
     ptr += sizeof(seq_number);
     memcpy(joints, ptr, sizeof(joints));
-  };
+  }
 
   int get_seq_number() {
     return seq_number;
-  };
+  }
   void set_seq_number(int num) {
     seq_number = num;
   }
@@ -188,13 +229,13 @@ struct joint_request_message {
     if (index < 0 || index >= JOINT_MAX) return false;
     joints[index] = pos;
     return true;
-  };
+  }
 
   bool get_pos(float *pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return false;
     *pos = joints[index];
     return true;
-  };
+  }
 };
 
 struct joint_reply_message {
@@ -215,14 +256,14 @@ struct joint_reply_message {
     message_type = MESSAGE_JOINT;
     comm_type = COMM_REPLY;
     // caller will need to set reply_type with method below
-  };
+  }
 
   void print_joint_reply(const char *prefix = "") {
     printf("%sLength:     %d\n", prefix, (int) length);
     printf("%sMsg Type:   %d\n", prefix, (int) message_type);
     printf("%sComm Type:  %d\n", prefix, (int) comm_type);
     printf("%sReply Type: %d\n", prefix, (int) reply_type);
-  };
+  }
 
   void read_joint_reply(char *inbuf) {
     char *ptr = inbuf;
@@ -237,11 +278,11 @@ struct joint_reply_message {
     memcpy(&unused_1, ptr, sizeof(unused_1));
     ptr += sizeof(unused_1);
     memcpy(&unused_2, ptr, sizeof(unused_2));
-  };
+  }
 
   void set_joint_reply(reply_types reply) {
     reply_type = reply;
-  };
+  }
 };
 
 struct joint_state_message {
@@ -262,7 +303,7 @@ struct joint_state_message {
     comm_type = COMM_TOPIC;
     reply_type = REPLY_NA;
     // caller will need to set joints with method below
-  };
+  }
 
   void print_joint_state(const char *prefix = "") {
     printf("%sLength:     %d\n", prefix, (int) length);
@@ -274,7 +315,7 @@ struct joint_state_message {
       printf(" %f", joints[t]);
     }
     printf("\n");
-  };
+  }
 
   void read_joint_state(char *inbuf) {
     char *ptr = inbuf;
@@ -289,17 +330,17 @@ struct joint_state_message {
     memcpy(&unused_1, ptr, sizeof(unused_1));
     ptr += sizeof(unused_1);
     memcpy(joints, ptr, sizeof(joints));
-  };
+  }
 
   bool set_pos(float pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return false;
     joints[index] = pos;
-  };
+  }
 
   bool get_pos(float *pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return false;
     *pos = joints[index];
-  };
+  }
 };
 
 #endif	/* SIMPLE_MESSAGE_DEFS_H */

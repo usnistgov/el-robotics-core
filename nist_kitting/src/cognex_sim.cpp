@@ -30,6 +30,9 @@
 #include <ulapi.h>
 
 enum {COGNEX_PORT_DEFAULT = 456};
+
+#define COGNEX_DB_DEFAULT "cognex_sim.txt"
+
 static bool debug = false;
 
 struct object_info {
@@ -43,7 +46,7 @@ struct object_info {
 
 // globals
 static std::vector<object_info> object_info_db;
-static char *object_info_message = NULL;
+static ulapi_mutex_struct object_info_db_mutex;
 
 static bool load_object_db(char *path)
 {
@@ -55,11 +58,19 @@ static bool load_object_db(char *path)
   char *ptr, *tok;
   bool keep_name;
 
-  object_info_in.object_name = NULL;
-  keep_name = false;
-
   fp = fopen(path, "r");
   if (NULL == fp) return false;
+
+  // clear out original db, if any
+  while (! object_info_db.empty()) {
+    object_info el = object_info_db.back();
+    printf("deleting %s\n", el.object_name);
+    delete el.object_name;
+    object_info_db.pop_back();
+  }
+
+  object_info_in.object_name = NULL;
+  keep_name = false;
 
   while (! feof(fp)) {
     if (NULL == fgets(line, sizeof(line)-1, fp)) break;
@@ -140,7 +151,7 @@ static void print_object_db(void)
 
   for (int t = 0; t < object_info_db.size(); t++) {
     object_info_in = object_info_db[t];
-    printf("%s,%d,%f,%f,%f,%f\n",
+    printf("Object %d: %s,%d,%f,%f,%f,%f\n", t+1,
 	   object_info_in.object_name,
 	   object_info_in.object_present,
 	   object_info_in.object_theta,
@@ -174,7 +185,9 @@ static bool format_object_db(char *str, size_t size)
   }
 
   sstr += "\n";
+
   strncpy(str, sstr.c_str(), size);
+  str[size-1] = 0;
 }
 
 struct stat_thread_args {
@@ -202,13 +215,13 @@ static void stat_thread_code(stat_thread_args *args)
     if (debug) printf("got a status client connection on id %d\n", stat_connection_id);
 
     while (true) {
+      ulapi_mutex_take(&object_info_db_mutex);
       format_object_db(outbuf, sizeof(outbuf)-1);
+      ulapi_mutex_give(&object_info_db_mutex);
+
       nchars = ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf));
-      if (nchars < 0) {
-	// client disconnected, probably
-	break;
-      }
-      ulapi_wait(stat_period * 1e9);
+      if (nchars < 0) break;	// client disconnected, probably
+      ulapi_sleep(stat_period);
     }
 
     ulapi_socket_close(stat_connection_id);
@@ -225,16 +238,15 @@ int main(int argc, char *argv[])
   int ival;
   double dval;
   int port = COGNEX_PORT_DEFAULT;
+  char *object_db_path = COGNEX_DB_DEFAULT;
   int stat_server_id;
   double period = 1;
   ulapi_task_struct stat_thread;
   stat_thread_args stat_args; 
-  enum {INBUF_LEN = 1024};
-  char inbuf[INBUF_LEN];
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":p:d");
+    option = getopt(argc, argv, ":p:t:b:d");
     if (option == -1) break;
 
     switch (option) {
@@ -245,6 +257,11 @@ int main(int argc, char *argv[])
 
     case 't':
       dval = atof(optarg);
+      period = dval;
+      break;
+
+    case 'b':
+      object_db_path = optarg;
       period = dval;
       break;
 
@@ -264,6 +281,12 @@ int main(int argc, char *argv[])
     } // switch (option)
   }   // while (true) for getopt
 
+  if (! load_object_db(object_db_path)) {
+    fprintf(stderr, "can't load object database %s\n", object_db_path);
+  }
+
+  ulapi_mutex_init(&object_info_db_mutex, 0);
+
   stat_server_id = ulapi_socket_get_server_id(port);
   if (stat_server_id < 0) {
     fprintf(stderr, "can't serve port %d\n", port);
@@ -276,22 +299,56 @@ int main(int argc, char *argv[])
   stat_args.stat_period = period;
   ulapi_task_start(&stat_thread, reinterpret_cast<ulapi_task_code>(stat_thread_code), reinterpret_cast<void *>(&stat_args), ulapi_prio_highest(), 0);
 
-  char object_db_path[] = "src/nist_kitting/src/cognex_sim.txt";
-  if (! load_object_db(object_db_path)) {
-    fprintf(stderr, "can't load object database %s\n", object_db_path);
-  }
+  bool done = false;
+  while (! done) {
+    enum {INBUF_LEN = 1024};
+    char inbuf[INBUF_LEN];
+    char *ptr;
+    char *endptr;
 
-  if (debug) print_object_db();
+    // print prompt
+    printf("> ");
+    fflush(stdout);
+    // get input line
+    if (NULL == fgets(inbuf, sizeof(inbuf), stdin)) break;
+    // skip leading whitespace
+    ptr = inbuf;
+    while (isspace(*ptr)) ptr++;
+    // strip off trailing whitespace
+    endptr = inbuf + strlen(inbuf);
+    while ((isspace(*endptr) || 0 == *endptr) && endptr >= ptr) *endptr-- = 0;
+    // now 'ptr' is the stripped input string
 
-  while (true) {
-    if (NULL == fgets(inbuf, sizeof(inbuf)-1, stdin)) {
-      // closed input
-      break;
-    }
+    do {
+      if (0 == *ptr) {		// blank line, print state
+	print_object_db();
+	break;
+      }
 
-    // FIXME -- move some objects around, using mutexed WM struct
+      if ('q' == *ptr) {	// quit
+	done = true;
+	break;
+      }
 
-  }
+      if (! strncmp(ptr, "load", strlen("load"))) {
+	ptr += strlen("load");
+	if (! isspace(*ptr)) {
+	  printf("need a file to load\n");
+	  break;
+	}
+	while (isspace(*ptr)) ptr++;
+	ulapi_mutex_take(&object_info_db_mutex);
+	if (! load_object_db(ptr)) {
+	  printf("can't load object database %s\n", ptr);
+	}
+	ulapi_mutex_give(&object_info_db_mutex);
+	break;
+      }	// matches "load"
+
+      printf("?\n");
+    } while (false); // do ... wrapper
+
+  } // while (! done)
 
   return 0;
 }

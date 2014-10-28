@@ -425,6 +425,7 @@ int main(int argc, char *argv[])
 	printf("need 'pos', 'pmin', or 'pmax' to set\n");
 	break;
       }	// matches "set"
+      printf("?\n");
     } while (false); // do ... wrapper
   } // while (! done)
 

@@ -311,76 +311,122 @@ int main(int argc, char *argv[])
     get <#> : prints the joint state
   */
 
-  while (true) {
+  bool done = false;
+  while (! done) {
     char *ptr;
-    int num;
+    char *endptr;
+    int ival;
     float fval;
     bool bret;
+    int joint;
+
+    // print prompt
     printf("> ");
     fflush(stdout);
-    if (NULL == fgets(inbuf, sizeof(inbuf)-1, stdin)) break;
-    inbuf[sizeof(inbuf)-1] = 0;
+    // get input line
+    if (NULL == fgets(inbuf, sizeof(inbuf), stdin)) break;
+    // skip leading whitespace
     ptr = inbuf;
     while (isspace(*ptr)) ptr++;
-    if (0 == *ptr) {		// blank line
-      ulapi_mutex_take(&robot_mutex);
-      the_robot.print_robot_info();
-      ulapi_mutex_give(&robot_mutex);
-    } else if ('q' == *ptr) {
-      break;
-    } else if (! strncmp(ptr, "set", strlen("set"))) {
-      ptr += strlen("set ");
-      if (1 == sscanf(ptr, "%i", &num)) {
-	while ((! isspace(*ptr)) && (0 != ptr)) ptr++;
-	while (isspace(*ptr)) ptr++;
-	if (0 == *ptr) {
-	  printf("need pos or limit to set\n");
-	} else if (! strncmp(ptr, "pos", strlen("pos"))) {
-	  ptr += strlen("pos ");
-	  if (1 == sscanf(ptr, "%f", &fval)) {
-	    ulapi_mutex_take(&robot_mutex);
-	    bret = the_robot.set_robot_pos(fval, num-1);
-	    ulapi_mutex_give(&robot_mutex);
-	    if (! bret) {
-	      printf("can't set joint %d pos to %f\n", num, fval);
-	    }
-	  } else {
-	    printf("need a joint position\n");
-	  }
-	} else if (! strncmp(ptr, "pmin", strlen("pmin"))) {
-	  ptr += strlen("pmin ");
-	  if (1 == sscanf(ptr, "%f", &fval)) {
-	    ulapi_mutex_take(&robot_mutex);
-	    bret = the_robot.set_robot_pmin(fval, num-1);
-	    ulapi_mutex_give(&robot_mutex);
-	    if (! bret) {
-	      printf("can't set joint %d pmin to %f\n", num, fval);
-	    }
-	  } else {
-	    printf("need a joint min position\n");
-	  }
-	} else if (! strncmp(ptr, "pmax", strlen("pmax"))) {
-	  ptr += strlen("pmax ");
-	  if (1 == sscanf(ptr, "%f", &fval)) {
-	    ulapi_mutex_take(&robot_mutex);
-	    bret = the_robot.set_robot_pmax(fval, num-1);
-	    ulapi_mutex_give(&robot_mutex);
-	    if (! bret) {
-	      printf("can't set joint %d pmax to %f\n", num, fval);
-	    }
-	  } else {
-	    printf("need a joint max position\n");
-	  }
-	} else {
-	  printf("bad option for set: %s", inbuf);
-	}
-      } else {
-	printf("bad value for joint number: %s", inbuf);
+    // strip off trailing whitespace
+    endptr = inbuf + strlen(inbuf);
+    while ((isspace(*endptr) || 0 == *endptr) && endptr >= ptr) *endptr-- = 0;
+    while (endptr >= ptr) *endptr = tolower(*endptr--);
+    // now 'ptr' is the stripped input string
+
+    do {
+      if (0 == *ptr) {		// blank line, print state
+	ulapi_mutex_take(&robot_mutex);
+	the_robot.print_robot_info();
+	ulapi_mutex_give(&robot_mutex);
+	break;
       }
-    } else {
-      printf("?: ``%s''\n", ptr);
-    }
-  } // while (true)
+
+      if ('q' == *ptr) {	// quit
+	done = true;
+	break;
+      }
+
+      if (! strncmp(ptr, "set", strlen("set"))) {
+	ptr += strlen("set");
+	if (! isspace(*ptr)) {
+	  printf("need a joint and value to set\n");
+	  break;
+	}
+	ival = strtol(ptr, &endptr, 0);
+	if (endptr == ptr || isgraph(*endptr)) {
+	  printf("need a joint to set\n");
+	  break;
+	}
+	joint = ival;
+	ptr = endptr;
+	while (isspace(*ptr)) ptr++;
+
+	if (! strncmp(ptr, "pos", strlen("pos"))) {
+	  ptr += strlen("pos");
+	  if (! isspace(*ptr)) {
+	    printf("missing position value\n");
+	    break;
+	  }
+	  fval = strtod(ptr, &endptr);
+	  if (endptr == ptr || isgraph(*endptr)) {
+	    printf("bad position value\n");
+	    break;
+	  }
+	  ulapi_mutex_take(&robot_mutex);
+	  bret = the_robot.set_robot_pos(fval, joint-1);
+	  ulapi_mutex_give(&robot_mutex);
+	  if (! bret) {
+	    printf("can't set joint %d position to %f\n", joint, dval);
+	  }
+	  break;
+	}
+
+	if (! strncmp(ptr, "pmin", strlen("pmin"))) {
+	  ptr += strlen("pmin");
+	  if (! isspace(*ptr)) {
+	    printf("missing min value\n");
+	    break;
+	  }
+	  fval = strtod(ptr, &endptr);
+	  if (endptr == ptr || isgraph(*endptr)) {
+	    printf("bad min value\n");
+	    break;
+	  }
+	  ulapi_mutex_take(&robot_mutex);
+	  bret = the_robot.set_robot_pmin(fval, joint-1);
+	  ulapi_mutex_give(&robot_mutex);
+	  if (! bret) {
+	    printf("can't set joint %d min value to %f\n", joint, dval);
+	  }
+	  break;
+	}
+
+	if (! strncmp(ptr, "pmax", strlen("pmax"))) {
+	  ptr += strlen("pmax");
+	  if (! isspace(*ptr)) {
+	    printf("missing max value\n");
+	    break;
+	  }
+	  fval = strtod(ptr, &endptr);
+	  if (endptr == ptr || isgraph(*endptr)) {
+	    printf("bad max value\n");
+	    break;
+	  }
+	  ulapi_mutex_take(&robot_mutex);
+	  bret = the_robot.set_robot_pmax(fval, joint-1);
+	  ulapi_mutex_give(&robot_mutex);
+	  if (! bret) {
+	    printf("can't set joint %d max value to %f\n", joint, dval);
+	  }
+	  break;
+	}
+
+	printf("need 'pos', 'pmin', or 'pmax' to set\n");
+	break;
+      }	// matches "set"
+    } while (false); // do ... wrapper
+  } // while (! done)
 
   return 0;
 }

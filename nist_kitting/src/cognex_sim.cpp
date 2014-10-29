@@ -36,7 +36,8 @@ enum {COGNEX_PORT_DEFAULT = 456};
 static bool debug = false;
 
 struct object_info {
-  char *object_name;
+  enum {OBJECT_NAME_LEN = 80};
+  char object_name[OBJECT_NAME_LEN];
   bool object_present;
   float object_theta;
   float object_x;
@@ -64,13 +65,8 @@ static bool load_object_db(char *path)
   // clear out original db, if any
   while (! object_info_db.empty()) {
     object_info el = object_info_db.back();
-    printf("deleting %s\n", el.object_name);
-    delete el.object_name;
     object_info_db.pop_back();
   }
-
-  object_info_in.object_name = NULL;
-  keep_name = false;
 
   while (! feof(fp)) {
     if (NULL == fgets(line, sizeof(line)-1, fp)) break;
@@ -80,15 +76,10 @@ static bool load_object_db(char *path)
     ptr = line;
     while (isspace(*ptr)) ptr++;
     if (isalpha(*ptr)) {
-      if ((! keep_name) && (NULL != object_info_in.object_name)) {
-	if (debug) printf("deleting name %s\n", object_info_in.object_name);
-	delete object_info_in.object_name;
-      }
-      keep_name = false;
       tok = strtok(ptr, ",");
       if (NULL != tok) {
-	object_info_in.object_name = new char[strlen(ptr)];
-	strcpy(object_info_in.object_name, tok);
+	strncpy(object_info_in.object_name, tok, sizeof(object_info_in.object_name));
+	object_info_in.object_name[sizeof(object_info_in.object_name)-1] = 0;
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
@@ -135,8 +126,6 @@ static bool load_object_db(char *path)
       }
 
       object_info_db.push_back(object_info_in);
-      keep_name = true;
-
     } else {
       // nothing on line
     }

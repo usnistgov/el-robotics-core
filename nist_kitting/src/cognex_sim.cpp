@@ -49,7 +49,7 @@ struct object_info {
 static std::vector<object_info> object_info_db;
 static ulapi_mutex_struct object_info_db_mutex;
 
-static bool load_object_db(char *path)
+static bool load_object_db(const char *path)
 {
   FILE *fp;
   enum {LINELEN = 256};
@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
   int ival;
   double dval;
   int port = COGNEX_PORT_DEFAULT;
-  char *object_db_path = COGNEX_DB_DEFAULT;
+  const char *object_db_path = COGNEX_DB_DEFAULT;
   int stat_server_id;
   double period = 1;
   ulapi_task_struct stat_thread;
@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":p:t:b:d");
+    option = getopt(argc, argv, ":p:t:f:d");
     if (option == -1) break;
 
     switch (option) {
@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
       period = dval;
       break;
 
-    case 'b':
+    case 'f':
       object_db_path = optarg;
       period = dval;
       break;

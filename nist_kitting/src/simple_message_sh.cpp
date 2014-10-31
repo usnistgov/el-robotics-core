@@ -21,6 +21,7 @@
 #include <stddef.h>		// NULL, sizeof
 #include <stdio.h>		// printf
 #include <stdlib.h>		// atoi, strtof
+#include <ctype.h>		// isspace
 
 #include <ulapi.h>		// getopt, ulapi_socket_XXX
 
@@ -49,7 +50,7 @@ static void joint_message_client_thread_code(joint_message_client_thread_args *a
 
   while (true) {
     nchars = ulapi_socket_read(joint_message_client_id, inbuf, sizeof(inbuf));
-    if (nchars < 0) break;
+    if (nchars <= 0) break;
 
     repmsg.read_joint_reply(inbuf);
     if (debug) repmsg.print_joint_reply();
@@ -58,8 +59,6 @@ static void joint_message_client_thread_code(joint_message_client_thread_args *a
   ulapi_socket_close(joint_message_client_id);
 
   if (debug) printf("joint message client handler %d done\n", joint_message_client_id);
-
-  free(joint_message_client_thread);
 
   return;
 }
@@ -85,7 +84,7 @@ static void joint_state_client_thread_code(joint_state_client_thread_args *args)
 
   while (true) {
     nchars = ulapi_socket_read(joint_state_client_id, inbuf, sizeof(inbuf));
-    if (nchars < 0) break;
+    if (nchars <= 0) break;
 
     jsmsg.read_joint_state(inbuf);
     if (debug) jsmsg.print_joint_state();
@@ -94,8 +93,6 @@ static void joint_state_client_thread_code(joint_state_client_thread_args *args)
   ulapi_socket_close(joint_state_client_id);
 
   if (debug) printf("joint state client handler %d done\n", joint_state_client_id);
-
-  free(joint_state_client_thread);
 
   return;
 }
@@ -185,25 +182,47 @@ int main(int argc, char *argv[])
   ulapi_task_start(&joint_state_client_thread, reinterpret_cast<ulapi_task_code>(joint_state_client_thread_code), reinterpret_cast<void *>(&joint_state_client_args), ulapi_prio_highest(), 0);
 
   // we in the foreground read input and update the robot model as needed
-  while (true) {
+  bool done = false;
+  while (! done) {
     char *ptr;
     char *endptr;
     float fval;
     int nchars;
 
-    if (NULL == fgets(inbuf, sizeof(inbuf)-1, stdin)) break; // we're done
-
+    // print prompt
+    printf("> ");
+    fflush(stdout);
+    // get input line
+    if (NULL == fgets(inbuf, sizeof(inbuf), stdin)) break;
+    // skip leading whitespace
     ptr = inbuf;
-    for (int t = 0; t < JOINT_MAX; t++) {
-      fval = strtof(ptr, &endptr);
-      if (endptr == ptr) break;
-      reqmsg.set_pos(fval, t);
-      ptr = endptr;
-    }
-    reqmsg.set_seq_number(reqmsg.get_seq_number()+1);
+    while (isspace(*ptr)) ptr++;
+    // strip off trailing whitespace
+    endptr = inbuf + strlen(inbuf);
+    while ((isspace(*endptr) || 0 == *endptr) && endptr >= ptr) *endptr-- = 0;
+    while (endptr >= ptr) *endptr = tolower(*endptr--);
+    // now 'ptr' is the stripped input string
 
-    nchars = ulapi_socket_write(joint_message_client_id, reinterpret_cast<char *>(&reqmsg), sizeof(reqmsg));
-    if (nchars < 0) break;
+    do {
+      if (0 == *ptr) break; // blank line
+
+      if ('q' == *ptr) {	// quit
+	done = true;
+	break;
+      }
+
+      for (int t = 0; t < JOINT_MAX; t++) {
+	fval = strtof(ptr, &endptr);
+	if (endptr == ptr) break;
+	reqmsg.set_pos(fval, t);
+	ptr = endptr;
+      }
+      reqmsg.set_seq_number(reqmsg.get_seq_number()+1);
+      nchars = ulapi_socket_write(joint_message_client_id, reinterpret_cast<char *>(&reqmsg), sizeof(reqmsg));
+      if (nchars <= 0) break;
+
+    } while (false);		// do ... wrapper
+
   } // while (true)
 
   return 0;

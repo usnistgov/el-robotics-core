@@ -10,6 +10,10 @@ enum {
   JOINT_STATE_PORT_DEFAULT = 11002
 };
 
+#define JOINT_PMIN_DEFAULT -1000.0
+#define JOINT_PMAX_DEFAULT 1000.0
+#define JOINT_VMAX_DEFAULT 1000.0
+
 struct joint_info {
   double pos;
   double pmin;
@@ -19,10 +23,10 @@ struct joint_info {
 
   joint_info() {
     pos = 0;
-    pmin = -1;
-    pmax = 1;
+    pmin = JOINT_PMIN_DEFAULT;
+    pmax = JOINT_PMAX_DEFAULT;
     vel = 0;
-    vmax = 1;
+    vmax = JOINT_VMAX_DEFAULT;
   }
 
   void print_joint_info(const char *prefix = "") {
@@ -148,9 +152,15 @@ struct robot_info {
   UNUSED [10 x 4 bytes] (same position in message as JOINT_DATA
 */
 
+/*
+  NOTE: 
+  http://wiki.ros.org/simple_message says that the joint state message type
+  is 11, while the tutorial says 10:
+  http://wiki.ros.org/Industrial/Tutorials/create_joint_position_streaming_interface_using_tcp_socket_libraries
+*/
 typedef enum {
   MESSAGE_JOINT = 10,
-  MESSAGE_JOINT_STATE = 11
+  MESSAGE_JOINT_STATE = 10
 } message_types;
 
 typedef enum {

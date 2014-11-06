@@ -26,192 +26,246 @@ static bool debug = false;
 static robot_info the_robot;
 static ulapi_mutex_struct robot_mutex;
 
-// Joint message connection code ----------------------
+// Request message connection code ----------------------
 
-struct joint_message_connection_thread_args {
-  void *joint_message_connection_thread;
-  int joint_message_connection_id;
+struct request_connection_thread_args {
+  void *thread;
+  int id;
 };
 
-static void joint_message_connection_thread_code(joint_message_connection_thread_args *args)
+static void request_connection_thread_code(request_connection_thread_args *args)
 {
-  void *joint_message_connection_thread;
-  int joint_message_connection_id;
+  void *thread;
+  int id;
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
   enum {OUTBUF_LEN = 1024};
   char outbuf[OUTBUF_LEN];
-  int nchars;
-  joint_request_message reqmsg;
-  joint_reply_message repmsg;
-  joint_info jinfo;
   char *ptr;
+  int nchars;
+  int nleft;
+  int length;
+  int message_type;
+  ping_reply_message pingrep;
+  joint_traj_pt_request_message jtreq;
+  joint_traj_pt_reply_message jtrep;
+  joint_info jinfo;
 
-  joint_message_connection_thread = args->joint_message_connection_thread;
-  joint_message_connection_id = args->joint_message_connection_id;
+  thread = args->thread;
+  id = args->id;
   free(args);
 
   while (true) {
-    nchars = ulapi_socket_read(joint_message_connection_id, inbuf, sizeof(inbuf));
-    if (nchars < 0) break;
+    nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
+    if (nchars <= 0) break;
     inbuf[sizeof(inbuf)-1] = 0;
+    ptr = inbuf;
+    nleft = nchars;
 
-    reqmsg.read_joint_request(inbuf);
-    if (debug) {
-      printf("connection %d requested:\n", joint_message_connection_id);
-      reqmsg.print_joint_request();
-    }
+    while (nleft > 0) {
+      // get the length and type of the message
+      memcpy(&length, ptr, sizeof(length));
+      memcpy(&message_type, ptr + sizeof(length), sizeof(message_type));
 
-    ulapi_mutex_take(&robot_mutex);
-    for (int t = 0; t < JOINT_MAX; t++) {
-      float p;
-      if (! reqmsg.get_pos(&p, t)) break;
-      the_robot.set_robot_pos(p, t);
-    }
-    ulapi_mutex_give(&robot_mutex);
+      // switch on the message type and handle it
+      switch (message_type) {
+      case MESSAGE_PING:
+	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&pingrep), sizeof(pingrep));
+	if (nchars < 0) break;
+	break;
 
-    repmsg.set_joint_reply(REPLY_SUCCESS);
-    nchars = ulapi_socket_write(joint_message_connection_id, reinterpret_cast<char *>(&repmsg), sizeof(repmsg));
-    if (nchars < 0) break;
-  }
+      case MESSAGE_JOINT_TRAJ_PT:
+	jtreq.read_joint_traj_pt_request(ptr);
+	if (debug) {
+	  printf("connection %d requested:\n", id);
+	  jtreq.print_joint_traj_pt_request();
+	}
+	ulapi_mutex_take(&robot_mutex);
+	for (int t = 0; t < JOINT_MAX; t++) {
+	  float p;
+	  if (! jtreq.get_pos(&p, t)) break;
+	  the_robot.set_robot_pos(p, t);
+	}
+	ulapi_mutex_give(&robot_mutex);
+	jtrep.set_joint_traj_pt_reply(REPLY_SUCCESS);
+	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jtrep), sizeof(jtrep));
+	if (nchars < 0) break;
+	break;
 
-  ulapi_socket_close(joint_message_connection_id);
+      default:
+	// unknown message
+	if (debug) printf("unknown message type: %d\n", message_type);
+	break;
+      } // switch (message type)
+      nleft -= (sizeof(length) + length);
+      ptr += (sizeof(length) + length);
+    }	// while (nleft)
+  }	// while (true)
 
-  if (debug) printf("joint message connection handler %d done\n", joint_message_connection_id);
+  ulapi_socket_close(id);
 
-  free(joint_message_connection_thread);
+  if (debug) printf("joint message connection handler %d done\n", id);
+
+  free(thread);
 
   return;
 }
 
-// Joint state connection code ----------------------
+// State connection code ----------------------
 
-struct joint_state_connection_thread_args {
-  void *joint_state_connection_thread;
-  int joint_state_connection_id;
+struct state_connection_thread_args {
+  void *thread;
+  int id;
   double period;
 };
 
-static void joint_state_connection_thread_code(joint_state_connection_thread_args *args)
+static void state_connection_thread_code(state_connection_thread_args *args)
 {
-  void *joint_state_connection_thread;
-  int joint_state_connection_id;
+  void *thread;
+  int id;
   double period;
-  joint_state_message jsmsg;
+  joint_traj_pt_state_message jsmsg;
+  robot_status_message rsmsg;
   int nchars;
 
-  joint_state_connection_thread = args->joint_state_connection_thread;
-  joint_state_connection_id = args->joint_state_connection_id;
+  thread = args->thread;
+  id = args->id;
   period = args->period;
   free(args);
 
   while (true) {
+    float p;
+    int i;
+
     ulapi_mutex_take(&robot_mutex);
     for (int t = 0; t < JOINT_MAX; t++) {
-      float p;
       if (the_robot.get_robot_pos(&p, t)) jsmsg.set_pos(p, t);
     }
     ulapi_mutex_give(&robot_mutex);
+    nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jsmsg), sizeof(jsmsg));
+    if (nchars < 0) break;
 
-    nchars = ulapi_socket_write(joint_state_connection_id, reinterpret_cast<char *>(&jsmsg), sizeof(jsmsg));
+    ulapi_mutex_take(&robot_mutex);
+
+    the_robot.get_drives_powered(&i);
+    rsmsg.set_drives_powered(i);
+
+    the_robot.get_e_stopped(&i);
+    rsmsg.set_e_stopped(i);
+
+    the_robot.get_in_error(&i);
+    rsmsg.set_in_error(i);
+
+    the_robot.get_in_motion(&i);
+    rsmsg.set_in_motion(i);
+
+    the_robot.get_mode(&i);
+    rsmsg.set_mode(i);
+
+    the_robot.get_motion_possible(&i);
+    rsmsg.set_motion_possible(i);
+
+    ulapi_mutex_give(&robot_mutex);
+
+    nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
     if (nchars < 0) break;
 
     ulapi_wait(period * 1e9);
   }
 
-  ulapi_socket_close(joint_state_connection_id);
+  ulapi_socket_close(id);
 
-  if (debug) printf("joint state connection handler %d done\n", joint_state_connection_id);
+  if (debug) printf("joint state connection handler %d done\n", id);
 
-  free(joint_state_connection_thread);
+  free(thread);
 
   return;
 }
 
-// Joint message server code ----------------------
+// Request message server code ----------------------
 
-struct joint_message_server_thread_args {
-  int joint_message_server_id;		// socket id to serve up for connections
+struct request_server_thread_args {
+  int id;	      // socket id to serve up for connections
 };
 
-static void joint_message_server_thread_code(joint_message_server_thread_args *args)
+static void request_server_thread_code(request_server_thread_args *args)
 {
-  int joint_message_server_id;
-  int joint_message_connection_id;
-  ulapi_task_struct *joint_message_connection_thread;
-  joint_message_connection_thread_args *joint_message_connection_args; 
+  int id;
+  int connection_id;
+  ulapi_task_struct *request_connection_thread;
+  request_connection_thread_args *request_connection_args; 
 
-  joint_message_server_id = args->joint_message_server_id;
+  id = args->id;
 
   while (true) {
     if (debug) printf("waiting for joint message connection...\n");
-    joint_message_connection_id = ulapi_socket_get_connection_id(joint_message_server_id);
-    if (joint_message_connection_id < 0) {
+    connection_id = ulapi_socket_get_connection_id(id);
+    if (connection_id < 0) {
       fprintf(stderr, "can't get joint message connection connectons\n");
       break;
     }
      
-    if (debug) printf("got a joint message connection on id %d\n", joint_message_connection_id);
+    if (debug) printf("got a joint message connection on id %d\n", connection_id);
 
     // spawn a connection thread
-    joint_message_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*joint_message_connection_thread)));
-    joint_message_connection_args = reinterpret_cast<joint_message_connection_thread_args *>(malloc(sizeof(*joint_message_connection_args)));
+    request_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*request_connection_thread)));
+    request_connection_args = reinterpret_cast<request_connection_thread_args *>(malloc(sizeof(*request_connection_args)));
 
-    ulapi_task_init(joint_message_connection_thread);
-    joint_message_connection_args->joint_message_connection_id = joint_message_connection_id;
-    joint_message_connection_args->joint_message_connection_thread = joint_message_connection_thread;
-    ulapi_task_start(joint_message_connection_thread, reinterpret_cast<ulapi_task_code>(joint_message_connection_thread_code), reinterpret_cast<void *>(joint_message_connection_args), ulapi_prio_highest(), 0);
+    ulapi_task_init(request_connection_thread);
+    request_connection_args->id = connection_id;
+    request_connection_args->thread = request_connection_thread;
+    ulapi_task_start(request_connection_thread, reinterpret_cast<ulapi_task_code>(request_connection_thread_code), reinterpret_cast<void *>(request_connection_args), ulapi_prio_highest(), 0);
   } // while (true)
 
-  ulapi_socket_close(joint_message_server_id);
+  ulapi_socket_close(id);
 
-  if (debug) printf("server on %d done\n", joint_message_server_id);
+  if (debug) printf("server on %d done\n", id);
 
   return;
 }
 
-// Joint state server code ----------------------
+// State server code ----------------------
 
-struct joint_state_server_thread_args {
-  int joint_state_server_id;		// socket id to serve up for connections
+struct state_server_thread_args {
+  int id;		      // socket id to serve up for connections
   double period;
 };
 
-static void joint_state_server_thread_code(joint_state_server_thread_args *args)
+static void state_server_thread_code(state_server_thread_args *args)
 {
-  int joint_state_server_id;
+  int id;
   double period;
-  int joint_state_connection_id;
-  ulapi_task_struct *joint_state_connection_thread;
-  joint_state_connection_thread_args *joint_state_connection_args; 
+  int connection_id;
+  ulapi_task_struct *state_connection_thread;
+  state_connection_thread_args *state_connection_args; 
 
-  joint_state_server_id = args->joint_state_server_id;
+  id = args->id;
   period = args->period;
 
   while (true) {
     if (debug) printf("waiting for joint state connection...\n");
-    joint_state_connection_id = ulapi_socket_get_connection_id(joint_state_server_id);
-    if (joint_state_connection_id < 0) {
+    connection_id = ulapi_socket_get_connection_id(id);
+    if (connection_id < 0) {
       fprintf(stderr, "can't get a joint state connection connectons\n");
       break;
     }
      
-    if (debug) printf("got a joint state connection on id %d\n", joint_state_connection_id);
+    if (debug) printf("got a joint state connection on id %d\n", connection_id);
 
     // spawn a connection thread
-    joint_state_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*joint_state_connection_thread)));
-    joint_state_connection_args = reinterpret_cast<joint_state_connection_thread_args *>(malloc(sizeof(*joint_state_connection_args)));
+    state_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*state_connection_thread)));
+    state_connection_args = reinterpret_cast<state_connection_thread_args *>(malloc(sizeof(*state_connection_args)));
 
-    ulapi_task_init(joint_state_connection_thread);
-    joint_state_connection_args->joint_state_connection_id = joint_state_connection_id;
-    joint_state_connection_args->joint_state_connection_thread = joint_state_connection_thread;
-    joint_state_connection_args->period = period;
-    ulapi_task_start(joint_state_connection_thread, reinterpret_cast<ulapi_task_code>(joint_state_connection_thread_code), reinterpret_cast<void *>(joint_state_connection_args), ulapi_prio_highest(), 0);
+    ulapi_task_init(state_connection_thread);
+    state_connection_args->id = connection_id;
+    state_connection_args->thread = state_connection_thread;
+    state_connection_args->period = period;
+    ulapi_task_start(state_connection_thread, reinterpret_cast<ulapi_task_code>(state_connection_thread_code), reinterpret_cast<void *>(state_connection_args), ulapi_prio_highest(), 0);
   } // while (true)
 
-  ulapi_socket_close(joint_state_server_id);
+  ulapi_socket_close(id);
 
-  if (debug) printf("server on %d done\n", joint_state_server_id);
+  if (debug) printf("server on %d done\n", id);
 
   return;
 }
@@ -230,14 +284,14 @@ int main(int argc, char *argv[])
   int option;
   int ival;
   double dval;
-  int joint_message_server_port = JOINT_MESSAGE_PORT_DEFAULT;
-  int joint_state_server_port = JOINT_STATE_PORT_DEFAULT;
-  int joint_message_server_id;
-  int joint_state_server_id;
-  ulapi_task_struct joint_message_server_thread;
-  ulapi_task_struct joint_state_server_thread;
-  joint_message_server_thread_args joint_message_server_args; 
-  joint_state_server_thread_args joint_state_server_args; 
+  int message_port = MESSAGE_PORT_DEFAULT;
+  int state_port = STATE_PORT_DEFAULT;
+  int request_server_id;
+  int state_server_id;
+  ulapi_task_struct request_server_thread;
+  ulapi_task_struct state_server_thread;
+  request_server_thread_args request_server_args; 
+  state_server_thread_args state_server_args; 
   double period = 1;
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
@@ -250,12 +304,12 @@ int main(int argc, char *argv[])
     switch (option) {
     case 'm':
       ival = atoi(optarg);
-      joint_message_server_port = ival;
+      message_port = ival;
       break;
 
     case 's':
       ival = atoi(optarg);
-      joint_state_server_port = ival;
+      state_port = ival;
       break;
 
     case 't':
@@ -282,24 +336,24 @@ int main(int argc, char *argv[])
   ulapi_mutex_init(&robot_mutex, 1);
   the_robot.print_robot_info();
 
-  joint_message_server_id = ulapi_socket_get_server_id(joint_message_server_port);
-  if (joint_message_server_id < 0) {
-    fprintf(stderr, "can't serve port %d\n", joint_message_server_port);
+  request_server_id = ulapi_socket_get_server_id(message_port);
+  if (request_server_id < 0) {
+    fprintf(stderr, "can't serve port %d\n", message_port);
     return 1;
   }
-  ulapi_task_init(&joint_message_server_thread);
-  joint_message_server_args.joint_message_server_id = joint_message_server_id;
-  ulapi_task_start(&joint_message_server_thread, reinterpret_cast<ulapi_task_code>(joint_message_server_thread_code), reinterpret_cast<void *>(&joint_message_server_args), ulapi_prio_highest(), 0);
+  ulapi_task_init(&request_server_thread);
+  request_server_args.id = request_server_id;
+  ulapi_task_start(&request_server_thread, reinterpret_cast<ulapi_task_code>(request_server_thread_code), reinterpret_cast<void *>(&request_server_args), ulapi_prio_highest(), 0);
 
-  joint_state_server_id = ulapi_socket_get_server_id(joint_state_server_port);
-  if (joint_state_server_id < 0) {
-    fprintf(stderr, "can't serve port %d\n", joint_state_server_port);
+  state_server_id = ulapi_socket_get_server_id(state_port);
+  if (state_server_id < 0) {
+    fprintf(stderr, "can't serve port %d\n", state_port);
     return 1;
   }
-  ulapi_task_init(&joint_state_server_thread);
-  joint_state_server_args.joint_state_server_id = joint_state_server_id;
-  joint_state_server_args.period = period;
-  ulapi_task_start(&joint_state_server_thread, reinterpret_cast<ulapi_task_code>(joint_state_server_thread_code), reinterpret_cast<void *>(&joint_state_server_args), ulapi_prio_highest(), 0);
+  ulapi_task_init(&state_server_thread);
+  state_server_args.id = state_server_id;
+  state_server_args.period = period;
+  ulapi_task_start(&state_server_thread, reinterpret_cast<ulapi_task_code>(state_server_thread_code), reinterpret_cast<void *>(&state_server_args), ulapi_prio_highest(), 0);
 
   /*
     In the foreground we read input and update the robot state.
@@ -317,7 +371,7 @@ int main(int argc, char *argv[])
     char *endptr;
     int ival;
     float fval;
-    bool bret;
+    int ret;
     int joint;
 
     // print prompt
@@ -374,9 +428,9 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  bret = the_robot.set_robot_pos(fval, joint-1);
+	  ret = the_robot.set_robot_pos(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
-	  if (! bret) {
+	  if (! ret) {
 	    printf("can't set joint %d position to %f\n", joint, dval);
 	  }
 	  break;
@@ -394,9 +448,9 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  bret = the_robot.set_robot_pmin(fval, joint-1);
+	  ret = the_robot.set_robot_pmin(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
-	  if (! bret) {
+	  if (! ret) {
 	    printf("can't set joint %d min value to %f\n", joint, dval);
 	  }
 	  break;
@@ -414,9 +468,9 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  bret = the_robot.set_robot_pmax(fval, joint-1);
+	  ret = the_robot.set_robot_pmax(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
-	  if (! bret) {
+	  if (! ret) {
 	    printf("can't set joint %d max value to %f\n", joint, dval);
 	  }
 	  break;

@@ -9,30 +9,38 @@
   rostopic info /joint_trajectory_action/goal
   Type: control_msgs/FollowJointTrajectoryActionGoal
 
-  rosmsg show control_msgs/FollowJointTrajectoryGoal
-  trajectory_msgs/JointTrajectory trajectory
-    std_msgs/Header header
-      uint32 seq
-      time stamp
-      string frame_id
-    string[] joint_names
-    trajectory_msgs/JointTrajectoryPoint[] points
-      float64[] positions
-      float64[] velocities
-      float64[] accelerations
-      float64[] effort
-      duration time_from_start
-  control_msgs/JointTolerance[] path_tolerance
-    string name
-    float64 position
-    float64 velocity
-    float64 acceleration
-  control_msgs/JointTolerance[] goal_tolerance
-    string name
-    float64 position
-    float64 velocity
-    float64 acceleration
-  duration goal_time_tolerance
+  rosmsg show control_msgs/FollowJointTrajectoryActionGoal
+  std_msgs/Header header
+    uint32 seq
+    time stamp
+    string frame_id
+  actionlib_msgs/GoalID goal_id
+    time stamp
+    string id
+  control_msgs/FollowJointTrajectoryGoal goal
+    trajectory_msgs/JointTrajectory trajectory
+      std_msgs/Header header
+        uint32 seq
+        time stamp
+        string frame_id
+      string[] joint_names
+      trajectory_msgs/JointTrajectoryPoint[] points
+        float64[] positions
+        float64[] velocities
+        float64[] accelerations
+        float64[] effort
+        duration time_from_start
+    control_msgs/JointTolerance[] path_tolerance
+      string name
+      float64 position
+      float64 velocity
+      float64 acceleration
+    control_msgs/JointTolerance[] goal_tolerance
+      string name
+      float64 position
+      float64 velocity
+      float64 acceleration
+    duration goal_time_tolerance
 
   rostopic info /joint_trajectory_action/cancel 
   Type: actionlib_msgs/GoalID
@@ -143,14 +151,26 @@
 #include <ctype.h>
 #include <float.h>
 
+#include <string>
 #include <sstream>
+#include <vector>
+
+#include <ulapi.h>
   
 #include <ros/ros.h>
 #include <control_msgs/FollowJointTrajectoryActionGoal.h>
 #include <control_msgs/FollowJointTrajectoryActionFeedback.h>
 #include <sensor_msgs/JointState.h>
 
+enum {DEFAULT_JOINT_NUM = 6};
+
 static bool debug = false;
+
+template<typename T> std::string to_string(T t) {
+  std::stringstream ss;
+  ss << t;
+  return ss.str();
+}
 
 static control_msgs::FollowJointTrajectoryActionGoal goal_buf;
 
@@ -167,7 +187,7 @@ static void feedback_callback(const control_msgs::FollowJointTrajectoryActionFee
     std::string indent("1> ");
     ros::message_operations::Printer<control_msgs::FollowJointTrajectoryActionFeedback> p;
     p.stream(s, indent, *msg);
-    std::cout << s << std::endl;
+    std::cout << s.str() << std::endl;
   }
 }
 
@@ -184,6 +204,23 @@ static void joint_state_callback(const sensor_msgs::JointState::ConstPtr& msg)
   }
 }
 
+struct rosloop_thread_args {
+  double hz;
+};
+
+static void rosloop_thread_code(rosloop_thread_args *args)
+{
+  ros::Rate rate(args->hz);
+
+  while (ros::ok()) {
+    ros::spinOnce();
+    rate.sleep();
+  }
+
+  return;
+}
+
+
 int main(int argc, char **argv)
 {
   int ros_argc;
@@ -192,23 +229,25 @@ int main(int argc, char **argv)
   double period = 1;
   int retval;
   int option;
-#define PROMPT_LEN 80
-  char prompt[PROMPT_LEN];
-  char *line;
-  char *ptr;
-  int i1;
-  double d1, d2, d3, d4, d5, d6, d7;
+  ulapi_task_struct rosloop_thread;
+  rosloop_thread_args args;
+  int joint_num = DEFAULT_JOINT_NUM;
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":t:d");
+    option = getopt(argc, argv, ":n:t:d");
     if (option == -1)
       break;
 
     switch (option) {
+    case 'n':
+      joint_num = atoi(optarg);
+      if (joint_num < 1) joint_num = 1;
+      break;
+
     case 't':
       period = atof(optarg);
-      if (period <= FLT_MIN) period = FLT_MIN;
+      if (period < FLT_MIN) period = FLT_MIN;
       break;
 
     case 'd':
@@ -246,13 +285,100 @@ int main(int argc, char **argv)
 
   pub = nh.advertise<control_msgs::FollowJointTrajectoryActionGoal>("joint_trajectory_action/goal", 1);
   sub = nh.subscribe("joint_trajectory_action/feedback", 1, feedback_callback);
-  sub = nh.subscribe("/joint_states", 1, joint_state_callback);
+  sub = nh.subscribe("joint_states", 1, joint_state_callback);
 
-  ros::Rate loop_rate(1.0 / period);
+  ulapi_task_init(&rosloop_thread);
+  args.hz = 1.0 / period;
+  ulapi_task_start(&rosloop_thread, reinterpret_cast<ulapi_task_code>(rosloop_thread_code), reinterpret_cast<void *>(&args), ulapi_prio_highest(), 0);
 
-  while (ros::ok()) {
-    ros::spinOnce();
+  /*
+    Here's our goal, which we'll set up with some defaults and then
+    set with actual points as they are typed in
+   */
+  control_msgs::FollowJointTrajectoryActionGoal goal;
+
+  for (int t = 0; t < joint_num; t++) {
+    control_msgs::JointTolerance tol;
+    goal.goal.trajectory.joint_names.push_back(std::string("joint_") + to_string(t+1));
+    tol.position = 1;
+    tol.velocity = 1;
+    tol.acceleration = 1;
+    tol.name = std::string("path_tolerance_") + to_string(t+1);
+    goal.goal.path_tolerance.push_back(tol);
+    tol.name = std::string("goal_tolerance_") + to_string(t+1);
+    goal.goal.goal_tolerance.push_back(tol);
   }
+  goal.goal.goal_time_tolerance = ros::Duration(1.0);
+  if (debug) {
+    std::stringstream s;
+    std::string indent("0> ");
+    ros::message_operations::Printer<control_msgs::FollowJointTrajectoryActionGoal> p;
+    p.stream(s, indent, goal);
+    std::cout << s.str() << std::endl;
+  }
+
+  bool done = false;
+  while (! done) {
+    enum {INBUF_LEN = 1024};
+    char inbuf[INBUF_LEN];
+    char *ptr;
+    char *endptr;
+    std::vector<double> dvec;
+    double d1;
+    static int goal_id = 1;
+    trajectory_msgs::JointTrajectoryPoint jtp;
+
+    // print prompt
+    printf("> ");
+    fflush(stdout);
+    // get input line
+    if (NULL == fgets(inbuf, sizeof(inbuf), stdin)) break;
+    // skip leading whitespace
+    ptr = inbuf;
+    while (isspace(*ptr)) ptr++;
+    // strip off trailing whitespace
+    endptr = inbuf + strlen(inbuf);
+    while ((isspace(*endptr) || 0 == *endptr) && endptr >= ptr) *endptr-- = 0;
+    while (endptr >= ptr) *endptr = tolower(*endptr--);
+    // now 'ptr' is the stripped input string
+
+    do {
+      if (0 == *ptr) break; // blank line
+
+      if ('q' == *ptr) {	// quit
+	done = true;
+	break;
+      }
+
+      // get some numbers from stdin
+      jtp.positions.clear();
+      do {
+	d1 = strtod(ptr, &endptr);
+	if (ptr == endptr) break;
+	jtp.positions.push_back(d1);
+	ptr = endptr;
+      } while (true);
+      if (! jtp.positions.empty()) {
+	goal.goal_id.stamp = ros::Time::now();
+	goal.goal_id.id = std::string("goal_") + to_string(goal_id++);
+	jtp.time_from_start = ros::Duration(10);
+	goal.goal.trajectory.points.clear();
+	goal.goal.trajectory.points.push_back(jtp);
+	pub.publish(goal);
+	if (debug) {
+	  std::stringstream s;
+	  std::string indent("*> ");
+	  ros::message_operations::Printer<control_msgs::FollowJointTrajectoryActionGoal> p;
+	  p.stream(s, indent, goal);
+	  std::cout << s.str() << std::endl;
+	}
+      }
+    } while (false);		// do ... wrapper
+
+  } // while (true)
+
+
+
 
   return 0;
 }

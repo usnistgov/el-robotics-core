@@ -5,10 +5,37 @@
 #include <stdio.h>		/* printf */
 #include <string.h>		/* memcpy */
 
+enum {JOINT_MAX = 10};		/* this is really 10 per the spec */
+
 enum {
-  JOINT_MESSAGE_PORT_DEFAULT = 11000,
-  JOINT_STATE_PORT_DEFAULT = 11002
+  MESSAGE_PORT_DEFAULT = 11000,
+  STATE_PORT_DEFAULT = 11002
 };
+
+typedef enum {
+  MESSAGE_PING = 1,
+  MESSAGE_JOINT_POSITION = 10,
+  MESSAGE_JOINT = 10,
+  MESSAGE_JOINT_TRAJ_PT = 11,	  /* one point */
+  MESSAGE_JOINT_TRAJ = 12,	  /* an array of points */
+  MESSAGE_ROBOT_STATUS = 13,
+  MESSAGE_JOINT_TRAJ_PT_FULL = 14,
+  MESSAGE_JOINT_FEEDBACK = 15,
+  MESSAGE_READ_INPUT = 20,
+  MESSAGE_WRITE_OUTPUT = 21
+} message_types;
+
+typedef enum {
+  COMM_TOPIC = 1,
+  COMM_REQUEST = 2,
+  COMM_REPLY = 3
+} comm_types;
+
+typedef enum {
+  REPLY_NA = 0,
+  REPLY_SUCCESS = 1,
+  REPLY_FAILURE = 2
+} reply_types;
 
 #define JOINT_PMIN_DEFAULT -1000.0
 #define JOINT_PMAX_DEFAULT 1000.0
@@ -40,6 +67,7 @@ struct joint_info {
   float get_pos() {
     return pos;
   }
+
   void set_pos(float _pos) {
     if (_pos < pmin) pos = pmin;
     else if (_pos > pmax) pos = pmax;
@@ -49,6 +77,7 @@ struct joint_info {
   float get_pmin() {
     return pmin;
   }
+
   void set_pmin(float _pmin) {
     pmin = _pmin;
   }
@@ -62,136 +91,282 @@ struct joint_info {
   }
 };
 
+enum {
+  ROBOT_MODE_MANUAL = 1,
+  ROBOT_MODE_AUTO = 2
+};
+
 struct robot_info {
-  enum {JOINT_MAX = 10};
+  /* items to be sent out as robot status */
+  int drives_powered;
+  int e_stopped;
+  int error_code;
+  int in_error;
+  int in_motion;
+  int mode;
+  int motion_possible;
+
+  /* items to be sent out as joint trajectory information */
   joint_info joint[JOINT_MAX];
-  unsigned int joints;
+  unsigned int joint_number;
 
   robot_info(unsigned int j = JOINT_MAX) {
-    joints = j;
+    drives_powered = 1;
+    e_stopped = 0;
+    error_code = 0;
+    in_error = 0;
+    in_motion = 0;
+    mode = ROBOT_MODE_AUTO;
+    motion_possible = 1;
+    joint_number = j;
   }
 
   void print_robot_info(const char *prefix = "") {
-    for (int t = 0; t < joints; t++) {
+    /* FIXME -- add printing of robot status, e.g. estopped */
+    for (int t = 0; t < joint_number; t++) {
       printf("%sJoint %d:\n", prefix, t+1);
       joint[t].print_joint_info("  ");
     }
   }
 
-  bool set_robot_pos(float pos, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int set_drives_powered(int v) {
+    drives_powered = v;
+    return 1;
+  }
+
+  int get_drives_powered(int *v) {
+    *v = drives_powered;
+    return 1;
+  }
+
+  int set_e_stopped(int v) {
+    e_stopped = v;
+    return 1;
+  }
+
+  int get_e_stopped(int *v) {
+    *v = e_stopped;
+    return 1;
+  }
+
+  int set_error_code(int v) {
+    error_code = v;
+    return 1;
+  }
+
+  int get_error_code(int *v) {
+    *v = error_code;
+    return 1;
+  }
+
+  int set_in_error (int v) {
+    in_error  = v;
+    return 1;
+  }
+
+  int get_in_error(int *v) {
+    *v = in_error;
+    return 1;
+  }
+
+  int set_in_motion(int v) {
+    in_motion = v;
+    return 1;
+  }
+
+  int get_in_motion(int *v) {
+    *v = in_motion;
+    return 1;
+  }
+
+  int set_mode(int v) {
+    mode = v;
+    return 1;
+  }
+
+  int get_mode(int *v) {
+    *v = mode;
+    return 1;
+  }
+
+  int set_motion_possible(int v) {
+    motion_possible = v;
+    return 1;
+  }
+
+  int get_motion_possible(int *v) {
+    *v = motion_possible;
+    return 1;
+  }
+
+  int set_robot_pos(float pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     joint[index].set_pos(pos);
-    return true;
+    return 1;
   }
 
-  bool get_robot_pos(float *pos, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int get_robot_pos(float *pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     *pos = joint[index].get_pos();
-    return true;
+    return 1;
   }
 
-  bool set_robot_pmin(float pmin, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int set_robot_pmin(float pmin, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     joint[index].set_pmin(pmin);
-    return true;
+    return 1;
   }
 
-  bool get_robot_pmin(float *pmin, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int get_robot_pmin(float *pmin, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     *pmin = joint[index].get_pmin();
-    return true;
+    return 1;
   }
 
-  bool set_robot_pmax(float pmax, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int set_robot_pmax(float pmax, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     joint[index].set_pmax(pmax);
-    return true;
+    return 1;
   }
 
-  bool get_robot_pmax(float *pmax, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int get_robot_pmax(float *pmax, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     *pmax = joint[index].get_pmax();
-    return true;
+    return 1;
   }
 };
 
 /*
-  Joint command:
+  Ping request:
+
+  LENGTH [4 bytes]
+  MSG_ID [4 bytes] = PING (1)
+  COMM_TYPE [4 bytes] = REQUEST (2)
+  REPLY_TYPE [4 bytes] = N/A
+
+  No data for a ping request.
+*/
+
+struct ping_request_message {
+  int length;		  /* 4 bytes, constant value should be 3x4 = 12 */
+  int message_type;	  /* 4 bytes, constant value 1, PING */
+  int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
+  int reply_type;	  /* 4 bytes, N/A */
+
+  ping_request_message() {
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type);
+    message_type = MESSAGE_PING;
+    comm_type = COMM_REQUEST;
+    reply_type = REPLY_NA;
+  }
+
+  void print_ping_request(const char *prefix = "") {
+    printf("%sLength:     %d\n", prefix, (int) length);
+    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
+    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
+    printf("%sReply Type: %d\n", prefix, (int) reply_type);
+  }
+
+  void read_ping_request(char *inbuf) {
+    char *ptr = inbuf;
+    memcpy(&length, ptr, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(&message_type, ptr, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(&comm_type, ptr, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(&reply_type, ptr, sizeof(reply_type));
+  }
+};
+
+/*
+  Ping reply:
+
+  LENGTH [4 bytes]
+  MSG_ID [4 bytes] = PING (1)
+  COMM_TYPE [4 bytes] = REPLY (3)
+  REPLY_TYPE [4 bytes] = SUCCESS (1) or FAILURE (2)
+
+  No data for a ping reply.
+*/
+
+struct ping_reply_message {
+  int length;		  /* 4 bytes, constant value should be 3x4 = 12 */
+  int message_type;	  /* 4 bytes, constant value 1, PING */
+  int comm_type;	  /* 4 bytes, constant value 3, REPLY */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */
+
+  ping_reply_message() {
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type);
+    message_type = MESSAGE_PING;
+    comm_type = COMM_REPLY;
+    reply_type = REPLY_SUCCESS;	/*  */
+  }
+
+  void print_ping_reply(const char *prefix = "") {
+    printf("%sLength:     %d\n", prefix, (int) length);
+    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
+    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
+    printf("%sReply Type: %d\n", prefix, (int) reply_type);
+  }
+
+  void read_ping_reply(char *inbuf) {
+    char *ptr = inbuf;
+    memcpy(&length, ptr, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(&message_type, ptr, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(&comm_type, ptr, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(&reply_type, ptr, sizeof(reply_type));
+  }
+};
+
+/*
+  Joint trajectory command: an array of waypoints
 
   Client request:
 
-  LENGTH [4 bytes] (the bytes in the message, not including this
-  length specifier)
-
-  10 [4 bytes[ (MSG_ID – JOINT MESSAGE)
-
-  2 [4 bytes] (COMM_TYPE - REQUEST)
-  0 [4 bytes] (REPLY_TYPE – N/A)
-
+  LENGTH [4 bytes] = 14x4 (56)
+  MSG ID [4 bytes] = JOINT_TRAJ (12)
+  COMM_TYPE [4 bytes] = REQUEST (2)
+  REPLY_TYPE [4 bytes] = N/A (0)
   SEQ_NUMBER [4 bytes] - The sequence number is the number assigned by
   ROS to each of the points (i.e. this is always 0 or positive). A
   value of -1 indicates the end of a trajectory, a value of -2
   indicates a stop (in both cases the controller stops, joint data is
   not valid for these special types)
-
   JOINT_DATA [10 x 4 bytes] (in rads (floats))
 
   Server reply:
 
-  LENGTH [4 bytes] (the bytes in the message, not including this
-  length specifier)
-
-  10 [4 bytes] (MSG_ID – JOINT MESSAGE)
-
-  3 [4 bytes] (COMM_TYPE – RESPONSE)
-
-  REPLY [4 bytes] (1 = SUCCESS, 2 = FAILURE)
-
-  UNUSED [4 bytes] (same position in message as SEQ NUMBER
-
-  UNUSED [10 x 4 bytes] (same position in message as JOINT_DATA
+  LENGTH [4 bytes] = 14x4 (56)
+  MSG ID [4 bytes] = JOINT_TRAJ (12)
+  COMM_TYPE [4 bytes] = REPLY (3)
+  REPLY_TYPE [4 bytes] = SUCCESS (1) or FAILURE (2)
+  UNUSED [4 bytes] = 0
+  UNUSED [10 x 4 byte] = 0..0
 */
 
-/*
-  NOTE: 
-  http://wiki.ros.org/simple_message says that the joint state message type
-  is 11, while the tutorial says 10:
-  http://wiki.ros.org/Industrial/Tutorials/create_joint_position_streaming_interface_using_tcp_socket_libraries
-*/
-typedef enum {
-  MESSAGE_JOINT = 10,
-  MESSAGE_JOINT_STATE = 10
-} message_types;
+struct joint_traj_pt_request_message {
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 11, JOINT TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
+  int reply_type;	  /* 4 bytes, N/A */
+  int seq_number;	  /* 4 bytes, >= 0 */
+  float joints[JOINT_MAX]; /* 10 4-byte floats, one per joint */
 
-typedef enum {
-  COMM_TOPIC = 1,
-  COMM_REQUEST = 2,
-  COMM_REPLY = 3
-} comm_types;
-
-typedef enum {
-  REPLY_NA = 0,
-  REPLY_SUCCESS = 1,
-  REPLY_FAILURE = 2
-} reply_types;
-
-enum {JOINT_MAX = 10};
-
-struct joint_request_message {
-  int length;		  // 4 bytes, constant value should be 14x4 = 56
-  int message_type;	  // 4 bytes, constant value 10, JOINT MESSAGE
-  int comm_type;	  // 4 bytes, constant value 2, REQUEST
-  int reply_type;	  // 4 bytes, N/A
-  int seq_number;	  // 4 bytes, >= 0
-  float joints[JOINT_MAX]; // 10 4-byte floats, one per joint
-
-  joint_request_message() {
+  joint_traj_pt_request_message() {
     length = sizeof(message_type) +
       sizeof(comm_type) + 
       sizeof(reply_type) +
       sizeof(seq_number) +
       sizeof(joints);
-    message_type = MESSAGE_JOINT;
+    message_type = MESSAGE_JOINT_TRAJ_PT;
     comm_type = COMM_REQUEST;
     reply_type = REPLY_NA;
     seq_number = 1;
@@ -200,7 +375,7 @@ struct joint_request_message {
     }
   }
 
-  void print_joint_request(const char *prefix = "") {
+  void print_joint_traj_pt_request(const char *prefix = "") {
     printf("%sLength:     %d\n", prefix, (int) length);
     printf("%sMsg Type:   %d\n", prefix, (int) message_type);
     printf("%sComm Type:  %d\n", prefix, (int) comm_type);
@@ -213,7 +388,7 @@ struct joint_request_message {
     printf("\n");
   }
 
-  void read_joint_request(char *inbuf) {
+  void read_joint_traj_pt_request(char *inbuf) {
     char *ptr = inbuf;
     memcpy(&length, ptr, sizeof(length));
     ptr += sizeof(length);
@@ -235,47 +410,47 @@ struct joint_request_message {
     seq_number = num;
   }
 
-  bool set_pos(float pos, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int set_pos(float pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     joints[index] = pos;
-    return true;
+    return 1;
   }
 
-  bool get_pos(float *pos, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int get_pos(float *pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     *pos = joints[index];
-    return true;
+    return 1;
   }
 };
 
-struct joint_reply_message {
-  int length;		  // 4 bytes, constant value should be 14x4 = 56
-  int message_type;	  // 4 bytes, constant value 10, JOINT MESSAGE
-  int comm_type;	  // 4 bytes, constant value 2, REQUEST
-  int reply_type;	  // 4 bytes, 1 = SUCCESS, 2 = FAILURE
-  // NOTE: this should be the sequence number echo
-  int unused_1;		  // 4 bytes, N/A
-  float unused_2[JOINT_MAX];	// 10 4-byte floats, N/A
+struct joint_traj_pt_reply_message {
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 11, JOINT_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 3, REPLY */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */
+  /* NOTE: this should be the sequence number echo */
+  int unused_1;		  /* 4 bytes, N/A */
+  float unused_2[JOINT_MAX];	/* 10 4-byte floats, N/A */
 
-  joint_reply_message() {
+  joint_traj_pt_reply_message() {
     length = sizeof(message_type) +
       sizeof(comm_type) + 
       sizeof(reply_type) +
       sizeof(unused_1) +
       sizeof(unused_2);
-    message_type = MESSAGE_JOINT;
+    message_type = MESSAGE_JOINT_TRAJ_PT;
     comm_type = COMM_REPLY;
-    // caller will need to set reply_type with method below
+    /* caller will need to set reply_type with method below */
   }
 
-  void print_joint_reply(const char *prefix = "") {
+  void print_joint_traj_pt_reply(const char *prefix = "") {
     printf("%sLength:     %d\n", prefix, (int) length);
     printf("%sMsg Type:   %d\n", prefix, (int) message_type);
     printf("%sComm Type:  %d\n", prefix, (int) comm_type);
     printf("%sReply Type: %d\n", prefix, (int) reply_type);
   }
 
-  void read_joint_reply(char *inbuf) {
+  void read_joint_traj_pt_reply(char *inbuf) {
     char *ptr = inbuf;
     memcpy(&length, ptr, sizeof(length));
     ptr += sizeof(length);
@@ -290,32 +465,34 @@ struct joint_reply_message {
     memcpy(&unused_2, ptr, sizeof(unused_2));
   }
 
-  void set_joint_reply(reply_types reply) {
+  void set_joint_traj_pt_reply(reply_types reply) {
     reply_type = reply;
   }
 };
 
-struct joint_state_message {
-  int length;		  // 4 bytes, constant value should be 14x4 = 56
-  int message_type;	  // 4 bytes, constant value 10, JOINT MESSAGE
-  int comm_type;	  // 4 bytes, constant value 1, TOPIC
-  int reply_type;	  // 4 bytes, N/A
-  int unused_1;		  // 4 bytes, N/A
-  float joints[JOINT_MAX];	// 10 4-byte floats, N/A
+struct joint_traj_pt_state_message {
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 11, JOINT_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+  int reply_type;	  /* 4 bytes, N/A */
+  int unused_1;		  /* 4 bytes, N/A */
+  float joints[JOINT_MAX];	/* 10 4-byte floats, N/A */
 
-  joint_state_message() {
+  joint_traj_pt_state_message() {
     length = sizeof(message_type) +
       sizeof(comm_type) + 
       sizeof(reply_type) +
       sizeof(unused_1) +
       sizeof(joints);
-    message_type = MESSAGE_JOINT_STATE;
+    /* NOTE: JOINT_POSITION is deprecated, but JOINT_TRAJ_PT gives
+       an error in the industrial robot client. */
+    message_type = MESSAGE_JOINT_POSITION;
     comm_type = COMM_TOPIC;
     reply_type = REPLY_NA;
-    // caller will need to set joints with method below
+    /* caller will need to set joints with method below */
   }
 
-  void print_joint_state(const char *prefix = "") {
+  void print_joint_traj_pt_state(const char *prefix = "") {
     printf("%sLength:     %d\n", prefix, (int) length);
     printf("%sMsg Type:   %d\n", prefix, (int) message_type);
     printf("%sComm Type:  %d\n", prefix, (int) comm_type);
@@ -327,7 +504,7 @@ struct joint_state_message {
     printf("\n");
   }
 
-  void read_joint_state(char *inbuf) {
+  void read_joint_traj_pt_state(char *inbuf) {
     char *ptr = inbuf;
     memcpy(&length, ptr, sizeof(length));
     ptr += sizeof(length);
@@ -342,14 +519,152 @@ struct joint_state_message {
     memcpy(joints, ptr, sizeof(joints));
   }
 
-  bool set_pos(float pos, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int set_pos(float pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     joints[index] = pos;
   }
 
-  bool get_pos(float *pos, int index) {
-    if (index < 0 || index >= JOINT_MAX) return false;
+  int get_pos(float *pos, int index) {
+    if (index < 0 || index >= JOINT_MAX) return 0;
     *pos = joints[index];
+  }
+};
+
+struct robot_status_message {
+  int length;		  /* 4 bytes, constant value should be 10x4 = 40 */
+  int message_type;	  /* 4 bytes, constant value 13, ROBOT_STATUS */
+  int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+  int reply_type;	  /* 4 bytes, N/A */
+  int drives_powered;
+  int e_stopped;
+  int error_code;
+  int in_error;
+  int in_motion;
+  int mode;
+  int motion_possible;
+
+  robot_status_message() {
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type) +
+      sizeof(drives_powered) +
+      sizeof(e_stopped) +
+      sizeof(error_code) +
+      sizeof(in_error) +
+      sizeof(in_motion) +
+      sizeof(mode) +
+      sizeof(motion_possible);
+    message_type = MESSAGE_ROBOT_STATUS;
+    comm_type = COMM_TOPIC;
+    reply_type = REPLY_NA;
+  }
+
+  void print_robot_status(const char *prefix = "") {
+    printf("%sLength:     %d\n", prefix, (int) length);
+    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
+    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
+    printf("%sReply Type: %d\n", prefix, (int) reply_type);
+    printf("%sDrives:     %d\n", prefix, (int) drives_powered);
+    printf("%sEstopped:   %d\n", prefix, (int) e_stopped);
+    printf("%sError Code: %d\n", prefix, (int) error_code);
+    printf("%sIn Motion:  %d\n", prefix, (int) in_motion);
+    printf("%sMode:       %d\n", prefix, (int) mode);
+    printf("%sMotion OK:  %d\n", prefix, (int) motion_possible);
+  }
+
+  void read_robot_status(char *inbuf) {
+    char *ptr = inbuf;
+    memcpy(&length, ptr, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(&message_type, ptr, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(&comm_type, ptr, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(&reply_type, ptr, sizeof(reply_type));
+    ptr += sizeof(reply_type);
+    memcpy(&drives_powered, ptr, sizeof(drives_powered));
+    ptr += sizeof(drives_powered);
+    memcpy(&e_stopped, ptr, sizeof(e_stopped));
+    ptr += sizeof(e_stopped);
+    memcpy(&error_code, ptr, sizeof(error_code));
+    ptr += sizeof(error_code);
+    memcpy(&in_motion, ptr, sizeof(in_motion));
+    ptr += sizeof(in_motion);
+    memcpy(&mode, ptr, sizeof(mode));
+    ptr += sizeof(mode);
+    memcpy(&mode, ptr, sizeof(mode));
+    ptr += sizeof(mode);
+    memcpy(&motion_possible, ptr, sizeof(motion_possible));
+  }
+
+  int set_drives_powered(int v) {
+    drives_powered = v;
+    return 1;
+  }
+
+  int get_drives_powered(int *v) {
+    *v = drives_powered;
+    return 1;
+  }
+
+  int set_e_stopped(int v) {
+    e_stopped = v;
+    return 1;
+  }
+
+  int get_e_stopped(int *v) {
+    *v = e_stopped;
+    return 1;
+  }
+
+  int set_error_code(int v) {
+    error_code = v;
+    return 1;
+  }
+
+  int get_error_code(int *v) {
+    *v = error_code;
+    return 1;
+  }
+
+  int set_in_error (int v) {
+    in_error  = v;
+    return 1;
+  }
+
+  int get_in_error(int *v) {
+    *v = in_error;
+    return 1;
+  }
+
+  int set_in_motion(int v) {
+    in_motion = v;
+    return 1;
+  }
+
+  int get_in_motion(int *v) {
+    *v = in_motion;
+    return 1;
+  }
+
+  int set_mode(int v) {
+    mode = v;
+    return 1;
+  }
+
+  int get_mode(int *v) {
+    *v = mode;
+    return 1;
+  }
+
+  int set_motion_possible(int v) {
+    motion_possible = v;
+    return 1;
+  }
+
+  int get_motion_possible(int *v) {
+    *v = motion_possible;
+    return 1;
   }
 };
 

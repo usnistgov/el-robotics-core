@@ -29,70 +29,126 @@
 
 static bool debug = false;
 
-// Joint message client code ----------------------
+// Reply message client code ----------------------
 
-struct joint_message_client_thread_args {
-  void *joint_message_client_thread;
-  int joint_message_client_id;
+struct reply_client_thread_args {
+  void *thread;
+  int id;
 };
 
-static void joint_message_client_thread_code(joint_message_client_thread_args *args)
+static void reply_client_thread_code(reply_client_thread_args *args)
 {
-  void *joint_message_client_thread;
-  int joint_message_client_id;
+  void *thread;
+  int id;
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
+  char *ptr;
   int nchars;
-  joint_reply_message repmsg;
+  int nleft;
+  int length;
+  int message_type;
+  joint_traj_pt_reply_message jtp_rep;
 
-  joint_message_client_thread = args->joint_message_client_thread;
-  joint_message_client_id = args->joint_message_client_id;
+  thread = args->thread;
+  id = args->id;
 
   while (true) {
-    nchars = ulapi_socket_read(joint_message_client_id, inbuf, sizeof(inbuf));
+    nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
+    inbuf[sizeof(inbuf)-1] = 0;
+    ptr = inbuf;
+    nleft = nchars;
 
-    repmsg.read_joint_reply(inbuf);
-    if (debug) repmsg.print_joint_reply();
-  }
+    while (nleft > 0) {
+      // get the length and type of the message
+      memcpy(&length, ptr, sizeof(length));
+      memcpy(&message_type, ptr + sizeof(length), sizeof(message_type));
 
-  ulapi_socket_close(joint_message_client_id);
+      // switch on the message type and handle it
+      switch (message_type) {
+      case MESSAGE_PING:
+	break;
+      case MESSAGE_JOINT_TRAJ_PT:
+	jtp_rep.read_joint_traj_pt_reply(ptr);
+	if (debug) jtp_rep.print_joint_traj_pt_reply();
+	break;
+      default:
+	if (debug) printf("unknown reply type: %d\n", message_type);
+	break;
+      } // switch (message type)
+      nleft -= (sizeof(length) + length);
+      ptr += (sizeof(length) + length);
+    } // while (nleft)
+  }   // while (true)
 
-  if (debug) printf("joint message client handler %d done\n", joint_message_client_id);
+  ulapi_socket_close(id);
+
+  if (debug) printf("joint state client handler %d done\n", id);
 
   return;
 }
 
-// Joint state client code ----------------------
+// State client code that we read
 
-struct joint_state_client_thread_args {
-  void *joint_state_client_thread;
-  int joint_state_client_id;
+struct state_client_thread_args {
+  void *thread;
+  int id;
 };
 
-static void joint_state_client_thread_code(joint_state_client_thread_args *args)
+static void state_client_thread_code(state_client_thread_args *args)
 {
-  void *joint_state_client_thread;
-  int joint_state_client_id;
+  void *thread;
+  int id;
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
+  char *ptr;
   int nchars;
-  joint_state_message jsmsg;
+  int nleft;
+  int length;
+  int message_type;
+  robot_status_message robot_status;
+  joint_traj_pt_state_message jtp_state;
 
-  joint_state_client_thread = args->joint_state_client_thread;
-  joint_state_client_id = args->joint_state_client_id;
+  thread = args->thread;
+  id = args->id;
 
   while (true) {
-    nchars = ulapi_socket_read(joint_state_client_id, inbuf, sizeof(inbuf));
+    nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
+    inbuf[sizeof(inbuf)-1] = 0;
+    ptr = inbuf;
+    nleft = nchars;
 
-    jsmsg.read_joint_state(inbuf);
-    if (debug) jsmsg.print_joint_state();
-  }
+    while (nleft > 0) {
+      // get the length and type of the message
+      memcpy(&length, ptr, sizeof(length));
+      memcpy(&message_type, ptr + sizeof(length), sizeof(message_type));
 
-  ulapi_socket_close(joint_state_client_id);
+      // switch on the message type and handle it
+      switch (message_type) {
+      case MESSAGE_ROBOT_STATUS:
+	robot_status.read_robot_status(ptr);
+	if (debug) robot_status.print_robot_status();
+	break;
+	/* NOTE: JOINT_POSITION is deprecated, but JOINT_TRAJ_PT gives
+	   an error in the industrial robot client. */
+      case MESSAGE_JOINT_POSITION:
+	jtp_state.read_joint_traj_pt_state(ptr);
+	if (debug) jtp_state.print_joint_traj_pt_state();
+	break;
+      default:
+	// unknown message
+	if (debug) printf("unknown status type: %d\n", message_type);
+	break;
+      } // switch (message type)
+      nleft -= (sizeof(length) + length);
+      ptr += (sizeof(length) + length);
+    } // while (nleft)
+  }   // while (true)
 
-  if (debug) printf("joint state client handler %d done\n", joint_state_client_id);
+  ulapi_socket_close(id);
+
+  if (debug) printf("joint message client handler %d done\n", id);
 
   return;
 }
@@ -111,17 +167,14 @@ int main(int argc, char *argv[])
   const char *host = "localhost";
   int option;
   int ival;
-  int joint_message_client_port = JOINT_MESSAGE_PORT_DEFAULT;
-  int joint_state_client_port = JOINT_STATE_PORT_DEFAULT;
-  int joint_message_client_id;
-  int joint_state_client_id;
-  ulapi_task_struct joint_message_client_thread;
-  ulapi_task_struct joint_state_client_thread;
-  joint_message_client_thread_args joint_message_client_args; 
-  joint_state_client_thread_args joint_state_client_args; 
-  enum {INBUF_LEN = 1024};
-  char inbuf[INBUF_LEN];
-  joint_request_message reqmsg;
+  int message_port = MESSAGE_PORT_DEFAULT;
+  int state_port = STATE_PORT_DEFAULT;
+  int message_client_id;
+  int state_client_id;
+  ulapi_task_struct reply_client_thread;
+  ulapi_task_struct state_client_thread;
+  reply_client_thread_args rc_args; 
+  state_client_thread_args sc_args;
 
   opterr = 0;
   while (true) {
@@ -135,12 +188,12 @@ int main(int argc, char *argv[])
 
     case 'm':
       ival = atoi(optarg);
-      joint_message_client_port = ival;
+      message_port = ival;
       break;
 
     case 's':
       ival = atoi(optarg);
-      joint_state_client_port = ival;
+      state_port = ival;
       break;
 
     case 'd':
@@ -159,35 +212,42 @@ int main(int argc, char *argv[])
     } // switch (option)
   }   // while (true) for getopt
 
-  // start message reply handler
-  joint_message_client_id = ulapi_socket_get_client_id(joint_message_client_port, host);
-  if (joint_message_client_id < 0) {
-    fprintf(stderr, "can't connect to %s on port %d\n", host, joint_message_client_port);
+  // connect to message server
+  message_client_id = ulapi_socket_get_client_id(message_port, host);
+  if (message_client_id < 0) {
+    fprintf(stderr, "can't connect to %s on port %d\n", host, message_port);
     return 1;
   }
-  ulapi_task_init(&joint_message_client_thread);
-  joint_message_client_args.joint_message_client_thread = reinterpret_cast<void *>(joint_message_client_thread);
-  joint_message_client_args.joint_message_client_id = joint_message_client_id;
-  ulapi_task_start(&joint_message_client_thread, reinterpret_cast<ulapi_task_code>(joint_message_client_thread_code), reinterpret_cast<void *>(&joint_message_client_args), ulapi_prio_highest(), 0);
 
-  // start state reply handler
-  joint_state_client_id = ulapi_socket_get_client_id(joint_state_client_port, host);
-  if (joint_state_client_id < 0) {
-    fprintf(stderr, "can't connect to %s on port %d\n", host, joint_state_client_port);
+  // start message reply handler
+  ulapi_task_init(&reply_client_thread);
+  rc_args.thread = reinterpret_cast<void *>(reply_client_thread);
+  rc_args.id = message_client_id;
+  ulapi_task_start(&reply_client_thread, reinterpret_cast<ulapi_task_code>(reply_client_thread_code), reinterpret_cast<void *>(&rc_args), ulapi_prio_highest(), 0);
+
+  // connect to state server
+  state_client_id = ulapi_socket_get_client_id(state_port, host);
+  if (state_client_id < 0) {
+    fprintf(stderr, "can't connect to %s on port %d\n", host, state_port);
     return 1;
   }
-  ulapi_task_init(&joint_state_client_thread);
-  joint_state_client_args.joint_state_client_thread = reinterpret_cast<void *>(joint_state_client_thread);
-  joint_state_client_args.joint_state_client_id = joint_state_client_id;
-  ulapi_task_start(&joint_state_client_thread, reinterpret_cast<ulapi_task_code>(joint_state_client_thread_code), reinterpret_cast<void *>(&joint_state_client_args), ulapi_prio_highest(), 0);
+
+  // start state handler
+  ulapi_task_init(&state_client_thread);
+  sc_args.thread = reinterpret_cast<void *>(state_client_thread);
+  sc_args.id = state_client_id;
+  ulapi_task_start(&state_client_thread, reinterpret_cast<ulapi_task_code>(state_client_thread_code), reinterpret_cast<void *>(&sc_args), ulapi_prio_highest(), 0);
 
   // we in the foreground read input and update the robot model as needed
   bool done = false;
   while (! done) {
+    enum {INBUF_LEN = 1024};
+    char inbuf[INBUF_LEN];
     char *ptr;
     char *endptr;
     float fval;
     int nchars;
+    joint_traj_pt_request_message jtp_req;
 
     // print prompt
     printf("> ");
@@ -214,11 +274,11 @@ int main(int argc, char *argv[])
       for (int t = 0; t < JOINT_MAX; t++) {
 	fval = strtof(ptr, &endptr);
 	if (endptr == ptr) break;
-	reqmsg.set_pos(fval, t);
+	jtp_req.set_pos(fval, t);
 	ptr = endptr;
       }
-      reqmsg.set_seq_number(reqmsg.get_seq_number()+1);
-      nchars = ulapi_socket_write(joint_message_client_id, reinterpret_cast<char *>(&reqmsg), sizeof(reqmsg));
+      jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
+      nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
       if (nchars <= 0) break;
 
     } while (false);		// do ... wrapper

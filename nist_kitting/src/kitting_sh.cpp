@@ -137,6 +137,8 @@ int main(int argc, char **argv)
   char prompt[PROMPT_LEN];
   char *line;
   char *ptr;
+  char *pptr;
+  char delim[] = " \t\n\r";
   int i1;
   double d1, d2, d3, d4, d5, d6, d7;
 
@@ -303,8 +305,6 @@ int main(int argc, char **argv)
       break;
     } else if (TRY("ws")) {
       if (target != TARGET_WS) {
-	// pub,sub.shutdown() are probably not necessary, since
-	// reassignment causes the previous ones to go out of scope
 	pub = nh.advertise<nist_kitting::ws_cmd>(KITTING_WS_CMD_TOPIC, TOPIC_QUEUE_LEN);
 	sub = nh.subscribe(KITTING_WS_STAT_TOPIC, TOPIC_QUEUE_LEN, ws_stat_callback);
 	target = TARGET_WS;
@@ -330,6 +330,30 @@ int main(int argc, char **argv)
 	sub = nh.subscribe(KITTING_PRIM_ROBOT_STAT_TOPIC, TOPIC_QUEUE_LEN, prim_robot_stat_callback);
 	target = TARGET_PRIM_ROBOT;
 	sprintf(prompt, "pr> ");
+      }
+    } else if (TRY("assemble")) {
+      if (TARGET_WS != target) {
+	pub = nh.advertise<nist_kitting::ws_cmd>(KITTING_WS_CMD_TOPIC, TOPIC_QUEUE_LEN);
+	sub = nh.subscribe(KITTING_WS_STAT_TOPIC, TOPIC_QUEUE_LEN, ws_stat_callback);
+	target = TARGET_WS;
+	sprintf(prompt, "ws> ");
+      }
+      pptr = strtok(ptr, delim); // should be "assemble"
+      pptr = strtok(NULL, delim); // should be kit name
+      if (NULL == pptr) {
+	printf("need a kit name\n");
+      } else {
+	ws_cmd.assemble_kit.name = std::string(pptr);
+	pptr = strtok(NULL, delim);
+	if ((NULL == pptr) || (1 != sscanf(pptr, "%i", &i1))) {
+	  printf("need a number of kits\n");
+	} else {
+	  ws_cmd.cmd.type = KITTING_WS_ASSEMBLE_KIT;
+	  ws_cmd.assemble_kit.quantity = i1;
+	  ws_cmd.cmd.serial_number = ws_stat_buf.stat.serial_number;
+	  ws_cmd.cmd.serial_number++; // make it a new one
+	  pub.publish(ws_cmd);
+	}
       }
     } else if (TRY("move")) {
       switch (target) {

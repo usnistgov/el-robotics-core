@@ -52,6 +52,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(DIRECTORY msg
   FILES 
+  exec.msg
   ws_cmd.msg
   ws_stat.msg
   ws_assemble_kit.msg
@@ -120,6 +121,7 @@ add_library(nist_kitting
   )
 
 ## Declare a cpp executable
+add_executable(kitting_pl_hi_node src/kitting_pl_hi.cpp)
 add_executable(kitting_ws_node src/kitting_ws.cpp)
 add_executable(kitting_task_node src/kitting_task.cpp)
 add_executable(kitting_emove_node src/kitting_emove.cpp)
@@ -135,6 +137,7 @@ add_executable(simple_message_sh src/simple_message_sh.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
+add_dependencies(kitting_pl_hi_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_ws_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_task_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_emove_node nist_kitting_generate_messages_cpp)
@@ -149,6 +152,7 @@ target_link_libraries(
   # ${Boost_LIBRARIES}
 )
 
+target_link_libraries(kitting_pl_hi_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})

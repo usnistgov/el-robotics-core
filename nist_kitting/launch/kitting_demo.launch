@@ -10,10 +10,10 @@
 <!-- group ns="kitting_demo" -->
 <group>
   <node pkg="nist_kitting" name="crcl_server" args="-d" type="crcl_server"/>
-  <node pkg="nist_kitting" name="prim_robot" args="-d" type="kitting_prim_robot_node" output="screen"/>
-  <node pkg="nist_kitting" name="emove" type="kitting_emove_node"/>
-  <node pkg="nist_kitting" name="task" type="kitting_task_node"/>
-  <node pkg="nist_kitting" name="ws" type="kitting_ws_node"/>
+  <node pkg="nist_kitting" name="prim_robot" args="-d" type="kitting_prim_robot_node"/>
+  <node pkg="nist_kitting" name="emove" args="-d" type="kitting_emove_node"/>
+  <node pkg="nist_kitting" name="task" args="-d" type="kitting_task_node"/>
+  <node pkg="nist_kitting" name="ws" args="-d" type="kitting_ws_node"/>
 </group>
 
 </launch>

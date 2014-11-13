@@ -211,9 +211,10 @@ static ulapi_result test_fd_stat(const char *path)
 #define WAIT_TEN_PROC "ping -n 10 -w 1000 127.0.0.1"
 #define FALSE_PROC "ping -n 1 0.0.0.0"
 #else
-#define WAIT_TEN_PROC "ping -c 10 127.0.0.1"
+#define WAIT_TEN_PROC "/bin/ping -c 10 127.0.0.1"
 #define FALSE_PROC "/bin/false"
 #endif
+#define NO_PROC "/"
 
 static ulapi_result test_process(void)
 {
@@ -221,6 +222,21 @@ static ulapi_result test_process(void)
   ulapi_integer is_done;
   ulapi_integer result;
   ulapi_result retval;
+
+  /* start a bogus process */
+  ph = ulapi_process_new();
+  if (NULL == ph) return ULAPI_ERROR;
+  retval = ulapi_process_start(ph, NO_PROC);
+  /* we are the parent */
+  if (ULAPI_OK != retval) return ULAPI_ERROR; /* the 'fork' failed */
+  sleep(1);
+  is_done = ulapi_process_done(ph, &result);
+  if (is_done) {
+    printf("bogus process returned with result %d\n", (int) result);
+  } else {
+    printf("bogus process is unexpectedly still running\n");
+    return ULAPI_ERROR;
+  }
 
   /* start a ten-second process */
   ph = ulapi_process_new();
@@ -248,14 +264,16 @@ static ulapi_result test_process(void)
   } else {
     printf("process is still running\n");
   }
-
   ulapi_process_delete(ph);
 
   /* start another ten-second process */
   ph = ulapi_process_new();
   if (NULL == ph) return ULAPI_ERROR;
   retval = ulapi_process_start(ph, WAIT_TEN_PROC);
-  if (ULAPI_OK != retval) return retval;
+  if (ULAPI_OK != retval) {
+    printf("can't start '%s'\n", WAIT_TEN_PROC);
+    return retval;
+  }
 
   /* wait the whole time; you will likewise need to verify this */
   retval = ulapi_process_wait(ph, &result);
@@ -321,6 +339,15 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  ulapi_set_debug(ULAPI_DEBUG_ALL);
+
+  retval = test_process();
+  if (ULAPI_OK != retval) {
+    ulapi_print("ultest process test failed\n");
+    return 1;
+  }
+  ulapi_print("ultest process test passed\n");
+
   start = ulapi_time();
   ulapi_wait(1000000000);	/* one second in nanoseconds */
   diff = ulapi_time() - start;
@@ -362,13 +389,6 @@ int main(int argc, char *argv[])
     ulapi_print("ultest fd stat test failed on no file\n");
     return 1;
   }
-
-  retval = test_process();
-  if (ULAPI_OK != retval) {
-    ulapi_print("ultest process test failed\n");
-    return 1;
-  }
-  ulapi_print("ultest process test passed\n");
 
   ulapi_print("all tests passed\n");
 

@@ -62,28 +62,28 @@ void status_code(void *args)
     if (CMD_INIT == status->command) {
       if (NULL != status->process) {
 	retval = ulapi_process_stop(status->process);
-  if (debug && (ULAPI_OK != retval)) printf("can't stop process\n");
+	if (debug && (ULAPI_OK != retval)) printf("can't stop process\n");
+	ulapi_process_delete(status->process);
 	status->process = NULL;
       }
       status->exec = EXEC_DONE;
     } else if (CMD_HALT == status->command) {
       if (NULL != status->process) {
 	ulapi_process_stop(status->process);
+	ulapi_process_delete(status->process);
 	status->process = NULL;
       }
       status->exec = EXEC_DONE;
     } else if (CMD_RUN == status->command) {
       if (NULL != status->process) {
 	if (ulapi_process_done(status->process, &result)) {
-	  if (0 == result) {
 	    status->exec = (result ? EXEC_ERROR :  EXEC_DONE);
-	  }
-	  status->process = NULL;
-	} else {
+	    ulapi_process_delete(status->process);
+	    status->process = NULL;
 	}
-      } else {
-	// unknown command
       }
+    } else {
+      // unknown command
     }
 
     /*

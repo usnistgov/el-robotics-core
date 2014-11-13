@@ -30,6 +30,14 @@
 
 static int debug = 0;
 
+/*
+  The external planning process called by the 'assemble kit' command,
+*/
+static void *planning_process = NULL;
+enum {PLANNING_APP_LEN = 256, PLAN_FILE_LEN = 256};
+static char planning_app[PLANNING_APP_LEN] = "planning_app";
+static char plan_file[PLAN_FILE_LEN] = "plan_file";
+
 static nist_kitting::ws_cmd ws_cmd_buf;
 static nist_kitting::emove_stat emove_stat_buf;
 
@@ -96,16 +104,63 @@ static void do_cmd_halt(nist_kitting::ws_stat &ws_stat)
   and the planning part of Emove.
 */
 
-static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, nist_kitting::ws_stat &ws_stat)
+static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, nist_kitting::ws_stat &ws_stat, ros::Publisher &emove_cmd_pub, nist_kitting::emove_stat &emove_stat)
 {
+  nist_kitting::emove_cmd emove_cmd;
+  ulapi_integer retval;
+  ulapi_integer result;
+
   if (ws_stat.stat.state == RCS_STATE_NEW_COMMAND) {
-    ws_stat.stat.state = RCS_STATE_S1;
-    ws_stat.stat.status = RCS_STATUS_EXEC;
     if (debug) ROS_INFO("Assembling kit %s, quantity %d", cmd.name.c_str(), (int) cmd.quantity);
+    if (NULL != planning_process) {
+      ulapi_process_stop(planning_process);
+      ulapi_process_delete(planning_process);
+    }
+    planning_process = ulapi_process_new();
+    if (ULAPI_OK == ulapi_process_start(planning_process, planning_app)) {
+      ws_stat.stat.state = RCS_STATE_S1;
+      ws_stat.stat.status = RCS_STATUS_EXEC;
+      if (debug) printf("Starting '%s'\n", planning_app);
+    } else {
+      ws_stat.stat.state = RCS_STATE_S0;
+      ws_stat.stat.status = RCS_STATUS_ERROR;
+      printf("Can't start process '%s'\n", planning_app);
+    }
   } else if (ws_stat.stat.state == RCS_STATE_S1) {
-    if (debug) ROS_INFO("Assembled kit %s", cmd.name.c_str());
-    ws_stat.stat.state = RCS_STATE_S0;
-    ws_stat.stat.status = RCS_STATUS_DONE;
+    retval = ulapi_process_done(planning_process, &result);
+    if (retval) {
+      ulapi_process_delete(planning_process);
+      planning_process = NULL;
+      if (result) {
+	ws_stat.stat.state = RCS_STATE_S0;
+	ws_stat.stat.status = RCS_STATUS_ERROR;
+	ROS_INFO("Could not plan kit '%s'", cmd.name.c_str());
+      } else {
+	ws_stat.stat.state = RCS_STATE_S2;
+	ws_stat.stat.status = (result ? RCS_STATUS_ERROR : RCS_STATUS_DONE);
+      }
+    } else {
+      if (debug) printf("Waiting for '%s'\n", planning_app);
+    }
+    // else still running
+  } else if (ws_stat.stat.state == RCS_STATE_S2) {
+    emove_cmd.cmd.type = KITTING_EXEC;
+    emove_cmd.cmd.serial_number = ++emove_cmd_serial_number;
+    emove_cmd.exec.name = plan_file;
+    emove_cmd_pub.publish(emove_cmd);
+    ws_stat.stat.state = RCS_STATE_S3;
+  } else if (ws_stat.stat.state == RCS_STATE_S3) {
+    if (emove_stat.stat.serial_number == emove_cmd_serial_number) {
+      if (emove_stat.stat.status == RCS_STATUS_DONE) {
+	ws_stat.stat.state = RCS_STATE_S0;
+	ws_stat.stat.status = RCS_STATUS_DONE;
+	if (debug) ROS_INFO("Assembled kit '%s'", cmd.name.c_str());
+      } else if (emove_stat.stat.status == RCS_STATUS_ERROR) {
+	ws_stat.stat.state = RCS_STATE_S0;
+	ws_stat.stat.status = RCS_STATUS_ERROR;
+	if (debug) ROS_INFO("Could not assemble kit '%s'", cmd.name.c_str());
+      }
+    }
   }
   // else S0
 }
@@ -115,6 +170,9 @@ static void print_help()
   printf("Usage: <args> {-- <ROS args>}\n");
   printf("  -h           : print this help>\n");
   printf("  -n <name>    : set the node name\n");
+  printf("  -t <period>  : cycle time\n");
+  printf("  -p <path>    : path to the planning application\n");
+  printf("  -f <path>    : path to the plan file\n");
 }
 
 static void quit(int sig)
@@ -129,6 +187,7 @@ int main(int argc, char **argv)
   char node_name[NODE_NAME_LEN] = NODE_NAME_DEFAULT;
   int retval;
   int option;
+  int ival;
   double dval;
   nist_kitting::ws_stat ws_stat_buf;
 
@@ -136,7 +195,7 @@ int main(int argc, char **argv)
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":n:p:hd");
+    option = getopt(argc, argv, ":n:t:p:f:hd");
     if (option == -1)
       break;
 
@@ -151,7 +210,7 @@ int main(int argc, char **argv)
       node_name[NODE_NAME_LEN-1] - 0;
       break;
 
-    case 'p':
+    case 't':
       dval = atof(optarg);
       if (dval < FLT_EPSILON) {
 	fprintf(stderr, "bad value for period: %s\n", optarg);
@@ -160,12 +219,23 @@ int main(int argc, char **argv)
       ws_stat_buf.stat.period = dval;
       break;
 
+    case 'p':
+      strncpy(planning_app, optarg, sizeof(planning_app)-1);
+      planning_app[sizeof(planning_app)-1] = 0;
+      break;
+
+    case 'f':
+      strncpy(plan_file, optarg, sizeof(plan_file)-1);
+      plan_file[sizeof(plan_file)-1] = 0;
+      break;
+
     case 'h':
       print_help();
       break;
 
     case 'd':
       debug = 1;
+      ulapi_set_debug(ULAPI_DEBUG_ALL);
       break;
 
     case ':':
@@ -219,6 +289,11 @@ int main(int argc, char **argv)
       ws_stat_buf.stat.serial_number = ws_cmd_buf.cmd.serial_number;
       ws_stat_buf.stat.state = RCS_STATE_NEW_COMMAND;
       ws_stat_buf.stat.status = RCS_STATUS_EXEC; 
+      if (NULL != planning_process) {
+	ulapi_process_stop(planning_process);
+	ulapi_process_delete(planning_process);
+	planning_process = NULL;
+      }
     }
 
     switch (ws_cmd_buf.cmd.type) {
@@ -232,7 +307,7 @@ int main(int argc, char **argv)
       do_cmd_halt(ws_stat_buf);
       break;
     case KITTING_WS_ASSEMBLE_KIT:
-      do_cmd_kitting_ws_assemble_kit(ws_cmd_buf.assemble_kit, ws_stat_buf);
+      do_cmd_kitting_ws_assemble_kit(ws_cmd_buf.assemble_kit, ws_stat_buf, emove_cmd_pub, emove_stat_buf);
       break;
     default:
       // unrecognized command -- FIXME

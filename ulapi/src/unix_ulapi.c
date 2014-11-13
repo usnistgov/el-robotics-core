@@ -32,7 +32,9 @@
 #include <pthread.h>		/* pthread_create(), pthread_mutex_t */
 #include <time.h>		/* struct timespec, nanosleep */
 #include <sys/time.h>		/* gettimeofday(), struct timeval */
-#include <unistd.h>		/* select(), write() */
+#include <sys/types.h>		/* struct stat */
+#include <sys/stat.h>		/* stat */
+#include <unistd.h>		/* select(), write(), _exit() */
 #include <sys/ipc.h>		/* IPC_* */
 #include <sys/shm.h>		/* shmget() */
 #include <sys/sem.h>
@@ -418,6 +420,7 @@ static int to_argv(char *src, char *dst, char *argv[])
 ulapi_result ulapi_process_start(void *proc, char *path)
 {
   ulapi_result retval = ULAPI_OK;
+  struct stat buf;
   pid_t pid;
   char **argv;
   char *dst;
@@ -438,8 +441,14 @@ ulapi_result ulapi_process_start(void *proc, char *path)
     dst = malloc(maxargc);
     (void) to_argv(path, dst, argv);
     if (-1 == execvp(argv[0], argv)) {
+      /*
+	we're still running as a copy of the forked process, which may
+	have registered some functions with atexit() that may hang
+	us, so we'll call _exit() instead of exit() to avoid these in
+	our forked copy and make sure we exit right away.
+      */
       PERROR("execvp");
-      exit(1);
+      _exit(1);
     }
     // else we exec'ed OK and would not have gotten here
     break;

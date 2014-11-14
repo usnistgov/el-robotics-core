@@ -173,7 +173,7 @@ int main(int argc, char **argv)
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":n:p:hd");
+    option = getopt(argc, argv, ":n:t:e:hd");
     if (option == -1)
       break;
 
@@ -188,13 +188,18 @@ int main(int argc, char **argv)
       node_name[NODE_NAME_LEN-1] - 0;
       break;
 
-    case 'p':
+    case 't':
       dval = atof(optarg);
       if (dval < FLT_EPSILON) {
 	fprintf(stderr, "bad value for period: %s\n", optarg);
 	return 1;
       }
       emove_stat_buf.stat.period = dval;
+      break;
+
+    case 'e':
+      strncpy(plan_exec_app, optarg, sizeof(plan_exec_app)-1);
+      plan_exec_app[sizeof(plan_exec_app)-1] = 0;
       break;
 
     case 'h':

@@ -151,6 +151,8 @@ static void print_help()
   printf("Usage: <args> {-- <ROS args>}\n");
   printf("  -h           : print this help>\n");
   printf("  -n <name>    : set the node name\n");
+  printf("  -t <period>  : cycle time\n");
+  printf("  -e <path>    : path to the plan execution app\n");
 }
 
 static void quit(int sig)

@@ -221,6 +221,34 @@ static void stat_thread_code(stat_thread_args *args)
   return;
 }
 
+/*
+  Cognex simulator. 
+
+  Run as: ./cognex_sim <args>
+  Args:
+
+  -p <#>    : TCP port to serve>
+  -t <#>    : <period in seconds between outputs>
+  -f <file> : file name of objects, format below
+  -d        : turn debug on
+
+  Object file format looks like this: 
+
+  <name> , <present, 0 or 1> , \
+  <orientation, rads> , <x pos> , <y pos>, <confidence>
+
+  e.g., "Big_Gear,0,0.5708,123.4567,-234.5678,0.5105"
+
+  Client programs connect to the TCP provided, and receive a stream of
+  the objects as defined in the file. 
+
+  This program provides a terminal in the foreground. 
+
+  Enter a blank line to see the object database.
+  Enger "load <file>" to load a new file into the database.
+  Enter "q" to quit.
+*/
+
 int main(int argc, char *argv[])
 {
   int option;

@@ -12,9 +12,11 @@
 #include <string.h>
 #include <float.h>
 
-#include <ros/ros.h>
+#include <string>
 
 #include <ulapi.h>
+#include <inifile.h>
+#include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/kitting_utils.h"
@@ -24,19 +26,16 @@
 #include "nist_kitting/emove_stat.h"
 #include "nist_kitting/exec.h"
 
-#define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_pl_hi"
 #define PERIOD_DEFAULT 1.0
 
 static int debug = 0;
 
-/*
-  The external planning process called by the 'assemble kit' command,
-*/
+static std::string inifile_name("");
 static void *planning_process = NULL;
-enum {PLANNING_APP_LEN = 256, PLAN_FILE_LEN = 256};
-static char planning_app[PLANNING_APP_LEN] = "planning_app";
-static char plan_file[PLAN_FILE_LEN] = "plan_file";
+static std::string planning_app("");
+
+static std::string plan_file("");
 
 static nist_kitting::ws_cmd ws_cmd_buf;
 static nist_kitting::emove_stat emove_stat_buf;
@@ -106,25 +105,33 @@ static void do_cmd_halt(nist_kitting::ws_stat &ws_stat)
 
 static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, nist_kitting::ws_stat &ws_stat, ros::Publisher &emove_cmd_pub, nist_kitting::emove_stat &emove_stat)
 {
+  std::string planning_app_full;
   nist_kitting::emove_cmd emove_cmd;
   ulapi_integer retval;
   ulapi_integer result;
 
   if (ws_stat.stat.state == RCS_STATE_NEW_COMMAND) {
     if (debug) ROS_INFO("Assembling kit %s, quantity %d", cmd.name.c_str(), (int) cmd.quantity);
+    if (planning_app.empty()) {
+      if (debug) ROS_INFO("Planning application has not be set\n");
+      ws_stat.stat.state = RCS_STATE_S0;
+      ws_stat.stat.status = RCS_STATUS_ERROR;
+      return;
+    }
+    planning_app_full = planning_app + " -i " + inifile_name + " -k " + cmd.name;
     if (NULL != planning_process) {
       ulapi_process_stop(planning_process);
       ulapi_process_delete(planning_process);
     }
     planning_process = ulapi_process_new();
-    if (ULAPI_OK == ulapi_process_start(planning_process, planning_app)) {
+    if (ULAPI_OK == ulapi_process_start(planning_process, const_cast<char *>(planning_app_full.c_str()))) {
       ws_stat.stat.state = RCS_STATE_S1;
       ws_stat.stat.status = RCS_STATUS_EXEC;
-      if (debug) printf("Starting '%s'\n", planning_app);
+      if (debug) printf("Starting '%s'\n", planning_app_full.c_str());
     } else {
       ws_stat.stat.state = RCS_STATE_S0;
       ws_stat.stat.status = RCS_STATUS_ERROR;
-      printf("Can't start process '%s'\n", planning_app);
+      printf("Can't start process '%s'\n", planning_app_full.c_str());
     }
   } else if (ws_stat.stat.state == RCS_STATE_S1) {
     retval = ulapi_process_done(planning_process, &result);
@@ -140,7 +147,7 @@ static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, n
 	ws_stat.stat.status = (result ? RCS_STATUS_ERROR : RCS_STATUS_DONE);
       }
     } else {
-      if (debug) printf("Waiting for '%s'\n", planning_app);
+      if (debug) printf("Waiting for '%s'\n", planning_app_full.c_str());
     }
     // else still running
   } else if (ws_stat.stat.state == RCS_STATE_S2) {
@@ -165,14 +172,77 @@ static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, n
   // else S0
 }
 
+static int ini_load(const std::string inifile_name, 
+		    std::string& planning_app,
+		    std::string& plan_file)
+{
+  FILE *fp;
+  const char *section;
+  const char *key;
+  const char *inistring;
+  std::string str;
+
+  if (NULL == (fp = fopen(inifile_name.c_str(), "r"))) {
+    fprintf(stderr, "can't open ini file %s\n", inifile_name.c_str());
+    return 1;
+  }
+
+  if (planning_app.empty()) {
+    /* no argument overrode it, so we'll look for it */
+    section = NULL;
+
+    key = "PLANNING_APP";
+    inistring = ini_find(fp, key, section);
+
+    if (NULL == inistring) {
+      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fclose(fp);
+      return 1;
+    } else {
+      planning_app = std::string(inistring);
+    }
+      printf("set planning app to %s\n", planning_app.c_str());
+  }
+
+  if (plan_file.empty()) {
+    /* no argument overrode it, so we'll look for it */
+    section = NULL;
+
+    key = "PATH_TO_FINAL_PLAN";
+    inistring = ini_find(fp, key, section);
+
+    if (NULL == inistring) {
+      plan_file = std::string("");
+    } else {
+      plan_file = std::string(inistring);
+    }
+
+    key = "FINAL_PLAN_FILE";
+    inistring = ini_find(fp, key, section);
+
+    if (NULL == inistring) {
+      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fclose(fp);
+      return 1;
+    } else {
+      plan_file = plan_file + std::string(inistring);
+    }
+  }
+
+  fclose(fp);
+  return 0;
+}
+
 static void print_help()
 {
   printf("Usage: <args> {-- <ROS args>}\n");
-  printf("  -h           : print this help>\n");
+  printf("  -i <file>    : set the ini file name\n");
   printf("  -n <name>    : set the node name\n");
   printf("  -t <period>  : cycle time\n");
   printf("  -p <path>    : path to the planning application\n");
   printf("  -f <path>    : path to the plan file\n");
+  printf("  -h           : print this help>\n");
+  printf("  -d           : turn debug on\n");
 }
 
 static void quit(int sig)
@@ -184,8 +254,7 @@ int main(int argc, char **argv)
 {
   int ros_argc;
   char **ros_argv;
-  char node_name[NODE_NAME_LEN] = NODE_NAME_DEFAULT;
-  int retval;
+  std::string node_name(NODE_NAME_DEFAULT);
   int option;
   int ival;
   double dval;
@@ -195,19 +264,22 @@ int main(int argc, char **argv)
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":n:t:p:f:hd");
+    option = getopt(argc, argv, ":i:n:t:p:f:hd");
     if (option == -1)
       break;
 
     switch (option) {
+    case 'i':
+      inifile_name = std::string(optarg);
+      break;
+
     case 'n':
       // first check for valid name
       if (optarg[0] == '-') {
 	fprintf(stderr, "invalid node name: %s\n", optarg);
 	return 1;
       }
-      strncpy(node_name, optarg, NODE_NAME_LEN-1);
-      node_name[NODE_NAME_LEN-1] - 0;
+      node_name = std::string(optarg);
       break;
 
     case 't':
@@ -220,13 +292,11 @@ int main(int argc, char **argv)
       break;
 
     case 'p':
-      strncpy(planning_app, optarg, sizeof(planning_app)-1);
-      planning_app[sizeof(planning_app)-1] = 0;
+      planning_app = std::string(optarg);
       break;
 
     case 'f':
-      strncpy(plan_file, optarg, sizeof(plan_file)-1);
-      plan_file[sizeof(plan_file)-1] = 0;
+      plan_file = std::string(optarg);
       break;
 
     case 'h':
@@ -248,6 +318,25 @@ int main(int argc, char **argv)
       return 1;
       break;
     }
+  }
+
+  if (ULAPI_OK != ulapi_init()) {
+    fprintf(stderr, "can't init ulapi\n");
+    return 1;
+  }
+
+  if (planning_app.empty()) {
+    fprintf(stderr, "no planning application provided\n");
+    return 1;
+  }
+
+  if (plan_file.empty()) {
+    fprintf(stderr, "no plan file provided\n");
+    return 1;
+  }
+
+  if (debug) {
+    ROS_INFO("Using planning application '%s', plan file '%s'\n", planning_app.c_str(), plan_file.c_str());
   }
 
   // pass everything after a '--' separator to ROS

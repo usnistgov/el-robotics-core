@@ -121,7 +121,7 @@ static void print_help()
   printf("Usage: <args> {-- <ROS args>}\n");
   printf("  -h                  : print this help>\n");
   printf("  -n <name>           : set the node name\n");
-  printf("  =t ws|task|emove|pr : target the specified node\n");
+  printf("  -t ws|task|emove|pr : target the specified node\n");
 }
 
 int main(int argc, char **argv)

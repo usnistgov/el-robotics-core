@@ -5,6 +5,8 @@
 #include <string.h>
 #include <float.h>
 
+#include <string>
+
 #include <ros/ros.h>
 
 #include <ulapi.h>
@@ -16,7 +18,6 @@
 #include "nist_kitting/prim_robot_cmd.h"
 #include "nist_kitting/prim_robot_stat.h"
 
-#define NODE_NAME_LEN 80
 #define NODE_NAME_DEFAULT "kitting_emove"
 #define PERIOD_DEFAULT 0.1
 
@@ -26,8 +27,7 @@ static int debug = 0;
   The external plan execution process called by the 'exec' command,
 */
 static void *plan_exec_process = NULL;
-enum {PLAN_EXEC_APP_LEN = 256};
-static char plan_exec_app[PLAN_EXEC_APP_LEN] = "plan_exec_app";
+static std::string plan_exec_app("");
 
 static nist_kitting::emove_cmd emove_cmd_buf;
 static nist_kitting::prim_robot_stat prim_robot_stat_buf;
@@ -104,6 +104,7 @@ static void do_cmd_kitting_emove_move(std::string name, nist_kitting::emove_stat
 
 static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat &emove_stat)
 {
+  std::string plan_exec_app_full;
   ulapi_integer retval;
   ulapi_integer result;
 
@@ -113,16 +114,16 @@ static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat
       ulapi_process_stop(plan_exec_process);
       ulapi_process_delete(plan_exec_process);
     }
-    std::string fullname = std::string(plan_exec_app) + " " + name;
+    plan_exec_app_full = plan_exec_app + " -f " + name;
     plan_exec_process = ulapi_process_new();
-    if (ULAPI_OK == ulapi_process_start(plan_exec_process, const_cast<char *>(fullname.c_str()))) {
+    if (ULAPI_OK == ulapi_process_start(plan_exec_process, const_cast<char *>(plan_exec_app_full.c_str()))) {
       emove_stat.stat.state = RCS_STATE_S1;
       emove_stat.stat.status = RCS_STATUS_EXEC;
-      if (debug) printf("Starting '%s'\n", plan_exec_app);
+      if (debug) printf("Starting '%s'\n", plan_exec_app_full.c_str());
     } else {
       emove_stat.stat.state = RCS_STATE_S0;
       emove_stat.stat.status = RCS_STATUS_ERROR;
-      printf("Can't start process '%s'\n", plan_exec_app);
+      printf("Can't start process '%s'\n", plan_exec_app_full.c_str());
     }
   } else if (emove_stat.stat.state == RCS_STATE_S1) {
     retval = ulapi_process_done(plan_exec_process, &result);
@@ -139,7 +140,7 @@ static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat
 	if (debug) ROS_INFO("Executed plan '%s'", name.c_str());
       }
     } else {
-      if (debug) printf("Waiting for '%s'\n", plan_exec_app);
+      if (debug) printf("Waiting for '%s'\n", plan_exec_app_full.c_str());
     }
     // else still running
   }
@@ -164,7 +165,7 @@ int main(int argc, char **argv)
 {
   int ros_argc;
   char **ros_argv;
-  char node_name[NODE_NAME_LEN] = NODE_NAME_DEFAULT;
+  std::string node_name(NODE_NAME_DEFAULT);
   int retval;
   int option;
   int ival;
@@ -186,8 +187,7 @@ int main(int argc, char **argv)
 	fprintf(stderr, "invalid node name: %s\n", optarg);
 	return 1;
       }
-      strncpy(node_name, optarg, NODE_NAME_LEN-1);
-      node_name[NODE_NAME_LEN-1] - 0;
+      node_name = std::string(optarg);
       break;
 
     case 't':
@@ -200,8 +200,7 @@ int main(int argc, char **argv)
       break;
 
     case 'e':
-      strncpy(plan_exec_app, optarg, sizeof(plan_exec_app)-1);
-      plan_exec_app[sizeof(plan_exec_app)-1] = 0;
+      plan_exec_app = std::string(optarg);
       break;
 
     case 'h':
@@ -222,6 +221,15 @@ int main(int argc, char **argv)
       return 1;
       break;
     }
+  }
+
+  if (plan_exec_app.empty()) {
+    fprintf(stderr, "no plan execution application provided\n");
+    return 1;
+  }
+
+  if (debug) {
+    ROS_INFO("Using pla executin application '%s'\n", plan_exec_app.c_str());
   }
 
   // pass everything after a '--' separator to ROS

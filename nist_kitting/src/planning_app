@@ -1,0 +1,61 @@
+#!/usr/bin/python
+
+import sys, getopt, csv
+
+INIFILE = "ini.ini"
+KITDESIGN = "kit.kit"
+DEBUG = False
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "i:k:d", ["inifile=", "kitdesign="])
+except getopt.GetoptError, err:
+    print "planning_app:", str(err)
+    sys.exit(1)
+
+for o, a in opts:
+    if o in ("-i", "--inifile"):
+        INIFILE = a
+    elif o in ("-k", "--kitdesign"):
+        KITDESIGN = a
+    elif o in ("-d"):
+        DEBUG = True
+
+if DEBUG:
+    print "planning_app: ini file:", INIFILE
+    print "planning_app: kit design:", KITDESIGN
+
+try:
+    with open(INIFILE, "rb") as f:
+        reader = csv.reader(f, delimiter="=")
+        for row in reader:
+            if len(row) == 2:
+                left = row[0].strip()
+                right = row[1].strip()
+                if left == "PLANNING_APP":
+                    PLANNING_APP = right
+                elif left == "PATH_TO_FINAL_PLAN":
+                    PATH_TO_FINAL_PLAN = right
+                elif left == "FINAL_PLAN_FILE":
+                    FINAL_PLAN_FILE = right
+except IOError as err:
+    print "planning_app:", str(err)
+    sys.exit(1)
+
+if DEBUG:
+    print "planning_app: final plan file:", FINAL_PLAN_FILE
+
+try:
+    with open(KITDESIGN, "rb") as f: True
+except IOError as err:
+    print "planning_app:", str(err)
+    sys.exit(1)
+
+try:
+    with open(FINAL_PLAN_FILE, "w") as f:
+        f.write("0.000: (create-kit kit_gearbox kit_tray_1 work_table_1) [0.001]")
+except IOError as err:
+    print "planning_app:", str(err)
+    sys.exit(1)
+
+sys.exit(0)
+

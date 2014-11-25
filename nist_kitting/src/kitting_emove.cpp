@@ -7,9 +7,10 @@
 
 #include <string>
 
-#include <ros/ros.h>
-
 #include <ulapi.h>
+#include <inifile.h>
+
+#include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/kitting_utils.h"
@@ -23,9 +24,7 @@
 
 static int debug = 0;
 
-/*
-  The external plan execution process called by the 'exec' command,
-*/
+static std::string inifile_name("");
 static void *plan_exec_process = NULL;
 static std::string plan_exec_app("");
 
@@ -140,11 +139,46 @@ static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat
 	if (debug) ROS_INFO("Executed plan '%s'", name.c_str());
       }
     } else {
-      if (debug) printf("Waiting for '%s'\n", plan_exec_app_full.c_str());
+      if (debug) printf("Waiting for '%s'\n", plan_exec_app.c_str());
     }
     // else still running
   }
   // else S0
+}
+
+static int ini_load(const std::string inifile_name, 
+		    std::string& plan_exec_app)
+{
+  FILE *fp;
+  const char *section;
+  const char *key;
+  const char *inistring;
+  std::string str;
+
+  if (NULL == (fp = fopen(inifile_name.c_str(), "r"))) {
+    fprintf(stderr, "can't open ini file %s\n", inifile_name.c_str());
+    return 1;
+  }
+
+  if (plan_exec_app.empty()) {
+    /* no argument overrode it, so we'll look for it */
+    section = NULL;
+
+    key = "PLAN_EXEC_APP";
+    inistring = ini_find(fp, key, section);
+
+    if (NULL == inistring) {
+      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fclose(fp);
+      return 1;
+    } else {
+      plan_exec_app = std::string(inistring);
+    }
+      printf("set planning app to %s\n", plan_exec_app.c_str());
+  }
+
+  fclose(fp);
+  return 0;
 }
 
 static void print_help()
@@ -176,11 +210,15 @@ int main(int argc, char **argv)
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":n:t:e:hd");
+    option = getopt(argc, argv, ":i:n:t:e:hd");
     if (option == -1)
       break;
 
     switch (option) {
+    case 'i':
+      inifile_name = std::string(optarg);
+      break;
+
     case 'n':
       // first check for valid name
       if (optarg[0] == '-') {
@@ -223,13 +261,28 @@ int main(int argc, char **argv)
     }
   }
 
+  if (ULAPI_OK != ulapi_init()) {
+    fprintf(stderr, "can't init ulapi\n");
+    return 1;
+  }
+
+  if (inifile_name.empty()) {
+    fprintf(stderr, "no ini file provided\n");
+    return 1;
+  }
+
+  if (0 != ini_load(inifile_name, plan_exec_app)) {
+    fprintf(stderr, "error reading ini file %s\n", inifile_name.c_str());
+    return 1;
+  }
+
   if (plan_exec_app.empty()) {
     fprintf(stderr, "no plan execution application provided\n");
     return 1;
   }
 
   if (debug) {
-    ROS_INFO("Using pla executin application '%s'\n", plan_exec_app.c_str());
+    ROS_INFO("Using plan execution application '%s'\n", plan_exec_app.c_str());
   }
 
   // pass everything after a '--' separator to ROS

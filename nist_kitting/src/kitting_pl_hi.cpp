@@ -16,6 +16,7 @@
 
 #include <ulapi.h>
 #include <inifile.h>
+
 #include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
@@ -34,7 +35,6 @@ static int debug = 0;
 static std::string inifile_name("");
 static void *planning_process = NULL;
 static std::string planning_app("");
-
 static std::string plan_file("");
 
 static nist_kitting::ws_cmd ws_cmd_buf;
@@ -144,10 +144,9 @@ static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, n
 	ROS_INFO("Could not plan kit '%s'", cmd.name.c_str());
       } else {
 	ws_stat.stat.state = RCS_STATE_S2;
-	ws_stat.stat.status = (result ? RCS_STATUS_ERROR : RCS_STATUS_DONE);
       }
     } else {
-      if (debug) printf("Waiting for '%s'\n", planning_app_full.c_str());
+      if (debug) printf("Waiting for '%s'\n", planning_app.c_str());
     }
     // else still running
   } else if (ws_stat.stat.state == RCS_STATE_S2) {
@@ -322,6 +321,16 @@ int main(int argc, char **argv)
 
   if (ULAPI_OK != ulapi_init()) {
     fprintf(stderr, "can't init ulapi\n");
+    return 1;
+  }
+
+  if (inifile_name.empty()) {
+    fprintf(stderr, "no ini file provided\n");
+    return 1;
+  }
+
+  if (0 != ini_load(inifile_name, planning_app, plan_file)) {
+    fprintf(stderr, "error reading ini file %s\n", inifile_name.c_str());
     return 1;
   }
 

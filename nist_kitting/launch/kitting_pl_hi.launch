@@ -1,13 +1,26 @@
 <launch>
 
+<!--
+    Run as, e.g., 
+
+    roslaunch nist_kitting kitting_pl_hi inifile_name:=my.ini
+-->
+
+<arg name="inifile_name" default="ini.ini" />
 <arg name="planning_app" default="planning_app" />
 <arg name="plan_file" default="plan_file" />
+<arg name="plan_exec_app" default="plan_exec_app" />
 
 <group>
+
   <node pkg="nist_kitting" name="crcl_server" args="-d" type="crcl_server"/>
+
   <node pkg="nist_kitting" name="prim_robot" args="-d" type="kitting_prim_robot_node"/>
-  <node pkg="nist_kitting" name="emove" args="-d" type="kitting_emove_node" output="screen"/>
-  <node pkg="nist_kitting" name="pl_hi" args="-d -p $(arg planning_app) -f $(arg plan_file)" type="kitting_pl_hi_node" output="screen"/>
+
+  <node pkg="nist_kitting" name="emove" args="-i $(arg inifile_name) -e $(arg plan_exec_app) -d" type="kitting_emove_node" output="screen"/>
+
+  <node pkg="nist_kitting" name="pl_hi" args="-i $(arg inifile_name) -p $(arg planning_app) -f $(arg plan_file) -d" type="kitting_pl_hi_node" output="screen"/>
+
 </group>
 
 </launch>

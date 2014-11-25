@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+import sys, getopt, time
+
+PLANFILE = "plan.plan"
+DEBUG = False
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "f:d", ["file="])
+except getopt.GetoptError, err:
+    print "planning_app:", str(err)
+    sys.exit(1)
+
+for o, a in opts:
+    if o in ("-f", "--file"):
+        PLANFILE = a
+    elif o in ("-d"):
+        DEBUG = True
+
+if DEBUG:
+    print "plan_exec_app: plan file:", PLANFILE
+
+try:
+    with open(PLANFILE, "rb") as f:
+        for line in f:
+            print line
+except IOError as err:
+    print "planning_app:", str(err)
+    sys.exit(1)
+
+time.sleep(3)
+
+sys.exit(0)

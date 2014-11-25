@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, socket
+import sys, getopt, socket, time, threading
 from Tkinter import *
 from tkFileDialog import askopenfilename
 
@@ -53,13 +53,24 @@ class App:
         self.quitFrame.pack(anchor=N,side=LEFT)
         self.quitButton = Button(self.quitFrame, text="Quit", command=self.topFrame.quit)
         self.quitButton.pack()
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.recvThread = threading.Thread(target=self.recvFunc)
+        self.recvThread.daemon = True
+        self.recvThread.start()
 
     def connect(self):
         try:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((self.hostEntry.get(), int(self.portEntry.get())))
         except IOError as err:
             print "hitting_hmi:", str(err)
+
+    def recvFunc(self):
+        while True:
+            try:
+                self.kitName.set(self.sock.recv(1000))
+            except IOError as err:
+                print "hitting_hmi:", str(err)
+                time.sleep(5)
 
     def browse(self):
         filename = askopenfilename()

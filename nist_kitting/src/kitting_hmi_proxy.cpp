@@ -7,21 +7,26 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
+#include <ctype.h>
+#include <float.h>
+
 #include <string>
 
 #include <ulapi.h>
 #include <inifile.h>
+
 #include <ros/ros.h>
 
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/ws_cmd.h"
 #include "nist_kitting/ws_stat.h"
 
-enum {NODE_NAME_LEN = 80};
 #define NODE_NAME_DEFAULT "kitting_hmi_proxy"
 enum {PORT_DEFAULT = 1234};
 
 static bool debug = false;
+
+static std::string inifile_name("");
 
 /*
   The Workstation status structure, written by the ROS callback
@@ -39,12 +44,12 @@ static void ws_stat_callback(const nist_kitting::ws_stat::ConstPtr& msg)
   ulapi_mutex_give(&ws_stat_mutex);
 }
 
-struct client_task_args {
+struct client_read_task_args {
   ulapi_task_struct *task;
   int id;
 };
 
-static void client_task_code(client_task_args *args)
+static void client_read_task_code(client_read_task_args *args)
 {
   ulapi_task_struct *task;
   int id;
@@ -56,6 +61,7 @@ static void client_task_code(client_task_args *args)
   ros::NodeHandle nh;
   ros::Publisher pub;
   nist_kitting::ws_cmd ws_cmd;
+  int serial_number = 1;
 
   task = args->task;
   id = args->id;
@@ -78,8 +84,7 @@ static void client_task_code(client_task_args *args)
     ws_cmd.cmd.type = KITTING_WS_ASSEMBLE_KIT;
     ws_cmd.assemble_kit.name = std::string(ptr);
     ws_cmd.assemble_kit.quantity = 1;
-    ws_cmd.cmd.serial_number = ws_stat_buf.stat.serial_number;
-    ws_cmd.cmd.serial_number++;
+    ws_cmd.cmd.serial_number = serial_number++;
     pub.publish(ws_cmd);
 
     ulapi_mutex_give(&ws_stat_mutex);
@@ -87,14 +92,79 @@ static void client_task_code(client_task_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("client handler %d done\n", id);
+  if (debug) printf("client read handler %d done\n", id);
 
   ulapi_task_delete(task);
 
   return;
 }
 
-static int ini_load(char *inifile_name, int *port)
+struct client_write_task_args {
+  ulapi_task_struct *task;
+  int id;
+  int period_nsecs;
+};
+
+static void client_write_task_code(client_write_task_args *args)
+{
+  ulapi_task_struct *task;
+  int id;
+  int period_nsecs;
+  enum {OUTBUF_SIZE = 1024};
+  char outbuf[OUTBUF_SIZE];
+  int nchars;
+  nist_kitting::ws_stat ws_stat;
+
+  task = args->task;
+  id = args->id;
+  period_nsecs = args->period_nsecs;
+  free(args);
+
+  while (true) {
+    ros::spinOnce();
+    ulapi_mutex_take(&ws_stat_mutex);
+    ws_stat = ws_stat_buf;
+    ulapi_mutex_give(&ws_stat_mutex);
+
+    /*
+      uint8 type
+      uint8 serial_number
+      uint8 state
+      uint8 status
+      uint8 heartbeat
+      float32 period
+      float32 cycle
+      float32 duration
+
+      extern char *kitting_cmd_to_string(int s);
+      extern char *rcs_state_to_string(int s);
+      extern char *rcs_status_to_string(int s);
+    */
+
+    ulapi_snprintf(outbuf, sizeof(outbuf), "%s %d %s %s %d\n",
+		   kitting_cmd_to_string(ws_stat.stat.type),
+		   ws_stat.stat.serial_number,
+		   rcs_state_to_string(ws_stat.stat.state),
+		   rcs_status_to_string(ws_stat.stat.status),
+		   ws_stat.stat.heartbeat);
+    outbuf[sizeof(outbuf)-1] = 0;
+    nchars = ulapi_socket_write(id, outbuf, strlen(outbuf));
+    if (nchars <= 0) break;
+
+    ulapi_wait(period_nsecs);
+  }
+
+  ulapi_socket_close(id);
+
+  if (debug) printf("client write handler %d done\n", id);
+
+  ulapi_task_delete(task);
+
+  return;
+}
+
+static int ini_load(const std::string inifile_name,
+		    int *port)
 {
   FILE *fp;
   const char *section;
@@ -102,8 +172,8 @@ static int ini_load(char *inifile_name, int *port)
   const char *inistring;
   int i1;
 
-  if (NULL == (fp = fopen(inifile_name, "r"))) {
-    fprintf(stderr, "can't open ini file %s\n", inifile_name);
+  if (NULL == (fp = fopen(inifile_name.c_str(), "r"))) {
+    fprintf(stderr, "can't open ini file %s\n", inifile_name.c_str());
     return 1;
   }
 
@@ -129,46 +199,71 @@ static int ini_load(char *inifile_name, int *port)
   return 0;
 }
 
-/*
-  Usage: <args> {-- <ROS args>}
-
-  Args:
-  -p <#>    -- socket port to serve for HMI application
-  -i <file> -- ini file to use for socket port
-  -d        -- turn debug printing on
-*/
+static void print_help()
+{
+  printf("Usage: <args> {-- <ROS args>}\n");
+  printf("  -i <file>    : set the ini file name\n");
+  printf("  -n <name>    : set the node name\n");
+  printf("  -p <#>       : socket port to serve for HMI application\n");
+  printf("  -t <secs>    : period between status writes, in seconds\n");
+  printf("  -h           : print this help\n");
+  printf("  -d           : turn debug on\n");
+}
 
 int main(int argc, char *argv[])
 {
   int ros_argc;
   char **ros_argv;
-  char node_name[NODE_NAME_LEN] = NODE_NAME_DEFAULT;
-  enum {BUFFERLEN = 256};
-  char inifile_name[BUFFERLEN] = "";
+  std::string node_name(NODE_NAME_DEFAULT);
   int option;
   int ival;
+  double dval;
   int port = PORT_DEFAULT;
+  double period = 1;
   int server_id;
   int connection_id;
-  ulapi_task_struct *client_task;
-  client_task_args *client_args; 
+  ulapi_task_struct *client_read_task;
+  client_read_task_args *client_read_args; 
+  ulapi_task_struct *client_write_task;
+  client_write_task_args *client_write_args; 
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":i:p:d");
+    option = getopt(argc, argv, ":i:n:p:t:hd");
     if (option == -1) break;
 
     switch (option) {
     case 'i':
-      strncpy(inifile_name, optarg, sizeof(inifile_name));
-      inifile_name[sizeof(inifile_name)-1] = 0;
+      inifile_name = std::string(optarg);
+      break;
+
+    case 'n':
+      // first check for valid name
+      if (optarg[0] == '-') {
+	fprintf(stderr, "invalid node name: %s\n", optarg);
+	return 1;
+      }
+      node_name = std::string(optarg);
       break;
 
     case 'p':
       ival = atoi(optarg);
       port = ival;
+      break;
+
+    case 't':
+      dval = atof(optarg);
+      if (dval < FLT_EPSILON) {
+	fprintf(stderr, "bad value for period: %s\n", optarg);
+	return 1;
+      }
+      period = dval;
+      break;
+
+    case 'h':
+      print_help();
       break;
 
     case 'd':
@@ -192,8 +287,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if (0 != *inifile_name) {
+  if (! inifile_name.empty()) {
     if (0 != ini_load(inifile_name, &port)) {
+      fprintf(stderr, "error reading ini file %s\n", inifile_name.c_str());
       return 1;
     }
   }
@@ -217,26 +313,34 @@ int main(int argc, char *argv[])
 
   bool done = false;
   while (! done) {
-    connection_id = ulapi_socket_get_connection_id(server_id);
-    if (connection_id < 0) break;
-
-    if (debug) printf("waiting for joint state connection...\n");
+    if (debug) printf("waiting for an HMI connection...\n");
     connection_id = ulapi_socket_get_connection_id(server_id);
     if (connection_id < 0) {
-      fprintf(stderr, "can't get a joint state connection connectons\n");
+      fprintf(stderr, "can't get an HMI connection\n");
       break;
     }
      
-    if (debug) printf("got a joint state connection on id %d\n", connection_id);
+    if (debug) printf("got an HMI connection on id %d\n", connection_id);
 
-    // spawn a connection task
-    client_task = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*client_task)));
-    client_args = reinterpret_cast<client_task_args *>(malloc(sizeof(*client_args)));
+    // spawn connection tasks for reading and writing
 
-    ulapi_task_init(client_task);
-    client_args->task = client_task;
-    client_args->id = connection_id;
-    ulapi_task_start(client_task, reinterpret_cast<ulapi_task_code>(client_task_code), reinterpret_cast<void *>(client_args), ulapi_prio_highest(), 0);
+    client_read_task = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*client_read_task)));
+    client_read_args = reinterpret_cast<client_read_task_args *>(malloc(sizeof(*client_read_args)));
+
+    ulapi_task_init(client_read_task);
+    client_read_args->task = client_read_task;
+    client_read_args->id = connection_id;
+    ulapi_task_start(client_read_task, reinterpret_cast<ulapi_task_code>(client_read_task_code), reinterpret_cast<void *>(client_read_args), ulapi_prio_highest(), 0);
+
+    client_write_task = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*client_write_task)));
+    client_write_args = reinterpret_cast<client_write_task_args *>(malloc(sizeof(*client_write_args)));
+
+    ulapi_task_init(client_write_task);
+    client_write_args->task = client_write_task;
+    client_write_args->id = connection_id;
+    client_write_args->period_nsecs = (int) (period * 1.0e9);
+    ulapi_task_start(client_write_task, reinterpret_cast<ulapi_task_code>(client_write_task_code), reinterpret_cast<void *>(client_write_args), ulapi_prio_highest(), 0);
+
   } // while (true)
 
   ulapi_socket_close(server_id);

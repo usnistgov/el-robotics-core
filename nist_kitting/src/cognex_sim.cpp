@@ -38,7 +38,6 @@ static bool debug = false;
 struct object_info {
   enum {OBJECT_NAME_LEN = 80};
   char object_name[OBJECT_NAME_LEN];
-  bool object_present;
   float object_theta;
   float object_x;
   float object_y;
@@ -75,19 +74,11 @@ static bool load_object_db(const char *path)
 
     ptr = line;
     while (isspace(*ptr)) ptr++;
-    if (isalpha(*ptr)) {
+    if (isalpha(*ptr) || ('*' == *ptr)) {
       tok = strtok(ptr, ",");
       if (NULL != tok) {
 	strncpy(object_info_in.object_name, tok, sizeof(object_info_in.object_name));
 	object_info_in.object_name[sizeof(object_info_in.object_name)-1] = 0;
-      } else {
-	fprintf(stderr, "bad object db entry: %s\n", linecpy);
-	continue;
-      }
-
-      tok = strtok(NULL, ",");
-      if (NULL != tok) {
-	object_info_in.object_present = atoi(tok) > 0 ? true : false;
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
@@ -140,9 +131,8 @@ static void print_object_db(void)
 
   for (int t = 0; t < object_info_db.size(); t++) {
     object_info_in = object_info_db[t];
-    printf("Object %d: %s,%d,%f,%f,%f,%f\n", t+1,
+    printf("Object %d: %s,%f,%f,%f,%f\n", t+1,
 	   object_info_in.object_name,
-	   object_info_in.object_present,
 	   object_info_in.object_theta,
 	   object_info_in.object_x,
 	   object_info_in.object_y,
@@ -158,9 +148,8 @@ static bool format_object_db(char *str, size_t size)
 
   for (int t = 0; t < object_info_db.size(); t++) {
     object_info_in = object_info_db[t];
-    retval = ulapi_snprintf(str, size, "%s,%d,%f,%f,%f,%f",
+    retval = ulapi_snprintf(str, size, "%s,%f,%f,%f,%f",
 			    object_info_in.object_name,
-			    object_info_in.object_present,
 			    object_info_in.object_theta,
 			    object_info_in.object_x,
 			    object_info_in.object_y,

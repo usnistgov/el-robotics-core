@@ -240,7 +240,7 @@ static void print_help()
   printf("  -t <period>  : cycle time\n");
   printf("  -p <path>    : path to the planning application\n");
   printf("  -f <path>    : path to the plan file\n");
-  printf("  -h           : print this help>\n");
+  printf("  -h           : print this help\n");
   printf("  -d           : turn debug on\n");
 }
 

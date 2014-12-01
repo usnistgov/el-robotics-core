@@ -29,8 +29,11 @@ if DEBUG:
 class App:
     MSG_LEN = 1000
     PERIOD = 5
+    HOST = "localhost"
+    PORT = 6066
 
     def __init__(self, master):
+        #
         self.connected = False
         self.nameVar = StringVar()
         self.portVar = StringVar()
@@ -38,12 +41,15 @@ class App:
         self.cmdVar = StringVar()
         self.statusVar = StringVar()
         self.hbVar = StringVar()
-        self.nameVar.set("localhost")
-        self.portVar.set("6006")
+        self.diagsVar = StringVar()
+        #
+        self.nameVar.set(self.HOST)
+        self.portVar.set(str(self.PORT))
         self.kitVar.set("kit.kit")
         self.cmdVar.set("(none)")
         self.statusVar.set("(none)")
         self.hbVar.set("0")
+        self.diagsVar.set("")
 
         #
         Label(master, text="Host").grid(row=0,column=0,columnspan=2)
@@ -64,6 +70,7 @@ class App:
         Entry(master, textvariable=self.kitVar).grid(row=1, column=3)
         # #
         Button(master, text="Browse...", command=self.browse).grid(row=3,column=2)
+        Button(master, text="Make", command=self.make).grid(row=3,column=3)
 
         #
         Label(master, text="Status").grid(row=0, column=4, columnspan=2)
@@ -78,67 +85,61 @@ class App:
         Entry(master, textvariable=self.hbVar).grid(row=3, column=5)
 
         #
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        Entry(master, textvariable=self.diagsVar).grid(row=4, column=0, columnspan=6, sticky=W+E)
+
+        #
         self.recvThread = threading.Thread(target=self.recvFunc)
         self.recvThread.daemon = True
         self.recvThread.start()
-
-    def old(self, master):
-        self.topFrame = Frame(master)
-        self.topFrame.pack(anchor=N,side=LEFT)
-        self.commFrame = Frame(self.topFrame)
-        self.commFrame.pack(side=LEFT)
-        self.hostEntry = Entry(self.commFrame)
-        self.hostEntry.insert(0, "localhost")
-        self.hostEntry.pack()
-        self.portEntry = Entry(self.commFrame)
-        self.portEntry.insert(0, 12345)
-        self.portEntry.pack()
-        self.connectButton = Button(self.commFrame, text="Connect", command=self.connect)
-        self.connectButton.pack()
-        self.kitFrame = Frame(self.topFrame)
-        self.kitFrame.pack(anchor=N,side=LEFT)
-        self.kitName = StringVar()
-        self.kitName.set("kit.kit")
-        self.kitEntry = Entry(self.kitFrame, textvariable=self.kitName)
-        self.kitEntry.pack()
-        self.kitBrowse = Button(self.kitFrame, text="Kit...", command=self.browse)
-        self.kitBrowse.pack()
-        self.quitFrame = Frame(self.topFrame)
-        self.quitFrame.pack(anchor=N,side=LEFT)
-        self.quitButton = Button(self.quitFrame, text="Quit", command=self.topFrame.quit)
-        self.quitButton.pack()
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.recvThread = threading.Thread(target=self.recvFunc)
-        self.recvThread.daemon = True
-        self.recvThread.start()
-
-    def connect(self):
-        try:
-            self.sock.connect((self.nameVar.get(), int(self.portVar.get())))
-            self.connected = True
-        except IOError as err:
-            print "kitting_hmi:", str(err)
 
     def disconnect(self):
         try:
+            self.sock.close()
             self.sock.shutdown(socket.SHUT_RDWR)
-            self.connected = False
         except IOError as err:
-            print "kitting_hmi:", str(err)
+            pass
+        self.connected = False
+        self.diagsVar.set("Disconnected")
+
+    def connect(self):
+        if self.connected == True:
+            self.disconnect()
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.connect((self.nameVar.get(), int(self.portVar.get())))
+            self.connected = True
+            self.diagsVar.set("Connected")
+        except IOError as err:
+            self.diagsVar.set(str(err))
+            print "kitting_hmi: connect:", str(err)
 
     def recvFunc(self):
         while True:
             if self.connected == True:
                 try:
-                    msg = self.sock.recv(MSG_LEN)
+                    msg = self.sock.recv(self.MSG_LEN)
+                    msglist = msg.split()
+                    if len(msglist) >= 5:
+                        self.cmdVar.set(msglist[0])
+                        self.statusVar.set(msglist[3])
+                        self.hbVar.set(msglist[4])
                 except IOError as err:
+                    self.diagsVar.set(str(err))
                     print "kitting_hmi:", str(err)
-                    time.sleep(PERIOD)
+                    time.sleep(self.PERIOD)
 
     def browse(self):
         filename = askopenfilename()
         self.kitVar.set(filename)
+
+    def make(self):
+        if self.connected == True:
+            msg = self.kitVar.get()
+            try: 
+                self.sock.send(msg)
+            except IOError as err:
+                self.diagsVar.set(str(err))
+                print "kitting_hmi:", str(err)
 
 root = Tk()
 

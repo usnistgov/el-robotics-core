@@ -9,7 +9,7 @@ DEBUG = False
 try:
     opts, args = getopt.getopt(sys.argv[1:], "i:k:d", ["inifile=", "kitdesign="])
 except getopt.GetoptError, err:
-    print "planning_app:", str(err)
+    print "planning_app: getopt:", str(err)
     sys.exit(1)
 
 for o, a in opts:
@@ -38,7 +38,7 @@ try:
                 elif left == "FINAL_PLAN_FILE":
                     FINAL_PLAN_FILE = right
 except IOError as err:
-    print "planning_app:", str(err)
+    print "planning_app: open inifile:", str(err)
     sys.exit(1)
 
 if DEBUG:
@@ -47,14 +47,14 @@ if DEBUG:
 try:
     with open(KITDESIGN, "rb") as f: True
 except IOError as err:
-    print "planning_app:", str(err)
+    print "planning_app: open kit design:", str(err)
     sys.exit(1)
 
 try:
     with open(FINAL_PLAN_FILE, "w") as f:
         f.write("0.000: (create-kit kit_gearbox kit_tray_1 work_table_1) [0.001]")
 except IOError as err:
-    print "planning_app:", str(err)
+    print "planning_app: open plan file:", str(err)
     sys.exit(1)
 
 sys.exit(0)

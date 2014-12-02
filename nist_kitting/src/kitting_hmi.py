@@ -11,7 +11,7 @@ DEBUG = False
 try:
     opts, args = getopt.getopt(sys.argv[1:], "p:h:d", ["port=", "host="])
 except getopt.GetoptError, err:
-    print "kitting_hmi:", str(err)
+    print "kitting_hmi: getopt:", str(err)
     sys.exit(1)
 
 for o, a in opts:
@@ -34,7 +34,7 @@ class App:
 
     def __init__(self, master):
         #
-        self.connected = False
+        self.sock = -1
         self.nameVar = StringVar()
         self.portVar = StringVar()
         self.kitVar = StringVar()
@@ -46,22 +46,26 @@ class App:
         self.nameVar.set(self.HOST)
         self.portVar.set(str(self.PORT))
         self.kitVar.set("kit.kit")
-        self.cmdVar.set("(none)")
-        self.statusVar.set("(none)")
-        self.hbVar.set("0")
+        self.cmdVar.set("")
+        self.statusVar.set("")
+        self.hbVar.set("")
         self.diagsVar.set("")
 
         #
         Label(master, text="Host").grid(row=0,column=0,columnspan=2)
         # #
         Label(master, text="Name:").grid(row=1,column=0)
-        Entry(master, textvariable=self.nameVar).grid(row=1,column=1)
+        self.nameEntry = Entry(master, textvariable=self.nameVar, state=NORMAL)
+        self.nameEntry.grid(row=1,column=1)
         # #
         Label(master, text="Port:").grid(row=2,column=0)
-        Entry(master, textvariable=self.portVar).grid(row=2,column=1)
+        self.portEntry = Entry(master, textvariable=self.portVar, state=NORMAL)
+        self.portEntry.grid(row=2,column=1)
         # #
-        Button(master, text="Connect", command=self.connect).grid(row=3,column=0)
-        Button(master, text="Disconnect", command=self.disconnect).grid(row=3,column=1)
+        self.connectButton = Button(master, text="Connect", command=self.connect, state=NORMAL)
+        self.connectButton.grid(row=3,column=0)
+        self.disconnectButton = Button(master, text="Disconnect", command=self.disconnect, state=DISABLED)
+        self.disconnectButton.grid(row=3,column=1)
 
         #
         Label(master, text="Kit").grid(row=0, column=2, columnspan=2)
@@ -70,19 +74,23 @@ class App:
         Entry(master, textvariable=self.kitVar).grid(row=1, column=3)
         # #
         Button(master, text="Browse...", command=self.browse).grid(row=3,column=2)
-        Button(master, text="Make", command=self.make).grid(row=3,column=3)
+        self.makeButton = Button(master, text="Make", command=self.make, state=DISABLED)
+        self.makeButton.grid(row=3,column=3)
 
         #
         Label(master, text="Status").grid(row=0, column=4, columnspan=2)
         # #
         Label(master, text="Command:").grid(row=1, column=4)
-        Entry(master, textvariable=self.cmdVar).grid(row=1, column=5)
+        self.cmdEntry = Entry(master, textvariable=self.cmdVar)
+        self.cmdEntry.grid(row=1, column=5)
         # #
         Label(master, text="Status:").grid(row=2, column=4)
-        Entry(master, textvariable=self.statusVar).grid(row=2, column=5)
+        self.statusEntry = Entry(master, textvariable=self.statusVar)
+        self.statusEntry.grid(row=2, column=5)
         # #
         Label(master, text="Heartbeat:").grid(row=3, column=4)
-        Entry(master, textvariable=self.hbVar).grid(row=3, column=5)
+        self.hbEntry = Entry(master, textvariable=self.hbVar)
+        self.hbEntry.grid(row=3, column=5)
 
         #
         Entry(master, textvariable=self.diagsVar).grid(row=4, column=0, columnspan=6, sticky=W+E)
@@ -92,30 +100,35 @@ class App:
         self.recvThread.daemon = True
         self.recvThread.start()
 
-    def disconnect(self):
-        try:
-            self.sock.close()
-            self.sock.shutdown(socket.SHUT_RDWR)
-        except IOError as err:
-            pass
-        self.connected = False
-        self.diagsVar.set("Disconnected")
-
     def connect(self):
-        if self.connected == True:
-            self.disconnect()
+        self.disconnect()
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((self.nameVar.get(), int(self.portVar.get())))
-            self.connected = True
-            self.diagsVar.set("Connected")
+            self.makeConnected()
+            self.diagsVar.set("")
         except IOError as err:
+            self.sock = -1
             self.diagsVar.set(str(err))
             print "kitting_hmi: connect:", str(err)
 
+    def disconnect(self):
+        if self.sock < 0: 
+            return
+        try:
+            self.sock.shutdown(socket.SHUT_RDWR)
+            self.sock.close()
+            self.diagsVar.set("")
+        except IOError as err:
+            self.diagsVar.set(str(err))
+            print "kitting_hmi: disconnect:", str(err), self.sock
+        self.makeDisconnected()
+
     def recvFunc(self):
         while True:
-            if self.connected == True:
+            if self.sock < 0:
+                time.sleep(self.PERIOD)
+            else:
                 try:
                     msg = self.sock.recv(self.MSG_LEN)
                     msglist = msg.split()
@@ -125,21 +138,42 @@ class App:
                         self.hbVar.set(msglist[4])
                 except IOError as err:
                     self.diagsVar.set(str(err))
-                    print "kitting_hmi:", str(err)
-                    time.sleep(self.PERIOD)
+                    print "kitting_hmi: recv:", str(err)
 
     def browse(self):
         filename = askopenfilename()
         self.kitVar.set(filename)
 
     def make(self):
-        if self.connected == True:
-            msg = self.kitVar.get()
-            try: 
-                self.sock.send(msg)
-            except IOError as err:
-                self.diagsVar.set(str(err))
-                print "kitting_hmi:", str(err)
+        if self.sock < 0: return
+        msg = self.kitVar.get()
+        try: 
+            self.sock.send(msg)
+            self.diagsVar.set("")
+        except IOError as err:
+            self.diagsVar.set(str(err))
+            print "kitting_hmi: make:", str(err)
+
+    def makeConnected(self):
+        self.nameEntry.config(state=DISABLED)
+        self.portEntry.config(state=DISABLED)
+        self.connectButton.config(state=DISABLED)
+        self.disconnectButton.config(state=NORMAL)
+        self.makeButton.config(state=NORMAL)
+        self.cmdEntry.config(state=NORMAL)
+        self.statusEntry.config(state=NORMAL)
+        self.hbEntry.config(state=NORMAL)
+
+    def makeDisconnected(self):
+        self.sock = -1
+        self.nameEntry.config(state=NORMAL)
+        self.portEntry.config(state=NORMAL)
+        self.connectButton.config(state=NORMAL)
+        self.disconnectButton.config(state=DISABLED)
+        self.makeButton.config(state=DISABLED)
+        self.cmdEntry.config(state=DISABLED)
+        self.statusEntry.config(state=DISABLED)
+        self.hbEntry.config(state=DISABLED)
 
 root = Tk()
 

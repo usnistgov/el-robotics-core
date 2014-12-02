@@ -359,13 +359,17 @@ struct joint_traj_pt_request_message {
   int reply_type;	  /* 4 bytes, N/A */
   int seq_number;	  /* 4 bytes, >= 0 */
   float joints[JOINT_MAX]; /* 10 4-byte floats, one per joint */
+  float velocity;	   /* 4 bytes */
+  float duration;	   /* 4 bytes */
 
   joint_traj_pt_request_message() {
     length = sizeof(message_type) +
       sizeof(comm_type) + 
       sizeof(reply_type) +
       sizeof(seq_number) +
-      sizeof(joints);
+      sizeof(joints) +
+      sizeof(velocity) +
+      sizeof(duration);
     message_type = MESSAGE_JOINT_TRAJ_PT;
     comm_type = COMM_REQUEST;
     reply_type = REPLY_NA;
@@ -373,6 +377,8 @@ struct joint_traj_pt_request_message {
     for (int t = 0; t < JOINT_MAX; t++) {
       joints[t] = 0;
     }
+    velocity = 1;
+    duration = 1;
   }
 
   void print_joint_traj_pt_request(const char *prefix = "") {
@@ -386,6 +392,8 @@ struct joint_traj_pt_request_message {
       printf(" %f", joints[t]);
     }
     printf("\n");
+    printf("%sVelocity:   %f\n", prefix, velocity);
+    printf("%sDuration:   %f\n", prefix, duration);
   }
 
   void read_joint_traj_pt_request(char *inbuf) {
@@ -401,6 +409,10 @@ struct joint_traj_pt_request_message {
     memcpy(&seq_number, ptr, sizeof(seq_number));
     ptr += sizeof(seq_number);
     memcpy(joints, ptr, sizeof(joints));
+    ptr += sizeof(joints);
+    memcpy(&velocity, ptr, sizeof(velocity));
+    ptr += sizeof(velocity);
+    memcpy(&duration, ptr, sizeof(duration));
   }
 
   int get_seq_number() {

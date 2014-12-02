@@ -29,8 +29,6 @@ if DEBUG:
 class App:
     MSG_LEN = 1000
     PERIOD = 5
-    HOST = "localhost"
-    PORT = 6066
 
     def __init__(self, master):
         #
@@ -43,8 +41,8 @@ class App:
         self.hbVar = StringVar()
         self.diagsVar = StringVar()
         #
-        self.nameVar.set(self.HOST)
-        self.portVar.set(str(self.PORT))
+        self.nameVar.set(HOST)
+        self.portVar.set(str(PORT))
         self.kitVar.set("kit.kit")
         self.cmdVar.set("")
         self.statusVar.set("")

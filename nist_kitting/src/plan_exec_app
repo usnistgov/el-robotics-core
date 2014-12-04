@@ -1,9 +1,87 @@
 #!/usr/bin/python
 
-import sys, getopt, time
+import sys, getopt, re, StringIO, xml.etree.ElementTree as ET, xml.etree as etree
+
+from crcl import *
+
+ver = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+uri = "http://www.w3.org/2001/XMLSchema-instance"
+xsi = "{" + uri + "}"
+dict = {"xmlns:xsi" : uri}
 
 PLANFILE = "plan.plan"
 DEBUG = False
+
+def Attach_Endeffector(toks):
+    print toks
+
+def Create_Kit(toks):
+    # (create-kit kit_gearbox kit_tray_1 work_table_1)
+    if len(toks) < 4: return
+    print toks[0], toks[1], "at", toks[2], "on", toks[3]
+
+def Detach_Endeffector(toks):
+    print toks
+
+def Look_For_Part(toks):
+    print toks
+
+def Move_Over_Kit(toks):
+    print toks
+
+def Move_Over_Kittray(toks):
+    print toks
+
+def Move_Over_Part(toks):
+    print toks
+
+def Place_Kit(toks):
+    print toks
+
+def Place_Kittray(toks):
+    print toks
+
+def Place_Part(toks):
+    print toks
+
+def Take_Kit(toks):
+    print toks
+
+def Take_Kittray(toks):
+    print toks
+
+def Take_Part(toks):
+    print toks
+
+funcdict = {
+    "attach-endeffector" : Attach_Endeffector,
+    "create-kit" : Create_Kit,
+    "detach-endeffector" : Detach_Endeffector,
+    "look-for-part" : Look_For_Part,
+    "move-over-kit" : Move_Over_Kit,
+    "move-over-kittray" : Move_Over_Kittray,
+    "move-over-part" : Move_Over_Part,
+    "place-kit" : Place_Kit,
+    "place-kittray" : Place_Kittray,
+    "place-part" : Place_Part,
+    "take-kit" : Take_Kit,
+    "take-kittray" : Take_Kittray,
+    "take-part" : Take_Part
+}
+
+def parseLine(x):
+
+    toks = str.split(x)
+    num = len(toks)
+    if num == 0: return
+
+    func = funcdict.get(toks[0], None)
+    if (func != None):
+        func(toks)
+    else:
+        print "unknown command", toks[0]
+
+# ---
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "f:d", ["file="])
@@ -23,11 +101,18 @@ if DEBUG:
 try:
     with open(PLANFILE, "rb") as f:
         for line in f:
-            print line
+            # this means match zero or more chars, then a literal '(',
+            # then set up a target with () enclosing a match of anything,
+            # then match a literal ')', then anything
+            m = re.match(".*\((.*)\).*", line)
+            if m != None:
+                parseLine(m.group(1))
+
 except IOError as err:
     print "planning_app:", str(err)
     sys.exit(1)
 
-time.sleep(3)
+cs = CommandStatus(1, 2, CommandStatus.WORKING)
+print cs.CommandState
 
 sys.exit(0)

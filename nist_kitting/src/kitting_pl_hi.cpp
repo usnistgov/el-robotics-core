@@ -188,9 +188,8 @@ static int ini_load(const std::string inifile_name,
 
   if (planning_app.empty()) {
     /* no argument overrode it, so we'll look for it */
-    section = NULL;
-
-    key = "PLANNING_APP";
+    section = "workstation";
+    key = "planning_app";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
@@ -205,9 +204,8 @@ static int ini_load(const std::string inifile_name,
 
   if (plan_file.empty()) {
     /* no argument overrode it, so we'll look for it */
-    section = NULL;
-
-    key = "PATH_TO_FINAL_PLAN";
+    section = "final_plan";
+    key = "directory";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
@@ -216,7 +214,7 @@ static int ini_load(const std::string inifile_name,
       plan_file = std::string(inistring);
     }
 
-    key = "FINAL_PLAN_FILE";
+    key = "file";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {

@@ -112,7 +112,4 @@ except IOError as err:
     print "planning_app:", str(err)
     sys.exit(1)
 
-cs = CommandStatus(1, 2, CommandStatus.WORKING)
-print cs.CommandState
-
 sys.exit(0)

@@ -1,26 +1,48 @@
 #!/usr/bin/python
 
-import sys, getopt, socket, time, threading
+import sys, getopt, socket, time, threading, ConfigParser
 from Tkinter import *
 from tkFileDialog import askopenfilename
 
-PORT = 0
-HOST = "localhost"
+INIFILE = ""
+PORT = ""
+HOST = ""
 DEBUG = False
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "p:h:d", ["port=", "host="])
-except getopt.GetoptError, err:
+    opts, args = getopt.getopt(sys.argv[1:], "i:p:h:d", ["inifile=", "port=", "host="])
+except getopt.GetoptError as err:
     print "kitting_hmi: getopt:", str(err)
     sys.exit(1)
 
 for o, a in opts:
-    if o in ("-p", "--port"):
+    if o in ("-i", "--inifile"):
+        INIFILE = a
+    elif o in ("-p", "--port"):
         PORT = a
     elif o in ("-h", "--host"):
         HOST = a
     elif o in ("-d"):
         DEBUG = True
+
+if INIFILE != "":
+    try:
+        with open(INIFILE, "rb") as f:
+            config = ConfigParser.ConfigParser()
+            config.read(INIFILE)
+            if PORT == "":
+                PORT = config.get("hmi", "port")
+            if HOST == "":
+                HOST = config.get("hmi", "host")
+    except IOError as err:
+        print "planning_app: open inifile:", str(err)
+        sys.exit(1)
+    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
+        print "planning_app: read inifile:", str(err)
+        sys.exit(1)
+
+if PORT == "": PORT = 1234
+if HOST == "": HOST = "localhost"
 
 if DEBUG:
     print "kitting_hmi: port:", PORT

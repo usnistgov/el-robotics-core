@@ -179,8 +179,8 @@ static int ini_load(const std::string inifile_name,
 
   if (PORT_DEFAULT == *port) {
     /* no argument overrode it, so we'll look for it */
-    section = NULL;
-    key = "SOCKET_PORT";
+    section = "hmi";
+    key = "port";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {

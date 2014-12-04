@@ -1,14 +1,14 @@
 #!/usr/bin/python
 
-import sys, getopt, csv
+import sys, getopt, ConfigParser
 
-INIFILE = "ini.ini"
-KITDESIGN = "kit.kit"
+INIFILE = ""
+KITDESIGN = ""
 DEBUG = False
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "i:k:d", ["inifile=", "kitdesign="])
-except getopt.GetoptError, err:
+except getopt.GetoptError as err:
     print "planning_app: getopt:", str(err)
     sys.exit(1)
 
@@ -20,29 +20,35 @@ for o, a in opts:
     elif o in ("-d"):
         DEBUG = True
 
+if INIFILE == "":
+    print "planning_app: getopt: no ini file provided"
+    sys.exit(1)
+
+if KITDESIGN == "":
+    print "planning_app: getopt: no kit design provided"
+    sys.exit(1)
+
 if DEBUG:
     print "planning_app: ini file:", INIFILE
     print "planning_app: kit design:", KITDESIGN
 
 try:
     with open(INIFILE, "rb") as f:
-        reader = csv.reader(f, delimiter="=")
-        for row in reader:
-            if len(row) == 2:
-                left = row[0].strip()
-                right = row[1].strip()
-                if left == "PLANNING_APP":
-                    PLANNING_APP = right
-                elif left == "PATH_TO_FINAL_PLAN":
-                    PATH_TO_FINAL_PLAN = right
-                elif left == "FINAL_PLAN_FILE":
-                    FINAL_PLAN_FILE = right
+        config = ConfigParser.ConfigParser()
+        config.read(INIFILE)
+        PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
+        FINAL_PLAN_FILE = config.get("final_plan", "file")
 except IOError as err:
     print "planning_app: open inifile:", str(err)
     sys.exit(1)
+except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
+    print "planning_app: read inifile:", str(err)
+    sys.exit(1)
+
+FINAL_PLAN = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
 
 if DEBUG:
-    print "planning_app: final plan file:", FINAL_PLAN_FILE
+    print "planning_app: final plan", FINAL_PLAN
 
 try:
     with open(KITDESIGN, "rb") as f: True
@@ -51,7 +57,7 @@ except IOError as err:
     sys.exit(1)
 
 try:
-    with open(FINAL_PLAN_FILE, "w") as f:
+    with open(FINAL_PLAN, "w") as f:
         f.write("0.000: (create-kit kit_gearbox kit_tray_1 work_table_1) [0.001]")
 except IOError as err:
     print "planning_app: open plan file:", str(err)

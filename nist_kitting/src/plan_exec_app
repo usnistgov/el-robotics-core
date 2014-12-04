@@ -86,7 +86,7 @@ def parseLine(x):
 try:
     opts, args = getopt.getopt(sys.argv[1:], "f:d", ["file="])
 except getopt.GetoptError, err:
-    print "planning_app:", str(err)
+    print "plan_exec_app:", str(err)
     sys.exit(1)
 
 for o, a in opts:
@@ -109,7 +109,21 @@ try:
                 parseLine(m.group(1))
 
 except IOError as err:
-    print "planning_app:", str(err)
+    print "plan_exec_app:", str(err)
     sys.exit(1)
+
+m = MoveThroughToType(17)
+
+print m.CommandID, m.NumPositions
+
+m.add(WaypointType())
+m.add(WaypointType())
+m.add(WaypointType())
+
+print m.CommandID, m.NumPositions
+
+s = CRCLStatusType(CommandStatusType(), JointStatusesType(), PoseType(), GripperStatusType())
+
+print s.Name, s.CommandStatus.CommandState
 
 sys.exit(0)

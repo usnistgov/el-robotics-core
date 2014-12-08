@@ -162,9 +162,8 @@ static int ini_load(const std::string inifile_name,
 
   if (plan_exec_app.empty()) {
     /* no argument overrode it, so we'll look for it */
-    section = NULL;
-
-    key = "PLAN_EXEC_APP";
+    section = "emove";
+    key = "plan_exec_app";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {

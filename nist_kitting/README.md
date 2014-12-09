@@ -18,9 +18,9 @@ This would look something like this (all on one line):
 
 > roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=/home/proctor/github/el-robotics-core/nist_kitting/src/ini.ini planning_app:=/home/proctor/github/el-robotics-core/nist_kitting/src/planning_app plan_exec_app:=/home/proctor/github/el-robotics-core/nist_kitting/src/plan_exec_app 
 
-In another terminal, run the HMI stand-in for the iPad app:
+In another terminal, run the HMI stand-in for the iPad app, and provide the TCP port to connect to:
 
-> rosrun nist_kitting kitting_hmi.py
+> rosrun nist_kitting kitting_hmi.py -p 6066
 
 Fill in the host and port, e.g., localhost and 6066, "Connect", fill in the kit name, and "Make" it. You should see the status information in the right side of the HMI changing as the planning and execution progress.
 

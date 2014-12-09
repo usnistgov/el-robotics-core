@@ -8,11 +8,11 @@ Determine the absolute path to the .ini file you are using. Call this "inifile_n
 
 Determine the absolute path to the program/script you use for the planning application, e.g., /home/you/demo/kitting_demo.sh. We'll refer to this as "planning_app" below.
 
-Determine the absolute path to the program/script you use to execute the plan. This is "<path/to/github>/el-robotics-core/nist_kitting/src/plan_exec_app" for now.
+Determine the absolute path to the program/script you use to execute the plan. This is "\<path/to/github\>/el-robotics-core/nist_kitting/src/plan_exec_app" for now.
 
 In one terminal, run (all on one line):
 
-> roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=<inifile_name> planning_app:=<planning_app> plan_exec_app:=<path/to/github>/el-robotics-core/nist_kitting/src/plan_exec_app
+> roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=\<inifile_name\> planning_app:=\<planning_app\> plan_exec_app:=\<path/to/github\>/el-robotics-core/nist_kitting/src/plan_exec_app
 
 This would look something like this (all on one line):
 

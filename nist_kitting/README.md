@@ -3,14 +3,22 @@
 Application code for a robotic kitting demonstration, using the Core Robot Command Language (CRCL) XML messaging schemas, and the Planning Domain Description Language (PDDL) ontology.
 
 ## Setting up ROS 
+
 Create a catkin workspace:
-
-
 > mkdir -p ~/catkin_ws/src
 
 > cd ~/catkin_ws/src
 
 > catkin_init_workspace
+
+Create symbolic links to the nist\_core, nist\_kitting, and ulapi directories in the ~/catkin_ws/src directory:
+> cd ~/catkin_ws/src
+
+> ln -s "\<path/to/github\>/el-robotics-core/nist_core"
+
+> ln -s "\<path/to/github\>/el-robotics-core/nist_kitting"
+
+> ln -s "\<path/to/github\>/el-robotics-core/ulapi"
 
 Build the workspace:
 
@@ -20,6 +28,7 @@ Build the workspace:
 The catkin_make command is a convenience tool for working with catkin workspaces. If you look in your current directory you should now have a 'build' and 'devel' folder. Inside the 'devel' folder you can see that there are now several setup.\*sh files. Sourcing any of these files will overlay this workspace on top of your environment. To understand more about this see the general catkin documentation: catkin. Before continuing source your new setup.\*sh file:
 
 > source devel/setup.bash
+
 
 ## Running the Demo
 

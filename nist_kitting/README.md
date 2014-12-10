@@ -16,7 +16,7 @@ In one terminal, run (all on one line, no spaces around the ":=" assignments):
 
 This would look something like this (all on one line):
 
-> roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=/home/proctor/github/el-robotics-core/nist_kitting/src/ini.ini planning_app:=/home/proctor/github/el-robotics-core/nist_kitting/src/planning_app plan_exec_app:=/home/proctor/github/el-robotics-core/nist_kitting/src/plan_exec_app 
+> roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=/home/isd/proctor/github/el-robotics-core/nist_kitting/src/ini.ini planning_app:=/home/isd/proctor/github/el-robotics-core/nist_kitting/src/planning_app plan_exec_app:=/home/isd/proctor/github/el-robotics-core/nist_kitting/src/plan_exec_app 
 
 In another terminal, run the HMI stand-in for the iPad app, and provide the TCP port to connect to:
 

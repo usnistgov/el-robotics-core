@@ -204,14 +204,22 @@ static int ini_load(const std::string inifile_name,
 
   if (plan_file.empty()) {
     /* no argument overrode it, so we'll look for it */
+    plan_file = std::string("");
+
+    section = "source";
+    key = "directory";
+    inistring = ini_find(fp, key, section);
+
+    if (NULL != inistring) {
+      plan_file = std::string(inistring);
+    }
+
     section = "final_plan";
     key = "directory";
     inistring = ini_find(fp, key, section);
 
-    if (NULL == inistring) {
-      plan_file = std::string("");
-    } else {
-      plan_file = std::string(inistring);
+    if (NULL != inistring) {
+      plan_file = plan_file + std::string(inistring);
     }
 
     key = "file";

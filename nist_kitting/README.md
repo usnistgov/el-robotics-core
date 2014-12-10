@@ -7,7 +7,9 @@ Create a catkin workspace:
 
 
 > mkdir -p ~/catkin_ws/src
+
 > cd ~/catkin_ws/src
+
 > catkin_init_workspace
 
 Build the workspace:

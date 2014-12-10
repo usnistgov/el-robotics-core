@@ -65,7 +65,7 @@ class App:
         #
         self.nameVar.set(HOST)
         self.portVar.set(str(PORT))
-        self.kitVar.set("kit.kit")
+        self.kitVar.set("kit_design_GearBox")
         self.cmdVar.set("")
         self.statusVar.set("")
         self.hbVar.set("")

@@ -10,7 +10,7 @@ Determine the absolute path to the program/script you use for the planning appli
 
 Determine the absolute path to the program/script you use to execute the plan. This is "\<path/to/github\>/el-robotics-core/nist_kitting/src/plan_exec_app" for now.
 
-In one terminal, run (all on one line):
+In one terminal, run (all on one line, no spaces around the ":=" assignments):
 
 > roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=\<inifile_name\> planning_app:=\<planning_app\> plan_exec_app:=\<path/to/github\>/el-robotics-core/nist_kitting/src/plan_exec_app
 

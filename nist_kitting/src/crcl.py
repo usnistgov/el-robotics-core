@@ -1,10 +1,19 @@
 #!/usr/bin/python
 
+import sys, StringIO, xml.etree.ElementTree as ET
+
+ver = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+uri = "http://www.w3.org/2001/XMLSchema-instance"
+xsi = "{" + uri + "}"
+dict = {"xmlns:xsi" : uri}
+
 class DataThingType(object):
+
     def __init__(self, Name=""):
         self.Name = Name
 
 class PointType(DataThingType):
+
     def __init__(self, X = 0, Y = 0, Z = 0):
         DataThingType.__init__(self, "PointType")
         self.X = X
@@ -12,6 +21,7 @@ class PointType(DataThingType):
         self.Z = Z
 
 class AxisType(DataThingType):
+
     def __init__(self, I, J, K):
         DataThingType.__init__(self, "AxisType")
         self.I = I
@@ -19,18 +29,22 @@ class AxisType(DataThingType):
         self.K = K
 
 class XAxisType(AxisType):
+
     def __init__(self):
         AxisType.__init__(self, 1, 0, 0)
 
 class YAxisType(AxisType):
+
     def __init__(self):
         AxisType.__init__(self, 0, 1, 0)
 
 class ZAxisType(AxisType):
+
     def __init__(self):
         AxisType.__init__(self, 0, 0, 1)
 
 class PoseType(DataThingType):
+
     def __init__(self):
         DataThingType.__init__(self, "PoseType")
         self.PointType = PointType()
@@ -38,6 +52,7 @@ class PoseType(DataThingType):
         self.ZAxisType = ZAxisType()
 
 class WaypointType(DataThingType):
+
     def __init__(self):
         DataThingType.__init__(self, "WayPointType")
         self.PointType = PointType()
@@ -48,20 +63,24 @@ class WaypointType(DataThingType):
 # e.g., <CRCLCommand xsi:type="MoveThroughToType">
 
 class CRCLCommandType(DataThingType):
+
     def __init__(self, CommandID = 0):
         DataThingType.__init__(self, "CRCLCommandType")
         self.CommandID = CommandID
 
 class MiddleCommandType(CRCLCommandType):
+
     def __init__(self, CommandID = 0):
         CRCLCommandType.__init__(self, CommandID)
 
 class MoveThroughToType(MiddleCommandType):
+
     def __init__(self, CommandID = 0):
         MiddleCommandType.__init__(self, CommandID)
         self.MoveStraight = False
         self.Waypoint = [ ]
         self.NumPositions = len(self.Waypoint)
+
     def add(self, wps):
         try:
             self.Waypoint.append(wps)
@@ -70,18 +89,34 @@ class MoveThroughToType(MiddleCommandType):
         self.NumPositions = len(self.Waypoint)
         return True
 
+    def __str__(self):
+        root = ET.Element("CRCLCommandInstance", attrib=dict)
+        cs = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
+        ET.SubElement(cs, "CommandID").text = "1"
+        tree = ET.ElementTree(root)
+        output = StringIO.StringIO()
+        output.write(ver)
+        tree.write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr
+
 class InitCanonType(CRCLCommandType):
+
     def __init__(self, CommmandID = 0):
         CRCLCommandType.__init__(self, CommandID)
 
 class EndCanonType(CRCLCommandType):
+
     def __init__(self, CommmandID = 0):
         CRCLCommandType.__init__(self, CommandID)
 
 class SetEndEffectorType(CRCLCommandType):
+
     def __init__(self, CommandID = 0):
         CRCLCommandType.__init__(self, CommandID)
         self.Setting = 0
+
     def set(self, Setting):
         self.Setting = Setting
         return True
@@ -95,6 +130,7 @@ class CommandStateEnumType(object):
     READY = 4
 
 class CommandStatusType(DataThingType):
+
     def __init__(self, CommandID = 0, StatusID = 0, CommandState = CommandStateEnumType.READY):
         DataThingType.__init__(self, "CommandStatusType")
         self.CommandID = CommandID
@@ -102,6 +138,7 @@ class CommandStatusType(DataThingType):
         self.CommandState = CommandState
 
 class JointStatusType(DataThingType):
+
     def __init__(self, JointNumber = 0, JointPosition = 0, JointTorqueOrForce = 0):
         DataThingType.__init__(self, "JointStatusType")
         self.JointNumber = JointNumber
@@ -109,9 +146,11 @@ class JointStatusType(DataThingType):
         self.JointTorqueOrForce = JointTorqueOrForce
 
 class JointStatusesType(DataThingType):
+
     def __init__(self):
         DataThingType.__init__(self, "JointStatusesType")
         self.JointStatus = [ ]
+
     def add(self, wps):
         try:
             self.JointStatus.append(wps)
@@ -120,24 +159,43 @@ class JointStatusesType(DataThingType):
         return True
 
 class GripperStatusType(DataThingType):
+
     def __init__(self, GripperName = "Gripper"):
         DataThingType.__init__(self, "GripperStatusType")
         self.GripperName = GripperName
 
 class ParallelGripperStatusType(GripperStatusType):
+
     def __init__(self, Separation = 0):
         GripperStatusType.__init__(self, "ParallelGripper")
         self.Separation = Separation
 
 class VacuumGripperStatusType(GripperStatusType):
+
     def __init__(self, IsPowered = False):
         GripperStatusType.__init__(self, "VacuumGripper")
         self.IsPowered = IsPowered
 
 class CRCLStatusType(DataThingType):
+
     def __init__(self, CommandStatus, JointStatuses, Pose, GripperStatus):
         DataThingType.__init__(self, "CRCLStatusType")
         self.CommandStatus = CommandStatus
         self.JointStatuses = JointStatuses
         self.Pose = Pose
         self.GripperStatus = GripperStatus
+
+    def __str__(self):
+        root = ET.Element("CRCLStatus", attrib=dict)
+        cs = ET.SubElement(root, "CommandStatus")
+        ET.SubElement(cs, "CommandID").text = "1"
+        ET.SubElement(cs, "StatusID").text = "1"
+        ET.SubElement(cs, "CommandID").text = "1"
+        ET.SubElement(cs, "CommandState").text = "Working"
+        tree = ET.ElementTree(root)
+        output = StringIO.StringIO()
+        output.write(ver)
+        tree.write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr

@@ -49,22 +49,35 @@ def Place_Kittray(toks):
     pass
 
 def Place_Part(toks):
+    out = ""
     # (place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)
     if len(toks) < 8: return
     print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
+
     # //! Configure gripper for pre-grasp
     # pm.demo->Decouple(curtool);
-    m = SetEndEffectorParametersType({"decouple" : "gear"})
+    m = OpenToolChangerType(1)
+    out = out + str(m)
     # pm.demo->Couple(curtool);
+    m = CloseToolChangerType(2)
+    out = out + str(m)
     # //! Open gripper
     # pm.demo->SetTool (0.9);
+    m = SetEndEffectorParametersType({"set" : 0.9}, 3)
+    out = out + str(m)
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
+    m = MoveThroughToType(4)
+    out = out + str(m)
     # //! Grasp part
     # pm.demo->SetTool (0.1);
+    m = SetEndEffectorParametersType({"set" : 0.1}, 5)
+    out = out + str(m)
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
-
+    m = MoveThroughToType(6)
+    out = out + str(m)
+    print out
 
 def Take_Kit(toks):
     # print toks
@@ -150,21 +163,12 @@ except IOError as err:
     sys.exit(1)
 
 m = MoveThroughToType(17)
-
-print m.CommandID, m.NumPositions
-
 m.add(PoseOnlyLocationType())
 m.add(PoseOnlyLocationType())
 m.add(PoseOnlyLocationType())
-
-print m.CommandID, m.NumPositions
-
 print m
 
 s = CRCLStatusType(CommandStatusType(), JointStatusesType(), PoseOnlyLocationType(), GripperStatusType())
-
-print s.Name, s.CommandStatus.CommandState
-
 print s
 
 sys.exit(0)

@@ -63,6 +63,40 @@ class MiddleCommandType(CRCLCommandType):
     def __init__(self, CommandID = 0):
         CRCLCommandType.__init__(self, CommandID)
 
+class OpenToolChangerType(MiddleCommandType):
+
+    def __init__(self, CommandID = 0):
+        MiddleCommandType.__init__(self, CommandID)
+
+    def __str__(self):
+        root = ET.Element("CRCLCommandInstance", attrib=dict)
+        ccel = ET.Element("CRCLCommand", attrib={"xsi:type" : "OpenToolChangerType"})
+        root.append(ccel)
+        ET.SubElement(ccel, "CommandID").text = str(self.CommandID)
+        tree = ET.ElementTree(root)
+        output = StringIO.StringIO()
+        tree.write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr
+
+class CloseToolChangerType(MiddleCommandType):
+
+    def __init__(self, CommandID = 0):
+        MiddleCommandType.__init__(self, CommandID)
+
+    def __str__(self):
+        root = ET.Element("CRCLCommandInstance", attrib=dict)
+        ccel = ET.Element("CRCLCommand", attrib={"xsi:type" : "OpenToolChangerType"})
+        root.append(ccel)
+        ET.SubElement(ccel, "CommandID").text = str(self.CommandID)
+        tree = ET.ElementTree(root)
+        output = StringIO.StringIO()
+        tree.write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr
+
 class MoveThroughToType(MiddleCommandType):
 
     def __init__(self, CommandID = 0):
@@ -71,20 +105,11 @@ class MoveThroughToType(MiddleCommandType):
         self.Waypoint = []
         self.NumPositions = len(self.Waypoint)
 
-    def add(self, wps):
-        try:
-            self.Waypoint.append(wps)
-        except:
-            return False
-        self.NumPositions = len(self.Waypoint)
-        return True
-
     def __str__(self):
         root = ET.Element("CRCLCommandInstance", attrib=dict)
         ccel = ET.Element("CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
-        # ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
         root.append(ccel)
-        ET.SubElement(ccel, "CommandID").text = "1"
+        ET.SubElement(ccel, "CommandID").text = str(self.CommandID)
         if self.MoveStraight: ET.SubElement(ccel, "MoveStraight").text = "true"
         else: ET.SubElement(ccel, "MoveStraight").text = "false"
         for wp in self.Waypoint:
@@ -109,6 +134,14 @@ class MoveThroughToType(MiddleCommandType):
         output.close()
         return outstr
 
+    def add(self, wps):
+        try:
+            self.Waypoint.append(wps)
+        except:
+            return False
+        self.NumPositions = len(self.Waypoint)
+        return True
+
 class SetEndEffectorParametersType(MiddleCommandType):
 
     def __init__(self, Parameters, CommandID = 0):
@@ -121,7 +154,11 @@ class SetEndEffectorParametersType(MiddleCommandType):
     def __str__(self):
         root = ET.Element("CRCLCommandInstance", attrib=dict)
         ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "SetEndEffectorParametersType"})
-        ET.SubElement(ccel, "CommandID").text = "1"
+        ET.SubElement(ccel, "CommandID").text = str(self.CommandID)
+        for p in self.ParameterSetting:
+            psel = ET.SubElement(ccel, "ParameterSetting")
+            pnel = ET.SubElement(psel, "ParameterName").text = str(p.ParameterName)
+            pvel = ET.SubElement(psel, "ParameterValue").text = str(p.ParameterValue)
         tree = ET.ElementTree(root)
         output = StringIO.StringIO()
         tree.write(output)

@@ -2,7 +2,7 @@
 
 import sys, StringIO, xml.etree.ElementTree as ET
 
-ver = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
@@ -15,57 +15,47 @@ class DataThingType(object):
 class PointType(DataThingType):
 
     def __init__(self, X = 0, Y = 0, Z = 0):
-        DataThingType.__init__(self, "PointType")
+        DataThingType.__init__(self)
         self.X = X
         self.Y = Y
         self.Z = Z
 
-class AxisType(DataThingType):
+class VectorType(DataThingType):
 
     def __init__(self, I, J, K):
-        DataThingType.__init__(self, "AxisType")
+        DataThingType.__init__(self)
         self.I = I
         self.J = J
         self.K = K
 
-class XAxisType(AxisType):
+class PhysicalLocationType(DataThingType):
+
+    def __init__(self, TimeStamp = 0):
+        DataThingType.__init__(self)
+        self.TimeStamp = TimeStamp
+
+class PoseLocationType(PhysicalLocationType):
+
+    def __init__(self, Point = PointType(), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), PositionStandardDeviation = 1, OrientationStandardDeviation = 1):
+        PhysicalLocationType.__init__(self)
+        self.Point = Point
+        self.XAxis = XAxis
+        self.ZAxis = ZAxis
+        self.PositionStandardDeviation = PositionStandardDeviation
+        self.OrientationStandardDeviation = OrientationStandardDeviation
+
+class PoseOnlyLocationType(PoseLocationType):
 
     def __init__(self):
-        AxisType.__init__(self, 1, 0, 0)
-
-class YAxisType(AxisType):
-
-    def __init__(self):
-        AxisType.__init__(self, 0, 1, 0)
-
-class ZAxisType(AxisType):
-
-    def __init__(self):
-        AxisType.__init__(self, 0, 0, 1)
-
-class PoseType(DataThingType):
-
-    def __init__(self):
-        DataThingType.__init__(self, "PoseType")
+        PoseLocationType.__init__(self)
         self.PointType = PointType()
-        self.XAxisType = XAxisType()
-        self.ZAxisType = ZAxisType()
-
-class WaypointType(DataThingType):
-
-    def __init__(self):
-        DataThingType.__init__(self, "WayPointType")
-        self.PointType = PointType()
-        self.XAxisType = XAxisType()
-        self.ZAxisType = ZAxisType()
-
-# When we have xsi:type attributes, we have an inheritance relationship,
-# e.g., <CRCLCommand xsi:type="MoveThroughToType">
+        self.XAxisType = VectorType(1,0,0)
+        self.ZAxisType = VectorType(0,0,1)
 
 class CRCLCommandType(DataThingType):
 
     def __init__(self, CommandID = 0):
-        DataThingType.__init__(self, "CRCLCommandType")
+        DataThingType.__init__(self)
         self.CommandID = CommandID
 
 class MiddleCommandType(CRCLCommandType):
@@ -78,7 +68,7 @@ class MoveThroughToType(MiddleCommandType):
     def __init__(self, CommandID = 0):
         MiddleCommandType.__init__(self, CommandID)
         self.MoveStraight = False
-        self.Waypoint = [ ]
+        self.Waypoint = []
         self.NumPositions = len(self.Waypoint)
 
     def add(self, wps):
@@ -91,11 +81,49 @@ class MoveThroughToType(MiddleCommandType):
 
     def __str__(self):
         root = ET.Element("CRCLCommandInstance", attrib=dict)
-        cs = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
-        ET.SubElement(cs, "CommandID").text = "1"
+        ccel = ET.Element("CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
+        # ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
+        root.append(ccel)
+        ET.SubElement(ccel, "CommandID").text = "1"
+        if self.MoveStraight: ET.SubElement(ccel, "MoveStraight").text = "true"
+        else: ET.SubElement(ccel, "MoveStraight").text = "false"
+        for wp in self.Waypoint:
+            wpel = ET.SubElement(ccel, "Waypoint")
+            ptel = ET.SubElement(wpel, "Point")
+            ET.SubElement(ptel, "X").text = str(wp.PointType.X)
+            ET.SubElement(ptel, "Y").text = str(wp.PointType.Y)
+            ET.SubElement(ptel, "Z").text = str(wp.PointType.Z)
+            xel = ET.SubElement(wpel, "XAxis")
+            ET.SubElement(xel, "I").text = str(wp.XAxisType.I)
+            ET.SubElement(xel, "J").text = str(wp.XAxisType.J)
+            ET.SubElement(xel, "K").text = str(wp.XAxisType.K)
+            zel = ET.SubElement(wpel, "ZAxis")
+            ET.SubElement(zel, "I").text = str(wp.ZAxisType.I)
+            ET.SubElement(zel, "J").text = str(wp.ZAxisType.J)
+            ET.SubElement(zel, "K").text = str(wp.ZAxisType.K)
+        ET.SubElement(ccel, "NumPositions").text = str(self.NumPositions)
         tree = ET.ElementTree(root)
         output = StringIO.StringIO()
-        output.write(ver)
+        tree.write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr
+
+class SetEndEffectorParametersType(MiddleCommandType):
+
+    def __init__(self, Parameters, CommandID = 0):
+        MiddleCommandType.__init__(self, CommandID)
+        self.ParameterSetting = []
+        for key in iter(Parameters):
+            pst = ParameterSettingType(key, Parameters.get(key))
+            self.ParameterSetting.append(pst)
+
+    def __str__(self):
+        root = ET.Element("CRCLCommandInstance", attrib=dict)
+        ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "SetEndEffectorParametersType"})
+        ET.SubElement(ccel, "CommandID").text = "1"
+        tree = ET.ElementTree(root)
+        output = StringIO.StringIO()
         tree.write(output)
         outstr = output.getvalue()
         output.close()
@@ -121,7 +149,12 @@ class SetEndEffectorType(CRCLCommandType):
         self.Setting = Setting
         return True
 
-# We don't have xsi:type attributes for <CRCLStatus>, so no inheritance
+class ParameterSettingType(DataThingType):
+
+    def __init__(self, ParameterName, ParameterValue, CommandID = 0):
+        DataThingType.__init__(self, "ParameterSettingType")
+        self.ParameterName = ParameterName
+        self.ParameterValue = ParameterValue
 
 class CommandStateEnumType(object):
     DONE = 1
@@ -187,14 +220,13 @@ class CRCLStatusType(DataThingType):
 
     def __str__(self):
         root = ET.Element("CRCLStatus", attrib=dict)
-        cs = ET.SubElement(root, "CommandStatus")
-        ET.SubElement(cs, "CommandID").text = "1"
-        ET.SubElement(cs, "StatusID").text = "1"
-        ET.SubElement(cs, "CommandID").text = "1"
-        ET.SubElement(cs, "CommandState").text = "Working"
+        csel = ET.SubElement(root, "CommandStatus")
+        ET.SubElement(csel, "CommandID").text = "1"
+        ET.SubElement(csel, "StatusID").text = "1"
+        ET.SubElement(csel, "CommandID").text = "1"
+        ET.SubElement(csel, "CommandState").text = "Working"
         tree = ET.ElementTree(root)
         output = StringIO.StringIO()
-        output.write(ver)
         tree.write(output)
         outstr = output.getvalue()
         output.close()

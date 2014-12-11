@@ -13,45 +13,82 @@ PLANFILE = "plan.plan"
 DEBUG = False
 
 def Attach_Endeffector(toks):
-    print toks
+    # print toks
+    pass
 
 def Create_Kit(toks):
-    # (create-kit kit_gearbox kit_tray_1 work_table_1)
-    if len(toks) < 4: return
-    print toks[0], toks[1], "at", toks[2], "on", toks[3]
+    # print toks
+    pass
 
 def Detach_Endeffector(toks):
-    print toks
+    # print toks
+    pass
 
 def Look_For_Part(toks):
-    print toks
+    # print toks
+    pass
 
 def Move_Over_Kit(toks):
-    print toks
+    # print toks
+    pass
 
 def Move_Over_Kittray(toks):
-    print toks
+    # print toks
+    pass
 
 def Move_Over_Part(toks):
-    print toks
+    # print toks
+    pass
 
 def Place_Kit(toks):
-    print toks
+    # print toks
+    pass
 
 def Place_Kittray(toks):
-    print toks
+    # print toks
+    pass
 
 def Place_Part(toks):
-    print toks
+    # (place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)
+    if len(toks) < 8: return
+    print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
+    # //! Configure gripper for pre-grasp
+    # pm.demo->Decouple(curtool);
+    m = SetEndEffectorParametersType({"decouple" : "gear"})
+    # pm.demo->Couple(curtool);
+    # //! Open gripper
+    # pm.demo->SetTool (0.9);
+    # //! Move over part at z position
+    # pm.demo->MoveTo (poseMe)
+    # //! Grasp part
+    # pm.demo->SetTool (0.1);
+    # //! Move over the part at z position
+    # pm.demo->MoveTo (poseMe)
+
 
 def Take_Kit(toks):
-    print toks
+    # print toks
+    pass
 
 def Take_Kittray(toks):
-    print toks
+    # print toks
+    pass
 
 def Take_Part(toks):
-    print toks
+    # (take-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base gearbox_base_tray part_gripper kit_gearbox)
+    if len(toks) < 7: return
+    print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "from location", toks[4], "using", toks[5], "if", toks[6], "exists"
+    # //! Configure gripper for pre-grasp
+    # pm.demo->Decouple(curtool);
+    # pm.demo->Couple(curtool);
+    # //! Open gripper
+    # pm.demo->SetTool (0.9);
+    # //! Move over part at z position
+    # pm.demo->MoveTo (poseMe)
+    # //! Grasp part
+    # pm.demo->SetTool (0.1);
+    # //! Move over the part at z position
+    # pm.demo->MoveTo (poseMe)
 
 funcdict = {
     "attach-endeffector" : Attach_Endeffector,
@@ -116,15 +153,15 @@ m = MoveThroughToType(17)
 
 print m.CommandID, m.NumPositions
 
-m.add(WaypointType())
-m.add(WaypointType())
-m.add(WaypointType())
+m.add(PoseOnlyLocationType())
+m.add(PoseOnlyLocationType())
+m.add(PoseOnlyLocationType())
 
 print m.CommandID, m.NumPositions
 
 print m
 
-s = CRCLStatusType(CommandStatusType(), JointStatusesType(), PoseType(), GripperStatusType())
+s = CRCLStatusType(CommandStatusType(), JointStatusesType(), PoseOnlyLocationType(), GripperStatusType())
 
 print s.Name, s.CommandStatus.CommandState
 

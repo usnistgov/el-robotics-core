@@ -433,6 +433,14 @@ struct joint_traj_pt_request_message {
     *pos = joints[index];
     return 1;
   }
+
+  int set_velocity(float vel) {
+    velocity = vel;
+  }
+
+  int get_velocity(float *vel) {
+    *vel = velocity;
+  }
 };
 
 struct joint_traj_pt_reply_message {

@@ -175,6 +175,7 @@ int main(int argc, char *argv[])
   ulapi_task_struct state_client_thread;
   reply_client_thread_args rc_args; 
   state_client_thread_args sc_args;
+  joint_traj_pt_request_message jtp_req;
 
   opterr = 0;
   while (true) {
@@ -249,7 +250,6 @@ int main(int argc, char *argv[])
     char *endptr;
     float fval;
     int nchars;
-    joint_traj_pt_request_message jtp_req;
 
     // print prompt
     printf("> ");
@@ -266,10 +266,22 @@ int main(int argc, char *argv[])
     // now 'ptr' is the stripped input string
 
     do {
-      if (0 == *ptr) break; // blank line
+      if (0 == *ptr) {		// blank lin4
+	jtp_req.print_joint_traj_pt_request();
+	break;
+      }
 
       if ('q' == *ptr) {	// quit
 	done = true;
+	break;
+      }
+
+      if ('v' == *ptr) {
+	if (1 == sscanf(ptr, "%*s %f", &fval)) {
+	  jtp_req.set_velocity(fval);
+	} else {
+	  printf("need a velocity\n");
+	}
 	break;
       }
 

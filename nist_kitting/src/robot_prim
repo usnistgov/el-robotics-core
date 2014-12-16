@@ -1,0 +1,137 @@
+#!/usr/bin/python
+
+import sys, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET
+
+from crcl import *
+
+xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+uri = "http://www.w3.org/2001/XMLSchema-instance"
+xsi = "{" + uri + "}"
+dict = {"xmlns:xsi" : uri}
+
+INIFILE = ""
+PORT = ""
+PERIOD = 1
+DEBUG = False
+
+def writer(conn, period):
+
+    while True:
+
+        # build a status message
+        root = ET.Element("CRCLStatus", attrib=dict)
+        cs = ET.SubElement(root, "CommandStatus")
+        ET.SubElement(cs, "CommandID").text = "1"
+        ET.SubElement(cs, "StatusID").text = "1"
+        ET.SubElement(cs, "CommandID").text = "1"
+        ET.SubElement(cs, "CommandState").text = "Working"
+        tree = ET.ElementTree(root)
+
+        # stringify it
+        output = StringIO.StringIO()
+        output.write(xmldec)
+        tree.write(output)
+        outstr = output.getvalue()
+        output.close()
+
+        # write it to the client
+        if DEBUG: sys.stdout.write(outstr)
+        try:
+            conn.send(outstr)
+            time.sleep(period)
+        except:
+            break
+
+    # send failed, client disconnected
+    if DEBUG: print "robot_prim: writer done"
+
+def reader(conn):
+
+    size = 1024
+
+    while True:
+
+        data = conn.recv(size)
+        if not data: break
+
+        try:
+            tree = ET.parse(StringIO.StringIO(data))
+            root = tree.getroot()
+            for child in root:
+                if child.tag == "CRCLCommand":
+                    cmd = child.attrib.get(xsi+"type", None)
+                    if cmd == "MoveThroughToType":
+                        print "robot_prim: MoveThroughToType"
+                    elif cmd == "InitCanonType":
+                        print "robot_prim: InitCanonType"
+                    else:
+                        # unknown command
+                        print "robot_prim: Unknown command:", cmd
+                else:
+                    # unknown tag
+                    print "robot_prim: Unknown tag:", child.tag
+        except:
+            print "robot_prim: Bad message format"
+
+    # recv failed, client disconnected
+    if DEBUG: print "robot_prim: reader done"
+    conn.close()
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "i:p:t:d", ["inifile=", "port=", "period="])
+except getopt.GetoptError, err:
+    print "robot_prim:", str(err)
+    sys.exit(1)
+
+for o, a in opts:
+    if o in ("-i", "--infiile"):
+        INIFILE = a
+    elif o in ("-p", "--port"):
+        PORT = a
+    elif o in ("-t", "--period"):
+        PERIOD = a
+    elif o in ("-d"):
+        DEBUG = True
+
+if INIFILE != "":
+    try:
+        with open(INIFILE, "rb") as f:
+            config = ConfigParser.ConfigParser()
+            config.read(INIFILE)
+            if PORT == "":
+                PORT = config.get("robot_prim", "port")
+            if PERIOD == "":
+                PERIOD = config.get("robot_prim", "period")
+    except IOError as err:
+        print "robot_prim: open inifile:", str(err)
+        sys.exit(1)
+    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
+        print "robot_prim: read inifile:", str(err)
+        sys.exit(1)
+
+if PORT == "":
+    print "robot_prim: no port provided"
+    sys.exit(1)
+
+if PERIOD == "":
+    PERIOD = 1
+    print "robot_prim: using default period", PERIOD
+
+BACKLOG = 1
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind(("", int(PORT)))
+s.listen(BACKLOG)
+
+while True:
+    try: conn, addr = s.accept()
+    except: break
+    print "robot_prim: connected by", addr
+    r = threading.Thread(target=reader, args=(conn,))
+    r.start()
+    t = threading.Thread(target=writer, args=(conn,float(PERIOD)))
+    t.start()
+
+print "robot_prim: done"
+
+sys.exit(0)

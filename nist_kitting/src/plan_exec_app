@@ -37,8 +37,10 @@ def Move_Over_Kittray(toks):
     pass
 
 def Move_Over_Part(toks):
-    # print toks
-    pass
+    out = ""
+    # (move-over-part robot_1 part_gripper gearbox_base_tray gearbox_base_1 stock_keeping_unit_gearbox_base)
+    if len(toks) < 6: return
+    print toks[0], "using", toks[1], "with", toks[2], "to location", toks[3], "to get", toks[4], "of SKU", toks[5]
 
 def Place_Kit(toks):
     # print toks

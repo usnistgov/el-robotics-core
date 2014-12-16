@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, re, StringIO, xml.etree.ElementTree as ET
+import sys, getopt, re, ConfigParser, StringIO, xml.etree.ElementTree as ET
 
 from crcl import *
 
@@ -9,7 +9,10 @@ uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
 
-PLANFILE = "plan.plan"
+INIFILE = ""
+PLANFILE = ""
+ROBOT_PORT = ""
+GRIPPER_PORT = ""
 DEBUG = False
 
 def Attach_Endeffector(toks):
@@ -133,22 +136,70 @@ def parseLine(x):
     else:
         print "unknown command", toks[0]
 
-# ---
+# --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "f:d", ["file="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:g:d", ["inifile=", "file=", "robot=", "gripper="])
 except getopt.GetoptError, err:
     print "plan_exec_app:", str(err)
     sys.exit(1)
 
 for o, a in opts:
-    if o in ("-f", "--file"):
+    if o in ("-i", "--inifile"):
+        INIFILE = a
+    elif o in ("-f", "--file"):
         PLANFILE = a
+    elif o in ("-r", "--robot"):
+        ROBOT_PORT = a
+    elif o in ("-g", "--gripper"):
+        GRIPPER_PORT = a
     elif o in ("-d"):
         DEBUG = True
 
+defdict = {"directory" : "",
+           "file" : "",
+           "port" : ""}
+
+if INIFILE != "":
+    try:
+        with open(INIFILE, "rb") as f:
+            config = ConfigParser.ConfigParser(defdict)
+            config.read(INIFILE)
+            if PLANFILE == "":
+                PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
+                FINAL_PLAN_FILE = config.get("final_plan", "file")
+                PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
+            if ROBOT_PORT == "":
+                ROBOT_PORT = config.get("robot_prim", "port")
+            if GRIPPER_PORT == "":
+                GRIPPER_PORT = config.get("gripper_prim", "port")
+    except IOError as err:
+        print "robot_prim: open inifile:", str(err)
+        sys.exit(1)
+    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
+        print "robot_prim: read inifile:", str(err)
+
+if PLANFILE == "":
+    print "plan_exec_app: no plan file specified"
+    sys.exit(1)
+
+if ROBOT_PORT == "":
+    print "plan_exec_app: no robot port provided"
+    sys.exit(1)
+
+if GRIPPER_PORT == "":
+    print "plan_exec_app: no gripper port provided"
+    sys.exit(1)
+
 if DEBUG:
     print "plan_exec_app: plan file:", PLANFILE
+    print "plan_exec_app: robot port:", ROBOT_PORT
+    print "plan_exec_app: gripper port:", GRIPPER_PORT
+
+# FIXME
+# Connect to robot, gripper
+# Spawn threads for each to read status and update global RCS header vars
+# Write commands to them in the handlers
 
 try:
     with open(PLANFILE, "rb") as f:
@@ -159,7 +210,6 @@ try:
             m = re.match(".*\((.*)\).*", line)
             if m != None:
                 parseLine(m.group(1))
-
 except IOError as err:
     print "plan_exec_app:", str(err)
     sys.exit(1)

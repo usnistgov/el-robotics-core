@@ -32,23 +32,29 @@ if DEBUG:
     print "planning_app: ini file:", INIFILE
     print "planning_app: kit design:", KITDESIGN
 
+defdict = {"directory" : "",
+           "file" : "",
+           "port" : ""}
+
 try:
     with open(INIFILE, "rb") as f:
-        config = ConfigParser.ConfigParser()
+        config = ConfigParser.ConfigParser(defdict)
         config.read(INIFILE)
         PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
         FINAL_PLAN_FILE = config.get("final_plan", "file")
+        PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
 except IOError as err:
     print "planning_app: open inifile:", str(err)
     sys.exit(1)
 except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
     print "planning_app: read inifile:", str(err)
+
+if PLANFILE == "":
+    print "planning_app: no plan file specified"
     sys.exit(1)
 
-FINAL_PLAN = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
-
 if DEBUG:
-    print "planning_app: final plan", FINAL_PLAN
+    print "planning_app: using plan", PLANFILE
 
 try:
     with open(KITDESIGN, "rb") as f: True
@@ -57,8 +63,10 @@ except IOError as err:
     sys.exit(1)
 
 try:
-    with open(FINAL_PLAN, "w") as f:
-        f.write("0.000: (create-kit kit_gearbox kit_tray_1 work_table_1) [0.001]")
+    with open(PLANFILE, "w") as f:
+        f.write("(move-over-part robot_1 part_gripper gearbox_base_tray gearbox_base_1 stock_keeping_unit_gearbox_base)")
+        f.write("(take-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base gearbox_base_tray part_gripper kit_gearbox)")
+        f.write("(place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)")
 except IOError as err:
     print "planning_app: open plan file:", str(err)
     sys.exit(1)

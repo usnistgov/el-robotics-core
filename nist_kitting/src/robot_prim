@@ -14,17 +14,25 @@ PORT = ""
 PERIOD = 1
 DEBUG = False
 
-def writer(conn, period):
+# the global RCS header variables for the currently executing command
+CommandID = 0
+StatusID = 0
+CommandState = "Ready"
 
+# --- Status writer ---
+
+def writer(conn, period):
+    global CommandID, StatusID, CommandState
+
+    # loop with a delay while a client is connected
     while True:
 
         # build a status message
         root = ET.Element("CRCLStatus", attrib=dict)
         cs = ET.SubElement(root, "CommandStatus")
-        ET.SubElement(cs, "CommandID").text = "1"
-        ET.SubElement(cs, "StatusID").text = "1"
-        ET.SubElement(cs, "CommandID").text = "1"
-        ET.SubElement(cs, "CommandState").text = "Working"
+        ET.SubElement(cs, "CommandID").text = str(CommandID)
+        ET.SubElement(cs, "StatusID").text = str(StatusID)
+        ET.SubElement(cs, "CommandState").text = CommandState
         tree = ET.ElementTree(root)
 
         # stringify it
@@ -35,22 +43,37 @@ def writer(conn, period):
         output.close()
 
         # write it to the client
-        if DEBUG: sys.stdout.write(outstr)
         try:
             conn.send(outstr)
             time.sleep(period)
         except:
+            # we detect a client disconnect via a send() error
             break
 
     # send failed, client disconnected
     if DEBUG: print "robot_prim: writer done"
 
+# --- Message handlers ---
+
+def handleMoveThroughToType(x):
+    print x.findtext("CommandID")
+    print x.findtext("NumPositions")
+    print x.findtext("MoveStraight")
+    for i in x.findall("Waypoint"):
+        ii = i.find("Point")
+        print ii.findtext("X"), ii.findtext("Y"), ii.findtext("Z")
+        ii = i.find("XAxis")
+        print ii.findtext("I"), ii.findtext("J"), ii.findtext("K")
+
+# -- Command reader ---
+
 def reader(conn):
 
+    # message size to read; make this > max XML message length
     size = 1024
 
+    # loop forever while a client is connected, blocking on its messages
     while True:
-
         data = conn.recv(size)
         if not data: break
 
@@ -61,21 +84,23 @@ def reader(conn):
                 if child.tag == "CRCLCommand":
                     cmd = child.attrib.get(xsi+"type", None)
                     if cmd == "MoveThroughToType":
-                        print "robot_prim: MoveThroughToType"
+                        handleMoveThroughToType(cmd)
                     elif cmd == "InitCanonType":
                         print "robot_prim: InitCanonType"
                     else:
                         # unknown command
-                        print "robot_prim: Unknown command:", cmd
+                        print "robot_prim: unknown command:", cmd
                 else:
                     # unknown tag
-                    print "robot_prim: Unknown tag:", child.tag
+                    print "robot_prim: unknown tag:", child.tag
         except:
-            print "robot_prim: Bad message format"
+            print "robot_prim: bad message format:", str(data)
 
     # recv failed, client disconnected
     if DEBUG: print "robot_prim: reader done"
     conn.close()
+
+# --- Main ---
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "i:p:t:d", ["inifile=", "port=", "period="])

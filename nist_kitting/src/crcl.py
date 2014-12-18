@@ -19,13 +19,11 @@ class DataThingType(object):
         return self.Name
 
     def tree(self, root=None):
-        if self.Name == None: return ""
         if root == None: root = ET.Element(None)
-        ET.SubElement(root, "Name").text = str(self.Name)
+        if self.Name != None: ET.SubElement(root, "Name").text = str(self.Name)
         return ET.ElementTree(root)
 
     def __str__(self):
-        if self.Name == None: return ""
         output = StringIO.StringIO()
         self.tree().write(output)
         outstr = output.getvalue()
@@ -48,7 +46,7 @@ class PointType(DataThingType):
     def get(self):
         return self.X, self.Y, self.Z
 
-    def tree(self, root):
+    def tree(self, root=None):
         if root == None: root = ET.Element(None)
         super(PointType, self).tree(root)
         ET.SubElement(root, "X").text = str(self.X)
@@ -79,7 +77,7 @@ class VectorType(DataThingType):
     def get(self):
         return self.I, self.J, self.K
 
-    def tree(self, root):
+    def tree(self, root=None):
         if root == None: root = ET.Element(None)
         super(VectorType, self).tree(root)
         ET.SubElement(root, "I").text = str(self.I)
@@ -96,24 +94,40 @@ class VectorType(DataThingType):
 
 class PhysicalLocationType(DataThingType):
 
-    def __init__(self, TimeStamp = 0):
-        DataThingType.__init__(self)
+    def __init__(self, TimeStamp=None, **kwargs):
+        super(PhysicalLocationType, self).__init__(**kwargs)
         self.TimeStamp = TimeStamp
 
     def set(self, TimeStamp):
         self.TimeStamp = TimeStamp
 
+    def get(self):
+        return self.TimeStamp
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(PhysicalLocationType, self).tree(root)
+        if self.TimeStamp != None: ET.SubElement(root, "TimeStamp").text = str(self.TimeStamp)
+        return ET.ElementTree(root)
+
+    def __str__(self):
+        output = StringIO.StringIO()
+        self.tree().write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr
+
 class PoseLocationType(PhysicalLocationType):
 
-    def __init__(self, Point = PointType(), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), PositionStandardDeviation = 1, OrientationStandardDeviation = 1):
-        PhysicalLocationType.__init__(self)
+    def __init__(self, Point = PointType(), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), PositionStandardDeviation = None, OrientationStandardDeviation = None, **kwargs):
+        super(PoseLocationType, self).__init__(**kwargs)
         self.Point = Point
         self.XAxis = XAxis
         self.ZAxis = ZAxis
         self.PositionStandardDeviation = PositionStandardDeviation
         self.OrientationStandardDeviation = OrientationStandardDeviation
 
-    def set(self, Point, XAxis, ZAxis, PositionStandardDeviation, OrientationStandardDeviation):
+    def set(self, Point, XAxis, ZAxis, PositionStandardDeviation = None, OrientationStandardDeviation = None):
         self.Point = Point
         self.XAxis = XAxis
         self.ZAxis = ZAxis
@@ -123,13 +137,29 @@ class PoseLocationType(PhysicalLocationType):
     def get(self):
         return self.Point.get(), self.XAxis.get(), self.ZAxis,get(), self.PositionStandardDeviation, self.OrientationStandardDeviation
 
-    def tree(self, root):
-        el = ET.SubElement(root, "PoseLocation")
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(PoseLocationType, self).tree(root)
+        el = ET.SubElement(root, "Point")
         self.Point.tree(el)
+        el = ET.SubElement(root, "XAxis")
         self.XAxis.tree(el)
+        el = ET.SubElement(root, "ZAxis")
         self.ZAxis.tree(el)
-        ET.SubElement(el, "PositionStandardDeviation").text = str(self.PositionStandardDeviation)
-        ET.SubElement(el, "OrientationStandardDeviation").text = str(self.OrientationStandardDeviation)
+        if self.PositionStandardDeviation != None: ET.SubElement(el, "PositionStandardDeviation").text = str(self.PositionStandardDeviation)
+        if self.OrientationStandardDeviation != None: ET.SubElement(el, "OrientationStandardDeviation").text = str(self.OrientationStandardDeviation)
+        return ET.ElementTree(root)
+
+    def __str__(self):
+        output = StringIO.StringIO()
+        self.tree().write(output)
+        outstr = output.getvalue()
+        output.close()
+        return outstr
+
+'''
+WHEREWASI -- continue implementing 'tree' in the classes below
+'''
 
 class PoseOnlyLocationType(PoseLocationType):
 

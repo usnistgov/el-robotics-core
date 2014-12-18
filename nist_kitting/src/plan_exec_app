@@ -12,46 +12,49 @@ dict = {"xmlns:xsi" : uri}
 INIFILE = ""
 PLANFILE = ""
 ROBOT_PORT = ""
+ROBOT_HOST = ""
 GRIPPER_PORT = ""
+GRIPPER_HOST = ""
 DEBUG = False
 
 def Attach_Endeffector(toks):
     # print toks
-    pass
+    return True
 
 def Create_Kit(toks):
     # print toks
-    pass
+    return True
 
 def Detach_Endeffector(toks):
     # print toks
-    pass
+    return True
 
 def Look_For_Part(toks):
     # print toks
-    pass
+    return True
 
 def Move_Over_Kit(toks):
     # print toks
-    pass
+    return True
 
 def Move_Over_Kittray(toks):
     # print toks
-    pass
+    return True
 
 def Move_Over_Part(toks):
     out = ""
     # (move-over-part robot_1 part_gripper gearbox_base_tray gearbox_base_1 stock_keeping_unit_gearbox_base)
     if len(toks) < 6: return
     print toks[0], "using", toks[1], "with", toks[2], "to location", toks[3], "to get", toks[4], "of SKU", toks[5]
+    return True
 
 def Place_Kit(toks):
     # print toks
-    pass
+    return True
 
 def Place_Kittray(toks):
     # print toks
-    pass
+    return True
 
 def Place_Part(toks):
     out = ""
@@ -83,14 +86,15 @@ def Place_Part(toks):
     m = MoveThroughToType(6)
     out = out + str(m)
     print out
+    return True
 
 def Take_Kit(toks):
     # print toks
-    pass
+    return True
 
 def Take_Kittray(toks):
     # print toks
-    pass
+    return True
 
 def Take_Part(toks):
     # (take-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base gearbox_base_tray part_gripper kit_gearbox)
@@ -107,6 +111,9 @@ def Take_Part(toks):
     # pm.demo->SetTool (0.1);
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
+    return True
+
+# --- the dictionary associating PDDL commands with handler functions ---
 
 funcdict = {
     "attach-endeffector" : Attach_Endeffector,
@@ -124,22 +131,29 @@ funcdict = {
     "take-part" : Take_Part
 }
 
-def parseLine(x):
+# parseLine looks up the handler functions and calls them with
+# the line and the socket ports to the robot and gripper subordinates
 
-    toks = str.split(x)
+def parseLine(line, robot_socket, gripper_socket):
+
+    toks = str.split(line)
     num = len(toks)
     if num == 0: return
 
+    retval = False
+
     func = funcdict.get(toks[0], None)
     if (func != None):
-        func(toks)
+        retval = func(toks, robot_socket, gripper_socket)
     else:
         print "unknown command", toks[0]
+
+    return retval
 
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:g:d", ["inifile=", "file=", "robot=", "gripper="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:R:g:G:d", ["inifile=", "file=", "robot=", "robothost=", "gripper=", "gripperhost="])
 except getopt.GetoptError, err:
     print "plan_exec_app:", str(err)
     sys.exit(1)
@@ -151,14 +165,19 @@ for o, a in opts:
         PLANFILE = a
     elif o in ("-r", "--robot"):
         ROBOT_PORT = a
+    elif o in ("-R", "--robothost"):
+        ROBOT_HOST = a
     elif o in ("-g", "--gripper"):
         GRIPPER_PORT = a
+    elif o in ("-G", "--gripperhost"):
+        GRIPPER_HOST = a
     elif o in ("-d"):
         DEBUG = True
 
 defdict = {"directory" : "",
            "file" : "",
-           "port" : ""}
+           "port" : "",
+           "host" : ""}
 
 if INIFILE != "":
     try:
@@ -171,8 +190,12 @@ if INIFILE != "":
                 PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
             if ROBOT_PORT == "":
                 ROBOT_PORT = config.get("robot_prim", "port")
+            if ROBOT_HOST == "":
+                ROBOT_HOST = config.get("robot_prim", "host")
             if GRIPPER_PORT == "":
                 GRIPPER_PORT = config.get("gripper_prim", "port")
+            if GRIPPER_HOST == "":
+                GRIPPER_HOST = config.get("gripper_prim", "host")
     except IOError as err:
         print "robot_prim: open inifile:", str(err)
         sys.exit(1)
@@ -187,14 +210,18 @@ if ROBOT_PORT == "":
     print "plan_exec_app: no robot port provided"
     sys.exit(1)
 
+if ROBOT_HOST == "": ROBOT_HOST = "localhost"
+
 if GRIPPER_PORT == "":
     print "plan_exec_app: no gripper port provided"
     sys.exit(1)
 
+if GRIPPER_HOST == "": GRIPPER_HOST = "localhost"
+
 if DEBUG:
     print "plan_exec_app: plan file:", PLANFILE
-    print "plan_exec_app: robot port:", ROBOT_PORT
-    print "plan_exec_app: gripper port:", GRIPPER_PORT
+    print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
+    print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
 
 # FIXME
 # Connect to robot, gripper
@@ -202,17 +229,32 @@ if DEBUG:
 # Write commands to them in the handlers
 
 try:
-    with open(PLANFILE, "rb") as f:
-        for line in f:
-            # this means match zero or more chars, then a literal '(',
-            # then set up a target with () enclosing a match of anything,
-            # then match a literal ')', then anything
-            m = re.match(".*\((.*)\).*", line)
-            if m != None:
-                parseLine(m.group(1))
-except IOError as err:
-    print "plan_exec_app:", str(err)
+    robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ROBOT_HOST, ROBOT_PORT))
+except:
+    print "plan_exec_app: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT
     sys.exit(1)
+
+try:
+    gripper_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((GRIPPER_HOST, GRIPPER_PORT))
+except:
+    print "plan_exec_app: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT
+    sys.exit(1)
+
+try:
+    f = open(PLANFILE, "rb")
+except IOError as err:
+    print "plan_exec_app: can't open", PLANFILE, ":", str(err)
+    sys.exit(1)
+
+for line in f:
+    # this means match zero or more chars, then a literal '(',
+    # then set up a target with () enclosing a match of anything,
+    # then match a literal ')', then anything
+    m = re.match(".*\((.*)\).*", line)
+    if m != None:
+        parseLine(m.group(1), robot_socket, gripper_socket
 
 m = MoveThroughToType(17)
 m.add(PoseOnlyLocationType())
@@ -220,7 +262,13 @@ m.add(PoseOnlyLocationType())
 m.add(PoseOnlyLocationType())
 print m
 
-s = CRCLStatusType(CommandStatusType(), JointStatusesType(), PoseOnlyLocationType(), GripperStatusType())
+jses = JointStatusesType()
+jses.add(JointStatus(1, 1.1, 1.2)
+jses.add(JointStatus(2, 2.1, 2.2)
+s = CRCLStatusType(CommandStatusType(), jses)
+print s
+
+s = CRCLStatusType(CommandStatusType(), 
 print s
 
 sys.exit(0)

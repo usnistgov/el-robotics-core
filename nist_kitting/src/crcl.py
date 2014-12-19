@@ -14,6 +14,7 @@ class DataThingType(object):
 
     def set(self, Name):
         self.Name = Name
+        return True
 
     def get(self):
         return self.Name
@@ -42,6 +43,7 @@ class PointType(DataThingType):
         self.X = X
         self.Y = Y
         self.Z = Z
+        return True
 
     def get(self):
         return self.X, self.Y, self.Z
@@ -54,13 +56,6 @@ class PointType(DataThingType):
         ET.SubElement(root, "Z").text = str(self.Z)
         return ET.ElementTree(root)
 
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
-
 class VectorType(DataThingType):
 
     def __init__(self, I=0, J=0, K=0, **kwargs):
@@ -69,10 +64,11 @@ class VectorType(DataThingType):
         self.J = J
         self.K = K
 
-    def set(self, I, J, Z):
+    def set(self, I, J, K):
         self.I = I
         self.J = J
         self.K = K
+        return True
 
     def get(self):
         return self.I, self.J, self.K
@@ -85,13 +81,6 @@ class VectorType(DataThingType):
         ET.SubElement(root, "K").text = str(self.K)
         return ET.ElementTree(root)
 
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
-
 class PhysicalLocationType(DataThingType):
 
     def __init__(self, TimeStamp=None, **kwargs):
@@ -100,6 +89,7 @@ class PhysicalLocationType(DataThingType):
 
     def set(self, TimeStamp):
         self.TimeStamp = TimeStamp
+        return True
 
     def get(self):
         return self.TimeStamp
@@ -109,13 +99,6 @@ class PhysicalLocationType(DataThingType):
         super(PhysicalLocationType, self).tree(root)
         if self.TimeStamp != None: ET.SubElement(root, "TimeStamp").text = str(self.TimeStamp)
         return ET.ElementTree(root)
-
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
 
 class PoseLocationType(PhysicalLocationType):
 
@@ -133,6 +116,7 @@ class PoseLocationType(PhysicalLocationType):
         self.ZAxis = ZAxis
         self.PositionStandardDeviation = PositionStandardDeviation
         self.OrientationStandardDeviation = OrientationStandardDeviation
+        return True
 
     def get(self):
         return self.Point.get(), self.XAxis.get(), self.ZAxis,get(), self.PositionStandardDeviation, self.OrientationStandardDeviation
@@ -150,111 +134,81 @@ class PoseLocationType(PhysicalLocationType):
         if self.OrientationStandardDeviation != None: ET.SubElement(el, "OrientationStandardDeviation").text = str(self.OrientationStandardDeviation)
         return ET.ElementTree(root)
 
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
-
-'''
-WHEREWASI -- continue implementing 'tree' in the classes below
-'''
-
 class PoseOnlyLocationType(PoseLocationType):
 
-    def __init__(self, Point, XAxis, ZAxis):
-        PoseLocationType.__init__(self, Point, XAxis, ZAxis)
-        self.Point = Point
-        self.XAxis = XAxis
-        self.ZAxis = ZAxis
+    def __init__(self, Point = PointType(), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), **kwargs):
+        super(PoseOnlyLocationType, self).__init__(Point, XAxis, ZAxis, **kwargs)
+    # no need to provide anything else -- the parent has it all
+
+class CRCLCommandInstanceType(DataThingType):
+
+    def __init__(self, CRCLCommand, **kwargs):
+        super(CRCLCommandInstanceType, self).__init__(**kwargs)
+        self.CRCLCommand = CRCLCommand
 
 class CRCLCommandType(DataThingType):
 
-    def __init__(self, CommandID = 0, **kwargs):
+    def __init__(self, CommandID, **kwargs):
         super(CRCLCommandType, self).__init__(**kwargs)
         self.CommandID = CommandID
 
     def tree(self, root = None):
-        if root == None: root = super(CRCLCommandType, self).tree()
+        if root == None: root = ET.Element(None)
         else: super(CRCLCommandType, self).tree(root)
         ET.SubElement(root, "CommandID").text = str(self.CommandID)
+        return ET.ElementTree(root)
         
 class MiddleCommandType(CRCLCommandType):
 
-    def __init__(self, **kwargs):
-        super(MiddleCommandType, self).__init__(**kwargs)
-
-    def tree(self, root = None):
-        return super(MiddleCommandType, self).tree(root)
+    def __init__(self, CommandID, **kwargs): super(MiddleCommandType, self).__init__(CommandID, **kwargs)
 
 class OpenToolChangerType(MiddleCommandType):
 
-    def __init__(self, **kwargs):
-        super(OpenToolChangerType, self).__init__(**kwargs)
+    def __init__(self, CommandID, **kwargs):
+        super(OpenToolChangerType, self).__init__(CommandID, **kwargs)
 
-    def tree(self, root = None):
+    def tree(self, root=None):
+        '''
+        If a command doesn't have a parent tree, then it's a single
+        command and it gets the top-level root instance CRCLCommandInstance
+        '''
         if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        else: ET.SubElement(root, "CRCLCommandInstance", attrib=dict)
-        ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "OpenToolChangerType"})
-        super(OpenToolChangerType, self).tree(ccel)
+        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "OpenToolChangerType"})
+        super(OpenToolChangerType, self).tree(el)
         return ET.ElementTree(root)
-
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
 
 class CloseToolChangerType(MiddleCommandType):
 
-    def __init__(self, **kwargs):
-        super(CloseToolChangerType, self).__init__(**kwargs)
+    def __init__(self, CommandID, **kwargs):
+        super(CloseToolChangerType, self).__init__(CommandID, **kwargs)
 
-    def tree(self, root = None):
+    def tree(self, root=None):
         if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        else: ET.SubElement(root, "CRCLCommandInstance", attrib=dict)
-        ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "CloseToolChangerType"})
-        super(CloseToolChangerType, self).tree(ccel)
+        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "CloseToolChangerType"})
+        super(CloseToolChangerType, self).tree(el)
         return ET.ElementTree(root)
-
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
 
 class MoveThroughToType(MiddleCommandType):
 
-    def __init__(self, **kwargs):
-        super(MoveThroughToType, self).__init__(**kwargs)
+    def __init__(self, CommandID, **kwargs):
+        super(MoveThroughToType, self).__init__(CommandID, **kwargs)
         self.MoveStraight = False
         self.Waypoint = []
         self.NumPositions = len(self.Waypoint)
 
     def tree(self, root=None):
         if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        else: ET.SubElement(root, "CRCLCommandInstance", attrib=dict)
-        ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
-        super(MoveThroughToType, self).tree(ccel)
-        if self.MoveStraight: ET.SubElement(ccel, "MoveStraight").text = "true"
-        else: ET.SubElement(ccel, "MoveStraight").text = "false"
+        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
+        super(MoveThroughToType, self).tree(el)
+        if self.MoveStraight: ET.SubElement(el, "MoveStraight").text = "true"
+        else: ET.SubElement(el, "MoveStraight").text = "false"
         for wp in self.Waypoint:
-            wpel = ET.SubElement(ccel, "Waypoint")
+            wpel = ET.SubElement(el, "Waypoint")
             wp.Point.tree(wpel)
             wp.XAxis.tree(wpel)
             wp.ZAxis.tree(wpel)
-        ET.SubElement(ccel, "NumPositions").text = str(self.NumPositions)
+        ET.SubElement(el, "NumPositions").text = str(self.NumPositions)
         return ET.ElementTree(root)
-
-    def __str__(self):
-        output = StringIO.StringIO()
-        self.tree().write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
 
     def add(self, wps):
         try:
@@ -263,6 +217,9 @@ class MoveThroughToType(MiddleCommandType):
             return False
         self.NumPositions = len(self.Waypoint)
         return True
+'''
+You were here
+'''
 
 class SetEndEffectorParametersType(MiddleCommandType):
 
@@ -273,40 +230,28 @@ class SetEndEffectorParametersType(MiddleCommandType):
             pst = ParameterSettingType(key, Parameters.get(key))
             self.ParameterSetting.append(pst)
 
-    def __str__(self):
-        root = ET.Element("CRCLCommandInstance", attrib=dict)
-        ccel = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "SetEndEffectorParametersType"})
-        ET.SubElement(ccel, "CommandID").text = str(self.CommandID)
-        for p in self.ParameterSetting:
-            psel = ET.SubElement(ccel, "ParameterSetting")
-            pnel = ET.SubElement(psel, "ParameterName").text = str(p.ParameterName)
-            pvel = ET.SubElement(psel, "ParameterValue").text = str(p.ParameterValue)
-        tree = ET.ElementTree(root)
-        output = StringIO.StringIO()
-        tree.write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
-
 class InitCanonType(CRCLCommandType):
 
-    def __init__(self, CommmandID = 0):
-        CRCLCommandType.__init__(self, CommandID)
+    def __init__(self, **kwargs):
+        super(InitCanonType, self).__init__(**kwargs)
 
 class EndCanonType(CRCLCommandType):
 
-    def __init__(self, CommmandID = 0):
-        CRCLCommandType.__init__(self, CommandID)
+    def __init__(self, **kwargs):
+        super(EndCanonType, self).__init__(**kwargs)
 
 class SetEndEffectorType(CRCLCommandType):
 
-    def __init__(self, CommandID = 0):
-        CRCLCommandType.__init__(self, CommandID)
-        self.Setting = 0
+    def __init__(self, Setting, **kwargs):
+        super(SetEndEffectorType, self).__init__(**kwargs)
+        self.Setting = Setting
 
     def set(self, Setting):
         self.Setting = Setting
         return True
+
+    def get(self):
+        return self.Setting
 
 class ParameterSettingType(DataThingType):
 
@@ -314,6 +259,10 @@ class ParameterSettingType(DataThingType):
         DataThingType.__init__(self, "ParameterSettingType")
         self.ParameterName = ParameterName
         self.ParameterValue = ParameterValue
+
+'''
+FIXME -- add the CRCLProgramInstance, and build a program of some commands
+'''
 
 class CommandStateType(object):
     DONE = "Done"
@@ -388,7 +337,7 @@ class CRCLStatusType(DataThingType):
         self.Pose = Pose
         self.GripperStatus = GripperStatus
 
-    def __str__(self):
+    def xxxstr__(self):
         root = ET.Element("CRCLStatus", attrib=dict)
         csel = ET.SubElement(root, "CommandStatus")
         ET.SubElement(csel, "CommandID").text = str(self.CommandStatus.CommandID)

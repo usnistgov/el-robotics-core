@@ -123,13 +123,14 @@ class PoseLocationType(PhysicalLocationType):
 
     def tree(self, root=None):
         if root == None: root = ET.Element(None)
-        super(PoseLocationType, self).tree(root)
-        el = ET.SubElement(root, "Point")
-        self.Point.tree(el)
-        el = ET.SubElement(root, "XAxis")
-        self.XAxis.tree(el)
-        el = ET.SubElement(root, "ZAxis")
-        self.ZAxis.tree(el)
+        el = ET.SubElement(root, "Pose")
+        super(PoseLocationType, self).tree(el)
+        pel = ET.SubElement(el, "Point")
+        self.Point.tree(pel)
+        xel = ET.SubElement(el, "XAxis")
+        self.XAxis.tree(xel)
+        zel = ET.SubElement(el, "ZAxis")
+        self.ZAxis.tree(zel)
         if self.PositionStandardDeviation != None: ET.SubElement(el, "PositionStandardDeviation").text = str(self.PositionStandardDeviation)
         if self.OrientationStandardDeviation != None: ET.SubElement(el, "OrientationStandardDeviation").text = str(self.OrientationStandardDeviation)
         return ET.ElementTree(root)
@@ -190,10 +191,10 @@ class CloseToolChangerType(MiddleCommandType):
 
 class MoveThroughToType(MiddleCommandType):
 
-    def __init__(self, CommandID, **kwargs):
+    def __init__(self, CommandID, MoveStraight, Waypoint, **kwargs):
         super(MoveThroughToType, self).__init__(CommandID, **kwargs)
-        self.MoveStraight = False
-        self.Waypoint = []
+        self.MoveStraight = MoveStraight
+        self.Waypoint = Waypoint
         self.NumPositions = len(self.Waypoint)
 
     def tree(self, root=None):
@@ -217,33 +218,65 @@ class MoveThroughToType(MiddleCommandType):
             return False
         self.NumPositions = len(self.Waypoint)
         return True
-'''
-You were here
-'''
+
+class ParameterSettingType(DataThingType):
+
+    def __init__(self, ParameterName, ParameterValue, **kwargs):
+        super(ParameterSettingType, self).__init__(**kwargs)
+        self.ParameterName = ParameterName
+        self.ParameterValue = ParameterValue
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(ParameterSettingType, self).tree(root)
+        el = ET.SubElement(root, "ParameterSetting")
+        ET.SubElement(el, "ParameterName").text = str(self.ParameterName)
+        ET.SubElement(el, "ParameterValue").text = str(self.ParameterValue)
+        return ET.ElementTree(root)
 
 class SetEndEffectorParametersType(MiddleCommandType):
 
-    def __init__(self, Parameters, CommandID = 0):
-        MiddleCommandType.__init__(self, CommandID)
-        self.ParameterSetting = []
-        for key in iter(Parameters):
-            pst = ParameterSettingType(key, Parameters.get(key))
-            self.ParameterSetting.append(pst)
+    def __init__(self, CommandID, ParameterSetting, **kwargs):
+        super(SetEndEffectorParametersType, self).__init__(CommandID, **kwargs)
+        self.ParameterSetting = ParameterSetting
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
+        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "SetEndEffectorParametersType"})
+        super(SetEndEffectorParametersType, self).tree(el)
+        try:
+            for ps in self.ParameterSetting:
+                ps.tree(el)
+        except: 
+            self.ParameterSetting.tree(el)
+        return ET.ElementTree(root)
 
 class InitCanonType(CRCLCommandType):
 
-    def __init__(self, **kwargs):
-        super(InitCanonType, self).__init__(**kwargs)
+    def __init__(self, CommandID, **kwargs):
+        super(InitCanonType, self).__init__(CommandID, **kwargs)
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
+        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "InitCanonType"})
+        super(InitCanonType, self).tree(el)
+        return ET.ElementTree(root)
 
 class EndCanonType(CRCLCommandType):
 
-    def __init__(self, **kwargs):
-        super(EndCanonType, self).__init__(**kwargs)
+    def __init__(self, CommandID, **kwargs):
+        super(EndCanonType, self).__init__(CommandID, **kwargs)
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
+        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "EndCanonType"})
+        super(EndCanonType, self).tree(el)
+        return ET.ElementTree(root)
 
 class SetEndEffectorType(CRCLCommandType):
 
-    def __init__(self, Setting, **kwargs):
-        super(SetEndEffectorType, self).__init__(**kwargs)
+    def __init__(self, CommandID, Setting, **kwargs):
+        super(SetEndEffectorType, self).__init__(CommandID, **kwargs)
         self.Setting = Setting
 
     def set(self, Setting):
@@ -253,16 +286,24 @@ class SetEndEffectorType(CRCLCommandType):
     def get(self):
         return self.Setting
 
-class ParameterSettingType(DataThingType):
+class CRCLProgramType(DataThingType):
 
-    def __init__(self, ParameterName, ParameterValue, CommandID = 0):
-        DataThingType.__init__(self, "ParameterSettingType")
-        self.ParameterName = ParameterName
-        self.ParameterValue = ParameterValue
+    def __init__(self, **kwargs):
+        super(CRCLProgramType, self).__init__(**kwargs)
+        self.MiddleCommand = [ ]
 
-'''
-FIXME -- add the CRCLProgramInstance, and build a program of some commands
-'''
+    def tree(self, root=None):
+        if root == None: root = ET.Element("CRCLProgram", attrib=dict)
+        super(CRCLProgramType, self).tree(root)
+        InitCanonType(1).tree(root)
+        for cmd in self.MiddleCommand:
+            cmd.tree(root)
+        EndCanonType(1).tree(root)
+        return ET.ElementTree(root)
+
+    def add(self, MiddleCommand):
+        self.MiddleCommand.append(MiddleCommand)
+        return True
 
 class CommandStateType(object):
     DONE = "Done"
@@ -272,30 +313,43 @@ class CommandStateType(object):
 
 class CommandStatusType(DataThingType):
 
-    def __init__(self, CommandID = 0, StatusID = 0, CommandState = CommandStateType.READY):
-        DataThingType.__init__(self, "CommandStatusType")
+    def __init__(self, CommandID, StatusID, CommandState, **kwargs):
+        super(CommandStatusType, self).__init__(**kwargs)
         self.CommandID = CommandID
         self.StatusID = StatusID
         self.CommandState = CommandState
 
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        else: super(CommandStatusType, self).tree(root)
+        el = ET.SubElement(root, "CommandStatus")
+        ET.SubElement(el, "CommandID").text = str(self.CommandID)
+        ET.SubElement(el, "StatusID").text = str(self.StatusID)
+        ET.SubElement(el, "CommandState").text = str(self.CommandState)
+        return ET.ElementTree(root)
+
 class JointStatusType(DataThingType):
 
-    def __init__(self, JointNumber = 0, JointPosition = 0, JointTorqueOrForce = 0):
-        DataThingType.__init__(self, "JointStatusType")
+    def __init__(self, JointNumber, JointPosition=None, JointTorqueOrForce=None, JointVelocity=None, **kwargs):
+        super(JointStatusType, self).__init__(**kwargs)
         self.JointNumber = JointNumber
         self.JointPosition = JointPosition
         self.JointTorqueOrForce = JointTorqueOrForce
+        self.JointVelocity = JointVelocity
 
-    def tree(self, root):
-        jsel = ET.SubElement(root, "JointStatus")
-        ET.SubElement(jsel, "JointNumber").text = str(self.JointNumber)
-        ET.SubElement(jsel, "JointPosition").text = str(self.JointPosition)
-        ET.SubElement(jsel, "JointTorqueOrForce").text = str(self.JointTorqueOrForce)
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        else: super(JointStatusType, self).tree(root)
+        el = ET.SubElement(root, "JointStatus")
+        ET.SubElement(el, "JointNumber").text = str(self.JointNumber)
+        if self.JointPosition != None: ET.SubElement(el, "JointPosition").text = str(self.JointPosition)
+        if self.JointTorqueOrForce != None: ET.SubElement(el, "JointTorqueOrForce").text = str(self.JointTorqueOrForce)
+        if self.JointVelocity != None: ET.SubElement(el, "JointVelocity").text = str(self.JointVelocity)
 
 class JointStatusesType(DataThingType):
 
-    def __init__(self):
-        DataThingType.__init__(self, "JointStatusesType")
+    def __init__(self, **kwargs):
+        super(JointStatusesType, self).__init__(**kwargs)
         self.JointStatus = [ ]
 
     def add(self, wps):
@@ -305,49 +359,66 @@ class JointStatusesType(DataThingType):
             return False
         return True
 
-    def tree(self, root):
-        jssel = ET.SubElement(root, "JointStatuses")
+    def tree(self, root=None):
+        if len(self.JointStatus) == 0: return ET.ElementTree(ET.Element(None))
+        if root == None: root = ET.Element(None)
+        else: super(JointStatusesType, self).tree(root)
+        el = ET.SubElement(root, "JointStatuses")
         for js in self.JointStatus:
-            js.tree(jssel)
+            js.tree(el)
+        return ET.ElementTree(root)
 
 class GripperStatusType(DataThingType):
 
-    def __init__(self, GripperName = "Gripper"):
-        DataThingType.__init__(self, "GripperStatusType")
+    def __init__(self, GripperName, **kwargs):
+        super(GripperStatusType, self).__init__(self, **kwargs)
         self.GripperName = GripperName
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        ET.SubElement(root, "GripperName").text = str(self.GripperName)
 
 class ParallelGripperStatusType(GripperStatusType):
 
-    def __init__(self, Separation = 0):
-        GripperStatusType.__init__(self, "ParallelGripper")
+    def __init__(self, GripperName, Separation, **kwargs):
+        super(ParallelGripperStatusType, self).__init__(GripperName, **kwargs)
         self.Separation = Separation
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        el = ET.SubElement(root, "GripperStatus", attrib={"xsi:type" : "ParallelGripperStatusType"})
+        super(ParallelGripperStatusType, self).tree(el)
+        ET.SubElement(el, "Separation").text = str(self.Separation)
+        return ET.ElementTree(root)
 
 class VacuumGripperStatusType(GripperStatusType):
 
-    def __init__(self, IsPowered = False):
-        GripperStatusType.__init__(self, "VacuumGripper")
+    def __init__(self, GripperName, IsPowered, **kwargs):
+        super(VacuumGripperStatusType, self).__init__(GripperName, **kwargs)
         self.IsPowered = IsPowered
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        el = ET.SubElement(root, "GripperStatus", attrib={"xsi:type" : "VacuumGripperStatusType"})
+        super(VacuumGripperStatusType, self).tree(el)
+        if self.IsPowered: ET.SubElement(el, "IsPowered").text = "true"
+        else: ET.SubElement(el, "IsPowered").text = "false"
+        return ET.ElementTree(root)
 
 class CRCLStatusType(DataThingType):
 
-    def __init__(self, CommandStatus, JointStatuses=None, Pose=None, GripperStatus=None):
-        DataThingType.__init__(self, "CRCLStatusType")
+    def __init__(self, CommandStatus, Pose, JointStatuses=None, GripperStatus=None, **kwargs):
+        super(CRCLStatusType, self).__init__(**kwargs)
         self.CommandStatus = CommandStatus
-        self.JointStatuses = JointStatuses
         self.Pose = Pose
+        self.JointStatuses = JointStatuses
         self.GripperStatus = GripperStatus
 
-    def xxxstr__(self):
-        root = ET.Element("CRCLStatus", attrib=dict)
-        csel = ET.SubElement(root, "CommandStatus")
-        ET.SubElement(csel, "CommandID").text = str(self.CommandStatus.CommandID)
-        ET.SubElement(csel, "StatusID").text = str(self.CommandStatus.StatusID)
-        ET.SubElement(csel, "CommandState").text = str(self.CommandStatus.CommandState)
-        if self.JointStatuses != None:
-            self.JointStatuses.tree(root)
-        tree = ET.ElementTree(root)
-        output = StringIO.StringIO()
-        tree.write(output)
-        outstr = output.getvalue()
-        output.close()
-        return outstr
+    def tree(self, root=None):
+        if root == None: root = ET.Element("CRCLStatus", attrib=dict)
+        super(CRCLStatusType, self).tree(root)
+        self.CommandStatus.tree(root)
+        self.Pose.tree(root)
+        if self.JointStatuses != None: self.JointStatuses.tree(root)
+        if self.GripperStatus != None: self.GripperStatus.tree(root)
+        return ET.ElementTree(root)

@@ -1,3 +1,4 @@
+import sys
 from time import *
 from crcl import *
 
@@ -104,36 +105,67 @@ print m
 m = CloseToolChangerType(104)
 print m
 
-m = MoveThroughToType(104)
+ppos = ParameterSettingType("Pos", 10)
+pvel = ParameterSettingType("Vel", -3)
+print ppos, pvel
+
+m = SetEndEffectorParametersType(117, ppos)
 print m
 
-'''
+m = SetEndEffectorParametersType(117, [ppos, pvel])
+print m
 
-m = MoveThroughToType(Name = "Move1", CommandID = 17)
 point1 = PointType(1, 2, 3, Name="Point1")
-point2 = PointType(Name = "Point2")
+point2 = PointType(Name="Point2")
 point3 = PointType()
-xaxis = VectorType(1, 0, 0, Name = "ux")
+xaxis = VectorType(1, 0, 0, Name="ux")
 zaxis = VectorType(0, 0, 1)
 
-m.add(PoseOnlyLocationType(point1, xaxis, zaxis))
+m = MoveThroughToType(17, True, [PoseOnlyLocationType(point1, xaxis, zaxis), PoseOnlyLocationType(point1, xaxis, zaxis)], Name="WP1")
+print m
+
 point2.set(4, 5, 6)
-m.add(PoseOnlyLocationType(point2, xaxis, zaxis))
 point3.set(7, 8, 9)
 m.add(PoseOnlyLocationType(point3, xaxis, zaxis))
 print m
 
+cs = CommandStatusType(201, 202, CommandStateType.READY)
+print cs
+
+ps = PoseOnlyLocationType(Name="PoseStatus")
+print ps
+
+m = CRCLStatusType(cs, ps)
+print m
+
 jses = JointStatusesType()
+print jses
 jses.add(JointStatusType(1, 1.1, 1.2))
-jses.add(JointStatusType(2, 2.1, 2.2))
+jses.add(JointStatusType(2, JointVelocity=7.8))
+print jses
 
-s = CRCLStatusType(CommandStatusType(), jses)
-print s
+m = CRCLStatusType(cs, ps, jses)
+print m
 
-s = OpenToolChangerType(98)
-print s
+pg = ParallelGripperStatusType("PGrip", 0.44)
+print pg
 
-s = CloseToolChangerType(77)
-print s
+m = CRCLStatusType(cs, ps, pg)
+print m
 
-'''
+vg = VacuumGripperStatusType("VGrip", True)
+print vg
+
+m = CRCLStatusType(cs, ps, vg)
+print m
+
+m = CRCLStatusType(cs, ps, jses, pg)
+print m
+
+# ---
+
+pg = CRCLProgramType(Name="Test Program")
+pg.add(MoveThroughToType(17, True, [PoseOnlyLocationType(point1, xaxis, zaxis)]))
+print pg
+
+# FIXME -- the commands in the program should follow the format in programAll

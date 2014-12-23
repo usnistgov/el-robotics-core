@@ -141,6 +141,17 @@ class PoseOnlyLocationType(PoseLocationType):
         super(PoseOnlyLocationType, self).__init__(Point, XAxis, ZAxis, **kwargs)
     # no need to provide anything else -- the parent has it all
 
+# --- Commands ---
+
+'''
+FIXME -- for single commands, i.e., with an empty 'root', preface them
+with a CRCLCommandInstance (already done). When a command has a root, 
+preface them with a MiddleCommand, e.g., 
+  <MiddleCommand xsi:type="CloseToolChangerType">
+    <CommandID>3</CommandID>
+  </MiddleCommand>
+'''
+
 class CRCLCommandInstanceType(DataThingType):
 
     def __init__(self, CRCLCommand, **kwargs):
@@ -173,10 +184,23 @@ class OpenToolChangerType(MiddleCommandType):
         If a command doesn't have a parent tree, then it's a single
         command and it gets the top-level root instance CRCLCommandInstance
         '''
-        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "OpenToolChangerType"})
+        if root == None:
+            root = ET.Element("CRCLCommandInstance", attrib=dict)
+            wrap = "CRCLCommand"
+        else:
+            wrap = "MiddleCommand"
+        el = ET.SubElement(root, wrap, attrib={"xsi:type" : "OpenToolChangerType"})
         super(OpenToolChangerType, self).tree(el)
         return ET.ElementTree(root)
+
+def wrapIt(root, cmd):
+        if root == None:
+            root = ET.Element("CRCLCommandInstance", attrib=dict)
+            wrap = "CRCLCommand"
+        else:
+            wrap = "MiddleCommand"
+        el = ET.SubElement(root, wrap, attrib={"xsi:type" : cmd})
+        return root, el
 
 class CloseToolChangerType(MiddleCommandType):
 
@@ -184,8 +208,7 @@ class CloseToolChangerType(MiddleCommandType):
         super(CloseToolChangerType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "CloseToolChangerType"})
+        root, el = wrapIt(root, "CloseToolChangerType")
         super(CloseToolChangerType, self).tree(el)
         return ET.ElementTree(root)
 
@@ -198,8 +221,7 @@ class MoveThroughToType(MiddleCommandType):
         self.NumPositions = len(self.Waypoint)
 
     def tree(self, root=None):
-        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "MoveThroughToType"})
+        root, el = wrapIt(root, "MoveThroughToType")
         super(MoveThroughToType, self).tree(el)
         if self.MoveStraight: ET.SubElement(el, "MoveStraight").text = "true"
         else: ET.SubElement(el, "MoveStraight").text = "false"
@@ -241,8 +263,7 @@ class SetEndEffectorParametersType(MiddleCommandType):
         self.ParameterSetting = ParameterSetting
 
     def tree(self, root=None):
-        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "SetEndEffectorParametersType"})
+        root, el = wrapIt(root, "SetEndEffectorParametersType")
         super(SetEndEffectorParametersType, self).tree(el)
         try:
             for ps in self.ParameterSetting:
@@ -257,8 +278,8 @@ class InitCanonType(CRCLCommandType):
         super(InitCanonType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "InitCanonType"})
+        if root == None: root = ET.Element(None)
+        el = ET.SubElement(root, "InitCanon")
         super(InitCanonType, self).tree(el)
         return ET.ElementTree(root)
 
@@ -268,8 +289,8 @@ class EndCanonType(CRCLCommandType):
         super(EndCanonType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        if root == None: root = ET.Element("CRCLCommandInstance", attrib=dict)
-        el = ET.SubElement(root, "CRCLCommand", attrib={"xsi:type" : "EndCanonType"})
+        if root == None: root = ET.Element(None)
+        el = ET.SubElement(root, "EndCanon")
         super(EndCanonType, self).tree(el)
         return ET.ElementTree(root)
 
@@ -278,6 +299,12 @@ class SetEndEffectorType(CRCLCommandType):
     def __init__(self, CommandID, Setting, **kwargs):
         super(SetEndEffectorType, self).__init__(CommandID, **kwargs)
         self.Setting = Setting
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "SetEndEffectorType")
+        super(SetEndEffectorType, self).tree(el)
+        ET.SubElement(el, "NumPositions").text = str(self.Setting)
+        return ET.ElementTree(root)
 
     def set(self, Setting):
         self.Setting = Setting
@@ -298,7 +325,7 @@ class CRCLProgramType(DataThingType):
         InitCanonType(1).tree(root)
         for cmd in self.MiddleCommand:
             cmd.tree(root)
-        EndCanonType(1).tree(root)
+        EndCanonType(0).tree(root)
         return ET.ElementTree(root)
 
     def add(self, MiddleCommand):

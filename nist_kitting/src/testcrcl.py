@@ -167,5 +167,3 @@ print m
 pg = CRCLProgramType(Name="Test Program")
 pg.add(MoveThroughToType(17, True, [PoseOnlyLocationType(point1, xaxis, zaxis)]))
 print pg
-
-# FIXME -- the commands in the program should follow the format in programAll

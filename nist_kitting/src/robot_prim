@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET
-
+import sys, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET, ConfigParser
 from crcl import *
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -74,7 +73,10 @@ def reader(conn):
 
     # loop forever while a client is connected, blocking on its messages
     while True:
-        data = conn.recv(size)
+        try:
+            data = conn.recv(size)
+        except:
+            break
         if not data: break
 
         try:
@@ -149,9 +151,10 @@ s.bind(("", int(PORT)))
 s.listen(BACKLOG)
 
 while True:
+    if DEBUG: print "robot_prim: accepting connections on", str(PORT)
     try: conn, addr = s.accept()
     except: break
-    print "robot_prim: connected by", addr
+    if DEBUG: print "robot_prim: connected by", addr
     r = threading.Thread(target=reader, args=(conn,))
     r.start()
     t = threading.Thread(target=writer, args=(conn,float(PERIOD)))

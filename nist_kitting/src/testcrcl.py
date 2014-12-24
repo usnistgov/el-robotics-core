@@ -13,18 +13,13 @@ print m
 
 # ----
 
-m = PointType()
-print m
-
-m = PointType("Point 1")
-print m
-
-m = PointType(Name="Point 2")
+try: m = PointType()
+except: print "ok on error"
 
 m = PointType(1, 2, 3)
 print m
 
-m = PointType(1, 2, 3, Name="Point 3")
+m = PointType(1, 2, 3, Name="Point 1")
 print m
 
 if m.set(3, 4, 5): print m
@@ -35,25 +30,20 @@ print m.Name, "=", x, y, z
 
 # ---
 
-m = VectorType()
-print m
-
-m = VectorType("Vector 1")
-print m
-
-m = VectorType(Name="Vector 2")
+try: m = VectorType()
+except: print "ok on error"
 
 m = VectorType(1, 2, 3)
 print m
 
-m = VectorType(1, 2, 3, Name="Vector 3")
+m = VectorType(1, 2, 3, Name="Vector 1")
 print m
 
 if m.set(3, 4, 5): print m
 else: print "set failed"
 
-x, y, z = m.get()
-print m.Name, "=", x, y, z
+i, j, k = m.get()
+print m.Name, "=", i, j, k
 
 # ---
 
@@ -116,8 +106,8 @@ m = SetEndEffectorParametersType(117, [ppos, pvel])
 print m
 
 point1 = PointType(1, 2, 3, Name="Point1")
-point2 = PointType(Name="Point2")
-point3 = PointType()
+point2 = PointType(2, 4, 6, Name="Point2")
+point3 = PointType(0, 0, 0)
 xaxis = VectorType(1, 0, 0, Name="ux")
 zaxis = VectorType(0, 0, 1)
 

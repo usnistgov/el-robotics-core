@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, re, ConfigParser, StringIO, xml.etree.ElementTree as ET
+import sys, getopt, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET
 
 from crcl import *
 
@@ -17,46 +17,49 @@ GRIPPER_PORT = ""
 GRIPPER_HOST = ""
 DEBUG = False
 
-def Attach_Endeffector(toks):
+XAXIS = VectorType(1, 0, 0, Name="ux")
+ZAXIS = VectorType(0, 0, 1, Name="uz")
+
+def Attach_Endeffector(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Create_Kit(toks):
+def Create_Kit(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Detach_Endeffector(toks):
+def Detach_Endeffector(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Look_For_Part(toks):
+def Look_For_Part(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Move_Over_Kit(toks):
+def Move_Over_Kit(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Move_Over_Kittray(toks):
+def Move_Over_Kittray(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Move_Over_Part(toks):
+def Move_Over_Part(toks, robot_port, gripper_port):
     out = ""
     # (move-over-part robot_1 part_gripper gearbox_base_tray gearbox_base_1 stock_keeping_unit_gearbox_base)
     if len(toks) < 6: return
     print toks[0], "using", toks[1], "with", toks[2], "to location", toks[3], "to get", toks[4], "of SKU", toks[5]
     return True
 
-def Place_Kit(toks):
+def Place_Kit(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Place_Kittray(toks):
+def Place_Kittray(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Place_Part(toks):
+def Place_Part(toks, robot_port, gripper_port):
     out = ""
     # (place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)
     if len(toks) < 8: return
@@ -71,32 +74,42 @@ def Place_Part(toks):
     out = out + str(m)
     # //! Open gripper
     # pm.demo->SetTool (0.9);
-    m = SetEndEffectorParametersType({"set" : 0.9}, 3)
+    m = SetEndEffectorParametersType(3, ParameterSettingType("set", 0.9))
     out = out + str(m)
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
-    m = MoveThroughToType(4)
+
+    m = MoveThroughToType(4, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
     out = out + str(m)
+
     # //! Grasp part
     # pm.demo->SetTool (0.1);
-    m = SetEndEffectorParametersType({"set" : 0.1}, 5)
+    m = SetEndEffectorParametersType(5, ParameterSettingType("set", 0.1))
     out = out + str(m)
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
-    m = MoveThroughToType(6)
+    m = MoveThroughToType(6, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
     out = out + str(m)
     print out
     return True
 
-def Take_Kit(toks):
+'''
+You were here, where you got all the commands in Create_Kit to parse
+and print. Now you need to take the sockets, write the commands, and
+read the status back.
+
+Also, create a gripper_prim program.
+'''
+
+def Take_Kit(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Take_Kittray(toks):
+def Take_Kittray(toks, robot_port, gripper_port):
     # print toks
     return True
 
-def Take_Part(toks):
+def Take_Part(toks, robot_port, gripper_port):
     # (take-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base gearbox_base_tray part_gripper kit_gearbox)
     if len(toks) < 7: return
     print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "from location", toks[4], "using", toks[5], "if", toks[6], "exists"
@@ -201,6 +214,9 @@ if INIFILE != "":
         sys.exit(1)
     except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
         print "robot_prim: read inifile:", str(err)
+    except:
+        print "robot_prim: inifile error"
+        sys.exit(1)
 
 if PLANFILE == "":
     print "plan_exec_app: no plan file specified"
@@ -230,16 +246,16 @@ if DEBUG:
 
 try:
     robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((ROBOT_HOST, ROBOT_PORT))
-except:
-    print "plan_exec_app: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT
+    robot_socket.connect((ROBOT_HOST, int(ROBOT_PORT)))
+except IOError as err:
+    print "plan_exec_app: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT, ":", str(err)
     sys.exit(1)
 
 try:
     gripper_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((GRIPPER_HOST, GRIPPER_PORT))
-except:
-    print "plan_exec_app: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT
+    gripper_socket.connect((GRIPPER_HOST, int(GRIPPER_PORT)))
+except IOError as err:
+    print "plan_exec_app: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT, ":", str(err)
     sys.exit(1)
 
 try:
@@ -254,21 +270,7 @@ for line in f:
     # then match a literal ')', then anything
     m = re.match(".*\((.*)\).*", line)
     if m != None:
-        parseLine(m.group(1), robot_socket, gripper_socket
-
-m = MoveThroughToType(17)
-m.add(PoseOnlyLocationType())
-m.add(PoseOnlyLocationType())
-m.add(PoseOnlyLocationType())
-print m
-
-jses = JointStatusesType()
-jses.add(JointStatus(1, 1.1, 1.2)
-jses.add(JointStatus(2, 2.1, 2.2)
-s = CRCLStatusType(CommandStatusType(), jses)
-print s
-
-s = CRCLStatusType(CommandStatusType(), 
-print s
+        if DEBUG: print "parsing line", m.group(1)
+        parseLine(m.group(1), robot_socket, gripper_socket)
 
 sys.exit(0)

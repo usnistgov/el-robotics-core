@@ -33,7 +33,7 @@ class DataThingType(object):
 
 class PointType(DataThingType):
 
-    def __init__(self, X=0, Y=0, Z=0, **kwargs):
+    def __init__(self, X, Y, Z, **kwargs):
         super(PointType, self).__init__(**kwargs)
         self.X = X
         self.Y = Y
@@ -58,7 +58,7 @@ class PointType(DataThingType):
 
 class VectorType(DataThingType):
 
-    def __init__(self, I=0, J=0, K=0, **kwargs):
+    def __init__(self, I, J, K, **kwargs):
         super(VectorType, self).__init__(**kwargs)
         self.I = I
         self.J = J
@@ -102,7 +102,7 @@ class PhysicalLocationType(DataThingType):
 
 class PoseLocationType(PhysicalLocationType):
 
-    def __init__(self, Point = PointType(), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), PositionStandardDeviation = None, OrientationStandardDeviation = None, **kwargs):
+    def __init__(self, Point = PointType(0,0,0), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), PositionStandardDeviation = None, OrientationStandardDeviation = None, **kwargs):
         super(PoseLocationType, self).__init__(**kwargs)
         self.Point = Point
         self.XAxis = XAxis
@@ -137,7 +137,7 @@ class PoseLocationType(PhysicalLocationType):
 
 class PoseOnlyLocationType(PoseLocationType):
 
-    def __init__(self, Point = PointType(), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), **kwargs):
+    def __init__(self, Point = PointType(0,0,0), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), **kwargs):
         super(PoseOnlyLocationType, self).__init__(Point, XAxis, ZAxis, **kwargs)
     # no need to provide anything else -- the parent has it all
 

@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-import sys, getopt, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET
+import sys, time, getopt, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET
 
 from crcl import *
 
-ver = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
@@ -17,8 +17,27 @@ GRIPPER_PORT = ""
 GRIPPER_HOST = ""
 DEBUG = False
 
-XAXIS = VectorType(1, 0, 0, Name="ux")
-ZAXIS = VectorType(0, 0, 1, Name="uz")
+XAXIS = VectorType(1, 0, 0)
+ZAXIS = VectorType(0, 0, 1)
+
+def readStatus(port):
+    size = 1024
+
+    try: data = port.recv(size)
+    except: return False, 0, CommandStateType.ERROR
+
+    try:
+        tree = ET.parse(StringIO.StringIO(data))
+        root = tree.getroot()
+    except: return False, 0, CommandStateType.ERROR
+
+    for child in root:
+        if child.tag == "CommandStatus":
+            cid = int(child.findtext("CommandID"))
+            sid = int(child.findtext("StatusID"))
+            cs = toCommandStateType(child.findtext("CommandState"))
+            return True, cid, cs
+        else: return False, 0, CommandStateType.ERROR
 
 def Attach_Endeffector(toks, robot_port, gripper_port):
     # print toks
@@ -60,46 +79,48 @@ def Place_Kittray(toks, robot_port, gripper_port):
     return True
 
 def Place_Part(toks, robot_port, gripper_port):
-    out = ""
     # (place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)
     if len(toks) < 8: return
     print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
 
     # //! Configure gripper for pre-grasp
     # pm.demo->Decouple(curtool);
-    m = OpenToolChangerType(1)
-    out = out + str(m)
+    m = OpenToolChangerType(101)
+    gripper_port.send(str(m))
+    fail = time.time() + 3
+    while True:
+        ret, cid, cs = readStatus(gripper_port)
+        if (ret == True) and (cid == 101):
+            if cs == CommandStateType.DONE: break
+            elif cs == CommandStateType.ERROR: return False
+        if time.time() > fail: return False
+        time.sleep(1)
+
     # pm.demo->Couple(curtool);
-    m = CloseToolChangerType(2)
-    out = out + str(m)
+    m = CloseToolChangerType(102)
+    gripper_port.send(str(m))
+    time.sleep(1)
     # //! Open gripper
     # pm.demo->SetTool (0.9);
-    m = SetEndEffectorParametersType(3, ParameterSettingType("set", 0.9))
-    out = out + str(m)
+    m = SetEndEffectorParametersType(103, ParameterSettingType("set", 0.9))
+    gripper_port.send(str(m))
+    time.sleep(1)
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
-
-    m = MoveThroughToType(4, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
-    out = out + str(m)
-
+    m = MoveThroughToType(104, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
+    robot_port.send(str(m))
+    time.sleep(1)
     # //! Grasp part
     # pm.demo->SetTool (0.1);
-    m = SetEndEffectorParametersType(5, ParameterSettingType("set", 0.1))
-    out = out + str(m)
+    m = SetEndEffectorParametersType(105, ParameterSettingType("set", 0.1))
+    gripper_port.send(str(m))
+    time.sleep(1)
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
-    m = MoveThroughToType(6, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
-    out = out + str(m)
-    print out
+    m = MoveThroughToType(106, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
+    robot_port.send(str(m))
+    time.sleep(1)
     return True
-
-'''
-You were here, where you got all the commands in Create_Kit to parse
-and print. Now you need to take the sockets, write the commands, and
-read the status back.
-
-Also, create a gripper_prim program.
-'''
 
 def Take_Kit(toks, robot_port, gripper_port):
     # print toks
@@ -151,17 +172,13 @@ def parseLine(line, robot_socket, gripper_socket):
 
     toks = str.split(line)
     num = len(toks)
-    if num == 0: return
-
-    retval = False
+    if num == 0: return False
 
     func = funcdict.get(toks[0], None)
-    if (func != None):
-        retval = func(toks, robot_socket, gripper_socket)
-    else:
-        print "unknown command", toks[0]
+    if (func != None): return func(toks, robot_socket, gripper_socket)
 
-    return retval
+    print "unknown command", toks[0]
+    return False
 
 # --- Main ---
 
@@ -270,7 +287,10 @@ for line in f:
     # then match a literal ')', then anything
     m = re.match(".*\((.*)\).*", line)
     if m != None:
-        if DEBUG: print "parsing line", m.group(1)
-        parseLine(m.group(1), robot_socket, gripper_socket)
+        if DEBUG: print "plan_exec_app: parsing line", m.group(1)
+        retval = parseLine(m.group(1), robot_socket, gripper_socket)
+        if retval == False:
+            print "plan_exec_app: error handling", m.group(1)
+            sys.exit(1)
 
 sys.exit(0)

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET, ConfigParser
+import sys, time, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET, ConfigParser
 from crcl import *
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -21,7 +21,7 @@ CommandState = "Ready"
 # --- Status writer ---
 
 def writer(conn, period):
-    global CommandID, StatusID, CommandState
+    global DEBUG, CommandID, StatusID, CommandState
 
     # loop with a delay while a client is connected
     while True:
@@ -54,15 +54,43 @@ def writer(conn, period):
 
 # --- Message handlers ---
 
-def handleMoveThroughToType(x):
-    print x.findtext("CommandID")
-    print x.findtext("NumPositions")
-    print x.findtext("MoveStraight")
-    for i in x.findall("Waypoint"):
+def handleMoveThroughToType(child):
+    global DEBUG, CommandID, StatusID, CommandState
+    if DEBUG: print "handleMoveThroughToType"
+    
+    CommandID = child.findtext("CommandID")
+    CommandState = "Done"
+    print child.findtext("NumPositions")
+    print child.findtext("MoveStraight")
+    for i in child.findall("Waypoint"):
         ii = i.find("Point")
         print ii.findtext("X"), ii.findtext("Y"), ii.findtext("Z")
         ii = i.find("XAxis")
         print ii.findtext("I"), ii.findtext("J"), ii.findtext("K")
+        ii = i.find("ZAxis")
+        print ii.findtext("I"), ii.findtext("J"), ii.findtext("K")
+
+def handleOpenToolChangerType(child):
+    global DEBUG, CommandID, StatusID, CommandState
+    if DEBUG: print "handleOpenToolChangerType"
+    time.sleep(2)
+    CommandID = child.findtext("CommandID")
+    CommandState = "Done"
+
+def handleCloseToolChangerType(child):
+    global DEBUG, CommandID, StatusID, CommandState
+    if DEBUG: print "handleCloseToolChangerType"
+    CommandID = child.findtext("CommandID")
+    CommandState = "Done"
+
+def handleSetEndEffectorParametersType(child):
+    global DEBUG, CommandID, StatusID, CommandState
+    if DEBUG: print "handleSetEndEffectorParametersType"
+    CommandID = child.findtext("CommandID")
+    CommandState = "Done"
+    print child.findtext("CommandID")
+    for i in child.findall("ParameterSetting"):
+        print i.findtext("ParameterName"), "=", i.findtext("ParameterValue")
 
 # -- Command reader ---
 
@@ -82,21 +110,25 @@ def reader(conn):
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
-            for child in root:
-                if child.tag == "CRCLCommand":
-                    cmd = child.attrib.get(xsi+"type", None)
-                    if cmd == "MoveThroughToType":
-                        handleMoveThroughToType(cmd)
-                    elif cmd == "InitCanonType":
-                        print "robot_prim: InitCanonType"
-                    else:
-                        # unknown command
-                        print "robot_prim: unknown command:", cmd
-                else:
-                    # unknown tag
-                    print "robot_prim: unknown tag:", child.tag
         except:
-            print "robot_prim: bad message format:", str(data)
+            print "robot_prim: error parsing data:", str(data)
+        for child in root:
+            if child.tag == "CRCLCommand":
+                cmd = child.attrib.get(xsi+"type", None)
+                if cmd == "MoveThroughToType":
+                    handleMoveThroughToType(child)
+                elif cmd == "OpenToolChangerType":
+                    handleOpenToolChangerType(child)
+                elif cmd == "CloseToolChangerType":
+                    handleCloseToolChangerType(child)
+                elif cmd == "SetEndEffectorParametersType":
+                    handleSetEndEffectorParametersType(child)
+                else:
+                    # unknown command
+                    print "robot_prim: unknown command:", cmd
+            else:
+                # unknown tag
+                print "robot_prim: unknown tag:", child.tag
 
     # recv failed, client disconnected
     if DEBUG: print "robot_prim: reader done"

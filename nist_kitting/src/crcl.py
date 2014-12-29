@@ -143,15 +143,6 @@ class PoseOnlyLocationType(PoseLocationType):
 
 # --- Commands ---
 
-'''
-FIXME -- for single commands, i.e., with an empty 'root', preface them
-with a CRCLCommandInstance (already done). When a command has a root, 
-preface them with a MiddleCommand, e.g., 
-  <MiddleCommand xsi:type="CloseToolChangerType">
-    <CommandID>3</CommandID>
-  </MiddleCommand>
-'''
-
 class CRCLCommandInstanceType(DataThingType):
 
     def __init__(self, CRCLCommand, **kwargs):
@@ -227,9 +218,12 @@ class MoveThroughToType(MiddleCommandType):
         else: ET.SubElement(el, "MoveStraight").text = "false"
         for wp in self.Waypoint:
             wpel = ET.SubElement(el, "Waypoint")
-            wp.Point.tree(wpel)
-            wp.XAxis.tree(wpel)
-            wp.ZAxis.tree(wpel)
+            ptel = ET.SubElement(wpel, "Point")
+            wp.Point.tree(ptel)
+            xel = ET.SubElement(wpel, "XAxis")
+            wp.XAxis.tree(xel)
+            zel = ET.SubElement(wpel, "ZAxis")
+            wp.ZAxis.tree(zel)
         ET.SubElement(el, "NumPositions").text = str(self.NumPositions)
         return ET.ElementTree(root)
 
@@ -337,6 +331,12 @@ class CommandStateType(object):
     ERROR = "Error"
     WORKING = "Wprking"
     READY = "Ready"
+
+def toCommandStateType(s):
+    if s == CommandStateType.DONE: return s
+    if s == CommandStateType.WORKING: return s
+    if s == CommandStateType.READY: return s
+    return ComandStateType.ERROR
 
 class CommandStatusType(DataThingType):
 

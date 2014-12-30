@@ -10,7 +10,7 @@ dict = {"xmlns:xsi" : uri}
 
 INIFILE = ""
 PORT = ""
-PERIOD = 1
+PERIOD = 0.2
 DEBUG = False
 
 # the global RCS header variables for the currently executing command
@@ -59,7 +59,8 @@ def handleMoveThroughToType(child):
     if DEBUG: print "handleMoveThroughToType"
     
     CommandID = child.findtext("CommandID")
-    CommandState = "Done"
+    CommandState = CommandStateType.DONE
+    print CommandID
     print child.findtext("NumPositions")
     print child.findtext("MoveStraight")
     for i in child.findall("Waypoint"):
@@ -73,22 +74,23 @@ def handleMoveThroughToType(child):
 def handleOpenToolChangerType(child):
     global DEBUG, CommandID, StatusID, CommandState
     if DEBUG: print "handleOpenToolChangerType"
-    time.sleep(2)
     CommandID = child.findtext("CommandID")
-    CommandState = "Done"
+    CommandState = CommandStateType.DONE
+    print CommandID
 
 def handleCloseToolChangerType(child):
     global DEBUG, CommandID, StatusID, CommandState
     if DEBUG: print "handleCloseToolChangerType"
     CommandID = child.findtext("CommandID")
-    CommandState = "Done"
+    CommandState = CommandStateType.DONE
+    print CommandID
 
 def handleSetEndEffectorParametersType(child):
     global DEBUG, CommandID, StatusID, CommandState
     if DEBUG: print "handleSetEndEffectorParametersType"
     CommandID = child.findtext("CommandID")
-    CommandState = "Done"
-    print child.findtext("CommandID")
+    CommandState = CommandStateType.DONE
+    print CommandID
     for i in child.findall("ParameterSetting"):
         print i.findtext("ParameterName"), "=", i.findtext("ParameterValue")
 
@@ -188,8 +190,10 @@ while True:
     except: break
     if DEBUG: print "robot_prim: connected by", addr
     r = threading.Thread(target=reader, args=(conn,))
+    r.daemon = True
     r.start()
     t = threading.Thread(target=writer, args=(conn,float(PERIOD)))
+    t.daemon = True
     t.start()
 
 print "robot_prim: done"

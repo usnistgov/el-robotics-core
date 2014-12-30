@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, time, getopt, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET
+import sys, time, getopt, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET
 
 from crcl import *
 
@@ -16,28 +16,78 @@ ROBOT_HOST = ""
 GRIPPER_PORT = ""
 GRIPPER_HOST = ""
 DEBUG = False
+PERIOD = 0.5
+
+# the global subordinate statuses
+
+RobotCommandID = 0
+RobotCommandState = CommandStateType.READY
+
+GripperCommandID = 0
+GripperCommandState = CommandStateType.READY
 
 XAXIS = VectorType(1, 0, 0)
 ZAXIS = VectorType(0, 0, 1)
 
-def readStatus(port):
+def robot_reader(conn):
+    global DEBUG, RobotCommandID, RobotCommandState
     size = 1024
+    while True:
+        try: data = conn.recv(size)
+        except: break
+        if not data: break
+        try:
+            tree = ET.parse(StringIO.StringIO(data))
+            root = tree.getroot()
+            if root.tag == "CRCLStatus":
+                for child in root:
+                    if child.tag == "CommandStatus":
+                        t = child.findtext("CommandID")
+                        if (t != None) and (t != ""): RobotCommandID = int(t)
+                        t = child.findtext("CommandState")
+                        if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
+                        # else Pose, GripperStatus, etc.
+            if DEBUG: print "Robot", RobotCommandID, RobotCommandState
+        except: pass
+    conn.close()
 
-    try: data = port.recv(size)
-    except: return False, 0, CommandStateType.ERROR
+def gripper_reader(conn):
+    global DEBUG, GripperCommandID, GripperCommandState
+    size = 1024
+    while True:
+        try: data = conn.recv(size)
+        except: break
+        if not data: break
+        try:
+            tree = ET.parse(StringIO.StringIO(data))
+            root = tree.getroot()
+            if root.tag == "CRCLStatus":
+                for child in root:
+                    if child.tag == "CommandStatus":
+                        t = child.findtext("CommandID")
+                        if (t != None) and (t != ""): GripperCommandID = int(t)
+                        t = child.findtext("CommandState")
+                        if (t != None) and (t != ""): GripperCommandState = toCommandStateType(t)
+                        # else Pose, GripperStatus, etc.
+            if DEBUG: print "Gripper", GripperCommandID, GripperCommandState
+        except: pass
+    conn.close()
 
-    try:
-        tree = ET.parse(StringIO.StringIO(data))
-        root = tree.getroot()
-    except: return False, 0, CommandStateType.ERROR
+def robot_poll(cid, tm):
+    global DEBUG, PERIOD, RobotCommandID, RobotCommandState
+    end = time.time() + tm
+    while True:
+        if (RobotCommandID == cid) and (RobotCommandState != CommandStateType.WORKING): return RobotCommandState
+        elif time.time() > end: return CommandStateType.TIMEOUT
+        time.sleep(PERIOD)
 
-    for child in root:
-        if child.tag == "CommandStatus":
-            cid = int(child.findtext("CommandID"))
-            sid = int(child.findtext("StatusID"))
-            cs = toCommandStateType(child.findtext("CommandState"))
-            return True, cid, cs
-        else: return False, 0, CommandStateType.ERROR
+def gripper_poll(cid, tm):
+    global DEBUG, PERIOD, GripperCommandID, GripperCommandState
+    end = time.time() + tm
+    while True:
+        if (GripperCommandID == cid) and (GripperCommandState != CommandStateType.WORKING): return GripperCommandState
+        elif time.time() > end: return CommandStateType.TIMEOUT
+        time.sleep(PERIOD)
 
 def Attach_Endeffector(toks, robot_port, gripper_port):
     # print toks
@@ -79,47 +129,59 @@ def Place_Kittray(toks, robot_port, gripper_port):
     return True
 
 def Place_Part(toks, robot_port, gripper_port):
+    global PERIOD, DEBUG
     # (place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)
     if len(toks) < 8: return
-    print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
+    if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
+
+    # command ids for robot and gripper subordinates
+    robot_cid = 100
+    gripper_cid = 200
 
     # //! Configure gripper for pre-grasp
     # pm.demo->Decouple(curtool);
-    m = OpenToolChangerType(101)
+    gripper_cid += 1
+    m = OpenToolChangerType(gripper_cid)
     gripper_port.send(str(m))
-    fail = time.time() + 3
-    while True:
-        ret, cid, cs = readStatus(gripper_port)
-        if (ret == True) and (cid == 101):
-            if cs == CommandStateType.DONE: break
-            elif cs == CommandStateType.ERROR: return False
-        if time.time() > fail: return False
-        time.sleep(1)
+    if gripper_poll(gripper_cid, 3) != CommandStateType.DONE:
+        print "error on", str(m)
+        return False
 
     # pm.demo->Couple(curtool);
-    m = CloseToolChangerType(102)
+    gripper_cid += 1
+    m = CloseToolChangerType(gripper_cid)
     gripper_port.send(str(m))
-    time.sleep(1)
+    if gripper_poll(gripper_cid, 3) != CommandStateType.DONE: return False
+
     # //! Open gripper
     # pm.demo->SetTool (0.9);
-    m = SetEndEffectorParametersType(103, ParameterSettingType("set", 0.9))
+    gripper_cid += 1
+    m = SetEndEffectorParametersType(gripper_cid, ParameterSettingType("set", 0.9))
     gripper_port.send(str(m))
-    time.sleep(1)
+    if gripper_poll(gripper_cid, 3) != CommandStateType.DONE: return False
+
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
-    m = MoveThroughToType(104, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
+    robot_cid += 1
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
     robot_port.send(str(m))
-    time.sleep(1)
+    if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
+
     # //! Grasp part
     # pm.demo->SetTool (0.1);
-    m = SetEndEffectorParametersType(105, ParameterSettingType("set", 0.1))
+    gripper_cid += 1
+    m = SetEndEffectorParametersType(gripper_cid, ParameterSettingType("set", 0.1))
     gripper_port.send(str(m))
-    time.sleep(1)
+    if gripper_poll(gripper_cid, 3) != CommandStateType.DONE: return False
+
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
-    m = MoveThroughToType(106, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
+    robot_cid += 1
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
     robot_port.send(str(m))
-    time.sleep(1)
+    if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
+
+    # else we did it all OK
     return True
 
 def Take_Kit(toks, robot_port, gripper_port):
@@ -183,7 +245,7 @@ def parseLine(line, robot_socket, gripper_socket):
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:R:g:G:d", ["inifile=", "file=", "robot=", "robothost=", "gripper=", "gripperhost="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:R:g:G:t:d", ["inifile=", "file=", "robot=", "robothost=", "gripper=", "gripperhost=", "period="])
 except getopt.GetoptError, err:
     print "plan_exec_app:", str(err)
     sys.exit(1)
@@ -201,6 +263,8 @@ for o, a in opts:
         GRIPPER_PORT = a
     elif o in ("-G", "--gripperhost"):
         GRIPPER_HOST = a
+    elif o in ("-t", "--period"):
+        PERIOD = float(a)
     elif o in ("-d"):
         DEBUG = True
 
@@ -256,11 +320,6 @@ if DEBUG:
     print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
     print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
 
-# FIXME
-# Connect to robot, gripper
-# Spawn threads for each to read status and update global RCS header vars
-# Write commands to them in the handlers
-
 try:
     robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     robot_socket.connect((ROBOT_HOST, int(ROBOT_PORT)))
@@ -268,12 +327,20 @@ except IOError as err:
     print "plan_exec_app: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT, ":", str(err)
     sys.exit(1)
 
+rt = threading.Thread(target=robot_reader, args=(robot_socket,))
+rt.daemon = True
+rt.start()
+
 try:
     gripper_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     gripper_socket.connect((GRIPPER_HOST, int(GRIPPER_PORT)))
 except IOError as err:
     print "plan_exec_app: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT, ":", str(err)
     sys.exit(1)
+
+gt = threading.Thread(target=gripper_reader, args=(gripper_socket,))
+gt.daemon = True
+gt.start()
 
 try:
     f = open(PLANFILE, "rb")

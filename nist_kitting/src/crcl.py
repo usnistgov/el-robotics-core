@@ -331,11 +331,13 @@ class CommandStateType(object):
     ERROR = "Error"
     WORKING = "Wprking"
     READY = "Ready"
+    TIMEOUT = "Timeout"
 
 def toCommandStateType(s):
     if s == CommandStateType.DONE: return s
     if s == CommandStateType.WORKING: return s
     if s == CommandStateType.READY: return s
+    if s == CommandStateType.TIMEOUT: return s
     return ComandStateType.ERROR
 
 class CommandStatusType(DataThingType):

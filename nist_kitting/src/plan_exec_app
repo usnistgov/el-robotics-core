@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, time, getopt, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET
+import sys, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, random, subprocess, shlex
 
 from crcl import *
 
@@ -36,6 +36,7 @@ def robot_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
+        if DEBUG: print data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -58,6 +59,7 @@ def gripper_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
+        if DEBUG: print data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -163,7 +165,10 @@ def Place_Part(toks, robot_port, gripper_port):
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
     robot_cid += 1
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
+    # FIXME -- replace the echo with the call to look up a pose name
+    try: target = shlex.split(subprocess.check_output(shlex.split("echo 1.2 3.4 -5.6")))
+    except: return False
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(target[0], target[1], target[2]), XAXIS, ZAXIS)])
     robot_port.send(str(m))
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
@@ -177,7 +182,8 @@ def Place_Part(toks, robot_port, gripper_port):
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
     robot_cid += 1
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(0,0,0), XAXIS, ZAXIS)])
+    # FIXME -- replace these randoms with the subprocess call, as above
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(random.random(),random.random(),random.random()), XAXIS, ZAXIS)])
     robot_port.send(str(m))
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 

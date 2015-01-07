@@ -353,7 +353,7 @@ struct ping_reply_message {
 */
 
 struct joint_traj_pt_request_message {
-  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int length;		  /* 4 bytes, constant value should be 16x4 = 64 */
   int message_type;	  /* 4 bytes, constant value 11, JOINT TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
   int reply_type;	  /* 4 bytes, N/A */
@@ -492,7 +492,7 @@ struct joint_traj_pt_reply_message {
 
 struct joint_traj_pt_state_message {
   int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
-  int message_type;	  /* 4 bytes, constant value 11, JOINT_TRAJ_PT */
+  int message_type;	  /* 4 bytes, constant value 10, JOINT_TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
   int reply_type;	  /* 4 bytes, N/A */
   int unused_1;		  /* 4 bytes, N/A */

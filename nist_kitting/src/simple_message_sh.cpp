@@ -55,6 +55,9 @@ static void reply_client_thread_code(reply_client_thread_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
+    if (debug) {
+      printf("Got %d reply chars\n", nchars);
+    }
     inbuf[sizeof(inbuf)-1] = 0;
     ptr = inbuf;
     nleft = nchars;
@@ -115,6 +118,9 @@ static void state_client_thread_code(state_client_thread_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
+    if (debug) {
+      printf("Got %d state chars\n", nchars);
+    }
     inbuf[sizeof(inbuf)-1] = 0;
     ptr = inbuf;
     nleft = nchars;

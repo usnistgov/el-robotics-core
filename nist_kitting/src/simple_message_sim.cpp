@@ -167,8 +167,14 @@ static void state_connection_thread_code(state_connection_thread_args *args)
 
     ulapi_mutex_give(&robot_mutex);
 
+
+
+#if 0
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
     if (nchars < 0) break;
+#endif
+
+
 
     ulapi_wait(period * 1e9);
   }
@@ -292,7 +298,7 @@ int main(int argc, char *argv[])
   ulapi_task_struct state_server_thread;
   request_server_thread_args request_server_args; 
   state_server_thread_args state_server_args; 
-  double period = 1;
+  double period = 0.5;		// ROS recommends 2 Hz at least
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
 

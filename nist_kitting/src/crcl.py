@@ -7,6 +7,10 @@ uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
 
+# 
+# To Do: add the inverse methods, filling in the class given some XML
+# 
+
 class DataThingType(object):
 
     def __init__(self, Name=None, **kwargs):

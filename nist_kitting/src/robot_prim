@@ -9,6 +9,7 @@ xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
 
 INIFILE = ""
+NAME = "robot_prim"
 PORT = ""
 PERIOD = 0.2
 DEBUG = False
@@ -18,21 +19,19 @@ CommandID = 0
 StatusID = 0
 CommandState = "Ready"
 
+# the global pose
+Pose = PoseOnlyLocationType()
+
 # --- Status writer ---
 
 def writer(conn, period):
-    global DEBUG, CommandID, StatusID, CommandState
+    global DEBUG, CommandID, StatusID, CommandState, Pose
 
     # loop with a delay while a client is connected
     while True:
 
-        # build a status message
-        root = ET.Element("CRCLStatus", attrib=dict)
-        cs = ET.SubElement(root, "CommandStatus")
-        ET.SubElement(cs, "CommandID").text = str(CommandID)
-        ET.SubElement(cs, "StatusID").text = str(StatusID)
-        ET.SubElement(cs, "CommandState").text = CommandState
-        tree = ET.ElementTree(root)
+        cs = CRCLStatusType(CommandStatusType(CommandID, StatusID, CommandState), Pose)
+        tree = cs.tree()
 
         # stringify it
         output = StringIO.StringIO()
@@ -50,26 +49,33 @@ def writer(conn, period):
             break
 
     # send failed, client disconnected
-    if DEBUG: print "robot_prim: writer done"
+    if DEBUG: print NAME, ": writer done"
 
 # --- Message handlers ---
 
 def handleMoveThroughToType(child):
-    global DEBUG, CommandID, StatusID, CommandState
+    global DEBUG, CommandID, StatusID, CommandState, Pose
     if DEBUG: print "handleMoveThroughToType"
     
     CommandID = child.findtext("CommandID")
-    CommandState = CommandStateType.DONE
     print CommandID
     print child.findtext("NumPositions")
     print child.findtext("MoveStraight")
     for i in child.findall("Waypoint"):
-        ii = i.find("Point")
-        print ii.findtext("X"), ii.findtext("Y"), ii.findtext("Z")
-        ii = i.find("XAxis")
-        print ii.findtext("I"), ii.findtext("J"), ii.findtext("K")
-        ii = i.find("ZAxis")
-        print ii.findtext("I"), ii.findtext("J"), ii.findtext("K")
+        try:
+            ii = i.find("Point")
+            point = PointType(float(ii.findtext("X")), float(ii.findtext("Y")), float(ii.findtext("Z")))
+            ii = i.find("XAxis")
+            xaxis = VectorType(float(ii.findtext("I")), float(ii.findtext("J")), float(ii.findtext("K")))
+            ii = i.find("ZAxis")
+            zaxis = VectorType(float(ii.findtext("I")), float(ii.findtext("J")), float(ii.findtext("K")))
+            Pose.Point = point
+            Pose.XAxis = xaxis
+            Pose.ZAxis = zaxis
+            print Pose
+            CommandState = CommandStateType.DONE
+        except:
+            CommandState = CommandStateType.ERROR
 
 def handleOpenToolChangerType(child):
     global DEBUG, CommandID, StatusID, CommandState
@@ -113,7 +119,7 @@ def reader(conn):
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
         except:
-            print "robot_prim: error parsing data:", str(data)
+            print NAME, ": error parsing data :", str(data)
         for child in root:
             if child.tag == "CRCLCommand":
                 cmd = child.attrib.get(xsi+"type", None)
@@ -127,26 +133,28 @@ def reader(conn):
                     handleSetEndEffectorParametersType(child)
                 else:
                     # unknown command
-                    print "robot_prim: unknown command:", cmd
+                    print NAME, ": unknown command :", cmd
             else:
                 # unknown tag
-                print "robot_prim: unknown tag:", child.tag
+                print NAME, ": unknown tag :", child.tag
 
     # recv failed, client disconnected
-    if DEBUG: print "robot_prim: reader done"
+    if DEBUG: print NAME, ": reader done"
     conn.close()
 
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:p:t:d", ["inifile=", "port=", "period="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:n:p:t:d", ["inifile=", "name=", "port=", "period="])
 except getopt.GetoptError, err:
-    print "robot_prim:", str(err)
+    print NAME, ":", str(err)
     sys.exit(1)
 
 for o, a in opts:
-    if o in ("-i", "--infiile"):
+    if o in ("-i", "--infile"):
         INIFILE = a
+    elif o in ("-n", "--name"):
+        NAME = a
     elif o in ("-p", "--port"):
         PORT = a
     elif o in ("-t", "--period"):
@@ -160,23 +168,23 @@ if INIFILE != "":
             config = ConfigParser.ConfigParser()
             config.read(INIFILE)
             if PORT == "":
-                PORT = config.get("robot_prim", "port")
+                PORT = config.get(NAME, "port")
             if PERIOD == "":
-                PERIOD = config.get("robot_prim", "period")
+                PERIOD = config.get(NAME, "period")
     except IOError as err:
-        print "robot_prim: open inifile:", str(err)
+        print NAME, ": open inifile :", str(err)
         sys.exit(1)
     except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
-        print "robot_prim: read inifile:", str(err)
+        print NAME, ": read inifile :", str(err)
         sys.exit(1)
 
 if PORT == "":
-    print "robot_prim: no port provided"
+    print NAME, ": no port provided"
     sys.exit(1)
 
 if PERIOD == "":
     PERIOD = 1
-    print "robot_prim: using default period", PERIOD
+    print NAME, ": using default period", PERIOD
 
 BACKLOG = 1
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -185,10 +193,10 @@ s.bind(("", int(PORT)))
 s.listen(BACKLOG)
 
 while True:
-    if DEBUG: print "robot_prim: accepting connections on", str(PORT)
+    if DEBUG: print NAME, ": accepting connections on", str(PORT)
     try: conn, addr = s.accept()
     except: break
-    if DEBUG: print "robot_prim: connected by", addr
+    if DEBUG: print NAME, ": connected by", addr
     r = threading.Thread(target=reader, args=(conn,))
     r.daemon = True
     r.start()
@@ -196,6 +204,6 @@ while True:
     t.daemon = True
     t.start()
 
-print "robot_prim: done"
+print NAME, ": done"
 
 sys.exit(0)

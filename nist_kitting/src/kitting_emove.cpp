@@ -113,7 +113,7 @@ static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat
       ulapi_process_stop(plan_exec_process);
       ulapi_process_delete(plan_exec_process);
     }
-    plan_exec_app_full = plan_exec_app + " -f " + name;
+    plan_exec_app_full = plan_exec_app + " -i " + inifile_name + " -f " + name;
     plan_exec_process = ulapi_process_new();
     if (ULAPI_OK == ulapi_process_start(plan_exec_process, const_cast<char *>(plan_exec_app_full.c_str()))) {
       emove_stat.stat.state = RCS_STATE_S1;
@@ -173,7 +173,7 @@ static int ini_load(const std::string inifile_name,
     } else {
       plan_exec_app = std::string(inistring);
     }
-      printf("set planning app to %s\n", plan_exec_app.c_str());
+      printf("set plan_exec_app to %s\n", plan_exec_app.c_str());
   }
 
   fclose(fp);

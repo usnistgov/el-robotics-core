@@ -12,9 +12,13 @@
 
 <group>
 
-  <node pkg="nist_kitting" name="crcl_server" args="-d" type="crcl_server"/>
+  <!-- node pkg="nist_kitting" name="crcl_server" args="-d" type="crcl_server" -->
 
-  <node pkg="nist_kitting" name="prim_robot" args="-d" type="kitting_prim_robot_node"/>
+  <!-- node pkg="nist_kitting" name="prim_robot" args="-d" type="kitting_prim_robot_node" -->
+
+  <node pkg="nist_kitting" name="robot_prim" args="-i $(arg inifile_name) -d" type="robot_prim" output="screen"/>
+
+  <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -d -n gripper_prim" type="robot_prim" output="screen"/>
 
   <node pkg="nist_kitting" name="emove" args="-i $(arg inifile_name) -e $(arg plan_exec_app) -d" type="kitting_emove_node" output="screen"/>
 

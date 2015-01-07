@@ -163,6 +163,9 @@ class App:
         Entry(master, textvariable=self.diagsVar).grid(row=4, column=0, columnspan=6, sticky=W+E)
 
         #
+        Button(master, text="Quit", command=self.quit).grid(row=5,columnspan=6)
+
+        #
         self.recvThread = threading.Thread(target=self.recvFunc)
         self.recvThread.daemon = True
         self.recvThread.start()
@@ -241,6 +244,10 @@ class App:
         self.cmdEntry.config(state=DISABLED)
         self.statusEntry.config(state=DISABLED)
         self.hbEntry.config(state=DISABLED)
+
+    def quit(self):
+        self.disconnect()
+        sys.exit(0)
 
 root = Tk()
 

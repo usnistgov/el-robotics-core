@@ -91,49 +91,62 @@ def gripper_poll(cid, tm):
         elif time.time() > end: return CommandStateType.TIMEOUT
         time.sleep(PERIOD)
 
+# --- Handler functions for PDDL commands ---
+
 def Attach_Endeffector(toks, robot_port, gripper_port):
-    # print toks
+    # (attach-endeffector robot_1 part_gripper part_gripper_holder changing_station_1 part_gripper_holder_slot)
+    print toks
     return True
 
 def Create_Kit(toks, robot_port, gripper_port):
-    # print toks
+    # (create-kit kit_s2m1l1 kit_tray_1 work_table_1)
+    print toks
     return True
 
 def Detach_Endeffector(toks, robot_port, gripper_port):
-    # print toks
+    # (detach-endeffector robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
+    print toks
+    return True
+
+def Look_For_Endeffector_In_Endeffectorholder(toks, robot_port, gripper_port):
+    # (look-for-endeffector-in-endeffectorholder robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
+    print toks
     return True
 
 def Look_For_Part(toks, robot_port, gripper_port):
-    # print toks
+    # (look-for-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 part_gripper)
+    print toks
     return True
 
-def Move_Over_Kit(toks, robot_port, gripper_port):
-    # print toks
+def Look_For_Slot_In_Kit(toks, robot_port, gripper_port):
+    # (look-for-slot-in-kit robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
+    print toks
     return True
 
-def Move_Over_Kittray(toks, robot_port, gripper_port):
-    # print toks
+def Look_For_Slot_In_Lbwk(toks, robot_port, gripper_port):
+    # (look-for-slot-in-lbwk robot_1 lbwk_slot_0 finished_kit_receiver kit_s2m1l1 tray_gripper)
+    print toks
     return True
 
-def Move_Over_Part(toks, robot_port, gripper_port):
-    out = ""
-    # (move-over-part robot_1 part_gripper gearbox_base_tray gearbox_base_1 stock_keeping_unit_gearbox_base)
-    if len(toks) < 6: return
-    print toks[0], "using", toks[1], "with", toks[2], "to location", toks[3], "to get", toks[4], "of SKU", toks[5]
+def Look_For_Slot_On_Worksurface_Kittray(toks, robot_port, gripper_port):
+    # (look-for-slot-on-worksurface-kittray robot_1 worksurface-slot-for-kittray work_table_1 kit_tray_1 tray_gripper)
+    print toks
     return True
 
 def Place_Kit(toks, robot_port, gripper_port):
-    # print toks
+    # (place-kit robot_1 kit_s2m1l1 tray_gripper lbwk_slot_0 finished_kit_receiver)
+    print toks
     return True
 
 def Place_Kittray(toks, robot_port, gripper_port):
-    # print toks
+    # (place-kittray robot_1 kit_tray_1 work_table_1 worksurface-slot-for-kittray tray_gripper)
+    print toks
     return True
 
 def Place_Part(toks, robot_port, gripper_port):
+    # (place-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
     global PERIOD, DEBUG
-    # (place-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base kit_gearbox part_gripper work_table_1 shaft_tray)
-    if len(toks) < 8: return
+    if len(toks) < 7: return False
     if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
 
     # command ids for robot and gripper subordinates
@@ -190,16 +203,23 @@ def Place_Part(toks, robot_port, gripper_port):
     # else we did it all OK
     return True
 
+def Set_Grasp(toks, robot_port, gripper_port):
+    # (set-grasp robot_1 part_vex36_1 stock_keeping_unit_part_vex36 part_gripper)
+    print toks
+    return True
+
 def Take_Kit(toks, robot_port, gripper_port):
-    # print toks
+    # (take-kit robot_1 kit_s2m1l1 kit_tray_1 work_table_1 stock_keeping_unit_kit_tray tray_gripper)
+    print toks
     return True
 
 def Take_Kittray(toks, robot_port, gripper_port):
-    # print toks
+    # (take-kittray robot_1 kit_tray_1 empty_kit_tray_supply tray_gripper stock_keeping_unit_kit_tray)
+    print toks
     return True
 
 def Take_Part(toks, robot_port, gripper_port):
-    # (take-part robot_1 gearbox_base_1 stock_keeping_unit_gearbox_base gearbox_base_tray part_gripper kit_gearbox)
+    # (take-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 part_vex36_tray part_gripper kit_s2m1l1)
     if len(toks) < 7: return
     print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "from location", toks[4], "using", toks[5], "if", toks[6], "exists"
     # //! Configure gripper for pre-grasp
@@ -221,17 +241,19 @@ funcdict = {
     "attach-endeffector" : Attach_Endeffector,
     "create-kit" : Create_Kit,
     "detach-endeffector" : Detach_Endeffector,
+    "look-for-endeffector-in-endeffectorholder" : Look_For_Endeffector_In_Endeffectorholder,
     "look-for-part" : Look_For_Part,
-    "move-over-kit" : Move_Over_Kit,
-    "move-over-kittray" : Move_Over_Kittray,
-    "move-over-part" : Move_Over_Part,
+    "look-for-slot-in-kit" : Look_For_Slot_In_Kit,
+    "look-for-slot-in-lbwk" : Look_For_Slot_In_Lbwk,
+    "look-for-slot-on-worksurface-kittray" : Look_For_Slot_On_Worksurface_Kittray,
     "place-kit" : Place_Kit,
     "place-kittray" : Place_Kittray,
     "place-part" : Place_Part,
+    "set-grasp" : Set_Grasp,
     "take-kit" : Take_Kit,
     "take-kittray" : Take_Kittray,
     "take-part" : Take_Part
-}
+    }
 
 # parseLine looks up the handler functions and calls them with
 # the line and the socket ports to the robot and gripper subordinates
@@ -363,7 +385,6 @@ for line in f:
         if DEBUG: print "plan_exec_app: parsing line", m.group(1)
         retval = parseLine(m.group(1), robot_socket, gripper_socket)
         if retval == False:
-            print "plan_exec_app: error handling", m.group(1)
-            sys.exit(1)
+            print "plan_exec_app: warning: ignoring", m.group(1)
 
 sys.exit(0)

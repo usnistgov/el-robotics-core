@@ -1,0 +1,24 @@
+<launch>
+
+<!--
+    Run as, e.g., 
+
+    roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=/usr/local/github/el-robotics-core/nist_kitting/src/ini.ini
+-->
+
+<arg name="msg_port" default="11000" />
+<arg name="state_port" default="11002" />
+<arg name="period" default="0.5" />
+<arg name="robot_ip" default="localhost" />
+
+<group>
+
+  <node pkg="nist_kitting" required="true" name="simple_message_sim" args="-m $(arg msg_port) -s $(arg state_port) -t $(arg period) -d" type="simple_message_sim" output="screen"/>
+
+  <include file="$(find industrial_robot_client)/launch/robot_interface_streaming.launch">
+  <arg name="robot_ip" value="$(arg robot_ip)" />
+  </include>
+
+</group>
+
+</launch>

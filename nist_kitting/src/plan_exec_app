@@ -4,6 +4,8 @@ import sys, time, getopt, string, threading, re, socket, ConfigParser, StringIO,
 
 from crcl import *
 
+import MySQLdb
+
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
@@ -28,6 +30,9 @@ GripperCommandState = CommandStateType.READY
 
 XAXIS = VectorType(1, 0, 0)
 ZAXIS = VectorType(0, 0, 1)
+
+# the MySQL database query cursor
+db_cursor = None
 
 def robot_reader(conn):
     global DEBUG, RobotCommandID, RobotCommandState
@@ -145,7 +150,7 @@ def Place_Kittray(toks, robot_port, gripper_port):
 
 def Place_Part(toks, robot_port, gripper_port):
     # (place-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
-    global PERIOD, DEBUG
+    global db_cursor, PERIOD, DEBUG
     if len(toks) < 7: return False
     if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
 
@@ -179,9 +184,18 @@ def Place_Part(toks, robot_port, gripper_port):
     # pm.demo->MoveTo (poseMe)
     robot_cid += 1
     # FIXME -- replace the echo with the call to look up a pose name
-    try: target = shlex.split(subprocess.check_output(shlex.split("echo 1.2 3.4 -5.6")))
-    except: return False
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(target[0], target[1], target[2]), XAXIS, ZAXIS)])
+    x = 0
+    y = 0
+    if db_cursor != None:
+        try:
+            db_cursor.execute("select X,Y,Z from DirectPose where name = " + "\"" + toks[3] + "\"")
+            for row in db_cursor.fetchall():
+                x = row[0]
+                y = row[1]
+                print "GOT ONE FOR", toks[3]
+        except:
+            print "COULDN'T FIND", toks[3]
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, 0), XAXIS, ZAXIS)])
     robot_port.send(str(m))
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
@@ -347,6 +361,16 @@ if DEBUG:
     print "plan_exec_app: plan file:", PLANFILE
     print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
     print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
+
+# 
+# Connect to MySQL database
+# 
+try:
+    db = MySQLdb.connect(host="aprs-dev", user="wills", passwd="ElsaIsdDb!", db="aprs-dev")
+    db_cursor = db.cursor()
+except:
+    print "plan_exec_app: can't connect to database, simulating"
+    db_cursor = None
 
 try:
     robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -1,0 +1,21 @@
+<launch>
+
+<!--
+    Run as, e.g., 
+
+    roslaunch nist_kitting emove.launch inifile_name:="/home/isd/proctor/github/el-robotics-core/nist_kitting/src/ini.ini"
+-->
+
+<arg name="inifile_name" default="ini.ini" />
+
+<group>
+
+  <node pkg="nist_kitting" name="robot_prim" args="-i $(arg inifile_name) -d" type="robot_prim"/>
+
+  <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -d -n gripper_prim" type="robot_prim"/>
+
+  <node pkg="nist_kitting" name="emove" args="-i $(arg inifile_name) -d" type="plan_exec_app" output="screen"/>
+
+</group>
+
+</launch>

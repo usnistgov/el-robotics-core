@@ -167,14 +167,8 @@ static void state_connection_thread_code(state_connection_thread_args *args)
 
     ulapi_mutex_give(&robot_mutex);
 
-
-
-#if 0
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
     if (nchars < 0) break;
-#endif
-
-
 
     ulapi_wait(period * 1e9);
   }
@@ -276,13 +270,29 @@ static void state_server_thread_code(state_server_thread_args *args)
   return;
 }
 
+static void print_help(void)
+{
+  printf("Arguments:\n");
+  printf("-m <#> : joint message socket port\n");
+  printf("-s <#> : joint state socket port\n");
+  printf("-t <#> : period for sending joint states, in seconds\n");
+  printf("-d     : turn debug printing on\n");
+  printf("-?     : print this help message\n");
+  printf("\n");
+  printf("Commands:\n");
+  printf("<blank line> : prints out the current robot state\n");
+  printf("set <#> pos | pmin | pmax | vmax : sets the joint's position or limits\n");
+  printf("get <#> : prints the joint state\n");
+  printf( "?      : print this help message\n");
+}
+
 /*
   Arguments:
 
-  -m <#> -- joint message socket port
-  -s <#> -- joint state socket port
-  -t <#> -- period for sending joint states, in seconds
-  -d     -- turn debug printing on
+  -m <#> : joint message socket port
+  -s <#> : joint state socket port
+  -t <#> : period for sending joint states, in seconds
+  -d     : turn debug printing on
 */
 
 int main(int argc, char *argv[])
@@ -304,7 +314,7 @@ int main(int argc, char *argv[])
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":m:s:t:d");
+    option = getopt(argc, argv, ":m:s:t:d?");
     if (option == -1) break;
 
     switch (option) {
@@ -325,6 +335,11 @@ int main(int argc, char *argv[])
 
     case 'd':
       debug = true;
+      break;
+
+    case '?':
+      print_help();
+      return 0;
       break;
 
     case ':':
@@ -404,6 +419,11 @@ int main(int argc, char *argv[])
 
       if ('q' == *ptr) {	// quit
 	done = true;
+	break;
+      }
+
+      if ('?' == *ptr) {	// help
+	print_help();
 	break;
       }
 

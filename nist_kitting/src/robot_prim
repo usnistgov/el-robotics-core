@@ -39,6 +39,7 @@ def writer(conn, period):
         tree.write(output)
         outstr = output.getvalue()
         output.close()
+        if DEBUG: print outstr
 
         # write it to the client
         try:

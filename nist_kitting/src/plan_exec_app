@@ -92,7 +92,6 @@ def robot_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
-        if DEBUG: print "\t\t\t", data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -115,7 +114,6 @@ def gripper_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
-        if DEBUG: print "\t\t\t", data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -166,6 +164,7 @@ def get_pose(sku):
     global DEBUG, AprsDB
     if DEBUG: print "getting pose of", sku
     try:
+        # FIXME -- a _1 suffix is added to work around database issues
         ret = AprsDB.read("select X,Y,Z from DirectPose where name = " + "\"" + sku + "_1\"")
         for toks in ret:
             x = float(toks[0])

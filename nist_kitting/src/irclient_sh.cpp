@@ -308,7 +308,7 @@ int main(int argc, char **argv)
     tol.name = std::string("goal_tolerance_") + to_string(t+1);
     goal.goal.goal_tolerance.push_back(tol);
   }
-  goal.goal.goal_time_tolerance = ros::Duration(1.0);
+  goal.goal.goal_time_tolerance = ros::Duration(0.1);
   if (debug) {
     std::stringstream s;
     std::string indent("0> ");
@@ -318,6 +318,10 @@ int main(int argc, char **argv)
   }
 
   bool done = false;
+  float duration = 1;
+  bool do_pos = true;
+  trajectory_msgs::JointTrajectoryPoint jtp;
+
   while (! done) {
     enum {INBUF_LEN = 1024};
     char inbuf[INBUF_LEN];
@@ -326,7 +330,6 @@ int main(int argc, char **argv)
     std::vector<double> dvec;
     double d1;
     static int goal_id = 1;
-    trajectory_msgs::JointTrajectoryPoint jtp;
 
     // print prompt
     printf("> ");
@@ -350,18 +353,42 @@ int main(int argc, char **argv)
 	break;
       }
 
-      // get some numbers from stdin
+      if ('d' == *ptr) {
+	if (1 == sscanf(ptr, "%*s %lf", &d1)) {
+	  duration = d1;
+	  printf("using duration %f\n", duration);
+	} else {
+	  printf("need a duration\n");
+	}
+	break;
+      }
+
+      if ('p' == *ptr) {
+	printf("setting positions\n");
+	do_pos = true;
+	break;
+      }
+
+      if ('v' == *ptr) {
+	printf("setting velocities\n");
+	do_pos = false;
+	break;
+      }
+
       jtp.positions.clear();
+      if (! do_pos) jtp.velocities.clear();
+
       do {
 	d1 = strtod(ptr, &endptr);
 	if (ptr == endptr) break;
-	jtp.positions.push_back(d1);
+	if (do_pos) jtp.positions.push_back(d1);
+	else jtp.velocities.push_back(d1);
 	ptr = endptr;
       } while (true);
       if (! jtp.positions.empty()) {
 	goal.goal_id.stamp = ros::Time::now();
 	goal.goal_id.id = std::string("goal_") + to_string(goal_id++);
-	jtp.time_from_start = ros::Duration(10);
+	jtp.time_from_start = ros::Duration(duration);
 	goal.goal.trajectory.points.clear();
 	goal.goal.trajectory.points.push_back(jtp);
 	pub.publish(goal);

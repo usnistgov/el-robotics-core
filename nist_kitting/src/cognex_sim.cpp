@@ -15,7 +15,7 @@
   present. The names of objects are (in this order): ‘Big Gear’, ‘Medium
   Gear’, ‘Small Gear’, ‘Top Cover’, ‘Bottom Cover’, ‘Bag of Parts’
 
-  The port is 456. The string is terminated with a newline. 
+  The port is 1456. The string is terminated with a newline. 
 */
 
 #include <stdio.h>		/* stdin, stderr */
@@ -29,7 +29,7 @@
 
 #include <ulapi.h>
 
-enum {COGNEX_PORT_DEFAULT = 456};
+enum {COGNEX_PORT_DEFAULT = 1456};
 
 #define COGNEX_DB_DEFAULT "cognex_sim.txt"
 
@@ -268,7 +268,6 @@ int main(int argc, char *argv[])
 
     case 'f':
       object_db_path = optarg;
-      period = dval;
       break;
 
     case 'd':
@@ -338,14 +337,16 @@ int main(int argc, char *argv[])
 
       if (! strncmp(ptr, "load", strlen("load"))) {
 	ptr += strlen("load");
-	if (! isspace(*ptr)) {
-	  printf("need a file to load\n");
-	  break;
-	}
 	while (isspace(*ptr)) ptr++;
 	ulapi_mutex_take(&object_info_db_mutex);
-	if (! load_object_db(ptr)) {
-	  printf("can't load object database %s\n", ptr);
+	if (0 == *ptr) {	// no file provided, use original
+	  if (! load_object_db(object_db_path)) {
+	    printf("can't load object database %s\n", object_db_path);
+	  }
+	} else {
+	  if (! load_object_db(ptr)) {
+	    printf("can't load object database %s\n", ptr);
+	  }
 	}
 	ulapi_mutex_give(&object_info_db_mutex);
 	break;

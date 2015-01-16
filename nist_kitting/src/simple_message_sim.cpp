@@ -308,7 +308,7 @@ int main(int argc, char *argv[])
   ulapi_task_struct state_server_thread;
   request_server_thread_args request_server_args; 
   state_server_thread_args state_server_args; 
-  double period = 0.5;		// ROS recommends 2 Hz at least
+  double period = 0.2;		// ROS recommends 2 Hz at least
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
 

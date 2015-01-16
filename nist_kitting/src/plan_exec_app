@@ -1,10 +1,8 @@
 #!/usr/bin/python
 
-import sys, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, random, subprocess, shlex
-
+import sys, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
+import MySQLdb, numpy
 from crcl import *
-
-import MySQLdb
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
@@ -17,6 +15,10 @@ ROBOT_PORT = ""
 ROBOT_HOST = ""
 GRIPPER_PORT = ""
 GRIPPER_HOST = ""
+DB_SERVER = ""
+DB_USER = ""
+DB_PASSWD = ""
+DB_NAME = ""
 DEBUG = False
 PERIOD = 0.5
 
@@ -31,8 +33,57 @@ GripperCommandState = CommandStateType.READY
 XAXIS = VectorType(1, 0, 0)
 ZAXIS = VectorType(0, 0, 1)
 
-# the MySQL database query cursor
-db_cursor = None
+def except_info():
+    exc_type, exc_value = sys.exc_info()[:2]
+    return str(exc_type.__name__) + ": " + str(exc_value)
+
+class DB(object):
+
+    def __init__(self):
+        self.server = None
+        self.user = None
+        self.passwd = None
+        self.db = None
+        self.cursor = None
+
+    def disconnect(self):
+        try: self.db.close()
+        except: pass
+        self.init()
+        
+    def connect(self, server, user, passwd, db):
+        try:
+            if self.db != None: self.db.close()
+            self.db = MySQLdb.connect(server, user, passwd, db)
+            self.cursor = self.db.cursor()
+        except:
+            print "DB:", except_info()
+            self.db = None
+            self.cursor = None
+            return False
+        self.server = server
+        self.user = user
+        self.passwd = passwd
+        return True
+
+    def read(self, query):
+        try:
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+        except:
+            print "DB:", except_info()
+        return ()
+
+    def update(self, request):
+        try:
+            self.cursor.execute(request)
+            self.db.commit()
+            return True
+        except:
+            self.db.rollback()
+        return False
+
+AprsDB = DB()
 
 def robot_reader(conn):
     global DEBUG, RobotCommandID, RobotCommandState
@@ -41,7 +92,7 @@ def robot_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
-        if DEBUG: print data
+        if DEBUG: print "\t\t\t", data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -64,7 +115,7 @@ def gripper_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
-        if DEBUG: print data
+        if DEBUG: print "\t\t\t", data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -97,6 +148,33 @@ def gripper_poll(cid, tm):
         time.sleep(PERIOD)
 
 # --- Handler functions for PDDL commands ---
+
+def check_predicate(sku, location):
+    global DEBUG
+    if DEBUG: print "checking", sku, "at location", location
+    try:
+        toks = shlex.split(subprocess.check_output(shlex.split("/home/isd/proctor/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location)))
+        x = float(toks[0])
+        y = float(toks[1])
+        z = float(toks[2])
+        th = numpy.arctan2(x, y)
+        return True, x, y, z, th
+    except: pass
+    return False, 0, 0, 0, 0
+
+def get_pose(sku):
+    global DEBUG, AprsDB
+    if DEBUG: print "getting pose of", sku
+    try:
+        ret = AprsDB.read("select X,Y,Z from DirectPose where name = " + "\"" + sku + "_1\"")
+        for toks in ret:
+            x = float(toks[0])
+            y = float(toks[1])
+            z = float(toks[2])
+            th = numpy.arctan2(x, y)
+        return True, x, y, z, th
+    except: pass
+    return False, 0, 0, 0, 0
 
 def Attach_Endeffector(toks, robot_port, gripper_port):
     # (attach-endeffector robot_1 part_gripper part_gripper_holder changing_station_1 part_gripper_holder_slot)
@@ -150,9 +228,12 @@ def Place_Kittray(toks, robot_port, gripper_port):
 
 def Place_Part(toks, robot_port, gripper_port):
     # (place-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
-    global db_cursor, PERIOD, DEBUG
+    global PERIOD, DEBUG
     if len(toks) < 7: return False
-    if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6], "and", toks[7]
+    if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6]
+    sku = toks[3]
+    startloc = toks[4]
+    endloc = toks[5]
 
     # command ids for robot and gripper subordinates
     robot_cid = 100
@@ -182,20 +263,13 @@ def Place_Part(toks, robot_port, gripper_port):
 
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
+    ret, x, y, z, th = check_predicate(sku, startloc)
+    if not ret: 
+        print "can't find", sku, "at", startloc
+        return False
+    ret, x, y, z, th = get_pose(sku)
     robot_cid += 1
-    # FIXME -- replace the echo with the call to look up a pose name
-    x = 0
-    y = 0
-    if db_cursor != None:
-        try:
-            db_cursor.execute("select X,Y,Z from DirectPose where name = " + "\"" + toks[3] + "\"")
-            for row in db_cursor.fetchall():
-                x = row[0]
-                y = row[1]
-                print "GOT ONE FOR", toks[3]
-        except:
-            print "COULDN'T FIND", toks[3]
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, 0), XAXIS, ZAXIS)])
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
     robot_port.send(str(m))
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
@@ -208,9 +282,12 @@ def Place_Part(toks, robot_port, gripper_port):
 
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
+    ret, x, y, z, th = check_predicate(sku, endloc)
+    if not ret: return False
+    ret, x, y, z, th = get_pose(sku)
     robot_cid += 1
     # FIXME -- replace these randoms with the subprocess call, as above
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(random.random(),random.random(),random.random()), XAXIS, ZAXIS)])
+    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
     robot_port.send(str(m))
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
@@ -287,7 +364,7 @@ def parseLine(line, robot_socket, gripper_socket):
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:R:g:G:t:d", ["inifile=", "file=", "robot=", "robothost=", "gripper=", "gripperhost=", "period="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:f:r:R:g:G:t:d", ["inifile=", "file=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "debug", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
 except getopt.GetoptError, err:
     print "plan_exec_app:", str(err)
     sys.exit(1)
@@ -307,13 +384,26 @@ for o, a in opts:
         GRIPPER_HOST = a
     elif o in ("-t", "--period"):
         PERIOD = float(a)
-    elif o in ("-d"):
+    elif o in ("-d", "--debug"):
         DEBUG = True
+# args with long form only go here
+    elif o in ("--dbserver"):
+        DB_SERVER = a
+    elif o in ("--dbuser"):
+        DB_USER = a
+    elif o in ("--dbpasswd"):
+        DB_PASSWD = a
+    elif o in ("--dbname"):
+        DB_NAME = a
 
 defdict = {"directory" : "",
            "file" : "",
            "port" : "",
-           "host" : ""}
+           "host" : "",
+           "server" : "",
+           "user" : "",
+           "passwd" : "",
+           "name" : ""}
 
 if INIFILE != "":
     try:
@@ -332,6 +422,14 @@ if INIFILE != "":
                 GRIPPER_PORT = config.get("gripper_prim", "port")
             if GRIPPER_HOST == "":
                 GRIPPER_HOST = config.get("gripper_prim", "host")
+            if DB_SERVER == "":
+                DB_SERVER = config.get("mysql", "server")
+            if DB_USER == "":
+                DB_USER = config.get("mysql", "user")
+            if DB_PASSWD == "":
+                DB_PASSWD = config.get("mysql", "passwd")
+            if DB_NAME == "":
+                DB_NAME = config.get("mysql", "name")
     except IOError as err:
         print "robot_prim: open inifile:", str(err)
         sys.exit(1)
@@ -357,20 +455,20 @@ if GRIPPER_PORT == "":
 
 if GRIPPER_HOST == "": GRIPPER_HOST = "localhost"
 
+if DB_SERVER == "": DB_SERVER = "aprs_dev"
+if DB_USER == "" : DB_USER = "wills"
+if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
+if DB_NAME == "" : DB_NAME = "aprs-dev"
+
 if DEBUG:
     print "plan_exec_app: plan file:", PLANFILE
     print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
     print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
+    print "plan_exec_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
 
-# 
-# Connect to MySQL database
-# 
-try:
-    db = MySQLdb.connect(host="aprs-dev", user="wills", passwd="ElsaIsdDb!", db="aprs-dev")
-    db_cursor = db.cursor()
-except:
-    print "plan_exec_app: can't connect to database, simulating"
-    db_cursor = None
+if not AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
+    print "pln_exec_app: can't connect to database"
+    sys.exit(1)
 
 try:
     robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -404,11 +502,15 @@ for line in f:
     # this means match zero or more chars, then a literal '(',
     # then set up a target with () enclosing a match of anything,
     # then match a literal ')', then anything
+    m = re.match("\s*;", line)
+    if m != None: 
+        print "COMMENT", line
+        continue
     m = re.match(".*\((.*)\).*", line)
     if m != None:
         if DEBUG: print "plan_exec_app: parsing line", m.group(1)
         retval = parseLine(m.group(1), robot_socket, gripper_socket)
         if retval == False:
-            print "plan_exec_app: warning: ignoring", m.group(1)
+            print "plan_exec_app: failed:", m.group(1)
 
 sys.exit(0)

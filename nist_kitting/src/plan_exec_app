@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
+import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
 import MySQLdb, numpy
 from crcl import *
 
@@ -151,13 +151,16 @@ def check_predicate(sku, location):
     global DEBUG
     if DEBUG: print "checking", sku, "at location", location
     try:
-        toks = shlex.split(subprocess.check_output(shlex.split("/home/isd/proctor/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location)))
+        req = "/home/isd/proctor/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
+        toks = shlex.split(subprocess.check_output(shlex.split(req)))
         x = float(toks[0])
         y = float(toks[1])
         z = float(toks[2])
         th = numpy.arctan2(x, y)
         return True, x, y, z, th
-    except: pass
+    except:
+        print "in", os.getcwd()
+        print "check_predicate: error on", req, ":", toks, ":", except_info()
     return False, 0, 0, 0, 0
 
 def get_pose(sku):
@@ -187,6 +190,11 @@ def Create_Kit(toks, robot_port, gripper_port):
 
 def Detach_Endeffector(toks, robot_port, gripper_port):
     # (detach-endeffector robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
+    print toks
+    return True
+
+def Look_For_Endeffectorholderslot(toks, robot_port, gripper_port):
+    # (look-for-endeffectorholderslot robot_1 tray_gripper tray_gripper_holder tray_gripper_holder_slot changing_station_1)
     print toks
     return True
 
@@ -232,7 +240,7 @@ def Place_Part(toks, robot_port, gripper_port):
     if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6]
     sku = toks[3]
     startloc = toks[4]
-    endloc = toks[5]
+    endloc = startloc # should be toks[5] but we don't have those locs
 
     # command ids for robot and gripper subordinates
     robot_cid = 100
@@ -331,6 +339,7 @@ funcdict = {
     "attach-endeffector" : Attach_Endeffector,
     "create-kit" : Create_Kit,
     "detach-endeffector" : Detach_Endeffector,
+    "look-for-endeffectorholderslot" : Look_For_Endeffectorholderslot,
     "look-for-endeffector-in-endeffectorholder" : Look_For_Endeffector_In_Endeffectorholder,
     "look-for-part" : Look_For_Part,
     "look-for-slot-in-kit" : Look_For_Slot_In_Kit,
@@ -511,5 +520,6 @@ for line in f:
         retval = parseLine(m.group(1), robot_socket, gripper_socket)
         if retval == False:
             print "plan_exec_app: failed:", m.group(1)
+            sys.exit(1)
 
 sys.exit(0)

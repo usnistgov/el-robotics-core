@@ -12,10 +12,6 @@
 
 <group>
 
-  <!-- node pkg="nist_kitting" name="crcl_server" args="-d" type="crcl_server" -->
-
-  <!-- node pkg="nist_kitting" name="prim_robot" args="-d" type="kitting_prim_robot_node" -->
-
   <node pkg="nist_kitting" name="robot_prim" args="-i $(arg inifile_name) -d" type="robot_prim" output="screen"/>
 
   <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -d -n gripper_prim" type="robot_prim" output="screen"/>
@@ -26,7 +22,7 @@
 
   <node pkg="nist_kitting" name="hmi_proxy" args="-i $(arg inifile_name) -d" type="kitting_hmi_proxy" output="screen"/>
 
-  <node pkg="nist_kitting" name="hmi" args="-i $(arg inifile_name) -d" type="kitting_hmi.py" output="screen"/>
+  <node pkg="nist_kitting" name="hmi" args="-i $(arg inifile_name) -d" type="kitting_hmi.py" output="screen" required="true"/>
 
 </group>
 

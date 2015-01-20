@@ -26,6 +26,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include <ulapi.h>
 
@@ -244,7 +245,7 @@ int main(int argc, char *argv[])
   int ival;
   double dval;
   int port = COGNEX_PORT_DEFAULT;
-  const char *object_db_path = COGNEX_DB_DEFAULT;
+  std::string object_db_path = COGNEX_DB_DEFAULT;
   int stat_server_id;
   double period = 1;
   ulapi_task_struct stat_thread;
@@ -267,7 +268,7 @@ int main(int argc, char *argv[])
       break;
 
     case 'f':
-      object_db_path = optarg;
+      object_db_path = std::string(optarg);
       break;
 
     case 'd':
@@ -286,8 +287,8 @@ int main(int argc, char *argv[])
     } // switch (option)
   }   // while (true) for getopt
 
-  if (! load_object_db(object_db_path)) {
-    fprintf(stderr, "can't load object database %s\n", object_db_path);
+  if (! load_object_db(object_db_path.c_str())) {
+    fprintf(stderr, "can't load object database %s\n", object_db_path.c_str());
   }
 
   ulapi_mutex_init(&object_info_db_mutex, 0);
@@ -340,11 +341,12 @@ int main(int argc, char *argv[])
 	while (isspace(*ptr)) ptr++;
 	ulapi_mutex_take(&object_info_db_mutex);
 	if (0 == *ptr) {	// no file provided, use original
-	  if (! load_object_db(object_db_path)) {
-	    printf("can't load object database %s\n", object_db_path);
+	  if (! load_object_db(object_db_path.c_str())) {
+	    printf("can't load object database %s\n", object_db_path.c_str());
 	  }
 	} else {
-	  if (! load_object_db(ptr)) {
+	  object_db_path = std::string(ptr);
+	  if (! load_object_db(object_db_path.c_str())) {
 	    printf("can't load object database %s\n", ptr);
 	  }
 	}

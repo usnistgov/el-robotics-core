@@ -29,6 +29,26 @@ The catkin_make command is a convenience tool for working with catkin workspaces
 
 > source devel/setup.bash
 
+## Running the January 2015 Demo
+
+In one termina, run the Cognex simulator:
+```
+rosrun nist_kitting cognex_sim -f $HOME/github/el-robotics-core/nist_kitting/src/cognex_sim.txt
+```
+In another terminal, run the MySQL pose updater:
+```
+cd $HOME/github/el-robotics-core/CognexToMysql/src
+java -cp .:../3rdPartyLibs/mysql-connector-java-5.1.28.jar  cognex_to_mysql.Main
+```
+A GUI will come up. "Connect to Cognex" on port 1456. You should see the pane of Cognex object coordinates become populated at the right. 
+
+In another terminal, run the controller:
+```
+roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=$HOME/github/el-robotics-core/nist_kitting/src/ini.ini
+```
+The GUI will come up. "Connect" to the host, e.g., localhost on port 6066. You should see the status information being updated at the right. 
+
+"Browse" to a kit file, then "Make" the kit. You should see the status information change to "Exec", and see lots of debugging information being printed in the controller terminal.
 
 ## Running the Demo
 

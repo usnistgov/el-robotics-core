@@ -11,7 +11,7 @@ dict = {"xmlns:xsi" : uri}
 INIFILE = ""
 NAME = "robot_prim"
 PORT = ""
-PERIOD = 0.2
+PERIOD = 0.5
 DEBUG = False
 
 # the global RCS header variables for the currently executing command

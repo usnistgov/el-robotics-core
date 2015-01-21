@@ -151,7 +151,7 @@ def check_predicate(sku, location):
     global DEBUG
     if DEBUG: print "checking", sku, "at location", location
     try:
-        req = "/home/isd/proctor/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
+        req = os.getenv("HOME", ".") +"/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
         toks = shlex.split(subprocess.check_output(shlex.split(req)))
         x = float(toks[0])
         y = float(toks[1])
@@ -160,7 +160,7 @@ def check_predicate(sku, location):
         return True, x, y, z, th
     except:
         print "in", os.getcwd()
-        print "check_predicate: error on", req, ":", toks, ":", except_info()
+        print "check_predicate: error on", req, ":", except_info()
     return False, 0, 0, 0, 0
 
 def get_pose(sku):

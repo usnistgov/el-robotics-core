@@ -72,7 +72,8 @@ static void client_read_task_code(client_read_task_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
-    inbuf[sizeof(inbuf)-1] = 0;
+    if (nchars < sizeof(inbuf)) inbuf[nchars] = 0;
+    else inbuf[sizeof(inbuf)-1] = 0;
 
     ptr = inbuf;
     // strip off leading and trailing whitespace

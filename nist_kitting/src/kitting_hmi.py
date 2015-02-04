@@ -94,7 +94,7 @@ if DEBUG:
     print "kitting_hmi: port:", PORT
     print "kitting_hmi: host:", HOST
     
-class App:
+class App(object):
     MSG_LEN = 1000
     PERIOD = 5
 

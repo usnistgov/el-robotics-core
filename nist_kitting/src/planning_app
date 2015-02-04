@@ -1,13 +1,64 @@
 #!/usr/bin/python
 
 import sys, getopt, ConfigParser
+import MySQLdb
 
 INIFILE = ""
 KITDESIGN = ""
 DEBUG = False
+DB_SERVER = ""
+DB_USER = ""
+DB_PASSWD = ""
+DB_NAME = ""
+
+class DB(object):
+
+    def __init__(self):
+        self.server = None
+        self.user = None
+        self.passwd = None
+        self.db = None
+        self.cursor = None
+
+    def disconnect(self):
+        try: self.db.close()
+        except: pass
+        self.init()
+        
+    def connect(self, server, user, passwd, db):
+        try:
+            if self.db != None: self.db.close()
+            self.db = MySQLdb.connect(server, user, passwd, db)
+            self.cursor = self.db.cursor()
+        except:
+            print "DB:", except_info()
+            self.db = None
+            self.cursor = None
+            return False
+        self.server = server
+        self.user = user
+        self.passwd = passwd
+        return True
+
+    def read(self, query):
+        try:
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+        except:
+            print "DB:", except_info()
+        return ()
+
+    def update(self, request):
+        try:
+            self.cursor.execute(request)
+            self.db.commit()
+            return True
+        except:
+            self.db.rollback()
+        return False
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:k:d", ["inifile=", "kitdesign="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:k:d", ["inifile=", "kitdesign=", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
 except getopt.GetoptError as err:
     print "planning_app: getopt:", str(err)
     sys.exit(1)
@@ -19,6 +70,15 @@ for o, a in opts:
         KITDESIGN = a
     elif o in ("-d"):
         DEBUG = True
+# args with long form only go here
+    elif o in ("--dbserver"):
+        DB_SERVER = a
+    elif o in ("--dbuser"):
+        DB_USER = a
+    elif o in ("--dbpasswd"):
+        DB_PASSWD = a
+    elif o in ("--dbname"):
+        DB_NAME = a
 
 if INIFILE == "":
     print "planning_app: getopt: no ini file provided"
@@ -34,7 +94,11 @@ if DEBUG:
 
 defdict = {"directory" : "",
            "file" : "",
-           "port" : ""}
+           "port" : "",
+           "server" : "",
+           "user" : "",
+           "passwd" : "",
+           "name" : ""}
 
 try:
     with open(INIFILE, "rb") as f:
@@ -43,6 +107,14 @@ try:
         PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
         FINAL_PLAN_FILE = config.get("final_plan", "file")
         PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
+        if DB_SERVER == "":
+            DB_SERVER = config.get("mysql", "server")
+        if DB_USER == "":
+            DB_USER = config.get("mysql", "user")
+        if DB_PASSWD == "":
+            DB_PASSWD = config.get("mysql", "passwd")
+        if DB_NAME == "":
+            DB_NAME = config.get("mysql", "name")
 except IOError as err:
     print "planning_app: open inifile:", str(err)
     sys.exit(1)
@@ -56,11 +128,34 @@ if PLANFILE == "":
 if DEBUG:
     print "planning_app: using plan", PLANFILE
 
-try:
-    with open(KITDESIGN, "rb") as f: True
-except IOError as err:
-    print "planning_app: open kit design:", str(err)
+if DB_SERVER == "": DB_SERVER = "aprs_dev"
+if DB_USER == "" : DB_USER = "wills"
+if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
+if DB_NAME == "" : DB_NAME = "aprs-dev"
+if DEBUG:
+    print "planning_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB
+
+AprsDB = DB()
+
+if not AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
+    print "pln_exec_app: can't connect to database"
     sys.exit(1)
+
+def get_kit_design(name):
+    global DEBUG, AprsDB
+    if DEBUG: print "getting design of", name
+    try:
+        ret = AprsDB.read("select * from PartRefAndPose where hadByPartRefAndPose_KitDesign = " + "\"" + name + "\"")
+        if len(ret) == 0: return False
+        return True
+    except: pass
+    return False
+
+if not get_kit_design(KITDESIGN):
+    print "planning_app: can't find kit design", KITDESIGN
+    sys.exit(1)
+
+print "planning_app: found kit design", KITDESIGN
 
 contents = """
 (take-kittray robot_1 kit_tray_1 empty_kit_tray_supply tray_gripper stock_keeping_unit_kit_tray)

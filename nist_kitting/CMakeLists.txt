@@ -136,6 +136,9 @@ add_executable(cognex_sim src/cognex_sim.cpp)
 add_executable(simple_message_sim src/simple_message_sim.cpp)
 add_executable(simple_message_sh src/simple_message_sh.cpp)
 
+add_executable(crobot src/crobot.cpp)
+target_link_libraries(crobot nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(kitting_pl_hi_node nist_kitting_generate_messages_cpp)

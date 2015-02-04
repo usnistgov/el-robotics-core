@@ -7,8 +7,6 @@
 -->
 
 <arg name="inifile_name" default="ini.ini" />
-<arg name="planning_app" default="planning_app" />
-<arg name="plan_exec_app" default="plan_exec_app" />
 
 <group>
 
@@ -16,9 +14,9 @@
 
   <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -d -n gripper_prim" type="robot_prim" output="screen"/>
 
-  <node pkg="nist_kitting" name="emove" args="-i $(arg inifile_name) -e $(arg plan_exec_app) -d" type="kitting_emove_node" output="screen"/>
+  <node pkg="nist_kitting" name="emove" args="-i $(arg inifile_name) -d" type="kitting_emove_node" output="screen"/>
 
-  <node pkg="nist_kitting" name="pl_hi" args="-i $(arg inifile_name) -p $(arg planning_app) -d" type="kitting_pl_hi_node" output="screen"/>
+  <node pkg="nist_kitting" name="pl_hi" args="-i $(arg inifile_name) -d" type="kitting_pl_hi_node" output="screen"/>
 
   <node pkg="nist_kitting" name="hmi_proxy" args="-i $(arg inifile_name) -d" type="kitting_hmi_proxy" output="screen"/>
 

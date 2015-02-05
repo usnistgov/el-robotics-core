@@ -229,7 +229,7 @@ static ulapi_result test_process(void)
   retval = ulapi_process_start(ph, NO_PROC);
   /* we are the parent */
   if (ULAPI_OK != retval) return ULAPI_ERROR; /* the 'fork' failed */
-  sleep(1);
+  ulapi_sleep(1);
   is_done = ulapi_process_done(ph, &result);
   if (is_done) {
     printf("bogus process returned with result %d\n", (int) result);

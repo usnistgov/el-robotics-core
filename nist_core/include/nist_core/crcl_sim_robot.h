@@ -66,6 +66,23 @@ namespace crcl_robot {
     double period;
   };
 
+/* declarations for C-linkable functions, useful for DLLs */
+
+extern "C" {
+#if 0
+} // a dummy right paren just to match the one above, to prevent indenting
+#endif
+
+ULAPI_DECL_SHARED CrclSimRobot *crcl_sim_robot_new(char *init_path);
+ULAPI_DECL_SHARED void crcl_sim_robot_delete(CrclSimRobot *r);
+ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_move_straight_to(CrclSimRobot *r, double x, double y, double z, double xrot, double yrot, double zrot);
+ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, double *x, double *y, double *z, double *xrot, double *yrot, double *zrot);
+
+#if 0
+{ // another dummy paren to prevent indenting
+#endif
+}
+
 } /* namespace crcl_robot */
 
 #endif	/* CRCL_SIM_ROBOT_H */

@@ -15,70 +15,7 @@
 #include "nist_core/crcl.h"
 #include "nist_core/crcl_sim_robot.h"
 
-/*
-  Testing into simulator using a socket for move messages.
-*/
-#undef TESTING
-#ifdef TESTING
-static int port = 52336;
-static char host[] = "speedy";
-static int socket_client_fd = -1;
-#endif
-
 namespace crcl_robot {
-
-// these C-linkage functions make it easier to import as a DLL
-
-extern "C" {
-#if 0
-} // a dummy right paren just to match the one above, to prevent indenting
-#endif
-
-ULAPI_DECL_SHARED CrclSimRobot *crcl_sim_robot_new(char *init_path)
-{
-  return new CrclSimRobot(init_path);
-}
-
-ULAPI_DECL_SHARED void crcl_sim_robot_delete(CrclSimRobot *r)
-{
-  if (NULL != r) delete r;
-}
-
-ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_move_straight_to(CrclSimRobot *r, double x, double y, double z, double xrot, double yrot, double zrot)
-{
-  robotPose end;
-
-  end.x = x;
-  end.y = y;
-  end.z = z;
-  end.xrot = xrot;
-  end.yrot = yrot;
-  end.zrot = zrot;
-
-  return r->MoveStraightTo(end);
-}
-
-ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, double *x, double *y, double *z, double *xrot, double *yrot, double *zrot)
-{
-  robotPose end;
-  CanonReturn retval;
-
-  retval = r->GetRobotPose(&end);
-
-  *x = end.x;
-  *y = end.y;
-  *z = end.z;
-  *xrot = end.xrot;
-  *yrot = end.yrot;
-  *zrot = end.zrot;
-
-  return retval;
-}
-
-#if 0
-{ // another dummy paren to prevent indenting
-#endif
-}
 
   LIBRARY_API CrclSimRobot::CrclSimRobot(char *init_path)
   {
@@ -96,22 +33,10 @@ ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, dou
     toolSetting = 0;
 
     period = CRCL_SIM_PERIOD_DEFAULT;
-
-#ifdef TESTING
-    // Testing socket into robot simulator
-    printf("connecting to %s on %d\n", host, port);
-    socket_client_fd = ulapi_socket_get_client_id(port, host);
-    printf("got %d\n", socket_client_fd);
-#endif
   }
 
   LIBRARY_API CrclSimRobot::~CrclSimRobot()
   {
-#ifdef TESTING
-    // More testing
-    if (socket_client_fd >= 0) ulapi_socket_close(socket_client_fd);
-    socket_client_fd = -1;
-#endif
   }
 
   LIBRARY_API double CrclSimRobot::setPeriod(double p)
@@ -150,22 +75,6 @@ ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, dou
     LOCKIT;
     here = simPose;
     UNLOCKIT;
-
-#ifdef TESTING
-    // Testing -- convert pose to joints, send to simulator
-
-    std::ostringstream buffer;
-    buffer << end.x << " ";
-    buffer << end.y << " ";
-    buffer << end.z << " ";
-    buffer << 0.1 << " ";
-    buffer << 0.3 << "\n";
-
-    printf("%s\n", (buffer.str()).c_str());
-    if (socket_client_fd >= 0) {
-      ulapi_socket_write(socket_client_fd, (buffer.str()).c_str(), strlen((buffer.str()).c_str()));
-    }
-#endif
 
     dist = robotPoseDiff(end, here);
 
@@ -327,5 +236,58 @@ ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, dou
 
     return CANON_SUCCESS;
   }
+
+// these C-linkage functions make it easier to import as a DLL
+
+extern "C" {
+#if 0
+} // a dummy right paren just to match the one above, to prevent indenting
+#endif
+
+ULAPI_DECL_SHARED CrclSimRobot *crcl_sim_robot_new(char *init_path)
+{
+  return new CrclSimRobot(init_path);
+}
+
+ULAPI_DECL_SHARED void crcl_sim_robot_delete(CrclSimRobot *r)
+{
+  if (NULL != r) delete r;
+}
+
+ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_move_straight_to(CrclSimRobot *r, double x, double y, double z, double xrot, double yrot, double zrot)
+{
+  robotPose end;
+
+  end.x = x;
+  end.y = y;
+  end.z = z;
+  end.xrot = xrot;
+  end.yrot = yrot;
+  end.zrot = zrot;
+
+  return r->MoveStraightTo(end);
+}
+
+ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, double *x, double *y, double *z, double *xrot, double *yrot, double *zrot)
+{
+  robotPose end;
+  CanonReturn retval;
+
+  retval = r->GetRobotPose(&end);
+
+  *x = end.x;
+  *y = end.y;
+  *z = end.z;
+  *xrot = end.xrot;
+  *yrot = end.yrot;
+  *zrot = end.zrot;
+
+  return retval;
+}
+
+#if 0
+{ // another dummy paren to prevent indenting
+#endif
+}
 
 } // namespace crcl_robot

@@ -36,5 +36,4 @@ cmake_install.cmake
 *.sav
 *.lot
 *.spl
-bin
 /.project

@@ -34,17 +34,17 @@ extern "C" {
 } // a dummy right paren just to match the one above, to prevent indenting
 #endif
 
-CrclSimRobot *crcl_sim_robot_new(char *init_path)
+ULAPI_DECL_SHARED CrclSimRobot *crcl_sim_robot_new(char *init_path)
 {
   return new CrclSimRobot(init_path);
 }
 
-void crcl_sim_robot_delete(CrclSimRobot *r)
+ULAPI_DECL_SHARED void crcl_sim_robot_delete(CrclSimRobot *r)
 {
   if (NULL != r) delete r;
 }
 
-CanonReturn crcl_sim_robot_move_straight_to(CrclSimRobot *r, double x, double y, double z, double xrot, double yrot, double zrot)
+ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_move_straight_to(CrclSimRobot *r, double x, double y, double z, double xrot, double yrot, double zrot)
 {
   robotPose end;
 
@@ -58,7 +58,7 @@ CanonReturn crcl_sim_robot_move_straight_to(CrclSimRobot *r, double x, double y,
   return r->MoveStraightTo(end);
 }
 
-CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, double *x, double *y, double *z, double *xrot, double *yrot, double *zrot)
+ULAPI_DECL_SHARED CanonReturn crcl_sim_robot_get_robot_pose(CrclSimRobot *r, double *x, double *y, double *z, double *xrot, double *yrot, double *zrot)
 {
   robotPose end;
   CanonReturn retval;

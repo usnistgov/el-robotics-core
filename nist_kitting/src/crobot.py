@@ -1,8 +1,15 @@
 #!/usr/bin/python
 
+import sys
 from ctypes import *
 
-lib = cdll.LoadLibrary('devel/lib/libnist_core.so')
+# Run as, e.g., python crobot.py ..\..\nist_core\win32\Debug\nist_core_dll
+
+if len(sys.argv) < 2:
+    print "need the name of the DLL"
+    sys.exit(1)
+
+lib = cdll.LoadLibrary(sys.argv[1])
 
 crobot = lib.crcl_sim_robot_new(None)
 

@@ -92,9 +92,8 @@ if DEBUG:
     print "planning_app: ini file:", INIFILE
     print "planning_app: kit design:", KITDESIGN
 
-defdict = {"directory" : "",
-           "file" : "",
-           "port" : "",
+defdict = {"app" : "",
+           "plan" : "",
            "server" : "",
            "user" : "",
            "passwd" : "",
@@ -104,9 +103,8 @@ try:
     with open(INIFILE, "rb") as f:
         config = ConfigParser.ConfigParser(defdict)
         config.read(INIFILE)
-        PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
-        FINAL_PLAN_FILE = config.get("final_plan", "file")
-        PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
+        OWL2PDDL = config.get("owl2pddl", "app")
+        PLAN_FILE = config.get("planner", "plan")
         if DB_SERVER == "":
             DB_SERVER = config.get("mysql", "server")
         if DB_USER == "":
@@ -121,19 +119,23 @@ except IOError as err:
 except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
     print "planning_app: read inifile:", str(err)
 
-if PLANFILE == "":
+if OWL2PDDL == "":
+    print "planning_app: no OWL to PDDL application specified"
+    sys.exit(1)
+
+if PLAN_FILE == "":
     print "planning_app: no plan file specified"
     sys.exit(1)
 
 if DEBUG:
-    print "planning_app: using plan", PLANFILE
+    print "planning_app: java -jar", OWL2PDDL, "-i", INIFILE, "-k", KITDESIGN
 
 if DB_SERVER == "": DB_SERVER = "aprs_dev"
 if DB_USER == "" : DB_USER = "wills"
 if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"
 if DEBUG:
-    print "planning_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB
+    print "planning_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
 
 AprsDB = DB()
 
@@ -205,7 +207,7 @@ contents = """
 """
 
 try:
-    with open(PLANFILE, "w") as f:
+    with open(PLAN_FILE, "w") as f:
         for line in contents:
             f.write(line)
 except IOError as err:

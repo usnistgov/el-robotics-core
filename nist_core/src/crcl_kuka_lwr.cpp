@@ -19,6 +19,7 @@
 //#define STATIC_ //! Uncomment this line if you want to hard code the serial port (debugging purposes only)
 
 using namespace std;
+//#define LWR_NOISY
 
 namespace crcl_robot
 {
@@ -27,7 +28,15 @@ namespace crcl_robot
   {
     mssgBuffer_ = new char[8192];
     int val;
-    ulapi_init();
+
+#ifndef OLDSERIAL
+    if (ULAPI_OK != ulapi_init())
+    {
+#ifdef LWR_NOISY
+      printf("ulapi_init error\n");
+#endif
+    }
+#endif
 
 #ifndef STATIC_
     //! Open configuration file
@@ -39,44 +48,91 @@ namespace crcl_robot
       if (val == 1)
       {
         //! Use serial
-        in >> val;
         serialUsed_ = true;
 
+#ifdef OLDSERIAL
+        serial_ = new serial();
+#else
         if (NULL == (serialID_ = ulapi_serial_new()))
         {
+#ifdef LWR_NOISY
           printf ("\nCannot create serial object\n");
+#endif
         }
-        sprintf (COMChannel_, "COM%d", val);
-        printf (COMChannel_);
-        if (ulapi_serial_open(COMChannel_, serialID_) == ULAPI_OK)
-        {
-          printf ("\nOkay\n");
-        }
-        else
-        {
-          printf ("\nNope\n");
-        }
-
+#endif
 
         in >> val;
+        sprintf (COMChannel_, "COM%d", val);
 
+#ifdef LWR_NOISY
+        printf ("%s : ", COMChannel_);
+#endif
+
+#ifdef OLDSERIAL
+        serialData_.setChannel (val);
+#else
+        if (ulapi_serial_open(COMChannel_, serialID_) == ULAPI_OK)
+        {
+#ifdef LWR_NOISY
+          printf ("Opened COM channel\n");
+#endif
+        }
+        else
+        {
+#ifdef LWR_NOISY
+          printf ("Could not open COM channel\n");
+#endif
+        }
+#endif
+
+        in >> val;
+#ifdef OLDSERIAL
+        serialData_.setBaud (val);
+#else
         if (ulapi_serial_baud(serialID_, val) == ULAPI_OK)
         {
-          printf ("\nOkay\n");
+#ifdef LWR_NOISY
+          printf ("Set BAUD rate successful\n");
+#endif
         }
         else
         {
-          printf ("\nNope\n");
+#ifdef LWR_NOISY
+          printf ("Could not set BAUD rate\n");
+#endif
         }
-
-        if (ulapi_serial_set_blocking(serialID_) == ULAPI_OK)
+#endif
+        
+#ifdef OLDSERIAL
+        if (serial_->attach(serialData_))
         {
-          printf ("\nOkay\n");
+#ifdef LWR_NOISY
+          printf ("serial connection to arm successful\n");
+#endif
         }
         else
         {
-          printf ("\nNope\n");
+#ifdef LWR_NOISY
+          printf ("serial connection to arm failed\n");
+#endif
         }
+#else
+        if (ulapi_serial_set_nonblocking(serialID_) == ULAPI_OK) //set_nonblocking
+        {
+#ifdef LWR_NOISY
+          printf ("Set serial port blocking okay\n");
+#endif
+        }
+        else
+        {
+#ifdef LWR_NOISY
+          printf ("Could not set serial port blocking\n");
+#endif
+        }
+        val = ulapi_serial_write(serialID_,
+                                 "TBx 1.00000000 0.00000000 0.00000000 0.00000000 0.00000000",
+                                 strlen("TBx 1.00000000 0.00000000 0.00000000 0.00000000 0.00000000"));
+#endif        
       } // if (val == 1)
       else if (val == 2)
       {
@@ -106,8 +162,12 @@ namespace crcl_robot
     delete [] feedback_;
     if (serialUsed_)
     {
+#ifdef OLDSERIAL
+      serial_->closeConnection(serialData_);
+#else
       ulapi_serial_close(serialID_);
       ulapi_serial_delete(serialID_);
+#endif
     }
   }
 
@@ -147,8 +207,40 @@ namespace crcl_robot
 
   LIBRARY_API CanonReturn CrclKukaLWR::Couple (char *targetID)
   {
-    //! Our LWR does not have an automatic tool changer or any coupling capabilities
-    return CANON_REJECT;
+    if ((strcmp(targetID, "gripper_gear") == 0) || (strcmp(targetID, "gripper_top_cover") == 0) ||
+
+      (strcmp(targetID, "gripper_bottom_cover") == 0))
+    {
+      generateTool('D', 7);
+    }
+    else if (strcmp (targetID, "gripper_parallel") == 0)
+    {
+      generateTool('D', 4);
+    }
+    else
+    {
+      return CANON_REJECT;
+    }
+
+    //! Send message to robot
+    if (!send ())
+    {
+      //! error sending
+      return CANON_FAILURE;
+    }
+    //! Wait for response from robot
+    if (!get ())
+    {
+      return CANON_FAILURE;
+    }
+    if (mssgBuffer_[0] == '1')
+    {
+      return CANON_SUCCESS;
+    }
+    else
+    {
+      return CANON_FAILURE;
+    }
   }
 
 
@@ -159,7 +251,7 @@ namespace crcl_robot
       return CANON_REJECT;
     }
     //! To Do
-    return CANON_SUCCESS;
+    return CANON_REJECT;
   }
 
 
@@ -422,6 +514,13 @@ namespace crcl_robot
     return CANON_SUCCESS;
   }
 
+  LIBRARY_API CanonReturn CrclKukaLWR::GetRobotIO (robotIO *io)
+  {
+    //! TODO
+    return CANON_FAILURE;
+  }
+
+
 
   LIBRARY_API CanonReturn CrclKukaLWR::MoveAttractor (robotPose pose)
   {
@@ -429,9 +528,44 @@ namespace crcl_robot
     {
       return CANON_REJECT;
     }
+    //! Construct message
+    vector<double> target;
+    target.push_back (pose.x);
+    target.push_back (pose.y);
+    target.push_back (pose.z);
+    target.push_back (pose.zrot);
+    target.push_back (pose.yrot);
+    target.push_back (pose.xrot);
 
-    //! Not yet implemented
-    return CANON_REJECT;
+    if (generateMove ('F', 'C', 'A', target))
+    {
+      //! Send message to robot
+      if (!send ())
+      {
+        //! error sending
+        return CANON_FAILURE;
+      }
+      //! Wait for response from robot
+      if (!get ())
+      {
+        return CANON_FAILURE;
+      }
+      if (mssgBuffer_[0] == '1')
+      {
+        return CANON_SUCCESS;
+      }
+      else
+      {
+        return CANON_FAILURE;
+      }
+    }
+    else
+    {
+      //! Error generating motion message
+      return CANON_FAILURE;
+    }
+
+    return CANON_SUCCESS;
   }
 
 
@@ -481,7 +615,7 @@ namespace crcl_robot
     }
 
     //! TODO
-    return CANON_SUCCESS;
+    return CANON_REJECT;
   }
 
 
@@ -559,7 +693,7 @@ namespace crcl_robot
 
   LIBRARY_API CanonReturn CrclKukaLWR::SetIntermediatePoseTolerance (robotPose *tolerances)
   {
-    return CANON_SUCCESS;
+    return CANON_REJECT;
   }
 
 
@@ -688,6 +822,7 @@ namespace crcl_robot
       }
 
       moveMe_ << tempString_.str();
+      moveMe_ << "\0";
     } // for (i = 0; i < 6; ++i)
 
     return true;
@@ -696,16 +831,15 @@ namespace crcl_robot
 
   LIBRARY_API bool CrclKukaLWR::generateTool (char mode, double value)
   {
-    if (!(mode == 'B' || mode == 'A'  || mode == 'S') || (value > 1.0f || value < 0.0f))
+    if (!(mode == 'B' || mode == 'A'  || mode == 'D'))
     {
-      //! Value must be between 0 and 1
       return false;
     }
     size_t found;
     int currLength, j;
 
     moveMe_.str(string());
-    moveMe_ << 'T' << mode << "? ";
+    moveMe_ << 'T' << mode << "x ";
 
     //! Convert the input value to a character string of length 10
     tempString_.str(string());
@@ -728,7 +862,7 @@ namespace crcl_robot
     }
 
     moveMe_ << tempString_.str();
-    moveMe_ << " 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000";
+    moveMe_ << " 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000\0";
     return true;
   }
 
@@ -743,7 +877,7 @@ namespace crcl_robot
 
     moveMe_.str(string());
     moveMe_ << retType;
-    moveMe_ << "?? 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000";
+    moveMe_ << "xx 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000\0";
     return true;
   }
 
@@ -810,7 +944,7 @@ namespace crcl_robot
         tempString_ << "0";
       }
 
-      moveMe_ << tempString_ << " 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000";
+      moveMe_ << tempString_ << " 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000\0";
 
       break;
     default:
@@ -820,17 +954,25 @@ namespace crcl_robot
     return true;
   }
 
-
-
+  
   LIBRARY_API bool CrclKukaLWR::send ()
   {
     int x;
       //! Send message to robot via serial
       if (serialUsed_)
       {
+#ifdef LWR_NOISY
         printf ("Sending message %s\n", moveMe_.str().c_str());
-        x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str()) + 1);
+#endif
+        fflush(NULL);
+#ifdef OLDSERIAL
+        serial_->sendData(moveMe_.str().c_str(), serialData_);
+#else
+        x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str())+1);
+#ifdef LWR_NOISY
         printf ("%i\n", x);
+#endif
+#endif
         return true;
       }
       else
@@ -846,9 +988,18 @@ namespace crcl_robot
     int x = 0;
     if (serialUsed_)
     {
+#ifdef LWR_NOISY
       printf ("getting feedback...\n");
+#endif
+#ifdef OLDSERIAL
+      serial_->getData (mssgBuffer_, serialData_, 285);
+#else
       x = ulapi_serial_read(serialID_, mssgBuffer_, 8192);
-      printf ("%d read\n", x);
+#endif
+#ifdef LWR_NOISY
+      printf ("%d %s read\n", x, mssgBuffer_);
+#endif
+
       return true;
     }
     else

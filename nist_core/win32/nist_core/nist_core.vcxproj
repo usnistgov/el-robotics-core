@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\src\crcl_universal.cpp" />
     <ClCompile Include="..\..\src\nist_core.cpp" />
     <ClCompile Include="..\..\src\robotiq_gripper.cpp" />
+    <ClCompile Include="..\..\src\serial.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ABAEDC09-C3D7-4256-A7B6-19D63702D6F6}</ProjectGuid>

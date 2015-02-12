@@ -165,6 +165,16 @@ namespace crcl_robot
     //!
     CanonReturn GetRobotPose (robotPose *pose);
 
+
+    //! @brief Get I/O feedback from the robot
+    //!
+    //! @Param io Digital and analog I/O data structure to be populated by the method
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn GetRobotIO (robotIO *io);
+
     //! @brief Move a virtual attractor to a specified coordinate in Cartesian space for force control
     //!
     //! @param pose The 6DOF destination of the virtual attractor 
@@ -288,6 +298,15 @@ namespace crcl_robot
     //!
     CanonReturn SetRelativeAcceleration (double percent);
 
+    //! @brief Set the digital and analog outputs
+    //!
+    //! @Param io Digital and analog I/O outputs to set
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn SetRobotIO (robotIO io);
+
     //! @brief Set the attached tool to a defined output rate
     //!
     //! @param percent The desired output rate for the robot's tool as a percentage of maximum output
@@ -319,8 +338,14 @@ namespace crcl_robot
 
   private:
 
+    bool grasped_;
     void *task;
     unsigned long threadID_;
+
+    //! @brief The name of the gripper configuration
+    //!
+    char configName[32];
+    bool configured;
 
     keepalive ka_;
 

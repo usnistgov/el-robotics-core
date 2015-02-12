@@ -45,145 +45,145 @@ namespace crcl_robot
 
 
   template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetTool (double percent)
-	{
-		return robInterface_->SetTool (percent);
-	}
-
-
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Couple (char *targetID)
   {
-		return robInterface_->Couple(targetID);
-	}
+    return robInterface_->SetTool (percent);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Dwell (int *events, double *params, int numEvents)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Couple (char *targetID)
   {
-		return robInterface_->Dwell (events, params, numEvents);
-	}
+    return robInterface_->Couple(targetID);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::EndCanon (int reason)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Dwell (int *events, double *params, int numEvents)
   {
-		return robInterface_->EndCanon (reason);
-	}
+    return robInterface_->Dwell (events, params, numEvents);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::InitCanon ()
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::EndCanon (int reason)
   {
-		return robInterface_->InitCanon ();
-	}
+    return robInterface_->EndCanon (reason);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Message (char *message)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::InitCanon ()
   {
-		return robInterface_->Message (message);
-	}
+    return robInterface_->InitCanon ();
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveStraightTo (robotPose pose)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Message (char *message)
   {
-		return robInterface_->MoveStraightTo (pose);
-	}
+    return robInterface_->Message (message);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveThroughTo (robotPose *poses,
-                                                                           int numPoses,
-                                                                           robotPose *accelerations,
-                                                                           robotPose *speeds,
-                                                                           robotPose *tolerances)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveStraightTo (robotPose pose)
   {
-		return robInterface_->MoveThroughTo (poses, numPoses, accelerations, speeds, tolerances);
-	}
+    return robInterface_->MoveStraightTo (pose);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveTo (robotPose pose)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveThroughTo (robotPose *poses,
+									  int numPoses,
+									  robotPose *accelerations,
+									  robotPose *speeds,
+									  robotPose *tolerances)
   {
-		return robInterface_->MoveTo (pose);
-	}
+    return robInterface_->MoveThroughTo (poses, numPoses, accelerations, speeds, tolerances);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Decouple (char *targetID)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveTo (robotPose pose)
   {
-		return robInterface_->Decouple (targetID);
-	}
+    return robInterface_->MoveTo (pose);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::GetRobotAxes (robotAxes *axes)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::Decouple (char *targetID)
   {
-		return robInterface_->GetRobotAxes (axes);
-	}
+    return robInterface_->Decouple (targetID);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::GetRobotPose (robotPose *pose)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::GetRobotAxes (robotAxes *axes)
   {
-		return robInterface_->GetRobotPose (pose);
-	}
+    return robInterface_->GetRobotAxes (axes);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveAttractor (robotPose pose)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::GetRobotPose (robotPose *pose)
   {
-		return robInterface_->MoveAttractor (pose);
-	}
+    return robInterface_->GetRobotPose (pose);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveToAxisTarget (robotAxes axes)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveAttractor (robotPose pose)
   {
-		return robInterface_->MoveToAxisTarget (axes);
-	}
+    return robInterface_->MoveAttractor (pose);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::RunProgram (char *programName, CRCLProgramParams params)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::MoveToAxisTarget (robotAxes axes)
   {
-		return robInterface_->RunProgram (programName, params);
-	}
+    return robInterface_->MoveToAxisTarget (axes);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAbsoluteAcceleration (double tolerance)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::RunProgram (char *programName, CRCLProgramParams params)
   {
-		return robInterface_->SetAbsoluteAcceleration (tolerance);
-	}
+    return robInterface_->RunProgram (programName, params);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAbsoluteSpeed (double speed)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAbsoluteAcceleration (double tolerance)
   {
-		return robInterface_->SetAbsoluteSpeed (speed);
-	}
+    return robInterface_->SetAbsoluteAcceleration (tolerance);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAngleUnits (char *unitName)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAbsoluteSpeed (double speed)
   {
-		return robInterface_->SetAngleUnits (unitName);
-	}
+    return robInterface_->SetAbsoluteSpeed (speed);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAxialSpeeds (double *speeds)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAngleUnits (char *unitName)
   {
-		return robInterface_->SetAxialSpeeds (speeds);
-	}
+    return robInterface_->SetAngleUnits (unitName);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAxialUnits (char **unitNames)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAxialSpeeds (double *speeds)
   {
-		return robInterface_->SetAxialUnits (unitNames);
-	}
+    return robInterface_->SetAxialSpeeds (speeds);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetEndPoseTolerance (robotPose tolerance)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetAxialUnits (char **unitNames)
   {
-		return robInterface_->SetEndPoseTolerance (tolerance);
-	}
+    return robInterface_->SetAxialUnits (unitNames);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetIntermediatePoseTolerance (robotPose *tolerances)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetEndPoseTolerance (robotPose tolerance)
   {
-		return robInterface_->SetIntermediatePoseTolerance (tolerances);
-	}
+    return robInterface_->SetEndPoseTolerance (tolerance);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetLengthUnits (char *unitName)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetIntermediatePoseTolerance (robotPose *tolerances)
   {
-		return robInterface_->SetLengthUnits (unitName);
-	}
+    return robInterface_->SetIntermediatePoseTolerance (tolerances);
+  }
+
+
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetLengthUnits (char *unitName)
+  {
+    return robInterface_->SetLengthUnits (unitName);
+  }
 
 
   template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetParameter (char *paramName, void *paramVal)
@@ -192,20 +192,20 @@ namespace crcl_robot
   }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetRelativeAcceleration (double percent)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetRelativeAcceleration (double percent)
   {
-		return robInterface_->SetRelativeAcceleration (percent);
-	}
+    return robInterface_->SetRelativeAcceleration (percent);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetRelativeSpeed (double percent)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::SetRelativeSpeed (double percent)
   {
-		return robInterface_->SetRelativeSpeed (percent);
-	}
+    return robInterface_->SetRelativeSpeed (percent);
+  }
 
 
-	template <class T> LIBRARY_API CanonReturn CrclRobot<T>::StopMotion (int condition)
+  template <class T> LIBRARY_API CanonReturn CrclRobot<T>::StopMotion (int condition)
   {
-		return robInterface_->StopMotion (condition);
-	}
+    return robInterface_->StopMotion (condition);
+  }
 } // Robot

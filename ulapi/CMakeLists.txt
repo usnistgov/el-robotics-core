@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 
 project(ulapi)
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-include_directories(src)
+catkin_package(
+  INCLUDE_DIRS src
+  LIBRARIES ulapi dl pthread
+)
 
 add_subdirectory(lib)
 add_subdirectory(bin)

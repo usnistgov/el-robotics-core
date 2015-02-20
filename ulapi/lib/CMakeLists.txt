@@ -1,5 +1,7 @@
 include_directories(../src)
 
+set(ROS_BUILD_TYPE Debug)
+
 ## The base library, 'libulapi.a'
 add_library(ulapi
   ../src/inifile.c

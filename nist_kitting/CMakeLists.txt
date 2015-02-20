@@ -52,7 +52,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(DIRECTORY msg
   FILES 
-  exec.msg
   ws_cmd.msg
   ws_stat.msg
   ws_assemble_kit.msg
@@ -61,6 +60,7 @@ add_message_files(DIRECTORY msg
   task_stat.msg
   emove_cmd.msg
   emove_move.msg
+  emove_exec.msg
   emove_stat.msg
   prim_robot_cmd.msg
   prim_robot_moveto.msg
@@ -83,7 +83,7 @@ add_message_files(DIRECTORY msg
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(DEPENDENCIES std_msgs geometry_msgs nist_core)
+generate_messages(DEPENDENCIES std_msgs geometry_msgs nist_core nist_kitting)
 
 ###################################
 ## catkin specific configuration ##

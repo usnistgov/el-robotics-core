@@ -225,6 +225,8 @@ def do_it():
         print toks
     except:
         print "planning_app: error on ", cmd, " : ", except_info()
+        print "planning_app: faking it"
+        fake_it()
 
 do_it()
 

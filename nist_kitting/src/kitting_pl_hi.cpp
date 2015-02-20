@@ -25,7 +25,7 @@
 #include "nist_kitting/ws_stat.h"
 #include "nist_kitting/emove_cmd.h"
 #include "nist_kitting/emove_stat.h"
-#include "nist_kitting/exec.h"
+#include "nist_kitting/emove_exec.h"
 
 #define NODE_NAME_DEFAULT "kitting_pl_hi"
 #define PERIOD_DEFAULT 1.0

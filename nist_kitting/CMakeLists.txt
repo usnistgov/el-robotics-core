@@ -52,7 +52,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(DIRECTORY msg
   FILES 
-  exec.msg
   ws_cmd.msg
   ws_stat.msg
   ws_assemble_kit.msg
@@ -61,6 +60,7 @@ add_message_files(DIRECTORY msg
   task_stat.msg
   emove_cmd.msg
   emove_move.msg
+  emove_run.msg
   emove_stat.msg
   prim_robot_cmd.msg
   prim_robot_moveto.msg
@@ -128,7 +128,7 @@ add_executable(kitting_emove_node src/kitting_emove.cpp)
 add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 add_executable(kitting_sh src/kitting_sh.cpp)
 add_executable(irclient_sh src/irclient_sh.cpp)
-add_executable(kitting_exec src/kitting_exec.cpp)
+add_executable(kitting_run src/kitting_run.cpp)
 add_executable(kitting_hmi_proxy src/kitting_hmi_proxy.cpp)
 add_executable(crcl_server src/crcl_server.cpp)
 
@@ -164,7 +164,7 @@ target_link_libraries(kitting_prim_robot_node nist_kitting ${ulapi_LIBRARIES} ${
 target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(irclient_sh nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_exec nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(kitting_run nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(kitting_hmi_proxy nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 
 target_link_libraries(cognex_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})

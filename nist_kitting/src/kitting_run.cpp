@@ -32,7 +32,7 @@ typedef struct {
 } server_args;
 
 typedef enum {CMD_INIT, CMD_RUN, CMD_HALT} command_type;
-typedef enum {EXEC_DONE, EXEC_EXEC, EXEC_ERROR} exec_type;
+typedef enum {RUN_DONE, RUN_EXEC, RUN_ERROR} run_type;
 
 typedef struct {
   ulapi_task_struct *status_task;
@@ -40,7 +40,7 @@ typedef struct {
   double period;
   int serial_number;
   command_type command;
-  exec_type exec;
+  run_type run;
   int heartbeat;
   void *process;
 } status_args;
@@ -66,18 +66,18 @@ void status_code(void *args)
 	ulapi_process_delete(status->process);
 	status->process = NULL;
       }
-      status->exec = EXEC_DONE;
+      status->run = RUN_DONE;
     } else if (CMD_HALT == status->command) {
       if (NULL != status->process) {
 	ulapi_process_stop(status->process);
 	ulapi_process_delete(status->process);
 	status->process = NULL;
       }
-      status->exec = EXEC_DONE;
+      status->run = RUN_DONE;
     } else if (CMD_RUN == status->command) {
       if (NULL != status->process) {
 	if (ulapi_process_done(status->process, &result)) {
-	    status->exec = (result ? EXEC_ERROR :  EXEC_DONE);
+	    status->run = (result ? RUN_ERROR :  RUN_DONE);
 	    ulapi_process_delete(status->process);
 	    status->process = NULL;
 	}
@@ -96,9 +96,9 @@ void status_code(void *args)
 		   CMD_INIT == status->command ? "INIT" :
 		   CMD_RUN == status->command ? "RUN" :
 		   CMD_HALT == status->command ? "HALT" : "?",
-		   EXEC_DONE == status->exec ? "DONE" :
-		   EXEC_EXEC == status->exec ? "EXEC" :
-		   EXEC_ERROR == status->exec ? "ERROR" : "?",
+		   RUN_DONE == status->run ? "DONE" :
+		   RUN_EXEC == status->run ? "EXEC" :
+		   RUN_ERROR == status->run ? "ERROR" : "?",
 		   status->heartbeat);
     outbuf[sizeof(outbuf)-1] = 0;
     nchars = ulapi_socket_write(status->client_id, outbuf, strlen(outbuf)+1);
@@ -164,12 +164,12 @@ void server_code(void *args)
 	if (debug) printf("INIT\n");
 	status.serial_number = ival;
 	status.command = CMD_INIT;
-	status.exec = EXEC_EXEC;
+	status.run = RUN_EXEC;
       } else if (! strncmp(ptr, "HALT", strlen("HALT"))) {
 	if (debug) printf("HALT\n");
 	status.serial_number = ival;
 	status.command = CMD_HALT;
-	status.exec = EXEC_EXEC;
+	status.run = RUN_EXEC;
       } else if (! strncmp(ptr, "RUN", strlen("RUN"))) {
 	ptr += strlen("RUN");	     // skip over the RUN
 	while (isspace(*ptr)) ptr++; // skip whitespace
@@ -178,7 +178,7 @@ void server_code(void *args)
 	  if (debug) printf("starting ``%s''\n", ptr);
 	  status.serial_number = ival;
 	  status.command = CMD_RUN;
-	  status.exec = EXEC_EXEC;
+	  status.run = RUN_EXEC;
 	  status.process = process;
 	} else {
 	  printf("can't start process\n");

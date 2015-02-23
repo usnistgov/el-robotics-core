@@ -35,6 +35,7 @@ namespace crcl_robot
   LIBRARY_API CrclRobotiq::CrclRobotiq (char * initPath)
   {
     iqGrip = new RobotiqGripper::RobotiqGripper();
+    grasped_ = false;
 
     task = ulapi_task_new();
     ka_.handle = ulapi_mutex_new(99);
@@ -52,13 +53,176 @@ namespace crcl_robot
 
   LIBRARY_API CanonReturn CrclRobotiq::SetTool (double percent)
   {
-    int param = (percent >= 0.5f) ? 2 : 1;
+    int param;
+    if (percent >= 0.5f)
+    {
+      param = (grasped_) ? 2 : 1;
+      grasped_ = false;
+    }
+    else
+    {
+      param = 1;
+      grasped_ = true;
+    }
+
+//    int param = (percent >= 0.5f) ? 2 : 1;
     iqGrip->setGrip(param);
     return CANON_SUCCESS;
   }
 
   LIBRARY_API CanonReturn CrclRobotiq::Couple (char *targetID)
   {
+    int param;
+    if (strcmp(targetID, "gripper_gear") == 0)
+    {
+      param = 1;
+      SetParameter("ADVANCED_CONTROL", &param);
+      SetParameter("SCISSOR_CONTROL", &param);
+      param=100;
+      SetParameter("SPEED_FINGER_A", &param);
+      SetParameter("SPEED_FINGER_B", &param);
+      SetParameter("SPEED_FINGER_C", &param);
+      SetParameter("SPEED_SCISSOR", &param);
+      param=100;
+      SetParameter("FORCE_FINGER_A", &param);
+      SetParameter("FORCE_FINGER_B", &param);
+      SetParameter("FORCE_FINGER_C", &param);
+      SetParameter("FORCE_SCISSOR", &param);
+      param=200;
+      SetParameter("POSITION_SCISSOR", &param);
+      param=10;
+      SetParameter("POSITION_FINGER_A", &param);
+      param=30;
+      SetParameter("POSITION_FINGER_B", &param);
+      SetParameter("POSITION_FINGER_C", &param);
+      SetTool (0.9);
+    }
+    else if (strcmp(targetID, "gripper_top_cover") == 0)
+    {
+      param = 1;
+      SetParameter("ADVANCED_CONTROL", &param);
+      SetParameter("SCISSOR_CONTROL", &param);
+      param=100;
+      SetParameter("SPEED_FINGER_A", &param);
+      SetParameter("SPEED_FINGER_B", &param);
+      SetParameter("SPEED_FINGER_C", &param);
+      SetParameter("SPEED_SCISSOR", &param);
+      param=100;
+      SetParameter("FORCE_FINGER_A", &param);
+      SetParameter("FORCE_FINGER_B", &param);
+      SetParameter("FORCE_FINGER_C", &param);
+      SetParameter("FORCE_SCISSOR", &param);
+      param=240;
+      SetParameter("POSITION_SCISSOR", &param);
+      param=0;
+      SetParameter("POSITION_FINGER_A", &param);
+      param=30;
+      SetParameter("POSITION_FINGER_B", &param);
+      SetParameter("POSITION_FINGER_C", &param);
+      SetTool (0.9);
+    }
+    else if (strcmp(targetID, "gripper_bottom_cover") == 0)
+    {
+      param = 1;
+      SetParameter("ADVANCED_CONTROL", &param);
+      SetParameter("SCISSOR_CONTROL", &param);
+      param=100;
+      SetParameter("SPEED_FINGER_A", &param);
+      SetParameter("SPEED_FINGER_B", &param);
+      SetParameter("SPEED_FINGER_C", &param);
+      SetParameter("SPEED_SCISSOR", &param);
+      param=100;
+      SetParameter("FORCE_FINGER_A", &param);
+      SetParameter("FORCE_FINGER_B", &param);
+      SetParameter("FORCE_FINGER_C", &param);
+      SetParameter("FORCE_SCISSOR", &param);
+      param=180;
+      SetParameter("POSITION_SCISSOR", &param);
+      param=0;
+      SetParameter("POSITION_FINGER_A", &param);
+      param=30;
+      SetParameter("POSITION_FINGER_B", &param);
+      SetParameter("POSITION_FINGER_C", &param);
+      SetTool (0.9);
+    }
+    else if (strcmp(targetID, "gripper_finger_test_a") == 0)
+    {
+      param = 1;
+      SetParameter("ADVANCED_CONTROL", &param);
+      SetParameter("SCISSOR_CONTROL", &param);
+      param=100;
+      SetParameter("SPEED_FINGER_A", &param);
+      SetParameter("SPEED_FINGER_B", &param);
+      SetParameter("SPEED_FINGER_C", &param);
+      SetParameter("SPEED_SCISSOR", &param);
+      param=100;
+      SetParameter("FORCE_FINGER_A", &param);
+      SetParameter("FORCE_FINGER_B", &param);
+      SetParameter("FORCE_FINGER_C", &param);
+      SetParameter("FORCE_SCISSOR", &param);
+      param=180;
+      SetParameter("POSITION_SCISSOR", &param);
+      param=0;
+      SetParameter("POSITION_FINGER_A", &param);
+      param=30;
+      SetParameter("POSITION_FINGER_B", &param);
+      SetParameter("POSITION_FINGER_C", &param);
+      SetTool (0.9);
+    }
+      else if (strcmp(targetID, "gripper_finger_test_b") == 0)
+    {
+      param = 1;
+      SetParameter("ADVANCED_CONTROL", &param);
+      SetParameter("SCISSOR_CONTROL", &param);
+      param=100;
+      SetParameter("SPEED_FINGER_A", &param);
+      SetParameter("SPEED_FINGER_B", &param);
+      SetParameter("SPEED_FINGER_C", &param);
+      SetParameter("SPEED_SCISSOR", &param);
+      param=100;
+      SetParameter("FORCE_FINGER_A", &param);
+      SetParameter("FORCE_FINGER_B", &param);
+      SetParameter("FORCE_FINGER_C", &param);
+      SetParameter("FORCE_SCISSOR", &param);
+      param=180;
+      SetParameter("POSITION_SCISSOR", &param);
+      param=0;
+      SetParameter("POSITION_FINGER_A", &param);
+      param=30;
+      SetParameter("POSITION_FINGER_B", &param);
+      SetParameter("POSITION_FINGER_C", &param);
+      SetTool (0.9);
+    }
+    else if (strcmp(targetID, "gripper_finger_test_c") == 0)
+    {
+      param = 1;
+      SetParameter("ADVANCED_CONTROL", &param);
+      SetParameter("SCISSOR_CONTROL", &param);
+      param=100;
+      SetParameter("SPEED_FINGER_A", &param);
+      SetParameter("SPEED_FINGER_B", &param);
+      SetParameter("SPEED_FINGER_C", &param);
+      SetParameter("SPEED_SCISSOR", &param);
+      param=100;
+      SetParameter("FORCE_FINGER_A", &param);
+      SetParameter("FORCE_FINGER_B", &param);
+      SetParameter("FORCE_FINGER_C", &param);
+      SetParameter("FORCE_SCISSOR", &param);
+      param=180;
+      SetParameter("POSITION_SCISSOR", &param);
+      param=0;
+      SetParameter("POSITION_FINGER_A", &param);
+      param=30;
+      SetParameter("POSITION_FINGER_B", &param);
+      SetParameter("POSITION_FINGER_C", &param);
+      SetTool (0.9);
+    }
+    else
+    {
+      return CANON_FAILURE;
+    }
+    strcpy (configName, targetID);
+
     return CANON_SUCCESS;
   }
 
@@ -106,19 +270,35 @@ namespace crcl_robot
 
   LIBRARY_API CanonReturn CrclRobotiq::Decouple (char *targetID)
   {
+    if (strcmp(targetID, configName) != 0)
+    {
+      return CANON_FAILURE;
+    }
+
+    if (strcmp(targetID, configName) == 0)
+    {
+      strcpy (configName, "nothing");
+    }
+
     return CANON_SUCCESS;
   }
 
 
   LIBRARY_API CanonReturn CrclRobotiq::GetRobotAxes (robotAxes *axes)
   {
-    return CANON_SUCCESS;
+    //! TODO
+    return CANON_FAILURE;
   }
 
 
   LIBRARY_API CanonReturn CrclRobotiq::GetRobotPose (robotPose *pose)
   {
-    return CANON_SUCCESS;
+    return CANON_REJECT;
+  }
+
+  LIBRARY_API CanonReturn CrclRobotiq::GetRobotIO (robotIO *io)
+  {
+    return CANON_REJECT;
   }
 
 

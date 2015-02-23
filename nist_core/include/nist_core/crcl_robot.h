@@ -4,6 +4,7 @@
 //  Subsystem:       Robot Interface
 //  Workfile:        Robot.h
 //  Revision:        1.0 - 11 March, 2014
+//                   1.1 - 30 January, 2015 - Updated with formal IO definitions
 //  Author:          J. Marvel
 //
 //  Description
@@ -15,7 +16,7 @@
 #ifndef CRCL_ROBOT_H
 #define CRCL_ROBOT_H
 
-#include <stddef.h>		/* NULL */
+#include <stddef.h>
 
 #include "nist_core/nist_core.h"
 #include "nist_core/crcl.h"
@@ -24,7 +25,6 @@ using namespace std;
 
 namespace crcl_robot
 {
-
   //! @ingroup Robot
   //!
   //! @brief Common template interface for the various robot subtypes
@@ -52,6 +52,15 @@ namespace crcl_robot
     //!
     CanonReturn Couple (char *targetID);
 
+    //! @brief Undock with a specified target object
+    //!
+    //! @param targetID The name of the object from which the robot should undock
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn Decouple (char *targetID);
+
     //! @brief Stay motionless until an event occurs
     //!
     //! @param events    An array of event identifiers to signal that motions is to resume.  Refer to
@@ -74,6 +83,33 @@ namespace crcl_robot
     //!
     CanonReturn EndCanon (int reason);
 
+    //! @brief Get feedback from the robot regarding its current axis configuration
+    //!
+    //! @param axes Axis array to be populated by the method
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn GetRobotAxes (robotAxes *axes);
+
+    //! @brief Get I/O feedback from the robot
+    //!
+    //! @Param io Digital and analog I/O data structure to be populated by the method
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn GetRobotIO (robotIO *io);
+
+    //! @brief Get feedback from the robot regarding its current position in Cartesian space
+    //!
+    //! @param pose Cartesian pose data structure to be populated by the method
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn GetRobotPose (robotPose *pose);
+
     //! @brief Do whatever is necessary to get ready to move
     //!
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
@@ -89,6 +125,15 @@ namespace crcl_robot
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
     CanonReturn Message (char *message);
+    
+    //! @brief Move a virtual attractor to a specified coordinate in Cartesian space for force control
+    //!
+    //! @param pose The 6DOF destination of the virtual attractor 
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn MoveAttractor (robotPose pose);
 
     //! @brief Move the robot in a straight line from the current pose to a new pose and stop there
     //!
@@ -133,42 +178,6 @@ namespace crcl_robot
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
     CanonReturn MoveTo (robotPose pose);
-
-    //! @brief Undock with a specified target object
-    //!
-    //! @param targetID The name of the object from which the robot should undock
-    //!
-    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
-    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
-    //!
-    CanonReturn Decouple (char *targetID);
-
-    //! @brief Get feedback from the robot regarding its current axis configuration
-    //!
-    //! @param axes Axis array to be populated by the method
-    //!
-    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
-    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
-    //!
-    CanonReturn GetRobotAxes (robotAxes *axes);
-
-    //! @brief Get feedback from the robot regarding its current position in Cartesian space
-    //!
-    //! @param pose Cartesian pose data structure to be populated by the method
-    //!
-    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
-    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
-    //!
-    CanonReturn GetRobotPose (robotPose *pose);
-
-    //! @brief Move a virtual attractor to a specified coordinate in Cartesian space for force control
-    //!
-    //! @param pose The 6DOF destination of the virtual attractor 
-    //!
-    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
-    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
-    //!
-    CanonReturn MoveAttractor (robotPose pose);
 
     //! @brief Move the robot axes to the specified target values
     //!
@@ -284,16 +293,6 @@ namespace crcl_robot
     //!
     CanonReturn SetRelativeAcceleration (double percent);
 
-    //! @brief Set the attached tool to a defined output rate.
-    //!
-    //! @param percent The desired output rate for the robot's tool as a percentage of maximum output.
-    //!                If using a gripper, 0 is all the way open, 1 is all the way closed.
-    //!
-    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
-    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
-    //!
-    CanonReturn SetTool (double percent);
-
     //! @brief Set the speed for the controlled point to the given percentage of the robot's maximum
     //!        speed
     //!
@@ -303,6 +302,25 @@ namespace crcl_robot
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
     CanonReturn SetRelativeSpeed (double percent);
+
+    //! @brief Set the digital and analog outputs
+    //!
+    //! @Param io Digital and analog I/O outputs to set
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn SetRobotIO (robotIO io);
+
+    //! @brief Set the attached tool to a defined output rate.
+    //!
+    //! @param percent The desired output rate for the robot's tool as a percentage of maximum output.
+    //!                If using a gripper, 0 is all the way open, 1 is all the way closed.
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn SetTool (double percent);
 
     //! @brief Stop the robot's motions based on robot stopping rules
     //!

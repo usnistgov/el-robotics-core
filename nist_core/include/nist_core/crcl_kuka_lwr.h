@@ -15,7 +15,15 @@
 #ifndef KUKA_LWR_H
 #define KUKA_LWR_H
 
+#define OLDSERIAL
+
+#ifdef OLDSERIAL
+#include "serial.h"
+using namespace Network;
+#else
 #include "ulapi.h"
+#endif
+
 #include "nist_core/nist_core.h"
 #include "nist_core/crcl.h"
 
@@ -23,6 +31,7 @@
 
 #include <vector>
 #include <sstream>
+
 
 using namespace std;
 
@@ -162,6 +171,15 @@ namespace crcl_robot
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
     CanonReturn GetRobotPose (robotPose *pose);
+
+    //! @brief Get I/O feedback from the robot
+    //!
+    //! @Param io Digital and analog I/O data structure to be populated by the method
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn GetRobotIO (robotIO *io);
 
     //! @brief Move a virtual attractor to a specified coordinate in Cartesian space for force control
     //!
@@ -305,6 +323,15 @@ namespace crcl_robot
     //!
     CanonReturn SetRelativeSpeed (double percent);
 
+    //! @brief Set the digital and analog outputs
+    //!
+    //! @Param io Digital and analog I/O outputs to set
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn SetRobotIO (robotIO io);
+
     //! @brief Stop the robot's motions based on robot stopping rules
     //!
     //! @param condition The rule by which the robot is expected to stop (Estop category 0, 1, or 2);
@@ -320,7 +347,14 @@ namespace crcl_robot
     //!
     bool serialUsed_;
     char COMChannel_[5];
+#ifdef OLDSERIAL
+    serialStruct serialData_;
+    serial *serial_;
+#else
     void *serialID_;
+#endif
+
+
 
     //! @brief Whether or not the robot should accept CRCL commands
     //!
@@ -376,7 +410,7 @@ namespace crcl_robot
 
     //! @brief Generate a tool activation request for the KUKA LWR
     //!
-    //! @param mode  Specify the mode of actuation of the robot output: binary (B) or analog (A)
+    //! @param mode  Specify the mode of actuation of the robot output: binary (B), analog (A), definition (D)
     //! @param value Specify the value of the robot output
     //!
     //! @return True if tool actuation string generation was successful, false otherwise

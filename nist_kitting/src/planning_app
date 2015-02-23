@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, ConfigParser
+import sys, getopt, ConfigParser, subprocess, shlex
 import MySQLdb
 
 INIFILE = ""
@@ -10,6 +10,10 @@ DB_SERVER = ""
 DB_USER = ""
 DB_PASSWD = ""
 DB_NAME = ""
+
+def except_info():
+    exc_type, exc_value = sys.exc_info()[:2]
+    return str(exc_type.__name__) + ": " + str(exc_value)
 
 class DB(object):
 
@@ -92,9 +96,8 @@ if DEBUG:
     print "planning_app: ini file:", INIFILE
     print "planning_app: kit design:", KITDESIGN
 
-defdict = {"directory" : "",
-           "file" : "",
-           "port" : "",
+defdict = {"app" : "",
+           "plan" : "",
            "server" : "",
            "user" : "",
            "passwd" : "",
@@ -104,9 +107,8 @@ try:
     with open(INIFILE, "rb") as f:
         config = ConfigParser.ConfigParser(defdict)
         config.read(INIFILE)
-        PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
-        FINAL_PLAN_FILE = config.get("final_plan", "file")
-        PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
+        OWL2PDDL = config.get("owl2pddl", "app")
+        PLAN_FILE = config.get("planner", "plan")
         if DB_SERVER == "":
             DB_SERVER = config.get("mysql", "server")
         if DB_USER == "":
@@ -121,19 +123,20 @@ except IOError as err:
 except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
     print "planning_app: read inifile:", str(err)
 
-if PLANFILE == "":
-    print "planning_app: no plan file specified"
+if OWL2PDDL == "":
+    print "planning_app: no OWL to PDDL application specified"
     sys.exit(1)
 
-if DEBUG:
-    print "planning_app: using plan", PLANFILE
+if PLAN_FILE == "":
+    print "planning_app: no plan file specified"
+    sys.exit(1)
 
 if DB_SERVER == "": DB_SERVER = "aprs_dev"
 if DB_USER == "" : DB_USER = "wills"
 if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"
 if DEBUG:
-    print "planning_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB
+    print "planning_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
 
 AprsDB = DB()
 
@@ -201,16 +204,31 @@ contents = """
 ; (place-part robot_1 large_gear_1 large_gear gearbox_parts_tray kit_s2m1l1_slot_vex36_2 part_gripper)
 (place-part robot_1 bottom_cover_1 bottom_cover gearbox_parts_tray kit_s2m1l1_slot_vex36_2 part_gripper)
 (place-part robot_1 medium_gear_1 medium_gear kit_gearbox_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-
 """
 
-try:
-    with open(PLANFILE, "w") as f:
-        for line in contents:
-            f.write(line)
-except IOError as err:
-    print "planning_app: open plan file:", str(err)
-    sys.exit(1)
+if DEBUG:
+    print "planning_app: java -jar", OWL2PDDL, "-i", INIFILE, "-k", KITDESIGN
+
+def fake_it():
+    try:
+        with open(PLAN_FILE, "w") as f:
+            for line in contents:
+                f.write(line)
+    except IOError as err:
+        print "planning_app: open plan file:", str(err)
+        sys.exit(1)
+
+def do_it():
+    try:
+        cmd = "java -jar " + OWL2PDDL + " -i " + INIFILE + " -k " + KITDESIGN + " -d -p"
+        toks = shlex.split(subprocess.check_output(shlex.split(cmd)))
+        print toks
+    except:
+        print "planning_app: error on ", cmd, " : ", except_info()
+        print "planning_app: faking it"
+        fake_it()
+
+do_it()
 
 sys.exit(0)
 

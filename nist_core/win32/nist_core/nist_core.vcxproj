@@ -22,14 +22,7 @@
     <ClCompile Include="..\..\src\crcl_universal.cpp" />
     <ClCompile Include="..\..\src\nist_core.cpp" />
     <ClCompile Include="..\..\src\robotiq_gripper.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\nist_core\crcl_demo_hack.h" />
-    <ClInclude Include="..\..\include\nist_core\crcl_kuka_lwr.h" />
-    <ClInclude Include="..\..\include\nist_core\crcl_robotiq.h" />
-    <ClInclude Include="..\..\include\nist_core\crcl_schunk_sdh.h" />
-    <ClInclude Include="..\..\include\nist_core\crcl_universal.h" />
-    <ClInclude Include="..\..\include\nist_core\robotiq_gripper.h" />
+    <ClCompile Include="..\..\src\serial.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ABAEDC09-C3D7-4256-A7B6-19D63702D6F6}</ProjectGuid>

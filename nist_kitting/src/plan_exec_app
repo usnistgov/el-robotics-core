@@ -10,7 +10,7 @@ xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
 
 INIFILE = ""
-PLANFILE = ""
+PLAN_FILE = ""
 ROBOT_PORT = ""
 ROBOT_HOST = ""
 GRIPPER_PORT = ""
@@ -381,7 +381,7 @@ for o, a in opts:
     if o in ("-i", "--inifile"):
         INIFILE = a
     elif o in ("-f", "--file"):
-        PLANFILE = a
+        PLAN_FILE = a
     elif o in ("-r", "--robot"):
         ROBOT_PORT = a
     elif o in ("-R", "--robothost"):
@@ -404,9 +404,7 @@ for o, a in opts:
     elif o in ("--dbname"):
         DB_NAME = a
 
-defdict = {"directory" : "",
-           "file" : "",
-           "port" : "",
+defdict = {"port" : "",
            "host" : "",
            "server" : "",
            "user" : "",
@@ -418,10 +416,6 @@ if INIFILE != "":
         with open(INIFILE, "rb") as f:
             config = ConfigParser.ConfigParser(defdict)
             config.read(INIFILE)
-            if PLANFILE == "":
-                PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
-                FINAL_PLAN_FILE = config.get("final_plan", "file")
-                PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
             if ROBOT_PORT == "":
                 ROBOT_PORT = config.get("robot_prim", "port")
             if ROBOT_HOST == "":
@@ -447,7 +441,7 @@ if INIFILE != "":
         print "robot_prim: inifile error"
         sys.exit(1)
 
-if PLANFILE == "":
+if PLAN_FILE == "":
     print "plan_exec_app: no plan file specified"
     sys.exit(1)
 
@@ -469,7 +463,7 @@ if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"
 
 if DEBUG:
-    print "plan_exec_app: plan file:", PLANFILE
+    print "plan_exec_app: plan file:", PLAN_FILE
     print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
     print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
     print "plan_exec_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
@@ -501,9 +495,9 @@ gt.daemon = True
 gt.start()
 
 try:
-    f = open(PLANFILE, "rb")
+    f = open(PLAN_FILE, "rb")
 except IOError as err:
-    print "plan_exec_app: can't open", PLANFILE, ":", str(err)
+    print "plan_exec_app: can't open", PLAN_FILE, ":", str(err)
     sys.exit(1)
 
 for line in f:

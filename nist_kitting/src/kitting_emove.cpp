@@ -167,7 +167,7 @@ static int ini_load(const std::string inifile_name,
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
-      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fprintf(stderr, "missing ini file entry: [%s] %s\n", section, key);
       fclose(fp);
       return 1;
     } else {

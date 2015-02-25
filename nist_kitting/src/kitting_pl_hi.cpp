@@ -193,7 +193,7 @@ static int ini_load(const std::string inifile_name,
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
-      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fprintf(stderr, "missing ini file entry: [%s] %s\n", section, key);
       fclose(fp);
       return 1;
     } else {
@@ -204,33 +204,16 @@ static int ini_load(const std::string inifile_name,
 
   if (plan_file.empty()) {
     /* no argument overrode it, so we'll look for it */
-    plan_file = std::string("");
-
-    section = "source";
-    key = "directory";
-    inistring = ini_find(fp, key, section);
-
-    if (NULL != inistring) {
-      plan_file = std::string(inistring);
-    }
-
-    section = "final_plan";
-    key = "directory";
-    inistring = ini_find(fp, key, section);
-
-    if (NULL != inistring) {
-      plan_file = plan_file + std::string(inistring);
-    }
-
-    key = "file";
+    section = "planner";
+    key = "plan";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
-      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fprintf(stderr, "missing ini file entry: [%s] %s\n", section, key);
       fclose(fp);
       return 1;
     } else {
-      plan_file = plan_file + std::string(inistring);
+      plan_file = std::string(inistring);
     }
   }
 

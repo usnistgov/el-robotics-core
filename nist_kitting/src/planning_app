@@ -158,12 +158,12 @@ if DEBUG:
 AprsDB = DB()
 
 if not AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
-    print "pln_exec_app: can't connect to database"
+    print "planning_app: can't connect to database"
     sys.exit(1)
 
 def get_kit_design(name):
     global DEBUG, AprsDB
-    if DEBUG: print "getting design of", name
+    if DEBUG: print "planning_app: getting design of", name
     try:
         ret = AprsDB.read("select * from PartRefAndPose where hadByPartRefAndPose_KitDesign = " + "\"" + name + "\"")
         if len(ret) == 0: return False
@@ -175,7 +175,8 @@ if not get_kit_design(KITDESIGN):
     print "planning_app: can't find kit design", KITDESIGN
     sys.exit(1)
 
-print "planning_app: found kit design", KITDESIGN
+if DEBUG:
+    print "planning_app: found kit design", KITDESIGN
 
 contents = """
 Number of literals: 81
@@ -243,21 +244,22 @@ def fake_it():
         with open(PLAN_FILE, "w") as f:
             for line in contents:
                 f.write(line)
-        print "wrote " + PLAN_FILE
+        print "planning_app: wrote " + PLAN_FILE
     except IOError as err:
         print "planning_app: open plan file:", str(err)
         sys.exit(1)
 
 def do_it():
+    global DEBUG
     try:
         cmd = "java -jar " + OWL2PDDL + " -i " + INIFILE + " -k " + KITDESIGN
-        print "running", cmd
+        if DEBUG: print "planning_app: running", cmd
         out = subprocess.check_output(shlex.split(cmd))
-        print out
+        if DEBUG: print out
         cmd = PLAN_APP + " " + DOMAIN + " " + PROBLEM
-        print "running", cmd
+        if DEBUG: print "planning_app: running", cmd
         out = subprocess.check_output(shlex.split(cmd))
-        print out
+        if DEBUG: print out
         with open(PLAN_FILE, "w") as f:
             for line in out:
                 f.write(line)

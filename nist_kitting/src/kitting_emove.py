@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# do rostopic pub /emove_cmd nist_kitting/emove_cmd -f <yaml.bagy>
+
 import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
 import MySQLdb, numpy
 import rospy
@@ -23,6 +25,9 @@ DB_PASSWD = ""
 DB_NAME = ""
 DEBUG = False
 PERIOD = 0.5
+
+# the global emove status structure
+EmoveStatMsg = emove_stat()
 
 # the global subordinate statuses
 
@@ -105,7 +110,6 @@ def robot_reader(conn):
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
                         # else Pose, GripperStatus, etc.
-            if DEBUG: print "Robot", RobotCommandID, RobotCommandState
         except: pass
     conn.close()
 
@@ -127,7 +131,6 @@ def gripper_reader(conn):
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): GripperCommandState = toCommandStateType(t)
                         # else Pose, GripperStatus, etc.
-            if DEBUG: print "Gripper", GripperCommandID, GripperCommandState
         except: pass
     conn.close()
 
@@ -317,15 +320,8 @@ def parseLine(line, robot_socket, gripper_socket):
     print "unknown command", toks[0]
     return False
 
-
-
-
-
-# do rostopic pub /emove_cmd nist_kitting/emove_cmd -f <yaml.bagy>
-
 '''
 rosmsg show emove_stat
-
 [nist_kitting/emove_stat]:
 std_msgs/Header header
   uint32 seq
@@ -340,6 +336,28 @@ nist_core/rcs_stat stat
   float32 period
   float32 cycle
   float32 duration
+geometry_msgs/Pose current_pose
+  geometry_msgs/Point position
+    float64 x
+    float64 y
+    float64 z
+  geometry_msgs/Quaternion orientation
+    float64 x
+    float64 y
+    float64 z
+    float64 w
+geometry_msgs/Pose target_pose
+  geometry_msgs/Point position
+    float64 x
+    float64 y
+    float64 z
+  geometry_msgs/Quaternion orientation
+    float64 x
+    float64 y
+    float64 z
+    float64 w
+string name
+string line
 
 -----------
 
@@ -369,7 +387,6 @@ nist_kitting/emove_run run
   string name
 '''
 
-
 cmddict = {
     0 : "Nop",
     1 : "Init",
@@ -384,13 +401,22 @@ cmddict = {
     10 : "EmoveDepart"
     }
 
+statdict = {
+    0 : "None",
+    1 : "Done",
+    2 : "Exec",
+    3 : "Error"
+    }
+
 def run_plan(plan_file):
+    global DEBUG, EmoveStatMsg
+    if DEBUG: print "plan_exec_app: running ", plan_file
     try:
         f = open(plan_file, "rb")
     except IOError as err:
         print "plan_exec_app: can't open", plan_file, ":", str(err)
+        EmoveStatMsg.stat.status = 0
         return False
-
     for line in f:
         m = re.match("^[\s]*[0-9.].*:[\s]*\((.*)\)[\s]*\[[0-9.].*\]", line)
         if m != None:
@@ -399,21 +425,28 @@ def run_plan(plan_file):
             if retval == False:
                 print "plan_exec_app: failed:", m.group(1)
                 f.close()
+                EmoveStatMsg.stat.status = 3
                 return False
     f.close()
+    EmoveStatMsg.stat.status = 1
     return True
 
 def emove_cmd_reader_callback(data):
-    global DEBUG, cmddict, PLAN_FILE
-    if DEBUG: print "got", data
+    global DEBUG, EmoveStatMsg, cmddict, statdict, PLAN_FILE
+    if DEBUG: print "plan_exec_app: got", data
+    EmoveStatMsg.stat.type = data.cmd.type
+    EmoveStatMsg.stat.serial_number = data.cmd.serial_number
     try:
-        cmdstr = cmddict[data.cmd.type]
-        if cmdstr == "EmoveRun":
+        if data.cmd.type == 5:
+            EmoveStatMsg.name = PLAN_FILE
+            EmoveStatMsg.stat.status = 2
             run_plan(PLAN_FILE)
         else:
-            pass
+            EmoveStatMsg.stat.status = 3
+            print "plan_exec_app: unknown command:", data.cmd.type
     except:
-        pass
+        EmoveStatMsg.stat.status = 3
+        print "plan_exec_app: bad command:", data.cmd.type
 
 def emove_cmd_reader():
     rospy.Subscriber('emove_cmd', emove_cmd, emove_cmd_reader_callback)
@@ -547,18 +580,15 @@ gt = threading.Thread(target=gripper_reader, args=(gripper_socket,))
 gt.daemon = True
 gt.start()
 
-
-
-
 def main_loop():
+    global EmoveStatMsg
     pub = rospy.Publisher('emove_stat', emove_stat, queue_size=1)
     rate = rospy.Rate(1)
-    msg = emove_stat()
-    msg.stat.heartbeat = 0
+    EmoveStatMsg.stat.heartbeat = 0
     while not rospy.is_shutdown():
-        msg.stat.heartbeat += 1
+        EmoveStatMsg.stat.heartbeat += 1
         try:
-            pub.publish(msg)
+            pub.publish(EmoveStatMsg)
             rate.sleep()
         except rospy.ROSInterruptException:
             pass

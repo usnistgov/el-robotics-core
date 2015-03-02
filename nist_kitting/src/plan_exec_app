@@ -207,7 +207,7 @@ def Place_Part(toks, robot_port, gripper_port):
     # (place-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)
     global PERIOD, DEBUG
     if len(toks) < 7: return False
-    if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6]
+    if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "to kit", toks[4], "at slot", toks[5], "uwing gripper", toks[6]
     sku = toks[3]
     startloc = toks[4]
     endloc = startloc # should be toks[5] but we don't have those locs
@@ -447,9 +447,6 @@ except IOError as err:
     sys.exit(1)
 
 for line in f:
-    # this means match zero or more chars, then a literal '(',
-    # then set up a target with () enclosing a match of anything,
-    # then match a literal ')', then anything
     m = re.match("^[\s]*[0-9.].*:[\s]*\((.*)\)[\s]*\[[0-9.].*\]", line)
     if m != None:
         if DEBUG: print "plan_exec_app: parsing line", m.group(1)

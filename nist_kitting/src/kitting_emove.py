@@ -152,6 +152,11 @@ def gripper_poll(cid, tm):
 
 # --- Handler functions for PDDL commands ---
 
+def strip_suffix(p):
+    m = re.match("(.*)_[0-9]*$", p)
+    if m == None: return p
+    return m.group(1)
+
 def check_predicate(sku, location):
     global DEBUG
     if DEBUG: print "checking", sku, "at location", location
@@ -168,12 +173,11 @@ def check_predicate(sku, location):
         print "check_predicate: error on", req, ":", except_info()
     return False, 0, 0, 0, 0
 
-def get_pose(sku):
+def get_pose(part):
     global DEBUG, AprsDB
-    if DEBUG: print "getting pose of", sku
+    if DEBUG: print "getting pose of", part
     try:
-        # FIXME -- a _1 suffix is added to work around database issues
-        ret = AprsDB.read("select X,Y,Z from DirectPose where name = " + "\"" + sku + "_1\"")
+        ret = AprsDB.read("select X,Y,Z from DirectPose where name = " + "\"" + part + "\"")
         for toks in ret:
             x = float(toks[0])
             y = float(toks[1])
@@ -213,7 +217,8 @@ def Place_Part(toks, robot_port, gripper_port):
     global PERIOD, DEBUG
     if len(toks) < 7: return False
     if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "to kit", toks[4], "at slot", toks[5], "uwing gripper", toks[6]
-    sku = toks[3]
+    part = toks[2]
+    sku = strip_suffix(part)
     startloc = toks[4]
     endloc = startloc # should be toks[5] but we don't have those locs
 
@@ -249,7 +254,7 @@ def Place_Part(toks, robot_port, gripper_port):
     if not ret: 
         print "can't find", sku, "at", startloc
         return False
-    ret, x, y, z, th = get_pose(sku)
+    ret, x, y, z, th = get_pose(part)
     robot_cid += 1
     m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
     robot_port.send(str(m))
@@ -266,7 +271,7 @@ def Place_Part(toks, robot_port, gripper_port):
     # pm.demo->MoveTo (poseMe)
     ret, x, y, z, th = check_predicate(sku, endloc)
     if not ret: return False
-    ret, x, y, z, th = get_pose(sku)
+    ret, x, y, z, th = get_pose(part)
     robot_cid += 1
     # FIXME -- replace these randoms with the subprocess call, as above
     m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
@@ -309,13 +314,15 @@ funcdict = {
 # the line and the socket ports to the robot and gripper subordinates
 
 def parseLine(line, robot_socket, gripper_socket):
-
+    global EmoveStatMsg
     toks = str.split(line)
     num = len(toks)
     if num == 0: return False
 
     func = funcdict.get(toks[0], None)
-    if (func != None): return func(toks, robot_socket, gripper_socket)
+    if (func != None):
+        EmoveStatMsg.line = line
+        return func(toks, robot_socket, gripper_socket)
 
     print "unknown command", toks[0]
     return False
@@ -410,20 +417,20 @@ statdict = {
 
 def run_plan(plan_file):
     global DEBUG, EmoveStatMsg
-    if DEBUG: print "plan_exec_app: running ", plan_file
+    if DEBUG: print "kitting_emove: running ", plan_file
     try:
         f = open(plan_file, "rb")
     except IOError as err:
-        print "plan_exec_app: can't open", plan_file, ":", str(err)
+        print "kitting_emove: can't open", plan_file, ":", str(err)
         EmoveStatMsg.stat.status = 0
         return False
     for line in f:
         m = re.match("^[\s]*[0-9.].*:[\s]*\((.*)\)[\s]*\[[0-9.].*\]", line)
         if m != None:
-            if DEBUG: print "plan_exec_app: parsing line", m.group(1)
+            if DEBUG: print "kitting_emove: parsing line", m.group(1)
             retval = parseLine(m.group(1), robot_socket, gripper_socket)
             if retval == False:
-                print "plan_exec_app: failed:", m.group(1)
+                print "kitting_emove: failed:", m.group(1)
                 f.close()
                 EmoveStatMsg.stat.status = 3
                 return False
@@ -433,7 +440,7 @@ def run_plan(plan_file):
 
 def emove_cmd_reader_callback(data):
     global DEBUG, EmoveStatMsg, cmddict, statdict, PLAN_FILE
-    if DEBUG: print "plan_exec_app: got", data
+    if DEBUG: print "kitting_emove: got", data
     EmoveStatMsg.stat.type = data.cmd.type
     EmoveStatMsg.stat.serial_number = data.cmd.serial_number
     try:
@@ -443,10 +450,10 @@ def emove_cmd_reader_callback(data):
             run_plan(PLAN_FILE)
         else:
             EmoveStatMsg.stat.status = 3
-            print "plan_exec_app: unknown command:", data.cmd.type
+            print "kitting_emove: unknown command:", data.cmd.type
     except:
         EmoveStatMsg.stat.status = 3
-        print "plan_exec_app: bad command:", data.cmd.type
+        print "kitting_emove: bad command:", data.cmd.type
 
 def emove_cmd_reader():
     rospy.Subscriber("kitting_emove_cmd", emove_cmd, emove_cmd_reader_callback)
@@ -457,7 +464,7 @@ def emove_cmd_reader():
 try:
     opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:d", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "debug", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
 except getopt.GetoptError, err:
-    print "plan_exec_app:", str(err)
+    print "kitting_emove:", str(err)
     sys.exit(1)
 
 for o, a in opts:
@@ -528,17 +535,17 @@ if INIFILE != "":
         sys.exit(1)
 
 if PLAN_FILE == "":
-    print "plan_exec_app: no plan file specified"
+    print "kitting_emove: no plan file specified"
     sys.exit(1)
 
 if ROBOT_PORT == "":
-    print "plan_exec_app: no robot port provided"
+    print "kitting_emove: no robot port provided"
     sys.exit(1)
 
 if ROBOT_HOST == "": ROBOT_HOST = "localhost"
 
 if GRIPPER_PORT == "":
-    print "plan_exec_app: no gripper port provided"
+    print "kitting_emove: no gripper port provided"
     sys.exit(1)
 
 if GRIPPER_HOST == "": GRIPPER_HOST = "localhost"
@@ -549,10 +556,10 @@ if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"
 
 if DEBUG:
-    print "plan_exec_app: plan file:", PLAN_FILE
-    print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
-    print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
-    print "plan_exec_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
+    print "kitting_emove: plan file:", PLAN_FILE
+    print "kitting_emove: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
+    print "kitting_emove: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
+    print "kitting_emove: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
 
 if not AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
     print "pln_exec_app: can't connect to database"
@@ -562,7 +569,7 @@ try:
     robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     robot_socket.connect((ROBOT_HOST, int(ROBOT_PORT)))
 except IOError as err:
-    print "plan_exec_app: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT, ":", str(err)
+    print "kitting_emove: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT, ":", str(err)
     sys.exit(1)
 
 rt = threading.Thread(target=robot_reader, args=(robot_socket,))
@@ -573,7 +580,7 @@ try:
     gripper_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     gripper_socket.connect((GRIPPER_HOST, int(GRIPPER_PORT)))
 except IOError as err:
-    print "plan_exec_app: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT, ":", str(err)
+    print "kitting_emove: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT, ":", str(err)
     sys.exit(1)
 
 gt = threading.Thread(target=gripper_reader, args=(gripper_socket,))
@@ -583,10 +590,11 @@ gt.start()
 def main_loop():
     global EmoveStatMsg
     pub = rospy.Publisher("kitting_emove_stat", emove_stat, queue_size=1)
-    rate = rospy.Rate(1)
+    rate = rospy.Rate(4)
     EmoveStatMsg.stat.heartbeat = 0
     while not rospy.is_shutdown():
         EmoveStatMsg.stat.heartbeat += 1
+        if EmoveStatMsg.stat.heartbeat >= 255: EmoveStatMsg.stat.heartbeat = 0
         try:
             pub.publish(EmoveStatMsg)
             rate.sleep()

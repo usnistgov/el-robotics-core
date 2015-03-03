@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# do rostopic pub /emove_cmd nist_kitting/emove_cmd -f <yaml.bagy>
+# do rostopic pub /kitting_emove_cmd nist_kitting/emove_cmd -f <yaml.bagy>
 
 import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
 import MySQLdb, numpy
@@ -449,7 +449,7 @@ def emove_cmd_reader_callback(data):
         print "plan_exec_app: bad command:", data.cmd.type
 
 def emove_cmd_reader():
-    rospy.Subscriber('emove_cmd', emove_cmd, emove_cmd_reader_callback)
+    rospy.Subscriber("kitting_emove_cmd", emove_cmd, emove_cmd_reader_callback)
     rospy.spin()
 
 # --- Main ---
@@ -582,7 +582,7 @@ gt.start()
 
 def main_loop():
     global EmoveStatMsg
-    pub = rospy.Publisher('emove_stat', emove_stat, queue_size=1)
+    pub = rospy.Publisher("kitting_emove_stat", emove_stat, queue_size=1)
     rate = rospy.Rate(1)
     EmoveStatMsg.stat.heartbeat = 0
     while not rospy.is_shutdown():

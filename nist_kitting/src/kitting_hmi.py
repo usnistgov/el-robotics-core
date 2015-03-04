@@ -107,6 +107,7 @@ class App(object):
         self.cmdVar = StringVar()
         self.statusVar = StringVar()
         self.hbVar = StringVar()
+        self.emoveVar = StringVar()
         self.diagsVar = StringVar()
         #
         self.nameVar.set(HOST)
@@ -115,6 +116,7 @@ class App(object):
         self.cmdVar.set("")
         self.statusVar.set("")
         self.hbVar.set("")
+        self.emoveVar.set("")
         self.diagsVar.set("")
 
         #
@@ -158,12 +160,16 @@ class App(object):
         Label(master, text="Heartbeat:").grid(row=3, column=4)
         self.hbEntry = Entry(master, textvariable=self.hbVar)
         self.hbEntry.grid(row=3, column=5)
+        # #
+        Label(master, text="Emove:").grid(row=4, column=4)
+        self.emoveEntry = Entry(master, textvariable=self.emoveVar)
+        self.emoveEntry.grid(row=4, column=5)
 
         #
-        Entry(master, textvariable=self.diagsVar).grid(row=4, column=0, columnspan=6, sticky=W+E)
+        Entry(master, textvariable=self.diagsVar).grid(row=5, column=0, columnspan=6, sticky=W+E)
 
         #
-        Button(master, text="Quit", command=self.quit).grid(row=5,columnspan=6)
+        Button(master, text="Quit", command=self.quit).grid(row=6,columnspan=6)
 
         #
         self.recvThread = threading.Thread(target=self.recvFunc)
@@ -206,6 +212,8 @@ class App(object):
                         self.cmdVar.set(msglist[0])
                         self.statusVar.set(msglist[3])
                         self.hbVar.set(msglist[4])
+                        if len(msglist) >= 8:
+                            self.emoveVar.set(msglist[5]+","+msglist[6]+","+msglist[7])
                 except IOError as err:
                     self.diagsVar.set(str(err))
                     print "kitting_hmi: recv:", str(err)

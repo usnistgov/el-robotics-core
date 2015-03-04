@@ -20,6 +20,7 @@
 #include "nist_kitting/msg_types.h"
 #include "nist_kitting/ws_cmd.h"
 #include "nist_kitting/ws_stat.h"
+#include "nist_kitting/emove_stat.h"
 
 #define NODE_NAME_DEFAULT "kitting_hmi_proxy"
 enum {PORT_DEFAULT = 1234};
@@ -42,6 +43,16 @@ static void ws_stat_callback(const nist_kitting::ws_stat::ConstPtr& msg)
   ulapi_mutex_take(&ws_stat_mutex);
   ws_stat_buf = *msg;
   ulapi_mutex_give(&ws_stat_mutex);
+}
+
+static ulapi_mutex_struct emove_stat_mutex;
+static nist_kitting::emove_stat emove_stat_buf;
+
+static void emove_stat_callback(const nist_kitting::emove_stat::ConstPtr& msg)
+{
+  ulapi_mutex_take(&emove_stat_mutex);
+  emove_stat_buf = *msg;
+  ulapi_mutex_give(&emove_stat_mutex);
 }
 
 struct client_read_task_args {
@@ -80,15 +91,12 @@ static void client_read_task_code(client_read_task_args *args)
     while (isspace(*ptr)) ptr++;
     endptr = ptr + strlen(ptr);
     while (isspace(*endptr)) *endptr-- = 0;
-    ulapi_mutex_take(&ws_stat_mutex);
 
     ws_cmd.cmd.type = KITTING_WS_ASSEMBLE_KIT;
     ws_cmd.assemble_kit.name = std::string(ptr);
     ws_cmd.assemble_kit.quantity = 1;
     ws_cmd.cmd.serial_number = serial_number++;
     pub.publish(ws_cmd);
-
-    ulapi_mutex_give(&ws_stat_mutex);
   }
 
   ulapi_socket_close(id);
@@ -115,6 +123,7 @@ static void client_write_task_code(client_write_task_args *args)
   char outbuf[OUTBUF_SIZE];
   int nchars;
   nist_kitting::ws_stat ws_stat;
+  nist_kitting::emove_stat emove_stat;
 
   task = args->task;
   id = args->id;
@@ -126,6 +135,9 @@ static void client_write_task_code(client_write_task_args *args)
     ulapi_mutex_take(&ws_stat_mutex);
     ws_stat = ws_stat_buf;
     ulapi_mutex_give(&ws_stat_mutex);
+    ulapi_mutex_take(&emove_stat_mutex);
+    emove_stat = emove_stat_buf;
+    ulapi_mutex_give(&emove_stat_mutex);
 
     /*
       uint8 type
@@ -142,12 +154,13 @@ static void client_write_task_code(client_write_task_args *args)
       extern char *rcs_status_to_string(int s);
     */
 
-    ulapi_snprintf(outbuf, sizeof(outbuf), "%s %d %s %s %d\n",
+    ulapi_snprintf(outbuf, sizeof(outbuf), "%s %d %s %s %d %s %s %s\n",
 		   kitting_cmd_to_string(ws_stat.stat.type),
 		   ws_stat.stat.serial_number,
 		   rcs_state_to_string(ws_stat.stat.state),
 		   rcs_status_to_string(ws_stat.stat.status),
-		   ws_stat.stat.heartbeat);
+		   ws_stat.stat.heartbeat,
+		   emove_stat.name.c_str(), emove_stat.line.c_str(), emove_stat.crcl.c_str());
     outbuf[sizeof(outbuf)-1] = 0;
     nchars = ulapi_socket_write(id, outbuf, strlen(outbuf));
     if (nchars <= 0) break;
@@ -296,6 +309,7 @@ int main(int argc, char *argv[])
   }
 
   ulapi_mutex_init(&ws_stat_mutex, 1);
+  ulapi_mutex_init(&emove_stat_mutex, 1);
 
   // pass everything after a '--' separator to ROS
   ros_argc = argc - optind;
@@ -303,8 +317,10 @@ int main(int argc, char *argv[])
   ros::init(ros_argc, ros_argv, node_name);
 
   ros::NodeHandle nh;
-  ros::Subscriber sub;
-  sub = nh.subscribe(KITTING_WS_STAT_TOPIC, TOPIC_QUEUE_LEN, ws_stat_callback);
+  ros::Subscriber wssub;
+  ros::Subscriber emovesub;
+  wssub = nh.subscribe(KITTING_WS_STAT_TOPIC, TOPIC_QUEUE_LEN, ws_stat_callback);
+  emovesub = nh.subscribe(KITTING_EMOVE_STAT_TOPIC, TOPIC_QUEUE_LEN, emove_stat_callback);
 
   server_id = ulapi_socket_get_server_id(port);
   if (server_id < 0) {

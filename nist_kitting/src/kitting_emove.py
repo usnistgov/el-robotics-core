@@ -214,7 +214,7 @@ def Place_Kit(toks, robot_port, gripper_port):
 
 def Place_Part(toks, robot_port, gripper_port):
     # (place-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)
-    global PERIOD, DEBUG
+    global PERIOD, DEBUG, EmoveStatMsg
     if len(toks) < 7: return False
     if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "to kit", toks[4], "at slot", toks[5], "uwing gripper", toks[6]
     part = toks[2]
@@ -231,6 +231,7 @@ def Place_Part(toks, robot_port, gripper_port):
     gripper_cid += 1
     m = OpenToolChangerType(gripper_cid)
     gripper_port.send(str(m))
+    EmoveStatMsg.crcl = "OpenToolChanger"
     if gripper_poll(gripper_cid, 3) != CommandStateType.DONE:
         print "error on", str(m)
         return False
@@ -239,6 +240,7 @@ def Place_Part(toks, robot_port, gripper_port):
     gripper_cid += 1
     m = CloseToolChangerType(gripper_cid)
     gripper_port.send(str(m))
+    EmoveStatMsg.crcl = "CloseToolChanger"
     if gripper_poll(gripper_cid, 3) != CommandStateType.DONE: return False
 
     # //! Open gripper
@@ -246,6 +248,7 @@ def Place_Part(toks, robot_port, gripper_port):
     gripper_cid += 1
     m = SetEndEffectorParametersType(gripper_cid, ParameterSettingType("set", 0.9))
     gripper_port.send(str(m))
+    EmoveStatMsg.crcl = "SetEndEffectorParameters"
     if gripper_poll(gripper_cid, 3) != CommandStateType.DONE: return False
 
     # //! Move over part at z position
@@ -258,6 +261,7 @@ def Place_Part(toks, robot_port, gripper_port):
     robot_cid += 1
     m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
     robot_port.send(str(m))
+    EmoveStatMsg.crcl = "MoveThroughTo"
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
     # //! Grasp part
@@ -265,6 +269,7 @@ def Place_Part(toks, robot_port, gripper_port):
     gripper_cid += 1
     m = SetEndEffectorParametersType(gripper_cid, ParameterSettingType("set", 0.1))
     gripper_port.send(str(m))
+    EmoveStatMsg.crcl = "SetEndEffectorParameters"
     if gripper_poll(gripper_cid, 3) != CommandStateType.DONE: return False
 
     # //! Move over the part at z position
@@ -276,6 +281,7 @@ def Place_Part(toks, robot_port, gripper_port):
     # FIXME -- replace these randoms with the subprocess call, as above
     m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
     robot_port.send(str(m))
+    EmoveStatMsg.crcl = "MoveThroughTo"
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
     # else we did it all OK
@@ -321,7 +327,7 @@ def parseLine(line, robot_socket, gripper_socket):
 
     func = funcdict.get(toks[0], None)
     if (func != None):
-        EmoveStatMsg.line = line
+        EmoveStatMsg.line = toks[0]
         return func(toks, robot_socket, gripper_socket)
 
     print "unknown command", toks[0]
@@ -422,7 +428,7 @@ def run_plan(plan_file):
         f = open(plan_file, "rb")
     except IOError as err:
         print "kitting_emove: can't open", plan_file, ":", str(err)
-        EmoveStatMsg.stat.status = 0
+        EmoveStatMsg.stat.status = 3
         return False
     for line in f:
         m = re.match("^[\s]*[0-9.].*:[\s]*\((.*)\)[\s]*\[[0-9.].*\]", line)

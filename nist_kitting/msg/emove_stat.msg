@@ -8,3 +8,5 @@ geometry_msgs/Pose target_pose
 # file name and current line for emove_run cmd
 string name
 string line
+string crcl
+

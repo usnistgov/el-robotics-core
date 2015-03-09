@@ -22,7 +22,9 @@ typedef enum {
   MESSAGE_JOINT_TRAJ_PT_FULL = 14,
   MESSAGE_JOINT_FEEDBACK = 15,
   MESSAGE_READ_INPUT = 20,
-  MESSAGE_WRITE_OUTPUT = 21
+  MESSAGE_WRITE_OUTPUT = 21,
+  MESSAGE_CART_TRAJ_PT = 31,
+  MESSAGE_CART_FEEDBACK = 35
 } message_types;
 
 typedef enum {
@@ -436,10 +438,12 @@ struct joint_traj_pt_request_message {
 
   int set_velocity(float vel) {
     velocity = vel;
+    return 1;
   }
 
   int get_velocity(float *vel) {
     *vel = velocity;
+    return 1;
   }
 };
 
@@ -542,11 +546,13 @@ struct joint_traj_pt_state_message {
   int set_pos(float pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     joints[index] = pos;
+    return 1;
   }
 
   int get_pos(float *pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     *pos = joints[index];
+    return 1;
   }
 };
 
@@ -685,6 +691,156 @@ struct robot_status_message {
   int get_motion_possible(int *v) {
     *v = motion_possible;
     return 1;
+  }
+};
+
+/* EXTENSIONS for Cartesian motion */
+
+struct cart_traj_pt_request_message {
+  int length;		  /* 4 bytes, constant value should be 16x4 = 64 */
+  int message_type;	  /* 4 bytes, constant value 31, CART TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
+  int reply_type;	  /* 4 bytes, N/A */
+  int seq_number;	  /* 4 bytes, >= 0 */
+  float x, y, z, qx, qy, qz, qw; /* pose, Cartesian and quaternion */
+  float duration;	   /* 4 bytes */
+
+  cart_traj_pt_request_message() {
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type) +
+      sizeof(seq_number) +
+      sizeof(duration);
+    message_type = MESSAGE_CART_TRAJ_PT;
+    comm_type = COMM_REQUEST;
+    reply_type = REPLY_NA;
+    seq_number = 1;
+    x = 0, y = 0, z = 0, qx = 0, qy = 0, qz = 0, qw = 1;
+    duration = 1;
+  }
+
+  void print_cart_traj_pt_request(const char *prefix = "") {
+    printf("%sLength:     %d\n", prefix, (int) length);
+    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
+    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
+    printf("%sReply Type: %d\n", prefix, (int) reply_type);
+    printf("%sSeq Num:    %d\n", prefix, (int) seq_number);
+    printf("%sPosition:   %f %f %f / %f %f %f %f\n", prefix, x, y, z, qx, qy, qz, qw);
+    printf("%sDuration:   %f\n", prefix, duration);
+  }
+
+  void read_cart_traj_pt_request(char *inbuf) {
+    char *ptr = inbuf;
+    memcpy(&length, ptr, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(&message_type, ptr, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(&comm_type, ptr, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(&reply_type, ptr, sizeof(reply_type));
+    ptr += sizeof(reply_type);
+    memcpy(&seq_number, ptr, sizeof(seq_number));
+    ptr += sizeof(seq_number);
+    memcpy(&x, ptr, sizeof(x));
+    ptr += sizeof(x);
+    memcpy(&y, ptr, sizeof(y));
+    ptr += sizeof(y);
+    memcpy(&z, ptr, sizeof(z));
+    ptr += sizeof(z);
+    memcpy(&qx, ptr, sizeof(qx));
+    ptr += sizeof(qx);
+    memcpy(&qy, ptr, sizeof(qy));
+    ptr += sizeof(qy);
+    memcpy(&qz, ptr, sizeof(qz));
+    ptr += sizeof(qz);
+    memcpy(&qw, ptr, sizeof(qw));
+    ptr += sizeof(qw);
+    memcpy(&duration, ptr, sizeof(duration));
+  }
+
+  int get_seq_number() {
+    return seq_number;
+  }
+  void set_seq_number(int num) {
+    seq_number = num;
+  }
+
+  int set_pos(float _x, float _y, float _z, float _qx, float _qy, float _qz, float _qw) {
+    x = _x;
+    y = _y;
+    z = _z;
+    qx = _qx;
+    qy = _qy;
+    qz = _qz;
+    qw = _qw;
+    return 1;
+  }
+  int get_pos(float *_x, float *_y, float *_z, float *_qx, float *_qy, float *_qz, float *_qw) {
+    *_x = x;
+    *_y = y;
+    *_z = z;
+    *_qx = qx;
+    *_qy = qy;
+    *_qz = qz;
+    *_qw = qw;
+    return 1;
+  }
+
+  int set_duration(float dur) {
+    duration = dur;
+    return 1;
+  }
+
+  int get_velocity(float *dur) {
+    *dur = duration;
+    return 1;
+  }
+};
+
+struct cart_traj_pt_reply_message {
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 11, CART_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 3, REPLY */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */
+  /* NOTE: this should be the sequence number echo */
+  int unused_1;		  /* 4 bytes, N/A */
+  float unused_2[JOINT_MAX];	/* 10 4-byte floats, N/A */
+
+  cart_traj_pt_reply_message() {
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type) +
+      sizeof(unused_1) +
+      sizeof(unused_2);
+    message_type = MESSAGE_CART_TRAJ_PT;
+    comm_type = COMM_REPLY;
+    /* caller will need to set reply_type with method below */
+  }
+
+  void print_cart_traj_pt_reply(const char *prefix = "") {
+    printf("%sLength:     %d\n", prefix, (int) length);
+    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
+    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
+    printf("%sReply Type: %d\n", prefix, (int) reply_type);
+  }
+
+  void read_cart_traj_pt_reply(char *inbuf) {
+    char *ptr = inbuf;
+    memcpy(&length, ptr, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(&message_type, ptr, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(&comm_type, ptr, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(&reply_type, ptr, sizeof(reply_type));
+    ptr += sizeof(reply_type);
+    memcpy(&unused_1, ptr, sizeof(unused_1));
+    ptr += sizeof(unused_1);
+    memcpy(&unused_2, ptr, sizeof(unused_2));
+  }
+
+  void set_cart_traj_pt_reply(reply_types reply) {
+    reply_type = reply;
   }
 };
 

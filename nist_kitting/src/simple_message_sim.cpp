@@ -9,6 +9,33 @@
   receiving messages requesting that the robot move to a set of target
   joint angles. Another at port 11002 by default is for continuous
   sending of robot joint states.
+
+  You ran these:
+
+  rosrun nist_kitting simple_message_sim -d
+
+  roslaunch industrial_robot_client robot_interface_streaming.launch robot_ip:=localhost
+
+  rosrun nist_kitting irclient_sh
+
+  In the irclient_sh, you typed:
+
+  1 2 3 4 5 6
+
+  and in the robot_interface_streaming window, got responses variously like this;
+
+  [ INFO] [1420495468.523931743]: Received new goal
+  [ERROR] [1420495468.524008975]: Joint trajectory action rejected: waiting for (initial) feedback from controller
+
+  or this: 
+
+  [ INFO] [1420495460.220963519]: Received new goal
+  [ INFO] [1420495460.221227503]: Publishing trajectory
+  [ WARN] [1420495460.221340846]: Ignoring goal time tolerance in action goal, may be supported in the future
+
+  Sometimes it works, sometimes not. Figure out how to fix the "waiting for (initial) feedback from controller" error.
+
+  *** There's a watchdog reset -- make it report faster ***
 */
 
 #include <stdio.h>		// stdin, stderr 

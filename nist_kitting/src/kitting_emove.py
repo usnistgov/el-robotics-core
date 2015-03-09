@@ -278,7 +278,6 @@ def Place_Part(toks, robot_port, gripper_port):
     if not ret: return False
     ret, x, y, z, th = get_pose(part)
     robot_cid += 1
-    # FIXME -- replace these randoms with the subprocess call, as above
     m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
     robot_port.send(str(m))
     EmoveStatMsg.crcl = "MoveThroughTo"

@@ -51,12 +51,13 @@ def createToolTip(widget, text):
     widget.bind('<Leave>', leave)
 
 INIFILE = ""
-PORT = ""
+WS_PORT = ""
+EMOVE_PORT = ""
 HOST = ""
 DEBUG = False
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:p:h:d", ["inifile=", "port=", "host="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:w:e:h:d", ["inifile=", "ws_port=", "emove_port=", "host="])
 except getopt.GetoptError as err:
     print "kitting_hmi: getopt:", str(err)
     sys.exit(1)
@@ -64,8 +65,10 @@ except getopt.GetoptError as err:
 for o, a in opts:
     if o in ("-i", "--inifile"):
         INIFILE = a
-    elif o in ("-p", "--port"):
-        PORT = a
+    elif o in ("-w", "--ws_port"):
+        WS_PORT = a
+    elif o in ("-e", "--emove_port"):
+        EMOVE_PORT = a
     elif o in ("-h", "--host"):
         HOST = a
     elif o in ("-d"):
@@ -76,8 +79,10 @@ if INIFILE != "":
         with open(INIFILE, "rb") as f:
             config = ConfigParser.ConfigParser()
             config.read(INIFILE)
-            if PORT == "":
-                PORT = config.get("hmi", "port")
+            if WS_PORT == "":
+                WS_PORT = config.get("hmi", "ws_port")
+            if EMOVE_PORT == "":
+                EMOVE_PORT = config.get("hmi", "emove_port")
             if HOST == "":
                 HOST = config.get("hmi", "host")
     except IOError as err:
@@ -87,11 +92,13 @@ if INIFILE != "":
         print "planning_app: read inifile:", str(err)
         sys.exit(1)
 
-if PORT == "": PORT = 1234
+if WS_PORT == "": WS_PORT = 6066
+if EMOVE_PORT == "": EMOVE_PORT = 6067
 if HOST == "": HOST = "localhost"
 
 if DEBUG:
-    print "kitting_hmi: port:", PORT
+    print "kitting_hmi: WS port:", WS_PORT
+    print "kitting_hmi: Emove port:", EMOVE_PORT
     print "kitting_hmi: host:", HOST
     
 class App(object):
@@ -100,9 +107,11 @@ class App(object):
 
     def __init__(self, master):
         #
-        self.sock = -1
+        self.wsSock = -1
+        self.emoveSock = -1
         self.nameVar = StringVar()
-        self.portVar = StringVar()
+        self.wsPortVar = StringVar()
+        self.emovePortVar = StringVar()
         self.kitVar = StringVar()
         self.cmdVar = StringVar()
         self.statusVar = StringVar()
@@ -111,7 +120,8 @@ class App(object):
         self.diagsVar = StringVar()
         #
         self.nameVar.set(HOST)
-        self.portVar.set(str(PORT))
+        self.wsPortVar.set(str(WS_PORT))
+        self.emovePortVar.set(str(EMOVE_PORT))
         self.kitVar.set("kit_design_GearBox")
         self.cmdVar.set("")
         self.statusVar.set("")
@@ -126,14 +136,18 @@ class App(object):
         self.nameEntry = Entry(master, textvariable=self.nameVar, state=NORMAL)
         self.nameEntry.grid(row=1,column=1)
         # #
-        Label(master, text="Port:").grid(row=2,column=0)
-        self.portEntry = Entry(master, textvariable=self.portVar, state=NORMAL)
-        self.portEntry.grid(row=2,column=1)
+        Label(master, text="WS Port:").grid(row=2,column=0)
+        self.wsPortEntry = Entry(master, textvariable=self.wsPortVar, state=NORMAL)
+        self.wsPortEntry.grid(row=2,column=1)
+        # #
+        Label(master, text="Emove Port:").grid(row=3,column=0)
+        self.emovePortEntry = Entry(master, textvariable=self.emovePortVar, state=NORMAL)
+        self.emovePortEntry.grid(row=3,column=1)
         # #
         self.connectButton = Button(master, text="Connect", command=self.connect, state=NORMAL)
-        self.connectButton.grid(row=3,column=0)
+        self.connectButton.grid(row=4,column=0)
         self.disconnectButton = Button(master, text="Disconnect", command=self.disconnect, state=DISABLED)
-        self.disconnectButton.grid(row=3,column=1)
+        self.disconnectButton.grid(row=4,column=1)
 
         #
         Label(master, text="Kit").grid(row=0, column=2, columnspan=2)
@@ -160,6 +174,7 @@ class App(object):
         Label(master, text="Heartbeat:").grid(row=3, column=4)
         self.hbEntry = Entry(master, textvariable=self.hbVar)
         self.hbEntry.grid(row=3, column=5)
+
         # #
         Label(master, text="Emove:").grid(row=4, column=4)
         self.emoveEntry = Entry(master, textvariable=self.emoveVar)
@@ -172,48 +187,76 @@ class App(object):
         Button(master, text="Quit", command=self.quit).grid(row=6,columnspan=6)
 
         #
-        self.recvThread = threading.Thread(target=self.recvFunc)
-        self.recvThread.daemon = True
-        self.recvThread.start()
+        self.wsRecvThread = threading.Thread(target=self.wsRecvFunc)
+        self.wsRecvThread.daemon = True
+        self.wsRecvThread.start()
+
+        #
+        self.emoveRecvThread = threading.Thread(target=self.emoveRecvFunc)
+        self.emoveRecvThread.daemon = True
+        self.emoveRecvThread.start()
 
     def connect(self):
         self.disconnect()
         try:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.sock.connect((self.nameVar.get(), int(self.portVar.get())))
+            self.wsSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.wsSock.connect((self.nameVar.get(), int(self.wsPortVar.get())))
+            self.emoveSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.emoveSock.connect((self.nameVar.get(), int(self.emovePortVar.get())))
             self.makeConnected()
             self.diagsVar.set("")
         except IOError as err:
-            self.sock = -1
+            self.wsSock = -1
+            self.emoveSock = -1
             self.diagsVar.set(str(err))
             print "kitting_hmi: connect:", str(err)
 
     def disconnect(self):
-        if self.sock < 0: 
-            return
-        try:
-            self.sock.shutdown(socket.SHUT_RDWR)
-            self.sock.close()
-            self.diagsVar.set("")
-        except IOError as err:
-            self.diagsVar.set(str(err))
-            print "kitting_hmi: disconnect:", str(err), self.sock
+        if self.wsSock != -1:
+            try:
+                self.wsSock.shutdown(socket.SHUT_RDWR)
+                self.wsSock.close()
+                self.diagsVar.set("")
+            except IOError as err:
+                self.diagsVar.set(str(err))
+                print "kitting_hmi: disconnect:", str(err), self.wsSock
+        if self.emoveSock != -1: 
+            try:
+                self.emoveSock.shutdown(socket.SHUT_RDWR)
+                self.emoveSock.close()
+                self.diagsVar.set("")
+            except IOError as err:
+                self.diagsVar.set(str(err))
+                print "kitting_hmi: disconnect:", str(err), self.emoveSock
         self.makeDisconnected()
 
-    def recvFunc(self):
+    def wsRecvFunc(self):
         while True:
-            if self.sock < 0:
+            if self.wsSock < 0:
                 time.sleep(self.PERIOD)
             else:
                 try:
-                    msg = self.sock.recv(self.MSG_LEN)
+                    msg = self.wsSock.recv(self.MSG_LEN)
                     msglist = msg.split()
                     if len(msglist) >= 5:
                         self.cmdVar.set(msglist[0])
                         self.statusVar.set(msglist[3])
                         self.hbVar.set(msglist[4])
-                        if len(msglist) >= 8:
-                            self.emoveVar.set(msglist[5]+","+msglist[6]+","+msglist[7])
+                except IOError as err:
+                    self.diagsVar.set(str(err))
+                    print "kitting_hmi: recv:", str(err)
+
+    def emoveRecvFunc(self):
+        while True:
+            if self.emoveSock < 0:
+                time.sleep(self.PERIOD)
+            else:
+                try:
+                    msg = self.emoveSock.recv(self.MSG_LEN)
+                    msglist = msg.split()
+                    if len(msglist) >= 6:
+                        stuff = msglist[0] + " " + msglist[3] + " " + msglist[5]
+                        self.emoveVar.set(stuff)
                 except IOError as err:
                     self.diagsVar.set(str(err))
                     print "kitting_hmi: recv:", str(err)
@@ -223,10 +266,10 @@ class App(object):
         self.kitVar.set(filename)
 
     def make(self):
-        if self.sock < 0: return
+        if self.wsSock < 0: return
         msg = self.kitVar.get()
         try: 
-            self.sock.send(msg)
+            self.wsSock.send(msg)
             self.diagsVar.set("")
         except IOError as err:
             self.diagsVar.set(str(err))
@@ -234,7 +277,8 @@ class App(object):
 
     def makeConnected(self):
         self.nameEntry.config(state=DISABLED)
-        self.portEntry.config(state=DISABLED)
+        self.wsPortEntry.config(state=DISABLED)
+        self.emovePortEntry.config(state=DISABLED)
         self.connectButton.config(state=DISABLED)
         self.disconnectButton.config(state=NORMAL)
         self.makeButton.config(state=NORMAL)
@@ -243,9 +287,11 @@ class App(object):
         self.hbEntry.config(state=NORMAL)
 
     def makeDisconnected(self):
-        self.sock = -1
+        self.wsSock = -1
+        self.emoveSock = -1
         self.nameEntry.config(state=NORMAL)
-        self.portEntry.config(state=NORMAL)
+        self.wsPortEntry.config(state=NORMAL)
+        self.emovePortEntry.config(state=NORMAL)
         self.connectButton.config(state=NORMAL)
         self.disconnectButton.config(state=DISABLED)
         self.makeButton.config(state=DISABLED)

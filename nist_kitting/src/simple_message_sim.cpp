@@ -77,6 +77,9 @@ static void request_connection_thread_code(request_connection_thread_args *args)
   joint_traj_pt_request_message jtreq;
   joint_traj_pt_reply_message jtrep;
   joint_info jinfo;
+  cart_traj_pt_request_message ctreq;
+  cart_traj_pt_reply_message ctrep;
+  float f1, f2, f3, f4, f5, f6, f7;
 
   thread = args->thread;
   id = args->id;
@@ -109,13 +112,27 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	}
 	ulapi_mutex_take(&robot_mutex);
 	for (int t = 0; t < JOINT_MAX; t++) {
-	  float p;
-	  if (! jtreq.get_pos(&p, t)) break;
-	  the_robot.set_robot_pos(p, t);
+	  if (! jtreq.get_pos(&f1, t)) break;
+	  the_robot.set_robot_joint_pos(f1, t);
 	}
 	ulapi_mutex_give(&robot_mutex);
 	jtrep.set_joint_traj_pt_reply(REPLY_SUCCESS);
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jtrep), sizeof(jtrep));
+	if (nchars < 0) break;
+	break;
+
+      case MESSAGE_CART_TRAJ_PT:
+	ctreq.read_cart_traj_pt_request(ptr);
+	if (debug) {
+	  printf("connection %d requested:\n", id);
+	  ctreq.print_cart_traj_pt_request();
+	}
+	ulapi_mutex_take(&robot_mutex);
+	if (! ctreq.get_pos(&f1, &f2, &f3, &f4, &f5, &f6, &f7)) break;
+	the_robot.set_robot_cart_pos(f1, f2, f3, f4, f5, f6, f7);
+	ulapi_mutex_give(&robot_mutex);
+	ctrep.set_cart_traj_pt_reply(REPLY_SUCCESS);
+	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&ctrep), sizeof(ctrep));
 	if (nchars < 0) break;
 	break;
 
@@ -131,7 +148,7 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("joint message connection handler %d done\n", id);
+  if (debug) printf("simple message connection handler %d done\n", id);
 
   free(thread);
 
@@ -166,7 +183,7 @@ static void state_connection_thread_code(state_connection_thread_args *args)
 
     ulapi_mutex_take(&robot_mutex);
     for (int t = 0; t < JOINT_MAX; t++) {
-      if (the_robot.get_robot_pos(&p, t)) jsmsg.set_pos(p, t);
+      if (the_robot.get_robot_joint_pos(&p, t)) jsmsg.set_pos(p, t);
     }
     ulapi_mutex_give(&robot_mutex);
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jsmsg), sizeof(jsmsg));
@@ -481,7 +498,7 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  ret = the_robot.set_robot_pos(fval, joint-1);
+	  ret = the_robot.set_robot_joint_pos(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
 	  if (! ret) {
 	    printf("can't set joint %d position to %f\n", joint, dval);
@@ -501,7 +518,7 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  ret = the_robot.set_robot_pmin(fval, joint-1);
+	  ret = the_robot.set_robot_joint_min(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
 	  if (! ret) {
 	    printf("can't set joint %d min value to %f\n", joint, dval);
@@ -521,7 +538,7 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  ret = the_robot.set_robot_pmax(fval, joint-1);
+	  ret = the_robot.set_robot_joint_max(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
 	  if (! ret) {
 	    printf("can't set joint %d max value to %f\n", joint, dval);

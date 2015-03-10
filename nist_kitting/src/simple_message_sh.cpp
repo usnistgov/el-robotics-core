@@ -48,6 +48,7 @@ static void reply_client_thread_code(reply_client_thread_args *args)
   int length;
   int message_type;
   joint_traj_pt_reply_message jtp_rep;
+  cart_traj_pt_reply_message ctp_rep;
 
   thread = args->thread;
   id = args->id;
@@ -74,6 +75,10 @@ static void reply_client_thread_code(reply_client_thread_args *args)
       case MESSAGE_JOINT_TRAJ_PT:
 	jtp_rep.read_joint_traj_pt_reply(ptr);
 	if (debug) jtp_rep.print_joint_traj_pt_reply();
+	break;
+      case MESSAGE_CART_TRAJ_PT:
+	ctp_rep.read_cart_traj_pt_reply(ptr);
+	if (debug) ctp_rep.print_cart_traj_pt_reply();
 	break;
       default:
 	if (debug) printf("unknown reply type: %d\n", message_type);
@@ -182,6 +187,7 @@ int main(int argc, char *argv[])
   reply_client_thread_args rc_args; 
   state_client_thread_args sc_args;
   joint_traj_pt_request_message jtp_req;
+  cart_traj_pt_request_message ctp_req;
 
   opterr = 0;
   while (true) {
@@ -249,12 +255,13 @@ int main(int argc, char *argv[])
 
   // we in the foreground read input and update the robot model as needed
   bool done = false;
+  bool cart = false;
   while (! done) {
     enum {INBUF_LEN = 1024};
     char inbuf[INBUF_LEN];
     char *ptr;
     char *endptr;
-    float fval;
+    float f1, f2, f3, f4, f5, f6, f7;
     int nchars;
 
     // print prompt
@@ -273,7 +280,21 @@ int main(int argc, char *argv[])
 
     do {
       if (0 == *ptr) {		// blank lin4
-	jtp_req.print_joint_traj_pt_request();
+	if (cart) {
+	  ctp_req.print_cart_traj_pt_request();
+	} else {
+	  jtp_req.print_joint_traj_pt_request();
+	}
+	break;
+      }
+
+      if ('c' == *ptr) {
+	cart = true;
+	break;
+      }
+
+      if ('j' == *ptr) {
+	cart = false;
 	break;
       }
 
@@ -283,23 +304,47 @@ int main(int argc, char *argv[])
       }
 
       if ('v' == *ptr) {
-	if (1 == sscanf(ptr, "%*s %f", &fval)) {
-	  jtp_req.set_velocity(fval);
+	if (1 == sscanf(ptr, "%*s %f", &f1)) {
+	  if (cart) {
+	    ctp_req.set_translational_speed(f1);
+	  } else {
+	    jtp_req.set_velocity(f1);
+	  }
 	} else {
 	  printf("need a velocity\n");
 	}
 	break;
       }
 
-      for (int t = 0; t < JOINT_MAX; t++) {
-	fval = strtof(ptr, &endptr);
-	if (endptr == ptr) break;
-	jtp_req.set_pos(fval, t);
-	ptr = endptr;
+      if ('w' == *ptr) {
+	if (1 == sscanf(ptr, "%*s %f", &f1)) {
+	  ctp_req.set_rotational_speed(f1);
+	} else {
+	  printf("need an angular speed\n");
+	}
+	break;
       }
-      jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
-      nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
-      if (nchars <= 0) break;
+
+      if (cart) {
+	if (7 != sscanf(ptr, "%f %f %f %f %f %f %f", 
+			&f1, &f2, &f3, &f4, &f5, &f6, &f7)) {
+	  break;
+	}
+	ctp_req.set_pos(f1, f2, f3, f4, f5, f6, f7);
+	ctp_req.set_seq_number(ctp_req.get_seq_number()+1);
+	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&ctp_req), sizeof(ctp_req));
+	if (nchars <= 0) break;
+      } else {
+	for (int t = 0; t < JOINT_MAX; t++) {
+	  f1 = strtof(ptr, &endptr);
+	  if (endptr == ptr) break;
+	  jtp_req.set_pos(f1, t);
+	  ptr = endptr;
+	}
+	jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
+	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
+	if (nchars <= 0) break;
+      }
 
     } while (false);		// do ... wrapper
 

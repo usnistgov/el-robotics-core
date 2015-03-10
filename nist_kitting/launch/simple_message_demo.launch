@@ -3,7 +3,7 @@
 <!--
     Run as, e.g., 
 
-    roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=/usr/local/github/el-robotics-core/nist_kitting/src/ini.ini
+    roslaunch nist_kitting simple_message_demo.launch
 -->
 
 <arg name="msg_port" default="11000" />

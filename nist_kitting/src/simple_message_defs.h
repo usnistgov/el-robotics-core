@@ -112,6 +112,9 @@ struct robot_info {
   joint_info joint[JOINT_MAX];
   unsigned int joint_number;
 
+  /* Cartesian pose */
+  float x, y, z, qx, qy, qz, qw;
+
   robot_info(unsigned int j = JOINT_MAX) {
     drives_powered = 1;
     e_stopped = 0;
@@ -121,6 +124,8 @@ struct robot_info {
     mode = ROBOT_MODE_AUTO;
     motion_possible = 1;
     joint_number = j;
+    x = 0, y = 0, z = 0;
+    qx = 0, qy = 0, qz = 0, qw = 1;
   }
 
   void print_robot_info(const char *prefix = "") {
@@ -201,39 +206,61 @@ struct robot_info {
     return 1;
   }
 
-  int set_robot_pos(float pos, int index) {
+  int set_robot_joint_pos(float pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     joint[index].set_pos(pos);
     return 1;
   }
 
-  int get_robot_pos(float *pos, int index) {
+  int get_robot_joint_pos(float *pos, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     *pos = joint[index].get_pos();
     return 1;
   }
 
-  int set_robot_pmin(float pmin, int index) {
+  int set_robot_joint_min(float pmin, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     joint[index].set_pmin(pmin);
     return 1;
   }
 
-  int get_robot_pmin(float *pmin, int index) {
+  int get_robot_joint_min(float *pmin, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     *pmin = joint[index].get_pmin();
     return 1;
   }
 
-  int set_robot_pmax(float pmax, int index) {
+  int set_robot_joint_max(float pmax, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     joint[index].set_pmax(pmax);
     return 1;
   }
 
-  int get_robot_pmax(float *pmax, int index) {
+  int get_robot_joint_max(float *pmax, int index) {
     if (index < 0 || index >= JOINT_MAX) return 0;
     *pmax = joint[index].get_pmax();
+    return 1;
+  }
+
+  int set_robot_cart_pos(float _x, float _y, float _z, float _qx, float _qy, float _qz, float _qw) {
+    x = _x;
+    y = _y;
+    z = _z;
+    qx = _qx;
+    qy = _qy;
+    qz = _qz;
+    qw = _qw;
+    return 1;
+  }
+
+  int get_robot_cart_pos(float *_x, float *_y, float *_z, float *_qx, float *_qy, float *_qz, float *_qw) {
+    *_x = x;
+    *_y = y;
+    *_z = z;
+    *_qx = qx;
+    *_qy = qy;
+    *_qz = qz;
+    *_qw = qw;
     return 1;
   }
 };
@@ -703,30 +730,41 @@ struct cart_traj_pt_request_message {
   int reply_type;	  /* 4 bytes, N/A */
   int seq_number;	  /* 4 bytes, >= 0 */
   float x, y, z, qx, qy, qz, qw; /* pose, Cartesian and quaternion */
-  float duration;	   /* 4 bytes */
+  float translational_speed;	 /* 4 bytes, > 0 */
+  float rotational_speed;	 /* 4 bytes, > 0 */
 
   cart_traj_pt_request_message() {
     length = sizeof(message_type) +
       sizeof(comm_type) + 
       sizeof(reply_type) +
       sizeof(seq_number) +
-      sizeof(duration);
+      sizeof(x) +
+      sizeof(y) +
+      sizeof(z) +
+      sizeof(qx) +
+      sizeof(qy) +
+      sizeof(qz) +
+      sizeof(qw) +
+      sizeof(translational_speed) +
+      sizeof(rotational_speed);
     message_type = MESSAGE_CART_TRAJ_PT;
     comm_type = COMM_REQUEST;
     reply_type = REPLY_NA;
     seq_number = 1;
     x = 0, y = 0, z = 0, qx = 0, qy = 0, qz = 0, qw = 1;
-    duration = 1;
+    translational_speed = 1;
+    rotational_speed = 1;
   }
 
   void print_cart_traj_pt_request(const char *prefix = "") {
-    printf("%sLength:     %d\n", prefix, (int) length);
-    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
-    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
-    printf("%sReply Type: %d\n", prefix, (int) reply_type);
-    printf("%sSeq Num:    %d\n", prefix, (int) seq_number);
-    printf("%sPosition:   %f %f %f / %f %f %f %f\n", prefix, x, y, z, qx, qy, qz, qw);
-    printf("%sDuration:   %f\n", prefix, duration);
+    printf("%sLength:      %d\n", prefix, (int) length);
+    printf("%sMsg Type:    %d\n", prefix, (int) message_type);
+    printf("%sComm Type:   %d\n", prefix, (int) comm_type);
+    printf("%sReply Type:  %d\n", prefix, (int) reply_type);
+    printf("%sSeq Num:     %d\n", prefix, (int) seq_number);
+    printf("%sPosition:    %f %f %f / %f %f %f %f\n", prefix, x, y, z, qx, qy, qz, qw);
+    printf("%sTrans Speed: %f\n", prefix, translational_speed);
+    printf("%sRot Speed:   %f\n", prefix, rotational_speed);
   }
 
   void read_cart_traj_pt_request(char *inbuf) {
@@ -755,7 +793,9 @@ struct cart_traj_pt_request_message {
     ptr += sizeof(qz);
     memcpy(&qw, ptr, sizeof(qw));
     ptr += sizeof(qw);
-    memcpy(&duration, ptr, sizeof(duration));
+    memcpy(&translational_speed, ptr, sizeof(translational_speed));
+    ptr += sizeof(translational_speed);
+    memcpy(&rotational_speed, ptr, sizeof(rotational_speed));
   }
 
   int get_seq_number() {
@@ -786,13 +826,23 @@ struct cart_traj_pt_request_message {
     return 1;
   }
 
-  int set_duration(float dur) {
-    duration = dur;
+  int set_translational_speed(float v) {
+    translational_speed = v;
     return 1;
   }
 
-  int get_velocity(float *dur) {
-    *dur = duration;
+  int get_translational_speed(float *v) {
+    *v = translational_speed;
+    return 1;
+  }
+
+  int set_rotational_speed(float v) {
+    rotational_speed = v;
+    return 1;
+  }
+
+  int get_rotational_speed(float *v) {
+    *v = rotational_speed;
     return 1;
   }
 };

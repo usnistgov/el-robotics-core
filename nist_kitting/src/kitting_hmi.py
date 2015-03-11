@@ -2,7 +2,7 @@
 
 import sys, getopt, socket, time, threading, ConfigParser
 from Tkinter import *
-from tkFileDialog import askopenfilename
+import MySQLdb
 
 class ToolTip(object):
 
@@ -54,54 +54,86 @@ INIFILE = ""
 WS_PORT = ""
 EMOVE_PORT = ""
 HOST = ""
+
+DB_SERVER = ""
+DB_USER = ""
+DB_PASSWD = ""
+DB_NAME = ""
+
 DEBUG = False
 
-try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:w:e:h:d", ["inifile=", "ws_port=", "emove_port=", "host="])
-except getopt.GetoptError as err:
-    print "kitting_hmi: getopt:", str(err)
-    sys.exit(1)
+class DB(object):
 
-for o, a in opts:
-    if o in ("-i", "--inifile"):
-        INIFILE = a
-    elif o in ("-w", "--ws_port"):
-        WS_PORT = a
-    elif o in ("-e", "--emove_port"):
-        EMOVE_PORT = a
-    elif o in ("-h", "--host"):
-        HOST = a
-    elif o in ("-d"):
-        DEBUG = True
+    def __init__(self):
+        self.server = None
+        self.user = None
+        self.passwd = None
+        self.db = None
+        self.cursor = None
 
-if INIFILE != "":
-    try:
-        with open(INIFILE, "rb") as f:
-            config = ConfigParser.ConfigParser()
-            config.read(INIFILE)
-            if WS_PORT == "":
-                WS_PORT = config.get("hmi", "ws_port")
-            if EMOVE_PORT == "":
-                EMOVE_PORT = config.get("hmi", "emove_port")
-            if HOST == "":
-                HOST = config.get("hmi", "host")
-    except IOError as err:
-        print "planning_app: open inifile:", str(err)
-        sys.exit(1)
-    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
-        print "planning_app: read inifile:", str(err)
-        sys.exit(1)
+    def disconnect(self):
+        try: self.db.close()
+        except: pass
+        self.__init__()
+        
+    def connect(self, server, user, passwd, db):
+        try:
+            if self.db != None: self.db.close()
+            self.db = MySQLdb.connect(server, user, passwd, db)
+            self.cursor = self.db.cursor()
+        except:
+            print "DB:", except_info()
+            self.db = None
+            self.cursor = None
+            return False
+        self.server = server
+        self.user = user
+        self.passwd = passwd
+        return True
 
-if WS_PORT == "": WS_PORT = 6066
-if EMOVE_PORT == "": EMOVE_PORT = 6067
-if HOST == "": HOST = "localhost"
+    def read(self, query):
+        try:
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+        except:
+            print "DB:", except_info()
+        return ()
 
-if DEBUG:
-    print "kitting_hmi: WS port:", WS_PORT
-    print "kitting_hmi: Emove port:", EMOVE_PORT
-    print "kitting_hmi: host:", HOST
+    def update(self, request):
+        try:
+            self.cursor.execute(request)
+            self.db.commit()
+            return True
+        except:
+            self.db.rollback()
+        return False
+
+class MyDialog(object):
+    def __init__(self, parent, _ents):
+        self.ents = _ents
+        self.top = Toplevel(parent)
+        xscrollbar = Scrollbar(self.top, orient=HORIZONTAL)
+        yscrollbar = Scrollbar(self.top, orient=VERTICAL)
+        self.listbox = Listbox(self.top, xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        xscrollbar.config(command=self.listbox.xview)
+        xscrollbar.pack(side=BOTTOM, fill=X)
+        yscrollbar.config(command=self.listbox.yview)
+        yscrollbar.pack(side=RIGHT, fill=Y)
+        for item in self.ents:
+            self.listbox.insert(END, item)
+        self.listbox.pack(side=LEFT, fill=BOTH, expand=1)
+        b = Button(self.top, text="OK", command=self.ok)
+        b.pack(side=BOTTOM)
+
+    def ok(self):
+        items = self.listbox.curselection()
+        if len(items) > 0:
+            item = self.ents[int(items[0])]
+            print "value is", item
+        self.top.destroy()
     
 class App(object):
+    global WS_PORT, EMOVE_PORT, HOST, DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
     MSG_LEN = 1000
     PERIOD = 5
 
@@ -128,6 +160,8 @@ class App(object):
         self.hbVar.set("")
         self.emoveVar.set("")
         self.diagsVar.set("")
+        #
+        self.AprsDB = None
 
         #
         Label(master, text="Host").grid(row=0,column=0,columnspan=2)
@@ -195,23 +229,25 @@ class App(object):
         self.emoveRecvThread = threading.Thread(target=self.emoveRecvFunc)
         self.emoveRecvThread.daemon = True
         self.emoveRecvThread.start()
-
-    def connect(self):
-        self.disconnect()
+                
+    def sockconnect(self):
+        self.sockdisconnect()
         try:
             self.wsSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.wsSock.connect((self.nameVar.get(), int(self.wsPortVar.get())))
             self.emoveSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.emoveSock.connect((self.nameVar.get(), int(self.emovePortVar.get())))
-            self.makeConnected()
-            self.diagsVar.set("")
         except IOError as err:
             self.wsSock = -1
             self.emoveSock = -1
             self.diagsVar.set(str(err))
             print "kitting_hmi: connect:", str(err)
+            return False
+        self.makeConnected()
+        self.diagsVar.set("")
+        return True
 
-    def disconnect(self):
+    def sockdisconnect(self):
         if self.wsSock != -1:
             try:
                 self.wsSock.shutdown(socket.SHUT_RDWR)
@@ -229,6 +265,28 @@ class App(object):
                 self.diagsVar.set(str(err))
                 print "kitting_hmi: disconnect:", str(err), self.emoveSock
         self.makeDisconnected()
+        return True
+
+    def dbconnect(self):
+        self.AprsDB = DB()
+        if not self.AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
+            return False
+        return True
+
+    def dbdisconnect(self):
+        if self.AprsDB != None:
+            self.AprsDB.disconnect()
+        return True
+
+    def connect(self):
+        if self.sockconnect() and self.dbconnect():
+            return True
+        return False
+
+    def disconnect(self):
+        self.sockdisconnect()
+        self.dbdisconnect()
+        return True
 
     def wsRecvFunc(self):
         while True:
@@ -262,8 +320,13 @@ class App(object):
                     print "kitting_hmi: recv:", str(err)
 
     def browse(self):
-        filename = askopenfilename()
-        self.kitVar.set(filename)
+        try:
+            ret = self.AprsDB.read("select hadByPartRefAndPose_KitDesign from PartRefAndPose")
+        except:
+            return False
+        d = MyDialog(root, ret)
+        root.wait_window(d.top)
+        return True
 
     def make(self):
         if self.wsSock < 0: return
@@ -302,6 +365,84 @@ class App(object):
     def quit(self):
         self.disconnect()
         sys.exit(0)
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "i:w:e:h:d", ["inifile=", "ws_port=", "emove_port=", "host=", "debug=", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
+except getopt.GetoptError as err:
+    print "kitting_hmi: getopt:", str(err)
+    sys.exit(1)
+
+for o, a in opts:
+    if o in ("-i", "--inifile"):
+        INIFILE = a
+    elif o in ("-w", "--ws_port"):
+        WS_PORT = a
+    elif o in ("-e", "--emove_port"):
+        EMOVE_PORT = a
+    elif o in ("-h", "--host"):
+        HOST = a
+    elif o in ("-d", "--debug"):
+        DEBUG = True
+# args with long form only go here
+    elif o in ("--dbserver"):
+        DB_SERVER = a
+    elif o in ("--dbuser"):
+        DB_USER = a
+    elif o in ("--dbpasswd"):
+        DB_PASSWD = a
+    elif o in ("--dbname"):
+        DB_NAME = a
+
+defdict = {
+    "ws_port" : "",
+    "emove_port" : "",
+    "host" : "",
+    "server" : "",
+    "user" : "",
+    "passwd" : "",
+    "name" : ""
+    }
+
+if INIFILE != "":
+    try:
+        with open(INIFILE, "rb") as f:
+            config = ConfigParser.ConfigParser(defdict)
+            config.read(INIFILE)
+            if WS_PORT == "":
+                WS_PORT = config.get("hmi", "ws_port")
+            if EMOVE_PORT == "":
+                EMOVE_PORT = config.get("hmi", "emove_port")
+            if HOST == "":
+                HOST = config.get("hmi", "host")
+            if DB_SERVER == "":
+                DB_SERVER = config.get("mysql", "server")
+            if DB_USER == "":
+                DB_USER = config.get("mysql", "user")
+            if DB_PASSWD == "":
+                DB_PASSWD = config.get("mysql", "passwd")
+            if DB_NAME == "":
+                DB_NAME = config.get("mysql", "name")
+    except IOError as err:
+        print "planning_app: open inifile:", str(err)
+        sys.exit(1)
+    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
+        print "planning_app: read inifile:", str(err)
+        sys.exit(1)
+
+if WS_PORT == "": WS_PORT = 6066
+if EMOVE_PORT == "": EMOVE_PORT = 6067
+if HOST == "": HOST = "localhost"
+
+if DB_SERVER == "": DB_SERVER = "aprs_dev"
+if DB_USER == "" : DB_USER = "wills"
+if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
+if DB_NAME == "" : DB_NAME = "aprs-dev"
+
+if DEBUG:
+    print "kitting_hmi: WS port:", WS_PORT
+    print "kitting_hmi: Emove port:", EMOVE_PORT
+    print "kitting_hmi: host:", HOST
+    print "kitting_hmi: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
 
 root = Tk()
 

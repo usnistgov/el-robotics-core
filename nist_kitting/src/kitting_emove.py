@@ -56,7 +56,7 @@ class DB(object):
     def disconnect(self):
         try: self.db.close()
         except: pass
-        self.init()
+        self.__init__()
         
     def connect(self, server, user, passwd, db):
         try:
@@ -259,9 +259,9 @@ def Place_Part(toks, robot_port, gripper_port):
         return False
     ret, x, y, z, th = get_pose(part)
     robot_cid += 1
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
+    m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS))
     robot_port.send(str(m))
-    EmoveStatMsg.crcl = "MoveThroughTo"
+    EmoveStatMsg.crcl = "MoveTo"
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
     # //! Grasp part
@@ -278,9 +278,9 @@ def Place_Part(toks, robot_port, gripper_port):
     if not ret: return False
     ret, x, y, z, th = get_pose(part)
     robot_cid += 1
-    m = MoveThroughToType(robot_cid, False, [PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS)])
+    m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS))
     robot_port.send(str(m))
-    EmoveStatMsg.crcl = "MoveThroughTo"
+    EmoveStatMsg.crcl = "MoveTo"
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False
 
     # else we did it all OK
@@ -467,7 +467,7 @@ def emove_cmd_reader():
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:d", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "debug", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:d", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "debug=", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
 except getopt.GetoptError, err:
     print "kitting_emove:", str(err)
     sys.exit(1)

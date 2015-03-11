@@ -463,7 +463,7 @@ class VacuumGripperStatusType(GripperStatusType):
 
 class CRCLStatusType(DataThingType):
 
-    def __init__(self, CommandStatus, Pose, JointStatuses=None, GripperStatus=None, **kwargs):
+    def __init__(self, CommandStatus, Pose=None, JointStatuses=None, GripperStatus=None, **kwargs):
         super(CRCLStatusType, self).__init__(**kwargs)
         self.CommandStatus = CommandStatus
         self.Pose = Pose
@@ -474,7 +474,7 @@ class CRCLStatusType(DataThingType):
         if root == None: root = ET.Element("CRCLStatus", attrib=dict)
         super(CRCLStatusType, self).tree(root)
         self.CommandStatus.tree(root)
-        self.Pose.tree(root)
+        if self.Pose != None: self.Pose.tree(root)
         if self.JointStatuses != None: self.JointStatuses.tree(root)
         if self.GripperStatus != None: self.GripperStatus.tree(root)
         return ET.ElementTree(root)

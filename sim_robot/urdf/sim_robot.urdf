@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!--
+	mass	radius	height	Ixx		Iyy		Izz
+link_1	76.341	0.300	0.100	1.7812830	1.7812830	3.4353316
+link_2	42.412	0.100	0.500	0.9896017	0.9896017	0.2120575
+link_3	24.429	0.080	0.450	0.4513262	0.4513262	0.0781729
+link_4	13.741	0.060	0.450	0.2442521	0.2442521	0.0247344
+link_5	4.072	0.040	0.300	0.0321649	0.0321649	0.0032572
+link_6	1.018	0.020	0.300	0.0077359	0.0077359	0.0002036
+link_7	0.170	0.020	0.050	0.0000523	0.0000523	0.0000339
+-->
+
+<robot name="test_robot">
+
+  <link name="link_1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="76.34"/>
+      <inertia ixx="1.7812830" ixy="0" ixz="0" iyy="1.7812830" iyz="0" izz="3.4353316"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.3" length="0.1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="link_2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="42.412"/>
+      <inertia ixx="0.9896017" ixy="0" ixz="0" iyy="0.9896017" iyz="0" izz="0.2120575"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.3" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.5"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="link_3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="42.412"/>
+      <inertia ixx="0.9896017" ixy="0" ixz="0" iyy="0.9896017" iyz="0" izz="0.2120575"/>
+    </inertial>
+  </link>
+
+  <link name="link_4" />
+
+  <link name="link_5" />
+
+  <link name="link_6" />
+
+  <link name="link_7" />
+
+  <joint name="joint_1" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <limit effort="100" velocity="100" lower="-100" upper="100" />
+  </joint>
+
+  <joint name="joint_2" type="revolute">
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <limit effort="100" velocity="100" lower="-100" upper="100" />
+  </joint>
+
+  <joint name="joint_3" type="revolute">
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <limit effort="100" velocity="100" lower="-100" upper="100" />
+  </joint>
+
+  <joint name="joint_4" type="revolute">
+    <parent link="link_4"/>
+    <child link="link_5"/>
+    <limit effort="100" velocity="100" lower="-100" upper="100" />
+  </joint>
+
+  <joint name="joint_5" type="revolute">
+    <parent link="link_5"/>
+    <child link="link_6"/>
+    <limit effort="100" velocity="100" lower="-100" upper="100" />
+  </joint>
+
+  <joint name="joint_6" type="revolute">
+    <parent link="link_6"/>
+    <child link="link_7"/>
+    <limit effort="100" velocity="100" lower="-100" upper="100" />
+  </joint>
+
+</robot>

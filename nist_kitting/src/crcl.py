@@ -239,6 +239,29 @@ class MoveThroughToType(MiddleCommandType):
         self.NumPositions = len(self.Waypoint)
         return True
 
+class MoveToType(MiddleCommandType):
+
+    def __init__(self, CommandID, MoveStraight, EndPosition, **kwargs):
+        super(MoveToType, self).__init__(CommandID, **kwargs)
+        self.MoveStraight = MoveStraight
+        self.EndPosition = EndPosition
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "MoveToType")
+        super(MoveToType, self).tree(el)
+
+        if self.MoveStraight: ET.SubElement(el, "MoveStraight").text = "true"
+        else: ET.SubElement(el, "MoveStraight").text = "false"
+        ep = self.EndPosition
+        epel = ET.SubElement(el, "EndPosition")
+        ptel = ET.SubElement(epel, "Point")
+        ep.Point.tree(ptel)
+        xel = ET.SubElement(epel, "XAxis")
+        ep.XAxis.tree(xel)
+        zel = ET.SubElement(epel, "ZAxis")
+        ep.ZAxis.tree(zel)
+        return ET.ElementTree(root)
+
 class ParameterSettingType(DataThingType):
 
     def __init__(self, ParameterName, ParameterValue, **kwargs):

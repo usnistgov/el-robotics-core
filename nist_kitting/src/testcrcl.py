@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import sys
 from time import *
 from crcl import *
@@ -110,6 +112,9 @@ point2 = PointType(2, 4, 6, Name="Point2")
 point3 = PointType(0, 0, 0)
 xaxis = VectorType(1, 0, 0, Name="ux")
 zaxis = VectorType(0, 0, 1)
+
+m = MoveToType(15, False, PoseOnlyLocationType(point1, xaxis, zaxis), Name="EP")
+print m
 
 m = MoveThroughToType(17, True, [PoseOnlyLocationType(point1, xaxis, zaxis), PoseOnlyLocationType(point1, xaxis, zaxis)], Name="WP1")
 print m

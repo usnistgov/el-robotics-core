@@ -85,7 +85,8 @@ static void request_connection_thread_code(request_connection_thread_args *args)
   id = args->id;
   free(args);
 
-  while (true) {
+  bool done = false;
+  while (! done) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
     inbuf[sizeof(inbuf)-1] = 0;
@@ -101,7 +102,7 @@ static void request_connection_thread_code(request_connection_thread_args *args)
       switch (message_type) {
       case MESSAGE_PING:
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&pingrep), sizeof(pingrep));
-	if (nchars < 0) break;
+	if (nchars < 0) done = true;
 	break;
 
       case MESSAGE_JOINT_TRAJ_PT:
@@ -118,7 +119,11 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	ulapi_mutex_give(&robot_mutex);
 	jtrep.set_joint_traj_pt_reply(REPLY_SUCCESS);
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jtrep), sizeof(jtrep));
-	if (nchars < 0) break;
+	if (debug) {
+	  printf("replied to connection %d:\n", id);
+	  jtrep.print_joint_traj_pt_reply();
+	}
+	if (nchars < 0) done = true;
 	break;
 
       case MESSAGE_CART_TRAJ_PT:
@@ -131,9 +136,14 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	if (! ctreq.get_pos(&f1, &f2, &f3, &f4, &f5, &f6, &f7)) break;
 	the_robot.set_robot_cart_pos(f1, f2, f3, f4, f5, f6, f7);
 	ulapi_mutex_give(&robot_mutex);
+	ctrep.set_seq_number(ctreq.get_seq_number());
 	ctrep.set_cart_traj_pt_reply(REPLY_SUCCESS);
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&ctrep), sizeof(ctrep));
-	if (nchars < 0) break;
+	if (debug) {
+	  printf("replied to connection %d:\n", id);
+	  ctrep.print_cart_traj_pt_reply();
+	}
+	if (nchars < 0) done = true;
 	break;
 
       default:
@@ -242,14 +252,14 @@ static void request_server_thread_code(request_server_thread_args *args)
   id = args->id;
 
   while (true) {
-    if (debug) printf("waiting for joint message connection...\n");
+    if (debug) printf("waiting for a trajectory point connection...\n");
     connection_id = ulapi_socket_get_connection_id(id);
     if (connection_id < 0) {
-      fprintf(stderr, "can't get joint message connection connectons\n");
+      fprintf(stderr, "can't get a trajectory point connecton\n");
       break;
     }
      
-    if (debug) printf("got a joint message connection on id %d\n", connection_id);
+    if (debug) printf("got a trajectory point connection on id %d\n", connection_id);
 
     // spawn a connection thread
     request_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*request_connection_thread)));
@@ -287,14 +297,14 @@ static void state_server_thread_code(state_server_thread_args *args)
   period = args->period;
 
   while (true) {
-    if (debug) printf("waiting for joint state connection...\n");
+    if (debug) printf("waiting for a robot state connection...\n");
     connection_id = ulapi_socket_get_connection_id(id);
     if (connection_id < 0) {
-      fprintf(stderr, "can't get a joint state connection connectons\n");
+      fprintf(stderr, "can't get a robot state connection\n");
       break;
     }
      
-    if (debug) printf("got a joint state connection on id %d\n", connection_id);
+    if (debug) printf("got a robot state connection on id %d\n", connection_id);
 
     // spawn a connection thread
     state_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*state_connection_thread)));

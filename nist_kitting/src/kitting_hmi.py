@@ -108,28 +108,40 @@ class DB(object):
             self.db.rollback()
         return False
 
-class MyDialog(object):
+class BrowseDialog(object):
     def __init__(self, parent, _ents):
         self.ents = _ents
+        self.pick = None
         self.top = Toplevel(parent)
-        xscrollbar = Scrollbar(self.top, orient=HORIZONTAL)
-        yscrollbar = Scrollbar(self.top, orient=VERTICAL)
-        self.listbox = Listbox(self.top, xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        f = Frame(self.top)
+        sf = Frame(f)
+        bf = Frame(f)
+        xscrollbar = Scrollbar(sf, orient=HORIZONTAL)
+        yscrollbar = Scrollbar(sf, orient=VERTICAL)
+        self.listbox = Listbox(sf, xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
         xscrollbar.config(command=self.listbox.xview)
         xscrollbar.pack(side=BOTTOM, fill=X)
         yscrollbar.config(command=self.listbox.yview)
         yscrollbar.pack(side=RIGHT, fill=Y)
         for item in self.ents:
             self.listbox.insert(END, item)
-        self.listbox.pack(side=LEFT, fill=BOTH, expand=1)
-        b = Button(self.top, text="OK", command=self.ok)
-        b.pack(side=BOTTOM)
+        self.listbox.pack()
+        sf.pack()
+        b = Button(bf, text="OK", command=self.ok)
+        b.pack()
+        bf.pack()
+        f.pack()
+
+    def get(self):
+        return self.pick
 
     def ok(self):
         items = self.listbox.curselection()
         if len(items) > 0:
             item = self.ents[int(items[0])]
-            print "value is", item
+            if len(item) > 0:
+                self.pick = item[0]
+                print "value is", item[0]
         self.top.destroy()
     
 class App(object):
@@ -324,8 +336,10 @@ class App(object):
             ret = self.AprsDB.read("select hadByPartRefAndPose_KitDesign from PartRefAndPose")
         except:
             return False
-        d = MyDialog(root, ret)
+        d = BrowseDialog(root, ret)
         root.wait_window(d.top)
+        if d.get() != None:
+            self.kitVar.set(d.get())
         return True
 
     def make(self):

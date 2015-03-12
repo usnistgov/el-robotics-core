@@ -724,7 +724,7 @@ struct robot_status_message {
 /* EXTENSIONS for Cartesian motion */
 
 struct cart_traj_pt_request_message {
-  int length;		  /* 4 bytes, constant value should be 16x4 = 64 */
+  int length;		  /* 4 bytes, constant value should be 13x4 = 52 */
   int message_type;	  /* 4 bytes, constant value 31, CART TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
   int reply_type;	  /* 4 bytes, N/A */
@@ -849,19 +849,16 @@ struct cart_traj_pt_request_message {
 
 struct cart_traj_pt_reply_message {
   int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
-  int message_type;	  /* 4 bytes, constant value 11, CART_TRAJ_PT */
+  int message_type;	  /* 4 bytes, constant value 31, CART_TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 3, REPLY */
   int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */
-  /* NOTE: this should be the sequence number echo */
-  int unused_1;		  /* 4 bytes, N/A */
-  float unused_2[JOINT_MAX];	/* 10 4-byte floats, N/A */
+  int seq_number;	  /* 4 bytes, sequence number echo */
 
   cart_traj_pt_reply_message() {
     length = sizeof(message_type) +
       sizeof(comm_type) + 
       sizeof(reply_type) +
-      sizeof(unused_1) +
-      sizeof(unused_2);
+      sizeof(seq_number);
     message_type = MESSAGE_CART_TRAJ_PT;
     comm_type = COMM_REPLY;
     /* caller will need to set reply_type with method below */
@@ -872,6 +869,7 @@ struct cart_traj_pt_reply_message {
     printf("%sMsg Type:   %d\n", prefix, (int) message_type);
     printf("%sComm Type:  %d\n", prefix, (int) comm_type);
     printf("%sReply Type: %d\n", prefix, (int) reply_type);
+    printf("%sSeq Num:    %d\n", prefix, (int) seq_number);
   }
 
   void read_cart_traj_pt_reply(char *inbuf) {
@@ -884,13 +882,15 @@ struct cart_traj_pt_reply_message {
     ptr += sizeof(comm_type);
     memcpy(&reply_type, ptr, sizeof(reply_type));
     ptr += sizeof(reply_type);
-    memcpy(&unused_1, ptr, sizeof(unused_1));
-    ptr += sizeof(unused_1);
-    memcpy(&unused_2, ptr, sizeof(unused_2));
+    memcpy(&seq_number, ptr, sizeof(seq_number));
   }
 
   void set_cart_traj_pt_reply(reply_types reply) {
     reply_type = reply;
+  }
+
+  void set_seq_number(int s) {
+    seq_number = s;
   }
 };
 

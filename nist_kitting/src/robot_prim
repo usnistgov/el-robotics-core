@@ -78,6 +78,29 @@ def handleMoveThroughToType(child):
         except:
             CommandState = CommandStateType.ERROR
 
+def handleMoveToType(child):
+    global DEBUG, CommandID, StatusID, CommandState, Pose
+    if DEBUG: print "handleMoveToType"
+    
+    CommandID = child.findtext("CommandID")
+    print CommandID
+    print child.findtext("MoveStraight")
+    try:
+        i = child.find("EndPosition")
+        ii = i.find("Point")
+        point = PointType(float(ii.findtext("X")), float(ii.findtext("Y")), float(ii.findtext("Z")))
+        ii = i.find("XAxis")
+        xaxis = VectorType(float(ii.findtext("I")), float(ii.findtext("J")), float(ii.findtext("K")))
+        ii = i.find("ZAxis")
+        zaxis = VectorType(float(ii.findtext("I")), float(ii.findtext("J")), float(ii.findtext("K")))
+        Pose.Point = point
+        Pose.XAxis = xaxis
+        Pose.ZAxis = zaxis
+        print Pose
+        CommandState = CommandStateType.DONE
+    except:
+        CommandState = CommandStateType.ERROR
+
 def handleOpenToolChangerType(child):
     global DEBUG, CommandID, StatusID, CommandState
     if DEBUG: print "handleOpenToolChangerType"
@@ -126,6 +149,8 @@ def reader(conn):
                 cmd = child.attrib.get(xsi+"type", None)
                 if cmd == "MoveThroughToType":
                     handleMoveThroughToType(child)
+                elif cmd == "MoveToType":
+                    handleMoveToType(child)
                 elif cmd == "OpenToolChangerType":
                     handleOpenToolChangerType(child)
                 elif cmd == "CloseToolChangerType":

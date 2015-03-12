@@ -23,6 +23,7 @@ DB_SERVER = ""
 DB_USER = ""
 DB_PASSWD = ""
 DB_NAME = ""
+NOCHECK = False
 DEBUG = False
 PERIOD = 0.5
 
@@ -158,8 +159,9 @@ def strip_suffix(p):
     return m.group(1)
 
 def check_predicate(sku, location):
-    global DEBUG
+    global NOCHECK, DEBUG
     if DEBUG: print "checking", sku, "at location", location
+    if NOCHECK: return True, 0, 0, 0, 0
     try:
         req = os.getenv("HOME", ".") + "/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
         toks = shlex.split(subprocess.check_output(shlex.split(req)))
@@ -174,8 +176,9 @@ def check_predicate(sku, location):
     return False, 0, 0, 0, 0
 
 def get_pose(part):
-    global DEBUG, AprsDB
+    global NOCHECK, DEBUG, AprsDB
     if DEBUG: print "getting pose of", part
+    if NOCHECK: return True, 0, 0, 0, 0
     try:
         ret = AprsDB.read("select X,Y,Z from DirectPose where name = " + "\"" + part + "\"")
         for toks in ret:
@@ -186,6 +189,11 @@ def get_pose(part):
         return True, x, y, z, th
     except: pass
     return False, 0, 0, 0, 0
+
+def Create_Kit(toks, robot_port, gripper_port):
+    # (create-kit kit_gearbox_1top1bottom1medium kit_design_gearbox_1top1bottom1medium kit_gearbox_1top1bottom1medium_tray work_table_1)
+    print toks
+    return True
 
 def Look_For_Kit(toks, robot_port, gripper_port):
     # (look-for-kit robot_1 kit_gearbox kit_gearbox_tray sku_gearbox_tray robotiq_gripper)
@@ -207,24 +215,33 @@ def Look_For_Slot_In_Lbwk(toks, robot_port, gripper_port):
     print toks
     return True
 
+def Look_For_Worktablearea(toks, robot_port, gripper_port):
+    # (look-for-worktablearea robot_1 kit_tray_1top1bottom1medium_area work_table_1 kit_gearbox_1top1bottom1medium_tray robotiq_gripper sku_gearbox_1top1bottom1medium_tray)
+    print toks
+    return True
+
 def Place_Kit(toks, robot_port, gripper_port):
     # (place-kit robot_1 kit_gearbox robotiq_gripper lbwkslot_0 finished_kit_receiver)
     print toks
     return True
 
+def Place_Kittray(toks, robot_port, gripper_port):
+    # (place-kittray robot_1 kit_gearbox_1top1bottom1medium_tray work_table_1 kit_tray_1top1bottom1medium_area robotiq_gripper)
+    print toks
+    return True
+
 def Place_Part(toks, robot_port, gripper_port):
-    # (place-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)
+    # (place-part robot_1 small_gear_1 sku_part_small_gear kit_gearbox_1small1medium kit_gearbox_1small1medium_slot_small_gear robotiq_gripper)
     global PERIOD, DEBUG, EmoveStatMsg
+    robot_cid = 100
+    gripper_cid = 200
+
     if len(toks) < 7: return False
     if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "to kit", toks[4], "at slot", toks[5], "uwing gripper", toks[6]
     part = toks[2]
     sku = strip_suffix(part)
     startloc = toks[4]
-    endloc = startloc # should be toks[5] but we don't have those locs
-
-    # command ids for robot and gripper subordinates
-    robot_cid = 100
-    gripper_cid = 200
+    endloc = startloc
 
     # //! Configure gripper for pre-grasp
     # pm.demo->Decouple(curtool);
@@ -288,11 +305,29 @@ def Place_Part(toks, robot_port, gripper_port):
 
 def Set_Grasp(toks, robot_port, gripper_port):
     # (set-grasp robot_1 big_gear_1 sku_part_big_gear robotiq_gripper)
-    print toks
+    global PERIOD, DEBUG, EmoveStatMsg
+    gripper_cid = 200
+    timeout = 3
+
+    if len(toks) < 5: return False
+    if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "of gripper", toks[4]
+    part = toks[2]
+    sku = strip_suffix(part)
+
+    gripper_cid += 1
+    m = SetEndEffectorParametersType(gripper_cid, ParameterSettingType("set", 0.1))
+    gripper_port.send(str(m))
+    EmoveStatMsg.crcl = "SetEndEffectorParameters"
+    if gripper_poll(gripper_cid, timeout) != CommandStateType.DONE: return False
     return True
 
 def Take_Kit(toks, robot_port, gripper_port):
     # (take-kit robot_1 kit_gearbox kit_gearbox_tray work_table_1 sku_gearbox_tray robotiq_gripper)
+    print toks
+    return True
+
+def Take_Kittray(toks, robot_port, gripper_port):
+    # (take-kittray robot_1 kit_gearbox_1top1bottom1medium_tray empty_kit_tray_supply robotiq_gripper sku_gearbox_1top1bottom1medium_tray)
     print toks
     return True
 
@@ -304,14 +339,18 @@ def Take_Part(toks, robot_port, gripper_port):
 # --- the dictionary associating PDDL commands with handler functions ---
 
 funcdict = {
+    "create-kit" : Create_Kit,
     "look-for-kit" : Look_For_Kit,
     "look-for-part" : Look_For_Part,
     "look-for-slot-in-kit" : Look_For_Slot_In_Kit,
     "look-for-slot-in-lbwk" : Look_For_Slot_In_Lbwk,
+    "look-for-worktablearea" : Look_For_Worktablearea,
     "place-kit" : Place_Kit,
+    "place-kittray" : Place_Kittray,
     "place-part" : Place_Part,
     "set-grasp" : Set_Grasp,
     "take-kit" : Take_Kit,
+    "take-kittray" : Take_Kittray,
     "take-part" : Take_Part
     }
 
@@ -445,7 +484,7 @@ def run_plan(plan_file):
 
 def emove_cmd_reader_callback(data):
     global DEBUG, EmoveStatMsg, cmddict, statdict, PLAN_FILE
-    if DEBUG: print "kitting_emove: got", data
+    if DEBUG: print "kitting_emove: got:\n", data
     EmoveStatMsg.stat.type = data.cmd.type
     EmoveStatMsg.stat.serial_number = data.cmd.serial_number
     try:
@@ -467,7 +506,7 @@ def emove_cmd_reader():
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:d", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "debug=", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:Xd", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "nocheck=", "debug=", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
 except getopt.GetoptError, err:
     print "kitting_emove:", str(err)
     sys.exit(1)
@@ -485,6 +524,8 @@ for o, a in opts:
         GRIPPER_HOST = a
     elif o in ("-t", "--period"):
         PERIOD = float(a)
+    elif o in ("-X", "--nocheck"):
+        NOCHECK = True
     elif o in ("-d", "--debug"):
         DEBUG = True
 # args with long form only go here

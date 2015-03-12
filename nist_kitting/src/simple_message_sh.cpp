@@ -28,6 +28,15 @@
 #include "simple_message_defs.h"
 
 static bool debug = false;
+enum {
+  DEBUG_NONE = 0x00,
+  DEBUG_REPLY = 0x01,
+  DEBUG_STATE = 0x02,
+  DEBUG_FEEDBACK = 0x04,
+  DEBUG_RUN = 0x08,
+  DEBUG_ALL = 0xFF
+};
+static int debug_level = DEBUG_ALL;
 
 // Reply message client code ----------------------
 
@@ -56,9 +65,6 @@ static void reply_client_thread_code(reply_client_thread_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
-    if (debug) {
-      printf("Got %d reply chars\n", nchars);
-    }
     inbuf[sizeof(inbuf)-1] = 0;
     ptr = inbuf;
     nleft = nchars;
@@ -74,14 +80,14 @@ static void reply_client_thread_code(reply_client_thread_args *args)
 	break;
       case MESSAGE_JOINT_TRAJ_PT:
 	jtp_rep.read_joint_traj_pt_reply(ptr);
-	if (debug) jtp_rep.print_joint_traj_pt_reply();
+	if (debug & DEBUG_REPLY) jtp_rep.print_joint_traj_pt_reply();
 	break;
       case MESSAGE_CART_TRAJ_PT:
 	ctp_rep.read_cart_traj_pt_reply(ptr);
-	if (debug) ctp_rep.print_cart_traj_pt_reply();
+	if (debug & DEBUG_REPLY) ctp_rep.print_cart_traj_pt_reply();
 	break;
       default:
-	if (debug) printf("unknown reply type: %d\n", message_type);
+	printf("unknown reply type: %d\n", message_type);
 	break;
       } // switch (message type)
       nleft -= (sizeof(length) + length);
@@ -91,7 +97,7 @@ static void reply_client_thread_code(reply_client_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("joint state client handler %d done\n", id);
+  if (debug & DEBUG_RUN) printf("joint state client handler %d done\n", id);
 
   return;
 }
@@ -123,9 +129,6 @@ static void state_client_thread_code(state_client_thread_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
-    if (debug) {
-      printf("Got %d state chars\n", nchars);
-    }
     inbuf[sizeof(inbuf)-1] = 0;
     ptr = inbuf;
     nleft = nchars;
@@ -139,17 +142,17 @@ static void state_client_thread_code(state_client_thread_args *args)
       switch (message_type) {
       case MESSAGE_ROBOT_STATUS:
 	robot_status.read_robot_status(ptr);
-	if (debug) robot_status.print_robot_status();
+	if (debug & DEBUG_STATE) robot_status.print_robot_status();
 	break;
 	/* NOTE: JOINT_POSITION is deprecated, but JOINT_TRAJ_PT gives
 	   an error in the industrial robot client. */
       case MESSAGE_JOINT_POSITION:
 	jtp_state.read_joint_traj_pt_state(ptr);
-	if (debug) jtp_state.print_joint_traj_pt_state();
+	if (debug & DEBUG_FEEDBACK) jtp_state.print_joint_traj_pt_state();
 	break;
       default:
 	// unknown message
-	if (debug) printf("unknown status type: %d\n", message_type);
+	printf("unknown status type: %d\n", message_type);
 	break;
       } // switch (message type)
       nleft -= (sizeof(length) + length);
@@ -159,7 +162,7 @@ static void state_client_thread_code(state_client_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("joint message client handler %d done\n", id);
+  if (debug & DEBUG_RUN) printf("joint message client handler %d done\n", id);
 
   return;
 }
@@ -191,7 +194,7 @@ int main(int argc, char *argv[])
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":h:m:s:d");
+    option = getopt(argc, argv, ":h:m:s:l:d");
     if (option == -1) break;
 
     switch (option) {
@@ -207,6 +210,14 @@ int main(int argc, char *argv[])
     case 's':
       ival = atoi(optarg);
       state_port = ival;
+      break;
+
+    case 'l':
+      if (1 != sscanf(optarg, "%i", &ival)) {
+	fprintf(stderr, "need an integer debug level\n");
+	return 1;
+      }
+      debug_level = ival;
       break;
 
     case 'd':

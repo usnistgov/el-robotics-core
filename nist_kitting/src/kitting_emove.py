@@ -2,7 +2,7 @@
 
 # do rostopic pub /kitting_emove_cmd nist_kitting/emove_cmd -f <yaml.bagy>
 
-import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex, numpy
+import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
 import rospy
 from nist_kitting.msg import *
 from crcl import *
@@ -115,49 +115,58 @@ def strip_suffix(p):
 def check_predicate(sku, location):
     global NOCHECK, DEBUG
     if DEBUG: print "checking", sku, "at location", location
-    if NOCHECK: return True, 0, 0, 0, 0
+    if NOCHECK: return True, 0, 0, 0
     try:
         req = os.getenv("HOME", ".") + "/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
         toks = shlex.split(subprocess.check_output(shlex.split(req)))
         x = float(toks[0])
         y = float(toks[1])
         z = float(toks[2])
-        th = numpy.arctan2(x, y)
-        return True, x, y, z, th
+        return True, x, y, z
     except:
         print "in", os.getcwd()
         print "check_predicate: error on", req, ":", except_info()
-    return False, 0, 0, 0, 0
+    return False, 0, 0, 0
 
 def get_pose(part):
     global NOCHECK, DEBUG, AprsDB
     if DEBUG: print "getting pose of", part
-    if NOCHECK: return True, 0, 0, 0, 0
+    if NOCHECK: return True, 0, 0, 0
     try:
         ret = AprsDB.read("select X,Y,Z from DirectPose where name = \"" + part + "\"")
         for toks in ret:
             x = float(toks[0])
             y = float(toks[1])
             z = float(toks[2])
-            th = numpy.arctan2(x, y)
-        return True, x, y, z, th
+        return True, x, y, z
     except: pass
-    return False, 0, 0, 0, 0
+    return False, 0, 0, 0
 
-def get_slot(slot):
+def get_kit(kit):
     global NOCHECK, DEBUG, AprsDB
-    if DEBUG: print "getting slot location of", slot
-    if NOCHECK: return True, 0, 0, 0, 0
+    if NOCHECK: return True, 0, 0, 0
     try:
-        ret = AprsDB.read("select hasPoint_X, hasPoint_Y from Point where _NAME = (select hasPartRefAndPose_Point from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"")
+        ret = AprsDB.read("select hasPoint_X, hasPoint_Y, hasPoint_Z from Point where _NAME = (select hasPoseLocation_Point from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"" + kit + "\"))")
         for toks in ret:
             x = float(toks[0])
             y = float(toks[1])
             z = float(toks[2])
-            th = numpy.arctan2(x, y)
-        return True, x, y, z, th
+        return True, x, y, z
     except: pass
-    return False, 0, 0, 0, 0
+    return False, 0, 0, 0
+
+def get_slot(slot):
+    global NOCHECK, DEBUG, AprsDB
+    if NOCHECK: return True, 0, 0, 0
+    try:
+        ret = AprsDB.read("select hasPoint_X, hasPoint_Y, hasPoint_Z from Point where _NAME = (select hasPartRefAndPose_Point from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"))")
+        for toks in ret:
+            x = float(toks[0])
+            y = float(toks[1])
+            z = float(toks[2])
+        return True, x, y, z
+    except: pass
+    return False, 0, 0, 0
 
 def Create_Kit(toks, robot_port, gripper_port):
     # (create-kit kit_gearbox_1top1bottom1medium kit_design_gearbox_1top1bottom1medium kit_gearbox_1top1bottom1medium_tray work_table_1)
@@ -209,8 +218,20 @@ def Place_Part(toks, robot_port, gripper_port):
     if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "to kit", toks[4], "at slot", toks[5], "uwing gripper", toks[6]
     part = toks[2]
     sku = strip_suffix(part)
+    kit = toks[4]
+    slot = toks[5]
     startloc = toks[4]
     endloc = startloc
+
+    ret, x, y, z = get_kit(kit)
+    if DEBUG: 
+        if ret == False: print kit, "not found"
+        else: print kit, "is at", x, y, z
+
+    ret, x, y, z = get_slot(slot)
+    if DEBUG: 
+        if ret == False: print slot, "not found"
+        else: print slot, "is at", x, y, z
 
     # //! Configure gripper for pre-grasp
     # pm.demo->Decouple(curtool);
@@ -239,11 +260,11 @@ def Place_Part(toks, robot_port, gripper_port):
 
     # //! Move over part at z position
     # pm.demo->MoveTo (poseMe)
-    ret, x, y, z, th = check_predicate(sku, startloc)
+    ret, x, y, z = check_predicate(sku, startloc)
     if not ret: 
         print "can't find", sku, "at", startloc
         return False
-    ret, x, y, z, th = get_pose(part)
+    ret, x, y, z = get_pose(part)
     robot_cid += 1
     m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS))
     robot_port.send(str(m))
@@ -260,9 +281,9 @@ def Place_Part(toks, robot_port, gripper_port):
 
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
-    ret, x, y, z, th = check_predicate(sku, endloc)
+    ret, x, y, z = check_predicate(sku, endloc)
     if not ret: return False
-    ret, x, y, z, th = get_pose(part)
+    ret, x, y, z = get_pose(part)
     robot_cid += 1
     m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS))
     robot_port.send(str(m))

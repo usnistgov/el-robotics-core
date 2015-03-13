@@ -48,6 +48,19 @@ for kit in kits:
                     print name, "=", x, y, z
         except: pass
 
+xvec = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPoseLocation_XAxis from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"kit_gearbox_1small1medium\"))")
+
+zvec = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPoseLocation_ZAxis from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"kit_gearbox_1small1medium\"))")
+
+print "kit:", xvec[0], zvec[0]
+
+xvec = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPartRefAndPose_XAxis from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"kit_gearbox_1Top1Bottom1Small1Medium1Big_slot_big_gear\"))")
+
+zvec = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPartRefAndPose_ZAxis from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"kit_gearbox_1Top1Bottom1Small1Medium1Big_slot_big_gear\"))")
+
+
+print "slot:", xvec[0], zvec[0]
+
 AprsDB.disconnect()
 
 sys.exit(0)

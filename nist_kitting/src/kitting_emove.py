@@ -2,11 +2,11 @@
 
 # do rostopic pub /kitting_emove_cmd nist_kitting/emove_cmd -f <yaml.bagy>
 
-import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex
-import MySQLdb, numpy
+import sys, os, time, getopt, string, threading, re, socket, ConfigParser, StringIO, xml.etree.ElementTree as ET, subprocess, shlex, numpy
 import rospy
 from nist_kitting.msg import *
 from crcl import *
+from MySQLdbConn import *
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
@@ -45,53 +45,7 @@ def except_info():
     exc_type, exc_value = sys.exc_info()[:2]
     return str(exc_type.__name__) + ": " + str(exc_value)
 
-class DB(object):
-
-    def __init__(self):
-        self.server = None
-        self.user = None
-        self.passwd = None
-        self.db = None
-        self.cursor = None
-
-    def disconnect(self):
-        try: self.db.close()
-        except: pass
-        self.__init__()
-        
-    def connect(self, server, user, passwd, db):
-        try:
-            if self.db != None: self.db.close()
-            self.db = MySQLdb.connect(server, user, passwd, db)
-            self.cursor = self.db.cursor()
-        except:
-            print "DB:", except_info()
-            self.db = None
-            self.cursor = None
-            return False
-        self.server = server
-        self.user = user
-        self.passwd = passwd
-        return True
-
-    def read(self, query):
-        try:
-            self.cursor.execute(query)
-            return self.cursor.fetchall()
-        except:
-            print "DB:", except_info()
-        return ()
-
-    def update(self, request):
-        try:
-            self.cursor.execute(request)
-            self.db.commit()
-            return True
-        except:
-            self.db.rollback()
-        return False
-
-AprsDB = DB()
+AprsDB = MySQLdbConn()
 
 def robot_reader(conn):
     global DEBUG, RobotCommandID, RobotCommandState
@@ -180,7 +134,22 @@ def get_pose(part):
     if DEBUG: print "getting pose of", part
     if NOCHECK: return True, 0, 0, 0, 0
     try:
-        ret = AprsDB.read("select X,Y,Z from DirectPose where name = " + "\"" + part + "\"")
+        ret = AprsDB.read("select X,Y,Z from DirectPose where name = \"" + part + "\"")
+        for toks in ret:
+            x = float(toks[0])
+            y = float(toks[1])
+            z = float(toks[2])
+            th = numpy.arctan2(x, y)
+        return True, x, y, z, th
+    except: pass
+    return False, 0, 0, 0, 0
+
+def get_slot(slot):
+    global NOCHECK, DEBUG, AprsDB
+    if DEBUG: print "getting slot location of", slot
+    if NOCHECK: return True, 0, 0, 0, 0
+    try:
+        ret = AprsDB.read("select hasPoint_X, hasPoint_Y from Point where _NAME = (select hasPartRefAndPose_Point from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"")
         for toks in ret:
             x = float(toks[0])
             y = float(toks[1])
@@ -596,7 +565,7 @@ if GRIPPER_PORT == "":
 
 if GRIPPER_HOST == "": GRIPPER_HOST = "localhost"
 
-if DB_SERVER == "": DB_SERVER = "aprs_dev"
+if DB_SERVER == "": DB_SERVER = "aprs-dev"
 if DB_USER == "" : DB_USER = "wills"
 if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"
@@ -608,7 +577,7 @@ if DEBUG:
     print "kitting_emove: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
 
 if not AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
-    print "pln_exec_app: can't connect to database"
+    print "plan_exec_app: can't connect to database"
     sys.exit(1)
 
 try:

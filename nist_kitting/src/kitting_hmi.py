@@ -2,7 +2,7 @@
 
 import sys, getopt, socket, time, threading, ConfigParser
 from Tkinter import *
-import MySQLdb
+from MySQLdbConn import *
 
 class ToolTip(object):
 
@@ -61,52 +61,6 @@ DB_PASSWD = ""
 DB_NAME = ""
 
 DEBUG = False
-
-class DB(object):
-
-    def __init__(self):
-        self.server = None
-        self.user = None
-        self.passwd = None
-        self.db = None
-        self.cursor = None
-
-    def disconnect(self):
-        try: self.db.close()
-        except: pass
-        self.__init__()
-        
-    def connect(self, server, user, passwd, db):
-        try:
-            if self.db != None: self.db.close()
-            self.db = MySQLdb.connect(server, user, passwd, db)
-            self.cursor = self.db.cursor()
-        except:
-            print "DB:", except_info()
-            self.db = None
-            self.cursor = None
-            return False
-        self.server = server
-        self.user = user
-        self.passwd = passwd
-        return True
-
-    def read(self, query):
-        try:
-            self.cursor.execute(query)
-            return self.cursor.fetchall()
-        except:
-            print "DB:", except_info()
-        return ()
-
-    def update(self, request):
-        try:
-            self.cursor.execute(request)
-            self.db.commit()
-            return True
-        except:
-            self.db.rollback()
-        return False
 
 class BrowseDialog(object):
     def __init__(self, parent, _ents):
@@ -280,7 +234,7 @@ class App(object):
         return True
 
     def dbconnect(self):
-        self.AprsDB = DB()
+        self.AprsDB = MySQLdbConn()
         if not self.AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
             return False
         return True
@@ -447,7 +401,7 @@ if WS_PORT == "": WS_PORT = 6066
 if EMOVE_PORT == "": EMOVE_PORT = 6067
 if HOST == "": HOST = "localhost"
 
-if DB_SERVER == "": DB_SERVER = "aprs_dev"
+if DB_SERVER == "": DB_SERVER = "aprs-dev"
 if DB_USER == "" : DB_USER = "wills"
 if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"

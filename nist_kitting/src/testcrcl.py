@@ -162,3 +162,21 @@ print m
 pg = CRCLProgramType(Name="Test Program")
 pg.add(MoveThroughToType(17, True, [PoseOnlyLocationType(point1, xaxis, zaxis)]))
 print pg
+
+print VectorVectorCross(VectorType(1, 0, 0), VectorType(0, 1, 0))
+
+m = MatrixType(VectorType(0.866, 0.5, 0), VectorType(-0.5, 0.866, 0), VectorType(0, 0, 1))
+print m
+
+print VectorsToMatrix(VectorType(0.866, 0.5, 0), VectorType(0, 0, 1))
+
+n = MatrixType(VectorType(0.866, -0.5, 0), VectorType(0.5, 0.866, 0), VectorType(0, 0, 1))
+
+print MatrixMatrixMult(m, n)
+
+P1 = PoseLocationType(PointType(100, 200, 0), VectorType(1,0,0), VectorType(0,0,1))
+P21 = PoseLocationType(PointType(-5, 20, 12.7), VectorType(0,1,0), VectorType(0,0,1))
+P2 = PosePoseMult(P1, P21)
+print P2
+
+

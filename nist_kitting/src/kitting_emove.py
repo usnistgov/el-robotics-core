@@ -8,10 +8,12 @@ from nist_kitting.msg import *
 from crcl import *
 from MySQLdbConn import *
 
+'''
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
+'''
 
 INIFILE = ""
 PLAN_FILE = ""

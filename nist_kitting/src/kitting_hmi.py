@@ -287,7 +287,8 @@ class App(object):
 
     def browse(self):
         try:
-            ret = self.AprsDB.read("select hadByPartRefAndPose_KitDesign from PartRefAndPose")
+#            ret = self.AprsDB.read("select hadByPartRefAndPose_KitDesign from PartRefAndPose")
+            ret = self.AprsDB.read("select _NAME from KitDesign")
         except:
             return False
         d = BrowseDialog(root, ret)

@@ -64,7 +64,7 @@ def gripper_reader(conn):
 try:
     opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:Xd", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "debug="])
 except getopt.GetoptError, err:
-    print "kitting_emove:", str(err)
+    print "crclsh:", str(err)
     sys.exit(1)
 
 for o, a in opts:
@@ -109,26 +109,26 @@ if INIFILE != "":
         sys.exit(1)
 
 if ROBOT_PORT == "":
-    print "kitting_emove: no robot port provided"
+    print "crclsh: no robot port provided"
     sys.exit(1)
 
 if ROBOT_HOST == "": ROBOT_HOST = "localhost"
 
 if GRIPPER_PORT == "":
-    print "kitting_emove: no gripper port provided"
+    print "crclsh: no gripper port provided"
     sys.exit(1)
 
 if GRIPPER_HOST == "": GRIPPER_HOST = "localhost"
 
 if DEBUG:
-    print "kitting_emove: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
-    print "kitting_emove: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
+    print "crclsh: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
+    print "crclsh: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
 
 try:
     robot_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     robot_socket.connect((ROBOT_HOST, int(ROBOT_PORT)))
 except IOError as err:
-    print "kitting_emove: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT, ":", str(err)
+    print "crclsh: can't connect to robot controller", ROBOT_HOST, "on port", ROBOT_PORT, ":", str(err)
     sys.exit(1)
 
 rt = threading.Thread(target=robot_reader, args=(robot_socket,))
@@ -139,7 +139,7 @@ try:
     gripper_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     gripper_socket.connect((GRIPPER_HOST, int(GRIPPER_PORT)))
 except IOError as err:
-    print "kitting_emove: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT, ":", str(err)
+    print "crclsh: can't connect to gripper controller", GRIPPER_HOST, "on port", GRIPPER_PORT, ":", str(err)
     sys.exit(1)
 
 gt = threading.Thread(target=gripper_reader, args=(gripper_socket,))

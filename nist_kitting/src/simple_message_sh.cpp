@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
   rc_args.id = message_client_id;
   ulapi_task_start(&reply_client_thread, reinterpret_cast<ulapi_task_code>(reply_client_thread_code), reinterpret_cast<void *>(&rc_args), ulapi_prio_highest(), 0);
 
-#if 1
+#if 0
   // connect to state server
   state_client_id = ulapi_socket_get_client_id(state_port, host);
   if (state_client_id < 0) {

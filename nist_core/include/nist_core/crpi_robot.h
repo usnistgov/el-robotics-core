@@ -348,7 +348,16 @@ namespace crpi_robot
     //!
     CanonReturn XmlHandler (std::string &str);
 
-      bool matrixRPYconvert (matrix &m, robotPose &pose);
+    //! @brief Generate a status message for a CRCL client
+    //!
+    //! @param str TODO
+    //!
+    //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
+    //!         not accepted, and FAILURE if the command is accepted but not executed successfully
+    //!
+    CanonReturn XmlResponse (char *str);
+
+    bool matrixRPYconvert (matrix &m, robotPose &pose);
     bool RPYMatrixConvert (const robotPose &pose, matrix &m);
 
   private:

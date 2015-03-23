@@ -483,9 +483,18 @@ namespace crpi_robot
       //! JAM: TODO
       break;
     default:
+      return CANON_REJECT;
       break;
     }
-    return CANON_REJECT;
+     return CANON_SUCCESS;
+  }
+
+
+  template <class T> LIBRARY_API CanonReturn CrpiRobot<T>::XmlResponse (char *str)
+  {
+    params_->counter += 1;
+    xml_->encode(str);
+    return CANON_SUCCESS;
   }
 
 

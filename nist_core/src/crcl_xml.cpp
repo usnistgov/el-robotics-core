@@ -440,7 +440,7 @@ namespace Xml
             }
             else if (strcmp (valiter->c_str(), "CloseToolChangerType") == 0)
             {
-              params_->cmd = CmdDecouple;
+              params_->cmd = CmdCouple;
             }
             else if (strcmp (valiter->c_str(), "ConfigureJointReportsType") == 0)
             {
@@ -480,7 +480,7 @@ namespace Xml
             }
             else if (strcmp (valiter->c_str(), "OpenToolChangerType") == 0)
             {
-              params_->cmd = CmdCouple;
+              params_->cmd = CmdDecouple;
             }
             else if (strcmp (valiter->c_str(), "RunProgramType") == 0)
             {
@@ -658,6 +658,24 @@ namespace Xml
         }
       }
 
+      //! CommandID
+      if (strcmp (tagName.c_str(), "CommandID") == 0)
+      {
+        for (; valiter != vals.end(); ++valiter)
+        {
+          params_->commandID = atoi (valiter->c_str ());
+        }
+      }
+
+      //! Setting
+      if (strcmp (tagName.c_str(), "Setting") == 0)
+      {
+        for (; valiter != vals.end(); ++valiter)
+        {
+          params_->setting = atof (valiter->c_str ());
+        }
+      }
+
       //! MoveStraight
       if (strcmp (tagName.c_str(), "MoveStraight") == 0)
       {
@@ -671,6 +689,14 @@ namespace Xml
           {
             params_->moveStraight = false;
           }
+        }
+      }
+
+      if (strcmp (tagName.c_str(), "Name") == 0)
+      {
+        for (; valiter != vals.end(); ++valiter)
+        {
+          params_->str = valiter->c_str();
         }
       }
     } // try
@@ -735,26 +761,29 @@ namespace Xml
     switch (params_->status)
     {
     case CANON_SUCCESS:
-      str = "Ready";
+      str = "Done";
+      break;
     case CANON_REJECT:
       str = "Error";
+      break;
     case CANON_FAILURE:
       str = "Error";
+      break;
     case CANON_RUNNING:
       str = "Working";
+      break;
     default:
       return CANON_FAILURE;
     }
 
-    /*
-    
 
-    */
     if (params_ != NULL)
     {
       if (strcmp (params_->toolName.c_str(), "Nothing") == 0)
       {
-        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>1</CommandID><StatusID>1</StatusID><CommandState>%s</CommandState></CommandStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>",
+        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>%d</CommandID><StatusID>%d</StatusID><CommandState>%s</CommandState></CommandStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>",
+                 params_->commandID,
+                 params_->counter,
                  str.c_str(),
                  params_->pose->x,
                  params_->pose->y,
@@ -769,7 +798,9 @@ namespace Xml
       else
       {
         //! Include gripper status if a tool has been defined using the couple command
-        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>1</CommandID><StatusID>1</StatusID><CommandState>%s</CommandState></CommandStatus><GripperStatus><GripperName>%s</GripperName><Separation>%f</Separation></GripperStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>",
+        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>%d</CommandID><StatusID>%d</StatusID><CommandState>%s</CommandState></CommandStatus><GripperStatus><GripperName>%s</GripperName><Separation>%f</Separation></GripperStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>",
+                 params_->commandID,
+                 params_->counter,      
                  str.c_str(),
                  params_->toolName.c_str(),
                  params_->toolVal,

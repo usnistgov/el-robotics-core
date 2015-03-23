@@ -59,6 +59,10 @@ namespace Xml
     //!
     double numPositions;
 
+    //! @brief Unknown what commands use this.
+    //!
+    double setting;
+
     //! @brief Commanded pose (X, Y, Z values only populated, orientation set using
     //!        xaxis and zaxis variables)
     //!
@@ -83,15 +87,21 @@ namespace Xml
     //!
     std::string toolName;
 
+    int commandID;
+
     //! @brief The commanded value for the tool
     //!
     double toolVal;
+
+    unsigned int counter;
 
     CrclXmlParams()
     {
       pose = new robotPose();
       axes = new robotAxes();
       moveStraight = true;
+      setting = numPositions = 0.0f;
+      counter = 0;
     }
   };
 

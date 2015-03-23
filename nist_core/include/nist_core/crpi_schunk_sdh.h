@@ -1,51 +1,55 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Original System: ISD CRCL
+//  Original System: ISD CRPI
 //  Subsystem:       Robot Interface
-//  Workfile:        Robotiq.h
+//  Workfile:        Schunk_SDH.h
 //  Revision:        1.0 - 13 March, 2014
 //  Author:          J. Marvel
 //
 //  Description
 //  ===========
-//  Robotiq interface declarations.
+//  Schunk SDH interface declarations.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef CRCL_ROBOTIQ_H
-#define CRCL_ROBOTIQ_H
+#ifndef SCHUNK_SDH_H
+#define SCHUNK_SDH_H
 
-#include "nist_core/nist_core.h"
-#include "nist_core/crcl.h"
-#include "nist_core/robotiq_gripper.h"
+#define MSG_SIZE 2048
+
+/*
+#include "types.h"
+#include "portable.h"
+#include "reporter.h"
 
 using namespace std;
+using namespace Reporter;
+*/
 
-namespace crcl_robot 
+#include "ulapi.h"
+#include "nist_core/nist_core.h"
+#include "nist_core/crpi.h"
+
+
+namespace crpi_robot
 {
-  struct LIBRARY_API keepalive
-  {
-    ulapi_mutex_struct *handle;
-    bool runThread;
-    void *rob;
-  };
-
-  //! @ingroup crcl_robot
+  //! @ingroup Robot
   //!
-  //! @brief CRCL interface for the Robotiq robotic hand
+  //! @brief CRPI interface for the Schunk dexterous hand
   //!
-  class LIBRARY_API CrclRobotiq
+  class LIBRARY_API CrpiSchunkSDH
   {
   public:
+    int ii;
     //! @brief Default constructor
     //!
     //! @param initPath Path to the file containing the robot's initialization parameters
     //!
-    CrclRobotiq (char *initPath);
+    CrpiSchunkSDH (char * initPath);
 
     //! @brief Default destructor
     //!
-    ~CrclRobotiq ();
+    ~CrpiSchunkSDH ();
 
     //! @brief Dock with a specified target object
     //!
@@ -54,12 +58,12 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn Couple (char *targetID);
+    CanonReturn Couple (const char *targetID);
 
     //! @brief Stay motionless until an event occurs
     //!
     //! @param events    An array of event identifiers to signal that motions is to resume.  Refer to
-    //!                  CRCL documentation for description and paramters for these events.
+    //!                  CRPI documentation for description and paramters for these events.
     //! @param params    An array of parameters associated with the array of events that bounds the
     //                   response to different events
     //! @param numEvents The size of the events array and the parameters array
@@ -92,7 +96,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn Message (char *message);
+    CanonReturn Message (const char *message);
 
     //! @brief Move the robot in a straight line from the current pose to a new pose and stop there
     //!
@@ -124,9 +128,9 @@ namespace crcl_robot
     //!
     CanonReturn MoveThroughTo (robotPose *poses,
                                int numPoses,
-                               robotPose *accelerations = NULL,
-                               robotPose *speeds = NULL,
-                               robotPose *tolerances = NULL);
+                               robotPose *accelerations,
+                               robotPose *speeds,
+                               robotPose *tolerances);
 
     //! @brief Move the controlled pose along any convenient trajectory from the current pose to the
     //!        target pose, and then stop.
@@ -145,7 +149,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn Decouple (char *targetID);
+    CanonReturn Decouple (const char *targetID);
 
     //! @brief Get feedback from the robot regarding its current axis configuration
     //!
@@ -164,7 +168,6 @@ namespace crcl_robot
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
     CanonReturn GetRobotPose (robotPose *pose);
-
 
     //! @brief Get I/O feedback from the robot
     //!
@@ -201,7 +204,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn RunProgram (char *programName, CRCLProgramParams params);
+    CanonReturn RunProgram (const char *programName, CRPIProgramParams params);
 
     //! @brief Set the accerlation for the controlled pose to the given value in length units per
     //!        second per second
@@ -229,7 +232,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn SetAngleUnits (char *unitName);
+    CanonReturn SetAngleUnits (const char *unitName);
 
     //! @brief Set the axis-specific speeds for the motion of axis-space motions
     //!
@@ -247,7 +250,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn SetAxialUnits (char **unitNames);
+    CanonReturn SetAxialUnits (const char **unitNames);
 
     //! @brief Set the default 6DOF tolerances for the pose of the robot in current length and angle
     //!        units
@@ -275,7 +278,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn SetLengthUnits (char *unitName);
+    CanonReturn SetLengthUnits (const char *unitName);
 
     //! @brief Set a robot-specific parameter (handling of parameter type casting to be handled by the
     //!        robot interface)
@@ -286,7 +289,7 @@ namespace crcl_robot
     //! @return SUCCESS if command is accepted and is executed successfully, REJECT if the command is
     //!         not accepted, and FAILURE if the command is accepted but not executed successfully
     //!
-    CanonReturn SetParameter (char *paramName, void *paramVal);
+    CanonReturn SetParameter (const char *paramName, void *paramVal);
 
     //! @brief Set the accerlation for the controlled pose to the given percentage of the robot's
     //!        maximum acceleration
@@ -338,21 +341,21 @@ namespace crcl_robot
 
   private:
 
-    bool grasped_;
+    ulapi_integer server;
+
     void *task;
+    keepalive ka_;
     unsigned long threadID_;
 
-    //! @brief The name of the gripper configuration
-    //!
-    char configName[32];
-    bool configured;
+    char inbuffer[MSG_SIZE], outbuffer[MSG_SIZE];
+    
+    int get, send;
 
-    keepalive ka_;
+    void readSDH ();
+    void writeSDH ();
 
-    RobotiqGripper::RobotiqGripper *iqGrip;
+  }; // CrpiSchunkSDH
 
-  }; // CrclRobotiq
-
-} // namespace crcl_robot
+} // namespace crpi_robot
 
 #endif

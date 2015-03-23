@@ -1,30 +1,30 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Original System: ISD CRCL
+//  Original System: ISD CRPI
 //  Subsystem:       Robot Interface
-//  Workfile:        CrclRobotiq.cpp
+//  Workfile:        CrpiRobotiq.cpp
 //  Revision:        1.0 - 13 March, 2014
 //  Author:          J. Marvel, J. Falco
 //
 //  Description
 //  ===========
-//  CrclRobotiq interface definitions.
+//  CrpiRobotiq interface definitions.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "nist_core/crcl_robotiq.h"
+#include "nist_core/crpi_robotiq.h"
 
 
-namespace crcl_robot
+namespace crpi_robot
 {
-  void livemanThread (void *param)
+  void livemanRobotiq (void *param)
   {
     keepalive *ka = (keepalive*)param;
     int val;
 
     while (ka->runThread)
     {
-      ((CrclRobotiq*)ka->rob)->SetParameter("STATUS", &val);
+      ((CrpiRobotiq*)ka->rob)->SetParameter("STATUS", &val);
 
       //! Don't slam your processor!  You don't need to poll at full speed.
       Sleep (5000);
@@ -32,7 +32,7 @@ namespace crcl_robot
     return;
   }
 
-  LIBRARY_API CrclRobotiq::CrclRobotiq (char * initPath)
+  LIBRARY_API CrpiRobotiq::CrpiRobotiq (char * initPath)
   {
     iqGrip = new RobotiqGripper::RobotiqGripper();
     grasped_ = false;
@@ -42,16 +42,16 @@ namespace crcl_robot
     ka_.rob = this;
     ka_.runThread = true;
 
-    ulapi_task_start((ulapi_task_struct*)task, livemanThread, &ka_, ulapi_prio_lowest(), 0);
+    ulapi_task_start((ulapi_task_struct*)task, livemanRobotiq, &ka_, ulapi_prio_lowest(), 0);
   }
 
-  LIBRARY_API CrclRobotiq::~CrclRobotiq ()
+  LIBRARY_API CrpiRobotiq::~CrpiRobotiq ()
   {
     ka_.runThread = false;
     delete [] iqGrip;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetTool (double percent)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetTool (double percent)
   {
     int param;
     if (percent >= 0.5f)
@@ -70,7 +70,7 @@ namespace crcl_robot
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::Couple (char *targetID)
+  LIBRARY_API CanonReturn CrpiRobotiq::Couple (const char *targetID)
   {
     int param;
     if (strcmp(targetID, "gripper_gear") == 0)
@@ -226,33 +226,33 @@ namespace crcl_robot
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::Dwell (int *events, double *params, int numEvents)
+  LIBRARY_API CanonReturn CrpiRobotiq::Dwell (int *events, double *params, int numEvents)
   {
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::EndCanon (int reason)
+  LIBRARY_API CanonReturn CrpiRobotiq::EndCanon (int reason)
   {
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::InitCanon ()
+  LIBRARY_API CanonReturn CrpiRobotiq::InitCanon ()
   {
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::Message (char *message)
+  LIBRARY_API CanonReturn CrpiRobotiq::Message (const char *message)
   {
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::MoveStraightTo (robotPose pose)
+  LIBRARY_API CanonReturn CrpiRobotiq::MoveStraightTo (robotPose pose)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::MoveThroughTo (robotPose *poses,
+  LIBRARY_API CanonReturn CrpiRobotiq::MoveThroughTo (robotPose *poses,
                                                    int numPoses,
                                                    robotPose *accelerations,
                                                    robotPose *speeds,
@@ -262,13 +262,13 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::MoveTo (robotPose pose)
+  LIBRARY_API CanonReturn CrpiRobotiq::MoveTo (robotPose pose)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::Decouple (char *targetID)
+  LIBRARY_API CanonReturn CrpiRobotiq::Decouple (const char *targetID)
   {
     if (strcmp(targetID, configName) != 0)
     {
@@ -284,91 +284,91 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::GetRobotAxes (robotAxes *axes)
+  LIBRARY_API CanonReturn CrpiRobotiq::GetRobotAxes (robotAxes *axes)
   {
     //! TODO
     return CANON_FAILURE;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::GetRobotPose (robotPose *pose)
+  LIBRARY_API CanonReturn CrpiRobotiq::GetRobotPose (robotPose *pose)
   {
     return CANON_REJECT;
   }
 
-  LIBRARY_API CanonReturn CrclRobotiq::GetRobotIO (robotIO *io)
+  LIBRARY_API CanonReturn CrpiRobotiq::GetRobotIO (robotIO *io)
   {
     return CANON_REJECT;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::MoveAttractor (robotPose pose)
+  LIBRARY_API CanonReturn CrpiRobotiq::MoveAttractor (robotPose pose)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::MoveToAxisTarget (robotAxes axes)
+  LIBRARY_API CanonReturn CrpiRobotiq::MoveToAxisTarget (robotAxes axes)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::RunProgram (char *programName, CRCLProgramParams params)
+  LIBRARY_API CanonReturn CrpiRobotiq::RunProgram (const char *programName, CRPIProgramParams params)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetAbsoluteAcceleration (double tolerance)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetAbsoluteAcceleration (double tolerance)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetAbsoluteSpeed (double speed)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetAbsoluteSpeed (double speed)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetAngleUnits (char *unitName)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetAngleUnits (const char *unitName)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetAxialSpeeds (double *speeds)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetAxialSpeeds (double *speeds)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetAxialUnits (char **unitNames)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetAxialUnits (const char **unitNames)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetEndPoseTolerance (robotPose tolerances)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetEndPoseTolerance (robotPose tolerances)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetIntermediatePoseTolerance (robotPose *tolerances)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetIntermediatePoseTolerance (robotPose *tolerances)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetLengthUnits (char *unitName)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetLengthUnits (const char *unitName)
   {
     return CANON_SUCCESS;
   }
 
 
- LIBRARY_API CanonReturn CrclRobotiq::SetParameter (char *paramName, void *paramVal)
+ LIBRARY_API CanonReturn CrpiRobotiq::SetParameter (const char *paramName, void *paramVal)
   {
     int *temp_int = (int*) paramVal;
 
@@ -466,19 +466,26 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetRelativeAcceleration (double percent)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetRelativeAcceleration (double percent)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::SetRelativeSpeed (double percent)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetRelativeSpeed (double percent)
   {
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclRobotiq::StopMotion (int condition)
+  LIBRARY_API CanonReturn CrpiRobotiq::SetRobotIO (robotIO io)
+  {
+    //! TODO
+    return CANON_REJECT;
+  }
+
+
+  LIBRARY_API CanonReturn CrpiRobotiq::StopMotion (int condition)
   {
     return CANON_SUCCESS;
   }

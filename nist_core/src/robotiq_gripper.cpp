@@ -1,3 +1,5 @@
+// Interface to Robotiq Gripper - Falco
+
 #include "nist_core/robotiq_gripper.h"
 #include <string.h>
 #include <iostream>
@@ -127,8 +129,8 @@ namespace RobotiqGripper
 
 	void LIBRARY_API RobotiqGripper::setForceFingerA(int force)
 	{
-		if (force < 0) force = 0; // no negative speeds
-		else if (force > 255) force = 255; // max speed
+		if (force < 0) force = 0; // no negative force
+		else if (force > 255) force = 255; // max force
 		unsigned char y = force;
 		commandRegister[18]=y;
 	}
@@ -151,8 +153,8 @@ namespace RobotiqGripper
 
 	void LIBRARY_API RobotiqGripper::setForceFingerB(int force)
 	{
-		if (force < 0) force = 0; // no negative speeds
-		else if (force > 255) force = 255; // max speed
+		if (force < 0) force = 0; // no negative force
+		else if (force > 255) force = 255; // max force
 		unsigned char y = force;
 		commandRegister[21]=y;
 	}
@@ -175,8 +177,8 @@ namespace RobotiqGripper
 
 	void LIBRARY_API RobotiqGripper::setForceFingerC(int force)
 	{
-		if (force < 0) force = 0; // no negative speeds
-		else if (force > 255) force = 255; // max speed
+		if (force < 0) force = 0; // no negative force
+		else if (force > 255) force = 255; // max force
 		unsigned char y = force;
 		commandRegister[24]=y;
 	}

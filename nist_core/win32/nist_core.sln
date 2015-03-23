@@ -4,14 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nist_core", "nist_core\nist_core.vcxproj", "{ABAEDC09-C3D7-4256-A7B6-19D63702D6F6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ulapi_test", "ulapi_test\ulapi_test.vcxproj", "{2DA773B3-D63B-437D-BB23-0E56DF6C1312}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ABAEDC09-C3D7-4256-A7B6-19D63702D6F6} = {ABAEDC09-C3D7-4256-A7B6-19D63702D6F6}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nist_core_dll", "nist_core_dll\nist_core_dll.vcxproj", "{0BCA114B-B5C4-4F0B-8BD4-4CA45E6A3028}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ABAEDC09-C3D7-4256-A7B6-19D63702D6F6} = {ABAEDC09-C3D7-4256-A7B6-19D63702D6F6}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +19,6 @@ Global
 		{2DA773B3-D63B-437D-BB23-0E56DF6C1312}.Debug|Win32.Build.0 = Debug|Win32
 		{2DA773B3-D63B-437D-BB23-0E56DF6C1312}.Release|Win32.ActiveCfg = Release|Win32
 		{2DA773B3-D63B-437D-BB23-0E56DF6C1312}.Release|Win32.Build.0 = Release|Win32
-		{0BCA114B-B5C4-4F0B-8BD4-4CA45E6A3028}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0BCA114B-B5C4-4F0B-8BD4-4CA45E6A3028}.Debug|Win32.Build.0 = Debug|Win32
-		{0BCA114B-B5C4-4F0B-8BD4-4CA45E6A3028}.Release|Win32.ActiveCfg = Release|Win32
-		{0BCA114B-B5C4-4F0B-8BD4-4CA45E6A3028}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

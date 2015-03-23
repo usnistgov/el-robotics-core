@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Original System: ISD CRCL
+//  Original System: ISD CRPI
 //  Subsystem:       Robot Interface
-//  Workfile:        crcl_kuka_lwr.cpp
+//  Workfile:        crpi_kuka_lwr.cpp
 //  Revision:        1.0 - 13 March, 2014
 //                   1.1 - 16 June, 2014   Updated to use ulapi serial drivers
 //  Author:          J. Marvel
@@ -13,7 +13,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "nist_core/crcl_kuka_lwr.h"
+#include "nist_core/crpi_kuka_lwr.h"
 #include <fstream>
 
 //#define STATIC_ //! Uncomment this line if you want to hard code the serial port (debugging purposes only)
@@ -21,10 +21,26 @@
 using namespace std;
 //#define LWR_NOISY
 
-namespace crcl_robot
+namespace crpi_robot
 {
-  LIBRARY_API CrclKukaLWR::CrclKukaLWR (char *initPath) :
-    acceptCRCL_(false)
+  void livemanLWR (void *param)
+  {
+    keepalive *ka = (keepalive*)param;
+    robotPose pose;
+
+    while (ka->runThread)
+    {
+      ((CrpiKukaLWR*)ka->rob)->GetRobotPose (&pose);
+
+      //! Don't slam your processor!  You don't need to poll at full speed.
+      Sleep (5000);
+    }
+    return;
+  }
+
+
+  LIBRARY_API CrpiKukaLWR::CrpiKukaLWR (char *initPath) :
+    acceptCRPI_(false)
   {
     mssgBuffer_ = new char[8192];
     int val;
@@ -137,7 +153,18 @@ namespace crcl_robot
       else if (val == 2)
       {
         //! Use TCP
-        //! TODO
+        serialUsed_ = false;
+        in.getline(IPAddr_, 16);
+        in >> val;
+
+        server_ = ulapi_socket_get_client_id (val, IPAddr_);
+
+        task = ulapi_task_new();
+        ka_.handle = ulapi_mutex_new(99);
+        ka_.rob = this;
+        ka_.runThread = true;
+
+        ulapi_task_start((ulapi_task_struct*)task, livemanLWR, &ka_, ulapi_prio_lowest(), 0);
       }
     } // if (initPath != NULL)
     else
@@ -156,7 +183,7 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CrclKukaLWR::~CrclKukaLWR ()
+  LIBRARY_API CrpiKukaLWR::~CrpiKukaLWR ()
   {
     delete [] mssgBuffer_;
     delete [] feedback_;
@@ -169,10 +196,14 @@ namespace crcl_robot
       ulapi_serial_delete(serialID_);
 #endif
     }
+    else
+    {
+      ulapi_socket_close(server_);
+    }
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetTool (double percent)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetTool (double percent)
   {
     if (generateTool ('B', percent))
     {
@@ -205,7 +236,7 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::Couple (char *targetID)
+  LIBRARY_API CanonReturn CrpiKukaLWR::Couple (const char *targetID)
   {
     if ((strcmp(targetID, "gripper_gear") == 0) || (strcmp(targetID, "gripper_top_cover") == 0) ||
 
@@ -244,9 +275,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::Dwell (int *events, double *params, int numEvents)
+  LIBRARY_API CanonReturn CrpiKukaLWR::Dwell (int *events, double *params, int numEvents)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -255,30 +286,30 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::EndCanon (int reason)
+  LIBRARY_API CanonReturn CrpiKukaLWR::EndCanon (int reason)
   {
-    acceptCRCL_ = false;
+    acceptCRPI_ = false;
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::InitCanon ()
+  LIBRARY_API CanonReturn CrpiKukaLWR::InitCanon ()
   {
-    acceptCRCL_ = true;
+    acceptCRPI_ = true;
     return CANON_SUCCESS;
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::Message (char *message)
+  LIBRARY_API CanonReturn CrpiKukaLWR::Message (const char *message)
   {
     //! The KR C2 controller cannot display a message on the teach pendant, it seems
     return CANON_REJECT;
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::MoveStraightTo (robotPose pose)
+  LIBRARY_API CanonReturn CrpiKukaLWR::MoveStraightTo (robotPose pose)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -324,13 +355,13 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::MoveThroughTo (robotPose *poses,
+  LIBRARY_API CanonReturn CrpiKukaLWR::MoveThroughTo (robotPose *poses,
                                                    int numPoses,
                                                    robotPose *accelerations,
                                                    robotPose *speeds,
                                                    robotPose *tolerances)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -353,9 +384,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::MoveTo (robotPose pose)
+  LIBRARY_API CanonReturn CrpiKukaLWR::MoveTo (robotPose pose)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -402,16 +433,16 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::Decouple (char *targetID)
+  LIBRARY_API CanonReturn CrpiKukaLWR::Decouple (const char *targetID)
   {
     //! Our LWR does not have an automatic tool changer or any coupling capabilities
     return CANON_REJECT;
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::GetRobotAxes (robotAxes *axes)
+  LIBRARY_API CanonReturn CrpiKukaLWR::GetRobotAxes (robotAxes *axes)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -461,9 +492,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::GetRobotPose (robotPose *pose)
+  LIBRARY_API CanonReturn CrpiKukaLWR::GetRobotPose (robotPose *pose)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -514,7 +545,7 @@ namespace crcl_robot
     return CANON_SUCCESS;
   }
 
-  LIBRARY_API CanonReturn CrclKukaLWR::GetRobotIO (robotIO *io)
+  LIBRARY_API CanonReturn CrpiKukaLWR::GetRobotIO (robotIO *io)
   {
     //! TODO
     return CANON_FAILURE;
@@ -522,9 +553,9 @@ namespace crcl_robot
 
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::MoveAttractor (robotPose pose)
+  LIBRARY_API CanonReturn CrpiKukaLWR::MoveAttractor (robotPose pose)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -569,9 +600,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::MoveToAxisTarget (robotAxes axes)
+  LIBRARY_API CanonReturn CrpiKukaLWR::MoveToAxisTarget (robotAxes axes)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -607,9 +638,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::RunProgram (char *programName, CRCLProgramParams params)
+  LIBRARY_API CanonReturn CrpiKukaLWR::RunProgram (const char *programName, CRPIProgramParams params)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -619,9 +650,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetAbsoluteAcceleration (double tolerance)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetAbsoluteAcceleration (double tolerance)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -631,9 +662,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetAbsoluteSpeed (double speed)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetAbsoluteSpeed (double speed)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -643,9 +674,9 @@ namespace crcl_robot
   }
 
 //  ("degree" or "radian")
-  LIBRARY_API CanonReturn CrclKukaLWR::SetAngleUnits (char *unitName)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetAngleUnits (const char *unitName)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -655,9 +686,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetAxialSpeeds (double *speeds)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetAxialSpeeds (double *speeds)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -667,9 +698,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetAxialUnits (char **unitNames)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetAxialUnits (const char **unitNames)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -679,9 +710,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetEndPoseTolerance (robotPose tolerances)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetEndPoseTolerance (robotPose tolerances)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -691,15 +722,15 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetIntermediatePoseTolerance (robotPose *tolerances)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetIntermediatePoseTolerance (robotPose *tolerances)
   {
     return CANON_REJECT;
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetLengthUnits (char *unitName)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetLengthUnits (const char *unitName)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -709,9 +740,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetParameter (char *paramName, void *paramVal)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetParameter (const char *paramName, void *paramVal)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -721,9 +752,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetRelativeAcceleration (double percent)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetRelativeAcceleration (double percent)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -733,9 +764,9 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::SetRelativeSpeed (double percent)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetRelativeSpeed (double percent)
   {
-    if (!acceptCRCL_)
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -745,9 +776,16 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API CanonReturn CrclKukaLWR::StopMotion (int condition)
+  LIBRARY_API CanonReturn CrpiKukaLWR::SetRobotIO (robotIO io)
   {
-    if (!acceptCRCL_)
+    //! TODO
+    return CANON_REJECT;
+  }
+
+
+  LIBRARY_API CanonReturn CrpiKukaLWR::StopMotion (int condition)
+  {
+    if (!acceptCRPI_)
     {
       return CANON_REJECT;
     }
@@ -757,7 +795,7 @@ namespace crcl_robot
   }
   
 
-  LIBRARY_API bool CrclKukaLWR::generateMove (char moveType, char posType, char deltaType, vector<double> &input)
+  LIBRARY_API bool CrpiKukaLWR::generateMove (char moveType, char posType, char deltaType, vector<double> &input)
   {
     bool state = true;
     size_t found;
@@ -829,7 +867,7 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API bool CrclKukaLWR::generateTool (char mode, double value)
+  LIBRARY_API bool CrpiKukaLWR::generateTool (char mode, double value)
   {
     if (!(mode == 'B' || mode == 'A'  || mode == 'D'))
     {
@@ -867,7 +905,7 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API bool CrclKukaLWR::generateFeedback (char retType)
+  LIBRARY_API bool CrpiKukaLWR::generateFeedback (char retType)
   {
     if (retType != 'C' && retType != 'A' && retType != 'F' && retType != 'T' && retType != 'S')
     {
@@ -882,7 +920,7 @@ namespace crcl_robot
   }
 
 
-  LIBRARY_API bool CrclKukaLWR::generateParameter (char paramType, char subType, vector<double> &input)
+  LIBRARY_API bool CrpiKukaLWR::generateParameter (char paramType, char subType, vector<double> &input)
   {
     size_t found;
     int j = 0, currLength = 0;
@@ -955,42 +993,50 @@ namespace crcl_robot
   }
 
   
-  LIBRARY_API bool CrclKukaLWR::send ()
+  LIBRARY_API bool CrpiKukaLWR::send ()
   {
     int x;
-      //! Send message to robot via serial
-      if (serialUsed_)
-      {
+    
 #ifdef LWR_NOISY
-        printf ("Sending message %s\n", moveMe_.str().c_str());
+      printf ("Sending message %s\n", moveMe_.str().c_str());
 #endif
-        fflush(NULL);
+    fflush(NULL);
+    if (serialUsed_)
+    {
+      //! Use Serial
 #ifdef OLDSERIAL
-        serial_->sendData(moveMe_.str().c_str(), serialData_);
+      serial_->sendData(moveMe_.str().c_str(), serialData_);
 #else
-        x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str())+1);
+      x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str())+1);
 #ifdef LWR_NOISY
-        printf ("%i\n", x);
+      printf ("%i\n", x);
 #endif
 #endif
-        return true;
-      }
-      else
-      {
-        //! TODO
-        return false;
-      }
+      return true;
+    }
+    else
+    {
+      //! Use TCP/IP
+      x = ulapi_socket_write(server_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str())+1);
+#ifdef LWR_NOISY
+      printf ("%i\n", x);
+#endif
+      return true;
+    }
   }
 
 
-  LIBRARY_API bool CrclKukaLWR::get ()
+  LIBRARY_API bool CrpiKukaLWR::get ()
   {
     int x = 0;
-    if (serialUsed_)
-    {
+
 #ifdef LWR_NOISY
       printf ("getting feedback...\n");
 #endif
+
+    if (serialUsed_)
+    {
+      //! Use serial
 #ifdef OLDSERIAL
       serial_->getData (mssgBuffer_, serialData_, 285);
 #else
@@ -999,18 +1045,21 @@ namespace crcl_robot
 #ifdef LWR_NOISY
       printf ("%d %s read\n", x, mssgBuffer_);
 #endif
-
       return true;
     }
     else
     {
-      //! TODO
+      //! Use TCP/IP
+      x = ulapi_socket_read(server_, mssgBuffer_, 8192);
+#ifdef LWR_NOISY
+      printf ("%d %s read\n", x, mssgBuffer_);
+#endif
       return false;
     }
   }
 
 
-  LIBRARY_API bool CrclKukaLWR::parseFeedback ()
+  LIBRARY_API bool CrpiKukaLWR::parseFeedback ()
   {
     bool newItem = false;
     int index = -1, i;
@@ -1050,4 +1099,4 @@ namespace crcl_robot
     return true;
   }
 
-} // crcl_robot
+} // crpi_robot

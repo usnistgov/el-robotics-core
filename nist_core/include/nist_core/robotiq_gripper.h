@@ -4,7 +4,7 @@
 
 #include "ulapi.h"
 #include "nist_core/nist_core.h"
-#include "nist_core/crcl.h"
+#include "nist_core/crpi.h"
 //#include "nist_core/socknet.h"
 
 #pragma warning (disable: 4251)

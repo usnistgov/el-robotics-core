@@ -1,21 +1,21 @@
-#ifndef CRCL_CLIENT_H
-#define CRCL_CLIENT_H
+#ifndef CRCL_SIM_ROBOT_H
+#define CRCL_SIM_ROBOT_H
 
-#include <ulapi.h>		/* ulapi_mutex_struct */
+#include <ulapi.h>
 
+#include "nist_core/nist_core.h" /* LIBRARY_API */
 #include "nist_core/crcl.h" /* robotPose, robotAxes, CRCLProgramParams */
-#include "nist_core/crcl_robot.h"
+#include "nist_core/crcl_robot.h" /* CRCL_Robot */
 
-#define CRCL_CLIENT_HOST_DEFAULT "localhost"
-#define CRCL_CLIENT_CMD_PORT_DEFAULT 1234
-#define CRCL_CLIENT_STAT_PORT_DEFAULT 1235
+#define CRCL_SIM_PERIOD_DEFAULT 0.100 /* seconds per simulation period */
 
 namespace crcl_robot {
 
-  class LIBRARY_API CrclClient {
+  class LIBRARY_API CrclSimRobot {
   public:
-    CrclClient();
-    ~CrclClient();
+    CrclSimRobot(char *init_path);
+    CrclSimRobot(double period);
+    ~CrclSimRobot();
 
     CanonReturn Couple (char *targetID);
     CanonReturn Dwell (int *events, double *params, int numEvents);
@@ -49,36 +49,24 @@ namespace crcl_robot {
     CanonReturn StopMotion (int condition);
 
     // extensions
-
     CanonReturn GetTool (double *percent);
     CanonReturn GetStatus (robotPose *pose, robotAxes *axes, double *percent);
-
-    bool connect(const char *host, int cmd_port, int stat_port);
-    bool connect();
-    bool isConnected();
-    CanonReturn getCmdResult();
-    CanonReturn getStatResult();
-    void startCmd();
-    bool cmdDone();
-    void startStat();
-    bool statDone();
+    double setPeriod(double period);
+    double getPeriod();
 
   private:
 
     ulapi_mutex_struct mutex;
-    int cmd_socket;
-    int stat_socket;
-    bool connected;
-    CanonReturn cmdResult;
-    CanonReturn statResult;
-    bool cmdDoneFlag;
-    bool statDoneFlag;
-
-    CanonReturn setCmdResult(const char *str);
-    CanonReturn setStatResult(const char *str);
+    robotPose simPose;
+    double relativeSpeed;
+    double absoluteSpeed;
+    double relativeAcceleration;
+    double absoluteAcceleration;
+    double toolSetting;
+    double period;
   };
 
-}      /* namespace crcl_robot */
+} /* namespace crcl_robot */
 
-#endif	/* CRCL_CLIENT_H */
+#endif	/* CRCL_SIM_ROBOT_H */
 

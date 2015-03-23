@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Original System: ISD CRCL
+//  Original System: ISD CRPI
 //  Subsystem:       Serial Communications
 //  Workfile:        serial.h
 //  Revision:        1.0 - 18 March, 2014
@@ -15,20 +15,10 @@
 #ifndef serial_h
 #define serial_h
 
-#ifdef WIN32
-
 #include <windows.h>
 
-#else
-
-typedef void *HANDLE;
-typedef int DCB;
-typedef int DWORD;
-
-#endif
-
 #include "nist_core/nist_core.h"
-#include "nist_core/crcl.h"
+#include "nist_core/crpi.h"
 
 #include <cstdio>
 

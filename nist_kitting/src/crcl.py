@@ -324,7 +324,7 @@ class SetEndEffectorType(CRCLCommandType):
     def tree(self, root=None):
         root, el = wrapIt(root, "SetEndEffectorType")
         super(SetEndEffectorType, self).tree(el)
-        ET.SubElement(el, "NumPositions").text = str(self.Setting)
+        ET.SubElement(el, "Setting").text = str(self.Setting)
         return ET.ElementTree(root)
 
     def set(self, Setting):

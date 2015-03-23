@@ -165,6 +165,21 @@ while not done:
     if cmd == "q": break
     elif cmd == "h": print "help"
 
+    elif cmd == "open":
+        gripper_cid += 1
+        m = OpenToolChangerType(gripper_cid)
+        gripper_socket.send(str(m))
+
+    elif cmd == "close":
+        try:
+            name = toks[1]
+        except:
+            print "need a gripper name"
+            continue
+        gripper_cid += 1
+        m = CloseToolChangerType(gripper_cid, Name=name)
+        gripper_socket.send(str(m))
+
     elif cmd == "set":
         try:
             val = float(toks[1])
@@ -172,7 +187,7 @@ while not done:
             print "need a gripper value"
             continue
         gripper_cid += 1
-        m = SetEndEffectorParametersType(gripper_cid, ParameterSettingType("set", val))
+        m = SetEndEffectorType(gripper_cid, val)
         gripper_socket.send(str(m))
         
     elif cmd == "move":

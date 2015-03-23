@@ -106,23 +106,32 @@ def handleOpenToolChangerType(child):
     if DEBUG: print "handleOpenToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
-    print CommandID
+    print CommandID, "open"
 
 def handleCloseToolChangerType(child):
     global DEBUG, CommandID, StatusID, CommandState
     if DEBUG: print "handleCloseToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
-    print CommandID
+    name = child.findtext("Name")
+    print CommandID, "close", name
 
 def handleSetEndEffectorParametersType(child):
     global DEBUG, CommandID, StatusID, CommandState
     if DEBUG: print "handleSetEndEffectorParametersType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
-    print CommandID
+    print CommandID, "params:"
     for i in child.findall("ParameterSetting"):
         print i.findtext("ParameterName"), "=", i.findtext("ParameterValue")
+
+def handleSetEndEffectorType(child):
+    global DEBUG, CommandID, StatusID, CommandState
+    if DEBUG: print "handleSetEndEffectorType"
+    CommandID = child.findtext("CommandID")
+    CommandState = CommandStateType.DONE
+    setting = child.findtext("Setting")
+    print CommandID, "set", setting
 
 # -- Command reader ---
 
@@ -157,6 +166,8 @@ def reader(conn):
                     handleCloseToolChangerType(child)
                 elif cmd == "SetEndEffectorParametersType":
                     handleSetEndEffectorParametersType(child)
+                elif cmd == "SetEndEffectorType":
+                    handleSetEndEffectorType(child)
                 else:
                     # unknown command
                     print NAME, ": unknown command :", cmd

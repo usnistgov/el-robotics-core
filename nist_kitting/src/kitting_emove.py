@@ -144,31 +144,53 @@ def get_pose(part):
     except: pass
     return False, 0, 0, 0
 
+# FIXME -- get orientations of kits and slots
+
 def get_kit(kit):
     global NOCHECK, DEBUG, AprsDB
-    if NOCHECK: return True, 0, 0, 0
+    if NOCHECK: return True, PoseLocationType(PointType(0,0,0), VectorType(1,0,0), VectorType(0,0,1))
     try:
-        ret = AprsDB.read("select hasPoint_X, hasPoint_Y, hasPoint_Z from Point where _NAME = (select hasPoseLocation_Point from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"" + kit + "\"))")
-        for toks in ret:
+        xyz = AprsDB.read("select hasPoint_X, hasPoint_Y, hasPoint_Z from Point where _NAME = (select hasPoseLocation_Point from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"" + kit + "\"))")
+        for toks in xyz:
             x = float(toks[0])
             y = float(toks[1])
             z = float(toks[2])
-        return True, x, y, z
+        xijk = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPoseLocation_XAxis from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"" + kit + "\"))")
+        for toks in xijk:
+            xi = float(toks[0])
+            xj = float(toks[1])
+            xk = float(toks[2])
+        zijk = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPoseLocation_ZAxis from PoseLocation where _NAME = (select hasSolidObject_PrimaryLocation from SolidObject where _NAME = \"" + kit + "\"))")
+        for toks in zijk:
+            zi = float(toks[0])
+            zj = float(toks[1])
+            zk = float(toks[2])
+        return True, PoseLocationType(PointType(x,y,z), VectorType(xi,xj,xk), VectorType(zi,zj,zk))
     except: pass
-    return False, 0, 0, 0
+    return False, PoseLocationType(PointType(0,0,0), VectorType(1,0,0), VectorType(0,0,1))
 
 def get_slot(slot):
     global NOCHECK, DEBUG, AprsDB
-    if NOCHECK: return True, 0, 0, 0
+    if NOCHECK: return True, PoseLocationType(PointType(0,0,0), VectorType(1,0,0), VectorType(0,0,1))
     try:
-        ret = AprsDB.read("select hasPoint_X, hasPoint_Y, hasPoint_Z from Point where _NAME = (select hasPartRefAndPose_Point from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"))")
-        for toks in ret:
+        xyz = AprsDB.read("select hasPoint_X, hasPoint_Y, hasPoint_Z from Point where _NAME = (select hasPartRefAndPose_Point from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"))")
+        for toks in xyz:
             x = float(toks[0])
             y = float(toks[1])
             z = float(toks[2])
-        return True, x, y, z
+        xijk = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPartRefAndPose_XAxis from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"))")
+        for toks in xijk:
+            xi = float(toks[0])
+            xj = float(toks[1])
+            xk = float(toks[2])
+        zijk = AprsDB.read("select hasVector_I, hasVector_J, hasVector_K from Vector where _NAME = (select hasPartRefAndPose_ZAxis from PartRefAndPose where _NAME = (select hasSlot_PartRefAndPose from Slot where _NAME = \"" + slot + "\"))")
+        for toks in zijk:
+            zi = float(toks[0])
+            zj = float(toks[1])
+            zk = float(toks[2])
+        return True, PoseLocationType(PointType(x,y,z), VectorType(xi,xj,xk), VectorType(zi,zj,zk))
     except: pass
-    return False, 0, 0, 0
+    return False, PoseLocationType(PointType(0,0,0), VectorType(1,0,0), VectorType(0,0,1))
 
 def Create_Kit(toks, robot_port, gripper_port):
     # (create-kit kit_gearbox_1top1bottom1medium kit_design_gearbox_1top1bottom1medium kit_gearbox_1top1bottom1medium_tray work_table_1)
@@ -225,16 +247,6 @@ def Place_Part(toks, robot_port, gripper_port):
     startloc = toks[4]
     endloc = startloc
 
-    ret, x, y, z = get_kit(kit)
-    if DEBUG: 
-        if ret == False: print kit, "not found"
-        else: print kit, "is at", x, y, z
-
-    ret, x, y, z = get_slot(slot)
-    if DEBUG: 
-        if ret == False: print slot, "not found"
-        else: print slot, "is at", x, y, z
-
     # //! Configure gripper for pre-grasp
     # pm.demo->Decouple(curtool);
     gripper_cid += 1
@@ -283,11 +295,21 @@ def Place_Part(toks, robot_port, gripper_port):
 
     # //! Move over the part at z position
     # pm.demo->MoveTo (poseMe)
-    ret, x, y, z = check_predicate(sku, endloc)
-    if not ret: return False
-    ret, x, y, z = get_pose(part)
+
+    ret, kitPose = get_kit(kit)
+    if DEBUG: 
+        if ret == False: print kit, "not found"
+        else: print kit, "is at", kitPose
+
+    ret, slotPose = get_slot(slot)
+    if DEBUG: 
+        if ret == False: print slot, "not found"
+        else: print slot, "is at", slotPose
+
+    fullPose = PosePoseMult(kitPose, slotPose)
+
     robot_cid += 1
-    m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS))
+    m = MoveToType(robot_cid, False, fullPose)
     robot_port.send(str(m))
     EmoveStatMsg.crcl = "MoveTo"
     if robot_poll(robot_cid, 10) != CommandStateType.DONE: return False

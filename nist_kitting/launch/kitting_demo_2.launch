@@ -9,6 +9,7 @@
 <arg name="inifile_name" default="ini.ini" />
 <arg name="nocheck" default="" />
 <arg name="debug" default="" />
+<arg name="ws_all" default="" />
 
 <group>
 
@@ -20,7 +21,7 @@
 
   <node pkg="nist_kitting" name="pl_hi" args="-i $(arg inifile_name)" type="kitting_pl_hi_node" output="screen"/>
 
-  <node pkg="nist_kitting" name="hmi_proxy" args="-i $(arg inifile_name) -d" type="kitting_hmi_proxy" output="screen"/>
+  <node pkg="nist_kitting" name="hmi_proxy" args="-i $(arg inifile_name) $(arg debug) $(arg ws_all)" type="kitting_hmi_proxy" output="screen"/>
 
   <node pkg="nist_kitting" name="hmi" args="-i $(arg inifile_name)" type="kitting_hmi.py" output="screen" required="true"/>
 

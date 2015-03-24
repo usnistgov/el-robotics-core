@@ -159,7 +159,10 @@ while not done:
     if not line:
         break
     toks = line.split()
-    if len(toks) == 0: continue
+    if len(toks) == 0:
+        print RobotCommandID, RobotCommandState
+        print GripperCommandID, GripperCommandState
+        continue
 
     cmd = toks[0]
     if cmd == "q": break

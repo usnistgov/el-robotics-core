@@ -21,6 +21,10 @@
 enum {WS_PORT_DEFAULT = 6066,
       EMOVE_PORT_DEFAULT = 6067};
 
+// FIXME -- ipad
+// true if all status gets written to the workstation socket also
+static bool ws_all = false;
+
 static bool debug = false;
 
 static std::string inifile_name("");
@@ -119,6 +123,10 @@ static void ws_client_write_task_code(ws_client_write_task_args *args)
   char outbuf[OUTBUF_SIZE];
   int nchars;
   nist_kitting::ws_stat ws_stat;
+  // FIXME -- ipad
+  char addbuf[OUTBUF_SIZE];
+  char bothbuf[OUTBUF_SIZE + OUTBUF_SIZE];
+  nist_kitting::emove_stat emove_stat;
 
   task = args->task;
   id = args->id;
@@ -130,6 +138,10 @@ static void ws_client_write_task_code(ws_client_write_task_args *args)
     ulapi_mutex_take(&ws_stat_mutex);
     ws_stat = ws_stat_buf;
     ulapi_mutex_give(&ws_stat_mutex);
+    // FIXME -- ipad
+    ulapi_mutex_take(&emove_stat_mutex);
+    emove_stat = emove_stat_buf;
+    ulapi_mutex_give(&emove_stat_mutex);
 
     /*
       uint8 type
@@ -152,8 +164,26 @@ static void ws_client_write_task_code(ws_client_write_task_args *args)
 		   rcs_state_to_string(ws_stat.stat.state),
 		   rcs_status_to_string(ws_stat.stat.status),
 		   ws_stat.stat.heartbeat);
-    outbuf[sizeof(outbuf)-1] = 0;
-    nchars = ulapi_socket_write(id, outbuf, strlen(outbuf));
+
+    if (ws_all) {
+      ulapi_snprintf(addbuf, sizeof(addbuf), "%s %d %s %s %d %s %s %s\n",
+		     kitting_cmd_to_string(emove_stat.stat.type),
+		     emove_stat.stat.serial_number,
+		     rcs_state_to_string(emove_stat.stat.state),
+		     rcs_status_to_string(emove_stat.stat.status),
+		     emove_stat.stat.heartbeat,
+		     emove_stat.name.c_str(), emove_stat.line.c_str(), emove_stat.crcl.c_str());
+      strcpy(bothbuf, outbuf);
+      strcat(bothbuf, addbuf);
+    }
+
+    if (ws_all) {		// FIXME -- ipad
+      bothbuf[sizeof(bothbuf)-1] = 0;
+      nchars = ulapi_socket_write(id, bothbuf, strlen(bothbuf));
+    } else {
+      outbuf[sizeof(outbuf)-1] = 0;
+      nchars = ulapi_socket_write(id, outbuf, strlen(outbuf));
+    }
     if (nchars <= 0) break;
 
     ulapi_wait(period_nsecs);
@@ -348,6 +378,8 @@ static void print_help()
   printf("  -w <#>       : socket port to serve for HMI WS connections\n");
   printf("  -e <#>       : socket port to serve for HMI Emove connections\n");
   printf("  -t <secs>    : period between status writes, in seconds\n");
+  // FIXME -- ipad
+  printf("  -W           : put all status on the WS socket also\n");
   printf("  -h           : print this help\n");
   printf("  -d           : turn debug on\n");
 }
@@ -377,7 +409,7 @@ int main(int argc, char *argv[])
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":i:n:p:t:hd");
+    option = getopt(argc, argv, ":i:n:p:t:Whd");
     if (option == -1) break;
 
     switch (option) {
@@ -411,6 +443,11 @@ int main(int argc, char *argv[])
 	return 1;
       }
       period = dval;
+      break;
+
+      // FIXME -- ipad
+    case 'W':
+      ws_all = true;
       break;
 
     case 'h':

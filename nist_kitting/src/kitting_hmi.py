@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, socket, time, threading, ConfigParser
+import sys, os, getopt, socket, time, threading, ConfigParser
 from Tkinter import *
 from MySQLdbConn import *
 
@@ -277,9 +277,11 @@ class App(object):
             else:
                 try:
                     msg = self.emoveSock.recv(self.MSG_LEN)
+# Should be something like this:
+# EmoveRun 21 S0 Done 82 /usr/local/iora/PDDLplans/plan.txt place-kit MoveTo
                     msglist = msg.split()
                     if len(msglist) >= 6:
-                        stuff = msglist[0] + " " + msglist[3] + " " + msglist[5]
+                        stuff = msglist[3] + " " + os.path.basename(msglist[5]) + " " + msglist[6] + " " + msglist[7]
                         self.emoveVar.set(stuff)
                 except IOError as err:
                     self.diagsVar.set(str(err))

@@ -473,6 +473,21 @@ statdict = {
     3 : "Error"
     }
 
+statedict = {
+    0 : "Uninitialized",
+    1 : "NewCommand",
+    10 : "S0",
+    11 : "S1",
+    12 : "S2",
+    13 : "S3",
+    14 : "S4",
+    15 : "S5",
+    16 : "S6",
+    17 : "S7",
+    18 : "S8",
+    19 : "S9"
+    }
+
 def run_plan(plan_file):
     global DEBUG, EmoveStatMsg
     if DEBUG: print "kitting_emove: running ", plan_file
@@ -652,6 +667,7 @@ def main_loop():
     pub = rospy.Publisher("kitting_emove_stat", emove_stat, queue_size=1)
     rate = rospy.Rate(4)
     EmoveStatMsg.stat.heartbeat = 0
+    EmoveStatMsg.stat.state = 10;
     while not rospy.is_shutdown():
         EmoveStatMsg.stat.heartbeat += 1
         if EmoveStatMsg.stat.heartbeat >= 255: EmoveStatMsg.stat.heartbeat = 0

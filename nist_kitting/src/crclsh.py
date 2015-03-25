@@ -270,14 +270,19 @@ while not done:
             x = float(toks[1])
             y = float(toks[2])
             z = float(toks[3])
+            xi = float(toks[4])
+            xj = float(toks[5])
+            xk = float(toks[6])
+            zi = float(toks[7])
+            zj = float(toks[8])
+            zk = float(toks[9])
         except:
-            print "need x y z"
+            print "need x y z xi xj xk zi zj zk"
             continue
         robot_cid += 1
-        m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z),VectorType(-0.093809,0.994010,-0.056074),VectorType(-0.045748,-0.060567,-0.997115)))
-
+        m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), VectorType(xi, xj, xk), VectorType(zi, zj, zk)))
         robot_socket.send(str(m))
 
     else:
-        print line
+        print "?:", line
 

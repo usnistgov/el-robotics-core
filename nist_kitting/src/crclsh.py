@@ -14,20 +14,51 @@ XAXIS = VectorType(1, 0, 0)
 ZAXIS = VectorType(0, 0, 1)
 
 RobotCommandID = 0
+RobotStatusID = 0
 RobotCommandState = CommandStateType.READY
-RobotPose = PoseLocationType(PointType(0,0,0), XAXIS, ZAXIS)
+RobotPose = PoseLocationType()
 
 GripperCommandID = 0
+GripperStatusID = 0
 GripperCommandState = CommandStateType.READY
 
+def printStatus():
+    global RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
+    global GripperCommandID, GripperStatusID, GripperCommandState
+    print RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
+    print GripperCommandID, GripperStatusID, GripperCommandState
+
+'''
+Kuka LWR status looks like:
+
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\">
+  <CommandStatus>
+    <CommandID>2</CommandID>
+    <StatusID>2322</StatusID>
+    <CommandState>Done</CommandState>
+  </CommandStatus>
+  <Pose>
+    <Point>
+      <X>122.072600</X><Y>-424.659200</Y><Z>507.135200</Z>
+    </Point>
+    <XAxis>
+      <I>-0.418876</I><J>-0.905497</J><K>0.067955</K>
+    </XAxis>
+    <ZAxis>
+      <I>-0.834241</I><J>0.354199</J><K>-0.422593</K>
+    </ZAxis>
+  </Pose>
+</CRCLStatus>
+'''
+
 def robot_reader(conn):
-    global DEBUG, RobotCommandID, RobotCommandState
+    global DEBUG, RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
     size = 1024
     while True:
         try: data = conn.recv(size)
         except: break
         if not data: break
-        # print data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -36,23 +67,34 @@ def robot_reader(conn):
                     if child.tag == "CommandStatus":
                         t = child.findtext("CommandID")
                         if (t != None) and (t != ""): RobotCommandID = int(t)
+                        t = child.findtext("StatusID")
+                        if (t != None) and (t != ""): RobotStatusID = int(t)
                         t = child.findtext("CommandState")
-                        if (t != None) and (t != ""):
-                            RobotCommandState = toCommandStateType(t)
-                        t = child.findtext("Pose") # FIXME
-                        if (t != None): print t
-                        # else Pose, GripperStatus, etc.
-        except:
-            mystr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>2</CommandID><StatusID>2322</StatusID><CommandState>Done</CommandState></CommandStatus><Pose><Point><X>122.072600</X><Y>-424.659200</Y><Z>507.135200</Z></Point><XAxis><I>-0.418876</I><J>-0.905497</J><K>0.067955</K></XAxis><ZAxis><I>-0.834241</I><J>0.354199</J><K>-0.422593</K></ZAxis></Pose></CRCLStatus>"
-            tree = ET.parse(StringIO.StringIO(mystr))
-            root = tree.getroot()
-            # print root.tag
-            # print len(mystr), len(data)
-            # print data
+                        if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
+                    if child.tag == "Pose":
+                        x, y, z = 0, 0, 0
+                        xi, xj, xk = 1, 0, 0
+                        zi, zj, zk = 0, 0, 1
+                        for cc in child:
+                            if cc.tag == "Point":
+                                x = cc.findtext("X")
+                                y = cc.findtext("Y")
+                                z = cc.findtext("Z")
+                            if cc.tag == "XAxis":
+                                xi = cc.findtext("I")
+                                xj = cc.findtext("J")
+                                xk = cc.findtext("K")
+                            if cc.tag == "ZAxis":
+                                zi = cc.findtext("I")
+                                zj = cc.findtext("J")
+                                zk = cc.findtext("K")
+                        RobotPose = PoseLocationType(PointType(x,y,z), VectorType(xi,xj,xk), VectorType(zi,zj,zk))
+        except: pass
+
     conn.close()
 
 def gripper_reader(conn):
-    global DEBUG, GripperCommandID, GripperCommandState
+    global DEBUG, GripperCommandID, GripperStatusID, GripperCommandState
     size = 1024
     while True:
         try: data = conn.recv(size)
@@ -66,6 +108,8 @@ def gripper_reader(conn):
                     if child.tag == "CommandStatus":
                         t = child.findtext("CommandID")
                         if (t != None) and (t != ""): GripperCommandID = int(t)
+                        t = child.findtext("StatusID")
+                        if (t != None) and (t != ""): GripperStatusID = int(t)
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): GripperCommandState = toCommandStateType(t)
                         # else Pose, GripperStatus, etc.
@@ -171,8 +215,7 @@ while not done:
         break
     toks = line.split()
     if len(toks) == 0:
-        print RobotCommandID, RobotCommandState
-        print GripperCommandID, GripperCommandState
+        printStatus()
         continue
 
     cmd = toks[0]
@@ -198,10 +241,17 @@ while not done:
         gripper_cid += 1
         m = InitCanonType(gripper_cid)
         gripper_socket.send(str(m))
+        robot_cid += 1
         m = InitCanonType(robot_cid)
         robot_socket.send(str(m))
 
-
+    elif cmd == "end":
+        gripper_cid += 1
+        m = EndCanonType(gripper_cid)
+        gripper_socket.send(str(m))
+        robot_cid += 1
+        m = EndCanonType(robot_cid)
+        robot_socket.send(str(m))
 
     elif cmd == "set":
         try:
@@ -223,6 +273,7 @@ while not done:
             continue
         robot_cid += 1
         m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z),VectorType(-0.093809,0.994010,-0.056074),VectorType(-0.045748,-0.060567,-0.997115)))
+
         robot_socket.send(str(m))
 
     else:

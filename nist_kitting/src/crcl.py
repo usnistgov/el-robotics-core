@@ -299,7 +299,10 @@ class InitCanonType(MiddleCommandType):
         super(InitCanonType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        root, el = wrapIt(root, "InitCanonType")
+        if root == None:
+            root, el = wrapIt(root, "InitCanonType")
+        else:
+            el = ET.SubElement(root, "InitCanon")
         super(InitCanonType, self).tree(el)
         return ET.ElementTree(root)
 
@@ -309,8 +312,10 @@ class EndCanonType(CRCLCommandType):
         super(EndCanonType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        if root == None: root = ET.Element(None)
-        el = ET.SubElement(root, "EndCanon")
+        if root == None:
+            root, el = wrapIt(root, "EndCanonType")
+        else:
+            el = ET.SubElement(root, "EndCanon")
         super(EndCanonType, self).tree(el)
         return ET.ElementTree(root)
 

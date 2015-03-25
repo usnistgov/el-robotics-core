@@ -18,9 +18,7 @@ DEBUG = False
 CommandID = 0
 StatusID = 0
 CommandState = "Ready"
-
-# the global pose
-Pose = PoseOnlyLocationType()
+Pose = PoseLocationType()
 
 # --- Status writer ---
 
@@ -30,6 +28,7 @@ def writer(conn, period):
     # loop with a delay while a client is connected
     while True:
 
+        StatusID += 1 
         cs = CRCLStatusType(CommandStatusType(CommandID, StatusID, CommandState), Pose)
         tree = cs.tree()
 
@@ -54,8 +53,22 @@ def writer(conn, period):
 
 # --- Message handlers ---
 
+def handleInitCanonType(child):
+    global DEBUG, CommandID, CommandState
+    if DEBUG: print "handleInitCanonType"
+    CommandID = child.findtext("CommandID")
+    CommandState = CommandStateType.DONE
+    print CommandID, "init"
+
+def handleEndCanonType(child):
+    global DEBUG, CommandID, CommandState
+    if DEBUG: print "handleEndCanonType"
+    CommandID = child.findtext("CommandID")
+    CommandState = CommandStateType.DONE
+    print CommandID, "end"
+
 def handleMoveThroughToType(child):
-    global DEBUG, CommandID, StatusID, CommandState, Pose
+    global DEBUG, CommandID, CommandState, Pose
     if DEBUG: print "handleMoveThroughToType"
     
     CommandID = child.findtext("CommandID")
@@ -79,7 +92,7 @@ def handleMoveThroughToType(child):
             CommandState = CommandStateType.ERROR
 
 def handleMoveToType(child):
-    global DEBUG, CommandID, StatusID, CommandState, Pose
+    global DEBUG, CommandID, CommandState, Pose
     if DEBUG: print "handleMoveToType"
     
     CommandID = child.findtext("CommandID")
@@ -102,14 +115,14 @@ def handleMoveToType(child):
         CommandState = CommandStateType.ERROR
 
 def handleOpenToolChangerType(child):
-    global DEBUG, CommandID, StatusID, CommandState
+    global DEBUG, CommandID, CommandState
     if DEBUG: print "handleOpenToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
     print CommandID, "open"
 
 def handleCloseToolChangerType(child):
-    global DEBUG, CommandID, StatusID, CommandState
+    global DEBUG, CommandID, CommandState
     if DEBUG: print "handleCloseToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
@@ -117,7 +130,7 @@ def handleCloseToolChangerType(child):
     print CommandID, "close", name
 
 def handleSetEndEffectorParametersType(child):
-    global DEBUG, CommandID, StatusID, CommandState
+    global DEBUG, CommandID, CommandState
     if DEBUG: print "handleSetEndEffectorParametersType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
@@ -126,7 +139,7 @@ def handleSetEndEffectorParametersType(child):
         print i.findtext("ParameterName"), "=", i.findtext("ParameterValue")
 
 def handleSetEndEffectorType(child):
-    global DEBUG, CommandID, StatusID, CommandState
+    global DEBUG, CommandID, CommandState
     if DEBUG: print "handleSetEndEffectorType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
@@ -156,7 +169,11 @@ def reader(conn):
         for child in root:
             if child.tag == "CRCLCommand":
                 cmd = child.attrib.get(xsi+"type", None)
-                if cmd == "MoveThroughToType":
+                if cmd == "InitCanonType":
+                    handleInitCanonType(child)
+                elif cmd == "EndCanonType":
+                    handleEndCanonType(child)
+                elif cmd == "MoveThroughToType":
                     handleMoveThroughToType(child)
                 elif cmd == "MoveToType":
                     handleMoveToType(child)

@@ -160,7 +160,7 @@ print m
 # ---
 
 pg = CRCLProgramType(Name="Test Program")
-pg.add(MoveThroughToType(17, True, [PoseOnlyLocationType(point1, xaxis, zaxis)]))
+pg.add(MoveThroughToType(2, True, [PoseOnlyLocationType(point1, xaxis, zaxis)]))
 print pg
 
 print VectorVectorCross(VectorType(1, 0, 0), VectorType(0, 1, 0))

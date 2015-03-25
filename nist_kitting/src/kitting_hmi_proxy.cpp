@@ -91,6 +91,7 @@ static void ws_client_read_task_code(ws_client_read_task_args *args)
     while (isspace(*ptr)) ptr++;
     endptr = ptr + strlen(ptr);
     while (isspace(*endptr)) *endptr-- = 0;
+    if (0 == *ptr) continue;
 
     ws_cmd.cmd.type = KITTING_WS_ASSEMBLE_KIT;
     ws_cmd.assemble_kit.name = std::string(ptr);

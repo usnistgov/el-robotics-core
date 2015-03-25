@@ -781,7 +781,7 @@ namespace Xml
     {
       if (strcmp (params_->toolName.c_str(), "Nothing") == 0)
       {
-        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>%d</CommandID><StatusID>%d</StatusID><CommandState>%s</CommandState></CommandStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>",
+        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>%d</CommandID><StatusID>%d</StatusID><CommandState>%s</CommandState></CommandStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>\0",
                  params_->commandID,
                  params_->counter,
                  str.c_str(),
@@ -798,7 +798,7 @@ namespace Xml
       else
       {
         //! Include gripper status if a tool has been defined using the couple command
-        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>%d</CommandID><StatusID>%d</StatusID><CommandState>%s</CommandState></CommandStatus><GripperStatus><GripperName>%s</GripperName><Separation>%f</Separation></GripperStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>",
+        sprintf (line, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>%d</CommandID><StatusID>%d</StatusID><CommandState>%s</CommandState></CommandStatus><GripperStatus><GripperName>%s</GripperName><Separation>%f</Separation></GripperStatus><Pose><Point><X>%f</X><Y>%f</Y><Z>%f</Z></Point><XAxis><I>%f</I><J>%f</J><K>%f</K></XAxis><ZAxis><I>%f</I><J>%f</J><K>%f</K></ZAxis></Pose></CRCLStatus>\0",
                  params_->commandID,
                  params_->counter,      
                  str.c_str(),

@@ -5,6 +5,8 @@
 #include "ulapi.h"
 #include "nist_core/nist_core.h"
 #include "nist_core/crpi.h"
+#include "serial.h"
+
 //#include "nist_core/socknet.h"
 
 #pragma warning (disable: 4251)
@@ -60,6 +62,14 @@ class LIBRARY_API RobotiqGripper {
   void getStatusRegisters();
  
   private: 
+
+    // Fingertip Sensor Com
+    //bool serialUsed_;
+    //char COMChannel_[5];
+    //serialStruct serialData_;
+    //serial *serial_;
+    //char *mssgBuffer_;
+
 	bool log;
 
 //	networkSettings settings;

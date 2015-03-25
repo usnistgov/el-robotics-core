@@ -499,7 +499,6 @@ namespace crpi_robot
       return CANON_REJECT;
     }
     //! Construct request for axis information
-
     if (generateFeedback ('C'))
     {
       if (!send ())
@@ -513,7 +512,6 @@ namespace crpi_robot
         //! error receiving
         return CANON_FAILURE;
       }
-      
       //! Parse data
       if (!parseFeedback ())
       {
@@ -998,14 +996,24 @@ namespace crpi_robot
     int x;
     
 #ifdef LWR_NOISY
-      printf ("Sending message %s\n", moveMe_.str().c_str());
+    printf ("Sending message %s\n", moveMe_.str().c_str());
+    printf ("fflushhhhhh...\n");
 #endif
-    fflush(NULL);
+    //fflush(NULL);
+#ifdef LWR_NOISY
+    printf ("flushed\n");
+#endif
     if (serialUsed_)
     {
       //! Use Serial
 #ifdef OLDSERIAL
+#ifdef LWR_NOISY
+    printf ("Sending...\n");
+#endif
       serial_->sendData(moveMe_.str().c_str(), serialData_);
+#ifdef LWR_NOISY
+    printf ("Sent!\n");
+#endif
 #else
       x = ulapi_serial_write(serialID_, moveMe_.str().c_str(), strlen(moveMe_.str().c_str())+1);
 #ifdef LWR_NOISY

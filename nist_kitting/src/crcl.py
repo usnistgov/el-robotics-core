@@ -293,14 +293,13 @@ class SetEndEffectorParametersType(MiddleCommandType):
             self.ParameterSetting.tree(el)
         return ET.ElementTree(root)
 
-class InitCanonType(CRCLCommandType):
+class InitCanonType(MiddleCommandType):
 
     def __init__(self, CommandID, **kwargs):
         super(InitCanonType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        if root == None: root = ET.Element(None)
-        el = ET.SubElement(root, "InitCanon")
+        root, el = wrapIt(root, "InitCanonType")
         super(InitCanonType, self).tree(el)
         return ET.ElementTree(root)
 

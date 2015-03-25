@@ -10,7 +10,11 @@ using std::cout;
 
 namespace RobotiqGripper
 {
-	LIBRARY_API RobotiqGripper::RobotiqGripper(){   //test crap
+	LIBRARY_API RobotiqGripper::RobotiqGripper(){ 
+
+    // Serial comm w/ fingertip sensors
+    //mssgBuffer_ = new char[8192];
+    //serial_ = new serial();
       
 	//Initialize gripper input registers (robot output functionalities command)
 	  

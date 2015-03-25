@@ -10,14 +10,15 @@ GRIPPER_PORT = ""
 GRIPPER_HOST = ""
 DEBUG = False
 
+XAXIS = VectorType(1, 0, 0)
+ZAXIS = VectorType(0, 0, 1)
+
 RobotCommandID = 0
 RobotCommandState = CommandStateType.READY
+RobotPose = PoseLocationType(PointType(0,0,0), XAXIS, ZAXIS)
 
 GripperCommandID = 0
 GripperCommandState = CommandStateType.READY
-
-XAXIS = VectorType(1, 0, 0)
-ZAXIS = VectorType(0, 0, 1)
 
 def robot_reader(conn):
     global DEBUG, RobotCommandID, RobotCommandState
@@ -26,6 +27,7 @@ def robot_reader(conn):
         try: data = conn.recv(size)
         except: break
         if not data: break
+        # print data
         try:
             tree = ET.parse(StringIO.StringIO(data))
             root = tree.getroot()
@@ -35,9 +37,18 @@ def robot_reader(conn):
                         t = child.findtext("CommandID")
                         if (t != None) and (t != ""): RobotCommandID = int(t)
                         t = child.findtext("CommandState")
-                        if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
+                        if (t != None) and (t != ""):
+                            RobotCommandState = toCommandStateType(t)
+                        t = child.findtext("Pose") # FIXME
+                        if (t != None): print t
                         # else Pose, GripperStatus, etc.
-        except: pass
+        except:
+            mystr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CRCLStatus xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"../xmlSchemas/CRCLStatus.xsd\"><CommandStatus><CommandID>2</CommandID><StatusID>2322</StatusID><CommandState>Done</CommandState></CommandStatus><Pose><Point><X>122.072600</X><Y>-424.659200</Y><Z>507.135200</Z></Point><XAxis><I>-0.418876</I><J>-0.905497</J><K>0.067955</K></XAxis><ZAxis><I>-0.834241</I><J>0.354199</J><K>-0.422593</K></ZAxis></Pose></CRCLStatus>"
+            tree = ET.parse(StringIO.StringIO(mystr))
+            root = tree.getroot()
+            # print root.tag
+            # print len(mystr), len(data)
+            # print data
     conn.close()
 
 def gripper_reader(conn):
@@ -183,6 +194,15 @@ while not done:
         m = CloseToolChangerType(gripper_cid, Name=name)
         gripper_socket.send(str(m))
 
+    elif cmd == "init":
+        gripper_cid += 1
+        m = InitCanonType(gripper_cid)
+        gripper_socket.send(str(m))
+        m = InitCanonType(robot_cid)
+        robot_socket.send(str(m))
+
+
+
     elif cmd == "set":
         try:
             val = float(toks[1])
@@ -202,7 +222,7 @@ while not done:
             print "need x y z"
             continue
         robot_cid += 1
-        m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), XAXIS, ZAXIS))
+        m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z),VectorType(-0.093809,0.994010,-0.056074),VectorType(-0.045748,-0.060567,-0.997115)))
         robot_socket.send(str(m))
 
     else:

@@ -123,7 +123,9 @@ namespace crpi_robot
   {
     CanonReturn val;
     params_->status = CANON_RUNNING;
+    //cout << "robot: get pose" << endl;
 		val = robInterface_->GetRobotPose (pose);
+    //cout << "robot: do math" << endl;
     RPYMatrixConvert (*pose, *rotMatrix_);
     params_->xaxis.i = rotMatrix_->at (0, 0);
     params_->xaxis.j = rotMatrix_->at (1, 0);
@@ -133,6 +135,7 @@ namespace crpi_robot
     params_->zaxis.j = rotMatrix_->at (1, 2);
     params_->zaxis.k = rotMatrix_->at (2, 2);
     params_->status = val;
+    *params_->pose = *pose;
     return val;
 	}
 

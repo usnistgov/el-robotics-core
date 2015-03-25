@@ -125,19 +125,24 @@ add_executable(kitting_pl_hi_node src/kitting_pl_hi.cpp)
 add_executable(kitting_ws_node src/kitting_ws.cpp)
 add_executable(kitting_task_node src/kitting_task.cpp)
 add_executable(kitting_emove_node src/kitting_emove.cpp)
-add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 add_executable(kitting_sh src/kitting_sh.cpp)
 add_executable(irclient_sh src/irclient_sh.cpp)
 add_executable(kitting_run src/kitting_run.cpp)
 add_executable(kitting_hmi_proxy src/kitting_hmi_proxy.cpp)
-add_executable(crcl_server src/crcl_server.cpp)
 
 add_executable(cognex_sim src/cognex_sim.cpp)
 add_executable(simple_message_sim src/simple_message_sim.cpp)
 add_executable(simple_message_sh src/simple_message_sh.cpp)
 
-add_executable(crobot src/crobot.cpp)
-target_link_libraries(crobot nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+# add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
+# add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
+# target_link_libraries(kitting_prim_robot_node nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+
+# add_executable(crcl_server src/crcl_server.cpp)
+# target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
+
+# add_executable(crobot src/crobot.cpp)
+# target_link_libraries(crobot nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -145,7 +150,6 @@ add_dependencies(kitting_pl_hi_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_ws_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_task_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_emove_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
 add_dependencies(kitting_sh nist_kitting_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
@@ -160,10 +164,8 @@ target_link_libraries(kitting_pl_hi_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_prim_robot_node nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(irclient_sh nist_kitting ${catkin_LIBRARIES} readline)
-target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
 target_link_libraries(kitting_run nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(kitting_hmi_proxy nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 

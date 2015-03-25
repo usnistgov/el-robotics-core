@@ -102,11 +102,7 @@ include_directories(
 include_directories(${ulapi_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(nist_core src/nist_core.cpp src/crcl.cpp src/crcl_robot.cpp src/crcl_client.cpp src/crcl_sim_robot.cpp)
-
-# add_library(crcl_sim_robot_dl SHARED
-#   src/crcl_sim_robot_dl.cpp)
-# target_link_libraries(crcl_sim_robot_dl ${ulapi_LIBRARIES})
+add_library(nist_core src/nist_core.cpp)
 
 ## Declare a cpp executable
 add_executable(ulapi_test src/ulapi_test.cpp)

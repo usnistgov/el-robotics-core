@@ -344,7 +344,7 @@ int main(int argc, char *argv[])
 	ctp_req.set_pos(f1, f2, f3, f4, f5, f6, f7);
 	ctp_req.set_seq_number(ctp_req.get_seq_number()+1);
 	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&ctp_req), sizeof(ctp_req));
-	printf("sizeof(ctp_req) = %d\n", sizeof(ctp_req));
+	printf("sizeof(ctp_req) = %d\n", (int) sizeof(ctp_req));
 	if (nchars <= 0) break;
       } else {
 	for (int t = 0; t < JOINT_MAX; t++) {

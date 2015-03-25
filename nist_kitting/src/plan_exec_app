@@ -10,7 +10,7 @@ xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
 
 INIFILE = ""
-PLANFILE = ""
+PLAN_FILE = ""
 ROBOT_PORT = ""
 ROBOT_HOST = ""
 GRIPPER_PORT = ""
@@ -178,66 +178,36 @@ def get_pose(sku):
     except: pass
     return False, 0, 0, 0, 0
 
-def Attach_Endeffector(toks, robot_port, gripper_port):
-    # (attach-endeffector robot_1 part_gripper part_gripper_holder changing_station_1 part_gripper_holder_slot)
-    print toks
-    return True
-
-def Create_Kit(toks, robot_port, gripper_port):
-    # (create-kit kit_s2m1l1 kit_tray_1 work_table_1)
-    print toks
-    return True
-
-def Detach_Endeffector(toks, robot_port, gripper_port):
-    # (detach-endeffector robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
-    print toks
-    return True
-
-def Look_For_Endeffectorholderslot(toks, robot_port, gripper_port):
-    # (look-for-endeffectorholderslot robot_1 tray_gripper tray_gripper_holder tray_gripper_holder_slot changing_station_1)
-    print toks
-    return True
-
-def Look_For_Endeffector_In_Endeffectorholder(toks, robot_port, gripper_port):
-    # (look-for-endeffector-in-endeffectorholder robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
+def Look_For_Kit(toks, robot_port, gripper_port):
+    # (look-for-kit robot_1 kit_gearbox kit_gearbox_tray sku_gearbox_tray robotiq_gripper)
     print toks
     return True
 
 def Look_For_Part(toks, robot_port, gripper_port):
-    # (look-for-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 part_gripper)
+    # (look-for-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox robotiq_gripper)
     print toks
     return True
 
 def Look_For_Slot_In_Kit(toks, robot_port, gripper_port):
-    # (look-for-slot-in-kit robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
+    # (look-for-slot-in-kit robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)
     print toks
     return True
 
 def Look_For_Slot_In_Lbwk(toks, robot_port, gripper_port):
-    # (look-for-slot-in-lbwk robot_1 lbwk_slot_0 finished_kit_receiver kit_s2m1l1 tray_gripper)
-    print toks
-    return True
-
-def Look_For_Slot_On_Worksurface_Kittray(toks, robot_port, gripper_port):
-    # (look-for-slot-on-worksurface-kittray robot_1 worksurface-slot-for-kittray work_table_1 kit_tray_1 tray_gripper)
+    # (look-for-slot-in-lbwk robot_1 lbwkslot_0 finished_kit_receiver kit_gearbox robotiq_gripper)
     print toks
     return True
 
 def Place_Kit(toks, robot_port, gripper_port):
-    # (place-kit robot_1 kit_s2m1l1 tray_gripper lbwk_slot_0 finished_kit_receiver)
-    print toks
-    return True
-
-def Place_Kittray(toks, robot_port, gripper_port):
-    # (place-kittray robot_1 kit_tray_1 work_table_1 worksurface-slot-for-kittray tray_gripper)
+    # (place-kit robot_1 kit_gearbox robotiq_gripper lbwkslot_0 finished_kit_receiver)
     print toks
     return True
 
 def Place_Part(toks, robot_port, gripper_port):
-    # (place-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
+    # (place-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)
     global PERIOD, DEBUG
     if len(toks) < 7: return False
-    if DEBUG: print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "to location", toks[4], "using", toks[5], "if on", toks[6]
+    if DEBUG: print "do", toks[0], "using robot", toks[1], "for part", toks[2], "of SKU", toks[3], "to kit", toks[4], "at slot", toks[5], "uwing gripper", toks[6]
     sku = toks[3]
     startloc = toks[4]
     endloc = startloc # should be toks[5] but we don't have those locs
@@ -302,55 +272,31 @@ def Place_Part(toks, robot_port, gripper_port):
     return True
 
 def Set_Grasp(toks, robot_port, gripper_port):
-    # (set-grasp robot_1 part_vex36_1 stock_keeping_unit_part_vex36 part_gripper)
+    # (set-grasp robot_1 big_gear_1 sku_part_big_gear robotiq_gripper)
     print toks
     return True
 
 def Take_Kit(toks, robot_port, gripper_port):
-    # (take-kit robot_1 kit_s2m1l1 kit_tray_1 work_table_1 stock_keeping_unit_kit_tray tray_gripper)
-    print toks
-    return True
-
-def Take_Kittray(toks, robot_port, gripper_port):
-    # (take-kittray robot_1 kit_tray_1 empty_kit_tray_supply tray_gripper stock_keeping_unit_kit_tray)
+    # (take-kit robot_1 kit_gearbox kit_gearbox_tray work_table_1 sku_gearbox_tray robotiq_gripper)
     print toks
     return True
 
 def Take_Part(toks, robot_port, gripper_port):
-    # (take-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 part_vex36_tray part_gripper kit_s2m1l1)
-    if len(toks) < 7: return
-    print toks[0], "using", toks[1], "for part", toks[2], "of SKU", toks[3], "from location", toks[4], "using", toks[5], "if", toks[6], "exists"
-    # //! Configure gripper for pre-grasp
-    # pm.demo->Decouple(curtool);
-    # pm.demo->Couple(curtool);
-    # //! Open gripper
-    # pm.demo->SetTool (0.9);
-    # //! Move over part at z position
-    # pm.demo->MoveTo (poseMe)
-    # //! Grasp part
-    # pm.demo->SetTool (0.1);
-    # //! Move over the part at z position
-    # pm.demo->MoveTo (poseMe)
+    # (take-part robot_1 big_gear_1 sku_part_big_gear big_gear_tray robotiq_gripper kit_gearbox)
+    print toks
     return True
 
 # --- the dictionary associating PDDL commands with handler functions ---
 
 funcdict = {
-    "attach-endeffector" : Attach_Endeffector,
-    "create-kit" : Create_Kit,
-    "detach-endeffector" : Detach_Endeffector,
-    "look-for-endeffectorholderslot" : Look_For_Endeffectorholderslot,
-    "look-for-endeffector-in-endeffectorholder" : Look_For_Endeffector_In_Endeffectorholder,
+    "look-for-kit" : Look_For_Kit,
     "look-for-part" : Look_For_Part,
     "look-for-slot-in-kit" : Look_For_Slot_In_Kit,
     "look-for-slot-in-lbwk" : Look_For_Slot_In_Lbwk,
-    "look-for-slot-on-worksurface-kittray" : Look_For_Slot_On_Worksurface_Kittray,
     "place-kit" : Place_Kit,
-    "place-kittray" : Place_Kittray,
     "place-part" : Place_Part,
     "set-grasp" : Set_Grasp,
     "take-kit" : Take_Kit,
-    "take-kittray" : Take_Kittray,
     "take-part" : Take_Part
     }
 
@@ -381,7 +327,7 @@ for o, a in opts:
     if o in ("-i", "--inifile"):
         INIFILE = a
     elif o in ("-f", "--file"):
-        PLANFILE = a
+        PLAN_FILE = a
     elif o in ("-r", "--robot"):
         ROBOT_PORT = a
     elif o in ("-R", "--robothost"):
@@ -404,9 +350,7 @@ for o, a in opts:
     elif o in ("--dbname"):
         DB_NAME = a
 
-defdict = {"directory" : "",
-           "file" : "",
-           "port" : "",
+defdict = {"port" : "",
            "host" : "",
            "server" : "",
            "user" : "",
@@ -418,10 +362,6 @@ if INIFILE != "":
         with open(INIFILE, "rb") as f:
             config = ConfigParser.ConfigParser(defdict)
             config.read(INIFILE)
-            if PLANFILE == "":
-                PATH_TO_FINAL_PLAN = config.get("final_plan", "directory")
-                FINAL_PLAN_FILE = config.get("final_plan", "file")
-                PLANFILE = PATH_TO_FINAL_PLAN + FINAL_PLAN_FILE
             if ROBOT_PORT == "":
                 ROBOT_PORT = config.get("robot_prim", "port")
             if ROBOT_HOST == "":
@@ -447,7 +387,7 @@ if INIFILE != "":
         print "robot_prim: inifile error"
         sys.exit(1)
 
-if PLANFILE == "":
+if PLAN_FILE == "":
     print "plan_exec_app: no plan file specified"
     sys.exit(1)
 
@@ -469,7 +409,7 @@ if DB_PASSWD == "" : DB_PASSWD = "ElsaIsdDb!"
 if DB_NAME == "" : DB_NAME = "aprs-dev"
 
 if DEBUG:
-    print "plan_exec_app: plan file:", PLANFILE
+    print "plan_exec_app: plan file:", PLAN_FILE
     print "plan_exec_app: robot host:", ROBOT_HOST, ", port:", ROBOT_PORT
     print "plan_exec_app: gripper host:", GRIPPER_HOST, ", port:", GRIPPER_PORT
     print "plan_exec_app: MySQL options are:", DB_SERVER, DB_USER, DB_PASSWD, DB_NAME
@@ -501,20 +441,13 @@ gt.daemon = True
 gt.start()
 
 try:
-    f = open(PLANFILE, "rb")
+    f = open(PLAN_FILE, "rb")
 except IOError as err:
-    print "plan_exec_app: can't open", PLANFILE, ":", str(err)
+    print "plan_exec_app: can't open", PLAN_FILE, ":", str(err)
     sys.exit(1)
 
 for line in f:
-    # this means match zero or more chars, then a literal '(',
-    # then set up a target with () enclosing a match of anything,
-    # then match a literal ')', then anything
-    m = re.match("\s*;", line)
-    if m != None: 
-        print "COMMENT", line
-        continue
-    m = re.match(".*\((.*)\).*", line)
+    m = re.match("^[\s]*[0-9.].*:[\s]*\((.*)\)[\s]*\[[0-9.].*\]", line)
     if m != None:
         if DEBUG: print "plan_exec_app: parsing line", m.group(1)
         retval = parseLine(m.group(1), robot_socket, gripper_socket)

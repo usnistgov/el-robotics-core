@@ -239,6 +239,29 @@ class MoveThroughToType(MiddleCommandType):
         self.NumPositions = len(self.Waypoint)
         return True
 
+class MoveToType(MiddleCommandType):
+
+    def __init__(self, CommandID, MoveStraight, EndPosition, **kwargs):
+        super(MoveToType, self).__init__(CommandID, **kwargs)
+        self.MoveStraight = MoveStraight
+        self.EndPosition = EndPosition
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "MoveToType")
+        super(MoveToType, self).tree(el)
+
+        if self.MoveStraight: ET.SubElement(el, "MoveStraight").text = "true"
+        else: ET.SubElement(el, "MoveStraight").text = "false"
+        ep = self.EndPosition
+        epel = ET.SubElement(el, "EndPosition")
+        ptel = ET.SubElement(epel, "Point")
+        ep.Point.tree(ptel)
+        xel = ET.SubElement(epel, "XAxis")
+        ep.XAxis.tree(xel)
+        zel = ET.SubElement(epel, "ZAxis")
+        ep.ZAxis.tree(zel)
+        return ET.ElementTree(root)
+
 class ParameterSettingType(DataThingType):
 
     def __init__(self, ParameterName, ParameterValue, **kwargs):
@@ -301,7 +324,7 @@ class SetEndEffectorType(CRCLCommandType):
     def tree(self, root=None):
         root, el = wrapIt(root, "SetEndEffectorType")
         super(SetEndEffectorType, self).tree(el)
-        ET.SubElement(el, "NumPositions").text = str(self.Setting)
+        ET.SubElement(el, "Setting").text = str(self.Setting)
         return ET.ElementTree(root)
 
     def set(self, Setting):
@@ -440,7 +463,7 @@ class VacuumGripperStatusType(GripperStatusType):
 
 class CRCLStatusType(DataThingType):
 
-    def __init__(self, CommandStatus, Pose, JointStatuses=None, GripperStatus=None, **kwargs):
+    def __init__(self, CommandStatus, Pose=None, JointStatuses=None, GripperStatus=None, **kwargs):
         super(CRCLStatusType, self).__init__(**kwargs)
         self.CommandStatus = CommandStatus
         self.Pose = Pose
@@ -451,7 +474,80 @@ class CRCLStatusType(DataThingType):
         if root == None: root = ET.Element("CRCLStatus", attrib=dict)
         super(CRCLStatusType, self).tree(root)
         self.CommandStatus.tree(root)
-        self.Pose.tree(root)
+        if self.Pose != None: self.Pose.tree(root)
         if self.JointStatuses != None: self.JointStatuses.tree(root)
         if self.GripperStatus != None: self.GripperStatus.tree(root)
         return ET.ElementTree(root)
+
+# --- Utility functions ---
+
+class MatrixType(DataThingType):
+    def __init__(self, X, Y, Z, **kwargs):
+        super(MatrixType, self).__init__(**kwargs)
+        self.X = X
+        self.Y = Y
+        self.Z = Z
+
+    def set(self, X, Y, Z):
+        self.X = X
+        self.Y = Y
+        self.Z = Z
+        return True
+
+    def get(self):
+        return self.X, self.Y, self.Z
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(MatrixType, self).tree(root)
+        self.X.tree(ET.SubElement(root, "X"))  
+        self.Y.tree(ET.SubElement(root, "Y"))  
+        self.Z.tree(ET.SubElement(root, "Z"))  
+        return ET.ElementTree(root)
+
+def PointPointAdd(PA, PB):
+    return PointType(PA.X + PB.X, PA.Y + PB.Y, PA.Z + PB.Z)
+
+def VectorVectorCross(VA, VB):
+    AI, AJ, AK = VA.get()
+    BI, BJ, BK = VB.get()
+    YI = (AJ*BK) - (AK*BJ)
+    YJ = (AK*BI) - (AI*BK)
+    YK = (AI*BJ) - (AJ*BI)
+    return VectorType(YI, YJ, YK)
+
+def VectorsToMatrix(VX, VZ):
+    return MatrixType(VX, VectorVectorCross(VZ, VX), VZ)
+
+def MatrixToVectors(M):
+    return M.X, M.Z
+
+def MatrixPointMult(M1, P2):
+    P = PointType(M1.X.I*P2.X + M1.Y.I*P2.Y + M1.Z.I*P2.Z,
+                  M1.X.J*P2.X + M1.Y.J*P2.Y + M1.Z.J*P2.Z,
+                  M1.X.K*P2.X + M1.Y.K*P2.Y + M1.Z.K*P2.Z)
+    return P
+
+def MatrixVectorMult(M1, V2):
+    V = VectorType(M1.X.I*V2.I + M1.Y.I*V2.J + M1.Z.I*V2.K,
+                   M1.X.J*V2.I + M1.Y.J*V2.J + M1.Z.J*V2.K,
+                   M1.X.K*V2.I + M1.Y.K*V2.J + M1.Z.K*V2.K)
+    return V
+
+def MatrixMatrixMult(M1, M2):
+    M = MatrixType(MatrixVectorMult(M1, M2.X),
+                   MatrixVectorMult(M1, M2.Y),
+                   MatrixVectorMult(M1, M2.Z))
+    return M
+
+def PosePoseMult(T1, T2):
+    R1 = VectorsToMatrix(T1.XAxis, T1.ZAxis)
+    R2 = VectorsToMatrix(T2.XAxis, T2.ZAxis)
+    ROut = MatrixMatrixMult(R1, R2)
+    XAxisOut, ZAxisOut = MatrixToVectors(ROut)
+
+    P2R = MatrixPointMult(R1, T2.Point)
+    PointOut = PointPointAdd(T1.Point, P2R)
+
+    return PoseLocationType(PointOut, XAxisOut, ZAxisOut)
+

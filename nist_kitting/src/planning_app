@@ -97,6 +97,8 @@ if DEBUG:
     print "planning_app: kit design:", KITDESIGN
 
 defdict = {"app" : "",
+           "domain" : "",
+           "problem" : "",
            "plan" : "",
            "server" : "",
            "user" : "",
@@ -108,6 +110,9 @@ try:
         config = ConfigParser.ConfigParser(defdict)
         config.read(INIFILE)
         OWL2PDDL = config.get("owl2pddl", "app")
+        DOMAIN = config.get("pddl", "domain")
+        PROBLEM = config.get("pddl", "problem")
+        PLAN_APP = config.get("planner", "app")
         PLAN_FILE = config.get("planner", "plan")
         if DB_SERVER == "":
             DB_SERVER = config.get("mysql", "server")
@@ -127,6 +132,18 @@ if OWL2PDDL == "":
     print "planning_app: no OWL to PDDL application specified"
     sys.exit(1)
 
+if DOMAIN == "":
+    print "planning_app: no domain file specified"
+    sys.exit(1)
+
+if PROBLEM == "":
+    print "planning_app: no problem file specified"
+    sys.exit(1)
+
+if PLAN_APP == "":
+    print "planning_app: no planning application specified"
+    sys.exit(1)
+
 if PLAN_FILE == "":
     print "planning_app: no plan file specified"
     sys.exit(1)
@@ -141,12 +158,12 @@ if DEBUG:
 AprsDB = DB()
 
 if not AprsDB.connect(DB_SERVER, DB_USER, DB_PASSWD, DB_NAME):
-    print "pln_exec_app: can't connect to database"
+    print "planning_app: can't connect to database"
     sys.exit(1)
 
 def get_kit_design(name):
     global DEBUG, AprsDB
-    if DEBUG: print "getting design of", name
+    if DEBUG: print "planning_app: getting design of", name
     try:
         ret = AprsDB.read("select * from PartRefAndPose where hadByPartRefAndPose_KitDesign = " + "\"" + name + "\"")
         if len(ret) == 0: return False
@@ -158,52 +175,65 @@ if not get_kit_design(KITDESIGN):
     print "planning_app: can't find kit design", KITDESIGN
     sys.exit(1)
 
-print "planning_app: found kit design", KITDESIGN
+if DEBUG:
+    print "planning_app: found kit design", KITDESIGN
 
 contents = """
-(take-kittray robot_1 kit_tray_1 empty_kit_tray_supply tray_gripper stock_keeping_unit_kit_tray)
-(look-for-slot-on-worksurface-kittray robot_1 worksurface-slot-for-kittray work_table_1 kit_tray_1 tray_gripper)
-(place-kittray robot_1 kit_tray_1 work_table_1 worksurface-slot-for-kittray tray_gripper)
-(create-kit kit_s2m1l1 kit_tray_1 work_table_1)
-(look-for-endeffectorholderslot robot_1 tray_gripper tray_gripper_holder tray_gripper_holder_slot changing_station_1)
-(detach-endeffector robot_1 tray_gripper tray_gripper_holder tray_gripper_holder_slot changing_station_1)
-(look-for-endeffector-in-endeffectorholder robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
-(attach-endeffector robot_1 part_gripper part_gripper_holder changing_station_1 part_gripper_holder_slot)
-(look-for-part robot_1 part_vex36_4 stock_keeping_unit_part_vex36 kit_s2m1l1 part_gripper)
-(set-grasp robot_1 part_vex36_4 stock_keeping_unit_part_vex36 part_gripper)
-(take-part robot_1 part_vex36_4 stock_keeping_unit_part_vex36 part_vex36_tray part_gripper kit_s2m1l1)
-(look-for-slot-in-kit robot_1 part_vex36_4 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_2 part_gripper)
-; (place-part robot_1 part_vex36_4 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_2 part_gripper)
-(place-part robot_1 small_gear_1 small_gear kit_gearbox_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(look-for-part robot_1 part_vex60_1 stock_keeping_unit_part_vex60 kit_s2m1l1 part_gripper)
-(look-for-endeffectorholderslot robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
-(set-grasp robot_1 part_vex60_1 stock_keeping_unit_part_vex60 part_gripper)
-(take-part robot_1 part_vex60_1 stock_keeping_unit_part_vex60 part_vex60_tray part_gripper kit_s2m1l1)
-(look-for-slot-in-kit robot_1 part_vex60_1 stock_keeping_unit_part_vex60 kit_s2m1l1 kit_s2m1l1_slot_vex60_1 part_gripper)
-; (place-part robot_1 part_vex60_1 stock_keeping_unit_part_vex60 kit_s2m1l1 kit_s2m1l1_slot_vex60_1 part_gripper)
-(place-part robot_1 medium_gear_1 medium_gear kit_gearbox_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(look-for-part robot_1 part_vex84_1 stock_keeping_unit_part_vex84 kit_s2m1l1 part_gripper)
-(set-grasp robot_1 part_vex84_1 stock_keeping_unit_part_vex84 part_gripper)
-(take-part robot_1 part_vex84_1 stock_keeping_unit_part_vex84 part_vex84_tray part_gripper kit_s2m1l1)
-(look-for-slot-in-kit robot_1 part_vex84_1 stock_keeping_unit_part_vex84 kit_s2m1l1 kit_s2m1l1_slot_vex84_1 part_gripper)
-; (place-part robot_1 part_vex84_1 stock_keeping_unit_part_vex84 kit_s2m1l1 kit_s2m1l1_slot_vex84_1 part_gripper)
-; (place-part robot_1 large_gear_1 large_gear kit_gearbox_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(place-part robot_1 top_cover_1 top_cover gearbox_parts_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(look-for-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 part_gripper)
-(set-grasp robot_1 part_vex36_1 stock_keeping_unit_part_vex36 part_gripper)
-(take-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 part_vex36_tray part_gripper kit_s2m1l1)
-(look-for-slot-in-kit robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
-; (place-part robot_1 part_vex36_1 stock_keeping_unit_part_vex36 kit_s2m1l1 kit_s2m1l1_slot_vex36_1 part_gripper)
-(place-part robot_1 small_gear_1 small_gear kit_gearbox_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(detach-endeffector robot_1 part_gripper part_gripper_holder part_gripper_holder_slot changing_station_1)
-(look-for-endeffector-in-endeffectorholder robot_1 tray_gripper tray_gripper_holder tray_gripper_holder_slot changing_station_1)
-(attach-endeffector robot_1 tray_gripper tray_gripper_holder changing_station_1 part_gripper_holder_slot)
-(take-kit robot_1 kit_s2m1l1 kit_tray_1 work_table_1 stock_keeping_unit_kit_tray tray_gripper)
-(look-for-slot-in-lbwk robot_1 lbwk_slot_0 finished_kit_receiver kit_s2m1l1 tray_gripper)
-; (place-kit robot_1 kit_s2m1l1 tray_gripper lbwk_slot_0 finished_kit_receiver)
-; (place-part robot_1 large_gear_1 large_gear gearbox_parts_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(place-part robot_1 bottom_cover_1 bottom_cover gearbox_parts_tray kit_s2m1l1_slot_vex36_2 part_gripper)
-(place-part robot_1 medium_gear_1 medium_gear kit_gearbox_tray kit_s2m1l1_slot_vex36_2 part_gripper)
+Number of literals: 81
+Constructing lookup tables: [10%] [20%] [30%] [40%] [50%] [60%] [70%] [80%] [90%] [100%]
+Post filtering unreachable actions:  [10%] [20%] [30%] [40%] [50%] [60%] [70%] [80%] [90%] [100%]
+Have identified that bigger values of (quantity-of-parts-in-partstray small_gear_tray) are preferable
+Have identified that bigger values of (quantity-of-parts-in-partstray big_gear_tray) are preferable
+Have identified that bigger values of (quantity-of-parts-in-partstray bottom_cover_tray) are preferable
+Have identified that bigger values of (quantity-of-parts-in-partstray top_cover_tray) are preferable
+Have identified that bigger values of (quantity-of-parts-in-partstray medium_gear_tray) are preferable
+Have identified that smaller values of (quantity-of-parts-in-kit sku_part_medium_gear kit_gearbox) are preferable
+Have identified that smaller values of (quantity-of-parts-in-kit sku_part_bottom_cover kit_gearbox) are preferable
+Have identified that smaller values of (quantity-of-parts-in-kit sku_part_top_cover kit_gearbox) are preferable
+Have identified that smaller values of (quantity-of-parts-in-kit sku_part_small_gear kit_gearbox) are preferable
+Have identified that smaller values of (quantity-of-parts-in-kit sku_part_big_gear kit_gearbox) are preferable
+Have identified that bigger values of (part-found-flag) are preferable
+Have identified that bigger values of (kit-found-flag) are preferable
+Have identified that bigger values of (endeffectorholder-found-flag) are preferable
+Have identified that bigger values of (endeffector-found-flag) are preferable
+Have identified that bigger values of (slot-in-kit-found-flag) are preferable
+[01;34mNo analytic limits found, not considering limit effects of goal-only operators[00m
+Pruning (look-for-endeffector robot_1 robotiq_gripper robotiq_gripper_holder changing_station_1) - never appeared in initial RPG
+Pruning (attach-endeffector robot_1 robotiq_gripper robotiq_gripper_holder changing_station_1) - never appeared in initial RPG
+Initial heuristic = 25.000
+b (24.000 | 0.000)b (23.000 | 0.001)b (22.000 | 0.002)b (21.000 | 0.003)b (20.000 | 0.005)b (19.000 | 0.006)b (18.000 | 0.007)b (17.000 | 0.008)b (16.000 | 0.010)b (15.000 | 0.011)b (14.000 | 0.012)b (13.000 | 0.013)b (12.000 | 0.015)b (11.000 | 0.016)b (10.000 | 0.017)b (9.000 | 0.018)b (8.000 | 0.020)b (7.000 | 0.021)b (6.000 | 0.022)b (5.000 | 0.023)b (4.000 | 0.024)b (3.000 | 0.025)b (2.000 | 0.026)b (1.000 | 0.027);;;; Solution Found
+; States evaluated: 30
+; Cost: 0.028
+; Time 0.09
+0.000: (look-for-part robot_1 top_cover_1 sku_part_top_cover kit_gearbox robotiq_gripper)  [0.001]
+0.001: (set-grasp robot_1 top_cover_1 sku_part_top_cover robotiq_gripper)  [0.001]
+0.002: (take-part robot_1 top_cover_1 sku_part_top_cover top_cover_tray robotiq_gripper kit_gearbox)  [0.001]
+0.003: (look-for-slot-in-kit robot_1 top_cover_1 sku_part_top_cover kit_gearbox kit_gearbox_slot_top_cover robotiq_gripper)  [0.001]
+0.004: (place-part robot_1 top_cover_1 sku_part_top_cover kit_gearbox kit_gearbox_slot_top_cover robotiq_gripper)  [0.001]
+0.005: (look-for-part robot_1 small_gear_1 sku_part_small_gear kit_gearbox robotiq_gripper)  [0.001]
+0.006: (set-grasp robot_1 small_gear_1 sku_part_small_gear robotiq_gripper)  [0.001]
+0.007: (take-part robot_1 small_gear_1 sku_part_small_gear small_gear_tray robotiq_gripper kit_gearbox)  [0.001]
+0.008: (look-for-slot-in-kit robot_1 small_gear_1 sku_part_small_gear kit_gearbox kit_gearbox_slot_small_gear robotiq_gripper)  [0.001]
+0.009: (place-part robot_1 small_gear_1 sku_part_small_gear kit_gearbox kit_gearbox_slot_small_gear robotiq_gripper)  [0.001]
+0.010: (look-for-part robot_1 medium_gear_1 sku_part_medium_gear kit_gearbox robotiq_gripper)  [0.001]
+0.011: (set-grasp robot_1 medium_gear_1 sku_part_medium_gear robotiq_gripper)  [0.001]
+0.012: (take-part robot_1 medium_gear_1 sku_part_medium_gear medium_gear_tray robotiq_gripper kit_gearbox)  [0.001]
+0.013: (look-for-slot-in-kit robot_1 medium_gear_1 sku_part_medium_gear kit_gearbox kit_gearbox_slot_medium_gear robotiq_gripper)  [0.001]
+0.014: (place-part robot_1 medium_gear_1 sku_part_medium_gear kit_gearbox kit_gearbox_slot_medium_gear robotiq_gripper)  [0.001]
+0.015: (look-for-part robot_1 bottom_cover_1 sku_part_bottom_cover kit_gearbox robotiq_gripper)  [0.001]
+0.016: (set-grasp robot_1 bottom_cover_1 sku_part_bottom_cover robotiq_gripper)  [0.001]
+0.017: (take-part robot_1 bottom_cover_1 sku_part_bottom_cover bottom_cover_tray robotiq_gripper kit_gearbox)  [0.001]
+0.018: (look-for-slot-in-kit robot_1 bottom_cover_1 sku_part_bottom_cover kit_gearbox kit_gearbox_slot_bottom_cover robotiq_gripper)  [0.001]
+0.019: (place-part robot_1 bottom_cover_1 sku_part_bottom_cover kit_gearbox kit_gearbox_slot_bottom_cover robotiq_gripper)  [0.001]
+0.020: (look-for-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox robotiq_gripper)  [0.001]
+0.021: (set-grasp robot_1 big_gear_1 sku_part_big_gear robotiq_gripper)  [0.001]
+0.022: (take-part robot_1 big_gear_1 sku_part_big_gear big_gear_tray robotiq_gripper kit_gearbox)  [0.001]
+0.023: (look-for-slot-in-kit robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)  [0.001]
+0.024: (place-part robot_1 big_gear_1 sku_part_big_gear kit_gearbox kit_gearbox_slot_big_gear robotiq_gripper)  [0.001]
+0.025: (look-for-kit robot_1 kit_gearbox kit_gearbox_tray sku_gearbox_tray robotiq_gripper)  [0.001]
+0.026: (take-kit robot_1 kit_gearbox kit_gearbox_tray work_table_1 sku_gearbox_tray robotiq_gripper)  [0.001]
+0.027: (look-for-slot-in-lbwk robot_1 lbwkslot_0 finished_kit_receiver kit_gearbox robotiq_gripper)  [0.001]
+0.028: (place-kit robot_1 kit_gearbox robotiq_gripper lbwkslot_0 finished_kit_receiver)  [0.001]
 """
 
 if DEBUG:
@@ -214,17 +244,29 @@ def fake_it():
         with open(PLAN_FILE, "w") as f:
             for line in contents:
                 f.write(line)
+        print "planning_app: wrote " + PLAN_FILE
     except IOError as err:
         print "planning_app: open plan file:", str(err)
         sys.exit(1)
 
 def do_it():
+    global DEBUG
     try:
-        cmd = "java -jar " + OWL2PDDL + " -i " + INIFILE + " -k " + KITDESIGN + " -d -p"
-        toks = shlex.split(subprocess.check_output(shlex.split(cmd)))
-        print toks
+        cmd = "java -jar " + OWL2PDDL + " -i " + INIFILE + " -k " + KITDESIGN
+        if DEBUG: print "planning_app: running", cmd
+        out = subprocess.check_output(shlex.split(cmd))
+        if DEBUG: print out
+        cmd = PLAN_APP + " " + DOMAIN + " " + PROBLEM
+        if DEBUG: print "planning_app: running", cmd
+        out = subprocess.check_output(shlex.split(cmd))
+        if DEBUG: print out
+        with open(PLAN_FILE, "w") as f:
+            for line in out:
+                f.write(line)
     except:
         print "planning_app: error on ", cmd, " : ", except_info()
+        print "planning_app: faking it"
+        fake_it()
 
 do_it()
 

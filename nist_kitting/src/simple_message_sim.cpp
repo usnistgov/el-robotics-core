@@ -9,6 +9,33 @@
   receiving messages requesting that the robot move to a set of target
   joint angles. Another at port 11002 by default is for continuous
   sending of robot joint states.
+
+  You ran these:
+
+  rosrun nist_kitting simple_message_sim -d
+
+  roslaunch industrial_robot_client robot_interface_streaming.launch robot_ip:=localhost
+
+  rosrun nist_kitting irclient_sh
+
+  In the irclient_sh, you typed:
+
+  1 2 3 4 5 6
+
+  and in the robot_interface_streaming window, got responses variously like this;
+
+  [ INFO] [1420495468.523931743]: Received new goal
+  [ERROR] [1420495468.524008975]: Joint trajectory action rejected: waiting for (initial) feedback from controller
+
+  or this: 
+
+  [ INFO] [1420495460.220963519]: Received new goal
+  [ INFO] [1420495460.221227503]: Publishing trajectory
+  [ WARN] [1420495460.221340846]: Ignoring goal time tolerance in action goal, may be supported in the future
+
+  Sometimes it works, sometimes not. Figure out how to fix the "waiting for (initial) feedback from controller" error.
+
+  *** There's a watchdog reset -- make it report faster ***
 */
 
 #include <stdio.h>		// stdin, stderr 
@@ -50,12 +77,16 @@ static void request_connection_thread_code(request_connection_thread_args *args)
   joint_traj_pt_request_message jtreq;
   joint_traj_pt_reply_message jtrep;
   joint_info jinfo;
+  cart_traj_pt_request_message ctreq;
+  cart_traj_pt_reply_message ctrep;
+  float f1, f2, f3, f4, f5, f6, f7;
 
   thread = args->thread;
   id = args->id;
   free(args);
 
-  while (true) {
+  bool done = false;
+  while (! done) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
     inbuf[sizeof(inbuf)-1] = 0;
@@ -71,7 +102,7 @@ static void request_connection_thread_code(request_connection_thread_args *args)
       switch (message_type) {
       case MESSAGE_PING:
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&pingrep), sizeof(pingrep));
-	if (nchars < 0) break;
+	if (nchars < 0) done = true;
 	break;
 
       case MESSAGE_JOINT_TRAJ_PT:
@@ -82,14 +113,37 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	}
 	ulapi_mutex_take(&robot_mutex);
 	for (int t = 0; t < JOINT_MAX; t++) {
-	  float p;
-	  if (! jtreq.get_pos(&p, t)) break;
-	  the_robot.set_robot_pos(p, t);
+	  if (! jtreq.get_pos(&f1, t)) break;
+	  the_robot.set_robot_joint_pos(f1, t);
 	}
 	ulapi_mutex_give(&robot_mutex);
 	jtrep.set_joint_traj_pt_reply(REPLY_SUCCESS);
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jtrep), sizeof(jtrep));
-	if (nchars < 0) break;
+	if (debug) {
+	  printf("replied to connection %d:\n", id);
+	  jtrep.print_joint_traj_pt_reply();
+	}
+	if (nchars < 0) done = true;
+	break;
+
+      case MESSAGE_CART_TRAJ_PT:
+	ctreq.read_cart_traj_pt_request(ptr);
+	if (debug) {
+	  printf("connection %d requested:\n", id);
+	  ctreq.print_cart_traj_pt_request();
+	}
+	ulapi_mutex_take(&robot_mutex);
+	if (! ctreq.get_pos(&f1, &f2, &f3, &f4, &f5, &f6, &f7)) break;
+	the_robot.set_robot_cart_pos(f1, f2, f3, f4, f5, f6, f7);
+	ulapi_mutex_give(&robot_mutex);
+	ctrep.set_seq_number(ctreq.get_seq_number());
+	ctrep.set_cart_traj_pt_reply(REPLY_SUCCESS);
+	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&ctrep), sizeof(ctrep));
+	if (debug) {
+	  printf("replied to connection %d:\n", id);
+	  ctrep.print_cart_traj_pt_reply();
+	}
+	if (nchars < 0) done = true;
 	break;
 
       default:
@@ -104,7 +158,7 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("joint message connection handler %d done\n", id);
+  if (debug) printf("simple message connection handler %d done\n", id);
 
   free(thread);
 
@@ -139,7 +193,7 @@ static void state_connection_thread_code(state_connection_thread_args *args)
 
     ulapi_mutex_take(&robot_mutex);
     for (int t = 0; t < JOINT_MAX; t++) {
-      if (the_robot.get_robot_pos(&p, t)) jsmsg.set_pos(p, t);
+      if (the_robot.get_robot_joint_pos(&p, t)) jsmsg.set_pos(p, t);
     }
     ulapi_mutex_give(&robot_mutex);
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jsmsg), sizeof(jsmsg));
@@ -198,14 +252,14 @@ static void request_server_thread_code(request_server_thread_args *args)
   id = args->id;
 
   while (true) {
-    if (debug) printf("waiting for joint message connection...\n");
+    if (debug) printf("waiting for a trajectory point connection...\n");
     connection_id = ulapi_socket_get_connection_id(id);
     if (connection_id < 0) {
-      fprintf(stderr, "can't get joint message connection connectons\n");
+      fprintf(stderr, "can't get a trajectory point connecton\n");
       break;
     }
      
-    if (debug) printf("got a joint message connection on id %d\n", connection_id);
+    if (debug) printf("got a trajectory point connection on id %d\n", connection_id);
 
     // spawn a connection thread
     request_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*request_connection_thread)));
@@ -243,14 +297,14 @@ static void state_server_thread_code(state_server_thread_args *args)
   period = args->period;
 
   while (true) {
-    if (debug) printf("waiting for joint state connection...\n");
+    if (debug) printf("waiting for a robot state connection...\n");
     connection_id = ulapi_socket_get_connection_id(id);
     if (connection_id < 0) {
-      fprintf(stderr, "can't get a joint state connection connectons\n");
+      fprintf(stderr, "can't get a robot state connection\n");
       break;
     }
      
-    if (debug) printf("got a joint state connection on id %d\n", connection_id);
+    if (debug) printf("got a robot state connection on id %d\n", connection_id);
 
     // spawn a connection thread
     state_connection_thread = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*state_connection_thread)));
@@ -454,7 +508,7 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  ret = the_robot.set_robot_pos(fval, joint-1);
+	  ret = the_robot.set_robot_joint_pos(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
 	  if (! ret) {
 	    printf("can't set joint %d position to %f\n", joint, dval);
@@ -474,7 +528,7 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  ret = the_robot.set_robot_pmin(fval, joint-1);
+	  ret = the_robot.set_robot_joint_min(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
 	  if (! ret) {
 	    printf("can't set joint %d min value to %f\n", joint, dval);
@@ -494,7 +548,7 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	  ulapi_mutex_take(&robot_mutex);
-	  ret = the_robot.set_robot_pmax(fval, joint-1);
+	  ret = the_robot.set_robot_joint_max(fval, joint-1);
 	  ulapi_mutex_give(&robot_mutex);
 	  if (! ret) {
 	    printf("can't set joint %d max value to %f\n", joint, dval);

@@ -25,7 +25,7 @@
 #include "nist_kitting/ws_stat.h"
 #include "nist_kitting/emove_cmd.h"
 #include "nist_kitting/emove_stat.h"
-#include "nist_kitting/exec.h"
+#include "nist_kitting/emove_run.h"
 
 #define NODE_NAME_DEFAULT "kitting_pl_hi"
 #define PERIOD_DEFAULT 1.0
@@ -150,9 +150,9 @@ static void do_cmd_kitting_ws_assemble_kit(nist_kitting::ws_assemble_kit &cmd, n
     }
     // else still running
   } else if (ws_stat.stat.state == RCS_STATE_S2) {
-    emove_cmd.cmd.type = KITTING_EXEC;
+    emove_cmd.cmd.type = KITTING_EMOVE_RUN;
     emove_cmd.cmd.serial_number = ++emove_cmd_serial_number;
-    emove_cmd.exec.name = plan_file;
+    emove_cmd.run.name = plan_file;
     emove_cmd_pub.publish(emove_cmd);
     ws_stat.stat.state = RCS_STATE_S3;
   } else if (ws_stat.stat.state == RCS_STATE_S3) {
@@ -193,7 +193,7 @@ static int ini_load(const std::string inifile_name,
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
-      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fprintf(stderr, "missing ini file entry: [%s] %s\n", section, key);
       fclose(fp);
       return 1;
     } else {
@@ -204,33 +204,16 @@ static int ini_load(const std::string inifile_name,
 
   if (plan_file.empty()) {
     /* no argument overrode it, so we'll look for it */
-    plan_file = std::string("");
-
-    section = "source";
-    key = "directory";
-    inistring = ini_find(fp, key, section);
-
-    if (NULL != inistring) {
-      plan_file = std::string(inistring);
-    }
-
-    section = "final_plan";
-    key = "directory";
-    inistring = ini_find(fp, key, section);
-
-    if (NULL != inistring) {
-      plan_file = plan_file + std::string(inistring);
-    }
-
-    key = "file";
+    section = "planner";
+    key = "plan";
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
-      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fprintf(stderr, "missing ini file entry: [%s] %s\n", section, key);
       fclose(fp);
       return 1;
     } else {
-      plan_file = plan_file + std::string(inistring);
+      plan_file = std::string(inistring);
     }
   }
 

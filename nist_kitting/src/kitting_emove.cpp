@@ -101,14 +101,14 @@ static void do_cmd_kitting_emove_move(std::string name, nist_kitting::emove_stat
   // else S0
 }
 
-static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat &emove_stat)
+static void do_cmd_kitting_emove_run(std::string name, nist_kitting::emove_stat &emove_stat)
 {
   std::string plan_exec_app_full;
   ulapi_integer retval;
   ulapi_integer result;
 
   if (emove_stat.stat.state == RCS_STATE_NEW_COMMAND) {
-    if (debug) ROS_INFO("Executing plan %s", name.c_str());
+    if (debug) ROS_INFO("Running plan %s", name.c_str());
     if (NULL != plan_exec_process) {
       ulapi_process_stop(plan_exec_process);
       ulapi_process_delete(plan_exec_process);
@@ -132,11 +132,11 @@ static void do_cmd_kitting_emove_exec(std::string name, nist_kitting::emove_stat
       if (result) {
 	emove_stat.stat.state = RCS_STATE_S0;
 	emove_stat.stat.status = RCS_STATUS_ERROR;
-	ROS_INFO("Could not execute plan '%s'", name.c_str());
+	ROS_INFO("Could not run plan '%s'", name.c_str());
       } else {
 	emove_stat.stat.state = RCS_STATE_S0;
 	emove_stat.stat.status = (result ? RCS_STATUS_ERROR : RCS_STATUS_DONE);
-	if (debug) ROS_INFO("Executed plan '%s'", name.c_str());
+	if (debug) ROS_INFO("Ran plan '%s'", name.c_str());
       }
     } else {
       if (debug) printf("Waiting for '%s'\n", plan_exec_app.c_str());
@@ -167,7 +167,7 @@ static int ini_load(const std::string inifile_name,
     inistring = ini_find(fp, key, section);
 
     if (NULL == inistring) {
-      fprintf(stderr, "missing ini file entry: %s\n", key);
+      fprintf(stderr, "missing ini file entry: [%s] %s\n", section, key);
       fclose(fp);
       return 1;
     } else {
@@ -337,8 +337,8 @@ int main(int argc, char **argv)
     case KITTING_HALT:
       do_cmd_halt(emove_stat_buf);
       break;
-    case KITTING_EXEC:
-      do_cmd_kitting_emove_exec(emove_cmd_buf.exec.name, emove_stat_buf);
+    case KITTING_EMOVE_RUN:
+      do_cmd_kitting_emove_run(emove_cmd_buf.run.name, emove_stat_buf);
       break;
     case KITTING_EMOVE_MOVE:
       do_cmd_kitting_emove_move(emove_cmd_buf.move.name, emove_stat_buf);

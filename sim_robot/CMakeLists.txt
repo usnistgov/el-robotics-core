@@ -1,24 +1,14 @@
 cmake_minimum_required(VERSION 2.8.3)
-
-project(nist_kitting)
-
-set(ROS_BUILD_TYPE Debug)
+project(sim_robot)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  std_msgs
-  geometry_msgs
-  genmsg
-  nist_core
-  ulapi
-)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system filesystem date_time thread)
+# find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -50,30 +40,18 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(DIRECTORY msg
-  FILES 
-  ws_cmd.msg
-  ws_stat.msg
-  ws_assemble_kit.msg
-  task_cmd.msg
-  task_move_object.msg
-  task_stat.msg
-  emove_cmd.msg
-  emove_move.msg
-  emove_run.msg
-  emove_stat.msg
-  prim_robot_cmd.msg
-  prim_robot_moveto.msg
-  prim_robot_stop.msg
-  prim_robot_set_abs_speed.msg
-  prim_robot_close_gripper.msg
-  prim_robot_open_gripper.msg
-  prim_robot_stat.msg
-  gripper_stat.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
-# add_service_files(DIRECTORY srv FILES Srv.srv)
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -83,7 +61,10 @@ add_message_files(DIRECTORY msg
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(DEPENDENCIES std_msgs geometry_msgs nist_core nist_kitting)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -95,10 +76,10 @@ generate_messages(DEPENDENCIES std_msgs geometry_msgs nist_core nist_kitting)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES nist_kitting ulapi
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
-  # DEPENDS boost
+#  INCLUDE_DIRS include
+#  LIBRARIES sim_robot
+#  CATKIN_DEPENDS other_catkin_pkg
+#  DEPENDS system_lib
 )
 
 ###########
@@ -108,68 +89,23 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(
-  include
-  # ${Boost_INCLUDE_DIRS}
-  ${catkin_INCLUDE_DIRS}
-  )
 
 ## Declare a cpp library
-add_library(nist_kitting
-  src/msg_types.cpp
-  src/kitting_utils.cpp
-  )
+# add_library(sim_robot
+#   src/${PROJECT_NAME}/sim_robot.cpp
+# )
 
 ## Declare a cpp executable
-add_executable(kitting_pl_hi_node src/kitting_pl_hi.cpp)
-add_executable(kitting_ws_node src/kitting_ws.cpp)
-add_executable(kitting_task_node src/kitting_task.cpp)
-add_executable(kitting_emove_node src/kitting_emove.cpp)
-add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
-add_executable(kitting_sh src/kitting_sh.cpp)
-add_executable(irclient_sh src/irclient_sh.cpp)
-add_executable(kitting_run src/kitting_run.cpp)
-add_executable(kitting_hmi_proxy src/kitting_hmi_proxy.cpp)
-add_executable(crcl_server src/crcl_server.cpp)
-
-add_executable(cognex_sim src/cognex_sim.cpp)
-add_executable(simple_message_sim src/simple_message_sim.cpp)
-add_executable(simple_message_sh src/simple_message_sh.cpp)
-
-add_executable(crobot src/crobot.cpp)
-target_link_libraries(crobot nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+# add_executable(sim_robot_node src/sim_robot_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(kitting_pl_hi_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_ws_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_task_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_emove_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
-add_dependencies(kitting_sh nist_kitting_generate_messages_cpp)
+# add_dependencies(sim_robot_node sim_robot_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(
-  nist_kitting
-  ${ulapi_LIBRARIES}
-  ${catkin_LIBRARIES}
-  # ${Boost_LIBRARIES}
-)
-
-target_link_libraries(kitting_pl_hi_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_ws_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_task_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_emove_node nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_prim_robot_node nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(kitting_sh nist_kitting ${catkin_LIBRARIES} readline)
-target_link_libraries(irclient_sh nist_kitting ${catkin_LIBRARIES} readline)
-target_link_libraries(crcl_server nist_kitting ${catkin_LIBRARIES})
-target_link_libraries(kitting_run nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(kitting_hmi_proxy nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
-
-target_link_libraries(cognex_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(simple_message_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(simple_message_sh nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+# target_link_libraries(sim_robot_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -186,7 +122,7 @@ target_link_libraries(simple_message_sh nist_kitting ${ulapi_LIBRARIES} ${catkin
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS nist_kitting nist_kitting_node
+# install(TARGETS sim_robot sim_robot_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -199,7 +135,7 @@ target_link_libraries(simple_message_sh nist_kitting ${ulapi_LIBRARIES} ${catkin
 #   PATTERN ".svn" EXCLUDE
 # )
 
-## Mark other files for installation (e.sg. launch and bag files, etc.)
+## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
 #   # myfile1
 #   # myfile2
@@ -211,7 +147,7 @@ target_link_libraries(simple_message_sh nist_kitting ${ulapi_LIBRARIES} ${catkin
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_nist_kitting.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_sim_robot.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

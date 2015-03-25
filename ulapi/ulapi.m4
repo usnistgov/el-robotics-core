@@ -316,7 +316,7 @@ AC_DEFUN([ACX_ULAPI],
 	[AC_MSG_CHECKING([for ULAPI interface to common functions])]
 	[AC_ARG_WITH(ulapi,
 		[ --with-ulapi=<path to ulapi>  Specify path to ulapi directory],
-		dirs=$withval,dirs="/usr/local/ulapi /usr/local/src/ulapi $HOME/ulapi")]
+		dirs=$withval,dirs="/usr/local /usr/local/ulapi /usr/local/src/ulapi $HOME/ulapi")]
 	for dir in $dirs ; do
 		if test -f $dir/include/ulapi.h ; then ULAPI_DIR=$dir ; break ; fi
 	done

@@ -3,13 +3,14 @@
 <!--
     Run as, e.g., 
 
-    roslaunch nist_kitting kitting_pl_hi.launch inifile_name:=/usr/local/github/el-robotics-core/nist_kitting/src/ini.ini
+    roslaunch nist_kitting simple_message_demo.launch
 -->
 
 <arg name="msg_port" default="11000" />
 <arg name="state_port" default="11002" />
 <arg name="period" default="0.5" />
 <arg name="robot_ip" default="localhost" />
+<arg name="urdf_path" default="robot.urdf" />
 
 <group>
 
@@ -17,6 +18,7 @@
 
   <include file="$(find industrial_robot_client)/launch/robot_interface_streaming.launch">
   <arg name="robot_ip" value="$(arg robot_ip)" />
+  <arg name="urdf_path" value="$(arg urdf_path)" />
   </include>
 
 </group>

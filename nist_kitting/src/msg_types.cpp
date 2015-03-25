@@ -10,9 +10,9 @@ char *kitting_cmd_to_string(int s)
   if (s == KITTING_NOP) sprintf(buf, "Nop");
   else if (s == KITTING_INIT) sprintf(buf, "Init");
   else if (s == KITTING_HALT) sprintf(buf, "Halt");
-  else if (s == KITTING_EXEC) sprintf(buf, "Exec");
   else if (s == KITTING_WS_ASSEMBLE_KIT) sprintf(buf, "WsAssembleKit");
   else if (s == KITTING_TASK_MOVE_OBJECT) sprintf(buf, "TaskMoveObject");
+  else if (s == KITTING_EMOVE_RUN) sprintf(buf, "EmoveRun");
   else if (s == KITTING_EMOVE_APPROACH) sprintf(buf, "EmoveApproach");
   else if (s == KITTING_EMOVE_ACQUIRE) sprintf(buf, "EmoveAcquire");
   else if (s == KITTING_EMOVE_MOVE) sprintf(buf, "EmoveMove");

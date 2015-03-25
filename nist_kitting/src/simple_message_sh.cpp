@@ -28,6 +28,15 @@
 #include "simple_message_defs.h"
 
 static bool debug = false;
+enum {
+  DEBUG_NONE = 0x00,
+  DEBUG_REPLY = 0x01,
+  DEBUG_STATE = 0x02,
+  DEBUG_FEEDBACK = 0x04,
+  DEBUG_RUN = 0x08,
+  DEBUG_ALL = 0xFF
+};
+static int debug_level = DEBUG_ALL;
 
 // Reply message client code ----------------------
 
@@ -48,6 +57,7 @@ static void reply_client_thread_code(reply_client_thread_args *args)
   int length;
   int message_type;
   joint_traj_pt_reply_message jtp_rep;
+  cart_traj_pt_reply_message ctp_rep;
 
   thread = args->thread;
   id = args->id;
@@ -55,9 +65,6 @@ static void reply_client_thread_code(reply_client_thread_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
-    if (debug) {
-      printf("Got %d reply chars\n", nchars);
-    }
     inbuf[sizeof(inbuf)-1] = 0;
     ptr = inbuf;
     nleft = nchars;
@@ -73,10 +80,14 @@ static void reply_client_thread_code(reply_client_thread_args *args)
 	break;
       case MESSAGE_JOINT_TRAJ_PT:
 	jtp_rep.read_joint_traj_pt_reply(ptr);
-	if (debug) jtp_rep.print_joint_traj_pt_reply();
+	if (debug & DEBUG_REPLY) jtp_rep.print_joint_traj_pt_reply();
+	break;
+      case MESSAGE_CART_TRAJ_PT:
+	ctp_rep.read_cart_traj_pt_reply(ptr);
+	if (debug & DEBUG_REPLY) ctp_rep.print_cart_traj_pt_reply();
 	break;
       default:
-	if (debug) printf("unknown reply type: %d\n", message_type);
+	printf("unknown reply type: %d\n", message_type);
 	break;
       } // switch (message type)
       nleft -= (sizeof(length) + length);
@@ -86,7 +97,7 @@ static void reply_client_thread_code(reply_client_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("joint state client handler %d done\n", id);
+  if (debug & DEBUG_RUN) printf("joint state client handler %d done\n", id);
 
   return;
 }
@@ -118,9 +129,6 @@ static void state_client_thread_code(state_client_thread_args *args)
   while (true) {
     nchars = ulapi_socket_read(id, inbuf, sizeof(inbuf));
     if (nchars <= 0) break;
-    if (debug) {
-      printf("Got %d state chars\n", nchars);
-    }
     inbuf[sizeof(inbuf)-1] = 0;
     ptr = inbuf;
     nleft = nchars;
@@ -134,17 +142,17 @@ static void state_client_thread_code(state_client_thread_args *args)
       switch (message_type) {
       case MESSAGE_ROBOT_STATUS:
 	robot_status.read_robot_status(ptr);
-	if (debug) robot_status.print_robot_status();
+	if (debug & DEBUG_STATE) robot_status.print_robot_status();
 	break;
 	/* NOTE: JOINT_POSITION is deprecated, but JOINT_TRAJ_PT gives
 	   an error in the industrial robot client. */
       case MESSAGE_JOINT_POSITION:
 	jtp_state.read_joint_traj_pt_state(ptr);
-	if (debug) jtp_state.print_joint_traj_pt_state();
+	if (debug & DEBUG_FEEDBACK) jtp_state.print_joint_traj_pt_state();
 	break;
       default:
 	// unknown message
-	if (debug) printf("unknown status type: %d\n", message_type);
+	printf("unknown status type: %d\n", message_type);
 	break;
       } // switch (message type)
       nleft -= (sizeof(length) + length);
@@ -154,7 +162,7 @@ static void state_client_thread_code(state_client_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug) printf("joint message client handler %d done\n", id);
+  if (debug & DEBUG_RUN) printf("joint message client handler %d done\n", id);
 
   return;
 }
@@ -182,10 +190,11 @@ int main(int argc, char *argv[])
   reply_client_thread_args rc_args; 
   state_client_thread_args sc_args;
   joint_traj_pt_request_message jtp_req;
+  cart_traj_pt_request_message ctp_req;
 
   opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":h:m:s:d");
+    option = getopt(argc, argv, ":h:m:s:l:d");
     if (option == -1) break;
 
     switch (option) {
@@ -201,6 +210,14 @@ int main(int argc, char *argv[])
     case 's':
       ival = atoi(optarg);
       state_port = ival;
+      break;
+
+    case 'l':
+      if (1 != sscanf(optarg, "%i", &ival)) {
+	fprintf(stderr, "need an integer debug level\n");
+	return 1;
+      }
+      debug_level = ival;
       break;
 
     case 'd':
@@ -232,7 +249,7 @@ int main(int argc, char *argv[])
   rc_args.id = message_client_id;
   ulapi_task_start(&reply_client_thread, reinterpret_cast<ulapi_task_code>(reply_client_thread_code), reinterpret_cast<void *>(&rc_args), ulapi_prio_highest(), 0);
 
-#if 1
+#if 0
   // connect to state server
   state_client_id = ulapi_socket_get_client_id(state_port, host);
   if (state_client_id < 0) {
@@ -249,12 +266,13 @@ int main(int argc, char *argv[])
 
   // we in the foreground read input and update the robot model as needed
   bool done = false;
+  bool cart = false;
   while (! done) {
     enum {INBUF_LEN = 1024};
     char inbuf[INBUF_LEN];
     char *ptr;
     char *endptr;
-    float fval;
+    float f1, f2, f3, f4, f5, f6, f7;
     int nchars;
 
     // print prompt
@@ -273,7 +291,21 @@ int main(int argc, char *argv[])
 
     do {
       if (0 == *ptr) {		// blank lin4
-	jtp_req.print_joint_traj_pt_request();
+	if (cart) {
+	  ctp_req.print_cart_traj_pt_request();
+	} else {
+	  jtp_req.print_joint_traj_pt_request();
+	}
+	break;
+      }
+
+      if ('c' == *ptr) {
+	cart = true;
+	break;
+      }
+
+      if ('j' == *ptr) {
+	cart = false;
 	break;
       }
 
@@ -283,23 +315,47 @@ int main(int argc, char *argv[])
       }
 
       if ('v' == *ptr) {
-	if (1 == sscanf(ptr, "%*s %f", &fval)) {
-	  jtp_req.set_velocity(fval);
+	if (1 == sscanf(ptr, "%*s %f", &f1)) {
+	  if (cart) {
+	    ctp_req.set_translational_speed(f1);
+	  } else {
+	    jtp_req.set_velocity(f1);
+	  }
 	} else {
 	  printf("need a velocity\n");
 	}
 	break;
       }
 
-      for (int t = 0; t < JOINT_MAX; t++) {
-	fval = strtof(ptr, &endptr);
-	if (endptr == ptr) break;
-	jtp_req.set_pos(fval, t);
-	ptr = endptr;
+      if ('w' == *ptr) {
+	if (1 == sscanf(ptr, "%*s %f", &f1)) {
+	  ctp_req.set_rotational_speed(f1);
+	} else {
+	  printf("need an angular speed\n");
+	}
+	break;
       }
-      jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
-      nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
-      if (nchars <= 0) break;
+
+      if (cart) {
+	if (7 != sscanf(ptr, "%f %f %f %f %f %f %f", 
+			&f1, &f2, &f3, &f4, &f5, &f6, &f7)) {
+	  break;
+	}
+	ctp_req.set_pos(f1, f2, f3, f4, f5, f6, f7);
+	ctp_req.set_seq_number(ctp_req.get_seq_number()+1);
+	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&ctp_req), sizeof(ctp_req));
+	if (nchars <= 0) break;
+      } else {
+	for (int t = 0; t < JOINT_MAX; t++) {
+	  f1 = strtof(ptr, &endptr);
+	  if (endptr == ptr) break;
+	  jtp_req.set_pos(f1, t);
+	  ptr = endptr;
+	}
+	jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
+	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
+	if (nchars <= 0) break;
+      }
 
     } while (false);		// do ... wrapper
 

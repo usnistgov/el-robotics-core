@@ -3,6 +3,10 @@
 import sys, os, time, getopt, string, threading, socket, ConfigParser, StringIO
 from crcl import *
 
+def except_info():
+    exc_type, exc_value = sys.exc_info()[:2]
+    return str(exc_type.__name__) + ": " + str(exc_value)
+
 INIFILE = ""
 ROBOT_PORT = ""
 ROBOT_HOST = ""
@@ -60,7 +64,7 @@ def robot_reader(conn):
         except: break
         if not data: break
         try:
-            tree = ET.parse(StringIO.StringIO(data))
+            tree = ET.parse(StringIO.StringIO(data.rstrip(' \t\n\r\0')))
             root = tree.getroot()
             if root.tag == "CRCLStatus":
                 for child in root:
@@ -72,25 +76,22 @@ def robot_reader(conn):
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
                     if child.tag == "Pose":
-                        x, y, z = 0, 0, 0
-                        xi, xj, xk = 1, 0, 0
-                        zi, zj, zk = 0, 0, 1
                         for cc in child:
                             if cc.tag == "Point":
-                                x = cc.findtext("X")
-                                y = cc.findtext("Y")
-                                z = cc.findtext("Z")
+                                x = float(cc.findtext("X"))
+                                y = float(cc.findtext("Y"))
+                                z = float(cc.findtext("Z"))
                             if cc.tag == "XAxis":
-                                xi = cc.findtext("I")
-                                xj = cc.findtext("J")
-                                xk = cc.findtext("K")
+                                xi = float(cc.findtext("I"))
+                                xj = float(cc.findtext("J"))
+                                xk = float(cc.findtext("K"))
                             if cc.tag == "ZAxis":
-                                zi = cc.findtext("I")
-                                zj = cc.findtext("J")
-                                zk = cc.findtext("K")
+                                zi = float(cc.findtext("I"))
+                                zj = float(cc.findtext("J"))
+                                zk = float(cc.findtext("K"))
                         RobotPose = PoseLocationType(PointType(x,y,z), VectorType(xi,xj,xk), VectorType(zi,zj,zk))
-        except: pass
-
+        except:
+            print "crclsh: robot_reader:", except_info()
     conn.close()
 
 def gripper_reader(conn):
@@ -101,7 +102,7 @@ def gripper_reader(conn):
         except: break
         if not data: break
         try:
-            tree = ET.parse(StringIO.StringIO(data))
+            tree = ET.parse(StringIO.StringIO(data.rstrip(' \t\n\r\0')))
             root = tree.getroot()
             if root.tag == "CRCLStatus":
                 for child in root:
@@ -113,7 +114,8 @@ def gripper_reader(conn):
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): GripperCommandState = toCommandStateType(t)
                         # else Pose, GripperStatus, etc.
-        except: pass
+        except:
+            print "crclsh: gripper_reader:", except_info()
     conn.close()
 
 try:
@@ -155,12 +157,12 @@ if INIFILE != "":
             if GRIPPER_HOST == "":
                 GRIPPER_HOST = config.get("gripper_prim", "host")
     except IOError as err:
-        print "robot_prim: open inifile:", str(err)
+        print "crclsh: open inifile:", str(err)
         sys.exit(1)
     except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
-        print "robot_prim: read inifile:", str(err)
+        print "crclsh: read inifile:", str(err)
     except:
-        print "robot_prim: inifile error"
+        print "crclsh: inifile error"
         sys.exit(1)
 
 if ROBOT_PORT == "":

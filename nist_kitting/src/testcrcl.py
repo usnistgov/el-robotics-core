@@ -179,4 +179,11 @@ P21 = PoseLocationType(PointType(-5, 20, 12.7), VectorType(0,1,0), VectorType(0,
 P2 = PosePoseMult(P1, P21)
 print P2
 
+toks = [1, 2, 3, 4, 5, 6, 7]
+params = []
 
+for key, val in zip(toks[0::2], toks[1::2]):
+    params.append(ParameterSettingType(key, val))
+
+m = SetEndEffectorParametersType(1, params)
+print m

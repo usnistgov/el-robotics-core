@@ -29,8 +29,8 @@ GripperCommandState = CommandStateType.READY
 def printStatus():
     global RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
     global GripperCommandID, GripperStatusID, GripperCommandState
-    print RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
-    print GripperCommandID, GripperStatusID, GripperCommandState
+    print "Robot:", RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
+    print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState
 
 '''
 Kuka LWR status looks like:
@@ -118,8 +118,33 @@ def gripper_reader(conn):
             print "crclsh: gripper_reader:", except_info()
     conn.close()
 
+def printHelp():
+    help = '''
+Command-line options:
+-i, --inifile <inifile>  : use <inifile> to get the parameters
+-r, --robot <port>       : use TCP <port> to connect to the robot
+-R, --robothost <host>   : use <host> that runs the robot
+-g, --gripper <port>     : use TCP <port> to connect to the gripper
+-G, --gripperhost <host> : use <host> that runs the gripper
+-d, --debug              : turn debug printing on
+-?, --help               : print this help and exit
+
+Interactive commands:
+q, ^D, ^C                : quit
+?                        : print this help message
+[Enter]                  : print robot and gripper status
+init                     : send InitCanon to both the robot and gripper
+end                      : send EndCanon to both the robot and gripper
+open                     : send OpenToolChanger to the grippper
+close <name>             : send CloseToolChanger for gripper <name>
+set <value>              : send SetEndEffector for gripper <value>
+params <name value> ...  : send gripper SetEndEffectorParameters for pairs
+move <x y z xi xj xk zi zj zk> : send MoveTo to robot
+'''
+    print help
+
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:Xd", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "debug="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:Xd?", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "debug", "help"])
 except getopt.GetoptError, err:
     print "crclsh:", str(err)
     sys.exit(1)
@@ -137,6 +162,9 @@ for o, a in opts:
         GRIPPER_HOST = a
     elif o in ("-d", "--debug"):
         DEBUG = True
+    elif o in ("-?", "--help"):
+        printHelp()
+        sys.exit(0)
 
 defdict = {
     "port" : "",
@@ -221,23 +249,11 @@ while not done:
         continue
 
     cmd = toks[0]
+
     if cmd == "q": break
-    elif cmd == "h": print "help"
 
-    elif cmd == "open":
-        gripper_cid += 1
-        m = OpenToolChangerType(gripper_cid)
-        gripper_socket.send(str(m))
-
-    elif cmd == "close":
-        try:
-            name = toks[1]
-        except:
-            print "need a gripper name"
-            continue
-        gripper_cid += 1
-        m = CloseToolChangerType(gripper_cid, Name=name)
-        gripper_socket.send(str(m))
+    elif cmd == "?":
+        printHelp()
 
     elif cmd == "init":
         gripper_cid += 1
@@ -255,6 +271,21 @@ while not done:
         m = EndCanonType(robot_cid)
         robot_socket.send(str(m))
 
+    elif cmd == "open":
+        gripper_cid += 1
+        m = OpenToolChangerType(gripper_cid)
+        gripper_socket.send(str(m))
+
+    elif cmd == "close":
+        try:
+            name = toks[1]
+        except:
+            print "need a gripper name"
+            continue
+        gripper_cid += 1
+        m = CloseToolChangerType(gripper_cid, Name=name)
+        gripper_socket.send(str(m))
+
     elif cmd == "set":
         try:
             val = float(toks[1])
@@ -263,6 +294,17 @@ while not done:
             continue
         gripper_cid += 1
         m = SetEndEffectorType(gripper_cid, val)
+        gripper_socket.send(str(m))
+
+    elif cmd == "params":
+        params = []
+        for name, val in zip(toks[1::2], toks[2::2]):
+            params.append(ParameterSettingType(name, val))
+        if len(params) == 0:
+            print "need a list of name-value pairs"
+            continue
+        gripper_cid += 1
+        m = SetEndEffectorParametersType(gripper_cid, params)
         gripper_socket.send(str(m))
         
     elif cmd == "move":
@@ -284,5 +326,5 @@ while not done:
         robot_socket.send(str(m))
 
     else:
-        print "?:", line
+        print "? :", line
 

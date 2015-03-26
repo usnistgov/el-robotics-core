@@ -10,9 +10,9 @@
 
 <group>
 
-  <node pkg="nist_kitting" name="robot_prim" args="-i $(arg inifile_name) -d" type="robot_prim" output="screen"/>
+  <node pkg="nist_kitting" name="robot_prim" args="-i $(arg inifile_name) -d" type="crclsim.py" output="screen"/>
 
-  <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -d -n gripper_prim" type="robot_prim" output="screen"/>
+  <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -d -n gripper_prim" type="crclsim.py" output="screen"/>
 
   <node pkg="nist_kitting" name="emove" args="-i $(arg inifile_name) -d" type="kitting_emove_node" output="screen"/>
 

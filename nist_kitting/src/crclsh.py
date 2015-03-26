@@ -3,6 +3,11 @@
 import sys, os, time, getopt, string, threading, socket, ConfigParser, StringIO
 from crcl import *
 
+xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+uri = "http://www.w3.org/2001/XMLSchema-instance"
+xsi = "{" + uri + "}"
+dict = {"xmlns:xsi" : uri}
+
 def except_info():
     exc_type, exc_value = sys.exc_info()[:2]
     return str(exc_type.__name__) + ": " + str(exc_value)
@@ -75,7 +80,7 @@ def robot_reader(conn):
                         if (t != None) and (t != ""): RobotStatusID = int(t)
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
-                    if child.tag == "Pose":
+                    elif child.tag == "Pose":
                         for cc in child:
                             if cc.tag == "Point":
                                 x = float(cc.findtext("X"))
@@ -96,6 +101,7 @@ def robot_reader(conn):
 
 def gripper_reader(conn):
     global DEBUG, GripperCommandID, GripperStatusID, GripperCommandState
+    global GripperName, GripperType, GripperSeparation
     size = 1024
     while True:
         try: data = conn.recv(size)
@@ -108,12 +114,23 @@ def gripper_reader(conn):
                 for child in root:
                     if child.tag == "CommandStatus":
                         t = child.findtext("CommandID")
-                        if (t != None) and (t != ""): GripperCommandID = int(t)
+                        GripperCommandID = int(t)
                         t = child.findtext("StatusID")
-                        if (t != None) and (t != ""): GripperStatusID = int(t)
+                        GripperStatusID = int(t)
                         t = child.findtext("CommandState")
-                        if (t != None) and (t != ""): GripperCommandState = toCommandStateType(t)
-                        # else Pose, GripperStatus, etc.
+                        GripperCommandState = toCommandStateType(t)
+                    elif child.tag == "GripperStatus":
+                        t = child.findtext("GripperName")
+                        if (t != None) and (t != ""): GripperName = t
+                        gt = child.attrib.get(xsi+"type", None)
+                        GripperType = gt
+                        if gt == "ParallelGripperStatusType":
+                            f = float(child.findtext("Separation"))
+                            GripperSeparation = f
+                        elif gt == "ThreeFingerGripperStatusType":
+                            pass
+                        elif gt == "VacuumGripperStatusType":
+                            pass
         except:
             print "crclsh: gripper_reader:", except_info()
     conn.close()

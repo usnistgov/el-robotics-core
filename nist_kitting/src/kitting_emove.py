@@ -32,16 +32,17 @@ PERIOD = 0.5
 # the global emove status structure
 EmoveStatMsg = emove_stat()
 
-# the global subordinate statuses
-
-RobotCommandID = 0
-RobotCommandState = CommandStateType.READY
-
-GripperCommandID = 0
-GripperCommandState = CommandStateType.READY
-
 XAXIS = VectorType(1, 0, 0)
 ZAXIS = VectorType(0, 0, 1)
+
+RobotCommandID = 0
+RobotStatusID = 0
+RobotCommandState = CommandStateType.READY
+RobotPose = PoseLocationType()
+
+GripperCommandID = 0
+GripperStatusID = 0
+GripperCommandState = CommandStateType.READY
 
 def except_info():
     exc_type, exc_value = sys.exc_info()[:2]
@@ -50,24 +51,41 @@ def except_info():
 AprsDB = MySQLdbConn()
 
 def robot_reader(conn):
-    global DEBUG, RobotCommandID, RobotCommandState
+    global DEBUG, RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
     size = 1024
     while True:
         try: data = conn.recv(size)
         except: break
         if not data: break
         try:
-            tree = ET.parse(StringIO.StringIO(data))
+            tree = ET.parse(StringIO.StringIO(data.rstrip(' \t\n\r\0')))
             root = tree.getroot()
             if root.tag == "CRCLStatus":
                 for child in root:
                     if child.tag == "CommandStatus":
                         t = child.findtext("CommandID")
                         if (t != None) and (t != ""): RobotCommandID = int(t)
+                        t = child.findtext("StatusID")
+                        if (t != None) and (t != ""): RobotStatusID = int(t)
                         t = child.findtext("CommandState")
                         if (t != None) and (t != ""): RobotCommandState = toCommandStateType(t)
-                        # else Pose, GripperStatus, etc.
-        except: pass
+                    if child.tag == "Pose":
+                        for cc in child:
+                            if cc.tag == "Point":
+                                x = float(cc.findtext("X"))
+                                y = float(cc.findtext("Y"))
+                                z = float(cc.findtext("Z"))
+                            if cc.tag == "XAxis":
+                                xi = float(cc.findtext("I"))
+                                xj = float(cc.findtext("J"))
+                                xk = float(cc.findtext("K"))
+                            if cc.tag == "ZAxis":
+                                zi = float(cc.findtext("I"))
+                                zj = float(cc.findtext("J"))
+                                zk = float(cc.findtext("K"))
+                        RobotPose = PoseLocationType(PointType(x,y,z), VectorType(xi,xj,xk), VectorType(zi,zj,zk))
+        except:
+            print "crclsh: robot_reader:", except_info()
     conn.close()
 
 def gripper_reader(conn):

@@ -1,0 +1,22 @@
+<launch>
+
+<!--
+    Run as, e.g., 
+
+    roslaunch nist_kitting crclsh.launch inifile_name:=/usr/local/iora/etc/kittingDemo.ini debug:=-d
+-->
+
+<arg name="inifile_name" default="ini.ini" />
+<arg name="debug" default="" />
+
+<group>
+
+  <node pkg="nist_kitting" name="robot_prim" args="-i $(arg inifile_name) -n robot_prim -r $(arg debug)" type="crclsim.py" output="screen"/>
+
+  <node pkg="nist_kitting" name="gripper_prim" args="-i $(arg inifile_name) -n gripper_prim -g $(arg debug)" type="crclsim.py" output="screen"/>
+
+  <node pkg="nist_kitting" name="crclsh" args="-i $(arg inifile_name) $(arg debug)" type="crclsh.py" output="screen" required="true"/>
+
+</group>
+
+</launch>

@@ -474,6 +474,15 @@ class CRCLStatusType(DataThingType):
         self.JointStatuses = JointStatuses
         self.GripperStatus = GripperStatus
 
+    def setPose(self, Pose):
+        self.Pose = Pose
+
+    def setJointStatuses(self, JointStatuses):
+        self.JointStatuses = JointStatuses
+
+    def setGripperStatus(self, GripperStatus):
+        self.GripperStatus = GripperStatus
+
     def tree(self, root=None):
         if root == None: root = ET.Element("CRCLStatus", attrib=dict)
         super(CRCLStatusType, self).tree(root)

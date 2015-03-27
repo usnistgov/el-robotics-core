@@ -30,12 +30,16 @@ RobotPose = PoseLocationType()
 GripperCommandID = 0
 GripperStatusID = 0
 GripperCommandState = CommandStateType.READY
+GripperName = ""
+GripperType = ""
+GripperSeparation = 0
 
 def printStatus():
     global RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
-    global GripperCommandID, GripperStatusID, GripperCommandState
+    global GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
+
     print "Robot:", RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
-    print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState
+    print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
 
 '''
 Kuka LWR status looks like:

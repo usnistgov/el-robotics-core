@@ -12,6 +12,8 @@ INIFILE = ""
 NAME = "robot_prim"
 PORT = ""
 PERIOD = 0.5
+DO_ROBOT = False
+DO_GRIPPER = False
 DEBUG = False
 
 # the global RCS header variables for the currently executing command
@@ -19,17 +21,25 @@ CommandID = 0
 StatusID = 0
 CommandState = "Ready"
 Pose = PoseLocationType()
+GripperName = "CRCLSimGripper"
+GripperSeparation = 0.5
 
 # --- Status writer ---
 
 def writer(conn, period):
-    global DEBUG, CommandID, StatusID, CommandState, Pose
+    global DEBUG, DO_ROBOT, DO_GRIPPER
+    global CommandID, StatusID, CommandState
+    global Pose
+    global GripperName, GripperSeparation
 
     # loop with a delay while a client is connected
     while True:
 
         StatusID += 1 
         cs = CRCLStatusType(CommandStatusType(CommandID, StatusID, CommandState), Pose)
+        if DO_ROBOT: cs.setPose(Pose)
+        if DO_GRIPPER: cs.setGripperStatus(ParallelGripperStatusType(GripperName, GripperSeparation))
+
         tree = cs.tree()
 
         # stringify it
@@ -116,17 +126,21 @@ def handleMoveToType(child):
 
 def handleOpenToolChangerType(child):
     global DEBUG, CommandID, CommandState
+    global GripperName
     if DEBUG: print "handleOpenToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
+    GripperName = "None"
     print CommandID, "open"
 
 def handleCloseToolChangerType(child):
     global DEBUG, CommandID, CommandState
+    global GripperName
     if DEBUG: print "handleCloseToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
     name = child.findtext("Name")
+    GripperName = name
     print CommandID, "close", name
 
 def handleSetEndEffectorParametersType(child):
@@ -140,10 +154,13 @@ def handleSetEndEffectorParametersType(child):
 
 def handleSetEndEffectorType(child):
     global DEBUG, CommandID, CommandState
+    global GripperSeparation
     if DEBUG: print "handleSetEndEffectorType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
     setting = child.findtext("Setting")
+    try: GripperSeparation = float(setting)
+    except: pass
     print CommandID, "set", setting
 
 # -- Command reader ---
@@ -199,7 +216,7 @@ def reader(conn):
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:n:p:t:d", ["inifile=", "name=", "port=", "period="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:n:p:t:rgd", ["inifile=", "name=", "port=", "period=", "robot", "gripper", "debug"])
 except getopt.GetoptError, err:
     print NAME, ":", str(err)
     sys.exit(1)
@@ -213,7 +230,11 @@ for o, a in opts:
         PORT = a
     elif o in ("-t", "--period"):
         PERIOD = a
-    elif o in ("-d"):
+    elif o in ("-r", "--robot"):
+        DO_ROBOT = True
+    elif o in ("-g", "--gripper"):
+        DO_GRIPPER = True
+    elif o in ("-d", "--debug"):
         DEBUG = True
 
 if INIFILE != "":
@@ -239,6 +260,11 @@ if PORT == "":
 if PERIOD == "":
     PERIOD = 1
     print NAME, ": using default period", PERIOD
+
+# if our type is not specified, be both a robot and gripper
+if (DO_ROBOT == False) and (DO_GRIPPER == False):
+    DO_ROBOT == True
+    DO_GRIPPER == True
 
 BACKLOG = 1
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -38,8 +38,11 @@ def printStatus():
     global RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
     global GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
 
-    print "Robot:", RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
-    print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
+    try:
+        print "Robot:", RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
+        print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
+    except:
+        print except_info()
 
 '''
 Kuka LWR status looks like:

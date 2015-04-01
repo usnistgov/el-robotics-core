@@ -434,6 +434,15 @@ class GripperStatusType(DataThingType):
         super(GripperStatusType, self).__init__(self, **kwargs)
         self.GripperName = GripperName
 
+    def setName(self, name):
+        try:
+            self.GripperName = name
+        except:
+            self.GripperName = ""
+
+    def getName(self):
+        return self.GripperName
+
     def tree(self, root=None):
         if root == None: root = ET.Element(None)
         ET.SubElement(root, "GripperName").text = str(self.GripperName)
@@ -444,6 +453,12 @@ class ParallelGripperStatusType(GripperStatusType):
         super(ParallelGripperStatusType, self).__init__(GripperName, **kwargs)
         self.Separation = Separation
 
+    def setSeparation(self, Separation):
+        self.Separation = Separation
+
+    def getSeparation(self):
+        return self.Separation
+
     def tree(self, root=None):
         if root == None: root = ET.Element(None)
         el = ET.SubElement(root, "GripperStatus", attrib={"xsi:type" : "ParallelGripperStatusType"})
@@ -451,6 +466,35 @@ class ParallelGripperStatusType(GripperStatusType):
         ET.SubElement(el, "Separation").text = str(self.Separation)
         return ET.ElementTree(root)
 
+class ThreeFingerGripperStatusType(GripperStatusType):
+
+    def setFingerPosition(self, Finger1Position, Finger2Position, Finger3Position):
+        self.Finger1Position = Finger1Position
+        self.Finger2Position = Finger2Position
+        self.Finger3Position = Finger3Position
+
+    def setFingerForce(self, Finger1Force, Finger2Force, Finger3Force):
+        self.Finger1Force = Finger1Force
+        self.Finger2Force = Finger2Force
+        self.Finger3Force = Finger3Force
+
+    def __init__(self, GripperName, **kwargs):
+        super(ThreeFingerGripperStatusType, self).__init__(GripperName, **kwargs)
+        self.setFingerPosition(0, 0, 0)
+        self.setFingerForce(0, 0, 0)
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        el = ET.SubElement(root, "GripperStatus", attrib={"xsi:type" : "ThreeFingerGripperStatusType"})
+        super(ThreeFingerGripperStatusType, self).tree(el)
+        ET.SubElement(el, "Finger1Position").text = str(self.Finger1Position)
+        ET.SubElement(el, "Finger2Position").text = str(self.Finger2Position)
+        ET.SubElement(el, "Finger3Position").text = str(self.Finger3Position)
+        ET.SubElement(el, "Finger1Force").text = str(self.Finger1Force)
+        ET.SubElement(el, "Finger2Force").text = str(self.Finger2Force)
+        ET.SubElement(el, "Finger3Force").text = str(self.Finger3Force)
+        return ET.ElementTree(root
+)
 class VacuumGripperStatusType(GripperStatusType):
 
     def __init__(self, GripperName, IsPowered, **kwargs):

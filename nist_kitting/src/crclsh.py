@@ -30,16 +30,14 @@ RobotPose = PoseLocationType()
 GripperCommandID = 0
 GripperStatusID = 0
 GripperCommandState = CommandStateType.READY
-GripperName = ""
-GripperType = ""
-GripperSeparation = 0
+GripperStatus = ParallelGripperStatusType("ParallelGripper", 0)
 
 def printStatus():
     global RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
-    global GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
+    global GripperCommandID, GripperStatusID, GripperCommandState, GripperStatus
 
     print "Robot:", RobotCommandID, RobotStatusID, RobotCommandState, RobotPose
-    print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState, GripperName, GripperType, GripperSeparation
+    print "Gripper:", GripperCommandID, GripperStatusID, GripperCommandState, GripperStatus
 
 '''
 Kuka LWR status looks like:
@@ -105,7 +103,7 @@ def robot_reader(conn):
 
 def gripper_reader(conn):
     global DEBUG, GripperCommandID, GripperStatusID, GripperCommandState
-    global GripperName, GripperType, GripperSeparation
+    global GripperStatus
     size = 1024
     while True:
         try: data = conn.recv(size)
@@ -125,14 +123,21 @@ def gripper_reader(conn):
                         GripperCommandState = toCommandStateType(t)
                     elif child.tag == "GripperStatus":
                         t = child.findtext("GripperName")
-                        if (t != None) and (t != ""): GripperName = t
+                        if (t != None) and (t != ""): GripperStatus.setName(t)
                         gt = child.attrib.get(xsi+"type", None)
-                        GripperType = gt
                         if gt == "ParallelGripperStatusType":
                             f = float(child.findtext("Separation"))
-                            GripperSeparation = f
+                            try: GripperStatus.setSeparation(f)
+                            except: GripperStatus = ParallelGripperStatusType(GripperStatus.getName(), f)
                         elif gt == "ThreeFingerGripperStatusType":
-                            pass
+                            p1 = float(child.findtext("Finger1Position"))
+                            p2 = float(child.findtext("Finger2Position"))
+                            p3 = float(child.findtext("Finger3Position"))
+                            try:
+                                GripperStatus.setFingerPosition(p1, p2, p3)
+                            except:
+                                GripperStatus = ThreeFingerGripperStatusType(GripperStatus.getName())
+                                GripperStatus.setFingerPosition(p1, p2, p3)
                         elif gt == "VacuumGripperStatusType":
                             pass
         except:

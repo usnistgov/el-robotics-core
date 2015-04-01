@@ -21,8 +21,9 @@ CommandID = 0
 StatusID = 0
 CommandState = "Ready"
 Pose = PoseLocationType()
-GripperName = "CRCLSimGripper"
-GripperSeparation = 0.5
+ThreeFingerGripperStatus = ThreeFingerGripperStatusType("ThreeFingerGripper")
+ParallelGripperStatus = ParallelGripperStatusType("ParallelGripper", 0)
+VacuumGripperStatus = VacuumGripperStatusType("VacuumGripper", False)
 
 # --- Status writer ---
 
@@ -30,7 +31,7 @@ def writer(conn, period):
     global DEBUG, DO_ROBOT, DO_GRIPPER
     global CommandID, StatusID, CommandState
     global Pose
-    global GripperName, GripperSeparation
+    global ThreeFingerGripperStatus
 
     # loop with a delay while a client is connected
     while True:
@@ -38,7 +39,7 @@ def writer(conn, period):
         StatusID += 1 
         cs = CRCLStatusType(CommandStatusType(CommandID, StatusID, CommandState), Pose)
         if DO_ROBOT: cs.setPose(Pose)
-        if DO_GRIPPER: cs.setGripperStatus(ParallelGripperStatusType(GripperName, GripperSeparation))
+        if DO_GRIPPER: cs.setGripperStatus(ThreeFingerGripperStatus)
 
         tree = cs.tree()
 
@@ -126,21 +127,19 @@ def handleMoveToType(child):
 
 def handleOpenToolChangerType(child):
     global DEBUG, CommandID, CommandState
-    global GripperName
     if DEBUG: print "handleOpenToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
-    GripperName = "None"
     print CommandID, "open"
 
 def handleCloseToolChangerType(child):
     global DEBUG, CommandID, CommandState
-    global GripperName
+    global ThreeFingerGripperStatus
     if DEBUG: print "handleCloseToolChangerType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
     name = child.findtext("Name")
-    GripperName = name
+    ThreeFingerGripperStatus.setName(name)
     print CommandID, "close", name
 
 def handleSetEndEffectorParametersType(child):
@@ -154,12 +153,13 @@ def handleSetEndEffectorParametersType(child):
 
 def handleSetEndEffectorType(child):
     global DEBUG, CommandID, CommandState
-    global GripperSeparation
+    global ThreeFingerGripperStatus
     if DEBUG: print "handleSetEndEffectorType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
     setting = child.findtext("Setting")
-    try: GripperSeparation = float(setting)
+    try: 
+        ThreeFingerGripperStatus.setFingerPosition(float(setting), float(setting), float(setting))
     except: pass
     print CommandID, "set", setting
 

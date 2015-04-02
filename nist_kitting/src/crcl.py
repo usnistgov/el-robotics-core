@@ -169,33 +169,28 @@ class MiddleCommandType(CRCLCommandType):
 
     def __init__(self, CommandID, **kwargs): super(MiddleCommandType, self).__init__(CommandID, **kwargs)
 
+def wrapIt(root, cmd):
+    '''
+    If a command doesn't have a parent tree, then it's a single
+    command and it gets the top-level root instance CRCLCommandInstance
+    '''
+    if root == None:
+        root = ET.Element("CRCLCommandInstance", attrib=dict)
+        wrap = "CRCLCommand"
+    else:
+        wrap = "MiddleCommand"
+    el = ET.SubElement(root, wrap, attrib={"xsi:type" : cmd})
+    return root, el
+
 class OpenToolChangerType(MiddleCommandType):
 
     def __init__(self, CommandID, **kwargs):
         super(OpenToolChangerType, self).__init__(CommandID, **kwargs)
 
     def tree(self, root=None):
-        '''
-        If a command doesn't have a parent tree, then it's a single
-        command and it gets the top-level root instance CRCLCommandInstance
-        '''
-        if root == None:
-            root = ET.Element("CRCLCommandInstance", attrib=dict)
-            wrap = "CRCLCommand"
-        else:
-            wrap = "MiddleCommand"
-        el = ET.SubElement(root, wrap, attrib={"xsi:type" : "OpenToolChangerType"})
+        root, el = wrapIt(root, "OpenToolChangerType")
         super(OpenToolChangerType, self).tree(el)
         return ET.ElementTree(root)
-
-def wrapIt(root, cmd):
-        if root == None:
-            root = ET.Element("CRCLCommandInstance", attrib=dict)
-            wrap = "CRCLCommand"
-        else:
-            wrap = "MiddleCommand"
-        el = ET.SubElement(root, wrap, attrib={"xsi:type" : cmd})
-        return root, el
 
 class CloseToolChangerType(MiddleCommandType):
 
@@ -260,6 +255,24 @@ class MoveToType(MiddleCommandType):
         ep.XAxis.tree(xel)
         zel = ET.SubElement(epel, "ZAxis")
         ep.ZAxis.tree(zel)
+        return ET.ElementTree(root)
+
+# --- speed control
+
+class SetTransSpeedType(MiddleCommandType):
+
+    def __init__(self, CommandID, **kwargs): super(SetTransSpeedType, self).__init__(CommandID, **kwargs)
+
+class SetTransSpeedRelativeType(SetTransSpeedType):
+
+    def __init__(self, CommandID, Fraction, **kwargs):
+        super(SetTransSpeedRelativeType, self).__init__(CommandID, **kwargs)
+        self.Fraction = Fraction
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "SetTransSpeedRelativeType")
+        super(SetTransSpeedRelativeType, self).tree(el)
+        ET.SubElement(el, "Fraction").text = str(self.Fraction)
         return ET.ElementTree(root)
 
 class ParameterSettingType(DataThingType):

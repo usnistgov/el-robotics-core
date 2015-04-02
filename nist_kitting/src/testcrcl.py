@@ -94,7 +94,7 @@ print m
 m = OpenToolChangerType(103)
 print m
 
-m = CloseToolChangerType(104)
+m = CloseToolChangerType(104, Name="gripper_gear")
 print m
 
 ppos = ParameterSettingType("Pos", 10)
@@ -187,3 +187,6 @@ for key, val in zip(toks[0::2], toks[1::2]):
 
 m = SetEndEffectorParametersType(1, params)
 print m
+
+s = SetTransSpeedRelativeType(101, 0.5)
+print s

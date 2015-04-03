@@ -1,9 +1,21 @@
 <launch>
 
 <!--
-    Run as, e.g., 
+Runs the simple_message_sim C++ executable that serves up the robot
+control message port and the state port, and presents an interactive
+prompt for setting robot parameters.
 
-    roslaunch nist_kitting simple_message_demo.launch
+Also runs the ROS-Industrial robot_interface_streaming application,
+which connects to the simple message simulator.
+
+Run as, e.g., 
+
+    roslaunch nist_kitting simple_message_demo.launch robot_ip:=localhost urdf_path:=/home/isd/proctor/github/el-robotics-core/sim_robot/urdf/sim_robot.urdf 
+
+Once this runs, also run separately the industrial robot client: 
+
+     rosrun nist_kitting irclient_sh -d
+
 -->
 
 <arg name="msg_port" default="11000" />

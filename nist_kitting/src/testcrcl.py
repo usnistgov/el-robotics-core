@@ -190,3 +190,6 @@ print m
 
 s = SetTransSpeedRelativeType(101, 0.5)
 print s
+
+s = SetTransSpeedAbsoluteType(101, 1.3)
+print s

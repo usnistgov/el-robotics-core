@@ -78,13 +78,31 @@ def handleEndCanonType(child):
     CommandState = CommandStateType.DONE
     print CommandID, "end"
 
+def handleSetTransSpeedRelativeType(child):
+    global DEBUG, CommandID, CommandState
+    if DEBUG: print "handleSetTransSpeedRelativeType"
+    
+    CommandID = child.findtext("CommandID")
+    CommandState = CommandStateType.DONE
+    print CommandID, 
+    print child.findtext("Fraction")
+
+def handleSetTransSpeedAbsoluteType(child):
+    global DEBUG, CommandID, CommandState
+    if DEBUG: print "handleSetTransSpeedRelativeType"
+    
+    CommandID = child.findtext("CommandID")
+    CommandState = CommandStateType.DONE
+    print CommandID, 
+    print child.findtext("TransSpeed")
+
 def handleMoveThroughToType(child):
     global DEBUG, CommandID, CommandState, Pose
     if DEBUG: print "handleMoveThroughToType"
     
     CommandID = child.findtext("CommandID")
-    print CommandID
-    print child.findtext("NumPositions")
+    print CommandID, 
+    print child.findtext("NumPositions"), 
     print child.findtext("MoveStraight")
     for i in child.findall("Waypoint"):
         try:
@@ -107,7 +125,7 @@ def handleMoveToType(child):
     if DEBUG: print "handleMoveToType"
     
     CommandID = child.findtext("CommandID")
-    print CommandID
+    print CommandID, 
     print child.findtext("MoveStraight")
     try:
         i = child.find("EndPosition")
@@ -190,6 +208,10 @@ def reader(conn):
                     handleInitCanonType(child)
                 elif cmd == "EndCanonType":
                     handleEndCanonType(child)
+                elif cmd == "SetTransSpeedRelativeType":
+                    handleSetTransSpeedRelativeType(child)
+                elif cmd == "SetTransSpeedAbsoluteType":
+                    handleSetTransSpeedAbsoluteType(child)
                 elif cmd == "MoveThroughToType":
                     handleMoveThroughToType(child)
                 elif cmd == "MoveToType":

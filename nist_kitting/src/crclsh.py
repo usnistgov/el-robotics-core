@@ -332,7 +332,21 @@ while not done:
         gripper_cid += 1
         m = SetEndEffectorParametersType(gripper_cid, params)
         gripper_socket.send(str(m))
-        
+
+    elif cmd == "speed":
+        try:
+            val = toks[2]
+            if toks[1] == "rel":
+                robot_cid += 1
+                m = SetTransSpeedRelativeType(robot_cid, val)
+                robot_socket.send(str(m))
+            elif toks[1] == "abs":
+                robot_cid += 1
+                m = SetTransSpeedRelativeType(robot_cid, val)
+                robot_socket.send(str(m))
+        except:
+            print "need rel or abs, and value"
+                        
     elif cmd == "move":
         try:
             x = float(toks[1])

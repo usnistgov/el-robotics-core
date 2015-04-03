@@ -275,6 +275,18 @@ class SetTransSpeedRelativeType(SetTransSpeedType):
         ET.SubElement(el, "Fraction").text = str(self.Fraction)
         return ET.ElementTree(root)
 
+class SetTransSpeedAbsoluteType(SetTransSpeedType):
+
+    def __init__(self, CommandID, TransSpeed, **kwargs):
+        super(SetTransSpeedAbsoluteType, self).__init__(CommandID, **kwargs)
+        self.TransSpeed = TransSpeed
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "SetTransSpeedAbsoluteType")
+        super(SetTransSpeedAbsoluteType, self).tree(el)
+        ET.SubElement(el, "TransSpeed").text = str(self.TransSpeed)
+        return ET.ElementTree(root)
+
 class ParameterSettingType(DataThingType):
 
     def __init__(self, ParameterName, ParameterValue, **kwargs):

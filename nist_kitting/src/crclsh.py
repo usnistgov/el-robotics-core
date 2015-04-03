@@ -2,6 +2,7 @@
 
 import sys, os, time, getopt, string, threading, socket, ConfigParser, StringIO
 from crcl import *
+from simple_message import *
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
@@ -342,7 +343,7 @@ while not done:
                 robot_socket.send(str(m))
             elif toks[1] == "abs":
                 robot_cid += 1
-                m = SetTransSpeedRelativeType(robot_cid, val)
+                m = SetTransSpeedAbsoluteType(robot_cid, val)
                 robot_socket.send(str(m))
         except:
             print "need rel or abs, and value"

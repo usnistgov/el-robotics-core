@@ -394,7 +394,7 @@ def toCommandStateType(s):
     if s == CommandStateType.WORKING: return s
     if s == CommandStateType.READY: return s
     if s == CommandStateType.TIMEOUT: return s
-    return ComandStateType.ERROR
+    return CommandStateType.ERROR
 
 class CommandStatusType(DataThingType):
 

@@ -2,15 +2,23 @@
 
 import sys, time, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET, ConfigParser
 from crcl import *
+from simple_message import *
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
 xsi = "{" + uri + "}"
 dict = {"xmlns:xsi" : uri}
 
+def except_info():
+    exc_type, exc_value = sys.exc_info()[:2]
+    return str(exc_type.__name__) + ": " + str(exc_value)
+
 INIFILE = ""
 NAME = "robot_prim"
 PORT = ""
+SIMPLE_MESSAGE_HOST = "localhost"
+SIMPLE_MESSAGE_CONTROL_PORT = ""
+SIMPLE_MESSAGE_STATE_PORT = ""
 PERIOD = 0.5
 DO_ROBOT = False
 DO_GRIPPER = False
@@ -24,6 +32,9 @@ Pose = PoseLocationType()
 ThreeFingerGripperStatus = ThreeFingerGripperStatusType("ThreeFingerGripper")
 ParallelGripperStatus = ParallelGripperStatusType("ParallelGripper", 0)
 VacuumGripperStatus = VacuumGripperStatusType("VacuumGripper", False)
+
+# the global socket to the Simple Message interface
+SMSocket = None
 
 # --- Status writer ---
 
@@ -122,6 +133,7 @@ def handleMoveThroughToType(child):
 
 def handleMoveToType(child):
     global DEBUG, CommandID, CommandState, Pose
+    global SMSocket
     if DEBUG: print "handleMoveToType"
     
     CommandID = child.findtext("CommandID")
@@ -139,6 +151,13 @@ def handleMoveToType(child):
         Pose.XAxis = xaxis
         Pose.ZAxis = zaxis
         print Pose
+        if SMSocket != None:
+            # FIXME -- testing
+            try:
+                ct = CartTrajPtRequest(point.X, point.Y, point.Z, 1, 0, 0, 0)
+                SMSocket.send(ct.pack())
+            except:
+                print except_info()
         CommandState = CommandStateType.DONE
     except:
         CommandState = CommandStateType.ERROR
@@ -238,7 +257,7 @@ def reader(conn):
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:n:p:t:rgd", ["inifile=", "name=", "port=", "period=", "robot", "gripper", "debug"])
+    opts, args = getopt.getopt(sys.argv[1:], "i:n:p:t:rgd", ["inifile=", "name=", "port=", "sm_host=", "sm_control_port=", "sm_state_port=", "period=", "robot", "gripper", "debug"])
 except getopt.GetoptError, err:
     print NAME, ":", str(err)
     sys.exit(1)
@@ -250,6 +269,12 @@ for o, a in opts:
         NAME = a
     elif o in ("-p", "--port"):
         PORT = a
+    elif o in ("--sm_host"):
+        SIMPLE_MESSAGE_HOST = a
+    elif o in ("--sm_control_port"):
+        SIMPLE_MESSAGE_CONTROL_PORT = a
+    elif o in ("--sm_state_port"):
+        SIMPLE_MESSAGE_STATE_PORT = a
     elif o in ("-t", "--period"):
         PERIOD = a
     elif o in ("-r", "--robot"):
@@ -259,13 +284,27 @@ for o, a in opts:
     elif o in ("-d", "--debug"):
         DEBUG = True
 
+defdict = {
+    "port" : "",
+    "simple_message_host" : "",
+    "simple_message_control_port" : "",
+    "simple_message_state_port" : "",
+    "period" : "",
+    }
+
 if INIFILE != "":
     try:
         with open(INIFILE, "rb") as f:
-            config = ConfigParser.ConfigParser()
+            config = ConfigParser.ConfigParser(defdict)
             config.read(INIFILE)
             if PORT == "":
                 PORT = config.get(NAME, "port")
+            if SIMPLE_MESSAGE_HOST == "":
+                SIMPLE_MESSAGE_HOST = config.get(NAME, "simple_message_host")
+            if SIMPLE_MESSAGE_CONTROL_PORT == "":
+                SIMPLE_MESSAGE_CONTROL_PORT = config.get(NAME, "simple_message_control_port")
+            if SIMPLE_MESSAGE_STATE_PORT == "":
+                SIMPLE_MESSAGE_STATE_PORT = config.get(NAME, "simple_message_state_port")
             if PERIOD == "":
                 PERIOD = config.get(NAME, "period")
     except IOError as err:
@@ -279,6 +318,15 @@ if PORT == "":
     print NAME, ": no port provided"
     sys.exit(1)
 
+if SIMPLE_MESSAGE_HOST != "":
+    print NAME, ": using simple message host", SIMPLE_MESSAGE_HOST
+
+if SIMPLE_MESSAGE_CONTROL_PORT != "":
+    print NAME, ": using simple message control port", SIMPLE_MESSAGE_CONTROL_PORT
+
+if SIMPLE_MESSAGE_STATE_PORT != "":
+    print NAME, ": using simple message state port", SIMPLE_MESSAGE_STATE_PORT
+
 if PERIOD == "":
     PERIOD = 1
     print NAME, ": using default period", PERIOD
@@ -287,6 +335,14 @@ if PERIOD == "":
 if (DO_ROBOT == False) and (DO_GRIPPER == False):
     DO_ROBOT == True
     DO_GRIPPER == True
+
+if (SIMPLE_MESSAGE_HOST != "") and (SIMPLE_MESSAGE_CONTROL_PORT != ""):
+    try:
+        SMSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        SMSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_CONTROL_PORT)))
+    except:
+        print NAME, ":", except_info()
+        SMSocket = None
 
 BACKLOG = 1
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

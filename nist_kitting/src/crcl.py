@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys, StringIO, xml.etree.ElementTree as ET
+import math
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
@@ -587,6 +588,23 @@ class MatrixType(DataThingType):
         self.Z.tree(ET.SubElement(root, "Z"))  
         return ET.ElementTree(root)
 
+class QuaternionType(DataThingType):
+    def __init__(self, X, Y, Z, W, **kwargs):
+        super(QuaternionType, self).__init__(**kwargs)
+        self.X = X
+        self.Y = Y
+        self.Z = Z
+        self.W = W
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(QuaternionType, self).tree(root)
+        ET.SubElement(root, "X").text = str(self.X)
+        ET.SubElement(root, "Y").text = str(self.Y)
+        ET.SubElement(root, "Z").text = str(self.Z)
+        ET.SubElement(root, "W").text = str(self.W)
+        return ET.ElementTree(root)
+
 def PointPointAdd(PA, PB):
     return PointType(PA.X + PB.X, PA.Y + PB.Y, PA.Z + PB.Z)
 
@@ -603,6 +621,75 @@ def VectorsToMatrix(VX, VZ):
 
 def MatrixToVectors(M):
     return M.X, M.Z
+
+'''
+Matrix representation:
+
+|  m.x.x   m.y.x   m.z.x  |
+|  m.x.y   m.y.y   m.z.y  |
+|  m.x.z   m.y.z   m.z.z  |
+
+Quaternion (x, y, z, w) to matrix conversion:
+
+m.x.x = 1 - 2 * (sq(q.y) + sq(q.z));
+m.x.y = 2 * (q.x * q.y + q.z * q.w);
+m.x.z = 2 * (q.z * q.x - q.y * q.w);
+
+m.y.x = 2 * (q.x * q.y - q.z * q.w);
+m.y.y = 1 - 2 * (sq(q.z) + sq(q.x));
+m.y.z = 2 * (q.y * q.z + q.x * q.w);
+
+m.z.x = 2 * (q.z * q.x + q.y * q.w);
+m.z.y = 2 * (q.y * q.z - q.x * q.w);
+m.z.z = 1 - 2 * (sq(q.x) + sq(q.y));
+'''
+
+def sq(x): return x*x
+
+def QuaternionToMatrix(Q):
+    return MatrixType(VectorType(1 - 2 * (sq(Q.Y) + sq(Q.Z)),
+                                 2 * (Q.X * Q.Y + Q.Z * Q.W),
+                                 2 * (Q.Z * Q.X - Q.Y * Q.W)),
+                      VectorType(2 * (Q.X * Q.Y - Q.Z * Q.W),
+                                 1 - 2 * (sq(Q.Z) + sq(Q.X)),
+                                 2 * (Q.Y * Q.Z + Q.X * Q.W)),
+                      VectorType(2 * (Q.Z * Q.X + Q.Y * Q.W),
+                                 2 * (Q.Y * Q.Z - Q.X * Q.W),
+                                 1 - 2 * (sq(Q.X) + sq(Q.Y))))
+
+def MatrixToQuaternion(M):
+    discr = 1.0 + M.X.I + M.Y.J + M.Z.K
+    if discr < 0: discr = 0
+  
+    Q = QuaternionType(0,0,0, 0.5 * math.sqrt(discr))
+
+    if Q.W <= 0:
+        Q.W = 0
+        discr = 1.0 + M.X.I - M.Y.J - M.Z.K
+        if discr < 0: discr = 0
+        Q.X = math.sqrt(discr) * 0.5
+        discr = 1.0 + M.Y.J - M.X.I - M.Z.K
+        if discr < 0: discr = 0
+        Q.Y = math.sqrt(discr) * 0.5
+        discr = 1.0 + M.Z.K - M.Y.J - M.X.I
+        if discr < 0: discr = 0
+        Q.Z = math.sqrt(discr) * 0.5
+        if (Q.X > Q.Y) and (Q.X > Q.Z):
+            if M.X.J < 0.0: Q.Y = -Q.Y
+            if M.X.K < 0.0: Q.Z = -Q.Z
+        elif Q.Y > Q.Z:
+            if M.X.J < 0:	Q.X = -Q.X
+            if M.Y.K < 0: Q.Z = -Q.Z
+        else:
+            if M.X.K < 0: Q.X = -Q.X
+            if M.Y.K < 0: Q.Y = -Q.Y
+    else:
+        a = 1 / (4 * Q.W)
+        Q.X = (M.Y.K - M.Z.J) * a
+        Q.Y = (M.Z.I - M.X.K) * a
+        Q.Z = (M.X.J - M.Y.I) * a
+
+    return Q
 
 def MatrixPointMult(M1, P2):
     P = PointType(M1.X.I*P2.X + M1.Y.I*P2.Y + M1.Z.I*P2.Z,

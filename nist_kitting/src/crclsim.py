@@ -154,7 +154,8 @@ def handleMoveToType(child):
         if SMSocket != None:
             # FIXME -- testing
             try:
-                ct = CartTrajPtRequest(point.X, point.Y, point.Z, 1, 0, 0, 0)
+                q = MatrixToQuaternion(MatrixType(xaxis, VectorVectorCross(zaxis, xaxis), zaxis))
+                ct = CartTrajPtRequest(point.X, point.Y, point.Z, q.X, q.Y, q.Z, q.W)
                 SMSocket.send(ct.pack())
             except:
                 print except_info()

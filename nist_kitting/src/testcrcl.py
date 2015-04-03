@@ -193,3 +193,10 @@ print s
 
 s = SetTransSpeedAbsoluteType(101, 1.3)
 print s
+
+q = QuaternionType(0.7071, 0, 0, 0.7071)
+m = QuaternionToMatrix(q)
+print m
+qq = MatrixToQuaternion(m)
+print q
+print qq

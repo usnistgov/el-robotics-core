@@ -8,7 +8,7 @@ def except_info():
     exc_type, exc_value = sys.exc_info()[:2]
     return str(exc_type.__name__) + ": " + str(exc_value)
 
-class FlexForce(object):
+class FlexiForce(object):
     example = '{"sensor_values": [ {"FSR_finger_A_distal" : 0}, {"FSR_finger_B_distal" : 0}, {"FSR_finger_C_distal" : 0} ] }'
 
     def __init__(self):
@@ -73,7 +73,7 @@ class FlexForce(object):
             try: data = conn.recv(size)
             except: break
             if not data: break
-            ff.read(data)
+            self.read(data)
         self._connected = False
 
     def client(self, host, port):
@@ -111,19 +111,7 @@ if __name__ == "__main__":
         elif o in ("-d", "--debug"):
             DEBUG = True
 
-    ff = FlexForce()
-
-    '''
-    print ff.get()
-    print ff.write()
-
-    ff.set([21, 32])
-    print ff.get()
-    print ff.write()
-
-    ff.read(ff.write())
-    ff.get()
-    '''
+    ff = FlexiForce()
 
     if HOST == "":
         # we're the server
@@ -156,6 +144,8 @@ if __name__ == "__main__":
             sys.exit(1)
 
         while ff.connected():
-            print ff.get()
-            time.sleep(1)
-
+            try:
+                print ff.get()
+                time.sleep(1)
+            except KeyboardInterrupt:
+                break

@@ -3,6 +3,7 @@
 import sys, time, getopt, socket, time, threading, StringIO, xml.etree.ElementTree as ET, ConfigParser
 from crcl import *
 from simple_message import *
+from flexiforce import *
 
 xmldec = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 uri = "http://www.w3.org/2001/XMLSchema-instance"
@@ -351,6 +352,18 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(("", int(PORT)))
 s.listen(BACKLOG)
 
+def flexiforce(host, port):
+    global ThreeFingerGripperStatus
+    ff = FlexiForce()
+    if not ff.client(host, port): return False
+    while ff.connected():
+        try:
+            fs = ff.get()
+            ThreeFingerGripperStatus.setFingerForce(float(fs[0]), float(fs[1]), float(fs[2]))
+        except:
+            print except_info()
+        time.sleep(1)
+
 while True:
     if DEBUG: print NAME, ": accepting connections on", str(PORT)
     try: conn, addr = s.accept()
@@ -362,6 +375,10 @@ while True:
     t = threading.Thread(target=writer, args=(conn,float(PERIOD)))
     t.daemon = True
     t.start()
+    # add in the FlexiForce sensor
+    f = threading.Thread(target=flexiforce, args=("localhost", 1234))
+    f.daemon = True
+    f.start()
 
 print NAME, ": done"
 

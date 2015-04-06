@@ -134,11 +134,16 @@ def gripper_reader(conn):
                             p1 = float(child.findtext("Finger1Position"))
                             p2 = float(child.findtext("Finger2Position"))
                             p3 = float(child.findtext("Finger3Position"))
+                            f1 = float(child.findtext("Finger1Force"))
+                            f2 = float(child.findtext("Finger2Force"))
+                            f3 = float(child.findtext("Finger3Force"))
                             try:
                                 GripperStatus.setFingerPosition(p1, p2, p3)
+                                GripperStatus.setFingerForce(f1, f2, f3)
                             except:
                                 GripperStatus = ThreeFingerGripperStatusType(GripperStatus.getName())
                                 GripperStatus.setFingerPosition(p1, p2, p3)
+                                GripperStatus.setFingerForce(f1, f2, f3)
                         elif gt == "VacuumGripperStatusType":
                             pass
         except:

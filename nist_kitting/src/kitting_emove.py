@@ -553,7 +553,7 @@ def emove_cmd_reader():
 # --- Main ---
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:Xd", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "nocheck=", "debug=", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:r:R:g:G:t:Xd", ["inifile=", "robot=", "robothost=", "gripper=", "gripperhost=", "period=", "nocheck", "debug", "dbserver=", "dbuser=", "dbpasswd=", "dbname="])
 except getopt.GetoptError, err:
     print "kitting_emove:", str(err)
     sys.exit(1)

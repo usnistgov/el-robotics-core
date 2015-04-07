@@ -240,34 +240,38 @@ int main(int argc, char *argv[])
       break;
     } // switch (option)
   }   // while (true) for getopt
-#if 0
+
   // connect to message server
-  message_client_id = ulapi_socket_get_client_id(message_port, host);
-  if (message_client_id < 0) {
-    fprintf(stderr, "can't connect to %s on port %d\n", host, message_port);
-    return 1;
+  if (message_port > 0) {
+    message_client_id = ulapi_socket_get_client_id(message_port, host);
+    if (message_client_id < 0) {
+      fprintf(stderr, "can't connect to %s on port %d\n", host, message_port);
+      return 1;
+    }
+
+    // start message reply handler
+    ulapi_task_init(&reply_client_thread);
+    rc_args.thread = reinterpret_cast<void *>(reply_client_thread);
+    rc_args.id = message_client_id;
+    ulapi_task_start(&reply_client_thread, reinterpret_cast<ulapi_task_code>(reply_client_thread_code), reinterpret_cast<void *>(&rc_args), ulapi_prio_highest(), 0);
   }
 
-  // start message reply handler
-  ulapi_task_init(&reply_client_thread);
-  rc_args.thread = reinterpret_cast<void *>(reply_client_thread);
-  rc_args.id = message_client_id;
-  ulapi_task_start(&reply_client_thread, reinterpret_cast<ulapi_task_code>(reply_client_thread_code), reinterpret_cast<void *>(&rc_args), ulapi_prio_highest(), 0);
-#endif
   // connect to state server
-  state_client_id = ulapi_socket_get_client_id(state_port, host);
-  if (state_client_id < 0) {
-    fprintf(stderr, "can't connect to %s on port %d\n", host, state_port);
-    return 1;
+  if (state_port > 0) {
+    state_client_id = ulapi_socket_get_client_id(state_port, host);
+    if (state_client_id < 0) {
+      fprintf(stderr, "can't connect to %s on port %d\n", host, state_port);
+      return 1;
+    }
+
+    // start state handler
+    ulapi_task_init(&state_client_thread);
+    sc_args.thread = reinterpret_cast<void *>(state_client_thread);
+    sc_args.id = state_client_id;
+    ulapi_task_start(&state_client_thread, reinterpret_cast<ulapi_task_code>(state_client_thread_code), reinterpret_cast<void *>(&sc_args), ulapi_prio_highest(), 0);
   }
 
-  // start state handler
-  ulapi_task_init(&state_client_thread);
-  sc_args.thread = reinterpret_cast<void *>(state_client_thread);
-  sc_args.id = state_client_id;
-  ulapi_task_start(&state_client_thread, reinterpret_cast<ulapi_task_code>(state_client_thread_code), reinterpret_cast<void *>(&sc_args), ulapi_prio_highest(), 0);
-
-  // we in the foreground read input and update the robot model as needed
+// we in the foreground read input and update the robot model as needed
   bool done = false;
   bool cart = false;
   while (! done) {

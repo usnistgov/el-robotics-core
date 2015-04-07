@@ -958,7 +958,7 @@ struct object_state_message {
     printf("%sSeq Number: %d\n", prefix, (int) seq_number);
     printf("%sObjects:\n", prefix);
     for (int t = 0; t < object_number(); t++) {
-      printf(" %d : %f %f %f / %f %f %f %f\n", objects[t].id,
+      printf("%d : %f %f %f / %f %f %f %f\n", objects[t].id,
 	     objects[t].x, objects[t].y, objects[t].z,
 	     objects[t].qx, objects[t].qy, objects[t].qz, objects[t].qw);
     }

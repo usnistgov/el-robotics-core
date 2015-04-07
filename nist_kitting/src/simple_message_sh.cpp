@@ -80,11 +80,11 @@ static void reply_client_thread_code(reply_client_thread_args *args)
 	break;
       case MESSAGE_JOINT_TRAJ_PT:
 	jtp_rep.read_joint_traj_pt_reply(ptr);
-	if (debug & DEBUG_REPLY) jtp_rep.print_joint_traj_pt_reply();
+	if (debug && (debug_level & DEBUG_REPLY)) jtp_rep.print_joint_traj_pt_reply();
 	break;
       case MESSAGE_CART_TRAJ_PT:
 	ctp_rep.read_cart_traj_pt_reply(ptr);
-	if (debug & DEBUG_REPLY) ctp_rep.print_cart_traj_pt_reply();
+	if (debug && (debug_level & DEBUG_REPLY)) ctp_rep.print_cart_traj_pt_reply();
 	break;
       default:
 	printf("unknown reply type: %d\n", message_type);
@@ -97,7 +97,7 @@ static void reply_client_thread_code(reply_client_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug & DEBUG_RUN) printf("joint state client handler %d done\n", id);
+  if (debug && (debug_level & DEBUG_RUN)) printf("joint state client handler %d done\n", id);
 
   return;
 }
@@ -122,6 +122,7 @@ static void state_client_thread_code(state_client_thread_args *args)
   int message_type;
   robot_status_message robot_status;
   joint_traj_pt_state_message jtp_state;
+  object_state_message obj_state;
 
   thread = args->thread;
   id = args->id;
@@ -142,13 +143,17 @@ static void state_client_thread_code(state_client_thread_args *args)
       switch (message_type) {
       case MESSAGE_ROBOT_STATUS:
 	robot_status.read_robot_status(ptr);
-	if (debug & DEBUG_STATE) robot_status.print_robot_status();
+	if (debug && (debug_level & DEBUG_STATE)) robot_status.print_robot_status();
 	break;
 	/* NOTE: JOINT_POSITION is deprecated, but JOINT_TRAJ_PT gives
 	   an error in the industrial robot client. */
       case MESSAGE_JOINT_POSITION:
 	jtp_state.read_joint_traj_pt_state(ptr);
-	if (debug & DEBUG_FEEDBACK) jtp_state.print_joint_traj_pt_state();
+	if (debug && (debug_level & DEBUG_FEEDBACK)) jtp_state.print_joint_traj_pt_state();
+	break;
+      case MESSAGE_OBJECT_STATE:
+	obj_state.read_object_state(ptr);
+	if (debug && (debug_level & DEBUG_STATE)) obj_state.print_object_state();
 	break;
       default:
 	// unknown message
@@ -162,7 +167,7 @@ static void state_client_thread_code(state_client_thread_args *args)
 
   ulapi_socket_close(id);
 
-  if (debug & DEBUG_RUN) printf("joint message client handler %d done\n", id);
+  if (debug && (debug_level & DEBUG_RUN)) printf("joint message client handler %d done\n", id);
 
   return;
 }
@@ -235,7 +240,7 @@ int main(int argc, char *argv[])
       break;
     } // switch (option)
   }   // while (true) for getopt
-
+#if 0
   // connect to message server
   message_client_id = ulapi_socket_get_client_id(message_port, host);
   if (message_client_id < 0) {
@@ -248,8 +253,7 @@ int main(int argc, char *argv[])
   rc_args.thread = reinterpret_cast<void *>(reply_client_thread);
   rc_args.id = message_client_id;
   ulapi_task_start(&reply_client_thread, reinterpret_cast<ulapi_task_code>(reply_client_thread_code), reinterpret_cast<void *>(&rc_args), ulapi_prio_highest(), 0);
-
-#if 0
+#endif
   // connect to state server
   state_client_id = ulapi_socket_get_client_id(state_port, host);
   if (state_client_id < 0) {
@@ -262,7 +266,6 @@ int main(int argc, char *argv[])
   sc_args.thread = reinterpret_cast<void *>(state_client_thread);
   sc_args.id = state_client_id;
   ulapi_task_start(&state_client_thread, reinterpret_cast<ulapi_task_code>(state_client_thread_code), reinterpret_cast<void *>(&sc_args), ulapi_prio_highest(), 0);
-#endif
 
   // we in the foreground read input and update the robot model as needed
   bool done = false;

@@ -144,7 +144,26 @@ class PoseOnlyLocationType(PoseLocationType):
 
     def __init__(self, Point = PointType(0,0,0), XAxis = VectorType(1,0,0), ZAxis = VectorType(0,0,1), **kwargs):
         super(PoseOnlyLocationType, self).__init__(Point, XAxis, ZAxis, **kwargs)
-    # no need to provide anything else -- the parent has it all
+
+class PoseToleranceType(DataThingType):
+
+    def __init__(self, XPointTolerance = None, YPointTolerance = None, ZPointTolerance = None, XAxisTolerance = None, ZAxisTolerance = None, **kwargs):
+        super(PoseToleranceType, self).__init__(**kwargs)
+        self.XPointTolerance = XPointTolerance
+        self.YPointTolerance = YPointTolerance
+        self.ZPointTolerance = ZPointTolerance
+        self.XAxisTolerance = XAxisTolerance
+        self.ZAxisTolerance = ZAxisTolerance
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(PoseToleranceType, self).tree(root)
+        ET.SubElement(root, "XPointTolerance").text = str(self.XPointTolerance)
+        ET.SubElement(root, "YPointTolerance").text = str(self.YPointTolerance)
+        ET.SubElement(root, "ZPointTolerance").text = str(self.ZPointTolerance)
+        ET.SubElement(root, "XAxisTolerance").text = str(self.XAxisTolerance)
+        ET.SubElement(root, "ZAxisTolerance").text = str(self.ZAxisTolerance)
+        return ET.ElementTree(root)
 
 # --- Commands ---
 
@@ -182,6 +201,19 @@ def wrapIt(root, cmd):
         wrap = "MiddleCommand"
     el = ET.SubElement(root, wrap, attrib={"xsi:type" : cmd})
     return root, el
+
+class SetEndPoseToleranceType(MiddleCommandType):
+
+    def __init__(self, CommandID, Tolerance, **kwargs):
+        super(SetEndPoseToleranceType, self).__init__(CommandID, **kwargs)
+        self.Tolerance = Tolerance
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "SetEndPoseToleranceType")
+        super(SetEndPoseToleranceType, self).tree(el)
+        tel = ET.SubElement(el, "Tolerance")
+        self.Tolerance.tree(tel)
+        return ET.ElementTree(root)
 
 class OpenToolChangerType(MiddleCommandType):
 

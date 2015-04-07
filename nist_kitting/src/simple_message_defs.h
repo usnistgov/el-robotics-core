@@ -4,6 +4,7 @@
 #include <stddef.h>		/* sizeof */
 #include <stdio.h>		/* printf */
 #include <string.h>		/* memcpy */
+#include <stdlib.h>		/* malloc */
 
 enum {JOINT_MAX = 10};		/* this is really 10 per the spec */
 
@@ -24,7 +25,8 @@ typedef enum {
   MESSAGE_READ_INPUT = 20,
   MESSAGE_WRITE_OUTPUT = 21,
   MESSAGE_CART_TRAJ_PT = 31,
-  MESSAGE_CART_FEEDBACK = 35
+  MESSAGE_CART_FEEDBACK = 35,
+  MESSAGE_OBJECT_STATE = 40
 } message_types;
 
 typedef enum {
@@ -891,6 +893,123 @@ struct cart_traj_pt_reply_message {
 
   void set_seq_number(int s) {
     seq_number = s;
+  }
+};
+
+/* EXTENSIONS for object location */
+
+struct object_state {
+  int id;			/* unique object identifier */
+  float x, y, z;		/* Cartesian position */
+  float qx, qy, qz, qw;		/* quaternion orientation */
+};
+
+struct object_state_message {
+  int length;		  /* 4 bytes, constant value should be MxN = XXX */
+  int message_type;	  /* 4 bytes, constant value 40, MESSAGE_OBJECT_STATE */
+  int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+  int reply_type;	  /* 4 bytes, N/A */
+  int seq_number;	  /* 4 bytes, >= 0 */
+  object_state *objects;  /* ptr to storage for variable number of objects */
+  int number;
+
+  object_state_message() {
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type) +
+      sizeof(seq_number) +
+      number * sizeof(object_state);
+    message_type = MESSAGE_OBJECT_STATE;
+    comm_type = COMM_TOPIC;
+    reply_type = REPLY_NA;
+    objects = NULL;
+    number = 0;
+  }
+
+  object_state_message(int n) {
+    number = n;
+    length = sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type) +
+      sizeof(seq_number) +
+      number * sizeof(object_state);
+    message_type = MESSAGE_OBJECT_STATE;
+    comm_type = COMM_TOPIC;
+    reply_type = REPLY_NA;
+    objects = (object_state *) malloc(n * sizeof(object_state));
+  }
+
+  ~object_state_message() {
+    if (objects != NULL) free(objects);
+  }
+
+  int object_number() {
+    return (length - (sizeof(message_type) +
+		      sizeof(comm_type) +
+		      sizeof(reply_type) +
+		      sizeof(seq_number))) / sizeof(object_state);
+  }
+
+  void print_object_state(const char *prefix = "") {
+    printf("%sLength:     %d\n", prefix, (int) length);
+    printf("%sMsg Type:   %d\n", prefix, (int) message_type);
+    printf("%sComm Type:  %d\n", prefix, (int) comm_type);
+    printf("%sReply Type: %d\n", prefix, (int) reply_type);
+    printf("%sSeq Number: %d\n", prefix, (int) seq_number);
+    printf("%sObjects:\n", prefix);
+    for (int t = 0; t < object_number(); t++) {
+      printf(" %d : %f %f %f / %f %f %f %f\n", objects[t].id,
+	     objects[t].x, objects[t].y, objects[t].z,
+	     objects[t].qx, objects[t].qy, objects[t].qz, objects[t].qw);
+    }
+  }
+
+  int read_object_state(char *inbuf) {
+    char *ptr = inbuf;
+    int objs;
+    memcpy(&length, ptr, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(&message_type, ptr, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(&comm_type, ptr, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(&reply_type, ptr, sizeof(reply_type));
+    ptr += sizeof(reply_type);
+    memcpy(&seq_number, ptr, sizeof(seq_number));
+    ptr += sizeof(seq_number);
+    objs = object_number();
+    if (objs <= 0) return -1;
+    if (objs > number) {
+      number = objs;
+      objects = (object_state *) realloc(objects, number * sizeof(object_state));
+    }
+    memcpy(objects, ptr, number * sizeof(object_state));
+    return 0;
+  }
+
+  int size() {
+    return sizeof(length) +
+      sizeof(message_type) +
+      sizeof(comm_type) + 
+      sizeof(reply_type) +
+      sizeof(seq_number) +
+      number * sizeof(object_state);
+  }
+
+  int write_object_state(char *outbuf, int outbuf_len) {
+    char *ptr = outbuf;
+    memcpy(ptr, &length, sizeof(length));
+    ptr += sizeof(length);
+    memcpy(ptr, &message_type, sizeof(message_type));
+    ptr += sizeof(message_type);
+    memcpy(ptr, &comm_type, sizeof(comm_type));
+    ptr += sizeof(comm_type);
+    memcpy(ptr, &reply_type, sizeof(reply_type));
+    ptr += sizeof(reply_type);
+    memcpy(ptr, &seq_number, sizeof(seq_number));
+    ptr += sizeof(seq_number);
+    memcpy(ptr, objects, number * sizeof(object_state));
+    return 0;
   }
 };
 

@@ -180,12 +180,26 @@ static void state_connection_thread_code(state_connection_thread_args *args)
   double period;
   joint_traj_pt_state_message jsmsg;
   robot_status_message rsmsg;
-  int nchars;
+  object_state_message obj_state(3);
+  enum {OUTBUF_LEN = 1024};
+  char outbuf[OUTBUF_LEN];
+  int nchars, len;
 
   thread = args->thread;
   id = args->id;
   period = args->period;
   free(args);
+
+  for (int t = 0; t < obj_state.object_number(); t++) {
+    obj_state.objects[t].id = t + 1;
+    obj_state.objects[t].x = t + 1.2;
+    obj_state.objects[t].y = t - 3.4;
+    obj_state.objects[t].z = t + 5.6;
+    obj_state.objects[t].qx = 0;
+    obj_state.objects[t].qy = 0;
+    obj_state.objects[t].qz = 0;
+    obj_state.objects[t].qw = 1;
+  }
 
   while (true) {
     float p;
@@ -223,6 +237,12 @@ static void state_connection_thread_code(state_connection_thread_args *args)
 
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
     if (nchars < 0) break;
+
+    len = obj_state.size();
+    if (len <= sizeof(outbuf)) {
+      obj_state.write_object_state(outbuf, sizeof(outbuf));
+      nchars = ulapi_socket_write(id, outbuf, len);
+    }
 
     ulapi_wait(period * 1e9);
   }

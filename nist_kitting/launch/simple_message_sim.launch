@@ -5,16 +5,9 @@ Runs the simple_message_sim C++ executable that serves up the robot
 control message port and the state port, and presents an interactive
 prompt for setting robot parameters.
 
-Also runs the ROS-Industrial robot_interface_streaming application,
-which connects to the simple message simulator.
-
 Run as, e.g., 
 
-    roslaunch nist_kitting simple_message_demo.launch robot_ip:=localhost urdf_path:=/usr/local/el-robotics-core/sim_robot/urdf/sim_robot.urdf 
-
-Once this runs, also run separately the industrial robot client: 
-
-     rosrun nist_kitting irclient_sh -d
+    roslaunch nist_kitting simple_message_sim.launch robot_ip:=localhost urdf_path:=/usr/local/el-robotics-core/sim_robot/urdf/sim_robot.urdf 
 
 -->
 
@@ -27,11 +20,6 @@ Once this runs, also run separately the industrial robot client:
 <group>
 
   <node pkg="nist_kitting" required="true" name="simple_message_sim" args="-m $(arg msg_port) -s $(arg state_port) -t $(arg period) -d" type="simple_message_sim" output="screen"/>
-
-  <include file="$(find industrial_robot_client)/launch/robot_interface_streaming.launch">
-  <arg name="robot_ip" value="$(arg robot_ip)" />
-  <arg name="urdf_path" value="$(arg urdf_path)" />
-  </include>
 
 </group>
 

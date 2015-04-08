@@ -13,7 +13,7 @@ class FlexiForce(object):
 
     def __init__(self):
         try: self.obj = json.loads(self.example)
-        except: print except_info()
+        except: print "FlexiForce:", except_info()
         self._connected = False
 
     def set(self, vals):
@@ -39,7 +39,7 @@ class FlexiForce(object):
 
     def read(self, jin):
         try: self.obj = json.loads(jin)
-        except: print except_info()
+        except: print "FlexiForce:", except_info()
 
     def _serve_client(self, conn):
         while True:
@@ -50,10 +50,10 @@ class FlexiForce(object):
     def _server_thr(self, s):
         global DEBUG
         while True:
-            if DEBUG: print "waiting for connection"
+            if DEBUG: print "FlexiForce:", "waiting for connection"
             try: conn, addr = s.accept()
             except: break
-            if DEBUG: print "connected by", addr
+            if DEBUG: print "FlexiForce:", "connected by", addr
             r = threading.Thread(target=self._serve_client, args=(conn,))
             r.daemon = True
             r.start()
@@ -81,7 +81,7 @@ class FlexiForce(object):
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((host, int(port)))
         except IOError as err:
-            print "can't connect to", host, "on port", port, ":", str(err)
+            print "FlexiForce:", "can't connect to", host, "on port", port, ":", str(err)
             return False
         r = threading.Thread(target=self._client_thr, args=(s,))
         r.daemon = True
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h:p:d", ["host=", "port=", "debug"])
     except getopt.GetoptError, err:
-        print str(err)
+        print "FlexiForce:", str(err)
         sys.exit(1)
 
     for o, a in opts:

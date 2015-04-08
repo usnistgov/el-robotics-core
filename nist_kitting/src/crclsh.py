@@ -287,6 +287,17 @@ while not done:
     elif cmd == "?":
         printHelp()
 
+    elif cmd == "sleep":
+        try:
+            val = float(toks[1])
+        except:
+            print "need a time"
+            continue
+        try: time.sleep(val)
+        except: pass
+
+    elif cmd == "#": continue
+
     elif cmd == "init":
         gripper_cid += 1
         m = InitCanonType(gripper_cid)

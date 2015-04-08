@@ -127,8 +127,11 @@ class PoseLocationType(PhysicalLocationType):
         return self.Point.get(), self.XAxis.get(), self.ZAxis,get(), self.PositionStandardDeviation, self.OrientationStandardDeviation
 
     def tree(self, root=None):
-        if root == None: root = ET.Element(None)
-        el = ET.SubElement(root, "Pose")
+        if root == None: 
+            root = ET.Element(None)
+            el = ET.SubElement(root, "Pose")
+        else:
+            el = root
         super(PoseLocationType, self).tree(el)
         pel = ET.SubElement(el, "Point")
         self.Point.tree(pel)
@@ -301,6 +304,7 @@ class MoveThroughToType(MiddleCommandType):
         else: ET.SubElement(el, "MoveStraight").text = "false"
         for wp in self.Waypoint:
             wpel = ET.SubElement(el, "Waypoint")
+            # FIXME -- derived type PoseAndSetType speeds don't come through
             wp.tree(wpel)
             '''
             ptel = ET.SubElement(wpel, "Point")
@@ -336,7 +340,8 @@ class MoveToType(MiddleCommandType):
         else: ET.SubElement(el, "MoveStraight").text = "false"
         ep = self.EndPosition
         epel = ET.SubElement(el, "EndPosition")
-        self.EndPosition.tree(epel)
+        # FIXME -- derived type PoseAndSetType speeds don't come through
+        ep.tree(epel)
         '''
         ptel = ET.SubElement(epel, "Point")
         ep.Point.tree(ptel)

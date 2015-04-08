@@ -17,7 +17,7 @@ def except_info():
 INIFILE = ""
 NAME = "robot_prim"
 PORT = ""
-SIMPLE_MESSAGE_HOST = "localhost"
+SIMPLE_MESSAGE_HOST = ""
 SIMPLE_MESSAGE_CONTROL_PORT = ""
 SIMPLE_MESSAGE_STATE_PORT = ""
 PERIOD = 0.5
@@ -61,7 +61,8 @@ def writer(conn, period):
         tree.write(output)
         outstr = output.getvalue()
         output.close()
-        if DEBUG: print outstr
+        # FIXME -- add a debug level to inhibit this independently
+        # if DEBUG: print outstr
 
         # write it to the client
         try:
@@ -152,14 +153,16 @@ def handleMoveToType(child):
         Pose.XAxis = xaxis
         Pose.ZAxis = zaxis
         print Pose
+        # FIXME -- testing
         if SMSocket != None:
-            # FIXME -- testing
             try:
                 q = MatrixToQuaternion(MatrixType(xaxis, VectorVectorCross(zaxis, xaxis), zaxis))
-                ct = CartTrajPtRequest(point.X, point.Y, point.Z, q.X, q.Y, q.Z, q.W)
-                SMSocket.send(ct.pack())
+                ctp = CartTrajPtRequest(point.X, point.Y, point.Z, q.X, q.Y, q.Z, q.W)
+                ctp.setTranslationalSpeed(300)
+                SMSocket.send(ctp.pack())
             except:
                 print except_info()
+        # end testing
         CommandState = CommandStateType.DONE
     except:
         CommandState = CommandStateType.ERROR
@@ -193,6 +196,7 @@ def handleSetEndEffectorParametersType(child):
 def handleSetEndEffectorType(child):
     global DEBUG, CommandID, CommandState
     global ThreeFingerGripperStatus
+    global SMSocket
     if DEBUG: print "handleSetEndEffectorType"
     CommandID = child.findtext("CommandID")
     CommandState = CommandStateType.DONE
@@ -201,6 +205,19 @@ def handleSetEndEffectorType(child):
         ThreeFingerGripperStatus.setFingerPosition(float(setting), float(setting), float(setting))
     except: pass
     print CommandID, "set", setting
+    # FIXME -- testing
+    if SMSocket != None:
+        try:
+            if float(setting) < 0.5:
+                jts = 0, -10, -40, 30, 15, 15, 40, -40, -40, 40
+            else:
+                jts = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            jtp = JointTrajPtRequest(jts)
+            jtp.setVelocity(200)
+            SMSocket.send(jtp.pack())
+        except:
+            print except_info()
+    # end testing
 
 # -- Command reader ---
 
@@ -343,7 +360,7 @@ if (SIMPLE_MESSAGE_HOST != "") and (SIMPLE_MESSAGE_CONTROL_PORT != ""):
         SMSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         SMSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_CONTROL_PORT)))
     except:
-        print NAME, ":", except_info()
+        print NAME, ": Simple Message :", except_info()
         SMSocket = None
 
 BACKLOG = 1
@@ -375,10 +392,12 @@ while True:
     t = threading.Thread(target=writer, args=(conn,float(PERIOD)))
     t.daemon = True
     t.start()
-    # add in the FlexiForce sensor
+    # FIXME -- testing the FlexiForce sensor
+    '''
     f = threading.Thread(target=flexiforce, args=("localhost", 1234))
     f.daemon = True
     f.start()
+    '''
 
 print NAME, ": done"
 

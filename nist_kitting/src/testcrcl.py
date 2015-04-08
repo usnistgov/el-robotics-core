@@ -188,12 +188,6 @@ for key, val in zip(toks[0::2], toks[1::2]):
 m = SetEndEffectorParametersType(1, params)
 print m
 
-s = SetTransSpeedRelativeType(101, 0.5)
-print s
-
-s = SetTransSpeedAbsoluteType(101, 1.3)
-print s
-
 q = QuaternionType(0.7071, 0, 0, 0.7071)
 m = QuaternionToMatrix(q)
 print m

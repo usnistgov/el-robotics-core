@@ -158,11 +158,62 @@ class PoseToleranceType(DataThingType):
     def tree(self, root=None):
         if root == None: root = ET.Element(None)
         super(PoseToleranceType, self).tree(root)
-        ET.SubElement(root, "XPointTolerance").text = str(self.XPointTolerance)
-        ET.SubElement(root, "YPointTolerance").text = str(self.YPointTolerance)
-        ET.SubElement(root, "ZPointTolerance").text = str(self.ZPointTolerance)
-        ET.SubElement(root, "XAxisTolerance").text = str(self.XAxisTolerance)
-        ET.SubElement(root, "ZAxisTolerance").text = str(self.ZAxisTolerance)
+        if self.XPointTolerance != None: ET.SubElement(root, "XPointTolerance").text = str(self.XPointTolerance)
+        if self.YPointTolerance != None: ET.SubElement(root, "YPointTolerance").text = str(self.YPointTolerance)
+        if self.ZPointTolerance != None: ET.SubElement(root, "ZPointTolerance").text = str(self.ZPointTolerance)
+        if self.XAxisTolerance != None: ET.SubElement(root, "XAxisTolerance").text = str(self.XAxisTolerance)
+        if self.ZAxisTolerance != None: ET.SubElement(root, "ZAxisTolerance").text = str(self.ZAxisTolerance)
+        return ET.ElementTree(root)
+
+# --- Extensions anticipating Tom Kramer's updates
+
+class TransSpeedType(DataThingType):
+
+    def __init__(self, **kwargs): super(TransSpeedType, self).__init__(**kwargs)
+
+class TransSpeedAbsoluteType(TransSpeedType):
+
+    def __init__(self, TransSpeed, **kwargs):
+        super(TransSpeedAbsoluteType, self).__init__(**kwargs)
+        self.TransSpeed = TransSpeed
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(TransSpeedAbsoluteType, self).tree(root)
+        ET.SubElement(root, "TransSpeed").text = str(self.TransSpeed)
+        return ET.ElementTree(root)
+
+class TransSpeedRelativeType(TransSpeedType):
+
+    def __init__(self, TransSpeed, **kwargs):
+        super(TransSpeedRelativeType, self).__init__(**kwargs)
+        self.TransSpeed = TransSpeed
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(TransSpeedRelativeType, self).tree(root)
+        ET.SubElement(root, "Fraction").text = str(self.TransSpeed)
+        return ET.ElementTree(root)
+
+# --- end extensions ---
+
+class PoseAndSetType(PoseOnlyLocationType):
+
+    def __init__(self, Coordinated, TransSpeed = None, RotSpeed = None, TransAccel = None, RotAccel = None, Tolerance = None, **kwargs):
+        super(PoseAndSetType, self).__init__(**kwargs)
+        self.Coordinated = Coordinated
+        self.TransSpeed = TransSpeed
+        self.RotSpeed = RotSpeed
+        self.TransAccel = TransAccel
+        self.RotAccel = RotAccel
+        self.Tolerance = Tolerance
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(PoseAndSetType, self).tree(root)
+        if self.Coordinated: ET.SubElement(root, "Coordinated").text = "true"
+        else: ET.SubElement(root, "Coordinated").text = "false"
+        if self.TransSpeed != None: self.TransSpeed.tree(root)
         return ET.ElementTree(root)
 
 # --- Commands ---
@@ -250,12 +301,15 @@ class MoveThroughToType(MiddleCommandType):
         else: ET.SubElement(el, "MoveStraight").text = "false"
         for wp in self.Waypoint:
             wpel = ET.SubElement(el, "Waypoint")
+            wp.tree(wpel)
+            '''
             ptel = ET.SubElement(wpel, "Point")
             wp.Point.tree(ptel)
             xel = ET.SubElement(wpel, "XAxis")
             wp.XAxis.tree(xel)
             zel = ET.SubElement(wpel, "ZAxis")
             wp.ZAxis.tree(zel)
+            '''
         ET.SubElement(el, "NumPositions").text = str(self.NumPositions)
         return ET.ElementTree(root)
 
@@ -282,42 +336,29 @@ class MoveToType(MiddleCommandType):
         else: ET.SubElement(el, "MoveStraight").text = "false"
         ep = self.EndPosition
         epel = ET.SubElement(el, "EndPosition")
+        self.EndPosition.tree(epel)
+        '''
         ptel = ET.SubElement(epel, "Point")
         ep.Point.tree(ptel)
         xel = ET.SubElement(epel, "XAxis")
         ep.XAxis.tree(xel)
         zel = ET.SubElement(epel, "ZAxis")
         ep.ZAxis.tree(zel)
+        '''
         return ET.ElementTree(root)
 
 # --- speed control
 
 class SetTransSpeedType(MiddleCommandType):
 
-    def __init__(self, CommandID, **kwargs): super(SetTransSpeedType, self).__init__(CommandID, **kwargs)
-
-class SetTransSpeedRelativeType(SetTransSpeedType):
-
-    def __init__(self, CommandID, Fraction, **kwargs):
-        super(SetTransSpeedRelativeType, self).__init__(CommandID, **kwargs)
-        self.Fraction = Fraction
-
-    def tree(self, root=None):
-        root, el = wrapIt(root, "SetTransSpeedRelativeType")
-        super(SetTransSpeedRelativeType, self).tree(el)
-        ET.SubElement(el, "Fraction").text = str(self.Fraction)
-        return ET.ElementTree(root)
-
-class SetTransSpeedAbsoluteType(SetTransSpeedType):
-
     def __init__(self, CommandID, TransSpeed, **kwargs):
-        super(SetTransSpeedAbsoluteType, self).__init__(CommandID, **kwargs)
+        super(SetTransSpeedType, self).__init__(CommandID, **kwargs)
         self.TransSpeed = TransSpeed
 
     def tree(self, root=None):
-        root, el = wrapIt(root, "SetTransSpeedAbsoluteType")
-        super(SetTransSpeedAbsoluteType, self).tree(el)
-        ET.SubElement(el, "TransSpeed").text = str(self.TransSpeed)
+        root, el = wrapIt(root, "SetTransSpeedType")
+        super(SetTransSpeedType, self).tree(el)
+        self.TransSpeed.tree(el)
         return ET.ElementTree(root)
 
 class ParameterSettingType(DataThingType):

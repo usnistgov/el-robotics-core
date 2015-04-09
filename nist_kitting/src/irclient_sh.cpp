@@ -296,13 +296,17 @@ int main(int argc, char **argv)
     set with actual points as they are typed in
    */
   control_msgs::FollowJointTrajectoryActionGoal goal;
+  /*
+    Tolerances for goal position, speed, and accel
+   */
+  control_msgs::JointTolerance tol;
 
   for (int t = 0; t < joint_num; t++) {
-    control_msgs::JointTolerance tol;
     goal.goal.trajectory.joint_names.push_back(std::string("joint_") + to_string(t+1));
-    tol.position = 1;
-    tol.velocity = 1;
-    tol.acceleration = 1;
+    // set to some reasonable initial values
+    tol.position = 0.001;
+    tol.velocity = 0.1;
+    tol.acceleration = 0.1;
     tol.name = std::string("path_tolerance_") + to_string(t+1);
     goal.goal.path_tolerance.push_back(tol);
     tol.name = std::string("goal_tolerance_") + to_string(t+1);
@@ -372,6 +376,28 @@ int main(int argc, char **argv)
       if ('v' == *ptr) {
 	printf("setting velocities\n");
 	do_pos = false;
+	break;
+      }
+
+      if ('t' == *ptr) {
+	while (!isspace(*ptr)) ptr++;
+	if (0 == *ptr) {
+	  printf("need tolerance values\n");
+	  break;
+	}
+
+	goal.goal.goal_tolerance.clear();
+	for (int t = 0; t < joint_num; t++) {
+	  d1 = strtod(ptr, &endptr);
+	  if (ptr == endptr) break;
+	  tol.name = std::string("goal_tolerance_") + to_string(t+1);
+	  tol.position = d1;
+	  tol.velocity = 0.1;
+	  tol.acceleration = 0.1;
+	  printf("setting %s to %f\n", tol.name.c_str(), d1);
+	  goal.goal.goal_tolerance.push_back(tol);
+	  ptr = endptr;
+	}
 	break;
       }
 

@@ -221,6 +221,10 @@ class PoseAndSetType(PoseOnlyLocationType):
         if self.Coordinated: ET.SubElement(root, "Coordinated").text = "true"
         else: ET.SubElement(root, "Coordinated").text = "false"
         if self.TransSpeed != None: self.TransSpeed.tree(root)
+        if self.RotSpeed != None: self.RotSpeed.tree(root)
+        if self.TransAccel != None: self.TransAccel.tree(root)
+        if self.RotAccel != None: self.RotAccel.tree(root)
+        if self.Tolerance != None: self.Tolerance.tree(root)
         return ET.ElementTree(root)
 
 # --- Commands ---

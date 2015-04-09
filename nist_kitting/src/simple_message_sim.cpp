@@ -238,11 +238,16 @@ static void state_connection_thread_code(state_connection_thread_args *args)
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
     if (nchars < 0) break;
 
+#undef DO_OBJECTS
+#ifdef DO_OBJECTS
+
     len = obj_state.size();
     if (len <= sizeof(outbuf)) {
       obj_state.write_object_state(outbuf, sizeof(outbuf));
       nchars = ulapi_socket_write(id, outbuf, len);
     }
+
+#endif	// DO_OBJECTS
 
     ulapi_wait(period * 1e9);
   }

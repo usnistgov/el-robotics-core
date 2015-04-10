@@ -754,6 +754,17 @@ class CRCLStatusType(DataThingType):
 
 # --- Utility functions ---
 
+def unit(Vector):
+    try:
+        i = float(Vector.I)
+        j = float(Vector.J)
+        k = float(Vector.K)
+        maginv = 1 / math.sqrt(i*i + j*j + k*k)
+        Vunit = VectorType(i*maginv, j*maginv, k*maginv)
+        return Vunit
+    except:
+        raise ValueError
+    
 class MatrixType(DataThingType):
     def __init__(self, X, Y, Z, **kwargs):
         super(MatrixType, self).__init__(**kwargs)
@@ -847,7 +858,10 @@ def QuaternionToMatrix(Q):
                                  2 * (Q.Y * Q.Z - Q.X * Q.W),
                                  1 - 2 * (sq(Q.X) + sq(Q.Y))))
 
-def MatrixToQuaternion(M):
+def MatrixToQuaternion(Min):
+    try: M = MatrixType(unit(Min.X), unit(Min.Y), unit(Min.Z))
+    except: raise ValueError
+
     discr = 1.0 + M.X.I + M.Y.J + M.Z.K
     if discr < 0: discr = 0
   

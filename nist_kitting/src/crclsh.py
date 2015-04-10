@@ -379,7 +379,7 @@ while not done:
             print "need x y z xi xj xk zi zj zk"
             continue
         robot_cid += 1
-        m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), VectorType(xi, xj, xk), VectorType(zi, zj, zk)))
+        m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), unit(VectorType(xi, xj, xk)), unit(VectorType(zi, zj, zk))))
         robot_socket.send(str(m))
 
     else:

@@ -366,15 +366,7 @@ while not done:
                         
     elif cmd == "move":
         try:
-            x = float(toks[1])
-            y = float(toks[2])
-            z = float(toks[3])
-            xi = float(toks[4])
-            xj = float(toks[5])
-            xk = float(toks[6])
-            zi = float(toks[7])
-            zj = float(toks[8])
-            zk = float(toks[9])
+            x,y,z,xi,xj,xk,zi,zj,zk = map(float, toks[1:10])
         except:
             print "need x y z xi xj xk zi zj zk"
             continue

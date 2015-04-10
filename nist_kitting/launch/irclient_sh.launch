@@ -1,0 +1,11 @@
+<launch>
+
+<arg name="ns" default="/" />
+
+<group ns="$(arg ns)">
+
+  <node pkg="nist_kitting" type="irclient_sh" name="irclient_sh" output="screen"/>
+
+</group>
+
+</launch>

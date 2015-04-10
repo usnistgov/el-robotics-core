@@ -158,14 +158,14 @@ class TransSpeedType(DataThingType):
 
 class TransSpeedAbsoluteType(TransSpeedType):
 
-    def __init__(self, TransSpeed, **kwargs):
+    def __init__(self, Setting, **kwargs):
         super(TransSpeedAbsoluteType, self).__init__(**kwargs)
-        self.TransSpeed = TransSpeed
+        self.Setting = Setting
 
     def tree(self, root=None):
         if root == None: root = ET.Element(None)
         super(TransSpeedAbsoluteType, self).tree(root)
-        ET.SubElement(self.wrap(root, "TransSpeedAbsoluteType"), "TransSpeed").text = str(self.TransSpeed)
+        ET.SubElement(self.wrap(root, "TransSpeedAbsoluteType"), "Setting").text = str(self.Setting)
         return ET.ElementTree(root)
 
 class TransSpeedRelativeType(TransSpeedType):
@@ -180,9 +180,101 @@ class TransSpeedRelativeType(TransSpeedType):
         ET.SubElement(self.wrap(root, "TransSpeedRelativeType"), "Fraction").text = str(self.Fraction)
         return ET.ElementTree(root)
 
-#
-# FIXME -- add accelerations, and rotation speed and acceleration
-#
+class TransAccelType(DataThingType):
+
+    def __init__(self, **kwargs):
+        super(TransAccelType, self).__init__(**kwargs)
+
+    def wrap(self, root, cmd):
+        return ET.SubElement(root, "TransAccel", attrib={"xsi:type" : cmd})
+
+class TransAccelAbsoluteType(TransAccelType):
+
+    def __init__(self, Setting, **kwargs):
+        super(TransAccelAbsoluteType, self).__init__(**kwargs)
+        self.Setting = Setting
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(TransAccelAbsoluteType, self).tree(root)
+        ET.SubElement(self.wrap(root, "TransAccelAbsoluteType"), "Setting").text = str(self.Setting)
+        return ET.ElementTree(root)
+
+class TransAccelRelativeType(TransAccelType):
+
+    def __init__(self, Fraction, **kwargs):
+        super(TransAccelRelativeType, self).__init__(**kwargs)
+        self.Fraction = Fraction
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(TransAccelRelativeType, self).tree(root)
+        ET.SubElement(self.wrap(root, "TransAccelRelativeType"), "Fraction").text = str(self.Fraction)
+        return ET.ElementTree(root)
+
+class RotSpeedType(DataThingType):
+
+    def __init__(self, **kwargs):
+        super(RotSpeedType, self).__init__(**kwargs)
+
+    def wrap(self, root, cmd):
+        return ET.SubElement(root, "RotSpeed", attrib={"xsi:type" : cmd})
+
+class RotSpeedAbsoluteType(RotSpeedType):
+
+    def __init__(self, Setting, **kwargs):
+        super(RotSpeedAbsoluteType, self).__init__(**kwargs)
+        self.Setting = Setting
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(RotSpeedAbsoluteType, self).tree(root)
+        ET.SubElement(self.wrap(root, "RotSpeedAbsoluteType"), "Setting").text = str(self.Setting)
+        return ET.ElementTree(root)
+
+class RotSpeedRelativeType(RotSpeedType):
+
+    def __init__(self, Fraction, **kwargs):
+        super(RotSpeedRelativeType, self).__init__(**kwargs)
+        self.Fraction = Fraction
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(RotSpeedRelativeType, self).tree(root)
+        ET.SubElement(self.wrap(root, "RotSpeedRelativeType"), "Fraction").text = str(self.Fraction)
+        return ET.ElementTree(root)
+
+class RotAccelType(DataThingType):
+
+    def __init__(self, **kwargs):
+        super(RotAccelType, self).__init__(**kwargs)
+
+    def wrap(self, root, cmd):
+        return ET.SubElement(root, "RotAccel", attrib={"xsi:type" : cmd})
+
+class RotAccelAbsoluteType(RotAccelType):
+
+    def __init__(self, Setting, **kwargs):
+        super(RotAccelAbsoluteType, self).__init__(**kwargs)
+        self.Setting = Setting
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(RotAccelAbsoluteType, self).tree(root)
+        ET.SubElement(self.wrap(root, "RotAccelAbsoluteType"), "Setting").text = str(self.Setting)
+        return ET.ElementTree(root)
+
+class RotAccelRelativeType(RotAccelType):
+
+    def __init__(self, Fraction, **kwargs):
+        super(RotAccelRelativeType, self).__init__(**kwargs)
+        self.Fraction = Fraction
+
+    def tree(self, root=None):
+        if root == None: root = ET.Element(None)
+        super(RotAccelRelativeType, self).tree(root)
+        ET.SubElement(self.wrap(root, "RotAccelRelativeType"), "Fraction").text = str(self.Fraction)
+        return ET.ElementTree(root)
 
 class PoseToleranceType(DataThingType):
 
@@ -274,6 +366,18 @@ class SetTransSpeedType(MiddleCommandType):
         root, el = wrapIt(root, "SetTransSpeedType")
         super(SetTransSpeedType, self).tree(el)
         self.TransSpeed.tree(el)
+        return ET.ElementTree(root)
+
+class SetTransAccelType(MiddleCommandType):
+
+    def __init__(self, CommandID, TransAccel, **kwargs):
+        super(SetTransAccelType, self).__init__(CommandID, **kwargs)
+        self.TransAccel = TransAccel
+
+    def tree(self, root=None):
+        root, el = wrapIt(root, "SetTransAccelType")
+        super(SetTransAccelType, self).tree(el)
+        self.TransAccel.tree(el)
         return ET.ElementTree(root)
 
 class SetEndPoseToleranceType(MiddleCommandType):

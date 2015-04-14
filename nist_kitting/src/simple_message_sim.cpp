@@ -238,7 +238,7 @@ static void state_connection_thread_code(state_connection_thread_args *args)
     nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
     if (nchars < 0) break;
 
-#undef DO_OBJECTS
+#define DO_OBJECTS 1
 #ifdef DO_OBJECTS
 
     len = obj_state.size();

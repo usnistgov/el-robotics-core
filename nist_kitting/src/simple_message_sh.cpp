@@ -183,7 +183,8 @@ static void state_client_thread_code(state_client_thread_args *args)
 
 int main(int argc, char *argv[])
 {
-  const char *host = "localhost";
+  enum {HOST_LEN = 256};
+  char host[HOST_LEN] = "localhost";
   int option;
   int ival;
   int message_port = MESSAGE_PORT_DEFAULT;
@@ -204,7 +205,8 @@ int main(int argc, char *argv[])
 
     switch (option) {
     case 'h':
-      host = optarg;
+      strncpy(host, optarg, sizeof(host));
+      host[sizeof(host)-1] = 0;
       break;
 
     case 'm':

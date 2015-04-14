@@ -38,7 +38,8 @@ typedef enum {
 typedef enum {
   REPLY_NA = 0,
   REPLY_SUCCESS = 1,
-  REPLY_FAILURE = 2
+  REPLY_FAILURE = 2,
+  REPLY_EXECUTING = 3		/* EXTENSION */
 } reply_types;
 
 #define JOINT_PMIN_DEFAULT -1000.0

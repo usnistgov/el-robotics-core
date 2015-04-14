@@ -133,6 +133,7 @@ add_executable(kitting_hmi_proxy src/kitting_hmi_proxy.cpp)
 add_executable(cognex_sim src/cognex_sim.cpp)
 add_executable(simple_message_sim src/simple_message_sim.cpp)
 add_executable(simple_message_sh src/simple_message_sh.cpp)
+add_executable(simple_message_to_cognex src/simple_message_to_cognex.cpp)
 
 # add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 # add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
@@ -172,6 +173,7 @@ target_link_libraries(kitting_hmi_proxy nist_kitting ${ulapi_LIBRARIES} ${catkin
 target_link_libraries(cognex_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(simple_message_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(simple_message_sh nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(simple_message_to_cognex nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 
 #############
 ## Install ##

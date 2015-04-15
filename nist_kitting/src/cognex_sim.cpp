@@ -30,43 +30,27 @@
 
 #include <ulapi.h>
 
-enum {COGNEX_PORT_DEFAULT = 1456};
+#include <nist_kitting/cognex_db.h>
 
 #define COGNEX_DB_DEFAULT "cognex_sim.txt"
 
 static bool debug = false;
 
-struct object_info {
-  enum {OBJECT_NAME_LEN = 80};
-  char object_name[OBJECT_NAME_LEN];
-  float object_theta;
-  float object_x;
-  float object_y;
-  float object_confidence;
-};
-
-// globals
-static std::vector<object_info> object_info_db;
-static ulapi_mutex_struct object_info_db_mutex;
-
-static bool load_object_db(const char *path)
+static bool load_object_db(cognex_object_info_db *db, const char *path)
 {
   FILE *fp;
   enum {LINELEN = 256};
   char line[LINELEN];
   char linecpy[LINELEN];
-  object_info object_info_in;
+  cognex_object_info object_info_in;
   char *ptr, *tok;
-  bool keep_name;
+  int id = 1;
 
   fp = fopen(path, "r");
   if (NULL == fp) return false;
 
   // clear out original db, if any
-  while (! object_info_db.empty()) {
-    object_info el = object_info_db.back();
-    object_info_db.pop_back();
-  }
+  db->clear();
 
   while (! feof(fp)) {
     if (NULL == fgets(line, sizeof(line)-1, fp)) break;
@@ -78,8 +62,8 @@ static bool load_object_db(const char *path)
     if (isalpha(*ptr) || ('*' == *ptr)) {
       tok = strtok(ptr, ",");
       if (NULL != tok) {
-	strncpy(object_info_in.object_name, tok, sizeof(object_info_in.object_name));
-	object_info_in.object_name[sizeof(object_info_in.object_name)-1] = 0;
+	strncpy(object_info_in.name, tok, sizeof(object_info_in.name));
+	object_info_in.name[sizeof(object_info_in.name)-1] = 0;
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
@@ -87,7 +71,7 @@ static bool load_object_db(const char *path)
 
       tok = strtok(NULL, ",");
       if (NULL != tok) {
-	object_info_in.object_theta = atof(tok);
+	object_info_in.theta = atof(tok);
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
@@ -95,7 +79,7 @@ static bool load_object_db(const char *path)
 
       tok = strtok(NULL, ",");
       if (NULL != tok) {
-	object_info_in.object_x = atof(tok);
+	object_info_in.x = atof(tok);
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
@@ -103,7 +87,7 @@ static bool load_object_db(const char *path)
 
       tok = strtok(NULL, ",");
       if (NULL != tok) {
-	object_info_in.object_y = atof(tok);
+	object_info_in.y = atof(tok);
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
@@ -111,13 +95,13 @@ static bool load_object_db(const char *path)
 
       tok = strtok(NULL, "\n");
       if (NULL != tok) {
-	object_info_in.object_confidence = atof(tok);
+	object_info_in.confidence = atof(tok);
       } else {
 	fprintf(stderr, "bad object db entry: %s\n", linecpy);
 	continue;
       }
 
-      object_info_db.push_back(object_info_in);
+      db->add(id++, object_info_in);
     } else {
       // nothing on line
     }
@@ -126,56 +110,15 @@ static bool load_object_db(const char *path)
   return true;
 }
 
-static void print_object_db(void)
-{
-  object_info object_info_in;
-
-  for (int t = 0; t < object_info_db.size(); t++) {
-    object_info_in = object_info_db[t];
-    printf("Object %d: %s,%f,%f,%f,%f\n", t+1,
-	   object_info_in.object_name,
-	   object_info_in.object_theta,
-	   object_info_in.object_x,
-	   object_info_in.object_y,
-	   object_info_in.object_confidence);
-  }
-}
-
-static bool format_object_db(char *str, size_t size)
-{
-  object_info object_info_in;
-  size_t retval;
-  std::string sstr;
-
-  for (int t = 0; t < object_info_db.size(); t++) {
-    object_info_in = object_info_db[t];
-    retval = ulapi_snprintf(str, size, "%s,%f,%f,%f,%f",
-			    object_info_in.object_name,
-			    object_info_in.object_theta,
-			    object_info_in.object_x,
-			    object_info_in.object_y,
-			    object_info_in.object_confidence);
-    if (t == 0) {
-      sstr = str;
-    } else {
-      sstr += ",";
-      sstr += str;
-    }
-  }
-
-  sstr += "\n";
-
-  strncpy(str, sstr.c_str(), size);
-  str[size-1] = 0;
-}
-
 struct stat_thread_args {
+  cognex_object_info_db *db;
   int stat_server_id;
   double stat_period;
 };
 
 static void stat_thread_code(stat_thread_args *args)
 {
+  cognex_object_info_db *db = args->db;
   int stat_server_id = args->stat_server_id;
   double stat_period = args->stat_period;
   int stat_connection_id;
@@ -194,9 +137,7 @@ static void stat_thread_code(stat_thread_args *args)
     if (debug) printf("got a status client connection on id %d\n", stat_connection_id);
 
     while (true) {
-      ulapi_mutex_take(&object_info_db_mutex);
-      format_object_db(outbuf, sizeof(outbuf)-1);
-      ulapi_mutex_give(&object_info_db_mutex);
+      db->format(outbuf, sizeof(outbuf)-1);
 
       nchars = ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf));
       if (nchars < 0) break;	// client disconnected, probably
@@ -246,6 +187,7 @@ int main(int argc, char *argv[])
   double dval;
   int port = COGNEX_PORT_DEFAULT;
   std::string object_db_path = COGNEX_DB_DEFAULT;
+  cognex_object_info_db db;
   int stat_server_id;
   double period = 1;
   ulapi_task_struct stat_thread;
@@ -287,11 +229,9 @@ int main(int argc, char *argv[])
     } // switch (option)
   }   // while (true) for getopt
 
-  if (! load_object_db(object_db_path.c_str())) {
+  if (! load_object_db(&db, object_db_path.c_str())) {
     fprintf(stderr, "can't load object database %s\n", object_db_path.c_str());
   }
-
-  ulapi_mutex_init(&object_info_db_mutex, 0);
 
   stat_server_id = ulapi_socket_get_server_id(port);
   if (stat_server_id < 0) {
@@ -301,6 +241,7 @@ int main(int argc, char *argv[])
 
   // spawn status server thread
   ulapi_task_init(&stat_thread);
+  stat_args.db = &db;
   stat_args.stat_server_id = stat_server_id;
   stat_args.stat_period = period;
   ulapi_task_start(&stat_thread, reinterpret_cast<ulapi_task_code>(stat_thread_code), reinterpret_cast<void *>(&stat_args), ulapi_prio_highest(), 0);
@@ -327,7 +268,7 @@ int main(int argc, char *argv[])
 
     do {
       if (0 == *ptr) {		// blank line, print state
-	print_object_db();
+	db.print();
 	break;
       }
 
@@ -339,18 +280,16 @@ int main(int argc, char *argv[])
       if (! strncmp(ptr, "load", strlen("load"))) {
 	ptr += strlen("load");
 	while (isspace(*ptr)) ptr++;
-	ulapi_mutex_take(&object_info_db_mutex);
 	if (0 == *ptr) {	// no file provided, use original
-	  if (! load_object_db(object_db_path.c_str())) {
+	  if (! load_object_db(&db, object_db_path.c_str())) {
 	    printf("can't load object database %s\n", object_db_path.c_str());
 	  }
 	} else {
 	  object_db_path = std::string(ptr);
-	  if (! load_object_db(object_db_path.c_str())) {
+	  if (! load_object_db(&db, object_db_path.c_str())) {
 	    printf("can't load object database %s\n", ptr);
 	  }
 	}
-	ulapi_mutex_give(&object_info_db_mutex);
 	break;
       }	// matches "load"
 

@@ -133,7 +133,7 @@ add_executable(kitting_hmi_proxy src/kitting_hmi_proxy.cpp)
 add_executable(cognex_sim src/cognex_sim.cpp)
 add_executable(simple_message_sim src/simple_message_sim.cpp)
 add_executable(simple_message_sh src/simple_message_sh.cpp)
-add_executable(simple_message_to_cognex src/simple_message_to_cognex.cpp)
+add_executable(simple_message_to_cognex src/cognex_db.cpp src/simple_message_to_cognex.cpp)
 
 # add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 # add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)

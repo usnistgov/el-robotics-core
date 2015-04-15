@@ -3,7 +3,7 @@
 
   Connects to the Simple Message object server, and converts object
   messages to Cognex format for each connected client.
- */
+*/
 
 #include <stdio.h>		/* stdin, stderr */
 #include <stddef.h>		/* NULL, sizeof, size_t */
@@ -16,226 +16,11 @@
 #include <string>
 
 #include <ulapi.h>
+#include <nist_kitting/cognex_db.h>
 
 #include "simple_message_defs.h"
 
-bool debug = false;
-
-enum {
-  COGNEX_PORT_DEFAULT = 1456
-};
-
-struct cognex_object_info {
-  enum {OBJECT_NAME_LEN = 80};
-  char name[OBJECT_NAME_LEN];
-  double theta;
-  double x;
-  double y;
-  double confidence;
-
-  cognex_object_info() {
-    cognex_object_info("", 0, 0, 0, 0);
-  }
-
-  cognex_object_info(const char *_name, double _theta, double _x, double _y, double _confidence) {
-    strncpy(name, _name, sizeof(name)-1);
-    name[sizeof(name)-1] = 0;
-    theta = _theta;
-    x = _x;
-    y = _y;
-    confidence = _confidence;
-  }
-};
-
-struct compare_int {
-  bool operator() (int i1, int i2) const { return i1 < i2; }
-};
-
-class cognex_object_info_db {
-public:
-  cognex_object_info_db() {
-    ulapi_mutex_init(&mutex, 0);
-  }
-
-  ~cognex_object_info_db() {
-  }
-
-  void add(int index, cognex_object_info obj) {
-    ulapi_mutex_take(&mutex);
-    db[index] = obj;
-    ulapi_mutex_give(&mutex);
-  }
-
-  void remove(int index) {
-    ulapi_mutex_take(&mutex);
-    db.erase(db.find(index));
-    ulapi_mutex_give(&mutex);
-  }
-
-  void clear(void) {
-    ulapi_mutex_take(&mutex);
-    db.clear();
-    ulapi_mutex_give(&mutex);
-  }
-
-  int size(void) {
-    int retval;
-    ulapi_mutex_take(&mutex);
-    retval = db.size();
-    ulapi_mutex_give(&mutex);
-    return retval;
-  }
-
-  int format(char *str, size_t size) {
-    cognex_object_info object_info_in;
-    size_t retval;
-    std::string sstr;
-
-    ulapi_mutex_take(&mutex);
-    for (std::map<int, cognex_object_info>::iterator iter = db.begin(); iter != db.end(); iter++) {
-      retval = ulapi_snprintf(str, size, "%s,%f,%f,%f,%f",
-			      iter->second.name,
-			      iter->second.theta,
-			      iter->second.x,
-			      iter->second.y,
-			      iter->second.confidence);
-      if (iter == db.begin()) {
-	sstr = str;
-      } else {
-	sstr += ",";
-	sstr += str;
-      }
-    }
-    ulapi_mutex_give(&mutex);
-
-    sstr += "\n";
-
-    strncpy(str, sstr.c_str(), size);
-    str[size-1] = 0;
-
-    return 0;
-  }
-
-  void print(void) {
-    ulapi_mutex_take(&mutex);
-    for (std::map<int, cognex_object_info>::iterator iter = db.begin(); iter != db.end(); iter++) {
-      printf("%d : %s\n", iter->first, iter->second.name);
-    }
-    ulapi_mutex_give(&mutex);
-  }
-
-  ulapi_task_struct *serve(int port, int period_nsecs);
-
-private:
-  std::map<int, cognex_object_info, compare_int> db;
-  ulapi_mutex_struct mutex;
-};
-
-struct cognex_client_task_args {
-  ulapi_task_struct *task;
-  int connection_id;
-  int period_nsecs;
-  cognex_object_info_db *db;
-};
-
-static void cognex_client_task_code(cognex_client_task_args *args)
-{
-  ulapi_task_struct *task = args->task;
-  int connection_id = args->connection_id;
-  int period_nsecs = args->period_nsecs;
-  cognex_object_info_db *db = args->db;
-  enum {MSG_LEN = 1024};
-  char msg[MSG_LEN];
-
-  free(args);
-
-  while (true) {
-    db->format(msg, sizeof(msg)-1);
-    if (ulapi_socket_write(connection_id, msg, strlen(msg)) < 0) break;
-    ulapi_wait(period_nsecs);
-  }
-
-  ulapi_socket_close(connection_id);
-
-  if (debug) printf("cognex client write handler %d done\n", connection_id);
-
-  ulapi_task_delete(task);
-
-  return;
-}
-
-struct cognex_server_task_args {
-  ulapi_task_struct *task;
-  int server_id;
-  int period_nsecs;
-  cognex_object_info_db *db;
-};
-
-static void cognex_server_task_code(cognex_server_task_args *args)
-{
-  ulapi_task_struct *task = args->task;
-  int server_id = args->server_id;
-  int period_nsecs = args->period_nsecs;
-  cognex_object_info_db *db = args->db;
-  int connection_id;
-  ulapi_task_struct *client_task;
-  cognex_client_task_args *client_args;
-
-  free(args);
-
-  while (true) {
-    if (debug) printf("waiting for a cognex connection on %d...\n", server_id);
-    connection_id = ulapi_socket_get_connection_id(server_id);
-    if (connection_id < 0) {
-      fprintf(stderr, "can't get a cognex client connection\n");
-      break;
-    }
-     
-    if (debug) printf("got a cognex connection on id %d\n", connection_id);
-
-    client_task = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*client_task)));
-    client_args = reinterpret_cast<cognex_client_task_args *>(malloc(sizeof(*client_args)));
-
-    ulapi_task_init(client_task);
-    client_args->task = client_task;
-    client_args->connection_id = connection_id;
-    client_args->period_nsecs = period_nsecs;
-    client_args->db = db;
-    ulapi_task_start(client_task, reinterpret_cast<ulapi_task_code>(cognex_client_task_code), reinterpret_cast<void *>(client_args), ulapi_prio_highest(), 0);
-  }
-
-  ulapi_socket_close(server_id);
-
-  if (debug) printf("cognex server on %d done\n", server_id);
-
-  ulapi_task_delete(task);
-
-  return;
-}
-
-ulapi_task_struct *cognex_object_info_db::serve(int port, int period_nsecs)
-{
-  ulapi_integer server_id;
-  ulapi_task_struct *server_task;
-  cognex_server_task_args *server_args;
-
-  server_id = ulapi_socket_get_server_id(port);
-  if (server_id < 0) {
-    return NULL;
-  }
-
-  server_task = reinterpret_cast<ulapi_task_struct *>(malloc(sizeof(*server_task)));
-  server_args = reinterpret_cast<cognex_server_task_args *>(malloc(sizeof(*server_args)));
-
-  ulapi_task_init(server_task);
-  server_args->task = server_task;
-  server_args->server_id = server_id;
-  server_args->period_nsecs = period_nsecs;
-  server_args->db = this;
-  ulapi_task_start(server_task, reinterpret_cast<ulapi_task_code>(cognex_server_task_code), reinterpret_cast<void *>(server_args), ulapi_prio_highest(), 0);
-
-  return server_task;
-}
+static bool debug = false;
 
 /*
   Arguments:
@@ -330,7 +115,7 @@ int main(int argc, char *argv[])
 
   server_task = db.serve(cognex_port, period * 1e9);
   if (server_task == NULL) {
-    fprintf(stderr, "can't server port %d\n", cognex_port);
+    fprintf(stderr, "can't serve port %d\n", cognex_port);
     return 1;
   }
 

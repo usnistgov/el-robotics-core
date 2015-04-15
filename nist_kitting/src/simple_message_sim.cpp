@@ -42,6 +42,7 @@
 #include <stddef.h>		// NULL, sizeof, size_t 
 #include <stdlib.h>		// atoi, atof 
 #include <ctype.h>		// isspace
+#include <math.h>
 
 #include <ulapi.h>
 
@@ -197,8 +198,8 @@ static void state_connection_thread_code(state_connection_thread_args *args)
     obj_state.objects[t].z = t + 5.6;
     obj_state.objects[t].qx = 0;
     obj_state.objects[t].qy = 0;
-    obj_state.objects[t].qz = 0;
-    obj_state.objects[t].qw = 1;
+    obj_state.objects[t].qz = sin(0.1*t);
+    obj_state.objects[t].qw = cos(0.1*t);
   }
 
   while (true) {

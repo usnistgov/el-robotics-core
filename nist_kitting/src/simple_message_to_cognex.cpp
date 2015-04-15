@@ -10,6 +10,7 @@
 #include <stdlib.h>		/* atoi, atof */
 #include <string.h>
 #include <ctype.h>
+#include <math.h>		/* atan2 */
 
 #include <iostream>
 #include <map>
@@ -32,12 +33,18 @@ static bool debug = false;
   -d        -- turn debug printing on
 */
 
+struct ltint {
+  bool operator() (int i1, int i2) const { return i1 < i2; }
+};
+static std::map<int, std::string, ltint> object_names;
+
 int main(int argc, char *argv[])
 {
   enum {HOST_LEN = 256};
   char host[HOST_LEN] = "localhost";
   int state_port = STATE_PORT_DEFAULT;
   int cognex_port = COGNEX_PORT_DEFAULT;
+  const double confidence = 0.95;
   double period = 1;
   int option;
   int ival;
@@ -90,21 +97,12 @@ int main(int argc, char *argv[])
     } // switch (option)
   }   // while (true) for getopt
 
-#undef TESTING
-#ifdef TESTING
-  db.add(1, cognex_object_info("alice", 0.4, 1.2, 3.4, 0.95));
-  db.print();
-
-  db.add(1, cognex_object_info("bob", -0.4, -1.2, -3.4, -0.95));
-  db.add(2, cognex_object_info("carol", 0.57808, 123.45, -234.56, 0.99));
-  db.print();
-
-  db.remove(1);
-  db.print();
-  db.add(3, cognex_object_info("david", 1, 2, 3, 1));
-
-  return 0;
-#endif
+  // set up mapping of integer ids with object names
+  object_names[1] = std::string("small_gear");
+  object_names[2] = std::string("medium_gear");
+  object_names[3] = std::string("large_gear");
+  object_names[4] = std::string("bottom_cover");
+  object_names[5] = std::string("top_cover");
 
   // connect to state server
   state_client_id = ulapi_socket_get_client_id(state_port, host);
@@ -150,7 +148,7 @@ int main(int argc, char *argv[])
 	if (0 == obj_state.read_object_state(ptr)) {
 	  if (debug) obj_state.print_object_state();
 	  for (int t = 0; t < obj_state.number; t++) {
-	    db.add(obj_state.objects[t].id, cognex_object_info("FIXME", 0.5708, obj_state.objects[t].x, obj_state.objects[t].y, 0.95));
+	    db.add(obj_state.objects[t].id, cognex_object_info(object_names[obj_state.objects[t].id].c_str(), 2*atan2(obj_state.objects[t].qz, obj_state.objects[t].qw), obj_state.objects[t].x, obj_state.objects[t].y, confidence));
 	  }
 	}
 	break;

@@ -27,10 +27,6 @@ struct cognex_object_info {
   cognex_object_info(const char *_name, double _theta, double _x, double _y, double _confidence);
 };
 
-struct compare_int {
-  bool operator() (int i1, int i2) const { return i1 < i2; }
-};
-
 class cognex_object_info_db {
 public:
 
@@ -45,6 +41,9 @@ public:
   ulapi_task_struct *serve(int port, int period_nsecs);
 
 private:
+  struct compare_int {
+    bool operator() (int i1, int i2) const { return i1 < i2; }
+  };
   std::map<int, cognex_object_info, compare_int> db;
   ulapi_mutex_struct mutex;
 };

@@ -10,7 +10,7 @@
   joint angles. Another at port 11002 by default is for continuous
   sending of robot joint states.
 
-  You ran these:
+  Run like this:
 
   rosrun nist_kitting simple_message_sim -d
 
@@ -18,24 +18,15 @@
 
   rosrun nist_kitting irclient_sh
 
-  In the irclient_sh, you typed:
+  In the irclient_sh, type:
 
   1 2 3 4 5 6
 
-  and in the robot_interface_streaming window, got responses variously like this;
-
-  [ INFO] [1420495468.523931743]: Received new goal
-  [ERROR] [1420495468.524008975]: Joint trajectory action rejected: waiting for (initial) feedback from controller
-
-  or this: 
+  and in the robot_interface_streaming window, you see responses like this;
 
   [ INFO] [1420495460.220963519]: Received new goal
   [ INFO] [1420495460.221227503]: Publishing trajectory
   [ WARN] [1420495460.221340846]: Ignoring goal time tolerance in action goal, may be supported in the future
-
-  Sometimes it works, sometimes not. Figure out how to fix the "waiting for (initial) feedback from controller" error.
-
-  *** There's a watchdog reset -- make it report faster ***
 */
 
 #include <stdio.h>		// stdin, stderr 
@@ -133,6 +124,9 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	  printf("connection %d requested:\n", id);
 	  ctreq.print_cart_traj_pt_request();
 	}
+
+	ulapi_sleep(3);
+
 	ulapi_mutex_take(&robot_mutex);
 	if (! ctreq.get_pos(&f1, &f2, &f3, &f4, &f5, &f6, &f7)) break;
 	the_robot.set_robot_cart_pos(f1, f2, f3, f4, f5, f6, f7);

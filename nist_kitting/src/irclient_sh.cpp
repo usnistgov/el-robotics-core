@@ -220,7 +220,6 @@ static void rosloop_thread_code(rosloop_thread_args *args)
   return;
 }
 
-
 int main(int argc, char **argv)
 {
   int ros_argc;
@@ -429,9 +428,6 @@ int main(int argc, char **argv)
     } while (false);		// do ... wrapper
 
   } // while (true)
-
-
-
 
   return 0;
 }

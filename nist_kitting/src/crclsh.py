@@ -374,6 +374,11 @@ while not done:
         m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), unit(VectorType(xi, xj, xk)), unit(VectorType(zi, zj, zk))))
         robot_socket.send(str(m))
 
+    elif cmd == "rwait":
+        while not ((RobotCommandID == robot_cid) and (RobotCommandState != CommandStateType.WORKING)):
+            print "beep", RobotStatusID
+            time.sleep(1)
+
     else:
         print "? :", line
 

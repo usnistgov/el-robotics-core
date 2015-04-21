@@ -44,9 +44,13 @@ def writer(conn, period):
     global CommandID, StatusID, CommandState
     global Pose
     global ThreeFingerGripperStatus
+    global SMSocket
 
     # loop with a delay while a client is connected
     while True:
+
+        if SMSocket != None:
+            pass
 
         StatusID += 1 
         cs = CRCLStatusType(CommandStatusType(CommandID, StatusID, CommandState), Pose)
@@ -154,16 +158,19 @@ def handleMoveToType(child):
         Pose.ZAxis = zaxis
         print Pose
         # FIXME -- testing
-        if SMSocket != None:
+        if SMSocket == None:
+            CommandState = CommandStateType.DONE
+        else:
             try:
                 q = MatrixToQuaternion(MatrixType(xaxis, VectorVectorCross(zaxis, xaxis), zaxis))
                 ctp = CartTrajPtRequest(point.X, point.Y, point.Z, q.X, q.Y, q.Z, q.W)
                 ctp.setTranslationalSpeed(300)
                 SMSocket.send(ctp.pack())
+                CommandState = CommandStateType.WORKING
             except:
+                CommandState = CommandStateType.ERROR
                 print except_info()
         # end testing
-        CommandState = CommandStateType.DONE
     except:
         CommandState = CommandStateType.ERROR
 
@@ -273,6 +280,27 @@ def reader(conn):
     if DEBUG: print NAME, ": reader done"
     conn.close()
 
+def smreader(conn):
+    global CommandState 
+    size = 1024
+    while True:
+        try:
+            data = conn.recv(size)
+            ctprep = CartTrajPtReply()
+            if not ctprep.unpack(data):
+                print "bad reply data, length is", len(data)
+            else:
+                s = ctprep.getStatus()
+                if s == ctprep.SUCCESS: CommandState = CommandStateType.DONE
+                elif s == ctprep.EXEC: CommandState = CommandStateType.WORKING
+                else: CommandState = CommandStateType.ERROR
+        except:
+            break
+        if not data: break
+        
+    if DEBUG: print NAME, ": smreader done"
+    conn.close()
+
 # --- Main ---
 
 try:
@@ -359,6 +387,27 @@ if (SIMPLE_MESSAGE_HOST != "") and (SIMPLE_MESSAGE_CONTROL_PORT != ""):
     try:
         SMSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         SMSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_CONTROL_PORT)))
+
+
+
+
+
+
+
+
+        smthr = threading.Thread(target=smreader, args=(SMSocket,))
+        smthr.daemon = True
+        smthr.start()
+
+
+
+
+
+
+
+
+
+
     except:
         print NAME, ": Simple Message :", except_info()
         SMSocket = None

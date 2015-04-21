@@ -51,11 +51,16 @@ class JointTrajPtRequest(object):
         return st
 
     def unpack(self, packed):
-        unpacked = struct.unpack('iiiii' + JointTrajPtRequest.NUM_JOINTS*'f' + 'ff', packed)
+        try:
+            unpacked = struct.unpack('iiiii' + JointTrajPtRequest.NUM_JOINTS*'f' + 'ff', packed)
+            if unpacked[1] != 11: return False
+        except:
+            return False
         self.setSeqNumber(unpacked[4])
         self.setJoints(unpacked[5:5+JointTrajPtRequest.NUM_JOINTS])
         self.setVelocity(unpacked[5+JointTrajPtRequest.NUM_JOINTS])
         self.setDuration(unpacked[5+JointTrajPtRequest.NUM_JOINTS+1])
+        return True
 
 '''
 int length;		  /* 4 bytes, constant value should be 13x4 = 52 */
@@ -108,11 +113,53 @@ class CartTrajPtRequest(object):
         return st
 
     def unpack(self, packed):
-        unpacked = struct.unpack('iiiii' + 'fffffff' + 'ff', packed)
+        try:
+            unpacked = struct.unpack('iiiii' + 'fffffff' + 'ff', packed)
+            if unpacked[1] != 31: return False
+        except:
+            return False
         self.setSeqNumber(unpacked[4])
         self.setPose(unpacked[5], unpacked[6], unpacked[7], unpacked[8], unpacked[9], unpacked[10], unpacked[11])
         self.setTranslationalSpeed(unpacked[12])
         self.setRotationalSpeed(unpacked[13])
+        return True
+
+class CartTrajPtReply(object):
+
+    def setStatus(self, status):
+        self.status = status
+
+    def getStatus(self):
+        return self.status
+
+    def setSeqNumber(self, seq_number):
+        self.seq_number = seq_number
+
+    def __init__(self):
+        # 1 = SUCCESS, 2 = FAILURE
+        self.SUCCESS = 1
+        self.FAILURE = 2
+        self.EXEC = 3
+        self.status = self.SUCCESS
+        self.seq_number = 1
+
+    def __str__(self):
+        return str(self.status) + " " + str(self.seq_number)
+
+    def pack(self):
+        self.seq_number += 1;
+        st = struct.pack('iiiii', 16, 31, 3, self.status, self.seq_number)
+        return st
+
+    def unpack(self, packed):
+        try:
+            unpacked = struct.unpack('iiiii', packed)
+            if unpacked[1] != 31: return False
+        except:
+            return False
+        self.setStatus(unpacked[3])
+        self.setSeqNumber(unpacked[4])
+        return True
 
 if __name__ == "__main__":
 
@@ -120,13 +167,21 @@ if __name__ == "__main__":
     print jt
 
     njt = JointTrajPtRequest([])
-    njt.unpack(jt.pack())
-    print njt
+    if not njt.unpack(jt.pack()):
+        print "unpacking error"
+    else: 
+        print njt
 
     ct = CartTrajPtRequest(1, 2, 3, 0.7071, 0.0, 0.0, 0.7071)
     print ct
 
     nct = CartTrajPtRequest(0, 0, 0, 0, 0, 0, 1)
-    nct.unpack(ct.pack())
-    print nct
+    if not nct.unpack(ct.pack()):
+        print "unpacking error"
+    else:
+        print nct
 
+    if not nct.unpack(jt.pack()):
+        print "unpacking error as expected"
+    else:
+        print "unexpected unpacking success"

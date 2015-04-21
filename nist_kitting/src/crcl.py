@@ -576,7 +576,7 @@ class CRCLProgramType(DataThingType):
 class CommandStateType(object):
     DONE = "Done"
     ERROR = "Error"
-    WORKING = "Wprking"
+    WORKING = "Working"
     READY = "Ready"
     TIMEOUT = "Timeout"
 

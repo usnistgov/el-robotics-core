@@ -851,7 +851,7 @@ struct cart_traj_pt_request_message {
 };
 
 struct cart_traj_pt_reply_message {
-  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int length;		  /* 4 bytes, constant value should be 4x4 = 16 */
   int message_type;	  /* 4 bytes, constant value 31, CART_TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 3, REPLY */
   int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */

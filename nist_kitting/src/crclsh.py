@@ -375,10 +375,11 @@ while not done:
         robot_socket.send(str(m))
 
     elif cmd == "rwait":
-        while not ((RobotCommandID == robot_cid) and (RobotCommandState != CommandStateType.WORKING)):
-            print "beep", RobotStatusID
-            time.sleep(1)
-
+            while not ((robot_cid == RobotCommandID) and (RobotCommandState != CommandStateType.WORKING)):
+                if DEBUG: print robot_cid, RobotCommandID, RobotStatusID, RobotCommandState
+                try: time.sleep(1)
+                except KeyboardInterrupt: break
+            
     else:
         print "? :", line
 

@@ -162,8 +162,6 @@ def get_pose(part):
     except: pass
     return False, 0, 0, 0
 
-# FIXME -- get orientations of kits and slots
-
 def get_kit(kit):
     global NOCHECK, DEBUG, AprsDB
     if NOCHECK: return True, PoseLocationType(PointType(0,0,0), VectorType(1,0,0), VectorType(0,0,1))

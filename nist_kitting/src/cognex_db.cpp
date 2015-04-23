@@ -103,7 +103,12 @@ void cognex_object_info_db::print(void)
 {
   ulapi_mutex_take(&mutex);
   for (std::map<int, cognex_object_info>::iterator iter = db.begin(); iter != db.end(); iter++) {
-    printf("%d : %s\n", iter->first, iter->second.name);
+    printf("%d : %s, %f, %f, %f, %f\n", iter->first,
+	   iter->second.name,
+	   iter->second.theta,
+	   iter->second.x,
+	   iter->second.y,
+	   iter->second.confidence);
   }
   ulapi_mutex_give(&mutex);
 }

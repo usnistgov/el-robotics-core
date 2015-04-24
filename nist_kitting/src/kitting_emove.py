@@ -137,7 +137,7 @@ def check_predicate(sku, location):
     if DEBUG: print "checking", sku, "at location", location
     if NOCHECK: return True, 0, 0, 0
     try:
-        req = os.getenv("HOME", ".") + "/github/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
+        req = "/usr/local/iora/test/testPredicatesEvaluator" + " " + sku + " " + location
         toks = shlex.split(subprocess.check_output(shlex.split(req)))
         x = float(toks[0])
         y = float(toks[1])

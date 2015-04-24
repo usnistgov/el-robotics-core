@@ -13,20 +13,28 @@ float velocity;	   /* 4 bytes */
 float duration;	   /* 4 bytes */
 '''
 
-class JointTrajPtRequest(object):
-
+class SimpleMessage(object):
+    COMM_TOPIC = 1
+    COMM_REQUEST = 2
+    COMM_REPLY = 3
+    REPLY_NA = 0
+    REPLY_SUCCESS = 1
+    REPLY_FAILURE = 2
+    REPLY_EXECUTING = 3
     NUM_JOINTS = 10
+
+class JointTrajPtRequest(object):
 
     def setSeqNumber(self, seq_number):
         self.seq_number = seq_number
 
     def setJoints(self, Joints):
         jts = len(Joints)
-        if jts < JointTrajPtRequest.NUM_JOINTS:
+        if jts < SimpleMessage.NUM_JOINTS:
             self.joints = Joints
-            self.joints += [0]*(JointTrajPtRequest.NUM_JOINTS-jts)
+            self.joints += [0]*(SimpleMessage.NUM_JOINTS-jts)
         else:
-            self.joints = Joints[0:JointTrajPtRequest.NUM_JOINTS]
+            self.joints = Joints[0:SimpleMessage.NUM_JOINTS]
 
     def setVelocity(self, Velocity):
         self.velocity = Velocity
@@ -46,20 +54,71 @@ class JointTrajPtRequest(object):
     def pack(self):
         self.seq_number += 1;
         st = struct.pack('iiiii', 64, 11, 2, 0, self.seq_number)
-        st += struct.pack(JointTrajPtRequest.NUM_JOINTS*'f', *self.joints)
+        st += struct.pack(SimpleMessage.NUM_JOINTS*'f', *self.joints)
         st += struct.pack('ff', self.velocity, self.duration)
         return st
 
     def unpack(self, packed):
         try:
-            unpacked = struct.unpack('iiiii' + JointTrajPtRequest.NUM_JOINTS*'f' + 'ff', packed)
+            unpacked = struct.unpack('iiiii' + SimpleMessage.NUM_JOINTS*'f' + 'ff', packed)
             if unpacked[1] != 11: return False
         except:
             return False
         self.setSeqNumber(unpacked[4])
-        self.setJoints(unpacked[5:5+JointTrajPtRequest.NUM_JOINTS])
-        self.setVelocity(unpacked[5+JointTrajPtRequest.NUM_JOINTS])
-        self.setDuration(unpacked[5+JointTrajPtRequest.NUM_JOINTS+1])
+        self.setJoints(unpacked[5:5+SimpleMessage.NUM_JOINTS])
+        self.setVelocity(unpacked[5+SimpleMessage.NUM_JOINTS])
+        self.setDuration(unpacked[5+SimpleMessage.NUM_JOINTS+1])
+        return True
+
+class JointTrajPtReply(object):
+
+    SimpleMessage.NUM_JOINTS = 10
+
+    def setStatus(self, status):
+        self.status = status
+
+    def getStatus(self):
+        return self.status
+
+    # this corresponds to the 'unused' field
+    def setSeqNumber(self, seq_number):
+        self.seq_number = seq_number
+
+    def getSeqNumber(self):
+        return self.seq_number
+
+    def setJoints(self, Joints):
+        jts = len(Joints)
+        if jts < SimpleMessage.NUM_JOINTS:
+            self.joints = Joints
+            self.joints += [0]*(SimpleMessage.NUM_JOINTS-jts)
+        else:
+            self.joints = Joints[0:SimpleMessage.NUM_JOINTS]
+
+    def __init__(self, status = SimpleMessage.REPLY_SUCCESS):
+        # 1 = SUCCESS, 2 = FAILURE
+        self.setStatus(status)
+        self.setSeqNumber(1)
+        self.setJoints(SimpleMessage.NUM_JOINTS*[0])
+
+    def __str__(self):
+        return str(self.status) + " " + str(self.seq_number)
+
+    def pack(self):
+        self.seq_number += 1;
+        st = struct.pack('iiiii', 56, 11, 3, self.status, self.seq_number)
+        st += struct.pack(SimpleMessage.NUM_JOINTS*'f', *self.joints)
+        return st
+
+    def unpack(self, packed):
+        try:
+            unpacked = struct.unpack('iiiii' + SimpleMessage.NUM_JOINTS*'f', packed)
+            if unpacked[1] != 11: return False
+        except:
+            return False
+        self.setStatus(unpacked[3])
+        self.setSeqNumber(unpacked[4])
+        self.setJoints(unpacked[5:5+SimpleMessage.NUM_JOINTS])
         return True
 
 '''
@@ -185,3 +244,6 @@ if __name__ == "__main__":
         print "unpacking error as expected"
     else:
         print "unexpected unpacking success"
+
+    jtrep = JointTrajPtReply(SimpleMessage.REPLY_EXECUTING)
+    print jtrep

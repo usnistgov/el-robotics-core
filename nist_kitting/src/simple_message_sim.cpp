@@ -108,6 +108,10 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	  if (! jtreq.get_pos(&f1, t)) break;
 	  the_robot.set_robot_joint_pos(f1, t);
 	}
+
+	// FIXME -- testing with a delay, should thread this off
+	ulapi_sleep(3);
+
 	ulapi_mutex_give(&robot_mutex);
 	jtrep.set_joint_traj_pt_reply(REPLY_SUCCESS);
 	nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jtrep), sizeof(jtrep));
@@ -125,6 +129,7 @@ static void request_connection_thread_code(request_connection_thread_args *args)
 	  ctreq.print_cart_traj_pt_request();
 	}
 
+	// FIXME -- ditto
 	ulapi_sleep(3);
 
 	ulapi_mutex_take(&robot_mutex);

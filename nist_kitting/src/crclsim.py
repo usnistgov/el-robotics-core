@@ -147,6 +147,7 @@ def handleMoveToType(child):
     print child.findtext("MoveStraight")
     try:
         i = child.find("EndPosition")
+
         ii = i.find("Point")
         point = PointType(float(ii.findtext("X")), float(ii.findtext("Y")), float(ii.findtext("Z")))
         ii = i.find("XAxis")
@@ -157,7 +158,7 @@ def handleMoveToType(child):
         Pose.XAxis = xaxis
         Pose.ZAxis = zaxis
         print Pose
-        # FIXME -- testing
+        # pass down to Simple Message layer, if there is one
         if SMSocket == None:
             CommandState = CommandStateType.DONE
         else:
@@ -170,7 +171,7 @@ def handleMoveToType(child):
             except:
                 CommandState = CommandStateType.ERROR
                 print except_info()
-        # end testing
+        # end of Simple Message passing
     except:
         CommandState = CommandStateType.ERROR
 
@@ -205,26 +206,33 @@ def handleSetEndEffectorType(child):
     global ThreeFingerGripperStatus
     global SMSocket
     if DEBUG: print "handleSetEndEffectorType"
+
     CommandID = child.findtext("CommandID")
-    CommandState = CommandStateType.DONE
-    setting = child.findtext("Setting")
+    print CommandID,
+    print child.findtext("SetEndEffector")
     try: 
+        setting = child.findtext("Setting")
         ThreeFingerGripperStatus.setFingerPosition(float(setting), float(setting), float(setting))
-    except: pass
-    print CommandID, "set", setting
-    # FIXME -- testing
-    if SMSocket != None:
-        try:
-            if float(setting) < 0.5:
-                jts = 0, -10, -40, 30, 15, 15, 40, -40, -40, 40
-            else:
-                jts = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            jtp = JointTrajPtRequest(jts)
-            jtp.setVelocity(200)
-            SMSocket.send(jtp.pack())
-        except:
-            print except_info()
-    # end testing
+        print ThreeFingerGripperStatus
+        # pass down to Simple Message layer, if there is one
+        if SMSocket == None:
+            CommandState = CommandStateType.DONE
+        else:
+            try:
+                if float(setting) < 0.5:
+                    jts = 0, -10, -40, 30, 15, 15, 40, -40, -40, 40
+                else:
+                    jts = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                jtp = JointTrajPtRequest(jts)
+                jtp.setVelocity(200)
+                SMSocket.send(jtp.pack())
+                CommandState = CommandStateType.WORKING
+            except:
+                CommandState = CommandStateType.ERROR
+                print except_info()
+        # end of Simple Message passing
+    except:
+        CommandState = CommandStateType.ERROR
 
 # -- Command reader ---
 
@@ -286,17 +294,25 @@ def smreader(conn):
     while True:
         try:
             data = conn.recv(size)
-            ctprep = CartTrajPtReply()
-            if not ctprep.unpack(data):
-                print "bad reply data, length is", len(data)
-            else:
-                s = ctprep.getStatus()
-                if s == ctprep.SUCCESS: CommandState = CommandStateType.DONE
-                elif s == ctprep.EXEC: CommandState = CommandStateType.WORKING
-                else: CommandState = CommandStateType.ERROR
         except:
             break
         if not data: break
+
+        jtprep = JointTrajPtReply()
+        ctprep = CartTrajPtReply()
+        if jtprep.unpack(data):
+            s = jtprep.getStatus()
+        elif ctprep.unpack(data):
+            s = ctprep.getStatus()
+        else:
+            s = SimpleMessage.REPLY_NA
+
+        if s == SimpleMessage.REPLY_SUCCESS:
+            CommandState = CommandStateType.DONE
+        elif s == SimpleMessage.REPLY_EXECUTING:
+            CommandState = CommandStateType.WORKING
+        else:
+            CommandState = CommandStateType.ERROR
         
     if DEBUG: print NAME, ": smreader done"
     conn.close()
@@ -387,27 +403,9 @@ if (SIMPLE_MESSAGE_HOST != "") and (SIMPLE_MESSAGE_CONTROL_PORT != ""):
     try:
         SMSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         SMSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_CONTROL_PORT)))
-
-
-
-
-
-
-
-
         smthr = threading.Thread(target=smreader, args=(SMSocket,))
         smthr.daemon = True
         smthr.start()
-
-
-
-
-
-
-
-
-
-
     except:
         print NAME, ": Simple Message :", except_info()
         SMSocket = None

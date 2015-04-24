@@ -3,7 +3,7 @@ drop view IF exists DirectPose;
 create view DirectPose(name,X,Y,Z,VXX,VXY,VXZ,VZX,VZY,VZZ) as 
 	select SO._NAME,PT.hasPoint_X,PT.hasPoint_Y,PT.hasPoint_Z, 
 			VX.hasVector_I,VX.hasVector_J,VX.hasVector_K,
-            VZ.hasVector_I,VX.hasVector_J,VX.hasVector_K
+            VZ.hasVector_I,VZ.hasVector_J,VZ.hasVector_K
     from SolidObject SO, PoseLocation PL, Point PT, Vector VX, Vector VZ 
     where 
     SO.hasSolidObject_PrimaryLocation = PL._NAME and

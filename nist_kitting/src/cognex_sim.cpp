@@ -110,44 +110,68 @@ static bool load_object_db(cognex_object_info_db *db, const char *path)
   return true;
 }
 
-struct stat_thread_args {
+struct client_thread_args {
   cognex_object_info_db *db;
-  int stat_server_id;
-  double stat_period;
+  int connection_id;
+  double period;
 };
 
-static void stat_thread_code(stat_thread_args *args)
+static void client_thread_code(client_thread_args *args)
 {
   cognex_object_info_db *db = args->db;
-  int stat_server_id = args->stat_server_id;
-  double stat_period = args->stat_period;
-  int stat_connection_id;
+  int connection_id = args->connection_id;
+  double period = args->period;
   enum {OUTBUF_LEN = 1024};
   char outbuf[OUTBUF_LEN];
   int nchars;
 
+  delete args;
+
+  while (true) {
+    db->format(outbuf, sizeof(outbuf)-1);
+
+    nchars = ulapi_socket_write(connection_id, outbuf, strlen(outbuf));
+    if (nchars < 0) break;	// client disconnected, probably
+    ulapi_sleep(period);
+  }
+
+  ulapi_socket_close(connection_id);
+}
+
+struct server_thread_args {
+  cognex_object_info_db *db;
+  int server_id;
+  double period;
+};
+
+static void server_thread_code(server_thread_args *args)
+{
+  int connection_id;
+  client_thread_args *client_args;
+  ulapi_task_struct client_thread;
+
   while (true) {
     if (debug) printf("waiting for status client connection...\n");
-    stat_connection_id = ulapi_socket_get_connection_id(stat_server_id);
+    connection_id = ulapi_socket_get_connection_id(args->server_id);
 
-    if (stat_connection_id < 0) {
+    if (connection_id < 0) {
       fprintf(stderr, "can't get status client connecton\n");
       return;
     }
-    if (debug) printf("got a status client connection on id %d\n", stat_connection_id);
+    if (debug) printf("got a status client connection on id %d\n", connection_id);
 
-    while (true) {
-      db->format(outbuf, sizeof(outbuf)-1);
-
-      nchars = ulapi_socket_write(stat_connection_id, outbuf, strlen(outbuf));
-      if (nchars < 0) break;	// client disconnected, probably
-      ulapi_sleep(stat_period);
-    }
-
-    ulapi_socket_close(stat_connection_id);
+    // spawn client thread
+    client_args = new client_thread_args;
+    ulapi_task_init(&client_thread);
+    client_args->db = args->db;
+    client_args->connection_id = connection_id;
+    client_args->period = args->period;
+    ulapi_task_start(&client_thread, reinterpret_cast<ulapi_task_code>(client_thread_code), reinterpret_cast<void *>(client_args), ulapi_prio_highest(), 0);
   }
 
   if (debug) printf("status handler done\n");
+
+  ulapi_socket_close(args->server_id);
 
   return;
 }
@@ -188,10 +212,10 @@ int main(int argc, char *argv[])
   int port = COGNEX_PORT_DEFAULT;
   std::string object_db_path = COGNEX_DB_DEFAULT;
   cognex_object_info_db db;
-  int stat_server_id;
   double period = 1;
-  ulapi_task_struct stat_thread;
-  stat_thread_args stat_args; 
+  int server_id;
+  ulapi_task_struct server_thread;
+  server_thread_args server_args; 
 
   opterr = 0;
   while (true) {
@@ -233,18 +257,18 @@ int main(int argc, char *argv[])
     fprintf(stderr, "can't load object database %s\n", object_db_path.c_str());
   }
 
-  stat_server_id = ulapi_socket_get_server_id(port);
-  if (stat_server_id < 0) {
+  server_id = ulapi_socket_get_server_id(port);
+  if (server_id < 0) {
     fprintf(stderr, "can't serve port %d\n", port);
     return 1;
   }
 
   // spawn status server thread
-  ulapi_task_init(&stat_thread);
-  stat_args.db = &db;
-  stat_args.stat_server_id = stat_server_id;
-  stat_args.stat_period = period;
-  ulapi_task_start(&stat_thread, reinterpret_cast<ulapi_task_code>(stat_thread_code), reinterpret_cast<void *>(&stat_args), ulapi_prio_highest(), 0);
+  ulapi_task_init(&server_thread);
+  server_args.db = &db;
+  server_args.server_id = server_id;
+  server_args.period = period;
+  ulapi_task_start(&server_thread, reinterpret_cast<ulapi_task_code>(server_thread_code), reinterpret_cast<void *>(&server_args), ulapi_prio_highest(), 0);
 
   bool done = false;
   while (! done) {

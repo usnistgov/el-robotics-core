@@ -481,7 +481,7 @@ struct joint_traj_pt_reply_message {
   int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
   int message_type;	  /* 4 bytes, constant value 11, JOINT_TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 3, REPLY */
-  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE, 3 = EXEC */
   /* NOTE: this should be the sequence number echo */
   int unused_1;		  /* 4 bytes, N/A */
   float unused_2[JOINT_MAX];	/* 10 4-byte floats, N/A */
@@ -854,7 +854,7 @@ struct cart_traj_pt_reply_message {
   int length;		  /* 4 bytes, constant value should be 4x4 = 16 */
   int message_type;	  /* 4 bytes, constant value 31, CART_TRAJ_PT */
   int comm_type;	  /* 4 bytes, constant value 3, REPLY */
-  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE, 3 = EXEC */
   int seq_number;	  /* 4 bytes, sequence number echo */
 
   cart_traj_pt_reply_message() {

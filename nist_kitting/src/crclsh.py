@@ -374,6 +374,12 @@ while not done:
         m = MoveToType(robot_cid, False, PoseOnlyLocationType(PointType(x, y, z), unit(VectorType(xi, xj, xk)), unit(VectorType(zi, zj, zk))))
         robot_socket.send(str(m))
 
+    elif cmd == "gwait":
+            while not ((gripper_cid == GripperCommandID) and (GripperCommandState != CommandStateType.WORKING)):
+                if DEBUG: print gripper_cid, GripperCommandID, GripperStatusID, GripperCommandState
+                try: time.sleep(1)
+                except KeyboardInterrupt: break
+
     elif cmd == "rwait":
             while not ((robot_cid == RobotCommandID) and (RobotCommandState != CommandStateType.WORKING)):
                 if DEBUG: print robot_cid, RobotCommandID, RobotStatusID, RobotCommandState

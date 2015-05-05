@@ -33,6 +33,7 @@ Pose = PoseLocationType()
 ThreeFingerGripperStatus = ThreeFingerGripperStatusType("ThreeFingerGripper")
 ParallelGripperStatus = ParallelGripperStatusType("ParallelGripper", 0)
 VacuumGripperStatus = VacuumGripperStatusType("VacuumGripper", False)
+InMotion = False
 
 # the global socket to the Simple Message interface
 SMSocket = None
@@ -288,7 +289,7 @@ def reader(conn):
     if DEBUG: print NAME, ": reader done"
     conn.close()
 
-def smreader(conn):
+def sm_control_reader(conn):
     global CommandState 
     size = 1024
     while True:
@@ -314,7 +315,27 @@ def smreader(conn):
         else:
             CommandState = CommandStateType.ERROR
         
-    if DEBUG: print NAME, ": smreader done"
+    if DEBUG: print NAME, ": sm_control_reader done"
+    conn.close()
+
+def sm_state_reader(conn):
+    global InMotion
+    size = 1024
+    while True:
+        try:
+            data = conn.recv(size)
+        except:
+            break
+        if not data: break
+
+        rs = RobotStatus()
+        if rs.unpack(data):
+            if rs.in_motion:
+                InMotion = True
+            else:
+                InMotion = False
+        
+    if DEBUG: print NAME, ": sm_control_reader done"
     conn.close()
 
 # --- Main ---
@@ -401,14 +422,25 @@ if (DO_ROBOT == False) and (DO_GRIPPER == False):
 
 if (SIMPLE_MESSAGE_HOST != "") and (SIMPLE_MESSAGE_CONTROL_PORT != ""):
     try:
-        SMSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        SMSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_CONTROL_PORT)))
-        smthr = threading.Thread(target=smreader, args=(SMSocket,))
-        smthr.daemon = True
-        smthr.start()
+        SMControlSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        SMControlSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_CONTROL_PORT)))
+        sm_control_thr = threading.Thread(target=sm_control_reader, args=(SMControlSocket,))
+        sm_control_thr.daemon = True
+        sm_control_thr.start()
     except:
         print NAME, ": Simple Message :", except_info()
-        SMSocket = None
+        SMControlSocket = None
+
+if (SIMPLE_MESSAGE_HOST != "") and (SIMPLE_MESSAGE_STATE_PORT != ""):
+    try:
+        SMStateSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        SMStateSocket.connect((SIMPLE_MESSAGE_HOST, int(SIMPLE_MESSAGE_STATE_PORT)))
+        sm_state_thr = threading.Thread(target=sm_state_reader, args=(SMStateSocket,))
+        sm_state_thr.daemon = True
+        sm_state_thr.start()
+    except:
+        print NAME, ": Simple Message :", except_info()
+        SMStateSocket = None
 
 BACKLOG = 1
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

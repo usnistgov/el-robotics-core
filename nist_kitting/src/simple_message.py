@@ -220,6 +220,59 @@ class CartTrajPtReply(object):
         self.setSeqNumber(unpacked[4])
         return True
 
+'''
+int length;	  /* 4 bytes, constant value should be 10x4 = 40 */
+int message_type;  /* 4 bytes, constant value 13, ROBOT_STATUS */
+int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+int reply_type;	  /* 4 bytes, N/A */
+int drives_powered;
+int e_stopped;
+int error_code;
+int in_error;
+int in_motion;
+int mode;
+int motion_possible;
+'''
+
+class RobotStatus(object):
+
+    def __init__(self):
+        self.drives_powered = 0
+        self.e_stopped = 0
+        self.error_code = 0
+        self.in_error = 0
+        self.in_motion = 0
+        self.mode = 0
+        self.motion_possible = 0
+        
+    def __str__(self):
+        return str(self.drives_powered) + " " + \
+            str(self.e_stopped) + " " + \
+            str(self.error_code) + " " + \
+            str(self.in_error) + " " + \
+            str(self.in_motion) + " " + \
+            str(self.mode) + " " + \
+            str(self.motion_possible)
+
+    def pack(self):
+        st = struct.pack('iiiiiiiiiii', 40, 13, 1, 0, self.drives_powered, self.e_stopped, self.error_code, self.in_error, self.in_motion, self.mode, self.motion_possible)
+        return st
+
+    def unpack(self, packed):
+        try:
+            unpacked = struct.unpack('iiiiiiiiiii', packed)
+            if unpacked[1] != 13: return False
+        except:
+            return False
+        self.drives_powered = unpacked[4]
+        self.e_stopped = unpacked[5]
+        self.error_code = unpacked[6]
+        self.in_error = unpacked[7]
+        self.in_motion = unpacked[8]
+        self.mode = unpacked[9]
+        self.motion_possible = unpacked[10]
+        return True
+
 if __name__ == "__main__":
 
     jt = JointTrajPtRequest([1, 2, 3])
@@ -247,3 +300,18 @@ if __name__ == "__main__":
 
     jtrep = JointTrajPtReply(SimpleMessage.REPLY_EXECUTING)
     print jtrep
+
+    rs = RobotStatus()
+    rs.drives_powered = 1
+    rs.e_stopped = 2
+    rs.error_code = 3
+    rs.in_error = 4
+    rs.in_motion = 5
+    rs.mode = 6
+    rs.motion_possible = 7
+    print rs
+    nrs = RobotStatus()
+    if not nrs.unpack(rs.pack()):
+        print "unpacking error"
+    else:
+        print nrs

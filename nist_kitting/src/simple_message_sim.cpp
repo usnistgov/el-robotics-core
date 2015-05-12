@@ -184,6 +184,7 @@ static void state_connection_thread_code(state_connection_thread_args *args)
   enum {OUTBUF_LEN = 1024};
   char outbuf[OUTBUF_LEN];
   int nchars, len;
+  int which = 0;
 
   thread = args->thread;
   id = args->id;
@@ -205,52 +206,60 @@ static void state_connection_thread_code(state_connection_thread_args *args)
     float p;
     int i;
 
-    ulapi_mutex_take(&robot_mutex);
-    for (int t = 0; t < JOINT_MAX; t++) {
-      if (the_robot.get_robot_joint_pos(&p, t)) jsmsg.set_pos(p, t);
-    }
-    ulapi_mutex_give(&robot_mutex);
-    nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jsmsg), sizeof(jsmsg));
-    if (nchars < 0) break;
+    switch (which) {
+    case 0:
+      ulapi_mutex_take(&robot_mutex);
+      for (int t = 0; t < JOINT_MAX; t++) {
+	if (the_robot.get_robot_joint_pos(&p, t)) jsmsg.set_pos(p, t);
+      }
+      ulapi_mutex_give(&robot_mutex);
+      nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&jsmsg), sizeof(jsmsg));
+      if (nchars < 0) break;
+      break;
 
-    ulapi_mutex_take(&robot_mutex);
+    case 1:
+      ulapi_mutex_take(&robot_mutex);
 
-    the_robot.get_drives_powered(&i);
-    rsmsg.set_drives_powered(i);
+      the_robot.get_drives_powered(&i);
+      rsmsg.set_drives_powered(i);
 
-    the_robot.get_e_stopped(&i);
-    rsmsg.set_e_stopped(i);
+      the_robot.get_e_stopped(&i);
+      rsmsg.set_e_stopped(i);
 
-    the_robot.get_in_error(&i);
-    rsmsg.set_in_error(i);
+      the_robot.get_in_error(&i);
+      rsmsg.set_in_error(i);
 
-    the_robot.get_in_motion(&i);
-    rsmsg.set_in_motion(i);
+      the_robot.get_in_motion(&i);
+      rsmsg.set_in_motion(i);
 
-    the_robot.get_mode(&i);
-    rsmsg.set_mode(i);
+      the_robot.get_mode(&i);
+      rsmsg.set_mode(i);
 
-    the_robot.get_motion_possible(&i);
-    rsmsg.set_motion_possible(i);
+      the_robot.get_motion_possible(&i);
+      rsmsg.set_motion_possible(i);
 
-    ulapi_mutex_give(&robot_mutex);
+      ulapi_mutex_give(&robot_mutex);
 
-    nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
-    if (nchars < 0) break;
+      nchars = ulapi_socket_write(id, reinterpret_cast<char *>(&rsmsg), sizeof(rsmsg));
+      if (nchars < 0) break;
+      break;
 
+    case 2:
 #define DO_OBJECTS 1
 #ifdef DO_OBJECTS
-
-    len = obj_state.size();
-    if (len <= sizeof(outbuf)) {
-      obj_state.write_object_state(outbuf, sizeof(outbuf));
-      nchars = ulapi_socket_write(id, outbuf, len);
-    }
-
+      len = obj_state.size();
+      if (len <= sizeof(outbuf)) {
+	obj_state.write_object_state(outbuf, sizeof(outbuf));
+	nchars = ulapi_socket_write(id, outbuf, len);
+      }
 #endif	// DO_OBJECTS
+      break;
+    } // switch (which)
+
+    if (++which > 2) which = 0;
 
     ulapi_wait(period * 1e9);
-  }
+  } // while (true)
 
   ulapi_socket_close(id);
 

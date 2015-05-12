@@ -2,17 +2,6 @@
 
 import struct
 
-'''
-int length;		  /* 4 bytes, constant value should be 16x4 = 64 */
-int message_type;	  /* 4 bytes, constant value 11, JOINT TRAJ_PT */
-int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
-int reply_type;	  /* 4 bytes, N/A */
-int seq_number;	  /* 4 bytes, >= 0 */
-float joints[JOINT_MAX]; /* 10 4-byte floats, one per joint */
-float velocity;	   /* 4 bytes */
-float duration;	   /* 4 bytes */
-'''
-
 class SimpleMessage(object):
     COMM_TOPIC = 1
     COMM_REQUEST = 2
@@ -22,6 +11,19 @@ class SimpleMessage(object):
     REPLY_FAILURE = 2
     REPLY_EXECUTING = 3
     NUM_JOINTS = 10
+
+'''
+Joint trajectory point request:
+
+int length;		  /* 4 bytes, constant value should be 16x4 = 64 */
+int message_type;	  /* 4 bytes, constant value 11, JOINT TRAJ_PT */
+int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
+int reply_type;	  /* 4 bytes, N/A */
+int seq_number;	  /* 4 bytes, >= 0 */
+float joints[JOINT_MAX]; /* 10 4-byte floats, one per joint */
+float velocity;	   /* 4 bytes */
+float duration;	   /* 4 bytes */
+'''
 
 class JointTrajPtRequest(object):
 
@@ -70,9 +72,18 @@ class JointTrajPtRequest(object):
         self.setDuration(unpacked[5+SimpleMessage.NUM_JOINTS+1])
         return True
 
-class JointTrajPtReply(object):
+'''
+Joint trajectory point reply:
 
-    SimpleMessage.NUM_JOINTS = 10
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 11, JOINT_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 3, REPLY */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE, 3 = EXEC */
+  int unused_1;		  /* 4 bytes, N/A */
+  float unused_2[JOINT_MAX];	/* 10 4-byte floats, N/A */
+'''
+
+class JointTrajPtReply(object):
 
     def setStatus(self, status):
         self.status = status
@@ -80,26 +91,17 @@ class JointTrajPtReply(object):
     def getStatus(self):
         return self.status
 
-    # this corresponds to the 'unused' field
+    # this corresponds to the 'unused_1' field
     def setSeqNumber(self, seq_number):
         self.seq_number = seq_number
 
     def getSeqNumber(self):
         return self.seq_number
 
-    def setJoints(self, Joints):
-        jts = len(Joints)
-        if jts < SimpleMessage.NUM_JOINTS:
-            self.joints = Joints
-            self.joints += [0]*(SimpleMessage.NUM_JOINTS-jts)
-        else:
-            self.joints = Joints[0:SimpleMessage.NUM_JOINTS]
-
     def __init__(self, status = SimpleMessage.REPLY_SUCCESS):
         # 1 = SUCCESS, 2 = FAILURE
         self.setStatus(status)
         self.setSeqNumber(1)
-        self.setJoints(SimpleMessage.NUM_JOINTS*[0])
 
     def __str__(self):
         return str(self.status) + " " + str(self.seq_number)
@@ -107,7 +109,7 @@ class JointTrajPtReply(object):
     def pack(self):
         self.seq_number += 1;
         st = struct.pack('iiiii', 56, 11, 3, self.status, self.seq_number)
-        st += struct.pack(SimpleMessage.NUM_JOINTS*'f', *self.joints)
+        st += struct.pack(SimpleMessage.NUM_JOINTS*'f', *SimpleMessage.NUM_JOINTS*[0])
         return st
 
     def unpack(self, packed):
@@ -118,10 +120,11 @@ class JointTrajPtReply(object):
             return False
         self.setStatus(unpacked[3])
         self.setSeqNumber(unpacked[4])
-        self.setJoints(unpacked[5:5+SimpleMessage.NUM_JOINTS])
         return True
 
 '''
+Cartesian trajectory point request:
+
 int length;		  /* 4 bytes, constant value should be 13x4 = 52 */
 int message_type;	  /* 4 bytes, constant value 31, CART TRAJ_PT */
 int comm_type;	  /* 4 bytes, constant value 2, REQUEST */
@@ -183,6 +186,16 @@ class CartTrajPtRequest(object):
         self.setRotationalSpeed(unpacked[13])
         return True
 
+'''
+Cartesian trajectory point reply:
+
+  int length;		  /* 4 bytes, constant value should be 4x4 = 16 */
+  int message_type;	  /* 4 bytes, constant value 31, CART_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 3, REPLY */
+  int reply_type;	  /* 4 bytes, 1 = SUCCESS, 2 = FAILURE, 3 = EXEC */
+  int seq_number;	  /* 4 bytes, sequence number echo */
+'''
+
 class CartTrajPtReply(object):
 
     def setStatus(self, status):
@@ -221,6 +234,49 @@ class CartTrajPtReply(object):
         return True
 
 '''
+Joint trajectory point state:
+
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 10, JOINT_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+  int reply_type;	  /* 4 bytes, N/A */
+  int unused_1;		  /* 4 bytes, N/A */
+  float joints[JOINT_MAX];	/* 10 4-byte floats, N/A */
+'''
+
+class JointTrajPtState(object):
+
+    def setJoints(self, Joints):
+        jts = len(Joints)
+        if jts < SimpleMessage.NUM_JOINTS:
+            self.joints = Joints
+            self.joints += [0]*(SimpleMessage.NUM_JOINTS-jts)
+        else:
+            self.joints = Joints[0:SimpleMessage.NUM_JOINTS]
+
+    def __init__(self):
+        self.setJoints(SimpleMessage.NUM_JOINTS*[0])
+
+    def __str__(self):
+        return str(self.joints)
+
+    def pack(self):
+        st = struct.pack('iiiii', 56, 10, 1, 0, 0)
+        st += struct.pack(SimpleMessage.NUM_JOINTS*'f', *self.joints)
+        return st
+
+    def unpack(self, packed):
+        try:
+            unpacked = struct.unpack('iiiii' + SimpleMessage.NUM_JOINTS*'f', packed)
+            if unpacked[1] != 10: return False
+        except:
+            return False
+        self.setJoints(unpacked[5:5+SimpleMessage.NUM_JOINTS])
+        return True
+
+'''
+Robot status:
+
 int length;	  /* 4 bytes, constant value should be 10x4 = 40 */
 int message_type;  /* 4 bytes, constant value 13, ROBOT_STATUS */
 int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
@@ -273,6 +329,74 @@ class RobotStatus(object):
         self.motion_possible = unpacked[10]
         return True
 
+'''
+Object information:
+
+  int id;			/* unique object identifier */
+  float x, y, z;		/* Cartesian position */
+  float qx, qy, qz, qw;		/* quaternion orientation */
+'''
+
+class ObjectInfo(object):
+
+    def __init__(self, _id = 0, _x = 0, _y = 0, _z = 0, _qx = 0, _qy = 0, _qz = 0, _qw = 1):
+        self.id = _id
+        self.x = _x
+        self.y = _y
+        self.z = _z
+        self.qx = _qx
+        self.qy = _qy
+        self.qz = _qz
+        self.qw = _qw
+
+    def __str__(self):
+        return str(self.id) + ": {0} {1} {2}, {3} {4} {5} {6}".format(self.x, self.y, self.z, self.qx, self.qy, self.qz, self.qw)
+
+'''
+Object state message:
+
+  int length;		  /* 4 bytes, = 16 + 32*N, number of objects */
+  int message_type;	  /* 4 bytes, constant value 40, MESSAGE_OBJECT_STATE */
+  int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+  int reply_type;	  /* 4 bytes, N/A */
+  int seq_number;	  /* 4 bytes, >= 0 */
+  object_state objects[];  /* array of object information */
+'''
+
+class ObjectState(object):
+
+    def __init__(self):
+        self.seq_number = 0
+        self.objects = []
+
+    def __str__(self):
+        outstr = ""
+        for obj in self.objects:
+            outstr += str(obj)
+            outstr += "\n"
+        return outstr
+
+    def add(self, obj):
+        self.objects.append(obj)
+
+    def clear(self):
+        self.objects = []
+
+    def pack(self):
+        st = struct.pack('iiiii', 16 + 32*len(self.objects), 40, 1, 0, self.seq_number)
+        for obj in self.objects:
+            st += struct.pack('ifffffff', obj.id, obj.x, obj.y, obj.z, obj.qx, obj.qy, obj.qz, obj.qw)
+        return st
+
+    def unpack(self, packed):
+        length = struct.unpack('i', packed[0:4])[0]
+        objs = (length - 16)/32
+        unpacked = struct.unpack('iiiii' + objs*'ifffffff', packed)
+        for i in range(0, objs):
+            off = 5 + i*8
+            self.add(ObjectInfo(unpacked[off+0], unpacked[off+1], unpacked[off+2], unpacked[off+3], unpacked[off+4], unpacked[off+5], unpacked[off+6], unpacked[off+7]))
+        return True
+    
 if __name__ == "__main__":
 
     jt = JointTrajPtRequest([1, 2, 3])
@@ -300,6 +424,9 @@ if __name__ == "__main__":
 
     jtrep = JointTrajPtReply(SimpleMessage.REPLY_EXECUTING)
     print jtrep
+    njtrep = JointTrajPtReply()
+    njtrep.unpack(jtrep.pack())
+    print njtrep
 
     rs = RobotStatus()
     rs.drives_powered = 1
@@ -315,3 +442,22 @@ if __name__ == "__main__":
         print "unpacking error"
     else:
         print nrs
+
+    js = JointTrajPtState()
+    js.setJoints([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    print js
+    js.setJoints([101, 202, 303])
+    njs = JointTrajPtState()
+    njs.unpack(js.pack())
+    print njs
+
+    oi = ObjectInfo(17, 1, 2, 3, 1, 0, 0, 0)
+    os = ObjectState()
+    os.add(oi)
+    oi = ObjectInfo(23, 10, 23, 32, 0.7071, 0, 0, -0.7017)
+    os.add(oi)
+    print os
+
+    nos = ObjectState()
+    nos.unpack(os.pack())
+    print nos

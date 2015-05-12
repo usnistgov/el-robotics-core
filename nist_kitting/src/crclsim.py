@@ -334,6 +334,9 @@ def sm_state_reader(conn):
                 InMotion = True
             else:
                 InMotion = False
+        else:
+            # some other message, like JointTrajPtState or ObjectState
+            pass
         
     if DEBUG: print NAME, ": sm_control_reader done"
     conn.close()

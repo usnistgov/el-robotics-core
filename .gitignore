@@ -37,3 +37,5 @@ cmake_install.cmake
 *.lot
 *.spl
 /.project
+nist_kitting/src/*.pyc
+nist_kitting/src/cognex_sim

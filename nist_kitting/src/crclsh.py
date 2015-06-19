@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys, os, time, getopt, string, threading, socket, ConfigParser, StringIO
+import xml.etree.ElementTree as ET
 from crcl import *
 from simple_message import *
 

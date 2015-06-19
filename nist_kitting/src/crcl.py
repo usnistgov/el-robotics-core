@@ -752,6 +752,9 @@ class CRCLStatusType(DataThingType):
         if self.GripperStatus != None: self.GripperStatus.tree(root)
         return ET.ElementTree(root)
 
+    def untree(self):
+        return True
+
 # --- Utility functions ---
 
 def unit(Vector):

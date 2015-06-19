@@ -897,6 +897,17 @@ struct cart_traj_pt_reply_message {
   }
 };
 
+struct cart_traj_pt_state_message {
+  int length;		  /* 4 bytes, constant value should be 14x4 = 56 */
+  int message_type;	  /* 4 bytes, constant value 31, CART_TRAJ_PT */
+  int comm_type;	  /* 4 bytes, constant value 1, TOPIC */
+  int reply_type;	  /* 4 bytes, N/A */
+  int seq_number;	  /* 4 bytes, sequence number echo */
+  float x, y, z, qx, qy, qz, qw; /* pose, Cartesian and quaternion */
+  float translational_speed;	 /* 4 bytes, > 0 */
+  float rotational_speed;	 /* 4 bytes, > 0 */
+};
+
 /* EXTENSIONS for object location */
 
 struct object_state {

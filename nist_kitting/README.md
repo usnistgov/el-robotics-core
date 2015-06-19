@@ -31,7 +31,7 @@ The catkin_make command is a convenience tool for working with catkin workspaces
 
 ## Running the January 2015 Demo
 
-In one termina, run the Cognex simulator:
+In one terminal, run the Cognex simulator:
 ```
 rosrun nist_kitting cognex_sim -f $HOME/github/el-robotics-core/nist_kitting/src/cognex_sim.txt
 ```

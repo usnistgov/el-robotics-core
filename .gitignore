@@ -39,3 +39,4 @@ cmake_install.cmake
 /.project
 nist_kitting/src/*.pyc
 nist_kitting/src/cognex_sim
+ulapi/target

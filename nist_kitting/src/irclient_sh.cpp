@@ -280,11 +280,12 @@ int main(int argc, char **argv)
 
   ros::NodeHandle nh;
   ros::Publisher pub;
-  ros::Subscriber sub;
+  ros::Subscriber sub1;
+  ros::Subscriber sub2;
 
   pub = nh.advertise<control_msgs::FollowJointTrajectoryActionGoal>("joint_trajectory_action/goal", 1);
-  sub = nh.subscribe("joint_trajectory_action/feedback", 1, feedback_callback);
-  sub = nh.subscribe("joint_states", 1, joint_state_callback);
+  sub1 = nh.subscribe("joint_trajectory_action/feedback", 1, feedback_callback);
+  sub2 = nh.subscribe("joint_states", 1, joint_state_callback);
 
   ulapi_task_init(&rosloop_thread);
   args.hz = 1.0 / period;

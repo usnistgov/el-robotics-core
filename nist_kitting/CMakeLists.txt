@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   genmsg
+  moveit_ros_planning_interface
   nist_core
   ulapi
 )
@@ -135,6 +136,9 @@ add_executable(simple_message_sh src/simple_message_sh.cpp)
 add_executable(cognex_sim src/cognex_db.cpp src/cognex_sim.cpp)
 add_executable(simple_message_to_cognex src/cognex_db.cpp src/simple_message_to_cognex.cpp)
 
+add_executable(move_group src/move_group.cpp)
+add_executable(planner src/planner.cpp)
+
 # add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 # add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
 # target_link_libraries(kitting_prim_robot_node nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
@@ -174,6 +178,9 @@ target_link_libraries(simple_message_sim nist_kitting ${ulapi_LIBRARIES} ${catki
 target_link_libraries(simple_message_sh nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(cognex_sim nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(simple_message_to_cognex nist_kitting ${ulapi_LIBRARIES} ${catkin_LIBRARIES})
+
+target_link_libraries(move_group nist_kitting ${catkin_LIBRARIES} readline)
+target_link_libraries(planner nist_kitting ${catkin_LIBRARIES} readline)
 
 #############
 ## Install ##

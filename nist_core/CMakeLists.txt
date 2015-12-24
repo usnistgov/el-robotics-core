@@ -101,6 +101,8 @@ include_directories(
 
 include_directories(${ulapi_INCLUDE_DIRS})
 
+message("ulapi_INCLUDE_DIRS is ${ulapi_INCLUDE_DIRS}")
+
 ## Declare a cpp library
 add_library(nist_core src/nist_core.cpp)
 

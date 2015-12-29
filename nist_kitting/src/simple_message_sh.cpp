@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
     // now 'ptr' is the stripped input string
 
     do {
-      if (0 == *ptr) {		// blank lin4
+      if (0 == *ptr) {		// blank line
 	if (cart) {
 	  ctp_req.print_cart_traj_pt_request();
 	} else {
@@ -310,11 +310,13 @@ int main(int argc, char *argv[])
 
       if ('c' == *ptr) {
 	cart = true;
+	printf("setting cartesian mode for input\n");
 	break;
       }
 
       if ('j' == *ptr) {
 	cart = false;
+	printf("setting joint mode for input\n");
 	break;
       }
 
@@ -327,11 +329,17 @@ int main(int argc, char *argv[])
 	if (1 == sscanf(ptr, "%*s %f", &f1)) {
 	  if (cart) {
 	    ctp_req.set_translational_speed(f1);
+	    printf("setting cartesian speed to %f\n", f1);
 	  } else {
 	    jtp_req.set_velocity(f1);
+	    printf("setting joint speed to %f\n", f1);
 	  }
 	} else {
-	  printf("need a velocity\n");
+	  if (cart) {
+	    printf("need a cartesian speed\n");
+	  } else {
+	    printf("need a joint speed\n");
+	  }
 	}
 	break;
       }
@@ -339,31 +347,44 @@ int main(int argc, char *argv[])
       if ('w' == *ptr) {
 	if (1 == sscanf(ptr, "%*s %f", &f1)) {
 	  ctp_req.set_rotational_speed(f1);
+	  printf("setting rotational speed to %f\n", f1);
 	} else {
 	  printf("need an angular speed\n");
 	}
 	break;
       }
 
+      bool got_numbers = false;
+
       if (cart) {
 	if (7 != sscanf(ptr, "%f %f %f %f %f %f %f", 
 			&f1, &f2, &f3, &f4, &f5, &f6, &f7)) {
 	  break;
 	}
+	got_numbers = true;
 	ctp_req.set_pos(f1, f2, f3, f4, f5, f6, f7);
 	ctp_req.set_seq_number(ctp_req.get_seq_number()+1);
 	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&ctp_req), sizeof(ctp_req));
 	if (nchars <= 0) break;
       } else {
+	int got = 0;
 	for (int t = 0; t < JOINT_MAX; t++) {
 	  f1 = strtof(ptr, &endptr);
 	  if (endptr == ptr) break;
+	  got++;
 	  jtp_req.set_pos(f1, t);
 	  ptr = endptr;
 	}
-	jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
-	nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
-	if (nchars <= 0) break;
+	if (got == JOINT_MAX) {
+	  got_numbers = true;
+	  jtp_req.set_seq_number(jtp_req.get_seq_number()+1);
+	  nchars = ulapi_socket_write(message_client_id, reinterpret_cast<char *>(&jtp_req), sizeof(jtp_req));
+	  if (nchars <= 0) break;
+	}
+      }
+
+      if (! got_numbers) {
+	printf("?\n");
       }
 
     } while (false);		// do ... wrapper

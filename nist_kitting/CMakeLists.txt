@@ -138,6 +138,7 @@ add_executable(simple_message_to_cognex src/cognex_db.cpp src/simple_message_to_
 
 add_executable(move_group src/move_group.cpp)
 add_executable(planner src/planner.cpp)
+add_executable(mover src/mover.cpp)
 
 # add_executable(kitting_prim_robot_node src/kitting_prim_robot.cpp)
 # add_dependencies(kitting_prim_robot_node nist_kitting_generate_messages_cpp)
@@ -181,6 +182,7 @@ target_link_libraries(simple_message_to_cognex nist_kitting ${ulapi_LIBRARIES} $
 
 target_link_libraries(move_group nist_kitting ${catkin_LIBRARIES} readline)
 target_link_libraries(planner nist_kitting ${catkin_LIBRARIES} readline)
+target_link_libraries(mover nist_kitting ${catkin_LIBRARIES} readline)
 
 #############
 ## Install ##

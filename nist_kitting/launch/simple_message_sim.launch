@@ -7,15 +7,13 @@ prompt for setting robot parameters.
 
 Run as, e.g., 
 
-    roslaunch nist_kitting simple_message_sim.launch robot_ip:=localhost urdf_path:=/usr/local/el-robotics-core/sim_robot/urdf/sim_robot.urdf 
+    roslaunch nist_kitting simple_message_sim.launch robot_ip:=localhost debug:=true
 
 -->
 
 <arg name="msg_port" default="11000" />
 <arg name="state_port" default="11002" />
-<arg name="period" default="0.5" />
-<arg name="robot_ip" default="localhost" />
-<arg name="urdf_path" default="robot.urdf" />
+<arg name="period" default="0.2" />
 
 <group>
 

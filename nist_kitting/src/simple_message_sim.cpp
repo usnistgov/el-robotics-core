@@ -245,7 +245,7 @@ static void state_connection_thread_code(state_connection_thread_args *args)
       break;
 
     case 2:
-#define DO_OBJECTS 1
+#undef DO_OBJECTS
 #ifdef DO_OBJECTS
       len = obj_state.size();
       if (len <= sizeof(outbuf)) {
@@ -368,10 +368,11 @@ static void print_help(void)
   printf("-?     : print this help message\n");
   printf("\n");
   printf("Commands:\n");
-  printf("<blank line> : prints out the current robot state\n");
+  printf("<blank line> : prints out the current robot state or status\n");
   printf("set <#> pos | pmin | pmax | vmax : sets the joint's position or limits\n");
-  printf("get <#> : prints the joint state\n");
-  printf( "?      : print this help message\n");
+  printf("d      : toggle debug\n");
+  printf("q      : quit\n");
+  printf("?      : print this help message\n");
 }
 
 /*
@@ -443,7 +444,7 @@ int main(int argc, char *argv[])
   }   // while (true) for getopt
 
   ulapi_mutex_init(&robot_mutex, 1);
-  the_robot.print_robot_info();
+  the_robot.print_robot_status();
 
   request_server_id = ulapi_socket_get_server_id(message_port);
   if (request_server_id < 0) {
@@ -464,17 +465,9 @@ int main(int argc, char *argv[])
   state_server_args.period = period;
   ulapi_task_start(&state_server_thread, reinterpret_cast<ulapi_task_code>(state_server_thread_code), reinterpret_cast<void *>(&state_server_args), ulapi_prio_highest(), 0);
 
-  /*
-    In the foreground we read input and update the robot state.
-
-    Things you can type, where <#> is the joint number, 1 .. max
-
-    <blank line> : prints out the current robot state
-    set <#> pos | pmin | pmax | vmax : sets the joint's position or limits
-    get <#> : prints the joint state
-  */
-
   bool done = false;
+  bool print_robot_info = true;
+
   while (! done) {
     char *ptr;
     char *endptr;
@@ -500,7 +493,11 @@ int main(int argc, char *argv[])
     do {
       if (0 == *ptr) {		// blank line, print state
 	ulapi_mutex_take(&robot_mutex);
-	the_robot.print_robot_info();
+	if (print_robot_info) {
+	  the_robot.print_robot_info();
+	} else {
+	  the_robot.print_robot_status();
+	}
 	ulapi_mutex_give(&robot_mutex);
 	break;
       }
@@ -508,6 +505,19 @@ int main(int argc, char *argv[])
       if ('q' == *ptr) {	// quit
 	done = true;
 	break;
+      }
+
+      if ('d' == *ptr) {	// quit
+	debug = ! debug;
+	break;
+      }
+
+      if ('i' == *ptr) {
+	print_robot_info = true;
+      }
+
+      if ('s' == *ptr) {
+	print_robot_info = false;
       }
 
       if ('?' == *ptr) {	// help

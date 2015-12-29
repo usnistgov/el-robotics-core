@@ -62,11 +62,8 @@ struct joint_info {
   }
 
   void print_joint_info(const char *prefix = "") {
-    printf("%sPosition: %f\n", prefix, pos);
-    printf("%sPos Min:  %f\n", prefix, pmin);
-    printf("%sPos Max:  %f\n", prefix, pmax);
-    printf("%sVelocity: %f\n", prefix, vel);
-    printf("%sVel Max:  %f\n", prefix, vmax);
+    printf("%sPos [Min/Max]: %f [%f/%f]\n", prefix, pos, pmin, pmax);
+    printf("%sVel [Max]: %f [%f]\n", prefix, vel, vmax);
   }
 
   float get_pos() {
@@ -137,6 +134,15 @@ struct robot_info {
       printf("%sJoint %d:\n", prefix, t+1);
       joint[t].print_joint_info("  ");
     }
+  }
+
+  void print_robot_status(const char *prefix = "") {
+    printf("%sDrives:     %d\n", prefix, (int) drives_powered);
+    printf("%sEstopped:   %d\n", prefix, (int) e_stopped);
+    printf("%sError Code: %d\n", prefix, (int) error_code);
+    printf("%sIn Motion:  %d\n", prefix, (int) in_motion);
+    printf("%sMode:       %d\n", prefix, (int) mode);
+    printf("%sMotion OK:  %d\n", prefix, (int) motion_possible);
   }
 
   int set_drives_powered(int v) {

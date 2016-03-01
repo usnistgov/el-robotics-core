@@ -7,7 +7,7 @@ prompt for setting robot parameters.
 
 Run as, e.g., 
 
-    roslaunch nist_kitting simple_message_sim.launch robot_ip:=localhost debug:=true
+    roslaunch nist_kitting simple_message_sim.launch 
 
 -->
 

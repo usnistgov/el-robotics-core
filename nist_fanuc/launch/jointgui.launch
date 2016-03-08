@@ -1,0 +1,8 @@
+<launch>
+ 
+  <!-- source that publishes the joint positions as a sensor_msgs/JointState -->
+  <param name="use_gui" value="true"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+ 
+</launch>

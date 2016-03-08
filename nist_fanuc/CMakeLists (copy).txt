@@ -1,0 +1,121 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(nist_fanuc)
+
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+  moveit_core
+  roscpp
+  cmake_modules
+  descartes_core
+  descartes_moveit
+  descartes_trajectory
+  descartes_planner
+  trajectory_msgs
+  sensor_msgs
+
+)
+
+find_package(Boost REQUIRED system thread chrono regex)
+find_package(Eigen REQUIRED)
+
+
+catkin_package(
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    /home/michalos/xerces-c-3.1.2/libs/libxerces-c.a
+  CATKIN_DEPENDS
+    roscpp
+    moveit_core
+  DEPENDS
+    Boost
+    Eigen
+    descartes_moveit
+    descartes_core
+descartes_trajectory
+descartes_planner
+  sensor_msgs
+
+#  CFG_EXTRAS
+#    descartes_core-extras.cmake
+)
+
+###########
+## Build ##
+###########
+# set(CMAKE_CXX_COMPILER "g++")
+#set(CMAKE_CXX_FLAGS "-Wdeprecated-declarations ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-w ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+
+
+include_directories(include
+                  ${catkin_INCLUDE_DIRS}
+                    ${Boost_INCLUDE_DIRS}
+                    ${Eigen_INCLUDE_DIRS}
+        include/nist_fanuc
+        include/nist_fanuc/CrclXsd
+        include/nist_fanuc/NIST
+           ${CATKIN_SRC_PREFIX}/${PROJECT_NAME}/include/${PROJECT_NAME}
+    ${nist_fanuc_INCLUDE_DIRS}
+     ${nist_fanuc_INCLUDE_DIRS/CrclXsd}
+     ${nist_fanuc_INCLUDE_DIRS/NIST}
+   ${CATKIN_SRC_PREFIX}/${PROJECT_NAME}/include/${PROJECT_NAME}/CrclXsd
+   ${CATKIN_SRC_PREFIX}/${PROJECT_NAME}/include/${PROJECT_NAME}/NIST
+
+     /home/michalos/xsd/libxsd
+    /home/michalos/xerces-c-3.1.2/src
+/home/michalos/catkin_ws/src/descartes/descartes_moveit/include
+/home/michalos/catkin_ws/src/descartes/descartes_core/include
+/home/michalos/catkin_ws/src/descartes/descartes_trajectory/include
+/home/michalos/catkin_ws/src/descartes/descartes_planner/include
+
+ 
+)
+add_executable(nist_fanuc 
+src/CRCL/CRCLCommandInstance.cxx
+src/CRCL/CRCLCommands.cxx 
+src/CRCL/CRCLProgramInstance.cxx
+src/CRCL/CRCLStatus.cxx
+src/CRCL/DataPrimitives.cxx
+src/AsioCrclServer.cpp
+src/crcl.cpp
+src/CrclInterface.cpp
+src/Controller.cpp
+src/RCS.cpp
+src/RCSInterpreter.cpp
+src/urdf_parse_model.cpp
+src/Globals.cpp
+src/Kinematics.cpp
+src/Trajectory.cpp
+src/MotionControl.cpp
+src/nist_fanuc.cpp
+)
+
+# /home/michalos/xerces-c-3.1.2/src/libs/libxerces-c-3.1.so
+# target_link_libraries(biotac_pub ${catkin_LIBRARIES} -lm -ldl)
+link_directories(/home/michalos/xerces-c-3.1.2/src/libs/
+/usr/lib/x86_64-linux-gnu/)
+
+target_link_libraries(nist_fanuc 
+libtinyxml.a  
+/home/michalos/xerces-c-3.1.2/src/libs/libxerces-c-3.1.so  
+${catkin_LIBRARIES}
+${Boost_LIBRARIES}
+)
+
+#############
+## Install ##
+#############
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+    DIRECTORY include/${PROJECT_NAME}/
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})

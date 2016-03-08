@@ -1,0 +1,29 @@
+// Useful Documentation
+// http://www.informit.com/articles/article.aspx?p=1881386&seqNum=2
+// http://theboostcpplibraries.com/boost.chrono
+// C:\Program Files\NIST\src\boost_1_54_0\boost/chrono/system_clocks.hpp
+// C:\Program Files\NIST\src\boost_1_54_0\boost/chrono/time_point.hpp
+
+/**
+		double d = RCS::clk_tck ();
+		std::cout << d << std::endl;
+
+		RCS::Timer timer(0.010); // cycle time 10 milliseconds
+		int missed;
+		timer.sync();
+		for(size_t i=0; i<10; i++)
+		{
+			//timer.sync(); // dont need this - done in wait
+			RCS::esleep(0.005);
+			missed = timer.wait ();
+		}
+		std::cout<< "Missed " << missed << " Load " << timer.load() << std::endl;
+
+		RCS::esleep(5);
+		missed = timer.wait ();
+		std::cout<< "Missed " << missed << " Load " << timer.load() << std::endl;
+
+		Output:
+		Missed 0 Load 0.497361
+		Missed 943 Load 86.2314
+*/

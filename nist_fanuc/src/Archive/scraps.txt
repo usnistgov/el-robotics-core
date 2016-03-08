@@ -1,0 +1,486 @@
+
+<MiddleCommand xsi:type="ActuateJointsType">
+    <Name>ActuateJoints</Name>
+    <CommandID>8</CommandID>
+    <ActuateJoint>
+      <JointNumber>1</JointNumber>
+      <JointPosition>0.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>3.7</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+    <ActuateJoint>
+      <JointNumber>2</JointNumber>
+       <JointPosition>0.0</JointPosition>
+      <JointDetails xsi:type="JointForceTorqueType">
+        <Setting>7</Setting>
+        <ChangeRate>13.0</ChangeRate>
+      </JointDetails>
+     <ActuateJoint>
+      <JointNumber>3</JointNumber>
+       <JointPosition>0.0</JointPosition>
+      <JointDetails xsi:type="JointForceTorqueType">
+        <Setting>7</Setting>
+        <ChangeRate>13.0</ChangeRate>
+      </JointDetails>
+     </ActuateJoint>
+     <ActuateJoint>
+      <JointNumber>4</JointNumber>
+       <JointPosition>0.0</JointPosition>
+      <JointDetails xsi:type="JointForceTorqueType">
+        <Setting>7</Setting>
+        <ChangeRate>13.0</ChangeRate>
+      </JointDetails>
+     </ActuateJoint>
+     <ActuateJoint>
+      <JointNumber>5</JointNumber>
+       <JointPosition>0.0</JointPosition>
+      <JointDetails xsi:type="JointForceTorqueType">
+        <Setting>7</Setting>
+        <ChangeRate>13.0</ChangeRate>
+      </JointDetails>
+     </ActuateJoint>
+  </MiddleCommand>
+
+
+   <MiddleCommand xsi:type="DwellType">
+    <CommandID>9</CommandID>
+    <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+ 
+  <MiddleCommand xsi:type="MoveThroughToType">
+    <CommandID>10</CommandID>
+    <MoveStraight>true</MoveStraight>
+    <Waypoint>
+      <Point>
+        <X>0.3386</X> <Y>0.224</Y> <Z>0.7528</Z>
+      </Point>
+      <XAxis>
+        <I>-0.1242</I> <J>0.5518</J> <K>0.8247</K>
+      </XAxis>
+      <ZAxis>
+        <I>1.0</I> <J>0.0</J> <K>0.149</K>
+      </ZAxis>
+    </Waypoint>
+    <Waypoint>
+      <Point>
+        <X>1.5</X> <Y>1</Y> <Z>0.0001</Z>
+      </Point>
+      <XAxis>
+        <I>1</I> <J>0</J> <K>0</K>
+      </XAxis>
+      <ZAxis>
+        <I>0</I> <J>0</J> <K>-1</K>
+      </ZAxis>
+    </Waypoint>
+    <NumPositions>2</NumPositions>
+  </MiddleCommand>
+
+
+ else if (RunProgramType * runProgram = dynamic_cast<RunProgramType *> (&(crclCommand))) {
+        RunProgram(runProgram->ProgramText());
+    }
+
+#if 0
+        //TestKinematics(nh);
+        //return(0);
+        // Declare controller variables
+        MoveitPlanning moveit(nh);
+        MotionControl motioncontrol;
+        urdf::Pose goalpose;
+        goalpose.position =urdf::Vector3(.28,-0.7,1.0);
+        goalpose.rotation.setFromRPY(0.,0.,0.);
+        
+        int nIncr=motioncontrol.computeIncrements (RCS::Controller.status.currentpose, goalpose);
+        std::vector<urdf::Pose> poses = motioncontrol.computeWaypoints(RCS::Controller.status.currentpose, goalpose, nIncr, true );
+        std::vector<JointState> points = moveit.Plan(poses);
+        for(size_t k=0; k< points.size(); k++)
+        {
+            std::cout <<  VectorDump<double> (points[k].position);
+            jointWriter->JointTrajectoryPositionWrite(points[k]);
+        }
+#if 0
+        geometry_msgs::Pose target_pose1;
+        target_pose1.orientation.w = 1.0;
+        target_pose1.position.x = 0.28;
+        target_pose1.position.y = -0.7;
+        target_pose1.position.z = 1.0;
+        moveit.group->setPoseTarget(target_pose1);
+        moveit.Plan(target_pose1);
+#endif
+#if 0
+        JointState joint;
+        joint.position=ToVector<double>(6, 0.097, 0.007, -0.590, -0.172, 0.604, -0.142 );
+        urdf::Pose target_pose1;
+        target_pose1=kin->FK(joint.position);
+        std::cout << "Current pose=" << DumpUrdfPose(target_pose1);
+
+        target_pose1.rotation.x = .0;
+        target_pose1.rotation.y = .0;
+        target_pose1.rotation.z = .0;
+        target_pose1.rotation.w = 1.0;
+        target_pose1.position.x = 0.28;
+        target_pose1.position.y = 0.0;
+        target_pose1.position.z = 0.38;
+        moveit.Plan(target_pose1);
+#endif
+
+        //TestMoveit(nh);
+        sleep(15.0);
+        std::vector<double> js = jointReader->GetJointValues();
+        std::cout << "Current joints=" << VectorDump<double> (js);
+        return 0;
+#endif
+
+#if 0
+        // This is done by the trajectory component
+        descartes_core::RobotModelPtr model(new descartes_moveit::MoveitStateAdapter);
+        if (!model->initialize(robot_description, group_name, world_frame, tcp_frame)) {
+            throw std::runtime_error(Could not initialize robot model");
+        }
+#endif
+
+
+#if 0
+        // now we will just use forward kinematics to give a pose to plan against.
+        TrajectoryVec points;
+        RCS::Pose pose = _kinematics->FK(Controller.status.currentjoints.position);
+        descartes_core::TrajectoryPtPtr pt = RCS::Controller.trajectory_model->makeTolerancedCartesianPoint(urdfPose2Affine3d(pose));
+        points.push_back(pt);
+        pose = _kinematics->FK(joints);
+        std::cout << "Goal pose= " << DumpEPose(ConvertPose(pose));
+        pt = RCS::Controller.trajectory_model->makeTolerancedCartesianPoint(urdfPose2Affine3d(pose));
+        points.push_back(pt);
+        if (!RCS::Controller.trajectory_model->_planner.planPath(points)) {
+            ROS_ERROR("Could not solve for a valid path");
+            return -2;
+        }
+        if (!RCS::Controller.trajectory_model->_planner.getPath(results)) {
+            ROS_ERROR("Could not retrieve path");
+            return -3;
+        }
+
+        // store results into Controller.robotcmds.AddMsgQueue(newcc);
+        std::vector<JointState> gotojoints = Controller.trajectory_model->JointTrajectorytoJointStateVector(results);
+        for (size_t i = 0; i < gotojoints.size(); i++) {
+            RCS::CanonCmd newcc;
+            newcc.cmd = RCS::CANON_MOVE_JOINT;
+            newcc.status = RCS::CANON_WAITING;
+            newcc.joints.position = gotojoints[i].position;
+            newcc.joints.velocity = gotojoints[i].velocity;
+            newcc.joints.effort = gotojoints[i].effort;
+            Controller.robotcmds.AddMsgQueue(newcc);
+        }
+
+#endif
+
+
+        // Check if in middle of existing move - scuttle or append
+        // I think crcl says use latest command - but not sure
+        if (Controller.robotcmds.SizeMsgQueue() > 0) {
+            currentpose = Controller.robotcmds.BackMsgQueue().pose;
+        } else {
+            currentpose = Controller.status.currentpose;
+        }
+
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            // simulate motion: if robot command on motion queue - simulate send/receive status
+#if 0
+            if (Controller.robotcmds.SizeMsgQueue() > 0) {
+                RCS::CanonCmd cc = Controller.robotcmds.PopFrontMsgQueue();
+
+                // if pose compute inverse kinematics;
+                // Read command and then post to rcs wm, and then crclwm
+                Controller.status.echocmd = cc;
+                Controller.status.currentjoints = cc.joints;
+                //FIXME:
+                Controller.status.currentpose = _kinematics->FK(cc.joints.position);
+                std::cerr << RCS::DumpPose(Controller.status.currentpose).c_str();
+
+                if (Controller.laststatus.echocmd.cmd != CANON_NOOP) {
+                    //for (size_t i = 0; i < Controller.robot_model.GetMovingJoints(); i++) {
+                    for (size_t i = 0; i < Controller._NumJoints; i++) {
+                        Controller.status.currentjoints.velocity[i] = Controller.status.currentjoints.position[i] - Controller.laststatus.currentjoints.position[i];
+                    }
+                }
+                // update crcl interface
+
+            } else
+#endif
+
+
+
+#if 0
+    //int nIncr = motioncontrol.computeIncrements(currentpose, goalpose, 0.001);
+
+    if (RCS::Controller.eCartesianMotionPlanner == RCS::CController::MOVEIT) {
+        if (RCS::Controller.MoveitPlanner()->Plan(poses)) {
+            gotojoints = RCS::Controller.MoveitPlanner()->GetJtsPlan();
+            AddJointCommands(gotojoints);
+            for (size_t k = 0; k < gotojoints.size(); k++) {
+                std::cout << VectorDump<double> (gotojoints[k].position);
+            }
+
+        }
+    } else // if (RCS::Controller.eMotionPlanner == RCS::CController::WAYPOINT) {
+    {
+        std::vector<double> oldjoints = RCS::Controller.status.currentjoints.position;
+        for (size_t i = 0; i < poses.size(); i++) {
+
+            RCS::Controller.Kinematics()->SetJointValues(oldjoints);
+
+            //std::cout << "GotoPose " << DumpPose(poses[i]).c_str();
+            std::vector<double> joints = RCS::Controller.Kinematics()-> IK(poses[i], oldjoints);
+            //std::cout << "New Joints " << VectorDump<double>(joints).c_str();
+            gotojoints.push_back(EmptyJointState(joints.size()));
+            gotojoints.back().position = joints;
+            oldjoints = joints;
+        }
+        AddJointCommands(gotojoints);
+    }
+#endif
+
+
+#if 0
+        urdf::Rotation q = _quatFromCartCart(Xrot, Zrot);
+
+        return _matrixFromQuat(q);
+#endif
+#if 0
+        RosMatrix rot;
+        Xrot           = _normalize3(Xrot);
+        Zrot           = _normalize3(Zrot);
+        rot[4 * 0 + 0] = Xrot.x;
+        rot[4 * 0 + 1] = Xrot.y;
+        rot[4 * 0 + 2] = Xrot.z;
+        rot[4 * 2 + 0] = Zrot.x;
+        rot[4 * 2 + 1] = Zrot.y;
+        rot[4 * 2 + 2] = Zrot.z;
+        urdf::Vector3 Yrot = _cross3(Zrot, Xrot);
+        rot[4 * 1 + 0] = Yrot.x;
+        rot[4 * 1 + 1] = Yrot.y;
+        rot[4 * 1 + 2] = Yrot.z;
+
+        return rot;
+#endif
+
+
+
+
+// -------------------------------------
+#if 0
+CMoveitTrajectoryWriter::CMoveitTrajectoryWriter(ros::NodeHandle &nh)//: trajwriter(nh)
+{
+ // display_publisher = nh.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);  
+}
+#if 0
+CMoveitTrajectoryWriter::Execute(const std::vector<JointState> joints) {
+    moveit::planning_interface::MoveGroup group("manipulator");
+//    trajectory_msgs::JointTrajectory jnttrajectorymsg =
+//            trajwriter.JointStateVector2TrajectoryMsg(joints);
+//    display_publisher.publish(display_trajectory);
+
+    group.setJointValueTarget(joints.positions);
+    group.execute();
+    
+}
+
+group.setStartStateToCurrentState();
+  
+moveit_msgs::DisplayTrajectory display_trajectory;
+
+/* Visualize the trajectory */
+ROS_INFO("Visualizing the trajectory");
+moveit_msgs::MotionPlanResponse response;
+res.getMessage(response);
+
+display_trajectory.trajectory_start = response.trajectory_start;
+display_trajectory.trajectory.push_back(response.trajectory);
+
+
+sleep_time.sleep();
+
+#endif
+
+//-------------------------------------
+
+#if 0
+
+
+#include <control_msgs/FollowJointTrajectoryAction.h>
+#include "Trajectory.h"
+
+class CTrajectoryWriter {
+public:
+
+    CTrajectoryWriter(boost::shared_ptr<CTrajectory> traj);
+    bool JointTrajectoryWrite(std::vector<JointState>);
+    bool JointTrajectoryWrite(JointState joint);
+protected:
+    bool TrajectoryExecute(const trajectory_msgs::JointTrajectory& trajectory);
+    trajectory_msgs::JointTrajectory
+    toROSJointTrajectory(const TrajectoryVec& trajectory,
+            const descartes_core::RobotModel& model,
+            const std::vector<std::string>& joint_names,
+            const std::vector<double>& time_delay);
+    trajectory_msgs::JointTrajectory
+    JointStateVector2TrajectoryMsg(const std::vector<JointState> joints);
+    boost::shared_ptr<CTrajectory> _traj;
+ 
+};
+
+
+class CMoveitTrajectoryWriter {
+public:
+    CMoveitTrajectoryWriter(ros::NodeHandle &nh);
+   // void Execute(const std::vector<JointState> joints);
+
+    ////////////////////////////////
+    ros::Publisher display_publisher;
+    std::vector<std::string> jointnames;
+    //CTrajectoryWriter trajwriter;
+};
+#endif
+
+CTrajectoryWriter::CTrajectoryWriter(boost::shared_ptr<CTrajectory> traj) {
+    _traj = traj;
+}
+
+bool CTrajectoryWriter::JointTrajectoryWrite(std::vector<JointState> joints) {
+    trajectory_msgs::JointTrajectory msgs = JointStateVector2TrajectoryMsg(joints);
+    TrajectoryExecute(msgs);
+    return true;
+}
+bool CTrajectoryWriter::JointTrajectoryWrite(JointState joint) {
+    std::vector<JointState> joints;
+    joints.push_back(joint);
+    trajectory_msgs::JointTrajectory msgs = JointStateVector2TrajectoryMsg(joints);
+    TrajectoryExecute(msgs);
+    return true;
+}
+trajectory_msgs::JointTrajectory
+CTrajectoryWriter::JointStateVector2TrajectoryMsg(const std::vector<JointState> joints) {
+    // Fill out information about our trajectory
+    trajectory_msgs::JointTrajectory result;
+    result.header.stamp = ros::Time::now();
+    result.header.frame_id = "world_frame";
+    result.joint_names = _traj->GetJointNames();
+
+    // For keeping track of time-so-far in the trajectory
+    double time_offset = 0.0;
+    std::vector<double> time_delay;
+    std::vector<double> fake_times(joints.size(), 1.0);
+    time_delay = fake_times;
+
+    // Loop through the trajectory
+    int i = 0;
+
+    for (size_t j = 0; j < joints.size(); j++) {
+        // Fill out a ROS trajectory point
+        trajectory_msgs::JointTrajectoryPoint pt;
+        pt.positions = joints[i].position;
+        pt.velocities = joints[i].velocity;
+        pt.effort = joints[i].effort;
+        pt.accelerations.resize(joints[i].position.size(), 0.0);
+
+        // set the time into the trajectory
+        pt.time_from_start = ros::Duration(time_offset);
+        // increment time
+        time_offset += time_delay[i];
+
+        result.points.push_back(pt);
+    }
+
+    return result;
+}
+
+bool CTrajectoryWriter::TrajectoryExecute(const trajectory_msgs::JointTrajectory& trajectory) {
+    // Create a Follow Joint Trajectory Action Client
+    actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction> ac("joint_trajectory_action", true);
+    if (!ac.waitForServer(ros::Duration(2.0))) {
+        ROS_ERROR("Could not connect to action server");
+        return false;
+    }
+
+    control_msgs::FollowJointTrajectoryGoal goal;
+    goal.trajectory = trajectory;
+    goal.goal_time_tolerance = ros::Duration(1.0);
+
+    ac.sendGoal(goal);
+
+    if (ac.waitForResult(goal.trajectory.points[goal.trajectory.points.size() - 1].time_from_start + ros::Duration(5))) {
+        ROS_INFO("Action server reported successful execution");
+        return true;
+    } else {
+        ROS_WARN("Action server could not execute trajectory");
+        return false;
+    }
+}
+
+trajectory_msgs::JointTrajectory
+CTrajectoryWriter::toROSJointTrajectory(const TrajectoryVec& trajectory,
+        const descartes_core::RobotModel& model,
+        const std::vector<std::string>& joint_names,
+        const std::vector<double>& time_delay) {
+    // Fill out information about our trajectory
+    trajectory_msgs::JointTrajectory result;
+    result.header.stamp = ros::Time::now();
+    result.header.frame_id = "world_frame";
+    result.joint_names = joint_names;
+
+    // For keeping track of time-so-far in the trajectory
+    double time_offset = 0.0;
+    // Loop through the trajectory
+    int i = 0;
+    for (TrajectoryIter it = trajectory.begin(); it != trajectory.end(); ++it, ++i) {
+        // Find nominal joint solution at this point
+        std::vector<double> joints;
+        it->get()->getNominalJointPose(std::vector<double>(), model, joints);
+
+        // Fill out a ROS trajectory point
+        trajectory_msgs::JointTrajectoryPoint pt;
+        pt.positions = joints;
+        // velocity, acceleration, and effort are given dummy values
+        // we'll let the controller figure them out
+        pt.velocities.resize(joints.size(), 0.0);
+        pt.accelerations.resize(joints.size(), 0.0);
+        pt.effort.resize(joints.size(), 0.0);
+        // set the time into the trajectory
+        pt.time_from_start = ros::Duration(time_offset);
+        // increment time
+        time_offset += time_delay[i];
+        ROS_WARN("time: %f\n", time_delay[i]);
+
+        result.points.push_back(pt);
+    }
+
+    return result;
+}
+#endif
+
+//     action_server_name = nh.getNamespace() + "/follow_joint_trajectory";
+
+    //std::string action_server_name;
+//    typedef actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction> ActionClient;
+//    typedef boost::shared_ptr<ActionClient> ActionClientPtr;
+//    typedef control_msgs::FollowJointTrajectoryGoal ActionGoal;
+//    typedef control_msgs::JointTrajectoryControllerStateConstPtr StateConstPtr;
+
+
+
+#if 0
+        Crcl::CrclDelegateInterface mycrcl;
+        std::string contents;
+        Globals.ReadFile("/home/michalos/catkin_ws/src/fanucdemo/doc/fanuclrmateprogram.xml", contents);
+               // 
+//        Globals.ReadFile("/home/michalos/catkin_ws/src/fanucdemo/doc/commandSetTransSpeed1.xml", contents);
+//        mycrcl.DelegateCRCLCmd(contents);
+//        contents.clear();
+        Globals.ReadFile("/home/michalos/catkin_ws/src/fanucdemo/doc/programExample.xml", contents);
+        std::string contents;
+        Globals.ReadFile("/home/michalos/catkin_ws/src/fanucdemo/doc/fanuclrmateprogram.xml", contents);
+        mycrcl.DelegateCRCLCmd(contents);
+#endif

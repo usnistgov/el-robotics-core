@@ -22,7 +22,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED system thread chrono regex)
 find_package(Eigen REQUIRED)
-find_package(nist_fanuc REQUIRED)
 
 #The catkin_package function specifies which dependencies your package exports to its dependencies. In particular, #INCLUDE_DIRS specifies which directory in your package contains the header directory that should be on the include #path for any packages that compile against your package.
 

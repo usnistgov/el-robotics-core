@@ -78,7 +78,11 @@ include_directories(include
    ${descartes_core_INCLUDE_DIRS}
 )
 # Codesynthesis include
-include_directories(/usr/include/xsd/cxx/xml)
+# FMP
+include_directories(
+  /usr/include/xsd/cxx/xml
+  /usr/local/include/xsd/cxx/xml
+  )
 # Apache xercesc include
 include_directories(/usr/include/xercesc)
 

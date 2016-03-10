@@ -1,0 +1,28 @@
+actions: []
+authors: ''
+brief: ''
+bugtracker: ''
+depends:
+- moveit_core
+- descartes_trajectory
+- catkin
+- roscpp
+- sensor_msgs
+- descartes_moveit
+- moveit_ros_move_group
+- moveit_ros_planning
+- cmake_modules
+- moveit_ros_manipulation
+- descartes_core
+- descartes_planner
+- boost
+- moveit_ros_planning_interface
+- eigen
+description: The nist_fanuc package.
+license: No copyright
+maintainers: john.michaloski <john.michaloski@nist.gov>
+msgs: []
+package_type: package
+repo_url: ''
+srvs: []
+url: https://github.com/ros-industrial-consortium

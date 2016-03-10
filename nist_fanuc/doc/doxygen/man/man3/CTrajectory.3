@@ -1,0 +1,113 @@
+.TH "CTrajectory" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CTrajectory \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Trajectory\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCTrajectory\fP ()"
+.br
+.ti -1c
+.RI "void \fBInit\fP (std::string robot_description, std::string group_name, std::string world_frame, std::string tcp_frame, std::vector< std::string > names, bool bCheckCollisions=true)"
+.br
+.ti -1c
+.RI "\fBTrajectoryVec\fP \fBPlanPath\fP (\fBTrajectoryVec\fP)"
+.br
+.ti -1c
+.RI "std::vector< \fBJointState\fP > \fBJointTrajectorytoJointStateVector\fP (const \fBTrajectoryVec\fP &trajectory)"
+.br
+.ti -1c
+.RI "descartes_core::TrajectoryPtPtr \fBmakeCartesianPoint\fP (const Eigen::Affine3d &pose)"
+.br
+.ti -1c
+.RI "descartes_core::TrajectoryPtPtr \fBmakeTolerancedCartesianPoint\fP (const Eigen::Affine3d &pose)"
+.br
+.ti -1c
+.RI "\fBMoveitStateAdapterPtr\fP \fBGetModel\fP ()"
+.br
+.ti -1c
+.RI "descartes_planner::DensePlanner \fBGetDensePlanner\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBGetJointNames\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBMoveitStateAdapterPtr\fP \fB_model\fP"
+.br
+.ti -1c
+.RI "descartes_planner::DensePlanner \fB_planner\fP"
+.br
+.ti -1c
+.RI "std::string \fB_robot_description\fP"
+.br
+.ti -1c
+.RI "std::string \fB_group_name\fP"
+.br
+.ti -1c
+.RI "std::string \fB_world_frame\fP"
+.br
+.ti -1c
+.RI "std::string \fB_tcp_frame\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBjoint_names\fP"
+.br
+.ti -1c
+.RI "bool \fB_bInited\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CTrajectory::CTrajectory ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "descartes_planner::DensePlanner CTrajectory::GetDensePlanner ()\fC [inline]\fP"
+
+.SS "std::vector<std::string> CTrajectory::GetJointNames ()\fC [inline]\fP"
+
+.SS "\fBMoveitStateAdapterPtr\fP CTrajectory::GetModel ()\fC [inline]\fP"
+
+.SS "void CTrajectory::Init (std::stringrobot_description, std::stringgroup_name, std::stringworld_frame, std::stringtcp_frame, std::vector< std::string >names, boolbCheckCollisions = \fCtrue\fP)"
+
+.SS "std::vector< \fBJointState\fP > CTrajectory::JointTrajectorytoJointStateVector (const \fBTrajectoryVec\fP &trajectory)"
+
+.SS "descartes_core::TrajectoryPtPtr CTrajectory::makeCartesianPoint (const Eigen::Affine3d &pose)\fC [inline]\fP"
+
+.SS "descartes_core::TrajectoryPtPtr CTrajectory::makeTolerancedCartesianPoint (const Eigen::Affine3d &pose)\fC [inline]\fP"
+
+.SS "\fBTrajectoryVec\fP CTrajectory::PlanPath (\fBTrajectoryVec\fPpoints)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool CTrajectory::_bInited"
+
+.SS "std::string CTrajectory::_group_name"
+
+.SS "\fBMoveitStateAdapterPtr\fP CTrajectory::_model"
+
+.SS "descartes_planner::DensePlanner CTrajectory::_planner"
+
+.SS "std::string CTrajectory::_robot_description"
+
+.SS "std::string CTrajectory::_tcp_frame"
+
+.SS "std::string CTrajectory::_world_frame"
+
+.SS "std::vector<std::string> CTrajectory::joint_names"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

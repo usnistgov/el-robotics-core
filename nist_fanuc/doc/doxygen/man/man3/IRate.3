@@ -1,0 +1,83 @@
+.TH "IRate" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IRate \- 
+.PP
+\fBIRate\fP is an interface class for defining the allowed motion rates\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <trajectoryMaker\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBIRate\fP ()"
+.br
+.ti -1c
+.RI "\fBIRate\fP (double maximum_velocity, double maximum_accel, double cycleTime)"
+.br
+.ti -1c
+.RI "void \fBSetCurrentMotion\fP (double final_velocity, double current_feedrate, double current_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (FinalVelocity, double, _final_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CurrentFeedrate, double, _current_feedrate)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CurrentVelocity, double, _current_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (MaximumVelocity, double, _maximum_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (MaximumAccel, double, _maximum_accel)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CycleTime, double, _cycleTime)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CurrentAccel, double, _current_accel)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (MsFlag, \fBRCS::CanonAccProfile\fP, _msflag)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBIRate\fP is an interface class for defining the allowed motion rates\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "IRate::IRate ()\fC [inline]\fP"
+
+.SS "IRate::IRate (doublemaximum_velocity, doublemaximum_accel, doublecycleTime)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "IRate::NVAR (FinalVelocity, double, _final_velocity)"
+
+.SS "IRate::NVAR (CurrentFeedrate, double, _current_feedrate)"
+
+.SS "IRate::NVAR (CurrentVelocity, double, _current_velocity)"
+
+.SS "IRate::NVAR (MaximumVelocity, double, _maximum_velocity)"
+
+.SS "IRate::NVAR (MaximumAccel, double, _maximum_accel)"
+
+.SS "IRate::NVAR (CycleTime, double, _cycleTime)"
+
+.SS "IRate::NVAR (CurrentAccel, double, _current_accel)"
+
+.SS "IRate::NVAR (MsFlag, \fBRCS::CanonAccProfile\fP, _msflag)"
+
+.SS "void IRate::SetCurrentMotion (doublefinal_velocity, doublecurrent_feedrate, doublecurrent_velocity)\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

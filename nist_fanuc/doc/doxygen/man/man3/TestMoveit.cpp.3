@@ -1,0 +1,39 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/TestMoveit.cpp" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/TestMoveit.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'moveit\&.h'\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+\fC#include 'urdf_model/eigenmath\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "trajectory_msgs::JointTrajectory \fBtoROSJointTrajectory\fP (const \fBTrajectoryVec\fP &trajectory, const descartes_core::RobotModel &model, const std::vector< std::string > &joint_names, double time_delay)"
+.br
+.ti -1c
+.RI "bool \fBexecuteTrajectory\fP (const trajectory_msgs::JointTrajectory &trajectory)"
+.br
+.ti -1c
+.RI "void \fBTestMoveit\fP (ros::NodeHandle &nh)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "bool executeTrajectory (const trajectory_msgs::JointTrajectory &trajectory)"
+
+.SS "void TestMoveit (ros::NodeHandle &nh)"
+
+.SS "trajectory_msgs::JointTrajectory toROSJointTrajectory (const \fBTrajectoryVec\fP &trajectory, const descartes_core::RobotModel &model, const std::vector< std::string > &joint_names, doubletime_delay)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

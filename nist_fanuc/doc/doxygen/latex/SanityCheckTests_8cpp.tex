@@ -1,0 +1,107 @@
+\hypertarget{SanityCheckTests_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Sanity\-Check\-Tests.cpp File Reference}
+\label{SanityCheckTests_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Sanity\-Check\-Tests.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Sanity\-Check\-Tests.\-cpp}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceRCS_a9d517dc59f249be605546c3a36086b19}{R\-C\-S\-::\-Controller} \hyperlink{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{Kinematics} () -\/$>$ Set\-Joint\-Values(cjoints.\-position)
+\item 
+std\-::cout$<$$<$ \char`\"{}Dump All zero F\-K \\*
+test Pose \char`\"{}$<$$<$ R\-C\-S\-::\-Dump\-Pose(\hyperlink{SanityCheckTests_8cpp_ab744783fe86387e6eb79b49b6969596d}{testpose}).c\-\_\-str();\-\_\-quat\-To\-Rpy(testpose.\-rotation, \\*
+\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, \hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, \hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw});std\-::cout\\*
+$<$$<$ \char`\"{}Dump rotation in R\-P\-Y\char`\"{}\\*
+$<$$<$ roll$<$$<$ \char`\"{}\-:\char`\"{}$<$$<$ \hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}\\*
+$<$$<$ \char`\"{}\-:\char`\"{}$<$$<$ \hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw}$<$$<$ std\-::endl;\hyperlink{SanityCheckTests_8cpp_a0614d959943a642a3fc9f068c935f3ce}{testjoints2}=\hyperlink{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{R\-C\-S\-::\-Controller.\-Kinematics}() -\/$>$ \hyperlink{SanityCheckTests_8cpp_abf0dec5a48988519149c54ccb44c6902}{I\-K} (\hyperlink{SanityCheckTests_8cpp_ab744783fe86387e6eb79b49b6969596d}{testpose}, \hyperlink{SanityCheckTests_8cpp_ac238dd85cb0913d76ce0a1d949b77048}{testjoints})
+\item 
+\hyperlink{Globals_8h_adb8dc75afa8d66a2da2aa8826d68666b}{Globals} \hyperlink{SanityCheckTests_8cpp_a9a89e98bbac2cd7760b28847087f9c13}{Read\-File} (\char`\"{}/home/michalos/catkin\-\_\-ws/src/fanucdemo/doc/program\-Example.\-xml\char`\"{}, contents)
+\item 
+\hyperlink{SanityCheckTests_8cpp_ac74e05b456f792ae125b1d00987fa64e}{mycrcl} \hyperlink{SanityCheckTests_8cpp_a525eefed98dcdaa39d1fd103d4504ec3}{Delegate\-C\-R\-C\-L\-Cmd} (\hyperlink{SanityCheckTests_8cpp_aed76f8804515a6923e39ee3257c3fb52}{contents})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ double $>$ \hyperlink{SanityCheckTests_8cpp_ac238dd85cb0913d76ce0a1d949b77048}{testjoints} = \hyperlink{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{R\-C\-S\-::\-Controller.\-Kinematics}()-\/$>$Get\-Joint\-Values()
+\item 
+std\-::vector$<$ double $>$ \hyperlink{SanityCheckTests_8cpp_a0614d959943a642a3fc9f068c935f3ce}{testjoints2}
+\item 
+double \hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}
+\item 
+double \hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}
+\item 
+double \hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw}
+\item 
+urdf\-::\-Pose \hyperlink{SanityCheckTests_8cpp_ab744783fe86387e6eb79b49b6969596d}{testpose} = \hyperlink{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{R\-C\-S\-::\-Controller.\-Kinematics}()-\/$>$F\-K(\hyperlink{SanityCheckTests_8cpp_ac238dd85cb0913d76ce0a1d949b77048}{testjoints})
+\item 
+\hyperlink{SanityCheckTests_8cpp_af7270a7fe238d1d1b75a002dd8747e27}{cjoints} = joint\-Reader-\/$>$Get\-Current\-Readings()
+\item 
+\hyperlink{classCrcl_1_1CrclDelegateInterface}{Crcl\-::\-Crcl\-Delegate\-Interface} \hyperlink{SanityCheckTests_8cpp_ac74e05b456f792ae125b1d00987fa64e}{mycrcl}
+\begin{DoxyCompactList}\small\item\em Program test. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{SanityCheckTests_8cpp_aed76f8804515a6923e39ee3257c3fb52}{contents}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{SanityCheckTests_8cpp_a525eefed98dcdaa39d1fd103d4504ec3}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!Delegate\-C\-R\-C\-L\-Cmd@{Delegate\-C\-R\-C\-L\-Cmd}}
+\index{Delegate\-C\-R\-C\-L\-Cmd@{Delegate\-C\-R\-C\-L\-Cmd}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{Delegate\-C\-R\-C\-L\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mycrcl} Delegate\-C\-R\-C\-L\-Cmd (
+\begin{DoxyParamCaption}
+\item[{{\bf contents}}]{}
+\end{DoxyParamCaption}
+)}}\label{SanityCheckTests_8cpp_a525eefed98dcdaa39d1fd103d4504ec3}
+\hypertarget{SanityCheckTests_8cpp_abf0dec5a48988519149c54ccb44c6902}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!I\-K@{I\-K}}
+\index{I\-K@{I\-K}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{I\-K}]{\setlength{\rightskip}{0pt plus 5cm}std\-::cout$<$$<$ \char`\"{}Dump All zero F\-K test Pose \char`\"{} $<$$<$ R\-C\-S\-::\-Dump\-Pose({\bf testpose}).c\-\_\-str(); \-\_\-quat\-To\-Rpy (testpose.\-rotation, {\bf roll}, {\bf pitch}, {\bf yaw}); std\-::cout $<$$<$ \char`\"{}Dump rotation in R\-P\-Y\char`\"{} $<$$<$ roll $<$$<$ \char`\"{}\-:\char`\"{} $<$$<$ {\bf pitch} $<$$<$ \char`\"{}\-:\char`\"{}$<$$<$ {\bf yaw} $<$$<$ std\-::endl; {\bf testjoints2} = {\bf R\-C\-S\-::\-Controller.\-Kinematics}()-\/$>$ I\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf testpose}}]{, }
+\item[{{\bf testjoints}}]{}
+\end{DoxyParamCaption}
+)}}\label{SanityCheckTests_8cpp_abf0dec5a48988519149c54ccb44c6902}
+\hypertarget{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!Kinematics@{Kinematics}}
+\index{Kinematics@{Kinematics}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Controller} Kinematics (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) -\/$>$  Set\-Joint\-Values(cjoints.\-position)}}\label{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}
+\hypertarget{SanityCheckTests_8cpp_a9a89e98bbac2cd7760b28847087f9c13}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!Read\-File@{Read\-File}}
+\index{Read\-File@{Read\-File}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{Read\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Globals} Read\-File (
+\begin{DoxyParamCaption}
+\item[{\char`\"{}/home/michalos/catkin\-\_\-ws/src/fanucdemo/doc/program\-Example.\-xml\char`\"{}}]{, }
+\item[{{\bf contents}}]{}
+\end{DoxyParamCaption}
+)}}\label{SanityCheckTests_8cpp_a9a89e98bbac2cd7760b28847087f9c13}
+
+
+\subsection{Variable Documentation}
+\hypertarget{SanityCheckTests_8cpp_af7270a7fe238d1d1b75a002dd8747e27}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!cjoints@{cjoints}}
+\index{cjoints@{cjoints}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{cjoints}]{\setlength{\rightskip}{0pt plus 5cm}cjoints = joint\-Reader-\/$>$Get\-Current\-Readings()}}\label{SanityCheckTests_8cpp_af7270a7fe238d1d1b75a002dd8747e27}
+\hypertarget{SanityCheckTests_8cpp_aed76f8804515a6923e39ee3257c3fb52}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!contents@{contents}}
+\index{contents@{contents}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{contents}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string contents}}\label{SanityCheckTests_8cpp_aed76f8804515a6923e39ee3257c3fb52}
+\hypertarget{SanityCheckTests_8cpp_ac74e05b456f792ae125b1d00987fa64e}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!mycrcl@{mycrcl}}
+\index{mycrcl@{mycrcl}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{mycrcl}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Crcl\-Delegate\-Interface} mycrcl}}\label{SanityCheckTests_8cpp_ac74e05b456f792ae125b1d00987fa64e}
+
+
+Program test. 
+
+\hypertarget{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!pitch@{pitch}}
+\index{pitch@{pitch}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}double pitch}}\label{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}
+\hypertarget{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!roll@{roll}}
+\index{roll@{roll}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}double roll}}\label{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}
+\hypertarget{SanityCheckTests_8cpp_ac238dd85cb0913d76ce0a1d949b77048}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!testjoints@{testjoints}}
+\index{testjoints@{testjoints}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{testjoints}]{\setlength{\rightskip}{0pt plus 5cm}testjoints = {\bf R\-C\-S\-::\-Controller.\-Kinematics}()-\/$>$Get\-Joint\-Values()}}\label{SanityCheckTests_8cpp_ac238dd85cb0913d76ce0a1d949b77048}
+\hypertarget{SanityCheckTests_8cpp_a0614d959943a642a3fc9f068c935f3ce}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!testjoints2@{testjoints2}}
+\index{testjoints2@{testjoints2}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{testjoints2}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ testjoints2}}\label{SanityCheckTests_8cpp_a0614d959943a642a3fc9f068c935f3ce}
+\hypertarget{SanityCheckTests_8cpp_ab744783fe86387e6eb79b49b6969596d}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!testpose@{testpose}}
+\index{testpose@{testpose}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{testpose}]{\setlength{\rightskip}{0pt plus 5cm}testpose = {\bf R\-C\-S\-::\-Controller.\-Kinematics}()-\/$>$F\-K({\bf testjoints})}}\label{SanityCheckTests_8cpp_ab744783fe86387e6eb79b49b6969596d}
+\hypertarget{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{\index{Sanity\-Check\-Tests.\-cpp@{Sanity\-Check\-Tests.\-cpp}!yaw@{yaw}}
+\index{yaw@{yaw}!SanityCheckTests.cpp@{Sanity\-Check\-Tests.\-cpp}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}double yaw}}\label{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}

@@ -1,0 +1,384 @@
+\hypertarget{structRCS_1_1CController}{\section{R\-C\-S\-:\-:C\-Controller Struct Reference}
+\label{structRCS_1_1CController}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}
+}
+
+
+The \hyperlink{structRCS_1_1CController}{C\-Controller} provides an collection for all the relevant controller pieces. The \hyperlink{structRCS_1_1CController}{C\-Controller} is the main controller class to collect all the references/pointers to instances in the project. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e.\-g., kinematics, joint writer, joint reader, etc.)  
+
+
+
+
+{\ttfamily \#include $<$Controller.\-h$>$}
+
+Inheritance diagram for R\-C\-S\-:\-:C\-Controller\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structRCS_1_1CController}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0}{Debug\-Level} \{ \hyperlink{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0a30bce5b91d15672b24426d0b2f558225}{F\-A\-T\-A\-L} = 0, 
+\hyperlink{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0a4458583e83012a9eb2309a2d13a1fde9}{W\-A\-R\-N\-I\-N\-G} = 2, 
+\hyperlink{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0adffee45be5e5c4d289cd79e8c64c8365}{I\-N\-F\-O\-R\-M} = 4, 
+\hyperlink{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0af56a0398241628da6412adabec8c3d1f}{F\-U\-L\-L} = 5
+ \}
+\item 
+enum \hyperlink{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915}{Debug\-Type} \{ \hyperlink{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915a7028b7cae1fbf32a3ec4c96ea1513242}{C\-R\-C\-L} = 0, 
+\hyperlink{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915aa62b453d8d0e2b7bf2f8a22b9b650441}{R\-P\-Y}
+ \}
+\item 
+enum \hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1}{Motion\-Planner\-Enum} \{ \\*
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1ab00d7459e4ea68d1b1496592767bfc2f}{N\-O\-P\-L\-A\-N\-N\-E\-R} = 0, 
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a7904abb74c1bc4246b43b356be0704b5}{M\-O\-V\-E\-I\-T}, 
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a1506ec08ab80c752e9613c0d42e8accb}{D\-E\-S\-C\-A\-R\-T\-E\-S}, 
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1aa492ff13d221452a2be124f579142e2f}{B\-A\-S\-I\-C}, 
+\\*
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a2a75cf0f1dff3f261dcbf41639f0c2f9}{W\-A\-Y\-P\-O\-I\-N\-T}, 
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a063b2368ab3f63d194e7b4bc0182410e}{G\-O\-M\-O\-T\-I\-O\-N}
+ \}
+\item 
+typedef std\-::list$<$ \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} $>$ \hyperlink{structRCS_1_1CController_aeaee07d36d39b56ecad1ce2443b5b4c0}{xml\-\_\-message\-\_\-list}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structRCS_1_1CController_acf0744408b45b6d9f60cb44c9d64f1a8}{C\-Controller} (double cycletime)
+\begin{DoxyCompactList}\small\item\em \hyperlink{structRCS_1_1CController}{C\-Controller} constructor that requires a cycle time for \hyperlink{namespaceRCS}{R\-C\-S} thread timing. \end{DoxyCompactList}\item 
+\hyperlink{structRCS_1_1CController_a2bfe656f4d6a26d3dc4556ed8dab118a}{$\sim$\-C\-Controller} (void)
+\item 
+bool \hyperlink{structRCS_1_1CController_a7f04bc3e6f36033b2ea18bbac9c34a64}{Verify} ()
+\begin{DoxyCompactList}\small\item\em Verifies that all the pointer references in the controller have been instantiated (i.\-e., not null). \end{DoxyCompactList}\item 
+virtual void \hyperlink{structRCS_1_1CController_a5629103a842e2c1d451fec16471f7639}{Action} ()
+\begin{DoxyCompactList}\small\item\em Cyclic loop for the controller. Reads \hyperlink{namespaceCrcl}{Crcl} input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages. \end{DoxyCompactList}\item 
+virtual void \hyperlink{structRCS_1_1CController_ad26d222b33f2b043f8a8d8b2b17bac01}{Init} ()
+\begin{DoxyCompactList}\small\item\em Initialization routine for the controller.. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{structRCS_1_1CController_aa7c4b106c4fb8064d896ccad7ce25b46}{Dump} (std\-::string separator=\char`\"{},\char`\"{})
+\begin{DoxyCompactList}\small\item\em Creates a comma separated string of current state of robot. (Can use other separator). \end{DoxyCompactList}\item 
+std\-::string \hyperlink{structRCS_1_1CController_aaf2b0286ce10f78e5eee44e3613e588e}{Dump\-Header} (std\-::string separator=\char`\"{},\char`\"{})
+\begin{DoxyCompactList}\small\item\em Creates a header line containing names of comma separated string fields that describes the current state of robot. (Can use other separator). \end{DoxyCompactList}\item 
+\hyperlink{structRCS_1_1CController_a217e4bc45f9cc45a8b4e927e3e76d9c6}{N\-V\-A\-R} (Crcl\-Delegate, boost\-::shared\-\_\-ptr$<$ \hyperlink{classCrcl_1_1CrclDelegateInterface}{Crcl\-::\-Crcl\-Delegate\-Interface} $>$, crclinterface)
+\item 
+\hyperlink{structRCS_1_1CController_abb822466798247a45d3206ecae9c36fc}{V\-A\-R} (\hyperlink{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{Kinematics}, boost\-::shared\-\_\-ptr$<$ \hyperlink{classIKinematics}{I\-Kinematics} $>$)
+\item 
+\hyperlink{structRCS_1_1CController_a220e4784a98f240d3421ae67c79356d2}{V\-A\-R} (Trajectory\-Model, boost\-::shared\-\_\-ptr$<$ \hyperlink{classCTrajectory}{C\-Trajectory} $>$)
+\item 
+\hyperlink{structRCS_1_1CController_abe34674042d0b1b983a3e4117310f66c}{V\-A\-R} (Joint\-Writer, boost\-::shared\-\_\-ptr$<$ \hyperlink{classCJointWriter}{C\-Joint\-Writer} $>$)
+\item 
+\hyperlink{structRCS_1_1CController_a4bada8d96b15d19a1b4255f00993a241}{V\-A\-R} (Moveit\-Planner, boost\-::shared\-\_\-ptr$<$ \hyperlink{classMoveitPlanning}{Moveit\-Planning} $>$)
+\item 
+void \hyperlink{structRCS_1_1CController_a2733d3cf36b11a6b257e04a969e03abf}{Set\-Kinematics} (boost\-::shared\-\_\-ptr$<$ \hyperlink{classIKinematics}{I\-Kinematics} $>$ k)
+\begin{DoxyCompactList}\small\item\em Routine to set the kinematics reference pointer. Uses the interface class \hyperlink{classIKinematics}{I\-Kinematics}, but can have any implementation instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCSInterpreter}{R\-C\-S\-Interpreter} \hyperlink{structRCS_1_1CController_a4c3c287cebfd9fa9fb413205fa0b49f6}{\-\_\-interpreter}
+\item 
+\hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} \hyperlink{structRCS_1_1CController_adb6c26898d07eb95d78cb4a9c3b32f5e}{\-\_\-newcc}
+\item 
+\hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} \hyperlink{structRCS_1_1CController_a042ac2e4f8765bf58abed979afd2ba20}{\-\_\-lastcc}
+\item 
+std\-::string \hyperlink{structRCS_1_1CController_a8bd2705747d1e16f5806ddf183bfade7}{lastlogstatus}
+\item 
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1}{Motion\-Planner\-Enum} \hyperlink{structRCS_1_1CController_a4174fd5467045e780fe53bde42e70735}{e\-Cartesian\-Motion\-Planner}
+\item 
+\hyperlink{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1}{Motion\-Planner\-Enum} \hyperlink{structRCS_1_1CController_ad788d0def2101be74b680394bcbc78e7}{e\-Joint\-Motion\-Planner}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} \hyperlink{structRCS_1_1CController_a2b5d355e3e9d6195943ab148c1f94083}{wm}
+\item 
+static \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} \hyperlink{structRCS_1_1CController_a82e9cc233cd25554964efe8a9008e0b2}{status}
+\item 
+static \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} \hyperlink{structRCS_1_1CController_af76ac9412dbefbaebc970d62f88a40fa}{laststatus}
+\item 
+static \hyperlink{classRCS_1_1CMessageQueue}{R\-C\-S\-::\-C\-Message\-Queue}\\*
+$<$ \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} $>$ \hyperlink{structRCS_1_1CController_adceba05ebd7fa94f93c131db84840d29}{cmds}
+\item 
+static \hyperlink{structRCS_1_1CController_aeaee07d36d39b56ecad1ce2443b5b4c0}{xml\-\_\-message\-\_\-list} \hyperlink{structRCS_1_1CController_a093ccebe77526dc736b0ddff70dec0fc}{donecmds}
+\item 
+static \hyperlink{classRCS_1_1CMessageQueue}{R\-C\-S\-::\-C\-Message\-Queue}\\*
+$<$ \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} $>$ \hyperlink{structRCS_1_1CController_aa96c7961737b7e1cf5d8b4180f4bc399}{robotcmds}
+\item 
+static size\-\_\-t \hyperlink{structRCS_1_1CController_a9b155c29a4fbb8b1a36dada1417126ff}{\-\_\-\-Num\-Joints}
+\item 
+static bool \hyperlink{structRCS_1_1CController_a5b5e83348fbf18e362a59a2d96668466}{b\-Generate\-Program} = false
+\item 
+static unsigned long \hyperlink{structRCS_1_1CController_ae4ff5cead0f30ebf8dcbc850b342afc4}{\-\_\-debugtype} = (unsigned long) \hyperlink{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915aa62b453d8d0e2b7bf2f8a22b9b650441}{R\-P\-Y}
+\item 
+static unsigned long \hyperlink{structRCS_1_1CController_a1e7f92c361c961fae03b08986bc19a16}{\-\_\-debuglevel} = 0
+\item 
+static unsigned long \hyperlink{structRCS_1_1CController_ab52a91aa3bfa1f56b527217f09c66912}{\-\_\-csvlog\-Flag} = 0
+\item 
+static \hyperlink{classALogger}{A\-Logger} \hyperlink{structRCS_1_1CController_a7e21b1156fe37407bae1ba468815206c}{Csv\-Logging}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The \hyperlink{structRCS_1_1CController}{C\-Controller} provides an collection for all the relevant controller pieces. The \hyperlink{structRCS_1_1CController}{C\-Controller} is the main controller class to collect all the references/pointers to instances in the project. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e.\-g., kinematics, joint writer, joint reader, etc.) 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{structRCS_1_1CController_aeaee07d36d39b56ecad1ce2443b5b4c0}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!xml\-\_\-message\-\_\-list@{xml\-\_\-message\-\_\-list}}
+\index{xml\-\_\-message\-\_\-list@{xml\-\_\-message\-\_\-list}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{xml\-\_\-message\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\-::list$<${\bf R\-C\-S\-::\-Canon\-Cmd}$>$ {\bf R\-C\-S\-::\-C\-Controller\-::xml\-\_\-message\-\_\-list}}}\label{structRCS_1_1CController_aeaee07d36d39b56ecad1ce2443b5b4c0}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Debug\-Level@{Debug\-Level}}
+\index{Debug\-Level@{Debug\-Level}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Debug\-Level}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf R\-C\-S\-::\-C\-Controller\-::\-Debug\-Level}}}\label{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{F\-A\-T\-A\-L@{F\-A\-T\-A\-L}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!F\-A\-T\-A\-L@{F\-A\-T\-A\-L}}\item[{\em 
+\hypertarget{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0a30bce5b91d15672b24426d0b2f558225}{F\-A\-T\-A\-L}\label{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0a30bce5b91d15672b24426d0b2f558225}
+}]\index{W\-A\-R\-N\-I\-N\-G@{W\-A\-R\-N\-I\-N\-G}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!W\-A\-R\-N\-I\-N\-G@{W\-A\-R\-N\-I\-N\-G}}\item[{\em 
+\hypertarget{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0a4458583e83012a9eb2309a2d13a1fde9}{W\-A\-R\-N\-I\-N\-G}\label{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0a4458583e83012a9eb2309a2d13a1fde9}
+}]\index{I\-N\-F\-O\-R\-M@{I\-N\-F\-O\-R\-M}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!I\-N\-F\-O\-R\-M@{I\-N\-F\-O\-R\-M}}\item[{\em 
+\hypertarget{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0adffee45be5e5c4d289cd79e8c64c8365}{I\-N\-F\-O\-R\-M}\label{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0adffee45be5e5c4d289cd79e8c64c8365}
+}]\index{F\-U\-L\-L@{F\-U\-L\-L}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!F\-U\-L\-L@{F\-U\-L\-L}}\item[{\em 
+\hypertarget{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0af56a0398241628da6412adabec8c3d1f}{F\-U\-L\-L}\label{structRCS_1_1CController_aeff6d914cf9d714e4c7390de9da446d0af56a0398241628da6412adabec8c3d1f}
+}]\end{description}
+\end{Desc}
+\hypertarget{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Debug\-Type@{Debug\-Type}}
+\index{Debug\-Type@{Debug\-Type}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Debug\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf R\-C\-S\-::\-C\-Controller\-::\-Debug\-Type}}}\label{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\-R\-C\-L@{C\-R\-C\-L}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!C\-R\-C\-L@{C\-R\-C\-L}}\item[{\em 
+\hypertarget{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915a7028b7cae1fbf32a3ec4c96ea1513242}{C\-R\-C\-L}\label{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915a7028b7cae1fbf32a3ec4c96ea1513242}
+}]\index{R\-P\-Y@{R\-P\-Y}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!R\-P\-Y@{R\-P\-Y}}\item[{\em 
+\hypertarget{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915aa62b453d8d0e2b7bf2f8a22b9b650441}{R\-P\-Y}\label{structRCS_1_1CController_ae1f342838100497b0b94108c6ec74915aa62b453d8d0e2b7bf2f8a22b9b650441}
+}]\end{description}
+\end{Desc}
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Motion\-Planner\-Enum@{Motion\-Planner\-Enum}}
+\index{Motion\-Planner\-Enum@{Motion\-Planner\-Enum}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Motion\-Planner\-Enum}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf R\-C\-S\-::\-C\-Controller\-::\-Motion\-Planner\-Enum}}}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{N\-O\-P\-L\-A\-N\-N\-E\-R@{N\-O\-P\-L\-A\-N\-N\-E\-R}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!N\-O\-P\-L\-A\-N\-N\-E\-R@{N\-O\-P\-L\-A\-N\-N\-E\-R}}\item[{\em 
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1ab00d7459e4ea68d1b1496592767bfc2f}{N\-O\-P\-L\-A\-N\-N\-E\-R}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1ab00d7459e4ea68d1b1496592767bfc2f}
+}]\index{M\-O\-V\-E\-I\-T@{M\-O\-V\-E\-I\-T}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!M\-O\-V\-E\-I\-T@{M\-O\-V\-E\-I\-T}}\item[{\em 
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a7904abb74c1bc4246b43b356be0704b5}{M\-O\-V\-E\-I\-T}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a7904abb74c1bc4246b43b356be0704b5}
+}]\index{D\-E\-S\-C\-A\-R\-T\-E\-S@{D\-E\-S\-C\-A\-R\-T\-E\-S}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!D\-E\-S\-C\-A\-R\-T\-E\-S@{D\-E\-S\-C\-A\-R\-T\-E\-S}}\item[{\em 
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a1506ec08ab80c752e9613c0d42e8accb}{D\-E\-S\-C\-A\-R\-T\-E\-S}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a1506ec08ab80c752e9613c0d42e8accb}
+}]\index{B\-A\-S\-I\-C@{B\-A\-S\-I\-C}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!B\-A\-S\-I\-C@{B\-A\-S\-I\-C}}\item[{\em 
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1aa492ff13d221452a2be124f579142e2f}{B\-A\-S\-I\-C}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1aa492ff13d221452a2be124f579142e2f}
+}]\index{W\-A\-Y\-P\-O\-I\-N\-T@{W\-A\-Y\-P\-O\-I\-N\-T}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!W\-A\-Y\-P\-O\-I\-N\-T@{W\-A\-Y\-P\-O\-I\-N\-T}}\item[{\em 
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a2a75cf0f1dff3f261dcbf41639f0c2f9}{W\-A\-Y\-P\-O\-I\-N\-T}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a2a75cf0f1dff3f261dcbf41639f0c2f9}
+}]\index{G\-O\-M\-O\-T\-I\-O\-N@{G\-O\-M\-O\-T\-I\-O\-N}!R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}}\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!G\-O\-M\-O\-T\-I\-O\-N@{G\-O\-M\-O\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a063b2368ab3f63d194e7b4bc0182410e}{G\-O\-M\-O\-T\-I\-O\-N}\label{structRCS_1_1CController_a50ede7cd9f47204828f0f7c740dc09b1a063b2368ab3f63d194e7b4bc0182410e}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structRCS_1_1CController_acf0744408b45b6d9f60cb44c9d64f1a8}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!C\-Controller@{C\-Controller}}
+\index{C\-Controller@{C\-Controller}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{C\-Controller}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::\-C\-Controller (
+\begin{DoxyParamCaption}
+\item[{double}]{cycletime}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_acf0744408b45b6d9f60cb44c9d64f1a8}
+
+
+\hyperlink{structRCS_1_1CController}{C\-Controller} constructor that requires a cycle time for \hyperlink{namespaceRCS}{R\-C\-S} thread timing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cycletime} & in seconds. \\
+\hline
+\end{DoxyParams}
+\hypertarget{structRCS_1_1CController_a2bfe656f4d6a26d3dc4556ed8dab118a}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!$\sim$\-C\-Controller@{$\sim$\-C\-Controller}}
+\index{$\sim$\-C\-Controller@{$\sim$\-C\-Controller}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{$\sim$\-C\-Controller}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::$\sim$\-C\-Controller (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_a2bfe656f4d6a26d3dc4556ed8dab118a}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structRCS_1_1CController_a5629103a842e2c1d451fec16471f7639}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Action@{Action}}
+\index{Action@{Action}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-C\-Controller\-::\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{structRCS_1_1CController_a5629103a842e2c1d451fec16471f7639}
+
+
+Cyclic loop for the controller. Reads \hyperlink{namespaceCrcl}{Crcl} input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages. 
+
+
+
+Reimplemented from \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{R\-C\-S\-::\-Thread}.
+
+\hypertarget{structRCS_1_1CController_aa7c4b106c4fb8064d896ccad7ce25b46}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Dump@{Dump}}
+\index{Dump@{Dump}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Dump}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-C\-Controller\-::\-Dump (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{separator = {\ttfamily \char`\"{},\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_aa7c4b106c4fb8064d896ccad7ce25b46}
+
+
+Creates a comma separated string of current state of robot. (Can use other separator). 
+
+\hypertarget{structRCS_1_1CController_aaf2b0286ce10f78e5eee44e3613e588e}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Dump\-Header@{Dump\-Header}}
+\index{Dump\-Header@{Dump\-Header}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Dump\-Header}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-C\-Controller\-::\-Dump\-Header (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{separator = {\ttfamily \char`\"{},\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_aaf2b0286ce10f78e5eee44e3613e588e}
+
+
+Creates a header line containing names of comma separated string fields that describes the current state of robot. (Can use other separator). 
+
+\hypertarget{structRCS_1_1CController_ad26d222b33f2b043f8a8d8b2b17bac01}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Init@{Init}}
+\index{Init@{Init}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-C\-Controller\-::\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{structRCS_1_1CController_ad26d222b33f2b043f8a8d8b2b17bac01}
+
+
+Initialization routine for the controller.. 
+
+
+
+Reimplemented from \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{R\-C\-S\-::\-Thread}.
+
+\hypertarget{structRCS_1_1CController_a217e4bc45f9cc45a8b4e927e3e76d9c6}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Crcl\-Delegate}]{, }
+\item[{boost\-::shared\-\_\-ptr$<$ {\bf Crcl\-::\-Crcl\-Delegate\-Interface} $>$}]{, }
+\item[{crclinterface}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_a217e4bc45f9cc45a8b4e927e3e76d9c6}
+\hypertarget{structRCS_1_1CController_a2733d3cf36b11a6b257e04a969e03abf}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Set\-Kinematics@{Set\-Kinematics}}
+\index{Set\-Kinematics@{Set\-Kinematics}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Set\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-C\-Controller\-::\-Set\-Kinematics (
+\begin{DoxyParamCaption}
+\item[{boost\-::shared\-\_\-ptr$<$ {\bf I\-Kinematics} $>$}]{k}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{structRCS_1_1CController_a2733d3cf36b11a6b257e04a969e03abf}
+
+
+Routine to set the kinematics reference pointer. Uses the interface class \hyperlink{classIKinematics}{I\-Kinematics}, but can have any implementation instance. 
+
+\hypertarget{structRCS_1_1CController_abb822466798247a45d3206ecae9c36fc}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{{\bf Kinematics}}]{, }
+\item[{boost\-::shared\-\_\-ptr$<$ {\bf I\-Kinematics} $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_abb822466798247a45d3206ecae9c36fc}
+\hypertarget{structRCS_1_1CController_a220e4784a98f240d3421ae67c79356d2}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Trajectory\-Model}]{, }
+\item[{boost\-::shared\-\_\-ptr$<$ {\bf C\-Trajectory} $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_a220e4784a98f240d3421ae67c79356d2}
+\hypertarget{structRCS_1_1CController_abe34674042d0b1b983a3e4117310f66c}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Joint\-Writer}]{, }
+\item[{boost\-::shared\-\_\-ptr$<$ {\bf C\-Joint\-Writer} $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_abe34674042d0b1b983a3e4117310f66c}
+\hypertarget{structRCS_1_1CController_a4bada8d96b15d19a1b4255f00993a241}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-C\-Controller\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Moveit\-Planner}]{, }
+\item[{boost\-::shared\-\_\-ptr$<$ {\bf Moveit\-Planning} $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_a4bada8d96b15d19a1b4255f00993a241}
+\hypertarget{structRCS_1_1CController_a7f04bc3e6f36033b2ea18bbac9c34a64}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Verify@{Verify}}
+\index{Verify@{Verify}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Verify}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-C\-Controller\-::\-Verify (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CController_a7f04bc3e6f36033b2ea18bbac9c34a64}
+
+
+Verifies that all the pointer references in the controller have been instantiated (i.\-e., not null). 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structRCS_1_1CController_ab52a91aa3bfa1f56b527217f09c66912}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-csvlog\-Flag@{\-\_\-csvlog\-Flag}}
+\index{\-\_\-csvlog\-Flag@{\-\_\-csvlog\-Flag}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-csvlog\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long R\-C\-S\-::\-C\-Controller\-::\-\_\-csvlog\-Flag = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_ab52a91aa3bfa1f56b527217f09c66912}
+\hypertarget{structRCS_1_1CController_a1e7f92c361c961fae03b08986bc19a16}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-debuglevel@{\-\_\-debuglevel}}
+\index{\-\_\-debuglevel@{\-\_\-debuglevel}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-debuglevel}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long R\-C\-S\-::\-C\-Controller\-::\-\_\-debuglevel = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a1e7f92c361c961fae03b08986bc19a16}
+level of debugging, 0 least, 5 most \hypertarget{structRCS_1_1CController_ae4ff5cead0f30ebf8dcbc850b342afc4}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-debugtype@{\-\_\-debugtype}}
+\index{\-\_\-debugtype@{\-\_\-debugtype}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-debugtype}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long R\-C\-S\-::\-C\-Controller\-::\-\_\-debugtype = (unsigned long) {\bf R\-P\-Y}\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_ae4ff5cead0f30ebf8dcbc850b342afc4}
+output crcl xz rotation or roll,pitch, yaw \hypertarget{structRCS_1_1CController_a4c3c287cebfd9fa9fb413205fa0b49f6}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-interpreter@{\-\_\-interpreter}}
+\index{\-\_\-interpreter@{\-\_\-interpreter}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-interpreter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-Interpreter} R\-C\-S\-::\-C\-Controller\-::\-\_\-interpreter}}\label{structRCS_1_1CController_a4c3c287cebfd9fa9fb413205fa0b49f6}
+interprets canon commands into robot commands \hypertarget{structRCS_1_1CController_a042ac2e4f8765bf58abed979afd2ba20}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-lastcc@{\-\_\-lastcc}}
+\index{\-\_\-lastcc@{\-\_\-lastcc}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-lastcc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-Cmd} R\-C\-S\-::\-C\-Controller\-::\-\_\-lastcc}}\label{structRCS_1_1CController_a042ac2e4f8765bf58abed979afd2ba20}
+last canon command interpreted \hypertarget{structRCS_1_1CController_adb6c26898d07eb95d78cb4a9c3b32f5e}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-newcc@{\-\_\-newcc}}
+\index{\-\_\-newcc@{\-\_\-newcc}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-newcc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-Cmd} R\-C\-S\-::\-C\-Controller\-::\-\_\-newcc}}\label{structRCS_1_1CController_adb6c26898d07eb95d78cb4a9c3b32f5e}
+current new canon command to interpret \hypertarget{structRCS_1_1CController_a9b155c29a4fbb8b1a36dada1417126ff}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!\-\_\-\-Num\-Joints@{\-\_\-\-Num\-Joints}}
+\index{\-\_\-\-Num\-Joints@{\-\_\-\-Num\-Joints}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{\-\_\-\-Num\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t R\-C\-S\-::\-C\-Controller\-::\-\_\-\-Num\-Joints\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a9b155c29a4fbb8b1a36dada1417126ff}
+number of joints in controller robot -\/ assuming serial link manipulator \hypertarget{structRCS_1_1CController_a5b5e83348fbf18e362a59a2d96668466}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!b\-Generate\-Program@{b\-Generate\-Program}}
+\index{b\-Generate\-Program@{b\-Generate\-Program}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{b\-Generate\-Program}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-C\-Controller\-::b\-Generate\-Program = false\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a5b5e83348fbf18e362a59a2d96668466}
+global flag to create program from \hyperlink{namespaceCrcl}{Crcl} X\-M\-L \hypertarget{structRCS_1_1CController_adceba05ebd7fa94f93c131db84840d29}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!cmds@{cmds}}
+\index{cmds@{cmds}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{cmds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ {\bf R\-C\-S\-::\-Canon\-Cmd} $>$ R\-C\-S\-::\-C\-Controller\-::cmds\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_adceba05ebd7fa94f93c131db84840d29}
+queue of commands interpreted from \hyperlink{namespaceCrcl}{Crcl} messages \hypertarget{structRCS_1_1CController_a7e21b1156fe37407bae1ba468815206c}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Csv\-Logging@{Csv\-Logging}}
+\index{Csv\-Logging@{Csv\-Logging}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{Csv\-Logging}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-Logger} R\-C\-S\-::\-C\-Controller\-::\-Csv\-Logging\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a7e21b1156fe37407bae1ba468815206c}
+controller status csv logging instance \hypertarget{structRCS_1_1CController_a093ccebe77526dc736b0ddff70dec0fc}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!donecmds@{donecmds}}
+\index{donecmds@{donecmds}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{donecmds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-C\-Controller\-::xml\-\_\-message\-\_\-list} R\-C\-S\-::\-C\-Controller\-::donecmds\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a093ccebe77526dc736b0ddff70dec0fc}
+list of commands interpreted from \hyperlink{namespaceCrcl}{Crcl} messages that have completed \hypertarget{structRCS_1_1CController_a4174fd5467045e780fe53bde42e70735}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!e\-Cartesian\-Motion\-Planner@{e\-Cartesian\-Motion\-Planner}}
+\index{e\-Cartesian\-Motion\-Planner@{e\-Cartesian\-Motion\-Planner}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{e\-Cartesian\-Motion\-Planner}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Motion\-Planner\-Enum} R\-C\-S\-::\-C\-Controller\-::e\-Cartesian\-Motion\-Planner}}\label{structRCS_1_1CController_a4174fd5467045e780fe53bde42e70735}
+type of cartesian motion to use \hypertarget{structRCS_1_1CController_ad788d0def2101be74b680394bcbc78e7}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!e\-Joint\-Motion\-Planner@{e\-Joint\-Motion\-Planner}}
+\index{e\-Joint\-Motion\-Planner@{e\-Joint\-Motion\-Planner}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{e\-Joint\-Motion\-Planner}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Motion\-Planner\-Enum} R\-C\-S\-::\-C\-Controller\-::e\-Joint\-Motion\-Planner}}\label{structRCS_1_1CController_ad788d0def2101be74b680394bcbc78e7}
+type of joint motion to use \hypertarget{structRCS_1_1CController_a8bd2705747d1e16f5806ddf183bfade7}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!lastlogstatus@{lastlogstatus}}
+\index{lastlogstatus@{lastlogstatus}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{lastlogstatus}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-C\-Controller\-::lastlogstatus}}\label{structRCS_1_1CController_a8bd2705747d1e16f5806ddf183bfade7}
+\hypertarget{structRCS_1_1CController_af76ac9412dbefbaebc970d62f88a40fa}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!laststatus@{laststatus}}
+\index{laststatus@{laststatus}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{laststatus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-World\-Model} R\-C\-S\-::\-C\-Controller\-::laststatus\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_af76ac9412dbefbaebc970d62f88a40fa}
+last status of controller \hypertarget{structRCS_1_1CController_aa96c7961737b7e1cf5d8b4180f4bc399}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!robotcmds@{robotcmds}}
+\index{robotcmds@{robotcmds}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{robotcmds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ {\bf R\-C\-S\-::\-Canon\-Cmd} $>$ R\-C\-S\-::\-C\-Controller\-::robotcmds\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_aa96c7961737b7e1cf5d8b4180f4bc399}
+list of commands to be sent to robot \hypertarget{structRCS_1_1CController_a82e9cc233cd25554964efe8a9008e0b2}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!status@{status}}
+\index{status@{status}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-World\-Model} R\-C\-S\-::\-C\-Controller\-::status\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a82e9cc233cd25554964efe8a9008e0b2}
+current status of controller \hypertarget{structRCS_1_1CController_a2b5d355e3e9d6195943ab148c1f94083}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!wm@{wm}}
+\index{wm@{wm}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{wm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-World\-Model} R\-C\-S\-::\-C\-Controller\-::wm\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a2b5d355e3e9d6195943ab148c1f94083}
+the world model of the controller 
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Controller_8h}{Controller.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Controller_8cpp}{Controller.\-cpp}\end{DoxyCompactItemize}

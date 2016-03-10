@@ -1,0 +1,231 @@
+\hypertarget{classMotionControl}{\section{Motion\-Control Class Reference}
+\label{classMotionControl}\index{Motion\-Control@{Motion\-Control}}
+}
+
+
+\hyperlink{classMotionControl}{Motion\-Control} is a class that contains some useful motion control methods.  
+
+
+
+
+{\ttfamily \#include $<$Motion\-Control.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classMotionControl_a7d4bdb16c10626850dac271d30428f71}{execute\-Trajectory} (const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&trajectory, const std\-::string \&trajectory\-\_\-ns)
+\begin{DoxyCompactList}\small\item\em execute\-Trajectory will send a traject to ros to execute \end{DoxyCompactList}\item 
+urdf\-::\-Pose \hyperlink{classMotionControl_a046ca7499b1bd4e6badf680584ae714d}{compute\-Translation} (urdf\-::\-Pose \&\-\_\-cur\-Pos, urdf\-::\-Pose \&\-\_\-goal\-Pos, double d\-Increment)
+\begin{DoxyCompactList}\small\item\em Return linear interpolation (lerp) between current and goal translation. \end{DoxyCompactList}\item 
+std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{classMotionControl_a06d93063a4a65f581cf0368faddeb246}{compute\-Waypoints} (urdf\-::\-Pose \&\-\_\-cur\-Pos, urdf\-::\-Pose \&\-\_\-goal\-Pos, double d\-Gap=0.\-001, bool b\-Add\-Start=false)
+\begin{DoxyCompactList}\small\item\em Compute waypoints between current and goal poses with assigned distance between poses. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classMotionControl_aebf1d77a70bbf6817f0899a98173b87d}{compute\-Coorindated\-Waypoints} (std\-::vector$<$ double $>$ \&\-\_\-cur\-Jts, std\-::vector$<$ double $>$ \&\-\_\-goal\-Jts, double d\-Gap=0.\-001, bool b\-Add\-Start=false)
+\begin{DoxyCompactList}\small\item\em compute\-Coorindated\-Waypoints returns a vector of straightline waypoints between current and goal poses at a given distance. Joints arrive a destination at the same time within the trajectory. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classMotionControl_a5a7f01d81030676aab106b7bf4c60aa6}{compute\-Uncoorindated\-Waypoints} (std\-::vector$<$ double $>$ \&\-\_\-cur\-Jts, std\-::vector$<$ double $>$ \&\-\_\-goal\-Jts, double d\-Gap=0.\-001, bool b\-Add\-Start=false)
+\begin{DoxyCompactList}\small\item\em compute\-Uncoorindated\-Waypoints returns a vector of waypoints between current and goal poses at a given distance. Joints arrive a destination at various times in the trajectory. \end{DoxyCompactList}\item 
+int \hyperlink{classMotionControl_ac065f800e86df7a771aae2aa4271aaa3}{compute\-Increments} (std\-::vector$<$ double $>$ \&\-\_\-cur\-Jts, std\-::vector$<$ double $>$ \&\-\_\-goal\-Jts, double gap=0.\-001)
+\item 
+int \hyperlink{classMotionControl_ad484a4d0524c9c4aa57c1762768aec05}{compute\-Increments} (urdf\-::\-Pose \&\-\_\-cur\-Pos, urdf\-::\-Pose \&\-\_\-goal\-Pos, double d\-Gap=0.\-001)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classMotionControl_a57fb4b492bc50f10b4fd5e068bda4f7a}{At\-Goal} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} goal, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} current, double \hyperlink{classMotionControl_ad3cadb7d245794540e4a320ee560b6b2}{epsilon}=0.\-001)
+\begin{DoxyCompactList}\small\item\em At\-Goal will determine if a pair joint state values are equal (within an epsilon tolerance). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{classMotionControl_ad3cadb7d245794540e4a320ee560b6b2}{epsilon} = 0.\-001
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classMotionControl}{Motion\-Control} is a class that contains some useful motion control methods. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMotionControl_a57fb4b492bc50f10b4fd5e068bda4f7a}{\index{Motion\-Control@{Motion\-Control}!At\-Goal@{At\-Goal}}
+\index{At\-Goal@{At\-Goal}!MotionControl@{Motion\-Control}}
+\subsubsection[{At\-Goal}]{\setlength{\rightskip}{0pt plus 5cm}bool Motion\-Control\-::\-At\-Goal (
+\begin{DoxyParamCaption}
+\item[{{\bf Joint\-State}}]{goal, }
+\item[{{\bf Joint\-State}}]{current, }
+\item[{double}]{epsilon = {\ttfamily 0.001}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classMotionControl_a57fb4b492bc50f10b4fd5e068bda4f7a}
+
+
+At\-Goal will determine if a pair joint state values are equal (within an epsilon tolerance). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em goal} & description of goal joint state \\
+\hline
+{\em current} & description of current joint state \\
+\hline
+{\em epsilon} & tolerance of equality \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean whether robot is at the desired goal described in joint values. 
+\end{DoxyReturn}
+\hypertarget{classMotionControl_aebf1d77a70bbf6817f0899a98173b87d}{\index{Motion\-Control@{Motion\-Control}!compute\-Coorindated\-Waypoints@{compute\-Coorindated\-Waypoints}}
+\index{compute\-Coorindated\-Waypoints@{compute\-Coorindated\-Waypoints}!MotionControl@{Motion\-Control}}
+\subsubsection[{compute\-Coorindated\-Waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Joint\-State} $>$ Motion\-Control\-::compute\-Coorindated\-Waypoints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$ \&}]{\-\_\-cur\-Jts, }
+\item[{std\-::vector$<$ double $>$ \&}]{\-\_\-goal\-Jts, }
+\item[{double}]{d\-Gap = {\ttfamily 0.001}, }
+\item[{bool}]{b\-Add\-Start = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_aebf1d77a70bbf6817f0899a98173b87d}
+
+
+compute\-Coorindated\-Waypoints returns a vector of straightline waypoints between current and goal poses at a given distance. Joints arrive a destination at the same time within the trajectory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-cur\-Pos} & description of current pose \\
+\hline
+{\em \-\_\-goal\-Pos} & description of goal pose \\
+\hline
+{\em gap} & distance between waypoints \\
+\hline
+{\em b\-Add\-Start} & boolean to determine if starting pose is included in waypoints \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of straighline waypoint poses with gap distance between poses. 
+\end{DoxyReturn}
+\hypertarget{classMotionControl_ac065f800e86df7a771aae2aa4271aaa3}{\index{Motion\-Control@{Motion\-Control}!compute\-Increments@{compute\-Increments}}
+\index{compute\-Increments@{compute\-Increments}!MotionControl@{Motion\-Control}}
+\subsubsection[{compute\-Increments}]{\setlength{\rightskip}{0pt plus 5cm}int Motion\-Control\-::compute\-Increments (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$ \&}]{\-\_\-cur\-Jts, }
+\item[{std\-::vector$<$ double $>$ \&}]{\-\_\-goal\-Jts, }
+\item[{double}]{gap = {\ttfamily 0.001}}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_ac065f800e86df7a771aae2aa4271aaa3}
+\hypertarget{classMotionControl_ad484a4d0524c9c4aa57c1762768aec05}{\index{Motion\-Control@{Motion\-Control}!compute\-Increments@{compute\-Increments}}
+\index{compute\-Increments@{compute\-Increments}!MotionControl@{Motion\-Control}}
+\subsubsection[{compute\-Increments}]{\setlength{\rightskip}{0pt plus 5cm}int Motion\-Control\-::compute\-Increments (
+\begin{DoxyParamCaption}
+\item[{urdf\-::\-Pose \&}]{\-\_\-cur\-Pos, }
+\item[{urdf\-::\-Pose \&}]{\-\_\-goal\-Pos, }
+\item[{double}]{d\-Gap = {\ttfamily 0.001}}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_ad484a4d0524c9c4aa57c1762768aec05}
+\hypertarget{classMotionControl_a046ca7499b1bd4e6badf680584ae714d}{\index{Motion\-Control@{Motion\-Control}!compute\-Translation@{compute\-Translation}}
+\index{compute\-Translation@{compute\-Translation}!MotionControl@{Motion\-Control}}
+\subsubsection[{compute\-Translation}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Motion\-Control\-::compute\-Translation (
+\begin{DoxyParamCaption}
+\item[{urdf\-::\-Pose \&}]{\-\_\-cur\-Pos, }
+\item[{urdf\-::\-Pose \&}]{\-\_\-goal\-Pos, }
+\item[{double}]{d\-Increment}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_a046ca7499b1bd4e6badf680584ae714d}
+
+
+Return linear interpolation (lerp) between current and goal translation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-cur\-Pos} & description of current pose \\
+\hline
+{\em \-\_\-goal\-Pos} & description of goal pose \\
+\hline
+{\em d\-Increment} & translation amount from \mbox{[}0..1\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pose containing lerped pose translation. 
+\end{DoxyReturn}
+\hypertarget{classMotionControl_a5a7f01d81030676aab106b7bf4c60aa6}{\index{Motion\-Control@{Motion\-Control}!compute\-Uncoorindated\-Waypoints@{compute\-Uncoorindated\-Waypoints}}
+\index{compute\-Uncoorindated\-Waypoints@{compute\-Uncoorindated\-Waypoints}!MotionControl@{Motion\-Control}}
+\subsubsection[{compute\-Uncoorindated\-Waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Joint\-State} $>$ Motion\-Control\-::compute\-Uncoorindated\-Waypoints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$ \&}]{\-\_\-cur\-Jts, }
+\item[{std\-::vector$<$ double $>$ \&}]{\-\_\-goal\-Jts, }
+\item[{double}]{d\-Gap = {\ttfamily 0.001}, }
+\item[{bool}]{b\-Add\-Start = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_a5a7f01d81030676aab106b7bf4c60aa6}
+
+
+compute\-Uncoorindated\-Waypoints returns a vector of waypoints between current and goal poses at a given distance. Joints arrive a destination at various times in the trajectory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-cur\-Pos} & description of current pose \\
+\hline
+{\em \-\_\-goal\-Pos} & description of goal pose \\
+\hline
+{\em gap} & distance between waypoints \\
+\hline
+{\em b\-Add\-Start} & boolean to determine if starting pose is included in waypoints \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of straighline waypoint poses with gap distance between poses. 
+\end{DoxyReturn}
+\hypertarget{classMotionControl_a06d93063a4a65f581cf0368faddeb246}{\index{Motion\-Control@{Motion\-Control}!compute\-Waypoints@{compute\-Waypoints}}
+\index{compute\-Waypoints@{compute\-Waypoints}!MotionControl@{Motion\-Control}}
+\subsubsection[{compute\-Waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ urdf\-::\-Pose $>$ Motion\-Control\-::compute\-Waypoints (
+\begin{DoxyParamCaption}
+\item[{urdf\-::\-Pose \&}]{\-\_\-cur\-Pos, }
+\item[{urdf\-::\-Pose \&}]{\-\_\-goal\-Pos, }
+\item[{double}]{d\-Gap = {\ttfamily 0.001}, }
+\item[{bool}]{b\-Add\-Start = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_a06d93063a4a65f581cf0368faddeb246}
+
+
+Compute waypoints between current and goal poses with assigned distance between poses. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-cur\-Pos} & description of current pose \\
+\hline
+{\em \-\_\-goal\-Pos} & description of goal pose \\
+\hline
+{\em gap} & distance between waypoints \\
+\hline
+{\em b\-Add\-Start} & boolean to determine if starting pose is included in waypoints \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of waypoint poses with gap distance between poses. 
+\end{DoxyReturn}
+\hypertarget{classMotionControl_a7d4bdb16c10626850dac271d30428f71}{\index{Motion\-Control@{Motion\-Control}!execute\-Trajectory@{execute\-Trajectory}}
+\index{execute\-Trajectory@{execute\-Trajectory}!MotionControl@{Motion\-Control}}
+\subsubsection[{execute\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}bool Motion\-Control\-::execute\-Trajectory (
+\begin{DoxyParamCaption}
+\item[{const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&}]{trajectory, }
+\item[{const std\-::string \&}]{trajectory\-\_\-ns}
+\end{DoxyParamCaption}
+)}}\label{classMotionControl_a7d4bdb16c10626850dac271d30428f71}
+
+
+execute\-Trajectory will send a traject to ros to execute 
+
+
+\begin{DoxyParams}{Parameters}
+{\em trajectory} & \\
+\hline
+{\em trajectory\-\_\-ns} & namespace of trajectory \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean whether success or failure 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classMotionControl_ad3cadb7d245794540e4a320ee560b6b2}{\index{Motion\-Control@{Motion\-Control}!epsilon@{epsilon}}
+\index{epsilon@{epsilon}!MotionControl@{Motion\-Control}}
+\subsubsection[{epsilon}]{\setlength{\rightskip}{0pt plus 5cm}double Motion\-Control\-::epsilon = 0.\-001\hspace{0.3cm}{\ttfamily [static]}}}\label{classMotionControl_ad3cadb7d245794540e4a320ee560b6b2}
+allowable difference length in equality between two numbers 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{MotionControl_8h}{Motion\-Control.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{MotionControl_8cpp}{Motion\-Control.\-cpp}\end{DoxyCompactItemize}

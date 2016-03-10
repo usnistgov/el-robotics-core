@@ -1,0 +1,172 @@
+.TH "MoveitPlanning" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MoveitPlanning \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <moveit\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMoveitPlanning\fP (ros::NodeHandle &nh)"
+.br
+.ti -1c
+.RI "\fB~MoveitPlanning\fP ()"
+.br
+.ti -1c
+.RI "std::vector< \fBJointState\fP > \fBGetJtsPlan\fP ()"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (\fBJointState\fP curjoints, \fBJointState\fP goaljoints)"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (urdf::Pose &curpose, urdf::Pose &goalpose)"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (urdf::Pose &pose)"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (std::vector< urdf::Pose > &waypoints)"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (\fBJointState\fP joints)"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (Eigen::Affine3d &pose)"
+.br
+.ti -1c
+.RI "bool \fBPlan\fP (geometry_msgs::Pose &pose)"
+.br
+.ti -1c
+.RI "urdf::Pose \fBGetCurrentPose\fP ()"
+.br
+.ti -1c
+.RI "std::vector< double > \fBGetJointValues\fP ()"
+.br
+.ti -1c
+.RI "urdf::Pose \fBForwardKinematics\fP ()"
+.br
+.ti -1c
+.RI "std::vector< double > \fBSetRandomJoints\fP ()"
+.br
+.ti -1c
+.RI "void \fBDisplayPlan\fP ()"
+.br
+.ti -1c
+.RI "void \fBSavePlan\fP ()"
+.br
+.ti -1c
+.RI "boost::shared_ptr
+.br
+< moveit::planning_interface::MoveGroup > \fBGetGroup\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBGetJointNames\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "moveit::planning_interface::MoveGroup::Plan \fBmy_plan\fP"
+.br
+.ti -1c
+.RI "boost::shared_ptr
+.br
+< moveit::planning_interface::MoveGroup > \fBgroup\fP"
+.br
+.ti -1c
+.RI "robot_model::RobotModelPtr \fBkinematic_model\fP"
+.br
+.ti -1c
+.RI "robot_state::RobotStatePtr \fBkinematic_state\fP"
+.br
+.ti -1c
+.RI "robot_state::JointModelGroup * \fBjoint_model_group\fP"
+.br
+.ti -1c
+.RI "std::string \fB_groupname\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBjoint_names\fP"
+.br
+.ti -1c
+.RI "bool \fB_bInited\fP"
+.br
+.ti -1c
+.RI "ros::Publisher \fBdisplay_publisher\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBJointState\fP > \fBplannedjts\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MoveitPlanning::MoveitPlanning (ros::NodeHandle &nh)"
+
+.SS "MoveitPlanning::~MoveitPlanning ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void MoveitPlanning::DisplayPlan ()"
+
+.SS "urdf::Pose MoveitPlanning::ForwardKinematics ()"
+
+.SS "urdf::Pose MoveitPlanning::GetCurrentPose ()"
+
+.SS "boost::shared_ptr<moveit::planning_interface::MoveGroup> MoveitPlanning::GetGroup ()\fC [inline]\fP"
+
+.SS "std::vector<std::string> MoveitPlanning::GetJointNames ()\fC [inline]\fP"
+
+.SS "std::vector< double > MoveitPlanning::GetJointValues ()"
+
+.SS "std::vector< \fBJointState\fP > MoveitPlanning::GetJtsPlan ()"
+
+.SS "bool MoveitPlanning::Plan (\fBJointState\fPcurjoints, \fBJointState\fPgoaljoints)"
+
+.SS "bool MoveitPlanning::Plan (urdf::Pose &curpose, urdf::Pose &goalpose)"
+
+.SS "bool MoveitPlanning::Plan (urdf::Pose &pose)"
+
+.SS "bool MoveitPlanning::Plan (std::vector< urdf::Pose > &waypoints)"
+
+.SS "bool MoveitPlanning::Plan (\fBJointState\fPjoints)"
+
+.SS "bool MoveitPlanning::Plan (Eigen::Affine3d &pose)"
+
+.SS "bool MoveitPlanning::Plan (geometry_msgs::Pose &pose)"
+
+.SS "void MoveitPlanning::SavePlan ()"
+
+.SS "std::vector< double > MoveitPlanning::SetRandomJoints ()"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool MoveitPlanning::_bInited"
+
+.SS "std::string MoveitPlanning::_groupname"
+
+.SS "ros::Publisher MoveitPlanning::display_publisher"
+
+.SS "boost::shared_ptr<moveit::planning_interface::MoveGroup> MoveitPlanning::group"
+
+.SS "robot_state::JointModelGroup* MoveitPlanning::joint_model_group"
+
+.SS "std::vector<std::string> MoveitPlanning::joint_names"
+
+.SS "robot_model::RobotModelPtr MoveitPlanning::kinematic_model"
+
+.SS "robot_state::RobotStatePtr MoveitPlanning::kinematic_state"
+
+.SS "moveit::planning_interface::MoveGroup::Plan MoveitPlanning::my_plan"
+
+.SS "std::vector<\fBJointState\fP> MoveitPlanning::plannedjts"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

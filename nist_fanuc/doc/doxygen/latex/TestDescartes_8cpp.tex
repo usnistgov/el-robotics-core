@@ -1,0 +1,81 @@
+\hypertarget{TestDescartes_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Test\-Descartes.cpp File Reference}
+\label{TestDescartes_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Test\-Descartes.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Test\-Descartes.\-cpp}}
+}
+{\ttfamily \#include \char`\"{}Trajectory.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$descartes\-\_\-moveit/moveit\-\_\-state\-\_\-adapter.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/axial\-\_\-symmetric\-\_\-pt.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/cart\-\_\-trajectory\-\_\-pt.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-planner/dense\-\_\-planner.\-h$>$}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\-::vector\\*
+$<$ descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr $>$ \hyperlink{TestDescartes_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec}
+\item 
+typedef \\*
+Trajectory\-Vec\-::const\-\_\-iterator \hyperlink{TestDescartes_8cpp_a5079ec3f4d81e5f18a231a4fa27d95f0}{Trajectory\-Iter}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr \hyperlink{TestDescartes_8cpp_ad7bad59ca92a976bc429776bd1b4c96a}{make\-Cartesian\-Point} (const Eigen\-::\-Affine3d \&pose)
+\item 
+descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr \hyperlink{TestDescartes_8cpp_a03251e750d1f539d9390123332c52f32}{make\-Toleranced\-Cartesian\-Point} (const Eigen\-::\-Affine3d \&pose)
+\item 
+trajectory\-\_\-msgs\-::\-Joint\-Trajectory \hyperlink{TestDescartes_8cpp_ab9ba2423efe75546d8912e10147750db}{to\-R\-O\-S\-Joint\-Trajectory} (const \hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec} \&trajectory, const descartes\-\_\-core\-::\-Robot\-Model \&model, const std\-::vector$<$ std\-::string $>$ \&joint\-\_\-names, double time\-\_\-delay)
+\item 
+bool \hyperlink{TestDescartes_8cpp_a3f5195045e10e0f502fdee54c327eb59}{execute\-Trajectory} (const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&trajectory)
+\item 
+void \hyperlink{TestDescartes_8cpp_a72aa65ec30577768141ddf42405bd793}{Test\-Kinematics} (ros\-::\-Node\-Handle \&nh)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{TestDescartes_8cpp_a5079ec3f4d81e5f18a231a4fa27d95f0}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!Trajectory\-Iter@{Trajectory\-Iter}}
+\index{Trajectory\-Iter@{Trajectory\-Iter}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{Trajectory\-Iter}]{\setlength{\rightskip}{0pt plus 5cm}typedef Trajectory\-Vec\-::const\-\_\-iterator {\bf Trajectory\-Iter}}}\label{TestDescartes_8cpp_a5079ec3f4d81e5f18a231a4fa27d95f0}
+\hypertarget{TestDescartes_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!Trajectory\-Vec@{Trajectory\-Vec}}
+\index{Trajectory\-Vec@{Trajectory\-Vec}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{Trajectory\-Vec}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\-::vector$<$descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr$>$ {\bf Trajectory\-Vec}}}\label{TestDescartes_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}
+
+
+\subsection{Function Documentation}
+\hypertarget{TestDescartes_8cpp_a3f5195045e10e0f502fdee54c327eb59}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!execute\-Trajectory@{execute\-Trajectory}}
+\index{execute\-Trajectory@{execute\-Trajectory}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{execute\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}bool execute\-Trajectory (
+\begin{DoxyParamCaption}
+\item[{const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&}]{trajectory}
+\end{DoxyParamCaption}
+)}}\label{TestDescartes_8cpp_a3f5195045e10e0f502fdee54c327eb59}
+Sends a R\-O\-S trajectory to the robot controller \hypertarget{TestDescartes_8cpp_ad7bad59ca92a976bc429776bd1b4c96a}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!make\-Cartesian\-Point@{make\-Cartesian\-Point}}
+\index{make\-Cartesian\-Point@{make\-Cartesian\-Point}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{make\-Cartesian\-Point}]{\setlength{\rightskip}{0pt plus 5cm}descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr make\-Cartesian\-Point (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Affine3d \&}]{pose}
+\end{DoxyParamCaption}
+)}}\label{TestDescartes_8cpp_ad7bad59ca92a976bc429776bd1b4c96a}
+Generates an completely defined (zero-\/tolerance) cartesian point from a pose \hypertarget{TestDescartes_8cpp_a03251e750d1f539d9390123332c52f32}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!make\-Toleranced\-Cartesian\-Point@{make\-Toleranced\-Cartesian\-Point}}
+\index{make\-Toleranced\-Cartesian\-Point@{make\-Toleranced\-Cartesian\-Point}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{make\-Toleranced\-Cartesian\-Point}]{\setlength{\rightskip}{0pt plus 5cm}descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr make\-Toleranced\-Cartesian\-Point (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Affine3d \&}]{pose}
+\end{DoxyParamCaption}
+)}}\label{TestDescartes_8cpp_a03251e750d1f539d9390123332c52f32}
+Generates a cartesian point with free rotation about the Z axis of the E\-F\-F frame \hypertarget{TestDescartes_8cpp_a72aa65ec30577768141ddf42405bd793}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!Test\-Kinematics@{Test\-Kinematics}}
+\index{Test\-Kinematics@{Test\-Kinematics}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{Test\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}void Test\-Kinematics (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{TestDescartes_8cpp_a72aa65ec30577768141ddf42405bd793}
+\hypertarget{TestDescartes_8cpp_ab9ba2423efe75546d8912e10147750db}{\index{Test\-Descartes.\-cpp@{Test\-Descartes.\-cpp}!to\-R\-O\-S\-Joint\-Trajectory@{to\-R\-O\-S\-Joint\-Trajectory}}
+\index{to\-R\-O\-S\-Joint\-Trajectory@{to\-R\-O\-S\-Joint\-Trajectory}!TestDescartes.cpp@{Test\-Descartes.\-cpp}}
+\subsubsection[{to\-R\-O\-S\-Joint\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}trajectory\-\_\-msgs\-::\-Joint\-Trajectory to\-R\-O\-S\-Joint\-Trajectory (
+\begin{DoxyParamCaption}
+\item[{const {\bf Trajectory\-Vec} \&}]{trajectory, }
+\item[{const descartes\-\_\-core\-::\-Robot\-Model \&}]{model, }
+\item[{const std\-::vector$<$ std\-::string $>$ \&}]{joint\-\_\-names, }
+\item[{double}]{time\-\_\-delay}
+\end{DoxyParamCaption}
+)}}\label{TestDescartes_8cpp_ab9ba2423efe75546d8912e10147750db}
+Translates a descartes trajectory to a R\-O\-S joint trajectory 

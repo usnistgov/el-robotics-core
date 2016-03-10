@@ -1,0 +1,199 @@
+.TH "MotionControl" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MotionControl \- 
+.PP
+\fBMotionControl\fP is a class that contains some useful motion control methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <MotionControl\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBexecuteTrajectory\fP (const trajectory_msgs::JointTrajectory &trajectory, const std::string &trajectory_ns)"
+.br
+.RI "\fIexecuteTrajectory will send a traject to ros to execute \fP"
+.ti -1c
+.RI "urdf::Pose \fBcomputeTranslation\fP (urdf::Pose &_curPos, urdf::Pose &_goalPos, double dIncrement)"
+.br
+.RI "\fIReturn linear interpolation (lerp) between current and goal translation\&. \fP"
+.ti -1c
+.RI "std::vector< urdf::Pose > \fBcomputeWaypoints\fP (urdf::Pose &_curPos, urdf::Pose &_goalPos, double dGap=0\&.001, bool bAddStart=false)"
+.br
+.RI "\fICompute waypoints between current and goal poses with assigned distance between poses\&. \fP"
+.ti -1c
+.RI "std::vector< \fBJointState\fP > \fBcomputeCoorindatedWaypoints\fP (std::vector< double > &_curJts, std::vector< double > &_goalJts, double dGap=0\&.001, bool bAddStart=false)"
+.br
+.RI "\fIcomputeCoorindatedWaypoints returns a vector of straightline waypoints between current and goal poses at a given distance\&. Joints arrive a destination at the same time within the trajectory\&. \fP"
+.ti -1c
+.RI "std::vector< \fBJointState\fP > \fBcomputeUncoorindatedWaypoints\fP (std::vector< double > &_curJts, std::vector< double > &_goalJts, double dGap=0\&.001, bool bAddStart=false)"
+.br
+.RI "\fIcomputeUncoorindatedWaypoints returns a vector of waypoints between current and goal poses at a given distance\&. Joints arrive a destination at various times in the trajectory\&. \fP"
+.ti -1c
+.RI "int \fBcomputeIncrements\fP (std::vector< double > &_curJts, std::vector< double > &_goalJts, double gap=0\&.001)"
+.br
+.ti -1c
+.RI "int \fBcomputeIncrements\fP (urdf::Pose &_curPos, urdf::Pose &_goalPos, double dGap=0\&.001)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static bool \fBAtGoal\fP (\fBJointState\fP goal, \fBJointState\fP current, double \fBepsilon\fP=0\&.001)"
+.br
+.RI "\fIAtGoal will determine if a pair joint state values are equal (within an epsilon tolerance)\&. \fP"
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static double \fBepsilon\fP = 0\&.001"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBMotionControl\fP is a class that contains some useful motion control methods\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "bool MotionControl::AtGoal (\fBJointState\fPgoal, \fBJointState\fPcurrent, doubleepsilon = \fC0\&.001\fP)\fC [static]\fP"
+
+.PP
+AtGoal will determine if a pair joint state values are equal (within an epsilon tolerance)\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgoal\fP description of goal joint state 
+.br
+\fIcurrent\fP description of current joint state 
+.br
+\fIepsilon\fP tolerance of equality 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+boolean whether robot is at the desired goal described in joint values\&. 
+.RE
+.PP
+
+.SS "std::vector< \fBJointState\fP > MotionControl::computeCoorindatedWaypoints (std::vector< double > &_curJts, std::vector< double > &_goalJts, doubledGap = \fC0\&.001\fP, boolbAddStart = \fCfalse\fP)"
+
+.PP
+computeCoorindatedWaypoints returns a vector of straightline waypoints between current and goal poses at a given distance\&. Joints arrive a destination at the same time within the trajectory\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI_curPos\fP description of current pose 
+.br
+\fI_goalPos\fP description of goal pose 
+.br
+\fIgap\fP distance between waypoints 
+.br
+\fIbAddStart\fP boolean to determine if starting pose is included in waypoints 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+vector of straighline waypoint poses with gap distance between poses\&. 
+.RE
+.PP
+
+.SS "int MotionControl::computeIncrements (std::vector< double > &_curJts, std::vector< double > &_goalJts, doublegap = \fC0\&.001\fP)"
+
+.SS "int MotionControl::computeIncrements (urdf::Pose &_curPos, urdf::Pose &_goalPos, doubledGap = \fC0\&.001\fP)"
+
+.SS "urdf::Pose MotionControl::computeTranslation (urdf::Pose &_curPos, urdf::Pose &_goalPos, doubledIncrement)"
+
+.PP
+Return linear interpolation (lerp) between current and goal translation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI_curPos\fP description of current pose 
+.br
+\fI_goalPos\fP description of goal pose 
+.br
+\fIdIncrement\fP translation amount from [0\&.\&.1] 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+pose containing lerped pose translation\&. 
+.RE
+.PP
+
+.SS "std::vector< \fBJointState\fP > MotionControl::computeUncoorindatedWaypoints (std::vector< double > &_curJts, std::vector< double > &_goalJts, doubledGap = \fC0\&.001\fP, boolbAddStart = \fCfalse\fP)"
+
+.PP
+computeUncoorindatedWaypoints returns a vector of waypoints between current and goal poses at a given distance\&. Joints arrive a destination at various times in the trajectory\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI_curPos\fP description of current pose 
+.br
+\fI_goalPos\fP description of goal pose 
+.br
+\fIgap\fP distance between waypoints 
+.br
+\fIbAddStart\fP boolean to determine if starting pose is included in waypoints 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+vector of straighline waypoint poses with gap distance between poses\&. 
+.RE
+.PP
+
+.SS "std::vector< urdf::Pose > MotionControl::computeWaypoints (urdf::Pose &_curPos, urdf::Pose &_goalPos, doubledGap = \fC0\&.001\fP, boolbAddStart = \fCfalse\fP)"
+
+.PP
+Compute waypoints between current and goal poses with assigned distance between poses\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI_curPos\fP description of current pose 
+.br
+\fI_goalPos\fP description of goal pose 
+.br
+\fIgap\fP distance between waypoints 
+.br
+\fIbAddStart\fP boolean to determine if starting pose is included in waypoints 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+vector of waypoint poses with gap distance between poses\&. 
+.RE
+.PP
+
+.SS "bool MotionControl::executeTrajectory (const trajectory_msgs::JointTrajectory &trajectory, const std::string &trajectory_ns)"
+
+.PP
+executeTrajectory will send a traject to ros to execute 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItrajectory\fP 
+.br
+\fItrajectory_ns\fP namespace of trajectory 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+boolean whether success or failure 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double MotionControl::epsilon = 0\&.001\fC [static]\fP"
+allowable difference length in equality between two numbers 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

@@ -1,0 +1,138 @@
+.TH "RCS::CMessageQueue< T >" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::CMessageQueue< T > \- 
+.PP
+The \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RCSMsgQueue\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef std::deque< T > \fBxml_message_queue\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCMessageQueue\fP ()"
+.br
+.ti -1c
+.RI "void \fBClearMsgQueue\fP ()"
+.br
+.RI "\fIClearMsgQueue clears all contents in message queue\&. T\&. \fP"
+.ti -1c
+.RI "size_t \fBSizeMsgQueue\fP ()"
+.br
+.RI "\fISizeMsgQueue returns number of items in message queue\&. \fP"
+.ti -1c
+.RI "T \fBPopFrontMsgQueue\fP ()"
+.br
+.RI "\fIPopFrontMsgQueue mutex pop of front item of message queue\&. \fP"
+.ti -1c
+.RI "T \fBBackMsgQueue\fP ()"
+.br
+.RI "\fIBackMsgQueue mutex pop of back item of message queue\&. \fP"
+.ti -1c
+.RI "void \fBAddMsgQueue\fP (T t)"
+.br
+.RI "\fIAddMsgQueue mutex push to back an item onto message queue\&. \fP"
+.ti -1c
+.RI "void \fBInsertFrontMsgQueue\fP (T t)"
+.br
+.RI "\fIInsertFrontMsgQueue mutex push to front an item onto message queue\&. \fP"
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "boost::mutex \fBm\fP"
+.br
+.ti -1c
+.RI "\fBxml_message_queue\fP \fBxml_msgs\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>class RCS::CMessageQueue< T >"
+The \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&. 
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename T> typedef std::deque<T> \fBRCS::CMessageQueue\fP< T >::\fBxml_message_queue\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T> \fBRCS::CMessageQueue\fP< T >::\fBCMessageQueue\fP ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T> void \fBRCS::CMessageQueue\fP< T >::AddMsgQueue (Tt)\fC [inline]\fP"
+
+.PP
+AddMsgQueue mutex push to back an item onto message queue\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIT\fP item to place in back of message queue\&. 
+.RE
+.PP
+
+.SS "template<typename T> T \fBRCS::CMessageQueue\fP< T >::BackMsgQueue ()\fC [inline]\fP"
+
+.PP
+BackMsgQueue mutex pop of back item of message queue\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+T returns back item from message queue\&. 
+.RE
+.PP
+
+.SS "template<typename T> void \fBRCS::CMessageQueue\fP< T >::ClearMsgQueue ()\fC [inline]\fP"
+
+.PP
+ClearMsgQueue clears all contents in message queue\&. T\&. 
+.SS "template<typename T> void \fBRCS::CMessageQueue\fP< T >::InsertFrontMsgQueue (Tt)\fC [inline]\fP"
+
+.PP
+InsertFrontMsgQueue mutex push to front an item onto message queue\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIT\fP item to place in front of message queue\&. 
+.RE
+.PP
+
+.SS "template<typename T> T \fBRCS::CMessageQueue\fP< T >::PopFrontMsgQueue ()\fC [inline]\fP"
+
+.PP
+PopFrontMsgQueue mutex pop of front item of message queue\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+T returns front item from message queue\&. 
+.RE
+.PP
+
+.SS "template<typename T> size_t \fBRCS::CMessageQueue\fP< T >::SizeMsgQueue ()\fC [inline]\fP"
+
+.PP
+SizeMsgQueue returns number of items in message queue\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename T> boost::mutex \fBRCS::CMessageQueue\fP< T >::m\fC [protected]\fP"
+
+.SS "template<typename T> \fBxml_message_queue\fP \fBRCS::CMessageQueue\fP< T >::xml_msgs\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

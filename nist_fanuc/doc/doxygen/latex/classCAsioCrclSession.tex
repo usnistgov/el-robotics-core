@@ -1,0 +1,416 @@
+\hypertarget{classCAsioCrclSession}{\section{C\-Asio\-Crcl\-Session Class Reference}
+\label{classCAsioCrclSession}\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}}
+}
+
+
+The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} provides an boost asio session ( which listens for each connected client). The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} listens for X\-M\-L messages and constructs. The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection. The operation is started by creating a session which starts an aynchronous thread, that is supplied I\-O communication events by the asio io service provider. After connection to the socket client, an \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read()} that is paired with a timer is used to wait for communicatin from a socket. There is no trailing marker on C\-R\-C\-L X\-M\-L so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue. During the socket communication, a timeout can occur, which at this point only causes a new to be\-Start\-Aync\-Read() initiated. Because C\-R\-C\-L Xml does not have a trailing marker (e.\-g., zero or line feed), the \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} must determine the trailing X\-M\-L tag to search for, by inspecting the communication for a X\-M\-L leading tag. It works, but is dubious. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly. \par
+ Useful web sites\-:  
+
+
+
+
+{\ttfamily \#include $<$Asio\-Crcl\-Server.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCAsioCrclSession_a298356c3c45e1bdfbe7f51d801cb2662}{C\-Asio\-Crcl\-Session} (boost\-::asio\-::io\-\_\-service \&io\-\_\-service)
+\begin{DoxyCompactList}\small\item\em Constructor for each listener on the socket. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_ace6dde2b11bf63c7c3cfc2805aaa60a5}{Append\-Buffer} (std\-::string read)
+\begin{DoxyCompactList}\small\item\em Appends a socket buffer. Add previous buffer is exists. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_a0291ecdea0d4504d91eb2215088b4e45}{Buffer\-Handler} (std\-::string \&endtag)
+\begin{DoxyCompactList}\small\item\em Looks for matching end xml tag. If found, saves message into queue, and restarts read process. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_a1c45f365d8736d9b34087e76fd1f64a0}{Disconnect} ()
+\begin{DoxyCompactList}\small\item\em Disconnect timer, socket, and running flags. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classCAsioCrclSession_a3c5816856da2e49f5e8e26f16e3b3718}{Find\-Leading\-Element} (std\-::string xml)
+\begin{DoxyCompactList}\small\item\em Finds the leading X\-M\-L tag to create matching end tag. If none, return nonsense tag. Uses boost regex.  xml is the text to search for starting tag. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{classCAsioCrclSession_a51852690d601358c0937763f3935b82c}{Handle\-Read} (const \hyperlink{AsioCrclServer_8h_ae1179d2a354a7cf13df4d8544a33fd4f}{error\-\_\-code} \&error, size\-\_\-t bytes\-\_\-read)
+\begin{DoxyCompactList}\small\item\em Handles notification from asio via socket or timeout error or other error. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classCAsioCrclSession_a82d6057c71a6a0c6c8bc4e01dbf6b005}{Session} ()
+\begin{DoxyCompactList}\small\item\em For each connection a new Session is started. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_a5b1256e812de4571c1515f22dcadc393}{Save\-Message} (std\-::string xmlmessage)
+\begin{DoxyCompactList}\small\item\em Queues message onto message queue. \end{DoxyCompactList}\item 
+tcp\-::socket \& \hyperlink{classCAsioCrclSession_a9928b65de937da275b9ce9c5d7c2a87c}{Socket} ()
+\begin{DoxyCompactList}\small\item\em Return the T\-C\-P/\-I\-P socket from this session. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read} ()
+\begin{DoxyCompactList}\small\item\em Starts async read operation. Deadline timer going at same time. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_a4bc26f68ac76ecf130e1d2ef2354313d}{Sync\-Write} (std\-::string str)
+\begin{DoxyCompactList}\small\item\em Handles synchronous socket write of string. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_a1addeca47fee4f922b9a5420fe6adae3}{Tag\-Reset} ()
+\begin{DoxyCompactList}\small\item\em resets the X\-M\-L ending tag to be non-\/matchable nonsense. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclSession_ae2c3046d0261ab2622a3c074f1754e58}{Timer\-Reset} ()
+\begin{DoxyCompactList}\small\item\em Restarts asio timeout timer for async read. Set at 2 seconds. Invokes callback if timer expires. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\-::string \hyperlink{classCAsioCrclSession_adb72599a90e3bbca7502dc31062a2519}{Nonsense\-Tag} ()
+\begin{DoxyCompactList}\small\item\em Nonsense\-Tag to be used as dummy ending xml to test against. \end{DoxyCompactList}\item 
+static void \hyperlink{classCAsioCrclSession_a4a7b688b3c5a3bc348ccad3bc5c85354}{Join} (\hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} $\ast$device)
+\begin{DoxyCompactList}\small\item\em Keeps track of devices that created an asio session. \end{DoxyCompactList}\item 
+static void \hyperlink{classCAsioCrclSession_a5dca80201984fda94f4f3ef07ac5d2d5}{Leave} (\hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} $\ast$device)
+\begin{DoxyCompactList}\small\item\em Keeps track of devices that left and are no longer an asio session. \end{DoxyCompactList}\item 
+static \hyperlink{AsioCrclServer_8h_a1437e07e96384f32c0bd411135742579}{C\-Asio\-Messages} \& \hyperlink{classCAsioCrclSession_a91a044873d66e330a16e822aea21d84e}{In\-Messages} ()
+\begin{DoxyCompactList}\small\item\em Keeps track of devices that left and are no longer an asio session. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3a5e7b7a77c3bed2e03563151933b78440}{max\-\_\-length} = 4096
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::condition\-\_\-variable \hyperlink{classCAsioCrclSession_ac3008f28bb46669c7c4693dc49c9c183}{c\-Message}
+\item 
+boost\-::mutex \hyperlink{classCAsioCrclSession_a6c8fdf25cfe9645eb0e3d0b9e56c6e07}{cond\-Mutex}
+\item 
+tcp\-::socket \hyperlink{classCAsioCrclSession_ab92574f487782a95cb9eb745fd1de536}{\-\_\-socket}
+\item 
+boost\-::asio\-::deadline\-\_\-timer \hyperlink{classCAsioCrclSession_a98a3308f0d6e8dd4c24d85fcc11ce87d}{\-\_\-timer}
+\item 
+std\-::string \hyperlink{classCAsioCrclSession_a83efc0f203f9775669ad7853fdea60ec}{\-\_\-current}
+\item 
+std\-::string \hyperlink{classCAsioCrclSession_a332547f983c0b36b09933d9255dac802}{\-\_\-next}
+\item 
+std\-::string \hyperlink{classCAsioCrclSession_afff0bce2718c39db205c779ade8120bd}{\-\_\-endtag}
+\item 
+char \hyperlink{classCAsioCrclSession_a1326999cd8dde70d8d69a4243ccba767}{data\-\_\-} \mbox{[}\hyperlink{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3a5e7b7a77c3bed2e03563151933b78440}{max\-\_\-length}\mbox{]}
+\item 
+unsigned int($\ast$ \hyperlink{classCAsioCrclSession_a1bd7e2c7fd02f1445f000248d908d069}{Error\-Message} )(std\-::string)
+\item 
+bool \hyperlink{classCAsioCrclSession_ac97a9f193eb4f46f1d144b6fabbe57d5}{\-\_\-b\-Running}
+\item 
+friend \hyperlink{classCAsioCrclSession_a9e3323a53591358adfce25ddf9ae580f}{C\-Asio\-Crcl\-Server}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std\-::set\\*
+$<$ \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} $\ast$ $>$ \hyperlink{classCAsioCrclSession_a4aa68b6c8b8196d9ed9b3f35666a3d68}{\-\_\-devices}
+\item 
+static \hyperlink{AsioCrclServer_8h_a1437e07e96384f32c0bd411135742579}{C\-Asio\-Messages} \hyperlink{classCAsioCrclSession_a35d708bc55a91795905e27ee3c69c3ec}{\-\_\-inmsgs}
+\item 
+static \hyperlink{AsioCrclServer_8h_a1437e07e96384f32c0bd411135742579}{C\-Asio\-Messages} \hyperlink{classCAsioCrclSession_a450b2bbbfaf1376f80e68fe3d43507fc}{\-\_\-outmsgs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} provides an boost asio session ( which listens for each connected client). The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} listens for X\-M\-L messages and constructs. The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection. The operation is started by creating a session which starts an aynchronous thread, that is supplied I\-O communication events by the asio io service provider. After connection to the socket client, an \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read()} that is paired with a timer is used to wait for communicatin from a socket. There is no trailing marker on C\-R\-C\-L X\-M\-L so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue. During the socket communication, a timeout can occur, which at this point only causes a new to be\-Start\-Aync\-Read() initiated. Because C\-R\-C\-L Xml does not have a trailing marker (e.\-g., zero or line feed), the \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} must determine the trailing X\-M\-L tag to search for, by inspecting the communication for a X\-M\-L leading tag. It works, but is dubious. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly. \par
+ Useful web sites\-: 
+
+\par
+asio read socket \par
+\href{http://stackoverflow.com/questions/4933610/boostasio-async-read-guarantee-all-bytes-are-read}{\tt http\-://stackoverflow.\-com/questions/4933610/boostasio-\/async-\/read-\/guarantee-\/all-\/bytes-\/are-\/read} \par
+\href{http://www.tagwith.com/question_285175_when-do-i-call-boostasiostreambufconsume-and-boostasiostreambufcom}{\tt http\-://www.\-tagwith.\-com/question\-\_\-285175\-\_\-when-\/do-\/i-\/call-\/boostasiostreambufconsume-\/and-\/boostasiostreambufcom} \par
+\href{http://www.dahuatu.com/jdyjaPxKWQ.html}{\tt http\-://www.\-dahuatu.\-com/jdyja\-Px\-K\-W\-Q.\-html} \par
+\href{https://issues.apache.org/jira/browse/THRIFT-311}{\tt https\-://issues.\-apache.\-org/jira/browse/\-T\-H\-R\-I\-F\-T-\/311} \par
+\href{http://pastebin.com/Li3wbpvu}{\tt http\-://pastebin.\-com/\-Li3wbpvu} \par
+\href{http://geekswithblogs.net/JoshReuben/archive/2014/11/17/c-boost-in-a-nutshell.aspx}{\tt http\-://geekswithblogs.\-net/\-Josh\-Reuben/archive/2014/11/17/c-\/boost-\/in-\/a-\/nutshell.\-aspx} \par
+\href{http://pastebin.com/YXk9stVA}{\tt http\-://pastebin.\-com/\-Y\-Xk9st\-V\-A} \par
+\href{http://thisthread.blogspot.com/2013/09/simple-asio-tcp-clientserver-example.html}{\tt http\-://thisthread.\-blogspot.\-com/2013/09/simple-\/asio-\/tcp-\/clientserver-\/example.\-html} \par
+\href{http://dolinked.com/questions/4792923/uninitialized-read-error-on-asio-tcp-socket}{\tt http\-://dolinked.\-com/questions/4792923/uninitialized-\/read-\/error-\/on-\/asio-\/tcp-\/socket} \par
+\href{http://onnerby.se/~daniel/mC2/trunk/docs/core/html/_socket_8h-source.html}{\tt http\-://onnerby.\-se/$\sim$daniel/m\-C2/trunk/docs/core/html/\-\_\-socket\-\_\-8h-\/source.\-html} \par
+\href{http://en.pudn.com/downloads245/sourcecode/internet/proxy/detail1143109_en.html}{\tt http\-://en.\-pudn.\-com/downloads245/sourcecode/internet/proxy/detail1143109\-\_\-en.\-html} \par
+\href{http://www.gamedev.net/topic/566670-c-implementing-ssl/}{\tt http\-://www.\-gamedev.\-net/topic/566670-\/c-\/implementing-\/ssl/} \par
+\href{http://cpp.knowcoding.com/view/20682-tcp-socket.html}{\tt http\-://cpp.\-knowcoding.\-com/view/20682-\/tcp-\/socket.\-html} \par
+Buffering\-: \par
+\href{http://stackoverflow.com/questions/4294651/sending-an-xml-message-in-parts-through-a-tcp-socket-using-qt}{\tt http\-://stackoverflow.\-com/questions/4294651/sending-\/an-\/xml-\/message-\/in-\/parts-\/through-\/a-\/tcp-\/socket-\/using-\/qt} \par
+\href{http://www.codesynthesis.com/pipermail/xsde-users/2014-January/000631.html}{\tt http\-://www.\-codesynthesis.\-com/pipermail/xsde-\/users/2014-\/\-January/000631.\-html} \par
+Raw\-: \par
+\href{http://www.bogotobogo.com/cplusplus/sockets_server_client.php}{\tt http\-://www.\-bogotobogo.\-com/cplusplus/sockets\-\_\-server\-\_\-client.\-php} 
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{max\-\_\-length@{max\-\_\-length}!C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}}\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!max\-\_\-length@{max\-\_\-length}}\item[{\em 
+\hypertarget{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3a5e7b7a77c3bed2e03563151933b78440}{max\-\_\-length}\label{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3a5e7b7a77c3bed2e03563151933b78440}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCAsioCrclSession_a298356c3c45e1bdfbe7f51d801cb2662}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}}
+\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{C\-Asio\-Crcl\-Session}]{\setlength{\rightskip}{0pt plus 5cm}C\-Asio\-Crcl\-Session\-::\-C\-Asio\-Crcl\-Session (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::io\-\_\-service \&}]{io\-\_\-service}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a298356c3c45e1bdfbe7f51d801cb2662}
+
+
+Constructor for each listener on the socket. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em io\-\_\-service} & reference tot he asio service providers. only one per program. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCAsioCrclSession_ace6dde2b11bf63c7c3cfc2805aaa60a5}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Append\-Buffer@{Append\-Buffer}}
+\index{Append\-Buffer@{Append\-Buffer}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Append\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Append\-Buffer (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{read}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_ace6dde2b11bf63c7c3cfc2805aaa60a5}
+
+
+Appends a socket buffer. Add previous buffer is exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em read} & buffer of characters \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclSession_a0291ecdea0d4504d91eb2215088b4e45}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Buffer\-Handler@{Buffer\-Handler}}
+\index{Buffer\-Handler@{Buffer\-Handler}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Buffer\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Buffer\-Handler (
+\begin{DoxyParamCaption}
+\item[{std\-::string \&}]{endtag}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a0291ecdea0d4504d91eb2215088b4e45}
+
+
+Looks for matching end xml tag. If found, saves message into queue, and restarts read process. 
+
+$\ast$
+\begin{DoxyParams}{Parameters}
+{\em endtag} & is the ending tag, e.\-g., $<$/\-E\-N\-D\-T\-A\-G to match against. Includes backslash. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclSession_a1c45f365d8736d9b34087e76fd1f64a0}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Disconnect@{Disconnect}}
+\index{Disconnect@{Disconnect}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a1c45f365d8736d9b34087e76fd1f64a0}
+
+
+Disconnect timer, socket, and running flags. 
+
+
+\begin{DoxyItemize}
+\item 
+\end{DoxyItemize}\hypertarget{classCAsioCrclSession_a3c5816856da2e49f5e8e26f16e3b3718}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Find\-Leading\-Element@{Find\-Leading\-Element}}
+\index{Find\-Leading\-Element@{Find\-Leading\-Element}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Find\-Leading\-Element}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Asio\-Crcl\-Session\-::\-Find\-Leading\-Element (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{xml}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a3c5816856da2e49f5e8e26f16e3b3718}
+
+
+Finds the leading X\-M\-L tag to create matching end tag. If none, return nonsense tag. Uses boost regex.  xml is the text to search for starting tag. 
+
+\begin{DoxyReturn}{Returns}
+end tag or nonsense tag if none. e.\-g., $<$/\-T\-A\-G$>$ 
+\end{DoxyReturn}
+\hypertarget{classCAsioCrclSession_a51852690d601358c0937763f3935b82c}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Handle\-Read@{Handle\-Read}}
+\index{Handle\-Read@{Handle\-Read}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Handle\-Read}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t C\-Asio\-Crcl\-Session\-::\-Handle\-Read (
+\begin{DoxyParamCaption}
+\item[{const {\bf error\-\_\-code} \&}]{error, }
+\item[{size\-\_\-t}]{bytes\-\_\-read}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a51852690d601358c0937763f3935b82c}
+
+
+Handles notification from asio via socket or timeout error or other error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em error} & is potential communiationerror. \\
+\hline
+{\em result} & is the buffer size of the socket read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of buffer read. 
+\end{DoxyReturn}
+\hypertarget{classCAsioCrclSession_a91a044873d66e330a16e822aea21d84e}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!In\-Messages@{In\-Messages}}
+\index{In\-Messages@{In\-Messages}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{In\-Messages}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf C\-Asio\-Messages}\& C\-Asio\-Crcl\-Session\-::\-In\-Messages (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classCAsioCrclSession_a91a044873d66e330a16e822aea21d84e}
+
+
+Keeps track of devices that left and are no longer an asio session. 
+
+\hypertarget{classCAsioCrclSession_a4a7b688b3c5a3bc348ccad3bc5c85354}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Join@{Join}}
+\index{Join@{Join}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Join}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-Asio\-Crcl\-Session\-::\-Join (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-Asio\-Crcl\-Session} $\ast$}]{device}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classCAsioCrclSession_a4a7b688b3c5a3bc348ccad3bc5c85354}
+
+
+Keeps track of devices that created an asio session. 
+
+\hypertarget{classCAsioCrclSession_a5dca80201984fda94f4f3ef07ac5d2d5}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Leave@{Leave}}
+\index{Leave@{Leave}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Leave}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-Asio\-Crcl\-Session\-::\-Leave (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-Asio\-Crcl\-Session} $\ast$}]{device}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classCAsioCrclSession_a5dca80201984fda94f4f3ef07ac5d2d5}
+
+
+Keeps track of devices that left and are no longer an asio session. 
+
+\hypertarget{classCAsioCrclSession_adb72599a90e3bbca7502dc31062a2519}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Nonsense\-Tag@{Nonsense\-Tag}}
+\index{Nonsense\-Tag@{Nonsense\-Tag}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Nonsense\-Tag}]{\setlength{\rightskip}{0pt plus 5cm}static std\-::string C\-Asio\-Crcl\-Session\-::\-Nonsense\-Tag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classCAsioCrclSession_adb72599a90e3bbca7502dc31062a2519}
+
+
+Nonsense\-Tag to be used as dummy ending xml to test against. 
+
+\hypertarget{classCAsioCrclSession_a5b1256e812de4571c1515f22dcadc393}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Save\-Message@{Save\-Message}}
+\index{Save\-Message@{Save\-Message}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Save\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Save\-Message (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{xmlmessage}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a5b1256e812de4571c1515f22dcadc393}
+
+
+Queues message onto message queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em xmlmessage} & to queue onto this session message queue. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclSession_a82d6057c71a6a0c6c8bc4e01dbf6b005}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Session@{Session}}
+\index{Session@{Session}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Session}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Session (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCAsioCrclSession_a82d6057c71a6a0c6c8bc4e01dbf6b005}
+
+
+For each connection a new Session is started. 
+
+\hypertarget{classCAsioCrclSession_a9928b65de937da275b9ce9c5d7c2a87c}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Socket@{Socket}}
+\index{Socket@{Socket}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Socket}]{\setlength{\rightskip}{0pt plus 5cm}tcp\-::socket\& C\-Asio\-Crcl\-Session\-::\-Socket (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCAsioCrclSession_a9928b65de937da275b9ce9c5d7c2a87c}
+
+
+Return the T\-C\-P/\-I\-P socket from this session. 
+
+\hypertarget{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Start\-Aync\-Read@{Start\-Aync\-Read}}
+\index{Start\-Aync\-Read@{Start\-Aync\-Read}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Start\-Aync\-Read}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Start\-Aync\-Read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}
+
+
+Starts async read operation. Deadline timer going at same time. 
+
+\hypertarget{classCAsioCrclSession_a4bc26f68ac76ecf130e1d2ef2354313d}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Sync\-Write@{Sync\-Write}}
+\index{Sync\-Write@{Sync\-Write}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Sync\-Write}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Sync\-Write (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{str}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_a4bc26f68ac76ecf130e1d2ef2354313d}
+
+
+Handles synchronous socket write of string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & is the string to write out on the socket. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclSession_a1addeca47fee4f922b9a5420fe6adae3}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Tag\-Reset@{Tag\-Reset}}
+\index{Tag\-Reset@{Tag\-Reset}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Tag\-Reset}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Tag\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCAsioCrclSession_a1addeca47fee4f922b9a5420fe6adae3}
+
+
+resets the X\-M\-L ending tag to be non-\/matchable nonsense. 
+
+\hypertarget{classCAsioCrclSession_ae2c3046d0261ab2622a3c074f1754e58}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Timer\-Reset@{Timer\-Reset}}
+\index{Timer\-Reset@{Timer\-Reset}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Timer\-Reset}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Session\-::\-Timer\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclSession_ae2c3046d0261ab2622a3c074f1754e58}
+
+
+Restarts asio timeout timer for async read. Set at 2 seconds. Invokes callback if timer expires. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCAsioCrclSession_ac97a9f193eb4f46f1d144b6fabbe57d5}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-b\-Running@{\-\_\-b\-Running}}
+\index{\-\_\-b\-Running@{\-\_\-b\-Running}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-b\-Running}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Asio\-Crcl\-Session\-::\-\_\-b\-Running\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_ac97a9f193eb4f46f1d144b6fabbe57d5}
+boolean running loop flag \hypertarget{classCAsioCrclSession_a83efc0f203f9775669ad7853fdea60ec}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-current@{\-\_\-current}}
+\index{\-\_\-current@{\-\_\-current}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-current}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Asio\-Crcl\-Session\-::\-\_\-current\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a83efc0f203f9775669ad7853fdea60ec}
+current string read from socket \hypertarget{classCAsioCrclSession_a4aa68b6c8b8196d9ed9b3f35666a3d68}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-devices@{\-\_\-devices}}
+\index{\-\_\-devices@{\-\_\-devices}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-devices}]{\setlength{\rightskip}{0pt plus 5cm}std\-::set$<$ {\bf C\-Asio\-Crcl\-Session} $\ast$ $>$ C\-Asio\-Crcl\-Session\-::\-\_\-devices\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classCAsioCrclSession_a4aa68b6c8b8196d9ed9b3f35666a3d68}
+list of devices being listened to \hypertarget{classCAsioCrclSession_afff0bce2718c39db205c779ade8120bd}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-endtag@{\-\_\-endtag}}
+\index{\-\_\-endtag@{\-\_\-endtag}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-endtag}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Asio\-Crcl\-Session\-::\-\_\-endtag\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_afff0bce2718c39db205c779ade8120bd}
+endtag to designate the end of \hyperlink{namespaceCrcl}{Crcl} X\-M\-L message, found from beginning \hypertarget{classCAsioCrclSession_a35d708bc55a91795905e27ee3c69c3ec}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-inmsgs@{\-\_\-inmsgs}}
+\index{\-\_\-inmsgs@{\-\_\-inmsgs}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-inmsgs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\-Asio\-Messages} C\-Asio\-Crcl\-Session\-::\-\_\-inmsgs\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classCAsioCrclSession_a35d708bc55a91795905e27ee3c69c3ec}
+queue of inbound crcl xml messages from device \hypertarget{classCAsioCrclSession_a332547f983c0b36b09933d9255dac802}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-next@{\-\_\-next}}
+\index{\-\_\-next@{\-\_\-next}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-next}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Asio\-Crcl\-Session\-::\-\_\-next\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a332547f983c0b36b09933d9255dac802}
+leftover string after pulling out \hyperlink{namespaceCrcl}{Crcl} X\-M\-L message \hypertarget{classCAsioCrclSession_a450b2bbbfaf1376f80e68fe3d43507fc}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-outmsgs@{\-\_\-outmsgs}}
+\index{\-\_\-outmsgs@{\-\_\-outmsgs}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-outmsgs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\-Asio\-Messages} C\-Asio\-Crcl\-Session\-::\-\_\-outmsgs\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classCAsioCrclSession_a450b2bbbfaf1376f80e68fe3d43507fc}
+queue of outbound crcl xml messages to device \hypertarget{classCAsioCrclSession_ab92574f487782a95cb9eb745fd1de536}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-socket@{\-\_\-socket}}
+\index{\-\_\-socket@{\-\_\-socket}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-socket}]{\setlength{\rightskip}{0pt plus 5cm}tcp\-::socket C\-Asio\-Crcl\-Session\-::\-\_\-socket\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_ab92574f487782a95cb9eb745fd1de536}
+tcp/ip asio socket \hypertarget{classCAsioCrclSession_a98a3308f0d6e8dd4c24d85fcc11ce87d}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!\-\_\-timer@{\-\_\-timer}}
+\index{\-\_\-timer@{\-\_\-timer}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{\-\_\-timer}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::deadline\-\_\-timer C\-Asio\-Crcl\-Session\-::\-\_\-timer\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a98a3308f0d6e8dd4c24d85fcc11ce87d}
+socket reader timer \hypertarget{classCAsioCrclSession_a9e3323a53591358adfce25ddf9ae580f}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}}
+\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{C\-Asio\-Crcl\-Server}]{\setlength{\rightskip}{0pt plus 5cm}friend C\-Asio\-Crcl\-Session\-::\-C\-Asio\-Crcl\-Server\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a9e3323a53591358adfce25ddf9ae580f}
+\hypertarget{classCAsioCrclSession_ac3008f28bb46669c7c4693dc49c9c183}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!c\-Message@{c\-Message}}
+\index{c\-Message@{c\-Message}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{c\-Message}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::condition\-\_\-variable C\-Asio\-Crcl\-Session\-::c\-Message\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_ac3008f28bb46669c7c4693dc49c9c183}
+\hypertarget{classCAsioCrclSession_a6c8fdf25cfe9645eb0e3d0b9e56c6e07}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!cond\-Mutex@{cond\-Mutex}}
+\index{cond\-Mutex@{cond\-Mutex}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{cond\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex C\-Asio\-Crcl\-Session\-::cond\-Mutex\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a6c8fdf25cfe9645eb0e3d0b9e56c6e07}
+mutex to \hypertarget{classCAsioCrclSession_a1326999cd8dde70d8d69a4243ccba767}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!data\-\_\-@{data\-\_\-}}
+\index{data\-\_\-@{data\-\_\-}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{data\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}char C\-Asio\-Crcl\-Session\-::data\-\_\-\mbox{[}{\bf max\-\_\-length}\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a1326999cd8dde70d8d69a4243ccba767}
+asio tcp/ip character read buffer \hypertarget{classCAsioCrclSession_a1bd7e2c7fd02f1445f000248d908d069}{\index{C\-Asio\-Crcl\-Session@{C\-Asio\-Crcl\-Session}!Error\-Message@{Error\-Message}}
+\index{Error\-Message@{Error\-Message}!CAsioCrclSession@{C\-Asio\-Crcl\-Session}}
+\subsubsection[{Error\-Message}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int( $\ast$ C\-Asio\-Crcl\-Session\-::\-Error\-Message)(std\-::string)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a1bd7e2c7fd02f1445f000248d908d069}
+function pointer to error message emitter 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{AsioCrclServer_8h}{Asio\-Crcl\-Server.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{AsioCrclServer_8cpp}{Asio\-Crcl\-Server.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,111 @@
+.TH "RCS::RobotProgram" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::RobotProgram \- 
+.PP
+The \fBRobotProgram\fP is a thread to handle crcl programs\&. \fBCrcl\fP programs are not in fact legitimate, however, debugging and verification are assisted by programs\&. However, program as in the \fBCrcl\fP XSD specification, so it doesn't hurt to handle\&. They require special handling as only one command should be done at a time\&. Uses codesynthesis to parse \fBCrcl\fP xml into C++ data structures\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Controller\&.h>\fP
+.PP
+Inherits \fBRCS::Thread\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRobotProgram\fP (double cycletime=\fBDEFAULT_LOOP_CYCLE\fP)"
+.br
+.RI "\fI\fBRobotProgram\fP constructor that requires a cycle time for \fBRCS\fP thread timing\&. \fP"
+.ti -1c
+.RI "virtual void \fBExecuteProgram\fP (std::string programpath)"
+.br
+.RI "\fIExecuteProgram reads a file path for CRCL XML program\&. It will set up interpreting the program\&. It is thread safe\&. \fP"
+.ti -1c
+.RI "virtual void \fBAction\fP ()"
+.br
+.RI "\fIAction is the main loop in the \fBRobotProgram\fP \fBRCS\fP thread\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fB_programname\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::CrclDelegateInterface\fP \fB_delegate\fP"
+.br
+.ti -1c
+.RI "std::istringstream \fBistr\fP"
+.br
+.ti -1c
+.RI "int \fBcmdnum\fP"
+.br
+.ti -1c
+.RI "::CRCLProgramType::MiddleCommand_sequence & \fBcmds\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static boost::mutex \fB_progmutex\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+The \fBRobotProgram\fP is a thread to handle crcl programs\&. \fBCrcl\fP programs are not in fact legitimate, however, debugging and verification are assisted by programs\&. However, program as in the \fBCrcl\fP XSD specification, so it doesn't hurt to handle\&. They require special handling as only one command should be done at a time\&. Uses codesynthesis to parse \fBCrcl\fP xml into C++ data structures\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::RobotProgram::RobotProgram (doublecycletime = \fC\fBDEFAULT_LOOP_CYCLE\fP\fP)"
+
+.PP
+\fBRobotProgram\fP constructor that requires a cycle time for \fBRCS\fP thread timing\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcycletime\fP in seconds\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void RCS::RobotProgram::Action ()\fC [virtual]\fP"
+
+.PP
+Action is the main loop in the \fBRobotProgram\fP \fBRCS\fP thread\&. Executes one program command at a time\&.  needs to wait until current command is done before moving on to next command\&. 
+.PP
+Reimplemented from \fBRCS::Thread\fP\&.
+.SS "void RCS::RobotProgram::ExecuteProgram (std::stringprogrampath)\fC [virtual]\fP"
+
+.PP
+ExecuteProgram reads a file path for CRCL XML program\&. It will set up interpreting the program\&. It is thread safe\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIprogrampath\fP path of file containing crcl xml program\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCrcl::CrclDelegateInterface\fP RCS::RobotProgram::_delegate"
+crcl delegate used to interpret \fBCrcl\fP XML command 
+.SS "boost::mutex RCS::RobotProgram::_progmutex\fC [static]\fP"
+mutex for thread safe access to \fBRobotProgram\fP commands 
+.SS "std::string RCS::RobotProgram::_programname"
+saved \fBRobotProgram\fP program file path 
+.SS "int RCS::RobotProgram::cmdnum"
+number of \fBCrcl\fP XML command to execute 
+.SS "::CRCLProgramType::MiddleCommand_sequence& RCS::RobotProgram::cmds"
+reference to crcl program XML commands (from codesynthesis parsing) 
+.SS "std::istringstream RCS::RobotProgram::istr"
+input stream interface for codesynthesis parsing 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

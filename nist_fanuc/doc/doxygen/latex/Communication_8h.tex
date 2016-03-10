@@ -1,0 +1,19 @@
+\hypertarget{Communication_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Communication.h File Reference}
+\label{Communication_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Communication.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Communication.\-h}}
+}
+{\ttfamily \#include $<$boost/thread/mutex.\-hpp$>$}\\*
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$sensor\-\_\-msgs/\-Joint\-State.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/move\-\_\-group\-\_\-interface/move\-\_\-group.\-h$>$}\\*
+{\ttfamily \#include $<$actionlib/client/simple\-\_\-action\-\_\-client.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-Float64.\-h$>$}\\*
+{\ttfamily \#include $<$control\-\_\-msgs/\-Follow\-Joint\-Trajectory\-Action.\-h$>$}\\*
+{\ttfamily \#include $<$control\-\_\-msgs/\-Joint\-Trajectory\-Controller\-State.\-h$>$}\\*
+{\ttfamily \#include $<$control\-\_\-msgs/\-Query\-Trajectory\-State.\-h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classCJointReader}{C\-Joint\-Reader}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classCJointReader}{C\-Joint\-Reader} is a thread to accept joint update callbacks from R\-O\-S. Uses a ros node handle to tell roscore we are subscribing to joint\-\_\-state topic. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved. \end{DoxyCompactList}\item 
+class \hyperlink{classCJointWriter}{C\-Joint\-Writer}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classCJointWriter}{C\-Joint\-Writer} is a thread to publish new joint values to R\-O\-S. Uses a ros node handle to tell roscore we are pusblishing to the joint\-\_\-path\-\_\-command topic. Then, when joint updates occur, these are published on joint\-\_\-path\-\_\-command the topic. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,235 @@
+.TH "RCS::Thread" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::Thread \- 
+.PP
+\fBThread\fP is an \fBRCS\fP ulapi equivalent for timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
+.br
+ Notes: https://www.quantnet.com/threads/c-multithreading-in-boost.10028/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RCSThreadTemplate\&.h>\fP
+.PP
+Inherited by \fBRCS::CController\fP, \fBRCS::RobotProgram\fP, and \fBRCS::RobotStatus\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBThread\fP (double cycletime)"
+.br
+.RI "\fIConstructor of thread, that takes cycle time as input\&. \fP"
+.ti -1c
+.RI "\fB~Thread\fP ()"
+.br
+.RI "\fIDestructor of thread, makes sure thread has stopped\&. \fP"
+.ti -1c
+.RI "std::string \fBName\fP ()"
+.br
+.RI "\fIName returns name of thread\&. \fP"
+.ti -1c
+.RI "void \fBJoin\fP ()"
+.br
+.RI "\fIUses boost thread join routine\&. \fP"
+.ti -1c
+.RI "virtual void \fBInit\fP ()"
+.br
+.RI "\fIInit function called before \fBAction()\fP loop\&. \fP"
+.ti -1c
+.RI "virtual void \fBCleanup\fP ()"
+.br
+.RI "\fICleanup function called after \fBAction()\fP loop done\&. \fP"
+.ti -1c
+.RI "virtual void \fBAction\fP ()"
+.br
+.RI "\fIAction override function called every cycle\&. \fP"
+.ti -1c
+.RI "void \fBStart\fP ()"
+.br
+.RI "\fIStart starts the thread which call \fBInit()\fP, and then does \fBAction()\fP loop\&. \fP"
+.ti -1c
+.RI "void \fBStop\fP (bool bWait=false)"
+.br
+.RI "\fIStop stops the thread loop\&. \fP"
+.ti -1c
+.RI "void \fBSuspend\fP ()"
+.br
+.RI "\fISuspend stops the thread loop until restarted with \fBResume()\fP\&. \fP"
+.ti -1c
+.RI "void \fBResume\fP ()"
+.br
+.RI "\fIResume resume execution of the thread loop stopped with \fBSuspend()\fP\&. \fP"
+.ti -1c
+.RI "double \fBLoad\fP ()"
+.br
+.RI "\fILoad returns the load of the thread cycle\&. \fP"
+.ti -1c
+.RI "double & \fBCycleTime\fP ()"
+.br
+.RI "\fICycleTime returns the cycle time of the thread cycle in seconds\&. \fP"
+.ti -1c
+.RI "void \fBSetDebugLevel\fP (int n)"
+.br
+.RI "\fISetDebugLevel sets the debugging level of the thread\&. \fP"
+.ti -1c
+.RI "int & \fBDebugLevel\fP ()"
+.br
+.RI "\fIDebugLevel returns the debugging level of the thread\&. \fP"
+.ti -1c
+.RI "void \fBCycle\fP ()"
+.br
+.RI "\fICycle is the thread main function\&. It calls init, action, and cleanup\&. After each cycle waits exactly amount given by cycle time\&. \fP"
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fB_name\fP"
+.br
+.ti -1c
+.RI "double \fB_cycletime\fP"
+.br
+.ti -1c
+.RI "int \fB_debugLevel\fP"
+.br
+.ti -1c
+.RI "bool \fB_bThread\fP"
+.br
+.ti -1c
+.RI "bool \fB_bDone\fP"
+.br
+.ti -1c
+.RI "\fBRCS::Timer\fP \fB_timer\fP"
+.br
+.ti -1c
+.RI "boost::thread \fBm_thread\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBThread\fP is an \fBRCS\fP ulapi equivalent for timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
+.br
+ Notes: https://www.quantnet.com/threads/c-multithreading-in-boost.10028/\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::Thread::Thread (doublecycletime)\fC [inline]\fP"
+
+.PP
+Constructor of thread, that takes cycle time as input\&. 
+.SS "RCS::Thread::~Thread ()\fC [inline]\fP"
+
+.PP
+Destructor of thread, makes sure thread has stopped\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void RCS::Thread::Action ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Action override function called every cycle\&. 
+.PP
+Reimplemented in \fBRCS::RobotProgram\fP, \fBRCS::RobotStatus\fP, and \fBRCS::CController\fP\&.
+.SS "virtual void RCS::Thread::Cleanup ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Cleanup function called after \fBAction()\fP loop done\&. 
+.SS "void RCS::Thread::Cycle ()\fC [inline]\fP"
+
+.PP
+Cycle is the thread main function\&. It calls init, action, and cleanup\&. After each cycle waits exactly amount given by cycle time\&. 
+.SS "double& RCS::Thread::CycleTime ()\fC [inline]\fP"
+
+.PP
+CycleTime returns the cycle time of the thread cycle in seconds\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+double returns cycle time of thread in seconds\&. 
+.RE
+.PP
+
+.SS "int& RCS::Thread::DebugLevel ()\fC [inline]\fP"
+
+.PP
+DebugLevel returns the debugging level of the thread\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+int returns debug dlvel of thread\&. 
+.RE
+.PP
+
+.SS "virtual void RCS::Thread::Init ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Init function called before \fBAction()\fP loop\&. 
+.PP
+Reimplemented in \fBRCS::CController\fP\&.
+.SS "void RCS::Thread::Join ()\fC [inline]\fP"
+
+.PP
+Uses boost thread join routine\&. 
+.SS "double RCS::Thread::Load ()\fC [inline]\fP"
+
+.PP
+Load returns the load of the thread cycle\&. 
+.SS "std::string RCS::Thread::Name ()\fC [inline]\fP"
+
+.PP
+Name returns name of thread\&. 
+.SS "void RCS::Thread::Resume ()\fC [inline]\fP"
+
+.PP
+Resume resume execution of the thread loop stopped with \fBSuspend()\fP\&. 
+.SS "void RCS::Thread::SetDebugLevel (intn)\fC [inline]\fP"
+
+.PP
+SetDebugLevel sets the debugging level of the thread\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIint\fP specified debug level, as an integer\&. 
+.RE
+.PP
+
+.SS "void RCS::Thread::Start ()\fC [inline]\fP"
+
+.PP
+Start starts the thread which call \fBInit()\fP, and then does \fBAction()\fP loop\&. 
+.SS "void RCS::Thread::Stop (boolbWait = \fCfalse\fP)\fC [inline]\fP"
+
+.PP
+Stop stops the thread loop\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbWait\fP indicates whether to wait until thread has finished\&. 
+.RE
+.PP
+
+.SS "void RCS::Thread::Suspend ()\fC [inline]\fP"
+
+.PP
+Suspend stops the thread loop until restarted with \fBResume()\fP\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "bool RCS::Thread::_bDone\fC [protected]\fP"
+boolean indicating whether thread has finished 
+.SS "bool RCS::Thread::_bThread\fC [protected]\fP"
+boolean loop thread 
+.SS "double RCS::Thread::_cycletime\fC [protected]\fP"
+cycletime of thread in seconds 
+.SS "int RCS::Thread::_debugLevel\fC [protected]\fP"
+debug level of thread 
+.SS "std::string RCS::Thread::_name\fC [protected]\fP"
+name of thread 
+.SS "\fBRCS::Timer\fP RCS::Thread::_timer\fC [protected]\fP"
+\fBRCS\fP timer for coordinating wait and duration of thread 
+.SS "boost::thread RCS::Thread::m_thread\fC [protected]\fP"
+boost thread 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

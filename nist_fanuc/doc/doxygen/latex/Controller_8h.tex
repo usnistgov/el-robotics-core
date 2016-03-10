@@ -1,0 +1,27 @@
+\hypertarget{Controller_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Controller.h File Reference}
+\label{Controller_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Controller.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Controller.\-h}}
+}
+{\ttfamily \#include $<$boost/shared\-\_\-ptr.\-hpp$>$}\\*
+{\ttfamily \#include $<$list$>$}\\*
+{\ttfamily \#include \char`\"{}Asio\-Crcl\-Server.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}R\-C\-S\-Thread\-Template.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Crcl\-Interface.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}R\-C\-S\-Interpreter.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Chain\-Robot\-Model.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Trajectory.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Communication.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}moveit.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structRCS_1_1CController}{R\-C\-S\-::\-C\-Controller}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{structRCS_1_1CController}{C\-Controller} provides an collection for all the relevant controller pieces. The \hyperlink{structRCS_1_1CController}{C\-Controller} is the main controller class to collect all the references/pointers to instances in the project. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e.\-g., kinematics, joint writer, joint reader, etc.) \end{DoxyCompactList}\item 
+class \hyperlink{classRCS_1_1RobotStatus}{R\-C\-S\-::\-Robot\-Status}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a thread to updates the status of the robot. The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a separate thread that updates the robot status. Currently, it uses a Joint\-Reader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current pose using the F\-K routine. It also uses a Crcl\-Delegate pointer reference to update the status reported by C\-R\-C\-L. \end{DoxyCompactList}\item 
+class \hyperlink{classRCS_1_1RobotProgram}{R\-C\-S\-::\-Robot\-Program}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} is a thread to handle crcl programs. \hyperlink{namespaceCrcl}{Crcl} programs are not in fact legitimate, however, debugging and verification are assisted by programs. However, program as in the \hyperlink{namespaceCrcl}{Crcl} X\-S\-D specification, so it doesn't hurt to handle. They require special handling as only one command should be done at a time. Uses codesynthesis to parse \hyperlink{namespaceCrcl}{Crcl} xml into C++ data structures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceRCS}{R\-C\-S}
+\end{DoxyCompactItemize}

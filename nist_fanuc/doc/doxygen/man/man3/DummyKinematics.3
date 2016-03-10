@@ -1,0 +1,64 @@
+.TH "DummyKinematics" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DummyKinematics \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Kinematics\&.h>\fP
+.PP
+Inherits \fBIKinematics\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual std::vector< double > \fBGetJointValues\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBSetJointValues\fP (std::vector< double > joint_values)"
+.br
+.ti -1c
+.RI "virtual urdf::Pose \fBFK\fP (std::vector< double > jv)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBIK\fP (\fBRCS::Pose\fP &pose, std::vector< double > oldjoints)"
+.br
+.ti -1c
+.RI "virtual size_t \fBAllPoseToJoints\fP (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBNearestJoints\fP (std::vector< double > oldjoints, std::vector< std::vector< double > > &newjoints)"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual size_t DummyKinematics::AllPoseToJoints (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "virtual urdf::Pose DummyKinematics::FK (std::vector< double >jv)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "virtual std::vector<double> DummyKinematics::GetJointValues ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "virtual std::vector<double> DummyKinematics::IK (\fBRCS::Pose\fP &pose, std::vector< double >oldjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "virtual std::vector<double> DummyKinematics::NearestJoints (std::vector< double >oldjoints, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "virtual void DummyKinematics::SetJointValues (std::vector< double >joint_values)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

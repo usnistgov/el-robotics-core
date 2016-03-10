@@ -1,0 +1,223 @@
+\hypertarget{classALogger}{\section{A\-Logger Class Reference}
+\label{classALogger}\index{A\-Logger@{A\-Logger}}
+}
+
+
+{\ttfamily \#include $<$Logging.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classALogger_a58faf4ee6703c1579d67abd6bf349666}{A\-Logger} ()
+\item 
+void \hyperlink{classALogger_a21af98bd1c9fdbde4098d2b242cb9ea9}{Close} ()
+\item 
+void \hyperlink{classALogger_aecec26cddee0a644ae8ac096b2c016ca}{Open} (std\-::string \hyperlink{classALogger_a963caefa4b53d7fc416744c0150257af}{filename}, int b\-Append=false)
+\item 
+int \hyperlink{classALogger_a55589cb378e3623a35c6057613b818a3}{Log\-Message} (std\-::string \hyperlink{classALogger_a963caefa4b53d7fc416744c0150257af}{filename}, std\-::string msg, int level=-\/1)
+\item 
+int \hyperlink{classALogger_a791e035a97c7d5f4ea809288290d43ec}{Log\-Message} (std\-::string msg, int level=-\/1)
+\item 
+int \hyperlink{classALogger_a040e23b0907c20b1bc33ad438eeae387}{Fatal} (std\-::string msg)
+\item 
+int \hyperlink{classALogger_a6a5eae7afd2d2ecb285094695ef7412e}{Error} (std\-::string msg)
+\item 
+int \hyperlink{classALogger_a222284c08bb2192d0ec9d1746fe248dc}{Warning} (std\-::string msg)
+\item 
+int \hyperlink{classALogger_a9b3186e34f76917f8eed4f789f160f8d}{Info} (std\-::string msg)
+\item 
+int \hyperlink{classALogger_a5f55d3c517fd61412af827229fdc1bf7}{Debug} (std\-::string msg)
+\item 
+int \hyperlink{classALogger_af08cbc4a4e317bfe9907baa3aceb8485}{Status} (std\-::string msg)
+\item 
+int \& \hyperlink{classALogger_a1c9a40f9a8b0067adbb5fc795e3bd5b5}{Debug\-Level} ()
+\item 
+bool \& \hyperlink{classALogger_acabf9035c4ee58fbe49b251bfc245650}{Timestamping} ()
+\item 
+int \& \hyperlink{classALogger_aff003fac697a2418e34d9edee7cb2d3d}{Output\-Console} ()
+\item 
+\hyperlink{classALogger_a48c1c2a99a7d0926316740f70e0efff7}{operator std\-::ostream \&} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\-::string \hyperlink{classALogger_a5f0ed1de31db92774d8f5f5cea732e3a}{Str\-Format} (const char $\ast$fmt,...)
+\item 
+static std\-::string \hyperlink{classALogger_a3efd1ed767373348bda6cbe68073f51b}{Format\-String} (const char $\ast$fmt, va\-\_\-list ap)
+\item 
+static std\-::string \hyperlink{classALogger_a9d2a8dec435a8bb54a3929aaa33795cf}{Timestamp} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classALogger_a680c94f43da91fdd9644cdcd3ed62f46}{\-\_\-debuglevel}
+\item 
+bool \hyperlink{classALogger_a08e8858325f740fd3b6c27bb5f794e63}{\-\_\-b\-Timestamp}
+\item 
+std\-::ofstream \hyperlink{classALogger_ac794719a08e041b2adf5cad4449ba08e}{Debug\-File}
+\item 
+int \hyperlink{classALogger_a0b227d33030ccce4b5a0cbad3ce2aa9e}{\-\_\-n\-Output\-Console}
+\item 
+std\-::string \hyperlink{classALogger_a963caefa4b53d7fc416744c0150257af}{filename}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classALogger_a58faf4ee6703c1579d67abd6bf349666}{\index{A\-Logger@{A\-Logger}!A\-Logger@{A\-Logger}}
+\index{A\-Logger@{A\-Logger}!ALogger@{A\-Logger}}
+\subsubsection[{A\-Logger}]{\setlength{\rightskip}{0pt plus 5cm}A\-Logger\-::\-A\-Logger (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a58faf4ee6703c1579d67abd6bf349666}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classALogger_a21af98bd1c9fdbde4098d2b242cb9ea9}{\index{A\-Logger@{A\-Logger}!Close@{Close}}
+\index{Close@{Close}!ALogger@{A\-Logger}}
+\subsubsection[{Close}]{\setlength{\rightskip}{0pt plus 5cm}void A\-Logger\-::\-Close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a21af98bd1c9fdbde4098d2b242cb9ea9}
+\hypertarget{classALogger_a5f55d3c517fd61412af827229fdc1bf7}{\index{A\-Logger@{A\-Logger}!Debug@{Debug}}
+\index{Debug@{Debug}!ALogger@{A\-Logger}}
+\subsubsection[{Debug}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Debug (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a5f55d3c517fd61412af827229fdc1bf7}
+\hypertarget{classALogger_a1c9a40f9a8b0067adbb5fc795e3bd5b5}{\index{A\-Logger@{A\-Logger}!Debug\-Level@{Debug\-Level}}
+\index{Debug\-Level@{Debug\-Level}!ALogger@{A\-Logger}}
+\subsubsection[{Debug\-Level}]{\setlength{\rightskip}{0pt plus 5cm}int\& A\-Logger\-::\-Debug\-Level (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a1c9a40f9a8b0067adbb5fc795e3bd5b5}
+\hypertarget{classALogger_a6a5eae7afd2d2ecb285094695ef7412e}{\index{A\-Logger@{A\-Logger}!Error@{Error}}
+\index{Error@{Error}!ALogger@{A\-Logger}}
+\subsubsection[{Error}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Error (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a6a5eae7afd2d2ecb285094695ef7412e}
+\hypertarget{classALogger_a040e23b0907c20b1bc33ad438eeae387}{\index{A\-Logger@{A\-Logger}!Fatal@{Fatal}}
+\index{Fatal@{Fatal}!ALogger@{A\-Logger}}
+\subsubsection[{Fatal}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Fatal (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a040e23b0907c20b1bc33ad438eeae387}
+\hypertarget{classALogger_a3efd1ed767373348bda6cbe68073f51b}{\index{A\-Logger@{A\-Logger}!Format\-String@{Format\-String}}
+\index{Format\-String@{Format\-String}!ALogger@{A\-Logger}}
+\subsubsection[{Format\-String}]{\setlength{\rightskip}{0pt plus 5cm}static std\-::string A\-Logger\-::\-Format\-String (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classALogger_a3efd1ed767373348bda6cbe68073f51b}
+\hypertarget{classALogger_a9b3186e34f76917f8eed4f789f160f8d}{\index{A\-Logger@{A\-Logger}!Info@{Info}}
+\index{Info@{Info}!ALogger@{A\-Logger}}
+\subsubsection[{Info}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Info (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a9b3186e34f76917f8eed4f789f160f8d}
+\hypertarget{classALogger_a55589cb378e3623a35c6057613b818a3}{\index{A\-Logger@{A\-Logger}!Log\-Message@{Log\-Message}}
+\index{Log\-Message@{Log\-Message}!ALogger@{A\-Logger}}
+\subsubsection[{Log\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Log\-Message (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{filename, }
+\item[{std\-::string}]{msg, }
+\item[{int}]{level = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a55589cb378e3623a35c6057613b818a3}
+\hypertarget{classALogger_a791e035a97c7d5f4ea809288290d43ec}{\index{A\-Logger@{A\-Logger}!Log\-Message@{Log\-Message}}
+\index{Log\-Message@{Log\-Message}!ALogger@{A\-Logger}}
+\subsubsection[{Log\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Log\-Message (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg, }
+\item[{int}]{level = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a791e035a97c7d5f4ea809288290d43ec}
+\hypertarget{classALogger_aecec26cddee0a644ae8ac096b2c016ca}{\index{A\-Logger@{A\-Logger}!Open@{Open}}
+\index{Open@{Open}!ALogger@{A\-Logger}}
+\subsubsection[{Open}]{\setlength{\rightskip}{0pt plus 5cm}void A\-Logger\-::\-Open (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{filename, }
+\item[{int}]{b\-Append = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_aecec26cddee0a644ae8ac096b2c016ca}
+\hypertarget{classALogger_a48c1c2a99a7d0926316740f70e0efff7}{\index{A\-Logger@{A\-Logger}!operator std\-::ostream \&@{operator std\-::ostream \&}}
+\index{operator std\-::ostream \&@{operator std\-::ostream \&}!ALogger@{A\-Logger}}
+\subsubsection[{operator std\-::ostream \&}]{\setlength{\rightskip}{0pt plus 5cm}A\-Logger\-::operator std\-::ostream \& (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a48c1c2a99a7d0926316740f70e0efff7}
+\hypertarget{classALogger_aff003fac697a2418e34d9edee7cb2d3d}{\index{A\-Logger@{A\-Logger}!Output\-Console@{Output\-Console}}
+\index{Output\-Console@{Output\-Console}!ALogger@{A\-Logger}}
+\subsubsection[{Output\-Console}]{\setlength{\rightskip}{0pt plus 5cm}int\& A\-Logger\-::\-Output\-Console (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_aff003fac697a2418e34d9edee7cb2d3d}
+\hypertarget{classALogger_af08cbc4a4e317bfe9907baa3aceb8485}{\index{A\-Logger@{A\-Logger}!Status@{Status}}
+\index{Status@{Status}!ALogger@{A\-Logger}}
+\subsubsection[{Status}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Status (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_af08cbc4a4e317bfe9907baa3aceb8485}
+\hypertarget{classALogger_a5f0ed1de31db92774d8f5f5cea732e3a}{\index{A\-Logger@{A\-Logger}!Str\-Format@{Str\-Format}}
+\index{Str\-Format@{Str\-Format}!ALogger@{A\-Logger}}
+\subsubsection[{Str\-Format}]{\setlength{\rightskip}{0pt plus 5cm}static std\-::string A\-Logger\-::\-Str\-Format (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classALogger_a5f0ed1de31db92774d8f5f5cea732e3a}
+\hypertarget{classALogger_a9d2a8dec435a8bb54a3929aaa33795cf}{\index{A\-Logger@{A\-Logger}!Timestamp@{Timestamp}}
+\index{Timestamp@{Timestamp}!ALogger@{A\-Logger}}
+\subsubsection[{Timestamp}]{\setlength{\rightskip}{0pt plus 5cm}static std\-::string A\-Logger\-::\-Timestamp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classALogger_a9d2a8dec435a8bb54a3929aaa33795cf}
+\hypertarget{classALogger_acabf9035c4ee58fbe49b251bfc245650}{\index{A\-Logger@{A\-Logger}!Timestamping@{Timestamping}}
+\index{Timestamping@{Timestamping}!ALogger@{A\-Logger}}
+\subsubsection[{Timestamping}]{\setlength{\rightskip}{0pt plus 5cm}bool\& A\-Logger\-::\-Timestamping (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_acabf9035c4ee58fbe49b251bfc245650}
+\hypertarget{classALogger_a222284c08bb2192d0ec9d1746fe248dc}{\index{A\-Logger@{A\-Logger}!Warning@{Warning}}
+\index{Warning@{Warning}!ALogger@{A\-Logger}}
+\subsubsection[{Warning}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-Warning (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classALogger_a222284c08bb2192d0ec9d1746fe248dc}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classALogger_a08e8858325f740fd3b6c27bb5f794e63}{\index{A\-Logger@{A\-Logger}!\-\_\-b\-Timestamp@{\-\_\-b\-Timestamp}}
+\index{\-\_\-b\-Timestamp@{\-\_\-b\-Timestamp}!ALogger@{A\-Logger}}
+\subsubsection[{\-\_\-b\-Timestamp}]{\setlength{\rightskip}{0pt plus 5cm}bool A\-Logger\-::\-\_\-b\-Timestamp}}\label{classALogger_a08e8858325f740fd3b6c27bb5f794e63}
+\hypertarget{classALogger_a680c94f43da91fdd9644cdcd3ed62f46}{\index{A\-Logger@{A\-Logger}!\-\_\-debuglevel@{\-\_\-debuglevel}}
+\index{\-\_\-debuglevel@{\-\_\-debuglevel}!ALogger@{A\-Logger}}
+\subsubsection[{\-\_\-debuglevel}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-\_\-debuglevel}}\label{classALogger_a680c94f43da91fdd9644cdcd3ed62f46}
+\hypertarget{classALogger_a0b227d33030ccce4b5a0cbad3ce2aa9e}{\index{A\-Logger@{A\-Logger}!\-\_\-n\-Output\-Console@{\-\_\-n\-Output\-Console}}
+\index{\-\_\-n\-Output\-Console@{\-\_\-n\-Output\-Console}!ALogger@{A\-Logger}}
+\subsubsection[{\-\_\-n\-Output\-Console}]{\setlength{\rightskip}{0pt plus 5cm}int A\-Logger\-::\-\_\-n\-Output\-Console}}\label{classALogger_a0b227d33030ccce4b5a0cbad3ce2aa9e}
+\hypertarget{classALogger_ac794719a08e041b2adf5cad4449ba08e}{\index{A\-Logger@{A\-Logger}!Debug\-File@{Debug\-File}}
+\index{Debug\-File@{Debug\-File}!ALogger@{A\-Logger}}
+\subsubsection[{Debug\-File}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ofstream A\-Logger\-::\-Debug\-File}}\label{classALogger_ac794719a08e041b2adf5cad4449ba08e}
+\hypertarget{classALogger_a963caefa4b53d7fc416744c0150257af}{\index{A\-Logger@{A\-Logger}!filename@{filename}}
+\index{filename@{filename}!ALogger@{A\-Logger}}
+\subsubsection[{filename}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string A\-Logger\-::filename}}\label{classALogger_a963caefa4b53d7fc416744c0150257af}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Logging_8h}{Logging.\-h}\end{DoxyCompactItemize}

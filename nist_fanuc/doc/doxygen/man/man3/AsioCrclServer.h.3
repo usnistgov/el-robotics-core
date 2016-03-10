@@ -1,0 +1,101 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/AsioCrclServer.h" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/AsioCrclServer.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cstdlib>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <deque>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <boost/bind\&.hpp>\fP
+.br
+\fC#include <boost/smart_ptr\&.hpp>\fP
+.br
+\fC#include <boost/asio\&.hpp>\fP
+.br
+\fC#include <boost/thread\&.hpp>\fP
+.br
+\fC#include <boost/tuple/tuple\&.hpp>\fP
+.br
+\fC#include <boost/date_time/posix_time/posix_time\&.hpp>\fP
+.br
+\fC#include <boost/shared_ptr\&.hpp>\fP
+.br
+\fC#include <boost/enable_shared_from_this\&.hpp>\fP
+.br
+\fC#include 'CrclInterface\&.h'\fP
+.br
+\fC#include 'RCSMsgQueue\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCAsioCrclSession\fP"
+.br
+.RI "\fIThe \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
+.br
+ Useful web sites: \fP"
+.ti -1c
+.RI "class \fBCAsioCrclServer\fP"
+.br
+.RI "\fIThe \fBCAsioCrclServer\fP provides an boost asio server which accepts new connections and starts a \fBCrcl\fP listener session\&. The \fBCAsioCrclServer\fP is based on the Boost Asio library which can process network communication asynchronously\&. Because CRCL data can only be received after a connection has been established, and because a connection can only be established after the name has been resolved, the various asynchronous operations are started in separate callback handlers\&. Thus in boost asio a callback to async_connect() is then followed by a method call to the handler connect_handler() which starts a new \fBCrcl\fP session\&. Readers can read more at: http://theboostcpplibraries.com/boost.asio-network-programming The \fBCAsioCrclServer\fP is divided into a number of main funcitons (e\&.g\&. wait for socket connection, handle new session by spawning new \fBCAsioCrclSession\fP, repeat\&. These operations are done asynchronously on a separate thread with notification done by the boost asio io server and it is assumed to be thread-safe\&. The \fBCAsioCrclServer\fP listens for connections on port 64444 and when a connection is initiated starts a new \fBCrcl\fP session to read xml messages from the devices\&. \fP"
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef boost::system::error_code \fBerror_code\fP"
+.br
+.ti -1c
+.RI "typedef boost::tuple
+.br
+< std::string, 
+.br
+\fBCAsioCrclSession\fP * > \fBCrclMessage\fP"
+.br
+.ti -1c
+.RI "typedef \fBRCS::CMessageQueue\fP
+.br
+< \fBCrclMessage\fP > \fBCAsioMessages\fP"
+.br
+.ti -1c
+.RI "typedef boost::shared_ptr
+.br
+< \fBCAsioCrclSession\fP > \fBsession_ptr\fP"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "boost::asio::io_service \fBmyios\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBRCS::CMessageQueue\fP<\fBCrclMessage\fP> \fBCAsioMessages\fP"
+
+.SS "typedef boost::tuple<std::string, \fBCAsioCrclSession\fP *> \fBCrclMessage\fP"
+
+.SS "typedef boost::system::error_code \fBerror_code\fP"
+
+.SS "typedef boost::shared_ptr<\fBCAsioCrclSession\fP> \fBsession_ptr\fP"
+
+.SH "Variable Documentation"
+.PP 
+.SS "boost::asio::io_service myios"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

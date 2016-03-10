@@ -1,0 +1,108 @@
+.TH "CJointWriter" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CJointWriter \- 
+.PP
+The \fBCJointWriter\fP is a thread to publish new joint values to ROS\&. Uses a ros node handle to tell roscore we are pusblishing to the joint_path_command topic\&. Then, when joint updates occur, these are published on joint_path_command the topic\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Communication\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCJointWriter\fP (ros::NodeHandle &nh)"
+.br
+.RI "\fI\fBCJointWriter\fP constructor that requires a ROS node handle\&. \fP"
+.ti -1c
+.RI "bool \fBJointTrajectoryWrite\fP (std::vector< \fBsensor_msgs::JointState\fP >)"
+.br
+.RI "\fIJointTrajectoryWrite writes the joint values to joint_state topic messages\&. \fP"
+.ti -1c
+.RI "bool \fBJointTrajectoryPositionWrite\fP (\fBsensor_msgs::JointState\fP joint)"
+.br
+.RI "\fIJointTrajectoryWrite writes the joint values to joint_state topic messages\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "ros::Publisher \fBtraj_pub\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBjointnames\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static boost::mutex \fB_writer_mutex\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBCJointWriter\fP is a thread to publish new joint values to ROS\&. Uses a ros node handle to tell roscore we are pusblishing to the joint_path_command topic\&. Then, when joint updates occur, these are published on joint_path_command the topic\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CJointWriter::CJointWriter (ros::NodeHandle &nh)"
+
+.PP
+\fBCJointWriter\fP constructor that requires a ROS node handle\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInh\fP ros node handle so joint reader can tell roscore we are advertising new joint values\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool CJointWriter::JointTrajectoryPositionWrite (\fBsensor_msgs::JointState\fPjoint)"
+
+.PP
+JointTrajectoryWrite writes the joint values to joint_state topic messages\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP sensor_msgs::JointState describing robot joints 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+boolean if write occurred as expected\&. 
+.RE
+.PP
+
+.SS "bool CJointWriter::JointTrajectoryWrite (std::vector< \fBsensor_msgs::JointState\fP >joints)"
+
+.PP
+JointTrajectoryWrite writes the joint values to joint_state topic messages\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP std vector of sensor_msgs::JointState describing a series of joints 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+boolean if all writes occurred as expected\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "boost::mutex CJointWriter::_writer_mutex\fC [static]\fP"
+for mutexed writing access to joint values 
+.SS "std::vector<std::string> CJointWriter::jointnames"
+ros requries joint names for each joint update 
+.SS "ros::Publisher CJointWriter::traj_pub"
+ros publisher information used for joint updates 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

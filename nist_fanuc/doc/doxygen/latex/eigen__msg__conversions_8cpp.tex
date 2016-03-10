@@ -1,0 +1,48 @@
+\hypertarget{eigen__msg__conversions_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/eigen\-\_\-msg\-\_\-conversions.cpp File Reference}
+\label{eigen__msg__conversions_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/eigen\-\_\-msg\-\_\-conversions.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/eigen\-\_\-msg\-\_\-conversions.\-cpp}}
+}
+{\ttfamily \#include $<$eigen\-\_\-conversions/eigen\-\_\-msg.\-h$>$}\\*
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespacetf}{tf}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespacetf_a40971036bc6c036e2d46038e1ea2d449}{tf\-::point\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Point \&m, Eigen\-::\-Vector3d \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Point message into an Eigen Vector. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_ad5493652c9ba9799134f4e4e2fab47f1}{tf\-::point\-Eigen\-To\-Msg} (const Eigen\-::\-Vector3d \&e, geometry\-\_\-msgs\-::\-Point \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Vector into a Point message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a54148a9462e081ab7566a20cd745b195}{tf\-::pose\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Pose \&m, Eigen\-::\-Affine3d \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Pose message into an Eigen Affine3d. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a465ab06f9a1dc34717fb5dd462f5c2ca}{tf\-::pose\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Pose \&m, Eigen\-::\-Isometry3d \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Pose message into an Eigen Isometry3d. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_aad8e6131b3c1439b674e7dd51e7da3b3}{tf\-::pose\-Eigen\-To\-Msg} (const Eigen\-::\-Affine3d \&e, geometry\-\_\-msgs\-::\-Pose \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Affine3d into a Pose message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_adda234955557076bd46804dec234396d}{tf\-::pose\-Eigen\-To\-Msg} (const Eigen\-::\-Isometry3d \&e, geometry\-\_\-msgs\-::\-Pose \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Isometry3d into a Pose message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_ab7fd3888706bdcc976acffecdf9886be}{tf\-::quaternion\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Quaternion \&m, Eigen\-::\-Quaterniond \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Quaternion message into an Eigen Quaternion. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a9029fb8e50866ee1c690bbc6729d33b2}{tf\-::quaternion\-Eigen\-To\-Msg} (const Eigen\-::\-Quaterniond \&e, geometry\-\_\-msgs\-::\-Quaternion \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Quaternion into a Quaternion message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a4323ed345fb25c89de3a297fdc7401a4}{tf\-::transform\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Transform \&m, Eigen\-::\-Affine3d \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Transform message into an Eigen Affine3d. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a2f3ebfd509762829be66fc0165bfd0e5}{tf\-::transform\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Transform \&m, Eigen\-::\-Isometry3d \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Transform message into an Eigen Isometry3d. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a59d5d7450e4228ab287acdb232cd714d}{tf\-::transform\-Eigen\-To\-Msg} (const Eigen\-::\-Affine3d \&e, geometry\-\_\-msgs\-::\-Transform \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Affine3d into a Transform message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a27f1bbeb711fea43bfa39a354a064296}{tf\-::transform\-Eigen\-To\-Msg} (const Eigen\-::\-Isometry3d \&e, geometry\-\_\-msgs\-::\-Transform \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Isometry3d into a Transform message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_aed6a8b793cfddfdfcd00bee42ee44bbc}{tf\-::vector\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Vector3 \&m, Eigen\-::\-Vector3d \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Vector message into an Eigen Vector. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_aae84e65007df198d68f823a6d71864b9}{tf\-::vector\-Eigen\-To\-Msg} (const Eigen\-::\-Vector3d \&e, geometry\-\_\-msgs\-::\-Vector3 \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen Vector into a Vector message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_ad3ebccf80d5f154e08461e34d46f9308}{tf\-::twist\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Twist \&m, Eigen\-::\-Matrix$<$ double, 6, 1 $>$ \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Twist message into an Eigen matrix. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a0d8634c904647472b9437e655b37f85f}{tf\-::twist\-Eigen\-To\-Msg} (const Eigen\-::\-Matrix$<$ double, 6, 1 $>$ \&e, geometry\-\_\-msgs\-::\-Twist \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen matrix into a Twist message. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_a78e50852f7a0d1b4006c8ceebb78aec8}{tf\-::wrench\-Msg\-To\-Eigen} (const geometry\-\_\-msgs\-::\-Wrench \&m, Eigen\-::\-Matrix$<$ double, 6, 1 $>$ \&e)
+\begin{DoxyCompactList}\small\item\em Converts a Wrench message into an Eigen matrix. \end{DoxyCompactList}\item 
+void \hyperlink{namespacetf_ac9b1ea4b24d217e21717e6d260d9375a}{tf\-::wrench\-Eigen\-To\-Msg} (const Eigen\-::\-Matrix$<$ double, 6, 1 $>$ \&e, geometry\-\_\-msgs\-::\-Wrench \&m)
+\begin{DoxyCompactList}\small\item\em Converts an Eigen matrix into a Wrench message. \end{DoxyCompactList}\end{DoxyCompactItemize}

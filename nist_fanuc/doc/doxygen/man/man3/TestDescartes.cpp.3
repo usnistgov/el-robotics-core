@@ -1,0 +1,73 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/TestDescartes.cpp" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/TestDescartes.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Trajectory\&.h'\fP
+.br
+\fC#include <descartes_moveit/moveit_state_adapter\&.h>\fP
+.br
+\fC#include <descartes_trajectory/axial_symmetric_pt\&.h>\fP
+.br
+\fC#include <descartes_trajectory/cart_trajectory_pt\&.h>\fP
+.br
+\fC#include <descartes_planner/dense_planner\&.h>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::vector
+.br
+< descartes_core::TrajectoryPtPtr > \fBTrajectoryVec\fP"
+.br
+.ti -1c
+.RI "typedef 
+.br
+TrajectoryVec::const_iterator \fBTrajectoryIter\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "descartes_core::TrajectoryPtPtr \fBmakeCartesianPoint\fP (const Eigen::Affine3d &pose)"
+.br
+.ti -1c
+.RI "descartes_core::TrajectoryPtPtr \fBmakeTolerancedCartesianPoint\fP (const Eigen::Affine3d &pose)"
+.br
+.ti -1c
+.RI "trajectory_msgs::JointTrajectory \fBtoROSJointTrajectory\fP (const \fBTrajectoryVec\fP &trajectory, const descartes_core::RobotModel &model, const std::vector< std::string > &joint_names, double time_delay)"
+.br
+.ti -1c
+.RI "bool \fBexecuteTrajectory\fP (const trajectory_msgs::JointTrajectory &trajectory)"
+.br
+.ti -1c
+.RI "void \fBTestKinematics\fP (ros::NodeHandle &nh)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef TrajectoryVec::const_iterator \fBTrajectoryIter\fP"
+
+.SS "typedef std::vector<descartes_core::TrajectoryPtPtr> \fBTrajectoryVec\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "bool executeTrajectory (const trajectory_msgs::JointTrajectory &trajectory)"
+Sends a ROS trajectory to the robot controller 
+.SS "descartes_core::TrajectoryPtPtr makeCartesianPoint (const Eigen::Affine3d &pose)"
+Generates an completely defined (zero-tolerance) cartesian point from a pose 
+.SS "descartes_core::TrajectoryPtPtr makeTolerancedCartesianPoint (const Eigen::Affine3d &pose)"
+Generates a cartesian point with free rotation about the Z axis of the EFF frame 
+.SS "void TestKinematics (ros::NodeHandle &nh)"
+
+.SS "trajectory_msgs::JointTrajectory toROSJointTrajectory (const \fBTrajectoryVec\fP &trajectory, const descartes_core::RobotModel &model, const std::vector< std::string > &joint_names, doubletime_delay)"
+Translates a descartes trajectory to a ROS joint trajectory 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

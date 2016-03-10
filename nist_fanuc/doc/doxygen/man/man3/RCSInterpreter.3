@@ -1,0 +1,133 @@
+.TH "RCSInterpreter" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCSInterpreter \- 
+.PP
+\fBRCSInterpreter\fP parses a \fBRCS\fP command and generates robot motion commands\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RCSInterpreter\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRCSInterpreter\fP (\fBIKinematicsSharedPtr\fP k=NULL)"
+.br
+.RI "\fI\fBRCSInterpreter\fP constructor that optionally accepts pointer to kinematic instance\&. \fP"
+.ti -1c
+.RI "\fB~RCSInterpreter\fP (void)"
+.br
+.ti -1c
+.RI "int \fBParseCommand\fP (\fBRCS::CanonCmd\fP cmd)"
+.br
+.RI "\fIParseCommand parses a \fBRCS\fP command and queues robot motion commands\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBIKinematicsSharedPtr\fP \fB_kinematics\fP"
+.br
+.ti -1c
+.RI "\fBTrajectoryVec\fP \fBresults\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBtimes\fP"
+.br
+.ti -1c
+.RI "\fBIRate\fP \fBrates\fP"
+.br
+.ti -1c
+.RI "\fBMotionControl\fP \fBmotioncontrol\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBAddJointCommands\fP (std::vector< \fBJointState\fP > gotojoints)"
+.br
+.RI "\fIAddJointCommands accepts vector of joint trajectories and adds to robot motion queue\&. \fP"
+.ti -1c
+.RI "std::vector< \fBJointState\fP > \fBPlanCartesianMotion\fP (std::vector< urdf::Pose > poses)"
+.br
+.RI "\fIPlanCartesianMotion accepts vector of poses and generates a vector of joint trajectories\&. Can use a couple of planning algorithms to generate trajectory\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBRCSInterpreter\fP parses a \fBRCS\fP command and generates robot motion commands\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCSInterpreter::RCSInterpreter (\fBIKinematicsSharedPtr\fPk = \fCNULL\fP)"
+
+.PP
+\fBRCSInterpreter\fP constructor that optionally accepts pointer to kinematic instance\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIk\fP is the kinematics pointer 
+.RE
+.PP
+
+.SS "RCSInterpreter::~RCSInterpreter (void)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void RCSInterpreter::AddJointCommands (std::vector< \fBJointState\fP >gotojoints)\fC [protected]\fP"
+
+.PP
+AddJointCommands accepts vector of joint trajectories and adds to robot motion queue\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgotojoints\fP is the vector of joint states describing the motion\&. 
+.RE
+.PP
+
+.SS "int RCSInterpreter::ParseCommand (\fBRCS::CanonCmd\fPcmd)"
+
+.PP
+ParseCommand parses a \fBRCS\fP command and queues robot motion commands\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcmd\fP is the command to interpret 
+.RE
+.PP
+
+.SS "std::vector< \fBJointState\fP > RCSInterpreter::PlanCartesianMotion (std::vector< urdf::Pose >poses)\fC [protected]\fP"
+
+.PP
+PlanCartesianMotion accepts vector of poses and generates a vector of joint trajectories\&. Can use a couple of planning algorithms to generate trajectory\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIposes\fP is the vector of cartesian motion\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+vector of planned joint states 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBIKinematicsSharedPtr\fP RCSInterpreter::_kinematics"
+kinematics pointer 
+.SS "\fBMotionControl\fP RCSInterpreter::motioncontrol"
+instance of simple motion control object 
+.SS "\fBIRate\fP RCSInterpreter::rates"
+rates structure for simple motion planner 
+.SS "\fBTrajectoryVec\fP RCSInterpreter::results"
+descartes motion planner results 
+.SS "std::vector<double> RCSInterpreter::times"
+descartes times for trajectory results 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

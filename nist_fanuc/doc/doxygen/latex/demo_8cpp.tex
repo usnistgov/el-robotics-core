@@ -1,0 +1,78 @@
+\hypertarget{demo_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/demo.cpp File Reference}
+\label{demo_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/demo.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/demo.\-cpp}}
+}
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include $<$control\-\_\-msgs/\-Follow\-Joint\-Trajectory\-Action.\-h$>$}\\*
+{\ttfamily \#include $<$actionlib/client/simple\-\_\-action\-\_\-client.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-moveit/moveit\-\_\-state\-\_\-adapter.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/axial\-\_\-symmetric\-\_\-pt.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/cart\-\_\-trajectory\-\_\-pt.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-planner/dense\-\_\-planner.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-planner/sparse\-\_\-planner.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/cartesian\-\_\-interpolator.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-String.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$ctype.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$fcntl.\-h$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\-::vector\\*
+$<$ descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr $>$ \hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec}
+\item 
+typedef \\*
+Trajectory\-Vec\-::const\-\_\-iterator \hyperlink{demo_8cpp_a5079ec3f4d81e5f18a231a4fa27d95f0}{Trajectory\-Iter}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+trajectory\-\_\-msgs\-::\-Joint\-Trajectory \hyperlink{demo_8cpp_a6ee228a61d859cc718fc5bcea8068987}{to\-R\-O\-S\-Joint\-Trajectory} (const \hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec} \&trajectory, const descartes\-\_\-core\-::\-Robot\-Model \&model, const std\-::vector$<$ std\-::string $>$ \&joint\-\_\-names, const std\-::vector$<$ double $>$ \&time\-\_\-delay)
+\item 
+bool \hyperlink{demo_8cpp_aabcdbcbbade1c77583a443836302751a}{execute\-Trajectory} (const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&trajectory, const std\-::string \&trajectory\-\_\-ns)
+\item 
+int \hyperlink{demo_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{demo_8cpp_a5079ec3f4d81e5f18a231a4fa27d95f0}{\index{demo.\-cpp@{demo.\-cpp}!Trajectory\-Iter@{Trajectory\-Iter}}
+\index{Trajectory\-Iter@{Trajectory\-Iter}!demo.cpp@{demo.\-cpp}}
+\subsubsection[{Trajectory\-Iter}]{\setlength{\rightskip}{0pt plus 5cm}typedef Trajectory\-Vec\-::const\-\_\-iterator {\bf Trajectory\-Iter}}}\label{demo_8cpp_a5079ec3f4d81e5f18a231a4fa27d95f0}
+\hypertarget{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{\index{demo.\-cpp@{demo.\-cpp}!Trajectory\-Vec@{Trajectory\-Vec}}
+\index{Trajectory\-Vec@{Trajectory\-Vec}!demo.cpp@{demo.\-cpp}}
+\subsubsection[{Trajectory\-Vec}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\-::vector$<$descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr$>$ {\bf Trajectory\-Vec}}}\label{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}
+
+
+\subsection{Function Documentation}
+\hypertarget{demo_8cpp_aabcdbcbbade1c77583a443836302751a}{\index{demo.\-cpp@{demo.\-cpp}!execute\-Trajectory@{execute\-Trajectory}}
+\index{execute\-Trajectory@{execute\-Trajectory}!demo.cpp@{demo.\-cpp}}
+\subsubsection[{execute\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}bool execute\-Trajectory (
+\begin{DoxyParamCaption}
+\item[{const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&}]{trajectory, }
+\item[{const std\-::string \&}]{trajectory\-\_\-ns}
+\end{DoxyParamCaption}
+)}}\label{demo_8cpp_aabcdbcbbade1c77583a443836302751a}
+\hypertarget{demo_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{demo.\-cpp@{demo.\-cpp}!main@{main}}
+\index{main@{main}!demo.cpp@{demo.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{demo_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{demo_8cpp_a6ee228a61d859cc718fc5bcea8068987}{\index{demo.\-cpp@{demo.\-cpp}!to\-R\-O\-S\-Joint\-Trajectory@{to\-R\-O\-S\-Joint\-Trajectory}}
+\index{to\-R\-O\-S\-Joint\-Trajectory@{to\-R\-O\-S\-Joint\-Trajectory}!demo.cpp@{demo.\-cpp}}
+\subsubsection[{to\-R\-O\-S\-Joint\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}trajectory\-\_\-msgs\-::\-Joint\-Trajectory to\-R\-O\-S\-Joint\-Trajectory (
+\begin{DoxyParamCaption}
+\item[{const {\bf Trajectory\-Vec} \&}]{trajectory, }
+\item[{const descartes\-\_\-core\-::\-Robot\-Model \&}]{model, }
+\item[{const std\-::vector$<$ std\-::string $>$ \&}]{joint\-\_\-names, }
+\item[{const std\-::vector$<$ double $>$ \&}]{time\-\_\-delay}
+\end{DoxyParamCaption}
+)}}\label{demo_8cpp_a6ee228a61d859cc718fc5bcea8068987}

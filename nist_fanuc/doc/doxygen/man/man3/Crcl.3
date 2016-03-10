@@ -1,0 +1,269 @@
+.TH "Crcl" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Crcl \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBGripperStatus\fP"
+.br
+.ti -1c
+.RI "struct \fBJointReport\fP"
+.br
+.ti -1c
+.RI "struct \fBCrclStatus\fP"
+.br
+.ti -1c
+.RI "class \fBCrclDelegateInterface\fP"
+.br
+.ti -1c
+.RI "class \fBCrclClientCmdInterface\fP"
+.br
+.ti -1c
+.RI "class \fBCrclStatusMsgInterface\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef urdf::Vector3 \fBVector3D\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBCRCLCmdStatus\fP { \fBCRCL_DONE\fP = 0, \fBCRCL_WORKING\fP, \fBCRCL_ERROR\fP }"
+.br
+.ti -1c
+.RI "enum \fBCrclReturn\fP { \fBCANON_REJECT\fP = -2, \fBCANON_FAILURE\fP = -1, \fBCANON_SUCCESS\fP = 0, \fBCANON_STATUSREPLY\fP = 1, \fBCANON_RUNNING\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "RosMatrix \fBGetXZRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "Eigen::Matrix3d \fBGetEigenRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "bool \fBGetRPY\fP (\fBCrcl::PoseType\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
+.RI "bool \fBGetRPY\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
+.RI "urdf::Pose \fBConvert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion)"
+.br
+.ti -1c
+.RI "\fBCrcl::VectorType\fP \fBVectorZero\fP ()"
+.br
+.ti -1c
+.RI "urdf::Vector3 \fBGetVector3D\fP (\fBCrcl::PointType\fP &point)"
+.br
+.ti -1c
+.RI "urdf::Vector3 \fBGetVector3D\fP (\fBCrcl::VectorType\fP &vector)"
+.br
+.ti -1c
+.RI "bool \fBGetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
+.br
+.ti -1c
+.RI "urdf::Rotation \fBConvert\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBInit\fP (std::vector< double > terms)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBConvert\fP (urdf::Pose pose)"
+.br
+.ti -1c
+.RI "\fBsensor_msgs::JointState\fP \fBConvert\fP (\fBCrcl::JointStatusSequence\fP jout, double angleConversion)"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fBConvert\fP (\fBJointState\fP joints, double _angleConversion)"
+.br
+.ti -1c
+.RI "\fBJointStatusSequence\fP \fBConvert\fP (\fBCrcl::ActuatorJointSequence\fP joints, double _angleConversion)"
+.br
+.ti -1c
+.RI "::\fBPointType\fP \fBGetPoint\fP (\fBRCS::Vector3\fP &point)"
+.br
+.ti -1c
+.RI "::\fBVectorType\fP \fBGetVector\fP (\fBRCS::Vector3\fP &point)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBNullPose\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBIdentityPose\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBPoseHome\fP ()"
+.br
+.ti -1c
+.RI "std::vector< double > \fBConvertToAnglePositionVector\fP (\fBCrcl::ActuatorJointSequence\fP &joints, double dAngleConversion)"
+.br
+.ti -1c
+.RI "std::string \fBDumpCrclPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBDumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
+.RI "std::vector< double > \fBConvertToPositionVector\fP (\fBActuatorJointSequence\fP &, double dConversion)"
+.br
+.ti -1c
+.RI "\fBJointStatusSequence\fP \fBConvert\fP (\fBActuatorJointSequence\fP jin)"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fBConvert\fP (\fBJointState\fP joints)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBCrcl::PoseType\fP &pose)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "typedef::ActuateJointsType::ActuateJoint_sequence \fBActuatorJointSequence\fP"
+.br
+.ti -1c
+.RI "typedef::PoseType \fBPoseType\fP"
+.br
+.ti -1c
+.RI "typedef::JointStatusType \fBJointStatus\fP"
+.br
+.ti -1c
+.RI "typedef::CommandStateEnumType \fBCommandStateEnum\fP"
+.br
+.ti -1c
+.RI "typedef::PointType \fBPointType\fP"
+.br
+.ti -1c
+.RI "typedef::VectorType \fBVectorType\fP"
+.br
+.ti -1c
+.RI "typedef::JointStatusesType::JointStatus_sequence \fBJointStatusSequence\fP"
+.br
+.ti -1c
+.RI "typedef::PoseToleranceType \fBPoseToleranceType\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef urdf::Vector3 \fBCrcl::Vector3D\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBCrcl::CRCLCmdStatus\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICRCL_DONE \fP\fP
+.TP
+\fB\fICRCL_WORKING \fP\fP
+.TP
+\fB\fICRCL_ERROR \fP\fP
+.SS "enum \fBCrcl::CrclReturn\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICANON_REJECT \fP\fP
+.TP
+\fB\fICANON_FAILURE \fP\fP
+.TP
+\fB\fICANON_SUCCESS \fP\fP
+.TP
+\fB\fICANON_STATUSREPLY \fP\fP
+.TP
+\fB\fICANON_RUNNING \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fBJointStatusSequence\fP Crcl::Convert (ActuatorJointSequencejin)"
+
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::Convert (\fBJointState\fPjoints)"
+
+.SS "\fBRCS::Pose\fP Crcl::Convert (\fBCrcl::PoseType\fP &pose, doublelengthConversion)"
+
+.SS "urdf::Rotation Crcl::Convert (urdf::Vector3Xrot, urdf::Vector3Zrot)"
+
+.SS "\fBCrcl::PoseType\fP Crcl::Convert (urdf::Posepose)"
+
+.SS "\fBsensor_msgs::JointState\fP Crcl::Convert (\fBCrcl::JointStatusSequence\fPjout, doubleangleConversion)"
+
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::Convert (\fBJointState\fPjoints, double_angleConversion)"
+
+.SS "\fBJointStatusSequence\fP Crcl::Convert (\fBCrcl::ActuatorJointSequence\fPjoints, double_angleConversion)"
+
+.SS "std::vector<double> Crcl::ConvertToAnglePositionVector (\fBCrcl::ActuatorJointSequence\fP &joints, doubledAngleConversion)"
+
+.SS "std::vector<double> Crcl::ConvertToPositionVector (ActuatorJointSequence &, doubledConversion)"
+
+.SS "std::string Crcl::DumpCrclPose (\fBCrcl::PoseType\fPpose, std::stringseparator)"
+
+.SS "std::string Crcl::DumpPose (\fBCrcl::PoseType\fPpose, std::stringseparator)"
+
+.SS "Eigen::Matrix3d Crcl::GetEigenRotMatrix (urdf::Vector3Xrot, urdf::Vector3Zrot)"
+
+.SS "::\fBPointType\fP Crcl::GetPoint (\fBRCS::Vector3\fP &point)"
+
+.SS "bool Crcl::GetPoseToRPY (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
+
+.SS "bool Crcl::GetRPY (\fBCrcl::PoseType\fPpose, double &roll, double &pitch, double &yaw)"
+
+.SS "bool Crcl::GetRPY (urdf::Vector3Xrot, urdf::Vector3Zrot, double &roll, double &pitch, double &yaw)"
+
+.SS "::\fBVectorType\fP Crcl::GetVector (\fBRCS::Vector3\fP &point)"
+
+.SS "urdf::Vector3 Crcl::GetVector3D (\fBCrcl::PointType\fP &point)\fC [inline]\fP"
+
+.SS "urdf::Vector3 Crcl::GetVector3D (\fBCrcl::VectorType\fP &vector)\fC [inline]\fP"
+
+.SS "RosMatrix Crcl::GetXZRotMatrix (urdf::Vector3Xrot, urdf::Vector3Zrot)"
+
+.SS "\fBCrcl::PoseType\fP Crcl::IdentityPose ()"
+
+.SS "\fBCrcl::PoseType\fP Crcl::Init (std::vector< double >terms)"
+
+.SS "\fBPoseType\fP Crcl::NullPose ()"
+
+.SS "std::ostream& Crcl::operator<< (std::ostream &os, const \fBCrcl::PoseType\fP &pose)\fC [inline]\fP"
+
+.SS "\fBPoseType\fP Crcl::PoseHome ()"
+
+.SS "\fBCrcl::VectorType\fP Crcl::VectorZero ()\fC [inline]\fP"
+
+.SH "Variable Documentation"
+.PP 
+.SS "typedef::ActuateJointsType::ActuateJoint_sequence Crcl::ActuatorJointSequence"
+
+.SS "typedef::CommandStateEnumType Crcl::CommandStateEnum"
+
+.SS "typedef::JointStatusType Crcl::JointStatus"
+
+.SS "typedef::JointStatusesType::JointStatus_sequence Crcl::JointStatusSequence"
+
+.SS "typedef::PointType Crcl::PointType"
+
+.SS "typedef::PoseToleranceType Crcl::PoseToleranceType"
+
+.SS "typedef::PoseType Crcl::PoseType"
+
+.SS "typedef::VectorType Crcl::VectorType"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

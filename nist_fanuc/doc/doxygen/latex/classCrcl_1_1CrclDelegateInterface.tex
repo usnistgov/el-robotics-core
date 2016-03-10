@@ -1,0 +1,396 @@
+\hypertarget{classCrcl_1_1CrclDelegateInterface}{\section{Crcl\-:\-:Crcl\-Delegate\-Interface Class Reference}
+\label{classCrcl_1_1CrclDelegateInterface}\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+}
+
+
+{\ttfamily \#include $<$Crcl\-Interface.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCrcl_1_1CrclDelegateInterface_ab6dab41e2398ed9a2cd2ac58e4c00ea2}{Crcl\-Delegate\-Interface} ()
+\item 
+unsigned long long \& \hyperlink{classCrcl_1_1CrclDelegateInterface_a352a54f3e006b3daecdf5d37ff6ca4bc}{Get\-Command\-Num} ()
+\item 
+\hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a53be7c01e92e61e2be19e535e307ba41}{Delegate\-C\-R\-C\-L\-Cmd} (std\-::string str)
+\item 
+void \hyperlink{classCrcl_1_1CrclDelegateInterface_a0c0209dd04c5e99e13c546b99a672ce4}{Crcl\-Run\-Program} (\-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence cmds)
+\item 
+\hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a7513484f2c0d14332f844bdbae2c0586}{Delegate\-C\-R\-C\-L\-Cmd} (\-::C\-R\-C\-L\-Command\-Type \&crcl\-Command)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a5e666cfdbbaee53ddead4035cda12399}{Actuate\-Joints} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} joints)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a3c8fc025f6c0eba5609b3e0866810651}{Close\-Tool\-Changer} ()
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a41d9d47da2cb9463fe258903c7c8ed62}{Configure\-Joint\-Reports} (std\-::vector$<$ \hyperlink{structCrcl_1_1JointReport}{Crcl\-::\-Joint\-Report} $>$ \&joint\-Reports)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a5c4272b12bfcbd390d3c9baa3a858e73}{Couple} (char $\ast$target\-I\-D)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0202e19f87f1609889820ce3dc7e2aa3}{Dwell} (double seconds)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a401c506a2e16f1498fb28a638f0a816a}{End\-Canon} ()
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ace91dcb602e1aa5a45bdf8bbcec38391}{Init\-Canon} ()
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a695656a7cdcb0ec121fabeb8847e47f2}{Get\-Status} ()
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a24d05f3f6758ff75df04ef4ef6260fae}{Message} (std\-::string message)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ac04c8af185b4465add0654b47d3b4ce3}{Move\-To} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} endpose, bool b\-Straight)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_aa7b40e1070284dc5ca9069eb1ea7026d}{Move\-Through\-To} (std\-::vector$<$ \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} $>$ \&poses, bool b\-Straight)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0b78b935f64602c8543dd4cb6a6929ba}{Open\-Tool\-Changer} ()
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a524e770e96afe3fd89fd11d70e56cbe3}{Run\-Program} (std\-::string program\-Text)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a723c774e71cac9c51fb8159d06e9ae1a}{Set\-Absolute\-Acceleration} (double acceleration)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ad26647a78097ff9ee50e1abe285b7dbe}{Set\-Absolute\-Speed} (double speed)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a08129b3f3681981b1d0e294a88674269}{Set\-Angle\-Units} (std\-::string unit\-Name)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ae25f975824369ab1b82aa4c1b44c8754}{Set\-Axial\-Speeds} (std\-::vector$<$ double $>$ speeds)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a3e49a7fb746c451704f6c55720f9caec}{Set\-End\-Effector} (double percent)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a741f72f042107d75f97e225afb49eed0}{Set\-End\-Effector\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} d\-Tolerance)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a96d2c6e58dbaa65eda19ae857853875b}{Set\-End\-Pose\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a6a9e07589fb159c1252f3a1964dab3c5}{Set\-Force\-Units} (std\-::string unit\-Name)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0bf311ad72c05dbdf43eb1d17a2f6458}{Set\-Intermediate\-Pose\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a8a3a26ceedee34111d177ecfa31bc978}{Set\-Length\-Units} (std\-::string unit\-Name)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_aa0d4f4101f60374097d50126c35bcc74}{Set\-Motion\-Coordination} (bool b\-Coordinated\-Motion)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a961922ae3370ba783a6efd49c60b2615}{Set\-Parameter} (char $\ast$param\-Name, void $\ast$param\-Val)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a75b341b2b89b4e2c8994f0f8f9090a8c}{Set\-Relative\-Acceleration} (double percent)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ae3862f5c58782fcd5105af10975432d0}{Set\-Relative\-Speed} (double percent)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_afc10167b3d7468331c434b60b7f8f737}{Set\-Rot\-Accel} (double accel)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ab27eaeb82b7b859cf17addcade824829}{Set\-Rot\-Speed} (double speed)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_addfaf2d1240dcca39c813c1de09f81a1}{Set\-Torque\-Units} (std\-::string unit\-Name)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a897b31164e969c95bc8e0ba516c0aca8}{Set\-Trans\-Accel} (double accel)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a957f09eff572d3175cd045c492f521b6}{Set\-Trans\-Speed} (double speed)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0f1326fca669d46ea7be5ac08c59f645}{Stop\-Motion} (int condition)
+\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_afcee182e23a8ea376fa1fa829336feb0}{Get\-Tool} (double $\ast$percent)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclDelegateInterface_a48005fdb22d24e47fe059a5085a34eed}{Find\-Leading\-Element} (std\-::string xml)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1_1CrclDelegateInterface_a18d6ff1b51227f0424f2611804bed4bd}{crclwm}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ab6dab41e2398ed9a2cd2ac58e4c00ea2}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Crcl\-Delegate\-Interface@{Crcl\-Delegate\-Interface}}
+\index{Crcl\-Delegate\-Interface@{Crcl\-Delegate\-Interface}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Crcl\-Delegate\-Interface}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Delegate\-Interface\-::\-Crcl\-Delegate\-Interface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCrcl_1_1CrclDelegateInterface_ab6dab41e2398ed9a2cd2ac58e4c00ea2}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a5e666cfdbbaee53ddead4035cda12399}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Actuate\-Joints@{Actuate\-Joints}}
+\index{Actuate\-Joints@{Actuate\-Joints}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Actuate\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Actuate\-Joints (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Actuator\-Joint\-Sequence}}]{joints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a5e666cfdbbaee53ddead4035cda12399}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a3c8fc025f6c0eba5609b3e0866810651}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Close\-Tool\-Changer@{Close\-Tool\-Changer}}
+\index{Close\-Tool\-Changer@{Close\-Tool\-Changer}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Close\-Tool\-Changer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Close\-Tool\-Changer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a3c8fc025f6c0eba5609b3e0866810651}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a41d9d47da2cb9463fe258903c7c8ed62}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Configure\-Joint\-Reports@{Configure\-Joint\-Reports}}
+\index{Configure\-Joint\-Reports@{Configure\-Joint\-Reports}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Configure\-Joint\-Reports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Configure\-Joint\-Reports (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf Crcl\-::\-Joint\-Report} $>$ \&}]{joint\-Reports}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a41d9d47da2cb9463fe258903c7c8ed62}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a5c4272b12bfcbd390d3c9baa3a858e73}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Couple@{Couple}}
+\index{Couple@{Couple}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Couple}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Couple (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{target\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a5c4272b12bfcbd390d3c9baa3a858e73}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a0c0209dd04c5e99e13c546b99a672ce4}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Crcl\-Run\-Program@{Crcl\-Run\-Program}}
+\index{Crcl\-Run\-Program@{Crcl\-Run\-Program}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Crcl\-Run\-Program}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-Delegate\-Interface\-::\-Crcl\-Run\-Program (
+\begin{DoxyParamCaption}
+\item[{\-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence}]{cmds}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclDelegateInterface_a0c0209dd04c5e99e13c546b99a672ce4}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a53be7c01e92e61e2be19e535e307ba41}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Delegate\-C\-R\-C\-L\-Cmd@{Delegate\-C\-R\-C\-L\-Cmd}}
+\index{Delegate\-C\-R\-C\-L\-Cmd@{Delegate\-C\-R\-C\-L\-Cmd}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Delegate\-C\-R\-C\-L\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Delegate\-C\-R\-C\-L\-Cmd (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{str}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclDelegateInterface_a53be7c01e92e61e2be19e535e307ba41}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a7513484f2c0d14332f844bdbae2c0586}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Delegate\-C\-R\-C\-L\-Cmd@{Delegate\-C\-R\-C\-L\-Cmd}}
+\index{Delegate\-C\-R\-C\-L\-Cmd@{Delegate\-C\-R\-C\-L\-Cmd}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Delegate\-C\-R\-C\-L\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Delegate\-C\-R\-C\-L\-Cmd (
+\begin{DoxyParamCaption}
+\item[{\-::C\-R\-C\-L\-Command\-Type \&}]{crcl\-Command}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclDelegateInterface_a7513484f2c0d14332f844bdbae2c0586}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a0202e19f87f1609889820ce3dc7e2aa3}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Dwell@{Dwell}}
+\index{Dwell@{Dwell}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Dwell}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Dwell (
+\begin{DoxyParamCaption}
+\item[{double}]{seconds}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0202e19f87f1609889820ce3dc7e2aa3}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a401c506a2e16f1498fb28a638f0a816a}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!End\-Canon@{End\-Canon}}
+\index{End\-Canon@{End\-Canon}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{End\-Canon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-End\-Canon (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a401c506a2e16f1498fb28a638f0a816a}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a48005fdb22d24e47fe059a5085a34eed}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Find\-Leading\-Element@{Find\-Leading\-Element}}
+\index{Find\-Leading\-Element@{Find\-Leading\-Element}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Find\-Leading\-Element}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Delegate\-Interface\-::\-Find\-Leading\-Element (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{xml}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclDelegateInterface_a48005fdb22d24e47fe059a5085a34eed}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a352a54f3e006b3daecdf5d37ff6ca4bc}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Get\-Command\-Num@{Get\-Command\-Num}}
+\index{Get\-Command\-Num@{Get\-Command\-Num}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Get\-Command\-Num}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long\& Crcl\-::\-Crcl\-Delegate\-Interface\-::\-Get\-Command\-Num (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCrcl_1_1CrclDelegateInterface_a352a54f3e006b3daecdf5d37ff6ca4bc}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a695656a7cdcb0ec121fabeb8847e47f2}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Get\-Status@{Get\-Status}}
+\index{Get\-Status@{Get\-Status}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Get\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a695656a7cdcb0ec121fabeb8847e47f2}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_afcee182e23a8ea376fa1fa829336feb0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Get\-Tool@{Get\-Tool}}
+\index{Get\-Tool@{Get\-Tool}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Get\-Tool}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Crcl\-Return} Crcl\-::\-Crcl\-Delegate\-Interface\-::\-Get\-Tool (
+\begin{DoxyParamCaption}
+\item[{double $\ast$}]{percent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_afcee182e23a8ea376fa1fa829336feb0}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ace91dcb602e1aa5a45bdf8bbcec38391}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Init\-Canon@{Init\-Canon}}
+\index{Init\-Canon@{Init\-Canon}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Init\-Canon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Init\-Canon (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ace91dcb602e1aa5a45bdf8bbcec38391}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a24d05f3f6758ff75df04ef4ef6260fae}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Message@{Message}}
+\index{Message@{Message}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Message (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a24d05f3f6758ff75df04ef4ef6260fae}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_aa7b40e1070284dc5ca9069eb1ea7026d}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Move\-Through\-To@{Move\-Through\-To}}
+\index{Move\-Through\-To@{Move\-Through\-To}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Move\-Through\-To}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Move\-Through\-To (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf Crcl\-::\-Pose\-Type} $>$ \&}]{poses, }
+\item[{bool}]{b\-Straight}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_aa7b40e1070284dc5ca9069eb1ea7026d}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ac04c8af185b4465add0654b47d3b4ce3}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Move\-To@{Move\-To}}
+\index{Move\-To@{Move\-To}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Move\-To}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Move\-To (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type}}]{endpose, }
+\item[{bool}]{b\-Straight}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ac04c8af185b4465add0654b47d3b4ce3}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a0b78b935f64602c8543dd4cb6a6929ba}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Open\-Tool\-Changer@{Open\-Tool\-Changer}}
+\index{Open\-Tool\-Changer@{Open\-Tool\-Changer}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Open\-Tool\-Changer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Open\-Tool\-Changer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0b78b935f64602c8543dd4cb6a6929ba}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a524e770e96afe3fd89fd11d70e56cbe3}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Run\-Program@{Run\-Program}}
+\index{Run\-Program@{Run\-Program}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Run\-Program}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Run\-Program (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{program\-Text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a524e770e96afe3fd89fd11d70e56cbe3}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a723c774e71cac9c51fb8159d06e9ae1a}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Absolute\-Acceleration@{Set\-Absolute\-Acceleration}}
+\index{Set\-Absolute\-Acceleration@{Set\-Absolute\-Acceleration}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Absolute\-Acceleration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Absolute\-Acceleration (
+\begin{DoxyParamCaption}
+\item[{double}]{acceleration}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a723c774e71cac9c51fb8159d06e9ae1a}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ad26647a78097ff9ee50e1abe285b7dbe}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Absolute\-Speed@{Set\-Absolute\-Speed}}
+\index{Set\-Absolute\-Speed@{Set\-Absolute\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Absolute\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Absolute\-Speed (
+\begin{DoxyParamCaption}
+\item[{double}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ad26647a78097ff9ee50e1abe285b7dbe}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a08129b3f3681981b1d0e294a88674269}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Angle\-Units@{Set\-Angle\-Units}}
+\index{Set\-Angle\-Units@{Set\-Angle\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Angle\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Angle\-Units (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{unit\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a08129b3f3681981b1d0e294a88674269}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ae25f975824369ab1b82aa4c1b44c8754}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Axial\-Speeds@{Set\-Axial\-Speeds}}
+\index{Set\-Axial\-Speeds@{Set\-Axial\-Speeds}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Axial\-Speeds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Axial\-Speeds (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{speeds}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ae25f975824369ab1b82aa4c1b44c8754}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a3e49a7fb746c451704f6c55720f9caec}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-End\-Effector@{Set\-End\-Effector}}
+\index{Set\-End\-Effector@{Set\-End\-Effector}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-End\-Effector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-End\-Effector (
+\begin{DoxyParamCaption}
+\item[{double}]{percent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a3e49a7fb746c451704f6c55720f9caec}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a741f72f042107d75f97e225afb49eed0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}}
+\index{Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-End\-Effector\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-End\-Effector\-Tolerance (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{d\-Tolerance}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a741f72f042107d75f97e225afb49eed0}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a96d2c6e58dbaa65eda19ae857853875b}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-End\-Pose\-Tolerance@{Set\-End\-Pose\-Tolerance}}
+\index{Set\-End\-Pose\-Tolerance@{Set\-End\-Pose\-Tolerance}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-End\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-End\-Pose\-Tolerance (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{tolerance}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a96d2c6e58dbaa65eda19ae857853875b}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a6a9e07589fb159c1252f3a1964dab3c5}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Force\-Units@{Set\-Force\-Units}}
+\index{Set\-Force\-Units@{Set\-Force\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Force\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Force\-Units (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{unit\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a6a9e07589fb159c1252f3a1964dab3c5}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a0bf311ad72c05dbdf43eb1d17a2f6458}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Intermediate\-Pose\-Tolerance@{Set\-Intermediate\-Pose\-Tolerance}}
+\index{Set\-Intermediate\-Pose\-Tolerance@{Set\-Intermediate\-Pose\-Tolerance}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Intermediate\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Intermediate\-Pose\-Tolerance (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{tolerance}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0bf311ad72c05dbdf43eb1d17a2f6458}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a8a3a26ceedee34111d177ecfa31bc978}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Length\-Units@{Set\-Length\-Units}}
+\index{Set\-Length\-Units@{Set\-Length\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Length\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Length\-Units (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{unit\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a8a3a26ceedee34111d177ecfa31bc978}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_aa0d4f4101f60374097d50126c35bcc74}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Motion\-Coordination@{Set\-Motion\-Coordination}}
+\index{Set\-Motion\-Coordination@{Set\-Motion\-Coordination}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Motion\-Coordination}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Motion\-Coordination (
+\begin{DoxyParamCaption}
+\item[{bool}]{b\-Coordinated\-Motion}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_aa0d4f4101f60374097d50126c35bcc74}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a961922ae3370ba783a6efd49c60b2615}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Parameter@{Set\-Parameter}}
+\index{Set\-Parameter@{Set\-Parameter}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Parameter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Parameter (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{param\-Name, }
+\item[{void $\ast$}]{param\-Val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a961922ae3370ba783a6efd49c60b2615}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a75b341b2b89b4e2c8994f0f8f9090a8c}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Relative\-Acceleration@{Set\-Relative\-Acceleration}}
+\index{Set\-Relative\-Acceleration@{Set\-Relative\-Acceleration}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Relative\-Acceleration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Relative\-Acceleration (
+\begin{DoxyParamCaption}
+\item[{double}]{percent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a75b341b2b89b4e2c8994f0f8f9090a8c}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ae3862f5c58782fcd5105af10975432d0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Relative\-Speed@{Set\-Relative\-Speed}}
+\index{Set\-Relative\-Speed@{Set\-Relative\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Relative\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Relative\-Speed (
+\begin{DoxyParamCaption}
+\item[{double}]{percent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ae3862f5c58782fcd5105af10975432d0}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_afc10167b3d7468331c434b60b7f8f737}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Rot\-Accel@{Set\-Rot\-Accel}}
+\index{Set\-Rot\-Accel@{Set\-Rot\-Accel}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Rot\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Rot\-Accel (
+\begin{DoxyParamCaption}
+\item[{double}]{accel}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_afc10167b3d7468331c434b60b7f8f737}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_ab27eaeb82b7b859cf17addcade824829}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Rot\-Speed@{Set\-Rot\-Speed}}
+\index{Set\-Rot\-Speed@{Set\-Rot\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Rot\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Rot\-Speed (
+\begin{DoxyParamCaption}
+\item[{double}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ab27eaeb82b7b859cf17addcade824829}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_addfaf2d1240dcca39c813c1de09f81a1}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Torque\-Units@{Set\-Torque\-Units}}
+\index{Set\-Torque\-Units@{Set\-Torque\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Torque\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Torque\-Units (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{unit\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_addfaf2d1240dcca39c813c1de09f81a1}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a897b31164e969c95bc8e0ba516c0aca8}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Trans\-Accel@{Set\-Trans\-Accel}}
+\index{Set\-Trans\-Accel@{Set\-Trans\-Accel}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Trans\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Trans\-Accel (
+\begin{DoxyParamCaption}
+\item[{double}]{accel}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a897b31164e969c95bc8e0ba516c0aca8}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a957f09eff572d3175cd045c492f521b6}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Trans\-Speed@{Set\-Trans\-Speed}}
+\index{Set\-Trans\-Speed@{Set\-Trans\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Set\-Trans\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Trans\-Speed (
+\begin{DoxyParamCaption}
+\item[{double}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a957f09eff572d3175cd045c492f521b6}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a0f1326fca669d46ea7be5ac08c59f645}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Stop\-Motion@{Stop\-Motion}}
+\index{Stop\-Motion@{Stop\-Motion}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{Stop\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Stop\-Motion (
+\begin{DoxyParamCaption}
+\item[{int}]{condition}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0f1326fca669d46ea7be5ac08c59f645}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a18d6ff1b51227f0424f2611804bed4bd}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!crclwm@{crclwm}}
+\index{crclwm@{crclwm}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
+\subsubsection[{crclwm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Status} Crcl\-Delegate\-Interface\-::crclwm\hspace{0.3cm}{\ttfamily [static]}}}\label{classCrcl_1_1CrclDelegateInterface_a18d6ff1b51227f0424f2611804bed4bd}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{CrclInterface_8h}{Crcl\-Interface.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{CrclInterface_8cpp}{Crcl\-Interface.\-cpp}\end{DoxyCompactItemize}

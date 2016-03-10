@@ -1,0 +1,148 @@
+\hypertarget{classRCSInterpreter}{\section{R\-C\-S\-Interpreter Class Reference}
+\label{classRCSInterpreter}\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}}
+}
+
+
+\hyperlink{classRCSInterpreter}{R\-C\-S\-Interpreter} parses a \hyperlink{namespaceRCS}{R\-C\-S} command and generates robot motion commands.  
+
+
+
+
+{\ttfamily \#include $<$R\-C\-S\-Interpreter.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCSInterpreter_abf39be78f8107db4844c33434fe33caf}{R\-C\-S\-Interpreter} (\hyperlink{Kinematics_8h_aa720b9842c846588baf215581fb9f902}{I\-Kinematics\-Shared\-Ptr} k=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classRCSInterpreter}{R\-C\-S\-Interpreter} constructor that optionally accepts pointer to kinematic instance. \end{DoxyCompactList}\item 
+\hyperlink{classRCSInterpreter_a540468718197e24d7c20cc1f43696715}{$\sim$\-R\-C\-S\-Interpreter} (void)
+\item 
+int \hyperlink{classRCSInterpreter_a7f7cee6a3606a2b3f22ca3f802a1fc39}{Parse\-Command} (\hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} cmd)
+\begin{DoxyCompactList}\small\item\em Parse\-Command parses a \hyperlink{namespaceRCS}{R\-C\-S} command and queues robot motion commands. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Kinematics_8h_aa720b9842c846588baf215581fb9f902}{I\-Kinematics\-Shared\-Ptr} \hyperlink{classRCSInterpreter_a0a78e67ba785253bf3de6877294da699}{\-\_\-kinematics}
+\item 
+\hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec} \hyperlink{classRCSInterpreter_a7b71ecaad68a14cc341d98d463e6f5b5}{results}
+\item 
+std\-::vector$<$ double $>$ \hyperlink{classRCSInterpreter_a2437a1768cfa972b39ff56c8f16ff3c1}{times}
+\item 
+\hyperlink{classIRate}{I\-Rate} \hyperlink{classRCSInterpreter_a11b1a673682a9d0451877d3b5c3e0e3e}{rates}
+\item 
+\hyperlink{classMotionControl}{Motion\-Control} \hyperlink{classRCSInterpreter_ae59648ec8d61ea6957bbd320f2a4665a}{motioncontrol}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classRCSInterpreter_af33d7a81522ff6de4f7e56a20520c4de}{Add\-Joint\-Commands} (std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ gotojoints)
+\begin{DoxyCompactList}\small\item\em Add\-Joint\-Commands accepts vector of joint trajectories and adds to robot motion queue. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classRCSInterpreter_ad5393d870957f985f307a9aadd41231c}{Plan\-Cartesian\-Motion} (std\-::vector$<$ urdf\-::\-Pose $>$ poses)
+\begin{DoxyCompactList}\small\item\em Plan\-Cartesian\-Motion accepts vector of poses and generates a vector of joint trajectories. Can use a couple of planning algorithms to generate trajectory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classRCSInterpreter}{R\-C\-S\-Interpreter} parses a \hyperlink{namespaceRCS}{R\-C\-S} command and generates robot motion commands. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCSInterpreter_abf39be78f8107db4844c33434fe33caf}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}}
+\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{R\-C\-S\-Interpreter}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-Interpreter\-::\-R\-C\-S\-Interpreter (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-Kinematics\-Shared\-Ptr}}]{k = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classRCSInterpreter_abf39be78f8107db4844c33434fe33caf}
+
+
+\hyperlink{classRCSInterpreter}{R\-C\-S\-Interpreter} constructor that optionally accepts pointer to kinematic instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & is the kinematics pointer \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCSInterpreter_a540468718197e24d7c20cc1f43696715}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!$\sim$\-R\-C\-S\-Interpreter@{$\sim$\-R\-C\-S\-Interpreter}}
+\index{$\sim$\-R\-C\-S\-Interpreter@{$\sim$\-R\-C\-S\-Interpreter}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{$\sim$\-R\-C\-S\-Interpreter}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-Interpreter\-::$\sim$\-R\-C\-S\-Interpreter (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCSInterpreter_a540468718197e24d7c20cc1f43696715}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCSInterpreter_af33d7a81522ff6de4f7e56a20520c4de}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!Add\-Joint\-Commands@{Add\-Joint\-Commands}}
+\index{Add\-Joint\-Commands@{Add\-Joint\-Commands}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{Add\-Joint\-Commands}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-Interpreter\-::\-Add\-Joint\-Commands (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf Joint\-State} $>$}]{gotojoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCSInterpreter_af33d7a81522ff6de4f7e56a20520c4de}
+
+
+Add\-Joint\-Commands accepts vector of joint trajectories and adds to robot motion queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gotojoints} & is the vector of joint states describing the motion. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCSInterpreter_a7f7cee6a3606a2b3f22ca3f802a1fc39}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!Parse\-Command@{Parse\-Command}}
+\index{Parse\-Command@{Parse\-Command}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{Parse\-Command}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-Interpreter\-::\-Parse\-Command (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Canon\-Cmd}}]{cmd}
+\end{DoxyParamCaption}
+)}}\label{classRCSInterpreter_a7f7cee6a3606a2b3f22ca3f802a1fc39}
+
+
+Parse\-Command parses a \hyperlink{namespaceRCS}{R\-C\-S} command and queues robot motion commands. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmd} & is the command to interpret \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCSInterpreter_ad5393d870957f985f307a9aadd41231c}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!Plan\-Cartesian\-Motion@{Plan\-Cartesian\-Motion}}
+\index{Plan\-Cartesian\-Motion@{Plan\-Cartesian\-Motion}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{Plan\-Cartesian\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Joint\-State} $>$ R\-C\-S\-Interpreter\-::\-Plan\-Cartesian\-Motion (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ urdf\-::\-Pose $>$}]{poses}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCSInterpreter_ad5393d870957f985f307a9aadd41231c}
+
+
+Plan\-Cartesian\-Motion accepts vector of poses and generates a vector of joint trajectories. Can use a couple of planning algorithms to generate trajectory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em poses} & is the vector of cartesian motion. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of planned joint states 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRCSInterpreter_a0a78e67ba785253bf3de6877294da699}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!\-\_\-kinematics@{\-\_\-kinematics}}
+\index{\-\_\-kinematics@{\-\_\-kinematics}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{\-\_\-kinematics}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-Kinematics\-Shared\-Ptr} R\-C\-S\-Interpreter\-::\-\_\-kinematics}}\label{classRCSInterpreter_a0a78e67ba785253bf3de6877294da699}
+kinematics pointer \hypertarget{classRCSInterpreter_ae59648ec8d61ea6957bbd320f2a4665a}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!motioncontrol@{motioncontrol}}
+\index{motioncontrol@{motioncontrol}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{motioncontrol}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Motion\-Control} R\-C\-S\-Interpreter\-::motioncontrol}}\label{classRCSInterpreter_ae59648ec8d61ea6957bbd320f2a4665a}
+instance of simple motion control object \hypertarget{classRCSInterpreter_a11b1a673682a9d0451877d3b5c3e0e3e}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!rates@{rates}}
+\index{rates@{rates}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{rates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-Rate} R\-C\-S\-Interpreter\-::rates}}\label{classRCSInterpreter_a11b1a673682a9d0451877d3b5c3e0e3e}
+rates structure for simple motion planner \hypertarget{classRCSInterpreter_a7b71ecaad68a14cc341d98d463e6f5b5}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!results@{results}}
+\index{results@{results}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{results}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Trajectory\-Vec} R\-C\-S\-Interpreter\-::results}}\label{classRCSInterpreter_a7b71ecaad68a14cc341d98d463e6f5b5}
+descartes motion planner results \hypertarget{classRCSInterpreter_a2437a1768cfa972b39ff56c8f16ff3c1}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!times@{times}}
+\index{times@{times}!RCSInterpreter@{R\-C\-S\-Interpreter}}
+\subsubsection[{times}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ R\-C\-S\-Interpreter\-::times}}\label{classRCSInterpreter_a2437a1768cfa972b39ff56c8f16ff3c1}
+descartes times for trajectory results 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCSInterpreter_8h}{R\-C\-S\-Interpreter.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Archive/\hyperlink{Archive_2RCSInterpreter_8cpp}{R\-C\-S\-Interpreter.\-cpp}\end{DoxyCompactItemize}

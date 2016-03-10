@@ -1,0 +1,179 @@
+.TH "RCS::Timer" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::Timer \- 
+.PP
+\fBTimer\fP is a general-purpose timer\&. The \fBTimer\fP is a general-purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RCSTimer\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTimer\fP (double _timeout, \fBRCS_TIMERFUNC\fP _function=(\fBRCS_TIMERFUNC\fP) 0)"
+.br
+.RI "\fItimeout is wait interval, rounded up to clock tick resolution; function is external time base, if provided\&. \fP"
+.ti -1c
+.RI "void \fBesleep\fP (double seconds_to_sleep)"
+.br
+.RI "\fIsleep number of seconds to sleep\&. \fP"
+.ti -1c
+.RI "boost::chrono::high_resolution_clock::time_point \fBetime\fP ()"
+.br
+.RI "\fInumber of seconds from some epoch, to clock tick resolution\&. \fP"
+.ti -1c
+.RI "double \fBclk_tck\fP ()"
+.br
+.RI "\fInumber of clock ticks per second using high resolution timer\&. \fP"
+.ti -1c
+.RI "int \fBwait\fP ()"
+.br
+.RI "\fIwait on synch; returns # of cycles missed\&. \fP"
+.ti -1c
+.RI "double \fBload\fP ()"
+.br
+.RI "\fIReturns % loading on timer, 0\&.0 means all waits, 1\&.0 means no time in wait\&. This is average load\&. \fP"
+.ti -1c
+.RI "double \fBfree\fP ()"
+.br
+.RI "\fICompute free time over all cycles\&. \fP"
+.ti -1c
+.RI "void \fBsync\fP ()"
+.br
+.RI "\fISynchronize the timing service\&. Initialize start time and last time called to current time since epoch\&. \fP"
+.ti -1c
+.RI "void \fBsuspend\fP ()"
+.br
+.RI "\fISuspend the timing\&. \fP"
+.ti -1c
+.RI "void \fBresume\fP ()"
+.br
+.RI "\fIResume the timing\&. Wakeup timer with boost conditional notify\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static double & \fBlast_esleep_seconds_to_sleep\fP ()"
+.br
+.RI "\fIreturn last sleep number of seconds to slept\&. \fP"
+.ti -1c
+.RI "static int & \fBetime_disabled\fP ()"
+.br
+.ti -1c
+.RI "static double & \fBetime_disable_time\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBTimer\fP is a general-purpose timer\&. The \fBTimer\fP is a general-purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::Timer::Timer (double_timeout, \fBRCS_TIMERFUNC\fP_function = \fC(\fBRCS_TIMERFUNC\fP) 0\fP)\fC [inline]\fP"
+
+.PP
+timeout is wait interval, rounded up to clock tick resolution; function is external time base, if provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimeout\fP period\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "double RCS::Timer::clk_tck ()\fC [inline]\fP"
+
+.PP
+number of clock ticks per second using high resolution timer\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+number of ticks per second\&. 
+.RE
+.PP
+
+.SS "void RCS::Timer::esleep (doubleseconds_to_sleep)\fC [inline]\fP"
+
+.PP
+sleep number of seconds to sleep\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIseconds\fP (or fractions) to sleep\&. Must be positive\&. 
+.RE
+.PP
+
+.SS "boost::chrono::high_resolution_clock::time_point RCS::Timer::etime ()\fC [inline]\fP"
+
+.PP
+number of seconds from some epoch, to clock tick resolution\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+high_resolution_clock now 
+.RE
+.PP
+
+.SS "static double& RCS::Timer::etime_disable_time ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "static int& RCS::Timer::etime_disabled ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "double RCS::Timer::free ()\fC [inline]\fP"
+
+.PP
+Compute free time over all cycles\&. 
+.SS "static double& RCS::Timer::last_esleep_seconds_to_sleep ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+return last sleep number of seconds to slept\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+last seconds (or fractions) last slept\&. -199\&.99 if unused\&. 
+.RE
+.PP
+
+.SS "double RCS::Timer::load ()\fC [inline]\fP"
+
+.PP
+Returns % loading on timer, 0\&.0 means all waits, 1\&.0 means no time in wait\&. This is average load\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+double or -1 of time spent busy\&. 
+.RE
+.PP
+
+.SS "void RCS::Timer::resume ()\fC [inline]\fP"
+
+.PP
+Resume the timing\&. Wakeup timer with boost conditional notify\&. 
+.SS "void RCS::Timer::suspend ()\fC [inline]\fP"
+
+.PP
+Suspend the timing\&. 
+.SS "void RCS::Timer::sync ()\fC [inline]\fP"
+
+.PP
+Synchronize the timing service\&. Initialize start time and last time called to current time since epoch\&. 
+.SS "int RCS::Timer::wait ()\fC [inline]\fP"
+
+.PP
+wait on synch; returns # of cycles missed\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+# of cycles missed\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

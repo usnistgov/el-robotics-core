@@ -1,0 +1,370 @@
+.TH "CAsioCrclSession" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CAsioCrclSession \- 
+.PP
+The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
+.br
+ Useful web sites:  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <AsioCrclServer\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCAsioCrclSession\fP (boost::asio::io_service &io_service)"
+.br
+.RI "\fIConstructor for each listener on the socket\&. \fP"
+.ti -1c
+.RI "void \fBAppendBuffer\fP (std::string read)"
+.br
+.RI "\fIAppends a socket buffer\&. Add previous buffer is exists\&. \fP"
+.ti -1c
+.RI "void \fBBufferHandler\fP (std::string &endtag)"
+.br
+.RI "\fILooks for matching end xml tag\&. If found, saves message into queue, and restarts read process\&. \fP"
+.ti -1c
+.RI "void \fBDisconnect\fP ()"
+.br
+.RI "\fIDisconnect timer, socket, and running flags\&. \fP"
+.ti -1c
+.RI "std::string \fBFindLeadingElement\fP (std::string xml)"
+.br
+.RI "\fIFinds the leading XML tag to create matching end tag\&. If none, return nonsense tag\&. Uses boost regex\&.  xml is the text to search for starting tag\&. \fP"
+.ti -1c
+.RI "size_t \fBHandleRead\fP (const \fBerror_code\fP &error, size_t bytes_read)"
+.br
+.RI "\fIHandles notification from asio via socket or timeout error or other error\&. \fP"
+.ti -1c
+.RI "virtual void \fBSession\fP ()"
+.br
+.RI "\fIFor each connection a new Session is started\&. \fP"
+.ti -1c
+.RI "void \fBSaveMessage\fP (std::string xmlmessage)"
+.br
+.RI "\fIQueues message onto message queue\&. \fP"
+.ti -1c
+.RI "tcp::socket & \fBSocket\fP ()"
+.br
+.RI "\fIReturn the TCP/IP socket from this session\&. \fP"
+.ti -1c
+.RI "void \fBStartAyncRead\fP ()"
+.br
+.RI "\fIStarts async read operation\&. Deadline timer going at same time\&. \fP"
+.ti -1c
+.RI "void \fBSyncWrite\fP (std::string str)"
+.br
+.RI "\fIHandles synchronous socket write of string\&. \fP"
+.ti -1c
+.RI "void \fBTagReset\fP ()"
+.br
+.RI "\fIresets the XML ending tag to be non-matchable nonsense\&. \fP"
+.ti -1c
+.RI "void \fBTimerReset\fP ()"
+.br
+.RI "\fIRestarts asio timeout timer for async read\&. Set at 2 seconds\&. Invokes callback if timer expires\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::string \fBNonsenseTag\fP ()"
+.br
+.RI "\fINonsenseTag to be used as dummy ending xml to test against\&. \fP"
+.ti -1c
+.RI "static void \fBJoin\fP (\fBCAsioCrclSession\fP *device)"
+.br
+.RI "\fIKeeps track of devices that created an asio session\&. \fP"
+.ti -1c
+.RI "static void \fBLeave\fP (\fBCAsioCrclSession\fP *device)"
+.br
+.RI "\fIKeeps track of devices that left and are no longer an asio session\&. \fP"
+.ti -1c
+.RI "static \fBCAsioMessages\fP & \fBInMessages\fP ()"
+.br
+.RI "\fIKeeps track of devices that left and are no longer an asio session\&. \fP"
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "enum { \fBmax_length\fP = 4096 }"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "boost::condition_variable \fBcMessage\fP"
+.br
+.ti -1c
+.RI "boost::mutex \fBcondMutex\fP"
+.br
+.ti -1c
+.RI "tcp::socket \fB_socket\fP"
+.br
+.ti -1c
+.RI "boost::asio::deadline_timer \fB_timer\fP"
+.br
+.ti -1c
+.RI "std::string \fB_current\fP"
+.br
+.ti -1c
+.RI "std::string \fB_next\fP"
+.br
+.ti -1c
+.RI "std::string \fB_endtag\fP"
+.br
+.ti -1c
+.RI "char \fBdata_\fP [\fBmax_length\fP]"
+.br
+.ti -1c
+.RI "unsigned int(* \fBErrorMessage\fP )(std::string)"
+.br
+.ti -1c
+.RI "bool \fB_bRunning\fP"
+.br
+.ti -1c
+.RI "friend \fBCAsioCrclServer\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static std::set
+.br
+< \fBCAsioCrclSession\fP * > \fB_devices\fP"
+.br
+.ti -1c
+.RI "static \fBCAsioMessages\fP \fB_inmsgs\fP"
+.br
+.ti -1c
+.RI "static \fBCAsioMessages\fP \fB_outmsgs\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
+.br
+ Useful web sites: 
+
+
+.br
+asio read socket 
+.br
+http://stackoverflow.com/questions/4933610/boostasio-async-read-guarantee-all-bytes-are-read 
+.br
+http://www.tagwith.com/question_285175_when-do-i-call-boostasiostreambufconsume-and-boostasiostreambufcom 
+.br
+http://www.dahuatu.com/jdyjaPxKWQ.html 
+.br
+https://issues.apache.org/jira/browse/THRIFT-311 
+.br
+http://pastebin.com/Li3wbpvu 
+.br
+http://geekswithblogs.net/JoshReuben/archive/2014/11/17/c-boost-in-a-nutshell.aspx 
+.br
+http://pastebin.com/YXk9stVA 
+.br
+http://thisthread.blogspot.com/2013/09/simple-asio-tcp-clientserver-example.html 
+.br
+http://dolinked.com/questions/4792923/uninitialized-read-error-on-asio-tcp-socket 
+.br
+http://onnerby.se/~daniel/mC2/trunk/docs/core/html/_socket_8h-source.html 
+.br
+http://en.pudn.com/downloads245/sourcecode/internet/proxy/detail1143109_en.html 
+.br
+http://www.gamedev.net/topic/566670-c-implementing-ssl/ 
+.br
+http://cpp.knowcoding.com/view/20682-tcp-socket.html 
+.br
+Buffering: 
+.br
+http://stackoverflow.com/questions/4294651/sending-an-xml-message-in-parts-through-a-tcp-socket-using-qt 
+.br
+http://www.codesynthesis.com/pipermail/xsde-users/2014-January/000631.html 
+.br
+Raw: 
+.br
+http://www.bogotobogo.com/cplusplus/sockets_server_client.php 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "anonymous enum\fC [protected]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fImax_length \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CAsioCrclSession::CAsioCrclSession (boost::asio::io_service &io_service)"
+
+.PP
+Constructor for each listener on the socket\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIio_service\fP reference tot he asio service providers\&. only one per program\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void CAsioCrclSession::AppendBuffer (std::stringread)"
+
+.PP
+Appends a socket buffer\&. Add previous buffer is exists\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIread\fP buffer of characters 
+.RE
+.PP
+
+.SS "void CAsioCrclSession::BufferHandler (std::string &endtag)"
+
+.PP
+Looks for matching end xml tag\&. If found, saves message into queue, and restarts read process\&. *
+.PP
+\fBParameters:\fP
+.RS 4
+\fIendtag\fP is the ending tag, e\&.g\&., </ENDTAG to match against\&. Includes backslash\&. 
+.RE
+.PP
+
+.SS "void CAsioCrclSession::Disconnect ()"
+
+.PP
+Disconnect timer, socket, and running flags\&. 
+.IP "\(bu" 2
+
+.PP
+
+.SS "std::string CAsioCrclSession::FindLeadingElement (std::stringxml)"
+
+.PP
+Finds the leading XML tag to create matching end tag\&. If none, return nonsense tag\&. Uses boost regex\&.  xml is the text to search for starting tag\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+end tag or nonsense tag if none\&. e\&.g\&., </TAG> 
+.RE
+.PP
+
+.SS "size_t CAsioCrclSession::HandleRead (const \fBerror_code\fP &error, size_tbytes_read)"
+
+.PP
+Handles notification from asio via socket or timeout error or other error\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerror\fP is potential communiationerror\&. 
+.br
+\fIresult\fP is the buffer size of the socket read\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+size of buffer read\&. 
+.RE
+.PP
+
+.SS "static \fBCAsioMessages\fP& CAsioCrclSession::InMessages ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Keeps track of devices that left and are no longer an asio session\&. 
+.SS "static void CAsioCrclSession::Join (\fBCAsioCrclSession\fP *device)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Keeps track of devices that created an asio session\&. 
+.SS "static void CAsioCrclSession::Leave (\fBCAsioCrclSession\fP *device)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Keeps track of devices that left and are no longer an asio session\&. 
+.SS "static std::string CAsioCrclSession::NonsenseTag ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+NonsenseTag to be used as dummy ending xml to test against\&. 
+.SS "void CAsioCrclSession::SaveMessage (std::stringxmlmessage)"
+
+.PP
+Queues message onto message queue\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxmlmessage\fP to queue onto this session message queue\&. 
+.RE
+.PP
+
+.SS "void CAsioCrclSession::Session ()\fC [virtual]\fP"
+
+.PP
+For each connection a new Session is started\&. 
+.SS "tcp::socket& CAsioCrclSession::Socket ()\fC [inline]\fP"
+
+.PP
+Return the TCP/IP socket from this session\&. 
+.SS "void CAsioCrclSession::StartAyncRead ()"
+
+.PP
+Starts async read operation\&. Deadline timer going at same time\&. 
+.SS "void CAsioCrclSession::SyncWrite (std::stringstr)"
+
+.PP
+Handles synchronous socket write of string\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP is the string to write out on the socket\&. 
+.RE
+.PP
+
+.SS "void CAsioCrclSession::TagReset ()\fC [inline]\fP"
+
+.PP
+resets the XML ending tag to be non-matchable nonsense\&. 
+.SS "void CAsioCrclSession::TimerReset ()"
+
+.PP
+Restarts asio timeout timer for async read\&. Set at 2 seconds\&. Invokes callback if timer expires\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "bool CAsioCrclSession::_bRunning\fC [protected]\fP"
+boolean running loop flag 
+.SS "std::string CAsioCrclSession::_current\fC [protected]\fP"
+current string read from socket 
+.SS "std::set< \fBCAsioCrclSession\fP * > CAsioCrclSession::_devices\fC [static]\fP, \fC [protected]\fP"
+list of devices being listened to 
+.SS "std::string CAsioCrclSession::_endtag\fC [protected]\fP"
+endtag to designate the end of \fBCrcl\fP XML message, found from beginning 
+.SS "\fBCAsioMessages\fP CAsioCrclSession::_inmsgs\fC [static]\fP, \fC [protected]\fP"
+queue of inbound crcl xml messages from device 
+.SS "std::string CAsioCrclSession::_next\fC [protected]\fP"
+leftover string after pulling out \fBCrcl\fP XML message 
+.SS "\fBCAsioMessages\fP CAsioCrclSession::_outmsgs\fC [static]\fP, \fC [protected]\fP"
+queue of outbound crcl xml messages to device 
+.SS "tcp::socket CAsioCrclSession::_socket\fC [protected]\fP"
+tcp/ip asio socket 
+.SS "boost::asio::deadline_timer CAsioCrclSession::_timer\fC [protected]\fP"
+socket reader timer 
+.SS "friend CAsioCrclSession::CAsioCrclServer\fC [protected]\fP"
+
+.SS "boost::condition_variable CAsioCrclSession::cMessage\fC [protected]\fP"
+
+.SS "boost::mutex CAsioCrclSession::condMutex\fC [protected]\fP"
+mutex to 
+.SS "char CAsioCrclSession::data_[\fBmax_length\fP]\fC [protected]\fP"
+asio tcp/ip character read buffer 
+.SS "unsigned int( * CAsioCrclSession::ErrorMessage)(std::string)\fC [protected]\fP"
+function pointer to error message emitter 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

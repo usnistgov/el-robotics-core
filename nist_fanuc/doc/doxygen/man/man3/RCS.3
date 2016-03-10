@@ -1,0 +1,388 @@
+.TH "RCS" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBRdfJoint\fP"
+.br
+.ti -1c
+.RI "class \fBChainRobotModel\fP"
+.br
+.ti -1c
+.RI "struct \fBCController\fP"
+.br
+.RI "\fIThe \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) \fP"
+.ti -1c
+.RI "class \fBRobotStatus\fP"
+.br
+.RI "\fIThe \fBRobotStatus\fP is a thread to updates the status of the robot\&. The \fBRobotStatus\fP is a separate thread that updates the robot status\&. Currently, it uses a JointReader to read joint values from the controller\&. It uses a Kinematics pointer reference to compute the current pose using the FK routine\&. It also uses a CrclDelegate pointer reference to update the status reported by CRCL\&. \fP"
+.ti -1c
+.RI "class \fBRobotProgram\fP"
+.br
+.RI "\fIThe \fBRobotProgram\fP is a thread to handle crcl programs\&. \fBCrcl\fP programs are not in fact legitimate, however, debugging and verification are assisted by programs\&. However, program as in the \fBCrcl\fP XSD specification, so it doesn't hurt to handle\&. They require special handling as only one command should be done at a time\&. Uses codesynthesis to parse \fBCrcl\fP xml into C++ data structures\&. \fP"
+.ti -1c
+.RI "class \fBCMessageQueue\fP"
+.br
+.RI "\fIThe \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&. \fP"
+.ti -1c
+.RI "class \fBThread\fP"
+.br
+.RI "\fI\fBThread\fP is an \fBRCS\fP ulapi equivalent for timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
+.br
+ Notes: https://www.quantnet.com/threads/c-multithreading-in-boost.10028/\&. \fP"
+.ti -1c
+.RI "class \fBTimer\fP"
+.br
+.RI "\fI\fBTimer\fP is a general-purpose timer\&. The \fBTimer\fP is a general-purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer\&. \fP"
+.ti -1c
+.RI "struct \fBCanonCmd\fP"
+.br
+.RI "\fI\fBCanonCmd\fP is the controller command structure\&. \fP"
+.ti -1c
+.RI "struct \fBCanonWorldModel\fP"
+.br
+.RI "\fI\fBCanonWorldModel\fP describes the controller state\&. Includes reference to robot model\&. \fP"
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int(* \fBRCS_TIMERFUNC\fP )(void *_arg)"
+.br
+.ti -1c
+.RI "typedef urdf::Pose \fBPose\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Vector3 \fBPosition\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Rotation \fBRotation\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Vector3 \fBVector3\fP"
+.br
+.ti -1c
+.RI "typedef double \fBLength\fP"
+.br
+.ti -1c
+.RI "typedef double \fBLinearVelocity\fP"
+.br
+.ti -1c
+.RI "typedef double \fBAngularVelocity\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< double > \fBrobotAxes\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBCanonLengthUnit\fP { \fBMETER\fP = 0, \fBMM\fP, \fBINCH\fP }"
+.br
+.RI "\fIenumeration of length units\&. Conversion into ROS compatible meters\&. \fP"
+.ti -1c
+.RI "enum \fBTrajPointType\fP { \fBWAYPOINT\fP = 1, \fBGOAL\fP }"
+.br
+.RI "\fIenumeration of trajector pose points\&. \fP"
+.ti -1c
+.RI "enum \fBCanonAngleUnit\fP { \fBRADIAN\fP = 0, \fBDEGREE\fP }"
+.br
+.RI "\fIenumeration of angle units\&. Conversion into ROS compatible radians\&. \fP"
+.ti -1c
+.RI "enum \fBCanonForceUnit\fP { \fBNEWTON\fP = 0, \fBPOUND\fP, \fBOUNCE\fP }"
+.br
+.RI "\fIenumeration of force units\&. \fP"
+.ti -1c
+.RI "enum \fBCanonTorqueUnit\fP { \fBNEWTONMETER\fP = 0, \fBFOOTPOUND\fP }"
+.br
+.RI "\fIenumeration of torque units\&. \fP"
+.ti -1c
+.RI "enum \fBCanonReturn\fP { \fBCANON_REJECT\fP = -2, \fBCANON_FAILURE\fP = -1, \fBCANON_SUCCESS\fP = 0, \fBCANON_STATUSREPLY\fP = 1, \fBCANON_RUNNING\fP }"
+.br
+.RI "\fIenumeration of return type from \fBCrcl\fP intepretation\&. If statusreply, requires status sent to \fBCrcl\fP client\&. \fP"
+.ti -1c
+.RI "enum \fBCanonCmdType\fP { \fBCANON_NOOP\fP = 0, \fBCANON_DWELL\fP, \fBCANON_END_CANON\fP, \fBCANON_INIT_CANON\fP, \fBCANON_MOVE_JOINT\fP, \fBCANON_MOVE_TO\fP, \fBCANON_MOVE_THRU\fP, \fBCANON_SET_MAX_CART_ACC\fP, \fBCANON_SET_MAX_CART_SPEED\fP, \fBCANON_SET_MAX_JOINT_ACC\fP, \fBCANON_SET_MAX_JOINT_SPEED\fP, \fBCANON_SET_GRIPPER\fP, \fBCANON_STOP_MOTION\fP, \fBCANON_UNKNOWN\fP }"
+.br
+.RI "\fIenumeration of \fBCrcl\fP commands\&. Many \fBCrcl\fP commands are wm parameter setting and require no motion component\&. \fP"
+.ti -1c
+.RI "enum \fBCanonStopMotionType\fP { \fBUNSET\fP = -1, \fBIMMEDIATE\fP = 0, \fBFAST\fP, \fBNORMAL\fP }"
+.br
+.RI "\fIenumeration of stopping motion, e\&.g\&., estop equivalent to immediate\&. \fP"
+.ti -1c
+.RI "enum \fBCanonAccProfile\fP { \fBMS_IS_UNSET\fP = 0, \fBMS_IS_DONE\fP = 1, \fBMS_IS_ACCEL\fP = 2, \fBMS_IS_CONST\fP = 3, \fBMS_IS_DECEL\fP = 4, \fBMS_IS_ESTOPPING\fP = 5, \fBMS_IS_PAUSED\fP = 6 }"
+.br
+.RI "\fIenumeration of trajectory acceleration profile\&. \fP"
+.ti -1c
+.RI "enum \fBMovementType\fP { \fBMOVE_DEFAULT\fP = 0, \fBMOVE_CARTESIAN\fP, \fBMOVE_JOINT\fP }"
+.br
+.RI "\fIenumeration of trajectory motion type, joint or cartesian\&. \fP"
+.ti -1c
+.RI "enum \fBCanonStatusType\fP { \fBCANON_DONE\fP = 0, \fBCANON_WORKING\fP, \fBCANON_PAUSED\fP, \fBCANON_ERROR\fP, \fBCANON_ABORT\fP, \fBCANON_WAITING\fP }"
+.br
+.RI "\fIenumeration of controller status types for individual commands\&. Note, even though command types are listed, not all used or supported\&. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "::CRCLProgramType::MiddleCommand_sequence & \fBDummyInit\fP ()"
+.br
+.ti -1c
+.RI "template<class Rep , class Period > double \fBToNanoseconds\fP (boost::chrono::duration< Rep, Period > d)"
+.br
+.ti -1c
+.RI "template<class Rep , class Period > double \fBToSeconds\fP (boost::chrono::duration< Rep, Period > d)"
+.br
+.ti -1c
+.RI "std::string \fBDumpPose\fP (urdf::Pose &pose)"
+.br
+.RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpQuaterion\fP (std::ostream &os, const urdf::Rotation &rot)"
+.br
+.RI "\fIDumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "boost::mutex \fBcncmutex\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CController\fP \fBController\fP (\fBDEFAULT_LOOP_CYCLE\fP)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef double \fBRCS::AngularVelocity\fP"
+
+.SS "typedef double \fBRCS::Length\fP"
+
+.SS "typedef double \fBRCS::LinearVelocity\fP"
+
+.SS "typedef urdf::Pose \fBRCS::Pose\fP"
+
+.SS "typedef urdf::Vector3 \fBRCS::Position\fP"
+
+.SS "typedef int( * RCS::RCS_TIMERFUNC)(void *_arg)"
+
+.SS "typedef std::vector<double> \fBRCS::robotAxes\fP"
+
+.SS "typedef urdf::Rotation \fBRCS::Rotation\fP"
+
+.SS "typedef urdf::Vector3 \fBRCS::Vector3\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBRCS::CanonAccProfile\fP"
+
+.PP
+enumeration of trajectory acceleration profile\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMS_IS_UNSET \fP\fP
+.TP
+\fB\fIMS_IS_DONE \fP\fP
+.TP
+\fB\fIMS_IS_ACCEL \fP\fP
+.TP
+\fB\fIMS_IS_CONST \fP\fP
+.TP
+\fB\fIMS_IS_DECEL \fP\fP
+.TP
+\fB\fIMS_IS_ESTOPPING \fP\fP
+.TP
+\fB\fIMS_IS_PAUSED \fP\fP
+.SS "enum \fBRCS::CanonAngleUnit\fP"
+
+.PP
+enumeration of angle units\&. Conversion into ROS compatible radians\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIRADIAN \fP\fP
+.TP
+\fB\fIDEGREE \fP\fP
+.SS "enum \fBRCS::CanonCmdType\fP"
+
+.PP
+enumeration of \fBCrcl\fP commands\&. Many \fBCrcl\fP commands are wm parameter setting and require no motion component\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICANON_NOOP \fP\fP
+.TP
+\fB\fICANON_DWELL \fP\fP
+.TP
+\fB\fICANON_END_CANON \fP\fP
+.TP
+\fB\fICANON_INIT_CANON \fP\fP
+.TP
+\fB\fICANON_MOVE_JOINT \fP\fP
+.TP
+\fB\fICANON_MOVE_TO \fP\fP
+.TP
+\fB\fICANON_MOVE_THRU \fP\fP
+.TP
+\fB\fICANON_SET_MAX_CART_ACC \fP\fP
+.TP
+\fB\fICANON_SET_MAX_CART_SPEED \fP\fP
+.TP
+\fB\fICANON_SET_MAX_JOINT_ACC \fP\fP
+.TP
+\fB\fICANON_SET_MAX_JOINT_SPEED \fP\fP
+.TP
+\fB\fICANON_SET_GRIPPER \fP\fP
+.TP
+\fB\fICANON_STOP_MOTION \fP\fP
+.TP
+\fB\fICANON_UNKNOWN \fP\fP
+.SS "enum \fBRCS::CanonForceUnit\fP"
+
+.PP
+enumeration of force units\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fINEWTON \fP\fP
+.TP
+\fB\fIPOUND \fP\fP
+.TP
+\fB\fIOUNCE \fP\fP
+.SS "enum \fBRCS::CanonLengthUnit\fP"
+
+.PP
+enumeration of length units\&. Conversion into ROS compatible meters\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMETER \fP\fP
+.TP
+\fB\fIMM \fP\fP
+.TP
+\fB\fIINCH \fP\fP
+.SS "enum \fBRCS::CanonReturn\fP"
+
+.PP
+enumeration of return type from \fBCrcl\fP intepretation\&. If statusreply, requires status sent to \fBCrcl\fP client\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICANON_REJECT \fP\fP
+.TP
+\fB\fICANON_FAILURE \fP\fP
+.TP
+\fB\fICANON_SUCCESS \fP\fP
+.TP
+\fB\fICANON_STATUSREPLY \fP\fP
+.TP
+\fB\fICANON_RUNNING \fP\fP
+.SS "enum \fBRCS::CanonStatusType\fP"
+
+.PP
+enumeration of controller status types for individual commands\&. Note, even though command types are listed, not all used or supported\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICANON_DONE \fP\fP
+.TP
+\fB\fICANON_WORKING \fP\fP
+.TP
+\fB\fICANON_PAUSED \fP\fP
+.TP
+\fB\fICANON_ERROR \fP\fP
+.TP
+\fB\fICANON_ABORT \fP\fP
+.TP
+\fB\fICANON_WAITING \fP\fP
+.SS "enum \fBRCS::CanonStopMotionType\fP"
+
+.PP
+enumeration of stopping motion, e\&.g\&., estop equivalent to immediate\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIUNSET \fP\fP
+.TP
+\fB\fIIMMEDIATE \fP\fP
+.TP
+\fB\fIFAST \fP\fP
+.TP
+\fB\fINORMAL \fP\fP
+.SS "enum \fBRCS::CanonTorqueUnit\fP"
+
+.PP
+enumeration of torque units\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fINEWTONMETER \fP\fP
+.TP
+\fB\fIFOOTPOUND \fP\fP
+.SS "enum \fBRCS::MovementType\fP"
+
+.PP
+enumeration of trajectory motion type, joint or cartesian\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMOVE_DEFAULT \fP\fP
+.TP
+\fB\fIMOVE_CARTESIAN \fP\fP
+.TP
+\fB\fIMOVE_JOINT \fP\fP
+.SS "enum \fBRCS::TrajPointType\fP"
+
+.PP
+enumeration of trajector pose points\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIWAYPOINT \fP\fP
+.TP
+\fB\fIGOAL \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "::CRCLProgramType::MiddleCommand_sequence& RCS::DummyInit ()"
+
+.SS "std::string RCS::DumpPose (urdf::Pose &pose)\fC [inline]\fP"
+
+.PP
+DumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
+.SS "std::string RCS::DumpQuaterion (std::ostream &os, const urdf::Rotation &rot)\fC [inline]\fP"
+
+.PP
+DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. 
+.SS "template<class Rep , class Period > double RCS::ToNanoseconds (boost::chrono::duration< Rep, Period >d)"
+
+.SS "template<class Rep , class Period > double RCS::ToSeconds (boost::chrono::duration< Rep, Period >d)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "boost::mutex RCS::cncmutex"
+
+.SS "\fBCController\fP RCS::Controller"
+global declaration of ONE controller 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

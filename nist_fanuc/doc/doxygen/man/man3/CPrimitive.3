@@ -1,0 +1,101 @@
+.TH "CPrimitive" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CPrimitive \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Primitive\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPrimitive\fP (ros::NodeHandle nh, std::string groupname)"
+.br
+.ti -1c
+.RI "std::string \fBToString\fP ()"
+.br
+.ti -1c
+.RI "void \fBGetJointValues\fP ()"
+.br
+.ti -1c
+.RI "geometry_msgs::Pose \fBGetRobotState_pose\fP (const robot_state::RobotState &state)"
+.br
+.ti -1c
+.RI "void \fBForwardKinematics\fP ()"
+.br
+.ti -1c
+.RI "std::vector< double > \fBSetRandomJoints\fP ()"
+.br
+.ti -1c
+.RI "Eigen::Affine3d \fBComputeForwardKinematics\fP (std::vector< double > jointvalues)"
+.br
+.ti -1c
+.RI "std::vector< double > \fBInverseKinematics\fP ()"
+.br
+.ti -1c
+.RI "void \fBRandomGoal\fP ()"
+.br
+.ti -1c
+.RI "void \fBPlanPath\fP (geometry_msgs::Pose &pose, double dGoalTolerance, int bMoveFlag=1, int bRandomFlag=1)"
+.br
+.ti -1c
+.RI "void \fBPrintPose\fP ()"
+.br
+.ti -1c
+.RI "void \fBAddObstacle\fP (std::string id)"
+.br
+.ti -1c
+.RI "void \fBRemoveObstacle\fP (std::string id)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBPrintJoints\fP (std::vector< double > &joint_values, const std::vector< std::string > &joint_names)"
+.br
+.ti -1c
+.RI "static void \fBSaveJointInfo\fP (\fBsensor_msgs::JointState\fP &joint_state, std::vector< double > &joint_values, const std::vector< std::string > &joint_names)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CPrimitive::CPrimitive (ros::NodeHandlenh, std::stringgroupname)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void CPrimitive::AddObstacle (std::stringid)"
+
+.SS "Eigen::Affine3d CPrimitive::ComputeForwardKinematics (std::vector< double >jointvalues)"
+
+.SS "void CPrimitive::ForwardKinematics ()"
+
+.SS "void CPrimitive::GetJointValues ()"
+
+.SS "geometry_msgs::Pose CPrimitive::GetRobotState_pose (const robot_state::RobotState &state)"
+
+.SS "std::vector< double > CPrimitive::InverseKinematics ()"
+
+.SS "void CPrimitive::PlanPath (geometry_msgs::Pose &pose, doubledGoalTolerance, intbMoveFlag = \fC1\fP, intbRandomFlag = \fC1\fP)"
+
+.SS "void CPrimitive::PrintJoints (std::vector< double > &joint_values, const std::vector< std::string > &joint_names)\fC [static]\fP"
+
+.SS "void CPrimitive::PrintPose ()"
+
+.SS "void CPrimitive::RandomGoal ()"
+
+.SS "void CPrimitive::RemoveObstacle (std::stringid)"
+
+.SS "void CPrimitive::SaveJointInfo (\fBsensor_msgs::JointState\fP &joint_state, std::vector< double > &joint_values, const std::vector< std::string > &joint_names)\fC [static]\fP"
+
+.SS "std::vector< double > CPrimitive::SetRandomJoints ()"
+
+.SS "std::string CPrimitive::ToString ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

@@ -1,0 +1,157 @@
+\hypertarget{Globals_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Globals.h File Reference}
+\label{Globals_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Globals.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Globals.\-h}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$boost/thread.\-hpp$>$}\\*
+{\ttfamily \#include $<$ctime$>$}\\*
+{\ttfamily \#include $<$stdarg.\-h$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$time.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}Logging.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classCGlobals}{C\-Globals}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classCGlobals}{C\-Globals} is a catch-\/all data structure for collecting global functions, extensions, parameters, etc. Functions here usually vary between windows and linux, or there is no easy mechanism in C++ to extend classes (e.\-g., string) like in C\#. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{Globals_8h_a5fd3d8f28a97319e5898e5b661f27fc0}{If\-Debug}(arg)
+\item 
+\#define \hyperlink{Globals_8h_a42699448fc3b3acbdf9f7bd1f194e9dd}{\-\_\-strnicmp}~strncasecmp
+\item 
+\#define \hyperlink{Globals_8h_a2fec1a914357426aecdfc4c865595a9d}{C\-L\-E\-A\-N\-S\-T\-O\-R\-E}(Y, X, Z)
+\item 
+\#define \hyperlink{Globals_8h_ac2a5ce0ece56afd1ffc183f889f5fc56}{V\-A\-L\-I\-D\-S\-T\-O\-R\-E}(Y, X)
+\item 
+\#define \hyperlink{Globals_8h_a43832c21f1da902c6b160f99ff476c08}{V\-A\-R}(X, Y)
+\item 
+\#define \hyperlink{Globals_8h_a54627d43f714cfa5d69b142979fe91a0}{N\-V\-A\-R}(X, Y, Z)
+\item 
+\#define \hyperlink{Globals_8h_a2cb1b3946754d725b4e77fce425b4b68}{F\-O\-R\-E\-A\-C\-H}(it, v)~for(typeof((v).begin()) it = (v).begin(); it != (v).end(); it++)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{Globals_8h_aedac882e1f21e19ef4a15ef77cd22a3a}{Debug\-Break} ()
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\-::string \hyperlink{Globals_8h_a1263114fe44da940e2d6536e0d1c69e0}{Vector\-Dump} (std\-::vector$<$ T $>$ v)
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\-::vector$<$ T $>$ \hyperlink{Globals_8h_afe12749d85a89b8b8b2aaca821330357}{To\-Vector} (int n,...)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCGlobals}{C\-Globals} \hyperlink{Globals_8h_adb8dc75afa8d66a2da2aa8826d68666b}{Globals}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{Globals_8h_a42699448fc3b3acbdf9f7bd1f194e9dd}{\index{Globals.\-h@{Globals.\-h}!\-\_\-strnicmp@{\-\_\-strnicmp}}
+\index{\-\_\-strnicmp@{\-\_\-strnicmp}!Globals.h@{Globals.\-h}}
+\subsubsection[{\-\_\-strnicmp}]{\setlength{\rightskip}{0pt plus 5cm}\#define \-\_\-strnicmp~strncasecmp}}\label{Globals_8h_a42699448fc3b3acbdf9f7bd1f194e9dd}
+\hypertarget{Globals_8h_a2fec1a914357426aecdfc4c865595a9d}{\index{Globals.\-h@{Globals.\-h}!C\-L\-E\-A\-N\-S\-T\-O\-R\-E@{C\-L\-E\-A\-N\-S\-T\-O\-R\-E}}
+\index{C\-L\-E\-A\-N\-S\-T\-O\-R\-E@{C\-L\-E\-A\-N\-S\-T\-O\-R\-E}!Globals.h@{Globals.\-h}}
+\subsubsection[{C\-L\-E\-A\-N\-S\-T\-O\-R\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\-L\-E\-A\-N\-S\-T\-O\-R\-E(
+\begin{DoxyParamCaption}
+\item[{}]{Y, }
+\item[{}]{X, }
+\item[{}]{Z}
+\end{DoxyParamCaption}
+)}}\label{Globals_8h_a2fec1a914357426aecdfc4c865595a9d}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{try}\{ Y = X; \}           \(\backslash\)
+    catch ( ... ) \{ Y = Z; \}
+\end{DoxyCode}
+\hypertarget{Globals_8h_a2cb1b3946754d725b4e77fce425b4b68}{\index{Globals.\-h@{Globals.\-h}!F\-O\-R\-E\-A\-C\-H@{F\-O\-R\-E\-A\-C\-H}}
+\index{F\-O\-R\-E\-A\-C\-H@{F\-O\-R\-E\-A\-C\-H}!Globals.h@{Globals.\-h}}
+\subsubsection[{F\-O\-R\-E\-A\-C\-H}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-O\-R\-E\-A\-C\-H(
+\begin{DoxyParamCaption}
+\item[{}]{it, }
+\item[{}]{v}
+\end{DoxyParamCaption}
+)~for(typeof((v).begin()) it = (v).begin(); it != (v).end(); it++)}}\label{Globals_8h_a2cb1b3946754d725b4e77fce425b4b68}
+\hypertarget{Globals_8h_a5fd3d8f28a97319e5898e5b661f27fc0}{\index{Globals.\-h@{Globals.\-h}!If\-Debug@{If\-Debug}}
+\index{If\-Debug@{If\-Debug}!Globals.h@{Globals.\-h}}
+\subsubsection[{If\-Debug}]{\setlength{\rightskip}{0pt plus 5cm}\#define If\-Debug(
+\begin{DoxyParamCaption}
+\item[{}]{arg}
+\end{DoxyParamCaption}
+)}}\label{Globals_8h_a5fd3d8f28a97319e5898e5b661f27fc0}
+\hypertarget{Globals_8h_a54627d43f714cfa5d69b142979fe91a0}{\index{Globals.\-h@{Globals.\-h}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!Globals.h@{Globals.\-h}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\-V\-A\-R(
+\begin{DoxyParamCaption}
+\item[{}]{X, }
+\item[{}]{Y, }
+\item[{}]{Z}
+\end{DoxyParamCaption}
+)}}\label{Globals_8h_a54627d43f714cfa5d69b142979fe91a0}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+\textcolor{keyword}{protected}: Y Z;       \(\backslash\)
+public: Y & X( ) \{ \textcolor{keywordflow}{return} Z; \}
+\end{DoxyCode}
+\hypertarget{Globals_8h_ac2a5ce0ece56afd1ffc183f889f5fc56}{\index{Globals.\-h@{Globals.\-h}!V\-A\-L\-I\-D\-S\-T\-O\-R\-E@{V\-A\-L\-I\-D\-S\-T\-O\-R\-E}}
+\index{V\-A\-L\-I\-D\-S\-T\-O\-R\-E@{V\-A\-L\-I\-D\-S\-T\-O\-R\-E}!Globals.h@{Globals.\-h}}
+\subsubsection[{V\-A\-L\-I\-D\-S\-T\-O\-R\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\-A\-L\-I\-D\-S\-T\-O\-R\-E(
+\begin{DoxyParamCaption}
+\item[{}]{Y, }
+\item[{}]{X}
+\end{DoxyParamCaption}
+)}}\label{Globals_8h_ac2a5ce0ece56afd1ffc183f889f5fc56}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{try}\{ Y = X; \}        \(\backslash\)
+    catch ( ... ) \{ \}
+\end{DoxyCode}
+\hypertarget{Globals_8h_a43832c21f1da902c6b160f99ff476c08}{\index{Globals.\-h@{Globals.\-h}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!Globals.h@{Globals.\-h}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\-A\-R(
+\begin{DoxyParamCaption}
+\item[{}]{X, }
+\item[{}]{Y}
+\end{DoxyParamCaption}
+)}}\label{Globals_8h_a43832c21f1da902c6b160f99ff476c08}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+\textcolor{keyword}{protected}: Y \_ ## X; \(\backslash\)
+public: Y & X( ) \{ \textcolor{keywordflow}{return} \_ ## X; \}
+\end{DoxyCode}
+
+
+\subsection{Function Documentation}
+\hypertarget{Globals_8h_aedac882e1f21e19ef4a15ef77cd22a3a}{\index{Globals.\-h@{Globals.\-h}!Debug\-Break@{Debug\-Break}}
+\index{Debug\-Break@{Debug\-Break}!Globals.h@{Globals.\-h}}
+\subsubsection[{Debug\-Break}]{\setlength{\rightskip}{0pt plus 5cm}void Debug\-Break (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{Globals_8h_aedac882e1f21e19ef4a15ef77cd22a3a}
+global definition of windows Debug\-Break equivalent. \hypertarget{Globals_8h_afe12749d85a89b8b8b2aaca821330357}{\index{Globals.\-h@{Globals.\-h}!To\-Vector@{To\-Vector}}
+\index{To\-Vector@{To\-Vector}!Globals.h@{Globals.\-h}}
+\subsubsection[{To\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ std\-::vector$<$T$>$ To\-Vector (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Globals_8h_afe12749d85a89b8b8b2aaca821330357}
+\hypertarget{Globals_8h_a1263114fe44da940e2d6536e0d1c69e0}{\index{Globals.\-h@{Globals.\-h}!Vector\-Dump@{Vector\-Dump}}
+\index{Vector\-Dump@{Vector\-Dump}!Globals.h@{Globals.\-h}}
+\subsubsection[{Vector\-Dump}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ std\-::string Vector\-Dump (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ T $>$}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Globals_8h_a1263114fe44da940e2d6536e0d1c69e0}
+
+
+\subsection{Variable Documentation}
+\hypertarget{Globals_8h_adb8dc75afa8d66a2da2aa8826d68666b}{\index{Globals.\-h@{Globals.\-h}!Globals@{Globals}}
+\index{Globals@{Globals}!Globals.h@{Globals.\-h}}
+\subsubsection[{Globals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\-Globals} Globals}}\label{Globals_8h_adb8dc75afa8d66a2da2aa8826d68666b}
+global definition of globals 

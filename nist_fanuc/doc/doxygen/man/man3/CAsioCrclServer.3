@@ -1,0 +1,208 @@
+.TH "CAsioCrclServer" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CAsioCrclServer \- 
+.PP
+The \fBCAsioCrclServer\fP provides an boost asio server which accepts new connections and starts a \fBCrcl\fP listener session\&. The \fBCAsioCrclServer\fP is based on the Boost Asio library which can process network communication asynchronously\&. Because CRCL data can only be received after a connection has been established, and because a connection can only be established after the name has been resolved, the various asynchronous operations are started in separate callback handlers\&. Thus in boost asio a callback to async_connect() is then followed by a method call to the handler connect_handler() which starts a new \fBCrcl\fP session\&. Readers can read more at: http://theboostcpplibraries.com/boost.asio-network-programming The \fBCAsioCrclServer\fP is divided into a number of main funcitons (e\&.g\&. wait for socket connection, handle new session by spawning new \fBCAsioCrclSession\fP, repeat\&. These operations are done asynchronously on a separate thread with notification done by the boost asio io server and it is assumed to be thread-safe\&. The \fBCAsioCrclServer\fP listens for connections on port 64444 and when a connection is initiated starts a new \fBCrcl\fP session to read xml messages from the devices\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <AsioCrclServer\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCAsioCrclServer\fP (boost::asio::io_service &io_service)"
+.br
+.RI "\fIConstructor for asio crcl server that listens on socket port 64444, and spawns a new session\&. \fP"
+.ti -1c
+.RI "void \fBserver\fP (boost::asio::io_service &io_service, short port)"
+.br
+.ti -1c
+.RI "void \fBHandleAsyncAccept\fP (\fBsession_ptr\fP pSession, const \fBboost::system::error_code\fP &error)"
+.br
+.RI "\fIHandles new tcp/ip endpoint connection, and starts session thread\&.Restarts async accept\&. \fP"
+.ti -1c
+.RI "void \fBStartAsyncAccept\fP ()"
+.br
+.RI "\fIStarts asio acceptor to wait for connections\&. \fP"
+.ti -1c
+.RI "void \fBStopAsyncAccept\fP ()"
+.br
+.RI "\fIStop async accept by cancelling asio acceptor\&. \fP"
+.ti -1c
+.RI "int \fBInit\fP (std::string domain, long portnumber, std::string devicename)"
+.br
+.RI "\fIinitializes the server\&. \fP"
+.ti -1c
+.RI "int \fBStop\fP (void)"
+.br
+.RI "\fIStop all connection session and future connections\&. \fP"
+.ti -1c
+.RI "void \fBStart\fP ()"
+.br
+.RI "\fIstart the asynchronous thread to listen for connections\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "boost::asio::io_service & \fB_io_service\fP"
+.br
+.ti -1c
+.RI "tcp::acceptor * \fBm_pAcceptor\fP"
+.br
+.ti -1c
+.RI "bool \fB_bInited\fP"
+.br
+.ti -1c
+.RI "int \fB_portnumber\fP"
+.br
+.ti -1c
+.RI "std::string \fB_domainname\fP"
+.br
+.ti -1c
+.RI "std::string \fB_deviceName\fP"
+.br
+.ti -1c
+.RI "bool \fB_bLastConnected\fP"
+.br
+.ti -1c
+.RI "unsigned int \fB_nHeartbeat\fP"
+.br
+.ti -1c
+.RI "unsigned int(* \fBErrorMessage\fP )(std::string)"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static bool \fBbRunning\fP = true"
+.br
+.ti -1c
+.RI "static int \fBnCount\fP = 0"
+.br
+.ti -1c
+.RI "static bool \fB_bTrace\fP = false"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBCAsioCrclServer\fP provides an boost asio server which accepts new connections and starts a \fBCrcl\fP listener session\&. The \fBCAsioCrclServer\fP is based on the Boost Asio library which can process network communication asynchronously\&. Because CRCL data can only be received after a connection has been established, and because a connection can only be established after the name has been resolved, the various asynchronous operations are started in separate callback handlers\&. Thus in boost asio a callback to async_connect() is then followed by a method call to the handler connect_handler() which starts a new \fBCrcl\fP session\&. Readers can read more at: http://theboostcpplibraries.com/boost.asio-network-programming The \fBCAsioCrclServer\fP is divided into a number of main funcitons (e\&.g\&. wait for socket connection, handle new session by spawning new \fBCAsioCrclSession\fP, repeat\&. These operations are done asynchronously on a separate thread with notification done by the boost asio io server and it is assumed to be thread-safe\&. The \fBCAsioCrclServer\fP listens for connections on port 64444 and when a connection is initiated starts a new \fBCrcl\fP session to read xml messages from the devices\&. 
+
+
+.IP "\(bu" 2
+
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CAsioCrclServer::CAsioCrclServer (boost::asio::io_service &io_service)"
+
+.PP
+Constructor for asio crcl server that listens on socket port 64444, and spawns a new session\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIio_service\fP reference tot he asio service providers\&. only one per program\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void CAsioCrclServer::HandleAsyncAccept (\fBsession_ptr\fPpSession, const \fBboost::system::error_code\fP &error)"
+
+.PP
+Handles new tcp/ip endpoint connection, and starts session thread\&.Restarts async accept\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpSession\fP is the latest session pointer associated with connection\&. 
+.br
+\fIerror\fP is asio error if any\&. 
+.RE
+.PP
+
+.SS "int CAsioCrclServer::Init (std::stringdomain, longportnumber, std::stringdevicename)"
+
+.PP
+initializes the server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdomain\fP gives the domain name (usually localhost)\&. 
+.br
+\fIportnumber\fP is asio socket port number (usually 64444)\&. 
+.br
+\fIdevicename\fP is the name of the device running this server\&. 
+.RE
+.PP
+
+.SS "void CAsioCrclServer::server (boost::asio::io_service &io_service, shortport)"
+brief Creates acceptor for tcp/ip endpoint, and starts async accept\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIio_service\fP is asio service\&. 
+.br
+\fIport\fP is tcp port to listen for connections on\&. 
+.RE
+.PP
+
+.SS "void CAsioCrclServer::Start ()"
+
+.PP
+start the asynchronous thread to listen for connections\&. 
+.SS "void CAsioCrclServer::StartAsyncAccept ()"
+
+.PP
+Starts asio acceptor to wait for connections\&. 
+.SS "int CAsioCrclServer::Stop (void)"
+
+.PP
+Stop all connection session and future connections\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+error or ok\&. 
+.RE
+.PP
+
+.SS "void CAsioCrclServer::StopAsyncAccept ()"
+
+.PP
+Stop async accept by cancelling asio acceptor\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "bool CAsioCrclServer::_bInited"
+server initialized flag 
+.SS "bool CAsioCrclServer::_bLastConnected"
+
+.SS "bool CAsioCrclServer::_bTrace = false\fC [static]\fP"
+trace input messages 
+.SS "std::string CAsioCrclServer::_deviceName"
+copy of device name 
+.SS "std::string CAsioCrclServer::_domainname"
+copy of domain name 
+.SS "boost::asio::io_service& CAsioCrclServer::_io_service"
+reference to asio io server to be passed to each session 
+.SS "unsigned int CAsioCrclServer::_nHeartbeat"
+heartbeat incremented to show server alive 
+.SS "int CAsioCrclServer::_portnumber"
+copy of socket port number to listen to 
+.SS "bool CAsioCrclServer::bRunning = true\fC [static]\fP"
+boolean that all sessions monitor for termination 
+.SS "unsigned int( * CAsioCrclServer::ErrorMessage)(std::string)"
+
+.SS "tcp::acceptor* CAsioCrclServer::m_pAcceptor"
+pointer to asio acceptor 
+.SS "int CAsioCrclServer::nCount = 0\fC [static]\fP"
+count of active sessions 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

@@ -1,0 +1,213 @@
+.TH "Crcl::CrclStatus" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Crcl::CrclStatus \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <crcl\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCrclStatus\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fBJointsHome\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::ActuatorJointSequence\fP \fBMerge\fP (\fBCrcl::ActuatorJointSequence\fP, bool bIncremental=false)"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (unsigned long long CommandID)"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (\fBCrcl::CommandStateEnum\fP state)"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (\fBCrcl::JointStatusSequence\fP &joints, \fBRCS::TrajPointType\fP type=\fBRCS::WAYPOINT\fP)"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (\fBCrcl::PoseType\fP &pose, \fBRCS::TrajPointType\fP type=\fBRCS::WAYPOINT\fP)"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (\fBJointState\fP &joints)"
+.br
+.ti -1c
+.RI "void \fBUpdate\fP (urdf::Pose &pose)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (CommandID, unsigned long long)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (StatusID, unsigned long long)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (CommandStatus, \fBCrcl::CommandStateEnum\fP)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBGripperStatus\fP \fBgripper\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fB_CurrentPose\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fB_GoalPose\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fB_GoalJoints\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fB_CurrentJoints\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fB_speeds\fP"
+.br
+.ti -1c
+.RI "double \fB_translationSpeed\fP"
+.br
+.ti -1c
+.RI "double \fB_translationAccel\fP"
+.br
+.ti -1c
+.RI "double \fB_rotSpeed\fP"
+.br
+.ti -1c
+.RI "double \fB_rotAccel\fP"
+.br
+.ti -1c
+.RI "bool \fB_bCoordinatedMotion\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CanonLengthUnit\fP \fB_lengthUnit\fP"
+.br
+.ti -1c
+.RI "double \fB_lengthConversion\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CanonAngleUnit\fP \fB_angleUnit\fP"
+.br
+.ti -1c
+.RI "double \fB_angleConversion\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CanonForceUnit\fP \fB_forceUnit\fP"
+.br
+.ti -1c
+.RI "double \fB_forceConversion\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CanonTorqueUnit\fP \fB_torqueUnit\fP"
+.br
+.ti -1c
+.RI "double \fB_torqueConversion\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseToleranceType\fP \fB_endPoseTolerance\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseToleranceType\fP \fB_gripperPoseTolerance\fP"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseToleranceType\fP \fB_intermediatePoseTolerance\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBJointReport\fP > \fB_vJointReport\fP"
+.br
+.ti -1c
+.RI "std::string \fBsCommandState\fP"
+.br
+.ti -1c
+.RI "std::string \fBAlarm\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Crcl::CrclStatus::CrclStatus ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::CrclStatus::JointsHome ()"
+
+.SS "\fBCrcl::ActuatorJointSequence\fP Crcl::CrclStatus::Merge (\fBCrcl::ActuatorJointSequence\fPjoints, boolbIncremental = \fCfalse\fP)"
+
+.SS "void Crcl::CrclStatus::Update (unsigned long longCommandID)"
+
+.SS "void Crcl::CrclStatus::Update (\fBCrcl::CommandStateEnum\fPstate)"
+
+.SS "void Crcl::CrclStatus::Update (\fBCrcl::JointStatusSequence\fP &joints, \fBRCS::TrajPointType\fPtype = \fC\fBRCS::WAYPOINT\fP\fP)"
+
+.SS "void Crcl::CrclStatus::Update (\fBCrcl::PoseType\fP &pose, \fBRCS::TrajPointType\fPtype = \fC\fBRCS::WAYPOINT\fP\fP)"
+
+.SS "void Crcl::CrclStatus::Update (\fBJointState\fP &joints)"
+
+.SS "void Crcl::CrclStatus::Update (urdf::Pose &pose)"
+
+.SS "Crcl::CrclStatus::VAR (CommandID, unsigned longlong)"
+
+.SS "Crcl::CrclStatus::VAR (StatusID, unsigned longlong)"
+
+.SS "Crcl::CrclStatus::VAR (CommandStatus, \fBCrcl::CommandStateEnum\fP)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double Crcl::CrclStatus::_angleConversion"
+
+.SS "\fBRCS::CanonAngleUnit\fP Crcl::CrclStatus::_angleUnit"
+
+.SS "bool Crcl::CrclStatus::_bCoordinatedMotion"
+
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::CrclStatus::_CurrentJoints"
+
+.SS "\fBCrcl::PoseType\fP Crcl::CrclStatus::_CurrentPose"
+
+.SS "\fBCrcl::PoseToleranceType\fP Crcl::CrclStatus::_endPoseTolerance"
+
+.SS "double Crcl::CrclStatus::_forceConversion"
+
+.SS "\fBRCS::CanonForceUnit\fP Crcl::CrclStatus::_forceUnit"
+
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::CrclStatus::_GoalJoints"
+
+.SS "\fBCrcl::PoseType\fP Crcl::CrclStatus::_GoalPose"
+
+.SS "\fBCrcl::PoseToleranceType\fP Crcl::CrclStatus::_gripperPoseTolerance"
+
+.SS "\fBCrcl::PoseToleranceType\fP Crcl::CrclStatus::_intermediatePoseTolerance"
+
+.SS "double Crcl::CrclStatus::_lengthConversion"
+
+.SS "\fBRCS::CanonLengthUnit\fP Crcl::CrclStatus::_lengthUnit"
+
+.SS "double Crcl::CrclStatus::_rotAccel"
+
+.SS "double Crcl::CrclStatus::_rotSpeed"
+
+.SS "std::vector<double> Crcl::CrclStatus::_speeds"
+
+.SS "double Crcl::CrclStatus::_torqueConversion"
+
+.SS "\fBRCS::CanonTorqueUnit\fP Crcl::CrclStatus::_torqueUnit"
+
+.SS "double Crcl::CrclStatus::_translationAccel"
+
+.SS "double Crcl::CrclStatus::_translationSpeed"
+
+.SS "std::vector<\fBJointReport\fP> Crcl::CrclStatus::_vJointReport"
+
+.SS "std::string Crcl::CrclStatus::Alarm"
+
+.SS "\fBGripperStatus\fP Crcl::CrclStatus::gripper"
+
+.SS "std::string Crcl::CrclStatus::sCommandState"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

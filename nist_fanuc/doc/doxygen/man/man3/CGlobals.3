@@ -1,0 +1,285 @@
+.TH "CGlobals" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CGlobals \- 
+.PP
+\fBCGlobals\fP is a catch-all data structure for collecting global functions, extensions, parameters, etc\&. Functions here usually vary between windows and linux, or there is no easy mechanism in C++ to extend classes (e\&.g\&., string) like in C#\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Globals\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBTimeFormat\fP { \fBHUM_READ\fP, \fBGMT\fP, \fBGMT_UV_SEC\fP, \fBLOCAL\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCGlobals\fP ()"
+.br
+.RI "\fIConstructor for globals function\&. Functions here usually vary between windows and linux, or there is no easy mechanism in C++ to extend classes (e\&.g\&., string) like in C#\&. \fP"
+.ti -1c
+.RI "std::string \fBStrFormat\fP (const char *fmt,\&.\&.\&.)"
+.br
+.RI "\fIStrFormat accepts a traditional C format string and expects parameter to follow on calling stack and will produce a string from it\&. \fP"
+.ti -1c
+.RI "bool \fBIsDebug\fP ()"
+.br
+.ti -1c
+.RI "void \fBDump\fP ()"
+.br
+.RI "\fIdumps to std out global parameters set at runtime parameters\&. \fP"
+.ti -1c
+.RI "void \fBSleep\fP (unsigned int ms)"
+.br
+.RI "\fIsleep milliseconds\&. Equivalent to Sleep in windows\&. \fP"
+.ti -1c
+.RI "bool \fBReadFile\fP (std::string filename, std::string &\fBcontents\fP)"
+.br
+.RI "\fIReads a file all at once into a string\&. Include file open, read, close\&. If fails, empty string is only diagnostic\&. \fP"
+.ti -1c
+.RI "void \fBWriteFile\fP (std::string filename, std::string &\fBcontents\fP)"
+.br
+.RI "\fIWrites entire string contents to a file all at once\&. Include file open, write, close\&. No error messages\&. \fP"
+.ti -1c
+.RI "void \fBAppendFile\fP (std::string filename, std::string \fBcontents\fP)"
+.br
+.RI "\fIAppends entire string contents to a file all at once\&. Include file open, write, close\&. No error messages\&. \fP"
+.ti -1c
+.RI "std::string \fBTrim\fP (std::string s)"
+.br
+.RI "\fITrim cleans blank characters from the front and back of a string\&. Blank chars are white space, tab, carriage return\&. \fP"
+.ti -1c
+.RI "unsigned int \fBDebugMessage\fP (std::string errmsg)"
+.br
+.RI "\fIPrints an diagnostic message to the debug reporting mechanism\&. (cout or OutputDebugString) \fP"
+.ti -1c
+.RI "unsigned int \fBErrorMessage\fP (std::string errmsg)"
+.br
+.RI "\fIPrints an error message to the error reporting mechanism\&. \fP"
+.ti -1c
+.RI "unsigned int \fBDebugStrFormat\fP (const char *fmt,\&.\&.\&.)"
+.br
+.RI "\fIPrints a format string and arguments as a diagnostic message to the debug reporting mechanism\&. (cout or OutputDebugString) \fP"
+.ti -1c
+.RI "std::string \fBGetTimeStamp\fP (\fBTimeFormat\fP format=\fBGMT_UV_SEC\fP)"
+.br
+.RI "\fIGetTimeStamp returns a timestamp string depending on the input format\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::map< std::string, 
+.br
+std::string > \fB_appproperties\fP"
+.br
+.ti -1c
+.RI "int & \fBDebug\fP"
+.br
+.ti -1c
+.RI "std::string \fBExeDirectory\fP"
+.br
+.ti -1c
+.RI "std::string \fBinifile\fP"
+.br
+.ti -1c
+.RI "std::string \fBSocketPort\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCGlobals\fP is a catch-all data structure for collecting global functions, extensions, parameters, etc\&. Functions here usually vary between windows and linux, or there is no easy mechanism in C++ to extend classes (e\&.g\&., string) like in C#\&. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBCGlobals::TimeFormat\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIHUM_READ \fP\fP
+.TP
+\fB\fIGMT \fP\fP
+.TP
+\fB\fIGMT_UV_SEC \fP\fP
+.TP
+\fB\fILOCAL \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CGlobals::CGlobals ()\fC [inline]\fP"
+
+.PP
+Constructor for globals function\&. Functions here usually vary between windows and linux, or there is no easy mechanism in C++ to extend classes (e\&.g\&., string) like in C#\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void CGlobals::AppendFile (std::stringfilename, std::stringcontents)"
+
+.PP
+Appends entire string contents to a file all at once\&. Include file open, write, close\&. No error messages\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP is the name of the file to write to 
+.br
+\fIcontents\fP is a reference to a string in which to write string\&. 
+.RE
+.PP
+
+.SS "unsigned int CGlobals::DebugMessage (std::stringerrmsg)"
+
+.PP
+Prints an diagnostic message to the debug reporting mechanism\&. (cout or OutputDebugString) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP errmsg is the error message that is posted to the debug reporting mechanism\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a error result integer\&. (e\&.g\&., E_FAIL or -1)\&. 
+.RE
+.PP
+
+.SS "unsigned int CGlobals::DebugStrFormat (const char *fmt, \&.\&.\&.)"
+
+.PP
+Prints a format string and arguments as a diagnostic message to the debug reporting mechanism\&. (cout or OutputDebugString) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfmt\fP is the error format statement that uses parameters that follow and is posted to the debug reporting mechanism\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a error result integer\&. (e\&.g\&., E_FAIL or -1)\&. 
+.RE
+.PP
+
+.SS "void CGlobals::Dump ()\fC [inline]\fP"
+
+.PP
+dumps to std out global parameters set at runtime parameters\&. 
+.SS "unsigned int CGlobals::ErrorMessage (std::stringerrmsg)"
+
+.PP
+Prints an error message to the error reporting mechanism\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP errmsg is the error message that is posted to the error reporting mechanism\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a error result integer\&. (e\&.g\&., E_FAIL or -1)\&. 
+.RE
+.PP
+
+.SS "std::string CGlobals::GetTimeStamp (\fBTimeFormat\fPformat = \fC\fBGMT_UV_SEC\fP\fP)"
+
+.PP
+GetTimeStamp returns a timestamp string depending on the input format\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIformat\fP is one of an enumeration describing how to format timestamp\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a formated timestamp string\&. 
+.RE
+.PP
+
+.SS "bool CGlobals::IsDebug ()\fC [inline]\fP"
+
+.SS "bool CGlobals::ReadFile (std::stringfilename, std::string &contents)"
+
+.PP
+Reads a file all at once into a string\&. Include file open, read, close\&. If fails, empty string is only diagnostic\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP is the name of the file to read from 
+.br
+\fIcontents\fP is a reference to a string in which to store file contents\&. 
+.RE
+.PP
+
+.SS "void CGlobals::Sleep (unsigned intms)\fC [inline]\fP"
+
+.PP
+sleep milliseconds\&. Equivalent to Sleep in windows\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIms\fP number of milliseconds to sleep 
+.RE
+.PP
+
+.SS "std::string CGlobals::StrFormat (const char *fmt, \&.\&.\&.)\fC [inline]\fP"
+
+.PP
+StrFormat accepts a traditional C format string and expects parameter to follow on calling stack and will produce a string from it\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfmt\fP is the C format string\&. 
+.RE
+.PP
+
+.SS "std::string CGlobals::Trim (std::strings)"
+
+.PP
+Trim cleans blank characters from the front and back of a string\&. Blank chars are white space, tab, carriage return\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP is the string to trim\&. Will trim a copy\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a new trimmed string 
+.RE
+.PP
+
+.SS "void CGlobals::WriteFile (std::stringfilename, std::string &contents)"
+
+.PP
+Writes entire string contents to a file all at once\&. Include file open, write, close\&. No error messages\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP is the name of the file to write to 
+.br
+\fIcontents\fP is a reference to a string in which to write string\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::map< std::string, std::string> CGlobals::_appproperties"
+map of application properties, e\&.g\&., ['prop']='value' 
+.SS "int& CGlobals::Debug"
+
+.SS "std::string CGlobals::ExeDirectory"
+the path to directory where exe is located 
+.SS "std::string CGlobals::inifile"
+inifile path name 
+.SS "std::string CGlobals::SocketPort"
+socket port to listen for \fBCrcl\fP clients 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

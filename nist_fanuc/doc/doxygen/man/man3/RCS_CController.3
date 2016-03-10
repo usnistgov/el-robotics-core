@@ -1,0 +1,293 @@
+.TH "RCS::CController" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::CController \- 
+.PP
+The \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.)  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Controller\&.h>\fP
+.PP
+Inherits \fBRCS::Thread\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBDebugLevel\fP { \fBFATAL\fP = 0, \fBWARNING\fP = 2, \fBINFORM\fP = 4, \fBFULL\fP = 5 }"
+.br
+.ti -1c
+.RI "enum \fBDebugType\fP { \fBCRCL\fP = 0, \fBRPY\fP }"
+.br
+.ti -1c
+.RI "enum \fBMotionPlannerEnum\fP { \fBNOPLANNER\fP = 0, \fBMOVEIT\fP, \fBDESCARTES\fP, \fBBASIC\fP, \fBWAYPOINT\fP, \fBGOMOTION\fP }"
+.br
+.ti -1c
+.RI "typedef std::list< \fBRCS::CanonCmd\fP > \fBxml_message_list\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCController\fP (double cycletime)"
+.br
+.RI "\fI\fBCController\fP constructor that requires a cycle time for \fBRCS\fP thread timing\&. \fP"
+.ti -1c
+.RI "\fB~CController\fP (void)"
+.br
+.ti -1c
+.RI "bool \fBVerify\fP ()"
+.br
+.RI "\fIVerifies that all the pointer references in the controller have been instantiated (i\&.e\&., not null)\&. \fP"
+.ti -1c
+.RI "virtual void \fBAction\fP ()"
+.br
+.RI "\fICyclic loop for the controller\&. Reads \fBCrcl\fP input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages\&. \fP"
+.ti -1c
+.RI "virtual void \fBInit\fP ()"
+.br
+.RI "\fIInitialization routine for the controller\&.\&. \fP"
+.ti -1c
+.RI "std::string \fBDump\fP (std::string separator=',')"
+.br
+.RI "\fICreates a comma separated string of current state of robot\&. (Can use other separator)\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpHeader\fP (std::string separator=',')"
+.br
+.RI "\fICreates a header line containing names of comma separated string fields that describes the current state of robot\&. (Can use other separator)\&. \fP"
+.ti -1c
+.RI "\fBNVAR\fP (CrclDelegate, boost::shared_ptr< \fBCrcl::CrclDelegateInterface\fP >, crclinterface)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (\fBKinematics\fP, boost::shared_ptr< \fBIKinematics\fP >)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (TrajectoryModel, boost::shared_ptr< \fBCTrajectory\fP >)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (JointWriter, boost::shared_ptr< \fBCJointWriter\fP >)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (MoveitPlanner, boost::shared_ptr< \fBMoveitPlanning\fP >)"
+.br
+.ti -1c
+.RI "void \fBSetKinematics\fP (boost::shared_ptr< \fBIKinematics\fP > k)"
+.br
+.RI "\fIRoutine to set the kinematics reference pointer\&. Uses the interface class \fBIKinematics\fP, but can have any implementation instance\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBRCSInterpreter\fP \fB_interpreter\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CanonCmd\fP \fB_newcc\fP"
+.br
+.ti -1c
+.RI "\fBRCS::CanonCmd\fP \fB_lastcc\fP"
+.br
+.ti -1c
+.RI "std::string \fBlastlogstatus\fP"
+.br
+.ti -1c
+.RI "\fBMotionPlannerEnum\fP \fBeCartesianMotionPlanner\fP"
+.br
+.ti -1c
+.RI "\fBMotionPlannerEnum\fP \fBeJointMotionPlanner\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBRCS::CanonWorldModel\fP \fBwm\fP"
+.br
+.ti -1c
+.RI "static \fBRCS::CanonWorldModel\fP \fBstatus\fP"
+.br
+.ti -1c
+.RI "static \fBRCS::CanonWorldModel\fP \fBlaststatus\fP"
+.br
+.ti -1c
+.RI "static \fBRCS::CMessageQueue\fP
+.br
+< \fBRCS::CanonCmd\fP > \fBcmds\fP"
+.br
+.ti -1c
+.RI "static \fBxml_message_list\fP \fBdonecmds\fP"
+.br
+.ti -1c
+.RI "static \fBRCS::CMessageQueue\fP
+.br
+< \fBRCS::CanonCmd\fP > \fBrobotcmds\fP"
+.br
+.ti -1c
+.RI "static size_t \fB_NumJoints\fP"
+.br
+.ti -1c
+.RI "static bool \fBbGenerateProgram\fP = false"
+.br
+.ti -1c
+.RI "static unsigned long \fB_debugtype\fP = (unsigned long) \fBRPY\fP"
+.br
+.ti -1c
+.RI "static unsigned long \fB_debuglevel\fP = 0"
+.br
+.ti -1c
+.RI "static unsigned long \fB_csvlogFlag\fP = 0"
+.br
+.ti -1c
+.RI "static \fBALogger\fP \fBCsvLogging\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+The \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) 
+.SH "Member Typedef Documentation"
+.PP 
+.SS "typedef std::list<\fBRCS::CanonCmd\fP> \fBRCS::CController::xml_message_list\fP"
+
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBRCS::CController::DebugLevel\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIFATAL \fP\fP
+.TP
+\fB\fIWARNING \fP\fP
+.TP
+\fB\fIINFORM \fP\fP
+.TP
+\fB\fIFULL \fP\fP
+.SS "enum \fBRCS::CController::DebugType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICRCL \fP\fP
+.TP
+\fB\fIRPY \fP\fP
+.SS "enum \fBRCS::CController::MotionPlannerEnum\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fINOPLANNER \fP\fP
+.TP
+\fB\fIMOVEIT \fP\fP
+.TP
+\fB\fIDESCARTES \fP\fP
+.TP
+\fB\fIBASIC \fP\fP
+.TP
+\fB\fIWAYPOINT \fP\fP
+.TP
+\fB\fIGOMOTION \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::CController::CController (doublecycletime)"
+
+.PP
+\fBCController\fP constructor that requires a cycle time for \fBRCS\fP thread timing\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcycletime\fP in seconds\&. 
+.RE
+.PP
+
+.SS "RCS::CController::~CController (void)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void RCS::CController::Action ()\fC [virtual]\fP"
+
+.PP
+Cyclic loop for the controller\&. Reads \fBCrcl\fP input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages\&. 
+.PP
+Reimplemented from \fBRCS::Thread\fP\&.
+.SS "std::string RCS::CController::Dump (std::stringseparator = \fC','\fP)"
+
+.PP
+Creates a comma separated string of current state of robot\&. (Can use other separator)\&. 
+.SS "std::string RCS::CController::DumpHeader (std::stringseparator = \fC','\fP)"
+
+.PP
+Creates a header line containing names of comma separated string fields that describes the current state of robot\&. (Can use other separator)\&. 
+.SS "void RCS::CController::Init ()\fC [virtual]\fP"
+
+.PP
+Initialization routine for the controller\&.\&. 
+.PP
+Reimplemented from \fBRCS::Thread\fP\&.
+.SS "RCS::CController::NVAR (CrclDelegate, boost::shared_ptr< \fBCrcl::CrclDelegateInterface\fP >, crclinterface)"
+
+.SS "void RCS::CController::SetKinematics (boost::shared_ptr< \fBIKinematics\fP >k)\fC [inline]\fP"
+
+.PP
+Routine to set the kinematics reference pointer\&. Uses the interface class \fBIKinematics\fP, but can have any implementation instance\&. 
+.SS "RCS::CController::VAR (\fBKinematics\fP, boost::shared_ptr< \fBIKinematics\fP >)"
+
+.SS "RCS::CController::VAR (TrajectoryModel, boost::shared_ptr< \fBCTrajectory\fP >)"
+
+.SS "RCS::CController::VAR (JointWriter, boost::shared_ptr< \fBCJointWriter\fP >)"
+
+.SS "RCS::CController::VAR (MoveitPlanner, boost::shared_ptr< \fBMoveitPlanning\fP >)"
+
+.SS "bool RCS::CController::Verify ()"
+
+.PP
+Verifies that all the pointer references in the controller have been instantiated (i\&.e\&., not null)\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "unsigned long RCS::CController::_csvlogFlag = 0\fC [static]\fP"
+
+.SS "unsigned long RCS::CController::_debuglevel = 0\fC [static]\fP"
+level of debugging, 0 least, 5 most 
+.SS "unsigned long RCS::CController::_debugtype = (unsigned long) \fBRPY\fP\fC [static]\fP"
+output crcl xz rotation or roll,pitch, yaw 
+.SS "\fBRCSInterpreter\fP RCS::CController::_interpreter"
+interprets canon commands into robot commands 
+.SS "\fBRCS::CanonCmd\fP RCS::CController::_lastcc"
+last canon command interpreted 
+.SS "\fBRCS::CanonCmd\fP RCS::CController::_newcc"
+current new canon command to interpret 
+.SS "size_t RCS::CController::_NumJoints\fC [static]\fP"
+number of joints in controller robot - assuming serial link manipulator 
+.SS "bool RCS::CController::bGenerateProgram = false\fC [static]\fP"
+global flag to create program from \fBCrcl\fP XML 
+.SS "\fBRCS::CMessageQueue\fP< \fBRCS::CanonCmd\fP > RCS::CController::cmds\fC [static]\fP"
+queue of commands interpreted from \fBCrcl\fP messages 
+.SS "\fBALogger\fP RCS::CController::CsvLogging\fC [static]\fP"
+controller status csv logging instance 
+.SS "\fBRCS::CController::xml_message_list\fP RCS::CController::donecmds\fC [static]\fP"
+list of commands interpreted from \fBCrcl\fP messages that have completed 
+.SS "\fBMotionPlannerEnum\fP RCS::CController::eCartesianMotionPlanner"
+type of cartesian motion to use 
+.SS "\fBMotionPlannerEnum\fP RCS::CController::eJointMotionPlanner"
+type of joint motion to use 
+.SS "std::string RCS::CController::lastlogstatus"
+
+.SS "\fBRCS::CanonWorldModel\fP RCS::CController::laststatus\fC [static]\fP"
+last status of controller 
+.SS "\fBRCS::CMessageQueue\fP< \fBRCS::CanonCmd\fP > RCS::CController::robotcmds\fC [static]\fP"
+list of commands to be sent to robot 
+.SS "\fBRCS::CanonWorldModel\fP RCS::CController::status\fC [static]\fP"
+current status of controller 
+.SS "\fBRCS::CanonWorldModel\fP RCS::CController::wm\fC [static]\fP"
+the world model of the controller 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

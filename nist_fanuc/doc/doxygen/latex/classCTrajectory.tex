@@ -1,0 +1,154 @@
+\hypertarget{classCTrajectory}{\section{C\-Trajectory Class Reference}
+\label{classCTrajectory}\index{C\-Trajectory@{C\-Trajectory}}
+}
+
+
+{\ttfamily \#include $<$Trajectory.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCTrajectory_ad9592b2125107295b760eca869b30b41}{C\-Trajectory} ()
+\item 
+void \hyperlink{classCTrajectory_ac92b596fa313de9347d32ff9ea058fb6}{Init} (std\-::string robot\-\_\-description, std\-::string group\-\_\-name, std\-::string world\-\_\-frame, std\-::string tcp\-\_\-frame, std\-::vector$<$ std\-::string $>$ names, bool b\-Check\-Collisions=true)
+\item 
+\hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec} \hyperlink{classCTrajectory_a8b83ae5cfb16e5546924b2f75cc1c5d3}{Plan\-Path} (\hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec})
+\item 
+std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classCTrajectory_a4309ad54e4e51e38477a834a8e791070}{Joint\-Trajectoryto\-Joint\-State\-Vector} (const \hyperlink{demo_8cpp_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec} \&trajectory)
+\item 
+descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr \hyperlink{classCTrajectory_a30c8c7a6759edac702b92cb54421aa68}{make\-Cartesian\-Point} (const Eigen\-::\-Affine3d \&pose)
+\item 
+descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr \hyperlink{classCTrajectory_a670350241341dced932c2cabc924eb35}{make\-Toleranced\-Cartesian\-Point} (const Eigen\-::\-Affine3d \&pose)
+\item 
+\hyperlink{Trajectory_8h_a5e61c6eea593862de00adc245142f8c9}{Moveit\-State\-Adapter\-Ptr} \hyperlink{classCTrajectory_af25f07706a8f67bb49e0f9c46be14235}{Get\-Model} ()
+\item 
+descartes\-\_\-planner\-::\-Dense\-Planner \hyperlink{classCTrajectory_a7b097ba0b076f6de862b51098bdfa8b6}{Get\-Dense\-Planner} ()
+\item 
+std\-::vector$<$ std\-::string $>$ \hyperlink{classCTrajectory_aa76f10ca67ac1fc7215b15b92e4226a2}{Get\-Joint\-Names} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Trajectory_8h_a5e61c6eea593862de00adc245142f8c9}{Moveit\-State\-Adapter\-Ptr} \hyperlink{classCTrajectory_a7d28b9c47923a7e4a011396ae84533e8}{\-\_\-model}
+\item 
+descartes\-\_\-planner\-::\-Dense\-Planner \hyperlink{classCTrajectory_a8fe953c71fbceacadc2fe350b9d98665}{\-\_\-planner}
+\item 
+std\-::string \hyperlink{classCTrajectory_a41901707521d77b431d6fc31a81a8d22}{\-\_\-robot\-\_\-description}
+\item 
+std\-::string \hyperlink{classCTrajectory_a145b56fb4674532680450bf4f319ce7e}{\-\_\-group\-\_\-name}
+\item 
+std\-::string \hyperlink{classCTrajectory_af1ee8c76ae0225ca65055ba87b338569}{\-\_\-world\-\_\-frame}
+\item 
+std\-::string \hyperlink{classCTrajectory_a53080e6e68f5ac166e9c7ca4fbe920c2}{\-\_\-tcp\-\_\-frame}
+\item 
+std\-::vector$<$ std\-::string $>$ \hyperlink{classCTrajectory_a8ccdbf828e5e09e82be6eb896aace3d7}{joint\-\_\-names}
+\item 
+bool \hyperlink{classCTrajectory_a6246756ad10288a1d1f95b0957e5265a}{\-\_\-b\-Inited}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCTrajectory_ad9592b2125107295b760eca869b30b41}{\index{C\-Trajectory@{C\-Trajectory}!C\-Trajectory@{C\-Trajectory}}
+\index{C\-Trajectory@{C\-Trajectory}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{C\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}C\-Trajectory\-::\-C\-Trajectory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCTrajectory_ad9592b2125107295b760eca869b30b41}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCTrajectory_a7b097ba0b076f6de862b51098bdfa8b6}{\index{C\-Trajectory@{C\-Trajectory}!Get\-Dense\-Planner@{Get\-Dense\-Planner}}
+\index{Get\-Dense\-Planner@{Get\-Dense\-Planner}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{Get\-Dense\-Planner}]{\setlength{\rightskip}{0pt plus 5cm}descartes\-\_\-planner\-::\-Dense\-Planner C\-Trajectory\-::\-Get\-Dense\-Planner (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCTrajectory_a7b097ba0b076f6de862b51098bdfa8b6}
+\hypertarget{classCTrajectory_aa76f10ca67ac1fc7215b15b92e4226a2}{\index{C\-Trajectory@{C\-Trajectory}!Get\-Joint\-Names@{Get\-Joint\-Names}}
+\index{Get\-Joint\-Names@{Get\-Joint\-Names}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{Get\-Joint\-Names}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::string$>$ C\-Trajectory\-::\-Get\-Joint\-Names (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCTrajectory_aa76f10ca67ac1fc7215b15b92e4226a2}
+\hypertarget{classCTrajectory_af25f07706a8f67bb49e0f9c46be14235}{\index{C\-Trajectory@{C\-Trajectory}!Get\-Model@{Get\-Model}}
+\index{Get\-Model@{Get\-Model}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{Get\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Moveit\-State\-Adapter\-Ptr} C\-Trajectory\-::\-Get\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCTrajectory_af25f07706a8f67bb49e0f9c46be14235}
+\hypertarget{classCTrajectory_ac92b596fa313de9347d32ff9ea058fb6}{\index{C\-Trajectory@{C\-Trajectory}!Init@{Init}}
+\index{Init@{Init}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Trajectory\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{robot\-\_\-description, }
+\item[{std\-::string}]{group\-\_\-name, }
+\item[{std\-::string}]{world\-\_\-frame, }
+\item[{std\-::string}]{tcp\-\_\-frame, }
+\item[{std\-::vector$<$ std\-::string $>$}]{names, }
+\item[{bool}]{b\-Check\-Collisions = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{classCTrajectory_ac92b596fa313de9347d32ff9ea058fb6}
+\hypertarget{classCTrajectory_a4309ad54e4e51e38477a834a8e791070}{\index{C\-Trajectory@{C\-Trajectory}!Joint\-Trajectoryto\-Joint\-State\-Vector@{Joint\-Trajectoryto\-Joint\-State\-Vector}}
+\index{Joint\-Trajectoryto\-Joint\-State\-Vector@{Joint\-Trajectoryto\-Joint\-State\-Vector}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{Joint\-Trajectoryto\-Joint\-State\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Joint\-State} $>$ C\-Trajectory\-::\-Joint\-Trajectoryto\-Joint\-State\-Vector (
+\begin{DoxyParamCaption}
+\item[{const {\bf Trajectory\-Vec} \&}]{trajectory}
+\end{DoxyParamCaption}
+)}}\label{classCTrajectory_a4309ad54e4e51e38477a834a8e791070}
+\hypertarget{classCTrajectory_a30c8c7a6759edac702b92cb54421aa68}{\index{C\-Trajectory@{C\-Trajectory}!make\-Cartesian\-Point@{make\-Cartesian\-Point}}
+\index{make\-Cartesian\-Point@{make\-Cartesian\-Point}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{make\-Cartesian\-Point}]{\setlength{\rightskip}{0pt plus 5cm}descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr C\-Trajectory\-::make\-Cartesian\-Point (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Affine3d \&}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCTrajectory_a30c8c7a6759edac702b92cb54421aa68}
+\hypertarget{classCTrajectory_a670350241341dced932c2cabc924eb35}{\index{C\-Trajectory@{C\-Trajectory}!make\-Toleranced\-Cartesian\-Point@{make\-Toleranced\-Cartesian\-Point}}
+\index{make\-Toleranced\-Cartesian\-Point@{make\-Toleranced\-Cartesian\-Point}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{make\-Toleranced\-Cartesian\-Point}]{\setlength{\rightskip}{0pt plus 5cm}descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr C\-Trajectory\-::make\-Toleranced\-Cartesian\-Point (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Affine3d \&}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCTrajectory_a670350241341dced932c2cabc924eb35}
+\hypertarget{classCTrajectory_a8b83ae5cfb16e5546924b2f75cc1c5d3}{\index{C\-Trajectory@{C\-Trajectory}!Plan\-Path@{Plan\-Path}}
+\index{Plan\-Path@{Plan\-Path}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{Plan\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Trajectory\-Vec} C\-Trajectory\-::\-Plan\-Path (
+\begin{DoxyParamCaption}
+\item[{{\bf Trajectory\-Vec}}]{points}
+\end{DoxyParamCaption}
+)}}\label{classCTrajectory_a8b83ae5cfb16e5546924b2f75cc1c5d3}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCTrajectory_a6246756ad10288a1d1f95b0957e5265a}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-b\-Inited@{\-\_\-b\-Inited}}
+\index{\-\_\-b\-Inited@{\-\_\-b\-Inited}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-b\-Inited}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Trajectory\-::\-\_\-b\-Inited}}\label{classCTrajectory_a6246756ad10288a1d1f95b0957e5265a}
+\hypertarget{classCTrajectory_a145b56fb4674532680450bf4f319ce7e}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-group\-\_\-name@{\-\_\-group\-\_\-name}}
+\index{\-\_\-group\-\_\-name@{\-\_\-group\-\_\-name}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-group\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Trajectory\-::\-\_\-group\-\_\-name}}\label{classCTrajectory_a145b56fb4674532680450bf4f319ce7e}
+\hypertarget{classCTrajectory_a7d28b9c47923a7e4a011396ae84533e8}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-model@{\-\_\-model}}
+\index{\-\_\-model@{\-\_\-model}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Moveit\-State\-Adapter\-Ptr} C\-Trajectory\-::\-\_\-model}}\label{classCTrajectory_a7d28b9c47923a7e4a011396ae84533e8}
+\hypertarget{classCTrajectory_a8fe953c71fbceacadc2fe350b9d98665}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-planner@{\-\_\-planner}}
+\index{\-\_\-planner@{\-\_\-planner}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-planner}]{\setlength{\rightskip}{0pt plus 5cm}descartes\-\_\-planner\-::\-Dense\-Planner C\-Trajectory\-::\-\_\-planner}}\label{classCTrajectory_a8fe953c71fbceacadc2fe350b9d98665}
+\hypertarget{classCTrajectory_a41901707521d77b431d6fc31a81a8d22}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-robot\-\_\-description@{\-\_\-robot\-\_\-description}}
+\index{\-\_\-robot\-\_\-description@{\-\_\-robot\-\_\-description}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-robot\-\_\-description}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Trajectory\-::\-\_\-robot\-\_\-description}}\label{classCTrajectory_a41901707521d77b431d6fc31a81a8d22}
+\hypertarget{classCTrajectory_a53080e6e68f5ac166e9c7ca4fbe920c2}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-tcp\-\_\-frame@{\-\_\-tcp\-\_\-frame}}
+\index{\-\_\-tcp\-\_\-frame@{\-\_\-tcp\-\_\-frame}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-tcp\-\_\-frame}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Trajectory\-::\-\_\-tcp\-\_\-frame}}\label{classCTrajectory_a53080e6e68f5ac166e9c7ca4fbe920c2}
+\hypertarget{classCTrajectory_af1ee8c76ae0225ca65055ba87b338569}{\index{C\-Trajectory@{C\-Trajectory}!\-\_\-world\-\_\-frame@{\-\_\-world\-\_\-frame}}
+\index{\-\_\-world\-\_\-frame@{\-\_\-world\-\_\-frame}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{\-\_\-world\-\_\-frame}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Trajectory\-::\-\_\-world\-\_\-frame}}\label{classCTrajectory_af1ee8c76ae0225ca65055ba87b338569}
+\hypertarget{classCTrajectory_a8ccdbf828e5e09e82be6eb896aace3d7}{\index{C\-Trajectory@{C\-Trajectory}!joint\-\_\-names@{joint\-\_\-names}}
+\index{joint\-\_\-names@{joint\-\_\-names}!CTrajectory@{C\-Trajectory}}
+\subsubsection[{joint\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::string$>$ C\-Trajectory\-::joint\-\_\-names}}\label{classCTrajectory_a8ccdbf828e5e09e82be6eb896aace3d7}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Trajectory_8h}{Trajectory.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Trajectory_8cpp}{Trajectory.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,66 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Trajectory.h" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Trajectory.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <vector>\fP
+.br
+\fC#include <boost/shared_ptr\&.hpp>\fP
+.br
+\fC#include <control_msgs/FollowJointTrajectoryAction\&.h>\fP
+.br
+\fC#include <actionlib/client/simple_action_client\&.h>\fP
+.br
+\fC#include <descartes_moveit/moveit_state_adapter\&.h>\fP
+.br
+\fC#include <descartes_trajectory/axial_symmetric_pt\&.h>\fP
+.br
+\fC#include <descartes_trajectory/cart_trajectory_pt\&.h>\fP
+.br
+\fC#include <descartes_planner/dense_planner\&.h>\fP
+.br
+\fC#include <descartes_planner/sparse_planner\&.h>\fP
+.br
+\fC#include 'RCS\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCTrajectory\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::vector
+.br
+< descartes_core::TrajectoryPtPtr > \fBTrajectoryVec\fP"
+.br
+.ti -1c
+.RI "typedef 
+.br
+TrajectoryVec::const_iterator \fBTrajectoryIter\fP"
+.br
+.ti -1c
+.RI "typedef boost::shared_ptr
+.br
+< descartes_moveit::MoveitStateAdapter > \fBMoveitStateAdapterPtr\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef boost::shared_ptr<descartes_moveit::MoveitStateAdapter> \fBMoveitStateAdapterPtr\fP"
+
+.SS "typedef TrajectoryVec::const_iterator \fBTrajectoryIter\fP"
+
+.SS "typedef std::vector<descartes_core::TrajectoryPtPtr> \fBTrajectoryVec\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

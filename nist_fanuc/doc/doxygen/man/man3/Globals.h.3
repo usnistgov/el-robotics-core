@@ -1,0 +1,135 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Globals.h" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Globals.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <boost/thread\&.hpp>\fP
+.br
+\fC#include <ctime>\fP
+.br
+\fC#include <stdarg\&.h>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include 'Logging\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCGlobals\fP"
+.br
+.RI "\fI\fBCGlobals\fP is a catch-all data structure for collecting global functions, extensions, parameters, etc\&. Functions here usually vary between windows and linux, or there is no easy mechanism in C++ to extend classes (e\&.g\&., string) like in C#\&. \fP"
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBIfDebug\fP(arg)"
+.br
+.ti -1c
+.RI "#define \fB_strnicmp\fP   strncasecmp"
+.br
+.ti -1c
+.RI "#define \fBCLEANSTORE\fP(Y, X, Z)"
+.br
+.ti -1c
+.RI "#define \fBVALIDSTORE\fP(Y, X)"
+.br
+.ti -1c
+.RI "#define \fBVAR\fP(X, Y)"
+.br
+.ti -1c
+.RI "#define \fBNVAR\fP(X, Y, Z)"
+.br
+.ti -1c
+.RI "#define \fBFOREACH\fP(it, v)   for(typeof((v)\&.begin()) it = (v)\&.begin(); it != (v)\&.end(); it++)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDebugBreak\fP ()"
+.br
+.ti -1c
+.RI "template<typename T > std::string \fBVectorDump\fP (std::vector< T > v)"
+.br
+.ti -1c
+.RI "template<typename T > std::vector< T > \fBToVector\fP (int n,\&.\&.\&.)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBCGlobals\fP \fBGlobals\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _strnicmp   strncasecmp"
+
+.SS "#define CLEANSTORE(Y, X, Z)"
+\fBValue:\fP
+.PP
+.nf
+try{ Y = X; }           \
+    catch ( \&.\&.\&. ) { Y = Z; }
+.fi
+.SS "#define FOREACH(it, v)   for(typeof((v)\&.begin()) it = (v)\&.begin(); it != (v)\&.end(); it++)"
+
+.SS "#define IfDebug(arg)"
+
+.SS "#define NVAR(X, Y, Z)"
+\fBValue:\fP
+.PP
+.nf
+protected: Y Z;       \
+public: Y & X( ) { return Z; }
+.fi
+.SS "#define VALIDSTORE(Y, X)"
+\fBValue:\fP
+.PP
+.nf
+try{ Y = X; }        \
+    catch ( \&.\&.\&. ) { }
+.fi
+.SS "#define VAR(X, Y)"
+\fBValue:\fP
+.PP
+.nf
+protected: Y _ ## X; \
+public: Y & X( ) { return _ ## X; }
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "void DebugBreak ()"
+global definition of windows DebugBreak equivalent\&. 
+.SS "template<typename T > std::vector<T> ToVector (intn, \&.\&.\&.)\fC [inline]\fP"
+
+.SS "template<typename T > std::string VectorDump (std::vector< T >v)\fC [inline]\fP"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBCGlobals\fP Globals"
+global definition of globals 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

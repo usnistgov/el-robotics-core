@@ -1,0 +1,161 @@
+\hypertarget{classRCS_1_1CMessageQueue}{\section{R\-C\-S\-:\-:C\-Message\-Queue$<$ T $>$ Class Template Reference}
+\label{classRCS_1_1CMessageQueue}\index{R\-C\-S\-::\-C\-Message\-Queue$<$ T $>$@{R\-C\-S\-::\-C\-Message\-Queue$<$ T $>$}}
+}
+
+
+The \hyperlink{classRCS_1_1CMessageQueue}{C\-Message\-Queue} offers a mutexed front to a stl deque. The queue is a L\-I\-F\-O data structure. Useful for safely sharing data between multiple threads.  
+
+
+
+
+{\ttfamily \#include $<$R\-C\-S\-Msg\-Queue.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\-::deque$<$ T $>$ \hyperlink{classRCS_1_1CMessageQueue_a272ec6240c0ae616f66e71a033326e28}{xml\-\_\-message\-\_\-queue}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCS_1_1CMessageQueue_afa0f086027abffe37b9e9673396f7b00}{C\-Message\-Queue} ()
+\item 
+void \hyperlink{classRCS_1_1CMessageQueue_a1fbabdd6e6aaf02572a93531ed871559}{Clear\-Msg\-Queue} ()
+\begin{DoxyCompactList}\small\item\em Clear\-Msg\-Queue clears all contents in message queue. T. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{classRCS_1_1CMessageQueue_a7929c4ce871eab3dfb8dfabd5bf4bdb9}{Size\-Msg\-Queue} ()
+\begin{DoxyCompactList}\small\item\em Size\-Msg\-Queue returns number of items in message queue. \end{DoxyCompactList}\item 
+T \hyperlink{classRCS_1_1CMessageQueue_afbde6b0fa4044557ba5f990c69d52ff7}{Pop\-Front\-Msg\-Queue} ()
+\begin{DoxyCompactList}\small\item\em Pop\-Front\-Msg\-Queue mutex pop of front item of message queue. \end{DoxyCompactList}\item 
+T \hyperlink{classRCS_1_1CMessageQueue_a5d669a3cecd23be9113567421f2b06a1}{Back\-Msg\-Queue} ()
+\begin{DoxyCompactList}\small\item\em Back\-Msg\-Queue mutex pop of back item of message queue. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1CMessageQueue_a1f23fdbd7b3c7c3861abea8fb0899288}{Add\-Msg\-Queue} (T t)
+\begin{DoxyCompactList}\small\item\em Add\-Msg\-Queue mutex push to back an item onto message queue. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1CMessageQueue_ab9a9aa2c8e05c74bd0b67dc2b576850f}{Insert\-Front\-Msg\-Queue} (T t)
+\begin{DoxyCompactList}\small\item\em Insert\-Front\-Msg\-Queue mutex push to front an item onto message queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::mutex \hyperlink{classRCS_1_1CMessageQueue_a874fdf08657e4ca2da89168bb6176c49}{m}
+\item 
+\hyperlink{classRCS_1_1CMessageQueue_a272ec6240c0ae616f66e71a033326e28}{xml\-\_\-message\-\_\-queue} \hyperlink{classRCS_1_1CMessageQueue_aa699f0b2f9f057242c5f0d3882f14ecb}{xml\-\_\-msgs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class R\-C\-S\-::\-C\-Message\-Queue$<$ T $>$}
+
+The \hyperlink{classRCS_1_1CMessageQueue}{C\-Message\-Queue} offers a mutexed front to a stl deque. The queue is a L\-I\-F\-O data structure. Useful for safely sharing data between multiple threads. 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classRCS_1_1CMessageQueue_a272ec6240c0ae616f66e71a033326e28}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!xml\-\_\-message\-\_\-queue@{xml\-\_\-message\-\_\-queue}}
+\index{xml\-\_\-message\-\_\-queue@{xml\-\_\-message\-\_\-queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{xml\-\_\-message\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ typedef std\-::deque$<$T$>$ {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::{\bf xml\-\_\-message\-\_\-queue}}}\label{classRCS_1_1CMessageQueue_a272ec6240c0ae616f66e71a033326e28}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCS_1_1CMessageQueue_afa0f086027abffe37b9e9673396f7b00}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!C\-Message\-Queue@{C\-Message\-Queue}}
+\index{C\-Message\-Queue@{C\-Message\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{C\-Message\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::{\bf C\-Message\-Queue} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_afa0f086027abffe37b9e9673396f7b00}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCS_1_1CMessageQueue_a1f23fdbd7b3c7c3861abea8fb0899288}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!Add\-Msg\-Queue@{Add\-Msg\-Queue}}
+\index{Add\-Msg\-Queue@{Add\-Msg\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{Add\-Msg\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::Add\-Msg\-Queue (
+\begin{DoxyParamCaption}
+\item[{T}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_a1f23fdbd7b3c7c3861abea8fb0899288}
+
+
+Add\-Msg\-Queue mutex push to back an item onto message queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T} & item to place in back of message queue. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCS_1_1CMessageQueue_a5d669a3cecd23be9113567421f2b06a1}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!Back\-Msg\-Queue@{Back\-Msg\-Queue}}
+\index{Back\-Msg\-Queue@{Back\-Msg\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{Back\-Msg\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::Back\-Msg\-Queue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_a5d669a3cecd23be9113567421f2b06a1}
+
+
+Back\-Msg\-Queue mutex pop of back item of message queue. 
+
+\begin{DoxyReturn}{Returns}
+T returns back item from message queue. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1CMessageQueue_a1fbabdd6e6aaf02572a93531ed871559}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!Clear\-Msg\-Queue@{Clear\-Msg\-Queue}}
+\index{Clear\-Msg\-Queue@{Clear\-Msg\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{Clear\-Msg\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::Clear\-Msg\-Queue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_a1fbabdd6e6aaf02572a93531ed871559}
+
+
+Clear\-Msg\-Queue clears all contents in message queue. T. 
+
+\hypertarget{classRCS_1_1CMessageQueue_ab9a9aa2c8e05c74bd0b67dc2b576850f}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!Insert\-Front\-Msg\-Queue@{Insert\-Front\-Msg\-Queue}}
+\index{Insert\-Front\-Msg\-Queue@{Insert\-Front\-Msg\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{Insert\-Front\-Msg\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::Insert\-Front\-Msg\-Queue (
+\begin{DoxyParamCaption}
+\item[{T}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_ab9a9aa2c8e05c74bd0b67dc2b576850f}
+
+
+Insert\-Front\-Msg\-Queue mutex push to front an item onto message queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T} & item to place in front of message queue. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCS_1_1CMessageQueue_afbde6b0fa4044557ba5f990c69d52ff7}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!Pop\-Front\-Msg\-Queue@{Pop\-Front\-Msg\-Queue}}
+\index{Pop\-Front\-Msg\-Queue@{Pop\-Front\-Msg\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{Pop\-Front\-Msg\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::Pop\-Front\-Msg\-Queue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_afbde6b0fa4044557ba5f990c69d52ff7}
+
+
+Pop\-Front\-Msg\-Queue mutex pop of front item of message queue. 
+
+\begin{DoxyReturn}{Returns}
+T returns front item from message queue. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1CMessageQueue_a7929c4ce871eab3dfb8dfabd5bf4bdb9}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!Size\-Msg\-Queue@{Size\-Msg\-Queue}}
+\index{Size\-Msg\-Queue@{Size\-Msg\-Queue}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{Size\-Msg\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ size\-\_\-t {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::Size\-Msg\-Queue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_a7929c4ce871eab3dfb8dfabd5bf4bdb9}
+
+
+Size\-Msg\-Queue returns number of items in message queue. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRCS_1_1CMessageQueue_a874fdf08657e4ca2da89168bb6176c49}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!m@{m}}
+\index{m@{m}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{m}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ boost\-::mutex {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::m\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1CMessageQueue_a874fdf08657e4ca2da89168bb6176c49}
+\hypertarget{classRCS_1_1CMessageQueue_aa699f0b2f9f057242c5f0d3882f14ecb}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!xml\-\_\-msgs@{xml\-\_\-msgs}}
+\index{xml\-\_\-msgs@{xml\-\_\-msgs}!RCS::CMessageQueue@{R\-C\-S\-::\-C\-Message\-Queue}}
+\subsubsection[{xml\-\_\-msgs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf xml\-\_\-message\-\_\-queue} {\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ T $>$\-::xml\-\_\-msgs\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1CMessageQueue_aa699f0b2f9f057242c5f0d3882f14ecb}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSMsgQueue_8h}{R\-C\-S\-Msg\-Queue.\-h}\end{DoxyCompactItemize}

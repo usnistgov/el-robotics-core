@@ -1,0 +1,136 @@
+\hypertarget{structRCS_1_1CanonWorldModel}{\section{R\-C\-S\-:\-:Canon\-World\-Model Struct Reference}
+\label{structRCS_1_1CanonWorldModel}\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}}
+}
+
+
+\hyperlink{structRCS_1_1CanonWorldModel}{Canon\-World\-Model} describes the controller state. Includes reference to robot model.  
+
+
+
+
+{\ttfamily \#include $<$R\-C\-S.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structRCS_1_1CanonWorldModel_aaae0721930b3b79a12c7b397418ab400}{Canon\-World\-Model} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{structRCS_1_1CanonWorldModel}{Canon\-World\-Model} constructor that initializes parameterization. \end{DoxyCompactList}\item 
+void \hyperlink{structRCS_1_1CanonWorldModel_a0a796ab8aee018cbd9004f609f728444}{Init} ()
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_abf7a5bb962de85a5e1946148adce31b0}{get\-Cycle\-Time} ()
+\begin{DoxyCompactList}\small\item\em Cycletime of the world model. /fixme what is this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75}{Canon\-Cmd\-Type} \hyperlink{structRCS_1_1CanonWorldModel_aed51034c2dd7b1a78722fe7444691132}{echo\-\_\-cmd}
+\item 
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777d}{Canon\-Status\-Type} \hyperlink{structRCS_1_1CanonWorldModel_a59f849abf2987e1745aaf6db68eecb07}{echo\-\_\-status}
+\item 
+\hyperlink{RCS_8h_a20fcacb5362f459b2122712e88613342}{Model\-Interface\-Shared\-Ptr} \hyperlink{structRCS_1_1CanonWorldModel_a185c2b5e3eaba715be4d49b47879574c}{robot\-\_\-model}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_a9b6d5469341e73289788ba0fe0f3c57a}{max\-Trans\-Accel}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_a55824e72d1d92c8b5f5c8ecf3b7c7a00}{max\-Trans\-Vel}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_aca5f8ebce128e94ed4edf3caabb6c363}{max\-Rot\-Accel}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_acbb472eee22bb4764dc865476fe56950}{max\-Rot\-Vel}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_ac20eae577122dd6dc58f92f33c1de53c}{max\-Joint\-Accel}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_a29c9099062e430196fc659fd7ae2f8ef}{max\-Joint\-Vel}
+\item 
+double \hyperlink{structRCS_1_1CanonWorldModel_a8b14e4665c3491b8a68977dbf84c9479}{\-\_\-cycle\-Time}
+\item 
+\hyperlink{structRCS_1_1CanonCmd}{Canon\-Cmd} \hyperlink{structRCS_1_1CanonWorldModel_ac7e75df0508ec626b834a77ebfe0465f}{echocmd}
+\item 
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \hyperlink{structRCS_1_1CanonWorldModel_a0060a81cde9ecf9ae02c5e61b8345a5b}{currentjoints}
+\item 
+urdf\-::\-Pose \hyperlink{structRCS_1_1CanonWorldModel_a1697a067100635db9d99f1bb92c50764}{currentpose}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{structRCS_1_1CanonWorldModel}{Canon\-World\-Model} describes the controller state. Includes reference to robot model. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structRCS_1_1CanonWorldModel_aaae0721930b3b79a12c7b397418ab400}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!Canon\-World\-Model@{Canon\-World\-Model}}
+\index{Canon\-World\-Model@{Canon\-World\-Model}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{Canon\-World\-Model}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Canon\-World\-Model\-::\-Canon\-World\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{structRCS_1_1CanonWorldModel_aaae0721930b3b79a12c7b397418ab400}
+
+
+\hyperlink{structRCS_1_1CanonWorldModel}{Canon\-World\-Model} constructor that initializes parameterization. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structRCS_1_1CanonWorldModel_abf7a5bb962de85a5e1946148adce31b0}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!get\-Cycle\-Time@{get\-Cycle\-Time}}
+\index{get\-Cycle\-Time@{get\-Cycle\-Time}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{get\-Cycle\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::get\-Cycle\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{structRCS_1_1CanonWorldModel_abf7a5bb962de85a5e1946148adce31b0}
+
+
+Cycletime of the world model. /fixme what is this. 
+
+\hypertarget{structRCS_1_1CanonWorldModel_a0a796ab8aee018cbd9004f609f728444}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!Init@{Init}}
+\index{Init@{Init}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Canon\-World\-Model\-::\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CanonWorldModel_a0a796ab8aee018cbd9004f609f728444}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structRCS_1_1CanonWorldModel_a8b14e4665c3491b8a68977dbf84c9479}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!\-\_\-cycle\-Time@{\-\_\-cycle\-Time}}
+\index{\-\_\-cycle\-Time@{\-\_\-cycle\-Time}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{\-\_\-cycle\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::\-\_\-cycle\-Time}}\label{structRCS_1_1CanonWorldModel_a8b14e4665c3491b8a68977dbf84c9479}
+cycle time \hypertarget{structRCS_1_1CanonWorldModel_a0060a81cde9ecf9ae02c5e61b8345a5b}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!currentjoints@{currentjoints}}
+\index{currentjoints@{currentjoints}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{currentjoints}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-State} R\-C\-S\-::\-Canon\-World\-Model\-::currentjoints}}\label{structRCS_1_1CanonWorldModel_a0060a81cde9ecf9ae02c5e61b8345a5b}
+current joint state \hypertarget{structRCS_1_1CanonWorldModel_a1697a067100635db9d99f1bb92c50764}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!currentpose@{currentpose}}
+\index{currentpose@{currentpose}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{currentpose}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose R\-C\-S\-::\-Canon\-World\-Model\-::currentpose}}\label{structRCS_1_1CanonWorldModel_a1697a067100635db9d99f1bb92c50764}
+current robot pose \hypertarget{structRCS_1_1CanonWorldModel_aed51034c2dd7b1a78722fe7444691132}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!echo\-\_\-cmd@{echo\-\_\-cmd}}
+\index{echo\-\_\-cmd@{echo\-\_\-cmd}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{echo\-\_\-cmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Canon\-Cmd\-Type} R\-C\-S\-::\-Canon\-World\-Model\-::echo\-\_\-cmd}}\label{structRCS_1_1CanonWorldModel_aed51034c2dd7b1a78722fe7444691132}
+copy of current command type \hypertarget{structRCS_1_1CanonWorldModel_a59f849abf2987e1745aaf6db68eecb07}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!echo\-\_\-status@{echo\-\_\-status}}
+\index{echo\-\_\-status@{echo\-\_\-status}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{echo\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Canon\-Status\-Type} R\-C\-S\-::\-Canon\-World\-Model\-::echo\-\_\-status}}\label{structRCS_1_1CanonWorldModel_a59f849abf2987e1745aaf6db68eecb07}
+copy of current status type \hypertarget{structRCS_1_1CanonWorldModel_ac7e75df0508ec626b834a77ebfe0465f}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!echocmd@{echocmd}}
+\index{echocmd@{echocmd}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{echocmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Canon\-Cmd} R\-C\-S\-::\-Canon\-World\-Model\-::echocmd}}\label{structRCS_1_1CanonWorldModel_ac7e75df0508ec626b834a77ebfe0465f}
+copy of current command \hypertarget{structRCS_1_1CanonWorldModel_ac20eae577122dd6dc58f92f33c1de53c}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!max\-Joint\-Accel@{max\-Joint\-Accel}}
+\index{max\-Joint\-Accel@{max\-Joint\-Accel}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{max\-Joint\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::max\-Joint\-Accel}}\label{structRCS_1_1CanonWorldModel_ac20eae577122dd6dc58f92f33c1de53c}
+max joint acceleration \hypertarget{structRCS_1_1CanonWorldModel_a29c9099062e430196fc659fd7ae2f8ef}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!max\-Joint\-Vel@{max\-Joint\-Vel}}
+\index{max\-Joint\-Vel@{max\-Joint\-Vel}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{max\-Joint\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::max\-Joint\-Vel}}\label{structRCS_1_1CanonWorldModel_a29c9099062e430196fc659fd7ae2f8ef}
+max joint velocity \hypertarget{structRCS_1_1CanonWorldModel_aca5f8ebce128e94ed4edf3caabb6c363}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!max\-Rot\-Accel@{max\-Rot\-Accel}}
+\index{max\-Rot\-Accel@{max\-Rot\-Accel}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{max\-Rot\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::max\-Rot\-Accel}}\label{structRCS_1_1CanonWorldModel_aca5f8ebce128e94ed4edf3caabb6c363}
+max rotational acceleration \hypertarget{structRCS_1_1CanonWorldModel_acbb472eee22bb4764dc865476fe56950}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!max\-Rot\-Vel@{max\-Rot\-Vel}}
+\index{max\-Rot\-Vel@{max\-Rot\-Vel}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{max\-Rot\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::max\-Rot\-Vel}}\label{structRCS_1_1CanonWorldModel_acbb472eee22bb4764dc865476fe56950}
+max rotational velocity \hypertarget{structRCS_1_1CanonWorldModel_a9b6d5469341e73289788ba0fe0f3c57a}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!max\-Trans\-Accel@{max\-Trans\-Accel}}
+\index{max\-Trans\-Accel@{max\-Trans\-Accel}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{max\-Trans\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::max\-Trans\-Accel}}\label{structRCS_1_1CanonWorldModel_a9b6d5469341e73289788ba0fe0f3c57a}
+max translation acceleration \hypertarget{structRCS_1_1CanonWorldModel_a55824e72d1d92c8b5f5c8ecf3b7c7a00}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!max\-Trans\-Vel@{max\-Trans\-Vel}}
+\index{max\-Trans\-Vel@{max\-Trans\-Vel}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{max\-Trans\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-World\-Model\-::max\-Trans\-Vel}}\label{structRCS_1_1CanonWorldModel_a55824e72d1d92c8b5f5c8ecf3b7c7a00}
+max translation velocity \hypertarget{structRCS_1_1CanonWorldModel_a185c2b5e3eaba715be4d49b47879574c}{\index{R\-C\-S\-::\-Canon\-World\-Model@{R\-C\-S\-::\-Canon\-World\-Model}!robot\-\_\-model@{robot\-\_\-model}}
+\index{robot\-\_\-model@{robot\-\_\-model}!RCS::CanonWorldModel@{R\-C\-S\-::\-Canon\-World\-Model}}
+\subsubsection[{robot\-\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Model\-Interface\-Shared\-Ptr} R\-C\-S\-::\-Canon\-World\-Model\-::robot\-\_\-model}}\label{structRCS_1_1CanonWorldModel_a185c2b5e3eaba715be4d49b47879574c}
+pointer to robot model 
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCS_8h}{R\-C\-S.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{RCS_8cpp}{R\-C\-S.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,237 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/RCS.h" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/RCS.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <math\&.h>\fP
+.br
+\fC#include <moveit/robot_model_loader/robot_model_loader\&.h>\fP
+.br
+\fC#include <moveit/robot_model/robot_model\&.h>\fP
+.br
+\fC#include '/usr/include/urdf_model/model\&.h'\fP
+.br
+\fC#include '/usr/include/urdf_model/joint\&.h'\fP
+.br
+\fC#include '/usr/include/urdf_model/link\&.h'\fP
+.br
+\fC#include '/opt/ros/indigo/include/sensor_msgs/JointState\&.h'\fP
+.br
+\fC#include 'urdf_model/rosmath\&.h'\fP
+.br
+\fC#include <stdarg\&.h>\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBRCS::CanonCmd\fP"
+.br
+.RI "\fI\fBCanonCmd\fP is the controller command structure\&. \fP"
+.ti -1c
+.RI "struct \fBRCS::CanonWorldModel\fP"
+.br
+.RI "\fI\fBCanonWorldModel\fP describes the controller state\&. Includes reference to robot model\&. \fP"
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "\fBRCS\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_USE_MATH_DEFINES\fP"
+.br
+.ti -1c
+.RI "#define \fBLENGTHUNITS\fP   1000"
+.br
+.ti -1c
+.RI "#define \fBEPSILON\fP   1E-04"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_CYCLE\fP   0\&.010"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_LOOP_CYCLE\fP   0\&.10"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_CART_MAX_ACCEL\fP   20\&.0/\fBLENGTHUNITS\fP"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_CART_MAX_VEL\fP   200\&.0/\fBLENGTHUNITS\fP"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_JOINT_MAX_ACCEL\fP   20\&.0/\fBLENGTHUNITS\fP"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_JOINT_MAX_VEL\fP   150\&.0/\fBLENGTHUNITS\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef boost::shared_ptr
+.br
+< urdf::ModelInterface > \fBModelInterfaceSharedPtr\fP"
+.br
+.ti -1c
+.RI "typedef 
+.br
+sensor_msgs::JointState_
+.br
+< std::allocator< void > > \fBJointState\fP"
+.br
+.ti -1c
+.RI "typedef boost::shared_ptr
+.br
+< \fBJointState\fP > \fBJointStateSharedPtr\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Pose \fBRCS::Pose\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Vector3 \fBRCS::Position\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Rotation \fBRCS::Rotation\fP"
+.br
+.ti -1c
+.RI "typedef urdf::Vector3 \fBRCS::Vector3\fP"
+.br
+.ti -1c
+.RI "typedef double \fBRCS::Length\fP"
+.br
+.ti -1c
+.RI "typedef double \fBRCS::LinearVelocity\fP"
+.br
+.ti -1c
+.RI "typedef double \fBRCS::AngularVelocity\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< double > \fBRCS::robotAxes\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBRCS::CanonLengthUnit\fP { \fBRCS::METER\fP = 0, \fBRCS::MM\fP, \fBRCS::INCH\fP }"
+.br
+.RI "\fIenumeration of length units\&. Conversion into ROS compatible meters\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::TrajPointType\fP { \fBRCS::WAYPOINT\fP = 1, \fBRCS::GOAL\fP }"
+.br
+.RI "\fIenumeration of trajector pose points\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonAngleUnit\fP { \fBRCS::RADIAN\fP = 0, \fBRCS::DEGREE\fP }"
+.br
+.RI "\fIenumeration of angle units\&. Conversion into ROS compatible radians\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonForceUnit\fP { \fBRCS::NEWTON\fP = 0, \fBRCS::POUND\fP, \fBRCS::OUNCE\fP }"
+.br
+.RI "\fIenumeration of force units\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonTorqueUnit\fP { \fBRCS::NEWTONMETER\fP = 0, \fBRCS::FOOTPOUND\fP }"
+.br
+.RI "\fIenumeration of torque units\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonReturn\fP { \fBRCS::CANON_REJECT\fP = -2, \fBRCS::CANON_FAILURE\fP = -1, \fBRCS::CANON_SUCCESS\fP = 0, \fBRCS::CANON_STATUSREPLY\fP = 1, \fBRCS::CANON_RUNNING\fP }"
+.br
+.RI "\fIenumeration of return type from \fBCrcl\fP intepretation\&. If statusreply, requires status sent to \fBCrcl\fP client\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonCmdType\fP { \fBRCS::CANON_NOOP\fP = 0, \fBRCS::CANON_DWELL\fP, \fBRCS::CANON_END_CANON\fP, \fBRCS::CANON_INIT_CANON\fP, \fBRCS::CANON_MOVE_JOINT\fP, \fBRCS::CANON_MOVE_TO\fP, \fBRCS::CANON_MOVE_THRU\fP, \fBRCS::CANON_SET_MAX_CART_ACC\fP, \fBRCS::CANON_SET_MAX_CART_SPEED\fP, \fBRCS::CANON_SET_MAX_JOINT_ACC\fP, \fBRCS::CANON_SET_MAX_JOINT_SPEED\fP, \fBRCS::CANON_SET_GRIPPER\fP, \fBRCS::CANON_STOP_MOTION\fP, \fBRCS::CANON_UNKNOWN\fP }"
+.br
+.RI "\fIenumeration of \fBCrcl\fP commands\&. Many \fBCrcl\fP commands are wm parameter setting and require no motion component\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonStopMotionType\fP { \fBRCS::UNSET\fP = -1, \fBRCS::IMMEDIATE\fP = 0, \fBRCS::FAST\fP, \fBRCS::NORMAL\fP }"
+.br
+.RI "\fIenumeration of stopping motion, e\&.g\&., estop equivalent to immediate\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonAccProfile\fP { \fBRCS::MS_IS_UNSET\fP = 0, \fBRCS::MS_IS_DONE\fP = 1, \fBRCS::MS_IS_ACCEL\fP = 2, \fBRCS::MS_IS_CONST\fP = 3, \fBRCS::MS_IS_DECEL\fP = 4, \fBRCS::MS_IS_ESTOPPING\fP = 5, \fBRCS::MS_IS_PAUSED\fP = 6 }"
+.br
+.RI "\fIenumeration of trajectory acceleration profile\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::MovementType\fP { \fBRCS::MOVE_DEFAULT\fP = 0, \fBRCS::MOVE_CARTESIAN\fP, \fBRCS::MOVE_JOINT\fP }"
+.br
+.RI "\fIenumeration of trajectory motion type, joint or cartesian\&. \fP"
+.ti -1c
+.RI "enum \fBRCS::CanonStatusType\fP { \fBRCS::CANON_DONE\fP = 0, \fBRCS::CANON_WORKING\fP, \fBRCS::CANON_PAUSED\fP, \fBRCS::CANON_ERROR\fP, \fBRCS::CANON_ABORT\fP, \fBRCS::CANON_WAITING\fP }"
+.br
+.RI "\fIenumeration of controller status types for individual commands\&. Note, even though command types are listed, not all used or supported\&. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBRCS::DumpPose\fP (urdf::Pose &pose)"
+.br
+.RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
+.RI "std::string \fBRCS::DumpQuaterion\fP (std::ostream &os, const urdf::Rotation &rot)"
+.br
+.RI "\fIDumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBRCS::CanonCmd\fP &cc)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBModelInterfaceSharedPtr\fP 
+.br
+typedef boost::shared_ptr
+.br
+< urdf::Joint > \fBJointSharedPtr\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _USE_MATH_DEFINES"
+
+.SS "#define DEFAULT_CART_MAX_ACCEL   20\&.0/\fBLENGTHUNITS\fP"
+
+.SS "#define DEFAULT_CART_MAX_VEL   200\&.0/\fBLENGTHUNITS\fP"
+
+.SS "#define DEFAULT_CYCLE   0\&.010"
+
+.SS "#define DEFAULT_JOINT_MAX_ACCEL   20\&.0/\fBLENGTHUNITS\fP"
+
+.SS "#define DEFAULT_JOINT_MAX_VEL   150\&.0/\fBLENGTHUNITS\fP"
+
+.SS "#define DEFAULT_LOOP_CYCLE   0\&.10"
+
+.SS "#define EPSILON   1E-04"
+
+.SS "#define LENGTHUNITS   1000"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef sensor_msgs::JointState_<std::allocator<void> > \fBJointState\fP"
+
+.SS "typedef boost::shared_ptr<\fBJointState\fP> \fBJointStateSharedPtr\fP"
+
+.SS "typedef boost::shared_ptr<urdf::ModelInterface> \fBModelInterfaceSharedPtr\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream &os, const \fBRCS::CanonCmd\fP &cc)\fC [inline]\fP"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBModelInterfaceSharedPtr\fP typedef boost::shared_ptr<urdf::Joint> JointSharedPtr"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

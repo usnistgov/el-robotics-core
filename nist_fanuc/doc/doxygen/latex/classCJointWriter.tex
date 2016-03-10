@@ -1,0 +1,114 @@
+\hypertarget{classCJointWriter}{\section{C\-Joint\-Writer Class Reference}
+\label{classCJointWriter}\index{C\-Joint\-Writer@{C\-Joint\-Writer}}
+}
+
+
+The \hyperlink{classCJointWriter}{C\-Joint\-Writer} is a thread to publish new joint values to R\-O\-S. Uses a ros node handle to tell roscore we are pusblishing to the joint\-\_\-path\-\_\-command topic. Then, when joint updates occur, these are published on joint\-\_\-path\-\_\-command the topic.  
+
+
+
+
+{\ttfamily \#include $<$Communication.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCJointWriter_a15a0d974f05053a4270d4bc12233abaa}{C\-Joint\-Writer} (ros\-::\-Node\-Handle \&nh)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classCJointWriter}{C\-Joint\-Writer} constructor that requires a R\-O\-S node handle. \end{DoxyCompactList}\item 
+bool \hyperlink{classCJointWriter_adc81d4ad1fee998f98a9e6eba6066da8}{Joint\-Trajectory\-Write} (std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} $>$)
+\begin{DoxyCompactList}\small\item\em Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. \end{DoxyCompactList}\item 
+bool \hyperlink{classCJointWriter_a16ffa1605dd37808b21c5082e03a9ba0}{Joint\-Trajectory\-Position\-Write} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} joint)
+\begin{DoxyCompactList}\small\item\em Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Publisher \hyperlink{classCJointWriter_a109841588bf726b430b82a509176bb0c}{traj\-\_\-pub}
+\item 
+std\-::vector$<$ std\-::string $>$ \hyperlink{classCJointWriter_a3aceb4ba37d60a52c34e486871bc8f58}{jointnames}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static boost\-::mutex \hyperlink{classCJointWriter_a1f005dcb6f32e6d161026a6cdda5b66f}{\-\_\-writer\-\_\-mutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classCJointWriter}{C\-Joint\-Writer} is a thread to publish new joint values to R\-O\-S. Uses a ros node handle to tell roscore we are pusblishing to the joint\-\_\-path\-\_\-command topic. Then, when joint updates occur, these are published on joint\-\_\-path\-\_\-command the topic. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCJointWriter_a15a0d974f05053a4270d4bc12233abaa}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!C\-Joint\-Writer@{C\-Joint\-Writer}}
+\index{C\-Joint\-Writer@{C\-Joint\-Writer}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{C\-Joint\-Writer}]{\setlength{\rightskip}{0pt plus 5cm}C\-Joint\-Writer\-::\-C\-Joint\-Writer (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{classCJointWriter_a15a0d974f05053a4270d4bc12233abaa}
+
+
+\hyperlink{classCJointWriter}{C\-Joint\-Writer} constructor that requires a R\-O\-S node handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & ros node handle so joint reader can tell roscore we are advertising new joint values. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCJointWriter_a16ffa1605dd37808b21c5082e03a9ba0}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!Joint\-Trajectory\-Position\-Write@{Joint\-Trajectory\-Position\-Write}}
+\index{Joint\-Trajectory\-Position\-Write@{Joint\-Trajectory\-Position\-Write}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{Joint\-Trajectory\-Position\-Write}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Joint\-Writer\-::\-Joint\-Trajectory\-Position\-Write (
+\begin{DoxyParamCaption}
+\item[{{\bf sensor\-\_\-msgs\-::\-Joint\-State}}]{joint}
+\end{DoxyParamCaption}
+)}}\label{classCJointWriter_a16ffa1605dd37808b21c5082e03a9ba0}
+
+
+Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & sensor\-\_\-msgs\-::\-Joint\-State describing robot joints \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean if write occurred as expected. 
+\end{DoxyReturn}
+\hypertarget{classCJointWriter_adc81d4ad1fee998f98a9e6eba6066da8}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!Joint\-Trajectory\-Write@{Joint\-Trajectory\-Write}}
+\index{Joint\-Trajectory\-Write@{Joint\-Trajectory\-Write}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{Joint\-Trajectory\-Write}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Joint\-Writer\-::\-Joint\-Trajectory\-Write (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf sensor\-\_\-msgs\-::\-Joint\-State} $>$}]{joints}
+\end{DoxyParamCaption}
+)}}\label{classCJointWriter_adc81d4ad1fee998f98a9e6eba6066da8}
+
+
+Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & std vector of sensor\-\_\-msgs\-::\-Joint\-State describing a series of joints \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean if all writes occurred as expected. 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCJointWriter_a1f005dcb6f32e6d161026a6cdda5b66f}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!\-\_\-writer\-\_\-mutex@{\-\_\-writer\-\_\-mutex}}
+\index{\-\_\-writer\-\_\-mutex@{\-\_\-writer\-\_\-mutex}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{\-\_\-writer\-\_\-mutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex C\-Joint\-Writer\-::\-\_\-writer\-\_\-mutex\hspace{0.3cm}{\ttfamily [static]}}}\label{classCJointWriter_a1f005dcb6f32e6d161026a6cdda5b66f}
+for mutexed writing access to joint values \hypertarget{classCJointWriter_a3aceb4ba37d60a52c34e486871bc8f58}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!jointnames@{jointnames}}
+\index{jointnames@{jointnames}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{jointnames}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::string$>$ C\-Joint\-Writer\-::jointnames}}\label{classCJointWriter_a3aceb4ba37d60a52c34e486871bc8f58}
+ros requries joint names for each joint update \hypertarget{classCJointWriter_a109841588bf726b430b82a509176bb0c}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!traj\-\_\-pub@{traj\-\_\-pub}}
+\index{traj\-\_\-pub@{traj\-\_\-pub}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{traj\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher C\-Joint\-Writer\-::traj\-\_\-pub}}\label{classCJointWriter_a109841588bf726b430b82a509176bb0c}
+ros publisher information used for joint updates 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Communication_8h}{Communication.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Communication_8cpp}{Communication.\-cpp}\end{DoxyCompactItemize}

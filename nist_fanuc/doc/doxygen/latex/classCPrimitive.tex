@@ -1,0 +1,167 @@
+\hypertarget{classCPrimitive}{\section{C\-Primitive Class Reference}
+\label{classCPrimitive}\index{C\-Primitive@{C\-Primitive}}
+}
+
+
+{\ttfamily \#include $<$Primitive.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCPrimitive_aab575a96a90e275bfa2c82800ef8c005}{C\-Primitive} (ros\-::\-Node\-Handle nh, std\-::string groupname)
+\item 
+std\-::string \hyperlink{classCPrimitive_a408ebf227dfb8e36bf9103f5feebcd61}{To\-String} ()
+\item 
+void \hyperlink{classCPrimitive_aef4bdc36e7575e6847e6eb3247b1cb9c}{Get\-Joint\-Values} ()
+\item 
+geometry\-\_\-msgs\-::\-Pose \hyperlink{classCPrimitive_ab99019451c0dec79bc79b18497ddd834}{Get\-Robot\-State\-\_\-pose} (const robot\-\_\-state\-::\-Robot\-State \&state)
+\item 
+void \hyperlink{classCPrimitive_ad3736f955467bd7a916a397543d9544c}{Forward\-Kinematics} ()
+\item 
+std\-::vector$<$ double $>$ \hyperlink{classCPrimitive_a7b3aae5fb6b2203add69561a9c7aa65f}{Set\-Random\-Joints} ()
+\item 
+Eigen\-::\-Affine3d \hyperlink{classCPrimitive_a334aa9f1b5f1946f485d54c62d47b020}{Compute\-Forward\-Kinematics} (std\-::vector$<$ double $>$ jointvalues)
+\item 
+std\-::vector$<$ double $>$ \hyperlink{classCPrimitive_a85b8173077e0b5094a6d8348e5700a77}{Inverse\-Kinematics} ()
+\item 
+void \hyperlink{classCPrimitive_a3d063adf3304dcf929fe24516e569d8d}{Random\-Goal} ()
+\item 
+void \hyperlink{classCPrimitive_aa248f6a5f8ecb5b9df1d9ffd24bc73bd}{Plan\-Path} (geometry\-\_\-msgs\-::\-Pose \&pose, double d\-Goal\-Tolerance, int b\-Move\-Flag=1, int b\-Random\-Flag=1)
+\item 
+void \hyperlink{classCPrimitive_ad2d40ebcacae01d171c240dd75df12d1}{Print\-Pose} ()
+\item 
+void \hyperlink{classCPrimitive_abf8f399e354026d1dfcb01db93327ba5}{Add\-Obstacle} (std\-::string id)
+\item 
+void \hyperlink{classCPrimitive_acb46ffef83e3bd53f31c6cd84d91fe1f}{Remove\-Obstacle} (std\-::string id)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classCPrimitive_aad2a64c811fab7148b0fdc8d8d834800}{Print\-Joints} (std\-::vector$<$ double $>$ \&joint\-\_\-values, const std\-::vector$<$ std\-::string $>$ \&joint\-\_\-names)
+\item 
+static void \hyperlink{classCPrimitive_a62949fc208c1b5922c44448a6f98ec7b}{Save\-Joint\-Info} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \&joint\-\_\-state, std\-::vector$<$ double $>$ \&joint\-\_\-values, const std\-::vector$<$ std\-::string $>$ \&joint\-\_\-names)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCPrimitive_aab575a96a90e275bfa2c82800ef8c005}{\index{C\-Primitive@{C\-Primitive}!C\-Primitive@{C\-Primitive}}
+\index{C\-Primitive@{C\-Primitive}!CPrimitive@{C\-Primitive}}
+\subsubsection[{C\-Primitive}]{\setlength{\rightskip}{0pt plus 5cm}C\-Primitive\-::\-C\-Primitive (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle}]{nh, }
+\item[{std\-::string}]{groupname}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_aab575a96a90e275bfa2c82800ef8c005}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCPrimitive_abf8f399e354026d1dfcb01db93327ba5}{\index{C\-Primitive@{C\-Primitive}!Add\-Obstacle@{Add\-Obstacle}}
+\index{Add\-Obstacle@{Add\-Obstacle}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Add\-Obstacle}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Add\-Obstacle (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{id}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_abf8f399e354026d1dfcb01db93327ba5}
+\hypertarget{classCPrimitive_a334aa9f1b5f1946f485d54c62d47b020}{\index{C\-Primitive@{C\-Primitive}!Compute\-Forward\-Kinematics@{Compute\-Forward\-Kinematics}}
+\index{Compute\-Forward\-Kinematics@{Compute\-Forward\-Kinematics}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Compute\-Forward\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Affine3d C\-Primitive\-::\-Compute\-Forward\-Kinematics (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{jointvalues}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_a334aa9f1b5f1946f485d54c62d47b020}
+\hypertarget{classCPrimitive_ad3736f955467bd7a916a397543d9544c}{\index{C\-Primitive@{C\-Primitive}!Forward\-Kinematics@{Forward\-Kinematics}}
+\index{Forward\-Kinematics@{Forward\-Kinematics}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Forward\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Forward\-Kinematics (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_ad3736f955467bd7a916a397543d9544c}
+\hypertarget{classCPrimitive_aef4bdc36e7575e6847e6eb3247b1cb9c}{\index{C\-Primitive@{C\-Primitive}!Get\-Joint\-Values@{Get\-Joint\-Values}}
+\index{Get\-Joint\-Values@{Get\-Joint\-Values}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Get\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Get\-Joint\-Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_aef4bdc36e7575e6847e6eb3247b1cb9c}
+\hypertarget{classCPrimitive_ab99019451c0dec79bc79b18497ddd834}{\index{C\-Primitive@{C\-Primitive}!Get\-Robot\-State\-\_\-pose@{Get\-Robot\-State\-\_\-pose}}
+\index{Get\-Robot\-State\-\_\-pose@{Get\-Robot\-State\-\_\-pose}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Get\-Robot\-State\-\_\-pose}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Pose C\-Primitive\-::\-Get\-Robot\-State\-\_\-pose (
+\begin{DoxyParamCaption}
+\item[{const robot\-\_\-state\-::\-Robot\-State \&}]{state}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_ab99019451c0dec79bc79b18497ddd834}
+\hypertarget{classCPrimitive_a85b8173077e0b5094a6d8348e5700a77}{\index{C\-Primitive@{C\-Primitive}!Inverse\-Kinematics@{Inverse\-Kinematics}}
+\index{Inverse\-Kinematics@{Inverse\-Kinematics}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Inverse\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ C\-Primitive\-::\-Inverse\-Kinematics (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_a85b8173077e0b5094a6d8348e5700a77}
+\hypertarget{classCPrimitive_aa248f6a5f8ecb5b9df1d9ffd24bc73bd}{\index{C\-Primitive@{C\-Primitive}!Plan\-Path@{Plan\-Path}}
+\index{Plan\-Path@{Plan\-Path}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Plan\-Path}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Plan\-Path (
+\begin{DoxyParamCaption}
+\item[{geometry\-\_\-msgs\-::\-Pose \&}]{pose, }
+\item[{double}]{d\-Goal\-Tolerance, }
+\item[{int}]{b\-Move\-Flag = {\ttfamily 1}, }
+\item[{int}]{b\-Random\-Flag = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_aa248f6a5f8ecb5b9df1d9ffd24bc73bd}
+\hypertarget{classCPrimitive_aad2a64c811fab7148b0fdc8d8d834800}{\index{C\-Primitive@{C\-Primitive}!Print\-Joints@{Print\-Joints}}
+\index{Print\-Joints@{Print\-Joints}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Print\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Print\-Joints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$ \&}]{joint\-\_\-values, }
+\item[{const std\-::vector$<$ std\-::string $>$ \&}]{joint\-\_\-names}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCPrimitive_aad2a64c811fab7148b0fdc8d8d834800}
+\hypertarget{classCPrimitive_ad2d40ebcacae01d171c240dd75df12d1}{\index{C\-Primitive@{C\-Primitive}!Print\-Pose@{Print\-Pose}}
+\index{Print\-Pose@{Print\-Pose}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Print\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Print\-Pose (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_ad2d40ebcacae01d171c240dd75df12d1}
+\hypertarget{classCPrimitive_a3d063adf3304dcf929fe24516e569d8d}{\index{C\-Primitive@{C\-Primitive}!Random\-Goal@{Random\-Goal}}
+\index{Random\-Goal@{Random\-Goal}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Random\-Goal}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Random\-Goal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_a3d063adf3304dcf929fe24516e569d8d}
+\hypertarget{classCPrimitive_acb46ffef83e3bd53f31c6cd84d91fe1f}{\index{C\-Primitive@{C\-Primitive}!Remove\-Obstacle@{Remove\-Obstacle}}
+\index{Remove\-Obstacle@{Remove\-Obstacle}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Remove\-Obstacle}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Remove\-Obstacle (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{id}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_acb46ffef83e3bd53f31c6cd84d91fe1f}
+\hypertarget{classCPrimitive_a62949fc208c1b5922c44448a6f98ec7b}{\index{C\-Primitive@{C\-Primitive}!Save\-Joint\-Info@{Save\-Joint\-Info}}
+\index{Save\-Joint\-Info@{Save\-Joint\-Info}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Save\-Joint\-Info}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Primitive\-::\-Save\-Joint\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf sensor\-\_\-msgs\-::\-Joint\-State} \&}]{joint\-\_\-state, }
+\item[{std\-::vector$<$ double $>$ \&}]{joint\-\_\-values, }
+\item[{const std\-::vector$<$ std\-::string $>$ \&}]{joint\-\_\-names}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCPrimitive_a62949fc208c1b5922c44448a6f98ec7b}
+\hypertarget{classCPrimitive_a7b3aae5fb6b2203add69561a9c7aa65f}{\index{C\-Primitive@{C\-Primitive}!Set\-Random\-Joints@{Set\-Random\-Joints}}
+\index{Set\-Random\-Joints@{Set\-Random\-Joints}!CPrimitive@{C\-Primitive}}
+\subsubsection[{Set\-Random\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ C\-Primitive\-::\-Set\-Random\-Joints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_a7b3aae5fb6b2203add69561a9c7aa65f}
+\hypertarget{classCPrimitive_a408ebf227dfb8e36bf9103f5feebcd61}{\index{C\-Primitive@{C\-Primitive}!To\-String@{To\-String}}
+\index{To\-String@{To\-String}!CPrimitive@{C\-Primitive}}
+\subsubsection[{To\-String}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Primitive\-::\-To\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCPrimitive_a408ebf227dfb8e36bf9103f5feebcd61}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Primitive_8h}{Primitive.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Primitive_8cpp}{Primitive.\-cpp}\end{DoxyCompactItemize}

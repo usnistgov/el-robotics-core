@@ -1,0 +1,115 @@
+\hypertarget{Setup_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Setup.cpp File Reference}
+\label{Setup_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Setup.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Setup.\-cpp}}
+}
+{\ttfamily \#include \char`\"{}Setup.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$boost/algorithm/string.\-hpp$>$}\\*
+{\ttfamily \#include $<$ros/ros.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}Globals.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model\-\_\-loader/robot\-\_\-model\-\_\-loader.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model/robot\-\_\-model.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::string \hyperlink{Setup_8cpp_a14bb84bd168a01c0587d756a827f8836}{Execute\-Shell\-Command} (std\-::string command)
+\begin{DoxyCompactList}\small\item\em Execute\-Shell\-Command runs a shell script and returns results. \end{DoxyCompactList}\item 
+bool \hyperlink{Setup_8cpp_a0ff50a5a4093f44d505f5b07842f48ff}{Setup\-App\-Environment} ()
+\begin{DoxyCompactList}\small\item\em Setup\-App\-Environment will attempt save some of the application settings, e.\-g., user, nostname. \end{DoxyCompactList}\item 
+bool \hyperlink{Setup_8cpp_a1165d713d127d1839b2551b3a0080854}{Setup\-Ros\-Environment} ()
+\begin{DoxyCompactList}\small\item\em Setup\-Ros\-Environment will attempt to provide an environment equivalent to R\-O\-S \char`\"{}source devel/setup.\-bash\char`\"{}.  some of the code is hard coded, but unnecessary if executable run in shell. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{Setup_8cpp_a47b662eb5f99d40f07946ebac19fe69e}{Read\-Ros\-Param} (ros\-::\-Node\-Handle \&nh, std\-::string paramkey)
+\item 
+std\-::string \hyperlink{Setup_8cpp_a55b8d43fbffe5e65315a953bc6fbacb3}{Read\-Ros\-Params} (ros\-::\-Node\-Handle \&nh)
+\begin{DoxyCompactList}\small\item\em Read\-Ros\-Params will read and record all ros params in system. \end{DoxyCompactList}\item 
+void \hyperlink{Setup_8cpp_a3be685c8a371cb84c5960b60bd3fab8d}{Get\-Joint\-Limits} (std\-::vector$<$ std\-::string $>$ names, std\-::vector$<$ double $>$ lower, std\-::vector$<$ double $>$ upper)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{Setup_8cpp_a14bb84bd168a01c0587d756a827f8836}{\index{Setup.\-cpp@{Setup.\-cpp}!Execute\-Shell\-Command@{Execute\-Shell\-Command}}
+\index{Execute\-Shell\-Command@{Execute\-Shell\-Command}!Setup.cpp@{Setup.\-cpp}}
+\subsubsection[{Execute\-Shell\-Command}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Execute\-Shell\-Command (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{}
+\end{DoxyParamCaption}
+)}}\label{Setup_8cpp_a14bb84bd168a01c0587d756a827f8836}
+
+
+Execute\-Shell\-Command runs a shell script and returns results. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & is the shell command. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string containing pipe recording of output 
+\end{DoxyReturn}
+\hypertarget{Setup_8cpp_a3be685c8a371cb84c5960b60bd3fab8d}{\index{Setup.\-cpp@{Setup.\-cpp}!Get\-Joint\-Limits@{Get\-Joint\-Limits}}
+\index{Get\-Joint\-Limits@{Get\-Joint\-Limits}!Setup.cpp@{Setup.\-cpp}}
+\subsubsection[{Get\-Joint\-Limits}]{\setlength{\rightskip}{0pt plus 5cm}void Get\-Joint\-Limits (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ std\-::string $>$}]{names, }
+\item[{std\-::vector$<$ double $>$}]{lower, }
+\item[{std\-::vector$<$ double $>$}]{upper}
+\end{DoxyParamCaption}
+)}}\label{Setup_8cpp_a3be685c8a371cb84c5960b60bd3fab8d}
+\hypertarget{Setup_8cpp_a47b662eb5f99d40f07946ebac19fe69e}{\index{Setup.\-cpp@{Setup.\-cpp}!Read\-Ros\-Param@{Read\-Ros\-Param}}
+\index{Read\-Ros\-Param@{Read\-Ros\-Param}!Setup.cpp@{Setup.\-cpp}}
+\subsubsection[{Read\-Ros\-Param}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Read\-Ros\-Param (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh, }
+\item[{std\-::string}]{paramkey}
+\end{DoxyParamCaption}
+)}}\label{Setup_8cpp_a47b662eb5f99d40f07946ebac19fe69e}
+\hypertarget{Setup_8cpp_a55b8d43fbffe5e65315a953bc6fbacb3}{\index{Setup.\-cpp@{Setup.\-cpp}!Read\-Ros\-Params@{Read\-Ros\-Params}}
+\index{Read\-Ros\-Params@{Read\-Ros\-Params}!Setup.cpp@{Setup.\-cpp}}
+\subsubsection[{Read\-Ros\-Params}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Read\-Ros\-Params (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{Setup_8cpp_a55b8d43fbffe5e65315a953bc6fbacb3}
+
+
+Read\-Ros\-Params will read and record all ros params in system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-O\-S} & node handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string containing a list of all ros param definitions 
+\end{DoxyReturn}
+\hypertarget{Setup_8cpp_a0ff50a5a4093f44d505f5b07842f48ff}{\index{Setup.\-cpp@{Setup.\-cpp}!Setup\-App\-Environment@{Setup\-App\-Environment}}
+\index{Setup\-App\-Environment@{Setup\-App\-Environment}!Setup.cpp@{Setup.\-cpp}}
+\subsubsection[{Setup\-App\-Environment}]{\setlength{\rightskip}{0pt plus 5cm}bool Setup\-App\-Environment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{Setup_8cpp_a0ff50a5a4093f44d505f5b07842f48ff}
+
+
+Setup\-App\-Environment will attempt save some of the application settings, e.\-g., user, nostname. 
+
+\begin{DoxyReturn}{Returns}
+bool true if success. 
+\end{DoxyReturn}
+\hypertarget{Setup_8cpp_a1165d713d127d1839b2551b3a0080854}{\index{Setup.\-cpp@{Setup.\-cpp}!Setup\-Ros\-Environment@{Setup\-Ros\-Environment}}
+\index{Setup\-Ros\-Environment@{Setup\-Ros\-Environment}!Setup.cpp@{Setup.\-cpp}}
+\subsubsection[{Setup\-Ros\-Environment}]{\setlength{\rightskip}{0pt plus 5cm}bool Setup\-Ros\-Environment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{Setup_8cpp_a1165d713d127d1839b2551b3a0080854}
+
+
+Setup\-Ros\-Environment will attempt to provide an environment equivalent to R\-O\-S \char`\"{}source devel/setup.\-bash\char`\"{}.  some of the code is hard coded, but unnecessary if executable run in shell. 
+
+\begin{DoxyReturn}{Returns}
+bool true if success. 
+\end{DoxyReturn}

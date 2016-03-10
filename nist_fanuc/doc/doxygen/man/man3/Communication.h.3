@@ -1,0 +1,42 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Communication.h" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Communication.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <boost/thread/mutex\&.hpp>\fP
+.br
+\fC#include <ros/ros\&.h>\fP
+.br
+\fC#include <sensor_msgs/JointState\&.h>\fP
+.br
+\fC#include <moveit/move_group_interface/move_group\&.h>\fP
+.br
+\fC#include <actionlib/client/simple_action_client\&.h>\fP
+.br
+\fC#include <std_msgs/Float64\&.h>\fP
+.br
+\fC#include <control_msgs/FollowJointTrajectoryAction\&.h>\fP
+.br
+\fC#include <control_msgs/JointTrajectoryControllerState\&.h>\fP
+.br
+\fC#include <control_msgs/QueryTrajectoryState\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCJointReader\fP"
+.br
+.RI "\fIThe \fBCJointReader\fP is a thread to accept joint update callbacks from ROS\&. Uses a ros node handle to tell roscore we are subscribing to joint_state topic\&. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved\&. \fP"
+.ti -1c
+.RI "class \fBCJointWriter\fP"
+.br
+.RI "\fIThe \fBCJointWriter\fP is a thread to publish new joint values to ROS\&. Uses a ros node handle to tell roscore we are pusblishing to the joint_path_command topic\&. Then, when joint updates occur, these are published on joint_path_command the topic\&. \fP"
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

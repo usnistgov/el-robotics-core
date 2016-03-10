@@ -1,0 +1,105 @@
+\hypertarget{classDummyKinematics}{\section{Dummy\-Kinematics Class Reference}
+\label{classDummyKinematics}\index{Dummy\-Kinematics@{Dummy\-Kinematics}}
+}
+
+
+{\ttfamily \#include $<$Kinematics.\-h$>$}
+
+Inheritance diagram for Dummy\-Kinematics\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classDummyKinematics}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classDummyKinematics_a630b1a37d23881be53147c07a87bffad}{Get\-Joint\-Values} ()
+\item 
+virtual void \hyperlink{classDummyKinematics_a0b5a581fb840f304cebc80fb00eb7138}{Set\-Joint\-Values} (std\-::vector$<$ double $>$ joint\-\_\-values)
+\item 
+virtual urdf\-::\-Pose \hyperlink{classDummyKinematics_a6b69b528361a7f7654f1fa4ba9c019fb}{F\-K} (std\-::vector$<$ double $>$ jv)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classDummyKinematics_aed9dcd58e607ccfef58975040567a04a}{I\-K} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
+\item 
+virtual size\-\_\-t \hyperlink{classDummyKinematics_ac96c0c98a0ca7847ae38152c6de17d1c}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classDummyKinematics_a5069cce91772b48d105065f12f6e15bc}{Nearest\-Joints} (std\-::vector$<$ double $>$ oldjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classDummyKinematics_ac96c0c98a0ca7847ae38152c6de17d1c}{\index{Dummy\-Kinematics@{Dummy\-Kinematics}!All\-Pose\-To\-Joints@{All\-Pose\-To\-Joints}}
+\index{All\-Pose\-To\-Joints@{All\-Pose\-To\-Joints}!DummyKinematics@{Dummy\-Kinematics}}
+\subsubsection[{All\-Pose\-To\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual size\-\_\-t Dummy\-Kinematics\-::\-All\-Pose\-To\-Joints (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classDummyKinematics_ac96c0c98a0ca7847ae38152c6de17d1c}
+
+
+Implements \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c10}{I\-Kinematics}.
+
+\hypertarget{classDummyKinematics_a6b69b528361a7f7654f1fa4ba9c019fb}{\index{Dummy\-Kinematics@{Dummy\-Kinematics}!F\-K@{F\-K}}
+\index{F\-K@{F\-K}!DummyKinematics@{Dummy\-Kinematics}}
+\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}virtual urdf\-::\-Pose Dummy\-Kinematics\-::\-F\-K (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{jv}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classDummyKinematics_a6b69b528361a7f7654f1fa4ba9c019fb}
+
+
+Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kinematics}.
+
+\hypertarget{classDummyKinematics_a630b1a37d23881be53147c07a87bffad}{\index{Dummy\-Kinematics@{Dummy\-Kinematics}!Get\-Joint\-Values@{Get\-Joint\-Values}}
+\index{Get\-Joint\-Values@{Get\-Joint\-Values}!DummyKinematics@{Dummy\-Kinematics}}
+\subsubsection[{Get\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::vector$<$double$>$ Dummy\-Kinematics\-::\-Get\-Joint\-Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classDummyKinematics_a630b1a37d23881be53147c07a87bffad}
+
+
+Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kinematics}.
+
+\hypertarget{classDummyKinematics_aed9dcd58e607ccfef58975040567a04a}{\index{Dummy\-Kinematics@{Dummy\-Kinematics}!I\-K@{I\-K}}
+\index{I\-K@{I\-K}!DummyKinematics@{Dummy\-Kinematics}}
+\subsubsection[{I\-K}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::vector$<$double$>$ Dummy\-Kinematics\-::\-I\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{std\-::vector$<$ double $>$}]{oldjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classDummyKinematics_aed9dcd58e607ccfef58975040567a04a}
+
+
+Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kinematics}.
+
+\hypertarget{classDummyKinematics_a5069cce91772b48d105065f12f6e15bc}{\index{Dummy\-Kinematics@{Dummy\-Kinematics}!Nearest\-Joints@{Nearest\-Joints}}
+\index{Nearest\-Joints@{Nearest\-Joints}!DummyKinematics@{Dummy\-Kinematics}}
+\subsubsection[{Nearest\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::vector$<$double$>$ Dummy\-Kinematics\-::\-Nearest\-Joints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{oldjoints, }
+\item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classDummyKinematics_a5069cce91772b48d105065f12f6e15bc}
+
+
+Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kinematics}.
+
+\hypertarget{classDummyKinematics_a0b5a581fb840f304cebc80fb00eb7138}{\index{Dummy\-Kinematics@{Dummy\-Kinematics}!Set\-Joint\-Values@{Set\-Joint\-Values}}
+\index{Set\-Joint\-Values@{Set\-Joint\-Values}!DummyKinematics@{Dummy\-Kinematics}}
+\subsubsection[{Set\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Dummy\-Kinematics\-::\-Set\-Joint\-Values (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{joint\-\_\-values}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classDummyKinematics_a0b5a581fb840f304cebc80fb00eb7138}
+
+
+Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kinematics}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\end{DoxyCompactItemize}

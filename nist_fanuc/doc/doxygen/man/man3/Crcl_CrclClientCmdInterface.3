@@ -1,0 +1,137 @@
+.TH "Crcl::CrclClientCmdInterface" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Crcl::CrclClientCmdInterface \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CrclInterface\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCrclClientCmdInterface\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetCommandNum\fP (unsigned long long n)"
+.br
+.ti -1c
+.RI "std::string \fBCloseToolChanger\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBDwell\fP (double seconds)"
+.br
+.ti -1c
+.RI "std::string \fBEndCanon\fP (int reason)"
+.br
+.ti -1c
+.RI "std::string \fBGetStatus\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBInitCanon\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBMessage\fP (std::string message)"
+.br
+.ti -1c
+.RI "std::string \fBMoveScrew\fP (\fBCrcl::PoseType\fP startPost, \fBVectorType\fP axisPoint, double dAxialDistanceFree, double dAxialDistanceScrew, double dTurn)"
+.br
+.ti -1c
+.RI "std::string \fBMoveTo\fP (\fBCrcl::PoseType\fP pose, bool bStraight=true)"
+.br
+.ti -1c
+.RI "std::string \fBMoveThroughTo\fP (\fBCrcl::PoseType\fP *poses, int numPoses, double *accelerations=NULL, double *speeds=NULL, \fBCrcl::PoseToleranceType\fP *tolerances=NULL)"
+.br
+.ti -1c
+.RI "std::string \fBOpenToolChanger\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBRunProgram\fP (std::string programText)"
+.br
+.ti -1c
+.RI "std::string \fBSetEndEffector\fP (double fractionalSetting)"
+.br
+.ti -1c
+.RI "std::string \fBSetEndPoseTolerance\fP (\fBCrcl::PoseToleranceType\fP toleranceSetting)"
+.br
+.ti -1c
+.RI "std::string \fBSetEndEffectorTolerance\fP (\fBCrcl::PoseToleranceType\fP toleranceSetting)"
+.br
+.ti -1c
+.RI "std::string \fBSetAngleUnits\fP (std::string UnitName)"
+.br
+.ti -1c
+.RI "std::string \fBSetLengthUnits\fP (std::string UnitName)"
+.br
+.ti -1c
+.RI "std::string \fBSetMotionCoordination\fP (bool bCoordinated)"
+.br
+.ti -1c
+.RI "std::string \fBSetRotAccel\fP (double dAccel)"
+.br
+.ti -1c
+.RI "std::string \fBSetRotSpeed\fP (double dSpeed)"
+.br
+.ti -1c
+.RI "std::string \fBStopMotion\fP (int condition)"
+.br
+.ti -1c
+.RI "std::string \fBGetStatusReply\fP (\fBCrclStatus\fP *wm)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Crcl::CrclClientCmdInterface::CrclClientCmdInterface ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string CrclClientCmdInterface::CloseToolChanger ()"
+
+.SS "std::string CrclClientCmdInterface::Dwell (doubleseconds)"
+
+.SS "std::string CrclClientCmdInterface::EndCanon (intreason)"
+
+.SS "std::string CrclClientCmdInterface::GetStatus ()"
+xercesc::XMLPlatformUtils::Initialize(); \fBCrclClientCmdInterface\fP crcl; std::string text = crcl\&.CRCLGetStatusCmd(); xercesc::XMLPlatformUtils::Terminate (); 
+.SS "std::string CrclClientCmdInterface::GetStatusReply (\fBCrclStatus\fP *wm)"
+
+.SS "std::string CrclClientCmdInterface::InitCanon ()"
+
+.SS "std::string CrclClientCmdInterface::Message (std::stringmessage)"
+
+.SS "std::string CrclClientCmdInterface::MoveScrew (\fBCrcl::PoseType\fPstartPost, \fBVectorType\fPaxisPoint, doubledAxialDistanceFree, doubledAxialDistanceScrew, doubledTurn)"
+
+.SS "std::string CrclClientCmdInterface::MoveThroughTo (\fBCrcl::PoseType\fP *poses, intnumPoses, double *accelerations = \fCNULL\fP, double *speeds = \fCNULL\fP, \fBCrcl::PoseToleranceType\fP *tolerances = \fCNULL\fP)"
+
+.SS "std::string CrclClientCmdInterface::MoveTo (\fBCrcl::PoseType\fPpose, boolbStraight = \fCtrue\fP)"
+
+.SS "std::string CrclClientCmdInterface::OpenToolChanger ()"
+
+.SS "std::string CrclClientCmdInterface::RunProgram (std::stringprogramText)"
+
+.SS "std::string CrclClientCmdInterface::SetAngleUnits (std::stringUnitName)"
+
+.SS "void Crcl::CrclClientCmdInterface::SetCommandNum (unsigned long longn)\fC [inline]\fP"
+
+.SS "std::string CrclClientCmdInterface::SetEndEffector (doublefractionalSetting)"
+
+.SS "std::string CrclClientCmdInterface::SetEndEffectorTolerance (\fBCrcl::PoseToleranceType\fPtoleranceSetting)"
+
+.SS "std::string CrclClientCmdInterface::SetEndPoseTolerance (\fBCrcl::PoseToleranceType\fPtoleranceSetting)"
+
+.SS "std::string CrclClientCmdInterface::SetLengthUnits (std::stringUnitName)"
+
+.SS "std::string CrclClientCmdInterface::SetMotionCoordination (boolbCoordinated)"
+
+.SS "std::string CrclClientCmdInterface::SetRotAccel (doubledAccel)"
+
+.SS "std::string CrclClientCmdInterface::SetRotSpeed (doubledSpeed)"
+
+.SS "std::string CrclClientCmdInterface::StopMotion (intcondition)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

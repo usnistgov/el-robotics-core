@@ -44,8 +44,6 @@ CAsioCrclSession::CAsioCrclSession(boost::asio::io_service & io_service) : _sock
     ErrorMessage = &MyErrorMessage;
     TagReset();
 }
-// ! Disconnect timer, socket, and running flags.
-
 void CAsioCrclSession::Disconnect() {
     _timer.cancel();
     _socket.cancel();
@@ -67,14 +65,12 @@ static void wait_callback(const boost::system::error_code & error, tcp::socket &
     }
     _socket.cancel(); // will cause read_callback to fire with an timeout error_s
 }
-// ! Restarts asio timeout timer for async read.  Set at 2 seconds. Invokes callback if timer expires.
 
 void CAsioCrclSession::TimerReset() {
     // Setup a deadline time to implement our timeout.
     _timer.expires_from_now(boost::posix_time::milliseconds(2000));
     _timer.async_wait(boost::bind(&wait_callback, boost::asio::placeholders::error, boost::ref(_socket)));
 }
-// ! Starts asyn read operation. Timer going at same time.
 
 void CAsioCrclSession::StartAyncRead() {
     try {
@@ -98,11 +94,7 @@ void CAsioCrclSession::StartAyncRead() {
         _socket.close();
     }
 }
-// ! Appends a socket buffer. Add previous buffer is exists.
 
-/*!
-\param read buffer of characters
- */
 void CAsioCrclSession::AppendBuffer(std::string read) {
     if (_next.size() > 0) {
         _current.append(_next);
@@ -117,11 +109,7 @@ void CAsioCrclSession::SaveMessage(std::string xmlmessage) {
     if (CAsioCrclServer::_bTrace)
         Globals.AppendFile(Globals.ExeDirectory + "xmltrace.txt", xmlmessage);
 }
-// ! Looks for matching end xml tag. If found, saves message into queue, and restarts read process.
 
-/*!
-\param endtag is the ending tag, e.g., </ENDTAG to match against.  Includes backslash.
- */
 void CAsioCrclSession::BufferHandler(std::string & endtag) {
     std::size_t found;
 
@@ -136,13 +124,7 @@ void CAsioCrclSession::BufferHandler(std::string & endtag) {
         endtag = FindLeadingElement(_current);
     }
 }
-// ! Handles notification from asio via socket or timeout error or other error.
 
-/*!
-\param error is potential  communiationerror.
-\param result is the buffer size of the socket read.
-\return size of buffer read.
- */
 size_t CAsioCrclSession::HandleRead(const error_code & error, size_t result) {
     // Cancel concurrent asio communication timer
     _timer.cancel();
@@ -178,11 +160,7 @@ size_t CAsioCrclSession::HandleRead(const error_code & error, size_t result) {
     StartAyncRead();
     return result;
 }
-// ! Handles synchronous socket write of string.
 
-/*!
-\param str is the string to write out on the socket.
- */
 void CAsioCrclSession::SyncWrite(std::string str) {
     // Write data to server that contains a delimiter.
     try {
@@ -193,7 +171,7 @@ void CAsioCrclSession::SyncWrite(std::string str) {
         ErrorMessage("Aborted CAsioCrclSession::SyncWrite\n");
     }
 }
-// ! For each connection a new Session is started.
+
 
 void CAsioCrclSession::Session() {
     std::string info;
@@ -232,6 +210,7 @@ void CAsioCrclSession::Session() {
     CAsioCrclServer::nCount--;
     Leave(this);
 }
+
 // --------------------------------------------------------
 // CAsioCrclServer
 bool CAsioCrclServer::_bTrace = false;
@@ -255,12 +234,7 @@ void CAsioCrclServer::Start() {
     boost::thread t(boost::bind(&CAsioCrclServer::server, this, boost::ref(_io_service), _portnumber));
 
 }
-// ! Creates acceptor for tcp/ip endpoint, and starts async accept.
 
-/*!
-\param io_service is asio service.
-\param port is tcp port to listen for connections on.
- */
 void CAsioCrclServer::server(boost::asio::io_service & io_service, short port) {
     try {
         // only need one accept for this end point - can have multiple clients
@@ -276,7 +250,7 @@ void CAsioCrclServer::server(boost::asio::io_service & io_service, short port) {
         // Logger << "Fatal Error in CAsioCrclServer::server\n";
     }
 }
-// ! Starts asio acceptor to wait for connections.
+
 
 void CAsioCrclServer::StartAsyncAccept() {
     session_ptr pSession(new CAsioCrclSession(_io_service));
@@ -284,12 +258,7 @@ void CAsioCrclServer::StartAsyncAccept() {
     // session_ptr pSession(_NewSession(_io_service));
     m_pAcceptor->async_accept(pSession->Socket(), bind(&CAsioCrclServer::HandleAsyncAccept, this, pSession, boost::asio::placeholders::error));
 }
-// ! Handles new tcp/ip endpoint connection, and starts session thread.Restarts async accept.
 
-/*!
-\param pSession is the latest session pointer associated with connection.
-\param error is asio error if any.
- */
 void CAsioCrclServer::HandleAsyncAccept(session_ptr pSession, const boost::system::error_code & error) // socket_ptr pSocket)
 {
     if (CAsioCrclServer::bRunning) {
@@ -301,7 +270,7 @@ void CAsioCrclServer::HandleAsyncAccept(session_ptr pSession, const boost::syste
         }
     }
 }
-// ! Stop async accept by cancelling asio acceptor.
+
 
 void CAsioCrclServer::StopAsyncAccept() {
     try {
@@ -309,12 +278,8 @@ void CAsioCrclServer::StopAsyncAccept() {
     }    catch (boost::system::system_error) {
     }
 }
-// ! Stop all connection session and future connections.
 
-/*!
-\return error or ok.
- */
-int CAsioCrclServer::Quit() {
+int CAsioCrclServer::Stop() {
     CAsioCrclServer::bRunning = false; // this stops all running threads
     StopAsyncAccept(); // this stops any current accept, i.e., no more future connections
 
@@ -325,12 +290,7 @@ int CAsioCrclServer::Quit() {
     boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
     return S_OK;
 }
-// ! Finds the leading XML tag to create matching end tag. If none, return nonsense tag. Uses boost regex.
 
-/*!
-\oaram xml is the text to search for starting tag
-\return end tag or nonsense tag if none. e.g., </TAG>
- */
 std::string CAsioCrclSession::FindLeadingElement(std::string xml) {
     boost::match_results<std::string::const_iterator> matchResult;
     bool found;

@@ -78,33 +78,52 @@ namespace RCS {
     typedef urdf::Rotation Rotation;
     typedef urdf::Vector3 Vector3;
 
+	/*!
+	* \brief enumeration of  length units. Conversion into ROS compatible meters.
+	*/
     enum CanonLengthUnit {
         METER = 0,
         MM,
         INCH
     };
 
+	/*!
+	* \brief enumeration of trajector pose points.
+	*/
     enum TrajPointType {
         WAYPOINT = 1,
         GOAL
     };
 
+	/*!
+	* \brief enumeration of  angle units. Conversion into ROS compatible radians.
+	*/
     enum CanonAngleUnit {
         RADIAN = 0,
         DEGREE
     };
 
+	/*!
+	* \brief enumeration of  force units. 
+	*/
     enum CanonForceUnit {
         NEWTON = 0,
         POUND,
         OUNCE
     };
 
+	/*!
+	* \brief enumeration of  torque units. 
+	*/
     enum CanonTorqueUnit {
         NEWTONMETER = 0,
         FOOTPOUND
     };
 
+	/*!
+	* \brief enumeration of  return type from Crcl intepretation. If statusreply, requires status
+	* sent to Crcl client.
+	*/
     enum CanonReturn {
         CANON_REJECT = -2,
         CANON_FAILURE = -1,
@@ -113,6 +132,10 @@ namespace RCS {
         CANON_RUNNING
     };
 
+	/*!
+	* \brief enumeration of   Crcl commands. Many Crcl commands are wm parameter setting
+	* and require no motion component.
+	*/
     enum CanonCmdType {
         CANON_NOOP = 0,
         CANON_DWELL,
@@ -130,13 +153,19 @@ namespace RCS {
         CANON_UNKNOWN
     };
 
-    enum CanonStopMotionType {
+	/*!
+	* \brief enumeration of  stopping motion, e.g., estop equivalent to immediate.
+	*/
+	enum CanonStopMotionType {
         UNSET = -1,
         IMMEDIATE = 0,
         FAST,
         NORMAL
     };
 
+	/*!
+	* \brief enumeration of  trajectory acceleration profile.
+	*/
     enum CanonAccProfile {
         MS_IS_UNSET = 0,
         MS_IS_DONE = 1,
@@ -147,12 +176,19 @@ namespace RCS {
         MS_IS_PAUSED = 6,
     };
 
+	/*!
+	* \brief enumeration of  trajectory motion type, joint or cartesian.
+	*/
     enum MovementType {
         MOVE_DEFAULT = 0,
         MOVE_CARTESIAN,
         MOVE_JOINT
     };
 
+	/*!
+	* \brief enumeration of controller status types for individual commands. 
+	* Note, even though command types are listed, not all used or supported.
+	*/
     enum CanonStatusType {
         CANON_DONE = 0,
         CANON_WORKING,
@@ -167,78 +203,94 @@ namespace RCS {
     typedef double AngularVelocity;
     typedef std::vector<double> robotAxes;
 
-    struct CanonCmd {
+	/*!
+	* \brief CanonCmd is the controller command structure. 
+	*/
+	struct CanonCmd {
 
+		/*!
+		* \brief CanonCmd constructor. 
+		*/
         CanonCmd() {
             Init();
 			CommandID()=_cmdid++;
         }
         void Init();
+
 		VAR(CommandID, unsigned long long);
 		VAR(ParentCommandID, unsigned long long);
 		VAR(StatusID, unsigned long long);
 		static unsigned long long _cmdid;
 
-        CanonCmdType cmd;
-        CanonStatusType status;
-        TrajPointType type;
-        CanonStopMotionType stoptype;
-        bool bCoordinated;
-        bool bStraight;
-        double absTransAcc;
-        double absTransSpeed;
-        double absRotAcc;
-        double absRotSpeed;
-        double absJointAcc;
-        double absJointSpeed;
-        double dwell;
-        double gripperPos; // 0 to 1
-        CanonAccProfile accprofile;
-        std::vector<double> speed;
-        std::vector<int> jointnum;
+        CanonCmdType cmd; /**<  command  type */
+        CanonStatusType status; /**<  status type */
+        TrajPointType type; /**<  trajectory points  type */
+        CanonStopMotionType stoptype; /**<  stop trajectory choice */
+        bool bCoordinated; /**<  coordinated joint trajectory motion boolean */
+        bool bStraight; /**<  straigth cartesian trajectory motion boolean */
+        double absTransAcc; /**<  cartesian translational acceleration */
+        double absTransSpeed; /**<  cartesian translational velocity */
+        double absRotAcc; /**<  cartesian rotation acceleration */
+        double absRotSpeed; /**<  cartesian rotation velocity */
+        double absJointAcc; /**<  joint max acceleration */
+        double absJointSpeed; /**<  joint max velocity */
+        double dwell; /**<  time for dwelling in seconds */
+        double gripperPos; /**<  gripper position 0 to 1 */ 
+        CanonAccProfile accprofile; /**<  current trajectory acceleration profile */ 
+        std::vector<double> speed; /**<  vector of joint velocities */ 
+        std::vector<int> jointnum; /**<  vector of joint numbers used by command */
 
-        JointState joints;
-        urdf::Pose pose;
-        urdf::Pose tolerance;
-        std::vector<urdf::Pose> waypoints;
+        JointState joints; /**<  commanded joint state */
+        urdf::Pose pose;  /**<  commanded pose state */
+        urdf::Pose tolerance;  /**<  commanded tolerance */
+        std::vector<urdf::Pose> waypoints; /**< commanded cartesian waypoints in trajectory */
     };
 
+	/*!
+	* \brief CanonWorldModel describes the controller state. Includes reference to robot model.
+	*/
     struct CanonWorldModel {
 
-        CanonWorldModel() {
+		/*!
+		* \brief CanonWorldModel constructor that initializes parameterization.
+		*/
+		CanonWorldModel() {
             Init();
         }
         void Init();
 
-        CanonCmdType echo_cmd;
-        CanonStatusType echo_status;
+        CanonCmdType echo_cmd; /**<  copy of current command type */
+        CanonStatusType echo_status; /**<  copy of current status type */
 
-        // void setMaxAccel(double accelIn, MovementType mType);
-        // void setMaxVel(double velIn, MovementType mType);
-        // double getMaxAccel(MovementType mType);
-        // double getMaxVel(MovementType mType);
-
+		/*!
+		* \brief Cycletime of the world model. 
+		* /fixme what is this
+		*/
         double getCycleTime() {
             return _cycleTime; // milliseconds
         }
 
-        ModelInterfaceSharedPtr robot_model;
+        ModelInterfaceSharedPtr robot_model; /**<  pointer to robot model */
 
         // //////////////////////
         // double maxAccel[3];
         // double maxVel[3];
-        double maxTransAccel;
-        double maxTransVel;
-        double maxRotAccel;
-        double maxRotVel;
-        double maxJointAccel;
-        double maxJointVel;
-        double _cycleTime;
-        CanonCmd echocmd;
-        JointState currentjoints;
-        urdf::Pose currentpose;
+        double maxTransAccel; /**<  max translation acceleration */
+        double maxTransVel; /**<  max translation velocity */
+        double maxRotAccel; /**<  max rotational acceleration */
+        double maxRotVel; /**<  max rotational velocity */
+        double maxJointAccel; /**<  max joint acceleration */
+        double maxJointVel; /**<  max joint velocity */
+        double _cycleTime;  /**<  cycle time */
+        CanonCmd echocmd;  /**<  copy of current command */
+        JointState currentjoints; /**<  current joint state */
+        urdf::Pose currentpose; /**<  current robot pose */
     };
 
+	/*!
+	* \brief DumpPose takes a urdf pose  and generates a string describing pose. 
+	* Can be used as std::cout << DumpPose(pose); 
+	*/
     inline std::string DumpPose(urdf::Pose & pose) {
         std::stringstream s;
 
@@ -250,6 +302,11 @@ namespace RCS {
         s << "Rotation = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
         return s.str();
     }
+
+	/*!
+	* \brief DumpQuaterion takes a urdf quaterion  and generates a string describing x,y,z,w coordinates. 
+	* Can be used as std::cout << DumpQuaterion(urdf::rotation); 
+	*/
     inline std::string DumpQuaterion(std::ostream & os, const urdf::Rotation & rot) {
         std::stringstream s;
         s << "Quaterion = ";
@@ -271,17 +328,4 @@ inline std::ostream & operator<<(std::ostream & os, const RCS::CanonCmd & cc) {
     os << std::endl;
     return os;
 }
-
-//
-//template<typename T>
-//inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & v) {
-//    os << "Vector = ";
-//
-//    for (size_t j = 0; j < v.size(); j++) {
-//        os << boost::format("%8.4f") % Rad2Deg(v[j]) << ":";
-//    }
-//    os << std::endl;
-//    return os;
-//}
-
 

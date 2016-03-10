@@ -105,6 +105,7 @@ bool SetupAppEnvironment() {
        // Save properties in setup
     Globals._appproperties["user"]= user;
     Globals._appproperties["hostname"]= shostname;
+	return true;
 }  
 bool SetupRosEnvironment() {
      
@@ -120,7 +121,6 @@ bool SetupRosEnvironment() {
         SetupRosEnv((*it).first, (*it).second);
     }
     return true;
-
 }
 
 std::string ReadRosParam(ros::NodeHandle &nh, std::string paramkey) {

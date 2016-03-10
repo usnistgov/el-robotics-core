@@ -33,16 +33,27 @@ inline std::string DumpUrdfPose(const urdf::Pose & p) {
     s << "Translation = " << boost::format("%11.4f") % (1000.0 * p.position.x) << ":" << boost::format("%11.4f") % (1000.0 * p.position.y) << ":" << boost::format("%11.4f") % (1000.0 * p.position.z) << std::endl;
     return s.str();
 }
+static bool bMainLoop=true;
+// Cntl C Handling
+void signal_callback_handler(int signum)
+{ 		
+	signal(SIGINT, signal_callback_handler); /*  */
+	/* NOTE some versions of UNIX will reset signal to default
+	after each call. So for portability reset signal each time */
+	bMainLoop=false;
+	// printf("you have pressed ctrl-c \n");
+
+}
 
 int main(int argc, char** argv) {
     try {
+        signal(SIGINT, signal_callback_handler);
+
         xercesc::XMLPlatformUtils::Initialize();
         // Find path of executable
         std::string path(argv[0]);
         Globals.ExeDirectory = path.substr(0, path.find_last_of('/') + 1);
-        Globals._appproperties["ExeDirectory"]= Globals.ExeDirectory;
-        path = ros::package::getPath("nist_fanuc");
-        Globals._appproperties["nist_fanuc"]= path;
+        Globals._appproperties["ExeDirectory"] = Globals.ExeDirectory;
         SetupAppEnvironment();
 
         // Initialize ROS
@@ -62,6 +73,8 @@ int main(int argc, char** argv) {
         // ROS config - parameter list - save for comparison later
         std::string params = ReadRosParams(nh);
         Globals.WriteFile(Globals.ExeDirectory + "rosconfig.txt", params);
+        path = ros::package::getPath("nist_fanuc");
+        Globals._appproperties["nist_fanuc"]= path;
 
         //        std::string planningplugin;
         //        if (nh.getParam("/move_group/planning_plugin", planningplugin))
@@ -180,12 +193,21 @@ int main(int argc, char** argv) {
         // No CRCL XML message until file has been read
         crclServer.Start();
 
-        while (1) {
+        while (bMainLoop) {
             // This allows asio to run in background - Never ends
             boost::this_thread::yield();
             Globals.Sleep(100);
             myios.run_one();
         }
+		// ^C pressed - stop all threads or will hang
+		jointReader->Stop(); // unsubscribe
+		RCS::Controller.Stop(); // start the Controller Session thread
+		robotstatus.Stop(); // start the controller status thread
+		 crclServer.Stop();
+
+
+		RCS::Controller.Join();
+		robotstatus.Join();
     } catch (std::exception e) {
         Logger.Fatal(Logger.StrFormat("%s%s\n", "Abnormal exception end to  CRCL2Robot", e.what()));
     } catch (...) {

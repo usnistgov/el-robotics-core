@@ -17,6 +17,9 @@ void CJointReader::callback(const sensor_msgs::JointState::ConstPtr& msg) {
 CJointReader::CJointReader(ros::NodeHandle &nh): _nh(nh) {
 }
 
+void CJointReader::Stop() {
+    sub.shutdown();
+}
 sensor_msgs::JointState CJointReader::GetCurrentReadings() {
     boost::unique_lock<boost::mutex> scoped_lock(_reader_mutex);
     return _latestreading;
@@ -30,9 +33,9 @@ std::vector<double> CJointReader::GetJointValues() {
     return _latestreading.position;
 }
 
-bool CJointReader::IsNewPosition() {
-    return std::equal(_latestreading.position.begin(), _latestreading.position.end(), _lastreading.position.begin());
-}
+//bool CJointReader::IsNewPosition() {
+//    return std::equal(_latestreading.position.begin(), _latestreading.position.end(), _lastreading.position.begin());
+//}
 //-------------------------------------
 boost::mutex CJointWriter::_writer_mutex;
 CJointWriter::CJointWriter(ros::NodeHandle &nh) {

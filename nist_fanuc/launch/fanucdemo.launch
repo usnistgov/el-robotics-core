@@ -2,7 +2,7 @@
 <launch>
 
   <node name="nist_fanuc"  
-    launch-prefix="xterm -e gdb --args" 
+    launch-prefix="" 
     pkg="nist_fanuc" 
     type="nist_fanuc" 
     output="screen" />

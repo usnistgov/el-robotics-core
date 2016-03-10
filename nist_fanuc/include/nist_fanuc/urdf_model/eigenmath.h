@@ -91,6 +91,10 @@ MatrixEXd	          PseudoInvertJacobian(const MatrixEXd &a) ;
 Eigen::Affine3d           urdfPose2Affine3d(const urdf::Pose &pose);
 urdf::Pose                affine3d2UrdfPose(const  Eigen::Affine3d &pose);
 
+/*!
+* \brief DumpEMatrix creates a string of the eigen matrix representation.
+* \param m is the eigen matrix.
+*/
 inline std::string DumpEMatrix( const Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> & m)
 {
 	std::stringstream s;
@@ -105,7 +109,10 @@ inline std::string DumpEMatrix( const Eigen::Matrix<double, Eigen::Dynamic, Eige
 	}
 	return s.str( );
 }
-
+/*!
+* \brief DumpEPosition creates a string of the eigen position vector representation.
+* \param v is the 3 element eigen vector3d.
+*/
 inline std::string DumpEPosition (const EigenPosition & v)
 {
 	std::stringstream s;
@@ -115,6 +122,10 @@ inline std::string DumpEPosition (const EigenPosition & v)
 	}
 	return s.str();
 }
+/*!
+* \brief DumpEPose creates a string of the eigen pose representation.
+* \param p is the 7 element eigen vectorXd.
+*/
 inline std::string DumpEPose( const EigenPose & p)
 {
 	std::stringstream s;
@@ -125,7 +136,10 @@ inline std::string DumpEPose( const EigenPose & p)
 	s << "Rotation    = " << boost::format("%11.4f") % Rad2Deg(roll) << ":" << boost::format("%11.4f") % Rad2Deg(pitch) << ":" << boost::format("%11.4f") % Rad2Deg(yaw) << std::endl;
 	return s.str( );
 }
-
+/*!
+* \brief DumpEJoints creates a string of the eigen joint representation in degrees.
+* \param joints is the n element eigen vectorXd of joint values.
+*/
 inline std::string DumpEJoints (const EJointVector & joints)
 {
 	std::stringstream s;
@@ -138,7 +152,11 @@ inline std::string DumpEJoints (const EJointVector & joints)
 	s << std::endl;
 	return s.str();
 }
-
+/*!
+* \brief ToRadians converts an eigne vector of  joints in degrees to radian values.
+* \param joints is the n element eigen vectorXd of joint values in degrees.
+* \return  n element eigen vectorXd of joint values in radians.
+*/ 
 inline EJointVector ToRadians(EJointVector joints)
 {
 	EJointVector j(joints.size());
@@ -146,7 +164,11 @@ inline EJointVector ToRadians(EJointVector joints)
 		j(i)=Deg2Rad(joints(i));
 	return j;
 }
-
+/*!
+* \brief ConvertJoints converts std vector of double into an eigen vector .
+* \param v is vector of doubles
+* \return the equivalent size_t n element eigen vectorXd .
+*/ 
 inline Eigen::VectorXd ConvertJoints(std::vector<double> v )
 {
 	Eigen::VectorXd p(v.size());
@@ -154,6 +176,11 @@ inline Eigen::VectorXd ConvertJoints(std::vector<double> v )
 		p(i)=v[i];
 	return p;
 }
+/*!
+* \brief ConvertJoints converts eigen vector into a std vector of double into an.
+* \param the  n element eigen vectorXd .
+* \return  v is vector of doubles
+*/ 
 inline std::vector<double> ConvertJoints(Eigen::VectorXd ev)
 {
 	std::vector<double> v; 
@@ -161,6 +188,11 @@ inline std::vector<double> ConvertJoints(Eigen::VectorXd ev)
 		v.push_back(ev(i));
 	return v;
 }
+/*!
+* \brief ConvertPose converts urdf pose into an eigen vectorXd pose representation.
+* \param p is the urdf pose.
+* \return   eigen vectorXd representing pose with translation and quaterion elements
+*/ 
 inline Eigen::VectorXd ConvertPose(urdf::Pose p)
 {
 	Eigen::VectorXd ep(7);
@@ -168,13 +200,22 @@ inline Eigen::VectorXd ConvertPose(urdf::Pose p)
 		p.rotation.x, p.rotation.y, p.rotation.z, p.rotation.w;
 	return ep;
 }
+/*!
+* \brief ConvertPosition converts urdf vector3D position into an eigen vectorXd position representation.
+* \param p is the urdf position.
+* \return   eigen vectorXd representing position with translation elements
+*/ 
 inline Eigen::VectorXd ConvertPosition(urdf::Vector3 p)
 {
 	Eigen::VectorXd ep(3);
 	ep << p.x , p.y, p.z; 
 	return ep;
 }
-
+/*!
+* \brief Ros2Eigen converts 3x4 matrix (boost array) into an eigen matrix.
+* \param m is the boost array equivalent to 3x4 matrix.
+* \return   eigen 4x4 Matrix containing rotation and translation 
+*/
 inline Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>  Ros2Eigen(RosMatrix m)
 {
 	Eigen::Matrix<double, 4, 4, Eigen::RowMajor>  m4;
@@ -207,6 +248,11 @@ inline std::ostream & operator << (std::ostream & os, const std::vector<Eigen::V
 	os << s.str( );
 	return os;
 }
+/*!
+* \brief EMatrix2Pose converts Eigen 4x4 matrix into an eigen pose.
+* \param m is eigen 4x4 Matrix containing rotation and translation.
+* \return   eigen vectorXd containing rotation and translation 
+*/
 inline EigenPose EMatrix2Pose(MatrixEXd& m)
 {
 	EigenPose p(7);
@@ -215,18 +261,32 @@ inline EigenPose EMatrix2Pose(MatrixEXd& m)
 	p << trans(0), trans(1), trans(2),q.x(),q.y(),q.z(),q.w();
 	return p;
 }
+/*!
+* \brief EMatrix2Quaterion converts Eigen 4x4 matrix into an eigen quaterion.
+* \param m is eigen 4x4 Matrix containing rotation and translation.
+* \return   eigen Quaterniond containing rotation 
+*/
 inline Eigen::Quaterniond EMatrix2Quaterion(MatrixEXd& m)
 {
 	Eigen::Quaterniond q(m.block<3,3>(0, 0));
 	return q;
 }
+/*!
+* \brief urdfPose2Affine3d converts urdf pose into an  Eigen affine 4x4 matrix  o represent the pose
+* \param pose is the urdf pose with position and rotation.
+* \return   eigen Affine3d pose 
+*/
 inline Eigen::Affine3d urdfPose2Affine3d(const urdf::Pose &pose)
 {
 	Eigen::Quaterniond q(pose.rotation.w, pose.rotation.x, pose.rotation.y, pose.rotation.z);
 	Eigen::Affine3d af(Eigen::Translation3d(pose.position.x, pose.position.y, pose.position.z)*q.toRotationMatrix());
 	return af;
 }
-
+/*!
+* \brief affine3d2UrdfPose converts an  Eigen affine 4x4 matrix  o represent the pose into a urdf pose 
+* vparam pose   eigen Affine3d pose 
+* \return   urdf pose with position and rotation.
+*/
 inline urdf::Pose affine3d2UrdfPose(const  Eigen::Affine3d &pose)
 {
     urdf::Pose p ;
@@ -241,13 +301,21 @@ inline urdf::Pose affine3d2UrdfPose(const  Eigen::Affine3d &pose)
     p.rotation.w = q.w();
    return p;
 }
-
+/*!
+* \brief Create4x4IdentityMatrix creates an  Eigen MatrixEXd identity matrix 
+* \return   Eigen MatrixEXd identity matrix.
+*/
 inline MatrixEXd Create4x4IdentityMatrix()
 {
 	MatrixEXd m1(4,4);
 	m1.setIdentity();
 	return m1;
 }
+/*!
+* \brief CreateMatrix creates an  Eigen MatrixEXd  matrix with translation defined
+* \param translation Eigen position vector3d 
+* \return   Eigen MatrixEXd  matrix.
+*/
 inline MatrixEXd CreateMatrix(const EigenPosition translation)
 {
 	MatrixEXd m1(4,4);
@@ -255,6 +323,12 @@ inline MatrixEXd CreateMatrix(const EigenPosition translation)
 	m1.block<3,1>(0,3)<< translation(0), translation(1), translation(2);
 	return m1;
 }
+/*!
+* \brief CreateMatrix creates an  Eigen MatrixEXd  4x4 matrix from an axis angle representation
+* \param angle in radians 
+* \param unit vector of direction given in Eigen position vector3d 
+* \return   Eigen MatrixEXd  matrix.
+*/
 inline MatrixEXd CreateMatrix(const double angle, Eigen::Vector3d axis) 
 {
 	Eigen::Matrix3d t33;
@@ -264,12 +338,22 @@ inline MatrixEXd CreateMatrix(const double angle, Eigen::Vector3d axis)
 	m1.block<3,3>(0,0) = t33;
 	return m1;
 }
+/*!
+* \brief PseudoInvertJacobian attempts does a pseudo invert of a Eigen MatrixEXd  matrix if not a square matrix.
+* \param a Eigen MatrixEXd  matrix
+* \return  pseudo inverted Eigen MatrixEXd  matrix.
+*/
 inline MatrixEXd	PseudoInvertJacobian(const MatrixEXd &a) 
 {
 	MatrixEXd aT= a.transpose();
 	MatrixEXd aaT = a*aT;
 	return aT*(aaT.inverse());
 }
+/*!
+* \brief EQuat2Matrix converts an Eigen quaterion into an Eigen 4x4 matrix.
+* \param q Eigen quaterion
+* \return  Eigen MatrixEXd 4x4 matrix.
+*/
 inline MatrixEXd EQuat2Matrix(Eigen::Quaterniond &q)
 {
 	MatrixEXd m(4,4);
@@ -277,6 +361,11 @@ inline MatrixEXd EQuat2Matrix(Eigen::Quaterniond &q)
 	m.block<3,3>(0, 0) = q.toRotationMatrix ();
 	return m;
 }
+/*!
+* \brief EPose2Matrix converts an Eigen pose into an Eigen 4x4 matrix.
+* \param p EigenXd vector representing pose, as translation and quaterion elements
+* \return  Eigen MatrixEXd 4x4 matrix.
+*/
 inline  MatrixEXd  EPose2Matrix(EigenPose& p)
 {
 	MatrixEXd m(4,4);
@@ -289,23 +378,46 @@ inline  MatrixEXd  EPose2Matrix(EigenPose& p)
 	m.block<3,3>(0, 0)=m3;
 	return m;
 }
+/*!
+* \brief EPoseAddQuat stores an Eigen quaterion into a Eigen pose.
+* \param p EigenXd vector representing pose, as translation and quaterion elements
+* \param q Eigen quaterion
+* \return  Eigen pose which is a 7D VectorXd.
+*/
 inline  EigenPose  EPoseAddQuat(EigenPose p, Eigen::Quaterniond &q)
 {
 	p(3)=q.x(); p(4)=q.y();p(5)=q.z();p(6)=q.w();
 	return p;
 }
+/*!
+* \brief EPose2Quat converts rotation element of an Eigen pose into an Eigen quaterion.
+* \param pose is EigenXd vectorcontaining translation and quaterion elements
+* \return Eigen quaterion .
+*/
 inline  Eigen::Quaterniond  EPose2Quat(EigenPose p)
 {
 	Eigen::Quaterniond q;
 	q.x() = p(3); q.y() =  p(4); q.z() = p(5); q.w() = p(6);
 	return q;
 }
+/*!
+* \brief ECreatePose creates an Eigen pose from a Eigen position vector and an Eigen quaterion.
+* \param pos is Eigendd vector containing translation 
+* \param q Eigen quaterion describing rotation
+* \return  Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+*/
 inline EigenPose  ECreatePose(EigenPosition pos, Eigen::Quaterniond &q)
 {
 	EigenPose pose(7);
 	pose(0)= pos(0);  pose(1)=pos(1); pose(2)=pos(2);
 	return EPoseAddQuat(pose, q);
 }
+/*!
+* \brief EPoseMult multiplies an Eigen pose by an Eigen position vector.
+* \param p ispose which is a 7D VectorXd  as translation and quaterion elements. 
+* \param v Eigen vector3D  describing tranlsation
+* \return  Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+*/
 inline EigenPosition EPoseMult (const EigenPose & p, const EigenPosition & v)
 {
 	double        ww = 2 * p(4) * p(3);
@@ -324,12 +436,23 @@ inline EigenPosition EPoseMult (const EigenPose & p, const EigenPosition & v)
 	vnew(2) = ( wy - xz ) * v(0) + ( xy + wz ) * v(1) + ( 1 - ww - xx ) * v(2) + p(2);
 	return vnew;
 }
+/*!
+* \brief ECreatePosition extracts and returns the translation element from an Eigen pose.
+* \param pose Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+* \return  Eigen vector3D  describing tranlsation
+*/
 inline EigenPosition  ECreatePosition(EigenPose pose)
 {
 	EigenPosition p;
 	p << pose(0), pose(1), pose(2);
 	return p;
 }
+/*!
+* \brief EPoseMult multiplies two Eigen poses.
+* \param p0 Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+* \param p1 Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+* \return  multiply result as Eigen pose which is a 7D VectorXd  as translation and quaterion elements
+*/
 inline EigenPose EPoseMult (EigenPose & p0, EigenPose & p1)
 {
 	MatrixEXd m0 = EPose2Matrix(p0);
@@ -343,7 +466,11 @@ inline EigenPose EPoseMult (EigenPose & p0, EigenPose & p1)
 	return ECreatePose(pos, q0*q1);
 #endif
 }
-
+/*!
+* \brief EQuatIsNorm determines if Eigen quaterion is normalized.
+* \param q1 Eigen quaterion.
+* \return  true if normalized
+*/
 inline bool EQuatIsNorm(Eigen::Quaterniond & q1)
 {
 	if(CLOSE( ( q1.w() * q1.w() )
@@ -353,7 +480,12 @@ inline bool EQuatIsNorm(Eigen::Quaterniond & q1)
 		return true;
 	return false;
 }
-
+/*!
+* \brief EQuatCartMult multiplies an Eigen quaterion by a Eigen position.
+* \param q1 Eigen quaterion.
+* \param q1 Eigen position vector3d.
+* \return   Eigen position vector3d
+*/
 inline EigenPosition EQuatCartMult (Eigen::Quaterniond & q1, const EigenPosition v2)
 {
 	EigenPosition c;
@@ -375,6 +507,11 @@ inline EigenPosition EQuatCartMult (Eigen::Quaterniond & q1, const EigenPosition
 
 	return vout;
 }
+/*!
+* \brief EPoseInv computes the inverse of an Eigen Pose
+* \param p1 Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+* \return  inverted  Eigen pose which is a 7D VectorXd  as translation and quaterion elements.
+*/
 inline EigenPose EPoseInv (const EigenPose & p1)
 {
 	Eigen::Quaterniond  q = EPose2Quat(p1);
@@ -387,6 +524,11 @@ inline EigenPose EPoseInv (const EigenPose & p1)
 	pos(2) = -pos(2);
 	return ECreatePose(pos, q);
 }
+/*!
+* \brief CreateQuaterian from roll, pitch and yaw angles given in radians
+* \param roll pitch yaw are angles.
+* \return rotation as defined by Eigen quaterion.
+*/
 inline Eigen::Quaterniond CreateQuaterian(double roll, double pitch, double yaw)
 {
 	MatrixEXd mRoll, mPitch, mYaw;
@@ -398,6 +540,11 @@ inline Eigen::Quaterniond CreateQuaterian(double roll, double pitch, double yaw)
 }
 // quaterion to rpy
 // https://github.com/mavlink/mavros/issues/444
+/*!
+* \brief EQuatFromRpy return Eigen quaterion from roll, pitch and yaw angles given in radians
+* \param roll pitch yaw are angles.
+* \return rotation as defined by Eigen quaterion.
+*/
 inline Eigen::Quaterniond EQuatFromRpy (double & roll, double & pitch, double & yaw) // Assuming the angles are in radians.
 {
 	Eigen::Quaterniond q;
@@ -416,6 +563,11 @@ inline Eigen::Quaterniond EQuatFromRpy (double & roll, double & pitch, double & 
 	q.z() = c1 * s2 * c3 - s1 * c2 * s3;
 	return q;
 }
+/*!
+* \brief EQuatToRpy return  roll, pitch and yaw angles given in radians from Eigen quaterion
+* \param roll pitch yaw references will be filled with equivalent angles in radians.
+* \param rotation as defined by Eigen quaterion.
+*/
 inline void EQuatToRpy (const Eigen::Quaterniond & q1, double & roll, double & pitch, double & yaw)
 {
 	double sqw;
@@ -450,7 +602,12 @@ inline void EQuatToRpy (const Eigen::Quaterniond & q1, double & roll, double & p
 		yaw   = atan2(2 * ( q1.x() * q1.y() + q1.w() * q1.z() ), sqw + sqx - sqy - sqz);
 	}
 }
-
+/*!
+* \brief EErrPosesAxisAngle computes the error vector from two Eigen poses
+* \param current pose which is a 7D VectorXd  as translation and quaterion elements
+* \param goal pose which is a 7D VectorXd  as translation and quaterion elements
+* \return Eigen vector of difference between vectors
+*/
 inline Eigen::VectorXd EErrPosesAxisAngle(EigenPose current, EigenPose goal)
 {
 	Eigen::VectorXd err(6);

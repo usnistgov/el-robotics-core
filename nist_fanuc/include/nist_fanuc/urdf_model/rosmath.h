@@ -132,6 +132,10 @@ inline bool operator == (const urdf::Vector3 & v0, const urdf::Vector3 & v1)
 {
 	return _magnitude3(_sub3(v0, v1) ) < REAL_EPSILON;
 }
+/*!
+* \brief _eq3 dfetermines if two vector are equal given a epsilon closeness factor.
+* \return true if two vectors are equal.
+*/
 inline bool _eq3 (const urdf::Vector3 & v0, const urdf::Vector3 & v1, double fuzz)
 {
 	return _magnitude3(_sub3(v0, v1) ) < fuzz;

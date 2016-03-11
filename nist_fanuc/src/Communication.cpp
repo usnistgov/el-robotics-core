@@ -38,10 +38,16 @@ std::vector<double> CJointReader::GetJointValues() {
 //}
 //-------------------------------------
 boost::mutex CJointWriter::_writer_mutex;
-CJointWriter::CJointWriter(ros::NodeHandle &nh) {
-     nh.getParam("controller_joint_names", jointnames);
+
+CJointWriter::CJointWriter(ros::NodeHandle &nh) : _nh(nh) {
+    nh.getParam("controller_joint_names", jointnames);
+}
+void CJointWriter::Start() {
     // Trajectory publisher
-    traj_pub = nh.advertise<trajectory_msgs::JointTrajectory>("joint_path_command", 1);
+    traj_pub = _nh.advertise<trajectory_msgs::JointTrajectory>("joint_path_command", 1);
+}
+void CJointWriter::Stop() {
+    traj_pub.shutdown();
 }
 bool CJointWriter::JointTrajectoryPositionWrite(sensor_msgs::JointState joint) {
 

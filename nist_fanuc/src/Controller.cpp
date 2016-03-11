@@ -20,23 +20,25 @@
 #endif
 
 #include "Controller.h"
-#include "urdf_model/rosmath.h"
 #include <boost/exception/all.hpp>
-#include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <strstream>
-//#include "Kinematics.h"
 #include <iostream>
+
+#include "urdf_model/rosmath.h"
 #include "urdf_model/eigenmath.h"
 #include "CrclInterface.h"
 
 
 // No namespace declarations
+//////////////////////////////////
 ALogger Logger;
 
 void DebugBreak() {
 }
 
+// RCS namespace declarations
+//////////////////////////////////
 namespace RCS {
 	boost::mutex cncmutex;
 	static const char *sStateEnums[] = {
@@ -64,6 +66,7 @@ namespace RCS {
 	RCS::CMessageQueue<RCS::CanonCmd> CController::robotcmds;
 	RCS::CController::xml_message_list CController::donecmds;
 	bool RCS::CController::bGenerateProgram = false;
+	bool RCS::CController::bSimulation = true;
 	//Trajectory CController::trajectory_model;
 
 	size_t RCS::CController::_NumJoints;
@@ -92,7 +95,8 @@ namespace RCS {
 #ifdef WIN32
 		_set_se_translator(trans_func); // correct thread?
 #endif
-		Name() = "CController";
+		Name() = "Controller";
+                // CSV Logging setup
 		std::string sStatus = DumpHeader(",") + "\n";
 		CsvLogging.Timestamping() = false;
 		CsvLogging.LogMessage("Timestamp," + sStatus);

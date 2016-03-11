@@ -61,7 +61,11 @@ sudo apt-get install libxerces-c3.1 libxerces-c-dev
 </pre><p>Link library in CMakeLists.txt: </p>
 <pre class="fragment">link_directories(/usr/lib/x86_64-linux-gnu/)
 </pre><p>Need to link against libxerces.a in CMakeLists.txt: </p>
-<pre class="fragment">link_directories(/usr/lib/x86_64-linux-gnu/)
+<pre class="fragment">target_link_libraries(nist_fanuc 
+libxerces-c.a  
+${catkin_LIBRARIES}
+${Boost_LIBRARIES}
+)
 </pre><h2>3) Installing CodeSynthesis XSD </h2>
 <p><a href="http://www.codesynthesis.com/products/xsd/download.xhtml">http://www.codesynthesis.com/products/xsd/download.xhtml</a></p>
 <ol type="1">
@@ -69,11 +73,11 @@ sudo apt-get install libxerces-c3.1 libxerces-c-dev
 <li>Download xsd_4.0.0-1_amd64.deb and it will say open with Ubuntu Software Center</li>
 <li>Click to install, authenticate and add /usr/include/xsd/cxx/xml as include path.</li>
 </ol>
-<p>Need include file path in CMakeLists.txt: include_directories(/usr/include/xsd/cxx/xml) </p>
-</div></div><!-- contents -->
+<p>Need include file path in CMakeLists.txt: </p>
+<pre class="fragment">include_directories(/usr/include/xsd/cxx/xml)</pre> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 10 2016 12:17:36 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

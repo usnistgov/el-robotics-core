@@ -677,6 +677,7 @@ CrclReturn CrclDelegateInterface::Dwell(double seconds) {
 
 CrclReturn CrclDelegateInterface::EndCanon() {
     IfDebug(Globals.DebugMessage("CrclDelegateInterface::EndCanon\n"));
+    //signal(SIG_INT);
     return CANON_SUCCESS;
 }
 

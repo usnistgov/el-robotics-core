@@ -1,4 +1,4 @@
-.TH "CJointWriter" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "CJointWriter" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -26,6 +26,14 @@ The \fBCJointWriter\fP is a thread to publish new joint values to ROS\&. Uses a 
 .RI "bool \fBJointTrajectoryPositionWrite\fP (\fBsensor_msgs::JointState\fP joint)"
 .br
 .RI "\fIJointTrajectoryWrite writes the joint values to joint_state topic messages\&. \fP"
+.ti -1c
+.RI "void \fBStart\fP ()"
+.br
+.RI "\fIStart creates publisher by telling roscore we are advertising new joint values\&. \fP"
+.ti -1c
+.RI "void \fBStop\fP ()"
+.br
+.RI "\fIStop publishing by unadvertising\&. \fP"
 .in -1c
 .SS "Public Attributes"
 
@@ -35,6 +43,9 @@ The \fBCJointWriter\fP is a thread to publish new joint values to ROS\&. Uses a 
 .br
 .ti -1c
 .RI "std::vector< std::string > \fBjointnames\fP"
+.br
+.ti -1c
+.RI "ros::NodeHandle & \fB_nh\fP"
 .br
 .in -1c
 .SS "Static Public Attributes"
@@ -94,8 +105,18 @@ boolean if all writes occurred as expected\&.
 .RE
 .PP
 
+.SS "void CJointWriter::Start ()"
+
+.PP
+Start creates publisher by telling roscore we are advertising new joint values\&. 
+.SS "void CJointWriter::Stop (void)"
+
+.PP
+Stop publishing by unadvertising\&. 
 .SH "Member Data Documentation"
 .PP 
+.SS "ros::NodeHandle& CJointWriter::_nh"
+reference pointer to ROS node handle 
 .SS "boost::mutex CJointWriter::_writer_mutex\fC [static]\fP"
 for mutexed writing access to joint values 
 .SS "std::vector<std::string> CJointWriter::jointnames"

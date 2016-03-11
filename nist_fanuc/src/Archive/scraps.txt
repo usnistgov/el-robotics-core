@@ -1,4 +1,8 @@
-
+        //        std::string planningplugin;
+        //        if (nh.getParam("/move_group/planning_plugin", planningplugin))
+        //        {
+        //            std::cout << "planningplugin" << planningplugin.c_str() << std::endl; 
+        //        }
 <MiddleCommand xsi:type="ActuateJointsType">
     <Name>ActuateJoints</Name>
     <CommandID>8</CommandID>

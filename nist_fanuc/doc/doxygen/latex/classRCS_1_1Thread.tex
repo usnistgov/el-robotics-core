@@ -24,7 +24,7 @@ Inheritance diagram for R\-C\-S\-:\-:Thread\-:\begin{figure}[H]
 \begin{DoxyCompactList}\small\item\em Constructor of thread, that takes cycle time as input. \end{DoxyCompactList}\item 
 \hyperlink{classRCS_1_1Thread_a7b91358afd5f9609b3a6b5b32f9a89aa}{$\sim$\-Thread} ()
 \begin{DoxyCompactList}\small\item\em Destructor of thread, makes sure thread has stopped. \end{DoxyCompactList}\item 
-std\-::string \hyperlink{classRCS_1_1Thread_abacaaba20a73fe57440d60bf4f4f458b}{Name} ()
+std\-::string \& \hyperlink{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724}{Name} ()
 \begin{DoxyCompactList}\small\item\em Name returns name of thread. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1Thread_a5f7209d2edfa23588f6adc74bbfb8f07}{Join} ()
 \begin{DoxyCompactList}\small\item\em Uses boost thread join routine. \end{DoxyCompactList}\item 
@@ -52,6 +52,15 @@ int \& \hyperlink{classRCS_1_1Thread_abe304b8316eb45e0b01c1104376fbc41}{Debug\-L
 \begin{DoxyCompactList}\small\item\em Debug\-Level returns the debugging level of the thread. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1Thread_a12ff1372b891db600b094d628e606045}{Cycle} ()
 \begin{DoxyCompactList}\small\item\em Cycle is the thread main function. It calls init, action, and cleanup. After each cycle waits exactly amount given by cycle time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static boost\-::thread\-\_\-group \& \hyperlink{classRCS_1_1Thread_ae3269a75272f142bc8423ecef1d98d12}{Thread\-Group} ()
+\begin{DoxyCompactList}\small\item\em Thread\-Group is a static definition of boost thread group. \end{DoxyCompactList}\item 
+static std\-::vector$<$ \hyperlink{classRCS_1_1Thread}{Thread} $\ast$ $>$ \& \hyperlink{classRCS_1_1Thread_a9accd6dbb70083160c9d1aa21585b5f9}{Threads} ()
+\begin{DoxyCompactList}\small\item\em Threads is a static definition of all the threads that have been created. \end{DoxyCompactList}\item 
+static void \hyperlink{classRCS_1_1Thread_af87a4097886fda25c7527089548fe2c8}{Stop\-All} ()
+\begin{DoxyCompactList}\small\item\em Static Stop\-All which stops all the threads created in the boost thread group. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -203,13 +212,13 @@ Uses boost thread join routine.
 
 Load returns the load of the thread cycle. 
 
-\hypertarget{classRCS_1_1Thread_abacaaba20a73fe57440d60bf4f4f458b}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Name@{Name}}
+\hypertarget{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Name@{Name}}
 \index{Name@{Name}!RCS::Thread@{R\-C\-S\-::\-Thread}}
-\subsubsection[{Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-Thread\-::\-Name (
+\subsubsection[{Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string\& R\-C\-S\-::\-Thread\-::\-Name (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_abacaaba20a73fe57440d60bf4f4f458b}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724}
 
 
 Name returns name of thread. 
@@ -268,6 +277,17 @@ Stop stops the thread loop.
 {\em b\-Wait} & indicates whether to wait until thread has finished. \\
 \hline
 \end{DoxyParams}
+\hypertarget{classRCS_1_1Thread_af87a4097886fda25c7527089548fe2c8}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Stop\-All@{Stop\-All}}
+\index{Stop\-All@{Stop\-All}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Stop\-All}]{\setlength{\rightskip}{0pt plus 5cm}static void R\-C\-S\-::\-Thread\-::\-Stop\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Thread_af87a4097886fda25c7527089548fe2c8}
+
+
+Static Stop\-All which stops all the threads created in the boost thread group. 
+
 \hypertarget{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Suspend@{Suspend}}
 \index{Suspend@{Suspend}!RCS::Thread@{R\-C\-S\-::\-Thread}}
 \subsubsection[{Suspend}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Suspend (
@@ -278,6 +298,28 @@ Stop stops the thread loop.
 
 
 Suspend stops the thread loop until restarted with \hyperlink{classRCS_1_1Thread_adf2b3b0fc8b643b1fd2b6f28f30c7a2e}{Resume()}. 
+
+\hypertarget{classRCS_1_1Thread_ae3269a75272f142bc8423ecef1d98d12}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Thread\-Group@{Thread\-Group}}
+\index{Thread\-Group@{Thread\-Group}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Thread\-Group}]{\setlength{\rightskip}{0pt plus 5cm}static boost\-::thread\-\_\-group\& R\-C\-S\-::\-Thread\-::\-Thread\-Group (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Thread_ae3269a75272f142bc8423ecef1d98d12}
+
+
+Thread\-Group is a static definition of boost thread group. 
+
+\hypertarget{classRCS_1_1Thread_a9accd6dbb70083160c9d1aa21585b5f9}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Threads@{Threads}}
+\index{Threads@{Threads}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Threads}]{\setlength{\rightskip}{0pt plus 5cm}static std\-::vector$<${\bf Thread} $\ast$$>$\& R\-C\-S\-::\-Thread\-::\-Threads (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Thread_a9accd6dbb70083160c9d1aa21585b5f9}
+
+
+Threads is a static definition of all the threads that have been created. 
 
 
 

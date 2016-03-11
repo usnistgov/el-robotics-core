@@ -24,33 +24,33 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-	/*!
-	* \brief SetupAppEnvironment will attempt save some of the application settings, e.g., user, nostname.
-	* \return bool true if success.
-	*/
-	extern bool SetupAppEnvironment();
+    /*!
+     * \brief SetupAppEnvironment will attempt save some of the application settings, e.g., user, nostname.
+     * \return bool true if success.
+     */
+    extern bool SetupAppEnvironment();
 
-	/*!
-	* \brief SetupRosEnvironment will attempt to provide an environment equivalent to ROS "source devel/setup.bash".
-	* \fixme some of the code is hard coded, but unnecessary if executable run in shell.
-	* \return bool true if success.
-	*/
-   extern bool SetupRosEnvironment();
+    /*!
+     * \brief SetupRosEnvironment will attempt to provide an environment equivalent to ROS "source devel/setup.bash".
+     * \fixme some of the code is hard coded, but unnecessary if executable run in shell.
+     * \return bool true if success.
+     */
+    extern bool SetupRosEnvironment(std::string pkgpath);
 
-   	/*!
-	* \brief ReadRosParams will read and record all ros params in system.
-	* \param ROS node handle.
-	* \return string containing a list of all ros param definitions
-	*/
+    /*!
+     * \brief ReadRosParams will read and record all ros params in system.
+     * \param ROS node handle.
+     * \return string containing a list of all ros param definitions
+     */
     extern std::string ReadRosParams(ros::NodeHandle &nh);
 
-	/*!
-	* \brief ExecuteShellCommand  runs a shell script and returns results.
-	* \param string is the shell command.
-	* \return string containing pipe recording of output
-	*/
+    /*!
+     * \brief ExecuteShellCommand  runs a shell script and returns results.
+     * \param string is the shell command.
+     * \return string containing pipe recording of output
+     */
     std::string ExecuteShellCommand(std::string);
-    
+
 #ifdef	__cplusplus
 }
 #endif

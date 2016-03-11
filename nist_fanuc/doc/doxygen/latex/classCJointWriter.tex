@@ -18,13 +18,19 @@ The \hyperlink{classCJointWriter}{C\-Joint\-Writer} is a thread to publish new j
 bool \hyperlink{classCJointWriter_adc81d4ad1fee998f98a9e6eba6066da8}{Joint\-Trajectory\-Write} (std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} $>$)
 \begin{DoxyCompactList}\small\item\em Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. \end{DoxyCompactList}\item 
 bool \hyperlink{classCJointWriter_a16ffa1605dd37808b21c5082e03a9ba0}{Joint\-Trajectory\-Position\-Write} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} joint)
-\begin{DoxyCompactList}\small\item\em Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messages. \end{DoxyCompactList}\item 
+void \hyperlink{classCJointWriter_ae4fd546b8f34ecd4341703a9391b1926}{Start} ()
+\begin{DoxyCompactList}\small\item\em Start creates publisher by telling roscore we are advertising new joint values. \end{DoxyCompactList}\item 
+void \hyperlink{classCJointWriter_a3fc1ea80c4aeee9d676d0e6386822387}{Stop} ()
+\begin{DoxyCompactList}\small\item\em Stop publishing by unadvertising. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 ros\-::\-Publisher \hyperlink{classCJointWriter_a109841588bf726b430b82a509176bb0c}{traj\-\_\-pub}
 \item 
 std\-::vector$<$ std\-::string $>$ \hyperlink{classCJointWriter_a3aceb4ba37d60a52c34e486871bc8f58}{jointnames}
+\item 
+ros\-::\-Node\-Handle \& \hyperlink{classCJointWriter_af65e697d4e7fdfe1f17e16b47ab52817}{\-\_\-nh}
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -94,10 +100,35 @@ Joint\-Trajectory\-Write writes the joint values to joint\-\_\-state topic messa
 \begin{DoxyReturn}{Returns}
 boolean if all writes occurred as expected. 
 \end{DoxyReturn}
+\hypertarget{classCJointWriter_ae4fd546b8f34ecd4341703a9391b1926}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!Start@{Start}}
+\index{Start@{Start}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Joint\-Writer\-::\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCJointWriter_ae4fd546b8f34ecd4341703a9391b1926}
+
+
+Start creates publisher by telling roscore we are advertising new joint values. 
+
+\hypertarget{classCJointWriter_a3fc1ea80c4aeee9d676d0e6386822387}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!Stop@{Stop}}
+\index{Stop@{Stop}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Joint\-Writer\-::\-Stop (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classCJointWriter_a3fc1ea80c4aeee9d676d0e6386822387}
+
+
+Stop publishing by unadvertising. 
+
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classCJointWriter_a1f005dcb6f32e6d161026a6cdda5b66f}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!\-\_\-writer\-\_\-mutex@{\-\_\-writer\-\_\-mutex}}
+\hypertarget{classCJointWriter_af65e697d4e7fdfe1f17e16b47ab52817}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!\-\_\-nh@{\-\_\-nh}}
+\index{\-\_\-nh@{\-\_\-nh}!CJointWriter@{C\-Joint\-Writer}}
+\subsubsection[{\-\_\-nh}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle\& C\-Joint\-Writer\-::\-\_\-nh}}\label{classCJointWriter_af65e697d4e7fdfe1f17e16b47ab52817}
+reference pointer to R\-O\-S node handle \hypertarget{classCJointWriter_a1f005dcb6f32e6d161026a6cdda5b66f}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!\-\_\-writer\-\_\-mutex@{\-\_\-writer\-\_\-mutex}}
 \index{\-\_\-writer\-\_\-mutex@{\-\_\-writer\-\_\-mutex}!CJointWriter@{C\-Joint\-Writer}}
 \subsubsection[{\-\_\-writer\-\_\-mutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex C\-Joint\-Writer\-::\-\_\-writer\-\_\-mutex\hspace{0.3cm}{\ttfamily [static]}}}\label{classCJointWriter_a1f005dcb6f32e6d161026a6cdda5b66f}
 for mutexed writing access to joint values \hypertarget{classCJointWriter_a3aceb4ba37d60a52c34e486871bc8f58}{\index{C\-Joint\-Writer@{C\-Joint\-Writer}!jointnames@{jointnames}}

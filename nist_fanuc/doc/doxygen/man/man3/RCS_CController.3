@@ -1,4 +1,4 @@
-.TH "RCS::CController" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CController" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -104,6 +104,9 @@ Inherits \fBRCS::Thread\fP\&.
 .SS "Static Public Attributes"
 
 .in +1c
+.ti -1c
+.RI "static bool \fBbSimulation\fP = true"
+.br
 .ti -1c
 .RI "static \fBRCS::CanonWorldModel\fP \fBwm\fP"
 .br
@@ -267,6 +270,8 @@ current new canon command to interpret
 number of joints in controller robot - assuming serial link manipulator 
 .SS "bool RCS::CController::bGenerateProgram = false\fC [static]\fP"
 global flag to create program from \fBCrcl\fP XML 
+.SS "bool RCS::CController::bSimulation = true\fC [static]\fP"
+simulation flag - not connected to robot 
 .SS "\fBRCS::CMessageQueue\fP< \fBRCS::CanonCmd\fP > RCS::CController::cmds\fC [static]\fP"
 queue of commands interpreted from \fBCrcl\fP messages 
 .SS "\fBALogger\fP RCS::CController::CsvLogging\fC [static]\fP"

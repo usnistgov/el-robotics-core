@@ -45,7 +45,7 @@ namespace RCS {
         CController(double cycletime);
 
         ~CController(void);
-
+        static bool bSimulation; /**< simulation flag - not connected to robot */
         static RCS::CanonWorldModel wm; /**< the world model of the controller */
         static RCS::CanonWorldModel status; /**< current status of controller */
         static RCS::CanonWorldModel laststatus; /**< last status of controller */

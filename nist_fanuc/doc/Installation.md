@@ -38,7 +38,11 @@ Link library in  CMakeLists.txt:
  
 Need to link against libxerces.a in CMakeLists.txt:
 
-    link_directories(/usr/lib/x86_64-linux-gnu/)
+    target_link_libraries(nist_fanuc 
+    libxerces-c.a  
+    ${catkin_LIBRARIES}
+    ${Boost_LIBRARIES}
+    )
  
  
  
@@ -50,4 +54,5 @@ http://www.codesynthesis.com/products/xsd/download.xhtml
 3. Click to install, authenticate and add /usr/include/xsd/cxx/xml as include path.
  
 Need include file path in CMakeLists.txt:
+
     include_directories(/usr/include/xsd/cxx/xml)

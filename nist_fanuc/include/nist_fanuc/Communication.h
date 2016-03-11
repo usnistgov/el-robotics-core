@@ -90,10 +90,21 @@ public:
      * \return boolean if write occurred as expected.
      */
     bool JointTrajectoryPositionWrite(sensor_msgs::JointState joint);
+    
+    /*!
+     * \brief Start creates publisher by telling roscore we are advertising new joint values.
+     */
+    void Start();
+
+    /*!
+     * \brief Stop publishing by unadvertising.
+     */
+    void Stop();
     ////////////////////////////////
     ros::Publisher traj_pub; /**< ros publisher information used for joint updates */
     std::vector<std::string> jointnames; /**< ros requries joint names for each joint update  */
     static boost::mutex _writer_mutex; /**< for mutexed writing access to joint values */
+    ros::NodeHandle &_nh; /**< reference pointer to ROS node handle */
 };
 
 #endif	/* COMMUNICATION_H */

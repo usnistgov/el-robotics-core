@@ -51,6 +51,7 @@
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classRCS_1_1Thread-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -83,9 +84,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b91358afd5f9609b3a6b5b32f9a89aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a7b91358afd5f9609b3a6b5b32f9a89aa">~Thread</a> ()</td></tr>
 <tr class="memdesc:a7b91358afd5f9609b3a6b5b32f9a89aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of thread, makes sure thread has stopped.  <a href="#a7b91358afd5f9609b3a6b5b32f9a89aa">More...</a><br/></td></tr>
 <tr class="separator:a7b91358afd5f9609b3a6b5b32f9a89aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abacaaba20a73fe57440d60bf4f4f458b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#abacaaba20a73fe57440d60bf4f4f458b">Name</a> ()</td></tr>
-<tr class="memdesc:abacaaba20a73fe57440d60bf4f4f458b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name returns name of thread.  <a href="#abacaaba20a73fe57440d60bf4f4f458b">More...</a><br/></td></tr>
-<tr class="separator:abacaaba20a73fe57440d60bf4f4f458b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2db2a8e8dea3c4e502e8d6adbbf05724"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a2db2a8e8dea3c4e502e8d6adbbf05724">Name</a> ()</td></tr>
+<tr class="memdesc:a2db2a8e8dea3c4e502e8d6adbbf05724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name returns name of thread.  <a href="#a2db2a8e8dea3c4e502e8d6adbbf05724">More...</a><br/></td></tr>
+<tr class="separator:a2db2a8e8dea3c4e502e8d6adbbf05724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f7209d2edfa23588f6adc74bbfb8f07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a5f7209d2edfa23588f6adc74bbfb8f07">Join</a> ()</td></tr>
 <tr class="memdesc:a5f7209d2edfa23588f6adc74bbfb8f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uses boost thread join routine.  <a href="#a5f7209d2edfa23588f6adc74bbfb8f07">More...</a><br/></td></tr>
 <tr class="separator:a5f7209d2edfa23588f6adc74bbfb8f07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,6 +126,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a12ff1372b891db600b094d628e606045"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a12ff1372b891db600b094d628e606045">Cycle</a> ()</td></tr>
 <tr class="memdesc:a12ff1372b891db600b094d628e606045"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cycle is the thread main function. It calls init, action, and cleanup. After each cycle waits exactly amount given by cycle time.  <a href="#a12ff1372b891db600b094d628e606045">More...</a><br/></td></tr>
 <tr class="separator:a12ff1372b891db600b094d628e606045"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ae3269a75272f142bc8423ecef1d98d12"><td class="memItemLeft" align="right" valign="top">static boost::thread_group &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#ae3269a75272f142bc8423ecef1d98d12">ThreadGroup</a> ()</td></tr>
+<tr class="memdesc:ae3269a75272f142bc8423ecef1d98d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">ThreadGroup is a static definition of boost thread group.  <a href="#ae3269a75272f142bc8423ecef1d98d12">More...</a><br/></td></tr>
+<tr class="separator:ae3269a75272f142bc8423ecef1d98d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9accd6dbb70083160c9d1aa21585b5f9"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="classRCS_1_1Thread.html">Thread</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a9accd6dbb70083160c9d1aa21585b5f9">Threads</a> ()</td></tr>
+<tr class="memdesc:a9accd6dbb70083160c9d1aa21585b5f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Threads is a static definition of all the threads that have been created.  <a href="#a9accd6dbb70083160c9d1aa21585b5f9">More...</a><br/></td></tr>
+<tr class="separator:a9accd6dbb70083160c9d1aa21585b5f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af87a4097886fda25c7527089548fe2c8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#af87a4097886fda25c7527089548fe2c8">StopAll</a> ()</td></tr>
+<tr class="memdesc:af87a4097886fda25c7527089548fe2c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static StopAll which stops all the threads created in the boost thread group.  <a href="#af87a4097886fda25c7527089548fe2c8">More...</a><br/></td></tr>
+<tr class="separator:af87a4097886fda25c7527089548fe2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -405,7 +418,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abacaaba20a73fe57440d60bf4f4f458b"></a>
+<a class="anchor" id="a2db2a8e8dea3c4e502e8d6adbbf05724"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -413,7 +426,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string RCS::Thread::Name </td>
+          <td class="memname">std::string&amp; RCS::Thread::Name </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -544,6 +557,31 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af87a4097886fda25c7527089548fe2c8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void RCS::Thread::StopAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Static StopAll which stops all the threads created in the boost thread group. </p>
+
+</div>
+</div>
 <a class="anchor" id="a6a5f86951a6b1fa10bc90844366bd23e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -566,6 +604,56 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Suspend stops the thread loop until restarted with <a class="el" href="classRCS_1_1Thread.html#adf2b3b0fc8b643b1fd2b6f28f30c7a2e" title="Resume resume execution of the thread loop stopped with Suspend(). ">Resume()</a>. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae3269a75272f142bc8423ecef1d98d12"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static boost::thread_group&amp; RCS::Thread::ThreadGroup </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ThreadGroup is a static definition of boost thread group. </p>
+
+</div>
+</div>
+<a class="anchor" id="a9accd6dbb70083160c9d1aa21585b5f9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::vector&lt;<a class="el" href="classRCS_1_1Thread.html">Thread</a> *&gt;&amp; RCS::Thread::Threads </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Threads is a static definition of all the threads that have been created. </p>
 
 </div>
 </div>
@@ -723,7 +811,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 10 2016 12:17:40 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

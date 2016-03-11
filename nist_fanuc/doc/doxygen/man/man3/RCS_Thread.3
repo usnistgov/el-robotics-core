@@ -1,4 +1,4 @@
-.TH "RCS::Thread" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::Thread" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,7 +27,7 @@ Inherited by \fBRCS::CController\fP, \fBRCS::RobotProgram\fP, and \fBRCS::RobotS
 .br
 .RI "\fIDestructor of thread, makes sure thread has stopped\&. \fP"
 .ti -1c
-.RI "std::string \fBName\fP ()"
+.RI "std::string & \fBName\fP ()"
 .br
 .RI "\fIName returns name of thread\&. \fP"
 .ti -1c
@@ -82,6 +82,22 @@ Inherited by \fBRCS::CController\fP, \fBRCS::RobotProgram\fP, and \fBRCS::RobotS
 .RI "void \fBCycle\fP ()"
 .br
 .RI "\fICycle is the thread main function\&. It calls init, action, and cleanup\&. After each cycle waits exactly amount given by cycle time\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static boost::thread_group & \fBThreadGroup\fP ()"
+.br
+.RI "\fIThreadGroup is a static definition of boost thread group\&. \fP"
+.ti -1c
+.RI "static std::vector< \fBThread\fP * > & \fBThreads\fP ()"
+.br
+.RI "\fIThreads is a static definition of all the threads that have been created\&. \fP"
+.ti -1c
+.RI "static void \fBStopAll\fP ()"
+.br
+.RI "\fIStatic StopAll which stops all the threads created in the boost thread group\&. \fP"
 .in -1c
 .SS "Protected Attributes"
 
@@ -175,7 +191,7 @@ Uses boost thread join routine\&.
 
 .PP
 Load returns the load of the thread cycle\&. 
-.SS "std::string RCS::Thread::Name ()\fC [inline]\fP"
+.SS "std::string& RCS::Thread::Name ()\fC [inline]\fP"
 
 .PP
 Name returns name of thread\&. 
@@ -209,10 +225,22 @@ Stop stops the thread loop\&.
 .RE
 .PP
 
+.SS "static void RCS::Thread::StopAll ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Static StopAll which stops all the threads created in the boost thread group\&. 
 .SS "void RCS::Thread::Suspend ()\fC [inline]\fP"
 
 .PP
 Suspend stops the thread loop until restarted with \fBResume()\fP\&. 
+.SS "static boost::thread_group& RCS::Thread::ThreadGroup ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+ThreadGroup is a static definition of boost thread group\&. 
+.SS "static std::vector<\fBThread\fP *>& RCS::Thread::Threads ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Threads is a static definition of all the threads that have been created\&. 
 .SH "Member Data Documentation"
 .PP 
 .SS "bool RCS::Thread::_bDone\fC [protected]\fP"

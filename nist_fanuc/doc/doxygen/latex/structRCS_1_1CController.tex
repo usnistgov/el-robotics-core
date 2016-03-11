@@ -88,6 +88,8 @@ std\-::string \hyperlink{structRCS_1_1CController_a8bd2705747d1e16f5806ddf183bfa
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
+static bool \hyperlink{structRCS_1_1CController_a5cc727cd1f880d16be6f34d501e06ef0}{b\-Simulation} = true
+\item 
 static \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} \hyperlink{structRCS_1_1CController_a2b5d355e3e9d6195943ab148c1f94083}{wm}
 \item 
 static \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} \hyperlink{structRCS_1_1CController_a82e9cc233cd25554964efe8a9008e0b2}{status}
@@ -346,7 +348,10 @@ current new canon command to interpret \hypertarget{structRCS_1_1CController_a9b
 number of joints in controller robot -\/ assuming serial link manipulator \hypertarget{structRCS_1_1CController_a5b5e83348fbf18e362a59a2d96668466}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!b\-Generate\-Program@{b\-Generate\-Program}}
 \index{b\-Generate\-Program@{b\-Generate\-Program}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
 \subsubsection[{b\-Generate\-Program}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-C\-Controller\-::b\-Generate\-Program = false\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a5b5e83348fbf18e362a59a2d96668466}
-global flag to create program from \hyperlink{namespaceCrcl}{Crcl} X\-M\-L \hypertarget{structRCS_1_1CController_adceba05ebd7fa94f93c131db84840d29}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!cmds@{cmds}}
+global flag to create program from \hyperlink{namespaceCrcl}{Crcl} X\-M\-L \hypertarget{structRCS_1_1CController_a5cc727cd1f880d16be6f34d501e06ef0}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!b\-Simulation@{b\-Simulation}}
+\index{b\-Simulation@{b\-Simulation}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
+\subsubsection[{b\-Simulation}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-C\-Controller\-::b\-Simulation = true\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_a5cc727cd1f880d16be6f34d501e06ef0}
+simulation flag -\/ not connected to robot \hypertarget{structRCS_1_1CController_adceba05ebd7fa94f93c131db84840d29}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!cmds@{cmds}}
 \index{cmds@{cmds}!RCS::CController@{R\-C\-S\-::\-C\-Controller}}
 \subsubsection[{cmds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-C\-Message\-Queue}$<$ {\bf R\-C\-S\-::\-Canon\-Cmd} $>$ R\-C\-S\-::\-C\-Controller\-::cmds\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CController_adceba05ebd7fa94f93c131db84840d29}
 queue of commands interpreted from \hyperlink{namespaceCrcl}{Crcl} messages \hypertarget{structRCS_1_1CController_a7e21b1156fe37407bae1ba468815206c}{\index{R\-C\-S\-::\-C\-Controller@{R\-C\-S\-::\-C\-Controller}!Csv\-Logging@{Csv\-Logging}}

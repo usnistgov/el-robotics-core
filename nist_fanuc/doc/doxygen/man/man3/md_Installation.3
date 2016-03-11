@@ -1,4 +1,4 @@
-.TH "md_Installation" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "md_Installation" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -59,7 +59,11 @@ link_directories(/usr/lib/x86_64-linux-gnu/)
 Need to link against libxerces\&.a in CMakeLists\&.txt: 
 .PP
 .nf
-link_directories(/usr/lib/x86_64-linux-gnu/)
+target_link_libraries(nist_fanuc 
+libxerces-c.a  
+${catkin_LIBRARIES}
+${Boost_LIBRARIES}
+)
 
 .fi
 .PP
@@ -75,4 +79,10 @@ Download xsd_4\&.0\&.0-1_amd64\&.deb and it will say open with Ubuntu Software C
 Click to install, authenticate and add /usr/include/xsd/cxx/xml as include path\&.
 .PP
 .PP
-Need include file path in CMakeLists\&.txt: include_directories(/usr/include/xsd/cxx/xml) 
+Need include file path in CMakeLists\&.txt: 
+.PP
+.nf
+include_directories(/usr/include/xsd/cxx/xml)
+.fi
+.PP
+ 

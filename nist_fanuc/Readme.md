@@ -1594,9 +1594,18 @@ VIM nightmare: esc and :wq  (write and quit)
     michalos@rufous:~/github/usnistgov/el-robotics-core$ 
 
 Did not add nist_fanuc:
-      526  git add nist_fanuc
-      527  git commit .
-      528  git push origin master
+
+    git add nist_fanuc
+    git commit .
+    git push origin master
+
+Adding doxygen files and committing with message without using vim:
+
+    git add .
+    git status
+    git commit -m "add doxygen files"
+    git push origin master
+
 
 
 git remote changes and incorporate into local repository
@@ -1634,5 +1643,70 @@ rosdoc_lite ../nist_fanuc
 Problems with exclude, so hard coded doxygen ....
 
 
+Catching the Signal ^C
+----------------------------
+This signal interrupt handling worked as long as there were no background threads...
+
+    void signal_callback_handler(int signum) {
+        /* NOTE some versions of UNIX will reset signal to default
+        after each call. So for portability reset signal each time */
+        RCS::Controller.bMainLoop = false;
+        std::cout << "you have pressed ctrl-c \n";
+        signal(SIGINT, signal_callback_handler); /*  */
+
+    }
+    main() 
+    {
+        struct sigaction sigIntHandler;
+
+        sigIntHandler.sa_handler = signal_callback_handler;
+        sigemptyset(&sigIntHandler.sa_mask);
+        sigIntHandler.sa_flags = 0;
+
+        sigaction(SIGINT, &sigIntHandler, NULL);
+
+        while(RCS::Controller.bMainLoop)
+        {
+            Globals.Sleep(1000);
+        }
+        return 0;
+
+
+Yikes! From  http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown
+
+By default roscpp also installs a SIGINT handler which will detect Ctrl-C and automatically shutdown for you.
+J
+roscpp/Overview/Initialization and Shutdown - ROS Wiki
+wiki.ros.org
+Initialization. There are two levels of initialization for a roscpp Node: Initializing the node through a call to one of the ros::init() functions.
+
+By default roscpp also installs a SIGINT handler which will detect Ctrl-C and automatically shutdown for you.
+
+
+Testing for Shutdown
+
+There are two methods to check for various states of shutdown. The most common is ros::ok(). Once ros::ok()returns false, the node has finished shutting down. A common use of ros::ok():
+Toggle line numbers
+
+       1 while (ros::ok())
+       2 {
+       3   ...
+       4 }
+
+If you want to write your own sigint handler instead of using ROS:
+
+    static bool bMainLoop=true;
+    void mySigintHandler(int sig)
+    {
+      // Do some custom action.
+      // For example, publish a stop message to some other nodes.
+       std::cout << "Received Cntl c" << std::flush;
+      // All the default sigint handler does is call shutdown()
+      bMainLoop=false;
+     
+    }
+    main() { ...
+    ros::init(argc, argv, "nist_fanuc", ros::init_options::NoSigintHandler);
+    signal(SIGINT, mySigintHandler);
 
 

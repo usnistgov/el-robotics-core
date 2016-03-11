@@ -1,4 +1,4 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/nist_fanuc.cpp" 3 "Thu Mar 10 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/nist_fanuc.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -49,6 +49,19 @@
 \fC#include 'moveit\&.h'\fP
 .br
 
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBINITJOINTCONTROLLER\fP"
+.br
+.ti -1c
+.RI "#define \fBROBOTSTATUS\fP"
+.br
+.ti -1c
+.RI "#define \fBBOOSTASIO\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
@@ -56,19 +69,22 @@
 .RI "std::string \fBDumpUrdfPose\fP (const urdf::Pose &p)"
 .br
 .ti -1c
-.RI "void \fBsignal_callback_handler\fP (int signum)"
-.br
-.ti -1c
 .RI "int \fBmain\fP (int argc, char **argv)"
 .br
 .in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BOOSTASIO"
+
+.SS "#define INITJOINTCONTROLLER"
+
+.SS "#define ROBOTSTATUS"
+
 .SH "Function Documentation"
 .PP 
 .SS "std::string DumpUrdfPose (const urdf::Pose &p)"
 
 .SS "int main (intargc, char **argv)"
-
-.SS "void signal_callback_handler (intsignum)"
 
 .SH "Author"
 .PP 

@@ -172,6 +172,21 @@ static void state_client_thread_code(state_client_thread_args *args)
   return;
 }
 
+static void print_help(void)
+{
+  /*
+  if (0 == *ptr);
+  if ('?' == *ptr);
+  if ('c' == *ptr);
+  if ('j' == *ptr);
+  if ('q' == *ptr);
+  if ('v' == *ptr);
+  if ('w' == *ptr);
+  if (7 != sscanf(ptr, "%f %f %f %f %f %f %f"));
+  */
+  return;
+}
+
 /*
   Arguments:
 
@@ -305,6 +320,11 @@ int main(int argc, char *argv[])
 	} else {
 	  jtp_req.print_joint_traj_pt_request();
 	}
+	break;
+      }
+
+      if ('?' == *ptr) {
+	print_help();
 	break;
       }
 

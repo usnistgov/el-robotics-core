@@ -1,0 +1,97 @@
+\hypertarget{classRCS_1_1ChainRobotModel}{\section{R\-C\-S\-:\-:Chain\-Robot\-Model Class Reference}
+\label{classRCS_1_1ChainRobotModel}\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+}
+
+
+{\ttfamily \#include $<$Chain\-Robot\-Model.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCS_1_1ChainRobotModel_afb9f3dcd9a9a24d6f0e191c93bb2fb68}{Chain\-Robot\-Model} ()
+\item 
+size\-\_\-t \hyperlink{classRCS_1_1ChainRobotModel_ac5ee73dfe107ef5f7b4475b68d0158f2}{Get\-Joint\-Num} ()
+\item 
+size\-\_\-t \hyperlink{classRCS_1_1ChainRobotModel_ac5bd020b4cc68ed33c99467a303e19ed}{Get\-Moving\-Joints} ()
+\item 
+\hyperlink{structRCS_1_1RdfJoint}{Rdf\-Joint} \& \hyperlink{classRCS_1_1ChainRobotModel_a62f2da014d60b16f5567ff90d9b685b5}{Get\-Joint} (int num)
+\item 
+void \hyperlink{classRCS_1_1ChainRobotModel_acaf0c6a5f7ccf3e8c9c0bb6225cadcca}{Rdf\-From\-Xml\-File} (std\-::string xml\-\_\-string)
+\item 
+std\-::string \hyperlink{classRCS_1_1ChainRobotModel_afe90a78dcf01f87e343ccd904744bd4b}{Dump\-Rdf\-Joints} (std\-::vector$<$ \hyperlink{structRCS_1_1RdfJoint}{Rdf\-Joint} $>$ \&\hyperlink{classRCS_1_1ChainRobotModel_aeac2fe8d84501b374bc2f6170bf751ae}{jointspec})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ \hyperlink{structRCS_1_1RdfJoint}{Rdf\-Joint} $>$ \hyperlink{classRCS_1_1ChainRobotModel_af7951f5cf300a83c4a5bbe5ef0c42ad1}{prejointspec}
+\item 
+std\-::vector$<$ \hyperlink{structRCS_1_1RdfJoint}{Rdf\-Joint} $>$ \hyperlink{classRCS_1_1ChainRobotModel_a6f2304b0bc530b4a2f67b9932808f510}{postjointspec}
+\item 
+std\-::vector$<$ \hyperlink{structRCS_1_1RdfJoint}{Rdf\-Joint} $>$ \hyperlink{classRCS_1_1ChainRobotModel_aeac2fe8d84501b374bc2f6170bf751ae}{jointspec}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCS_1_1ChainRobotModel_afb9f3dcd9a9a24d6f0e191c93bb2fb68}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!Chain\-Robot\-Model@{Chain\-Robot\-Model}}
+\index{Chain\-Robot\-Model@{Chain\-Robot\-Model}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{Chain\-Robot\-Model}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Chain\-Robot\-Model\-::\-Chain\-Robot\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1ChainRobotModel_afb9f3dcd9a9a24d6f0e191c93bb2fb68}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCS_1_1ChainRobotModel_afe90a78dcf01f87e343ccd904744bd4b}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!Dump\-Rdf\-Joints@{Dump\-Rdf\-Joints}}
+\index{Dump\-Rdf\-Joints@{Dump\-Rdf\-Joints}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{Dump\-Rdf\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-Chain\-Robot\-Model\-::\-Dump\-Rdf\-Joints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf Rdf\-Joint} $>$ \&}]{jointspec}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1ChainRobotModel_afe90a78dcf01f87e343ccd904744bd4b}
+\hypertarget{classRCS_1_1ChainRobotModel_a62f2da014d60b16f5567ff90d9b685b5}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!Get\-Joint@{Get\-Joint}}
+\index{Get\-Joint@{Get\-Joint}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{Get\-Joint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Rdf\-Joint}\& R\-C\-S\-::\-Chain\-Robot\-Model\-::\-Get\-Joint (
+\begin{DoxyParamCaption}
+\item[{int}]{num}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1ChainRobotModel_a62f2da014d60b16f5567ff90d9b685b5}
+\hypertarget{classRCS_1_1ChainRobotModel_ac5ee73dfe107ef5f7b4475b68d0158f2}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!Get\-Joint\-Num@{Get\-Joint\-Num}}
+\index{Get\-Joint\-Num@{Get\-Joint\-Num}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{Get\-Joint\-Num}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t R\-C\-S\-::\-Chain\-Robot\-Model\-::\-Get\-Joint\-Num (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1ChainRobotModel_ac5ee73dfe107ef5f7b4475b68d0158f2}
+\hypertarget{classRCS_1_1ChainRobotModel_ac5bd020b4cc68ed33c99467a303e19ed}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!Get\-Moving\-Joints@{Get\-Moving\-Joints}}
+\index{Get\-Moving\-Joints@{Get\-Moving\-Joints}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{Get\-Moving\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t R\-C\-S\-::\-Chain\-Robot\-Model\-::\-Get\-Moving\-Joints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1ChainRobotModel_ac5bd020b4cc68ed33c99467a303e19ed}
+\hypertarget{classRCS_1_1ChainRobotModel_acaf0c6a5f7ccf3e8c9c0bb6225cadcca}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!Rdf\-From\-Xml\-File@{Rdf\-From\-Xml\-File}}
+\index{Rdf\-From\-Xml\-File@{Rdf\-From\-Xml\-File}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{Rdf\-From\-Xml\-File}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Chain\-Robot\-Model\-::\-Rdf\-From\-Xml\-File (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{xml\-\_\-string}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1ChainRobotModel_acaf0c6a5f7ccf3e8c9c0bb6225cadcca}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRCS_1_1ChainRobotModel_aeac2fe8d84501b374bc2f6170bf751ae}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!jointspec@{jointspec}}
+\index{jointspec@{jointspec}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{jointspec}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf Rdf\-Joint}$>$ R\-C\-S\-::\-Chain\-Robot\-Model\-::jointspec}}\label{classRCS_1_1ChainRobotModel_aeac2fe8d84501b374bc2f6170bf751ae}
+\hypertarget{classRCS_1_1ChainRobotModel_a6f2304b0bc530b4a2f67b9932808f510}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!postjointspec@{postjointspec}}
+\index{postjointspec@{postjointspec}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{postjointspec}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf Rdf\-Joint}$>$ R\-C\-S\-::\-Chain\-Robot\-Model\-::postjointspec}}\label{classRCS_1_1ChainRobotModel_a6f2304b0bc530b4a2f67b9932808f510}
+\hypertarget{classRCS_1_1ChainRobotModel_af7951f5cf300a83c4a5bbe5ef0c42ad1}{\index{R\-C\-S\-::\-Chain\-Robot\-Model@{R\-C\-S\-::\-Chain\-Robot\-Model}!prejointspec@{prejointspec}}
+\index{prejointspec@{prejointspec}!RCS::ChainRobotModel@{R\-C\-S\-::\-Chain\-Robot\-Model}}
+\subsubsection[{prejointspec}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf Rdf\-Joint}$>$ R\-C\-S\-::\-Chain\-Robot\-Model\-::prejointspec}}\label{classRCS_1_1ChainRobotModel_af7951f5cf300a83c4a5bbe5ef0c42ad1}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{ChainRobotModel_8h}{Chain\-Robot\-Model.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{ChainRobotModel_8cpp}{Chain\-Robot\-Model.\-cpp}\end{DoxyCompactItemize}

@@ -6,7 +6,10 @@
 #include "Globals.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
-
+/**
+ * \brief The IKinematics provides is an abstract class with pure virtual functions that are
+ * overriden by actual kinematic implementations.
+ * */
 class IKinematics {
 public:
     virtual std::vector<double> GetJointValues() = 0;

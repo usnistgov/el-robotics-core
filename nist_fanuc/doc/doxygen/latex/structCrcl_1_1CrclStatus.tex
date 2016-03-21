@@ -1,0 +1,267 @@
+\hypertarget{structCrcl_1_1CrclStatus}{\section{Crcl\-:\-:Crcl\-Status Struct Reference}
+\label{structCrcl_1_1CrclStatus}\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}}
+}
+
+
+{\ttfamily \#include $<$crcl.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structCrcl_1_1CrclStatus_a1cd41778adfbcbf93acf69b4696ca690}{Crcl\-Status} ()
+\item 
+\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{structCrcl_1_1CrclStatus_ad7e716027dc6c885675ff2016f36786b}{Joints\-Home} ()
+\item 
+\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} \hyperlink{structCrcl_1_1CrclStatus_ae9eaeee83f8d6742d8e1d0f69f4d6e45}{Merge} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence}, bool b\-Incremental=false)
+\item 
+void \hyperlink{structCrcl_1_1CrclStatus_a50e2821837a7a50b50df2260435f9917}{Update} (unsigned long long Command\-I\-D)
+\item 
+void \hyperlink{structCrcl_1_1CrclStatus_a6aa15c7d9c21c17cc591a141a52bae15}{Update} (\hyperlink{namespaceCrcl_a5b3aa14f2f4ed63cc67ecba8eaab5c93}{Crcl\-::\-Command\-State\-Enum} state)
+\item 
+void \hyperlink{structCrcl_1_1CrclStatus_a86850bfee0203804c2cf8fd9e89ed33f}{Update} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \&joints, \hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9}{R\-C\-S\-::\-Traj\-Point\-Type} type=\hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9a255760a7e92a5d130681fc75e280cb61}{R\-C\-S\-::\-W\-A\-Y\-P\-O\-I\-N\-T})
+\item 
+void \hyperlink{structCrcl_1_1CrclStatus_ad538ccbf9fe6448b9c97c5ae79d6f818}{Update} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, \hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9}{R\-C\-S\-::\-Traj\-Point\-Type} type=\hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9a255760a7e92a5d130681fc75e280cb61}{R\-C\-S\-::\-W\-A\-Y\-P\-O\-I\-N\-T})
+\item 
+void \hyperlink{structCrcl_1_1CrclStatus_a626f981943a5d9a358b3394997dd8530}{Update} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \&joints)
+\item 
+void \hyperlink{structCrcl_1_1CrclStatus_abed6fce26b69adcec0beea0bd1d19169}{Update} (urdf\-::\-Pose \&pose)
+\item 
+\hyperlink{structCrcl_1_1CrclStatus_a4051bdc6200a904e5c892968e42a43d6}{V\-A\-R} (Command\-I\-D, unsigned long long)
+\item 
+\hyperlink{structCrcl_1_1CrclStatus_a04deac202f412e0087fd07f09ccec5b7}{V\-A\-R} (Status\-I\-D, unsigned long long)
+\item 
+\hyperlink{structCrcl_1_1CrclStatus_a29a7ab97f492696b8a83be8762b0afda}{V\-A\-R} (Command\-Status, \hyperlink{namespaceCrcl_a5b3aa14f2f4ed63cc67ecba8eaab5c93}{Crcl\-::\-Command\-State\-Enum})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structCrcl_1_1GripperStatus}{Gripper\-Status} \hyperlink{structCrcl_1_1CrclStatus_add19fb6e10e25182b651f0dc2dbacd8a}{gripper}
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{structCrcl_1_1CrclStatus_ac016101d8626197e7db59bd5171f4d26}{\-\_\-\-Current\-Pose}
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{structCrcl_1_1CrclStatus_a48dc5e308a2bb1c100afefb83b6fb675}{\-\_\-\-Goal\-Pose}
+\item 
+\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{structCrcl_1_1CrclStatus_a010fa6c551d4d662488982981f20250b}{\-\_\-\-Goal\-Joints}
+\item 
+\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{structCrcl_1_1CrclStatus_a9698585e1486c01b2666490b94da8169}{\-\_\-\-Current\-Joints}
+\item 
+std\-::vector$<$ double $>$ \hyperlink{structCrcl_1_1CrclStatus_a5e47012aa534fb8affe8cf5c4b296825}{\-\_\-speeds}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_a16ecd48f40c5a3c865a51383886acc83}{\-\_\-translation\-Speed}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_a1e131c9acc8b5d1b271a9b98b6f97b8b}{\-\_\-translation\-Accel}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_aff43a0827ac1ee82202fceaae9b1bdad}{\-\_\-rot\-Speed}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_a4ac7019071f53426f10f7da29018c073}{\-\_\-rot\-Accel}
+\item 
+bool \hyperlink{structCrcl_1_1CrclStatus_aa26f6eb02fd6e67c1a3090feb7b1d6b8}{\-\_\-b\-Coordinated\-Motion}
+\item 
+\hyperlink{namespaceRCS_a768c9d3a7f0e5850bc61ebede4b85b23}{R\-C\-S\-::\-Canon\-Length\-Unit} \hyperlink{structCrcl_1_1CrclStatus_a3acf7158b0eac870e8ec416f240de33f}{\-\_\-length\-Unit}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_a47d448ad6a6cf9b3a0df4ef4842bcc88}{\-\_\-length\-Conversion}
+\item 
+\hyperlink{namespaceRCS_ad07ee9a15612cae458796cf946e36410}{R\-C\-S\-::\-Canon\-Angle\-Unit} \hyperlink{structCrcl_1_1CrclStatus_a089adf5239cb75e9bd966d94da2f9b18}{\-\_\-angle\-Unit}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_a107704fe77ba28d4d4d7e6646160df86}{\-\_\-angle\-Conversion}
+\item 
+\hyperlink{namespaceRCS_a7ab3ac05af337215785442dc8570c00f}{R\-C\-S\-::\-Canon\-Force\-Unit} \hyperlink{structCrcl_1_1CrclStatus_a4c189e961e876682b51f2c2e12aa032a}{\-\_\-force\-Unit}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_ae7fa1a8cf85b8c0968d747dd2b4d8b89}{\-\_\-force\-Conversion}
+\item 
+\hyperlink{namespaceRCS_aad43ee626dc2b93364a9276cd0190b38}{R\-C\-S\-::\-Canon\-Torque\-Unit} \hyperlink{structCrcl_1_1CrclStatus_a51082e4b4a5fa27a8244d1ea77a9fd40}{\-\_\-torque\-Unit}
+\item 
+double \hyperlink{structCrcl_1_1CrclStatus_a1dcd8215508cb4af98b647a0b8c2bf98}{\-\_\-torque\-Conversion}
+\item 
+\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} \hyperlink{structCrcl_1_1CrclStatus_a3329553459fd87df256119326cfd703e}{\-\_\-end\-Pose\-Tolerance}
+\item 
+\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} \hyperlink{structCrcl_1_1CrclStatus_a6e3526617c935d84b1f3d9c4ec9133a0}{\-\_\-gripper\-Pose\-Tolerance}
+\item 
+\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} \hyperlink{structCrcl_1_1CrclStatus_a40458b87a045e9a1ef630334037f37cd}{\-\_\-intermediate\-Pose\-Tolerance}
+\item 
+std\-::vector$<$ \hyperlink{structCrcl_1_1JointReport}{Joint\-Report} $>$ \hyperlink{structCrcl_1_1CrclStatus_aa26e119cf006f7f9c0da64aa4944fc1f}{\-\_\-v\-Joint\-Report}
+\item 
+std\-::string \hyperlink{structCrcl_1_1CrclStatus_af485e1524d7eb0f8108fabeb9ae371f8}{s\-Command\-State}
+\item 
+std\-::string \hyperlink{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809db22}{Alarm}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structCrcl_1_1CrclStatus_a1cd41778adfbcbf93acf69b4696ca690}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Crcl\-Status@{Crcl\-Status}}
+\index{Crcl\-Status@{Crcl\-Status}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Crcl\-Status}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Status\-::\-Crcl\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a1cd41778adfbcbf93acf69b4696ca690}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structCrcl_1_1CrclStatus_ad7e716027dc6c885675ff2016f36786b}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Joints\-Home@{Joints\-Home}}
+\index{Joints\-Home@{Joints\-Home}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Joints\-Home}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Joint\-Status\-Sequence} Crcl\-::\-Crcl\-Status\-::\-Joints\-Home (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_ad7e716027dc6c885675ff2016f36786b}
+\hypertarget{structCrcl_1_1CrclStatus_ae9eaeee83f8d6742d8e1d0f69f4d6e45}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Merge@{Merge}}
+\index{Merge@{Merge}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Merge}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Actuator\-Joint\-Sequence} Crcl\-::\-Crcl\-Status\-::\-Merge (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Actuator\-Joint\-Sequence}}]{joints, }
+\item[{bool}]{b\-Incremental = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_ae9eaeee83f8d6742d8e1d0f69f4d6e45}
+\hypertarget{structCrcl_1_1CrclStatus_a50e2821837a7a50b50df2260435f9917}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{unsigned long long}]{Command\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a50e2821837a7a50b50df2260435f9917}
+\hypertarget{structCrcl_1_1CrclStatus_a6aa15c7d9c21c17cc591a141a52bae15}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Command\-State\-Enum}}]{state}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a6aa15c7d9c21c17cc591a141a52bae15}
+\hypertarget{structCrcl_1_1CrclStatus_a86850bfee0203804c2cf8fd9e89ed33f}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Joint\-Status\-Sequence} \&}]{joints, }
+\item[{{\bf R\-C\-S\-::\-Traj\-Point\-Type}}]{type = {\ttfamily {\bf R\-C\-S\-::\-W\-A\-Y\-P\-O\-I\-N\-T}}}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a86850bfee0203804c2cf8fd9e89ed33f}
+\hypertarget{structCrcl_1_1CrclStatus_ad538ccbf9fe6448b9c97c5ae79d6f818}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type} \&}]{pose, }
+\item[{{\bf R\-C\-S\-::\-Traj\-Point\-Type}}]{type = {\ttfamily {\bf R\-C\-S\-::\-W\-A\-Y\-P\-O\-I\-N\-T}}}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_ad538ccbf9fe6448b9c97c5ae79d6f818}
+\hypertarget{structCrcl_1_1CrclStatus_a626f981943a5d9a358b3394997dd8530}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Joint\-State} \&}]{joints}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a626f981943a5d9a358b3394997dd8530}
+\hypertarget{structCrcl_1_1CrclStatus_abed6fce26b69adcec0beea0bd1d19169}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{urdf\-::\-Pose \&}]{pose}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_abed6fce26b69adcec0beea0bd1d19169}
+\hypertarget{structCrcl_1_1CrclStatus_a4051bdc6200a904e5c892968e42a43d6}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Status\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Command\-I\-D}]{, }
+\item[{unsigned long}]{long}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a4051bdc6200a904e5c892968e42a43d6}
+\hypertarget{structCrcl_1_1CrclStatus_a04deac202f412e0087fd07f09ccec5b7}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Status\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Status\-I\-D}]{, }
+\item[{unsigned long}]{long}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a04deac202f412e0087fd07f09ccec5b7}
+\hypertarget{structCrcl_1_1CrclStatus_a29a7ab97f492696b8a83be8762b0afda}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Status\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Command\-Status}]{, }
+\item[{{\bf Crcl\-::\-Command\-State\-Enum}}]{}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a29a7ab97f492696b8a83be8762b0afda}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structCrcl_1_1CrclStatus_a107704fe77ba28d4d4d7e6646160df86}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-angle\-Conversion@{\-\_\-angle\-Conversion}}
+\index{\-\_\-angle\-Conversion@{\-\_\-angle\-Conversion}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-angle\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-angle\-Conversion}}\label{structCrcl_1_1CrclStatus_a107704fe77ba28d4d4d7e6646160df86}
+\hypertarget{structCrcl_1_1CrclStatus_a089adf5239cb75e9bd966d94da2f9b18}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-angle\-Unit@{\-\_\-angle\-Unit}}
+\index{\-\_\-angle\-Unit@{\-\_\-angle\-Unit}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-angle\-Unit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-Angle\-Unit} Crcl\-::\-Crcl\-Status\-::\-\_\-angle\-Unit}}\label{structCrcl_1_1CrclStatus_a089adf5239cb75e9bd966d94da2f9b18}
+\hypertarget{structCrcl_1_1CrclStatus_aa26f6eb02fd6e67c1a3090feb7b1d6b8}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-b\-Coordinated\-Motion@{\-\_\-b\-Coordinated\-Motion}}
+\index{\-\_\-b\-Coordinated\-Motion@{\-\_\-b\-Coordinated\-Motion}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-b\-Coordinated\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}bool Crcl\-::\-Crcl\-Status\-::\-\_\-b\-Coordinated\-Motion}}\label{structCrcl_1_1CrclStatus_aa26f6eb02fd6e67c1a3090feb7b1d6b8}
+\hypertarget{structCrcl_1_1CrclStatus_a9698585e1486c01b2666490b94da8169}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-\-Current\-Joints@{\-\_\-\-Current\-Joints}}
+\index{\-\_\-\-Current\-Joints@{\-\_\-\-Current\-Joints}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-\-Current\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Joint\-Status\-Sequence} Crcl\-::\-Crcl\-Status\-::\-\_\-\-Current\-Joints}}\label{structCrcl_1_1CrclStatus_a9698585e1486c01b2666490b94da8169}
+\hypertarget{structCrcl_1_1CrclStatus_ac016101d8626197e7db59bd5171f4d26}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-\-Current\-Pose@{\-\_\-\-Current\-Pose}}
+\index{\-\_\-\-Current\-Pose@{\-\_\-\-Current\-Pose}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-\-Current\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Pose\-Type} Crcl\-::\-Crcl\-Status\-::\-\_\-\-Current\-Pose}}\label{structCrcl_1_1CrclStatus_ac016101d8626197e7db59bd5171f4d26}
+\hypertarget{structCrcl_1_1CrclStatus_a3329553459fd87df256119326cfd703e}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-end\-Pose\-Tolerance@{\-\_\-end\-Pose\-Tolerance}}
+\index{\-\_\-end\-Pose\-Tolerance@{\-\_\-end\-Pose\-Tolerance}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-end\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Pose\-Tolerance\-Type} Crcl\-::\-Crcl\-Status\-::\-\_\-end\-Pose\-Tolerance}}\label{structCrcl_1_1CrclStatus_a3329553459fd87df256119326cfd703e}
+\hypertarget{structCrcl_1_1CrclStatus_ae7fa1a8cf85b8c0968d747dd2b4d8b89}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-force\-Conversion@{\-\_\-force\-Conversion}}
+\index{\-\_\-force\-Conversion@{\-\_\-force\-Conversion}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-force\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-force\-Conversion}}\label{structCrcl_1_1CrclStatus_ae7fa1a8cf85b8c0968d747dd2b4d8b89}
+\hypertarget{structCrcl_1_1CrclStatus_a4c189e961e876682b51f2c2e12aa032a}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-force\-Unit@{\-\_\-force\-Unit}}
+\index{\-\_\-force\-Unit@{\-\_\-force\-Unit}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-force\-Unit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-Force\-Unit} Crcl\-::\-Crcl\-Status\-::\-\_\-force\-Unit}}\label{structCrcl_1_1CrclStatus_a4c189e961e876682b51f2c2e12aa032a}
+\hypertarget{structCrcl_1_1CrclStatus_a010fa6c551d4d662488982981f20250b}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-\-Goal\-Joints@{\-\_\-\-Goal\-Joints}}
+\index{\-\_\-\-Goal\-Joints@{\-\_\-\-Goal\-Joints}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-\-Goal\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Joint\-Status\-Sequence} Crcl\-::\-Crcl\-Status\-::\-\_\-\-Goal\-Joints}}\label{structCrcl_1_1CrclStatus_a010fa6c551d4d662488982981f20250b}
+\hypertarget{structCrcl_1_1CrclStatus_a48dc5e308a2bb1c100afefb83b6fb675}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-\-Goal\-Pose@{\-\_\-\-Goal\-Pose}}
+\index{\-\_\-\-Goal\-Pose@{\-\_\-\-Goal\-Pose}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-\-Goal\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Pose\-Type} Crcl\-::\-Crcl\-Status\-::\-\_\-\-Goal\-Pose}}\label{structCrcl_1_1CrclStatus_a48dc5e308a2bb1c100afefb83b6fb675}
+\hypertarget{structCrcl_1_1CrclStatus_a6e3526617c935d84b1f3d9c4ec9133a0}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-gripper\-Pose\-Tolerance@{\-\_\-gripper\-Pose\-Tolerance}}
+\index{\-\_\-gripper\-Pose\-Tolerance@{\-\_\-gripper\-Pose\-Tolerance}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-gripper\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Pose\-Tolerance\-Type} Crcl\-::\-Crcl\-Status\-::\-\_\-gripper\-Pose\-Tolerance}}\label{structCrcl_1_1CrclStatus_a6e3526617c935d84b1f3d9c4ec9133a0}
+\hypertarget{structCrcl_1_1CrclStatus_a40458b87a045e9a1ef630334037f37cd}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-intermediate\-Pose\-Tolerance@{\-\_\-intermediate\-Pose\-Tolerance}}
+\index{\-\_\-intermediate\-Pose\-Tolerance@{\-\_\-intermediate\-Pose\-Tolerance}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-intermediate\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Pose\-Tolerance\-Type} Crcl\-::\-Crcl\-Status\-::\-\_\-intermediate\-Pose\-Tolerance}}\label{structCrcl_1_1CrclStatus_a40458b87a045e9a1ef630334037f37cd}
+\hypertarget{structCrcl_1_1CrclStatus_a47d448ad6a6cf9b3a0df4ef4842bcc88}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-length\-Conversion@{\-\_\-length\-Conversion}}
+\index{\-\_\-length\-Conversion@{\-\_\-length\-Conversion}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-length\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-length\-Conversion}}\label{structCrcl_1_1CrclStatus_a47d448ad6a6cf9b3a0df4ef4842bcc88}
+\hypertarget{structCrcl_1_1CrclStatus_a3acf7158b0eac870e8ec416f240de33f}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-length\-Unit@{\-\_\-length\-Unit}}
+\index{\-\_\-length\-Unit@{\-\_\-length\-Unit}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-length\-Unit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-Length\-Unit} Crcl\-::\-Crcl\-Status\-::\-\_\-length\-Unit}}\label{structCrcl_1_1CrclStatus_a3acf7158b0eac870e8ec416f240de33f}
+\hypertarget{structCrcl_1_1CrclStatus_a4ac7019071f53426f10f7da29018c073}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-rot\-Accel@{\-\_\-rot\-Accel}}
+\index{\-\_\-rot\-Accel@{\-\_\-rot\-Accel}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-rot\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-rot\-Accel}}\label{structCrcl_1_1CrclStatus_a4ac7019071f53426f10f7da29018c073}
+\hypertarget{structCrcl_1_1CrclStatus_aff43a0827ac1ee82202fceaae9b1bdad}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-rot\-Speed@{\-\_\-rot\-Speed}}
+\index{\-\_\-rot\-Speed@{\-\_\-rot\-Speed}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-rot\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-rot\-Speed}}\label{structCrcl_1_1CrclStatus_aff43a0827ac1ee82202fceaae9b1bdad}
+\hypertarget{structCrcl_1_1CrclStatus_a5e47012aa534fb8affe8cf5c4b296825}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-speeds@{\-\_\-speeds}}
+\index{\-\_\-speeds@{\-\_\-speeds}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-speeds}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ Crcl\-::\-Crcl\-Status\-::\-\_\-speeds}}\label{structCrcl_1_1CrclStatus_a5e47012aa534fb8affe8cf5c4b296825}
+\hypertarget{structCrcl_1_1CrclStatus_a1dcd8215508cb4af98b647a0b8c2bf98}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-torque\-Conversion@{\-\_\-torque\-Conversion}}
+\index{\-\_\-torque\-Conversion@{\-\_\-torque\-Conversion}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-torque\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-torque\-Conversion}}\label{structCrcl_1_1CrclStatus_a1dcd8215508cb4af98b647a0b8c2bf98}
+\hypertarget{structCrcl_1_1CrclStatus_a51082e4b4a5fa27a8244d1ea77a9fd40}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-torque\-Unit@{\-\_\-torque\-Unit}}
+\index{\-\_\-torque\-Unit@{\-\_\-torque\-Unit}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-torque\-Unit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Canon\-Torque\-Unit} Crcl\-::\-Crcl\-Status\-::\-\_\-torque\-Unit}}\label{structCrcl_1_1CrclStatus_a51082e4b4a5fa27a8244d1ea77a9fd40}
+\hypertarget{structCrcl_1_1CrclStatus_a1e131c9acc8b5d1b271a9b98b6f97b8b}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-translation\-Accel@{\-\_\-translation\-Accel}}
+\index{\-\_\-translation\-Accel@{\-\_\-translation\-Accel}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-translation\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-translation\-Accel}}\label{structCrcl_1_1CrclStatus_a1e131c9acc8b5d1b271a9b98b6f97b8b}
+\hypertarget{structCrcl_1_1CrclStatus_a16ecd48f40c5a3c865a51383886acc83}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-translation\-Speed@{\-\_\-translation\-Speed}}
+\index{\-\_\-translation\-Speed@{\-\_\-translation\-Speed}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-translation\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}double Crcl\-::\-Crcl\-Status\-::\-\_\-translation\-Speed}}\label{structCrcl_1_1CrclStatus_a16ecd48f40c5a3c865a51383886acc83}
+\hypertarget{structCrcl_1_1CrclStatus_aa26e119cf006f7f9c0da64aa4944fc1f}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!\-\_\-v\-Joint\-Report@{\-\_\-v\-Joint\-Report}}
+\index{\-\_\-v\-Joint\-Report@{\-\_\-v\-Joint\-Report}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{\-\_\-v\-Joint\-Report}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf Joint\-Report}$>$ Crcl\-::\-Crcl\-Status\-::\-\_\-v\-Joint\-Report}}\label{structCrcl_1_1CrclStatus_aa26e119cf006f7f9c0da64aa4944fc1f}
+\hypertarget{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809db22}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Alarm@{Alarm}}
+\index{Alarm@{Alarm}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{Alarm}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Crcl\-Status\-::\-Alarm}}\label{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809db22}
+\hypertarget{structCrcl_1_1CrclStatus_add19fb6e10e25182b651f0dc2dbacd8a}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!gripper@{gripper}}
+\index{gripper@{gripper}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{gripper}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gripper\-Status} Crcl\-::\-Crcl\-Status\-::gripper}}\label{structCrcl_1_1CrclStatus_add19fb6e10e25182b651f0dc2dbacd8a}
+\hypertarget{structCrcl_1_1CrclStatus_af485e1524d7eb0f8108fabeb9ae371f8}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!s\-Command\-State@{s\-Command\-State}}
+\index{s\-Command\-State@{s\-Command\-State}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{s\-Command\-State}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Crcl\-Status\-::s\-Command\-State}}\label{structCrcl_1_1CrclStatus_af485e1524d7eb0f8108fabeb9ae371f8}
+
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{crcl_8h}{crcl.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{crcl_8cpp}{crcl.\-cpp}\end{DoxyCompactItemize}

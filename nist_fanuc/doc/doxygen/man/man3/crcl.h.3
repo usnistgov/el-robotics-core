@@ -1,0 +1,162 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <math\&.h>\fP
+.br
+\fC#include 'RCS\&.h'\fP
+.br
+\fC#include 'DataPrimitives\&.hxx'\fP
+.br
+\fC#include 'CRCLCommands\&.hxx'\fP
+.br
+\fC#include 'CRCLStatus\&.hxx'\fP
+.br
+\fC#include 'CRCLCommandInstance\&.hxx'\fP
+.br
+\fC#include 'CRCLProgramInstance\&.hxx'\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBCrcl::GripperStatus\fP"
+.br
+.ti -1c
+.RI "struct \fBCrcl::JointReport\fP"
+.br
+.ti -1c
+.RI "struct \fBCrcl::CrclStatus\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "\fBCrcl\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_USE_MATH_DEFINES\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef urdf::Vector3 \fBCrcl::Vector3D\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBCrcl::CRCLCmdStatus\fP { \fBCrcl::CRCL_DONE\fP = 0, \fBCrcl::CRCL_WORKING\fP, \fBCrcl::CRCL_ERROR\fP }"
+.br
+.ti -1c
+.RI "enum \fBCrcl::CrclReturn\fP { \fBCrcl::CANON_REJECT\fP = -2, \fBCrcl::CANON_FAILURE\fP = -1, \fBCrcl::CANON_SUCCESS\fP = 0, \fBCrcl::CANON_STATUSREPLY\fP = 1, \fBCrcl::CANON_RUNNING\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::vector< double > \fBCrcl::ConvertToPositionVector\fP (ActuatorJointSequence &, double dConversion)"
+.br
+.ti -1c
+.RI "JointStatusSequence \fBCrcl::Convert\fP (ActuatorJointSequence jin)"
+.br
+.ti -1c
+.RI "urdf::Pose \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion)"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fBCrcl::Convert\fP (\fBJointState\fP joints)"
+.br
+.ti -1c
+.RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jout, double angleConversion)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::Init\fP (std::vector< double > terms)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::IdentityPose\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
+.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::PointType\fP &point)"
+.br
+.ti -1c
+.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::VectorType\fP &vector)"
+.br
+.ti -1c
+.RI "bool \fBCrcl::GetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
+.br
+.ti -1c
+.RI "RosMatrix \fBCrcl::GetXZRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "bool \fBCrcl::GetRPY\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
+.RI "urdf::Rotation \fBCrcl::Convert\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::NullPose\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::PoseHome\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::VectorType\fP \fBCrcl::VectorZero\fP ()"
+.br
+.ti -1c
+.RI "std::ostream & \fBCrcl::operator<<\fP (std::ostream &os, const \fBCrcl::PoseType\fP &pose)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "typedef::ActuateJointsType::ActuateJoint_sequence \fBCrcl::ActuatorJointSequence\fP"
+.br
+.ti -1c
+.RI "typedef::PoseType \fBCrcl::PoseType\fP"
+.br
+.ti -1c
+.RI "typedef::JointStatusType \fBCrcl::JointStatus\fP"
+.br
+.ti -1c
+.RI "typedef::CommandStateEnumType \fBCrcl::CommandStateEnum\fP"
+.br
+.ti -1c
+.RI "typedef::PointType \fBCrcl::PointType\fP"
+.br
+.ti -1c
+.RI "typedef::VectorType \fBCrcl::VectorType\fP"
+.br
+.ti -1c
+.RI "typedef::JointStatusesType::JointStatus_sequence \fBCrcl::JointStatusSequence\fP"
+.br
+.ti -1c
+.RI "typedef::PoseToleranceType \fBCrcl::PoseToleranceType\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _USE_MATH_DEFINES"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

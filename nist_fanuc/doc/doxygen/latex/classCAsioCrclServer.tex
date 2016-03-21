@@ -1,0 +1,239 @@
+\hypertarget{classCAsioCrclServer}{\section{C\-Asio\-Crcl\-Server Class Reference}
+\label{classCAsioCrclServer}\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}}
+}
+
+
+The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} provides an boost asio server which accepts new connections and starts a \hyperlink{namespaceCrcl}{Crcl} listener session. The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} is based on the Boost Asio library which can process network communication asynchronously. Because C\-R\-C\-L data can only be received after a connection has been established, and because a connection can only be established after the name has been resolved, the various asynchronous operations are started in separate callback handlers. Thus in boost asio a callback to async\-\_\-connect() is then followed by a method call to the handler connect\-\_\-handler() which starts a new \hyperlink{namespaceCrcl}{Crcl} session. Readers can read more at\-: \href{http://theboostcpplibraries.com/boost.asio-network-programming}{\tt http\-://theboostcpplibraries.\-com/boost.\-asio-\/network-\/programming} The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} is divided into a number of main funcitons (e.\-g. wait for socket connection, handle new session by spawning new \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session}, repeat. These operations are done asynchronously on a separate thread with notification done by the boost asio io server and it is assumed to be thread-\/safe. The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} listens for connections on port 64444 and when a connection is initiated starts a new \hyperlink{namespaceCrcl}{Crcl} session to read xml messages from the devices.  
+
+
+
+
+{\ttfamily \#include $<$Asio\-Crcl\-Server.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCAsioCrclServer_ac3f58993af64abaa77c957b8017ed740}{C\-Asio\-Crcl\-Server} (boost\-::asio\-::io\-\_\-service \&io\-\_\-service)
+\begin{DoxyCompactList}\small\item\em Constructor for asio crcl server that listens on socket port 64444, and spawns a new session. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclServer_aa16173597e0f5fe3ec192fbf35a48e4f}{server} (boost\-::asio\-::io\-\_\-service \&io\-\_\-service, short port)
+\item 
+void \hyperlink{classCAsioCrclServer_ad1c2aeda8b4d1ba53cfbf630d3c0ed93}{Handle\-Async\-Accept} (\hyperlink{AsioCrclServer_8h_a392d769efe4dde887390c7ad3f104c41}{session\-\_\-ptr} p\-Session, const \hyperlink{AsioCrclServer_8h_ae1179d2a354a7cf13df4d8544a33fd4f}{boost\-::system\-::error\-\_\-code} \&error)
+\begin{DoxyCompactList}\small\item\em Handles new tcp/ip endpoint connection, and starts session thread.\-Restarts async accept. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclServer_a38a9dad1587eabed33505c601ed75ea5}{Start\-Async\-Accept} ()
+\begin{DoxyCompactList}\small\item\em Starts asio acceptor to wait for connections. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclServer_aeeccc0924fd65a33af79eccf74642538}{Stop\-Async\-Accept} ()
+\begin{DoxyCompactList}\small\item\em Stop async accept by cancelling asio acceptor. \end{DoxyCompactList}\item 
+int \hyperlink{classCAsioCrclServer_acc7f59bd4811f4ae7cc0ff753ef65707}{Init} (std\-::string domain, long portnumber, std\-::string devicename)
+\begin{DoxyCompactList}\small\item\em initializes the server. \end{DoxyCompactList}\item 
+int \hyperlink{classCAsioCrclServer_a79f5c7c1e7f291c0977ed40c9324b1ae}{Stop} (void)
+\begin{DoxyCompactList}\small\item\em Stop all connection session and future connections. \end{DoxyCompactList}\item 
+void \hyperlink{classCAsioCrclServer_abb80941c7f13b8d23b77804519fc6ea1}{Start} ()
+\begin{DoxyCompactList}\small\item\em start the asynchronous thread to listen for connections. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::asio\-::io\-\_\-service \& \hyperlink{classCAsioCrclServer_a856ce7cbc3dea93ba07b7b5583de953a}{\-\_\-io\-\_\-service}
+\item 
+tcp\-::acceptor $\ast$ \hyperlink{classCAsioCrclServer_a3683f25664211e9bd73bdfb6dfe68f00}{m\-\_\-p\-Acceptor}
+\item 
+bool \hyperlink{classCAsioCrclServer_a1b68e1872f4b8bba8def3e433a2f2f92}{\-\_\-b\-Inited}
+\item 
+int \hyperlink{classCAsioCrclServer_ab10b3071051c4889372d0eb30bacc604}{\-\_\-portnumber}
+\item 
+std\-::string \hyperlink{classCAsioCrclServer_abd6cbb0022e0c2280995faf988ab0425}{\-\_\-domainname}
+\item 
+std\-::string \hyperlink{classCAsioCrclServer_a70d2177e5e78081e8296c1c0409763d2}{\-\_\-device\-Name}
+\item 
+bool \hyperlink{classCAsioCrclServer_a8981e762f986843227b5df9e256a1614}{\-\_\-b\-Last\-Connected}
+\item 
+unsigned int \hyperlink{classCAsioCrclServer_ac570936983b073ee12604164b0e08995}{\-\_\-n\-Heartbeat}
+\item 
+unsigned int($\ast$ \hyperlink{classCAsioCrclServer_a705b81d958ac4521f086761c30a9eda8}{Error\-Message} )(std\-::string)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classCAsioCrclServer_a2760cb716a58bf1bb3de970e806b7e94}{b\-Running} = true
+\item 
+static int \hyperlink{classCAsioCrclServer_ac5689559a71c457e5b397719d7dd11b6}{n\-Count} = 0
+\item 
+static bool \hyperlink{classCAsioCrclServer_ae2ed42c399a04caf7af7b2c1e7e98d9a}{\-\_\-b\-Trace} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} provides an boost asio server which accepts new connections and starts a \hyperlink{namespaceCrcl}{Crcl} listener session. The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} is based on the Boost Asio library which can process network communication asynchronously. Because C\-R\-C\-L data can only be received after a connection has been established, and because a connection can only be established after the name has been resolved, the various asynchronous operations are started in separate callback handlers. Thus in boost asio a callback to async\-\_\-connect() is then followed by a method call to the handler connect\-\_\-handler() which starts a new \hyperlink{namespaceCrcl}{Crcl} session. Readers can read more at\-: \href{http://theboostcpplibraries.com/boost.asio-network-programming}{\tt http\-://theboostcpplibraries.\-com/boost.\-asio-\/network-\/programming} The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} is divided into a number of main funcitons (e.\-g. wait for socket connection, handle new session by spawning new \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session}, repeat. These operations are done asynchronously on a separate thread with notification done by the boost asio io server and it is assumed to be thread-\/safe. The \hyperlink{classCAsioCrclServer}{C\-Asio\-Crcl\-Server} listens for connections on port 64444 and when a connection is initiated starts a new \hyperlink{namespaceCrcl}{Crcl} session to read xml messages from the devices. 
+
+
+\begin{DoxyItemize}
+\item 
+\end{DoxyItemize}
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCAsioCrclServer_ac3f58993af64abaa77c957b8017ed740}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}}
+\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{C\-Asio\-Crcl\-Server}]{\setlength{\rightskip}{0pt plus 5cm}C\-Asio\-Crcl\-Server\-::\-C\-Asio\-Crcl\-Server (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::io\-\_\-service \&}]{io\-\_\-service}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_ac3f58993af64abaa77c957b8017ed740}
+
+
+Constructor for asio crcl server that listens on socket port 64444, and spawns a new session. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em io\-\_\-service} & reference tot he asio service providers. only one per program. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCAsioCrclServer_ad1c2aeda8b4d1ba53cfbf630d3c0ed93}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Handle\-Async\-Accept@{Handle\-Async\-Accept}}
+\index{Handle\-Async\-Accept@{Handle\-Async\-Accept}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Handle\-Async\-Accept}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Server\-::\-Handle\-Async\-Accept (
+\begin{DoxyParamCaption}
+\item[{{\bf session\-\_\-ptr}}]{p\-Session, }
+\item[{const {\bf boost\-::system\-::error\-\_\-code} \&}]{error}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_ad1c2aeda8b4d1ba53cfbf630d3c0ed93}
+
+
+Handles new tcp/ip endpoint connection, and starts session thread.\-Restarts async accept. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\-Session} & is the latest session pointer associated with connection. \\
+\hline
+{\em error} & is asio error if any. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclServer_acc7f59bd4811f4ae7cc0ff753ef65707}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Init@{Init}}
+\index{Init@{Init}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}int C\-Asio\-Crcl\-Server\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{domain, }
+\item[{long}]{portnumber, }
+\item[{std\-::string}]{devicename}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_acc7f59bd4811f4ae7cc0ff753ef65707}
+
+
+initializes the server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em domain} & gives the domain name (usually localhost). \\
+\hline
+{\em portnumber} & is asio socket port number (usually 64444). \\
+\hline
+{\em devicename} & is the name of the device running this server. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclServer_aa16173597e0f5fe3ec192fbf35a48e4f}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!server@{server}}
+\index{server@{server}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{server}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Server\-::server (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::io\-\_\-service \&}]{io\-\_\-service, }
+\item[{short}]{port}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_aa16173597e0f5fe3ec192fbf35a48e4f}
+brief Creates acceptor for tcp/ip endpoint, and starts async accept. 
+\begin{DoxyParams}{Parameters}
+{\em io\-\_\-service} & is asio service. \\
+\hline
+{\em port} & is tcp port to listen for connections on. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCAsioCrclServer_abb80941c7f13b8d23b77804519fc6ea1}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Start@{Start}}
+\index{Start@{Start}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Server\-::\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_abb80941c7f13b8d23b77804519fc6ea1}
+
+
+start the asynchronous thread to listen for connections. 
+
+\hypertarget{classCAsioCrclServer_a38a9dad1587eabed33505c601ed75ea5}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Start\-Async\-Accept@{Start\-Async\-Accept}}
+\index{Start\-Async\-Accept@{Start\-Async\-Accept}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Start\-Async\-Accept}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Server\-::\-Start\-Async\-Accept (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_a38a9dad1587eabed33505c601ed75ea5}
+
+
+Starts asio acceptor to wait for connections. 
+
+\hypertarget{classCAsioCrclServer_a79f5c7c1e7f291c0977ed40c9324b1ae}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Stop@{Stop}}
+\index{Stop@{Stop}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}int C\-Asio\-Crcl\-Server\-::\-Stop (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_a79f5c7c1e7f291c0977ed40c9324b1ae}
+
+
+Stop all connection session and future connections. 
+
+\begin{DoxyReturn}{Returns}
+error or ok. 
+\end{DoxyReturn}
+\hypertarget{classCAsioCrclServer_aeeccc0924fd65a33af79eccf74642538}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Stop\-Async\-Accept@{Stop\-Async\-Accept}}
+\index{Stop\-Async\-Accept@{Stop\-Async\-Accept}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Stop\-Async\-Accept}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Asio\-Crcl\-Server\-::\-Stop\-Async\-Accept (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCAsioCrclServer_aeeccc0924fd65a33af79eccf74642538}
+
+
+Stop async accept by cancelling asio acceptor. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCAsioCrclServer_a1b68e1872f4b8bba8def3e433a2f2f92}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-b\-Inited@{\-\_\-b\-Inited}}
+\index{\-\_\-b\-Inited@{\-\_\-b\-Inited}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-b\-Inited}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Asio\-Crcl\-Server\-::\-\_\-b\-Inited}}\label{classCAsioCrclServer_a1b68e1872f4b8bba8def3e433a2f2f92}
+server initialized flag \hypertarget{classCAsioCrclServer_a8981e762f986843227b5df9e256a1614}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-b\-Last\-Connected@{\-\_\-b\-Last\-Connected}}
+\index{\-\_\-b\-Last\-Connected@{\-\_\-b\-Last\-Connected}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-b\-Last\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Asio\-Crcl\-Server\-::\-\_\-b\-Last\-Connected}}\label{classCAsioCrclServer_a8981e762f986843227b5df9e256a1614}
+\hypertarget{classCAsioCrclServer_ae2ed42c399a04caf7af7b2c1e7e98d9a}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-b\-Trace@{\-\_\-b\-Trace}}
+\index{\-\_\-b\-Trace@{\-\_\-b\-Trace}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-b\-Trace}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Asio\-Crcl\-Server\-::\-\_\-b\-Trace = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classCAsioCrclServer_ae2ed42c399a04caf7af7b2c1e7e98d9a}
+trace input messages \hypertarget{classCAsioCrclServer_a70d2177e5e78081e8296c1c0409763d2}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-device\-Name@{\-\_\-device\-Name}}
+\index{\-\_\-device\-Name@{\-\_\-device\-Name}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-device\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Asio\-Crcl\-Server\-::\-\_\-device\-Name}}\label{classCAsioCrclServer_a70d2177e5e78081e8296c1c0409763d2}
+copy of device name \hypertarget{classCAsioCrclServer_abd6cbb0022e0c2280995faf988ab0425}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-domainname@{\-\_\-domainname}}
+\index{\-\_\-domainname@{\-\_\-domainname}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-domainname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Asio\-Crcl\-Server\-::\-\_\-domainname}}\label{classCAsioCrclServer_abd6cbb0022e0c2280995faf988ab0425}
+copy of domain name \hypertarget{classCAsioCrclServer_a856ce7cbc3dea93ba07b7b5583de953a}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-io\-\_\-service@{\-\_\-io\-\_\-service}}
+\index{\-\_\-io\-\_\-service@{\-\_\-io\-\_\-service}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-io\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::io\-\_\-service\& C\-Asio\-Crcl\-Server\-::\-\_\-io\-\_\-service}}\label{classCAsioCrclServer_a856ce7cbc3dea93ba07b7b5583de953a}
+reference to asio io server to be passed to each session \hypertarget{classCAsioCrclServer_ac570936983b073ee12604164b0e08995}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-n\-Heartbeat@{\-\_\-n\-Heartbeat}}
+\index{\-\_\-n\-Heartbeat@{\-\_\-n\-Heartbeat}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-n\-Heartbeat}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int C\-Asio\-Crcl\-Server\-::\-\_\-n\-Heartbeat}}\label{classCAsioCrclServer_ac570936983b073ee12604164b0e08995}
+heartbeat incremented to show server alive \hypertarget{classCAsioCrclServer_ab10b3071051c4889372d0eb30bacc604}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!\-\_\-portnumber@{\-\_\-portnumber}}
+\index{\-\_\-portnumber@{\-\_\-portnumber}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{\-\_\-portnumber}]{\setlength{\rightskip}{0pt plus 5cm}int C\-Asio\-Crcl\-Server\-::\-\_\-portnumber}}\label{classCAsioCrclServer_ab10b3071051c4889372d0eb30bacc604}
+copy of socket port number to listen to \hypertarget{classCAsioCrclServer_a2760cb716a58bf1bb3de970e806b7e94}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!b\-Running@{b\-Running}}
+\index{b\-Running@{b\-Running}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{b\-Running}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Asio\-Crcl\-Server\-::b\-Running = true\hspace{0.3cm}{\ttfamily [static]}}}\label{classCAsioCrclServer_a2760cb716a58bf1bb3de970e806b7e94}
+boolean that all sessions monitor for termination \hypertarget{classCAsioCrclServer_a705b81d958ac4521f086761c30a9eda8}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!Error\-Message@{Error\-Message}}
+\index{Error\-Message@{Error\-Message}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{Error\-Message}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int( $\ast$ C\-Asio\-Crcl\-Server\-::\-Error\-Message)(std\-::string)}}\label{classCAsioCrclServer_a705b81d958ac4521f086761c30a9eda8}
+\hypertarget{classCAsioCrclServer_a3683f25664211e9bd73bdfb6dfe68f00}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!m\-\_\-p\-Acceptor@{m\-\_\-p\-Acceptor}}
+\index{m\-\_\-p\-Acceptor@{m\-\_\-p\-Acceptor}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{m\-\_\-p\-Acceptor}]{\setlength{\rightskip}{0pt plus 5cm}tcp\-::acceptor$\ast$ C\-Asio\-Crcl\-Server\-::m\-\_\-p\-Acceptor}}\label{classCAsioCrclServer_a3683f25664211e9bd73bdfb6dfe68f00}
+pointer to asio acceptor \hypertarget{classCAsioCrclServer_ac5689559a71c457e5b397719d7dd11b6}{\index{C\-Asio\-Crcl\-Server@{C\-Asio\-Crcl\-Server}!n\-Count@{n\-Count}}
+\index{n\-Count@{n\-Count}!CAsioCrclServer@{C\-Asio\-Crcl\-Server}}
+\subsubsection[{n\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int C\-Asio\-Crcl\-Server\-::n\-Count = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{classCAsioCrclServer_ac5689559a71c457e5b397719d7dd11b6}
+count of active sessions 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{AsioCrclServer_8h}{Asio\-Crcl\-Server.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{AsioCrclServer_8cpp}{Asio\-Crcl\-Server.\-cpp}\end{DoxyCompactItemize}

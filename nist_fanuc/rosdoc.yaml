@@ -1,0 +1,7 @@
+ - builder: doxygen
+    name: C++ API
+    output: doc
+    file_patterns: '*.c *.cpp *.h *.cc *.hh *.dox'
+    exclude_patterns: */urdf_model/*
+    exclude_symbols: TiXmlComment  TiXmlAttribute TiXmlAttributeSet TiXmlComment
+ 

@@ -1,0 +1,70 @@
+\hypertarget{nist__fanuc_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/nist\-\_\-fanuc.cpp File Reference}
+\label{nist__fanuc_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/nist\-\_\-fanuc.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/nist\-\_\-fanuc.\-cpp}}
+}
+{\ttfamily \#include $<$boost/format.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}nist\-\_\-fanuc.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include \char`\"{}sys/stat.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fcntl.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$xercesc/dom/\-D\-O\-M.\-hpp$>$}\\*
+{\ttfamily \#include $<$xercesc/util/\-Platform\-Utils.\-hpp$>$}\\*
+{\ttfamily \#include $<$xercesc/framework/\-X\-M\-L\-Grammar\-Pool\-Impl.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}Motion\-Control.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Asio\-Crcl\-Server.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Globals.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Controller.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Crcl\-Interface.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Kinematics.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}urdf\-\_\-model/eigenmath.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Communication.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Setup.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}moveit.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{nist__fanuc_8cpp_a14d134b9bc04954f5a544eb6deb6a729}{I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R}
+\item 
+\#define \hyperlink{nist__fanuc_8cpp_ac988d1e29ad9cce451511b65364e8955}{R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S}
+\item 
+\#define \hyperlink{nist__fanuc_8cpp_a20002882158818580718fff740ecd8d6}{B\-O\-O\-S\-T\-A\-S\-I\-O}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::string \hyperlink{nist__fanuc_8cpp_add106a766b6a26d7c67e7c8b4fd6c343}{Dump\-Urdf\-Pose} (const urdf\-::\-Pose \&p)
+\item 
+int \hyperlink{nist__fanuc_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{nist__fanuc_8cpp_a20002882158818580718fff740ecd8d6}{\index{nist\-\_\-fanuc.\-cpp@{nist\-\_\-fanuc.\-cpp}!B\-O\-O\-S\-T\-A\-S\-I\-O@{B\-O\-O\-S\-T\-A\-S\-I\-O}}
+\index{B\-O\-O\-S\-T\-A\-S\-I\-O@{B\-O\-O\-S\-T\-A\-S\-I\-O}!nist_fanuc.cpp@{nist\-\_\-fanuc.\-cpp}}
+\subsubsection[{B\-O\-O\-S\-T\-A\-S\-I\-O}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-O\-O\-S\-T\-A\-S\-I\-O}}\label{nist__fanuc_8cpp_a20002882158818580718fff740ecd8d6}
+\hypertarget{nist__fanuc_8cpp_a14d134b9bc04954f5a544eb6deb6a729}{\index{nist\-\_\-fanuc.\-cpp@{nist\-\_\-fanuc.\-cpp}!I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R@{I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R}}
+\index{I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R@{I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R}!nist_fanuc.cpp@{nist\-\_\-fanuc.\-cpp}}
+\subsubsection[{I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-N\-I\-T\-J\-O\-I\-N\-T\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R}}\label{nist__fanuc_8cpp_a14d134b9bc04954f5a544eb6deb6a729}
+\hypertarget{nist__fanuc_8cpp_ac988d1e29ad9cce451511b65364e8955}{\index{nist\-\_\-fanuc.\-cpp@{nist\-\_\-fanuc.\-cpp}!R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S@{R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S}}
+\index{R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S@{R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S}!nist_fanuc.cpp@{nist\-\_\-fanuc.\-cpp}}
+\subsubsection[{R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\-O\-B\-O\-T\-S\-T\-A\-T\-U\-S}}\label{nist__fanuc_8cpp_ac988d1e29ad9cce451511b65364e8955}
+
+
+\subsection{Function Documentation}
+\hypertarget{nist__fanuc_8cpp_add106a766b6a26d7c67e7c8b4fd6c343}{\index{nist\-\_\-fanuc.\-cpp@{nist\-\_\-fanuc.\-cpp}!Dump\-Urdf\-Pose@{Dump\-Urdf\-Pose}}
+\index{Dump\-Urdf\-Pose@{Dump\-Urdf\-Pose}!nist_fanuc.cpp@{nist\-\_\-fanuc.\-cpp}}
+\subsubsection[{Dump\-Urdf\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Dump\-Urdf\-Pose (
+\begin{DoxyParamCaption}
+\item[{const urdf\-::\-Pose \&}]{p}
+\end{DoxyParamCaption}
+)}}\label{nist__fanuc_8cpp_add106a766b6a26d7c67e7c8b4fd6c343}
+\hypertarget{nist__fanuc_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{nist\-\_\-fanuc.\-cpp@{nist\-\_\-fanuc.\-cpp}!main@{main}}
+\index{main@{main}!nist_fanuc.cpp@{nist\-\_\-fanuc.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{nist__fanuc_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}

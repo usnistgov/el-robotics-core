@@ -1,0 +1,120 @@
+.TH "RCS::CanonWorldModel" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::CanonWorldModel \- 
+.PP
+\fBCanonWorldModel\fP describes the controller state\&. Includes reference to robot model\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RCS\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCanonWorldModel\fP ()"
+.br
+.RI "\fI\fBCanonWorldModel\fP constructor that initializes parameterization\&. \fP"
+.ti -1c
+.RI "void \fBInit\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetCycleTime\fP ()"
+.br
+.RI "\fICycletime of the world model\&. /fixme what is this\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCanonCmdType\fP \fBecho_cmd\fP"
+.br
+.ti -1c
+.RI "\fBCanonStatusType\fP \fBecho_status\fP"
+.br
+.ti -1c
+.RI "\fBModelInterfaceSharedPtr\fP \fBrobot_model\fP"
+.br
+.ti -1c
+.RI "double \fBmaxTransAccel\fP"
+.br
+.ti -1c
+.RI "double \fBmaxTransVel\fP"
+.br
+.ti -1c
+.RI "double \fBmaxRotAccel\fP"
+.br
+.ti -1c
+.RI "double \fBmaxRotVel\fP"
+.br
+.ti -1c
+.RI "double \fBmaxJointAccel\fP"
+.br
+.ti -1c
+.RI "double \fBmaxJointVel\fP"
+.br
+.ti -1c
+.RI "double \fB_cycleTime\fP"
+.br
+.ti -1c
+.RI "\fBCanonCmd\fP \fBechocmd\fP"
+.br
+.ti -1c
+.RI "\fBJointState\fP \fBcurrentjoints\fP"
+.br
+.ti -1c
+.RI "urdf::Pose \fBcurrentpose\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCanonWorldModel\fP describes the controller state\&. Includes reference to robot model\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::CanonWorldModel::CanonWorldModel ()\fC [inline]\fP"
+
+.PP
+\fBCanonWorldModel\fP constructor that initializes parameterization\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "double RCS::CanonWorldModel::getCycleTime ()\fC [inline]\fP"
+
+.PP
+Cycletime of the world model\&. /fixme what is this\&. 
+.SS "void RCS::CanonWorldModel::Init ()"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double RCS::CanonWorldModel::_cycleTime"
+cycle time 
+.SS "\fBJointState\fP RCS::CanonWorldModel::currentjoints"
+current joint state 
+.SS "urdf::Pose RCS::CanonWorldModel::currentpose"
+current robot pose 
+.SS "\fBCanonCmdType\fP RCS::CanonWorldModel::echo_cmd"
+copy of current command type 
+.SS "\fBCanonStatusType\fP RCS::CanonWorldModel::echo_status"
+copy of current status type 
+.SS "\fBCanonCmd\fP RCS::CanonWorldModel::echocmd"
+copy of current command 
+.SS "double RCS::CanonWorldModel::maxJointAccel"
+max joint acceleration 
+.SS "double RCS::CanonWorldModel::maxJointVel"
+max joint velocity 
+.SS "double RCS::CanonWorldModel::maxRotAccel"
+max rotational acceleration 
+.SS "double RCS::CanonWorldModel::maxRotVel"
+max rotational velocity 
+.SS "double RCS::CanonWorldModel::maxTransAccel"
+max translation acceleration 
+.SS "double RCS::CanonWorldModel::maxTransVel"
+max translation velocity 
+.SS "\fBModelInterfaceSharedPtr\fP RCS::CanonWorldModel::robot_model"
+pointer to robot model 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

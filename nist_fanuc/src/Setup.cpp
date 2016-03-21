@@ -105,22 +105,31 @@ bool SetupAppEnvironment() {
        // Save properties in setup
     Globals._appproperties["user"]= user;
     Globals._appproperties["hostname"]= shostname;
+	return true;
 }  
-bool SetupRosEnvironment() {
-     
+bool SetupRosEnvironment(std::string pkgpath) {
+#if 0
     //std::string rosdistro =  getenv ("ROS_DISTRO");
     // suppose we could just copy all the environment variables
-    std::string cmd = Globals.StrFormat("/bin/bash -i /home/%s/catkin_ws/devel/rossetup.bash  ", 
-            Globals._appproperties["user"].c_str());
- 
+    std::string user = Globals._appproperties["user"];
+    std::cout << "user=" << user.c_str() << std::endl;
+    std::string cmd = Globals.StrFormat("/bin/bash -i /home/%s/catkin_ws/devel/rossetup.bash  ",  user.c_str());
+    std::cout << "cmd=" << cmd.c_str() << std::endl;
+#endif
+    //   pkgpath=pkgpath+"/scripts/rossetup.bash"
+    pkgpath = pkgpath + "/../../devel/setup.bash";
+    std::cout << "pkgpath=" << pkgpath.c_str() << std::endl;
+    std::string cmd = Globals.StrFormat("/bin/bash -i %s && env\n", pkgpath.c_str());
+    std::cout << "cmd=" << cmd.c_str() << std::endl;
+
     std::string envs = ExecuteShellCommand(cmd);
+    std::cout << "envs=" << envs.c_str() << std::endl;
     std::map<std::string, std::string> envvars = ParseIniString(envs);
     for (std::map<std::string, std::string>::iterator it = envvars.begin(); it != envvars.end(); it++) {
         // std::cout << (*it).first.c_str() << "="  <<(*it).second.c_str()<< std::endl;
         SetupRosEnv((*it).first, (*it).second);
     }
     return true;
-
 }
 
 std::string ReadRosParam(ros::NodeHandle &nh, std::string paramkey) {
@@ -179,8 +188,8 @@ std::string ReadRosParams(ros::NodeHandle &nh) {
     std::stringstream  result;
     std::string cmd = "/opt/ros/indigo/bin/rosparam list  ";
     std::string params = ExecuteShellCommand(cmd);
-    std::string rvizid = RvizId(params, Globals._appproperties["hostname"]);
-    Globals._appproperties["rvizid"]= rvizid;
+   // std::string rvizid = RvizId(params, Globals._appproperties["hostname"]);
+   // Globals._appproperties["rvizid"]= rvizid;
 
     std::vector<std::string> lines = Split(params, '\n');
     for (size_t i = 0; i < lines.size(); i++) {

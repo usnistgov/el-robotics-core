@@ -1,0 +1,194 @@
+\hypertarget{classMoveitKinematics}{\section{Moveit\-Kinematics Class Reference}
+\label{classMoveitKinematics}\index{Moveit\-Kinematics@{Moveit\-Kinematics}}
+}
+
+
+{\ttfamily \#include $<$Kinematics.\-h$>$}
+
+Inheritance diagram for Moveit\-Kinematics\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classMoveitKinematics}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classMoveitKinematics_aff96ca668755f869ba25a4a775e15eac}{Moveit\-Kinematics} (ros\-::\-Node\-Handle \&nh)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a8f186684d000616a6ff805fa0f41151e}{Get\-Joint\-Values} ()
+\item 
+virtual void \hyperlink{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2e}{Set\-Joint\-Values} (std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a0ae2d3b65c1855ec6d6f094d1cd267f7}{joint\-\_\-values})
+\item 
+virtual urdf\-::\-Pose \hyperlink{classMoveitKinematics_a530fd2f88c75df40248a24c55081e1eb}{F\-K} (std\-::vector$<$ double $>$ jv)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a70fa6e222157b71b6bf8fa7ed33075cc}{I\-K} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
+\item 
+virtual size\-\_\-t \hyperlink{classMoveitKinematics_a256bfc139809c215c34112a38938a372}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_acd060eacf93c71b0cfb61bd5c93ceb77}{Nearest\-Joints} (std\-::vector$<$ double $>$ oldjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\item 
+virtual void \hyperlink{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}{Init} (std\-::string groupname, std\-::string eelinkname)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::shared\-\_\-ptr\\*
+$<$ moveit\-::planning\-\_\-interface\-::\-Move\-Group $>$ \hyperlink{classMoveitKinematics_a3581661c4c9d14201a64a8143f51da3e}{group}
+\item 
+robot\-\_\-model\-::\-Robot\-Model\-Ptr \hyperlink{classMoveitKinematics_a69d28b2a76e5f5d90cdee38e0a3d5965}{kinematic\-\_\-model}
+\item 
+robot\-\_\-state\-::\-Robot\-State\-Ptr \hyperlink{classMoveitKinematics_ad59ff2cb08c79d9337b6852da2d4aadf}{kinematic\-\_\-state}
+\item 
+robot\-\_\-state\-::\-Joint\-Model\-Group $\ast$ \hyperlink{classMoveitKinematics_aa988eb59ddeb9f734d9911a5f464f082}{joint\-\_\-model\-\_\-group}
+\item 
+std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a0ae2d3b65c1855ec6d6f094d1cd267f7}{joint\-\_\-values}
+\item 
+std\-::vector$<$ std\-::string $>$ \hyperlink{classMoveitKinematics_ab9ccffd768a0d30944f22db09fbb9f72}{joint\-\_\-names}
+\item 
+std\-::string \hyperlink{classMoveitKinematics_afb7a90e3cda4da3b515a6e4cc19babe2}{\-\_\-groupname}
+\item 
+std\-::string \hyperlink{classMoveitKinematics_a5a97c1d7f715983995df78a442901c9e}{\-\_\-eelinkname}
+\item 
+ros\-::\-Node\-Handle \& \hyperlink{classMoveitKinematics_acea7424509f44c5f77f379f356a547c8}{\-\_\-nh}
+\item 
+bool \hyperlink{classMoveitKinematics_aa03e65371bb97fce4c98cbb46e53f423}{\-\_\-b\-Init}
+\item 
+boost\-::mutex \hyperlink{classMoveitKinematics_a94dd916f6d9a7074ebd00356975d51ea}{kinmutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classMoveitKinematics_aff96ca668755f869ba25a4a775e15eac}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Moveit\-Kinematics@{Moveit\-Kinematics}}
+\index{Moveit\-Kinematics@{Moveit\-Kinematics}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{Moveit\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}Moveit\-Kinematics\-::\-Moveit\-Kinematics (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{classMoveitKinematics_aff96ca668755f869ba25a4a775e15eac}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classMoveitKinematics_a256bfc139809c215c34112a38938a372}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!All\-Pose\-To\-Joints@{All\-Pose\-To\-Joints}}
+\index{All\-Pose\-To\-Joints@{All\-Pose\-To\-Joints}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{All\-Pose\-To\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual size\-\_\-t Moveit\-Kinematics\-::\-All\-Pose\-To\-Joints (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classMoveitKinematics_a256bfc139809c215c34112a38938a372}
+
+
+Implements \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c10}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_a530fd2f88c75df40248a24c55081e1eb}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!F\-K@{F\-K}}
+\index{F\-K@{F\-K}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Moveit\-Kinematics\-::\-F\-K (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{jv}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a530fd2f88c75df40248a24c55081e1eb}
+
+
+Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_a8f186684d000616a6ff805fa0f41151e}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Get\-Joint\-Values@{Get\-Joint\-Values}}
+\index{Get\-Joint\-Values@{Get\-Joint\-Values}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{Get\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ Moveit\-Kinematics\-::\-Get\-Joint\-Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a8f186684d000616a6ff805fa0f41151e}
+
+
+Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_a70fa6e222157b71b6bf8fa7ed33075cc}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!I\-K@{I\-K}}
+\index{I\-K@{I\-K}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{I\-K}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ Moveit\-Kinematics\-::\-I\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{std\-::vector$<$ double $>$}]{oldjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a70fa6e222157b71b6bf8fa7ed33075cc}
+
+
+Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Init@{Init}}
+\index{Init@{Init}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void Moveit\-Kinematics\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{groupname, }
+\item[{std\-::string}]{eelinkname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}
+
+
+Reimplemented from \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_acd060eacf93c71b0cfb61bd5c93ceb77}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Nearest\-Joints@{Nearest\-Joints}}
+\index{Nearest\-Joints@{Nearest\-Joints}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{Nearest\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::vector$<$double$>$ Moveit\-Kinematics\-::\-Nearest\-Joints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{oldjoints, }
+\item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classMoveitKinematics_acd060eacf93c71b0cfb61bd5c93ceb77}
+
+
+Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2e}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Set\-Joint\-Values@{Set\-Joint\-Values}}
+\index{Set\-Joint\-Values@{Set\-Joint\-Values}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{Set\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void Moveit\-Kinematics\-::\-Set\-Joint\-Values (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{joint\-\_\-values}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2e}
+
+
+Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kinematics}.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classMoveitKinematics_aa03e65371bb97fce4c98cbb46e53f423}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!\-\_\-b\-Init@{\-\_\-b\-Init}}
+\index{\-\_\-b\-Init@{\-\_\-b\-Init}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{\-\_\-b\-Init}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Kinematics\-::\-\_\-b\-Init}}\label{classMoveitKinematics_aa03e65371bb97fce4c98cbb46e53f423}
+\hypertarget{classMoveitKinematics_a5a97c1d7f715983995df78a442901c9e}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!\-\_\-eelinkname@{\-\_\-eelinkname}}
+\index{\-\_\-eelinkname@{\-\_\-eelinkname}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{\-\_\-eelinkname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Moveit\-Kinematics\-::\-\_\-eelinkname}}\label{classMoveitKinematics_a5a97c1d7f715983995df78a442901c9e}
+\hypertarget{classMoveitKinematics_afb7a90e3cda4da3b515a6e4cc19babe2}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!\-\_\-groupname@{\-\_\-groupname}}
+\index{\-\_\-groupname@{\-\_\-groupname}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{\-\_\-groupname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Moveit\-Kinematics\-::\-\_\-groupname}}\label{classMoveitKinematics_afb7a90e3cda4da3b515a6e4cc19babe2}
+\hypertarget{classMoveitKinematics_acea7424509f44c5f77f379f356a547c8}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!\-\_\-nh@{\-\_\-nh}}
+\index{\-\_\-nh@{\-\_\-nh}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{\-\_\-nh}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle\& Moveit\-Kinematics\-::\-\_\-nh}}\label{classMoveitKinematics_acea7424509f44c5f77f379f356a547c8}
+\hypertarget{classMoveitKinematics_a3581661c4c9d14201a64a8143f51da3e}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!group@{group}}
+\index{group@{group}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{group}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::shared\-\_\-ptr$<$moveit\-::planning\-\_\-interface\-::\-Move\-Group$>$ Moveit\-Kinematics\-::group}}\label{classMoveitKinematics_a3581661c4c9d14201a64a8143f51da3e}
+\hypertarget{classMoveitKinematics_aa988eb59ddeb9f734d9911a5f464f082}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!joint\-\_\-model\-\_\-group@{joint\-\_\-model\-\_\-group}}
+\index{joint\-\_\-model\-\_\-group@{joint\-\_\-model\-\_\-group}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{joint\-\_\-model\-\_\-group}]{\setlength{\rightskip}{0pt plus 5cm}robot\-\_\-state\-::\-Joint\-Model\-Group$\ast$ Moveit\-Kinematics\-::joint\-\_\-model\-\_\-group}}\label{classMoveitKinematics_aa988eb59ddeb9f734d9911a5f464f082}
+\hypertarget{classMoveitKinematics_ab9ccffd768a0d30944f22db09fbb9f72}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!joint\-\_\-names@{joint\-\_\-names}}
+\index{joint\-\_\-names@{joint\-\_\-names}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{joint\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::string$>$ Moveit\-Kinematics\-::joint\-\_\-names}}\label{classMoveitKinematics_ab9ccffd768a0d30944f22db09fbb9f72}
+\hypertarget{classMoveitKinematics_a0ae2d3b65c1855ec6d6f094d1cd267f7}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!joint\-\_\-values@{joint\-\_\-values}}
+\index{joint\-\_\-values@{joint\-\_\-values}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{joint\-\_\-values}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ Moveit\-Kinematics\-::joint\-\_\-values}}\label{classMoveitKinematics_a0ae2d3b65c1855ec6d6f094d1cd267f7}
+\hypertarget{classMoveitKinematics_a69d28b2a76e5f5d90cdee38e0a3d5965}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!kinematic\-\_\-model@{kinematic\-\_\-model}}
+\index{kinematic\-\_\-model@{kinematic\-\_\-model}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{kinematic\-\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}robot\-\_\-model\-::\-Robot\-Model\-Ptr Moveit\-Kinematics\-::kinematic\-\_\-model}}\label{classMoveitKinematics_a69d28b2a76e5f5d90cdee38e0a3d5965}
+\hypertarget{classMoveitKinematics_ad59ff2cb08c79d9337b6852da2d4aadf}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!kinematic\-\_\-state@{kinematic\-\_\-state}}
+\index{kinematic\-\_\-state@{kinematic\-\_\-state}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{kinematic\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}robot\-\_\-state\-::\-Robot\-State\-Ptr Moveit\-Kinematics\-::kinematic\-\_\-state}}\label{classMoveitKinematics_ad59ff2cb08c79d9337b6852da2d4aadf}
+\hypertarget{classMoveitKinematics_a94dd916f6d9a7074ebd00356975d51ea}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!kinmutex@{kinmutex}}
+\index{kinmutex@{kinmutex}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{kinmutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex Moveit\-Kinematics\-::kinmutex}}\label{classMoveitKinematics_a94dd916f6d9a7074ebd00356975d51ea}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Kinematics_8cpp}{Kinematics.\-cpp}\end{DoxyCompactItemize}

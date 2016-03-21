@@ -1,0 +1,169 @@
+.TH "tf" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tf \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpointMsgToEigen\fP (const geometry_msgs::Point &m, Eigen::Vector3d &e)"
+.br
+.RI "\fIConverts a Point message into an Eigen Vector\&. \fP"
+.ti -1c
+.RI "void \fBpointEigenToMsg\fP (const Eigen::Vector3d &e, geometry_msgs::Point &m)"
+.br
+.RI "\fIConverts an Eigen Vector into a Point message\&. \fP"
+.ti -1c
+.RI "void \fBposeMsgToEigen\fP (const geometry_msgs::Pose &m, Eigen::Affine3d &e)"
+.br
+.RI "\fIConverts a Pose message into an Eigen Affine3d\&. \fP"
+.ti -1c
+.RI "void \fBposeMsgToEigen\fP (const geometry_msgs::Pose &m, Eigen::Isometry3d &e)"
+.br
+.RI "\fIConverts a Pose message into an Eigen Isometry3d\&. \fP"
+.ti -1c
+.RI "void \fBposeEigenToMsg\fP (const Eigen::Affine3d &e, geometry_msgs::Pose &m)"
+.br
+.RI "\fIConverts an Eigen Affine3d into a Pose message\&. \fP"
+.ti -1c
+.RI "void \fBposeEigenToMsg\fP (const Eigen::Isometry3d &e, geometry_msgs::Pose &m)"
+.br
+.RI "\fIConverts an Eigen Isometry3d into a Pose message\&. \fP"
+.ti -1c
+.RI "void \fBquaternionMsgToEigen\fP (const geometry_msgs::Quaternion &m, Eigen::Quaterniond &e)"
+.br
+.RI "\fIConverts a Quaternion message into an Eigen Quaternion\&. \fP"
+.ti -1c
+.RI "void \fBquaternionEigenToMsg\fP (const Eigen::Quaterniond &e, geometry_msgs::Quaternion &m)"
+.br
+.RI "\fIConverts an Eigen Quaternion into a Quaternion message\&. \fP"
+.ti -1c
+.RI "void \fBtransformMsgToEigen\fP (const geometry_msgs::Transform &m, Eigen::Affine3d &e)"
+.br
+.RI "\fIConverts a Transform message into an Eigen Affine3d\&. \fP"
+.ti -1c
+.RI "void \fBtransformMsgToEigen\fP (const geometry_msgs::Transform &m, Eigen::Isometry3d &e)"
+.br
+.RI "\fIConverts a Transform message into an Eigen Isometry3d\&. \fP"
+.ti -1c
+.RI "void \fBtransformEigenToMsg\fP (const Eigen::Affine3d &e, geometry_msgs::Transform &m)"
+.br
+.RI "\fIConverts an Eigen Affine3d into a Transform message\&. \fP"
+.ti -1c
+.RI "void \fBtransformEigenToMsg\fP (const Eigen::Isometry3d &e, geometry_msgs::Transform &m)"
+.br
+.RI "\fIConverts an Eigen Isometry3d into a Transform message\&. \fP"
+.ti -1c
+.RI "void \fBvectorMsgToEigen\fP (const geometry_msgs::Vector3 &m, Eigen::Vector3d &e)"
+.br
+.RI "\fIConverts a Vector message into an Eigen Vector\&. \fP"
+.ti -1c
+.RI "void \fBvectorEigenToMsg\fP (const Eigen::Vector3d &e, geometry_msgs::Vector3 &m)"
+.br
+.RI "\fIConverts an Eigen Vector into a Vector message\&. \fP"
+.ti -1c
+.RI "void \fBtwistMsgToEigen\fP (const geometry_msgs::Twist &m, Eigen::Matrix< double, 6, 1 > &e)"
+.br
+.RI "\fIConverts a Twist message into an Eigen matrix\&. \fP"
+.ti -1c
+.RI "void \fBtwistEigenToMsg\fP (const Eigen::Matrix< double, 6, 1 > &e, geometry_msgs::Twist &m)"
+.br
+.RI "\fIConverts an Eigen matrix into a Twist message\&. \fP"
+.ti -1c
+.RI "void \fBwrenchMsgToEigen\fP (const geometry_msgs::Wrench &m, Eigen::Matrix< double, 6, 1 > &e)"
+.br
+.RI "\fIConverts a Wrench message into an Eigen matrix\&. \fP"
+.ti -1c
+.RI "void \fBwrenchEigenToMsg\fP (const Eigen::Matrix< double, 6, 1 > &e, geometry_msgs::Wrench &m)"
+.br
+.RI "\fIConverts an Eigen matrix into a Wrench message\&. \fP"
+.ti -1c
+.RI "template<class Derived > void \fBmatrixEigenToMsg\fP (const Eigen::MatrixBase< Derived > &e, std_msgs::Float64MultiArray &m)"
+.br
+.RI "\fIConverts an Eigen matrix into a Float64MultiArray message\&. \fP"
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "template<class Derived > void tf::matrixEigenToMsg (const Eigen::MatrixBase< Derived > &e, std_msgs::Float64MultiArray &m)"
+
+.PP
+Converts an Eigen matrix into a Float64MultiArray message\&. 
+.SS "void tf::pointEigenToMsg (const Eigen::Vector3d &e, geometry_msgs::Point &m)"
+
+.PP
+Converts an Eigen Vector into a Point message\&. 
+.SS "void tf::pointMsgToEigen (const geometry_msgs::Point &m, Eigen::Vector3d &e)"
+
+.PP
+Converts a Point message into an Eigen Vector\&. 
+.SS "void tf::poseEigenToMsg (const Eigen::Affine3d &e, geometry_msgs::Pose &m)"
+
+.PP
+Converts an Eigen Affine3d into a Pose message\&. 
+.SS "void tf::poseEigenToMsg (const Eigen::Isometry3d &e, geometry_msgs::Pose &m)"
+
+.PP
+Converts an Eigen Isometry3d into a Pose message\&. 
+.SS "void tf::poseMsgToEigen (const geometry_msgs::Pose &m, Eigen::Affine3d &e)"
+
+.PP
+Converts a Pose message into an Eigen Affine3d\&. 
+.SS "void tf::poseMsgToEigen (const geometry_msgs::Pose &m, Eigen::Isometry3d &e)"
+
+.PP
+Converts a Pose message into an Eigen Isometry3d\&. 
+.SS "void tf::quaternionEigenToMsg (const Eigen::Quaterniond &e, geometry_msgs::Quaternion &m)"
+
+.PP
+Converts an Eigen Quaternion into a Quaternion message\&. 
+.SS "void tf::quaternionMsgToEigen (const geometry_msgs::Quaternion &m, Eigen::Quaterniond &e)"
+
+.PP
+Converts a Quaternion message into an Eigen Quaternion\&. 
+.SS "void tf::transformEigenToMsg (const Eigen::Affine3d &e, geometry_msgs::Transform &m)"
+
+.PP
+Converts an Eigen Affine3d into a Transform message\&. 
+.SS "void tf::transformEigenToMsg (const Eigen::Isometry3d &e, geometry_msgs::Transform &m)"
+
+.PP
+Converts an Eigen Isometry3d into a Transform message\&. 
+.SS "void tf::transformMsgToEigen (const geometry_msgs::Transform &m, Eigen::Affine3d &e)"
+
+.PP
+Converts a Transform message into an Eigen Affine3d\&. 
+.SS "void tf::transformMsgToEigen (const geometry_msgs::Transform &m, Eigen::Isometry3d &e)"
+
+.PP
+Converts a Transform message into an Eigen Isometry3d\&. 
+.SS "void tf::twistEigenToMsg (const Eigen::Matrix< double, 6, 1 > &e, geometry_msgs::Twist &m)"
+
+.PP
+Converts an Eigen matrix into a Twist message\&. 
+.SS "void tf::twistMsgToEigen (const geometry_msgs::Twist &m, Eigen::Matrix< double, 6, 1 > &e)"
+
+.PP
+Converts a Twist message into an Eigen matrix\&. 
+.SS "void tf::vectorEigenToMsg (const Eigen::Vector3d &e, geometry_msgs::Vector3 &m)"
+
+.PP
+Converts an Eigen Vector into a Vector message\&. 
+.SS "void tf::vectorMsgToEigen (const geometry_msgs::Vector3 &m, Eigen::Vector3d &e)"
+
+.PP
+Converts a Vector message into an Eigen Vector\&. 
+.SS "void tf::wrenchEigenToMsg (const Eigen::Matrix< double, 6, 1 > &e, geometry_msgs::Wrench &m)"
+
+.PP
+Converts an Eigen matrix into a Wrench message\&. 
+.SS "void tf::wrenchMsgToEigen (const geometry_msgs::Wrench &m, Eigen::Matrix< double, 6, 1 > &e)"
+
+.PP
+Converts a Wrench message into an Eigen matrix\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

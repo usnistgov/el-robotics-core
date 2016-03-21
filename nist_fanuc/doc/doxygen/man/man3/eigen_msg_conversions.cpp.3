@@ -1,0 +1,97 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/eigen_msg_conversions.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/eigen_msg_conversions.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <eigen_conversions/eigen_msg\&.h>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "\fBtf\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBtf::pointMsgToEigen\fP (const geometry_msgs::Point &m, Eigen::Vector3d &e)"
+.br
+.RI "\fIConverts a Point message into an Eigen Vector\&. \fP"
+.ti -1c
+.RI "void \fBtf::pointEigenToMsg\fP (const Eigen::Vector3d &e, geometry_msgs::Point &m)"
+.br
+.RI "\fIConverts an Eigen Vector into a Point message\&. \fP"
+.ti -1c
+.RI "void \fBtf::poseMsgToEigen\fP (const geometry_msgs::Pose &m, Eigen::Affine3d &e)"
+.br
+.RI "\fIConverts a Pose message into an Eigen Affine3d\&. \fP"
+.ti -1c
+.RI "void \fBtf::poseMsgToEigen\fP (const geometry_msgs::Pose &m, Eigen::Isometry3d &e)"
+.br
+.RI "\fIConverts a Pose message into an Eigen Isometry3d\&. \fP"
+.ti -1c
+.RI "void \fBtf::poseEigenToMsg\fP (const Eigen::Affine3d &e, geometry_msgs::Pose &m)"
+.br
+.RI "\fIConverts an Eigen Affine3d into a Pose message\&. \fP"
+.ti -1c
+.RI "void \fBtf::poseEigenToMsg\fP (const Eigen::Isometry3d &e, geometry_msgs::Pose &m)"
+.br
+.RI "\fIConverts an Eigen Isometry3d into a Pose message\&. \fP"
+.ti -1c
+.RI "void \fBtf::quaternionMsgToEigen\fP (const geometry_msgs::Quaternion &m, Eigen::Quaterniond &e)"
+.br
+.RI "\fIConverts a Quaternion message into an Eigen Quaternion\&. \fP"
+.ti -1c
+.RI "void \fBtf::quaternionEigenToMsg\fP (const Eigen::Quaterniond &e, geometry_msgs::Quaternion &m)"
+.br
+.RI "\fIConverts an Eigen Quaternion into a Quaternion message\&. \fP"
+.ti -1c
+.RI "void \fBtf::transformMsgToEigen\fP (const geometry_msgs::Transform &m, Eigen::Affine3d &e)"
+.br
+.RI "\fIConverts a Transform message into an Eigen Affine3d\&. \fP"
+.ti -1c
+.RI "void \fBtf::transformMsgToEigen\fP (const geometry_msgs::Transform &m, Eigen::Isometry3d &e)"
+.br
+.RI "\fIConverts a Transform message into an Eigen Isometry3d\&. \fP"
+.ti -1c
+.RI "void \fBtf::transformEigenToMsg\fP (const Eigen::Affine3d &e, geometry_msgs::Transform &m)"
+.br
+.RI "\fIConverts an Eigen Affine3d into a Transform message\&. \fP"
+.ti -1c
+.RI "void \fBtf::transformEigenToMsg\fP (const Eigen::Isometry3d &e, geometry_msgs::Transform &m)"
+.br
+.RI "\fIConverts an Eigen Isometry3d into a Transform message\&. \fP"
+.ti -1c
+.RI "void \fBtf::vectorMsgToEigen\fP (const geometry_msgs::Vector3 &m, Eigen::Vector3d &e)"
+.br
+.RI "\fIConverts a Vector message into an Eigen Vector\&. \fP"
+.ti -1c
+.RI "void \fBtf::vectorEigenToMsg\fP (const Eigen::Vector3d &e, geometry_msgs::Vector3 &m)"
+.br
+.RI "\fIConverts an Eigen Vector into a Vector message\&. \fP"
+.ti -1c
+.RI "void \fBtf::twistMsgToEigen\fP (const geometry_msgs::Twist &m, Eigen::Matrix< double, 6, 1 > &e)"
+.br
+.RI "\fIConverts a Twist message into an Eigen matrix\&. \fP"
+.ti -1c
+.RI "void \fBtf::twistEigenToMsg\fP (const Eigen::Matrix< double, 6, 1 > &e, geometry_msgs::Twist &m)"
+.br
+.RI "\fIConverts an Eigen matrix into a Twist message\&. \fP"
+.ti -1c
+.RI "void \fBtf::wrenchMsgToEigen\fP (const geometry_msgs::Wrench &m, Eigen::Matrix< double, 6, 1 > &e)"
+.br
+.RI "\fIConverts a Wrench message into an Eigen matrix\&. \fP"
+.ti -1c
+.RI "void \fBtf::wrenchEigenToMsg\fP (const Eigen::Matrix< double, 6, 1 > &e, geometry_msgs::Wrench &m)"
+.br
+.RI "\fIConverts an Eigen matrix into a Wrench message\&. \fP"
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

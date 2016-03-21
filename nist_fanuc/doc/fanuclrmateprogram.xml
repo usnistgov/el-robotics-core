@@ -80,6 +80,40 @@
     <CommandID>11</CommandID>
     <DwellTime>5.0</DwellTime>
   </MiddleCommand>
+  <MiddleCommand xsi:type="MoveToType">
+    <CommandID>10</CommandID>
+    <MoveStraight>false</MoveStraight>
+    <EndPosition>
+      <Point>
+        <X>-0.93</X> <Y>0.402</Y> <Z>0.07</Z>
+      </Point>
+      <XAxis>
+        <I>0</I> <J>0</J> <K>1</K>
+      </XAxis>
+      <ZAxis>
+        <I>.992</I> <J>.122</J> <K>0</K>
+      </ZAxis>
+    </EndPosition>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="DwellType">
+    <CommandID>11</CommandID>
+    <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+  <MiddleCommand xsi:type="MoveToType">
+    <CommandID>10</CommandID>
+    <MoveStraight>false</MoveStraight>
+    <EndPosition>
+      <Point>
+        <X>-0.141</X> <Y>0.605</Y> <Z>0.376</Z>
+      </Point>
+      <XAxis>
+        <I>-0.890</I> <J>0.123</J> <K>0.421</K>
+      </XAxis>
+      <ZAxis>
+        <I>.992</I> <J>.122</J> <K>0</K>
+      </ZAxis>
+    </EndPosition>
+  </MiddleCommand>
   <EndCanon>
     <CommandID>12</CommandID>
   </EndCanon>

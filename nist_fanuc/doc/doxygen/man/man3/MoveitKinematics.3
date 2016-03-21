@@ -1,0 +1,141 @@
+.TH "MoveitKinematics" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MoveitKinematics \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Kinematics\&.h>\fP
+.PP
+Inherits \fBIKinematics\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMoveitKinematics\fP (ros::NodeHandle &nh)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBGetJointValues\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBSetJointValues\fP (std::vector< double > \fBjoint_values\fP)"
+.br
+.ti -1c
+.RI "virtual urdf::Pose \fBFK\fP (std::vector< double > jv)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBIK\fP (\fBRCS::Pose\fP &pose, std::vector< double > oldjoints)"
+.br
+.ti -1c
+.RI "virtual size_t \fBAllPoseToJoints\fP (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBNearestJoints\fP (std::vector< double > oldjoints, std::vector< std::vector< double > > &newjoints)"
+.br
+.ti -1c
+.RI "virtual void \fBInit\fP (std::string groupname, std::string eelinkname)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "boost::shared_ptr
+.br
+< moveit::planning_interface::MoveGroup > \fBgroup\fP"
+.br
+.ti -1c
+.RI "robot_model::RobotModelPtr \fBkinematic_model\fP"
+.br
+.ti -1c
+.RI "robot_state::RobotStatePtr \fBkinematic_state\fP"
+.br
+.ti -1c
+.RI "robot_state::JointModelGroup * \fBjoint_model_group\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBjoint_values\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBjoint_names\fP"
+.br
+.ti -1c
+.RI "std::string \fB_groupname\fP"
+.br
+.ti -1c
+.RI "std::string \fB_eelinkname\fP"
+.br
+.ti -1c
+.RI "ros::NodeHandle & \fB_nh\fP"
+.br
+.ti -1c
+.RI "bool \fB_bInit\fP"
+.br
+.ti -1c
+.RI "boost::mutex \fBkinmutex\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MoveitKinematics::MoveitKinematics (ros::NodeHandle &nh)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual size_t MoveitKinematics::AllPoseToJoints (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "urdf::Pose MoveitKinematics::FK (std::vector< double >jv)\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "std::vector< double > MoveitKinematics::GetJointValues ()\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "std::vector< double > MoveitKinematics::IK (\fBRCS::Pose\fP &pose, std::vector< double >oldjoints)\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "void MoveitKinematics::Init (std::stringgroupname, std::stringeelinkname)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBIKinematics\fP\&.
+.SS "virtual std::vector<double> MoveitKinematics::NearestJoints (std::vector< double >oldjoints, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "void MoveitKinematics::SetJointValues (std::vector< double >joint_values)\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "bool MoveitKinematics::_bInit"
+
+.SS "std::string MoveitKinematics::_eelinkname"
+
+.SS "std::string MoveitKinematics::_groupname"
+
+.SS "ros::NodeHandle& MoveitKinematics::_nh"
+
+.SS "boost::shared_ptr<moveit::planning_interface::MoveGroup> MoveitKinematics::group"
+
+.SS "robot_state::JointModelGroup* MoveitKinematics::joint_model_group"
+
+.SS "std::vector<std::string> MoveitKinematics::joint_names"
+
+.SS "std::vector<double> MoveitKinematics::joint_values"
+
+.SS "robot_model::RobotModelPtr MoveitKinematics::kinematic_model"
+
+.SS "robot_state::RobotStatePtr MoveitKinematics::kinematic_state"
+
+.SS "boost::mutex MoveitKinematics::kinmutex"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

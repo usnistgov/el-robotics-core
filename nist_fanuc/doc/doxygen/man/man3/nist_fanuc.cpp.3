@@ -1,0 +1,91 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/nist_fanuc.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/nist_fanuc.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <boost/format\&.hpp>\fP
+.br
+\fC#include 'nist_fanuc\&.h'\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include 'sys/stat\&.h'\fP
+.br
+\fC#include 'fcntl\&.h'\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <xercesc/dom/DOM\&.hpp>\fP
+.br
+\fC#include <xercesc/util/PlatformUtils\&.hpp>\fP
+.br
+\fC#include <xercesc/framework/XMLGrammarPoolImpl\&.hpp>\fP
+.br
+\fC#include 'MotionControl\&.h'\fP
+.br
+\fC#include 'AsioCrclServer\&.h'\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+\fC#include 'Controller\&.h'\fP
+.br
+\fC#include 'CrclInterface\&.h'\fP
+.br
+\fC#include 'Kinematics\&.h'\fP
+.br
+\fC#include 'urdf_model/eigenmath\&.h'\fP
+.br
+\fC#include 'Communication\&.h'\fP
+.br
+\fC#include 'Setup\&.h'\fP
+.br
+\fC#include <ros/package\&.h>\fP
+.br
+\fC#include 'moveit\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBINITJOINTCONTROLLER\fP"
+.br
+.ti -1c
+.RI "#define \fBROBOTSTATUS\fP"
+.br
+.ti -1c
+.RI "#define \fBBOOSTASIO\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBDumpUrdfPose\fP (const urdf::Pose &p)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BOOSTASIO"
+
+.SS "#define INITJOINTCONTROLLER"
+
+.SS "#define ROBOTSTATUS"
+
+.SH "Function Documentation"
+.PP 
+.SS "std::string DumpUrdfPose (const urdf::Pose &p)"
+
+.SS "int main (intargc, char **argv)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

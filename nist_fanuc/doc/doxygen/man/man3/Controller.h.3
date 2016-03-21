@@ -1,0 +1,55 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Controller.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Controller.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <boost/shared_ptr\&.hpp>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include 'AsioCrclServer\&.h'\fP
+.br
+\fC#include 'RCSThreadTemplate\&.h'\fP
+.br
+\fC#include 'CrclInterface\&.h'\fP
+.br
+\fC#include 'RCSInterpreter\&.h'\fP
+.br
+\fC#include 'ChainRobotModel\&.h'\fP
+.br
+\fC#include 'Trajectory\&.h'\fP
+.br
+\fC#include 'Communication\&.h'\fP
+.br
+\fC#include 'moveit\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBRCS::CController\fP"
+.br
+.RI "\fIThe \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) \fP"
+.ti -1c
+.RI "class \fBRCS::RobotStatus\fP"
+.br
+.RI "\fIThe \fBRobotStatus\fP is a thread to updates the status of the robot\&. The \fBRobotStatus\fP is a separate thread that updates the robot status\&. Currently, it uses a JointReader to read joint values from the controller\&. It uses a Kinematics pointer reference to compute the current pose using the FK routine\&. It also uses a CrclDelegate pointer reference to update the status reported by CRCL\&. \fP"
+.ti -1c
+.RI "class \fBRCS::RobotProgram\fP"
+.br
+.RI "\fIThe \fBRobotProgram\fP is a thread to handle crcl programs\&. \fBCrcl\fP programs are not in fact legitimate, however, debugging and verification are assisted by programs\&. However, program as in the \fBCrcl\fP XSD specification, so it doesn't hurt to handle\&. They require special handling as only one command should be done at a time\&. Uses codesynthesis to parse \fBCrcl\fP xml into C++ data structures\&. \fP"
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "\fBRCS\fP"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

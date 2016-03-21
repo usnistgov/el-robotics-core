@@ -1,0 +1,129 @@
+\hypertarget{classRCS_1_1RobotProgram}{\section{R\-C\-S\-:\-:Robot\-Program Class Reference}
+\label{classRCS_1_1RobotProgram}\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}}
+}
+
+
+The \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} is a thread to handle crcl programs. \hyperlink{namespaceCrcl}{Crcl} programs are not in fact legitimate, however, debugging and verification are assisted by programs. However, program as in the \hyperlink{namespaceCrcl}{Crcl} X\-S\-D specification, so it doesn't hurt to handle. They require special handling as only one command should be done at a time. Uses codesynthesis to parse \hyperlink{namespaceCrcl}{Crcl} xml into C++ data structures.  
+
+
+
+
+{\ttfamily \#include $<$Controller.\-h$>$}
+
+Inheritance diagram for R\-C\-S\-:\-:Robot\-Program\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classRCS_1_1RobotProgram}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCS_1_1RobotProgram_a9704d21c4a2d24fc856fad7af6e99903}{Robot\-Program} (double cycletime=\hyperlink{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E})
+\begin{DoxyCompactList}\small\item\em \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} constructor that requires a cycle time for \hyperlink{namespaceRCS}{R\-C\-S} thread timing. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1RobotProgram_a0998f374dd54b6a0843d33a664c9da15}{Execute\-Program} (std\-::string programpath)
+\begin{DoxyCompactList}\small\item\em Execute\-Program reads a file path for C\-R\-C\-L X\-M\-L program. It will set up interpreting the program. It is thread safe. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b245790e}{Action} ()
+\begin{DoxyCompactList}\small\item\em Action is the main loop in the \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} \hyperlink{namespaceRCS}{R\-C\-S} thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::string \hyperlink{classRCS_1_1RobotProgram_aca7d780729e20c6d4e3988883b87527d}{\-\_\-programname}
+\item 
+\hyperlink{classCrcl_1_1CrclDelegateInterface}{Crcl\-::\-Crcl\-Delegate\-Interface} \hyperlink{classRCS_1_1RobotProgram_addf6e9d586d1fde1aa2b8105268d9e66}{\-\_\-delegate}
+\item 
+std\-::istringstream \hyperlink{classRCS_1_1RobotProgram_a0099964c452870619bd0ee7651ffb072}{istr}
+\item 
+int \hyperlink{classRCS_1_1RobotProgram_ad43243236b573d0e3fc39d4890a43373}{cmdnum}
+\item 
+\-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence \& \hyperlink{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}{cmds}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static boost\-::mutex \hyperlink{classRCS_1_1RobotProgram_ad80469b94591e96c6a221e4769612668}{\-\_\-progmutex}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} is a thread to handle crcl programs. \hyperlink{namespaceCrcl}{Crcl} programs are not in fact legitimate, however, debugging and verification are assisted by programs. However, program as in the \hyperlink{namespaceCrcl}{Crcl} X\-S\-D specification, so it doesn't hurt to handle. They require special handling as only one command should be done at a time. Uses codesynthesis to parse \hyperlink{namespaceCrcl}{Crcl} xml into C++ data structures. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCS_1_1RobotProgram_a9704d21c4a2d24fc856fad7af6e99903}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!Robot\-Program@{Robot\-Program}}
+\index{Robot\-Program@{Robot\-Program}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{Robot\-Program}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Robot\-Program\-::\-Robot\-Program (
+\begin{DoxyParamCaption}
+\item[{double}]{cycletime = {\ttfamily {\bf D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}}}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1RobotProgram_a9704d21c4a2d24fc856fad7af6e99903}
+
+
+\hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} constructor that requires a cycle time for \hyperlink{namespaceRCS}{R\-C\-S} thread timing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cycletime} & in seconds. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b245790e}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!Action@{Action}}
+\index{Action@{Action}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Robot\-Program\-::\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b245790e}
+
+
+Action is the main loop in the \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} \hyperlink{namespaceRCS}{R\-C\-S} thread. 
+
+Executes one program command at a time.  needs to wait until current command is done before moving on to next command. 
+
+Reimplemented from \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{R\-C\-S\-::\-Thread}.
+
+\hypertarget{classRCS_1_1RobotProgram_a0998f374dd54b6a0843d33a664c9da15}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!Execute\-Program@{Execute\-Program}}
+\index{Execute\-Program@{Execute\-Program}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{Execute\-Program}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Robot\-Program\-::\-Execute\-Program (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{programpath}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotProgram_a0998f374dd54b6a0843d33a664c9da15}
+
+
+Execute\-Program reads a file path for C\-R\-C\-L X\-M\-L program. It will set up interpreting the program. It is thread safe. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em programpath} & path of file containing crcl xml program. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRCS_1_1RobotProgram_addf6e9d586d1fde1aa2b8105268d9e66}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!\-\_\-delegate@{\-\_\-delegate}}
+\index{\-\_\-delegate@{\-\_\-delegate}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{\-\_\-delegate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Crcl\-Delegate\-Interface} R\-C\-S\-::\-Robot\-Program\-::\-\_\-delegate}}\label{classRCS_1_1RobotProgram_addf6e9d586d1fde1aa2b8105268d9e66}
+crcl delegate used to interpret \hyperlink{namespaceCrcl}{Crcl} X\-M\-L command \hypertarget{classRCS_1_1RobotProgram_ad80469b94591e96c6a221e4769612668}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!\-\_\-progmutex@{\-\_\-progmutex}}
+\index{\-\_\-progmutex@{\-\_\-progmutex}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{\-\_\-progmutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex R\-C\-S\-::\-Robot\-Program\-::\-\_\-progmutex\hspace{0.3cm}{\ttfamily [static]}}}\label{classRCS_1_1RobotProgram_ad80469b94591e96c6a221e4769612668}
+mutex for thread safe access to \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} commands \hypertarget{classRCS_1_1RobotProgram_aca7d780729e20c6d4e3988883b87527d}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!\-\_\-programname@{\-\_\-programname}}
+\index{\-\_\-programname@{\-\_\-programname}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{\-\_\-programname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-Robot\-Program\-::\-\_\-programname}}\label{classRCS_1_1RobotProgram_aca7d780729e20c6d4e3988883b87527d}
+saved \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} program file path \hypertarget{classRCS_1_1RobotProgram_ad43243236b573d0e3fc39d4890a43373}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!cmdnum@{cmdnum}}
+\index{cmdnum@{cmdnum}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{cmdnum}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-::\-Robot\-Program\-::cmdnum}}\label{classRCS_1_1RobotProgram_ad43243236b573d0e3fc39d4890a43373}
+number of \hyperlink{namespaceCrcl}{Crcl} X\-M\-L command to execute \hypertarget{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!cmds@{cmds}}
+\index{cmds@{cmds}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{cmds}]{\setlength{\rightskip}{0pt plus 5cm}\-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence\& R\-C\-S\-::\-Robot\-Program\-::cmds}}\label{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}
+reference to crcl program X\-M\-L commands (from codesynthesis parsing) \hypertarget{classRCS_1_1RobotProgram_a0099964c452870619bd0ee7651ffb072}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!istr@{istr}}
+\index{istr@{istr}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{istr}]{\setlength{\rightskip}{0pt plus 5cm}std\-::istringstream R\-C\-S\-::\-Robot\-Program\-::istr}}\label{classRCS_1_1RobotProgram_a0099964c452870619bd0ee7651ffb072}
+input stream interface for codesynthesis parsing 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Controller_8h}{Controller.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Controller_8cpp}{Controller.\-cpp}\end{DoxyCompactItemize}

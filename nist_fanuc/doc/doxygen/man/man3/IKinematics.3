@@ -1,0 +1,77 @@
+.TH "IKinematics" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IKinematics \- 
+.PP
+The \fBIKinematics\fP provides is an abstract class with pure virtual functions that are overriden by actual kinematic implementations\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Kinematics\&.h>\fP
+.PP
+Inherited by \fBDummyKinematics\fP, \fBMoveitKinematics\fP, and \fBRosKinematics\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual std::vector< double > \fBGetJointValues\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBSetJointValues\fP (std::vector< double > joint_values)=0"
+.br
+.ti -1c
+.RI "virtual urdf::Pose \fBFK\fP (std::vector< double > jv)=0"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBIK\fP (\fBRCS::Pose\fP &pose, std::vector< double > oldjoints)=0"
+.br
+.ti -1c
+.RI "virtual size_t \fBAllPoseToJoints\fP (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)=0"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBNearestJoints\fP (std::vector< double > oldjoints, std::vector< std::vector< double > > &newjoints)=0"
+.br
+.ti -1c
+.RI "virtual void \fBInit\fP (std::string groupname, std::string eelinkname)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBIKinematics\fP provides is an abstract class with pure virtual functions that are overriden by actual kinematic implementations\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual size_t IKinematics::AllPoseToJoints (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
+.SS "virtual urdf::Pose IKinematics::FK (std::vector< double >jv)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
+.SS "virtual std::vector<double> IKinematics::GetJointValues ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
+.SS "virtual std::vector<double> IKinematics::IK (\fBRCS::Pose\fP &pose, std::vector< double >oldjoints)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
+.SS "virtual void IKinematics::Init (std::stringgroupname, std::stringeelinkname)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBMoveitKinematics\fP, and \fBRosKinematics\fP\&.
+.SS "virtual std::vector<double> IKinematics::NearestJoints (std::vector< double >oldjoints, std::vector< std::vector< double > > &newjoints)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
+.SS "virtual void IKinematics::SetJointValues (std::vector< double >joint_values)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

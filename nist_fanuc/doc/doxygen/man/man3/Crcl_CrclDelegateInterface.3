@@ -1,0 +1,233 @@
+.TH "Crcl::CrclDelegateInterface" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Crcl::CrclDelegateInterface \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CrclInterface\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCrclDelegateInterface\fP ()"
+.br
+.ti -1c
+.RI "unsigned long long & \fBGetCommandNum\fP ()"
+.br
+.ti -1c
+.RI "\fBCrclReturn\fP \fBDelegateCRCLCmd\fP (std::string str)"
+.br
+.ti -1c
+.RI "void \fBCrclRunProgram\fP (::CRCLProgramType::MiddleCommand_sequence cmds)"
+.br
+.ti -1c
+.RI "\fBCrclReturn\fP \fBDelegateCRCLCmd\fP (::CRCLCommandType &crclCommand)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBActuateJoints\fP (\fBCrcl::ActuatorJointSequence\fP joints)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBCloseToolChanger\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBConfigureJointReports\fP (std::vector< \fBCrcl::JointReport\fP > &jointReports)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBCouple\fP (char *targetID)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBDwell\fP (double seconds)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBEndCanon\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBInitCanon\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBGetStatus\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBMessage\fP (std::string message)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBMoveTo\fP (\fBCrcl::PoseType\fP endpose, bool bStraight)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBMoveThroughTo\fP (std::vector< \fBCrcl::PoseType\fP > &poses, bool bStraight)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBOpenToolChanger\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBRunProgram\fP (std::string programText)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetAbsoluteAcceleration\fP (double acceleration)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetAbsoluteSpeed\fP (double speed)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetAngleUnits\fP (std::string unitName)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetAxialSpeeds\fP (std::vector< double > speeds)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetEndEffector\fP (double percent)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetEndEffectorTolerance\fP (\fBCrcl::PoseToleranceType\fP dTolerance)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetEndPoseTolerance\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetForceUnits\fP (std::string unitName)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetIntermediatePoseTolerance\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetLengthUnits\fP (std::string unitName)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetMotionCoordination\fP (bool bCoordinatedMotion)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetParameter\fP (char *paramName, void *paramVal)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetRelativeAcceleration\fP (double percent)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetRelativeSpeed\fP (double percent)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetRotAccel\fP (double accel)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetRotSpeed\fP (double speed)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetTorqueUnits\fP (std::string unitName)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetTransAccel\fP (double accel)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBSetTransSpeed\fP (double speed)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBStopMotion\fP (int condition)"
+.br
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBGetTool\fP (double *percent)"
+.br
+.ti -1c
+.RI "std::string \fBFindLeadingElement\fP (std::string xml)"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBCrclStatus\fP \fBcrclwm\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Crcl::CrclDelegateInterface::CrclDelegateInterface ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBCrclReturn\fP CrclDelegateInterface::ActuateJoints (\fBCrcl::ActuatorJointSequence\fPjoints)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::CloseToolChanger ()\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::ConfigureJointReports (std::vector< \fBCrcl::JointReport\fP > &jointReports)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::Couple (char *targetID)\fC [virtual]\fP"
+
+.SS "void CrclDelegateInterface::CrclRunProgram (::CRCLProgramType::MiddleCommand_sequencecmds)"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::DelegateCRCLCmd (std::stringstr)"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::DelegateCRCLCmd (::CRCLCommandType &crclCommand)"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::Dwell (doubleseconds)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::EndCanon ()\fC [virtual]\fP"
+
+.SS "std::string CrclDelegateInterface::FindLeadingElement (std::stringxml)"
+
+.SS "unsigned long long& Crcl::CrclDelegateInterface::GetCommandNum ()\fC [inline]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::GetStatus ()\fC [virtual]\fP"
+
+.SS "virtual \fBCrclReturn\fP Crcl::CrclDelegateInterface::GetTool (double *percent)\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::InitCanon ()\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::Message (std::stringmessage)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::MoveThroughTo (std::vector< \fBCrcl::PoseType\fP > &poses, boolbStraight)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::MoveTo (\fBCrcl::PoseType\fPendpose, boolbStraight)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::OpenToolChanger ()\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::RunProgram (std::stringprogramText)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetAbsoluteAcceleration (doubleacceleration)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetAbsoluteSpeed (doublespeed)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetAngleUnits (std::stringunitName)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetAxialSpeeds (std::vector< double >speeds)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetEndEffector (doublepercent)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetEndEffectorTolerance (\fBCrcl::PoseToleranceType\fPdTolerance)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetEndPoseTolerance (\fBCrcl::PoseToleranceType\fPtolerance)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetForceUnits (std::stringunitName)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetIntermediatePoseTolerance (\fBCrcl::PoseToleranceType\fPtolerance)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetLengthUnits (std::stringunitName)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetMotionCoordination (boolbCoordinatedMotion)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetParameter (char *paramName, void *paramVal)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetRelativeAcceleration (doublepercent)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetRelativeSpeed (doublepercent)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetRotAccel (doubleaccel)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetRotSpeed (doublespeed)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetTorqueUnits (std::stringunitName)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetTransAccel (doubleaccel)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::SetTransSpeed (doublespeed)\fC [virtual]\fP"
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::StopMotion (intcondition)\fC [virtual]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCrclStatus\fP CrclDelegateInterface::crclwm\fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

@@ -1,0 +1,48 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/NIST/RCSTimer.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/NIST/RCSTimer.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <boost/chrono\&.hpp>\fP
+.br
+\fC#include <boost/thread\&.hpp>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBRCS::Timer\fP"
+.br
+.RI "\fI\fBTimer\fP is a general-purpose timer\&. The \fBTimer\fP is a general-purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer\&. \fP"
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "\fBRCS\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int(* \fBRCS::RCS_TIMERFUNC\fP )(void *_arg)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class Rep , class Period > double \fBRCS::ToNanoseconds\fP (boost::chrono::duration< Rep, Period > d)"
+.br
+.ti -1c
+.RI "template<class Rep , class Period > double \fBRCS::ToSeconds\fP (boost::chrono::duration< Rep, Period > d)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

@@ -1,0 +1,106 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'crcl\&.h'\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+\fC#include 'CrclInterface\&.h'\fP
+.br
+\fC#include 'boost/array\&.hpp'\fP
+.br
+\fC#include 'urdf_model/rosmath\&.h'\fP
+.br
+\fC#include <Eigen/Dense>\fP
+.br
+\fC#include 'urdf_model/eigenmath\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "\fBCrcl\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "RosMatrix \fBCrcl::GetXZRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "Eigen::Matrix3d \fBCrcl::GetEigenRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "bool \fBCrcl::GetRPY\fP (\fBCrcl::PoseType\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
+.RI "bool \fBCrcl::GetRPY\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
+.RI "urdf::Pose \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion)"
+.br
+.ti -1c
+.RI "\fBCrcl::VectorType\fP \fBCrcl::VectorZero\fP ()"
+.br
+.ti -1c
+.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::PointType\fP &point)"
+.br
+.ti -1c
+.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::VectorType\fP &vector)"
+.br
+.ti -1c
+.RI "bool \fBCrcl::GetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
+.br
+.ti -1c
+.RI "urdf::Rotation \fBCrcl::Convert\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::Init\fP (std::vector< double > terms)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::Convert\fP (urdf::Pose pose)"
+.br
+.ti -1c
+.RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jout, double angleConversion)"
+.br
+.ti -1c
+.RI "\fBCrcl::JointStatusSequence\fP \fBCrcl::Convert\fP (\fBJointState\fP joints, double _angleConversion)"
+.br
+.ti -1c
+.RI "JointStatusSequence \fBCrcl::Convert\fP (\fBCrcl::ActuatorJointSequence\fP joints, double _angleConversion)"
+.br
+.ti -1c
+.RI "::PointType \fBCrcl::GetPoint\fP (\fBRCS::Vector3\fP &point)"
+.br
+.ti -1c
+.RI "::VectorType \fBCrcl::GetVector\fP (\fBRCS::Vector3\fP &point)"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::NullPose\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::IdentityPose\fP ()"
+.br
+.ti -1c
+.RI "\fBCrcl::PoseType\fP \fBCrcl::PoseHome\fP ()"
+.br
+.ti -1c
+.RI "std::vector< double > \fBCrcl::ConvertToAnglePositionVector\fP (\fBCrcl::ActuatorJointSequence\fP &joints, double dAngleConversion)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpCrclPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

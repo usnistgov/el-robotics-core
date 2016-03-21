@@ -1,0 +1,201 @@
+\hypertarget{classRosKinematics}{\section{Ros\-Kinematics Class Reference}
+\label{classRosKinematics}\index{Ros\-Kinematics@{Ros\-Kinematics}}
+}
+
+
+{\ttfamily \#include $<$Kinematics.\-h$>$}
+
+Inheritance diagram for Ros\-Kinematics\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classRosKinematics}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRosKinematics_a9dc704b4556f6db399ad18cea7d6259b}{Ros\-Kinematics} ()
+\item 
+virtual void \hyperlink{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}{Init} (std\-::string groupname, std\-::string eelinkname)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ab3e293c7f5d7220fa7ee91256321ec92}{Get\-Joint\-Values} ()
+\item 
+void \hyperlink{classRosKinematics_af9af8957f54e5d2343b2ab00dcb55525}{Set\-Joint\-Values} (std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_af95c3ba0edaccafeb68022895b9824ac}{joint\-\_\-values})
+\item 
+virtual urdf\-::\-Pose \hyperlink{classRosKinematics_ac892e14e3d6b14efbc4908404cd9e706}{F\-K} (std\-::vector$<$ double $>$ jv)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ae8f76a870595ca94d3876bbe51c7b142}{I\-K} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
+\item 
+bool \hyperlink{classRosKinematics_ae51c062c810983b29d418399d38da42f}{Satisfies\-Bounds} ()
+\item 
+void \hyperlink{classRosKinematics_a19e0993e7e188491918785f4ca6ce115}{Enforce\-Bounds} ()
+\item 
+virtual size\-\_\-t \hyperlink{classRosKinematics_ae3d78b75e8cbd38a12d451e0e0e95548}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ab50d3e7666cf3b2bdb1ae3d5e0a7db8e}{Nearest\-Joints} (std\-::vector$<$ double $>$ oldjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+robot\-\_\-model\-::\-Robot\-Model\-Ptr \hyperlink{classRosKinematics_a0ab6cd969d40fa1e40707e8982f76f15}{kinematic\-\_\-model}
+\item 
+robot\-\_\-state\-::\-Robot\-State\-Ptr \hyperlink{classRosKinematics_a2236796eba89e23f8b47b6fcd87a296d}{kinematic\-\_\-state}
+\item 
+robot\-\_\-state\-::\-Joint\-Model\-Group $\ast$ \hyperlink{classRosKinematics_ab6f642bac05e91ab8cf0675232e4cf1b}{joint\-\_\-model\-\_\-group}
+\item 
+std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_af95c3ba0edaccafeb68022895b9824ac}{joint\-\_\-values}
+\item 
+std\-::vector$<$ std\-::string $>$ \hyperlink{classRosKinematics_a0690908a8ee72e65685dc5b0a0da00df}{joint\-\_\-names}
+\item 
+std\-::string \hyperlink{classRosKinematics_a80fac3df36e85d02b79c83a35e961f78}{\-\_\-groupname}
+\item 
+std\-::string \hyperlink{classRosKinematics_ad2aeb76b94edd1bdfb4830eacadebd61}{\-\_\-eelinkname}
+\item 
+bool \hyperlink{classRosKinematics_a3cae7f7ad57a5df821c2ebf8b55057d5}{\-\_\-b\-Init}
+\item 
+boost\-::mutex \hyperlink{classRosKinematics_a79f88926f9403d9b90cad26d0fa43193}{kinmutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRosKinematics_a9dc704b4556f6db399ad18cea7d6259b}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Ros\-Kinematics@{Ros\-Kinematics}}
+\index{Ros\-Kinematics@{Ros\-Kinematics}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Ros\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}Ros\-Kinematics\-::\-Ros\-Kinematics (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classRosKinematics_a9dc704b4556f6db399ad18cea7d6259b}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRosKinematics_ae3d78b75e8cbd38a12d451e0e0e95548}{\index{Ros\-Kinematics@{Ros\-Kinematics}!All\-Pose\-To\-Joints@{All\-Pose\-To\-Joints}}
+\index{All\-Pose\-To\-Joints@{All\-Pose\-To\-Joints}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{All\-Pose\-To\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual size\-\_\-t Ros\-Kinematics\-::\-All\-Pose\-To\-Joints (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRosKinematics_ae3d78b75e8cbd38a12d451e0e0e95548}
+
+
+Implements \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c10}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_a19e0993e7e188491918785f4ca6ce115}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Enforce\-Bounds@{Enforce\-Bounds}}
+\index{Enforce\-Bounds@{Enforce\-Bounds}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Enforce\-Bounds}]{\setlength{\rightskip}{0pt plus 5cm}void Ros\-Kinematics\-::\-Enforce\-Bounds (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classRosKinematics_a19e0993e7e188491918785f4ca6ce115}
+\hypertarget{classRosKinematics_ac892e14e3d6b14efbc4908404cd9e706}{\index{Ros\-Kinematics@{Ros\-Kinematics}!F\-K@{F\-K}}
+\index{F\-K@{F\-K}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Ros\-Kinematics\-::\-F\-K (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{jv}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_ac892e14e3d6b14efbc4908404cd9e706}
+
+
+Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_ab3e293c7f5d7220fa7ee91256321ec92}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Get\-Joint\-Values@{Get\-Joint\-Values}}
+\index{Get\-Joint\-Values@{Get\-Joint\-Values}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Get\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ Ros\-Kinematics\-::\-Get\-Joint\-Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_ab3e293c7f5d7220fa7ee91256321ec92}
+
+
+Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_ae8f76a870595ca94d3876bbe51c7b142}{\index{Ros\-Kinematics@{Ros\-Kinematics}!I\-K@{I\-K}}
+\index{I\-K@{I\-K}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{I\-K}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ Ros\-Kinematics\-::\-I\-K (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{std\-::vector$<$ double $>$}]{oldjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_ae8f76a870595ca94d3876bbe51c7b142}
+
+
+Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Init@{Init}}
+\index{Init@{Init}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void Ros\-Kinematics\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{groupname, }
+\item[{std\-::string}]{eelinkname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}
+
+
+Reimplemented from \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_ab50d3e7666cf3b2bdb1ae3d5e0a7db8e}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Nearest\-Joints@{Nearest\-Joints}}
+\index{Nearest\-Joints@{Nearest\-Joints}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Nearest\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::vector$<$double$>$ Ros\-Kinematics\-::\-Nearest\-Joints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{oldjoints, }
+\item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRosKinematics_ab50d3e7666cf3b2bdb1ae3d5e0a7db8e}
+
+
+Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_ae51c062c810983b29d418399d38da42f}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Satisfies\-Bounds@{Satisfies\-Bounds}}
+\index{Satisfies\-Bounds@{Satisfies\-Bounds}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Satisfies\-Bounds}]{\setlength{\rightskip}{0pt plus 5cm}bool Ros\-Kinematics\-::\-Satisfies\-Bounds (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classRosKinematics_ae51c062c810983b29d418399d38da42f}
+\hypertarget{classRosKinematics_af9af8957f54e5d2343b2ab00dcb55525}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Set\-Joint\-Values@{Set\-Joint\-Values}}
+\index{Set\-Joint\-Values@{Set\-Joint\-Values}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Set\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void Ros\-Kinematics\-::\-Set\-Joint\-Values (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{joint\-\_\-values}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_af9af8957f54e5d2343b2ab00dcb55525}
+
+
+Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kinematics}.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRosKinematics_a3cae7f7ad57a5df821c2ebf8b55057d5}{\index{Ros\-Kinematics@{Ros\-Kinematics}!\-\_\-b\-Init@{\-\_\-b\-Init}}
+\index{\-\_\-b\-Init@{\-\_\-b\-Init}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{\-\_\-b\-Init}]{\setlength{\rightskip}{0pt plus 5cm}bool Ros\-Kinematics\-::\-\_\-b\-Init}}\label{classRosKinematics_a3cae7f7ad57a5df821c2ebf8b55057d5}
+\hypertarget{classRosKinematics_ad2aeb76b94edd1bdfb4830eacadebd61}{\index{Ros\-Kinematics@{Ros\-Kinematics}!\-\_\-eelinkname@{\-\_\-eelinkname}}
+\index{\-\_\-eelinkname@{\-\_\-eelinkname}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{\-\_\-eelinkname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Ros\-Kinematics\-::\-\_\-eelinkname}}\label{classRosKinematics_ad2aeb76b94edd1bdfb4830eacadebd61}
+\hypertarget{classRosKinematics_a80fac3df36e85d02b79c83a35e961f78}{\index{Ros\-Kinematics@{Ros\-Kinematics}!\-\_\-groupname@{\-\_\-groupname}}
+\index{\-\_\-groupname@{\-\_\-groupname}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{\-\_\-groupname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Ros\-Kinematics\-::\-\_\-groupname}}\label{classRosKinematics_a80fac3df36e85d02b79c83a35e961f78}
+\hypertarget{classRosKinematics_ab6f642bac05e91ab8cf0675232e4cf1b}{\index{Ros\-Kinematics@{Ros\-Kinematics}!joint\-\_\-model\-\_\-group@{joint\-\_\-model\-\_\-group}}
+\index{joint\-\_\-model\-\_\-group@{joint\-\_\-model\-\_\-group}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{joint\-\_\-model\-\_\-group}]{\setlength{\rightskip}{0pt plus 5cm}robot\-\_\-state\-::\-Joint\-Model\-Group$\ast$ Ros\-Kinematics\-::joint\-\_\-model\-\_\-group}}\label{classRosKinematics_ab6f642bac05e91ab8cf0675232e4cf1b}
+\hypertarget{classRosKinematics_a0690908a8ee72e65685dc5b0a0da00df}{\index{Ros\-Kinematics@{Ros\-Kinematics}!joint\-\_\-names@{joint\-\_\-names}}
+\index{joint\-\_\-names@{joint\-\_\-names}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{joint\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::string$>$ Ros\-Kinematics\-::joint\-\_\-names}}\label{classRosKinematics_a0690908a8ee72e65685dc5b0a0da00df}
+\hypertarget{classRosKinematics_af95c3ba0edaccafeb68022895b9824ac}{\index{Ros\-Kinematics@{Ros\-Kinematics}!joint\-\_\-values@{joint\-\_\-values}}
+\index{joint\-\_\-values@{joint\-\_\-values}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{joint\-\_\-values}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ Ros\-Kinematics\-::joint\-\_\-values}}\label{classRosKinematics_af95c3ba0edaccafeb68022895b9824ac}
+\hypertarget{classRosKinematics_a0ab6cd969d40fa1e40707e8982f76f15}{\index{Ros\-Kinematics@{Ros\-Kinematics}!kinematic\-\_\-model@{kinematic\-\_\-model}}
+\index{kinematic\-\_\-model@{kinematic\-\_\-model}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{kinematic\-\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}robot\-\_\-model\-::\-Robot\-Model\-Ptr Ros\-Kinematics\-::kinematic\-\_\-model}}\label{classRosKinematics_a0ab6cd969d40fa1e40707e8982f76f15}
+\hypertarget{classRosKinematics_a2236796eba89e23f8b47b6fcd87a296d}{\index{Ros\-Kinematics@{Ros\-Kinematics}!kinematic\-\_\-state@{kinematic\-\_\-state}}
+\index{kinematic\-\_\-state@{kinematic\-\_\-state}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{kinematic\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}robot\-\_\-state\-::\-Robot\-State\-Ptr Ros\-Kinematics\-::kinematic\-\_\-state}}\label{classRosKinematics_a2236796eba89e23f8b47b6fcd87a296d}
+\hypertarget{classRosKinematics_a79f88926f9403d9b90cad26d0fa43193}{\index{Ros\-Kinematics@{Ros\-Kinematics}!kinmutex@{kinmutex}}
+\index{kinmutex@{kinmutex}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{kinmutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex Ros\-Kinematics\-::kinmutex}}\label{classRosKinematics_a79f88926f9403d9b90cad26d0fa43193}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Kinematics_8cpp}{Kinematics.\-cpp}\end{DoxyCompactItemize}

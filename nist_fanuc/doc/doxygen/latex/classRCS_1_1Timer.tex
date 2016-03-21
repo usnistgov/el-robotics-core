@@ -1,0 +1,219 @@
+\hypertarget{classRCS_1_1Timer}{\section{R\-C\-S\-:\-:Timer Class Reference}
+\label{classRCS_1_1Timer}\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}}
+}
+
+
+\hyperlink{classRCS_1_1Timer}{Timer} is a general-\/purpose timer. The \hyperlink{classRCS_1_1Timer}{Timer} is a general-\/purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer.  
+
+
+
+
+{\ttfamily \#include $<$R\-C\-S\-Timer.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCS_1_1Timer_a31096c4873d54bc2bd59e9349d8de634}{Timer} (double \-\_\-timeout, \hyperlink{namespaceRCS_ae5dd02ab24956844fae02f10de954ad5}{R\-C\-S\-\_\-\-T\-I\-M\-E\-R\-F\-U\-N\-C} \-\_\-function=(\hyperlink{namespaceRCS_ae5dd02ab24956844fae02f10de954ad5}{R\-C\-S\-\_\-\-T\-I\-M\-E\-R\-F\-U\-N\-C}) 0)
+\begin{DoxyCompactList}\small\item\em timeout is wait interval, rounded up to clock tick resolution; function is external time base, if provided. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Timer_a951188b514c0c371f1b2f47c3f6861af}{esleep} (double seconds\-\_\-to\-\_\-sleep)
+\begin{DoxyCompactList}\small\item\em sleep number of seconds to sleep. \end{DoxyCompactList}\item 
+boost\-::chrono\-::high\-\_\-resolution\-\_\-clock\-::time\-\_\-point \hyperlink{classRCS_1_1Timer_a375a179a8236c14fac3da8c791e26994}{etime} ()
+\begin{DoxyCompactList}\small\item\em number of seconds from some epoch, to clock tick resolution. \end{DoxyCompactList}\item 
+double \hyperlink{classRCS_1_1Timer_ae552e3eda5b4e0633ed2174b9e513657}{clk\-\_\-tck} ()
+\begin{DoxyCompactList}\small\item\em number of clock ticks per second using high resolution timer. \end{DoxyCompactList}\item 
+int \hyperlink{classRCS_1_1Timer_a1e33cc91158802fb37003445bd77ad64}{wait} ()
+\begin{DoxyCompactList}\small\item\em wait on synch; returns \# of cycles missed. \end{DoxyCompactList}\item 
+double \hyperlink{classRCS_1_1Timer_a3c56c4237a97887278ec307101d93d93}{load} ()
+\begin{DoxyCompactList}\small\item\em Returns \% loading on timer, 0.\-0 means all waits, 1.\-0 means no time in wait. This is average load. \end{DoxyCompactList}\item 
+double \hyperlink{classRCS_1_1Timer_af7ed219a6157e28f7555a2c52d3c10f0}{free} ()
+\begin{DoxyCompactList}\small\item\em Compute free time over all cycles. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Timer_a6e97c4f4d236d76f9e21f07b2a4ee542}{sync} ()
+\begin{DoxyCompactList}\small\item\em Synchronize the timing service. Initialize start time and last time called to current time since epoch. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Timer_ae83a5a6260dd5d79ab884ef593df2db3}{suspend} ()
+\begin{DoxyCompactList}\small\item\em Suspend the timing. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Timer_a4ff4189ac7fe91e9eb647b5e1d5e55b7}{resume} ()
+\begin{DoxyCompactList}\small\item\em Resume the timing. Wakeup timer with boost conditional notify. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \& \hyperlink{classRCS_1_1Timer_a9f48b5e2bd0504c75fee1b47c6ea8047}{last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep} ()
+\begin{DoxyCompactList}\small\item\em return last sleep number of seconds to slept. \end{DoxyCompactList}\item 
+static int \& \hyperlink{classRCS_1_1Timer_a98f34c3fdfda98529ebdffdf1019ac5e}{etime\-\_\-disabled} ()
+\item 
+static double \& \hyperlink{classRCS_1_1Timer_ace5214da460a817d1a90d87636efe11e}{etime\-\_\-disable\-\_\-time} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classRCS_1_1Timer}{Timer} is a general-\/purpose timer. The \hyperlink{classRCS_1_1Timer}{Timer} is a general-\/purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCS_1_1Timer_a31096c4873d54bc2bd59e9349d8de634}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!Timer@{Timer}}
+\index{Timer@{Timer}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{Timer}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Timer\-::\-Timer (
+\begin{DoxyParamCaption}
+\item[{double}]{\-\_\-timeout, }
+\item[{{\bf R\-C\-S\-\_\-\-T\-I\-M\-E\-R\-F\-U\-N\-C}}]{\-\_\-function = {\ttfamily ({\bf R\-C\-S\-\_\-\-T\-I\-M\-E\-R\-F\-U\-N\-C})~0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a31096c4873d54bc2bd59e9349d8de634}
+
+
+timeout is wait interval, rounded up to clock tick resolution; function is external time base, if provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout} & period. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCS_1_1Timer_ae552e3eda5b4e0633ed2174b9e513657}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!clk\-\_\-tck@{clk\-\_\-tck}}
+\index{clk\-\_\-tck@{clk\-\_\-tck}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{clk\-\_\-tck}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Timer\-::clk\-\_\-tck (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_ae552e3eda5b4e0633ed2174b9e513657}
+
+
+number of clock ticks per second using high resolution timer. 
+
+\begin{DoxyReturn}{Returns}
+number of ticks per second. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1Timer_a951188b514c0c371f1b2f47c3f6861af}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!esleep@{esleep}}
+\index{esleep@{esleep}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{esleep}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Timer\-::esleep (
+\begin{DoxyParamCaption}
+\item[{double}]{seconds\-\_\-to\-\_\-sleep}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a951188b514c0c371f1b2f47c3f6861af}
+
+
+sleep number of seconds to sleep. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seconds} & (or fractions) to sleep. Must be positive. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCS_1_1Timer_a375a179a8236c14fac3da8c791e26994}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!etime@{etime}}
+\index{etime@{etime}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{etime}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::chrono\-::high\-\_\-resolution\-\_\-clock\-::time\-\_\-point R\-C\-S\-::\-Timer\-::etime (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a375a179a8236c14fac3da8c791e26994}
+
+
+number of seconds from some epoch, to clock tick resolution. 
+
+\begin{DoxyReturn}{Returns}
+high\-\_\-resolution\-\_\-clock now 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1Timer_ace5214da460a817d1a90d87636efe11e}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!etime\-\_\-disable\-\_\-time@{etime\-\_\-disable\-\_\-time}}
+\index{etime\-\_\-disable\-\_\-time@{etime\-\_\-disable\-\_\-time}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{etime\-\_\-disable\-\_\-time}]{\setlength{\rightskip}{0pt plus 5cm}static double\& R\-C\-S\-::\-Timer\-::etime\-\_\-disable\-\_\-time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Timer_ace5214da460a817d1a90d87636efe11e}
+\hypertarget{classRCS_1_1Timer_a98f34c3fdfda98529ebdffdf1019ac5e}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!etime\-\_\-disabled@{etime\-\_\-disabled}}
+\index{etime\-\_\-disabled@{etime\-\_\-disabled}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{etime\-\_\-disabled}]{\setlength{\rightskip}{0pt plus 5cm}static int\& R\-C\-S\-::\-Timer\-::etime\-\_\-disabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Timer_a98f34c3fdfda98529ebdffdf1019ac5e}
+\hypertarget{classRCS_1_1Timer_af7ed219a6157e28f7555a2c52d3c10f0}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!free@{free}}
+\index{free@{free}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{free}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Timer\-::free (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_af7ed219a6157e28f7555a2c52d3c10f0}
+
+
+Compute free time over all cycles. 
+
+\hypertarget{classRCS_1_1Timer_a9f48b5e2bd0504c75fee1b47c6ea8047}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep@{last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep}}
+\index{last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep@{last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep}]{\setlength{\rightskip}{0pt plus 5cm}static double\& R\-C\-S\-::\-Timer\-::last\-\_\-esleep\-\_\-seconds\-\_\-to\-\_\-sleep (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Timer_a9f48b5e2bd0504c75fee1b47c6ea8047}
+
+
+return last sleep number of seconds to slept. 
+
+\begin{DoxyReturn}{Returns}
+last seconds (or fractions) last slept. -\/199.\-99 if unused. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1Timer_a3c56c4237a97887278ec307101d93d93}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!load@{load}}
+\index{load@{load}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Timer\-::load (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a3c56c4237a97887278ec307101d93d93}
+
+
+Returns \% loading on timer, 0.\-0 means all waits, 1.\-0 means no time in wait. This is average load. 
+
+\begin{DoxyReturn}{Returns}
+double or -\/1 of time spent busy. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1Timer_a4ff4189ac7fe91e9eb647b5e1d5e55b7}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!resume@{resume}}
+\index{resume@{resume}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{resume}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Timer\-::resume (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a4ff4189ac7fe91e9eb647b5e1d5e55b7}
+
+
+Resume the timing. Wakeup timer with boost conditional notify. 
+
+\hypertarget{classRCS_1_1Timer_ae83a5a6260dd5d79ab884ef593df2db3}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!suspend@{suspend}}
+\index{suspend@{suspend}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{suspend}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Timer\-::suspend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_ae83a5a6260dd5d79ab884ef593df2db3}
+
+
+Suspend the timing. 
+
+\hypertarget{classRCS_1_1Timer_a6e97c4f4d236d76f9e21f07b2a4ee542}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!sync@{sync}}
+\index{sync@{sync}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{sync}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Timer\-::sync (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a6e97c4f4d236d76f9e21f07b2a4ee542}
+
+
+Synchronize the timing service. Initialize start time and last time called to current time since epoch. 
+
+\hypertarget{classRCS_1_1Timer_a1e33cc91158802fb37003445bd77ad64}{\index{R\-C\-S\-::\-Timer@{R\-C\-S\-::\-Timer}!wait@{wait}}
+\index{wait@{wait}!RCS::Timer@{R\-C\-S\-::\-Timer}}
+\subsubsection[{wait}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-::\-Timer\-::wait (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Timer_a1e33cc91158802fb37003445bd77ad64}
+
+
+wait on synch; returns \# of cycles missed. 
+
+\begin{DoxyReturn}{Returns}
+\# of cycles missed. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSTimer_8h}{R\-C\-S\-Timer.\-h}\end{DoxyCompactItemize}

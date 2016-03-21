@@ -1,0 +1,101 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/SanityCheckTests.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/SanityCheckTests.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRCS::Controller\fP \fBKinematics\fP () -> SetJointValues(cjoints\&.position)"
+.br
+.ti -1c
+.RI "std::cout<< 'Dump All zero FK 
+.br
+test Pose '<< RCS::DumpPose(\fBtestpose\fP)\&.c_str();_quatToRpy(testpose\&.rotation, 
+.br
+\fBroll\fP, \fBpitch\fP, \fByaw\fP);std::cout
+.br
+<< 'Dump rotation in RPY'
+.br
+<< roll<< ':'<< \fBpitch\fP
+.br
+<< ':'<< \fByaw\fP<< std::endl;\fBtestjoints2\fP=\fBRCS::Controller\&.Kinematics\fP() -> \fBIK\fP (\fBtestpose\fP, \fBtestjoints\fP)"
+.br
+.ti -1c
+.RI "\fBGlobals\fP \fBReadFile\fP ('/home/michalos/catkin_ws/src/fanucdemo/doc/programExample\&.xml', contents)"
+.br
+.ti -1c
+.RI "\fBmycrcl\fP \fBDelegateCRCLCmd\fP (\fBcontents\fP)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "std::vector< double > \fBtestjoints\fP = \fBRCS::Controller\&.Kinematics\fP()->GetJointValues()"
+.br
+.ti -1c
+.RI "std::vector< double > \fBtestjoints2\fP"
+.br
+.ti -1c
+.RI "double \fBroll\fP"
+.br
+.ti -1c
+.RI "double \fBpitch\fP"
+.br
+.ti -1c
+.RI "double \fByaw\fP"
+.br
+.ti -1c
+.RI "urdf::Pose \fBtestpose\fP = \fBRCS::Controller\&.Kinematics\fP()->FK(\fBtestjoints\fP)"
+.br
+.ti -1c
+.RI "\fBcjoints\fP = jointReader->GetCurrentReadings()"
+.br
+.ti -1c
+.RI "\fBCrcl::CrclDelegateInterface\fP \fBmycrcl\fP"
+.br
+.RI "\fIProgram test\&. \fP"
+.ti -1c
+.RI "std::string \fBcontents\fP"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBmycrcl\fP DelegateCRCLCmd (\fBcontents\fP)"
+
+.SS "std::cout<< 'Dump All zero FK test Pose ' << RCS::DumpPose(\fBtestpose\fP)\&.c_str(); _quatToRpy (testpose\&.rotation, \fBroll\fP, \fBpitch\fP, \fByaw\fP); std::cout << 'Dump rotation in RPY' << roll << ':' << \fBpitch\fP << ':'<< \fByaw\fP << std::endl; \fBtestjoints2\fP = \fBRCS::Controller\&.Kinematics\fP()-> IK (\fBtestpose\fP, \fBtestjoints\fP)"
+
+.SS "\fBRCS::Controller\fP Kinematics () ->  SetJointValues(cjoints\&.position)"
+
+.SS "\fBGlobals\fP ReadFile ('/home/michalos/catkin_ws/src/fanucdemo/doc/programExample\&.xml', \fBcontents\fP)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "cjoints = jointReader->GetCurrentReadings()"
+
+.SS "std::string contents"
+
+.SS "\fBCrcl::CrclDelegateInterface\fP mycrcl"
+
+.PP
+Program test\&. 
+.SS "double pitch"
+
+.SS "double roll"
+
+.SS "testjoints = \fBRCS::Controller\&.Kinematics\fP()->GetJointValues()"
+
+.SS "std::vector<double> testjoints2"
+
+.SS "testpose = \fBRCS::Controller\&.Kinematics\fP()->FK(\fBtestjoints\fP)"
+
+.SS "double yaw"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

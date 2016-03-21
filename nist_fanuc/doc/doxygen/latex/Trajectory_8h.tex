@@ -1,0 +1,42 @@
+\hypertarget{Trajectory_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Trajectory.h File Reference}
+\label{Trajectory_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Trajectory.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Trajectory.\-h}}
+}
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$boost/shared\-\_\-ptr.\-hpp$>$}\\*
+{\ttfamily \#include $<$control\-\_\-msgs/\-Follow\-Joint\-Trajectory\-Action.\-h$>$}\\*
+{\ttfamily \#include $<$actionlib/client/simple\-\_\-action\-\_\-client.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-moveit/moveit\-\_\-state\-\_\-adapter.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/axial\-\_\-symmetric\-\_\-pt.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-trajectory/cart\-\_\-trajectory\-\_\-pt.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-planner/dense\-\_\-planner.\-h$>$}\\*
+{\ttfamily \#include $<$descartes\-\_\-planner/sparse\-\_\-planner.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}R\-C\-S.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classCTrajectory}{C\-Trajectory}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\-::vector\\*
+$<$ descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr $>$ \hyperlink{Trajectory_8h_a2a09344c15175b0b6ea4da8bbffa8106}{Trajectory\-Vec}
+\item 
+typedef \\*
+Trajectory\-Vec\-::const\-\_\-iterator \hyperlink{Trajectory_8h_a5079ec3f4d81e5f18a231a4fa27d95f0}{Trajectory\-Iter}
+\item 
+typedef boost\-::shared\-\_\-ptr\\*
+$<$ descartes\-\_\-moveit\-::\-Moveit\-State\-Adapter $>$ \hyperlink{Trajectory_8h_a5e61c6eea593862de00adc245142f8c9}{Moveit\-State\-Adapter\-Ptr}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{Trajectory_8h_a5e61c6eea593862de00adc245142f8c9}{\index{Trajectory.\-h@{Trajectory.\-h}!Moveit\-State\-Adapter\-Ptr@{Moveit\-State\-Adapter\-Ptr}}
+\index{Moveit\-State\-Adapter\-Ptr@{Moveit\-State\-Adapter\-Ptr}!Trajectory.h@{Trajectory.\-h}}
+\subsubsection[{Moveit\-State\-Adapter\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::shared\-\_\-ptr$<$descartes\-\_\-moveit\-::\-Moveit\-State\-Adapter$>$ {\bf Moveit\-State\-Adapter\-Ptr}}}\label{Trajectory_8h_a5e61c6eea593862de00adc245142f8c9}
+\hypertarget{Trajectory_8h_a5079ec3f4d81e5f18a231a4fa27d95f0}{\index{Trajectory.\-h@{Trajectory.\-h}!Trajectory\-Iter@{Trajectory\-Iter}}
+\index{Trajectory\-Iter@{Trajectory\-Iter}!Trajectory.h@{Trajectory.\-h}}
+\subsubsection[{Trajectory\-Iter}]{\setlength{\rightskip}{0pt plus 5cm}typedef Trajectory\-Vec\-::const\-\_\-iterator {\bf Trajectory\-Iter}}}\label{Trajectory_8h_a5079ec3f4d81e5f18a231a4fa27d95f0}
+\hypertarget{Trajectory_8h_a2a09344c15175b0b6ea4da8bbffa8106}{\index{Trajectory.\-h@{Trajectory.\-h}!Trajectory\-Vec@{Trajectory\-Vec}}
+\index{Trajectory\-Vec@{Trajectory\-Vec}!Trajectory.h@{Trajectory.\-h}}
+\subsubsection[{Trajectory\-Vec}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\-::vector$<$descartes\-\_\-core\-::\-Trajectory\-Pt\-Ptr$>$ {\bf Trajectory\-Vec}}}\label{Trajectory_8h_a2a09344c15175b0b6ea4da8bbffa8106}

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node name="nist_fanuc"  
+    launch-prefix="xterm -e gdb --args" 
+    pkg="nist_fanuc" 
+    type="nist_fanuc" 
+    output="screen" />
+
+</launch>

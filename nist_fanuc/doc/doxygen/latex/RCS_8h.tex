@@ -1,0 +1,236 @@
+\hypertarget{RCS_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.h File Reference}
+\label{RCS_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.\-h}}
+}
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model\-\_\-loader/robot\-\_\-model\-\_\-loader.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model/robot\-\_\-model.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}/usr/include/urdf\-\_\-model/model.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}/usr/include/urdf\-\_\-model/joint.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}/usr/include/urdf\-\_\-model/link.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}/opt/ros/indigo/include/sensor\-\_\-msgs/\-Joint\-State.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}urdf\-\_\-model/rosmath.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$stdarg.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}Globals.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structRCS_1_1CanonCmd}{Canon\-Cmd} is the controller command structure. \end{DoxyCompactList}\item 
+struct \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structRCS_1_1CanonWorldModel}{Canon\-World\-Model} describes the controller state. Includes reference to robot model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceRCS}{R\-C\-S}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{RCS_8h_a525335710b53cb064ca56b936120431e}{\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}
+\item 
+\#define \hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}~1000
+\item 
+\#define \hyperlink{RCS_8h_a002b2f4894492820fe708b1b7e7c5e70}{E\-P\-S\-I\-L\-O\-N}~1\-E-\/04
+\item 
+\#define \hyperlink{RCS_8h_a0a7c6276c97aae145096af0f75c1fccd}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}~0.\-010
+\item 
+\#define \hyperlink{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}~0.\-10
+\item 
+\#define \hyperlink{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}~20.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\item 
+\#define \hyperlink{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}~200.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\item 
+\#define \hyperlink{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}~20.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\item 
+\#define \hyperlink{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}~150.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef boost\-::shared\-\_\-ptr\\*
+$<$ urdf\-::\-Model\-Interface $>$ \hyperlink{RCS_8h_a20fcacb5362f459b2122712e88613342}{Model\-Interface\-Shared\-Ptr}
+\item 
+typedef \\*
+sensor\-\_\-msgs\-::\-Joint\-State\-\_\-\\*
+$<$ std\-::allocator$<$ void $>$ $>$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State}
+\item 
+typedef boost\-::shared\-\_\-ptr\\*
+$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{RCS_8h_aa7d06b998b3d2c430de97ea9d1397730}{Joint\-State\-Shared\-Ptr}
+\item 
+typedef urdf\-::\-Pose \hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose}
+\item 
+typedef urdf\-::\-Vector3 \hyperlink{namespaceRCS_afde073114b0dbe5587b2ec83fad48085}{R\-C\-S\-::\-Position}
+\item 
+typedef urdf\-::\-Rotation \hyperlink{namespaceRCS_ae84bcdeffa185f35100e9eca768bd4db}{R\-C\-S\-::\-Rotation}
+\item 
+typedef urdf\-::\-Vector3 \hyperlink{namespaceRCS_a3d2e4673086277ee114b9f01ba1664e7}{R\-C\-S\-::\-Vector3}
+\item 
+typedef double \hyperlink{namespaceRCS_a86ac9427c1a3f2ec2b94a74888b2cefd}{R\-C\-S\-::\-Length}
+\item 
+typedef double \hyperlink{namespaceRCS_a20e104cd075c4ca08a073a6261a70a84}{R\-C\-S\-::\-Linear\-Velocity}
+\item 
+typedef double \hyperlink{namespaceRCS_a3ca212cf7a0c547f5496352e850372a9}{R\-C\-S\-::\-Angular\-Velocity}
+\item 
+typedef std\-::vector$<$ double $>$ \hyperlink{namespaceRCS_a3185cefb4d61f5c6f364aaf5624a3ee4}{R\-C\-S\-::robot\-Axes}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespaceRCS_a768c9d3a7f0e5850bc61ebede4b85b23}{R\-C\-S\-::\-Canon\-Length\-Unit} \{ \hyperlink{namespaceRCS_a768c9d3a7f0e5850bc61ebede4b85b23ae6d96128754284c45e005b02fe54b79d}{R\-C\-S\-::\-M\-E\-T\-E\-R} = 0, 
+\hyperlink{namespaceRCS_a768c9d3a7f0e5850bc61ebede4b85b23ab9e0fafa9c10ccca32bcdcd1eb9813c1}{R\-C\-S\-::\-M\-M}, 
+\hyperlink{namespaceRCS_a768c9d3a7f0e5850bc61ebede4b85b23a0b9c2e89e6353c26a8bab5661da20f6d}{R\-C\-S\-::\-I\-N\-C\-H}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of length units. Conversion into R\-O\-S compatible meters. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9}{R\-C\-S\-::\-Traj\-Point\-Type} \{ \hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9a255760a7e92a5d130681fc75e280cb61}{R\-C\-S\-::\-W\-A\-Y\-P\-O\-I\-N\-T} = 1, 
+\hyperlink{namespaceRCS_ae705dbb4b887b18fef40316b6d5ca2c9ab5c3606954a689ebe5425f6c2c09b970}{R\-C\-S\-::\-G\-O\-A\-L}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of trajector pose points. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_ad07ee9a15612cae458796cf946e36410}{R\-C\-S\-::\-Canon\-Angle\-Unit} \{ \hyperlink{namespaceRCS_ad07ee9a15612cae458796cf946e36410ad82b65c17877cfe8789becb230386fe5}{R\-C\-S\-::\-R\-A\-D\-I\-A\-N} = 0, 
+\hyperlink{namespaceRCS_ad07ee9a15612cae458796cf946e36410aa2c86ef15e4232944a9f2085f3f68661}{R\-C\-S\-::\-D\-E\-G\-R\-E\-E}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of angle units. Conversion into R\-O\-S compatible radians. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_a7ab3ac05af337215785442dc8570c00f}{R\-C\-S\-::\-Canon\-Force\-Unit} \{ \hyperlink{namespaceRCS_a7ab3ac05af337215785442dc8570c00fadefb2cf80f2a6761a24dc6ffc2f15bbd}{R\-C\-S\-::\-N\-E\-W\-T\-O\-N} = 0, 
+\hyperlink{namespaceRCS_a7ab3ac05af337215785442dc8570c00fa50e031587d5ce89d8b76aa114d5516c0}{R\-C\-S\-::\-P\-O\-U\-N\-D}, 
+\hyperlink{namespaceRCS_a7ab3ac05af337215785442dc8570c00fa525cee8c6112d4cb86dec3aa0e6caba0}{R\-C\-S\-::\-O\-U\-N\-C\-E}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of force units. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_aad43ee626dc2b93364a9276cd0190b38}{R\-C\-S\-::\-Canon\-Torque\-Unit} \{ \hyperlink{namespaceRCS_aad43ee626dc2b93364a9276cd0190b38a8455a50078c65f9939ae9093d87df9ce}{R\-C\-S\-::\-N\-E\-W\-T\-O\-N\-M\-E\-T\-E\-R} = 0, 
+\hyperlink{namespaceRCS_aad43ee626dc2b93364a9276cd0190b38a90a01e4c469158168e9bbfed53909fa4}{R\-C\-S\-::\-F\-O\-O\-T\-P\-O\-U\-N\-D}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of torque units. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79}{R\-C\-S\-::\-Canon\-Return} \{ \\*
+\hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79ae784c3b29210b49f3548ad8ccbe35688}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-R\-E\-J\-E\-C\-T} = -\/2, 
+\hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79a8046a92ede63076a4b9c98aa4099e3ea}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-F\-A\-I\-L\-U\-R\-E} = -\/1, 
+\hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79a45f0039600f4e6b521a58e021609ea22}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-U\-C\-C\-E\-S\-S} = 0, 
+\hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79ae5d8cf70f462c3e4aee8050f308132fb}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-T\-A\-T\-U\-S\-R\-E\-P\-L\-Y} = 1, 
+\\*
+\hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of return type from \hyperlink{namespaceCrcl}{Crcl} intepretation. If statusreply, requires status sent to \hyperlink{namespaceCrcl}{Crcl} client. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75}{R\-C\-S\-::\-Canon\-Cmd\-Type} \{ \\*
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75aec778933c8e1af18ea16550268eebaaa}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-N\-O\-O\-P} = 0, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a39055f1d78c4ea71a7eb300b059dc330}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-D\-W\-E\-L\-L}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75afe807fccfca39c61a14d5c1a454b216d}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-E\-N\-D\-\_\-\-C\-A\-N\-O\-N}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75acce93027306fc36aeccc8d40dc4e7d62}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-I\-N\-I\-T\-\_\-\-C\-A\-N\-O\-N}, 
+\\*
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a24901ab5e41ab6e4cc5a2ab97de92f06}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-M\-O\-V\-E\-\_\-\-J\-O\-I\-N\-T}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75ae64ab69bfbfa2932859ab153701de029}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-M\-O\-V\-E\-\_\-\-T\-O}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a312d738989bea16a5eb8b9a3c99e72d2}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-M\-O\-V\-E\-\_\-\-T\-H\-R\-U}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a8f4e35036d5f034ec1d7eef1649f3acc}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-M\-A\-X\-\_\-\-C\-A\-R\-T\-\_\-\-A\-C\-C}, 
+\\*
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a6b3163b9c7d5ec2b1f1933b6c9df9523}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-M\-A\-X\-\_\-\-C\-A\-R\-T\-\_\-\-S\-P\-E\-E\-D}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a67a51ba452c9d8a4a8d64232cce7922d}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-M\-A\-X\-\_\-\-J\-O\-I\-N\-T\-\_\-\-A\-C\-C}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75adda3bf1c656804e5d07912149ceb9760}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-M\-A\-X\-\_\-\-J\-O\-I\-N\-T\-\_\-\-S\-P\-E\-E\-D}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75af7ae40ad1b0525a4cb8888af76db4acc}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-G\-R\-I\-P\-P\-E\-R}, 
+\\*
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-T\-O\-P\-\_\-\-M\-O\-T\-I\-O\-N}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-U\-N\-K\-N\-O\-W\-N}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of \hyperlink{namespaceCrcl}{Crcl} commands. Many \hyperlink{namespaceCrcl}{Crcl} commands are wm parameter setting and require no motion component. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_a39ae96212f304024b5f91fe8d63a40c0}{R\-C\-S\-::\-Canon\-Stop\-Motion\-Type} \{ \hyperlink{namespaceRCS_a39ae96212f304024b5f91fe8d63a40c0aa70f9618bf9470bf8dad4cf7c82f676a}{R\-C\-S\-::\-U\-N\-S\-E\-T} = -\/1, 
+\hyperlink{namespaceRCS_a39ae96212f304024b5f91fe8d63a40c0abdc21ede32cc83eb939faea7e4dd4641}{R\-C\-S\-::\-I\-M\-M\-E\-D\-I\-A\-T\-E} = 0, 
+\hyperlink{namespaceRCS_a39ae96212f304024b5f91fe8d63a40c0a332e4c404e6b8aa0a64e1970e0e8e793}{R\-C\-S\-::\-F\-A\-S\-T}, 
+\hyperlink{namespaceRCS_a39ae96212f304024b5f91fe8d63a40c0ab9652e079b6284ddf30eb812539260cd}{R\-C\-S\-::\-N\-O\-R\-M\-A\-L}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of stopping motion, e.\-g., estop equivalent to immediate. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2ead}{R\-C\-S\-::\-Canon\-Acc\-Profile} \{ \\*
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eada2315e4dd1ff60cc3c544074b3cf68aca}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-U\-N\-S\-E\-T} = 0, 
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eada5e3a369ff66b61df6181d0dc65c428b8}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-D\-O\-N\-E} = 1, 
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eada34d1aa9bce420946f968a49604b118c4}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-A\-C\-C\-E\-L} = 2, 
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eada7bf5f12a075b086d878fa4e1f7b795ac}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-C\-O\-N\-S\-T} = 3, 
+\\*
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eadabe3f296a699b654071dfed0d62f0707e}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-D\-E\-C\-E\-L} = 4, 
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eadab136562b5efb4a27c513ce457d7b7cbc}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-E\-S\-T\-O\-P\-P\-I\-N\-G} = 5, 
+\hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2eada092d58e8f17c61485c944eef747369f6}{R\-C\-S\-::\-M\-S\-\_\-\-I\-S\-\_\-\-P\-A\-U\-S\-E\-D} = 6
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of trajectory acceleration profile. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_ab06a825aaa263c253e8100d626609ec4}{R\-C\-S\-::\-Movement\-Type} \{ \hyperlink{namespaceRCS_ab06a825aaa263c253e8100d626609ec4ac969035de1d3dc48e8dd0951863bf23b}{R\-C\-S\-::\-M\-O\-V\-E\-\_\-\-D\-E\-F\-A\-U\-L\-T} = 0, 
+\hyperlink{namespaceRCS_ab06a825aaa263c253e8100d626609ec4a080a0390ae2de7ee0ca67d94506a9c79}{R\-C\-S\-::\-M\-O\-V\-E\-\_\-\-C\-A\-R\-T\-E\-S\-I\-A\-N}, 
+\hyperlink{namespaceRCS_ab06a825aaa263c253e8100d626609ec4a275cc65ce33e5cfc57c57abb4a208223}{R\-C\-S\-::\-M\-O\-V\-E\-\_\-\-J\-O\-I\-N\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of trajectory motion type, joint or cartesian. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777d}{R\-C\-S\-::\-Canon\-Status\-Type} \{ \\*
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777daabf0ebc3e57ea212970f33430d917eae}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-D\-O\-N\-E} = 0, 
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777da4a0ac89d145f0ac2ab9d2322ea4f3a08}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-W\-O\-R\-K\-I\-N\-G}, 
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777da86acce9ac34e5ca0b0056b11810af584}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-P\-A\-U\-S\-E\-D}, 
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777dac78240d093ffb8a630852bac1aa33905}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-E\-R\-R\-O\-R}, 
+\\*
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777da094244917abcd576f2118e80803279ee}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-A\-B\-O\-R\-T}, 
+\hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777da101acfc97dc944ffd40c3e8e0cf7c179}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-W\-A\-I\-T\-I\-N\-G}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration of controller status types for individual commands. Note, even though command types are listed, not all used or supported. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::string \hyperlink{namespaceRCS_ac45b18edecf0b0f60b08ca409cbe477a}{R\-C\-S\-::\-Dump\-Pose} (urdf\-::\-Pose \&pose)
+\begin{DoxyCompactList}\small\item\em Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceRCS_ac04aacea4f1ce25e58ed402586b8ae14}{R\-C\-S\-::\-Dump\-Quaterion} (std\-::ostream \&os, const urdf\-::\-Rotation \&rot)
+\begin{DoxyCompactList}\small\item\em Dump\-Quaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std\-::cout $<$$<$ Dump\-Quaterion(urdf\-::rotation);. \end{DoxyCompactList}\item 
+std\-::ostream \& \hyperlink{RCS_8h_a8e885cace21a754e8307a7579f304705}{operator$<$$<$} (std\-::ostream \&os, const \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} \&cc)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{RCS_8h_a20fcacb5362f459b2122712e88613342}{Model\-Interface\-Shared\-Ptr} \\*
+typedef boost\-::shared\-\_\-ptr\\*
+$<$ urdf\-::\-Joint $>$ \hyperlink{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{Joint\-Shared\-Ptr}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{RCS_8h_a525335710b53cb064ca56b936120431e}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S@{\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}}
+\index{\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S@{\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define \-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}}\label{RCS_8h_a525335710b53cb064ca56b936120431e}
+\hypertarget{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}}
+\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L~20.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}
+\hypertarget{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}}
+\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L~200.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}
+\hypertarget{RCS_8h_a0a7c6276c97aae145096af0f75c1fccd}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}}
+\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E~0.\-010}}\label{RCS_8h_a0a7c6276c97aae145096af0f75c1fccd}
+\hypertarget{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}}
+\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L~20.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}
+\hypertarget{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}}
+\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L~150.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}
+\hypertarget{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}}
+\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E~0.\-10}}\label{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}
+\hypertarget{RCS_8h_a002b2f4894492820fe708b1b7e7c5e70}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!E\-P\-S\-I\-L\-O\-N@{E\-P\-S\-I\-L\-O\-N}}
+\index{E\-P\-S\-I\-L\-O\-N@{E\-P\-S\-I\-L\-O\-N}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{E\-P\-S\-I\-L\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-P\-S\-I\-L\-O\-N~1\-E-\/04}}\label{RCS_8h_a002b2f4894492820fe708b1b7e7c5e70}
+\hypertarget{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S@{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}
+\index{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S@{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S~1000}}\label{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Joint\-State@{Joint\-State}}
+\index{Joint\-State@{Joint\-State}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Joint\-State}]{\setlength{\rightskip}{0pt plus 5cm}typedef sensor\-\_\-msgs\-::\-Joint\-State\-\_\-$<$std\-::allocator$<$void$>$ $>$ {\bf Joint\-State}}}\label{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}
+\hypertarget{RCS_8h_aa7d06b998b3d2c430de97ea9d1397730}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Joint\-State\-Shared\-Ptr@{Joint\-State\-Shared\-Ptr}}
+\index{Joint\-State\-Shared\-Ptr@{Joint\-State\-Shared\-Ptr}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Joint\-State\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::shared\-\_\-ptr$<${\bf Joint\-State}$>$ {\bf Joint\-State\-Shared\-Ptr}}}\label{RCS_8h_aa7d06b998b3d2c430de97ea9d1397730}
+\hypertarget{RCS_8h_a20fcacb5362f459b2122712e88613342}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Model\-Interface\-Shared\-Ptr@{Model\-Interface\-Shared\-Ptr}}
+\index{Model\-Interface\-Shared\-Ptr@{Model\-Interface\-Shared\-Ptr}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Model\-Interface\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::shared\-\_\-ptr$<$urdf\-::\-Model\-Interface$>$ {\bf Model\-Interface\-Shared\-Ptr}}}\label{RCS_8h_a20fcacb5362f459b2122712e88613342}
+
+
+\subsection{Function Documentation}
+\hypertarget{RCS_8h_a8e885cace21a754e8307a7579f304705}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{os, }
+\item[{const {\bf R\-C\-S\-::\-Canon\-Cmd} \&}]{cc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{RCS_8h_a8e885cace21a754e8307a7579f304705}
+
+
+\subsection{Variable Documentation}
+\hypertarget{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Joint\-Shared\-Ptr@{Joint\-Shared\-Ptr}}
+\index{Joint\-Shared\-Ptr@{Joint\-Shared\-Ptr}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Joint\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Model\-Interface\-Shared\-Ptr} typedef boost\-::shared\-\_\-ptr$<$urdf\-::\-Joint$>$ Joint\-Shared\-Ptr}}\label{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}

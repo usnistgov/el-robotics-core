@@ -1,0 +1,238 @@
+\hypertarget{classCrcl_1_1CrclClientCmdInterface}{\section{Crcl\-:\-:Crcl\-Client\-Cmd\-Interface Class Reference}
+\label{classCrcl_1_1CrclClientCmdInterface}\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+}
+
+
+{\ttfamily \#include $<$Crcl\-Interface.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCrcl_1_1CrclClientCmdInterface_a7c2ea74f24d04a0048b285ba98611749}{Crcl\-Client\-Cmd\-Interface} ()
+\item 
+void \hyperlink{classCrcl_1_1CrclClientCmdInterface_a089de9ab1afb6f23dbebcf844abd30e2}{Set\-Command\-Num} (unsigned long long n)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a7373f6122f7c8386752a2cfde7f750e5}{Close\-Tool\-Changer} ()
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a1d58b154f382c7346d6dabba9c77a08e}{Dwell} (double seconds)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a6222121cebc0938bd19863230ec7e3db}{End\-Canon} (int reason)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a78a380822383ba3e848aa817d2e683ad}{Get\-Status} ()
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a52f5e4dbb9e788cf440913f59ceb39a1}{Init\-Canon} ()
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a3779c2ae65b84008cf18d7295bddd6bc}{Message} (std\-::string message)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_abf53a322d43d941e678886d38866d351}{Move\-Screw} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} start\-Post, \hyperlink{namespaceCrcl_ae868d4ece511d1485ed5d9118395aef8}{Vector\-Type} axis\-Point, double d\-Axial\-Distance\-Free, double d\-Axial\-Distance\-Screw, double d\-Turn)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_acf53a82b11af8bbaee332e3838e5e041}{Move\-To} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, bool b\-Straight=true)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a619a4f09c1d8e339db0f693c61298fa9}{Move\-Through\-To} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} $\ast$poses, int num\-Poses, double $\ast$accelerations=N\-U\-L\-L, double $\ast$speeds=N\-U\-L\-L, \hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} $\ast$tolerances=N\-U\-L\-L)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a5d9b36d71b14cc1cf0609b9d7382271e}{Open\-Tool\-Changer} ()
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a638fd866f6952e1e04f98683d67d4e3b}{Run\-Program} (std\-::string program\-Text)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a212ce9dc24e670cc16fa250b337bad22}{Set\-End\-Effector} (double fractional\-Setting)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a2e8c1806096fd6baf49750d96747019b}{Set\-End\-Pose\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance\-Setting)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a1eb5274689527c8d5cf63a3e0ac46e27}{Set\-End\-Effector\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance\-Setting)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_af71197c4718712a121635ce1329233cb}{Set\-Angle\-Units} (std\-::string Unit\-Name)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_ad842b61ccc69a4db16ee035103ede8bb}{Set\-Length\-Units} (std\-::string Unit\-Name)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_ab466d17abed84f28c653bca84882256a}{Set\-Motion\-Coordination} (bool b\-Coordinated)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_ab2424f0f8fc3ed068acd37b40e976b85}{Set\-Rot\-Accel} (double d\-Accel)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a022300fe3a3870454d2a8fb761c2b1eb}{Set\-Rot\-Speed} (double d\-Speed)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_a6e2b895f50d889aa80870c02722ffcae}{Stop\-Motion} (int condition)
+\item 
+std\-::string \hyperlink{classCrcl_1_1CrclClientCmdInterface_af74231a5343156060c0ab6342e794a1f}{Get\-Status\-Reply} (\hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} $\ast$wm)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a7c2ea74f24d04a0048b285ba98611749}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Crcl\-Client\-Cmd\-Interface@{Crcl\-Client\-Cmd\-Interface}}
+\index{Crcl\-Client\-Cmd\-Interface@{Crcl\-Client\-Cmd\-Interface}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Crcl\-Client\-Cmd\-Interface}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Client\-Cmd\-Interface\-::\-Crcl\-Client\-Cmd\-Interface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCrcl_1_1CrclClientCmdInterface_a7c2ea74f24d04a0048b285ba98611749}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a7373f6122f7c8386752a2cfde7f750e5}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Close\-Tool\-Changer@{Close\-Tool\-Changer}}
+\index{Close\-Tool\-Changer@{Close\-Tool\-Changer}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Close\-Tool\-Changer}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Close\-Tool\-Changer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a7373f6122f7c8386752a2cfde7f750e5}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a1d58b154f382c7346d6dabba9c77a08e}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Dwell@{Dwell}}
+\index{Dwell@{Dwell}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Dwell}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Dwell (
+\begin{DoxyParamCaption}
+\item[{double}]{seconds}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a1d58b154f382c7346d6dabba9c77a08e}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a6222121cebc0938bd19863230ec7e3db}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!End\-Canon@{End\-Canon}}
+\index{End\-Canon@{End\-Canon}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{End\-Canon}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-End\-Canon (
+\begin{DoxyParamCaption}
+\item[{int}]{reason}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a6222121cebc0938bd19863230ec7e3db}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a78a380822383ba3e848aa817d2e683ad}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Get\-Status@{Get\-Status}}
+\index{Get\-Status@{Get\-Status}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Get\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a78a380822383ba3e848aa817d2e683ad}
+xercesc\-::\-X\-M\-L\-Platform\-Utils\-::\-Initialize(); \hyperlink{classCrcl_1_1CrclClientCmdInterface}{Crcl\-Client\-Cmd\-Interface} crcl; std\-::string text = crcl.\-C\-R\-C\-L\-Get\-Status\-Cmd(); xercesc\-::\-X\-M\-L\-Platform\-Utils\-::\-Terminate (); \hypertarget{classCrcl_1_1CrclClientCmdInterface_af74231a5343156060c0ab6342e794a1f}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Get\-Status\-Reply@{Get\-Status\-Reply}}
+\index{Get\-Status\-Reply@{Get\-Status\-Reply}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Get\-Status\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Get\-Status\-Reply (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-Status} $\ast$}]{wm}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_af74231a5343156060c0ab6342e794a1f}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a52f5e4dbb9e788cf440913f59ceb39a1}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Init\-Canon@{Init\-Canon}}
+\index{Init\-Canon@{Init\-Canon}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Init\-Canon}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Init\-Canon (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a52f5e4dbb9e788cf440913f59ceb39a1}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a3779c2ae65b84008cf18d7295bddd6bc}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Message@{Message}}
+\index{Message@{Message}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Message}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Message (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{message}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a3779c2ae65b84008cf18d7295bddd6bc}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_abf53a322d43d941e678886d38866d351}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Move\-Screw@{Move\-Screw}}
+\index{Move\-Screw@{Move\-Screw}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Move\-Screw}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Move\-Screw (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type}}]{start\-Post, }
+\item[{{\bf Vector\-Type}}]{axis\-Point, }
+\item[{double}]{d\-Axial\-Distance\-Free, }
+\item[{double}]{d\-Axial\-Distance\-Screw, }
+\item[{double}]{d\-Turn}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_abf53a322d43d941e678886d38866d351}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a619a4f09c1d8e339db0f693c61298fa9}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Move\-Through\-To@{Move\-Through\-To}}
+\index{Move\-Through\-To@{Move\-Through\-To}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Move\-Through\-To}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Move\-Through\-To (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type} $\ast$}]{poses, }
+\item[{int}]{num\-Poses, }
+\item[{double $\ast$}]{accelerations = {\ttfamily NULL}, }
+\item[{double $\ast$}]{speeds = {\ttfamily NULL}, }
+\item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type} $\ast$}]{tolerances = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a619a4f09c1d8e339db0f693c61298fa9}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_acf53a82b11af8bbaee332e3838e5e041}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Move\-To@{Move\-To}}
+\index{Move\-To@{Move\-To}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Move\-To}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Move\-To (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type}}]{pose, }
+\item[{bool}]{b\-Straight = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_acf53a82b11af8bbaee332e3838e5e041}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a5d9b36d71b14cc1cf0609b9d7382271e}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Open\-Tool\-Changer@{Open\-Tool\-Changer}}
+\index{Open\-Tool\-Changer@{Open\-Tool\-Changer}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Open\-Tool\-Changer}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Open\-Tool\-Changer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a5d9b36d71b14cc1cf0609b9d7382271e}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a638fd866f6952e1e04f98683d67d4e3b}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Run\-Program@{Run\-Program}}
+\index{Run\-Program@{Run\-Program}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Run\-Program}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Run\-Program (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{program\-Text}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a638fd866f6952e1e04f98683d67d4e3b}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_af71197c4718712a121635ce1329233cb}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-Angle\-Units@{Set\-Angle\-Units}}
+\index{Set\-Angle\-Units@{Set\-Angle\-Units}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-Angle\-Units}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-Angle\-Units (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{Unit\-Name}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_af71197c4718712a121635ce1329233cb}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a089de9ab1afb6f23dbebcf844abd30e2}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-Command\-Num@{Set\-Command\-Num}}
+\index{Set\-Command\-Num@{Set\-Command\-Num}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-Command\-Num}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Client\-Cmd\-Interface\-::\-Set\-Command\-Num (
+\begin{DoxyParamCaption}
+\item[{unsigned long long}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classCrcl_1_1CrclClientCmdInterface_a089de9ab1afb6f23dbebcf844abd30e2}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a212ce9dc24e670cc16fa250b337bad22}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-End\-Effector@{Set\-End\-Effector}}
+\index{Set\-End\-Effector@{Set\-End\-Effector}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-End\-Effector}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-End\-Effector (
+\begin{DoxyParamCaption}
+\item[{double}]{fractional\-Setting}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a212ce9dc24e670cc16fa250b337bad22}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a1eb5274689527c8d5cf63a3e0ac46e27}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}}
+\index{Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-End\-Effector\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-End\-Effector\-Tolerance (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{tolerance\-Setting}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a1eb5274689527c8d5cf63a3e0ac46e27}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a2e8c1806096fd6baf49750d96747019b}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-End\-Pose\-Tolerance@{Set\-End\-Pose\-Tolerance}}
+\index{Set\-End\-Pose\-Tolerance@{Set\-End\-Pose\-Tolerance}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-End\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-End\-Pose\-Tolerance (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{tolerance\-Setting}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a2e8c1806096fd6baf49750d96747019b}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_ad842b61ccc69a4db16ee035103ede8bb}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-Length\-Units@{Set\-Length\-Units}}
+\index{Set\-Length\-Units@{Set\-Length\-Units}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-Length\-Units}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-Length\-Units (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{Unit\-Name}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_ad842b61ccc69a4db16ee035103ede8bb}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_ab466d17abed84f28c653bca84882256a}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-Motion\-Coordination@{Set\-Motion\-Coordination}}
+\index{Set\-Motion\-Coordination@{Set\-Motion\-Coordination}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-Motion\-Coordination}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-Motion\-Coordination (
+\begin{DoxyParamCaption}
+\item[{bool}]{b\-Coordinated}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_ab466d17abed84f28c653bca84882256a}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_ab2424f0f8fc3ed068acd37b40e976b85}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-Rot\-Accel@{Set\-Rot\-Accel}}
+\index{Set\-Rot\-Accel@{Set\-Rot\-Accel}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-Rot\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-Rot\-Accel (
+\begin{DoxyParamCaption}
+\item[{double}]{d\-Accel}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_ab2424f0f8fc3ed068acd37b40e976b85}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a022300fe3a3870454d2a8fb761c2b1eb}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Set\-Rot\-Speed@{Set\-Rot\-Speed}}
+\index{Set\-Rot\-Speed@{Set\-Rot\-Speed}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Set\-Rot\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Set\-Rot\-Speed (
+\begin{DoxyParamCaption}
+\item[{double}]{d\-Speed}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a022300fe3a3870454d2a8fb761c2b1eb}
+\hypertarget{classCrcl_1_1CrclClientCmdInterface_a6e2b895f50d889aa80870c02722ffcae}{\index{Crcl\-::\-Crcl\-Client\-Cmd\-Interface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}!Stop\-Motion@{Stop\-Motion}}
+\index{Stop\-Motion@{Stop\-Motion}!Crcl::CrclClientCmdInterface@{Crcl\-::\-Crcl\-Client\-Cmd\-Interface}}
+\subsubsection[{Stop\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Client\-Cmd\-Interface\-::\-Stop\-Motion (
+\begin{DoxyParamCaption}
+\item[{int}]{condition}
+\end{DoxyParamCaption}
+)}}\label{classCrcl_1_1CrclClientCmdInterface_a6e2b895f50d889aa80870c02722ffcae}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{CrclInterface_8h}{Crcl\-Interface.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{CrclInterface_8cpp}{Crcl\-Interface.\-cpp}\end{DoxyCompactItemize}

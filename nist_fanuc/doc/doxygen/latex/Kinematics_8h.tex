@@ -1,0 +1,59 @@
+\hypertarget{Kinematics_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Kinematics.h File Reference}
+\label{Kinematics_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Kinematics.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Kinematics.\-h}}
+}
+{\ttfamily \#include \char`\"{}R\-C\-S.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Globals.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$boost/shared\-\_\-ptr.\-hpp$>$}\\*
+{\ttfamily \#include $<$boost/thread/mutex.\-hpp$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$Eigen/\-Dense$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Point.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Pose.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Pose\-Stamped.\-h$>$}\\*
+{\ttfamily \#include $<$geometry\-\_\-msgs/\-Quaternion.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/move\-\_\-group\-\_\-interface/move\-\_\-group.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model/joint\-\_\-model\-\_\-group.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model/robot\-\_\-model.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model\-\_\-loader/robot\-\_\-model\-\_\-loader.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-state/robot\-\_\-state.\-h$>$}\\*
+{\ttfamily \#include $<$moveit\-\_\-msgs/\-Collision\-Object.\-h$>$}\\*
+{\ttfamily \#include $<$moveit\-\_\-msgs/\-Display\-Trajectory.\-h$>$}\\*
+{\ttfamily \#include $<$ros/console.\-h$>$}\\*
+{\ttfamily \#include $<$ros/init.\-h$>$}\\*
+{\ttfamily \#include $<$ros/node\-\_\-handle.\-h$>$}\\*
+{\ttfamily \#include $<$ros/param.\-h$>$}\\*
+{\ttfamily \#include $<$ros/rate.\-h$>$}\\*
+{\ttfamily \#include $<$rosconsole/macros\-\_\-generated.\-h$>$}\\*
+{\ttfamily \#include $<$sensor\-\_\-msgs/\-Joint\-State.\-h$>$}\\*
+{\ttfamily \#include $<$shape\-\_\-msgs/\-Solid\-Primitive.\-h$>$}\\*
+{\ttfamily \#include $<$std\-\_\-msgs/\-Header.\-h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classIKinematics}{I\-Kinematics}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classIKinematics}{I\-Kinematics} provides is an abstract class with pure virtual functions that are overriden by actual kinematic implementations. \end{DoxyCompactList}\item 
+class \hyperlink{classDummyKinematics}{Dummy\-Kinematics}
+\item 
+class \hyperlink{classRosKinematics}{Ros\-Kinematics}
+\item 
+class \hyperlink{classMoveitKinematics}{Moveit\-Kinematics}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef boost\-::shared\-\_\-ptr\\*
+$<$ \hyperlink{classIKinematics}{I\-Kinematics} $>$ \hyperlink{Kinematics_8h_aa720b9842c846588baf215581fb9f902}{I\-Kinematics\-Shared\-Ptr}
+\item 
+typedef \\*
+moveit\-::planning\-\_\-interface\-::\-Move\-It\-Error\-Code \hyperlink{Kinematics_8h_a48652544ea2bb9dd64b01e7cabb55fd2}{Ros\-Error\-Code}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{Kinematics_8h_aa720b9842c846588baf215581fb9f902}{\index{Kinematics.\-h@{Kinematics.\-h}!I\-Kinematics\-Shared\-Ptr@{I\-Kinematics\-Shared\-Ptr}}
+\index{I\-Kinematics\-Shared\-Ptr@{I\-Kinematics\-Shared\-Ptr}!Kinematics.h@{Kinematics.\-h}}
+\subsubsection[{I\-Kinematics\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::shared\-\_\-ptr$<${\bf I\-Kinematics}$>$ {\bf I\-Kinematics\-Shared\-Ptr}}}\label{Kinematics_8h_aa720b9842c846588baf215581fb9f902}
+\hypertarget{Kinematics_8h_a48652544ea2bb9dd64b01e7cabb55fd2}{\index{Kinematics.\-h@{Kinematics.\-h}!Ros\-Error\-Code@{Ros\-Error\-Code}}
+\index{Ros\-Error\-Code@{Ros\-Error\-Code}!Kinematics.h@{Kinematics.\-h}}
+\subsubsection[{Ros\-Error\-Code}]{\setlength{\rightskip}{0pt plus 5cm}typedef moveit\-::planning\-\_\-interface\-::\-Move\-It\-Error\-Code {\bf Ros\-Error\-Code}}}\label{Kinematics_8h_a48652544ea2bb9dd64b01e7cabb55fd2}

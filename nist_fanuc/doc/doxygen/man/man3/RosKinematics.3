@@ -1,0 +1,139 @@
+.TH "RosKinematics" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RosKinematics \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Kinematics\&.h>\fP
+.PP
+Inherits \fBIKinematics\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRosKinematics\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBInit\fP (std::string groupname, std::string eelinkname)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBGetJointValues\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetJointValues\fP (std::vector< double > \fBjoint_values\fP)"
+.br
+.ti -1c
+.RI "virtual urdf::Pose \fBFK\fP (std::vector< double > jv)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBIK\fP (\fBRCS::Pose\fP &pose, std::vector< double > oldjoints)"
+.br
+.ti -1c
+.RI "bool \fBSatisfiesBounds\fP ()"
+.br
+.ti -1c
+.RI "void \fBEnforceBounds\fP ()"
+.br
+.ti -1c
+.RI "virtual size_t \fBAllPoseToJoints\fP (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)"
+.br
+.ti -1c
+.RI "virtual std::vector< double > \fBNearestJoints\fP (std::vector< double > oldjoints, std::vector< std::vector< double > > &newjoints)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "robot_model::RobotModelPtr \fBkinematic_model\fP"
+.br
+.ti -1c
+.RI "robot_state::RobotStatePtr \fBkinematic_state\fP"
+.br
+.ti -1c
+.RI "robot_state::JointModelGroup * \fBjoint_model_group\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBjoint_values\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBjoint_names\fP"
+.br
+.ti -1c
+.RI "std::string \fB_groupname\fP"
+.br
+.ti -1c
+.RI "std::string \fB_eelinkname\fP"
+.br
+.ti -1c
+.RI "bool \fB_bInit\fP"
+.br
+.ti -1c
+.RI "boost::mutex \fBkinmutex\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RosKinematics::RosKinematics ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual size_t RosKinematics::AllPoseToJoints (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "void RosKinematics::EnforceBounds ()"
+
+.SS "urdf::Pose RosKinematics::FK (std::vector< double >jv)\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "std::vector< double > RosKinematics::GetJointValues ()\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "std::vector< double > RosKinematics::IK (\fBRCS::Pose\fP &pose, std::vector< double >oldjoints)\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "void RosKinematics::Init (std::stringgroupname, std::stringeelinkname)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBIKinematics\fP\&.
+.SS "virtual std::vector<double> RosKinematics::NearestJoints (std::vector< double >oldjoints, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "bool RosKinematics::SatisfiesBounds ()"
+
+.SS "void RosKinematics::SetJointValues (std::vector< double >joint_values)\fC [virtual]\fP"
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "bool RosKinematics::_bInit"
+
+.SS "std::string RosKinematics::_eelinkname"
+
+.SS "std::string RosKinematics::_groupname"
+
+.SS "robot_state::JointModelGroup* RosKinematics::joint_model_group"
+
+.SS "std::vector<std::string> RosKinematics::joint_names"
+
+.SS "std::vector<double> RosKinematics::joint_values"
+
+.SS "robot_model::RobotModelPtr RosKinematics::kinematic_model"
+
+.SS "robot_state::RobotStatePtr RosKinematics::kinematic_state"
+
+.SS "boost::mutex RosKinematics::kinmutex"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

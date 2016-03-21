@@ -155,6 +155,10 @@ void MoveitKinematics::EnforceBounds() {
 #endif
 urdf::Pose MoveitKinematics::FK(std::vector<double> jv) {
     boost::mutex::scoped_lock lock(kinmutex);
+    if(jv.size()==0)
+    {
+        jv=ToVector<double>(6, 0,0,0,0,0,0);
+    }
     SetJointValues(jv);
     Eigen::Affine3d end_effector_state = Eigen::Affine3d(
             kinematic_state->getGlobalLinkTransform(group->getEndEffectorLink().c_str()));

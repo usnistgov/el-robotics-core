@@ -1,0 +1,352 @@
+\hypertarget{classRCS_1_1Thread}{\section{R\-C\-S\-:\-:Thread Class Reference}
+\label{classRCS_1_1Thread}\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}}
+}
+
+
+\hyperlink{classRCS_1_1Thread}{Thread} is an \hyperlink{namespaceRCS}{R\-C\-S} ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time. It keeps track of busy/idle time for diagnostic purposes. \par
+ Notes\-: \href{https://www.quantnet.com/threads/c-multithreading-in-boost.10028/}{\tt https\-://www.\-quantnet.\-com/threads/c-\/multithreading-\/in-\/boost.\-10028/}.  
+
+
+
+
+{\ttfamily \#include $<$R\-C\-S\-Thread\-Template.\-h$>$}
+
+Inheritance diagram for R\-C\-S\-:\-:Thread\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classRCS_1_1Thread}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCS_1_1Thread_a3f5e86f11c0b8fc3aa4728549b1b7249}{Thread} (double cycletime)
+\begin{DoxyCompactList}\small\item\em Constructor of thread, that takes cycle time as input. \end{DoxyCompactList}\item 
+\hyperlink{classRCS_1_1Thread_a7b91358afd5f9609b3a6b5b32f9a89aa}{$\sim$\-Thread} ()
+\begin{DoxyCompactList}\small\item\em Destructor of thread, makes sure thread has stopped. \end{DoxyCompactList}\item 
+std\-::string \& \hyperlink{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724}{Name} ()
+\begin{DoxyCompactList}\small\item\em Name returns name of thread. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_a5f7209d2edfa23588f6adc74bbfb8f07}{Join} ()
+\begin{DoxyCompactList}\small\item\em Uses boost thread join routine. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init} ()
+\begin{DoxyCompactList}\small\item\em Init function called before \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1Thread_a8b932e4130f18d9747407fe70a87332a}{Cleanup} ()
+\begin{DoxyCompactList}\small\item\em Cleanup function called after \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop done. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action} ()
+\begin{DoxyCompactList}\small\item\em Action override function called every cycle. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_a86b50ec69dd0baeda270b115d72c1c15}{Start} ()
+\begin{DoxyCompactList}\small\item\em Start starts the thread which call \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init()}, and then does \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_ae0c4a68567ab695f4b7daf755ab874d6}{Stop} (bool b\-Wait=false)
+\begin{DoxyCompactList}\small\item\em Stop stops the thread loop. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}{Suspend} ()
+\begin{DoxyCompactList}\small\item\em Suspend stops the thread loop until restarted with \hyperlink{classRCS_1_1Thread_adf2b3b0fc8b643b1fd2b6f28f30c7a2e}{Resume()}. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_adf2b3b0fc8b643b1fd2b6f28f30c7a2e}{Resume} ()
+\begin{DoxyCompactList}\small\item\em Resume resume execution of the thread loop stopped with \hyperlink{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}{Suspend()}. \end{DoxyCompactList}\item 
+double \hyperlink{classRCS_1_1Thread_a0de02ea91ce412d0770452dcd2256e35}{Load} ()
+\begin{DoxyCompactList}\small\item\em Load returns the load of the thread cycle. \end{DoxyCompactList}\item 
+double \& \hyperlink{classRCS_1_1Thread_a1738e943d3ca8a9861941610db819161}{Cycle\-Time} ()
+\begin{DoxyCompactList}\small\item\em Cycle\-Time returns the cycle time of the thread cycle in seconds. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_a4bb0d136529374782030bf1bd19cad6d}{Set\-Debug\-Level} (int n)
+\begin{DoxyCompactList}\small\item\em Set\-Debug\-Level sets the debugging level of the thread. \end{DoxyCompactList}\item 
+int \& \hyperlink{classRCS_1_1Thread_abe304b8316eb45e0b01c1104376fbc41}{Debug\-Level} ()
+\begin{DoxyCompactList}\small\item\em Debug\-Level returns the debugging level of the thread. \end{DoxyCompactList}\item 
+void \hyperlink{classRCS_1_1Thread_a12ff1372b891db600b094d628e606045}{Cycle} ()
+\begin{DoxyCompactList}\small\item\em Cycle is the thread main function. It calls init, action, and cleanup. After each cycle waits exactly amount given by cycle time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static boost\-::thread\-\_\-group \& \hyperlink{classRCS_1_1Thread_ae3269a75272f142bc8423ecef1d98d12}{Thread\-Group} ()
+\begin{DoxyCompactList}\small\item\em Thread\-Group is a static definition of boost thread group. \end{DoxyCompactList}\item 
+static std\-::vector$<$ \hyperlink{classRCS_1_1Thread}{Thread} $\ast$ $>$ \& \hyperlink{classRCS_1_1Thread_a9accd6dbb70083160c9d1aa21585b5f9}{Threads} ()
+\begin{DoxyCompactList}\small\item\em Threads is a static definition of all the threads that have been created. \end{DoxyCompactList}\item 
+static void \hyperlink{classRCS_1_1Thread_af87a4097886fda25c7527089548fe2c8}{Stop\-All} ()
+\begin{DoxyCompactList}\small\item\em Static Stop\-All which stops all the threads created in the boost thread group. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::string \hyperlink{classRCS_1_1Thread_a665a238614304950e1c19e7d03e236e1}{\-\_\-name}
+\item 
+double \hyperlink{classRCS_1_1Thread_ae0fa1f2cd2d13eaad9ecb2c649cb6158}{\-\_\-cycletime}
+\item 
+int \hyperlink{classRCS_1_1Thread_a33e768da1acf4a1deec407edeb656dc2}{\-\_\-debug\-Level}
+\item 
+bool \hyperlink{classRCS_1_1Thread_acf46e3695b682bf24b8c80d0316edd82}{\-\_\-b\-Thread}
+\item 
+bool \hyperlink{classRCS_1_1Thread_acae3e9901f7de3fadd89fa67a30fabdf}{\-\_\-b\-Done}
+\item 
+\hyperlink{classRCS_1_1Timer}{R\-C\-S\-::\-Timer} \hyperlink{classRCS_1_1Thread_afddbc109781286f80017468dcccc6b10}{\-\_\-timer}
+\item 
+boost\-::thread \hyperlink{classRCS_1_1Thread_a06b98cfbb4d084f3776ad0ab8731a60a}{m\-\_\-thread}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classRCS_1_1Thread}{Thread} is an \hyperlink{namespaceRCS}{R\-C\-S} ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time. It keeps track of busy/idle time for diagnostic purposes. \par
+ Notes\-: \href{https://www.quantnet.com/threads/c-multithreading-in-boost.10028/}{\tt https\-://www.\-quantnet.\-com/threads/c-\/multithreading-\/in-\/boost.\-10028/}. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCS_1_1Thread_a3f5e86f11c0b8fc3aa4728549b1b7249}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Thread@{Thread}}
+\index{Thread@{Thread}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Thread}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Thread\-::\-Thread (
+\begin{DoxyParamCaption}
+\item[{double}]{cycletime}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a3f5e86f11c0b8fc3aa4728549b1b7249}
+
+
+Constructor of thread, that takes cycle time as input. 
+
+\hypertarget{classRCS_1_1Thread_a7b91358afd5f9609b3a6b5b32f9a89aa}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!$\sim$\-Thread@{$\sim$\-Thread}}
+\index{$\sim$\-Thread@{$\sim$\-Thread}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{$\sim$\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Thread\-::$\sim$\-Thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a7b91358afd5f9609b3a6b5b32f9a89aa}
+
+
+Destructor of thread, makes sure thread has stopped. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Action@{Action}}
+\index{Action@{Action}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}virtual void R\-C\-S\-::\-Thread\-::\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}
+
+
+Action override function called every cycle. 
+
+
+
+Reimplemented in \hyperlink{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b245790e}{R\-C\-S\-::\-Robot\-Program}, \hyperlink{classRCS_1_1RobotStatus_a7b8484b6d7ad5ae10e41a5d327efc658}{R\-C\-S\-::\-Robot\-Status}, and \hyperlink{structRCS_1_1CController_a5629103a842e2c1d451fec16471f7639}{R\-C\-S\-::\-C\-Controller}.
+
+\hypertarget{classRCS_1_1Thread_a8b932e4130f18d9747407fe70a87332a}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Cleanup@{Cleanup}}
+\index{Cleanup@{Cleanup}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Cleanup}]{\setlength{\rightskip}{0pt plus 5cm}virtual void R\-C\-S\-::\-Thread\-::\-Cleanup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a8b932e4130f18d9747407fe70a87332a}
+
+
+Cleanup function called after \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop done. 
+
+\hypertarget{classRCS_1_1Thread_a12ff1372b891db600b094d628e606045}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Cycle@{Cycle}}
+\index{Cycle@{Cycle}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Cycle}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Cycle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a12ff1372b891db600b094d628e606045}
+
+
+Cycle is the thread main function. It calls init, action, and cleanup. After each cycle waits exactly amount given by cycle time. 
+
+\hypertarget{classRCS_1_1Thread_a1738e943d3ca8a9861941610db819161}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Cycle\-Time@{Cycle\-Time}}
+\index{Cycle\-Time@{Cycle\-Time}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Cycle\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double\& R\-C\-S\-::\-Thread\-::\-Cycle\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a1738e943d3ca8a9861941610db819161}
+
+
+Cycle\-Time returns the cycle time of the thread cycle in seconds. 
+
+\begin{DoxyReturn}{Returns}
+double returns cycle time of thread in seconds. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1Thread_abe304b8316eb45e0b01c1104376fbc41}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Debug\-Level@{Debug\-Level}}
+\index{Debug\-Level@{Debug\-Level}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Debug\-Level}]{\setlength{\rightskip}{0pt plus 5cm}int\& R\-C\-S\-::\-Thread\-::\-Debug\-Level (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_abe304b8316eb45e0b01c1104376fbc41}
+
+
+Debug\-Level returns the debugging level of the thread. 
+
+\begin{DoxyReturn}{Returns}
+int returns debug dlvel of thread. 
+\end{DoxyReturn}
+\hypertarget{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Init@{Init}}
+\index{Init@{Init}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}virtual void R\-C\-S\-::\-Thread\-::\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}
+
+
+Init function called before \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. 
+
+
+
+Reimplemented in \hyperlink{structRCS_1_1CController_ad26d222b33f2b043f8a8d8b2b17bac01}{R\-C\-S\-::\-C\-Controller}.
+
+\hypertarget{classRCS_1_1Thread_a5f7209d2edfa23588f6adc74bbfb8f07}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Join@{Join}}
+\index{Join@{Join}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Join}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Join (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a5f7209d2edfa23588f6adc74bbfb8f07}
+
+
+Uses boost thread join routine. 
+
+\hypertarget{classRCS_1_1Thread_a0de02ea91ce412d0770452dcd2256e35}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Load@{Load}}
+\index{Load@{Load}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Load}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Thread\-::\-Load (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a0de02ea91ce412d0770452dcd2256e35}
+
+
+Load returns the load of the thread cycle. 
+
+\hypertarget{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Name@{Name}}
+\index{Name@{Name}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string\& R\-C\-S\-::\-Thread\-::\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724}
+
+
+Name returns name of thread. 
+
+\hypertarget{classRCS_1_1Thread_adf2b3b0fc8b643b1fd2b6f28f30c7a2e}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Resume@{Resume}}
+\index{Resume@{Resume}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Resume}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Resume (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_adf2b3b0fc8b643b1fd2b6f28f30c7a2e}
+
+
+Resume resume execution of the thread loop stopped with \hyperlink{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}{Suspend()}. 
+
+\hypertarget{classRCS_1_1Thread_a4bb0d136529374782030bf1bd19cad6d}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Set\-Debug\-Level@{Set\-Debug\-Level}}
+\index{Set\-Debug\-Level@{Set\-Debug\-Level}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Set\-Debug\-Level}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Set\-Debug\-Level (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a4bb0d136529374782030bf1bd19cad6d}
+
+
+Set\-Debug\-Level sets the debugging level of the thread. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & specified debug level, as an integer. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCS_1_1Thread_a86b50ec69dd0baeda270b115d72c1c15}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Start@{Start}}
+\index{Start@{Start}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a86b50ec69dd0baeda270b115d72c1c15}
+
+
+Start starts the thread which call \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init()}, and then does \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. 
+
+\hypertarget{classRCS_1_1Thread_ae0c4a68567ab695f4b7daf755ab874d6}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Stop@{Stop}}
+\index{Stop@{Stop}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Stop (
+\begin{DoxyParamCaption}
+\item[{bool}]{b\-Wait = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_ae0c4a68567ab695f4b7daf755ab874d6}
+
+
+Stop stops the thread loop. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b\-Wait} & indicates whether to wait until thread has finished. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCS_1_1Thread_af87a4097886fda25c7527089548fe2c8}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Stop\-All@{Stop\-All}}
+\index{Stop\-All@{Stop\-All}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Stop\-All}]{\setlength{\rightskip}{0pt plus 5cm}static void R\-C\-S\-::\-Thread\-::\-Stop\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Thread_af87a4097886fda25c7527089548fe2c8}
+
+
+Static Stop\-All which stops all the threads created in the boost thread group. 
+
+\hypertarget{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Suspend@{Suspend}}
+\index{Suspend@{Suspend}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Suspend}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Thread\-::\-Suspend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}
+
+
+Suspend stops the thread loop until restarted with \hyperlink{classRCS_1_1Thread_adf2b3b0fc8b643b1fd2b6f28f30c7a2e}{Resume()}. 
+
+\hypertarget{classRCS_1_1Thread_ae3269a75272f142bc8423ecef1d98d12}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Thread\-Group@{Thread\-Group}}
+\index{Thread\-Group@{Thread\-Group}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Thread\-Group}]{\setlength{\rightskip}{0pt plus 5cm}static boost\-::thread\-\_\-group\& R\-C\-S\-::\-Thread\-::\-Thread\-Group (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Thread_ae3269a75272f142bc8423ecef1d98d12}
+
+
+Thread\-Group is a static definition of boost thread group. 
+
+\hypertarget{classRCS_1_1Thread_a9accd6dbb70083160c9d1aa21585b5f9}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Threads@{Threads}}
+\index{Threads@{Threads}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{Threads}]{\setlength{\rightskip}{0pt plus 5cm}static std\-::vector$<${\bf Thread} $\ast$$>$\& R\-C\-S\-::\-Thread\-::\-Threads (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classRCS_1_1Thread_a9accd6dbb70083160c9d1aa21585b5f9}
+
+
+Threads is a static definition of all the threads that have been created. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRCS_1_1Thread_acae3e9901f7de3fadd89fa67a30fabdf}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!\-\_\-b\-Done@{\-\_\-b\-Done}}
+\index{\-\_\-b\-Done@{\-\_\-b\-Done}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{\-\_\-b\-Done}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-Thread\-::\-\_\-b\-Done\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_acae3e9901f7de3fadd89fa67a30fabdf}
+boolean indicating whether thread has finished \hypertarget{classRCS_1_1Thread_acf46e3695b682bf24b8c80d0316edd82}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!\-\_\-b\-Thread@{\-\_\-b\-Thread}}
+\index{\-\_\-b\-Thread@{\-\_\-b\-Thread}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{\-\_\-b\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-Thread\-::\-\_\-b\-Thread\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_acf46e3695b682bf24b8c80d0316edd82}
+boolean loop thread \hypertarget{classRCS_1_1Thread_ae0fa1f2cd2d13eaad9ecb2c649cb6158}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!\-\_\-cycletime@{\-\_\-cycletime}}
+\index{\-\_\-cycletime@{\-\_\-cycletime}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{\-\_\-cycletime}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Thread\-::\-\_\-cycletime\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_ae0fa1f2cd2d13eaad9ecb2c649cb6158}
+cycletime of thread in seconds \hypertarget{classRCS_1_1Thread_a33e768da1acf4a1deec407edeb656dc2}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!\-\_\-debug\-Level@{\-\_\-debug\-Level}}
+\index{\-\_\-debug\-Level@{\-\_\-debug\-Level}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{\-\_\-debug\-Level}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-::\-Thread\-::\-\_\-debug\-Level\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_a33e768da1acf4a1deec407edeb656dc2}
+debug level of thread \hypertarget{classRCS_1_1Thread_a665a238614304950e1c19e7d03e236e1}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!\-\_\-name@{\-\_\-name}}
+\index{\-\_\-name@{\-\_\-name}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-Thread\-::\-\_\-name\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_a665a238614304950e1c19e7d03e236e1}
+name of thread \hypertarget{classRCS_1_1Thread_afddbc109781286f80017468dcccc6b10}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!\-\_\-timer@{\-\_\-timer}}
+\index{\-\_\-timer@{\-\_\-timer}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{\-\_\-timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Timer} R\-C\-S\-::\-Thread\-::\-\_\-timer\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_afddbc109781286f80017468dcccc6b10}
+\hyperlink{namespaceRCS}{R\-C\-S} timer for coordinating wait and duration of thread \hypertarget{classRCS_1_1Thread_a06b98cfbb4d084f3776ad0ab8731a60a}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!m\-\_\-thread@{m\-\_\-thread}}
+\index{m\-\_\-thread@{m\-\_\-thread}!RCS::Thread@{R\-C\-S\-::\-Thread}}
+\subsubsection[{m\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::thread R\-C\-S\-::\-Thread\-::m\-\_\-thread\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCS_1_1Thread_a06b98cfbb4d084f3776ad0ab8731a60a}
+boost thread 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSThreadTemplate_8h}{R\-C\-S\-Thread\-Template.\-h}\end{DoxyCompactItemize}

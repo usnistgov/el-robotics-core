@@ -1,0 +1,122 @@
+.TH "CJointReader" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CJointReader \- 
+.PP
+The \fBCJointReader\fP is a thread to accept joint update callbacks from ROS\&. Uses a ros node handle to tell roscore we are subscribing to joint_state topic\&. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Communication\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCJointReader\fP (ros::NodeHandle &nh)"
+.br
+.RI "\fI\fBCJointReader\fP constructor that requires a ROS node handle\&. \fP"
+.ti -1c
+.RI "\fBsensor_msgs::JointState\fP \fBGetCurrentReadings\fP ()"
+.br
+.RI "\fIGetCurrentReadings returns the latest joint readings for position, velocity, and effort\&. It is thread safe\&. \fP"
+.ti -1c
+.RI "void \fBStart\fP ()"
+.br
+.RI "\fIStart sets up subscriber to joint_state topic messages\&. \fP"
+.ti -1c
+.RI "void \fBStop\fP ()"
+.br
+.RI "\fIStop unsubscribes to joint_state topic\&. \fP"
+.ti -1c
+.RI "std::vector< double > \fBGetJointValues\fP ()"
+.br
+.RI "\fIGetJointValues sets up subscriber to joint_state topic messages\&. \fP"
+.ti -1c
+.RI "void \fBcallback\fP (const sensor_msgs::JointState::ConstPtr &msg)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "ros::NodeHandle & \fB_nh\fP"
+.br
+.ti -1c
+.RI "\fBsensor_msgs::JointState\fP \fB_latestreading\fP"
+.br
+.ti -1c
+.RI "\fBsensor_msgs::JointState\fP \fB_lastreading\fP"
+.br
+.ti -1c
+.RI "ros::Subscriber \fBsub\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static boost::mutex \fB_reader_mutex\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBCJointReader\fP is a thread to accept joint update callbacks from ROS\&. Uses a ros node handle to tell roscore we are subscribing to joint_state topic\&. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CJointReader::CJointReader (ros::NodeHandle &nh)"
+
+.PP
+\fBCJointReader\fP constructor that requires a ROS node handle\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInh\fP ros node handle so joint reader can tell roscore we are subscribing to joint_state topic\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void CJointReader::callback (const sensor_msgs::JointState::ConstPtr &msg)"
+type of joint motion to use 
+.SS "\fBsensor_msgs::JointState\fP CJointReader::GetCurrentReadings ()"
+
+.PP
+GetCurrentReadings returns the latest joint readings for position, velocity, and effort\&. It is thread safe\&. 
+.SS "std::vector< double > CJointReader::GetJointValues ()"
+
+.PP
+GetJointValues sets up subscriber to joint_state topic messages\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+a std vector of double containing joint positions 
+.RE
+.PP
+
+.SS "void CJointReader::Start ()"
+
+.PP
+Start sets up subscriber to joint_state topic messages\&. 
+.SS "void CJointReader::Stop (void)"
+
+.PP
+Stop unsubscribes to joint_state topic\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBsensor_msgs::JointState\fP CJointReader::_lastreading"
+previous joint readings 
+.SS "\fBsensor_msgs::JointState\fP CJointReader::_latestreading"
+latest joint readings 
+.SS "ros::NodeHandle& CJointReader::_nh"
+reference pointer to ROS node handle 
+.SS "boost::mutex CJointReader::_reader_mutex\fC [static]\fP"
+for mutexed reading access 
+.SS "ros::Subscriber CJointReader::sub"
+ros subscriber information 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

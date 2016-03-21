@@ -1,0 +1,120 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/Setup.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/Setup.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Setup\&.h'\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <boost/algorithm/string\&.hpp>\fP
+.br
+\fC#include <ros/ros\&.h>\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+\fC#include <moveit/robot_model_loader/robot_model_loader\&.h>\fP
+.br
+\fC#include <moveit/robot_model/robot_model\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBExecuteShellCommand\fP (std::string command)"
+.br
+.RI "\fIExecuteShellCommand runs a shell script and returns results\&. \fP"
+.ti -1c
+.RI "bool \fBSetupAppEnvironment\fP ()"
+.br
+.RI "\fISetupAppEnvironment will attempt save some of the application settings, e\&.g\&., user, nostname\&. \fP"
+.ti -1c
+.RI "bool \fBSetupRosEnvironment\fP ()"
+.br
+.RI "\fISetupRosEnvironment will attempt to provide an environment equivalent to ROS 'source devel/setup\&.bash'\&.  some of the code is hard coded, but unnecessary if executable run in shell\&. \fP"
+.ti -1c
+.RI "std::string \fBReadRosParam\fP (ros::NodeHandle &nh, std::string paramkey)"
+.br
+.ti -1c
+.RI "std::string \fBReadRosParams\fP (ros::NodeHandle &nh)"
+.br
+.RI "\fIReadRosParams will read and record all ros params in system\&. \fP"
+.ti -1c
+.RI "void \fBGetJointLimits\fP (std::vector< std::string > names, std::vector< double > lower, std::vector< double > upper)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "std::string ExecuteShellCommand (std::string)"
+
+.PP
+ExecuteShellCommand runs a shell script and returns results\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstring\fP is the shell command\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+string containing pipe recording of output 
+.RE
+.PP
+
+.SS "void GetJointLimits (std::vector< std::string >names, std::vector< double >lower, std::vector< double >upper)"
+
+.SS "std::string ReadRosParam (ros::NodeHandle &nh, std::stringparamkey)"
+
+.SS "std::string ReadRosParams (ros::NodeHandle &nh)"
+
+.PP
+ReadRosParams will read and record all ros params in system\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIROS\fP node handle\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+string containing a list of all ros param definitions 
+.RE
+.PP
+
+.SS "bool SetupAppEnvironment ()"
+
+.PP
+SetupAppEnvironment will attempt save some of the application settings, e\&.g\&., user, nostname\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+bool true if success\&. 
+.RE
+.PP
+
+.SS "bool SetupRosEnvironment ()"
+
+.PP
+SetupRosEnvironment will attempt to provide an environment equivalent to ROS 'source devel/setup\&.bash'\&.  some of the code is hard coded, but unnecessary if executable run in shell\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+bool true if success\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

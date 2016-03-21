@@ -1,0 +1,103 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Kinematics.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Kinematics.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'RCS\&.h'\fP
+.br
+\fC#include 'Globals\&.h'\fP
+.br
+\fC#include <boost/shared_ptr\&.hpp>\fP
+.br
+\fC#include <boost/thread/mutex\&.hpp>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <Eigen/Dense>\fP
+.br
+\fC#include <geometry_msgs/Point\&.h>\fP
+.br
+\fC#include <geometry_msgs/Pose\&.h>\fP
+.br
+\fC#include <geometry_msgs/PoseStamped\&.h>\fP
+.br
+\fC#include <geometry_msgs/Quaternion\&.h>\fP
+.br
+\fC#include <moveit/move_group_interface/move_group\&.h>\fP
+.br
+\fC#include <moveit/robot_model/joint_model_group\&.h>\fP
+.br
+\fC#include <moveit/robot_model/robot_model\&.h>\fP
+.br
+\fC#include <moveit/robot_model_loader/robot_model_loader\&.h>\fP
+.br
+\fC#include <moveit/robot_state/robot_state\&.h>\fP
+.br
+\fC#include <moveit_msgs/CollisionObject\&.h>\fP
+.br
+\fC#include <moveit_msgs/DisplayTrajectory\&.h>\fP
+.br
+\fC#include <ros/console\&.h>\fP
+.br
+\fC#include <ros/init\&.h>\fP
+.br
+\fC#include <ros/node_handle\&.h>\fP
+.br
+\fC#include <ros/param\&.h>\fP
+.br
+\fC#include <ros/rate\&.h>\fP
+.br
+\fC#include <rosconsole/macros_generated\&.h>\fP
+.br
+\fC#include <sensor_msgs/JointState\&.h>\fP
+.br
+\fC#include <shape_msgs/SolidPrimitive\&.h>\fP
+.br
+\fC#include <std_msgs/Header\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBIKinematics\fP"
+.br
+.RI "\fIThe \fBIKinematics\fP provides is an abstract class with pure virtual functions that are overriden by actual kinematic implementations\&. \fP"
+.ti -1c
+.RI "class \fBDummyKinematics\fP"
+.br
+.ti -1c
+.RI "class \fBRosKinematics\fP"
+.br
+.ti -1c
+.RI "class \fBMoveitKinematics\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef boost::shared_ptr
+.br
+< \fBIKinematics\fP > \fBIKinematicsSharedPtr\fP"
+.br
+.ti -1c
+.RI "typedef 
+.br
+moveit::planning_interface::MoveItErrorCode \fBRosErrorCode\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef boost::shared_ptr<\fBIKinematics\fP> \fBIKinematicsSharedPtr\fP"
+
+.SS "typedef moveit::planning_interface::MoveItErrorCode \fBRosErrorCode\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

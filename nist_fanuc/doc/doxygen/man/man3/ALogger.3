@@ -1,0 +1,147 @@
+.TH "ALogger" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ALogger \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Logging\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBALogger\fP ()"
+.br
+.ti -1c
+.RI "void \fBClose\fP ()"
+.br
+.ti -1c
+.RI "void \fBOpen\fP (std::string \fBfilename\fP, int bAppend=false)"
+.br
+.ti -1c
+.RI "int \fBLogMessage\fP (std::string \fBfilename\fP, std::string msg, int level=-1)"
+.br
+.ti -1c
+.RI "int \fBLogMessage\fP (std::string msg, int level=-1)"
+.br
+.ti -1c
+.RI "int \fBFatal\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int \fBError\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int \fBWarning\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int \fBInfo\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int \fBDebug\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int \fBStatus\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int & \fBDebugLevel\fP ()"
+.br
+.ti -1c
+.RI "bool & \fBTimestamping\fP ()"
+.br
+.ti -1c
+.RI "int & \fBOutputConsole\fP ()"
+.br
+.ti -1c
+.RI "\fBoperator std::ostream &\fP ()"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::string \fBStrFormat\fP (const char *fmt,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "static std::string \fBFormatString\fP (const char *fmt, va_list ap)"
+.br
+.ti -1c
+.RI "static std::string \fBTimestamp\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fB_debuglevel\fP"
+.br
+.ti -1c
+.RI "bool \fB_bTimestamp\fP"
+.br
+.ti -1c
+.RI "std::ofstream \fBDebugFile\fP"
+.br
+.ti -1c
+.RI "int \fB_nOutputConsole\fP"
+.br
+.ti -1c
+.RI "std::string \fBfilename\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ALogger::ALogger ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void ALogger::Close ()\fC [inline]\fP"
+
+.SS "int ALogger::Debug (std::stringmsg)\fC [inline]\fP"
+
+.SS "int& ALogger::DebugLevel ()\fC [inline]\fP"
+
+.SS "int ALogger::Error (std::stringmsg)\fC [inline]\fP"
+
+.SS "int ALogger::Fatal (std::stringmsg)\fC [inline]\fP"
+
+.SS "static std::string ALogger::FormatString (const char *fmt, va_listap)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "int ALogger::Info (std::stringmsg)\fC [inline]\fP"
+
+.SS "int ALogger::LogMessage (std::stringfilename, std::stringmsg, intlevel = \fC-1\fP)\fC [inline]\fP"
+
+.SS "int ALogger::LogMessage (std::stringmsg, intlevel = \fC-1\fP)\fC [inline]\fP"
+
+.SS "void ALogger::Open (std::stringfilename, intbAppend = \fCfalse\fP)\fC [inline]\fP"
+
+.SS "ALogger::operator std::ostream & ()\fC [inline]\fP"
+
+.SS "int& ALogger::OutputConsole ()\fC [inline]\fP"
+
+.SS "int ALogger::Status (std::stringmsg)\fC [inline]\fP"
+
+.SS "static std::string ALogger::StrFormat (const char *fmt, \&.\&.\&.)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "static std::string ALogger::Timestamp ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "bool& ALogger::Timestamping ()\fC [inline]\fP"
+
+.SS "int ALogger::Warning (std::stringmsg)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool ALogger::_bTimestamp"
+
+.SS "int ALogger::_debuglevel"
+
+.SS "int ALogger::_nOutputConsole"
+
+.SS "std::ofstream ALogger::DebugFile"
+
+.SS "std::string ALogger::filename"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

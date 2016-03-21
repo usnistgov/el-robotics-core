@@ -1,0 +1,64 @@
+\hypertarget{crcl_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/crcl.cpp File Reference}
+\label{crcl_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/crcl.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/crcl.\-cpp}}
+}
+{\ttfamily \#include \char`\"{}crcl.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Globals.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Crcl\-Interface.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}boost/array.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}urdf\-\_\-model/rosmath.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$Eigen/\-Dense$>$}\\*
+{\ttfamily \#include \char`\"{}urdf\-\_\-model/eigenmath.\-h\char`\"{}}\\*
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceCrcl}{Crcl}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Ros\-Matrix \hyperlink{namespaceCrcl_a7851c914ebfcd66dd694dbfb58f19d3f}{Crcl\-::\-Get\-X\-Z\-Rot\-Matrix} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot)
+\item 
+Eigen\-::\-Matrix3d \hyperlink{namespaceCrcl_ae23e722dceffa52b05402c3f557c9e65}{Crcl\-::\-Get\-Eigen\-Rot\-Matrix} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot)
+\item 
+bool \hyperlink{namespaceCrcl_aae1ccbac42b6e192b3ed46578e3a7b71}{Crcl\-::\-Get\-R\-P\-Y} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
+\item 
+bool \hyperlink{namespaceCrcl_a11e5c6625b133a0ad8d38bef745d5bf6}{Crcl\-::\-Get\-R\-P\-Y} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot, double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
+\item 
+urdf\-::\-Pose \hyperlink{namespaceCrcl_a6ba76fbe3bb36cef5f8a289c327e7a4b}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, double length\-Conversion)
+\item 
+\hyperlink{namespaceCrcl_ae868d4ece511d1485ed5d9118395aef8}{Crcl\-::\-Vector\-Type} \hyperlink{namespaceCrcl_add9e9e39ef44f31dae46c86a85201726}{Crcl\-::\-Vector\-Zero} ()
+\item 
+urdf\-::\-Vector3 \hyperlink{namespaceCrcl_aa4478a87fcc970adc728f4fbb275b8f3}{Crcl\-::\-Get\-Vector3\-D} (\hyperlink{namespaceCrcl_a04f09d617642257f5938e52cee2feeef}{Crcl\-::\-Point\-Type} \&point)
+\item 
+urdf\-::\-Vector3 \hyperlink{namespaceCrcl_a1d76629ad554e6d08322a36fbafcbc5a}{Crcl\-::\-Get\-Vector3\-D} (\hyperlink{namespaceCrcl_ae868d4ece511d1485ed5d9118395aef8}{Crcl\-::\-Vector\-Type} \&vector)
+\item 
+bool \hyperlink{namespaceCrcl_a394a527b4609a6d5b444f30bb9384f1a}{Crcl\-::\-Get\-Pose\-To\-R\-P\-Y} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, double \&d\-Roll, double \&d\-Pitch, double \&d\-Yaw)
+\item 
+urdf\-::\-Rotation \hyperlink{namespaceCrcl_af82af80892b5c9a1f843bbfabd06de91}{Crcl\-::\-Convert} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot)
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_ae1dd6fda9cf860d4e66b55bdc9564795}{Crcl\-::\-Init} (std\-::vector$<$ double $>$ terms)
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_a3fe26b022a84b7c961e1b77c6c148d6d}{Crcl\-::\-Convert} (urdf\-::\-Pose pose)
+\item 
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{namespaceCrcl_a650d91db3abf7d3734f8a0e4aceaeaea}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} jout, double angle\-Conversion)
+\item 
+\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{namespaceCrcl_a2a88d5186b3c539f968de637937294fb}{Crcl\-::\-Convert} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} joints, double \-\_\-angle\-Conversion)
+\item 
+Joint\-Status\-Sequence \hyperlink{namespaceCrcl_aa0e865c06943bf013c06bdc6fa538760}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} joints, double \-\_\-angle\-Conversion)
+\item 
+\-::Point\-Type \hyperlink{namespaceCrcl_a7c1e0abc6b119a3e7f51df0c9c288542}{Crcl\-::\-Get\-Point} (\hyperlink{namespaceRCS_a3d2e4673086277ee114b9f01ba1664e7}{R\-C\-S\-::\-Vector3} \&point)
+\item 
+\-::Vector\-Type \hyperlink{namespaceCrcl_a2544b3f8bf6f3a8948ebd8080d0ee315}{Crcl\-::\-Get\-Vector} (\hyperlink{namespaceRCS_a3d2e4673086277ee114b9f01ba1664e7}{R\-C\-S\-::\-Vector3} \&point)
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_aa4ed1cb04b5173a5bd4a115d4755a2db}{Crcl\-::\-Null\-Pose} ()
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_ac77c1d8cdd8c33effcb7a3705671d06b}{Crcl\-::\-Identity\-Pose} ()
+\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_a5e9036e140bcf2156b7995085f36d75f}{Crcl\-::\-Pose\-Home} ()
+\item 
+std\-::vector$<$ double $>$ \hyperlink{namespaceCrcl_a942871711b02866236621b132bf934c2}{Crcl\-::\-Convert\-To\-Angle\-Position\-Vector} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} \&joints, double d\-Angle\-Conversion)
+\item 
+std\-::string \hyperlink{namespaceCrcl_a1a29224fab4f85cc9e34b1f7a1a1064f}{Crcl\-::\-Dump\-Crcl\-Pose} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator)
+\item 
+std\-::string \hyperlink{namespaceCrcl_a666314177998417d741895bb491783bd}{Crcl\-::\-Dump\-Pose} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator)
+\end{DoxyCompactItemize}

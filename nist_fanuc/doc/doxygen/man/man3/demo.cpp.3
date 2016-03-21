@@ -1,0 +1,91 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/demo.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/src/demo.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <ros/ros\&.h>\fP
+.br
+\fC#include <control_msgs/FollowJointTrajectoryAction\&.h>\fP
+.br
+\fC#include <actionlib/client/simple_action_client\&.h>\fP
+.br
+\fC#include <descartes_moveit/moveit_state_adapter\&.h>\fP
+.br
+\fC#include <descartes_trajectory/axial_symmetric_pt\&.h>\fP
+.br
+\fC#include <descartes_trajectory/cart_trajectory_pt\&.h>\fP
+.br
+\fC#include <descartes_planner/dense_planner\&.h>\fP
+.br
+\fC#include <descartes_planner/sparse_planner\&.h>\fP
+.br
+\fC#include <descartes_trajectory/cartesian_interpolator\&.h>\fP
+.br
+\fC#include <std_msgs/String\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <fcntl\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <sstream>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::vector
+.br
+< descartes_core::TrajectoryPtPtr > \fBTrajectoryVec\fP"
+.br
+.ti -1c
+.RI "typedef 
+.br
+TrajectoryVec::const_iterator \fBTrajectoryIter\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "trajectory_msgs::JointTrajectory \fBtoROSJointTrajectory\fP (const \fBTrajectoryVec\fP &trajectory, const descartes_core::RobotModel &model, const std::vector< std::string > &joint_names, const std::vector< double > &time_delay)"
+.br
+.ti -1c
+.RI "bool \fBexecuteTrajectory\fP (const trajectory_msgs::JointTrajectory &trajectory, const std::string &trajectory_ns)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef TrajectoryVec::const_iterator \fBTrajectoryIter\fP"
+
+.SS "typedef std::vector<descartes_core::TrajectoryPtPtr> \fBTrajectoryVec\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "bool executeTrajectory (const trajectory_msgs::JointTrajectory &trajectory, const std::string &trajectory_ns)"
+
+.SS "int main (intargc, char **argv)"
+
+.SS "trajectory_msgs::JointTrajectory toROSJointTrajectory (const \fBTrajectoryVec\fP &trajectory, const descartes_core::RobotModel &model, const std::vector< std::string > &joint_names, const std::vector< double > &time_delay)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

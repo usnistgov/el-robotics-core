@@ -1,0 +1,80 @@
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Conversions.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Conversions.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <Eigen/Core>\fP
+.br
+\fC#include <Eigen/Geometry>\fP
+.br
+\fC#include 'geometry_msgs/PoseStamped\&.h'\fP
+.br
+\fC#include 'urdf_model/eigenmath\&.h'\fP
+.br
+\fC#include 'urdf_model/rosmath\&.h'\fP
+.br
+\fC#include 'RCS\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "urdf::Pose \fBPoseMsg2UrdfPose\fP (const geometry_msgs::Pose &m)"
+.br
+.ti -1c
+.RI "geometry_msgs::Pose \fBUrdfPose2PoseMsg\fP (const urdf::Pose &m)"
+.br
+.ti -1c
+.RI "Eigen::Affine3d \fBPoseMsgToEigenAffine\fP (const geometry_msgs::Pose &m)"
+.br
+.ti -1c
+.RI "geometry_msgs::Pose \fBposeEigenToGeomMsg\fP (const Eigen::Affine3d &e)"
+.br
+.ti -1c
+.RI "std::vector< geometry_msgs::Pose > \fBUrdfPoses2PoseMsgs\fP (const std::vector< urdf::Pose > &src)"
+.br
+.ti -1c
+.RI "std::vector< urdf::Pose > \fBPoseMsgs2UrdfPoses\fP (const std::vector< geometry_msgs::Pose > &src)"
+.br
+.ti -1c
+.RI "std::vector< Eigen::Affine3d > \fBPoseMsgs2AffEigenPoses\fP (const std::vector< geometry_msgs::Pose > &src)"
+.br
+.ti -1c
+.RI "std::vector< geometry_msgs::Pose > \fBAffEigenPoses2PoseMsgs\fP (const std::vector< Eigen::Affine3d > &src)"
+.br
+.ti -1c
+.RI "\fBJointState\fP \fBVector2JointState\fP (const std::vector< double > &src)"
+.br
+.ti -1c
+.RI "\fBJointState\fP \fBJntPosVector2JointState\fP (const std::vector< double > &src)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "std::vector< geometry_msgs::Pose > AffEigenPoses2PoseMsgs (const std::vector< Eigen::Affine3d > &src)\fC [inline]\fP"
+
+.SS "\fBJointState\fP JntPosVector2JointState (const std::vector< double > &src)\fC [inline]\fP"
+
+.SS "geometry_msgs::Pose poseEigenToGeomMsg (const Eigen::Affine3d &e)\fC [inline]\fP"
+
+.SS "urdf::Pose PoseMsg2UrdfPose (const geometry_msgs::Pose &m)\fC [inline]\fP"
+
+.SS "std::vector< Eigen::Affine3d > PoseMsgs2AffEigenPoses (const std::vector< geometry_msgs::Pose > &src)\fC [inline]\fP"
+
+.SS "std::vector< urdf::Pose > PoseMsgs2UrdfPoses (const std::vector< geometry_msgs::Pose > &src)\fC [inline]\fP"
+
+.SS "Eigen::Affine3d PoseMsgToEigenAffine (const geometry_msgs::Pose &m)\fC [inline]\fP"
+
+.SS "geometry_msgs::Pose UrdfPose2PoseMsg (const urdf::Pose &m)\fC [inline]\fP"
+
+.SS "std::vector< geometry_msgs::Pose > UrdfPoses2PoseMsgs (const std::vector< urdf::Pose > &src)\fC [inline]\fP"
+
+.SS "\fBJointState\fP Vector2JointState (const std::vector< double > &src)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

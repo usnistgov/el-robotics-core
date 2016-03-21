@@ -1,0 +1,73 @@
+.TH "RCS::ChainRobotModel" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::ChainRobotModel \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ChainRobotModel\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBChainRobotModel\fP ()"
+.br
+.ti -1c
+.RI "size_t \fBGetJointNum\fP ()"
+.br
+.ti -1c
+.RI "size_t \fBGetMovingJoints\fP ()"
+.br
+.ti -1c
+.RI "\fBRdfJoint\fP & \fBGetJoint\fP (int num)"
+.br
+.ti -1c
+.RI "void \fBRdfFromXmlFile\fP (std::string xml_string)"
+.br
+.ti -1c
+.RI "std::string \fBDumpRdfJoints\fP (std::vector< \fBRdfJoint\fP > &\fBjointspec\fP)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBRdfJoint\fP > \fBprejointspec\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBRdfJoint\fP > \fBpostjointspec\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBRdfJoint\fP > \fBjointspec\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::ChainRobotModel::ChainRobotModel ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string RCS::ChainRobotModel::DumpRdfJoints (std::vector< \fBRdfJoint\fP > &jointspec)"
+
+.SS "\fBRdfJoint\fP& RCS::ChainRobotModel::GetJoint (intnum)\fC [inline]\fP"
+
+.SS "size_t RCS::ChainRobotModel::GetJointNum ()\fC [inline]\fP"
+
+.SS "size_t RCS::ChainRobotModel::GetMovingJoints ()\fC [inline]\fP"
+
+.SS "void RCS::ChainRobotModel::RdfFromXmlFile (std::stringxml_string)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBRdfJoint\fP> RCS::ChainRobotModel::jointspec"
+
+.SS "std::vector<\fBRdfJoint\fP> RCS::ChainRobotModel::postjointspec"
+
+.SS "std::vector<\fBRdfJoint\fP> RCS::ChainRobotModel::prejointspec"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

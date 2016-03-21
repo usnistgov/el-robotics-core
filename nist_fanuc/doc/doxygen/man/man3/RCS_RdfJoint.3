@@ -1,0 +1,119 @@
+.TH "RCS::RdfJoint" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::RdfJoint \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ChainRobotModel\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBJointType\fP { \fBUNKNOWN\fP = 0, \fBREVOLUTE\fP, \fBCONTINUOUS\fP, \fBPRISMATIC\fP, \fBFLOATING\fP, \fBPLANAR\fP, \fBFIXED\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBDumpRdfJoint\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBname\fP"
+.br
+.ti -1c
+.RI "int \fBindex\fP"
+.br
+.ti -1c
+.RI "std::string \fBsLink\fP"
+.br
+.ti -1c
+.RI "enum \fBRCS::RdfJoint::JointType\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBaxis\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBxyzorigin\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBrpyorigin\fP"
+.br
+.ti -1c
+.RI "double \fBlowerlimit\fP"
+.br
+.ti -1c
+.RI "double \fBupperlimit\fP"
+.br
+.ti -1c
+.RI "double \fBeffortlimit\fP"
+.br
+.ti -1c
+.RI "double \fBvelocitylimit\fP"
+.br
+.ti -1c
+.RI "bool \fBbounded\fP"
+.br
+.in -1c
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBRCS::RdfJoint::JointType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIUNKNOWN \fP\fP
+.TP
+\fB\fIREVOLUTE \fP\fP
+.TP
+\fB\fICONTINUOUS \fP\fP
+.TP
+\fB\fIPRISMATIC \fP\fP
+.TP
+\fB\fIFLOATING \fP\fP
+.TP
+\fB\fIPLANAR \fP\fP
+.TP
+\fB\fIFIXED \fP\fP
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string RCS::RdfJoint::DumpRdfJoint ()"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "Eigen::Vector3d RCS::RdfJoint::axis"
+
+.SS "bool RCS::RdfJoint::bounded"
+
+.SS "double RCS::RdfJoint::effortlimit"
+
+.SS "int RCS::RdfJoint::index"
+
+.SS "double RCS::RdfJoint::lowerlimit"
+
+.SS "std::string RCS::RdfJoint::name"
+
+.SS "Eigen::Vector3d RCS::RdfJoint::rpyorigin"
+
+.SS "std::string RCS::RdfJoint::sLink"
+
+.SS "enum \fBRCS::RdfJoint::JointType\fP  RCS::RdfJoint::type"
+
+.SS "double RCS::RdfJoint::upperlimit"
+
+.SS "double RCS::RdfJoint::velocitylimit"
+
+.SS "Eigen::Vector3d RCS::RdfJoint::xyzorigin"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

@@ -1,0 +1,146 @@
+\hypertarget{classCJointReader}{\section{C\-Joint\-Reader Class Reference}
+\label{classCJointReader}\index{C\-Joint\-Reader@{C\-Joint\-Reader}}
+}
+
+
+The \hyperlink{classCJointReader}{C\-Joint\-Reader} is a thread to accept joint update callbacks from R\-O\-S. Uses a ros node handle to tell roscore we are subscribing to joint\-\_\-state topic. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved.  
+
+
+
+
+{\ttfamily \#include $<$Communication.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCJointReader_a2cbebdbe7b42875b03bfb230af281fc8}{C\-Joint\-Reader} (ros\-::\-Node\-Handle \&nh)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classCJointReader}{C\-Joint\-Reader} constructor that requires a R\-O\-S node handle. \end{DoxyCompactList}\item 
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{classCJointReader_a53dbcee69928690650a9afd07b5ad314}{Get\-Current\-Readings} ()
+\begin{DoxyCompactList}\small\item\em Get\-Current\-Readings returns the latest joint readings for position, velocity, and effort. It is thread safe. \end{DoxyCompactList}\item 
+void \hyperlink{classCJointReader_a8a510635d4e6178b42c7e00bb4cf281e}{Start} ()
+\begin{DoxyCompactList}\small\item\em Start sets up subscriber to joint\-\_\-state topic messages. \end{DoxyCompactList}\item 
+void \hyperlink{classCJointReader_ae683e460046ed1614ec9570c7bcc5acf}{Stop} ()
+\begin{DoxyCompactList}\small\item\em Stop unsubscribes to joint\-\_\-state topic. \end{DoxyCompactList}\item 
+std\-::vector$<$ double $>$ \hyperlink{classCJointReader_a34d71748e190f04a8a2cc24d103fb084}{Get\-Joint\-Values} ()
+\begin{DoxyCompactList}\small\item\em Get\-Joint\-Values sets up subscriber to joint\-\_\-state topic messages. \end{DoxyCompactList}\item 
+void \hyperlink{classCJointReader_a88bd747fdc64aab2ce0843fdf1efc0af}{callback} (const sensor\-\_\-msgs\-::\-Joint\-State\-::\-Const\-Ptr \&msg)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Node\-Handle \& \hyperlink{classCJointReader_a78dffe3eb34da4198f551767919ceb4b}{\-\_\-nh}
+\item 
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{classCJointReader_aae4f2c55bb87bcf829f67728405fd4ca}{\-\_\-latestreading}
+\item 
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{classCJointReader_a9604ed14d6d48568b91926b63c10e9b8}{\-\_\-lastreading}
+\item 
+ros\-::\-Subscriber \hyperlink{classCJointReader_a82975d490ccc18883e1ead2ede53b13a}{sub}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static boost\-::mutex \hyperlink{classCJointReader_aa95e4ff986415cb2d787f32403cd3bb9}{\-\_\-reader\-\_\-mutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classCJointReader}{C\-Joint\-Reader} is a thread to accept joint update callbacks from R\-O\-S. Uses a ros node handle to tell roscore we are subscribing to joint\-\_\-state topic. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCJointReader_a2cbebdbe7b42875b03bfb230af281fc8}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!C\-Joint\-Reader@{C\-Joint\-Reader}}
+\index{C\-Joint\-Reader@{C\-Joint\-Reader}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{C\-Joint\-Reader}]{\setlength{\rightskip}{0pt plus 5cm}C\-Joint\-Reader\-::\-C\-Joint\-Reader (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{classCJointReader_a2cbebdbe7b42875b03bfb230af281fc8}
+
+
+\hyperlink{classCJointReader}{C\-Joint\-Reader} constructor that requires a R\-O\-S node handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & ros node handle so joint reader can tell roscore we are subscribing to joint\-\_\-state topic. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCJointReader_a88bd747fdc64aab2ce0843fdf1efc0af}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!callback@{callback}}
+\index{callback@{callback}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Joint\-Reader\-::callback (
+\begin{DoxyParamCaption}
+\item[{const sensor\-\_\-msgs\-::\-Joint\-State\-::\-Const\-Ptr \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{classCJointReader_a88bd747fdc64aab2ce0843fdf1efc0af}
+type of joint motion to use \hypertarget{classCJointReader_a53dbcee69928690650a9afd07b5ad314}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!Get\-Current\-Readings@{Get\-Current\-Readings}}
+\index{Get\-Current\-Readings@{Get\-Current\-Readings}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{Get\-Current\-Readings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sensor\-\_\-msgs\-::\-Joint\-State} C\-Joint\-Reader\-::\-Get\-Current\-Readings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCJointReader_a53dbcee69928690650a9afd07b5ad314}
+
+
+Get\-Current\-Readings returns the latest joint readings for position, velocity, and effort. It is thread safe. 
+
+\hypertarget{classCJointReader_a34d71748e190f04a8a2cc24d103fb084}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!Get\-Joint\-Values@{Get\-Joint\-Values}}
+\index{Get\-Joint\-Values@{Get\-Joint\-Values}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{Get\-Joint\-Values}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ C\-Joint\-Reader\-::\-Get\-Joint\-Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCJointReader_a34d71748e190f04a8a2cc24d103fb084}
+
+
+Get\-Joint\-Values sets up subscriber to joint\-\_\-state topic messages. 
+
+\begin{DoxyReturn}{Returns}
+a std vector of double containing joint positions 
+\end{DoxyReturn}
+\hypertarget{classCJointReader_a8a510635d4e6178b42c7e00bb4cf281e}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!Start@{Start}}
+\index{Start@{Start}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Joint\-Reader\-::\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCJointReader_a8a510635d4e6178b42c7e00bb4cf281e}
+
+
+Start sets up subscriber to joint\-\_\-state topic messages. 
+
+\hypertarget{classCJointReader_ae683e460046ed1614ec9570c7bcc5acf}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!Stop@{Stop}}
+\index{Stop@{Stop}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Joint\-Reader\-::\-Stop (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classCJointReader_ae683e460046ed1614ec9570c7bcc5acf}
+
+
+Stop unsubscribes to joint\-\_\-state topic. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCJointReader_a9604ed14d6d48568b91926b63c10e9b8}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!\-\_\-lastreading@{\-\_\-lastreading}}
+\index{\-\_\-lastreading@{\-\_\-lastreading}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{\-\_\-lastreading}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sensor\-\_\-msgs\-::\-Joint\-State} C\-Joint\-Reader\-::\-\_\-lastreading}}\label{classCJointReader_a9604ed14d6d48568b91926b63c10e9b8}
+previous joint readings \hypertarget{classCJointReader_aae4f2c55bb87bcf829f67728405fd4ca}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!\-\_\-latestreading@{\-\_\-latestreading}}
+\index{\-\_\-latestreading@{\-\_\-latestreading}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{\-\_\-latestreading}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sensor\-\_\-msgs\-::\-Joint\-State} C\-Joint\-Reader\-::\-\_\-latestreading}}\label{classCJointReader_aae4f2c55bb87bcf829f67728405fd4ca}
+latest joint readings \hypertarget{classCJointReader_a78dffe3eb34da4198f551767919ceb4b}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!\-\_\-nh@{\-\_\-nh}}
+\index{\-\_\-nh@{\-\_\-nh}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{\-\_\-nh}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle\& C\-Joint\-Reader\-::\-\_\-nh}}\label{classCJointReader_a78dffe3eb34da4198f551767919ceb4b}
+reference pointer to R\-O\-S node handle \hypertarget{classCJointReader_aa95e4ff986415cb2d787f32403cd3bb9}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!\-\_\-reader\-\_\-mutex@{\-\_\-reader\-\_\-mutex}}
+\index{\-\_\-reader\-\_\-mutex@{\-\_\-reader\-\_\-mutex}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{\-\_\-reader\-\_\-mutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex C\-Joint\-Reader\-::\-\_\-reader\-\_\-mutex\hspace{0.3cm}{\ttfamily [static]}}}\label{classCJointReader_aa95e4ff986415cb2d787f32403cd3bb9}
+for mutexed reading access \hypertarget{classCJointReader_a82975d490ccc18883e1ead2ede53b13a}{\index{C\-Joint\-Reader@{C\-Joint\-Reader}!sub@{sub}}
+\index{sub@{sub}!CJointReader@{C\-Joint\-Reader}}
+\subsubsection[{sub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber C\-Joint\-Reader\-::sub}}\label{classCJointReader_a82975d490ccc18883e1ead2ede53b13a}
+ros subscriber information 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Communication_8h}{Communication.\-h}\item 
+/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Communication_8cpp}{Communication.\-cpp}\end{DoxyCompactItemize}
